@@ -30,6 +30,7 @@ interface GargsStatic {
 	from_url:	string;
 	order_activity_type:	number;//\App\Enums\Eorder_activity_type
 	spec_flag:	number;//\App\Enums\Eboolean
+	adminid:	number;
 	account_role_self:	number;
 	acc:	number;
 	ass_master_flag:	number;
@@ -183,6 +184,7 @@ function load_data(){
 		from_url:	$('#id_from_url').val(),
 		order_activity_type:	$('#id_order_activity_type').val(),
 		spec_flag:	$('#id_spec_flag').val(),
+		adminid:	$('#id_adminid').val(),
 		account_role_self:	$('#id_account_role_self').val(),
 		acc:	$('#id_acc').val(),
 		ass_master_flag:	$('#id_ass_master_flag').val(),
@@ -210,14 +212,16 @@ $(function(){
 		"select_value" : g_args.contract_type,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_contract_type",
-		"btn_id_config"     : {}
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
 	});
 	$('#id_contract_status').admin_set_select_field({
 		"enum_type"    : "contract_status",
 		"select_value" : g_args.contract_status,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_contract_status",
-		"btn_id_config"     : {}
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
 	});
 	$('#id_config_courseid').val(g_args.config_courseid);
 	$('#id_test_user').val(g_args.test_user);
@@ -226,7 +230,8 @@ $(function(){
 		"select_value" : g_args.studentid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_studentid",
-		"can_sellect_all_flag"     : true
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
 	});
 	$('#id_has_money').val(g_args.has_money);
 	$('#id_sys_operator').val(g_args.sys_operator);
@@ -238,14 +243,16 @@ $(function(){
 		"select_value" : g_args.grade,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_grade",
-		"btn_id_config"     : {}
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
 	});
 	$('#id_subject').admin_set_select_field({
 		"enum_type"    : "subject",
 		"select_value" : g_args.subject,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_subject",
-		"btn_id_config"     : {}
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
 	});
 	$('#id_self_adminid').val(g_args.self_adminid);
 	$('#id_tmk_adminid').val(g_args.tmk_adminid);
@@ -254,7 +261,8 @@ $(function(){
 		"select_value" : g_args.teacherid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_teacherid",
-		"can_sellect_all_flag"     : true
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
 	});
 	$('#id_origin_userid').val(g_args.origin_userid);
 	$('#id_referral_adminid').val(g_args.referral_adminid);
@@ -263,12 +271,21 @@ $(function(){
 		"select_value" : g_args.assistantid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_assistantid",
-		"can_sellect_all_flag"     : true
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
 	});
 	$('#id_from_key').val(g_args.from_key);
 	$('#id_from_url').val(g_args.from_url);
 	$('#id_order_activity_type').val(g_args.order_activity_type);
 	$('#id_spec_flag').val(g_args.spec_flag);
+	$('#id_adminid').admin_select_user_new({
+		"user_type"    : "account",
+		"select_value" : g_args.adminid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_adminid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_account_role_self').val(g_args.account_role_self);
 	$('#id_acc').val(g_args.acc);
 	$('#id_ass_master_flag').val(g_args.ass_master_flag);
@@ -450,6 +467,13 @@ $(function(){
                 <span class="input-group-addon">boolean</span>
                 <select class="opt-change form-control" id="id_spec_flag" >
                 </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">adminid</span>
+                <input class="opt-change form-control" id="id_adminid" />
             </div>
         </div>
 

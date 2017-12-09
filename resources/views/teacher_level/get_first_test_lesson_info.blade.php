@@ -45,6 +45,16 @@
                     </div>
                 </div>
 
+                <div class="col-xs-3 col-md-1">
+                    <div class="input-group ">
+                        @if (in_array($acc,["jim","jack","林文彬"]) )
+                            <button class="btn btn-warning" id="id_test_lesson_assign">新增记录</button>
+                        @else
+                        @endif
+                    </div>
+                </div>
+
+
 
 
 

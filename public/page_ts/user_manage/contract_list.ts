@@ -23,10 +23,11 @@ function load_data(){
         has_money         : $("#id_has_money").val(),
         account_role      : $("#id_account_role").val(),
         teacherid         : $('#id_teacherid').val(),
+		    adminid:	$('#id_adminid').val(),
         tmk_adminid       : $('#id_tmk_adminid').val(),
         origin_userid     : $('#id_origin_userid').val(),
         referral_adminid:	$('#id_referral_adminid').val(),
-        spec_flag:	$('#id_spec_flag').val()
+        spec_flag:	$('#id_spec_flag').val(),
 
     });
 }
@@ -84,44 +85,57 @@ $(function(){
     $("#id_seller_groupid_ex").init_seller_groupid_ex();
     $('#id_referral_adminid').val(g_args.referral_adminid);
 
+	  $('#id_adminid').admin_select_user_new({
+		    "user_type"    : "account",
+		    "select_value" : g_args.adminid,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_adminid",
+		    "only_show_in_th_input"     :  true,
+		    "can_select_all_flag"     : true
+	  });
+
+
 	  $('#id_studentid').admin_select_user_new({
 		    "user_type"    : "student",
 		    "select_value" : g_args.studentid,
 		    "onChange"     : load_data,
 		    "th_input_id"  : "th_studentid",
-		    "can_sellect_all_flag"     : true
+		    "can_select_all_flag"     : true,
+        "only_show_in_th_input" :false,
+
 	  });
 
-	$('#id_contract_type').admin_set_select_field({
-		"enum_type"    : "contract_type",
-		"select_value" : g_args.contract_type,
-		"onChange"     : load_data,
-		"th_input_id"  : "th_contract_type",
-		"btn_id_config"     : {}
-	});
-	$('#id_contract_status').admin_set_select_field({
-		"enum_type"    : "contract_status",
-		"select_value" : g_args.contract_status,
-		"onChange"     : load_data,
-		"th_input_id"  : "th_contract_status",
-		"btn_id_config"     : {}
-	});
+	  $('#id_contract_type').admin_set_select_field({
+		    "enum_type"    : "contract_type",
+		    "select_value" : g_args.contract_type,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_contract_type",
+        "only_show_in_th_input" :false,
+		    "btn_id_config"     : {}
+	  });
+	  $('#id_contract_status').admin_set_select_field({
+		    "enum_type"    : "contract_status",
+		    "select_value" : g_args.contract_status,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_contract_status",
+		    "btn_id_config"     : {}
+	  });
 
 
-	$('#id_grade').admin_set_select_field({
-		"enum_type"    : "grade",
-		"select_value" : g_args.grade,
-		"onChange"     : load_data,
-		"th_input_id"  : "th_grade",
-		"btn_id_config"     : {}
-	});
-	$('#id_subject').admin_set_select_field({
-		"enum_type"    : "subject",
-		"select_value" : g_args.subject,
-		"onChange"     : load_data,
-		"th_input_id"  : "th_subject",
-		"btn_id_config"     : {}
-	});
+	  $('#id_grade').admin_set_select_field({
+		    "enum_type"    : "grade",
+		    "select_value" : g_args.grade,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_grade",
+		    "btn_id_config"     : {}
+	  });
+	  $('#id_subject').admin_set_select_field({
+		    "enum_type"    : "subject",
+		    "select_value" : g_args.subject,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_subject",
+		    "btn_id_config"     : {}
+	  });
 
     $.admin_select_user( $("#id_teacherid"), "teacher", load_data );
 
@@ -782,15 +796,15 @@ $(function(){
             },
             'field_list' :[
                 {
-                    title:"合同编号",
-                    field_name:"orderid"
-                },{
-                    title:"添加时间",
-                    field_name:"order_time_str"
-                },{
-                    title:"合同课时数",
-                    field_name:"lesson_total"
-                }
+                title:"合同编号",
+                field_name:"orderid"
+            },{
+                title:"添加时间",
+                field_name:"order_time_str"
+            },{
+                title:"合同课时数",
+                field_name:"lesson_total"
+            }
             ],
             filter_list:[],
             "auto_close" : true,

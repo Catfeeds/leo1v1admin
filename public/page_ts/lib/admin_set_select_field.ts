@@ -175,6 +175,7 @@
             "width"   :300,
             "btn_id_config": [],
             "select_css" :  "danger",
+            "only_show_in_th_input" :false , //是否只显示 表头
             "title_length" : 7,
 
         };
@@ -187,9 +188,12 @@
 
         if ( !$.check_in_phone() &&  th_input_id) {
             var $th_input= $("#" + this.options.th_input_id  );
-            if ($th_input.is(":visible")){ 
-                //this.$ele.parent().parent().hide();
-                //this.$ele.parent().parent().data( "always_hide", 1);
+            if ($th_input.is(":visible")){
+
+                if (this.options.only_show_in_th_input ) {
+                    this.$ele.parent().parent().hide();
+                    this.$ele.parent().parent().data( "always_hide", 1);
+                }
                 init_th_input( $ele, $th_input, this.options  );
 
                 set_to_th_flag=true;
@@ -197,14 +201,15 @@
         }
 
         this.$ele.val(this.options.select_value);
-        //if (!set_to_th_flag ){
+
+        if (!this.options.only_show_in_th_input ) {
             $.enum_multi_select(
                 this.$ele,
                 this.options.enum_type ,
                 this.options.onChange,
                 this.options.show_id_list ,
                 this.options.btn_id_config );
-        //}
+        }
     };
 
 
@@ -227,7 +232,7 @@
     //在插件中使用对象
     $.fn.admin_select_user_new = function(options) {
         $(this).val( options.select_value);
-        if (options.can_sellect_all_flag) {
+        if (options.can_select_all_flag) {
             var args_ex= $.extend({}, options.args_ex, { "select_btn_config": [{
                 "label": "全部",
                 "value": -1
