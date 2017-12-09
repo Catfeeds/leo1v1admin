@@ -786,7 +786,8 @@ class resource extends Controller
             $this->cache_set_item_account_nick($item,"visitor_id", 'nick');
             E\Eresource_visit::set_item_value_simple_str($item,'visit_type');
         }
-        return $this->output_succ(["data"=> $ret_list]);
+        return $this->output_ajax_table($ret_list);
+        // return $this->output_succ(["data"=> $ret_list]);
     }
 
     public function get_del() {
