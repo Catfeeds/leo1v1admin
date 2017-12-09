@@ -1763,7 +1763,7 @@ class test_james extends Controller
         //     $ret_info['seller_target_income'] = 1600000;
         // }
 
-        $month_date_money_list = $task->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
+        $month_date_money_list = $this->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
 
         dd($month_date_money_list);
 
