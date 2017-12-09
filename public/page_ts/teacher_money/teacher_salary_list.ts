@@ -43,9 +43,9 @@ $(function(){
     $('.opt-show').on('click',function(){
         var data=$(this).get_opt_data();
         var teacherid=data.teacherid;
-        var start_time=g_args.start_time;
+        var start_time=data.add_time;
         console.log(start_time);
-        window.location.href="/user_manage_new/tea_wages_info?teacherid="+teacherid+"&start_time="+start_time+"&opt_date_type=3";
+        window.open="/user_manage_new/tea_wages_info?teacherid="+teacherid+"&start_time="+start_time+"&opt_date_type=3";
     })
 
     $("#id_get_lesson_price").on("click",function(){
