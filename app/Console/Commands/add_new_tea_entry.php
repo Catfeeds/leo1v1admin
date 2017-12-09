@@ -101,7 +101,7 @@ class add_new_tea_entry extends Command
                 //$val['money']   /= 100;
                 // $money = $val['money'] - ($redward / 100);
                 // $lesson_count = $last_month_info / 100;
-                echo $item.'月 '.$val['teacherid'].' '.trim($val['realname']).' '.$val['lesson_price_tax'].' '.$lesson_count.' '.$money.PHP_EOL;
+                echo $item.'月 '.$val['teacherid'].' '.trim($val['realname']).' '.$teacher['lesson_price_tax'].' '.$lesson_count.' '.$money.PHP_EOL;
                 if ($val['teacher_money_type'] == 7 || ($val['teacher_type'] == 3 && $val["teacher_money_type"] == 0)) {
                     $all_all_money += $val['money'];
                 } else {
