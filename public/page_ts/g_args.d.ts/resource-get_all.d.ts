@@ -25,6 +25,8 @@ interface RowData {
 	file_size	:any;
 	file_type	:any;
 	use_type	:any;
+	create_time	:any;
+	visitor_id	:any;
 	file_hash	:any;
 	subject	:any;
 	grade	:any;
@@ -35,8 +37,6 @@ interface RowData {
 	file_link	:any;
 	file_id	:any;
 	file_use_type	:any;
-	update_time	:any;
-	edit_adminid	:any;
 	file_use_type_str	:any;
 	nick	:any;
 	tag_one_name	:any;
