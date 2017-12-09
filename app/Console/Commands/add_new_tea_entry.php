@@ -43,6 +43,7 @@ class add_new_tea_entry extends Command
         $task = new \App\Console\Tasks\TaskController();
         // 拉取数据(6月至11月的总工资)
         $arr = [6,7,8,9,10,11];
+        $arr = [11];
         foreach($arr as $item) {
             $start = '2017-'.$item.'-1';
             $end = '2017-'.($item+1).'-1';
@@ -71,7 +72,7 @@ class add_new_tea_entry extends Command
                 $init_end_date   = date("Y-m-d",  strtotime(date("Y-m-01",  ($val['add_time']+86400*32)     ))-86400 );
                 $start_time2 = strtotime($init_start_date);
                 $end_time2 = strtotime($init_end_date);
-                $last_month_info = $task->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start_time,$end_time,$val['teacher_money_type']);
+                $last_month_info = $task->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start_time,$end_time);
                 $teacher_honor            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,1);
                 $teacher_trial            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,2);
                 $teacher_compensate       = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,3);
