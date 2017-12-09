@@ -351,6 +351,14 @@ class Utils  {
     }
 
     /**
+     * 转换两个时间戳差值为天数
+     */
+    static function change_time_difference_to_day($timestamp,$check_timestamp=0){
+        $check_timestamp = $check_timestamp===0?time():$check_timestamp;
+        return ceil(($check_timestamp-$timestamp)/86400)."天";
+    }
+
+    /**
      * 获取指定日期所在天的开始时间与结束时间
      * @param int timestamp 指定日期的时间戳
      * @return array

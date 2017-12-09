@@ -4,11 +4,11 @@
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page({
-		    identity:	$('#id_identity').val(),
-		    gender:	$('#id_gender').val(),
-		    age:	$('#id_age').val(),
-		    require_id:	$('#id_require_id').val(),
-		    refresh_flag:	$('#id_refresh_flag').val()
+		    identity     : $('#id_identity').val(),
+		    gender       : $('#id_gender').val(),
+		    age          : $('#id_age').val(),
+		    require_id   : $('#id_require_id').val(),
+		    refresh_flag : $('#id_refresh_flag').val()
     });
 }
 
@@ -19,6 +19,11 @@ $(function(){
 	  $('#id_require_id').val(g_args.require_id);
 	  $('#id_refresh_flag').val(g_args.refresh_flag);
 	  $('.opt-change').set_input_change_event(load_data);
+
+    $(".show_phone").on("click",function(){
+        var phone = $(this).data("phone");
+        BootstrapDialog.alert(phone);
+    });
 
 
 

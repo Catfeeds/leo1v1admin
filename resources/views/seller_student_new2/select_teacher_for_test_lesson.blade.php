@@ -44,7 +44,18 @@
             @foreach ($table_data_list as $var)
                 <tr>
                     <td >{{$var["teacherid"]}}</td>
-                    <td >{{$var["nick"]}}</td>
+                    <td >{{$var["realname"]}}</td>
+                    <td >{{$var["gender_str"]}}</td>
+                    <td >{{$var["age"]}}</td>
+                    <td >
+                        <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
+                            {{$var["phone_hide"]}}
+                        </a>
+                    </td>
+                    <td >{{$var["work_day"]}}</td>
+                    <td >{{$var["identity_str"]}}</td>
+                    <td >查看详情</td>
+                    <td >标签</td>
                     <td >
                         <div {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}>
                             <a class="fa-hand-o-up opt-stu-origin btn fa" title="编辑优惠力度"></a>
