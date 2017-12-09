@@ -24,7 +24,6 @@ interface RowData {
 	file_title	:any;
 	file_size	:any;
 	file_type	:any;
-	error_num	:any;
 	use_type	:any;
 	file_hash	:any;
 	subject	:any;
@@ -61,8 +60,9 @@ tofile:
 /// <reference path="../g_args.d.ts/resource-get_all.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		use_type:	$('#id_use_type').val(),
 		resource_type:	$('#id_resource_type').val(),
 		subject:	$('#id_subject').val(),
@@ -72,7 +72,7 @@ function load_data(){
 		tag_three:	$('#id_tag_three').val(),
 		tag_four:	$('#id_tag_four').val(),
 		file_title:	$('#id_file_title').val()
-    });
+		});
 }
 $(function(){
 

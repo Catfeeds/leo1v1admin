@@ -249,7 +249,8 @@ class seller_tongji extends Controller
                 }
             }
         }
-       
+
+
         \App\Helper\Utils::logger("OUTPUT");
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),
                                [

@@ -533,9 +533,10 @@ $(function(){
         if(res_id_list.length == 0) {
             BootstrapDialog.alert('请先选择文件！');
         } else {
+
             var res_id_info  = JSON.stringify(res_id_list);
             var file_id_info = JSON.stringify(file_id_list);
-            if( confirm('确定要删除？') ){
+            if( confirm('若删除，则会同时删除与之相关联的其他文件,确定要删除？') ){
                 $.ajax({
                     type    : "post",
                     url     : "/resource/del_or_restore_resource",
@@ -547,7 +548,7 @@ $(function(){
                     },
                     success : function(result){
                         if(result.ret == 0){
-                            // window.location.reload();
+                            window.location.reload();
                         }
                     }
                 });
@@ -629,14 +630,13 @@ $(function(){
     };
 
     var get_edit_list = function(obj){
-
         $("<div></div>").admin_select_dlg_ajax({
             "opt_type" :  "list", // or "list"
             "url"      : "/resource/get_list_by_resource_id_js",
             //其他参数
             "args_ex" : {
-                'resource_id'   :obj.data('resource_id'),
-                'file_use_type' :obj.data('file_use_type'),
+                resource_id   : obj.data('resource_id'),
+                file_use_type : obj.data('file_use_type'),
             },
             //字段列表
             'field_list' :[
@@ -655,12 +655,8 @@ $(function(){
                 render:function(val,item) {
                     return item.visit_type_str;
                 }
-            },{
-                title:"文件大小",
-                render:function(val,item) {
-                    return $(item.file_size );
-                }
-            }] ,
+            }
+            ],
             filter_list: [],
             "auto_close"       : true,
             //选择

@@ -60,10 +60,10 @@ class get_data extends Command
             if(!$item['has_called']){$item['has_called'] = 0;}
             if(!$item['total_money']){$item['total_money'] = 0;}
             // $c.='['.$item['adminid'].',"'.$item['name'].'",'.$item['called_succ'].','.$item['has_called'].','.$item['total_money'].'],<br/>';
-            $c.=$item['adminid'].'  '.$item['name'].'  '.$item['called_succ'].'   '.$item['has_called'].'   '.$item['total_money']."<br/>";
+            echo $item['adminid'].' '.$item['name'].' '.$item['called_succ'].' '.$item['has_called'].' '.$item['total_money'].PHP_EOL;
         }
 
-        dd($c);
+        //dd($c);
 
 
 
