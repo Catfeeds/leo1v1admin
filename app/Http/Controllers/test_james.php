@@ -1665,7 +1665,7 @@ class test_james extends Controller
         // }
         dd($c);
 
-        $this->download_xls_tmp($c);
+        // $this->download_xls_tmp($c);
 
         dd($admin_list);
     }

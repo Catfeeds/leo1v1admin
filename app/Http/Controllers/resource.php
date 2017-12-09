@@ -780,8 +780,7 @@ class resource extends Controller
         $page_num = $this->get_in_page_num();
         $resource_id   = $this->get_in_int_val('resource_id', -1);
         $file_use_type = $this->get_in_int_val('file_use_type', -1);
-
-        $ret_list = $this->t_resource_file_visit_info->get_visit_detail( $resource_id, $file_use_type, $page_num);
+        $ret_list = $this->t_resource_file_visit_info->get_visit_detail( $page_num,$resource_id, $file_use_type);
         foreach ($ret_list['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             $this->cache_set_item_account_nick($item,"visitor_id", 'nick');
