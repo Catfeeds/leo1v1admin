@@ -50,7 +50,8 @@ class add_new_tea_entry extends Command
             $end = '2017-'.($item+1).'-1';
             $start_time = strtotime($start);
             $end_time = strtotime($end);
-            $info = $task->t_teacher_salary_list->get_salary_list($start_time,$end_time);
+            //$info = $task->t_teacher_salary_list->get_salary_list($start_time,$end_time);
+            $info = $task->t_teacher_salary_list->get_teacher_money_info();
 
             $all_money = 0;//总工资
             $all_all_money = 0;//全职老师
@@ -75,7 +76,6 @@ class add_new_tea_entry extends Command
 
 
             foreach($info['list'] as $val) {
-                echo $val['teacherid'].' --- '.$val['realname'];
                 $teacher= $teacher_money->get_teacher_salary($val['teacherid'],$start_time,$end_time);
                 $lesson_count = $teacher['lesson_total'];
                 $money = $teacher['teacher_lesson_price'];
@@ -98,10 +98,10 @@ class add_new_tea_entry extends Command
                 // $teacher_train            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,5);
                 // $redward = $teacher_honor + $teacher_trial + $teacher_compensate + $teacher_compensate_price + $teacher_reference + $teacher_train;
                 
-                $val['money']   /= 100;
+                //$val['money']   /= 100;
                 // $money = $val['money'] - ($redward / 100);
                 // $lesson_count = $last_month_info / 100;
-                echo $item.'月 '.$val['teacherid'].' '.trim($val['realname']).' '.$val['money'].' '.$lesson_count.' '.$money.PHP_EOL;
+                echo $item.'月 '.$val['teacherid'].' '.trim($val['realname']).' '.$val['lesson_price_tax'].' '.$lesson_count.' '.$money.PHP_EOL;
                 if ($val['teacher_money_type'] == 7 || ($val['teacher_type'] == 3 && $val["teacher_money_type"] == 0)) {
                     $all_all_money += $val['money'];
                 } else {
