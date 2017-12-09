@@ -250,7 +250,7 @@
                         me.show_select ();
                     });
                     if ($th_input.is(":visible")){ //选择框放到 td
-                        me.$element.parent().parent().hide();
+                        //me.$element.parent().parent().hide();
                         //me.$element.parent().parent().data( "always_hide", 1);
                     }
 
