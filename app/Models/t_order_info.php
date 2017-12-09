@@ -4373,7 +4373,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $sql = $this->gen_sql_new("  select sum(o.price)/100 as total_money from %s o "
                                   ." left join %s s on s.userid=o.userid"
-                                  ." where  o.contract_status=1 and price>0 and s.phone in (select phone from %s tq1 where tq1.adminid=$adminid and tq1.start_time>$start_time and tq1.start_time<$end_time group by tq1.phone )"
+                                  ." where  o.contract_status!=3 and o.order_time>$start_time and price>0 and s.phone in (select phone from %s tq1 where tq1.adminid=$adminid and tq1.start_time>$start_time and tq1.start_time<$end_time group by tq1.phone )"
                                   ,self::DB_TABLE_NAME
                                   ,t_seller_student_new::DB_TABLE_NAME
                                   ,t_tq_call_info::DB_TABLE_NAME
