@@ -471,7 +471,20 @@ $(function(){
             //判断不上传的文件
             $('.close').click();
             $('.opt_process').show();
+
+            document.body.onbeforeunload = function (event) {
+						    var c = event || window.event;
+						    if (/webkit/.test(navigator.userAgent.toLowerCase())) {
+							      return "刷新页面将导致正在上传的上传数据丢失！";
+						    }
+						    else
+						    {
+							      c.returnValue = "刷新页面将导致正在上传的上传数据丢失！";
+						    }
+					  }
+
             return $.inArray(file.id, test_func());
+
         },function(up, file, info) {
             var res = $.parseJSON(info.response);
             if( info.status == 200 && last_id >0 ){
