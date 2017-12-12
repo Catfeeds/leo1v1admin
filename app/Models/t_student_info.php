@@ -2538,7 +2538,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $this->where_arr_add_time_range($where_arr,"s.reg_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select".
                                   // " o.origin,".
-                                  " count(*) total_num, ".
+                                  " count(distinct s.userid ) total_num, ".
                                   " sum(o.price) price_num, ".
                                   " $group_field ,".
                                   " sum(o.orderid is not null) orderid_num, ".
