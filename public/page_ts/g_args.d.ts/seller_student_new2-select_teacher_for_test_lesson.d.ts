@@ -34,6 +34,10 @@ interface RowData {
 	realname	:any;
 	phone	:any;
 	free_time_new	:any;
+	day_num	:any;
+	week_num	:any;
+	month_num	:any;
+	has_num	:any;
 	age_flag	:any;
 	is_identity	:any;
 	is_gender	:any;
