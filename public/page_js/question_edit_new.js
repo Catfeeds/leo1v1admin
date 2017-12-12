@@ -141,10 +141,8 @@ var Cquestion_editor = {
 				                console.log('Things below are from FileUploaded');
                         console.log(info.response);
                         var imgName = JSON.parse(info.response).key;
-                        var pic_str="\n![]("+  domain + imgName +")\[]&n";
-                        var mathjax_content = id_mathjax_content.val();
-                        mathjax_content = id_mathjax_content.val() + pic_str;
-                        id_mathjax_content.val(mathjax_content);
+                        var pic_str="\n![]("+  domain + imgName +")[]&\n";
+                        id_mathjax_content.insertAtCaret(pic_str);
                         Cquestion_editor.preview_update(id_question_type,id_mathjax_content,MathPreview,mathId);
 			              },
 			              'Error': function(up, err, errTip) {
