@@ -2330,7 +2330,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             'fulltime_teacher_type=2',
             'del_flag=1'
         ];
-        $where_arr = [
+        $where_arr[] = [
             ['leave_member_time>=%u', $start_time, 0],
             ['leave_member_time<%u', $end_time, 0],
         ];
