@@ -269,7 +269,8 @@ $(function(){
 		"select_value" : g_args.teacherid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_teacherid",
-		"can_sellect_all_flag"     : true
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
 	});
 	$('#id_is_freeze').val(g_args.is_freeze);
 	$('#id_free_time').val(g_args.free_time);

@@ -307,6 +307,7 @@ class ss_deal extends Controller
         */
         //$this->t_admin_group->
         $ss_item = $this->t_seller_student_new->field_get_list($userid,"*");
+
         $tt_item = $this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"*");
         $tr_item = $this->t_test_lesson_subject_require->field_get_list($require_id,"*");
 
@@ -353,6 +354,7 @@ class ss_deal extends Controller
 
         //新增加信息
         $ret["class_rank"]    = $ss_item["class_rank"];
+        $ret["class_num"]    = $ss_item["class_num"];
         $ret["grade_rank"]    = $ss_item["grade_rank"];
         $ret["academic_goal"]    = $ss_item["academic_goal"];
         $ret["test_stress"]    = $ss_item["test_stress"];
@@ -385,6 +387,9 @@ class ss_deal extends Controller
         $ret["change_teacher_reason"] = $tr_item["change_teacher_reason"];
         $ret["green_channel_teacherid"] = $tr_item["green_channel_teacherid"];
         $ret["learning_situation"]    = $tt_item["learning_situation"];
+        $ret["subject_score"] = $ss_item['subject_score'];
+        $ret["subject_tag"] = json_decode($tt_item['subject_tag']);
+        // dd($ret["subject_tag"]);
 
         return $this->output_succ(["data" => $ret ]);
     }
@@ -6049,16 +6054,35 @@ class ss_deal extends Controller
         $id = $this->get_in_int_val("id");
         $lessonid = $this->get_in_int_val("lessonid",273923);
         $data = $this->t_teacher_record_list->field_get_list($id,"*");
-        $label = $this->t_teacher_label->get_info_by_lessonid_new($lessonid,2);
-        $arr= json_decode($label,true);
-        if(empty($arr)){
-            $arr=[];
+        $label_info = $this->t_teacher_label->get_info_by_lessonid_new($lessonid,2);
+        if(@$label_info["tag_info"]){
+            $label = $label_info["tag_info"];
+            $arr= json_decode($label,true);
+            foreach($arr as $item){
+                $ret = json_decode($item,true);
+                if($ret){                                   
+                    foreach($ret as $v){
+                        @$str .=$v.",";
+                    }
+                }
+            }
+            $data["label"] = trim($str,",");
+
+
+        }else{
+            $label = @$label_info["tea_label_type"];
+            $arr= json_decode($label,true);
+            if(empty($arr)){
+                $arr=[];
+                $data["label"]="";
+            }else{
+                foreach($arr as $val){
+                    @$str .= E\Etea_label_type::get_desc($val).",";
+                }
+                $data["label"] = trim($str,",");
+
+            }
         }
-        $str="";
-        foreach($arr as $val){
-            $str .= E\Etea_label_type::get_desc($val).",";
-        }
-        $data["label"] = trim($str,",");
         return $this->output_succ(["data"=>$data]);
     }
     public function get_teacher_confirm_score(){

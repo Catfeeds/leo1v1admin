@@ -123,7 +123,7 @@
                                    data-type="leoedu://video.leoedu.com/video="
                                    title="视频播放二维码" > </a>
                                 @if($var["trial_train_status"] <3)
-                                    @if(in_array($acc,["adrian","jim",$var['acc'],"jack"]))
+                                    @if(in_array($acc,["adrian","jim",$var['acc'],"jack","林文彬"]))
                                         <a class="opt-edit" title="更改状态">审核 </a>
                                     @endif
                                     @if(in_array($acc,["jack","jim","林文彬"]))

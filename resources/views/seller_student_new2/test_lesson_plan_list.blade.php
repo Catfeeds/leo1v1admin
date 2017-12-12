@@ -489,7 +489,7 @@
                                         @endif
                                         <a title="删除" class=" fa-trash-o opt-del show_flag"></a>
                                     @else
-                                        <a title="排课" class=" opt-set-lesson-new show_flag">驳回&排课 </a>
+                                        <a title="排课" class="opt-set-lesson-new show_flag">驳回&排课 </a>
                                         <a title="换老师/时间" class=" fa-male  opt-set-teacher-time show_flag"></a>
                                     @endif
                                     <a title="确认课时" class="btn fa fa-gavel opt-confirm show_flag" ></a>
@@ -514,8 +514,8 @@
                                         <a title="驳回申请" class=" opt-set-limit-require-refuce show_seller" >驳回 </a>
                                     @endif
                                     <a title="匹配老师" class="opt-match-teacher show_flag">匹配老师</a>
-                                    @if(in_array($acc,["jack","jim","adrian"]))
-                                        <a title="排课" class="lesson-plan-new-test">排课</a>
+                                    @if($account_role==12)
+                                        <a title="新版排课" class="select-teacher-for-test-lesson">新版排课</a>
                                     @endif
                                 </div>
                             </td>

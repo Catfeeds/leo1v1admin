@@ -9,7 +9,7 @@ interface GargsStatic {
 	contract_type:	string;//枚举列表: \App\Enums\Econtract_type
  	contract_status:	string;//枚举列表: \App\Enums\Econtract_status
  	config_courseid:	number;
-	test_user:	number;
+	test_user:	number;//枚举: \App\Enums\Eboolean
 	studentid:	number;
 	page_num:	number;
 	page_count:	number;
@@ -28,8 +28,8 @@ interface GargsStatic {
 	assistantid:	number;
 	from_key:	string;
 	from_url:	string;
-	order_activity_type:	number;//\App\Enums\Eorder_activity_type
-	spec_flag:	number;//\App\Enums\Eboolean
+	order_activity_type:	number;//枚举: \App\Enums\Eorder_activity_type
+	spec_flag:	number;//枚举: \App\Enums\Eboolean
 	adminid:	number;
 	account_role_self:	number;
 	acc:	number;
@@ -193,8 +193,6 @@ function load_data(){
 }
 $(function(){
 
-	Enum_map.append_option_list("order_activity_type",$("#id_order_activity_type"));
-	Enum_map.append_option_list("boolean",$("#id_spec_flag"));
 
 	$('#id_date_range').select_date_range({
 		'date_type' : g_args.date_type,
@@ -209,7 +207,9 @@ $(function(){
 	$('#id_orderid').val(g_args.orderid);
 	$('#id_contract_type').admin_set_select_field({
 		"enum_type"    : "contract_type",
+		"field_name" : "contract_type",
 		"select_value" : g_args.contract_type,
+		"multi_select_flag"     : true,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_contract_type",
 		"only_show_in_th_input"     : false,
@@ -217,14 +217,25 @@ $(function(){
 	});
 	$('#id_contract_status').admin_set_select_field({
 		"enum_type"    : "contract_status",
+		"field_name" : "contract_status",
 		"select_value" : g_args.contract_status,
+		"multi_select_flag"     : true,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_contract_status",
 		"only_show_in_th_input"     : false,
 		"btn_id_config"     : {},
 	});
 	$('#id_config_courseid').val(g_args.config_courseid);
-	$('#id_test_user').val(g_args.test_user);
+	$('#id_test_user').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "test_user",
+		"select_value" : g_args.test_user,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_test_user",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_studentid').admin_select_user_new({
 		"user_type"    : "student",
 		"select_value" : g_args.studentid,
@@ -240,7 +251,9 @@ $(function(){
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 	$('#id_grade').admin_set_select_field({
 		"enum_type"    : "grade",
+		"field_name" : "grade",
 		"select_value" : g_args.grade,
+		"multi_select_flag"     : true,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_grade",
 		"only_show_in_th_input"     : false,
@@ -248,7 +261,9 @@ $(function(){
 	});
 	$('#id_subject').admin_set_select_field({
 		"enum_type"    : "subject",
+		"field_name" : "subject",
 		"select_value" : g_args.subject,
+		"multi_select_flag"     : true,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_subject",
 		"only_show_in_th_input"     : false,
@@ -276,8 +291,26 @@ $(function(){
 	});
 	$('#id_from_key').val(g_args.from_key);
 	$('#id_from_url').val(g_args.from_url);
-	$('#id_order_activity_type').val(g_args.order_activity_type);
-	$('#id_spec_flag').val(g_args.spec_flag);
+	$('#id_order_activity_type').admin_set_select_field({
+		"enum_type"    : "order_activity_type",
+		"field_name" : "order_activity_type",
+		"select_value" : g_args.order_activity_type,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_order_activity_type",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_spec_flag').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "spec_flag",
+		"select_value" : g_args.spec_flag,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_spec_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_adminid').admin_select_user_new({
 		"user_type"    : "account",
 		"select_value" : g_args.adminid,
@@ -337,8 +370,9 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">test_user</span>
-                <input class="opt-change form-control" id="id_test_user" />
+                <span class="input-group-addon">boolean</span>
+                <select class="opt-change form-control" id="id_test_user" >
+                </select>
             </div>
         </div>
 

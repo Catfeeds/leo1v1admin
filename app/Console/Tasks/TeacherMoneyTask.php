@@ -28,7 +28,7 @@ class TeacherMoneyTask extends TaskController
         if(is_array($lesson_list)){
             foreach($lesson_list as $val){
                 $num_people++;
-                $num_lesson=$num_people;
+                $num_lesson = $num_people;
                 if($lesson_total != $val['lesson_total']){
                     if($num_people>5){
                         break;

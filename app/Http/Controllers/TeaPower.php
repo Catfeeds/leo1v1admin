@@ -252,7 +252,7 @@ trait TeaPower {
     }
 
 
-    public function set_teacher_label_new($teacherid,$lessonid,$lesson_list,$tea_tag_arr,$label_origin,$set_flag=1){
+    public function set_teacher_label_new($teacherid,$lessonid,$lesson_list,$tea_tag_arr,$label_origin,$set_flag=1,$per_flag=0){
         $tag_info = json_encode($tea_tag_arr);
         $style_character = json_decode(@$tea_tag_arr["style_character"],true);
         $professional_ability= json_decode(@$tea_tag_arr["professional_ability"],true);
@@ -299,14 +299,19 @@ trait TeaPower {
                     }
                 }
 
+                if($per_flag==1){
+                    $per_num=0.1;
+                }else{
+                    $per_num=1;
+                }
                 foreach($tea_tag_arr as $item){
                     $ret= json_decode($item,true);
                     if(is_array($ret)){
                         foreach($ret as $val){
                             if(isset($teacher_tags_list[$val])){
-                                $v = $teacher_tags_list[$val]+1;
+                                $v = $teacher_tags_list[$val]+$per_num;
                             }else{
-                                $v = 1;
+                                $v = $per_num;
                             }
                             $teacher_tags_list[$val]=$v;
                         }
@@ -4661,27 +4666,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     public function match_teacher_tags($teacher_tags,$match_tags){
 
     }
-
-    /**
-     * 获取老师标签列表
-     */
-    public function teacher_tags_list_for_select(){
-        $ret_list  = $this->t_tag_library->get_all_tag_list();
-        $tags_list = [];
-
-        foreach($ret_list as $val){
-            $tag_l1_sort = $val['tag_l1_sort'];
-            $id_l1_name  = "id_".$tag_l1_sort;
-            $tag_name    = $val['tag_name'];
-
-            \App\Helper\Utils::check_isset_data($tags_list[$tag_l1_sort]['select_name'],$tag_l1_sort,0);
-            \App\Helper\Utils::check_isset_data($tags_list[$tag_l1_sort]['select_id'],$id_l1_name,0);
-            $tags_list[$tag_l1_sort][] = $tag_name;
-        }
-
-        return $tags_list;
-    }
-
 
     //试听课转化率结束时间判断
     public function get_test_lesson_end_time($end_time){
