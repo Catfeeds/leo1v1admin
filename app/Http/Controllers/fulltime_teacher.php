@@ -472,6 +472,15 @@ class fulltime_teacher extends Controller
         $ret['part_teacher_cc_order'] = @$ret["platform_teacher_cc_order"]-@$ret["fulltime_teacher_cc_order"];
         $ret['part_teacher_cc_per']  =$ret['part_teacher_cc_lesson']>0?round(100*$ret['part_teacher_cc_order']/$ret['part_teacher_cc_lesson'],2):0;//全职老师cc转化率
 
+        $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
+        $week_start = $date_week["sdate"]-14*86400;
+        $week_end = $date_week["sdate"]+21*86400;
+        $normal_stu_list =$this->t_teacher_info->get_teacher_list(1,$week_start,$week_end,1);
+        $ret['fulltime_normal_stu_num'] =$normal_stu_list["stu_num"];
+        $platform_normal_stu_list = $this->t_teacher_info->get_teacher_list(1,$week_start,$week_end);
+        $ret['platform_normal_stu_num'] =$platform_normal_stu_list["stu_num"];
+        $ret['fulltime_normal_stu_pro'] =  $ret['platform_normal_stu_num']>0?round(100*$ret['fulltime_normal_stu_num']/$ret['platform_normal_stu_num'],2):0;
+
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => @$ret,
