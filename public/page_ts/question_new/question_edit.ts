@@ -17,14 +17,14 @@ $(function(){
         var val = $(this).val();
         if (!val.match(/\$/)) {
             //$(this).val(Cquestion_editor.reset_latex_str(val));
-            Cquestion_editor.preview_update(id_question_type,id_mathjax_content,MathBuffer,MathPreview,mathId)
+            Cquestion_editor.preview_update(id_question_type,id_mathjax_content,MathPreview,mathId)
         }
         timer = false;
     });
 
     //输入事件
     $('#id_mathjax_content').bind('input propertychange',function(){
-        Cquestion_editor.preview_update(id_question_type,id_mathjax_content,MathBuffer,MathPreview,mathId);
+        Cquestion_editor.preview_update(id_question_type,id_mathjax_content,MathPreview,mathId);
     });
 
     //光标事件
@@ -36,12 +36,10 @@ $(function(){
         //         clearInterval(push_buffer);
         //     }
         // },1000)
-
     });
-
     //上传图片
     var domain = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/';
-    Cquestion_editor.custom_upload( $('#id_mathjax_add_pic')[0],$('#id_mathjax_add_pic_div')[0],domain,id_mathjax_content,MathPreview,mathId); 
+    Cquestion_editor.custom_upload( $('#id_mathjax_add_pic')[0],$('#id_mathjax_add_pic_div')[0],domain,id_question_type,id_mathjax_content,MathPreview,mathId); 
     
 })
 
