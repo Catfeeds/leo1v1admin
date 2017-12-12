@@ -46,7 +46,7 @@ class test_sam  extends Controller
             $id = $this->t_teacher_info->get_teacherid_by_phone($phone);
 
             $ret = $this->t_teacher_info->field_update_list($id,
-                ['teacher_tags' => $tag[mt_rand(0,13)].mt_rand(0,10) ]);
+                ['teacher_tags' => $tag[mt_rand(0,13)]." ".mt_rand(0,10) ]);
             //dd($ret_info);
             $arr[] = $teacher_info;
         }
