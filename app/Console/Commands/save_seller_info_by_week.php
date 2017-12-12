@@ -64,7 +64,7 @@ class save_seller_info_by_week extends Command
         $ret_info['new_money']      = $new_order_info['total_price'] ; //   全部收入[新签+转介绍]
         $ret_info['order_cc_num']    = $new_order_info['total_num'] ; // 有签单的销售人数
 
-        $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("");
+        $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("销售,,,");
         $month_start_time = strtotime(date("Y-m-01",$end_time));
         // $month_start_time = strtotime(date("Y-m-01",$start_time));
         $month_end_time = strtotime(date('Y-m-01', strtotime('+1 month',$month_start_time)));
