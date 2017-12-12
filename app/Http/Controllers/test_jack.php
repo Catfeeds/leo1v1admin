@@ -940,6 +940,19 @@ class test_jack  extends Controller
 
     public function get_reference_teacher_money_info(){
         $list= $this->t_teacher_lecture_appointment_info->get_id_list_by_adminid(513,1);
+        // $i=0;
+        // foreach($list as $item){
+        //     if($i<2087){
+        //         $tt = 955;
+        //     }else{
+        //         $tt =1000;
+        //     }
+        //     $this->t_teacher_lecture_appointment_info->field_update_list($item["id"],[
+        //         "accept_adminid" =>$tt,
+        //         "accept_time"  =>1513051920
+        //     ]);
+        //     $i++;
+        // }
         dd($list);
         // $type= $this->get_in_int_val("type",2);
         // $ret = $this->t_cr_week_month_info->get_all_info_by_type_and_time($type);
