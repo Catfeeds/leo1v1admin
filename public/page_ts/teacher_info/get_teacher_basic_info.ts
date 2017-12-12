@@ -47,7 +47,8 @@ $(function(){
         // $.custom_show_pdf(pdf_url,"/teacher_info/get_pdf_download_url");
 
         $.ajax({
-            url      : "/tea_manage/get_pdf_download_url",
+            //url      : "/tea_manage/get_pdf_download_url",
+            url      : "/common_new/get_qiniu_download"
             type     : 'GET',
             dataType : 'json',
             data     : {'file_url': file_url},
