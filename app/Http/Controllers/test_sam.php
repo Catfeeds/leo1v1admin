@@ -17,11 +17,13 @@ class test_sam  extends Controller
         $time = 1451577600;
         $grade = ['100','101','102','103','104','105','106','200','201','202','203','300','301','302','303'];
         $identity = [0,5,6,7,8];
+        $tag = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N'];
         $arr = [];
         for ($i=0; $i < 100; $i++) { 
-            # code...
+            # code..
+            $phone++;
             $teacher_info = [
-                "phone" => $phone++,
+                "phone" => $phone,
                 "tea_nick"  => "test".$phone,
                 "realname"  => "test_realname".$phone,
                 "wx_use_flag" => 1,
@@ -40,8 +42,11 @@ class test_sam  extends Controller
                // "teacher_type" => 3,
 
             ];
-            $ret_info = $this->add_teacher_common_test($teacher_info);
-            //$ret = $teacher_info->field_update_list($ret_info,[''])
+            //$ret_info = $this->add_teacher_common_test($teacher_info);
+            $id = $this->t_teacher_info->get_teacherid_by_phone($phone);
+
+            $ret = $this->t_teacher_info->field_update_list($id,
+                ['teacher_tags' => $tag[mt_rand(0,13)].mt_rand(0,10) ]);
             //dd($ret_info);
             $arr[] = $teacher_info;
         }
