@@ -2839,5 +2839,13 @@ $(function(){
             }, 1000);
         });
     }
+
+    $(".select-teacher-for-test-lesson").on("click",function(){
+        var data = $(this).get_opt_data();
+        var url = "/seller_student_new2/select_teacher_for_test_lesson?require_id="+data.require_id;
+        window.open(url);
+    });
+
+
     $(".opt-download-test-paper").show();
 });
