@@ -40,7 +40,7 @@ $(function(){
     });
 
     //上传图片
-    var domain = 'http://7u2f5q.com2.z0.glb.qiniucdn.com';
+    var domain = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/';
     Cquestion_editor.custom_upload( $('#id_mathjax_add_pic')[0],$('#id_mathjax_add_pic_div')[0],domain,id_mathjax_content,MathPreview,mathId); 
     
 })

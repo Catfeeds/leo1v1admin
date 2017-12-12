@@ -12,7 +12,6 @@ class TSellerStudentNewDropSubjectScore extends Migration
      */
     public function up()
     {
-        //
         Schema::table('db_weiyi.t_seller_student_new', function($table){
             $table->dropColumn('subject_score'); //删除表的字段
         });
