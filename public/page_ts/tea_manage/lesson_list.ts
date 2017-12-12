@@ -2,6 +2,39 @@
 /// <reference path="../g_args.d.ts/tea_manage-lesson_list.d.ts" />
 var Cwhiteboard=null;
 var notify_cur_playpostion =null;
+    function load_data( ){
+        $.reload_self_page({
+		        order_by_str : g_args.order_by_str,
+            date_type     :	$('#id_date_type').val(),
+            opt_date_type :	$('#id_opt_date_type').val(),
+            start_time    :	$('#id_start_time').val(),
+            end_time      :	$('#id_end_time').val(),
+
+            lesson_status: $("#id_lesson_status").val(),
+            lesson_type  : $("#id_lesson_type").val(),
+            confirm_flag : $("#id_confirm_flag").val(),
+            subject      : $("#id_subject").val(),
+            grade        : $("#id_grade").val(),
+            studentid    : $("#id_studentid").val(),
+            teacherid    : $("#id_teacherid").val(),
+            lessonid     : $("#id_lessonid").val(),
+
+            assistantid       : $("#id_assistantid").val(),
+            test_seller_id    : $("#id_test_seller_id").val(),
+            is_with_test_user : $("#id_is_with_test_user").val(),
+            has_performance   : $("#id_has_performance").val(),
+            lesson_count      : $("#id_lesson_count").val(),
+            lesson_del_flag:	$('#id_lesson_del_flag').val(),
+
+            origin : $("#id_origin").val(),
+
+            has_video_flag            :	$('#id_has_video_flag').val(),
+            lesson_cancel_reason_type :	$('#id_lesson_cancel_reason_type').val(),
+            lesson_user_online_status :	$('#id_lesson_user_online_status').val(),
+            fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
+        });
+    }
+
 $(function(){
 
     $(".opt-set-server").on("click",function(){
@@ -80,37 +113,6 @@ $(function(){
 
     // });
 
-    function load_data( ){
-        $.reload_self_page({
-            date_type     :	$('#id_date_type').val(),
-            opt_date_type :	$('#id_opt_date_type').val(),
-            start_time    :	$('#id_start_time').val(),
-            end_time      :	$('#id_end_time').val(),
-
-            lesson_status: $("#id_lesson_status").val(),
-            lesson_type  : $("#id_lesson_type").val(),
-            confirm_flag : $("#id_confirm_flag").val(),
-            subject      : $("#id_subject").val(),
-            grade        : $("#id_grade").val(),
-            studentid    : $("#id_studentid").val(),
-            teacherid    : $("#id_teacherid").val(),
-            lessonid     : $("#id_lessonid").val(),
-
-            assistantid       : $("#id_assistantid").val(),
-            test_seller_id    : $("#id_test_seller_id").val(),
-            is_with_test_user : $("#id_is_with_test_user").val(),
-            has_performance   : $("#id_has_performance").val(),
-            lesson_count      : $("#id_lesson_count").val(),
-            lesson_del_flag:	$('#id_lesson_del_flag').val(),
-
-            origin : $("#id_origin").val(),
-
-            has_video_flag            :	$('#id_has_video_flag').val(),
-            lesson_cancel_reason_type :	$('#id_lesson_cancel_reason_type').val(),
-            lesson_user_online_status :	$('#id_lesson_user_online_status').val(),
-            fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
-        });
-    }
 
     Enum_map.append_option_list( "lesson_status", $('#id_lesson_status'));
     Enum_map.append_option_list( "boolean", $('#id_lesson_del_flag'));
@@ -219,7 +221,7 @@ $(function(){
                     me.draw_page_list[ pageid] = {
                         pageid    : pageid
                         ,opt_list : [] //svg_obj_list
-                        ,draw : SVG(tmp_div[0]).size(me.width, me.height )
+                        ,draw : window.SVG(tmp_div[0]).size(me.width, me.height )
                     };
 
                     page_info = me.draw_page_list[pageid];
@@ -429,7 +431,7 @@ $(function(){
 
 
                         default :
-                            console.log( "ERROR : " +  item_data.opt_type );
+                            console.log( "ERROR : " +  item_data["opt_type"]);
                             break;
 
 
@@ -472,10 +474,17 @@ $(function(){
     $("#id_lesson_type").val(g_args.lesson_type);
     $("#id_confirm_flag").val(g_args.confirm_flag);
     $("#id_subject").val(g_args.subject);
-    $("#id_grade").val(g_args.grade);
-    $.enum_multi_select ( $("#id_grade"),"grade", function( ){
-        load_data();
-    });
+
+  $('#id_grade').admin_set_select_field({
+    "enum_type"    : "grade",
+    "field_name" : "grade",
+    "select_value" : g_args.grade,
+    "multi_select_flag"     : true,
+    "onChange"     : load_data,
+    "th_input_id"  : "th_grade",
+    "only_show_in_th_input"     : false,
+    "btn_id_config"     : {},
+  });
 
     //04-21
     $.enum_multi_select ( $("#id_confirm_flag"),"confirm_flag", function( ){
@@ -493,6 +502,7 @@ $(function(){
         'opt_date_type' : g_args.opt_date_type,
         'start_time'    : g_args.start_time,
         'end_time'      : g_args.end_time,
+        "th_input_id" : "th_date_range",
         date_type_config : JSON.parse( g_args.date_type_config),
         onQuery :function() {
             load_data();
@@ -574,12 +584,12 @@ $(function(){
                                     +"&start="+result.real_begin_time);
                     if ( false && !$.check_in_phone() ) {
 
-                        // console.log("http://admin.leo1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
-                        //             +"&audio="+encodeURIComponent(result.audio_url)
-                        //             +"&start="+result.real_begin_time);
-                        window.open("http://admin.leo1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                        /*
+                        $.wopen ("http://admin.leo1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
                                     +"&audio="+encodeURIComponent(result.audio_url)
-                                    +"&start="+result.real_begin_time,"_blank");
+                                    +"&start="+result.real_begin_time );
+                        */
+
                     }else{
 
                         var w = $.check_in_phone()?329 : 558;
@@ -610,19 +620,19 @@ $(function(){
         var html_node   = $('<div></div>').html($.dlg_get_html_by_class('dlg_upload'));
         var lesson_info = new Object();
 
-        lesson_info.lessonid      = $(this).parent().data("lessonid");
-        lesson_info.lesson_status = $(this).parents('td').siblings('.lesson_status').find('.status').val();
-        lesson_info.work_status   = $(this).parents('td').siblings('.homework_url').find('.status').val();
+        lesson_info["lessonid"]= $(this).parent().data("lessonid");
+        lesson_info["lesson_status"]= $(this).parents('td').siblings('.lesson_status').find('.status').val();
+        lesson_info["work_status"]= $(this).parents('td').siblings('.homework_url').find('.status').val();
 
-        html_node.find(".opt-teacher-url").attr('id', 'optid-teacher-url'+lesson_info.lessonid);
-        html_node.find(".opt-teacher-url").parent().attr('id', 'optid-teacher-url-parent'+lesson_info.lessonid);
-        html_node.find(".opt-student-url").attr('id', 'optid-student-url'+lesson_info.lessonid);
-        html_node.find(".opt-student-url").parent().attr('id', 'optid-student-url-parent'+lesson_info.lessonid);
-        html_node.find(".opt-homework-url").attr('id', 'optid-homework-url'+lesson_info.lessonid);
-        html_node.find(".opt-homework-url").parent().attr('id', 'optid-homework-url-parent'+lesson_info.lessonid);
+        html_node.find(".opt-teacher-url").attr('id', 'optid-teacher-url'+lesson_info["lessonid"]);
+        html_node.find(".opt-teacher-url").parent().attr('id', 'optid-teacher-url-parent'+lesson_info["lessonid"]);
+        html_node.find(".opt-student-url").attr('id', 'optid-student-url'+lesson_info["lessonid"]);
+        html_node.find(".opt-student-url").parent().attr('id', 'optid-student-url-parent'+lesson_info["lessonid"]);
+        html_node.find(".opt-homework-url").attr('id', 'optid-homework-url'+lesson_info["lessonid"]);
+        html_node.find(".opt-homework-url").parent().attr('id', 'optid-homework-url-parent'+lesson_info["lessonid"]);
         // add lesson quiz
-        html_node.find(".opt-quiz-url").attr('id', 'optid-quiz-url'+lesson_info.lessonid);
-        html_node.find(".opt-quiz-url").parent().attr('id', 'optid-quiz-url-parent'+lesson_info.lessonid);
+        html_node.find(".opt-quiz-url").attr('id', 'optid-quiz-url'+lesson_info["lessonid"]);
+        html_node.find(".opt-quiz-url").parent().attr('id', 'optid-quiz-url-parent'+lesson_info["lessonid"]);
 
         html_node.find(".lesson_time").text($(this).parents('td').siblings('.lesson_time').text());
         html_node.find(".tea_nick").text($(this).parents('td').siblings('.tea_nick').text());
@@ -639,19 +649,19 @@ $(function(){
                 $('.current_opt_lesson_record').removeClass('current_opt_lesson_record');
             },
             onshown : function(dialog){
-                $.custom_upload_file( 'optid-teacher-url'+lesson_info.lessonid ,
+                $.custom_upload_file( 'optid-teacher-url'+lesson_info["lessonid"] ,
                                       false ,setCompleteTeacher, lesson_info,
                                       ["pdf","zip"], setProgress );
 
-                $.custom_upload_file( 'optid-student-url'+lesson_info.lessonid ,
+                $.custom_upload_file( 'optid-student-url'+lesson_info["lessonid"] ,
                                       false ,setCompleteStudent, lesson_info,
                                       ["pdf","zip"], setProgress );
 
-                $.custom_upload_file( 'optid-quiz-url'+lesson_info.lessonid ,
+                $.custom_upload_file( 'optid-quiz-url'+lesson_info["lessonid"] ,
                                       false ,setCompleteQuiz, lesson_info,
                                       ["pdf","zip"], setProgress );
 
-                $.custom_upload_file( 'optid-homework-url'+lesson_info.lessonid ,
+                $.custom_upload_file( 'optid-homework-url'+lesson_info["lessonid"] ,
                                       false ,setCompleteHomework, lesson_info,
                                       ["pdf","zip"], setProgress );
             },buttons : [{
@@ -693,12 +703,12 @@ $(function(){
         var html_node = $('<div></div>').html($.dlg_get_html_by_class('dlg_download'));
 
         var lesson_info           = new Object();
-        lesson_info.lesson_status = $(this).parents('td').siblings('.lesson_status').find('.status').val();
-        lesson_info.work_status   = $(this).parents('td').siblings('.homework_url').find('.status').val();
-        lesson_info.tea_cw_url    = $(this).parents('td').siblings('.tea_cw_url').find('.file_url').val();
-        lesson_info.stu_cw_url    = $(this).parents('td').siblings('.stu_cw_url').find('.file_url').val();
-        lesson_info.homework_url  = $(this).parents('td').siblings('.homework_url').find('.file_url').val();
-        lesson_info.lesson_quiz   = $(this).parents('td').siblings('.lesson_quiz_url').find('.file_url').val();
+        lesson_info["lesson_status"] = $(this).parents('td').siblings('.lesson_status').find('.status').val();
+        lesson_info["work_status"]   = $(this).parents('td').siblings('.homework_url').find('.status').val();
+        lesson_info["tea_cw_url"]    = $(this).parents('td').siblings('.tea_cw_url').find('.file_url').val();
+        lesson_info["stu_cw_url"]    = $(this).parents('td').siblings('.stu_cw_url').find('.file_url').val();
+        lesson_info["homework_url"]  = $(this).parents('td').siblings('.homework_url').find('.file_url').val();
+        lesson_info["lesson_quiz"]   = $(this).parents('td').siblings('.lesson_quiz_url').find('.file_url').val();
 
         html_node.find(".lesson_time").text($(this).parents('td').siblings('.lesson_time').text());
         html_node.find(".tea_nick").text($(this).parents('td').siblings('.tea_nick').text());
@@ -708,35 +718,35 @@ $(function(){
             title   : "下载本次课的课件或作业",
             message : function(dialog) {
                 html_node.find(".opt-teacher-url").on('click', function(){
-                    if (!lesson_info.tea_cw_url) {
+                    if (!lesson_info["tea_cw_url"]) {
                         BootstrapDialog.alert("老师版课件未上传");
                         return;
                     }
-                    custom_download(lesson_info.tea_cw_url);
+                    custom_download(lesson_info["tea_cw_url"]);
                 });
 
                 html_node.find(".opt-student-url").on('click', function(){
-                    if (!lesson_info.stu_cw_url) {
+                    if (!lesson_info["stu_cw_url"]) {
                         BootstrapDialog.alert("学生版课件未上传");
                         return;
                     }
-                    custom_download(lesson_info.stu_cw_url);
+                    custom_download(lesson_info["stu_cw_url"]);
                 });
 
                 html_node.find(".opt-homework-url").on('click', function(){
-                    if (!lesson_info.homework_url) {
+                    if (!lesson_info["homework_url"]) {
                         BootstrapDialog.alert("课后作业未上传");
                         return;
                     }
-                    custom_download(lesson_info.homework_url);
+                    custom_download(lesson_info["homework_url"]);
                 });
 
                 html_node.find(".opt-quiz-url").on('click', function(){
-                    if (!lesson_info.lesson_quiz) {
+                    if (!lesson_info["lesson_quiz"]) {
                         BootstrapDialog.alert("课堂测验未上传");
                         return;
                     }
-                    custom_download(lesson_info.lesson_quiz);
+                    custom_download(lesson_info["lesson_quiz"]);
                 });
 
                 return html_node;
@@ -769,7 +779,7 @@ $(function(){
 
     $('.opt-score-star').on('click', function(){
         var lessonid  = $(this).parent().data("lessonid");
-        var html_node = $('<div></div>').html(dlg_get_html_by_class('dlg_score_star'));
+        var html_node = $('<div></div>').html($.dlg_get_html_by_class('dlg_score_star'));
         html_node.find(".effect").text($(this).parents('td').siblings('.teacher_effect').text());
         html_node.find(".quality").text($(this).parents('td').siblings('.teacher_quality').text());
         html_node.find(".interact").text($(this).parents('td').siblings('.teacher_interact').text());
@@ -1143,9 +1153,9 @@ $(function(){
         $fail_greater_4_hour_flag .val(opt_data.fail_greater_4_hour_flag);
 
         var arr=[
-            ["学生", opt_data.nick  ],
-            ["老师", opt_data.realname],
-            ["上课时间", opt_data.lesson_start_str   ],
+            ["学生", opt_data["nick"]  ],
+            ["老师", opt_data["realname"]],
+            ["上课时间", opt_data["lesson_start_str"]   ],
             ["是否成功",  $success_flag ],
             ["是否离上课4个小时以前(不付老师工资)", $fail_greater_4_hour_flag],
             ["失败类型", $test_lesson_fail_flag],
@@ -1292,8 +1302,8 @@ $(function(){
                 format     : 'Y-m-d H:i',
                 step       : 30,
                 onChangeDateTime : function(){
-                    var end_time = parseInt(
-                        $.strtotime($lesson_cancel_reason_next_lesson_time.val()+':00')) + opt_data.lesson_diff;
+                    var end_time =
+                        $.strtotime($lesson_cancel_reason_next_lesson_time.val()+':00') + opt_data.lesson_diff;
                     $lesson_cancel_reason_next_lesson_end_time.val($.DateFormat(end_time,"hh:mm"));
                 }
             });
@@ -1318,7 +1328,7 @@ $(function(){
         var opt_data       = $(this).get_opt_data();
         var lessonid       = opt_data.lessonid;
         var lesson_type    = opt_data.lesson_type;
-        var tea_has_update = opt_data.tea_has_update;
+        var tea_has_update = opt_data["tea_has_update"];
         if(lesson_type==2 && tea_has_update==1){
             get_stu_performance_for_seller(lessonid);
         }else{
@@ -1524,7 +1534,7 @@ $(function(){
     if (window.location.pathname =="/tea_manage/lesson_list_seller" ) {
         $("#id_test_seller_id").parent().parent().hide();
         $("#id_lesson_type").parent().parent().hide();
-        if(self_groupid != 0 && is_group_leader_flag == 0){
+        if(window["self_groupid"]!= 0 && window["is_group_leader_flag"]== 0){
             $("#id_teacherid").parent().parent().hide();
         }
         $(".opt-confirm").hide();
@@ -1587,7 +1597,6 @@ $(function(){
                 },function(result){
                     BootstrapDialog.alert(result.info);
                     dialog.close();
-                    sleep(1000);
                     load_data();
                 });
             }
@@ -1867,10 +1876,9 @@ $(function(){
                         var ret = response.ret;
                         var account = response.account;
                         if(ret==0){
-                            BootstrapDialog.alert("您的教学质量反馈已提交,"+account+"老师正在紧急处理!",function(result){
-                                if(result){
-                                    window.location.reload();
-                                }
+                            BootstrapDialog.alert("您的教学质量反馈已提交,"+account+"老师正在紧急处理!",
+                                                  function(){
+                                                      window.location.reload();
                             });
                         }else{
                             BootstrapDialog.alert(response.info);
@@ -1878,7 +1886,7 @@ $(function(){
                     });
                 }
             },function(){
-                $.custom_upload_file('id_upload_record_info',1,function (up, info, file) {
+                $.custom_upload_file('id_upload_record_info',true,function (up, info, file) {
                     var res = $.parseJSON(info);
                     $("#record_info_url").val(res.key);
                 }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
@@ -2037,7 +2045,7 @@ $(function(){
                         var ret = response.ret;
                         var account = response.account;
                         if(ret==0){
-                            BootstrapDialog.alert("您的教学质量反馈已提交,"+account+"老师正在紧急处理!",function(result){
+                            BootstrapDialog.alert("您的教学质量反馈已提交,"+account+"老师正在紧急处理!",function(){
                                 if(result){
                                     window.location.reload();
                                 }
@@ -2048,7 +2056,7 @@ $(function(){
                     });
                 }
             },function(){
-                $.custom_upload_file('id_upload_record_info',1,function (up, info, file) {
+                $.custom_upload_file('id_upload_record_info',true,function (up, info, file) {
                     var res = $.parseJSON(info);
                     $("#record_info_url").val(res.key);
                 }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
@@ -2423,7 +2431,7 @@ $(function(){
                 });
 
                 //console.log(arr[0][1]);
-                arr[0][1].parent().parent().parent().parent().parent().parent().parent().find(".class_score").on("change",function(){
+                $(arr[0][1]).parent().parent().parent().parent().parent().parent().parent().find(".class_score").on("change",function(){
                     id_score.val(parseInt(id_jysj.val())+parseInt(id_yybd.val())+parseInt(id_zyzs.val())+parseInt(id_jxjz.val())+parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));
                     id_no_tea_score.val(parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));
 
@@ -2585,7 +2593,7 @@ $(function(){
                 var id_lcgf =  $("<select class=\"class_score\" />");
                 var id_lesson_invalid_flag =  $("<select ><option value=\"1\">有效课程</option><option value=\"2\">无效课程</option></select>");
 
-               
+
 
                 Enum_map.append_option_list("teacher_lecture_score",id_jysj,true,[0,1,2,3,4,5,6,7,8,9,10]);
                 Enum_map.append_option_list("teacher_lecture_score",id_yybd,true,[0,1,2,3,4,5,6,7,8,9,10]);
@@ -2710,7 +2718,7 @@ $(function(){
                         }
 
 
-                      
+
 
                         $.do_ajax("/teacher_level/set_teacher_record_info",{
                             "teacherid"    : teacherid,
@@ -2752,7 +2760,7 @@ $(function(){
                 });
 
                 //console.log(arr[0][1]);
-                arr[0][1].parent().parent().parent().parent().parent().parent().parent().find(".class_score").on("change",function(){
+                $(arr[0][1]).parent().parent().parent().parent().parent().parent().parent().find(".class_score").on("change",function(){
                     id_score.val(parseInt(id_jysj.val())+parseInt(id_yybd.val())+parseInt(id_zyzs.val())+parseInt(id_jxjz.val())+parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));
                     id_no_tea_score.val(parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));
 
