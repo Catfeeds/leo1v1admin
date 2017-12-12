@@ -365,6 +365,13 @@ class resource extends Controller
 
     }
 
+    public function get_sub_grade_tag_js(){
+        $subject = $this->get_in_int_val('subject', -1);
+        $grade   = $this->get_in_int_val('grade', -1);
+
+        $data = $this->get_sub_grade_tag($subject,$grade);
+        return $this->output_succ(['tag' => $data]);
+    }
     //学科化标签
     public function get_sub_grade_tag($subject,$grade){
         $arr = [
@@ -518,9 +525,9 @@ class resource extends Controller
     }
 
     public function reupload_resource() {
-        $resource_id   = $this->get_in_int_val('resource_id','');
-        $file_id = $this->get_in_int_val('file_id');
-        $adminid = $this->get_account_id();
+        $resource_id = $this->get_in_int_val('resource_id','');
+        $file_id     = $this->get_in_int_val('file_id');
+        $adminid     = $this->get_account_id();
         $time    = time();
 
         $this->t_resource_file->field_update_list($file_id, ['status' => 2]);
@@ -611,9 +618,10 @@ class resource extends Controller
         $ret_info = $this->t_resource->get_all(
             $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info, 1
         );
+        // dd($ret_info);
         foreach($ret_info['list'] as &$item){
-            \App\Helper\Utils::unixtime2date_for_item($item,"update_time");
-            $item['nick'] = $this->cache_get_account_nick($item['edit_adminid']);
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
             $item['file_size'] = round( $item['file_size'] / 1024,2);
         }
 

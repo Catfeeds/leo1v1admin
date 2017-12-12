@@ -109,6 +109,16 @@
                         </div>
                     </div>
                 @endif
+
+                <div class="col-xs-3 col-md-1">
+                    <div class="input-group ">
+                        @if (in_array($acc,["jim","jack","林文彬"]) )
+                            <button class="btn btn-warning" id="id_test_lesson_assign">新增测试记录</button>
+                        @else
+                        @endif
+                    </div>
+                </div>
+
             </div>
         </div>
         <hr/>
@@ -195,13 +205,13 @@
                                     @if(in_array($acc,["adrian","jack"]))
                                         <a class="opt-set_test">测试数据切换</a>
                                     @endif
-                                   
-                                    @if($var["account"]!="" || in_array($acc,["adrian"]) || $account_role==12)
+                                    
+                                    @if($var["account"]!="" || in_array($acc,["adrian","jack","jim","林文彬"]) || $account_role==12)
                                         @if($account_role != 8) 
                                             <!-- 蔡老师要求　招师不可见 -->
                                             <a class="opt-update_lecture_status" title="更改状态">更改状态</a>
                                         @endif
-                                        @if(($var['status']!=2 || in_array($acc,["adrian","alan","jack"]) || $account_role==12) && $account_role !=8)
+                                        @if(($var['status']!=2 || in_array($acc,["adrian","alan","jack","jim","林文彬"]) || $account_role==12) && $account_role !=8)
                                             <!-- 蔡老师要求 招师不可见   -->
                                             <a class="opt-edit-new" title="更改状态">审核 </a>
                                             @if(in_array($acc,["jim","jack","林文彬"]))

@@ -41,6 +41,15 @@ class add_new_tea_entry extends Command
         //$start_time = date('Y-m-d 00:00:00', strtotime('-1 day'));
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
+        $task->t_teacher_info->field_update_list(51094, [
+            'bank_account' => '时昌瑞',
+            'bankcard' => '6217001210008555086',
+            'bank_address' => '黄河路支行',
+            'idcard' => '342225198605135317'
+        ]);
+        //$task->t_teacher_info->field_update_list(, $set_field_arr)
+        exit;
+
         $teacher_money = new \App\Http\Controllers\teacher_money();
         // 拉取数据(6月至11月的总工资)
         $arr = [6,7,8,9,10,11];
