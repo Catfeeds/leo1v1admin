@@ -144,7 +144,7 @@ $(function(){
             return;
         }
 
-        if(opt_data.test_lesson_student_status != 200){
+        if(opt_data.test_lesson_student_status != 200 || opt_data.test_lesson_student_status != 120){
             alert("非待排课状态，若更换试听课，请取消课程，重新排课!");
             return;
         }
