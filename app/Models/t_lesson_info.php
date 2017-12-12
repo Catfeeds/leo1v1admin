@@ -3202,7 +3202,7 @@ lesson_type in (0,1) "
     }
 
     public function get_teacher_lesson_total_list($start_time,$end_time){
-        $where_arr=[
+        $where_arr = [
             ["lesson_start>%u",$start_time,0],
             ["lesson_start<%u",$end_time,0],
             "lesson_type in (0,1,3)"

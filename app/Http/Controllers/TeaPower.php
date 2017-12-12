@@ -4662,9 +4662,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     }
 
-
-
-
     //试听课转化率结束时间判断
     public function get_test_lesson_end_time($end_time){
         $start_time_ave = time()-30*86400;
