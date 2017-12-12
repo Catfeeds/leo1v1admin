@@ -684,6 +684,7 @@ return array(
     'TSellerStudentNewAddSellerAddTime' => $baseDir . '/database/migrations/2017_11_18_152725_t_seller_student_new_add_seller_add_time.php',
     'TSellerStudentNewAddTestLessonOptFlag' => $baseDir . '/database/migrations/2017_10_26_144018_t_seller_student_new_add_test_lesson_opt_flag.php',
     'TSellerStudentNewAddTmkLastRevisitTime' => $baseDir . '/database/migrations/2017_11_09_120255_t_seller_student_new_add_tmk_last_revisit_time.php',
+    'TSellerStudentNewDropSubjectScore' => $baseDir . '/database/migrations/2017_12_12_100756_t_seller_student_new_drop_subject_score.php',
     'TSellerTongjiForMonthAdd' => $baseDir . '/database/migrations/2017_10_29_131032_t_seller_tongji_for_month_add.php',
     'TSellerTongjiForMonthAddColumons' => $baseDir . '/database/migrations/2017_10_11_112953_t_seller_tongji_for_month_add_columons.php',
     'TSellerTongjiForMonthAddDataType' => $baseDir . '/database/migrations/2017_10_12_100551_t_seller_tongji_for_month_add_data_type.php',
