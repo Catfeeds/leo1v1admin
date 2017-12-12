@@ -52,4 +52,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_dir" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["dir title", "dir", "th_dir" ]])!!}
 */
