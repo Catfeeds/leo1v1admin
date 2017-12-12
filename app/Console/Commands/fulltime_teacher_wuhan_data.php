@@ -80,14 +80,14 @@ class fulltime_teacher_wuhan_data extends Command
 
         $video_through_num_total  = $task->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_video_through($data_start,$end_time);//视频试讲通过人数
         $arrive_through_num_total = $task->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_through($data_start,$end_time);//面试通过人数
-        $arrive_through = $video_through_num_total + $arrive_through_num_total;
+        $arrive_through_total = $video_through_num_total + $arrive_through_num_total;
 
 
         $second_through_num_total  = $task->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_second_through($data_start,$end_time);
 
         if($arrive_through>0){
-            $second_through_per = round(100* $second_through_num_total/$arrive_through,2);
-            $second_through_per .= '%('. $second_through_num_total.'/'.$arrive_through.')';
+            $second_through_per = round(100* $second_through_num_total/$arrive_through_total,2);
+            $second_through_per .= '%('. $second_through_num_total.'/'.$arrive_through_total.')';
         }else{
             $second_through_per = '0%';
         }
