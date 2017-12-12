@@ -12,7 +12,41 @@ class test_sam  extends Controller
 {
     use CacheNick;
     use TeaPower;
+    public function add_teacher(){
+        $phone = 88888888100;
+        $time = 1451577600;
+        $grade = ['100','101','102','103','104','105','106','200','201','202','203','300','301','302','303'];
+        $identity = [0,5,6,7,8];
+        $arr = [];
+        for ($i=0; $i < 100; $i++) { 
+            # code...
+            $teacher_info = [
+                "phone" => $phone++,
+                "tea_nick"  => "test".$phone,
+                "realname"  => "test_realname".$phone,
+                "wx_use_flag" => 1,
+                "trial_lecture_is_pass" => 1,
+                "train_through_new" => 1,
+                "train_through_new_time" => $time+mt_rand(1,6000000),
+                "is_test_user"  => 0,
+                "teacher_money_type" =>  mt_rand(0,7),
+                "subject" => mt_rand(0,10),
+                "grade"   => $grade[mt_rand(0,14)],
+                "identity" => $identity[mt_rand(0,4)],
+                "is_test_user" => 0,
+                "send_sms_flag" => 0,
+                "grade_start" => mt_rand(0,3),
+                "grade_end" => mt_rand(4,6),
+               // "teacher_type" => 3,
 
+            ];
+            $ret_info = $this->add_teacher_common_test($teacher_info);
+            //$ret = $teacher_info->field_update_list($ret_info,[''])
+            //dd($ret_info);
+            $arr[] = $teacher_info;
+        }
+        dd($arr);
+    }
     public function table_1(){
         $ret_info = $this->t_order_refund->get_2017_11_refund_info();
         echo "<table >";

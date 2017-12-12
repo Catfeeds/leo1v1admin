@@ -1219,6 +1219,27 @@ class test_jack  extends Controller
 
     }
 
+    public function add_record2(){
+        $subject = $this->get_in_int_val("subject");
+        $grade = $this->get_in_int_val("grade");
+        $phone = $this->get_in_str_val("phone");
+        $name = $this->get_in_str_val("name");      
+     
+        $this->t_teacher_lecture_info->row_insert([
+            "phone"      => $phone,
+            "nick"           => $name,
+            "add_time" => time(),
+            "subject"    => $subject,
+            "grade"   => $grade,
+            "is_test_flag"=>1
+        ]);
+           
+        return  $this->output_succ();
+
+
+    }
+
+
 
 
 
