@@ -937,9 +937,28 @@ class test_jack  extends Controller
  
     }
 
+    public function ajax_deal_jack(){
+        $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
+        $week_start = $date_week["sdate"]-14*86400;
+        $week_end = $date_week["sdate"]+21*86400;
+        $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5);
+        $qz_tea_arr=[];
+        foreach($ret_info as $yy=>$item){
+            if($item["teacherid"] != 97313){
+                $qz_tea_arr[] =$item["teacherid"];
+            }else{
+                unset($ret_info[$yy]);
+            }
+        }
+        $normal_stu_num = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);
+
+    }
 
     public function get_reference_teacher_money_info(){
-        $list= $this->t_teacher_lecture_appointment_info->get_id_list_by_adminid(513,1);
+       
+
+
+        // $list= $this->t_teacher_lecture_appointment_info->get_id_list_by_adminid(513,1);
         // $i=0;
         // foreach($list as $item){
         //     if($i<2087){
@@ -953,7 +972,7 @@ class test_jack  extends Controller
         //     ]);
         //     $i++;
         // }
-        dd($list);
+        // dd($list);
         // $type= $this->get_in_int_val("type",2);
         // $ret = $this->t_cr_week_month_info->get_all_info_by_type_and_time($type);
         // foreach($ret as $val){
@@ -985,13 +1004,13 @@ class test_jack  extends Controller
         // dd($ret);
 
 
-        $start_time = strtotime("2017-01-01");
-        $end_time = strtotime("2017-12-01");
+        // $start_time = strtotime("2017-01-01");
+        // $end_time = strtotime("2017-12-01");
 
-        $list =  $this->t_teacher_info->get_all_train_throuth_teacher_list($start_time,$end_time);
-        foreach($list as &$item){
-            E\Eidentity::set_item_value_str($item);
-        }
+        // $list =  $this->t_teacher_info->get_all_train_throuth_teacher_list($start_time,$end_time);
+        // foreach($list as &$item){
+        //     E\Eidentity::set_item_value_str($item);
+        // }
 
         // $this->switch_tongji_database();
         // $start_time = time()-5*86400;
@@ -1028,7 +1047,7 @@ class test_jack  extends Controller
 
         // }
         return $this->pageView(__METHOD__,null,[
-            "list"  =>$list
+            "list"  =>null
         ]);
 
         // $first_month = strtotime("2016-01-01");
