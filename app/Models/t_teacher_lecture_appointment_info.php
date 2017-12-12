@@ -855,7 +855,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         });
     }
 
-    public function get_id_list_by_adminid($accept_adminid){
+    public function get_id_list_by_adminid($accept_adminid,$lecture_revisit_type=-1){
         $sql = $this->gen_sql_new("select id,answer_begin_time,accept_adminid from %s where accept_adminid=%u",
                                   self::DB_TABLE_NAME,
                                   $accept_adminid
