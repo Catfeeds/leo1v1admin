@@ -323,4 +323,15 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         return $this->main_get_list($sql);
         //select tl.recommended_teacherid,tl.add_time,tl.money,t.identity from t_teacher_money_list tl left join t_teacher_info t on tl.recommended_teacherid=t.teacherid  where tl.teacherid = 284393 and tl.recommended_teacherid >0 and tl.add_time > unix_timestamp('2017-11-1')
     }
+
+    public function get_teacher_warn_info($start_time, $end_time) {
+        //select teacherid from t_teacher_money_list t left join t_order_info o on t.lessonid=o.from_lessonid where price > 4000000
+        $sql = $this->gen_sql_new("select t.teacherid,t.lessonid from %s t "
+                                  ."left join %s o on t.lessonid=l.from_test_lesson_id "
+                                  ."where o.price > 4000000 ",
+                                  self::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
 }

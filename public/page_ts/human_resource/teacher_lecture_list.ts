@@ -1513,6 +1513,46 @@ $(function(){
         download_hide();
     }
 
+    $("#id_test_lesson_assign").on("click",function(){
+        var $phone = $("<input />");
+        var $name = $("<input />");
+        var $grade = $("<select />");
+        var $subject = $("<select />");
+        
+        Enum_map.append_option_list("grade",$grade,true);
+        Enum_map.append_option_list("subject",$subject,true);
+
+
+        var arr=[           
+            ["手机", $phone],        
+            ["名字", $name],        
+            ["科目", $subject],        
+            ["年级", $grade],        
+        ];
+        
+
+        $.show_key_value_table("新增", arr, {
+            label    : '提交',
+            cssClass : 'btn-primary',
+            action   : function(dialog) {
+
+                
+                $.do_ajax("/test_jack/add_record2", {
+                    "phone" : $phone.val(),
+                    "name" : $name.val(),
+                    "subject" : $subject.val(),
+                    "grade" : $grade.val(),
+                    
+                });
+
+                
+
+            }
+        });
+        
+    });
+
+
 
 
 	$('.opt-change').set_input_change_event(load_data);
