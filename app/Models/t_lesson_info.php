@@ -9774,4 +9774,94 @@ lesson_type in (0,1) "
             return $item['subject'];
         });
     }
+    //@desn:获取已试听成功为结点的漏斗数据
+    public function get_funnel_data( $field_name, $opt_date_str,$start_time,$end_time,$origin,$origin_ex,$seller_groupid_ex,$adminid_list=[],$tmk_adminid=-1){
+        if($field_name == 'grade')
+            $field_name="si.grade";
+        elseif($field_name == 'origin')
+            $field_name = 'si.origin';
+        elseif($field_name == 'subject')
+            $field_name = 'tls.subject';
+
+        $where_arr=[
+            ["si.origin like '%%%s%%' ",$origin,""],
+            'si.is_test_user = 0',
+            'li.lesson_type = 2',
+            'tlssl.success_flag in (0,1 )'
+        ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+        $this->where_arr_add__2_setid_field($where_arr,"ssn.tmk_adminid",$tmk_adminid);
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"si.origin");
+        $where_arr[]= $ret_in_str;
+        $this->where_arr_adminid_in_list($where_arr,"ssn.first_seller_adminid",$adminid_list);
+        $sql = $this->gen_sql_new(
+            "select $field_name as check_value,count(li.lessonid) succ_test_lesson_count,".
+            "count(distinct(li.userid)) distinct_succ_count,".
+            " sum(if((oi.contract_type = 0 and contract_status > 0 ),1,0)) order_count,".
+            " round(sum(if((oi.contract_type = 0 and contract_status > 0 ),oi.price,0))/100) order_all_money".
+            " from %s li ".
+            " left join %s oi on li.userid = oi.userid".
+            " left join %s si on li.userid = si.userid ".
+            " left join %s ssn on li.userid = ssn.userid ".
+            " left join %s tlssl on li.lessonid = tlssl.lessonid ".
+            " left join %s tls on li.userid = tls.userid ".
+            " where %s group by check_value",
+            self::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list_as_page($sql,function($item) {
+            return $item["check_value"];
+        });
+
+    }
+    //@desn:获取不重复订单数
+    public function get_distinct_order_info( $field_name, $opt_date_str,$start_time,$end_time,$origin,$origin_ex,$seller_groupid_ex,$adminid_list=[],$tmk_adminid=-1){
+        if($field_name == 'grade')
+            $field_name="si.grade";
+        elseif($field_name == 'origin')
+            $field_name = 'si.origin';
+        elseif($field_name == 'subject')
+            $field_name = 'tls.subject';
+
+
+        $where_arr=[
+            ["si.origin like '%%%s%%' ",$origin,""],
+            'si.is_test_user = 0',
+            'li.lesson_type = 2',
+            'tlssl.success_flag in (0,1 )',
+            'oi.contract_type = 0',
+            'oi.contract_status > 0',
+        ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+        $this->where_arr_add__2_setid_field($where_arr,"ssn.tmk_adminid",$tmk_adminid);
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"si.origin");
+        $where_arr[]= $ret_in_str;
+        $this->where_arr_adminid_in_list($where_arr,"ssn.first_seller_adminid",$adminid_list);
+        $sql = $this->gen_sql_new(
+            "select $field_name as check_value,count(distinct(oi.userid)) as user_count".
+            " from %s li ".
+            " left join %s oi on li.userid = oi.userid".
+            " left join %s si on li.userid = si.userid ".
+            " left join %s ssn on li.userid = ssn.userid ".
+            " left join %s tlssl on li.lessonid = tlssl.lessonid ".
+            " left join %s tls on li.userid = tls.userid ".
+            " where %s group by check_value",
+            self::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            $where_arr
+        );
+
+
+        return $this->main_get_list($sql);
+    }
+
 }

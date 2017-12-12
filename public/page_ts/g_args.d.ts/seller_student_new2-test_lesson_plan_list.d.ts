@@ -196,7 +196,6 @@ interface RowData {
 	limit_require_tea_nick	:any;
 	is_require_change	:any;
 	is_accept_adminid	:any;
-	accept_account	:any;
 	phone_ex	:any;
 }
 

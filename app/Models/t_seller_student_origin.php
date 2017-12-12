@@ -489,9 +489,59 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         });
     }
 
-
-
-
-
+    //@desn:获取渠道统计[new]
+    //@param:$field_name 搜索类型[渠道、年级 ...]
+    //@param:$start_time $end_time 开始结束时间
+    //@param:$adminid_list 
+    //@param:$tmk_adminid tmk检索用
+    //@param:$origin_ex 渠道key值检索用
+    //@param:$origin 渠道名称检索
+    public function get_origin_tongji_info_new( $field_name, $opt_date_str,$start_time,$end_time,$origin,$origin_ex,$seller_groupid_ex,$adminid_list=[],$tmk_adminid=-1){
+        switch ( $field_name ) {
+        case  "grade" :
+            $field_name="s.grade";
+            break;
+        default:
+            break;
+        }
+        $where_arr=[
+            ["origin like '%%%s%%' ",$origin,""],
+            'require_admin_type=2',
+        ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+        $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $this->where_arr_adminid_in_list($where_arr,"n.first_seller_adminid",$adminid_list);
+        $sql = $this->gen_sql_new(
+            "select $field_name as check_value ,count(*) all_count,sum(global_tq_called_flag <>0) tq_called_count,".
+            "sum(global_tq_called_flag=0 and seller_student_status =0  ) no_call_count,".
+            "sum(n.admin_revisiterid >0) assigned_count,sum( t.seller_student_status = 1) invalid_count,".
+            "sum(t.seller_student_status =2) no_connected_count,count(distinct(n.phone)) as heavy_count,".
+            "sum(t.seller_student_status =100 and  global_tq_called_flag =2 ) have_intention_a_count,".
+            "sum(t.seller_student_status =101 and  global_tq_called_flag =2) have_intention_b_count,".
+            "sum(t.seller_student_status =102 and  global_tq_called_flag =2)  have_intention_c_count,".
+            "sum( tmk_student_status=3 ) tmk_assigned_count ,sum(global_tq_called_flag =2) as called_num,".
+            "sum(global_tq_called_flag=0 ) tq_no_call_count,sum( global_tq_called_flag =1 ) tq_call_fail_count , ".
+            "sum( global_tq_called_flag =1 and  n.sys_invaild_flag =1 ) tq_call_fail_invalid_count , ".
+            "sum( global_tq_called_flag =2 and  n.sys_invaild_flag =1 ) tq_call_succ_invalid_count  ,".
+            "avg( if(add_time<first_call_time , first_call_time-add_time,null) ) avg_first_time, ".
+            "sum( global_tq_called_flag =2 and  n.sys_invaild_flag=0  ) tq_call_succ_valid_count,".
+            "format(sum(global_tq_called_flag =2)/count(*)*100,2) consumption_rate,".
+            "format(sum(global_tq_called_flag =2)/sum(global_tq_called_flag <>0)*100,2) called_rate,".
+            "format(sum(global_tq_called_flag =2 and n.sys_invaild_flag =1)/sum(global_tq_called_flag <>0)*100,2) effect_rate".
+            " from %s n ".
+            " left join %s s on s.userid = n.userid".
+            " left join %s t on t.userid= n.userid ".
+            " where %s group by  check_value ",
+            t_seller_student_new::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list_as_page($sql,function($item) {
+            return $item["check_value"];
+        });
+    }
 
 }

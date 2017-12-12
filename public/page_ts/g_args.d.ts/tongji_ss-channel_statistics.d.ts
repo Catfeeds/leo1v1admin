@@ -11,6 +11,7 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	is_show_pie_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -27,10 +28,12 @@ interface RowData {
 	assigned_count	:any;
 	invalid_count	:any;
 	no_connected_count	:any;
+	heavy_count	:any;
 	have_intention_a_count	:any;
 	have_intention_b_count	:any;
 	have_intention_c_count	:any;
 	tmk_assigned_count	:any;
+	called_num	:any;
 	tq_no_call_count	:any;
 	tq_call_fail_count	:any;
 	tq_call_fail_invalid_count	:any;
@@ -42,10 +45,15 @@ interface RowData {
 	distinct_succ_count	:any;
 	require_count	:any;
 	title	:any;
+	order_count	:any;
+	user_count	:any;
+	order_all_money	:any;
+	key0	:any;
 	key1	:any;
 	key2	:any;
 	key3	:any;
 	key4	:any;
+	key0_class	:any;
 	key1_class	:any;
 	key2_class	:any;
 	key3_class	:any;
@@ -76,7 +84,8 @@ function load_data(){
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val()
+		end_time:	$('#id_end_time').val(),
+		is_show_pie_flag:	$('#id_is_show_pie_flag').val()
     });
 }
 $(function(){
@@ -99,6 +108,7 @@ $(function(){
 	$('#id_groupid').val(g_args.groupid);
 	$('#id_tmk_adminid').val(g_args.tmk_adminid);
 	$('#id_check_field_id').val(g_args.check_field_id);
+	$('#id_is_show_pie_flag').val(g_args.is_show_pie_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -155,6 +165,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">check_field_id</span>
                 <input class="opt-change form-control" id="id_check_field_id" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">is_show_pie_flag</span>
+                <input class="opt-change form-control" id="id_is_show_pie_flag" />
             </div>
         </div>
 */

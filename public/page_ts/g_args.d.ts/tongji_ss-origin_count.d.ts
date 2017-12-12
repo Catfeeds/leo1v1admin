@@ -42,6 +42,9 @@ interface RowData {
 	distinct_succ_count	:any;
 	require_count	:any;
 	title	:any;
+	order_count	:any;
+	user_count	:any;
+	order_all_money	:any;
 	key1	:any;
 	key2	:any;
 	key3	:any;

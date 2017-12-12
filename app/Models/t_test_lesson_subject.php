@@ -1101,4 +1101,77 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
         return $this->main_get_row($sql);
     }
+    //@desn:获取统计中相关渠道例子明细
+    //@param:额外限制条件
+    public function tongji_test_example_origin_info( $origin='',$field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="",$check_value='', $page_info='',$cond=''){
+        \App\Helper\Utils::logger("serverip $field_name ");
+        switch ( $field_name ) {
+        case "origin" :
+            $field_name="si.origin";
+            break;
+
+        case "grade" :
+            $field_name="li.grade";
+            break;
+
+        case "subject" :
+            $field_name="li.subject";
+            break;
+        default:
+            break;
+        }
+
+        $where_arr=[
+            ["si.origin like '%%%s%%' ",$origin,''],
+            ["$field_name='%s'",$check_value,""],
+        ];
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"si.origin");
+        $where_arr[]= $ret_in_str;
+        $this->where_arr_adminid_in_list($where_arr,"tls.require_adminid",$adminid_list);
+        $this->where_arr_add_time_range($where_arr, 'ssn.add_time', $start_time, $end_time);
+        $this->where_arr_add__2_setid_field($where_arr,"ssn.tmk_adminid",$tmk_adminid);
+        if($cond == 'admin_revisiterid')//已分配销售
+            $where_arr[] = 'ssn.admin_revisiterid > 0';
+        elseif($cond == 'tmk')//TMK有效
+            $this->where_arr_add_int_field($where_arr, 'ssn.tmk_student_status', 3);
+        elseif($cond == 'tq_no_call')//未拨打
+            $this->where_arr_add_int_field($where_arr, 'ssn.global_tq_called_flag', 0);
+        elseif($cond == 'called')//已拨通
+            $this->where_arr_add_int_field($where_arr, 'ssn.global_tq_called_flag', 2);
+        $sql=$this->gen_sql_new(
+            "select pa.nickname,seller_resource_type ,first_call_time,first_contact_time,".
+            "first_revisit_time,last_revisit_time,tmk_assign_time,last_contact_time,".
+            "competition_call_adminid, competition_call_time,sys_invaild_flag,wx_invaild_flag,".
+            "return_publish_count, tmk_adminid, tls.test_lesson_subject_id ,seller_student_sub_status,".
+            "add_time,  global_tq_called_flag, seller_student_status,wx_invaild_flag,".
+            "si.userid,si.nick,si.origin,si.origin_level,ssn.phone_location,ssn.phone,ssn.userid,".
+            "ssn.sub_assign_adminid_2,ssn.admin_revisiterid,ssn.admin_assign_time,ssn.sub_assign_time_2,".
+            "si.origin_assistantid,si.origin_userid,tls.subject,si.grade,ssn.user_desc,".
+            "ssn.has_pad,tls.require_adminid,tmk_student_status,first_tmk_set_valid_admind,".
+            "first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,".
+            "first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,".
+            "first_admin_revisiterid_time,first_seller_status,cur_adminid_call_count call_count,".
+            "ssn.auto_allot_adminid ".
+            " from %s tls ".
+            " left join %s ssn on  ssn.userid = tls.userid ".
+            " left join %s si on ssn.userid=si.userid ".
+            " left join %s mi on  ssn.admin_revisiterid =mi.uid ".
+            " left join %s a on  a.userid =ssn.userid ".
+            " left join %s pa on  pa.id =a.parentid ".
+            " where  %s"
+            , self::DB_TABLE_NAME
+            , t_seller_student_new::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
+            , t_manager_info::DB_TABLE_NAME
+            , t_agent::DB_TABLE_NAME
+            , t_agent::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        if ($page_info) {
+            return $this->main_get_list_by_page($sql,$page_info);
+        } else {
+            return $this->main_get_list($sql);
+        }
+    }
 }
