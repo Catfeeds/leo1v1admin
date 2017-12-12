@@ -131,6 +131,9 @@ class index extends Controller
 
         if ( @$_SERVER["HTTP_HOST"] == "wx-teacher.leo1v1.com" ) {
             return $this->wx_teacher_index();
+        } else if(@$_SERVER["HTTP_HOST"] == "teacher.leo1v1.com"){
+            // return $this->teacher_index();
+            header("Location: /login/teacher");
         }
 
         $tq_token=$this->get_in_str_val("token");
