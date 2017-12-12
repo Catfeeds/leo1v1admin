@@ -966,7 +966,7 @@ class test_jack  extends Controller
                 @$data["four_num"]++;
             }elseif($lesson_count<=5){
                 @$data["five_num"]++;
-            }elseif($lesson_count<=2){
+            }elseif($lesson_count<=6){
                 @$data["six_num"]++;
             }else{
                 @$data["other_num"]++;
@@ -979,8 +979,8 @@ class test_jack  extends Controller
         $ret = $this->t_lesson_info_b3->get_teacher_lesson_info(-1,$start_time,$end_time,$qz_tea_arr);
         $stu_leave_num = $tea_leave_num=0;
         foreach($ret as $val){
-            @$data["stu_leave_num"] +=$val["stu_leave_num"];
-            @$data["tea_leave_num"] +=$val["leave_num"];
+            @$data["stu_leave_num"] +=$val["stu_leave_count"]/100;
+            @$data["tea_leave_num"] +=$val["tea_leave_count"]/100;
         }
         return $this->output_succ(["data"=>$data]);
         dd($list);
