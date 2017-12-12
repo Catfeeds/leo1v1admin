@@ -243,24 +243,36 @@ $(function(){
 		"select_value" : g_args.studentid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_studentid",
+<<<<<<< HEAD
+		"can_sellect_all_flag"     : true
+=======
 		"only_show_in_th_input"     : false,
 		"can_select_all_flag"     : true
+>>>>>>> a7ac4bbec61eb4f093f581e623678aa32bb89f16
 	});
 	$('#id_teacherid').admin_select_user_new({
 		"user_type"    : "teacher",
 		"select_value" : g_args.teacherid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_teacherid",
+<<<<<<< HEAD
+		"can_sellect_all_flag"     : true
+=======
 		"only_show_in_th_input"     : false,
 		"can_select_all_flag"     : true
+>>>>>>> a7ac4bbec61eb4f093f581e623678aa32bb89f16
 	});
 	$('#id_confirm_flag').admin_set_select_field({
 		"enum_type"    : "confirm_flag",
 		"select_value" : g_args.confirm_flag,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_confirm_flag",
+<<<<<<< HEAD
+		"btn_id_config"     : {}
+=======
 		"only_show_in_th_input"     : false,
 		"btn_id_config"     : {},
+>>>>>>> a7ac4bbec61eb4f093f581e623678aa32bb89f16
 	});
 	$('#id_seller_adminid').val(g_args.seller_adminid);
 	$('#id_lesson_status').val(g_args.lesson_status);
@@ -269,16 +281,24 @@ $(function(){
 		"select_value" : g_args.assistantid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_assistantid",
+<<<<<<< HEAD
+		"can_sellect_all_flag"     : true
+=======
 		"only_show_in_th_input"     : false,
 		"can_select_all_flag"     : true
+>>>>>>> a7ac4bbec61eb4f093f581e623678aa32bb89f16
 	});
 	$('#id_grade').admin_set_select_field({
 		"enum_type"    : "grade",
 		"select_value" : g_args.grade,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_grade",
+<<<<<<< HEAD
+		"btn_id_config"     : {}
+=======
 		"only_show_in_th_input"     : false,
 		"btn_id_config"     : {},
+>>>>>>> a7ac4bbec61eb4f093f581e623678aa32bb89f16
 	});
 	$('#id_test_seller_id').val(g_args.test_seller_id);
 	$('#id_test_seller_adminid').val(g_args.test_seller_adminid);
