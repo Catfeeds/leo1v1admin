@@ -32,23 +32,21 @@
             <tbody id="id_tbody">
                 @foreach ( $list as $k=>$var )
                     <tr>
-                        <td>{{@$var["teacherid"]}} </td>
-                        <td>{{@$var["realname"]}} </td>
-                        <td>{{@$var["identity_str"]}} </td>
-
-                        <td class="reg_num"> {{@$var["reg_num"]}} </td>
-                        <td class="late_num"> {{@$var["late_num"]}} </td>
-                        <td class="invalid_late_num"> {{@$var["invalid_late_num"]}} </td>
-                        <td class="all_change_num"> {{@$var["all_change_num"]}} </td>
-                        <td class="change_num"> {{@$var["change_num"]}} </td>
-                        <td class="stu_change_num"> {{@$var["stu_change_num"]}} </td>
-                        <td class="all_leave_num"> {{@$var["all_leave_num"]}} </td>
-                        <td class="leave_num"> {{@$var["leave_num"]}} </td>
-                        <td class="stu_leave_num"> {{@$var["stu_leave_num"]}} </td>
+                       
+                        <td class="all_num"> </td>
+                        <td class="one_num">  </td>
+                        <td class="two_num"> </td>
+                        <td class="three_num">  </td>
+                        <td class="four_num">  </td>
+                        <td class="five_num"> </td>
+                        <td class="six_num"></td>
+                        <td class="other_num">  </td>
+                        <td class="stu_leave_num"> </td>
+                        <td class="tea_leave_num">  </td>
                        
 
                         <td>
-                            <div class="row-data" data-teacherid="{{$var["teacherid"]}}" data-subject="{{$var["teacherid"]}}" >
+                            <div class="row-data"  >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>
                             </div>
 

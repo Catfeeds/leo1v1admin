@@ -950,7 +950,8 @@ class test_jack  extends Controller
                 unset($ret_info[$yy]);
             }
         }
-        $normal_stu_num = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);
+        $list = $this->t_lesson_info_b2->get_tea_stu_num_list_detail($qz_tea_arr,$week_start,$week_end);
+        dd($list);
 
     }
 
@@ -1046,8 +1047,9 @@ class test_jack  extends Controller
         //     E\Esubject::set_item_value_str($item,"subject");
 
         // }
+        $list=[];
         return $this->pageView(__METHOD__,null,[
-            "list"  =>null
+            "list"  =>$list
         ]);
 
         // $first_month = strtotime("2016-01-01");
