@@ -1449,6 +1449,10 @@ class ajax_deal2 extends Controller
             }else{
                 $value = '0%';
             }
+        }elseif($type=="leave_num"){
+            $leave_num = $this->t_manager_info->get_admin_leave_num($start_time,$end_time);
+        }elseif($type=="leave_per"){
+            
         }
 
         return $this->output_succ(["value"=>$value]);
