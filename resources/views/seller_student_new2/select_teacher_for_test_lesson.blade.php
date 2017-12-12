@@ -4,7 +4,7 @@
      select{width:200px;}
 
     </style>
-    <section class="content">
+    <section class="content" style="display:none">
         <div style="display:none">
             <div class="input-group ">
                 <span>需求id</span>
@@ -136,7 +136,7 @@
                                 查看详情
                             </a>
                         </td>
-                        <td>标签</td>
+                        <td>{{$var['teacher_tags']}}</td>
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}>
                                 <a class="opt-set-teacher btn fa" title="选中老师">选中老师</a>

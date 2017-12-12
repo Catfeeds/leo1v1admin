@@ -19,4 +19,7 @@ enum  enum_error {
   //手机验证码错误
   ERR_PHONE_CODE = 3005;
 
+  //未找到对应ＣＣ
+  ERR_CC_CODE = 3006;
+
 };
