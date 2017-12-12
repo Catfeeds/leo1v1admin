@@ -28,26 +28,33 @@ class t_web_page_trace_log extends \App\Models\Zgen\z_t_web_page_trace_log
         );
         return $this->main_get_list_by_page($sql,$page_info);
     }
-    public function get_web_page($web_page_id) {
+    //@param:$start_time,$end_time  检索时间
+    public function get_web_page($web_page_id,$start_time,$end_time) {
+        $where_arr = [
+            ['log.web_page_id=%u',$web_page_id],
+        ];
+        $this->where_arr_add_time_range($where_arr, 'log.log_time', $start_time, $end_time);
 
         $sql=$this->gen_sql_new(
-            "select log.from_adminid as adminid,sum(log.share_wx_flag) as share_count,count(log.id) as count,count(distinct log.ip) as ip_count,
-             user.groupid,gro.main_type, gro.group_name as group_name,gro.up_groupid,gup.group_name as up_group_name
-             from %s log 
-             left join %s user on log.from_adminid = user.adminid
-             left join %s gro on user.groupid = gro.groupid
-             left join %s gup on gro.up_groupid = gup.groupid
-             where log.web_page_id=%u group by log.from_adminid order by gro.main_type desc,gup.groupid asc,gro.groupid asc,log.from_adminid asc ",
+            "select log.from_adminid as adminid,sum(log.share_wx_flag) as share_count,".
+            "count(log.id) as count,count(distinct log.ip) as ip_count,".
+            "user.groupid,gro.main_type, gro.group_name as group_name,gro.up_groupid,gup.group_name as up_group_name ".
+            "from %s log ".
+            "left join %s user on log.from_adminid = user.adminid ".
+            "left join %s gro on user.groupid = gro.groupid ".
+            "left join %s gup on gro.up_groupid = gup.groupid ".
+            "where %s ".
+            "group by log.from_adminid ".
+            "order by gro.main_type desc,gup.groupid asc,gro.groupid asc,log.from_adminid asc ",
             self::DB_TABLE_NAME,
             t_admin_group_user::DB_TABLE_NAME,
             t_admin_group_name::DB_TABLE_NAME,
             t_admin_main_group_name::DB_TABLE_NAME,
-            $web_page_id
+            $where_arr
         );
 
         return $this->main_get_list_as_page($sql);
     }
-        
 }
 
 

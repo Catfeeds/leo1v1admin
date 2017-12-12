@@ -1124,7 +1124,8 @@ class test_james extends Controller
 
     public function wx_news(){ // 使用客服接口发送消息
 
-        $filename = "http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E6%95%99%E8%82%B2%E5%9C%A8%E7%BA%BF-%E5%8E%9F%E5%9B%BE/%E6%B4%BB%E5%8A%A8/699592341.jpg";
+        // $filename = "http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E6%95%99%E8%82%B2%E5%9C%A8%E7%BA%BF-%E5%8E%9F%E5%9B%BE/%E6%B4%BB%E5%8A%A8/699592341.jpg";
+        $filename = "/home/ybai/tu.jpg";
         $type = "image";
 
         $Media_id = Media::upload($filename, $type);
@@ -1155,13 +1156,13 @@ class test_james extends Controller
         // ];
 
 
-        echo $Media_id;
+        // dd($Media_id);
         // 使用客服接口发送消息
         $txt_arr = [
-            'touser'   => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',// james
+            'touser'   => 'orwGAs0ayobuEtO1YZZhW3Yed2To',// james
             'msgtype'  => 'image',
             "image"=>[
-                "media_id"=>$Media_id
+                "media_id"=>$Media_id['media_id']
             ]
         ];
 
