@@ -3991,120 +3991,182 @@ function init_edit() {
                         if(html_node.find("#id_stu_nick_new_two").val() == ''){
                             html_node.find("#id_stu_nick_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_stu_nick_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_stu_gender_new_two").val() == 0){
                             html_node.find("#id_stu_gender_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_stu_gender_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_par_nick_new_two").val() == 0){
                             html_node.find("#id_par_nick_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_par_nick_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_par_type_new_two").val() == 0){
                             html_node.find("#id_par_type_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_par_type_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_stu_grade_new_two").val() <= 0){
                             html_node.find("#id_stu_grade_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_stu_grade_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_stu_subject_new_two").val() <= 0){
                             html_node.find("#id_stu_subject_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_stu_subject_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_stu_editionid_new_two").val() <= 0){
                             html_node.find("#id_stu_editionid_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_stu_editionid_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_stu_has_pad_new_two").val() <= 0){
                             html_node.find("#id_stu_has_pad_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_stu_has_pad_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_stu_school_new_two").val() <= 0){
                             html_node.find("#id_stu_school_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_stu_school_new_two").parent().attr('style','');
                         }
                         if(data.region == ''){
                             html_node.find("#province_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#province_new_two").parent().attr('style','');
                         }
                         if(data.city == ''){
                             html_node.find("#city_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#city_new_two").parent().attr('style','');
                         }
                         if(data.area == ''){
                             html_node.find("#area_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#area_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_stu_addr_new_two").val() <= 0){
                             html_node.find("#id_stu_addr_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_stu_addr_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_class_rank_new_two").val() == '' || html_node.find("#id_class_num_new_two").val() == ''){
                             html_node.find("#id_class_rank_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_class_rank_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_main_subject_new_two").val() == '' || html_node.find("#id_main_subject_score_one_new_two").val() == '' || html_node.find("#id_main_subject_score_two_new_two").val() == ''){
                             html_node.find("#id_main_subject_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_main_subject_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_test_stress_new_two").val() <= 0){
                             html_node.find("#id_test_stress_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_test_stress_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_academic_goal_new_two").val() <= 0){
                             html_node.find("#id_academic_goal_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_academic_goal_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_cultivation_new_two").val() == ''){
                             html_node.find("#id_cultivation_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_cultivation_new_two").parent().attr('style','');
                         }
                         if(add_tag == ''){
                             html_node.find("#id_add_tag_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_add_tag_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_stu_request_test_lesson_demand_new_two").val() == ''){
                             html_node.find("#id_stu_request_test_lesson_demand_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_stu_request_test_lesson_demand_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_stu_request_test_lesson_time_new_two").val() == ''){
                             html_node.find("#id_stu_request_test_lesson_time_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_stu_request_test_lesson_time_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_teacher_nature_new_two").val() == ''){
                             html_node.find("#id_teacher_nature_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_teacher_nature_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_pro_ability_new_two").val() == ''){
                             html_node.find("#id_pro_ability_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_pro_ability_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_tea_status_new_two").val() == ''){
                             html_node.find("#id_tea_status_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_tea_status_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_tea_age_new_two").val() == ''){
                             html_node.find("#id_tea_age_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_tea_age_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_tea_gender_new_two").val() == ''){
                             html_node.find("#id_tea_gender_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
-                        }if(html_node.find("#id_class_env_new_two").val() == ''){
+                        }else{
+                            html_node.find("#id_tea_gender_new_two").parent().attr('style','');
+                        }
+                        if(html_node.find("#id_class_env_new_two").val() == ''){
                             html_node.find("#id_class_env_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
-                        }if(html_node.find("#id_courseware_new_two").val() == ''){
+                        }else{
+                            html_node.find("#id_class_env_new_two").parent().attr('style','');
+                        }
+                        if(html_node.find("#id_courseware_new_two").val() == ''){
                             html_node.find("#id_courseware_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_courseware_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_quotation_reaction_new_two").val() <= 0){
                             html_node.find("#id_quotation_reaction_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_quotation_reaction_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_intention_level_new_two").val() <= 0){
                             html_node.find("#id_intention_level_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
+                        }else{
+                            html_node.find("#id_intention_level_new_two").parent().attr('style','');
                         }
                         if((id_stu_request_test_lesson_time.val() != '' && id_stu_request_test_lesson_time.val() != '无') && (id_stu_request_test_lesson_time_end.val() != '' && id_stu_request_test_lesson_time_end.val() != '无')){
                             var min_time = Date.parse(new Date(id_stu_request_test_lesson_time.val()));
