@@ -70,10 +70,10 @@ class fulltime_teacher_wuhan_data extends Command
         $video_through_num_total  = $task->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_video_through($data_start,$end_time);//视频试讲通过人数
         $arrive_through_num_total = $task->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_through($data_start,$end_time);//面试通过人数
         $arrive_total = $arrive_num_total +  $video_num_total;
-        $arrive_through = $video_through_num_total + $arrive_through_num_total;
+        $arrive_through_total = $video_through_num_total + $arrive_through_num_total;
         if($arrive_total>0){
-            $arrive_through_per = round(100*$arrive_through/$arrive_total,2);
-            $arrive_through_per .= '%('.$arrive_through.'/'.$arrive_total.')';
+            $arrive_through_per = round(100*$arrive_through_total/$arrive_total,2);
+            $arrive_through_per .= '%('.$arrive_through_total.'/'.$arrive_total.')';
         }else{
             $arrive_through_per = '0%';
         }
@@ -103,12 +103,12 @@ class fulltime_teacher_wuhan_data extends Command
         $leave_num = $task->t_manager_info->get_admin_leave_num($start_time,$end_time);
         $leave_num_all = $task->t_manager_info->get_admin_leave_num($data_start,$end_time);
         $enter_num_all = $task->t_teacher_lecture_appointment_info->get_fulltime_teacher_enter($data_start,$end_time);
-        $leave_per = $enter_num>0?round($leave_num_all/$enter_num_all*100,2):0;           
+        $leave_per = $enter_num_all>0?round($leave_num_all/$enter_num_all*100,2):0;           
         $leave_per .= "%";
 
         $arr=[349,1043,72,480,747];
         foreach($arr as $v){
-            $task->t_manager_info->send_wx_todo_msg_by_adminid ($v,"武汉全职老师面试数据","武汉全职老师面试数据","成功注册人数:".$apply_num.",一面到面人数:".$arrive_total.",一面通过人数:".$arrive_through.",二面通过人数:".$second_through.",入职人数:".$enter_num.",离职人数:".$leave_num.",一面到面率:".$arrive_num_per.",一面通过率:".$arrive_through_per.",录用率:".$second_through_per.",入职率:".$enter_num_per.",离职率:".$leave_per,"");
+            $task->t_manager_info->send_wx_todo_msg_by_adminid ($v,"武汉全职老师面试数据","武汉全职老师面试数据","成功注册人数:".$apply_num.",一面到面人数:".$arrive_num.",一面通过人数:".$arrive_through.",二面通过人数:".$second_through.",入职人数:".$enter_num.",离职人数:".$leave_num.",一面到面率:".$arrive_num_per.",一面通过率:".$arrive_through_per.",录用率:".$second_through_per.",入职率:".$enter_num_per.",离职率:".$leave_per,"");
  
         }
        
