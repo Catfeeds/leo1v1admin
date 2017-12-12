@@ -476,9 +476,7 @@ $(function(){
 						    var c = event || window.event;
 						    if (/webkit/.test(navigator.userAgent.toLowerCase())) {
 							      return "刷新页面将导致正在上传的上传数据丢失！";
-						    }
-						    else
-						    {
+						    } else {
 							      c.returnValue = "刷新页面将导致正在上传的上传数据丢失！";
 						    }
 					  }
