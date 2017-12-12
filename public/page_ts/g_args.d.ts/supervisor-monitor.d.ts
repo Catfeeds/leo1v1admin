@@ -56,8 +56,9 @@ tofile:
 /// <reference path="../g_args.d.ts/supervisor-monitor.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		date:	$('#id_date').val(),
 		st_application_nick:	$('#id_st_application_nick').val(),
 		require_adminid:	$('#id_require_adminid').val(),
@@ -70,7 +71,7 @@ function load_data(){
 		group_type:	$('#id_group_type').val(),
 		self_groupid:	$('#id_self_groupid').val(),
 		is_group_leader_flag:	$('#id_is_group_leader_flag').val()
-    });
+		});
 }
 $(function(){
 
@@ -80,10 +81,31 @@ $(function(){
 	$('#id_require_adminid').val(g_args.require_adminid);
 	$('#id_test_seller_id').val(g_args.test_seller_id);
 	$('#id_seller_flag').val(g_args.seller_flag);
-	$('#id_userid').val(g_args.userid);
-	$('#id_teacherid').val(g_args.teacherid);
+	$('#id_userid').admin_select_user_new({
+		"user_type"    : "student",
+		"select_value" : g_args.userid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_userid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
+	$('#id_teacherid').admin_select_user_new({
+		"user_type"    : "teacher",
+		"select_value" : g_args.teacherid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_teacherid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_run_flag').val(g_args.run_flag);
-	$('#id_assistantid').val(g_args.assistantid);
+	$('#id_assistantid').admin_select_user_new({
+		"user_type"    : "assistant",
+		"select_value" : g_args.assistantid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_assistantid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_group_type').val(g_args.group_type);
 	$('#id_self_groupid').val(g_args.self_groupid);
 	$('#id_is_group_leader_flag').val(g_args.is_group_leader_flag);

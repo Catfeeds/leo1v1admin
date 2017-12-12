@@ -1,4 +1,4 @@
-@extends('layouts.app_new2')
+@extends('layouts.app')
 @section('content')
     <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
     <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
@@ -176,10 +176,10 @@
                 <tr>
                     <td class="remove-for-xs">id</td>
                     <td style="min-width:50px">类型</td>
-                    <td style="min-width:75px">上课时段</td>
+                    {!!\App\Helper\Utils::th_order_gen([["上课时段", "lesson_start", "th_date_range" ]])!!}
                     <td style="display:none;">上课结束时间</td>
                     <td style="display:none;">上课实际开始时间</td>
-                    <td style="display:none;" >年级</td>
+                    {!!\App\Helper\Utils::th_order_gen([["年级", "grade", "th_grade" ]])!!}
                     <td style="display:none;" >科目</td>
                     <td style="display:none;" >知识点</td>
                     <td style="display:none;">老师</td>

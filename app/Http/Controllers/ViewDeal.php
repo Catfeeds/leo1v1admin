@@ -95,6 +95,8 @@ trait  ViewDeal {
 
             }
 
+            $enum_select_html_str.= "{!!\App\Helper\Utils::th_order_gen([[\"$key title\", \"$key\", \"th_$key\" ]])!!}\n";
+
 
             if ( !in_array( $key ,["page_num","page_count"]) ) {
                 $reload_filed_str.=  "\t\t$key:\t\$('#id_$key').val(),\n";

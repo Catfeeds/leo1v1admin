@@ -9554,7 +9554,8 @@ lesson_type in (0,1) "
             ['lesson_start>%u',$start_time,-1],
             ['lesson_start<%u',$end_time,-1],
             "lesson_type IN (0, 1, 3) ",
-            "(s.is_test_user = 0 or s.is_test_user is null)"
+            "(s.is_test_user = 0 or s.is_test_user is null)",
+            "l.lesson_del_flag=0"
         ];
         $sql = $this->gen_sql_new("select  count(courseid) as total_plan, "
                                   ."sum(if( lesson_user_online_status = 1,1 ,0))as student_arrive ".

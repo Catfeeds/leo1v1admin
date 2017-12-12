@@ -259,19 +259,18 @@ class resource extends Controller
             if($num < 3){
                 E\Egrade::set_item_field_list($item, [$select]);
             } else {
-                if($arr[0] <6 || $arr[0] ==9){
+                if($arr[0] <6 || $arr[0] ==9 || ($arr[0]==6 && $num=3) ){
                     $menu = $this->tag_arr[ $arr[0] ][ $select ]['menu'];
                     $item[$menu] = $item[$select];
                     E\Egrade::set_item_field_list($item, [$menu]);
                 }
-
                 //只有resource_type=3的时候才会有num=6
                 if($num==6) {
                     $sub_grade = $this->get_sub_grade_tag($arr[1], $arr[2]);
                     $item['tag_four_str'] = @$sub_grade[$item['tag_four']];
-
                 }
             }
+
         }
         if($menu != ''){
             $select = $menu;
