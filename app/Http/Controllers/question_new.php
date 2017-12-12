@@ -55,7 +55,7 @@ class question_new extends Controller
     public function question_edit(){
         $question_id   = $this->get_in_int_val('question_id');
         $ret_list = [];
-        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712061567"]);
+        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712121027"]);
         // $subject   = $this->get_in_int_val('subject',-1);
         // $score   = $this->get_in_int_val('score',0);
         // $title   = $this->get_in_str_val('title','');

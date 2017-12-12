@@ -85,9 +85,84 @@ var Cquestion_editor = {
         mathjax_content = mathjax_content.replace(/\n/g, '<br/>');
         mathjax_content = mathjax_content.replace(/[ ]/g, '&nbsp');
         MathPreview.html(mathjax_content);
-        //MathJax.Hub.Queue(["Typeset",MathJax.Hub,mathId]);
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub,mathId]);
     },
     push_buffer:function(mathId){
         MathJax.Hub.Queue(["Typeset",MathJax.Hub,mathId]);
-    }
+    },
+    custom_upload:function(btn_id, containerid, domain, id_mathjax_content,MathPreview,mathId){
+        var uploader = Qiniu.uploader({
+		            runtimes: 'html5, flash, html4',
+		            browse_button: btn_id , //choose files id
+		            uptoken_url: '/upload/pub_token',
+		            domain: domain,
+		            container: containerid,
+		            drop_element: containerid,
+		            max_file_size: '30mb',
+		            dragdrop: true,
+		            flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
+		            chunk_size: '4mb',
+		            unique_names: false,
+		            save_key: false,
+		            auto_start: true,
+		            init: {
+			              'FilesAdded': function(up, files) {
+                        /*
+				                  plupload.each(files, function(file) {
+                          var progress = new FileProgress(file, 'process_info');
+                          console.log('waiting...');
+                          });
+                        */
+			              },
+			              'BeforeUpload': function(up, file) {
+                        /*
+				                  console.log('before uplaod the file');
+				                  if (!check_type(file.type)) {
+					                BootstrapDialog.alert('上传图片前');
+					                return;
+                          }
+                        */
+
+			              },
+			              'UploadProgress': function(up,file) {
+                        /*
+				                  var progress = new FileProgress(file, 'process_info');
+                          progress.setProgress(file.percent + "%", up.total.bytesPerSec, btn_id);
+				                  console.log('upload progress');
+                        */
+			              },
+			              'UploadComplete': function() {
+				                console.log('success');
+			              },
+			              'FileUploaded' : function(up, file, info) {
+				                console.log('Things below are from FileUploaded');
+                        var res = $.parseJSON(info);
+                        var pic_str="\n![]("+  domain+res.key+")\n";
+
+                        var mathjax_content = mathjax_content.replace(/\n/g, '<br/>');
+                        mathjax_content = mathjax_content.replace(/[ ]/g, '&nbsp');
+                        mathjax_content = id_mathjax_content.val() + pic_str;
+                        MathPreview.html(mathjax_content);
+                        MathJax.Hub.Queue(["Typeset",MathJax.Hub,mathId]);
+
+			              },
+			              'Error': function(up, err, errTip) {
+				                console.log('Things below are from Error');
+				                console.log(up);
+				                console.log(err);
+			              },
+			              'Key': function(up, file) {
+                        console.log("Key start");
+                        console.log(file);
+                        var suffix = file.type.split('/').pop();
+                        console.log(suffix);
+                        console.log("Key end");
+				                var key = "";
+                        var time = (new Date()).valueOf();
+				                return $.md5(file.name) +time+ "." + suffix;
+			              }
+		            }
+	      });
+    },
+
 }
