@@ -22,9 +22,11 @@ class CreateTTeacherWarn extends Migration
             t_field($table->integer("absent_num"), "旷课次数");
             t_field($table->integer("adjust_num"), "调课次数");
             t_field($table->integer("ask_leave_num"), "请假次数");
-            t_field($table->integer("big_order_num"), "大单数");
-            t_field($table->integer("add_time"), "添加时间(同lesson_start)");
-            $table->unique(['teacherid','add_time']);
+            t_field($table->integer("big_order_num"), "4W大单数");
+            t_field($table->integer("lessonid"), "课程id");
+            t_field($table->integer("lesson_start"), "课程开始时间");
+            t_field($table->integer("add_time"), "添加时间");
+            $table->unique(['teacherid','lesson_start']);
         });
     }
 
