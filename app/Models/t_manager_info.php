@@ -2335,7 +2335,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             ['leave_member_time<%u', $end_time, 0],
         ];
         $sql = $this->gen_sql_new("select count(*) from %s where %s",self::DB_TABLE_NAME,$where_arr);
-        return $this->main_get_row($sql);
+        return $this->main_get_value($sql);
  
     }
 }
