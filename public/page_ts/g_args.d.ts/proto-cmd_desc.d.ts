@@ -53,6 +53,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_project" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["project title", "project", "th_project" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -60,4 +61,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_cmdid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["cmdid title", "cmdid", "th_cmdid" ]])!!}
 */

@@ -13,6 +13,24 @@ use Illuminate\Support\Facades\Mail ;
 use App\Jobs\send_wx_notic_for_software;
 use  App\Jobs\send_wx_notic_to_tea;
 
+use LaneWeChat\Core\Media;
+
+use LaneWeChat\Core\AccessToken;
+
+use LaneWeChat\Core\ResponsePassive;
+
+use Illuminate\Http\Request;
+
+use LaneWeChat\Core\WeChatOAuth;
+
+use LaneWeChat\Core\UserManage;
+
+use LaneWeChat\Core\TemplateMessage;
+
+
+include(app_path("Libs/LaneWeChat/lanewechat.php"));
+
+
 
 require_once app_path('/Libs/TCPDF/tcpdf.php');
 require_once app_path('/Libs/TCPDF/config/tcpdf_config.php');
@@ -1095,18 +1113,33 @@ class test_james extends Controller
 
 
 
+    // {
+    //     "touser":"OPENID",
+    //         "msgtype":"image",
+    //         "image":
+    //     {
+    //         "media_id":"MEDIA_ID"
+    //             }
+    // }
+
     public function wx_news(){ // 使用客服接口发送消息
+
+        // $filename = "http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E6%95%99%E8%82%B2%E5%9C%A8%E7%BA%BF-%E5%8E%9F%E5%9B%BE/%E6%B4%BB%E5%8A%A8/699592341.jpg";
+        $filename = "/home/ybai/tu.jpg";
+        $type = "image";
+
+        $Media_id = Media::upload($filename, $type);
         //使用客服接口发送消息
         // $txt_arr = [
-        //     'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
+        //     'touser'   => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',// james
         //     'msgtype'  => 'news',
         //     "news"=>[
         //         "articles"=> [
         //             [
-        //                 "title"=>"TEST MSG",
-        //                 "description"=>"Is Really A Happy Day",
-        //                 "url"=>"https://mmbiz.qlogo.cn/mmbiz_jpg/cBWf565lml4NcGMWTiaeuDmWsUQpXz8TPJzfbsoUENe9dKqPKDXPZa7ITPCKvQiaVzmAvLBKPYmrhKNg2AkwwkVQ/0?wx_fmt=jpeg",
-        //                 "picurl"=>"http://admin.leo1v1.com/article_wx/leo_teacher_new_teacher_deal_question"
+        //                 "title"=>"“呼朋唤友”活动来袭！邀请好友来上课，万元大礼等你拿！",
+        //                 "description"=>"TEST",
+        //                 "url"=>"",
+        //                 "picurl"=>"http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E6%95%99%E8%82%B2%E5%9C%A8%E7%BA%BF-%E5%8E%9F%E5%9B%BE/%E6%B4%BB%E5%8A%A8/699592341.jpg"
         //             ]
         //         ]
         //     ]
@@ -1114,17 +1147,30 @@ class test_james extends Controller
 
 
         //使用客服接口发送消息
+        // $txt_arr = [
+        //     'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
+        //     'msgtype'  => 'text',
+        //     "text"=>[
+        //         "content"=>"Hello World <a  onclick='alert('你已经点击了我！');' >百度</a>"
+        //     ]
+        // ];
+
+
+        // echo $Media_id;
+        // dd($Media_id);
+        // 使用客服接口发送消息
         $txt_arr = [
-            'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
-            'msgtype'  => 'text',
-            "text"=>[
-                "content"=>"Hello World <a  onclick='alert('你已经点击了我！');' >百度</a>"
+            'touser'   => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',// james
+            'msgtype'  => 'image',
+            "image"=>[
+                "media_id"=>$Media_id['media_id']
             ]
         ];
 
 
-        $appid_tec     = config('admin')['teacher_wx']['appid'];
-        $appsecret_tec = config('admin')['teacher_wx']['appsecret'];
+
+        $appid_tec     = config('admin')['wx']['appid'];
+        $appsecret_tec = config('admin')['wx']['appsecret'];
 
         $wx = new \App\Helper\Wx() ;
         $token = $wx->get_wx_token($appid_tec,$appsecret_tec);

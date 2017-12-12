@@ -939,35 +939,50 @@ class test_jack  extends Controller
 
 
     public function get_reference_teacher_money_info(){
-        $type= $this->get_in_int_val("type",2);
-        $ret = $this->t_cr_week_month_info->get_all_info_by_type_and_time($type);
-        foreach($ret as $val){
-            $end_time = $val["create_time"];
-            if($type==1){
-                $start_time = strtotime("-1 months",$end_time);
-            }elseif($type==2){
-                $start_time = $end_time-7*86400;
-            }
+        $list= $this->t_teacher_lecture_appointment_info->get_id_list_by_adminid(513,1);
+        // $i=0;
+        // foreach($list as $item){
+        //     if($i<2087){
+        //         $tt = 955;
+        //     }else{
+        //         $tt =1000;
+        //     }
+        //     $this->t_teacher_lecture_appointment_info->field_update_list($item["id"],[
+        //         "accept_adminid" =>$tt,
+        //         "accept_time"  =>1513051920
+        //     ]);
+        //     $i++;
+        // }
+        dd($list);
+        // $type= $this->get_in_int_val("type",2);
+        // $ret = $this->t_cr_week_month_info->get_all_info_by_type_and_time($type);
+        // foreach($ret as $val){
+        //     $end_time = $val["create_time"];
+        //     if($type==1){
+        //         $start_time = strtotime("-1 months",$end_time);
+        //     }elseif($type==2){
+        //         $start_time = $end_time-7*86400;
+        //     }
 
-            $lesson_plan    = $this->t_lesson_info->get_total_lesson($start_time,$end_time); //实际有效课时/排课量         
-            $arr=[];
-            $arr['lesson_plan']    = $lesson_plan['total_plan']; //计划排课数量
-            $arr['student_arrive'] = $lesson_plan['student_arrive']; //学生有效课程数量 
-            if($arr['lesson_plan']){
-                $arr['student_arrive_per'] = round(100*$arr['student_arrive']/$arr['lesson_plan'],2); //B10-学生到课率
-            }else{
-                $arr['student_arrive_per'] = 0;
-            }       
-            $insert_data = [          
-                "student_arrive"          => $arr['student_arrive'],   //学生到课数量
-                "lesson_plan"             => $arr['lesson_plan'],      //排课数量
-                "student_arrive_per"      => intval($arr['student_arrive_per']*100),//B10-学生到课率         
-            ];
-            $this->t_cr_week_month_info->field_update_list($val["id"],$insert_data);
+        //     $lesson_plan    = $this->t_lesson_info->get_total_lesson($start_time,$end_time); //实际有效课时/排课量         
+        //     $arr=[];
+        //     $arr['lesson_plan']    = $lesson_plan['total_plan']; //计划排课数量
+        //     $arr['student_arrive'] = $lesson_plan['student_arrive']; //学生有效课程数量 
+        //     if($arr['lesson_plan']){
+        //         $arr['student_arrive_per'] = round(100*$arr['student_arrive']/$arr['lesson_plan'],2); //B10-学生到课率
+        //     }else{
+        //         $arr['student_arrive_per'] = 0;
+        //     }       
+        //     $insert_data = [          
+        //         "student_arrive"          => $arr['student_arrive'],   //学生到课数量
+        //         "lesson_plan"             => $arr['lesson_plan'],      //排课数量
+        //         "student_arrive_per"      => intval($arr['student_arrive_per']*100),//B10-学生到课率         
+        //     ];
+        //     $this->t_cr_week_month_info->field_update_list($val["id"],$insert_data);
 
 
-        }
-        dd($ret);
+        // }
+        // dd($ret);
 
 
         $start_time = strtotime("2017-01-01");

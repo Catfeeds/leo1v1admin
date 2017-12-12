@@ -725,6 +725,7 @@ return array(
     'TTeachingCoreDataAddTTeachingCoreData' => $baseDir . '/database/migrations/2017_12_01_170410_t_teaching_core_data_add_t_teaching_core_data.php',
     'TTestLessonSubjectAddLearningSituation' => $baseDir . '/database/migrations/2017_10_10_135556_t_test_lesson_subject_add_learning_situation.php',
     'TTestLessonSubjectAddRebutInfo' => $baseDir . '/database/migrations/2017_11_11_170905_t_test_lesson_subject_add_rebut_info.php',
+    'TTestLessonSubjectAddStuRequestTestLessonTimeEnd' => $baseDir . '/database/migrations/2017_12_12_155113_t_test_lesson_subject_add_stu_request_test_lesson_time_end.php',
     'TTestLessonSubjectAddTeaAgeTeaSex' => $baseDir . '/database/migrations/2017_12_09_113941_t_test_lesson_subject_add_tea_age_tea_sex.php',
     'TTestLessonSubjectAddTeaIdentity' => $baseDir . '/database/migrations/2017_12_09_112054_t_test_lesson_subject_add_tea_identity.php',
     'TTestLessonSubjectDropSubjectTag' => $baseDir . '/database/migrations/2017_12_12_095952_t_test_lesson_subject_drop_subject_tag.php',
