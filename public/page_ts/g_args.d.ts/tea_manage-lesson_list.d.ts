@@ -15,13 +15,13 @@ interface GargsStatic {
 	test_seller_adminid:	number;
 	has_performance:	number;
 	fulltime_flag:	number;
-	lesson_user_online_status:	number;//\App\Enums\Eset_boolean
+	lesson_user_online_status:	number;//枚举: \App\Enums\Eset_boolean
 	lesson_type:	number;
 	subject:	number;
 	lesson_count:	number;
 	lesson_cancel_reason_type:	number;
 	lesson_del_flag:	number;
-	has_video_flag:	number;//\App\Enums\Eboolean
+	has_video_flag:	number;//枚举: \App\Enums\Eboolean
 	is_with_test_user:	number;
 	seller_flag:	number;
 	lessonid:	number;
@@ -141,6 +141,7 @@ interface RowData {
 	number	:any;
 	performance_status	:any;
 	performance	:any;
+	tea_has_update	:any;
 	new_test_listen	:any;
 	lesson_time	:any;
 	lesson_cancel_reason_type_str	:any;
@@ -226,8 +227,6 @@ function load_data(){
 }
 $(function(){
 
-	Enum_map.append_option_list("set_boolean",$("#id_lesson_user_online_status"));
-	Enum_map.append_option_list("boolean",$("#id_has_video_flag"));
 
 	$('#id_date_range').select_date_range({
 		'date_type' : g_args.date_type,
@@ -243,36 +242,26 @@ $(function(){
 		"select_value" : g_args.studentid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_studentid",
-<<<<<<< HEAD
-		"can_sellect_all_flag"     : true
-=======
 		"only_show_in_th_input"     : false,
 		"can_select_all_flag"     : true
->>>>>>> a7ac4bbec61eb4f093f581e623678aa32bb89f16
 	});
 	$('#id_teacherid').admin_select_user_new({
 		"user_type"    : "teacher",
 		"select_value" : g_args.teacherid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_teacherid",
-<<<<<<< HEAD
-		"can_sellect_all_flag"     : true
-=======
 		"only_show_in_th_input"     : false,
 		"can_select_all_flag"     : true
->>>>>>> a7ac4bbec61eb4f093f581e623678aa32bb89f16
 	});
 	$('#id_confirm_flag').admin_set_select_field({
 		"enum_type"    : "confirm_flag",
+		"field_name" : "confirm_flag",
 		"select_value" : g_args.confirm_flag,
+		"multi_select_flag"     : true,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_confirm_flag",
-<<<<<<< HEAD
-		"btn_id_config"     : {}
-=======
 		"only_show_in_th_input"     : false,
 		"btn_id_config"     : {},
->>>>>>> a7ac4bbec61eb4f093f581e623678aa32bb89f16
 	});
 	$('#id_seller_adminid').val(g_args.seller_adminid);
 	$('#id_lesson_status').val(g_args.lesson_status);
@@ -281,36 +270,48 @@ $(function(){
 		"select_value" : g_args.assistantid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_assistantid",
-<<<<<<< HEAD
-		"can_sellect_all_flag"     : true
-=======
 		"only_show_in_th_input"     : false,
 		"can_select_all_flag"     : true
->>>>>>> a7ac4bbec61eb4f093f581e623678aa32bb89f16
 	});
 	$('#id_grade').admin_set_select_field({
 		"enum_type"    : "grade",
+		"field_name" : "grade",
 		"select_value" : g_args.grade,
+		"multi_select_flag"     : true,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_grade",
-<<<<<<< HEAD
-		"btn_id_config"     : {}
-=======
 		"only_show_in_th_input"     : false,
 		"btn_id_config"     : {},
->>>>>>> a7ac4bbec61eb4f093f581e623678aa32bb89f16
 	});
 	$('#id_test_seller_id').val(g_args.test_seller_id);
 	$('#id_test_seller_adminid').val(g_args.test_seller_adminid);
 	$('#id_has_performance').val(g_args.has_performance);
 	$('#id_fulltime_flag').val(g_args.fulltime_flag);
-	$('#id_lesson_user_online_status').val(g_args.lesson_user_online_status);
+	$('#id_lesson_user_online_status').admin_set_select_field({
+		"enum_type"    : "set_boolean",
+		"field_name" : "lesson_user_online_status",
+		"select_value" : g_args.lesson_user_online_status,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_lesson_user_online_status",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_lesson_type').val(g_args.lesson_type);
 	$('#id_subject').val(g_args.subject);
 	$('#id_lesson_count').val(g_args.lesson_count);
 	$('#id_lesson_cancel_reason_type').val(g_args.lesson_cancel_reason_type);
 	$('#id_lesson_del_flag').val(g_args.lesson_del_flag);
-	$('#id_has_video_flag').val(g_args.has_video_flag);
+	$('#id_has_video_flag').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "has_video_flag",
+		"select_value" : g_args.has_video_flag,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_has_video_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_is_with_test_user').val(g_args.is_with_test_user);
 	$('#id_seller_flag').val(g_args.seller_flag);
 	$('#id_lessonid').val(g_args.lessonid);

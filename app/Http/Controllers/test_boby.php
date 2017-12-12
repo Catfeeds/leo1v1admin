@@ -462,7 +462,7 @@ class test_boby extends Controller
         //         $job=(new \App\Jobs\add_lesson_grade_user($userid_chu, $k))->delay(10);
         //         dispatch($job);
         //     } else {
-        //         $job=(new \App\Jobs\add_lesson_grade_user($userid_gao, $k))->delay(10);
+                $job=(new \App\Jobs\add_lesson_grade_user($userid_gao, $k))->delay(10);
         //         dispatch($job);
         //    }
         // }
@@ -1253,9 +1253,12 @@ class test_boby extends Controller
             $grade = $o_arr;
         }
         $year = [2015,2016,2017];
+        $a = 1;
         foreach($grade as $g){
             foreach($year as $y){
                 foreach($city as $c){
+                    // $job=(new \App\Jobs\add_resource_agree($s, $g, $y, $c[0], $c[1]))->delay(10);
+                    // dispatch($job);
                     $this->t_resource_agree_info->row_insert([
                         'resource_type' => 6,
                         'subject'       => $s,
@@ -1268,6 +1271,8 @@ class test_boby extends Controller
                 }
             }
         }
-
+        echo $a;
     }
+    // $sql = "delete from t_resource_agree_info where resource_type=6";
+
 }

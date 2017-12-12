@@ -153,7 +153,7 @@
                     <td class="tea_textbook">教材版本</td>
                     <td class="tea_textbook" width="220px">冻结情况</td>
                     <td class="tea_textbook"  width="220px">限课情况</td>
-                    <td   width="220px">标签</td>
+                    <td   class="tea_textbook" width="500px">标签</td>
                     <td>操作</td>
                 </tr>
             </thead>

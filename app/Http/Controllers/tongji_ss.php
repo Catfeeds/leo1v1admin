@@ -1654,6 +1654,7 @@ class tongji_ss extends Controller
         $this->t_admin_main_group_name->switch_tongji_database();
         $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
 
+        // dd($adminid_list);
 
         // adminid_list=[];
         $total_info_list=[];
