@@ -109,6 +109,7 @@ class add_new_tea_entry extends Command
                 } else {
                     $all_not_money += $teacher['lesson_price_tax'];
                 }
+                $all_money += $teacher['lesson_price_tax'];
             }
             $all_money_tax = $all_money*0.98;
             echo  $item.'月 '.$all_money.' '.$all_all_money.' '.$all_not_money.' '.$all_money_tax.PHP_EOL;

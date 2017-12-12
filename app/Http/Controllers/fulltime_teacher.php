@@ -467,6 +467,11 @@ class fulltime_teacher extends Controller
         }
         $ret['platform_teacher_cc_lesson']  = $test_person_num_total['person_num'];
         $ret['platform_teacher_cc_order']  = $test_person_num_total['have_order'];
+        $ret['part_teacher_lesson_count'] =  @$ret["platform_teacher_lesson_count"]-@$ret["fulltime_teacher_lesson_count"];
+        $ret['part_teacher_cc_lesson'] = @$ret["platform_teacher_cc_lesson"]-@$ret["fulltime_teacher_cc_lesson"];
+        $ret['part_teacher_cc_order'] = @$ret["platform_teacher_cc_order"]-@$ret["fulltime_teacher_cc_order"];
+        $ret['part_teacher_cc_per']  =$ret['part_teacher_cc_lesson']>0?round(100*$ret['part_teacher_cc_order']/$ret['part_teacher_cc_lesson'],2):0;//全职老师cc转化率
+
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => @$ret,
