@@ -62,6 +62,9 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
+        "/resource/get_sub_grade_tag_js"       => true,
+        "/resource/get_next_info_js"           => true,
+        "/resource/resource_frame_new"         => true,
         "/resource/get_resource_type_js"       => true,
         "/resource/add_or_del_or_edit"         => true,
         "/resource/resource_count"             => true,
@@ -74,7 +77,6 @@ class NewRouteConfig {
         "/resource/add_resource"               => true,
         "/resource/get_all"                    => true,
         "/resource/get_del"                    => true,
-        "/resource/resource_frame"             => true,
         "/resource/get_list_by_resource_id_js" => true,
         "/rule_txt/add_or_update_name"         => true,
         "/rule_txt/process_info"               => true,

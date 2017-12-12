@@ -228,8 +228,9 @@ tofile:
 /// <reference path="../g_args.d.ts/human_resource-teacher_info_new.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -249,22 +250,28 @@ function load_data(){
 		train_through_new:	$('#id_train_through_new').val(),
 		seller_flag:	$('#id_seller_flag').val(),
 		sleep_teacher_flag:	$('#id_sleep_teacher_flag').val()
-    });
+		});
 }
 $(function(){
 
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
-	$('#id_teacherid').val(g_args.teacherid);
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
+	$('#id_teacherid').admin_select_user_new({
+		"user_type"    : "teacher",
+		"select_value" : g_args.teacherid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_teacherid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_is_freeze').val(g_args.is_freeze);
 	$('#id_free_time').val(g_args.free_time);
 	$('#id_is_test_user').val(g_args.is_test_user);

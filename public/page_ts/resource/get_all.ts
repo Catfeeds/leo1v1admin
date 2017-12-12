@@ -183,7 +183,7 @@ $(function(){
                     alert('请完善信息!');
                 } else {
                     //移除其他文件,计算文件数量
-                    if(id_resource_type.val() < 3){//1v1
+                    if(id_resource_type.val() <= 3){//1v1
                         $('.other_file').each(function(){
                             remove_id.push($(this).data('id'));
                         });
@@ -271,13 +271,25 @@ $(function(){
                 if( $('.resource').val() <6 || $('.resource').val() ==9){
                     get_book();
                 }
+                if($('.resource').val() == 3){
+                    get_sub_grade_tag();
+                }
             });
 
 
             if( $('.resource').val() <3 ){
                 $('#id_other_file').parent().parent().hide();
                 get_book();
-            } else if($('.resource').val() == 6){
+            } else if ($('.resource').val() ==3 ){
+
+                $('.subject').empty();
+                Enum_map.append_option_list("subject",$('.subject'),true,[1,2,3,4,5]);
+
+                $('#id_other_file').parent().parent().hide();
+                get_book();
+                get_sub_grade_tag();
+
+            }else if($('.resource').val() == 6){
                 $('#id_other_file').parent().parent().hide();
                 $('#id_les_file').parent().parent().hide();
 
@@ -311,8 +323,9 @@ $(function(){
     var change_tag = function(val){
         $('#id_stu_file').parent().parent().hide();
         if(val < 3){//1v1
+            // Enum_map.append_option_list("subject", $(".subject"),false, my_subject);
             Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
-            Enum_map.append_option_list("region_version",$('.tag_one'),true,book);
+            // Enum_map.append_option_list("region_version",$('.tag_one'),true,book);
             Enum_map.append_option_list("resource_season",$('.tag_two'),true);
 
             $('.tag_one').parent().prev().text('教材版本');
@@ -326,23 +339,26 @@ $(function(){
             $('#id_stu_file').parent().parent().show();
 
         } else if(val == 3){
+            $('.subject').empty();
+            Enum_map.append_option_list("subject",$('.subject'),true,[1,2,3,4,5]);
             Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
-            Enum_map.append_option_list("region_version",$('.tag_one'),true,book);
             Enum_map.append_option_list("resource_free",$('.tag_two'),true);
             Enum_map.append_option_list("resource_diff_level",$('.tag_three'),true);
-            Enum_map.append_option_list("resource_diff_level",$('.tag_four'),true);
-
+            // Enum_map.append_option_list("resource_diff_level",$('.tag_four'),true);
+            get_sub_grade_tag();
             $('.tag_one').parent().prev().text('教材版本');
             $('.tag_two').parent().prev().text('试听类型');
             $('.tag_three').parent().prev().text('难度类型');
             $('.tag_four').parent().prev().text('学科化标签');
 
-            $('#id_other_file').parent().parent().show();
-            $('#id_les_file,#id_tea_file,#id_stu_file').parent().parent().hide();
+            $('#id_other_file').parent().parent().hide();
+            $('#id_les_file').parent().parent().show();
+            $('#id_tea_file').parent().parent().show();
+            $('#id_stu_file').parent().parent().show();
 
-        } else if (val == 4 || val == 5) {
+       } else if (val == 4 || val == 5) {
             Enum_map.append_option_list("grade",$('.grade'),true, my_grade);
-            Enum_map.append_option_list("region_version",$('.tag_one'),true,book);
+            // Enum_map.append_option_list("region_version",$('.tag_one'),true,book);
 
             $('.tag_one').parent().prev().text('教材版本');
             $('.tag_two,.tag_three,.tag_four').parent().parent().hide();
@@ -372,7 +388,7 @@ $(function(){
             $('#id_les_file,#id_other_file').parent().parent().hide();
         } else if (val == 7) {
             Enum_map.append_option_list("grade",$('.grade'),true,[100,200,300]);
-            Enum_map.append_option_list("resource_year",$('.tag_one'),true);
+            // Enum_map.append_option_list("resource_year",$('.tag_one'),true);
             // Enum_map.append_option_list("resource_type2",$('.tag_two'),true);
             // Enum_map.append_option_list("resource_season",$('.tag_three'),true);
             $('.tag_one').next().remove();
@@ -444,6 +460,41 @@ $(function(){
         });
     }
 
+    //获取学科化标签
+    var get_sub_grade_tag = function(){
+        $('.tag_four').empty();
+        var subject = $('.subject').val();
+        var grade = $('.grade').val();
+        $.ajax({
+            type     : "post",
+            url      : "/resource/get_sub_grade_tag_js",
+            dataType : "json",
+            data : {
+                'subject'       : subject,
+                'grade'         : grade,
+            } ,
+            success   : function(result){
+                if(result.ret == 0){
+                    $('.tag_four').empty();
+                    $('.tag_four').next().remove();
+                    var tag_info = result.tag;
+                    if($(tag_info).length == 0) {
+                        $('.tag_four').after('<p style="color:red;">请先选择科目、年级!</p>');
+                    } else {
+                        var tag_str = '';
+                        $.each($(tag_info),function(i, val){
+                            tag_str = tag_str + '<option value='+i+'>'+val+'</option>';
+                        });
+                        $('.tag_four').append(tag_str);
+                    }
+                } else {
+                    alert(result.info);
+                }
+            }
+        });
+    }
+
+
     $('.opt-del').on('click', function(){
         do_del();
     });
@@ -471,7 +522,18 @@ $(function(){
             //判断不上传的文件
             $('.close').click();
             $('.opt_process').show();
+
+            document.body.onbeforeunload = function (event) {
+						    var c = event || window.event;
+						    if (/webkit/.test(navigator.userAgent.toLowerCase())) {
+							      return "刷新页面将导致正在上传的上传数据丢失！";
+						    } else {
+							      c.returnValue = "刷新页面将导致正在上传的上传数据丢失！";
+						    }
+					  }
+
             return $.inArray(file.id, test_func());
+
         },function(up, file, info) {
             var res = $.parseJSON(info.response);
             if( info.status == 200 && last_id >0 ){
@@ -520,9 +582,10 @@ $(function(){
         if(res_id_list.length == 0) {
             BootstrapDialog.alert('请先选择文件！');
         } else {
+
             var res_id_info  = JSON.stringify(res_id_list);
             var file_id_info = JSON.stringify(file_id_list);
-            if( confirm('确定要删除？') ){
+            if( confirm('若删除，则会同时删除与之相关联的其他文件,确定要删除？') ){
                 $.ajax({
                     type    : "post",
                     url     : "/resource/del_or_restore_resource",
@@ -534,7 +597,7 @@ $(function(){
                     },
                     success : function(result){
                         if(result.ret == 0){
-                            // window.location.reload();
+                            window.location.reload();
                         }
                     }
                 });
@@ -616,14 +679,13 @@ $(function(){
     };
 
     var get_edit_list = function(obj){
-
         $("<div></div>").admin_select_dlg_ajax({
             "opt_type" :  "list", // or "list"
             "url"      : "/resource/get_list_by_resource_id_js",
             //其他参数
             "args_ex" : {
-                'resource_id'   :obj.data('resource_id'),
-                'file_use_type' :obj.data('file_use_type'),
+                resource_id   : obj.data('resource_id'),
+                file_use_type : obj.data('file_use_type'),
             },
             //字段列表
             'field_list' :[
@@ -642,12 +704,8 @@ $(function(){
                 render:function(val,item) {
                     return item.visit_type_str;
                 }
-            },{
-                title:"文件大小",
-                render:function(val,item) {
-                    return $(item.file_size );
-                }
-            }] ,
+            }
+            ],
             filter_list: [],
             "auto_close"       : true,
             //选择

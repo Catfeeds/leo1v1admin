@@ -21,6 +21,7 @@ declare var  audiojs : any;
 interface Window {
     navigate (str:string);
     download_show();
+    SVG( obj:any);
 }
 
 declare function load_data():any ;

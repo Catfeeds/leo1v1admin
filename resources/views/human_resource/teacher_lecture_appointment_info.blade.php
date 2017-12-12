@@ -11,20 +11,16 @@
      #cal_week th  {
          text-align:center;  
      }
-
      #cal_week td  {
          text-align:center;  
      }
-
      #cal_week .select_free_time {
          background-color : red;
      }
      #cal_week .have_lesson {
          background-color : red;
      }
-
     </style>
-
     <section class="content ">
         <div>
             <div class="row ">

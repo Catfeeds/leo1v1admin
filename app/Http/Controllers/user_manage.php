@@ -562,17 +562,26 @@ class user_manage extends Controller
 
     public function contract_list () {
         list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(date("Y-m-01"),0,1,[
-            1 => array("t1.order_time","下单日期"),
-            2 => array("t1.pay_time", "生效日期"),
+            1 => array("o.order_time","下单日期"),
+            2 => array("o.pay_time", "生效日期"),
             3 => array("app_time", "申请日期"),
             4 => array("n.add_time", "例子进入时间"),
         ],3);
+
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            = $this->get_in_order_by_str([],"order_time desc",[
+                "grade" => "s.grade",
+                "contract_status" => "o.contract_status",
+                "contract_type" => "o.contract_type",
+            ]);
+
+
 
         $orderid = $this->get_in_int_val('orderid',-1);
         $contract_type     = $this->get_in_el_contract_type();
         $contract_status   = $this->get_in_el_contract_status();
         $config_courseid   = $this->get_in_int_val('config_courseid',-1);
-        $is_test_user      = $this->get_in_int_val('test_user',0);
+        $is_test_user      = $this->get_in_e_boolean(0, 'test_user' );
         $studentid         = $this->get_in_studentid(-1);
         $page_num          = $this->get_in_page_num();
         $has_money         = $this->get_in_int_val("has_money",-1);
@@ -580,8 +589,8 @@ class user_manage extends Controller
         $stu_from_type     = $this->get_in_int_val("stu_from_type",-1);
         $account_role      = $this->get_in_int_val("account_role",-1);
         $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
-        $grade             = $this->get_in_int_val("grade",-1);
-        $subject           = $this->get_in_int_val("subject",-1);
+        $grade             = $this->get_in_el_grade();
+        $subject           = $this->get_in_el_subject();
         $this->get_in_int_val("self_adminid", $this->get_account_id());
         $tmk_adminid       = $this->get_in_int_val("tmk_adminid", -1);
         $teacherid         = $this->get_in_teacherid(-1);
@@ -592,6 +601,8 @@ class user_manage extends Controller
         $from_url          = $this->get_in_str_val('from_url');
         $order_activity_type = $this->get_in_e_order_activity_type( -1 );
         $spec_flag = $this->get_in_e_boolean(-1,"spec_flag");
+        $order_adminid          = $this->get_in_adminid(-1);
+
 
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $account = $this->get_account();
@@ -628,8 +639,8 @@ class user_manage extends Controller
             $account_role,$grade,$subject,$tmk_adminid,-1,
             $teacherid, -1 , 0, $require_adminid_list,$origin_userid,
             $referral_adminid,$opt_date_type,
-            " t2.assistantid asc , order_time desc",
-            $spec_flag,$orderid ,$order_activity_type,$show_son_flag
+            $order_by_str,
+            $spec_flag,$orderid ,$order_activity_type,$show_son_flag, $order_adminid
         );
 
         $all_lesson_count = 0;
@@ -1369,13 +1380,17 @@ class user_manage extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"flow_status_time");
             $item['order_time_str'] = date('Y-m-d H:i:s',$item['order_time']);
 
+            // continue;
+            //以下不处理
+
             $refund_qc_list = $this->t_order_refund->get_refund_analysis($item['apply_time'], $item['orderid']);
-            if(!empty($refund_qc_list['qc_other_reason'])
-               || !empty($refund_qc_list['qc_analysia'])
-               || !empty($refund_qc_list['qc_reply'])
+            if($refund_qc_list['qc_other_reason']
+               || $refund_qc_list['qc_analysia']
+               || $refund_qc_list['qc_reply']
             ){
                 $item['flow_status_str'] = '<font style="color:#a70192;">QC已审核</font>';
             }
+
 
             $pass_time = $item['apply_time']-$item['order_time'];
             if($pass_time >= (90*24*3600)){ // 下单是否超过3个月

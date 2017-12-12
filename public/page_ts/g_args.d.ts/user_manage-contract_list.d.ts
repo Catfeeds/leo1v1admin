@@ -4,11 +4,12 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	order_by_str:	string;
 	orderid:	number;
 	contract_type:	string;//枚举列表: \App\Enums\Econtract_type
  	contract_status:	string;//枚举列表: \App\Enums\Econtract_status
  	config_courseid:	number;
-	test_user:	number;
+	test_user:	number;//枚举: \App\Enums\Eboolean
 	studentid:	number;
 	page_num:	number;
 	page_count:	number;
@@ -17,9 +18,9 @@ interface GargsStatic {
 	stu_from_type:	number;
 	account_role:	number;
 	seller_groupid_ex:	string;
-	grade:	number;
-	subject:	number;
-	self_adminid:	number;
+	grade:	string;//枚举列表: \App\Enums\Egrade
+ 	subject:	string;//枚举列表: \App\Enums\Esubject
+ 	self_adminid:	number;
 	tmk_adminid:	number;
 	teacherid:	number;
 	origin_userid:	number;
@@ -27,8 +28,9 @@ interface GargsStatic {
 	assistantid:	number;
 	from_key:	string;
 	from_url:	string;
-	order_activity_type:	number;//\App\Enums\Eorder_activity_type
-	spec_flag:	number;//\App\Enums\Eboolean
+	order_activity_type:	number;//枚举: \App\Enums\Eorder_activity_type
+	spec_flag:	number;//枚举: \App\Enums\Eboolean
+	adminid:	number;
 	account_role_self:	number;
 	acc:	number;
 	ass_master_flag:	number;
@@ -150,13 +152,15 @@ tofile:
 /// <reference path="../g_args.d.ts/user_manage-contract_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
+		order_by_str:	$('#id_order_by_str').val(),
 		orderid:	$('#id_orderid').val(),
 		contract_type:	$('#id_contract_type').val(),
 		contract_status:	$('#id_contract_status').val(),
@@ -180,52 +184,141 @@ function load_data(){
 		from_url:	$('#id_from_url').val(),
 		order_activity_type:	$('#id_order_activity_type').val(),
 		spec_flag:	$('#id_spec_flag').val(),
+		adminid:	$('#id_adminid').val(),
 		account_role_self:	$('#id_account_role_self').val(),
 		acc:	$('#id_acc').val(),
 		ass_master_flag:	$('#id_ass_master_flag').val(),
 		show_download:	$('#id_show_download').val()
-    });
+		});
 }
 $(function(){
 
-	Enum_map.append_option_list("order_activity_type",$("#id_order_activity_type"));
-	Enum_map.append_option_list("boolean",$("#id_spec_flag"));
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
+	$('#id_order_by_str').val(g_args.order_by_str);
 	$('#id_orderid').val(g_args.orderid);
-	$('#id_contract_type').val(g_args.contract_type);
-	$.enum_multi_select( $('#id_contract_type'), 'contract_type', function(){load_data();} )
-	$('#id_contract_status').val(g_args.contract_status);
-	$.enum_multi_select( $('#id_contract_status'), 'contract_status', function(){load_data();} )
+	$('#id_contract_type').admin_set_select_field({
+		"enum_type"    : "contract_type",
+		"field_name" : "contract_type",
+		"select_value" : g_args.contract_type,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_contract_type",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_contract_status').admin_set_select_field({
+		"enum_type"    : "contract_status",
+		"field_name" : "contract_status",
+		"select_value" : g_args.contract_status,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_contract_status",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_config_courseid').val(g_args.config_courseid);
-	$('#id_test_user').val(g_args.test_user);
-	$('#id_studentid').val(g_args.studentid);
+	$('#id_test_user').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "test_user",
+		"select_value" : g_args.test_user,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_test_user",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_studentid').admin_select_user_new({
+		"user_type"    : "student",
+		"select_value" : g_args.studentid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_studentid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_has_money').val(g_args.has_money);
 	$('#id_sys_operator').val(g_args.sys_operator);
 	$('#id_stu_from_type').val(g_args.stu_from_type);
 	$('#id_account_role').val(g_args.account_role);
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
-	$('#id_grade').val(g_args.grade);
-	$('#id_subject').val(g_args.subject);
+	$('#id_grade').admin_set_select_field({
+		"enum_type"    : "grade",
+		"field_name" : "grade",
+		"select_value" : g_args.grade,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_grade",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_subject').admin_set_select_field({
+		"enum_type"    : "subject",
+		"field_name" : "subject",
+		"select_value" : g_args.subject,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_subject",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_self_adminid').val(g_args.self_adminid);
 	$('#id_tmk_adminid').val(g_args.tmk_adminid);
-	$('#id_teacherid').val(g_args.teacherid);
+	$('#id_teacherid').admin_select_user_new({
+		"user_type"    : "teacher",
+		"select_value" : g_args.teacherid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_teacherid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_origin_userid').val(g_args.origin_userid);
 	$('#id_referral_adminid').val(g_args.referral_adminid);
-	$('#id_assistantid').val(g_args.assistantid);
+	$('#id_assistantid').admin_select_user_new({
+		"user_type"    : "assistant",
+		"select_value" : g_args.assistantid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_assistantid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_from_key').val(g_args.from_key);
 	$('#id_from_url').val(g_args.from_url);
-	$('#id_order_activity_type').val(g_args.order_activity_type);
-	$('#id_spec_flag').val(g_args.spec_flag);
+	$('#id_order_activity_type').admin_set_select_field({
+		"enum_type"    : "order_activity_type",
+		"field_name" : "order_activity_type",
+		"select_value" : g_args.order_activity_type,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_order_activity_type",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_spec_flag').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "spec_flag",
+		"select_value" : g_args.spec_flag,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_spec_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_adminid').admin_select_user_new({
+		"user_type"    : "account",
+		"select_value" : g_args.adminid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_adminid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_account_role_self').val(g_args.account_role_self);
 	$('#id_acc').val(g_args.acc);
 	$('#id_ass_master_flag').val(g_args.ass_master_flag);
@@ -239,6 +332,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">order_by_str</span>
+                <input class="opt-change form-control" id="id_order_by_str" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -270,8 +370,9 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">test_user</span>
-                <input class="opt-change form-control" id="id_test_user" />
+                <span class="input-group-addon">boolean</span>
+                <select class="opt-change form-control" id="id_test_user" >
+                </select>
             </div>
         </div>
 
@@ -400,6 +501,13 @@ $(function(){
                 <span class="input-group-addon">boolean</span>
                 <select class="opt-change form-control" id="id_spec_flag" >
                 </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">adminid</span>
+                <input class="opt-change form-control" id="id_adminid" />
             </div>
         </div>
 

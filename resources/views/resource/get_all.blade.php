@@ -114,12 +114,11 @@
                         <a href="javascript:;" id="id_select_all" title="全选">全</a>
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
                     </td>
-                    <td style="width:30%">文件名</td>
+                    <td style="width:40%">文件名</td>
                     <td style="width:15%">修改日期</td>
                     <td style="width:10%">操作人</td>
                     <td style="width:10%">文件类型</td>
                     <td style="width:10%">文件大小</td>
-                    <td style="width:10%">纠错次数</td>
                     <td style="width:10%">是否使用</td>
                 </tr>
             </thead>
@@ -130,11 +129,10 @@
                             <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-id="{{$var["resource_id"]}}"/>
                         </td>
                         <td>{{@$var["file_title"]}} </td>
-                        <td>{{@$var["update_time"]}} </td>
+                        <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
                         <td>{{@$var["file_size"]}}M </td>
-                        <td>{{@$var["error_num"]}} </td>
                         <td>{{@$var["is_use_str"]}}是 </td>
                     </tr>
                 @endforeach

@@ -45,7 +45,7 @@ class seller_student_new extends Controller
         $this->set_in_value("admin_main_groupid",$admin_main_groupid);
         $this->set_in_value("self_groupid", $self_groupid );
         $this->set_in_value("button_show_flag",$button_show_flag);
-        $this->set_in_value("sub_assign_adminid_2",$adminid );
+        // $this->set_in_value("sub_assign_adminid_2",$adminid );
         if (!$this->check_in_has( "admin_revisiterid")) {
             $this->set_in_value("admin_revisiterid", 0);
         }
@@ -631,7 +631,8 @@ class seller_student_new extends Controller
             "page_hide_list"   => $page_hide_list,
             "cur_page"         => $cur_page,
             "is_seller_master" => $is_seller_master,
-            "acc"              => $account,
+            "account_role"     => $account_role,
+            "account"          => $account,
             "show_son_flag"    => $ret_info['show_son_flag'],
         ]);
     }

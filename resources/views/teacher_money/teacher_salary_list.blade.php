@@ -11,8 +11,8 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span>推荐人</span>
-                        <input class="opt-change" id="id_reference"/>
+                        <span>老师</span>
+                        <input class="opt-change" id="id_teacher"/>
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">

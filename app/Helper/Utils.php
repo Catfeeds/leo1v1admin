@@ -351,6 +351,14 @@ class Utils  {
     }
 
     /**
+     * 转换两个时间戳差值为天数
+     */
+    static function change_time_difference_to_day($timestamp,$check_timestamp=0){
+        $check_timestamp = $check_timestamp===0?time():$check_timestamp;
+        return ceil(($check_timestamp-$timestamp)/86400)."天";
+    }
+
+    /**
      * 获取指定日期所在天的开始时间与结束时间
      * @param int timestamp 指定日期的时间戳
      * @return array
@@ -560,14 +568,20 @@ class Utils  {
         $item[$phone_field_name."_hide"]=substr($phone,0,3)."****".substr($phone,7);
     }
 
-    static function th_order_gen( $title, $field_name ="" ) {
+    static function th_order_gen( $title  ) {
         if ( is_array($title) ) {
             $arr=$title;
             $str="";
             foreach( $arr as $item ) {
-                $str.=' <td > '.$item[0]
-                    .'<a href="javascript:;" class=" fa fa-sort td-sort-item  " data-field-name="'.$item[1]
-                    .'"  > </a> </td>';
+
+                $order_field= $item[1];
+                $order_str="";
+                if ($order_field) {
+                    $order_str=' <a href="javascript:;" class=" fa fa-sort td-sort-item  " data-field-name="'.$order_field.'"  ></a>';
+
+                }
+                $str.=' <td id="'. @$item[2] .'"> <span> '.$item[0]
+                    .' </span> '. $order_str .'  </td>';
             }
             return $str;
         }else{
@@ -2338,6 +2352,31 @@ class Utils  {
         return $arr1;
     }
 
+    /**
+     * 把年龄转换为枚举类里对应的值
+     * @param int age 老师年龄
+     */
+    static public function check_teacher_age($age){
+        switch($age){
+        case $age>20:
+            $age_flag = 1;
+            break;
+        case $age>30:
+            $age_flag = 2;
+            break;
+        case $age>40:
+            $age_flag = 3;
+            break;
+        case $age>50:
+            $age_flag = 4;
+            break;
+        default:
+            $age_flag = 0;
+            break;
+        }
+        return $age_flag;
+    }
+
     //grade_start,grade_end转为年级
     static public function grade_start_end_tran_grade($grade_start, $grade_end){
         $grade = [
@@ -2353,7 +2392,6 @@ class Utils  {
         for ($a = $grade_start; $a <= $grade_end; $a++){
             $arr = $arr+$grade[$a];
         }
-        // E\Egrade_range::
         return $arr;
     }
 

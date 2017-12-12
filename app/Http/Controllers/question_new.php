@@ -54,28 +54,29 @@ class question_new extends Controller
 
     public function question_edit(){
         $question_id   = $this->get_in_int_val('question_id');
-        $subject   = $this->get_in_int_val('subject',-1);
-        $score   = $this->get_in_int_val('score',0);
-        $title   = $this->get_in_str_val('title','');
-        $detail   = $this->get_in_str_val('detail','');
+        $ret_list = [];
+        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712121027"]);
+        // $subject   = $this->get_in_int_val('subject',-1);
+        // $score   = $this->get_in_int_val('score',0);
+        // $title   = $this->get_in_str_val('title','');
+        // $detail   = $this->get_in_str_val('detail','');
 
-        $updateArr = [
-            'title' => $title,
-            'subject' => $subject,
-            "score"   => $score,
-            'detail' => $detail,
-        ];
+        // $updateArr = [
+        //     'title' => $title,
+        //     'subject' => $subject,
+        //     "score"   => $score,
+        //     'detail' => $detail,
+        // ];
 
-        if($this->t_question->field_update_list($question_id,$updateArr)){
-            $result['msg'] = '更新成功';
-            $result['status'] = 200;
-            return $this->output_succ($result);
-        }else{
-            $result['msg'] = '更新失败';
-            $result['status'] = 500;
-            return $this->output_succ($result);
-        };
-
+        // if($this->t_question->field_update_list($question_id,$updateArr)){
+        //     $result['msg'] = '更新成功';
+        //     $result['status'] = 200;
+        //     return $this->output_succ($result);
+        // }else{
+        //     $result['msg'] = '更新失败';
+        //     $result['status'] = 500;
+        //     return $this->output_succ($result);
+        // };
     }
 
     public function question_flag(){

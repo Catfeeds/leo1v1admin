@@ -252,7 +252,7 @@ trait TeaPower {
     }
 
 
-    public function set_teacher_label_new($teacherid,$lessonid,$lesson_list,$tea_tag_arr,$label_origin,$set_flag=1){
+    public function set_teacher_label_new($teacherid,$lessonid,$lesson_list,$tea_tag_arr,$label_origin,$set_flag=1,$per_flag=0){
         $tag_info = json_encode($tea_tag_arr);
         $style_character = json_decode(@$tea_tag_arr["style_character"],true);
         $professional_ability= json_decode(@$tea_tag_arr["professional_ability"],true);
@@ -299,14 +299,19 @@ trait TeaPower {
                     }
                 }
 
+                if($per_flag==1){
+                    $per_num=0.1;
+                }else{
+                    $per_num=1;
+                }
                 foreach($tea_tag_arr as $item){
                     $ret= json_decode($item,true);
                     if(is_array($ret)){
                         foreach($ret as $val){
                             if(isset($teacher_tags_list[$val])){
-                                $v = $teacher_tags_list[$val]+1;
+                                $v = $teacher_tags_list[$val]+$per_num;
                             }else{
-                                $v = 1;
+                                $v = $per_num;
                             }
                             $teacher_tags_list[$val]=$v;
                         }
@@ -1724,6 +1729,161 @@ trait TeaPower {
         return (int)$teacherid;
     }
 
+    // test ignore or delete 
+    public function add_teacher_common_test($teacher_info){
+        $phone = $teacher_info['phone'];
+        if($phone==""){
+            return "老师手机不能为空！";
+        }
+        $check_flag = $this->t_teacher_info->check_teacher_phone($phone);
+        if($check_flag){
+            return "该手机号已存在";
+        }
+
+        $check_teacher_day = strtotime("2017-9-10");
+        $now = time();
+        if($now>$check_teacher_day){
+            $default_teacher_money_type = E\Eteacher_money_type::V_6;
+        }else{
+            $default_teacher_money_type = E\Eteacher_money_type::V_4;
+        }
+
+        \App\Helper\Utils::set_default_value($acc,$teacher_info,"","acc");
+        \App\Helper\Utils::set_default_value($wx_use_flag,$teacher_info,0,"wx_use_flag");
+        \App\Helper\Utils::set_default_value($trial_lecture_is_pass,$teacher_info,0,"trial_lecture_is_pass");
+        \App\Helper\Utils::set_default_value($train_through_new,$teacher_info,0,"train_through_new");
+        \App\Helper\Utils::set_default_value($teacher_money_type,$teacher_info,$default_teacher_money_type,"teacher_money_type");
+        \App\Helper\Utils::set_default_value($level,$teacher_info,E\Elevel::V_0,"level");
+        \App\Helper\Utils::set_default_value($grade,$teacher_info,E\Egrade::V_0,"grade");
+        \App\Helper\Utils::set_default_value($subject,$teacher_info,E\Esubject::V_0,"subject");
+        \App\Helper\Utils::set_default_value($tea_nick,$teacher_info,$phone,"tea_nick");
+        \App\Helper\Utils::set_default_value($realname,$teacher_info,$tea_nick,"realname");
+        \App\Helper\Utils::set_default_value($phone_spare,$teacher_info,$phone,"phone_spare");
+        \App\Helper\Utils::set_default_value($not_grade,$teacher_info,"","not_grade");
+        \App\Helper\Utils::set_default_value($identity,$teacher_info,E\Eidentity::V_0,"identity");
+        \App\Helper\Utils::set_default_value($teacher_type,$teacher_info,E\Eteacher_type::V_0,"teacher_type");
+        \App\Helper\Utils::set_default_value($teacher_ref_type,$teacher_info,E\Eteacher_ref_type::V_0,"teacher_ref_type");
+        \App\Helper\Utils::set_default_value($is_test_user,$teacher_info,0,"is_test_user");
+        \App\Helper\Utils::set_default_value($use_easy_pass,$teacher_info,2,"use_easy_pass");
+        \App\Helper\Utils::set_default_value($send_sms_flag,$teacher_info,1,"send_sms_flag");
+        \App\Helper\Utils::set_default_value($base_intro,$teacher_info,"","base_intro");
+        \App\Helper\Utils::set_default_value($grade_start,$teacher_info,E\Egrade_range::V_0,"grade_start");
+        \App\Helper\Utils::set_default_value($grade_end,$teacher_info,E\Egrade_range::V_0,"grade_end");
+        \App\Helper\Utils::set_default_value($email,$teacher_info,"","email");
+        \App\Helper\Utils::set_default_value($school,$teacher_info,"","school");
+        \App\Helper\Utils::set_default_value($transfer_teacherid,$teacher_info,0,"transfer_teacherid");
+        \App\Helper\Utils::set_default_value($transfer_time,$teacher_info,0,"transfer_time");
+        \App\Helper\Utils::set_default_value($interview_access,$teacher_info,"","interview_access");
+        $train_through_new_time = $teacher_info['train_through_new_time'];
+
+        $uid = $this->t_manager_info->get_id_by_phone($phone);
+        if($uid>0){
+
+            $del_flag = $this->t_manager_info->get_del_flag($uid);
+            if($del_flag!=1){
+                $tea_nick = $this->t_manager_info->get_name($uid);
+                $realname = $tea_nick;
+                $teacher_type     = $teacher_type==0?E\Eteacher_type::V_41:$teacher_type;
+                $teacher_ref_type = $teacher_ref_type==0?E\Eteacher_ref_type::V_41:$teacher_ref_type;
+            }
+        }else{
+            $reference      = $this->t_teacher_lecture_appointment_info->get_reference_by_phone($phone);
+            $reference_info = $this->t_teacher_info->get_teacher_info_by_phone($reference);
+            if(isset($reference_info['teacher_type']) && $reference_info['teacher_type']>20){
+                $teacher_ref_type = $reference_info['teacher_ref_type'];
+            }
+        }
+
+
+        // if($use_easy_pass==1){
+        //     $passwd = "123456";
+        // }elseif($use_easy_pass==2){
+        $phone_length = strlen($phone);
+        $passwd = "123456";
+        // }else{
+        //     srand(microtime(true)*1000);
+        //     $passwd = (int)$phone+rand(9999999999,99999999999);
+        //     $passwd = substr($passwd,0,6);
+        // }
+
+        $passwd_md5 = md5($passwd);
+        $this->t_user_info->start_transaction();
+        $this->t_user_info->row_insert([
+            "passwd" => $passwd_md5,
+        ]);
+        $teacherid = $this->t_user_info->get_last_insertid();
+        if (!$teacherid) {
+            $this->t_user_info->rollback();
+            return "老师账号生成失败！请重试！";
+        }
+        $ret = $this->t_phone_to_user->add($phone,E\Erole::V_TEACHER,$teacherid) ;
+        if (!$ret)  {
+            $this->t_user_info->rollback();
+            return false;
+        }
+        if($grade_start!=0 && $grade_end!=0){
+            $grade_range = ["grade_start"=>$grade_start,"grade_end"=>$grade_end];
+        }else{
+            $grade_range = \App\Helper\Utils::change_grade_to_grade_range($grade);
+        }
+        $ret = $this->t_teacher_info->row_insert([
+            "teacherid"              => $teacherid,
+            "nick"                   => $tea_nick,
+            "realname"               => $realname,
+            "phone"                  => $phone,
+            "phone_spare"            => $phone_spare,
+            "teacher_money_type"     => $teacher_money_type,
+            "level"                  => $level,
+            "subject"                => $subject,
+            "grade_part_ex"          => $grade,
+            "grade_start"            => $grade_range['grade_start'],
+            "grade_end"              => $grade_range['grade_end'],
+            "not_grade"              => $not_grade,
+            "create_time"            => time(),
+            "trial_lecture_is_pass"  => $trial_lecture_is_pass,
+            "train_through_new"      => $train_through_new,
+            "train_through_new_time" => $train_through_new_time,
+            "wx_use_flag"            => $wx_use_flag,
+            "identity"               => $identity,
+            "teacher_type"           => $teacher_type,
+            "teacher_ref_type"       => $teacher_ref_type,
+            "add_acc"                => $acc,
+            "is_test_user"           => $is_test_user,
+            "base_intro"             => $base_intro,
+            "email"                  => $email,
+            "school"                 => $school,
+            "transfer_teacherid"     => $transfer_teacherid,
+            "transfer_time"          => $transfer_time,
+            "interview_access"       => $interview_access,
+        ]);
+
+        if(!$ret){
+            $this->t_user_info->rollback();
+            return false;
+        }else{
+            $this->t_user_info->commit();
+        }
+
+        if($send_sms_flag==1){
+            /**
+             * 模板名称 : 老师注册通知
+             * 模板ID   : SMS_55565027
+             * 模板内容 : ${name}老师您好，您已经成功注册理优教育平台，您的帐号是您的手机号，密码是：${passwd}，
+             请用此帐号绑定“理优1对1老师帮”公众号，参加培训通过后即可成为理优正式授课老师。
+            */
+            $sign_name = \App\Helper\Utils::get_sms_sign_name();
+            $arr = [
+                "name"   => $tea_nick,
+                "passwd" => $passwd,
+            ];
+            \App\Helper\Utils::sms_common($phone,55565027,$arr,0,$sign_name);
+        }
+        $ret = $this->t_teacher_freetime_for_week->row_insert([
+            "teacherid" => $teacherid,
+        ]);
+
+        return (int)$teacherid;
+    }
     /**
      * 通过手机号设置老师为离职状态
      * @param phone string 手机号
@@ -4296,6 +4456,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
 
         foreach($list as &$item){
+            $item['teacher_lesson_price'] = $item['lesson_price'];
             $item['lesson_price'] = strval(
                 $item['lesson_price']
                 +$item['lesson_reward_ex']
@@ -4615,6 +4776,77 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $list[$val["tag_l2_sort"]]=$rr;
         }
         return $list;
+    }
+
+    /**
+     * 匹配老师的上课时间
+     * @param string teacher_free_time 老师空闲时间
+     * @param string match_time     匹配开始时间
+     * @param string match_time_end 匹配结束时间
+     * @return int match_num 匹配度
+     */
+    public function match_teacher_free_time($teacher_free_time,$match_time,$match_time_end){
+        $teacher_free_time_arr  = json_decode($teacher_free_time);
+
+        $match_num  = 0;
+        $break_flag = false;
+        foreach($teacher_free_time_arr as $val){
+            $start_time = strtotime($val[0]);
+            $date       = date("Y-m-d",$start_time);
+            $end_time   = strtotime("+1 minute",strtotime($date." ".$val[1]));
+            if($match_time>=$start_time && $match_time<$end_time){
+                $match_num = 50;
+            }
+            if($match_time_end<=$end_time && $match_time_end>$start_time){
+                $match_num = $match_num==0?50:100;
+                $break_flag = true;
+            }
+            if($match_time_end<$start_time){
+                $break_flag = true;
+            }
+
+            if($break_flag){
+                break;
+            }
+        }
+        return $match_num;
+    }
+
+    /**
+     * 匹配老师标签
+     * @param string teacher_tags 老师标签
+     * @param string match_tags   匹配标签
+     * @return int   match_num 匹配度
+     */
+    public function match_teacher_tags($teacher_tags,$match_tags){
+
+    }
+
+    //试听课转化率结束时间判断
+    public function get_test_lesson_end_time($end_time){
+        $start_time_ave = time()-30*86400;
+        $res = $this->t_lesson_info->get_all_test_order_info_by_time($start_time_ave);
+        $num = 0;
+        $arr = 0;
+        foreach($res as $item){
+            if($item["orderid"]>0 && $item["order_time"]>0 && $item["lesson_start"]>0){
+                $num++;
+                $arr += ($item["order_time"]-$item["lesson_start"]);
+            }
+        }
+
+        if($num!=0){
+            $day_num = round($arr/$num/86400,0);
+        }else{
+            $day_num = 0;
+        }
+
+        if((time() - $end_time) <= $day_num*86400){
+            $lesson_end_time = time()- $day_num*86400;
+        }else{
+            $lesson_end_time = $end_time;
+        }
+        return $lesson_end_time;
 
     }
 }

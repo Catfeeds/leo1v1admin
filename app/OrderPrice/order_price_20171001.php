@@ -135,7 +135,7 @@ class order_price_20171001 extends order_price_base
         }
 
         if (! $find_big_true){
-            $do_activity_fun ( Activity\activity_2017090101::class  );
+            $do_activity_fun ( Activity\activity_2017090101::class );
             foreach( $power_small as $item){
                 //\App\Helper\Utils::logger("item each: ".json_encode($item));
                 $new_do_activity_fun ( $item );

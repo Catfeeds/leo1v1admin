@@ -303,6 +303,11 @@ class fulltime_teacher extends Controller
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
 
+       
+
+        $lesson_end_time = $this->get_test_lesson_end_time($end_time);
+
+
         $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
         $m = date("m",$start_time);
         $n = ($end_time - $start_time)/86400/31;
@@ -319,9 +324,9 @@ class fulltime_teacher extends Controller
         }
 
         $list = $ret_info;
-        $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
-        $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
-        $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
+        $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time, $lesson_end_time);
+        $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time, $lesson_end_time);
+        $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time, $lesson_end_time);
         $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
         $week_start = $date_week["sdate"]-14*86400;
         $week_end = $date_week["sdate"]+21*86400;
@@ -448,7 +453,7 @@ class fulltime_teacher extends Controller
         $platform_teacher_student = $this->t_student_info->get_total_student_num($type);//统计平台学生数
         $ret['platform_teacher_student'] = $platform_teacher_student[0]['platform_teacher_student'];
         $ret['fulltime_teacher_student_pro'] = round($ret['fulltime_teacher_student']*100/$ret['platform_teacher_student'],2);
-        $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time);
+        $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$lesson_end_time);
         $ret['platform_teacher_lesson_count'] = round($ret_platform_teacher_lesson_count["lesson_count"]/100);//全职老师完成的课耗总数
         if($ret['platform_teacher_lesson_count'] != 0){
             $ret['fulltime_teacher_lesson_count_per'] = round($ret['fulltime_teacher_lesson_count']*100/$ret['platform_teacher_lesson_count'],2);
@@ -462,6 +467,32 @@ class fulltime_teacher extends Controller
         }
         $ret['platform_teacher_cc_lesson']  = $test_person_num_total['person_num'];
         $ret['platform_teacher_cc_order']  = $test_person_num_total['have_order'];
+        $ret['part_teacher_lesson_count'] =  @$ret["platform_teacher_lesson_count"]-@$ret["fulltime_teacher_lesson_count"];
+        $ret['part_teacher_cc_lesson'] = @$ret["platform_teacher_cc_lesson"]-@$ret["fulltime_teacher_cc_lesson"];
+        $ret['part_teacher_cc_order'] = @$ret["platform_teacher_cc_order"]-@$ret["fulltime_teacher_cc_order"];
+        $ret['part_teacher_cc_per']  =$ret['part_teacher_cc_lesson']>0?round(100*$ret['part_teacher_cc_order']/$ret['part_teacher_cc_lesson'],2):0;//全职老师cc转化率
+
+        $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
+        $week_start = $date_week["sdate"]-14*86400;
+        $week_end = $date_week["sdate"]+21*86400;
+        $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5);
+        $qz_tea_arr=[];
+        foreach($ret_info as $yy=>$item){
+            if($item["teacherid"] != 97313){
+                $qz_tea_arr[] =$item["teacherid"];
+            }else{
+                unset($ret_info[$yy]);
+            }
+        }
+        $normal_stu_num = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);
+        foreach($normal_stu_num as $val){
+            @$ret['fulltime_normal_stu_num'] +=$val["num"];
+        }
+       
+        //  $platform_normal_stu_list = $this->t_teacher_info->get_teacher_list(1,$week_start,$week_end);
+        //  $ret['platform_normal_stu_num'] =$platform_normal_stu_list["stu_num"];
+        $ret['fulltime_normal_stu_pro'] =  $ret['platform_teacher_student']>0?round(100*$ret['fulltime_normal_stu_num']/$ret['platform_teacher_student'],2):0;
+
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => @$ret,

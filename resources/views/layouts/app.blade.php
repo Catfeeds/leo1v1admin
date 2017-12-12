@@ -36,21 +36,6 @@
         <link href="/css/new_header.css" rel="stylesheet" type="text/css" />
 
         <style>
-         .content  .row  .input-group >select {
-             display:table-cell;
-         }
-         .content  .row  .input-group >input{
-             display:table-cell;
-         }
-         .wrapper {
-             position :static;
-         }
-         .content  table .input-group >select {
-             display:table-cell;
-         }
-         .content  table .input-group >input{
-             display:table-cell;
-         }
 
 
         </style>
@@ -250,6 +235,7 @@
             <script type="text/javascript" src="/page_js/lib/select_date_range.js?{{@$_publish_version}}"></script>
             <script src="/page_js/lib/select_dlg_ajax.js?{{@$_publish_version}}" type="text/javascript"></script>
             <script type="text/javascript" src="/page_js/lib/select_dlg.js"></script>
+            <script src="/page_ts/lib/admin_set_select_field.js?{{@$_publish_version}}" type="text/javascript"></script>
 
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">

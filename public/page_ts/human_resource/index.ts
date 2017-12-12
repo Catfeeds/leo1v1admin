@@ -856,9 +856,6 @@ $(function(){
         $(".opt-set-teacher-record-new").hide();
     }
 
-    if(acc=="adrian" || acc=="seven" || acc=="jack"){
-        $(".opt-edit").show();
-    }
     
    
 
@@ -1028,7 +1025,7 @@ $(function(){
     $(".opt-return-back-list-new").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var teacherid    = opt_data.teacherid;
-        // alert(teacherid);
+
         $.ajax({
             type     :"post",
             url      :"/human_resource/get_new_teacher_revisit_info",
@@ -1822,8 +1819,7 @@ $(function(){
         });
     }
 
-
-    if(acc=="alan"){
+    if(acc=="alan" || acc=="adrian" || acc=="seven" || acc=="jack" || acc=="孙瞿"){
         $(".opt-edit").show();
     }
 

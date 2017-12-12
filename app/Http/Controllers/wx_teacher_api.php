@@ -1034,6 +1034,12 @@ class wx_teacher_api extends Controller
         $ret_info['lesson_time_str'] = date('m-d H:i',$ret_info['lesson_start'])." ~ ".date('H:i',$ret_info['lesson_end']);
         $ret_info['gender_str'] = E\Egender::get_desc($ret_info['gender']);
 
+
+        //t_test_lesson_subject.subject_tag
+
+        $subject_tag_arr = json_decode($ret_info['subject_tag'],true);
+
+
         //上课要求标签[未定]
         $ret_info['style'] = '风格标签';
         $ret_info['major'] = '专业标签';
@@ -1133,13 +1139,6 @@ class wx_teacher_api extends Controller
         $teacher_info['identity_str'] = E\Eidentity::get_desc($teacher_info['identity']);
         $teacher_info['textbook_type_str'] = E\Etextbook_type::get_desc($teacher_info['textbook_type']);
 
-        // if($teacher_info['lesson_del_flag'] == 1){
-        //     $teacher_info['status'] = 2;
-        // }else{
-        //     $teacher_info['status'] = 1;
-        // }
-
-
         $tea_label_type_arr = json_decode($teacher_info['tea_label_type'],true);
         $tea_label_type_str = "";
 
@@ -1155,6 +1154,7 @@ class wx_teacher_api extends Controller
         $teacher_info['tea_label_str'] = $tea_label_type_str;
         return $this->output_succ(["data"=>$teacher_info]);
     }
+
 
 
 

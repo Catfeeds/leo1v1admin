@@ -22,7 +22,7 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
         return $this->main_get_value($sql);
     }
 
-    public function get_salary_list($start_time,$end_time,$teacher_type=-1,$reference=""){
+    public function get_salary_list($start_time,$end_time,$teacher_type=-1,$teacherid=-1){
         $where_arr = [
             ["ts.pay_time>=%u",$start_time,0],
             ["ts.pay_time<%u",$end_time,0],
@@ -30,6 +30,9 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
             "is_test_user=0",
             "ts.money!=0"
         ];
+        if ($teacherid != -1) {
+            array_push($where_arr, ["t.teacherid=%u", $teacherid, -1]);
+        }
         if ($teacher_type == 1) {
             array_push($where_arr, "t.teacher_money_type=7 or (t.teacher_type=3 and t.teacher_money_type=0)");
         } elseif ($teacher_type == 2) {
@@ -65,6 +68,11 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
                                   ,$where_arr
         );
         return $this->main_update($sql);
+    }
+
+    public function get_teacher_money_info() {
+        $sql = $this->gen_sql_new("select teacher_money_type,teacher_type,realname,teacherid from %s where is_test_user=0", t_teacher_info::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
     }
 
 

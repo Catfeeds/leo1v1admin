@@ -67,9 +67,9 @@ class resource extends Controller
             $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info
         );
         foreach($ret_info['list'] as &$item){
-            \App\Helper\Utils::unixtime2date_for_item($item,"update_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::get_file_use_type_str($item);
-            $item['nick'] = $this->cache_get_account_nick($item['edit_adminid']);
+            $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
             $item['file_size'] = round( $item['file_size'] / 1024,2);
             $tag_arr = $this->tag_arr[ $item['resource_type'] ];
 
@@ -223,225 +223,67 @@ class resource extends Controller
         return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($final_list));
     }
 
-    public function resource_frame(){
-        $ret_info = $this->t_resource_agree_info->get_agree_resource();
+    public function resource_frame_new(){
+        return $this->pageView( __METHOD__,[]);
+    }
 
-        $list = [];
-        // dd($ret_info);
+    public function get_next_info_js(){
+        $info_str = $this->get_in_str_val('info_str','');
+        $level = $this->get_in_int_val('level', 0);
+        //根据info_str判断查询几个字段
+        $arr = explode('-', $info_str);
 
-        $r_mark = 0;
-        $s_mark = 0;
-        $g_mark = 0;
-        $one_mark = 0;
-        $two_mark = 0;
-        $three_mark = 0;
-        $four_mark = 0;
-        foreach($ret_info as $item){
-            $tag_arr = $this->tag_arr[ $item['resource_type'] ];
-            $item['tag_one_name'] = $tag_arr['tag_one']['name'];
-            $item['tag_two_name'] = $tag_arr['tag_two']['name'];
-            $item['tag_three_name'] = $tag_arr['tag_three']['name'];
-            $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
+        //$arr对应信息
+        // 0=resource_type, 1=subject, 2=grade, 3=tag_one, 4=tag_two, 5=tag_three, 6=tag_four
 
-            E\Egrade::set_item_field_list($item, [
-                "subject",
-                "grade",
-                "resource_type",
-                $tag_arr['tag_one']['menu'] => 'tag_one',
-                $tag_arr['tag_two']['menu'] => 'tag_two',
-                $tag_arr['tag_three']['menu'] => 'tag_three',
-                // $tag_arr['tag_four']['menu'] => 'tag_four',
-            ]);
-
-            //添加一组数据 资源类型
-            $g = '';
-            if( $r_mark != $item['resource_type'] ) {
-                $r_mark = $item['resource_type'];
-                $g = ($r_mark == 7)?'年级段':'年级';
-                $list[] = [
-                    'key1_class'        => 'key1-'.$r_mark,
-                    'level'             => 'l-1',
-                    'resource_type_str' => $item['resource_type_str'],
-                    'resource_type'     => $item['resource_type'],
-                    'subject_str'       => '科目',
-                    'grade_str'         => $g,
-                    'tag_one_str'       => $item['tag_one_name'],
-                    'tag_two_str'       => $item['tag_two_name'],
-                    'tag_three_str'     => $item['tag_three_name'],
-                    'tag_four_str'      => $item['tag_four_name'],
-                ];
-                $s_mark     = 0;
-                $g_mark     = 0;
-                $one_mark   = 0;
-                $two_mark   = 0;
-                $three_mark = 0;
-                $four_mark  = 0;
-            }
-
-            //添加一组数据 科目
-            if( $s_mark != $item['subject'] ) {
-                $s_mark = $item['subject'];
-                $list[] = [
-                    'key1_class'        => 'key1-'.$r_mark,
-                    'key2_class'        => 'key2-'.$r_mark.'-'.$s_mark,
-                    'level'             => 'l-2',
-                    'resource_type_str' => $item['resource_type_str'],
-                    'resource_type'     => $item['resource_type'],
-                    'subject_str'       => $item['subject_str'],
-                    // 'grade_str'         => $g,
-                    // 'tag_one_str'       => $item['tag_one_name'],
-                    // 'tag_two_str'       => $item['tag_two_name'],
-                    // 'tag_three_str'     => $item['tag_three_name'],
-                    // 'tag_four_str'      => $item['tag_four_name'],
-                ];
-                $g_mark = 0;
-                $one_mark = 0;
-                $two_mark = 0;
-                $three_mark = 0;
-                $four_mark = 0;
-            }
-
-            //添加一组数据 年级
-            if( $g_mark != $item['grade'] ) {
-                $g_mark = $item['grade'];
-                if($item['resource_type'] < 6 || $item['resource_type'] == 9){
-                    $text = '添加';
-                } else {
-                    $text = '';
-                }
-                $list[] = [
-                    'key1_class'        => 'key1-'.$r_mark,
-                    'key2_class'        => 'key2-'.$r_mark.'-'.$s_mark,
-                    'key3_class'        => 'key3-'.$r_mark.'-'.$s_mark.'-'.$g_mark,
-                    'level'             => 'l-3',
-                    'resource_type_str' => $item['resource_type_str'],
-                    'resource_type'     => $item['resource_type'],
-                    'subject_str'       => $item['subject_str'],
-                    'grade_str'         => $item['grade_str'],
-                    'tag_one_str'       => $text,
-                    // 'tag_two_str'       => $item['tag_two_name'],
-                    // 'tag_three_str'     => $item['tag_three_name'],
-                    // 'tag_four_str'      => $item['tag_four_name'],
-                ];
-                $one_mark = 0;
-                $two_mark = 0;
-                $three_mark = 0;
-                $four_mark = 0;
-            }
-
-            //添加一组数据 一级标签
-            if( $one_mark != $item['tag_one'] ) {
-                $one_mark = $item['tag_one'];
-                $data = [
-                    'key1_class'        => 'key1-'.$r_mark,
-                    'key2_class'        => 'key2-'.$r_mark.'-'.$s_mark,
-                    'key3_class'        => 'key3-'.$r_mark.'-'.$s_mark.'-'.$g_mark,
-                    'key4_class'        => 'key4-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark,
-                    'level'             => 'l-4',
-                    'resource_type_str' => $item['resource_type_str'],
-                    'resource_type'     => $item['resource_type'],
-                    'subject_str'       => $item['subject_str'],
-                    'grade_str'         => $item['grade_str'],
-                    'tag_one_str'       => $item['tag_one_str'],
-                    // 'tag_two_str'       => $item['tag_two_name'],
-                    // 'tag_three_str'     => $item['tag_three_name'],
-                    // 'tag_four_str'      => $item['tag_four_name'],
-                ];
-                if($item['resource_type'] == 4 || $item['resource_type'] == 5 ){
-                    $data['is_ban'] = $item['is_ban'];
-                    $data['is_end'] = 1;
-                }
-
-                $list[] = $data;
-                $two_mark = 0;
-                $three_mark = 0;
-                $four_mark = 0;
-            }
-
-            //添加一组数据 二级标签
-            if( $two_mark != $item['tag_two'] ) {
-                $two_mark = $item['tag_two'];
-                $data = [
-                    'key1_class'        => 'key1-'.$r_mark,
-                    'key2_class'        => 'key2-'.$r_mark.'-'.$s_mark,
-                    'key3_class'        => 'key3-'.$r_mark.'-'.$s_mark.'-'.$g_mark,
-                    'key4_class'        => 'key4-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark,
-                    'key5_class'        => 'key5-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark.'-'.$two_mark,
-                    'level'              => 'l-5',
-                    'resource_type_str' => $item['resource_type_str'],
-                    'resource_type'     => $item['resource_type'],
-                    'subject_str'       => $item['subject_str'],
-                    'grade_str'         => $item['grade_str'],
-                    'tag_one_str'       => $item['tag_one_str'],
-                    'tag_two_str'       => @$item['tag_two_str'],
-                    // 'tag_three_str'     => $item['tag_three_name'],
-                    // 'tag_four_str'      => $item['tag_four_name'],
-                ];
-                if($item['resource_type'] < 3 || $item['resource_type'] == 9 ){
-                    $data['is_ban'] = $item['is_ban'];
-                    $data['is_end'] = 1;
-                }
-                $list[] = $data;
-                $three_mark = 0;
-                $four_mark = 0;
-            }
-
-            //添加一组数据 三级标签
-            if( $three_mark != $item['tag_three'] ) {
-                $three_mark = $item['tag_three'];
-                $data = [
-                    'key1_class'        => 'key1-'.$r_mark,
-                    'key2_class'        => 'key2-'.$r_mark.'-'.$s_mark,
-                    'key3_class'        => 'key3-'.$r_mark.'-'.$s_mark.'-'.$g_mark,
-                    'key4_class'        => 'key4-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark,
-                    'key5_class'        => 'key5-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark.'-'.$two_mark,
-                    'key6_class'        => 'key6-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark.'-'.$two_mark.'-'.$three_mark,
-                    'level'             => 'l-6',
-                    'resource_type_str' => $item['resource_type_str'],
-                    'resource_type'     => $item['resource_type'],
-                    'subject_str'       => $item['subject_str'],
-                    'grade_str'         => $item['grade_str'],
-                    'tag_one_str'       => $item['tag_one_str'],
-                    'tag_two_str'       => $item['tag_two_str'],
-                    'tag_three_str'     => $item['tag_three_str'],
-                    // 'tag_four_str'      => $item['tag_four_name'],
-                ];
-                if($item['resource_type'] == 6 || $item['resource_type'] == 7){
-                    $data['is_ban'] = $item['is_ban'];
-                    $data['is_end'] = 1;
-                }
-                $list[] = $data;
-                $four_mark = 0;
-            }
-
-            //添加一组数据 四级标签
-            $item['level'] = 'l-7';
-            $item['key1_class'] = 'key1-'.$r_mark;
-            $item['key2_class'] = 'key2-'.$r_mark.'-'.$s_mark;
-            $item['key3_class'] = 'key3-'.$r_mark.'-'.$s_mark.'-'.$g_mark;
-            $item['key4_class'] = 'key4-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark;
-            $item['key5_class'] = 'key5-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark.'-'.$two_mark;
-            $item['key6_class'] = 'key6-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark.'-'.$two_mark.'-'.$three_mark;
-            $item['key7_class'] = 'key6-'.$r_mark.'-'.$s_mark.'-'.$g_mark.'-'.$one_mark.'-'.$two_mark.'-'.$three_mark.'-'.$four_mark;
-
-
-            if($item['resource_type'] == 3){
-                $sub_grade = $this->get_sub_grade_tag($item['subject'], $item['grade']);
-                $item['tag_four_str'] = @$sub_grade[$item['tag_four']];
-
-            }
-            $item['is_end'] = 1;
-            $list[] = $item;
+        $sel_arr = ['','subject','grade','tag_one','tag_two','tag_three','tag_four'];
+        $num = count($arr);
+        $select = $sel_arr[$num];
+        $is_end = 0;
+        //判断是不是最后
+        if (in_array($arr[0], [1,2,9]) && $level == 4) {
+            $is_end = 1;
+        } else if ($arr[0] == 3 && $level == 6){
+            $is_end = 1;
+        } else if (in_array($arr[0], [4,5]) && $level == 3){
+            $is_end = 1;
+        } else if (in_array($arr[0], [6,7]) && $level == 5){
+            $is_end = 1;
         }
 
-        return $this->pageView( __METHOD__,\App\Helper\Utils::list_to_page_info($list));
+        $data = $this->t_resource_agree_info->get_next_info($select,@$arr[0],@$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],$is_end);
+
+        //对应枚举类
+        $menu = '';
+        foreach($data as &$item){
+            if($num < 3){
+                E\Egrade::set_item_field_list($item, [$select]);
+            } else {
+                if($arr[0] <6 || $arr[0] ==9 || ($arr[0]==6 && $num=3) ){
+                    $menu = $this->tag_arr[ $arr[0] ][ $select ]['menu'];
+                    $item[$menu] = $item[$select];
+                    E\Egrade::set_item_field_list($item, [$menu]);
+                }
+                //只有resource_type=3的时候才会有num=6
+                if($num==6) {
+                    $sub_grade = $this->get_sub_grade_tag($arr[1], $arr[2]);
+                    $item['tag_four_str'] = @$sub_grade[$item['tag_four']];
+                }
+            }
+
+        }
+        if($menu != ''){
+            $select = $menu;
+        }
+        return $this->output_succ(['data' => $data,'select' => $select, 'is_end' => $is_end]);
     }
 
     public function add_or_del_or_edit(){
         $info_str = $this->get_in_str_val('info_str','');
         $region   = $this->get_in_int_val('region','');
         $do_type  = $this->get_in_str_val('do_type','');
-        $arr      = explode('-', substr($info_str,5));
+        // $arr      = explode('-', substr($info_str,5));
+        $arr      = explode('-', $info_str);
         $adminid  = $this->get_account_id();
         $time     = time();
         if($do_type === 'add'){//添加版本
@@ -523,6 +365,13 @@ class resource extends Controller
 
     }
 
+    public function get_sub_grade_tag_js(){
+        $subject = $this->get_in_int_val('subject', -1);
+        $grade   = $this->get_in_int_val('grade', -1);
+
+        $data = $this->get_sub_grade_tag($subject,$grade);
+        return $this->output_succ(['tag' => $data]);
+    }
     //学科化标签
     public function get_sub_grade_tag($subject,$grade){
         $arr = [
@@ -640,6 +489,16 @@ class resource extends Controller
             'file_link'     => $file_link,
             'file_use_type' => $file_use_type,
         ]);
+
+        $file_id = $this->t_resource_file->get_last_insertid();
+        $adminid = $this->get_account_id();
+        $this->t_resource_file_visit_info->row_insert([
+            'file_id'     => $file_id,
+            'visit_type'  => 9,
+            'create_time' => time(),
+            'visitor_id'  => $adminid,
+        ]);
+
         return $this->output_succ();
     }
 
@@ -666,9 +525,9 @@ class resource extends Controller
     }
 
     public function reupload_resource() {
-        $resource_id   = $this->get_in_int_val('resource_id','');
-        $file_id = $this->get_in_int_val('file_id');
-        $adminid = $this->get_account_id();
+        $resource_id = $this->get_in_int_val('resource_id','');
+        $file_id     = $this->get_in_int_val('file_id');
+        $adminid     = $this->get_account_id();
         $time    = time();
 
         $this->t_resource_file->field_update_list($file_id, ['status' => 2]);
@@ -733,17 +592,14 @@ class resource extends Controller
         $page_num = $this->get_in_page_num();
         $resource_id   = $this->get_in_int_val('resource_id', -1);
         $file_use_type = $this->get_in_int_val('file_use_type', -1);
-
-        $ret_list = $this->t_resource_file_visit_info->get_visit_detail( $resource_id, $file_use_type, $page_num);
+        $ret_list = $this->t_resource_file_visit_info->get_visit_detail( $page_num,$resource_id, $file_use_type);
         foreach ($ret_list['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            // $this->cache_set_item_teacher_nick($item,"teacherid", "tea_nick");
-            // \App\Helper\Utils::transform_1tg_0tr($item,"operation");
-            // \App\Helper\Utils::transform_1tg_0tr($item,"success_flag");
             $this->cache_set_item_account_nick($item,"visitor_id", 'nick');
             E\Eresource_visit::set_item_value_simple_str($item,'visit_type');
         }
-        return $this->output_succ(["data"=> $ret_list]);
+        return $this->output_ajax_table($ret_list);
+        // return $this->output_succ(["data"=> $ret_list]);
     }
 
     public function get_del() {
@@ -762,9 +618,10 @@ class resource extends Controller
         $ret_info = $this->t_resource->get_all(
             $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info, 1
         );
+        // dd($ret_info);
         foreach($ret_info['list'] as &$item){
-            \App\Helper\Utils::unixtime2date_for_item($item,"update_time");
-            $item['nick'] = $this->cache_get_account_nick($item['edit_adminid']);
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
             $item['file_size'] = round( $item['file_size'] / 1024,2);
         }
 

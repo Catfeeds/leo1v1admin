@@ -9,9 +9,15 @@
                     <span>是否有银行卡</span>
                     <select id="id_is_bank" class="opt-change">
                         <option value="-1">全部</option>
-                        <option value="1">有银行卡</option>
+                        <option value="1" selected>有银行卡</option>
                         <option value="2">没有银行卡</option>
                     </select>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-2" >
+                <div class="input-group ">
+                    <span >老师</span>
+                    <input id="id_teacherid"/>
                 </div>
             </div>
         </div>
@@ -34,7 +40,7 @@
             <td>绑卡时间</td>
         </thead>
         <tbody>
-            @foreach($info as $var)
+            @foreach($table_data_list as $var)
                 <tr>
                     <td>{{$var['teacherid']}}</td>
                     <td>{{$var['nick']}}</td>

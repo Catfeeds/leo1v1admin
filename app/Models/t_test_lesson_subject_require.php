@@ -266,7 +266,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." t.ass_test_lesson_type, stu_score_info, stu_character_info , s.school, s.editionid, stu_test_lesson_level,"
             ." stu_test_ipad_flag, stu_request_lesson_time_info,  stu_request_test_lesson_time_info, tr.require_id,"
             ." t.test_lesson_subject_id ,ss.add_time, test_lesson_student_status,  s.userid,s.nick, tr.origin, ss.phone_location,"
-            ." ss.phone,ss.userid, t.require_adminid,  tr.curl_stu_request_test_lesson_time stu_request_test_lesson_time ,  if(test_stu_request_test_lesson_demand='',stu_request_test_lesson_demand,test_stu_request_test_lesson_demand) as  stu_request_test_lesson_demand ,tr.intention_level, "
+            ." ss.phone,ss.userid, t.require_adminid,  tr.curl_stu_request_test_lesson_time stu_request_test_lesson_time , "
+            ." if(test_stu_request_test_lesson_demand='',stu_request_test_lesson_demand,test_stu_request_test_lesson_demand) as stu_request_test_lesson_demand ,tr.intention_level, "
             ." s.gender,s.origin_assistantid , s.origin_userid  ,  t.subject, tr.test_stu_grade as grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,"
             ." ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag,tr.require_time,l.teacherid,"
             ." t.stu_test_paper, t.tea_download_paper_time, test_lesson_student_status, tss.success_flag,t.learning_situation,"
@@ -3608,24 +3609,30 @@ ORDER BY require_time ASC";
         return $this->main_get_list($sql);
     }
 
+    /**
+     * 拉取试听需求的内容
+     */
     public function get_require_list_by_requireid($require_id){
-        $where_arr=[
-            ["require_id=%u",$require_id,-1]  
+        $where_arr = [
+            ["tr.require_id=%u",$require_id,-1]
         ];
         $sql = $this->gen_sql_new("select s.nick,s.gender,s.grade,t.subject,"
-                                  ."tq.curl_stu_request_test_lesson_time,"
-                                  ." tq.test_stu_request_test_lesson_demand,"
-                                  ." t.intention_level,t.quotation_reaction"
-                                  ." from %s tq left join %s t on tq.test_lesson_subject_id = t.test_lesson_subject_id"
+                                  ." tr.curl_stu_request_test_lesson_time,"
+                                  ." tr.test_stu_request_test_lesson_demand,"
+                                  ." t.intention_level,t.quotation_reaction,tr.seller_top_flag,t.subject_tag"
+                                  ." from %s tr "
+                                  ." left join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id"
                                   ." left join %s s on t.userid = s.userid"
                                   ." left join %s n on t.userid = n.userid"
-                                  ." where %s",
-                                  self::DB_TABLE_NAME,
-                                  t_test_lesson_subject::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,
-                                  t_seller_student_new::DB_TABLE_NAME,
-                                  $where_arr
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_seller_student_new::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_row($sql);
     }
+
+
 }

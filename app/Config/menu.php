@@ -850,7 +850,7 @@ class menu{
 
             ["power_id"=>32, "name"=>"角色-教研",  "list"=>[
                 ['power_id'=>74, 'name'=>"教研备课上传","list" => [
-                    ["power_id"=>01, "name"=>"教研备课资料框架",   "url"=>"/resource/resource_frame"],
+                    ["power_id"=>05, "name"=>"教研备课资料框架-新",   "url"=>"/resource/resource_frame_new"],
                     ["power_id"=>02, "name"=>"教研备课数据统计",   "url"=>"/resource/resource_count"],
                     ["power_id"=>03, "name"=>"教研备课后台",   "url"=>"/resource/get_all"],
                     ["power_id"=>04, "name"=>"教研回收站",   "url"=>"/resource/get_del"],

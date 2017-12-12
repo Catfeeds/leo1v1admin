@@ -55,9 +55,6 @@
          onKDAReady();
      }
     </script>
-
-
-
     <style>
      .input-group{
          width:100%;
@@ -376,41 +373,31 @@
                             <td >{{$var["last_revisit_msg"]}}</td>
                             <td >{{$var["school"]}}</td>
                             <td >
+                                期待时间: {{$var["stu_request_test_lesson_time"]}} <br/>
                                 @if($var["use_new_flag"]==0 || ($var["use_new_flag"]==1 && $var["new_demand_flag"]==0 ))
-                                    期待时间: {{$var["stu_request_test_lesson_time"]}} <br/>
                                     期待时间(其它): {!!  $var["stu_request_test_lesson_time_info_str"]!!} <br/>
                                     正式上课: {!!  $var["stu_request_lesson_time_info_str"]!!} <br/>
                                     试听内容: {{$var["stu_test_lesson_level_str"]}} <br/>
                                     试听需求:{{$var["stu_request_test_lesson_demand"]}}<br/>
                                     教材：{{$var["editionid_str"]}}<br/>
                                     学生成绩情况: {{$var["stu_score_info"]}} <br/><br/>
-                                    学情反馈: {{$var["learning_situation"]}} <br/><br/>
-                                    @if($var["seller_top_flag"]==1)
-                                        <font color="blue"> 销售top25</font><br/>
-                                    @endif
-                                    @if ($var["is_green_flag"]==1)
-                                        <font color="green"> 已申请绿色通道</font>
-                                    @endif
-
                                 @elseif($var["use_new_flag"]==1 && $var["new_demand_flag"]==1)
-                                    期待时间: {{$var["stu_request_test_lesson_time"]}} <br/>
-                                    升学目标: {{$var["academic_goal_str"]}} <br/>
-                                    应试压力 : {{$var["test_stress_str"]}} <br/>
-                                    升学学校要求 : {{$var["entrance_school_type_str"]}} <br/>
-                                    课外提高 : {{$var["extra_improvement_str"]}} <br/>
-                                    习惯重塑  : {{$var["habit_remodel_str"]}} <br/>
-                                    试听内容  : {{$var["stu_request_test_lesson_demand"]}}<br/>
-                                    上课意向: {{ $var["intention_level_str"] }} <br/>
-                                    需求急迫性: {{ $var["demand_urgency_str"] }} <br/>
-                                    报价反应: {{ $var["quotation_reaction_str"] }} <br/><br/>
-                                    学情反馈: {{$var["learning_situation"]}} <br/><br/>
-                                    @if($var["seller_top_flag"]==1)
-                                        <font color="blue"> 销售top25</font><br/>
-                                    @endif
-                                    @if ($var["is_green_flag"]==1)
-                                        <font color="green"> 已申请绿色通道</font>
-                                    @endif
-
+                                    升学目标:{{$var["academic_goal_str"]}} <br/>
+                                    应试压力:{{$var["test_stress_str"]}} <br/>
+                                    升学学校要求:{{$var["entrance_school_type_str"]}} <br/>
+                                    课外提高:{{$var["extra_improvement_str"]}} <br/>
+                                    习惯重塑:{{$var["habit_remodel_str"]}} <br/>
+                                    试听内容:{{$var["stu_request_test_lesson_demand"]}}<br/>
+                                    上课意向:{{ $var["intention_level_str"] }} <br/>
+                                    需求急迫性:{{ $var["demand_urgency_str"] }} <br/>
+                                    报价反应:{{ $var["quotation_reaction_str"] }} <br/><br/>
+                                @endif
+                                学情反馈:{{$var["learning_situation"]}} <br/><br/>
+                                @if($var["seller_top_flag"]==1)
+                                    <font color="blue"> 销售top25</font><br/>
+                                @endif
+                                @if($var["is_green_flag"]==1)
+                                    <font color="green"> 已申请绿色通道</font>
                                 @endif
                             </td>
                             <td >{!!  $var["stu_test_paper_flag_str"]!!}</td>
@@ -502,7 +489,7 @@
                                         @endif
                                         <a title="删除" class=" fa-trash-o opt-del show_flag"></a>
                                     @else
-                                        <a title="排课" class=" opt-set-lesson-new show_flag">驳回&排课 </a>
+                                        <a title="排课" class="opt-set-lesson-new show_flag">驳回&排课 </a>
                                         <a title="换老师/时间" class=" fa-male  opt-set-teacher-time show_flag"></a>
                                     @endif
                                     <a title="确认课时" class="btn fa fa-gavel opt-confirm show_flag" ></a>
@@ -527,8 +514,8 @@
                                         <a title="驳回申请" class=" opt-set-limit-require-refuce show_seller" >驳回 </a>
                                     @endif
                                     <a title="匹配老师" class="opt-match-teacher show_flag">匹配老师</a>
-                                    @if(in_array($acc,["jack","jim","adrian"]))
-                                        <a title="排课" class="lesson-plan-new-test">排课</a>
+                                    @if($account_role==12)
+                                        <a title="新版排课" class="select-teacher-for-test-lesson">新版排课</a>
                                     @endif
                                 </div>
                             </td>

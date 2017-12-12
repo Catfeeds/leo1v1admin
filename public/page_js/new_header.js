@@ -354,12 +354,15 @@ function table_init() {
             var $table= $(this).closest("table");
             var $th=$table.find("thead >tr");
 
-            var $th_td_list= $th.find("td");
+            var $th_td_list= $th.find(">td");
             var arr=[];
             $.each($th_td_list, function(i,item){
                 if (!(i==0 || i== $th_td_list.length-1)) {
                     var $item=$(item);
-                    var title= $.trim($item.text());
+                    var title= $item.data("title")  ;
+                    if (!title) {
+                        title= $.trim($item.text());
+                    }
                     var display= $item.css("display");
                     var $input=$("<input type=\"checkbox\"/>");
                     if (display=="none") {
@@ -382,6 +385,8 @@ function table_init() {
                         "table_key":table_key,
                         "data":""
                     });
+
+                    //alert(" XXXXX set table_key clean 1 ");
                     window.localStorage.setItem(table_key , "");
                 }
             },{
@@ -401,8 +406,20 @@ function table_init() {
                         "opt_type":"set",
                         "table_key":table_key,
                         "data":JSON.stringify(config_map)
+                    },function(){
+                        $.do_ajax("/page_common/opt_table_field_list",{
+                            "opt_type":"get",
+                            "table_key":table_key
+                        }, function(resp ){
+                            var cur=(new Date() ).getTime()/1000;
+                            resp.log_time=cur;
+                            //alert("XXXX SET :"+ JSON.stringify(resp)  );
+                            window.localStorage.setItem(table_key , JSON.stringify(resp));
+                            window.location.reload();
+                        });
                     });
-                    window.localStorage.setItem(table_key , "");
+
+
                 }
             }]);
         });
@@ -473,7 +490,10 @@ function table_init() {
             var set_reset_filed_flag=false;
             $.each($th_td_list, function(i,item){
                 var $item=$(item);
-                var title=$.trim($item.text());
+                var title=$(item).data("title");
+                if (!title){
+                    title=$.trim($item.text());
+                }
                 var config_value=   config_map[title];
                 var use_config=false;
                 if ( config_value == undefined) {
@@ -515,10 +535,13 @@ function table_init() {
                                 "table_key":table_key,
                                 "data":""
                             });
+                            window.localStorage.setItem(table_key , "");
+
                         });
+                        $item.data("title", $.trim($item.text()) );
                         $item.append($reset_btn);
                         set_reset_filed_flag=true;
-                        window.localStorage.setItem(table_key , "");
+
                     }
 
                 }
@@ -577,8 +600,9 @@ function table_init() {
                 }, function(resp ){
                     reset_table (resp);
                     resp.log_time=cur;
+                    //alert("XXXX SET :"+ JSON.stringify(resp)  );
                     window.localStorage.setItem(table_key , JSON.stringify(resp));
-                } );
+                });
             }
         }else{
             reset_table ({});
@@ -2198,7 +2222,7 @@ function multi_upload_file(new_flag,is_multi,is_auto_start,btn_id, is_public_buc
         var token=ret.token;
         //保证每次new不同的对象
         var qi_niu = ['Qiniu_'+new_flag];
-        console.log(qi_niu[0]);
+        // console.log(qi_niu[0]);
         qi_niu[0] = new QiniuJsSDK();
         var uploader = qi_niu[0].uploader({
         // var uploader = Qiniu.uploader({
@@ -2221,7 +2245,7 @@ function multi_upload_file(new_flag,is_multi,is_auto_start,btn_id, is_public_buc
             domain: "http://"+domain_name,
             get_new_uptoken: false,
             auto_start: is_auto_start,
-            log_level: 5,
+            // log_level: 5,
             init: {
                 'BeforeChunkUpload': function(up, file) {
                     // console.log("before chunk upload:", file.name);
@@ -2586,6 +2610,8 @@ $(function(){
         g_args.order_by_str=order_by_str;
 
         load_data();
+        return false;
+
     });
     try {
 

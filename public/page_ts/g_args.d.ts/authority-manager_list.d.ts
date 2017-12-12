@@ -11,7 +11,7 @@ interface GargsStatic {
 	page_count:	number;
 	account_role:	number;
 	cardid:	number;
-	day_new_user_flag:	number;//App\Enums\Eboolean
+	day_new_user_flag:	number;//枚举: App\Enums\Eboolean
 	tquin:	number;
 	fulltime_teacher_type:	number;
 	call_phone_type:	number;
@@ -78,8 +78,9 @@ tofile:
 /// <reference path="../g_args.d.ts/authority-manager_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		assign_groupid:	$('#id_assign_groupid').val(),
 		assign_account_role:	$('#id_assign_account_role').val(),
 		creater_adminid:	$('#id_creater_adminid').val(),
@@ -95,28 +96,51 @@ function load_data(){
 		fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
 		call_phone_type:	$('#id_call_phone_type').val(),
 		seller_level:	$('#id_seller_level').val()
-    });
+		});
 }
 $(function(){
 
-	Enum_map.append_option_list("boolean",$("#id_day_new_user_flag"));
 
 	$('#id_assign_groupid').val(g_args.assign_groupid);
 	$('#id_assign_account_role').val(g_args.assign_account_role);
 	$('#id_creater_adminid').val(g_args.creater_adminid);
-	$('#id_adminid').val(g_args.adminid);
+	$('#id_adminid').admin_select_user_new({
+		"user_type"    : "account",
+		"select_value" : g_args.adminid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_adminid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_uid').val(g_args.uid);
 	$('#id_user_info').val(g_args.user_info);
 	$('#id_has_question_user').val(g_args.has_question_user);
 	$('#id_del_flag').val(g_args.del_flag);
 	$('#id_account_role').val(g_args.account_role);
 	$('#id_cardid').val(g_args.cardid);
-	$('#id_day_new_user_flag').val(g_args.day_new_user_flag);
+	$('#id_day_new_user_flag').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "day_new_user_flag",
+		"select_value" : g_args.day_new_user_flag,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_day_new_user_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_tquin').val(g_args.tquin);
 	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 	$('#id_call_phone_type').val(g_args.call_phone_type);
-	$('#id_seller_level').val(g_args.seller_level);
-	$.enum_multi_select( $('#id_seller_level'), 'seller_level', function(){load_data();} )
+	$('#id_seller_level').admin_set_select_field({
+		"enum_type"    : "seller_level",
+		"field_name" : "seller_level",
+		"select_value" : g_args.seller_level,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_seller_level",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 
 
 	$('.opt-change').set_input_change_event(load_data);

@@ -11,6 +11,8 @@ $(function(){
 
 
 	  $('#id_teacherid').val(g_args.teacherid);
+    $.admin_select_user( $("#id_teacherid"), "teacher",load_data);
+
     $('#id_is_bank').val(g_args.is_bank);
 
 
