@@ -1160,7 +1160,7 @@ class test_james extends Controller
         // dd($Media_id);
         // 使用客服接口发送消息
         $txt_arr = [
-            'touser'   => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',// james
+            'touser'   => 'orwGAs0ayobuEtO1YZZhW3Yed2To',// james
             'msgtype'  => 'image',
             "image"=>[
                 "media_id"=>$Media_id['media_id']
