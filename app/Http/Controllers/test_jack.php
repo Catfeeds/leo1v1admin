@@ -955,7 +955,7 @@ class test_jack  extends Controller
         $data=[];
         foreach($list as $val){
             @$data["all_num"]++;
-            $lesson_count = $val["lesson_all"]/5;
+            $lesson_count = $val["lesson_all"]/500;
             if($lesson_count<=1){
                 @$data["one_num"]++;
             }elseif($lesson_count<=2){
