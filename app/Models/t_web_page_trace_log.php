@@ -57,23 +57,19 @@ class t_web_page_trace_log extends \App\Models\Zgen\z_t_web_page_trace_log
     public function get_web_page_new($web_page_id,$start_time,$end_time){
         $where_arr = [
             ['wptl.web_page_id = %u',$web_page_id],
-            'mi.account_role in (1,2)',
         ];
-        // $this->where_arr_add_time_range($where_arr, 'wptl.log_time', $start_time, $end_time);
+        $this->where_arr_add_time_range($where_arr, 'wptl.log_time', $start_time, $end_time);
         $sql=$this->gen_sql_new(
-            "select mi."
             "select wptl.from_adminid as adminid,sum(wptl.share_wx_flag) as share_count,".
             "count(wptl.id) as count,count(distinct wptl.ip) as ip_count,".
             "user.groupid,gro.main_type, gro.group_name as group_name,gro.up_groupid,gup.group_name as up_group_name ".
-            "from %s mi ".
-            "left join %s wptl on wptl.from_adminid = mi.uid ".
+            "from %s wptl ".
             "left join %s user on wptl.from_adminid = user.adminid ".
             "left join %s gro on user.groupid = gro.groupid ".
             "left join %s gup on gro.up_groupid = gup.groupid ".
-            "where %s ".
+            "where wptl.web_page_id=%u ".
             "group by wptl.from_adminid ".
             "order by gro.main_type desc,gup.groupid asc,gro.groupid asc,wptl.from_adminid asc ",
-            t_manager_info::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             t_admin_group_user::DB_TABLE_NAME,
             t_admin_group_name::DB_TABLE_NAME,

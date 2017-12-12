@@ -2317,4 +2317,49 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $sql = $this->gen_sql_new("select uid,phone from %s where name='$name'", self::DB_TABLE_NAME);
         return $this->main_get_row($sql);
     }
+    //@desn:获取h5网页分享统计明细
+    //@param:$month
+    //@param:$main_type
+    //@param:$adminid
+    public function get_h5_statistics( $month, $main_type = -1 ,$adminid=-1){
+        $where_arr=[
+            [ "m.main_type =%u ", $main_type,-1] ,
+            [  "am.account not like 'c\_%s%%'", "",  1] ,
+            [  "am.account not like 'q\_%s%%'", "",  1] ,
+        ];
+        $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
+
+        $sql = $this->gen_sql_new(
+            "select tm.group_name first_group_name,g.main_type,g.group_name group_name,"
+            ."g.groupid groupid,m.group_name up_group_name,am.uid adminid,".
+            "am.account,am.seller_level, ".
+            "am.create_time,am.become_member_time,am.leave_member_time,am.del_flag,am.seller_level ".
+            " from %s am ".
+            " left join %s u on (am.uid = u.adminid and u.month=%u)".
+            " left join %s g on (u.groupid = g.groupid and g.month=%u)".
+            " left join %s m on (g.up_groupid = m.groupid and m.month=%u)".
+            " left join %s ss on am.uid = ss.admin_revisiterid ".
+            " left join %s t on ss.userid = t.userid ".
+            " left join %s tm on tm.groupid = m.up_groupid and tm.month = %u".
+            // " where %s and am.del_flag=0".
+            " where %s ".
+            "  group by am.uid",
+            self::DB_TABLE_NAME,//am
+            t_group_user_month::DB_TABLE_NAME,//u
+            $month,
+            t_group_name_month::DB_TABLE_NAME,//g
+            $month,
+            t_main_group_name_month::DB_TABLE_NAME,//m
+            $month,
+            t_seller_student_new::DB_TABLE_NAME,//ss
+            t_test_lesson_subject::DB_TABLE_NAME,//t
+            t_main_major_group_name_month::DB_TABLE_NAME,
+            $month,
+            $where_arr
+        );
+        return $this->main_get_list_as_page($sql,function($item){
+            return $item['adminid'];
+        });
+    }
+
 }
