@@ -3073,6 +3073,7 @@ function init_edit() {
             var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand_new_two");
             var id_intention_level = html_node.find("#id_intention_level_new_two");
             var id_stu_request_test_lesson_time = html_node.find("#id_stu_request_test_lesson_time_new_two");
+            var id_stu_request_test_lesson_end_time = html_node.find("#id_stu_request_test_lesson_time_end_new_two");
             var id_test_paper = html_node.find("#id_test_paper_new_two");
             var id_status            = html_node.find("#id_stu_status_new_two");
             var id_seller_student_sub_status = html_node.find("#id_seller_student_sub_status_new_two");
@@ -3092,14 +3093,7 @@ function init_edit() {
             var id_class_env = html_node.find("#id_class_env_new_two");
             var id_courseware = html_node.find("#id_courseware_new_two");
             var id_add_tag = html_node.find("#id_add_tag_new_two");
-            // $.do_ajax("/product_tag/get_all_tag", {
-            // },function(resp){
-            //     var data=resp.data;
-            //     $.each(data,function(i,item){
-            //         
-            //     });
-            // });
-            
+
             html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
             html_node.find("#id_stu_reset_next_revisit_time_new_two").on("click",function(){
                 id_next_revisit_time.val("");
@@ -3132,9 +3126,20 @@ function init_edit() {
                 }
 
             });
+            id_stu_request_test_lesson_end_time.datetimepicker({
+                lang             : 'ch',
+                timepicker       : true,
+                format:'Y-m-d H:i',
+                step             : 30,
+                onGenerate       : function(){
+                    check_disable_time();
+                }
+
+            });
             //检测该时间该人是否排课
             var check_disable_time = function() {
                 var cur_time = id_stu_request_test_lesson_time.val();
+                var cur_time_end = id_stu_request_test_lesson_end_time.val();
                 var cur_day = new Date(cur_time).getTime() / 1000;
                 $.do_ajax("/seller_student_new/get_stu_request_test_lesson_time_by_adminid",{
                     "cur_day" : cur_day
@@ -3167,10 +3172,10 @@ function init_edit() {
             };
             html_node.find("#id_stu_reset_stu_request_test_lesson_time_new_two").on("click",function(){
                 id_stu_request_test_lesson_time.val("");
+                id_stu_request_test_lesson_end_time.val("");
             });
             id_study_habit.data("v",data.study_habit);
             id_study_habit.on("click",function(){
-                // var study_habit= data.study_habit;
                 var study_habit  = id_study_habit.data("v");
                 $.do_ajax("/ss_deal2/get_stu_study_habit_list",{
                     "study_habit" : study_habit
@@ -3210,7 +3215,6 @@ function init_edit() {
 
             id_interests_hobbies.data("v",data.interests_and_hobbies);
             id_interests_hobbies.on("click",function(){
-                // var interests_hobbies= data.interests_hobbies;
                 var interests_hobbies  = id_interests_hobbies.data("v");
                 $.do_ajax("/ss_deal2/get_stu_interests_hobbies_list",{
                     "interests_hobbies" : interests_hobbies
@@ -3399,7 +3403,6 @@ function init_edit() {
 
             id_character_type.data("v",data.character_type);
             id_character_type.on("click",function(){
-                // var character_type= data.character_type;
                 var character_type  = id_character_type.data("v");
                 $.do_ajax("/ss_deal2/get_stu_character_type_list",{
                     "character_type" : character_type
@@ -3439,7 +3442,6 @@ function init_edit() {
 
             id_need_teacher_style.data("v",data.need_teacher_style);
             id_need_teacher_style.on("click",function(){
-                // var need_teacher_style= data.need_teacher_style;
                 var need_teacher_style  = id_need_teacher_style.data("v");
                 $.do_ajax("/ss_deal2/get_stu_need_teacher_style_list",{
                     "need_teacher_style" : need_teacher_style
@@ -3472,9 +3474,7 @@ function init_edit() {
                             dlg.close();
                         }
                     });
-
                 });
-
             });
 
 
@@ -3719,12 +3719,8 @@ function init_edit() {
                     }
                 }
             });
-            // id_main_subject_score_one.val();
-            // id_main_subject_score_two.val();
-            // id_subject_score.val(data.subject_score);
             id_status.val(data.status);
             id_user_desc.val(data.user_desc);
-            // id_revisite_info.val(data.revisite_info);
             id_has_pad.val(data.has_pad);
             id_school.val(data.school);
             id_editionid.val(data.editionid);
@@ -3842,10 +3838,6 @@ function init_edit() {
                     id_teacher_nature.val(value);
                 }else if(index == '专业能力'){
                     id_pro_ability.val(value);
-                }else if(index == '学科化标签'){
-                    $.each(value.split(','),function(i,item){
-                        // id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' />");
-                    });
                 }else if(index == '课堂气氛'){
                     id_class_env.val(value);
                 }else if(index == '课件要求'){
@@ -3875,6 +3867,7 @@ function init_edit() {
 
 
             id_stu_request_test_lesson_time.val(data.stu_request_test_lesson_time);
+            id_stu_request_test_lesson_time.val(data.stu_request_test_lesson_end_time);
             id_stu_request_test_lesson_demand.val(data.stu_request_test_lesson_demand );
             id_stu_test_ipad_flag.val(data.stu_test_ipad_flag);
 
@@ -3905,14 +3898,17 @@ function init_edit() {
                 }
                 if(html_node.find("#id_stu_request_test_lesson_time").val() == 0){
                     html_node.find("#id_stu_request_test_lesson_time").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                    html_node.find("#id_stu_request_test_lesson_end_time").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                 }
                 if(html_node.find("#id_stu_subject").val() <= 0){
                     html_node.find("#id_stu_subject").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                 }
                 if(html_node.find("#id_stu_request_test_lesson_time").val() == '无'){
                     html_node.find("#id_stu_request_test_lesson_time").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                    html_node.find("#id_stu_request_test_lesson_end_time").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                 }else{
                     var require_time= $.strtotime(html_node.find("#id_stu_request_test_lesson_time").val());
+                    var require_time_end= $.strtotime(html_node.find("#id_stu_request_test_lesson_end_time").val());
                     var need_start_time=0;
                     var now=(new Date()).getTime()/1000;
                     var min_date_time="";
@@ -3929,6 +3925,7 @@ function init_edit() {
                     need_start_time=$.strtotime(min_date_time );
                     if (require_time < need_start_time ) {
                         html_node.find("#id_stu_request_test_lesson_time_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        html_node.find("#id_stu_request_test_lesson_time_end_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                     }
                 }
                 if(html_node.find("#id_stu_nick_new_two").val() == ''){
@@ -3986,7 +3983,6 @@ function init_edit() {
                     html_node.find("#id_recent_results_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                 }
             }
-            
             var dlg=BootstrapDialog.show({
                 title:  title,
                 size: "size-wide",
@@ -4080,6 +4076,7 @@ function init_edit() {
                             study_habit : id_study_habit.val(),
                             stu_request_test_lesson_demand : id_stu_request_test_lesson_demand.val(),
                             stu_request_test_lesson_time:id_stu_request_test_lesson_time.val(),
+                            stu_request_test_lesson_end_time:id_stu_request_test_lesson_end_time.val(),
                             test_paper: id_test_paper.val(),
                             tea_identity:id_tea_status.val(),
                             tea_age:id_tea_age.val(),
@@ -4098,10 +4095,7 @@ function init_edit() {
                 }]
             });
 
-
             dlg.getModalDialog().css("width","78%");
-
-
             var close_btn=$('<div class="bootstrap-dialog-close-button" style="display: block;"><button class="close">×</button></div>');
             dlg.getModalDialog().find(".bootstrap-dialog-header").append( close_btn);
             close_btn.on("click",function(){

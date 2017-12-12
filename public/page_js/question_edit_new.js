@@ -77,20 +77,23 @@ var Cquestion_editor = {
         MathJax.Hub.Queue(["Typeset",MathJax.Hub,mathId]);
     },
 
-    preview_update:function(id_question_type,id_mathjax_content,MathBuffer,MathPreview,mathId) {
+    preview_update:function(id_question_type,id_mathjax_content,MathPreview,mathId) {
         //id_question_type 题型 id_mathjax_content题目输入框 MathBuffer 当前输入的字符串 MathPreview题目显示框 mathId数学公式显示区域
         var question_type = id_question_type.val();
         var mathjax_content = id_mathjax_content.val();
    
         mathjax_content = mathjax_content.replace(/\n/g, '<br/>');
         mathjax_content = mathjax_content.replace(/[ ]/g, '&nbsp');
+        mathjax_content = mathjax_content.replace(/(\!\[\]\()/g,"<img src='");
+	      mathjax_content = mathjax_content.replace(/(\)\[\]\&)/ig,"'/>");
         MathPreview.html(mathjax_content);
         MathJax.Hub.Queue(["Typeset",MathJax.Hub,mathId]);
+        //Cquestion_editor.render_mathJax(MathPreview,mathId);
     },
-    push_buffer:function(mathId){
+    render_mathJax:function(id_mathjax_content,MathPreview,mathId){
         MathJax.Hub.Queue(["Typeset",MathJax.Hub,mathId]);
     },
-    custom_upload:function(btn_id, containerid, domain, id_mathjax_content,MathPreview,mathId){
+    custom_upload:function(btn_id, containerid, domain,id_question_type, id_mathjax_content,MathPreview,mathId){
         var uploader = Qiniu.uploader({
 		            runtimes: 'html5, flash, html4',
 		            browse_button: btn_id , //choose files id
@@ -138,13 +141,9 @@ var Cquestion_editor = {
 				                console.log('Things below are from FileUploaded');
                         console.log(info.response);
                         var imgName = JSON.parse(info.response).key;
-                        var pic_str="\n![]("+  domain + imgName +")\n";
-                        var mathjax_content = id_mathjax_content.val();
-                        mathjax_content = mathjax_content.replace(/\n/g, '<br/>');
-                        mathjax_content = mathjax_content.replace(/[ ]/g, '&nbsp');
-                        mathjax_content = id_mathjax_content.val() + '<br/>' + pic_str;
-                        MathPreview.html(mathjax_content);
-                        MathJax.Hub.Queue(["Typeset",MathJax.Hub,mathId]);
+                        var pic_str="\n![]("+  domain + imgName +")[]&\n";
+                        id_mathjax_content.insertAtCaret(pic_str);
+                        Cquestion_editor.preview_update(id_question_type,id_mathjax_content,MathPreview,mathId);
 			              },
 			              'Error': function(up, err, errTip) {
 				                console.log('Things below are from Error');

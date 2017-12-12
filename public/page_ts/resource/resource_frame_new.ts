@@ -18,13 +18,21 @@ $(function(){
             'info_str' : info_str,
             'level'    : level,
         },function(ret){
-            // console.log(ret);
             if(ret.ret==0){
                 var ret_data = ret.data, add_str = '',select = ret.select;
                 $.each(ret_data, function(i,val){
                     var new_info = info_str+'-'+val[select];
                     var next_level = parseInt(level)+1;
-                    var tr_str = get_add_tr(next_level, new_info, val[select+'_str'], info_str, ret.is_end, val.is_ban);
+                    if(select == 'tag_two'){
+                        var text_str = ChineseDistricts[86][ val['tag_two'] ];
+                        var tr_str = get_add_tr(next_level, new_info, text_str, info_str, ret.is_end, val.is_ban);
+                    } else if (select == 'tag_three'){
+                        var pro_num = info_str.slice(-6);
+                        var text_str = ChineseDistricts[pro_num][ val['tag_three'] ];
+                        var tr_str = get_add_tr(next_level, new_info, text_str, info_str, ret.is_end, val.is_ban);
+                    }else {
+                        var tr_str = get_add_tr(next_level, new_info, val[select+'_str'], info_str, ret.is_end, val.is_ban);
+                    }
                     add_str = add_str + tr_str;
                 });
                 obj.after(add_str);
@@ -85,7 +93,6 @@ $(function(){
         // }
     }};
 
-
     var menu_hide = function(){
         $('#contextify-menu').hide();
         return $('#contextify-menu');
@@ -121,24 +128,24 @@ $(function(){
 
         }
         tr_str = tr_str + '</tr>';
-        // $(tr_str).contextify(options);
         return tr_str;
     }
 
     $('table').on('click','tr',function(){
-        // $(this).contextify(options);
-        if( $(this).hasClass('get_mark') ){
-            var hide_info = $(this).attr('info_str');
-            if( $(this).hasClass('hide_mark') ){
-                $(this).removeClass('hide_mark');
-                $('tr[key='+hide_info+']').show();
+        if($(this).attr('is_end') != 1){
+            if( $(this).hasClass('get_mark') ){
+                var hide_info = $(this).attr('info_str');
+                if( $(this).hasClass('hide_mark') ){
+                    $(this).removeClass('hide_mark');
+                    $('tr[key='+hide_info+']').show();
+                } else {
+                    $(this).addClass('hide_mark');
+                    $('tr[info_str^='+hide_info+'-]').hide();
+                }
             } else {
-                $(this).addClass('hide_mark');
-                $('tr[info_str^='+hide_info+'-]').hide();
+                $(this).addClass('get_mark')
+                get_next_info($(this));
             }
-        } else {
-            $(this).addClass('get_mark')
-            get_next_info($(this));
         }
     });
 
@@ -177,7 +184,12 @@ $(function(){
             } ,
             success : function(result){
                 if(result.ret == 0){
-                    window.location.reload();
+
+                    BootstrapDialog.alert("操作成功！");
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+
                 } else {
                     alert(result.info);
                 }
