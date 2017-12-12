@@ -3775,10 +3775,13 @@ function init_edit() {
                             var checked = '';
                             $.each(subject_tag_arr,function(index,value){
                                 if(value == item['tag_name']){
-                                    checked = 'checked';
+                                    checked = "checked='checked'";
+                                    return false;
+                                }else{
+                                    checked = "";
                                 }
                             });
-                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' checked='"+checked+"' />");
+                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' "+checked+" />");
 
                         }
                     });
@@ -3793,7 +3796,15 @@ function init_edit() {
                     var data=resp.data;
                     $.each(data,function(i,item){
                         if(item['tag_l1_sort'] == '学科化内容标签' && item['tag_l2_sort'] == id_grade.find("option:selected").text() && item['tag_l3_sort'] == id_subject.find("option:selected").text()){
-                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' />");
+                            var checked = '';
+                            $.each(subject_tag_arr,function(index,value){
+                                if(value == item['tag_name']){
+                                    checked = "checked='checked'";
+                                }else{
+                                    checked = "";
+                                }
+                            });
+                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' "+checked+" />");
                         }
                     })
                         })
@@ -3806,7 +3817,15 @@ function init_edit() {
                     var data=resp.data;
                     $.each(data,function(i,item){
                         if(item['tag_l1_sort'] == '学科化内容标签' && item['tag_l2_sort'] == id_grade.find("option:selected").text() && item['tag_l3_sort'] == id_subject.find("option:selected").text()){
-                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' />");
+                            var checked = '';
+                            $.each(subject_tag_arr,function(index,value){
+                                if(value == item['tag_name']){
+                                    checked = "checked='checked'";
+                                }else{
+                                    checked = "";
+                                }
+                            });
+                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' "+checked+" />");
                         }
                     })
                         })

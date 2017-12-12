@@ -597,5 +597,11 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
     }
 
 
+    public function get_2017_11_refund_info(){
+        //Used only once , ignore 
+        $sql = "select  r.qc_adminid, r.qc_deal_time, s.assistantid, r.subject, r.teacher_id, r.qc_contact_status, r.qc_advances_status, r.qc_voluntarily_status, r.userid,s.phone, o.discount_price,r.orderid,o.contract_type,r.lesson_total, f.flow_status, f.flow_status_time,f.flowid,r.should_refund,r.price,o.invoice,o.order_time,o.sys_operator,r.pay_account,  r.real_refund,r.refund_status,r.apply_time,r.refund_userid,o.contractid,r.save_info,r.refund_info,file_url,  o.grade,o.need_receipt   ,if(co.child_order_type=2,1,0) is_staged_flag from db_weiyi.t_order_refund r left join db_weiyi.t_student_info s on s.userid=r.userid left join db_weiyi.t_order_info o on o.orderid=r.orderid left join db_weiyi_admin.t_flow f on (f.flow_type=1002 and r.orderid=f.from_key_int and r.apply_time = f.from_key2_int)  left join db_weiyi.t_child_order_info co on (co.parent_orderid = r.orderid and co.child_order_type = 2) where (s.is_test_user=0 or s.is_test_user is null ) and apply_time>=1509465600 and apply_time<1512057600 order by apply_time desc";
+        return $this->main_get_list($sql);
+    }
+
 
 }
