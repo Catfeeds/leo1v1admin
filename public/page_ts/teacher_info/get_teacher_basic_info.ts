@@ -48,7 +48,7 @@ $(function(){
 
         $.ajax({
             //url      : "/tea_manage/get_pdf_download_url",
-            url      : "/common_new/get_qiniu_download"
+            url      : "/common_new/get_qiniu_download",
             type     : 'GET',
             dataType : 'json',
             data     : {'file_url': file_url},
