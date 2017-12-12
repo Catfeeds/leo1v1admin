@@ -3614,22 +3614,22 @@ ORDER BY require_time ASC";
      */
     public function get_require_list_by_requireid($require_id){
         $where_arr = [
-            ["tq.require_id=%u",$require_id,-1]
+            ["tr.require_id=%u",$require_id,-1]
         ];
         $sql = $this->gen_sql_new("select s.nick,s.gender,s.grade,t.subject,"
-                                  ." tq.curl_stu_request_test_lesson_time,"
-                                  ." tq.test_stu_request_test_lesson_demand,"
-                                  ." t.intention_level,t.quotation_reaction,tq.seller_top_flag"
-                                  ." from %s tq "
-                                  ." left join %s t on tq.test_lesson_subject_id = t.test_lesson_subject_id"
+                                  ." tr.curl_stu_request_test_lesson_time,"
+                                  ." tr.test_stu_request_test_lesson_demand,"
+                                  ." t.intention_level,t.quotation_reaction,tr.seller_top_flag,t.subject_tag"
+                                  ." from %s tr "
+                                  ." left join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id"
                                   ." left join %s s on t.userid = s.userid"
                                   ." left join %s n on t.userid = n.userid"
-                                  ." where %s",
-                                  self::DB_TABLE_NAME,
-                                  t_test_lesson_subject::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,
-                                  t_seller_student_new::DB_TABLE_NAME,
-                                  $where_arr
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_seller_student_new::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_row($sql);
     }
