@@ -165,7 +165,9 @@ class admin_manage extends Controller
 
     public  function  web_page_new ( ) {
         $web_page_id= $this->get_in_int_val("web_page_id");
-        $ret_info=$this->t_web_page_trace_log->get_web_page($web_page_id);
+        list($start_time, $end_time  ) =$this->get_in_date_range_day(0);
+        // $ret_info=$this->t_web_page_trace_log->get_web_page($web_page_id);
+        $ret_info=$this->t_web_page_trace_log->get_web_page_new($web_page_id,$start_time,$end_time);
 
         foreach ($ret_info["list"] as $k => &$item){
             if(!$item['group_name']){
