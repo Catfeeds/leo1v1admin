@@ -1,5 +1,4 @@
 @extends("layouts.app")
-<!-- <include:file="../header.php" /> -->
 
 @section('content')
     <script type="text/javascript" src="/js/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -15,7 +14,6 @@
     <script type="text/javascript" src="/page_js/select_course.js"></script>
     <script type="text/javascript" src="/page_js/select_user.js"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
-
 
     <section class="content">
         <div id="id_question_editor" >
@@ -50,12 +48,17 @@
                     <div class="btn-toolbar" role="toolbar">
                         <div id="id_mathjax_add_pic_div" class="btn-group ">
                             <button type="button" class=" btn  btn-primary opt-title " style="height:28px">问题:</button>
-                            <button type="button" class="btn btn-default  " id="id_mathjax_add_number_dollar_all" title="全部数字/字母自动加$" style="height:28px"><span>all$<span>x=1<span>$<span></span></span></span></span></button>
-                            <button type="button" class="btn btn-default  " id="id_mathjax_add_number_dollar" title="选中的加$ :(ctrl-`)" style="height:28px">多行各自加<span>$<span></span></span></button>
+
+                            <!-- <button type="button" class="btn btn-default  " id="id_mathjax_add_number_dollar_all" title="全部数字/字母自动加$" style="height:28px"><span>all$<span>x=1<span>$<span></span></span></span></span></button>
+                                 <button type="button" class="btn btn-default  " id="id_mathjax_add_number_dollar" title="选中的加$ :(ctrl-`)" style="height:28px">多行各自加<span>$<span></span></span></button> -->
+
                             <button type="button" class="btn btn-default fa fa-picture-o" id="id_mathjax_add_pic" title="图片" style="z-index: 1;"></button>
                             <button type="button" class="btn btn-default " id="id_mathjax_add_under_line" title="插入下划线" style="height:28px">____</button>
                             <button type="button" class="btn btn-default " id="id_mathjax_add_kuo_hao" title="插入括号" style="height:28px">(&nbsp;&nbsp;&nbsp;&nbsp;)</button>            
                         </div>
+                        <ul class="nav navbar-nav">
+                            @include('question_new.mathjax')
+                        </ul>
                     </div>
                 </div>
             </div>

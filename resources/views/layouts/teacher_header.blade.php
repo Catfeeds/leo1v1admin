@@ -128,7 +128,7 @@
                                 <li ><a href="/teacher_info/get_teacher_money_info"><i class="fa fa-database"></i>薪资相关</a></li>
                             </ul>
                         </li>
-                        {{--  <li  ><a href="/teacher_info/file_store"><i class="fa fa-book"></i> <span>资料库</span> </a></li> --}}
+                        <li  ><a href="/teacher_info/file_store"><i class="fa fa-book"></i> <span>资料库</span> </a></li> 
                     </ul>
                 </section>
                 <!-- /.sidebar -->
