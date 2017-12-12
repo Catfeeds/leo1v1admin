@@ -56,10 +56,6 @@ interface RowData {
 	grade_str	:any;
 	lesson_time	:any;
 	tea_comment_str	:any;
-	cc_id	:any;
-	ass_nick	:any;
-	stu_nick	:any;
-	tea_comment	:any;
 	pdf_status_str	:any;
 }
 
@@ -111,6 +107,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_userid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["userid title", "userid", "th_userid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -118,6 +115,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_start_date" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["start_date title", "start_date", "th_start_date" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -125,6 +123,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_end_date" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["end_date title", "end_date", "th_end_date" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -132,4 +131,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_lesson_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["lesson_type title", "lesson_type", "th_lesson_type" ]])!!}
 */

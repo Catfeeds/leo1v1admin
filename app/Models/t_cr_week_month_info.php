@@ -41,9 +41,9 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
         return $this->main_get_value($sql);
     }
 
-    public function get_all_info_by_type_and_time($type,$create_time){
+    public function get_all_info_by_type_and_time($type,$create_time=0){
         $where_arr = [
-            ["create_time=%u",$create_time,""],
+            ["create_time=%u",$create_time,0],
             ["type=%u",$type,-1]
         ];
         $sql = $this->gen_sql_new("select * from %s where %s",self::DB_TABLE_NAME,$where_arr);

@@ -20,6 +20,57 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	qc_adminid	:any;
+	qc_deal_time	:any;
+	assistantid	:any;
+	subject	:any;
+	teacher_id	:any;
+	qc_contact_status	:any;
+	qc_advances_status	:any;
+	qc_voluntarily_status	:any;
+	userid	:any;
+	phone	:any;
+	discount_price	:any;
+	orderid	:any;
+	contract_type	:any;
+	lesson_total	:any;
+	flow_status	:any;
+	flow_status_time	:any;
+	flowid	:any;
+	should_refund	:any;
+	price	:any;
+	invoice	:any;
+	order_time	:any;
+	sys_operator	:any;
+	pay_account	:any;
+	real_refund	:any;
+	refund_status	:any;
+	apply_time	:any;
+	refund_userid	:any;
+	contractid	:any;
+	save_info	:any;
+	refund_info	:any;
+	file_url	:any;
+	grade	:any;
+	need_receipt	:any;
+	is_staged_flag	:any;
+	deal_nick	:any;
+	ass_nick	:any;
+	tea_nick	:any;
+	subject_str	:any;
+	is_staged_flag_str	:any;
+	user_nick	:any;
+	refund_user	:any;
+	apply_time_str	:any;
+	refund_status_str	:any;
+	flow_status_str	:any;
+	contract_type_str	:any;
+	need_receipt_str	:any;
+	grade_str	:any;
+	qc_advances_status_str	:any;
+	qc_contact_status_str	:any;
+	qc_voluntarily_status_str	:any;
+	order_time_str	:any;
 }
 
 /*
@@ -79,6 +130,11 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -86,6 +142,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_refund_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["refund_type title", "refund_type", "th_refund_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -93,6 +150,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_userid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["userid title", "userid", "th_userid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -100,6 +158,9 @@ $(function(){
                 <input class="opt-change form-control" id="id_is_test_user" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["is_test_user title", "is_test_user", "th_is_test_user" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -107,6 +168,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_refund_userid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["refund_userid title", "refund_userid", "th_refund_userid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -114,4 +176,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_seller_groupid_ex" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["seller_groupid_ex title", "seller_groupid_ex", "th_seller_groupid_ex" ]])!!}
 */

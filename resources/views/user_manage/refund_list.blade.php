@@ -205,7 +205,7 @@
                             <td >{{$var["qc_contact_status_str"]}}</td>
                             <td >{{$var["qc_advances_status_str"]}}</td>
                             <td >{{$var["qc_voluntarily_status_str"]}}</td>
-                            <td >{!!$var["is_pass"]!!}</td>
+                            <td >{!!@$var["is_pass"]!!}</td>
 
                             <td>{{@$var["助教部一级原因"]}}</td>
                             <td>{{@$var["助教部二级原因"]}}</td>
