@@ -104,7 +104,7 @@ class fulltime_teacher_wuhan_data extends Command
         $leave_num_all = $task->t_manager_info->get_admin_leave_num($data_start,$end_time);
         $enter_num_all = $task->t_teacher_lecture_appointment_info->get_fulltime_teacher_enter($data_start,$end_time);
         $leave_per = $enter_num_all>0?round($leave_num_all/$enter_num_all*100,2):0;           
-        $leave_per .= "%";
+        $leave_per .= '%('. $leave_num_all.'/'.$enter_num_all.')';
 
         $arr=[349,1043,72,480,747];
         foreach($arr as $v){

@@ -1456,7 +1456,9 @@ class ajax_deal2 extends Controller
             $leave_num = $this->t_manager_info->get_admin_leave_num($start_time,$end_time);
             $enter_num = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_enter($start_time,$end_time);
             $value = $enter_num>0?round($leave_num/$enter_num*100,2):0;           
-            $value .= "%";
+            // $value .= "%";
+            $value .= '%('. $leave_num.'/'.$enter_num.')';
+
  
         }
 
