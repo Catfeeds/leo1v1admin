@@ -136,6 +136,7 @@ var Cquestion_editor = {
 			              },
 			              'FileUploaded' : function(up, file, info) {
 				                console.log('Things below are from FileUploaded');
+                        console.log(info);
                         var res = $.parseJSON(info);
                         var pic_str="\n![]("+  domain+res.key+")\n";
 
@@ -144,7 +145,6 @@ var Cquestion_editor = {
                         mathjax_content = id_mathjax_content.val() + pic_str;
                         MathPreview.html(mathjax_content);
                         MathJax.Hub.Queue(["Typeset",MathJax.Hub,mathId]);
-
 			              },
 			              'Error': function(up, err, errTip) {
 				                console.log('Things below are from Error');
@@ -153,13 +153,13 @@ var Cquestion_editor = {
 			              },
 			              'Key': function(up, file) {
                         console.log("Key start");
-                        console.log(file);
                         var suffix = file.type.split('/').pop();
-                        console.log(suffix);
-                        console.log("Key end");
 				                var key = "";
                         var time = (new Date()).valueOf();
-				                return $.md5(file.name) +time+ "." + suffix;
+                        var imgName = $.md5(file.name) +time+ "." + suffix;
+                        console.log(imgName);
+                        console.log("Key end");
+				                return imgName;
 			              }
 		            }
 	      });
