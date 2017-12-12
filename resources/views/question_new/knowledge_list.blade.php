@@ -11,6 +11,14 @@
             </div>
         </div>
 
+        <div class="col-xs-2 col-md-2">
+            <div class="input-group">
+                <span class="input-group-addon">年级</span>
+                <select class="opt-change form-control" id="id_grade">
+                </select>
+            </div>
+        </div>
+
         <div class="col-xs-1 col-md-1">
             <div class="input-group">
                 <div class=" input-group-btn ">
@@ -52,6 +60,7 @@
                             {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                         >
                             <a class=" fa-edit opt-set" title="编辑知识点"> </a>
+                            <a class=" fa-pencil add_son" title="添加子知识点"> </a>
                             <a class="fa fa-times opt-del" title="删除"> </a>
                         </div>
                     </td>
