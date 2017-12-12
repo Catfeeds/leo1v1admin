@@ -349,7 +349,7 @@ class seller_student_new2 extends Controller
             "admin_work_status" => $admin_work_status,
             "jw_teacher_list"   => $jw_teacher_list,
             "adminid"           => $adminid,
-            "acc"               => $this->get_account()
+            "account_role"      => $this->get_account_role()
         ]);
     }
 
@@ -1431,11 +1431,14 @@ class seller_student_new2 extends Controller
      * 试听排课页面
      */
     public function select_teacher_for_test_lesson(){
-        $require_id   = $this->get_in_int_val("require_id");
-        $identity     = $this->get_in_int_val("identity");
-        $gender       = $this->get_in_int_val("gender");
-        $age          = $this->get_in_int_val("age");
-        $refresh_flag = $this->get_in_int_val("refresh_flag");
+        $require_id    = $this->get_in_int_val("require_id");
+        $teacher_tags  = $this->get_in_str_val("teacher_tags");
+        $teaching_tags = $this->get_in_str_val("teaching_tags");
+        $lesson_tags   = $this->get_in_str_val("lesson_tags");
+        $identity      = $this->get_in_int_val("identity");
+        $gender        = $this->get_in_int_val("gender");
+        $tea_age       = $this->get_in_int_val("tea_age");
+        $refresh_flag  = $this->get_in_int_val("refresh_flag");
 
         $require_info = $this->t_test_lesson_subject_require->get_require_list_by_requireid($require_id);
         if(!empty($require_info)){
@@ -1446,26 +1449,42 @@ class seller_student_new2 extends Controller
             E\Eintention_level::set_item_value_str($require_info);
             $require_info['request_time'] = \App\Helper\Utils::unixtime2date($require_info['curl_stu_request_test_lesson_time']);
 
-            $lesson_start = $require_info['curl_stu_request_test_lesson_time'];
+            // $lesson_start = $require_info['curl_stu_request_test_lesson_time'];
             $lesson_start = strtotime("2017-12-14 9:20");
             $lesson_end   = strtotime("+40 minute",$lesson_start);
             $redis_key    = "require_key_".$require_id;
 
             $tea_list = $this->get_teacher_list_for_test_lesson(
                 $redis_key,$lesson_start,$lesson_end,$require_info['grade'],$require_info['subject'],$refresh_flag,
-                $identity,$gender,$age
+                $identity,$gender,$tea_age,$teacher_tags,$lesson_tags,$teaching_tags
             );
         }else{
             $tea_list = [];
         }
 
-        $select_list = $this->teacher_tags_list_for_select();
-        $tea_list    = \App\Helper\Utils::list_to_page_info($tea_list);
-
+        $teacher_tags  = $this->get_tags_list("教师相关","");
+        $lesson_tags   = $this->get_tags_list("课堂相关","");
+        $teaching_tags = $this->get_tags_list("教学相关","");
+        $tea_list      = \App\Helper\Utils::list_to_page_info($tea_list);
         return $this->pageView(__METHOD__,$tea_list,[
-            "select_list"  => $select_list,
-            "require_info" => $require_info,
+            "teacher_tags"  => $teacher_tags,
+            "lesson_tags"   => $lesson_tags,
+            "teaching_tags" => $teaching_tags,
+            "require_info"  => $require_info,
         ]);
+    }
+
+    /**
+     * 获取筛选项
+     */
+    public function get_tags_list($tag_l1_sort,$tag_l2_sort){
+        $tags_list   = $this->t_tag_library->get_tag_name_list($tag_l1_sort,$tag_l2_sort);
+        $select_list = [];
+        foreach($tags_list as $val){
+            $select_list[]=$val['tag_name'];
+        }
+
+        return $select_list;
     }
 
     /**
@@ -1476,8 +1495,9 @@ class seller_student_new2 extends Controller
      * @param int require_id 试听需求id
      * @param int refresh_flag 刷新标识
      */
-    public function get_teacher_list_for_test_lesson($redis_key,$lesson_start,$lesson_end,$grade,$subject,$refresh_flag=false,
-                                                     $identity=-1,$gender=-1,$age=-1
+    public function get_teacher_list_for_test_lesson(
+        $redis_key,$lesson_start,$lesson_end,$grade,$subject,$refresh_flag=false,$identity=-1,$gender=-1,$tea_age=-1,
+        $teacher_tags='',$lesson_tags='',$teaching_tags=''
     ){
         $grade_range_part = \App\Helper\Utils::change_grade_to_grade_range_part($grade);
         $ret_list  = \App\Helper\Common::redis_get_json($redis_key);
@@ -1530,7 +1550,7 @@ class seller_student_new2 extends Controller
                 $tea_val['age_flag']    = \App\Helper\Utils::check_teacher_age($tea_val['age']);
                 $tea_val['is_identity'] = $identity==$tea_val['identity']?1:0;
                 $tea_val['is_gender']   = $gender==$tea_val['gender']?1:0;
-                $tea_val['is_age']      = $age==$tea_val['age_flag']?1:0;
+                $tea_val['is_age']      = $tea_age==$tea_val['age_flag']?1:0;
 
                 if($del_flag){
                     unset($tea_list[$tea_key]);
@@ -1542,7 +1562,7 @@ class seller_student_new2 extends Controller
                     }
                     $identity_list[$tea_key] = $tea_val['is_identity'];
                     $gender_list[$tea_key]   = $tea_val['is_gender'];
-                    $age_list[$tea_key]      = $tea_val['is_age'];
+                    $tea_age_list[$tea_key]  = $tea_val['is_age'];
                     $match_list[$tea_key]    = $tea_val['match_num'];
                     $ruzhi_list[$tea_key]    = $tea_val['train_through_new_time'];
                     E\Eidentity::set_item_value_str($tea_val);
@@ -1557,7 +1577,7 @@ class seller_student_new2 extends Controller
             }
             if(!empty($tea_list)){
                 array_multisort(
-                    $identity_list,SORT_DESC,$gender_list,SORT_DESC,$age_list,SORT_DESC,
+                    $identity_list,SORT_DESC,$gender_list,SORT_DESC,$tea_age_list,SORT_DESC,
                     $match_list,SORT_DESC,$ruzhi_list,SORT_DESC,$tea_list
                 );
             }

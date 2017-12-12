@@ -576,10 +576,7 @@ class tongji2 extends Controller
         $group_field = "origin_assistantid";
         $ret_info    = $this->t_student_info->get_referral_info( $group_field,$start_time, $end_time );
 
-        // dd($ret_info);
-
         $admin_info = $this->t_manager_info->get_admin_member_list();
-
         $admin_list = &$admin_info['list'] ;
         if ($group_adminid >0) {
             $groupid=$this->t_admin_group_name->get_groupid_by_master_adminid($group_adminid);

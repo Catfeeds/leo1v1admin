@@ -210,8 +210,9 @@ tofile:
 /// <reference path="../g_args.d.ts/seller_student_new2-test_lesson_plan_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		cur_page:	$('#id_cur_page').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
@@ -247,7 +248,7 @@ function load_data(){
 		lesson_plan_style:	$('#id_lesson_plan_style').val(),
 		account_role_self:	$('#id_account_role_self').val(),
 		ass_master_flag:	$('#id_ass_master_flag').val()
-    });
+		});
 }
 $(function(){
 
@@ -263,25 +264,36 @@ $(function(){
 	Enum_map.append_option_list("test_lesson_fail_flag",$("#id_test_lesson_fail_flag"));
 	Enum_map.append_option_list("boolean",$("#id_has_1v1_lesson_flag"));
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
 	$('#id_cur_page').val(g_args.cur_page);
 	$('#id_grade').val(g_args.grade);
 	$('#id_subject').val(g_args.subject);
 	$('#id_test_lesson_student_status').val(g_args.test_lesson_student_status);
 	$('#id_lessonid').val(g_args.lessonid);
-	$('#id_userid').val(g_args.userid);
+	$('#id_userid').admin_select_user_new({
+		"user_type"    : "student",
+		"select_value" : g_args.userid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_userid",
+		"can_sellect_all_flag"     : true
+	});
 	$('#id_accept_flag').val(g_args.accept_flag);
 	$('#id_success_flag').val(g_args.success_flag);
-	$('#id_teacherid').val(g_args.teacherid);
+	$('#id_teacherid').admin_select_user_new({
+		"user_type"    : "teacher",
+		"select_value" : g_args.teacherid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_teacherid",
+		"can_sellect_all_flag"     : true
+	});
 	$('#id_jw_teacher').val(g_args.jw_teacher);
 	$('#id_is_test_user').val(g_args.is_test_user);
 	$('#id_jw_test_lesson_status').val(g_args.jw_test_lesson_status);

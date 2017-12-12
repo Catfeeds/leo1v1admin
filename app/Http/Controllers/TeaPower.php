@@ -4662,23 +4662,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     }
 
-    /**
-     * 获取老师标签列表
-     */
-    public function teacher_tags_list_for_select(){
-        $ret_list  = $this->t_tag_library->get_all_tag_list();
-        $tags_list = [];
 
-        foreach($ret_list as $val){
-            $tag_l1_sort = $val['tag_l1_sort'];
-            $id_l1_name  = "id_".$tag_l1_sort;
-            $tag_name    = $val['tag_name'];
 
-            \App\Helper\Utils::check_isset_data($tags_list[$tag_l1_sort]['select_name'],$tag_l1_sort,0);
-            \App\Helper\Utils::check_isset_data($tags_list[$tag_l1_sort]['select_id'],$id_l1_name,0);
-            $tags_list[$tag_l1_sort][] = $tag_name;
-        }
 
+<<<<<<< HEAD
+=======
         return $tags_list;
     }
 
@@ -4710,4 +4698,5 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $lesson_end_time;
 
     }
+>>>>>>> a7ac4bbec61eb4f093f581e623678aa32bb89f16
 }
