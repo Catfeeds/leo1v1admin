@@ -518,18 +518,21 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                 self::DB_TABLE_NAME, $uid);
         return $this->main_update($sql);
     }
-
-    public function get_admin_member_list(  $main_type = -1 ,$adminid=-1){
+    //@param:$sales_assistant_flag 获取后台管理员中的销售助教
+    public function get_admin_member_list(  $main_type = -1 ,$adminid=-1,$sales_assistant_flag=0){
         $where_arr=[
             [ "m.main_type =%u ", $main_type,-1] ,
             [  "am.account not like 'c\_%s%%'", "",  1] ,
             [  "am.account not like 'q\_%s%%'", "",  1] ,
         ];
         $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
+        if($sales_assistant_flag == 1)
+            $where_arr[]='am.account_role in (1,2)';
 
         $sql = $this->gen_sql_new("select g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,".
                                   "am.uid adminid,am.account,am.seller_level,".
-                                  "am.create_time,am.become_member_time,am.leave_member_time,am.del_flag,am.seller_level ".
+                                  "am.create_time,am.become_member_time,am.leave_member_time,".
+                                  "am.del_flag,am.seller_level".
                                   " from %s am ".
                                   " left join %s u on am.uid = u.adminid".
                                   " left join %s g on u.groupid = g.groupid".
