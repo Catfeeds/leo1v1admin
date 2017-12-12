@@ -78,12 +78,12 @@ class test_sam  extends Controller
         }
         foreach ($ret_info as $key => $value) {
                 echo "<tr>";
-                echo "<td >".$value['grade_str']."</td>";
-                echo "<td >时间:".$value['order_time_str']."<br/>".
-                          "类型:".$value['contract_type_str']."<br/>".
-                          "总课时:".$value['lesson_total']."<br/>".
-                          "原价:".$value['discount_price']."<br/>".
-                          "实付:".$value['price']."<br/>".
+				echo "<td >".$value['grade_str']."</td>";
+                echo "<td >时间:".$value['order_time_str'].
+                          "类型:".$value['contract_type_str'].
+                          "总课时:".$value['lesson_total'].
+                          "原价:".$value['discount_price'].
+                          "实付:".$value['price'].
                           "</td>";
                 echo "<td >".$value['sys_operator']."</td>";
                 echo "<td >".$value['should_refund']."</td>";
