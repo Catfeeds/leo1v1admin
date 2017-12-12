@@ -996,6 +996,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TTeachingCoreDataAddTTeachingCoreData' => __DIR__ . '/../..' . '/database/migrations/2017_12_01_170410_t_teaching_core_data_add_t_teaching_core_data.php',
         'TTestLessonSubjectAddLearningSituation' => __DIR__ . '/../..' . '/database/migrations/2017_10_10_135556_t_test_lesson_subject_add_learning_situation.php',
         'TTestLessonSubjectAddRebutInfo' => __DIR__ . '/../..' . '/database/migrations/2017_11_11_170905_t_test_lesson_subject_add_rebut_info.php',
+        'TTestLessonSubjectAddStuRequestTestLessonTimeEnd' => __DIR__ . '/../..' . '/database/migrations/2017_12_12_155113_t_test_lesson_subject_add_stu_request_test_lesson_time_end.php',
         'TTestLessonSubjectAddTeaAgeTeaSex' => __DIR__ . '/../..' . '/database/migrations/2017_12_09_113941_t_test_lesson_subject_add_tea_age_tea_sex.php',
         'TTestLessonSubjectAddTeaIdentity' => __DIR__ . '/../..' . '/database/migrations/2017_12_09_112054_t_test_lesson_subject_add_tea_identity.php',
         'TTestLessonSubjectDropSubjectTag' => __DIR__ . '/../..' . '/database/migrations/2017_12_12_095952_t_test_lesson_subject_drop_subject_tag.php',

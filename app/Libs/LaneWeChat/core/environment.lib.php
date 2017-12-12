@@ -15,9 +15,15 @@ class Environment {
      * @return bool
      */
     public static function isSae($appname,$accesskey){
-        if(!strcmp(HTTP_APPNAME,$appname)&&!strcmp(HTTP_ACCESSKEY,$accesskey)){
+        if(!strcmp("imcustom4test",$appname)&&!strcmp('04xmzo3zm5',$accesskey)){
             return true;
         }
+
+
+        // if(!strcmp(HTTP_APPNAME,$appname)&&!strcmp(HTTP_ACCESSKEY,$accesskey)){
+        //     return true;
+        // }
+
         return false;
     }
 }
