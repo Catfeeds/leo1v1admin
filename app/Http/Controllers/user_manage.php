@@ -581,7 +581,7 @@ class user_manage extends Controller
         $contract_type     = $this->get_in_el_contract_type();
         $contract_status   = $this->get_in_el_contract_status();
         $config_courseid   = $this->get_in_int_val('config_courseid',-1);
-        $is_test_user      = $this->get_in_int_val('test_user',0);
+        $is_test_user      = $this->get_in_e_boolean(0, 'test_user' );
         $studentid         = $this->get_in_studentid(-1);
         $page_num          = $this->get_in_page_num();
         $has_money         = $this->get_in_int_val("has_money",-1);
@@ -601,6 +601,8 @@ class user_manage extends Controller
         $from_url          = $this->get_in_str_val('from_url');
         $order_activity_type = $this->get_in_e_order_activity_type( -1 );
         $spec_flag = $this->get_in_e_boolean(-1,"spec_flag");
+        $order_adminid          = $this->get_in_adminid(-1);
+
 
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $account = $this->get_account();
@@ -638,7 +640,7 @@ class user_manage extends Controller
             $teacherid, -1 , 0, $require_adminid_list,$origin_userid,
             $referral_adminid,$opt_date_type,
             $order_by_str,
-            $spec_flag,$orderid ,$order_activity_type,$show_son_flag
+            $spec_flag,$orderid ,$order_activity_type,$show_son_flag, $order_adminid
         );
 
         $all_lesson_count = 0;

@@ -143,6 +143,16 @@ interface JQuery {
     //<script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js?v={{@$_publish_version}}"></script>
     admin_select_dlg_ajax(conf:Object):void;
 
+    /*
+	  $('#id_contract_type').admin_set_select_field({
+		    "enum_type"    : "contract_type",
+		    "select_value" : g_args.contract_type,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_contract_type",
+        "only_show_in_th_input" :true,
+		    "btn_id_config"     : {}
+	  });
+    */
     admin_set_select_field (conf:Object ):void;
 
     //<script type="text/javascript" src="/page_js/lib/select_dlg.js?v={{@$_publish_version}}"></script>
@@ -162,7 +172,7 @@ interface JQuery {
 		    "select_value" : g_args.studentid,
 		    "onChange"     : load_data,
 		    "th_input_id"  : "th_studentid",
-		    "can_sellect_all_flag"     : true
+		    "can_select_all_flag"     : true
 	  });
     */
     admin_select_user_new(obj:Object) ;

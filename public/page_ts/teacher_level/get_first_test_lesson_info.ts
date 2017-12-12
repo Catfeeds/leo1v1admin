@@ -372,10 +372,10 @@ $(function(){
                 ["总分",id_score],
                 ["非教学相关得分",id_no_tea_score],
                 ["监课情况",id_jkqk],
-                ["意见或建议",id_record],
-                ["教师相关标签",teacher_related_labels],
-                ["课堂相关标签",class_related_labels],
-                ["教学相关标签",teaching_related_labels],
+                ["<font style=\"color:red\">*</font>&nbsp意见或建议",id_record],
+                ["<font style=\"color:red\">*</font>&nbsp教师相关标签",teacher_related_labels],
+                ["<font style=\"color:red\">*</font>&nbsp课堂相关标签",class_related_labels],
+                ["<font style=\"color:red\">*</font>&nbsp教学相关标签",teaching_related_labels],
                // ["标签",id_sshd],
             ];
             
@@ -452,7 +452,7 @@ $(function(){
 
                     var record_info = id_record.val();
                     if(record_info==""){
-                        BootstrapDialog.alert("请填写评价内容!");
+                        BootstrapDialog.alert("请填写意见或建议内容!");
                         return ;
                     }
                     console.log(record_info.length);
@@ -718,6 +718,39 @@ $(function(){
         });
 
     });
+
+    $("#id_test_lesson_assign").on("click",function(){
+        var $teacherid = $("<input />");
+     
+
+
+        var arr=[           
+            ["老师", $teacherid],        
+        ];
+       
+
+        $.show_key_value_table("新增", arr, {
+            label    : '提交',
+            cssClass : 'btn-primary',
+            action   : function(dialog) {
+
+               
+                    $.do_ajax("/test_jack/add_record", {
+                        "teacherid" : $teacherid.val(),
+                       
+                    });
+
+              
+
+            }
+        },function(){
+            $.admin_select_user($teacherid,"teacher" );
+            
+
+
+        });
+ 
+    })
 
 
 

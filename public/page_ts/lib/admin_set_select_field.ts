@@ -54,10 +54,22 @@
 
         if(select_desc_list.length >0 ) {
             title= select_desc_list.join(",");
+        }else{
+            if  ( options.show_title_flag  ) {
+                title= "";
+            }
+
         }
 
         if (title.length > options.title_length ) {
             title=title.substring(0, options.title_length )+"...";
+        }
+        if  (options.show_title_flag ) {
+            if (title) {
+                title= old_title+":" + title;
+            }else{
+                title= old_title;
+            }
         }
 
         var btn_id_config= options.btn_id_config;
@@ -75,8 +87,8 @@
             ' <li class="dropdown  " style="list-style: none;" >  ' +
                 '  <a href="#" class="dropdown-toggle a-title" data-toggle="dropdown" aria-expanded="true"> '
                 + title +' </a>'
-                + '  <ul class="dropdown-menu"  style="width:'+options.width +'px;"  > ' +
-                '       <li style=" margin:5px auto; width:90%;float: right;" > <span> <span class="text-danger" style=" font-size:18px"> '+display_title +'</span> <input  type="checkbox"  class="input_multi_select"  />  多选  </span> '
+                + '  <ul class="dropdown-menu "  style="width:'+options.width +'px;"  > ' +
+                '       <li style=" margin:5px auto; width:90%;float: right;" > <span> <span class="text-danger" style=" font-size:18px"> '+display_title +'</span>  <span> <input  type="checkbox"  class="input_multi_select"  />  多选  </span> '
                 + btn_ex_str
                 +' <button class="btn btn-primary btn-do-post-select" data-value="-1"> 全部</button>  <button class="btn btn-warning btn-do-post "  > 提交 </button> </li>' +
                 '       <table class=" table table-bordered table-hover " style=" margin:0 auto; width:90%;"  > ' + row_str +
@@ -84,6 +96,15 @@
                 '  </ul> ' +
                 ' </li> ');
 
+
+        html_obj.find(".dropdown-toggle" ).on("click",function( ){
+            var win_width= $(window).width() ;
+            var a_left= $(this).offset().left;
+            if (win_width-a_left < options.width )  {
+                html_obj.find(".dropdown-menu" ).addClass("dropdown-menu-right");
+            }
+
+        });
 
         html_obj.find("tr" ).on("click",function( ){
 
@@ -108,12 +129,21 @@
         var multi_selection=window.localStorage.getItem(options.multi_selection_key);
 
         var $input_multi_select =html_obj.find(".input_multi_select");
-        if (multi_selection =="true") {
-            $input_multi_select.attr("checked", "checked" );
-            html_obj.find(".btn-do-post").show();
-        }else{
+
+        if ( options.multi_select_flag   ) {
+            if (multi_selection =="true") {
+                $input_multi_select.attr("checked", "checked" );
+                html_obj.find(".btn-do-post").show();
+            }else{
+                html_obj.find(".btn-do-post").hide();
+            }
+        }else {
+            $input_multi_select.parent().hide();
+            window.localStorage.setItem(options.multi_selection_key,"false");
             html_obj.find(".btn-do-post").hide();
         }
+
+
         $input_multi_select.on("change",function( ){
             var val=""+ $input_multi_select.is(':checked');
             window.localStorage.setItem(options.multi_selection_key, val);
@@ -167,7 +197,9 @@
         this.$ele= $ele;
 
         this.defaults = {
-            "enum_type"    : "grade",
+            "enum_type"    : "boolean",
+            "field_name"  :"test_user",
+            "multi_select_flag"  :  true,
             "select_value" : -1,
             "onChange"     : null,
             "th_input_id"  : null,
@@ -175,7 +207,9 @@
             "width"   :300,
             "btn_id_config": [],
             "select_css" :  "danger",
+            "only_show_in_th_input" :false , //是否只显示 表头
             "title_length" : 7,
+            "show_title_flag": false,
 
         };
         this.options = $.extend({}, this.defaults, opt);
@@ -187,23 +221,36 @@
 
         if ( !$.check_in_phone() &&  th_input_id) {
             var $th_input= $("#" + this.options.th_input_id  );
-            if ($th_input.is(":visible")){ 
-                this.$ele.parent().parent().hide();
-                this.$ele.parent().parent().data( "always_hide", 1);
+            if ($th_input.is(":visible")){
+
+                if (this.options.only_show_in_th_input ) {
+                    this.$ele.parent().parent().hide();
+                    this.$ele.parent().parent().data( "always_hide", 1);
+                }
                 init_th_input( $ele, $th_input, this.options  );
 
                 set_to_th_flag=true;
             }
         }
 
+        if ( !this.options.multi_select_flag ) { //单选
+            Enum_map.append_option_list( "boolean", this.$ele );
+        }
+
         this.$ele.val(this.options.select_value);
-        if (!set_to_th_flag ){
-            $.enum_multi_select(
-                this.$ele,
-                this.options.enum_type ,
-                this.options.onChange,
-                this.options.show_id_list ,
-                this.options.btn_id_config );
+
+
+        if (!this.options.only_show_in_th_input ) {
+            if ( this.options.multi_select_flag ) {
+                $.enum_multi_select(
+                    this.$ele,
+                    this.options.enum_type ,
+                    this.options.onChange,
+                    this.options.show_id_list ,
+                    this.options.btn_id_config );
+            }else{
+                this.$ele.val(this.options.select_value);
+            }
         }
     };
 
@@ -227,7 +274,7 @@
     //在插件中使用对象
     $.fn.admin_select_user_new = function(options) {
         $(this).val( options.select_value);
-        if (options.can_sellect_all_flag) {
+        if (options.can_select_all_flag) {
             var args_ex= $.extend({}, options.args_ex, { "select_btn_config": [{
                 "label": "全部",
                 "value": -1

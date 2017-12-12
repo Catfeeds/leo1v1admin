@@ -4296,6 +4296,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
 
         foreach($list as &$item){
+            $item['teacher_lesson_price'] = $item['lesson_price'];
             $item['lesson_price'] = strval(
                 $item['lesson_price']
                 +$item['lesson_reward_ex']
@@ -4664,4 +4665,38 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
 
 
+<<<<<<< HEAD
+=======
+        return $tags_list;
+    }
+
+
+    //试听课转化率结束时间判断
+    public function get_test_lesson_end_time($end_time){
+        $start_time_ave = time()-30*86400;
+        $res = $this->t_lesson_info->get_all_test_order_info_by_time($start_time_ave);
+        $num = 0;
+        $arr = 0;
+        foreach($res as $item){
+            if($item["orderid"]>0 && $item["order_time"]>0 && $item["lesson_start"]>0){
+                $num++;
+                $arr += ($item["order_time"]-$item["lesson_start"]);
+            }
+        }
+
+        if($num!=0){
+            $day_num = round($arr/$num/86400,0);
+        }else{
+            $day_num = 0;
+        }
+
+        if((time() - $end_time) <= $day_num*86400){
+            $lesson_end_time = time()- $day_num*86400;
+        }else{
+            $lesson_end_time = $end_time;
+        }
+        return $lesson_end_time;
+
+    }
+>>>>>>> a7ac4bbec61eb4f093f581e623678aa32bb89f16
 }

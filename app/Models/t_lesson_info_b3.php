@@ -2471,7 +2471,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["teacherid=%u",$teacherid,-1]
         ];
         $sql = $this->gen_sql_new("select lessonid,teacherid,userid,lesson_start "
-                                  ."from %s where %s order by lesson_start desc limit 3",
+                                  ."from %s where %s order by lesson_start desc limit 4",
                                   self::DB_TABLE_NAME
                                   ,$where_arr);
         return $this->main_get_list($sql);

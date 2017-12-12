@@ -1970,17 +1970,17 @@ $(function(){
                 [ "学生",  id_nick] ,
                 [ "科目",  id_subject] ,
                 [ "年级",  id_grade] ,
-                ["教材版本",  id_textbook ],
-                ["学生成绩",  id_stu_score_info ],
-                ["学生性格",  id_stu_character_info ],
-                ["试听需求",  id_stu_request_test_lesson_demand ],
-                ["试听后是否更换过老师",  id_is_change_teacher ],
-                ["老师给学生的上课时长(天)",  id_tea_time ],
-                ["问题反馈",  id_record_info ],
-                ["问题反馈(图片)",  id_record_info_url ],
-                ["教师相关标签",teacher_related_labels],
-                ["课堂相关标签",class_related_labels],
-                ["教学相关标签",teaching_related_labels],
+                ["<font style=\"color:red\">*</font>&nbsp教材版本",  id_textbook ],
+                ["<font style=\"color:red\">*</font>&nbsp学生成绩",  id_stu_score_info ],
+                ["<font style=\"color:red\">*</font>&nbsp学生性格",  id_stu_character_info ],
+                ["<font style=\"color:red\">*</font>&nbsp试听需求",  id_stu_request_test_lesson_demand ],
+                ["<font style=\"color:red\">*</font>&nbsp试听后是否更换过老师",  id_is_change_teacher ],
+                ["<font style=\"color:red\">*</font>&nbsp老师给学生的上课时长(天)",  id_tea_time ],
+                ["<font style=\"color:red\">*</font>&nbsp问题反馈",  id_record_info ],
+                ["<font style=\"color:red\">*</font>&nbsp问题反馈(图片)",  id_record_info_url ],
+                ["<font style=\"color:red\">*</font>&nbsp教师相关标签",teacher_related_labels],
+                ["<font style=\"color:red\">*</font>&nbsp课堂相关标签",class_related_labels],
+                ["<font style=\"color:red\">*</font>&nbsp教学相关标签",teaching_related_labels],
             ];
 
             $.show_key_value_table("教学质量反馈", arr ,{
@@ -2617,10 +2617,10 @@ $(function(){
                     ["总分",id_score],
                     ["非教学相关得分",id_no_tea_score],
                     ["监课情况",id_jkqk],
-                    ["意见或建议",id_record],
-                    ["教师相关标签",teacher_related_labels],
-                    ["课堂相关标签",class_related_labels],
-                    ["教学相关标签",teaching_related_labels],
+                    ["<font style=\"color:red\">*</font>&nbsp意见或建议",id_record],
+                    ["<font style=\"color:red\">*</font>&nbsp教师相关标签",teacher_related_labels],
+                    ["<font style=\"color:red\">*</font>&nbsp课堂相关标签",class_related_labels],
+                    ["<font style=\"color:red\">*</font>&nbsp教学相关标签",teaching_related_labels],
 
                    // ["标签",id_sshd],
                 ];
@@ -2674,7 +2674,7 @@ $(function(){
                     action   : function(dialog) {
                         var record_info = id_record.val();
                         if(record_info==""){
-                            BootstrapDialog.alert("请填写评价内容!");
+                            BootstrapDialog.alert("请填写意见或建议内容!");
                             return ;
                         }
                         console.log(record_info.length);

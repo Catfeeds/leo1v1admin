@@ -67,9 +67,9 @@ class resource extends Controller
             $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info
         );
         foreach($ret_info['list'] as &$item){
-            \App\Helper\Utils::unixtime2date_for_item($item,"update_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::get_file_use_type_str($item);
-            $item['nick'] = $this->cache_get_account_nick($item['edit_adminid']);
+            $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
             $item['file_size'] = round( $item['file_size'] / 1024,2);
             $tag_arr = $this->tag_arr[ $item['resource_type'] ];
 
@@ -687,6 +687,16 @@ class resource extends Controller
             'file_link'     => $file_link,
             'file_use_type' => $file_use_type,
         ]);
+
+        $file_id = $this->t_resource_file->get_last_insertid();
+        $adminid = $this->get_account_id();
+        $this->t_resource_file_visit_info->row_insert([
+            'file_id'     => $file_id,
+            'visit_type'  => 9,
+            'create_time' => time(),
+            'visitor_id'  => $adminid,
+        ]);
+
         return $this->output_succ();
     }
 
@@ -780,14 +790,14 @@ class resource extends Controller
         $page_num = $this->get_in_page_num();
         $resource_id   = $this->get_in_int_val('resource_id', -1);
         $file_use_type = $this->get_in_int_val('file_use_type', -1);
-
-        $ret_list = $this->t_resource_file_visit_info->get_visit_detail( $resource_id, $file_use_type, $page_num);
+        $ret_list = $this->t_resource_file_visit_info->get_visit_detail( $page_num,$resource_id, $file_use_type);
         foreach ($ret_list['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             $this->cache_set_item_account_nick($item,"visitor_id", 'nick');
             E\Eresource_visit::set_item_value_simple_str($item,'visit_type');
         }
-        return $this->output_succ(["data"=> $ret_list]);
+        return $this->output_ajax_table($ret_list);
+        // return $this->output_succ(["data"=> $ret_list]);
     }
 
     public function get_del() {

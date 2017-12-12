@@ -184,7 +184,7 @@ $(function(){
             $(this).find('.order_per').text(order_per);
         })
     }
-    if(g_account=='龚隽' || g_account=='sherry' || g_account=='班洁'){
+    if(g_account=='龚隽' || g_account=='sherry' || g_account=='班洁' || g_account=='孙瞿'){
         download_show();
     }
     $('.opt-change').set_input_change_event(load_data);

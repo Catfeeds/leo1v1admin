@@ -1652,6 +1652,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_value($sql);
     }
 
+
+
     public function get_teacher_test_lesson_info_by_time($page_num,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$qzls_flag=-1,$fulltime_flag=-1,$create_now=-1,$start_time=-1,$end_time=-1,$fulltime_teacher_type=-1){
         $where_arr=[
             ["t.teacherid=%u",$teacherid,-1],

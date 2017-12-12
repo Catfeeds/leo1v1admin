@@ -21,7 +21,6 @@ trait  ViewDeal {
         $str="";
         $reload_filed_str="";
         $set_filed_str="";
-        $enum_set_select_str="";
 
         $enum_select_html_str="";
 
@@ -54,15 +53,13 @@ trait  ViewDeal {
                 $str.=  "\t$key:\tstring;//枚举列表: $muti_enum_class\n ";
                 $is_enum_list_flag=true;
             }else{//枚举
-                $str.=  "\t$key:\tnumber;//$value\n";
+                $str.=  "\t$key:\tnumber;//枚举: $value\n";
                 $is_enum_flag=true;
             }
             if ($is_enum_flag) {
                 $enum_type_str=preg_replace("/.*E/", "", $value);
                 $name=$value::$name;
-                $enum_set_select_str.=
-                                    "\tEnum_map.append_option_list(\"$enum_type_str\",\$(\"#id_$key\"));\n";
-                    $enum_select_html_str.=
+                $enum_select_html_str.=
                                          "\n".'        <div class="col-xs-6 col-md-2">'."\n".
                                          '            <div class="input-group ">'. "\n".
                                          '                <span class="input-group-addon">'.$name.'</span>'."\n".
@@ -115,11 +112,25 @@ trait  ViewDeal {
                         $enum_type_str=preg_replace("/.*E/", "", $muti_enum_class);
                         $set_filed_str.= "\t\$('#id_$key').admin_set_select_field({\n"
                                       .'		"enum_type"    : "'.$enum_type_str.'",' . "\n"
+                                      .'		"field_name" : "'.$key .'",'  . "\n"
                                       .'		"select_value" : g_args.'.$key .','  . "\n"
+                                      .'		"multi_select_flag"     : true,'  . "\n"
                                       .'		"onChange"     : load_data,'  . "\n"
                                       .'		"th_input_id"  : "th_'.$key .'",'  . "\n"
-                                      .'		"btn_id_config"     : {}' . "\n"
+                                      .'		"only_show_in_th_input"     : false,' . "\n"
+                                      .'		"btn_id_config"     : {},' . "\n"
                                       ."	});"  . "\n";
+                    }else if ( $is_enum_flag ) {
+                        $set_filed_str.= "\t\$('#id_$key').admin_set_select_field({\n"
+                            .'		"enum_type"    : "'.$enum_type_str.'",' . "\n"
+                            .'		"field_name" : "'.$key .'",'  . "\n"
+                            .'		"select_value" : g_args.'.$key .','  . "\n"
+                            .'		"onChange"     : load_data,'  . "\n"
+                            .'		"multi_select_flag"     : false ,'  . "\n"
+                            .'		"th_input_id"  : "th_'.$key .'",'  . "\n"
+                            .'		"only_show_in_th_input"     : false,' . "\n"
+                            .'		"btn_id_config"     : {},' . "\n"
+                            ."	});"  . "\n";
                     }else{
                         $user_type_config=[
                             "userid"=> "student",
@@ -136,7 +147,8 @@ trait  ViewDeal {
                                           .'		"select_value" : g_args.'.$key .','  . "\n"
                                           .'		"onChange"     : load_data,'  . "\n"
                                           .'		"th_input_id"  : "th_'.$key .'",'  . "\n"
-                                          .'		"can_sellect_all_flag"     : true' . "\n"
+                                          .'		"only_show_in_th_input"     : false,' . "\n"
+                                          .'		"can_select_all_flag"     : true' . "\n"
                                           ."	});"  . "\n";
 
 
@@ -215,7 +227,6 @@ trait  ViewDeal {
 
              "$(function(){\n".
              "\n".
-             $enum_set_select_str.
              "\n".
              $set_filed_str.
              "\n".

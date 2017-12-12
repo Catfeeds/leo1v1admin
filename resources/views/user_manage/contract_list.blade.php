@@ -26,6 +26,15 @@
 
               <div class="col-xs-6 col-md-2">
                   <div class="input-group ">
+                      <span class="input-group-addon">下单人</span>
+                      <input class="opt-change form-control" id="id_adminid" />
+                  </div>
+              </div>
+
+
+
+              <div class="col-xs-6 col-md-2">
+                  <div class="input-group ">
                       <span class="input-group-addon">类型</span>
                       <input class="opt-change form-control " id="id_contract_type" /> 
                   </div>
@@ -191,7 +200,7 @@
                     <td >实付/原始单价</td>
                     <td style="display:none;" >优惠原因</td>
                     <td  style="display:none;" >包类型</td>
-                    <td >下单人</td>
+                    {!!\App\Helper\Utils::th_order_gen([["下单人", "", "th_adminid" ]])!!}
                     <td style="display:none;">淘宝订单号</td>
                     <td style="display:none">courseid</td>
                     <td style="display:none;">助教</td>
@@ -200,7 +209,7 @@
                     <td >TMK负责人</td>
                     <td >试听课老师</td>
                     <td >财务说明</td>
-                    <td >特殊折扣申请状态</td>
+                    {!!\App\Helper\Utils::th_order_gen([["特殊折扣申请状态", "", "th_spec_flag" ]])!!}
                     <td >发放礼拜时间</td>
                     <td >个人总课时</td>
                     <td >是否分期</td>

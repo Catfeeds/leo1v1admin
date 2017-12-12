@@ -192,16 +192,17 @@
                                 <a class="opt-set-server" title="服务器" >切换</a>
                                 <!-- <a class="fa-edit opt-edit" title="审核"></a> -->
                                 <a class="opt-edit-new" title="审核">审核</a>
+                                @if($acc=="jack" || $acc=="jim" || $acc=="林文彬")
+                                    <a class="opt-test" >测试</a>
+                                    <a class="opt-edit-pass" title="审核">审核-new</a>
+                                    <a class="opt-edit-no-pass" title="判定为不通过">不通过 </a>
+
+                                @endif
+
                                
                             @endif
                             @if($var['lesson_status']==0)
                                 <a class="opt-email" title="补发邮件">邮</a>
-                            @endif
-                            @if($acc=="jack" || $acc=="jim" || $acc=="林文彬")
-                                <a class="opt-test" >测试</a>
-                                <a class="opt-edit-pass" title="审核">审核-new</a>
-                                <a class="opt-edit-no-pass" title="判定为不通过">不通过 </a>
-
                             @endif
                             @if($var['resume_url']!='')
                                 <a class="opt-resume_url" title="查看简历">简历</a>

@@ -8,4 +8,6 @@ return array (
     array(5,"","纠错" ),
     array(6,"","彻底删除" ),
     array(7,"","使用" ),
+    array(8,"","收藏" ),
+    array(9,"","首次上传" ),
 );
