@@ -1098,7 +1098,7 @@ class test_james extends Controller
     public function wx_news(){ // 使用客服接口发送消息
         //使用客服接口发送消息
         $txt_arr = [
-            'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
+            'touser'   => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',// james
             'msgtype'  => 'news',
             "news"=>[
                 "articles"=> [
@@ -1123,12 +1123,11 @@ class test_james extends Controller
         // ];
 
 
-        // $appid_tec     = config('admin')['teacher_wx']['appid'];
-        // $appsecret_tec = config('admin')['teacher_wx']['appsecret'];
+        $appid_tec     = config('admin')['wx']['appid'];
+        $appsecret_tec = config('admin')['wx']['appsecret'];
 
         $wx = new \App\Helper\Wx() ;
-        // $token = $wx->get_wx_token($appid_tec,$appsecret_tec);
-        $token = $wx->get_wx_token();
+        $token = $wx->get_wx_token($appid_tec,$appsecret_tec);
 
         $txt = $this->ch_json_encode($txt_arr);
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
