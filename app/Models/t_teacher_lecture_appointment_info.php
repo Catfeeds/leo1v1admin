@@ -855,10 +855,16 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         });
     }
 
-    public function get_id_list_by_adminid($accept_adminid){
-        $sql = $this->gen_sql_new("select id,answer_begin_time,accept_adminid from %s where accept_adminid=%u",
+    public function get_id_list_by_adminid($accept_adminid,$lecture_revisit_type=-1){
+        $where_arr=[];
+        if($lecture_revisit_type==1){
+            $where_arr[]="lecture_revisit_type not in (4,8)"; 
+        }
+        $sql = $this->gen_sql_new("select id,answer_begin_time,accept_adminid,lecture_revisit_type"
+                                  ." from %s where accept_adminid=%u and %s",
                                   self::DB_TABLE_NAME,
-                                  $accept_adminid
+                                  $accept_adminid,
+                                  $where_arr
         );
         return $this->main_get_list($sql);
     }
