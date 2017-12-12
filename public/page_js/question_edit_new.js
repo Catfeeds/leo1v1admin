@@ -136,9 +136,10 @@ var Cquestion_editor = {
 			              },
 			              'FileUploaded' : function(up, file, info) {
 				                console.log('Things below are from FileUploaded');
+                        console.log(up);
+                        console.log(file);
                         console.log(info);
-                        var res = $.parseJSON(info);
-                        var pic_str="\n![]("+  domain+res.key+")\n";
+                        var pic_str="\n![]("+  domain+info.key+")\n";
 
                         var mathjax_content = mathjax_content.replace(/\n/g, '<br/>');
                         mathjax_content = mathjax_content.replace(/[ ]/g, '&nbsp');
