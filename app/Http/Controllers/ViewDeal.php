@@ -501,7 +501,7 @@ trait  ViewDeal {
 
     static function view_with_header_info( $view , $data=[], $mergeData=[] ) {
         global $_SERVER;
-        $data["_cur_http"] = "http://".$_SERVER['HTTP_HOST'];
+        $data["_cur_http"] = "http://".@$_SERVER['HTTP_HOST'];
         $data["_power_list"]= session("power_list");
         $data["_account"]=  session("acc") ;
         $data["_face_pic"]=  session("face_pic") ;
