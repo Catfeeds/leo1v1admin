@@ -1379,7 +1379,9 @@ class user_manage extends Controller
 
             \App\Helper\Utils::unixtime2date_for_item($item,"flow_status_time");
             $item['order_time_str'] = date('Y-m-d H:i:s',$item['order_time']);
+
             continue;
+            //以下不处理
 
             $refund_qc_list = $this->t_order_refund->get_refund_analysis($item['apply_time'], $item['orderid']);
             if(!empty($refund_qc_list['qc_other_reason'])
