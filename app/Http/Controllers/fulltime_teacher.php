@@ -475,11 +475,23 @@ class fulltime_teacher extends Controller
         $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
         $week_start = $date_week["sdate"]-14*86400;
         $week_end = $date_week["sdate"]+21*86400;
-        $normal_stu_list =$this->t_teacher_info->get_teacher_list(1,$week_start,$week_end,1);
-        $ret['fulltime_normal_stu_num'] =$normal_stu_list["stu_num"];
-        $platform_normal_stu_list = $this->t_teacher_info->get_teacher_list(1,$week_start,$week_end);
-        $ret['platform_normal_stu_num'] =$platform_normal_stu_list["stu_num"];
-        $ret['fulltime_normal_stu_pro'] =  $ret['platform_normal_stu_num']>0?round(100*$ret['fulltime_normal_stu_num']/$ret['platform_normal_stu_num'],2):0;
+        $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5);
+        $qz_tea_arr=[];
+        foreach($ret_info as $yy=>$item){
+            if($item["teacherid"] != 97313){
+                $qz_tea_arr[] =$item["teacherid"];
+            }else{
+                unset($ret_info[$yy]);
+            }
+        }
+        $normal_stu_num = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);
+        foreach($normal_stu_num as $val){
+            @$ret['fulltime_normal_stu_num'] +=$val["num"];
+        }
+       
+        //  $platform_normal_stu_list = $this->t_teacher_info->get_teacher_list(1,$week_start,$week_end);
+        //  $ret['platform_normal_stu_num'] =$platform_normal_stu_list["stu_num"];
+        $ret['fulltime_normal_stu_pro'] =  $ret['platform_teacher_student']>0?round(100*$ret['fulltime_normal_stu_num']/$ret['platform_teacher_student'],2):0;
 
 
         return $this->pageView(__METHOD__ ,null, [

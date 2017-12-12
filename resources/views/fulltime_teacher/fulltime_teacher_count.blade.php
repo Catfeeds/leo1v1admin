@@ -130,7 +130,7 @@
                                             <td class="panel-orange" title="当前所在周加上前后两个两周，共5周内的上课学生数">全职老师当前所带学生数</td>
                                             <td class="panel-orange">{{$ret_info['fulltime_normal_stu_num']}}</td>
                                             <td class="panel-orange">占当前所有学生总数的比例</td>
-                                            <td class="panel-orange">{{$ret_info['fulltime_normal_stu_pro']}}%({{$ret_info['fulltime_normal_stu_num']}}/{{$ret_info['platform_normal_stu_num']}})</td>
+                                            <td class="panel-orange">{{$ret_info['fulltime_normal_stu_pro']}}%({{$ret_info['fulltime_normal_stu_num']}}/{{$ret_info['platform_teacher_student']}})</td>
 
                                            
                                         </tr>
