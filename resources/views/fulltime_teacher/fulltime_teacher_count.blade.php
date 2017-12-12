@@ -107,7 +107,7 @@
                                         <tr>
                                             <td class="panel-green">兼职老师完成的课耗总数</td> 
                                             <td class="panel-green">{{$ret_info['part_teacher_lesson_count']}}</td>
-                                            <td class="panel-blue">全职老师cc转化率</td>
+                                            <td class="panel-blue">兼职老师cc转化率</td>
                                             <td class="panel-blue">{{$ret_info['part_teacher_cc_per']}}%({{$ret_info['part_teacher_cc_order']}}/{{$ret_info['part_teacher_cc_lesson']}})</td>
                                         </tr>
 
