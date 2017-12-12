@@ -92,6 +92,7 @@ class Kernel extends ConsoleKernel
         Commands\update_ass_warning_list::class,
         Commands\fulltime_teacher_kaoqin::class,
         Commands\fulltime_teacher_data::class,
+        Commands\fulltime_teacher_wuhan_data::class,
         Commands\zs_train_interview_info_wx::class,
         Commands\teacher_advance_send_wx::class,
         Commands\set_every_month_student_score::class,
