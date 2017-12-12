@@ -8360,7 +8360,7 @@ class tongji_ss extends Controller
             //统计订单相关信息  ---begin---
             $this->t_order_info->switch_tongji_database();
             //合同
-            $order_list_new = $this->t_seller_student_origin->get_lesson_list_new($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
+            $order_list_new = $this->t_seller_student_origin->get_order_list_new($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
 
             // $order_list= $this->t_order_info->tongji_seller_order_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str, $origin);
             foreach ($order_list_new as  $order_item ) {
