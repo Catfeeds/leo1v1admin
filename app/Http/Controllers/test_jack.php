@@ -1079,7 +1079,7 @@ class test_jack  extends Controller
         //     E\Esubject::set_item_value_str($item,"subject");
 
         // }
-        $list=[];
+        $list=[1];
         return $this->pageView(__METHOD__,null,[
             "list"  =>$list
         ]);

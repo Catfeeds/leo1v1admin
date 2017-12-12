@@ -46,7 +46,7 @@
                        
 
                         <td>
-                            <div class="row-data"  >
+                            <div class="row-data" data-teacherid="1" >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>
                             </div>
 
