@@ -1098,7 +1098,7 @@ class test_james extends Controller
     public function wx_news(){ // 使用客服接口发送消息
         //使用客服接口发送消息
         $txt_arr = [
-            'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
+            'touser'   => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',// james
             'msgtype'  => 'news',
             "news"=>[
                 "articles"=> [
