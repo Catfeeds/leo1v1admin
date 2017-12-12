@@ -14,18 +14,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	tag_id	:any;
-	tag_name	:any;
-	tag_l1_sort	:any;
-	tag_l2_sort	:any;
-	tag_l3_sort	:any;
-	tag_weight	:any;
-	tag_object	:any;
-	tag_desc	:any;
-	create_time	:any;
-	manager_id	:any;
-	account	:any;
-	tag_object_str	:any;
 }
 
 /*
@@ -69,6 +57,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_tag_l1_sort" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tag_l1_sort title", "tag_l1_sort", "th_tag_l1_sort" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -76,6 +65,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_tag_l2_sort" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tag_l2_sort title", "tag_l2_sort", "th_tag_l2_sort" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -83,6 +73,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_tag_l3_sort" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tag_l3_sort title", "tag_l3_sort", "th_tag_l3_sort" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -90,4 +81,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_tag_name" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tag_name title", "tag_name", "th_tag_name" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */
