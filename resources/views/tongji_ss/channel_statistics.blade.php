@@ -254,14 +254,31 @@
                                     </a>
                                 </td>
 
-                                <td >{{@$var["tq_call_fail_count"]}}</td>
-                                <td >{{@$var["tq_call_succ_valid_count"]}}</td>
-                                <td >{{@$var["tq_call_succ_invalid_count"]}}</td>
+                                <td >
+                                    <a href="javascript:;"  class="opt-go-info" data-cond="tq_call_fail" data-opt="example" data-val="{{@$var["key4"]}}">
+                                        {{@$var["tq_call_fail_count"]}}
+                                    </a>
+                                </td>
+                                <td >
+                                    <a href="javascript:;"  class="opt-go-info" data-cond="tq_call_succ_vaild" data-opt="example" data-val="{{@$var["key4"]}}">
+                                        {{@$var["tq_call_succ_valid_count"]}}
+                                    </a>
+                                </td>
+                                <td >
+                                    <a href="javascript:;"  class="opt-go-info" data-cond="tq_call_succ_invaild" data-opt="example" data-val="{{@$var["key4"]}}">
+                                        {{@$var["tq_call_succ_invalid_count"]}}
+
+                                    </a>
+                                </td>
 
                                 <td style="display:none;" >{{@$var['called_rate']}}%</td>
                                 <td style="display:none;" >{{@$var['effect_rate ']}}%</td>
 
-                                <td >{{@$var["tq_call_fail_invalid_count"]}}</td>
+                                <td >
+                                    <a href="javascript:;"  class="opt-go-info" data-cond="tq_call_fail_invaild" data-opt="example" data-val="{{@$var["key4"]}}">
+                                        {{@$var["tq_call_fail_invalid_count"]}}
+                                    </a>
+                                </td>
                                 <td style="display:none;" >{{@$var["have_intention_a_count"]}}</td>
                                 <td style="display:none;" >{{@$var["have_intention_b_count"]}}</td>
                                 <td style="display:none;" >{{@$var["have_intention_c_count"]}}</td>

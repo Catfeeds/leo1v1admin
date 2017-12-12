@@ -1138,6 +1138,25 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             $this->where_arr_add_int_field($where_arr, 'ssn.global_tq_called_flag', 0);
         elseif($cond == 'called')//已拨通
             $this->where_arr_add_int_field($where_arr, 'ssn.global_tq_called_flag', 2);
+        elseif($cond == 'tq_called')//已拨打
+            $where_arr[] = 'global_tq_called_flag <>0';
+        elseif($cond=='tq_call_fail')//未接通
+            $this->where_arr_add_int_field($where_arr, 'ssn.global_tq_called_flag', 1);
+        elseif($cond=='tq_call_succ_vaild'){
+            //已拨通-有效
+            $this->where_arr_add_int_field($where_arr, 'ssn.global_tq_called_flag', 2);
+            $this->where_arr_add_int_field($where_arr, 'ssn.sys_invaild_flag', 0);
+        }elseif($cond=='tq_call_succ_invaild'){
+            //已拨通-无效
+            $this->where_arr_add_int_field($where_arr, 'ssn.global_tq_called_flag', 2);
+            $this->where_arr_add_int_field($where_arr, 'ssn.sys_invaild_flag', 1);
+        }elseif($cond=='tq_call_fail_invaild'){
+            //未拨通-无效
+            $this->where_arr_add_int_field($where_arr, 'ssn.global_tq_called_flag', 1);
+            $this->where_arr_add_int_field($where_arr, 'ssn.sys_invaild_flag', 1);
+        }
+
+
         $sql=$this->gen_sql_new(
             "select pa.nickname,seller_resource_type ,first_call_time,first_contact_time,".
             "first_revisit_time,last_revisit_time,tmk_assign_time,last_contact_time,".
@@ -1155,10 +1174,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             " from %s tls ".
             " left join %s ssn on  ssn.userid = tls.userid ".
             " left join %s si on ssn.userid=si.userid ".
-            " left join %s mi on  ssn.admin_revisiterid =mi.uid ".
-            " left join %s a on  a.userid =ssn.userid ".
-            " left join %s pa on  pa.id =a.parentid ".
-            " where  %s"
+            " left join %s mi on  ssn.admin_revisiterid =mi.uid ". " left join %s a on  a.userid =ssn.userid ". " left join %s pa on  pa.id =a.parentid ". " where  %s"
             , self::DB_TABLE_NAME
             , t_seller_student_new::DB_TABLE_NAME
             , t_student_info::DB_TABLE_NAME
