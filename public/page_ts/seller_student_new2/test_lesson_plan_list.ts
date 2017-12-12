@@ -144,8 +144,8 @@ $(function(){
             return;
         }
 
-        if(opt_data.accept_status == 1){
-            alert("老师已确认课程，若更换试听课，请取消课程，重新排课!");
+        if(opt_data.test_lesson_student_status != 200){
+            alert("非待排课状态，若更换试听课，请取消课程，重新排课!");
             return;
         }
 
