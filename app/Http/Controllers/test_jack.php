@@ -955,24 +955,58 @@ class test_jack  extends Controller
         $data=[];
         foreach($list as $val){
             @$data["all_num"]++;
-            $lesson_count = $val["lesson_all"]/500;
-            if($lesson_count<=1){
+            // $lesson_count = $val["lesson_all"]/500;
+            // if($lesson_count<=1){
+            //     @$data["one_num"]++;
+            // }elseif($lesson_count<=2){
+            //     @$data["two_num"]++;
+            // }elseif($lesson_count<=3){
+            //     @$data["three_num"]++;
+            // }elseif($lesson_count<=4){
+            //     @$data["four_num"]++;
+            // }elseif($lesson_count<=5){
+            //     @$data["five_num"]++;
+            // }elseif($lesson_count<=6){
+            //     @$data["six_num"]++;
+            // }else{
+            //     @$data["other_num"]++;
+            // }
+
+        }
+        $list2 = $this->t_week_regular_course->get_tea_stu_num_list_detail($qz_tea_arr);
+        foreach($list2 as $val){
+            $lesson_count = $val["lesson_all"]/100;
+            if($lesson_count==1){
                 @$data["one_num"]++;
-            }elseif($lesson_count<=2){
+            }elseif($lesson_count==1.5){
+                @$data["one_five_num"]++;
+            }elseif($lesson_count==2){
                 @$data["two_num"]++;
-            }elseif($lesson_count<=3){
+            }elseif($lesson_count==2.5){
+                @$data["two_five_num"]++;
+            }elseif($lesson_count==3){
                 @$data["three_num"]++;
-            }elseif($lesson_count<=4){
+            }elseif($lesson_count==3.5){
+                @$data["three_five_num"]++;
+            }elseif($lesson_count==4){
                 @$data["four_num"]++;
-            }elseif($lesson_count<=5){
+            }elseif($lesson_count==4.5){
+                @$data["four_five_num"]++;
+            }elseif($lesson_count==5){
                 @$data["five_num"]++;
-            }elseif($lesson_count<=6){
+            }elseif($lesson_count==5.5){
+                @$data["five_five_num"]++;
+            }elseif($lesson_count==6){
                 @$data["six_num"]++;
+            }elseif($lesson_count==6.5){
+                @$data["six_five_num"]++;
             }else{
                 @$data["other_num"]++;
             }
 
         }
+
+
         $start_time = strtotime("2017-12-01");
         $end_time = strtotime("2018-01-01");
 

@@ -43,11 +43,17 @@ $(function(){
                         var data = resp.data;
                         $tr.find(".all_num").text(data.all_num);
                         $tr.find(".one_num").text(data.one_num);
+                        $tr.find(".one_five_num").text(data.one_five_num);
                         $tr.find(".two_num").text(data.two_num);
+                        $tr.find(".two_five_num").text(data.two_five_num);
                         $tr.find(".three_num").text(data.three_num);
+                        $tr.find(".three_five_num").text(data.three_five_num);
                         $tr.find(".four_num").text(data.four_num);
+                        $tr.find(".four_five_num").text(data.four_five_num);
                         $tr.find(".five_num").text(data.five_num);
+                        $tr.find(".five_five_num").text(data.five_five_num);
                         $tr.find(".six_num").text(data.six_num);
+                        $tr.find(".six_five_num").text(data.six_five_num);
                         $tr.find(".other_num").text(data.other_num);
                         $tr.find(".tea_leave_num").text(data.tea_leave_num);
                         $tr.find(".stu_leave_num").text(data.stu_leave_num);
