@@ -2562,7 +2562,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_row($sql);
     }
 
-    public function get_teacher_lesson_info($teacherid,$start_time,$end_time){
+    public function get_teacher_lesson_info($teacherid,$start_time,$end_time,$qz_tea_arr){
         $where_arr=[
             "t.is_test_user = 0",
             "l.lesson_del_flag = 0",
@@ -2571,6 +2571,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $this->where_arr_teacherid($where_arr,"l.teacherid", $qz_tea_arr );
        
         $sql=$this->gen_sql_new("select  sum(if(l.confirm_flag < 2 and l.lesson_type in (0,1,3),1,0)) reg_num, sum(if(deduct_come_late=1 and l.lesson_type in (0,1,3),1,0)) late_num, sum(if(lesson_cancel_reason_type=21 and l.lesson_type in (0,1,3),1,0)) kk_num,sum(if(lesson_cancel_reason_type=2 and l.lesson_type in (0,1,3),1,0)) change_num,sum(if(lesson_cancel_reason_type=12 and l.lesson_type in (0,1,3),1,0)) leave_num,  sum(if(l.lesson_type=2 and tss.success_flag<2,1,0)) test_num,sum(if(l.lesson_type=2 and tss.test_lesson_fail_flag=109,1,0)) test_kk_num, sum(if(l.lesson_type=2 and tss.test_lesson_fail_flag=113,1,0)) test_person_num,sum(if(deduct_come_late=1 and l.lesson_type =2,1,0)) test_late_num,sum(if(deduct_come_late=1 and l.lesson_type in (0,1,3) and l.confirm_flag < 2 ,1,0)) invalid_late_num,sum(if((lesson_cancel_reason_type=2 or lesson_cancel_reason_type=1)  and l.lesson_type in (0,1,3),1,0)) all_change_num,sum(if(lesson_cancel_reason_type=1 and l.lesson_type in (0,1,3),1,0)) stu_change_num,sum(if(lesson_cancel_reason_type=11 and l.lesson_type in (0,1,3),1,0)) stu_leave_num,sum(if((lesson_cancel_reason_type=12 or lesson_cancel_reason_type=11) and l.lesson_type in (0,1,3),1,0)) all_leave_num,  l.teacherid "
                                 ." from %s l "

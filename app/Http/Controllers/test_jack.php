@@ -951,6 +951,38 @@ class test_jack  extends Controller
             }
         }
         $list = $this->t_lesson_info_b2->get_tea_stu_num_list_detail($qz_tea_arr,$week_start,$week_end);
+        $all_num = $one_num=$two_num = $three_num = $four_num = $five_num = $six_num = $other_num=0;
+        $data=[];
+        foreach($list as $val){
+            @$data["all_num"]++;
+            $lesson_count = $val["lesson_all"]/5;
+            if($lesson_count<=1){
+                @$data["one_num"]++;
+            }elseif($lesson_count<=2){
+                @$data["two_num"]++;
+            }elseif($lesson_count<=3){
+                @$data["three_num"]++;
+            }elseif($lesson_count<=4){
+                @$data["four_num"]++;
+            }elseif($lesson_count<=5){
+                @$data["five_num"]++;
+            }elseif($lesson_count<=2){
+                @$data["six_num"]++;
+            }else{
+                @$data["other_num"]++;
+            }
+
+        }
+        $start_time = strtotime("2017-12-01");
+        $end_time = strtotime("2018-01-01");
+
+        $ret = $this->t_lesson_info_b3->get_teacher_lesson_info(-1,$start_time,$end_time,$qz_tea_arr);
+        $stu_leave_num = $tea_leave_num=0;
+        foreach($ret as $val){
+            @$data["stu_leave_num"] +=$val["stu_leave_num"];
+            @$data["tea_leave_num"] +=$val["leave_num"];
+        }
+        return $this->output_succ(["data"=>$data]);
         dd($list);
 
     }

@@ -40,7 +40,7 @@ $(function(){
                     $.do_ajax("/test_jack/ajax_deal_jack",{
                     },function(resp){
                         console.log(resp.data);
-                        var data = resp;
+                        var data = resp.data;
                         $tr.find(".all_num").text(data.all_num);
                         $tr.find(".one_num").text(data.one_num);
                         $tr.find(".two_num").text(data.two_num);
