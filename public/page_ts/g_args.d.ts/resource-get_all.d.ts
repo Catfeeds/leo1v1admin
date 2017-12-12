@@ -49,6 +49,7 @@ interface RowData {
 	use_type_str	:any;
 	tag_one_str	:any;
 	tag_two_str	:any;
+	tag_three_str	:any;
 }
 
 /*
@@ -102,6 +103,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_use_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["use_type title", "use_type", "th_use_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -109,6 +111,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_resource_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["resource_type title", "resource_type", "th_resource_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -116,6 +119,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_subject" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["subject title", "subject", "th_subject" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -123,6 +127,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_grade" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["grade title", "grade", "th_grade" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -130,6 +135,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_tag_one" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tag_one title", "tag_one", "th_tag_one" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -137,6 +143,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_tag_two" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tag_two title", "tag_two", "th_tag_two" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -144,6 +151,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_tag_three" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tag_three title", "tag_three", "th_tag_three" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -151,6 +159,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_tag_four" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tag_four title", "tag_four", "th_tag_four" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -158,4 +167,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_file_title" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["file_title title", "file_title", "th_file_title" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

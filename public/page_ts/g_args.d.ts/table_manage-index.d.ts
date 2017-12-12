@@ -58,6 +58,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_db_name" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["db_name title", "db_name", "th_db_name" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -65,4 +66,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_table_name" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["table_name title", "table_name", "th_table_name" ]])!!}
 */
