@@ -1,5 +1,5 @@
 interface GargsStatic {
-	grade:	number;//App\Enums\Egrade
+	grade:	number;//枚举: App\Enums\Egrade
 	all_flag:	number;
 	test_user:	number;
 	originid:	number;
@@ -84,9 +84,17 @@ function load_data(){
 }
 $(function(){
 
-	Enum_map.append_option_list("grade",$("#id_grade"));
 
-	$('#id_grade').val(g_args.grade);
+	$('#id_grade').admin_set_select_field({
+		"enum_type"    : "grade",
+		"field_name" : "grade",
+		"select_value" : g_args.grade,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_grade",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_all_flag').val(g_args.all_flag);
 	$('#id_test_user').val(g_args.test_user);
 	$('#id_originid').val(g_args.originid);

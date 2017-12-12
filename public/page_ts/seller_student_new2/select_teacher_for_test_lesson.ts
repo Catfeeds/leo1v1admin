@@ -59,9 +59,6 @@ $(function(){
         var grade       = $("#id_require_info").data("grade");
         var seller_top_flag = $("#id_require_info").data("seller_top_flag");
 
-        console.log(seller_top_flag);
-        return true;
-
         var do_post = function(){
             $.do_ajax("/ss_deal/course_set_new",{
                 'require_id'      : require_id,

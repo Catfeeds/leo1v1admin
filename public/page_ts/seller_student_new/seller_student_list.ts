@@ -3756,33 +3756,36 @@ function init_edit() {
             }else{
                 html_node.find("#id_knowledge_point_location").val(data.knowledge_point_location);
             }
+            var subject_tag_arr = [];
             $.each(data.subject_tag,function(index,value){
-                alert(index);
-                alert(value);
-                            //     if(index == '学科化标签'){
-                            //         id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' checked='checked' />");
-                            //     }else{
-                            //         id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' />");
-                            //     }
-                            });
+                if(index == '学科化标签'){
+                    $.each(value.split(','),function(index_v,value_v){
+                        if(value_v !== ''){
+                            subject_tag_arr.push(value_v);
+                        }
+                    });
+                }
+            });
             if(id_grade.val()>0 && id_subject.val()>0){
                 $.do_ajax("/product_tag/get_all_tag", {
                 },function(resp){
                     var data=resp.data;
                     $.each(data,function(i,item){
                         if(item['tag_l1_sort'] == '学科化内容标签' && item['tag_l2_sort'] == id_grade.find("option:selected").text() && item['tag_l3_sort'] == id_subject.find("option:selected").text()){
-                            // $.each(data.subject_tag,function(index,value){
-                            //     if(index == '学科化标签'){
-                            //         id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' checked='checked' />");
-                            //     }else{
-                            //         id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' />");
-                            //     }
-                            // });
-                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' />");
+                            var checked = '';
+                            $.each(subject_tag_arr,function(index,value){
+                                if(value == item['tag_name']){
+                                    checked = "checked='checked'";
+                                    return false;
+                                }else{
+                                    checked = "";
+                                }
+                            });
+                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' "+checked+" />");
 
                         }
                     });
-            });
+                });
             }
 
             id_grade.change(function(){
@@ -3793,7 +3796,15 @@ function init_edit() {
                     var data=resp.data;
                     $.each(data,function(i,item){
                         if(item['tag_l1_sort'] == '学科化内容标签' && item['tag_l2_sort'] == id_grade.find("option:selected").text() && item['tag_l3_sort'] == id_subject.find("option:selected").text()){
-                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' />");
+                            var checked = '';
+                            $.each(subject_tag_arr,function(index,value){
+                                if(value == item['tag_name']){
+                                    checked = "checked='checked'";
+                                }else{
+                                    checked = "";
+                                }
+                            });
+                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' "+checked+" />");
                         }
                     })
                         })
@@ -3806,7 +3817,15 @@ function init_edit() {
                     var data=resp.data;
                     $.each(data,function(i,item){
                         if(item['tag_l1_sort'] == '学科化内容标签' && item['tag_l2_sort'] == id_grade.find("option:selected").text() && item['tag_l3_sort'] == id_subject.find("option:selected").text()){
-                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' />");
+                            var checked = '';
+                            $.each(subject_tag_arr,function(index,value){
+                                if(value == item['tag_name']){
+                                    checked = "checked='checked'";
+                                }else{
+                                    checked = "";
+                                }
+                            });
+                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' "+checked+" />");
                         }
                     })
                         })
@@ -3857,10 +3876,7 @@ function init_edit() {
 
             id_stu_request_test_lesson_time.val(data.stu_request_test_lesson_time);
             id_stu_request_test_lesson_demand.val(data.stu_request_test_lesson_demand );
-           // id_stu_score_info.val(data.stu_score_info);
-           // id_stu_test_lesson_level.val(data.stu_test_lesson_level);
             id_stu_test_ipad_flag.val(data.stu_test_ipad_flag);
-           // id_stu_character_info.val(data.stu_character_info);
 
             id_next_revisit_time.datetimepicker( {
                 lang:'ch',

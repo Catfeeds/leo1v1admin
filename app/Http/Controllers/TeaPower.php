@@ -252,7 +252,7 @@ trait TeaPower {
     }
 
 
-    public function set_teacher_label_new($teacherid,$lessonid,$lesson_list,$tea_tag_arr,$label_origin,$set_flag=1){
+    public function set_teacher_label_new($teacherid,$lessonid,$lesson_list,$tea_tag_arr,$label_origin,$set_flag=1,$per_flag=0){
         $tag_info = json_encode($tea_tag_arr);
         $style_character = json_decode(@$tea_tag_arr["style_character"],true);
         $professional_ability= json_decode(@$tea_tag_arr["professional_ability"],true);
@@ -299,14 +299,19 @@ trait TeaPower {
                     }
                 }
 
+                if($per_flag==1){
+                    $per_num=0.1;
+                }else{
+                    $per_num=1;
+                }
                 foreach($tea_tag_arr as $item){
                     $ret= json_decode($item,true);
                     if(is_array($ret)){
                         foreach($ret as $val){
                             if(isset($teacher_tags_list[$val])){
-                                $v = $teacher_tags_list[$val]+1;
+                                $v = $teacher_tags_list[$val]+$per_num;
                             }else{
-                                $v = 1;
+                                $v = $per_num;
                             }
                             $teacher_tags_list[$val]=$v;
                         }

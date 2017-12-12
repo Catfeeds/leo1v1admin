@@ -2535,20 +2535,23 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $where_arr = [
             "$group_field>0",
         ];
-        $this->where_arr_add_time_range($where_arr,"s.reg_time",$start_time,$end_time);
+        // $this->where_arr_add_time_range($where_arr,"s.reg_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select".
                                   // " o.origin,".
-                                  " count(*) total_num, ".
+                                  " count(distinct s.userid ) total_num, ".
                                   " sum(o.price) price_num, ".
                                   " $group_field ,".
                                   " sum(o.orderid is not null) orderid_num, ".
                                   " count(distinct o.userid) userid_num".
                                   " from %s s ".
                                   " left join %s o on (o.userid = s.userid and o.contract_status>0 and  o.contract_type =0 )  ".
+                                  " left join %s n on s.userid = n.userid".
                                   " where %s ".
                                   " group by  $group_field ",
                                   self::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME,
+                                  t_seller_student_new::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){

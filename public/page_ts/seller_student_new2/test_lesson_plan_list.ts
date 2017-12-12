@@ -144,8 +144,8 @@ $(function(){
             return;
         }
 
-        if(opt_data.accept_status == 1){
-            alert("老师已确认课程，若更换试听课，请取消课程，重新排课!");
+        if(opt_data.test_lesson_student_status != 200){
+            alert("非待排课状态，若更换试听课，请取消课程，重新排课!");
             return;
         }
 
@@ -2839,5 +2839,13 @@ $(function(){
             }, 1000);
         });
     }
+
+    $(".select-teacher-for-test-lesson").on("click",function(){
+        var data = $(this).get_opt_data();
+        var url = "/seller_student_new2/select_teacher_for_test_lesson?require_id="+data.require_id;
+        window.open(url);
+    });
+
+
     $(".opt-download-test-paper").show();
 });
