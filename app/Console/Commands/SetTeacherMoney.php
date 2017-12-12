@@ -43,6 +43,8 @@ class SetTeacherMoney extends cmd_base
         $type  = $this->get_in_value('type',2);
         $day   = $this->get_in_value('day',0);
         $date  = $this->get_in_value('date',0);
+        echo 1;
+        return true;
 
         if($type==1){
             $task->set_teacher_lesson_total_list();

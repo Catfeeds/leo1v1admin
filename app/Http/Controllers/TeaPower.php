@@ -4662,15 +4662,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     }
 
-
-
-
-<<<<<<< HEAD
-=======
-        return $tags_list;
-    }
-
-
     //试听课转化率结束时间判断
     public function get_test_lesson_end_time($end_time){
         $start_time_ave = time()-30*86400;
@@ -4698,5 +4689,4 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $lesson_end_time;
 
     }
->>>>>>> a7ac4bbec61eb4f093f581e623678aa32bb89f16
 }
