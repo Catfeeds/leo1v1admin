@@ -15,6 +15,22 @@ use  App\Jobs\send_wx_notic_to_tea;
 
 use LaneWeChat\Core\Media;
 
+use LaneWeChat\Core\AccessToken;
+
+use LaneWeChat\Core\ResponsePassive;
+
+use Illuminate\Http\Request;
+
+use LaneWeChat\Core\WeChatOAuth;
+
+use LaneWeChat\Core\UserManage;
+
+use LaneWeChat\Core\TemplateMessage;
+
+
+include(app_path("Libs/LaneWeChat/lanewechat.php"));
+
+
 
 require_once app_path('/Libs/TCPDF/tcpdf.php');
 require_once app_path('/Libs/TCPDF/config/tcpdf_config.php');
