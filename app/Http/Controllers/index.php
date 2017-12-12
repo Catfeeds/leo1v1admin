@@ -134,6 +134,7 @@ class index extends Controller
         } else if(@$_SERVER["HTTP_HOST"] == "teacher.leo1v1.com"){
             // return $this->teacher_index();
             header("Location: /login/teacher");
+            exit;
         }
 
         $tq_token=$this->get_in_str_val("token");
