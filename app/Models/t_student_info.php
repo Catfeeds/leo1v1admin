@@ -2531,10 +2531,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
-
-
-
-
     public function get_referral_info( $group_field, $start_time, $end_time){
         $where_arr = [
             "$group_field>0",
