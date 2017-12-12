@@ -69,7 +69,7 @@ class save_seller_info extends Command
         $ret_info['new_money']      = $new_order_info['total_price'] ; //   全部收入[新签+转介绍]
         $ret_info['order_cc_num']    = $new_order_info['total_num'] ; // 有签单的销售人数
 
-        $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("");
+        $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("销售,,,");
 
         $main_type = 2;// 销售
         $ret_info['seller_target_income'] = $this->get_month_finish_define_money(0,$start_time); // 销售月目标收入

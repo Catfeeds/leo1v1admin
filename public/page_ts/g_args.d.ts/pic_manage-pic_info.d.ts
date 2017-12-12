@@ -45,11 +45,12 @@ tofile:
 /// <reference path="../g_args.d.ts/pic_manage-pic_info.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		type:	$('#id_type').val(),
 		usage_type:	$('#id_usage_type').val()
-    });
+		});
 }
 $(function(){
 

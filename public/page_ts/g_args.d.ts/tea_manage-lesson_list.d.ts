@@ -142,6 +142,7 @@ interface RowData {
 	number	:any;
 	performance_status	:any;
 	performance	:any;
+	tea_has_update	:any;
 	new_test_listen	:any;
 	lesson_time	:any;
 	lesson_cancel_reason_type_str	:any;

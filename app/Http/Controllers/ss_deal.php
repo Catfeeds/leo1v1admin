@@ -307,6 +307,7 @@ class ss_deal extends Controller
         */
         //$this->t_admin_group->
         $ss_item = $this->t_seller_student_new->field_get_list($userid,"*");
+
         $tt_item = $this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"*");
         $tr_item = $this->t_test_lesson_subject_require->field_get_list($require_id,"*");
 
@@ -353,6 +354,7 @@ class ss_deal extends Controller
 
         //新增加信息
         $ret["class_rank"]    = $ss_item["class_rank"];
+        $ret["class_num"]    = $ss_item["class_num"];
         $ret["grade_rank"]    = $ss_item["grade_rank"];
         $ret["academic_goal"]    = $ss_item["academic_goal"];
         $ret["test_stress"]    = $ss_item["test_stress"];
@@ -385,6 +387,9 @@ class ss_deal extends Controller
         $ret["change_teacher_reason"] = $tr_item["change_teacher_reason"];
         $ret["green_channel_teacherid"] = $tr_item["green_channel_teacherid"];
         $ret["learning_situation"]    = $tt_item["learning_situation"];
+        $ret["subject_score"] = $ss_item['subject_score'];
+        $ret["subject_tag"] = json_decode($tt_item['subject_tag']);
+        // dd($ret["subject_tag"]);
 
         return $this->output_succ(["data" => $ret ]);
     }
@@ -1967,42 +1972,73 @@ class ss_deal extends Controller
             $demand           = $stu_request_info['stu_request_test_lesson_demand'];
             $lesson_time_str    = \App\Helper\Utils::fmt_lesson_time($lesson_start,$lesson_end);
             $require_admin_nick = $this->cache_get_account_nick($require_adminid);
-            $this->t_manager_info->send_wx_todo_msg(
-                $require_admin_nick,"来自:".$this->get_account()
-                ,"排课[$phone][$nick] 老师[$teacher_nick] 上课时间[$lesson_time_str]","","");
 
-            $parentid = $this->t_student_info->get_parentid($userid);
+            $do_adminid = $this->get_account_id();
+            if($do_adminid == 1093 || $do_adminid == 1231){ // 文彬测试
 
-            if($parentid>0){
-                $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
+                /**
+                 * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                 * 标题课程 : 待办事项提醒
+                 * {{first.DATA}}
+                 * 待办主题：{{keyword1.DATA}}
+                 * 待办内容：{{keyword2.DATA}}
+                 * 日期：{{keyword3.DATA}}
+                 * {{remark.DATA}}
+                 */
+                $wx_openid        = $this->t_teacher_info->get_wx_openid($teacherid);
+                $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
+                $data['keyword1'] = "备课通知";
+                $data['keyword2'] = "\n上课时间：$lesson_time_str "
+                                  ."\n教务电话：$require_phone"
+                                  ."\n试听需求：$demand"
+                                  ."\n1、请及时确认试听需求并备课"
+                                  ."\n2、老师可提前10分钟进入课堂进行上课准备";
+                $data['keyword3'] = date("Y-m-d H:i",time());
+                $data['remark']   = "";
+                $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //[标签系统 给老师帮发]
+
+                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+
+
+            }else{
+                $this->t_manager_info->send_wx_todo_msg(
+                    $require_admin_nick,"来自:".$this->get_account()
+                    ,"排课[$phone][$nick] 老师[$teacher_nick] 上课时间[$lesson_time_str]","","");
+
+                $parentid = $this->t_student_info->get_parentid($userid);
+
+                if($parentid>0){
+                    $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
+
+                }
+
+                /**
+                 * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                 * 标题课程 : 待办事项提醒
+                 * {{first.DATA}}
+                 * 待办主题：{{keyword1.DATA}}
+                 * 待办内容：{{keyword2.DATA}}
+                 * 日期：{{keyword3.DATA}}
+                 * {{remark.DATA}}
+                 */
+                $wx_openid        = $this->t_teacher_info->get_wx_openid($teacherid);
+                $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
+                $data['keyword1'] = "备课通知";
+                $data['keyword2'] = "\n上课时间：$lesson_time_str "
+                     ."\n教务电话：$require_phone"
+                     ."\n试听需求：$demand"
+                     ."\n1、请及时确认试听需求并备课"
+                     ."\n2、请尽快上传教师讲义、学生讲义（用于学生预习）和作业"
+                     ."\n3、老师可提前15分钟进入课堂进行上课准备";
+                $data['keyword3'] = date("Y-m-d H:i",time());
+                $data['remark']   = "";
+                $url = "http://www.leo1v1.com/login/teacher";
+
+                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
 
             }
-
-            /**
-             * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
-             * 标题课程 : 待办事项提醒
-             * {{first.DATA}}
-             * 待办主题：{{keyword1.DATA}}
-             * 待办内容：{{keyword2.DATA}}
-             * 日期：{{keyword3.DATA}}
-             * {{remark.DATA}}
-             */
-            $wx_openid        = $this->t_teacher_info->get_wx_openid($teacherid);
-            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-            $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
-            $data['keyword1'] = "备课通知";
-            $data['keyword2'] = "\n上课时间：$lesson_time_str "
-                              ."\n教务电话：$require_phone"
-                              ."\n试听需求：$demand"
-                              ."\n1、请及时确认试听需求并备课"
-                              ."\n2、请尽快上传教师讲义、学生讲义（用于学生预习）和作业"
-                              ."\n3、老师可提前15分钟进入课堂进行上课准备";
-            $data['keyword3'] = date("Y-m-d H:i",time());
-            $data['remark']   = "";
-            $url = "http://www.leo1v1.com/login/teacher";
-            // $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //[标签系统 给老师帮发]
-
-            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
         }
 
         //优学优享
@@ -6018,16 +6054,35 @@ class ss_deal extends Controller
         $id = $this->get_in_int_val("id");
         $lessonid = $this->get_in_int_val("lessonid",273923);
         $data = $this->t_teacher_record_list->field_get_list($id,"*");
-        $label = $this->t_teacher_label->get_info_by_lessonid_new($lessonid,2);
-        $arr= json_decode($label,true);
-        if(empty($arr)){
-            $arr=[];
+        $label_info = $this->t_teacher_label->get_info_by_lessonid_new($lessonid,2);
+        if(@$label_info["tag_info"]){
+            $label = $label_info["tag_info"];
+            $arr= json_decode($label,true);
+            foreach($arr as $item){
+                $ret = json_decode($item,true);
+                if($ret){                                   
+                    foreach($ret as $v){
+                        @$str .=$v.",";
+                    }
+                }
+            }
+            $data["label"] = trim($str,",");
+
+
+        }else{
+            $label = @$label_info["tea_label_type"];
+            $arr= json_decode($label,true);
+            if(empty($arr)){
+                $arr=[];
+                $data["label"]="";
+            }else{
+                foreach($arr as $val){
+                    @$str .= E\Etea_label_type::get_desc($val).",";
+                }
+                $data["label"] = trim($str,",");
+
+            }
         }
-        $str="";
-        foreach($arr as $val){
-            $str .= E\Etea_label_type::get_desc($val).",";
-        }
-        $data["label"] = trim($str,",");
         return $this->output_succ(["data"=>$data]);
     }
     public function get_teacher_confirm_score(){

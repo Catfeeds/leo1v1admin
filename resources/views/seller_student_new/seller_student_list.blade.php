@@ -478,8 +478,8 @@
                             >
                                 <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
-                                @if(in_array($acc,['tom','jim']))
-                                    <a title="new回访" class="  fa-edit opt-edit-new_new_two"></a>
+                                @if($account_role==12 || in_array($account,['tom','jim']))
+                                    <a title="new回访" class="  fa-chevron-up opt-edit-new_new_two"></a>
                                 @endif
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new_new"></a>
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new"  style=" display:none"></a>
@@ -1233,6 +1233,9 @@
                             <input type="text" class=" form-control "  id="id_interests_hobbies_new_two"  />
                         </div>
                     </div>
+                </div>
+
+                <div class="row">
                     <div class="col-xs-12 col-md-2">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp省</span>
@@ -1254,9 +1257,9 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6 " style="display:none">
+                    <div class="col-xs-12 col-md-6 " >
                         <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp家庭住址：</span>
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp请输入详细住址：</span>
                             <input type="text" id="id_stu_addr_new_two"  class="form-control" />
                         </div>
                     </div>
@@ -1289,7 +1292,7 @@
                             </select> 
                             <input type="text" class=" form-control " id="id_main_subject_score_one_new_two" name="subject_score_one_new_two" placeholder='分数' />
                             <input type="text" class=" form-control " id="id_main_subject_score_two_new_two" name="subject_score_two_new_two" placeholder='满分' />
-                            <button class="btn  btn-primary" onclick="add_subject_score(this)" title="添加科目" >
+                            <button class="btn  btn-primary" id="id_add_subject_score_new_two" onclick="add_subject_score(this)" title="添加科目" >
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
@@ -1394,13 +1397,6 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-12 ">
                         <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp上课意向：</span>
-                            <select id="id_intention_level_new_two" class=" form-control ">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-12 ">
-                        <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp试听时间：</span>
                             <input id="id_stu_request_test_lesson_time_new_two" class=" form-control "   />
                             <div class=" input-group-btn "  >
@@ -1460,24 +1456,20 @@
                     </div>
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp性别：</span>
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp老师性别：</span>
                             <select id="id_tea_gender_new_two" class=" form-control " >
                             </select>
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp课堂氛围：</span>
-                            <!-- <select id="id_class_env_new_two" class=" form-control " >
-                                 </select> -->
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp课堂气氛：</span>
                             <input type="text" class=" form-control "  id="id_class_env_new_two" />
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp课件要求：</span>
-                            <!-- <select id="id_courseware_new_two" class=" form-control " >
-                                 </select> -->
                             <input type="text" class=" form-control "  id="id_courseware_new_two" />
                         </div>
                     </div>

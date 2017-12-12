@@ -67,11 +67,11 @@ class t_teacher_label extends \App\Models\Zgen\z_t_teacher_label
             ["label_origin =%u ",$label_origin,-1 ]
         ];
         $sql = $this->gen_sql_new(
-            "select tea_label_type from  %s  "
+            "select tea_label_type,tag_info from  %s  "
             . "  where %s",
             self::DB_TABLE_NAME,
             $where_arr);
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);
     }
 
     public function check_label_exist($lessonid,$label_origin,$set_adminid=-1){

@@ -77,17 +77,93 @@ var Cquestion_editor = {
         MathJax.Hub.Queue(["Typeset",MathJax.Hub,mathId]);
     },
 
-    preview_update:function(id_question_type,id_mathjax_content,MathBuffer,MathPreview,mathId) {
+    preview_update:function(id_question_type,id_mathjax_content,MathPreview,mathId) {
         //id_question_type 题型 id_mathjax_content题目输入框 MathBuffer 当前输入的字符串 MathPreview题目显示框 mathId数学公式显示区域
         var question_type = id_question_type.val();
         var mathjax_content = id_mathjax_content.val();
    
         mathjax_content = mathjax_content.replace(/\n/g, '<br/>');
         mathjax_content = mathjax_content.replace(/[ ]/g, '&nbsp');
+        mathjax_content = mathjax_content.replace(/(\!\[\]\()/g,"<img src='");
+	      mathjax_content = mathjax_content.replace(/(\)\[\]\&)/ig,"'/>");
         MathPreview.html(mathjax_content);
-        //MathJax.Hub.Queue(["Typeset",MathJax.Hub,mathId]);
-    },
-    push_buffer:function(mathId){
         MathJax.Hub.Queue(["Typeset",MathJax.Hub,mathId]);
-    }
+        //Cquestion_editor.render_mathJax(MathPreview,mathId);
+    },
+    render_mathJax:function(id_mathjax_content,MathPreview,mathId){
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub,mathId]);
+    },
+    custom_upload:function(btn_id, containerid, domain,id_question_type, id_mathjax_content,MathPreview,mathId){
+        var uploader = Qiniu.uploader({
+		            runtimes: 'html5, flash, html4',
+		            browse_button: btn_id , //choose files id
+		            uptoken_url: '/upload/pub_token',
+		            domain: domain,
+		            container: containerid,
+		            drop_element: containerid,
+		            max_file_size: '30mb',
+		            dragdrop: true,
+		            flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
+		            chunk_size: '4mb',
+		            unique_names: false,
+		            save_key: false,
+		            auto_start: true,
+		            init: {
+			              'FilesAdded': function(up, files) {
+                        /*
+				                  plupload.each(files, function(file) {
+                          var progress = new FileProgress(file, 'process_info');
+                          console.log('waiting...');
+                          });
+                        */
+			              },
+			              'BeforeUpload': function(up, file) {
+                        /*
+				                  console.log('before uplaod the file');
+				                  if (!check_type(file.type)) {
+					                BootstrapDialog.alert('上传图片前');
+					                return;
+                          }
+                        */
+
+			              },
+			              'UploadProgress': function(up,file) {
+                        /*
+				                  var progress = new FileProgress(file, 'process_info');
+                          progress.setProgress(file.percent + "%", up.total.bytesPerSec, btn_id);
+				                  console.log('upload progress');
+                        */
+			              },
+			              'UploadComplete': function() {
+				                console.log('success');
+			              },
+			              'FileUploaded' : function(up, file, info) {
+				                console.log('Things below are from FileUploaded');
+                        console.log(info.response);
+                        var imgName = JSON.parse(info.response).key;
+                        var pic_str="\n![]("+  domain + imgName +")\[]&n";
+                        var mathjax_content = id_mathjax_content.val();
+                        mathjax_content = id_mathjax_content.val() + pic_str;
+                        id_mathjax_content.val(mathjax_content);
+                        Cquestion_editor.preview_update(id_question_type,id_mathjax_content,MathPreview,mathId);
+			              },
+			              'Error': function(up, err, errTip) {
+				                console.log('Things below are from Error');
+				                console.log(up);
+				                console.log(err);
+			              },
+			              'Key': function(up, file) {
+                        console.log("Key start");
+                        var suffix = file.type.split('/').pop();
+				                var key = "";
+                        var time = (new Date()).valueOf();
+                        var imgName = $.md5(file.name) +time+ "." + suffix;
+                        console.log(imgName);
+                        console.log("Key end");
+				                return imgName;
+			              }
+		            }
+	      });
+    },
+
 }
