@@ -1381,12 +1381,16 @@ class user_manage extends Controller
             $item['order_time_str'] = date('Y-m-d H:i:s',$item['order_time']);
 
             $refund_qc_list = $this->t_order_refund->get_refund_analysis($item['apply_time'], $item['orderid']);
-            if(!empty($refund_qc_list['qc_other_reason'])
-               || !empty($refund_qc_list['qc_analysia'])
-               || !empty($refund_qc_list['qc_reply'])
+            if($refund_qc_list['qc_other_reason']
+               || $refund_qc_list['qc_analysia']
+               || $refund_qc_list['qc_reply']
             ){
                 $item['flow_status_str'] = '<font style="color:#a70192;">QC已审核</font>';
+                \App\Helper\Utils::logger($item['apply_time']." orderid: ".$item['orderid']." hetong_james");
+
             }
+            \App\Helper\Utils::logger("test11 ".$item['apply_time']." orderid: ".$item['orderid']." hetong_james_test");
+
 
             $pass_time = $item['apply_time']-$item['order_time'];
             if($pass_time >= (90*24*3600)){ // 下单是否超过3个月
