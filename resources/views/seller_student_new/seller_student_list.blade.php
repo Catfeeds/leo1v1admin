@@ -1292,7 +1292,7 @@
                             </select> 
                             <input type="text" class=" form-control " id="id_main_subject_score_one_new_two" name="subject_score_one_new_two" placeholder='分数' />
                             <input type="text" class=" form-control " id="id_main_subject_score_two_new_two" name="subject_score_two_new_two" placeholder='满分' />
-                            <button class="btn  btn-primary" onclick="add_subject_score(this)" title="添加科目" >
+                            <button class="btn  btn-primary" id="id_add_subject_score_new_two" onclick="add_subject_score(this)" title="添加科目" >
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>

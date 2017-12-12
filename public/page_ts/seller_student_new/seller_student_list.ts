@@ -1735,7 +1735,7 @@ function init_edit() {
         var now= (new Date()).getTime()/1000;
         var lesson_time = $.strtotime(opt_data.lesson_start);
         if(now > lesson_time - 3600*4){
-            alert("离课程开始不足4小时,不能更换时间");
+ 
             return;
         }
         var $seller_require_change_type =$("<select></select>") ;
@@ -2974,7 +2974,6 @@ function init_edit() {
     };
 
 
-
     $(".opt-edit-new_new_two").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var opt_obj=this;
@@ -3097,26 +3096,10 @@ function init_edit() {
             // },function(resp){
             //     var data=resp.data;
             //     $.each(data,function(i,item){
-            //         if(item['tag_l2_sort'] == '素质培养'){
-            //             id_cultivation.append("<option value='"+item['tag_id']+"'>"+item['tag_name']+"</option>");
-            //         }else if(item['tag_l2_sort'] == '风格性格'){
-            //             id_teacher_nature.append("<option value='"+item['tag_id']+"'>"+item['tag_name']+"</option>");
-            //         }else if(item['tag_l2_sort'] == '专业能力'){
-            //             id_pro_ability.append("<option value='"+item['tag_id']+"'>"+item['tag_name']+"</option>");
-            //         }else if(item['tag_l2_sort'] == '身份'){
-            //             id_tea_status.append("<option value='"+item['tag_id']+"'>"+item['tag_name']+"</option>");
-            //         }else if(item['tag_l2_sort'] == '年龄'){
-            //             id_tea_age.append("<option value='"+item['tag_id']+"'>"+item['tag_name']+"</option>");
-            //         }else if(item['tag_l2_sort'] == '性别'){
-            //             id_tea_sex.append("<option value='"+item['tag_id']+"'>"+item['tag_name']+"</option>");
-            //         }else if(item['tag_l2_sort'] == '课堂气氛'){
-            //             id_class_env.append("<option value='"+item['tag_id']+"'>"+item['tag_name']+"</option>");
-            //         }else if(item['tag_l2_sort'] == '课件要求'){
-            //             id_courseware.append("<option value='"+item['tag_id']+"'>"+item['tag_name']+"</option>");
-            //         }
+            //         
             //     });
             // });
-
+            
             html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
             html_node.find("#id_stu_reset_next_revisit_time_new_two").on("click",function(){
                 id_next_revisit_time.val("");
@@ -3138,7 +3121,7 @@ function init_edit() {
             Enum_map.append_option_list("quotation_reaction", id_quotation_reaction, true);
             Enum_map.append_option_list("identity", id_tea_status, true);
             Enum_map.append_option_list("gender", id_tea_gender, true);
-            Enum_map.append_option_list("gender", id_tea_age, true);
+            Enum_map.append_option_list("tea_age", id_tea_age, true);
             id_stu_request_test_lesson_time.datetimepicker({
                 lang             : 'ch',
                 timepicker       : true,
@@ -3724,10 +3707,21 @@ function init_edit() {
             id_address.val(data.address);
             id_subject.val(data.subject);
             id_main_subject.val(data.subject);
+            $.each(data.subject_score.split(','),function(index,value){
+                if(value !== ''){
+                    var arr = value.split(':');
+                    var arr_new = arr[1].split('/');
+                    if(arr[0] == id_subject.find("option:selected").text()){
+                        html_node.find("#id_main_subject_score_one_new_two").val(arr_new[0]);
+                        html_node.find("#id_main_subject_score_two_new_two").val(arr_new[1]);
+                    }else{
+                        html_node.find("#id_add_subject_score_new_two").parent().parent().parent().append("<div class='col-xs-12 col-md-3 subject_score '><div class='input-group'><select id='subject_score_"+index+"' name='subject_score_new_two' class='form-control'><option>"+arr[0]+"</option></select><input type='text' class='form-control' name='subject_score_one_new_two' value='"+arr_new[0]+"' placeholder='分数' /><input type='text' class='form-control' name='subject_score_two_new_two' value='"+arr_new[1]+"' placeholder='满数' /><button class='btn btn-primary'  title='添加科目' onclick='add_subject_score(this)' ><i class='fa fa-plus'></i></button><button class='btn btn-primary' onclick='del_subject_score(this)'  title='删除科目' ><i class='fa fa-minus'></i></button></div></div>");
+                    }
+                }
+            });
             // id_main_subject_score_one.val();
             // id_main_subject_score_two.val();
             // id_subject_score.val(data.subject_score);
-
             id_status.val(data.status);
             id_user_desc.val(data.user_desc);
             // id_revisite_info.val(data.revisite_info);
@@ -3762,14 +3756,30 @@ function init_edit() {
             }else{
                 html_node.find("#id_knowledge_point_location").val(data.knowledge_point_location);
             }
-
+            $.each(data.subject_tag,function(index,value){
+                alert(index);
+                alert(value);
+                            //     if(index == '学科化标签'){
+                            //         id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' checked='checked' />");
+                            //     }else{
+                            //         id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' />");
+                            //     }
+                            });
             if(id_grade.val()>0 && id_subject.val()>0){
                 $.do_ajax("/product_tag/get_all_tag", {
                 },function(resp){
                     var data=resp.data;
                     $.each(data,function(i,item){
                         if(item['tag_l1_sort'] == '学科化内容标签' && item['tag_l2_sort'] == id_grade.find("option:selected").text() && item['tag_l3_sort'] == id_subject.find("option:selected").text()){
+                            // $.each(data.subject_tag,function(index,value){
+                            //     if(index == '学科化标签'){
+                            //         id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' checked='checked' />");
+                            //     }else{
+                            //         id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' />");
+                            //     }
+                            // });
                             id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' />");
+
                         }
                     });
             });
@@ -3806,6 +3816,23 @@ function init_edit() {
                 id_main_subject_score_one.val('');
                 id_main_subject_score_two.val('');
             })
+            $.each(data.subject_tag,function(index,value){
+                if(index == '素质培养'){
+                    id_cultivation.val(value);
+                }else if(index == '风格性格'){
+                    id_teacher_nature.val(value);
+                }else if(index == '专业能力'){
+                    id_pro_ability.val(value);
+                }else if(index == '学科化标签'){
+                    $.each(value.split(','),function(i,item){
+                        // id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' />");
+                    });
+                }else if(index == '课堂气氛'){
+                    id_class_env.val(value);
+                }else if(index == '课件要求'){
+                    id_courseware.val(value);
+                }
+            });
             var reset_seller_student_status_options=function()  {
                 var opt_list=[0];
                 var desc_map=g_enum_map["seller_student_sub_status"]["desc_map"];
@@ -3943,6 +3970,7 @@ function init_edit() {
                     html_node.find("#id_recent_results_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                 }
             }
+            
             var dlg=BootstrapDialog.show({
                 title:  title,
                 size: "size-wide",
@@ -4075,10 +4103,8 @@ function init_edit() {
         });
     };
 
-
     if(g_adminid==540){
         download_show();
     }
-
 
 }
