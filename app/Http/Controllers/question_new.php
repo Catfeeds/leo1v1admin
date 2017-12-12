@@ -55,7 +55,7 @@ class question_new extends Controller
     public function question_edit(){
         $question_id   = $this->get_in_int_val('question_id');
         $ret_list = [];
-        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712121027"]);
+        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712121627"]);
         // $subject   = $this->get_in_int_val('subject',-1);
         // $score   = $this->get_in_int_val('score',0);
         // $title   = $this->get_in_str_val('title','');
@@ -105,31 +105,81 @@ class question_new extends Controller
 
     }
 
+    public $know_arr = [];
+
+    public $tree_arr = [];
+
     public function knowledge_list(){
-        $subject   = $this->get_in_int_val('id_subject',-1);
+        $subject   = $this->get_in_int_val('id_subject',1);
+        $grade   = $this->get_in_int_val('id_grade',200);
         $where_arr = [
             ["subject=%d" , $subject,-1 ],
         ];
-        $page_num        = $this->get_in_page_num();
-        $ret_list = $this->t_knowledge_point->knowledge_list($where_arr,$page_num);
-        if($ret_list){
-            foreach( $ret_list['list'] as &$item ){
-                $item['subject_str'] = E\Esubject::get_desc($item['subject']);
+
+        $ret_list = $this->t_knowledge_point->knowledge_list($where_arr,null);
+        if($ret_list['list']){
+            $this->know_arr = $ret_list['list'];
+            $this->get_tree(0,[]);
+            $ret_list['list'] = $this->tree_arr;
+
+        }
+        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712121856"]);
+    }
+
+
+    private function get_tree($father_id,$ret){
+        $know_arr = $this->know_arr;
+        if($know_arr){
+            foreach( $know_arr as &$item ){
+                if( $item['father_id'] == $father_id){
+                    $item['subject_str'] = E\Esubject::get_desc($item['subject']);
+                    $before = str_repeat('===> ',$item['level']);
+                    $item['title'] = $before.$item['title'];
+                    $this->tree_arr[] = $item;
+                    $this->get_tree($item['knowledge_id'],$ret);
+                } 
             }
         }
-        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712061856"]);
+        return true;
+    }
 
+    public function knowledge_edit(){
+        $type   = $this->get_in_int_val('type',1); //1:添加 2:编辑
+        $knowledge_id = $this->get_in_int_val('knowledge_id','');
+        $father_id = $this->get_in_int_val('father_id',0); //添加在哪个父级下的子知识点
+        $ret = [
+            'type' => $type,
+            'father_id' => $father_id,
+        ];
+        if($knowledge_id){
+            $know = $this->t_knowledge_point->get_by_id($knowledge_id);
+            if($know){
+                foreach( $know as $k => $v){
+                    $ret[$k] = $v;
+                }
+            }
+        }
+
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712121856","ret"=>$ret]);
     }
 
     public function knowledge_add(){
         $subject   = $this->get_in_int_val('subject',-1);
         $title   = $this->get_in_str_val('title','');
         $detail   = $this->get_in_str_val('detail','');
+        $level   = $this->get_in_int_val('level',0);
+        $father_id   = $this->get_in_int_val('father_id',0);
+        $father_other   = $this->get_in_str_val('father_other','');
+        $grade   = $this->get_in_int_val('grade',-1);
 
         $ret = $this->t_knowledge_point->row_insert([
             "title"   => $title,
             "subject"   => $subject,
             "detail"   => $detail,
+            "level"   => $level,
+            "father_id"   => $father_id,
+            "father_other"   => $father_other,
+            "grade"   => $grade,
         ]);
 
         if($ret){
@@ -143,7 +193,7 @@ class question_new extends Controller
         }
     }
 
-    public function knowledge_edit(){
+    public function knowledge_update(){
         $knowledge_id   = $this->get_in_int_val('knowledge_id');
         $subject   = $this->get_in_int_val('subject',-1);
         $title   = $this->get_in_str_val('title','');
