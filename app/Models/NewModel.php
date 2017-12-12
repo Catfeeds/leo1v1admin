@@ -524,22 +524,22 @@ abstract class NewModel
             $where_arr[]= ["$field_name=%d" , $value, -1 ];
         }
     }
+
     public function where_arr_add_int_or_idlist ( &$where_arr,$field_name, $value, $def_value=-1 ) {
-        if (is_int($value )){
-            $where_arr[]= ["$field_name=%d" , $value, $def_value ];
+        if(is_int($value )){
+            $where_arr[] = ["$field_name=%d",$value,$def_value];
         }else{
-            $where_arr[]=$this->where_get_in_str_query($field_name,$value);
+            $where_arr[] = $this->where_get_in_str_query($field_name,$value);
         }
     }
 
     public function where_arr_add_int_field(&$where_arr,$field_name, $value, $def_value=-1 ) {
-        $where_arr[]= ["$field_name=%d" , $value, $def_value ];
+        $where_arr[] = ["$field_name=%d" , $value, $def_value ];
     }
 
     public function where_arr_add_str_field(&$where_arr,$field_name, $value, $def_value="" ) {
         $where_arr[]= ["$field_name='%s'" , $value, $def_value ];
     }
-
 
     public function where_arr_add_boolean_for_value_false(&$where_arr,$field_name, $value, $need_is_null_flag=false) {
         if ($value ==0 ) {
@@ -1034,6 +1034,7 @@ abstract class NewModel
         $where_arr = [
             $alias."trial_lecture_is_pass=1",
             $alias."train_through_new_time>0",
+            $alias."train_through_new=1",
             $alias."wx_use_flag=1",
             $alias."is_test_user=0",
         ];

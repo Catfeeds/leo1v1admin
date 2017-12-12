@@ -19,7 +19,7 @@ class login extends Controller
         $item_1          = "";
         $role_str        = "";
         $role_item_count = 0;
-        
+
         foreach ($menu as $item) {
             $item_name=$item["name"];
 
@@ -573,7 +573,7 @@ class login extends Controller
         //     $sessionName = session()->getName();
         //     setcookie($sessionName, $sessionId, time()+3600*24*7);//有效期7天
         // }
-        return $this->output_succ();       
+        return $this->output_succ();
     }
 
     public function down_leo_file(){

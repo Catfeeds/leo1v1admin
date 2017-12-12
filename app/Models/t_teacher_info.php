@@ -2829,7 +2829,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             " t.train_through_new=1 ",
             " t.is_quit=0 ",
             " t.is_test_user =0",
-            "l.confirm_flag in (0,1,4)",
+            "l.confirm_flag in (0,1,3)",
             "l.lesson_del_flag=0",
             "l.lesson_type in (0,1,3)",
             "l.lesson_status=2",
@@ -4711,7 +4711,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,t.second_subject,t.second_grade_start,"
                                   ." t.second_grade_end,t.limit_plan_lesson_type,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.train_through_new_time,t.identity,t.gender,t.age,t.realname,"
-                                  ." t.phone,tf.free_time_new,"
+                                  ." t.phone,tf.free_time_new,t.teacher_tags,"
                                   ." count(if(%s,true,null)) as day_num,"
                                   ." count(if(%s,true,null)) as week_num,"
                                   ." count(if(%s,true,null)) as month_num,"
@@ -4744,7 +4744,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,t.second_subject,t.second_grade_start,"
                                   ." t.second_grade_end,t.limit_plan_lesson_type,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.train_through_new_time,t.identity,t.gender,t.age,t.realname,"
-                                  ." t.phone,tf.free_time_new"
+                                  ." t.phone,tf.free_time_new,t.teacher_tags"
                                   ." from %s t"
                                   ." left join %s tf on t.teacherid=tf.teacherid"
                                   ." where %s"

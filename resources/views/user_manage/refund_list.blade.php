@@ -205,7 +205,7 @@
                             <td >{{$var["qc_contact_status_str"]}}</td>
                             <td >{{$var["qc_advances_status_str"]}}</td>
                             <td >{{$var["qc_voluntarily_status_str"]}}</td>
-                            <td >{!!$var["is_pass"]!!}</td>
+                            <td >{!!@$var["is_pass"]!!}</td>
 
                             <td>{{@$var["助教部一级原因"]}}</td>
                             <td>{{@$var["助教部二级原因"]}}</td>
@@ -265,20 +265,17 @@
 
                             <td  >{{@$var["deal_nick"]}}</td>
                             <td  >{{@$var["qc_deal_time"]}}</td>
-
-
-
                             <td >
                                 <div
                                     {!!\App\Helper\Utils::gen_jquery_data($var)!!}
                                 >
                                     <a class="fa-user opt-user " title="个人信息" ></a>
                                     <a class="btn fa fa-money opt-change-state" title="确认退费"></a>
-                                    <a class="btn fa fa-download  opt-file_url " title="下载退费附件"></a>
-                                    <a class="btn fa fa-list  opt-desc" title="明细"></a>
+                                    <a class="btn fa fa-download opt-file_url " title="下载退费附件"></a>
+                                    <a class="btn fa fa-list opt-desc" title="明细"></a>
                                     <a class="btn fa fa-facebook opt-flow-node-list" title="审核进度"></a>
-                                    <a class=" fa-trash-o   opt-cancel-refund" title="取消退费"></a>
-                                    <a class=" fa-gavel   opt-confirm" title="退费原因"></a>
+                                    <a class="fa-trash-o opt-cancel-refund" title="取消退费"></a>
+                                    <a class="fa-gavel opt-confirm" title="退费原因"></a>
                                     <!-- <a class=" fa-list   opt-refund_responsibility" title="退费责任鉴定"></a>
                                          <a class=" fa-comment   opt-analysia" title="QC退费分析"></a> -->
                                     <a href="/user_manage/refund_analysis?orderid={{$var['orderid']}}&apply_time={{$var['apply_time']}}" class=" fa-list " title="QC退费分析总表"></a>

@@ -631,7 +631,8 @@ class seller_student_new extends Controller
             "page_hide_list"   => $page_hide_list,
             "cur_page"         => $cur_page,
             "is_seller_master" => $is_seller_master,
-            "acc"              => $account,
+            "account_role"     => $account_role,
+            "account"          => $account,
             "show_son_flag"    => $ret_info['show_son_flag'],
         ]);
     }

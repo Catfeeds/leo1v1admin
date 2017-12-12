@@ -598,7 +598,6 @@ class url_power_map {
 			'/user_manage/qc_complaint_tea'	=>1361000,
 			'/user_manage_new/wx_monitor_new_yy'	=>1361100,
 			'/resource/resource_frame_new'	=>1327405,
-			'/resource/resource_frame'	=>1327401,
 			'/resource/resource_count'	=>1327402,
 			'/resource/get_all'	=>1327403,
 			'/resource/get_del'	=>1327404,

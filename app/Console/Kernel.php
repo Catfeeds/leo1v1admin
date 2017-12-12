@@ -35,6 +35,7 @@ class Kernel extends ConsoleKernel
         Commands\send_interview_remind_for_wx::class,
         Commands\check_modify_lesson_time::class,
         Commands\save_seller_info_by_week::class,
+        Commands\boby_todo::class,
         Commands\update_teaching_core_data::class,
         Commands\save_seller_info::class,
         Commands\update_ass_call_count::class,

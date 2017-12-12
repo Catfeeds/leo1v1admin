@@ -33,11 +33,10 @@ class t_tag_library extends \App\Models\Zgen\z_t_tag_library
             ["tag_l1_sort='%s'",$tag_l1_sort,""],
             ["tag_l2_sort='%s'",$tag_l2_sort,""],
         ];
-        $sql = $this->gen_sql_new(
-            'select * from %s '
-            .' where %s',
-            self::DB_TABLE_NAME,
-            $where_arr
+        $sql = $this->gen_sql_new('select * from %s '
+                                  .' where %s'
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_list($sql);
     }

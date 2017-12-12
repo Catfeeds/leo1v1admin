@@ -1,8 +1,11 @@
 interface GargsStatic {
 	require_id:	number;
+	teacher_tags:	string;
+	teaching_tags:	string;
+	lesson_tags:	string;
 	identity:	number;
 	gender:	number;
-	age:	number;
+	tea_age:	number;
 	refresh_flag:	number;
 }
 declare module "g_args" {
@@ -31,6 +34,11 @@ interface RowData {
 	realname	:any;
 	phone	:any;
 	free_time_new	:any;
+	teacher_tags	:any;
+	day_num	:any;
+	week_num	:any;
+	month_num	:any;
+	has_num	:any;
 	age_flag	:any;
 	is_identity	:any;
 	is_gender	:any;
@@ -55,9 +63,12 @@ function load_data(){
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
 		require_id:	$('#id_require_id').val(),
+		teacher_tags:	$('#id_teacher_tags').val(),
+		teaching_tags:	$('#id_teaching_tags').val(),
+		lesson_tags:	$('#id_lesson_tags').val(),
 		identity:	$('#id_identity').val(),
 		gender:	$('#id_gender').val(),
-		age:	$('#id_age').val(),
+		tea_age:	$('#id_tea_age').val(),
 		refresh_flag:	$('#id_refresh_flag').val()
 		});
 }
@@ -65,9 +76,12 @@ $(function(){
 
 
 	$('#id_require_id').val(g_args.require_id);
+	$('#id_teacher_tags').val(g_args.teacher_tags);
+	$('#id_teaching_tags').val(g_args.teaching_tags);
+	$('#id_lesson_tags').val(g_args.lesson_tags);
 	$('#id_identity').val(g_args.identity);
 	$('#id_gender').val(g_args.gender);
-	$('#id_age').val(g_args.age);
+	$('#id_tea_age').val(g_args.tea_age);
 	$('#id_refresh_flag').val(g_args.refresh_flag);
 
 
@@ -88,6 +102,27 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
+                <span class="input-group-addon">teacher_tags</span>
+                <input class="opt-change form-control" id="id_teacher_tags" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">teaching_tags</span>
+                <input class="opt-change form-control" id="id_teaching_tags" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">lesson_tags</span>
+                <input class="opt-change form-control" id="id_lesson_tags" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
                 <span class="input-group-addon">identity</span>
                 <input class="opt-change form-control" id="id_identity" />
             </div>
@@ -102,8 +137,8 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">age</span>
-                <input class="opt-change form-control" id="id_age" />
+                <span class="input-group-addon">tea_age</span>
+                <input class="opt-change form-control" id="id_tea_age" />
             </div>
         </div>
 

@@ -46,4 +46,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_download" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["download title", "download", "th_download" ]])!!}
 */

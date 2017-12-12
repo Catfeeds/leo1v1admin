@@ -1,4 +1,7 @@
 interface GargsStatic {
+	order_by_str:	string;
+	page_num:	number;
+	page_count:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -15,19 +18,17 @@ interface GargsStatic {
 	test_seller_adminid:	number;
 	has_performance:	number;
 	fulltime_flag:	number;
-	lesson_user_online_status:	number;//\App\Enums\Eset_boolean
+	lesson_user_online_status:	number;//枚举: \App\Enums\Eset_boolean
 	lesson_type:	number;
 	subject:	number;
 	lesson_count:	number;
 	lesson_cancel_reason_type:	number;
 	lesson_del_flag:	number;
-	has_video_flag:	number;//\App\Enums\Eboolean
+	has_video_flag:	number;//枚举: \App\Enums\Eboolean
 	is_with_test_user:	number;
 	seller_flag:	number;
 	lessonid:	number;
 	origin:	string;
-	page_num:	number;
-	page_count:	number;
 	fulltime_teacher_type:	number;
 }
 declare module "g_args" {
@@ -141,6 +142,7 @@ interface RowData {
 	number	:any;
 	performance_status	:any;
 	performance	:any;
+	tea_has_update	:any;
 	new_test_listen	:any;
 	lesson_time	:any;
 	lesson_cancel_reason_type_str	:any;
@@ -194,6 +196,7 @@ function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
+		order_by_str:	$('#id_order_by_str').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -226,8 +229,6 @@ function load_data(){
 }
 $(function(){
 
-	Enum_map.append_option_list("set_boolean",$("#id_lesson_user_online_status"));
-	Enum_map.append_option_list("boolean",$("#id_has_video_flag"));
 
 	$('#id_date_range').select_date_range({
 		'date_type' : g_args.date_type,
@@ -238,6 +239,7 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
+	$('#id_order_by_str').val(g_args.order_by_str);
 	$('#id_studentid').admin_select_user_new({
 		"user_type"    : "student",
 		"select_value" : g_args.studentid,
@@ -256,7 +258,9 @@ $(function(){
 	});
 	$('#id_confirm_flag').admin_set_select_field({
 		"enum_type"    : "confirm_flag",
+		"field_name" : "confirm_flag",
 		"select_value" : g_args.confirm_flag,
+		"multi_select_flag"     : true,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_confirm_flag",
 		"only_show_in_th_input"     : false,
@@ -274,7 +278,9 @@ $(function(){
 	});
 	$('#id_grade').admin_set_select_field({
 		"enum_type"    : "grade",
+		"field_name" : "grade",
 		"select_value" : g_args.grade,
+		"multi_select_flag"     : true,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_grade",
 		"only_show_in_th_input"     : false,
@@ -284,13 +290,31 @@ $(function(){
 	$('#id_test_seller_adminid').val(g_args.test_seller_adminid);
 	$('#id_has_performance').val(g_args.has_performance);
 	$('#id_fulltime_flag').val(g_args.fulltime_flag);
-	$('#id_lesson_user_online_status').val(g_args.lesson_user_online_status);
+	$('#id_lesson_user_online_status').admin_set_select_field({
+		"enum_type"    : "set_boolean",
+		"field_name" : "lesson_user_online_status",
+		"select_value" : g_args.lesson_user_online_status,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_lesson_user_online_status",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_lesson_type').val(g_args.lesson_type);
 	$('#id_subject').val(g_args.subject);
 	$('#id_lesson_count').val(g_args.lesson_count);
 	$('#id_lesson_cancel_reason_type').val(g_args.lesson_cancel_reason_type);
 	$('#id_lesson_del_flag').val(g_args.lesson_del_flag);
-	$('#id_has_video_flag').val(g_args.has_video_flag);
+	$('#id_has_video_flag').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "has_video_flag",
+		"select_value" : g_args.has_video_flag,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_has_video_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_is_with_test_user').val(g_args.is_with_test_user);
 	$('#id_seller_flag').val(g_args.seller_flag);
 	$('#id_lessonid').val(g_args.lessonid);
@@ -308,10 +332,26 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
+                <span class="input-group-addon">order_by_str</span>
+                <input class="opt-change form-control" id="id_order_by_str" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["order_by_str title", "order_by_str", "th_order_by_str" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
                 <span class="input-group-addon">studentid</span>
                 <input class="opt-change form-control" id="id_studentid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["studentid title", "studentid", "th_studentid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -319,6 +359,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_teacherid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teacherid title", "teacherid", "th_teacherid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -326,6 +367,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_confirm_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["confirm_flag title", "confirm_flag", "th_confirm_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -333,6 +375,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_seller_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["seller_adminid title", "seller_adminid", "th_seller_adminid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -340,6 +383,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_lesson_status" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["lesson_status title", "lesson_status", "th_lesson_status" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -347,6 +391,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_assistantid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["assistantid title", "assistantid", "th_assistantid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -354,6 +399,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_grade" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["grade title", "grade", "th_grade" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -361,6 +407,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_test_seller_id" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["test_seller_id title", "test_seller_id", "th_test_seller_id" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -368,6 +415,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_test_seller_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["test_seller_adminid title", "test_seller_adminid", "th_test_seller_adminid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -375,6 +423,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_has_performance" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["has_performance title", "has_performance", "th_has_performance" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -382,6 +431,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_fulltime_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["fulltime_flag title", "fulltime_flag", "th_fulltime_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -390,6 +440,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["lesson_user_online_status title", "lesson_user_online_status", "th_lesson_user_online_status" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -397,6 +448,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_lesson_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["lesson_type title", "lesson_type", "th_lesson_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -404,6 +456,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_subject" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["subject title", "subject", "th_subject" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -411,6 +464,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_lesson_count" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["lesson_count title", "lesson_count", "th_lesson_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -418,6 +472,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_lesson_cancel_reason_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["lesson_cancel_reason_type title", "lesson_cancel_reason_type", "th_lesson_cancel_reason_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -425,6 +480,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_lesson_del_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["lesson_del_flag title", "lesson_del_flag", "th_lesson_del_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -433,6 +489,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["has_video_flag title", "has_video_flag", "th_has_video_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -440,6 +497,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_is_with_test_user" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["is_with_test_user title", "is_with_test_user", "th_is_with_test_user" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -447,6 +505,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_seller_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["seller_flag title", "seller_flag", "th_seller_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -454,6 +513,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_lessonid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["lessonid title", "lessonid", "th_lessonid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -461,6 +521,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_origin" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["origin title", "origin", "th_origin" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -468,4 +529,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_fulltime_teacher_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["fulltime_teacher_type title", "fulltime_teacher_type", "th_fulltime_teacher_type" ]])!!}
 */

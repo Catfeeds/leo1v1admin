@@ -44,7 +44,9 @@ class test_sam extends Command
         //$ret_info = $task->t_tq_call_info->get_all_info_by_cc();
         //$ret = $task->t_tq_call_info->get_all_info_by_cc_new();
         //$ret_test = $task->t_tq_call_info->get_all_info_by_cc_test();
-        $ret_info = $task->t_teacher_info->get_teacher_bank_info_new();
+
+        //$ret_info = $task->t_teacher_info->get_teacher_bank_info_new();
+        $ret_info = $task->t_order_refund->get_2017_11_refund_info();
         $path = '/home/ybai/test_sam.txt';
         //$path = '/home/sam/admin_yb1v1/a.txt';
         $fp = fopen($path,"a+");
