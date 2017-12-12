@@ -50,7 +50,8 @@ class add_new_tea_entry extends Command
             $end = '2017-'.($item+1).'-1';
             $start_time = strtotime($start);
             $end_time = strtotime($end);
-            $info = $task->t_teacher_salary_list->get_salary_list($start_time,$end_time);
+            //$info = $task->t_teacher_salary_list->get_salary_list($start_time,$end_time);
+            $info = $task->t_teacher_salary_list->get_teacher_money_info();
 
             $all_money = 0;//总工资
             $all_all_money = 0;//全职老师
@@ -74,11 +75,12 @@ class add_new_tea_entry extends Command
             // $info['teacher_lesson_price']; 老师课时总收入
 
 
-            foreach($info['list'] as $val) {
-                echo $val['teacherid'].' --- '.$val['realname'];
+            foreach($info as $val) {
                 $teacher= $teacher_money->get_teacher_salary($val['teacherid'],$start_time,$end_time);
                 $lesson_count = $teacher['lesson_total'];
                 $money = $teacher['teacher_lesson_price'];
+                $price = $teacher['lesson_price_tax'];
+                if ($price == 0) continue;
                 // $lesson_money;   总工资
                 // $info['lesson_total'];    总课时
                 // $info['lesson_trial_total']; 试听总课时
@@ -98,15 +100,16 @@ class add_new_tea_entry extends Command
                 // $teacher_train            = $task->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,5);
                 // $redward = $teacher_honor + $teacher_trial + $teacher_compensate + $teacher_compensate_price + $teacher_reference + $teacher_train;
                 
-                $val['money']   /= 100;
+                //$val['money']   /= 100;
                 // $money = $val['money'] - ($redward / 100);
                 // $lesson_count = $last_month_info / 100;
-                echo $item.'月 '.$val['teacherid'].' '.trim($val['realname']).' '.$val['money'].' '.$lesson_count.' '.$money.PHP_EOL;
+                echo $item.'月 '.$val['teacherid'].' '.trim($val['realname']).' '.$teacher['lesson_price_tax'].' '.$lesson_count.' '.$money.PHP_EOL;
                 if ($val['teacher_money_type'] == 7 || ($val['teacher_type'] == 3 && $val["teacher_money_type"] == 0)) {
-                    $all_all_money += $val['money'];
+                    $all_all_money += $teacher['lesson_price_tax'];
                 } else {
-                    $all_not_money += $val['money'];
+                    $all_not_money += $teacher['lesson_price_tax'];
                 }
+                $all_money += $teacher['lesson_price_tax'];
             }
             $all_money_tax = $all_money*0.98;
             echo  $item.'月 '.$all_money.' '.$all_all_money.' '.$all_not_money.' '.$all_money_tax.PHP_EOL;

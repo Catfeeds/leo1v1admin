@@ -1962,6 +1962,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr=[
             "is_test_user=0" ,
             "contract_status>0" ,
+            "contract_status<3" ,//james
             "contract_type=0" ,
         ];
 
@@ -2472,7 +2473,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $this->where_arr_add__2_setid_field($where_arr,"s.assistantid",$assistantid);
             $this->where_arr_add_int_or_idlist($where_arr,"s.grade",$grade);
             $this->where_arr_add_int_or_idlist($where_arr,"o.subject",$subject);
-            $this->where_arr_add_int_or_idlist($where_arr,"m.uid",$adminid);
+            $this->where_arr_add_int_or_idlist($where_arr,"m2.uid",$adminid);
             $this->where_arr_add_boolean_for_value($where_arr,"f.flowid", $spec_flag ,true);
             $this->where_arr_add_boolean_for_value_false($where_arr,"promotion_spec_is_not_spec_flag", $spec_flag ,true);
             if ($order_activity_type != -1 ) {
