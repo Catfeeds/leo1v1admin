@@ -422,6 +422,12 @@ $(function(){
                 <input class="opt-change form-control" id="id_cur_page" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["cur_page title", "cur_page", "th_cur_page" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -430,6 +436,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["grade title", "grade", "th_grade" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -438,6 +445,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["subject title", "subject", "th_subject" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -446,6 +454,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["test_lesson_student_status title", "test_lesson_student_status", "th_test_lesson_student_status" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -453,6 +462,9 @@ $(function(){
                 <input class="opt-change form-control" id="id_lessonid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["lessonid title", "lessonid", "th_lessonid" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -460,6 +472,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_userid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["userid title", "userid", "th_userid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -468,6 +481,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["accept_flag title", "accept_flag", "th_accept_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -476,6 +490,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["success_flag title", "success_flag", "th_success_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -483,6 +498,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_teacherid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teacherid title", "teacherid", "th_teacherid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -490,6 +506,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_jw_teacher" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["jw_teacher title", "jw_teacher", "th_jw_teacher" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -498,6 +515,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["is_test_user title", "is_test_user", "th_is_test_user" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -506,6 +524,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["jw_test_lesson_status title", "jw_test_lesson_status", "th_jw_test_lesson_status" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -514,6 +533,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["require_admin_type title", "require_admin_type", "th_require_admin_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -521,6 +541,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_require_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["require_adminid title", "require_adminid", "th_require_adminid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -528,6 +549,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_require_assign_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["require_assign_flag title", "require_assign_flag", "th_require_assign_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -535,6 +557,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_seller_groupid_ex" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["seller_groupid_ex title", "seller_groupid_ex", "th_seller_groupid_ex" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -542,6 +565,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_tmk_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tmk_adminid title", "tmk_adminid", "th_tmk_adminid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -549,6 +573,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_seller_require_change_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["seller_require_change_flag title", "seller_require_change_flag", "th_seller_require_change_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -557,6 +582,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["ass_test_lesson_type title", "ass_test_lesson_type", "th_ass_test_lesson_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -565,6 +591,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["test_lesson_fail_flag title", "test_lesson_fail_flag", "th_test_lesson_fail_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -572,6 +599,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_accept_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["accept_adminid title", "accept_adminid", "th_accept_adminid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -579,6 +607,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_is_jw" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["is_jw title", "is_jw", "th_is_jw" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -586,6 +615,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_is_ass_tran" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["is_ass_tran title", "is_ass_tran", "th_is_ass_tran" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -593,6 +623,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_limit_require_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["limit_require_flag title", "limit_require_flag", "th_limit_require_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -600,6 +631,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_limit_require_send_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["limit_require_send_adminid title", "limit_require_send_adminid", "th_limit_require_send_adminid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -607,6 +639,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_require_id" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["require_id title", "require_id", "th_require_id" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -615,6 +648,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["has_1v1_lesson_flag title", "has_1v1_lesson_flag", "th_has_1v1_lesson_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -622,6 +656,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_lesson_plan_style" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["lesson_plan_style title", "lesson_plan_style", "th_lesson_plan_style" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -629,6 +664,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_account_role_self" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["account_role_self title", "account_role_self", "th_account_role_self" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -636,4 +672,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_ass_master_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["ass_master_flag title", "ass_master_flag", "th_ass_master_flag" ]])!!}
 */
