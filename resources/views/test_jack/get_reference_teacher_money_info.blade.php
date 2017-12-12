@@ -15,21 +15,16 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>id</td>
-                    <td>名字</td>
-                    <td>属性</td>
-                    <td>常规课次数</td>
-                    <td>老师迟到次数</td>
-                    <td>老师有效迟到次数</td>
-                    <td>总调课次数</td>
-                    <td>老师调课次数</td>
-                    <td>学生调课次数</td>
-                    <td>总请假次数</td>
-                    <td>老师请假次数</td>
-                    <td>学生请假次数</td>
-                   
-
-
+                    <td>所带学生数</td>
+                    <td>每周1课时人数</td>
+                    <td>每周2课时人数</td>
+                    <td>每周3课时人数</td>
+                    <td>每周4课时人数</td>
+                    <td>每周5课时人数</td>
+                    <td>每周6课时人数</td>
+                    <td>每周6课时以上人数</td>
+                    <td>本月学生请假课时数</td>
+                    <td>本月老师请假课时数</td>                                      
 
                      <td> 操作</td>
                 </tr>
@@ -37,23 +32,21 @@
             <tbody id="id_tbody">
                 @foreach ( $list as $k=>$var )
                     <tr>
-                        <td>{{@$var["teacherid"]}} </td>
-                        <td>{{@$var["realname"]}} </td>
-                        <td>{{@$var["identity_str"]}} </td>
-
-                        <td class="reg_num"> {{@$var["reg_num"]}} </td>
-                        <td class="late_num"> {{@$var["late_num"]}} </td>
-                        <td class="invalid_late_num"> {{@$var["invalid_late_num"]}} </td>
-                        <td class="all_change_num"> {{@$var["all_change_num"]}} </td>
-                        <td class="change_num"> {{@$var["change_num"]}} </td>
-                        <td class="stu_change_num"> {{@$var["stu_change_num"]}} </td>
-                        <td class="all_leave_num"> {{@$var["all_leave_num"]}} </td>
-                        <td class="leave_num"> {{@$var["leave_num"]}} </td>
-                        <td class="stu_leave_num"> {{@$var["stu_leave_num"]}} </td>
+                       
+                        <td class="all_num"> </td>
+                        <td class="one_num">  </td>
+                        <td class="two_num"> </td>
+                        <td class="three_num">  </td>
+                        <td class="four_num">  </td>
+                        <td class="five_num"> </td>
+                        <td class="six_num"></td>
+                        <td class="other_num">  </td>
+                        <td class="stu_leave_num"> </td>
+                        <td class="tea_leave_num">  </td>
                        
 
                         <td>
-                            <div class="row-data" data-teacherid="{{$var["teacherid"]}}" data-subject="{{$var["teacherid"]}}" >
+                            <div class="row-data" data-teacherid="1" >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>
                             </div>
 

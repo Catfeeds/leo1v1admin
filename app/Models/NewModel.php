@@ -1034,6 +1034,7 @@ abstract class NewModel
         $where_arr = [
             $alias."trial_lecture_is_pass=1",
             $alias."train_through_new_time>0",
+            $alias."train_through_new=1",
             $alias."wx_use_flag=1",
             $alias."is_test_user=0",
         ];

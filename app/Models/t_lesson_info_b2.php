@@ -690,6 +690,29 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     }
 
+    public function get_tea_stu_num_list_detail($qz_tea_arr,$start_time,$end_time){
+        $where_arr=[
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            "s.type <> 1",
+            "l.lesson_type<>2",
+            "l.lesson_type<1000",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag <2"
+        ];
+        $this->where_arr_teacherid($where_arr,"l.teacherid", $qz_tea_arr );
+        $sql = $this->gen_sql_new("select sum(l.lesson_count) lesson_all,l.teacherid "
+                                  ." from %s l left join %s s on l.userid = s.userid"
+                                  ." where %s group by l.teacherid,l.userid",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
+
     public function get_tea_stu_num_list_personal($teacherid,$start_time,$end_time){
         $where_arr=[
             ["lesson_start>%u",$start_time,0],

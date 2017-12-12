@@ -1026,7 +1026,7 @@ class wx_teacher_api extends Controller
         $ret_info  = $this->t_test_lesson_subject->get_test_require_info($lessonid);
 
         if($ret_info['lesson_del_flag']==1){
-            $lesson_info['status'] = 2;
+            $ret_info['status'] = 2;
         }
 
         $ret_info['subject_str'] = E\Esubject::get_desc($ret_info['subject']);
@@ -1138,13 +1138,6 @@ class wx_teacher_api extends Controller
         $teacher_info['tea_gender_str'] = E\Egender::get_desc($teacher_info['tea_gender']);
         $teacher_info['identity_str'] = E\Eidentity::get_desc($teacher_info['identity']);
         $teacher_info['textbook_type_str'] = E\Etextbook_type::get_desc($teacher_info['textbook_type']);
-
-        // if($teacher_info['lesson_del_flag'] == 1){
-        //     $teacher_info['status'] = 2;
-        // }else{
-        //     $teacher_info['status'] = 1;
-        // }
-
 
         $tea_label_type_arr = json_decode($teacher_info['tea_label_type'],true);
         $tea_label_type_str = "";
