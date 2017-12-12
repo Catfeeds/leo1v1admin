@@ -1540,12 +1540,6 @@ class seller_student_new2 extends Controller
                 ){
                     $del_flag = true;
                 }
-                if($tea_key==62741){
-                    // echo $week_num;
-                    // echo "<br>";
-                    // echo $limit_week;
-                    // exit;
-                }
 
                 $tea_val['age_flag']    = \App\Helper\Utils::check_teacher_age($tea_val['age']);
                 $tea_val['is_identity'] = $identity==$tea_val['identity']?1:0;
@@ -1555,16 +1549,16 @@ class seller_student_new2 extends Controller
                 if($del_flag){
                     unset($tea_list[$tea_key]);
                 }else{
-                    if(!empty($tea_val['free_time_new']) && is_array($tea_val['free_time_new'])){
-                        $tea_val['match_num'] = $this->match_teacher_free_time($tea_val['free_time_new'],$lesson_start,$lesson_end);
-                    }else{
-                        $tea_val['match_num'] = 0;
-                    }
-                    $identity_list[$tea_key] = $tea_val['is_identity'];
-                    $gender_list[$tea_key]   = $tea_val['is_gender'];
-                    $tea_age_list[$tea_key]  = $tea_val['is_age'];
-                    $match_list[$tea_key]    = $tea_val['match_num'];
-                    $ruzhi_list[$tea_key]    = $tea_val['train_through_new_time'];
+                    $tea_val['match_time'] = $this->match_teacher_free_time($tea_val['free_time_new'],$lesson_start,$lesson_end);
+                    $match_time[$tea_key]  = $tea_val['match_time'];
+                    $tea_val['match_tags'] = $this->match_teacher_tags(
+                        $tea_val['teacher_tags'],$teacher_tags,$lesson_tags,$teaching_tags
+                    );
+                    $match_tags[$tea_key]      = $tea_val['match_tags'];
+                    $identity_list[$tea_key]   = $tea_val['is_identity'];
+                    $gender_list[$tea_key]     = $tea_val['is_gender'];
+                    $tea_age_list[$tea_key]    = $tea_val['is_age'];
+                    $ruzhi_list[$tea_key]      = $tea_val['train_through_new_time'];
                     E\Eidentity::set_item_value_str($tea_val);
                     E\Egender::set_item_value_str($tea_val);
                     if($tea_val['train_through_new_time']>0){
@@ -1578,7 +1572,7 @@ class seller_student_new2 extends Controller
             if(!empty($tea_list)){
                 array_multisort(
                     $identity_list,SORT_DESC,$gender_list,SORT_DESC,$tea_age_list,SORT_DESC,
-                    $match_list,SORT_DESC,$ruzhi_list,SORT_DESC,$tea_list
+                    $match_free_time,SORT_DESC,$ruzhi_list,SORT_DESC,$tea_list
                 );
             }
         }
