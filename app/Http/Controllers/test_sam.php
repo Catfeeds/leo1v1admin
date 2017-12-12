@@ -76,69 +76,15 @@ class test_sam  extends Controller
                 $item['is_pass'] = '<font style="color:#2bec2b;">否</font>';
             }
 
-            //处理 投诉分析 [QC-文斌]
-            $arr = $this->get_refund_analysis_info($item['orderid'],$item['apply_time']);
-            $item['qc_other_reason'] = trim($arr['qc_anaysis']['qc_other_reason']);
-            $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
-            $item['qc_reply']        = trim($arr['qc_anaysis']['qc_reply']);
-            $item['duty']            = $arr['duty'];
-            E\Eboolean::set_item_value_str($item, "duty");
-
-            /**
-             * @demand 获取孩子[首次上课时间] [末次上课时间]
-             */
-            $lesson_time_arr = $this->t_lesson_info_b3->get_extreme_lesson_time($item['userid']);
-
-            $item['max_time_str'] = @$lesson_time_arr['max_time']?@unixtime2date($lesson_time_arr['max_time']):'无';
-            $item['min_time_str'] = @$lesson_time_arr['min_time']?@unixtime2date($lesson_time_arr['min_time']):'无';
-
-            foreach($arr['key1_value'] as &$v1){
-                $key1_name = @$v1['value'].'一级原因';
-                $key2_name = @$v1['value'].'二级原因';
-                $key3_name = @$v1['value'].'三级原因';
-                $reason_name    = @$v1['value'].'reason';
-                $dep_score_name = @$v1['value'].'dep_score';
-
-                $item["$key1_name"] = '';
-                $item["$key2_name"] = '';
-                $item["$key3_name"] = '';
-                $item["$reason_name"]     = "";
-                $item["$dep_score_name"]  = "";
-
-                foreach($arr['list'] as $v2){
-                    if($v2['key1_str'] == $v1['value']){
-                        if(isset($v1["$key1_name"])){
-                            $item["$key1_name"] = @$item["$key1_name"].'/'.$v2['key2_str'];
-                            $item["$key2_name"] = @$item["$key2_name"].'/'.$v2['key3_str'];
-                            $item["$key3_name"] = @$item["$key3_name"].'/'.$v2['key4_str'];
-                            $item["$reason_name"]     = @$item["$reason_name"].'/'.$v2['reason'];
-                            $item["$dep_score_name"]  = @$item["$dep_score_name"].'/'.$v2['score'];
-                        }else{
-                            $item["$key1_name"] = @$v2['key2_str'];
-                            $item["$key2_name"] = @$v2['key3_str'];
-                            $item["$key3_name"] = @$v2['key4_str'];
-                            $item["$reason_name"]     = @$v2['reason'];
-                            $item["$dep_score_name"]  = @$v2['score'];
-                        }
-                    }
-                }
-
-                $score_name   = $v1['value'].'扣分值';
-                $percent_name = $v1['value'].'责任值';
-                $item["$score_name"]   = @$v1['score'];
-                $item["$percent_name"] = @$v1['responsibility_percent'];
-            }
         }
         foreach ($ret_info as $key => $value) {
-            if($value['bankcard'] == '' or $value['bankcard'] == '0'){
-
-            }else{
                 echo "<tr>";
-                echo "<td >时间:".$value['order_time_str']."<br/>".
-                          "类型:".$value['contract_type_str']."<br/>".
-                          "总课时:".$value['lesson_total']."<br/>".
-                          "原价:".$value['discount_price']."<br/>".
-                          "实付:".$value['price']."<br/>".
+				echo "<td >".$value['grade_str']."</td>";
+                echo "<td >时间:".$value['order_time_str'].
+                          "类型:".$value['contract_type_str'].
+                          "总课时:".$value['lesson_total'].
+                          "原价:".$value['discount_price'].
+                          "实付:".$value['price'].
                           "</td>";
                 echo "<td >".$value['sys_operator']."</td>";
                 echo "<td >".$value['should_refund']."</td>";
@@ -155,7 +101,6 @@ class test_sam  extends Controller
                 echo "<td >".$value['refund_status_str']."</td>";
                 echo "<td >".$value['is_staged_flag_str']."</td>";
                 echo "</tr>";
-            }
         }
         echo "</table>";    
     }
