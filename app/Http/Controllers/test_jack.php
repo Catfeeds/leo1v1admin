@@ -939,6 +939,9 @@ class test_jack  extends Controller
 
 
     public function get_reference_teacher_money_info(){
+        $ret = $this->t_cr_week_month_info->get_all_info_by_type_and_time($type);
+        dd($ret);
+
 
         $start_time = strtotime("2017-01-01");
         $end_time = strtotime("2017-12-01");
