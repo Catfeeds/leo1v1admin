@@ -1962,7 +1962,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr=[
             "is_test_user=0" ,
             "contract_status>0" ,
-            "contract_status<3" ,//james
             "contract_type=0" ,
         ];
 

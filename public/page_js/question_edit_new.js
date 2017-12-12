@@ -136,15 +136,15 @@ var Cquestion_editor = {
 			              },
 			              'FileUploaded' : function(up, file, info) {
 				                console.log('Things below are from FileUploaded');
-                        var res = $.parseJSON(info);
-                        var pic_str="\n![]("+  domain+res.key+")\n";
-
-                        var mathjax_content = mathjax_content.replace(/\n/g, '<br/>');
+                        console.log(info.response);
+                        var imgName = JSON.parse(info.response).key;
+                        var pic_str="\n![]("+  domain + imgName +")\n";
+                        var mathjax_content = id_mathjax_content.val();
+                        mathjax_content = mathjax_content.replace(/\n/g, '<br/>');
                         mathjax_content = mathjax_content.replace(/[ ]/g, '&nbsp');
-                        mathjax_content = id_mathjax_content.val() + pic_str;
+                        mathjax_content = id_mathjax_content.val() + '<br/>' + pic_str;
                         MathPreview.html(mathjax_content);
                         MathJax.Hub.Queue(["Typeset",MathJax.Hub,mathId]);
-
 			              },
 			              'Error': function(up, err, errTip) {
 				                console.log('Things below are from Error');
@@ -153,13 +153,13 @@ var Cquestion_editor = {
 			              },
 			              'Key': function(up, file) {
                         console.log("Key start");
-                        console.log(file);
                         var suffix = file.type.split('/').pop();
-                        console.log(suffix);
-                        console.log("Key end");
 				                var key = "";
                         var time = (new Date()).valueOf();
-				                return $.md5(file.name) +time+ "." + suffix;
+                        var imgName = $.md5(file.name) +time+ "." + suffix;
+                        console.log(imgName);
+                        console.log("Key end");
+				                return imgName;
 			              }
 		            }
 	      });
