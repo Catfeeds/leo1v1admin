@@ -75,7 +75,6 @@ class test_sam  extends Controller
             }else{
                 $item['is_pass'] = '<font style="color:#2bec2b;">否</font>';
             }
-
         }
         foreach ($ret_info as $key => $value) {
                 echo "<tr>";
