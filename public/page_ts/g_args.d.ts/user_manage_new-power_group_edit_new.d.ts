@@ -27,11 +27,12 @@ tofile:
 /// <reference path="../g_args.d.ts/user_manage_new-power_group_edit_new.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		groupid:	$('#id_groupid').val(),
 		show_flag:	$('#id_show_flag').val()
-    });
+		});
 }
 $(function(){
 

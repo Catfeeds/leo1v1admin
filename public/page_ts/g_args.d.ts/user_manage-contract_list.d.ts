@@ -9,7 +9,7 @@ interface GargsStatic {
 	contract_type:	string;//枚举列表: \App\Enums\Econtract_type
  	contract_status:	string;//枚举列表: \App\Enums\Econtract_status
  	config_courseid:	number;
-	test_user:	number;
+	test_user:	number;//枚举: \App\Enums\Eboolean
 	studentid:	number;
 	page_num:	number;
 	page_count:	number;
@@ -28,8 +28,9 @@ interface GargsStatic {
 	assistantid:	number;
 	from_key:	string;
 	from_url:	string;
-	order_activity_type:	number;//\App\Enums\Eorder_activity_type
-	spec_flag:	number;//\App\Enums\Eboolean
+	order_activity_type:	number;//枚举: \App\Enums\Eorder_activity_type
+	spec_flag:	number;//枚举: \App\Enums\Eboolean
+	adminid:	number;
 	account_role_self:	number;
 	acc:	number;
 	ass_master_flag:	number;
@@ -183,6 +184,7 @@ function load_data(){
 		from_url:	$('#id_from_url').val(),
 		order_activity_type:	$('#id_order_activity_type').val(),
 		spec_flag:	$('#id_spec_flag').val(),
+		adminid:	$('#id_adminid').val(),
 		account_role_self:	$('#id_account_role_self').val(),
 		acc:	$('#id_acc').val(),
 		ass_master_flag:	$('#id_ass_master_flag').val(),
@@ -191,8 +193,6 @@ function load_data(){
 }
 $(function(){
 
-	Enum_map.append_option_list("order_activity_type",$("#id_order_activity_type"));
-	Enum_map.append_option_list("boolean",$("#id_spec_flag"));
 
 	$('#id_date_range').select_date_range({
 		'date_type' : g_args.date_type,
@@ -207,26 +207,42 @@ $(function(){
 	$('#id_orderid').val(g_args.orderid);
 	$('#id_contract_type').admin_set_select_field({
 		"enum_type"    : "contract_type",
+		"field_name" : "contract_type",
 		"select_value" : g_args.contract_type,
+		"multi_select_flag"     : true,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_contract_type",
-		"btn_id_config"     : {}
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
 	});
 	$('#id_contract_status').admin_set_select_field({
 		"enum_type"    : "contract_status",
+		"field_name" : "contract_status",
 		"select_value" : g_args.contract_status,
+		"multi_select_flag"     : true,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_contract_status",
-		"btn_id_config"     : {}
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
 	});
 	$('#id_config_courseid').val(g_args.config_courseid);
-	$('#id_test_user').val(g_args.test_user);
+	$('#id_test_user').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "test_user",
+		"select_value" : g_args.test_user,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_test_user",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_studentid').admin_select_user_new({
 		"user_type"    : "student",
 		"select_value" : g_args.studentid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_studentid",
-		"can_sellect_all_flag"     : true
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
 	});
 	$('#id_has_money').val(g_args.has_money);
 	$('#id_sys_operator').val(g_args.sys_operator);
@@ -235,17 +251,23 @@ $(function(){
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 	$('#id_grade').admin_set_select_field({
 		"enum_type"    : "grade",
+		"field_name" : "grade",
 		"select_value" : g_args.grade,
+		"multi_select_flag"     : true,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_grade",
-		"btn_id_config"     : {}
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
 	});
 	$('#id_subject').admin_set_select_field({
 		"enum_type"    : "subject",
+		"field_name" : "subject",
 		"select_value" : g_args.subject,
+		"multi_select_flag"     : true,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_subject",
-		"btn_id_config"     : {}
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
 	});
 	$('#id_self_adminid').val(g_args.self_adminid);
 	$('#id_tmk_adminid').val(g_args.tmk_adminid);
@@ -254,7 +276,8 @@ $(function(){
 		"select_value" : g_args.teacherid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_teacherid",
-		"can_sellect_all_flag"     : true
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
 	});
 	$('#id_origin_userid').val(g_args.origin_userid);
 	$('#id_referral_adminid').val(g_args.referral_adminid);
@@ -263,12 +286,39 @@ $(function(){
 		"select_value" : g_args.assistantid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_assistantid",
-		"can_sellect_all_flag"     : true
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
 	});
 	$('#id_from_key').val(g_args.from_key);
 	$('#id_from_url').val(g_args.from_url);
-	$('#id_order_activity_type').val(g_args.order_activity_type);
-	$('#id_spec_flag').val(g_args.spec_flag);
+	$('#id_order_activity_type').admin_set_select_field({
+		"enum_type"    : "order_activity_type",
+		"field_name" : "order_activity_type",
+		"select_value" : g_args.order_activity_type,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_order_activity_type",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_spec_flag').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "spec_flag",
+		"select_value" : g_args.spec_flag,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_spec_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_adminid').admin_select_user_new({
+		"user_type"    : "account",
+		"select_value" : g_args.adminid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_adminid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_account_role_self').val(g_args.account_role_self);
 	$('#id_acc').val(g_args.acc);
 	$('#id_ass_master_flag').val(g_args.ass_master_flag);
@@ -320,8 +370,9 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">test_user</span>
-                <input class="opt-change form-control" id="id_test_user" />
+                <span class="input-group-addon">boolean</span>
+                <select class="opt-change form-control" id="id_test_user" >
+                </select>
             </div>
         </div>
 
@@ -450,6 +501,13 @@ $(function(){
                 <span class="input-group-addon">boolean</span>
                 <select class="opt-change form-control" id="id_spec_flag" >
                 </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">adminid</span>
+                <input class="opt-change form-control" id="id_adminid" />
             </div>
         </div>
 

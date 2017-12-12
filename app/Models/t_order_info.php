@@ -1962,6 +1962,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr=[
             "is_test_user=0" ,
             "contract_status>0" ,
+            "contract_status<3" ,//james
             "contract_type=0" ,
         ];
 
@@ -2439,7 +2440,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ,$account_role=-1,$grade=-1,$subject=-1,$tmk_adminid=-1, $need_receipt=-1
         ,$teacherid=-1,$up_master_adminid=-1,$account_id=74,$require_adminid_list=[],$origin_userid=-1, $referral_adminid=-1,
         $opt_date_str="order_time" , $order_by_str= "order by s.assistantid asc , order_time desc"
-        ,$spec_flag=-1, $orderid=-1 ,$order_activity_type=-1,$show_son_flag=false
+        ,$spec_flag=-1, $orderid=-1 ,$order_activity_type=-1,$show_son_flag=false, $adminid = -1
     ){
         $where_arr=[];
         if($orderid>=0){
@@ -2472,6 +2473,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $this->where_arr_add__2_setid_field($where_arr,"s.assistantid",$assistantid);
             $this->where_arr_add_int_or_idlist($where_arr,"s.grade",$grade);
             $this->where_arr_add_int_or_idlist($where_arr,"o.subject",$subject);
+            $this->where_arr_add_int_or_idlist($where_arr,"m2.uid",$adminid);
             $this->where_arr_add_boolean_for_value($where_arr,"f.flowid", $spec_flag ,true);
             $this->where_arr_add_boolean_for_value_false($where_arr,"promotion_spec_is_not_spec_flag", $spec_flag ,true);
             if ($order_activity_type != -1 ) {
@@ -4372,7 +4374,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $sql = $this->gen_sql_new("  select sum(o.price)/100 as total_money from %s o "
                                   ." left join %s s on s.userid=o.userid"
-                                  ." where  o.contract_status=1 and price>0 and s.phone in (select phone from %s tq1 where tq1.adminid=$adminid and tq1.start_time>$start_time and tq1.start_time<$end_time group by tq1.phone )"
+                                  ." where  o.contract_status!=3 and o.order_time>$start_time and price>0 and s.phone in (select phone from %s tq1 where tq1.adminid=$adminid and tq1.start_time>$start_time and tq1.start_time<$end_time group by tq1.phone )"
                                   ,self::DB_TABLE_NAME
                                   ,t_seller_student_new::DB_TABLE_NAME
                                   ,t_tq_call_info::DB_TABLE_NAME

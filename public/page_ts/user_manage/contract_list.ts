@@ -23,10 +23,11 @@ function load_data(){
         has_money         : $("#id_has_money").val(),
         account_role      : $("#id_account_role").val(),
         teacherid         : $('#id_teacherid').val(),
+		    adminid:	$('#id_adminid').val(),
         tmk_adminid       : $('#id_tmk_adminid').val(),
         origin_userid     : $('#id_origin_userid').val(),
         referral_adminid:	$('#id_referral_adminid').val(),
-        spec_flag:	$('#id_spec_flag').val()
+        spec_flag:	$('#id_spec_flag').val(),
 
     });
 }
@@ -42,11 +43,8 @@ function isNumber( s ){
 }
 
 $(function(){
-    //Enum_map.append_option_list( "order_activity_type", $("#id_order_activity_type"));
-    Enum_map.append_option_list( "test_user", $("#id_test_user"));
     Enum_map.append_option_list( "contract_from_type", $("#id_stu_from_type"));
     Enum_map.append_option_list( "account_role", $("#id_account_role"));
-    Enum_map.append_option_list("boolean",$("#id_spec_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -65,63 +63,98 @@ $(function(){
 	  $('#id_contract_status').val(g_args.contract_status);
 	  $.enum_multi_select( $('#id_contract_status'), 'contract_status', function(){load_data();} )
 
+	  $('#id_spec_flag').admin_set_select_field({
+		    "enum_type"    : "boolean",
+		    "field_name" : "spec_flag",
+		    "select_value" : g_args.spec_flag,
+		    "onChange"     : load_data,
+		    "multi_select_flag"     : false ,
+		    "th_input_id"  : "th_spec_flag",
+		    "only_show_in_th_input"     : true,
+        "show_title_flag" : true,
+		    "btn_id_config"     : {},
+	  });
+
+
+	$('#id_test_user').admin_set_select_field({
+		  "enum_type"    : "boolean",
+      "field_name"  :"test_user",
+		"select_value" : g_args.test_user,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_test_user",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+
 
     //init  input data
     $('#id_orderid').val(g_args.orderid);
     $("#id_has_money").val(g_args.has_money);
     $("#id_order_activity_type").val(g_args.order_activity_type );
-    $("#id_test_user").val(g_args.test_user);
     $("#id_sys_operator").val(g_args.sys_operator);
     $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
     $("#id_stu_from_type").val(g_args.stu_from_type);
     $('#id_assistantid').val(g_args.assistantid);
     $('#id_origin_userid').val(g_args.origin_userid);
     $("#id_account_role").val(g_args.account_role);
-    $('#id_spec_flag').val(g_args.spec_flag);
     $('#id_tmk_adminid').val(g_args.tmk_adminid);
     $('#id_teacherid').val(g_args.teacherid);
 
     $("#id_seller_groupid_ex").init_seller_groupid_ex();
     $('#id_referral_adminid').val(g_args.referral_adminid);
 
+	  $('#id_adminid').admin_select_user_new({
+		    "user_type"    : "account",
+		    "select_value" : g_args.adminid,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_adminid",
+		    "only_show_in_th_input"     :  true,
+		    "can_select_all_flag"     : true
+	  });
+
+
 	  $('#id_studentid').admin_select_user_new({
 		    "user_type"    : "student",
 		    "select_value" : g_args.studentid,
 		    "onChange"     : load_data,
 		    "th_input_id"  : "th_studentid",
-		    "can_sellect_all_flag"     : true
+		    "can_select_all_flag"     : true,
+        "only_show_in_th_input" :false,
+
 	  });
 
-	$('#id_contract_type').admin_set_select_field({
-		"enum_type"    : "contract_type",
-		"select_value" : g_args.contract_type,
-		"onChange"     : load_data,
-		"th_input_id"  : "th_contract_type",
-		"btn_id_config"     : {}
-	});
-	$('#id_contract_status').admin_set_select_field({
-		"enum_type"    : "contract_status",
-		"select_value" : g_args.contract_status,
-		"onChange"     : load_data,
-		"th_input_id"  : "th_contract_status",
-		"btn_id_config"     : {}
-	});
+	  $('#id_contract_type').admin_set_select_field({
+		    "enum_type"    : "contract_type",
+		    "select_value" : g_args.contract_type,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_contract_type",
+        "only_show_in_th_input" :false,
+		    "btn_id_config"     : {}
+	  });
+	  $('#id_contract_status').admin_set_select_field({
+		    "enum_type"    : "contract_status",
+		    "select_value" : g_args.contract_status,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_contract_status",
+		    "btn_id_config"     : {}
+	  });
 
 
-	$('#id_grade').admin_set_select_field({
-		"enum_type"    : "grade",
-		"select_value" : g_args.grade,
-		"onChange"     : load_data,
-		"th_input_id"  : "th_grade",
-		"btn_id_config"     : {}
-	});
-	$('#id_subject').admin_set_select_field({
-		"enum_type"    : "subject",
-		"select_value" : g_args.subject,
-		"onChange"     : load_data,
-		"th_input_id"  : "th_subject",
-		"btn_id_config"     : {}
-	});
+	  $('#id_grade').admin_set_select_field({
+		    "enum_type"    : "grade",
+		    "select_value" : g_args.grade,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_grade",
+		    "btn_id_config"     : {}
+	  });
+	  $('#id_subject').admin_set_select_field({
+		    "enum_type"    : "subject",
+		    "select_value" : g_args.subject,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_subject",
+		    "btn_id_config"     : {}
+	  });
 
     $.admin_select_user( $("#id_teacherid"), "teacher", load_data );
 
@@ -782,15 +815,15 @@ $(function(){
             },
             'field_list' :[
                 {
-                    title:"合同编号",
-                    field_name:"orderid"
-                },{
-                    title:"添加时间",
-                    field_name:"order_time_str"
-                },{
-                    title:"合同课时数",
-                    field_name:"lesson_total"
-                }
+                title:"合同编号",
+                field_name:"orderid"
+            },{
+                title:"添加时间",
+                field_name:"order_time_str"
+            },{
+                title:"合同课时数",
+                field_name:"lesson_total"
+            }
             ],
             filter_list:[],
             "auto_close" : true,

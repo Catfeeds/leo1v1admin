@@ -33,7 +33,7 @@ class sync_tianrun extends cmd_base
         $post_arr=[
             "enterpriseId" => 3005131  ,
             "userName" => "admin" ,
-            "pwd" =>md5(md5("Aa123456" )."seed1")  ,
+            "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
             "seed" => "seed1",
             "startTime" => date("Y-m-d H:i:s", $start_time),
             "endTime" => date("Y-m-d H:i:s", $end_time),

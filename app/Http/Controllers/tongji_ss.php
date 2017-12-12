@@ -2198,7 +2198,7 @@ class tongji_ss extends Controller
             }
             $call_str ="";
             $call_revisit_list = $this->t_tq_call_info->get_call_info_list($item["cur_require_adminid"],$item["phone"]);
-            $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("Aa123456" )."seed1")  . "&seed=seed1"  ;
+            $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("leoAa123456" )."seed1")  . "&seed=seed1"  ;
             $now = time();
             foreach($call_revisit_list as $ty) {
                 $record_url= $ty["record_url"] ;

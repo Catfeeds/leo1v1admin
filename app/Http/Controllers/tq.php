@@ -46,7 +46,7 @@ class tq extends Controller
         $seller_student_status  = $this->get_in_el_seller_student_status();
 
 
-        $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("Aa123456" )."seed1")  . "&seed=seed1"  ;
+        $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("leoAa123456" )."seed1")  . "&seed=seed1"  ;
 
         $ret_info=$this->t_tq_call_info->get_call_phone_list($page_num,$start_time,$end_time,$uid,$is_called_phone,$phone, $seller_student_status,$user_info );
         $now=time(NULL);

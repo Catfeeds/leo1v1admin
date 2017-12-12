@@ -8,7 +8,7 @@ class t_resource_file_visit_info extends \App\Models\Zgen\z_t_resource_file_visi
 		parent::__construct();
 	}
 
-    public function get_visit_detail( $resource_id, $file_use_type, $page_num){
+    public function get_visit_detail( $page_num, $resource_id, $file_use_type ){
         $where_arr = [
             ['f.resource_id=%u', $resource_id, -1],
             ['f.file_use_type=%u', $file_use_type, -1],
@@ -18,7 +18,8 @@ class t_resource_file_visit_info extends \App\Models\Zgen\z_t_resource_file_visi
         $sql = $this->gen_sql_new(
             "select v.visit_type,v.create_time,v.visitor_id from %s f"
             ." left join %s v on v.file_id=f.file_id"
-            ." where %s order by v.create_time desc"
+            ." where %s "
+            ." order by v.create_time desc"
             ,t_resource_file::DB_TABLE_NAME
             ,self::DB_TABLE_NAME
             ,$where_arr
