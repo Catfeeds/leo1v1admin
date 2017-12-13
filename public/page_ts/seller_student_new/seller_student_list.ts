@@ -634,8 +634,7 @@ $(function(){
                 $(me).parent().find(".opt-seller-qr-code").click();
                 return;
             }
-
-
+            do_add_test_lesson();
         });
     });
 
