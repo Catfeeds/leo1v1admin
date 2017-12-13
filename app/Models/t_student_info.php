@@ -38,6 +38,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ["seller_adminid=%u ", $seller_adminid, -1] ,
             ["type=%u ", $student_type, -1] ,
         ];
+        if($student_type)
+            $where_arr[] = 'assistantid>0';
+
         if ($user_name) {
             $where_arr[]=sprintf( "(nick like '%s%%' or realname like '%s%%' or  phone like '%s%%' )",
                                   $this->ensql($user_name),
