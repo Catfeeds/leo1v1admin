@@ -10,6 +10,13 @@
                     <div id="id_date_range">
                     </div>
                 </div>
+                <div clas="col-xs-6 col-md-2">
+                    <select id="id_type">
+                        <option value="0">全部</option>
+                        <option value="1">常规课</option>
+                        <option value="2">试听</option>
+                    </select>
+                </div>
 
 
                 <!-- <div class="col-xs-6 col-md-2">
