@@ -4809,7 +4809,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_teacher_warn_info($start_time, $end_time) {
         $where_arr = [
-            //['lesson_start>=%u', $start_time,-1],
+            ['lesson_start>=%u', $start_time,-1],
             ['lesson_start<%u', $end_time, -1],
             'tea_attend>0'
         ];
@@ -4818,7 +4818,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        //return $this->main_get_list_by_page($sql, $page_info);
         return $this->main_get_list($sql);
     }
 
