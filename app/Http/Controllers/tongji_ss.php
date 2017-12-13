@@ -8521,6 +8521,7 @@ class tongji_ss extends Controller
                 $origin_ex
             );
         }
+        dd($ret_info['list']);
         //将显示饼图标识发送到js
         $this->set_filed_for_js('is_show_pie_flag', $is_show_pie_flag);
         return $this->pageView(__METHOD__,$ret_info,[

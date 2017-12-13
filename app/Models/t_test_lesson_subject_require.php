@@ -771,6 +771,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+        if($cond ='test_lesson_succ')
+            $where_arr[]='tss.success_flag in (0,1 )';
         //E\Etest_lesson_fail_flag
         $sql=$this->gen_sql_new(
             "select $field_name  as check_value , t.seller_student_status,l.lesson_start, s.userid,"
