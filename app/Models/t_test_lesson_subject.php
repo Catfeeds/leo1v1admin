@@ -1114,4 +1114,9 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
         return $this->main_get_value($sql);
     }
+
+    public function get_subject_only_once($userid){
+        $sql = " select subject from db_weiyi.t_test_lesson_subject where subject > 0 and userid = $userid ";
+        return $this->main_get_row($sql);
+    }
 }

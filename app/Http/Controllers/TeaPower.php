@@ -4663,15 +4663,19 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      */
     public function match_tea_tags($tea_tags,$match_tags,$teacher_tags="",$lesson_tags="",$teaching_tags=""){
         $match_num = 0;
-        if($match_tags!="" && $tea_tags!=""){
+        if(($match_tags!="" && $tea_tags!="") || $teacher_tags!="" || $lesson_tags!="" || $teaching_tags!=""){
             $teacher_arr = json_decode($tea_tags,true);
             $match_arr   = json_decode($match_tags,true);
-
-            foreach($teacher_arr as $t_key=>$t_val){
-                foreach($match_arr as $m_key=>$m_val){
-                    if($m_val!="" && strstr($m_val,$t_key)){
-                        $match_num += $t_val;
+            if(is_array($teacher_arr)){
+                foreach($teacher_arr as $t_key=>$t_val){
+                    if(is_array($match_arr)){
+                        foreach($match_arr as $m_key=>$m_val){
+                            $match_num = $this->check_tea_tags($match_num,$m_val,$t_key,$t_val);
+                        }
                     }
+                    $match_num = $this->check_tea_tags($match_num,$teacher_tags,$t_key,$t_val);
+                    $match_num = $this->check_tea_tags($match_num,$lesson_tags,$t_key,$t_val);
+                    $match_num = $this->check_tea_tags($match_num,$teaching_tags,$t_key,$t_val);
                 }
             }
         }
@@ -4679,10 +4683,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
     /**
-     *
+     * 标签匹配
      */
-    public function match_select_tags($tea_tags){
-
+    public function check_tea_tags($match_num,$check_tag,$tea_tag,$add_num){
+        if($check_tag!="" && strstr($check_tag,$tea_tag)){
+            \App\Helper\Utils::check_isset_data($match_num,$add_num);
+        }
+        return $match_num;
     }
 
     /**

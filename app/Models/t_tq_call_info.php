@@ -734,4 +734,8 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
         return $this->main_get_value($sql);
     }
 
+    public function get_cc_called_count_total($phone){
+        $sql = "select count(*) as total from db_weiyi_admin.t_tq_call_info where phone='".$phone."' and is_called_phone = 1";
+        return $this->main_get_value($sql);
+    }
 }

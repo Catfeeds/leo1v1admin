@@ -489,8 +489,15 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         });
     }
 
+    public function get_origin_by_userid($userid){
+        $sql = "select origin from db_weiyi.t_seller_student_origin where userid = $userid";
+        return $this->main_get_value($sql);
+    }
 
-
+    public function get_count_origin($userid){
+        $sql = "select count(*) as count from db_weiyi.t_seller_student_origin where userid = $userid ";
+        return $this->main_get_value($sql);
+    }
 
 
 

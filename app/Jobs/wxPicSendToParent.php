@@ -49,63 +49,77 @@ class wxPicSendToParent extends Job implements ShouldQueue
      */
     public function handle()
     {
-        //
         $this->delete();// 防止队列失败后 重复推送
         $t_parent_info  = new \App\Models\t_parent_info();
         $t_parent_send_mgs_log = new  \App\Models\t_parent_send_mgs_log();
-
-        $parent_list = $t_parent_info->get_parent_opend_list();
-
-        // $parent_list = [
-        //     ["wx_openid"=>'orwGAs6R4UremX_fhr24MvStIxJc',
-        //      "parentid" => 111
-        //     ],
-        //     ["wx_openid"=>'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
-        //      "parentid" => 222
-
-        //     ],
-        //     ["wx_openid"=>'orwGAswh6yMByNDpPz8ToUPNhRpQ',
-        //      "parentid" => 333
-
-        //     ],
-        //     ["wx_openid"=>'  ',
-        //      "parentid" => 444
-
-        //     ],
-
-        // ];
-
+        $wx = new \App\Helper\Wx() ;
         $media_id = $this->media_id;
 
+        // $parent_list = $t_parent_info->get_parent_opend_list();
+
+        $user_list_all = UserManage::getFansList($next_openId='');
+        $user_openid_list = $user_list_all['data']['openid'];
+
+        \App\Helper\Utils::logger("wx_james_to_parent: ".count($user_openid_list));
+
+
+        $parent_list = [
+            'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
+
+            // ["wx_openid"=>'orwGAs6R4UremX_fhr24MvStIxJc',
+            //  "parentid" => 111
+            // ],
+            // "wx_openid"=>'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
+            // ],
+            // ["wx_openid"=>'orwGAswh6yMByNDpPz8ToUPNhRpQ',
+            //  "parentid" => 333
+
+            // ],
+            // ["wx_openid"=>'  ',
+            //  "parentid" => 444
+
+            // ],
+
+        ];
+
+
         foreach($parent_list as $v){
-            $txt_arr = [
-                'touser'   => $v['wx_openid'],// james
-                'msgtype'  => 'image',
-                "image"=>[
-                    "media_id"=>$media_id
-                ]
-            ];
+            $check_flag = $t_parent_send_mgs_log->is_has($v);
+            if($check_flag != 1){
 
-            $appid_tec     = config('admin')['wx']['appid'];
-            $appsecret_tec = config('admin')['wx']['appsecret'];
+                \App\Helper\Utils::logger("wx_james_to_parentsss: ");
 
-            $wx = new \App\Helper\Wx() ;
-            $token = $wx->get_wx_token($appid_tec,$appsecret_tec);
+                $txt_arr = [
+                    'touser'   => $v,// james
+                    'msgtype'  => 'image',
+                    "image"=>[
+                        "media_id"=>$media_id
+                    ]
+                ];
 
-            $txt = $this->ch_json_encode($txt_arr);
-            $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
-            $txt_ret = $this->https_post($url,$txt);
+                $appid_tec     = config('admin')['wx']['appid'];
+                $appsecret_tec = config('admin')['wx']['appsecret'];
 
-            $txt_arr = json_decode($txt_ret,true);
+                $token = $wx->get_wx_token($appid_tec,$appsecret_tec);
+
+                $txt = $this->ch_json_encode($txt_arr);
+                $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+                $txt_ret = $this->https_post($url,$txt);
+
+                $txt_arr = json_decode($txt_ret,true);
 
 
-            if($txt_arr['errcode'] == 0){
-                $t_parent_send_mgs_log->row_insert([
-                    "parentid"     => $v['parentid'],
-                    "create_time"  => time(),
-                    "is_send_flag" => 5 // 市场活动推送图片
-                ]);
+                if($txt_arr['errcode'] == 0){
+                    $t_parent_send_mgs_log->row_insert([
+                        // "parentid"     => $v['parentid'],
+                        "create_time"  => time(),
+                        "is_send_flag" => 5 // 市场活动推送图片
+                    ]);
+                }
             }
+
+            $wx->send_template_msg( "orwGAs_IqKFcTuZcU1xwuEtV3Kek", 'IyYFpK8WkMGDMqMABls0WdZyC0-jV6xz4PFYO0eja9Q', [] ,$url="" );
+
         }
 
     }

@@ -1312,16 +1312,16 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3 ">
+                    <div class="col-xs-12 col-md-3 " style="display:none;">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp升学目标：</span>
                             <select id="id_academic_goal_new_two" class=" form-control "   >
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3 " style="display:none;">
+                    <div class="col-xs-12 col-md-3 " >
                         <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp升学学校要求：</span>
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp升学目标：</span>
                             <select id="id_entrance_school_type_new_two" class=" form-control " >
                             </select>
                         </div>
