@@ -38,11 +38,13 @@ class t_web_page_trace_log extends \App\Models\Zgen\z_t_web_page_trace_log
         $sql=$this->gen_sql_new(
             "select log.from_adminid as adminid,sum(log.share_wx_flag) as share_count,".
             "count(log.id) as count,count(distinct log.ip) as ip_count,".
-            "user.groupid,gro.main_type, gro.group_name as group_name,gro.up_groupid,gup.group_name as up_group_name ".
+            "user.groupid,gro.main_type, gro.group_name as group_name,gro.up_groupid,gup.group_name as up_group_name,".
+            "(case mi.account_role when 1 then '助教' when 2 then '销售' else '其他' end) as account_role ".
             "from %s log ".
             "left join %s user on log.from_adminid = user.adminid ".
             "left join %s gro on user.groupid = gro.groupid ".
             "left join %s gup on gro.up_groupid = gup.groupid ".
+            "left join %s mi on log.from_adminid = mi.uid ".
             "where %s ".
             "group by log.from_adminid ".
             "order by gro.main_type desc,gup.groupid asc,gro.groupid asc,log.from_adminid asc ",
@@ -50,6 +52,7 @@ class t_web_page_trace_log extends \App\Models\Zgen\z_t_web_page_trace_log
             t_admin_group_user::DB_TABLE_NAME,
             t_admin_group_name::DB_TABLE_NAME,
             t_admin_main_group_name::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
             $where_arr
         );
 

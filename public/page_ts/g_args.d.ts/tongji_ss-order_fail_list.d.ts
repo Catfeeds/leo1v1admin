@@ -5,8 +5,8 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	origin_userid_flag:	number;//App\Enums\Eboolean 
-	require_admin_type:	number;//App\Enums\Eaccount_role 
+	origin_userid_flag:	number;//枚举: App\Enums\Eboolean
+	require_admin_type:	number;//枚举: App\Enums\Eaccount_role
 }
 declare module "g_args" {
     export = g_args;
@@ -29,36 +29,53 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji_ss-order_fail_list.d.ts" />
 
+function load_data(){
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
+		cur_require_adminid:	$('#id_cur_require_adminid').val(),
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		origin_userid_flag:	$('#id_origin_userid_flag').val(),
+		require_admin_type:	$('#id_require_admin_type').val()
+		});
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			cur_require_adminid:	$('#id_cur_require_adminid').val(),
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			origin_userid_flag:	$('#id_origin_userid_flag').val(),
-			require_admin_type:	$('#id_require_admin_type').val()
-        });
-    }
 
-	Enum_map.append_option_list("boolean",$("#id_origin_userid_flag"));
-	Enum_map.append_option_list("account_role",$("#id_require_admin_type"));
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
 	$('#id_cur_require_adminid').val(g_args.cur_require_adminid);
-	$('#id_origin_userid_flag').val(g_args.origin_userid_flag);
-	$('#id_require_admin_type').val(g_args.require_admin_type);
+	$('#id_origin_userid_flag').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "origin_userid_flag",
+		"select_value" : g_args.origin_userid_flag,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_origin_userid_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_require_admin_type').admin_set_select_field({
+		"enum_type"    : "account_role",
+		"field_name" : "require_admin_type",
+		"select_value" : g_args.require_admin_type,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_require_admin_type",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -75,6 +92,12 @@ $(function(){
                 <input class="opt-change form-control" id="id_cur_require_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["cur_require_adminid title", "cur_require_adminid", "th_cur_require_adminid" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -83,6 +106,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["origin_userid_flag title", "origin_userid_flag", "th_origin_userid_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -91,4 +115,5 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["require_admin_type title", "require_admin_type", "th_require_admin_type" ]])!!}
 */

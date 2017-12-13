@@ -199,12 +199,12 @@ class admin_manage extends Controller
             }
         }
 
-        $ret_info=\App\Helper\Common::gen_admin_member_data($ret_info["list"],[],0, strtotime( date("Y-m-01" )   ));
+        $ret_info=\App\Helper\Common::gen_admin_member_data($ret_info["list"],['account_role'],0, strtotime( date("Y-m-01" )   ));
         
         foreach( $ret_info as $k => &$item ) {
             E\Emain_type::set_item_value_str($item);
         }
-        //dd($ret_info);
+        // dd($ret_info);
         return $this->pageView(__METHOD__,
                                \App\Helper\Utils::list_to_page_info($ret_info),
                                [
