@@ -103,10 +103,48 @@ class t_teacher_lecture_appointment_info_b2 extends \App\Models\Zgen\z_t_teacher
         );
         return $this->main_get_list($sql);
     }
+
     public function get_manager_info() {
         $sql = $this->gen_sql_new("select uid,name,account from %s where account_role=2", t_manager_info::DB_TABLE_NAME);
         return $this->main_get_list($sql, function($item) {
             return $item['uid'];
+        });
+    }
+
+    public function get_money_list($start_time, $end_time) {
+        //select recommended_teacherid,t.nick  from t_teacher_money_list l left join t_teacher_info t on t.teacherid=l.recommended_teacherid  where l.teacherid=149697 and l.type=6
+        $where_arr = [
+            "l.teacherid=149697",
+            "l.type=6",
+            "t.train_through_new_time>0",
+            ["train_through_new_time>=%u", $start_time, 0],
+            ["train_through_new_time<%u", $end_time, 0]
+        ];
+        $sql = $this->gen_sql_new("select recommended_teacherid,t.nick from %s l left join %s t on t.teacherid=l.recommended_teacherid where %s",
+                                  t_teacher_money_list::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql, function($item) {
+            return $item['recommended_teacherid'];
+        });
+    }
+
+    public function get_money_list1($start_time, $end_time) { 
+        //select teacherid,name from t_teacher_info t left join t_teacher_lecture_appointment_info ta on t.phone=ta.phone where ta.reference ='15366667766' and t.train_through_new_time  > 0 and train_through_new_time >= unix_timestamp('2017-11-1') and unix_timestamp('2017-12-1')
+        $where_arr = [
+            "ta.reference='15366667766' ",
+            "t.train_through_new_time>0",
+            ["train_through_new_time>=%u", $start_time, 0],
+            ["train_through_new_time<%u", $end_time, 0]
+        ];
+        $sql = $this->gen_sql_new("select teacherid,name from %s t left join %s ta on t.phone=ta.phone where %s",
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql, function($item) {
+            return $item['teacherid'];
         });
     }
 }

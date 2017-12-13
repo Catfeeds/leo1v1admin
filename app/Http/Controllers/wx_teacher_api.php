@@ -1026,7 +1026,7 @@ class wx_teacher_api extends Controller
         $ret_info  = $this->t_test_lesson_subject->get_test_require_info($lessonid);
 
         if($ret_info['lesson_del_flag']==1){
-            $ret_info['status'] = 2;
+            // $ret_info['status'] = 2;
         }
 
         $ret_info['subject_str'] = E\Esubject::get_desc($ret_info['subject']);
@@ -1070,6 +1070,9 @@ class wx_teacher_api extends Controller
         $stu_nick = $this->cache_get_student_nick($lesson_info['userid']);
         $jw_nick  = $this->cache_get_account_nick($lesson_info['accept_adminid']);
         $lesson_time_str = date('m-d H:i',$lesson_info['lesson_start'])." ~ ".date("H:i",$lesson_info['lesson_end']);
+
+        \App\Helper\Utils::logger("james:tea: $status");
+
 
         if($status == 1){ //接受 []
             /**

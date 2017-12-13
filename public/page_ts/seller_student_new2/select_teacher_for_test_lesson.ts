@@ -75,10 +75,13 @@ $(function(){
             });
         };
 
+
+        console.log(teacherid);
+        console.log(lesson_time);
         var now        = (new Date()).getTime()/1000;
         var start_time = $.strtotime(lesson_time);
         if ( now > start_time ) {
-            alert("上课时间比现在还小.");
+            BootstrapDialog.alert("上课时间比现在还小.");
             return ;
         } else if ( now + 5*3600  > start_time ) {
             BootstrapDialog.confirm("上课时间离现在很近了,要提交吗?!",function(val){
@@ -86,6 +89,10 @@ $(function(){
                     do_post();
                 }
             });
+        }else if(teacherid=="" || teacherid==0){
+            BootstrapDialog.alert("请选择老师!");
+        }else if(lesson_time==""){
+            BootstrapDialog.alert("请选择时间!");
         }else{
             do_post();
         }
