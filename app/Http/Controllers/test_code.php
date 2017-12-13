@@ -1479,10 +1479,6 @@ class test_code extends Controller
 
                 if($subject>0 && $grade>0){
                     $grade = \App\Helper\Utils::change_grade_to_grade_part($grade);
-                    // $this->t_teacher_lecture_appointment_info->field_update_list($id, [
-                    //     "grade_ex"   => $grade,
-                    //     "subject_ex" => $subject,
-                    // ]);
                 }else{
                     $grade_ex_2 = mb_substr($grade_all,0,1,"utf8");
                     if($grade_ex_2=="小"){
@@ -1498,12 +1494,19 @@ class test_code extends Controller
                         $subject = @$subject_map[$subject_ex_2];
                         if($subject>0 && $grade>0){
                         }else{
-                            echo $id."|".$phone."|".$subject_ex."|".$subject."|".$grade_ex."|".$grade;
-                            echo $this->br;
 
                         }
                     }
                 }
+                echo $id."|".$phone."|".$subject_ex."|".$subject."|".$grade_ex."|".$grade;
+                echo $this->br;
+
+
+                // $this->t_teacher_lecture_appointment_info->field_update_list($id, [
+                //     "grade_ex"   => $grade,
+                //     "subject_ex" => $subject,
+                // ]);
+
 
             }
         }
