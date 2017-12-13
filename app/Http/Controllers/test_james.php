@@ -1131,15 +1131,15 @@ class test_james extends Controller
         $Media_id = Media::upload($filename, $type);
 
 
-        // dispatch( new \App\Jobs\wxPicSendToParent(
-        //     $Media_id['media_id']
-        // ));
+        dispatch( new \App\Jobs\wxPicSendToParent(
+            $Media_id['media_id']
+        ));
 
 
 
 
 
-        // dd($Media_id);
+        dd($Media_id);
         //使用客服接口发送消息
         // $txt_arr = [
         //     'touser'   => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',// james
