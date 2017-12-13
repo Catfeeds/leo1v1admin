@@ -4817,14 +4817,46 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     /**
      * 匹配老师标签
-     * @param string tea_tags 老师标签
-     * @param string teacher_tags 匹配标签
-     * @param string lesson_tags 匹配标签
-     * @param string teaching_tags 匹配标签
-     * @return int   match_num 匹配度
+     * @param string tea_tags      老师标签
+     * @param string match_tags    匹配标签
+     * @param string teacher_tags  教师标签
+     * @param string lesson_tags   课堂标签
+     * @param string teaching_tags 教学标签
+     * @return int   match_num     匹配度
      */
-    public function match_teacher_tags($tea_tags,$teacher_tags,$lesson_tags,$teaching_tags){
+    public function match_tea_tags($tea_tags,$match_tags,$teacher_tags="",$lesson_tags="",$teaching_tags=""){
+        $match_num = 0;
+        if($match_tags!="" && $tea_tags!=""){
+            $teacher_arr = json_decode($tea_tags,true);
+            $match_arr   = json_decode($match_tags,true);
 
+            foreach($teacher_arr as $t_key=>$t_val){
+                foreach($match_arr as $m_key=>$m_val){
+                    if($m_val!="" && strstr($m_val,$t_key)){
+                        $match_num += $t_val;
+                    }
+                }
+            }
+        }
+        return $match_num;
+    }
+
+    public function match_select_tags($tea_tags){
+
+    }
+
+    /**
+     * 将老师标签从json格式转化为字符串
+     */
+    public function change_teacher_tags_to_string($teacher_tags){
+        $tags_str = "";
+        $tags_arr = json_decode($teacher_tags,true);
+        if(is_array($tags_arr)){
+            foreach($tags_arr as $key=>$val){
+                $tags_str .= $key.":".$val.",";
+            }
+        }
+        return trim($tags_str,",");
     }
 
     //试听课转化率结束时间判断
