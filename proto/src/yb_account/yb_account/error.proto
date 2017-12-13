@@ -24,4 +24,8 @@ enum  enum_error {
   //用户已经存在
   ERR_USER_EXISTED  = 3003 ;
 
+  //手机号异常
+  ERR_PHONE_ERROR  = 3004 ;
+
+
 };
