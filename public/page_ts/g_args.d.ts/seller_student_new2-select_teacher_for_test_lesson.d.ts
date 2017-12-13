@@ -43,7 +43,9 @@ interface RowData {
 	is_identity	:any;
 	is_gender	:any;
 	is_age	:any;
-	match_num	:any;
+	match_time	:any;
+	tags_str	:any;
+	match_tags	:any;
 	identity_str	:any;
 	gender_str	:any;
 	work_day	:any;
@@ -99,6 +101,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_require_id" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["require_id title", "require_id", "th_require_id" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -106,6 +109,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_teacher_tags" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teacher_tags title", "teacher_tags", "th_teacher_tags" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -113,6 +117,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_teaching_tags" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teaching_tags title", "teaching_tags", "th_teaching_tags" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -120,6 +125,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_lesson_tags" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["lesson_tags title", "lesson_tags", "th_lesson_tags" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -127,6 +133,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_identity" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["identity title", "identity", "th_identity" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -134,6 +141,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_gender" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["gender title", "gender", "th_gender" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -141,6 +149,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_tea_age" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tea_age title", "tea_age", "th_tea_age" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -148,4 +157,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_refresh_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["refresh_flag title", "refresh_flag", "th_refresh_flag" ]])!!}
 */
