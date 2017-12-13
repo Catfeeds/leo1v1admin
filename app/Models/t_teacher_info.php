@@ -4813,7 +4813,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ['lesson_start<%u', $end_time, -1],
             'tea_attend>0'
         ];
-        $sql = $this->gen_sql_new("select t.teacherid,t.nick,l.lesson_start,l.tea_attend,l.tea_late_minute from %s t left join %s l on t.teacherid=l.teacherid where %s",
+        $sql = $this->gen_sql_new("select t.teacherid,t.nick,l.lessonid,l.lesson_start,l.tea_attend,l.tea_late_minute from %s t left join %s l on t.teacherid=l.teacherid where %s",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
