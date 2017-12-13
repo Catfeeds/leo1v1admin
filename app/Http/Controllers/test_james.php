@@ -1138,8 +1138,8 @@ class test_james extends Controller
 
 
 
-
-        dd($Media_id);
+        return ;
+        // dd($Media_id);
         //使用客服接口发送消息
         // $txt_arr = [
         //     'touser'   => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',// james
@@ -1170,7 +1170,7 @@ class test_james extends Controller
         // dd($Media_id);
         // 使用客服接口发送消息
         $txt_arr = [
-            'touser'   => 'orwGAs0ayobuEtO1YZZhW3Yed2To',// james
+            'touser'   => 'orwGAswh6yMByNDpPz8ToUPNhRpQ',// james
             'msgtype'  => 'image',
             "image"=>[
                 "media_id"=>$Media_id['media_id']
@@ -1189,6 +1189,8 @@ class test_james extends Controller
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
         $txt_ret = $this->https_post($url,$txt);
 
+        dd($txt_ret);
+
     }
 
 
@@ -1204,6 +1206,13 @@ class test_james extends Controller
         $url    = "http://admin.leo1v1.com/test_james/wx_news";
 
         \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
+    }
+
+
+    public function get_user_list(){
+        $user_list = UserManage::getFansList($next_openId='');
+
+        dd($user_list);
     }
 
 

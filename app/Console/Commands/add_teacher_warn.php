@@ -43,31 +43,48 @@ class add_teacher_warn extends Command
         $start_time = strtotime(date('Y-m-d 00:00:00', $date));
         $end_time = strtotime(date('Y-m-d 23:59:59', $date));
 
-        // $info = $task->t_teacher_info->get_teacher_warn_info($start_time, $end_time);
-        // foreach($info as $item) {
-        //     $minute=floor(($item['tea_attend'] - $item['lesson_start'])%86400/60);
-        //     $five_num = $fift_num = $leave_num = 0;
-        //     if ($minute > 15) {
-        //         $fift_num = 1;
-        //     }
-        //     if ($minute > 5) {
-        //         $five_num = 1;
-        //     }
-        //     if ($item['tea_late_minute'] >= 20) {
-        //         $leave_num = 1;
-        //     }
-        //     if ($five_num != 0 || $fift_num != 0 || $leave_num != 0) {
-        //         $task->t_teacher_warn->row_insert([
-        //             'teacherid' => $item['teacherid'],
-        //             'five_num' => $five_num,
-        //             'fift_num' => $fift_num,
-        //             'leave_num' => $leave_num,
-        //             'lessonid' => $item['lessonid'],
-        //             'lesson_start' => $item['lesson_start'],
-        //             'add_time' => time()
-        //         ]);
-        //     }
-        // }
+        // 第一次加载所有数据
+        $start_time = strtotime('2017-1-1');
+        $end_time = time();
+
+        $data = $task->t_teacher_warn->get_info_for_time($start_time, $end_time);
+
+        $info = $task->t_teacher_info->get_teacher_warn_info($start_time, $end_time);
+        foreach($info as $item) {
+            $minute=floor(($item['tea_attend'] - $item['lesson_start'])%86400/60);
+            $five_num = $fift_num = $leave_num = 0;
+            if ($minute > 15) {
+                $fift_num = 1;
+            }
+            if ($minute > 5) {
+                $five_num = 1;
+            }
+            if ($item['tea_late_minute'] >= 20) {
+                $leave_num = 1;
+            }
+
+            if (isset($data[$item['teacherid'].'_'.$item['lesson_start']])) {
+                $index = $item['teacherid'].'_'.$item['lesson_start'];
+                $id = $data[$index]['id'];
+                $task->t_teacher_warn->field_update_list($id, [
+                    'five_num' => $five_num,
+                    'fift_num' => $fift_num,
+                    'leave_num' => $leave_num
+                ]);
+                continue;
+            }
+            if ($five_num != 0 || $fift_num != 0 || $leave_num != 0) {
+                $task->t_teacher_warn->row_insert([
+                    'teacherid' => $item['teacherid'],
+                    'five_num' => $five_num,
+                    'fift_num' => $fift_num,
+                    'leave_num' => $leave_num,
+                    'lessonid' => $item['lessonid'],
+                    'lesson_start' => $item['lesson_start'],
+                    'add_time' => time()
+                ]);
+            }
+        }
         $data = $task->t_teacher_warn->get_info_for_time($start_time, $end_time);
 
         $info = $task->t_lesson_info->get_teacher_warn_info($start_time, $end_time);

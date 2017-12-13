@@ -22,10 +22,10 @@
                         老师身份 : {{ $require_info['tea_identity_str'] }}&nbsp;&nbsp;&nbsp;
                         年龄段   : {{ $require_info['tea_age_str'] }}&nbsp;&nbsp;&nbsp;
                         性别     : {{ $require_info['tea_gender_str'] }}<br/>
-                        风格性格 : {{ $require_info['风格性格'] }}<br/>
-                        专业能力 : {{ $require_info['专业能力'] }}<br/>
-                        课堂气氛 : {{ $require_info['课堂气氛'] }}<br/>
-                        课件要求 : {{ $require_info['课件要求'] }}<br/>
+                        风格性格 : {{ @$require_info['风格性格'] }}<br/>
+                        专业能力 : {{ @$require_info['专业能力'] }}<br/>
+                        课堂气氛 : {{ @$require_info['课堂气氛'] }}<br/>
+                        课件要求 : {{ @$require_info['课件要求'] }}<br/>
                     </td>
                 </tr>
                 <tr>
@@ -42,14 +42,14 @@
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span>老师</span>
-                    <input id="id_teacherid" style="display:none" type="text"/>
-                    <span id="id_teacher_name" type="text" ></span>
+                    <input id="id_teacherid" style="display:none" type="text" value="{{ @$require_info['teacherid'] }}" />
+                    <span id="id_teacher_name" type="text" >{{ @$require_info['tea_nick'] }}</span>
                 </div>
             </div>
             <div class="col-xs-6 col-md-3">
                 <div class="input-group ">
                     <span>试听上课时间</span>
-                    <input id="id_lesson_time" type="text"/>
+                    <input id="id_lesson_time" type="text" value="{{ @$require_info['lesson_time'] }}" />
                 </div>
             </div>
             <div class="col-md-1 col-xs-3">

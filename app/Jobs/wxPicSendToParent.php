@@ -52,16 +52,28 @@ class wxPicSendToParent extends Job implements ShouldQueue
         //
         $this->delete();// 防止队列失败后 重复推送
         $t_parent_info  = new \App\Models\t_parent_info();
+        $t_parent_send_mgs_log = new  \App\Models\t_parent_send_mgs_log();
 
-        // $parent_list = $t_parent_info->get_parent_opend_list();
+        $parent_list = $t_parent_info->get_parent_opend_list();
 
-        $parent_list = [
-            ["wx_openid"=>'orwGAs_IqKFcTuZcU1xwuEtV3Kek'],
-            ["wx_openid"=>'orwGAs6R4UremX_fhr24MvStIxJc'],
-            ["wx_openid"=>'orwGAs89IxXr-e_MF4tgtRhX6adA'],
-            ["wx_openid"=>' '],
-            ["wx_openid"=>'11']
-        ];
+        // $parent_list = [
+        //     ["wx_openid"=>'orwGAs6R4UremX_fhr24MvStIxJc',
+        //      "parentid" => 111
+        //     ],
+        //     ["wx_openid"=>'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
+        //      "parentid" => 222
+
+        //     ],
+        //     ["wx_openid"=>'orwGAswh6yMByNDpPz8ToUPNhRpQ',
+        //      "parentid" => 333
+
+        //     ],
+        //     ["wx_openid"=>'  ',
+        //      "parentid" => 444
+
+        //     ],
+
+        // ];
 
         $media_id = $this->media_id;
 
@@ -74,8 +86,6 @@ class wxPicSendToParent extends Job implements ShouldQueue
                 ]
             ];
 
-
-
             $appid_tec     = config('admin')['wx']['appid'];
             $appsecret_tec = config('admin')['wx']['appsecret'];
 
@@ -86,7 +96,16 @@ class wxPicSendToParent extends Job implements ShouldQueue
             $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
             $txt_ret = $this->https_post($url,$txt);
 
+            $txt_arr = json_decode($txt_ret,true);
 
+
+            if($txt_arr['errcode'] == 0){
+                $t_parent_send_mgs_log->row_insert([
+                    "parentid"     => $v['parentid'],
+                    "create_time"  => time(),
+                    "is_send_flag" => 5 // 市场活动推送图片
+                ]);
+            }
         }
 
     }

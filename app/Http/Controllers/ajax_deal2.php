@@ -445,10 +445,10 @@ class ajax_deal2 extends Controller
     }
 
     /**
-    *@author   sam
-    *@function 创建学生和家长账号
-    *@path     authority/manager_list
-    */
+     * @author   sam
+     * @function 创建学生和家长账号
+     * @path     authority/manager_list
+     */
     public function register_student_parent_account()
     {
         $account = $this->get_in_str_val("account");
@@ -457,6 +457,7 @@ class ajax_deal2 extends Controller
 
         $ret_student = $this->t_student_info->get_userid_by_phone($phone);
         $ret_parent  = $this->t_parent_info->get_parentid_by_phone_b1($phone);
+
         if($ret_student != 0 && $ret_parent != 0){
             $ret['success'] =  "此手机号已经注册学生账号和家长账号";
         }else if($ret_student == 0 && $ret_parent != 0){
@@ -468,7 +469,7 @@ class ajax_deal2 extends Controller
         }else if($ret_student != 0 && $ret_parent == 0){
             $ret_parent    = $this->t_parent_info->register($phone,md5("123456"),0,0,$account);
             if($ret_parent){
-                $ret['success'] =  "注册家长账号成功";
+                $ret['success'] = "注册家长账号成功";
                 $this->t_parent_child->set_student_parent($ret_parent,$ret_student);
             }
         }else if($ret_student == 0 && $ret_parent == 0){
@@ -1069,7 +1070,6 @@ class ajax_deal2 extends Controller
                 "目前当前已试听数 $test_lesson_count,　超过 $cur_test_lesson_count_max ,不可申请, 请将无效的试听用户回流公海，才能提交 新试听申请 ",
                 ["flag" => "goto_test_lesson_list"]);
         }
-
         return $this->output_succ();
     }
 

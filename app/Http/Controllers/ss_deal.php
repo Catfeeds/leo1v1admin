@@ -1757,6 +1757,46 @@ class ss_deal extends Controller
         $this->t_test_lesson_subject_require->set_test_lesson_status(
             $require_id, E\Eseller_student_status::V_210 , $this->get_account() );
 
+        $do_adminid = $this->get_account_id();
+        if($do_adminid == 1093 || $do_adminid == 1231){ // 文彬测试
+
+            /**
+             * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+             * 标题课程 : 待办事项提醒
+             * {{first.DATA}}
+             * 待办主题：{{keyword1.DATA}}
+             * 待办内容：{{keyword2.DATA}}
+             * 日期：{{keyword3.DATA}}
+             * {{remark.DATA}}
+             */
+            $wx_openid        = $this->t_teacher_info->get_wx_openid($teacherid);
+            $lesson_start     = $this->t_lesson_info->get_lesson_start($lessonid);
+            $lesson_end       = $this->t_lesson_info->get_lesson_end($lessonid);
+            $lesson_time_str  = date("Y-m-d H:i",$lesson_start)." ~ ".date('H:i',$lesson_end);
+            $nick = $this->t_student_info->get_nick($userid);
+            $require_adminid  = $this->t_test_lesson_subject->get_require_adminid($test_lesson_subject_id);
+            $require_phone    = $this->t_manager_info->get_phone($require_adminid);
+            $stu_request_info = $this->t_test_lesson_subject->get_stu_request($lessonid);
+            $demand           = $stu_request_info['stu_request_test_lesson_demand'];
+
+            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+            $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
+            $data['keyword1'] = "备课通知";
+            $data['keyword2'] = "\n上课时间：$lesson_time_str "
+                              ."\n咨询电话：$require_phone"
+                              ."\n试听需求：$demand"
+                              ."\n1、请及时确认试听需求并备课"
+                              ."\n2、老师可提前10分钟进入课堂进行上课准备";
+            $data['keyword3'] = date("Y-m-d H:i",time());
+            $data['remark']   = "";
+            $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //[标签系统 给老师帮发]
+
+            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+
+        }
+
+
+
         return $this->output_succ();
     }
 
@@ -1977,7 +2017,6 @@ class ss_deal extends Controller
 
             $do_adminid = $this->get_account_id();
             if($do_adminid == 1093 || $do_adminid == 1231){ // 文彬测试
-
                 /**
                  * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
                  * 标题课程 : 待办事项提醒
@@ -1992,7 +2031,7 @@ class ss_deal extends Controller
                 $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
                 $data['keyword1'] = "备课通知";
                 $data['keyword2'] = "\n上课时间：$lesson_time_str "
-                                  ."\n教务电话：$require_phone"
+                                  ."\n咨询电话：$require_phone"
                                   ."\n试听需求：$demand"
                                   ."\n1、请及时确认试听需求并备课"
                                   ."\n2、老师可提前10分钟进入课堂进行上课准备";
@@ -2001,8 +2040,6 @@ class ss_deal extends Controller
                 $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //[标签系统 给老师帮发]
 
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
-
-
             }else{
                 $this->t_manager_info->send_wx_todo_msg(
                     $require_admin_nick,"来自:".$this->get_account()
@@ -2012,7 +2049,6 @@ class ss_deal extends Controller
 
                 if($parentid>0){
                     $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
-
                 }
 
                 /**
@@ -5043,8 +5079,19 @@ class ss_deal extends Controller
 
         $check_phone = \App\Helper\Utils::check_phone($phone);
         if(!$check_phone){
-            return $this->output_err("请输入正确的手机号");
+            return $this->output_err("请输入正确的手机号!");
         }
+        if($reference!=""){
+            $check_reference = \App\Helper\Utils::check_phone($reference);
+            if(!$check_reference){
+                return $this->output_err("请输入正确的推荐人手机号!");
+            }
+        }
+        $check_email = \App\Helper\Utils::check_email($email);
+        if(!$check_email){
+            return $this->output_err("请输入正确的邮箱!");
+        }
+
         $old_phone = $this->t_teacher_lecture_appointment_info->get_phone($id);
         if($old_phone != $phone){
             $id_old = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);
@@ -5054,12 +5101,11 @@ class ss_deal extends Controller
         }
 
         if(empty($name) || empty($phone) || empty($grade_ex) || empty($subject_ex) || empty($teacher_type)
-           || empty($email) || empty($qq)
+           || empty($email) || empty($qq) || empty($age)
         ){
-            return $this->output_err("红色星号部分不能为空");
+            return $this->output_err("红色部分不能为空");
         }
 
-        $this->t_teacher_info->start_transaction();
         $ret = $this->t_teacher_lecture_appointment_info->field_update_list($id,[
             "name"                 => $name,
             "phone"                => $phone,
@@ -5073,20 +5119,9 @@ class ss_deal extends Controller
             "lecture_revisit_type" => $lecture_revisit_type,
             "custom"               => $custom,
         ]);
-        if($ret){
-            $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
-            if($teacherid>0){
-                $ret = $this->t_teacher_info->field_update_list($teacherid, ['age'=>$age]);
-            }
-        }
-        if($ret){
-            $this->t_teacher_info->commit();
-            return $this->output_succ();
-        }else{
-            $this->t_teacher_info->rollback();
-            return $this->output_err("更新失败！请重试！");
-        }
-
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        $ret = $this->t_teacher_info->field_update_list($teacherid, ['age'=>$age]);
+        return $this->output_succ();
     }
 
     public function set_green_channel_teacherid(){
