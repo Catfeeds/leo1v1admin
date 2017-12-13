@@ -42,14 +42,14 @@
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span>老师</span>
-                    <input id="id_teacherid" style="display:none" type="text"/>
-                    <span id="id_teacher_name" type="text" ></span>
+                    <input id="id_teacherid" style="display:none" type="text" value="{{ @$require_info['teacherid'] }}" />
+                    <span id="id_teacher_name" type="text" >{{ @$require_info['tea_nick'] }}</span>
                 </div>
             </div>
             <div class="col-xs-6 col-md-3">
                 <div class="input-group ">
                     <span>试听上课时间</span>
-                    <input id="id_lesson_time" type="text"/>
+                    <input id="id_lesson_time" type="text" value="{{ @$require_info['lesson_time'] }}" />
                 </div>
             </div>
             <div class="col-md-1 col-xs-3">

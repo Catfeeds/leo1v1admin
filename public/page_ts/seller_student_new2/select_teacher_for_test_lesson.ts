@@ -52,17 +52,17 @@ $(function(){
 
     $(".opt-set-teacher").on("click",function(){
         var data = $(this).get_opt_data();
-        console.log(data.realname);
+
         $("#id_teacherid").val(data.teacherid);
         $("#id_teacher_name").html(data.realname);
     });
 
     //排课
     $("#id_set_lesson_time").on("click",function(){
-        var require_id  = $("#id_require_id").val();
-        var lesson_time = $("#id_lesson_time").val();
-        var teacherid   = $("#id_teacherid").val();
-        var grade       = $("#id_require_info").data("grade");
+        var require_id      = $("#id_require_id").val();
+        var lesson_time     = $("#id_lesson_time").val();
+        var teacherid       = $("#id_teacherid").val();
+        var grade           = $("#id_require_info").data("grade");
         var seller_top_flag = $("#id_require_info").data("seller_top_flag");
 
         var do_post = function(){
@@ -75,9 +75,6 @@ $(function(){
             });
         };
 
-
-        console.log(teacherid);
-        console.log(lesson_time);
         var now        = (new Date()).getTime()/1000;
         var start_time = $.strtotime(lesson_time);
         if ( now > start_time ) {
