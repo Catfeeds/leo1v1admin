@@ -74,8 +74,10 @@ class test_sam  extends Controller
             $ret_s = $this->t_student_call_data->check($userid);
             if($ret_s){
                 $ret = $this->t_student_call_data->field_update_list($userid,$data);
+                echo "update".$userid."<br/>";
             }else{
                 $ret = $this->t_student_call_data->row_insert($data);
+                echo "insert".$userid."<br/>";
             }
         }
     }

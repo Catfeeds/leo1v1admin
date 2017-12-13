@@ -1440,6 +1440,16 @@ class stu_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function student_data_list(){
+        list($start_time, $end_time) = $this->get_in_date_range(0,0,0,[],3 );
+        $page_num               = $this->get_in_page_num();
+        $ret_info = $this->t_student_call_data->get_all_data($page_num,$start_time,$end_time);
+        dd($ret_info);
+        foreach($ret_info['list'] as &$item){
+
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
 }
 
 

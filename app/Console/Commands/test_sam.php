@@ -41,8 +41,8 @@ class test_sam extends Command
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
-        $ret_info = $task->t_student_info->get_all_student_id();  
-        dd($ret_info);
+         $ret_info = $task->t_student_info->get_all_student_id();  
+
         foreach ($ret_info as $key => $value) {
             # code...
             $userid = $value['userid'];
@@ -52,26 +52,63 @@ class test_sam extends Command
                 $lesson_time = 0;
             }
             $test_subject = $task->t_test_lesson_subject->get_subject_only_once($userid);
-            //$phone_location  =  $value['phone_location'];
-            
-            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
 
-                $location  = "其它";
-                // $cor
+            if(strpos($value['phone_location'], "黑龙江") || strpos($value['phone_location'], "内蒙古") ){
+                $location = substr($value['phone_location'],0,strlen($value['phone_location'])-9);
+                $cor = substr($value['phone_location'],9,strlen($value['phone_location']));
+            }else if($value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '北京U友'  || $value['phone_location'] == '辽宁U友'){
+                $location = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                $cor = "其它";
+
+            }else if( $value['phone_location'] == "鹏博士" || $value['phone_location'] == '' 
+                   || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' 
+                   || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' 
+                   || $value['phone_location'] == '阿里通信'  || $value['phone_location'] == '小米移动' ){
+                $location = "其它";
+                $cor = "其它";
             }else{
-                $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
-                $value['phone_location'] = $pro;
+                $location = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                $cor = substr($value['phone_location'],6,strlen($value['phone_location']));
             }
+
+            $origin_info = $task->t_seller_student_origin->get_origin_by_userid($userid);
+            if($origin_info){
+                $ret = explode("-",$origin_info);
+                $three_origin  = @$ret[1];
+                $two_origin    = @$ret[0];
+            }else{
+                $three_origin = '';
+                $two_origin = '';
+            }
+            $origin_count = $task->t_seller_student_origin->get_count_origin($userid);
+            $cc_called_count = $task->t_tq_call_info->get_cc_called_count_total($phone);
+            $return_publish_count = $task->t_test_subject_free_list->get_return_publish_count($userid);
             $data = [
                 "userid"        => $userid,
                 "add_time"      => $value['reg_time'],
                 "lesson_time"   => $lesson_time,
                 "grade"         => $value['grade'],
-                "subject"       => $test_subject,
+                "subject"       => $test_subject['subject'],
                 "pad"           => $value['has_pad'],
+                "location"      => $location,
+                "cor"           => $cor,
+                'three_origin'  => $three_origin,
+                'two_origin'    => $two_origin,
+                'origin_count'  => $origin_count,
+                'cc_called_count' => $cc_called_count,
+                'return_publish_count' => $return_publish_count,
             ];
+            $ret_s = $task->t_student_call_data->check($userid);
+            if($ret_s){
+                echo "update".$userid;
+                echo "\n";
+                $ret = $task->t_student_call_data->field_update_list($userid,$data);
+            }else{
+                echo "insert".$userid;
+                echo "\n";
+                $ret = $task->t_student_call_data->row_insert($data);
+            }
         }
-
 
         //$ret_info = $task->t_tq_call_info->get_all_info_by_cc();
         //$ret = $task->t_tq_call_info->get_all_info_by_cc_new();
