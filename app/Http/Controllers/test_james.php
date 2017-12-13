@@ -1845,5 +1845,11 @@ class test_james extends Controller
     }
 
 
+    public function dsss(){
+        $a = $this->t_order_info->get_ceshi();
+        dd($a);
+    }
+
+
 
 }
