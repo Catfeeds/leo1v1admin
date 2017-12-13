@@ -5045,8 +5045,14 @@ class ss_deal extends Controller
         if(!$check_phone){
             return $this->output_err("请输入正确的手机号!");
         }
+        if($reference!=""){
+            $check_reference = \App\Helper\Utils::check_phone($reference);
+            if(!$check_reference){
+                return $this->output_err("请输入正确的推荐人手机号!");
+            }
+        }
         $check_email = \App\Helper\Utils::check_email($email);
-        if(!$email){
+        if(!$check_email){
             return $this->output_err("请输入正确的邮箱!");
         }
 
@@ -5064,7 +5070,6 @@ class ss_deal extends Controller
             return $this->output_err("红色星号部分不能为空");
         }
 
-        $this->t_teacher_info->start_transaction();
         $ret = $this->t_teacher_lecture_appointment_info->field_update_list($id,[
             "name"                 => $name,
             "phone"                => $phone,
@@ -5078,20 +5083,9 @@ class ss_deal extends Controller
             "lecture_revisit_type" => $lecture_revisit_type,
             "custom"               => $custom,
         ]);
-        if($ret){
-            $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
-            if($teacherid>0){
-                $ret = $this->t_teacher_info->field_update_list($teacherid, ['age'=>$age]);
-            }
-        }
-        if($ret){
-            $this->t_teacher_info->commit();
-            return $this->output_succ();
-        }else{
-            $this->t_teacher_info->rollback();
-            return $this->output_err("更新失败！请重试！");
-        }
-
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        $ret = $this->t_teacher_info->field_update_list($teacherid, ['age'=>$age]);
+        return $this->output_succ();
     }
 
     public function set_green_channel_teacherid(){
