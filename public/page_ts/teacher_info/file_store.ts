@@ -228,8 +228,10 @@ $(function(){
 
 
     custom_upload('id_add_file', 'id_add_dir_parent',"" ,function(){
-        alert("上传成功");
-        load_data();
+        BootstrapDialog.alert("上传成功！");
+        setTimeout(function(){
+            load_data();
+        },1000);
     });
 
 

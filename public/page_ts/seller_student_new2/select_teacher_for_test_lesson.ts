@@ -16,9 +16,9 @@ function load_data(){
 }
 
 $(function(){
-    Enum_map.append_option_list("identity",$("#id_identity"),true);
-    Enum_map.append_option_list("gender",$("#id_gender"),true);
-    Enum_map.append_option_list("tea_age",$("#id_tea_age"),true);
+    Enum_map.append_option_list("identity",$("#id_identity"),true,[5,6,7,8]);
+    Enum_map.append_option_list("gender",$("#id_gender"),true,[1,2]);
+    Enum_map.append_option_list("tea_age",$("#id_tea_age"),true,[1,2,3,4]);
     $("#id_identity").val(g_args.identity);
     $("#id_gender").val(g_args.gender);
     $("#id_tea_age").val(g_args.tea_age);

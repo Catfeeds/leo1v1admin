@@ -41,8 +41,7 @@ class test_sam extends Command
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
-         $ret_info = $task->t_student_info->get_all_student_id();  
-
+        $ret_info = $task->t_student_info->get_all_student_id();  
         foreach ($ret_info as $key => $value) {
             # code...
             $userid = $value['userid'];

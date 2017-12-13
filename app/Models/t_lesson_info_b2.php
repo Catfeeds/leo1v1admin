@@ -4211,7 +4211,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_type in (0,1,3)", //常规课
             "l.lesson_del_flag=0",
             "t.is_test_user=0",
-            "l.confirm_flag<2"
+            "l.confirm_flag<2",
+            "p.parentid>0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$lesson_begin,$lesson_end);
@@ -4243,7 +4244,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr = [
             "l.lesson_del_flag=0",
             "l.lesson_type in (0,1,3)",
-            "l.confirm_flag<2"
+            "l.confirm_flag<2",
+            "p.parentid>0"
         ];
 
         $this->where_arr_add_time_range($where_arr,'lesson_start',$now, $next);

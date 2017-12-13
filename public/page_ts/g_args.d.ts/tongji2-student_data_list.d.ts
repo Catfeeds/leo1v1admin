@@ -4,7 +4,11 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	teacher:	number;
+	page_num:	number;
+	page_count:	number;
+	grade:	number;
+	subject:	number;
+	pad:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -14,26 +18,31 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	id	:any;
-	teacherid	:any;
-	five_num	:any;
-	fift_num	:any;
-	leave_num	:any;
-	absent_num	:any;
-	adjust_num	:any;
-	ask_leave_num	:any;
-	big_order_num	:any;
-	nick	:any;
-	all	:any;
+	userid	:any;
+	add_time	:any;
+	lesson_time	:any;
+	grade	:any;
+	subject	:any;
+	pad	:any;
+	location	:any;
+	cor	:any;
+	three_origin	:any;
+	two_origin	:any;
+	origin_count	:any;
+	cc_called_count	:any;
+	return_publish_count	:any;
+	grade_str	:any;
+	subject_str	:any;
+	pad_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../teacher_warn; vi  ../teacher_warn/tea_warn_list.ts
+	 mkdir -p ../tongji2; vi  ../tongji2/student_data_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/teacher_warn-tea_warn_list.d.ts" />
+/// <reference path="../g_args.d.ts/tongji2-student_data_list.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
@@ -44,7 +53,9 @@ function load_data(){
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
-		teacher:	$('#id_teacher').val()
+		grade:	$('#id_grade').val(),
+		subject:	$('#id_subject').val(),
+		pad:	$('#id_pad').val()
 		});
 }
 $(function(){
@@ -59,7 +70,9 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
-	$('#id_teacher').val(g_args.teacher);
+	$('#id_grade').val(g_args.grade);
+	$('#id_subject').val(g_args.subject);
+	$('#id_pad').val(g_args.pad);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -74,12 +87,30 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">teacher</span>
-                <input class="opt-change form-control" id="id_teacher" />
+                <span class="input-group-addon">grade</span>
+                <input class="opt-change form-control" id="id_grade" />
             </div>
         </div>
-{!!\App\Helper\Utils::th_order_gen([["teacher title", "teacher", "th_teacher" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["grade title", "grade", "th_grade" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">subject</span>
+                <input class="opt-change form-control" id="id_subject" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["subject title", "subject", "th_subject" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">pad</span>
+                <input class="opt-change form-control" id="id_pad" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["pad title", "pad", "th_pad" ]])!!}
 */

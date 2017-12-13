@@ -22,7 +22,7 @@ class t_teacher_warn extends \App\Models\Zgen\z_t_teacher_warn
         });
     }
 
-    public function get_all_info($start_time, $end_time, $teacherid, $page_info) {
+    public function get_all_info($start_time, $end_time, $teacherid) {
         $where_arr = [
             ['lesson_start>=%u', $start_time, 0],
             ['lesson_start<%u', $end_time, 0]
@@ -35,7 +35,7 @@ class t_teacher_warn extends \App\Models\Zgen\z_t_teacher_warn
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list_by_page($sql, $page_info);
+        return $this->main_get_list($sql);
     }
 
     public function get_info_for_teacherid($teacherid, $lesson_start) {
@@ -51,7 +51,7 @@ class t_teacher_warn extends \App\Models\Zgen\z_t_teacher_warn
     }
 
     public function get_info_for_test_user() {
-        $sql = $this->gen_sql_new("select t.teacherid from %s t left join %s w on t.teacherid=w.teacherid where is_test_user!=0",
+        $sql = $this->gen_sql_new("select w.id,t.teacherid from %s t left join %s w on t.teacherid=w.teacherid where is_test_user!=0",
                                   t_teacher_info::DB_TABLE_NAME,
                                   self::DB_TABLE_NAME
         );

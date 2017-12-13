@@ -1905,4 +1905,22 @@ class tongji2 extends Controller
         ];
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_new_list));
     }
+
+
+    public function student_data_list(){
+        list($start_time, $end_time) = $this->get_in_date_range(0,0,0,[],3 );
+        $page_num               = $this->get_in_page_num();
+        $grade  = $this->get_in_int_val('grade',-1);
+        $subject = $this->get_in_int_val('subject',-1);
+        $pad     = $this->get_in_int_val('pad',-1);
+        $ret_info = $this->t_student_call_data->get_all_data($page_num,$start_time,$end_time,$grade,$subject,$pad);
+        foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_time");
+            E\Egrade::set_item_value_str($item);
+            E\Esubject::set_item_value_str($item);
+            E\Epad_type::set_item_value_simple_str($item,"pad");
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
 }
