@@ -10,7 +10,7 @@
                     <div id="id_date_range">
                     </div>
                 </div>
-                <div clas="col-xs-4 col-md-2">
+                <div class="col-xs-6 col-md-2">
                     <div class="input-group">
                         <span>课程类型</span>
                         <select id="id_course_type" class="opt-change" >
