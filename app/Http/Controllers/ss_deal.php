@@ -1757,7 +1757,43 @@ class ss_deal extends Controller
         $this->t_test_lesson_subject_require->set_test_lesson_status(
             $require_id, E\Eseller_student_status::V_210 , $this->get_account() );
 
+        $do_adminid = $this->get_account_id();
+        if($do_adminid == 1093 || $do_adminid == 1231){ // 文彬测试
 
+            /**
+             * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+             * 标题课程 : 待办事项提醒
+             * {{first.DATA}}
+             * 待办主题：{{keyword1.DATA}}
+             * 待办内容：{{keyword2.DATA}}
+             * 日期：{{keyword3.DATA}}
+             * {{remark.DATA}}
+             */
+            $wx_openid        = $this->t_teacher_info->get_wx_openid($teacherid);
+            $lesson_start     = $this->t_lesson_info->get_lesson_start($lessonid);
+            $lesson_end       = $this->t_lesson_info->get_lesson_end($lessonid);
+            $lesson_time_str  = date("Y-m-d H:i",$lesson_start)." ~ ".date('H:i',$lesson_end);
+            $nick = $this->t_student_info->get_nick($userid);
+            $require_adminid  = $this->t_test_lesson_subject->get_require_adminid($test_lesson_subject_id);
+            $require_phone    = $this->t_manager_info->get_phone($require_adminid);
+            $stu_request_info = $this->t_test_lesson_subject->get_stu_request($lessonid);
+            $demand           = $stu_request_info['stu_request_test_lesson_demand'];
+
+            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+            $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
+            $data['keyword1'] = "备课通知";
+            $data['keyword2'] = "\n上课时间：$lesson_time_str "
+                              ."\n咨询电话：$require_phone"
+                              ."\n试听需求：$demand"
+                              ."\n1、请及时确认试听需求并备课"
+                              ."\n2、老师可提前10分钟进入课堂进行上课准备";
+            $data['keyword3'] = date("Y-m-d H:i",time());
+            $data['remark']   = "";
+            $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //[标签系统 给老师帮发]
+
+            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+
+        }
 
 
 
@@ -1996,7 +2032,7 @@ class ss_deal extends Controller
                 $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
                 $data['keyword1'] = "备课通知";
                 $data['keyword2'] = "\n上课时间：$lesson_time_str "
-                                  ."\n教务电话：$require_phone"
+                                  ."\n咨询电话：$require_phone"
                                   ."\n试听需求：$demand"
                                   ."\n1、请及时确认试听需求并备课"
                                   ."\n2、老师可提前10分钟进入课堂进行上课准备";
