@@ -18,7 +18,7 @@ function load_data(){
         'opt_date_type'  : g_args.opt_date_type,
         'start_time'     : g_args.start_time,
         'end_time'       : g_args.end_time,
-        //date_type_config : JSON.parse( g_args.date_type_config),
+        date_type_config : JSON.parse( g_args.date_type_config),
         onQuery          : function() {
             load_data();
         }
