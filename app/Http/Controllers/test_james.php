@@ -1798,6 +1798,10 @@ class test_james extends Controller
     }
 
     public function dd(){
+        $a = $this->t_parent_info->get_parent_opend_list();
+
+        dd($a);
+
         $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new("");
         // // $month_start_time = strtotime(date("Y-m-01",$end_time));
         $month_start_time = '1509465600';

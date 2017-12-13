@@ -32,6 +32,7 @@ class wxPicSendToParent extends Job implements ShouldQueue
         $this->delete();// 防止队列失败后 重复推送
         $t_parent_info  = new \App\Models\t_parent_info();
 
+        $parent_list = $t_parent_info->get_parent_opend_list();
 
     }
 }
