@@ -947,7 +947,7 @@ trait TeaPower {
                    $teacher_subject["not_grade"]
                 );
             }else{
-                $check_subject = $this->check_teacher_grade_range_new($tt_item,$teacher_subject);
+                $check_subject = $this->check_teacher_grade_range_new($tt_item,$teacher_subject,$is_test);
             }
         }else{
             $check_subject = $this->check_teacher_subject_and_grade_new(
@@ -1103,20 +1103,23 @@ trait TeaPower {
         }
     }
 
-    public function check_teacher_grade_range_new($stu_info,$tea_info){
+    public function check_teacher_grade_range_new($stu_info,$tea_info,$is_test=0){
         $stu_grade_range = $this->get_grade_range_new($stu_info['grade']);
         $not_grade       = explode(",",$tea_info['not_grade']);
         $grade_start     = $tea_info['grade_start'];
         $grade_end       = $tea_info['grade_end'];
-
-        if($stu_grade_range<$grade_start || $stu_grade_range>$grade_end){
-            return $this->output_err("学生年级与老师年级范围不匹配!");
-        }
-        if($stu_info['subject']!=$tea_info['subject']){
-            return $this->output_err("学生科目与老师科目不匹配!");
-        }
-        if(in_array($stu_info['grade'],$not_grade)){
-            return $this->output_err("该老师对应年级段已被冻结!");
+        if($is_test==0){
+            
+        
+            if($stu_grade_range<$grade_start || $stu_grade_range>$grade_end){
+                return $this->output_err("学生年级与老师年级范围不匹配!");
+            }
+            if($stu_info['subject']!=$tea_info['subject']){
+                return $this->output_err("学生科目与老师科目不匹配!");
+            }
+            if(in_array($stu_info['grade'],$not_grade)){
+                return $this->output_err("该老师对应年级段已被冻结!");
+            }
         }
 
         // return 1;

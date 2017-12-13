@@ -1071,6 +1071,9 @@ class wx_teacher_api extends Controller
         $jw_nick  = $this->cache_get_account_nick($lesson_info['accept_adminid']);
         $lesson_time_str = date('m-d H:i',$lesson_info['lesson_start'])." ~ ".date("H:i",$lesson_info['lesson_end']);
 
+        \App\Helper\Utils::logger("james:tea: $status");
+
+
         if($status == 1){ //接受 []
             /**
              * @ 教务排课的推送 家长 | CC推送需要取消
@@ -1110,8 +1113,8 @@ class wx_teacher_api extends Controller
                 "test_lesson_fail_flag"  => 113, // [不付] 老师个人原因取消
             ]);
 
-            $test_lesson_subject_id = $this->t_test_lesson_subject->get_test_lesson_subject_id_by_lessonid($lessonid);
-            $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id, [
+            $require_id = $this->t_test_lesson_subject->get_test_lesson_subject_id_by_lessonid($lessonid);
+            $this->t_test_lesson_subject_require->field_update_list($require_id, [
                 "test_lesson_student_status" => 120
             ]);
 
