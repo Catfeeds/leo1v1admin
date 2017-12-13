@@ -64,13 +64,13 @@ trait TeaPower {
             }else{
                 //新教研老师规则改变(2017-10-25以后入职)
                 //工作时间（周二至周六9:00~18:00）不安排授课
-                if($day>=2 && $day <=6){
+                if($day>=2 && $day <=5){
                     if(!empty($lesson_start)){
 
                         $lesson_end = $lesson_count*2400+$lesson_start;
                         $end_h = date("H",$lesson_end);
                         if($h <18 && $end_h>=9 ){
-                            return $this->output_err("教研老师周二至周六9点至18点不能排课");
+                            return $this->output_err("教研老师周二至周五9点至18点不能排课");
                         }
                     }
 

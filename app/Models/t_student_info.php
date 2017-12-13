@@ -3282,11 +3282,10 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     public function get_all_student_id(){
         $where_arr = [
             "s.is_test_user = 0",
-            "s.userid<70000"
         ];
         $sql = $this->gen_sql_new("select s.userid,s.reg_time,s.grade,s.phone_location,s.phone, k.has_pad "
                                 ."from %s s"
-                                ." left join %s k on k.phone = s.phone  "
+                                ." left join %s k on k.userid = s.userid  "
                                 ." where %s ",
                                 self::DB_TABLE_NAME,
                                 t_seller_student_new::DB_TABLE_NAME,

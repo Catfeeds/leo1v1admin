@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('content')
-
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+      <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+      <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+      <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+      <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+      <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <section class="content ">
         
         <div>
@@ -9,11 +14,25 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
-
                 <div class="col-xs-6 col-md-2">
-                    <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
+                    <div class="input-group ">
+                        <span class="input-group-addon">年级</span>
+                        <select class="opt-change form-control" id="id_grade" >
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">科目</span>
+                        <select class="opt-change form-control" id="id_subject" >
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">pad</span>
+                        <select class="opt-change form-control " id="id_pad" >
+                        </select>
                     </div>
                 </div>
             </div>
