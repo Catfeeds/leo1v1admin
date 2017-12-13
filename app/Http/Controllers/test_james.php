@@ -1131,15 +1131,15 @@ class test_james extends Controller
         $Media_id = Media::upload($filename, $type);
 
 
-        dispatch( new \App\Jobs\wxPicSendToParent(
-            $Media_id['media_id']
-        ));
+        // dispatch( new \App\Jobs\wxPicSendToParent(
+        //     $Media_id['media_id']
+        // ));
 
 
 
 
 
-        dd($Media_id);
+        // dd($Media_id);
         //使用客服接口发送消息
         // $txt_arr = [
         //     'touser'   => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',// james
@@ -1170,7 +1170,7 @@ class test_james extends Controller
         // dd($Media_id);
         // 使用客服接口发送消息
         $txt_arr = [
-            'touser'   => 'orwGAs0ayobuEtO1YZZhW3Yed2To',// james
+            'touser'   => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',// james
             'msgtype'  => 'image',
             "image"=>[
                 "media_id"=>$Media_id['media_id']
@@ -1188,6 +1188,8 @@ class test_james extends Controller
         $txt = $this->ch_json_encode($txt_arr);
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
         $txt_ret = $this->https_post($url,$txt);
+
+        dd($txt_ret);
 
     }
 
