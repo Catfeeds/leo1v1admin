@@ -1205,6 +1205,8 @@ class ss_deal2 extends Controller
         $study_habit     = $this->get_in_str_val("study_habit");//学习习惯
         $stu_request_test_lesson_demand    = $this->get_in_str_val("stu_request_test_lesson_demand");//试听内容
         $stu_request_test_lesson_time = $this->get_in_str_val("stu_request_test_lesson_time");//试听时间
+        $default_end_time = date('Y-m-d',strtotime($stu_request_test_lesson_time)+3600*24*2).'00:00:00';
+        $stu_request_test_lesson_time_end = $this->get_in_str_val("stu_request_test_lesson_time_end",$default_end_time);//试听时间截止时间
         $stu_test_paper = $this->get_in_str_val("test_paper");//试卷
         $tea_identity = $this->get_in_int_val("tea_identity");//老师身份
         $tea_age = $this->get_in_int_val("tea_age");//老师年龄
@@ -1219,10 +1221,9 @@ class ss_deal2 extends Controller
         $stu_test_ipad_flag    = $this->get_in_str_val("stu_test_ipad_flag");//设备连接状态
         $user_desc     = $this->get_in_str_val("user_desc");//备注
 
-        // if($demand_urgency == 0){ return $this->output_err("请选择需求急迫性");}
-        // if($quotation_reaction == 0){ return $this->output_err("请选择报价反应");}
-        if($intention_level == 0){ return $this->output_err("请选择上课意向");}
-
+        if($intention_level == 0){
+            return $this->output_err("请选择上课意向");
+        }
         if ($next_revisit_time) {
             $next_revisit_time =strtotime($next_revisit_time);
         } else {
@@ -1246,7 +1247,11 @@ class ss_deal2 extends Controller
         } else {
             $stu_request_test_lesson_time=0;
         }
-
+        if ($stu_request_test_lesson_time_end) {
+            $stu_request_test_lesson_time_end=strtotime( $stu_request_test_lesson_time_end);
+        } else {
+            $stu_request_test_lesson_time_end=0;
+        }
         $db_tt_item=$this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"subject,seller_student_status, stu_request_test_lesson_time ,stu_request_test_lesson_demand");
 
         if ( $db_tt_item["seller_student_status"] ==  E\Eseller_student_status::V_200  &&
@@ -1370,6 +1375,7 @@ class ss_deal2 extends Controller
         $tt_arr=[
             "subject" =>$subject,
             "stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
+            "stu_request_test_lesson_time_end" =>$stu_request_test_lesson_time_end,
             // "stu_request_test_lesson_time_info" =>$stu_request_test_lesson_time_info,
             //  "stu_request_lesson_time_info" =>$stu_request_lesson_time_info,
            "stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,

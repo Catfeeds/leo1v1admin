@@ -19,7 +19,6 @@ class login_log extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"login_time");
             $item["server_ip"] = long2ip($item["server_ip"]);
             $item["login_ip"] = long2ip($item["login_ip"]);
-
         }
         //dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
@@ -43,6 +42,7 @@ class login_log extends Controller
         ]);
         return $this->output_succ();
     }
+
     public function login_edit() {
         $id= $this->get_in_int_val("id");
         $account= $this->get_in_str_val("account");

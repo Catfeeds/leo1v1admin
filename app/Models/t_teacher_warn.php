@@ -10,15 +10,15 @@ class t_teacher_warn extends \App\Models\Zgen\z_t_teacher_warn
 
     public function get_info_for_time($start_time, $end_time) {
         $where_arr = [
-            //['add_time>=%u', $start_time,0],
-            ['add_time<%u', $end_time,0]
+            //['lesson_start>=%u', $start_time,0],
+            ['lesson_start<%u', $end_time,0]
         ];
-        $sql = $this->gen_sql_new("select id,teacherid,add_time from %s where %s",
+        $sql = $this->gen_sql_new("select id,teacherid,lesson_start from %s where %s",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql, function($item) {
-            return $item['teacherid'].'_'.$item['add_time'];
+            return $item['teacherid'].'_'.$item['lesson_start'];
         });
     }
 

@@ -950,7 +950,74 @@ class test_jack  extends Controller
                 unset($ret_info[$yy]);
             }
         }
-        $normal_stu_num = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);
+        $list = $this->t_lesson_info_b2->get_tea_stu_num_list_detail($qz_tea_arr,$week_start,$week_end);
+        $all_num = $one_num=$two_num = $three_num = $four_num = $five_num = $six_num = $other_num=0;
+        $data=[];
+        foreach($list as $val){
+            @$data["all_num"]++;
+            // $lesson_count = $val["lesson_all"]/500;
+            // if($lesson_count<=1){
+            //     @$data["one_num"]++;
+            // }elseif($lesson_count<=2){
+            //     @$data["two_num"]++;
+            // }elseif($lesson_count<=3){
+            //     @$data["three_num"]++;
+            // }elseif($lesson_count<=4){
+            //     @$data["four_num"]++;
+            // }elseif($lesson_count<=5){
+            //     @$data["five_num"]++;
+            // }elseif($lesson_count<=6){
+            //     @$data["six_num"]++;
+            // }else{
+            //     @$data["other_num"]++;
+            // }
+
+        }
+        $list2 = $this->t_week_regular_course->get_tea_stu_num_list_detail($qz_tea_arr);
+        foreach($list2 as $val){
+            $lesson_count = $val["lesson_all"]/100;
+            if($lesson_count==1){
+                @$data["one_num"]++;
+            }elseif($lesson_count==1.5){
+                @$data["one_five_num"]++;
+            }elseif($lesson_count==2){
+                @$data["two_num"]++;
+            }elseif($lesson_count==2.5){
+                @$data["two_five_num"]++;
+            }elseif($lesson_count==3){
+                @$data["three_num"]++;
+            }elseif($lesson_count==3.5){
+                @$data["three_five_num"]++;
+            }elseif($lesson_count==4){
+                @$data["four_num"]++;
+            }elseif($lesson_count==4.5){
+                @$data["four_five_num"]++;
+            }elseif($lesson_count==5){
+                @$data["five_num"]++;
+            }elseif($lesson_count==5.5){
+                @$data["five_five_num"]++;
+            }elseif($lesson_count==6){
+                @$data["six_num"]++;
+            }elseif($lesson_count==6.5){
+                @$data["six_five_num"]++;
+            }else{
+                @$data["other_num"]++;
+            }
+
+        }
+
+
+        $start_time = strtotime("2017-12-01");
+        $end_time = strtotime("2018-01-01");
+
+        $ret = $this->t_lesson_info_b3->get_teacher_lesson_info(-1,$start_time,$end_time,$qz_tea_arr);
+        $stu_leave_num = $tea_leave_num=0;
+        foreach($ret as $val){
+            @$data["stu_leave_num"] +=$val["stu_leave_count"]/100;
+            @$data["tea_leave_num"] +=$val["tea_leave_count"]/100;
+        }
+        return $this->output_succ(["data"=>$data]);
+        dd($list);
 
     }
 
@@ -1046,8 +1113,9 @@ class test_jack  extends Controller
         //     E\Esubject::set_item_value_str($item,"subject");
 
         // }
+        $list=[1];
         return $this->pageView(__METHOD__,null,[
-            "list"  =>null
+            "list"  =>$list
         ]);
 
         // $first_month = strtotime("2016-01-01");

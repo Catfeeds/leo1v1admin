@@ -10,8 +10,9 @@ use OSS\Core\OssException;
 
 use Illuminate\Support\Facades\Mail ;
 
-use App\Jobs\send_wx_notic_for_software;
+use  App\Jobs\send_wx_notic_for_software;
 use  App\Jobs\send_wx_notic_to_tea;
+use  App\Jobs\wxPicSendToParent;
 
 use LaneWeChat\Core\Media;
 
@@ -1124,11 +1125,21 @@ class test_james extends Controller
 
     public function wx_news(){ // 使用客服接口发送消息
 
-        // $filename = "http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E6%95%99%E8%82%B2%E5%9C%A8%E7%BA%BF-%E5%8E%9F%E5%9B%BE/%E6%B4%BB%E5%8A%A8/699592341.jpg";
         $filename = "/home/ybai/tu.jpg";
         $type = "image";
 
         $Media_id = Media::upload($filename, $type);
+
+
+        dispatch( new \App\Jobs\wxPicSendToParent(
+            $Media_id['media_id']
+        ));
+
+
+
+
+
+        dd($Media_id);
         //使用客服接口发送消息
         // $txt_arr = [
         //     'touser'   => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',// james
@@ -1756,7 +1767,7 @@ class test_james extends Controller
         $xsl_data = json_decode($xsl_data,true);
         dd($xsl_data);
 
-        
+
         if(!is_array($xsl_data)) {
             return $this->output_err("download error");
         }
@@ -1798,6 +1809,10 @@ class test_james extends Controller
     }
 
     public function dd(){
+        $a = $this->t_parent_info->get_parent_opend_list();
+
+        dd($a);
+
         $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new("");
         // // $month_start_time = strtotime(date("Y-m-01",$end_time));
         $month_start_time = '1509465600';

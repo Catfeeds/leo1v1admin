@@ -368,6 +368,7 @@ class teacher_info extends Controller
 
         return  $this->output_succ( [ "common_lesson_config" => $common_lesson_config] );
     }
+
     public function otp_common_config()
     {
         $opt_type  = $this->get_in_str_val("opt_type");
@@ -464,6 +465,7 @@ class teacher_info extends Controller
 
         return $this->output_succ(["data"=>$ret_info]);
     }
+
     public function get_pdf_download_url()
     {
         $file_url = $this->get_in_str_val("file_url");
@@ -1168,7 +1170,9 @@ class teacher_info extends Controller
         return $this->output_succ();
     }
 
-    public function check_teacher_subject_and_grade($subject,$grade,$first_subject,$second_subject,$third_subject,$grade_part_ex,$second_grade,$third_grade,$is_test,$not_grade){
+    public function check_teacher_subject_and_grade(
+        $subject,$grade,$first_subject,$second_subject,$third_subject,$grade_part_ex,$second_grade,$third_grade,$is_test,$not_grade
+    ){
         if($is_test ==0){
             if($subject != $first_subject && $subject != $second_subject && $subject != $third_subject){
                 return $this->output_err("请安排与老师科目相符合的课程!");
@@ -2256,4 +2260,45 @@ class teacher_info extends Controller
         exit();
     }
 
+    public function get_leo_resource(){
+        $resource_type = $this->get_in_int_val('resource_type', 1);
+        $subject       = $this->get_in_int_val('subject', -1);
+        $grade         = $this->get_in_int_val('grade', -1);
+        $tag_one       = $this->get_in_int_val('tag_one', -1);
+        $tag_two       = $this->get_in_int_val('tag_two', -1);
+        $tag_three     = $this->get_in_int_val('tag_three', -1);
+        $tag_four      = $this->get_in_int_val('tag_four', -1);
+        // $file_title    = $this->get_in_str_val('file_title', '');
+        $page_info     = $this->get_in_page_info();
+
+        $ret_info = $this->t_resource->get_all(
+            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info
+        );
+
+        foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            \App\Helper\Utils::get_file_use_type_str($item);
+            $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
+            $item['file_size'] = round( $item['file_size'] / 1024,2);
+            $tag_arr = $this->tag_arr[ $item['resource_type'] ];
+
+            $item['tag_one_name'] = $tag_arr['tag_one']['name'];
+            $item['tag_two_name'] = $tag_arr['tag_two']['name'];
+            $item['tag_three_name'] = $tag_arr['tag_three']['name'];
+            $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
+            // dd($item);
+
+            E\Egrade::set_item_field_list($item, [
+                "subject",
+                "grade",
+                "resource_type",
+                "use_type",
+                $tag_arr['tag_one']['menu'] => 'tag_one',
+                $tag_arr['tag_two']['menu'] => 'tag_two',
+                $tag_arr['tag_three']['menu'] => 'tag_three',
+                $tag_arr['tag_four']['menu'] => 'tag_four',
+            ]);
+        }
+
+    }
 }

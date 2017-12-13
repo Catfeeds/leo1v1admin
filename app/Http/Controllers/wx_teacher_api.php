@@ -1110,6 +1110,11 @@ class wx_teacher_api extends Controller
                 "test_lesson_fail_flag"  => 113, // [不付] 老师个人原因取消
             ]);
 
+            $test_lesson_subject_id = $this->t_test_lesson_subject->get_test_lesson_subject_id_by_lessonid($lessonid);
+            $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id, [
+                "test_lesson_student_status" => 120
+            ]);
+
 
             $data = [
                 "first" => "$stu_nick 同学的试听课已拒绝",
@@ -1147,9 +1152,6 @@ class wx_teacher_api extends Controller
                 $tea_label_type_str.=E\Etea_label_type::get_desc($item)."  ";
             }
         }
-
-        $teacher_info['harvest'] = "教学成果";
-        $teacher_info['evaluate'] = "家长/学元评价";
 
         $teacher_info['tea_label_str'] = $tea_label_type_str;
         return $this->output_succ(["data"=>$teacher_info]);
