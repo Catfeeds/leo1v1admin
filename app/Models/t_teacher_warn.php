@@ -51,7 +51,7 @@ class t_teacher_warn extends \App\Models\Zgen\z_t_teacher_warn
     }
 
     public function get_info_for_test_user() {
-        $sql = $this->gen_sql_new("select t.teacherid from %s t left join %s w on t.teacherid=w.teacherid where is_test_user!=0",
+        $sql = $this->gen_sql_new("select w.id,t.teacherid from %s t left join %s w on t.teacherid=w.teacherid where is_test_user!=0",
                                   t_teacher_info::DB_TABLE_NAME,
                                   self::DB_TABLE_NAME
         );
