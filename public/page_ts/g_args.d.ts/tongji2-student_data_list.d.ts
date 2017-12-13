@@ -6,6 +6,9 @@ interface GargsStatic {
 	end_time:	string;
 	page_num:	number;
 	page_count:	number;
+	grade:	number;
+	subject:	number;
+	pad:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -49,7 +52,10 @@ function load_data(){
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val()
+		end_time:	$('#id_end_time').val(),
+		grade:	$('#id_grade').val(),
+		subject:	$('#id_subject').val(),
+		pad:	$('#id_pad').val()
 		});
 }
 $(function(){
@@ -64,6 +70,9 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
+	$('#id_grade').val(g_args.grade);
+	$('#id_subject').val(g_args.subject);
+	$('#id_pad').val(g_args.pad);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -80,4 +89,28 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">grade</span>
+                <input class="opt-change form-control" id="id_grade" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["grade title", "grade", "th_grade" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">subject</span>
+                <input class="opt-change form-control" id="id_subject" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["subject title", "subject", "th_subject" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">pad</span>
+                <input class="opt-change form-control" id="id_pad" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["pad title", "pad", "th_pad" ]])!!}
 */
