@@ -12,6 +12,7 @@ class CreateTeacherWarn extends Migration
      */
     public function up()
     {
+        //Schema::dropIfExists('db_weiyi.t_teacher_warn');
         Schema::create('db_weiyi.t_teacher_warn', function(Blueprint $table) {
             t_field($table->increments("id"), "教师预警表");
             t_field($table->integer("teacherid"), "老师id");

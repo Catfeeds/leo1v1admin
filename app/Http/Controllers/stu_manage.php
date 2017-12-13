@@ -1397,8 +1397,6 @@ class stu_manage extends Controller
      * @function  学生分数列表显示
      */
     public function  score_list () {
-
-
         //$time = strtotime(date("Y-m"));
         //$this->t_student_score_info->set_every_month_student_score($time);
         //dd(2);
@@ -1418,9 +1416,7 @@ class stu_manage extends Controller
             E\Estu_score_type::set_item_value_str($item);
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
         }
-
         // dd($ret_info);
-
         return $this->pageView(__METHOD__, $ret_info);
     }
 

@@ -12,7 +12,8 @@ class TChangeKnowledge extends Migration
     public function up()
     {
         
-        Schema::table('db_question_new.t_knowledge_point', function (Blueprint $table){
+        //Schema::dropIfExists('db_question_new.t_knowledge_point');
+        Schema::create('db_question_new.t_knowledge_point', function (Blueprint $table){
             t_field($table->integer('level')->default(0),"知识点层级");
             t_field($table->integer('father_id')->default(0),"父级id");
             t_field($table->string('father_other')->default(null),"可能对应的其他父级id");

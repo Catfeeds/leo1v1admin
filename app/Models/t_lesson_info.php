@@ -9779,4 +9779,5 @@ lesson_type in (0,1) "
         $sql = $this->gen_sql_new("select teacherid,lessonid,lesson_start,lesson_cancel_reason_type type from %s where confirm_flag=2 and lesson_cancel_reason_type in (21,2,12)", self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }
+
 }

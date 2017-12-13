@@ -41,11 +41,43 @@ class test_sam extends Command
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
+        $ret_info = $task->t_student_info->get_all_student_id();  
+        dd($ret_info);
+        foreach ($ret_info as $key => $value) {
+            # code...
+            $userid = $value['userid'];
+            $phone  = $value['phone'];
+            $lesson_time = $task->t_lesson_info->get_first_lesson($userid);
+            if(!$lesson_time){
+                $lesson_time = 0;
+            }
+            $test_subject = $task->t_test_lesson_subject->get_subject_only_once($userid);
+            //$phone_location  =  $value['phone_location'];
+            
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
+
+                $location  = "其它";
+                // $cor
+            }else{
+                $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                $value['phone_location'] = $pro;
+            }
+            $data = [
+                "userid"        => $userid,
+                "add_time"      => $value['reg_time'],
+                "lesson_time"   => $lesson_time,
+                "grade"         => $value['grade'],
+                "subject"       => $test_subject,
+                "pad"           => $value['has_pad'],
+            ];
+        }
+
+
         //$ret_info = $task->t_tq_call_info->get_all_info_by_cc();
         //$ret = $task->t_tq_call_info->get_all_info_by_cc_new();
         //$ret_test = $task->t_tq_call_info->get_all_info_by_cc_test();
-
         //$ret_info = $task->t_teacher_info->get_teacher_bank_info_new();
+        /*
         $ret_info = $task->t_order_refund->get_2017_11_refund_info();
         $path = '/home/ybai/test_sam.txt';
         //$path = '/home/sam/admin_yb1v1/a.txt';
@@ -66,16 +98,12 @@ class test_sam extends Command
                 fwrite($fp, @$value['bank_city']);//2
                 fwrite($fp, '   ');
                 fwrite($fp, @$value['bank_address']);//2
-                /*
-                fwrite($fp, @$value['total_money']);//3
-                fwrite($fp, '   ');
-                fwrite($fp, @$value['total_num']);//4
-                */
                 fwrite($fp, "\n");
             }
             
         }
         fclose($fp);
+        */
         //dd($ret_info);
         /*
         $ret_info = $task->t_tq_call_info->get_all_info_group_by_phone();
