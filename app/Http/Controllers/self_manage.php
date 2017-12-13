@@ -438,4 +438,8 @@ class self_manage extends Controller
         return $this->pageView(__METHOD__,$list);
     }
 
+    public function test() {
+        return $this->pageView(__METHOD__);
+    }
+
 }
