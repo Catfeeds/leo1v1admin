@@ -1383,7 +1383,7 @@
 
         <div class="row">
             <div class="col-xs-12 col-md-12  " >
-                <span>试听要求</span>
+                <span><font style="color:red">*</font>试听要求</span>
                 <span style="margin-left:70px;" id="id_add_tag_new_two"></span>
             </div>
             <div class="col-xs-12 col-md-9  ">
