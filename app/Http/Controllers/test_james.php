@@ -1209,6 +1209,13 @@ class test_james extends Controller
     }
 
 
+    public function get_user_list(){
+        $user_list = UserManage::getFansList($next_openId='');
+
+        dd($user_list);
+    }
+
+
 
 
     /**
