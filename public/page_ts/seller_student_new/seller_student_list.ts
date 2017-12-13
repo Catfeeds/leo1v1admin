@@ -4075,17 +4075,47 @@ function init_edit() {
                         }else{
                             html_node.find("#id_stu_addr_new_two").parent().attr('style','');
                         }
+                        var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数 
                         if(html_node.find("#id_class_rank_new_two").val() == '' || html_node.find("#id_class_num_new_two").val() == ''){
                             html_node.find("#id_class_rank_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
                         }else{
-                            html_node.find("#id_class_rank_new_two").parent().attr('style','');
+                            if(r.test(html_node.find("#id_class_rank_new_two").val())){
+                                html_node.find("#id_class_rank_new_two").attr('style','');
+                            }else{
+                                alert('请输入正整数!');
+                                html_node.find("#id_class_rank_new_two").attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                                return false;
+                            }
+                            if(r.test(html_node.find("#id_class_num_new_two").val())){
+                                html_node.find("#id_class_num_new_two").attr('style','');
+                            }else{
+                                alert('请输入正整数!');
+                                html_node.find("#id_class_num_new_two").attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                                return false;
+                            }
                         }
                         if(html_node.find("#id_main_subject_new_two").val() == '' || html_node.find("#id_main_subject_score_one_new_two").val() == '' || html_node.find("#id_main_subject_score_two_new_two").val() == ''){
                             html_node.find("#id_main_subject_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
                         }else{
+                            var check = true;
                             html_node.find("#id_main_subject_new_two").parent().attr('style','');
+                            $("input[name='subject_score_one_new_two'],input[name='subject_score_two_new_two']").each(function(){
+                                if($(this).val() !== ''){
+                                    if(r.test($(this).val())){
+                                        $(this).attr('style','');
+                                    }else{
+                                        $(this).attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                                        check = false;
+                                        return false;
+                                    }    
+                                }
+                            });
+                            if(!check){
+                                alert('请输入正整数!');
+                                return false;
+                            }
                         }
                         if(html_node.find("#id_test_stress_new_two").val() <= 0){
                             html_node.find("#id_test_stress_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');

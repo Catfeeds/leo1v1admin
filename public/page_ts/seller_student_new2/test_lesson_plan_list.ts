@@ -149,6 +149,13 @@ $(function(){
             return;
         }
 
+        if(opt_data.accept_status == 1){
+            alert('已确认课程，若更换试听课，请取消课程，重新排课；');
+            return;
+        }
+
+
+        console.log("测试:"+opt_data.accept_status);
 
         var id_teacherid       = $("<input/>");
         var id_start_time      = $("<input/>");
