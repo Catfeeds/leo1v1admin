@@ -48,7 +48,6 @@ interface RowData {
 	resource_type_str	:any;
 	use_type_str	:any;
 	tag_one_str	:any;
-	tag_two_str	:any;
 }
 
 /*

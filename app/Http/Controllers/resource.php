@@ -268,6 +268,7 @@ class resource extends Controller
                 if($num==6) {
                     $sub_grade = $this->get_sub_grade_tag($arr[1], $arr[2]);
                     $item['tag_four_str'] = @$sub_grade[$item['tag_four']];
+
                 }
             }
 
