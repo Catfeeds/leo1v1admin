@@ -1210,7 +1210,8 @@ class test_james extends Controller
 
 
     public function get_user_list(){
-        $user_list = UserManage::getFansList($next_openId='');
+        $a = $this->get_in_str_val("s");
+        $user_list = UserManage::getFansList($next_openId=$a);
 
         dd($user_list);
     }
