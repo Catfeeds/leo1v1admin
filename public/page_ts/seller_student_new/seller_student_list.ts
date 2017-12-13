@@ -3298,6 +3298,7 @@ function init_edit() {
             Enum_map.append_option_list("identity", id_tea_status, true,[5,6,7,8]);
             id_tea_gender.append(wuyaoqiu_html);
             Enum_map.append_option_list("gender", id_tea_gender, true,[1,2]);
+            id_tea_age.append(wuyaoqiu_html);
             Enum_map.append_option_list("tea_age", id_tea_age, true);
             id_stu_request_test_lesson_time.datetimepicker({
                 lang             : 'ch',
@@ -4370,24 +4371,6 @@ function init_edit() {
                             return false;
                         }else{
                             html_node.find("#id_pro_ability_new_two").parent().attr('style','');
-                        }
-                        if(html_node.find("#id_tea_status_new_two").val() == ''){
-                            html_node.find("#id_tea_status_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_tea_status_new_two").parent().attr('style','');
-                        }
-                        if(html_node.find("#id_tea_age_new_two").val() == ''){
-                            html_node.find("#id_tea_age_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_tea_age_new_two").parent().attr('style','');
-                        }
-                        if(html_node.find("#id_tea_gender_new_two").val() == ''){
-                            html_node.find("#id_tea_gender_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_tea_gender_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_class_env_new_two").val() == ''){
                             html_node.find("#id_class_env_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
