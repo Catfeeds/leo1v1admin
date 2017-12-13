@@ -1107,6 +1107,9 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
                                   ." left join %s tls on tls.test_lesson_subject_id = tr.test_lesson_subject_id"
                                   ." left join %s tll on tll.require_id=tls.require_id"
                                   ." where tll.lessonid=$lessonid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
         );
 
         return $this->main_get_value($sql);
