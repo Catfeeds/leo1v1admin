@@ -37,6 +37,18 @@ class t_teacher_warn extends \App\Models\Zgen\z_t_teacher_warn
         );
         return $this->main_get_list_by_page($sql, $page_info);
     }
+
+    public function get_info_for_teacherid($teacherid, $lesson_start) {
+        $where_arr = [
+            ['teacherid=%u', $teacherid, 0],
+            ['lesson_start=%u', $lesson_start, 0]
+        ];
+        $sql = $this->gen_sql_new("select id from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
 
 
