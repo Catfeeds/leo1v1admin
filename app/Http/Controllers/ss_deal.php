@@ -1757,6 +1757,10 @@ class ss_deal extends Controller
         $this->t_test_lesson_subject_require->set_test_lesson_status(
             $require_id, E\Eseller_student_status::V_210 , $this->get_account() );
 
+
+
+
+
         return $this->output_succ();
     }
 
