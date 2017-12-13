@@ -48,7 +48,11 @@ $(function(){
                 $('[key]').contextify(options);
                 $('.add_book').unbind();
                 $('.add_book').on('click',function(){
-                    add_or_del_or_edit($(this).parent().attr('info_str'),'add');
+                    if($(this).parent().attr('ban_level') > 0){
+                        alert('请先启用上一级！');
+                    } else {
+                        add_or_del_or_edit($(this).parent().attr('info_str'),'add');
+                    }
                     return false;
                 });
 
@@ -76,7 +80,11 @@ $(function(){
         },class:'menu_ban'},
         {text: '选择教材版本', onclick: function() {
             $('#contextify-menu').hide();
-            add_or_del_or_edit(data_str,'add');
+            if( ban_level > 0){
+                alert('请先启用上一级！');
+            }else {
+                add_or_del_or_edit(data_str,'add');
+            }
         },class:'menu_select hide'},
         {text: '删除', onclick: function() {
             $('#contextify-menu').hide();
