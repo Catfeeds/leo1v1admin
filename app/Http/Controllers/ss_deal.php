@@ -5041,6 +5041,10 @@ class ss_deal extends Controller
         $custom               = $this->get_in_int_val("custom");
         $acc                  = $this->get_account();
 
+        $check_phone = \App\Helper\Utils::check_phone($phone);
+        if(!$check_phone){
+            return $this->output_err("请输入正确的手机号");
+        }
         $old_phone = $this->t_teacher_lecture_appointment_info->get_phone($id);
         if($old_phone != $phone){
             $id_old = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);
@@ -5049,10 +5053,10 @@ class ss_deal extends Controller
             }
         }
 
-        if(empty($name) || empty($grade_ex) || empty($subject_ex) || $teacher_type==0
-           || empty($email) || empty($qq) || empty($phone)
+        if(empty($name) || empty($phone) || empty($grade_ex) || empty($subject_ex) || empty($teacher_type)
+           || empty($email) || empty($qq)
         ){
-            return $this->output_err("姓名/手机号/名字/年级/科目/老师身份/邮箱/qq不能为空");
+            return $this->output_err("红色星号部分不能为空");
         }
 
         $this->t_teacher_info->start_transaction();
