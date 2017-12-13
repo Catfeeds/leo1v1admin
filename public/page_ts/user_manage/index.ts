@@ -129,6 +129,7 @@ $(function(){
   $("#id_phone").val(g_args.phone);
   $("#id_seller_adminid").val(g_args.seller_adminid);
   $("#id_order_type").val(g_args.order_type);
+  $("#id_student_type").val(g_args.student_type);
 
     $("#id_assistantid").val(g_args.assistantid);
 
@@ -163,7 +164,8 @@ $(function(){
             phone       : $("#id_phone").val(),
             assistantid : $("#id_assistantid").val(),
             order_type : $("#id_order_type").val(),
-            seller_adminid : $("#id_seller_adminid").val()
+            seller_adminid : $("#id_seller_adminid").val(),
+            student_type : $("#id_student_type").val()
         });
   }
 
