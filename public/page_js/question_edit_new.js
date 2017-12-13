@@ -79,7 +79,7 @@ var Cquestion_editor = {
 
     preview_update:function(id_question_type,id_mathjax_content,MathPreview,mathId) {
         //id_question_type 题型 id_mathjax_content题目输入框 MathBuffer 当前输入的字符串 MathPreview题目显示框 mathId数学公式显示区域
-        var question_type = id_question_type.val();
+        //var question_type = id_question_type.val();
         var mathjax_content = id_mathjax_content.val();
    
         mathjax_content = mathjax_content.replace(/\n/g, '<br/>');

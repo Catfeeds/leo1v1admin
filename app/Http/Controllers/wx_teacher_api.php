@@ -1026,7 +1026,7 @@ class wx_teacher_api extends Controller
         $ret_info  = $this->t_test_lesson_subject->get_test_require_info($lessonid);
 
         if($ret_info['lesson_del_flag']==1){
-            // $ret_info['status'] = 2;
+            $ret_info['status'] = 2;
         }
 
         $ret_info['subject_str'] = E\Esubject::get_desc($ret_info['subject']);
