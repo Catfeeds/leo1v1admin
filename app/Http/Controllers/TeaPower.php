@@ -947,7 +947,7 @@ trait TeaPower {
                    $teacher_subject["not_grade"]
                 );
             }else{
-                $check_subject = $this->check_teacher_grade_range_new($tt_item,$teacher_subject);
+                $check_subject = $this->check_teacher_grade_range_new($tt_item,$teacher_subject,$is_test);
             }
         }else{
             $check_subject = $this->check_teacher_subject_and_grade_new(
@@ -1103,20 +1103,23 @@ trait TeaPower {
         }
     }
 
-    public function check_teacher_grade_range_new($stu_info,$tea_info){
+    public function check_teacher_grade_range_new($stu_info,$tea_info,$is_test=0){
         $stu_grade_range = $this->get_grade_range_new($stu_info['grade']);
         $not_grade       = explode(",",$tea_info['not_grade']);
         $grade_start     = $tea_info['grade_start'];
         $grade_end       = $tea_info['grade_end'];
-
-        if($stu_grade_range<$grade_start || $stu_grade_range>$grade_end){
-            return $this->output_err("学生年级与老师年级范围不匹配!");
-        }
-        if($stu_info['subject']!=$tea_info['subject']){
-            return $this->output_err("学生科目与老师科目不匹配!");
-        }
-        if(in_array($stu_info['grade'],$not_grade)){
-            return $this->output_err("该老师对应年级段已被冻结!");
+        if($is_test==0){
+            
+        
+            if($stu_grade_range<$grade_start || $stu_grade_range>$grade_end){
+                return $this->output_err("学生年级与老师年级范围不匹配!");
+            }
+            if($stu_info['subject']!=$tea_info['subject']){
+                return $this->output_err("学生科目与老师科目不匹配!");
+            }
+            if(in_array($stu_info['grade'],$not_grade)){
+                return $this->output_err("该老师对应年级段已被冻结!");
+            }
         }
 
         // return 1;
@@ -4626,22 +4629,24 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $break_flag = false;
             if(is_array($teacher_free_time_arr)){
                 foreach($teacher_free_time_arr as $val){
-                    $start_time = strtotime($val[0]);
-                    $date       = date("Y-m-d",$start_time);
-                    $end_time   = strtotime("+1 minute",strtotime($date." ".$val[1]));
-                    if($match_time>=$start_time && $match_time<$end_time){
-                        $match_num = 50;
-                    }
-                    if($match_time_end<=$end_time && $match_time_end>$start_time){
-                        $match_num = $match_num==0?50:100;
-                        $break_flag = true;
-                    }
-                    if($match_time_end<$start_time){
-                        $break_flag = true;
-                    }
+                    if(is_array($val) && isset($val[0])){
+                        $start_time = strtotime($val[0]);
+                        $date       = date("Y-m-d",$start_time);
+                        $end_time   = strtotime("+1 minute",strtotime($date." ".$val[1]));
+                        if($match_time>=$start_time && $match_time<$end_time){
+                            $match_num = 50;
+                        }
+                        if($match_time_end<=$end_time && $match_time_end>$start_time){
+                            $match_num = $match_num==0?50:100;
+                            $break_flag = true;
+                        }
+                        if($match_time_end<$start_time){
+                            $break_flag = true;
+                        }
 
-                    if($break_flag){
-                        break;
+                        if($break_flag){
+                            break;
+                        }
                     }
                 }
             }
@@ -4660,15 +4665,19 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      */
     public function match_tea_tags($tea_tags,$match_tags,$teacher_tags="",$lesson_tags="",$teaching_tags=""){
         $match_num = 0;
-        if($match_tags!="" && $tea_tags!=""){
+        if(($match_tags!="" && $tea_tags!="") || $teacher_tags!="" || $lesson_tags!="" || $teaching_tags!=""){
             $teacher_arr = json_decode($tea_tags,true);
             $match_arr   = json_decode($match_tags,true);
-
-            foreach($teacher_arr as $t_key=>$t_val){
-                foreach($match_arr as $m_key=>$m_val){
-                    if($m_val!="" && strstr($m_val,$t_key)){
-                        $match_num += $t_val;
+            if(is_array($teacher_arr)){
+                foreach($teacher_arr as $t_key=>$t_val){
+                    if(is_array($match_arr)){
+                        foreach($match_arr as $m_key=>$m_val){
+                            $match_num = $this->check_tea_tags($match_num,$m_val,$t_key,$t_val);
+                        }
                     }
+                    $match_num = $this->check_tea_tags($match_num,$teacher_tags,$t_key,$t_val);
+                    $match_num = $this->check_tea_tags($match_num,$lesson_tags,$t_key,$t_val);
+                    $match_num = $this->check_tea_tags($match_num,$teaching_tags,$t_key,$t_val);
                 }
             }
         }
@@ -4676,10 +4685,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
     /**
-     *
+     * 标签匹配
      */
-    public function match_select_tags($tea_tags){
-
+    public function check_tea_tags($match_num,$check_tag,$tea_tag,$add_num){
+        if($check_tag!="" && strstr($check_tag,$tea_tag)){
+            \App\Helper\Utils::check_isset_data($match_num,$add_num);
+        }
+        return $match_num;
     }
 
     /**

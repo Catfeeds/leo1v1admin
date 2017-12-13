@@ -2017,7 +2017,6 @@ class ss_deal extends Controller
 
             $do_adminid = $this->get_account_id();
             if($do_adminid == 1093 || $do_adminid == 1231){ // 文彬测试
-
                 /**
                  * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
                  * 标题课程 : 待办事项提醒
@@ -2041,8 +2040,6 @@ class ss_deal extends Controller
                 $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //[标签系统 给老师帮发]
 
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
-
-
             }else{
                 $this->t_manager_info->send_wx_todo_msg(
                     $require_admin_nick,"来自:".$this->get_account()
@@ -2052,7 +2049,6 @@ class ss_deal extends Controller
 
                 if($parentid>0){
                     $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
-
                 }
 
                 /**

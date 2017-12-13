@@ -146,5 +146,8 @@ $(function(){
         });
     });
 
+    if(g_account=="郑璞"){
+        download_show();
+    }
 });
 
