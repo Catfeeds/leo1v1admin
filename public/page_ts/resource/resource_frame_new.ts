@@ -25,13 +25,13 @@ $(function(){
                     var next_level = parseInt(level)+1;
                     if(select == 'tag_two'){
                         var text_str = ChineseDistricts[86][ val['tag_two'] ];
-                        var tr_str = get_add_tr(next_level, new_info, text_str, info_str, ret.is_end, val.is_ban);
+                        var tr_str = get_add_tr(next_level, new_info, text_str, info_str, ret.is_end, val.is_ban,val.ban_level);
                     } else if (select == 'tag_three'){
                         var pro_num = info_str.slice(-6);
                         var text_str = ChineseDistricts[pro_num][ val['tag_three'] ];
-                        var tr_str = get_add_tr(next_level, new_info, text_str, info_str, ret.is_end, val.is_ban);
+                        var tr_str = get_add_tr(next_level, new_info, text_str, info_str, ret.is_end, val.is_ban,val.ban_level);
                     }else {
-                        var tr_str = get_add_tr(next_level, new_info, val[select+'_str'], info_str, ret.is_end, val.is_ban);
+                        var tr_str = get_add_tr(next_level, new_info, val[select+'_str'], info_str, ret.is_end, val.is_ban,val.ban_level);
                     }
                     add_str = add_str + tr_str;
                 });
@@ -41,8 +41,8 @@ $(function(){
                     if( $(this).attr('is_end') == 0){
                         $(this).css({color: "#3c8dbc", cursor:"pointer"});
                     }
-                    if( $(this).attr('is_ban') == 1){
-                        $(this).css('color', "red");
+                    if( $(this).attr('ban_level') > 0){
+                        $(this).css('color', "#666");
                     }
                 });
                 $('[key]').contextify(options);
@@ -59,12 +59,16 @@ $(function(){
     }
     $('tr').css({color: "#3c8dbc", cursor:"pointer"});
 
-    var tr_resource = 0,tr_level = 0;
+    var tr_resource = 0,tr_level = 0,data_str = '',ban_level = 0;
     //右键自定义
     var options = {items:[
         {text: '启用', onclick: function() {
             $('#contextify-menu').hide();
-            ajax_submit(data_str,'use');
+            if(tr_level > ban_level && ban_level > 0){
+                alert('请先启用上一级！');
+            } else {
+                ajax_submit(data_str,'use');
+            }
         },class:'menu_use'},
         {text: '禁用',onclick: function() {
             $('#contextify-menu').hide();
@@ -80,6 +84,7 @@ $(function(){
         },class:'menu_del hide'},
     ],before:function(obj){
         data_str = $(obj).attr('info_str');
+        ban_level = $(obj).attr('ban_level');
         tr_resource = parseInt(data_str);
         tr_level = $(obj).attr('level');
     },onshow:function(one){
@@ -104,8 +109,8 @@ $(function(){
 
 
 
-    var get_add_tr = function(level, info_str, td_text, key, is_end, is_ban){
-        var tr_str = '<tr level='+level+' info_str='+info_str+' key='+key+' is_end='+is_end+' is_ban='+is_ban+'>';
+    var get_add_tr = function(level, info_str, td_text, key, is_end, is_ban, ban_level){
+        var tr_str = '<tr level='+level+' info_str='+info_str+' key='+key+' is_end='+is_end+' is_ban='+is_ban+' ban_level='+ban_level+'>';
         var resource = parseInt( key );
         if( ($.inArray(resource, re_arr) > -1) && level == 3){
             for(var i=0;i<7;i++){

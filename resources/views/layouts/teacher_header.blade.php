@@ -129,6 +129,7 @@
                             </ul>
                         </li>
                         <li  ><a href="{{@$_cur_http}}/teacher_info/file_store"><i class="fa fa-book"></i> <span>资料库</span> </a></li> 
+                        <li  ><a href="{{@$_cur_http}}/teacher_info/get_leo_resource"><i class="fa fa-book"></i> <span>理优资料库</span> </a></li> 
                     </ul>
                 </section>
                 <!-- /.sidebar -->
