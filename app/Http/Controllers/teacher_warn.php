@@ -11,9 +11,16 @@ class teacher_warn extends Controller
     public function tea_warn_list() {
         list($start_time, $end_time) = $this->get_in_date_range_day(0);
         $teacherid = $this->get_in_int_val('teacher', 0);
+        $type = $this->get_in_int_val("type", 0);
         //$page_info = $this->get_in_page_info();
 
-        $info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $teacherid);
+        if ($type == 1) {
+            $info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $teacherid, $type);
+        } else if($type == 2) {
+            $info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $teacherid, $type);
+        } else {
+            $info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $teacherid, $type);
+        }
         $sort = [];
         foreach($info as &$item) {
             $item['nick'] = $this->cache_get_teacher_nick($item['teacherid']);
