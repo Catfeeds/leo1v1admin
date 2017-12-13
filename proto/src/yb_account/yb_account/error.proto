@@ -25,7 +25,15 @@ enum  enum_error {
   ERR_USER_EXISTED  = 3003 ;
 
   //手机号异常
-  ERR_PHONE_ERROR  = 3004 ;
+  ERR_PHONE  = 3004 ;
+
+  //验证码错误
+  ERR_CODE  = 3005 ;
+
+  //两次密码不一致
+  ERR_PASSWD_CONSISTENT  = 3001 ;
+
+
 
 
 };
