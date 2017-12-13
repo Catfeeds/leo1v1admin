@@ -268,6 +268,7 @@ class resource extends Controller
                 if($num==6) {
                     $sub_grade = $this->get_sub_grade_tag($arr[1], $arr[2]);
                     $item['tag_four_str'] = @$sub_grade[$item['tag_four']];
+
                 }
             }
 
@@ -497,6 +498,7 @@ class resource extends Controller
             'visit_type'  => 9,
             'create_time' => time(),
             'visitor_id'  => $adminid,
+            'ip'          => $_SERVER["REMOTE_ADDR"],
         ]);
 
         return $this->output_succ();
@@ -519,6 +521,7 @@ class resource extends Controller
             'visit_type'  => 1,
             'create_time' => $time,
             'visitor_id'  => $adminid,
+            'ip'          => $_SERVER["REMOTE_ADDR"],
         ]);
 
         return $this->output_succ();
@@ -536,6 +539,7 @@ class resource extends Controller
             'visit_type'  => 2,
             'create_time' => $time,
             'visitor_id'  => $adminid,
+            'ip'          => $_SERVER["REMOTE_ADDR"],
         ]);
 
         $this->add_file();
@@ -582,6 +586,7 @@ class resource extends Controller
                     'visit_type'  => $type,
                     'create_time' => $time,
                     'visitor_id'  => $adminid,
+                    'ip'          => $_SERVER["REMOTE_ADDR"],
                 ]);
             }
             return $this->output_succ();

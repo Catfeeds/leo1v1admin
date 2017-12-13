@@ -390,6 +390,7 @@ class ss_deal extends Controller
         $ret["learning_situation"]    = $tt_item["learning_situation"];
         $ret["subject_score"] = $ss_item['subject_score'];
         $ret["subject_tag"] = json_decode($tt_item['subject_tag']);
+        $ret["phone_location"] = mb_substr($student["phone_location"],0,2);
         // dd($ret["subject_tag"]);
 
         return $this->output_succ(["data" => $ret ]);
@@ -5026,21 +5027,24 @@ class ss_deal extends Controller
     }
 
     public function update_lecture_appointment_info(){
-        $answer_begin_time            = strtotime($this->get_in_str_val("answer_begin_time"));
-        $answer_end_time              = strtotime($this->get_in_str_val("answer_end_time"));
-        $name                         = $this->get_in_str_val("name");
-        $id                           = $this->get_in_str_val("id");
-        $email                        = $this->get_in_str_val("email");
-        $qq                           = $this->get_in_str_val("qq");
-        $grade_ex                     = $this->get_in_int_val("grade_ex");
-        $subject_ex                   = $this->get_in_int_val("subject_ex");
-        $school                       = $this->get_in_str_val("school");
-        $teacher_type                 = $this->get_in_int_val("teacher_type");
-        $lecture_revisit_type                 = $this->get_in_int_val("lecture_revisit_type");
-        $reference                    = $this->get_in_str_val("reference");
-        $phone                   = $this->get_in_str_val("phone");
-        $acc                          = $this->get_account();
+        $id                   = $this->get_in_str_val("id");
+        $name                 = $this->get_in_str_val("name");
+        $phone                = $this->get_in_str_val("phone");
+        $email                = $this->get_in_str_val("email");
+        $qq                   = $this->get_in_str_val("qq");
+        $reference            = $this->get_in_str_val("reference");
+        $age                  = $this->get_in_int_val("age");
+        $grade_ex             = $this->get_in_int_val("grade_ex");
+        $subject_ex           = $this->get_in_int_val("subject_ex");
+        $teacher_type         = $this->get_in_int_val("teacher_type");
+        $lecture_revisit_type = $this->get_in_int_val("lecture_revisit_type");
+        $custom               = $this->get_in_int_val("custom");
+        $acc                  = $this->get_account();
 
+        $check_phone = \App\Helper\Utils::check_phone($phone);
+        if(!$check_phone){
+            return $this->output_err("请输入正确的手机号");
+        }
         $old_phone = $this->t_teacher_lecture_appointment_info->get_phone($id);
         if($old_phone != $phone){
             $id_old = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);
@@ -5049,26 +5053,42 @@ class ss_deal extends Controller
             }
         }
 
-
-        if(empty($answer_begin_time) || empty($name)){
-            return $this->output_err("答题时间/手机号/名字不能为空");
+        if(empty($name) || empty($phone) || empty($grade_ex) || empty($subject_ex) || empty($teacher_type)
+           || empty($email) || empty($qq)
+        ){
+            return $this->output_err("红色星号部分不能为空");
         }
-        $this->t_teacher_lecture_appointment_info->field_update_list($id,[
-            "answer_begin_time"  =>$answer_begin_time,
-            "answer_end_time"    =>$answer_end_time,
-            "name"               =>$name,
-            "email"              =>$email,
-            "qq"                 =>$qq,
-            "subject_ex"         =>$subject_ex,
-            "grade_ex"           =>$grade_ex,
-            "school"             =>$school,
-            "teacher_type"       =>$teacher_type,
-            "reference"          =>$reference,
-            "lecture_revisit_type" =>$lecture_revisit_type,
+
+        $this->t_teacher_info->start_transaction();
+        $ret = $this->t_teacher_lecture_appointment_info->field_update_list($id,[
+            "name"                 => $name,
+            "phone"                => $phone,
+            "email"                => $email,
+            "qq"                   => $qq,
+            "reference"            => $reference,
+            "grade_ex"             => $grade_ex,
+            "subject_ex"           => $subject_ex,
+            "teacher_type"         => $teacher_type,
+            "reference"            => $reference,
+            "lecture_revisit_type" => $lecture_revisit_type,
+            "custom"               => $custom,
         ]);
-        return $this->output_succ();
+        if($ret){
+            $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+            if($teacherid>0){
+                $ret = $this->t_teacher_info->field_update_list($teacherid, ['age'=>$age]);
+            }
+        }
+        if($ret){
+            $this->t_teacher_info->commit();
+            return $this->output_succ();
+        }else{
+            $this->t_teacher_info->rollback();
+            return $this->output_err("更新失败！请重试！");
+        }
 
     }
+
     public function set_green_channel_teacherid(){
         $require_id = $this->get_in_int_val("require_id");
         $green_channel_teacherid = $this->get_in_int_val("green_channel_teacherid");

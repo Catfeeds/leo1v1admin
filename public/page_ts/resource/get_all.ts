@@ -17,6 +17,42 @@ function load_data(){
 }
 $(function(){
 
+    //获取学科化标签
+    var get_sub_grade_tag = function(subject,grade,obj,opt_type){
+        obj.empty();
+        $.ajax({
+            type     : "post",
+            url      : "/resource/get_sub_grade_tag_js",
+            dataType : "json",
+            data : {
+                'subject' : subject,
+                'grade'   : grade,
+            } ,
+            success : function(result){
+                if(result.ret == 0){
+                    obj.empty();
+                    obj.next().remove();
+                    var tag_info = result.tag;
+                    if($(tag_info).length == 0) {
+                        if(opt_type == 1){
+                            obj.append('<option value="-1">全部</option>');
+                        } else {
+                            obj.after('<p style="color:red;">请先选择科目、年级!</p>');
+                        }
+                    } else {
+                        var tag_str = '';
+                        $.each($(tag_info),function(i, val){
+                            tag_str = tag_str + '<option value='+i+'>'+val+'</option>';
+                        });
+                        obj.append(tag_str);
+                    }
+                } else {
+                    alert(result.info);
+                }
+            }
+        });
+    }
+
     var get_province = function(obj,is_true){
         if (is_true == true){
             var pro = '';
@@ -69,11 +105,6 @@ $(function(){
     } else {
         $("#id_tag_three").append('<option value="-1">全部</option>');
     }
-    if(tag_four != ''){
-        Enum_map.append_option_list(tag_four, $("#id_tag_four"));
-    } else {
-        $("#id_tag_four").append('<option value="-1">全部</option>');
-    }
 
     $('#id_use_type').val(g_args.use_type);
     $('#id_resource_type').val(g_args.resource_type);
@@ -81,8 +112,12 @@ $(function(){
     $('#id_grade').val(g_args.grade);
     $('#id_tag_one').val(g_args.tag_one);
 
-    if($('#id_resource_type').val() == 6){
+    if($('#id_resource_type').val() == 3){
+        get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(), $('#id_tag_four'), 1);
+    } else if($('#id_resource_type').val() == 6) {
         get_province($('#id_tag_two'));
+    } else {
+        $("#id_tag_four").append('<option value="-1">全部</option>');
     }
     $('#id_tag_two').val(g_args.tag_two);
 
@@ -235,7 +270,6 @@ $(function(){
                         } ,
                         success : function(result){
                             if(result.ret == 0){
-                                console.log(6)
                                 // window.location.reload();
                                 last_id = result.resource_id;
                                 $('#up_load').attr('flag', new_flag);//开始上传
@@ -272,7 +306,7 @@ $(function(){
                     get_book();
                 }
                 if($('.resource').val() == 3){
-                    get_sub_grade_tag();
+                    get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_four'));
                 }
             });
 
@@ -287,7 +321,7 @@ $(function(){
 
                 $('#id_other_file').parent().parent().hide();
                 get_book();
-                get_sub_grade_tag();
+                get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_four'));
 
             }else if($('.resource').val() == 6){
                 $('#id_other_file').parent().parent().hide();
@@ -345,7 +379,7 @@ $(function(){
             Enum_map.append_option_list("resource_free",$('.tag_two'),true);
             Enum_map.append_option_list("resource_diff_level",$('.tag_three'),true);
             // Enum_map.append_option_list("resource_diff_level",$('.tag_four'),true);
-            get_sub_grade_tag();
+            get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_four'));
             $('.tag_one').parent().prev().text('教材版本');
             $('.tag_two').parent().prev().text('试听类型');
             $('.tag_three').parent().prev().text('难度类型');
@@ -460,41 +494,6 @@ $(function(){
         });
     }
 
-    //获取学科化标签
-    var get_sub_grade_tag = function(){
-        $('.tag_four').empty();
-        var subject = $('.subject').val();
-        var grade = $('.grade').val();
-        $.ajax({
-            type     : "post",
-            url      : "/resource/get_sub_grade_tag_js",
-            dataType : "json",
-            data : {
-                'subject'       : subject,
-                'grade'         : grade,
-            } ,
-            success   : function(result){
-                if(result.ret == 0){
-                    $('.tag_four').empty();
-                    $('.tag_four').next().remove();
-                    var tag_info = result.tag;
-                    if($(tag_info).length == 0) {
-                        $('.tag_four').after('<p style="color:red;">请先选择科目、年级!</p>');
-                    } else {
-                        var tag_str = '';
-                        $.each($(tag_info),function(i, val){
-                            tag_str = tag_str + '<option value='+i+'>'+val+'</option>';
-                        });
-                        $('.tag_four').append(tag_str);
-                    }
-                } else {
-                    alert(result.info);
-                }
-            }
-        });
-    }
-
-
     $('.opt-del').on('click', function(){
         do_del();
     });
@@ -523,7 +522,7 @@ $(function(){
             $('.close').click();
             $('.opt_process').show();
 
-            document.body.onbeforeunload = function (event) {
+            window.onbeforeunload = function (event) {
 						    var c = event || window.event;
 						    if (/webkit/.test(navigator.userAgent.toLowerCase())) {
 							      return "刷新页面将导致正在上传的上传数据丢失！";
@@ -535,6 +534,8 @@ $(function(){
             return $.inArray(file.id, test_func());
 
         },function(up, file, info) {
+            // $(window).unbind("onbeforeunload");
+            // $(window).unbind();
             var res = $.parseJSON(info.response);
             if( info.status == 200 && last_id >0 ){
                 add_file(last_id, file, res, use_type);

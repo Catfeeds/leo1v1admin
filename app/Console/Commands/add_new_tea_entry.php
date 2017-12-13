@@ -41,14 +41,6 @@ class add_new_tea_entry extends Command
         //$start_time = date('Y-m-d 00:00:00', strtotime('-1 day'));
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
-        $task->t_teacher_info->field_update_list(51094, [
-            'bank_account' => '时昌瑞',
-            'bankcard' => '6217001210008555086',
-            'bank_address' => '黄河路支行',
-            'idcard' => '342225198605135317'
-        ]);
-        //$task->t_teacher_info->field_update_list(, $set_field_arr)
-        exit;
 
         $teacher_money = new \App\Http\Controllers\teacher_money();
         // 拉取数据(6月至11月的总工资)
@@ -112,17 +104,16 @@ class add_new_tea_entry extends Command
                 //$val['money']   /= 100;
                 // $money = $val['money'] - ($redward / 100);
                 // $lesson_count = $last_month_info / 100;
-                echo $item.'月 '.$val['teacherid'].' '.trim($val['realname']).' '.$teacher['lesson_price_tax'].' '.$lesson_count.' '.$money.PHP_EOL;
+                echo $item.'月/'.$val['teacherid'].'/'.trim($val['nick']).'/'.$price.'/'.$lesson_count.'/'.$money.PHP_EOL;
                 if ($val['teacher_money_type'] == 7 || ($val['teacher_type'] == 3 && $val["teacher_money_type"] == 0)) {
-                    $all_all_money += $teacher['lesson_price_tax'];
+                    $all_all_money += $price;
                 } else {
-                    $all_not_money += $teacher['lesson_price_tax'];
+                    $all_not_money += $price;
                 }
-                $all_money += $teacher['lesson_price_tax'];
+                $all_money += $price;
             }
             $all_money_tax = $all_money*0.98;
             echo  $item.'月 '.$all_money.' '.$all_all_money.' '.$all_not_money.' '.$all_money_tax.PHP_EOL;
-
             sleep(2);
         }
         // 拉取数据(6月至11月的老师工资)

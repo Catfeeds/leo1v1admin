@@ -3618,7 +3618,7 @@ ORDER BY require_time ASC";
         ];
         $sql = $this->gen_sql_new("select s.nick,s.gender,s.grade,t.subject,"
                                   ." tr.curl_stu_request_test_lesson_time,"
-                                  ." tr.test_stu_request_test_lesson_demand,"
+                                  ." tr.test_stu_request_test_lesson_demand,t.tea_identity,t.tea_gender,t.tea_age,"
                                   ." t.intention_level,t.quotation_reaction,tr.seller_top_flag,t.subject_tag"
                                   ." from %s tr "
                                   ." left join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id"
