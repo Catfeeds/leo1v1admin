@@ -4577,6 +4577,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * @param boolean notice_flag 是否需要推送提醒
      */
     public function add_reference_price($teacherid,$recommended_teacherid,$notice_flag=true){
+        // 关掉15333268257 和  李桂荣两位老师11月后的伯乐奖 
+        if ($teacherid == 420745 || $teacheride == 437138) {
+            return '';
+        }
         $check_is_exists = $this->t_teacher_money_list->check_is_exists($recommended_teacherid,E\Erecord_type::V_6);
         if(!$check_is_exists){
             $teacher_info     = $this->t_teacher_info->get_teacher_info($teacherid);
