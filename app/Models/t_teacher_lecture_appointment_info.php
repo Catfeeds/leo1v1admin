@@ -93,8 +93,6 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                  $opt_date_str=1
     ){
         $where_arr = [
-            // ["answer_begin_time>=%u", $start_time, -1 ],
-            // ["answer_begin_time<=%u", $end_time, -1 ],
             ["lecture_appointment_status=%u", $lecture_appointment_status, -1 ],
             ["t.teacherid=%u", $teacherid, -1 ],
             ["la.accept_adminid=%u", $adminid, -1 ],
@@ -103,7 +101,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             ["tr2.trial_train_status=%u", $second_train_status, -1 ],
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
-        if($lecture_revisit_type==5){
+        if($lecture_revisit_type==E\Electure_revisit_type::V_5){
             $where_arr[] = "(la.lecture_revisit_type=5 or ta.lesson_start>0)";
         }else{
             $where_arr[] = ["la.lecture_revisit_type=%u", $lecture_revisit_type, -1 ];
@@ -113,8 +111,6 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         }else{
             $where_arr[] = ["la.lecture_revisit_type=%u", $lecture_revisit_type_new, -1 ];
         }
-
-
 
         if($interview_type==0){
             $where_arr[] = "l.status is null and (ta.lesson_start is null or ta.lesson_start=0)";
@@ -183,7 +179,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             ];
         }
 
-        $sql = $this->gen_sql_new("select la.id,la.name,la.phone,la.email,la.textbook,la.school,tt.train_through_new_time,"
+        $sql = $this->gen_sql_new("select la.id,la.name,la.phone,la.email,la.textbook,la.school,tt.train_through_new_time,tt.age,"
                                   ." la.grade_ex,la.subject_ex,la.trans_grade_ex,la.trans_subject_ex,grade_1v1,trans_grade_1v1,"
                                   ." la.teacher_type,la.custom,la.self_introduction_experience,la.full_time,"
                                   ." la.lecture_appointment_status,la.reference,la.answer_begin_time,la.answer_end_time,"
@@ -194,19 +190,18 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." ta.teacherid interviewer_teacherid,"
                                   ." if(t.nick='',t.realname,t.nick) as reference_name,reference,t.teacherid,m.account, "
                                   ." m.name as zs_name,"
-                                  ." tt.teacherid train_teacherid,la.qq,ttt.wx_openid,tt.user_agent,la.hand_flag,"
+                                  ." tt.teacherid train_teacherid,la.qq,tt.wx_openid,tt.user_agent,la.hand_flag,"
                                   ." tr2.trial_train_status as full_status,tr2.record_info as full_record_info,"
                                   ." la.teacher_pass_type,la.no_pass_reason "
                                   ." from %s la"
                                   ." left join %s l on l.phone=la.phone and not exists ("
                                   ." select 1 from %s ll where ll.phone=l.phone and l.add_time<ll.add_time)"
-                                  ." left join %s t on t.phone=la.reference"
+                                  ." left join %s t on t.phone=la.reference"  //推荐人
                                   ." left join %s m on la.accept_adminid=m.uid"
-                                  ." left join %s tt on la.phone = tt.phone"
+                                  ." left join %s tt on la.phone = tt.phone" //老师自己
                                   ." left join %s ta on ta.userid = tt.teacherid and ta.train_type=5 and ta.lesson_type =1100 and ta.lesson_del_flag=0 and ta.confirm_flag <2 and not exists (select 1 from %s taa where taa.userid=ta.userid and taa.train_type=5 and taa.lesson_type=1100 and ta.lesson_start<taa.lesson_start and taa.lesson_del_flag=0 and taa.confirm_flag <2)"
                                   ." left join %s tr on tr.train_lessonid = ta.lessonid and tr.type=10"
                                   ." left join %s tr2 on tt.teacherid = tr2.teacherid and tr2.type=12"
-                                  ." left join %s ttt on  la.phone = ttt.phone"
                                   ." where %s "
                                   ." and %s"
                                   ." group by la.phone"
@@ -221,7 +216,6 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_record_list::DB_TABLE_NAME
                                   ,t_teacher_record_list::DB_TABLE_NAME
-                                  ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
                                   ,$record_str
         );

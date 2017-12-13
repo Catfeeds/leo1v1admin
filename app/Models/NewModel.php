@@ -483,7 +483,7 @@ abstract class NewModel
         }elseif($check_flag){
             $where_arr[] = $field_name ."= -100";
         }else{
-            
+
         }
     }
 
