@@ -551,7 +551,7 @@ $(function(){
                         professional_ability.push($(this).val());
                     });
                     var classroom_atmosphere=[];
-                    class_related_labels.find("#classroom_atmosphere").find("input:checkbox[name='课堂氛围']:checked").each(function(i) {
+                    class_related_labels.find("#classroom_atmosphere").find("input:checkbox[name='课堂气氛']:checked").each(function(i) {
                         classroom_atmosphere.push($(this).val());
                     });
                     var courseware_requirements=[];

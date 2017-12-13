@@ -1040,17 +1040,17 @@ $(function(){
         }else{
             Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[0,2,5,6,8] );
         }
-
+        var red_star = "<font color='red'>*</font>";
         var arr = [
-            ["老师姓名", id_name],
-            ["老师号码", id_phone],
-            ["邮箱",id_email],
-            ["QQ", id_qq],
+            [red_star+"老师姓名", id_name],
+            [red_star+"老师号码", id_phone],
+            [red_star+"邮箱",id_email],
+            [red_star+"QQ", id_qq],
             ["推荐人号码",id_reference],
             ["年龄",id_age],
-            ["年级",id_grade_ex],
-            ["科目",id_subject_ex],
-            ["老师身份",id_identity],
+            [red_star+"年级",id_grade_ex],
+            [red_star+"科目",id_subject_ex],
+            [red_star+"老师身份",id_identity],
             ["回访状态", id_lecture_revisit_type],
             ["备注",id_return_revisit_note],
         ];
