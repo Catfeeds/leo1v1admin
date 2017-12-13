@@ -45,7 +45,7 @@ class add_new_tea_entry extends Command
         $start_time = strtotime("2017-11-1");
         $end_time = strtotime("2017-12-1");
         $info = $task->t_teacher_lecture_appointment_info_b2->get_money_list($start_time, $end_time);
-        $data = $task->t_teacher_lecture_appointment_info_b2->get_money_list2($start_time, $end_time);
+        $data = $task->t_teacher_lecture_appointment_info_b2->get_money_list1($start_time, $end_time);
         foreach($data as $key => $item) {
             if (!isset($info[$key])) echo $item['teacherid'].' '.$item['name'].PHP_EOL;
         }
