@@ -9,6 +9,7 @@ interface GargsStatic {
 	check_field_id:	number;
 	page_num:	number;
 	page_count:	number;
+	require_count:	string;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -35,6 +36,8 @@ interface RowData {
 	success_flag	:any;
 	tea_nick	:any;
 	lesson_user_online_status	:any;
+	has_pad	:any;
+	origin_level	:any;
 	seller_student_status_str	:any;
 	subject_str	:any;
 	grade_str	:any;
@@ -61,6 +64,7 @@ function load_data(){
 		tmk_adminid:	$('#id_tmk_adminid').val(),
 		check_value:	$('#id_check_value').val(),
 		check_field_id:	$('#id_check_field_id').val(),
+		require_count:	$('#id_require_count').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -89,6 +93,7 @@ $(function(){
 	$('#id_tmk_adminid').val(g_args.tmk_adminid);
 	$('#id_check_value').val(g_args.check_value);
 	$('#id_check_field_id').val(g_args.check_field_id);
+	$('#id_require_count').val(g_args.require_count);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -152,6 +157,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">check_field_id</span>
                 <input class="opt-change form-control" id="id_check_field_id" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">require_count</span>
+                <input class="opt-change form-control" id="id_require_count" />
             </div>
         </div>
 */

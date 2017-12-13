@@ -854,6 +854,7 @@ class tongji_ss extends Controller
         ]);
     }
 
+    //@desn:试听课相关明细
     public function origin_count_test_lesson_info(){
         $origin            = trim($this->get_in_str_val("origin",""));
         $origin_ex         = $this->get_in_str_val('origin_ex', "");
@@ -865,6 +866,7 @@ class tongji_ss extends Controller
         $check_value       = $this->get_in_str_val("check_value");
         $check_field_id    = $this->get_in_int_val("check_field_id",1);
         $page_info         = $this->get_in_page_info();
+        $cond = $this->get_in_str_val('require_count');
         $check_field_config=[
             1=> ["渠道","origin", "" ],
             2=> ["年级","grade", E\Egrade::class ],
@@ -887,7 +889,7 @@ class tongji_ss extends Controller
 
         //试听信息
         $this->t_test_lesson_subject_require->switch_tongji_database();
-        $ret_info=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info('',$field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex ,$check_value,$page_info);
+        $ret_info=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info('',$field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex ,$check_value,$page_info,$cond,$opt_date_str);
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eseller_student_status::set_item_value_str($item);
@@ -973,7 +975,6 @@ class tongji_ss extends Controller
         if (!$origin_ex   )  {
             $origin_ex ="xx" ;
         }
-        // dd($origin_ex);
 
         $data_map=[];
         $check_item=$check_field_config[$check_field_id];
@@ -8424,7 +8425,7 @@ class tongji_ss extends Controller
 
             //试听统计用饼图
             //试听信息
-            $test_data=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex);
+            $test_data=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex,'','','',$opt_date_str);
             foreach ($test_data as $a_item) {
                 $subject   = $a_item["subject"];
                 $grade     = $a_item["grade"];

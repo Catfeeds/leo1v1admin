@@ -282,13 +282,21 @@
                                 <td style="display:none;" >{{@$var["have_intention_a_count"]}}</td>
                                 <td style="display:none;" >{{@$var["have_intention_b_count"]}}</td>
                                 <td style="display:none;" >{{@$var["have_intention_c_count"]}}</td>
-                                <td>{{@$var["require_count"]}}</td>
+                                <td>
+                                    <a href="javascript:;" class="opt-go-info" data-cond="require_count" data-opt="test_lesson" data-val="{{@$var["key4"]}}">
+                                        {{@$var["require_count"]}}
+                                    </a>
+                                </td>
                                 <td style="display:none;" >
                                     <a href="javascript:;" class="opt-go-info" data-opt="test_lesson" data-val="{{@$var["key4"]}}">
                                         {{@$var["test_lesson_count"]}}
                                     </a>
                                 </td>
-                                <td>{{@$var["succ_test_lesson_count"]}}</td>
+                                <td>
+                                    <a href="javascript:;" class="opt-go-info" data-cond="test_lesson_succ" data-opt="test_lesson" data-val="{{@$var["key4"]}}">
+                                        {{@$var["succ_test_lesson_count"]}}
+                                    </a>
+                                </td>
                                 <td class="text-danger">{{@$var["distinct_test_count"]}}</td>
                                 <td class="text-danger">{{@$var["distinct_succ_count"]}}</td>
 

@@ -740,8 +740,10 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         return $this->main_get_list($sql);
     }
-
-    public function tongji_test_lesson_origin_info( $origin='',$field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="",$check_value='', $page_info=''){
+    //@desn:计算试听课相关明细
+    //@param:$cond 检索条件
+    //@param:$opt_date_str 检索时间字段
+    public function tongji_test_lesson_origin_info( $origin='',$field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="",$check_value='', $page_info='',$cond='',$opt_date_str=''){
         switch ( $field_name ) {
         case "origin" :
             $field_name="s.origin";
@@ -768,19 +770,20 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $this->where_arr_adminid_in_list($where_arr,"t.require_adminid",$adminid_list);
 
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         //E\Etest_lesson_fail_flag
         $sql=$this->gen_sql_new(
             "select $field_name  as check_value , t.seller_student_status,l.lesson_start, s.userid,"
             ." s.phone_location, s.phone, t.grade,t.subject, s.nick, tss.success_flag,"
             ." tea.nick as tea_nick,l.lesson_user_online_status,n.has_pad,s.origin_level "
             ." from %s tr "
-            ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
-            ." join %s n  on t.userid=n.userid "
-            ." join %s tss on tr.current_lessonid=tss.lessonid "
-            ." join %s l on tr.current_lessonid=l.lessonid "
-            ." join %s s on s.userid = l.userid "
-            ." join %s tea on tea.teacherid=l.teacherid "
-            ." where %s and lesson_start >=%u and lesson_start<%u"
+            ." left join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
+            ." left join %s n  on t.userid=n.userid "
+            ." left join %s tss on tr.current_lessonid=tss.lessonid "
+            ." left join %s l on tr.current_lessonid=l.lessonid "
+            ." left join %s s on s.userid = t.userid "
+            ." left join %s tea on tea.teacherid=l.teacherid "
+            ." where %s "
             ." and l.lesson_type=2"
             ." and accept_flag=1  "
             ." and s.is_test_user=0 "
@@ -793,7 +796,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             t_lesson_info::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_teacher_info::DB_TABLE_NAME,
-            $where_arr,$start_time,$end_time
+            $where_arr
         );
 
         if ($page_info) {

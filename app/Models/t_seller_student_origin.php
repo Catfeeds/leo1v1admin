@@ -560,6 +560,8 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         $where_arr=[
             ["tlsr.origin like '%%%s%%' ",$origin,""],
             'tls.require_admin_type=2',
+            ['li.lesson_type = %u',2],
+            ['tlsr.accept_flag = %u',1]
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         $this->where_arr_add__2_setid_field($where_arr,"ssn.tmk_adminid",$tmk_adminid);
@@ -568,7 +570,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         $this->where_arr_adminid_in_list($where_arr,"ssn.first_seller_adminid",$adminid_list);
         if ($distinct == 0) {
             $sql=$this->gen_sql_new(
-                "select $field_name  as check_value , count(tlsr.require_id) as requre_count, "
+                "select $field_name  as check_value , count(tlsr.require_id) as require_count, "
                 ." count( distinct tls.userid) as distinct_test_count, "
                 ." sum(tlssl.success_flag in (0,1 )) as succ_test_lesson_count  "
                 ." from %s ssn "
@@ -589,7 +591,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         }else{
             $where_arr[] = 'tlssl.success_flag in (0,1)';
             $sql=$this->gen_sql_new(
-                "select $field_name  as check_value ,count( distinct t.userid ) as distinct_succ_count "
+                "select $field_name  as check_value ,count( distinct tls.userid ) as distinct_succ_count "
                 ." from %s ssn "
                 ." left join %s si on ssn.userid = si.userid "
                 ." left join %s tls on tls.userid = ssn.userid"
@@ -617,64 +619,38 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
     //@param:$seller_groupid_ex 销售分组
     //@param:$adminid_list 负责人
     //@param:$tmk_adminid tmk负责人
-    //@param:$distinct 区别标识 0：检索试听数据 1：计算去重试听成功个数
-    public function get_order_list_new($field_name, $opt_date_str,$start_time,$end_time,$origin,$origin_ex,$seller_groupid_ex,$adminid_list=[],$tmk_adminid=-1,$distinct = 0){
+    public function get_order_list_new($field_name, $opt_date_str,$start_time,$end_time,$origin,$origin_ex,$seller_groupid_ex,$adminid_list=[],$tmk_adminid=-1){
         if($field_name == 'grade')
             $field_name = 'si.grade';
         elseif($field_name == 'origin')
-            $field_name = 'tlsr.origin';
+            $field_name = 'oi.origin';
         $where_arr=[
-            ["tlsr.origin like '%%%s%%' ",$origin,""],
+            ["oi.origin like '%%%s%%' ",$origin,""],
             'tls.require_admin_type=2',
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         $this->where_arr_add__2_setid_field($where_arr,"ssn.tmk_adminid",$tmk_adminid);
-        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"tlsr.origin");
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"oi.origin");
         $where_arr[]= $ret_in_str;
         $this->where_arr_adminid_in_list($where_arr,"ssn.first_seller_adminid",$adminid_list);
-        if ($distinct == 0) {
-            $sql=$this->gen_sql_new(
-                "select $field_name  as check_value , count(tlsr.require_id) as requre_count, "
-                ." count( distinct tls.userid) as distinct_test_count, "
-                ." sum(tlssl.success_flag in (0,1 )) as succ_test_lesson_count  "
-                ." from %s ssn "
-                ." left join %s si on ssn.userid = si.userid "
-                ." left join %s tls on tls.userid = ssn.userid"
-                ." left join %s tlsr on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id"
-                ." left join %s tlssl on tlsr.current_lessonid = tlssl.lessonid"
-                ." left join %s li on tlsr.current_lessonid=li.lessonid"
-                ." where %s group by  check_value ",
-                t_seller_student_new::DB_TABLE_NAME,
-                t_student_info::DB_TABLE_NAME,
-                t_test_lesson_subject::DB_TABLE_NAME,
-                t_test_lesson_subject_require::DB_TABLE_NAME,
-                t_test_lesson_subject_sub_list::DB_TABLE_NAME,
-                t_lesson_info::DB_TABLE_NAME,
-                $where_arr
-            );
-        }else{
-            $where_arr[] = 'tlssl.success_flag in (0,1)';
-            $sql=$this->gen_sql_new(
-                "select $field_name  as check_value ,count( distinct t.userid ) as distinct_succ_count "
-                ." from %s ssn "
-                ." left join %s si on ssn.userid = si.userid "
-                ." left join %s tls on tls.userid = ssn.userid"
-                ." left join %s tlsr on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id"
-                ." left join %s tlssl on tlsr.current_lessonid = tlssl.lessonid"
-                ." left join %s li on tlsr.current_lessonid=li.lessonid"
-                ." where %s group by  check_value ",
-                t_seller_student_new::DB_TABLE_NAME,
-                t_student_info::DB_TABLE_NAME,
-                t_test_lesson_subject::DB_TABLE_NAME,
-                t_test_lesson_subject_require::DB_TABLE_NAME,
-                t_test_lesson_subject_sub_list::DB_TABLE_NAME,
-                t_lesson_info::DB_TABLE_NAME,
-                $where_arr
-            );
-        }
-
+        $sql=$this->gen_sql_new(
+            "select $field_name as check_value ,count(oi.orderid) as order_count,"
+            ." round(sum(oi.price)/100) as order_all_money,count(distinct oi.userid) as user_count"
+            ." from %s ssn "
+            ." left join %s oi on ssn.userid = oi.userid "
+            ." left join %s mi on oi.sys_operator = mi.account "
+            ." left join %s si on oi.userid = si.userid "
+            ." left join %s tls on ssn.userid = tls.userid "
+            ." where %s group by  check_value ",
+            t_seller_student_new::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            $where_arr
+        );
         return $this->main_get_list($sql);
     }
 
-
+    
 }
