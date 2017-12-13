@@ -37,6 +37,26 @@ class t_teacher_warn extends \App\Models\Zgen\z_t_teacher_warn
         );
         return $this->main_get_list_by_page($sql, $page_info);
     }
+
+    public function get_info_for_teacherid($teacherid, $lesson_start) {
+        $where_arr = [
+            ['teacherid=%u', $teacherid, 0],
+            ['lesson_start=%u', $lesson_start, 0]
+        ];
+        $sql = $this->gen_sql_new("select id from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_info_for_test_user() {
+        $sql = $this->gen_sql_new("select t.teacherid from %s t left join %s w on t.teacherid=w.teacherid where is_test_user!=0",
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
 }
 
 

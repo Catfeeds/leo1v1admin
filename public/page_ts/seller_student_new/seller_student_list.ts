@@ -4303,6 +4303,7 @@ function init_edit() {
                             var check = true;
                             html_node.find("#id_main_subject_new_two").parent().attr('style','');
                             $("input[name='subject_score_one_new_two'],input[name='subject_score_two_new_two']").each(function(){
+                                var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数 
                                 if($(this).val() !== ''){
                                     if(r.test($(this).val())){
                                         $(this).attr('style','');
