@@ -4101,7 +4101,7 @@ class user_deal extends Controller
         if(count($last_group_list) ==1){
             $last_group_all_price = $last_group_list[0]["all_price"];
         }
-        $ret_arr["last_group_all_price"] = $last_group_all_price/100;
+        $arr["last_group_all_price"] = $last_group_all_price/100;
 
         $no_update_seller_level_flag = $this->t_manager_info->field_get_value($adminid,'no_update_seller_level_flag');
         if($no_update_seller_level_flag == 1){
