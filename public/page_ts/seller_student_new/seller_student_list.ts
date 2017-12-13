@@ -42,6 +42,7 @@ function load_data(){
 
 function add_subject_score(obj){
     $(obj).parent().parent().parent().append("<div class='col-xs-12 col-md-3 subject_score '><div class='input-group'><select name='subject_score_new_two' class='form-control'></select><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /><input type='text' class='form-control' name='subject_score_two_new_two' placeholder='满数' /><button class='btn btn-primary'  title='添加科目' onclick='add_subject_score(this)' ><i class='fa fa-plus'></i></button><button class='btn btn-primary' onclick='del_subject_score(this)'  title='删除科目' ><i class='fa fa-minus'></i></button></div></div>");
+    // $(obj).parent().parent().append("<div class='col-xs-5 col-md-2 subject_score'  ><div class='input-group'><span class='input-group-addon'><font style='color:red'>*</font>&nbsp科目分数：</span><select name='subject_score_new_two' id='id_main_subject_new_two' class='form-control' style='width:70px;' ></select> </div></div><div class='col-xs-12 col-md-2 subject_score' style='margin:0 0 0 -4%;'><div class='input-group'><input type='text' class='form-control' id='id_main_subject_score_one_new_two' name='subject_score_one_new_two' placeholder='分数' style='width:50px;' /></div></div><div class='col-xs-12 col-md-2 subject_score'  style='margin:0 0 0 -12.5%;'><div class='input-group'><input type='text' class='form-control' id='id_main_subject_score_two_new_two' name='subject_score_two_new_two' placeholder='满分' style='width:50px;' /></div></div><div class='col-xs-12 col-md-2 subject_score'  style='margin:0 0 0 -13%;'><div class='input-group'><button class='btn  btn-primary' id='id_add_subject_score_new_two' onclick='add_subject_score(this)' title='添加科目' ><i class='fa fa-plus'></i></button></div></div>");
     var id_subject_score = $(obj).parent().parent().parent().find("select[name='subject_score_new_two']");
     Enum_map.append_option_list("subject",id_subject_score, true);
 }
@@ -3273,6 +3274,7 @@ function init_edit() {
             var id_courseware = html_node.find("#id_courseware_new_two");
             var id_add_tag = html_node.find("#id_add_tag_new_two");
 
+            var wuyaoqiu_html = "<option value='0'>无要求</option>";
             html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
             html_node.find("#id_stu_reset_next_revisit_time_new_two").on("click",function(){
                 id_next_revisit_time.val("");
@@ -3292,8 +3294,10 @@ function init_edit() {
             Enum_map.append_option_list("intention_level", id_intention_level, true);
             Enum_map.append_option_list("demand_urgency", id_demand_urgency, true);
             Enum_map.append_option_list("quotation_reaction", id_quotation_reaction, true);
-            Enum_map.append_option_list("identity", id_tea_status, true);
-            Enum_map.append_option_list("gender", id_tea_gender, true);
+            id_tea_status.append(wuyaoqiu_html);
+            Enum_map.append_option_list("identity", id_tea_status, true,[5,6,7,8]);
+            id_tea_gender.append(wuyaoqiu_html);
+            Enum_map.append_option_list("gender", id_tea_gender, true,[1,2]);
             Enum_map.append_option_list("tea_age", id_tea_age, true);
             id_stu_request_test_lesson_time.datetimepicker({
                 lang             : 'ch',
@@ -4278,7 +4282,7 @@ function init_edit() {
                         }
                         var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数 
                         if(html_node.find("#id_class_rank_new_two").val() == '' || html_node.find("#id_class_num_new_two").val() == ''){
-                            html_node.find("#id_class_rank_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                            html_node.find("#id_class_rank_new_two").attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
                         }else{
                             if(r.test(html_node.find("#id_class_rank_new_two").val())){
