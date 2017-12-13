@@ -12,7 +12,6 @@ class TStudentCallDataChange extends Migration
      */
     public function up()
     {
-        //
         Schema::dropIfExists('db_weiyi.t_student_call_data');
         Schema::create('db_weiyi.t_student_call_data', function(Blueprint $table) {
             t_field($table->increments("userid"), "userid");
