@@ -150,6 +150,13 @@ class teaching_menu{
                             [ "name"=>"讲义上传试听转化率",   "url"=>"/tongji_ss/get_homework_and_work_status_info"],
 
                         ]],
+                        [ "name"=>"教研备课上传", "list" => [
+                            [ "name"=>"教研备课资料框架-新",   "url"=>"/resource/resource_frame_new"],
+                            [ "name"=>"教研备课数据统计",   "url"=>"/resource/resource_count"],
+                            [ "name"=>"教研备课后台",   "url"=>"/resource/get_all"],
+                            [ "name"=>"教研回收站",   "url"=>"/resource/get_del"],
+                        ]],
+
                     ]],
 
                     [ "name"=>"班课组",  "list"=>[
