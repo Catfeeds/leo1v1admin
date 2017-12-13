@@ -8,9 +8,9 @@ interface GargsStatic {
 	end_time:	string;
 	page_num:	number;
 	page_count:	number;
-	origin_userid_flag:	number;//App\Enums\Eboolean
-	order_flag:	number;//App\Enums\Eboolean
-	test_lesson_order_fail_flag:	number;//App\Enums\Etest_lesson_order_fail_flag
+	origin_userid_flag:	number;//枚举: App\Enums\Eboolean
+	order_flag:	number;//枚举: App\Enums\Eboolean
+	test_lesson_order_fail_flag:	number;//枚举: App\Enums\Etest_lesson_order_fail_flag
 	userid:	number;
 }
 declare module "g_args" {
@@ -56,8 +56,9 @@ tofile:
 /// <reference path="../g_args.d.ts/seller_student_new-test_lesson_order_fail_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		cur_require_adminid:	$('#id_cur_require_adminid').val(),
 		hide_cur_require_adminid:	$('#id_hide_cur_require_adminid').val(),
 		date_type_config:	$('#id_date_type_config').val(),
@@ -69,30 +70,60 @@ function load_data(){
 		order_flag:	$('#id_order_flag').val(),
 		test_lesson_order_fail_flag:	$('#id_test_lesson_order_fail_flag').val(),
 		userid:	$('#id_userid').val()
-    });
+		});
 }
 $(function(){
 
-	Enum_map.append_option_list("boolean",$("#id_origin_userid_flag"));
-	Enum_map.append_option_list("boolean",$("#id_order_flag"));
-	Enum_map.append_option_list("test_lesson_order_fail_flag",$("#id_test_lesson_order_fail_flag"));
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
 	$('#id_cur_require_adminid').val(g_args.cur_require_adminid);
 	$('#id_hide_cur_require_adminid').val(g_args.hide_cur_require_adminid);
-	$('#id_origin_userid_flag').val(g_args.origin_userid_flag);
-	$('#id_order_flag').val(g_args.order_flag);
-	$('#id_test_lesson_order_fail_flag').val(g_args.test_lesson_order_fail_flag);
-	$('#id_userid').val(g_args.userid);
+	$('#id_origin_userid_flag').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "origin_userid_flag",
+		"select_value" : g_args.origin_userid_flag,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_origin_userid_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_order_flag').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "order_flag",
+		"select_value" : g_args.order_flag,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_order_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_test_lesson_order_fail_flag').admin_set_select_field({
+		"enum_type"    : "test_lesson_order_fail_flag",
+		"field_name" : "test_lesson_order_fail_flag",
+		"select_value" : g_args.test_lesson_order_fail_flag,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_test_lesson_order_fail_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_userid').admin_select_user_new({
+		"user_type"    : "student",
+		"select_value" : g_args.userid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_userid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -109,6 +140,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_cur_require_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["cur_require_adminid title", "cur_require_adminid", "th_cur_require_adminid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -116,6 +148,14 @@ $(function(){
                 <input class="opt-change form-control" id="id_hide_cur_require_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["hide_cur_require_adminid title", "hide_cur_require_adminid", "th_hide_cur_require_adminid" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -124,6 +164,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["origin_userid_flag title", "origin_userid_flag", "th_origin_userid_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -132,6 +173,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["order_flag title", "order_flag", "th_order_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -140,6 +182,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["test_lesson_order_fail_flag title", "test_lesson_order_fail_flag", "th_test_lesson_order_fail_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -147,4 +190,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_userid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["userid title", "userid", "th_userid" ]])!!}
 */
