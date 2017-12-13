@@ -1101,4 +1101,14 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
         return $this->main_get_row($sql);
     }
+
+    public function get_test_lesson_subject_id_by_lessonid($lessonid){
+        $sql = $this->gen_sql_new("  select tr.test_lesson_subject_id from %s tr "
+                                  ." left join %s tls on tls.test_lesson_subject_id = tr.test_lesson_subject_id"
+                                  ." left join %s tll on tll.require_id=tls.require_id"
+                                  ." where tll.lessonid=$lessonid"
+        );
+
+        return $this->main_get_value($sql);
+    }
 }

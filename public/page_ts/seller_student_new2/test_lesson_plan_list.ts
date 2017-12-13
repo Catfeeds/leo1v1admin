@@ -130,10 +130,10 @@ $(function(){
             if(g_args.ass_master_flag==1){
                 $.wopen('/user_manage/ass_archive?userid=' + opt_data.userid);
             }else{
-                $.wopen('/user_manage/ass_archive_ass?userid=' + opt_data.userid); 
+                $.wopen('/user_manage/ass_archive_ass?userid=' + opt_data.userid);
             }
         }else{
-            $.wopen('/stu_manage?sid=' + opt_data.userid); 
+            $.wopen('/stu_manage?sid=' + opt_data.userid);
         }
     });
 
@@ -144,7 +144,7 @@ $(function(){
             return;
         }
 
-        if(opt_data.test_lesson_student_status != 200){
+        if(opt_data.test_lesson_student_status != 200 && opt_data.test_lesson_student_status != 120 ){
             alert("非待排课状态，若更换试听课，请取消课程，重新排课!");
             return;
         }
@@ -659,7 +659,7 @@ $(function(){
             if(g_args.account_role_self==12){
                 $.admin_select_user($id_userid,"student");
             }else{
-                $.admin_select_user($id_userid,"student_ass"); 
+                $.admin_select_user($id_userid,"student_ass");
             }
             $.admin_select_user( $green_channel_teacherid, "teacher");
             $id_change_teacher_reason_type.parent().parent().css('display','none');
@@ -1328,7 +1328,7 @@ $(function(){
                         "requireids" : id,
                     },function(result){
                         if(result.ret==-1){
-                            BootstrapDialog.alert(result.info); 
+                            BootstrapDialog.alert(result.info);
                         }else{
                             select_time_limit(result,lesson_info);
                         }

@@ -1309,11 +1309,11 @@ class common extends Controller
                     "");
                 $all_order_pay = $this->t_child_order_info->chick_all_order_have_pay($parent_orderid);
                 if(empty($all_order_pay)){
-                    /* $this->t_order_info->field_update_list($parent_orderid,[
+                    $this->t_order_info->field_update_list($parent_orderid,[
                         "order_status" =>1,
                         "contract_status"=>1,
                         "pay_time"       =>time()
-                        ]);*/
+                    ]);
                     $this->t_manager_info->send_wx_todo_msg(
                         "echo",
                         "合同付款通知",

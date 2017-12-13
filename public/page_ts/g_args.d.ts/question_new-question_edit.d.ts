@@ -46,4 +46,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_question_id" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["question_id title", "question_id", "th_question_id" ]])!!}
 */

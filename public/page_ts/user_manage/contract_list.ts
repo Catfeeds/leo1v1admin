@@ -2160,7 +2160,7 @@ $(function(){
         var btn_add_1=$("<button class=\"btn btn-warning\">  转介绍赠送合同 </button>");
         var btn_add_2=$("<button class=\"btn btn-warning\"> 试听24小时内 签约赠送 合同  </button>");
         var btn_add_3=$("<button class=\"btn btn-warning\">  特批赠送 合同  </button>");
-        var btn_add_5=$("<button class=\"btn btn-warning\"> 转赠课时 </button>");
+        var btn_add_5=$("<button class=\"btn btn-warning  disabled \"> 转赠课时 </button>");
         var btn_add_6=$("<button class=\"btn btn-warning\"> 助教配额赠送课时 </button>");
         var btn_add_new_no_test_lesson=$("<button class=\"btn btn-primary\"> 新签 未听报 </button>");
         var btn_add_new_no_test_lesson_1=$("<button class=\"btn btn-primary\"> 新签 未听报 新版 </button>");
@@ -2192,7 +2192,8 @@ $(function(){
             add_free( 4 );
         });
         btn_add_5.on("click", function(){
-             add_free( 5 );
+            alert("该功能下线 ");
+            //add_free( 5 );
         });
         btn_add_6.on("click", function(){
             add_free( 6 );
