@@ -263,7 +263,8 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
 
     public function get_parent_opend_list(){
         $where_arr = [
-            " p.wx_openid is not null"
+            " p.wx_openid is not null",
+            " p.wx_openid != ''"
         ];
         $sql = $this->gen_sql_new("  select wx_openid from %s p"
                                   ." where %s"
