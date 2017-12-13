@@ -25,7 +25,7 @@ class question_new extends Controller
                 $item['knowledge_detail'] = json_encode($knowledge_detail);
             }
         }
-        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712061556"]);
+        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712121556"]);
     }
 
     public function question_edit(){
