@@ -1113,8 +1113,8 @@ class wx_teacher_api extends Controller
                 "test_lesson_fail_flag"  => 113, // [不付] 老师个人原因取消
             ]);
 
-            $test_lesson_subject_id = $this->t_test_lesson_subject->get_test_lesson_subject_id_by_lessonid($lessonid);
-            $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id, [
+            $require_id = $this->t_test_lesson_subject->get_test_lesson_subject_id_by_lessonid($lessonid);
+            $this->t_test_lesson_subject_require->field_update_list($require_id, [
                 "test_lesson_student_status" => 120
             ]);
 
