@@ -6,8 +6,11 @@
 
         <div>
             <div class="row" >
-                <div class="col-xs-12 col-md-5"  data-title="时间段">
+                <div class="col-xs-6 col-md-3">
+                    <div id="id_date_range">
+                    </div>
                 </div>
+
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
@@ -31,6 +34,7 @@
                     <td>请假 </td>
                     <td>大单数 </td>
                     <td>预警指数 </td>
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -39,11 +43,17 @@
                         <td><a class="opt-detail" data_teacher="{{$var['teacherid']}}">{{$var["nick"]}}</a> </td>
                         <td>{{$var['five_num']}}</td>
                         <td>{{$var['fift_num']}}</td>
-                        <td></td>
+                        <td>{{$var['leave_num']}}</td>
                         <td>{{$var['absent_num']}}</td>
                         <td>{{$var['adjust_num']}}</td>
                         <td>{{$var['ask_leave_num']}}</td>
                         <td>{{$var['big_order_num']}}</td>
+                        <td>{{$var['all']}}</td>
+                        <td data_teacher="{{$var['teacherid']}}">
+                            <a class="fa-phone opt-telphone" title="拨打老师电话"></a>
+                            <a class="fa-comment opt-return-back " title="回访" ></a>
+                            <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
