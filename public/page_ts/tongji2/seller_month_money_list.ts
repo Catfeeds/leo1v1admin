@@ -65,6 +65,7 @@ $(function(){
                     $tr.find(".24_hour_all_price").text(data["24_hour_all_price"]);
 
 
+                    $tr.find(".last_group_all_price").text(data["last_group_all_price"]);
                     $tr.find(".group_all_price").text(data["group_all_price"]);
                     $tr.find(".group_all_stage_price").text(data["group_all_stage_price"]);
                     $tr.find(".group_all_no_stage_price").text(data["group_all_no_stage_price"]);
