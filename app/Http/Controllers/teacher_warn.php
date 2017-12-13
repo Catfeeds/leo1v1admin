@@ -11,15 +11,20 @@ class teacher_warn extends Controller
     public function tea_warn_list() {
         list($start_time, $end_time) = $this->get_in_date_range_day(0);
         $teacherid = $this->get_in_int_val('teacher', 0);
-        $page_info = $this->get_in_page_info();
+        //$page_info = $this->get_in_page_info();
 
-        $ret_info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $teacherid, $page_info);
-        foreach($ret_info['list'] as &$item) {
+        $info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $teacherid);
+        $sort = [];
+        foreach($info as &$item) {
             $item['nick'] = $this->cache_get_teacher_nick($item['teacherid']);
-            $item['all'] = $item['fift_num'] + $item['leave_num'] + $item['absent_num'] + $item['adjust_num'] + $item['ask_leave_num'] + $item['big_order_num'];
+            $item['all'] = $item['five_num'] + $item['fift_num'] + $item['leave_num'] + $item['absent_num'] + $item['adjust_num'] + $item['ask_leave_num'] + $item['big_order_num'];
+            $sort[] = $item['all'];
         }
+        array_multisort($sort, SORT_DESC, $info);
         
-        return $this->pageView(__METHOD__, $ret_info);
+        return $this->pageView(__METHOD__, '', [
+            'info' => $info
+        ]);
     }
 
     public function get_teacher_detail() {

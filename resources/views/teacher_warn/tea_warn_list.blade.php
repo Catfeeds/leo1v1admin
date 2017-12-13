@@ -38,7 +38,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ( $table_data_list as $var )
+                @foreach ( $info as $var )
                     <tr>
                         <td><a class="opt-detail" data_teacher="{{$var['teacherid']}}" style="cursor:pointer">{{$var["nick"]}}</a> </td>
                         <td>{{$var['five_num']}}</td>
