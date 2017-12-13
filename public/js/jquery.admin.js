@@ -341,7 +341,7 @@ jQuery.fn.extend({
             cursor:"pointer"
         };
 
-        for(var i=1; i<level; i++){
+        for(var i=1; i<level-1; i++){
             $table.find(".l-"+i+" .key"+i).css(link_css);
         }
 
@@ -1603,7 +1603,8 @@ jQuery.extend({
     },
 
 
-    admin_select_user :function ( $element, type, call_func, is_not_query_flag, args_ex) {
+    admin_select_user :function ( $element, type, call_func, is_not_query_flag, args_ex, th_input_id ) {
+
         var select_no_select_value = -1;
         var select_no_select_title = "[全部]"  ;
         if (is_not_query_flag)  {
@@ -1793,6 +1794,7 @@ jQuery.extend({
             "opt_type" :  "select", // or "list"
             select_no_select_value  :   select_no_select_value , // 没有选择是，设置的值
             select_no_select_title  :   select_no_select_title, // "未设置"
+            "th_input_id" : th_input_id,
 
             "url"          : new_url,
             //其他参数
@@ -1815,7 +1817,7 @@ jQuery.extend({
             "onChange"         : call_func,
             //加载数据后，其它的设置
             "onLoadData"       : null,
-            select_btn_config :  args_ex.select_btn_config
+            select_btn_config :  args_ex.select_btn_config,
 
         });
 
@@ -2090,7 +2092,5 @@ jQuery.extend({
         }
 
     }
-
-
 
 });

@@ -165,9 +165,14 @@ class admin_manage extends Controller
 
     public  function  web_page_new ( ) {
         $web_page_id= $this->get_in_int_val("web_page_id");
-        $ret_info=$this->t_web_page_trace_log->get_web_page($web_page_id);
+        list($start_time, $end_time  ) =$this->get_in_date_range_week(0);
+        $ret_info=$this->t_web_page_trace_log->get_web_page($web_page_id,$start_time,$end_time);
+        $all_list=$this->t_manager_info->get_admin_member_list(-1,-1,$sales_assistant_flag=1);
+
+        $user_map=[];
 
         foreach ($ret_info["list"] as $k => &$item){
+            $user_map[$item['adminid']]=true;
             if(!$item['group_name']){
                 $item['group_name'] = '未定义';
             }
@@ -180,13 +185,26 @@ class admin_manage extends Controller
             }
 
         }
-      
-        $ret_info=\App\Helper\Common::gen_admin_member_data($ret_info["list"],[],0, strtotime( date("Y-m-01" )   ));
+        // dd($all_list['list']);
+        foreach($all_list['list'] as $k => &$item){
+            if(!@$user_map[$item['adminid']]){
+                if(!$item['group_name']){
+                    $item['group_name'] = '未定义';
+                }
+                if(!$item['up_group_name']){
+                    $item['up_group_name'] = '未定义';
+                }
+                $all_list["list"][$k]['is_share'] = 0;
+                $ret_info['list'][] = $item;
+            }
+        }
+
+        $ret_info=\App\Helper\Common::gen_admin_member_data($ret_info["list"],['account_role'],0, strtotime( date("Y-m-01" )   ));
         
         foreach( $ret_info as $k => &$item ) {
             E\Emain_type::set_item_value_str($item);
         }
-        //dd($ret_info);
+        // dd($ret_info);
         return $this->pageView(__METHOD__,
                                \App\Helper\Utils::list_to_page_info($ret_info),
                                [

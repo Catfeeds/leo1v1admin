@@ -3,7 +3,8 @@
 
 function load_data(){
     $.reload_self_page({
-      orderid:	$('#id_orderid').val(),
+		    order_by_str : g_args.order_by_str,
+        orderid:	$('#id_orderid').val(),
         date_type         : $('#id_date_type').val(),
         opt_date_type     : $('#id_opt_date_type').val(),
         seller_groupid_ex :	$('#id_seller_groupid_ex').val(),
@@ -22,10 +23,11 @@ function load_data(){
         has_money         : $("#id_has_money").val(),
         account_role      : $("#id_account_role").val(),
         teacherid         : $('#id_teacherid').val(),
+		    adminid:	$('#id_adminid').val(),
         tmk_adminid       : $('#id_tmk_adminid').val(),
         origin_userid     : $('#id_origin_userid').val(),
         referral_adminid:	$('#id_referral_adminid').val(),
-        spec_flag:	$('#id_spec_flag').val()
+        spec_flag:	$('#id_spec_flag').val(),
 
     });
 }
@@ -41,15 +43,8 @@ function isNumber( s ){
 }
 
 $(function(){
-	alert("xxxx");
-    Enum_map.append_option_list( "contract_type", $("#id_contract_type"));
-    //Enum_map.append_option_list( "order_activity_type", $("#id_order_activity_type"));
-    Enum_map.append_option_list( "test_user", $("#id_test_user"));
     Enum_map.append_option_list( "contract_from_type", $("#id_stu_from_type"));
     Enum_map.append_option_list( "account_role", $("#id_account_role"));
-    Enum_map.append_option_list( "subject", $("#id_subject"));
-    Enum_map.append_option_list("boolean",$("#id_spec_flag"));
-    Enum_map.append_option_list( "grade", $("#id_grade"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -63,32 +58,104 @@ $(function(){
     });
 
 
+	  $('#id_contract_type').val(g_args.contract_type);
+	  $.enum_multi_select( $('#id_contract_type'), 'contract_type', function(){load_data();} )
+	  $('#id_contract_status').val(g_args.contract_status);
+	  $.enum_multi_select( $('#id_contract_status'), 'contract_status', function(){load_data();} )
+
+	  $('#id_spec_flag').admin_set_select_field({
+		    "enum_type"    : "boolean",
+		    "field_name" : "spec_flag",
+		    "select_value" : g_args.spec_flag,
+		    "onChange"     : load_data,
+		    "multi_select_flag"     : false ,
+		    "th_input_id"  : "th_spec_flag",
+		    "only_show_in_th_input"     : true,
+        "show_title_flag" : true,
+		    "btn_id_config"     : {},
+	  });
+
+
+	$('#id_test_user').admin_set_select_field({
+		  "enum_type"    : "boolean",
+      "field_name"  :"test_user",
+		"select_value" : g_args.test_user,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_test_user",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 
 
     //init  input data
     $('#id_orderid').val(g_args.orderid);
     $("#id_has_money").val(g_args.has_money);
-    $("#id_contract_type").val(g_args.contract_type);
     $("#id_order_activity_type").val(g_args.order_activity_type );
-    $("#id_contract_status").val(g_args.contract_status);
-    $("#id_test_user").val(g_args.test_user);
-    $("#id_studentid").val(g_args.studentid);
     $("#id_sys_operator").val(g_args.sys_operator);
     $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
     $("#id_stu_from_type").val(g_args.stu_from_type);
     $('#id_assistantid').val(g_args.assistantid);
     $('#id_origin_userid').val(g_args.origin_userid);
     $("#id_account_role").val(g_args.account_role);
-    $('#id_grade').val(g_args.grade);
-    $('#id_subject').val(g_args.subject);
-    $('#id_spec_flag').val(g_args.spec_flag);
     $('#id_tmk_adminid').val(g_args.tmk_adminid);
     $('#id_teacherid').val(g_args.teacherid);
 
     $("#id_seller_groupid_ex").init_seller_groupid_ex();
     $('#id_referral_adminid').val(g_args.referral_adminid);
 
-    $.admin_select_user( $("#id_studentid"), "student", load_data );
+	  $('#id_adminid').admin_select_user_new({
+		    "user_type"    : "account",
+		    "select_value" : g_args.adminid,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_adminid",
+		    "only_show_in_th_input"     :  true,
+		    "can_select_all_flag"     : true
+	  });
+
+
+	  $('#id_studentid').admin_select_user_new({
+		    "user_type"    : "student",
+		    "select_value" : g_args.studentid,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_studentid",
+		    "can_select_all_flag"     : true,
+        "only_show_in_th_input" :false,
+
+	  });
+
+	  $('#id_contract_type').admin_set_select_field({
+		    "enum_type"    : "contract_type",
+		    "select_value" : g_args.contract_type,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_contract_type",
+        "only_show_in_th_input" :false,
+		    "btn_id_config"     : {}
+	  });
+	  $('#id_contract_status').admin_set_select_field({
+		    "enum_type"    : "contract_status",
+		    "select_value" : g_args.contract_status,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_contract_status",
+		    "btn_id_config"     : {}
+	  });
+
+
+	  $('#id_grade').admin_set_select_field({
+		    "enum_type"    : "grade",
+		    "select_value" : g_args.grade,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_grade",
+		    "btn_id_config"     : {}
+	  });
+	  $('#id_subject').admin_set_select_field({
+		    "enum_type"    : "subject",
+		    "select_value" : g_args.subject,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_subject",
+		    "btn_id_config"     : {}
+	  });
+
     $.admin_select_user( $("#id_teacherid"), "teacher", load_data );
 
     var show_select_lesson_account_dlg=function(userid) {
@@ -748,15 +815,15 @@ $(function(){
             },
             'field_list' :[
                 {
-                    title:"合同编号",
-                    field_name:"orderid"
-                },{
-                    title:"添加时间",
-                    field_name:"order_time_str"
-                },{
-                    title:"合同课时数",
-                    field_name:"lesson_total"
-                }
+                title:"合同编号",
+                field_name:"orderid"
+            },{
+                title:"添加时间",
+                field_name:"order_time_str"
+            },{
+                title:"合同课时数",
+                field_name:"lesson_total"
+            }
             ],
             filter_list:[],
             "auto_close" : true,
@@ -1899,7 +1966,10 @@ $(function(){
         });
     };
     var add_free=function( from_parent_order_type ) {
-        var do_post_add_free=function ( parent_order_id, lesson_total,order_require_flag,order_require_reason,to_userid , from_parent_order_lesson_count) {
+        var do_post_add_free=function ( parent_order_id, lesson_total,order_require_flag,order_require_reason,to_userid , from_parent_order_lesson_count,part_competition_flag) {
+            if (! part_competition_flag) {
+                part_competition_flag =0;
+            }
                 $.do_ajax("/ss_deal/seller_add_contract_free",{
                     "from_parent_order_type" : from_parent_order_type,
                     "parent_order_id"        : parent_order_id,
@@ -1908,6 +1978,7 @@ $(function(){
                     "lesson_total"           : lesson_total*100,
                     "to_userid" : to_userid,
                     "from_parent_order_lesson_count" :  from_parent_order_lesson_count*100 ,
+                    "part_competition_flag" : part_competition_flag
                 });
 
             };
@@ -1924,12 +1995,14 @@ $(function(){
             var $from_parent_order_lesson_count =$("<input/>");
             var $to_userid=$("<input/>");
             var $order_require_flag=$("<select > <option value=0>否</option>  <option value=1>是</option></select>") ;
+            var $part_competition_flag=$("<select > <option value=0>否</option>  <option value=1>是</option></select>") ;
             var $order_require_reason=$("<textarea/>");
 
             var arr=[
                 ["提取课时数",  $from_parent_order_lesson_count],
                 ["转给学生",    $to_userid ],
                 ["转给课时数",  $lesson_count  ],
+                ["是否转为竞赛合同",  $part_competition_flag  ],
                 ["需要特殊申请",$order_require_flag ],
                 ["特殊申请说明",$order_require_reason ],
             ];
@@ -1948,7 +2021,7 @@ $(function(){
                     if (!to_userid) {
                         alert("还没选择被赠送人");
                     }
-                    do_post_add_free( parent_order_id, $lesson_count.val()  ,$order_require_flag.val(),$order_require_reason.val() ,  to_userid  ,  $from_parent_order_lesson_count.val()  );
+                    do_post_add_free( parent_order_id, $lesson_count.val()  ,$order_require_flag.val(),$order_require_reason.val() ,  to_userid  ,  $from_parent_order_lesson_count.val(),$part_competition_flag.val()  );
                 }
             },function(){
                 opt_change_order_require_flag();
@@ -1983,7 +2056,7 @@ $(function(){
                     label: '确认',
                     cssClass: 'btn-warning',
                     action: function(dialog) {
-                        do_post_add_free( parent_order_id, $lesson_count.val()  ,$order_require_flag.val(),$order_require_reason.val(),0,0);
+                        do_post_add_free( parent_order_id, $lesson_count.val()  ,$order_require_flag.val(),$order_require_reason.val(),0,0, 0);
                     }
                 },function(){
                     opt_change_order_require_flag();
@@ -1994,7 +2067,7 @@ $(function(){
 
                 });
             }else{ //转介绍 , 试听24小时内赠送课时
-                do_post_add_free( parent_order_id, 6,0,"",0,0);
+                do_post_add_free( parent_order_id, 6,0,"",0,0, 0 );
             }
         };
 
@@ -2087,7 +2160,7 @@ $(function(){
         var btn_add_1=$("<button class=\"btn btn-warning\">  转介绍赠送合同 </button>");
         var btn_add_2=$("<button class=\"btn btn-warning\"> 试听24小时内 签约赠送 合同  </button>");
         var btn_add_3=$("<button class=\"btn btn-warning\">  特批赠送 合同  </button>");
-        var btn_add_5=$("<button class=\"btn btn-warning\"> 转赠课时 </button>");
+        var btn_add_5=$("<button class=\"btn btn-warning  disabled \"> 转赠课时 </button>");
         var btn_add_6=$("<button class=\"btn btn-warning\"> 助教配额赠送课时 </button>");
         var btn_add_new_no_test_lesson=$("<button class=\"btn btn-primary\"> 新签 未听报 </button>");
         var btn_add_new_no_test_lesson_1=$("<button class=\"btn btn-primary\"> 新签 未听报 新版 </button>");
@@ -2119,7 +2192,8 @@ $(function(){
             add_free( 4 );
         });
         btn_add_5.on("click", function(){
-             add_free( 5 );
+            alert("该功能下线 ");
+            //add_free( 5 );
         });
         btn_add_6.on("click", function(){
             add_free( 6 );
@@ -2409,7 +2483,6 @@ $(function(){
         var $parent_name = $('<input/>');
         var remark          = $('<textarea></textarea>');
 
-
         $.do_ajax("/ss_deal/get_contract_info",{
             "orderid":opt_data.orderid
         },function(result){
@@ -2420,18 +2493,12 @@ $(function(){
                 [ "收件人"  , addressee ],
                 [ "收件人电话"  , receive_phone],
                 [ "收件人地址"  , receive_addr],
-                /*
-                [ "每周课时"  , lesson_weeks],
-                [ "每节课时长"  , lesson_duration],
-                */
                 [ "申请时间"  , app_time],
-                // [ "备注"  , remark],
             ];
 
             app_time.text(data.app_time_str);
             student_name.text(opt_data.stu_nick);
             addressee.val(data.nick);
-            // alert(data.phone);
             receive_phone.val(data.phone);
             receive_addr.val(data.address);
             if(data.lesson_duration){
@@ -3213,37 +3280,37 @@ $(function(){
                     select_option_list: [
                         {
                         value : -1 ,
-                        text :  "全部" 
+                        text :  "全部"
                     },
                         {
                         value :  0 ,
-                        text :  "关闭" 
+                        text :  "关闭"
                     },
                         {
                         value :  1 ,
-                        text :  "正式开启" 
+                        text :  "正式开启"
                     },
                         {
                         value :  2 ,
-                        text :  "测试开启" 
+                        text :  "测试开启"
                     },
-                        
+
                     ]
                 },
                 {
                     size_class : "col-md-4" ,
                     title      : "活动ID",
                     'arg_name' : "id"  ,
-                    type       : "input" 
+                    type       : "input"
                 },
                 {
                     size_class : "col-md-6" ,
                     title      : "标题",
                     'arg_name' : "title"  ,
-                    type       : "input" 
+                    type       : "input"
                 }
 
-            ] 
+            ]
             ],
             "auto_close"       : true,
             //选择
@@ -3267,7 +3334,6 @@ $(function(){
     });
 
     if(g_account=="wenbin"){
-        download_show();
+        window.download_show();
     }
 });
-

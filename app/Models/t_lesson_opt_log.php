@@ -318,6 +318,13 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
     }
 
 
+    public function get_stu_log($lessonid,$userid){
+        $sql = $this->gen_sql_new("  select opt_time, opt_type from %s tl "
+                                  ." where l.lessonid=$lessonid and userid=$userid  "
+        );
+
+        return $this->main_get_list($sql);
+    }
 
 
 

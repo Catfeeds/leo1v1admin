@@ -85,6 +85,7 @@ class common_new extends Controller
             ,"AA","AB","AC","AD","AE","AF","AG","AH","AI","AJ","AK","AL","AM","AN","AO","AP","AQ","AR","AS","AT","AU","AV","AW","AX","AY","AZ"
             ,"BA","BB","BC","BD","BE","BF","BG","BH","BI","BJ","BK","BL","BM","BN","BO","BP","BQ","BR","BS","BT","BU","BV","BW","BX","BY","BZ"
             ,"CA","CB","CC","CD","CE","CF","CG","CH","CI","CJ","CK","CL","CM","CN","CO","CP","CQ","CR","CS","CT","CU","CV","CW","CX","CY","CZ"
+            ,"DA","DB","DC","DD","DE","DF","DG","DH","DI","DJ","DK","DL","DM","DN","DO","DP","DQ","DR","DS","DT","DU","DV","DW","DX","DY","DZ"
 
         ];
 
@@ -1284,11 +1285,11 @@ class common_new extends Controller
 
                     $all_order_pay = $this->t_child_order_info->chick_all_order_have_pay($parent_orderid);
                     if(empty($all_order_pay)){
-                        /*  $this->t_order_info->field_update_list($parent_orderid,[
+                        $this->t_order_info->field_update_list($parent_orderid,[
                             "order_status" =>1,
                             "contract_status"=>1,
                             "pay_time"       =>time()
-                            ]);*/
+                        ]);
                         $this->t_manager_info->send_wx_todo_msg(
                             "echo",
                             "合同付款通知",
@@ -1435,6 +1436,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     "合同付款通知",
                     "学生:".$user_info["nick"]." 渠道:建行分期,订单号:".$orderNo,
                     "");
+                $this->t_manager_info->send_wx_todo_msg(
+                    $sys_operator,
+                    "合同付款通知",
+                    "合同付款通知",
+                    "学生:".$user_info["nick"]." 渠道:建行分期,订单号:".$orderNo,
+                    "");
+
 
                 /* $this->t_manager_info->send_wx_todo_msg(
                     $sys_operator,
@@ -1451,23 +1459,23 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
                 $all_order_pay = $this->t_child_order_info->chick_all_order_have_pay($parent_orderid);
                 if(empty($all_order_pay)){
-                    /* $this->t_order_info->field_update_list($parent_orderid,[
+                    $this->t_order_info->field_update_list($parent_orderid,[
                         "order_status" =>1,
                         "contract_status"=>1,
                         "pay_time"       =>time()
-                        ]);*/
+                    ]);
                     /* $this->t_manager_info->send_wx_todo_msg(
                         "echo",
                         "合同付款通知",
                         "合同已支付全款",
                         "学生:".$user_info["nick"]." 合同已支付全款",
-                        "/user_manage_new/money_contract_list?studentid=$userid");
+                        "/user_manage_new/money_contract_list?studentid=$userid");*/
                     $this->t_manager_info->send_wx_todo_msg(
                         $sys_operator,
                         "合同付款通知",
                         "合同已支付全款",
                         "学生:".$user_info["nick"]." 合同已支付全款",
-                        "");*/
+                        "");
                     $this->t_manager_info->send_wx_todo_msg(
                         "jack",
                         "合同付款通知",
@@ -1571,7 +1579,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $from_adminid=$this->get_in_int_val("from_adminid");
         $share_wx_flag=$this->get_in_int_val("share_wx_flag");
 
-        \App\Helper\Utils::logger("james:share");
+        \App\Helper\Utils::logger("james:share_check web_page_id: $web_page_id from_adminid:$from_adminid ");
 
         $ip=ip2long( $this->get_in_client_ip() );
         $this->t_web_page_trace_log->row_insert([

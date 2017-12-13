@@ -37,13 +37,14 @@ tofile:
 /// <reference path="../g_args.d.ts/product_tag-tag_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		tag_l1_sort:	$('#id_tag_l1_sort').val(),
 		tag_l2_sort:	$('#id_tag_l2_sort').val(),
 		tag_l3_sort:	$('#id_tag_l3_sort').val(),
 		tag_name:	$('#id_tag_name').val()
-    });
+		});
 }
 $(function(){
 
@@ -68,6 +69,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_tag_l1_sort" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tag_l1_sort title", "tag_l1_sort", "th_tag_l1_sort" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -75,6 +77,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_tag_l2_sort" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tag_l2_sort title", "tag_l2_sort", "th_tag_l2_sort" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -82,6 +85,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_tag_l3_sort" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tag_l3_sort title", "tag_l3_sort", "th_tag_l3_sort" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -89,4 +93,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_tag_name" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tag_name title", "tag_name", "th_tag_name" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

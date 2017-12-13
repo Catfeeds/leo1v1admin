@@ -12,7 +12,140 @@ class test_sam  extends Controller
 {
     use CacheNick;
     use TeaPower;
+    public function add_teacher(){
+        $phone = 88888888100;
+        $time = 1451577600;
+        $grade = ['100','101','102','103','104','105','106','200','201','202','203','300','301','302','303'];
+        $identity = [0,5,6,7,8];
+        $tag = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N'];
+        $arr = [];
+        for ($i=0; $i < 100; $i++) { 
+            # code..
+            $phone++;
+            $teacher_info = [
+                "phone" => $phone,
+                "tea_nick"  => "test".$phone,
+                "realname"  => "test_realname".$phone,
+                "wx_use_flag" => 1,
+                "trial_lecture_is_pass" => 1,
+                "train_through_new" => 1,
+                "train_through_new_time" => $time+mt_rand(1,6000000),
+                "is_test_user"  => 0,
+                "teacher_money_type" =>  mt_rand(0,7),
+                "subject" => mt_rand(0,10),
+                "grade"   => $grade[mt_rand(0,14)],
+                "identity" => $identity[mt_rand(0,4)],
+                "is_test_user" => 0,
+                "send_sms_flag" => 0,
+                "grade_start" => mt_rand(0,3),
+                "grade_end" => mt_rand(4,6),
+               // "teacher_type" => 3,
+
+            ];
+            //$ret_info = $this->add_teacher_common_test($teacher_info);
+            $id = $this->t_teacher_info->get_teacherid_by_phone($phone);
+
+            $ret = $this->t_teacher_info->field_update_list($id,
+                ['teacher_tags' => $tag[mt_rand(0,13)]." ".mt_rand(0,10) ]);
+            //dd($ret_info);
+            $arr[] = $teacher_info;
+        }
+        dd($arr);
+    }
+    public function table_1(){
+        $ret_info = $this->t_order_refund->get_2017_11_refund_info();
+        echo "<table >";
+        echo "<tr>"."<td >合同年级</td>"
+                ."<td >合同</td>"
+                ."<td >下单人</td>"
+                ."<td >应退课时</td>"
+                ."<td >实退金额</td>"
+
+                ."<td >支付账号</td>"
+                ."<td >退费理由</td>"
+                ."<td >挽单结果</td>"
+                ."<td >申请时间</td>"
+                ."<td >申请人</td>"
+                ."<td >审批状态</td>"
+                ."<td >审批时间</td>"
+                ."<td >退费状态</td>"
+                ."<td >是否分期</td></tr>";
+        foreach($ret_info as &$item){
+            $item['deal_nick'] = $this->cache_get_account_nick($item['qc_adminid']);
+            \App\Helper\Utils::unixtime2date_for_item($item,"qc_deal_time");
+
+            $item['ass_nick'] = $this->cache_get_assistant_nick($item['assistantid']);
+            $item['tea_nick'] = $this->cache_get_teacher_nick($item['teacher_id']);
+            $item['subject_str'] = E\Esubject::get_desc($item['subject']);
+
+            $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
+            $item['user_nick']         = $this->cache_get_student_nick($item['userid']);
+            $item['refund_user']       = $this->cache_get_account_nick($item['refund_userid']);
+            $item['lesson_total']      = $item['lesson_total']/100;
+            $item['should_refund']     = $item['should_refund']/100;
+            $item['price']             = $item['price']/100;
+            $item['real_refund']       = $item['real_refund']/100;
+            $item['discount_price']    = $item['discount_price']/100;
+            $item['apply_time_str']    = date("Y-m-d H:i",$item['apply_time']);
+            $item['refund_status_str'] = $item['refund_status']?'已打款':'未付款';
+            \App\Helper\Common::set_item_enum_flow_status($item);
+            E\Econtract_type::set_item_value_str($item,"contract_type");
+            E\Eboolean::set_item_value_str($item,"need_receipt");
+            E\Egrade::set_item_value_str($item);
+
+            E\Eqc_advances_status::set_item_value_str($item);
+            E\Eqc_contact_status::set_item_value_str($item);
+            E\Eqc_voluntarily_status::set_item_value_str($item);
+
+            \App\Helper\Utils::unixtime2date_for_item($item,"flow_status_time");
+            $item['order_time_str'] = date('Y-m-d H:i:s',$item['order_time']);
+
+            $refund_qc_list = $this->t_order_refund->get_refund_analysis($item['apply_time'], $item['orderid']);
+            if(!empty($refund_qc_list['qc_other_reason'])
+               || !empty($refund_qc_list['qc_analysia'])
+               || !empty($refund_qc_list['qc_reply'])
+            ){
+                $item['flow_status_str'] = '<font style="color:#a70192;">QC已审核</font>';
+            }
+
+            $pass_time = $item['apply_time']-$item['order_time'];
+            if($pass_time >= (90*24*3600)){ // 下单是否超过3个月
+                $item['is_pass'] = '<font style="color:#ff0000;">是</font>';
+            }else{
+                $item['is_pass'] = '<font style="color:#2bec2b;">否</font>';
+            }
+        }
+        foreach ($ret_info as $key => $value) {
+                echo "<tr>";
+				echo "<td >".$value['grade_str']."</td>";
+                echo "<td >时间:".$value['order_time_str'].
+                          "类型:".$value['contract_type_str'].
+                          "总课时:".$value['lesson_total'].
+                          "原价:".$value['discount_price'].
+                          "实付:".$value['price'].
+                          "</td>";
+                echo "<td >".$value['sys_operator']."</td>";
+                echo "<td >".$value['should_refund']."</td>";
+                echo "<td >".$value['real_refund']."</td>";
+                echo "<td >".$value['pay_account']."</td>";
+
+                echo "<td >".$value['refund_info']."</td>";
+                echo "<td >".$value['save_info']."</td>";
+                echo "<td >".$value['apply_time_str']."</td>";
+                echo "<td >".$value['refund_user']."</td>";
+
+                echo "<td >".$value['flow_status_str']."</td>";
+                echo "<td >".$value['flow_status_time']."</td>";
+                echo "<td >".$value['refund_status_str']."</td>";
+                echo "<td >".$value['is_staged_flag_str']."</td>";
+                echo "</tr>";
+        }
+        echo "</table>";    
+    }
+
     public function test_kk(){
+        $month_time = strtotime(date("Y-m-01",time()));
+        dd($month_time);
         $start_time = 1488297600;
         $end_time   = time();
 

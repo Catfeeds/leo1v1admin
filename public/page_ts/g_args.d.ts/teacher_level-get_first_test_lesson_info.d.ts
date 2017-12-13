@@ -19,6 +19,29 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	teacherid	:any;
+	realname	:any;
+	lessonid	:any;
+	lesson_start	:any;
+	subject	:any;
+	grade_start	:any;
+	grade_end	:any;
+	grade_part_ex	:any;
+	id	:any;
+	acc	:any;
+	record_info	:any;
+	add_time	:any;
+	grade	:any;
+	lesson_invalid_flag	:any;
+	test_stu_request_test_lesson_demand	:any;
+	stu_request_test_lesson_demand	:any;
+	subject_str	:any;
+	grade_part_ex_str	:any;
+	grade_start_str	:any;
+	grade_end_str	:any;
+	grade_str	:any;
+	record_flag_str	:any;
+	add_time_str	:any;
 }
 
 /*
@@ -30,8 +53,9 @@ tofile:
 /// <reference path="../g_args.d.ts/teacher_level-get_first_test_lesson_info.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -41,23 +65,29 @@ function load_data(){
 		teacherid:	$('#id_teacherid').val(),
 		record_flag:	$('#id_record_flag').val(),
 		acc:	$('#id_acc').val()
-    });
+		});
 }
 $(function(){
 
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
 	$('#id_subject').val(g_args.subject);
-	$('#id_teacherid').val(g_args.teacherid);
+	$('#id_teacherid').admin_select_user_new({
+		"user_type"    : "teacher",
+		"select_value" : g_args.teacherid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_teacherid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_record_flag').val(g_args.record_flag);
 	$('#id_acc').val(g_args.acc);
 
@@ -69,6 +99,13 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -76,6 +113,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_subject" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["subject title", "subject", "th_subject" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -83,6 +121,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_teacherid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teacherid title", "teacherid", "th_teacherid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -90,6 +129,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_record_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["record_flag title", "record_flag", "th_record_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -97,4 +137,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_acc" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["acc title", "acc", "th_acc" ]])!!}
 */

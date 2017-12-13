@@ -388,24 +388,28 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-    public function get_qz_tea_lesson_info($start_time,$end_time){
+    public function get_qz_tea_lesson_info($start_time,$end_time,$teacherid=-1){
         $where_arr=[
             "m.account_role in (4,5)",
             "m.del_flag=0",
             "l.lesson_del_flag=0",
             "l.confirm_flag in (0,1)",
+            ["l.teacherid=%u",$teacherid,-1],
             "(tss.success_flag is null or tss.success_flag in (0,1))"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select lesson_type,lesson_count,tss.success_flag,m.uid,m.account_role,l.train_type "
+        $sql = $this->gen_sql_new("select lesson_type,lesson_count,tss.success_flag,m.uid,m.account_role,"
+                                  ."l.train_type,l.grade,l.subject,l.lesson_start,l.lesson_end,s.nick,l.lessonid "
                                   ." from %s l left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s m on t.phone = m.phone"
+                                  ." left join %s s on l.userid = s.userid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);
@@ -420,7 +424,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "(tss.success_flag is null or tss.success_flag in (0,1))"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select lesson_type,lesson_count,tss.success_flag,m.uid,m.account_role,l.train_type "
+        $sql = $this->gen_sql_new("select lesson_type,lesson_count,tss.success_flag,m.uid,m.account_role,"
+                                  ."l.train_type,m.fulltime_teacher_type "
                                   ." from %s l left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s m on t.phone = m.phone"
@@ -515,7 +520,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
 
     }
-    public function check_off_time_lesson_end($teacherid,$lesson_end,$lesson_start){        
+    public function check_off_time_lesson_end($teacherid,$lesson_end,$lesson_start){
         $where_arr=[
             "m.account_role=5",
             "m.del_flag=0",
@@ -684,6 +689,29 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         });
 
     }
+
+    public function get_tea_stu_num_list_detail($qz_tea_arr,$start_time,$end_time){
+        $where_arr=[
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            "s.type <> 1",
+            "l.lesson_type<>2",
+            "l.lesson_type<1000",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag <2"
+        ];
+        $this->where_arr_teacherid($where_arr,"l.teacherid", $qz_tea_arr );
+        $sql = $this->gen_sql_new("select sum(l.lesson_count) lesson_all,l.teacherid "
+                                  ." from %s l left join %s s on l.userid = s.userid"
+                                  ." where %s group by l.teacherid,l.userid",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
 
     public function get_tea_stu_num_list_personal($teacherid,$start_time,$end_time){
         $where_arr=[
@@ -3952,9 +3980,43 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
 
         return $this->main_get_list($sql);
-
-
     }
+
+
+    public function get_test_lesson_to_notic(){
+        $today = strtotime(date('Y-m-d'));
+
+        $where_arr = [
+            "l.lesson_type=2", //试听课
+            "l.lesson_del_flag=0",
+            "l.lesson_status=1",
+            "l.confirm_flag<2",
+            ["l.lesson_start>%d",$today],
+            "tss.test_lesson_fail_flag=0"
+
+        ];
+
+        $sql = $this->gen_sql_new(" select l.tea_late_minute, l.stu_late_minute, l.lessonid, l.teacherid, l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par_openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
+                                  ." left join %s t on t.teacherid = l.teacherid "
+                                  ." left join %s s on s.userid=l.userid "
+                                  ." left join %s p on p.parentid= s.parentid "
+                                  ." left join %s a on a.assistantid = s.assistantid"
+                                  ." left join %s m on m.phone = a.phone"
+                                  ." left join %s tss on tss.lessonid = l.lessonid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_parent_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
 
 
     public function get_tea_openid_for_update_software(){
@@ -4202,6 +4264,38 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   $where_arr
         );
         return $this->main_get_list($sql);
+    }
+
+
+    public function get_need_late_notic(){
+
+        $today = strtotime(date('Y-m-d'));
+
+        $where_arr = [
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.confirm_flag<2",
+            "l.lesson_status=1",
+            "l.lesson_start>$today",
+        ];
+
+        $sql = $this->gen_sql_new(" select l.stu_late_minute, l.tea_late_minute, l.lessonid, l.teacherid, l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par_openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
+                                  ." left join %s t on t.teacherid = l.teacherid "
+                                  ." left join %s s on s.userid=l.userid "
+                                  ." left join %s p on p.parentid= s.parentid "
+                                  ." left join %s a on a.assistantid = s.assistantid"
+                                  ." left join %s m on m.phone = a.phone"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_parent_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
     }
 
 

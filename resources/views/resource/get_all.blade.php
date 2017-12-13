@@ -8,13 +8,20 @@
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <script type="text/javascript" src="/js/jquery.contextify.js"></script>
+    <script type="text/javascript" src="/js/area/distpicker.data.js"></script>
+	  <script type="text/javascript" src="/js/area/distpicker.js"></script>
     <script>
      var tag_one = '{{@$tag_info['tag_one']['menu']}}';
      var tag_two = '{{@$tag_info['tag_two']['menu']}}';
      var tag_three = '{{@$tag_info['tag_three']['menu']}}';
      var tag_four = '{{@$tag_info['tag_four']['menu']}}';
+     var tag_one_name = '{{@$tag_info['tag_one']['name']}}';
+     var tag_two_name = '{{@$tag_info['tag_two']['name']}}';
+     var tag_three_name = '{{@$tag_info['tag_three']['name']}}';
+     var tag_four_name = '{{@$tag_info['tag_four']['name']}}';
      var my_subject = {{@$subject}};
      var my_grade = {{@$grade}};
+     var book = {{@$book}};
     </script>
     <section class="content">
 
@@ -107,12 +114,11 @@
                         <a href="javascript:;" id="id_select_all" title="全选">全</a>
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
                     </td>
-                    <td style="width:30%">文件名</td>
+                    <td style="width:40%">文件名</td>
                     <td style="width:15%">修改日期</td>
                     <td style="width:10%">操作人</td>
                     <td style="width:10%">文件类型</td>
                     <td style="width:10%">文件大小</td>
-                    <td style="width:10%">纠错次数</td>
                     <td style="width:10%">是否使用</td>
                 </tr>
             </thead>
@@ -123,11 +129,10 @@
                             <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-id="{{$var["resource_id"]}}"/>
                         </td>
                         <td>{{@$var["file_title"]}} </td>
-                        <td>{{@$var["update_time"]}} </td>
+                        <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
                         <td>{{@$var["file_size"]}}M </td>
-                        <td>{{@$var["error_num"]}} </td>
                         <td>{{@$var["is_use_str"]}}是 </td>
                     </tr>
                 @endforeach
@@ -136,7 +141,7 @@
         @include("layouts.page")
     </section>
 
-    <div class="col-md-12 opt_process"   style="width:600px;position:fixed;right:0;top:200px;border:1px solid red;background:#ccc;display:none;">
+    <div class="col-md-12 opt_process"   style="width:600px;position:fixed;right:0;top:200px;border-radius:5px;background:#eee;opacity:0.8;display:none;">
         <div class="hide" id="up_load"> </div>
         <table class="table table-striped table-hover text-left" >
             <thead>

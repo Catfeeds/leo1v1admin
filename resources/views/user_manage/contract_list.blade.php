@@ -12,7 +12,7 @@
       <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
       <section class="content">
           <div class="row row-query-list">
-              <div class="col-xs-12 col-md-4"  data-title="时间段">
+              <div class="col-xs-12 col-md-5"  data-title="时间段">
                   <div  id="id_date_range" >
                   </div>
               </div>
@@ -26,10 +26,17 @@
 
               <div class="col-xs-6 col-md-2">
                   <div class="input-group ">
+                      <span class="input-group-addon">下单人</span>
+                      <input class="opt-change form-control" id="id_adminid" />
+                  </div>
+              </div>
+
+
+
+              <div class="col-xs-6 col-md-2">
+                  <div class="input-group ">
                       <span class="input-group-addon">类型</span>
-                      <select class="opt-change form-control " id="id_contract_type" >
-                          <option value="-2">正式1v1课程</option>
-                      </select>
+                      <input class="opt-change form-control " id="id_contract_type" /> 
                   </div>
               </div>
               <div class="col-xs-6 col-md-2">
@@ -90,14 +97,7 @@
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">状态</span>
-                    <select class="opt-change form-control" id="id_contract_status">
-                        <option value="-2" >有效合同</option>
-                        <option value="-1" >全部</option>
-                        <option value="0" >未付款</option>
-                        <option value="1" >执行中</option>
-                        <option value="2" >已结束</option>
-                        <option value="3" >提前终止</option>
-                    </select>
+                    <input class="opt-change form-control" id="id_contract_status">  </input>
                 </div>
             </div>
             <div class="col-xs-6 col-md-2">
@@ -122,15 +122,13 @@
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">年级</span>
-                    <select class="opt-change form-control" id="id_grade" >
-                    </select>
+                    <input class="opt-change form-control" id="id_grade" />
                 </div>
             </div>
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">科目</span>
-                    <select class="opt-change form-control" id="id_subject" >
-                    </select>
+                    <input class="opt-change form-control" id="id_subject" />
                 </div>
             </div>
 
@@ -178,16 +176,19 @@
                     <td style="display:none">userid</td>
                     <td style="display:none">orderid</td>
                     <td class="td-origin" >渠道</td>
-                    <td >学员姓名</td>
+
+                    {!!\App\Helper\Utils::th_order_gen([["学生", "", "th_studentid" ]])!!}
                     <td style="display:none;" >家长姓名</td>
                     <td style="display:none;" >地区</td>
                     <td style="display:none;" >1v1详细分类</td>
                     <td style="display:none;">是否新增 </td>
                     <td >试听课时间</td>
-                    <td >年级</td>
-                    <td >科目</td>
-                    <td >合同状态</td>
-                    <td >合同类型</td>
+
+                    {!!\App\Helper\Utils::th_order_gen([["年级", "grade", "th_grade" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["科目", "", "th_subject" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["合同状态", "contract_status", "th_contract_status" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["合同类型", "contract_type", "th_contract_type" ]])!!}
+
                     <td style="display:none;">生效日期</td>
                     <td style="display:none;">下单日期</td>
                     <td >总课时</td>
@@ -199,7 +200,7 @@
                     <td >实付/原始单价</td>
                     <td style="display:none;" >优惠原因</td>
                     <td  style="display:none;" >包类型</td>
-                    <td >下单人</td>
+                    {!!\App\Helper\Utils::th_order_gen([["下单人", "", "th_adminid" ]])!!}
                     <td style="display:none;">淘宝订单号</td>
                     <td style="display:none">courseid</td>
                     <td style="display:none;">助教</td>
@@ -208,7 +209,7 @@
                     <td >TMK负责人</td>
                     <td >试听课老师</td>
                     <td >财务说明</td>
-                    <td >特殊折扣申请状态</td>
+                    {!!\App\Helper\Utils::th_order_gen([["特殊折扣申请状态", "", "th_spec_flag" ]])!!}
                     <td >发放礼拜时间</td>
                     <td >个人总课时</td>
                     <td >是否分期</td>

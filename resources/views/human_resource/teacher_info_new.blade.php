@@ -153,7 +153,7 @@
                     <td class="tea_textbook">教材版本</td>
                     <td class="tea_textbook" width="220px">冻结情况</td>
                     <td class="tea_textbook"  width="220px">限课情况</td>
-                    <td   width="220px">标签</td>
+                    <td   class="tea_textbook" width="500px">标签</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -215,13 +215,17 @@
                                 @if(in_array($account_role,["8","10","12"]))
                                     <a class="opt-tea_origin_url" title="招师链接">招</a>
                                 @endif
+                                @if(in_array($acc,["zoe","jim"]) || in_array($account_role,[12]))
+                                    <a class="opt-account-number" title="老师账号信息修改功能">账号相关</a>
+                                @endif
+
                                 @if(in_array($account_role,["10","12"]))
                                     <a class="fa-shield opt-trial-pass"  title="试讲通过"> </a>
                                     <a class="fa-gratipay opt-test-user" title="设置为测试用户"></a>
                                     <a class="fa-gavel opt-set-tmp-passwd div_show"  title="临时密码"></a>
                                     <a class="opt-old ">旧版</a>
                                 @endif
-                                @if($var["label_id"]==0 && in_array($acc,["jim","jack"]))
+                                @if($var["label_id"]==0 && in_array($acc,["jim","jack","林文彬"]))
                                     <a class="opt-set-teacher-label" title="设置标签<">设置标签</a>
                                 @elseif($var["label_id"]>0  && in_array($acc,["jim","jack","林文彬"]))
                                     <a class="opt-set-teacher-label" title="修改标签<">修改标签</a>

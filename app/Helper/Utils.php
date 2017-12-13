@@ -351,6 +351,14 @@ class Utils  {
     }
 
     /**
+     * 转换两个时间戳差值为天数
+     */
+    static function change_time_difference_to_day($timestamp,$check_timestamp=0){
+        $check_timestamp = $check_timestamp===0?time():$check_timestamp;
+        return ceil(($check_timestamp-$timestamp)/86400)."天";
+    }
+
+    /**
      * 获取指定日期所在天的开始时间与结束时间
      * @param int timestamp 指定日期的时间戳
      * @return array
@@ -560,14 +568,20 @@ class Utils  {
         $item[$phone_field_name."_hide"]=substr($phone,0,3)."****".substr($phone,7);
     }
 
-    static function th_order_gen( $title, $field_name ="" ) {
+    static function th_order_gen( $title  ) {
         if ( is_array($title) ) {
             $arr=$title;
             $str="";
             foreach( $arr as $item ) {
-                $str.=' <td > '.$item[0]
-                    .'<a href="javascript:;" class=" fa fa-sort td-sort-item  " data-field-name="'.$item[1]
-                    .'"  > </a> </td>';
+
+                $order_field= $item[1];
+                $order_str="";
+                if ($order_field) {
+                    $order_str=' <a href="javascript:;" class=" fa fa-sort td-sort-item  " data-field-name="'.$order_field.'"  ></a>';
+
+                }
+                $str.=' <td id="'. @$item[2] .'"> <span> '.$item[0]
+                    .' </span> '. $order_str .'  </td>';
             }
             return $str;
         }else{
@@ -1346,6 +1360,32 @@ class Utils  {
     }
 
     /**
+     * 将旧版的年级体系转换为新版的年级范围
+     * @param int old_grade  旧版的年级体系  参考 grade_part_ex 枚举类
+     */
+    static public function change_old_grade_to_grade_range($old_grade){
+        switch($old_grade){
+        case 1:
+            $grade_range['grade_start']=1;$grade_range['grade_end']=2;break;
+        case 2:
+            $grade_range['grade_start']=3;$grade_range['grade_end']=4;break;
+        case 3:
+            $grade_range['grade_start']=5;$grade_range['grade_end']=6;break;
+        case 4:
+            $grade_range['grade_start']=1;$grade_range['grade_end']=4;break;
+        case 5:
+            $grade_range['grade_start']=3;$grade_range['grade_end']=6;break;
+        case 6:
+            $grade_range['grade_start']=2;$grade_range['grade_end']=4;break;
+        case 7:
+            $grade_range['grade_start']=4;$grade_range['grade_end']=6;break;
+        default:
+            $grade_range['grade_start']=0;$grade_range['grade_end']=0;break;
+        }
+        return $grade_range;
+    }
+
+    /**
      * 转换详细年级为年级阶段
      * @param int grade 待转化的年级 eg:101,102,103,201,202,301,302等
      */
@@ -1396,6 +1436,30 @@ class Utils  {
             $grade_part = 0;
         }
         return $grade_part;
+    }
+
+    /**
+     * 获取合同的有效期
+     * @param int start_time 合同开始时间
+     * @param int lesson_total 购买的合同课时
+     * @param int
+     */
+    static public function get_order_term_of_validity($start_time,$lesson_total){
+        if($lesson_total==0){
+            $validty_str = "+0 day";
+        }elseif($lesson_total<90){
+            $validty_str = "+6 month";
+        }elseif($lesson_total<180){
+            $validty_str = "+1 year";
+        }elseif($lesson_total<360){
+            $validty_str = "+2 year";
+        }elseif($lesson_total<720){
+            $validty_str = "+3 year";
+        }else{
+            $validty_str = "+4 year";
+        }
+        $validty_time = strtotime($validty_str,$start_time);
+        return $validty_time;
     }
 
     //黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
@@ -1674,6 +1738,7 @@ class Utils  {
         }
         return $r;
     }
+
 
     static public function change_key_value_arr($array){
         foreach($array as $key => $val){
@@ -2287,6 +2352,31 @@ class Utils  {
         return $arr1;
     }
 
+    /**
+     * 把年龄转换为枚举类里对应的值
+     * @param int age 老师年龄
+     */
+    static public function check_teacher_age($age){
+        switch($age){
+        case $age>20:
+            $age_flag = 1;
+            break;
+        case $age>30:
+            $age_flag = 2;
+            break;
+        case $age>40:
+            $age_flag = 3;
+            break;
+        case $age>50:
+            $age_flag = 4;
+            break;
+        default:
+            $age_flag = 0;
+            break;
+        }
+        return $age_flag;
+    }
+
     //grade_start,grade_end转为年级
     static public function grade_start_end_tran_grade($grade_start, $grade_end){
         $grade = [
@@ -2302,11 +2392,20 @@ class Utils  {
         for ($a = $grade_start; $a <= $grade_end; $a++){
             $arr = $arr+$grade[$a];
         }
-        // E\Egrade_range::
         return $arr;
     }
 
-
+    static public function get_file_use_type_str(&$item){
+        if( isset($item['file_use_type']) ) {
+            if($item['file_use_type'] == 0 ){
+                $item['file_use_type_str'] = '文件';
+            } else if ($item['file_use_type'] == 1 ){
+                $item['file_use_type_str'] = '老师版';
+            }else if ($item['file_use_type'] == 2 ){
+                $item['file_use_type_str'] = '学生版';
+            }
+        }
+    }
 
 
 };

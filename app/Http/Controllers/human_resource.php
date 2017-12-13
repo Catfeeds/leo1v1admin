@@ -891,7 +891,7 @@ class human_resource extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, "recover_class_time","_str");
 
             if($item["train_through_new_time"] !=0){
-                $item["work_day"] = ceil((time()-$item["train_through_new_time"])/86400)."天";
+                $item["work_day"] = \App\Helper\Utils::change_time_difference_to_day($item['train_through_new_time']);
             }else{
                 $item["work_day"] ="";
             }
@@ -2110,9 +2110,9 @@ class human_resource extends Controller
         $second_train_status        = $this->get_in_int_val("second_train_status", -1);
         $teacher_pass_type          = $this->get_in_int_val("teacher_pass_type", -1);
         if($show_full_time ==1){
-            $interview_type             = $this->get_in_int_val("interview_type",-1);
+            $interview_type = $this->get_in_int_val("interview_type",-1);
         }else{
-            $interview_type             = $this->get_in_int_val("interview_type",0);
+            $interview_type = $this->get_in_int_val("interview_type",0);
         }
 
         $adminid = $this->get_account_id();
@@ -2148,6 +2148,9 @@ class human_resource extends Controller
             E\Electure_appointment_status::set_item_value_str($item,"lecture_appointment_status");
             E\Electure_revisit_type::set_item_value_str($item,"lecture_revisit_type");
             E\Eboolean::set_item_value_str($item,"full_time");
+            if($item['subject_ex']==""){
+                $item['subject_ex'] = 0;
+            }
             E\Esubject::set_item_value_str($item,"subject_ex");
             E\Esubject::set_item_value_str($item,"trans_subject_ex");
 
@@ -2192,11 +2195,13 @@ class human_resource extends Controller
             if(!empty($item["record_info"])){
                 $item["reason"]=$item["record_info"];
             }
+
             if($item["wx_openid"]){
                 $item["have_wx_flag"]="是";
             }else{
                 $item["have_wx_flag"]="否";
             }
+
             if($item["lesson_start"]>0){
                 $item["lecture_revisit_type_new_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
             }else{
@@ -2204,17 +2209,15 @@ class human_resource extends Controller
             }
 
             \App\Helper\Utils::unixtime2date_for_item($item, "train_through_new_time","_str");
-
             if(empty($item["grade_ex"])){
-                $item["grade_ex_str"]="未设置";
-            }else{
-                $not_grade_arr=explode(",",$item["grade_ex"]);
-                $item["grade_ex_str"]="";
-                foreach($not_grade_arr as $ty){
-                    $item["grade_ex_str"] .=E\Egrade::get_desc($ty).",";
-                }
-                $item["grade_ex_str"] = trim($item["grade_ex_str"],",");
+                $item["grade_ex"]=0;
             }
+            $not_grade_arr=explode(",",$item["grade_ex"]);
+            $item["grade_ex_str"]="";
+            foreach($not_grade_arr as $ty){
+                $item["grade_ex_str"] .=E\Egrade::get_desc($ty).",";
+            }
+            $item["grade_ex_str"] = trim($item["grade_ex_str"],",");
         }
 
         $account_id = $this->get_account_id();
@@ -3790,24 +3793,26 @@ class human_resource extends Controller
         $this->t_teacher_info->switch_tongji_database();
         $this->t_lesson_info->switch_tongji_database();
 
+        $lesson_end_time = $this->get_test_lesson_end_time($end_time);
+
         $ret_info = $this->t_teacher_info->get_teacher_test_lesson_info_by_time($page_num,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$qzls_flag,$fulltime_flag,$create_now,$start_time,$end_time,$fulltime_teacher_type);
 
         $teacherid_list=[];
         foreach($ret_info['list'] as $t_item) {
             $teacherid_list[]=$t_item["teacherid"];
         }
-        $all_lesson_list = $this->t_lesson_info->get_all_lesson_num_info( $start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
-        $test_person_num= $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
-        $test_person_num_old= $this->t_lesson_info->get_teacher_test_person_num_list_old( $start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
+        $all_lesson_list = $this->t_lesson_info->get_all_lesson_num_info( $start_time,$lesson_end_time,$subject,$grade_part_ex,$teacherid_list);
+        $test_person_num= $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$lesson_end_time,$subject,$grade_part_ex,$teacherid_list);
+        $test_person_num_old= $this->t_lesson_info->get_teacher_test_person_num_list_old( $start_time,$lesson_end_time,$subject,$grade_part_ex,$teacherid_list);
 
-        $test_person_num_other= $this->t_lesson_info->get_teacher_test_person_num_list_other( $start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
+        $test_person_num_other= $this->t_lesson_info->get_teacher_test_person_num_list_other( $start_time,$lesson_end_time,$subject,$grade_part_ex,$teacherid_list);
 
-        $kk_test_person_num= $this->t_lesson_info->get_kk_teacher_test_person_num_list( $start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
-        $change_test_person_num= $this->t_lesson_info->get_change_teacher_test_person_num_list( $start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
-        $success_test_lesson_list = $this->t_lesson_info->get_success_test_lesson_list_new($start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
-        $success_not_in_lesson_list =  $this->t_lesson_info->get_success_not_test_lesson_list_new($start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
-        $have_order_list =$this->t_lesson_info->get_have_order_list_new($start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
-        $subject_num_list = $this->t_lesson_info->get_teacher_test_subject_num_list( $start_time,$end_time,$subject,$grade_part_ex,$teacherid_list);
+        $kk_test_person_num= $this->t_lesson_info->get_kk_teacher_test_person_num_list( $start_time,$lesson_end_time,$subject,$grade_part_ex,$teacherid_list);
+        $change_test_person_num= $this->t_lesson_info->get_change_teacher_test_person_num_list( $start_time,$lesson_end_time,$subject,$grade_part_ex,$teacherid_list);
+        $success_test_lesson_list = $this->t_lesson_info->get_success_test_lesson_list_new($start_time,$lesson_end_time,$subject,$grade_part_ex,$teacherid_list);
+        $success_not_in_lesson_list =  $this->t_lesson_info->get_success_not_test_lesson_list_new($start_time,$lesson_end_time,$subject,$grade_part_ex,$teacherid_list);
+        $have_order_list =$this->t_lesson_info->get_have_order_list_new($start_time,$lesson_end_time,$subject,$grade_part_ex,$teacherid_list);
+        $subject_num_list = $this->t_lesson_info->get_teacher_test_subject_num_list( $start_time,$lesson_end_time,$subject,$grade_part_ex,$teacherid_list);
 
         $date                              = \App\Helper\Utils::get_month_range(time(),1);
         $teacher_regular_stu_list          = $this->t_lesson_info->get_regular_stu_num($date["sdate"],$date["edate"],$teacherid_list);
@@ -3934,17 +3939,18 @@ class human_resource extends Controller
         $day_time = $this->get_avg_conversion_time(time(),2);
         $rr = $this->t_lesson_info->get_order_add_time();
         $order_lesson_day = !empty($rr["all_count"])?round(($rr["lesson_time"]-$rr["order_time"])/$rr["all_count"]/86400,1):0;
+        $lesson_end_time = $this->get_test_lesson_end_time($end_time);
 
-        $all_lesson_total = $this->t_lesson_info->get_all_lesson_num_info_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
-        $test_person_num_total_old= $this->t_lesson_info->get_teacher_test_person_num_list_total_old( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
-        $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        $all_lesson_total = $this->t_lesson_info->get_all_lesson_num_info_total( $start_time,$lesson_end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        $test_person_num_total_old= $this->t_lesson_info->get_teacher_test_person_num_list_total_old( $start_time,$lesson_end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$lesson_end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
         //
-        $test_person_num_total_other= $this->t_lesson_info->get_teacher_test_person_num_list_total_other( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        $test_person_num_total_other= $this->t_lesson_info->get_teacher_test_person_num_list_total_other( $start_time,$lesson_end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
 
-        $kk_test_person_num_total= $this->t_lesson_info->get_kk_teacher_test_person_num_list_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
-        $change_test_person_num_total= $this->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        $kk_test_person_num_total= $this->t_lesson_info->get_kk_teacher_test_person_num_list_total( $start_time,$lesson_end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        $change_test_person_num_total= $this->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$lesson_end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
 
-        $success_test_lesson_list_total = $this->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        $success_test_lesson_list_total = $this->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$lesson_end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
         $total_arr=[];
         $total_arr["all_lesson"] = $all_lesson_total;
         $total_arr["success_lesson"] =  $success_test_lesson_list_total["success_lesson"];

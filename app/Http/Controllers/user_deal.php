@@ -4621,7 +4621,7 @@ class user_deal extends Controller
                 "courseware_requirements"=>$courseware_requirements,
                 "diathesis_cultivation"=>$diathesis_cultivation,
             ];
-            $this->set_teacher_label_new($teacherid,$lessonid,"",$tea_tag_arr,5); 
+            $this->set_teacher_label_new($teacherid,$lessonid,"",$tea_tag_arr,5,1,1); 
 
             $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","教学质量反馈待处理",$account."老师提交了一条教学质量反馈,请尽快处理","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
 

@@ -775,9 +775,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
-    /**
-     *
-     */
     public function get_all_usefull_teacher_list($page_num,$teacherid_arr,$subject,$grade,$lstart,$lend){
         $where_arr=[
             ["t.subject=%u",$subject,-1],
@@ -970,8 +967,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list_as_page($sql);
     }
 
-
-
     public function get_every_teacherid(){
         $sql=$this->gen_sql_new("select distinct(teacherid) as userid from %s"
                                 ,self::DB_TABLE_NAME
@@ -979,18 +974,17 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-    public function get_all_list() {
-        $sql =$this->gen_sql_new("select teacherid from %s", self::DB_TABLE_NAME  );
-        return $this->main_get_list($sql);
-    }
-
-    public function get_teacher_list_new() {
-        $sql =$this->gen_sql_new("select teacherid,nick from %s", self::DB_TABLE_NAME  );
+    public function get_teacher_all_info_list(){
+        $sql = $this->gen_sql_new("select teacherid,phone,nick,subject,grade_part_ex,grade_start,grade_end, "
+                                  ." second_subject,second_grade,second_grade_start,second_grade_end "
+                                  ." from %s "
+                                  , self::DB_TABLE_NAME
+        );
         return $this->main_get_list($sql);
     }
 
     public function send_template_msg($teacherid,$template_id,$data,$url="http://wx-teacher.leo1v1.com"){
-        if (substr($url,0,7 )!= "http://" ) {
+        if (substr($url,0,7 )!= "http://") {
             $url="http://wx.teacher-wx.leo1v1.com/".trim($url,"/ \t");
         }
         \App\Helper\Utils::logger("WX URL $url");
@@ -1657,6 +1651,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select teacherid from %s where %s limit 1",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_value($sql);
     }
+
+
 
     public function get_teacher_test_lesson_info_by_time($page_num,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$qzls_flag=-1,$fulltime_flag=-1,$create_now=-1,$start_time=-1,$end_time=-1,$fulltime_teacher_type=-1){
         $where_arr=[
@@ -2824,17 +2820,16 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list($sql);
     }
+
     /**
-     *@function 获取平台老师课耗总数
-     *
+     * @function 获取平台老师课耗总数
      */
     public function get_teacher_list($train_through_new,$start_time,$end_time,$full_flag=0){
-
         $where_arr = [
             " t.train_through_new=1 ",
             " t.is_quit=0 ",
             " t.is_test_user =0",
-            "l.confirm_flag in (0,1,4)",
+            "l.confirm_flag in (0,1,3)",
             "l.lesson_del_flag=0",
             "l.lesson_type in (0,1,3)",
             "l.lesson_status=2",
@@ -3880,13 +3875,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-
     public function get_on_total($str){
         $sql = $this->gen_sql_new(" select t.teacherid from %s t left join %s l on l.teacherid=t.teacherid where t.teacherid not in ($str) and t.is_test_user=0 and t.trial_lecture_is_pass =1 and t.create_time<1490976000 and l.lesson_end>0 order by t.teacherid desc"
                                   ,self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME
         );
-
         return $this->main_get_list($sql);
     }
 
@@ -4325,7 +4318,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_teacher_money_list::DB_TABLE_NAME
                                   ,$reward_arr
         );
-        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 
@@ -4669,12 +4661,28 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         });
     }
 
-    public function get_teacher_bank_info($page_info) {
-        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.subject,t.phone,t.bank_account,t.bankcard,t.bank_type,t.bank_province,t.bank_city,t.bank_address,t.bank_phone,t.idcard,t.bind_bankcard_time from %s t left join %s l on t.teacherid=l.teacherid where lesson_start > 0 and t.is_test_user = 0 group by t.teacherid ",
+    public function get_teacher_bank_info($is_bank, $page_info) {
+        $where_arr = ['is_test_user=0'];
+        if ($is_bank == 1) {
+            array_push($where_arr, "bankcard != '' ");
+        }
+        if ($is_bank == 2) {
+            array_push($where_arr, "bankcard = '' ");
+        }
+        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.subject,t.phone,t.bank_account,t.bankcard,t.bank_type,t.bank_province,t.bank_city,t.bank_address,t.bank_phone,t.idcard,t.bind_bankcard_time from %s t where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql, $page_info);
+    }
+
+    public function get_teacher_bank_info_new() {
+        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.subject,t.phone,t.bank_account,t.bankcard,t.bank_type,t.bank_province,t.bank_city,t.bank_address,t.bank_phone,t.idcard,t.bind_bankcard_time from %s t  where t.is_test_user = 0 group by t.teacherid ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME
         );
-        return $this->main_get_list_by_page($sql, $page_info);
+        return $this->main_get_list($sql);
+        //return $this->main_get_list_by_page($sql, $page_info);
     }
 
     /**
@@ -4683,7 +4691,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
      * @param int grade 年级
      * @param int lesson_start 试听需求的课程预约开始时间
      */
-    public function get_teacher_list_for_trial_lesson($lesson_start,$subject){
+    public function get_teacher_list_for_trial_lesson($lesson_start,$lesson_end,$subject){
         $day_range   = \App\Helper\Utils::get_day_range($lesson_start);
         $week_range  = \App\Helper\Utils::get_week_range($lesson_start);
         $month_range = \App\Helper\Utils::get_month_range($lesson_start);
@@ -4694,34 +4702,25 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $day_arr   = $this->lesson_start_sql($day_range['sdate'],$day_range['edate']);
         $week_arr  = $this->lesson_start_sql($week_range['sdate'],$week_range['edate']);
         $month_arr = $this->lesson_start_sql($month_range['sdate'],$month_range['edate']);
-        $lesson_end = strtotime("+40 minute",$lesson_start);
-        $has_arr = $this->lesson_start_sql($lesson_start, $lesson_end,"l");
-        $has_arr = array_merge($has_arr,["l.lesson_del_flag=0","confirm_flag<2"]);
+        $has_arr   = $this->lesson_start_sql($lesson_start, $lesson_end,"l",["l.lesson_del_flag=0","confirm_flag<2"]);
 
         $subject_str = $this->gen_sql("(t.subject=%u or t.second_subject=%u)",$subject,$subject);
-        $where_arr   = [
-            $subject_str,
-            "t.trial_lecture_is_pass=1",
-            "t.train_through_new=1",
-            "t.wx_use_flag=1",
-            "t.is_test_user=0",
-            "l.lesson_type in (0,1,3)"
-        ];
-        $lesson_arr = $this->lesson_start_common_sql($start_time,$end_time,"l");
-        $where_arr  = array_merge($where_arr,$lesson_arr);
+        $teacher_arr = $this->teacher_common_sql("t",[$subject_str]);
+        $lesson_arr  = $this->lesson_start_common_sql($start_time,$end_time,"l",["l.lesson_type in (0,1,3)"]);
 
         $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,t.second_subject,t.second_grade_start,"
                                   ." t.second_grade_end,t.limit_plan_lesson_type,t.limit_day_lesson_num,t.limit_week_lesson_num,"
-                                  ." t.limit_month_lesson_num,t.train_through_new_time,t.identity,t.gender,t.age,"
+                                  ." t.limit_month_lesson_num,t.train_through_new_time,t.identity,t.gender,t.age,t.realname,"
+                                  ." t.phone,tf.free_time_new,t.teacher_tags,"
                                   ." count(if(%s,true,null)) as day_num,"
                                   ." count(if(%s,true,null)) as week_num,"
                                   ." count(if(%s,true,null)) as month_num,"
                                   ." count(if(%s,true,null)) as has_num"
-                                  ." tf.free_time_new"
                                   ." from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid "
                                   ." left join %s tf on t.teacherid=tf.teacherid "
                                   ." where %s"
+                                  ." and %s"
                                   ." group by t.teacherid"
                                   ,$day_arr
                                   ,$week_arr
@@ -4730,21 +4729,49 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_freetime_for_week::DB_TABLE_NAME
-                                  ,$where_arr
+                                  ,$lesson_arr
+                                  ,$teacher_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list($sql,function($item){
+            return $item['teacherid']."_key";
+        });
+    }
+
+    public function get_teacher_list_by_subject($subject){
+        $subject_str = $this->gen_sql("(t.subject=%u or t.second_subject=%u)",$subject,$subject);
+        $teacher_arr = $this->teacher_common_sql("t",[$subject_str]);
+
+        $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,t.second_subject,t.second_grade_start,"
+                                  ." t.second_grade_end,t.limit_plan_lesson_type,t.limit_day_lesson_num,t.limit_week_lesson_num,"
+                                  ." t.limit_month_lesson_num,t.train_through_new_time,t.identity,t.gender,t.age,t.realname,"
+                                  ." t.phone,tf.free_time_new,t.teacher_tags"
+                                  ." from %s t"
+                                  ." left join %s tf on t.teacherid=tf.teacherid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_freetime_for_week::DB_TABLE_NAME
+                                  ,$teacher_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item['teacherid']."_key";
+        });
     }
 
     public function get_test_teacher_info($lessonid){
-        $sql = $this->gen_sql_new("  select t.nick as tea_nick, t.gender as tea_gender, work_year, phone, textbook_type, identity, tl.tea_label_type from %s t"
+        $where_arr=[
+            ["l.lessonid=%u",$lessonid,0],
+        ];
+        $sql = $this->gen_sql_new("select t.teaching_achievement as harvest, t.evaluate as parent_student_evaluate, l.lesson_del_flag, t.nick as tea_nick,t.gender as tea_gender,work_year,phone,"
+                                  ." textbook_type,identity,tl.tea_label_type "
+                                  ." from %s t"
                                   ." left join %s l on  l.teacherid=t.teacherid"
                                   ." left join %s tl on tl.teacherid=t.teacherid "
-                                  ." where l.lessonid=$lessonid"
+                                  ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_label::DB_TABLE_NAME
+                                  ,$where_arr
         );
-
         return $this->main_get_row($sql);
     }
 
@@ -4765,11 +4792,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "t.train_through_new=1",
             "t.is_test_user=0",
             "l.lesson_del_flag=0",
-            "l.lesson_type <1000"
+            "l.lesson_type in (0,1,3)"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("select distinct t.teacherid,t.realname"
+        $sql = $this->gen_sql_new("select distinct t.teacherid,t.realname,t.identity "
                                   ." from %s t left join %s l on t.teacherid=l.teacherid "
                                   ."where %s and l.lessonid>0",
                                   self::DB_TABLE_NAME,
@@ -4778,6 +4805,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list($sql);
 
+    }
+
+    public function get_teacher_warn_info($start_time, $end_time) {
+        $where_arr = [
+            //['lesson_start>=%u', $start_time,-1],
+            ['lesson_start<%u', $end_time, -1],
+            'tea_attend>0'
+        ];
+        $sql = $this->gen_sql_new("select t.teacherid,t.nick,l.lessonid,l.lesson_start,l.tea_attend,l.tea_late_minute from %s t left join %s l on t.teacherid=l.teacherid where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        //return $this->main_get_list_by_page($sql, $page_info);
+        return $this->main_get_list($sql);
     }
 
 }

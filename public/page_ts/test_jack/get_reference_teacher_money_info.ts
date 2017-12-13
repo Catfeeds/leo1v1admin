@@ -10,7 +10,7 @@ $(function(){
     $("#id_get_money").on("click",function(){
         var row_list=$("#id_tbody tr");
         var do_index=0;
-	    
+
         function do_one() {
             if (do_index < row_list.length ) {
                 var $tr=$(row_list[do_index]);
@@ -31,29 +31,35 @@ $(function(){
                             lesson_price = lesson_price+a[i].lesson_price;
                         }
                         var final_price = lesson_price*0.09;
-                        $tr.find(".lesson_money").text(lesson_price); 
-                        $tr.find(".final_money").text(final_price); 
-                        
+                        $tr.find(".lesson_money").text(lesson_price);
+                        $tr.find(".final_money").text(final_price);
+
                         do_index++;
                         do_one();
                         });*/
-                    $.do_ajax("/ajax_deal2/get_three_month_stu_num",{
-                        "teacherid"       : teacherid,
+                    $.do_ajax("/test_jack/ajax_deal_jack",{
                     },function(resp){
                         console.log(resp.data);
-                        var data = resp;
-                        $tr.find(".reg_num").text(data.reg_num); 
-                        $tr.find(".late_num").text(data.late_num); 
-                        $tr.find(".leave_num").text(data.leave_num); 
-                        $tr.find(".change_num").text(data.change_num); 
-                        $tr.find(".kk_num").text(data.kk_num); 
-                        $tr.find(".test_num").text(data.test_num); 
-                        $tr.find(".test_late_num").text(data.test_late_num); 
-                        $tr.find(".test_kk_num").text(data.test_kk_num); 
-                        $tr.find(".test_person_num").text(data.test_person_num); 
-                       
-                                                                                             
-                        
+                        var data = resp.data;
+                        $tr.find(".all_num").text(data.all_num);
+                        $tr.find(".one_num").text(data.one_num);
+                        $tr.find(".one_five_num").text(data.one_five_num);
+                        $tr.find(".two_num").text(data.two_num);
+                        $tr.find(".two_five_num").text(data.two_five_num);
+                        $tr.find(".three_num").text(data.three_num);
+                        $tr.find(".three_five_num").text(data.three_five_num);
+                        $tr.find(".four_num").text(data.four_num);
+                        $tr.find(".four_five_num").text(data.four_five_num);
+                        $tr.find(".five_num").text(data.five_num);
+                        $tr.find(".five_five_num").text(data.five_five_num);
+                        $tr.find(".six_num").text(data.six_num);
+                        $tr.find(".six_five_num").text(data.six_five_num);
+                        $tr.find(".other_num").text(data.other_num);
+                        $tr.find(".tea_leave_num").text(data.tea_leave_num);
+                        $tr.find(".stu_leave_num").text(data.stu_leave_num);
+
+
+
                         do_index++;
                         do_one();
                     });
@@ -72,5 +78,5 @@ $(function(){
 
 
 
-	$('.opt-change').set_input_change_event(load_data);
+  $('.opt-change').set_input_change_event(load_data);
 });

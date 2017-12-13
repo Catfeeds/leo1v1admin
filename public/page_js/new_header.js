@@ -354,12 +354,15 @@ function table_init() {
             var $table= $(this).closest("table");
             var $th=$table.find("thead >tr");
 
-            var $th_td_list= $th.find("td");
+            var $th_td_list= $th.find(">td");
             var arr=[];
             $.each($th_td_list, function(i,item){
                 if (!(i==0 || i== $th_td_list.length-1)) {
                     var $item=$(item);
-                    var title= $.trim($item.text());
+                    var title= $item.data("title")  ;
+                    if (!title) {
+                        title= $.trim($item.text());
+                    }
                     var display= $item.css("display");
                     var $input=$("<input type=\"checkbox\"/>");
                     if (display=="none") {
@@ -382,6 +385,8 @@ function table_init() {
                         "table_key":table_key,
                         "data":""
                     });
+
+                    //alert(" XXXXX set table_key clean 1 ");
                     window.localStorage.setItem(table_key , "");
                 }
             },{
@@ -401,8 +406,20 @@ function table_init() {
                         "opt_type":"set",
                         "table_key":table_key,
                         "data":JSON.stringify(config_map)
+                    },function(){
+                        $.do_ajax("/page_common/opt_table_field_list",{
+                            "opt_type":"get",
+                            "table_key":table_key
+                        }, function(resp ){
+                            var cur=(new Date() ).getTime()/1000;
+                            resp.log_time=cur;
+                            //alert("XXXX SET :"+ JSON.stringify(resp)  );
+                            window.localStorage.setItem(table_key , JSON.stringify(resp));
+                            window.location.reload();
+                        });
                     });
-                    window.localStorage.setItem(table_key , "");
+
+
                 }
             }]);
         });
@@ -473,7 +490,10 @@ function table_init() {
             var set_reset_filed_flag=false;
             $.each($th_td_list, function(i,item){
                 var $item=$(item);
-                var title=$.trim($item.text());
+                var title=$(item).data("title");
+                if (!title){
+                    title=$.trim($item.text());
+                }
                 var config_value=   config_map[title];
                 var use_config=false;
                 if ( config_value == undefined) {
@@ -515,10 +535,13 @@ function table_init() {
                                 "table_key":table_key,
                                 "data":""
                             });
+                            window.localStorage.setItem(table_key , "");
+
                         });
+                        $item.data("title", $.trim($item.text()) );
                         $item.append($reset_btn);
                         set_reset_filed_flag=true;
-                        window.localStorage.setItem(table_key , "");
+
                     }
 
                 }
@@ -577,8 +600,9 @@ function table_init() {
                 }, function(resp ){
                     reset_table (resp);
                     resp.log_time=cur;
+                    //alert("XXXX SET :"+ JSON.stringify(resp)  );
                     window.localStorage.setItem(table_key , JSON.stringify(resp));
-                } );
+                });
             }
         }else{
             reset_table ({});
@@ -659,7 +683,8 @@ $(function(){
         //检查一级节点
         var check_url=$.trim( window.location.toString().split("?" )[0], "/");
         check_url= check_url.split("#" )[0].replace(/\/*$/, "" );
-        obj=$(".sidebar-menu >li>a[href*=\"*"+check_url+"\"]").first();
+
+        obj=$(".sidebar-menu >li>a[href*=\""+check_url+"\"]").first();
         title1=obj.text();
 
         /*
@@ -1427,7 +1452,8 @@ function show_message(title, message, ok_func ){
 //enum map function
 Enum_map = {
     get_desc : function(group_name,val){
-        return g_enum_map[group_name]["desc_map"][val];
+        var ret=g_enum_map[group_name]["desc_map"][val];
+        return  ret?ret:val;
     },
     get_simple_desc: function (group_name,val){
         var desc=g_enum_map[group_name]["simple_desc_map"][val];
@@ -2189,20 +2215,29 @@ function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo ,
 
 };
 
-function multi_upload_file(is_multi,is_auto_start,btn_id, is_public_bucket ,select_func,befor_func, complete_func, ext_file_list,process_id ){
+function multi_upload_file(new_flag,is_multi,is_auto_start,btn_id, is_public_bucket ,select_func,befor_func, complete_func, ext_file,process_id ){
     do_ajax( "/common/get_bucket_info",{
         is_public: is_public_bucket ? 1:0
     },function(ret){
         var domain_name=ret.domain;
         var token=ret.token;
-
-        var uploader = Qiniu.uploader({
+        //保证每次new不同的对象
+        var qi_niu = ['Qiniu_'+new_flag];
+        // console.log(qi_niu[0]);
+        qi_niu[0] = new QiniuJsSDK();
+        var uploader = qi_niu[0].uploader({
+        // var uploader = Qiniu.uploader({
             // disable_statistics_report: false,
             runtimes: 'html5,flash,html4',
             browse_button: btn_id , //choose files id
             // container: 'container',
             // drop_element: 'container',
             max_file_size: '100mb',
+            filters: {
+                mime_types: [
+                    {title: "", extensions: ext_file}
+                ]
+            },
             flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
             // dragdrop: true,
             chunk_size: '4mb',
@@ -2211,31 +2246,44 @@ function multi_upload_file(is_multi,is_auto_start,btn_id, is_public_bucket ,sele
             domain: "http://"+domain_name,
             get_new_uptoken: false,
             auto_start: is_auto_start,
-            log_level: 5,
+            // log_level: 5,
             init: {
                 'BeforeChunkUpload': function(up, file) {
                     // console.log("before chunk upload:", file.name);
                 },
                 'FilesAdded': function(up, files) {
-                    select_func(files);
                     // $('table').show();
                     // $('#success').hide();
+                    //删除单选文件的多余文件
+                    var remove_file_id = select_func(files);
+                    $(remove_file_id).each(function(i,val){
+                        if(val != undefined){
+                            uploader.removeFile(val);
+                            $('#'+val).remove();
+                        }
+                    });
                     plupload.each(files, function(file) {
                         var progress = new FileProgress(file, 'fsUploadProgress');
                         progress.setStatus("等待...");
                         progress.bindUploadCancel(up);
                     });
+
                 },
                 'BeforeUpload': function(up, file) {
 
+                    var is_remove = befor_func(up, file);
                     if(process_id != '') {
                         var progress = new FileProgress(file, process_id);
                         var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                         if (up.runtime === 'html5' && chunk_size) {
                             progress.setChunkProgess(chunk_size);
                         }
-                    }
-                    befor_func(up, file);
+
+                        if(is_remove > -1){
+                            uploader.removeFile(file);
+                            $('#'+file.id).remove();
+                        }
+                   }
 
                 },
                 'UploadProgress': function(up, file) {
@@ -2274,7 +2322,9 @@ function multi_upload_file(is_multi,is_auto_start,btn_id, is_public_bucket ,sele
         });
 
         $('#up_load').on('click', function(){
-            uploader.start();
+            if($(this).attr('flag') == new_flag){//保证文件是这次上传的
+                uploader.start();
+            }
         });
     });
 
@@ -2561,6 +2611,8 @@ $(function(){
         g_args.order_by_str=order_by_str;
 
         load_data();
+        return false;
+
     });
     try {
 

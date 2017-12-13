@@ -5,6 +5,7 @@ interface JQueryStatic {
     custom_upload_file_process (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, bucket_info  ,noti_origin_file_func   ):void;
 
     enum_multi_select ( $element, enum_name, onChange , id_list?, select_group_list? ):void ;
+    enum_multi_select_new ( $element, enum_name, onChange , id_list?, select_group_list? ):void ;
     intval_range_select ( $element,  onChange  ):void ;
 
     reload( ):void;
@@ -46,7 +47,7 @@ interface JQueryStatic {
         }
     );
     */
-    admin_select_user ( $element:JQuery, user_type:string, call_func?:(id:number)=>void, is_not_query_flag?:boolean, args_ex?: any ):void ;
+    admin_select_user ( $element:JQuery, user_type:string, call_func?:(id:number)=>void, is_not_query_flag?:boolean, args_ex?: any, th_input_id?:string, select_all_flag?:boolean ):void ;
 
     dlg_get_html_by_class(item_class:string):string;
     obj_copy_node(item_class:string):JQuery;
@@ -142,6 +143,18 @@ interface JQuery {
     //<script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js?v={{@$_publish_version}}"></script>
     admin_select_dlg_ajax(conf:Object):void;
 
+    /*
+	  $('#id_contract_type').admin_set_select_field({
+		    "enum_type"    : "contract_type",
+		    "select_value" : g_args.contract_type,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_contract_type",
+        "only_show_in_th_input" :true,
+		    "btn_id_config"     : {}
+	  });
+    */
+    admin_set_select_field (conf:Object ):void;
+
     //<script type="text/javascript" src="/page_js/lib/select_dlg.js?v={{@$_publish_version}}"></script>
     admin_select_dlg(conf:Object):void;
     select_date_range(conf:Object):void;
@@ -153,6 +166,16 @@ interface JQuery {
     html(obj:JQuery):JQuery;
     admin_set_lesson_time(obj:Object);
     admin_select_user(obj:Object) ;
+    /*
+	  $('#id_studentid').admin_select_user_new({
+		    "user_type"    : "student",
+		    "select_value" : g_args.studentid,
+		    "onChange"     : load_data,
+		    "th_input_id"  : "th_studentid",
+		    "can_select_all_flag"     : true
+	  });
+    */
+    admin_select_user_new(obj:Object) ;
 
     //设置table  thead 不动
     tbody_scroll_table(height?):void;

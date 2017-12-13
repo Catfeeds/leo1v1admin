@@ -453,6 +453,10 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $seller_level_flag= floor(102/100);
+        dd($seller_level_flag);
+        $majordomo_adminid = $this->t_admin_group_user->get_majordomo_adminid($opt_adminid=99);
+        dd($majordomo_adminid);
         $orderid = $this->t_order_info->get_orderid_by_userid($userid=99, $sys_operator='张龙');
         $account = '张龙';
         $ret_info = $this->t_seller_student_new->get_item_list_new();
@@ -1386,7 +1390,7 @@ class agent extends Controller
         $seller_student_status  = $this->get_in_el_seller_student_status();
         $type            = $this->get_in_int_val('agent_type');
 
-        $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("Aa123456" )."seed1")  . "&seed=seed1"  ;
+        $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("leoAa123456" )."seed1")  . "&seed=seed1"  ;
 
         $ret_info=$this->t_tq_call_info->get_agent_call_phone_list($page_num,$start_time,$end_time,$uid,$is_called_phone,$phone, $seller_student_status,$type );
         $now=time(NULL);

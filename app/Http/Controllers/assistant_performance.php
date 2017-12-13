@@ -342,6 +342,10 @@ class assistant_performance extends Controller
             //计算助教相关退费
 
             $renw_target = @$last_ass_month[$k]["warning_student"]*0.8*7000*100;
+            if($start_time==strtotime("2017-11-01")){
+                $renw_target = 12000000; 
+            }
+            $item["renw_target"] =  $renw_target;
             // $renw_price = $item["renw_price"]+$item["tran_price"]-$item["ass_refund_money"];
             $renw_price = $item["renw_price"]+$item["tran_price"];
             $renw_per = $renw_target>0?( $renw_price/$renw_target*100):0;
@@ -351,11 +355,11 @@ class assistant_performance extends Controller
             }elseif($renw_per>=100){
                 $renw_reword = $renw_price*0.04;
             }elseif($renw_per>=75){
-                $renw_reword = $renw_price*0.026;
+                $renw_reword = $renw_price*0.028;
             }elseif($renw_per>=50){
                 $renw_reword = $renw_price*0.02;
             }elseif($renw_per>=30){
-                $renw_reword = $renw_price*0.011;
+                $renw_reword = $renw_price*0.012;
             }
 
             $item["renw_reword"] =  $renw_reword;

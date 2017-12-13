@@ -16,6 +16,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\add_teacher_warn::class,
+        Commands\get_data::class,
         Commands\NoticeAssForFirstLesson::class,
         Commands\update_company_wx_data::class,
         Commands\update_identity_for_teacher::class,
@@ -33,6 +35,7 @@ class Kernel extends ConsoleKernel
         Commands\send_interview_remind_for_wx::class,
         Commands\check_modify_lesson_time::class,
         Commands\save_seller_info_by_week::class,
+        Commands\boby_todo::class,
         Commands\update_teaching_core_data::class,
         Commands\save_seller_info::class,
         Commands\update_ass_call_count::class,
@@ -89,6 +92,7 @@ class Kernel extends ConsoleKernel
         Commands\update_ass_warning_list::class,
         Commands\fulltime_teacher_kaoqin::class,
         Commands\fulltime_teacher_data::class,
+        Commands\fulltime_teacher_wuhan_data::class,
         Commands\zs_train_interview_info_wx::class,
         Commands\teacher_advance_send_wx::class,
         Commands\set_every_month_student_score::class,

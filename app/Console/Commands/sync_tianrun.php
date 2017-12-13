@@ -33,7 +33,7 @@ class sync_tianrun extends cmd_base
         $post_arr=[
             "enterpriseId" => 3005131  ,
             "userName" => "admin" ,
-            "pwd" =>md5(md5("Aa123456" )."seed1")  ,
+            "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
             "seed" => "seed1",
             "startTime" => date("Y-m-d H:i:s", $start_time),
             "endTime" => date("Y-m-d H:i:s", $end_time),
@@ -47,8 +47,8 @@ class sync_tianrun extends cmd_base
             $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
             $ret=json_decode($return_content, true  );
             $data_list= @$ret["msg"]["data"];
-			if (!is_array($data_list)) { break ;}
-			
+            if (!is_array($data_list)) { break ;}
+
             foreach ($data_list as $item) {
                 $this->do_record($item);
             }

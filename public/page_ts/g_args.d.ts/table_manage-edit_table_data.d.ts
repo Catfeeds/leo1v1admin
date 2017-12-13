@@ -26,13 +26,14 @@ tofile:
 /// <reference path="../g_args.d.ts/table_manage-edit_table_data.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		db_name:	$('#id_db_name').val(),
 		table_name:	$('#id_table_name').val(),
 		id1:	$('#id_id1').val(),
 		id2:	$('#id_id2').val()
-    });
+		});
 }
 $(function(){
 
@@ -57,6 +58,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_db_name" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["db_name title", "db_name", "th_db_name" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -64,6 +66,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_table_name" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["table_name title", "table_name", "th_table_name" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -71,6 +74,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_id1" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["id1 title", "id1", "th_id1" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -78,4 +82,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_id2" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["id2 title", "id2", "th_id2" ]])!!}
 */

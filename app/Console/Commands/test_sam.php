@@ -41,7 +41,43 @@ class test_sam extends Command
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
+        //$ret_info = $task->t_tq_call_info->get_all_info_by_cc();
+        //$ret = $task->t_tq_call_info->get_all_info_by_cc_new();
+        //$ret_test = $task->t_tq_call_info->get_all_info_by_cc_test();
 
+        //$ret_info = $task->t_teacher_info->get_teacher_bank_info_new();
+        $ret_info = $task->t_order_refund->get_2017_11_refund_info();
+        $path = '/home/ybai/test_sam.txt';
+        //$path = '/home/sam/admin_yb1v1/a.txt';
+        $fp = fopen($path,"a+");
+        //dd($fp);
+        foreach ($ret_info as $key => $value) {
+            if($value['bankcard'] == ' '){
+
+            }else{
+                fwrite($fp, @$value['bank_account']);//1
+                fwrite($fp, '   ');
+                fwrite($fp, @$value['bankcard']);//1
+                fwrite($fp, '   ');
+                fwrite($fp, @$value['bank_type']);//2
+                fwrite($fp, '   ');
+                fwrite($fp, @$value['bank_province']);//2
+                fwrite($fp, '   ');
+                fwrite($fp, @$value['bank_city']);//2
+                fwrite($fp, '   ');
+                fwrite($fp, @$value['bank_address']);//2
+                /*
+                fwrite($fp, @$value['total_money']);//3
+                fwrite($fp, '   ');
+                fwrite($fp, @$value['total_num']);//4
+                */
+                fwrite($fp, "\n");
+            }
+            
+        }
+        fclose($fp);
+        //dd($ret_info);
+        /*
         $ret_info = $task->t_tq_call_info->get_all_info_group_by_phone();
         foreach ($ret_info as $key => $value) {
             # code...
@@ -52,6 +88,7 @@ class test_sam extends Command
             ];
             $task->t_seller_student_new->update_cc_no_called_count_new($phone,$total);
         }
+        */
         /*
         $is_full_time = 2;
         //$teacher_money_type = $task->get_in_int_val('teacher_money_type',-1);

@@ -66,6 +66,7 @@ class menu{
                 ["power_id"=>4, "name"=>"微信运营",   "url"=>"/seller_student_new2/tmk_student_list"],
                 ["power_id"=>11, "name"=>"排课", "list"=>[
                     ["power_id"=>1, "name"=>"试听排课",   "url"=>"/seller_student_new2/test_lesson_plan_list"],
+                    ["power_id"=>3, "name"=>"选择老师",   "url"=>"/seller_student_new2/select_teacher_for_test_lesson"],
                     ["power_id"=>11, "name"=>"试听排课-教务",   "url"=>"/seller_student_new2/test_lesson_plan_list_jx"],
                     ["power_id"=>2, "name"=>"未绑定的试听课",   "url"=>"/seller_student_new2/test_lesson_no_binding_list"],
                     ["power_id"=>5, "name"=>"教务排课明细", "url"=>"/tongji_ss/test_lesson_plan_detail_list"],
@@ -99,6 +100,7 @@ class menu{
                     ["power_id"=>8, "name"=>"销售主管未分配统计", "url"=>"/tongji_ss/master_no_assign_count"],
 
                     ["power_id"=>9, "name"=>"销售月度统计报表",   "url"=>"/user_manage_new/seller_tongji_report_info"],
+                    ["power_id"=>24, "name"=>"销售月度统计报表新",   "url"=>"/seller_tongji/month_tongji_report"],
                     ["power_id"=>10, "name"=>"销售红黑榜",   "url"=>"/user_manage_new/seller_require_tq_time_list"],
                     ["power_id"=>11, "name"=>"实时申请未排统计",   "url"=>"/tongji_ss/require_no_set_lesson_info"],
                     ["power_id"=>12, "name"=>"试听老师统计",   "url"=>"/tongji_ss/teacher_test_lesson_info"],
@@ -275,7 +277,8 @@ class menu{
                     ["power_id"=>1, "name"=>"活动管理",   "url"=>"/seller_student2/show_order_activity_info"],
                 ]],
 
-                ["power_id"=>5, "name"=>"权限管理", "url"=>"/user_manage_new/power_group_edit"],
+                //["power_id"=>5, "name"=>"权限管理", "url"=>"/user_manage_new/power_group_edit"],
+                ["power_id"=>5, "name"=>"权限管理", "url"=>"/user_manage_new/power_group_edit_new"],
                 ["power_id"=>45, "name"=>"组织架构", "url"=>"/company_wx/show_department_users"],
                 ["power_id"=>46, "name"=>"权限角色", "url"=>"/company_wx/all_users"],
                 ["power_id"=>4, "name"=>"权限execl",   "url"=>"/authority/jurisdiction"],
@@ -428,10 +431,10 @@ class menu{
                     ["power_id"=>7, "name"=>"微信视频推送详情",   "url"=>"/user_manage_new/teacher_send_video_list"],
                 ]],
                 // ["power_id"=>66, "name"=>"微信新闻",   "url"=>"/t_yxyx_wxnews_info/all_news"],
-                ["power_id"=>71, "name"=>"教研备课资料框架",   "url"=>"/resource/resource_frame"],
-                ["power_id"=>70, "name"=>"教研备课数据统计",   "url"=>"/resource/resource_count"],
-                ["power_id"=>68, "name"=>"教研备课后台",   "url"=>"/resource/get_all"],
-                ["power_id"=>69, "name"=>"教研回收站",   "url"=>"/resource/get_del"],
+                // ["power_id"=>71, "name"=>"教研备课资料框架",   "url"=>"/resource/resource_frame"],
+                // ["power_id"=>70, "name"=>"教研备课数据统计",   "url"=>"/resource/resource_count"],
+                // ["power_id"=>68, "name"=>"教研备课后台",   "url"=>"/resource/get_all"],
+                // ["power_id"=>69, "name"=>"教研回收站",   "url"=>"/resource/get_del"],
                 ["power_id"=>67, "name"=>"抢课访问记录",   "url"=>"/grab_lesson/get_all_grab_info"],
                 ["power_id"=>4, "name"=>"图片管理",   "url"=>"/pic_manage/pic_info"],
                 ["power_id"=>5, "name"=>"节日列表",   "url"=>"/festival/festival_list"],
@@ -846,6 +849,12 @@ class menu{
 
 
             ["power_id"=>32, "name"=>"角色-教研",  "list"=>[
+                ['power_id'=>74, 'name'=>"教研备课上传","list" => [
+                    ["power_id"=>05, "name"=>"教研备课资料框架-新",   "url"=>"/resource/resource_frame_new"],
+                    ["power_id"=>02, "name"=>"教研备课数据统计",   "url"=>"/resource/resource_count"],
+                    ["power_id"=>03, "name"=>"教研备课后台",   "url"=>"/resource/get_all"],
+                    ["power_id"=>04, "name"=>"教研回收站",   "url"=>"/resource/get_del"],
+                ]],
                 ["power_id"=>5, "name"=>"考勤信息",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info"],
                 ["power_id"=>7,"name"=>"教研排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info"],
                 ["power_id"=>23,"name"=>"KPI考核标准", "url"=>"/tongji_ss/research_teacher_kpi_info_new"],
@@ -899,6 +908,7 @@ class menu{
             ["power_id"=>34, "name"=>"角色-教学", "list"=>[
                 ["power_id"=>80, "name"=>"全职老师产能",   "url"=>"/fulltime_teacher/fulltime_teacher_count"],
                 ["power_id"=>81, "name"=>"全职老师考勤信息",   "url"=>"/fulltime_teacher/fulltime_teacher_work_attendance_info"],
+                ["power_id"=>82, "name"=>"全职老师考勤汇总",   "url"=>"/fulltime_teacher/fulltime_teacher_attendance_info_month"],
                 ["power_id"=>2, "name"=>"全职老师KPI",   "url"=>"/tongji_ss/tongji_fulltime_teacher_test_lesson_info"],
                 ["power_id"=>5, "name"=>"全职老师转化率总体",   "url"=>"/human_resource/teacher_test_lesson_info_total_fulltime"],
                 ["power_id"=>20, "name"=>"全职老师转化折线",   "url"=>"/human_resource/get_broken_line_order_rate"],

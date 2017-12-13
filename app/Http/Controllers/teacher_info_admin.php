@@ -97,7 +97,7 @@ class teacher_info_admin extends Controller
     }
 
     public function get_tea_arr_list(){
-        $tea_all_list = $this->t_teacher_info->get_teacher_list_new();
+        $tea_all_list = $this->t_teacher_info->get_teacher_all_info_list();
         $tea_arr= [];
         foreach($tea_all_list as $item){
             $tea_arr[$item['teacherid']] = $item['nick'];
@@ -161,6 +161,7 @@ class teacher_info_admin extends Controller
     public function update_free_time(){
         $teacherid = $this->teacherid;
         $free_time = $this->get_in_str_val("free_time");
+
         $this->t_teacher_freetime_for_week->field_update_list($teacherid,[
             "free_time_new" => $free_time,
         ]);
@@ -205,12 +206,20 @@ class teacher_info_admin extends Controller
                 }
             }
         }
-        if(strlen($phone) != 11){
-           return outputJson(array(
+
+        if(!preg_match("/^\d*$/",$qq_info)){
+            return outputJson(array(
                 'ret' => -1,
-                'info' => "手机号码长度有误 ",
+                'info' => "请输入有效的ＱＱ号码 ",
             ));
+
         }
+        // if(strlen($phone) != 11){
+        //    return outputJson(array(
+        //         'ret' => -1,
+        //         'info' => "手机号码长度有误 ",
+        //     ));
+        // }
         if(!empty($birth)){
             $birth = substr($birth,0,4).''.substr($birth,5,2).''.substr($birth,8,2);
         }
@@ -522,7 +531,7 @@ class teacher_info_admin extends Controller
             "address"=>$address,
             "moderator"=>$moderator
         ]);
-        $ret_tea = $this->t_teacher_info->get_teacher_list_new();
+        $ret_tea = $this->t_teacher_info->get_teacher_all_info_list();
         foreach($ret_tea as $item){
             $this->t_teacher_meeting_join_info->row_insert([
                 "create_time"=>$create_time,

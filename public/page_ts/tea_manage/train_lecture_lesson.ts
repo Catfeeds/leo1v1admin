@@ -740,7 +740,7 @@ $(function(){
                 var str="";
                 $.each(item,function(ii,item_p){
                     console.log(item_p);
-                    str += "<label><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" /> "+item_p+"</label>";
+                    str += "<label style=\"margin-left:6px\"><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" /> "+item_p+"</label>";
                 });
                 if(i=="风格性格"){
                     teacher_related_labels.find("#style_character").append(str);
@@ -790,7 +790,7 @@ $(function(){
             Enum_map.append_option_list("teacher_lecture_score",id_teacher_explain_rhythm_score,true,[0,1,2,3,4,5,6,7,8,9,10]);
             Enum_map.append_option_list("teacher_lecture_score",id_teacher_blackboard_writing_score,true,[0,1,2,3,4,5,6,7,8,9,10]);
             Enum_map.append_option_list("teacher_lecture_score",id_teacher_language_performance_score,true,[0,1,2,3,4,5,6,7,8,9,10]);
-            Enum_map.append_option_list("identity",id_identity,false,[5,6,7,8]);
+            Enum_map.append_option_list("identity",id_identity,true,[5,6,7,8]);
 
             var not_grade         = data.not_grade;
             var grade_start       = data.grade_start;
@@ -823,13 +823,13 @@ $(function(){
                 ["语言表达能力", id_teacher_language_performance_score],
                 ["总分",id_total_score],
                 ["结果",id_res],
-                ["原因或意见或建议",id_reason],
-                ["老师身份",id_identity],
+                ["<font style=\"color:red\">*</font>&nbsp原因或意见或建议",id_reason],
+                ["<font style=\"color:red\">*</font>&nbsp老师身份",id_identity],
                 ["工作年限",id_work_year],
                 ["禁止年级",id_not_grade],
-                ["教师相关标签",teacher_related_labels],
-                ["课堂相关标签",class_related_labels],
-                ["教学相关标签",teaching_related_labels],
+                ["<font style=\"color:red\">*</font>&nbsp教师相关标签",teacher_related_labels],
+                ["<font style=\"color:red\">*</font>&nbsp课堂相关标签",class_related_labels],
+                ["<font style=\"color:red\">*</font>&nbsp教学相关标签",teaching_related_labels],
             ];
             $.show_key_value_table("试听评价", arr,{
                 label    : '确认',
@@ -958,10 +958,10 @@ $(function(){
         var id_reason_all = $("<textarea/>");
 
         var arr = [
-            ["未通过",id_lecture_out],
-            ["原因/建议",id_reason_all]
+            ["<font style=\"color:red\">*</font>&nbsp未通过",id_lecture_out],
+            ["<font style=\"color:red\">*</font>&nbsp原因/建议",id_reason_all]
         ];
-        $.show_key_value_table("审核-new",arr,{
+        $.show_key_value_table("不通过",arr,{
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {

@@ -1410,118 +1410,50 @@ class test_code extends Controller
     }
 
     /**
-     * 排课方法
+     * 更新老师年级至年级范围
      */
-    public function check_test(){
-        $identity = $this->get_in_int_val("identity");
-        $grade   = E\Egrade::V_106;
-        $subject = E\Esubject::V_2;
-        $lesson_start = strtotime("2017-11-20 18:00");
-        $lesson_end   = strtotime("2017-11-20 18:40");
+    public function get_teacher_grade_info(){
+        $tea_list = $this->t_teacher_info->get_teacher_all_info_list();
 
-        $grade_range_part = \App\Helper\Utils::change_grade_to_grade_range_part($grade);
-        $redis_key = 1001;
-        $ret_list = \App\Helper\Common::redis_get_json($key);
-        if($ret_list === null){
-            $tea_list = $this->t_teacher_info->get_teacher_list_for_trial_lesson($lesson_start,$subject);
-            \App\Helper\Common::redis_set_expire_value($redis_key,$tea_list,7200);
-        }else{
-            $tea_list = $ret_list;
-        }
+        foreach($tea_list as $val){
+            $update_arr         = [];
+            $teacherid          = $val['teacherid'];
+            $phone= $val['phone'];
+            $subject            = $val['subject'];
+            $grade              = $val['grade_part_ex'];
+            $grade_start        = $val['grade_start'];
+            $grade_end          = $val['grade_end'];
+            $second_subject     = $val['second_subject'];
+            $second_grade       = $val['second_grade'];
+            $second_grade_start = $val['second_grade_start'];
+            $second_grade_end   = $val['second_grade_end'];
 
-        foreach($tea_list as $tea_key => &$tea_val){
-            $grade_start = 0;
-            $grade_end   = 0;
-            $del_flag    = false;
-            $limit_day   = $tea_val['limit_day_lesson_num'];
-            $day_num     = $tea_val['day_num'];
-            $limit_week  = $tea_val['limit_week_lesson_num']<$tea_val['limit_plan_lesson_type']?$tea_val['limit_week_lesson_num']:$tea_val['limit_plan_lesson_type'];
-            $week_num    = $tea_val['week_num'];
-            $limit_month = $tea_val['limit_month_lesson_num'];
-            $month_num   = $tea_val['month_num'];
-            $has_num     = $tea_val['has_num'];
-
-            if($tea_val['subject']==$subject){
-                $grade_start = $tea_val['grade_start'];
-                $grade_end   = $tea_val['grade_end'];
-            }elseif($tea_val['second_subject']==$subject){
-                $grade_start = $tea_val['second_grade_start'];
-                $grade_end   = $tea_val['second_grade_end'];
-            }else{
-                $del_flag = true;
+            $show_flag = false;
+            if($subject>0 && $grade>0 && ($grade_start==0 || $grade_end==0)){
+                $grade_range = \App\Helper\Utils::change_old_grade_to_grade_range($grade);
+                $grade_start = $grade_range['grade_start'];
+                $grade_end   = $grade_range['grade_end'];
+                if($grade_start>0 && $grade_end>0){
+                    $update_arr['grade_start'] = $grade_start;
+                    $update_arr['grade_end']   = $grade_end;
+                }
             }
 
-            if($grade_range_part>$grade_end || $grade_range_part<$grade_start || $has_num>0 || $day_num>=$limit_day
-               || $week_num >=$limit_week || $month_num>=$limit_month
-            ){
-                $del_flag = true;
+            if($second_subject>0 && $second_grade>0 && ($second_grade_start==0 || $second_grade_end==0)){
+                $second_grade_range = \App\Helper\Utils::change_old_grade_to_grade_range($second_grade);
+                $second_grade_start = $second_grade_range['grade_start'];
+                $second_grade_end   = $second_grade_range['grade_end'];
+                if($second_grade_start>0 && $second_grade_end>0){
+                    $update_arr['second_grade_start'] = $second_grade_start;
+                    $update_arr['second_grade_end']   = $second_grade_end;
+                }
             }
 
-            $tea_val['is_identity'] = $identity==$tea_val['identity']?1:0;
-            $tea_val['is_gender']   = $gender==$tea_val['gender']?1:0;
-            $tea_val['is_age']      = $age==$tea_val['age']?1:0;
-
-            if($del_flag){
-                unset($tea_list[$tea_key]);
-            }else{
-                $tea_val['match_num']    = $this->check_teacher_free_time($tea_val['free_time_new'],$lesson_start,$lesson_end);
-                $match_list[$tea_key]    = $tea_val['match_num'];
-                $ruzhi_list[$tea_key]    = $tea_val['train_through_new_time'];
-                $identity_list[$tea_key] = $tea_val['is_identity'];
-                $gender_list[$tea_key]   = $tea_val['is_gender'];
-                $age_list[$tea_key]      = $tea_val['is_age'];
+            if(!empty($update_arr)){
+                echo $teacherid."|".$phone."|".$grade."|".$second_grade."|".json_encode($update_arr);
+                echo $this->br;
+                // $this->t_teacher_info->field_update_list($teacherid, $update_arr);
             }
-        }
-        array_multisort($match_list,SORT_DESC,$ruzhi_list,SORT_DESC,$tea_list);
-
-        return $this->output_succ($tea_list);
-    }
-
-    /**
-     * 检测老师的上课时间
-     */
-    public function check_teacher_free_time($free_time,$check_time,$check_time_end){
-        $free_time_arr  = json_decode($free_time);
-        $match_num = 0;
-        $break_flag = false;
-        foreach($free_time_arr as $val){
-            $start_time = strtotime($val[0]);
-            $date       = date("Y-m-d",$start_time);
-            $end_time   = strtotime($date." ".$val[1]);
-            if($check_time>$start_time && $check_time<$end_time){
-                $match_num = 50;
-            }
-            if($check_time_end<$end_time && $check_time_end>$start_time){
-                $match_num = $match_num==0?50:100;
-                $break_flag = true;
-            }
-            if($check_time_end<$start_time){
-                $break_flag = true;
-            }
-            if($break_flag){
-                break;
-            }
-        }
-        return $match_num;
-    }
-
-    public function array_sort($list,$sort_list){
-        $sort_list = [
-            [
-                0=>"sort_type",
-                1=>$sort_arr,
-            ],[
-                0=>"sort_type",
-                1=>$sort_arr,
-            ]
-        ];
-
-        if(!is_array($sort_list)){
-            return false;
-        }
-
-        foreach($sort_list as $val){
-            
         }
     }
 

@@ -294,21 +294,34 @@ class tea_manage_new extends Controller
 
     public function lesson_record_server_list() {
         $page_num=$this->get_in_page_num();
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            = $this->get_in_order_by_str([],"title desc", []);
+
         list($start_time,$end_time)=$this->get_in_date_range_day(0,0, [
            0=> [ "lesson_start" ,"上课时间" ],
         ]);
         $record_audio_server1= $this->get_in_str_val("record_audio_server1");
         $xmpp_server_name= $this->get_in_str_val("xmpp_server_name");
-        $lesson_type=$this->get_in_e_contract_type(-1, "lesson_type");
+        $lesson_type=$this->get_in_el_contract_type(-1, "lesson_type");
         $subject   = $this->get_in_el_subject();
+        $userid=$this->get_in_userid(-1);
+
         $ret_info=$this->t_lesson_info_b3->lesson_record_server_list($page_num,  $start_time,$end_time, $record_audio_server1, $xmpp_server_name, $lesson_type, $subject );
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
+
         foreach($ret_info["list"] as $key=> &$item ) {
             $item["index"] =  $start_index+$key;
             $item["lesson_time"]=\App\Helper\Utils::fmt_lesson_time($item["lesson_start"],$item["lesson_end"]);
             //\App\Helper\Utils::fmt_lesson_name($grade,$subject,$lesson_num)
             $this->cache_set_item_student_nick($item);
             $this->cache_set_item_teacher_nick($item);
+        }
+        if ( count( $ret_info["list"]) ==0 ) {
+            $ret_info["list"][] =[];
+            $ret_info["list"][] =[];
+            $ret_info["list"][] =[];
+            $ret_info["list"][] =[];
+            $ret_info["list"][] =[];
         }
 
         return $this->pageView(__METHOD__, $ret_info);
@@ -1159,7 +1172,7 @@ class tea_manage_new extends Controller
                             continue;
                         }
 
-                        $lesson_end = $lesson_start+5400;
+                        $lesson_end = $lesson_start+3600;
                         $ret = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
 
                         if($ret){
@@ -1272,7 +1285,7 @@ class tea_manage_new extends Controller
 
 
             // 计算总课时
-            $item['total_lesson_num'] = $this->t_lesson_info_b3->get_total_lesson_time($start_time, $end_time,$item['teacherid']);
+            // $item['total_lesson_num'] = $this->t_lesson_info_b3->get_total_lesson_time($start_time, $end_time,$item['teacherid']);
         }
 
 

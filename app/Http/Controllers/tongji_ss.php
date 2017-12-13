@@ -1660,6 +1660,7 @@ class tongji_ss extends Controller
         $this->t_admin_main_group_name->switch_tongji_database();
         $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
 
+        // dd($adminid_list);
 
         // adminid_list=[];
         $total_info_list=[];
@@ -2204,7 +2205,7 @@ class tongji_ss extends Controller
             }
             $call_str ="";
             $call_revisit_list = $this->t_tq_call_info->get_call_info_list($item["cur_require_adminid"],$item["phone"]);
-            $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("Aa123456" )."seed1")  . "&seed=seed1"  ;
+            $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("leoAa123456" )."seed1")  . "&seed=seed1"  ;
             $now = time();
             foreach($call_revisit_list as $ty) {
                 $record_url= $ty["record_url"] ;
@@ -7404,10 +7405,12 @@ class tongji_ss extends Controller
             }
         }
         $list = $ret_info;
-        $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
+        $lesson_end_time = $this->get_test_lesson_end_time($end_time);
 
-        $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
-        $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
+        $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$lesson_end_time);
+
+        $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$lesson_end_time);
+        $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$lesson_end_time);
         //整体转化量
         $success_test_lesson_list = $this->t_lesson_info->get_success_test_lesson_list_new($start_time,$end_time,-1,-1,$qz_tea_arr);
 

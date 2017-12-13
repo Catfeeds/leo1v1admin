@@ -28,7 +28,7 @@ class TeacherMoneyTask extends TaskController
         if(is_array($lesson_list)){
             foreach($lesson_list as $val){
                 $num_people++;
-                $num_lesson=$num_people;
+                $num_lesson = $num_people;
                 if($lesson_total != $val['lesson_total']){
                     if($num_people>5){
                         break;
@@ -174,7 +174,9 @@ class TeacherMoneyTask extends TaskController
                     "add_time"           => $start_time,
                 ]);
             }else{
-                $this->t_teacher_salary_list->update_teacher_money($t_val['teacherid'],$start_time,$lesson_money,$is_negative);
+                $this->t_teacher_salary_list->update_teacher_money(
+                    $t_val['teacherid'],$start_time,$lesson_money,$is_negative,$pay_time
+                );
             }
         }
 

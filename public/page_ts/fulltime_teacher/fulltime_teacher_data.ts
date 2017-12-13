@@ -25,7 +25,8 @@ $(function(){
     });
 
     var config_list=["apply_num","arrive_num","arrive_through","second_through","enter_num",
-                    "arrive_num_per","arrive_through_per","second_through_per","enter_num_per"];
+                     "arrive_num_per","arrive_through_per","second_through_per","enter_num_per",
+                     "leave_num","leave_per"];
     
     $.each( config_list,  function(){
         var config_type=this; 

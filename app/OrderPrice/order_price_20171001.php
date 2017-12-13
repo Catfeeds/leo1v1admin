@@ -113,7 +113,7 @@ class order_price_20171001 extends order_price_base
         $activity = [];
         if($current_activity_list){
             foreach($current_activity_list['list'] as $v){
-                if(in_array($v['id'], [1, 2017100701, 2017110802,2017110803,2017080101])){
+                if(in_array($v['id'], [1,  2017090101,  2017100701, 2017110802,2017110803,2017080101])){
                     continue;
                 }
 
@@ -135,7 +135,7 @@ class order_price_20171001 extends order_price_base
         }
 
         if (! $find_big_true){
-            $do_activity_fun ( Activity\activity_2017090101::class  );
+            $do_activity_fun ( Activity\activity_2017090101::class );
             foreach( $power_small as $item){
                 //\App\Helper\Utils::logger("item each: ".json_encode($item));
                 $new_do_activity_fun ( $item );

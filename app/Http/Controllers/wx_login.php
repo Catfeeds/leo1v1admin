@@ -37,19 +37,27 @@ class wx_login extends Controller
 
                 $openid=$user_info["openid"];
                 $admin_row=$this->t_manager_info->get_info_for_wx_openid($openid);
+
+
                 if ($admin_row) {
-                    $account=$admin_row["account"];
                     \App\Helper\Utils::logger("admin_code:$admin_code");
                     if ($admin_row["del_flag"]==0 ){
                         $info=\App\Helper\Common::redis_get_json($admin_code);
                         if($info){
-                            $info["check_time"] =time(NULL);
-                            $info["account"] =$account;
-                            $info["openid"] =$openid;
-                            \App\Helper\Common::redis_set_json($admin_code,$info);
-                            file_get_contents(\App\Helper\Config::get_monitor_new_url() .":9501/noti_user_login_key?user_login_key=$admin_code");
-                            // file_get_contents(\App\Helper\Config::get_monitor_new_url() ."/noti_user_login_key?user_login_key=$admin_code");
-                            $message ="验证完成[$account]!";
+                            //check tquin
+                            $login_tquin= session( "login_tquin" );
+                            $account=$admin_row["account"];
+                            if ( $login_tquin && $admin_row["tquin"] !=$login_tquin)  {
+                                $message =" 出错,  你不是 [$account],不能登录!";
+                            }else{
+                                $info["check_time"] =time(NULL);
+                                $info["account"] =$account;
+                                $info["openid"] =$openid;
+                                \App\Helper\Common::redis_set_json($admin_code,$info);
+                                file_get_contents(\App\Helper\Config::get_monitor_new_url() .":9501/noti_user_login_key?user_login_key=$admin_code");
+                                $message ="验证完成[$account]!";
+                            }
+
                         }else{
                             $message= "出错：二维码不对!";
 
@@ -58,6 +66,9 @@ class wx_login extends Controller
                     }else{
                         $message= "出错：[".$account ."]账号已注销:<";
                     }
+
+
+
                 }else{
 
                     \App\Helper\Utils::logger("wx_openid_no_find" );
@@ -84,12 +95,13 @@ class wx_login extends Controller
         $admin_code = $this->get_in_str_val("admin_code") ;
         $account    = $this->get_in_str_val("account") ;
         $url= $this->get_in_str_val("url") ;
-        $info       = [
-            "admin_code" => $admin_code,
-            "add_time"   => time(NULL),
-            "check_time" => 0,
-            "account"    => $account,
-            "openid"     => "",
+        $info = [
+            "admin_code"  => $admin_code,
+            "add_time"    => time(NULL),
+            "check_time"  => 0,
+            "account"     => $account,
+            "login_tquin" => session("login_tquin"),
+            "openid"      => "",
         ];
 
         $url="http://admin.leo1v1.com/wx_login/login?admin_code=".$admin_code;

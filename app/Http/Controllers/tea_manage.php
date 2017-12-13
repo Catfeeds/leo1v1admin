@@ -174,9 +174,18 @@ class tea_manage extends Controller
         return $this->lesson_list();
     }
 
+
+
     public function lesson_list()
     {
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            = $this->get_in_order_by_str([],"lesson_start asc",[
+                "grade" => "s.grade",
+            ]);
+        $page_info= $this->get_in_page_info();
+
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,null,1);
+
         $acc         = $this->get_account();
         $adminid     = $this->get_account_id();
         $right_list  = $this->get_tea_subject_and_right_by_adminid($adminid);
@@ -225,7 +234,6 @@ class tea_manage extends Controller
         $seller_flag = $this->get_in_int_val('seller_flag', 0);
         $lessonid          = $this->get_in_lessonid(-1);
         $origin            = $this->get_in_str_val("origin");
-        $page_num          = $this->get_in_page_num();
         $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
         if ($lessonid ==0) {
             $lessonid= $this->t_lesson_info->get_lessonid_by_lesson_str( $this->get_in_str_val("lessonid"));
@@ -242,7 +250,7 @@ class tea_manage extends Controller
 
             $ret_info = $this->t_lesson_info->get_lesson_condition_list_ex_new(
                 $start_time,$end_time, $teacherid,$studentid, $lessonid ,
-                $lesson_type ,$subject,$is_with_test_user,$seller_adminid,$page_num,
+                $lesson_type ,$subject,$is_with_test_user,$seller_adminid,$page_info,
                 $confirm_flag,$assistantid,$lesson_status,$test_seller_id_arr,$test_seller_adminid,$has_performance,
                 $origin,$grade,$lesson_count,$lesson_cancel_reason_type,$tea_subject,
                 $has_video_flag, $lesson_user_online_status,$fulltime_flag,
@@ -251,7 +259,7 @@ class tea_manage extends Controller
         }else{
             $ret_info = $this->t_lesson_info->get_lesson_condition_list_ex(
                 $start_time,$end_time, $teacherid,$studentid, $lessonid ,
-                $lesson_type ,$subject,$is_with_test_user,$seller_adminid,$page_num,
+                $lesson_type ,$subject,$is_with_test_user,$seller_adminid,$page_info,
                 $confirm_flag,$assistantid,$lesson_status,$test_seller_id,$has_performance,
                 $origin,$grade,$lesson_count,$lesson_cancel_reason_type,$tea_subject,
                 $has_video_flag, $lesson_user_online_status,$fulltime_flag,
@@ -2306,7 +2314,7 @@ class tea_manage extends Controller
 
         $this->switch_tongji_database();
         $teacherid = -1;
-        if(!in_array($acc,["adrian","夏宏东","ted","jim","ivy","jack","abby","amyshen","孙瞿","艾欣"]) && $is_all==0){
+        if(!in_array($acc,["adrian","夏宏东","ted","jim","ivy","jack","abby","amyshen","孙瞿","艾欣","林文彬"]) && $is_all==0){
             $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
             if($teacher_info['teacherid']>0 ){
                 $teacherid = $teacher_info['teacherid'];
@@ -2926,7 +2934,7 @@ class tea_manage extends Controller
             //设置标签
 
             if($new_tag_flag==0){
-                $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2); 
+                $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2);
             }elseif($new_tag_flag==1){
                 $tea_tag_arr=[
                     "style_character"=>$style_character,
@@ -2935,7 +2943,7 @@ class tea_manage extends Controller
                     "courseware_requirements"=>$courseware_requirements,
                     "diathesis_cultivation"=>$diathesis_cultivation,
                 ];
-                $this->set_teacher_label_new($teacherid,$lessonid,$record_lesson_list,$tea_tag_arr,2); 
+                $this->set_teacher_label_new($teacherid,$lessonid,$record_lesson_list,$tea_tag_arr,2);
             }
 
         }

@@ -100,6 +100,7 @@ class seller_menu{
                     ["power_id"=>21, "name"=>"个效统计表",   "url"=>"/tongji/seller_time_income_list"],
                     ["power_id"=>25, "name"=>"销售月度绩效",   "url"=>"/tongji2/seller_month_money_list"],
                     ["power_id"=>2, "name"=>"销售月度统计报表",   "url"=>"/user_manage_new/seller_tongji_report_info"],
+                    ["power_id"=>27, "name"=>"销售月度统计报表新",   "url"=>"/seller_tongji/month_tongji_report"],
                     ["power_id"=>3, "name"=>"销售红黑榜",   "url"=>"/user_manage_new/seller_require_tq_time_list"],
                     ["power_id"=>4, "name"=>"设备统计",   "url"=>"/tongji_ss/lesson_device_info"],
                     ["power_id"=>43, "name"=>"销售等级列表",   "url"=>"/seller_level_goal/seller_level_goal_list"],

@@ -2,74 +2,80 @@
 @section('content')
 
     <section class="content ">
-        
+
         <div>
-            <div class="row" >                
+            <div class="row" >
                 <div class="col-xs-6 col-md-2">
                     <button id="id_get_money" class="btn btn-primary">刷新</button>
-                </div > 
+                </div >
 
             </div>
         </div>
         <hr/>
-        <table     class="common-table"  > 
+        <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>id</td>                   
-                    <td>名字</td>                   
-                    <td>常规课次数</td>                   
-                    <td>迟到次数</td>                   
-                    <td>请假次数</td>                   
-                    <td>调课次数</td>                   
-                    <td>旷课次数</td>                   
-                    <td>试听课次数</td>
-                    <td>迟到次数</td>                   
-                    <td>旷课次数</td>                   
-                    <td>个人原因次数</td>                   
+                    <td>所带学生数</td>
+                    <td>每周1课时人数</td>
+                    <td>每周1.5课时人数</td>
+                    <td>每周2课时人数</td>
+                    <td>每周2.5课时人数</td>
+                    <td>每周3课时人数</td>
+                    <td>每周3.5课时人数</td>
+                    <td>每周4课时人数</td>
+                    <td>每周4.5课时人数</td>
+                    <td>每周5课时人数</td>
+                    <td>每周5.5课时人数</td>
+                    <td>每周6课时人数</td>
+                    <td>每周6.5课时人数</td>
+                    <td>每周7课时人数</td>
+                    <td>本月学生请假课时数</td>
+                    <td>本月老师请假课时数</td>                                      
 
-                               
-                                   
-                                 
                      <td> 操作</td>
                 </tr>
             </thead>
             <tbody id="id_tbody">
                 @foreach ( $list as $k=>$var )
                     <tr>
-                        <td>{{@$var["teacherid"]}} </td>     
-                        <td>{{@$var["realname"]}} </td>     
-                        
-                        <td class="reg_num"> {{@$var["reg_num"]}} </td>                           
-                        <td class="late_num"> {{@$var["late_num"]}} </td>                           
-                        <td class="leave_num"> {{@$var["leave_num"]}} </td>                           
-                        <td class="change_num"> {{@$var["change_num"]}} </td>                           
-                        <td class="kk_num"> {{@$var["kk_num"]}} </td>                           
-                        <td class="test_num"> {{@$var["test_num"]}} </td>                           
-                        <td class="test_late_num"> {{@$var["test_late_num"]}} </td>                           
-                        <td class="test_kk_num"> {{@$var["test_kk_num"]}} </td>                           
-                        <td class="test_person_num"> {{@$var["test_person_num"]}} </td>                           
-                                                
-                                          
+                       
+                        <td class="all_num"> </td>
+                        <td class="one_num">  </td>
+                        <td class="one_five_num">  </td>
+                        <td class="two_num"> </td>
+                        <td class="two_five_num"> </td>
+                        <td class="three_num">  </td>
+                        <td class="three_five_num">  </td>
+                        <td class="four_num">  </td>
+                        <td class="four_five_num">  </td>
+                        <td class="five_num"> </td>
+                        <td class="five_five_num"> </td>
+                        <td class="six_num"></td>
+                        <td class="six_five_num"></td>
+                        <td class="other_num">  </td>
+                        <td class="stu_leave_num"> </td>
+                        <td class="tea_leave_num">  </td>
+                       
+
                         <td>
-                            <div class="row-data" data-teacherid="{{$var["teacherid"]}}" data-subject="{{$var["teacherid"]}}" >
+                            <div class="row-data" data-teacherid="1" >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>
                             </div>
 
                         </td>
 
-                        
+
                     </tr>
 
                 @endforeach
-                
-                
-                
+
+
+
             </tbody>
         </table>
 
-        
+
         @include("layouts.page")
     </section>
-    
-@endsection
 
+@endsection

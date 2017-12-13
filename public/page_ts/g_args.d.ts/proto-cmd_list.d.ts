@@ -26,12 +26,13 @@ tofile:
 /// <reference path="../g_args.d.ts/proto-cmd_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		project:	$('#id_project').val(),
 		tag:	$('#id_tag').val(),
 		query_str:	$('#id_query_str').val()
-    });
+		});
 }
 $(function(){
 

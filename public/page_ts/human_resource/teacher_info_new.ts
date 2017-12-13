@@ -464,7 +464,7 @@ $(function(){
         },function(resp) {
             var list = resp.data;
             var teacher_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">风格性格:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"style_character\"></div><div class=\"col-xs-6 col-md-3\">专业能力:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"professional_ability\"> </div><div>");
-            var class_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">课堂氛围:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"classroom_atmosphere\"></div><div class=\"col-xs-6 col-md-3\">课件要求:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"courseware_requirements\"> </div><div>");
+            var class_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">课堂气氛:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"classroom_atmosphere\"></div><div class=\"col-xs-6 col-md-3\">课件要求:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"courseware_requirements\"> </div><div>");
              var teaching_related_labels=$("<div><div class=\"col-xs-6 col-md-3\">素质培养:</div><div class=\"col-xs-6 col-md-9\" style=\"margin-top:-8px;\" id=\"diathesis_cultivation\"></div>");
 
             $.each(list,function(i,item){
@@ -474,7 +474,7 @@ $(function(){
                     var ti = "style_character";
                 }else if(i=="专业能力"){
                      var ti = "professional_ability";
-                }else if(i=="课堂氛围"){
+                }else if(i=="课堂气氛"){
                      var ti = "classroom_atmosphere";
                 }else if(i=="课件要求"){
                      var ti = "courseware_requirements";
@@ -511,16 +511,16 @@ $(function(){
                     console.log(check_flag);
                     console.log(check_again);
                     if(check_again==1 && check_flag==1){
-                        str += "<label><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" checked /> "+item_p+"</label>";
+                        str += "<label style=\"margin-left:6px\"><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" checkedstyle=\"margin-top:-3px;\" /> "+item_p+"</label>";
                     }else{
-                        str += "<label><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" /> "+item_p+"</label>";
+                        str += "<label style=\"margin-left:6px\"><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" style=\"margin-top:-3px;\" /> "+item_p+"</label>";
                     }
                 });
                 if(i=="风格性格"){
                     teacher_related_labels.find("#style_character").append(str);
                 }else if(i=="专业能力"){
                      teacher_related_labels.find("#professional_ability").append(str);
-                }else if(i=="课堂氛围"){
+                }else if(i=="课堂气氛"){
                     class_related_labels.find("#classroom_atmosphere").append(str);
                 }else if(i=="课件要求"){
                      class_related_labels.find("#courseware_requirements").append(str);
@@ -551,7 +551,7 @@ $(function(){
                         professional_ability.push($(this).val());
                     });
                     var classroom_atmosphere=[];
-                    class_related_labels.find("#classroom_atmosphere").find("input:checkbox[name='课堂氛围']:checked").each(function(i) {
+                    class_related_labels.find("#classroom_atmosphere").find("input:checkbox[name='课堂气氛']:checked").each(function(i) {
                         classroom_atmosphere.push($(this).val());
                     });
                     var courseware_requirements=[];
@@ -583,6 +583,81 @@ $(function(){
         });
     });
 
-    download_hide();
+    $(".opt-account-number").on("click",function(){
+	      var data = $(this).get_opt_data();
+
+        
+        var id_change_phone            = $("<button class='btn btn-danger'>更换手机</button>");
+        var id_identity                = $("<button class='btn btn-danger'>老师身份修改</button>");
+       
+
+       
+        id_change_phone.on("click",function(){change_phone(data);});
+        id_identity.on("click",function(){set_teacher_identity(data);});
+       
+
+        var arr = [
+            ["",id_change_phone],
+            ["",id_identity]
+        ];
+      
+
+        $.show_key_value_table("账号信息修改",arr);
+    });
+
+    var change_phone = function(opt_data){
+        var id_new_phone = $("<input/>");
+        var arr          = [
+            ["新的手机号",id_new_phone],
+        ];
+
+        $.show_key_value_table("更换手机", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax("/human_resource/change_phone",{
+                    "userid"    : opt_data.teacherid,
+                    "phone"     : opt_data.phone,
+                    "new_phone" : id_new_phone.val(),
+                    "role"      : 2,
+                },function(result){
+                    if(result.ret<0){
+                        BootstrapDialog.alert(result.info);
+                    }else{
+                        window.location.reload();
+                    }
+                });
+            }
+        });
+    }
+
+    var set_teacher_identity = function(opt_data){
+        var id_identity_new = $("<select/>");
+        Enum_map.append_option_list("identity", id_identity_new, true,[5,6,7,8] );
+        var arr          = [
+            ["老师身份",id_identity_new],
+        ];
+        id_identity_new.val(opt_data.identity);
+
+        $.show_key_value_table("修改老师身份", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax("/ajax_deal2/set_teacher_identity",{
+                    "teacherid"    : opt_data.teacherid,
+                    "identity" : id_identity_new.val(),
+                },function(result){
+                    if(result.ret<0){
+                        BootstrapDialog.alert(result.info);
+                    }else{
+                        window.location.reload();
+                    }
+                });
+            }
+        });
+    }
+
+
+
 
 });

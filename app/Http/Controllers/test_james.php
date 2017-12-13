@@ -10,8 +10,27 @@ use OSS\Core\OssException;
 
 use Illuminate\Support\Facades\Mail ;
 
-use App\Jobs\send_wx_notic_for_software;
+use  App\Jobs\send_wx_notic_for_software;
 use  App\Jobs\send_wx_notic_to_tea;
+use  App\Jobs\wxPicSendToParent;
+
+use LaneWeChat\Core\Media;
+
+use LaneWeChat\Core\AccessToken;
+
+use LaneWeChat\Core\ResponsePassive;
+
+use Illuminate\Http\Request;
+
+use LaneWeChat\Core\WeChatOAuth;
+
+use LaneWeChat\Core\UserManage;
+
+use LaneWeChat\Core\TemplateMessage;
+
+
+include(app_path("Libs/LaneWeChat/lanewechat.php"));
+
 
 
 require_once app_path('/Libs/TCPDF/tcpdf.php');
@@ -1095,18 +1114,43 @@ class test_james extends Controller
 
 
 
+    // {
+    //     "touser":"OPENID",
+    //         "msgtype":"image",
+    //         "image":
+    //     {
+    //         "media_id":"MEDIA_ID"
+    //             }
+    // }
+
     public function wx_news(){ // 使用客服接口发送消息
+
+        $filename = "/home/ybai/tu.jpg";
+        $type = "image";
+
+        $Media_id = Media::upload($filename, $type);
+
+
+        dispatch( new \App\Jobs\wxPicSendToParent(
+            $Media_id['media_id']
+        ));
+
+
+
+
+        return ;
+        // dd($Media_id);
         //使用客服接口发送消息
         // $txt_arr = [
-        //     'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
+        //     'touser'   => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',// james
         //     'msgtype'  => 'news',
         //     "news"=>[
         //         "articles"=> [
         //             [
-        //                 "title"=>"TEST MSG",
-        //                 "description"=>"Is Really A Happy Day",
-        //                 "url"=>"https://mmbiz.qlogo.cn/mmbiz_jpg/cBWf565lml4NcGMWTiaeuDmWsUQpXz8TPJzfbsoUENe9dKqPKDXPZa7ITPCKvQiaVzmAvLBKPYmrhKNg2AkwwkVQ/0?wx_fmt=jpeg",
-        //                 "picurl"=>"http://admin.leo1v1.com/article_wx/leo_teacher_new_teacher_deal_question"
+        //                 "title"=>"“呼朋唤友”活动来袭！邀请好友来上课，万元大礼等你拿！",
+        //                 "description"=>"TEST",
+        //                 "url"=>"",
+        //                 "picurl"=>"http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E6%95%99%E8%82%B2%E5%9C%A8%E7%BA%BF-%E5%8E%9F%E5%9B%BE/%E6%B4%BB%E5%8A%A8/699592341.jpg"
         //             ]
         //         ]
         //     ]
@@ -1114,17 +1158,29 @@ class test_james extends Controller
 
 
         //使用客服接口发送消息
+        // $txt_arr = [
+        //     'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
+        //     'msgtype'  => 'text',
+        //     "text"=>[
+        //         "content"=>"Hello World <a  onclick='alert('你已经点击了我！');' >百度</a>"
+        //     ]
+        // ];
+
+
+        // dd($Media_id);
+        // 使用客服接口发送消息
         $txt_arr = [
-            'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
-            'msgtype'  => 'text',
-            "text"=>[
-                "content"=>"Hello World <a  onclick='alert('你已经点击了我！');' >百度</a>"
+            'touser'   => 'orwGAswh6yMByNDpPz8ToUPNhRpQ',// james
+            'msgtype'  => 'image',
+            "image"=>[
+                "media_id"=>$Media_id['media_id']
             ]
         ];
 
 
-        $appid_tec     = config('admin')['teacher_wx']['appid'];
-        $appsecret_tec = config('admin')['teacher_wx']['appsecret'];
+
+        $appid_tec     = config('admin')['wx']['appid'];
+        $appsecret_tec = config('admin')['wx']['appsecret'];
 
         $wx = new \App\Helper\Wx() ;
         $token = $wx->get_wx_token($appid_tec,$appsecret_tec);
@@ -1132,6 +1188,8 @@ class test_james extends Controller
         $txt = $this->ch_json_encode($txt_arr);
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
         $txt_ret = $this->https_post($url,$txt);
+
+        dd($txt_ret);
 
     }
 
@@ -1238,6 +1296,545 @@ class test_james extends Controller
         dd($lesson_list);
     }
 
+    /**
+     * @ 学生和老师同时在教室的时长超过20分钟则认为课程有效
+     * @ 否则 将该课程标记 通知人工进行审查
+     **/
+    public function check_lesson_status(){
+        $lessonid = $this->get_in_int_val('lessonid');
+
+        $userid = $this->t_lesson_info_b3->get_userid($lessonid);
+        $teaid  = $this->t_lesson_info_b3->get_teacherid($lessonid);
+
+        $login_log_stu = $this->t_lesson_opt_log->get_stu_log($lessonid,$userid);
+        $login_log_tea = $this->t_lesson_opt_log->get_stu_log($lessonid,$teaid);
+
+
+    }
+
+    /**
+     * @ 百度语音识别
+     **/
+
+    function request_post($url = '', $param = '') {
+        if (empty($url) || empty($param)) {
+            return false;
+        }
+
+        $postUrl = $url;
+        $curlPost = $param;
+        $curl = curl_init();//初始化curl
+        curl_setopt($curl, CURLOPT_URL,$postUrl);//抓取指定网页
+        curl_setopt($curl, CURLOPT_HEADER, 0);//设置header
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
+        curl_setopt($curl, CURLOPT_POST, 1);//post提交方式
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $curlPost);
+        $data = curl_exec($curl);//运行curl
+        curl_close($curl);
+
+        return $data;
+    }
+
+    /**
+       App ID: 10485794
+
+       API Key: sViPNnv5bUMEEHwC6FMriOOw
+
+       Secret Key: 1e3f8259f26c7b5b202ec6c380b3de20
+
+
+       string(585) "{"access_token":"24.17dde2e70ba5d12d9217220c62a95853.2592000.1515234816.282335-10485794","session_key":"9mzdCrO0iPQ\/XaC9XIeUd7o2tWb7JeLPwCHucfWyV6psR7MP+WceUG\/4AiEyFHExgiX1xtU\/zzpvH+vyHpjfcO21RfpfAQ==","scope":"public audio_voice_assistant_get wise_adapt lebo_resource_base lightservice_public hetu_basic lightcms_map_poi kaidian_kaidian ApsMisTest_Test\u6743\u9650 vis-classify_flower bnstest_fasf lpq_\u5f00\u653e","refresh_token":"25.9fb11b09ef6d52e2c7b8e1c437dbf801.315360000.1828002816.282335-10485794","session_secret":"06a483d75528389b43907dcb2ea66ba4","expires_in":2592000} "
+     */
+
+    public function get_baidu_token(){
+        $url = 'https://aip.baidubce.com/oauth/2.0/token';
+        $post_data['grant_type']       = 'client_credentials';
+        $post_data['client_id']      = 'sViPNnv5bUMEEHwC6FMriOOw';
+        $post_data['client_secret'] = '1e3f8259f26c7b5b202ec6c380b3de20';
+        $o = "";
+        foreach ( $post_data as $k => $v )
+        {
+            $o.= "$k=" . urlencode( $v ). "&" ;
+        }
+        $post_data = substr($o,0,-1);
+
+        $res = $this->request_post($url, $post_data);
+
+        var_dump($res);
+
+    }
+
+
+    public function chang_wen(){
+        $url = "http://vop.baidu.com/server_api";
+
+        $path = '/home/ybai/16k.wav';
+        $fp = fopen($path, 'rb');  // 以二进制形式打开文件
+        $content = fread($fp, filesize($path)); // 读取文件内容
+        fclose($fp);
+        $content = base64_encode($content); // 将二进制信息编码成字符串
+
+        $content = str_replace("\n"," ",$content);
+
+        $post_data = [
+            "format"=>"wav",
+            "rate"=>16000,
+            "channel"=>1,
+            "token"=>"24.17dde2e70ba5d12d9217220c62a95853.2592000.1515234816.282335-10485794",
+            "cuid"=>"baidu_workshop122xuejijams",
+            "len"=>127,
+            "lan" => "zh",
+            "speech"=>"$content",
+
+            // "url" => "http://speech-doc.gz.bcebos.com/rest-api-asr/public_audio/16k.wav",
+            // "callback" => "http://admin.leo1v1.com/test_james/get_post"
+
+        ];
+
+        $post_data = json_encode($post_data);
+
+
+
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: '.strlen($post_data)
+        ));
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch,CURLOPT_POST,1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        $output = curl_exec($ch);
+        curl_close($ch);
+
+        $ret_arr = json_decode($output,true);
+
+        return $ret_arr;
+    }
+
+    public function get_post(){
+        $a = $_SESSION;
+        dd($a);
+    }
+
+    public function get_no(){
+        $a = $this->t_lesson_info_b2->get_need_late_notic();
+        $b = $this->t_lesson_info_b2->get_test_lesson_to_notic();
+        dd($b);
+    }
+
+
+    /**
+     * @ 讯飞听见 WebAPI
+
+     */
+
+
+    public function xunfei(){
+        $url = "http://api.xfyun.cn/v1/aiui/v1/iat"; //
+
+        $path = '/home/ybai/16k.wav';
+        $fp = fopen($path, 'rb');  // 以二进制形式打开文件
+        $content = fread($fp, filesize($path)); // 读取文件内容
+        fclose($fp);
+        $content = base64_encode($content); // 将二进制信息编码成字符串
+
+        $Param = [
+            "auf"   => '16k',
+            "aue"   => 'raw',
+            "scene" => 'main'
+        ];
+
+        $time = time();
+        $param = base64_encode(json_encode($Param));
+        $check_str = '07adb47e30dd4b9b8fdcddc5e96e6b78'.$time.''.$param.'data='.$content;
+        $CheckSum = md5($check_str);
+
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type:application/x-www-form-urlencoded; charset=utf-8',
+            'X-Param:'.$param,
+            'X-Appid: 5a2a4204',
+            'X-CurTime:'.$time,
+            'X-CheckSum:'.$CheckSum
+        ));
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch,CURLOPT_POST,1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, 'data='.$content);
+        $output = curl_exec($ch);
+        curl_close($ch);
+
+        $ret_arr = json_decode($output,true);
+
+
+
+        dd($ret_arr);
+        return $ret_arr;
+    }
+
+
+    //以上讯飞已接入成功
+
+
+    /**
+     * @ 将远程录音下载到本地
+     * @ 将录音格式 .MP3 => WAV [若不是WAV 则 => WAV]
+     * @ 对录音进行分割
+     * @ 对分割文件进行 文字转换
+     * @ 对转换内容进行拼接 并存入数据库
+     * @ 将视频删除
+     * @
+     * @
+     **/
+
+    public function chunk_voice(){
+        $voice_url = $this->get_in_str_val('voice_url');
+        // @将远程录音下载到本地
+        $pdf_file_path = $this->get_pdf_download_url($voice_url);
+        $savePathFile = public_path('wximg').'/1.mp3';
+        $msg = \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
+
+        // @录音格式转换
+        // ffmpeg -i sample.mp3 sample.wav
+        $input_file  = "";
+        $output_file = "";
+
+        $transhell = 'ffmpeg -i '.$input_file.' '.$output_file.' ';
+        shell_exec($transhell);
+
+        dd($msg);
+    }
+
+
+
+    public function get_pdf_download_url($file_url){
+        if (preg_match("/http/", $file_url)) {
+            return $file_url;
+        } else {
+            return \App\Helper\Utils::gen_download_url($file_url);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+    public function video_info() {
+
+        //ffmpeg -i sample.mp3 sample.wav
+        //mkdir split; X=0; while( [ $X -lt 5 ] ); do echo $X; ffmpeg -i big_audio_file.mp3 -acodec copy -t 00:30:00 -ss 0$X:00:00 split/${X}a.mp3; ffmpeg -i big_audio_file.mp3 -acodec copy -t 00:30:00 -ss 0$X:30:00 split/${X}b.mp3;  X=$((X+1)); done;
+        $file = '/home/ybai/16k.wav';
+        $ffmpeg = "ffmpeg";
+
+        ob_start();
+        passthru(sprintf($ffmpeg.' -i "%s" 2>&1', $file));
+        $info = ob_get_contents();
+        ob_end_clean();
+        // 通过使用输出缓冲，获取到ffmpeg所有输出的内容。
+        $ret = array();
+        // Duration: 01:24:12.73, start: 0.000000, bitrate: 456 kb/s
+        if(preg_match("/Duration: (.*?), start: (.*?), bitrate: (d*) kb\/s/", $info, $match)) {
+            $ret['duration'] = $match[1]; // 提取出播放时间
+            $da = explode(':', $match[1]);
+            $ret['seconds'] = $da[0] * 3600 + $da[1] * 60 + $da[2]; // 转换为秒
+            $ret['start'] = $match[2]; // 开始时间
+            $ret['bitrate'] = $match[3]; // bitrate 码率 单位 kb
+        }
+
+        // Stream #0.1: Video: rv40, yuv420p, 512x384, 355 kb/s, 12.05 fps, 12 tbr, 1k tbn, 12 tbc
+        if (preg_match("/Video: (.*?), (.*?), (.*?)[,s]/", $info, $match)) {
+            $ret['vcodec'] = $match[1]; // 编码格式
+            $ret['vformat'] = $match[2]; // 视频格式
+            $ret['resolution'] = $match[3]; // 分辨率
+            $a = explode('x', $match[3]);
+            $ret['width'] = $a[0];
+            $ret['height'] = $a[1];
+        }
+
+        // Stream #0.0: Audio: cook, 44100 Hz, stereo, s16, 96 kb/s
+        if (preg_match("/Audio: (w*), (d*) Hz/", $info, $match)) {
+            $ret['acodec'] = $match[1];       // 音频编码
+            $ret['asamplerate'] = $match[2];  // 音频采样频率
+        }
+
+        if (isset($ret['seconds']) && isset($ret['start'])) {
+            $ret['play_time'] = $ret['seconds'] + $ret['start']; // 实际播放时间
+        }
+
+        $ret['size'] = filesize($file); // 文件大小
+        return $ret;
+    }
+
+
+    public function voice_to_text(){
+        //输入文件名,输入文件总时间,输出文件名,分割点时间,模式[0保存前段1保存后段]
+        // $mp3_cut=new mp3_cut("input.mp3",265,"output.mp3",120,0);
+        $this->mp3_cut();
+        echo $mp3_cut->error_message;
+    }
+
+    public function mp3_cut($old_file,$time_length,$new_file,$start_time,$type){
+        $this->cut($type);
+    }
+
+    public function cut($type){
+        $this->set_input_file_size();
+        $this->byte_per_second();
+        $this->open_input_mp3();
+        $this->open_output_mp3();
+        $this->make_new_mp3($type);
+        $this->close_output_mp3();
+        $this->close_input_mp3();
+    }
+
+    public function set_input_file_size(){
+        $this->file_size=@filesize($this->old_file);
+    }
+
+    public function byte_per_second(){
+        $this->byte_per_second=(integer)($this->file_size/$this->time_length);
+    }
+
+    public function make_new_mp3($type){
+        $start_position=$this->start_time*$this->byte_per_second;
+        if($type==1){
+            fseek($this->input_data,$start_position);
+            while(!@feof($this->input_data)){
+                @fwrite($this->output_data,@fread($this->input_data,$this->data_buffer));
+            }
+        }
+        else{
+            while(@ftell($this->input_data)<=((integer)$start_position)){
+                @fwrite($this->output_data,@fread($this->input_data,($this->byte_per_second/2)));
+            }
+        }
+    }
+
+
+    public function open_input_mp3(){
+        if(file_exists($this->old_file)){
+            $this->input_data=fopen($this->old_file,"r");
+            $result=true;
+        }
+        else{
+            $this->error("打开文件错误");
+            $result=false;
+        }
+        return $result;
+    }
+
+    public function close_input_mp3(){
+        if(@fclose($this->input_data)){$result=true;}
+        else{
+            $this->error("操作输入文件错误");
+            $result=false;
+        }
+        return $result;
+    }
+
+
+    public function open_output_mp3(){
+        $this->output_data=@fopen($this->new_file,"w");
+        if($this->output_data){$result=true;}
+        else{
+            $this->error("创建文件错误");
+            $result=false;
+        }
+        return $result;
+    }
+
+    public function close_output_mp3(){
+        if(@fclose($this->output_data)){
+            $result=true;
+        }else{
+            $this->error("操作输出文件错误");
+            $result=false;
+        }
+        return $result;
+    }
+
+
+    public function error($error_message){
+        $this->error_message.=$error_message."<br>";
+    }
+
+
+    public function get_data(){
+        // ["to_orderid","int(11)","","NO","MUL","","","select,insert,update","合同id_jamamm"]
+        // $a[] = [
+        //     "adminid" => "0",
+        //     "name" => "",
+        //     "called_succ" => "71",
+        //     "has_called" => "196",
+        //     "total_money" => "429460.0000"
+        // ];
+
+        // $a[]  =  [
+        //     "adminid" => "3",
+        //     "name" => "ddd",
+        //     "called_succ" => "77y7",
+        //     "has_called" => "196",
+        //     "total_money" => "42sdjfh000"
+        // ];
+
+
+        // $c = '';
+        // foreach($a as $v){
+        //     $c.='['.$v['adminid'].','.$v['name'].','.$v['called_succ'].','.$v['has_called'].','.$v['total_money'].'],';
+        // }
+
+        // dd($c);
+
+        // dd(json_encode($a));
+
+
+        $one_week_start = 1509379200; //10-31
+        $one_week_end   = 1509984000; //11-7
+
+        $one_week_start = $this->get_in_int_val('s');
+        $one_week_end   = $this->get_in_int_val('e');
+
+        $c = '';
+        // $stu_num = $this->t_seller_student_new->get_data($one_week_start, $one_week_end);
+        // $phone_list = $this->t_seller_student_new->getPhoneList($one_week_start, $one_week_end);
+        $admin_list = $this->t_seller_student_new->getAdminList($one_week_start, $one_week_end);
+        foreach($admin_list as &$item){
+            $item['name'] = $this->cache_get_account_nick($item['adminid']);
+            $item['called_succ'] = $this->t_tq_call_info->get_succ_num($item['adminid'],$one_week_start,$one_week_end);
+            $item['has_called'] = $this->t_tq_call_info->get_called_num($item['adminid'],$one_week_start,$one_week_end);
+            $item['total_money'] = $this->t_order_info->get_total_price_for_tq($item['adminid'],$one_week_start,$one_week_end);
+
+            if(!$item['adminid']){$item['adminid'] = 0;}
+            if(!$item['name']){$item['name'] = 0;}
+            if(!$item['called_succ']){$item['called_succ'] = 0;}
+            if(!$item['has_called']){$item['has_called'] = 0;}
+            if(!$item['total_money']){$item['total_money'] = 0;}
+            $c.='['.$item['adminid'].',"'.$item['name'].'",'.$item['called_succ'].','.$item['has_called'].','.$item['total_money'].'],<br/>';
+        }
+
+        // foreach($admin_list){
+
+        // }
+        dd($c);
+
+        // $this->download_xls_tmp($c);
+
+        dd($admin_list);
+    }
+
+
+    public function download_xls_tmp ()  { // 测试
+        $c = $this->get_in_str_val('c');
+
+        // $xls_data= session("xls_data" );
+
+        // $a[] = [
+        //     "adminid" => "0",
+        //     "name" => "22",
+        //     "called_succ" => "71",
+        //     "has_called" => "196",
+        //     "total_money" => "429460.0000"
+        // ];
+
+        // $a[]  =  [
+        //     "adminid" => "3",
+        //     "name" => "ddd",
+        //     "called_succ" => "77y7",
+        //     "has_called" => "196",
+        //     "total_money" => "42sdjfh000"
+        // ];
+
+
+        // $c = '';
+        // foreach($a as $v){
+        //     $c.='['.$v['adminid'].','.$v['name'].','.$v['called_succ'].','.$v['has_called'].','.$v['total_money'].'],';
+        // }
+
+        // $c = substr($c,0,strlen($c)-1);
+
+
+        $xsl_data = '
+[
+["id","姓名","电话拨打数","拨通数","签单金额"],
+'.$c.'
+]
+';
+
+        $xsl_data = json_decode($xsl_data,true);
+        dd($xsl_data);
+
+
+        if(!is_array($xsl_data)) {
+            return $this->output_err("download error");
+        }
+
+        $objPHPExcel = new \PHPExcel();
+        $objPHPExcel->getProperties()->setCreator("jim ")
+                             ->setLastModifiedBy("jim")
+                             ->setTitle("jim title")
+                             ->setSubject("jim subject")
+                             ->setDescription("jim Desc")
+                             ->setKeywords("jim key")
+                             ->setCategory("jim  category");
+
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        $col_list=[
+            "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T", "U","V","W","X","Y","Z"
+            ,"AA","AB","AC","AD","AE","AF","AG","AH","AI","AJ","AK","AL","AM","AN","AO","AP","AQ","AR","AS","AT","AU","AV","AW","AX","AY","AZ"
+            ,"BA","BB","BC","BD","BE","BF","BG","BH","BI","BJ","BK","BL","BM","BN","BO","BP","BQ","BR","BS","BT","BU","BV","BW","BX","BY","BZ"
+            ,"CA","CB","CC","CD","CE","CF","CG","CH","CI","CJ","CK","CL","CM","CN","CO","CP","CQ","CR","CS","CT","CU","CV","CW","CX","CY","CZ"
+
+        ];
+
+        foreach( $xsl_data as $index=> $item ) {
+            foreach ( $item as $key => $cell_data ) {
+                $index_str = $index+1;
+                $pos_str   = $col_list[$key].$index_str;
+                $objPHPExcel->getActiveSheet()->setCellValue( $pos_str, $cell_data);
+            }
+        }
+
+      $date=\App\Helper\Utils::unixtime2date (time(NULL));
+      header('Content-type: application/vnd.ms-excel');
+      header( "Content-Disposition:attachment;filename=\"$date.xlsx\"");
+
+      $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+
+      $objWriter->save('php://output');
+    }
+
+    public function dd(){
+        $a = $this->t_parent_info->get_parent_opend_list();
+
+        dd($a);
+
+        $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new("");
+        // // $month_start_time = strtotime(date("Y-m-01",$end_time));
+        $month_start_time = '1509465600';
+        $month_end_time = strtotime(date('Y-m-01', strtotime('+1 month',$month_start_time)));
+        // $main_type = 2;// 销售
+        // $ret_info['seller_target_income'] = $this->get_month_finish_define_money(0,$month_start_time); // 销售月目标收入
+        // if (!$ret_info['seller_target_income'] ) {
+        //     $ret_info['seller_target_income'] = 1600000;
+        // }
+
+        $month_date_money_list = $this->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
+
+        $price = 0;
+        foreach($month_date_money_list as $v){
+            $price += $v['money'];
+        }
+        echo $price;
+        dd($month_date_money_list);
+
+    }
 
 
 

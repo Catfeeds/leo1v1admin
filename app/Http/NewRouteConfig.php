@@ -53,6 +53,7 @@ class NewRouteConfig {
         "rule_txt"=>true,
         "resource"=>true,
         'test_bacon'=>true,
+        'question_new'=>true,
     ];
 
     static public function check_is_new_ctl($ctl) {
@@ -61,6 +62,10 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
+        "/resource/get_sub_grade_tag_js"       => true,
+        "/resource/get_next_info_js"           => true,
+        "/resource/resource_frame_new"         => true,
+        "/resource/get_resource_type_js"       => true,
         "/resource/add_or_del_or_edit"         => true,
         "/resource/resource_count"             => true,
         "/tea_manage_new/approved_data"        => true,
@@ -72,7 +77,6 @@ class NewRouteConfig {
         "/resource/add_resource"               => true,
         "/resource/get_all"                    => true,
         "/resource/get_del"                    => true,
-        "/resource/resource_frame"             => true,
         "/resource/get_list_by_resource_id_js" => true,
         "/rule_txt/add_or_update_name"         => true,
         "/rule_txt/process_info"               => true,
@@ -411,6 +415,24 @@ class NewRouteConfig {
         "/stu_manage/user_login_list"          => true,
         "/stu_manage/one_three_grade_student"  => true,
         "/stu_manage/score_list1"              => true,
+        
+        "/question_new/question_list"              => true,
+        "/question_new/knowledge_list"              => true,
+        "/question_new/question_know_list"              => true,
+        "/question_new/answer_list"              => true,
+        "/question_new/question_add"              => true,
+        "/question_new/question_edit"              => true,
+        "/question_new/question_dele"              => true,
+        "/question_new/question_flag"              => true,
+        "/question_new/knowledge_add"              => true,
+        "/question_new/knowledge_edit"              => true,
+        "/question_new/knowledge_dele"              => true,
+        "/question_new/answer_add"              => true,
+        "/question_new/answer_edit"              => true,
+        "/question_new/answer_dele"              => true,
+        "/question_new/question_know_get"        => true,
+        "/question_new/question_know_add"        => true,
+        "/question_new/question_know_dele"        => true,
 
         "/seller_student_new/tmk_seller_student_new"  => true,
         "/seller_student2/show_order_activity_info"  => true,
@@ -423,6 +445,7 @@ class NewRouteConfig {
         "/seller_student2/update_order_activity_05"  => true,
         "/seller_student2/update_order_activity_06"  => true,
         "/seller_student2/update_order_activity_07"  => true,
+        "/seller_student2/update_order_activity_08"  => true,
         "/seller_student2/get_order_activity"  => true,
         "/seller_student2/get_activity_all_list"  => true,
         "/seller_student2/get_current_activity"  => true,

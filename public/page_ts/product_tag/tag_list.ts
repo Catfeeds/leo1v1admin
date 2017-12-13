@@ -2,6 +2,31 @@
 /// <reference path="../g_args.d.ts/product_tag-tag_list.d.ts" />
 
 $(function(){
+    //实例化一个plupload上传对象
+    var uploader = $.plupload_Uploader({
+        browse_button : 'id_xls', //触发文件选择对话框的按钮，为那个元素id
+        url : '/product_tag/add_tag_by_xls', //服务器端的上传页面地址
+        flash_swf_url : '/js/qiniu/plupload/Moxie.swf', //swf文件，当需要使用swf方式进行上传时需要配置该参数
+        silverlight_xap_url : '/js/qiniu/plupload/Moxie.xap', //silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数
+        filters: {
+            mime_types : [ //只允许上传图片和zip文件
+                { title : "xls files", extensions : "xls" },
+                { title : "xlsx files", extensions : "xlsx" }
+            ],
+            max_file_size : '40m', //最大只能上传400kb的文件
+            prevent_duplicates : true //不允许选取重复文件
+        }
+    });
+    uploader.init();
+    uploader.bind('FilesAdded',function(up, files) {
+        uploader.start();
+    });
+    uploader.bind('FileUploaded',function(response,responseHeaders,status){
+        if(status.status == 200)
+            alert('添加成功!');
+        location.reload();
+    })
+
     function load_data(){
         $.reload_self_page ( {
             tag_l1_sort : $('#id_tag_l1_sort').find("option:selected").text(),
@@ -29,13 +54,10 @@ $(function(){
     if(old_tag_l3_sort == ''){
         old_tag_l3_sort="标签三级分类";
     }
-    
-    
 
     var preTag_l1_sort = "<option value=\"\">"+old_tag_l1_sort+"</option>";  
     var preTag_l2_sort = "<option value=\"\">"+old_tag_l2_sort+"</option>";  
     var preTag_l3_sort = "<option value=\"\">"+old_tag_l3_sort+"</option>";  
-    
     //初始化  
     tag_l1_sort.html(preTag_l1_sort);  
     tag_l2_sort.html(preTag_l2_sort);  
@@ -97,19 +119,19 @@ $(function(){
         l1.each(function(i) {  
             tag_l1_sort.append("<option value=" + i + ">"  
                                + l1.eq(i).attr("text") + "</option>");  
-        });  
-    }  
-    
-    function func_suc_getXmlTag_l2_sort(xml) {  
-        var xml_l1 = $(xml).find("tag_l1_sort");  
-        var pro_num = parseInt(tag_l1_sort.val());  
-        var xml_l2 = xml_l1.eq(pro_num).find("tag_l2_sort");  
-        xml_l2.each(function(j) {  
-            tag_l2_sort.append("<option  value=" + j + ">"  
-                               + xml_l2.eq(j).attr("text") + "</option>");  
-        });  
-    }  
-    
+        });
+    }
+
+    function func_suc_getXmlTag_l2_sort(xml) {
+        var xml_l1 = $(xml).find("tag_l1_sort");
+        var pro_num = parseInt(tag_l1_sort.val());
+        var xml_l2 = xml_l1.eq(pro_num).find("tag_l2_sort");
+        xml_l2.each(function(j) {
+            tag_l2_sort.append("<option  value=" + j + ">"
+                               + xml_l2.eq(j).attr("text") + "</option>");
+        });
+    }
+
     function func_suc_getXmlTag_l3_sort(xml) {  
         var xml_l1 = $(xml).find("tag_l1_sort");  
         var pro_num = parseInt(tag_l1_sort.val());  

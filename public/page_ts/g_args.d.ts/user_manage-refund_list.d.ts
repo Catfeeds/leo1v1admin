@@ -71,77 +71,6 @@ interface RowData {
 	qc_contact_status_str	:any;
 	qc_voluntarily_status_str	:any;
 	order_time_str	:any;
-	is_pass	:any;
-	qc_other_reason	:any;
-	qc_analysia	:any;
-	qc_reply	:any;
-	duty	:any;
-	duty_str	:any;
-	max_time_str	:any;
-	min_time_str	:any;
-	助教部一级原因	:any;
-	助教部二级原因	:any;
-	助教部三级原因	:any;
-	助教部reason	:any;
-	助教部dep_score	:any;
-	助教部扣分值	:any;
-	助教部责任值	:any;
-	教务部一级原因	:any;
-	教务部二级原因	:any;
-	教务部三级原因	:any;
-	教务部reason	:any;
-	教务部dep_score	:any;
-	教务部扣分值	:any;
-	教务部责任值	:any;
-	老师管理一级原因	:any;
-	老师管理二级原因	:any;
-	老师管理三级原因	:any;
-	老师管理reason	:any;
-	老师管理dep_score	:any;
-	老师管理扣分值	:any;
-	老师管理责任值	:any;
-	教学部一级原因	:any;
-	教学部二级原因	:any;
-	教学部三级原因	:any;
-	教学部reason	:any;
-	教学部dep_score	:any;
-	教学部扣分值	:any;
-	教学部责任值	:any;
-	产品问题一级原因	:any;
-	产品问题二级原因	:any;
-	产品问题三级原因	:any;
-	产品问题reason	:any;
-	产品问题dep_score	:any;
-	产品问题扣分值	:any;
-	产品问题责任值	:any;
-	咨询部一级原因	:any;
-	咨询部二级原因	:any;
-	咨询部三级原因	:any;
-	咨询部reason	:any;
-	咨询部dep_score	:any;
-	咨询部扣分值	:any;
-	咨询部责任值	:any;
-	客户情况变化一级原因	:any;
-	客户情况变化二级原因	:any;
-	客户情况变化三级原因	:any;
-	客户情况变化reason	:any;
-	客户情况变化dep_score	:any;
-	客户情况变化扣分值	:any;
-	客户情况变化责任值	:any;
-	老师一级原因	:any;
-	老师二级原因	:any;
-	老师三级原因	:any;
-	老师reason	:any;
-	老师dep_score	:any;
-	老师扣分值	:any;
-	老师责任值	:any;
-	科目一级原因	:any;
-	科目二级原因	:any;
-	科目三级原因	:any;
-	科目reason	:any;
-	科目dep_score	:any;
-	科目扣分值	:any;
-	科目责任值	:any;
 }
 
 /*
@@ -153,8 +82,9 @@ tofile:
 /// <reference path="../g_args.d.ts/user_manage-refund_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -165,23 +95,29 @@ function load_data(){
 		is_test_user:	$('#id_is_test_user').val(),
 		refund_userid:	$('#id_refund_userid').val(),
 		seller_groupid_ex:	$('#id_seller_groupid_ex').val()
-    });
+		});
 }
 $(function(){
 
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
 	$('#id_refund_type').val(g_args.refund_type);
-	$('#id_userid').val(g_args.userid);
+	$('#id_userid').admin_select_user_new({
+		"user_type"    : "student",
+		"select_value" : g_args.userid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_userid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_is_test_user').val(g_args.is_test_user);
 	$('#id_refund_userid').val(g_args.refund_userid);
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
@@ -194,6 +130,11 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -201,6 +142,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_refund_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["refund_type title", "refund_type", "th_refund_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -208,6 +150,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_userid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["userid title", "userid", "th_userid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -215,6 +158,9 @@ $(function(){
                 <input class="opt-change form-control" id="id_is_test_user" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["is_test_user title", "is_test_user", "th_is_test_user" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -222,6 +168,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_refund_userid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["refund_userid title", "refund_userid", "th_refund_userid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -229,4 +176,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_seller_groupid_ex" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["seller_groupid_ex title", "seller_groupid_ex", "th_seller_groupid_ex" ]])!!}
 */

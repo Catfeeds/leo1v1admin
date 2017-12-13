@@ -123,7 +123,7 @@
                                    data-type="leoedu://video.leoedu.com/video="
                                    title="视频播放二维码" > </a>
                                 @if($var["trial_train_status"] <3)
-                                    @if(in_array($acc,["adrian","jim",$var['acc'],"jack"]))
+                                    @if(in_array($acc,["adrian","jim",$var['acc'],"jack","林文彬"]))
                                         <a class="opt-edit" title="更改状态">审核 </a>
                                     @endif
                                     @if(in_array($acc,["jack","jim","林文彬"]))
@@ -133,7 +133,7 @@
                                     @if($var["trial_train_status"]>0)
                                         <a class="opt-confirm-score" title="审核详情">审核详情</a>
                                     @endif
-                                    @if(in_array($acc,["coco","jack","seth","展慧东","CoCo老师","amyshen","wander","梁立玉","王芳","潘艳亭","江敏"]))
+                                    @if(in_array($acc,["coco","jack","seth","CoCo老师","amyshen","wander","梁立玉","王芳","潘艳亭","江敏","艾欣","孙瞿"]))
                                         <a class="opt-reset-acc" >重置审核人</a>
                                     @endif
                                     <a class="opt-set-new-lesson" >视频出错</a>

@@ -130,10 +130,10 @@ $(function(){
             if(g_args.ass_master_flag==1){
                 $.wopen('/user_manage/ass_archive?userid=' + opt_data.userid);
             }else{
-                $.wopen('/user_manage/ass_archive_ass?userid=' + opt_data.userid); 
+                $.wopen('/user_manage/ass_archive_ass?userid=' + opt_data.userid);
             }
         }else{
-            $.wopen('/stu_manage?sid=' + opt_data.userid); 
+            $.wopen('/stu_manage?sid=' + opt_data.userid);
         }
     });
 
@@ -143,6 +143,20 @@ $(function(){
             alert("请先解除挂载!");
             return;
         }
+
+        if(opt_data.test_lesson_student_status != 200 && opt_data.test_lesson_student_status != 120 ){
+            alert("非待排课状态，若更换试听课，请取消课程，重新排课!");
+            return;
+        }
+
+        if(opt_data.accept_status == 1){
+            alert('已确认课程，若更换试听课，请取消课程，重新排课；');
+            return;
+        }
+
+
+        console.log("测试:"+opt_data.accept_status);
+
         var id_teacherid       = $("<input/>");
         var id_start_time      = $("<input/>");
         var id_top_seller_flag = $("<select />");
@@ -450,8 +464,8 @@ $(function(){
 
             $.show_key_value_table("试听评价", arr);
         });
-
     });
+
     $(".opt-user-info").on("click",function(){
         var opt_data=$(this).get_opt_data();
 
@@ -652,7 +666,7 @@ $(function(){
             if(g_args.account_role_self==12){
                 $.admin_select_user($id_userid,"student");
             }else{
-                $.admin_select_user($id_userid,"student_ass"); 
+                $.admin_select_user($id_userid,"student_ass");
             }
             $.admin_select_user( $green_channel_teacherid, "teacher");
             $id_change_teacher_reason_type.parent().parent().css('display','none');
@@ -1321,7 +1335,7 @@ $(function(){
                         "requireids" : id,
                     },function(result){
                         if(result.ret==-1){
-                            BootstrapDialog.alert(result.info); 
+                            BootstrapDialog.alert(result.info);
                         }else{
                             select_time_limit(result,lesson_info);
                         }
@@ -1569,7 +1583,7 @@ $(function(){
 
     $(".opt-set-limit-require-agree").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        if(g_adminid != opt_data.limit_require_send_adminid){
+        if(g_adminid != opt_data.limit_require_send_adminid && g_adminid !=478){
             alert("您无权处置!");
             return;
         }
@@ -1590,7 +1604,7 @@ $(function(){
 
     $(".opt-set-limit-require-refuce").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        if(g_adminid != opt_data.limit_require_send_adminid){
+        if(g_adminid != opt_data.limit_require_send_adminid && g_adminid !=478){
             alert("您无权处置!");
             return;
         }
@@ -2833,180 +2847,12 @@ $(function(){
         });
     }
 
-
-    $(".lesson-plan-new-test").on("click",function(){
-        var opt_data = $(this).get_opt_data();
-       // var main_type    = opt_data.main_type;
-       // var up_groupid =opt_data.up_groupid ;
-
-        $("<div></div>").admin_select_dlg_ajax_test({
-            "opt_type" : "select", // or "list"
-            "url"      : "/user_deal/get_group_list_new_month",
-            //其他参数
-            "args_ex" : {
-                "main_type":2,
-                "start_time" : g_args.start_time
-            },
-
-            select_primary_field   : "groupid",
-            select_display         : "package_name",
-            select_no_select_value : 0,
-            select_no_select_title : "[未设置]",
-
-            //字段列表
-            'field_list' :[
-                {
-                title:"groupid",
-                width :50,
-                field_name:"groupid"
-            },{
-                title:"组名",
-                field_name:"group_name"
-            },{
-                title:"助长",
-                field_name:"group_master_nick"
-            }
-            ] ,
-            //查询列表
-            filter_list:[
-                [
-                {
-                    size_class: "col-md-3" ,
-                    title :"老师",
-                    'arg_name' :  "nick_phone"  ,
-                    type  : "input"
-                }, {
-                    size_class: "col-md-9" ,
-                    title :"试听上课时间",
-                    'arg_name' :  "nick_phone"  ,
-                    type  : "input"
-                },{
-                    size_class: "col-md-2" ,
-                    title :"教师相关",
-                    type  : "select" ,
-                    'arg_name' :  "gender"  ,
-                    select_option_list: [ {
-                        value : -1 ,
-                        text :  "全部"
-                    },{
-                        value :  1 ,
-                        text :  "男"
-                    },{
-                        value :  2 ,
-                        text :  "女"
-                    }]
-                },{
-                    size_class: "col-md-2" ,
-                    title :"课堂相关",
-                    type  : "select" ,
-                    'arg_name' :  "gender"  ,
-                    select_option_list: [ {
-                        value : -1 ,
-                        text :  "全部"
-                    },{
-                        value :  1 ,
-                        text :  "男"
-                    },{
-                        value :  2 ,
-                        text :  "女"
-                    }]
-                }, {
-                    size_class: "col-md-2" ,
-                    title :"教学相关",
-                    type  : "select" ,
-                    'arg_name' :  "gender"  ,
-                    select_option_list: [ {
-                        value : -1 ,
-                        text :  "全部"
-                    },{
-                        value :  1 ,
-                        text :  "男"
-                    },{
-                        value :  2 ,
-                        text :  "女"
-                    }]
-                }, {
-                    size_class: "col-md-2" ,
-                    title :"老师身份",
-                    type  : "select" ,
-                    'arg_name' :  "gender"  ,
-                    select_option_list: [ {
-                        value : -1 ,
-                        text :  "全部"
-                    },{
-                        value :  1 ,
-                        text :  "男"
-                    },{
-                        value :  2 ,
-                        text :  "女"
-                    }]
-                },{
-                    size_class: "col-md-2" ,
-                    title :"老师性别",
-                    type  : "select" ,
-                    'arg_name' :  "gender"  ,
-                    select_option_list: [ {
-                        value : -1 ,
-                        text :  "全部"
-                    },{
-                        value :  1 ,
-                        text :  "男"
-                    },{
-                        value :  2 ,
-                        text :  "女"
-                    }]
-                },{
-                    size_class: "col-md-2" ,
-                    title :"年龄段",
-                    type  : "select" ,
-                    'arg_name' :  "gender"  ,
-                    select_option_list: [ {
-                        value : -1 ,
-                        text :  "全部"
-                    },{
-                        value :  1 ,
-                        text :  "男"
-                    },{
-                        value :  2 ,
-                        text :  "女"
-                    }]
-                },
-
-
-
-
-
-            ]
-
-
-            ],
-            "auto_close" : true,
-            "onChange"   : function( val) {
-                var groupid = val ;
-                var me=this;
-                if (groupid>0) {
-                    $.do_ajax("/user_deal/set_up_groupid_new",{
-                      //  "groupid":groupid,
-                      //  "up_groupid":up_groupid,
-                        "start_time" : g_args.start_time
-                    },function(resp){
-                        window.location.reload();
-                    });
-                }else{
-                    alert( "请选择小组" );
-                }
-            },
-            "onLoadData" : null,
-            "requireid"  : opt_data.require_id
-        });
-
+    $(".select-teacher-for-test-lesson").on("click",function(){
+        var data = $(this).get_opt_data();
+        var url = "/seller_student_new2/select_teacher_for_test_lesson?require_id="+data.require_id;
+        window.open(url);
     });
 
-    if(g_adminid != 349){
-        download_hide();
-    }
+
     $(".opt-download-test-paper").show();
-   // $(".page-opt-show-all-xls").hide();
-
-
 });

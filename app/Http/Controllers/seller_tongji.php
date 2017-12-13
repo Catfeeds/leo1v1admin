@@ -249,60 +249,15 @@ class seller_tongji extends Controller
                 }
             }
         }
-       
+
+
         \App\Helper\Utils::logger("OUTPUT");
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),
-                               [ '_publish_version' => 201712051813 ]);
+                               [
+                                   '_publish_version' => 201712071914
+                               ]
+        );
     }
 
-    public function test(){
-        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
-        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
-        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
-        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
-        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
-        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
-        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
-        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
-        $arr[] = ["test_lesson_count"=>"19","succ_all_count_for_month"=>"18","fail_all_count_for_month"=>"1","suc_lesson_count_one"=>0,"suc_lesson_count_two"=>0,"suc_lesson_count_three"=>0,"suc_lesson_count_four"=>0,"lesson_per"=>"5.3%","kpi"=>"40%","order_per"=>"0%","ret"=>0,"info"=>"成功"];
-        return json_encode($arr[0]);
-
-    }
-
-    private function super_add($arr_n,$arr,$level,$strArr){
-        if(!$arr_n || !$arr){
-            return $arr;
-        } 
-        foreach($arr_n as $k => $v){
-           
-            $first = $v + 1;
-            if( $v == end($arr_n) ){
-                $last = count($arr)-1;
-            }else{
-                $last = $arr_n[$k+1] - 1;
-            }
-
-            if($first > $last){
-                //$arr[$v]['num'] = 0; 
-            }elseif($first == $last){
-                foreach($strArr as $str){
-                    $arr[$v][$str] = @$arr[$first][$str];
-                }   
-            }else{
-                for( $i = $first; $i <= $last; $i++ ){
-                    if($arr[$i]['level'] == $level){
-                        foreach($strArr as $str){
-                            $arr[$v][$str] += @$arr[$i][$str];
-                        }   
-
-                    }
-                }
-            }
-            
-        }
-
-        return $arr;
-
-    }
 }  
 ?>

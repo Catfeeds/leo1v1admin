@@ -1,9 +1,12 @@
 @extends('layouts.app')
 @section('content')
+    <script type="text/javascript" src="/js/area/distpicker.data.js"></script>
+	  <script type="text/javascript" src="/js/area/distpicker.js"></script>
     <script>
      var tag_one = '{{$tag_info['tag_one']['menu']}}';
      var tag_two = '{{$tag_info['tag_two']['menu']}}';
      var tag_three = '{{$tag_info['tag_three']['menu']}}';
+     var tag_four = '{{$tag_info['tag_four']['menu']}}';
     </script>
     <section class="content">
         <div>
@@ -64,6 +67,14 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2 {{$tag_info['tag_four']['hide']}} ">
+                    <div class="input-group ">
+                        <span class="input-group-addon">{{$tag_info['tag_four']['name']}}</span>
+                        <select class="form-control opt-change" id="id_tag_four"> </select>
+                    </div>
+                </div>
+
+
             </div>
             <div class="row">
                 <div class="col-xs-2 col-md-1 ">
@@ -95,8 +106,8 @@
                     <td style="width:8%">文件大小</td>
                     <td style="width:8%">下载次数</td>
                     <td style="width:8%">纠错次数</td>
-                    <td style="width:8%">是否使用</td>
-                    <td style="width:8%"> 操作 </td>
+                    <!-- <td style="width:8%">是否使用</td> -->
+                    <!-- <td style="width:8%"> 操作 </td> -->
                 </tr>
             </thead>
             <tbody>
@@ -112,10 +123,10 @@
                         <td>{{@$var["file_size"]}}M </td>
                         <td>{{@$var["down_num"]}} </td>
                         <td>{{@$var["error_num"]}} </td>
-                        <td>{{@$var["is_use_str"]}} </td>
-                        <td>
-                            <a class="opt-restore btn"  title="还原" data-resource_id="{{@$var['resource_id']}}">还原</a>
-                        </td>
+                        <!-- <td>{{@$var["is_use_str"]}} </td> -->
+                        <!-- <td>
+                             <a class="opt-restore btn"  title="还原" data-resource_id="{{@$var['resource_id']}}">还原</a>
+                             </td> -->
                     </tr>
                 @endforeach
             </tbody>

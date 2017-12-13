@@ -3202,7 +3202,7 @@ lesson_type in (0,1) "
     }
 
     public function get_teacher_lesson_total_list($start_time,$end_time){
-        $where_arr=[
+        $where_arr = [
             ["lesson_start>%u",$start_time,0],
             ["lesson_start<%u",$end_time,0],
             "lesson_type in (0,1,3)"
@@ -3224,7 +3224,6 @@ lesson_type in (0,1) "
                                   ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 
@@ -9555,7 +9554,8 @@ lesson_type in (0,1) "
             ['lesson_start>%u',$start_time,-1],
             ['lesson_start<%u',$end_time,-1],
             "lesson_type IN (0, 1, 3) ",
-            "(s.is_test_user = 0 or s.is_test_user is null)"
+            "(s.is_test_user = 0 or s.is_test_user is null)",
+            "l.lesson_del_flag=0"
         ];
         $sql = $this->gen_sql_new("select  count(courseid) as total_plan, "
                                   ."sum(if( lesson_user_online_status = 1,1 ,0))as student_arrive ".
@@ -9864,4 +9864,9 @@ lesson_type in (0,1) "
         return $this->main_get_list($sql);
     }
 
+
+    public function get_teacher_warn_info($start_time, $end_time) {
+        $sql = $this->gen_sql_new("select teacherid,lessonid,lesson_start,lesson_cancel_reason_type type from %s where confirm_flag=2 and lesson_cancel_reason_type in (21,2,12)", self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
 }

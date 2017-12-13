@@ -94,8 +94,6 @@ class flow_order_exchange extends flow_base{
 
 
     static function next_node_process_2 ($flowid, $adminid){ //
-        $task=static::get_task_controler();
-        return $task->t_manager_info->get_adminid_by_account("jim");
         /*
         list($flow_info,$self_info)=static::get_info($flowid);
         $contract_type=$self_info["contract_type"];

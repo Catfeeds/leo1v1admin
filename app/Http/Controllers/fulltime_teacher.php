@@ -303,6 +303,11 @@ class fulltime_teacher extends Controller
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
 
+       
+
+        $lesson_end_time = $this->get_test_lesson_end_time($end_time);
+
+
         $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
         $m = date("m",$start_time);
         $n = ($end_time - $start_time)/86400/31;
@@ -319,9 +324,9 @@ class fulltime_teacher extends Controller
         }
 
         $list = $ret_info;
-        $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
-        $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
-        $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
+        $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time, $lesson_end_time);
+        $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time, $lesson_end_time);
+        $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time, $lesson_end_time);
         $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
         $week_start = $date_week["sdate"]-14*86400;
         $week_end = $date_week["sdate"]+21*86400;
@@ -448,7 +453,7 @@ class fulltime_teacher extends Controller
         $platform_teacher_student = $this->t_student_info->get_total_student_num($type);//统计平台学生数
         $ret['platform_teacher_student'] = $platform_teacher_student[0]['platform_teacher_student'];
         $ret['fulltime_teacher_student_pro'] = round($ret['fulltime_teacher_student']*100/$ret['platform_teacher_student'],2);
-        $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time);
+        $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$lesson_end_time);
         $ret['platform_teacher_lesson_count'] = round($ret_platform_teacher_lesson_count["lesson_count"]/100);//全职老师完成的课耗总数
         if($ret['platform_teacher_lesson_count'] != 0){
             $ret['fulltime_teacher_lesson_count_per'] = round($ret['fulltime_teacher_lesson_count']*100/$ret['platform_teacher_lesson_count'],2);
@@ -462,6 +467,32 @@ class fulltime_teacher extends Controller
         }
         $ret['platform_teacher_cc_lesson']  = $test_person_num_total['person_num'];
         $ret['platform_teacher_cc_order']  = $test_person_num_total['have_order'];
+        $ret['part_teacher_lesson_count'] =  @$ret["platform_teacher_lesson_count"]-@$ret["fulltime_teacher_lesson_count"];
+        $ret['part_teacher_cc_lesson'] = @$ret["platform_teacher_cc_lesson"]-@$ret["fulltime_teacher_cc_lesson"];
+        $ret['part_teacher_cc_order'] = @$ret["platform_teacher_cc_order"]-@$ret["fulltime_teacher_cc_order"];
+        $ret['part_teacher_cc_per']  =$ret['part_teacher_cc_lesson']>0?round(100*$ret['part_teacher_cc_order']/$ret['part_teacher_cc_lesson'],2):0;//全职老师cc转化率
+
+        $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
+        $week_start = $date_week["sdate"]-14*86400;
+        $week_end = $date_week["sdate"]+21*86400;
+        $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5);
+        $qz_tea_arr=[];
+        foreach($ret_info as $yy=>$item){
+            if($item["teacherid"] != 97313){
+                $qz_tea_arr[] =$item["teacherid"];
+            }else{
+                unset($ret_info[$yy]);
+            }
+        }
+        $normal_stu_num = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);
+        foreach($normal_stu_num as $val){
+            @$ret['fulltime_normal_stu_num'] +=$val["num"];
+        }
+       
+        //  $platform_normal_stu_list = $this->t_teacher_info->get_teacher_list(1,$week_start,$week_end);
+        //  $ret['platform_normal_stu_num'] =$platform_normal_stu_list["stu_num"];
+        $ret['fulltime_normal_stu_pro'] =  $ret['platform_teacher_student']>0?round(100*$ret['fulltime_normal_stu_num']/$ret['platform_teacher_student'],2):0;
+
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => @$ret,
@@ -602,55 +633,119 @@ class fulltime_teacher extends Controller
                 \App\Helper\Utils::unixtime2date_for_item($d_item,"start_logtime", "_str","H:i:s");
                 \App\Helper\Utils::unixtime2date_for_item($d_item,"end_logtime" ,"_str", "H:i:s");    
             }
-            if(!$check_holiday && in_array($w,[0,3,4,5,6]) && $adminid>0 && !empty($ret_info["list"]) && $day_time<$today_time){
-                $check_holiday_flag = $this->t_fulltime_teacher_attendance_list->check_is_in_holiday($teacherid,$day_time);
-                if(!$check_holiday_flag){
-                    $id = $this->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
-                    if($id>0){
+            // $d_item["error_flag"]=true;
+            // $d_item["error_flag_str"] ="是";
 
-                        $attendance_info = $this->t_fulltime_teacher_attendance_list->field_get_list($id,"attendance_time,attendance_type,off_time,delay_work_time");
-                        $attendance_type = $attendance_info["attendance_type"];
-                        if($attendance_type==2){
-                            if (isset ( $d_item["start_logtime"]) ){              
-                                $off_time = $attendance_info["off_time"]==0?($day_time+9.5*3600):$attendance_info["off_time"];                              
-                                $delay_time = $attendance_info["delay_work_time"]==0?($day_time+18.5*3600):$attendance_info["delay_work_time"];
-                                if($off_time < $d_item["start_logtime"] ||  $delay_time> $d_item["end_logtime"]){
-                                    $d_item["error_flag"]=true;
-                                    $d_item["error_flag_str"] ="是"; 
-                                }
+            // if(!$check_holiday && in_array($w,[0,3,4,5,6]) && $adminid>0 && !empty($ret_info["list"]) && $day_time<$today_time){
+            //     $check_holiday_flag = $this->t_fulltime_teacher_attendance_list->check_is_in_holiday($teacherid,$day_time);
+            //     if(!$check_holiday_flag){
+            //         $id = $this->t_fulltime_teacher_attendance_list->check_is_exist($teacherid,$day_time);
+            //         if($id>0){
 
-                            }else{
-                                $d_item["error_flag"]=true;
-                                $d_item["error_flag_str"] ="是";
-                            }
+            //             $attendance_info = $this->t_fulltime_teacher_attendance_list->field_get_list($id,"attendance_time,attendance_type,off_time,delay_work_time");
+            //             $attendance_type = $attendance_info["attendance_type"];
+            //             if($attendance_type==2){
+            //                 if (isset ( $d_item["start_logtime"]) ){              
+            //                     $off_time = $attendance_info["off_time"]==0?($day_time+9.5*3600):$attendance_info["off_time"];                              
+            //                     $delay_time = $attendance_info["delay_work_time"]==0?($day_time+18.5*3600):$attendance_info["delay_work_time"];
+            //                     if($off_time < $d_item["start_logtime"] ||  $delay_time> $d_item["end_logtime"]){
+            //                         $d_item["error_flag"]=true;
+            //                         $d_item["error_flag_str"] ="是"; 
+            //                     }
 
-                        }
+            //                 }else{
+            //                     $d_item["error_flag"]=true;
+            //                     $d_item["error_flag_str"] ="是";
+            //                 }
+
+            //             }
                        
  
-                    }else{
-                        if (isset ( $d_item["start_logtime"]) ){              
-                            $off_time = $day_time+9.5*3600;                              
-                            $delay_time = $day_time+18.5*3600;
-                            if($off_time < $d_item["start_logtime"] ||  $delay_time> $d_item["end_logtime"]){
-                                $d_item["error_flag"]=true;
-                                $d_item["error_flag_str"] ="是"; 
-                            }
-                            // $d_item["error_flag"]= ($d_item["work_time"] < 9*3600);
-                            // if ($d_item["error_flag"]) {
-                            //     $d_item["error_flag_str"] ="是";
-                            // }
-                        }else{
-                            $d_item["error_flag"]=true;
-                            $d_item["error_flag_str"] ="是";
-                        }
+            //         }else{
+            //             if (isset ( $d_item["start_logtime"]) ){              
+            //                 $off_time = $day_time+9.5*3600;                              
+            //                 $delay_time = $day_time+18.5*3600;
+            //                 if($off_time < $d_item["start_logtime"] ||  $delay_time> $d_item["end_logtime"]){
+            //                     $d_item["error_flag"]=true;
+            //                     $d_item["error_flag_str"] ="是"; 
+            //                 }
+            //                 // $d_item["error_flag"]= ($d_item["work_time"] < 9*3600);
+            //                 // if ($d_item["error_flag"]) {
+            //                 //     $d_item["error_flag_str"] ="是";
+            //                 // }
+            //             }else{
+            //                 $d_item["error_flag"]=true;
+            //                 $d_item["error_flag_str"] ="是";
+            //             }
  
-                    }
-                }
+            //         }
+            //     }
                 
-            }
+            // }
         }
 
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($date_list) );
 
+    }
+
+    public function fulltime_teacher_attendance_info_month(){
+        list($start_time,$end_time)= $this->get_in_date_range(0,0,0,[],3 );
+        $attendance_type=-1;
+        $account_role=-1;
+        $teacherid = $this->get_in_int_val("teacherid",-1);
+        $adminid = $this->get_in_int_val("adminid",-1);
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
+        $month_start = strtotime(date("Y-m-01",time()));
+        if($start_time>=$month_start){
+            $ret=[];
+        }else{
+            $ret=[];
+            $list = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list_new($start_time,$end_time,$attendance_type,$teacherid,$adminid,$account_role,$fulltime_teacher_type);
+            foreach($list as $val){
+                $uid = $val["adminid"]; 
+                $teacherid = $val["teacherid"];
+                $ret[$uid]["realname"] = $val["realname"];
+                $ret[$uid]["adminid"] = $val["adminid"];
+                $ret[$uid]["teacherid"] = $val["teacherid"];
+                $w = date("w",$val["attendance_time"]);
+                if(in_array($val["attendance_type"],[0,2]) && $w!=1 && $w !=2){
+                    @$ret[$uid]["need_work_day"]++;
+
+                    $off_time = $val["off_time"]==0?($val["attendance_time"]+9.5*3600):$val["off_time"];
+                    $delay_time = $val["delay_work_time"]==0?($val["attendance_time"]+18.5*3600):$val["delay_work_time"];
+                    if($val["card_start_time"]>0){                                           
+                        if($delay_time <$val["card_start_time"]){
+                            @$ret[$uid]["late_num"]++;
+                            @$ret[$uid]["late_time"] +=$val["card_start_time"]-$delay_time;
+                        }
+                        if($off_time > $val["card_end_time"]){
+                            @$ret[$uid]["early_num"]++;
+                            @$ret[$uid]["early_time"] +=$off_time-$val["card_end_time"];
+                        }
+                    }else{
+                        @$ret[$uid]["no_attend_num"]++;
+                    }
+
+                }
+                if($val["card_start_time"]>0){
+                    @$ret[$uid]["real_work_day"]++;
+                }
+                if($val["attendance_type"]==3){
+                    @$ret[$uid]["holiday_day"]++;
+                }
+            }
+            foreach($ret as &$item){
+                $item["late_time"] = round(@$item["late_time"]/3600,2);
+                $item["early_time"] = round(@$item["early_time"]/3600,2);
+            }           
+            
+ 
+        }
+        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret),[
+            "start" =>date("Y-m-d",$start_time),
+            "end" =>date("Y-m-d",$end_time),
+        ] );
+       
+       
     }
 }
