@@ -4629,22 +4629,24 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $break_flag = false;
             if(is_array($teacher_free_time_arr)){
                 foreach($teacher_free_time_arr as $val){
-                    $start_time = strtotime($val[0]);
-                    $date       = date("Y-m-d",$start_time);
-                    $end_time   = strtotime("+1 minute",strtotime($date." ".$val[1]));
-                    if($match_time>=$start_time && $match_time<$end_time){
-                        $match_num = 50;
-                    }
-                    if($match_time_end<=$end_time && $match_time_end>$start_time){
-                        $match_num = $match_num==0?50:100;
-                        $break_flag = true;
-                    }
-                    if($match_time_end<$start_time){
-                        $break_flag = true;
-                    }
+                    if(is_array($val) && isset($val[0])){
+                        $start_time = strtotime($val[0]);
+                        $date       = date("Y-m-d",$start_time);
+                        $end_time   = strtotime("+1 minute",strtotime($date." ".$val[1]));
+                        if($match_time>=$start_time && $match_time<$end_time){
+                            $match_num = 50;
+                        }
+                        if($match_time_end<=$end_time && $match_time_end>$start_time){
+                            $match_num = $match_num==0?50:100;
+                            $break_flag = true;
+                        }
+                        if($match_time_end<$start_time){
+                            $break_flag = true;
+                        }
 
-                    if($break_flag){
-                        break;
+                        if($break_flag){
+                            break;
+                        }
                     }
                 }
             }
