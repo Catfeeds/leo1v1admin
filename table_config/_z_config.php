@@ -1,6 +1,6 @@
 <?php
 return array(
-    ["db_weiyi","t_funnel_channel_statistics","id"],
+    ["db_weiyi","t_channel_funnel_archive_data","id"],
     ['db_weiyi','t_teacher_warn','id'],
     ["db_weiyi","t_resource_agree_info","agree_id"],
     ["db_weiyi","t_resource_file","file_id"],
@@ -301,8 +301,8 @@ return array(
     //["db_question","t_question","id"] ,
     //["db_ejabberd","users","username"] ,
 
-    ["db_question_new","t_question","question_id"] ,
-    ["db_question_new","t_knowledge_point","knowledge_id"] ,
-    ["db_question_new","t_answer","answer_id"] ,
-    ["db_question_new","t_question_knowledge","id"], 
+    // ["db_question_new","t_question","question_id"] ,
+    // ["db_question_new","t_knowledge_point","knowledge_id"] ,
+    // ["db_question_new","t_answer","answer_id"] ,
+    // ["db_question_new","t_question_knowledge","id"], 
 );

@@ -8337,7 +8337,6 @@ class tongji_ss extends Controller
             //试听信息
             $this->t_test_lesson_subject_require->switch_tongji_database();
             $test_lesson_list_new = $this->t_seller_student_origin->get_lesson_list_new($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
-;
             // $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex );
             foreach ($test_lesson_list_new as  $test_item ) {
                 $check_value=$test_item["check_value"];

@@ -1189,6 +1189,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         } else {
             return $this->main_get_list($sql);
         }
+    }
 
     public function get_test_lesson_subject_id_by_lessonid($lessonid){
         $sql = $this->gen_sql_new("  select tls.require_id from %s tr "

@@ -39,8 +39,9 @@ tofile:
 /// <reference path="../g_args.d.ts/seller_student-channel_manage.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		key0:	$('#id_key0').val(),
 		key1:	$('#id_key1').val(),
 		key2:	$('#id_key2').val(),
@@ -49,7 +50,7 @@ function load_data(){
 		value:	$('#id_value').val(),
 		origin_level:	$('#id_origin_level').val(),
 		key1_filed_hide:	$('#id_key1_filed_hide').val()
-    });
+		});
 }
 $(function(){
 
@@ -78,6 +79,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_key0" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["key0 title", "key0", "th_key0" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -85,6 +87,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_key1" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["key1 title", "key1", "th_key1" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -92,6 +95,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_key2" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["key2 title", "key2", "th_key2" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -99,6 +103,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_key3" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["key3 title", "key3", "th_key3" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -106,6 +111,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_key4" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["key4 title", "key4", "th_key4" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -113,6 +119,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_value" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["value title", "value", "th_value" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -120,6 +127,9 @@ $(function(){
                 <input class="opt-change form-control" id="id_origin_level" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["origin_level title", "origin_level", "th_origin_level" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -127,4 +137,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_key1_filed_hide" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["key1_filed_hide title", "key1_filed_hide", "th_key1_filed_hide" ]])!!}
 */
