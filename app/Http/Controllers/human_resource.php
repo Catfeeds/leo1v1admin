@@ -2110,9 +2110,9 @@ class human_resource extends Controller
         $second_train_status        = $this->get_in_int_val("second_train_status", -1);
         $teacher_pass_type          = $this->get_in_int_val("teacher_pass_type", -1);
         if($show_full_time ==1){
-            $interview_type             = $this->get_in_int_val("interview_type",-1);
+            $interview_type = $this->get_in_int_val("interview_type",-1);
         }else{
-            $interview_type             = $this->get_in_int_val("interview_type",0);
+            $interview_type = $this->get_in_int_val("interview_type",0);
         }
 
         $adminid = $this->get_account_id();
@@ -2148,6 +2148,9 @@ class human_resource extends Controller
             E\Electure_appointment_status::set_item_value_str($item,"lecture_appointment_status");
             E\Electure_revisit_type::set_item_value_str($item,"lecture_revisit_type");
             E\Eboolean::set_item_value_str($item,"full_time");
+            if($item['subject_ex']==""){
+                $item['subject_ex'] = 0;
+            }
             E\Esubject::set_item_value_str($item,"subject_ex");
             E\Esubject::set_item_value_str($item,"trans_subject_ex");
 
@@ -2192,11 +2195,13 @@ class human_resource extends Controller
             if(!empty($item["record_info"])){
                 $item["reason"]=$item["record_info"];
             }
+
             if($item["wx_openid"]){
                 $item["have_wx_flag"]="是";
             }else{
                 $item["have_wx_flag"]="否";
             }
+
             if($item["lesson_start"]>0){
                 $item["lecture_revisit_type_new_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
             }else{
@@ -2204,17 +2209,15 @@ class human_resource extends Controller
             }
 
             \App\Helper\Utils::unixtime2date_for_item($item, "train_through_new_time","_str");
-
             if(empty($item["grade_ex"])){
-                $item["grade_ex_str"]="未设置";
-            }else{
-                $not_grade_arr=explode(",",$item["grade_ex"]);
-                $item["grade_ex_str"]="";
-                foreach($not_grade_arr as $ty){
-                    $item["grade_ex_str"] .=E\Egrade::get_desc($ty).",";
-                }
-                $item["grade_ex_str"] = trim($item["grade_ex_str"],",");
+                $item["grade_ex"]=0;
             }
+            $not_grade_arr=explode(",",$item["grade_ex"]);
+            $item["grade_ex_str"]="";
+            foreach($not_grade_arr as $ty){
+                $item["grade_ex_str"] .=E\Egrade::get_desc($ty).",";
+            }
+            $item["grade_ex_str"] = trim($item["grade_ex_str"],",");
         }
 
         $account_id = $this->get_account_id();

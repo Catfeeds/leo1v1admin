@@ -80,7 +80,8 @@ $(function(){
 		"select_value" : g_args.teacherid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_teacherid",
-		"can_sellect_all_flag"     : true
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
 	});
 	$('#id_type').val(g_args.type);
 	$('#id_lessonid').val(g_args.lessonid);
@@ -94,6 +95,11 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -101,6 +107,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_teacherid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teacherid title", "teacherid", "th_teacherid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -108,6 +115,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["type title", "type", "th_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -115,6 +123,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_lessonid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["lessonid title", "lessonid", "th_lessonid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -122,4 +131,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_has_lesson" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["has_lesson title", "has_lesson", "th_has_lesson" ]])!!}
 */

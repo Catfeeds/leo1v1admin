@@ -3476,7 +3476,6 @@ function init_edit() {
             });
 
 
-
             var old_province = data.region;
             if(old_province == ''){
                 old_province="选择省（市）";
@@ -3862,8 +3861,18 @@ function init_edit() {
                 reset_seller_student_status_options();
             });
 
-
-            id_stu_request_test_lesson_time.val(data.stu_request_test_lesson_time);
+            if(data.stu_request_test_lesson_time == '无' || data.stu_request_test_lesson_time == ''){
+                var myDate = new Date();
+                var year = myDate.getFullYear();
+                var month = myDate.getMonth()+1;
+                var date = myDate.getDate();
+                var hours = myDate.getHours();
+                var minutes = myDate.getMinutes();
+                var start_date = year+'-'+add0(month)+'-'+add0(date)+' '+add0(hours)+':'+add0(minutes);
+                id_stu_request_test_lesson_time.val(start_date);
+            }else{
+                id_stu_request_test_lesson_time.val(data.stu_request_test_lesson_time);
+            }
             if(data.stu_request_test_lesson_time_end == '无'){
                 var start_time = Date.parse(new Date(data.stu_request_test_lesson_time))+3600*24*2*1000;
                 var time = new Date(start_time);
@@ -4042,19 +4051,19 @@ function init_edit() {
                         }else{
                             html_node.find("#id_stu_school_new_two").parent().attr('style','');
                         }
-                        if(data.region == ''){
+                        if(html_node.find("#province_new_two").text() == ''){
                             html_node.find("#province_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
                         }else{
                             html_node.find("#province_new_two").parent().attr('style','');
                         }
-                        if(data.city == ''){
+                        if(html_node.find("#city_new_two").text() == ''){
                             html_node.find("#city_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
                         }else{
                             html_node.find("#city_new_two").parent().attr('style','');
                         }
-                        if(data.area == ''){
+                        if(html_node.find("#area_new_two").text() == ''){
                             html_node.find("#area_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
                         }else{

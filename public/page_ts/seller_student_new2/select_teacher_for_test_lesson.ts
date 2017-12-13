@@ -33,6 +33,12 @@ $(function(){
 	  $('.opt-change').set_input_change_event(load_data);
     $("#id_lesson_time").datetimepicker();
 
+    if(g_args.require_id==0){
+        var notice_html = "请选择需要排课的试听需求！";
+        $(".require_content").html(notice_html);
+    }
+    $(".require_content").show();
+
     $(".show_phone").on("click",function(){
         var phone = $(this).data("phone");
         BootstrapDialog.alert(phone);

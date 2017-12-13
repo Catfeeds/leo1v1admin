@@ -1443,20 +1443,29 @@ class seller_student_new2 extends Controller
         $require_info = $this->t_test_lesson_subject_require->get_require_list_by_requireid($require_id);
         if(!empty($require_info)){
             E\Egender::set_item_value_str($require_info);
+            E\Egender::set_item_value_str($require_info,"tea_gender");
+            E\Etea_age::set_item_value_str($require_info,"tea_age");
+            E\Eidentity::set_item_value_str($require_info,"tea_identity");
             E\Egrade::set_item_value_str($require_info);
             E\Esubject::set_item_value_str($require_info);
             E\Equotation_reaction::set_item_value_str($require_info);
             E\Eintention_level::set_item_value_str($require_info);
             $require_info['request_time'] = \App\Helper\Utils::unixtime2date($require_info['curl_stu_request_test_lesson_time']);
+            $subject_tag_arr = json_decode($require_info['subject_tag'],true);
+            if(is_array($subject_tag_arr)){
+                \App\Helper\Utils::set_default_value($require_info['风格性格'], $subject_tag_arr,"",'风格性格');
+                \App\Helper\Utils::set_default_value($require_info['专业能力'], $subject_tag_arr,"",'专业能力');
+                \App\Helper\Utils::set_default_value($require_info['课堂气氛'], $subject_tag_arr,"",'课堂气氛');
+                \App\Helper\Utils::set_default_value($require_info['课件要求'], $subject_tag_arr,"",'课件要求');
+            }
 
-            // $lesson_start = $require_info['curl_stu_request_test_lesson_time'];
-            $lesson_start = strtotime("2017-12-14 9:20");
+            $lesson_start = $require_info['curl_stu_request_test_lesson_time'];
+            // $lesson_start = strtotime("2017-12-14 9:20");
             $lesson_end   = strtotime("+40 minute",$lesson_start);
             $redis_key    = "require_key_".$require_id;
-
-            $tea_list = $this->get_teacher_list_for_test_lesson(
+            $tea_list     = $this->get_teacher_list_for_test_lesson(
                 $redis_key,$lesson_start,$lesson_end,$require_info['grade'],$require_info['subject'],$refresh_flag,
-                $identity,$gender,$tea_age,$teacher_tags,$lesson_tags,$teaching_tags
+                $identity,$gender,$tea_age,$require_info['subject_tag'],$teacher_tags,$lesson_tags,$teaching_tags
             );
         }else{
             $tea_list = [];
@@ -1490,14 +1499,10 @@ class seller_student_new2 extends Controller
     /**
      * 试听排课选择老师列表
      * @param int identity 老师身份
-     * @param int gender   老师性别
-     * @param int age      老师年龄
-     * @param int require_id 试听需求id
-     * @param int refresh_flag 刷新标识
      */
     public function get_teacher_list_for_test_lesson(
         $redis_key,$lesson_start,$lesson_end,$grade,$subject,$refresh_flag=false,$identity=-1,$gender=-1,$tea_age=-1,
-        $teacher_tags='',$lesson_tags='',$teaching_tags=''
+        $subject_tags='',$teacher_tags,$lesson_tags,$teaching_tags
     ){
         $grade_range_part = \App\Helper\Utils::change_grade_to_grade_range_part($grade);
         $ret_list  = \App\Helper\Common::redis_get_json($redis_key);
@@ -1551,14 +1556,15 @@ class seller_student_new2 extends Controller
                 }else{
                     $tea_val['match_time'] = $this->match_teacher_free_time($tea_val['free_time_new'],$lesson_start,$lesson_end);
                     $match_time[$tea_key]  = $tea_val['match_time'];
+                    $tea_val['tags_str']   = $this->change_teacher_tags_to_string($tea_val['teacher_tags']);
                     $tea_val['match_tags'] = $this->match_teacher_tags(
-                        $tea_val['teacher_tags'],$teacher_tags,$lesson_tags,$teaching_tags
+                        $tea_val['teacher_tags'],$subject_tags,$teacher_tags,$lesson_tags,$teaching_tags
                     );
-                    $match_tags[$tea_key]      = $tea_val['match_tags'];
-                    $identity_list[$tea_key]   = $tea_val['is_identity'];
-                    $gender_list[$tea_key]     = $tea_val['is_gender'];
-                    $tea_age_list[$tea_key]    = $tea_val['is_age'];
-                    $ruzhi_list[$tea_key]      = $tea_val['train_through_new_time'];
+                    $match_tags[$tea_key]    = $tea_val['match_tags'];
+                    $identity_list[$tea_key] = $tea_val['is_identity'];
+                    $gender_list[$tea_key]   = $tea_val['is_gender'];
+                    $tea_age_list[$tea_key]  = $tea_val['is_age'];
+                    $ruzhi_list[$tea_key]    = $tea_val['train_through_new_time'];
                     E\Eidentity::set_item_value_str($tea_val);
                     E\Egender::set_item_value_str($tea_val);
                     if($tea_val['train_through_new_time']>0){
@@ -1569,14 +1575,14 @@ class seller_student_new2 extends Controller
                     \App\Helper\Utils::hide_item_phone($tea_val);
                 }
             }
+
             if(!empty($tea_list)){
                 array_multisort(
                     $identity_list,SORT_DESC,$gender_list,SORT_DESC,$tea_age_list,SORT_DESC,
-                    $match_free_time,SORT_DESC,$ruzhi_list,SORT_DESC,$tea_list
+                    $match_time,SORT_DESC,$match_tags,SORT_DESC,$ruzhi_list,SORT_DESC,$tea_list
                 );
             }
         }
-
         return $tea_list;
     }
 
