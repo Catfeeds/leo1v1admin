@@ -1,28 +1,9 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../../page_js/question_edit_new.js" />
 /// <reference path="../../js/MathJax/MathJax.js" />
-/// <reference path="../g_args.d.ts/question_new-question_edit.d.ts" />
+/// <reference path="../g_args.d.ts/question_new-knowledge_edit.d.ts" />
 
 $(function(){
-
-    Enum_map.append_option_list("question_difficult_new",$("#question_difficult"),true,[1,2,3,4,5]);
-    Enum_map.append_option_list("subject", $("#id_subject"),false,[1,2,3,4,5,6,7,8,9,10,11]);
-    Enum_map.append_option_list("boolean", $("#id_open_flag"),true);
-    $("#id_subject").val(g_args.subject);
-    $('#id_open_flag').val(1);
-    if(g_args.editType == 2){
-        var editData = $('#editData').val();
-        editData = JSON.parse(editData);
-        $("#id_open_flag").val(editData.open_flag);
-        $("#question_difficult").val(editData.difficult);
-        $("#id_score").val(editData.score);
-        $("#id_mathjax_content_0").val(editData.title);
-        $("#id_mathjax_content_1").val(editData.detail);
-
-
-        Cquestion_editor.preview_update(null,$("#id_mathjax_content_0"),$("#MathPreview_0"),'MathPreview_0');
-        Cquestion_editor.preview_update(null,$("#id_mathjax_content_1"),$("#MathPreview_1"),'MathPreview_1');
-    }
 
     var id_question_type = null;
     var domain = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/';
@@ -37,7 +18,8 @@ $(function(){
         mathId = document.getElementById(mathId);
         Cquestion_editor.init_mathjax(mathId);
         //上传图片
-        Cquestion_editor.custom_upload( $('#id_mathjax_add_pic_'+id_index)[0],$('#id_mathjax_add_pic_div_'+id_index)[0],domain,null,id_mathjax_content,MathPreview,mathId); 
+        Cquestion_editor.custom_upload( $('#id_mathjax_add_pic_'+id_index)[0],$('#id_mathjax_add_pic_div_'+id_index)[0],domain,null,id_mathjax_content,MathPreview,mathId);
+        Cquestion_editor.preview_update(id_question_type,id_mathjax_content,MathPreview,mathId);
     });
 
     //失去光标事件
@@ -103,27 +85,27 @@ $(function(){
 
     })
 
-    //保存题目
-    $("#save_know").click(function(){
+    //保存知识点
+    $(".answer-save").click(function(){
+        var obj = $(this).parents('.answer_step');
         var data = {
-            'editType':g_args.editType,
-            'question_id':g_args.question_id,
-            'score':$('#id_score').val(),
-            'difficult':$('#question_difficult').val(),
-            'title':$('#id_mathjax_content_0').val(),
-            'detail':$('#id_mathjax_content_1').val(),
-            'open_flag':$('#id_open_flag').val(),
-            'subject':$('#id_subject').val()
+            'editType':obj.find('.editType').val(),
+            'question_id':$('#question_id').val(),
+            'answer_id':obj.find('.answer_id').val(),
+            'step':obj.find('.step').val(),
+            'answer_type':obj.find('.id_answer_type').val(),
+            'detail':obj.find('.id_mathjax_content').val(),
+            'score':obj.find('.id_answer_score').val(),
         };
         $.ajax({
             type : "post",
-            url : "/question_new/question_add",
+            url : "/question_new/answer_add",
             dataType : "json",
             data:data,
             success : function(res){
                 BootstrapDialog.alert(res.msg);
                 if( res.status = 200 ){
-                    window.close();
+                    window.location.reload();
                 }
             },
             error:function(){
