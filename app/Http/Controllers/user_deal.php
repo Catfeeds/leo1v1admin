@@ -1580,7 +1580,6 @@ class user_deal extends Controller
         ];
 
         $ret = $this->t_course_order->field_update_list($courseid,$data);
-
         \App\Helper\Utils::logger("course info has update.courseid is".$courseid
                                   ." course data to:".json_encode($data)."account:".$account." time:".time());
 

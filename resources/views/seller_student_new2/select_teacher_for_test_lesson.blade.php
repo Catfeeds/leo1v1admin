@@ -22,10 +22,10 @@
                         老师身份 : {{ $require_info['tea_identity_str'] }}&nbsp;&nbsp;&nbsp;
                         年龄段   : {{ $require_info['tea_age_str'] }}&nbsp;&nbsp;&nbsp;
                         性别     : {{ $require_info['tea_gender_str'] }}<br/>
-                        风格性格 : {{ $require_info['风格性格'] }}<br/>
-                        专业能力 : {{ $require_info['专业能力'] }}<br/>
-                        课堂气氛 : {{ $require_info['课堂气氛'] }}<br/>
-                        课件要求 : {{ $require_info['课件要求'] }}<br/>
+                        风格性格 : {{ @$require_info['风格性格'] }}<br/>
+                        专业能力 : {{ @$require_info['专业能力'] }}<br/>
+                        课堂气氛 : {{ @$require_info['课堂气氛'] }}<br/>
+                        课件要求 : {{ @$require_info['课件要求'] }}<br/>
                     </td>
                 </tr>
                 <tr>
