@@ -235,7 +235,6 @@ $(function(){
                         } ,
                         success : function(result){
                             if(result.ret == 0){
-                                console.log(6)
                                 // window.location.reload();
                                 last_id = result.resource_id;
                                 $('#up_load').attr('flag', new_flag);//开始上传
@@ -523,7 +522,7 @@ $(function(){
             $('.close').click();
             $('.opt_process').show();
 
-            document.body.onbeforeunload = function (event) {
+            window.onbeforeunload = function (event) {
 						    var c = event || window.event;
 						    if (/webkit/.test(navigator.userAgent.toLowerCase())) {
 							      return "刷新页面将导致正在上传的上传数据丢失！";
@@ -535,6 +534,8 @@ $(function(){
             return $.inArray(file.id, test_func());
 
         },function(up, file, info) {
+            // $(window).unbind("onbeforeunload");
+            // $(window).unbind();
             var res = $.parseJSON(info.response);
             if( info.status == 200 && last_id >0 ){
                 add_file(last_id, file, res, use_type);

@@ -154,7 +154,7 @@ class send_wx_msg_common_lesson extends Command
 
         $cut_class_lesson_list = $task->t_lesson_info_b2->get_need_late_notic();
 
-        if(count($cut_class_lesson_list)<=300){
+        if(count($cut_class_lesson_list)<=1000){
             foreach($cut_class_lesson_list as $item){
                 $opt_time_tea_logout = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
                 $opt_time_stu_logout = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
@@ -204,7 +204,7 @@ class send_wx_msg_common_lesson extends Command
 
 
         // 旷课
-        if(count($absenteeism_lesson_list)<=300){
+        if(count($absenteeism_lesson_list)<=500){
             foreach($absenteeism_lesson_list as $index=>$item){
                 $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
                 $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);

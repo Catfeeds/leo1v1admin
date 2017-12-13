@@ -14,7 +14,7 @@ class t_knowledge_point extends \App\Models\Zgen\z_t_knowledge_point
                               self::DB_TABLE_NAME,
                               [$where_str]
         );
-        return  $this->main_get_list_by_page($sql,$page_num,10);
+        return  $this->main_get_list_by_page($sql,null);
     }
 
     public function knowledge_get($where_arr,$page_num){
@@ -34,6 +34,16 @@ class t_knowledge_point extends \App\Models\Zgen\z_t_knowledge_point
         return $this->main_update($sql);
  
     }
+
+    public function get_by_id($id){
+        $sql=$this->gen_sql("select * from %s where knowledge_id=%u"
+                            ,self::DB_TABLE_NAME
+                            ,$id
+        );
+        return $this->main_get_row($sql);
+ 
+    }
+
 }
 
 

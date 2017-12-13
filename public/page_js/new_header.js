@@ -683,7 +683,8 @@ $(function(){
         //检查一级节点
         var check_url=$.trim( window.location.toString().split("?" )[0], "/");
         check_url= check_url.split("#" )[0].replace(/\/*$/, "" );
-        obj=$(".sidebar-menu >li>a[href*=\"*"+check_url+"\"]").first();
+
+        obj=$(".sidebar-menu >li>a[href*=\""+check_url+"\"]").first();
         title1=obj.text();
 
         /*

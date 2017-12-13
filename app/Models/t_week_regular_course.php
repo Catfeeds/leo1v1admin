@@ -328,6 +328,22 @@ class t_week_regular_course extends \App\Models\Zgen\z_t_week_regular_course
         });
     }
 
+    public function get_tea_stu_num_list_detail($qz_tea_arr){
+        $where_arr=[
+            "s.type <> 1"
+        ]; 
+        $this->where_arr_teacherid($where_arr,"teacherid", $qz_tea_arr );
+        $sql = $this->gen_sql_new("select sum(lesson_count) lesson_all,teacherid "
+                                  ." from %s w left join %s s on w.userid = s.userid"
+                                  ." where %s group by teacherid,s.userid",                                 
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
     public function get_tea_stu_num_list_new($teacherid){
         $where_arr=[
             ["teacherid=%u",$teacherid,-1],

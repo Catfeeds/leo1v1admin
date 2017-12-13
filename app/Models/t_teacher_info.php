@@ -4761,7 +4761,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr=[
             ["l.lessonid=%u",$lessonid,0],
         ];
-        $sql = $this->gen_sql_new("select l.lesson_del_flag, t.nick as tea_nick,t.gender as tea_gender,work_year,phone,"
+        $sql = $this->gen_sql_new("select t.teaching_achievement as harvest, t.evaluate as parent_student_evaluate, l.lesson_del_flag, t.nick as tea_nick,t.gender as tea_gender,work_year,phone,"
                                   ." textbook_type,identity,tl.tea_label_type "
                                   ." from %s t"
                                   ." left join %s l on  l.teacherid=t.teacherid"

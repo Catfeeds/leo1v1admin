@@ -346,6 +346,7 @@ class ss_deal extends Controller
         $ret["stu_request_lesson_time_info"]    = $tt_item["stu_request_lesson_time_info"];
         $ret["stu_test_ipad_flag"]    = $ss_item["stu_test_ipad_flag"];
         $ret["stu_request_test_lesson_time"]    = \App\Helper\Utils::unixtime2date($tt_item["stu_request_test_lesson_time"], 'Y-m-d H:i');
+        $ret["stu_request_test_lesson_time_end"]    = \App\Helper\Utils::unixtime2date($tt_item["stu_request_test_lesson_time_end"], 'Y-m-d H:i');
         $ret["stu_request_test_lesson_demand"]    = $tt_item["stu_request_test_lesson_demand"];
         $ret["province"]                          = $student["province"];
         $ret["city"]                              = $student["city"];
@@ -389,6 +390,7 @@ class ss_deal extends Controller
         $ret["learning_situation"]    = $tt_item["learning_situation"];
         $ret["subject_score"] = $ss_item['subject_score'];
         $ret["subject_tag"] = json_decode($tt_item['subject_tag']);
+        $ret["phone_location"] = mb_substr($student["phone_location"],0,2);
         // dd($ret["subject_tag"]);
 
         return $this->output_succ(["data" => $ret ]);
