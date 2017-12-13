@@ -95,12 +95,15 @@
                 <div class="input-group ">
                     <span class="input-group-addon">老师身份</span>
                     <select class="opt-change form-control" id="id_identity">
+                        <option value="0">无要求</option>
                     </select>
                     <span class="input-group-addon">性别</span>
                     <select class="opt-change form-control" id="id_gender">
+                        <option value="0">无要求</option>
                     </select>
                     <span class="input-group-addon">年龄段</span>
                     <select class="opt-change form-control" id="id_tea_age">
+                        <option value="0">无要求</option>
                     </select>
                 </div>
             </div>
