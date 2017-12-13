@@ -9776,7 +9776,17 @@ lesson_type in (0,1) "
     }
 
     public function get_teacher_warn_info($start_time, $end_time) {
-        $sql = $this->gen_sql_new("select teacherid,lessonid,lesson_start,lesson_cancel_reason_type type from %s where confirm_flag=2 and lesson_cancel_reason_type in (21,2,12)", self::DB_TABLE_NAME);
+        $where_arr = [
+            ['lesson_start>=%u', $start_time, 0],
+            ['lesson_start<%u', $end_time, 0],
+            'confirm_flag=2',
+            "lesson_cancel_reason_type in (21,2,12) "
+        ];
+        $sql = $this->gen_sql_new("select teacherid,lessonid,lesson_start,lesson_cancel_reason_type type "
+                                  ."from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
         return $this->main_get_list($sql);
     }
 }

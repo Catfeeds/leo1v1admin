@@ -1,0 +1,19 @@
+syntax = "proto3";
+import "yb_account/common.proto";
+
+//__CMD: 0x1009
+//__DESC: 192.168.0.6:8001/account/reset_passwd 验证用户验证码,修改密码
+//__TAGS: for_app
+
+message in  {
+  int32  role = 1; // 角色
+  string phone = 2; //电话
+  string verification_code = 3; //验证码
+  string passwd = 4; //新密码
+  string passwd_again = 5; //新密码再次
+}
+
+message out {
+  
+}
+
