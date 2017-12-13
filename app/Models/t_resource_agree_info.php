@@ -17,7 +17,9 @@ class t_resource_agree_info extends \App\Models\Zgen\z_t_resource_agree_info
         return $this->main_get_list($sql);
     }
 
-    public function update_ban($resource_type,$subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four, $adminid, $time, $is_ban){
+    public function update_ban(
+        $resource_type,$subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four, $adminid, $time, $is_ban, $ban_level
+    ){
         $where_arr = [
             ['resource_type=%u', $resource_type, -1],
             ['subject=%u', $subject, -1],
@@ -28,7 +30,7 @@ class t_resource_agree_info extends \App\Models\Zgen\z_t_resource_agree_info
             ['tag_four=%u', $tag_four, ''],
         ];
 
-        $sql = $this->gen_sql_new("update %s set is_ban=$is_ban,lock_adminid=$adminid,lock_time=$time where %s"
+        $sql = $this->gen_sql_new("update %s set is_ban=$is_ban,ban_level=$ban_level,lock_adminid=$adminid,lock_time=$time where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
@@ -82,7 +84,9 @@ class t_resource_agree_info extends \App\Models\Zgen\z_t_resource_agree_info
         }
 
         $select = $is_end?$select.',is_ban':$select;
-        $sql = $this->gen_sql_new("select distinct $select from %s where %s"
+        $sql = $this->gen_sql_new("select $select,"
+                                  ." min(if(is_ban=1,ban_level,0)) ban_level"
+                                  ." from %s where %s group by $select"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
