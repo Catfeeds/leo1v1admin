@@ -11,7 +11,7 @@ class t_parent_send_mgs_log extends \App\Models\Zgen\z_t_parent_send_mgs_log
     public function is_has($openid){
         $sql = $this->gen_sql_new("  select 1 from %s ps"
                                   ." left join %s p on p.parentid=ps.parentid"
-                                  ." where p.wx_openid==$openid and ps.is_send_flag=5"
+                                  ." where p.wx_openid='$openid' and ps.is_send_flag=5"
                                   ,self::DB_TABLE_NAME
                                   ,t_parent_info::DB_TABLE_NAME
         );

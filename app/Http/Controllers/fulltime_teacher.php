@@ -488,7 +488,7 @@ class fulltime_teacher extends Controller
         foreach($normal_stu_num as $val){
             @$ret['fulltime_normal_stu_num'] +=$val["num"];
         }
-        $normal_stu_num_all = $this->t_lesson_info_b2->get_tea_stu_num_list(-1,$week_start,$week_end,false);
+        $normal_stu_num_all = $this->t_lesson_info_b2->get_tea_stu_num_list([],$week_start,$week_end,false);
         foreach($normal_stu_num_all as $val){
             @$ret['platform_normal_stu_num'] +=$val["num"];
         }
