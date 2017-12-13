@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+   <script type="text/javascript" src="/page_js/lib/flow.js"></script>
+   <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+
     <style>
      .note{
          margin-left:10px;
@@ -45,10 +48,11 @@
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2">
+                <div class="col-xs-6 col-md-3">
                     <div class="input-group ">
                         <button id="id_search" class="btn btn-primary"> 查找 </button>
                         <button id="id_add" class="btn btn-primary"> 添加标签 </button>
+                        <button id="id_xls" class="btn btn-primary"> xls导入标签 </button>
                     </div>
                 </div>
             </div>

@@ -14,6 +14,18 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	tag_id	:any;
+	tag_name	:any;
+	tag_l1_sort	:any;
+	tag_l2_sort	:any;
+	tag_l3_sort	:any;
+	tag_weight	:any;
+	tag_object	:any;
+	tag_desc	:any;
+	create_time	:any;
+	manager_id	:any;
+	account	:any;
+	tag_object_str	:any;
 }
 
 /*
