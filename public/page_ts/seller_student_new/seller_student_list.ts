@@ -3871,7 +3871,7 @@ function init_edit() {
             show_status_list.push(status);
 
             Enum_map.append_option_list("seller_student_status", id_status ,true , show_status_list );
-            Enum_map.append_option_list("gender", id_gender, true);
+            Enum_map.append_option_list("gender", id_gender, true,[0,1,2]);
             Enum_map.append_option_list("parent_type", id_par_type, true);
             Enum_map.append_option_list("region_version", id_editionid, true);
 
@@ -4063,29 +4063,29 @@ function init_edit() {
             });
 
             if(data.stu_request_test_lesson_time == '无' || data.stu_request_test_lesson_time == ''){
-                var myDate = new Date();
-                var year = myDate.getFullYear();
-                var month = myDate.getMonth()+1;
-                var date = myDate.getDate();
-                var hours = myDate.getHours();
-                var minutes = myDate.getMinutes();
+                var myDate = Date.parse(new Date())+3600*24*1000;
+                var time = new Date(myDate);
+                var year = time.getFullYear();
+                var month = time.getMonth()+1;
+                var date = time.getDate();
+                // var hours = myDate.getHours();
+                var hours = 10;
+                // var minutes = myDate.getMinutes();
+                var minutes = 0;
                 var start_date = year+'-'+add0(month)+'-'+add0(date)+' '+add0(hours)+':'+add0(minutes);
                 id_stu_request_test_lesson_time.val(start_date);
             }else{
                 id_stu_request_test_lesson_time.val(data.stu_request_test_lesson_time);
             }
             if(data.stu_request_test_lesson_time_end == '无'){
-                var start_time = Date.parse(new Date(data.stu_request_test_lesson_time))+3600*24*2*1000;
+                var start_time = Date.parse(new Date(id_stu_request_test_lesson_time.val()))+3600*2*1000;
                 var time = new Date(start_time);
                 var year = time.getFullYear();
                 var month = time.getMonth()+1;
                 var date = time.getDate();
-                // var hours = time.getHours();
-                var hours = 0;
-                // var minutes = time.getMinutes();
-                var minutes = 0;
-                var seconds = 0;
-                var start_date = year+'-'+add0(month)+'-'+add0(date)+' '+add0(hours)+':'+add0(minutes)+':'+add0(seconds);
+                var hours = time.getHours();
+                var minutes = time.getMinutes();
+                var start_date = year+'-'+add0(month)+'-'+add0(date)+' '+add0(hours)+':'+add0(minutes);
                 id_stu_request_test_lesson_time_end.val(start_date);
             }else{
                 id_stu_request_test_lesson_time_end.val(data.stu_request_test_lesson_time_end);
@@ -4240,7 +4240,7 @@ function init_edit() {
                         }else{
                             html_node.find("#id_stu_editionid_new_two").parent().attr('style','');
                         }
-                        if(html_node.find("#id_stu_has_pad_new_two").val() <= 0){
+                        if(html_node.find("#id_stu_has_pad_new_two").val() < 0){
                             html_node.find("#id_stu_has_pad_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
                         }else{
