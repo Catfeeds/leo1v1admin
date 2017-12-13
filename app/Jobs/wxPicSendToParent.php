@@ -55,11 +55,12 @@ class wxPicSendToParent extends Job implements ShouldQueue
 
         // $parent_list = $t_parent_info->get_parent_opend_list();
 
-        $parent_list[] = [
-            "wx_openid"=>'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
-            "wx_openid"=>'orwGAs6R4UremX_fhr24MvStIxJc',
-            "wx_openid"=>'1',
-            "wx_openid"=>' ',
+        $parent_list = [
+            ["wx_openid"=>'orwGAs_IqKFcTuZcU1xwuEtV3Kek'],
+            ["wx_openid"=>'orwGAs6R4UremX_fhr24MvStIxJc'],
+            ["wx_openid"=>'orwGAs89IxXr-e_MF4tgtRhX6adA'],
+            ["wx_openid"=>' '],
+            ["wx_openid"=>'11']
         ];
 
         $media_id = $this->media_id;
