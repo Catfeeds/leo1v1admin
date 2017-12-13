@@ -31,35 +31,55 @@ class question_new extends Controller
     public function question_edit(){
         $editType   = $this->get_in_int_val('editType',1); //1:添加 2:编辑
         $question_id   = $this->get_in_int_val('question_id');
-        $ret = [];
+        $subject   = $this->get_in_int_val('subject');
+
+        $ret = [
+            'describe' => '新增题目',
+        ];
+        $editData = [];
         if($question_id){
-            $ret = $this->t_question->get_by_id($question_id);
+            $editData = $this->t_question->get_by_id($question_id);
+            $ret['describe'] = '编辑题目';
         }
-        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712121627","ret"=>$ret]);
+        $editData = json_encode($editData);
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712121617","ret"=>$ret,'editData'=>$editData]);
  
     }
 
     public function question_add(){
-        $subject   = $this->get_in_int_val('subject',-1);
-        $score   = $this->get_in_int_val('score',0);
-        $title   = $this->get_in_str_val('title','');
-        $detail   = $this->get_in_str_val('detail','');
+        $editType   = $this->get_in_int_val('editType');
+        $question_id   = $this->get_in_int_val('question_id');
+        $data = [];
+        $data['subject']  = $this->get_in_int_val('subject',1);
+        $data['score']    = $this->get_in_int_val('score',1);
+        $data['title']    = $this->get_in_str_val('title','');
+        $data['detail']   = $this->get_in_str_val('detail','');
+        $data['open_flag']   = $this->get_in_str_val('open_flag',1);
+        $data['difficult']   = $this->get_in_str_val('difficult',1);
 
-        $ret = $this->t_question->row_insert([
-            "title"   => $title,
-            "subject"   => $subject,
-            "score"   => $score,
-            "detail"   => $detail,
-        ]);
+        if( $editType == 1 ){
+            $ret = $this->t_question->row_insert($data);
+            if($ret){
+                $result['status'] = 200;
+                $result['msg'] = "添加成功";
+            }else{
+                $result['status'] = 500;
+                $result['msg'] = "添加失败";
+            }
+            return $this->output_succ($result); 
+        }
 
-        if($ret){
-            $result['status'] = 200;
-            $result['msg'] = "插入成功";
+        if( $editType == 2 ){
+            $ret = $this->t_question->field_update_list($question_id,$data);
+            if($ret){
+                $result['status'] = 200;
+                $result['msg'] = "更新成功";
+            }else{
+                $result['status'] = 500;
+                $result['msg'] = "更新失败";
+            }
             return $this->output_succ($result); 
-        }else{
-            $result['status'] = 500;
-            $result['msg'] = "插入失败";
-            return $this->output_succ($result); 
+
         }
     }
 
@@ -303,68 +323,35 @@ class question_new extends Controller
         return $this->output_succ(); 
 
     }
-    public function answer_list(){
+    public function answer_edit(){
         $question_id   = $this->get_in_int_val('question_id');
         $where_arr = [
             ["question_id=%d" , $question_id ],
         ];
-        $ret_list = $this->t_answer->answer_list($where_arr);
-        $next_step = 1;
-        if($ret_list['list']){
-            foreach( $ret_list['list'] as &$item ){
-                $item['difficult_str'] = E\Equestion_difficulty::get_desc($item['difficult']);
-                $item['step_str'] = '第'.$item['step'].'步';
-                if(!$item['title']){
-                    $item['title'] = '该知识点未添加活被删除';
-                }
+
+        $ret = $this->t_answer->answer_list($where_arr);
+        $next_step = 10;
+        $i = 1;
+        if($ret){
+            foreach( $ret as &$item ){
+                $item['difficult_str'] = E\Equestion_difficult_new::get_desc($item['difficult']);
+                $item['step_str'] = "第".$i."步";
+                $i++;
             }
-            $next_step = (int)end($ret_list['list'])['step'] + 1;
+            $next_step = (int)end($ret)['step'] + 10;
         }
 
         //获取题目信息
         $question_info = $this->t_question->get_question_info($question_id);
-        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712061556",'next_step'=>$next_step,'question'=>$question_info]);
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712061556",
+                                                  'ret'=>$ret,
+                                                  'next_step'=>$next_step,
+                                                  'question'=>$question_info
+        ]);
         
     }
 
     public function answer_add(){
-        $step = $this->get_in_int_val('step');
-        $question_id = $this->get_in_int_val('question_id');
-        $knowledge_id = $this->get_in_int_val('knowledge_id');
-        $difficult   = $this->get_in_int_val('difficult',1);
-        $score   = $this->get_in_int_val('score',0);
-        $detail   = $this->get_in_str_val('detail','');
-
-        //查看该答题步骤是否存在
-        $is_exit = $this->t_answer->is_exit_step($question_id,$step);
-        if($is_exit){
-            $result['status'] = 500;
-            $result['msg'] = "该答题步骤数已经存在，请重新输入步骤数";
-            return $this->output_succ($result); 
-
-        }
-        $ret = $this->t_answer->row_insert([
-            "step"   => $step,
-            "question_id"   => $question_id,
-            "knowledge_id"   => $knowledge_id,
-            "difficult"   => $difficult,
-            "score"   => $score,
-            "detail"   => $detail,
-        ]);
-
-        if($ret){
-            $result['status'] = 200;
-            $result['msg'] = "插入成功";
-            return $this->output_succ($result); 
-        }else{
-            $result['status'] = 500;
-            $result['msg'] = "插入失败";
-            return $this->output_succ($result); 
-        }
-
-    }
-
-    public function answer_edit(){
         $step = $this->get_in_int_val('step');
         $answer_id = $this->get_in_int_val('answer_id');
         $question_id = $this->get_in_int_val('question_id');

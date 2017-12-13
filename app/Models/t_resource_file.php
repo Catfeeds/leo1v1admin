@@ -16,5 +16,37 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         return $this->main_update($sql);
     }
 
+    public function get_info_by_file_id($file_id){
+        $where_arr = [
+            ['file_id=%u', $file_id, -1]
+        ];
+        $sql = $this->gen_sql_new(
+            "select resource_type,subject,grade,tag_one,tag_two,tag_three,tag_four,file_title,file_link,file_size,file_type,file_id"
+            ." from %s f"
+            ." left join %s r on r.resource_id=f.resource_id"
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_resource::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+    public function add_num($field, $file_id){
+
+        $sql = $this->gen_sql_new("update %s set $field=$field+1 where file_id=$file_id "
+                                  ,self::DB_TABLE_NAME
+        );
+        return $this->main_update($sql);
+    }
+
+    public function minus_num($field, $file_id){
+        $sql = $this->gen_sql_new("update %s set $field=$field-1 where file_id=$file_id "
+                                  ,self::DB_TABLE_NAME
+        );
+        return $this->main_update($sql);
+    }
+
+
 
 }
