@@ -9,10 +9,13 @@ class teacher_warn extends Controller
 {
     use CacheNick;
     public function tea_warn_list() {
-        list($start_time, $end_time) = $this->get_in_date_range_day(0);
+        //list($start_time, $end_time) = $this->get_in_date_range_day(0);
+        $start_time = strtotime('2015-1-1');
+        $end_time = time();
+        $teacherid = $this->get_in_int_val('teacher', 0);
         $page_info = $this->get_in_page_info();
 
-        $ret_info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $page_info);
+        $ret_info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $teacherid, $page_info);
         foreach($ret_info['list'] as &$item) {
             $item['nick'] = $this->cache_get_teacher_nick($item['teacherid']);
             $item['all'] = $item['fift_num'] + $item['leave_num'] + $item['absent_num'] + $item['adjust_num'] + $item['ask_leave_num'] + $item['big_order_num'];
@@ -35,13 +38,33 @@ class teacher_warn extends Controller
 
     public function get_return_back_info() {
         $teacherid = $this->get_in_str_val('teacherid');
-        $info = $this->t_teacher_record_list->get_acc_for_teacherid($teacherid);
+        $type = $this->get_in_str_val('type', 0);
+        if ($type) {
+            $info = $this->t_teacher_record_list->get_acc_for_teacherid($teacherid, 'all');
+            if ($info) {
+                foreach($info as &$item) {
+                    $item['add_time'] = date('Y-m-d H:i:s', $item['add_time']);
+                }
+            }
+        } else {
+            $info = $this->t_teacher_record_list->get_acc_for_teacherid($teacherid);
+            if ($info) {$info['add_time'] = date('Y-m-d H:i:s', $info['add_time']);}
+        }
         return $this->output_succ(['data' => $info]);
     }
 
     public function add_record_data() {
         $teacherid = $this->get_in_str_val('teacherid');
         $record_info = $this->get_in_str_val('record_info');
-        return $this->output_err($teacherid);
+        $acc = $this->get_account();
+        $this->t_teacher_record_list->row_insert([
+            'teacherid' => $teacherid,
+            'record_info' => $record_info,
+            'add_time' => time(),
+            'type' => E\Erecord_type::V_16,
+            'acc' => $acc
+        ]);
+        return $this->output_succ();
     }
+
 }

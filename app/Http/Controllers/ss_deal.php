@@ -5047,8 +5047,13 @@ class ss_deal extends Controller
 
         $check_phone = \App\Helper\Utils::check_phone($phone);
         if(!$check_phone){
-            return $this->output_err("请输入正确的手机号");
+            return $this->output_err("请输入正确的手机号!");
         }
+        $check_email = \App\Helper\Utils::check_email($email);
+        if(!$email){
+            return $this->output_err("请输入正确的邮箱!");
+        }
+
         $old_phone = $this->t_teacher_lecture_appointment_info->get_phone($id);
         if($old_phone != $phone){
             $id_old = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);

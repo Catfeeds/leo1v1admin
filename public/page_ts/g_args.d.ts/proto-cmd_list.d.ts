@@ -56,6 +56,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_project" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["project title", "project", "th_project" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -63,6 +64,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_tag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tag title", "tag", "th_tag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -70,4 +72,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_query_str" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["query_str title", "query_str", "th_query_str" ]])!!}
 */

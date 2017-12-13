@@ -79,11 +79,12 @@ tofile:
 /// <reference path="../g_args.d.ts/stu_manage-return_record.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		sid:	$('#id_sid').val(),
 		is_warning_flag:	$('#id_is_warning_flag').val()
-    });
+		});
 }
 $(function(){
 
@@ -106,6 +107,9 @@ $(function(){
                 <input class="opt-change form-control" id="id_sid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["sid title", "sid", "th_sid" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -113,4 +117,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_is_warning_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["is_warning_flag title", "is_warning_flag", "th_is_warning_flag" ]])!!}
 */

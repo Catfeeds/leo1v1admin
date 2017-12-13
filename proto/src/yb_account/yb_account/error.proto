@@ -31,7 +31,11 @@ enum  enum_error {
   ERR_CODE  = 3005 ;
 
   //两次密码不一致
-  ERR_PASSWD_CONSISTENT  = 3001 ;
+  ERR_PASSWD_CONSISTENT  = 3006 ;
+
+  //修改密码失败
+  ERR_PASSWD_RESET_ERROR  = 3007 ;
+
 
 
 
