@@ -81,7 +81,8 @@ class wxPicSendToParent extends Job implements ShouldQueue
 
         // ];
 
-        $next = 'orwGAs1JT0ADjb3CsVfCmBVVrzpM';
+        // $next = 'orwGAs1JT0ADjb3CsVfCmBVVrzpM';
+        $next = 'orwGAsxTKEiNfLrVPPf39ysyxqJ0';
         foreach($parent_list as $v){
             $check_flag = $t_parent_send_mgs_log->is_has($v);
             if($check_flag != 1){
