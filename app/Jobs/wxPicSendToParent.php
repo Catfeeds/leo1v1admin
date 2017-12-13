@@ -57,7 +57,7 @@ class wxPicSendToParent extends Job implements ShouldQueue
 
         // $parent_list = $t_parent_info->get_parent_opend_list();
 
-        $user_list_all = UserManage::getFansList($next_openId='orwGAs1JT0ADjb3CsVfCmBVVrzpM');
+        $user_list_all = UserManage::getFansList($next_openId='orwGAs5sQ0a2Ebj0j_FqolBWxQu0');
         $parent_list = $user_list_all['data']['openid'];
 
 
@@ -82,7 +82,11 @@ class wxPicSendToParent extends Job implements ShouldQueue
         // ];
 
         // $next = 'orwGAs1JT0ADjb3CsVfCmBVVrzpM';
-        $next = 'orwGAsxTKEiNfLrVPPf39ysyxqJ0';
+        // $next = 'orwGAsxTKEiNfLrVPPf39ysyxqJ0';
+        $next = 'orwGAs5sQ0a2Ebj0j_FqolBWxQu0';
+
+
+        //orwGAsxd0R9319_bFJNbvusr
         foreach($parent_list as $v){
             $check_flag = $t_parent_send_mgs_log->is_has($v);
             if($check_flag != 1){
