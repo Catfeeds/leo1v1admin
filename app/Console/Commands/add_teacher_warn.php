@@ -45,8 +45,7 @@ class add_teacher_warn extends Command
         // 删除测试用户
         $data = $task->t_teacher_warn->get_info_for_test_user();
         foreach($data as $val) {
-            var_dump($val);
-            $task->t_teacher_warn->row_delete($val);
+            $task->t_teacher_warn->row_delete($val['teacheri']);
         }
         exit;
 
