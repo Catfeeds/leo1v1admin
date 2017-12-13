@@ -85,14 +85,16 @@ class add_teacher_warn extends Command
                 ]);
             }
         }
-        $data = $task->t_teacher_warn->get_info_for_time($start_time, $end_time);
+        //$data = $task->t_teacher_warn->get_info_for_time($start_time, $end_time);
 
         $info = $task->t_lesson_info->get_teacher_warn_info($start_time, $end_time);
         foreach($info as $item) {
             if ($item['teacherid'] == 0) continue;
-            if (isset($data[$item['teacherid'].'_'.$item['lesson_start']])) {
-                $index = $item['teacherid'].'_'.$item['lesson_start'];
-                $id = $data[$index]['id'];
+            $id = $task->t_teacher_warn->get_info_for_teacherid($item['teacherid'], $item['lesson_start']);
+            if ($id) {
+                dd($id);
+                //$index = $item['teacherid'].'_'.$item['lesson_start'];
+                //$id = $data[$index]['id'];
                 if ($item['type'] == 21) { // 处理旷课
                     $task->t_teacher_warn->field_update_list($id, [
                         "absent_num" => 1

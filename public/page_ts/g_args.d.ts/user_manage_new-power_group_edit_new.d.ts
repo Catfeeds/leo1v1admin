@@ -55,6 +55,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_groupid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["groupid title", "groupid", "th_groupid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -62,4 +63,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_show_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["show_flag title", "show_flag", "th_show_flag" ]])!!}
 */
