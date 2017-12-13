@@ -9,25 +9,15 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	answer_id	:any;
-	question_id	:any;
-	knowledge_id	:any;
-	difficult	:any;
-	step	:any;
-	detail	:any;
-	score	:any;
-	title	:any;
-	difficult_str	:any;
-	step_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../question_new; vi  ../question_new/answer_list.ts
+	 mkdir -p ../question_new; vi  ../question_new/answer_edit.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/question_new-answer_list.d.ts" />
+/// <reference path="../g_args.d.ts/question_new-answer_edit.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}

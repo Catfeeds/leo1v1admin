@@ -9,7 +9,10 @@ function load_data(){
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val()
+		end_time:	$('#id_end_time').val(),
+		subject         : $('#id_subject').val(),
+		grade           : $('#id_grade').val(),
+		pad             : $('#id_pad').val(),
 		});
 }
 $(function(){
@@ -24,8 +27,13 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		}});
+	Enum_map.append_option_list("grade",$("#id_grade"));
+	Enum_map.append_option_list("subject",$("#id_subject"));
+	Enum_map.append_option_list("pad_type",$("#id_pad"));
 
-
+	$("#id_grade").val(g_args.id_grade);
+	$("#id_subject").val(g_args.id_subject);
+	$("#id_pad").val(g_args.id_pad);
 	$('.opt-change').set_input_change_event(load_data);
 });
 

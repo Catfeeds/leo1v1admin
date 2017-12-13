@@ -18,6 +18,7 @@ interface RowData {
 	detail	:any;
 	score	:any;
 	open_flag	:any;
+	difficult	:any;
 	subject_str	:any;
 	open_str	:any;
 	knowledge_detail	:any;

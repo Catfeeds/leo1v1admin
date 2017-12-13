@@ -17,7 +17,7 @@ class t_answer extends \App\Models\Zgen\z_t_answer
                               t_knowledge_point::DB_TABLE_NAME,
                               [$where_str]
         );
-        return  $this->main_get_list_by_page($sql,null);
+        return  $this->main_get_list($sql);
     }
 
     public function del_by_id($id){
