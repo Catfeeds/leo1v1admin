@@ -390,6 +390,7 @@ class ss_deal extends Controller
         $ret["learning_situation"]    = $tt_item["learning_situation"];
         $ret["subject_score"] = $ss_item['subject_score'];
         $ret["subject_tag"] = json_decode($tt_item['subject_tag']);
+        $ret["phone_location"] = mb_substr($student["phone_location"],0,2);
         // dd($ret["subject_tag"]);
 
         return $this->output_succ(["data" => $ret ]);
