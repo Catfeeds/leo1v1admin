@@ -6,7 +6,6 @@
     <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
-
     <script type="text/javascript" src="/page_js/lib/select_dlg.js?v={{@$_publish_version}}"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <script type="text/javascript" src="/page_js/select_course.js"></script>

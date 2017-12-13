@@ -1,4 +1,5 @@
 interface GargsStatic {
+	editType:	number;
 	question_id:	number;
 }
 declare module "g_args" {
@@ -23,12 +24,14 @@ function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
+		editType:	$('#id_editType').val(),
 		question_id:	$('#id_question_id').val()
 		});
 }
 $(function(){
 
 
+	$('#id_editType').val(g_args.editType);
 	$('#id_question_id').val(g_args.question_id);
 
 
@@ -39,6 +42,14 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">editType</span>
+                <input class="opt-change form-control" id="id_editType" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["editType title", "editType", "th_editType" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
