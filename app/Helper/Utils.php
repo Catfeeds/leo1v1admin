@@ -1149,7 +1149,8 @@ class Utils  {
     }
 
     static function check_email($email){
-        return preg_match("/^[a-z]([a-z0-9]*[-_\.]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\.][a-z]{2,3}([\.][a-z]{2})?$/i",$email);
+        // return preg_match("/^[a-z]([a-z0-9]*[-_\.]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\.][a-z]{2,3}([\.][a-z]{2})?$/",$email);
+        return preg_match("/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/",$email);
     }
 
     static function get_common_passwd($phone,$use_easy_pass=2){

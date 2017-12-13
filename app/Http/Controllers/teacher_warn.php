@@ -9,9 +9,7 @@ class teacher_warn extends Controller
 {
     use CacheNick;
     public function tea_warn_list() {
-        //list($start_time, $end_time) = $this->get_in_date_range_day(0);
-        $start_time = strtotime('2015-1-1');
-        $end_time = time();
+        list($start_time, $end_time) = $this->get_in_date_range_day(0);
         $teacherid = $this->get_in_int_val('teacher', 0);
         $page_info = $this->get_in_page_info();
 
