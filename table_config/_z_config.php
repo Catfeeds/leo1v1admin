@@ -127,6 +127,7 @@ return array(
     ["db_weiyi","t_test_lesson_subject_require_review","id" ],
     ["db_weiyi","t_test_lesson_opt_log","roomid" ],
     ["db_weiyi","t_user_authority_group","groupid" ],
+    ["db_weiyi","t_student_call_data","userid" ],
 
 
     ["db_weiyi","t_month_student_count","id"] ,

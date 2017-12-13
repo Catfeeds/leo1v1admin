@@ -16,9 +16,9 @@ function load_data(){
 }
 
 $(function(){
-    Enum_map.append_option_list("identity",$("#id_identity"),true);
-    Enum_map.append_option_list("gender",$("#id_gender"),true);
-    Enum_map.append_option_list("tea_age",$("#id_tea_age"),true);
+    Enum_map.append_option_list("identity",$("#id_identity"),true,[5,6,7,8]);
+    Enum_map.append_option_list("gender",$("#id_gender"),true,[1,2]);
+    Enum_map.append_option_list("tea_age",$("#id_tea_age"),true,[1,2,3,4]);
     $("#id_identity").val(g_args.identity);
     $("#id_gender").val(g_args.gender);
     $("#id_tea_age").val(g_args.tea_age);
@@ -52,17 +52,17 @@ $(function(){
 
     $(".opt-set-teacher").on("click",function(){
         var data = $(this).get_opt_data();
-        console.log(data.realname);
+
         $("#id_teacherid").val(data.teacherid);
         $("#id_teacher_name").html(data.realname);
     });
 
     //排课
     $("#id_set_lesson_time").on("click",function(){
-        var require_id  = $("#id_require_id").val();
-        var lesson_time = $("#id_lesson_time").val();
-        var teacherid   = $("#id_teacherid").val();
-        var grade       = $("#id_require_info").data("grade");
+        var require_id      = $("#id_require_id").val();
+        var lesson_time     = $("#id_lesson_time").val();
+        var teacherid       = $("#id_teacherid").val();
+        var grade           = $("#id_require_info").data("grade");
         var seller_top_flag = $("#id_require_info").data("seller_top_flag");
 
         var do_post = function(){
@@ -78,7 +78,7 @@ $(function(){
         var now        = (new Date()).getTime()/1000;
         var start_time = $.strtotime(lesson_time);
         if ( now > start_time ) {
-            alert("上课时间比现在还小.");
+            BootstrapDialog.alert("上课时间比现在还小.");
             return ;
         } else if ( now + 5*3600  > start_time ) {
             BootstrapDialog.confirm("上课时间离现在很近了,要提交吗?!",function(val){
@@ -86,6 +86,10 @@ $(function(){
                     do_post();
                 }
             });
+        }else if(teacherid=="" || teacherid==0){
+            BootstrapDialog.alert("请选择老师!");
+        }else if(lesson_time==""){
+            BootstrapDialog.alert("请选择时间!");
         }else{
             do_post();
         }

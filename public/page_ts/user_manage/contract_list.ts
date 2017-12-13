@@ -3333,7 +3333,7 @@ $(function(){
         BootstrapDialog.alert(phone);
     });
 
-    if(g_account=="wenbin"){
+    if(g_account=="wenbin" || g_account=="龚隽"){
         window.download_show();
     }
 });

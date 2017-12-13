@@ -666,7 +666,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     }
 
-    public function get_tea_stu_num_list($qz_tea_arr,$start_time,$end_time){
+    public function get_tea_stu_num_list($qz_tea_arr,$start_time,$end_time,$flag=true){
         $where_arr=[
             ["lesson_start>%u",$start_time,0],
             ["lesson_start<%u",$end_time,0],
@@ -676,7 +676,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_del_flag=0",
             "l.confirm_flag <2"
         ];
-        $this->where_arr_teacherid($where_arr,"l.teacherid", $qz_tea_arr );
+        $this->where_arr_teacherid($where_arr,"l.teacherid", $qz_tea_arr,$flag );
         $sql = $this->gen_sql_new("select count(distinct l.userid) num,sum(l.lesson_count) lesson_all,l.teacherid "
                                   ." from %s l left join %s s on l.userid = s.userid"
                                   ." where %s group by l.teacherid",
@@ -4211,7 +4211,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_type in (0,1,3)", //常规课
             "l.lesson_del_flag=0",
             "t.is_test_user=0",
-            "l.confirm_flag<2"
+            "l.confirm_flag<2",
+            "p.parentid>0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$lesson_begin,$lesson_end);
@@ -4243,7 +4244,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr = [
             "l.lesson_del_flag=0",
             "l.lesson_type in (0,1,3)",
-            "l.confirm_flag<2"
+            "l.confirm_flag<2",
+            "p.parentid>0"
         ];
 
         $this->where_arr_add_time_range($where_arr,'lesson_start',$now, $next);

@@ -32,6 +32,7 @@
                         <td>主管 </td>
                         <td>小组 </td>
                         <td>负责人 </td>
+                        <td>身份 </td>
 
                         <td>浏览次数</td>
                         <td>独立ip数</td>
@@ -48,6 +49,7 @@
                             <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >{{$var["group_name"]}}</td>
                             <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}}"  >{{@$var["account"]}}</td>
 
+                            <td> {{@$var["account_role"]}}</td>
                             <td> {{@$var["count"]}}</td>
                             <td> {{@$var["ip_count"]}}</td>
                             <td> {{@$var["is_share"]}}</td>

@@ -12,12 +12,12 @@
                 </div>
 
 
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span>老师</span>
-                        <input class="opt-change" id="id_teacher"/>
-                    </div>
-                </div>
+                <!-- <div class="col-xs-6 col-md-2">
+                     <div class="input-group ">
+                     <span>老师</span>
+                     <input class="opt-change" id="id_teacher"/>
+                     </div>
+                     </div> -->
                 
             </div>
         </div>
@@ -38,9 +38,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ( $table_data_list as $var )
+                @foreach ( $info as $var )
                     <tr>
-                        <td><a class="opt-detail" data_teacher="{{$var['teacherid']}}">{{$var["nick"]}}</a> </td>
+                        <td><a class="opt-detail" data_teacher="{{$var['teacherid']}}" style="cursor:pointer">{{$var["nick"]}}</a> </td>
                         <td>{{$var['five_num']}}</td>
                         <td>{{$var['fift_num']}}</td>
                         <td>{{$var['leave_num']}}</td>

@@ -6,7 +6,8 @@ import "yb_account/common.proto";
 //__TAGS: for_app
 
 message in  {
-  int32  userid = 1;
+  int32  role = 1; // 角色
+  string phone = 2; //电话
 }
 
 message out {

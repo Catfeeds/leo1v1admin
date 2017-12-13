@@ -149,6 +149,10 @@ $(function(){
             return;
         }
 
+       if(opt_data.accept_status == 1){
+            alert('已确认课程，若更换试听课，请取消课程，重新排课；');
+            return;
+        }
 
         var id_teacherid       = $("<input/>");
         var id_start_time      = $("<input/>");
@@ -932,6 +936,12 @@ $(function(){
         var $id_change_reason = $("<textarea />");
         var $id_change_reason_url = $("<div><input class=\"change_reason_url\" id=\"change_reason_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_change_reason\" href=\"javascript:;\">上传</a></span></div>");
 
+        if(opt_data.accept_status == 1){
+            alert('已确认课程，若更换试听课，请取消课程，重新排课；');
+            return;
+        }
+
+        console.log('accept_status'+opt_data.accept_status);
 
         var arr=[
             ["学生", opt_data.nick  ],

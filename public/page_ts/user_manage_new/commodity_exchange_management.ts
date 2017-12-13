@@ -146,5 +146,8 @@ $(function(){
         });
     });
 
+    if(g_account_role==1){
+        download_show();
+    }
 });
 

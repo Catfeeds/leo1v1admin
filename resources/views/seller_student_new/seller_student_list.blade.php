@@ -480,6 +480,7 @@
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
                                 @if($account_role==12 || in_array($account,['tom','jim']))
                                     <a title="new回访" class="  fa-chevron-up opt-edit-new_new_two"></a>
+                                    <a title="试听申请new" class="fa  fa-chevron-down opt-post-test-lesson-new "></a>
                                 @endif
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new_new"></a>
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new"  style=" display:none"></a>
@@ -1311,16 +1312,16 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3 ">
+                    <div class="col-xs-12 col-md-3 " style="display:none;">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp升学目标：</span>
                             <select id="id_academic_goal_new_two" class=" form-control "   >
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3 " style="display:none;">
+                    <div class="col-xs-12 col-md-3 " >
                         <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp升学学校要求：</span>
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp升学目标：</span>
                             <select id="id_entrance_school_type_new_two" class=" form-control " >
                             </select>
                         </div>
@@ -1383,7 +1384,7 @@
 
         <div class="row">
             <div class="col-xs-12 col-md-12  " >
-                <span>试听要求</span>
+                <span><font style="color:red">*</font>试听要求</span>
                 <span style="margin-left:70px;" id="id_add_tag_new_two"></span>
             </div>
             <div class="col-xs-12 col-md-9  ">

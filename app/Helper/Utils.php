@@ -1148,6 +1148,25 @@ class Utils  {
         return preg_match('/[0-9]{11}$/', $phone);
     }
 
+    static function check_email($email){
+        // return preg_match("/^[a-z]([a-z0-9]*[-_\.]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\.][a-z]{2,3}([\.][a-z]{2})?$/",$email);
+        return preg_match("/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/",$email);
+    }
+
+    static function get_common_passwd($phone,$use_easy_pass=2){
+        if($use_easy_pass==1){
+            $passwd = "123456";
+        }elseif($use_easy_pass==2){
+            $phone_length = strlen($phone);
+            $passwd = "leo".substr($phone,$phone_length-4,$phone_length);
+        }else{
+            srand(microtime(true)*1000);
+            $passwd = (int)$phone+rand(9999999999,99999999999);
+            $passwd = substr($passwd,0,6);
+        }
+        return $passwd;
+    }
+
     static function gen_duration_list( $data_list, $key_str, $duration_list=[],  $duration_str="duration" )
     {
         $ret_map = [];

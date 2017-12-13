@@ -302,7 +302,10 @@ $(function(){
                 }
             }
         });
-
     });
+
+    if(g_account=="echo"){
+        download_show();
+    }
 
 });

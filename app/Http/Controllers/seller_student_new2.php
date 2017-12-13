@@ -1467,6 +1467,15 @@ class seller_student_new2 extends Controller
                 $redis_key,$lesson_start,$lesson_end,$require_info['grade'],$require_info['subject'],$refresh_flag,
                 $identity,$gender,$tea_age,$require_info['subject_tag'],$teacher_tags,$lesson_tags,$teaching_tags
             );
+            $require_info['teacherid'] = "";
+            $require_info['tea_nick']  = "";
+            $require_info['lesson_time']  = "";
+            if($require_info['current_lessonid']){
+                $lesson_info = $this->t_lesson_info->get_lesson_info($require_info['current_lessonid']);
+                $require_info['teacherid'] = $lesson_info['teacherid'];
+                $require_info['tea_nick']  = $this->cache_get_teacher_nick($require_info['teacherid']);
+                $require_info['lesson_time'] = \App\Helper\Utils::unixtime2date($lesson_info['lesson_start']);
+            }
         }else{
             $tea_list = [];
         }
@@ -1557,7 +1566,7 @@ class seller_student_new2 extends Controller
                     $tea_val['match_time'] = $this->match_teacher_free_time($tea_val['free_time_new'],$lesson_start,$lesson_end);
                     $match_time[$tea_key]  = $tea_val['match_time'];
                     $tea_val['tags_str']   = $this->change_teacher_tags_to_string($tea_val['teacher_tags']);
-                    $tea_val['match_tags'] = $this->match_teacher_tags(
+                    $tea_val['match_tags'] = $this->match_tea_tags(
                         $tea_val['teacher_tags'],$subject_tags,$teacher_tags,$lesson_tags,$teaching_tags
                     );
                     $match_tags[$tea_key]    = $tea_val['match_tags'];

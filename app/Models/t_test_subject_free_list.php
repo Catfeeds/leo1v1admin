@@ -107,4 +107,10 @@ class t_test_subject_free_list extends \App\Models\Zgen\z_t_test_subject_free_li
         );
         return $this->main_get_value($sql);
     }
+
+
+    public function get_return_publish_count($userid){
+        $sql = "select count(*) from db_weiyi.t_test_subject_free_list where userid = $userid";
+        return $this->main_get_value($sql);
+    }
 }

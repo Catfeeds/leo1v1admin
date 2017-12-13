@@ -37,6 +37,14 @@ class t_question extends \App\Models\Zgen\z_t_question
         return $this->main_update($sql);
     }
 
+    public function get_by_id($question_id){
+        $sql=$this->gen_sql("select * from %s where question_id=%u"
+                            ,self::DB_TABLE_NAME
+                            ,$question_id
+        );
+        return $this->main_get_row($sql);
+    }
+
 }
 
 
