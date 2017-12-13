@@ -5069,9 +5069,9 @@ class ss_deal extends Controller
         }
 
         if(empty($name) || empty($phone) || empty($grade_ex) || empty($subject_ex) || empty($teacher_type)
-           || empty($email) || empty($qq)
+           || empty($email) || empty($qq) || empty($age)
         ){
-            return $this->output_err("红色星号部分不能为空");
+            return $this->output_err("红色部分不能为空");
         }
 
         $ret = $this->t_teacher_lecture_appointment_info->field_update_list($id,[
