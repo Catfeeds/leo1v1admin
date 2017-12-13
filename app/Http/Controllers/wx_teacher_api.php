@@ -1085,7 +1085,7 @@ class wx_teacher_api extends Controller
             $url = "http://wx-teacher-web.leo1v1.com/teacher_info.html?lessonid=".$lessonid;
 
             $wx = new \App\Helper\WxSendMsg();
-            $wx->send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url);//james
+            $wx->send_ass_for_first("orwGAszZI_oaYSXVfb_Va6BlhtW0", $data, $url);//james
             // $wx->send_ass_for_first($lesson_info['wx_openid'], $data, $url);
 
 
@@ -1125,7 +1125,7 @@ class wx_teacher_api extends Controller
             $url = "http://admin.leo1v1.com/seller_student_new2/test_lesson_plan_list_jx";
             $wx = new \App\Helper\WxSendMsg();
             $jw_openid = $this->t_manager_info->get_wx_openid($lesson_info['accept_adminid']);
-            $wx->send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url);//james
+            $wx->send_ass_for_first("orwGAszZI_oaYSXVfb_Va6BlhtW0", $data, $url);//james
            // $wx->send_ass_for_first($jw_openid, $data, $url);
         }
 

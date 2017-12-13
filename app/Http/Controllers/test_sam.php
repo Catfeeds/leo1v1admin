@@ -42,7 +42,7 @@ class test_sam  extends Controller
                // "teacher_type" => 3,
 
             ];
-            //$ret_info = $this->add_teacher_common_test($teacher_info);
+            //$ret_info = $this->add_teacher_common($teacher_info);
             $id = $this->t_teacher_info->get_teacherid_by_phone($phone);
 
             $ret = $this->t_teacher_info->field_update_list($id,

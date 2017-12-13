@@ -154,9 +154,6 @@ $(function(){
             return;
         }
 
-
-        console.log("测试:"+opt_data.accept_status);
-
         var id_teacherid       = $("<input/>");
         var id_start_time      = $("<input/>");
         var id_top_seller_flag = $("<select />");
