@@ -30,7 +30,8 @@ class teacher_warn extends Controller
         array_multisort($sort, SORT_DESC, $info);
         
         return $this->pageView(__METHOD__, '', [
-            'info' => $info
+            'info' => $info,
+            'course_type' => $course_type
         ]);
     }
 

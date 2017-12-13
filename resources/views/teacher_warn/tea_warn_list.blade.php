@@ -35,6 +35,7 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
+                    @if($course_type == 1)
                     <td>老师姓名 </td>
                     <td>迟到5分钟 </td>
                     <td>迟到15分钟 </td>
@@ -45,6 +46,30 @@
                     <td>大单数 </td>
                     <td>预警指数 </td>
                     <td>操作</td>
+                    @elseif ($course_type == 2)
+                    <td>老师姓名 </td>
+                    <td>迟到5分钟 </td>
+                    <td>迟到15分钟 </td>
+                    <td>离开20分钟 </td>
+                    <td>旷课次数  </td>
+                    <td>调课 </td>
+                    <td>请假 </td>
+                    <td>大单数 </td>
+                    <td>预警指数 </td>
+                    <td>操作</td>
+                    @else
+                    <td>老师姓名 </td>
+                    <td>迟到5分钟 </td>
+                    <td>迟到15分钟 </td>
+                    <td>离开20分钟 </td>
+                    <td>旷课次数  </td>
+                    <td>调课 </td>
+                    <td>请假 </td>
+                    <td>大单数 </td>
+                    <td>预警指数 </td>
+                    <td>操作</td>
+
+                    @endif
                 </tr>
             </thead>
             <tbody>
