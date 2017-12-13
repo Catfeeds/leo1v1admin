@@ -1457,6 +1457,57 @@ class test_code extends Controller
         }
     }
 
+    public function reset_info(){
+        $info = $this->get_b_txt();
 
+        $subject_map = array_flip(E\Esubject::$desc_map);
+        $grade_map = array_flip(E\Egrade::$desc_map);
+
+        foreach($info as $val){
+            if($val!=""){
+                
+                $arr = explode("\t", $val);
+                $id = $arr[0];
+                $phone = $arr[1];
+                $subject_all= $arr[2];
+                $subject_ex= mb_substr($subject_all,0,2,"utf8");
+                $grade_all = $arr[3];
+                $grade_ex = mb_substr($grade_all,0,2,"utf8");
+
+                $subject = @$subject_map[$subject_ex];
+                $grade   = @$grade_map[$grade_ex];
+
+                if($subject>0 && $grade>0){
+                    $grade = \App\Helper\Utils::change_grade_to_grade_part($grade);
+                    // $this->t_teacher_lecture_appointment_info->field_update_list($id, [
+                    //     "grade_ex"   => $grade,
+                    //     "subject_ex" => $subject,
+                    // ]);
+                }else{
+                    $grade_ex_2 = mb_substr($grade_all,0,1,"utf8");
+                    if($grade_ex_2=="小"){
+                        $grade=100;
+                    }elseif($grade_ex_2=="初"){
+                        $grade=200;
+                    }elseif($grade_ex_2=="高"){
+                        $grade=300;
+                    }
+                    if($subject>0 && $grade>0){
+                    }else{
+                        $subject_ex_2=mb_substr($subject_all,2,4,"utf8");
+                        $subject = @$subject_map[$subject_ex_2];
+                        if($subject>0 && $grade>0){
+                        }else{
+                            echo $id."|".$phone."|".$subject_ex."|".$subject."|".$grade_ex."|".$grade;
+                            echo $this->br;
+
+                        }
+                    }
+                }
+
+            }
+        }
+
+    }
 
 }
