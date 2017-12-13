@@ -497,6 +497,7 @@ class resource extends Controller
             'visit_type'  => 9,
             'create_time' => time(),
             'visitor_id'  => $adminid,
+            'ip'          => $_SERVER["REMOTE_ADDR"],
         ]);
 
         return $this->output_succ();
@@ -519,6 +520,7 @@ class resource extends Controller
             'visit_type'  => 1,
             'create_time' => $time,
             'visitor_id'  => $adminid,
+            'ip'          => $_SERVER["REMOTE_ADDR"],
         ]);
 
         return $this->output_succ();
@@ -536,6 +538,7 @@ class resource extends Controller
             'visit_type'  => 2,
             'create_time' => $time,
             'visitor_id'  => $adminid,
+            'ip'          => $_SERVER["REMOTE_ADDR"],
         ]);
 
         $this->add_file();
@@ -582,6 +585,7 @@ class resource extends Controller
                     'visit_type'  => $type,
                     'create_time' => $time,
                     'visitor_id'  => $adminid,
+                    'ip'          => $_SERVER["REMOTE_ADDR"],
                 ]);
             }
             return $this->output_succ();
