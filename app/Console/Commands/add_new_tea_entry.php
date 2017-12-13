@@ -103,7 +103,7 @@ class add_new_tea_entry extends Command
                 //$val['money']   /= 100;
                 // $money = $val['money'] - ($redward / 100);
                 // $lesson_count = $last_month_info / 100;
-                echo $item.'月 '.$val['teacherid'].' '.trim($val['realname']).' '.$price.' '.$lesson_count.' '.$money.PHP_EOL;
+                echo $item.'月 '.$val['teacherid'].'/'.trim($val['realname']).'/'.$price.'/'.$lesson_count.'/'.$money.PHP_EOL;
                 if ($val['teacher_money_type'] == 7 || ($val['teacher_type'] == 3 && $val["teacher_money_type"] == 0)) {
                     $all_all_money += $price;
                 } else {
@@ -113,7 +113,7 @@ class add_new_tea_entry extends Command
             }
             $all_money_tax = $all_money*0.98;
             echo  $item.'月 '.$all_money.' '.$all_all_money.' '.$all_not_money.' '.$all_money_tax.PHP_EOL;
-
+            exit;
             sleep(2);
         }
         // 拉取数据(6月至11月的老师工资)

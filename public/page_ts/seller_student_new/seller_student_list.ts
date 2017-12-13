@@ -4051,19 +4051,19 @@ function init_edit() {
                         }else{
                             html_node.find("#id_stu_school_new_two").parent().attr('style','');
                         }
-                        if(data.region == ''){
+                        if(province == ''){
                             html_node.find("#province_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
                         }else{
                             html_node.find("#province_new_two").parent().attr('style','');
                         }
-                        if(data.city == ''){
+                        if(city == ''){
                             html_node.find("#city_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
                         }else{
                             html_node.find("#city_new_two").parent().attr('style','');
                         }
-                        if(data.area == ''){
+                        if(area == ''){
                             html_node.find("#area_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
                         }else{
