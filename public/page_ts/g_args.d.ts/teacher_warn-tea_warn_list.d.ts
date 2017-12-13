@@ -4,6 +4,7 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	teacher:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -44,7 +45,8 @@ function load_data(){
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val()
+		end_time:	$('#id_end_time').val(),
+		teacher:	$('#id_teacher').val()
 		});
 }
 $(function(){
@@ -59,6 +61,7 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
+	$('#id_teacher').val(g_args.teacher);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -73,6 +76,14 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">teacher</span>
+                <input class="opt-change form-control" id="id_teacher" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["teacher title", "teacher", "th_teacher" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

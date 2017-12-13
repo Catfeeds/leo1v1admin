@@ -49,6 +49,7 @@ function del_subject_score(obj){
     $(obj).parent().remove();
 }
 function add0(m){return m<10?'0'+m:m }
+
 $(function(){
     show_name_key="stu_info_name_"+g_adminid;
     var status_opt_list=[];
@@ -3100,8 +3101,8 @@ function init_edit() {
             });
             Enum_map.append_option_list("grade", id_grade, true,[101,102,103,104,105,106,201,202,203,301,302,303]);
             Enum_map.append_option_list("pad_type", id_has_pad, true);
-            Enum_map.append_option_list("subject", id_subject, true);
-            Enum_map.append_option_list("subject",id_subject_score, true);
+            // Enum_map.append_option_list("subject", id_subject, true);
+            // Enum_map.append_option_list("subject",id_subject_score, true);
             Enum_map.append_option_list("boolean", id_stu_test_ipad_flag, true);
             Enum_map.append_option_list("boolean", id_advice_flag, true);
             Enum_map.append_option_list("academic_goal", id_academic_goal, true);
@@ -3700,6 +3701,16 @@ function init_edit() {
             id_par_nick.val(data.par_nick);
             id_par_type.val(data.par_type);
             id_grade.val(data.grade);
+            if(id_grade.val()==101 || id_grade.val()==102 || id_grade.val()==103 || id_grade.val()==104 || id_grade.val()==105 || id_grade.val()==106){
+                Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3]);
+                Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3]);
+            }else if(id_grade.val()==201 || id_grade.val()==202 || id_grade.val()==203){
+                Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3,4,5,6,7,8,9,10]);
+                Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9,10]);
+            }else if(id_grade.val()==301 || id_grade.val()==302 || id_grade.val()==303){
+                Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3,4,5,6,7,8,9]);
+                Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9]);
+            }
             id_gender.val(data.gender);
             id_address.val(data.address);
             id_subject.val(data.subject);
@@ -3783,6 +3794,18 @@ function init_edit() {
             id_grade.change(function(){
                 $.do_ajax("/product_tag/get_all_tag", {
                 },function(resp){
+                        id_subject.find("option").remove();
+                        id_subject_score.find("option").remove();
+                    if(id_grade.val()==101 || id_grade.val()==102 || id_grade.val()==103 || id_grade.val()==104 || id_grade.val()==105 || id_grade.val()==106){
+                        Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3]);
+                        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3]);
+                    }else if(id_grade.val()==201 || id_grade.val()==202 || id_grade.val()==203){
+                        Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3,4,5,6,7,8,9,10]);
+                        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9,10]);
+                    }else if(id_grade.val()==301 || id_grade.val()==302 || id_grade.val()==303){
+                        Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3,4,5,6,7,8,9]);
+                        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9]);
+                    }
                     id_add_tag.parent().children('button').remove();
                     id_add_tag.parent().children('input').remove();
                     var data=resp.data;

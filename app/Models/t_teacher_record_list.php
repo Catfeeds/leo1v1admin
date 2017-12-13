@@ -1513,17 +1513,19 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_list($sql);
     }
 
-    public function get_acc_for_teacherid($teacherid) {
+    public function get_acc_for_teacherid($teacherid, $return = 'row') {
         $where_arr = [
             ['teacherid=%d', $teacherid, 0],
             'type=16' // record_type 枚举类
         ];
-        $sql = $this->gen_sql_new("select add_time,acc from %s where %s",
+        
+        $sql = $this->gen_sql_new("select record_info,add_time,acc from %s where %s order by add_time desc ",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
+        if ($return == 'all') {
+            return $this->main_get_list($sql);
+        }
         return $this->main_get_row($sql);
     }
-
-
 }

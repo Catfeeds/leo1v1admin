@@ -41,6 +41,19 @@ class add_new_tea_entry extends Command
         //$start_time = date('Y-m-d 00:00:00', strtotime('-1 day'));
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
+        // 明日之星
+        $start_time = strtotime("2017-11-1");
+        $end_time = strtotime("2017-12-1");
+        $info = $task->t_teacher_lecture_appointment_info_b2->get_money_list($start_time, $end_time);
+        $data = $task->t_teacher_lecture_appointment_info_b2->get_money_list1($start_time, $end_time);
+        foreach($data as $key => $item) {
+            if (!isset($info[$key])) echo $item['teacherid'].' '.$item['name'].PHP_EOL;
+        }
+        echo '===========相同==========='.PHP_EOL;
+        foreach($data as $key => $item) {
+            if (isset($info[$key])) echo $item['teacherid'].' '.$item['name'].PHP_EOL;
+        }
+        exit;
 
         $teacher_money = new \App\Http\Controllers\teacher_money();
         // 拉取数据(6月至11月的总工资)
@@ -104,7 +117,7 @@ class add_new_tea_entry extends Command
                 //$val['money']   /= 100;
                 // $money = $val['money'] - ($redward / 100);
                 // $lesson_count = $last_month_info / 100;
-                echo $item.'月/'.$val['teacherid'].'/'.trim($val['nick']).'/'.$price.'/'.$lesson_count.'/'.$money.PHP_EOL;
+                echo $item.'月/'.$val['teacherid'].'/'.$price.'/'.$lesson_count.'/'.$money.'/'.trim($val['realname']).PHP_EOL;
                 if ($val['teacher_money_type'] == 7 || ($val['teacher_type'] == 3 && $val["teacher_money_type"] == 0)) {
                     $all_all_money += $price;
                 } else {

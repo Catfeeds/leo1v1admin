@@ -1557,7 +1557,7 @@ class seller_student_new2 extends Controller
                     $tea_val['match_time'] = $this->match_teacher_free_time($tea_val['free_time_new'],$lesson_start,$lesson_end);
                     $match_time[$tea_key]  = $tea_val['match_time'];
                     $tea_val['tags_str']   = $this->change_teacher_tags_to_string($tea_val['teacher_tags']);
-                    $tea_val['match_tags'] = $this->match_teacher_tags(
+                    $tea_val['match_tags'] = $this->match_tea_tags(
                         $tea_val['teacher_tags'],$subject_tags,$teacher_tags,$lesson_tags,$teaching_tags
                     );
                     $match_tags[$tea_key]    = $tea_val['match_tags'];

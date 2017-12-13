@@ -1590,7 +1590,6 @@ class user_deal extends Controller
         ];
 
         $ret = $this->t_course_order->field_update_list($courseid,$data);
-
         \App\Helper\Utils::logger("course info has update.courseid is".$courseid
                                   ." course data to:".json_encode($data)."account:".$account." time:".time());
 
@@ -4106,23 +4105,34 @@ class user_deal extends Controller
         $last_all_price = $this->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_last,$end_time_last);
         $last_all_price = isset($last_all_price)?$last_all_price/100:0;
         $arr['last_all_price'] = $last_all_price;
-        //
+        //上月团队金额
+        $last_group_list = $this->t_order_info->month_get_1v1_order_seller_list_group($start_time_last,$end_time_last,$adminid);
+        $last_group_all_price=0;
+        if(count($last_group_list) ==1){
+            $last_group_all_price = $last_group_list[0]["all_price"];
+        }
+        $arr["last_group_all_price"] = $last_group_all_price/100;
+
         $no_update_seller_level_flag = $this->t_manager_info->field_get_value($adminid,'no_update_seller_level_flag');
         if($no_update_seller_level_flag == 1){
             $arr['base_salary'] = 6500;
             $arr['sup_salary'] = 0;
             switch(true){
-            case $arr['group_all_price']<500000 :
-                $arr['per_salary'] = 10*$kpi;
+            case $arr['last_group_all_price']<500000 :
+                // $arr['per_salary'] = 10*$kpi;
+                $arr['per_salary'] = 1000;
                 break;
-            case $arr['group_all_price']<800000 && $arr['group_all_price']>=500000:
-                $arr['per_salary'] = 25*$kpi;
+            case $arr['last_group_all_price']<800000 && $arr['last_group_all_price']>=500000:
+                // $arr['per_salary'] = 25*$kpi;
+                $arr['per_salary'] = 2500;
                 break;
-            case $arr['group_all_price']<1000000 && $arr['group_all_price']>=800000:
-                $arr['per_salary'] = 35*$kpi;
+            case $arr['last_group_all_price']<1000000 && $arr['last_group_all_price']>=800000:
+                // $arr['per_salary'] = 35*$kpi;
+                $arr['per_salary'] = 3500;
                 break;
             default:
-                $arr['per_salary'] = 50*$kpi;
+                // $arr['per_salary'] = 50*$kpi;
+                $arr['per_salary'] = 5000;
                 break;
             }
         }

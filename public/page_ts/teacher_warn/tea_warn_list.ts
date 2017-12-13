@@ -26,7 +26,7 @@ function load_data(){
 
 
     $('#id_teacher').val(g_args.teacher);
-    $.admin_select_user( $("#id_teacher"), "teacher",load_data);
+    //$.admin_select_user( $("#id_teacher"), "teacher",load_data);
 
 	  $('.opt-change').set_input_change_event(load_data);
 
@@ -58,6 +58,7 @@ function load_data(){
             'teacherid': parseInt(teacherid)
         }, function(res) {
             if (res.data) {
+                console.log(res.data);
                 $.do_ajax_t("/ss_deal/call_ytx_phone", {
                     "phone": res.data
                 });
@@ -74,10 +75,11 @@ function load_data(){
             var add_time = '<div>未回访</div>';
             var acc = '<div></div>';
             if (res.data) {
-                //
+                add_time = '<div>' + res.data.add_time + '</div>';
+                acc = '<div>' + res.data.acc + '</div>';
             }
             //r ret_status = $("<select><option value=1>未回访</option><option value=2>已回访</option></select>");
-            var record_info = $("<textarea></textarea>");
+            var record_info = $("<textarea id='record_info'></textarea>");
             var arr = [
                 //['回访状态', ret_status],
                 ['上次回访时间', add_time],
@@ -89,19 +91,46 @@ function load_data(){
                 label: '确认',
                 cssClass: 'btn-warning',
                 action: function(dialog) {
-                    $.do_ajax('/teacher_warn/add_record_data', {
-                        'teacherid':teacherid,
-                        'record_info':record_info
-                    });
+                    var re_info = $('#record_info').val();
+                    if (!re_info) {
+                        alert('回访备注不能为空');
+                        location.reload();
+                    } else {
+                        $.do_ajax('/teacher_warn/add_record_data', {
+                            'teacherid':teacherid,
+                            'record_info':re_info
+                        });
+                    }
                 }
             });
-        
-            console.log(res.data);
         });
 
     });
 
     $('.opt-return-back-list').on('click', function() {
-        alert('wel');
+        var teacherid = $(this).parent().attr('data_teacher');
+        $.do_ajax('/teacher_warn/get_return_back_info', {
+            'teacherid':teacherid,
+            'type':1
+        }, function(res) {
+            var html_str=$("<div id=\"div_table\"><table class = \"table table-bordered table-striped\"  > <tr><th> 回访时间  <th> 回访内容 <th> 回访人 </tr> </table></div>");
+            $.each( res.data ,function(i,item){
+                var html = "<tr><td>" + item['add_time'] + "</td><td>" + item['record_info'] + "</td><td>" + item['acc'] + "</td></tr>";
+                html_str.find('table').append(html);
+            });
+
+            var dlg = BootstrapDialog.show({
+                title    : '回访记录',
+                message  : html_str ,
+                closable : true,
+                buttons  : [{
+                    label  : '返回',
+                    action : function(dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+           
+        });
     });
 });
