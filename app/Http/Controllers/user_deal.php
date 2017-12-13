@@ -4096,7 +4096,7 @@ class user_deal extends Controller
         $last_all_price = isset($last_all_price)?$last_all_price/100:0;
         $arr['last_all_price'] = $last_all_price;
         //上月团队金额
-        $last_group_list = $this->month_get_1v1_order_seller_list_group($start_time_last,$end_time_last,$adminid);
+        $last_group_list = $this->t_order_info->month_get_1v1_order_seller_list_group($start_time_last,$end_time_last,$adminid);
         $last_group_all_price=0;
         if(count($last_group_list) ==1){
             $last_group_all_price = $last_group_list[0]["all_price"];
