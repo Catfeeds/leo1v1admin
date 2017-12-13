@@ -44,8 +44,9 @@ class add_teacher_warn extends Command
         $end_time = strtotime(date('Y-m-d 23:59:59', $date));
         // 删除测试用户
         $data = $task->t_teacher_warn->get_info_for_test_user();
-        foreach($data as $val) {
-            $task->t_teacher_warn->row_delete($val['teacheri']);
+        foreach($data as $val){
+            echo $val['teacherid'];
+            $task->t_teacher_warn->row_delete($val['teacherid']);
         }
         exit;
 
