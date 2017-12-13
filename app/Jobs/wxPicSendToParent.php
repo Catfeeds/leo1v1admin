@@ -54,26 +54,26 @@ class wxPicSendToParent extends Job implements ShouldQueue
         $t_parent_info  = new \App\Models\t_parent_info();
         $t_parent_send_mgs_log = new  \App\Models\t_parent_send_mgs_log();
 
-        // $parent_list = $t_parent_info->get_parent_opend_list();
+        $parent_list = $t_parent_info->get_parent_opend_list();
 
-        $parent_list = [
-            ["wx_openid"=>'orwGAs6R4UremX_fhr24MvStIxJc',
-             "parentid" => 111
-            ],
-            ["wx_openid"=>'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
-             "parentid" => 222
+        // $parent_list = [
+        //     ["wx_openid"=>'orwGAs6R4UremX_fhr24MvStIxJc',
+        //      "parentid" => 111
+        //     ],
+        //     ["wx_openid"=>'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
+        //      "parentid" => 222
 
-            ],
-            ["wx_openid"=>'orwGAswh6yMByNDpPz8ToUPNhRpQ',
-             "parentid" => 333
+        //     ],
+        //     ["wx_openid"=>'orwGAswh6yMByNDpPz8ToUPNhRpQ',
+        //      "parentid" => 333
 
-            ],
-            ["wx_openid"=>'  ',
-             "parentid" => 444
+        //     ],
+        //     ["wx_openid"=>'  ',
+        //      "parentid" => 444
 
-            ],
+        //     ],
 
-        ];
+        // ];
 
         $media_id = $this->media_id;
 
@@ -106,9 +106,6 @@ class wxPicSendToParent extends Job implements ShouldQueue
                     "is_send_flag" => 5 // 市场活动推送图片
                 ]);
             }
-
-
-
         }
 
     }
