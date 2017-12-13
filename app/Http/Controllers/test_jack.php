@@ -697,7 +697,6 @@ class test_jack  extends Controller
     }
 
     public function test_wx(){
-        
         // /**
         //  * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
         //  * 标题课程 : 待办事项提醒
