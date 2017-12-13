@@ -82,7 +82,7 @@ class wxPicSendToParent extends Job implements ShouldQueue
 
         ];
 
-
+        $next = 'orwGAs1JT0ADjb3CsVfCmBVVrzpM';
         foreach($parent_list as $v){
             $check_flag = $t_parent_send_mgs_log->is_has($v);
             if($check_flag != 1){
@@ -118,6 +118,9 @@ class wxPicSendToParent extends Job implements ShouldQueue
                 }
             }
 
+            if($next == $v){
+
+            }
             $wx->send_template_msg( "orwGAs_IqKFcTuZcU1xwuEtV3Kek", 'IyYFpK8WkMGDMqMABls0WdZyC0-jV6xz4PFYO0eja9Q', [] ,$url="" );
 
         }
