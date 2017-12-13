@@ -31,11 +31,12 @@ tofile:
 /// <reference path="../g_args.d.ts/user_manage_new-power_group_edit.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		groupid:	$('#id_groupid').val(),
 		show_flag:	$('#id_show_flag').val()
-    });
+		});
 }
 $(function(){
 
@@ -58,6 +59,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_groupid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["groupid title", "groupid", "th_groupid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -65,4 +67,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_show_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["show_flag title", "show_flag", "th_show_flag" ]])!!}
 */
