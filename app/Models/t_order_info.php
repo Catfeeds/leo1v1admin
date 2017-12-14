@@ -4383,10 +4383,23 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     }
 
-    public function get_ceshi(){
-        $sql = "select sum(o.price)/100 total_price, sys_operator from db_weiyi.t_order_info o  left join db_weiyi_admin.t_manager_info  m on o.sys_operator = m.account left join db_weiyi.t_student_info s on s.userid = o.userid where o.price>0 and contract_status<> 0 and m.account_role=2  and order_time>=1512403200 and order_time<=1513094400 and s.is_test_user=0  and sys_operator <>'yueyue'  group by sys_operator";
+    public function getOrderList($start_time, $end_time){
+        $where_arr = [
+            "m.leave_member_time=0",
+            "m.account_role=2",
+            "o.contract_status in (1,2)",
+            "o.check_money_flag=1"
+        ];
 
-        return $this->db_exec($sql);
+        $this->where_arr_add_time_range($where_arr, "o.add_time", $start_time, $end_time);
 
+        $sql = $this->gen_sql_new("  select o.add_time, o.check_money_time, o.price, o.sys_operator, m.create_time from %s o "
+                                  ." left join %s m on m.account=o.sys_operator"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
     }
 }
