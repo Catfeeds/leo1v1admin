@@ -49,8 +49,8 @@
                     <td>pad</td>
                     <td>地区</td>
                     <td>电信商</td>
-                    <td>第三级渠道</td>
                     <td>第二级渠道</td>
+                    <td>第三级渠道</td>
                     <td>渠道进入数</td>
                     <td>电话接通数</td>
                     <td>回流公海数</td>
@@ -68,9 +68,8 @@
                         <td>{{@$var["pad_str"]}} </td>
                         <td>{{@$var["location"]}} </td>
                         <td>{{@$var["cor"]}} </td>
-                        <td>{{@$var["three_origin"]}} </td>
                         <td>{{@$var["two_origin"]}} </td>
-
+                        <td>{{@$var["three_origin"]}} </td>
                         <td>{{@$var["origin_count"]}} </td>
                         <td>{{@$var["cc_called_count"]}} </td>
                         <td>{{@$var["return_publish_count"]}} </td>

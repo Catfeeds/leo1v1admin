@@ -37,6 +37,7 @@
                 <tr>
                     @if($course_type == 1)
                     <td>老师姓名 </td>
+                    <td>常规上课次数</td>
                     <td>常规迟到5分钟 </td>
                     <td>常规迟到15分钟 </td>
                     <td>常规离开20分钟 </td>
@@ -48,6 +49,7 @@
                     <td>操作</td>
                     @elseif ($course_type == 2)
                     <td>老师姓名 </td>
+                    <td>试听上课次数</td>
                     <td>试听迟到5分钟 </td>
                     <td>试听迟到15分钟 </td>
                     <td>试听离开20分钟 </td>
@@ -59,6 +61,7 @@
                     <td>操作</td>
                     @else
                     <td>老师姓名 </td>
+                    <td>上课次数</td>
                     <td>迟到5分钟 </td>
                     <td>迟到15分钟 </td>
                     <td>离开20分钟 </td>
@@ -76,6 +79,7 @@
                 @foreach ( $info as $var )
                     <tr>
                         <td><a class="opt-detail" data_teacher="{{$var['teacherid']}}" style="cursor:pointer">{{$var["nick"]}}</a> </td>
+                        <td>{{$var['lesson_num']}}</td>
                         <td>{{$var['five_num']}}</td>
                         <td>{{$var['fift_num']}}</td>
                         <td>{{$var['leave_num']}}</td>

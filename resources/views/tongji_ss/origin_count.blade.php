@@ -1,4 +1,4 @@
-@extends('layouts.app_old2')
+@extends('layouts.app')
 @section('content')
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <script type="text/javascript" src="/page_js/seller_student/common.js"></script>
@@ -99,7 +99,7 @@
             </div>
         </div>
         <hr />
-        <div class="body">
+        <div >
 
             @if ($field_name !="origin")
 
@@ -393,9 +393,6 @@
 
 
      </div>
-
-
-
- </section>
+    </section>
 
 @endsection

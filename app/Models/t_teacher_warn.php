@@ -28,12 +28,12 @@ class t_teacher_warn extends \App\Models\Zgen\z_t_teacher_warn
             ['t.lesson_start<%u', $end_time, 0]
         ];
         if ($teacherid) {
-            array_push($where_arr, ["t.teacherid=%u",$teacherid,0]);
-            $sql = $this->gen_sql_new("select id,teacherid,sum(five_num) five_num,sum(fift_num) fift_num,sum(leave_num) leave_num,sum(absent_num) absent_num,sum(adjust_num) adjust_num,sum(ask_leave_num) ask_leave_num,sum(big_order_num) big_order_num from %s t where %s group by teacherid",
-                                      self::DB_TABLE_NAME,
-                                      $where_arr
-            );
-            return $this->main_get_list($sql);
+            // array_push($where_arr, ["t.teacherid=%u",$teacherid,0]);
+            // $sql = $this->gen_sql_new("select id,teacherid,sum(five_num) five_num,sum(fift_num) fift_num,sum(leave_num) leave_num,sum(absent_num) absent_num,sum(adjust_num) adjust_num,sum(ask_leave_num) ask_leave_num,sum(big_order_num) big_order_num from %s t where %s group by teacherid",
+            //                           self::DB_TABLE_NAME,
+            //                           $where_arr
+            // );
+            // return $this->main_get_list($sql);
 
         }
         if ($type == 1) { // 常规
@@ -42,8 +42,8 @@ class t_teacher_warn extends \App\Models\Zgen\z_t_teacher_warn
             array_push($where_arr, "l.lesson_type=2 ");
         }
         
-        $sql = $this->gen_sql_new("select t.id,t.teacherid,sum(t.five_num) five_num,sum(t.fift_num) fift_num,sum(t.leave_num) leave_num,sum(t.absent_num) absent_num,sum(t.adjust_num) adjust_num,sum(t.ask_leave_num) ask_leave_num,sum(t.big_order_num) big_order_num "
-                                  ."from %s t left join %s l on t.lessonid=l.lessonid where %s group by teacherid",
+        $sql = $this->gen_sql_new("select t.id,t.teacherid,count(l.lesson_start) lesson_num,sum(t.five_num) five_num,sum(t.fift_num) fift_num,sum(t.leave_num) leave_num,sum(t.absent_num) absent_num,sum(t.adjust_num) adjust_num,sum(t.ask_leave_num) ask_leave_num,sum(t.big_order_num) big_order_num "
+                                  ."from %s t left join %s l on t.lessonid=l.lessonid where %s group by t.teacherid",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
@@ -64,9 +64,9 @@ class t_teacher_warn extends \App\Models\Zgen\z_t_teacher_warn
     }
 
     public function get_info_for_test_user() {
-        $sql = $this->gen_sql_new("select w.id,t.teacherid from %s t left join %s w on t.teacherid=w.teacherid where is_test_user!=0",
-                                  t_teacher_info::DB_TABLE_NAME,
-                                  self::DB_TABLE_NAME
+        $sql = $this->gen_sql_new("select w.id,t.teacherid from %s w left join %s t on t.teacherid=w.teacherid where is_test_user!=0",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
     }

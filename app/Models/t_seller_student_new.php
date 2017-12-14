@@ -3226,21 +3226,5 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
 
-    public function getAdminList($one_week_start, $one_week_end){
-        $where_arr = [
-        ];
-
-        $this->where_arr_add_time_range($where_arr, "tq.start_time", $one_week_start, $one_week_end);
-
-        $sql = $this->gen_sql_new("  select adminid, m.account as name  from %s tq "
-                                  ." left join %s m on m.uid=tq.adminid"
-                                  ." where %s group by adminid"
-                                  ,t_tq_call_info::DB_TABLE_NAME
-                                  ,t_manager_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-
-        return $this->main_get_list($sql);
-    }
 
 }
