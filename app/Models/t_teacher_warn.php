@@ -73,7 +73,7 @@ class t_teacher_warn extends \App\Models\Zgen\z_t_teacher_warn
 
     public function get_all_lessonid() {
         //select w.id from t_teacher_warn w left join t_test_lesson_subject_sub_list l on w.lessonid=l.lessonid where success_flag=2
-        $sql = $this->gen_sql_new("select w.id from %s w left join %l on w.lessonid=l.lessonid where success_flag=2 ",
+        $sql = $this->gen_sql_new("select w.id from %s w left join %s l on w.lessonid=l.lessonid where success_flag=2 ",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME
         );
