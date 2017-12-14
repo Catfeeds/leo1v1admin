@@ -77,9 +77,9 @@ trait TeaPower {
                 }
 
                 //非工作时间（周二至周六18:00以后及周日、周一）每周排课总量不超过6课时；
-                if(($lesson_count_week+$lesson_count)>6){
+                if(($lesson_count_week+$lesson_count)>8){
                     return $this->output_err(
-                        "教研老师每周只能带6课时,该老师该周已有".$lesson_count_week."课时!"
+                        "教研老师每周只能带8课时,该老师该周已有".$lesson_count_week."课时!"
                     );
                 }
 
