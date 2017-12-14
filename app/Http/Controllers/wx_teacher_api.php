@@ -1146,10 +1146,14 @@ class wx_teacher_api extends Controller
 
         $tag_l1_sort  = '教师相关';
         $tag_l2_sort  = '风格性格';
-        $tag_lib_arr = $this->t_tag_library->getTeacherCharacter($tag_l1_sort, $tag_l2_sort);
+        $tag_lib_arr_two = $this->t_tag_library->getTeacherCharacter($tag_l1_sort, $tag_l2_sort);
+        $tag_list = [];
+        foreach($tag_lib_arr_two as $v){
+            $tag_list[] = $v['tag_name'];
+        }
 
-        var_dump($tag_arr);
-        dd($tag_lib_arr);
+        $tae_label_arr = array_intersect($tag_list,$tag_arr);
+        dd($tea_lab_arr);
 
         $teacher_info['tea_label_str'] = $tea_label_type_str;
         return $this->output_succ(["data"=>$teacher_info]);
