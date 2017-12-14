@@ -1278,30 +1278,53 @@
             </div>
             <div class="col-xs-12 col-md-12  ">
                 <div class="row">
-                    <div class="col-xs-12 col-md-3  ">
+                    <div class="col-xs-12 col-md-1 " >
                         <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp综合排名：</span>
-                            <input type="text" class=" form-control "  id="id_class_rank_new_two"  placeholder='班级排名' />
-                            <input type="text" class=" form-control "  id="id_class_num_new_two" placeholder='班级人数' />
-                        </div>
-                        <div class="input-group " style="display:none;">
-                            <span class="input-group-addon">年级排名：</span>
-                            <input type="text" class=" form-control "  id="id_grade_rank_new_two"  placeholder='年级排名' />
+                            <span class="input-group-addon" style="height:34px;"><font style="color:red">*</font>&nbsp综合排名：</span>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3 subject_score " >
-                        <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp科目分数：</span>
-                            <select name="subject_score_new_two" id="id_main_subject_new_two" class=" form-control " >
-                            </select> 
-                            <input type="text" class=" form-control " id="id_main_subject_score_one_new_two" name="subject_score_one_new_two" placeholder='分数' />
-                            <input type="text" class=" form-control " id="id_main_subject_score_two_new_two" name="subject_score_two_new_two" placeholder='满分' />
-                            <button class="btn  btn-primary" id="id_add_subject_score_new_two" onclick="add_subject_score(this)" title="添加科目" >
-                                <i class="fa fa-plus"></i>
-                            </button>
+
+                    <div class='col-xs-3 col-md-1' style=''>
+                        <div class='input-group' style='width:92px;'>
+                            <input type="text" class=" form-control "  id="id_class_rank_new_two"  placeholder='班级排名' />
+                        </div>
+                    </div>
+                    <div class='col-xs-3 col-md-1' style="margin:0 1% 0 -1%">
+                        <div class='input-group' style='width:88px;'>
+                            <input type="text" class=" form-control "  id="id_class_num_new_two" placeholder='班级人数' />
+                        </div>
+                    </div>
+                    <div class="input-group " style="display:none;">
+                        <span class="input-group-addon">年级排名：</span>
+                        <input type="text" class=" form-control "  id="id_grade_rank_new_two"  placeholder='年级排名' />
+                    </div>
+
+
+
+                    <div>
+                        <div class='col-xs-12 col-md-1' >
+                            <div class='input-group'>
+                                <span class='input-group-addon' style='height:34px;'><font style='color:red'>*</font>&nbsp科目：</span>
+                                <select name='subject_score_new_two' id='id_main_subject_new_two' class='form-control' style='width:70px'>
+                                </select> 
+                            </div>
+                        </div>
+                        <div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'>
+                            <div class='input-group' style='width:55px;'>
+                                <input type='text' class='form-control' id='id_main_subject_score_one_new_two' name='subject_score_one_new_two' placeholder='分数' />
+                            </div>
+                        </div>
+                        <div class='col-xs-3 col-md-1' style='margin:0 0 0 -4%'>
+                            <div class='input-group' style='width:55px;'>
+                                <input type='text' class='form-control' id='id_main_subject_score_two_new_two' name='subject_score_two_new_two' placeholder='满分' />
+                            </div>
+                        </div>
+                        <div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' >
+                            <i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i>
                         </div>
                     </div>
                 </div>
+
 
                 <div class="row">
                     <div class="col-xs-12 col-md-3  ">
