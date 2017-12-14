@@ -72,9 +72,16 @@ class test_sam extends Command
 
             $origin_info = $task->t_seller_student_origin->get_origin_by_userid($userid);
             if($origin_info){
-                $ret = explode("—",$origin_info);
-                $three_origin  = @$ret[1];
-                $two_origin    = @$ret[0];
+                if(strpos($origin_info,'-')){
+                    $ret = explode("-",$origin_info);
+                    $three_origin  = @$ret[1];
+                    $two_origin    = @$ret[0];
+                }else{
+                    $ret = explode("—",$origin_info);
+                    $three_origin  = @$ret[1];
+                    $two_origin    = @$ret[0];
+                }
+                
             }else{
                 $three_origin = '';
                 $two_origin = '';
