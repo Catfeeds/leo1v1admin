@@ -1492,11 +1492,13 @@ class Utils  {
         $lv_check_time    = strtotime("2019-9-1");
 
         if($teacherid==71743 && $lesson_info['lesson_start']<$huang_check_time){
-            $money=60;
+            $money = 60;
         }elseif($teacherid==58812 && $lesson_info['competition_flag']==1 && $lesson_info['lesson_start']<$zhang_check_time){
-            $money=75;
+            $money = 75;
         }elseif($lesson_info['userid']==379758 && $lesson_info['lesson_start']<$lv_check_time){
-
+            $money = $this->t_teacher_money_type->get_money_by_lesson_info(
+                $lesson_info['teacher_money_type'],$lesson_info['level'],E\Egrade::V_301
+            );
         }
         return $money;
     }

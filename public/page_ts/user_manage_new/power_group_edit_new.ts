@@ -136,10 +136,16 @@ $(function(){
 
     $("#id_show_all_power").on("click",function(){ // 显示所有权限
         var treeObj = $.fn.zTree.getZTreeObj('treeDemo');
-        var nodes = treeObj.getNodesByParam("isHidden", true);
-        treeObj.showNodes(nodes);
-        treeObj.expandAll(true);
-    })
+        //var nodes = treeObj.getNodesByParam("isHidden", true);
+        var nodes = treeObj.getNodes();
+        if (nodes[0].open == true) {
+            //treeObj.hideNodes(nodes);
+            treeObj.expandAll(false);
+        } else {
+            treeObj.showNodes(nodes);
+            treeObj.expandAll(true);
+        }
+    });
 
     $("#id_del_group").on("click",function(){ // 删除当前角色
         BootstrapDialog.confirm("要删除当前角色?!",function(ret){
