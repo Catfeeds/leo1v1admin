@@ -48,7 +48,7 @@ $(function(){
                         "end_time"  : end_time
                     },function(resp){
                         console.log(resp.data);
-                        var data = resp.data;
+                        var data = resp;
                         $tr.find(".test_num").text(data.test_num);
                         $tr.find(".test_late_num").text(data.test_late_num);
                         $tr.find(".test_kk_num").text(data.test_kk_num);
