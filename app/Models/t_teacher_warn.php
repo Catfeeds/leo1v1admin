@@ -24,11 +24,11 @@ class t_teacher_warn extends \App\Models\Zgen\z_t_teacher_warn
 
     public function get_all_info($start_time, $end_time, $teacherid, $type = 0) {
         $where_arr = [
-            //['t.lesson_start>=%u', $start_time, 0],
+            ['t.lesson_start>=%u', $start_time, 0],
             ['t.lesson_start<%u', $end_time, 0]
         ];
         if ($teacherid) {
-            array_push($where_arr, ["t.teacherid=%u",$teacherid,0]);
+            // array_push($where_arr, ["t.teacherid=%u",$teacherid,0]);
             // $sql = $this->gen_sql_new("select id,teacherid,sum(five_num) five_num,sum(fift_num) fift_num,sum(leave_num) leave_num,sum(absent_num) absent_num,sum(adjust_num) adjust_num,sum(ask_leave_num) ask_leave_num,sum(big_order_num) big_order_num from %s t where %s group by teacherid",
             //                           self::DB_TABLE_NAME,
             //                           $where_arr
@@ -67,6 +67,15 @@ class t_teacher_warn extends \App\Models\Zgen\z_t_teacher_warn
         $sql = $this->gen_sql_new("select w.id,t.teacherid from %s w left join %s t on t.teacherid=w.teacherid where is_test_user!=0",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_all_lessonid() {
+        //select w.id from t_teacher_warn w left join t_test_lesson_subject_sub_list l on w.lessonid=l.lessonid where success_flag=2
+        $sql = $this->gen_sql_new("select w.id from %s w left join %s l on w.lessonid=l.lessonid where success_flag=2 ",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
     }

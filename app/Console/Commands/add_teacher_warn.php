@@ -38,22 +38,14 @@ class add_teacher_warn extends Command
     public function handle()
     {
         $task = new \App\Console\Tasks\TaskController();
-        // 每日凌晨二点更新数据
-        $date = strtotime('-1day');
-        $start_time = strtotime(date('Y-m-d 00:00:00', $date));
-        $end_time = strtotime(date('Y-m-d 23:59:59', $date));
-        // 删除测试用户
-        // $data = $task->t_teacher_warn->get_info_for_test_user();
-        // foreach($data as $val){
-        //     echo $val['id'];
-        //     $task->t_teacher_warn->row_delete($val['id']);
-        // }
-        // exit;
-
-
         // 第一次加载所有数据
         // $start_time = strtotime('2017-1-1');
         // $end_time = time();
+
+        // 每日凌晨二点更新数据
+        $date = strtotime('-1day');
+        $start_time = strtotime(date('Y-m-1 00:00:00', $date));
+        $end_time = strtotime(date('Y-m-d 23:59:59', $date));
 
         //$data = $task->t_teacher_warn->get_info_for_time($start_time, $end_time);
 
@@ -61,6 +53,11 @@ class add_teacher_warn extends Command
         foreach($info as $item) {
             $minute=floor(($item['tea_attend'] - $item['lesson_start'])%86400/60);
             $five_num = $fift_num = $leave_num = 0;
+            if ($item['lesson_type'] == 2) { // 处理试听课是否为有效课程
+                $flag = $task->t_test_lesson_subject_sub_list->get_success_flag($item['lessonid']);
+                dd($flag);
+            }
+            exit;
             if ($minute > 15) {
                 $fift_num = 1;
             }
@@ -164,7 +161,13 @@ class add_teacher_warn extends Command
         }
 
         // 删除测试用户
-        $data = $task->t_teacher_warn->get_info_for_test_user();
+        // $data = $task->t_teacher_warn->get_info_for_test_user();
+        // foreach($data as $val){
+        //     $task->t_teacher_warn->row_delete($val['id']);
+        // }
+
+        // 删除无效试听课
+        $data = $task->t_teacher_warn->get_all_lessonid();
         foreach($data as $val){
             $task->t_teacher_warn->row_delete($val['id']);
         }

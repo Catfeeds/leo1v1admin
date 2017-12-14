@@ -119,6 +119,7 @@ class NewRouteConfig {
         "/common/upload_qiniu"                    => true,
         "/common/notify"                          => true,
         "/common/get_bucket_info"                 => true,
+        "/common/get_new_bucket_info"                 => true,
         "/common/send_wx_todo_msg"                => true,
         "/common/send_offer_info_by_teacherid"    => true,
         "/common/get_teacher_qr"                  => true,
