@@ -939,7 +939,7 @@ class test_jack  extends Controller
         $teacherid             = $this->get_in_int_val("teacherid");
         $start_time            = $this->get_in_int_val("start_time");
         $end_time             = $this->get_in_int_val("end_time");
-        $list = $this->t_lesson_info_b3->get_teacher_lesson_info($teacherid,$start_time,$end_time);
+        $list = $this->t_lesson_info_b3->get_teacher_lesson_info($teacherid,$start_time,$end_time,[],false);
         $data = @$list[0];
         return $this->output_succ($data);
 

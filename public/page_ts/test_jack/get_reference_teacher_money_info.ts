@@ -21,7 +21,6 @@ $(function(){
                 var teacherid = opt_data.data("teacherid");
                 var start_time = opt_data.data("start");
                 var end_time = opt_data.data("end");
-                alert(1111);
                 if(teacherid>0){
                    /* $.do_ajax("/teacher_money/user_deal/get_teacher_interview_info",{
                         "teacherid"           : opt_data.teacherid,
