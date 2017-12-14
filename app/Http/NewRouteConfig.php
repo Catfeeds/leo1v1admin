@@ -97,6 +97,7 @@ class NewRouteConfig {
         "/grab_lesson/get_all_grab_info"          => true,
         "/teacher_info/grab_visit_info"           => true,
         "/teacher_info/tea_resource"              => true,
+        "/teacher_info/tea_edit_dir"              => true,
         "/teacher_info/get_leo_resource"          => true,
         "/teacher_info/do_collect"                => true,
         "/lesson_manage/stu_status_count"         => true,

@@ -10,6 +10,9 @@
     <script type="text/javascript" src="/js/jquery.contextify.js"></script>
     <script type="text/javascript" src="/js/area/distpicker.data.js"></script>
 	  <script type="text/javascript" src="/js/area/distpicker.js"></script>
+    <script>
+     var cur_dir_id = {{$cur_dir}};
+    </script>
     <style>
      td .opt-select-item{
          height:auto;
@@ -33,7 +36,7 @@
                      </div>
                      </div> -->
                 <div class="col-xs-4 col-md-1">
-                    <button class="btn btn-info">新建文件夹</button>
+                    <button class="btn btn-info opt-add-dir">新建文件夹</button>
                 </div>
                 <div class="col-xs-4 col-md-1">
                     <button class="btn btn-info">上传</button>
@@ -52,7 +55,11 @@
             </div>
         </div>
         <div class="row">
-            面包屑
+            <div class="col-md-12">
+                @foreach ( $crumbs as $v )
+                    <a href="/teacher_info/tea_resource?dir_id={{@$v['dir_id']}}">{{@$v['name']}}</a>&nbsp;/&nbsp;
+                @endforeach
+            </div>
         </div>
         <hr/>
         <table   class="common-table"  >
@@ -73,17 +80,25 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>
-                            <input type="checkbox" class="opt-select-item" data-id="{{$var["tea_res_id"]}}" />
+                            <input type="checkbox" class="opt-select-item" data-id="{{@$var["tea_res_id"]}}" />
                         </td>
-                        <td>{{@$var["file_title"]}} </td>
+                        <td>
+                            @if(@$var['file_id'] == -1)
+                                <a href="/teacher_info/tea_resource?dir_id={{$var['dir_id']}}">{{@$var["file_title"]}}</a>
+                            @else
+                                {{@$var["file_title"]}}
+                            @endif
+                        </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
-                        <td>{{@$var["file_size"]}}M </td>
+                        <td>{{@$var["file_size"]}} </td>
                         <td>
-                            @if(@$var['file_id'] > 0)
-                                我的收藏
-                            @else
+                            @if(@$var['file_id'] == -1)
+                                文件夹
+                            @elseif(@$var['file_id'] == 0)
                                 我的上传
+                            @else
+                                我的收藏
                             @endif
                         </td>
                     </tr>
