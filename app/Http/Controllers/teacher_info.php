@@ -2333,6 +2333,7 @@ class teacher_info extends Controller
             }
             $info['teacherid'] = $teacherid;
             $info['create_time'] = $time;
+            $info['cur_dir'] = '/';
 
             $this->t_teacher_resource->start_transaction();
             $ret = $this->t_teacher_resource->row_insert($info);
@@ -2365,4 +2366,33 @@ class teacher_info extends Controller
 
         }
     }
+
+    public function tea_resource(){
+        $dir_id    = $this->get_in_int_val('dir_id', 0);
+        $teacherid = $this->get_login_teacher();
+        $page_info = $this->get_in_page_info();
+
+        if($dir_id != 0){
+            //生成面包屑
+            $par_dir = $this->t_teacher_resource->get_par_dir( $teacherid, $dir_id);
+        } else {
+            $crumbs = [[ 'dir_id' => 0, 'name' => '我的课件']];
+        }
+        //获取文件
+        $files = $this->t_teacher_resource->get_tea_all_res($teacherid, $dir_id, $page_info);
+        //获取文件下的目录
+        $dirs  = $this->t_teacher_resource_dir->get_next_dir($teacherid, $dir_id, $page_info);
+
+        // dd($ret_info);
+        foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,'create_time');
+            $item['file_size'] = round($item['file_size']/1024, 2);
+        }
+        return $this->pageView( __METHOD__,$ret_info,[
+            'cur_dir' => $cur_dir,
+            'crumbs'  => $crumbs,
+        ]);
+
+    }
+
 }
