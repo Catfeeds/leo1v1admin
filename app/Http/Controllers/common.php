@@ -1533,6 +1533,18 @@ class common extends Controller
     }
 
 
+    public function get_new_bucket_info() {
+        $qiniu_config = \App\Helper\Config::get_config("qiniu");;
+
+        $ret_arr = [
+            "bucket" => "teacher-doc",
+            "domain" =>  "http://teacher-doc.qiniudn.com",
+            "token"  => $this->get_token("teacher-doc"),
+        ];
+
+        return $this->output_succ($ret_arr);
+    }
+
 
 
     public function upload_qiniu() {

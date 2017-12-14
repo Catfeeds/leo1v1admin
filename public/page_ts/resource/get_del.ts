@@ -160,21 +160,28 @@ $(function(){
             var res_id_info  = JSON.stringify(res_id_list);
             var file_id_info = JSON.stringify(file_id_list);
 
-            $.ajax({
-                type    : "post",
-                url     : "/resource/del_or_restore_resource",
-                dataType: "json",
-                data    : {
-                    "type"        : opt_type,
-                    "res_id_str"  : res_id_info,
-                    "file_id_str" : file_id_info,
-                },
-                success : function(result){
-                    if(result.ret == 0){
-                        window.location.reload();
+            if(opt_type == 4){
+                var tip = '确定要还原吗？';
+            } else {
+                var tip = '永久删除后将不可恢复！确定要永久删除吗？';
+            }
+            if( confirm(tip) ){
+                $.ajax({
+                    type    : "post",
+                    url     : "/resource/del_or_restore_resource",
+                    dataType: "json",
+                    data    : {
+                        "type"        : opt_type,
+                        "res_id_str"  : res_id_info,
+                        "file_id_str" : file_id_info,
+                    },
+                    success : function(result){
+                        if(result.ret == 0){
+                            window.location.reload();
+                        }
                     }
-                }
-            });
+                });
+            }
         }
 
     };

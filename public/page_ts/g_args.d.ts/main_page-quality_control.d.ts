@@ -17,10 +17,6 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	name	:any;
-	test_first_per_str	:any;
-	test_five_per_str	:any;
-	regular_first_per_str	:any;
-	regular_five_per_str	:any;
 	real_num	:any;
 	suc_count	:any;
 	lecture_succ	:any;
@@ -35,6 +31,14 @@ interface RowData {
 	regular_first	:any;
 	regular_five	:any;
 	all_num	:any;
+	test_first_per_str	:any;
+	test_five_per_str	:any;
+	regular_first_per_str	:any;
+	regular_five_per_str	:any;
+	lecture_inter_num	:any;
+	one_inter_num	:any;
+	lecture_succ	:any;
+	one_succ	:any;
 	per	:any;
 	all_target_num	:any;
 }

@@ -827,7 +827,6 @@ class menu{
                 ["power_id"=>3, "name"=>"模拟试听未排名单",   "url"=>"/tongji_ss/get_no_time_train_lesson_teacher_list"],
                 ["power_id"=>6, "name"=>"培训进度列表",   "url"=>"/tea_manage/teacher_train_list"],
                 ["power_id"=>7, "name"=>"待培训名单",   "url"=>"/tea_manage/teacher_cc_count"],
-
             ]],
 
             ["power_id"=>36, "name"=>"角色-运营",  "list"=>[

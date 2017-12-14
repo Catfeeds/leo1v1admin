@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+    <style>
+     .red-border{border:5px solid red;}
+    </style>
     <section class="content require_content" style="display:none">
         <div style="display:none">
             <div class="input-group ">
@@ -42,7 +45,8 @@
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span>老师</span>
-                    <input id="id_teacherid" style="display:none" type="text" value="{{ @$require_info['teacherid'] }}" />
+                    <input id="id_teacherid" style="display:none" type="text"
+                           value="{{ @$require_info['teacherid'] }}" autocomplete="off" />
                     <span id="id_teacher_name" type="text" >{{ @$require_info['tea_nick'] }}</span>
                 </div>
             </div>
@@ -127,7 +131,7 @@
             </thead>
             <tbody>
                 @foreach ($table_data_list as $var)
-                    <tr>
+                    <tr class="teacher-info" data-teacherid ="{{ $var['teacherid'] }}">
                         <td>{{$var["teacherid"]}}</td>
                         <td>{{$var["realname"]}}</td>
                         <td>{{$var["gender_str"]}}</td>
