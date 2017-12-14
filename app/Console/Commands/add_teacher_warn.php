@@ -49,11 +49,18 @@ class add_teacher_warn extends Command
         //     $task->t_teacher_warn->row_delete($val['id']);
         // }
         // exit;
+        $data = $task->t_teacher_warn->get_all_lessonid();
+        foreach($data as $val){
+            echo $val['id'];
+            $task->t_teacher_warn->row_delete($val['id']);
+        }
+        exit;
+
 
 
         // 第一次加载所有数据
-        // $start_time = strtotime('2017-1-1');
-        // $end_time = time();
+        $start_time = strtotime('2017-1-1');
+        $end_time = time();
 
         //$data = $task->t_teacher_warn->get_info_for_time($start_time, $end_time);
 
@@ -100,7 +107,6 @@ class add_teacher_warn extends Command
                 ]);
             }
         }
-        exit;
         //$data = $task->t_teacher_warn->get_info_for_time($start_time, $end_time);
 
         $info = $task->t_lesson_info->get_teacher_warn_info($start_time, $end_time);
