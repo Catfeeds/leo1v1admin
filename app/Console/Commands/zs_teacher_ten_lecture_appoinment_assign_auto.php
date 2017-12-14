@@ -40,21 +40,21 @@ class zs_teacher_ten_lecture_appoinment_assign_auto extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
 
-        $list= $task->t_teacher_lecture_appointment_info->get_id_list_by_adminid(513,1);
-        $i=0;
-        foreach($list as $item){
-            if($i<2087){
-                $tt = 955;
-            }else{
-                $tt =1000;
-            }
-            $task->t_teacher_lecture_appointment_info->field_update_list($item["id"],[
-                "accept_adminid" =>$tt,
-                "accept_time"  =>1513051920
-            ]);
-            $i++;
-        }
-        dd($list);
+        // $list= $task->t_teacher_lecture_appointment_info->get_id_list_by_adminid(513,1);
+        // $i=0;
+        // foreach($list as $item){
+        //     if($i<2087){
+        //         $tt = 955;
+        //     }else{
+        //         $tt =1000;
+        //     }
+        //     $task->t_teacher_lecture_appointment_info->field_update_list($item["id"],[
+        //         "accept_adminid" =>$tt,
+        //         "accept_time"  =>1513051920
+        //     ]);
+        //     $i++;
+        // }
+        // dd($list);
 
         $start_time = strtotime(date("2017-02-01"));
         // $ass_leader_arr=[1=>492,2=>513,3=>790,4=>492,5=>513,6=>790,7=>492,8=>513,9=>790,10=>513];
