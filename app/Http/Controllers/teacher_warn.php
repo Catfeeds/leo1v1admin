@@ -11,15 +11,28 @@ class teacher_warn extends Controller
     public function tea_warn_list() {
         list($start_time, $end_time) = $this->get_in_date_range_day(0);
         $teacherid = $this->get_in_int_val('teacher', 0);
-        $page_info = $this->get_in_page_info();
+        $course_type = $this->get_in_int_val("course_type", 0);
+        //$page_inf_o = $this->get_in_page_info();
 
-        $ret_info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $teacherid, $page_info);
-        foreach($ret_info['list'] as &$item) {
-            $item['nick'] = $this->cache_get_teacher_nick($item['teacherid']);
-            $item['all'] = $item['fift_num'] + $item['leave_num'] + $item['absent_num'] + $item['adjust_num'] + $item['ask_leave_num'] + $item['big_order_num'];
+        if ($course_type == 1) {
+            $info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $teacherid, $course_type);
+        } else if($course_type == 2) {
+            $info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $teacherid, $course_type);
+        } else {
+            $info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $teacherid, $course_type);
         }
+        $sort = [];
+        foreach($info as &$item) {
+            $item['nick'] = $this->cache_get_teacher_nick($item['teacherid']);
+            $item['all'] = $item['five_num'] + $item['fift_num'] + $item['leave_num'] + $item['absent_num'] + $item['adjust_num'] + $item['ask_leave_num'] + $item['big_order_num'];
+            $sort[] = $item['all'];
+        }
+        array_multisort($sort, SORT_DESC, $info);
         
-        return $this->pageView(__METHOD__, $ret_info);
+        return $this->pageView(__METHOD__, '', [
+            'info' => $info,
+            'course_type' => $course_type
+        ]);
     }
 
     public function get_teacher_detail() {

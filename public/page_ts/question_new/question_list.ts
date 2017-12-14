@@ -29,7 +29,8 @@ $(function(){
     //添加题目
     $('#id_add_question').on('click',function(){
         var editType = 1;
-        window.open('/question_new/answer_list?editType='+editType);
+        var subject = $('#id_subject').val();
+        window.open('/question_new/question_edit?editType='+editType+'&subject='+subject);
     });
 
     //编辑题目
@@ -37,14 +38,15 @@ $(function(){
         var opt_data=$(this).get_opt_data();
         var question_id = opt_data.question_id;
         var editType = 2;
-        window.open('/question_new/question_edit?editType='+editType+'&question_id='+question_id);
+        var subject = $('#id_subject').val();
+        window.open('/question_new/question_edit?editType='+editType+'&question_id='+question_id+'&subject='+subject);
     });
 
     //编辑对应的答案
     $('.edit_question_know').on('click',function(){
         var opt_data=$(this).get_opt_data();
         var question_id = opt_data.question_id;
-        window.open('/question_new/question_edit?question_id='+question_id);
+        window.open('/question_new/answer_edit?question_id='+question_id);
     })
     
     //编辑对应的知识点

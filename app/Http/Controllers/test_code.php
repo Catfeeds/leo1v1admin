@@ -1457,11 +1457,5 @@ class test_code extends Controller
         }
     }
 
-    public function test_email(){
-        $email = "11991287@163.com";
-        $ret = \App\Helper\Utils::check_email($email);
-        var_dump($ret);
-    }
-
 
 }

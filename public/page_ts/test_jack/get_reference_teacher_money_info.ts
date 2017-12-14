@@ -9,32 +9,7 @@ $(function(){
     }
 
 
-    $("#id_add").on("click",function(){
-        var id_start=$("<input/>");
-        
-        var id_end=$("<select id=\"bs3Select\" class=\"selectpicker show-tick form-control\" multiple data-live-search=\"true\"><option>cow</option> <option>bull</option>  <option class=\"get-class\" disabled>ox</option>  <optgroup label=\"test\" data-subtext=\"another test\" data-icon=\"icon-ok\">  <option>ASD</option>  <option selected>Bla</option>  <option>Ble</option>  </optgroup>  </select>  ");
-       
-        var arr=[
-            ["开始时间", id_start],
-            ["结束时间", id_end],
-        ];
-      
-        var a= [  "java", "javaScript","aa", "bb", "cac","dd","e"];
-        var b=["我们", "你们", "他们","订单","啊"];
-        
-      
-
-        $.show_key_value_table("新增", arr ,{
-            label: '确认',
-            cssClass: 'btn-warning',
-            action : function(dialog) {
-                
-            }
-        },function(){
-            
-        });
-    });
-
+    
     $("#id_get_money").on("click",function(){
         var row_list=$("#id_tbody tr");
         var do_index=0;
@@ -44,6 +19,8 @@ $(function(){
                 var $tr=$(row_list[do_index]);
                 var opt_data=$tr.find(".row-data");
                 var teacherid = opt_data.data("teacherid");
+                var start_time = opt_data.data("start");
+                var end_time = opt_data.data("end");
                 if(teacherid>0){
                    /* $.do_ajax("/teacher_money/user_deal/get_teacher_interview_info",{
                         "teacherid"           : opt_data.teacherid,
@@ -66,25 +43,24 @@ $(function(){
                         do_one();
                         });*/
                     $.do_ajax("/test_jack/ajax_deal_jack",{
+                        "teacherid" : teacherid,
+                        "start_time": start_time,
+                        "end_time"  : end_time
                     },function(resp){
                         console.log(resp.data);
                         var data = resp.data;
-                        $tr.find(".all_num").text(data.all_num);
-                        $tr.find(".one_num").text(data.one_num);
-                        $tr.find(".one_five_num").text(data.one_five_num);
-                        $tr.find(".two_num").text(data.two_num);
-                        $tr.find(".two_five_num").text(data.two_five_num);
-                        $tr.find(".three_num").text(data.three_num);
-                        $tr.find(".three_five_num").text(data.three_five_num);
-                        $tr.find(".four_num").text(data.four_num);
-                        $tr.find(".four_five_num").text(data.four_five_num);
-                        $tr.find(".five_num").text(data.five_num);
-                        $tr.find(".five_five_num").text(data.five_five_num);
-                        $tr.find(".six_num").text(data.six_num);
-                        $tr.find(".six_five_num").text(data.six_five_num);
-                        $tr.find(".other_num").text(data.other_num);
-                        $tr.find(".tea_leave_num").text(data.tea_leave_num);
-                        $tr.find(".stu_leave_num").text(data.stu_leave_num);
+                        $tr.find(".test_num").text(data.test_num);
+                        $tr.find(".test_late_num").text(data.test_late_num);
+                        $tr.find(".test_kk_num").text(data.test_kk_num);
+                        $tr.find(".reg_num").text(data.reg_num);
+                        $tr.find(".late_num").text(data.late_num);
+                        $tr.find(".invalid_late_num").text(data.invalid_late_num);
+                        $tr.find(".all_change_num").text(data.all_change_num);
+                        $tr.find(".change_num").text(data.change_num);
+                        $tr.find(".all_leave_num").text(data.all_leave_num);
+                        $tr.find(".leave_num").text(data.leave_num);
+                        $tr.find(".kk_num").text(data.kk_num);
+                       
 
 
 

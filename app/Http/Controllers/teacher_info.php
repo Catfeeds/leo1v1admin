@@ -1513,9 +1513,9 @@ class teacher_info extends Controller
         return $this->pageView(__METHOD__,[]);
     }
 
-    public function  file_store()   {
+    public function  file_store() {
 
-        $teacherid      = $this->get_login_teacher();
+        $teacherid = $this->get_login_teacher();
         $dir= $this->get_in_str_val("dir");
         if (!$dir) {
             $dir= "/";
@@ -1538,6 +1538,17 @@ class teacher_info extends Controller
                                     "file_size" =>"",
                                     "create_time" =>"",
         ] );
+
+        if($dir == '/'){
+            $res = $this->t_teacher_resource->get_tea_collect($teacherid);
+            // foreach($res as $item){
+            //     $ret_list[] = [
+            //         'file_name' => $item['file_title'],
+            //         'file_size' => $item['file_size'].'KB',
+            //         'create_time' => date('Y-m-d H:i:s')$item['create_time'],
+            //     ];
+            // }
+        }
 
 
         return $this->pageView(
@@ -2271,17 +2282,18 @@ class teacher_info extends Controller
         // $file_title    = $this->get_in_str_val('file_title', '');
         $page_info     = $this->get_in_page_info();
 
-        $ret_info = $this->t_resource->get_all(
-            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info
+        $resource_type = $resource_type<1?1:$resource_type;
+        $resource_type = $resource_type>6?6:$resource_type;
+
+        //禁用，删除，老师段则不在显示
+        $ret_info = $this->t_resource->get_all_for_tea(
+            $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$page_info
         );
 
+        $tag_arr = \App\Helper\Utils::get_tag_arr($resource_type);
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            \App\Helper\Utils::get_file_use_type_str($item);
-            $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
             $item['file_size'] = round( $item['file_size'] / 1024,2);
-            $tag_arr = $this->tag_arr[ $item['resource_type'] ];
-
             $item['tag_one_name'] = $tag_arr['tag_one']['name'];
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
             $item['tag_three_name'] = $tag_arr['tag_three']['name'];
@@ -2300,5 +2312,57 @@ class teacher_info extends Controller
             ]);
         }
 
+        return $this->pageView( __METHOD__,$ret_info,['tag_info' => $tag_arr]);
+    }
+
+    public function do_collect(){
+
+        $is_get     = $this->get_in_str_val('is_get');
+        $file_id    = $this->get_in_int_val('file_id', 0);
+        $tea_res_id = $this->get_in_int_val('id', 0);
+        $teacherid  = $this->get_login_teacher();
+        if($file_id == 0){
+            $this->output_err('信息有误，收藏失败！');
+        }
+        $time = time();
+
+        if($is_get == 'true'){//收藏
+            $info = $this->t_resource_file->get_info_by_file_id($file_id);
+            if($info == false){
+                return $this->output_err('未查询到该文件，收藏失败！');
+            }
+            $info['teacherid'] = $teacherid;
+            $info['create_time'] = $time;
+
+            $this->t_teacher_resource->start_transaction();
+            $ret = $this->t_teacher_resource->row_insert($info);
+            //error_num(就是收藏次数),增加收藏次数
+            $ret2 = $this->t_resource_file->add_num('error_num', $file_id);
+            $ret3 = $this->t_resource_file_visit_info->row_insert([
+                'file_id'      => $file_id,
+                'visit_type'   => 8,
+                'visitor_type' => 1,
+                'visitor_id'   => $teacherid,
+                'create_time'  => $time,
+                'ip'           => $_SERVER["REMOTE_ADDR"],
+            ]);
+            if($ret && $ret2 && $ret3){
+                $this->t_teacher_resource->commit();
+                return $this->output_succ();
+            } else {
+                $this->t_teacher_resource->rollback();
+                return $this->output_err('收藏失败,请重试！');
+            }
+        } else {//取消收藏
+
+            if($tea_res_id == 0){
+                return $this->output_err('信息有误，操作失败！');
+            }
+            $ret = $this->t_teacher_resource->field_update_list($tea_res_id,['is_del' => 1]);
+            $this->t_resource_file->minus_num('error_num', $file_id);
+
+            return $this->output_succ();
+
+        }
     }
 }

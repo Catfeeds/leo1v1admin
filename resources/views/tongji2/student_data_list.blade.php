@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('content')
-
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+      <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+      <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+      <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+      <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+      <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <section class="content ">
         
         <div>
@@ -9,11 +14,25 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
-
                 <div class="col-xs-6 col-md-2">
-                    <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
+                    <div class="input-group ">
+                        <span class="input-group-addon">年级</span>
+                        <select class="opt-change form-control" id="id_grade" >
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">科目</span>
+                        <select class="opt-change form-control" id="id_subject" >
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">pad</span>
+                        <select class="opt-change form-control " id="id_pad" >
+                        </select>
                     </div>
                 </div>
             </div>
@@ -30,8 +49,8 @@
                     <td>pad</td>
                     <td>地区</td>
                     <td>电信商</td>
-                    <td>第三级渠道</td>
                     <td>第二级渠道</td>
+                    <td>第三级渠道</td>
                     <td>渠道进入数</td>
                     <td>电话接通数</td>
                     <td>回流公海数</td>
@@ -49,9 +68,8 @@
                         <td>{{@$var["pad_str"]}} </td>
                         <td>{{@$var["location"]}} </td>
                         <td>{{@$var["cor"]}} </td>
-                        <td>{{@$var["three_origin"]}} </td>
                         <td>{{@$var["two_origin"]}} </td>
-
+                        <td>{{@$var["three_origin"]}} </td>
                         <td>{{@$var["origin_count"]}} </td>
                         <td>{{@$var["cc_called_count"]}} </td>
                         <td>{{@$var["return_publish_count"]}} </td>

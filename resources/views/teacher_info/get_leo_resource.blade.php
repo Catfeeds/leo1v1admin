@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.teacher_header')
 @section('content')
     <script type="text/javascript" src="/js/area/distpicker.data.js"></script>
 	  <script type="text/javascript" src="/js/area/distpicker.js"></script>
@@ -8,7 +8,7 @@
      var tag_three = '{{$tag_info['tag_three']['menu']}}';
      var tag_four = '{{$tag_info['tag_four']['menu']}}';
     </script>
-    <section class="content">
+    <section class="content li-section">
         <div>
             <!-- <div class="row  row-query-list" >
                  <div class="col-xs-12 col-md-5"  data-title="时间段">
@@ -17,13 +17,6 @@
                  </div>
                  </div> -->
             <div class="row row-query-list">
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">使用角色</span>
-                        <select class="form-control opt-change" id="id_use_type"> </select>
-                    </div>
-                </div>
-
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">资源类型</span>
@@ -73,58 +66,39 @@
                         <select class="form-control opt-change" id="id_tag_four"> </select>
                     </div>
                 </div>
-
-
-            </div>
-            <div class="row">
-                <div class="col-xs-2 col-md-1 ">
-                    <button class="btn btn-warning opt-restore">还原</button>
-                </div>
-                <div class="col-xs-2 col-md-1 ">
-                    <button class="btn btn-danger opt-forever-del">永久删除</button>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <input class="opt-change form-control" id="id_file_title" placeholder="输入文件名称搜索" />
-                    </div>
-                </div>
-
             </div>
         </div>
         <hr/>
         <table class="common-table" id="menu_mark">
             <thead>
                 <tr>
-                    <td style="width:10px">
-                        <a href="javascript:;" id="id_select_all" title="全选">全</a>
-                        <a href="javascript:;" id="id_select_other" title="反选">反</a>
-                    </td>
-                    <td style="width:30%">文件名</td>
-                    <td style="width:15%">删除日期</td>
-                    <td style="width:10%">操作人</td>
-                    <td style="width:10%">文件类型</td>
-                    <td style="width:10%">文件大小</td>
-                    <td style="width:10%">下载次数</td>
-                    <td style="width:10%">纠错次数</td>
+                    <td style="width:35%">文件名</td>
+                    <td style="width:15%">修改日期</td>
+                    <td style="width:8%">文件类型</td>
+                    <td style="width:8%">文件大小</td>
+                    <td style="width:8%">使用次数</td>
+                    <td style="width:8%">收藏状态</td>
+                    <td style="width:8%"> 操作 </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
-                    <tr class="right-menu" {!!  \App\Helper\Utils::gen_jquery_data($var )  !!} >
-                        <td>
-                            <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-id="{{$var["resource_id"]}}"/>
-                        </td>
+                    <tr >
                         <td>{{@$var["file_title"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
-                        <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
                         <td>{{@$var["file_size"]}}M </td>
-                        <td>{{@$var["down_num"]}} </td>
-                        <td>{{@$var["error_num"]}} </td>
-                        <!-- <td>{{@$var["is_use_str"]}} </td> -->
-                        <!-- <td>
-                             <a class="opt-restore btn"  title="还原" data-resource_id="{{@$var['resource_id']}}">还原</a>
-                             </td> -->
+                        <td>{{@$var["use_num"]}} </td>
+                        <td>
+                            @if($var['tea_res_id'] == 0)
+                                <a class="collect opt-get btn color-red" data-file_id="{{@$var['file_id']}}">未收藏</a>
+                            @else
+                                <a class="collect btn color-blue" data-id="{{@$var['tea_res_id']}}" data-file_id="{{@$var['file_id']}}">已收藏</a>
+                            @endif
+                        </td>
+                        <td>
+                            <a class="opt-look btn color-blue"  title="预览" data-file_id="{{@$var['file_id']}}">预览</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

@@ -42,7 +42,6 @@ class test_sam extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
         $ret_info = $task->t_student_info->get_all_student_id();  
-
         foreach ($ret_info as $key => $value) {
             # code...
             $userid = $value['userid'];
@@ -73,7 +72,7 @@ class test_sam extends Command
 
             $origin_info = $task->t_seller_student_origin->get_origin_by_userid($userid);
             if($origin_info){
-                $ret = explode("-",$origin_info);
+                $ret = explode("—",$origin_info);
                 $three_origin  = @$ret[1];
                 $two_origin    = @$ret[0];
             }else{

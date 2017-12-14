@@ -64,13 +64,13 @@ trait TeaPower {
             }else{
                 //新教研老师规则改变(2017-10-25以后入职)
                 //工作时间（周二至周六9:00~18:00）不安排授课
-                if($day>=2 && $day <=6){
+                if($day>=2 && $day <=5){
                     if(!empty($lesson_start)){
 
                         $lesson_end = $lesson_count*2400+$lesson_start;
                         $end_h = date("H",$lesson_end);
                         if($h <18 && $end_h>=9 ){
-                            return $this->output_err("教研老师周二至周六9点至18点不能排课");
+                            return $this->output_err("教研老师周二至周五9点至18点不能排课");
                         }
                     }
 
@@ -4411,7 +4411,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      */
     public function add_reference_price($teacherid,$recommended_teacherid,$notice_flag=true){
         // 关掉15333268257 和  李桂荣两位老师11月后的伯乐奖 
-        if ($teacherid == 420745 || $teacheride == 437138) {
+        if ($teacherid == 420745 || $teacherid == 437138) {
             return '';
         }
         $check_is_exists = $this->t_teacher_money_list->check_is_exists($recommended_teacherid,E\Erecord_type::V_6);

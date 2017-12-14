@@ -4382,4 +4382,24 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
 
     }
+
+    public function getOrderList($start_time, $end_time){
+        $where_arr = [
+            "m.leave_member_time=0",
+            "m.account_role=2",
+            "o.contract_status in (1,2)",
+            "o.check_money_flag=1"
+        ];
+
+        $this->where_arr_add_time_range($where_arr, "o.add_time", $start_time, $end_time);
+
+        $sql = $this->gen_sql_new("  select o.add_time, o.check_money_time, o.price, o.sys_operator, m.create_time from %s o "
+                                  ." left join %s m on m.account=o.sys_operator"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
