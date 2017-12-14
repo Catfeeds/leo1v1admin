@@ -626,7 +626,7 @@ class user_manage_new extends Controller
         foreach ($old_list as $row_id => &$item) {
             $studentid    = $item["userid"];
             $grade        = $item["grade"];
-            $pre_price    = $this->get_teacher_base_money($teacherid,$item);
+            $pre_price    = \App\Helper\Utils::get_teacher_base_money($teacherid,$item);
             $lesson_count = $item["lesson_count"];
 
             //判断课程的老师类型来设置累计课时的数值
