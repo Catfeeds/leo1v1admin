@@ -2251,6 +2251,7 @@ class ss_deal extends Controller
 
             $userid = $origin_userid;
             $grade = $this->t_student_info->get_grade($userid);
+            $competition_flag = $part_competition_flag;
         }else if ( $from_parent_order_type== E\Efrom_parent_order_type::V_2 ){ //24小时内签单
             if($this->t_lesson_info-> get_succ_test_lesson_count($userid)>1) {
                 return $this->output_err("多次试听,不能  24小时内签单 -赠送合同了 ");

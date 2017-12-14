@@ -2341,4 +2341,16 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
 
     }
+
+    //检查转介绍人是否存在竞赛合同
+    public function check_origin_user_order_type(){
+        $orderid = $this->get_in_int_val("orderid");
+        $userid = $this->t_order_info->get_userid($orderid);
+        $origin_userid=$this->t_student_info->get_origin_userid($userid);
+        if(!$origin_userid){
+            return $this->output_err("没有找到对应的转介绍人"); 
+        }
+        $competition_flag = $this->t_order_info->check_is_have_competition_order($origin_userid);
+        return $this->output_succ(["flag"=>$competition_flag]);
+    }
 }
