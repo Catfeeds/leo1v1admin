@@ -157,7 +157,8 @@ $(function(){
 		"select_value" : g_args.teacherid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_teacherid",
-		"can_sellect_all_flag"     : true
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
 	});
 	$('#id_id_train_through_new_time').val(g_args.id_train_through_new_time);
 	$('#id_id_train_through_new').val(g_args.id_train_through_new);
@@ -170,6 +171,11 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -177,6 +183,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_lesson_status" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["lesson_status title", "lesson_status", "th_lesson_status" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -184,6 +191,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_subject" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["subject title", "subject", "th_subject" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -191,6 +199,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_identity" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["identity title", "identity", "th_identity" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -198,6 +207,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_grade" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["grade title", "grade", "th_grade" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -205,6 +215,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_check_status" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["check_status title", "check_status", "th_check_status" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -212,6 +223,9 @@ $(function(){
                 <input class="opt-change form-control" id="id_train_teacherid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["train_teacherid title", "train_teacherid", "th_train_teacherid" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -219,6 +233,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_lessonid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["lessonid title", "lessonid", "th_lessonid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -226,6 +241,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_res_teacherid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["res_teacherid title", "res_teacherid", "th_res_teacherid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -233,6 +249,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_have_wx" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["have_wx title", "have_wx", "th_have_wx" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -240,6 +257,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_lecture_status" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["lecture_status title", "lecture_status", "th_lecture_status" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -247,6 +265,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_train_email_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["train_email_flag title", "train_email_flag", "th_train_email_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -254,6 +273,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_is_all" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["is_all title", "is_all", "th_is_all" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -261,6 +281,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_full_time" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["full_time title", "full_time", "th_full_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -268,6 +289,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_fulltime_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["fulltime_flag title", "fulltime_flag", "th_fulltime_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -275,6 +297,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_teacherid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teacherid title", "teacherid", "th_teacherid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -282,6 +305,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_id_train_through_new_time" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["id_train_through_new_time title", "id_train_through_new_time", "th_id_train_through_new_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -289,4 +313,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_id_train_through_new" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["id_train_through_new title", "id_train_through_new", "th_id_train_through_new" ]])!!}
 */

@@ -4403,4 +4403,16 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_list($sql);
     }
+
+
+    public function check_is_have_competition_order($userid){
+        $where_arr=[
+            ["userid=%u",$userid,-1],
+            "competition_flag=1",
+            "contract_status=1",
+            "contract_type in (0,1,3)"
+        ];
+        $sql = $this->gen_sql_new("select 1 from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+    }
 }
