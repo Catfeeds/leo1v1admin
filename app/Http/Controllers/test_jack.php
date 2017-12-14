@@ -1335,9 +1335,13 @@ class test_jack  extends Controller
 
     }
 
+    public function test_sms(){
+        \App\Helper\Net::send_sms_taobao(13817759346,0, 10671029,[
+            "code"  => 1111,
+            "index" => 3,
+        ]);
 
-
-
+    }
 
 
    

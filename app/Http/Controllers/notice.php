@@ -163,6 +163,8 @@ class notice extends Controller
             $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"试听需求","试听需求","","");
         }
         $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"试听需求","试听需求","hahha","");
+        $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"试听需求","试听需求","hahhahahahahha","");
+
         return $this->output_succ();
 
     }
