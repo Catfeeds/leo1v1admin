@@ -13,10 +13,7 @@
                 <div class="col-xs-6 col-md-2">
                     <button id="id_get_money" class="btn btn-primary">刷新</button>
                 </div >
-                <div class="col-xs-6 col-md-2">
-                    <button id="id_add" class="btn btn-primary">新增</button>
-                </div >
-
+               
 
             </div>
         </div>
@@ -63,7 +60,7 @@
                         
 
                         <td>
-                            <div class="row-data" data-teacherid="teacherid" data-start="{{ $start_time }}" data-end="{{ $end_time }}">
+                            <div class="row-data" data-teacherid="{{ $var["teacherid"] }}" data-start="{{ $start_time }}" data-end="{{ $end_time }}">
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>
                             </div>
 
