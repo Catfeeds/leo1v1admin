@@ -159,6 +159,10 @@ class notice extends Controller
         $ret=\App\Helper\Common::send_sms_with_taobao($phone,
                                                       "SMS_".$type,
                                                       $data);
+        if($ret){
+            $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"试听需求","试听需求","","");
+        }
+        $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"试听需求","试听需求","hahha","");
         return $this->output_succ();
 
     }
