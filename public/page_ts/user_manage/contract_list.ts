@@ -2469,8 +2469,6 @@ $(function(){
         });
     });
 
-
-
     $('.opt-build-contrat').on("click",function(){
         var opt_data        = $(this).get_opt_data();
         var addressee       = $("<input/>");
