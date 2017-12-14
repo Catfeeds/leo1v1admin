@@ -1,3 +1,4 @@
+	no_update_seller_level_flag	:any;
 	create_time	:any;
 	leave_member_time	:any;
 	become_member_time	:any;

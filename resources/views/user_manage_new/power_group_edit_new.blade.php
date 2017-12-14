@@ -12,6 +12,13 @@
      .icheckbox_flat-green.has_same{
          background-position: -110px 0;
      }
+     #treeDemo li span {
+         font-size: 14px;
+     }
+     .ztree li span.button {
+         margin: 2px;
+     }
+
     </style>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <section class="content">

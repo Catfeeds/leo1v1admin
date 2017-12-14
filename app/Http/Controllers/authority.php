@@ -441,7 +441,12 @@ class authority extends Controller
         $phone   = $this->get_in_str_val('phone',"");
         $groupid   = $this->get_in_int_val('groupid',0);
         $account_role = $this->get_in_int_val('account_role',0);
-
+        $become_member_time = $this->get_in_str_val('become_member_time','');
+        if ($become_member_time) {
+            $become_member_time = strtotime($become_member_time.' '.date("H:i", time()));
+        } else {
+            $become_member_time = time();
+        }
 
         if($account == "" || $passwd == "" || $name == ""){
             return $this->output_err("参数错误");
@@ -476,7 +481,7 @@ class authority extends Controller
             "email" => $email,
             "phone" => $phone,
             "create_time" => time(NULL) ,
-            "become_member_time" => time(NULL) ,
+            "become_member_time" => $become_member_time,
             "permission" => $groupid ,
             "account_role" => $account_role,
             "creater_adminid" => $adminid ,
