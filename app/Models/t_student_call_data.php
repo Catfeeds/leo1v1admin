@@ -26,4 +26,9 @@ class t_student_call_data extends \App\Models\Zgen\z_t_student_call_data
     	//dd($sql);
     	return $this->main_get_list_by_page($sql,$page_num);
     }
+
+    public function get_all_list(){
+        $sql = "select * from db_weiyi.t_student_call_data ";
+        return $this->main_get_list($sql);
+    }
 }
