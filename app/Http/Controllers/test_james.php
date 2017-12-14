@@ -1210,7 +1210,8 @@ class test_james extends Controller
 
 
     public function get_user_list(){
-        $user_list = UserManage::getFansList($next_openId='');
+        $a = $this->get_in_str_val("s");
+        $user_list = UserManage::getFansList($next_openId=$a);
 
         dd($user_list);
     }
@@ -1841,6 +1842,12 @@ class test_james extends Controller
         echo $price;
         dd($month_date_money_list);
 
+    }
+
+
+    public function dsss(){
+        $a = $this->t_order_info->get_ceshi();
+        dd($a);
     }
 
 

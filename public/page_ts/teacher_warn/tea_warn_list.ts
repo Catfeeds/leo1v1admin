@@ -10,7 +10,7 @@ function load_data(){
 		    start_time:	$('#id_start_time').val(),
 		    end_time:	$('#id_end_time').val(),
         teacher: $('#id_teacher').val(),
-        type: $('#id_type').val(),
+        course_type: $('#id_course_type').val(),
     });
 }
 
@@ -27,7 +27,7 @@ function load_data(){
 
 
     $('#id_teacher').val(g_args.teacher);
-    $('#id_type').val(g_args.type);
+    $('#id_course_type').val(g_args.course_type);
     //$.admin_select_user( $("#id_teacher"), "teacher",load_data);
 
 	  $('.opt-change').set_input_change_event(load_data);
