@@ -45,17 +45,7 @@ class get_data extends Command
         $admin_list = $task->t_order_info->getOrderList($month_start, $month_end);
 
         foreach($admin_list as &$item){
-            $item['called_succ'] = $task->t_tq_call_info->get_succ_num($item['adminid'],$one_week_start,$one_week_end);
-            $item['has_called'] = $task->t_tq_call_info->get_called_num($item['adminid'],$one_week_start,$one_week_end);
-            $item['total_money'] = $task->t_order_info->get_total_price_for_tq($item['adminid'],$one_week_start,$one_week_end);
-
-            if(!$item['adminid']){$item['adminid'] = 0;}
-            if(!$item['name']){$item['name'] = 0;}
-            if(!$item['called_succ']){$item['called_succ'] = 0;}
-            if(!$item['has_called']){$item['has_called'] = 0;}
-            if(!$item['total_money']){$item['total_money'] = 0;}
-            // $c.='['.$item['adminid'].',"'.$item['name'].'",'.$item['called_succ'].','.$item['has_called'].','.$item['total_money'].'],<br/>';
-            echo $item['adminid'].' '.$item['name'].' '.$item['called_succ'].' '.$item['has_called'].' '.$item['total_money'].PHP_EOL;
+            echo date("Y-m-d H:i",$item['order_time']).' '.date("Y-m-d H:i",$item['check_money_time']).' '.$item['sys_operator'].' '.date("Y-m-d H:i",$item['create_time']).' '.$item['price_money'].PHP_EOL;
         }
     }
 }

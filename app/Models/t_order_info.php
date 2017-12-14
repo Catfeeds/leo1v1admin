@@ -4394,7 +4394,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr, "o.order_time", $start_time, $end_time);
 
-        $sql = $this->gen_sql_new("  select o.order_time, o.check_money_time, o.price, o.sys_operator, m.create_time from %s o "
+        $sql = $this->gen_sql_new("  select o.order_time, o.check_money_time, o.price/100 as price_money, o.sys_operator, m.create_time from %s o "
                                   ." left join %s m on m.account=o.sys_operator"
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
