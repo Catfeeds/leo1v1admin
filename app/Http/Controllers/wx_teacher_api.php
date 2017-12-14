@@ -1142,21 +1142,24 @@ class wx_teacher_api extends Controller
         $teacher_info['tea_gender_str'] = E\Egender::get_desc($teacher_info['tea_gender']);
         $teacher_info['identity_str'] = E\Eidentity::get_desc($teacher_info['identity']);
         $teacher_info['textbook_type_str'] = E\Etextbook_type::get_desc($teacher_info['textbook_type']);
+        $tag_arr = array_keys(json_decode($teacher_info['teacher_tags'],true));
 
-        $tea_label_type_arr = json_decode($teacher_info['tea_label_type'],true);
+        $tag_l1_sort  = '教师相关';
+        $tag_l2_sort  = '风格性格';
+        $tag_lib_arr_two = $this->t_tag_library->getTeacherCharacter($tag_l1_sort, $tag_l2_sort);
+        $tag_list = [];
+        foreach($tag_lib_arr_two as $v){
+            $tag_list[] = $v['tag_name'];
+        }
+        $tea_label_arr = array_intersect($tag_list,$tag_arr);
         $tea_label_type_str = "";
-
-        if($tea_label_type_arr){
-            foreach($tea_label_type_arr as $item){
-                $tea_label_type_str.=E\Etea_label_type::get_desc($item)."  ";
-            }
+        foreach($tea_label_arr as $v){
+            $tea_label_type_str.=$v." ";
         }
 
         $teacher_info['tea_label_str'] = $tea_label_type_str;
         return $this->output_succ(["data"=>$teacher_info]);
     }
-
-
 
 
 }

@@ -95,7 +95,7 @@ class seller_tongji extends Controller
             $adminid = $item['admin_revisiterid'];
             $res[$adminid]['test_lesson_count_for_month'] = $item['test_lesson_count'];
         }
-      
+
         $this->t_order_info->switch_tongji_database();
         $order_new = $this->t_order_info->get_1v1_order_list_by_adminid($start_time,$end_time,-1);
         foreach($order_new as $k=>$v){

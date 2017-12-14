@@ -19,6 +19,10 @@ interface RowData {
 	name	:any;
 	real_num	:any;
 	suc_count	:any;
+	lecture_succ	:any;
+	one_succ	:any;
+	lecture_inter_num	:any;
+	one_inter_num	:any;
 	train_first_all	:any;
 	train_first_pass	:any;
 	train_second_all	:any;

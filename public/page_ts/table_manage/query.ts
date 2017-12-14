@@ -43,7 +43,7 @@ $(function(){
         });
 
     });
-    if(g_account_role==12){
+    if(g_account_role==12 || g_account=='tom'){
         download_show();
     }
 });

@@ -2067,7 +2067,36 @@ $(function(){
 
                 });
             }else{ //转介绍 , 试听24小时内赠送课时
-                do_post_add_free( parent_order_id, 6,0,"",0,0, 0 );
+                $.do_ajax("/ajax_deal2/check_origin_user_order_type",{
+                    "orderid":parent_order_id
+                },function(respp){
+                    var ret = respp.ret;
+                    if(ret==-1){
+                        BootstrapDialog.alert(respp.info);
+                        return;
+                    }else{
+                        var com_flag = respp.flag;
+                        if(com_flag==1){
+                            var $part_competition_flag=$("<select > <option value=0>否</option>  <option value=1>是</option></select>") ;
+                            var arr=[
+                                ["是否竞赛合同",  $part_competition_flag  ]
+                            ];                         
+
+                            $.show_key_value_table ( "选择类型", arr ,{
+                                label: '确认',
+                                cssClass: 'btn-warning',
+                                action: function(dialog) {
+                                    do_post_add_free( parent_order_id, 6,0,"",0,0,$part_competition_flag.val()); 
+                                }
+                            });
+
+                        }else{
+                            do_post_add_free( parent_order_id, 6,0,"",0,0, 0 ); 
+                        }
+                    }
+
+                });
+
             }
         };
 
@@ -2468,8 +2497,6 @@ $(function(){
             $.admin_select_user(id_userid,"student");
         });
     });
-
-
 
     $('.opt-build-contrat').on("click",function(){
         var opt_data        = $(this).get_opt_data();
