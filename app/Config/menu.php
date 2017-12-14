@@ -277,8 +277,8 @@ class menu{
                     ["power_id"=>1, "name"=>"活动管理",   "url"=>"/seller_student2/show_order_activity_info"],
                 ]],
 
-                //["power_id"=>5, "name"=>"权限管理", "url"=>"/user_manage_new/power_group_edit"],
-                ["power_id"=>5, "name"=>"权限管理", "url"=>"/user_manage_new/power_group_edit_new"],
+                ["power_id"=>5, "name"=>"权限管理", "url"=>"/user_manage_new/power_group_edit"],
+                ["power_id"=>40, "name"=>"权限管理-new", "url"=>"/user_manage_new/power_group_edit_new"],
                 ["power_id"=>45, "name"=>"组织架构", "url"=>"/company_wx/show_department_users"],
                 ["power_id"=>46, "name"=>"权限角色", "url"=>"/company_wx/all_users"],
                 ["power_id"=>4, "name"=>"权限execl",   "url"=>"/authority/jurisdiction"],
