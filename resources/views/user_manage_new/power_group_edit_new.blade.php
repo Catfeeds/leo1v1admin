@@ -13,7 +13,7 @@
          background-position: -110px 0;
      }
      #treeDemo li span {
-         font-size: 14px;
+         font-size: 16px;
      }
      .ztree li span.button {
          margin: 2px;
