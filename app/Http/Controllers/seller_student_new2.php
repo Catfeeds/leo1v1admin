@@ -1549,8 +1549,11 @@ class seller_student_new2 extends Controller
                     $del_flag = true;
                 }
 
-                if($grade_range_part>$grade_end || $grade_range_part<$grade_start || $has_num>0 || $day_num>=$limit_day
-                   || $week_num >=$limit_week || $month_num>=$limit_month
+                if($grade_range_part>$grade_end || $grade_range_part<$grade_start || $has_num>0){
+                    $del_flag = true;
+                }
+                if(($day_num>0 || $week_num>0 || $month_num>0)
+                   && ($day_num>=$limit_day || $week_num >=$limit_week || $month_num>=$limit_month)
                 ){
                     $del_flag = true;
                 }

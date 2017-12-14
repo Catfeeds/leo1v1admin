@@ -35,10 +35,6 @@ interface RowData {
 	phone	:any;
 	free_time_new	:any;
 	teacher_tags	:any;
-	day_num	:any;
-	week_num	:any;
-	month_num	:any;
-	has_num	:any;
 	age_flag	:any;
 	is_identity	:any;
 	is_gender	:any;
