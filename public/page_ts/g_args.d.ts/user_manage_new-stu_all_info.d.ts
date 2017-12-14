@@ -31,17 +31,25 @@ tofile:
 /// <reference path="../g_args.d.ts/user_manage_new-stu_all_info.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		student_type:	$('#id_student_type').val(),
 		teacherid:	$('#id_teacherid').val()
-    });
+		});
 }
 $(function(){
 
 
 	$('#id_student_type').val(g_args.student_type);
-	$('#id_teacherid').val(g_args.teacherid);
+	$('#id_teacherid').admin_select_user_new({
+		"user_type"    : "teacher",
+		"select_value" : g_args.teacherid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_teacherid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -58,6 +66,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_student_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["student_type title", "student_type", "th_student_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -65,4 +74,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_teacherid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teacherid title", "teacherid", "th_teacherid" ]])!!}
 */

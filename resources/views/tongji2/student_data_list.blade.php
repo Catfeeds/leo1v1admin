@@ -17,14 +17,14 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">年级</span>
-                        <select class="opt-change form-control " id="id_grade" >
+                        <select class="opt-change form-control" id="id_grade" >
                         </select>
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">科目</span>
-                        <select class="opt-change form-control " id="id_subject" >
+                        <select class="opt-change form-control" id="id_subject" >
                         </select>
                     </div>
                 </div>

@@ -1913,6 +1913,7 @@ class tongji2 extends Controller
         $grade  = $this->get_in_int_val('grade',-1);
         $subject = $this->get_in_int_val('subject',-1);
         $pad     = $this->get_in_int_val('pad',-1);
+        //dd($subject);
         $ret_info = $this->t_student_call_data->get_all_data($page_num,$start_time,$end_time,$grade,$subject,$pad);
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");

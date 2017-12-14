@@ -31,9 +31,9 @@ $(function(){
 	Enum_map.append_option_list("subject",$("#id_subject"));
 	Enum_map.append_option_list("pad_type",$("#id_pad"));
 
-	$("#id_grade").val(g_args.id_grade);
-	$("#id_subject").val(g_args.id_subject);
-	$("#id_pad").val(g_args.id_pad);
+	$("#id_grade").val(g_args.grade);
+	$("#id_subject").val(g_args.subject);
+	$("#id_pad").val(g_args.pad);
 	$('.opt-change').set_input_change_event(load_data);
 });
 
