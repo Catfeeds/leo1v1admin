@@ -61,6 +61,11 @@ class add_teacher_warn extends Command
         foreach($info as $item) {
             $minute=floor(($item['tea_attend'] - $item['lesson_start'])%86400/60);
             $five_num = $fift_num = $leave_num = 0;
+            if ($item['lesson_type'] == 2) { // 处理试听课是否为有效课程
+                $flag = $task->t_test_lesson_subject_sub_list->get_success_flag($item['lessonid']);
+                dd($flag);
+            }
+            exit;
             if ($minute > 15) {
                 $fift_num = 1;
             }
@@ -95,6 +100,7 @@ class add_teacher_warn extends Command
                 ]);
             }
         }
+        exit;
         //$data = $task->t_teacher_warn->get_info_for_time($start_time, $end_time);
 
         $info = $task->t_lesson_info->get_teacher_warn_info($start_time, $end_time);
