@@ -453,56 +453,33 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret_arr=$this->t_order_info->get_seller_money_info($adminid=1158,$start_time=1509465600,$end_time=1512057600);
-        dd($ret_arr);
-        $seller_level_flag= floor(102/100);
-        dd($seller_level_flag);
-        $majordomo_adminid = $this->t_admin_group_user->get_majordomo_adminid($opt_adminid=99);
-        dd($majordomo_adminid);
-        $orderid = $this->t_order_info->get_orderid_by_userid($userid=99, $sys_operator='张龙');
-        $account = '张龙';
-        $ret_info = $this->t_seller_student_new->get_item_list_new();
-        $ret = [];
-        $orderid_arr = [];
-        foreach($ret_info as $info){
-            $userid=$info['userid'];
-            $orderid = $this->t_order_info->get_orderid_by_userid($userid, $sys_operator='张龙');
-            if($orderid>0){
-                $orderid_arr[$userid] = $orderid;
+        // $now=time(NULL);
+        // $start_time=strtotime( date("Y-m-01",$now));
+        // $end_time=$now;
+		// $group_start_time=$start_time;
+        // dd($group_start_time);
+        //雷江博
+        $tongji_type= E\Etongji_type::V_SELLER_MONTH_FAIL_LESSON_PERCENT;
+        $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_five($start_time=1509465600,$end_time=1512057600,$grade_list=[-1] , $origin_ex="",$adminid=882);
+        $test_lesson_fail_per = $test_lesson_list["list"];
+        $test_lesson_all_count= [] ;
+        $test_lesson_fail_count= [] ;
+        foreach($test_lesson_fail_per as &$item){
+            $adminid=$item["admin_revisiterid"];
+            $item["adminid"] = $adminid ;
+            if($item['test_lesson_count'] != 0){
+                $item['value'] = round($item['fail_all_count']/$item['test_lesson_count'],2)*100;
             }else{
-                $item=$this->t_seller_student_new->get_user_info_for_free($userid);
-                $phone=$item["phone"];
-                $seller_student_status = $item["seller_student_status"];
-                $ret_update = $this->t_book_revisit->add_book_revisit(
-                    $phone,
-                    "操作者:$account 状态: 回到公海 ",
-                    "system"
-                );
-                $test_subject_free_type=0;
-                if ($seller_student_status==1) {
-                    $test_subject_free_type=3;
-                }
-                $this->t_test_subject_free_list->row_insert([
-                    "add_time" => time(NULL),
-                    "userid" =>   $item["userid"],
-                    "adminid" => 412,
-                    "test_subject_free_type" => $test_subject_free_type,
-                ],false,true);
-                $this->t_seller_student_new->set_user_free($userid);
-                $hand_get_adminid = 0;
-                $orderid = $this->t_order_info->get_orderid_by_userid($userid,'张植源');
-                if($orderid>0){
-                    $hand_get_adminid = $item["hand_get_adminid"];
-                }
-                $ret[$userid] = $this->t_seller_student_new->field_update_list($userid,[
-                    "free_adminid" => 412,
-                    "free_time" => time(null),
-                    "hand_free_count" => $item['hand_free_count']+1,
-                    "hand_get_adminid" => $hand_get_adminid,
-                ]);
+                $item['value']=0;
             }
+            $test_lesson_all_count[]= [ "adminid" =>$adminid , "value"=> $item['test_lesson_count']  ] ;
+            $test_lesson_fail_count[]= [ "adminid" =>$adminid , "value"=> $item['fail_all_count']  ] ;
         }
-        dd($orderid_arr,$ret);
+        \App\Helper\Utils::order_list($test_lesson_fail_per,"value",1);
+        \App\Helper\Utils::order_list($test_lesson_fail_count,"value",1);
+        \App\Helper\Utils::order_list($test_lesson_all_count,"value",1);
+
+        dd($test_lesson_all_count,$test_lesson_fail_count,$test_lesson_fail_per);
     }
 
     //处理等级头像
