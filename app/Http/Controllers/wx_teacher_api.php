@@ -1152,8 +1152,8 @@ class wx_teacher_api extends Controller
             $tag_list[] = $v['tag_name'];
         }
 
-        $tae_label_arr = array_intersect($tag_list,$tag_arr);
-        dd($tea_lab_arr);
+        $tea_label_arr = array_intersect($tag_list,$tag_arr);
+        dd($tea_label_arr);
 
         $teacher_info['tea_label_str'] = $tea_label_type_str;
         return $this->output_succ(["data"=>$teacher_info]);
