@@ -4774,14 +4774,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["l.lessonid=%u",$lessonid,0],
         ];
         $sql = $this->gen_sql_new("select t.teaching_achievement as harvest, t.parent_student_evaluate as evaluate, l.lesson_del_flag, t.nick as tea_nick,t.gender as tea_gender,work_year,phone,"
-                                  ." textbook_type,identity,tl.tea_label_type "
+                                  ." textbook_type,identity,t.teacher_tag "
                                   ." from %s t"
                                   ." left join %s l on  l.teacherid=t.teacherid"
-                                  ." left join %s tl on tl.teacherid=t.teacherid "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
-                                  ,t_teacher_label::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_row($sql);

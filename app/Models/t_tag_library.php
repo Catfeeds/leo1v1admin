@@ -118,5 +118,14 @@ class t_tag_library extends \App\Models\Zgen\z_t_tag_library
         return $this->main_get_list($sql);
     }
 
-    
+    public function getTeacherCharacter($tag_l1_sort, $tag_l2_sort){
+        $sql = $this->gen_sql_new("  select tag_name from %s tl"
+                                  ." where tag_l1_sort='$tag_l1_sort' and tag_l2_sort='$tag_l2_sort' "
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+
 }
