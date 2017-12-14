@@ -45,7 +45,7 @@ class get_data extends Command
         $admin_list = $task->t_order_info->getOrderList($month_start, $month_end);
 
         foreach($admin_list as &$item){
-            echo date("Y-m-d H:i",$item['order_time']).' '.date("Y-m-d H:i",$item['check_money_time']).' '.$item['sys_operator'].' '.date("Y-m-d H:i",$item['create_time']).' '.$item['price_money'].PHP_EOL;
+            echo date("Y-m-d H:i",$item['order_time']).','.date("Y-m-d H:i",$item['check_money_time']).','.$item['sys_operator'].','.date("Y-m-d H:i",$item['create_time']).','.$item['price_money'].PHP_EOL;
         }
     }
 }
