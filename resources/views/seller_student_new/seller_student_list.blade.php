@@ -1291,8 +1291,7 @@
                     </div>
                     <div class="col-xs-12 col-md-3 subject_score " >
                         <div class="input-group ">
-                            <span class="input-group-addon">
-                                <font style="color:red">*</font>&nbsp科目分数：</span>
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp科目分数：</span>
                             <select name="subject_score_new_two" id="id_main_subject_new_two" class=" form-control " >
                             </select> 
                             <input type="text" class=" form-control " id="id_main_subject_score_one_new_two" name="subject_score_one_new_two" placeholder='分数' />
