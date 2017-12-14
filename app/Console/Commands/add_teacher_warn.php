@@ -40,7 +40,7 @@ class add_teacher_warn extends Command
         $task = new \App\Console\Tasks\TaskController();
         // 每日凌晨二点更新数据
         $date = strtotime('-1day');
-        $start_time = strtotime(date('Y-m-d 00:00:00', $date));
+        $start_time = strtotime(date('Y-m-1 00:00:00', $date));
         $end_time = strtotime(date('Y-m-d 23:59:59', $date));
         // 删除测试用户
         // $data = $task->t_teacher_warn->get_info_for_test_user();
