@@ -9,6 +9,7 @@ function load_data(){
 }
 
 $(function(){
+    console.log(1);
 
     var re_arr = [1,2,3,4,5,9];
     var get_next_info = function(obj){
