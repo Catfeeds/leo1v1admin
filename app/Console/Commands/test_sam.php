@@ -122,8 +122,8 @@ class test_sam extends Command
 
 
         $ret_info = $task->t_student_call_data->get_all_list();
-        //$path = '/home/ybai/test_sam.txt';
-        $path = '/home/sam/test_sam.txt';
+        $path = '/home/ybai/test_sam.txt';
+        //$path = '/home/sam/test_sam.txt';
         $fp = fopen($path,"a+");
         //$location = '/home/sam/location.txt';
         //$lo = fopen($location,"a+");
@@ -193,7 +193,8 @@ class test_sam extends Command
                 fwrite($fp, "\n");
         }
         fclose($fp);
-        $path_location = '/home/sam/test_sam_location.txt';
+        $path_location = '/home/ybai/test_sam_location.txt';
+        //$path_location = '/home/sam/test_sam_location.txt';
         $fl = fopen($path_location,"a+");
         foreach ($arr_location as $key => $value) {
             fwrite($fl, $key);
@@ -202,8 +203,9 @@ class test_sam extends Command
             fwrite($fl, "\n");
         }
         fclose($fl);
-
-        $path_cor = '/home/sam/test_sam_cor.txt';
+        //ybai
+        $path_cor = '/home/ybai/test_sam_cor.txt';
+        //$path_cor = '/home/sam/test_sam_cor.txt';
         $fc = fopen($path_cor,"a+");
         foreach ($arr_cor as $key => $value) {
             fwrite($fc, $key);
@@ -212,7 +214,8 @@ class test_sam extends Command
             fwrite($fc, "\n");
         }
         fclose($fc);
-        $path_three = '/home/sam/test_sam_three.txt';
+        $path_three = '/home/ybai/test_sam_three.txt';
+        //$path_three = '/home/sam/test_sam_three.txt';
         $ft = fopen($path_three,"a+");
         foreach ($arr_three as $key => $value) {
             fwrite($ft, $key);
@@ -222,7 +225,8 @@ class test_sam extends Command
         }
         fclose($ft);
 
-        $path_two = '/home/sam/test_sam_two.txt';
+        $path_two = '/home/ybai/test_sam_two.txt';
+        //$path_two = '/home/sam/test_sam_two.txt';
         $fw = fopen($path_two,"a+");
         foreach ($arr_two as $key => $value) {
             fwrite($fw, $key);
