@@ -2430,11 +2430,11 @@ class Utils  {
     static public function get_tag_arr($resource_type=0){
         $tag_arr = [
             1 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
-                  'tag_two' => ['name' => '春署秋寒','menu' => 'resource_season','hide' => ''],
+                  'tag_two' => ['name' => '春暑秋寒','menu' => 'resource_season','hide' => ''],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
                   'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
             2 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
-                  'tag_two' => ['name' => '春署秋寒','menu' => 'resource_season','hide' => ''],
+                  'tag_two' => ['name' => '春暑秋寒','menu' => 'resource_season','hide' => ''],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
                   'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
             3 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
@@ -2535,7 +2535,6 @@ class Utils  {
             return $arr;
         }
     }
-
 
 
 

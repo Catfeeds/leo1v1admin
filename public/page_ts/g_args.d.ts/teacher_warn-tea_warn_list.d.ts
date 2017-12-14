@@ -5,7 +5,7 @@ interface GargsStatic {
 	start_time:	string;
 	end_time:	string;
 	teacher:	number;
-	type:	number;
+	course_type:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -46,7 +46,7 @@ function load_data(){
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
 		teacher:	$('#id_teacher').val(),
-		type:	$('#id_type').val()
+		course_type:	$('#id_course_type').val()
 		});
 }
 $(function(){
@@ -62,7 +62,7 @@ $(function(){
 			load_data();
 		});
 	$('#id_teacher').val(g_args.teacher);
-	$('#id_type').val(g_args.type);
+	$('#id_course_type').val(g_args.course_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -88,9 +88,9 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">type</span>
-                <input class="opt-change form-control" id="id_type" />
+                <span class="input-group-addon">course_type</span>
+                <input class="opt-change form-control" id="id_course_type" />
             </div>
         </div>
-{!!\App\Helper\Utils::th_order_gen([["type title", "type", "th_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["course_type title", "course_type", "th_course_type" ]])!!}
 */

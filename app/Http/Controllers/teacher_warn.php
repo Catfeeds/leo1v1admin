@@ -11,15 +11,15 @@ class teacher_warn extends Controller
     public function tea_warn_list() {
         list($start_time, $end_time) = $this->get_in_date_range_day(0);
         $teacherid = $this->get_in_int_val('teacher', 0);
-        $type = $this->get_in_int_val("type", 0);
-        //$page_info = $this->get_in_page_info();
+        $course_type = $this->get_in_int_val("course_type", 0);
+        //$page_inf_o = $this->get_in_page_info();
 
-        if ($type == 1) {
-            $info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $teacherid, $type);
-        } else if($type == 2) {
-            $info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $teacherid, $type);
+        if ($course_type == 1) {
+            $info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $teacherid, $course_type);
+        } else if($course_type == 2) {
+            $info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $teacherid, $course_type);
         } else {
-            $info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $teacherid, $type);
+            $info = $this->t_teacher_warn->get_all_info($start_time, $end_time, $teacherid, $course_type);
         }
         $sort = [];
         foreach($info as &$item) {
@@ -30,7 +30,8 @@ class teacher_warn extends Controller
         array_multisort($sort, SORT_DESC, $info);
         
         return $this->pageView(__METHOD__, '', [
-            'info' => $info
+            'info' => $info,
+            'course_type' => $course_type
         ]);
     }
 

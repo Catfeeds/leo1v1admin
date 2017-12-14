@@ -37,6 +37,10 @@ $(function(){
         var notice_html = "请选择需要排课的试听需求！";
         $(".require_content").html(notice_html);
     }
+    if(g_account_role!="12" && g_account_role!="3"){
+        var notice_html = "所在角色组没有权限！";
+        $(".require_content").html(notice_html);
+    }
     $(".require_content").show();
 
     $(".show_phone").on("click",function(){
@@ -50,9 +54,31 @@ $(function(){
         window.open(jump_url);
     });
 
+    var no_select_teacher = function(){
+        $(".red-border").each(function(){
+            $(this).removeClass("red-border");
+        });
+    }
+
+    var select_teacher = function(){
+        var select_teacherid = parseInt($("#id_teacherid").val());
+        console.log(select_teacherid);
+        $(".teacher-info").each(function(){
+            var teacherid = $(this).data("teacherid");
+            if(select_teacherid==teacherid){
+                console.log(teacherid);
+                $(this).addClass("red-border");
+            }
+        });
+    }
+    no_select_teacher();
+    select_teacher();
+
     $(".opt-set-teacher").on("click",function(){
         var data = $(this).get_opt_data();
+        no_select_teacher();
 
+        $(this).parents("tr").addClass("red-border");
         $("#id_teacherid").val(data.teacherid);
         $("#id_teacher_name").html(data.realname);
     });

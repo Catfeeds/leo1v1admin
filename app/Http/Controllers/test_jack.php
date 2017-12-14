@@ -936,6 +936,13 @@ class test_jack  extends Controller
     }
 
     public function ajax_deal_jack(){
+        $teacherid             = $this->get_in_int_val("teacherid");
+        $start_time            = $this->get_in_int_val("start_time");
+        $end_time             = $this->get_in_int_val("end_time");
+        $list = $this->t_lesson_info_b3->get_teacher_lesson_info($teacherid,$start_time,$end_time,[],false);
+        $data = @$list[0];
+        return $this->output_succ($data);
+
         $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
         $week_start = $date_week["sdate"]-14*86400;
         $week_end = $date_week["sdate"]+21*86400;
@@ -1068,14 +1075,16 @@ class test_jack  extends Controller
         // }
         // dd($ret);
 
+        $start = $this->get_in_str_val("start","2017-01-01");
+        $end = $this->get_in_str_val("end","2017-02-01");
+        $start_time = strtotime($start);
+        $end_time = strtotime($end);
+     
 
-        // $start_time = strtotime("2017-01-01");
-        // $end_time = strtotime("2017-12-01");
-
-        // $list =  $this->t_teacher_info->get_all_train_throuth_teacher_list($start_time,$end_time);
-        // foreach($list as &$item){
-        //     E\Eidentity::set_item_value_str($item);
-        // }
+        $list =  $this->t_teacher_info->get_all_train_throuth_teacher_list($start_time,$end_time);
+        foreach($list as &$item){
+            E\Eidentity::set_item_value_str($item);
+        }
 
         // $this->switch_tongji_database();
         // $start_time = time()-5*86400;
@@ -1111,9 +1120,11 @@ class test_jack  extends Controller
         //     E\Esubject::set_item_value_str($item,"subject");
 
         // }
-        $list=[1];
+        // $list=[1];
         return $this->pageView(__METHOD__,null,[
-            "list"  =>$list
+            "list"  =>$list,
+            "start_time"=>$start_time,
+            "end_time" =>$end_time
         ]);
 
         // $first_month = strtotime("2016-01-01");

@@ -481,7 +481,9 @@ class send_wx_msg_common_lesson extends Command
             $template_id_parent = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
         }
         // 给助教发送
-        $wx->send_template_msg($item['ass_openid'],$template_id_parent,$data_ass ,'');
+        if($item['ass_openid']){
+            $wx->send_template_msg($item['ass_openid'],$template_id_parent,$data_ass ,'');
+        }
     }
 
 

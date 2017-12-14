@@ -277,7 +277,7 @@ class menu{
                     ["power_id"=>1, "name"=>"活动管理",   "url"=>"/seller_student2/show_order_activity_info"],
                 ]],
 
-                ["power_id"=>5, "name"=>"权限管理", "url"=>"/user_manage_new/power_group_edit"],
+                //["power_id"=>5, "name"=>"权限管理", "url"=>"/user_manage_new/power_group_edit"],
                 ["power_id"=>5, "name"=>"权限管理", "url"=>"/user_manage_new/power_group_edit_new"],
                 ["power_id"=>45, "name"=>"组织架构", "url"=>"/company_wx/show_department_users"],
                 ["power_id"=>46, "name"=>"权限角色", "url"=>"/company_wx/all_users"],
@@ -827,7 +827,6 @@ class menu{
                 ["power_id"=>3, "name"=>"模拟试听未排名单",   "url"=>"/tongji_ss/get_no_time_train_lesson_teacher_list"],
                 ["power_id"=>6, "name"=>"培训进度列表",   "url"=>"/tea_manage/teacher_train_list"],
                 ["power_id"=>7, "name"=>"待培训名单",   "url"=>"/tea_manage/teacher_cc_count"],
-
             ]],
 
             ["power_id"=>36, "name"=>"角色-运营",  "list"=>[
@@ -843,6 +842,7 @@ class menu{
                 ["power_id"=>27, "name"=>"老师推荐申请",   "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info_yy"],
                 ["power_id"=>10, "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint_tea"],
                 ["power_id"=>11, "name"=>"微信推送",   "url"=>"/user_manage_new/wx_monitor_new_yy"],
+                ["power_id"=>30, "name"=>"教师预警","url"=>"/teacher_warn/tea_warn_list"]
             ]],
 
 
