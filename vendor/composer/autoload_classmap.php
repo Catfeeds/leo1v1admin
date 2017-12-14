@@ -28,7 +28,7 @@ return array(
     'CreateTAgentIncomeLog' => $baseDir . '/database/migrations/2017_11_10_151344_create_t_agent_income_log.php',
     'CreateTArea' => $baseDir . '/database/migrations/2017_12_07_175834_create_t_area.php',
     'CreateTAssStuChangeList' => $baseDir . '/database/migrations/2017_11_10_101911_create_t_ass_stu_change_list.php',
-    'CreateTChannelFunnelArchiveData' => $baseDir . '/database/migrations/2017_12_13_140548_create_t_channel_funnel_archive_data.php',
+    'CreateTChannelFunnelArchiveData' => $baseDir . '/database/migrations/2017_12_14_100747_create_t_channel_funnel_archive_data.php',
     'CreateTFunnelChannelStatistics' => $baseDir . '/database/migrations/2017_12_05_164434_create_t_funnel_channel_statistics.php',
     'CreateTInterviewRemind' => $baseDir . '/database/migrations/2017_10_20_154429_create_t_interview_remind.php',
     'CreateTLoreInfo' => $baseDir . '/database/migrations/2017_12_01_150503_create_t_lore_info.php',

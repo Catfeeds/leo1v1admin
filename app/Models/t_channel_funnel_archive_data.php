@@ -16,7 +16,7 @@ class t_channel_funnel_archive_data extends \App\Models\Zgen\z_t_channel_funnel_
             self::DB_TABLE_NAME,
             $sort,$start_time
         );
-        $this->main_get_value($sql);
+        return $this->main_get_value($sql);
     }
 
 }

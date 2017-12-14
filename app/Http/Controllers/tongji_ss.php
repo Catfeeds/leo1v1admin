@@ -8514,7 +8514,7 @@ class tongji_ss extends Controller
                 $item["origin"]= $item["title"];
             }
         }
-
+        dd($ret_info['list']);
         //重组分层数组
         if ($field_name=="origin"){
             $ret_info["list"]= $this->gen_origin_data_level5(

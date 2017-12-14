@@ -56,7 +56,7 @@ class CreateTChannelFunnelArchiveData extends Migration
             t_field($table->string('old_key5'),"上级key");
             t_field($table->string('level'),"层次层级");
             t_field($table->integer('sort'),"排序");
-            $table->unique(['channel_name', 'add_time'],'channel_time_unique'); 
+            $table->index(['channel_name', 'add_time'],'channel_time_unique'); 
         });
     }
 
