@@ -124,7 +124,7 @@ class t_tag_library extends \App\Models\Zgen\z_t_tag_library
                                   ,self::DB_TABLE_NAME
         );
 
-        return $this->main_get_row($sql);
+        return $this->main_get_list($sql);
     }
 
 
