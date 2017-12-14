@@ -439,7 +439,10 @@ class self_manage extends Controller
     }
 
     public function test() {
+        $subject=$this->get_in_el_subject();
+
         return $this->pageView(__METHOD__);
+
     }
 
 }

@@ -110,8 +110,9 @@ class AuTest extends TestCase
 
         $e=$this->visit('/seller_student_new/seller_student_list_all');
         $e->see("个人信息");
-        $e=$this->visit('/user_manage_new/money_contract_list');
-        $e->see("上课时间");
+
+        //$e=$this->visit('/user_manage_new/money_contract_list');
+        //$e->see("上课时间");
 
 
 
