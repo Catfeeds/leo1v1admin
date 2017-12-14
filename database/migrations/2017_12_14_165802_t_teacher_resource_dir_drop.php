@@ -22,7 +22,6 @@ class TTeacherResourceDirDrop extends Migration
                 t_field($table->integer("is_del"),"");
 
                 $table->index("pid");
-
         });
         //
     }
