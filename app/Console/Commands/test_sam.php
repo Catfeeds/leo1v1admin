@@ -41,6 +41,7 @@ class test_sam extends Command
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
+        
         $ret_info = $task->t_student_info->get_all_student_id();  
         foreach ($ret_info as $key => $value) {
             # code...
@@ -52,14 +53,16 @@ class test_sam extends Command
             }
             $test_subject = $task->t_test_lesson_subject->get_subject_only_once($userid);
 
-            if(strpos($value['phone_location'], "黑龙江") || strpos($value['phone_location'], "内蒙古") ){
-                $location = substr($value['phone_location'],0,strlen($value['phone_location'])-9);
+            if(strpos($value['phone_location'], "黑龙江") !== false || strpos($value['phone_location'], "内蒙古") !== false){
+
+                $location = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
                 $cor = substr($value['phone_location'],9,strlen($value['phone_location']));
             }else if($value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '北京U友'  || $value['phone_location'] == '辽宁U友'){
                 $location = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
                 $cor = "其它";
 
-            }else if( $value['phone_location'] == "鹏博士" || $value['phone_location'] == '' 
+            }else if( strpos($value['phone_location'], "普泰") !== false ||strpos($value['phone_location'], "京东") !== false 
+                    || $value['phone_location'] == "鹏博士" || $value['phone_location'] == '' 
                    || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' 
                    || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' 
                    || $value['phone_location'] == '阿里通信'  || $value['phone_location'] == '小米移动' ){
@@ -72,7 +75,7 @@ class test_sam extends Command
 
             $origin_info = $task->t_seller_student_origin->get_origin_by_userid($userid);
             if($origin_info){
-                if(strpos($origin_info,'-')){
+                if(strpos($origin_info,'-') !== false){
                     $ret = explode("-",$origin_info);
                     $three_origin  = @$ret[1];
                     $two_origin    = @$ret[0];
@@ -115,6 +118,129 @@ class test_sam extends Command
                 $ret = $task->t_student_call_data->row_insert($data);
             }
         }
+        
+
+
+        $ret_info = $task->t_student_call_data->get_all_list();
+        $path = '/home/ybai/test_sam.txt';
+        //$path = '/home/sam/test_sam.txt';
+        $fp = fopen($path,"a+");
+        //$location = '/home/sam/location.txt';
+        //$lo = fopen($location,"a+");
+        //dd($fp);
+
+        $arr_location = [];
+        $l = 0;
+        $arr_cor = [];
+        $c = 0;
+        $arr_three = [];
+        $t = 0;
+        $arr_two   = [];
+        $w = 0;
+        foreach ($ret_info as $key => $value) {
+                fwrite($fp, @$value['userid']);//1
+                fwrite($fp, ',');
+                fwrite($fp, @$value['add_time']);//1
+                fwrite($fp, ',');
+                fwrite($fp, @$value['lesson_time']);//2
+                fwrite($fp, ',');
+                fwrite($fp, @$value['grade']);//2
+                fwrite($fp, ',');
+                fwrite($fp, @$value['subject']);//2
+                fwrite($fp, ',');
+                fwrite($fp, @$value['pad']);//2
+                fwrite($fp, ',');
+                if(isset($arr_location[$value['location']])){
+                    fwrite($fp, @$arr_location[$value['location']]);//2
+                }else{
+                    $arr_location[$value['location']] = $l;
+                    fwrite($fp, $l);//2
+                    ++$l;
+                }
+                fwrite($fp, ',');
+
+                if(isset($arr_cor[$value['cor']])){
+                    fwrite($fp, @$arr_cor[$value['cor']]);//2
+                }else{
+                    $arr_cor[$value['cor']] = $c;
+                    fwrite($fp, $c);//2
+                    ++$c;
+                }
+                fwrite($fp, ',');
+
+                if(isset($arr_three[$value['three_origin']])){
+                    fwrite($fp, @$arr_three[$value['three_origin']]);//2
+                }else{
+                    $arr_three[$value['three_origin']] = $t;
+                    fwrite($fp, $t);//2
+                    ++$t;
+                }
+                
+                fwrite($fp, ',');
+                if(isset($arr_two[$value['two_origin']])){
+                    fwrite($fp, @$arr_two[$value['two_origin']]);//2
+                }else{
+                    $arr_two[$value['two_origin']] = $w;
+                    fwrite($fp, $w);//2
+                    ++$w;
+                }
+                fwrite($fp, ',');
+                fwrite($fp, @$value['origin_count']);//2
+                fwrite($fp, ',');
+                fwrite($fp, @$value['cc_called_count']);//2
+                fwrite($fp, ',');
+                fwrite($fp, @$value['return_publish_count']);//2
+                fwrite($fp, "\n");
+        }
+        fclose($fp);
+        $path_location = '/home/ybai/test_sam_location.txt';
+        //$path_location = '/home/sam/test_sam_location.txt';
+        $fl = fopen($path_location,"a+");
+        foreach ($arr_location as $key => $value) {
+            fwrite($fl, $key);
+            fwrite($fl, ',');
+            fwrite($fl, $value);
+            fwrite($fl, "\n");
+        }
+        fclose($fl);
+        //ybai
+        $path_cor = '/home/ybai/test_sam_cor.txt';
+        //$path_cor = '/home/sam/test_sam_cor.txt';
+        $fc = fopen($path_cor,"a+");
+        foreach ($arr_cor as $key => $value) {
+            fwrite($fc, $key);
+            fwrite($fc, ',');
+            fwrite($fc, $value);
+            fwrite($fc, "\n");
+        }
+        fclose($fc);
+        $path_three = '/home/ybai/test_sam_three.txt';
+        //$path_three = '/home/sam/test_sam_three.txt';
+        $ft = fopen($path_three,"a+");
+        foreach ($arr_three as $key => $value) {
+            fwrite($ft, $key);
+            fwrite($ft, ',');
+            fwrite($ft, $value);
+            fwrite($ft, "\n");
+        }
+        fclose($ft);
+
+        $path_two = '/home/ybai/test_sam_two.txt';
+        //$path_two = '/home/sam/test_sam_two.txt';
+        $fw = fopen($path_two,"a+");
+        foreach ($arr_two as $key => $value) {
+            fwrite($fw, $key);
+            fwrite($fw, ',');
+            fwrite($fw, $value);
+            fwrite($fw, "\n");
+        }
+        fclose($fw);
+
+    
+        
+
+
+
 
         //$ret_info = $task->t_tq_call_info->get_all_info_by_cc();
         //$ret = $task->t_tq_call_info->get_all_info_by_cc_new();
