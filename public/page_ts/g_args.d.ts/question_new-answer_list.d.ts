@@ -30,10 +30,11 @@ tofile:
 /// <reference path="../g_args.d.ts/question_new-answer_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		question_id:	$('#id_question_id').val()
-    });
+		});
 }
 $(function(){
 
@@ -55,4 +56,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_question_id" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["question_id title", "question_id", "th_question_id" ]])!!}
 */

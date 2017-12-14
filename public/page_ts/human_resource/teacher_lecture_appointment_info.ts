@@ -567,7 +567,6 @@ $(function(){
             message:val ,
             closable: true,
             callback: function(){
-
             }
         });
     });
@@ -1021,39 +1020,52 @@ $(function(){
         var opt_data = $(this).get_opt_data();
         var id       = opt_data.id;
 
-        var id_lecture_appointment_status = $("<select/>");
-        var id_reference                  = $("<input/>");
+        var id_name                       = $("<input/>");
         var id_phone                      = $("<input/>");
         var id_email                      = $("<input/>");
-        var id_name                       = $("<input/>");
         var id_qq                         = $("<input/>");
+        var id_reference                  = $("<input/>");
+        var id_age                        = $("<input/>");
+        var id_grade_ex                   = $("<select/>");
+        var id_subject_ex                 = $("<select/>");
+        var id_identity                   = $("<select/>");
         var id_lecture_revisit_type       = $("<select/>");
         var id_return_revisit_note        = $("<textarea />");
 
-        Enum_map.append_option_list("lecture_appointment_status", id_lecture_appointment_status, true );
+        Enum_map.append_option_list("grade_part", id_grade_ex ,true);
+        Enum_map.append_option_list("subject", id_subject_ex, true, [0,1,2,3,4,5,6,7,8,9,10]);
+        Enum_map.append_option_list("identity", id_identity, true);
         if(opt_data.full_time==0){
             Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[0,1,2,3,4] );
         }else{
             Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[0,2,5,6,8] );
         }
-
+        var red_font = "<font color='red'>";
+        var red_font_end = "</font>";
         var arr = [
-            ["老师姓名", id_name],
-            ["QQ", id_qq],
-            ["状态", id_lecture_appointment_status],
+            ["-----","红色必填"],
+            [red_font+"老师姓名"+red_font_end, id_name],
+            [red_font+"老师号码"+red_font_end, id_phone],
+            [red_font+"邮箱"+red_font_end,id_email],
+            [red_font+"QQ"+red_font_end, id_qq],
             ["推荐人号码",id_reference],
-            ["号码",id_phone],
-            ["邮箱",id_email],
+            [red_font+"年龄"+red_font_end,id_age],
+            [red_font+"年级"+red_font_end,id_grade_ex],
+            [red_font+"科目"+red_font_end,id_subject_ex],
+            [red_font+"老师身份"+red_font_end,id_identity],
             ["回访状态", id_lecture_revisit_type],
             ["备注",id_return_revisit_note],
         ];
 
-        id_reference.val(opt_data.reference);
+        id_name.val(opt_data.name);
         id_phone.val(opt_data.phone);
         id_email.val(opt_data.email);
-        id_lecture_appointment_status.val(opt_data.lecture_appointment_status);
-        id_name.val(opt_data.name);
         id_qq.val(opt_data.qq);
+        id_reference.val(opt_data.reference);
+        id_age.val(opt_data.age);
+        id_grade_ex.val(opt_data.grade_ex);
+        id_subject_ex.val(opt_data.subject_ex);
+        id_identity.val(opt_data.teacher_type);
         id_lecture_revisit_type.val(opt_data.lecture_revisit_type);
         id_return_revisit_note.val(opt_data.custom);
 
@@ -1062,15 +1074,18 @@ $(function(){
             cssClass : 'btn-warning',
             action   : function(dialog) {
                 $.do_ajax('/ss_deal/update_lecture_appointment_info',{
-                    "id"                         : id,
-                    "lecture_appointment_status" : id_lecture_appointment_status.val(),
-                    "reference"                  : id_reference.val(),
-                    "phone"                      : id_phone.val(),
-                    "email"                      : id_email.val(),
-                    "name"                       : id_name.val(),
-                    "qq"                         : id_qq.val(),
-                    "lecture_revisit_type"       : id_lecture_revisit_type.val(),
-                    "custom"                     : id_return_revisit_note.val()
+                    "id"                   : id,
+                    "name"                 : id_name.val(),
+                    "phone"                : id_phone.val(),
+                    "email"                : id_email.val(),
+                    "qq"                   : id_qq.val(),
+                    "reference"            : id_reference.val(),
+                    "age"                  : id_age.val(),
+                    "grade_ex"             : id_grade_ex.val(),
+                    "subject_ex"           : id_subject_ex.val(),
+                    "teacher_type"         : id_identity.val(),
+                    "lecture_revisit_type" : id_lecture_revisit_type.val(),
+                    "custom"               : id_return_revisit_note.val()
                 });
             }
         });

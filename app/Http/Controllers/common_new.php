@@ -1579,7 +1579,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $from_adminid=$this->get_in_int_val("from_adminid");
         $share_wx_flag=$this->get_in_int_val("share_wx_flag");
 
-        \App\Helper\Utils::logger("james:share");
+        \App\Helper\Utils::logger("james:share_check web_page_id: $web_page_id from_adminid:$from_adminid ");
 
         $ip=ip2long( $this->get_in_client_ip() );
         $this->t_web_page_trace_log->row_insert([

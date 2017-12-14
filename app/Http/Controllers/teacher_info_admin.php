@@ -206,12 +206,20 @@ class teacher_info_admin extends Controller
                 }
             }
         }
-        if(strlen($phone) != 11){
-           return outputJson(array(
+
+        if(!preg_match("/^\d*$/",$qq_info)){
+            return outputJson(array(
                 'ret' => -1,
-                'info' => "手机号码长度有误 ",
+                'info' => "请输入有效的ＱＱ号码 ",
             ));
+
         }
+        // if(strlen($phone) != 11){
+        //    return outputJson(array(
+        //         'ret' => -1,
+        //         'info' => "手机号码长度有误 ",
+        //     ));
+        // }
         if(!empty($birth)){
             $birth = substr($birth,0,4).''.substr($birth,5,2).''.substr($birth,8,2);
         }

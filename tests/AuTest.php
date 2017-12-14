@@ -86,14 +86,11 @@ class AuTest extends TestCase
     }
 
     public function test_url () {
-
         echo __METHOD__. "\n";
         /**  var   self */
 
         $this->login();
         //$this->withSession(["acc"=>"jim","power_list"=>"{\"301\":true}"]);
-
-
         $e=$this->visit('/main_page/assistant');
         $e->see("排名");
         $e=$this->visit('/user_manage_new/stu_all_info');
@@ -149,9 +146,8 @@ class AuTest extends TestCase
         $e=$this->visit('/tongji/user_count');
         $e=$this->visit('/seller_student_new2/test_lesson_plan_list');
         $e=$this->visit('/human_resource/index_new');
-
-
     }
+
     public function test_common_new() {
 
         echo __METHOD__. "\n";

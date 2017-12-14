@@ -1,5 +1,11 @@
 @extends('layouts.app')
 @section('content')
+    <style>
+     .table-striped>tbody>tr.level_1{ background-color:#eee }
+     .table-striped>tbody>tr.level_2{ background-color:#e6e8df }
+     .table-striped>tbody>tr.level_3{ background-color:#d6e0d4 }
+     .table-striped>tbody>tr.level_4{ background-color:#e4d1d1 }
+    </style>
     <section class="content">
     <div class="row">
     
@@ -27,6 +33,12 @@
             </div>
         </div>
 
+        <div class="col-xs-1 col-md-1">
+            <div class="input-group">
+                <button style="margin-left:10px" id="text_book_knowledge" type="button" class="btn btn-primary">教材知识点</button>
+            </div>
+        </div>
+
     </div>
     <hr/>
 
@@ -42,7 +54,7 @@
         </thead>
         <tbody>
             @foreach ($table_data_list as $var)
-                <tr>
+                <tr class="level_{{$var['level']}}">
                     <td >{{$var["knowledge_id"]}}</td>
                     <td >{{$var["title"]}}</td>
                     <td >{{$var["subject_str"]}}</td>
@@ -52,6 +64,7 @@
                             {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                         >
                             <a class=" fa-edit opt-set" title="编辑知识点"> </a>
+                            <a class=" fa-pencil add_son" title="添加子知识点"> </a>
                             <a class="fa fa-times opt-del" title="删除"> </a>
                         </div>
                     </td>

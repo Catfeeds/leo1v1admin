@@ -453,6 +453,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $ret_arr=$this->t_order_info->get_seller_money_info($adminid=1158,$start_time=1509465600,$end_time=1512057600);
+        dd($ret_arr);
         $seller_level_flag= floor(102/100);
         dd($seller_level_flag);
         $majordomo_adminid = $this->t_admin_group_user->get_majordomo_adminid($opt_adminid=99);

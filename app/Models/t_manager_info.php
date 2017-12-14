@@ -532,7 +532,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $sql = $this->gen_sql_new("select g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,".
                                   "am.uid adminid,am.account,am.seller_level,".
                                   "am.create_time,am.become_member_time,am.leave_member_time,".
-                                  "am.del_flag,am.seller_level".
+                                  "am.del_flag,am.seller_level,".
+                                  "(case am.account_role when 1 then '助教' when 2 then '销售' else '其他' end) as account_role".
                                   " from %s am ".
                                   " left join %s u on am.uid = u.adminid".
                                   " left join %s g on u.groupid = g.groupid".
@@ -2322,5 +2323,18 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     public function get_phone_by_name($name) {
         $sql = $this->gen_sql_new("select uid,phone from %s where name='$name'", self::DB_TABLE_NAME);
         return $this->main_get_row($sql);
+    }
+
+    public function get_admin_leave_num($start_time,$end_time){
+        $where_arr = [
+            'account_role =5',
+            'fulltime_teacher_type=2',
+            'del_flag=1'
+        ];
+        $where_arr[] =  ['leave_member_time>=%u', $start_time, 0];
+        $where_arr[] = ['leave_member_time<%u', $end_time, 0];
+        $sql = $this->gen_sql_new("select count(*) from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+ 
     }
 }

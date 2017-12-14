@@ -42,9 +42,6 @@ class get_data extends Command
         $one_week_start=strtotime($this->option('s'));
         $one_week_end=strtotime($this->option('e'));
 
-        // $one_week_start = $this->get_in_int_val('s');
-        // $one_week_end   = $this->get_in_int_val('e');
-
         $c = '';
         // $stu_num = $this->t_seller_student_new->get_data($one_week_start, $one_week_end);
         // $phone_list = $this->t_seller_student_new->getPhoneList($one_week_start, $one_week_end);
@@ -62,11 +59,5 @@ class get_data extends Command
             // $c.='['.$item['adminid'].',"'.$item['name'].'",'.$item['called_succ'].','.$item['has_called'].','.$item['total_money'].'],<br/>';
             echo $item['adminid'].' '.$item['name'].' '.$item['called_succ'].' '.$item['has_called'].' '.$item['total_money'].PHP_EOL;
         }
-
-        //dd($c);
-
-
-
-
     }
 }

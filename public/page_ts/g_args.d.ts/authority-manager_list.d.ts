@@ -157,6 +157,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_assign_groupid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["assign_groupid title", "assign_groupid", "th_assign_groupid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -164,6 +165,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_assign_account_role" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["assign_account_role title", "assign_account_role", "th_assign_account_role" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -171,6 +173,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_creater_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["creater_adminid title", "creater_adminid", "th_creater_adminid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -178,6 +181,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["adminid title", "adminid", "th_adminid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -185,6 +189,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_uid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["uid title", "uid", "th_uid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -192,6 +197,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_user_info" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["user_info title", "user_info", "th_user_info" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -199,6 +205,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_has_question_user" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["has_question_user title", "has_question_user", "th_has_question_user" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -206,6 +213,9 @@ $(function(){
                 <input class="opt-change form-control" id="id_del_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["del_flag title", "del_flag", "th_del_flag" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -213,6 +223,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_account_role" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["account_role title", "account_role", "th_account_role" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -220,6 +231,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_cardid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["cardid title", "cardid", "th_cardid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -228,6 +240,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["day_new_user_flag title", "day_new_user_flag", "th_day_new_user_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -235,6 +248,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_tquin" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tquin title", "tquin", "th_tquin" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -242,6 +256,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_fulltime_teacher_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["fulltime_teacher_type title", "fulltime_teacher_type", "th_fulltime_teacher_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -249,6 +264,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_call_phone_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["call_phone_type title", "call_phone_type", "th_call_phone_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -256,4 +272,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_seller_level" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["seller_level title", "seller_level", "th_seller_level" ]])!!}
 */

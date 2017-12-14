@@ -1652,6 +1652,18 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_value($sql);
     }
 
+    public function get_train_through_teacher_list($time){
+        $where_arr=[
+            "train_through_new_time>".$time,
+            "assign_jw_adminid =0",
+            "train_through_new=1",
+            "is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select teacherid,subject from %s where %s ",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_list($sql);
+    }
+
+
 
 
     public function get_teacher_test_lesson_info_by_time($page_num,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$qzls_flag=-1,$fulltime_flag=-1,$create_now=-1,$start_time=-1,$end_time=-1,$fulltime_teacher_type=-1){
@@ -4761,7 +4773,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr=[
             ["l.lessonid=%u",$lessonid,0],
         ];
-        $sql = $this->gen_sql_new("select l.lesson_del_flag, t.nick as tea_nick,t.gender as tea_gender,work_year,phone,"
+        $sql = $this->gen_sql_new("select t.teaching_achievement as harvest, t.evaluate as parent_student_evaluate, l.lesson_del_flag, t.nick as tea_nick,t.gender as tea_gender,work_year,phone,"
                                   ." textbook_type,identity,tl.tea_label_type "
                                   ." from %s t"
                                   ." left join %s l on  l.teacherid=t.teacherid"
@@ -4809,16 +4821,16 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_teacher_warn_info($start_time, $end_time) {
         $where_arr = [
-            //['lesson_start>=%u', $start_time,-1],
+            ['lesson_start>=%u', $start_time,-1],
             ['lesson_start<%u', $end_time, -1],
-            'tea_attend>0'
+            'tea_attend>0',
+            'is_test_user=0'
         ];
-        $sql = $this->gen_sql_new("select t.teacherid,t.nick,l.lesson_start,l.tea_attend,l.tea_late_minute from %s t left join %s l on t.teacherid=l.teacherid where %s",
+        $sql = $this->gen_sql_new("select t.teacherid,t.nick,l.lessonid,l.lesson_start,l.tea_attend,l.tea_late_minute from %s t left join %s l on t.teacherid=l.teacherid where %s ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        //return $this->main_get_list_by_page($sql, $page_info);
         return $this->main_get_list($sql);
     }
 

@@ -1034,12 +1034,8 @@ class wx_teacher_api extends Controller
         $ret_info['lesson_time_str'] = date('m-d H:i',$ret_info['lesson_start'])." ~ ".date('H:i',$ret_info['lesson_end']);
         $ret_info['gender_str'] = E\Egender::get_desc($ret_info['gender']);
 
-
         //t_test_lesson_subject.subject_tag
-
         $subject_tag_arr = json_decode($ret_info['subject_tag'],true);
-
-
         //上课要求标签[未定]
         $ret_info['style'] = '风格标签';
         $ret_info['major'] = '专业标签';
@@ -1071,6 +1067,9 @@ class wx_teacher_api extends Controller
         $jw_nick  = $this->cache_get_account_nick($lesson_info['accept_adminid']);
         $lesson_time_str = date('m-d H:i',$lesson_info['lesson_start'])." ~ ".date("H:i",$lesson_info['lesson_end']);
 
+        \App\Helper\Utils::logger("james:tea: $status");
+
+
         if($status == 1){ //接受 []
             /**
              * @ 教务排课的推送 家长 | CC推送需要取消
@@ -1085,7 +1084,7 @@ class wx_teacher_api extends Controller
             $url = "http://wx-teacher-web.leo1v1.com/teacher_info.html?lessonid=".$lessonid;
 
             $wx = new \App\Helper\WxSendMsg();
-            $wx->send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url);//james
+            $wx->send_ass_for_first("orwGAszZI_oaYSXVfb_Va6BlhtW0", $data, $url);//james
             // $wx->send_ass_for_first($lesson_info['wx_openid'], $data, $url);
 
 
@@ -1110,6 +1109,11 @@ class wx_teacher_api extends Controller
                 "test_lesson_fail_flag"  => 113, // [不付] 老师个人原因取消
             ]);
 
+            $require_id = $this->t_test_lesson_subject->get_test_lesson_subject_id_by_lessonid($lessonid);
+            $this->t_test_lesson_subject_require->field_update_list($require_id, [
+                "test_lesson_student_status" => 120
+            ]);
+
 
             $data = [
                 "first" => "$stu_nick 同学的试听课已拒绝",
@@ -1120,7 +1124,7 @@ class wx_teacher_api extends Controller
             $url = "http://admin.leo1v1.com/seller_student_new2/test_lesson_plan_list_jx";
             $wx = new \App\Helper\WxSendMsg();
             $jw_openid = $this->t_manager_info->get_wx_openid($lesson_info['accept_adminid']);
-            $wx->send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url);//james
+            $wx->send_ass_for_first("orwGAszZI_oaYSXVfb_Va6BlhtW0", $data, $url);//james
            // $wx->send_ass_for_first($jw_openid, $data, $url);
         }
 
@@ -1147,9 +1151,6 @@ class wx_teacher_api extends Controller
                 $tea_label_type_str.=E\Etea_label_type::get_desc($item)."  ";
             }
         }
-
-        $teacher_info['harvest'] = "教学成果";
-        $teacher_info['evaluate'] = "家长/学元评价";
 
         $teacher_info['tea_label_str'] = $tea_label_type_str;
         return $this->output_succ(["data"=>$teacher_info]);

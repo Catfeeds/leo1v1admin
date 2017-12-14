@@ -47,6 +47,7 @@
                     <td >分期金额 </td>
                     <td >非分期金额 </td>
                     <td style="display:none;">一天内签约金额 </td>
+                    <td >团队上月签约金额</td>
                     <td >团队签约金额</td>
                     <td >团队签约分期金额</td>
                     <td >团队签约非分期金额</td>
@@ -96,6 +97,7 @@
                         <td class="stage_money" ></td>
                         <td class="no_stage_money" ></td>
                         <td class="24_hour_all_price"></td>
+                        <td class="last_group_all_price"  ></td>
                         <td class="group_all_price"  ></td>
                         <td class="group_all_stage_price"  ></td>
                         <td class="group_all_no_stage_price"  ></td>

@@ -346,6 +346,7 @@ class ss_deal extends Controller
         $ret["stu_request_lesson_time_info"]    = $tt_item["stu_request_lesson_time_info"];
         $ret["stu_test_ipad_flag"]    = $ss_item["stu_test_ipad_flag"];
         $ret["stu_request_test_lesson_time"]    = \App\Helper\Utils::unixtime2date($tt_item["stu_request_test_lesson_time"], 'Y-m-d H:i');
+        $ret["stu_request_test_lesson_time_end"]    = \App\Helper\Utils::unixtime2date($tt_item["stu_request_test_lesson_time_end"], 'Y-m-d H:i');
         $ret["stu_request_test_lesson_demand"]    = $tt_item["stu_request_test_lesson_demand"];
         $ret["province"]                          = $student["province"];
         $ret["city"]                              = $student["city"];
@@ -389,6 +390,7 @@ class ss_deal extends Controller
         $ret["learning_situation"]    = $tt_item["learning_situation"];
         $ret["subject_score"] = $ss_item['subject_score'];
         $ret["subject_tag"] = json_decode($tt_item['subject_tag']);
+        $ret["phone_location"] = mb_substr($student["phone_location"],0,2);
         // dd($ret["subject_tag"]);
 
         return $this->output_succ(["data" => $ret ]);
@@ -1755,6 +1757,46 @@ class ss_deal extends Controller
         $this->t_test_lesson_subject_require->set_test_lesson_status(
             $require_id, E\Eseller_student_status::V_210 , $this->get_account() );
 
+        $do_adminid = $this->get_account_id();
+        if($do_adminid == 1093 || $do_adminid == 1231){ // 文彬测试
+
+            /**
+             * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+             * 标题课程 : 待办事项提醒
+             * {{first.DATA}}
+             * 待办主题：{{keyword1.DATA}}
+             * 待办内容：{{keyword2.DATA}}
+             * 日期：{{keyword3.DATA}}
+             * {{remark.DATA}}
+             */
+            $wx_openid        = $this->t_teacher_info->get_wx_openid($teacherid);
+            $lesson_start     = $this->t_lesson_info->get_lesson_start($lessonid);
+            $lesson_end       = $this->t_lesson_info->get_lesson_end($lessonid);
+            $lesson_time_str  = date("Y-m-d H:i",$lesson_start)." ~ ".date('H:i',$lesson_end);
+            $nick = $this->t_student_info->get_nick($userid);
+            $require_adminid  = $this->t_test_lesson_subject->get_require_adminid($test_lesson_subject_id);
+            $require_phone    = $this->t_manager_info->get_phone($require_adminid);
+            $stu_request_info = $this->t_test_lesson_subject->get_stu_request($lessonid);
+            $demand           = $stu_request_info['stu_request_test_lesson_demand'];
+
+            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+            $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
+            $data['keyword1'] = "备课通知";
+            $data['keyword2'] = "\n上课时间：$lesson_time_str "
+                              ."\n咨询电话：$require_phone"
+                              ."\n试听需求：$demand"
+                              ."\n1、请及时确认试听需求并备课"
+                              ."\n2、老师可提前10分钟进入课堂进行上课准备";
+            $data['keyword3'] = date("Y-m-d H:i",time());
+            $data['remark']   = "";
+            $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //[标签系统 给老师帮发]
+
+            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+
+        }
+
+
+
         return $this->output_succ();
     }
 
@@ -1975,7 +2017,6 @@ class ss_deal extends Controller
 
             $do_adminid = $this->get_account_id();
             if($do_adminid == 1093 || $do_adminid == 1231){ // 文彬测试
-
                 /**
                  * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
                  * 标题课程 : 待办事项提醒
@@ -1990,7 +2031,7 @@ class ss_deal extends Controller
                 $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
                 $data['keyword1'] = "备课通知";
                 $data['keyword2'] = "\n上课时间：$lesson_time_str "
-                                  ."\n教务电话：$require_phone"
+                                  ."\n咨询电话：$require_phone"
                                   ."\n试听需求：$demand"
                                   ."\n1、请及时确认试听需求并备课"
                                   ."\n2、老师可提前10分钟进入课堂进行上课准备";
@@ -1999,8 +2040,6 @@ class ss_deal extends Controller
                 $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //[标签系统 给老师帮发]
 
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
-
-
             }else{
                 $this->t_manager_info->send_wx_todo_msg(
                     $require_admin_nick,"来自:".$this->get_account()
@@ -2010,7 +2049,6 @@ class ss_deal extends Controller
 
                 if($parentid>0){
                     $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
-
                 }
 
                 /**
@@ -5025,20 +5063,34 @@ class ss_deal extends Controller
     }
 
     public function update_lecture_appointment_info(){
-        $answer_begin_time            = strtotime($this->get_in_str_val("answer_begin_time"));
-        $answer_end_time              = strtotime($this->get_in_str_val("answer_end_time"));
-        $name                         = $this->get_in_str_val("name");
-        $id                           = $this->get_in_str_val("id");
-        $email                        = $this->get_in_str_val("email");
-        $qq                           = $this->get_in_str_val("qq");
-        $grade_ex                     = $this->get_in_int_val("grade_ex");
-        $subject_ex                   = $this->get_in_int_val("subject_ex");
-        $school                       = $this->get_in_str_val("school");
-        $teacher_type                 = $this->get_in_int_val("teacher_type");
-        $lecture_revisit_type                 = $this->get_in_int_val("lecture_revisit_type");
-        $reference                    = $this->get_in_str_val("reference");
-        $phone                   = $this->get_in_str_val("phone");
-        $acc                          = $this->get_account();
+        $id                   = $this->get_in_str_val("id");
+        $name                 = $this->get_in_str_val("name");
+        $phone                = $this->get_in_str_val("phone");
+        $email                = $this->get_in_str_val("email");
+        $qq                   = $this->get_in_str_val("qq");
+        $reference            = $this->get_in_str_val("reference");
+        $age                  = $this->get_in_int_val("age");
+        $grade_ex             = $this->get_in_int_val("grade_ex");
+        $subject_ex           = $this->get_in_int_val("subject_ex");
+        $teacher_type         = $this->get_in_int_val("teacher_type");
+        $lecture_revisit_type = $this->get_in_int_val("lecture_revisit_type");
+        $custom               = $this->get_in_int_val("custom");
+        $acc                  = $this->get_account();
+
+        $check_phone = \App\Helper\Utils::check_phone($phone);
+        if(!$check_phone){
+            return $this->output_err("请输入正确的手机号!");
+        }
+        if($reference!=""){
+            $check_reference = \App\Helper\Utils::check_phone($reference);
+            if(!$check_reference){
+                return $this->output_err("请输入正确的推荐人手机号!");
+            }
+        }
+        $check_email = \App\Helper\Utils::check_email($email);
+        if(!$check_email){
+            return $this->output_err("请输入正确的邮箱!");
+        }
 
         $old_phone = $this->t_teacher_lecture_appointment_info->get_phone($id);
         if($old_phone != $phone){
@@ -5048,26 +5100,30 @@ class ss_deal extends Controller
             }
         }
 
-
-        if(empty($answer_begin_time) || empty($name)){
-            return $this->output_err("答题时间/手机号/名字不能为空");
+        if(empty($name) || empty($phone) || empty($grade_ex) || empty($subject_ex) || empty($teacher_type)
+           || empty($email) || empty($qq) || empty($age)
+        ){
+            return $this->output_err("红色部分不能为空");
         }
-        $this->t_teacher_lecture_appointment_info->field_update_list($id,[
-            "answer_begin_time"  =>$answer_begin_time,
-            "answer_end_time"    =>$answer_end_time,
-            "name"               =>$name,
-            "email"              =>$email,
-            "qq"                 =>$qq,
-            "subject_ex"         =>$subject_ex,
-            "grade_ex"           =>$grade_ex,
-            "school"             =>$school,
-            "teacher_type"       =>$teacher_type,
-            "reference"          =>$reference,
-            "lecture_revisit_type" =>$lecture_revisit_type,
-        ]);
-        return $this->output_succ();
 
+        $ret = $this->t_teacher_lecture_appointment_info->field_update_list($id,[
+            "name"                 => $name,
+            "phone"                => $phone,
+            "email"                => $email,
+            "qq"                   => $qq,
+            "reference"            => $reference,
+            "grade_ex"             => $grade_ex,
+            "subject_ex"           => $subject_ex,
+            "teacher_type"         => $teacher_type,
+            "reference"            => $reference,
+            "lecture_revisit_type" => $lecture_revisit_type,
+            "custom"               => $custom,
+        ]);
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        $ret = $this->t_teacher_info->field_update_list($teacherid, ['age'=>$age]);
+        return $this->output_succ();
     }
+
     public function set_green_channel_teacherid(){
         $require_id = $this->get_in_int_val("require_id");
         $green_channel_teacherid = $this->get_in_int_val("green_channel_teacherid");

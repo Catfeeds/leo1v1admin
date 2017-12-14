@@ -38,6 +38,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ["seller_adminid=%u ", $seller_adminid, -1] ,
             ["type=%u ", $student_type, -1] ,
         ];
+        if($student_type>-1)
+            $where_arr[] = 'assistantid>0';
+
         if ($user_name) {
             $where_arr[]=sprintf( "(nick like '%s%%' or realname like '%s%%' or  phone like '%s%%' )",
                                   $this->ensql($user_name),
@@ -3274,5 +3277,19 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
 
         return $this->main_get_value($sql);
+    }
+
+    public function get_all_student_id(){
+        $where_arr = [
+            "s.is_test_user = 0",
+        ];
+        $sql = $this->gen_sql_new("select s.userid,s.reg_time,s.grade,s.phone_location,s.phone, k.has_pad "
+                                ."from %s s"
+                                ." left join %s k on k.userid = s.userid  "
+                                ." where %s ",
+                                self::DB_TABLE_NAME,
+                                t_seller_student_new::DB_TABLE_NAME,
+                                $where_arr);
+        return $this->main_get_list($sql);
     }
 }

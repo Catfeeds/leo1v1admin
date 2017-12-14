@@ -1,9 +1,9 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/question-knowledge_list.d.ts" />
+/// <reference path="../g_args.d.ts/question_new-knowledge_list.d.ts" />
 
 $(function(){
-    Enum_map.append_option_list("subject", $("#id_subject"),false,[1,2,3,4,5,6,7,8,9,10,11]);
-
+    Enum_map.append_option_list("subject", $("#id_subject"),true,[1,2,3,4,5,6,7,8,9,10,11]);
+ 
     $("#id_subject").val(g_args.id_subject);
     $('.opt-change').set_input_change_event(load_data);
 
@@ -23,108 +23,35 @@ $(function(){
         window.open('/question_new/question_list');
     });
 
-    //添加知识点
+    //添加根部知识点
     $('#id_add_knowledge').on('click',function(){
-        var id_title = $("<input/>");
-        var id_subject = $("<select/>");
-        var id_detail = $("<textarea></textarea>");
-
-        Enum_map.append_option_list("subject",id_subject,true,[1,2,3,4,5,6,7,8,9,10,11]);
-
-        var arr=[
-            ["知识点标题", id_title ],
-            ["知识点科目", id_subject ],
-            ["知识点详情解读", id_detail ],
-        ];
-
-        $.show_key_value_table("添加知识点", arr ,{
-            label: '确认',
-            cssClass: 'btn-warning',
-            action : function(dialog) {
-                var title = id_title.val();
-                var subject = id_subject.val();
-                if( title == '' || subject ==''){
-                    BootstrapDialog.alert('标题或者科目必填');
-                    return false;
-                }
- 
-                var data = {
-                    'title': title,
-                    'subject':subject,
-                    'detail':id_detail.val(),
-                }
-              
-                $.ajax({
-                    type     :"post",
-                    url      :"/question_new/knowledge_add",
-                    dataType :"json",
-                    data     :data,
-                    success : function(result){
-                        BootstrapDialog.alert(result['msg']);
-                        if(result['status'] == 200){
-                            window.location.reload();
-                        }
-                    }
-                });
-            }
-        })
-
+        var level = 0;
+        var father_id = 0;
+        var editType = 1;
+        var father_subject = $('#id_subject').val();
+        window.open('/question_new/knowledge_edit?level='+level+'&father_id='+father_id+'&editType='+editType+'&father_subject='+father_subject);
     });
 
-    //进入编辑页面
+    //添加子知识点
+    $('.add_son').on('click',function(){
+        var opt_data = $(this).get_opt_data();
+        var level = parseInt(opt_data.level) + 1;
+        var father_id = opt_data.knowledge_id;
+        var father_subject = $('#id_subject').val();
+        var editType = 1;
+        window.open('/question_new/knowledge_edit?level='+level+'&father_id='+father_id+'&editType='+editType+'&father_subject='+father_subject);
+    });
+
+    //进入知识点编辑页面
     $('.opt-set').on('click',function(){
         var opt_data=$(this).get_opt_data();
-        var id_title = $("<input/>");
-        var id_subject = $("<select/>");
-        var id_detail = $("<textarea></textarea>");
-
-        Enum_map.append_option_list("subject",id_subject,true,[1,2,3,4,5,6,7,8,9,10,11]);
-
-        id_title.val(opt_data.title);
-        id_subject.val(opt_data.subject);
-        id_detail.val(opt_data.detail);
-        var arr=[
-            ["知识点标题", id_title ],
-            ["知识点科目", id_subject ],
-            ["知识点详情解读", id_detail ],
-        ];
-
-        $.show_key_value_table("编辑知识点", arr ,{
-            label: '确认',
-            cssClass: 'btn-warning',
-            action : function(dialog) {
-                var title = id_title.val();
-                var subject = id_subject.val();
-                if( title == '' || subject ==''){
-                    BootstrapDialog.alert('标题或者科目必填');
-                    return false;
-                }
- 
-                var data = {
-                    'knowledge_id':opt_data.knowledge_id,
-                    'title': title,
-                    'subject':subject,
-                    'detail':id_detail.val(),
-                }
-          
-                $.ajax({
-                    type     :"post",
-                    url      :"/question_new/knowledge_edit",
-                    dataType :"json",
-                    data     :data,
-                    success : function(result){
-                        BootstrapDialog.alert(result['msg']);
-                        if(result['status'] == 200){
-                            window.location.reload();
-                        }
-                    }
-                });
-            }
-        })
-
+        var knowledge_id = opt_data.knowledge_id;
+        var father_subject = $('#id_subject').val();
+        var editType = 2;
+        window.open('/question_new/knowledge_edit?knowledge_id='+knowledge_id+'&editType='+editType+'&father_subject='+father_subject);
     });
 
-    //删除活动
+    //删除知识点
     $('.opt-del').on('click',function(){
         var opt_data = $(this).get_opt_data();
 

@@ -113,6 +113,11 @@
                                             <td >入职人数</td>
                                             <td id="id_enter_num"></td>
                                         </tr>
+                                        <tr>
+                                            <td >离职人数</td>
+                                            <td id="id_leave_num"></td>
+                                        </tr>
+
 
                                         <tr>
                                             <td >一面到面率</td>
@@ -131,6 +136,11 @@
                                             <td >入职率</td>
                                             <td id="id_enter_num_per"></td>
                                         </tr>
+                                        <tr>
+                                            <td >离职率</td>
+                                            <td id="id_leave_per"></td>
+                                        </tr>
+
 
                                 </tbody>
                             </table>

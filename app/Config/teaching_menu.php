@@ -74,6 +74,7 @@ class teaching_menu{
                         [ "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint_tea"],
                         [ "name"=>"微信推送",   "url"=>"/user_manage_new/wx_monitor_new_yy"],
                         ["name"=>"老师晋升参考数据",   "url"=>"/tea_manage_new/approved_data"],
+                        //["name"=>"教师预警","url"=>"/teacher_warn/tea_warn_list"]
                     ]],
 
 
@@ -150,6 +151,13 @@ class teaching_menu{
                             [ "name"=>"讲义上传试听转化率",   "url"=>"/tongji_ss/get_homework_and_work_status_info"],
 
                         ]],
+                        [ "name"=>"教研备课上传", "list" => [
+                            [ "name"=>"教研备课资料框架-新",   "url"=>"/resource/resource_frame_new"],
+                            [ "name"=>"教研备课数据统计",   "url"=>"/resource/resource_count"],
+                            [ "name"=>"教研备课后台",   "url"=>"/resource/get_all"],
+                            [ "name"=>"教研回收站",   "url"=>"/resource/get_del"],
+                        ]],
+
                     ]],
 
                     [ "name"=>"班课组",  "list"=>[

@@ -368,6 +368,7 @@ class teacher_info extends Controller
 
         return  $this->output_succ( [ "common_lesson_config" => $common_lesson_config] );
     }
+
     public function otp_common_config()
     {
         $opt_type  = $this->get_in_str_val("opt_type");
@@ -464,6 +465,7 @@ class teacher_info extends Controller
 
         return $this->output_succ(["data"=>$ret_info]);
     }
+
     public function get_pdf_download_url()
     {
         $file_url = $this->get_in_str_val("file_url");
@@ -1168,7 +1170,9 @@ class teacher_info extends Controller
         return $this->output_succ();
     }
 
-    public function check_teacher_subject_and_grade($subject,$grade,$first_subject,$second_subject,$third_subject,$grade_part_ex,$second_grade,$third_grade,$is_test,$not_grade){
+    public function check_teacher_subject_and_grade(
+        $subject,$grade,$first_subject,$second_subject,$third_subject,$grade_part_ex,$second_grade,$third_grade,$is_test,$not_grade
+    ){
         if($is_test ==0){
             if($subject != $first_subject && $subject != $second_subject && $subject != $third_subject){
                 return $this->output_err("请安排与老师科目相符合的课程!");
@@ -1509,9 +1513,9 @@ class teacher_info extends Controller
         return $this->pageView(__METHOD__,[]);
     }
 
-    public function  file_store()   {
+    public function  file_store() {
 
-        $teacherid      = $this->get_login_teacher();
+        $teacherid = $this->get_login_teacher();
         $dir= $this->get_in_str_val("dir");
         if (!$dir) {
             $dir= "/";
@@ -1534,6 +1538,17 @@ class teacher_info extends Controller
                                     "file_size" =>"",
                                     "create_time" =>"",
         ] );
+
+        if($dir == '/'){
+            $res = $this->t_teacher_resource->get_tea_collect($teacherid);
+            // foreach($res as $item){
+            //     $ret_list[] = [
+            //         'file_name' => $item['file_title'],
+            //         'file_size' => $item['file_size'].'KB',
+            //         'create_time' => date('Y-m-d H:i:s')$item['create_time'],
+            //     ];
+            // }
+        }
 
 
         return $this->pageView(
@@ -2256,4 +2271,98 @@ class teacher_info extends Controller
         exit();
     }
 
+    public function get_leo_resource(){
+        $resource_type = $this->get_in_int_val('resource_type', 1);
+        $subject       = $this->get_in_int_val('subject', -1);
+        $grade         = $this->get_in_int_val('grade', -1);
+        $tag_one       = $this->get_in_int_val('tag_one', -1);
+        $tag_two       = $this->get_in_int_val('tag_two', -1);
+        $tag_three     = $this->get_in_int_val('tag_three', -1);
+        $tag_four      = $this->get_in_int_val('tag_four', -1);
+        // $file_title    = $this->get_in_str_val('file_title', '');
+        $page_info     = $this->get_in_page_info();
+
+        $resource_type = $resource_type<1?1:$resource_type;
+        $resource_type = $resource_type>6?6:$resource_type;
+
+        //禁用，删除，老师段则不在显示
+        $ret_info = $this->t_resource->get_all_for_tea(
+            $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$page_info
+        );
+
+        $tag_arr = \App\Helper\Utils::get_tag_arr($resource_type);
+        foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            $item['file_size'] = round( $item['file_size'] / 1024,2);
+            $item['tag_one_name'] = $tag_arr['tag_one']['name'];
+            $item['tag_two_name'] = $tag_arr['tag_two']['name'];
+            $item['tag_three_name'] = $tag_arr['tag_three']['name'];
+            $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
+            // dd($item);
+
+            E\Egrade::set_item_field_list($item, [
+                "subject",
+                "grade",
+                "resource_type",
+                "use_type",
+                $tag_arr['tag_one']['menu'] => 'tag_one',
+                $tag_arr['tag_two']['menu'] => 'tag_two',
+                $tag_arr['tag_three']['menu'] => 'tag_three',
+                $tag_arr['tag_four']['menu'] => 'tag_four',
+            ]);
+        }
+
+        return $this->pageView( __METHOD__,$ret_info,['tag_info' => $tag_arr]);
+    }
+
+    public function do_collect(){
+
+        $is_get     = $this->get_in_str_val('is_get');
+        $file_id    = $this->get_in_int_val('file_id', 0);
+        $tea_res_id = $this->get_in_int_val('id', 0);
+        $teacherid  = $this->get_login_teacher();
+        if($file_id == 0){
+            $this->output_err('信息有误，收藏失败！');
+        }
+        $time = time();
+
+        if($is_get == 'true'){//收藏
+            $info = $this->t_resource_file->get_info_by_file_id($file_id);
+            if($info == false){
+                return $this->output_err('未查询到该文件，收藏失败！');
+            }
+            $info['teacherid'] = $teacherid;
+            $info['create_time'] = $time;
+
+            $this->t_teacher_resource->start_transaction();
+            $ret = $this->t_teacher_resource->row_insert($info);
+            //error_num(就是收藏次数),增加收藏次数
+            $ret2 = $this->t_resource_file->add_num('error_num', $file_id);
+            $ret3 = $this->t_resource_file_visit_info->row_insert([
+                'file_id'      => $file_id,
+                'visit_type'   => 8,
+                'visitor_type' => 1,
+                'visitor_id'   => $teacherid,
+                'create_time'  => $time,
+                'ip'           => $_SERVER["REMOTE_ADDR"],
+            ]);
+            if($ret && $ret2 && $ret3){
+                $this->t_teacher_resource->commit();
+                return $this->output_succ();
+            } else {
+                $this->t_teacher_resource->rollback();
+                return $this->output_err('收藏失败,请重试！');
+            }
+        } else {//取消收藏
+
+            if($tea_res_id == 0){
+                return $this->output_err('信息有误，操作失败！');
+            }
+            $ret = $this->t_teacher_resource->field_update_list($tea_res_id,['is_del' => 1]);
+            $this->t_resource_file->minus_num('error_num', $file_id);
+
+            return $this->output_succ();
+
+        }
+    }
 }

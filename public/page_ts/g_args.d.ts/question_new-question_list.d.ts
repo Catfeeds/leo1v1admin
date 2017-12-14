@@ -18,6 +18,7 @@ interface RowData {
 	detail	:any;
 	score	:any;
 	open_flag	:any;
+	difficult	:any;
 	subject_str	:any;
 	open_str	:any;
 	knowledge_detail	:any;
@@ -32,11 +33,12 @@ tofile:
 /// <reference path="../g_args.d.ts/question_new-question_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		id_subject:	$('#id_id_subject').val(),
 		id_open_flag:	$('#id_id_open_flag').val()
-    });
+		});
 }
 $(function(){
 
@@ -59,6 +61,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_id_subject" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["id_subject title", "id_subject", "th_id_subject" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -66,4 +69,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_id_open_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["id_open_flag title", "id_open_flag", "th_id_open_flag" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

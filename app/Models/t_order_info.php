@@ -4382,4 +4382,11 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
 
     }
+
+    public function get_ceshi(){
+        $sql = "select sum(o.price)/100 total_price, sys_operator from db_weiyi.t_order_info o  left join db_weiyi_admin.t_manager_info  m on o.sys_operator = m.account left join db_weiyi.t_student_info s on s.userid = o.userid where o.price>0 and contract_status<> 0 and m.account_role=2  and order_time>=1512403200 and order_time<=1513094400 and s.is_test_user=0  and sys_operator <>'yueyue'  group by sys_operator";
+
+        return $this->db_exec($sql);
+
+    }
 }

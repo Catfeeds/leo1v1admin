@@ -96,6 +96,8 @@ class NewRouteConfig {
         "/grab_lesson/upadte_lesson_link"         => true,
         "/grab_lesson/get_all_grab_info"          => true,
         "/teacher_info/grab_visit_info"           => true,
+        "/teacher_info/get_leo_resource"          => true,
+        "/teacher_info/do_collect"                => true,
         "/lesson_manage/stu_status_count"         => true,
         "/admin_join/get_apply_info"              => true,
         "/supervisor/lesson_all_info"             => true,
@@ -415,7 +417,8 @@ class NewRouteConfig {
         "/stu_manage/user_login_list"          => true,
         "/stu_manage/one_three_grade_student"  => true,
         "/stu_manage/score_list1"              => true,
-        
+        "/stu_manage/student_data_list"        => true,
+
         "/question_new/question_list"              => true,
         "/question_new/knowledge_list"              => true,
         "/question_new/question_know_list"              => true,

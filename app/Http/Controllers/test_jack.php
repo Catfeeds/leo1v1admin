@@ -697,29 +697,27 @@ class test_jack  extends Controller
     }
 
     public function test_wx(){
+        // /**
+        //  * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+        //  * 标题课程 : 待办事项提醒
+        //  * {{first.DATA}}
+        //  * 待办主题：{{keyword1.DATA}}
+        //  * 待办内容：{{keyword2.DATA}}
+        //  * 日期：{{keyword3.DATA}}
+        //  * {{remark.DATA}}
+        //  */
+        // $data=[];
+        // $url = "";
+        // $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+        // $data['first']    = "老师您好,为方便您尽快完成理优入职流程,特邀您参加在线【新师培训】";
+        // $data['keyword1'] = "新师培训";
+        // $data['keyword2'] = "参训方法:登录老师端-我的培训-新师培训-进入课堂(提前5分钟)";
+        // $data['keyword3'] = date("Y-m-d H:i",time());
+        // $data['remark']   = "如有疑问,可在新师培训QQ群:315540732 咨询【师训】老师";
+        // $url="";
+        // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
         
-        /**
-         * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
-         * 标题课程 : 待办事项提醒
-         * {{first.DATA}}
-         * 待办主题：{{keyword1.DATA}}
-         * 待办内容：{{keyword2.DATA}}
-         * 日期：{{keyword3.DATA}}
-         * {{remark.DATA}}
-         */
-        $data=[];
-        $url = "";
-        $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-        $data['first']    = "老师您好,为方便您尽快完成理优入职流程,特邀您参加在线【新师培训】";
-        $data['keyword1'] = "新师培训";
-        $data['keyword2'] = "参训方法:登录老师端-我的培训-新师培训-进入课堂(提前5分钟)";
-        $data['keyword3'] = date("Y-m-d H:i",time());
-        $data['remark']   = "如有疑问,可在新师培训QQ群:315540732 咨询【师训】老师";
-        $url="";
-        $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
-        
-        \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
-        dd(111);
+        // \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
 
 
         // $start_time = strtotime("2016-12-01");
@@ -955,24 +953,58 @@ class test_jack  extends Controller
         $data=[];
         foreach($list as $val){
             @$data["all_num"]++;
-            $lesson_count = $val["lesson_all"]/500;
-            if($lesson_count<=1){
+            // $lesson_count = $val["lesson_all"]/500;
+            // if($lesson_count<=1){
+            //     @$data["one_num"]++;
+            // }elseif($lesson_count<=2){
+            //     @$data["two_num"]++;
+            // }elseif($lesson_count<=3){
+            //     @$data["three_num"]++;
+            // }elseif($lesson_count<=4){
+            //     @$data["four_num"]++;
+            // }elseif($lesson_count<=5){
+            //     @$data["five_num"]++;
+            // }elseif($lesson_count<=6){
+            //     @$data["six_num"]++;
+            // }else{
+            //     @$data["other_num"]++;
+            // }
+
+        }
+        $list2 = $this->t_week_regular_course->get_tea_stu_num_list_detail($qz_tea_arr);
+        foreach($list2 as $val){
+            $lesson_count = $val["lesson_all"]/100;
+            if($lesson_count==1){
                 @$data["one_num"]++;
-            }elseif($lesson_count<=2){
+            }elseif($lesson_count==1.5){
+                @$data["one_five_num"]++;
+            }elseif($lesson_count==2){
                 @$data["two_num"]++;
-            }elseif($lesson_count<=3){
+            }elseif($lesson_count==2.5){
+                @$data["two_five_num"]++;
+            }elseif($lesson_count==3){
                 @$data["three_num"]++;
-            }elseif($lesson_count<=4){
+            }elseif($lesson_count==3.5){
+                @$data["three_five_num"]++;
+            }elseif($lesson_count==4){
                 @$data["four_num"]++;
-            }elseif($lesson_count<=5){
+            }elseif($lesson_count==4.5){
+                @$data["four_five_num"]++;
+            }elseif($lesson_count==5){
                 @$data["five_num"]++;
-            }elseif($lesson_count<=6){
+            }elseif($lesson_count==5.5){
+                @$data["five_five_num"]++;
+            }elseif($lesson_count==6){
                 @$data["six_num"]++;
+            }elseif($lesson_count==6.5){
+                @$data["six_five_num"]++;
             }else{
                 @$data["other_num"]++;
             }
 
         }
+
+
         $start_time = strtotime("2017-12-01");
         $end_time = strtotime("2018-01-01");
 

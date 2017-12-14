@@ -5,6 +5,7 @@
 	textbook	:any;
 	school	:any;
 	train_through_new_time	:any;
+	age	:any;
 	grade_ex	:any;
 	subject_ex	:any;
 	trans_grade_ex	:any;

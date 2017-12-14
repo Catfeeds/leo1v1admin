@@ -12,40 +12,6 @@ class resource extends Controller
 
     use CacheNick;
     var $check_login_flag=true;
-    public $tag_arr = [
-            1 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
-                  'tag_two' => ['name' => '春署秋寒','menu' => 'resource_season','hide' => ''],
-                  'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
-            2 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
-                  'tag_two' => ['name' => '春署秋寒','menu' => 'resource_season','hide' => ''],
-                  'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
-            3 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
-                  'tag_two' => ['name' => '试听类型','menu' => 'resource_free','hide' => ''],
-                  'tag_three' => ['name' => '难度类型','menu' => 'resource_diff_level','hide' => ''],
-                  'tag_four' => ['name' => '学科化标签','menu' => '','hide' => '']],
-            4 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
-                  'tag_two' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
-            5 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
-                  'tag_two' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
-            6 => ['tag_one' => ['name' => '年份','menu' => 'resource_year','hide' => ''],
-                  'tag_two' => ['name' => '省份','menu' => '','hide' => ''],
-                  'tag_three' => ['name' => '城市','menu' => '','hide' => ''],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
-            7 => ['tag_one' => ['name' => '一级知识点','menu' => '','hide' => ''],
-                  'tag_two' => ['name' => '二级知识点','menu' => '','hide' => ''],
-                  'tag_three' => ['name' => '三级知识点','menu' => '','hide' => ''],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
-            9 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
-                  'tag_two' => ['name' => '培训资料','menu' => 'resource_train','hide' => ''],
-                  'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
-        ];
 
     function __construct( ) {
         parent::__construct();
@@ -66,12 +32,13 @@ class resource extends Controller
         $ret_info = $this->t_resource->get_all(
             $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info
         );
+
+        $tag_arr = \App\Helper\Utils::get_tag_arr( $resource_type );
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::get_file_use_type_str($item);
             $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
             $item['file_size'] = round( $item['file_size'] / 1024,2);
-            $tag_arr = $this->tag_arr[ $item['resource_type'] ];
 
             $item['tag_one_name'] = $tag_arr['tag_one']['name'];
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
@@ -104,7 +71,7 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            'tag_info' => $this->tag_arr[$resource_type],
+            'tag_info' => $tag_arr,
             'subject'  => json_encode($sub_grade_info['subject']),
             'grade'    => json_encode($sub_grade_info['grade']),
             'book'     => json_encode($book_arr),
@@ -183,6 +150,7 @@ class resource extends Controller
             @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use'] += $use;//使用量
         }
         $final_list = [];
+        // dd($list);
         foreach($list as $s=>$item){
             //subject
             //标记,这科目的第一个
@@ -253,6 +221,7 @@ class resource extends Controller
 
         $data = $this->t_resource_agree_info->get_next_info($select,@$arr[0],@$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],$is_end);
 
+        $tag_arr = \App\Helper\Utils::get_tag_arr();
         //对应枚举类
         $menu = '';
         foreach($data as &$item){
@@ -260,14 +229,15 @@ class resource extends Controller
                 E\Egrade::set_item_field_list($item, [$select]);
             } else {
                 if($arr[0] <6 || $arr[0] ==9 || ($arr[0]==6 && $num=3) ){
-                    $menu = $this->tag_arr[ $arr[0] ][ $select ]['menu'];
+                    $menu = $tag_arr[ $arr[0] ][ $select ]['menu'];
                     $item[$menu] = $item[$select];
                     E\Egrade::set_item_field_list($item, [$menu]);
                 }
                 //只有resource_type=3的时候才会有num=6
                 if($num==6) {
-                    $sub_grade = $this->get_sub_grade_tag($arr[1], $arr[2]);
+                    $sub_grade = \App\Helper\Utils::get_sub_grade_tag($arr[1], $arr[2]);
                     $item['tag_four_str'] = @$sub_grade[$item['tag_four']];
+
                 }
             }
 
@@ -286,6 +256,7 @@ class resource extends Controller
         $arr      = explode('-', $info_str);
         $adminid  = $this->get_account_id();
         $time     = time();
+        $ban_level = count($arr);
         if($do_type === 'add'){//添加版本
             if($arr[0] < 3) {//1v1
                 $season = E\Eresource_season::$desc_map;
@@ -305,7 +276,7 @@ class resource extends Controller
                 $diff = E\Eresource_diff_level::$desc_map;
                 foreach($free as $f=>$v){
                     foreach($diff as $d=>$val){
-                        $sub_grade_arr = $this->get_sub_grade_tag($arr[1],$arr[2]);
+                        $sub_grade_arr = \App\Helper\Utils::get_sub_grade_tag($arr[1],$arr[2]);
                         foreach($sub_grade_arr as $sg => $value){
                             $this->t_resource_agree_info->row_insert([
                                 'resource_type' => $arr[0],
@@ -345,9 +316,14 @@ class resource extends Controller
                 }
             }
         } else if($do_type === 'use'){//启用
-            $this->t_resource_agree_info->update_ban($arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6],$adminid,$time,0);
+            $this->t_resource_agree_info->update_ban(
+                $arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6],$adminid,$time,0, $ban_level
+            );
         } else if ($do_type === 'ban'){//禁用
-            $this->t_resource_agree_info->update_ban($arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6],$adminid,$time,1);
+
+            $this->t_resource_agree_info->update_ban(
+                $arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6],$adminid,$time,1,$ban_level
+            );
         } else if ($do_type === 'del'){//删除版本
             //先查询该版本下是否有上传的文件
             $ret = $this->t_resource->is_has_file($arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6]);
@@ -369,69 +345,8 @@ class resource extends Controller
         $subject = $this->get_in_int_val('subject', -1);
         $grade   = $this->get_in_int_val('grade', -1);
 
-        $data = $this->get_sub_grade_tag($subject,$grade);
+        $data = \App\Helper\Utils::get_sub_grade_tag($subject,$grade);
         return $this->output_succ(['tag' => $data]);
-    }
-    //学科化标签
-    public function get_sub_grade_tag($subject,$grade){
-        $arr = [
-            1 => [
-                101 =>['拼音基础','看图写话','阅读练习'],
-                102 =>['拼音基础','看图写话','阅读练习'],
-                103 =>['基础知识','阅读练习','作文提升'],
-                104 =>['基础知识','阅读练习','作文提升'],
-                105 =>['阅读练习','作文提升','文言文'],
-                106 =>['阅读练习','作文提升','文言文'],
-                201 =>['阅读练习','作文提升','文言文'],
-                202 =>['阅读练习','作文提升','文言文'],
-                203 =>['阅读练习','作文提升','文言文'],
-                301 =>['现代文阅读练习','文言文阅读练习','写作技巧提升训练'],
-                302 =>['现代文阅读练习','文言文阅读练习','写作技巧提升训练'],
-                303 =>['现代文阅读练习','文言文阅读练习','写作技巧提升训练'],
-            ],
-            2 => [
-                101 => ['分与合','100以内加减法的应用','几个与第几个'],
-                102 => ['乘除法','乘除法的应用','有余数的除法'],
-                103 => ['乘乘除除','解决问题','长方形正方形面积'],
-                104 => ['单位的认识','巧算','文字题'],
-                105 => ['小数的四则混合运算','平均数','列方程解决问题'],
-                106 => ['数的整除','分解素因数','比和比例'],
-                201 => ['因式分解','全等三角形','实数'],
-                202 => ['平行四边形','直角三角形的性质','代数方程'],
-                203 => ['相似三角形','二次函数','垂径定理'],
-                301 => ['函数','不等式','集合'],
-                302 => ['解析几何','三角函数','数列'],
-                303 => ['立体几何','排列组合','复数'],
-            ],
-            3 => [
-                101 => ['字母','自然拼读','词汇'],
-                102 => ['音标','词汇','口语'],
-                103 => ['听力','词汇','语法'],
-                104 => ['听力','词汇','语法'],
-                105 => ['词汇','语法','阅读'],
-                106 => ['词汇','语法','阅读'],
-                201 => ['听力','语法','阅读'],
-                202 => ['语法','阅读','写作'],
-                203 => ['语法','阅读','写作'],
-                301 => ['听力','语法','词汇'],
-                302 => ['语法','阅读','写作'],
-                303 => ['语法','阅读','写作'],
-            ],
-            4 => [
-                203 => ['气体的制取和性质','碳及碳的化合物','溶液及溶液的计算'],
-                301 => ['化学中能量变化','电解质','氮、磷、硫非金属元素'],
-                302 => ['元素周期律','铁、铝及其化合物','有机物及其性质'],
-                303 => ['结构化学(化学键、原子、晶体结构)','化学反应原理(平衡与速率)','离子反应及氧化还原反应'],
-            ],
-            5 => [
-                202 => ['压力、压强','浮力','力学','机械', '热学'],
-                203 => ['压力、压强','浮力','电学','机械', '热学'],
-                301 => ['压力、压强','浮力','力学','机械', '热学'],
-                302 => ['压力、压强','浮力','电学','机械', '热学'],
-                303 => ['压力、压强','浮力','力学','机械', '热学'],
-            ],
-        ];
-        return @$arr[$subject][$grade];
     }
 
     public function add_resource() {
@@ -497,6 +412,7 @@ class resource extends Controller
             'visit_type'  => 9,
             'create_time' => time(),
             'visitor_id'  => $adminid,
+            'ip'          => $_SERVER["REMOTE_ADDR"],
         ]);
 
         return $this->output_succ();
@@ -519,6 +435,7 @@ class resource extends Controller
             'visit_type'  => 1,
             'create_time' => $time,
             'visitor_id'  => $adminid,
+            'ip'          => $_SERVER["REMOTE_ADDR"],
         ]);
 
         return $this->output_succ();
@@ -536,6 +453,7 @@ class resource extends Controller
             'visit_type'  => 2,
             'create_time' => $time,
             'visitor_id'  => $adminid,
+            'ip'          => $_SERVER["REMOTE_ADDR"],
         ]);
 
         $this->add_file();
@@ -552,7 +470,6 @@ class resource extends Controller
     }
 
     public function del_or_restore_resource() {
-
         $res_id_str  = $this->get_in_str_val('res_id_str','');
         $file_id_str = $this->get_in_str_val('file_id_str','');
         $type   = $this->get_in_str_val('type','');
@@ -582,6 +499,7 @@ class resource extends Controller
                     'visit_type'  => $type,
                     'create_time' => $time,
                     'visitor_id'  => $adminid,
+                    'ip'          => $_SERVER["REMOTE_ADDR"],
                 ]);
             }
             return $this->output_succ();
@@ -619,13 +537,14 @@ class resource extends Controller
             $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info, 1
         );
         // dd($ret_info);
+        $tag_arr = \App\Helper\Utils::get_tag_arr($resource_type);
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
             $item['file_size'] = round( $item['file_size'] / 1024,2);
         }
 
-        return $this->pageView( __METHOD__,$ret_info,['tag_info' => $this->tag_arr[$resource_type]]);
+        return $this->pageView( __METHOD__,$ret_info,['tag_info' => $tag_arr]);
     }
 
 }
