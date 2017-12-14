@@ -33,7 +33,7 @@ class teacher_money extends Controller
         $start_time = $this->get_in_int_val("start_time",strtotime(date("Y-m-01",time())));
         $end_time   = $this->get_in_int_val("end_time",strtotime("+1 month",$start_time));
 
-        $simple_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $simple_info  = $this->t_teacher_info->get_teacher_info($teacherid);
         $teacher_type = $simple_info['teacher_type'];
 
         //拉取上个月的课时信息
@@ -53,7 +53,7 @@ class teacher_money extends Controller
                 $lesson_count = $val['lesson_count']/100;
                 if($val['confirm_flag'] != 2){
                     if($val['lesson_type'] != 2){
-                        $val['money']       = $this->get_teacher_base_money($teacherid,$val);
+                        $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
                         $val['lesson_base'] = $val['money']*$lesson_count;
 
                         $lesson_reward = $this->get_lesson_reward_money(
