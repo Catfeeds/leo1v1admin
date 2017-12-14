@@ -843,7 +843,7 @@ class menu{
                 ["power_id"=>27, "name"=>"老师推荐申请",   "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info_yy"],
                 ["power_id"=>10, "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint_tea"],
                 ["power_id"=>11, "name"=>"微信推送",   "url"=>"/user_manage_new/wx_monitor_new_yy"],
-                //["power_id"=>30, "name"=>"教师预警","url"=>"/teacher_warn/tea_warn_list"]
+                ["power_id"=>30, "name"=>"教师预警","url"=>"/teacher_warn/tea_warn_list"]
             ]],
 
 
