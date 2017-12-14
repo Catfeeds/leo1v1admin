@@ -276,12 +276,12 @@ class resource extends Controller
                 $diff = E\Eresource_diff_level::$desc_map;
                 foreach($free as $f=>$v){
                     foreach($diff as $d=>$val){
-                        $sub_grade_arr = \App\Helper\Utils::get_sub_grade_tag($arr[1],$arr[2]);
+                        $sub_grade_arr = \App\Helper\Utils::get_sub_grade_tag($arr[1],@$arr[2]);
                         foreach($sub_grade_arr as $sg => $value){
                             $this->t_resource_agree_info->row_insert([
                                 'resource_type' => $arr[0],
                                 'subject'       => $arr[1],
-                                'grade'         => $arr[2],
+                                'grade'         => @$arr[2],
                                 'tag_one'       => $region,
                                 'tag_two'       => $f,
                                 'tag_three'     => $d,
