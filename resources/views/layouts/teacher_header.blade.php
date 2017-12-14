@@ -30,6 +30,7 @@
         <!-- bootstrap wysihtml5 - text editor -->
         <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
+        <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/plugins/iCheck/all.css" type="text/css" >
         <link href="/css/new_header.css" rel="stylesheet" type="text/css" />
         <link type="text/css" rel="stylesheet" href="/css/jquery.datetimepicker.css" />
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -128,7 +129,8 @@
                                 <li ><a href="{{@$_cur_http}}/teacher_info/get_teacher_money_info"><i class="fa fa-database"></i>薪资相关</a></li>
                             </ul>
                         </li>
-                        <li  ><a href="{{@$_cur_http}}/teacher_info/file_store"><i class="fa fa-book"></i> <span>资料库</span> </a></li> 
+                        {{-- <li  ><a href="{{@$_cur_http}}/teacher_info/file_store"><i class="fa fa-book"></i> <span>资料库</span> </a></li>--}}
+                        <li  ><a href="{{@$_cur_http}}/teacher_info/tea_resource"><i class="fa fa-book"></i> <span>我的资料</span> </a></li> 
                         <li  ><a href="{{@$_cur_http}}/teacher_info/get_leo_resource"><i class="fa fa-book"></i> <span>理优资料库</span> </a></li> 
                     </ul>
                 </section>
@@ -172,6 +174,7 @@
             <script src="/AdminLTE-2.4.0-rc/dist/js/adminlte.js"></script>
             <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
             <!-- AdminLTE for demo purposes -->
+            <script src="/AdminLTE-2.4.0-rc/plugins/iCheck/icheck.js"></script>
 
             <script src="/js/jquery.admin.js?{{$_publish_version}}" type="text/javascript"></script>
 

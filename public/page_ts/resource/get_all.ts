@@ -543,7 +543,7 @@ $(function(){
                     last_id = last_id -1;
                 }
             }
-        }, 'mp4,pdf,png,jpg','fsUploadProgress');
+        }, 'mp4,pdf,mp3,MP3,MP4,PDF','fsUploadProgress');
 
     };
 
@@ -670,8 +670,7 @@ $(function(){
                 });
 
             }
-        }, 'mp4,pdf,png,jpg','fsUploadProgress');
-
+        }, 'mp4,pdf,mp3,MP3,MP4,PDF','fsUploadProgress'); 
     };
 
     var menu_hide = function(){
