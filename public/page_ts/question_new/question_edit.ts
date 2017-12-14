@@ -123,7 +123,7 @@ $(function(){
             success : function(res){
                 BootstrapDialog.alert(res.msg);
                 if( res.status = 200 ){
-                    window.close();
+                    //window.close();
                 }
             },
             error:function(){

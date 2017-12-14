@@ -1,5 +1,6 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/question_new-knowledge_list.d.ts" />
+/// <reference path="../../js/d3.v3.min.js" />
 
 $(function(){
     Enum_map.append_option_list("subject", $("#id_subject"),true,[1,2,3,4,5,6,7,8,9,10,11]);

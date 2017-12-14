@@ -20,6 +20,19 @@ $(function(){
         //上传图片
         Cquestion_editor.custom_upload( $('#id_mathjax_add_pic_'+id_index)[0],$('#id_mathjax_add_pic_div_'+id_index)[0],domain,null,id_mathjax_content,MathPreview,mathId);
         Cquestion_editor.preview_update(id_question_type,id_mathjax_content,MathPreview,mathId);
+
+        var answer_type = $(this).parents('.answer_step').find('.answer_type').attr('id');
+        Enum_map.append_option_list("answer_type",$("#"+answer_type),true);
+        if( answer_type != 'answer_type_0'){
+            var answer_type_value = $(this).parents('.answer_step').find('.answer_type_value').val();
+            //console.log(answer_type_value);
+            $("#"+answer_type).val(answer_type_value);
+        } 
+    });
+
+    // 为每一个textarea绑定事件使其高度自适应
+    $.each($("textarea"), function(i, n){
+        Cquestion_editor.autoTextarea($(n)[0]);
     });
 
     //失去光标事件
@@ -85,7 +98,7 @@ $(function(){
 
     })
 
-    //保存知识点
+    //保存答案
     $(".answer-save").click(function(){
         var obj = $(this).parents('.answer_step');
         var data = {
@@ -93,10 +106,12 @@ $(function(){
             'question_id':$('#question_id').val(),
             'answer_id':obj.find('.answer_id').val(),
             'step':obj.find('.step').val(),
-            'answer_type':obj.find('.id_answer_type').val(),
+            'answer_type':obj.find('.answer_type').val(),
             'detail':obj.find('.id_mathjax_content').val(),
-            'score':obj.find('.id_answer_score').val(),
+            'score':obj.find('.answer_score').val(),
         };
+        // console.log(data);
+        // return false;
         $.ajax({
             type : "post",
             url : "/question_new/answer_add",
@@ -110,6 +125,22 @@ $(function(){
             },
             error:function(){
                 BootstrapDialog.alert('取出错误');
+            }
+        });
+
+    })
+
+    //删除答案
+    $('.answer-dele').click(function(){
+        var obj = $(this).parents('.answer_step');
+        var data = {
+            'answer_id':obj.find('.answer_id').val(),
+        };
+        var title = "你确定删除本步骤";
+       
+        BootstrapDialog.confirm(title,function(val ){
+            if (val) {
+                $.do_ajax("/question_new/answer_dele",data);
             }
         });
 
