@@ -1185,7 +1185,7 @@
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-2 " style="margin:0 0.3% 0 0;width:100px;">
-                        <div class="input-group " style="margin:0 0 0 -20%;width:100px;">
+                        <div class="input-group " style="margin:0 0 0 -20%;width:80px;">
                             <select id="id_par_type_new_two" class=" form-control " >
                             </select>
                         </div>
@@ -1223,7 +1223,7 @@
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp在读学校：</span>
-                            <input type="text" id="id_stu_school_new_two"  class="form-control" style="width:190px;" />
+                            <input type="text" id="id_stu_school_new_two"  class="form-control" style="width:166px;" />
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-2  ">
