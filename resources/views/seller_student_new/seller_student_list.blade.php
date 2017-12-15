@@ -1285,12 +1285,12 @@
                     </div>
 
                     <div class='col-xs-3 col-md-1' style=''>
-                        <div class='input-group' style='width:60px;'>
+                        <div class='input-group' style='width:78px;'>
                             <input type="text" class=" form-control "  id="id_class_rank_new_two"  placeholder='班级排名' />
                         </div>
                     </div>
-                    <div class='col-xs-3 col-md-1' style="margin:0 4% 0 -4%">
-                        <div class='input-group' style='width:60px;'>
+                    <div class='col-xs-3 col-md-1' style="margin:0 2% 0 -2%">
+                        <div class='input-group' style='width:74px;'>
                             <input type="text" class=" form-control "  id="id_class_num_new_two" placeholder='班级人数' />
                         </div>
                     </div>
@@ -1314,7 +1314,7 @@
                                 <input type='text' class='form-control' id='id_main_subject_score_one_new_two' name='subject_score_one_new_two' placeholder='分数' />
                             </div>
                         </div>
-                        <div class='col-xs-3 col-md-1' style='margin:0 0 0 -4%'>
+                        <div class='col-xs-3 col-md-1' style='margin:0 0.38% 0 -4%'>
                             <div class='input-group' style='width:55px;'>
                                 <input type='text' class='form-control' id='id_main_subject_score_two_new_two' name='subject_score_two_new_two' placeholder='满分' />
                             </div>
