@@ -4429,8 +4429,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "o.price>0",
             "o.contract_status>0",
             "m.account_role=1",
-            "s.origin_userid>0",
-            "s.origin_assistantid>0",
+            //  "s.origin_userid>0",
+            // "s.origin_assistantid>0",
             "s.is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
