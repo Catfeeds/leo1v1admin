@@ -463,4 +463,23 @@ class assistant_performance extends Controller
         
     }
 
+    public function get_assistant_origin_order_losson_info(){
+        list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(date("Y-m-01"),0,1,[
+            1 => array("o.order_time","下单日期"),
+            2 => array("o.pay_time", "生效日期"),
+        ],3);
+
+        $studentid         = $this->get_in_studentid(-1);
+        $page_info          = $this->get_in_page_info();
+        $sys_operator      = $this->get_in_str_val("sys_operator","");       
+        $teacherid         = $this->get_in_teacherid(-1);
+        $origin_userid     = $this->get_in_int_val("origin_userid", -1);          
+        $order_adminid          = $this->get_in_adminid(-1);
+        $ret_info = $this->t_order_info->get_assistant_origin_order_losson_list($start_time,$end_time,$opt_date_type, $studentid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid );
+        dd($ret_info);
+
+
+ 
+    }
+
 }
