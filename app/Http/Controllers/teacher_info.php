@@ -2333,7 +2333,6 @@ class teacher_info extends Controller
             }
             $info['teacherid'] = $teacherid;
             $info['create_time'] = $time;
-            $info['cur_dir'] = '/';
 
             $this->t_teacher_resource->start_transaction();
             $ret = $this->t_teacher_resource->row_insert($info);
@@ -2372,27 +2371,89 @@ class teacher_info extends Controller
         $teacherid = $this->get_login_teacher();
         $page_info = $this->get_in_page_info();
 
+        //生成面包屑
+        $crumbs = $this->get_crumbs($dir_id);
+        if($crumbs == false) {
+            return $this->error_view([
+                "不存在该目录！"
+            ]);
+        }
+
+        //获取文件下的目录
+        $dirs  = $this->t_teacher_resource_dir->get_next_dir($teacherid, $dir_id);
+        $list = [];
+        foreach($dirs as $item){
+            \App\Helper\Utils::unixtime2date_for_item($item,'create_time');
+            $item['file_title'] = $item['name'];
+            $item['file_size'] = '';
+            $item['file_id'] = -1;
+            $item['tea_res_id'] = -1;
+            $list[] = $item;
+        }
+
+        //获取文件
+        $files = $this->t_teacher_resource->get_tea_all_res($teacherid, $dir_id);
+
+        // dd($ret_info);
+        foreach($files as $item){
+            \App\Helper\Utils::unixtime2date_for_item($item,'create_time');
+            $item['file_size'] = round($item['file_size']/1024, 2) . 'M';
+            $list[] = $item;
+        }
+
+        $k = count($crumbs) -1;
+        $cur_dir = $crumbs[$k]['dir_id'];
+        return $this->pageView( __METHOD__, \App\Helper\Utils::list_to_page_info($list) ,[
+            'crumbs'  => $crumbs,
+            'cur_dir' => $cur_dir,
+        ]);
+    }
+
+    public function get_crumbs( $dir_id, $num = 1 ){
+
+        $teacherid = $this->get_login_teacher();
+        $crumbs = [];
+
         if($dir_id != 0){
-            //生成面包屑
-            $par_dir = $this->t_teacher_resource->get_par_dir( $teacherid, $dir_id);
+            if($num == 1){
+                $cur_dir_name = $this->t_teacher_resource_dir->get_name_by_ids($dir_id, $teacherid);
+                if($cur_dir_name == false) {
+                    return false;
+                }
+                $crumbs[] = ['dir_id' => $dir_id, 'name' => $cur_dir_name];
+            }
+
+            $par_dir = $this->t_teacher_resource_dir->get_par_dir( $dir_id);
+            while ($par_dir) {
+                $crumbs[] = $par_dir;
+                $par_dir  = $this->t_teacher_resource_dir->get_par_dir( $par_dir['dir_id']);
+            }
+            $crumbs[] = [ 'dir_id' => 0, 'name' => '我的课件'];
+
         } else {
             $crumbs = [[ 'dir_id' => 0, 'name' => '我的课件']];
         }
-        //获取文件
-        $files = $this->t_teacher_resource->get_tea_all_res($teacherid, $dir_id, $page_info);
-        //获取文件下的目录
-        $dirs  = $this->t_teacher_resource_dir->get_next_dir($teacherid, $dir_id, $page_info);
-
-        // dd($ret_info);
-        foreach($ret_info['list'] as &$item){
-            \App\Helper\Utils::unixtime2date_for_item($item,'create_time');
-            $item['file_size'] = round($item['file_size']/1024, 2);
-        }
-        return $this->pageView( __METHOD__,$ret_info,[
-            'cur_dir' => $cur_dir,
-            'crumbs'  => $crumbs,
-        ]);
-
+        $crumbs = array_reverse($crumbs);
+        return $crumbs;
     }
 
+    public function tea_edit_dir(){
+        $type   = $this->get_in_str_val('type');
+        $name   = trim($this->get_in_str_val('name'));
+        $dir_id = $this->get_in_int_val('dir_id');
+        $teacherid = $this->get_login_teacher();
+
+        if($type == 'add'){//添加目录
+            if($name === ''){
+                return $this->output_err('请输入文件夹名！');
+            }
+            $this->t_teacher_resource_dir->row_insert([
+                'name'      => $name,
+                'teacherid' => $teacherid,
+                'pid'       => $dir_id,
+                'create_time' => time(),
+            ]);
+            return $this->output_succ();
+        }
+    }
 }

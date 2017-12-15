@@ -11,6 +11,33 @@ function load_data(){
 $(function(){
 
 
+    $('.opt-add-dir').on('click', function(){
+        var dir_name = $("<input/>");
+        var arr=[
+            ["文件夹名称", dir_name  ]
+        ];
+        $.show_key_value_table("新建文件夹", arr, {
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                do_ajax("/teacher_info/tea_edit_dir", {
+                    "name"   : dir_name.val(),
+                    "type"   : 'add',
+                    "dir_id" : cur_dir_id
+                },function(ret){
+                    if(ret.ret == 0){
+                        BootstrapDialog.alert("操作成功！");
+                        setTimeout(function(){
+                            window.location.reload();
+                        },1000);
+                    } else {
+                        BootstrapDialog.alert(ret.info);
+                    }
+                });
+            }
+        } );
+
+    });
 	  $('#id_cur_dir').val(g_args.cur_dir);
 
     $("#id_select_all").on("click",function(){
