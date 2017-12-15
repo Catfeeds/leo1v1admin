@@ -298,65 +298,6 @@ class test_sam  extends Controller
     }
 
 
-    /**
-     * 获取API访问授权码
-     * @param ak: ak from 
-     * @param sk: sk from
-     * @return - access_token string.
-     */
-    public function test_api(){
-        /*
-        $url = 'https://aip.baidubce.com/oauth/2.0/token';
-        $post_data = array();
-        $post_data['grant_type']  = 'client_credentials';
-        $post_data['client_id']   = "DnWrWPzs2ttw1i4gz5Fw3DDW";
-        $post_data['client_secret'] = "P3Pv2nGctlWo0aMdmhBI2BQfiFdG7aD0";
-
-        //$res = request_post($url, $post_data);
-        $paramsString = http_build_query($post_data);//生成 URL-encode 之后的请求字符串
-        $content = @file_get_contents($url.'?'.$paramsString);
-        $result = json_decode($content,true);
-        dd($result['access_token']);
-        */
-        //access_token = 24.a61cb86d3bb7dec62573e2255533810d.2592000.1512616816.282335-10331868
-         /*
-        $url = 'https://aip.baidubce.com/oauth/2.0/token';
-        $post_data = array();
-        $post_data['grant_type']  = 'client_credentials';
-        $post_data['client_id']   = "DnWrWPzs2ttw1i4gz5Fw3DDW";
-        $post_data['client_secret'] = "P3Pv2nGctlWo0aMdmhBI2BQfiFdG7aD0";
-
-        //$res = request_post($url, $post_data);
-        $paramsString = http_build_query($post_data);//生成 URL-encode 之后的请求字符串
-        $content = @file_get_contents($url.'?'.$paramsString);
-        $result = json_decode($content,true);
-        dd($result['access_token']);
-        */
-        //access_token = 24.a61cb86d3bb7dec62573e2255533810d.2592000.1512616816.282335-10331868
-        $url = "https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic";
-        $access_token = "24.a61cb86d3bb7dec62573e2255533810d.2592000.1512616816.282335-10331868";
-
-
-        //        $token = '#####调用鉴权接口获取的token#####';
-        //$url = 'https://aip.baidubce.com/rest/2.0/ocr/v1/general?access_token=' . $token;
-        $url = $url .'?access_token='.$access_token;
-        $img_url = "https://www.sy8.com/image/banner0.jpg";
-        $img = file_get_contents($img_url);
-        $img = base64_encode($img);
-        $bodys = array(
-            "image" => $img
-        );
-        $res = $this->request_post($url, $bodys);
-        dd($res);
-        var_dump($res);
-        dd(2);
-        if (!!$res) {
-            $res = json_decode($res, true);
-            return $res['access_token'];
-        } else {
-            return false;
-        }
-    }
 
     function request_post($url = '', $param = '')
     {
@@ -419,8 +360,6 @@ class test_sam  extends Controller
         }
         echo($arr['plan_renew_num']);
         dd($renew_student_list);
-        
-
         $list = "53438,57625,58808,60607,62720,70502,72798,76535,77137,78663,78961,79968,80019,82064,87068,87949,88170,93576,93880,94197,94633,95563,97282,99086,99787,100580,101474,102265,103100,104761,104864,105452,109494,109613,111253,111887,113385,114104,115305,116906,117052,118248,118756,124831,127365,129393,129687,131854,135497,136949,137648,141988,142065,143199,146825,147080,148123,148193,148629,149113,150455,151208,152143,153082,155277,155472,155970,156325,156630,156938,158360,158763,158783,158967,159691,160637,160697,161341,161693,161929,163139,163295,163594,164961,164962,165566,165692,165703,165953,166031,167430,167758,167772,168650,169869,170119,170258,170899,170990,173707,174255,174861,175286,177305,177817,178851,179122,180057,181322,182334,188378,189133,189869,190585,190978,192344,198059,199145,199459,200219,200614,200874,201496,203228,211370,217827,219486,219758,220789,224581,225971,227626,229056,229559,229965,234117,234273,235081,241841,243476,244955,245274,247294,248099,250129,250208,255353,259789,263306,263686,273287,277667,284174,287480,291054,300739";
         $student = explode(",",$list);
         foreach ($student as $key => $value) {
