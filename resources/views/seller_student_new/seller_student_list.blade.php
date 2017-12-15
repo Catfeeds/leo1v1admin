@@ -481,7 +481,7 @@
                                 @if($account_role==12 || in_array($account,['tom','jim']))
                                     <a title="试听申请new" class="  fa-chevron-up opt-edit-new_new_two"></a>
                                     <a title="试听申请new" class="  fa-chevron-up opt-post-test-lesson_new"
-                                       @if($account_role!=12 && !in_array($account,['tom','jim']))
+                                       @if(!in_array($account,['tom','jim']))
                                        style="display:none;"
                                        @endif
                                     ></a>
