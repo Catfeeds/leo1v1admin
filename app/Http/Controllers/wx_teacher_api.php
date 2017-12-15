@@ -1034,15 +1034,12 @@ class wx_teacher_api extends Controller
         $ret_info['lesson_time_str'] = date('m-d H:i',$ret_info['lesson_start'])." ~ ".date('H:i',$ret_info['lesson_end']);
         $ret_info['gender_str'] = E\Egender::get_desc($ret_info['gender']);
 
-        //t_test_lesson_subject.subject_tag
         $subject_tag_arr = json_decode($ret_info['subject_tag'],true);
-        //上课要求标签[未定]
         $ret_info['style'] = $subject_tag_arr['风格性格'];
         $ret_info['major'] = $subject_tag_arr['专业能力'];
         $ret_info['identity'] = E\Eidentity::get_desc($ret_info['identity']);
-        $ret_info['atmosphere'] = $subject_tag_arr['课堂氛围'];
+        $ret_info['atmosphere'] = $subject_tag_arr['课堂气氛'];
         $ret_info['courseware'] = $subject_tag_arr['课件要求'];
-        //学科化内容标签[未定]
         $ret_info['subject_tag'] = $subject_tag_arr['学科化标签'];
 
         // 数据待确认
