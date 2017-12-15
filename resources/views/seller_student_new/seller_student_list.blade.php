@@ -1282,7 +1282,7 @@
             </div>
             <div class="col-xs-12 col-md-12  ">
                 <div class="row">
-                    <div class="col-xs-12 col-md-1 " >
+                    <div class="col-xs-12 col-md-1" >
                         <div class="input-group ">
                             <span class="input-group-addon" style="height:34px;"><font style="color:red">*</font>&nbsp综合排名：</span>
                         </div>
@@ -1293,8 +1293,8 @@
                             <input type="text" class=" form-control "  id="id_class_rank_new_two"  placeholder='班级排名' />
                         </div>
                     </div>
-                    <div class='col-xs-3 col-md-1' style="margin:0 2% 0 -2%">
-                        <div class='input-group' style='width:74px;'>
+                    <div class='col-xs-3 col-md-1' style="margin:0 2% 0 -3%">
+                        <div class='input-group' style='width:70px;'>
                             <input type="text" class=" form-control "  id="id_class_num_new_two" placeholder='班级人数' />
                         </div>
                     </div>
@@ -1314,12 +1314,12 @@
                             </div>
                         </div>
                         <div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'>
-                            <div class='input-group' style='width:55px;'>
+                            <div class='input-group' style='width:45px;'>
                                 <input type='text' class='form-control' id='id_main_subject_score_one_new_two' name='subject_score_one_new_two' placeholder='分数' />
                             </div>
                         </div>
-                        <div class='col-xs-3 col-md-1' style='margin:0 0.38% 0 -4%'>
-                            <div class='input-group' style='width:55px;'>
+                        <div class='col-xs-3 col-md-1' style='margin:0 0.1% 0 -4.5%'>
+                            <div class='input-group' style='width:50px;'>
                                 <input type='text' class='form-control' id='id_main_subject_score_two_new_two' name='subject_score_two_new_two' placeholder='满分' />
                             </div>
                         </div>
