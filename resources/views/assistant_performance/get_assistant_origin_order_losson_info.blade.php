@@ -86,10 +86,10 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["account"]}} </td>
+                        <td>{{@$var["name"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["phone_ex"]}} </td>
-                        <td>{{@$var["garde_str"]}} </td>
+                        <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["price"]/100}} </td>
