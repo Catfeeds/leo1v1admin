@@ -3624,6 +3624,9 @@ class ss_deal extends Controller
                 "system"
             );
 
+            $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"转介绍","学生[$nick][$phone]","助教自签,类型1","/seller_student_new/seller_student_list_all?userid=$userid");
+
+
  
         }elseif($origin_flag==2){
             $sub_assign_adminid_1=0;
@@ -3667,7 +3670,7 @@ class ss_deal extends Controller
             ]);
 
             $this->t_manager_info->send_wx_todo_msg_by_adminid($sub_assign_adminid_1,"转介绍","学生[$nick][$phone]","","/seller_student_new/seller_student_list_all?userid=$userid");
-            $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"转介绍","学生[$nick][$phone]","总监:".$sub_assign_adminid_1,"/seller_student_new/seller_student_list_all?userid=$userid");
+            $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"转介绍","学生[$nick][$phone]","总监:".$sub_assign_adminid_1."类型2","/seller_student_new/seller_student_list_all?userid=$userid");
 
             $name = $this->t_manager_info->get_account($sub_assign_adminid_1);
             $this->t_book_revisit->add_book_revisit(
@@ -3691,6 +3694,8 @@ class ss_deal extends Controller
                 $this->t_seller_student_new->set_admin_info(0,[$userid],$admin_revisiterid,$admin_revisiterid);
                 $nick=$this->t_student_info->get_nick($userid);
                 $this->t_manager_info->send_wx_todo_msg_by_adminid($admin_revisiterid,"转介绍","学生[$nick][$phone]","","/seller_student_new/seller_student_list_all?userid=$userid");
+
+                $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"转介绍","学生[$nick][$phone]","给原销售,类型3","/seller_student_new/seller_student_list_all?userid=$userid");
             }
 
         }
