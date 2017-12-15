@@ -1,11 +1,12 @@
 #!/bin/bash
 cd $(dirname $0)
 project_name=class_api
+#rm  -rf ./php_${project_name} 
 ./gen_proto  --controller_dir=./  $project_name
 
-#rm -rf ../app/proto/$project_name/
-#mkdir -p   ../app/proto/
-#cp -rf ./php_${project_name} ../app/proto/$project_name
+rm -rf ~/api_class/app/proto/$project_name/
+mkdir -p   ~/api_class/app/proto 
+cp -rf ./php_${project_name} ~/api_class/app/proto/$project_name
 
 
 mkdir -p ../public/proto/

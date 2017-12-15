@@ -13,4 +13,5 @@ class teacher_common extends Controller
     function login() {
         
     }
+
 }

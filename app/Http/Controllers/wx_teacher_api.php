@@ -1034,17 +1034,13 @@ class wx_teacher_api extends Controller
         $ret_info['lesson_time_str'] = date('m-d H:i',$ret_info['lesson_start'])." ~ ".date('H:i',$ret_info['lesson_end']);
         $ret_info['gender_str'] = E\Egender::get_desc($ret_info['gender']);
 
-        //t_test_lesson_subject.subject_tag
         $subject_tag_arr = json_decode($ret_info['subject_tag'],true);
-        //上课要求标签[未定]
-        $ret_info['style'] = '风格标签';
-        $ret_info['major'] = '专业标签';
-        $ret_info['identity'] = '身份标签';
-        $ret_info['atmosphere'] = '课堂氛围标签';
-        $ret_info['courseware'] = '课件要求';
-        //学科化内容标签[未定]
-        $ret_info['subject_tag_a'] = '学科标签A';
-        $ret_info['subject_tag_b'] = '学科标签B';
+        $ret_info['style'] = $subject_tag_arr['风格性格'];
+        $ret_info['major'] = $subject_tag_arr['专业能力'];
+        $ret_info['identity'] = E\Eidentity::get_desc($ret_info['tea_identity']);
+        $ret_info['atmosphere'] = $subject_tag_arr['课堂气氛'];
+        $ret_info['courseware'] = $subject_tag_arr['课件要求'];
+        $ret_info['subject_tag'] = $subject_tag_arr['学科化标签'];
 
         // 数据待确认
         $ret_info['handout_flag'] = 0; //无讲义
@@ -1067,9 +1063,6 @@ class wx_teacher_api extends Controller
         $jw_nick  = $this->cache_get_account_nick($lesson_info['accept_adminid']);
         $lesson_time_str = date('m-d H:i',$lesson_info['lesson_start'])." ~ ".date("H:i",$lesson_info['lesson_end']);
 
-        \App\Helper\Utils::logger("james:tea: $status");
-
-
         if($status == 1){ //接受 []
             /**
              * @ 教务排课的推送 家长 | CC推送需要取消
@@ -1085,11 +1078,11 @@ class wx_teacher_api extends Controller
 
             $wx = new \App\Helper\WxSendMsg();
             $wx->send_ass_for_first("orwGAszZI_oaYSXVfb_Va6BlhtW0", $data, $url);//james
-            // $wx->send_ass_for_first($lesson_info['wx_openid'], $data, $url);
+            $wx->send_ass_for_first($lesson_info['wx_openid'], $data, $url);
 
 
-            // $parentid = $this->t_student_info->get_parentid_by_lessonid($lessonid);
-            $parentid = 271968;//james
+            $parentid = $this->t_student_info->get_parentid_by_lessonid($lessonid);
+            // $parentid = 271968;//james
             if($parentid>0){
                 $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
             }
@@ -1124,8 +1117,8 @@ class wx_teacher_api extends Controller
             $url = "http://admin.leo1v1.com/seller_student_new2/test_lesson_plan_list_jx";
             $wx = new \App\Helper\WxSendMsg();
             $jw_openid = $this->t_manager_info->get_wx_openid($lesson_info['accept_adminid']);
-            $wx->send_ass_for_first("orwGAszZI_oaYSXVfb_Va6BlhtW0", $data, $url);//james
-           // $wx->send_ass_for_first($jw_openid, $data, $url);
+            // $wx->send_ass_for_first("orwGAszZI_oaYSXVfb_Va6BlhtW0", $data, $url);//james
+            $wx->send_ass_for_first($jw_openid, $data, $url);
         }
 
         $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
@@ -1142,21 +1135,24 @@ class wx_teacher_api extends Controller
         $teacher_info['tea_gender_str'] = E\Egender::get_desc($teacher_info['tea_gender']);
         $teacher_info['identity_str'] = E\Eidentity::get_desc($teacher_info['identity']);
         $teacher_info['textbook_type_str'] = E\Etextbook_type::get_desc($teacher_info['textbook_type']);
+        $tag_arr = array_keys(json_decode($teacher_info['teacher_tags'],true));
 
-        $tea_label_type_arr = json_decode($teacher_info['tea_label_type'],true);
+        $tag_l1_sort  = '教师相关';
+        $tag_l2_sort  = '风格性格';
+        $tag_lib_arr_two = $this->t_tag_library->getTeacherCharacter($tag_l1_sort, $tag_l2_sort);
+        $tag_list = [];
+        foreach($tag_lib_arr_two as $v){
+            $tag_list[] = $v['tag_name'];
+        }
+        $tea_label_arr = array_intersect($tag_list,$tag_arr);
         $tea_label_type_str = "";
-
-        if($tea_label_type_arr){
-            foreach($tea_label_type_arr as $item){
-                $tea_label_type_str.=E\Etea_label_type::get_desc($item)."  ";
-            }
+        foreach($tea_label_arr as $v){
+            $tea_label_type_str.=$v." ";
         }
 
         $teacher_info['tea_label_str'] = $tea_label_type_str;
         return $this->output_succ(["data"=>$teacher_info]);
     }
-
-
 
 
 }

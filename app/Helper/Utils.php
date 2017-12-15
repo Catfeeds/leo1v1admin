@@ -1481,26 +1481,6 @@ class Utils  {
         return $validty_time;
     }
 
-    //黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
-    //张珍颖奥数 58812 所有都是75元/课时
-    //学生吕穎姍 379758 的课时费在在他升到高一年级前都按高一来算
-    static public function get_teacher_base_money($teacherid,$lesson_info){
-        $money            = $lesson_info['money'];
-        //黄嵩婕切换新版工资版本时间,之前的课程计算工资不变,之后的工资变成新版工资
-        $huang_check_time = strtotime("2017-9-20");
-        $zhang_check_time = strtotime("2017-9-22");
-        $lv_check_time    = strtotime("2019-9-1");
-
-        if($teacherid==71743 && $lesson_info['lesson_start']<$huang_check_time){
-            $money=60;
-        }elseif($teacherid==58812 && $lesson_info['competition_flag']==1 && $lesson_info['lesson_start']<$zhang_check_time){
-            $money=75;
-        }elseif($lesson_info['userid']==379758 && $lesson_info['lesson_start']<$lv_check_time){
-
-        }
-        return $money;
-    }
-
     /**
      * 检测某个参数是否存在并 赋值/增加
      * @param data 需检测的参数
@@ -2535,7 +2515,6 @@ class Utils  {
             return $arr;
         }
     }
-
 
 
 

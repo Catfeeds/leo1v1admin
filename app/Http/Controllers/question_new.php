@@ -42,7 +42,7 @@ class question_new extends Controller
             $ret['describe'] = '编辑题目';
         }
         $editData = json_encode($editData);
-        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712121617","ret"=>$ret,'editData'=>$editData]);
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712131617","ret"=>$ret,'editData'=>$editData]);
  
     }
 
@@ -109,10 +109,6 @@ class question_new extends Controller
 
     }
 
-    public $know_arr = [];
-
-    public $tree_arr = [];
-
     public function knowledge_list(){
         $subject   = $this->get_in_int_val('id_subject',1);
         $where_arr = [
@@ -120,30 +116,31 @@ class question_new extends Controller
         ];
 
         $ret_list = $this->t_knowledge_point->knowledge_list($where_arr,null);
+        $ret = [];
         if($ret_list['list']){
-            $this->know_arr = $ret_list['list'];
-            $this->get_tree(0,[]);
-            $ret_list['list'] = $this->tree_arr;
-
-        }
-        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712121056"]);
-    }
-
-
-    private function get_tree($father_id,$ret){
-        $know_arr = $this->know_arr;
-        if($know_arr){
-            foreach( $know_arr as &$item ){
-                if( $item['father_id'] == $father_id){
-                    $item['subject_str'] = E\Esubject::get_desc($item['subject']);
-                    $before = str_repeat('===> ',$item['level']);
-                    $item['title'] = $before.$item['title'];
-                    $this->tree_arr[] = $item;
-                    $this->get_tree($item['knowledge_id'],$ret);
-                } 
+        
+            foreach( $ret_list['list'] as &$item){
+                $arr['name'] = $item['title'];
+                $arr['id'] = $item['knowledge_id'];
+                $arr['pId'] = $item['father_id'];
+                $arr['editType'] = 2;
+                $ret[] = $arr;
             }
         }
-        return true;
+        //dd($ret);
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712141356",'ret'=> json_encode($ret)]);
+    }
+
+    public function knowledge_get(){
+        $knowledge_id = $this->get_in_int_val('knowledge_id','');
+        $level = $this->get_in_int_val('level',0);
+        $file_path = "/home/bacon/admin_yb1v1/flare.json";
+        $jsonData = '';
+        if(file_exists($file_path)){
+            $jsonData = file_get_contents($file_path);
+        }
+        //dd($jsonData);
+        return $jsonData;
     }
 
     public function knowledge_edit(){
@@ -193,17 +190,27 @@ class question_new extends Controller
         $knowledge_id   = $this->get_in_int_val('knowledge_id',0);
         $data = [];
         $data['subject'] = $this->get_in_int_val('subject',1);
-        $data['title']   = $this->get_in_str_val('title','');
+        $data['title']   = $this->get_in_str_val('title');
         $data['detail']   = $this->get_in_str_val('detail','');
-        $data['level']   = $this->get_in_int_val('level',0);
-        $data['father_id']   = $this->get_in_int_val('father_id',0);
-        $data['father_other']   = $this->get_in_str_val('father_other','');
         $data['open_flag']   = $this->get_in_int_val('open_flag',1);
+
+        $levData = [];
+        $levData['father_id']   = $this->get_in_int_val('father_id',0);
+
         if( $editType == 1 ){
             $ret = $this->t_knowledge_point->row_insert($data);
             if($ret){
-                $result['status'] = 200;
-                $result['msg'] = "添加成功";
+                $levData['knowledge_id'] = $this->t_knowledge_point->get_last_insertid();
+                $retinfo = $this->t_knowledge_level->row_insert($levData);
+                if($retinfo){
+                    $result['id'] = $levData['knowledge_id'];
+                    $result['status'] = 200;
+                    $result['msg'] = "添加成功";
+
+                }else{
+                    $result['status'] = 500;
+                    $result['msg'] = "知识点添加成功，父级添加失败";
+                }         
             }else{
                 $result['status'] = 500;
                 $result['msg'] = "添加失败";
@@ -214,7 +221,7 @@ class question_new extends Controller
         if( $editType == 2 ){
             $ret = $this->t_knowledge_point->field_update_list($knowledge_id,$data);
             if($ret){
-                $result['status'] = 200;
+                $result['status'] = 201;
                 $result['msg'] = "更新成功";
             }else{
                 $result['status'] = 500;
@@ -332,18 +339,26 @@ class question_new extends Controller
         $ret = $this->t_answer->answer_list($where_arr);
         $next_step = 10;
         $i = 1;
+        $type = 1;
         if($ret){
             foreach( $ret as &$item ){
                 $item['difficult_str'] = E\Equestion_difficult_new::get_desc($item['difficult']);
-                $item['step_str'] = "第".$i."步";
-                $i++;
+                if( $type == $item['answer_type']){
+                    $item['step_str'] = E\Eanswer_type::get_desc($type).$i;
+                    $i++;
+                }else{
+                    $type = $item['answer_type'];
+                    $i = 1;
+                    $item['step_str'] = E\Eanswer_type::get_desc($type).$i;
+                }
+
             }
             $next_step = (int)end($ret)['step'] + 10;
         }
 
         //获取题目信息
         $question_info = $this->t_question->get_question_info($question_id);
-        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712061556",
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712131058",
                                                   'ret'=>$ret,
                                                   'next_step'=>$next_step,
                                                   'question'=>$question_info
@@ -352,40 +367,49 @@ class question_new extends Controller
     }
 
     public function answer_add(){
+        $editType   = $this->get_in_int_val('editType',0);
         $step = $this->get_in_int_val('step');
         $answer_id = $this->get_in_int_val('answer_id');
         $question_id = $this->get_in_int_val('question_id');
-        $knowledge_id = $this->get_in_int_val('knowledge_id');
+        $answer_type = $this->get_in_int_val('answer_type');
         $difficult   = $this->get_in_int_val('difficult',1);
         $score   = $this->get_in_int_val('score',0);
         $detail   = $this->get_in_str_val('detail','');
 
-        //查看该答题步骤是否存在
-        $is_exit = $this->t_answer->is_exit_edit_step($answer_id,$question_id,$step);
-        if($is_exit){
-            $result['status'] = 500;
-            $result['msg'] = "该答题步骤数已经存在，请重新输入步骤数";
-            return $this->output_succ($result); 
-
-        }
-
-        $updateArr = [
+        
+        $data = [
             "step"   => $step,
             "question_id"   => $question_id,
-            "knowledge_id"   => $knowledge_id,
+            "answer_type"   => $answer_type,
             "difficult"   => $difficult,
             "score"   => $score,
             "detail"   => $detail,
         ];
+        //dd($data);
+        // dd($editType);
+        if( $editType == 1 ){
+            $ret = $this->t_answer->row_insert($data);
+            if($ret){
+                $result['status'] = 200;
+                $result['msg'] = "添加成功";
+            }else{
+                $result['status'] = 500;
+                $result['msg'] = "添加失败";
+            }
+            return $this->output_succ($result); 
+        }
 
-        if($this->t_answer->field_update_list($answer_id,$updateArr)){
-            $result['status'] = 200;
-            $result['msg'] = "更新成功";
+        if( $editType == 2 ){
+            $ret = $this->t_answer->field_update_list($answer_id,$data);
+            if($ret){
+                $result['status'] = 200;
+                $result['msg'] = "更新成功";
+            }else{
+                $result['status'] = 500;
+                $result['msg'] = "更新失败";
+            }
             return $this->output_succ($result); 
-        }else{
-            $result['status'] = 500;
-            $result['msg'] = "更新失败";
-            return $this->output_succ($result); 
+
         }
 
     }

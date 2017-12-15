@@ -1,5 +1,7 @@
 <?php
 return array(
+    ['db_weiyi','t_teacher_full_part_trans_info','id'],
+    ['db_weiyi','t_teacher_resource_dir','dir_id'],
     ['db_weiyi','t_teacher_resource','tea_res_id'],
     ['db_weiyi','t_teacher_warn','id'],
     ["db_weiyi","t_resource_agree_info","agree_id"],
@@ -305,5 +307,7 @@ return array(
     ["db_question_new","t_question","question_id"] ,
     ["db_question_new","t_knowledge_point","knowledge_id"] ,
     ["db_question_new","t_answer","answer_id"] ,
-    ["db_question_new","t_question_knowledge","id"], 
+    ["db_question_new","t_question_knowledge","id"],
+    ["db_question_new","t_knowledge_level","id"], 
+
 );

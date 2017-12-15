@@ -141,6 +141,9 @@
                                         <a class="opt-test">测试</a>
                                     @endif
                                 @endif
+                                @if($var["trial_train_status"] ==4 && in_array($acc,["coco","jack","艾欣","孙瞿","jim"]))
+                                    <a class="opt-lesson-recover" >无效数据恢复</a>
+                                @endif
                                 @if($var["stu_comment"])
                                     <a class="opt-get-stu-comment">课后评价</a> 
                                 @endif

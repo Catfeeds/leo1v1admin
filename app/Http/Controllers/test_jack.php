@@ -697,27 +697,49 @@ class test_jack  extends Controller
     }
 
     public function test_wx(){
-        // /**
-        //  * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
-        //  * 标题课程 : 待办事项提醒
-        //  * {{first.DATA}}
-        //  * 待办主题：{{keyword1.DATA}}
-        //  * 待办内容：{{keyword2.DATA}}
-        //  * 日期：{{keyword3.DATA}}
-        //  * {{remark.DATA}}
-        //  */
-        // $data=[];
-        // $url = "";
-        // $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-        // $data['first']    = "老师您好,为方便您尽快完成理优入职流程,特邀您参加在线【新师培训】";
-        // $data['keyword1'] = "新师培训";
-        // $data['keyword2'] = "参训方法:登录老师端-我的培训-新师培训-进入课堂(提前5分钟)";
-        // $data['keyword3'] = date("Y-m-d H:i",time());
-        // $data['remark']   = "如有疑问,可在新师培训QQ群:315540732 咨询【师训】老师";
-        // $url="";
-        // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+        $this->t_flow_node->row_insert([
+            "node_type"=>1,
+            "flowid"   =>4713,
+            "adminid"  =>1004,
+            "add_time" =>time()
+        ]);
+        dd(1111);
+        $ret_info   = $this->t_flow_node->get_node_list(4713,"asc");
+        dd($ret_info);
+
+        /**
+         * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+         * 标题课程 : 待办事项提醒
+         * {{first.DATA}}
+         * 待办主题：{{keyword1.DATA}}
+         * 待办内容：{{keyword2.DATA}}
+         * 日期：{{keyword3.DATA}}
+         * {{remark.DATA}}
+         */
+
+        $data=[];
+        $url = "";
+        $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+
+        $history_flag = $this->get_in_int_val("history",1);
+        if($history_flag==1){
+            $data['first']    = "老师您好,为方便您尽快完成理优入职流程,特邀您观看【新师培训】回放视频";
+            $data['keyword1'] = "新师培训";
+            $data['keyword2'] = "参训方法:登录老师端-我的培训-新师培训-播放视频";
+            $data['keyword3'] = date("Y-m-d H:i",time());
+            $data['remark']   = "如有疑问,可在新师培训QQ群:315540732 咨询【师训】老师"; 
+        }elseif($history_flag==0){
+            $data['first']    = "老师您好,为方便您尽快完成理优入职流程,特邀您参加在线【新师培训】";
+            $data['keyword1'] = "新师培训";
+            $data['keyword2'] = "参训方法:登录老师端-我的培训-新师培训-进入课堂(提前5分钟)";
+            $data['keyword3'] = date("Y-m-d H:i",time());
+            $data['remark']   = "如有疑问,可在新师培训QQ群:315540732 咨询【师训】老师"; 
+
+        }
+        $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
         
-        // \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+        \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+        dd(111);
 
 
         // $start_time = strtotime("2016-12-01");
@@ -936,6 +958,13 @@ class test_jack  extends Controller
     }
 
     public function ajax_deal_jack(){
+        $teacherid             = $this->get_in_int_val("teacherid");
+        $start_time            = $this->get_in_int_val("start_time");
+        $end_time             = $this->get_in_int_val("end_time");
+        $list = $this->t_lesson_info_b3->get_teacher_lesson_info($teacherid,$start_time,$end_time,[],false);
+        $data = @$list[0];
+        return $this->output_succ($data);
+
         $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
         $week_start = $date_week["sdate"]-14*86400;
         $week_end = $date_week["sdate"]+21*86400;
@@ -1068,14 +1097,16 @@ class test_jack  extends Controller
         // }
         // dd($ret);
 
+        $start = $this->get_in_str_val("start","2017-01-01");
+        $end = $this->get_in_str_val("end","2017-02-01");
+        $start_time = strtotime($start);
+        $end_time = strtotime($end);
+     
 
-        // $start_time = strtotime("2017-01-01");
-        // $end_time = strtotime("2017-12-01");
-
-        // $list =  $this->t_teacher_info->get_all_train_throuth_teacher_list($start_time,$end_time);
-        // foreach($list as &$item){
-        //     E\Eidentity::set_item_value_str($item);
-        // }
+        $list =  $this->t_teacher_info->get_all_train_throuth_teacher_list($start_time,$end_time);
+        foreach($list as &$item){
+            E\Eidentity::set_item_value_str($item);
+        }
 
         // $this->switch_tongji_database();
         // $start_time = time()-5*86400;
@@ -1111,9 +1142,11 @@ class test_jack  extends Controller
         //     E\Esubject::set_item_value_str($item,"subject");
 
         // }
-        $list=[1];
+        // $list=[1];
         return $this->pageView(__METHOD__,null,[
-            "list"  =>$list
+            "list"  =>$list,
+            "start_time"=>$start_time,
+            "end_time" =>$end_time
         ]);
 
         // $first_month = strtotime("2016-01-01");
@@ -1324,9 +1357,13 @@ class test_jack  extends Controller
 
     }
 
+    public function test_sms(){
+        \App\Helper\Net::send_sms_taobao(13661596957,0, 10671029,[
+            "code"  => 1111,
+            "index" => 3,
+        ]);
 
-
-
+    }
 
 
    

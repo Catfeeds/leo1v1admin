@@ -26,7 +26,7 @@ class resource extends Controller
         $tag_two       = $this->get_in_int_val('tag_two', -1);
         $tag_three     = $this->get_in_int_val('tag_three', -1);
         $tag_four      = $this->get_in_int_val('tag_four', -1);
-        $file_title    = $this->get_in_str_val('file_title', '');
+        $file_title    = trim( $this->get_in_str_val('file_title', '') );
         $page_info     = $this->get_in_page_info();
 
         $ret_info = $this->t_resource->get_all(
@@ -276,12 +276,12 @@ class resource extends Controller
                 $diff = E\Eresource_diff_level::$desc_map;
                 foreach($free as $f=>$v){
                     foreach($diff as $d=>$val){
-                        $sub_grade_arr = \App\Helper\Utils::get_sub_grade_tag($arr[1],$arr[2]);
+                        $sub_grade_arr = \App\Helper\Utils::get_sub_grade_tag($arr[1],@$arr[2]);
                         foreach($sub_grade_arr as $sg => $value){
                             $this->t_resource_agree_info->row_insert([
                                 'resource_type' => $arr[0],
                                 'subject'       => $arr[1],
-                                'grade'         => $arr[2],
+                                'grade'         => @$arr[2],
                                 'tag_one'       => $region,
                                 'tag_two'       => $f,
                                 'tag_three'     => $d,
@@ -383,7 +383,7 @@ class resource extends Controller
 
     public function add_file() {
         $resource_id   = $this->get_in_int_val('resource_id','');
-        $file_title    = $this->get_in_str_val('file_title');
+        $file_title    = trim($this->get_in_str_val('file_title'));
         $file_hash     = $this->get_in_str_val('file_hash');
 
         $file_size     = round( $this->get_in_int_val('file_size')/1024, 2);

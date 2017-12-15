@@ -1241,8 +1241,9 @@ class user_manage_new extends Controller
                             $item3['id'] = $k3;
                             $item3['pId'] = $k2;
                             $check3 = false;
+                            //echo $item['']
                             if (isset($power_map[$item3['page_id']]) && $power_map[$item3['page_id']]) {
-                                $check = true;
+                                $check3 = true;
                                 $k ++;
                             }
                             $item3['checked'] = $check3;

@@ -13,10 +13,10 @@ interface RowData {
 	title	:any;
 	subject	:any;
 	detail	:any;
+	open_flag	:any;
+	id	:any;
 	level	:any;
 	father_id	:any;
-	father_other	:any;
-	open_flag	:any;
 	subject_str	:any;
 }
 

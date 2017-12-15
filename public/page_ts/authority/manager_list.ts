@@ -247,6 +247,9 @@ $(function(){
         var $email=$("<input/>");
         var $role=$("<select/>");
         var $account_role=$("<select/>");
+        var date = new Date();
+        var currentdate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+        var $become_member_time=$("<input value=" + currentdate + " >");
 
         $.do_ajax("/user_deal/admin_group_list_js",{},function(resp){
             var str="";
@@ -276,7 +279,10 @@ $(function(){
             ["email", $email],
             ["角色", $account_role],
             ["权限", $role ],
+            ['入职时间', $become_member_time]
         ];
+        initPicker($become_member_time);
+
         $.show_key_value_table("新增用户", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
@@ -294,7 +300,8 @@ $(function(){
                     'phone': $phone.val(),
                     'groupid': $role.val(),
                     'passwd': account,
-                    'account_role': $account_role.val()
+                    'account_role': $account_role.val(),
+                    'become_member_time':$become_member_time.val()
                 });
             }
         });
@@ -319,6 +326,7 @@ $(function(){
         var $call_phone_type =$("<select/>");
         var $main_department =$("<select/>");
         var $call_phone_passwd =$("<input/>").val(opt_data.call_phone_passwd );
+        var $become_member_time =$('<input/>').val(opt_data.become_time);
 
         var need_account_role_list=null;
         if (g_args.assign_account_role>0) {
@@ -349,6 +357,7 @@ $(function(){
             ["角色",$account_role] ,
             ["每天新例子",$day_new_user_flag] ,
             ["考勤卡id",$cardid] ,
+            //['入职时间',$become_member_time],
 
             ["-","-"],
             ["打电话类型",$call_phone_type ],
@@ -362,6 +371,7 @@ $(function(){
             ["部门",$main_department],
             ["不参加升级",$no_update_seller_level_flag],
         ];
+        //initPicker($become_member_time);
 
         $.show_key_value_table("修改用户信息", arr ,{
             label: '确认',
@@ -386,6 +396,7 @@ $(function(){
                     'wx_id': $wx_id.val(),
                     'main_department':$main_department.val(),
                     'no_update_seller_level_flag': $no_update_seller_level_flag.val(),
+                    //'become_member_time' : $become_member_time.val(),
                 });
             }
         },function(){
@@ -936,5 +947,18 @@ $(function(){
 
 
 
-
 });
+    function initPicker(obj)
+    {
+      obj.datetimepicker({
+            lang       : 'ch',
+            datepicker : true,
+            timepicker : false,
+            format     : 'Y-m-d',
+            step       : 30,
+            onChangeDateTime :function(){
+              $(this).hide();
+            }
+        });
+    }
+
