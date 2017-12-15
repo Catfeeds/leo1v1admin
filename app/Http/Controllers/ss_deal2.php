@@ -1221,9 +1221,9 @@ class ss_deal2 extends Controller
         $stu_test_ipad_flag    = $this->get_in_str_val("stu_test_ipad_flag");//设备连接状态
         $user_desc     = $this->get_in_str_val("user_desc");//备注
 
-        if($intention_level == 0){
-            return $this->output_err("请选择上课意向");
-        }
+        // if($intention_level == 0){
+        //     return $this->output_err("请选择上课意向");
+        // }
         if ($next_revisit_time) {
             $next_revisit_time =strtotime($next_revisit_time);
         } else {
@@ -1232,15 +1232,15 @@ class ss_deal2 extends Controller
 
         $diff=$next_revisit_time-time();
 
-        if ( $next_revisit_time==0 ) {
-            if (session( "account_role") ==E\Eaccount_role::V_2  ) {
-                return $this->output_err("下次回访时间 需要设置");
-            }
-        }else if ( $diff > 7*86400 ) {
-            return $this->output_err("下次回访时间只能设置最近一周时间");
-        }else if (  $diff<0 ) {
-            return $this->output_err("下次回访时间不能早于当前");
-        }
+        // if ( $next_revisit_time==0 ) {
+        //     if (session( "account_role") ==E\Eaccount_role::V_2  ) {
+        //         return $this->output_err("下次回访时间 需要设置");
+        //     }
+        // }else if ( $diff > 7*86400 ) {
+        //     return $this->output_err("下次回访时间只能设置最近一周时间");
+        // }else if (  $diff<0 ) {
+        //     return $this->output_err("下次回访时间不能早于当前");
+        // }
 
         if ($stu_request_test_lesson_time) {
             $stu_request_test_lesson_time=strtotime( $stu_request_test_lesson_time);
@@ -1311,26 +1311,6 @@ class ss_deal2 extends Controller
         if ( $ss_item["user_desc"] != $user_desc) {
             $this->t_book_revisit->add_book_revisit($phone , "更新备注:$user_desc" , $this->get_account());
         }
-
-        /* if ($db_tt_item["stu_request_test_lesson_demand"] != $stu_request_test_lesson_demand) {
-            $this->t_book_revisit->add_book_revisit($phone , "更新试听需求:$stu_request_test_lesson_demand" , $this->get_account());
-
-            }
-
-        if ($ss_item["stu_score_info"] != $stu_score_info) {
-            $this->t_book_revisit->add_book_revisit($phone , "更新成绩情况:$stu_score_info" , $this->get_account());
-
-        }
-
-        if ($ss_item["stu_character_info"] != $stu_character_info) {
-            $this->t_book_revisit->add_book_revisit($phone , "更新性格特点:$stu_character_info" , $this->get_account());
-
-            }*/
-
-
-
-
-
         //last_revisit_msg ='%s', last_revisit_time =%u
         $ss_arr=[
             "has_pad" =>$has_pad,
@@ -1427,5 +1407,7 @@ class ss_deal2 extends Controller
         }
         return $this->output_succ();
     }
+
+
 
 }

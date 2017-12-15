@@ -22,4 +22,9 @@ enum  enum_error {
   //未找到对应ＣＣ
   ERR_CC_CODE = 3006;
 
+  //请先登录
+  ERR_SESSION_NOFIND = 3007;
+
+  //输入格式错误
+  ERR_IN_PARAM = 3008;
 };

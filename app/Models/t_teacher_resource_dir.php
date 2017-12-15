@@ -50,4 +50,24 @@ class t_teacher_resource_dir extends \App\Models\Zgen\z_t_teacher_resource_dir
         return $this->main_get_list($sql);
 
     }
+
+    public function get_dir_id_by_pid($pid){
+        $where_arr = [
+            ["pid=%u", $pid, -1],
+            "is_del=0",
+        ];
+
+        $sql = $this->gen_sql_new("select dir_id from %s where %s", self::DB_TABLE_NAME, $where_arr);
+        return $this->main_get_list($sql);
+    }
+
+    public function get_tea_all_dir($teacherid){
+        $where_arr = [
+            ["teacherid=%u", $teacherid, -1],
+            "is_del=0",
+        ];
+
+        $sql = $this->gen_sql_new("select dir_id,name,pid from %s where %s order by dir_id", self::DB_TABLE_NAME, $where_arr);
+        return $this->main_get_list($sql);
+    }
 }

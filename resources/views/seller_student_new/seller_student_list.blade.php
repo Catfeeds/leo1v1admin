@@ -480,6 +480,7 @@
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
                                 @if($account_role==12 || in_array($account,['tom','jim']))
                                     <a title="new回访" class="  fa-chevron-up opt-edit-new_new_two"></a>
+                                    <a title="new回访" class="  fa-chevron-up opt-post-test-lesson_new"></a>
                                 @endif
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new_new"></a>
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new"  style=" display:none"></a>
@@ -1184,7 +1185,7 @@
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-2 " style="margin:0 0.3% 0 0;width:100px;">
-                        <div class="input-group " style="margin:0 0 0 -20%;width:100px;">
+                        <div class="input-group " style="margin:0 0 0 -20%;width:80px;">
                             <select id="id_par_type_new_two" class=" form-control " >
                             </select>
                         </div>
@@ -1222,7 +1223,7 @@
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp在读学校：</span>
-                            <input type="text" id="id_stu_school_new_two"  class="form-control" style="width:190px;" />
+                            <input type="text" id="id_stu_school_new_two"  class="form-control" style="width:166px;" />
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-2  ">
@@ -1284,12 +1285,12 @@
                     </div>
 
                     <div class='col-xs-3 col-md-1' style=''>
-                        <div class='input-group' style='width:60px;'>
+                        <div class='input-group' style='width:78px;'>
                             <input type="text" class=" form-control "  id="id_class_rank_new_two"  placeholder='班级排名' />
                         </div>
                     </div>
-                    <div class='col-xs-3 col-md-1' style="margin:0 4% 0 -4%">
-                        <div class='input-group' style='width:60px;'>
+                    <div class='col-xs-3 col-md-1' style="margin:0 2% 0 -2%">
+                        <div class='input-group' style='width:74px;'>
                             <input type="text" class=" form-control "  id="id_class_num_new_two" placeholder='班级人数' />
                         </div>
                     </div>
@@ -1313,7 +1314,7 @@
                                 <input type='text' class='form-control' id='id_main_subject_score_one_new_two' name='subject_score_one_new_two' placeholder='分数' />
                             </div>
                         </div>
-                        <div class='col-xs-3 col-md-1' style='margin:0 0 0 -4%'>
+                        <div class='col-xs-3 col-md-1' style='margin:0 0.38% 0 -4%'>
                             <div class='input-group' style='width:55px;'>
                                 <input type='text' class='form-control' id='id_main_subject_score_two_new_two' name='subject_score_two_new_two' placeholder='满分' />
                             </div>
