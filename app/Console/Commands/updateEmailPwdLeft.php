@@ -39,13 +39,12 @@ class updateEmailPwdLeft extends Command
     {
         //
         $task=new \App\Console\Tasks\TaskController();
-        // $emailList = $this->t_manager_info->getEmailLeft();
+        $emailList = $task->t_manager_info->getEmailLeft();
 
-        $emailList[]=[
-            "email" => 'james@leoedu.com'
-        ];
+        // $emailList[]=[
+        //     "email" => 'james@leoedu.com'
+        // ];
 
-        //james@leoedu.com
         foreach($emailList as $item){
             // $pwd = mt_rand(0,1000000)."_bydelete";
             $pwd = "123456_bydelete";
