@@ -480,7 +480,6 @@
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
                                 @if($account_role==12 || in_array($account,['tom','jim']))
                                     <a title="new回访" class="  fa-chevron-up opt-edit-new_new_two"></a>
-                                    <a title="试听申请new" class="fa  fa-chevron-down opt-post-test-lesson-new "></a>
                                 @endif
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new_new"></a>
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new"  style=" display:none"></a>
@@ -1178,14 +1177,14 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-2 " >
-                        <div class="input-group ">
+                    <div class="col-xs-12 col-md-2 "  >
+                        <div class="input-group " >
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp家长姓名：</span>
-                            <input type="text" class=" form-control "  id="id_par_nick_new_two" style="width:108px" />
+                            <input type="text" class=" form-control "  id="id_par_nick_new_two" style="width:88px" />
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-1 " >
-                        <div class="input-group ">
+                    <div class="col-xs-12 col-md-2 " style="margin:0 0.3% 0 0;width:100px;">
+                        <div class="input-group " style="margin:0 0 0 -20%;width:100px;">
                             <select id="id_par_type_new_two" class=" form-control " >
                             </select>
                         </div>
@@ -1208,14 +1207,14 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-2 ">
                         <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp教材版本：</span>
-                            <select id="id_stu_editionid_new_two" class=" form-control "  style="width:100px;" >
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp教材：</span>
+                            <select id="id_stu_editionid_new_two" class=" form-control "  style="width:130px;" >
                             </select>
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-2 " style="margin:0 0 0 30px;">
                         <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp上课设备：</span>
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp设备：</span>
                             <select id="id_stu_has_pad_new_two" class=" form-control "   >
                             </select>
                         </div>
@@ -1223,7 +1222,7 @@
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp在读学校：</span>
-                            <input type="text" id="id_stu_school_new_two"  class="form-control" style="width:170px;" />
+                            <input type="text" id="id_stu_school_new_two"  class="form-control" style="width:190px;" />
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-2  ">
@@ -1422,7 +1421,7 @@
 
             <div class="col-xs-12 col-md-3  ">
                 <div class="row">
-                    <div class="col-xs-12 col-md-12 " style="width:320px;">
+                    <div class="col-xs-12 col-md-12 " style="width:310px;">
                         <div class="input-group " >
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp试听时间：</span>
                             <input id="id_stu_request_test_lesson_time_new_two" placeholder="开始时间" class=" form-control " style="1"  />
