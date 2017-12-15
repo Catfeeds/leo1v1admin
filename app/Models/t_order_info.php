@@ -4425,7 +4425,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ["a.assistantid = %u" , $assistantid, -1],
             ["m.uid = %u" , $order_adminid, -1],
             ["s.origin_userid = %u" , $origin_userid, -1],
-            "o.contract_type=0",
+            //  "o.contract_type=0",
             "o.contract_status>0",
             "m.account_role=1",
             "s.origin_userid>0",
@@ -4441,7 +4441,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s m2 on s.origin_assistantid = m2.uid "
                                   ." left join %s a on a.phone = m2.phone "
                                   ." left join %s t on l.teacherid = t.teacherid"
-                                  ." where %s",
+                                  ." where %s not exist(select 1 from %s where price>0 and userid=o.userid and order_time<o.order_time)",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
@@ -4449,7 +4449,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   t_manager_info::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
-                                  $where_arr
+                                  $where_arr,
+                                  t_order_info::DB_TABLE_NAME
         );
         return $this->main_get_list_by_page($sql,$page_info);
 
