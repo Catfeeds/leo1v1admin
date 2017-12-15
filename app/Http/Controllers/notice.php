@@ -150,18 +150,6 @@ class notice extends Controller
         return $this->output_succ();
     }
 
-    public function sms_test(){
-        $phone   = $this->get_in_phone();
-        $user_ip = $this->get_in_user_ip();
-        $type    = $this->get_in_type();
-        $data    = json_decode($this->get_in_str_val("args"),true);
-
-        $ret=\App\Helper\Common::send_sms_with_taobao($phone,
-                                                      "SMS_".$type,
-                                                      $data);
-        return $this->output_succ();
-
-    }
-
+   
 
 }

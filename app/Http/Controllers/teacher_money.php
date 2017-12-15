@@ -53,7 +53,7 @@ class teacher_money extends Controller
                 $lesson_count = $val['lesson_count']/100;
                 if($val['confirm_flag'] != 2){
                     if($val['lesson_type'] != 2){
-                        $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
+                        $val['money']       = $this->get_teacher_base_money($teacherid,$val);
                         $val['lesson_base'] = $val['money']*$lesson_count;
 
                         $lesson_reward = $this->get_lesson_reward_money(

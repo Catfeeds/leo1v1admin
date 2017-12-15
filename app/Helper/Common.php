@@ -1616,7 +1616,6 @@ class Common {
         $work_dir=app_path("OrderPdf");
         $order_temp= file_get_contents("$work_dir/order_temp.tex");
 
-
         $search=[
             "#UserName#",
             "#LessonInfo#",
