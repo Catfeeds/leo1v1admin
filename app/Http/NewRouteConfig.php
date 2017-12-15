@@ -98,6 +98,9 @@ class NewRouteConfig {
         "/teacher_info/grab_visit_info"           => true,
         "/teacher_info/tea_resource"              => true,
         "/teacher_info/tea_edit_dir"              => true,
+        "/teacher_info/tea_edit_file"             => true,
+        "/teacher_info/del_dir_or_file"           => true,
+        "/teacher_info/get_all_dir_js"            => true,
         "/teacher_info/get_leo_resource"          => true,
         "/teacher_info/do_collect"                => true,
         "/lesson_manage/stu_status_count"         => true,
@@ -424,6 +427,7 @@ class NewRouteConfig {
 
         "/question_new/question_list"              => true,
         "/question_new/knowledge_list"              => true,
+        "/question_new/knowledge_get"              => true,
         "/question_new/question_know_list"              => true,
         "/question_new/answer_list"              => true,
         "/question_new/question_add"              => true,

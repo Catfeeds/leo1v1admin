@@ -31,6 +31,9 @@
                         <span class="input-group-addon" style="padding-left: 3px; padding-right: 6px;">是否开启</span>
                         <select class=" form-control " id="id_open_flag"></select>
 
+                        <span class="input-group-addon" style="padding-left: 3px; padding-right: 6px;">科目类型</span>
+                        <select class=" form-control " id="id_subject"></select>
+
                         <span class="input-group-addon" style="padding-left: 3px; padding-right: 6px;">题目分值</span>
                         <input class=" form-control " id="id_score" type="text" style="width:130px">
 

@@ -2,8 +2,8 @@
 @section('content')
     <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
     <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
-    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
-    <!-- <script type="text/javascript" src="/js/qiniu/new_ui.js"></script> -->
+    <!-- <script type="text/javascript" src="/js/qiniu/ui.js"></script> -->
+    <script type="text/javascript" src="/js/qiniu/new_ui.js"></script>
     <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
@@ -39,13 +39,13 @@
                     <button class="btn btn-info opt-add-dir">新建文件夹</button>
                 </div>
                 <div class="col-xs-4 col-md-1">
-                    <button class="btn btn-info">上传</button>
+                    <button class="btn btn-info opt-add-file">上传</button>
                 </div>
                 <div class="col-xs-4 col-md-1">
-                    <button class="btn btn-info">删除</button>
+                    <button class="btn btn-info opt-del">删除</button>
                 </div>
                 <div class="col-xs-4 col-md-1">
-                    <button class="btn btn-info">移动</button>
+                    <button class="btn btn-info opt-move">移动</button>
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group " >
@@ -80,11 +80,11 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>
-                            <input type="checkbox" class="opt-select-item" data-id="{{@$var["tea_res_id"]}}" />
+                            <input type="checkbox" class="opt-select-item" is_dir="{{@$var['file_id']}}" data-id="{{@$var["tea_res_id"]}}" />
                         </td>
                         <td>
                             @if(@$var['file_id'] == -1)
-                                <a href="/teacher_info/tea_resource?dir_id={{$var['dir_id']}}">{{@$var["file_title"]}}</a>
+                                <a href="/teacher_info/tea_resource?dir_id={{@$var['dir_id']}}">{{@$var["file_title"]}}</a>
                             @else
                                 {{@$var["file_title"]}}
                             @endif
@@ -107,5 +107,20 @@
         </table>
         @include("layouts.page")
     </section>
+
+    <div class="col-md-12 opt_process"   style="width:600px;position:fixed;right:0;top:200px;border-radius:5px;background:#eee;opacity:0.8;display:none;">
+        <div class="hide" id="up_load"> </div>
+        <table class="table table-striped table-hover text-left" >
+            <thead>
+                <tr>
+                    <th class="col-md-4">文件名</th>
+                    <th class="col-md-2">文件大小</th>
+                    <th class="col-md-6">上传进度</th>
+                </tr>
+            </thead>
+            <tbody id="fsUploadProgress">
+            </tbody>
+        </table>
+    </div>
 
 @endsection
