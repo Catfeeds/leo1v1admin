@@ -24,7 +24,7 @@ class t_teacher_resource extends \App\Models\Zgen\z_t_teacher_resource
     public function get_tea_all_res($teacherid, $dir_id){
         $where_arr = [
             ["teacherid=%u", $teacherid, -1],
-            ["dir_id='%s'", $dir_id, -1],
+            ["dir_id=%u", $dir_id, -1],
             "is_del=0",
         ];
 
@@ -34,4 +34,18 @@ class t_teacher_resource extends \App\Models\Zgen\z_t_teacher_resource
         );
         return $this->main_get_list($sql);
     }
+
+    public function check_file($dir_id){
+        $where_arr = [
+            ["dir_id=%u", $dir_id, -1],
+            "is_del=0",
+        ];
+
+        $sql = $this->gen_sql_new("select count(tea_res_id) from %s where %s"
+                                  , self::DB_TABLE_NAME
+                                  , $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
 }

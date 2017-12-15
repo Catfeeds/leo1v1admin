@@ -4117,6 +4117,17 @@ function init_edit() {
                 onChangeDateTime :function(){
                 }
             });
+            id_stu_request_test_lesson_time.change(function(){
+                var start_time = Date.parse(new Date(id_stu_request_test_lesson_time.val()))+3600*2*1000;
+                var time = new Date(start_time);
+                var year = time.getFullYear();
+                var month = time.getMonth()+1;
+                var date = time.getDate();
+                var hours = time.getHours();
+                var minutes = time.getMinutes();
+                var start_date = year+'-'+add0(month)+'-'+add0(date)+' '+add0(hours)+':'+add0(minutes);
+                id_stu_request_test_lesson_time_end.val(start_date);
+            });
             var origin=data.origin;
             if (  /bm_/.test(origin) ||
                   /bw_/.test(origin) ||

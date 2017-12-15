@@ -23,10 +23,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../question_new; vi  ../question_new/knowledge_list.ts
+	 mkdir -p ../; vi  ..//.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/question_new-knowledge_list.d.ts" />
+/// <reference path="../g_args.d.ts/-.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}

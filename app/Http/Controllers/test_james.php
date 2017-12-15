@@ -365,7 +365,14 @@ class test_james extends Controller
         dd($order_info_total);
     }
 
-    public function install(){
+    public function installNew(){ // 新建表单
+        Schema::dropIfExists('db_weiyi.t_activity_usually');
+        Schema::create('db_weiyi.t_activity_usually', function(Blueprint $table) {
+            t_field($table->increments("id"), "市场日常活动表");
+            t_field($table->integer("gift_type"), "礼品类型");
+            t_field($table->string("title",524), "活动标题");
+            $table->unique(['teacherid','lesson_start']);
+        });
     }
 
 
@@ -1700,11 +1707,12 @@ class test_james extends Controller
 
 
     public function dsss(){
-        $month_start = strtotime($this->get_in_str_val('s'));
-        $month_end   = strtotime($this->get_in_str_val('e'));
-        $admin_list = $this->t_order_info->getOrderList($month_start, $month_end);
+        $pwd = mt_rand(0,1000000)."_bydelete";
 
-        dd($admin_list);
+        dd($pwd);
+        $emailList = $this->t_manager_info->getEmailLeft();
+
+        dd($emailList);
     }
 
 
