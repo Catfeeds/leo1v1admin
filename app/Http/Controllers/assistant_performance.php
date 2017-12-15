@@ -469,7 +469,6 @@ class assistant_performance extends Controller
             2 => array("o.pay_time", "生效日期"),
         ],3);
 
-        $start_time = strtotime("2017-02-02");
         $studentid         = $this->get_in_studentid(-1);
         $page_info          = $this->get_in_page_info();
         $sys_operator      = $this->get_in_str_val("sys_operator","");       
@@ -481,8 +480,13 @@ class assistant_performance extends Controller
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item, 'order_time','_str'); 
             \App\Helper\Utils::unixtime2date_for_item($item, 'pay_time','_str'); 
+            E\Egrade::set_item_value_str($item,"grade");
+            E\Esubject::set_item_value_str($item,"subject");
+          
+            $item["phone_ex"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone']);
+
         }
-        dd($ret_info);
+        return $this->pageView(__METHOD__,$ret_info);
 
 
  
