@@ -1037,14 +1037,14 @@ class wx_teacher_api extends Controller
         //t_test_lesson_subject.subject_tag
         $subject_tag_arr = json_decode($ret_info['subject_tag'],true);
         //上课要求标签[未定]
-        $ret_info['style'] = '风格标签';
-        $ret_info['major'] = '专业标签';
-        $ret_info['identity'] = '身份标签';
-        $ret_info['atmosphere'] = '课堂氛围标签';
-        $ret_info['courseware'] = '课件要求';
+        $ret_info['style'] = $subject_tag_arr['风格性格'];
+        $ret_info['major'] = $subject_tag_arr['专业能力'];
+        $ret_info['identity'] = E\Eidentity::get_desc($ret_info['identity']);
+        $ret_info['atmosphere'] = $subject_tag_arr['课堂氛围'];
+        $ret_info['courseware'] = $subject_tag_arr['课件要求'];
         //学科化内容标签[未定]
-        $ret_info['subject_tag_a'] = '学科标签A';
-        $ret_info['subject_tag_b'] = '学科标签B';
+        // $ret_info['subject_tag'] = $subject_tag_arr['学科化标签'];
+        $ret_info['subject_tag'] = "学科化标签测试A,学科化标签测试B";
 
         // 数据待确认
         $ret_info['handout_flag'] = 0; //无讲义
