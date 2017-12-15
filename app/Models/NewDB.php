@@ -5,7 +5,6 @@ class NewDB {
 
     static  public  $new_dbs=[];
 
-
     //事务嵌套处理
     private $transactions;
     /**
@@ -16,8 +15,7 @@ class NewDB {
     private $username;
     private $password;
     static function close_all_dbs() {
-
-        $db_count=count(static::$new_dbs);
+        $db_count = count(static::$new_dbs);
         /**  @var  $db_item  NewDB */
         foreach(static::$new_dbs as $db_item ) {
             $db_item->close();

@@ -1783,10 +1783,10 @@ class ss_deal extends Controller
             $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
             $data['keyword1'] = "备课通知";
             $data['keyword2'] = "\n上课时间：$lesson_time_str "
-                              ."\n咨询电话：$require_phone"
-                              ."\n试听需求：$demand"
-                              ."\n1、请及时确认试听需求并备课"
-                              ."\n2、老师可提前10分钟进入课堂进行上课准备";
+                 ."\n咨询电话：$require_phone"
+                 ."\n试听需求：$demand"
+                 ."\n1、请及时确认试听需求并备课"
+                 ."\n2、老师可提前10分钟进入课堂进行上课准备";
             $data['keyword3'] = date("Y-m-d H:i",time());
             $data['remark']   = "";
             $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //[标签系统 给老师帮发]
@@ -2031,10 +2031,10 @@ class ss_deal extends Controller
                 $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
                 $data['keyword1'] = "备课通知";
                 $data['keyword2'] = "\n上课时间：$lesson_time_str "
-                                  ."\n咨询电话：$require_phone"
-                                  ."\n试听需求：$demand"
-                                  ."\n1、请及时确认试听需求并备课"
-                                  ."\n2、老师可提前10分钟进入课堂进行上课准备";
+                     ."\n咨询电话：$require_phone"
+                     ."\n试听需求：$demand"
+                     ."\n1、请及时确认试听需求并备课"
+                     ."\n2、老师可提前10分钟进入课堂进行上课准备";
                 $data['keyword3'] = date("Y-m-d H:i",time());
                 $data['remark']   = "";
                 $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //[标签系统 给老师帮发]
@@ -2065,11 +2065,11 @@ class ss_deal extends Controller
                 $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
                 $data['keyword1'] = "备课通知";
                 $data['keyword2'] = "\n上课时间：$lesson_time_str "
-                     ."\n教务电话：$require_phone"
-                     ."\n试听需求：$demand"
-                     ."\n1、请及时确认试听需求并备课"
-                     ."\n2、请尽快上传教师讲义、学生讲义（用于学生预习）和作业"
-                     ."\n3、老师可提前15分钟进入课堂进行上课准备";
+                                  ."\n教务电话：$require_phone"
+                                  ."\n试听需求：$demand"
+                                  ."\n1、请及时确认试听需求并备课"
+                                  ."\n2、请尽快上传教师讲义、学生讲义（用于学生预习）和作业"
+                                  ."\n3、老师可提前15分钟进入课堂进行上课准备";
                 $data['keyword3'] = date("Y-m-d H:i",time());
                 $data['remark']   = "";
                 $url = "http://www.leo1v1.com/login/teacher";

@@ -70,8 +70,8 @@ class NoticeAssForFirstLesson extends Command
                     "keyword3" => date('Y-m-d H:i:s'),
                 ];
                 $url = "";
-                WxSendMsg::send_ass_for_first($item['wx_openid'], $data, $url); //james
-                WxSendMsg::send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url); //james
+                WxSendMsg::send_ass_for_first($item['wx_openid'], $data, $url); 
+                // WxSendMsg::send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url); //james
             }
         }
     }

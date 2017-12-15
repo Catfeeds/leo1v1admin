@@ -430,6 +430,7 @@ class NewRouteConfig {
 
         "/question_new/question_list"              => true,
         "/question_new/knowledge_list"              => true,
+        "/question_new/knowledge_get"              => true,
         "/question_new/question_know_list"              => true,
         "/question_new/answer_list"              => true,
         "/question_new/question_add"              => true,

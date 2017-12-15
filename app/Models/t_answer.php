@@ -10,11 +10,8 @@ class t_answer extends \App\Models\Zgen\z_t_answer
 
     public function answer_list($where_arr){
         $where_str = $this->where_str_gen($where_arr);
-        $sql = $this->gen_sql("select an.*,k.title from %s an
-                              left join %s k on an.knowledge_id = k.knowledge_id
-                              where  %s order by step asc ",
+        $sql = $this->gen_sql("select * from %s where  %s order by answer_type asc,step asc ",
                               self::DB_TABLE_NAME,
-                              t_knowledge_point::DB_TABLE_NAME,
                               [$where_str]
         );
         return  $this->main_get_list($sql);

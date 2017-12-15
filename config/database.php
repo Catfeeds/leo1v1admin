@@ -45,19 +45,17 @@ return [
     */
 
     'connections' => [
-
         'sqlite' => [
             'driver'   => 'sqlite',
             'database' => database_path('database.sqlite'),
             'prefix'   => '',
         ],
-
         'mysql' => [
             'driver'    => 'mysql',
             'host'      => env('DB_HOST', 'localhost'),
             'database'  => env('DB_DATABASE', 'db_weiyi_admin'),
             'username'  => env('DB_USERNAME', 'root'),
-            'password'  => env('DB_PASSWORD', 'ta0mee'),
+            'password'  => env('DB_PASSWORD', '123456'),
             'charset'   => 'latin1',
             'collation' => 'latin1_bin',
             'prefix'    => '',
@@ -69,66 +67,37 @@ return [
             'host'      => env('DB_HOST_READONLY', 'localhost'),
             'database'  => env('DB_DATABASE', 'db_weiyi_admin'),
             'username'  => env('DB_USERNAME', 'root'),
-            'password'  => env('DB_PASSWORD', 'ta0mee'),
+            'password'  => env('DB_PASSWORD', '123456'),
             'charset'   => 'latin1',
             'collation' => 'latin1_bin',
             'prefix'    => '',
             'strict'    => false,
             'engine'    => null,
         ],
-
-
         'mysql_tongji' => [
             'driver'    => 'mysql',
             'host'      => env('DB_HOST_TONGJI', 'localhost'),
             'database'  => env('DB_DATABASE', 'db_weiyi_admin'),
             'username'  => env('DB_USERNAME', 'root'),
-            'password'  => env('DB_PASSWORD', 'ta0mee'),
+            'password'  => env('DB_PASSWORD', '123456'),
             'charset'   => 'latin1',
             'collation' => 'latin1_bin',
             'prefix'    => '',
             'strict'    => false,
             'engine'    => null,
         ],
-
-
-
-
         'mysql_question' => [
             'driver'    => 'mysql',
             'host'      => env('DB_QUESTION_HOST', '192.168.0.5'),
             'database'  => env('DB_QUESTION_DATABASE', 'db_question'),
             'username'  => env('DB_USERNAME', 'root'),
-            'password'  => env('DB_PASSWORD', 'ta0mee'),
+            'password'  => env('DB_PASSWORD', '123456'),
             'charset'   => 'latin1',
             'collation' => 'latin1_bin',
             'prefix'    => '',
             'strict'    => false,
             'engine'    => null,
         ],
-
-
-        'pgsql' => [
-            'driver'   => 'pgsql',
-            'host'     => env('DB_HOST', 'localhost'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
-            'charset'  => 'utf8',
-            'prefix'   => '',
-            'schema'   => 'public',
-        ],
-
-        'sqlsrv' => [
-            'driver'   => 'sqlsrv',
-            'host'     => env('DB_HOST', 'localhost'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
-            'charset'  => 'utf8',
-            'prefix'   => '',
-        ],
-
     ],
 
     /*
@@ -156,7 +125,6 @@ return [
     */
 
     'redis' => [
-
         'cluster' => false,
         'default' => [
             'host'     => env('REDIS_HOST', 'localhost'),
@@ -170,23 +138,17 @@ return [
             'port'     => env('CACHE_REDIS_PORT', 6379),
             'database' => 0,
         ],
-
         'api' => [
             'host'     => env('API_REDIS_HOST', 'localhost'),
             'password' => env('API_REDIS_PASSWORD', null),
             'port'     => env('API_REDIS_PORT', 6379),
             'database' => 0,
         ],
-
-
         'session' => [
             'host'     => env('SESSION_REDIS_HOST', '127.0.0.1'),
             'password' => env('SESSION_REDIS_PASSWORD', null),
             'port'     => env('SESSION_REDIS_PORT', 6379),
             'database' => 8,
         ],
-
-
     ],
-
 ];

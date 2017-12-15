@@ -43,9 +43,16 @@ function load_data(){
 function add_subject_score(obj){
     // alert($(obj).parent().parent().attr('class'));
     // $(obj).parent().parent().parent().append("<div class='col-xs-12 col-md-3 subject_score '><div class='input-group'><select name='subject_score_new_two' class='form-control'></select><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /><input type='text' class='form-control' name='subject_score_two_new_two' placeholder='满数' /><button class='btn btn-primary'  title='添加科目' onclick='add_subject_score(this)' ><i class='fa fa-plus'></i></button><button class='btn btn-primary' onclick='del_subject_score(this)'  title='删除科目' ><i class='fa fa-minus'></i></button></div></div>");
-    $(obj).parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'><font style='color:red'>*</font>&nbsp科目：</span><select name='subject_score_new_two' class='form-control' style='width:70px'></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:55px;'><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 -4%'><div class='input-group' style='width:55px;'><input type='text' class='form-control'  name='subject_score_two_new_two' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -2%;cursor: pointer;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
-    var id_subject_score = $(obj).parent().parent().parent().find("select[name='subject_score_new_two']");
-    Enum_map.append_option_list("subject",id_subject_score, true);
+    $(obj).parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'><font style='color:red'>*</font>&nbsp科目：</span><select name='subject_score_new_two' class='form-control' style='width:70px'></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:45px;'><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0.1% 0 -5%'><div class='input-group' style='width:50px;'><input type='text' class='form-control'  name='subject_score_two_new_two' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -2%;cursor: pointer;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
+    var id_subject_score = $(obj).parent().parent().parent().find("select[name='subject_score_new_two']").last();
+    var id_grade = $(obj).parent().parent().parent().parent().parent().parent().parent().find('#id_stu_grade_new_two').val();
+    if(id_grade==101 || id_grade==102 || id_grade==103 || id_grade==104 || id_grade==105 || id_grade==106){
+        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3]);
+    }else if(id_grade==201 || id_grade==202 || id_grade==203){
+        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9,10]);
+    }else if(id_grade==301 || id_grade==302 || id_grade==303){
+        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9]);
+    }
 }
 function del_subject_score(obj){
     $(obj).parent().parent().remove();
@@ -3925,7 +3932,7 @@ function init_edit() {
                         html_node.find("#id_main_subject_score_two_new_two").val(arr_new[1]);
                     }else{
                         // html_node.find("#id_add_subject_score_new_two").parent().parent().parent().append("<div class='col-xs-12 col-md-3 subject_score '><div class='input-group'><select id='subject_score_"+index+"' name='subject_score_new_two' class='form-control'><option>"+arr[0]+"</option></select><input type='text' class='form-control' name='subject_score_one_new_two' value='"+arr_new[0]+"' placeholder='分数' /><input type='text' class='form-control' name='subject_score_two_new_two' value='"+arr_new[1]+"' placeholder='满数' /><button class='btn btn-primary'  title='添加科目' onclick='add_subject_score(this)' ><i class='fa fa-plus'></i></button><button class='btn btn-primary' onclick='del_subject_score(this)'  title='删除科目' ><i class='fa fa-minus'></i></button></div></div>");
-                        html_node.find("#id_main_subject_score_two_new_two").parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'><font style='color:red'>*</font>&nbsp科目：</span><select name='subject_score_new_two' id='subject_score_"+index+"' class='form-control' style='width:70px'><option>"+arr[0]+"</option></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:55px;'><input type='text' class='form-control' value='"+arr_new[0]+"' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 -4%'><div class='input-group' style='width:55px;'><input type='text' class='form-control' name='subject_score_two_new_two' value='"+arr_new[1]+"' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -2%;cursor: pointer;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
+                        html_node.find("#id_main_subject_score_two_new_two").parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'><font style='color:red'>*</font>&nbsp科目：</span><select name='subject_score_new_two' id='subject_score_"+index+"' class='form-control' style='width:70px'><option>"+arr[0]+"</option></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:45px;'><input type='text' class='form-control' value='"+arr_new[0]+"' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0.1% 0 -5%'><div class='input-group' style='width:50px;'><input type='text' class='form-control' name='subject_score_two_new_two' value='"+arr_new[1]+"' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -2%;cursor: pointer;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
                     }
                 }
             });
@@ -3994,19 +4001,16 @@ function init_edit() {
             id_grade.change(function(){
                 $.do_ajax("/product_tag/get_all_tag", {
                 },function(resp){
-                    id_subject.find("option").remove();
-                    id_subject_score.find("option").remove();
-                    // alert($("#id_main_subject_new_two").parent().parent().parent().find("div:[class=subject_score]").attr('class'));
-                    if(id_grade.val()==101 || id_grade.val()==102 || id_grade.val()==103 || id_grade.val()==104 || id_grade.val()==105 || id_grade.val()==106){
-                        Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3]);
-                        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3]);
-                    }else if(id_grade.val()==201 || id_grade.val()==202 || id_grade.val()==203){
-                        Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3,4,5,6,7,8,9,10]);
-                        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9,10]);
-                    }else if(id_grade.val()==301 || id_grade.val()==302 || id_grade.val()==303){
-                        Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3,4,5,6,7,8,9]);
-                        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9]);
-                    }
+                    $("select[name='subject_score_new_two']").each(function(){
+                        $(this).find("option").remove();
+                        if(id_grade.val()==101 || id_grade.val()==102 || id_grade.val()==103 || id_grade.val()==104 || id_grade.val()==105 || id_grade.val()==106){
+                            Enum_map.append_option_list("subject", $(this), true,[0,1,2,3]);
+                        }else if(id_grade.val()==201 || id_grade.val()==202 || id_grade.val()==203){
+                            Enum_map.append_option_list("subject", $(this), true,[0,1,2,3,4,5,6,7,8,9,10]);
+                        }else if(id_grade.val()==301 || id_grade.val()==302 || id_grade.val()==303){
+                            Enum_map.append_option_list("subject", $(this), true,[0,1,2,3,4,5,6,7,8,9]);
+                        }
+                    });
                     id_add_tag.parent().children("span[class='sub_tag_name']").remove();
                     id_add_tag.parent().children('input[type=checkbox]').remove();
                     var data=resp.data;

@@ -1707,6 +1707,9 @@ class test_james extends Controller
 
 
     public function dsss(){
+        $pwd = mt_rand(0,1000000)."_bydelete";
+
+        dd($pwd);
         $emailList = $this->t_manager_info->getEmailLeft();
 
         dd($emailList);

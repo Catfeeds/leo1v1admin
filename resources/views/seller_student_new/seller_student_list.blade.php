@@ -479,8 +479,12 @@
                                 <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
                                 @if($account_role==12 || in_array($account,['tom','jim']))
-                                    <a title="new回访" class="  fa-chevron-up opt-edit-new_new_two"></a>
-                                    <a title="new回访" class="  fa-chevron-up opt-post-test-lesson_new"></a>
+                                    <a title="试听申请new" class="  fa-chevron-up opt-edit-new_new_two"></a>
+                                    <a title="试听申请new" class="  fa-chevron-up opt-post-test-lesson_new"
+                                       @if(!in_array($account,['tom','jim']))
+                                       style="display:none;"
+                                       @endif
+                                    ></a>
                                 @endif
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new_new"></a>
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new"  style=" display:none"></a>
@@ -1171,10 +1175,10 @@
                             <input type="text" class=" form-control "  id="id_stu_nick_new_two" style="width:100px;" />
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-2" style="margin:0 0 0 30px;">
+                    <div class="col-xs-12 col-md-2" style="margin:0 20px 0 30px;">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp性别：</span>
-                            <select id="id_stu_gender_new_two" class=" form-control " >
+                            <select id="id_stu_gender_new_two" class=" form-control " style="width:120px;" >
                             </select>
                         </div>
                     </div>
@@ -1213,10 +1217,10 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-2 " style="margin:0 0 0 30px;">
+                    <div class="col-xs-12 col-md-2 " style="margin:0 20px 0 30px;">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp设备：</span>
-                            <select id="id_stu_has_pad_new_two" class=" form-control "   >
+                            <select id="id_stu_has_pad_new_two" class=" form-control "  style="width:120px;" >
                             </select>
                         </div>
                     </div>
@@ -1248,7 +1252,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-2" style="margin:0 0 0 30px">
+                    <div class="col-xs-12 col-md-2" style="margin:0 20px 0 30px">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp市</span>
                             <select class="form-control" id="city_new_two" name="city">
@@ -1278,7 +1282,7 @@
             </div>
             <div class="col-xs-12 col-md-12  ">
                 <div class="row">
-                    <div class="col-xs-12 col-md-1 " >
+                    <div class="col-xs-12 col-md-1" >
                         <div class="input-group ">
                             <span class="input-group-addon" style="height:34px;"><font style="color:red">*</font>&nbsp综合排名：</span>
                         </div>
@@ -1289,8 +1293,8 @@
                             <input type="text" class=" form-control "  id="id_class_rank_new_two"  placeholder='班级排名' />
                         </div>
                     </div>
-                    <div class='col-xs-3 col-md-1' style="margin:0 2% 0 -2%">
-                        <div class='input-group' style='width:74px;'>
+                    <div class='col-xs-3 col-md-1' style="margin:0 2% 0 -3%">
+                        <div class='input-group' style='width:70px;'>
                             <input type="text" class=" form-control "  id="id_class_num_new_two" placeholder='班级人数' />
                         </div>
                     </div>
@@ -1310,12 +1314,12 @@
                             </div>
                         </div>
                         <div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'>
-                            <div class='input-group' style='width:55px;'>
+                            <div class='input-group' style='width:45px;'>
                                 <input type='text' class='form-control' id='id_main_subject_score_one_new_two' name='subject_score_one_new_two' placeholder='分数' />
                             </div>
                         </div>
-                        <div class='col-xs-3 col-md-1' style='margin:0 0.38% 0 -4%'>
-                            <div class='input-group' style='width:55px;'>
+                        <div class='col-xs-3 col-md-1' style='margin:0 0.1% 0 -4.5%'>
+                            <div class='input-group' style='width:50px;'>
                                 <input type='text' class='form-control' id='id_main_subject_score_two_new_two' name='subject_score_two_new_two' placeholder='满分' />
                             </div>
                         </div>
@@ -1420,7 +1424,7 @@
                 </div>
             </div>
 
-            <div class="col-xs-12 col-md-3  ">
+            <div class="col-xs-12 col-md-3  "  style="margin:0 0 0 -2%;">
                 <div class="row">
                     <div class="col-xs-12 col-md-12 " style="width:310px;">
                         <div class="input-group " >

@@ -19,7 +19,7 @@
         <div id="id_question_editor" >
             <div class="row">
                 <div class="col-xs-6 col-md-6">
-                    <div class="input-group "><h3>题目:{{@$question['title']}}</h3></div>
+                    <div class="input-group "><h3>题目:{{@$question['title']}} 总分:{{@$question['score']}}</h3></div>
                     <div class="input-group ">
                      
                     </div>
@@ -35,21 +35,20 @@
                                     <input type="hidden" class="answer_id" value="{{$item['answer_id']}}">
                                     <input type="hidden" class="step" value="{{$item['step']}}">
                                     <button type="button" class=" btn  btn-primary opt-title " style="height:30px;" >步骤类型:</button>
-                                    <select class="btn" style="height:30px;padding:0px;width:100px" class="id_answer_type">
-                                        <option>解析过程</option>
-                                        <option>答案</option>
-                                    </select>
+                                    <select class="btn answer_type" style="height:30px;padding:0px;width:100px" id="answer_type_{{$key+1}}"></select>
+                                    <input type="hidden" class="answer_type_value" value="{{$item['answer_type']}}">
 
                                     <button type="button" class=" btn  btn-primary answer-step" style="height:30px;margin-right:10px" title="默认添加最后一步，可以点击选择在两步之间添加本步骤">{{$item['step_str']}}</button>
 
 
                                     <button type="button" class=" btn  btn-primary opt-title " style="height:30px;" >分值:</button>
-                                    <input class="btn" style="height:30px;margin-right:10px;padding:0px;text-align: left;
-                                                  text-indent: 4px;width: 100px;" class="id_answer_score" value="{{$item['score']}}" >
+                                    <input class="btn answer_score" style="height:30px;margin-right:10px;padding:0px;text-align: left;
+                                                  text-indent: 4px;width: 100px;" value="{{$item['score']}}" >
 
                                     <button type="button" class=" btn  btn-warning answer-save" style="height:30px;margin-right:10px" title="点击保存本步骤">保存步骤</button>
 
-
+                                    <button type="button" class=" btn  btn-danger answer-dele" style="height:30px;margin-right:10px" title="点击保存本步骤">删除步骤</button>
+                                    
                                     <button type="button" class="btn btn-default fa fa-picture-o add_pic" id="id_mathjax_add_pic_{{$key+1}}" title="图片" style="z-index: 1;"></button>
                                     <button type="button" class="btn btn-default add_under_line" id="id_mathjax_add_under_line_{{$key+1}}" title="插入下划线" style="height:28px">____</button>
                                     <button type="button" class="btn btn-default add_kuo_hao" id="id_mathjax_add_kuo_hao_{{$key+1}}" title="插入括号" style="height:28px">(&nbsp;&nbsp;&nbsp;&nbsp;)</button>            
@@ -63,12 +62,12 @@
 
                     <div class="row">
                         <div class="col-xs-6 col-md-6">
-                            <textarea type="text" value="{{$item['detail']}}" class="form-control math-opt-change-q id_mathjax_content" style="height:140px;font-size:18px;"  id="id_mathjax_content_{{$key+1}}" placeholder=""></textarea>
+                            <textarea type="text" class="form-control math-opt-change-q id_mathjax_content" style="height:auto;font-size:18px;"  id="id_mathjax_content_{{$key+1}}" placeholder="">{{$item['detail']}}</textarea>
                             
                         </div>
 
                         <div class="col-xs-6 col-md-6  ">
-                            <div class="MathPreview" id="MathPreview_{{$key+1}}" style="border: 1px solid; width: 100%; height: 140px; overflow: auto; font-size: 18px;">
+                            <div class="MathPreview" id="MathPreview_{{$key+1}}" style="background:white; width: 100%; height:auto; overflow: auto; font-size: 18px;padding:6px 12px">
                             </div>    
                         </div>
                     </div>
@@ -84,17 +83,14 @@
                                 <input type="hidden" class="answer_id" value="">
                                 <input type="hidden" class="step" value="{{$next_step}}">
                                 <button type="button" class=" btn  btn-primary opt-title " style="height:30px;" >步骤类型:</button>
-                                <select class="btn" style="height:30px;padding:0px;width:100px" class="id_answer_type">
-                                    <option>解析过程</option>
-                                    <option>答案</option>
-                                </select>
+                                <select class="btn answer_type" style="height:30px;padding:0px;width:100px" id="answer_type_0"></select>
 
                                 <button type="button" class=" btn  btn-primary answer-step" style="height:30px;margin-right:10px" title="默认添加最后一步，可以点击选择在两步之间添加本步骤">最新步骤</button>
 
 
                                 <button type="button" class=" btn  btn-primary opt-title " style="height:30px;" >分值:</button>
-                                <input class="btn" style="height:30px;margin-right:10px;padding:0px;text-align: left;
-                                              text-indent: 4px;width: 100px;" class="id_answer_score" >
+                                <input class="btn answer_score" style="height:30px;margin-right:10px;padding:0px;text-align: left;
+                                              text-indent: 4px;width: 100px;" >
 
                                 <button type="button" class=" btn  btn-warning answer-save" style="height:30px;margin-right:10px" title="点击保存本步骤">保存步骤</button>
 

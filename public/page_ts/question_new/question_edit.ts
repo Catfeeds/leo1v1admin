@@ -2,8 +2,37 @@
 /// <reference path="../../page_js/question_edit_new.js" />
 /// <reference path="../../js/MathJax/MathJax.js" />
 /// <reference path="../g_args.d.ts/question_new-question_edit.d.ts" />
+/// <reference path="../../ztree/jquery.ztree.all.min.js" />
+
+var setting = {
+    view: {
+        showIcon: false,
+    },
+    check: {  
+        enable: true,  
+        chkStyle: "checkbox",  
+        chkboxType: { "Y": "", "N": "" }  
+    },
+    data: {
+        simpleData: {
+            enable: true
+        }
+    },
+    callback: {
+        onClick: zTreeOnClick,
+    }
+}
+
+function zTreeOnClick(){
+    
+}
 
 $(function(){
+    $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+    $("#show_all_knowledge").click(function(){
+        var treeObj = $.fn.zTree.getZTreeObj('treeDemo');
+        treeObj.expandAll(true); 
+    });
 
     Enum_map.append_option_list("question_difficult_new",$("#question_difficult"),true,[1,2,3,4,5]);
     Enum_map.append_option_list("subject", $("#id_subject"),false,[1,2,3,4,5,6,7,8,9,10,11]);
@@ -123,7 +152,7 @@ $(function(){
             success : function(res){
                 BootstrapDialog.alert(res.msg);
                 if( res.status = 200 ){
-                    window.close();
+                    //window.close();
                 }
             },
             error:function(){
