@@ -50,7 +50,8 @@ $(function(){
         console.log(lessonid);
 
         $.do_ajax('/user_deal/get_train_lesson_comment',{
-            "lessonid":lessonid
+            "lessonid":lessonid,
+            "lesson_type":2
         },function(resp) {
             var title = "课后评价详情";
             var list = resp.data;
@@ -84,6 +85,18 @@ $(function(){
                 +"<tr>"
                 +"<td>教学方向</td>"
                 +"<td>"+list.stu_teaching_direction+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>教材及内容</td>"
+                +"<td>"+list.stu_textbook_info+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>教学目标</td>"
+                +"<td>"+list.stu_teaching_aim+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>大致推荐课时数</td>"
+                +"<td>"+list.stu_lesson_count +"</td>"
                 +"</tr>"
                 +"<tr>"
                 +"<td>意见、建议等</td>"
@@ -125,10 +138,7 @@ $(function(){
             console.log("http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text);
             $.wopen("http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text);
         });
-        $.do_ajax("/tea_manage/set_teacher_record_account",{
-            "id" : id
-        });
-
+       
     });
 
 
