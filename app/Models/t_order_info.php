@@ -4434,7 +4434,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         $sql = $this->gen_sql_new("select s.nick,s.userid,l.lessonid,l.grade,l.subject,s.phone,t.realname,"
-                                  ." l.teacherid,o.price,o.order_time,o.pay_time,o.sys_operator "
+                                  ." l.teacherid,o.price,o.order_time,o.pay_time,o.sys_operator,m2.name "
                                   ." from %s o left join %s l on o.from_test_lesson_id = l.lessonid"
                                   ." left join %s s on o.userid = s.userid"
                                   ." left join %s m on m.account = o.sys_operator"
