@@ -725,12 +725,12 @@ class human_resource extends Controller
         $this->set_in_value("fulltime_flag",0);
         return $this->index_new() ;
     }
+
     public function index_fulltime(){
         $this->set_in_value("is_test_user",0);
         $this->set_in_value("fulltime_flag",1);
         return $this->index_new() ;
     }
-
 
     public function index_seller(){
         $this->set_in_value("seller_flag",1);
