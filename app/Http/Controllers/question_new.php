@@ -109,27 +109,29 @@ class question_new extends Controller
 
     }
 
-    public $know_arr = [];
-
-    public $tree_arr = [];
-
-    public function knowledge_list2(){
+    public function knowledge_list(){
         $subject   = $this->get_in_int_val('id_subject',1);
         $where_arr = [
             ["subject=%d" , $subject,-1 ],
         ];
 
         $ret_list = $this->t_knowledge_point->knowledge_list($where_arr,null);
+        $ret = [];
         if($ret_list['list']){
-            $this->know_arr = $ret_list['list'];
-            $this->get_tree(0,[]);
-            $ret_list['list'] = $this->tree_arr;
-
+        
+            foreach( $ret_list['list'] as &$item){
+                $arr['name'] = $item['title'];
+                $arr['id'] = $item['knowledge_id'];
+                $arr['pId'] = $item['father_id'];
+                $arr['type'] = 'edit';
+                $ret[] = $arr;
+            }
         }
-        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712121056"]);
+        //dd($ret);
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712141356",'ret'=> json_encode($ret)]);
     }
 
-    public function knowledge_list(){
+    public function knowledge_list2(){
 
         return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712121056"]); 
     }
@@ -138,10 +140,15 @@ class question_new extends Controller
         if($know_arr){
             foreach( $know_arr as &$item ){
                 if( $item['father_id'] == $father_id){
-                    $item['subject_str'] = E\Esubject::get_desc($item['subject']);
+                    //$item['subject_str'] = E\Esubject::get_desc($item['subject']);
+                    $arr = [];
                     $before = str_repeat('===> ',$item['level']);
-                    $item['title'] = $before.$item['title'];
-                    $this->tree_arr[] = $item;
+                    $arr['name'] = $before.$item['title'];
+                    $arr['id'] = $item['knowledge_id'];
+                    $arr['pId'] = $father_id;
+                    $arr['level'] = $item['level'];
+                    $arr['open_flag'] = $item['open_flag'];
+                    $this->tree_arr[] = $arr;
                     $this->get_tree($item['knowledge_id'],$ret);
                 } 
             }
@@ -210,15 +217,25 @@ class question_new extends Controller
         $data['subject'] = $this->get_in_int_val('subject',1);
         $data['title']   = $this->get_in_str_val('title','');
         $data['detail']   = $this->get_in_str_val('detail','');
-        $data['level']   = $this->get_in_int_val('level',0);
-        $data['father_id']   = $this->get_in_int_val('father_id',0);
-        $data['father_other']   = $this->get_in_str_val('father_other','');
         $data['open_flag']   = $this->get_in_int_val('open_flag',1);
+
+        $levData = [];
+        $levData['level']   = $this->get_in_int_val('level',0);
+        $levData['father_id']   = $this->get_in_int_val('father_id',0);
+
         if( $editType == 1 ){
             $ret = $this->t_knowledge_point->row_insert($data);
             if($ret){
-                $result['status'] = 200;
-                $result['msg'] = "添加成功";
+                $levData['knowledge_id'] = $this->t_knowledge_point->get_last_insertid();
+                $retinfo = $this->t_knowledge_level->row_insert($levData);
+                if($retinfo){
+                    $result['status'] = 200;
+                    $result['msg'] = "添加成功";
+
+                }else{
+                    $result['status'] = 500;
+                    $result['msg'] = "知识点添加成功，父级添加失败";
+                }         
             }else{
                 $result['status'] = 500;
                 $result['msg'] = "添加失败";
