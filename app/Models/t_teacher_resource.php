@@ -21,7 +21,7 @@ class t_teacher_resource extends \App\Models\Zgen\z_t_teacher_resource
         return $this->main_get_list($sql);
     }
 
-    public function get_tea_all_res($teacherid, $dir_id, $page_info){
+    public function get_tea_all_res($teacherid, $dir_id){
         $where_arr = [
             ["teacherid=%u", $teacherid, -1],
             ["dir_id='%s'", $dir_id, -1],
@@ -32,6 +32,6 @@ class t_teacher_resource extends \App\Models\Zgen\z_t_teacher_resource
                                   , self::DB_TABLE_NAME
                                   , $where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_info);
+        return $this->main_get_list($sql);
     }
 }
