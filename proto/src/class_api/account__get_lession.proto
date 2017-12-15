@@ -1,0 +1,18 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1006
+//__DESC:  /account/get_lession　根据login的身份获取时间段课表
+//__TAGS: for_app
+
+
+message in  {
+  	string begin = 1; //开始日期．参数１，２与参数３，４二选一.
+  	string end = 2; //结束日期
+  	string type = 3; //week,month.n个周期(包括当前)内的数据
+  	string num = 4; //周期数
+}
+
+message out {
+  	string  lists = 1 ;
+}
