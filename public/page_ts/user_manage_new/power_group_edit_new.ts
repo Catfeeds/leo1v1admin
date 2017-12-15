@@ -50,11 +50,11 @@ function zTreeOnClick(event, treeId, treeNode) {
             });
         }) ;
     } else {
-        // alert(treeNode.open);
-        // if (treeNode.open == true) {
-        //     //
-        // }
-        // treeObj.expandNode(treeNode, true, true, true);
+        if (treeNode.open == true) {
+            treeObj.expandNode(treeNode, false, true, true);
+        } else {
+            treeObj.expandNode(treeNode, true, true, true);
+        }
     }
 }
 function load_data(){
