@@ -697,6 +697,9 @@ class test_jack  extends Controller
     }
 
     public function test_wx(){
+        $ret_info   = $this->t_flow_node->get_node_list(4713,"asc");
+        dd($ret_info);
+
         /**
          * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
          * 标题课程 : 待办事项提醒
