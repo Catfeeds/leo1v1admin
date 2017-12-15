@@ -43,7 +43,7 @@ function load_data(){
 function add_subject_score(obj){
     // alert($(obj).parent().parent().attr('class'));
     // $(obj).parent().parent().parent().append("<div class='col-xs-12 col-md-3 subject_score '><div class='input-group'><select name='subject_score_new_two' class='form-control'></select><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /><input type='text' class='form-control' name='subject_score_two_new_two' placeholder='满数' /><button class='btn btn-primary'  title='添加科目' onclick='add_subject_score(this)' ><i class='fa fa-plus'></i></button><button class='btn btn-primary' onclick='del_subject_score(this)'  title='删除科目' ><i class='fa fa-minus'></i></button></div></div>");
-    $(obj).parent().parent().parent().append("<div><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'><font style='color:red'>*</font>&nbsp科目：</span><select name='subject_score_new_two' id='id_main_subject_new_two' class='form-control' style='width:70px'></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:55px;'><input type='text' class='form-control' id='id_main_subject_score_one_new_two' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 -4%'><div class='input-group' style='width:55px;'><input type='text' class='form-control' id='id_main_subject_score_two_new_two' name='subject_score_two_new_two' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -2%;cursor: pointer;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
+    $(obj).parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'><font style='color:red'>*</font>&nbsp科目：</span><select name='subject_score_new_two' class='form-control' style='width:70px'></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:55px;'><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 -4%'><div class='input-group' style='width:55px;'><input type='text' class='form-control'  name='subject_score_two_new_two' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -2%;cursor: pointer;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
     var id_subject_score = $(obj).parent().parent().parent().find("select[name='subject_score_new_two']");
     Enum_map.append_option_list("subject",id_subject_score, true);
 }
@@ -3299,7 +3299,6 @@ function init_edit() {
             Enum_map.append_option_list("identity", id_tea_status, true,[5,6,7,8]);
             id_tea_gender.append(wuyaoqiu_html);
             Enum_map.append_option_list("gender", id_tea_gender, true,[1,2]);
-            id_tea_age.append(wuyaoqiu_html);
             Enum_map.append_option_list("tea_age", id_tea_age, true);
             id_stu_request_test_lesson_time.datetimepicker({
                 lang             : 'ch',
@@ -3908,7 +3907,7 @@ function init_edit() {
                         html_node.find("#id_main_subject_score_two_new_two").val(arr_new[1]);
                     }else{
                         // html_node.find("#id_add_subject_score_new_two").parent().parent().parent().append("<div class='col-xs-12 col-md-3 subject_score '><div class='input-group'><select id='subject_score_"+index+"' name='subject_score_new_two' class='form-control'><option>"+arr[0]+"</option></select><input type='text' class='form-control' name='subject_score_one_new_two' value='"+arr_new[0]+"' placeholder='分数' /><input type='text' class='form-control' name='subject_score_two_new_two' value='"+arr_new[1]+"' placeholder='满数' /><button class='btn btn-primary'  title='添加科目' onclick='add_subject_score(this)' ><i class='fa fa-plus'></i></button><button class='btn btn-primary' onclick='del_subject_score(this)'  title='删除科目' ><i class='fa fa-minus'></i></button></div></div>");
-                        html_node.find("#id_add_subject_score_new_two").parent().parent().parent().append("<div><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'><font style='color:red'>*</font>&nbsp科目：</span><select name='subject_score_new_two' id='id_main_subject_new_two' class='form-control' style='width:70px'></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:55px;'><input type='text' class='form-control' id='id_main_subject_score_one_new_two' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 -4%'><div class='input-group' style='width:55px;'><input type='text' class='form-control' id='id_main_subject_score_two_new_two' name='subject_score_two_new_two' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -2%;cursor: pointer;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
+                        html_node.find("#id_main_subject_score_two_new_two").parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'><font style='color:red'>*</font>&nbsp科目：</span><select name='subject_score_new_two' id='subject_score_"+index+"' class='form-control' style='width:70px'><option>"+arr[0]+"</option></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:55px;'><input type='text' class='form-control' value='"+arr_new[0]+"' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 -4%'><div class='input-group' style='width:55px;'><input type='text' class='form-control' name='subject_score_two_new_two' value='"+arr_new[1]+"' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -2%;cursor: pointer;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
                     }
                 }
             });
@@ -3965,12 +3964,10 @@ function init_edit() {
                             $.each(subject_tag_arr,function(index,value){
                                 if(value == item['tag_name']){
                                     checked = "checked='checked'";
-                                    return false;
-                                }else{
-                                    checked = "";
                                 }
                             });
-                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' "+checked+" />");
+                            // id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' "+checked+" />");
+                            id_add_tag.parent().append("<span class='sub_tag_name'>"+item['tag_name']+"</span><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' "+checked+" style='margin:0 10px 0 0' />");
                         }
                     });
                 });
@@ -3979,8 +3976,9 @@ function init_edit() {
             id_grade.change(function(){
                 $.do_ajax("/product_tag/get_all_tag", {
                 },function(resp){
-                        id_subject.find("option").remove();
-                        id_subject_score.find("option").remove();
+                    id_subject.find("option").remove();
+                    id_subject_score.find("option").remove();
+                    // alert($("#id_main_subject_new_two").parent().parent().parent().find("div:[class=subject_score]").attr('class'));
                     if(id_grade.val()==101 || id_grade.val()==102 || id_grade.val()==103 || id_grade.val()==104 || id_grade.val()==105 || id_grade.val()==106){
                         Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3]);
                         Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3]);
@@ -3991,8 +3989,8 @@ function init_edit() {
                         Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3,4,5,6,7,8,9]);
                         Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9]);
                     }
-                    id_add_tag.parent().children('button').remove();
-                    id_add_tag.parent().children('input').remove();
+                    id_add_tag.parent().children("span[class='sub_tag_name']").remove();
+                    id_add_tag.parent().children('input[type=checkbox]').remove();
                     var data=resp.data;
                     $.each(data,function(i,item){
                         if(item['tag_l1_sort'] == '学科化内容标签' && item['tag_l2_sort'] == id_grade.find("option:selected").text() && item['tag_l3_sort'] == id_subject.find("option:selected").text()){
@@ -4000,11 +3998,9 @@ function init_edit() {
                             $.each(subject_tag_arr,function(index,value){
                                 if(value == item['tag_name']){
                                     checked = "checked='checked'";
-                                }else{
-                                    checked = "";
                                 }
                             });
-                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' "+checked+" />");
+                            id_add_tag.parent().append("<span class='sub_tag_name'>"+item['tag_name']+"</span><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' "+checked+" />");
                         }
                     })
                         })
@@ -4012,8 +4008,8 @@ function init_edit() {
             id_subject.change(function(){
                 $.do_ajax("/product_tag/get_all_tag", {
                 },function(resp){
-                    id_add_tag.parent().children('button').remove();
-                    id_add_tag.parent().children('input').remove();
+                    id_add_tag.parent().children("span[class='sub_tag_name']").remove();
+                    id_add_tag.parent().children('input[type=checkbox]').remove();
                     var data=resp.data;
                     $.each(data,function(i,item){
                         if(item['tag_l1_sort'] == '学科化内容标签' && item['tag_l2_sort'] == id_grade.find("option:selected").text() && item['tag_l3_sort'] == id_subject.find("option:selected").text()){
@@ -4021,20 +4017,16 @@ function init_edit() {
                             $.each(subject_tag_arr,function(index,value){
                                 if(value == item['tag_name']){
                                     checked = "checked='checked'";
-                                }else{
-                                    checked = "";
                                 }
                             });
-                            id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' "+checked+" />");
+                            id_add_tag.parent().append("<span class='sub_tag_name'>"+item['tag_name']+"</span></button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' "+checked+" />");
                         }
                     })
-                        })
-            });
-            id_subject.change(function(){
+                        });
                 id_main_subject.val(id_subject.val());
                 id_main_subject_score_one.val('');
                 id_main_subject_score_two.val('');
-            })
+            });
             $.each(data.subject_tag,function(index,value){
                 if(index == '素质培养'){
                     id_cultivation.val(value);
@@ -4191,9 +4183,9 @@ function init_edit() {
                         }
                         var subject_str = '';
                         $(".subject_score ").each(function(){
-                            var subject_score = $(this).children("div").children("select[name='subject_score_new_two']").find("option:selected").text();
-                            var subject_score_one = $(this).children("div").children("input[name='subject_score_one_new_two']").val();
-                            var subject_score_two = $(this).children("div").children("input[name='subject_score_two_new_two']").val();
+                            var subject_score = $(this).children("div").children("div").children("select[name='subject_score_new_two']").find("option:selected").text();
+                            var subject_score_one = $(this).children("div").children("div").children("input[name='subject_score_one_new_two']").val();
+                            var subject_score_two = $(this).children("div").children("div").children("input[name='subject_score_two_new_two']").val();
                             if(subject_score == ''){
                             }else{
                                 subject_str += subject_score+':'+subject_score_one+'/'+subject_score_two+',';
@@ -4332,11 +4324,11 @@ function init_edit() {
                         }else{
                             html_node.find("#id_test_stress_new_two").parent().attr('style','');
                         }
-                        if(html_node.find("#id_academic_goal_new_two").val() <= 0){
-                            html_node.find("#id_academic_goal_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        if(html_node.find("#id_entrance_school_type_new_two").val() <= 0){
+                            html_node.find("#id_entrance_school_type_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
                         }else{
-                            html_node.find("#id_academic_goal_new_two").parent().attr('style','');
+                            html_node.find("#id_entrance_school_type_new_two").parent().attr('style','');
                         }
                         if(html_node.find("#id_cultivation_new_two").val() == ''){
                             html_node.find("#id_cultivation_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
@@ -4344,12 +4336,12 @@ function init_edit() {
                         }else{
                             html_node.find("#id_cultivation_new_two").parent().attr('style','');
                         }
-                        if(add_tag == ''){
-                            html_node.find("#id_add_tag_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_add_tag_new_two").parent().attr('style','');
-                        }
+                        // if(add_tag == ''){
+                        //     html_node.find("#id_add_tag_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        //     return false;
+                        // }else{
+                        //     html_node.find("#id_add_tag_new_two").parent().attr('style','');
+                        // }
                         if(html_node.find("#id_stu_request_test_lesson_demand_new_two").val() == ''){
                             html_node.find("#id_stu_request_test_lesson_demand_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
