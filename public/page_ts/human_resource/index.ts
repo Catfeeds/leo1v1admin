@@ -2202,11 +2202,11 @@ $(function(){
             ['申请原因', require_reason]
         ];
 
-        $.show_key_value_table("设置身份",arr,{
+        $.show_key_value_table("全转兼申请",arr,{
             label    : "确认",
             cssClass : "btn-warning",
             action   : function(diolog) {
-                $.do_ajax('/teacher_common/full_to_part', {
+                $.do_ajax('/teacher_trans/full_to_part', {
                     'teacherid': data.teacherid,
                     'level':data.level,
                     'teacher_money_type':data.teacher_money_type,
