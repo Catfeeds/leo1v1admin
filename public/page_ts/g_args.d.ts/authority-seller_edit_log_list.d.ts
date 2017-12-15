@@ -30,15 +30,24 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/authority-seller_edit_log_list.d.ts" />
 
+function load_data(){
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
+		adminid:	$('#id_adminid').val()
+		});
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			adminid:	$('#id_adminid').val()
-        });
-    }
 
 
-	$('#id_adminid').val(g_args.adminid);
+	$('#id_adminid').admin_select_user_new({
+		"user_type"    : "account",
+		"select_value" : g_args.adminid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_adminid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -55,4 +64,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["adminid title", "adminid", "th_adminid" ]])!!}
 */

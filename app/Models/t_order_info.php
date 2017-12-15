@@ -4383,10 +4383,75 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     }
 
-    public function get_ceshi(){
-        $sql = "select sum(o.price)/100 total_price, sys_operator from db_weiyi.t_order_info o  left join db_weiyi_admin.t_manager_info  m on o.sys_operator = m.account left join db_weiyi.t_student_info s on s.userid = o.userid where o.price>0 and contract_status<> 0 and m.account_role=2  and order_time>=1512403200 and order_time<=1513094400 and s.is_test_user=0  and sys_operator <>'yueyue'  group by sys_operator";
+    public function getOrderList($start_time, $end_time){
+        $where_arr = [
+            "m.leave_member_time=0",
+            "m.account_role=2",
+            "o.check_money_flag=1",
+            "o.price>0",
+            "o.contract_status in (1,2)",
+        ];
 
-        return $this->db_exec($sql);
+        $this->where_arr_add_time_range($where_arr, "o.order_time", $start_time, $end_time);
+
+        $sql = $this->gen_sql_new("  select o.order_time, o.check_money_time, o.price/100 as price_money, o.sys_operator, m.create_time from %s o "
+                                  ." left join %s m on m.account=o.sys_operator"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
+    public function check_is_have_competition_order($userid){
+        $where_arr=[
+            ["userid=%u",$userid,-1],
+            "competition_flag=1",
+            "contract_status=1",
+            "contract_type in (0,1,3)"
+        ];
+        $sql = $this->gen_sql_new("select 1 from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+    }
+
+
+    //助教转介绍合同
+    public function get_assistant_origin_order_losson_list($start_time,$end_time,$opt_date_str, $userid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid ){               
+        $where_arr=[
+            ["o.sys_operator like '%%%s%%'" , $sys_operator, ""],
+            ["l.teacherid=%u" , $teacherid, -1],
+            ["a.assistantid = %u" , $assistantid, -1],
+            ["m.uid = %u" , $order_adminid, -1],
+            ["s.origin_userid = %u" , $origin_userid, -1],
+            "o.contract_type=0",
+            "o.contract_status>0",
+            "m.account_role=1",
+            "s.origin_userid>0",
+            "s.origin_assistantid>0",
+            "s.is_test_user=0"
+        ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+        $sql = $this->gen_sql_new("select s.nick,s.userid,l.lessonid,l.grade,l.subject,s.phone,t.realname,"
+                                  ." l.teacherid,o.price,o.order_time,o.pay_time,o.sys_operator,m2.name "
+                                  ." from %s o left join %s l on o.from_test_lesson_id = l.lessonid"
+                                  ." left join %s s on o.userid = s.userid"
+                                  ." left join %s m on m.account = o.sys_operator"
+                                  ." left join %s m2 on s.origin_assistantid = m2.uid "
+                                  ." left join %s a on a.phone = m2.phone "
+                                  ." left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
 
     }
 }

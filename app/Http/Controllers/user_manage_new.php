@@ -1204,9 +1204,9 @@ class user_manage_new extends Controller
                 $item['page_id'] = 0;
             }
             $item['name'] .= ' - '.$item['page_id'];
-            $check = false;
-            if (isset($power_map[$page_id]) && $power_map[$page_id]) { $check = true;}
-            $item['checked'] = $check;
+            $check1 = false;
+            if (isset($power_map[$page_id]) && $power_map[$page_id]) { $check1 = true;}
+            $item['checked'] = $check1;
             unset($item['url']);
             //$info[] = $item;
             if (isset($item['list'])) {
@@ -1222,12 +1222,12 @@ class user_manage_new extends Controller
                         $item2['page_id'] = 0;
                     }
                     $item2['name'] .= ' - '.$item2['page_id'];
-                    $check = false;
+                    $check2 = false;
                     if (isset($power_map[$page_id2]) && $power_map[$page_id2]) {
-                        $check = true;
+                        $check2 = true;
                         $j ++;
                     }
-                    $item2['checked'] = $check;
+                    $item2['checked'] = $check2;
                     unset($item2['url']);
                     //$info[] = $item2;
                     $i ++;
@@ -1240,24 +1240,24 @@ class user_manage_new extends Controller
                             $item3['name'] .= ' - '.$item3['page_id'];
                             $item3['id'] = $k3;
                             $item3['pId'] = $k2;
-                            $check = false;
+                            $check3 = false;
                             if (isset($power_map[$item3['page_id']]) && $power_map[$item3['page_id']]) {
                                 $check = true;
                                 $k ++;
                             }
-                            $item3['checked'] = true;
+                            $item3['checked'] = $check3;
                             unset($item3['url']);
                             $info[] = $item3;
-                            $i ++;
-                            if ($len2 == $k) {
-                                $item2['checked'] = true;
-                                $j ++;
-                            }
+                            // $i ++;
+                            // if ($len2 == $k) {
+                            //     $item2['checked'] = $check2;
+                            //     $j ++;
+                            // }
                         }
                     }
-                    if ($len1 == $j) {
-                        $item['checked'] = true;
-                    }
+                    // if ($len1 == $j) {
+                    //     $item['checked'] = $check1;
+                    // }
                     $info[] = $item2;
                 }
                 
@@ -2077,9 +2077,9 @@ class user_manage_new extends Controller
         $list=[];
         $user_list=[];
         $user_list=$this->t_manager_info->get_power_group_user_list($groupid);
+        $power_map=$this->t_authority_group->get_auth_group_map($groupid);
+        $list=$this->get_menu_list_new($power_map );
         if ($show_flag!=2) { //只用户
-            $power_map=$this->t_authority_group->get_auth_group_map($groupid);
-            $list=$this->get_menu_list_new($power_map );
             $ret_info=\App\Helper\Utils::list_to_page_info($list);
         }else{
             $ret_info=\App\Helper\Utils::list_to_page_info([]);
@@ -2297,7 +2297,7 @@ class user_manage_new extends Controller
     }
 
     public function set_group_power () {
-        $groupid        = $this->get_in_int_val("groupid") ;
+        $groupid        = $this->get_in_str_val("groupid") ;
         $power_list_str = $this->get_in_str_val("power_list_str") ;
 
         $this->t_authority_group->field_update_list($groupid,[
@@ -2313,7 +2313,6 @@ class user_manage_new extends Controller
             "msg"      => "权限管理页面,权限修改记录:$power_list_str",
             "user_log_type" => 2, //权限页面修改记录
         ]);
-
 
         return $this->output_succ();
     }

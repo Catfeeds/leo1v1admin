@@ -2216,8 +2216,8 @@ function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo ,
 };
 
 function multi_upload_file(new_flag,is_multi,is_auto_start,btn_id, is_public_bucket ,select_func,befor_func, complete_func, ext_file,process_id ){
-    do_ajax( "/common/get_bucket_info",{
-        is_public: is_public_bucket ? 1:0
+    do_ajax( "/common/get_new_bucket_info",{
+        // is_public: is_public_bucket ? 1:0
     },function(ret){
         var domain_name=ret.domain;
         var token=ret.token;
@@ -2232,12 +2232,12 @@ function multi_upload_file(new_flag,is_multi,is_auto_start,btn_id, is_public_buc
             browse_button: btn_id , //choose files id
             // container: 'container',
             // drop_element: 'container',
-            max_file_size: '5mb',
-            // filters: {
-            //     mime_types: [
-            //         {title: "", extensions: ext_file}
-            //     ]
-            // },
+            max_file_size: '500mb',
+            filters: {
+                mime_types: [
+                    {title: "", extensions: ext_file}
+                ]
+            },
             flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
             // dragdrop: true,
             chunk_size: '4mb',

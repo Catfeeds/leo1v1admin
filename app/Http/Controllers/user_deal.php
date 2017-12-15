@@ -954,6 +954,7 @@ class user_deal extends Controller
         $call_phone_type         = $this->get_in_int_val("call_phone_type");
         $main_department         = $this->get_in_int_val("main_department");
         $no_update_seller_level_flag = $this->get_in_int_val("no_update_seller_level_flag");
+        //$become_member_time      = $this->get_in_str_val("become_member_time");
         if (!$tquin) {
             $tquin=NULL;
         }
@@ -1000,6 +1001,7 @@ class user_deal extends Controller
             "main_department" =>$main_department,
             "level_face_pic" => $level_face_pic,
             "no_update_seller_level_flag" => $no_update_seller_level_flag,
+            //'become_member_time' => strtotime($become_member_time.' '.date('H:i', time()))
         ];
 
         if ($cardid) {
@@ -5901,6 +5903,14 @@ class user_deal extends Controller
 
         return $this->output_succ();
 
+    }
+
+    public function set_train_lesson_recover(){
+        $id = $this->get_in_int_val("id");
+        $this->t_teacher_record_list->field_update_list($id,[
+            "trial_train_status" =>0 
+        ]);
+        return $this->output_succ();
     }
 
     public function get_teacher_interview_info(){

@@ -296,6 +296,23 @@ class wx_parent_gift extends Controller
     }
 
 
+
+    /**
+
+     *@ 市场部圣诞节活动
+     *@
+     *@
+     *@
+     **/
+    public function christmasHistory(){ //微信推文 理优历史
+
+    }
+
+    public function getUserId(){
+
+    }
+
+
     /**
      *市场部赠送图书活动
      *

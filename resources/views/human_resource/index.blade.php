@@ -564,6 +564,7 @@
                                 <a class=" opt-regular-lesson-detele-list div_show" >常规课表空闲记录</a>
                                 <a class=" opt-teacher-cancel-lesson-list div_show" >老师取消课程记录</a>
                                 <a class=" opt-jianli div_show" >简历</a>
+                                <a class=" opt-full-to-part">全职转兼职</a>
                             </div>
                         </td>
                     </tr>

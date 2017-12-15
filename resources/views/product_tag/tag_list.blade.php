@@ -13,7 +13,7 @@
     <section class="content ">
         <div>
             <div class="row  row-query-list" >
-                <div class="col-xs-6 col-md-2">
+                <div class="col-xs-6 col-md-3">
                     <div class="input-group ">
                         <span class="input-group-addon">标签一级分类</span>
                         <select class="opt-change form-control" id="id_tag_l1_sort" >
@@ -22,7 +22,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2">
+                <div class="col-xs-6 col-md-3">
                     <div class="input-group ">
                         <span class="input-group-addon">标签二级分类</span>
                         <select class="opt-change form-control" id="id_tag_l2_sort" >
@@ -31,7 +31,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2">
+                <div class="col-xs-6 col-md-3">
                     <div class="input-group ">
                         <span class="input-group-addon">标签三级分类</span>
                         <select class="opt-change form-control" id="id_tag_l3_sort" >

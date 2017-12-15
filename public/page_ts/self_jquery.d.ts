@@ -34,6 +34,8 @@ interface JQueryStatic {
 
     show_key_value_table (title:string,arr:Array<Array<any>> ,btn_config?:Object,onshownfunc?: ()=>void, close_flag?:boolean ,width? ):void;
 
+    admin_enum_select (options):any; 
+
     //<script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     /*
     $.admin_select_user(
@@ -47,6 +49,7 @@ interface JQueryStatic {
         }
     );
     */
+
     admin_select_user ( $element:JQuery, user_type:string, call_func?:(id:number)=>void, is_not_query_flag?:boolean, args_ex?: any, th_input_id?:string, select_all_flag?:boolean ):void ;
 
     dlg_get_html_by_class(item_class:string):string;
@@ -157,6 +160,9 @@ interface JQuery {
 
     //<script type="text/javascript" src="/page_js/lib/select_dlg.js?v={{@$_publish_version}}"></script>
     admin_select_dlg(conf:Object):void;
+
+    admin_header_query (config ): any;
+
     select_date_range(conf:Object):void;
 
     iCheck(str:any):JQuery;

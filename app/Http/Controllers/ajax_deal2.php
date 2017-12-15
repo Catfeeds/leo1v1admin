@@ -133,6 +133,8 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
+
+
     public function set_tmk_valid() {
         $userid=$this->get_in_userid();
         $tmk_student_status = $this->get_in_e_tmk_student_status();
@@ -228,21 +230,12 @@ class ajax_deal2 extends Controller
             return $this->output_err("不是1对１合同，不能生成合同");
         }
 
-        // if (($lesson_count) <=90 ) {
-        //     $order_end_time =$order_start_time+365*86400;
-        // } else if (($lesson_count) <=270 ) {
-        //     $order_end_time =$order_start_time+365*86400*2;
-        // } else  {
-        //     $order_end_time =$order_start_time+365*86400*3;
-        // }
-
         if(!$one_lesson_count    ){ $one_lesson_count= 3; }
         if(!$per_lesson_interval ){ $per_lesson_interval = 40; }
         $now=time(NULL);
 
         $pdf_file_url=\App\Helper\Common::gen_order_pdf($orderid,$username,$grade,$competition_flag,$lesson_count,$price,$one_lesson_count,$per_lesson_interval,$order_start_time,$order_end_time,true, $now ,$type_1_lesson_count,$phone, $parent_name );
         \App\Helper\Utils::logger("pdf_file_url:$pdf_file_url");
-
         $pdf_file_url=\App\Helper\Common::gen_order_pdf($orderid,$username,$grade,$competition_flag,$lesson_count,$price,$one_lesson_count,$per_lesson_interval,$order_start_time,$order_end_time,false,$now , $type_1_lesson_count ,$phone, $parent_name);
 
         \App\Helper\Utils::logger("pdf_file_url:$pdf_file_url");
@@ -2341,5 +2334,17 @@ class ajax_deal2 extends Controller
         ]);
         return $this->output_succ();
 
+    }
+
+    //检查转介绍人是否存在竞赛合同
+    public function check_origin_user_order_type(){
+        $orderid = $this->get_in_int_val("orderid");
+        $userid = $this->t_order_info->get_userid($orderid);
+        $origin_userid=$this->t_student_info->get_origin_userid($userid);
+        if(!$origin_userid){
+            return $this->output_err("没有找到对应的转介绍人"); 
+        }
+        $competition_flag = $this->t_order_info->check_is_have_competition_order($origin_userid);
+        return $this->output_succ(["flag"=>$competition_flag]);
     }
 }
