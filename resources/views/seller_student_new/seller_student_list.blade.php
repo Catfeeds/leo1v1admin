@@ -1301,7 +1301,7 @@
 
 
 
-                    <div>
+                    <div class="subject_score">
                         <div class='col-xs-12 col-md-1' >
                             <div class='input-group'>
                                 <span class='input-group-addon' style='height:34px;'><font style='color:red'>*</font>&nbsp科目：</span>
@@ -1406,7 +1406,7 @@
 
         <div class="row">
             <div class="col-xs-12 col-md-12  " >
-                <span><font style="color:red">*</font>试听要求</span>
+                <span>试听要求</span>
                 <span style="margin-left:70px;" id="id_add_tag_new_two"></span>
             </div>
             <div class="col-xs-12 col-md-9  ">
