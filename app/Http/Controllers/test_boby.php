@@ -795,7 +795,7 @@ class test_boby extends Controller
     }
 
     public function update_data(){
-        return 1;
+        // return 1;
         $day = $this->get_in_str_val('day','2015-01-01');
         $start_time = strtotime( $day );
         $end_time   = strtotime( '+1 month',$start_time );
