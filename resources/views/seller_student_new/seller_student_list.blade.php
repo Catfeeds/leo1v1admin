@@ -1422,10 +1422,10 @@
 
             <div class="col-xs-12 col-md-3  ">
                 <div class="row">
-                    <div class="col-xs-12 col-md-12 ">
-                        <div class="input-group ">
+                    <div class="col-xs-12 col-md-12 " style="width:320px;">
+                        <div class="input-group " >
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp试听时间：</span>
-                            <input id="id_stu_request_test_lesson_time_new_two" placeholder="开始时间" class=" form-control "   />
+                            <input id="id_stu_request_test_lesson_time_new_two" placeholder="开始时间" class=" form-control " style="1"  />
                             <input id="id_stu_request_test_lesson_time_end_new_two" placeholder="结束时间" class=" form-control "   />
                             <div class=" input-group-btn "  >
                                 <button class="btn  btn-primary" id="id_stu_reset_stu_request_test_lesson_time_new_two"  title="取消" >
