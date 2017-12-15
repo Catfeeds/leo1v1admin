@@ -1165,74 +1165,74 @@
             </div>
             <div class="col-xs-12 col-md-12  ">
                 <div class="row">
-                    <div class="col-xs-12 col-md-3  ">
+                    <div class="col-xs-12 col-md-2  ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp学员姓名：</span>
-                            <input type="text" class=" form-control "  id="id_stu_nick_new_two"  />
+                            <input type="text" class=" form-control "  id="id_stu_nick_new_two" style="width:100px;" />
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3" >
+                    <div class="col-xs-12 col-md-2" style="margin:0 0 0 30px;">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp性别：</span>
                             <select id="id_stu_gender_new_two" class=" form-control " >
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3 " >
+                    <div class="col-xs-12 col-md-2 " >
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp家长姓名：</span>
-                            <input type="text" class=" form-control "  id="id_par_nick_new_two"  />
+                            <input type="text" class=" form-control "  id="id_par_nick_new_two" style="width:108px" />
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3 " style="left:-50px">
+                    <div class="col-xs-12 col-md-1 " >
                         <div class="input-group ">
                             <select id="id_par_type_new_two" class=" form-control " >
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3 ">
+                    <div class="col-xs-12 col-md-2 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp年级：</span>
                             <select id="id_stu_grade_new_two" class=" form-control "   >
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3 ">
+                    <div class="col-xs-12 col-md-2 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp科目：</span>
                             <select id="id_stu_subject_new_two" class=" form-control "   >
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3 ">
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-2 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp教材版本：</span>
-                            <select id="id_stu_editionid_new_two" class=" form-control "   >
+                            <select id="id_stu_editionid_new_two" class=" form-control "  style="width:100px;" >
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3 ">
+                    <div class="col-xs-12 col-md-2 " style="margin:0 0 0 30px;">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp上课设备：</span>
                             <select id="id_stu_has_pad_new_two" class=" form-control "   >
                             </select>
                         </div>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp在读学校：</span>
-                            <input type="text" id="id_stu_school_new_two"  class="form-control"  />
+                            <input type="text" id="id_stu_school_new_two"  class="form-control" style="width:170px;" />
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3  ">
+                    <div class="col-xs-12 col-md-2  ">
                         <div class="input-group ">
                             <span class="input-group-addon">性格：</span>
                             <input type="text" class=" form-control "  id="id_character_type_new_two"  />
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3  ">
+                    <div class="col-xs-12 col-md-2  ">
                         <div class="input-group ">
                             <span class="input-group-addon">爱好：</span>
                             <input type="text" class=" form-control "  id="id_interests_hobbies_new_two"  />
@@ -1244,11 +1244,11 @@
                     <div class="col-xs-12 col-md-2">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp省</span>
-                            <select class="form-control" id="province_new_two" name="province">
+                            <select class="form-control" id="province_new_two" name="province"  style="width:155px">
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-2">
+                    <div class="col-xs-12 col-md-2" style="margin:0 0 0 30px">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp市</span>
                             <select class="form-control" id="city_new_two" name="city">
@@ -1262,7 +1262,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6 " >
+                    <div class="col-xs-12 col-md-5 " >
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp详细住址：</span>
                             <input type="text" id="id_stu_addr_new_two" placeholder="请输入详细住址" class="form-control" />
@@ -1285,12 +1285,12 @@
                     </div>
 
                     <div class='col-xs-3 col-md-1' style=''>
-                        <div class='input-group' style='width:92px;'>
+                        <div class='input-group' style='width:60px;'>
                             <input type="text" class=" form-control "  id="id_class_rank_new_two"  placeholder='班级排名' />
                         </div>
                     </div>
-                    <div class='col-xs-3 col-md-1' style="margin:0 1% 0 -1%">
-                        <div class='input-group' style='width:88px;'>
+                    <div class='col-xs-3 col-md-1' style="margin:0 4% 0 -4%">
+                        <div class='input-group' style='width:60px;'>
                             <input type="text" class=" form-control "  id="id_class_num_new_two" placeholder='班级人数' />
                         </div>
                     </div>
@@ -1348,7 +1348,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3 ">
+                    <div class="col-xs-12 col-md-3 " style="margin:0 0 0 -7px;" >
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp素质培养：</span>
                             <input type="text" class=" form-control "  id="id_cultivation_new_two"  />

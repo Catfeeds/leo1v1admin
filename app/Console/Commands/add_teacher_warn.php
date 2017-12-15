@@ -44,7 +44,7 @@ class add_teacher_warn extends Command
 
         // 每日凌晨二点更新数据
         $date = strtotime('-1day');
-        $start_time = strtotime(date('Y-m-1 00:00:00', $date));
+        $start_time = strtotime(date('Y-m-d 00:00:00', $date));
         $end_time = strtotime(date('Y-m-d 23:59:59', $date));
 
         //$data = $task->t_teacher_warn->get_info_for_time($start_time, $end_time);
