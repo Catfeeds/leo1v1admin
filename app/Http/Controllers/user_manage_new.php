@@ -1241,23 +1241,24 @@ class user_manage_new extends Controller
                             $item3['id'] = $k3;
                             $item3['pId'] = $k2;
                             $check3 = false;
+                            //echo $item['']
                             if (isset($power_map[$item3['page_id']]) && $power_map[$item3['page_id']]) {
-                                $check = true;
+                                $check3 = true;
                                 $k ++;
                             }
                             $item3['checked'] = $check3;
                             unset($item3['url']);
                             $info[] = $item3;
-                            // $i ++;
-                            // if ($len2 == $k) {
-                            //     $item2['checked'] = $check2;
-                            //     $j ++;
-                            // }
+                            $i ++;
+                            if ($len2 == $k) {
+                                $item2['checked'] = true;
+                                $j ++;
+                            }
                         }
                     }
-                    // if ($len1 == $j) {
-                    //     $item['checked'] = $check1;
-                    // }
+                    if ($len1 == $j) {
+                        $item['checked'] = true;
+                    }
                     $info[] = $item2;
                 }
                 

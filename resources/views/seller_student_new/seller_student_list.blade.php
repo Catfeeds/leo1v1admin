@@ -479,8 +479,12 @@
                                 <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
                                 @if($account_role==12 || in_array($account,['tom','jim']))
-                                    <a title="new回访" class="  fa-chevron-up opt-edit-new_new_two"></a>
-                                    <a title="new回访" class="  fa-chevron-up opt-post-test-lesson_new"></a>
+                                    <a title="试听申请new" class="  fa-chevron-up opt-edit-new_new_two"></a>
+                                    <a title="试听申请new" class="  fa-chevron-up opt-post-test-lesson_new"
+                                       @if($account_role!=12 && !in_array($account,['tom','jim']))
+                                       style="display:none;"
+                                       @endif
+                                    ></a>
                                 @endif
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new_new"></a>
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new"  style=" display:none"></a>
