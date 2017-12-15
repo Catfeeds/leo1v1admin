@@ -123,37 +123,12 @@ class question_new extends Controller
                 $arr['name'] = $item['title'];
                 $arr['id'] = $item['knowledge_id'];
                 $arr['pId'] = $item['father_id'];
-                $arr['type'] = 'edit';
+                $arr['editType'] = 2;
                 $ret[] = $arr;
             }
         }
         //dd($ret);
         return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712141356",'ret'=> json_encode($ret)]);
-    }
-
-    public function knowledge_list2(){
-
-        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712121056"]); 
-    }
-    private function get_tree($father_id,$ret){
-        $know_arr = $this->know_arr;
-        if($know_arr){
-            foreach( $know_arr as &$item ){
-                if( $item['father_id'] == $father_id){
-                    //$item['subject_str'] = E\Esubject::get_desc($item['subject']);
-                    $arr = [];
-                    $before = str_repeat('===> ',$item['level']);
-                    $arr['name'] = $before.$item['title'];
-                    $arr['id'] = $item['knowledge_id'];
-                    $arr['pId'] = $father_id;
-                    $arr['level'] = $item['level'];
-                    $arr['open_flag'] = $item['open_flag'];
-                    $this->tree_arr[] = $arr;
-                    $this->get_tree($item['knowledge_id'],$ret);
-                } 
-            }
-        }
-        return true;
     }
 
     public function knowledge_get(){
@@ -215,12 +190,11 @@ class question_new extends Controller
         $knowledge_id   = $this->get_in_int_val('knowledge_id',0);
         $data = [];
         $data['subject'] = $this->get_in_int_val('subject',1);
-        $data['title']   = $this->get_in_str_val('title','');
+        $data['title']   = $this->get_in_str_val('title');
         $data['detail']   = $this->get_in_str_val('detail','');
         $data['open_flag']   = $this->get_in_int_val('open_flag',1);
 
         $levData = [];
-        $levData['level']   = $this->get_in_int_val('level',0);
         $levData['father_id']   = $this->get_in_int_val('father_id',0);
 
         if( $editType == 1 ){
@@ -229,6 +203,7 @@ class question_new extends Controller
                 $levData['knowledge_id'] = $this->t_knowledge_point->get_last_insertid();
                 $retinfo = $this->t_knowledge_level->row_insert($levData);
                 if($retinfo){
+                    $result['id'] = $levData['knowledge_id'];
                     $result['status'] = 200;
                     $result['msg'] = "添加成功";
 
@@ -246,7 +221,7 @@ class question_new extends Controller
         if( $editType == 2 ){
             $ret = $this->t_knowledge_point->field_update_list($knowledge_id,$data);
             if($ret){
-                $result['status'] = 200;
+                $result['status'] = 201;
                 $result['msg'] = "更新成功";
             }else{
                 $result['status'] = 500;

@@ -52,6 +52,10 @@ function beforeRemove(treeId,treeNode){
     return confirm("确认删除 节点 -- " + treeNode.name + " 吗？"); 
 }
 
+function onRemove(e,treeId,treeNode){
+    alert('remove'); 
+}
+
 function beforeEditName(treeId, treeNode) {
     var zTree = $.fn.zTree.getZTreeObj("treeDemo");
     edit_know(treeId, treeNode);
@@ -81,22 +85,45 @@ function save_know(){
     var zTree = $.fn.zTree.getZTreeObj("treeDemo");
     //zTree.selectNode(tree_edit_node);
     tree_edit_node.name = $('.id_mathjax_content').val();
+    var data = {
+        'editType':tree_edit_node.editType,
+        'knowledge_id':tree_edit_node.id,
+        'father_id':tree_edit_node.pId,
+        'title':tree_edit_node.name,
+        'subject':$('#id_subject').val()
+    }
+
+    $.ajax({
+        type : "post",
+        url : "/question_new/knowledge_add",
+        dataType : "json",
+        data:data,
+        success : function(res){
+            if( res.status = 200 ){
+                
+            }else if(){
+                
+            }{
+                BootstrapDialog.alert('更新出错，请刷新网页');
+            }
+        },
+        error:function(){
+            BootstrapDialog.alert('取出错误');
+        }
+    });
+
+    console.log(tree_edit_node);
     zTree.editName(tree_edit_node);
     zTree.cancelEditName(tree_edit_node.name);
     close_know();
 }
-function beforeRename(treeId,treeNode,newName){
-    var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-    return true;
-    
-}
 
-function onRemove(e,treeId,treeNode){
-    alert('remove'); 
+function beforeRename(treeId,treeNode,newName){
+    return true;  
 }
 
 function onRename(e,treeId,treeNode){
-    console.log('onrename');
+   return true;
 }
 
 //是否显示编辑button
@@ -135,8 +162,8 @@ function addHoverDom(treeId, treeNode) {
         return false;
     });
     
-
 };
+
 function removeHoverDom(treeId, treeNode) {
     $("#addBtn_"+treeNode.id).unbind().remove();
 };

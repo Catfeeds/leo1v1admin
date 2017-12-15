@@ -304,7 +304,14 @@ class wx_parent_gift extends Controller
      *@
      *@
      **/
+
+
+
+    /**
+     *@ 微信图文[理优一段故事]
+     **/
     public function christmasHistory(){ //微信推文 理优历史
+        // $this->
 
     }
 
