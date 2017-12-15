@@ -5943,8 +5943,14 @@ class user_deal extends Controller
 
     public function get_train_lesson_comment(){
         $lessonid = $this->get_in_int_val("lessonid",281011);
-        $stu_comment = $this->t_lesson_info->get_stu_comment($lessonid);
-        $arr= json_decode($stu_comment,true);
+        $lesson_type = $this->get_in_int_val("lesson_type");
+        if($lesson_type==2){
+            $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+            $arr = $this->t_test_lesson_subject_require->field_get_list($require_id,"stu_lesson_content,stu_lesson_status,stu_study_status ,stu_advantages,stu_disadvantages ,stu_lesson_plan ,stu_teaching_direction,stu_textbook_info ,stu_teaching_aim ,stu_lesson_count ,stu_advice ");
+        }else{
+            $stu_comment = $this->t_lesson_info->get_stu_comment($lessonid);
+            $arr= json_decode($stu_comment,true);
+        }       
         return $this->output_succ(["data"=>$arr]);
     }
 
