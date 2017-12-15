@@ -401,6 +401,23 @@ $(function(){
 
     });
 
+    $(".opt-lesson-recover").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id= opt_data.id;
+
+        BootstrapDialog.confirm("确定恢复吗？", function(val){
+            if (val) {
+                $.do_ajax( '/user_deal/set_train_lesson_recover', {
+                    'id' : id
+                });
+            }
+        });
+
+
+
+    });
+
+
     $(".opt-out-link").on("click",function(){
         var lessonid = $(this).get_opt_data("lessonid");
         $.do_ajax( "/common/encode_text",{
