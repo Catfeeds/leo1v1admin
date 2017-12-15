@@ -4440,6 +4440,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s m on m.account = o.sys_operator"
                                   ." left join %s m2 on s.origin_assistantid = m2.uid "
                                   ." left join %s a on a.phone = m2.phone "
+                                  ." left join %s t on l.teacherid = t.teacherid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
@@ -4447,6 +4448,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   t_manager_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);
