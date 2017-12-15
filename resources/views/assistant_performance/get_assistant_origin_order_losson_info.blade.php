@@ -70,7 +70,7 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>助教 </td>
+                    <td>转介绍助教 </td>
                     <td>学生 </td>
                     <td>电话号码 </td>
                     <td>年级 </td>
