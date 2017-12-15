@@ -1248,16 +1248,16 @@ class user_manage_new extends Controller
                             $item3['checked'] = $check3;
                             unset($item3['url']);
                             $info[] = $item3;
-                            $i ++;
-                            if ($len2 == $k) {
-                                $item2['checked'] = true;
-                                $j ++;
-                            }
+                            // $i ++;
+                            // if ($len2 == $k) {
+                            //     $item2['checked'] = $check2;
+                            //     $j ++;
+                            // }
                         }
                     }
-                    if ($len1 == $j) {
-                        $item['checked'] = true;
-                    }
+                    // if ($len1 == $j) {
+                    //     $item['checked'] = $check1;
+                    // }
                     $info[] = $item2;
                 }
                 

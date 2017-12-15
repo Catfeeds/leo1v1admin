@@ -44,7 +44,7 @@ class add_teacher_warn extends Command
 
         // 每日凌晨二点更新数据
         $date = strtotime('-1day');
-        $start_time = strtotime(date('Y-m-1 00:00:00', $date));
+        $start_time = strtotime(date('Y-m-d 00:00:00', $date));
         $end_time = strtotime(date('Y-m-d 23:59:59', $date));
 
         //$data = $task->t_teacher_warn->get_info_for_time($start_time, $end_time);
@@ -53,11 +53,6 @@ class add_teacher_warn extends Command
         foreach($info as $item) {
             $minute=floor(($item['tea_attend'] - $item['lesson_start'])%86400/60);
             $five_num = $fift_num = $leave_num = 0;
-            if ($item['lesson_type'] == 2) { // 处理试听课是否为有效课程
-                $flag = $task->t_test_lesson_subject_sub_list->get_success_flag($item['lessonid']);
-                dd($flag);
-            }
-            exit;
             if ($minute > 15) {
                 $fift_num = 1;
             }
