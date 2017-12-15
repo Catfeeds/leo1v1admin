@@ -475,7 +475,8 @@ class assistant_performance extends Controller
         $teacherid         = $this->get_in_teacherid(-1);
         $origin_userid     = $this->get_in_int_val("origin_userid", -1);          
         $order_adminid          = $this->get_in_adminid(-1);
-        $ret_info = $this->t_order_info->get_assistant_origin_order_losson_list($start_time,$end_time,$opt_date_type, $studentid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid );
+        $assistantid       = $this->get_in_assistantid(-1);
+        $ret_info = $this->t_order_info->get_assistant_origin_order_losson_list($start_time,$end_time,$opt_date_type, $studentid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid );
         dd($ret_info);
 
 

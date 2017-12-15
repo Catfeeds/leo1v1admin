@@ -4418,7 +4418,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
 
     //助教转介绍合同
-    public function get_assistant_origin_order_losson_list($start_time,$end_time,$opt_date_str, $userid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid ){               
+    public function get_assistant_origin_order_losson_list($start_time,$end_time,$opt_date_str, $userid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid ){               
         $where_arr=[
             ["o.sys_operator like '%%%s%%'" , $sys_operator, ""],
             ["l.teacherid=%u" , $teacherid, -1],
