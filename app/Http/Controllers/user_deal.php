@@ -5905,6 +5905,14 @@ class user_deal extends Controller
 
     }
 
+    public function set_train_lesson_recover(){
+        $id = $this->get_in_int_val("id");
+        $this->t_teacher_record_list->field_update_list($id,[
+            "trial_train_status" =>0 
+        ]);
+        return $this->output_succ();
+    }
+
     public function get_teacher_interview_info(){
         $phone = $this->get_in_str_val("phone");
         $teacherid = $this->get_in_int_val("teacherid");
