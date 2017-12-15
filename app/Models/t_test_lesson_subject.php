@@ -1203,4 +1203,44 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
         return $this->main_get_value($sql);
     }
+
+    //@desn:获取节点型例子进入量
+    public function get_example_num($start_time,$end_time){
+        $where_arr = [
+            ['tls.require_admin_type = %u',2],
+            ['si.is_test_user = %u',0],
+        ];
+        $this->where_arr_add_time_range($where_arr, 'ssn.add_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select si.origin as channel_name,count(*) as all_count,'.
+            'count(si.userid) as heavy_count,count(ssn.admin_revisiterid >0) assigned_count,'.
+            'count(ssn.tmk_student_status=3) as tmk_assigned_count,'.
+            'avg(if(ssn.add_time<ssn.first_call_time,ssn.first_call_time-ssn.add_time,null)) avg_first_time,'.
+            'sum(ssn.global_tq_called_flag <>0) tq_called_count,'.
+            'sum(ssn.global_tq_called_flag=0) tq_no_call_count,'.
+            'format(sum(ssn.global_tq_called_flag <>2)/count(*)*100,2) consumption_rate,'.
+            'sum(ssn.global_tq_called_flag =2) as called_num,'.
+            'sum(ssn.global_tq_called_flag =2 and ssn.sys_invaild_flag=0) tq_call_succ_valid_count,'.
+            'sum(ssn.global_tq_called_flag =2 and  ssn.sys_invaild_flag =1) tq_call_succ_invalid_count,'.
+            'format(sum(ssn.global_tq_called_flag =2)/sum(ssn.global_tq_called_flag <>0)*100,2) called_rate,'.
+            'format(sum(ssn.global_tq_called_flag =2 and ssn.sys_invaild_flag =0)/sum(ssn.global_tq_called_flag <>0)*100,2) effect_rate,'.
+            'sum(ssn.global_tq_called_flag=1) tq_call_fail_count,'.
+            'sum(ssn.global_tq_called_flag =1 and ssn.sys_invaild_flag =1) tq_call_fail_invalid_count,'.
+            'sum(tls.seller_student_status =100 and ssn.global_tq_called_flag =2) have_intention_a_count,'.
+            'sum(tls.seller_student_status =101 and ssn.global_tq_called_flag =2) have_intention_b_count,'.
+            'sum(tls.seller_student_status =102 and ssn.global_tq_called_flag =2) have_intention_c_count '.
+            'from %s tls '.
+            'left join %s ssn on tls.userid = ssn.userid '.
+            'left join %s si on tls.userid = si.userid '.
+            'where %s group by si.origin',
+            self::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item['channel_name'];
+        });
+    }
+
 }

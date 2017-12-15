@@ -9787,7 +9787,8 @@ lesson_type in (0,1) "
             ["si.origin like '%%%s%%' ",$origin,""],
             'si.is_test_user = 0',
             'li.lesson_type = 2',
-            'tlssl.success_flag in (0,1 )'
+            'tlssl.success_flag in (0,1 )',
+            'tls.require_admin_type = 2',
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         $this->where_arr_add__2_setid_field($where_arr,"ssn.tmk_adminid",$tmk_adminid);
@@ -9836,6 +9837,7 @@ lesson_type in (0,1) "
             'tlssl.success_flag in (0,1 )',
             'oi.contract_type = 0',
             'oi.contract_status > 0',
+            'tls.require_admin_type = 2'
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         $this->where_arr_add__2_setid_field($where_arr,"ssn.tmk_adminid",$tmk_adminid);

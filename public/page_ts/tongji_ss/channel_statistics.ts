@@ -13,7 +13,9 @@ function load_data(){
         tmk_adminid:	$('#id_tmk_adminid').val(),
         origin_ex:	$('#id_origin_ex').val(),
         seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
-        origin:	$('#id_origin').val()
+        origin:	$('#id_origin').val(),
+        is_history:	$('#id_is_history').val(),
+        sta_data_type:	$('#id_sta_data_type').val()
     });
 }
 
@@ -36,6 +38,8 @@ $(function(){
     $("#id_seller_groupid_ex").init_seller_groupid_ex();
     $('#id_tmk_adminid').val(g_args.tmk_adminid);
     $('#id_check_field_id').val(g_args.check_field_id);
+    $('#id_is_history').val(g_args.is_history);
+    $('#id_sta_data_type').val(g_args.sta_data_type);
 
     $("#id_subject_pic,#id_has_pad_pic,#id_grade_pic,#id_area_pic,#id_origin_level_pic,#id_order_area_pic,#id_order_grade_pic,#id_order_subject_pic,#id_order_has_pad_pic,#id_order_origin_level_pic,#id_test_area_pic,#id_test_subject_pic,#id_test_grade_pic,#id_test_has_pad_pic,#id_test_origin_level_pic").css({
         "height" : 400
@@ -171,7 +175,15 @@ $(function(){
     }
 
     $("#id_query").on("click",function(){
-        load_data();
+        var sta_data_type = $('#id_sta_data_type').val();
+        var is_history = $('#id_is_history').val();
+        if(sta_data_type == 2 && is_history == 2){
+            alert('节点型没有存档数据啊！');
+            return false;
+        }else{
+            load_data();
+        }
+
     });
 
 

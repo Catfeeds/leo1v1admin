@@ -4417,4 +4417,28 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
 
     }
+    //@desn:获取订单信息
+    //@param:$start_time 开始时间
+    //@param:$end_time 结束时间
+    public function get_node_type_order_data($start_time,$end_time){
+        $where_arr = [
+            ['oi.contract_type = %u',0],
+            ['si.is_test_user = %u',0],
+            "oi.contract_status >0 ",
+        ];
+        $this->where_arr_add_time_range($where_arr, 'oi.order_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select si.origin as channel_name,count(oi.orderid) as order_count,'.
+            'count(distinct oi.userid) as user_count,'.
+            'round(sum(oi.price)/100) as order_all_money '.
+            'from %s oi '.
+            'left join %s si on oi.userid = si.userid '.
+            'where %s group by si.origin',
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
+

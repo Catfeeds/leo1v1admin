@@ -507,6 +507,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         $where_arr=[
             ["origin like '%%%s%%' ",$origin,""],
             'require_admin_type=2',
+            's.is_test_user = 0'
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
@@ -527,9 +528,9 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
             "sum( global_tq_called_flag =2 and  n.sys_invaild_flag =1 ) tq_call_succ_invalid_count  ,".
             "avg( if(add_time<first_call_time , first_call_time-add_time,null) ) avg_first_time, ".
             "sum( global_tq_called_flag =2 and  n.sys_invaild_flag=0  ) tq_call_succ_valid_count,".
-            "format(sum(global_tq_called_flag =2)/count(*)*100,2) consumption_rate,".
+            "format(sum(global_tq_called_flag <>2)/count(*)*100,2) consumption_rate,".
             "format(sum(global_tq_called_flag =2)/sum(global_tq_called_flag <>0)*100,2) called_rate,".
-            "format(sum(global_tq_called_flag =2 and n.sys_invaild_flag =1)/sum(global_tq_called_flag <>0)*100,2) effect_rate".
+            "format(sum(global_tq_called_flag =2 and n.sys_invaild_flag =0)/sum(global_tq_called_flag <>0)*100,2) effect_rate".
             " from %s n ".
             " left join %s s on s.userid = n.userid".
             " left join %s t on t.userid= n.userid ".
@@ -561,7 +562,8 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
             ["tlsr.origin like '%%%s%%' ",$origin,""],
             'tls.require_admin_type=2',
             ['li.lesson_type = %u',2],
-            ['tlsr.accept_flag = %u',1]
+            'si.is_test_user = 0'
+            // ['tlsr.accept_flag = %u',1]
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         $this->where_arr_add__2_setid_field($where_arr,"ssn.tmk_adminid",$tmk_adminid);
@@ -571,7 +573,8 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         if ($distinct == 0) {
             $sql=$this->gen_sql_new(
                 "select $field_name  as check_value , count(tlsr.require_id) as require_count, "
-                ." count( distinct tls.userid) as distinct_test_count, "
+                ."count(if(tlsr.accept_flag = 1,tlsr.require_id,null)) as test_lesson_count, "
+                ." count(distinct if(tlsr.accept_flag = 1,tls.userid,null)) as distinct_test_count, "
                 ." sum(tlssl.success_flag in (0,1 )) as succ_test_lesson_count  "
                 ." from %s ssn "
                 ." left join %s si on ssn.userid = si.userid "
@@ -627,6 +630,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         $where_arr=[
             ["oi.origin like '%%%s%%' ",$origin,""],
             'tls.require_admin_type=2',
+            'si.is_test_user = 0'
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         $this->where_arr_add__2_setid_field($where_arr,"ssn.tmk_adminid",$tmk_adminid);

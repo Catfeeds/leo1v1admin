@@ -484,18 +484,24 @@ class tongji_ss extends Controller
 
     public function origin_count_tmk(){
         $this->set_in_value("tmk_adminid", $this->get_account_id());
-        return $this->origin_count();
+        $this->set_in_value("is_history",2);
+        $this->set_in_value("sta_data_type",1);
+        return $this->channel_statistics();
     }
 
     public function origin_count_yhyy () {
-        $this->set_in_value("origin_ex","用户运营,,,");
-        return $this->origin_count();
+        $this->set_in_value("origin_ex","自有渠道,用户运营,,,");
+        $this->set_in_value("is_history",2);
+        $this->set_in_value("sta_data_type",1);
+        return $this->channel_statistics();
     }
 
 
     public function origin_count_bd () {
-        $this->set_in_value("origin_ex","BD,,,");
-        return $this->origin_count();
+        $this->set_in_value("origin_ex","渠道,,,,");
+        $this->set_in_value("is_history",2);
+        $this->set_in_value("sta_data_type",1);
+        return $this->channel_statistics();
     }
 
 
@@ -506,15 +512,17 @@ class tongji_ss extends Controller
     }
 
     public function origin_count_bd_simple () {
-        $this->set_in_value("origin_ex","BD,,,");
+        $this->set_in_value("origin_ex","渠道,,,,");
         return $this->origin_count_simple_has_intention();
 
     }
 
     public function origin_count_yxb() {
 
-        $this->set_in_value("origin_ex","优学帮,,,");
-        return $this->origin_count();
+        $this->set_in_value("origin_ex","自有渠道,优学帮,,,");
+        $this->set_in_value("is_history",2);
+        $this->set_in_value("sta_data_type",1);
+        return $this->channel_statistics();
     }
 
     public function origin_count_yxb_simple () {
@@ -818,7 +826,7 @@ class tongji_ss extends Controller
         $test_subject_map = [];
         $test_grade_map   = [];
         //试听信息
-        $test_data=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex);
+        $test_data=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex,'','','',$opt_date_str);
         foreach ($test_data as $a_item) {
             $subject   = $a_item["subject"];
             $grade     = $a_item["grade"];
@@ -1112,7 +1120,7 @@ class tongji_ss extends Controller
         }
 
         if ($field_name=="origin") {
-            $ret_info["list"]= $this->gen_origin_data($ret_info["list"],[], $origin_ex);
+            $ret_info["list"]= $this->gen_origin_data_level5($ret_info["list"],[], $origin_ex);
         }
 
         $data_list = $this->t_seller_student_origin->get_origin_detail_info($opt_date_str,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list,$tmk_adminid);
@@ -8284,6 +8292,7 @@ class tongji_ss extends Controller
     }
 
 
+    //@desn:新版渠道统计
     public function channel_statistics(){
         $origin            = trim($this->get_in_str_val("origin",""));
         $origin_ex         = $this->get_in_str_val('origin_ex', "");
@@ -8294,6 +8303,8 @@ class tongji_ss extends Controller
         $tmk_adminid       = $this->get_in_int_val("tmk_adminid", -1);
 
         $check_field_id    = $this->get_in_int_val("check_field_id",1);
+        $is_history = $this->get_in_int_val('is_history',1);
+        $sta_data_type = $this->get_in_int_val('sta_data_type',1);
         $check_field_config=[
             1=> ["渠道","origin", "" ],
             2=> ["年级","grade", E\Egrade::class ],
@@ -8324,206 +8335,216 @@ class tongji_ss extends Controller
         $origin_type = 1;
         //初始化是否显示饼图标识
         $is_show_pie_flag = 0;
+        //月初时间戳
+        $month_begin = strtotime(date('Y-m-01',$start_time));
+        $this->switch_tongji_database();
 
-        //按结点时间
-        if(in_array($opt_date_str,['add_time','tmk_assign_time'])){
-            //显示饼图
-            $is_show_pie_flag = 1;
-            $this->t_seller_student_origin->switch_tongji_database();
-            $ret_info = $this->t_seller_student_origin->get_origin_tongji_info_new($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
-
-            //统计试听课相关信息  ---begin---
-            $data_map=&$ret_info["list"];
-            //试听信息
-            $this->t_test_lesson_subject_require->switch_tongji_database();
-            $test_lesson_list_new = $this->t_seller_student_origin->get_lesson_list_new($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
-            // $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex );
-            foreach ($test_lesson_list_new as  $test_item ) {
-                $check_value=$test_item["check_value"];
-                \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
-                $data_map[$check_value]["require_count"] = $test_item["require_count"];
-                $data_map[$check_value]["distinct_test_count"] = $test_item["distinct_test_count"];
-                $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
-            }
-            $this->t_test_lesson_subject_require->switch_tongji_database();
-            //去掉重复userid
-            $distinct_test_lesson_list=$this->t_seller_student_origin->get_lesson_list_new($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid,1);
-            foreach ($distinct_test_lesson_list as  $test_item ) {
-                $check_value=$test_item["check_value"];
-                $data_map[$check_value]["distinct_succ_count"] = $test_item["distinct_succ_count"];
-                //试听率
-                if(@$data_map[$check_value]['tq_called_count'])
-                    $data_map[$check_value]["audition_rate"] = number_format($test_item["distinct_succ_count"]/$data_map[$check_value]['tq_called_count']*100,2);
-                else
-                    $data_map[$check_value]["audition_rate"] = '';
-            }
-
-            //统计试听课相关信息  ---begin---
-
-            //统计订单相关信息  ---begin---
-            $this->t_order_info->switch_tongji_database();
-            //合同
-            $order_list_new = $this->t_seller_student_origin->get_order_list_new($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
-
-            // $order_list= $this->t_order_info->tongji_seller_order_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str, $origin);
-            foreach ($order_list_new as  $order_item ) {
-                $check_value=$order_item["check_value"];
-                \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
-
-                $data_map[$check_value]["order_count"] = $order_item["order_count"];
-                $data_map[$check_value]["user_count"] = $order_item["user_count"];
-                $data_map[$check_value]["order_all_money"] = $order_item["order_all_money"];
-            }
-            //统计订单相关信息  ---end---
+        if($is_history == 1 && $sta_data_type == 1){
+            //漏斗形存档数据
+            $ret_info = $this->t_channel_funnel_archive_data->get_list($month_begin);
+        }elseif($is_history == 1 && $sta_data_type == 2){
+            //节点型存档数据
+            $ret_info = $this->t_channel_node_type_statistics->get_list($month_begin);
+        }elseif($is_history == 2 && $sta_data_type == 1){
+            //漏斗型实时数据
 
 
-            //饼图用数据 --begin--
-            //地区、年级科目、硬件、渠道等级等统计饼图数据
-            $data_list = $this->t_seller_student_origin->get_origin_detail_info($opt_date_str,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list,$tmk_adminid);
-            $all_count        = count($data_list);
+            //按结点时间
+            if(in_array($opt_date_str,['add_time','tmk_assign_time'])){
+                //显示饼图
+                $is_show_pie_flag = 1;
+                $ret_info = $this->t_seller_student_origin->get_origin_tongji_info_new($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
 
-            foreach ($data_list as $a_item) {
-                $subject      = $a_item["subject"];
-                $grade        = $a_item["grade"];
-                $has_pad      = $a_item["has_pad"];
-                $origin_level = $a_item["origin_level"];
-                $area_name    = substr($a_item["phone_location"], 0, -6);
-                @$subject_map[$subject] ++;
-                @$grade_map[$grade] ++;
-                @$has_pad_map[$has_pad] ++;
-                @$origin_level_map[$origin_level] ++;
-                if (strlen($area_name)>5) {
-                    @$area_map[$area_name] ++;
-                } else {
-                    @$area_map[""] ++;
+                //统计试听课相关信息  ---begin---
+                $data_map=&$ret_info["list"];
+                //试听信息
+                $test_lesson_list_new = $this->t_seller_student_origin->get_lesson_list_new($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
+                // $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex );
+                foreach ($test_lesson_list_new as  $test_item ) {
+                    $check_value=$test_item["check_value"];
+                    \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
+                    $data_map[$check_value]["require_count"] = $test_item["require_count"];
+                    $data_map[$check_value]["distinct_test_count"] = $test_item["distinct_test_count"];
+                    $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
+                    $data_map[$check_value]["test_lesson_count"] = $test_item["test_lesson_count"];
+                }
+                //去掉重复userid
+                $distinct_test_lesson_list=$this->t_seller_student_origin->get_lesson_list_new($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid,1);
+                foreach ($distinct_test_lesson_list as  $test_item ) {
+                    $check_value=$test_item["check_value"];
+                    $data_map[$check_value]["distinct_succ_count"] = $test_item["distinct_succ_count"];
+                    //试听率
+                    if(@$data_map[$check_value]['tq_called_count'])
+                        $data_map[$check_value]["audition_rate"] = number_format($test_item["distinct_succ_count"]/$data_map[$check_value]['tq_called_count']*100,2);
+                    else
+                        $data_map[$check_value]["audition_rate"] = '';
                 }
 
-            }
+                //统计试听课相关信息  ---begin---
 
-            $group_list = $this->t_admin_group_name->get_group_list(2);
+                //统计订单相关信息  ---begin---
+                //合同
+                $order_list_new = $this->t_seller_student_origin->get_order_list_new($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
+
+                // $order_list= $this->t_order_info->tongji_seller_order_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str, $origin);
+                foreach ($order_list_new as  $order_item ) {
+                    $check_value=$order_item["check_value"];
+                    \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
+
+                    $data_map[$check_value]["order_count"] = $order_item["order_count"];
+                    $data_map[$check_value]["user_count"] = $order_item["user_count"];
+                    $data_map[$check_value]["order_all_money"] = $order_item["order_all_money"];
+                }
+                //统计订单相关信息  ---end---
 
 
-            //签单统计用饼图
-            //订单信息
-            $order_data = $this->t_order_info->tongji_seller_order_info($origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str);
-            foreach ($order_data as $a_item) {
-                $subject   = $a_item["subject"];
-                $grade     = $a_item["grade"];
-                $area_name = substr($a_item["phone_location"], 0, -6);
-                $has_pad      = $a_item["has_pad"];
-                $origin_level = $a_item["origin_level"];
-                @$order_subject_map[$subject] ++;
-                @$order_grade_map[$grade] ++;
-                @$order_has_pad_map[$has_pad] ++;
-                @$order_origin_level_map[$origin_level] ++;
+                //饼图用数据 --begin--
+                //地区、年级科目、硬件、渠道等级等统计饼图数据
+                $data_list = $this->t_seller_student_origin->get_origin_detail_info($opt_date_str,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list,$tmk_adminid);
+                $all_count        = count($data_list);
 
-                if (strlen($area_name)>5) {
-                    @$order_area_map[$area_name] ++;
-                } else {
-                    @$order_area_map[""] ++;
+                foreach ($data_list as $a_item) {
+                    $subject      = $a_item["subject"];
+                    $grade        = $a_item["grade"];
+                    $has_pad      = $a_item["has_pad"];
+                    $origin_level = $a_item["origin_level"];
+                    $area_name    = substr($a_item["phone_location"], 0, -6);
+                    @$subject_map[$subject] ++;
+                    @$grade_map[$grade] ++;
+                    @$has_pad_map[$has_pad] ++;
+                    @$origin_level_map[$origin_level] ++;
+                    if (strlen($area_name)>5) {
+                        @$area_map[$area_name] ++;
+                    } else {
+                        @$area_map[""] ++;
+                    }
+
                 }
 
-            }
+                $group_list = $this->t_admin_group_name->get_group_list(2);
 
-            //试听统计用饼图
-            //试听信息
-            $test_data=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex,'','','',$opt_date_str);
-            foreach ($test_data as $a_item) {
-                $subject   = $a_item["subject"];
-                $grade     = $a_item["grade"];
-                $area_name = substr($a_item["phone_location"], 0, -6);
-                $has_pad      = $a_item["has_pad"];
-                $origin_level = $a_item["origin_level"];
-                @$test_subject_map[$subject] ++;
-                @$test_grade_map[$grade] ++;
-                @$test_has_pad_map[$has_pad] ++;
-                @$test_origin_level_map[$origin_level] ++;
 
-                if (strlen($area_name)>5) {
-                    @$test_area_map[$area_name] ++;
-                } else {
-                    @$test_area_map[""] ++;
+                //签单统计用饼图
+                //订单信息
+                $order_data = $this->t_order_info->tongji_seller_order_info($origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str);
+                foreach ($order_data as $a_item) {
+                    $subject   = $a_item["subject"];
+                    $grade     = $a_item["grade"];
+                    $area_name = substr($a_item["phone_location"], 0, -6);
+                    $has_pad      = $a_item["has_pad"];
+                    $origin_level = $a_item["origin_level"];
+                    @$order_subject_map[$subject] ++;
+                    @$order_grade_map[$grade] ++;
+                    @$order_has_pad_map[$has_pad] ++;
+                    @$order_origin_level_map[$origin_level] ++;
+
+                    if (strlen($area_name)>5) {
+                        @$order_area_map[$area_name] ++;
+                    } else {
+                        @$order_area_map[""] ++;
+                    }
+
                 }
 
+                //试听统计用饼图
+                //试听信息
+                $test_data=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex,'','','',$opt_date_str);
+                foreach ($test_data as $a_item) {
+                    $subject   = $a_item["subject"];
+                    $grade     = $a_item["grade"];
+                    $area_name = substr($a_item["phone_location"], 0, -6);
+                    $has_pad      = $a_item["has_pad"];
+                    $origin_level = $a_item["origin_level"];
+                    @$test_subject_map[$subject] ++;
+                    @$test_grade_map[$grade] ++;
+                    @$test_has_pad_map[$has_pad] ++;
+                    @$test_origin_level_map[$origin_level] ++;
+
+                    if (strlen($area_name)>5) {
+                        @$test_area_map[$area_name] ++;
+                    } else {
+                        @$test_area_map[""] ++;
+                    }
+
+                }
+
+                //饼图用数据 --end--
+
+
+            }elseif(in_array($opt_date_str,['tlsr.require_time','tlsr.accept_time'])){
+                //时间检索[试听申请时间][试听排课时间]用
+
+                $ret_info = $this->t_test_lesson_subject_require->get_funnel_data($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
+                $data_map=&$ret_info["list"];
+                //计算不重复的成功预约数  ---begin---
+                $test_lesson_info = $this->t_test_lesson_subject_require->get_distinct_class($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
+                foreach ($test_lesson_info as  $item ) {
+                    $check_value=$item["check_value"];
+                    \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
+                    $data_map[$check_value]["distinct_succ_count"] = $item["distinct_succ_count"];
+                }
+                //计算不重复的成功预约数  ---end---
+                //计算不重复的订单数[合同人数] ---begin--
+                $order_info = $this->t_test_lesson_subject_require->get_distinct_order_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
+                foreach ($order_info as  $item ) {
+                    $check_value=$item["check_value"];
+                    \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
+                    $data_map[$check_value]["user_count"] = $item["user_count"];
+                    //矫正预约数、上课成功数
+                    $data_map[$check_value]["require_count"] = $data_map[$check_value]["require_count"]-($data_map[$check_value]["order_count"]-$data_map[$check_value]["user_count"]);
+                    $data_map[$check_value]["succ_test_lesson_count"] = $data_map[$check_value]["succ_test_lesson_count"]-($data_map[$check_value]["order_count"]-$data_map[$check_value]["user_count"]);
+                }
+                //计算不重复的订单数[合同人数] ---end--
+
+            }elseif(in_array($opt_date_str,['li.lesson_end'])){
+
+                //时间检索[成功试听]用
+                $ret_info = $this->t_lesson_info->get_funnel_data($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
+                $data_map=&$ret_info["list"];
+                //计算不重复的订单数[合同人数] ---begin--
+                $order_info = $this->t_lesson_info->get_distinct_order_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
+                foreach ($order_info as  $item ) {
+                    $check_value=$item["check_value"];
+                    \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
+                    $data_map[$check_value]["user_count"] = $item["user_count"];
+                    //上课成功数
+                    $data_map[$check_value]["succ_test_lesson_count"] = $data_map[$check_value]["succ_test_lesson_count"]-($data_map[$check_value]["order_count"]-$data_map[$check_value]["user_count"]);
+
+                }
+                //计算不重复的订单数[合同人数] ---end--
+
+            }elseif(in_array($opt_date_str,['oi.order_time'])){
+
+                //时间检索[签单时间]用
+                $ret_info = $this->t_order_info->get_funnel_data($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
+                $data_map=&$ret_info["list"];
             }
-
-            //饼图用数据 --end--
-
-
-        }elseif(in_array($opt_date_str,['tlsr.require_time','tlsr.accept_time'])){
-            //时间检索[试听申请时间][试听排课时间]用
-
-            $ret_info = $this->t_test_lesson_subject_require->get_funnel_data($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
-            $data_map=&$ret_info["list"];
-            //计算不重复的成功预约数  ---begin---
-            $test_lesson_info = $this->t_test_lesson_subject_require->get_distinct_class($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
-            foreach ($test_lesson_info as  $item ) {
-                $check_value=$item["check_value"];
-                \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
-                $data_map[$check_value]["distinct_succ_count"] = $item["distinct_succ_count"];
-            }
-            //计算不重复的成功预约数  ---end---
-            //计算不重复的订单数[合同人数] ---begin--
-            $order_info = $this->t_test_lesson_subject_require->get_distinct_order_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
-            foreach ($order_info as  $item ) {
-                $check_value=$item["check_value"];
-                \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
-                $data_map[$check_value]["user_count"] = $item["user_count"];
-                //矫正预约数、上课成功数
-                $data_map[$check_value]["require_count"] = $data_map[$check_value]["require_count"]-($data_map[$check_value]["order_count"]-$data_map[$check_value]["user_count"]);
-                $data_map[$check_value]["succ_test_lesson_count"] = $data_map[$check_value]["succ_test_lesson_count"]-($data_map[$check_value]["order_count"]-$data_map[$check_value]["user_count"]);
-            }
-            //计算不重复的订单数[合同人数] ---end--
-
-        }elseif(in_array($opt_date_str,['li.lesson_end'])){
-
-            //时间检索[成功试听]用
-            $ret_info = $this->t_lesson_info->get_funnel_data($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
-            $data_map=&$ret_info["list"];
-            //计算不重复的订单数[合同人数] ---begin--
-            $order_info = $this->t_lesson_info->get_distinct_order_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
-            foreach ($order_info as  $item ) {
-                $check_value=$item["check_value"];
-                \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
-                $data_map[$check_value]["user_count"] = $item["user_count"];
-                //上课成功数
-                $data_map[$check_value]["succ_test_lesson_count"] = $data_map[$check_value]["succ_test_lesson_count"]-($data_map[$check_value]["order_count"]-$data_map[$check_value]["user_count"]);
-
-            }
-            //计算不重复的订单数[合同人数] ---end--
-
-        }elseif(in_array($opt_date_str,['oi.order_time'])){
-
-            //时间检索[签单时间]用
-            $ret_info = $this->t_order_info->get_funnel_data($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
-            $data_map=&$ret_info["list"];
-        }
-        foreach ($data_map as &$item ) {
-            if($field_class_name ) {
-                $item["title"]= $field_class_name::get_desc($item["check_value"]);
-            }else{
-                if ($field_name=="tmk_adminid" || $field_name=="admin_revisiterid"  ) {
-                    $item["title"]= $this->cache_get_account_nick( $item["check_value"] );
+            foreach ($data_map as &$item ) {
+                if($field_class_name ) {
+                    $item["title"]= $field_class_name::get_desc($item["check_value"]);
                 }else{
-                    $item["title"]= @$item["check_value"];
+                    if ($field_name=="tmk_adminid" || $field_name=="admin_revisiterid"  ) {
+                        $item["title"]= $this->cache_get_account_nick( $item["check_value"] );
+                    }else{
+                        $item["title"]= @$item["check_value"];
+                    }
+
                 }
 
+                if ($field_name=="origin") {
+                    $item["origin"]= $item["title"];
+                }
             }
+            //重组分层数组
+            if ($field_name=="origin"){
+                $ret_info["list"]= $this->gen_origin_data_level5(
+                    $ret_info["list"],
+                    ['avg_first_time','consumption_rate','called_rate','effect_rate','audition_rate'],
+                    $origin_ex
+                );
+            }
+        }
 
-            if ($field_name=="origin") {
-                $item["origin"]= $item["title"];
-            }
-        }
-        dd($ret_info['list']);
-        //重组分层数组
-        if ($field_name=="origin"){
-            $ret_info["list"]= $this->gen_origin_data_level5(
-                $ret_info["list"],
-                ['avg_first_time','consumption_rate','called_rate','effect_rate','audition_rate'],
-                $origin_ex
-            );
-        }
-        dd($ret_info['list']);
         //将显示饼图标识发送到js
         $this->set_filed_for_js('is_show_pie_flag', $is_show_pie_flag);
         return $this->pageView(__METHOD__,$ret_info,[
@@ -8545,8 +8566,10 @@ class tongji_ss extends Controller
             "test_has_pad_map"      => $test_has_pad_map,
             "test_origin_level_map" => $test_origin_level_map,
             "order_has_pad_map"      => $order_has_pad_map,
-            "order_origin_level_map" => $order_origin_level_map
+            "order_origin_level_map" => $order_origin_level_map,
+            'is_history' => $is_history
         ]);
+
     }
 
 
@@ -8556,7 +8579,6 @@ class tongji_ss extends Controller
     //@param:$origin_ex 渠道字符串
     public function gen_origin_data_level5($old_list,$no_sum_list=[] ,$origin_ex="")
     {
-        $this->t_order_info->switch_tongji_database();
         $value_map=$this->t_origin_key->get_list( $origin_ex);
         //组织分层用类标识
         $cur_key_index=1;
@@ -8792,10 +8814,8 @@ class tongji_ss extends Controller
         $page_info         = $this->get_in_page_info();
         $cond = $this->get_in_str_val('cond');
 
-        $this->t_seller_student_origin->switch_tongji_database();
 
         //试听信息
-        $this->t_test_lesson_subject_require->switch_tongji_database();
         $ret_info=$this->t_test_lesson_subject->tongji_test_example_origin_info('',$field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex ,$check_value,$page_info,$cond);
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
         foreach( $ret_info["list"] as $index=> &$item ) {

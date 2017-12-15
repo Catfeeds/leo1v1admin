@@ -38,6 +38,7 @@ $(function(){
     $("#id_seller_groupid_ex").init_seller_groupid_ex();
     $('#id_tmk_adminid').val(g_args.tmk_adminid);
     $('#id_check_field_id').val(g_args.check_field_id);
+    $('#id_origin_ex').val(g_args.origin_ex);
 
     $("#id_subject_pic,#id_has_pad_pic,#id_grade_pic,#id_area_pic,#id_origin_level_pic,#id_order_area_pic,#id_order_grade_pic,#id_order_subject_pic,#id_test_area_pic,#id_test_subject_pic,#id_test_grade_pic").css({
         "height" : 400

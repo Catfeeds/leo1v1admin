@@ -1,7 +1,7 @@
 <?php
 namespace App\Models;
 use \App\Enums as E;
-class t_channel_funnel_archive_data extends \App\Models\Zgen\z_t_channel_funnel_archive_data
+class t_channel_node_type_statistics extends \App\Models\Zgen\z_t_channel_node_type_statistics
 {
 	public function __construct()
 	{

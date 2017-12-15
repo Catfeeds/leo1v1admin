@@ -3650,7 +3650,7 @@ ORDER BY require_time ASC";
         $where_arr=[
             ["tlsr.origin like '%%%s%%' ",$origin,""],
             'tls.require_admin_type=2',
-            'tlsr.accept_flag = 1',
+            // 'tlsr.accept_flag = 1',
             'si.is_test_user = 0',
             'li.lesson_type = 2'
         ];
@@ -3661,7 +3661,8 @@ ORDER BY require_time ASC";
         $this->where_arr_adminid_in_list($where_arr,"ssn.first_seller_adminid",$adminid_list);
         $sql = $this->gen_sql_new(
             "select $field_name as check_value,count(tlsr.require_id) require_count,".
-            " count(distinct li.userid) distinct_test_count,".
+            " count(if(tlsr.accept_flag = 1,tlsr.require_id,null)) as test_lesson_count,".
+            " count(distinct if(tlsr.accept_flag = 1,tls.userid,null)) distinct_test_count,".
             " sum(tlssl.success_flag in (0,1 )) succ_test_lesson_count,".
             " sum(if((oi.contract_type = 0 and oi.contract_status > 0),1,0)) order_count,".
             " round(sum(if((oi.contract_type = 0 and oi.contract_status > 0 ),oi.price/100,0))) order_all_money".
@@ -3701,7 +3702,8 @@ ORDER BY require_time ASC";
             'tls.require_admin_type=2',
             'tlsr.accept_flag = 1',
             'si.is_test_user = 0',
-            'tlssl.success_flag in (0,1)'
+            'tlssl.success_flag in (0,1)',
+            'li.lesson_type = 2'
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
@@ -3771,5 +3773,35 @@ ORDER BY require_time ASC";
         );
         return $this->main_get_list($sql);
     }
-    
+    //@desn:获取节点型试听课统计数据
+    //@param:$start_time 开始时间
+    //@param:$end_time 结束时间
+    public function get_test_lesson_data($start_time,$end_time){
+        $where_arr = [
+            ['tls.require_admin_type = %u',2],
+            ['li.lesson_type = %u',2],
+            ['si.is_test_user = %u',0],
+        ];
+        $this->where_arr_add_time_range($where_arr, 'tlsr.require_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select tlsr.origin as channel_name,count(tlsr.require_id) as require_count,'.
+            'count(tlsr.accept_flag = 1) test_lesson_count,'.
+            'sum(tlssl.success_flag in (0,1 )) as succ_test_lesson_count,'.
+            'count(distinct if(tlsr.accept_flag = 1,tls.userid,null)) as distinct_test_count,'.
+            'count(distinct if(tlssl.success_flag in (0,1 ),tls.userid,null)) as distinct_succ_count '.
+            'from %s tlsr '.
+            'left join %s tls on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id '.
+            'left join %s tlssl on tlssl.require_id = tlsr.require_id '.
+            'left join %s li on tlsr.current_lessonid=li.lessonid '.
+            'left join %s si on tls.userid=si.userid '.
+            'where %s group by tlsr.origin',
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

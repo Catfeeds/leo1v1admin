@@ -26,11 +26,32 @@
     <section class="content">
         <div class="book_filter">
             <div class="row row-query-list">
-                <div class="col-xs-12 col-md-2">
+                <div class="col-xs-12 col-md-2" style="width:175px;">
                     <button id="id_query" class="btn btn-warning" >点击查询 </button>
                     <button id="id_align" class="btn btn-primary" >对齐</button>
                 </div>
-                <div class="col-xs-12 col-md-4">
+                <div class="col-xs-12 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon" >数据类型</span>
+                        <select class="opt-change form-control" id="id_sta_data_type" >
+                            <option value="1">漏斗型</option>
+                            <option value="2">节点型</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon" >历史数据</span>
+                        <select class="opt-change form-control" id="id_is_history" >
+                            <option value="1">显示历史数据</option>
+                            <option value="2">隐藏历史数据</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-md-4" style="width:390px;">
                     <div id="id_date_range"> </div>
                 </div>
 
@@ -99,7 +120,7 @@
         <hr />
         <div class="body">
 
-            @if ($field_name !="origin")
+            @if ($field_name !="origin" && $is_history != 1)
 
                 <table class="common-table   ">
                     <thead>
