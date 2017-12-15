@@ -4439,7 +4439,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s s on o.userid = s.userid"
                                   ." left join %s m on m.account = o.sys_operator"
                                   ." left join %s m2 on s.origin_assistantid = m2.uid "
-                                  ." left join %s a on a.phone = m2.phpne "
+                                  ." left join %s a on a.phone = m2.phone "
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
