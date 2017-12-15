@@ -13,4 +13,8 @@ class teacher_common extends Controller
     function login() {
         
     }
+
+    public function full_to_part() {
+        return $this->output_err("wel");
+    }
 }
