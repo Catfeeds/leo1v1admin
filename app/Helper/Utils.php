@@ -930,7 +930,9 @@ class Utils  {
         if ($is_success==0) {
             if ( \App\Helper\Utils::check_env_is_release()  || $test_flag) {
                 $ret = \App\Helper\Common::send_sms_with_taobao($phone,"SMS_".$type,$data,$sign_name);
+                
                 $receive_content = json_encode($ret );
+                \App\Helper\Utils::logger("sms_send_log:".$receive_content);
                 if(property_exists($ret,"result") && $ret->result->err_code==="0") {
                     $is_success = 1;
                 }else{
