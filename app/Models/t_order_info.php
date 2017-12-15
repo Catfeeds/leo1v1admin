@@ -4441,7 +4441,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s m2 on s.origin_assistantid = m2.uid "
                                   ." left join %s a on a.phone = m2.phone "
                                   ." left join %s t on l.teacherid = t.teacherid"
-                                  ." where %s not exist(select 1 from %s where price>0 and userid=o.userid and order_time<o.order_time)",
+                                  ." where %s and not exists (select 1 from %s where price>0 and userid=o.userid and order_time<o.order_time)",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
