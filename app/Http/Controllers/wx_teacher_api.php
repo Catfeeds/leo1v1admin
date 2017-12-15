@@ -1037,7 +1037,7 @@ class wx_teacher_api extends Controller
         $subject_tag_arr = json_decode($ret_info['subject_tag'],true);
         $ret_info['style'] = $subject_tag_arr['风格性格'];
         $ret_info['major'] = $subject_tag_arr['专业能力'];
-        $ret_info['identity'] = E\Eidentity::get_desc($ret_info['identity']);
+        $ret_info['identity'] = E\Eidentity::get_desc($ret_info['tea_identity']);
         $ret_info['atmosphere'] = $subject_tag_arr['课堂气氛'];
         $ret_info['courseware'] = $subject_tag_arr['课件要求'];
         $ret_info['subject_tag'] = $subject_tag_arr['学科化标签'];
