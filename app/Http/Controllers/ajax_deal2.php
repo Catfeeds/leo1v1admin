@@ -2347,4 +2347,29 @@ class ajax_deal2 extends Controller
         $competition_flag = $this->t_order_info->check_is_have_competition_order($origin_userid);
         return $this->output_succ(["flag"=>$competition_flag]);
     }
+
+    //检查转介绍负责人以及转介绍人类型
+    public function check_origin_assistantid_info(){
+        $origin_userid = $this->get_in_int_val("origin_userid");
+        $origin_assistantid = $this->get_in_int_val("origin_assistantid");
+        $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
+
+        //原CC
+        $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
+        $cc_flag = 0;
+        if($admin_revisiterid>0){
+            $del_flag = $this->t_manager_info->get_del_flag($admin_revisiterid);
+            if($del_flag==0){
+                $cc_flag=1;
+            }
+        }
+        return $this->output_succ([
+            "account_role"=>$account_role,
+            "cc_flag"     =>$cc_flag
+        ]);
+        
+
+
+
+    }
 }
