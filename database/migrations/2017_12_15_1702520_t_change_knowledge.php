@@ -36,10 +36,11 @@ class TChangeKnowledge extends Migration
         });
 
         Schema::table('db_question_new.t_knowledge_level', function (Blueprint $table){
-            // $table->dropColumn('level');
-            // t_field($table->integer('answer_type')->default(1),"1:答案,2:解题步骤,3:解析过程");
+            $table->increments('id');
+                t_field($table->integer('knowledge_id'),"知识点id");
+                t_field($table->string('father_id'),"父级id");
         });
-
+ 
     }
 
     /**
