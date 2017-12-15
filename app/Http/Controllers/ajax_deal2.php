@@ -133,6 +133,8 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
+
+
     public function set_tmk_valid() {
         $userid=$this->get_in_userid();
         $tmk_student_status = $this->get_in_e_tmk_student_status();
