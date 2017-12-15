@@ -1592,6 +1592,7 @@ class teacher_info extends Controller
         return $this->output_succ(["url" => $authUrl]);
     }
 
+
     public function get_share_link() {
         $teacherid  = $this->get_login_teacher();
         $share_path = $this->get_in_str_val("share_path");
@@ -2543,10 +2544,85 @@ class teacher_info extends Controller
 
     }
 
+    public function rename_dir_or_file(){
+        $file_id = $this->get_in_int_val('file_id', -2);
+        $id = $this->get_in_int_val('id', -1);
+        $new_name = trim( $this->get_in_str_val('new_name') );
+        $teacherid = $this->get_login_teacher();
+        if($new_name === ''){
+            return $this->output_err('名称不能为空！');
+        }
+        if($file_id == -1){//目录
+            $this_tea = $this->t_teacher_resource_dir->get_teacherid($id);
+            if($this_tea == $teacherid){//是老师自己的文件
+                $this->t_teacher_resource_dir->field_update_list($id, ['name' => $new_name]);
+                return $this->output_succ();
+            }
+        } else {//文件
+            $this_tea = $this->t_teacher_resource->get_teacherid($id);
+            if($this_tea == $teacherid){//是老师自己的文件
+                $this->t_teacher_resource->field_update_list($id, ['file_title' => $new_name]);
+                return $this->output_succ();
+            }
+        }
+        return $this->output_err('操作失败！');
+
+    }
+
+    public function tea_download_url() {
+        $tea_res_id = $this->get_in_int_val("tea_res_id");
+        if($tea_res_id <=0){
+            return $this->output_err('信息有误，下载失败！');
+        }
+        $teacherid = $this->get_login_teacher();
+        $this_tea = $this->t_teacher_resource->get_teacherid($tea_res_id);
+        $file_id = $this->t_teacher_resource->get_file_id($tea_res_id);
+        if($this_tea == $teacherid && $file_id == 0){//是老师自己上传的文件
+            $file_link = $this->t_teacher_resource->get_file_link($tea_res_id);
+
+            $store=new \App\FileStore\file_store_tea();
+            $auth=$store->get_auth();
+            // $file_path = $store->get_file_path($teacherid,$file_path);
+            $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $file_link );
+            return $this->output_succ(["url" => $authUrl]);
+        }
+        return $this->output_err('信息有误，下载失败！');
+    }
+
+    public function tea_file_reupload(){
+        $file_title = trim($this->get_in_str_val('file_title', '') );
+        $file_hash  = $this->get_in_str_val('file_hash');
+        $file_size  = round( $this->get_in_int_val('file_size')/1024, 2);
+        $file_type  = $this->get_in_str_val('file_type');
+        $file_link  = $this->get_in_str_val('file_link');
+        //处理文件名
+        $dot_pos = strrpos($file_title,'.');
+        $file_title = substr($file_title,0,$dot_pos);
+        //处理文件类型
+        $file_type = trim( strrchr($file_type, '/'), '/' );
+
+        $tea_res_id = $this->get_in_int_val('tea_res_id');
+        $teacherid  = $this->get_login_teacher();
+        if($tea_res_id <= 0){
+            $this->output_err('信息有误，操作失败!');
+        }
+        $this_tea = $this->t_teacher_resource->get_teacherid($tea_res_id);
+        if($this_tea == $teacherid){//是老师自己的文件
+            $this->t_teacher_resource->field_update_list($tea_res_id, [
+                'file_title' => $file_title,
+                'file_type'  => $file_type,
+                'file_size'  => $file_size,
+                'file_hash'  => $file_hash,
+                'file_link'  => $file_link,
+           ]);
+            return $this->output_succ();
+        }
+        $this->output_err('信息有误，操作失败!');
+    }
 
     public function move_dir_or_file(){
         $id_info = $this->get_in_str_val('id_info', '');
-        $move_to = $this->get_in_id_val('move_to', -1);
+        $move_to = $this->get_in_int_val('move_to', -1);
         $teacherid = $this->get_login_teacher();
         if($id_info === ''){
             return $this->output_err('请选择文件！');
@@ -2555,10 +2631,11 @@ class teacher_info extends Controller
             return $this->output_err('选择文件夹错误,操作失败！');
         }
         //检查是否存在该目录
-        $this_tea = $this->t_teacher_resource_dir->get_teacherid($move_to);
-
-        if($this_tea != $teacherid){//是老师自己的文件
-            return $this->output_err('不存在该目录，移动失败！');
+        if($move_to != 0){
+            $this_tea = $this->t_teacher_resource_dir->get_teacherid($move_to);
+            if($this_tea != $teacherid){//是老师自己的文件
+                return $this->output_err('不存在该目录，移动失败！');
+            }
         }
         $id_info = ltrim($id_info, '[');
         $id_info = rtrim($id_info, ']');
@@ -2576,7 +2653,7 @@ class teacher_info extends Controller
             } else {//自己上传的文件
                 $this_tea = $this->t_teacher_resource->get_teacherid($item[1]);
                 if($this_tea == $teacherid){//是老师自己的文件
-                    $this->t_teacher_resource->field_update_list($item[1], ['dir_id' => $move_id]);
+                    $this->t_teacher_resource->field_update_list($item[1], ['dir_id' => $move_to]);
                 }
             }
         }

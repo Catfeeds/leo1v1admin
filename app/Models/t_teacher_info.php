@@ -4712,11 +4712,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $end_time   = $week_range['edate']<$month_range['edate']?$week_range['edate']:$month_range['edate'];
 
         $lesson_type_arr = [
-            "lesson_type=2",
+            "l.lesson_type=2",
         ];
-        $day_arr   = $this->lesson_start_sql($day_range['sdate'],$day_range['edate'],$lesson_type_arr);
-        $week_arr  = $this->lesson_start_sql($week_range['sdate'],$week_range['edate'],$lesson_type_arr);
-        $month_arr = $this->lesson_start_sql($month_range['sdate'],$month_range['edate'],$lesson_type_arr);
+        $day_arr   = $this->lesson_start_sql($day_range['sdate'],$day_range['edate'],'l',$lesson_type_arr);
+        $week_arr  = $this->lesson_start_sql($week_range['sdate'],$week_range['edate'],'l',$lesson_type_arr);
+        $month_arr = $this->lesson_start_sql($month_range['sdate'],$month_range['edate'],'l',$lesson_type_arr);
         $has_arr   = $this->lesson_start_sql($lesson_start, $lesson_end,"l",["l.lesson_del_flag=0","confirm_flag<2"]);
 
         $subject_str = $this->gen_sql("(t.subject=%u or t.second_subject=%u)",$subject,$subject);

@@ -70,7 +70,7 @@
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
                     </td>
                     <td style="width:40%">文件名</td>
-                    <td style="width:15%">修改日期</td>
+                    <td style="width:15%">创建日期</td>
                     <td style="width:10%">文件类型</td>
                     <td style="width:10%">文件大小</td>
                     <td >文件来源</td>
@@ -78,7 +78,7 @@
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
-                    <tr>
+                    <tr class="right-menu" {!!  \App\Helper\Utils::gen_jquery_data($var )  !!} >
                         <td>
                             <input type="checkbox" class="opt-select-item" is_dir="{{@$var['file_id']}}" data-id="{{@$var["tea_res_id"]}}" />
                         </td>
