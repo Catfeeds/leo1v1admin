@@ -676,6 +676,7 @@ class menu{
                 ["power_id"=>44, "name"=>"在读学员老师列表",  "url"=>"/user_manage/stu_all_teacher_all"],
                 ["power_id"=>49, "name"=>"周报-月报-new", "url" => "/tongji2/tongji_cr"],
                 ["power_id"=>50, "name"=>"新例子-主管", "url" => "/seller_student_new/get_new_student_ass_leader"],
+                ["power_id"=>51, "name"=>"助教转介绍报表", "url" => "/assistant_performance/get_assistant_origin_order_losson_info"],
 
             ]],
 

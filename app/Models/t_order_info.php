@@ -4430,7 +4430,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "o.contract_status>0",
             "m.account_role=1",
             "s.origin_userid>0",
-            "s.origin_assistantid>0",
+            // "s.origin_assistantid>0",
             "s.is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
@@ -4457,5 +4457,16 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_list_by_page($sql,$page_info);
 
+    }
+
+    public function getOrderByParentid($parentid){
+        $sql = $this->gen_sql_new("  select o.orderid from %s o "
+                                  ." left join %s pc on pc.userid=o.userid"
+                                  ." where pc.parentid=$parentid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_parent_child::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
     }
 }
