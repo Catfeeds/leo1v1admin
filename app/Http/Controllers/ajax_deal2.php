@@ -215,7 +215,11 @@ class ajax_deal2 extends Controller
         $one_lesson_count    = $row["lesson_weeks"] ;
         $per_lesson_interval = $row["lesson_duration"] ;
 
-        $order_start_time    = $row["contract_starttime"];
+        if($row['contract_starttime']>0){
+            $order_start_time = $row["contract_starttime"];
+        }else{
+            $order_start_time = $row["order_time"];
+        }
         $order_end_time      = \App\Helper\Utils::get_order_term_of_validity($order_start_time,$lesson_count);
         $contract_type       = $row["contract_type"];
         $contract_status     = $row["contract_status"];

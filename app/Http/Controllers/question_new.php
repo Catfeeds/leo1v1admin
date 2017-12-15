@@ -36,13 +36,64 @@ class question_new extends Controller
         $ret = [
             'describe' => '新增题目',
         ];
+
+        //编辑题目
         $editData = [];
+
+        //题目对应的知识点id
+        $know_arr = [];
+
         if($question_id){
+            //取出题目
             $editData = $this->t_question->get_by_id($question_id);
             $ret['describe'] = '编辑题目';
+
+            //取出题目对应的知识点
+            $q_k = $this->t_question_knowledge->question_know_list($question_id);
+            if($q_k){
+                $know_arr = array_column($q_k, 'knowledge_id'); 
+            }
         }
         $editData = json_encode($editData);
-        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712131617","ret"=>$ret,'editData'=>$editData]);
+
+        $where_arr = [
+            ["subject=%d" , $subject,-1 ],
+        ];
+
+        $know_list = $this->t_knowledge_point->knowledge_list($where_arr,null);
+        //所有知识点
+        $knowledge = [];
+        if($know_list['list']){
+            if(empty($know_arr)){
+                foreach( $know_list['list'] as &$item){
+                    $arr['name'] = $item['title'];
+                    $arr['id'] = $item['knowledge_id'];
+                    $arr['pId'] = $item['father_id'];
+                    $arr['editType'] = 2;
+                    $knowledge[] = $arr;
+                }
+
+            }else{        
+                foreach( $know_list['list'] as &$item){
+                    $arr['name'] = $item['title'];
+                    $arr['id'] = $item['knowledge_id'];
+                    $arr['pId'] = $item['father_id'];
+                    $arr['editType'] = 2;
+                    if(in_array($item['knowledge_id'], $know_arr)){  
+                        $know_arr[$item['knowledge_id']] = $item['title'];
+                    }
+                    $knowledge[] = $arr;
+                }}
+        }
+        //dd($knowledge);
+        $knowledge = json_encode($knowledge);
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712131617",
+                                                  "ret"=>$ret,
+                                                  'editData'=>$editData,
+                                                  'knowledge'=>$knowledge,
+                                                  'know_arr'=>$know_arr
+
+        ]);
  
     }
 
@@ -186,7 +237,7 @@ class question_new extends Controller
     }
 
     public function knowledge_add(){
-        $editType   = $this->get_in_int_val('editType',0);
+        $editType   = $this->get_in_int_val('editType',1);
         $knowledge_id   = $this->get_in_int_val('knowledge_id',0);
         $data = [];
         $data['subject'] = $this->get_in_int_val('subject',1);
@@ -203,7 +254,7 @@ class question_new extends Controller
                 $levData['knowledge_id'] = $this->t_knowledge_point->get_last_insertid();
                 $retinfo = $this->t_knowledge_level->row_insert($levData);
                 if($retinfo){
-                    $result['id'] = $levData['knowledge_id'];
+                    $result['knowledge_id'] = $levData['knowledge_id'];
                     $result['status'] = 200;
                     $result['msg'] = "添加成功";
 
@@ -235,47 +286,15 @@ class question_new extends Controller
 
     public function knowledge_dele(){
         $knowledge_id = $this->get_in_int_val('knowledge_id');
-        $this->t_knowledge_point->del_by_id($knowledge_id);
-        return $this->output_succ(); 
-    }
-
-    public function question_know_get(){
-        $subject   = $this->get_in_int_val('subject',-1);
-        $title   = $this->get_in_str_val('title',-1);
-        $where_arr = [
-            ["subject=%d" , $subject,-1 ],
-        ];
-        if ($title) {
-            $title = "%".$title."%";
-            $where_arr[]= [ "title like '".$title."'",null ];
+        $deleNum = $this->t_knowledge_point->del_by_id($knowledge_id);
+        if($deleNum){
+            $result['status'] = 200;
+            $result['msg'] = "删除成功";
+        }else{
+            $result['status'] = 500;
+            $result['msg'] = "删除失败";
         }
-        $page_num        = $this->get_in_page_num();
-        
-        $ret  = \App\Helper\Utils::list_to_page_info([]);
-        $ret =  $this->t_knowledge_point->knowledge_get($where_arr,$page_num);
-        
-        if($ret){
-            foreach($ret['list'] as &$item){
-                $item['subject_str'] = E\Esubject::get_desc($item['subject']);
-            }
-        }
-        
-        return $this->output_ajax_table($ret, [ "lru_list" => [] ]);
-    }
-
-    public function question_know_list($question_id){
-        
-        $q_k = $this->t_question_knowledge->question_know_list($question_id);
-        if($q_k){
-            foreach($q_k as &$item){
-                $item['subject_str'] = E\Esubject::get_desc($item['subject']);
-                $item['difficult_str'] = E\Equestion_difficulty::get_desc($item['difficult']);
-                if( !$item['title']){
-                    $item['title'] = '该知识点已经被删除';
-                }
-            }
-        }
-        return $q_k;
+        return $this->output_succ($result); 
     }
 
     //添加题目对应的知识点

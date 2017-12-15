@@ -4458,4 +4458,15 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list_by_page($sql,$page_info);
 
     }
+
+    public function getOrderByParentid($parentid){
+        $sql = $this->gen_sql_new("  select o.orderid from %s o "
+                                  ." left join %s pc on pc.userid=o.userid"
+                                  ." where pc.parentid=$parentid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_parent_child::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
+    }
 }
