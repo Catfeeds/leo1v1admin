@@ -71,25 +71,25 @@ class no_auto_student_change_type extends Command
 
             $teacherid = $item["teacherid"];
             $item["lesson_count"] = round($list[$teacherid]["lesson_count"]/300,1);
-            $item["lesson_count_score"] = $task->get_score_by_lesson_count($item["lesson_count"]);
+            //  $item["lesson_count_score"] = $task->get_score_by_lesson_count($item["lesson_count"]);
             $item["stu_num"] = $list[$teacherid]["stu_num"];
-            $item["stu_num_score"] = $task->get_stu_num_score($item["stu_num"]);
+            //  $item["stu_num_score"] = $task->get_stu_num_score($item["stu_num"]);
 
             $item["cc_test_num"]    = isset($test_person_num[$teacherid])?$test_person_num[$teacherid]["person_num"]:0;
             $item["cc_order_num"]   = isset($test_person_num[$teacherid])?$test_person_num[$teacherid]["have_order"]:0;
             $item["cc_order_per"]   = !empty($item["cc_test_num"])?round($item["cc_order_num"]/$item["cc_test_num"]*100,2):0;
-            $item["cc_order_score"] = $task->get_cc_order_score($item["cc_order_num"],$item["cc_order_per"]);
+            //  $item["cc_order_score"] = $task->get_cc_order_score($item["cc_order_num"],$item["cc_order_per"]);
             $item["other_test_num"] = (isset($kk_test_person_num[$teacherid])?$kk_test_person_num[$teacherid]["kk_num"]:0)+(isset($change_test_person_num[$teacherid])?$change_test_person_num[$teacherid]["change_num"]:0);
             $item["other_order_num"] = (isset($kk_test_person_num[$teacherid])?$kk_test_person_num[$teacherid]["kk_order"]:0)+(isset($change_test_person_num[$teacherid])?$change_test_person_num[$teacherid]["change_order"]:0);
             $item["other_order_per"] = !empty($item["other_test_num"])?round($item["other_order_num"]/$item["other_test_num"]*100,2):0;
-            $item["other_order_score"] = $task->get_other_order_score($item["other_order_num"],$item["other_order_per"]);
+            //  $item["other_order_score"] = $task->get_other_order_score($item["other_order_num"],$item["other_order_per"]);
             $item["record_num"] = isset($teacher_record_score[$teacherid])?$teacher_record_score[$teacherid]["num"]:0;
             $item["record_score"] = isset($teacher_record_score[$teacherid])?$teacher_record_score[$teacherid]["score"]:0;
             $item["record_score_avg"] = !empty($item["record_num"])?round($item["record_score"]/$item["record_num"],1):0;
             $item["record_final_score"] = !empty($item["record_num"])?ceil($item["record_score_avg"]*0.3):18;
             $item["is_refund"] = (isset($tea_refund_info[$teacherid]) && $tea_refund_info[$teacherid]>0)?1:0;
             $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
-            $item["total_score"] = $item["lesson_count_score"]+$item["cc_order_score"]+ $item["other_order_score"]+$item["record_final_score"]+$item["stu_num_score"];
+            // $item["total_score"] = $item["lesson_count_score"]+$item["cc_order_score"]+ $item["other_order_score"]+$item["record_final_score"]+$item["stu_num_score"];
             $item["hand_flag"]=0;
             // if($item["teacher_money_type"]==6){
             //     E\Enew_level::set_item_value_str($item,"level");
@@ -105,23 +105,23 @@ class no_auto_student_change_type extends Command
                     "teacherid"  =>$teacherid,
                     "level_before"=>$item["level"],
                     "lesson_count"=>$item["lesson_count"]*100,
-                    "lesson_count_score"=>$item["lesson_count_score"],
+                    "lesson_count_score"=>@$item["lesson_count_score"],
                     "cc_test_num"=>$item["cc_test_num"],
                     "cc_order_num" =>$item["cc_order_num"],
                     "cc_order_per" =>$item["cc_order_per"],
-                    "cc_order_score" =>$item["cc_order_score"],
+                    "cc_order_score" =>@$item["cc_order_score"],
                     "other_test_num"=>$item["other_test_num"],
                     "other_order_num" =>$item["other_order_num"],
                     "other_order_per" =>$item["other_order_per"],
-                    "other_order_score" =>$item["other_order_score"],
-                    "record_final_score"=>$item["record_final_score"],
+                    "other_order_score" =>@$item["other_order_score"],
+                    "record_final_score"=>@$item["record_final_score"],
                     "record_score_avg" =>$item["record_score_avg"],
                     "record_num"     =>$item["record_num"],
                     "is_refund"      =>$item["is_refund"],
-                    "total_score"    =>$item["total_score"],
+                    "total_score"    =>@$item["total_score"],
                     "teacher_money_type"=>$item["teacher_money_type"],
                     "stu_num"        =>$item["stu_num"],
-                    "stu_num_score"  =>$item["stu_num_score"]
+                    "stu_num_score"  =>@$item["stu_num_score"]
                 ]);
 
             }
