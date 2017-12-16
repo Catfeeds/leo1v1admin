@@ -8,6 +8,7 @@
     <script type="text/javascript" src="/ztree/jquery.ztree.exhide.min.js"></script>
 
     <script type="text/javascript" src="/js/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="/page_js/enum_map.js"></script>
     <script type="text/javascript" src="/page_js/question_edit_new.js"></script>
 
     <script type="text/javascript" src="/page_js/lib/select_dlg.js?v={{@$_publish_version}}"></script>
@@ -52,7 +53,13 @@
 
             <div class="col-xs-1 col-md-1">
                 <div class="input-group">
-                    <button style="margin-left:10px" id="text_book_knowledge" type="button" class="btn btn-primary">教材知识点</button>
+                    <button style="margin-left:10px" id="knowledge_pic" type="button" class="btn btn-info">知识点展现</button>
+                </div>
+            </div>
+
+            <div class="col-xs-1 col-md-1">
+                <div class="input-group">
+                    <button style="margin-left:10px" id="text_book_knowledge" type="button" class="btn btn-success">教材知识点</button>
                 </div>
             </div>
 
@@ -63,7 +70,7 @@
 
                 <a href="javascript:;" id="show_all_knowledge"> 显示全部知识点 </a>
 
-                <div class="zTreeDemoBackground">
+                <div class="zTreeDemoBackground" id="mathview">
                     <ul id="treeDemo" class="ztree"></ul>
                 </div>
             </div>
