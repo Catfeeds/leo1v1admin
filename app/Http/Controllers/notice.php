@@ -152,6 +152,20 @@ class notice extends Controller
         return $this->output_succ();
     }
 
+    public function sms_register() {
+        $phone   = $this->get_in_phone();
+        $user_ip = $this->get_in_user_ip();
+        $type    = $this->get_in_type();
+        $args    = json_decode($this->get_in_str_val("args"),true);
+        if (!is_array ($args) ) {
+            return $this->output_err("xx");
+        }
+        $this->sms_common_regiter($phone,$user_ip,$type, $args);
+
+        return $this->output_succ();
+    }
+
+
 
     public function sms_common_regiter($phone , $user_ip , $type, $data  )
     {
@@ -204,16 +218,32 @@ class notice extends Controller
 
 
         $is_success=0;
-        if ($user_ip) {
-            //每个ip 最多 10个
-            if (!\App\Helper\Common::redis_day_add_with_max_limit("sms_ip_$user_ip",1, 20)){
-                $send_flag_code=3;
+        // if ($user_ip) {
+        //     //每个ip 最多 10个
+        //     if (!\App\Helper\Common::redis_day_add_with_max_limit("sms_ip_$user_ip",1, 10)){
+        //         return;
+        //     }
+        // }else{
+        //     return;
+        // }
+
+        if($phone){
+            //每个手机 最多 3个
+            if (!\App\Helper\Common::redis_day_add_with_max_limit("sms_phone_$phone",1, 3)){
+                return;
             }
+
+        }else{
+            return;
         }
         $receive_content="";
 
         //$test_flag=true;
         $test_flag=false;
+
+        //测试
+        $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"sms","sms_ceshi","sms","");
+
 
         if ($is_success==0) {
             if ( \App\Helper\Utils::check_env_is_release()  || $test_flag) {

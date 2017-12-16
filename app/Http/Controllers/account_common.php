@@ -26,6 +26,7 @@ class account_common extends Controller
 
     //发送验证码前发送时间戳给前端,回调验证
     public function send_time_code(){
+
         $phone = $this->get_in_str_val("phone");
         $role = $this->get_in_int_val("role");
 
@@ -55,7 +56,7 @@ class account_common extends Controller
 
         $check_phone =  \App\Helper\Utils::check_phone($phone);
         if(!$check_phone){
-            return $this->output_err("手机号码不合法!");
+            //return $this->output_err("手机号码不合法!");
         }
 
 
@@ -67,7 +68,19 @@ class account_common extends Controller
 
         $phone_code=\App\Helper\Common::gen_rand_code(6);
       
-        $index = $this->get_current_verify_num($phone,$role);
+        $phone_index = $this->get_current_verify_num($phone,$role);
+
+        /*
+          模板名称: 通用验证
+          模板ID: SMS_10671029
+          *模板内容: 您的手机验证码为：${code} ，请尽快完成验证 编号为： ${index}
+          */
+        \App\Helper\Net::send_sms_taobao($phone,0, 10671029,[
+            "code"  => $phone_code,
+            "index" => $phone_index,
+        ],1);
+        dd(1111);
+
         
 
 
