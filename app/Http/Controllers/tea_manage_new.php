@@ -1326,7 +1326,6 @@ class tea_manage_new extends Controller
             $teacher_info = [
                 "phone"         => $phone,
                 "tea_nick"      => $tea_nick,
-                "use_easy_pass" => 1,
                 "send_sms_flag" => 0,
             ];
             $teacherid = $this->add_teacher_common($teacher_info);
