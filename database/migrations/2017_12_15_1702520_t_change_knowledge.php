@@ -36,9 +36,9 @@ class TChangeKnowledge extends Migration
         });
 
         Schema::create('db_question_new.t_knowledge_level', function (Blueprint $table){
-            $table->increments('id');
-                t_field($table->integer('knowledge_id'),"知识点id");
-                t_field($table->string('father_id'),"父级id");
+            // $table->increments('id');
+            //     t_field($table->integer('knowledge_id'),"知识点id");
+            //     t_field($table->string('father_id'),"父级id");
         });
  
     }
