@@ -4020,7 +4020,7 @@ function init_edit() {
             id_tea_status.val(data.tea_identity);
             id_tea_age.val(data.tea_age);
             id_tea_gender.val(data.tea_gender);
-            // id_teacher_type.val(data.teacher_type);
+            id_teacher_type.val(data.teacher_type);
             if(!data.knowledge_point_location ){
                 html_node.find("#id_knowledge_point_location").val(data.stu_request_test_lesson_demand);
             }else{
@@ -4325,7 +4325,7 @@ function init_edit() {
                             tea_identity:id_tea_status.val(),
                             tea_age:id_tea_age.val(),
                             tea_gender:id_tea_gender.val(),
-                            // teacher_type:id_teacher_type.val(),
+                            teacher_type:id_teacher_type.val(),
                             need_teacher_style: id_need_teacher_style.val(),
                             quotation_reaction: id_quotation_reaction.val(),
                             intention_level : id_intention_level.val(),
@@ -4666,7 +4666,7 @@ function init_edit() {
                             tea_identity:id_tea_status.val(),
                             tea_age:id_tea_age.val(),
                             tea_gender:id_tea_gender.val(),
-                            // teacher_type:id_teacher_type.val(),
+                            teacher_type:id_teacher_type.val(),
                             need_teacher_style: id_need_teacher_style.val(),
                             quotation_reaction: id_quotation_reaction.val(),
                             intention_level : id_intention_level.val(),
