@@ -188,7 +188,6 @@
                     {!!\App\Helper\Utils::th_order_gen([["科目", "", "th_subject" ]])!!}
                     {!!\App\Helper\Utils::th_order_gen([["合同状态", "contract_status", "th_contract_status" ]])!!}
                     {!!\App\Helper\Utils::th_order_gen([["合同类型", "contract_type", "th_contract_type" ]])!!}
-
                     <td style="display:none;">生效日期</td>
                     <td style="display:none;">下单日期</td>
                     <td >总课时</td>

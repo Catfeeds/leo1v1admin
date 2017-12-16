@@ -16,9 +16,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         ];
         $this->where_arr_add_int_field($where_arr,"refund_userid",$refund_userid);
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
-
         $this->where_arr_adminid_in_list($where_arr,"refund_userid", $require_adminid_list );
-
 
         $sql = $this->gen_sql_new(
             " select  r.qc_adminid, r.qc_deal_time, s.assistantid, r.subject, r.teacher_id, r.qc_contact_status, r.qc_advances_status, r.qc_voluntarily_status, r.userid,s.phone, o.discount_price,r.orderid,o.contract_type,r.lesson_total, f.flow_status,"
@@ -119,7 +117,6 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         ];
         $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
         if($no_tea_flag==1){
-            
         }else{
             $this->where_arr_teacherid($where_arr,"t.teacherid", $tea_arr); 
         }
@@ -146,8 +143,6 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_list($sql);
     }
 
-
-
     public function get_ass_refund_list($start_time,$end_time){
         $where_arr = [];
         $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
@@ -167,14 +162,12 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_list($sql);
     }
 
-
     public function get_user_lesson_refund($userid,$competition_flag){
         $sql = $this->gen_sql_new("select sum(r.should_refund)/100"
                                   ." from %s r"
                                   ." left join %s o on r.orderid=o.orderid"
                                   ." where o.competition_flag=%u"
                                   ." and r.userid=%u"
-                                  //." and r.refund_status=1"
                                   ,self::DB_TABLE_NAME
                                   ,t_order_info::DB_TABLE_NAME
                                   ,$competition_flag
@@ -224,9 +217,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                   ,$deal_time
                                   ,$where_arr
         );
-
         return $this->main_update($sql);
-
     }
 
     public function get_qc_anaysis_by_orderid_apply ($orderid, $apply_time) {
@@ -319,71 +310,6 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_list($sql);
     }
 
-
-    /**
-
-           public function get_ass_refund_info_new($start_time,$end_time){
-        $where_arr = [
-            "ra.id is not null",
-            "m.uid >0"
-        ];
-        $this->where_arr_add_time_range($where_arr,"ra.add_time",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select  r.real_refund,ra.id,m.uid,occ.value,ra.score,r.orderid,r.apply_time "
-                                  ." from %s r "
-                                  ." left join %s s on r.userid = s.userid"
-                                  ." left join %s a on s.assistantid=a.assistantid"
-                                  ." left join %s m on a.phone = m.phone"
-                                  ." left join %s ra on (ra.orderid = r.orderid and ra.apply_time = r.apply_time)"
-                                  ." left join %s oc on ra.configid = oc.id"
-                                  ." left join %s occ on (oc.key1= occ.key1 and occ.key2= 0 and occ.key3= 0 and occ.key4= 0 )"
-                                  ." where %s order by r.orderid,r.apply_time",
-                                  self::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,
-                                  t_assistant_info::DB_TABLE_NAME,
-                                  t_manager_info::DB_TABLE_NAME,
-                                  t_refund_analysis::DB_TABLE_NAME,
-                                  t_order_refund_confirm_config::DB_TABLE_NAME,
-                                  t_order_refund_confirm_config::DB_TABLE_NAME,
-                                  $where_arr
-        );
-        return $this->main_get_list($sql);
-    }
-
-    public function get_tea_refund_info_new($start_time,$end_time,$tea_arr){
-        $where_arr = [
-            "ra.id is not null",
-            "t.teacherid >0"
-        ];
-        $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
-        $this->where_arr_teacherid($where_arr,"t.teacherid", $tea_arr);
-        $sql = $this->gen_sql_new("select distinct r.real_refund,ra.id,t.teacherid,occ.value,ra.score,r.orderid,r.apply_time,s.nick "
-                                  ." from %s r "
-                                  ." left join %s s on r.userid = s.userid"
-                                  ." left join %s o on r.orderid = o.orderid"
-                                  ." left join %s c on c.userid = s.userid"
-                                  ." left join %s t on (c.teacherid = t.teacherid and (o.subject = t.subject or o.subject = t.second_subject or o.subject = t.third_subject))"
-                                  ." left join %s ra on (ra.orderid = r.orderid and ra.apply_time = r.apply_time)"
-                                  ." left join %s oc on ra.configid = oc.id"
-                                  ." left join %s occ on (oc.key1= occ.key1 and occ.key2= 0 and occ.key3= 0 and occ.key4= 0 )"
-                                  ." where %s order by r.orderid,r.apply_time",
-                                  self::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,
-                                  t_order_info::DB_TABLE_NAME,
-                                  t_course_order::DB_TABLE_NAME,
-                                  t_teacher_info::DB_TABLE_NAME,
-                                  t_refund_analysis::DB_TABLE_NAME,
-                                  t_order_refund_confirm_config::DB_TABLE_NAME,
-                                  t_order_refund_confirm_config::DB_TABLE_NAME,
-                                  $where_arr
-        );
-        return $this->main_get_list($sql);
-    }
-
-
-     **/
-
-
-
     public function get_ass_refund_info_by_qc($start_time,$end_time){ //
         $where_arr = [
             "ra.id is not null",
@@ -441,15 +367,8 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                   t_order_refund_confirm_config::DB_TABLE_NAME,
                                   $where_arr
         );
-
         return $this->main_get_list($sql);
-
     }
-
-
-
-
-
 
     public function get_tec_refund_info_by_qc($start_time,$end_time){
         $where_arr = [
@@ -459,7 +378,6 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
             "ra.score>0"
         ];
         $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
-        // $this->where_arr_teacherid($where_arr,"t.teacherid", $tea_arr);
         $sql = $this->gen_sql_new("select distinct(t.teacherid),occ.value,t.nick "
                                   ." from %s r "
                                   ." left join %s s on r.userid = s.userid"
@@ -482,7 +400,6 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         );
         return $this->main_get_list($sql);
     }
-
 
     public function check_order_is_refund($orderid){
         $sql = $this->gen_sql_new("select 1 from %s where orderid = %u",self::DB_TABLE_NAME,$orderid);
@@ -539,7 +456,6 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
     }
 
     public function get_has_refund_list($page_num){
-
         $where_arr = [
             "f.flow_status=2",
             "r.qc_other_reason <>'' or r.qc_analysia<>'' or r.qc_reply<>''"
@@ -559,9 +475,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-
         return $this->main_get_list_by_page($sql,$page_num,10);
-
     }
 
     public function get_refund_userid_by_month($start_time, $end_time){
@@ -598,10 +512,9 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
 
 
     public function get_2017_11_refund_info(){
-        //Used only once , ignore 
+        //Used only once,ignore
         $sql = "select  r.qc_adminid, r.qc_deal_time, s.assistantid, r.subject, r.teacher_id, r.qc_contact_status, r.qc_advances_status, r.qc_voluntarily_status, r.userid,s.phone, o.discount_price,r.orderid,o.contract_type,r.lesson_total, f.flow_status, f.flow_status_time,f.flowid,r.should_refund,r.price,o.invoice,o.order_time,o.sys_operator,r.pay_account,  r.real_refund,r.refund_status,r.apply_time,r.refund_userid,o.contractid,r.save_info,r.refund_info,file_url,  o.grade,o.need_receipt   ,if(co.child_order_type=2,1,0) is_staged_flag from db_weiyi.t_order_refund r left join db_weiyi.t_student_info s on s.userid=r.userid left join db_weiyi.t_order_info o on o.orderid=r.orderid left join db_weiyi_admin.t_flow f on (f.flow_type=1002 and r.orderid=f.from_key_int and r.apply_time = f.from_key2_int)  left join db_weiyi.t_child_order_info co on (co.parent_orderid = r.orderid and co.child_order_type = 2) where (s.is_test_user=0 or s.is_test_user is null ) and apply_time>=1509465600  order by apply_time desc";
         return $this->main_get_list($sql);
     }
-
 
 }
