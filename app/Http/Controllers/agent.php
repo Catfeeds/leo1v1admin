@@ -415,6 +415,7 @@ class agent extends Controller
     }
 
     public function check(){
+        E\Eseller_level::V_700;
         $page_info = $this->get_in_page_info();
         $grade = $this->get_in_int_val("grade",-1);
         $subject = $this->get_in_int_val("subject",-1);

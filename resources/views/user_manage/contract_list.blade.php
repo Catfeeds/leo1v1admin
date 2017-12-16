@@ -747,6 +747,18 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-6 " style="display:none;">
+                <div class="input-group ">
+                    <span class="input-group-addon">是否新签：</span>
+                    <select  class="form-control field-is_new_stu">
+                        <option value="0" >否</option>
+                        <option value="1" >是</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
     </div>
     <script type="text/javascript" src="/page_js/select_course.js"></script>
     <script type="text/javascript" src="/page_js/select_user.js"></script>

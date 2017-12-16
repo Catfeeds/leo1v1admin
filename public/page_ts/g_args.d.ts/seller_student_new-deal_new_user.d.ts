@@ -1,9 +1,10 @@
 interface GargsStatic {
-	phone:	number;
+	phone:	string;
 	open_flag:	number;
 	userid:	number;
 	test_lesson_subject_id:	number;
 	account_seller_level:	number;
+	seller_level:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -31,7 +32,8 @@ function load_data(){
 		open_flag:	$('#id_open_flag').val(),
 		userid:	$('#id_userid').val(),
 		test_lesson_subject_id:	$('#id_test_lesson_subject_id').val(),
-		account_seller_level:	$('#id_account_seller_level').val()
+		account_seller_level:	$('#id_account_seller_level').val(),
+		seller_level:	$('#id_seller_level').val()
 		});
 }
 $(function(){
@@ -49,6 +51,7 @@ $(function(){
 	});
 	$('#id_test_lesson_subject_id').val(g_args.test_lesson_subject_id);
 	$('#id_account_seller_level').val(g_args.account_seller_level);
+	$('#id_seller_level').val(g_args.seller_level);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -98,4 +101,12 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["account_seller_level title", "account_seller_level", "th_account_seller_level" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">seller_level</span>
+                <input class="opt-change form-control" id="id_seller_level" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["seller_level title", "seller_level", "th_seller_level" ]])!!}
 */

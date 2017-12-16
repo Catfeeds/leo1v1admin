@@ -224,6 +224,9 @@ trait  InputDeal {
     public function get_in_userid( $def_value=0){
         return  $this->get_in_int_val('userid', $def_value);
     }
+    public function get_in_query_text( $def_value="" ) {
+        return $this->get_in_str_val("query_text", $def_value);
+    }
 
     public function get_in_adminid( $def_value=0){
         return  $this->get_in_int_val('adminid', $def_value);
