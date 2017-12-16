@@ -10,6 +10,7 @@ interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
 	refund_userid:	number;
+	qc_flag:	number;
 	seller_groupid_ex:	string;
 }
 declare module "g_args" {
@@ -20,57 +21,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	qc_adminid	:any;
-	qc_deal_time	:any;
-	assistantid	:any;
-	subject	:any;
-	teacher_id	:any;
-	qc_contact_status	:any;
-	qc_advances_status	:any;
-	qc_voluntarily_status	:any;
-	userid	:any;
-	phone	:any;
-	discount_price	:any;
-	orderid	:any;
-	contract_type	:any;
-	lesson_total	:any;
-	flow_status	:any;
-	flow_status_time	:any;
-	flowid	:any;
-	should_refund	:any;
-	price	:any;
-	invoice	:any;
-	order_time	:any;
-	sys_operator	:any;
-	pay_account	:any;
-	real_refund	:any;
-	refund_status	:any;
-	apply_time	:any;
-	refund_userid	:any;
-	contractid	:any;
-	save_info	:any;
-	refund_info	:any;
-	file_url	:any;
-	grade	:any;
-	need_receipt	:any;
-	is_staged_flag	:any;
-	deal_nick	:any;
-	ass_nick	:any;
-	tea_nick	:any;
-	subject_str	:any;
-	is_staged_flag_str	:any;
-	user_nick	:any;
-	refund_user	:any;
-	apply_time_str	:any;
-	refund_status_str	:any;
-	flow_status_str	:any;
-	contract_type_str	:any;
-	need_receipt_str	:any;
-	grade_str	:any;
-	qc_advances_status_str	:any;
-	qc_contact_status_str	:any;
-	qc_voluntarily_status_str	:any;
-	order_time_str	:any;
 }
 
 /*
@@ -94,6 +44,7 @@ function load_data(){
 		userid:	$('#id_userid').val(),
 		is_test_user:	$('#id_is_test_user').val(),
 		refund_userid:	$('#id_refund_userid').val(),
+		qc_flag:	$('#id_qc_flag').val(),
 		seller_groupid_ex:	$('#id_seller_groupid_ex').val()
 		});
 }
@@ -120,6 +71,7 @@ $(function(){
 	});
 	$('#id_is_test_user').val(g_args.is_test_user);
 	$('#id_refund_userid').val(g_args.refund_userid);
+	$('#id_qc_flag').val(g_args.qc_flag);
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 
 
@@ -169,6 +121,14 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["refund_userid title", "refund_userid", "th_refund_userid" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">qc_flag</span>
+                <input class="opt-change form-control" id="id_qc_flag" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["qc_flag title", "qc_flag", "th_qc_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
