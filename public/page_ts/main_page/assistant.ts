@@ -65,10 +65,19 @@ $(function(){
             var goal_three = today_info['goal']*3;
             $("#today_goal_three").text(goal_three+':00');
             $("#month_revisit_num").text(month_info['revisit_num']);
-            $("#month_stu_num").text(month_info['stu_num']*2);
+            if(month_info['stu_num']>0){
+                var month_stu_num=month_info['stu_num'];
+            }else{
+                var month_stu_num=0;
+            }
+            $("#month_stu_num").text(month_stu_num*2);
             $("#month_call_num").text(month_info['call_num']);
-            var month_goal_three = month_info['stu_num']*6;
+            var month_goal_three = month_stu_num*6;
             $("#month_stu_num_three").text(month_goal_three+':00');                                              
+            init_noit_btn("warning-one", "预警1～5","1" );
+            init_noit_btn("warning-two", "预警5～7", "2" );
+            init_noit_btn("warning-three", "预警超时", "3" );
+
 
 
         });
@@ -88,9 +97,6 @@ $(function(){
         btn.attr('data-warning', type);
     };
 
-    init_noit_btn("warning-one", "预警1～5","1" );
-    init_noit_btn("warning-two", "预警5～7", "2" );
-    init_noit_btn("warning-three", "预警超时", "3" );
     $(".opt-warning-type").on("click",function(){
 
         window.location.href="/user_manage_new/ass_revisit_warning_info_sub?revisit_warning_type="+$(this).attr('data-warning');
