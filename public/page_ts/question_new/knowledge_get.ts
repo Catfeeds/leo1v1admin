@@ -1,3 +1,4 @@
+/// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/question_new-knowledge_get.d.ts" />
 
 $(function(){
