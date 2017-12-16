@@ -3348,7 +3348,7 @@ function init_edit() {
             var id_tea_gender = html_node.find("#id_tea_gender_new_two");
             var id_class_env = html_node.find("#id_class_env_new_two");
             var id_courseware = html_node.find("#id_courseware_new_two");
-            var id_tea_style = html_node.find("#id_tea_style_new_two");
+            var id_teacher_type = html_node.find("#id_teacher_type_new_two");
             var id_add_tag = html_node.find("#id_add_tag_new_two");
 
             var wuyaoqiu_html = "<option value='0'>无要求</option>";
@@ -3376,7 +3376,7 @@ function init_edit() {
             id_tea_gender.append(wuyaoqiu_html);
             Enum_map.append_option_list("gender", id_tea_gender, true,[1,2]);
             Enum_map.append_option_list("tea_age", id_tea_age, true);
-            Enum_map.append_option_list("tea_style", id_tea_style, true);
+            Enum_map.append_option_list("teacher_type", id_teacher_type, true,[0,1,3]);
             id_stu_request_test_lesson_time.datetimepicker({
                 lang             : 'ch',
                 timepicker       : true,
@@ -4020,6 +4020,7 @@ function init_edit() {
             id_tea_status.val(data.tea_identity);
             id_tea_age.val(data.tea_age);
             id_tea_gender.val(data.tea_gender);
+            // id_teacher_type.val(data.teacher_type);
             if(!data.knowledge_point_location ){
                 html_node.find("#id_knowledge_point_location").val(data.stu_request_test_lesson_demand);
             }else{
@@ -4324,6 +4325,7 @@ function init_edit() {
                             tea_identity:id_tea_status.val(),
                             tea_age:id_tea_age.val(),
                             tea_gender:id_tea_gender.val(),
+                            // teacher_type:id_teacher_type.val(),
                             need_teacher_style: id_need_teacher_style.val(),
                             quotation_reaction: id_quotation_reaction.val(),
                             intention_level : id_intention_level.val(),
@@ -4664,6 +4666,7 @@ function init_edit() {
                             tea_identity:id_tea_status.val(),
                             tea_age:id_tea_age.val(),
                             tea_gender:id_tea_gender.val(),
+                            // teacher_type:id_teacher_type.val(),
                             need_teacher_style: id_need_teacher_style.val(),
                             quotation_reaction: id_quotation_reaction.val(),
                             intention_level : id_intention_level.val(),
