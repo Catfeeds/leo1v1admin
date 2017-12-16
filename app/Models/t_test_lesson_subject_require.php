@@ -1027,6 +1027,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "require_admin_type=2",
             "is_test_user=0",
             ['cur_require_adminid=%u',$adminid,-1],
+            "l.lesson_del_flag=0",
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $where_arr[]=$this->where_get_in_str_query("s.grade",$grade_list);
@@ -1063,6 +1064,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "is_test_user=0",
             '(lesson_user_online_status in (0,1) or  f.flow_status = 2)',
             ['cur_require_adminid=%u',$adminid,-1],
+            "l.lesson_del_flag=0",
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $where_arr[]=$this->where_get_in_str_query("s.grade",$grade_list);
