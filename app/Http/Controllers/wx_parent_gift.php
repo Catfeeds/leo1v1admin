@@ -339,6 +339,28 @@ class wx_parent_gift extends Controller
     }
 
     /**
+     * @ 点击抽奖
+     **/
+    public function dealLottery(){
+        $this->get_in_int_val("parentid");
+
+        $rand = mt_rand(0,100);
+        $money = 0;
+        if($rand<=60){
+            $money = 10;
+        }elseif(60<$rand && $rand<=90){
+            $money = 20;
+        }elseif(90<$rand && $rand<=100){
+            $money = 50;
+        }
+
+
+
+    }
+
+
+
+    /**
      * @ 展示当前个人信息
      */
     public function showAdminInfo(){ //
