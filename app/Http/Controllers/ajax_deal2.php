@@ -983,10 +983,11 @@ class ajax_deal2 extends Controller
             $arr=$objPHPExcel->getActiveSheet()->toArray();
             $now=time(NULL);
             $title_info=array_shift($arr);
-            if ($title_info[0] != "key1" ) {
+            if ($title_info[0] != "key0" ) {
                 return $this->output_err("文件格式不对!");
             }
             $origin_arr=[];
+            $key0="";
             $key1="";
             $key2="";
             $key3="";
@@ -994,17 +995,19 @@ class ajax_deal2 extends Controller
             $value="";
             $fix="";
             foreach ($arr as $index => $item) {
-                $key1= trim($item[0])? trim($item[0]): $key1 ;
-                $key2= trim($item[1])? trim($item[1]): $key2 ;
-                $key3= trim($item[2])? trim($item[2]): $key3 ;
-                $key4= trim($item[3])? trim($item[3]): $key4 ;
-                $value= trim($item[4]);
-                $fix= trim($item[5])? trim($item[5]): $fix;
+                $key0= trim($item[0])? trim($item[0]): $key0 ;
+                $key1= trim($item[1])? trim($item[1]): $key1 ;
+                $key2= trim($item[2])? trim($item[2]): $key2 ;
+                $key3= trim($item[3])? trim($item[3]): $key3 ;
+                $key4= trim($item[4])? trim($item[4]): $key4 ;
+                $value= trim($item[5]);
+                $fix= trim($item[6])? trim($item[6]): $fix;
 
                 $fix_value=$fix.$value;
                 $origin_arr[]=$fix_value;
                 $this->t_origin_key->row_insert([
                     "create_time" => $now,
+                    "key0" => $key0,
                     "key1" => $key1,
                     "key2" => $key2,
                     "key3" => $key3,
@@ -2350,5 +2353,30 @@ class ajax_deal2 extends Controller
         }
         $competition_flag = $this->t_order_info->check_is_have_competition_order($origin_userid);
         return $this->output_succ(["flag"=>$competition_flag]);
+    }
+
+    //检查转介绍负责人以及转介绍人类型
+    public function check_origin_assistantid_info(){
+        $origin_userid = $this->get_in_int_val("origin_userid");
+        $origin_assistantid = $this->get_in_int_val("origin_assistantid");
+        $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
+
+        //原CC
+        $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
+        $cc_flag = 0;
+        if($admin_revisiterid>0){
+            $del_flag = $this->t_manager_info->get_del_flag($admin_revisiterid);
+            if($del_flag==0){
+                $cc_flag=1;
+            }
+        }
+        return $this->output_succ([
+            "account_role"=>$account_role,
+            "cc_flag"     =>$cc_flag
+        ]);
+        
+
+
+
     }
 }

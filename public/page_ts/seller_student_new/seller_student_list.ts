@@ -1705,17 +1705,67 @@ function init_edit() {
                     return;
                 }
 
-                BootstrapDialog.confirm("要新增转介绍? 手机["+phone +"] ",function(val){
-                    if (val) {
-                        $.do_ajax("/ss_deal/ass_add_seller_user", {
-                            "phone"         : phone,
-                            "origin_userid" : origin_userid,
-                            "origin_assistantid" : origin_assistantid,
-                            "grade"         : $grade.val(),
-                            "subject"       : $subject.val()
-                        });
+                $.do_ajax('/ajax_deal2/check_origin_assistantid_info',{
+                    "origin_userid" : origin_userid,
+                    "origin_assistantid" : origin_assistantid,
+                },function(result){
+                    var account_role = result.account_role;
+                    var cc_flag = result.cc_flag;
+                    if(account_role==1){
+                        if(cc_flag==0){
+                            var origin_flag=$("<select><option value= \"1\">助教负责</option><option value= \"2\">按校区分配</option></select>");
+                            var arr=[
+                                ["分配方式",origin_flag]  
+                            ];
+                            $.show_key_value_table("选择分配方式", arr, {
+                                label    : '提交',
+                                cssClass : 'btn-danger',
+                                action   : function(dialog) {
+                                    $.do_ajax("/ss_deal/ass_add_seller_user", {
+                                        "phone"         : phone,
+                                        "origin_userid" : origin_userid,
+                                        "origin_assistantid" : origin_assistantid,
+                                        "grade"         : $grade.val(),
+                                        "subject"       : $subject.val(),
+                                        "origin_flag"   : origin_flag.val()
+                                    });
+
+                                }
+                            });
+
+
+                        }else{
+                            BootstrapDialog.confirm("要新增转介绍? 手机["+phone +"] ",function(val){
+                                if (val) {
+                                    $.do_ajax("/ss_deal/ass_add_seller_user", {
+                                        "phone"         : phone,
+                                        "origin_userid" : origin_userid,
+                                        "origin_assistantid" : origin_assistantid,
+                                        "grade"         : $grade.val(),
+                                        "subject"       : $subject.val(),
+                                        "origin_flag"   : 0
+                                    });
+                                }
+                            } );
+
+                        }
+                    }else{
+                        BootstrapDialog.confirm("要新增转介绍? 手机["+phone +"] ",function(val){
+                            if (val) {
+                                $.do_ajax("/ss_deal/ass_add_seller_user", {
+                                    "phone"         : phone,
+                                    "origin_userid" : origin_userid,
+                                    "origin_assistantid" : origin_assistantid,
+                                    "grade"         : $grade.val(),
+                                    "subject"       : $subject.val(),
+                                    "origin_flag"   : 0
+                                });
+                            }
+                        } );
+ 
                     }
-                } );
+                });
+
             }
         },function(){
             $.admin_select_user( $origin_userid, "student"  );

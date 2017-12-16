@@ -110,7 +110,7 @@ class send_wx_msg_for_test_lesson extends Command
 
                         $data_ass = $this->get_data($item, 3,3, '', $item['stu_nick']);
                         $this->send_wx_msg_ass($item,3,$data_ass);
-                        $this->to_waring('[试听课] 课程中途退出10分钟 学生 课程id:'.$item['lessonid']); //james
+                        // $this->to_waring('[试听课] 课程中途退出10分钟 学生 课程id:'.$item['lessonid']); //james
 
                     }
                 }
@@ -126,7 +126,7 @@ class send_wx_msg_for_test_lesson extends Command
 
                         $data_ass = $this->get_data($item, 3,3, $item['teacher_nick'], '');
                         $this->send_wx_msg_ass($item,3,$data_ass);
-                        $this->to_waring('[试听课] 课程中途退出10分钟 老师 课程id:'.$item['lessonid']); //james
+                        // $this->to_waring('[试听课] 课程中途退出10分钟 老师 课程id:'.$item['lessonid']); //james
 
                     }
                 }

@@ -39,24 +39,21 @@ class node_type_channel_statistics extends cmd_base
     {
         $start_time = strtotime(date('Y-m-01'));
         $end_time = strtotime('+1 month -1 second',$start_time);
+        $origin_ex = '';
 
         //获取结点型数据   ---begin--
         $node_type_data = $this->get_node_type_data($start_time,$end_time);
-        dd($node_type_data);
         //获取结点型数据   ---end--
 
         //重构数据类型  ---begin--
-        foreach ($data_map as &$item ) {
-            $item["title"]= @$item["check_value"];
-
-            if ($field_name=="origin") {
-                $item["origin"]= $item["title"];
-            }
+        foreach ($node_type_data as &$item ) {
+            $item["title"]= @$item["channel_name"];
+            $item["origin"]= $item["title"];
         }
 
         //重组数据结构
-        $ret_info["list"]= $this->gen_origin_data_level5(
-            $ret_info["list"],
+        $structured_data = $this->gen_origin_data_level5(
+            $node_type_data,
             ['avg_first_time','consumption_rate','called_rate','effect_rate','audition_rate'],
             $origin_ex
         );
@@ -64,6 +61,105 @@ class node_type_channel_statistics extends cmd_base
         //重构数据类型  ---end--
 
         //存储入数据库  ---begin---
+        $sort = 0;
+        //插入数据库
+        foreach($structured_data as $item){
+            echo $sort.'ok'."\n";
+            $id = $this->task->t_channel_node_type_statistics->get_id_by_sort($sort,$start_time);
+            if($id){
+                //更新数据
+                $this->task->t_channel_node_type_statistics->field_update_list($id, [
+                    'channel_name' => @$item['value'],
+                    'add_time' => $start_time,
+                    'all_count' => @$item['all_count'],
+                    'heavy_count' => @$item['heavy_count'],
+                    'assigned_count' => @$item['assigned_count'],
+                    'tmk_assigned_count' => @$item['tmk_assigned_count'],
+                    'avg_first_time' => @$item['avg_first_time'],
+                    'tq_called_count' => @$item['tq_called_count'],
+                    'tq_no_call_count' => @$item['tq_no_call_count'],
+                    'consumption_rate' => @$item['consumption_rate'],
+                    'called_num' => @$item['called_num'],
+                    'tq_call_succ_valid_count' => @$item['tq_call_succ_valid_count'],
+                    'tq_call_succ_invalid_count' => @$item['tq_call_succ_invalid_count'],
+                    'called_rate' => @$item['called_rate'],
+                    'effect_rate' => @$item['effect_rate'],
+                    'tq_call_fail_count' => @$item['tq_call_fail_count'],
+                    'tq_call_fail_invalid_count' => @$item['tq_call_fail_invalid_count'],
+                    'have_intention_a_count' => @$item['have_intention_b_count'],
+                    'have_intention_c_count' => @$item['have_intention_c_count'],
+                    'require_count' => @$item['require_count'],
+                    'test_lesson_count' => @$item['test_lesson_count'],
+                    'succ_test_lesson_count' => @$item['succ_test_lesson_count'],
+                    'audition_rate' => @$item['audition_rate'],
+                    'order_count' => @$item['user_count'],
+                    'order_all_money' => @$item['order_all_money'],
+                    'distinct_succ_count' => @$item['distinct_succ_count'],
+                    'distinct_test_count' => @$item['distinct_test_count'],
+                    'key0' => @$item['key0'],
+                    'key1' => @$item['key1'],
+                    'key2' => @$item['key2'],
+                    'key3' => @$item['key3'],
+                    'key4' => @$item['key4'],
+                    'key0_class' => @$item['key0_class'],
+                    'key1_class' => @$item['key1_class'],
+                    'key2_class' => @$item['key2_class'],
+                    'key3_class' => @$item['key3_class'],
+                    'key4_class' => @$item['key4_class'],
+                    'old_key5' => @$item['old_key5'],
+                    'level' => @$item['level'],
+                    'sort' => $sort++,
+
+                ]);
+
+            }else{
+                //添加数据
+                $this->task->t_channel_node_type_statistics->row_insert([
+                    'channel_name' => @$item['value'],
+                    'add_time' => $start_time,
+                    'all_count' => @$item['all_count'],
+                    'heavy_count' => @$item['heavy_count'],
+                    'assigned_count' => @$item['assigned_count'],
+                    'tmk_assigned_count' => @$item['tmk_assigned_count'],
+                    'avg_first_time' => @$item['avg_first_time'],
+                    'tq_called_count' => @$item['tq_called_count'],
+                    'tq_no_call_count' => @$item['tq_no_call_count'],
+                    'consumption_rate' => @$item['consumption_rate'],
+                    'called_num' => @$item['called_num'],
+                    'tq_call_succ_valid_count' => @$item['tq_call_succ_valid_count'],
+                    'tq_call_succ_invalid_count' => @$item['tq_call_succ_invalid_count'],
+                    'called_rate' => @$item['called_rate'],
+                    'effect_rate' => @$item['effect_rate'],
+                    'tq_call_fail_count' => @$item['tq_call_fail_count'],
+                    'tq_call_fail_invalid_count' => @$item['tq_call_fail_invalid_count'],
+                    'have_intention_a_count' => @$item['have_intention_b_count'],
+                    'have_intention_c_count' => @$item['have_intention_c_count'],
+                    'require_count' => @$item['require_count'],
+                    'test_lesson_count' => @$item['test_lesson_count'],
+                    'succ_test_lesson_count' => @$item['succ_test_lesson_count'],
+                    'audition_rate' => @$item['audition_rate'],
+                    'order_count' => @$item['user_count'],
+                    'order_all_money' => @$item['order_all_money'],
+                    'distinct_succ_count' => @$item['distinct_succ_count'],
+                    'distinct_test_count' => @$item['distinct_test_count'],
+                    'key0' => @$item['key0'],
+                    'key1' => @$item['key1'],
+                    'key2' => @$item['key2'],
+                    'key3' => @$item['key3'],
+                    'key4' => @$item['key4'],
+                    'key0_class' => @$item['key0_class'],
+                    'key1_class' => @$item['key1_class'],
+                    'key2_class' => @$item['key2_class'],
+                    'key3_class' => @$item['key3_class'],
+                    'key4_class' => @$item['key4_class'],
+                    'old_key5' => @$item['old_key5'],
+                    'level' => @$item['level'],
+                    'sort' => $sort++,
+                ]);
+
+            }
+        }
+
         //存储入数据库  ---end---
     }
     //@desn:获取节点型渠道数据
@@ -82,16 +178,22 @@ class node_type_channel_statistics extends cmd_base
             $node_type_data[$channel_name]["distinct_test_count"] = $test_item["distinct_test_count"];
             $node_type_data[$channel_name]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
             $node_type_data[$channel_name]["distinct_succ_count"] = $test_item["distinct_succ_count"];
+            //试听率
+            if(@$node_type_data[$channel_name]['tq_called_count'])
+                $node_type_data[$channel_name]["audition_rate"] = number_format($test_item["distinct_succ_count"]/$node_type_data[$channel_name]['tq_called_count']*100,2);
+            else
+                $node_type_data[$channel_name]["audition_rate"] = '';
+
         }
         //订单信息
         $order_data = $this->task->t_order_info->get_node_type_order_data($start_time, $end_time);
         foreach($order_data as $order_item){
             $channel_name=$order_item["channel_name"];
-            \App\Helper\Utils:: array_item_init_if_nofind( $node_type_data, $channel_name,["channel_name" => $channel_name ] );
+            \App\Helper\Utils:: array_item_init_if_nofind($node_type_data, $channel_name,["channel_name" => $channel_name]);
 
-            $data_map[$check_value]["order_count"] = $order_item["order_count"];
-            $data_map[$check_value]["user_count"] = $order_item["user_count"];
-            $data_map[$check_value]["order_all_money"] = $order_item["order_all_money"];
+            $node_type_data[$channel_name]["order_count"] = $order_item["order_count"];
+            $node_type_data[$channel_name]["user_count"] = $order_item["user_count"];
+            $node_type_data[$channel_name]["order_all_money"] = $order_item["order_all_money"];
         }
         return $node_type_data;
     }
@@ -102,7 +204,6 @@ class node_type_channel_statistics extends cmd_base
     //@param:$origin_ex 渠道字符串
     private function gen_origin_data_level5($old_list,$no_sum_list=[] ,$origin_ex="")
     {
-        $this->task->t_order_info->switch_tongji_database();
         $value_map=$this->task->t_origin_key->get_list( $origin_ex);
         //组织分层用类标识
         $cur_key_index=1;

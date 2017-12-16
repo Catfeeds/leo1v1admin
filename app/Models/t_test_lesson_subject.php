@@ -1103,6 +1103,95 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
         return $this->main_get_row($sql);
     }
+    //@desn:获取统计中相关渠道例子明细
+    //@param:额外限制条件
+    public function tongji_test_example_origin_info( $origin='',$field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="",$check_value='', $page_info='',$cond=''){
+        \App\Helper\Utils::logger("serverip $field_name ");
+        switch ( $field_name ) {
+        case "origin" :
+            $field_name="si.origin";
+            break;
+
+        case "grade" :
+            $field_name="li.grade";
+            break;
+
+        case "subject" :
+            $field_name="li.subject";
+            break;
+        default:
+            break;
+        }
+
+        $where_arr=[
+            ["si.origin like '%%%s%%' ",$origin,''],
+            ["$field_name='%s'",$check_value,""],
+        ];
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"si.origin");
+        $where_arr[]= $ret_in_str;
+        $this->where_arr_adminid_in_list($where_arr,"tls.require_adminid",$adminid_list);
+        $this->where_arr_add_time_range($where_arr, 'ssn.add_time', $start_time, $end_time);
+        $this->where_arr_add__2_setid_field($where_arr,"ssn.tmk_adminid",$tmk_adminid);
+        if($cond == 'admin_revisiterid')//已分配销售
+            $where_arr[] = 'ssn.admin_revisiterid > 0';
+        elseif($cond == 'tmk')//TMK有效
+            $this->where_arr_add_int_field($where_arr, 'ssn.tmk_student_status', 3);
+        elseif($cond == 'tq_no_call')//未拨打
+            $this->where_arr_add_int_field($where_arr, 'ssn.global_tq_called_flag', 0);
+        elseif($cond == 'called')//已拨通
+            $this->where_arr_add_int_field($where_arr, 'ssn.global_tq_called_flag', 2);
+        elseif($cond == 'tq_called')//已拨打
+            $where_arr[] = 'global_tq_called_flag <>0';
+        elseif($cond=='tq_call_fail')//未接通
+            $this->where_arr_add_int_field($where_arr, 'ssn.global_tq_called_flag', 1);
+        elseif($cond=='tq_call_succ_vaild'){
+            //已拨通-有效
+            $this->where_arr_add_int_field($where_arr, 'ssn.global_tq_called_flag', 2);
+            $this->where_arr_add_int_field($where_arr, 'ssn.sys_invaild_flag', 0);
+        }elseif($cond=='tq_call_succ_invaild'){
+            //已拨通-无效
+            $this->where_arr_add_int_field($where_arr, 'ssn.global_tq_called_flag', 2);
+            $this->where_arr_add_int_field($where_arr, 'ssn.sys_invaild_flag', 1);
+        }elseif($cond=='tq_call_fail_invaild'){
+            //未拨通-无效
+            $this->where_arr_add_int_field($where_arr, 'ssn.global_tq_called_flag', 1);
+            $this->where_arr_add_int_field($where_arr, 'ssn.sys_invaild_flag', 1);
+        }
+
+
+        $sql=$this->gen_sql_new(
+            "select pa.nickname,seller_resource_type ,first_call_time,first_contact_time,".
+            "first_revisit_time,last_revisit_time,tmk_assign_time,last_contact_time,".
+            "competition_call_adminid, competition_call_time,sys_invaild_flag,wx_invaild_flag,".
+            "return_publish_count, tmk_adminid, tls.test_lesson_subject_id ,seller_student_sub_status,".
+            "add_time,  global_tq_called_flag, seller_student_status,wx_invaild_flag,".
+            "si.userid,si.nick,si.origin,si.origin_level,ssn.phone_location,ssn.phone,ssn.userid,".
+            "ssn.sub_assign_adminid_2,ssn.admin_revisiterid,ssn.admin_assign_time,ssn.sub_assign_time_2,".
+            "si.origin_assistantid,si.origin_userid,tls.subject,si.grade,ssn.user_desc,".
+            "ssn.has_pad,tls.require_adminid,tmk_student_status,first_tmk_set_valid_admind,".
+            "first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,".
+            "first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,".
+            "first_admin_revisiterid_time,first_seller_status,cur_adminid_call_count call_count,".
+            "ssn.auto_allot_adminid ".
+            " from %s tls ".
+            " left join %s ssn on  ssn.userid = tls.userid ".
+            " left join %s si on ssn.userid=si.userid ".
+            " left join %s mi on  ssn.admin_revisiterid =mi.uid ". " left join %s a on  a.userid =ssn.userid ". " left join %s pa on  pa.id =a.parentid ". " where  %s"
+            , self::DB_TABLE_NAME
+            , t_seller_student_new::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
+            , t_manager_info::DB_TABLE_NAME
+            , t_agent::DB_TABLE_NAME
+            , t_agent::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        if ($page_info) {
+            return $this->main_get_list_by_page($sql,$page_info);
+        } else {
+            return $this->main_get_list($sql);
+        }
+    }
 
     public function get_test_lesson_subject_id_by_lessonid($lessonid){
         $sql = $this->gen_sql_new("  select tls.require_id from %s tr "
@@ -1121,4 +1210,43 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         $sql = " select subject from db_weiyi.t_test_lesson_subject where subject > 0 and userid = $userid ";
         return $this->main_get_row($sql);
     }
+    //@desn:获取节点型例子进入量
+    public function get_example_num($start_time,$end_time){
+        $where_arr = [
+            ['tls.require_admin_type = %u',2],
+            ['si.is_test_user = %u',0],
+        ];
+        $this->where_arr_add_time_range($where_arr, 'ssn.add_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select si.origin as channel_name,count(*) as all_count,'.
+            'count(si.userid) as heavy_count,count(ssn.admin_revisiterid >0) assigned_count,'.
+            'count(ssn.tmk_student_status=3) as tmk_assigned_count,'.
+            'avg(if(ssn.add_time<ssn.first_call_time,ssn.first_call_time-ssn.add_time,null)) avg_first_time,'.
+            'sum(ssn.global_tq_called_flag <>0) tq_called_count,'.
+            'sum(ssn.global_tq_called_flag=0) tq_no_call_count,'.
+            'format(sum(ssn.global_tq_called_flag <>2)/count(*)*100,2) consumption_rate,'.
+            'sum(ssn.global_tq_called_flag =2) as called_num,'.
+            'sum(ssn.global_tq_called_flag =2 and ssn.sys_invaild_flag=0) tq_call_succ_valid_count,'.
+            'sum(ssn.global_tq_called_flag =2 and  ssn.sys_invaild_flag =1) tq_call_succ_invalid_count,'.
+            'format(sum(ssn.global_tq_called_flag =2)/sum(ssn.global_tq_called_flag <>0)*100,2) called_rate,'.
+            'format(sum(ssn.global_tq_called_flag =2 and ssn.sys_invaild_flag =0)/sum(ssn.global_tq_called_flag <>0)*100,2) effect_rate,'.
+            'sum(ssn.global_tq_called_flag=1) tq_call_fail_count,'.
+            'sum(ssn.global_tq_called_flag =1 and ssn.sys_invaild_flag =1) tq_call_fail_invalid_count,'.
+            'sum(tls.seller_student_status =100 and ssn.global_tq_called_flag =2) have_intention_a_count,'.
+            'sum(tls.seller_student_status =101 and ssn.global_tq_called_flag =2) have_intention_b_count,'.
+            'sum(tls.seller_student_status =102 and ssn.global_tq_called_flag =2) have_intention_c_count '.
+            'from %s tls '.
+            'left join %s ssn on tls.userid = ssn.userid '.
+            'left join %s si on tls.userid = si.userid '.
+            'where %s group by si.origin',
+            self::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item['channel_name'];
+        });
+    }
+
 }

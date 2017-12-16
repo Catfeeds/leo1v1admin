@@ -8,8 +8,9 @@ class t_origin_key extends \App\Models\Zgen\z_t_origin_key
     }
 
 
-    function get_channel_manage( $page_num,$key1,$key2,$key3,$key4,$value,$origin_level=-1) {
+    function get_channel_manage( $page_num,$key1,$key2,$key3,$key4,$value,$origin_level=-1,$key0='') {
         $where_arr=[
+            ["key0='%s'",$key0,""],
             ["key1='%s'",$key1,""],
             ["key2='%s'",$key2,""],
             ["key3='%s'",$key3,""],
@@ -17,7 +18,7 @@ class t_origin_key extends \App\Models\Zgen\z_t_origin_key
             ["value like '%%%s%%' ",$value,""],
             ["origin_level = %u ",$origin_level,-1],
         ];
-        $sql=$this->gen_sql_new("select key1, key2, key3, key4, value,origin_level,create_time from %s where  %s order by  create_time desc ",
+        $sql=$this->gen_sql_new("select key0,key1, key2, key3, key4, value,origin_level,create_time from %s where  %s order by  create_time desc ",
                             self::DB_TABLE_NAME,
                             $where_arr
         );
@@ -57,11 +58,12 @@ class t_origin_key extends \App\Models\Zgen\z_t_origin_key
         return $value;
     }
 
-    public function add_origin_key($key1,$key2,$key3,$key4,$value,$origin_level =1,$create_time=0) {
+    public function add_origin_key($key1,$key2,$key3,$key4,$value,$origin_level =1,$create_time=0,$key0='') {
         if(empty($create_time)){
             $create_time =time();
         }
         return $this->row_insert([
+            self::C_key0     => $key0,
             self::C_key1     => $key1,
             self::C_key2     => $key2,
             self::C_key3     => $key3,
@@ -72,25 +74,28 @@ class t_origin_key extends \App\Models\Zgen\z_t_origin_key
         ]);
     }
 
-    public function get_origin_key_value($key1,$key2,$key3,$key4) {
+    public function get_origin_key_value($key1,$key2,$key3,$key4,$key0='') {
         $sql = $this->gen_sql_new(
             " select  value from %s  ".
-            "where key1= '%s' and key2= '%s'  and key3= '%s'  and key4= '%s'  ",
+            "where key1= '%s' and key2= '%s'  and key3= '%s'  and key4= '%s' and key0 = '%s'  ",
             self::DB_TABLE_NAME,
             $key1,
             $key2,
             $key3,
-            $key4
+            $key4,
+            $key0
         );
         return $this->main_get_value($sql);
     }
 
 
 
-    public function edit_origin_key($old_value,$key1,$key2,$key3,$key4,$value,$origin_level = 0) {
-        $sql = $this->gen_sql("update %s set key1 = '%s', key2 = '%s', key3 = '%s', key4 = '%s'  , value='%s',origin_level=%u ".
+    public function edit_origin_key($old_value,$key1,$key2,$key3,$key4,$value,$origin_level = 0,$key0='') {
+        $sql = $this->gen_sql("update %s set key0 = '%s',key1 = '%s', key2 = '%s', key3 = '%s', ".
+                              "key4 = '%s'  , value='%s',origin_level=%u ".
                               " where value = '%s' ",
                               self::DB_TABLE_NAME,
+                              $key0,
                               $key1,
                               $key2,
                               $key3,
@@ -165,19 +170,22 @@ class t_origin_key extends \App\Models\Zgen\z_t_origin_key
             $in_str="not in";
         }
         $arr=explode(",",$origin_ex);
+        $key0="";
         $key1="";
         $key2="";
         $key3="";
         $key4="";
-        if (isset($arr[0])) $key1= $arr[0];
-        if (isset($arr[1])) $key2= $arr[1];
-        if (isset($arr[2])) $key3= $arr[2];
-        if (isset($arr[3])) $key4= $arr[3];
-        if ($key1=="") {
+        if (isset($arr[0])) $key0= $arr[0];
+        if (isset($arr[1])) $key1= $arr[1];
+        if (isset($arr[2])) $key2= $arr[2];
+        if (isset($arr[3])) $key3= $arr[3];
+        if (isset($arr[4])) $key4= $arr[4];
+        if ($key0=="") {
             return "true";
         }
 
         $where_arr=[
+            ["key0='%s'",$key0,""],
             ["key1='%s'",$key1,""],
             ["key2='%s'",$key2,""],
             ["key3='%s'",$key3,""],
@@ -206,8 +214,9 @@ class t_origin_key extends \App\Models\Zgen\z_t_origin_key
         }
     }
 
-    public function get_key_list( $key1,$key2,$key3, $key_str ){
+    public function get_key_list( $key1,$key2,$key3, $key_str,$key0='' ){
         $where_arr=[
+            ["key0='%s'",$key0,""],
             ["key1='%s'",$key1,""],
             ["key2='%s'",$key2,""],
             ["key3='%s'",$key3,""],
@@ -257,6 +266,23 @@ class t_origin_key extends \App\Models\Zgen\z_t_origin_key
                                 , self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
+    }
+    //@desn:检索全部的不重复的key1
+    public function get_key1_list(){
+        $sql = $this->gen_sql_new('select distinct(key1) from %s', self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
+    //@desn:修改key1的key0
+    //@param:$key1 key1的值
+    //@param:$key0 key0的值
+    public function update_key0($key1,$key0){
+        $sql = sprintf(
+            "update %s set key0 = '%s' where key1 = '%s'",
+            self::DB_TABLE_NAME,
+            $key0,
+            $key1
+        );
+        return $this->main_update($sql);
     }
 
 }

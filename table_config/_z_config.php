@@ -3,6 +3,8 @@ return array(
     ['db_weiyi','t_teacher_full_part_trans_info','id'],
     ['db_weiyi','t_teacher_resource_dir','dir_id'],
     ['db_weiyi','t_teacher_resource','tea_res_id'],
+    ["db_weiyi","t_channel_node_type_statistics","id"],
+    ["db_weiyi","t_channel_funnel_archive_data","id"],
     ['db_weiyi','t_teacher_warn','id'],
     ["db_weiyi","t_resource_agree_info","agree_id"],
     ["db_weiyi","t_resource_file","file_id"],

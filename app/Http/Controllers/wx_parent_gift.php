@@ -333,7 +333,7 @@ class wx_parent_gift extends Controller
         // 判断是否有合同
         $orderid = $this->t_order_info->getOrderByParentid($parentid);
 
-        header("location: http://wx-parent-web.leo1v1.com/anniversary_day/index.html?pid1=0&pid2=".$parentid);
+        header("Location: http://wx-parent-web.leo1v1.com/anniversary_day/index.html?pid1=0&pid2=".$parentid);
         return ;
     }
 
@@ -343,10 +343,13 @@ class wx_parent_gift extends Controller
     }
 
 
+
+
+
     /**
      *市场部赠送图书活动
      *
-    **/
+     **/
 
     public function set_identity_for_book(){
         $_SESSION['check_flag']=1;
@@ -370,7 +373,7 @@ class wx_parent_gift extends Controller
 
     /***
      *双11活动 理优在线
-    **/
+     **/
 
     public function get_prize_list(){ // 获取奖品列表
         $parentid   = $this->get_parentid();
@@ -607,7 +610,7 @@ class wx_parent_gift extends Controller
            array(6,"","500元折扣券" ),
            array(7,"","免费3次正式课" ),
            array(8,"","试听课" ),
-         **/
+        **/
 
         if($stu_type == 1){ // 新用户
             if($today < $eleven){
@@ -672,7 +675,7 @@ class wx_parent_gift extends Controller
 
     /**
        双11活动 理优在线
-     **/
+    **/
 
 
 
@@ -795,7 +798,7 @@ class wx_parent_gift extends Controller
            活动时间：{{keyword2.DATA}}
            活动结果：{{keyword3.DATA}}
            {{remark.DATA}}
-         **/
+        **/
 
         $appid     = \App\Helper\Config::get_yxyx_wx_appid();
         $appsecret = \App\Helper\Config::get_yxyx_wx_appsecret();
