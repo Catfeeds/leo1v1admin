@@ -1176,8 +1176,8 @@ class seller_student_new extends Controller
                 4 => array("n.last_revisit_time","最后CC联系时间"),
             ], 1,0, true
         );
-        if(($end_time - $start_time)>3600*24*15){
-            $end_time = $start_time+3600*24*15;
+        if(($end_time - $start_time)>3600*24*7){
+            $end_time = $start_time+3600*24*7;
         }
         // dd($start_time,$end_time);
         $page_num   = $this->get_in_page_num();
