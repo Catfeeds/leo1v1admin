@@ -1211,7 +1211,7 @@ class ss_deal2 extends Controller
         $tea_identity = $this->get_in_int_val("tea_identity");//老师身份
         $tea_age = $this->get_in_int_val("tea_age");//老师年龄
         $tea_gender = $this->get_in_int_val("tea_gender");//老师性别
-        // $teacher_type = $this->get_in_int_val("teacher_type");//老师类型
+        $teacher_type = $this->get_in_int_val("teacher_type");//老师类型
         $need_teacher_style     = $this->get_in_str_val("need_teacher_style");//老师要求
         $quotation_reaction    = $this->get_in_int_val("quotation_reaction");//报价反应
         $intention_level       = $this->get_in_int_val("intention_level");//上课意向
@@ -1374,7 +1374,7 @@ class ss_deal2 extends Controller
             "tea_identity"   => $tea_identity,
             "tea_age"        => $tea_age,
             "tea_gender"     => $tea_gender,
-            // "teacher_type"  => $teacher_type,
+            "teacher_type"  => $teacher_type,
         ];
 
         if ($db_tt_item["subject"] != $subject ) { //和数据库不一致
