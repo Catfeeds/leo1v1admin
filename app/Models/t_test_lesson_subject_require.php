@@ -742,8 +742,10 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         return $this->main_get_list($sql);
     }
-
-    public function tongji_test_lesson_origin_info( $origin='',$field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="",$check_value='', $page_info=''){
+    //@desn:计算试听课相关明细
+    //@param:$cond 检索条件
+    //@param:$opt_date_str 检索时间字段
+    public function tongji_test_lesson_origin_info( $origin='',$field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="",$check_value='', $page_info='',$cond='',$opt_date_str=''){
         switch ( $field_name ) {
         case "origin" :
             $field_name="s.origin";
@@ -770,19 +772,22 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $this->where_arr_adminid_in_list($where_arr,"t.require_adminid",$adminid_list);
 
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+        if($cond ='test_lesson_succ')
+            $where_arr[]='tss.success_flag in (0,1 )';
         //E\Etest_lesson_fail_flag
         $sql=$this->gen_sql_new(
             "select $field_name  as check_value , t.seller_student_status,l.lesson_start, s.userid,"
             ." s.phone_location, s.phone, t.grade,t.subject, s.nick, tss.success_flag,"
-            ." tea.nick as tea_nick,l.lesson_user_online_status "
+            ." tea.nick as tea_nick,l.lesson_user_online_status,n.has_pad,s.origin_level "
             ." from %s tr "
-            ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
-            ." join %s n  on t.userid=n.userid "
-            ." join %s tss on tr.current_lessonid=tss.lessonid "
-            ." join %s l on tr.current_lessonid=l.lessonid "
-            ." join %s s on s.userid = l.userid "
-            ." join %s tea on tea.teacherid=l.teacherid "
-            ." where %s and lesson_start >=%u and lesson_start<%u"
+            ." left join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
+            ." left join %s n  on t.userid=n.userid "
+            ." left join %s tss on tr.current_lessonid=tss.lessonid "
+            ." left join %s l on tr.current_lessonid=l.lessonid "
+            ." left join %s s on s.userid = t.userid "
+            ." left join %s tea on tea.teacherid=l.teacherid "
+            ." where %s "
             ." and l.lesson_type=2"
             ." and accept_flag=1  "
             ." and s.is_test_user=0 "
@@ -795,7 +800,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             t_lesson_info::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_teacher_info::DB_TABLE_NAME,
-            $where_arr,$start_time,$end_time
+            $where_arr
         );
 
         if ($page_info) {
@@ -1023,6 +1028,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "require_admin_type=2",
             "is_test_user=0",
             ['cur_require_adminid=%u',$adminid,-1],
+            "l.lesson_del_flag=0",
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $where_arr[]=$this->where_get_in_str_query("s.grade",$grade_list);
@@ -1059,6 +1065,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "is_test_user=0",
             '(lesson_user_online_status in (0,1) or  f.flow_status = 2)',
             ['cur_require_adminid=%u',$adminid,-1],
+            "l.lesson_del_flag=0",
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $where_arr[]=$this->where_get_in_str_query("s.grade",$grade_list);
@@ -3671,6 +3678,170 @@ ORDER BY require_time ASC";
         );
         return $this->main_get_row($sql);
     }
+    //@desn:获取已不同时间检索的漏斗数据
+    public function get_funnel_data( $field_name, $opt_date_str,$start_time,$end_time,$origin,$origin_ex,$seller_groupid_ex,$adminid_list=[],$tmk_adminid=-1){
+        if($field_name == 'grade')
+            $field_name="si.grade";
+        elseif($field_name == 'origin')
+            $field_name = 'tlsr.origin';
+        elseif($field_name == 'subject')
+            $field_name = 'tls.subject';
 
+        $where_arr=[
+            ["tlsr.origin like '%%%s%%' ",$origin,""],
+            'tls.require_admin_type=2',
+            // 'tlsr.accept_flag = 1',
+            'si.is_test_user = 0',
+            'li.lesson_type = 2'
+        ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+        $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $this->where_arr_adminid_in_list($where_arr,"ssn.first_seller_adminid",$adminid_list);
+        $sql = $this->gen_sql_new(
+            "select $field_name as check_value,count(tlsr.require_id) require_count,".
+            " count(if(tlsr.accept_flag = 1,tlsr.require_id,null)) as test_lesson_count,".
+            " count(distinct if(tlsr.accept_flag = 1,tls.userid,null)) distinct_test_count,".
+            " sum(tlssl.success_flag in (0,1 )) succ_test_lesson_count,".
+            " sum(if((oi.contract_type = 0 and oi.contract_status > 0),1,0)) order_count,".
+            " round(sum(if((oi.contract_type = 0 and oi.contract_status > 0 ),oi.price/100,0))) order_all_money".
+            " from %s tlsr ".
+            " left join %s tlssl on tlsr.current_lessonid=tlssl.lessonid ".
+            " left join %s li on tlsr.current_lessonid = li.lessonid".
+            " left join %s tls on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id".
+            " left join %s oi on tls.userid= oi.userid ".
+            " left join %s ssn on tls.userid=ssn.userid ".
+            " left join %s si on tls.userid = si.userid ".
+            " where %s group by check_value",
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list_as_page($sql,function($item) {
+            return $item["check_value"];
+        });
 
+    }
+    //@desn:获取不重复上课数
+    public function get_distinct_class( $field_name, $opt_date_str,$start_time,$end_time,$origin,$origin_ex,$seller_groupid_ex,$adminid_list=[],$tmk_adminid=-1){
+        if($field_name == 'grade')
+            $field_name="si.grade";
+        elseif($field_name == 'origin')
+            $field_name = 'tlsr.origin';
+        elseif($field_name == 'subject')
+            $field_name = 'tls.subject';
+
+        $where_arr=[
+            ["tlsr.origin like '%%%s%%' ",$origin,""],
+            'tls.require_admin_type=2',
+            'tlsr.accept_flag = 1',
+            'si.is_test_user = 0',
+            'tlssl.success_flag in (0,1)',
+            'li.lesson_type = 2'
+        ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+        $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $this->where_arr_adminid_in_list($where_arr,"ssn.first_seller_adminid",$adminid_list);
+        $sql = $this->gen_sql_new(
+            "select $field_name as check_value,count(tls.userid) distinct_succ_count".
+            " from %s tlsr ".
+            " left join %s tlssl on tlsr.current_lessonid=tlssl.lessonid ".
+            " left join %s li on tlsr.current_lessonid = li.lessonid".
+            " left join %s tls on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id".
+            " left join %s ssn on tls.userid=ssn.userid ".
+            " left join %s si on tls.userid = si.userid ".
+            " where %s group by check_value",
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+    //@desn:获取不重复订单数
+    public function get_distinct_order_info( $field_name, $opt_date_str,$start_time,$end_time,$origin,$origin_ex,$seller_groupid_ex,$adminid_list=[],$tmk_adminid=-1){
+        if($field_name == 'grade')
+            $field_name="si.grade";
+        elseif($field_name == 'origin')
+            $field_name = 'tlsr.origin';
+        elseif($field_name == 'subject')
+            $field_name = 'tls.subject';
+
+        $where_arr=[
+            ["tlsr.origin like '%%%s%%' ",$origin,""],
+            'tls.require_admin_type=2',
+            'tlsr.accept_flag = 1',
+            'si.is_test_user = 0',
+            'li.lesson_type = 2',
+            'oi.contract_type = 0',
+            'oi.contract_status > 0',
+        ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+        $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $this->where_arr_adminid_in_list($where_arr,"ssn.first_seller_adminid",$adminid_list);
+        $sql = $this->gen_sql_new(
+            "select $field_name as check_value,count(distinct(oi.userid)) user_count".
+            " from %s tlsr ".
+            " left join %s tlssl on tlsr.current_lessonid=tlssl.lessonid ".
+            " left join %s li on tlsr.current_lessonid = li.lessonid".
+            " left join %s tls on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id".
+            " left join %s oi on tls.userid= oi.userid ".
+            " left join %s ssn on tls.userid=ssn.userid ".
+            " left join %s si on tls.userid = si.userid ".
+            " where %s group by check_value",
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+    //@desn:获取节点型试听课统计数据
+    //@param:$start_time 开始时间
+    //@param:$end_time 结束时间
+    public function get_test_lesson_data($start_time,$end_time){
+        $where_arr = [
+            ['tls.require_admin_type = %u',2],
+            ['li.lesson_type = %u',2],
+            ['si.is_test_user = %u',0],
+        ];
+        $this->where_arr_add_time_range($where_arr, 'tlsr.require_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select tlsr.origin as channel_name,count(tlsr.require_id) as require_count,'.
+            'count(tlsr.accept_flag = 1) test_lesson_count,'.
+            'sum(tlssl.success_flag in (0,1 )) as succ_test_lesson_count,'.
+            'count(distinct if(tlsr.accept_flag = 1,tls.userid,null)) as distinct_test_count,'.
+            'count(distinct if(tlssl.success_flag in (0,1 ),tls.userid,null)) as distinct_succ_count '.
+            'from %s tlsr '.
+            'left join %s tls on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id '.
+            'left join %s tlssl on tlssl.require_id = tlsr.require_id '.
+            'left join %s li on tlsr.current_lessonid=li.lessonid '.
+            'left join %s si on tls.userid=si.userid '.
+            'where %s group by tlsr.origin',
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

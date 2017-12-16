@@ -1,20 +1,21 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji-origin_count_simple_has_intention.d.ts" />
+/// <reference path="../g_args.d.ts/tongji_ss-origin_count.d.ts" />
 
 function load_data(){
     $.reload_self_page ( {
-        check_field_id:    $('#id_check_field_id').val(),
-        admin_revisiterid:    $('#id_admin_revisiterid').val(),
-        groupid:    $('#id_groupid').val(),
-        tmk_adminid:    $('#id_tmk_adminid').val(),
-        origin_ex:    $('#id_origin_ex').val(),
-        seller_groupid_ex:    $('#id_seller_groupid_ex').val(),
-        origin:    $('#id_origin').val(),
-        date_type_config:    $('#id_date_type_config').val(),
-        date_type:    $('#id_date_type').val(),
-        opt_date_type:    $('#id_opt_date_type').val(),
-        start_time:    $('#id_start_time').val(),
-        end_time:    $('#id_end_time').val()
+        date_type:	$('#id_date_type').val(),
+        opt_date_type:	$('#id_opt_date_type').val(),
+        start_time:	$('#id_start_time').val(),
+        check_field_id:	$('#id_check_field_id').val(),
+        end_time:	$('#id_end_time').val(),
+        admin_revisiterid:	$('#id_admin_revisiterid').val(),
+        groupid:	$('#id_groupid').val(),
+        tmk_adminid:	$('#id_tmk_adminid').val(),
+        origin_ex:	$('#id_origin_ex').val(),
+        seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
+        origin:	$('#id_origin').val(),
+        is_history:	$('#id_is_history').val(),
+        sta_data_type:	$('#id_sta_data_type').val()
     });
 }
 
@@ -29,18 +30,18 @@ $(function(){
         'end_time'      : g_args.end_time,
         date_type_config : JSON.parse( g_args.date_type_config),
         onQuery :function() {
-            load_data();
+            //load_data();
         }
     });
-
     $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 
     $("#id_seller_groupid_ex").init_seller_groupid_ex();
     $('#id_tmk_adminid').val(g_args.tmk_adminid);
     $('#id_check_field_id').val(g_args.check_field_id);
-    $('#id_origin_ex').val(g_args.origin_ex);
+    $('#id_is_history').val(g_args.is_history);
+    $('#id_sta_data_type').val(g_args.sta_data_type);
 
-    $("#id_subject_pic,#id_has_pad_pic,#id_grade_pic,#id_area_pic,#id_origin_level_pic,#id_order_area_pic,#id_order_grade_pic,#id_order_subject_pic,#id_test_area_pic,#id_test_subject_pic,#id_test_grade_pic").css({
+    $("#id_subject_pic,#id_has_pad_pic,#id_grade_pic,#id_area_pic,#id_origin_level_pic,#id_order_area_pic,#id_order_grade_pic,#id_order_subject_pic,#id_order_has_pad_pic,#id_order_origin_level_pic,#id_test_area_pic,#id_test_subject_pic,#id_test_grade_pic,#id_test_has_pad_pic,#id_test_origin_level_pic").css({
         "height" : 400
     });
 
@@ -106,18 +107,24 @@ $(function(){
         });
 
     };
-    gen_data( g_subject_map,"subject","id_subject_pic");
-    gen_data( g_grade_map,"grade","id_grade_pic",true);
-    gen_data( g_has_pad_map,"pad_type","id_has_pad_pic");
-    // gen_data( g_has_pad_map,"origin_level","id_origin_level_pic");
-    gen_data( g_area_map,"","id_area_pic");
-    gen_data( g_origin_level_map,"origin_level","id_origin_level_pic");
-    gen_data( g_order_area_map, "", "id_order_area_pic");
-    gen_data( g_order_subject_map, "subject", "id_order_subject_pic");
-    gen_data( g_order_grade_map, "grade", "id_order_grade_pic");
-    gen_data( g_test_area_map, "", "id_test_area_pic");
-    gen_data( g_test_subject_map, "subject", "id_test_subject_pic");
-    gen_data( g_test_grade_map, "grade", "id_test_grade_pic");
+    if(g_args.is_show_pie_flag == 1){
+        gen_data( g_subject_map,"subject","id_subject_pic");
+        gen_data( g_grade_map,"grade","id_grade_pic",true);
+        gen_data( g_has_pad_map,"pad_type","id_has_pad_pic");
+        gen_data( g_area_map,"","id_area_pic");
+        gen_data( g_origin_level_map,"origin_level","id_origin_level_pic");
+        gen_data( g_order_area_map, "", "id_order_area_pic");
+        gen_data( g_order_subject_map, "subject", "id_order_subject_pic");
+        gen_data( g_order_grade_map, "grade", "id_order_grade_pic");
+        gen_data( g_order_has_pad_map,"pad_type","id_order_has_pad_pic");
+        gen_data( g_order_origin_level_map,"origin_level","id_order_origin_level_pic");
+        gen_data( g_test_area_map, "", "id_test_area_pic");
+        gen_data( g_test_subject_map, "subject", "id_test_subject_pic");
+        gen_data( g_test_grade_map, "grade", "id_test_grade_pic");
+        gen_data( g_test_has_pad_map,"pad_type","id_test_has_pad_pic");
+        gen_data( g_test_origin_level_map,"origin_level","id_test_origin_level_pic");
+    }
+
 
 
 
@@ -158,15 +165,25 @@ $(function(){
 
     //$('.opt-change').set_input_change_event(load_data);
 
+    // $(".common-table").table_group_level_more_init(8);
 
-    $(".common-table").table_group_level_4_init();
+    // $(".common-table").table_group_level_4_init();
+    $(".common-table").table_group_level_5_init();
 
     if ($.get_action_str()=="origin_count_bd") {
         $("#id_origin_ex").parent().parent().hide();
     }
 
     $("#id_query").on("click",function(){
-        load_data();
+        var sta_data_type = $('#id_sta_data_type').val();
+        var is_history = $('#id_is_history').val();
+        if(sta_data_type == 2 && is_history == 2){
+            alert('节点型没有存档数据啊！');
+            return false;
+        }else{
+            load_data();
+        }
+
     });
 
 
@@ -177,11 +194,15 @@ $(function(){
     $('.opt-go-info').on('click', function(){
         var opt_type = $(this).attr('data-opt');
         var par = 'check_value=' + $(this).attr("data-val");
+        var cond = 'cond='+$(this).attr('data-cond');
         if ($(this).attr("data-val") !== ''){
             if(location.search){
-                window.open("http://admin.leo1v1.com/tongji_ss/origin_count_"+opt_type+"_info"+location.search+"&"+par);
+                if(cond)
+                    $.wopen("/tongji_ss/origin_count_"+opt_type+"_info"+location.search+"&"+par+'&'+cond);
+                else
+                    $.wopen("/tongji_ss/origin_count_"+opt_type+"_info"+location.search+"&"+par);
             } else {
-                window.open("http://admin.leo1v1.com/tongji_ss/origin_count_"+opt_type+"_info?"+par);
+                $.wopen("/tongji_ss/origin_count_"+opt_type+"_info?"+par+'&'+cond);
             }
         }
 
