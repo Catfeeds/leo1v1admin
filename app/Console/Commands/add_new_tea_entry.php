@@ -90,8 +90,8 @@ class add_new_tea_entry extends Command
 
 
             foreach($info as $val) {
-                echo 'teacherid : '.$val['teacherid'];
-                $teacher= $teacher_money->get_teacher_salary($val['teacherid'],$start_time,$end_time);
+                //echo 'teacherid : '.$val['teacherid'];
+                $teacher= $teacher_money->get_teacher_salary(50274,$start_time,$end_time);
                 dd($teacher);
                 $lesson_count = $teacher['lesson_total'];
                 $money = $teacher['teacher_lesson_price'];
