@@ -3348,6 +3348,7 @@ function init_edit() {
             var id_tea_gender = html_node.find("#id_tea_gender_new_two");
             var id_class_env = html_node.find("#id_class_env_new_two");
             var id_courseware = html_node.find("#id_courseware_new_two");
+            var id_tea_style = html_node.find("#id_tea_style_new_two");
             var id_add_tag = html_node.find("#id_add_tag_new_two");
 
             var wuyaoqiu_html = "<option value='0'>无要求</option>";
@@ -3375,6 +3376,7 @@ function init_edit() {
             id_tea_gender.append(wuyaoqiu_html);
             Enum_map.append_option_list("gender", id_tea_gender, true,[1,2]);
             Enum_map.append_option_list("tea_age", id_tea_age, true);
+            Enum_map.append_option_list("tea_style", id_tea_style, true);
             id_stu_request_test_lesson_time.datetimepicker({
                 lang             : 'ch',
                 timepicker       : true,
