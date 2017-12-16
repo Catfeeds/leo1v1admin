@@ -8890,6 +8890,13 @@ class tongji_ss extends Controller
         }
         return $this->output_succ();
     }
+    //@desn:渠道统计信息流
+    public function channel_sta_flow(){
+        $this->set_in_value("origin_ex","信息流,,,,");
+        $this->set_in_value("is_history",2);
+        $this->set_in_value("sta_data_type",1);
+        return $this->channel_statistics();
+    }
 
 
 }

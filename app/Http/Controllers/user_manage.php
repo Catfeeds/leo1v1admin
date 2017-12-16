@@ -2572,7 +2572,7 @@ class user_manage extends Controller
         $complained_feedback_type = $this->get_in_int_val('complained_feedback_type',-1);
 
         // 权限分配
-        $root_id_arr = ['60','72','188','303','323','68','186','349','448','540','684','831','478','818'];
+        $root_id_arr = ['60','72','188','303','323','68','186','349','448','540','684','831','478','818','1122','1093'];
         $root_flag = in_array($account_id,$root_id_arr);
 
         $up_groupid = $this->t_admin_group_name->get_up_groupid_by_master_adminid($account_id);
