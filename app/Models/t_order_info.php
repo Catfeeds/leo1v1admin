@@ -108,7 +108,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $sql = $this->gen_sql_new("select o.userid,o.orderid,o.order_time,"
                                   ." o.default_lesson_count*o.lesson_total,"
                                   ." o.contract_type,o.contract_status,o.sys_operator,m.account_role,"
-                                  ." s.nick as ass_nick,if(r.orderid>0,1,0) as has_refund,"
+                                  ." a.nick as ass_nick,if(r.orderid>0,1,0) as has_refund,"
                                   ." r.orderid as refund_orderid"
                                   ." from %s o "
                                   ." left join %s s on o.userid = s.userid "
