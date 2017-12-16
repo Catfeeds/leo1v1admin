@@ -1238,18 +1238,22 @@ class user_deal extends Controller
     }
 
     public function origin_get_key_list() {
+        $key0=$this->get_in_str_val("key0");
         $key1=$this->get_in_str_val("key1");
         $key2=$this->get_in_str_val("key2");
         $key3=$this->get_in_str_val("key3");
-        $key_str="key1";
+        $key_str="key0";
         if ($key3){
             $key_str="key4";
         }else  if ($key2){
             $key_str="key3";
         }else  if ($key1){
             $key_str="key2";
+        }elseif($key0){
+            $key_str="key1";
         }
-        $list=$this->t_origin_key->get_key_list($key1,$key2,$key3,$key_str);
+        \App\Helper\Utils::logger("key_str $key_str "); 
+        $list=$this->t_origin_key->get_key_list($key1,$key2,$key3,$key_str,$key0);
         $list=\App\Helper\Common::sort_pinyin($list,"k");
         $last_level=$this->t_origin_key->get_last_level( $key1, $key2 );
 
@@ -1281,24 +1285,30 @@ class user_deal extends Controller
 
 
     public function origin_init_key_list() {
+        $key0=$this->get_in_str_val("key0");
         $key1=$this->get_in_str_val("key1");
         $key2=$this->get_in_str_val("key2");
         $key3=$this->get_in_str_val("key3");
 
-        $key1_list=$this->t_origin_key->get_key_list("","","","key1");
+        $key0_list=$this->t_origin_key->get_key_list("","","","key0");
+        $key1_list=[];
         $key2_list=[];
         $key3_list=[];
         $key4_list=[];
-        if ( $key1 ) {
-            $key2_list=$this->t_origin_key->get_key_list($key1,"","","key2");
-            if ($key2) {
-                $key3_list=$this->t_origin_key->get_key_list($key1,$key2,"","key3");
-                if ($key3) {
-                    $key4_list=$this->t_origin_key->get_key_list($key1,$key2,$key3,"key4");
+        if($key0){
+            $key1_list=$this->t_origin_key->get_key_list("","","","key1",$key0);
+            if ( $key1 ) {
+                $key2_list=$this->t_origin_key->get_key_list($key1,"","","key2",$key0);
+                if ($key2) {
+                    $key3_list=$this->t_origin_key->get_key_list($key1,$key2,"","key3",$key0);
+                    if ($key3) {
+                        $key4_list=$this->t_origin_key->get_key_list($key1,$key2,$key3,"key4",$key0);
+                    }
                 }
             }
-        }
+        } 
         return $this->output_succ([
+            "key0_list"=>$key0_list,
             "key1_list"=>$key1_list,
             "key2_list"=>$key2_list,
             "key3_list"=>$key3_list,
@@ -5943,8 +5953,14 @@ class user_deal extends Controller
 
     public function get_train_lesson_comment(){
         $lessonid = $this->get_in_int_val("lessonid",281011);
-        $stu_comment = $this->t_lesson_info->get_stu_comment($lessonid);
-        $arr= json_decode($stu_comment,true);
+        $lesson_type = $this->get_in_int_val("lesson_type");
+        if($lesson_type==2){
+            $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+            $arr = $this->t_test_lesson_subject_require->field_get_list($require_id,"stu_lesson_content,stu_lesson_status,stu_study_status ,stu_advantages,stu_disadvantages ,stu_lesson_plan ,stu_teaching_direction,stu_textbook_info ,stu_teaching_aim ,stu_lesson_count ,stu_advice ");
+        }else{
+            $stu_comment = $this->t_lesson_info->get_stu_comment($lessonid);
+            $arr= json_decode($stu_comment,true);
+        }       
         return $this->output_succ(["data"=>$arr]);
     }
 

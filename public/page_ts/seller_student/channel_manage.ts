@@ -3,6 +3,7 @@
 
 $(function(){
 
+    $("#id_key0").val(g_args.key0);
     $("#id_key1").val(g_args.key1);
     $("#id_key2").val(g_args.key2);
     $("#id_key3").val(g_args.key3);
@@ -11,6 +12,7 @@ $(function(){
 
     function load_data(){
         $.reload_self_page ({
+            key0 : $("#id_key0").val(),
             key1 : $("#id_key1").val(),
             key2:	$('#id_key2').val(),
             key3:	$('#id_key3').val(),
@@ -38,6 +40,21 @@ $(function(){
     var clean_select=function($select) {
         $select.html( "<option value=\"\">[全部]</option>" );
     };
+
+    $("#id_key0").on("change",function(){
+
+        var key1 =  $('#id_key1');
+        var key2 =  $('#id_key2');
+        var key3 =  $('#id_key3');
+        var key4 =  $('#id_key4');
+
+        key1.val("");
+        key2.val("");
+        key3.val("");
+        key4.val("");
+        load_data();
+    });
+
 
     $("#id_key1").on("change",function(){
 
@@ -78,11 +95,13 @@ $(function(){
     $("#id_add_new").on("click",function(){
         // 处理
         var input_str= "<input style=\"width:50%\"  />";
+        var $key0=$(input_str );
         var $key1=$(input_str );
         var $key2=$(input_str );
         var $key3=$(input_str );
         var $key4=$(input_str );
         var $value=$(input_str );
+        var $key0_s=$("<select/>");
         var $key1_s=$("<select/>");
         var $key2_s=$("<select/>");
         var $key3_s=$("<select/>");
@@ -97,10 +116,12 @@ $(function(){
             });
         };
 
+        var $d0=$("<div />");
         var $d1=$("<div />");
         var $d2=$("<div/>");
         var $d3=$("<div/>");
         var $d4=$("<div/>");
+        bind_item( $key0,$key0_s,$d0 );
         bind_item( $key1,$key1_s,$d1 );
         bind_item( $key2,$key2_s,$d2 );
         bind_item( $key3,$key3_s,$d3 );
@@ -110,8 +131,9 @@ $(function(){
         var clean_select=function($select) {
             $select.html( "<option value=\"\">[全部]</option>" );
         };
-        var set_select=  function ( $select, key1,key2,key3) {
+        var set_select=  function ( $select, key1,key2,key3,key0) {
             $.do_ajax("/user_deal/origin_get_key_list", {
+                "key0" : key0,
                 "key1" : key1,
                 "key2" : key2,
                 "key3" : key3
@@ -128,13 +150,23 @@ $(function(){
 
         };
 
+        $key0_s.on("change",function(){
+            clean_select( $key1_s );
+            clean_select( $key2_s );
+            clean_select( $key3_s );
+            clean_select( $key4_s );
+            if( $key0_s.val() ) {
+                set_select( $key1_s,"","","",$key0.val());
+            }
+        });
 
+        
         $key1_s.on("change",function(){
             clean_select( $key2_s );
             clean_select( $key3_s );
             clean_select( $key4_s );
             if( $key1_s.val() ) {
-                set_select( $key2_s, $key1.val(),"","" );
+                set_select( $key2_s, $key1.val(),"","",$key0.val() );
             }
         });
 
@@ -142,18 +174,19 @@ $(function(){
             clean_select( $key3_s );
             clean_select( $key4_s );
             if( $key2_s.val() ) {
-                set_select( $key3_s, $key1.val(), $key2.val(),"" );
+                set_select( $key3_s, $key1.val(), $key2.val(),"",$key0.val() );
             }
         });
         $key3_s.on("change",function(){
             clean_select( $key4_s );
             if( $key3_s.val() ) {
-                set_select( $key4_s, $key1.val(), $key2.val(), $key3.val() );
+                set_select( $key4_s, $key1.val(), $key2.val(), $key3.val(),$key0.val() );
             }
         });
 
 
         var arr                = [
+            ["key0", $d0],
             ["key1", $d1],
             ["key2", $d2],
             ["key3", $d3],
@@ -168,17 +201,19 @@ $(function(){
             cssClass: 'btn-warning',
             action: function(dialog) {
 
+                var key0=$key0.val();
                 var key1=$key1.val();
                 var key2=$key2.val();
                 var key3=$key3.val();
                 var key4=$key4.val();
                 var value=$value.val();
-                if(key1 == "" || key2 == "" || key3 == "" || key4 == "" || value=="" ) {
+                if(key1 == "" || key2 == "" || key3 == "" || key4 == "" || value=="" || key0 == '') {
                     alert("请将信息填写完整") ;
                     return;
                 }
                 $.do_ajax('/seller_student/add_origin_key', {
                     'value': value,
+                    'key0': key0,
                     'key1': key1,
                     'key2': key2,
                     'key3': key3,
@@ -193,14 +228,14 @@ $(function(){
         });
 
         //init key1
-        if (g_args.key1 ) {
-            $key1.val(g_args.key1);
-            $key1.attr("readonly", "readonly");
-            $key1_s.hide();
-            $key1_s.val( g_args.key1  );
-            set_select( $key2_s, g_args.key1 ,"","" );
+        if (g_args.key0 ) {
+            $key0.val(g_args.key0);
+            $key0.attr("readonly", "readonly");
+            $key0_s.hide();
+            $key0_s.val( g_args.key0  );
+            set_select( $key1_s, g_args.key0 ,"","",'' );
         }else {
-            set_select( $key1_s, "","","" );
+            set_select( $key0_s, "","","",'' );
         }
 
 
@@ -211,6 +246,7 @@ $(function(){
     $("#id_edit_all_origin_level").on("click",function(){
 
         var origin_level=$("<select/>");
+        var key0_str = $("#id_key0 option:selected").val();
         var key1_str = $("#id_key1 option:selected").val();
         var key2_str = $("#id_key2 option:selected").val();
         var key3_str = $("#id_key3 option:selected").val();
@@ -226,6 +262,7 @@ $(function(){
                 label: '确认',
                 cssClass: 'btn-warning',
                 action: function(dialog) {
+                    var key0 = key0_str;
                     var key1 = key1_str;
                     var key2 = key2_str;
                     var key3 = key3_str;
@@ -236,6 +273,7 @@ $(function(){
                         type: 'POST',
                         dataType: 'json',
                         data: {
+                            'key0'     : key0,
                             'key1'     : key1,
                             'key2'     : key2,
                             'key3'     : key3,
@@ -255,21 +293,6 @@ $(function(){
 
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     $(".done_e").on("click",function(){
         var value=$(this).get_opt_data("value");
         $.do_ajax ( "/seller_student/get_origin_key", {
@@ -277,6 +300,7 @@ $(function(){
         },function(result){
             var data     = result.data;
             //alert(JSON.stringify(data));
+            var id_key0  = $("<input/>");
             var id_key1  = $("<input/>");
             var id_key2  = $("<input/>");
             var id_key3  = $("<input/>");
@@ -287,6 +311,7 @@ $(function(){
             Enum_map.append_option_list("origin_level",id_origin_level ,true);
 
             var arr               = [
+                [ "key0",  id_key0] ,
                 [ "key1",  id_key1] ,
                 [ "key2",  id_key2] ,
                 [ "key3",  id_key3] ,
@@ -299,6 +324,7 @@ $(function(){
                 arr.push( [ "类别", id_origin_level]);
             }
 
+            id_key0.val(data.key0);
             id_key1.val(data.key1);
             id_key2.val(data.key2);
             id_key3.val(data.key3);
@@ -310,6 +336,7 @@ $(function(){
                 label: '确认',
                 cssClass: 'btn-warning',
                 action: function(dialog) {
+                    var key0 = id_key0.val();
                     var key1 = id_key1.val();
                     var key2 = id_key2.val();
                     var key3 = id_key3.val();
@@ -321,6 +348,7 @@ $(function(){
                         type: 'POST',
                         dataType: 'json',
                         data: {
+                            'key0'     : key0,
                             'key1'     : key1,
                             'key2'     : key2,
                             'key3'     : key3,

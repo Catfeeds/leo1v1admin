@@ -1326,17 +1326,13 @@ class tea_manage_new extends Controller
             $teacher_info = [
                 "phone"         => $phone,
                 "tea_nick"      => $tea_nick,
-                "use_easy_pass" => 1,
                 "send_sms_flag" => 0,
             ];
             $teacherid = $this->add_teacher_common($teacher_info);
         }else{
             $this->t_teacher_info->field_update_list($teacherid,[
-                "realname"  =>$tea_nick,
-                "nick"  =>$tea_nick,
-            ]);
-            $this->t_user_info->field_update_list($teacherid,[
-                "passwd" => md5(123456)
+                "realname" => $tea_nick,
+                "nick"     => $tea_nick,
             ]);
         }
 
@@ -1398,9 +1394,6 @@ class tea_manage_new extends Controller
 
         //删除之前排课(相同科目年级)
         $this->delete_train_lesson_before($lessonid,$subject,$grade,$teacherid);
-
-
-
 
         //微信通知面试老师
         /**

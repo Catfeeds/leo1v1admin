@@ -278,7 +278,7 @@ class menu{
                 ]],
 
                 ["power_id"=>5, "name"=>"权限管理", "url"=>"/user_manage_new/power_group_edit"],
-                ["power_id"=>5, "name"=>"权限管理-new", "url"=>"/user_manage_new/power_group_edit_new"],
+                ["power_id"=>50, "name"=>"权限管理-new", "url"=>"/user_manage_new/power_group_edit_new"],
                 ["power_id"=>45, "name"=>"组织架构", "url"=>"/company_wx/show_department_users"],
                 ["power_id"=>46, "name"=>"权限角色", "url"=>"/company_wx/all_users"],
                 ["power_id"=>4, "name"=>"权限execl",   "url"=>"/authority/jurisdiction"],
@@ -301,6 +301,7 @@ class menu{
             ["power_id"=>7, "name"=>"市场", "list"=>[
                 ["power_id"=>1, "name"=>"首页",  "url"=>"/main_page2/market" ],
                 ["power_id"=>8, "name"=>"渠道-统计", "list"=>[
+                    ["power_id"=>56, "name"=>"渠道统计-new", "url"=>"/tongji_ss/channel_statistics"],
                     ["power_id"=>2, "name"=>"渠道统计 总体", "url"=>"/tongji_ss/origin_count"],
                     ["power_id"=>99, "name"=>"渠道统计-即时", "url"=>"/tongji_ss/origin_count_simple"],
                     ["power_id"=>51, "name"=>"渠道统计-BD", "url"=>"/tongji_ss/origin_count_bd"],
@@ -676,6 +677,7 @@ class menu{
                 ["power_id"=>44, "name"=>"在读学员老师列表",  "url"=>"/user_manage/stu_all_teacher_all"],
                 ["power_id"=>49, "name"=>"周报-月报-new", "url" => "/tongji2/tongji_cr"],
                 ["power_id"=>50, "name"=>"新例子-主管", "url" => "/seller_student_new/get_new_student_ass_leader"],
+                ["power_id"=>51, "name"=>"助教转介绍报表", "url" => "/assistant_performance/get_assistant_origin_order_losson_info"],
 
             ]],
 

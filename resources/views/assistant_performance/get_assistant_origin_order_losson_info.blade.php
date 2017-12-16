@@ -100,9 +100,12 @@
 
                         <td>
                             <div 
-                                 
+                                
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
+                                <a class="opt-get-stu-comment">老师评价</a> 
+                                <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
+                                <a class="opt-play-new" title="回放-new">回放-new</a>
                                 
                             </div>
                         </td>

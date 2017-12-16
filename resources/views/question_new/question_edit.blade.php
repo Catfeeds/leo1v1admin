@@ -14,7 +14,30 @@
     <script type="text/javascript" src="/page_js/select_course.js"></script>
     <script type="text/javascript" src="/page_js/select_user.js"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+
+    <link href="/ztree/zTreeStyle.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="/ztree/jquery.ztree.all.min.js"></script>
+    <script type="text/javascript" src="/ztree/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/ztree/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="/ztree/jquery.ztree.exedit.min.js"></script>
+    <script type="text/javascript" src="/ztree/jquery.ztree.exhide.min.js"></script>
+    <script type="text/javascript">
+     var zNodes = <?php echo $knowledge?>;
+    </script>
+    <style>
+     .knowledge_all{ background:rgba(0, 0, 0, 0.4);position:absolute;top:0px;left:0px;width:100%;height:100%;z-index:999}
+     .zTreeDemoBackground{position:absolute;top:20%;right:20%;background: white;padding:10px }
+    </style>
     <input type="hidden" value="{{$editData}}" id="editData" />
+
+    <div class="knowledge_all">
+        <div class="zTreeDemoBackground">
+            <a href="javascript:;" id="show_all_knowledge"> 显示全部知识点 </a>
+            <ul id="treeDemo" class="ztree"></ul>
+        </div>
+
+    </div>
+
     <section class="content">
         <div id="id_question_editor" >
             <div class="row">

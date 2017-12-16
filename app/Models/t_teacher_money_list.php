@@ -78,7 +78,9 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         return $this->main_get_value($sql);
     }
 
-    //获取所有额外薪资明细
+    /**
+     * 获取所有额外薪资明细
+     */
     public function get_teacher_honor_money_list($teacherid,$start,$end,$type=0){
         $where_arr = [
             ["tm.teacherid=%u",$teacherid,0],
@@ -139,19 +141,6 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
                                   ,$has_sql
         );
         return $this->main_get_list($sql);
-    }
-
-    public function add_reference_reward($reference_info,$teacherid){
-        $where_arr = [
-            ["reference=%u",$reference_info['phone'],""]
-        ];
-        $sql = $this->gen_sql_new("select count(1) "
-                                  ." from %s "
-                                  ." where %s "
-                                  ,self::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        $reference_num = $this->main_get_value($sql);
     }
 
     public function add_teacher_rewrad_money($type,$teacherid,$money,$money_info){

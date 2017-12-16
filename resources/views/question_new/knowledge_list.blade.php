@@ -15,12 +15,9 @@
      var zNodes = <?php echo $ret?>;
     </script>
     <style>
-     .ztree li span.button.add {
-         margin-left: 2px;
-         margin-right: -1px;
-         background-position: -144px 0;
-         vertical-align: top;
-     }
+     .ztree *{ font-size:14px}
+     .ztree li{ line-hedight:20px }
+     .ztree li span.button.add { margin-left: 2px;margin-right: -1px;background-position: -144px 0;vertical-align: top;}
      .knowledge_background{ width:100%;height:100%;position:absolute;top:0px;left:0px;background: rgba(0, 0, 0, 0.4);z-index: 999;display:none}
      .knowledge_background .knowledge_eject{ width:50%;position:fixed;left:25%;top:20%;background: white;padding: 10px;border-radius: 10px; }
      #close_knowledge{ position:absolute;top:10px;right:10px;z-index:9999}
@@ -40,7 +37,7 @@
             <div class="col-xs-1 col-md-1">
                 <div class="input-group">
                     <div class=" input-group-btn ">
-                        <button id="id_add_knowledge" type="submit"  class="btn  btn-warning" >
+                        <button type="submit" onclick="add_knowledge()"  class="btn  btn-warning" >
                             <i class="fa fa-plus"></i>添加知识点
                         </button>
                     </div>

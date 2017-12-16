@@ -697,6 +697,10 @@ class test_jack  extends Controller
     }
 
     public function test_wx(){
+        $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid(60001);
+        //$admin_revisiterid= $origin_assistantid;
+        dd($admin_revisiterid);
+
         $this->t_flow_node->row_insert([
             "node_type"=>1,
             "flowid"   =>4713,
