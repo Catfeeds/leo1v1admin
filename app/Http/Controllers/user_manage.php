@@ -1341,6 +1341,7 @@ class user_manage extends Controller
         $is_test_user  = $this->get_in_int_val('is_test_user',0);
         $page_num      = $this->get_in_page_num();
         $refund_userid = $this->get_in_int_val("refund_userid", -1);
+        $qc_flag = $this->get_in_int_val("qc_flag", 1);
 
         $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
@@ -1380,7 +1381,9 @@ class user_manage extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"flow_status_time");
             $item['order_time_str'] = date('Y-m-d H:i:s',$item['order_time']);
 
-            // continue;
+            if($qc_flag==0){
+                continue;
+            }
             //以下不处理
 
             $refund_qc_list = $this->t_order_refund->get_refund_analysis($item['apply_time'], $item['orderid']);
@@ -2569,7 +2572,7 @@ class user_manage extends Controller
         $complained_feedback_type = $this->get_in_int_val('complained_feedback_type',-1);
 
         // 权限分配
-        $root_id_arr = ['60','72','188','303','323','68','186','349','448','540','684','831','478','818'];
+        $root_id_arr = ['60','72','188','303','323','68','186','349','448','540','684','831','478','818','1122','1093'];
         $root_flag = in_array($account_id,$root_id_arr);
 
         $up_groupid = $this->t_admin_group_name->get_up_groupid_by_master_adminid($account_id);

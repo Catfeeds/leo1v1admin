@@ -33,9 +33,9 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
         if ($teacherid != -1) {
             array_push($where_arr, ["t.teacherid=%u", $teacherid, -1]);
         }
-        if ($teacher_type == 1) {
+        if ($teacher_type == 1) { // 全职老师
             array_push($where_arr, "t.teacher_money_type=7 or (t.teacher_type=3 and t.teacher_money_type=0)");
-        } elseif ($teacher_type == 2) {
+        } elseif ($teacher_type == 2) { // 兼职老师
             array_push($where_arr, "t.teacher_money_type != 7 and (t.teacher_type != 3 or t.teacher_money_type != 0)");
         }
         $sql = $this->gen_sql_new("select ts.id,ts.pay_time,ts.add_time,"

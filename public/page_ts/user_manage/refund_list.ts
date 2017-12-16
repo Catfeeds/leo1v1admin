@@ -10,6 +10,7 @@ $(function(){
             refund_type       : $("#id_refund_type").val(),
             userid            : $("#id_userid").val(),
             is_test_user      : $("#id_is_test_user").val(),
+		        qc_flag:	$('#id_qc_flag').val(),
             seller_groupid_ex :	$('#id_seller_groupid_ex').val()
         });
     }
@@ -24,6 +25,7 @@ $(function(){
     $("#id_is_test_user").val(g_args.is_test_user);
     $("#id_userid").val(g_args.userid);
     $("#id_refund_type").val(g_args.refund_type);
+	$('#id_qc_flag').val(g_args.qc_flag);
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,

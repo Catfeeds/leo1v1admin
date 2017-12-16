@@ -47,6 +47,16 @@ $(function(){
     show_top( $("#id_lesson_count_list > tr")) ;
     show_top( $("#id_assistant_renew_list > tr")) ;
 
+    // $("#show_warning_info").on("click",function(){
+    //     $.do_ajax('/user_deal/get_train_lesson_comment',{
+    //         "lessonid":lessonid,
+    //         "lesson_type":2
+    //     },function(resp) {
+
+    //     });
+ 
+    // });
+
     var init_noit_btn=function( id_name, title ,type) {
         var btn=$('#'+id_name);
         btn.tooltip({

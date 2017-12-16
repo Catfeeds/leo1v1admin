@@ -19,6 +19,18 @@
             </div>
             <div class="col-xs-6 col-md-2" >
                 <div class="input-group ">
+                    <span >key0</span>
+                    <select id="id_key0"  >
+                        <option value="">全部</option>
+                        @foreach ($key0_list as $item )
+                            <option value="{{$item["k"]}}">{{$item["k"]}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-md-2" >
+                <div class="input-group ">
                     <span >key1</span>
                     <select id="id_key1"  >
                         <option value="">全部</option>
@@ -99,6 +111,7 @@
             <table class="common-table ">
                 <thead>
                     <tr>
+                        <td >key0</td>
                         <td >key1</td>
                         <td >key2</td>
                         <td >key3</td>
@@ -112,6 +125,7 @@
                 <tbody>
                     @foreach ($table_data_list as $var)
                         <tr>
+                            <td >{{@$var["key0"]}}</td>
                             <td >{{$var["key1"]}}</td>
                             <td >{{$var["key2"]}}</td>
                             <td >{{$var["key3"]}}</td>

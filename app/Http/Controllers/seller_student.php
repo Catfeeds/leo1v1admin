@@ -267,6 +267,7 @@ class seller_student extends Controller
 
     public function channel_manage()
     {
+        $key0       = $this->get_in_str_val('key0', '');
         $key1       = $this->get_in_str_val('key1', '');
         $key2       = $this->get_in_str_val('key2', '');
         $key3       = $this->get_in_str_val('key3', '');
@@ -276,11 +277,12 @@ class seller_student extends Controller
         $page_num   = $this->get_in_page_num();
         $this->get_in_int_val("key1_filed_hide");
 
-        $ret_info=$this->t_origin_key->get_channel_manage($page_num, $key1, $key2, $key3, $key4, $value,$origin_level);
-        $key1_list=$this->t_origin_key->get_key_list("", "", "", "key1");
-        $key2_list=$this->t_origin_key->get_key_list($key1, "", "", "key2");
-        $key3_list=$this->t_origin_key->get_key_list($key1, $key2, "", "key3");
-        $key4_list=$this->t_origin_key->get_key_list($key1, $key2, $key3, "key4");
+        $ret_info=$this->t_origin_key->get_channel_manage($page_num, $key1, $key2, $key3, $key4, $value,$origin_level,$key0);
+        $key0_list=$this->t_origin_key->get_key_list("", "", "", "key0");
+        $key1_list=$this->t_origin_key->get_key_list("", "", "", "key1",$key0);
+        $key2_list=$this->t_origin_key->get_key_list($key1, "", "", "key2",$key0);
+        $key3_list=$this->t_origin_key->get_key_list($key1, $key2, "", "key3",$key0);
+        $key4_list=$this->t_origin_key->get_key_list($key1, $key2, $key3, "key4",$key0);
 
         foreach($ret_info["list"] as &$item){
             E\Eorigin_level::set_item_value_str($item, "origin_level");
@@ -289,6 +291,7 @@ class seller_student extends Controller
 
         return $this->pageView(
             __METHOD__, $ret_info, [
+            "key0_list"=>$key0_list,
             "key1_list"=>$key1_list,
             "key2_list"=>$key2_list,
             "key3_list"=>$key3_list,
@@ -2072,6 +2075,7 @@ class seller_student extends Controller
 
     public function add_origin_key()
     {
+        $key0 = trim($this->get_in_str_val('key0', ''));
         $key1 = trim($this->get_in_str_val('key1', ''));
         $key2 = trim($this->get_in_str_val('key2', ''));
         $key3 = trim($this->get_in_str_val('key3', ''));
@@ -2080,13 +2084,14 @@ class seller_student extends Controller
         $origin_level = $this->get_in_int_val('origin_level');
         $create_time = time();
 
-        $this->t_origin_key->add_origin_key($key1, $key2, $key3, $key4, $value,$origin_level,$create_time);
+        $this->t_origin_key->add_origin_key($key1, $key2, $key3, $key4, $value,$origin_level,$create_time,$key0);
 
         return outputjson_success();
     }
 
     public function edit_origin_key()
     {
+        $key0 = trim($this->get_in_str_val('key0', ''));
         $key1 = trim($this->get_in_str_val('key1', ''));
         $key2 = trim($this->get_in_str_val('key2', ''));
         $key3 = trim($this->get_in_str_val('key3', ''));
@@ -2095,13 +2100,13 @@ class seller_student extends Controller
         $old_value = trim($this->get_in_str_val('old_value', ''));
         $origin_level = $this->get_in_int_val('origin_level');
 
-        $db_value= $this->t_origin_key-> get_origin_key_value ($key1, $key2,$key3,$key4 );
+        $db_value= $this->t_origin_key-> get_origin_key_value ($key1, $key2,$key3,$key4,$key0 );
         if ($db_value !=  $old_value ) {
-            return $this->output_err("$key1, $key2,$key3,$key4 => 已经绑定到 $db_value, 换个key4试试");
+            return $this->output_err("$key0,$key1, $key2,$key3,$key4 => 已经绑定到 $db_value, 换个key4试试");
         }
 
 
-        $ret_info=$this->t_origin_key->edit_origin_key($old_value, $key1, $key2, $key3, $key4, $value,$origin_level);
+        $ret_info=$this->t_origin_key->edit_origin_key($old_value, $key1, $key2, $key3, $key4, $value,$origin_level,$key0);
 
         return $this->output_succ();
 

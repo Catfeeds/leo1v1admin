@@ -70,11 +70,7 @@
                                 @foreach (json_decode($var['knowledge_detail'],true) as $item)
                                     <p style="margin-bottom:5px">
                                         {{$item['title']}}
-                                        <input type="hidden" value="{{$item['id']}}">
-                                        <span style="margin-left:5px">{{$item['difficult_str']}}</span>
-                                        <span class="get_knowledge_detail" style="margin-left:5px;color:green;cursor:pointer">详情</span>
-                                        <span class="del_knowledge" style="margin-left:5px;color:#fb3b3b;cursor:pointer">删除</span>
-                                        <span class="question_knowledge_detail">{{$item['detail']}}</span>
+                                        <input type="hidden" value="{{$item['knowledge_id']}}">
                                     </p>
                                 @endforeach
                             @endif
