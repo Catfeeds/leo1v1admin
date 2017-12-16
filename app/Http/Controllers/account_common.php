@@ -70,6 +70,7 @@ class account_common extends Controller
         $index = $this->get_current_verify_num($phone,$role);
         
 
+
     }
 
     public function get_current_verify_num($phone,$role){
