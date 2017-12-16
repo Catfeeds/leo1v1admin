@@ -77,11 +77,12 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
     }
 
-    public function get_list_by_test_lesson_subject_id( $page_num,$test_lesson_subject_id,$userid )
+    public function get_list_by_test_lesson_subject_id( $page_num,$test_lesson_subject_id,$userid,$subject=-1 )
     {
         $where_arr=[
             ["test_lesson_subject_id=%d",$test_lesson_subject_id,  -1 ]   ,
             ["l.userid=%d",$userid,  -1 ]   ,
+            ["l.subject=%d",$subject,  -1 ]   ,
         ];
         $sql=$this->gen_sql_new(
             "select l.lessonid, r.origin, r.require_id,require_time, accept_flag,success_flag,no_accept_reason ,"

@@ -1713,7 +1713,7 @@ function init_edit() {
                     var cc_flag = result.cc_flag;
                     if(account_role==1){
                         if(cc_flag==0){
-                            var origin_flag=$("<select><option value= \"1\">助教负责</option><option value= \"2\">按校区分配</option></select>");
+                            var origin_flag=$("<select><option value= \"1\">自行跟进</option><option value= \"2\">分配CC总监</option></select>");
                             var arr=[
                                 ["分配方式",origin_flag]  
                             ];
