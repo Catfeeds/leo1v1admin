@@ -1,79 +1,50 @@
 @extends('layouts.app')
 @section('content')
+    <script type="text/javascript" src="/js/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="/page_js/question_edit_new.js"></script>
+
     <style>
-     .table-striped>tbody>tr.level_1{ background-color:#eee }
-     .table-striped>tbody>tr.level_2{ background-color:#e6e8df }
-     .table-striped>tbody>tr.level_3{ background-color:#d6e0d4 }
-     .table-striped>tbody>tr.level_4{ background-color:#e4d1d1 }
      .node { cursor: pointer;}
      .node circle { fill: #fff;stroke: steelblue;stroke-width: 1.5px;}
      .node text { font: 10px sans-serif;}
      .link { fill: none;stroke: #ccc;stroke-width: 1.5px;}
     </style>
     <section class="content">
-        <div class="row">
-            
-            <div class="col-xs-2 col-md-2">
-                <div class="input-group">
-                    <span class="input-group-addon">科目类型</span>
-                    <select class="opt-change form-control" id="id_subject">
-                    </select>
-                </div>
+        <input value="{{$subject}}" id="subject" type="hidden" />
+        <div class="col-xs-1 col-md-1">
+            <div class="input-group">
+                <button style="margin-left:10px" id="text_book_knowledge" type="button" class="btn btn-primary">返回知识点列表</button>
             </div>
-
-            <div class="col-xs-1 col-md-1">
-                <div class="input-group">
-                    <div class=" input-group-btn ">
-                        <button id="id_add_knowledge" type="submit"  class="btn  btn-warning" >
-                            <i class="fa fa-plus"></i>添加知识点
-                        </button>
-                    </div>
-                </div>
+        </div>
+        <div class="row">       
+            <div class="col-xs-12 col-md-12">
+                <div class="knowledge_pic" id="knowledge_pic"></div>
             </div>
-
-            <div class="col-xs-1 col-md-1">
-                <div class="input-group">
-                    <button style="margin-left:10px" id="question_list" type="button" class="btn btn-primary">题目列表</button>
-                </div>
-            </div>
-
-            <div class="col-xs-1 col-md-1">
-                <div class="input-group">
-                    <button style="margin-left:10px" id="text_book_knowledge" type="button" class="btn btn-primary">教材知识点</button>
-                </div>
-            </div>
-
         </div>
         <hr/>
 
-        <div class="knowledge_pic"></div>
     </section>
-    <script type="text/javascript" src="/page_js/select_course.js"></script>
-    <script type="text/javascript" src="/page_js/select_user.js"></script>
-    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <script type="text/javascript" src="/js/d3.v3.min.js"></script>
     <script>
-     var margin = {top: 20, right: 120, bottom: 20, left: 120};
-     var width = 960 - margin.right - margin.left;
+     var margin = {top: 20, right: 40, bottom: 20, left: 40};
+     var width = 1920 - margin.right - margin.left;
      var height = 800 - margin.top - margin.bottom;
 
      var i = 0,
          duration = 750,
          root;
 
-     var tree = d3.layout.tree()
-                  .size([height, width]);
+     var tree = d3.layout.tree().size([height, width]);
 
-     var diagonal = d3.svg.diagonal()
-                      .projection(function(d) { return [d.y, d.x]; });
+     var diagonal = d3.svg.diagonal().projection(function(d) { return [d.y, d.x]; });
 
      var svg = d3.select(".knowledge_pic").append("svg")
                  .attr("width", width + margin.right + margin.left)
                  .attr("height", height + margin.top + margin.bottom)
                  .append("g")
                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-     d3.json("/question_new/knowledge_get", function(error, flare) {
+     var subject = $("#subject").val();
+     d3.json("/question_new/knowledge_get?type=1&subject="+subject, function(error, flare) {
          if (error) throw error;
 
          root = flare;
@@ -88,11 +59,11 @@
              }
          }
 
-         root.children.forEach(collapse);
+         //root.children.forEach(collapse);
          update(root);
      });
 
-     d3.select(self.frameElement).style("height", "800px");
+     d3.select(self.frameElement).style("height", "1200px");
 
      function update(source) {
 
@@ -112,7 +83,6 @@
                              .attr("class", "node")
                              .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
                              .on("click", click);
-                                 .on("dbclick", dbclick);
 
          nodeEnter.append("circle")
                   .attr("r", 1e-6)
@@ -120,9 +90,10 @@
 
          nodeEnter.append("text")
                   .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
-                  .attr("dy", ".35em")
+                  .attr("dy", ".45em")
                   .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
                   .text(function(d) { return d.name; })
+                  .style("font-size", '14px')
                   .style("fill-opacity", 1e-6);
 
          // Transition nodes to their new position.
@@ -194,9 +165,7 @@
          update(d);
      }
 
-     function dbclick(){
-         alert(1);
-     }
+
     </script>
 @endsection
 
