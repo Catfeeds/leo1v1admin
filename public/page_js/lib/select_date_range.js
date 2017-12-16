@@ -368,12 +368,12 @@
 ''+
 '                        <span id="id_date_span1">:</span>'+
 '                        <div class=" input-group-btn ">'+
-'                            <button  id="id_date_pre" type="submit" class="btn  btn-primary "><i class="fa    fa-chevron-left" ></i></button>'+
+            '                            <button  id="id_date_pre" type="submit" class="btn   btn-flat btn-primary "><i class="fa    fa-chevron-left" ></i></button>'+
 '                        </div>'+
 
             '                        <input type="text" id="'+start_time_str+'" style="width:'+input_width +'px;" />'+
 '                        <div class=" input-group-btn ">'+
-'                            <button  type="submit" class="btn  btn-primary " id="id_date_next"><i class="fa    fa-chevron-right "></i></button>'+
+            '                            <button  type="submit" class="btn   btn-flat btn-primary " id="id_date_next"><i class="fa    fa-chevron-right "></i></button>'+
 '                        </div>'+
 '                        <span id="id_date_span2" >-</span>'+
             '                        <input type="text" id="'+end_time_str+'" style="width:'+input_width +'px;" class=""/>'+
