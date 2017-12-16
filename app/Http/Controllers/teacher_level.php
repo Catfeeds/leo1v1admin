@@ -39,8 +39,8 @@ class teacher_level extends Controller
             if($teacher_money_type==6){
                 //  E\Enew_level::set_item_value_str($item,"level_before");
                 // E\Enew_level::set_item_value_str($item,"level_after");
-                $item["level_str"] = E\Enew_level::v2s($item["level"]);
-                $item["level_after_str"] = E\Enew_level::v2s($item["level_after"]);
+                $item["level_str"] = E\Enew_level::$simple_desc_map($item["level"]);
+                $item["level_after_str"] = E\Enew_level::$simple_desc_map($item["level_after"]);
 
 
             }else{
