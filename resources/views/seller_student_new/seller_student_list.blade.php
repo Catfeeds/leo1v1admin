@@ -1505,10 +1505,11 @@
                             <input type="text" class=" form-control "  id="id_courseware_new_two" />
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3 " style="display:none;">
+                    <div class="col-xs-12 col-md-3 " style="display:block;">
                         <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp老师要求：</span>
-                            <input type="text" class=" form-control "  id="id_need_teacher_style_new_two"  />
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp老师类型：</span>
+                            <select id="id_teacher_type_new_two" class=" form-control " >
+                            </select>
                         </div>
                     </div>
                 </div>
