@@ -36,6 +36,11 @@
 
                     <span class="input-group-addon">教材版本</span>
                     <select class="opt-change form-control" id="id_textbook">
+                        @if($textbook)
+                            @foreach($textbook as $item)
+                                <option value="{{$item['textbook_id']}}">{{$item['name']}}</option>
+                            @endforeach
+                        @endif
                     </select>
 
                     <span class="input-group-addon">年级</span>

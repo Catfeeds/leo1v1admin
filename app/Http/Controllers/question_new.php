@@ -490,7 +490,10 @@ class question_new extends Controller
             }
         }
 
-        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712141058",'ret'=> json_encode($ret),'exit_know'=> json_encode($exit_know) ]);
+        //获取该科目所有的教材
+        $textbook = $this->t_textbook->textbook_get_by_subject($subject);
+        
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712141058",'ret'=> json_encode($ret),'exit_know'=> json_encode($exit_know),'textbook'=>$textbook ]);
     }
 
     public function textbook_knowledge_add(){
@@ -533,8 +536,15 @@ class question_new extends Controller
         $editType   = $this->get_in_int_val('editType',1); //1:add 2:update
         $textbook_id   = $this->get_in_int_val('textbook_id');
         $data['name']  = $this->get_in_str_val('name');
+        $data['subject']  = $this->get_in_int_val('subject');
 
         if( $editType == 1 ){
+            $is_exit = $this->t_textbook->is_exit($data['name'],$data['subject']);
+            if($is_exit){
+                $result['status'] = 500;
+                $result['msg'] = "该版本已经存在，请不要重复添加";
+                return $this->output_succ($result); 
+            }
             $ret = $this->t_textbook->row_insert($data);
             if($ret){        
                 $result['status'] = 200;
