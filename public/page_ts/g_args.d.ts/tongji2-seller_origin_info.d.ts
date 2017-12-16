@@ -16,6 +16,9 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	admin_revisiterid	:any;
+	new_user_count	:any;
+	old_money	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;
@@ -36,19 +39,20 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji2-seller_origin_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		origin_ex:	$('#id_origin_ex').val(),
+		origin_level:	$('#id_origin_level').val(),
+		tmk_student_status:	$('#id_tmk_student_status').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			origin_ex:	$('#id_origin_ex').val(),
-			origin_level:	$('#id_origin_level').val(),
-			tmk_student_status:	$('#id_tmk_student_status').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

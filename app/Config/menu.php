@@ -301,6 +301,7 @@ class menu{
             ["power_id"=>7, "name"=>"市场", "list"=>[
                 ["power_id"=>1, "name"=>"首页",  "url"=>"/main_page2/market" ],
                 ["power_id"=>8, "name"=>"渠道-统计", "list"=>[
+                    ["power_id"=>56, "name"=>"渠道统计-new", "url"=>"/tongji_ss/channel_statistics"],
                     ["power_id"=>2, "name"=>"渠道统计 总体", "url"=>"/tongji_ss/origin_count"],
                     ["power_id"=>99, "name"=>"渠道统计-即时", "url"=>"/tongji_ss/origin_count_simple"],
                     ["power_id"=>51, "name"=>"渠道统计-BD", "url"=>"/tongji_ss/origin_count_bd"],
