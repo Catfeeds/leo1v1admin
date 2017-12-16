@@ -10,10 +10,21 @@ function load_data(){
 }
 $(function(){
 
-    var remove_id = [], grade_info = [101,102,103,104,105,106,201,202,203,204,205,206,301,302,303], all_dir = {};
+    var remove_id = [], grade_info = [101,102,103,104,105,106,201,202,203,204,205,206,301,302,303], all_dir = {},sel_dir = [];
 
     var test_func = function(){
         return remove_id;
+    }
+
+    var alert_func = function(ret){
+        if(ret.ret == 0){
+            BootstrapDialog.alert("操作成功！");
+            setTimeout(function(){
+                window.location.reload();
+            },1000);
+        } else {
+            BootstrapDialog.alert(ret.info);
+        }
     }
 
     $('.opt-add-dir').on('click', function(){
@@ -30,14 +41,7 @@ $(function(){
                     "type"   : 'add',
                     "dir_id" : cur_dir_id
                 },function(ret){
-                    if(ret.ret == 0){
-                        BootstrapDialog.alert("操作成功！");
-                        setTimeout(function(){
-                            window.location.reload();
-                        },1000);
-                    } else {
-                        BootstrapDialog.alert(ret.info);
-                    }
+                    alert_func(ret);
                 });
             }
         } );
@@ -67,15 +71,7 @@ $(function(){
                 do_ajax("/teacher_info/del_dir_or_file",
                         {"id_info"  : id_info},
                         function(ret){
-                            if(ret.ret == 0){
-                                BootstrapDialog.alert("操作成功！");
-                                setTimeout(function(){
-                                    window.location.reload();
-                                },1000);
-                            } else {
-                                BootstrapDialog.alert(ret.info);
-                            }
-
+                            alert_func(ret);
                         });
             }
         }
@@ -83,11 +79,15 @@ $(function(){
     });
 
     $('.opt-move').on('click', function(){
+        sel_dir = [];
         var id_list = [];
         $('.opt-select-item').each(function(){
             if( $(this).iCheckValue()){
                 var del_info = $(this).attr('is_dir')+'|'+$(this).data('id');
                 id_list.push( del_info );
+                if($(this).attr('is_dir') == -1){
+                    sel_dir.push($(this).data('id'));
+                }
             }
         });
 
@@ -112,11 +112,12 @@ $(function(){
                             'move_to' : move_to,
                             'id_info' : id_info,
                         },function(ret){
-                            
+                            alert_func(ret);
                         });
                     }
                 }
             },function(){
+
                 $('.modal-body table td').text('');
                 $('.modal-body table td').first().remove();
                 $('.modal-body table td').first().append('<a class="opt-dir"></a>');
@@ -139,7 +140,8 @@ $(function(){
         $('[son_id]').removeClass('select color-red');
         var son_dir = '';
         $.each(all_dir, function(i,dir){
-            if( dir.pid == $('.opt-dir').last().attr('dir_id') ){
+            var cur_id = parseInt(dir.dir_id);
+            if( dir.pid == $('.opt-dir').last().attr('dir_id') && $.inArray(cur_id, sel_dir) == -1 ){
                 son_dir = son_dir + '<a son_id="'+dir.dir_id+'">'+dir.name+'</a></br>';
             }
         });
@@ -174,6 +176,22 @@ $(function(){
     $("#id_select_all").on("click",function(){
         $(".opt-select-item").iCheck("check");
     });
+
+    var down_file = function(){
+        $('.opt-select-item').each(function(){
+            if( $(this).iCheckValue()){
+                var id = $(this).data('id');
+                do_ajax('/teacher_info/tea_download_url',{'tea_res_id':id},function(ret){
+                    if(ret.ret == 0){
+                        $.wopen(ret.url);
+                    } else {
+                        BootstrapDialog.alert(ret.info);
+                    }
+                });
+            }
+        });
+
+    };
 
     var add_resource = function(new_flag){
 
@@ -278,14 +296,7 @@ $(function(){
                         'file_link'     : res.key,
                         'dir_id'        : cur_dir_id,
                     },function(ret){
-                        if(ret.ret == 0){
-                            BootstrapDialog.alert("操作成功！");
-                            setTimeout(function(){
-                                window.location.reload();
-                            },1000);
-                        } else {
-                            BootstrapDialog.alert(ret.info);
-                        }
+                        alert_func(ret);
                     });
 
                 }
@@ -407,6 +418,101 @@ $(function(){
         $(obj).append(pro);
 
     }
+
+    var sel_tr = {};
+    var re_name = function(obj){
+        var id_new_name = $("<input />");
+        id_new_name.val(obj.data('file_title'));
+        var arr= [
+            ["文件名称", id_new_name],
+        ];
+
+        $.show_key_value_table('重命名', arr,{
+            label    : '确认',
+            cssClass : 'btn-info',
+            action   : function() {
+                do_ajax("/teacher_info/rename_dir_or_file",{
+                    'file_id'  : obj.data('file_id'),
+                    'id'       : obj.data('tea_res_id'),
+                    'new_name' : id_new_name.val(),
+                } , function(ret){
+                    alert_func(ret);
+                });
+            }
+        },'',false,600);
+    };
+
+    var re_upload = function(obj){
+
+        multi_upload_file('',false,true,'upload_flag',1,function(){},function(up,file) {
+            $('.opt_process').show();
+        },function(up, file, info) {
+            var res = $.parseJSON(info.response);
+            if( info.status == 200){
+                do_ajax('/teacher_info/tea_file_reupload',{
+                    'file_title' : file.name,
+                    'file_type'  : file.type,
+                    'file_size'  : file.size,
+                    'file_hash'  : res.hash,
+                    'file_link'  : res.key,
+                    'tea_res_id' : obj.data('tea_res_id'),
+                }, function(ret){
+                    alert_func(ret);
+                });
+            }
+        }, 'mp4,pdf,mp3,MP3,MP4,PDF','fsUploadProgress');
+    };
+
+    //右键自定义
+    var options = {items:[
+        {text: '重命名', onclick: function() {
+            $('#contextify-menu').hide();
+            re_name(sel_tr);
+        }},
+        {text: '上传新版本',onclick: function() {
+            $('#contextify-menu').hide();
+        },class: 'hide', id:'upload_flag'},
+        {text: '删除', onclick: function() {
+            $('#contextify-menu').hide();
+            $('.opt-del').click();
+        }},
+        {text: '下载', onclick: function() {
+            $('#contextify-menu').hide();
+            down_file();
+        }, class:'hide', id:'down_flag'},
+        {text: '移动', onclick: function() {
+            $('#contextify-menu').hide();
+            $('.opt-move').click();
+        }},
+    ],before:function(one){
+        sel_tr = $(one);
+        var id = $(one).data('tea_res_id');
+        var is_dir = $(one).data('file_id');
+        if(is_dir == 0){
+            re_upload($(one));
+        }
+
+        //选中标记
+        $(".opt-select-item").each(function(){
+            var $item=$(this);
+            if ( is_dir == $(this).attr('is_dir') && id == $(this).data('id')) {
+                $item.iCheck("check");
+            }else{
+                $item.iCheck("uncheck");
+            }
+        } );
+
+    },onshow:function(two){
+        var is_dir = $(two).data('file_id');
+        if(is_dir == 0){
+            $('#upload_flag,#down_flag').removeClass('hide');
+        }
+    }};
+    $('.right-menu').contextify(options);
+
+    $('body').click(function(){
+        $('#contextify-menu').hide();
+    });
 
     $("#id_select_other").on("click",function(){
         $(".opt-select-item").each(function(){

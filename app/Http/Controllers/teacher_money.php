@@ -254,8 +254,10 @@ class teacher_money extends Controller
             }
             $now_time = strtotime("+1 month",strtotime(date("Y-m-01",time())));
         }elseif($type=="admin"){
-            $start_time   = strtotime($this->get_in_str_val("start_time",date("Y-m-d",time())));
-            $now_time     = strtotime("+1 day",strtotime($this->get_in_str_val("end_time",date("Y-m-d",time()))));
+            $default_date = date("Y-m-d",time());
+            $start_time   = strtotime($this->get_in_str_val("start_time",$default_date));
+            $end_time     = strtotime($this->get_in_str_val("end_time",$default_date));
+            $now_time     = strtotime("+1 day",strtotime($end_time));
             $teacher_type = $this->t_teacher_info->get_teacher_type($teacherid);
             $check_flag   = $this->check_full_time_teacher($teacherid,$teacher_type);
             if($check_flag){
@@ -279,10 +281,13 @@ class teacher_money extends Controller
         ]);
     }
 
+    /**
+     * 修改中，没有使用此方法
+     */
     public function get_teacher_total_money_new(){
-        $type       = $this->get_in_str_val("type","wx");
-        $show_type  = $this->get_in_str_val("show_type","current");
-        $teacherid  = $this->get_in_int_val("teacherid");
+        $type      = $this->get_in_str_val("type","wx");
+        $show_type = $this->get_in_str_val("show_type","current");
+        $teacherid = $this->get_in_int_val("teacherid");
 
         if(!$teacherid){
             return $this->output_err("老师id错误!");
@@ -297,8 +302,10 @@ class teacher_money extends Controller
             }
             $now_time = strtotime("+1 month",strtotime(date("Y-m-01",time())));
         }elseif($type=="admin"){
-            $start_time   = strtotime($this->get_in_str_val("start_time",date("Y-m-d",time())));
-            $now_time     = strtotime("+1 day",strtotime($this->get_in_str_val("end_time",date("Y-m-d",time()))));
+            $default_date = date("Y-m-d",time());
+            $start_time   = strtotime($this->get_in_str_val("start_time",$default_date));
+            $end_time     = strtotime($this->get_in_str_val("end_time",$default_date));
+            $now_time     = strtotime("+1 day",strtotime($end_time));
             $teacher_type = $this->t_teacher_info->get_teacher_type($teacherid);
             $check_flag   = $this->check_full_time_teacher($teacherid,$teacher_type);
             if($check_flag){

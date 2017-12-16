@@ -301,6 +301,7 @@ class menu{
             ["power_id"=>7, "name"=>"市场", "list"=>[
                 ["power_id"=>1, "name"=>"首页",  "url"=>"/main_page2/market" ],
                 ["power_id"=>8, "name"=>"渠道-统计", "list"=>[
+                    ["power_id"=>56, "name"=>"渠道统计-new", "url"=>"/tongji_ss/channel_statistics"],
                     ["power_id"=>2, "name"=>"渠道统计 总体", "url"=>"/tongji_ss/origin_count"],
                     ["power_id"=>99, "name"=>"渠道统计-即时", "url"=>"/tongji_ss/origin_count_simple"],
                     ["power_id"=>51, "name"=>"渠道统计-BD", "url"=>"/tongji_ss/origin_count_bd"],
@@ -312,6 +313,7 @@ class menu{
 
                     ["power_id"=>52, "name"=>"渠道统计-用户运营", "url"=>"/tongji_ss/origin_count_yhyy"],
                     ["power_id"=>50, "name"=>"渠道统计-微信运营/tmk", "url"=>"/tongji_ss/origin_count_tmk"],
+                    ["power_id"=>57, "name"=>"渠道统计-信息流", "url"=>"/tongji_ss/channel_sta_flow"],
                     ["power_id"=>11, "name"=>"渠道cc 获得新例子", "url"=>"/seller_student_new2/seller_first_admin_info"],
                     ["power_id"=>10, "name"=>"渠道cc产出统计", "url"=>"/tongji2/seller_origin_info"],
                     ["power_id"=>60, "name"=>"渠道用户明细", "url"=>"/seller_student_new2/origin_user_list"],

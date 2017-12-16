@@ -1238,18 +1238,22 @@ class user_deal extends Controller
     }
 
     public function origin_get_key_list() {
+        $key0=$this->get_in_str_val("key0");
         $key1=$this->get_in_str_val("key1");
         $key2=$this->get_in_str_val("key2");
         $key3=$this->get_in_str_val("key3");
-        $key_str="key1";
+        $key_str="key0";
         if ($key3){
             $key_str="key4";
         }else  if ($key2){
             $key_str="key3";
         }else  if ($key1){
             $key_str="key2";
+        }elseif($key0){
+            $key_str="key1";
         }
-        $list=$this->t_origin_key->get_key_list($key1,$key2,$key3,$key_str);
+        \App\Helper\Utils::logger("key_str $key_str "); 
+        $list=$this->t_origin_key->get_key_list($key1,$key2,$key3,$key_str,$key0);
         $list=\App\Helper\Common::sort_pinyin($list,"k");
         $last_level=$this->t_origin_key->get_last_level( $key1, $key2 );
 
@@ -1281,24 +1285,30 @@ class user_deal extends Controller
 
 
     public function origin_init_key_list() {
+        $key0=$this->get_in_str_val("key0");
         $key1=$this->get_in_str_val("key1");
         $key2=$this->get_in_str_val("key2");
         $key3=$this->get_in_str_val("key3");
 
-        $key1_list=$this->t_origin_key->get_key_list("","","","key1");
+        $key0_list=$this->t_origin_key->get_key_list("","","","key0");
+        $key1_list=[];
         $key2_list=[];
         $key3_list=[];
         $key4_list=[];
-        if ( $key1 ) {
-            $key2_list=$this->t_origin_key->get_key_list($key1,"","","key2");
-            if ($key2) {
-                $key3_list=$this->t_origin_key->get_key_list($key1,$key2,"","key3");
-                if ($key3) {
-                    $key4_list=$this->t_origin_key->get_key_list($key1,$key2,$key3,"key4");
+        if($key0){
+            $key1_list=$this->t_origin_key->get_key_list("","","","key1",$key0);
+            if ( $key1 ) {
+                $key2_list=$this->t_origin_key->get_key_list($key1,"","","key2",$key0);
+                if ($key2) {
+                    $key3_list=$this->t_origin_key->get_key_list($key1,$key2,"","key3",$key0);
+                    if ($key3) {
+                        $key4_list=$this->t_origin_key->get_key_list($key1,$key2,$key3,"key4",$key0);
+                    }
                 }
             }
-        }
+        } 
         return $this->output_succ([
+            "key0_list"=>$key0_list,
             "key1_list"=>$key1_list,
             "key2_list"=>$key2_list,
             "key3_list"=>$key3_list,
@@ -2638,8 +2648,7 @@ class user_deal extends Controller
         $acc = $this->get_account();
 
         $lesson_confirm_start_time=\App\Helper\Config::get_lesson_confirm_start_time();
-
-        if($acc != "jim" && $acc != "adrian" && $acc != "cora" ) {
+        if($acc != "jim" && $acc != "adrian" ) {
             if(!$this->t_order_info->has_1v1_order($userid)) {
                 return $this->output_err("有合同了,不能修改年级,找jim处理");
             }else{

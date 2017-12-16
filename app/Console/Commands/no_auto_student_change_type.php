@@ -42,52 +42,92 @@ class no_auto_student_change_type extends Command
         $task = new \App\Console\Tasks\TaskController ();
 
              
-        // $time = strtotime("2016-12-01");
-        // for($i=1;$i<13;$i++){
-        //     $start_time = strtotime("+$i months",$time);
-        //     $end_time = strtotime("+1 months",$start_time);
-        //     $m = date("m",$start_time);
-        //     $success_test_lesson_list_total = $task->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1,-1,-1);
-        //     @$arr[$m]=$success_test_lesson_list_total["order_number"];
+        $start_time = strtotime("2017-09-01");
+        $end_time = strtotime("2017-12-01");
+        $teacher_money_type=6;
+        $list     = $task->t_teacher_info->get_teacher_info_by_money_type($teacher_money_type,$start_time,$end_time);
+        $tea_list = [];
+        foreach($list as $val){
+            $tea_list[] = $val["teacherid"];
+        }
 
-           
+        $page_info=1;
+        $ret_info = $task->t_teacher_info->get_teacher_level_info($page_info,$tea_list,$start_time);
+        $tea_arr=[];
+        foreach($ret_info["list"] as $val){
+            $tea_arr[]=$val["teacherid"];
+        }
 
+        $test_person_num        = $task->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
+        $kk_test_person_num     = $task->t_lesson_info->get_kk_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
+        $change_test_person_num = $task->t_lesson_info->get_change_teacher_test_person_num_list(
+            $start_time,$end_time,-1,-1,$tea_arr);
+        $teacher_record_score = $task->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr,1);
+        $tea_refund_info      = $task->get_tea_refund_info($start_time,$end_time,$tea_arr);
+        foreach($ret_info["list"] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item,"require_time","_str");
+            //  E\Eaccept_flag::set_item_value_str($item);
 
-        // }
-        // dd($arr);
+            $teacherid = $item["teacherid"];
+            $item["lesson_count"] = round($list[$teacherid]["lesson_count"]/300,1);
+            //  $item["lesson_count_score"] = $task->get_score_by_lesson_count($item["lesson_count"]);
+            $item["stu_num"] = $list[$teacherid]["stu_num"];
+            //  $item["stu_num_score"] = $task->get_stu_num_score($item["stu_num"]);
 
-        // //临时数据
-        // $start_time = strtotime("2017-01-01");
-        // $end_time   = time();
-        // $test_person_num_total= $task->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",1,-1,-1,1,-1);
-        // //
-       
+            $item["cc_test_num"]    = isset($test_person_num[$teacherid])?$test_person_num[$teacherid]["person_num"]:0;
+            $item["cc_order_num"]   = isset($test_person_num[$teacherid])?$test_person_num[$teacherid]["have_order"]:0;
+            $item["cc_order_per"]   = !empty($item["cc_test_num"])?round($item["cc_order_num"]/$item["cc_test_num"]*100,2):0;
+            //  $item["cc_order_score"] = $task->get_cc_order_score($item["cc_order_num"],$item["cc_order_per"]);
+            $item["other_test_num"] = (isset($kk_test_person_num[$teacherid])?$kk_test_person_num[$teacherid]["kk_num"]:0)+(isset($change_test_person_num[$teacherid])?$change_test_person_num[$teacherid]["change_num"]:0);
+            $item["other_order_num"] = (isset($kk_test_person_num[$teacherid])?$kk_test_person_num[$teacherid]["kk_order"]:0)+(isset($change_test_person_num[$teacherid])?$change_test_person_num[$teacherid]["change_order"]:0);
+            $item["other_order_per"] = !empty($item["other_test_num"])?round($item["other_order_num"]/$item["other_test_num"]*100,2):0;
+            //  $item["other_order_score"] = $task->get_other_order_score($item["other_order_num"],$item["other_order_per"]);
+            $item["record_num"] = isset($teacher_record_score[$teacherid])?$teacher_record_score[$teacherid]["num"]:0;
+            $item["record_score"] = isset($teacher_record_score[$teacherid])?$teacher_record_score[$teacherid]["score"]:0;
+            $item["record_score_avg"] = !empty($item["record_num"])?round($item["record_score"]/$item["record_num"],1):0;
+            $item["record_final_score"] = !empty($item["record_num"])?ceil($item["record_score_avg"]*0.3):18;
+            $item["is_refund"] = (isset($tea_refund_info[$teacherid]) && $tea_refund_info[$teacherid]>0)?1:0;
+            $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
+            // $item["total_score"] = $item["lesson_count_score"]+$item["cc_order_score"]+ $item["other_order_score"]+$item["record_final_score"]+$item["stu_num_score"];
+            $item["hand_flag"]=0;
+            // if($item["teacher_money_type"]==6){
+            //     E\Enew_level::set_item_value_str($item,"level");
+            //     E\Enew_level::set_item_value_str($item,"level_after");
+            // }else{
+            //     E\Elevel::set_item_value_str($item,"level");
+            //     E\Elevel::set_item_value_str($item,"level_after");
+            // }
+            $exists = $task->t_teacher_advance_list->field_get_list_2($start_time,$teacherid,"teacherid");
+            if(!$exists){
+                $task->t_teacher_advance_list->row_insert([
+                    "start_time" =>$start_time,
+                    "teacherid"  =>$teacherid,
+                    "level_before"=>$item["level"],
+                    "lesson_count"=>$item["lesson_count"]*100,
+                    "lesson_count_score"=>@$item["lesson_count_score"],
+                    "cc_test_num"=>$item["cc_test_num"],
+                    "cc_order_num" =>$item["cc_order_num"],
+                    "cc_order_per" =>$item["cc_order_per"],
+                    "cc_order_score" =>@$item["cc_order_score"],
+                    "other_test_num"=>$item["other_test_num"],
+                    "other_order_num" =>$item["other_order_num"],
+                    "other_order_per" =>$item["other_order_per"],
+                    "other_order_score" =>@$item["other_order_score"],
+                    "record_final_score"=>@$item["record_final_score"],
+                    "record_score_avg" =>$item["record_score_avg"],
+                    "record_num"     =>$item["record_num"],
+                    "is_refund"      =>$item["is_refund"],
+                    "total_score"    =>@$item["total_score"],
+                    "teacher_money_type"=>$item["teacher_money_type"],
+                    "stu_num"        =>$item["stu_num"],
+                    "stu_num_score"  =>@$item["stu_num_score"]
+                ]);
 
-        // $success_test_lesson_list_total = $task->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,-1,-1,-1,-1,-1,"",1,-1,-1,1,-1);
-        // $total_arr=[];
-       
-        // $total_arr["success_lesson"] =  $success_test_lesson_list_total["success_lesson"];
-       
-        // $total_arr["test_person_num"] =  $test_person_num_total["person_num"];//
-        // $total_arr["have_order"] = $test_person_num_total["have_order"];//
-        // //
-       
-        // $total_arr["order_number"] = $success_test_lesson_list_total["order_number"];
+            }
 
-     
-
-        // $total_arr["order_num_per"] = !empty($total_arr["test_person_num"])?round($total_arr["have_order"]/$total_arr["test_person_num"],4)*100:0;
-        // //
-       
-
-        // $total_arr["order_per"]   = !empty($total_arr["success_lesson"])?round($total_arr["order_number"]/$total_arr["success_lesson"],4)*100:0;
-        // echo "success_lesson".$total_arr["success_lesson"]."<br>";
-        // echo "order_number".$total_arr["order_number"]."<br>";
-        // echo "order_per".$total_arr["order_per"]."<br>";
-        // echo "test_person_num".$total_arr["test_person_num"]."<br>";
-        // echo "have_order".$total_arr["have_order"]."<br>";
-        // echo "order_num_per".$total_arr["order_num_per"]."<br>";
-        // dd(1111);
+        }
+        dd(111111);
 
 
         

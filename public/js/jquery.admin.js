@@ -192,7 +192,79 @@ jQuery.fn.extend({
 
     },
 
+    table_group_level_5_init:function( show_flag) {
+        var $table=$(this);
 
+        if (!show_flag) {
+            $.each($table.find(".l-2,.l-3,.l-4,.l-5"),function(){
+                $(this).hide();
+            });
+        }
+
+        var link_css=    {
+            color: "#3c8dbc",
+            cursor:"pointer"
+        };
+
+        $table.find(".l-1 .key0").css(link_css);
+        $table.find(".l-2 .key1").css(link_css);
+        $table.find(".l-3 .key2").css(link_css);
+        $table.find(".l-4 .key3").css(link_css);
+
+        $table.find(".l-1 .key0").on("click",function(){
+            var $this=$(this);
+            var class_name= $this.data("class_name");
+            if ($this.data("show") ==true) {
+                $table.find(".key1."+class_name ).parent().hide();
+            }else{
+                var $opt_item=$table.find(".key1."+class_name ).parent(".l-2");
+                $opt_item.show();
+            }
+            $this.parent().show();
+            $this.data("show", !$this.data("show") );
+
+        });
+
+        $table.find(".l-2 .key1").on("click",function(){
+            var $this=$(this);
+            var class_name= $this.data("class_name");
+            if ($this.data("show") ==true) {
+                $table.find(".key2."+class_name ).parent().hide();
+            }else{
+                var $opt_item=$table.find(".key2."+class_name ).parent(".l-3");
+                $opt_item.show();
+            }
+            $this.parent().show();
+            $this.data("show", !$this.data("show") );
+        });
+
+        $table.find(".l-3 .key2").on("click",function(){
+            var $this=$(this);
+            var class_name= $this.data("class_name");
+            if ($this.data("show") ==true) {
+                $table.find(".key3."+class_name ).parent().hide();
+            }else{
+                var $opt_item=$table.find(".key3."+class_name ).parent(".l-4");
+                $opt_item.show();
+            }
+            $this.parent().show();
+            $this.data("show", !$this.data("show") );
+        });
+
+        $table.find(".l-4 .key3").on("click",function(){
+            var $this=$(this);
+            var class_name= $this.data("class_name");
+            if ($this.data("show") ==true) {
+                $table.find(".key4."+class_name ).parent().hide();
+            }else{
+                var $opt_item=$table.find(".key4."+class_name ).parent(".l-5");
+                $opt_item.show();
+            }
+            $this.parent().show();
+            $this.data("show", !$this.data("show") );
+        });
+
+    },
 
     table_group_level_4_init:function( show_flag) {
         var $table=$(this);

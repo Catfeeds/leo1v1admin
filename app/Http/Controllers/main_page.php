@@ -1748,6 +1748,10 @@ class main_page extends Controller
         if($end_time >= strtotime("2017-11-09")){
             $ret_info[] =["uid"=>1250,"account"=>"招师其他","name"=>"招师其他","admin_work_status"=>0];
         }
+        if($end_time <= strtotime("2018-01-01")){
+            $ret_info[] =["uid"=>513,"account"=>"徐月","name"=>"徐月","admin_work_status"=>0];
+        }
+
         $zs_entry_list=$zs_video_list =$zs_one_list= $ret_info;
 
         $list  = $this->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time);

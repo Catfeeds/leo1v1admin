@@ -4,21 +4,21 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class get_data extends Command
+class node_type_channel_statistics extends cmd_base
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:get_data {--s=} {--e=}';
+    protected $signature = 'command:node_type_channel_statistics';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '刷新结点型渠道数据';
 
     /**
      * Create a new command instance.
@@ -32,29 +32,273 @@ class get_data extends Command
 
     /**
      * Execute the console command.
-     *
+     * @desn:刷新节点型渠道数据
      * @return mixed
      */
     public function handle()
     {
-        //
-        $task=new \App\Console\Tasks\TaskController();
-        $month_start = strtotime($this->option('s'));
-        $month_end   = strtotime($this->option('e'));
+        $start_time = strtotime(date('Y-m-01'));
+        $end_time = strtotime('+1 month -1 second',$start_time);
 
-        $admin_list = $task->t_order_info->getOrderList($month_start, $month_end);
-        foreach($admin_list as &$item){
-            $item['called_succ'] = $task->t_tq_call_info->get_succ_num($item['adminid'],$one_week_start,$one_week_end);
-            $item['has_called'] = $task->t_tq_call_info->get_called_num($item['adminid'],$one_week_start,$one_week_end);
-            $item['total_money'] = $task->t_order_info->get_total_price_for_tq($item['adminid'],$one_week_start,$one_week_end);
+        //获取结点型数据   ---begin--
+        $node_type_data = $this->get_node_type_data($start_time,$end_time);
+        dd($node_type_data);
+        //获取结点型数据   ---end--
 
-            if(!$item['adminid']){$item['adminid'] = 0;}
-            if(!$item['name']){$item['name'] = 0;}
-            if(!$item['called_succ']){$item['called_succ'] = 0;}
-            if(!$item['has_called']){$item['has_called'] = 0;}
-            if(!$item['total_money']){$item['total_money'] = 0;}
-            // $c.='['.$item['adminid'].',"'.$item['name'].'",'.$item['called_succ'].','.$item['has_called'].','.$item['total_money'].'],<br/>';
-            echo $item['adminid'].' '.$item['name'].' '.$item['called_succ'].' '.$item['has_called'].' '.$item['total_money'].PHP_EOL;
+        //重构数据类型  ---begin--
+        foreach ($data_map as &$item ) {
+            $item["title"]= @$item["check_value"];
+
+            if ($field_name=="origin") {
+                $item["origin"]= $item["title"];
+            }
         }
+
+        //重组数据结构
+        $ret_info["list"]= $this->gen_origin_data_level5(
+            $ret_info["list"],
+            ['avg_first_time','consumption_rate','called_rate','effect_rate','audition_rate'],
+            $origin_ex
+        );
+
+        //重构数据类型  ---end--
+
+        //存储入数据库  ---begin---
+        //存储入数据库  ---end---
     }
+    //@desn:获取节点型渠道数据
+    //@param:$start_time  开始时间
+    //@param:$end_time  结束时间
+    private function get_node_type_data($start_time,$end_time){
+        //例子总量
+        $node_type_data = $this->task->t_test_lesson_subject->get_example_num($start_time,$end_time);
+        //试听信息
+        $test_lesson_data = $this->task->t_test_lesson_subject_require->get_test_lesson_data($start_time,$end_time);
+        foreach ($test_lesson_data as  $test_item ) {
+            $channel_name=$test_item["channel_name"];
+            \App\Helper\Utils:: array_item_init_if_nofind( $node_type_data, $channel_name,["channel_name" => $channel_name] );
+            $node_type_data[$channel_name]["require_count"] = $test_item["require_count"];
+            $node_type_data[$channel_name]["test_lesson_count"] = $test_item["test_lesson_count"];
+            $node_type_data[$channel_name]["distinct_test_count"] = $test_item["distinct_test_count"];
+            $node_type_data[$channel_name]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
+            $node_type_data[$channel_name]["distinct_succ_count"] = $test_item["distinct_succ_count"];
+        }
+        //订单信息
+        $order_data = $this->task->t_order_info->get_node_type_order_data($start_time, $end_time);
+        foreach($order_data as $order_item){
+            $channel_name=$order_item["channel_name"];
+            \App\Helper\Utils:: array_item_init_if_nofind( $node_type_data, $channel_name,["channel_name" => $channel_name ] );
+
+            $data_map[$check_value]["order_count"] = $order_item["order_count"];
+            $data_map[$check_value]["user_count"] = $order_item["user_count"];
+            $data_map[$check_value]["order_all_money"] = $order_item["order_all_money"];
+        }
+        return $node_type_data;
+    }
+
+    //@desn:将数据重组结构
+    //@param:$old_list 需要重组的数组
+    //@param:$no_sum_list 不需要相加的列
+    //@param:$origin_ex 渠道字符串
+    private function gen_origin_data_level5($old_list,$no_sum_list=[] ,$origin_ex="")
+    {
+        $this->task->t_order_info->switch_tongji_database();
+        $value_map=$this->task->t_origin_key->get_list( $origin_ex);
+        //组织分层用类标识
+        $cur_key_index=1;
+        $check_init_map_item=function (&$item, $key, $key_class, $value = "") {
+            global $cur_key_index;
+            if (!isset($item [$key])) {
+                $item[$key] = [
+                    "value" => $value,
+                    "key_class" => $key_class."-".$cur_key_index,
+                    "sub_list"=>[] ,
+                    "data" => array(),
+                ];
+                $cur_key_index++;
+            }
+        };
+        //计算相加数据
+        $add_data=function (&$item, $add_item ,$self_flag=false) use ( $no_sum_list) {
+            $arr=&$item["data"];
+            foreach ($add_item as $k => $v) {
+                if (!is_int($k) && $k!="origin" && ($self_flag|| !in_array($k,$no_sum_list))){
+                    if (!isset($arr[$k])) {
+                        $arr[$k]=0;
+                    }
+                    $arr[$k]+=$v;
+                }
+            }
+
+        };
+
+        $all_item=["origin"=>"全部"];
+        $check_init_map_item($data_map,"","");
+        foreach ($old_list as &$item) {
+            $value=trim($item["origin"]);
+            //没有key0 key1 key2 key3
+            if (!isset($value_map[$value])) {
+                $value_map[$value]=[
+                    "key0"=>"未定义",
+                    "key1"=>"未定义",
+                    "key2"=>"未定义",
+                    "key3"=>"未定义",
+                    "key4"=>$value,
+                    "value"=>$value,
+                ];
+            }
+
+            $conf=$value_map[$value];
+
+            $key0=$conf["key0"];
+            $key1=$conf["key1"];
+            $key2=$conf["key2"];
+            $key3=$conf["key3"];
+            $key4=$conf["key4"];
+            $key_map=&$data_map[""];
+            $add_data($key_map, $item );
+
+            $check_init_map_item($key_map["sub_list"] , $key0,"key0" );
+            $key0_map=&$key_map["sub_list"][$key0];
+            $add_data($key0_map, $item );
+
+            $check_init_map_item($key0_map["sub_list"] , $key1,"key1" );
+            $key1_map=&$key0_map["sub_list"][$key1];
+            $add_data($key1_map, $item );
+
+            $check_init_map_item($key1_map["sub_list"] , $key2 ,"key2");
+            $key2_map=&$key1_map["sub_list"][$key2];
+            $add_data($key2_map, $item );
+
+            $check_init_map_item($key2_map["sub_list"] , $key3 ,"key3");
+            $key3_map=&$key2_map["sub_list"][$key3];
+            $add_data($key3_map, $item );
+
+            $check_init_map_item($key3_map["sub_list"] , $key4,"key4",$value);
+            $key4_map=&$key3_map["sub_list"][$key4];
+            $add_data($key4_map, $item, true);
+        }
+        $list=[];
+        foreach ($data_map as $key0 => $item0) {  //第0层
+            $data=$item0["data"];
+            $data["key0"]="全部";
+            $data["key1"]="";
+            $data["key2"]="";
+            $data["key3"]="";
+            $data["key4"]="";
+            $data["key0_class"]="";
+            $data["key1_class"]="";
+            $data["key2_class"]="";
+            $data["key3_class"]="";
+            $data["key4_class"]="";
+            $data["level"]="l-0";
+
+            $list[]=$data;
+            foreach ($item0["sub_list"] as $key1 => $item1) {//第1层
+                $data=$item1["data"];
+                $data["key0"]=$key1;
+                $data["key1"]="";
+                $data["key2"]="";
+                $data["key3"]="";
+                $data["key4"]="";
+                $data["key0_class"]=$item1["key_class"];
+                $data["key1_class"]="";
+                $data["key2_class"]="";
+                $data["key3_class"]="";
+                $data["key4_class"]="";
+                $data["level"]="l-1";
+
+                $list[]=$data;
+
+                foreach ($item1["sub_list"] as $key2 => $item2) {//第2层
+                    $data=$item2["data"];
+                    $data["key0"]=$key1;
+                    $data["key1"]=$key2;
+                    $data["key2"]="";
+                    $data["key3"]="";
+                    $data["key4"]="";
+                    $data["key0_class"]=$item1["key_class"];
+                    $data["key1_class"]=$item2["key_class"];
+                    $data["key2_class"]="";
+                    $data["key3_class"]="";
+                    $data["key4_class"]="";
+                    $data["level"]="l-2";
+
+                    $list[]=$data;
+                    foreach ($item2["sub_list"] as $key3 => $item3) {//第3层
+                        $data=$item3["data"];
+                        $data["key0"]=$key1;
+                        $data["key1"]=$key2;
+                        $data["key2"]=$key3;
+                        $data["key3"]="";
+                        $data["key4"]="";
+                        $data["key0_class"]=$item1["key_class"];
+                        $data["key1_class"]=$item2["key_class"];
+                        $data["key2_class"]=$item3["key_class"];
+                        $data["key3_class"]="";
+                        $data["key4_class"]="";
+                        $data["level"]="l-3";
+
+                        $list[]=$data;
+                        foreach ($item3["sub_list"] as $key4 => $item4) {//第4层
+                            $data=$item4["data"];
+                            $data["key0"]=$key1;
+                            $data["key1"]=$key2;
+                            $data["key2"]=$key3;
+                            $data["key3"]=$key4;
+                            $data["key4"]="";
+                            $data["key0_class"]=$item1["key_class"];
+                            $data["key1_class"]=$item2["key_class"];
+                            $data["key2_class"]=$item3["key_class"];
+                            $data["key3_class"]=$item4["key_class"];
+                            $data["key4_class"]="";
+                            $data["level"]="l-4";
+                            $list[]=$data;
+
+                            foreach ($item4["sub_list"] as $key5 => $item5) {//第5层
+                                $data=$item5["data"];
+                                $data["key0"]=$key1;
+                                $data["key1"]=$key2;
+                                $data["key2"]=$key3;
+                                $data["key3"]=$key4;
+                                $data["key4"]=$key5;
+                                $data["value"] = $item5["value"];
+                                $data["key0_class"]=$item1["key_class"];
+                                $data["key1_class"]=$item2["key_class"];
+                                $data["key2_class"]=$item3["key_class"];
+                                $data["key3_class"]=$item4["key_class"];
+                                $data["key4_class"]=$item5["key_class"];
+                                $k5_v=$item5["value"];
+                                if ($k5_v != $key5) {
+                                    $data["key5"]=$key5."/". $k5_v ;
+                                }
+                                $data["old_key5"]=$key5;
+                                $data["level"]="l-5";
+                                $list[]=$data;
+                            }
+                        }
+
+                    }
+
+                }
+
+
+            }
+        }
+        // dd($list);
+        foreach($list as &$item){
+            if($item["level"]=="l-5" && $item["key0"]!="未定义"){
+                $item["create_time"] = $value_map[$item['value']]["create_time"];
+                if(!empty($item["create_time"])){
+                    $item["create_time"] = date('Y-m-d',$item["create_time"]);
+                }else{
+                    $item["create_time"] = "";
+                }
+            }else{
+                $item["create_time"] = "";
+            }
+        }
+        return $list;
+    }
+
 }
