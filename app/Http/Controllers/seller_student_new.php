@@ -1535,6 +1535,7 @@ class seller_student_new extends Controller
             //$limit_arr=array( [0, 10*60 ] );
         }
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
+        $this->set_filed_for_js("seller_level",$seller_level);
         $success_flag=true;
         $time_str_list=[];
         foreach( $limit_arr  as $limit_item) {
