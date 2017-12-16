@@ -8876,5 +8876,20 @@ class tongji_ss extends Controller
         ]);
     }
 
+    //@desn:更新存档数据
+    public function update_archive_data(){
+        $sta_data_type = $this->get_in_int_val('sta_data_type');
+        if($sta_data_type == 1){//漏斗型
+            $funnel_channel = new \App\Console\Commands\funnel_channel_statistics();
+            $funnel_channel->handle($job=2);
+        }elseif($sta_data_type == 2){//结点型
+            $node_type_channel = new \App\Console\Commands\node_type_channel_statistics();
+            $node_type_channel->handle($job=2);
+        }else{
+            return $this->output_err('存档类型错误!');
+        }
+        return $this->output_succ();
+    }
+
 
 }
