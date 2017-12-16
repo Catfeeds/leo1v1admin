@@ -3,22 +3,24 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Http\Controllers as C;
 
-class node_type_channel_statistics extends cmd_base
+
+class funnel_channel_statistics extends cmd_base
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:node_type_channel_statistics';
+    protected $signature = 'command:funnel_channel_statistics';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '刷新结点型渠道数据';
+    protected $description = '渠道结点型数据统计';
 
     /**
      * Create a new command instance.
@@ -32,26 +34,65 @@ class node_type_channel_statistics extends cmd_base
 
     /**
      * Execute the console command.
-     * @desn:刷新节点型渠道数据
+     *
      * @return mixed
      */
     public function handle()
     {
+
         $start_time = strtotime(date('Y-m-01'));
         $end_time = strtotime('+1 month -1 second',$start_time);
+        $field_name = 'origin';
+        $opt_date_str = 'add_time';
+        $origin = $origin_ex = '';
+        $adminid_list = [];
+        $tmk_adminid = -1;
 
-        //获取结点型数据   ---begin--
-        $node_type_data = $this->get_node_type_data($start_time,$end_time);
-        dd($node_type_data);
-        //获取结点型数据   ---end--
+        $ret_info = $this->task->t_seller_student_origin->get_origin_tongji_info_new($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
 
-        //重构数据类型  ---begin--
+        //统计试听课相关信息  ---begin---
+        $data_map=&$ret_info["list"];
+        //试听信息
+        $test_lesson_list_new = $this->task->t_seller_student_origin->get_lesson_list_new($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
+        foreach ($test_lesson_list_new as  $test_item ) {
+            $check_value=$test_item["check_value"];
+            \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
+            $data_map[$check_value]["require_count"] = $test_item["require_count"];
+            $data_map[$check_value]["distinct_test_count"] = $test_item["distinct_test_count"];
+            $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
+            $data_map[$check_value]["test_lesson_count"] = $test_item["test_lesson_count"];
+        }
+        //去掉重复userid
+        $distinct_test_lesson_list=$this->task->t_seller_student_origin->get_lesson_list_new($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid,1);
+        foreach ($distinct_test_lesson_list as  $test_item ) {
+            $check_value=$test_item["check_value"];
+            $data_map[$check_value]["distinct_succ_count"] = $test_item["distinct_succ_count"];
+            //试听率
+            if(@$data_map[$check_value]['tq_called_count'])
+                $data_map[$check_value]["audition_rate"] = number_format($test_item["distinct_succ_count"]/$data_map[$check_value]['tq_called_count']*100,2);
+            else
+                $data_map[$check_value]["audition_rate"] = '';
+        }
+
+
+        //统计试听课相关信息  ---begin---
+
+        //统计订单相关信息  ---begin---
+        //合同
+        $order_list_new = $this->task->t_seller_student_origin->get_order_list_new($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
+
+        foreach ($order_list_new as  $order_item ) {
+            $check_value=$order_item["check_value"];
+            \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
+
+            $data_map[$check_value]["order_count"] = $order_item["order_count"];
+            $data_map[$check_value]["user_count"] = $order_item["user_count"];
+            $data_map[$check_value]["order_all_money"] = $order_item["order_all_money"];
+        }
+        //统计订单相关信息  ---end---
         foreach ($data_map as &$item ) {
             $item["title"]= @$item["check_value"];
-
-            if ($field_name=="origin") {
-                $item["origin"]= $item["title"];
-            }
+            $item["origin"]= $item["title"];
         }
 
         //重组数据结构
@@ -60,40 +101,106 @@ class node_type_channel_statistics extends cmd_base
             ['avg_first_time','consumption_rate','called_rate','effect_rate','audition_rate'],
             $origin_ex
         );
+        $sort = 0;
+        //插入数据库
+        foreach($ret_info["list"] as $item){
+            echo $sort.'ok'."\n";
+            $id = $this->task->t_channel_funnel_archive_data->get_id_by_sort($sort,$start_time);
+            if($id){
+                //更新数据
+                $this->task->t_channel_funnel_archive_data->field_update_list($id, [
+                    'channel_name' => @$item['value'],
+                    'add_time' => $start_time,
+                    'all_count' => @$item['all_count'],
+                    'heavy_count' => @$item['heavy_count'],
+                    'assigned_count' => @$item['assigned_count'],
+                    'tmk_assigned_count' => @$item['tmk_assigned_count'],
+                    'avg_first_time' => @$item['avg_first_time'],
+                    'tq_called_count' => @$item['tq_called_count'],
+                    'tq_no_call_count' => @$item['tq_no_call_count'],
+                    'consumption_rate' => @$item['consumption_rate'],
+                    'called_num' => @$item['called_num'],
+                    'tq_call_succ_valid_count' => @$item['tq_call_succ_valid_count'],
+                    'tq_call_succ_invalid_count' => @$item['tq_call_succ_invalid_count'],
+                    'called_rate' => @$item['called_rate'],
+                    'effect_rate' => @$item['effect_rate'],
+                    'tq_call_fail_count' => @$item['tq_call_fail_count'],
+                    'tq_call_fail_invalid_count' => @$item['tq_call_fail_invalid_count'],
+                    'have_intention_a_count' => @$item['have_intention_b_count'],
+                    'have_intention_c_count' => @$item['have_intention_c_count'],
+                    'require_count' => @$item['require_count'],
+                    'test_lesson_count' => @$item['test_lesson_count'],
+                    'succ_test_lesson_count' => @$item['succ_test_lesson_count'],
+                    'audition_rate' => @$item['audition_rate'],
+                    'order_count' => @$item['order_count'],
+                    'user_count' => @$item['user_count'],
+                    'order_all_money' => @$item['order_all_money'],
+                    'distinct_succ_count' => @$item['distinct_succ_count'],
+                    'distinct_test_count' => @$item['distinct_test_count'],
+                    'key0' => @$item['key0'],
+                    'key1' => @$item['key1'],
+                    'key2' => @$item['key2'],
+                    'key3' => @$item['key3'],
+                    'key4' => @$item['key4'],
+                    'key0_class' => @$item['key0_class'],
+                    'key1_class' => @$item['key1_class'],
+                    'key2_class' => @$item['key2_class'],
+                    'key3_class' => @$item['key3_class'],
+                    'key4_class' => @$item['key4_class'],
+                    'old_key5' => @$item['old_key5'],
+                    'level' => @$item['level'],
+                    'sort' => $sort++,
 
-        //重构数据类型  ---end--
+                ]);
 
-        //存储入数据库  ---begin---
-        //存储入数据库  ---end---
-    }
-    //@desn:获取节点型渠道数据
-    //@param:$start_time  开始时间
-    //@param:$end_time  结束时间
-    private function get_node_type_data($start_time,$end_time){
-        //例子总量
-        $node_type_data = $this->task->t_test_lesson_subject->get_example_num($start_time,$end_time);
-        //试听信息
-        $test_lesson_data = $this->task->t_test_lesson_subject_require->get_test_lesson_data($start_time,$end_time);
-        foreach ($test_lesson_data as  $test_item ) {
-            $channel_name=$test_item["channel_name"];
-            \App\Helper\Utils:: array_item_init_if_nofind( $node_type_data, $channel_name,["channel_name" => $channel_name] );
-            $node_type_data[$channel_name]["require_count"] = $test_item["require_count"];
-            $node_type_data[$channel_name]["test_lesson_count"] = $test_item["test_lesson_count"];
-            $node_type_data[$channel_name]["distinct_test_count"] = $test_item["distinct_test_count"];
-            $node_type_data[$channel_name]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
-            $node_type_data[$channel_name]["distinct_succ_count"] = $test_item["distinct_succ_count"];
+            }else{
+                //添加数据
+                $this->task->t_channel_funnel_archive_data->row_insert([
+                    'channel_name' => @$item['value'],
+                    'add_time' => $start_time,
+                    'all_count' => @$item['all_count'],
+                    'heavy_count' => @$item['heavy_count'],
+                    'assigned_count' => @$item['assigned_count'],
+                    'tmk_assigned_count' => @$item['tmk_assigned_count'],
+                    'avg_first_time' => @$item['avg_first_time'],
+                    'tq_called_count' => @$item['tq_called_count'],
+                    'tq_no_call_count' => @$item['tq_no_call_count'],
+                    'consumption_rate' => @$item['consumption_rate'],
+                    'called_num' => @$item['called_num'],
+                    'tq_call_succ_valid_count' => @$item['tq_call_succ_valid_count'],
+                    'tq_call_succ_invalid_count' => @$item['tq_call_succ_invalid_count'],
+                    'called_rate' => @$item['called_rate'],
+                    'effect_rate' => @$item['effect_rate'],
+                    'tq_call_fail_count' => @$item['tq_call_fail_count'],
+                    'tq_call_fail_invalid_count' => @$item['tq_call_fail_invalid_count'],
+                    'have_intention_a_count' => @$item['have_intention_b_count'],
+                    'have_intention_c_count' => @$item['have_intention_c_count'],
+                    'require_count' => @$item['require_count'],
+                    'test_lesson_count' => @$item['test_lesson_count'],
+                    'succ_test_lesson_count' => @$item['succ_test_lesson_count'],
+                    'audition_rate' => @$item['audition_rate'],
+                    'order_count' => @$item['order_count'],
+                    'user_count' => @$item['user_count'],
+                    'order_all_money' => @$item['order_all_money'],
+                    'distinct_succ_count' => @$item['distinct_succ_count'],
+                    'distinct_test_count' => @$item['distinct_test_count'],
+                    'key0' => @$item['key0'],
+                    'key1' => @$item['key1'],
+                    'key2' => @$item['key2'],
+                    'key3' => @$item['key3'],
+                    'key4' => @$item['key4'],
+                    'key0_class' => @$item['key0_class'],
+                    'key1_class' => @$item['key1_class'],
+                    'key2_class' => @$item['key2_class'],
+                    'key3_class' => @$item['key3_class'],
+                    'key4_class' => @$item['key4_class'],
+                    'old_key5' => @$item['old_key5'],
+                    'level' => @$item['level'],
+                    'sort' => $sort++,
+                ]);
+
+            }
         }
-        //订单信息
-        $order_data = $this->task->t_order_info->get_node_type_order_data($start_time, $end_time);
-        foreach($order_data as $order_item){
-            $channel_name=$order_item["channel_name"];
-            \App\Helper\Utils:: array_item_init_if_nofind( $node_type_data, $channel_name,["channel_name" => $channel_name ] );
-
-            $data_map[$check_value]["order_count"] = $order_item["order_count"];
-            $data_map[$check_value]["user_count"] = $order_item["user_count"];
-            $data_map[$check_value]["order_all_money"] = $order_item["order_all_money"];
-        }
-        return $node_type_data;
     }
 
     //@desn:将数据重组结构
@@ -102,7 +209,6 @@ class node_type_channel_statistics extends cmd_base
     //@param:$origin_ex 渠道字符串
     private function gen_origin_data_level5($old_list,$no_sum_list=[] ,$origin_ex="")
     {
-        $this->task->t_order_info->switch_tongji_database();
         $value_map=$this->task->t_origin_key->get_list( $origin_ex);
         //组织分层用类标识
         $cur_key_index=1;
@@ -300,5 +406,4 @@ class node_type_channel_statistics extends cmd_base
         }
         return $list;
     }
-
 }

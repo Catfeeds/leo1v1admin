@@ -18,7 +18,6 @@ class seller_tongji extends Controller
         parent::__construct();
         $this->teacher_money = \App\Helper\Config::get_config("teacher_money");
     }
-         
 
     public function month_tongji_report(){
         \App\Helper\Utils::logger("START");
