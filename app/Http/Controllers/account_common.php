@@ -25,6 +25,33 @@ class account_common extends Controller
     var $check_login_flag =false;
 
     
+    public function send_time_code(){
+        $phone = $this->get_in_str_val("phone");
+        $role = $this->get_in_int_val("role");
+        $time = time()-45000;
+        $value = md5("leo".$time.$phone.$role."1v1");
+        $key = $phone."-".$role."time";
+
+        session([
+            $key  => $value,
+        ]);
+        return $this->output_succ(["time"=>$time]);
+
+
+    }
+
+    public function send_verification_code(){
+        $phone = $this->get_in_str_val("phone");
+        $role = $this->get_in_int_val("role");
+        $time_code = $this->get_in_str("time_code");
+
+        $key = $phone."-".$role."time";
+        $session_time_code = session($key);
+        if($time_code != $session_time_code){
+            return $this->output_err("请输入正确的手机号码");
+        }
+
+    }
    
    
 
