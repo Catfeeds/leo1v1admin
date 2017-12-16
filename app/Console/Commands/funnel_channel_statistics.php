@@ -34,10 +34,11 @@ class funnel_channel_statistics extends cmd_base
 
     /**
      * Execute the console command.
-     *
+     * @desn:刷新漏斗型渠道数据
+     * @param: $job 1：脚本调用 2：手动调用
      * @return mixed
      */
-    public function handle()
+    public function handle($job=1)
     {
 
         $start_time = strtotime(date('Y-m-01'));
@@ -104,7 +105,8 @@ class funnel_channel_statistics extends cmd_base
         $sort = 0;
         //插入数据库
         foreach($ret_info["list"] as $item){
-            echo $sort.'ok'."\n";
+            if($job == 1)
+                echo $sort.'ok'."\n";
             $id = $this->task->t_channel_funnel_archive_data->get_id_by_sort($sort,$start_time);
             if($id){
                 //更新数据
