@@ -276,35 +276,22 @@ $(function(){
     }
 
 
-    //进入知识点列表页面
+    //进入题目列表页面
     $('#question_list').on('click',function(){
         var subject = $('#id_subject').val();
         window.open('/question_new/question_list?id_open_flag=1&id_subject='+subject);
     });
 
-    // //添加根部知识点
-    // $('#id_add_knowledge').on('click',function(){
-    //     var level = 0;
-    //     var father_id = 0;
-    //     var editType = 1;
-    //     var father_subject = $('#id_subject').val();
-    //     window.open('/question_new/knowledge_edit?level='+level+'&father_id='+father_id+'&editType='+editType+'&father_subject='+father_subject);
-    // });
-
-    // //添加子知识点
-    // $('.add_son').on('click',function(){
-    //     var opt_data = $(this).get_opt_data();
-    //     var level = parseInt(opt_data.level) + 1;
-    //     var father_id = opt_data.knowledge_id;
-    //     var father_subject = $('#id_subject').val();
-    //     var editType = 1;
-    //     window.open('/question_new/knowledge_edit?level='+level+'&father_id='+father_id+'&editType='+editType+'&father_subject='+father_subject);
-    // });
-
     //进入知识点显示
     $('#knowledge_pic').on('click',function(){
         var subject = $('#id_subject').val();
         window.open('/question_new/knowledge_get?subject='+subject);
+    });
+
+    //教材知识点
+    $('#text_book_knowledge').on('click',function(){
+        var subject = $('#id_subject').val();
+        window.open('/question_new/textbook_knowledge_list?subject='+subject);
     });
 
 

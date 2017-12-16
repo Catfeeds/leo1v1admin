@@ -93,6 +93,7 @@ class question_new extends Controller
         $data['detail']   = $this->get_in_str_val('detail','');
         $data['open_flag']   = $this->get_in_str_val('open_flag',1);
         $data['difficult']   = $this->get_in_str_val('difficult',1);
+        $data['question_type']   = $this->get_in_str_val('question_type',1);
 
         $knowledge_old   = $this->get_in_str_val('knowledge_old','');
         $knowledge_new   = $this->get_in_str_val('knowledge_new','');
@@ -395,7 +396,7 @@ class question_new extends Controller
     }
 
     public function answer_add(){
-        $editType   = $this->get_in_int_val('editType',0);
+        $editType   = $this->get_in_int_val('editType',1);
         $step = $this->get_in_int_val('step');
         $answer_id = $this->get_in_int_val('answer_id');
         $question_id = $this->get_in_int_val('question_id');
@@ -458,5 +459,113 @@ class question_new extends Controller
         $this->t_answer->del_by_id($answer_id);
         return $this->output_succ(); 
     }
+
+    public function textbook_knowledge_list(){
+        $textbook_id = $this->get_in_int_val('id_textbook',1);
+        $subject = $this->get_in_int_val('id_subject',1);
+        $grade = $this->get_in_int_val('id_grade',301);
+
+        $where_arr = [
+            ["subject=%d" , $subject,-1 ],
+        ];
+        $exit_list = $this->t_textbook_knowledge->textbook_knowledge_get($textbook_id,$grade,$subject);
+        $exit_know = [];
+        if($exit_list){       
+            foreach( $exit_list as &$item){
+                $arr['name'] = $item['title'];
+                $arr['id'] = $item['knowledge_id'];
+                $arr['pid'] = $item['father_id'];
+                $exit_know[] = $arr;
+            }
+        }
+
+        $ret_list = $this->t_knowledge_point->knowledge_list($where_arr,null);
+        $ret = [];
+        if($ret_list['list']){       
+            foreach( $ret_list['list'] as &$item){
+                $arr['name'] = $item['title'];
+                $arr['id'] = $item['knowledge_id'];
+                $arr['pid'] = $item['father_id'];
+                $ret[] = $arr;
+            }
+        }
+
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712141058",'ret'=> json_encode($ret),'exit_know'=> json_encode($exit_know) ]);
+    }
+
+    public function textbook_knowledge_add(){
+        $textbook_id = $this->get_in_int_val('textbook_id');
+        $subject = $this->get_in_int_val('subject');
+        $grade = $this->get_in_int_val('grade');
+
+        $knowledge_old   = $this->get_in_str_val('knowledge_old','');
+        $knowledge_new   = $this->get_in_str_val('knowledge_new','');
+
+        $knowledge_old = !empty($knowledge_old) ? array_column( json_decode($knowledge_old,true),'knowledge_id' ):[];
+        $knowledge_new = !empty($knowledge_new) ? explode(',',$knowledge_new):[];
+
+        //dd($data);
+        //dd($editType);
+        $delArr = array_diff($knowledge_old,$knowledge_new);
+        $addArr = array_diff($knowledge_new,$knowledge_old);
+        //删除
+        if(!empty($delArr)){
+            $deleNum = $this->t_textbook_knowledge->dele_by_id_arr($textbook_id,$grade,$subject,$deleArr); 
+        }
+        //添加
+        if(!empty($addArr)){
+            $addNum = $this->t_textbook_knowledge->add_id_arr($textbook_id,$grade,$subject,$deleArr);
+        }
+
+        if($addNum || $deleNum){
+            $result['status'] = 200;
+            $result['msg'] = "更新成功";
+        }else{
+            $result['status'] = 500;
+            $result['msg'] = "更新失败";
+        }
+        return $this->output_succ($result); 
+
+       
+    }
+
+    public function textbook_add(){
+        $editType   = $this->get_in_int_val('editType',1); //1:add 2:update
+        $textbook_id   = $this->get_in_int_val('textbook_id');
+        $data['name']  = $this->get_in_str_val('name');
+
+        if( $editType == 1 ){
+            $ret = $this->t_textbook->row_insert($data);
+            if($ret){        
+                $result['status'] = 200;
+                $result['msg'] = "添加成功";
+            }else{
+                $result['status'] = 500;
+                $result['msg'] = "添加失败";
+            }
+            return $this->output_succ($result); 
+        }
+
+        if( $editType == 2 ){
+            $ret = $this->t_textbook->field_update_list($textbook_id,$data);
+            if($ret){
+                $result['status'] = 200;
+                $result['msg'] = "更新成功";
+            }else{
+                $result['status'] = 500;
+                $result['msg'] = "更新失败";
+            }
+            return $this->output_succ($result); 
+
+        }
+
+    }
+
+    public function textbook_dele(){
+        $textbook_id = $this->get_in_int_val('textbook_id');
+        $this->t_textbook->del_by_id($answer_id);
+        return $this->output_succ(); 
+    }
+
 
 }
