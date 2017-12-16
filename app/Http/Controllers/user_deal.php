@@ -2648,8 +2648,7 @@ class user_deal extends Controller
         $acc = $this->get_account();
 
         $lesson_confirm_start_time=\App\Helper\Config::get_lesson_confirm_start_time();
-
-        if($acc != "jim" && $acc != "adrian" && $acc != "cora" ) {
+        if($acc != "jim" && $acc != "adrian" ) {
             if(!$this->t_order_info->has_1v1_order($userid)) {
                 return $this->output_err("有合同了,不能修改年级,找jim处理");
             }else{
