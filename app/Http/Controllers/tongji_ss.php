@@ -6739,7 +6739,7 @@ class tongji_ss extends Controller
         }
 
         if ($field_name=="origin") {
-            $ret_info["list"]= $this->gen_origin_data($ret_info["list"],[], $origin_ex);
+            $ret_info["list"]= $this->gen_origin_data_level5($ret_info["list"],[], $origin_ex);
         }
 
         // dd($ret_info);
@@ -6756,7 +6756,7 @@ class tongji_ss extends Controller
 
     public function origin_publish_jinshuju()
     {
-        $origin_ex= "金数据";
+        $origin_ex= "公众号,金数据";
         $this->set_in_value("origin_ex",  $origin_ex );
         return $this->origin_publish_list();
     }
@@ -6764,7 +6764,7 @@ class tongji_ss extends Controller
 
     public function origin_publish_bd()
     {
-        $origin_ex= "BD";
+        $origin_ex= "渠道,BD";
         $this->set_in_value("origin_ex",  $origin_ex );
 
         $acc_id = $this->get_account_id();

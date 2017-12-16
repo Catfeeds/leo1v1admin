@@ -31,6 +31,7 @@ $(function(){
 
     $('.opt-change').set_input_change_event(load_data);
     $(".common-table").table_group_level_4_init();
+    $(".common-table").table_group_level_();
 
 
 
