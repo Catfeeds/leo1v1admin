@@ -75,6 +75,10 @@ class TChangeKnowledge extends Migration
         //         t_field($table->integer('knowledge_id'),"知识点id");
         // });
 
+        Schema::table('db_question_new.t_textbook', function (Blueprint $table){           
+                t_field($table->string('subject'),"每个教材对应的科目");
+        });
+
     }
 
     /**

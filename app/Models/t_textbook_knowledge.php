@@ -10,7 +10,7 @@ class t_textbook_knowledge extends \App\Models\Zgen\z_t_textbook_knowledge
 
     public function textbook_knowledge_get($textbook_id,$grade,$subject){
         $sql = $this->gen_sql("select know.knowledge_id,know.title from %s qa left join %s know on qa.knowledge_id = know.knowledge_id
-                               where qa.answer_id = %s and qa.textbook_id = %d and qa.grade = %d and qa.subject = %d 
+                               where qa.textbook_id = %s and qa.grade = %s and qa.subject = %d 
                                order by know.knowledge_id asc ",
                               self::DB_TABLE_NAME,
                               t_knowledge_point::DB_TABLE_NAME,
