@@ -2195,5 +2195,26 @@ $(function(){
 
     download_hide();
 
+    $(".opt-full-to-part").on("click", function() {
+        var data = $(this).get_opt_data();
+        var require_reason = $("<textarea></textarea>");
+        var arr = [
+            ['申请原因', require_reason]
+        ];
+
+        $.show_key_value_table("全转兼申请",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(diolog) {
+                $.do_ajax('/teacher_trans/full_to_part', {
+                    'teacherid': data.teacherid,
+                    'level':data.level,
+                    'teacher_money_type':data.teacher_money_type,
+                    'require_reason' : require_reason.val()
+                });
+            }
+        });
+    });
 
 });
+

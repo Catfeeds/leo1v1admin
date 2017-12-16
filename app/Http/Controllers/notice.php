@@ -150,5 +150,6 @@ class notice extends Controller
         return $this->output_succ();
     }
 
+   
 
 }

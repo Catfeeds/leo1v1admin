@@ -92,7 +92,12 @@ class flow_ass_order_refund  extends flow_base{
 
         $t=  new \App\Models\t_admin_group_user();
         $item=$t->get_up_level_users($adminid);
+        if(!$item["master_adminid1"]){
+            $item["master_adminid1"]=1004; 
+        }
+
         return $item["master_adminid1"];
+       
         //return $t_manager_info->get_up_adminid($adminid);
     }
 
@@ -100,6 +105,9 @@ class flow_ass_order_refund  extends flow_base{
         $t=  new \App\Models\t_admin_group_user();
         $item=$t->get_up_level_users($adminid);
         \App\Helper\Utils::logger( "master_adminid2:". $item["master_adminid2"] );
+        if(!$item["master_adminid2"]){
+            $item["master_adminid2"]=1004; 
+        }
 
         return $item["master_adminid2"];
     }

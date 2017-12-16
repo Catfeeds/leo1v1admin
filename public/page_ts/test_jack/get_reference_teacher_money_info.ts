@@ -48,11 +48,13 @@ $(function(){
                         "end_time"  : end_time
                     },function(resp){
                         console.log(resp.data);
-                        var data = resp.data;
+                        var data = resp;
                         $tr.find(".test_num").text(data.test_num);
+                        $tr.find(".all_test_num").text(data.all_test_num);
                         $tr.find(".test_late_num").text(data.test_late_num);
                         $tr.find(".test_kk_num").text(data.test_kk_num);
                         $tr.find(".reg_num").text(data.reg_num);
+                        $tr.find(".all_reg_num").text(data.all_reg_num);
                         $tr.find(".late_num").text(data.late_num);
                         $tr.find(".invalid_late_num").text(data.invalid_late_num);
                         $tr.find(".all_change_num").text(data.all_change_num);

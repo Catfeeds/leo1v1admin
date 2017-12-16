@@ -1457,5 +1457,13 @@ class test_code extends Controller
         }
     }
 
+    public function test_sms(){
+        $phone   = "18790256265";
+        $msg_num = \App\Helper\Common::redis_set_json_date_add("STU_PHONE_$phone",1000000);
+        $code    = rand(1000,9999);
+        $test_flag = true;
+        $ret     = \App\Helper\Utils::sms_common($phone, 10671029,["code"  => $code,"index" => $msg_num]);
+        var_dump($ret);
+    }
 
 }

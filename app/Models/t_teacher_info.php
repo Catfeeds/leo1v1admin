@@ -4711,9 +4711,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $start_time = $week_range['sdate']<$month_range['sdate']?$week_range['sdate']:$month_range['sdate'];
         $end_time   = $week_range['edate']<$month_range['edate']?$week_range['edate']:$month_range['edate'];
 
-        $day_arr   = $this->lesson_start_sql($day_range['sdate'],$day_range['edate']);
-        $week_arr  = $this->lesson_start_sql($week_range['sdate'],$week_range['edate']);
-        $month_arr = $this->lesson_start_sql($month_range['sdate'],$month_range['edate']);
+        $lesson_type_arr = [
+            "l.lesson_type=2",
+        ];
+        $day_arr   = $this->lesson_start_sql($day_range['sdate'],$day_range['edate'],'l',$lesson_type_arr);
+        $week_arr  = $this->lesson_start_sql($week_range['sdate'],$week_range['edate'],'l',$lesson_type_arr);
+        $month_arr = $this->lesson_start_sql($month_range['sdate'],$month_range['edate'],'l',$lesson_type_arr);
         $has_arr   = $this->lesson_start_sql($lesson_start, $lesson_end,"l",["l.lesson_del_flag=0","confirm_flag<2"]);
 
         $subject_str = $this->gen_sql("(t.subject=%u or t.second_subject=%u)",$subject,$subject);
@@ -4773,15 +4776,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr=[
             ["l.lessonid=%u",$lessonid,0],
         ];
-        $sql = $this->gen_sql_new("select t.teaching_achievement as harvest, t.evaluate as parent_student_evaluate, l.lesson_del_flag, t.nick as tea_nick,t.gender as tea_gender,work_year,phone,"
-                                  ." textbook_type,identity,tl.tea_label_type "
+        $sql = $this->gen_sql_new("select t.teaching_achievement as harvest, t.parent_student_evaluate as evaluate, l.lesson_del_flag, t.nick as tea_nick,t.gender as tea_gender,work_year,phone,"
+                                  ." textbook_type,identity,t.teacher_tags "
                                   ." from %s t"
                                   ." left join %s l on  l.teacherid=t.teacherid"
-                                  ." left join %s tl on tl.teacherid=t.teacherid "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
-                                  ,t_teacher_label::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_row($sql);
@@ -4824,9 +4825,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ['lesson_start>=%u', $start_time,-1],
             ['lesson_start<%u', $end_time, -1],
             'tea_attend>0',
-            'is_test_user=0'
+            'is_test_user=0',
+            ' confirm_flag=2'
         ];
-        $sql = $this->gen_sql_new("select t.teacherid,t.nick,l.lessonid,l.lesson_start,l.tea_attend,l.tea_late_minute from %s t left join %s l on t.teacherid=l.teacherid where %s ",
+        $sql = $this->gen_sql_new("select t.teacherid,t.nick,l.lessonid,l.lesson_start,l.lesson_type,l.tea_attend,l.tea_late_minute from %s t left join %s l on t.teacherid=l.teacherid where %s ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr

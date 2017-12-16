@@ -2067,7 +2067,36 @@ $(function(){
 
                 });
             }else{ //转介绍 , 试听24小时内赠送课时
-                do_post_add_free( parent_order_id, 6,0,"",0,0, 0 );
+                $.do_ajax("/ajax_deal2/check_origin_user_order_type",{
+                    "orderid":parent_order_id
+                },function(respp){
+                    var ret = respp.ret;
+                    if(ret==-1){
+                        BootstrapDialog.alert(respp.info);
+                        return;
+                    }else{
+                        var com_flag = respp.flag;
+                        if(com_flag==1){
+                            var $part_competition_flag=$("<select > <option value=0>否</option>  <option value=1>是</option></select>") ;
+                            var arr=[
+                                ["是否竞赛合同",  $part_competition_flag  ]
+                            ];                         
+
+                            $.show_key_value_table ( "选择类型", arr ,{
+                                label: '确认',
+                                cssClass: 'btn-warning',
+                                action: function(dialog) {
+                                    do_post_add_free( parent_order_id, 6,0,"",0,0,$part_competition_flag.val()); 
+                                }
+                            });
+
+                        }else{
+                            do_post_add_free( parent_order_id, 6,0,"",0,0, 0 ); 
+                        }
+                    }
+
+                });
+
             }
         };
 
@@ -2469,8 +2498,6 @@ $(function(){
         });
     });
 
-
-
     $('.opt-build-contrat').on("click",function(){
         var opt_data        = $(this).get_opt_data();
         var addressee       = $("<input/>");
@@ -2522,13 +2549,15 @@ $(function(){
                 }
             }
 
-            $.show_key_value_table("订单信息", arr,[{
-                label: '下载电子版pdf',
-                cssClass: 'btn-primary',
-                action: function(dialog) {
-                    $.wopen( opt_data.pdf_url.replace(".pdf", "_gz.pdf") );
-                }
-            },{
+            $.show_key_value_table("订单信息", arr,[
+            //     {
+            //     label: '下载电子版pdf',
+            //     cssClass: 'btn-primary',
+            //     action: function(dialog) {
+            //         $.wopen( opt_data.pdf_url.replace(".pdf", "_gz.pdf") );
+            //     }
+            // },
+                {
                 label: '下载打印版pdf',
                 cssClass: 'btn-primary',
                 action: function(dialog) {
@@ -2544,35 +2573,37 @@ $(function(){
                     } );
                     alert("请等待５秒...");
                 }
-            },{
-                label: '提交财务打印 ',
-                cssClass: 'btn-primary',
-                action: function(dialog) {
-                    var check_flag = [addressee,receive_phone,receive_addr,lesson_weeks,lesson_duration];
+            },
+            //                                         {
+            //     label: '提交财务打印 ',
+            //     cssClass: 'btn-primary',
+            //     action: function(dialog) {
+            //         var check_flag = [addressee,receive_phone,receive_addr,lesson_weeks,lesson_duration];
 
-                    for(var ii in check_flag){
-                        if(!check_flag[ii].val()){
-                            alert((check_flag[ii].parent().prev().text()+'不能为空!'));
-                            return ;
-                        }
-                    }
+            //         for(var ii in check_flag){
+            //             if(!check_flag[ii].val()){
+            //                 alert((check_flag[ii].parent().prev().text()+'不能为空!'));
+            //                 return ;
+            //             }
+            //         }
 
-                    if(checkMobile()){
-                        return;
-                    }
+            //         if(checkMobile()){
+            //             return;
+            //         }
 
-                    $.do_ajax("/ss_deal/build_contract",{
-                        "addressee"     : addressee.val(),
-                        "receive_phone" : receive_phone.val(),
-                        "receive_addr"  : receive_addr.val(),
-                        "lesson_weeks"  : lesson_weeks.val(),
-                        "lesson_duration" : lesson_duration.val(),
-                        "orderid"         : opt_data.orderid,
-                        "parent_name": $parent_name.val(),
-                        "is_submit"       : 1
-                    })
-                }
-            },{
+            //         $.do_ajax("/ss_deal/build_contract",{
+            //             "addressee"     : addressee.val(),
+            //             "receive_phone" : receive_phone.val(),
+            //             "receive_addr"  : receive_addr.val(),
+            //             "lesson_weeks"  : lesson_weeks.val(),
+            //             "lesson_duration" : lesson_duration.val(),
+            //             "orderid"         : opt_data.orderid,
+            //             "parent_name": $parent_name.val(),
+            //             "is_submit"       : 1
+            //         })
+            //     }
+            // },
+                                                    {
                 label: '保存',
                 cssClass: 'btn-warning',
                 action: function(dialog) {

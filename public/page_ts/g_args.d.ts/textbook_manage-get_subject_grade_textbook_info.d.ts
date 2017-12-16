@@ -34,12 +34,13 @@ tofile:
 /// <reference path="../g_args.d.ts/textbook_manage-get_subject_grade_textbook_info.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		grade:	$('#id_grade').val(),
 		subject:	$('#id_subject').val(),
 		address:	$('#id_address').val()
-    });
+		});
 }
 $(function(){
 
@@ -56,6 +57,8 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -63,6 +66,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_grade" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["grade title", "grade", "th_grade" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -70,6 +74,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_subject" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["subject title", "subject", "th_subject" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -77,4 +82,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_address" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["address title", "address", "th_address" ]])!!}
 */

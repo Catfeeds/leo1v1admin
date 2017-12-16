@@ -281,6 +281,18 @@ class authority extends Controller
         $this->t_manager_info->sync_kaoqin_user($uid);
         $account_role = $this->t_manager_info->get_account_role($uid);
         $phone = $this->t_manager_info->get_phone($uid);
+
+
+        /**
+         * @ 离职后邮箱密码重置
+         */
+        $pwd = mt_rand(0,1000000)."_bydelete";
+        $email = $this->t_manager_info->get_email($uid);
+        $zmcmd = "zmprov sp $email $pwd &>/dev/null ;";
+        $cmd="sshpass -p\"yb142857\" ssh -2  -o \"StrictHostKeyChecking no\" -p22 -l\"zimbra\" 115.28.89.73   \"   $zmcmd \"";
+        \App\Helper\Utils::exec_cmd($cmd);
+
+
         /**
          * 助教和销售离职,需要把其老师账号设为离职
          * 其他角色离职,需要手动设置其老师账号是否离职
@@ -441,7 +453,12 @@ class authority extends Controller
         $phone   = $this->get_in_str_val('phone',"");
         $groupid   = $this->get_in_int_val('groupid',0);
         $account_role = $this->get_in_int_val('account_role',0);
-
+        $become_member_time = $this->get_in_str_val('become_member_time','');
+        if ($become_member_time) {
+            $become_member_time = strtotime($become_member_time.' '.date("H:i", time()));
+        } else {
+            $become_member_time = time();
+        }
 
         if($account == "" || $passwd == "" || $name == ""){
             return $this->output_err("参数错误");
@@ -476,7 +493,7 @@ class authority extends Controller
             "email" => $email,
             "phone" => $phone,
             "create_time" => time(NULL) ,
-            "become_member_time" => time(NULL) ,
+            "become_member_time" => $become_member_time,
             "permission" => $groupid ,
             "account_role" => $account_role,
             "creater_adminid" => $adminid ,

@@ -278,7 +278,7 @@ class menu{
                 ]],
 
                 ["power_id"=>5, "name"=>"权限管理", "url"=>"/user_manage_new/power_group_edit"],
-                ["power_id"=>5, "name"=>"权限管理", "url"=>"/user_manage_new/power_group_edit_new"],
+                ["power_id"=>50, "name"=>"权限管理-new", "url"=>"/user_manage_new/power_group_edit_new"],
                 ["power_id"=>45, "name"=>"组织架构", "url"=>"/company_wx/show_department_users"],
                 ["power_id"=>46, "name"=>"权限角色", "url"=>"/company_wx/all_users"],
                 ["power_id"=>4, "name"=>"权限execl",   "url"=>"/authority/jurisdiction"],
@@ -677,6 +677,7 @@ class menu{
                 ["power_id"=>44, "name"=>"在读学员老师列表",  "url"=>"/user_manage/stu_all_teacher_all"],
                 ["power_id"=>49, "name"=>"周报-月报-new", "url" => "/tongji2/tongji_cr"],
                 ["power_id"=>50, "name"=>"新例子-主管", "url" => "/seller_student_new/get_new_student_ass_leader"],
+                ["power_id"=>51, "name"=>"助教转介绍报表", "url" => "/assistant_performance/get_assistant_origin_order_losson_info"],
 
             ]],
 
@@ -828,7 +829,6 @@ class menu{
                 ["power_id"=>3, "name"=>"模拟试听未排名单",   "url"=>"/tongji_ss/get_no_time_train_lesson_teacher_list"],
                 ["power_id"=>6, "name"=>"培训进度列表",   "url"=>"/tea_manage/teacher_train_list"],
                 ["power_id"=>7, "name"=>"待培训名单",   "url"=>"/tea_manage/teacher_cc_count"],
-
             ]],
 
             ["power_id"=>36, "name"=>"角色-运营",  "list"=>[

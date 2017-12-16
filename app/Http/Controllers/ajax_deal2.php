@@ -133,6 +133,8 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
+
+
     public function set_tmk_valid() {
         $userid=$this->get_in_userid();
         $tmk_student_status = $this->get_in_e_tmk_student_status();
@@ -213,7 +215,11 @@ class ajax_deal2 extends Controller
         $one_lesson_count    = $row["lesson_weeks"] ;
         $per_lesson_interval = $row["lesson_duration"] ;
 
-        $order_start_time    = $row["contract_starttime"];
+        if($row['contract_starttime']>0){
+            $order_start_time = $row["contract_starttime"];
+        }else{
+            $order_start_time = $row["order_time"];
+        }
         $order_end_time      = \App\Helper\Utils::get_order_term_of_validity($order_start_time,$lesson_count);
         $contract_type       = $row["contract_type"];
         $contract_status     = $row["contract_status"];
@@ -228,21 +234,12 @@ class ajax_deal2 extends Controller
             return $this->output_err("不是1对１合同，不能生成合同");
         }
 
-        // if (($lesson_count) <=90 ) {
-        //     $order_end_time =$order_start_time+365*86400;
-        // } else if (($lesson_count) <=270 ) {
-        //     $order_end_time =$order_start_time+365*86400*2;
-        // } else  {
-        //     $order_end_time =$order_start_time+365*86400*3;
-        // }
-
         if(!$one_lesson_count    ){ $one_lesson_count= 3; }
         if(!$per_lesson_interval ){ $per_lesson_interval = 40; }
         $now=time(NULL);
 
         $pdf_file_url=\App\Helper\Common::gen_order_pdf($orderid,$username,$grade,$competition_flag,$lesson_count,$price,$one_lesson_count,$per_lesson_interval,$order_start_time,$order_end_time,true, $now ,$type_1_lesson_count,$phone, $parent_name );
         \App\Helper\Utils::logger("pdf_file_url:$pdf_file_url");
-
         $pdf_file_url=\App\Helper\Common::gen_order_pdf($orderid,$username,$grade,$competition_flag,$lesson_count,$price,$one_lesson_count,$per_lesson_interval,$order_start_time,$order_end_time,false,$now , $type_1_lesson_count ,$phone, $parent_name);
 
         \App\Helper\Utils::logger("pdf_file_url:$pdf_file_url");
@@ -2343,6 +2340,43 @@ class ajax_deal2 extends Controller
            "identity" =>$identity 
         ]);
         return $this->output_succ();
+
+    }
+
+    //检查转介绍人是否存在竞赛合同
+    public function check_origin_user_order_type(){
+        $orderid = $this->get_in_int_val("orderid");
+        $userid = $this->t_order_info->get_userid($orderid);
+        $origin_userid=$this->t_student_info->get_origin_userid($userid);
+        if(!$origin_userid){
+            return $this->output_err("没有找到对应的转介绍人"); 
+        }
+        $competition_flag = $this->t_order_info->check_is_have_competition_order($origin_userid);
+        return $this->output_succ(["flag"=>$competition_flag]);
+    }
+
+    //检查转介绍负责人以及转介绍人类型
+    public function check_origin_assistantid_info(){
+        $origin_userid = $this->get_in_int_val("origin_userid");
+        $origin_assistantid = $this->get_in_int_val("origin_assistantid");
+        $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
+
+        //原CC
+        $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
+        $cc_flag = 0;
+        if($admin_revisiterid>0){
+            $del_flag = $this->t_manager_info->get_del_flag($admin_revisiterid);
+            if($del_flag==0){
+                $cc_flag=1;
+            }
+        }
+        return $this->output_succ([
+            "account_role"=>$account_role,
+            "cc_flag"     =>$cc_flag
+        ]);
+        
+
+
 
     }
 }

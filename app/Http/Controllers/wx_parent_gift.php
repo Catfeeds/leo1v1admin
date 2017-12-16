@@ -296,10 +296,60 @@ class wx_parent_gift extends Controller
     }
 
 
+
+    /**
+
+     *@ 市场部圣诞节活动
+     *@
+     *@
+     *@
+     **/
+
+
+
+    /**
+     *@ 微信图文[理优一段故事]
+     **/
+    public function christmasHistory(){ //微信推文 理优历史
+        $p_appid     = \App\Helper\Config::get_wx_appid();
+        $p_appsecret = \App\Helper\Config::get_wx_appsecret();
+
+        $wx= new \App\Helper\Wx($p_appid,$p_appsecret);
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/checkParInfo" );
+        $wx->goto_wx_login( $redirect_url );
+    }
+
+    public function checkParInfo(){
+        $p_appid     = \App\Helper\Config::get_wx_appid();
+        $p_appsecret = \App\Helper\Config::get_wx_appsecret();
+        $code = $this->get_in_str_val('code');
+        $wx   = new \App\Helper\Wx($p_appid,$p_appsecret);
+        $user_info = $wx->get_token_from_code($code);
+        $openid    = @$user_info["openid"];
+
+        session(["wx_parent_openid" => $openid ] );
+
+        $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
+        // 判断是否有合同
+        $orderid = $this->t_order_info->getOrderByParentid($parentid);
+
+        header("Location: http://wx-parent-web.leo1v1.com/anniversary_day/index.html?pid1=0&pid2=".$parentid);
+        return ;
+    }
+
+
+    public function getUserId(){
+
+    }
+
+
+
+
+
     /**
      *市场部赠送图书活动
      *
-    **/
+     **/
 
     public function set_identity_for_book(){
         $_SESSION['check_flag']=1;
@@ -323,7 +373,7 @@ class wx_parent_gift extends Controller
 
     /***
      *双11活动 理优在线
-    **/
+     **/
 
     public function get_prize_list(){ // 获取奖品列表
         $parentid   = $this->get_parentid();
@@ -560,7 +610,7 @@ class wx_parent_gift extends Controller
            array(6,"","500元折扣券" ),
            array(7,"","免费3次正式课" ),
            array(8,"","试听课" ),
-         **/
+        **/
 
         if($stu_type == 1){ // 新用户
             if($today < $eleven){
@@ -625,7 +675,7 @@ class wx_parent_gift extends Controller
 
     /**
        双11活动 理优在线
-     **/
+    **/
 
 
 
@@ -748,7 +798,7 @@ class wx_parent_gift extends Controller
            活动时间：{{keyword2.DATA}}
            活动结果：{{keyword3.DATA}}
            {{remark.DATA}}
-         **/
+        **/
 
         $appid     = \App\Helper\Config::get_yxyx_wx_appid();
         $appsecret = \App\Helper\Config::get_yxyx_wx_appsecret();

@@ -16,40 +16,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	teacherid	:any;
-	subject	:any;
-	grade_start	:any;
-	grade_end	:any;
-	second_subject	:any;
-	second_grade_start	:any;
-	second_grade_end	:any;
-	limit_plan_lesson_type	:any;
-	limit_day_lesson_num	:any;
-	limit_week_lesson_num	:any;
-	limit_month_lesson_num	:any;
-	train_through_new_time	:any;
-	identity	:any;
-	gender	:any;
-	age	:any;
-	realname	:any;
-	phone	:any;
-	free_time_new	:any;
-	teacher_tags	:any;
-	day_num	:any;
-	week_num	:any;
-	month_num	:any;
-	has_num	:any;
-	age_flag	:any;
-	is_identity	:any;
-	is_gender	:any;
-	is_age	:any;
-	match_time	:any;
-	tags_str	:any;
-	match_tags	:any;
-	identity_str	:any;
-	gender_str	:any;
-	work_day	:any;
-	phone_hide	:any;
 }
 
 /*
