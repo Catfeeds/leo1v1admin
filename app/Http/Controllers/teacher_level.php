@@ -26,7 +26,7 @@ class teacher_level extends Controller
         $end_time   = strtotime(date('Y-m-d H:i:s',mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
         $this->set_in_value("quarter_start",$start_time);
         $quarter_start = $this->get_in_int_val("quarter_start");
-        $teacher_money_type = $this->get_in_int_val("teacher_money_type",5);
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type",6);
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $page_info = $this->get_in_page_info();
 
@@ -36,7 +36,7 @@ class teacher_level extends Controller
         foreach($ret_info["list"] as &$item){
             //$item["level"]=$item["level_before"];
             $item["level"]=$item["real_level"];
-            if($item["teacher_money_type"]==6){
+            if($teacher_money_type==6){
                 //  E\Enew_level::set_item_value_str($item,"level_before");
                 // E\Enew_level::set_item_value_str($item,"level_after");
                 $item["level_str"] = E\Enew_level::v2s($item["level"]);
