@@ -3,53 +3,9 @@
 
     <style >
 
-     .header-query-info .query-list .select-list-item {
-
-         margin-right : 8pt;
-         margin-top: 5px;
-     }
-
-
-     .header-query-info .used-query-list >a {
-         margin-top: 5px;
-         margin-right : 8pt;
-     }
-
-     .header-query-info .used-query-list >div {
-         margin-top: 5px;
-         margin-right : 8pt;
-     }
-
-     .header-query-info .query-list .query-title   {
-         margin-right : 15pt;
-
-     }
-
-
-     .header-query-info .select-menu-list .select {
-         background-color :  #f39c12;
-     }
-     .header-query-info .select-menu-list .select:hover {
-         background-color :  #f39c12;
-     }
-
-     .admin-multi-select  .dropdown-menu  .select {
-         background-color :  #f39c12;
-     }
-
-
-     .admin-multi-select .dropdown-menu  .select:hover {
-         background-color :  #f39c12;
-     }
-
-     .header-query-info .select-menu-list {
-         font-size:18px;
-     }
 
     </style>
-    <script type="text/javascript" src="/js/bootstrap-multiselect.js"></script>
-    <script type="text/javascript" src="/page_ts/self_manage/admin_new_query.js"></script>
-    <link rel="stylesheet" href="/css/bootstrap-multiselect.css" type="text/css"/>
+    <script type="text/javascript" src="/page_ts/lib/admin_new_query.js"></script>
 
     <section class="content ">
 
