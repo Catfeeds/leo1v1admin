@@ -443,9 +443,10 @@ class NewRouteConfig {
         "/question_new/answer_add"              => true,
         "/question_new/answer_edit"              => true,
         "/question_new/answer_dele"              => true,
-        "/question_new/question_know_get"        => true,
-        "/question_new/question_know_add"        => true,
-        "/question_new/question_know_dele"        => true,
+        "/question_new/textbook_knowledge_list"        => true,
+        "/question_new/textbook_knowledge_add"        => true,
+        "/question_new/textbook_add"        => true,
+        "/question_new/textbook_dele"        => true,
 
         "/seller_student_new/tmk_seller_student_new"  => true,
         "/seller_student2/show_order_activity_info"  => true,
