@@ -313,6 +313,7 @@ class menu{
 
                     ["power_id"=>52, "name"=>"渠道统计-用户运营", "url"=>"/tongji_ss/origin_count_yhyy"],
                     ["power_id"=>50, "name"=>"渠道统计-微信运营/tmk", "url"=>"/tongji_ss/origin_count_tmk"],
+                    ["power_id"=>57, "name"=>"渠道统计-信息流", "url"=>"/tongji_ss/channel_sta_flow"],
                     ["power_id"=>11, "name"=>"渠道cc 获得新例子", "url"=>"/seller_student_new2/seller_first_admin_info"],
                     ["power_id"=>10, "name"=>"渠道cc产出统计", "url"=>"/tongji2/seller_origin_info"],
                     ["power_id"=>60, "name"=>"渠道用户明细", "url"=>"/seller_student_new2/origin_user_list"],

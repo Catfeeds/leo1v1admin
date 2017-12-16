@@ -8,6 +8,7 @@ interface GargsStatic {
 	tag_four:	number;
 	page_num:	number;
 	page_count:	number;
+	is_js:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -45,7 +46,6 @@ interface RowData {
 	use_type_str	:any;
 	tag_one_str	:any;
 	tag_two_str	:any;
-	tag_three_str	:any;
 }
 
 /*
@@ -66,7 +66,8 @@ function load_data(){
 		tag_one:	$('#id_tag_one').val(),
 		tag_two:	$('#id_tag_two').val(),
 		tag_three:	$('#id_tag_three').val(),
-		tag_four:	$('#id_tag_four').val()
+		tag_four:	$('#id_tag_four').val(),
+		is_js:	$('#id_is_js').val()
 		});
 }
 $(function(){
@@ -79,6 +80,7 @@ $(function(){
 	$('#id_tag_two').val(g_args.tag_two);
 	$('#id_tag_three').val(g_args.tag_three);
 	$('#id_tag_four').val(g_args.tag_four);
+	$('#id_is_js').val(g_args.is_js);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -146,4 +148,12 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["tag_four title", "tag_four", "th_tag_four" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">is_js</span>
+                <input class="opt-change form-control" id="id_is_js" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["is_js title", "is_js", "th_is_js" ]])!!}
 */

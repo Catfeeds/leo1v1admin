@@ -29,16 +29,18 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/authority-get_login_list.d.ts" />
 
+function load_data(){
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
+		account:	$('#id_account').val(),
+		flag:	$('#id_flag').val(),
+		start_date:	$('#id_start_date').val(),
+		end_date:	$('#id_end_date').val(),
+		login_info:	$('#id_login_info').val()
+		});
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			account:	$('#id_account').val(),
-			flag:	$('#id_flag').val(),
-			start_date:	$('#id_start_date').val(),
-			end_date:	$('#id_end_date').val(),
-			login_info:	$('#id_login_info').val()
-        });
-    }
 
 
 	$('#id_account').val(g_args.account);
@@ -62,6 +64,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_account" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["account title", "account", "th_account" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -69,6 +72,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["flag title", "flag", "th_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -76,6 +80,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_start_date" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["start_date title", "start_date", "th_start_date" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -83,6 +88,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_end_date" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["end_date title", "end_date", "th_end_date" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -90,4 +96,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_login_info" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["login_info title", "login_info", "th_login_info" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

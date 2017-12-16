@@ -4,6 +4,7 @@
     <script type="text/javascript" src="/page_js/seller_student/common.js"></script>
     <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.min.js"></script>
     <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.pie.min.js"></script>
+    <script src="/js/jquery.admin.js?{{@$_publish_version}}" type="text/javascript"></script>
     <section class="content">
         <div class="book_filter">
             <div class="row">

@@ -1602,7 +1602,7 @@ class ss_deal extends Controller
         }
 
         $old_teacherid = $this->get_in_str_val('old_teacherid');
-        $old_lesson_start = $this->get_in_str_val('old_lesson_start');
+        $old_lesson_start = strtotime($this->get_in_str_val('old_lesson_start'));
         $date_week = \App\Helper\Utils::get_week_range($lesson_start,1);
         $lstart    = $date_week["sdate"];
         $date_week_old = \App\Helper\Utils::get_week_range($old_lesson_start,1);

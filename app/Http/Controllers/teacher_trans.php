@@ -93,6 +93,8 @@ class teacher_trans extends Controller
             $this->t_teacher_info->field_update_list($teacherid, [
                 'teacher_type' => 0 
             ]);
+
+            // 转职成功后 --- 微信推送
         }
         
         return $this->output_succ();

@@ -18,12 +18,14 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/pdf_viewer-index.d.ts" />
 
-$(function(){
-    function load_data(){
-        $.reload_self_page ( {
+function load_data(){
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 
-        });
-    }
+		});
+}
+$(function(){
 
 
 

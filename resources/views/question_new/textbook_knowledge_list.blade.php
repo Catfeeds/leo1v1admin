@@ -13,7 +13,8 @@
 
     <script type="text/javascript" src="/page_js/lib/select_dlg.js?v={{@$_publish_version}}"></script>
     <script type="text/javascript">
-     var zNodes = <?php echo $ret?>;
+     var zNodes = <?php echo $exit_know?>;
+     var zAllKnow = <?php echo $ret?>;
     </script>
     <style>
      .ztree *{ font-size:14px}
@@ -27,40 +28,46 @@
     <section class="content">
         <div class="row">
             
-            <div class="col-xs-2 col-md-2">
+            <div class="col-xs-6 col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon">科目类型</span>
                     <select class="opt-change form-control" id="id_subject">
                     </select>
+
+                    <span class="input-group-addon">教材版本</span>
+                    <select class="opt-change form-control" id="id_textbook">
+                    </select>
+
+                    <span class="input-group-addon">年级</span>
+                    <select class="opt-change form-control" id="id_grade">
+                    </select>
+
                 </div>
             </div>
 
-            <div class="col-xs-1 col-md-1">
+            <div class="col-xs-4 col-md-4">
                 <div class="input-group">
                     <div class=" input-group-btn ">
-                        <button type="submit" onclick="add_knowledge()"  class="btn  btn-warning" >
-                            <i class="fa fa-plus"></i>添加知识点
-                        </button>
+                        <button type="submit" onclick="add_knowledge()"  class="btn  btn-warning">编辑知识点</button>
                     </div>
-                </div>
-            </div>
+              
+                    <div class=" input-group-btn ">
+                        <button style="margin-left:10px" id="add_textbook" type="button" class="btn btn-success">添加教材</button>
+                    </div>
 
-            <div class="col-xs-1 col-md-1">
-                <div class="input-group">
-                    <button style="margin-left:10px" id="question_list" type="button" class="btn btn-primary">题目列表</button>
-                </div>
-            </div>
+                    <div class=" input-group-btn ">
+                        <button style="margin-left:10px" id="question_list" type="button" class="btn btn-primary">题目列表</button>
+                    </div>
+               
+                    <div class=" input-group-btn ">
+                        <button style="margin-left:10px" id="knowledge_pic" type="button" class="btn btn-info">知识点展现</button>
+                    </div>
+                    <div class=" input-group-btn ">
+                        <button style="margin-left:10px" id="all_knowledge" type="button" class="btn btn-success">所有知识点</button>
+                    </div>
 
-            <div class="col-xs-1 col-md-1">
-                <div class="input-group">
-                    <button style="margin-left:10px" id="knowledge_pic" type="button" class="btn btn-info">知识点展现</button>
                 </div>
-            </div>
 
-            <div class="col-xs-1 col-md-1">
-                <div class="input-group">
-                    <button style="margin-left:10px" id="text_book_knowledge" type="button" class="btn btn-success">教材知识点</button>
-                </div>
             </div>
 
         </div>
