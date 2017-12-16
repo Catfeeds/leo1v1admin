@@ -1386,7 +1386,7 @@ $(function(){
             }
         });
     });
-    if(g_args.account_seller_level == 700){
+    if(g_args.seller_level == 700){
         $('section.content ').attr('style','display:none');
     }
 });
