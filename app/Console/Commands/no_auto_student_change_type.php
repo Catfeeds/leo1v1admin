@@ -51,6 +51,7 @@ class no_auto_student_change_type extends Command
             $tea_list[] = $val["teacherid"];
         }
 
+        $page_info=1;
         $ret_info = $task->t_teacher_info->get_teacher_level_info($page_info,$tea_list,$start_time);
         $tea_arr=[];
         foreach($ret_info["list"] as $val){
