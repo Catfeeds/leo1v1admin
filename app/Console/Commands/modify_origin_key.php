@@ -63,6 +63,8 @@ class modify_origin_key extends cmd_base
                 $this->task->t_origin_key->update_key0($key1, '自有渠道');
             elseif(in_array($key1, $flow_arr))
                 $this->task->t_origin_key->update_key0($key1, '信息流');
+            elseif($key1 == 'BD')
+                $this->task->t_origin_key->update_key0($key1, '渠道');
             else
                 $this->task->t_origin_key->update_key0($key1, '自有渠道');
 
