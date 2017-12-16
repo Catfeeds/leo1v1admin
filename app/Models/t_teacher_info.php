@@ -2481,7 +2481,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["t.teacher_money_type=%u",$teacher_money_type,-1],
             "t.train_through_new = 1",
             "l.lesson_del_flag=0",
-            "l.confirm_flag in <>2",
+            "l.confirm_flag  <>2",
             "l.lesson_type<1000",
             "l.lesson_type <>2",
             "t.level>=2"
