@@ -957,7 +957,7 @@ class common extends Controller
         $orderid = $this->get_in_int_val("orderid");
         $channel = $this->get_in_str_val("channel");
         // $channel = "wx";
-        $orderid = 17819;
+        $orderid = 29598;
         $order_info = $this->t_order_info->field_get_list($orderid,"price,userid,lesson_total,default_lesson_count");
         $amount = $order_info["price"];
         /*  if (empty($channel) || empty($amount)) {
