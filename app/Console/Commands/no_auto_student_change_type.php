@@ -67,7 +67,7 @@ class no_auto_student_change_type extends Command
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($item,"require_time","_str");
-            E\Eaccept_flag::set_item_value_str($item);
+            //  E\Eaccept_flag::set_item_value_str($item);
 
             $teacherid = $item["teacherid"];
             $item["lesson_count"] = round($list[$teacherid]["lesson_count"]/300,1);
@@ -91,13 +91,13 @@ class no_auto_student_change_type extends Command
             $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
             $item["total_score"] = $item["lesson_count_score"]+$item["cc_order_score"]+ $item["other_order_score"]+$item["record_final_score"]+$item["stu_num_score"];
             $item["hand_flag"]=0;
-            if($item["teacher_money_type"]==6){
-                E\Enew_level::set_item_value_str($item,"level");
-                E\Enew_level::set_item_value_str($item,"level_after");
-            }else{
-                E\Elevel::set_item_value_str($item,"level");
-                E\Elevel::set_item_value_str($item,"level_after");
-            }
+            // if($item["teacher_money_type"]==6){
+            //     E\Enew_level::set_item_value_str($item,"level");
+            //     E\Enew_level::set_item_value_str($item,"level_after");
+            // }else{
+            //     E\Elevel::set_item_value_str($item,"level");
+            //     E\Elevel::set_item_value_str($item,"level_after");
+            // }
             $exists = $task->t_teacher_advance_list->field_get_list_2($start_time,$teacherid,"teacherid");
             if(!$exists){
                 $task->t_teacher_advance_list->row_insert([
