@@ -2589,7 +2589,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   $start_time,
                                   $where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_info,3000);
+        return $this->main_get_list_as_page($sql);
 
 
     }
