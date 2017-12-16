@@ -9,15 +9,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	knowledge_id	:any;
-	title	:any;
-	subject	:any;
-	detail	:any;
-	open_flag	:any;
-	id	:any;
-	level	:any;
-	father_id	:any;
-	subject_str	:any;
 }
 
 /*

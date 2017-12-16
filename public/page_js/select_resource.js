@@ -5,9 +5,9 @@ var get_self_todo_list=function() {
         var percent_tip_str="";
         if (percent>=0) {
             percent_str="     <div class=\"progress xs\">"+
-                "         <div class=\"progress-bar progress-bar-aqua\" style=\"width: "+percent+"%\" role=\"progressbar\" aria-valuenow=\""+percent+"\" aria-valuemin=\"0\" aria-valuemax=\"100\">"+
-                "            <span class=\"sr-only\">"+percent+"% Complete</span>"+
-                "         </div>"+
+            "         <div class=\"progress-bar progress-bar-aqua\" style=\"width: "+percent+"%\" role=\"progressbar\" aria-valuenow=\""+percent+"\" aria-valuemin=\"0\" aria-valuemax=\"100\">"+
+            "            <span class=\"sr-only\">"+percent+"% Complete</span>"+
+            "         </div>"+
                 "     </div>";
             percent_tip_str="        <small class=\"pull-right\">"+percent+"%</small>";
 
@@ -111,11 +111,11 @@ function countly_log(key,count){
         app_key:"891f21003e1f2c904fd93a9f2fecbd90a6da1c52",
         device_id:"js",
         events: JSON.stringify( [
-            {
-                timestamp : (new Date()).getTime() ,
-                key       : key,
-                count     : count
-            }
+          {
+              timestamp : (new Date()).getTime() ,
+              key       : key,
+              count     : count
+          }
         ])
     });
 }
@@ -131,7 +131,6 @@ function mathjax_init_once() {
         g_mathjax_init_flag=true;
     }
 }
-
 
 //JS数组去重
 function unique(arr) {
@@ -149,10 +148,9 @@ function set_input_enter_event($input, func ) {
         if(e.keyCode== 13){
             func();
         }
-    });
+  });
 
 }
-
 
 function up(obj){
     var objParentTR = $(obj).parent().parent();
@@ -169,8 +167,6 @@ function down(obj){
         nextTR.insertBefore(objParentTR);
     }
 }
-
-
 
 function hide_menu_by_power_list( ){
     var $menu_main_list=$(".menu-list [data-power-list]");
@@ -201,12 +197,13 @@ function hide_menu_by_power_list( ){
                 $item.show();
                 var $p=$item.parents(".treeview");
 
-                $p.show();
+                //console.log( "xx:"+$p.length);
+               $p.show();
                 /**
-                   $p=$p.parents(".treeview");
-                   console.log( "xx:"+$p.text() );
-                   $p.show();
-                */
+                $p=$p.parents(".treeview");
+                console.log( "xx:"+$p.text() );
+                $p.show();
+                 */
 
                 return false;
             }else{
@@ -226,28 +223,117 @@ function table_init() {
             }
         }
     }
-    var flag_key = "query_flag_"+ window.location.pathname;
-    g_load_data_flag = window.localStorage.getItem(flag_key);
-
     var row_query=$(".row-query-list" );
     if (row_query.length>0) {
-        var query_select_list=$( " <div class=\"col-xs-6 col-md-1\"> <div class=\"input-group\" >  <div class=\"input-group\" > <button   title=\"显示所有条件\" class=\"btn btn-warning fa   show-all  \"> ALL </button> </div> </div> <div> ");
+        var query_select_list=$( " <div class=\"col-xs-6 col-md-1\"> <div class=\"input-group\" >  <div class=\"input-group-btn\" > <button   title=\"显示所有条件\" class=\"btn btn-warning fa   show-all  \"> ALL </button> </div> </div> <div> ");
+        //var query_select_list=$( " <div class=\"col-xs-6 col-md-1\"> <div class=\"input-group\" >  <div class=\"input-group-btn\" >   <button    title=\"筛选条件列表\" class=\" query_type_list btn btn-warning fa  fa-list  \"> </button> <button   title=\"显示所有条件\" class=\"btn btn-warning fa   show-all  \"> ALL </button> </div> </div> <div> ");
 
-        var query_attime=$( " <div class=\"col-xs-6 col-md-1\">  <button   title=\"点击查询\" class=\"btn btn-warning fa  \" > 查询 </button  <div> ");
+        /*
+        var btn=query_select_list.find(".query_type_list");
+        btn.on("click",function(){
+            var item_list=row_query.find (">div");
+            var arr=[];
+            $.each( item_list, function(i,item){
+                var $item=$(item);
+                var input=$item.find("select");
+                if (input.length==0) {
+                    input=$item.find("input");
+                }
+                var id_name=input.attr("id");
+                if (id_name) {
+                    var title= $item.data("title");
+                    if (!title) {
+                        title=$item.find('span').text();
+                    }
+                    if (!title) {
+                        title=$item.find('input').attr("placeholder");
+                    }
+                    if (!title) {
+                        title=$item.find('input').attr("placeholder");
+                    }
+                    if(title) {
+                        var display= $item.css("display");
+                        var $input=$("<input type=\"checkbox\"/>");
+                        if (display=="none") {
+                            $input.attr("checked",false) ;
+                        }else{
+                            $input.attr("checked","checked") ;
+                        }
+                        $input.data("id_name",id_name);
+                        arr.push([ title,  $input]);
+                    }
+                }
 
-        if ( window.load_data && g_load_data_flag) {
-            row_query.append( query_attime );
-            query_attime.find("button") .on("click",function(){
-                g_load_data_flag = 0;
-                window.load_data();
             });
-        }
+
+            var path_list=window.location.pathname.split("/");
+            var table_key=path_list[1]+"-"+path_list[2]+"-query" ;
 
 
+            $.show_key_value_table("筛选条件配置", arr ,[{
+                label: '默认',
+                cssClass: 'btn-primary',
+                action: function(dialog) {
+                    $.do_ajax("/page_common/opt_table_field_list",{
+                        "opt_type":"set",
+                        "table_key":table_key,
+                        "data":""
+                    });
+                    window.location.reload();
+                }
+            },{
+
+                label: '确认',
+                cssClass: 'btn-warning',
+                action: function(dialog) {
+                    var config_map={
+                    };
+                    $.each(arr, function(i,item){
+                        var $input=item[1];
+                        var index=$input.data("id_name");
+                        var value=$input.prop("checked");
+                        config_map[index]=value;
+                    });
+                    $.do_ajax("/page_common/opt_table_field_list",{
+                        "opt_type":"set",
+                        "table_key":table_key,
+                        "data":JSON.stringify(config_map)
+                    });
+                }
+            }]);
+
+        });
+        */
         row_query.append( query_select_list );
         var path_list=window.location.pathname.split("/");
         var table_query_key=path_list[1]+"-"+path_list[2]+"-query" ;
 
+        /*
+        $.do_ajax("/page_common/opt_table_field_list",{
+            "opt_type":"get",
+            "table_key":table_query_key
+        },  function(resp){
+            var item_list=row_query.find (">div");
+            if(resp.field_list ) {
+                $.each( resp.field_list, function( id_name, flag ){
+
+                    if (!flag) {
+                        item_list.each(function(){
+                            var $item=$(this);
+                            if ($item.find("#"+id_name).length >0) {
+                                $item.hide();
+                                return false;
+                            }else{
+                                return true;
+                            }
+                        });
+                    }
+                    return true;
+                });
+            }
+
+        });
+        */
 
         var item_list=row_query.find (">div");
         if (item_list.length>5) {
@@ -289,6 +375,7 @@ function table_init() {
         show_all_btn.on("click",function(){
             var show_all_flag= !$(this).data("show_all_flag");
             $(this).data("show_all_flag", show_all_flag);
+          //
             $.each( item_list, function(i,item){
                 var $item=$(item);
                 var input=$item.find("select");
@@ -297,9 +384,11 @@ function table_init() {
                     input=$item.find("input");//input
                     if (input.length>0) {
                         if (show_all_flag) {
-                            if (!input.parent().parent().data("always_hide")){
+
+                            if ( !input.parent().parent().data("always_hide") ) {
                                 input.parent().parent().show();
                             }
+
                         }else{
                             field_name=input.attr("id").substr(3);
                             if (g_args[field_name] == -1  ||   g_args[field_name] === ""   ) {
@@ -312,9 +401,7 @@ function table_init() {
                 }else{
                     field_name=input.attr("id").substr(3);
                     if (show_all_flag) {
-                        if ( !input.parent().parent().data("always_hide") ) {
-                            input.parent().parent().show();
-                        }
+                        input.parent().parent().show();
                     }else{
                         if (g_args[field_name] == -1 ) {
                             if ( !input.parent().parent().data("always_show") ) {
@@ -324,41 +411,97 @@ function table_init() {
 
                                 input.parent().parent().hide();
                             }
+
                         }
                     }
                 }
+
             });
         });
+
+        //
+
     }
 
-    var thead=$(".common-table thead  ");
 
+
+
+    var thead=$(".common-table thead  ");
     $.each(thead, function(table_i,th_item){
         if ($(th_item).parent().hasClass("table-clean-flag") ){
             return;
         }
-        var path_list     = window.location.pathname.split("/");
-        var table_key     = path_list[1]+"-"+path_list[2]+"-"+ table_i;
-        var opt_td        = $(th_item).find ("td:last");
+        var path_list=window.location.pathname.split("/");
+        var table_key=path_list[1]+"-"+path_list[2]+"-"+ table_i;
+        var opt_td=$(th_item).find ("td:last");
+        var download_item=$( " <a href=\"javascript:;\" title=\"下载为xls \" class=\"fa fa-download\"></a>");
+        var download_fun=function () {
+            var list_data=[];
+            var $tr_list=$(th_item).closest("table").find("tr" );
+            $.each($tr_list ,function(i,tr_item )  {
+                var row_data= [];
+                var $td_list= $(tr_item ).find("td");
+                $.each(  $td_list, function( i, td_item)  {
+                    if ( i>0 && i< $td_list.length-1 ) {
+                        row_data.push( $.trim( $(td_item).text()) );
+                    }
+                });
+                list_data.push(row_data);
+            });
 
+            $.do_ajax ( "/page_common/upload_xls_data",{
+                xls_data :  JSON.stringify(list_data )
+            },function(data){
+                window.location.href= "/common_new/download_xls";
+            });
+
+        };
+
+        download_item.on("click",function(){
+            if ($(".page-opt-show-all").length >0 ) {
+
+                BootstrapDialog.show({
+                    title: '下载为xls',
+                    message: '你没有全部显示，要下载全部,请 点击 <全部显示>　, <br/>下载本页面的吗?',
+                    buttons: [{
+                        label: '返回',
+                        action: function(dialog) {
+                            dialog.close();
+                        }
+                    }, {
+                        label: '确认',
+                        cssClass: 'btn-warning',
+                        action: function(dialog) {
+                            download_fun();
+
+                        }
+                    }]
+                });
+
+            }else{
+                download_fun();
+            }
+
+
+        });
+
+        opt_td.append(download_item );
         if (!opt_td.css("min-width")  ) {
             opt_td.css("min-width","80px");
         }
+
 
         var config_item=$( " <a href=\"javascript:; \" style=\"color:red;\" title=\" 列显示配置\"   >列</a>");
         config_item.on("click",function(){
             var $table= $(this).closest("table");
             var $th=$table.find("thead >tr");
 
-            var $th_td_list= $th.find(">td");
+            var $th_td_list= $th.find("td");
             var arr=[];
             $.each($th_td_list, function(i,item){
                 if (!(i==0 || i== $th_td_list.length-1)) {
                     var $item=$(item);
-                    var title= $item.data("title")  ;
-                    if (!title) {
-                        title= $.trim($item.text());
-                    }
+                    var title= $.trim($item.text());
                     var display= $item.css("display");
                     var $input=$("<input type=\"checkbox\"/>");
                     if (display=="none") {
@@ -381,9 +524,7 @@ function table_init() {
                         "table_key":table_key,
                         "data":""
                     });
-
-                    //alert(" XXXXX set table_key clean 1 ");
-                    window.localStorage.setItem(table_key , "");
+                    $.reload();
                 }
             },{
 
@@ -402,33 +543,15 @@ function table_init() {
                         "opt_type":"set",
                         "table_key":table_key,
                         "data":JSON.stringify(config_map)
-                    },function(){
-                        $.do_ajax("/page_common/opt_table_field_list",{
-                            "opt_type":"get",
-                            "table_key":table_key
-                        }, function(resp ){
-                            var cur=(new Date() ).getTime()/1000;
-                            resp.log_time=cur;
-                            //alert("XXXX SET :"+ JSON.stringify(resp)  );
-                            window.localStorage.setItem(table_key , JSON.stringify(resp));
-                            window.location.reload();
-                        });
                     });
-
-
                 }
             }]);
         });
         opt_td.append(config_item);
-
     });
 
 
     var $table_list=$(".common-table") ;
-    $table_list.css({
-        "border-top":  "3px solid #d2d6de",
-        "border-radius" : "3px",
-    });
 
 
     $.each($table_list, function(table_i){
@@ -486,10 +609,7 @@ function table_init() {
             var set_reset_filed_flag=false;
             $.each($th_td_list, function(i,item){
                 var $item=$(item);
-                var title=$(item).data("title");
-                if (!title){
-                    title=$.trim($item.text());
-                }
+                var title=$.trim($item.text());
                 var config_value=   config_map[title];
                 var use_config=false;
                 if ( config_value == undefined) {
@@ -531,13 +651,9 @@ function table_init() {
                                 "table_key":table_key,
                                 "data":""
                             });
-                            window.localStorage.setItem(table_key , "");
-
                         });
-                        $item.data("title", $.trim($item.text()) );
                         $item.append($reset_btn);
                         set_reset_filed_flag=true;
-
                     }
 
                 }
@@ -580,26 +696,10 @@ function table_init() {
 
 
         if (!check_in_phone() ) {
-            var val=window.localStorage.getItem(table_key  );
-            var cur=(new Date() ).getTime()/1000;
-            var config = null;
-            try {
-                config=JSON.parse(val );
-            }catch( $e) {
-            }
-            if (config && cur - config.log_time < 3600    ) {
-                reset_table (config);
-            }else {
-                $.do_ajax("/page_common/opt_table_field_list",{
-                    "opt_type":"get",
-                    "table_key":table_key
-                }, function(resp ){
-                    reset_table (resp);
-                    resp.log_time=cur;
-                    //alert("XXXX SET :"+ JSON.stringify(resp)  );
-                    window.localStorage.setItem(table_key , JSON.stringify(resp));
-                });
-            }
+            $.do_ajax("/page_common/opt_table_field_list",{
+                "opt_type":"get",
+                "table_key":table_key
+            }, reset_table );
         }else{
             reset_table ({});
         }
@@ -609,19 +709,17 @@ function table_init() {
 
 }
 
-
 $(function(){
-    if (getCookie ("show-menu") == "false" ){
-        //$(".sidebar-toggle").click();
-        $("body").addClass("sidebar-collapse");
-    }
 
     if ($.datetimepicker) {
-        $.datetimepicker.setLocale("ch");
+      $.datetimepicker.setLocale("ch");
     }
-
     table_init();
 
+    if (getCookie ("show-menu") == "false" ){
+        $('.left-side').toggleClass("collapse-left");
+        $(".right-side").toggleClass("strech");
+    }
     hide_menu_by_power_list();
 
     //$(".treeview").show();
@@ -641,10 +739,10 @@ $(function(){
         opt_url="/"+item_arr[1]+"/index";
     }
 
-    var check_url= window.location.toString().split("?" )[0];
-    check_url= check_url.split("#" )[0].replace(/\/*$/, "" );
+    var check_url=$.trim( window.location.toString().split("?" )[0], "/");
 
     var obj=$(".treeview-menu >li>a[href*=\""+ check_url +"\"]");
+
 
     var path_arr=window.location.pathname.split("/");
     var ctrl=path_arr[1];
@@ -656,16 +754,16 @@ $(function(){
     obj.each(function(){
         var href_str= $(this).attr("href") ;
         //http://....com/tt/ff => /tt/ff
-        href_str= href_str.replace( /http.*\.com/, "" ).replace(/#.*/ , "" );
-
+        href_str= href_str.replace( /http.*\.com/, "" );
 
         var arr=href_str.split("/");
+
         var find_action=arr[2].split("?")[0];
         if(!find_action) {
             find_action="index";
         }
         if(find_action==action) {
-            tmp_obj =$(this);
+           tmp_obj =$(this);
 
             return false;
         }
@@ -677,17 +775,11 @@ $(function(){
     var title2="";
     if (title1=="") {
         //检查一级节点
-        var check_url=$.trim( window.location.toString().split("?" )[0], "/");
-        check_url= check_url.split("#" )[0].replace(/\/*$/, "" );
-
-        obj=$(".sidebar-menu >li>a[href*=\""+check_url+"\"]").first();
+        obj=$(".sidebar-menu >li>a[href*=\""+window.location.pathname+"\"]").first();
         title1=obj.text();
 
-        /*
-          obj.css(  "background-color", "rgb(60, 141, 188)");
-          obj.css(  "color", "white");
-        */
-        obj.parent().addClass("active");
+        obj.css(  "background-color", "rgb(60, 141, 188)");
+        obj.css(  "color", "white");
 
         if (typeof g_nick != 'undefined'  && g_nick ){
             set_title( title1+"["+g_nick+"]");
@@ -700,22 +792,14 @@ $(function(){
             while ((obj_par=obj_par.prev()).length ){
                 if   (obj_par.css("display") != "none"  ) {
                     var obj_par_a= obj_par.find("a");
-                    obj.parent().addClass("active");
-                    /*
-                      obj_par_a.css(  "background-color", "rgb(60, 141, 188)");
-                      obj_par_a.css(  "color", "white");
-                    */
-                    obj.parent().addClass("active");
+                    obj_par_a.css(  "background-color", "rgb(60, 141, 188)");
+                    obj_par_a.css(  "color", "white");
                     break;
-
                 }
             }
         }else{
-            /*
-              obj.css(  "background-color", "rgb(60, 141, 188)");
-              obj.css(  "color", "white");
-            */
-            obj.parent().addClass("active");
+            obj.css(  "background-color", "rgb(60, 141, 188)");
+            obj.css(  "color", "white");
         }
 
 
@@ -751,14 +835,8 @@ $(function(){
     $( window ).bind("resize",reset_item);
 
 
-    $("#id_call_check_systen").on("click",function(){
-        $.do_ajax("/ajax_deal2/get_rcrai_login_info",{},function(resp){
-            if (resp.data.staff ){
-                $.wopen("http://leoedu.rcrai.com/login/"+resp.data.staff.id ,true);
-            }else{
-                alert("无辅助系统的账号信息");
-            }
-        });
+    $("#id_new_seller_system").on("click",function(){
+        $.wopen("http://admincc.leo1v1.com");
     });
 
     $("#id_self_menu_add").on("click",function(){
@@ -771,48 +849,8 @@ $(function(){
     });
 
 
-    $("#id_now_refresh").on("click",function(){
-        if(window.localStorage){
-            var flag_key = "query_flag_"+ window.location.pathname;
-            var load_data_flag = window.localStorage.getItem( flag_key );
-            var list_type_key = "query_list_type_"+ window.location.pathname;
-            var list_type = window.localStorage.getItem(list_type_key  );
-            var $list_type=$("<select  > <option value=0>紧凑</option> <option value=1>列表</option> </select> ");
-            var $load_data_flag=$("<select  > <option value=0>是</option> <option value=1>不是</option> </select> ");
-            list_type= list_type?list_type:0;
-            load_data_flag= load_data_flag?load_data_flag:0;
-
-            var arr=[
-                ["展现形式" , $list_type],
-                ["是否立即查询" , $load_data_flag  ],
-            ];
-            $list_type.val( list_type );
-            $load_data_flag.val( load_data_flag);
-
-            $.show_key_value_table("查询参数", arr ,[{
-                label: '提交',
-                cssClass: 'btn-primary',
-                action: function(dialog) {
-                    window.localStorage.setItem( flag_key , $load_data_flag.val()   );
-                    window.localStorage.setItem( list_type_key, $list_type.val()   );
-                    $.reload();
-                }
-            }]);
 
 
-
-        }else{
-            alert('浏览器不支持localstorage');
-            return false;
-        }
-        // window.localStorage.setItem("key","value");//存
-        // window.localStorage.getItem("key");//获取
-        // window.localStorage.removeItem("key");//删除
-        // $.do_ajax("/self_manage/ssh_login",{
-        // },function(resp){
-        //     alert("请登录: " + resp.ssh_cmd   );
-        // } );
-    });
 
     $("#id_ssh_open").on("click",function(){
         $.do_ajax("/self_manage/ssh_login",{
@@ -820,45 +858,49 @@ $(function(){
             alert("请登录: " + resp.ssh_cmd   );
         } );
     });
-    $("#id_menu_config").on("click",function(){
-        var enum_name="main_department";
-        var desc_map=g_enum_map[enum_name]["desc_map"];
+    $("#id_user_change_passwd").on("click",function(){
+        var id_old_passwd=$("<input type=\"password\">");
+        var id_passwd=$("<input type=\"password\">");
+        var id_re_passwd=$("<input type=\"password\">");
+        var arr                = [
+            [ "原密码",  id_old_passwd] ,
+            [ "新密码",  id_passwd] ,
+            [ "再输一次",    id_re_passwd ]
+        ];
 
-        $.do_ajax("/ajax_deal2/get_admin_member_config",{},function(resp){
+        show_key_value_table("修改密码", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                var passwd=id_passwd.val();
+                if (passwd.length<4){
+                    alert("密码长度要>4!");
+                    return;
+                }
+                if (passwd!=id_re_passwd.val() ){
+                    alert("两次输入不一致!");
+                    return;
+                }
+                $.ajax({
+                    url: '/login/reset_self_passwd',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'old_passwd' : id_old_passwd.val() ,
+                        'passwd' : passwd
+                    },
+                    success: function(data){
+                        if(!data.ret){
+                            $.reload();
+                        }else{
+                            alert(data.info);
+                        }
+                    }
+                });
 
-            var data_list=[
-            ];
-            $.each(desc_map, function(k,v){
-                data_list.push([k, v] );
-            });
+            }
+        });
 
-            var btn_list =[
-            ];
-
-            var select_list    = resp.menu_config.split(/,/);
-            var select_id_list = [];
-            $.each(select_list,function( ){
-                var id= parseInt(this);
-                select_id_list.push(id);
-            });
-
-            $("<div></div>").admin_select_dlg({
-                'data_list': data_list,
-                "header_list":["id","属性"] ,
-                "onChange": function ( select_list,dlg ){
-                    do_ajax("/ajax_deal2/set_admin_menu_config",{
-                        "menu_config" : select_list.join(","),
-                    });
-                },
-                "select_list": [],
-                "multi_selection":true,
-                btn_list :btn_list ,
-                "select_list": select_id_list,
-
-            });
-
-
-        }) ;
 
 
     });
@@ -881,25 +923,25 @@ $(function(){
                 label: '确认',
                 cssClass: 'btn-warning',
                 action: function(dialog) {
-                    $.ajax({
-                        'url': '/login/logout',
-                        'type': 'POST',
-                        'data': {},
-                        'dataType': 'jsonp',
-                        success: function(data) {
-                            if (data['ret'] == 0) {
-                                $.reload();
-                            } else {
-                                console.log(data);
-                            }
-                        }
-                    });
+                $.ajax({
+                  'url': '/login/logout',
+                  'type': 'POST',
+                  'data': {},
+                  'dataType': 'jsonp',
+                  success: function(data) {
+                    if (data['ret'] == 0) {
+                        $.reload();
+                    } else {
+                      console.log(data);
+                    }
+                  }
+                });
                 }
             }]
         });
 
     });
-    //logout
+        //logout
     $("#id_system_logout_teacher").on("click",function(){
         BootstrapDialog.show({
             title: '退出系统',
@@ -913,52 +955,20 @@ $(function(){
                 label: '确认',
                 cssClass: 'btn-warning',
                 action: function(dialog) {
-                    $.ajax({
-                        'url': '/login/logout_teacher',
-                        'type': 'POST',
-                        'data': {},
-                        'dataType': 'jsonp',
-                        success: function(data) {
-                            if (data['ret'] == 0) {
-                                window.location.href = "/login/teacher" ;
-                            } else {
-                                window.location.href = "/teacher_info/index" ;
-                            }
-                        }
-                    });
-                }
-            }]
-        });
-
-    });
-
-    //退出优学优享团系统
-    $("#id_system_logout_agent").on("click",function(){
-        BootstrapDialog.show({
-            title: '退出系统',
-            message: '要退出系统吗',
-            buttons: [{
-                label: '返回',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }, {
-                label: '确认',
-                cssClass: 'btn-warning',
-                action: function(dialog) {
-                    $.ajax({
-                        'url': '/login/logout_teacher',
-                        'type': 'POST',
-                        'data': {},
-                        'dataType': 'jsonp',
-                        success: function(data) {
-                            if (data['ret'] == 0) {
-                                window.location.href = "/login/agent" ;
-                            } else {
-                                window.location.href = "/agent_info/index" ;
-                            }
-                        }
-                    });
+                $.ajax({
+                  'url': '/login/logout_teacher',
+                  'type': 'POST',
+                  'data': {},
+                  'dataType': 'jsonp',
+                  success: function(data) {
+                    if (data['ret'] == 0) {
+                        //window.location.href = "http://www.baidu.com" ;
+                        window.location.href = "http://teacher.leo1v1.com/login/teacher" ;
+                    } else {
+                       window.location.href = "/teacher_info/index" ;
+                    }
+                  }
+                });
                 }
             }]
         });
@@ -973,23 +983,23 @@ $(function(){
 
 
     /*
-      $('.opt-time-picker').datetimepicker({
-      lang:'ch',
-      timepicker:false,
-      format:'Y-m-d'
-      });
-    */
+    $('.opt-time-picker').datetimepicker({
+    lang:'ch',
+    timepicker:false,
+    format:'Y-m-d'
+    });
+     */
 
     //处理 page select num
     $(".pages > input"). on("keypress", function( e){
-        if (e.keyCode==13){
-            var url=$(this).attr("data");
-            var page_num=$(this).val();
-            url=url.replace(/{Page}/, page_num  );
-            url=url.replace(/{PageCount}/, g_args.page_count );
-            window.location.href=url;
-        }
-    });
+    if (e.keyCode==13){
+      var url=$(this).attr("data");
+      var page_num=$(this).val();
+        url=url.replace(/{Page}/, page_num  );
+        url=url.replace(/{PageCount}/, g_args.page_count );
+        window.location.href=url;
+    }
+  });
 
     //处理 page select num
     $(".pages > .page-opt-show-all"). on("click", function( e){
@@ -1012,20 +1022,21 @@ $(function(){
 
 
     //处理 page select num
-    // $(".pages > .page-opt-show-all-xls"). on("click", function( e){
-    //     var url=$(this).attr("data");
-    //     var page_num=0xFFFFFFFF+2;
-    //     url=url.replace(/{Page}/, page_num  );
-    //     window.location.href=url;
-    // });
+    $(".pages > .page-opt-show-all-xls"). on("click", function( e){
+    var url=$(this).attr("data");
+    var page_num=0xFFFFFFFF+2;
+        url=url.replace(/{Page}/, page_num  );
+        window.location.href=url;
+  });
 
     //do role
+
     do_role();
 
 });
-
 function do_role() {
-    var get_count_item = function( count ,title, url )  {
+
+    var get_count_item= function( count ,title, url )  {
         var $count_item=$('<li title="' + title+ '"   > <a href="' +url+ '" style="  font-size: 18px; font-weight: bold; " > <span >' + count + '</span> </a> </li>');
         if (count>0) {
             $count_item.find("a").css("background-color",  "orange" );
@@ -1033,10 +1044,11 @@ function do_role() {
         return $count_item;
     };
 
+
     if(typeof(g_account_role)!="undefined"){
         get_self_todo_list();
 
-        if ( (g_account_role==7 || g_account_role==2) && !$.check_in_phone() ) {
+        if ( (g_account_role==7 ||  g_account_role==2) && !$.check_in_phone() ) {
             var $noti_info=$("#_id_noti_info");
 
             $.do_ajax( "/ss_deal/seller_noti_info",{},function(resp){
@@ -1138,12 +1150,12 @@ function show_ajax_table(options){
 
     var reload_data=function(request_info){
         var me=this;
-        $.ajax({
-            type     :"post",
-            url      : request_info.url,
-            dataType :"json",
-            data     : request_info.data,
-            success  : function(result){
+    $.ajax({
+      type     :"post",
+      url      : request_info.url,
+      dataType :"json",
+      data     : request_info.data,
+      success  : function(result){
                 var ret_list      = result.data.list;
                 var ret_page_info = result.data.page_info;
                 var html_str="";
@@ -1172,13 +1184,13 @@ function show_ajax_table(options){
                     options.bind($id_body,dlg,result);
                 }
 
-                var page_html_node = get_page_node(ret_page_info,function(url){
+                var page_html_node=get_page_node(ret_page_info,function(url){
                     reload_data({
                         url :url
                     });
                 });
                 $id_page_info.html( page_html_node );
-            }
+      }
         });
     };
 
@@ -1189,12 +1201,12 @@ function show_ajax_table(options){
         onhide: function(dialogRef){
         },
 
-        buttons: [{
-            label: '返回',
-            action: function(dialog) {
-                dialog.close();
-            }
-        }]
+      buttons: [{
+        label: '返回',
+        action: function(dialog) {
+          dialog.close();
+        }
+      }]
 
     });
 
@@ -1258,6 +1270,9 @@ function reset_item (){
 
 function bind_td_info( $table){
 
+    if (!$table) {
+        return;
+    }
     $table.find(".td-info").attr("title","竖向显示");
     $table.find(".td-info").on("click" ,function(){
         var th_row=$(this).closest("table").find("thead td");
@@ -1288,7 +1303,7 @@ function bind_td_info( $table){
                         opt_data_arr.push([i, item] );
                     });
 
-                    show_key_value_table("内部数据",opt_data_arr);
+                        show_key_value_table("内部数据",opt_data_arr);
 
 
                 });
@@ -1303,7 +1318,7 @@ function bind_td_info( $table){
                             $(a_item).click();
                         });
                         opt_arr.push( [ "操作" ,
-                                        new_item ] );
+                                    new_item ] );
                     }
                 });
                 arr=opt_arr.concat(arr);
@@ -1336,7 +1351,6 @@ function dlg_set_txt_by_id( id, value ){
     return $(".bootstrap-dialog-message #"+id).text(value);
 }
 
-
 function dlg_get_item_by_id( id ){
     return $(".bootstrap-dialog-message #"+id);
 }
@@ -1348,12 +1362,10 @@ function dlg_get_html_by_class(item_class) {
     return $("." + item_class).html();
 }
 
-
-
 /*
-  var time1 = new Date().Format("yyyy-MM-dd");
-  var time2 = new Date().Format("yyyy-MM-dd hh:mm:ss");
-*/
+ var time1 = new Date().Format("yyyy-MM-dd");
+ var time2 = new Date().Format("yyyy-MM-dd hh:mm:ss");
+ */
 var DateFormat = function ( unixtime, fmt) {
     var date_v=new Date(unixtime*1000);
     var o = {
@@ -1464,19 +1476,19 @@ function show_message(title, message, ok_func ){
 //enum map function
 Enum_map = {
     get_desc : function(group_name,val){
-        var ret=g_enum_map[group_name]["desc_map"][val];
-        return  ret?ret:val;
+    return g_enum_map[group_name]["desc_map"][val];
     },
-    get_simple_desc: function (group_name,val){
-        var desc=g_enum_map[group_name]["simple_desc_map"][val];
-        if(desc){
-            return this.get_desc(group_name,val) ;
-        }else{
-            return desc;
-        };
-    },
-    append_option_list : function (group_name, $select , not_add_all_option, id_list ){
-        var desc_map=g_enum_map[group_name]["desc_map"];
+  get_simple_desc: function (group_name,val){
+    var desc=g_enum_map[group_name]["simple_desc_map"][val];
+    if(desc){
+      return this.get_desc(group_name,val) ;
+    }else{
+      return desc;
+    };
+  },
+  append_option_list : function (group_name, $select , not_add_all_option, id_list ){
+      // console.log(group_name);
+      var desc_map=g_enum_map[group_name]["desc_map"];
 
         var html_str="";
         if (!not_add_all_option  ){
@@ -1492,7 +1504,7 @@ Enum_map = {
             }
         });
         $select.append(html_str);
-    },
+  },
     append_child_option_list : function(group_name,$select,$child_select,not_add_all_option){
         var desc_map = g_enum_map[group_name]['desc_map'];
         var html_str = "";
@@ -1541,54 +1553,9 @@ Enum_map = {
             }else{
                 desc = me.get_desc( group_name,val ) ;
             }
-            $item.text( desc  );
+        $item.text( desc  );
         });
-    },
-    append_option_list_new : function (group_name, $select , not_add_all_option, id_list ){
-        var desc_map=g_enum_map[group_name]["desc_map"];
-        var newkey = Object.keys(desc_map).sort().reverse();
-        var newObj = {};//创建一个新的对象，用于存放排好序的键值对
-        for (var i = 0; i < newkey.length; i++) {//遍历newkey数组
-            newObj[newkey[i]] = desc_map[newkey[i]];//向新创建的对象中按照排好的顺序依次增加键值对
-        }
-
-
-        var html_str="";
-        if (!not_add_all_option  ){
-            html_str += "<option value=\"-1\">[全部]</option>";
-        }
-        $.each(newObj, function(k,v){
-            if ($.isArray( id_list)) {
-                if($.inArray( parseInt(k), id_list ) != -1 ){
-                    html_str+="<option value=\""+k+"\">"+v+"</option>";
-                }
-            }else{
-                html_str+="<option value=\""+k+"\">"+v+"</option>";
-            }
-        });
-        $select.append(html_str);
-    },
-    append_option_list_v2s : function (group_name, $select , not_add_all_option, id_list ){
-        //console.log(group_name);
-        var desc_map=g_enum_map[group_name]["v2s_map"];
-
-        var html_str="";
-        if (!not_add_all_option  ){
-            html_str += "<option value=\"-1\">[全部]</option>";
-        }
-        $.each(desc_map, function(k,v){
-            if ($.isArray( id_list)) {
-                if($.inArray( parseInt(k), id_list ) != -1 ){
-                    html_str+="<option value=\""+k+"\">"+v+"</option>";
-                }
-            }else{
-                html_str+="<option value=\""+k+"\">"+v+"</option>";
-            }
-        });
-        $select.append(html_str);
-    },
-
-
+  }
 };
 
 function get_page_node(page_info ,reload_func)
@@ -1602,7 +1569,7 @@ function get_page_node(page_info ,reload_func)
 
         ret_str+='  <input style="width:50px" placeholder="输入页数" data="'+
             page_info.page.input_page_num_url+'"  > </input>';
-        //<!--上一页-->
+      //<!--上一页-->
         if ( page_info.current_page == 1){
             ret_str+= '<a class="page_prev page_grey" href="javascript:void(0);"><</a>';
         }else{
@@ -1610,11 +1577,11 @@ function get_page_node(page_info ,reload_func)
                 page_info.page.previous_url+
                 '" ><</a>';
         }
-        //  <!--页码-->
+      //	<!--页码-->
         if ( page_info.page_num < 11 ){
             $.each( page_info.page.pages, function(key,val){
                 if (val.page_num == page_info.current_page){
-                    ret_str+=' <a class="page_num page_cur" href="javascript:void(0);" name="page_btn" page="'+val.page_num+'">'+val.page_num+'</a>';
+              ret_str+=' <a class="page_num page_cur" href="javascript:void(0);" name="page_btn" page="'+val.page_num+'">'+val.page_num+'</a>';
                 }else{
                     ret_str+=' <a class="page_num" href="javascript:void(0);"  data="'+val.page_link+'" name="page_btn" page="'+val.page_num+'">'+val.page_num+'</a>';
                 }
@@ -1625,26 +1592,26 @@ function get_page_node(page_info ,reload_func)
 
                 $.each( page_info.page.pages, function(key,val){
                     if ( val.page_num == page_info.current_page){
-                        ret_str+=' <a class="page_num page_cur" href="javascript:void(0);" name="page_btn" page="'+val.page_num+'">'+val.page_num+'</a>';
+                  ret_str+=' <a class="page_num page_cur" href="javascript:void(0);" name="page_btn" page="'+val.page_num+'">'+val.page_num+'</a>';
                     }else{
                         ret_str+=' <a class="page_num" href="javascript:void(0);"  data="'+val.page_link+'" name="page_btn" page="'+val.page_num+'">'+val.page_num+'</a>';
                     }
 
                 });
 
-                ret_str+="<span>...</span>";
-                ret_str+='<a class="page_num" href="javascript:void(0);"   data="'+page_info.page.last_page_url+'">'+page_info.page_num+'</a>';
+        ret_str+="<span>...</span>";
+        ret_str+='<a class="page_num" href="javascript:void(0);"   data="'+page_info.page.last_page_url+'">'+page_info.page_num+'</a>';
 
 
             }else if ( page_info.page_num - page_info.current_page <4 ){
                 ret_str+='<a class="page_num" href="javascript:void(0);" data="'+page_info.page.first_page_url+'">1</a>';
-                ret_str+="<span>...</span>";
+          ret_str+="<span>...</span>";
 
 
                 $.each( page_info.page.pages, function(key,val){
 
                     if ( val.page_num == page_info.current_page){
-                        ret_str+=' <a class="page_num page_cur" href="javascript:void(0);" name="page_btn" page="'+val.page_num+'">'+val.page_num+'</a>';
+                  ret_str+=' <a class="page_num page_cur" href="javascript:void(0);" name="page_btn" page="'+val.page_num+'">'+val.page_num+'</a>';
                     }else{
                         ret_str+=' <a class="page_num" href="javascript:void(0);"  data="'+val.page_link+'" name="page_btn" page="'+val.page_num+'">'+val.page_num+'</a>';
                     }
@@ -1653,32 +1620,32 @@ function get_page_node(page_info ,reload_func)
 
             }else{
                 ret_str+='<a class="page_num" href="javascript:void(0);" data="'+page_info.page.first_page_url+'">1</a>';
-                ret_str+="<span>...</span>";
+          ret_str+="<span>...</span>";
 
                 $.each( page_info.page.pages, function(key,val){
 
                     if ( val.page_num == page_info.current_page){
-                        ret_str+=' <a class="page_num page_cur" href="javascript:void(0);" name="page_btn" page="'+val.page_num+'">'+val.page_num+'</a>';
+                  ret_str+=' <a class="page_num page_cur" href="javascript:void(0);" name="page_btn" page="'+val.page_num+'">'+val.page_num+'</a>';
                     }else{
                         ret_str+=' <a class="page_num" href="javascript:void(0);"  data="'+val.page_link+'" name="page_btn" page="'+val.page_num+'">'+val.page_num+'</a>';
                     }
 
                 });
-                ret_str+="<span>...</span>";
-                ret_str+='<a class="page_num" href="javascript:void(0);"   data="'+page_info.page.last_page_url+'">'+page_info.page_num+'</a>';
+          ret_str+="<span>...</span>";
+          ret_str+='<a class="page_num" href="javascript:void(0);"   data="'+page_info.page.last_page_url+'">'+page_info.page_num+'</a>';
 
             }
 
         }
 
-        //  <!--下一页-->
+      //	<!--下一页-->
         if ( page_info.current_page == page_info.page_num  ){
-            ret_str+=' <a class="page_next page_grey" href="javascript:void(0);">></a> ';
+        ret_str+=' <a class="page_next page_grey" href="javascript:void(0);">></a> ';
         }else{
-            ret_str+=' <a class="page_next"  name="page_btn" data="'+page_info.page.next_url+'" href="javascript:void(0);" >></a>';
+        ret_str+=' <a class="page_next"  name="page_btn" data="'+page_info.page.next_url+'" href="javascript:void(0);" >></a>';
         }
 
-        ret_str+="</div>";
+      ret_str+="</div>";
     }
     var $node= $(ret_str);
 
@@ -1689,28 +1656,28 @@ function get_page_node(page_info ,reload_func)
     });
 
     $node.find("input").on("keypress", function( e){
-        if (e.keyCode==13){
-            var url=$(this).attr("data");
-            var page_num=$(this).val();
+    if (e.keyCode==13){
+      var url=$(this).attr("data");
+      var page_num=$(this).val();
             url=url.replace(/{Page}/, page_num  );
             reload_func(url);
-        }
-    });
+    }
+  });
 
 
     $node.find(".page-opt-show-all"). on("click", function( e){
-        var url=$(this).attr("data");
-        var page_num=0xFFFFFFFF+1;
+    var url=$(this).attr("data");
+    var page_num=0xFFFFFFFF+1;
         url=url.replace(/{Page}/, page_num  );
         reload_func(url);
-    });
+  });
 
-    // $node.find(".page-opt-show-all-xls"). on("click", function( e){
-    //     var url=$(this).attr("data");
-    //     var page_num=0xFFFFFFFF+2;
-    //     url=url.replace(/{Page}/, page_num  );
-    //     reload_func(url);
-    // });
+    $node.find(".page-opt-show-all-xls"). on("click", function( e){
+    var url=$(this).attr("data");
+    var page_num=0xFFFFFFFF+2;
+        url=url.replace(/{Page}/, page_num  );
+        reload_func(url);
+  });
 
 
     return $node;
@@ -1738,28 +1705,25 @@ function mathjax_show_str(str){
 function select_a_split(str){
     var a="",desc="";
     str.replace(/^([A-Za-z0-9])(:?)([\s\S]*)$/ ,
-                function($0,$1,$2,$3){
-                    a=$1;
-                    desc = $3;
-                });
+                  function($0,$1,$2,$3){
+                      a=$1;
+                      desc = $3;
+                  });
     return {
         a:a,
         desc:desc
     };
 }
 
-
-
-
 function admin_show_question (questionid ){
-    $.ajax({
-        type     :"post",
-        url      :"/question/get_record",
-        dataType :"json",
-        data     :{
+  $.ajax({
+    type     :"post",
+    url      :"/question/get_record",
+    dataType :"json",
+    data     :{
             "questionid":questionid
         },
-        success  : function(result){
+    success  : function(result){
             var row=result.data;
 
             var html_node="";
@@ -1790,21 +1754,21 @@ function admin_show_question (questionid ){
             });
 
             /*
-              dlg.getModalDialog().css("width","800px");
-              dlg.getModalDialog().css("margin-top","10px");
-              dlg.getModalDialog().find(".modal-header").hide();
-              dlg.getModalDialog().find(".modal-body").css("padding","8px");
-              dlg.getModalDialog().find(".modal-footer").css("padding","8px");
-              dlg.getModalDialog().find(".modal-footer").css("margin-top","0px");
-              dlg.getModalDialog().find(".btn").css("margin-right","30px");
-            */
+             dlg.getModalDialog().css("width","800px");
+             dlg.getModalDialog().css("margin-top","10px");
+             dlg.getModalDialog().find(".modal-header").hide();
+             dlg.getModalDialog().find(".modal-body").css("padding","8px");
+             dlg.getModalDialog().find(".modal-footer").css("padding","8px");
+             dlg.getModalDialog().find(".modal-footer").css("margin-top","0px");
+             dlg.getModalDialog().find(".btn").css("margin-right","30px");
+             */
 
 
             MathJax.Hub.Queue(
                 ["Typeset",MathJax.Hub, html_node[0] ]
             );
         }
-    });
+  });
 
 }
 function admin_show_question_diff(questionid, show_type ){
@@ -1813,14 +1777,14 @@ function admin_show_question_diff(questionid, show_type ){
         show_type =1;
     }
 
-    $.ajax({
-        type     :"post",
-        url      :"/question/get_record",
-        dataType :"json",
-        data     :{
+  $.ajax({
+    type     :"post",
+    url      :"/question/get_record",
+    dataType :"json",
+    data     :{
             "questionid":questionid
         },
-        success  : function(result){
+    success  : function(result){
             var row=result.data;
 
             var html_node="";
@@ -1833,7 +1797,7 @@ function admin_show_question_diff(questionid, show_type ){
             if (show_type==1) {
                 a=row.check2_bak_a;
                 q=row.check2_bak_q;
-                if (row.check2_flag) {
+               if (row.check2_flag) {
 
                 }else{
                     a=row.a;
@@ -1885,27 +1849,25 @@ function admin_show_question_diff(questionid, show_type ){
                 }]
             });
 
-            dlg.getModalDialog().css("width","1024px");
+             dlg.getModalDialog().css("width","1024px");
             /*
-              dlg.getModalDialog().css("width","800px");
-              dlg.getModalDialog().css("margin-top","10px");
-              dlg.getModalDialog().find(".modal-header").hide();
-              dlg.getModalDialog().find(".modal-body").css("padding","8px");
-              dlg.getModalDialog().find(".modal-footer").css("padding","8px");
-              dlg.getModalDialog().find(".modal-footer").css("margin-top","0px");
-              dlg.getModalDialog().find(".btn").css("margin-right","30px");
-            */
+             dlg.getModalDialog().css("width","800px");
+             dlg.getModalDialog().css("margin-top","10px");
+             dlg.getModalDialog().find(".modal-header").hide();
+             dlg.getModalDialog().find(".modal-body").css("padding","8px");
+             dlg.getModalDialog().find(".modal-footer").css("padding","8px");
+             dlg.getModalDialog().find(".modal-footer").css("margin-top","0px");
+             dlg.getModalDialog().find(".btn").css("margin-right","30px");
+             */
 
 
             MathJax.Hub.Queue(
                 ["Typeset",MathJax.Hub, html_node[0] ]
             );
         }
-    });
+  });
 
 }
-
-
 
 function get_note_name_list(note_id_arr_str ){
     if (!note_id_arr_str ){
@@ -1937,7 +1899,6 @@ function do_ajax_t(url,data ){
     do_ajax(url,data,function(){});
 };
 
-
 function do_ajax(url,data, success_func){
     if (  !success_func) {
         success_func= ajax_default_deal_func ;
@@ -1951,7 +1912,6 @@ function do_ajax(url,data, success_func){
         success: success_func
     });
 }
-
 
 function show_pdf_file (file_url) {
     $.ajax({
@@ -2005,7 +1965,7 @@ function get_note_name_list (note_id_arr_str ){
 };
 
 function bind_input_enter_to_btn( src ,obj ){
-    $(src).on("keydown",function(e){
+  $(src).on("keydown",function(e){
         if(e.which==13 ){
             $(obj).click();
         }
@@ -2014,26 +1974,26 @@ function bind_input_enter_to_btn( src ,obj ){
 
 function  ajax_set_select_box($select,url,url_data,value , not_add_all_flag  ){
     do_ajax( url, url_data
-             ,function( data){
-                 if (data.ret==0) {
-                     var html_str="";
+    ,function( data){
+        if (data.ret==0) {
+            var html_str="";
 
-                     if (!not_add_all_flag  ) {
-                         html_str="<option value=\"-1\">[全部]</option>";
-                     }
-                     $.each(data.list, function(i,item){
-                         html_str+="<option value=\""+
-                             item["k"]+
-                             "\">"+item["v"]+ "</option>";
-                     });
-                     $select.html(html_str);
-                     if (value != null) {
-                         $select.val(value);
-                     }
-                 }else{
-                     alert(data.ret) ;
-                 }
-             });
+            if (!not_add_all_flag  ) {
+                html_str="<option value=\"-1\">[全部]</option>";
+            }
+            $.each(data.list, function(i,item){
+                html_str+="<option value=\""+
+                    item["k"]+
+                    "\">"+item["v"]+ "</option>";
+            });
+            $select.html(html_str);
+            if (value != null) {
+                $select.val(value);
+            }
+        }else{
+            alert(data.ret) ;
+        }
+    });
 }
 
 function custom_qiniu_upload (btn_id,containerid,domain,is_public,complete_fun,max_file_size ){
@@ -2048,72 +2008,72 @@ function custom_qiniu_upload (btn_id,containerid,domain,is_public,complete_fun,m
         token_url='/upload/private_token';
     }
     /*
-      if(typeof(domain_data)=="[object String]"){
-      domain=domain_data;
-      file_size='30mb';
-      }else{
-      domain=domain_data[0];
-      file_size=domain_data[1];
-      }
+    if(typeof(domain_data)=="[object String]"){
+        domain=domain_data;
+        file_size='30mb';
+    }else{
+        domain=domain_data[0];
+        file_size=domain_data[1];
+    }
     */
     var uploader = Qiniu.uploader({
-        runtimes      : 'html5, flash, html4',
-        browse_button : btn_id , //choose files id
-        uptoken_url   : token_url ,
-        domain        : domain,
-        container     : containerid,
-        drop_element  : containerid,
-        max_file_size : max_file_size,
-        dragdrop      : true,
-        flash_swf_url : '/js/qiniu/plupload/Moxie.swf',
-        chunk_size    : '4mb',
-        unique_names  : false,
-        save_key      : false,
-        auto_start    : true,
-        init          : {
-            'FilesAdded': function(up, files) {
-                plupload.each(files, function(file) {
+    runtimes: 'html5, flash, html4',
+    browse_button : btn_id , //choose files id
+    uptoken_url: token_url ,
+    domain: domain,
+    container: containerid,
+    drop_element: containerid,
+    max_file_size: max_file_size,
+    dragdrop: true,
+    flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
+    chunk_size: '4mb',
+    unique_names: false,
+    save_key: false,
+    auto_start: true,
+    init: {
+      'FilesAdded': function(up, files) {
+        plupload.each(files, function(file) {
                     var progress = new FileProgress(file, 'process_info');
                     console.log('waiting...');
                 });
-            },
-            'BeforeUpload': function(up, file) {
-                console.log('before uplaod the file');
-            },
-            'UploadProgress': function(up,file) {
-                var progress = new FileProgress(file, 'process_info');
+      },
+      'BeforeUpload': function(up, file) {
+        console.log('before uplaod the file');
+      },
+      'UploadProgress': function(up,file) {
+        var progress = new FileProgress(file, 'process_info');
                 progress.setProgress(file.percent + "%", up.total.bytesPerSec, btn_id);
-                console.log('upload progress');
-            },
-            'UploadComplete': function() {
+        console.log('upload progress');
+      },
+      'UploadComplete': function() {
                 $("#"+btn_id).siblings('div').remove();
-                console.log('success');
-            },
-            'FileUploaded' : function(up, file, info) {
-                console.log('Things below are from FileUploaded');
-                if(info.response){
-                    complete_fun(up, info.response, file );
-                }else{
-                    complete_fun(up, info, file );
-                }
-            },
-            'Error': function(up, err, errTip) {
-                console.log('Things below are from Error');
-                console.log(up);
-                console.log(err);
-                console.log(errTip);
-            },
-            'Key': function(up, file) {
-                var key = "";
-                //generate the key
+        console.log('success');
+      },
+      'FileUploaded' : function(up, file, info) {
+          console.log('Things below are from FileUploaded');
+          if(info.response){
+              complete_fun(up, info.response, file );
+          }else{
+              complete_fun(up, info, file );
+          }
+      },
+      'Error': function(up, err, errTip) {
+        console.log('Things below are from Error');
+        console.log(up);
+        console.log(err);
+        console.log(errTip);
+      },
+      'Key': function(up, file) {
+        var key = "";
+        //generate the key
                 var time = (new Date()).valueOf();
                 console.log('Aaron ' + file.name);
                 var match = file.name.match(/.*\.(.*)?/);
 
-                return $.md5(file.name) +time +'.' + match[1];
-            }
-        }
-    });
+        return $.md5(file.name) +time +'.' + match[1];
+      }
+    }
+  });
 };
 
 function custom_show_pdf(file_url) {
@@ -2136,7 +2096,6 @@ function custom_show_pdf(file_url) {
         }
     });
 };
-
 
 function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, noti_process ){
     do_ajax( "/common/get_bucket_info",{
@@ -2185,7 +2144,6 @@ function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo ,
                     }
                     console.log('before uplaod the file');
                     return true;
-
                 },
                 'UploadProgress': function(up,file) {
                     if(noti_process) {
@@ -2208,7 +2166,7 @@ function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo ,
                         complete_func(up, info, file,ctminfo );
                     }
                 },
-                'Error': function(up, err, errTip) {
+                'Error' : function(up, err, errTip) {
                     console.log('Things below are from Error');
                     BootstrapDialog.alert(errTip);
                 },
@@ -2219,168 +2177,40 @@ function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo ,
                     var file_name=$.md5(file.name) +time +'.' + match[1];
                     console.log('gen file_name:'+file_name);
                     return file_name;
-
                 }
             }
         });
     });
 
 };
-
-function multi_upload_file(new_flag,is_multi,is_auto_start,btn_id, is_public_bucket ,select_func,befor_func, complete_func, ext_file,process_id ){
-    do_ajax( "/common/get_new_bucket_info",{
-        // is_public: is_public_bucket ? 1:0
-    },function(ret){
-        var domain_name=ret.domain;
-        var token=ret.token;
-        //保证每次new不同的对象
-        var qi_niu = ['Qiniu_'+new_flag];
-        // console.log(qi_niu[0]);
-        qi_niu[0] = new QiniuJsSDK();
-        var uploader = qi_niu[0].uploader({
-        // var uploader = Qiniu.uploader({
-            // disable_statistics_report: false,
-            runtimes: 'html5,flash,html4',
-            browse_button: btn_id , //choose files id
-            // container: 'container',
-            // drop_element: 'container',
-            max_file_size: '500mb',
-            filters: {
-                mime_types: [
-                    {title: "", extensions: ext_file}
-                ]
-            },
-            flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
-            // dragdrop: true,
-            chunk_size: '4mb',
-            multi_selection: is_multi,
-            uptoken: token,
-            domain: "http://"+domain_name,
-            get_new_uptoken: false,
-            auto_start: is_auto_start,
-            // log_level: 5,
-            init: {
-                'BeforeChunkUpload': function(up, file) {
-                    // console.log("before chunk upload:", file.name);
-                },
-                'FilesAdded': function(up, files) {
-                    // $('table').show();
-                    // $('#success').hide();
-                    //删除单选文件的多余文件
-                    var remove_file_id = select_func(files);
-                    $(remove_file_id).each(function(i,val){
-                        if(val != undefined){
-                            uploader.removeFile(val);
-                            $('#'+val).remove();
-                        }
-                    });
-                    plupload.each(files, function(file) {
-                        var progress = new FileProgress(file, 'fsUploadProgress');
-                        progress.setStatus("等待...");
-                        progress.bindUploadCancel(up);
-                    });
-
-                },
-                'BeforeUpload': function(up, file) {
-
-                    var is_remove = befor_func(up, file);
-                    if(process_id != '') {
-                        var progress = new FileProgress(file, process_id);
-                        var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
-                        if (up.runtime === 'html5' && chunk_size) {
-                            progress.setChunkProgess(chunk_size);
-                        }
-
-                        if(is_remove > -1){
-                            uploader.removeFile(file);
-                            $('#'+file.id).remove();
-                        }
-                   }
-
-                },
-                'UploadProgress': function(up, file) {
-                    if(process_id != '') {
-                        var progress = new FileProgress(file, process_id);
-                        var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
-                        progress.setProgress(file.percent + "%", file.speed, chunk_size);
-                    }
-                },
-                'UploadComplete': function() {
-                    // $('#success').show();
-                },
-                'FileUploaded': function(up, file, info) {
-                    if(process_id != '') {
-                        var progress = new FileProgress(file, process_id);
-                        progress.setComplete(up, info.response,false);
-                    }
-                    complete_func(up, file, info);
-
-                },
-                'Error': function(up, err, errTip) {
-                    // $('table').show();
-                    if(process_id != '') {
-                        var progress = new FileProgress(err.file, process_id);
-                        progress.setError();
-                        progress.setStatus(errTip);
-                    }
-                } ,
-                'Key': function(up, file) {
-                    var key = "";
-                    var time = (new Date()).valueOf();
-                    var match = file.name.match(/.*\.(.*)?/);
-                    /*
-                      if( uploader.on_noti_origin_file_func) {
-                      uploader.on_noti_origin_file_func(file.name);
-                      }
-                    */
-                    this.origin_file_name=file.name;
-                    var file_name=$.md5(file.name) +time +'.' + match[1];
-                    console.log('gen file_name:'+file_name);
-                    return file_name;
-
-                }
-            }
-        });
-
-        $('#up_load').on('click', function(){
-            if($(this).attr('flag') == new_flag){//保证文件是这次上传的
-                uploader.start();
-            }
-        });
-    });
-
-};
-
-
 
 function do_ajax_get_nick( type,  id, func) {
-    $.ajax({
-        type     : "post",
-        url      : "/user_manage/get_nick" ,
-        dataType : "json",
-        data : {
+  $.ajax({
+    type     : "post",
+    url      : "/user_manage/get_nick" ,
+    dataType : "json",
+    data : {
             "type" : type
             ,"id"  : id
         },
-        success : function(result){
+    success : function(result){
             var nick = result.nick;
             func(id,nick );
         }});
 }
 
 function do_get_env( func) {
-    $.ajax({
-        type     : "post",
-        url      : "/common_new/get_env" ,
-        dataType : "json",
-        data : {
+  $.ajax({
+    type     : "post",
+    url      : "/common_new/get_env" ,
+    dataType : "json",
+    data : {
         },
-        success : function(result){
+    success : function(result){
             var env= result.env;
             func(env);
         }});
 }
-
 
 function wopen(url){
     window.open(url);
@@ -2398,8 +2228,6 @@ function reload_self_page(args){
             args_str+= "&"+key +"=" +  encodeURIComponent(value);
         }
     });
-
-
     window.location.href=window.location.pathname +"?" +  args_str;
 }
 
@@ -2632,8 +2460,6 @@ $(function(){
         g_args.order_by_str=order_by_str;
 
         load_data();
-        return false;
-
     });
     try {
 
@@ -2738,7 +2564,7 @@ var get_new_whiteboard = function (obj_drawing_list){
                     "stroke" : opt_args.stroke
                 });
                 id=eraser.id();
-            default          :
+                default          :
                 console.log( "ERROR : " +  item_data.opt_type );
                 break;
             }
@@ -2890,9 +2716,13 @@ var get_new_whiteboard = function (obj_drawing_list){
                             ,"stroke-color"     : "white"
                         };
                         break;
-                    default :
+
+
+                        default :
                         console.log( "ERROR : " +  item_data.opt_type );
                         break;
+
+
                     }
 
                     item_data["opt_args"] = opt_args;
@@ -2905,90 +2735,16 @@ var get_new_whiteboard = function (obj_drawing_list){
                 //加载mp3
                 audiojs.events.ready(function(){
                     var as = audiojs.createAll({}, audio_node  );
+                    //reset width
+                    //
                     html_node.find(".audiojs").css("width",""+w+"px" );
                     html_node.find(".scrubber").css("width", (w-174).toString()+"px" );
+                    //
                     as[0].load( mp3_file  );
                 });
             });
         }
     };
+    // console.log(ret);
     return ret;
 };
-
-
-//下载显示
-function download_show(){
-    var thead=$(".common-table thead  ");
-
-    $.each(thead, function(table_i,th_item){
-        if ($(th_item).parent().hasClass("table-clean-flag") ){
-            return;
-        }
-        var path_list     = window.location.pathname.split("/");
-        var table_key     = path_list[1]+"-"+path_list[2]+"-"+ table_i;
-        var opt_td        = $(th_item).find ("td:last");
-        var download_item = $( " <a href=\"javascript:;\" title=\"下载为xls \" class=\"fa fa-download\"></a>");
-        var download_fun  = function () {
-            var list_data = [];
-            var $tr_list  = $(th_item).closest("table").find("tr" );
-            $.each($tr_list ,function(i,tr_item )  {
-                var row_data= [];
-                var $td_list= $(tr_item ).find("td");
-                $.each(  $td_list, function( i, td_item)  {
-                    console.log(td_item.className);
-
-                    if ( i>0 && i< $td_list.length-1 ) {
-                        if(td_item.className != 'ellipsis_jiaowu'){
-                            row_data.push( $.trim( $(td_item).text()) );
-                        }
-                    }
-                });
-                list_data.push(row_data);
-            });
-
-            $.do_ajax ( "/page_common/upload_xls_data",{
-                xls_data :  JSON.stringify(list_data )
-            },function(data){
-                window.location.href= "/common_new/download_xls";
-            });
-        };
-
-        download_item.on("click",function(){
-            if($(".page-opt-show-all").length >0 ) {
-                BootstrapDialog.show({
-                    title   : '下载为xls',
-                    message : '你没有全部显示，要下载全部,请 点击 <全部显示>　, <br/>下载本页面的吗?',
-                    buttons : [{
-                        label  : '返回',
-                        action : function(dialog) {
-                            dialog.close();
-                        }
-                    }, {
-                        label    : '确认',
-                        cssClass : 'btn-warning',
-                        action   : function(dialog) {
-                            download_fun();
-                        }
-                    }]
-                });
-            }else{
-                download_fun();
-            }
-        });
-
-        opt_td.append(download_item );
-    });
-}
-
-$(function () {
-    $('.common-table').each(function(){
-        $(this).bind("contextmenu copy selectstart", function() {
-            // return false;
-        });
-    });
-});
-
-//下载隐藏
-function download_hide(){
-    $(".page-opt-show-all-xls").hide();
-}
