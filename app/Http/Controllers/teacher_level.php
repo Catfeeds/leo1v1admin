@@ -34,7 +34,8 @@ class teacher_level extends Controller
         $start_time = strtotime("2017-09-01");
         $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,-1,-1,-1,0);
         foreach($ret_info["list"] as &$item){
-            $item["level"]=$item["level_before"];
+            //$item["level"]=$item["level_before"];
+            $item["level"]=$item["real_level"];
             if($item["teacher_money_type"]==6){
                 //  E\Enew_level::set_item_value_str($item,"level_before");
                 // E\Enew_level::set_item_value_str($item,"level_after");
