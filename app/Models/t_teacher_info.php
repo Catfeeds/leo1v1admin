@@ -2481,15 +2481,17 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["t.teacher_money_type=%u",$teacher_money_type,-1],
             "t.train_through_new = 1",
             "l.lesson_del_flag=0",
-            "l.confirm_flag <>2",
+            "l.confirm_flag  <>2",
             "l.lesson_type<1000",
-            "l.lesson_type <>2"
+            "l.lesson_type <>2",
+            "t.level>=2"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new("select t.teacherid,sum(l.lesson_count) lesson_count,count(distinct l.userid) stu_num "
                                   ." from %s t left join %s l on t.teacherid=l.teacherid"
-                                  ." where %s group by t.teacherid having(lesson_count>=18000)",
-                                  self::DB_TABLE_NAME,
+                                  ." where %s group by t.teacherid"
+                                  //." having(lesson_count>=18000)"
+                                  ,self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
@@ -2587,7 +2589,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   $start_time,
                                   $where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_info,500);
+        return $this->main_get_list_by_page($sql,$page_info,3000);
 
 
     }

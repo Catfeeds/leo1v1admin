@@ -208,4 +208,23 @@ $(function(){
 
     });
 
+    //@desn:更新统计数据到存档数据
+    $('#id_update').on('click',function(){
+        var sta_data_type = $('#id_sta_data_type').val();
+        var sta_data_type_str = sta_data_type == 1 ? '漏斗型':'节点型';
+        BootstrapDialog.confirm(
+            '该操作将会更新'+sta_data_type_str+"数据(请20秒后刷新页面或重新点击查询按钮)"+
+                "<span style='color:red;'>（请勿多次操作!）</span>",
+            function(val){
+                if (val) {
+                    $.do_ajax("/tongji_ss/update_archive_data",{
+                        "sta_data_type" : sta_data_type
+                    });
+
+                }
+            }
+        );
+
+    })
+
 });

@@ -6739,7 +6739,7 @@ class tongji_ss extends Controller
         }
 
         if ($field_name=="origin") {
-            $ret_info["list"]= $this->gen_origin_data($ret_info["list"],[], $origin_ex);
+            $ret_info["list"]= $this->gen_origin_data_level5($ret_info["list"],[], $origin_ex);
         }
 
         // dd($ret_info);
@@ -6756,7 +6756,7 @@ class tongji_ss extends Controller
 
     public function origin_publish_jinshuju()
     {
-        $origin_ex= "金数据";
+        $origin_ex= "公众号,金数据";
         $this->set_in_value("origin_ex",  $origin_ex );
         return $this->origin_publish_list();
     }
@@ -6764,7 +6764,7 @@ class tongji_ss extends Controller
 
     public function origin_publish_bd()
     {
-        $origin_ex= "BD";
+        $origin_ex= "渠道,BD";
         $this->set_in_value("origin_ex",  $origin_ex );
 
         $acc_id = $this->get_account_id();
@@ -8874,6 +8874,21 @@ class tongji_ss extends Controller
         return $this->pageView(__METHOD__,$ret_info,[
             'account' => $this->get_account(),
         ]);
+    }
+
+    //@desn:更新存档数据
+    public function update_archive_data(){
+        $sta_data_type = $this->get_in_int_val('sta_data_type');
+        if($sta_data_type == 1){//漏斗型
+            $funnel_channel = new \App\Console\Commands\funnel_channel_statistics();
+            $funnel_channel->handle($job=2);
+        }elseif($sta_data_type == 2){//结点型
+            $node_type_channel = new \App\Console\Commands\node_type_channel_statistics();
+            $node_type_channel->handle($job=2);
+        }else{
+            return $this->output_err('存档类型错误!');
+        }
+        return $this->output_succ();
     }
 
 
