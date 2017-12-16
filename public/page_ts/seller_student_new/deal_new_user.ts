@@ -21,7 +21,6 @@ $(function(){
         } );
 
     });
-
     $("#id_call_phone").on("click",function(){
 
         var phone    = ""+ g_args.phone;
@@ -1387,5 +1386,7 @@ $(function(){
             }
         });
     });
-
+    if(g_args.seller_level == 700){
+        $('section.content ').attr('style','display:none');
+    }
 });

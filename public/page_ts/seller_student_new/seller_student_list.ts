@@ -1713,7 +1713,7 @@ function init_edit() {
                     var cc_flag = result.cc_flag;
                     if(account_role==1){
                         if(cc_flag==0){
-                            var origin_flag=$("<select><option value= \"1\">助教负责</option><option value= \"2\">按校区分配</option></select>");
+                            var origin_flag=$("<select><option value= \"1\">自行跟进</option><option value= \"2\">分配CC总监</option></select>");
                             var arr=[
                                 ["分配方式",origin_flag]  
                             ];
@@ -3957,7 +3957,11 @@ function init_edit() {
 
             id_stu_nick.val(data.stu_nick);
             id_par_nick.val(data.par_nick);
-            id_par_type.val(data.par_type);
+            if(data.par_type>0){
+                id_par_type.val(data.par_type);
+            }else{
+                id_par_type.val(1);
+            }
             id_grade.val(data.grade);
             if(id_grade.val()==101 || id_grade.val()==102 || id_grade.val()==103 || id_grade.val()==104 || id_grade.val()==105 || id_grade.val()==106){
                 Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3]);

@@ -1458,11 +1458,12 @@ class ss_deal extends Controller
         $page_num = $this->get_in_page_num();
         $test_lesson_subject_id = $this->get_in_test_lesson_subject_id(-1);
         $userid = $this->get_in_userid(-1);
+        $subject = $this->get_in_int_val("subject",-1);
         if($userid==-1 && $test_lesson_subject_id==-1){
             return $this->output_succ();
         }
         $ret_list = $this->t_test_lesson_subject_require->get_list_by_test_lesson_subject_id(
-            $page_num,$test_lesson_subject_id,$userid
+            $page_num,$test_lesson_subject_id,$userid,$subject
         );
 
         foreach($ret_list["list"] as &$item) {
@@ -2486,6 +2487,7 @@ class ss_deal extends Controller
         $grade               = $this->get_in_grade();
         $subject             = $this->get_in_subject();
         $origin              = $this->get_in_str_val("origin");
+        $is_new_stu          = $this->get_in_int_val("is_new_stu");
         $from_test_lesson_id = 0;
         if (!$lesson_total ) {
             return $this->output_err("没有购买课时");
@@ -2631,7 +2633,8 @@ class ss_deal extends Controller
             $pre_price,
             "",
             $order_partition_flag,
-            $period_flag
+            $period_flag,
+            $is_new_stu
         );
 
 
