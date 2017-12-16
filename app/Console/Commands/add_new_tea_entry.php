@@ -42,23 +42,23 @@ class add_new_tea_entry extends Command
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
         // 明日之星
-        $start_time = strtotime("2017-11-1");
-        $end_time = strtotime("2017-12-1");
-        $info = $task->t_teacher_lecture_appointment_info_b2->get_money_list($start_time, $end_time);
-        $data = $task->t_teacher_lecture_appointment_info_b2->get_money_list1($start_time, $end_time);
-        foreach($data as $key => $item) {
-            if (!isset($info[$key])) echo $item['teacherid'].' '.$item['name'].PHP_EOL;
-        }
-        echo '===========相同==========='.PHP_EOL;
-        foreach($data as $key => $item) {
-            if (isset($info[$key])) echo $item['teacherid'].' '.$item['name'].PHP_EOL;
-        }
-        exit;
+        // $start_time = strtotime("2017-11-1");
+        // $end_time = strtotime("2017-12-1");
+        // $info = $task->t_teacher_lecture_appointment_info_b2->get_money_list($start_time, $end_time);
+        // $data = $task->t_teacher_lecture_appointment_info_b2->get_money_list1($start_time, $end_time);
+        // foreach($data as $key => $item) {
+        //     if (!isset($info[$key])) echo $item['teacherid'].' '.$item['name'].PHP_EOL;
+        // }
+        // echo '===========相同==========='.PHP_EOL;
+        // foreach($data as $key => $item) {
+        //     if (isset($info[$key])) echo $item['teacherid'].' '.$item['name'].PHP_EOL;
+        // }
+        // exit;
 
         $teacher_money = new \App\Http\Controllers\teacher_money();
         // 拉取数据(6月至11月的总工资)
-        $arr = [6,7,8,9,10,11];
-        //$arr = [11];
+        //$arr = [6,7,8,9,10,11];
+        $arr = [11];
         foreach($arr as $item) {
             $start = '2017-'.$item.'-1';
             $end = '2017-'.($item+1).'-1';
@@ -90,7 +90,9 @@ class add_new_tea_entry extends Command
 
 
             foreach($info as $val) {
-                $teacher= $teacher_money->get_teacher_salary($val['teacherid'],$start_time,$end_time);
+                //echo 'teacherid : '.$val['teacherid'];
+                $teacher= $teacher_money->get_teacher_salary(50274,$start_time,$end_time);
+                dd($teacher);
                 $lesson_count = $teacher['lesson_total'];
                 $money = $teacher['teacher_lesson_price'];
                 $price = $teacher['lesson_price_tax'];

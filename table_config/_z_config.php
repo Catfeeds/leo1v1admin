@@ -1,5 +1,6 @@
 <?php
 return array(
+    ['db_weiyi','t_activity_christmas','id'],
     ['db_weiyi','t_teacher_full_part_trans_info','id'],
     ['db_weiyi','t_teacher_resource_dir','dir_id'],
     ['db_weiyi','t_teacher_resource','tea_res_id'],
