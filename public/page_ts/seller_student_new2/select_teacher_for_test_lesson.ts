@@ -37,7 +37,8 @@ $(function(){
         var notice_html = "请选择需要排课的试听需求！";
         $(".require_content").html(notice_html);
     }
-    if(g_account_role!="12" && g_account_role!="3"){
+    console.log(g_account_role);
+    if(g_account_role!=12 && g_account_role!=3){
         var notice_html = "所在角色组没有权限！";
         $(".require_content").html(notice_html);
     }

@@ -6,6 +6,8 @@
 <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
 <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
 <script type="text/javascript" src="/js/jquery.md5.js"></script>
+<script type="text/javascript" src="/page_js/lib/select_resource_ajax.js"></script>
+
 <style>
  textarea{
      resize:both;
@@ -266,3 +268,10 @@
     <div class="col-xs-6 col-md-2">
     </div>
 </div>
+<div class="opt-select-file" style="position:absolute;display:none;z-index: 1051;">
+    <button class="btn btn-default opt-local">本地</button><br/>
+    <button class="btn btn-default opt-leo-res">资料库</button><br/>
+    <button class="btn btn-default opt-my-res">我的收藏</button>
+</div>
+
+

@@ -28,7 +28,7 @@ class t_teacher_resource extends \App\Models\Zgen\z_t_teacher_resource
             "is_del=0",
         ];
 
-        $sql = $this->gen_sql_new("select file_title,file_type,file_size,create_time,tea_res_id,file_id,dir_id from %s where %s"
+        $sql = $this->gen_sql_new("select file_title,file_type,file_size,create_time,tea_res_id,file_id,dir_id,file_link from %s where %s"
                                   , self::DB_TABLE_NAME
                                   , $where_arr
         );

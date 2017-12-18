@@ -10,9 +10,9 @@ interface GargsStatic {
 	agent_type:	string;//枚举列表: \App\Enums\Eagent_type
  	page_num:	number;
 	page_count:	number;
-	test_lesson_flag:	number;//\App\Enums\Eboolean
+	test_lesson_flag:	number;//枚举: \App\Enums\Eboolean
 	agent_level:	string;//枚举列表: \App\Enums\Eagent_level
- 	order_flag:	number;//\App\Enums\Eboolean
+ 	order_flag:	number;//枚举: \App\Enums\Eboolean
 	l1_child_count:	string;
 	order_by_str:	string;
 }
@@ -66,8 +66,9 @@ tofile:
 /// <reference path="../g_args.d.ts/agent-agent_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -82,32 +83,70 @@ function load_data(){
 		order_flag:	$('#id_order_flag').val(),
 		l1_child_count:	$('#id_l1_child_count').val(),
 		order_by_str:	$('#id_order_by_str').val()
-    });
+		});
 }
 $(function(){
 
-	Enum_map.append_option_list("boolean",$("#id_test_lesson_flag"));
-	Enum_map.append_option_list("boolean",$("#id_order_flag"));
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
-	$('#id_userid').val(g_args.userid);
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
+	$('#id_userid').admin_select_user_new({
+		"user_type"    : "student",
+		"select_value" : g_args.userid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_userid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_phone').val(g_args.phone);
 	$('#id_p_phone').val(g_args.p_phone);
-	$('#id_agent_type').val(g_args.agent_type);
-	$.enum_multi_select( $('#id_agent_type'), 'agent_type', function(){load_data();} )
-	$('#id_test_lesson_flag').val(g_args.test_lesson_flag);
-	$('#id_agent_level').val(g_args.agent_level);
-	$.enum_multi_select( $('#id_agent_level'), 'agent_level', function(){load_data();} )
-	$('#id_order_flag').val(g_args.order_flag);
+	$('#id_agent_type').admin_set_select_field({
+		"enum_type"    : "agent_type",
+		"field_name" : "agent_type",
+		"select_value" : g_args.agent_type,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_agent_type",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_test_lesson_flag').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "test_lesson_flag",
+		"select_value" : g_args.test_lesson_flag,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_test_lesson_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_agent_level').admin_set_select_field({
+		"enum_type"    : "agent_level",
+		"field_name" : "agent_level",
+		"select_value" : g_args.agent_level,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_agent_level",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_order_flag').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "order_flag",
+		"select_value" : g_args.order_flag,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_order_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_l1_child_count').val(g_args.l1_child_count);
 	$('#id_order_by_str').val(g_args.order_by_str);
 
@@ -119,6 +158,11 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -126,6 +170,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_userid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["userid title", "userid", "th_userid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -133,6 +178,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_phone" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["phone title", "phone", "th_phone" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -140,6 +186,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_p_phone" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["p_phone title", "p_phone", "th_p_phone" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -147,6 +194,9 @@ $(function(){
                 <input class="opt-change form-control" id="id_agent_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["agent_type title", "agent_type", "th_agent_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -155,6 +205,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["test_lesson_flag title", "test_lesson_flag", "th_test_lesson_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -162,6 +213,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_agent_level" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["agent_level title", "agent_level", "th_agent_level" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -170,6 +222,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["order_flag title", "order_flag", "th_order_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -177,6 +230,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_l1_child_count" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["l1_child_count title", "l1_child_count", "th_l1_child_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -184,4 +238,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_order_by_str" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["order_by_str title", "order_by_str", "th_order_by_str" ]])!!}
 */

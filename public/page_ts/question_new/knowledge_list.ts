@@ -5,6 +5,8 @@
 /// <reference path="../../ztree/jquery.ztree.exhide.min.js" />
 /// <reference path="../../js/MathJax/MathJax.js" />
 /// <reference path="../../page_js/question_edit_new.js" />
+/// <reference path="../../js/MathJax/MathJax.js" />
+/// <reference path="../g_args.d.ts/question_new-knowledge_edit.d.ts" />
 
 
 var setting = {
@@ -49,11 +51,50 @@ function beforeDrag(){
 function beforeRemove(treeId,treeNode){
     var zTree = $.fn.zTree.getZTreeObj("treeDemo");
     zTree.selectNode(treeNode);
-    return confirm("确认删除 节点 -- " + treeNode.name + " 吗？"); 
+    return confirm("确认删除 节点 -- " + treeNode.name + "及下面所有的子节点吗？"); 
 }
 
 function onRemove(e,treeId,treeNode){
-    alert('remove'); 
+    var idstr ='' ;
+    idstr = getAllChildrenNodes(treeNode,idstr);
+    idstr = treeNode.id + idstr;
+    var data = {
+        'idstr':idstr
+    };
+
+    console.log(idstr);
+
+    $.ajax({
+        type : "post",
+        url : "/question_new/knowledge_dele",
+        dataType : "json",
+        data:data,
+        success : function(res){
+            if( res.status == 200 ){
+                
+                //window.location.reload();
+            }else{
+                BootstrapDialog.alert('更新出错，请刷新网页');
+            }
+        },
+        error:function(){
+            BootstrapDialog.alert('取出错误');
+        }
+    });
+
+}
+
+function getAllChildrenNodes(treeNode,result){
+    if (treeNode.isParent) {
+        var childrenNodes = treeNode.children;
+        if (childrenNodes) {
+            for (var i = 0; i < childrenNodes.length; i++) {
+                result += ',' + childrenNodes[i].id;
+                result = getAllChildrenNodes(childrenNodes[i], result);
+            }
+        }
+    }
+    return result;
 }
 
 function beforeEditName(treeId, treeNode) {
@@ -67,11 +108,17 @@ function beforeEditName(treeId, treeNode) {
 var tree_edit_id;
 var tree_edit_node;
 
+//编辑或添加子知识点
 function edit_know(treeId, treeNode){
     var zTree = $.fn.zTree.getZTreeObj("treeDemo");
     $('.id_mathjax_content').val(treeNode.name);
     $(".knowledge_background").show();
     Cquestion_editor.preview_update(null,$('#id_mathjax_content_0'),$('#MathPreview_0'),'MathPreview_0');
+}
+
+//添加根部知识点
+function add_knowledge(){
+    $(".knowledge_background").show();
 }
 
 function close_know(){
@@ -82,40 +129,74 @@ function close_know(){
 }
 
 function save_know(){
-    var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-    //zTree.selectNode(tree_edit_node);
-    tree_edit_node.name = $('.id_mathjax_content').val();
-    var data = {
-        'editType':tree_edit_node.editType,
-        'knowledge_id':tree_edit_node.id,
-        'father_id':tree_edit_node.pId,
-        'title':tree_edit_node.name,
-        'subject':$('#id_subject').val()
-    }
 
-    $.ajax({
-        type : "post",
-        url : "/question_new/knowledge_add",
-        dataType : "json",
-        data:data,
-        success : function(res){
-            if( res.status = 200 ){
-                
-            }else if(){
-                
-            }{
-                BootstrapDialog.alert('更新出错，请刷新网页');
-            }
-        },
-        error:function(){
-            BootstrapDialog.alert('取出错误');
+    //编辑或添加子知识点
+    if( tree_edit_node != null ){        
+        var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+        //zTree.selectNode(tree_edit_node);
+        tree_edit_node.name = $('.id_mathjax_content').val();
+        var data = {
+            'editType':tree_edit_node.editType,
+            'knowledge_id':tree_edit_node.id,
+            'father_id':tree_edit_node.pId,
+            'title':tree_edit_node.name,
+            'subject':$('#id_subject').val()
         }
-    });
+        console.log(tree_edit_node);
+        $.ajax({
+            type : "post",
+            url : "/question_new/knowledge_add",
+            dataType : "json",
+            data:data,
+            success : function(res){
+                if( res.status == 200 ){
+                    //新增
+                    console.log(tree_edit_node);
+                    tree_edit_node.id = parseInt(res.knowledge_id);
+                    zTree.editName(tree_edit_node);
+                    zTree.cancelEditName(tree_edit_node.name);
+                    close_know();
+                }else if( res.status == 201 ){
+                    //更新
+                    console.log(tree_edit_node);
+                    zTree.editName(tree_edit_node);
+                    zTree.cancelEditName(tree_edit_node.name);
+                    close_know();
+                }else{
+                    BootstrapDialog.alert('更新出错，请刷新网页');
+                }
+            },
+            error:function(){
+                BootstrapDialog.alert('取出错误');
+            }
+        });
+    }else{
+        var rootData = {
+            'editType':1,
+            'knowledge_id':'',
+            'father_id':0,
+            'title':$('.id_mathjax_content').val(),
+            'subject':$('#id_subject').val()
+        };
+        $.ajax({
+            type : "post",
+            url : "/question_new/knowledge_add",
+            dataType : "json",
+            data:rootData,
+            success : function(res){
+                if( res.status == 200 ){
+                    //新增
+                    window.location.reload();
+                }else{
+                    BootstrapDialog.alert('更新出错，请刷新网页');
+                }
+            },
+            error:function(){
+                BootstrapDialog.alert('取出错误');
+            }
+        });
 
-    console.log(tree_edit_node);
-    zTree.editName(tree_edit_node);
-    zTree.cancelEditName(tree_edit_node.name);
-    close_know();
+    }
 }
 
 function beforeRename(treeId,treeNode,newName){
@@ -172,6 +253,9 @@ $(function(){
     //var zNodes = $('#zNodes').val();
     $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 
+    //初始化数学公式
+    var mathId = document.getElementById("mathview");
+    Cquestion_editor.init_mathjax(mathId);
 
     $("#show_all_knowledge").click(function(){
         var treeObj = $.fn.zTree.getZTreeObj('treeDemo');
@@ -184,7 +268,6 @@ $(function(){
     $('.opt-change').set_input_change_event(load_data);
     
     function load_data(){
-
         var data = {
             id_subject : $("#id_subject").val(),
         };
@@ -193,57 +276,24 @@ $(function(){
     }
 
 
-    //进入知识点列表页面
+    //进入题目列表页面
     $('#question_list').on('click',function(){
-        var opt_data=$(this).get_opt_data();
-        window.open('/question_new/question_list');
+        var subject = $('#id_subject').val();
+        window.open('/question_new/question_list?id_open_flag=1&id_subject='+subject);
     });
 
-    //添加根部知识点
-    $('#id_add_knowledge').on('click',function(){
-        var level = 0;
-        var father_id = 0;
-        var editType = 1;
-        var father_subject = $('#id_subject').val();
-        window.open('/question_new/knowledge_edit?level='+level+'&father_id='+father_id+'&editType='+editType+'&father_subject='+father_subject);
+    //进入知识点显示
+    $('#knowledge_pic').on('click',function(){
+        var subject = $('#id_subject').val();
+        window.open('/question_new/knowledge_get?subject='+subject);
     });
 
-    //添加子知识点
-    $('.add_son').on('click',function(){
-        var opt_data = $(this).get_opt_data();
-        var level = parseInt(opt_data.level) + 1;
-        var father_id = opt_data.knowledge_id;
-        var father_subject = $('#id_subject').val();
-        var editType = 1;
-        window.open('/question_new/knowledge_edit?level='+level+'&father_id='+father_id+'&editType='+editType+'&father_subject='+father_subject);
+    //教材知识点
+    $('#text_book_knowledge').on('click',function(){
+        var subject = $('#id_subject').val();
+        window.open('/question_new/textbook_knowledge_list?subject='+subject);
     });
 
-    //进入知识点编辑页面
-    $('.opt-set').on('click',function(){
-        var opt_data=$(this).get_opt_data();
-        var knowledge_id = opt_data.knowledge_id;
-        var father_subject = $('#id_subject').val();
-        var editType = 2;
-        window.open('/question_new/knowledge_edit?knowledge_id='+knowledge_id+'&editType='+editType+'&father_subject='+father_subject);
-    });
-
-    //删除知识点
-    $('.opt-del').on('click',function(){
-        var opt_data = $(this).get_opt_data();
-
-        var knowledge_id = opt_data.knowledge_id;
-        var title = "你确定删除本知识点,标题为" + opt_data.title + "？";
-        var data = {
-            'knowledge_id':knowledge_id
-        };
-
-        BootstrapDialog.confirm(title,function(val ){
-            if (val) {
-                $.do_ajax("/question_new/knowledge_dele",data);
-            }
-        });
-
-    })
 
     //初始化每个公式显示框
     $('.MathPreview').each(function(){

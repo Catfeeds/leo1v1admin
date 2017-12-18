@@ -8,6 +8,7 @@
     <script type="text/javascript" src="/ztree/jquery.ztree.exhide.min.js"></script>
 
     <script type="text/javascript" src="/js/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="/page_js/enum_map.js"></script>
     <script type="text/javascript" src="/page_js/question_edit_new.js"></script>
 
     <script type="text/javascript" src="/page_js/lib/select_dlg.js?v={{@$_publish_version}}"></script>
@@ -15,12 +16,9 @@
      var zNodes = <?php echo $ret?>;
     </script>
     <style>
-     .ztree li span.button.add {
-         margin-left: 2px;
-         margin-right: -1px;
-         background-position: -144px 0;
-         vertical-align: top;
-     }
+     .ztree *{ font-size:14px}
+     .ztree li{ line-hedight:20px }
+     .ztree li span.button.add { margin-left: 2px;margin-right: -1px;background-position: -144px 0;vertical-align: top;}
      .knowledge_background{ width:100%;height:100%;position:absolute;top:0px;left:0px;background: rgba(0, 0, 0, 0.4);z-index: 999;display:none}
      .knowledge_background .knowledge_eject{ width:50%;position:fixed;left:25%;top:20%;background: white;padding: 10px;border-radius: 10px; }
      #close_knowledge{ position:absolute;top:10px;right:10px;z-index:9999}
@@ -40,7 +38,7 @@
             <div class="col-xs-1 col-md-1">
                 <div class="input-group">
                     <div class=" input-group-btn ">
-                        <button id="id_add_knowledge" type="submit"  class="btn  btn-warning" >
+                        <button type="submit" onclick="add_knowledge()"  class="btn  btn-warning" >
                             <i class="fa fa-plus"></i>添加知识点
                         </button>
                     </div>
@@ -55,7 +53,13 @@
 
             <div class="col-xs-1 col-md-1">
                 <div class="input-group">
-                    <button style="margin-left:10px" id="text_book_knowledge" type="button" class="btn btn-primary">教材知识点</button>
+                    <button style="margin-left:10px" id="knowledge_pic" type="button" class="btn btn-info">知识点展现</button>
+                </div>
+            </div>
+
+            <div class="col-xs-1 col-md-1">
+                <div class="input-group">
+                    <button style="margin-left:10px" id="text_book_knowledge" type="button" class="btn btn-success">教材知识点</button>
                 </div>
             </div>
 
@@ -66,7 +70,7 @@
 
                 <a href="javascript:;" id="show_all_knowledge"> 显示全部知识点 </a>
 
-                <div class="zTreeDemoBackground">
+                <div class="zTreeDemoBackground" id="mathview">
                     <ul id="treeDemo" class="ztree"></ul>
                 </div>
             </div>

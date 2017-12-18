@@ -1,7 +1,9 @@
+	key0	:any;
 	key1	:any;
 	key2	:any;
 	key3	:any;
 	key4	:any;
+	key0_class	:any;
 	key1_class	:any;
 	key2_class	:any;
 	key3_class	:any;

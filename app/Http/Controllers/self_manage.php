@@ -440,9 +440,13 @@ class self_manage extends Controller
 
     public function test() {
         $subject=$this->get_in_el_subject();
+        $grade= $this->get_in_el_grade();
+        $contract_type=$this->get_in_el_contract_type();
+        $query_text=$this->get_in_query_text();
+        $userid = $this->get_in_userid(-1);
+        list($start_time,$end_time) = $this->get_in_date_range_day(0);
 
         return $this->pageView(__METHOD__);
-
     }
 
 }

@@ -226,19 +226,15 @@ function table_init() {
             }
         }
     }
+    var flag_key = "query_flag_"+ window.location.pathname;
+    g_load_data_flag = window.localStorage.getItem(flag_key);
+
     var row_query=$(".row-query-list" );
     if (row_query.length>0) {
         var query_select_list=$( " <div class=\"col-xs-6 col-md-1\"> <div class=\"input-group\" >  <div class=\"input-group\" > <button   title=\"显示所有条件\" class=\"btn btn-warning fa   show-all  \"> ALL </button> </div> </div> <div> ");
 
         var query_attime=$( " <div class=\"col-xs-6 col-md-1\">  <button   title=\"点击查询\" class=\"btn btn-warning fa  \" > 查询 </button  <div> ");
 
-        var pathname = window.location.pathname;
-        g_load_data_flag = window.localStorage.getItem(pathname);
-        if(g_load_data_flag){//点击查询
-            $('#id_now_refresh').html('立即查询');
-        }else{
-            $('#id_now_refresh').html('点击查询');
-        }
         if ( window.load_data && g_load_data_flag) {
             row_query.append( query_attime );
             query_attime.find("button") .on("click",function(){
@@ -777,18 +773,34 @@ $(function(){
 
     $("#id_now_refresh").on("click",function(){
         if(window.localStorage){
-            var pathname = window.location.pathname;
-            var g_load_data_flag = window.localStorage.getItem(pathname);
+            var flag_key = "query_flag_"+ window.location.pathname;
+            var load_data_flag = window.localStorage.getItem( flag_key );
+            var list_type_key = "query_list_type_"+ window.location.pathname;
+            var list_type = window.localStorage.getItem(list_type_key  );
+            var $list_type=$("<select  > <option value=0>紧凑</option> <option value=1>列表</option> </select> ");
+            var $load_data_flag=$("<select  > <option value=0>是</option> <option value=1>不是</option> </select> ");
+            list_type= list_type?list_type:0;
+            load_data_flag= load_data_flag?load_data_flag:0;
 
-            if(g_load_data_flag == 1){
-                window.localStorage.removeItem(pathname);//删除
-                alert('设置为[立即查询]');
-                window.location.reload();
-            }else{
-                window.localStorage.setItem(pathname,1);//存
-                alert('设置为[点击查询]');
-                window.location.reload();
-            }
+            var arr=[
+                ["展现形式" , $list_type],
+                ["是否立即查询" , $load_data_flag  ],
+            ];
+            $list_type.val( list_type );
+            $load_data_flag.val( load_data_flag);
+
+            $.show_key_value_table("查询参数", arr ,[{
+                label: '提交',
+                cssClass: 'btn-primary',
+                action: function(dialog) {
+                    window.localStorage.setItem( flag_key , $load_data_flag.val()   );
+                    window.localStorage.setItem( list_type_key, $list_type.val()   );
+                    $.reload();
+                }
+            }]);
+
+
+
         }else{
             alert('浏览器不支持localstorage');
             return false;
@@ -2311,13 +2323,22 @@ function multi_upload_file(new_flag,is_multi,is_auto_start,btn_id, is_public_buc
                         progress.setError();
                         progress.setStatus(errTip);
                     }
+                } ,
+                'Key': function(up, file) {
+                    var key = "";
+                    var time = (new Date()).valueOf();
+                    var match = file.name.match(/.*\.(.*)?/);
+                    /*
+                      if( uploader.on_noti_origin_file_func) {
+                      uploader.on_noti_origin_file_func(file.name);
+                      }
+                    */
+                    this.origin_file_name=file.name;
+                    var file_name=$.md5(file.name) +time +'.' + match[1];
+                    console.log('gen file_name:'+file_name);
+                    return file_name;
+
                 }
-                // ,
-                // 'Key': function(up, file) {
-                //     var key = "";
-                //     // do something with key
-                //     return key
-                // }
             }
         });
 

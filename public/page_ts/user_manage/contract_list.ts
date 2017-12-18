@@ -991,6 +991,10 @@ $(function(){
         var $promotion_spec_discount_price= html_node.find(".field-promotion_spec_discount_price");
         var $discount_reason= html_node.find(".field-discount_reason");
         var $receipt_title= html_node.find(".field-receipt_title");
+        var $is_new_stu = html_node.find(".field-is_new_stu");
+        if(contract_type==3){
+            $is_new_stu.parent().parent().show();
+        }
 
 
         Enum_map.append_option_list( "boolean", $order_require_flag ,true);
@@ -1144,6 +1148,7 @@ $(function(){
                             promotion_spec_discount       : $promotion_spec_discount_price.val()*100,
                             promotion_spec_present_lesson : $promotion_spec_present_lesson.val()*100,
                             has_share_activity_flag       : $has_share_activity_flag.val(),
+                            is_new_stu                    : $is_new_stu.val()
                         });
 
                     }
@@ -1151,11 +1156,159 @@ $(function(){
                         BootstrapDialog.confirm( "你选择全款,之后的处理过程中,不能分期,可以吗?!",
                                                  function(val ){
                                                      if (val) {
-                                                         deal_func();
+                                                         if($is_new_stu.val()==1){
+
+                                                             $("<div></div>").admin_select_dlg_ajax({
+                                                                 "opt_type" : "select", // or "list"
+                                                                 "url"      : "/ss_deal/get_require_list_js",
+                                                                 select_primary_field : "require_id",
+                                                                 select_display       : "require_id",
+                                                                 //其他参数
+                                                                 "args_ex" : {
+                                                                     userid:data.userid,
+                                                                     subject:$subject.val()
+                                                                 },
+                                                                 //字段列表
+                                                                 'field_list' :[
+                                                                     {
+                                                                     title:"渠道",
+                                                                     render:function(val,item) {
+                                                                         return item.origin;
+                                                                     }
+                                                                 },{
+                                                                     title:"科目",
+                                                                     render:function(val,item) {
+                                                                         return item.subject_str;
+                                                                     }
+                                                                 },{
+
+                                                                     title:"时间",
+                                                                     render:function(val,item) {
+                                                                         return item.require_time ;
+                                                                     }
+
+                                                                 },{
+                                                                     title:"教务是否接受",
+                                                                     //width :50,
+                                                                     render:function(val,item) {
+                                                                         return $(item.accept_flag_str );
+                                                                     }
+                                                                 },{
+                                                                     title:"课程是否成功",
+                                                                     render:function(val,item) {
+                                                                         return $(item.success_flag_str);
+                                                                     }
+
+                                                                 },{
+                                                                     title:"老师",
+                                                                     render:function(val,item) {
+                                                                         return item.teacher_nick;
+                                                                     }
+                                                                 },{
+                                                                     title:"上课时间",
+                                                                     render:function(val,item) {
+                                                                         return item.lesson_start;
+                                                                     }
+
+                                                                 }
+                                                                 ] ,
+                                                                 filter_list: [],
+
+                                                                 "auto_close"       : true,
+                                                                 //选择
+                                                                 "onChange"         : function(reid){
+                                                                     if (reid <=0 ) {
+                                                                         alert("请选择试听课");
+                                                                     }else{
+                                                                         reid = reid;
+                                                                         deal_func(); 
+                                                                     }
+                                                                 },
+                                                                 //加载数据后，其它的设置
+                                                                 "onLoadData"       : null,
+                                                             });
+ 
+                                                         }else{
+                                                             deal_func(); 
+                                                         }
                                                      }
                                                  });
                     }else{
-                        deal_func();
+                        if($is_new_stu.val()==1){
+
+                            $("<div></div>").admin_select_dlg_ajax({
+                                "opt_type" : "select", // or "list"
+                                "url"      : "/ss_deal/get_require_list_js",
+                                select_primary_field : "require_id",
+                                select_display       : "require_id",
+                                //其他参数
+                                "args_ex" : {
+                                    userid:data.userid,
+                                    subject:$subject.val()
+                                },
+                                //字段列表
+                                'field_list' :[
+                                    {
+                                    title:"渠道",
+                                    render:function(val,item) {
+                                        return item.origin;
+                                    }
+                                },{
+                                    title:"科目",
+                                    render:function(val,item) {
+                                        return item.subject_str;
+                                    }
+                                },{
+
+                                    title:"时间",
+                                    render:function(val,item) {
+                                        return item.require_time ;
+                                    }
+
+                                },{
+                                    title:"教务是否接受",
+                                    //width :50,
+                                    render:function(val,item) {
+                                        return $(item.accept_flag_str );
+                                    }
+                                },{
+                                    title:"课程是否成功",
+                                    render:function(val,item) {
+                                        return $(item.success_flag_str);
+                                    }
+
+                                },{
+                                    title:"老师",
+                                    render:function(val,item) {
+                                        return item.teacher_nick;
+                                    }
+                                },{
+                                    title:"上课时间",
+                                    render:function(val,item) {
+                                        return item.lesson_start;
+                                    }
+
+                                }
+                                ] ,
+                                filter_list: [],
+
+                                "auto_close"       : true,
+                                //选择
+                                "onChange"         : function(reid){
+                                    if (reid <=0 ) {
+                                        alert("请选择试听课");
+                                    }else{
+                                        require_id = reid;
+                                        deal_func(); 
+                                    }
+                                },
+                                //加载数据后，其它的设置
+                                "onLoadData"       : null,
+                            });
+                            
+                        }else{
+                            deal_func(); 
+                        }
                     }
 
                 }
@@ -2549,13 +2702,15 @@ $(function(){
                 }
             }
 
-            $.show_key_value_table("订单信息", arr,[{
-                label: '下载电子版pdf',
-                cssClass: 'btn-primary',
-                action: function(dialog) {
-                    $.wopen( opt_data.pdf_url.replace(".pdf", "_gz.pdf") );
-                }
-            },{
+            $.show_key_value_table("订单信息", arr,[
+            //     {
+            //     label: '下载电子版pdf',
+            //     cssClass: 'btn-primary',
+            //     action: function(dialog) {
+            //         $.wopen( opt_data.pdf_url.replace(".pdf", "_gz.pdf") );
+            //     }
+            // },
+                {
                 label: '下载打印版pdf',
                 cssClass: 'btn-primary',
                 action: function(dialog) {
@@ -2571,35 +2726,37 @@ $(function(){
                     } );
                     alert("请等待５秒...");
                 }
-            },{
-                label: '提交财务打印 ',
-                cssClass: 'btn-primary',
-                action: function(dialog) {
-                    var check_flag = [addressee,receive_phone,receive_addr,lesson_weeks,lesson_duration];
+            },
+            //                                         {
+            //     label: '提交财务打印 ',
+            //     cssClass: 'btn-primary',
+            //     action: function(dialog) {
+            //         var check_flag = [addressee,receive_phone,receive_addr,lesson_weeks,lesson_duration];
 
-                    for(var ii in check_flag){
-                        if(!check_flag[ii].val()){
-                            alert((check_flag[ii].parent().prev().text()+'不能为空!'));
-                            return ;
-                        }
-                    }
+            //         for(var ii in check_flag){
+            //             if(!check_flag[ii].val()){
+            //                 alert((check_flag[ii].parent().prev().text()+'不能为空!'));
+            //                 return ;
+            //             }
+            //         }
 
-                    if(checkMobile()){
-                        return;
-                    }
+            //         if(checkMobile()){
+            //             return;
+            //         }
 
-                    $.do_ajax("/ss_deal/build_contract",{
-                        "addressee"     : addressee.val(),
-                        "receive_phone" : receive_phone.val(),
-                        "receive_addr"  : receive_addr.val(),
-                        "lesson_weeks"  : lesson_weeks.val(),
-                        "lesson_duration" : lesson_duration.val(),
-                        "orderid"         : opt_data.orderid,
-                        "parent_name": $parent_name.val(),
-                        "is_submit"       : 1
-                    })
-                }
-            },{
+            //         $.do_ajax("/ss_deal/build_contract",{
+            //             "addressee"     : addressee.val(),
+            //             "receive_phone" : receive_phone.val(),
+            //             "receive_addr"  : receive_addr.val(),
+            //             "lesson_weeks"  : lesson_weeks.val(),
+            //             "lesson_duration" : lesson_duration.val(),
+            //             "orderid"         : opt_data.orderid,
+            //             "parent_name": $parent_name.val(),
+            //             "is_submit"       : 1
+            //         })
+            //     }
+            // },
+                                                    {
                 label: '保存',
                 cssClass: 'btn-warning',
                 action: function(dialog) {

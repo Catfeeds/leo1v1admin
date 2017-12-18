@@ -188,7 +188,6 @@
                     {!!\App\Helper\Utils::th_order_gen([["科目", "", "th_subject" ]])!!}
                     {!!\App\Helper\Utils::th_order_gen([["合同状态", "contract_status", "th_contract_status" ]])!!}
                     {!!\App\Helper\Utils::th_order_gen([["合同类型", "contract_type", "th_contract_type" ]])!!}
-
                     <td style="display:none;">生效日期</td>
                     <td style="display:none;">下单日期</td>
                     <td >总课时</td>
@@ -747,6 +746,18 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-6 " style="display:none;">
+                <div class="input-group ">
+                    <span class="input-group-addon">是否新签：</span>
+                    <select  class="form-control field-is_new_stu">
+                        <option value="0" >否</option>
+                        <option value="1" >是</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
     </div>
     <script type="text/javascript" src="/page_js/select_course.js"></script>
     <script type="text/javascript" src="/page_js/select_user.js"></script>

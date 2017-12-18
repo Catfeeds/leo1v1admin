@@ -14,14 +14,42 @@
     <script type="text/javascript" src="/page_js/select_course.js"></script>
     <script type="text/javascript" src="/page_js/select_user.js"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+
+    <link href="/ztree/zTreeStyle.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="/ztree/jquery.ztree.all.min.js"></script>
+    <script type="text/javascript" src="/ztree/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/ztree/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="/ztree/jquery.ztree.exedit.min.js"></script>
+    <script type="text/javascript" src="/ztree/jquery.ztree.exhide.min.js"></script>
+    <script type="text/javascript">
+     var zNodes = <?php echo $knowledge?>;
+    </script>
+    <style>
+     .row{ margin-left:-10px}
+     .knowledge_all{ background:rgba(0, 0, 0, 0.4);position:absolute;top:0px;left:0px;width:100%;height:100%;z-index:999;display:none}
+     .zTreeDemoBackground{position:absolute;top:20%;left:35%;background: white;padding:20px }
+     #close_knowledge{ position:absolute;top:5px;right:5px;z-index:9999}
+     #knowledge_exits span{ color: #258e25;font-weight: bold;margin-right:10px}
+    </style>
     <input type="hidden" value="{{$editData}}" id="editData" />
+
+    <div class="knowledge_all">
+        <div class="zTreeDemoBackground">
+            <button type="button" class="btn btn-danger btn-circle" id="close_knowledge" onclick="close_know()"><i class="fa fa-times"></i></button>
+            <a href="javascript:;" id="show_all_knowledge"> 显示全部知识点 </a>
+            <ul id="treeDemo" class="ztree"></ul>
+            <button type="button" class="btn btn-primary" id="save_knowledge" onclick="save_know()" title="编辑完成">编辑完成</button>
+        </div>
+
+    </div>
+
     <section class="content">
         <div id="id_question_editor" >
             <div class="row">
                 <div class="col-xs-7 col-md-7">
                     <div class="input-group "><h3>{{@$ret['describe']}}</h3></div>
                     <div class="input-group ">
-              
+                        
                         <!-- <span class="input-group-addon" style="padding-left: 3px; padding-right: 6px;">类型</span>
                              <select class=" form-control " id="id_question_type"></select>
                         -->
@@ -37,14 +65,12 @@
                         <span class="input-group-addon" style="padding-left: 3px; padding-right: 6px;">题目分值</span>
                         <input class=" form-control " id="id_score" type="text" style="width:130px">
 
-                       
                         <div class=" input-group-btn ">
-                            <button id="add_question_knowledge" type="submit" class="btn btn-primary">
-                                <i class="fa fa-plus"></i>编辑知识点
+                            <button id="add_question_knowledge" type="submit" class="btn btn-primary" onclick="open_know()">
+                                编辑知识点
                             </button>
                         </div>
-                       
-
+                      
                         <div class=" input-group-btn ">
                             <button id="save_know" type="submit" class="btn  btn-warning">
                                 <i class="fa fa-plus"></i>保存问题
@@ -55,6 +81,19 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <input type="hidden" value="{{json_encode($know_arr)}}" id="knowledge_old"/>
+                    <div id="knowledge_exits">
+                        @if(!empty($know_arr))
+                            @foreach($know_arr as $item)
+                                <span knowledge_id="{{$item['knowledge_id']}}">{{$item['title']}}</span>
+                            @endforeach
+                        @endif
+                    </div>
+                </div>
+            </div>
+            
             <div class="row">
                 <div class="col-xs-12 col-md-12">
                     <div class="btn-toolbar" role="toolbar">

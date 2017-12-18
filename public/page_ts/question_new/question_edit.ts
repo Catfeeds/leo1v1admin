@@ -2,8 +2,66 @@
 /// <reference path="../../page_js/question_edit_new.js" />
 /// <reference path="../../js/MathJax/MathJax.js" />
 /// <reference path="../g_args.d.ts/question_new-question_edit.d.ts" />
+/// <reference path="../../ztree/jquery.ztree.all.min.js" />
+
+var setting = {
+    view: {
+        showIcon: false,
+    },
+    check: {  
+        enable: true,  
+        chkStyle: "checkbox",  
+        chkboxType: { "Y": "", "N": "" }  
+    },
+    data: {
+        simpleData: {
+            enable: true
+        }
+    },
+    callback: {
+        
+    }
+}
+
+function open_know(){
+    if( $("#knowledge_exits").find('span').length > 0 ){
+        var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+        $('#knowledge_exits span').each(function(){
+            var node = treeObj.getNodeByParam("id", $(this).attr('knowledge_id'), null);
+            treeObj.checkNode(node, true, true);
+        })
+    }
+    $('.knowledge_all').show();
+}
+function close_know(){
+    var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+    treeObj.checkAllNodes(false);
+    $('.knowledge_all').hide();
+}
+
+function save_know(){
+    var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+    var nodes = treeObj.getCheckedNodes();
+    //var checkNode = '';
+    var html = '';
+    if(nodes.length>0){
+        for(var i = 0;i<nodes.length;i++){
+            //checkNode += nodes[i].id + ",";
+            html += "<span knowledge_id='"+nodes[i].id+"'>" + nodes[i].name + "</span>";
+        }
+        //checkNode = checkNode.substring(0, checkNode.length-1);
+    }
+
+    $('#knowledge_exits').html(html);
+    close_know();
+}
 
 $(function(){
+    $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+    $("#show_all_knowledge").click(function(){
+        var treeObj = $.fn.zTree.getZTreeObj('treeDemo');
+        treeObj.expandAll(true); 
+    });
 
     Enum_map.append_option_list("question_difficult_new",$("#question_difficult"),true,[1,2,3,4,5]);
     Enum_map.append_option_list("subject", $("#id_subject"),false,[1,2,3,4,5,6,7,8,9,10,11]);
@@ -105,6 +163,19 @@ $(function(){
 
     //保存题目
     $("#save_know").click(function(){
+
+        //旧的知识点
+        var knowledge_old = $('#knowledge_old').val();
+        //新的知识点
+        var knowledge_new = '';
+        if( $("#knowledge_exits").find('span').length > 0 ){
+            $('#knowledge_exits span').each(function(){
+                knowledge_new += $(this).attr('knowledge_id') + ','
+            })
+                knowledge_new = knowledge_new.substring(0, knowledge_new.length-1);
+        }
+        console.log(knowledge_new);
+
         var data = {
             'editType':g_args.editType,
             'question_id':g_args.question_id,
@@ -113,8 +184,11 @@ $(function(){
             'title':$('#id_mathjax_content_0').val(),
             'detail':$('#id_mathjax_content_1').val(),
             'open_flag':$('#id_open_flag').val(),
-            'subject':$('#id_subject').val()
+            'subject':$('#id_subject').val(),
+            'knowledge_old':knowledge_old,
+            'knowledge_new':knowledge_new
         };
+
         $.ajax({
             type : "post",
             url : "/question_new/question_add",

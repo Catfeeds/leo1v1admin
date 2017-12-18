@@ -47,6 +47,43 @@ $(function(){
     show_top( $("#id_lesson_count_list > tr")) ;
     show_top( $("#id_assistant_renew_list > tr")) ;
 
+    $("#show_warning_info").on("click",function(){
+        $.do_ajax('/ajax_deal2/get_assistant_warning_info',{
+            "opt_date_type":g_args.opt_date_type,
+            "start_time"   :g_args.start_time,
+            "end_time"   :g_args.end_time,
+        },function(resp) {
+            var warning = resp.warning;
+            var month_info = resp.month_info; 
+            var today_info = resp.today_info; 
+            $("#warning-one").text(warning['warning_type_one']);
+            $("#warning-two").text(warning['warning_type_two']);
+            $("#warning-three").text(warning['warning_type_three']);
+            $("#today_revisit_num").text(today_info['revisit_num']);
+            $("#today_goal").text(today_info['goal']);
+            $("#today_call_num").text(today_info['call_num']);
+            var goal_three = today_info['goal']*3;
+            $("#today_goal_three").text(goal_three+':00');
+            $("#month_revisit_num").text(month_info['revisit_num']);
+            if(month_info['stu_num']>0){
+                var month_stu_num=month_info['stu_num'];
+            }else{
+                var month_stu_num=0;
+            }
+            $("#month_stu_num").text(month_stu_num*2);
+            $("#month_call_num").text(month_info['call_num']);
+            var month_goal_three = month_stu_num*6;
+            $("#month_stu_num_three").text(month_goal_three+':00');                                              
+            init_noit_btn("warning-one", "预警1～5","1" );
+            init_noit_btn("warning-two", "预警5～7", "2" );
+            init_noit_btn("warning-three", "预警超时", "3" );
+
+
+
+        });
+ 
+    });
+
     var init_noit_btn=function( id_name, title ,type) {
         var btn=$('#'+id_name);
         btn.tooltip({
@@ -60,9 +97,6 @@ $(function(){
         btn.attr('data-warning', type);
     };
 
-    init_noit_btn("warning-one", "预警1～5","1" );
-    init_noit_btn("warning-two", "预警5～7", "2" );
-    init_noit_btn("warning-three", "预警超时", "3" );
     $(".opt-warning-type").on("click",function(){
 
         window.location.href="/user_manage_new/ass_revisit_warning_info_sub?revisit_warning_type="+$(this).attr('data-warning');
