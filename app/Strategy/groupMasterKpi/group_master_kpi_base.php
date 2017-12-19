@@ -42,9 +42,14 @@ class group_master_kpi_base {
         $def_info = $tt->t_month_def_type->get_time_by_def_time(strtotime(date('Y-m-1',$start_time)));
         $start_time_new = $def_info['start_time'];
         $end_time_new = $def_info['end_time'];
-        // dd($start_time_new,$end_time_new);
         //全月在职组员
-        $adminid_list = $tt->t_admin_group_name->get_group_admin_list($adminid);
+        // $adminid_list = $tt->t_admin_group_name->get_group_admin_list($adminid);
+        $adminid_list = $tt->t_group_name_month->get_group_admin_list($adminid,strtotime(date('Y-m-1',$start_time)));
+        if(!$adminid_list){
+            $arr['kpi'] = '';
+            $arr['kpi_desc'] = '';
+            return $arr;
+        }
         $adminid_list = array_unique(array_column($adminid_list,'adminid'));
         $person_count = count($adminid_list);
         $leave_count  = 0;
@@ -114,15 +119,11 @@ class group_master_kpi_base {
         $fail_per_desc = ($test_lesson_count>0)?$fail_all_count.'÷'.$test_lesson_count:0;
         $order_per_desc = ($succ_all_count>0)?$all_new_contract.'÷'.$succ_all_count:0;
         $leave_per_desc = ($person_count>0)?$leave_count.'÷'.$person_count:0;
-        $desc = $test_per_desc.'+'.$fail_per_desc.'+'.$order_per_desc.'+'.$leave_per_desc;
 
-        dd($desc,$test_per,$fail_per,$order_per,$leave_per);
-        $arr['suc_first_week'] = $res[$adminid]['suc_lesson_count_one'];
-        $arr['suc_second_week'] = $res[$adminid]['suc_lesson_count_two'];
-        $arr['suc_third_week'] = $res[$adminid]['suc_lesson_count_three'];
-        $arr['suc_fourth_week'] = $res[$adminid]['suc_lesson_count_four'];
-        $arr['lesson_per'] = $res[$adminid]['lesson_per'];
-        $arr['kpi'] = $res[$adminid]['kpi'];
+        $kpi = $test_per+$fail_per+$order_per+$leave_per;
+        $kpi_desc = $test_per_desc.'+'.$fail_per_desc.'+'.$order_per_desc.'+'.$leave_per_desc;
+        $arr['group_kpi'] = $kpi.'%';
+        $arr['group_kpi_desc'] = $kpi_desc;
         return $arr;
     }
 
