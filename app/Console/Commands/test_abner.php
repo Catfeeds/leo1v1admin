@@ -137,7 +137,7 @@ class test_abner extends cmd_base
         $data = $this->task->t_teacher_info->get_teacher_code($start_time,$end_time); 
         foreach($data as $key => $item){
 
-            if(@$flag_map[$key]){
+            if(!@$flag_map[$key]){
                 if($item['subject'] = 1 && $item['grade'] <= 106 && !empty($item['courseid'])){
                     $teacher_case['小学语文']['has_class'] ++;
                     $flag_map[$key]=true;
@@ -288,7 +288,7 @@ class test_abner extends cmd_base
             fwrite($fp, '   ');
             fwrite($fp, @$item['has_class']);//2
             fwrite($fp, '   ');
-            fwrite($fp, @$item['test_coutn']);//3
+            fwrite($fp, @$item['test_count']);//3
             fwrite($fp, '   ');
             fwrite($fp, @$item['regular_count']);//3
             fwrite($fp, "\n");
