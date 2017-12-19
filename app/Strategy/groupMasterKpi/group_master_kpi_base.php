@@ -47,6 +47,8 @@ class group_master_kpi_base {
         $adminid_list = $tt->t_admin_group_name->get_group_admin_list($adminid);
         $adminid_list = array_unique(array_column($adminid_list,'adminid'));
         $test_leeson_list_new = $tt->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid,$adminid_list);
+        $adminid_info = $tt->t_manager_info->get_group_admin_list($adminid_list);
+        dd($adminid_info);
         foreach($test_leeson_list_new['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             $lesson_start = $item['lesson_start'];

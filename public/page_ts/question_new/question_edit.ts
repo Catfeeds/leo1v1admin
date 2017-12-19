@@ -202,7 +202,7 @@ $(function(){
             data:data,
             success : function(res){
                 BootstrapDialog.alert(res.msg);
-                if( res.status = 200 ){
+                if( res.status == 200 ){
                     //window.close();
                     var subject = $('#id_subject').val();
                     var question_id = res.question_id;
