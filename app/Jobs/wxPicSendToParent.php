@@ -59,7 +59,12 @@ class wxPicSendToParent extends Job implements ShouldQueue
 
 
         // 向家长发送推送
-        $parent_wx_openid[] = ["wx_openid"=>"orwGAs_IqKFcTuZcU1xwuEtV3Kek"];
+        $parent_wx_openid =[
+            ["wx_openid"=>"orwGAs_IqKFcTuZcU1xwuEtV3Kek"],
+            ["wx_openid"=>"orwGAs9SVtEGH9vgTxAkfnSkxyXY"],
+            ["wx_openid"=>"orwGAs0ayobuEtO1YZZhW3Yed2To"],
+            ["wx_openid"=>"orwGAswflHkLg-4PgNuJwsQZZKFE"],
+        ];
 
         $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
         $data_parent = [

@@ -838,15 +838,13 @@ class test_james extends Controller
 
     public function wx_news(){ // 使用客服接口发送消息
 
-        $filename = "/home/ybai/tu.jpg";
-        $type = "image";
+        // $filename = "/home/ybai/tu.jpg";
+        // $type = "image";
 
-        $Media_id = Media::upload($filename, $type);
+        // $Media_id = Media::upload($filename, $type);
 
 
-        dispatch( new \App\Jobs\wxPicSendToParent(
-            $Media_id['media_id']
-        ));
+        dispatch( new \App\Jobs\wxPicSendToParent(''));
 
 
 
