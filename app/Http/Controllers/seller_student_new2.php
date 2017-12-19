@@ -1438,6 +1438,7 @@ class seller_student_new2 extends Controller
         $identity      = $this->get_in_int_val("identity");
         $gender        = $this->get_in_int_val("gender");
         $tea_age       = $this->get_in_int_val("tea_age");
+        $teacher_type  = $this->get_in_int_val("teacher_type");
         $refresh_flag  = $this->get_in_int_val("refresh_flag");
 
         $require_info = $this->t_test_lesson_subject_require->get_require_list_by_requireid($require_id);
@@ -1446,6 +1447,7 @@ class seller_student_new2 extends Controller
             E\Egender::set_item_value_str($require_info,"tea_gender");
             E\Etea_age::set_item_value_str($require_info,"tea_age");
             E\Eidentity::set_item_value_str($require_info,"tea_identity");
+            E\Eteacher_type::set_item_value_str($require_info);
             E\Egrade::set_item_value_str($require_info);
             E\Esubject::set_item_value_str($require_info);
             E\Equotation_reaction::set_item_value_str($require_info);
@@ -1460,12 +1462,11 @@ class seller_student_new2 extends Controller
             }
 
             $lesson_start = $require_info['curl_stu_request_test_lesson_time'];
-            // $lesson_start = strtotime("2017-12-14 9:20");
             $lesson_end   = strtotime("+40 minute",$lesson_start);
             $redis_key    = "require_key_".$require_id;
             $tea_list     = $this->get_teacher_list_for_test_lesson(
                 $redis_key,$lesson_start,$lesson_end,$require_info['grade'],$require_info['subject'],$refresh_flag,
-                $identity,$gender,$tea_age,$require_info['subject_tag'],$teacher_tags,$lesson_tags,$teaching_tags
+                $identity,$gender,$tea_age,$require_info['subject_tag'],$teacher_tags,$lesson_tags,$teaching_tags,$teacher_type
             );
             $require_info['teacherid'] = "";
             $require_info['tea_nick']  = "";
@@ -1511,7 +1512,7 @@ class seller_student_new2 extends Controller
      */
     public function get_teacher_list_for_test_lesson(
         $redis_key,$lesson_start,$lesson_end,$grade,$subject,$refresh_flag=false,$identity=-1,$gender=-1,$tea_age=-1,
-        $subject_tags='',$teacher_tags,$lesson_tags,$teaching_tags
+        $subject_tags='',$teacher_tags,$lesson_tags,$teaching_tags,$teacher_type
     ){
         $grade_range_part = \App\Helper\Utils::change_grade_to_grade_range_part($grade);
         $ret_list  = \App\Helper\Common::redis_get_json($redis_key);
@@ -1562,6 +1563,7 @@ class seller_student_new2 extends Controller
                 $tea_val['is_identity'] = $identity==$tea_val['identity']?1:0;
                 $tea_val['is_gender']   = $gender==$tea_val['gender']?1:0;
                 $tea_val['is_age']      = $tea_age==$tea_val['age_flag']?1:0;
+                $tea_val['is_teacher_type'] = $teacher_type==$tea_val['teacher_type']?1:0;
 
                 if($del_flag){
                     unset($tea_list[$tea_key]);
@@ -1572,11 +1574,12 @@ class seller_student_new2 extends Controller
                     $tea_val['match_tags'] = $this->match_tea_tags(
                         $tea_val['teacher_tags'],$subject_tags,$teacher_tags,$lesson_tags,$teaching_tags
                     );
-                    $match_tags[$tea_key]    = $tea_val['match_tags'];
-                    $identity_list[$tea_key] = $tea_val['is_identity'];
-                    $gender_list[$tea_key]   = $tea_val['is_gender'];
-                    $tea_age_list[$tea_key]  = $tea_val['is_age'];
-                    $ruzhi_list[$tea_key]    = $tea_val['train_through_new_time'];
+                    $match_tags[$tea_key]        = $tea_val['match_tags'];
+                    $identity_list[$tea_key]     = $tea_val['is_identity'];
+                    $gender_list[$tea_key]       = $tea_val['is_gender'];
+                    $tea_age_list[$tea_key]      = $tea_val['is_age'];
+                    $ruzhi_list[$tea_key]        = $tea_val['train_through_new_time'];
+                    $teacher_type_list[$tea_key] = $tea_val['is_teacher_type'];
                     E\Eidentity::set_item_value_str($tea_val);
                     E\Egender::set_item_value_str($tea_val);
                     if($tea_val['train_through_new_time']>0){
@@ -1591,6 +1594,7 @@ class seller_student_new2 extends Controller
             if(!empty($tea_list)){
                 array_multisort(
                     $identity_list,SORT_DESC,$gender_list,SORT_DESC,$tea_age_list,SORT_DESC,
+                    $teacher_type_list,SORT_DESC,
                     $match_time,SORT_DESC,$match_tags,SORT_DESC,$ruzhi_list,SORT_DESC,$tea_list
                 );
             }
