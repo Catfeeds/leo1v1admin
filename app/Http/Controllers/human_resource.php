@@ -987,6 +987,12 @@ class human_resource extends Controller
             }else{
                 $item["fine_dimension"]="其他";
             }
+
+            // 全职兼职 2017-12-19
+            $item['full_flag'] = false;
+            if ($item['teacher_money_type'] == 7 || ($item['teacher_money_type'] == 3 && $item['teacher_type'] == 0)) {
+                $item['full_flag'] = true;
+            }
         }
 
         $account_role    = $this->get_account_role();

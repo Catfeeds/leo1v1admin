@@ -75,9 +75,7 @@
                                                   text-indent: 4px;width: 100px;" value="{{$item['score']}}" >
 
                                    
-                                    <button class="btn btn-primary add_question_knowledge" style="height:30px;margin-right:10px" title="编辑知识点" onclick="open_know({{$key+1}})">
-                                        编辑知识点
-                                    </button>
+                                    <button class="btn btn-primary add_question_knowledge" style="height:30px;margin-right:10px" title="编辑知识点" onclick="open_know({{$key+1}})">编辑知识点</button>
                                     
 
                                     <button type="button" class=" btn  btn-warning answer-save" style="height:30px;margin-right:10px" title="点击保存本步骤">保存步骤</button>
@@ -140,7 +138,7 @@
                                 <input class="btn answer_score" style="height:30px;margin-right:10px;padding:0px;text-align: left;
                                               text-indent: 4px;width: 100px;" >
 
-                                <button class="btn btn-primary add_question_knowledge" style="height:30px;margin-right:10px" title="编辑知识点" onclick="open_know({{0}})">
+                                <button class="btn btn-primary add_question_knowledge" style="height:30px;margin-right:10px" title="编辑知识点" onclick="open_know(0)">编辑知识点</button>
 
                                 <button type="button" class=" btn  btn-warning answer-save" style="height:30px;margin-right:10px" title="点击保存本步骤">保存步骤</button>
 

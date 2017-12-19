@@ -1,9 +1,8 @@
 syntax = "proto3";
-/*import "yb_admin/common.proto";*/
 
 //__CMD: 100x0003
 //__DESC: 发送验证码 http://admin.leo1v1.com/account_common/send_verification_code
-//__TAGS: 
+//__TAGS: for send_verification_code 
 
 
 message in  {

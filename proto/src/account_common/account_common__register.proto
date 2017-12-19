@@ -1,9 +1,8 @@
 syntax = "proto3";
-/*import "yb_admin/common.proto";*/
 
 //__CMD: 100x0004
-//__DESC: 发送验证码 http://admin.leo1v1.com/account_common/register
-//__TAGS: 
+//__DESC: 注册 http://admin.leo1v1.com/account_common/register
+//__TAGS: for register 
 
 
 message in  {

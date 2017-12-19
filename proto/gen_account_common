@@ -1,6 +1,7 @@
 #!/bin/bash
 cd $(dirname $0)
 project_name=account_common
+rm -rf ./php_${project_name}
 ./gen_proto  --controller_dir=./  $project_name
 
 #rm -rf ../app/proto/$project_name/
