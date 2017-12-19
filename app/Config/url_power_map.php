@@ -282,6 +282,7 @@ class url_power_map {
 			'/seller_student_new/no_lesson_call_end_time_list'	=>1070489,
 			'/appoint/index2'	=>1070900,
 			'/admin_manage/web_page_info'	=>1071800,
+			'/tongji2/market_extension'	=>1071934,
 			'/user_manage_new/money_contract_list'	=>1080100,
 			'/user_manage_new/money_contract_list_stu'	=>1081100,
 			'/lesson_manage/stu_status_count'	=>1080200,
