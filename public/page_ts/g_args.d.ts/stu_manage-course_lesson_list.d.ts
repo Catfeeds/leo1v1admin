@@ -59,12 +59,13 @@ tofile:
 /// <reference path="../g_args.d.ts/stu_manage-course_lesson_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		sid:	$('#id_sid').val(),
 		courseid:	$('#id_courseid').val(),
 		all_flag:	$('#id_all_flag').val()
-    });
+		});
 }
 $(function(){
 
@@ -88,6 +89,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_sid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["sid title", "sid", "th_sid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -95,6 +97,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_courseid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["courseid title", "courseid", "th_courseid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -102,4 +105,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_all_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["all_flag title", "all_flag", "th_all_flag" ]])!!}
 */

@@ -28,6 +28,7 @@ function load_data(){
     $('.opt-accept').on('click', function() {
         var id = $(this).parent().attr('data_id');
         var teacherid = $(this).parent().attr('data_teacherid');
+        var teacher_money_type = $(this).parent().attr('data_money_type');
         var accept_status = $("<select><option value='1'>不通过</option><option value='2'>通过</option></select>");
         var accept_info = $('<textarea></textarea>');
         var arr = [
@@ -39,11 +40,13 @@ function load_data(){
             label    : "确认",
             cssClass : "btn-warning",
             action   : function(diolog) {
+                console.log(teacherid);
                 $.do_ajax("/teacher_trans/update_accept_status", {
                     'id':id,
                     'teacherid':teacherid,
                     'accept_status': accept_status.val(),
-                    'accept_info': accept_info.val()
+                    'accept_info': accept_info.val(),
+                    'teacher_money_type' : teacher_money_type
                 });
             }
         });

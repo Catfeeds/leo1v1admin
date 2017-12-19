@@ -23,6 +23,39 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+<<<<<<< HEAD
+=======
+	id	:any;
+	channel_name	:any;
+	add_time	:any;
+	all_count	:any;
+	heavy_count	:any;
+	assigned_count	:any;
+	tmk_assigned_count	:any;
+	avg_first_time	:any;
+	tq_called_count	:any;
+	tq_no_call_count	:any;
+	consumption_rate	:any;
+	called_num	:any;
+	tq_call_succ_valid_count	:any;
+	tq_call_succ_invalid_count	:any;
+	called_rate	:any;
+	effect_rate	:any;
+	tq_call_fail_count	:any;
+	tq_call_fail_invalid_count	:any;
+	have_intention_a_count	:any;
+	have_intention_b_count	:any;
+	have_intention_c_count	:any;
+	require_count	:any;
+	test_lesson_count	:any;
+	succ_test_lesson_count	:any;
+	audition_rate	:any;
+	order_count	:any;
+	user_count	:any;
+	order_all_money	:any;
+	distinct_succ_count	:any;
+	distinct_test_count	:any;
+>>>>>>> 7eb40f524db19705455693703c6a616ccdde66f3
 	key0	:any;
 	key1	:any;
 	key2	:any;
@@ -33,8 +66,9 @@ interface RowData {
 	key2_class	:any;
 	key3_class	:any;
 	key4_class	:any;
+	old_key5	:any;
 	level	:any;
-	create_time	:any;
+	sort	:any;
 }
 
 /*

@@ -77,6 +77,14 @@
                             </button>
                         </div>
 
+                        @if(!empty($question_id))
+                            <input type="hidden" value="{{$question_id}}" id="question_id" />
+                            <div class=" input-group-btn ">
+                                <button id="eidt_answer" type="submit" class="btn  btn-info">
+                                    <i class="fa fa-plus"></i>编辑答案
+                                </button>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
