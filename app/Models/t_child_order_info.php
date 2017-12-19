@@ -246,7 +246,7 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
                                   ." from %s c left join %s o on c.parent_orderid = o.orderid"
                                   ." left join %s s on o.userid = s.userid"
                                   ." left join %s p on s.parentid = p.parentid"
-                                  ." where c.price>0 and c.pay_status>0 and s.is_test_user=0 and parentid>0",
+                                  ." where c.price>0 and c.pay_status>0 and s.is_test_user=0 and s.parentid>0",
                                   self::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,

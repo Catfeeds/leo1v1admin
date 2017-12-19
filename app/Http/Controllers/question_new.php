@@ -73,7 +73,7 @@ class question_new extends Controller
         //dd($know_arr);
 
         $knowledge = json_encode($knowledge);
-        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712181417",
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712181447",
                                                   "ret"=>$ret,
                                                   'editData'=>$editData,
                                                   'knowledge'=>$knowledge,
