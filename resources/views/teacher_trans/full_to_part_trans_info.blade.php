@@ -36,9 +36,11 @@
                         <td>{{$var['require_adminid']}}</td>
                         <td>{{$var['require_time']}}</td>
                         <td>{{$var['require_reason']}}</td>
-                        <td>{{$var['accept_status']}}</td>
-                        <td data_id="{{$var['id']}}" data_teacherid="{{$var['teacherid']}}">
-                            <a class="fa fa-edit opt-accept"  title="审核"> </a>
+                        <td>{{$var['accept_status_str']}}</td>
+                        <td data_id="{{$var['id']}}" data_teacherid="{{$var['teacherid']}}" data_money_type="{{$var['teacher_money_type_after']}}">
+                            @if($var['accept_status'] == 0)
+                                <a class="fa fa-edit opt-accept"  title="审核"> </a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
