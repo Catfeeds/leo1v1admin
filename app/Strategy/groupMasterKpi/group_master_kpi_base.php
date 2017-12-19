@@ -38,7 +38,7 @@ class group_master_kpi_base {
     static function  get_info( $adminid, $start_time, $end_time  )  {
         /** @var $tt \App\Console\Tasks\TaskController */
         $tt= new \App\Console\Tasks\TaskController();
-        list($res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4],$res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid]['succ_all_count'],$res[$adminid]['fail_all_count'],$res[$adminid]['test_lesson_count']) = [[],[],[],[],0,0,0,0,0];
+        list($res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid]['succ_all_count'],$res[$adminid]['fail_all_count'],$res[$adminid]['test_lesson_count'],$res[$adminid]['all_new_contract']) = [[],[],[],[],0,0,0,0,0,0];
         //cc自定义月时间
         $def_info = $tt->t_month_def_type->get_time_by_def_time(strtotime(date('Y-m-1',$start_time)));
         $start_time_new = $def_info['start_time'];
@@ -89,8 +89,13 @@ class group_master_kpi_base {
         $test_lesson_count = array_column($res,'test_lesson_count');
         //签单
         $tt->t_order_info->switch_tongji_database();
-        $order_new = $tt->t_order_info->get_1v1_order_list_by_adminid($start_time,$end_time,-1,-1,$adminid_list);
-        dd($order_new);
+        $order_list = $tt->t_order_info->get_1v1_order_list_by_adminid($start_time_new,$end_time_new,-1,-1,$adminid_list);
+        foreach($order_list as $item){
+            $adminid = $item['adminid'];
+            $all_new_contract = $item['all_new_contract'];
+            $res[$adminid]['all_new_contract'] = $all_new_contract;
+        }
+        dd($res);
         $lesson_per = $res[$adminid]['test_lesson_count']!=0?(round($res[$adminid]['fail_all_count']/$res[$adminid]['test_lesson_count'],2)*100):0;
         $res[$adminid]['lesson_per'] = $lesson_per>0?$lesson_per."%":0;
         $res[$adminid]['lesson_kpi'] = $lesson_per<18?40:0;
