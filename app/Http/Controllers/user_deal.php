@@ -3988,8 +3988,8 @@ class user_deal extends Controller
         $adminid=$this->get_in_adminid();
         $month= date("Ym",$start_time);
 
-        $kpi['group_kpi'] = '';
-        $kpi['group_kpi_desc'] = '';
+        $group_kpi['group_kpi'] = '';
+        $group_kpi['group_kpi_desc'] = '';
 
         switch ( $month ) {
         case "201702" :
@@ -4014,13 +4014,14 @@ class user_deal extends Controller
                 "201710", $adminid, $start_time, $end_time );
             break;
         default:
-            $kpi = \App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
+            $group_kpi = \App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_cur_info(
                 $adminid, $start_time, $end_time ) ;
             break;
         }
-        $arr['group_kpi'] = $kpi['group_kpi'];
-        $arr['group_kpi_desc'] = $kpi['group_kpi_desc'];
+        dd($group_kpi);
+        $arr['group_kpi'] = $group_kpi['group_kpi'];
+        $arr['group_kpi_desc'] = $group_kpi['group_kpi_desc'];
         //试听成功数
         list($res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4],$res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid]['fail_all_count'],$res[$adminid]['test_lesson_count']) = [[],[],[],[],0,0,0,0];
         list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
