@@ -9,11 +9,14 @@ class t_textbook_knowledge extends \App\Models\Zgen\z_t_textbook_knowledge
 	}
 
     public function textbook_knowledge_get($textbook_id,$grade,$subject){
-        $sql = $this->gen_sql("select know.knowledge_id,know.title from %s qa left join %s know on qa.knowledge_id = know.knowledge_id
+        $sql = $this->gen_sql("select know.knowledge_id,know.title,level.father_id from %s qa
+                               left join %s know on qa.knowledge_id = know.knowledge_id
+                               left join %s level on qa.knowledge_id = level.knowledge_id
                                where qa.textbook_id = %s and qa.grade = %s and qa.subject = %d 
                                order by know.knowledge_id asc ",
                               self::DB_TABLE_NAME,
                               t_knowledge_point::DB_TABLE_NAME,
+                              t_knowledge_level::DB_TABLE_NAME,
                               $textbook_id,
                               $grade,
                               $subject
@@ -35,11 +38,13 @@ class t_textbook_knowledge extends \App\Models\Zgen\z_t_textbook_knowledge
 
 
     public function dele_by_id_arr($textbook_id,$grade,$subject,$deleArr){
+        $num = 0;
         foreach( $deleArr as $know){
             $sql=$this->gen_sql("delete from %s where textbook_id = %d and grade = %d and subject = %d and knowledge_id = %d"
                                 ,self::DB_TABLE_NAME,$textbook_id,$grade,$subject,$know );
-
+            $num += $this->main_update($sql);
         }
+        return $num;
     }
 
     public function add_id_arr($textbook_id,$grade,$subject,$addArr){
@@ -54,7 +59,7 @@ class t_textbook_knowledge extends \App\Models\Zgen\z_t_textbook_knowledge
         //dd($sqlwhole);
         $sql=$this->gen_sql($sqlwhole,self::DB_TABLE_NAME);
 
-        $this->main_update($sql);
+        return $this->main_update($sql);
 
     }
 
