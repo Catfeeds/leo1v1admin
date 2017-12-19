@@ -40,7 +40,9 @@ class group_master_kpi_base {
         $tt= new \App\Console\Tasks\TaskController();
         //试听成功数
         list($res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4],$res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid]['fail_all_count'],$res[$adminid]['test_lesson_count']) = [[],[],[],[],0,0,0,0];
-        list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
+        $def_info = $tt->t_month_def_type->get_time_by_def_time(strtotime(date('Y-m-1',$start_time)));
+        dd($def_info);
+        dd($start_time_new);
         if($end_time_new >= time()){
             $end_time_new = time();
         }
