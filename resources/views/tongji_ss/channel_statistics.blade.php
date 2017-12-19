@@ -5,23 +5,23 @@
     <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.min.js"></script>
     <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.pie.min.js"></script>
     @if($is_show_pie_flag ==1)
-    <script type="text/javascript" >
-     var g_grade_map= <?php  echo json_encode ($grade_map); ?> ;
-     var g_subject_map= <?php  echo json_encode ($subject_map); ?> ;
-     var g_has_pad_map= <?php  echo json_encode ($has_pad_map); ?> ;
-     var g_area_map= <?php  echo json_encode ($area_map); ?> ;
-     var g_origin_level_map= <?php  echo json_encode ($origin_level_map); ?> ;
-     var g_order_area_map= <?php  echo json_encode ($order_area_map); ?> ;
-     var g_order_grade_map= <?php  echo json_encode ($order_grade_map); ?> ;
-     var g_order_subject_map= <?php  echo json_encode ($order_subject_map); ?> ;
-     var g_test_area_map= <?php  echo json_encode ($test_area_map); ?> ;
-     var g_test_grade_map= <?php  echo json_encode ($test_grade_map); ?> ;
-     var g_test_subject_map= <?php  echo json_encode ($test_subject_map); ?> ;
-     var g_test_has_pad_map= <?php  echo json_encode ($test_has_pad_map); ?> ;
-     var g_test_origin_level_map= <?php  echo json_encode ($test_origin_level_map); ?> ;
-     var g_order_has_pad_map= <?php  echo json_encode ($order_has_pad_map); ?> ;
-     var g_order_origin_level_map= <?php  echo json_encode ($order_origin_level_map); ?> ;
-    </script>
+        <script type="text/javascript" >
+         var g_grade_map= <?php  echo json_encode ($grade_map); ?> ;
+         var g_subject_map= <?php  echo json_encode ($subject_map); ?> ;
+         var g_has_pad_map= <?php  echo json_encode ($has_pad_map); ?> ;
+         var g_area_map= <?php  echo json_encode ($area_map); ?> ;
+         var g_origin_level_map= <?php  echo json_encode ($origin_level_map); ?> ;
+         var g_order_area_map= <?php  echo json_encode ($order_area_map); ?> ;
+         var g_order_grade_map= <?php  echo json_encode ($order_grade_map); ?> ;
+         var g_order_subject_map= <?php  echo json_encode ($order_subject_map); ?> ;
+         var g_test_area_map= <?php  echo json_encode ($test_area_map); ?> ;
+         var g_test_grade_map= <?php  echo json_encode ($test_grade_map); ?> ;
+         var g_test_subject_map= <?php  echo json_encode ($test_subject_map); ?> ;
+         var g_test_has_pad_map= <?php  echo json_encode ($test_has_pad_map); ?> ;
+         var g_test_origin_level_map= <?php  echo json_encode ($test_origin_level_map); ?> ;
+         var g_order_has_pad_map= <?php  echo json_encode ($order_has_pad_map); ?> ;
+         var g_order_origin_level_map= <?php  echo json_encode ($order_origin_level_map); ?> ;
+        </script>
     @endif
     <section class="content">
         <div class="book_filter">
@@ -120,9 +120,7 @@
         </div>
         <hr />
         <div class="body">
-
             @if ($field_name !="origin" && $is_history != 1)
-
                 <table class="common-table   ">
                     <thead>
                         <tr>
@@ -334,15 +332,12 @@
                                 <td>
                                     <div></div>
                                 </td>
-
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             @endif
         </div>
-
-
         @if($is_show_pie_flag ==1)
         <!-- 统计饼图   begin -->
         <div class="row">

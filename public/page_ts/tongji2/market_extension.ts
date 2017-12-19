@@ -25,7 +25,9 @@ $(function(){
 		    }
     });
 
+    Enum_map.append_option_list("market_gift_type",$("#id_type"));
 	  $('#id_type').val(g_args.type);
+
 	  $('.opt-change').set_input_change_event(load_data);
 });
 
