@@ -38,7 +38,7 @@ class test_abner extends cmd_base
     public function handle()
     {
         //
-        $start_time = strtotime(date('Y-09-01'));
+        $start_time = strtotime(date('Y-10-01'));
         $end_time = strtotime('+1 month -1 second',$start_time);
 
         $data = $this->task->t_teacher_info->get_teacher_code($start_time,$end_time); 
