@@ -37,6 +37,12 @@
             </div>
 
             <div class="col-xs-1 col-md-1">
+                <div class=" input-group-btn ">
+                    <button style="margin-left:10px" id="edit_question_type" type="button" class="btn btn-success">编辑题型</button>
+                </div>
+            </div>
+
+            <div class="col-xs-1 col-md-1">
                 <div class="input-group">
                     <button style="margin-left:10px" id="knowledge_list" type="button" class="btn btn-primary">知识点列表</button>
                 </div>
