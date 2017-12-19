@@ -1,4 +1,5 @@
 interface GargsStatic {
+	type:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -18,15 +19,16 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../main_page2; vi  ../main_page2/market.ts
+	 mkdir -p ../tongji2; vi  ../tongji2/market_extension.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/main_page2-market.d.ts" />
+/// <reference path="../g_args.d.ts/tongji2-market_extension.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
+		type:	$('#id_type').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -46,6 +48,7 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
+	$('#id_type').val(g_args.type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -55,6 +58,14 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">type</span>
+                <input class="opt-change form-control" id="id_type" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["type title", "type", "th_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}

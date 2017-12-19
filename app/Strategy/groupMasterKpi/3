@@ -42,12 +42,9 @@ class group_master_kpi_base {
         $def_info = $tt->t_month_def_type->get_time_by_def_time(strtotime(date('Y-m-1',$start_time)));
         $start_time_new = $def_info['start_time'];
         $end_time_new = $def_info['end_time'];
-        // dd($start_time_new,$end_time_new);
         //全月在职组员
         $adminid_list = $tt->t_admin_group_name->get_group_admin_list($adminid);
         $adminid_list = array_unique(array_column($adminid_list,'adminid'));
-        $person_count = count($adminid_list);
-        $leave_count  = 0;
         $adminid_info = $tt->t_manager_info->get_group_admin_list($adminid_list);
         foreach($adminid_info as $key=>$item){
             $adminid = $item['adminid'];
@@ -60,9 +57,6 @@ class group_master_kpi_base {
                     $full_month_flag = 0;
                 }
             }else{
-                if($leave_member_time>$start_time_new && $leave_member_time<$end_time_new){
-                    $leave_count += 1;
-                }
                 if($leave_member_time<$end_time_new){
                     $full_month_flag = 0;
                 }
@@ -79,7 +73,6 @@ class group_master_kpi_base {
             $adminid_info[$key]['create_time_str'] = $create_time?date('Y-m-d H:i:s',$create_time):'';
             $adminid_info[$key]['leave_member_time_str'] = $leave_member_time?date('Y-m-d H:i:s',$leave_member_time):'';
         }
-        $full_count = count($adminid_list);
         //试听
         $ret_new = $tt->t_month_def_type->get_month_week_time($start_time_new);
         $tt->t_test_lesson_subject_require->switch_tongji_database();
@@ -100,23 +93,20 @@ class group_master_kpi_base {
             $all_new_contract = $item['all_new_contract'];
             $res[$adminid]['all_new_contract'] = $all_new_contract;
         }
-        $test_lesson_count = array_sum(array_column($res,'test_lesson_count'));//学生上课数
-        $fail_all_count = array_sum(array_column($res,'fail_all_count'));//取消数
-        $succ_all_count = array_sum(array_column($res,'succ_all_count'));//试听成功数
-        $all_new_contract = array_sum(array_column($res,'all_new_contract'));//签约数
-
-        $test_per = ($full_count>0 && round($test_lesson_count/$full_count,2))>=50.00?10:0;//平均课数
-        $fail_per = ($test_lesson_count>0 && round($fail_all_count/$test_lesson_count,2)<=18.00)?10:0;//取消率
-        $order_per = ($succ_all_count>0 && round($all_new_contract/$succ_all_count,2)>=10.00)?40:0;//转化率
-        $leave_per = ($person_count>0 && round($leave_count/$person_count,2)<=20.00)?40:0;//离职率
-
-        $test_per_desc = ($full_count>0)?$test_lesson_count.'÷'.$full_count:0;
-        $fail_per_desc = ($test_lesson_count>0)?$fail_all_count.'÷'.$test_lesson_count:0;
-        $order_per_desc = ($succ_all_count>0)?$all_new_contract.'÷'.$succ_all_count:0;
-        $leave_per_desc = ($person_count>0)?$leave_count.'÷'.$person_count:0;
-        $desc = $test_per_desc.'+'.$fail_per_desc.'+'.$order_per_desc.'+'.$leave_per_desc;
-
-        dd($desc,$test_per,$fail_per,$order_per,$leave_per);
+        $succ_all_count = array_column($res,'succ_all_count');
+        $fail_all_count = array_column($res,'fail_all_count');
+        $test_lesson_count = array_column($res,'test_lesson_count');
+        $all_new_contract = array_column($res,'all_new_contract');
+        dd($res);
+        $lesson_per = $res[$adminid]['test_lesson_count']!=0?(round($res[$adminid]['fail_all_count']/$res[$adminid]['test_lesson_count'],2)*100):0;
+        $res[$adminid]['lesson_per'] = $lesson_per>0?$lesson_per."%":0;
+        $res[$adminid]['lesson_kpi'] = $lesson_per<18?40:0;
+        $kpi = $res[$adminid]['lesson_kpi']+$res[$adminid]['suc_lesson_count_rate_all'];
+        $res[$adminid]['kpi'] = ($kpi && $res[$adminid]['test_lesson_count']>0)>0?$kpi."%":0;
+        $manager_info = $this->t_manager_info->field_get_list($adminid,'become_member_time,del_flag');
+        if($manager_info["become_member_time"]>0 && ($end_time-$manager_info["become_member_time"])<3600*24*60 && $manager_info["del_flag"]==0){
+            $item['kpi'] = "100%";
+        }
         $arr['suc_first_week'] = $res[$adminid]['suc_lesson_count_one'];
         $arr['suc_second_week'] = $res[$adminid]['suc_lesson_count_two'];
         $arr['suc_third_week'] = $res[$adminid]['suc_lesson_count_three'];

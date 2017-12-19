@@ -391,9 +391,9 @@ class menu{
                 ["power_id"=>9, "name"=>"约课 课程包管理",   "url"=>"/appoint/index2"],
                 ["power_id"=>18, "name"=>"h5 活动页 ",   "url"=>"/admin_manage/web_page_info"],
 
-                // ["power_id"=>19, "name"=>"配置功能", "list"=>[
-                //     ["power_id"=>34, "name"=>"推广活动",   "url"=>"/user_manage/complaint_department_deal_teacher_qc"],
-                // ]],
+                ["power_id"=>19, "name"=>"配置功能", "list"=>[
+                    ["power_id"=>34, "name"=>"推广活动",   "url"=>"/tongji2/market_extension"],
+                ]],
 
             ]],
 
