@@ -1,9 +1,8 @@
 syntax = "proto3";
-/*import "yb_admin/common.proto";*/
 
 //__CMD: 100x0005
 //__DESC: 重置密码 http://admin.leo1v1.com/account_common/reset_passwd
-//__TAGS: 
+//__TAGS: for reset_passwd
 
 
 message in  {

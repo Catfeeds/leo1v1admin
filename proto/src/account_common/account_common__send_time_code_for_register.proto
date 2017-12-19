@@ -1,9 +1,8 @@
 syntax = "proto3";
-/*import "yb_admin/common.proto";*/
 
 //__CMD: 100x0001
 //__DESC: 发送验证码前发送时间戳给前端,回调验证(注册使用) http://admin.leo1v1.com/account_common/send_time_code_for_register
-//__TAGS: 
+//__TAGS: send_time_code_for_register
 
 
 message in  {

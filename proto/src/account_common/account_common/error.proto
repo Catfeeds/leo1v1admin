@@ -1,6 +1,6 @@
 syntax = "proto3";
 package error;
-option php_namespace = "Proto\\agent_api\\error"; 
+option php_namespace = "Proto\\account_common\\error"; 
 enum  enum_error {
   ERR_SUCC  =0;
 
