@@ -4869,11 +4869,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                       THEN '高中英语'
                       WHEN li.subject = 5 and li.grade <= 203 and li.grade >= 200
                       THEN '初中物理'
-                      WHEN li.subject = 5 and li.grade <= 300 and li.grade >= 303
+                      WHEN li.subject = 5 and li.grade >= 300 and li.grade <= 303
                       THEN '高中物理'
                       WHEN li.subject = 4 and li.grade <= 203 and li.grade >= 200
                       THEN '初中化学'
-                      WHEN li.subject = 4 and li.grade <= 300 and li.grade >= 303
+                      WHEN li.subject = 4 and li.grade >= 300 and li.grade <= 303
                       THEN '高中化学'
                       WHEN li.subject = 10 and li.grade <= 203 and li.grade >= 200
                       THEN '初中科学'

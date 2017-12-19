@@ -342,7 +342,8 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
-        dd(date("H"));
+        $list = $this->t_child_order_info->get_all_payed_prder_info();
+        dd($list);
 
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $adminid= $this->get_in_int_val("adminid",480 );
