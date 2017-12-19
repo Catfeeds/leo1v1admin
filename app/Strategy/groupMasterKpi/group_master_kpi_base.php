@@ -105,7 +105,7 @@ class group_master_kpi_base {
         $succ_all_count = array_sum(array_column($res,'succ_all_count'));//试听成功数
         $all_new_contract = array_sum(array_column($res,'all_new_contract'));//签约数
 
-        $test_per = ($full_count>0 && round($test_lesson_count/$full_count,2))>=50.00?10:0;//平均课数
+        $test_per = ($full_count>0 && round($test_lesson_count/$full_count,2)>=50.00)?10:0;//平均课数
         $fail_per = ($test_lesson_count>0 && round($fail_all_count/$test_lesson_count,2)<=18.00)?10:0;//取消率
         $order_per = ($succ_all_count>0 && round($all_new_contract/$succ_all_count,2)>=10.00)?40:0;//转化率
         $leave_per = ($person_count>0 && round($leave_count/$person_count,2)<=20.00)?40:0;//离职率
