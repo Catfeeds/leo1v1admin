@@ -342,6 +342,9 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
+        $this->reset_parent_course_info(358650,1391851545550);
+        dd(111);
+
         $list = $this->t_child_order_info->get_all_payed_prder_info();
         foreach($list as $val){
             $competition_flag = $val["competition_flag"];
@@ -722,6 +725,72 @@ class test_jack  extends Controller
 
 
     }
+
+        //更新家长百度有钱花课程信息
+    public function reset_parent_course_info($userid,$orderNo){
+        $pp_info = $this->t_student_info->field_get_list($userid,"parentid,grade");
+        $courseid = $this->t_orderid_orderno_list->get_courseid($orderNo);
+        $parent_orderid = $this->t_orderid_orderno_list->get_parent_orderid($orderNo);
+        $competition_flag = $this->t_order_info->get_competition_flag($parent_orderid);
+        if($competition_flag==1){
+            if(!$courseid){
+                $courseid = "SHLEOZ3101006"; 
+            }
+            $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
+            if($course_list){
+                $list=json_decode($course_list);
+            }else{
+                $list=[];
+            }
+            @$list[4][]=$courseid;
+            $str = json_encode($list);
+            
+        }elseif($grade >=100 && $grade<200){
+            if(!$courseid){
+                $courseid = "SHLEOZ3101001"; 
+            }
+            $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
+            if($course_list){
+                $list=json_decode($course_list);
+            }else{
+                $list=[];
+            }
+            @$list[1][]=$courseid;
+            $str = json_encode($list);
+        }elseif($grade >=200 && $grade<300){
+            if(!$courseid){
+                $courseid = "SHLEOZ3101011"; 
+            }
+            $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
+            if($course_list){
+                $list=json_decode($course_list);
+            }else{
+                $list=[];
+            }
+            @$list[2][]=$courseid;
+            $str = json_encode($list);
+        }elseif($grade >=300 && $grade<400){
+            if(!$courseid){
+                $courseid = "SHLEOZ3101016"; 
+            }
+            $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
+            if($course_list){
+                $list=json_decode($course_list);
+            }else{
+                $list=[];
+            }
+            @$list[3][]=$courseid;
+            $str = json_encode($list);
+        }
+        $this->t_parent_info->field_update_list($pp_info["parentid"],[
+            "baidu_class_info" =>$str 
+        ]);
+
+
+        
+
+    }
+
 
     public function test_wx(){
         $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid(60001);
