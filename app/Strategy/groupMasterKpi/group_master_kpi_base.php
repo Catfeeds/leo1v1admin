@@ -41,14 +41,11 @@ class group_master_kpi_base {
         //试听成功数
         list($res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4],$res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid]['fail_all_count'],$res[$adminid]['test_lesson_count']) = [[],[],[],[],0,0,0,0];
         $def_info = $tt->t_month_def_type->get_time_by_def_time(strtotime(date('Y-m-1',$start_time)));
-        dd($def_info);
-        dd($start_time_new);
-        if($end_time_new >= time()){
-            $end_time_new = time();
-        }
-        dd($start_time_new);
-        $ret_new = $this->t_month_def_type->get_month_week_time($start_time_new);
-        $test_leeson_list_new = $this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid);
+        $start_time_new = $def_info['start_time'];
+        $end_time_new = $def_info['end_time'];
+        $adminid_list = $tt->t_admin_group_name->get_group_admin_list($adminid);
+        $adminid_list = array_unique(array_column($adminid_list,'adminid'));
+        $test_leeson_list_new = $tt->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid,$adminid_list);
         foreach($test_leeson_list_new['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             $lesson_start = $item['lesson_start'];
@@ -67,6 +64,7 @@ class group_master_kpi_base {
                 }
             }
         }
+        dd($res);
         foreach($res as $key=>$item){
             $res[$key]['suc_lesson_count_one'] = isset($item[E\Eweek_order::V_1])?count($item[E\Eweek_order::V_1]):0;
             $res[$key]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
