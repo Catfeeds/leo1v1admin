@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 //__CMD: 100x0004
-//__DESC: 注册 http://admin.leo1v1.com/account_common/register
+//__DESC: 注册 http://api.account.leo1v1.com/account_common/register
 //__TAGS: for register 
 
 

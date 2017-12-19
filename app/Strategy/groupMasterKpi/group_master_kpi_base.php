@@ -124,7 +124,6 @@ class group_master_kpi_base {
         $kpi_desc = $test_per_desc.'+'.$fail_per_desc.'+'.$order_per_desc.'+'.$leave_per_desc;
         $arr['group_kpi'] = $kpi.'%';
         $arr['group_kpi_desc'] = $kpi_desc;
-        dd($arr);
         return $arr;
     }
 
