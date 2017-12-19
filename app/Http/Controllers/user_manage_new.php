@@ -121,9 +121,13 @@ class user_manage_new extends Controller
         $ret_list = $this->t_lesson_info->get_tea_confirm_lesson_list($start_time,$end_time,$teacher_money_type);
 
         foreach($ret_list['list'] as &$item ){
-            $item["teacher_nick"] =$this->cache_get_teacher_nick($item["teacherid"]);
             E\Eteacher_money_type::set_item_value_str($item);
+            E\Esubject::set_item_value_str($item);
+            $item['lesson_count'] /= 100;
+            $item['trial_lesson_count'] /= 100;
+            $item['normal_lesson_count'] /= 100;
         }
+
         return $this->Pageview(__METHOD__,$ret_list );
     }
 

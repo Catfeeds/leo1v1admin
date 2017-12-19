@@ -55,6 +55,8 @@ $(function(){
                     $tr.find(".kpi").text(data["kpi"]);
                     $tr.find(".last_all_price").text(data["last_all_price"]);
                     $tr.find(".last_seller_level").text(data["last_seller_level"]);
+                    $tr.find(".group_kpi").text(data["group_kpi"]);
+                    $tr.find(".group_kpi_desc").text(data["group_kpi_desc"]);
 
                     $tr.find(".all_price").text(data["all_price"]);
                     $tr.find(".base_salary").text(data["base_salary"]);

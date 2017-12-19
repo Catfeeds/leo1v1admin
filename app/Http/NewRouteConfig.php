@@ -54,6 +54,7 @@ class NewRouteConfig {
         "resource"=>true,
         'test_bacon'=>true,
         'question_new'=>true,
+        'question_new_api'=>true,
     ];
 
     static public function check_is_new_ctl($ctl) {
@@ -674,7 +675,13 @@ class NewRouteConfig {
         "/channel_manage/update_channel_name"            => true,
         "/channel_manage/set_teacher_ref_type"           => true,
         "/channel_manage/zs_origin_list_new"             => true,
-
+        
+        "/question_new_api/get_grade_and_subject"        =>true,
+        "/question_new_api/get_textbook_subject"         =>true,
+        "/question_new_api/get_textbook_knowledge"       =>true,
+        "/question_new_api/get_question_type_and_resource"  =>true,
+        "/question_new_api/get_questions"                =>true,
+        "/question_new_api/get_answers"                  =>true,
     ];
 
     static $dev_url_map = [

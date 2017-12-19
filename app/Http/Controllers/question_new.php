@@ -99,7 +99,7 @@ class question_new extends Controller
         $data['open_flag']   = $this->get_in_str_val('open_flag',1);
         $data['difficult']   = $this->get_in_str_val('difficult',1);
         $data['question_type']   = $this->get_in_int_val('question_type',1);
-        $data['question_resource_name']   = $this->get_in_str_val('question_resource_name',1);
+        $data['question_resource_name']   = $this->get_in_str_val('question_resource_name','');
         $data['question_resource_type']   = $this->get_in_int_val('question_resource_type',1);
 
         $knowledge_old   = $this->get_in_str_val('knowledge_old','');
