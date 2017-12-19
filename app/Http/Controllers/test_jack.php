@@ -739,7 +739,7 @@ class test_jack  extends Controller
             }
             $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
             if($course_list){
-                $list=json_decode($course_list);
+                $list=json_decode($course_list,true);
             }else{
                 $list=[];
             }
@@ -752,7 +752,7 @@ class test_jack  extends Controller
             }
             $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
             if($course_list){
-                $list=json_decode($course_list);
+                $list=json_decode($course_list,true);
             }else{
                 $list=[];
             }
@@ -764,7 +764,7 @@ class test_jack  extends Controller
             }
             $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
             if($course_list){
-                $list=json_decode($course_list);
+                $list=json_decode($course_list,true);
             }else{
                 $list=[];
             }
@@ -776,7 +776,7 @@ class test_jack  extends Controller
             }
             $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
             if($course_list){
-                $list=json_decode($course_list);
+                $list=json_decode($course_list,true);
             }else{
                 $list=[];
             }
