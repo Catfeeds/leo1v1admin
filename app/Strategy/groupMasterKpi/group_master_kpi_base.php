@@ -46,9 +46,33 @@ class group_master_kpi_base {
         $ret_new = $tt->t_month_def_type->get_month_week_time($start_time_new);
         $adminid_list = $tt->t_admin_group_name->get_group_admin_list($adminid);
         $adminid_list = array_unique(array_column($adminid_list,'adminid'));
-        $test_leeson_list_new = $tt->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid,$adminid_list);
         $adminid_info = $tt->t_manager_info->get_group_admin_list($adminid_list);
-        dd($adminid_info);
+        foreach($adminid_info as $item){
+            $adminid = $item['adminid'];
+            $full_month_flag = 1;
+            $del_flag = $item['del_flag'];
+            $create_time = $item['create_time'];
+            $leave_member_time = $item['leave_member_time'];
+            if($del_flag == 0){
+                if($create_time>$start_time_new){
+                    $full_month_flag = 0;
+                }
+            }else{
+                if($leave_member_time<$end_time_new){
+                    $full_month_flag = 0;
+                }
+            }
+            if($full_month_flag == 0){
+                foreach($adminid_list as &$info){
+                    if($info == $adminid){
+                        unset($info);
+                    }
+                }
+            }
+        }
+        dd($adminid_list);
+        $test_leeson_list_new = $tt->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid,$adminid_list);
+
         foreach($test_leeson_list_new['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             $lesson_start = $item['lesson_start'];
