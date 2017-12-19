@@ -161,6 +161,12 @@ $(function(){
 
     })
 
+    //编辑答案
+    $('#eidt_answer').click(function(){
+        var question_id = $('#question_id').val();
+        window.open('/question_new/answer_edit?question_id='+question_id);
+    });
+
     //保存题目
     $("#save_know").click(function(){
 
@@ -174,7 +180,7 @@ $(function(){
             })
                 knowledge_new = knowledge_new.substring(0, knowledge_new.length-1);
         }
-        console.log(knowledge_new);
+        //console.log(knowledge_new);
 
         var data = {
             'editType':g_args.editType,
@@ -196,8 +202,13 @@ $(function(){
             data:data,
             success : function(res){
                 BootstrapDialog.alert(res.msg);
-                if( res.status = 200 ){
+                if( res.status == 200 ){
                     //window.close();
+                    var subject = $('#id_subject').val();
+                    var question_id = res.question_id;
+                    window.location = '/question_new/question_edit?editType=2&question_id='+question_id+'&subject='+subject;
+                }else{
+                    window.location.reload();
                 }
             },
             error:function(){

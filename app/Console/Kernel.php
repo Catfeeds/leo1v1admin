@@ -193,6 +193,7 @@ class Kernel extends ConsoleKernel
         Commands\modify_origin_key::class,
         Commands\funnel_channel_statistics::class,
         Commands\node_type_channel_statistics::class,
+        Commands\test_abner::class,
     ];
 
     /**

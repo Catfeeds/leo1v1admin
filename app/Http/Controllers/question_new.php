@@ -73,11 +73,12 @@ class question_new extends Controller
         //dd($know_arr);
 
         $knowledge = json_encode($knowledge);
-        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712161417",
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712181447",
                                                   "ret"=>$ret,
                                                   'editData'=>$editData,
                                                   'knowledge'=>$knowledge,
-                                                  'know_arr'=>$know_arr
+                                                  'know_arr'=>$know_arr,
+                                                  'question_id' =>$question_id
 
         ]);
  
@@ -107,6 +108,7 @@ class question_new extends Controller
                 $question_id = $this->t_question->get_last_insertid();
                 $this->question_or_answer_know_add($question_id,$knowledge_old,$knowledge_new,1);
                 $result['status'] = 200;
+                $result['question_id'] = $question_id;
                 $result['msg'] = "添加成功";
             }else{
                 $result['status'] = 500;
@@ -119,7 +121,7 @@ class question_new extends Controller
             $this->question_or_answer_know_add($question_id,$knowledge_old,$knowledge_new,1);
             $ret = $this->t_question->field_update_list($question_id,$data);
             if($ret){
-                $result['status'] = 200;
+                $result['status'] = 201;
                 $result['msg'] = "更新成功";
             }else{
                 $result['status'] = 500;
