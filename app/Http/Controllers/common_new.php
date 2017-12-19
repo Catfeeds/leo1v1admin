@@ -1206,6 +1206,8 @@ class common_new extends Controller
 
                 //更新家长课程信息
                 $this->reset_parent_course_info($userid,$$orderNo);
+
+
                 if($parent_orderid>0){
                     $this->t_manager_info->send_wx_todo_msg(
                         "jack",
@@ -1258,8 +1260,8 @@ class common_new extends Controller
                         "parent_name" =>$parent_name
                     ]);
                    
-                    //更新家长课程信息
-                    // $this->reset_parent_course_info($userid,$orderNo);
+                    // 更新家长课程信息
+                    $this->reset_parent_course_info($userid,$orderNo);
 
                     $this->t_manager_info->send_wx_todo_msg(
                         "jack",
@@ -1404,8 +1406,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     //更新家长百度有钱花课程信息
     public function reset_parent_course_info($userid,$orderNo){
+
         $pp_info = $this->t_student_info->field_get_list($userid,"parentid,grade");
         $courseid = $this->t_orderid_orderno_list->get_courseid($orderNo);
+        $grade=$pp_info["grade"];
         $parent_orderid = $this->t_orderid_orderno_list->get_parent_orderid($orderNo);
         $competition_flag = $this->t_order_info->get_competition_flag($parent_orderid);
         if($competition_flag==1){
@@ -1414,7 +1418,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
             $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
             if($course_list){
-                $list=json_decode($course_list);
+                $list=json_decode($course_list,true);
             }else{
                 $list=[];
             }
@@ -1427,7 +1431,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
             $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
             if($course_list){
-                $list=json_decode($course_list);
+                $list=json_decode($course_list,true);
             }else{
                 $list=[];
             }
@@ -1439,7 +1443,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
             $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
             if($course_list){
-                $list=json_decode($course_list);
+                $list=json_decode($course_list,true);
             }else{
                 $list=[];
             }
@@ -1451,7 +1455,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
             $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
             if($course_list){
-                $list=json_decode($course_list);
+                $list=json_decode($course_list,true);
             }else{
                 $list=[];
             }
@@ -1466,6 +1470,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         
 
     }
+
 
 
     //建行回调地址

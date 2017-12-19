@@ -760,7 +760,7 @@ class test_jack  extends Controller
             $str = json_encode($list);
         }elseif($grade >=200 && $grade<300){
             if(!$courseid){
-                $courseid = "SHLEOZ3101011"; 
+                $courseid = "SHLEOZ3101012"; 
             }
             $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
             if($course_list){
