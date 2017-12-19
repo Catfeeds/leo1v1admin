@@ -138,46 +138,46 @@ class test_abner extends cmd_base
         foreach($data as $key => $item){
 
             if($flag_map[$key]){
-                if($item['subject'] = 1 && $item['grade'] <= 106 && !empty(courseid)){
+                if($item['subject'] = 1 && $item['grade'] <= 106 && !empty($item['courseid'])){
                     $teacher_case['小学语文']['has_class'] ++;
                     $flag_map[$key]=true;
-                }elseif($item['subject'] = 1 && $item['grade'] >= 200 && $item['grade'] <= 203 && !empty(courseid)){
+                }elseif($item['subject'] = 1 && $item['grade'] >= 200 && $item['grade'] <= 203 && !empty($item['courseid'])){
                     $teacher_case['初中语文']['has_class'] ++;
                     $flag_map[$key]=true;
-                }elseif($item['subject'] = 1 && $item['grade'] >= 300 && $item['grade'] <= 303 && !empty(courseid)){
+                }elseif($item['subject'] = 1 && $item['grade'] >= 300 && $item['grade'] <= 303 && !empty($item['courseid'])){
                     $teacher_case['高中语文']['has_class'] ++;
                     $flag_map[$key]=true;
-                }elseif($item['subject'] = 2 && $item['grade'] <= 106 && !empty(courseid)){
+                }elseif($item['subject'] = 2 && $item['grade'] <= 106 && !empty($item['courseid'])){
                     $teacher_case['小学数学']['has_class'] ++;
                     $flag_map[$key]=true;
-                }elseif($item['subject'] = 2 && $item['grade'] >= 200 && $item['grade'] <= 203 && !empty(courseid)){
+                }elseif($item['subject'] = 2 && $item['grade'] >= 200 && $item['grade'] <= 203 && !empty($item['courseid'])){
                     $teacher_case['初中数学']['has_class'] ++;
                     $flag_map[$key]=true;
-                }elseif($item['subject'] = 2 && $item['grade'] >= 300 && $item['grade'] <= 303 && !empty(courseid)){
+                }elseif($item['subject'] = 2 && $item['grade'] >= 300 && $item['grade'] <= 303 && !empty($item['courseid'])){
                     $teacher_case['高中数学']['has_class'] ++;
                     $flag_map[$key]=true;
-                }elseif($item['subject'] = 3 && $item['grade'] <= 106 && !empty(courseid)){
+                }elseif($item['subject'] = 3 && $item['grade'] <= 106 && !empty($item['courseid'])){
                     $teacher_case['小学英语']['has_class'] ++;
                     $flag_map[$key]=true;
-                }elseif($item['subject'] = 3 && $item['grade'] >= 200 && $item['grade'] <= 203 && !empty(courseid)){
+                }elseif($item['subject'] = 3 && $item['grade'] >= 200 && $item['grade'] <= 203 && !empty($item['courseid'])){
                     $teacher_case['初中英语']['has_class'] ++;
                     $flag_map[$key]=true;
-                }elseif($item['subject'] = 3 && $item['grade'] >= 300 && $item['grade'] <= 303 && !empty(courseid)){
+                }elseif($item['subject'] = 3 && $item['grade'] >= 300 && $item['grade'] <= 303 && !empty($item['courseid'])){
                     $teacher_case['高中英语']['has_class'] ++;
                     $flag_map[$key]=true;
-                }elseif($item['subject'] = 4 && $item['grade'] >= 200 && $item['grade'] <= 203 && !empty(courseid)){
+                }elseif($item['subject'] = 4 && $item['grade'] >= 200 && $item['grade'] <= 203 && !empty($item['courseid'])){
                     $teacher_case['初中化学']['has_class'] ++;
                     $flag_map[$key]=true;
-                }elseif($item['subject'] = 4 && $item['grade'] >= 300 && $item['grade'] <= 303 && !empty(courseid)){
+                }elseif($item['subject'] = 4 && $item['grade'] >= 300 && $item['grade'] <= 303 && !empty($item['courseid'])){
                     $teacher_case['高中化学']['has_class'] ++;
                     $flag_map[$key]=true;
-                }elseif($item['subject'] = 5 && $item['grade'] >= 200 && $item['grade'] <= 203 && !empty(courseid)){
+                }elseif($item['subject'] = 5 && $item['grade'] >= 200 && $item['grade'] <= 203 && !empty($item['courseid'])){
                     $teacher_case['初中物理']['has_class'] ++;
                     $flag_map[$key]=true;
-                }elseif($item['subject'] = 5 && $item['grade'] >= 300 && $item['grade'] <= 303 && !empty(courseid)){
+                }elseif($item['subject'] = 5 && $item['grade'] >= 300 && $item['grade'] <= 303 && !empty($item['courseid'])){
                     $teacher_case['高中物理']['has_class'] ++;
                     $flag_map[$key]=true;
-                }elseif($item['subject'] = 10 && $item['grade'] >= 200 && $item['grade'] <= 203 && !empty(courseid)){
+                }elseif($item['subject'] = 10 && $item['grade'] >= 200 && $item['grade'] <= 203 && !empty($item['courseid'])){
                     $teacher_case['初中科学']['has_class'] ++;
                     $flag_map[$key]=true;
                 }else{
