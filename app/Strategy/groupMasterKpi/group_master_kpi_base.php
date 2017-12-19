@@ -38,7 +38,6 @@ class group_master_kpi_base {
     static function  get_info( $adminid, $start_time, $end_time  )  {
         /** @var $tt \App\Console\Tasks\TaskController */
         $tt= new \App\Console\Tasks\TaskController();
-        //试听成功数
         list($res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4],$res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid]['succ_all_count'],$res[$adminid]['fail_all_count'],$res[$adminid]['test_lesson_count']) = [[],[],[],[],0,0,0,0,0];
         //cc自定义月时间
         $def_info = $tt->t_month_def_type->get_time_by_def_time(strtotime(date('Y-m-1',$start_time)));
@@ -75,8 +74,9 @@ class group_master_kpi_base {
             $adminid_info[$key]['create_time_str'] = $create_time?date('Y-m-d H:i:s',$create_time):'';
             $adminid_info[$key]['leave_member_time_str'] = $leave_member_time?date('Y-m-d H:i:s',$leave_member_time):'';
         }
-        //cc自定义试听成功周
+        //试听
         $ret_new = $tt->t_month_def_type->get_month_week_time($start_time_new);
+        $tt->t_test_lesson_subject_require->switch_tongji_database();
         $test_lesson_list = $tt->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid,$adminid_list);
         foreach($test_lesson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
@@ -84,7 +84,13 @@ class group_master_kpi_base {
             $res[$adminid]['fail_all_count'] = $item['fail_all_count'];
             $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
         }
-        dd($res);
+        $succ_all_count = array_column($res,'succ_all_count');
+        $fail_all_count = array_column($res,'fail_all_count');
+        $test_lesson_count = array_column($res,'test_lesson_count');
+        //签单
+        $tt->t_order_info->switch_tongji_database();
+        $order_new = $tt->t_order_info->get_1v1_order_list_by_adminid($start_time,$end_time,-1,-1,$adminid_list);
+        dd($order_new);
         $lesson_per = $res[$adminid]['test_lesson_count']!=0?(round($res[$adminid]['fail_all_count']/$res[$adminid]['test_lesson_count'],2)*100):0;
         $res[$adminid]['lesson_per'] = $lesson_per>0?$lesson_per."%":0;
         $res[$adminid]['lesson_kpi'] = $lesson_per<18?40:0;
