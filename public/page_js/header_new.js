@@ -1,65 +1,11 @@
 // SWITCH-TO:   ../../template/al_common/
 function table_init() {
     var thead=$("table  thead  ");
-    $.each(thead, function(table_i,th_item){
 
+    $.each(thead, function(table_i,th_item){
         var path_list=window.location.pathname.split("/");
         var table_key=path_list[1]+"-"+path_list[2]+"-"+ table_i;
         var opt_td=$(th_item).find ("td:last");
-        var download_item=$( " <a href=\"javascript:;\">下载为 xls</a>");
-        var download_fun=function () {
-            var list_data=[];
-            var $tr_list=$(th_item).closest("table").find("tr" );
-            $.each($tr_list ,function(i,tr_item )  {
-                var row_data= [];
-                var $td_list= $(tr_item ).find("td");
-                $.each(  $td_list, function( i, td_item)  {
-                    if ( i>0 && i< $td_list.length-1 ) {
-                        row_data.push( $.trim( $(td_item).text()) );
-                    }
-                });
-                list_data.push(row_data);
-            });
-
-            $.do_ajax ( "/common_new/upload_xls_data",{
-                xls_data :  JSON.stringify(list_data )
-            },function(data){
-                // window.open("/common_new/download_xls",true);
-                window.location.href= "/common_new/download_xls";
-            });
-
-        };
-
-        download_item.on("click",function(){
-            if ($(".page-opt-show-all").length >0 ) {
-
-                BootstrapDialog.show({
-                    title: '下载为xls',
-                    message: '你没有全部显示，要下载全部,请 点击 <全部显示>　, <br/>下载本页面的吗?',
-                    buttons: [{
-                        label: '返回',
-                        action: function(dialog) {
-                            dialog.close();
-                        }
-                    }, {
-                        label: '确认',
-                        cssClass: 'btn-warning',
-                        action: function(dialog) {
-                            download_fun();
-
-                        }
-                    }]
-                });
-
-            }else{
-                download_fun();
-            }
-
-
-
-        });
-
-        opt_td.append(download_item );
 
         var config_item=$( " <a href=\"javascript:; \" class=\"btn btn-primary\">列配置</a>");
         config_item.on("click",function(){
@@ -134,8 +80,7 @@ function table_init() {
             $div.append($table);
         }
 
-
-        var reset_table=     function(ret) {
+        var reset_table = function(ret) {
                 var config_map= ret.field_list;
                 //处理 过滤选项
                 if ( ret.filter_list) {
@@ -158,7 +103,6 @@ function table_init() {
                     });
                 }
 
-
                 var use_table_config=!ret.field_default_flag  ;
                 var only_show_true_field=false;
                 if (config_map && ret.field_default_flag  ) { //有配置, 但是是默认的
@@ -168,7 +112,6 @@ function table_init() {
                 if (config_map==null) {
                     config_map=[];
                 }
-
 
                 $table.addClass( "table table-bordered table-striped");
                 var $row_list= $table.find("tbody >tr  ");
@@ -231,8 +174,6 @@ function table_init() {
                     }
                 });
 
-                //for
-
                 $th.prepend( '<td class="remove-for-not-xs" ></td>');
 
                 $.each ($row_list ,function(i,item){
@@ -273,25 +214,13 @@ function table_init() {
         }else{
             reset_table ({ field_default_flag:true });
         }
-
-
     });
-
 }
 
 
 $(function(){
     table_init();
 
-    /*
-    if (getCookie ("show-menu") == "false" ){
-        $('.left-side').toggleClass("collapse-left");
-        $(".right-side").toggleClass("strech");
-    }
-     */
-    //hide_menu_by_power_list();
-
-    //$(".treeview").show();
     var set_title=function(title){
         $("#header_title1").text(title);
         $(document).attr("title",title+"-后台" );
@@ -449,5 +378,68 @@ function bind_td_info($table){
         return false;
     });
 
+}
+
+function download_show(){
+    var thead=$(".common-table thead  ");
+
+    $.each(thead, function(table_i,th_item){
+        if ($(th_item).parent().hasClass("table-clean-flag") ){
+            return;
+        }
+        var path_list     = window.location.pathname.split("/");
+        var table_key     = path_list[1]+"-"+path_list[2]+"-"+ table_i;
+        var opt_td        = $(th_item).find ("td:last");
+        var download_item = $( " <a href=\"javascript:;\" title=\"下载为xls \" class=\"fa fa-download\"></a>");
+        var download_fun  = function () {
+            var list_data = [];
+            var $tr_list  = $(th_item).closest("table").find("tr" );
+            $.each($tr_list ,function(i,tr_item )  {
+                var row_data= [];
+                var $td_list= $(tr_item ).find("td");
+                $.each(  $td_list, function( i, td_item)  {
+                    console.log(td_item.className);
+
+                    if ( i>0 && i< $td_list.length-1 ) {
+                        if(td_item.className != 'ellipsis_jiaowu'){
+                            row_data.push( $.trim( $(td_item).text()) );
+                        }
+                    }
+                });
+                list_data.push(row_data);
+            });
+
+            $.do_ajax ( "/page_common/upload_xls_data",{
+                xls_data :  JSON.stringify(list_data )
+            },function(data){
+                window.location.href= "/common_new/download_xls";
+            });
+        };
+
+        download_item.on("click",function(){
+            if($(".page-opt-show-all").length >0 ) {
+                BootstrapDialog.show({
+                    title   : '下载为xls',
+                    message : '你没有全部显示，要下载全部,请 点击 <全部显示>　, <br/>下载本页面的吗?',
+                    buttons : [{
+                        label  : '返回',
+                        action : function(dialog) {
+                            dialog.close();
+                        }
+                    }, {
+                        label    : '确认',
+                        cssClass : 'btn-warning',
+                        action   : function(dialog) {
+                            download_fun();
+                        }
+                    }]
+                });
+            }else{
+                download_fun();
+            }
+        });
+
+        opt_td.append(download_item );
+    });
 }
 

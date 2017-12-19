@@ -23,6 +23,8 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+<<<<<<< HEAD
+=======
 	id	:any;
 	channel_name	:any;
 	add_time	:any;
@@ -53,6 +55,7 @@ interface RowData {
 	order_all_money	:any;
 	distinct_succ_count	:any;
 	distinct_test_count	:any;
+>>>>>>> 7eb40f524db19705455693703c6a616ccdde66f3
 	key0	:any;
 	key1	:any;
 	key2	:any;
