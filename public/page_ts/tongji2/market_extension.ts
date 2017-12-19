@@ -35,8 +35,9 @@ $(function(){
         var $title = $("<textarea/>");
         var $describe = $("<textarea/>");
         var $img = $("<div/>");
+        //http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png
 
-        $img.html("<div><div></div><div>封面</div></div>");
+        $img.html("<div><div>PNG格式</div> <div><span>封面</span><img src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/></div>    </div>");
 
         Enum_map.append_option_list("market_gift_type", $main_type_name,true);
 
