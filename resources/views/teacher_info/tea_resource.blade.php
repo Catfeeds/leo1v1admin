@@ -10,6 +10,7 @@
     <script type="text/javascript" src="/js/jquery.contextify.js"></script>
     <script type="text/javascript" src="/js/area/distpicker.data.js"></script>
 	  <script type="text/javascript" src="/js/area/distpicker.js"></script>
+	  <script type="text/javascript" src="/js/pdfobject.js"></script>
     <script>
      var cur_dir_id = {{$cur_dir}};
     </script>
@@ -121,6 +122,8 @@
             <tbody id="fsUploadProgress">
             </tbody>
         </table>
+    </div>
+    <div class="col-md-12 look-pdf"   style="width:80%;height:90%;position:fixed;right:10%;top:5%;border-radius:5px;background:#eee;display:none;">
     </div>
 
 @endsection

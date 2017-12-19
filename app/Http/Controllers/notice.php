@@ -218,14 +218,14 @@ class notice extends Controller
 
 
         $is_success=0;
-        // if ($user_ip) {
-        //     //每个ip 最多 10个
-        //     if (!\App\Helper\Common::redis_day_add_with_max_limit("sms_ip_$user_ip",1, 10)){
-        //         return;
-        //     }
-        // }else{
-        //     return;
-        // }
+        if ($user_ip) {
+            //每个ip 最多 10个
+            if (!\App\Helper\Common::redis_day_add_with_max_limit("sms_ip_$user_ip",1, 10)){
+                return;
+            }
+        }else{
+            return;
+        }
 
         if($phone){
             //每个手机 最多 3个
@@ -242,7 +242,7 @@ class notice extends Controller
         $test_flag=false;
 
         //测试
-        $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"sms","sms_ceshi","sms","");
+        // $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"sms","sms_ceshi","sms","");
 
 
         if ($is_success==0) {

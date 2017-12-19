@@ -11,6 +11,13 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	id	:any;
+	month_def_type	:any;
+	def_time	:any;
+	start_time	:any;
+	end_time	:any;
+	week_order	:any;
+	month_def_type_str	:any;
 }
 
 /*
@@ -22,10 +29,11 @@ tofile:
 /// <reference path="../g_args.d.ts/month_def_type-def_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		month_def_type:	$('#id_month_def_type').val()
-    });
+		});
 }
 $(function(){
 
@@ -40,6 +48,8 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -47,4 +57,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_month_def_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["month_def_type title", "month_def_type", "th_month_def_type" ]])!!}
 */
