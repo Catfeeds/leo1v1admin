@@ -43,6 +43,7 @@ class group_master_kpi_base {
         $def_info = $tt->t_month_def_type->get_time_by_def_time(strtotime(date('Y-m-1',$start_time)));
         $start_time_new = $def_info['start_time'];
         $end_time_new = $def_info['end_time'];
+        $ret_new = $tt->t_month_def_type->get_month_week_time($start_time_new);
         $adminid_list = $tt->t_admin_group_name->get_group_admin_list($adminid);
         $adminid_list = array_unique(array_column($adminid_list,'adminid'));
         $test_leeson_list_new = $tt->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid,$adminid_list);
