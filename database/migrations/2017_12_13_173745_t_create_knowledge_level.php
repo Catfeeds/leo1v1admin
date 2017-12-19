@@ -25,11 +25,17 @@ class TCreateKnowledgeLevel extends Migration
         //         t_field($table->integer('open_flag')->default(1),"1:开启 0:关闭");
         // });
 
-        Schema::table('db_question_new.t_knowledge_level', function (Blueprint $table){
-            //$table->dropColumn('father_id');
-                //t_field($table->integer('level')->default(0),"0:根部节点");
-            //t_field($table->integer('father_id'),"父级id");
-        });
+        // Schema::table('db_question_new.t_knowledge_level', function (Blueprint $table){
+        //     $table->dropColumn('father_id');
+        //         t_field($table->integer('level')->default(0),"0:根部节点");
+        //     t_field($table->integer('father_id'),"父级id");
+        // });
+
+        // Schema::create('db_question_new.t_question_type', function (Blueprint $table){
+        //     $table->increments('id');
+        //         t_field($table->integer('subject'),"科目");
+        //         t_field($table->integer('type_name'),"题型名字");
+        // });
 
     }
 
