@@ -69,7 +69,7 @@ class group_master_kpi_base {
                     }
                 }
             }
-            $adminid_info[$key]['create_time_str'] = $start_time_new?date('Y-m-d H:i:s',$start_time_new):'';
+            $adminid_info[$key]['create_time_str'] = $create_time?date('Y-m-d H:i:s',$create_time):'';
             $adminid_info[$key]['leave_member_time_str'] = $leave_member_time?date('Y-m-d H:i:s',$leave_member_time):'';
         }
         dd($adminid_info,$adminid_list);
