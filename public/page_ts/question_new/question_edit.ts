@@ -206,7 +206,7 @@ $(function(){
                     //window.close();
                     var subject = $('#id_subject').val();
                     var question_id = res.question_id;
-                    window.location = '/question_new/question_edit?editType=1&question_id='+question_id+'&subject='+subject;
+                    window.location = '/question_new/question_edit?editType=2&question_id='+question_id+'&subject='+subject;
                 }else{
                     window.location.reload();
                 }
