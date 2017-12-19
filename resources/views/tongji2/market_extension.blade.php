@@ -14,6 +14,11 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
+
+                <div class="col-xs-6 col-md-2"  >
+                    <button type="button" class="btn btn-primary" id="id_add">+ 添加</button>
+                </div>
+
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">奖品类型</span>
