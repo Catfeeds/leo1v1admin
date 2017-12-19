@@ -27,11 +27,12 @@ class t_month_def_type extends \App\Models\Zgen\z_t_month_def_type
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
-    public function get_count_by_def_time($def_time) {
+    public function get_count_by_def_time($def_time,$month_def_type) {
         $sql=$this->gen_sql_new(
-            "select id from %s where def_time = %u limit 1",
+            "select id from %s where def_time = %u and month_def_type = %u limit 1",
             self::DB_TABLE_NAME,
-            $def_time
+            $def_time,
+            $month_def_type
         );
         return $this->main_get_row($sql);
     }
@@ -61,4 +62,16 @@ class t_month_def_type extends \App\Models\Zgen\z_t_month_def_type
         return $this->main_get_list($sql);
     }
 
+    public function get_time_by_def_time($start_time){
+        $where_arr = [
+            ['month_def_type = %u ',E\Emonth_def_type::V_1],
+            ['def_time = %u ',$start_time,-1],
+        ];
+        $sql=$this->gen_sql_new(
+            "select * from %s where %s ",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 }
