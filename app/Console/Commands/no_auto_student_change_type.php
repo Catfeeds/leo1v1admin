@@ -42,6 +42,34 @@ class no_auto_student_change_type extends Command
         $task = new \App\Console\Tasks\TaskController ();
 
              
+        $list = $task->t_child_order_info->get_all_payed_prder_info();
+        foreach($list as $val){
+            $competition_flag = $val["competition_flag"];
+            if($competition_flag==1){
+                $courseid = "SHLEOZ3101006";
+                $arr =[4=>[$courseid]];
+                $coursename = "思维拓展在线课程";
+            }elseif($val["grade"] >=100 && $val["grade"]<200){
+                $courseid = "SHLEOZ3101001";
+                $arr =[1=>[$courseid]];
+                $coursename = "小学在线课程";
+            }elseif($val["grade"] >=200 && $val["grade"]<300){
+                $courseid = "SHLEOZ3101011";
+                $arr =[2=>[$courseid]];
+                $coursename = "初中在线课程";
+            }elseif($val["grade"] >=300 && $val["grade"]<400){
+                $courseid = "SHLEOZ3101016";
+                $arr =[3=>[$courseid]];
+                $coursename = "高中在线课程";
+            }
+            $str = json_encode($arr);
+            $task->t_parent_info->field_update_list($val["parentid"],[
+                "baidu_class_info" => $str
+            ]);
+
+        }
+        dd(1111);
+
         // $start_time = strtotime("2017-09-01");
         // $end_time = strtotime("2017-12-01");
         // $teacher_money_type=6;
