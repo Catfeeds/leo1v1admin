@@ -262,92 +262,92 @@ class test_abner extends cmd_base
 
             if($item['subject'] == 1 && $item['grade'] <= 106){
                 if($item['lesson_type'] == 2)
-                    $teacher_case['小学语文']['test_count'] ++;
+                    $teacher_case['小学语文']['test_count'] += $item['lesson_count'];
                 else
-                    $teacher_case['小学语文']['regular_count'] ++;
+                    $teacher_case['小学语文']['regular_count'] += $item['lesson_count'];
             }elseif($item['subject'] == 1 && $item['grade'] >= 200 && $item['grade'] <= 203){
                 if($item['lesson_type'] == 2)
-                    $teacher_case['初中语文']['test_count'] ++;
+                    $teacher_case['初中语文']['test_count'] += $item['lesson_count'];
                 else
-                    $teacher_case['初中语文']['regular_count'] ++;
+                    $teacher_case['初中语文']['regular_count'] += $item['lesson_count'];
 
             }elseif($item['subject'] == 1 && $item['grade'] >= 300 && $item['grade'] <= 303){
                 if($item['lesson_type'] == 2)
-                    $teacher_case['高中语文']['test_count'] ++;
+                    $teacher_case['高中语文']['test_count'] += $item['lesson_count'];
                 else
-                    $teacher_case['高中语文']['regular_count'] ++;
+                    $teacher_case['高中语文']['regular_count'] += $item['lesson_count'];
 
             }elseif($item['subject'] == 2 && $item['grade'] <= 106){
                 if($item['lesson_type'] == 2)
-                    $teacher_case['小学数学']['test_count'] ++;
+                    $teacher_case['小学数学']['test_count'] += $item['lesson_count'];
                 else
-                    $teacher_case['小学数学']['regular_count'] ++;
+                    $teacher_case['小学数学']['regular_count'] += $item['lesson_count'];
 
             }elseif($item['subject'] == 2 && $item['grade'] >= 200 && $item['grade'] <= 203  ){
                 if($item['lesson_type'] == 2)
-                    $teacher_case['初中数学']['test_count'] ++;
+                    $teacher_case['初中数学']['test_count'] += $item['lesson_count'];
                 else
-                    $teacher_case['初中数学']['regular_count'] ++;
+                    $teacher_case['初中数学']['regular_count'] += $item['lesson_count'];
 
             }elseif($item['subject'] == 2 && $item['grade'] >= 300 && $item['grade'] <= 303  ){
                 if($item['lesson_type'] == 2)
-                    $teacher_case['高中数学']['test_count'] ++;
+                    $teacher_case['高中数学']['test_count'] += $item['lesson_count'];
                 else
-                    $teacher_case['高中数学']['regular_count'] ++;
+                    $teacher_case['高中数学']['regular_count'] += $item['lesson_count'];
 
             }elseif($item['subject'] == 3 && $item['grade'] <= 106  ){
                 if($item['lesson_type'] == 2)
-                    $teacher_case['小学英语']['test_count'] ++;
+                    $teacher_case['小学英语']['test_count'] += $item['lesson_count'];
                 else
-                    $teacher_case['小学英语']['regular_count'] ++;
+                    $teacher_case['小学英语']['regular_count'] += $item['lesson_count'];
 
             }elseif($item['subject'] == 3 && $item['grade'] >= 200 && $item['grade'] <= 203  ){
                 if($item['lesson_type'] == 2)
-                    $teacher_case['初中英语']['test_count'] ++;
+                    $teacher_case['初中英语']['test_count'] += $item['lesson_count'];
                 else
-                    $teacher_case['初中英语']['regular_count'] ++;
+                    $teacher_case['初中英语']['regular_count'] += $item['lesson_count'];
 
             }elseif($item['subject'] == 3 && $item['grade'] >= 300 && $item['grade'] <= 303  ){
                 if($item['lesson_type'] == 2)
-                    $teacher_case['高中英语']['test_count'] ++;
+                    $teacher_case['高中英语']['test_count'] += $item['lesson_count'];
                 else
-                    $teacher_case['高中英语']['regular_count'] ++;
+                    $teacher_case['高中英语']['regular_count'] += $item['lesson_count'];
 
             }elseif($item['subject'] == 4 && $item['grade'] >= 200 && $item['grade'] <= 203  ){
                 if($item['lesson_type'] == 2)
-                    $teacher_case['初中化学']['test_count'] ++;
+                    $teacher_case['初中化学']['test_count'] += $item['lesson_count'];
                 else
-                    $teacher_case['初中化学']['regular_count'] ++;
+                    $teacher_case['初中化学']['regular_count'] += $item['lesson_count'];
 
             }elseif($item['subject'] == 4 && $item['grade'] >= 300 && $item['grade'] <= 303  ){
                 if($item['lesson_type'] == 2)
-                    $teacher_case['高中化学']['test_count'] ++;
+                    $teacher_case['高中化学']['test_count'] += $item['lesson_count'];
                 else
-                    $teacher_case['高中化学']['regular_count'] ++;
+                    $teacher_case['高中化学']['regular_count'] += $item['lesson_count'];
 
             }elseif($item['subject'] == 5 && $item['grade'] >= 200 && $item['grade'] <= 203  ){
                 if($item['lesson_type'] == 2)
-                    $teacher_case['初中物理']['test_count'] ++;
+                    $teacher_case['初中物理']['test_count'] += $item['lesson_count'];
                 else
-                    $teacher_case['初中物理']['regular_count'] ++;
+                    $teacher_case['初中物理']['regular_count'] += $item['lesson_count'];
 
             }elseif($item['subject'] == 5 && $item['grade'] >= 300 && $item['grade'] <= 303  ){
                 if($item['lesson_type'] == 2)
-                    $teacher_case['高中物理']['test_count'] ++;
+                    $teacher_case['高中物理']['test_count'] += $item['lesson_count'];
                 else
-                    $teacher_case['高中物理']['regular_count'] ++;
+                    $teacher_case['高中物理']['regular_count'] += $item['lesson_count'];
 
             }elseif($item['subject'] == 10 && $item['grade'] >= 200 && $item['grade'] <= 203  ){
                 if($item['lesson_type'] == 2)
-                    $teacher_case['初中科学']['test_count'] ++;
+                    $teacher_case['初中科学']['test_count'] += $item['lesson_count'];
                 else
-                    $teacher_case['初中科学']['regular_count'] ++;
+                    $teacher_case['初中科学']['regular_count'] += $item['lesson_count'];
 
             }else{
                 if($item['lesson_type'] == 2)
-                    $teacher_case['其他综合']['test_count'] ++;
+                    $teacher_case['其他综合']['test_count'] += $item['lesson_count'];
                 else
-                    $teacher_case['其他综合']['regular_count'] ++;
+                    $teacher_case['其他综合']['regular_count'] += $item['lesson_count'];
 
             }
 
