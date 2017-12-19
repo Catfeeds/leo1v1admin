@@ -375,7 +375,7 @@ class test_james extends Controller
             t_field($table->string("url",512), "活动链接");
             t_field($table->tinyInteger("activity_status"), "活动状态");
             t_field($table->integer("add_time"), "添加时间");
-            t_field($table->integer("userid"), "添加人");
+            t_field($table->integer("uid"), "添加人");
 
             $table->index('userid');
             $table->index('add_time');
