@@ -3662,7 +3662,7 @@ ORDER BY require_time ASC";
             ["tr.require_id=%u",$require_id,-1]
         ];
         $sql = $this->gen_sql_new("select s.nick,s.gender,s.grade,t.subject,"
-                                  ." tr.curl_stu_request_test_lesson_time,"
+                                  ." tr.curl_stu_request_test_lesson_time,t.teacher_type,"
                                   ." tr.test_stu_request_test_lesson_demand,t.tea_identity,t.tea_gender,t.tea_age,"
                                   ." t.intention_level,t.quotation_reaction,tr.seller_top_flag,t.subject_tag,tr.current_lessonid"
                                   ." from %s tr "
