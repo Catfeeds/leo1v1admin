@@ -137,7 +137,7 @@ class test_abner extends cmd_base
         $data = $this->task->t_teacher_info->get_teacher_code($start_time,$end_time); 
         foreach($data as $key => $item){
 
-            if($flag_map[$key]){
+            if(@$flag_map[$key]){
                 if($item['subject'] = 1 && $item['grade'] <= 106 && !empty($item['courseid'])){
                     $teacher_case['小学语文']['has_class'] ++;
                     $flag_map[$key]=true;
@@ -180,7 +180,7 @@ class test_abner extends cmd_base
                 }elseif($item['subject'] = 10 && $item['grade'] >= 200 && $item['grade'] <= 203 && !empty($item['courseid'])){
                     $teacher_case['初中科学']['has_class'] ++;
                     $flag_map[$key]=true;
-                }else{
+                }elseif(!empty($item['courseid'])){
                     $teacher_case['其它综合']['has_class'] ++;
                     $flag_map[$key]=true;
                 }
@@ -280,6 +280,7 @@ class test_abner extends cmd_base
 
 
         }
+
         $path = '/var/www/admin.yb1v1.com/10.txt';
         $fp = fopen($path,"a+");
         foreach($teacher_case as $item){
