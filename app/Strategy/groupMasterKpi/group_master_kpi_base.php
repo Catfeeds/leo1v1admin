@@ -48,7 +48,6 @@ class group_master_kpi_base {
         $adminid_list = array_unique(array_column($adminid_list,'adminid'));
         $person_count = count($adminid_list);
         $leave_count  = 0;
-        $leave_arr = [];
         $adminid_info = $tt->t_manager_info->get_group_admin_list($adminid_list);
         foreach($adminid_info as $key=>$item){
             $adminid = $item['adminid'];
@@ -62,7 +61,6 @@ class group_master_kpi_base {
                 }
             }else{
                 if($leave_member_time>$start_time_new && $leave_member_time<$end_time_new){
-                    $leave_arr[] = $item;
                     $leave_count += 1;
                 }
                 if($leave_member_time<$end_time_new){
@@ -81,7 +79,6 @@ class group_master_kpi_base {
             $adminid_info[$key]['create_time_str'] = $create_time?date('Y-m-d H:i:s',$create_time):'';
             $adminid_info[$key]['leave_member_time_str'] = $leave_member_time?date('Y-m-d H:i:s',$leave_member_time):'';
         }
-        dd($start_time_new,$end_time_new,$leave_arr);
         $full_count = count($adminid_list);
         //试听
         $ret_new = $tt->t_month_def_type->get_month_week_time($start_time_new);
