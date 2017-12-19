@@ -181,9 +181,11 @@ $(function(){
         $('.opt-select-item').each(function(){
             if( $(this).iCheckValue()){
                 var id = $(this).data('id');
-                do_ajax('/teacher_info/tea_download_url',{'tea_res_id':id},function(ret){
+                do_ajax('/teacher_info/tea_look_resource',{'tea_res_id':id},function(ret){
                     if(ret.ret == 0){
                         $.wopen(ret.url);
+                        // $('.look-pdf').show();
+                        // PDFObject.embed(ret.url, ".look-pdf");
                     } else {
                         BootstrapDialog.alert(ret.info);
                     }
@@ -192,6 +194,7 @@ $(function(){
         });
 
     };
+
 
     var add_resource = function(new_flag){
 
