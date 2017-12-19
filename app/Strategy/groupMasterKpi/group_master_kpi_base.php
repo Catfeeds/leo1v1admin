@@ -62,6 +62,7 @@ class group_master_kpi_base {
                     $full_month_flag = 0;
                 }
             }
+            $adminid_info[$key]['full_month_flag'] = $full_month_flag;
             if($full_month_flag == 0){
                 foreach($adminid_list as &$info){
                     if($info == $adminid){
