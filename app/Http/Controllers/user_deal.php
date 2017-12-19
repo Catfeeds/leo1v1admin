@@ -4019,7 +4019,6 @@ class user_deal extends Controller
                 $adminid, $start_time, $end_time ) ;
             break;
         }
-        dd($group_kpi);
         $arr['group_kpi'] = $group_kpi['group_kpi'];
         $arr['group_kpi_desc'] = $group_kpi['group_kpi_desc'];
         //试听成功数
