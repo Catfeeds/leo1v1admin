@@ -1,0 +1,19 @@
+syntax = "proto3";
+/*import "yb_admin/common.proto";*/
+
+//__CMD: 100x0005
+//__DESC: 重置密码 http://admin.leo1v1.com/account_common/reset_passwd
+//__TAGS: 
+
+
+message in  {
+  string phone =1;//手机
+  int32 role =2;//角色
+  string verify_code =3;//验证码
+  string passwd =4;//密码 md5(passwd)
+
+}
+
+message out {
+  
+}
