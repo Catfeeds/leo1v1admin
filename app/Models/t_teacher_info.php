@@ -4850,7 +4850,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             'from %s tf '.
             'left join %s li on tf.teacherid = li.teacherid '.
             'left join %s si on li.userid = si.userid '.
-            'where %s group by tf.subject,tf.grade',
+            'where %s',
             t_teacher_flow::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,

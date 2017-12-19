@@ -16,6 +16,25 @@ class t_question extends \App\Models\Zgen\z_t_question
         );
         return  $this->main_get_list_by_page($sql,$page_num,10);
     }
+
+    public function question_get($knowledge_id,$question_type,$question_resource_type,$difficult,$page_num){
+        $where_arr = [
+            ['know.knowledge_id = %u' , $knowledge_id ],
+            ["qu.question_type=%u", $question_type, -1] ,
+            ["qu.question_resource_type=%u", $question_resource_type, -1] ,
+            ["qu.difficult=%u", $difficult, -1] ,
+        ];
+
+        $where_str = $this->where_str_gen($where_arr);
+        $sql = $this->gen_sql("select qu.* from %s qu left join %s know on
+                              qu.question_id = know.question_id where  %s order by qu.question_id desc ",
+                              self::DB_TABLE_NAME,
+                              t_question_knowledge::DB_TABLE_NAME,
+                              [$where_str]
+        );
+        return  $this->main_get_list_by_page($sql,$page_num);
+    }
+
     public function get_question_info($question_id){
         $where_arr = [
             ["question_id=%d" , $question_id ],
