@@ -46,7 +46,7 @@
     <section class="content">
         <div id="id_question_editor" >
             <div class="row">
-                <div class="col-xs-7 col-md-7">
+                <div class="col-xs-12 col-md-12">
                     <div class="input-group "><h3>{{@$ret['describe']}}</h3></div>
                     <div class="input-group ">
                         
@@ -62,8 +62,23 @@
                         <span class="input-group-addon" style="padding-left: 3px; padding-right: 6px;">科目类型</span>
                         <select class=" form-control " id="id_subject"></select>
 
+                        <span class="input-group-addon" style="padding-left: 3px; padding-right: 6px;">题目类型</span>
+                        <select class=" form-control " id="question_type">
+                            @if($question_type)
+                                @foreach( $question_type as $item)
+                                    <option value="{{$item['id']}}">{{$item['name']}}</option>
+                                @endforeach
+                            @endif
+                        </select>
+
+                        <span class="input-group-addon" style="padding-left: 3px; padding-right: 6px;">题目来源类型</span>
+                        <select class=" form-control " id="id_question_resource_type"></select>
+
+                        <span class="input-group-addon" style="padding-left: 3px; padding-right: 6px;">题目来源</span>
+                        <input class=" form-control " id="id_question_resource_name" type="text" >
+
                         <span class="input-group-addon" style="padding-left: 3px; padding-right: 6px;">题目分值</span>
-                        <input class=" form-control " id="id_score" type="text" style="width:130px">
+                        <input class=" form-control " id="id_score" type="text">
 
                         <div class=" input-group-btn ">
                             <button id="add_question_knowledge" type="submit" class="btn btn-primary" onclick="open_know()">

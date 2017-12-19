@@ -790,15 +790,20 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-    public function get_1v1_order_list_by_adminid( $start_time,$end_time ,$stu_from_type=-1,$adminid=-1) {
+    public function get_1v1_order_list_by_adminid( $start_time,$end_time ,$stu_from_type=-1,$adminid=-1,$adminid_list=[]) {
         $where_arr = [
             ["order_time>=%u" , $start_time, -1],
             ["order_time<=%u" , $end_time, -1],
             ["is_test_user=%u" , 0, -1],
             "contract_type in(0)",
             ["stu_from_type=%u" , $stu_from_type, -1],
-            ["t2.uid=%u" ,$adminid,-1],
+            // ["t2.uid=%u" ,$adminid,-1],
         ];
+        if(count($adminid_list)>0){
+            $this->where_arr_add_int_or_idlist($where_arr,'t2.uid',$adminid_list);
+        }else{
+            $this->where_arr_add_int_field($where_arr,'t2.uid',$adminid);
+        }
         $sql = $this->gen_sql_new("select t2.uid adminid,count(*) all_new_contract,sum(price) all_price,MAX(price) max_price,"
                                   ."t2.create_time,t2.become_member_time,t2.leave_member_time,t2.del_flag "
                                   ." from %s t1 "

@@ -317,38 +317,22 @@ class test_james extends Controller
 
     public function ss(){
 
-        $start_time = $this->get_in_int_val('s');
-        $end_time = $this->get_in_int_val('e');
-
-        $new_order_info = $this->t_order_info->get_new_order_money($start_time, $end_time);// 新签合同
-
-        $referral_order = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
-
-        $b = $this->t_test_lesson_subject_require->get_seller_schedule_num($start_time, $end_time); // 销售邀约数
-
-        dd($b);
-        // $a = $new_order_info['order_num_new'] + $referral_order['total_num'];
-        // dd($a);
-
-        // $now = time(NULL);
-        // $lesson_list = $this->t_lesson_time_modify->get_need_notice_lessonid($now);
-
-        dd($new_order_info['order_num_new']." ~ ".$new_order_info['total_price']);
-
         $wx = new \App\Helper\Wx();
         // 向家长发送推送
-        $lesson_start_date = date('H:i:s');
         $parent_wx_openid    = "orwGAs_IqKFcTuZcU1xwuEtV3Kek";
         $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
         $data_parent = [
-            'first' => "调课申请被拒绝",
-            'keyword1' =>"调换".$lesson_start_date."上课时间被拒绝",
-            'keyword2' => "由于此时间段老师时间不方便,故调课申请未成功",
-            'keyword3' => date('Y-m-d H:i:s'),
-            'remark'   => "请耐心等待助教老师进行沟通!"
+            'first' => '“呼朋唤友”活动来袭',
+            'keyword1' =>'呼朋唤友',
+            'keyword2' => "邀请好友一起上课，万元礼品等你来",
+            'keyword3' => '12月12日至12月31日',
+            'remark'   => ""
         ];
-        $url_parent = '';
-        $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
+        $url_parent = "http://mp.weixin.qq.com/s/zo69t-AYbhnxUxFFdAx5mg";
+
+        foreach($parent_wx_openid as $item ){
+            $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
+        }
     }
 
     public function has_called(){
@@ -428,295 +412,6 @@ class test_james extends Controller
     }
 
 
-    public function ssss(){
-
-        $start_time = $this->get_in_int_val('s');
-        $end_time = $this->get_in_int_val('e');
-
-        $re1    = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);// 入职完整月人数
-
-        $re2 = $this->t_order_info->get_new_order_money($start_time, $end_time);
-        $a = [];
-        $g = [];
-
-
-        foreach($re1 as $v){
-            $a[] = $v['account'];
-        }
-
-
-        foreach($re2 as $v){
-            $g[] = $v['account'];
-        }
-
-
-        // $f = array_diff($a,$g);
-        // $f = array_diff($g,$a);
-        $n1 = count($re1);
-        $n2 = count($re2);
-        echo $n1." ~ ".$n2;
-
-        // dd($f);
-
-
-        // $a = ['胡怀春'];
-
-        $b = [
-            "胡怀春",
-            '郑亚慧',
-            '李沂键',
-            '林学平',
-            '秦盛昊',
-            '朱海宏',
-            '朱雪见',
-            '葛贤松',
-            '王倩',
-            '陈绩',
-            '陈梦',
-            '田羽婵',
-            '罗飞',
-            '宋宏义',
-            '夏杰',
-            '张宏斌',
-            '李颂',
-            '裴江蓝',
-            '谭方',
-            '康文龙',
-            '李丹',
-            '陈文恺',
-            '张宇',
-            '杨玉萍',
-            '雷江博',
-            '李圆芳',
-            '池善烟',
-            '葛云',
-            '陈德麒',
-            '刘苹',
-            '肖巧',
-            '蔡明霞',
-            '王春雷',
-            '叶宇晨',
-            '赵蓉',
-            '钟艾珈',
-            '施健',
-            '范玉辉',
-            '何心',
-            '倪姣',
-            '欧翔',
-            '王亚臣',
-            '杨毅',
-            '田鹏程',
-            '胡月月',
-            '张维达',
-            '吴雨',
-            '熊昌隆',
-            // '朱珈儀',
-            '朱珈儀（朱薇敏)',
-            '李承汐',
-            '陈育洁',
-            '孙佩华',
-            '刘佳丽',
-            '邵安泽',
-            '赵云',
-            '范建新',
-            '杨玉玉',
-            '覃秋燕',
-            '赵明',
-            '栗成君',
-            '冉超',
-            '邓然',
-            '张珂珂',
-            '王小卫',
-            '尹娟',
-            '吴俊男',
-            '马张艳',
-            '詹坤',
-            '李根强',
-            '姚浩',
-            '范晓恩',
-            '陈同',
-            '陈茜',
-            '刘英菲',
-            '温绍玲',
-            '王扣',
-            '赵世勇',
-            '卓雨晨',
-            '杨金秋',
-            '王琦',
-            '王娟娟',
-            '吴梅',
-            '乔朋飞',
-            '刘晓',
-            '唐嘉彬',
-            '夏敏',
-            '张盼红',
-            '罗超群',
-            '张行蠃',
-            '潘婧',
-            '余丹',
-            '付伟',
-            '杨翠翠',
-            '单世鼎',
-            '李丹2',
-            '王云',
-            '陈祖炎',
-            '杨盼盼',
-            '郭毅恒',
-
-        ];
-
-        $c = array_diff($a,$b);
-        dd($c);
-
-        // dd(session_id());
-
-        $lessonid = $this->get_in_int_val('p');
-
-        $wx_openid_arr = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
-
-        dd($wx_openid_arr);
-
-        $parentid = $this->get_in_int_val('p');
-        $lessonid = $this->get_in_int_val('l');
-        $type = $this->get_in_int_val('y');
-
-        if($type == 0){
-            $lesson_type_str = '常规课';
-            $type_str = "0,1,3";
-        }elseif($type == 2){
-            $type_str = "2";
-            $lesson_type_str = '试听课';
-        }else{
-            $lesson_type_str = '';
-        }
-
-        $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type_str);
-
-
-        // $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type);
-
-        dd($ret_list);
-
-        $this->switch_tongji_database();
-        // $parent_list = $this->t_parent_info->get_openid_list();
-
-        // dd(count($parent_list));
-
-
-
-        $ret = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
-
-        $a = [];
-
-        foreach($ret as $v){
-            $a[] = $v['lessonid'];
-        }
-
-        dd($a);
-        // $a = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
-
-
-        $ret_info['seller_plan_invit_month'] = $this->t_test_lesson_subject_require->get_plan_invit_num_for_month($start_time, $end_time); // 试听邀约数[月排课率]
-        $ret_info['seller_schedule_num'] = $this->t_test_lesson_subject_require->get_seller_schedule_num($start_time, $end_time); // 教务已排课
-
-        dd($ret_info);
-        $a = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
-        $b = [];
-        foreach($a as $v){
-            $b[]=$v['lessonid'];
-        }
-
-        dd($b);
-
-
-        if($start_time == null && $end_time == null ){
-            $end_time   = strtotime(date('Y-m-d 0:0:0'));
-            $start_time = $end_time-7*86400;
-        }
-
-
-        $month_start_time_funnel = strtotime(date('Y-m-01',$start_time));
-
-        if($month_start_time_funnel<$start_time){
-            $month_start_time_funnel = $start_time;
-        }
-
-
-
-
-        $ret_info['has_tq_succ_invit_month']  = $this->t_seller_student_new->get_tq_succ_for_invit_month($start_time, $end_time); // 已拨通[月邀约数]
-
-
-        dd($ret_info);
-
-       //  $six_month_old = strtotime(date('Y-m-d 0:0:0',strtotime('-2 month',$start_time)));
-
-       // echo date('Y-m-01', strtotime('+1 month'));
-
-        $month_start_time = strtotime(date("Y-m-01",$start_time));
-        $month_end_time = strtotime(date('Y-m-01', strtotime('+1 month',$month_start_time)));
-
-
-        echo $month_start_time.' ~ '.$month_end_time;
-        dd('ok');
-
-
-
-
-        $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new("");
-
-        $main_type = 2;// 销售
-        $ret_info['seller_target_income'] = $this->get_month_finish_define_money(0,$start_time); // 销售月目标收入
-        if (!$ret_info['seller_target_income'] ) {
-            $ret_info['seller_target_income'] = 1600000;
-        }
-
-
-        // $month_end_time   = strtotime(date("Y-m-01",  $end_time));
-        // $month_start_time = strtotime(date("Y-m-01",  ($month_end_time-86400*20)));
-
-
-        $month_start_time = strtotime(date("Y-m-01"));
-        $month_end_time = strtotime(date('Y-m-01', strtotime('+1 month')));
-
-
-        $month_date_money_list = $this->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
-        $ret_info['formal_info']=0;  // 完成金额
-        $today=time(NULL);
-        foreach ($month_date_money_list as $date=> &$item ) {
-            $date_time=strtotime($date);
-            if ($date_time<=$today) {
-                $ret_info['formal_info']+=@$item["money"];
-            }
-        }
-
-        dd($ret_info);
-
-        $ret_info['test_succ_num'] = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
-
-
-        $ret_info['seller_invit_month'] = $this->t_test_lesson_subject_require->get_invit_num_for_month($start_time, $end_time); // 销售邀约数[月邀约数]
-
-        // dd($ass_openid." ~ ".$send_openid." ~ ".$check);
-
-        $first_group  = '咨询一部';
-        $second_group = '咨询二部';
-        $third_group  = '咨询三部';
-        $new_group    = '新人营';
-
-        // $start_time = $this->get_in_int_val('s');
-
-        // $new_order_info = $task->t_order_info->get_new_order_money($start_time, $end_time);// 全部合同信息[部包含新签+转介绍]
-
-        // dd($new_order_info);
-
-        $ret_info['one_department']    = $this->t_admin_group_name->get_group_seller_num($first_group,$start_time);// 咨询一部
-        $ret_info['two_department']    = $this->t_admin_group_name->get_group_seller_num($second_group, $start_time);// 咨询二部
-        $ret_info['three_department']  = $this->t_admin_group_name->get_group_seller_num($third_group, $start_time);// 咨询三部
-        $ret_info['new_department']    = $this->t_admin_group_name->get_group_seller_num($new_group, $start_time);// 新人营
-
-        dd($ret_info);
-    }
 
 
 
@@ -1143,15 +838,16 @@ class test_james extends Controller
 
     public function wx_news(){ // 使用客服接口发送消息
 
-        $filename = "/home/ybai/tu.jpg";
-        $type = "image";
+        // $filename = "/home/ybai/tu.jpg";
+        // $type = "image";
 
-        $Media_id = Media::upload($filename, $type);
+        // $Media_id = Media::upload($filename, $type);
 
+        $parent_list = $this->t_parent_info->get_parent_opend_list();
 
-        dispatch( new \App\Jobs\wxPicSendToParent(
-            $Media_id['media_id']
-        ));
+        dd($parent_list);
+
+        // dispatch( new \App\Jobs\wxPicSendToParent(''));
 
 
 
