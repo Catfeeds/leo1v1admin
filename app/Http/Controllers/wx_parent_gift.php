@@ -338,7 +338,7 @@ class wx_parent_gift extends Controller
             $pid1=$parentid;
         }
 
-        header("Location: http://wx-parent-web.leo1v1.com/?pid1=".$pid1."&pid2=".$parentid);//链接待定
+        header("Location: http://wx-parent-web.leo1v1.com/chrismas_day/index.html?pid1=".$pid1."&pid2=".$parentid);//链接待定
         return ;
     }
 
