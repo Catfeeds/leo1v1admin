@@ -4019,8 +4019,6 @@ class user_deal extends Controller
                 $adminid, $start_time, $end_time ) ;
             break;
         }
-        $arr['group_kpi'] = $group_kpi['group_kpi'];
-        $arr['group_kpi_desc'] = $group_kpi['group_kpi_desc'];
         //试听成功数
         list($res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4],$res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid]['fail_all_count'],$res[$adminid]['test_lesson_count']) = [[],[],[],[],0,0,0,0];
         list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
@@ -4144,6 +4142,8 @@ class user_deal extends Controller
                 break;
             }
         }
+        $arr['group_kpi'] = isset($group_kpi['group_kpi'])?$group_kpi['group_kpi']:'';
+        $arr['group_kpi_desc'] = isset($group_kpi['group_kpi_desc'])?$group_kpi['group_kpi_desc']:'';
 
         return $this->output_succ($arr);
     }
