@@ -13,7 +13,7 @@ class t_activity_usually extends \App\Models\Zgen\z_t_activity_usually
             ["gift_type=%d",$type,-1]
         ];
 
-        $this->gen_sql_new("  select gift_type, title, describe, url, activity_status, add_time, au.uid, m.account from %s au "
+        $sql = $this->gen_sql_new("  select gift_type, title, act_descr, url, activity_status, add_time, au.uid, m.account from %s au "
                            ." left join %s m on m.uid=au.uid"
                            ." where %s "
                            ,self::DB_TABLE_NAME
