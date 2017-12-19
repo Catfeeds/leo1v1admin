@@ -47,7 +47,7 @@ class group_master_kpi_base {
         $adminid_list = $tt->t_admin_group_name->get_group_admin_list($adminid);
         $adminid_list = array_unique(array_column($adminid_list,'adminid'));
         $adminid_info = $tt->t_manager_info->get_group_admin_list($adminid_list);
-        foreach($adminid_info as $item){
+        foreach($adminid_info as $key=>$item){
             $adminid = $item['adminid'];
             $full_month_flag = 1;
             $del_flag = $item['del_flag'];
@@ -69,8 +69,10 @@ class group_master_kpi_base {
                     }
                 }
             }
+            $adminid_info[$key]['create_time_str'] = $start_time_new?date('Y-m-d H:i:s',$start_time_new):'';
+            $adminid_info[$key]['leave_member_time_str'] = $leave_member_time?date('Y-m-d H:i:s',$leave_member_time):'';
         }
-        dd($adminid_list);
+        dd($adminid_info,$adminid_list);
         $test_leeson_list_new = $tt->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid,$adminid_list);
 
         foreach($test_leeson_list_new['list'] as $item){
