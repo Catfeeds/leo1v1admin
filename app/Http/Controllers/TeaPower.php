@@ -4733,4 +4733,21 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
         return $money;
     }
+
+
+    public function reset_teacher_lesson_info($teacherid, $teacher_money_type, $level, $teacher_type=0){
+        $res = $this->t_lesson_info->update_field_list('t_lesson_info', [
+            'teacher_money_type' => $teacher_money_type,
+            //'level' => $level,
+            'teacher_type' => $teacher_type
+        ], 'teacherid', $teacherid);
+
+        if ($res) {
+            $this->t_user_log->add_data("teacherid:".$teacherid."教师类型:".$teacher_type."等级:".$level."老师工资类型:".$teacher_money_type."全转兼时lesson表更新成功");
+        } else {
+            $this->t_user_log->add_data("teacherid:".$teacherid."教师类型:".$teacher_type."等级:".$level."老师工资类型:".$teacher_money_type."全转兼时lesson表更新失败");
+        }
+        return '';
+    }
+
 }
