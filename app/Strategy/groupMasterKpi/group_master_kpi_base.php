@@ -65,7 +65,6 @@ class group_master_kpi_base {
                 }
             }
         }
-        dd($res);
         foreach($res as $key=>$item){
             $res[$key]['suc_lesson_count_one'] = isset($item[E\Eweek_order::V_1])?count($item[E\Eweek_order::V_1]):0;
             $res[$key]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
@@ -79,6 +78,7 @@ class group_master_kpi_base {
             $res[$key]['suc_lesson_count_rate'] = $suc_lesson_count_rate.'%';
             $res[$key]['suc_lesson_count_rate_all'] = $suc_lesson_count_rate;
         }
+        dd($res);
         if($end_time >= time()){
             $end_time = time();
         }
