@@ -83,10 +83,8 @@ class group_master_kpi_base {
             $res[$adminid]['succ_all_count']=$item['succ_all_count'];
             $res[$adminid]['fail_all_count'] = $item['fail_all_count'];
             $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
+            $res[$adminid]['all_new_contract'] = 0;
         }
-        $succ_all_count = array_column($res,'succ_all_count');
-        $fail_all_count = array_column($res,'fail_all_count');
-        $test_lesson_count = array_column($res,'test_lesson_count');
         //签单
         $tt->t_order_info->switch_tongji_database();
         $order_list = $tt->t_order_info->get_1v1_order_list_by_adminid($start_time_new,$end_time_new,-1,-1,$adminid_list);
@@ -95,6 +93,10 @@ class group_master_kpi_base {
             $all_new_contract = $item['all_new_contract'];
             $res[$adminid]['all_new_contract'] = $all_new_contract;
         }
+        $succ_all_count = array_column($res,'succ_all_count');
+        $fail_all_count = array_column($res,'fail_all_count');
+        $test_lesson_count = array_column($res,'test_lesson_count');
+        $all_new_contract = array_column($res,'all_new_contract');
         dd($res);
         $lesson_per = $res[$adminid]['test_lesson_count']!=0?(round($res[$adminid]['fail_all_count']/$res[$adminid]['test_lesson_count'],2)*100):0;
         $res[$adminid]['lesson_per'] = $lesson_per>0?$lesson_per."%":0;
