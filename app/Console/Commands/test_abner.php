@@ -362,6 +362,8 @@ class test_abner extends cmd_base
             fwrite($fp, '   ');
             fwrite($fp, @$item['teacher_count']);//2
             fwrite($fp, '   ');
+            fwrite($fp, @$item['has_class']);//2
+            fwrite($fp, '   ');
             fwrite($fp, @$item['test_count']);//3
             fwrite($fp, '   ');
             fwrite($fp, @$item['regular_count']);//3
