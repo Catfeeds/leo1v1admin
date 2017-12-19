@@ -730,6 +730,7 @@ class test_jack  extends Controller
     public function reset_parent_course_info($userid,$orderNo){
         $pp_info = $this->t_student_info->field_get_list($userid,"parentid,grade");
         $courseid = $this->t_orderid_orderno_list->get_courseid($orderNo);
+        $grade=$pp_info["grade"];
         $parent_orderid = $this->t_orderid_orderno_list->get_parent_orderid($orderNo);
         $competition_flag = $this->t_order_info->get_competition_flag($parent_orderid);
         if($competition_flag==1){
