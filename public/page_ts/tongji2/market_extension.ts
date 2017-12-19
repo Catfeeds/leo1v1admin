@@ -34,6 +34,9 @@ $(function(){
         var $main_type_name = $("<select/>");
         var $title = $("<textarea/>");
         var $describe = $("<textarea/>");
+        var $img = $("<div/>");
+
+        $img.html("<div><div></div><div>封面</div></div>");
 
         Enum_map.append_option_list("market_gift_type", $main_type_name,true);
 

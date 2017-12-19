@@ -319,17 +319,16 @@ class test_james extends Controller
 
         $wx = new \App\Helper\Wx();
         // 向家长发送推送
-        $lesson_start_date = date('H:i:s');
         $parent_wx_openid    = "orwGAs_IqKFcTuZcU1xwuEtV3Kek";
         $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
         $data_parent = [
-            'first' => "调课申请被拒绝",
-            'keyword1' =>"调换".$lesson_start_date."上课时间被拒绝",
-            'keyword2' => "由于此时间段老师时间不方便,故调课申请未成功",
-            'keyword3' => date('Y-m-d H:i:s'),
-            'remark'   => "请耐心等待助教老师进行沟通!"
+            'first' => '“呼朋唤友”活动来袭',
+            'keyword1' =>'呼朋唤友',
+            'keyword2' => "邀请好友一起上课，万元礼品等你来",
+            'keyword3' => '12月12日至12月31日',
+            'remark'   => ""
         ];
-        $url_parent = '';
+        $url_parent = "http://mp.weixin.qq.com/s/zo69t-AYbhnxUxFFdAx5mg";
         $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
     }
 
