@@ -10,8 +10,7 @@ class t_textbook extends \App\Models\Zgen\z_t_textbook
 
     public function textbook_list($textbook_id){
         $sql = $this->gen_sql("select * from %s order by textbook_id asc ",
-                              self::DB_TABLE_NAME,
-                              $textbook_id
+                              self::DB_TABLE_NAME
         );
 
         return $this->main_get_list($sql);
@@ -24,6 +23,29 @@ class t_textbook extends \App\Models\Zgen\z_t_textbook
         );
         return $this->main_update($sql);
  
+    }
+    public function is_exit($name,$subject){
+
+        $where_arr = [
+            ["subject=%d" , $subject,-1 ],
+        ];
+        if ($name!=""){
+            $where_arr[]=sprintf( "name = '%s' ", $this->ensql($name)) ;
+        }
+        $where_str=$this->where_str_gen( $where_arr);
+        $sql = $this->gen_sql("select name from %s where %s order by textbook_id asc ",
+                              self::DB_TABLE_NAME, [ $where_str ]
+        );
+
+        return $this->main_get_row($sql);
+ 
+    }
+
+    public function textbook_get_by_subject($subject){     
+        $sql = $this->gen_sql("select * from %s where subject = %s order by textbook_id asc ",
+                              self::DB_TABLE_NAME,$subject
+        );
+        return $this->main_get_list($sql);
     }
 
 }

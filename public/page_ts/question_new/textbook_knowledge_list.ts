@@ -118,7 +118,47 @@ $(function(){
         window.open('/question_new/knowledge_get?subject='+subject);
     });
 
+    //添加教材
     $('#add_textbook').on('click',function(){
+        var id_name = $("<input style='width:100%'/>");
+        var id_subject =$("<select/>");
+        Enum_map.append_option_list("subject", id_subject,true,[1,2,3,4,5,6,7,8,9,10,11]);
+
+        var arr=[
+            ["教材科目", id_subject ],
+            ["教材版本名字", id_name ],
+        ];
+        $.show_key_value_table("添加教材", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action : function(dialog) {
+                var subject = id_subject.val();
+                var name = id_name.val();
+                var data = {
+                    'subject':subject,
+                    'name':name,
+                    'editType':1,
+                }
+                if(!name){
+                    BootstrapDialog.alert("教材必填");
+                    return false;
+                }   
+               
+                $.ajax({
+                    type     :"post",
+                    url      :"/question_new/textbook_add",
+                    dataType :"json",
+                    data     :data,
+                    success : function(res){
+                        console.log(res);
+                        BootstrapDialog.alert(res.msg);
+                        if( res.status == 200){
+                            window.location.reload();
+                        }
+                    }
+                });
+            }
+        })
 
     });
 })

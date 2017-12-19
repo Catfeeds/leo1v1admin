@@ -3987,6 +3987,7 @@ class user_deal extends Controller
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $adminid=$this->get_in_adminid();
         $month= date("Ym",$start_time);
+
         switch ( $month ) {
         case "201702" :
         case "201703" :
