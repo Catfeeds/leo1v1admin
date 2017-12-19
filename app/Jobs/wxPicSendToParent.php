@@ -55,74 +55,70 @@ class wxPicSendToParent extends Job implements ShouldQueue
         $wx = new \App\Helper\Wx() ;
         $media_id = $this->media_id;
 
-        // $parent_list = $t_parent_info->get_parent_opend_list();
-
-        $user_list_all = UserManage::getFansList($next_openId='orwGAs5sQ0a2Ebj0j_FqolBWxQu0');
-        $parent_list = $user_list_all['data']['openid'];
+        $parent_list = $t_parent_info->get_parent_opend_list();
 
 
+        // 向家长发送推送
+        $parent_wx_openid[] = ["wx_openid"=>"orwGAs_IqKFcTuZcU1xwuEtV3Kek"];
 
-        // $parent_list = [
-            // 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
+        $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
+        $data_parent = [
+            'first' => '“呼朋唤友”活动来袭',
+            'keyword1' =>'呼朋唤友',
+            'keyword2' => "邀请好友一起上课，万元礼品等你来",
+            'keyword3' => '12月12日至12月31日',
+            'remark'   => ""
+        ];
+        $url_parent = "http://mp.weixin.qq.com/s/zo69t-AYbhnxUxFFdAx5mg";
 
-            // ["wx_openid"=>'orwGAs6R4UremX_fhr24MvStIxJc',
-            //  "parentid" => 111
-            // ],
-            // "wx_openid"=>'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
-            // ],
-            // ["wx_openid"=>'orwGAswh6yMByNDpPz8ToUPNhRpQ',
-            //  "parentid" => 333
+        foreach($parent_wx_openid as $item ){
+            $wx->send_template_msg($item['wx_openid'], $parent_template_id, $data_parent, $url_parent);
+        }
 
-            // ],
-            // ["wx_openid"=>'  ',
-            //  "parentid" => 444
 
-            // ],
-
-        // ];
 
         // $next = 'orwGAs1JT0ADjb3CsVfCmBVVrzpM';
         // $next = 'orwGAsxTKEiNfLrVPPf39ysyxqJ0';
-        $next = 'orwGAs5sQ0a2Ebj0j_FqolBWxQu0';
+        // $next = 'orwGAs5sQ0a2Ebj0j_FqolBWxQu0';
 
         //orwGAsxd0R9319_bFJNbvusr-rCw
-        foreach($parent_list as $v){
-            $check_flag = $t_parent_send_mgs_log->is_has($v);
-            if($check_flag != 1){
-                $txt_arr = [
-                    'touser'   => $v,// james
-                    'msgtype'  => 'image',
-                    "image"=>[
-                        "media_id"=>$media_id
-                    ]
-                ];
+        // foreach($parent_list as $v){
+        //     $check_flag = $t_parent_send_mgs_log->is_has($v);
+        //     if($check_flag != 1){
+        //         $txt_arr = [
+        //             'touser'   => $v,// james
+        //             'msgtype'  => 'image',
+        //             "image"=>[
+        //                 "media_id"=>$media_id
+        //             ]
+        //         ];
 
-                $appid_tec     = config('admin')['wx']['appid'];
-                $appsecret_tec = config('admin')['wx']['appsecret'];
+        //         $appid_tec     = config('admin')['wx']['appid'];
+        //         $appsecret_tec = config('admin')['wx']['appsecret'];
 
-                $token = $wx->get_wx_token($appid_tec,$appsecret_tec);
+        //         $token = $wx->get_wx_token($appid_tec,$appsecret_tec);
 
-                $txt = $this->ch_json_encode($txt_arr);
-                $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
-                $txt_ret = $this->https_post($url,$txt);
+        //         $txt = $this->ch_json_encode($txt_arr);
+        //         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+        //         $txt_ret = $this->https_post($url,$txt);
 
-                $txt_arr = json_decode($txt_ret,true);
+        //         $txt_arr = json_decode($txt_ret,true);
 
 
-                if($txt_arr['errcode'] == 0){
-                    $t_parent_send_mgs_log->row_insert([
-                        // "parentid"     => $v['parentid'],
-                        "create_time"  => time(),
-                        "is_send_flag" => 5 // 市场活动推送图片
-                    ]);
-                }
-            }
+        //         if($txt_arr['errcode'] == 0){
+        //             $t_parent_send_mgs_log->row_insert([
+        //                 // "parentid"     => $v['parentid'],
+        //                 "create_time"  => time(),
+        //                 "is_send_flag" => 5 // 市场活动推送图片
+        //             ]);
+        //         }
+        //     }
 
-            if($next == $v){
-                $wx->send_template_msg( "orwGAs_IqKFcTuZcU1xwuEtV3Kek", 'IyYFpK8WkMGDMqMABls0WdZyC0-jV6xz4PFYO0eja9Q', [] ,$url="" );
-            }
+        //     if($next == $v){
+        //         $wx->send_template_msg( "orwGAs_IqKFcTuZcU1xwuEtV3Kek", 'IyYFpK8WkMGDMqMABls0WdZyC0-jV6xz4PFYO0eja9Q', [] ,$url="" );
+        //     }
 
-        }
+        // }
 
     }
 

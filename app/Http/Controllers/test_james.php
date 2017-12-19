@@ -329,7 +329,10 @@ class test_james extends Controller
             'remark'   => ""
         ];
         $url_parent = "http://mp.weixin.qq.com/s/zo69t-AYbhnxUxFFdAx5mg";
-        $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
+
+        foreach($parent_wx_openid as $item ){
+            $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
+        }
     }
 
     public function has_called(){

@@ -267,7 +267,7 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
             " p.wx_openid != ''"
         ];
         $sql = $this->gen_sql_new("  select wx_openid,parentid from %s p"
-                                  ." where %s"
+                                  ." where %s order by parentid desc "
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
