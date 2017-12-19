@@ -308,7 +308,8 @@ class wx_parent_gift extends Controller
 
 
     /**
-     *@ 微信图文[理优一段故事]
+     * @ 微信图文[理优一段故事]
+     * @ 
      **/
     public function christmasHistory(){ //微信推文 理优历史
         $p_appid     = \App\Helper\Config::get_wx_appid();
@@ -337,7 +338,7 @@ class wx_parent_gift extends Controller
             $pid1=$parentid;
         }
 
-        header("Location: http://wx-parent-web.leo1v1.com/anniversary_day/index.html?pid1=".$pid1."&pid2=".$parentid);//链接待定
+        header("Location: http://wx-parent-web.leo1v1.com/?pid1=".$pid1."&pid2=".$parentid);//链接待定
         return ;
     }
 
@@ -388,7 +389,9 @@ class wx_parent_gift extends Controller
         }
 
         $prize_result = [
-            "prize_str" => $prize_str
+            "prize_str"  => $prize_str,
+            "prize_type" => $prize_type
+
         ];
 
         return $this->output_succ($prize_result);
