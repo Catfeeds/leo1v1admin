@@ -2958,13 +2958,15 @@ trait TeaPower {
 
     /**
      * 获取老师上个月的累计常规课时和累计常规+试听课时
-     * @param start_time 本月开始时间
-     * @param end_time   本月结束时间
+     * @param int start_time 本月开始时间
+     * @param int end_time   本月结束时间
      * @return array all_lesson_count 上月累计常规+试听课时  all_normal_count 上月累计常规课时
      */
     public function get_last_lesson_count_info($start_time,$end_time,$teacherid){
         $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
-        $last_lesson_count['all_lesson_count'] = $this->get_already_lesson_count($start_time,$end_time,$teacherid,0);
+        $last_lesson_count['all_lesson_count'] = $this->get_already_lesson_count(
+            $start_time,$end_time,$teacherid,0
+        );
         $last_lesson_count['all_normal_count'] = $this->get_already_lesson_count(
             $start_time,$end_time,$teacherid,E\Eteacher_money_type::V_6
         );
@@ -2981,7 +2983,8 @@ trait TeaPower {
 
     /**
      * 获取课程对应的累计课时
-     * @param last_lesson_count array key/all_lesson_count 上月累计常规+试听课时 key/all_normal_count 上月累计常规课时
+     * @param last_lesson_count array ['all_lesson_count'] 上月累计常规+试听课时
+     *                                ['all_normal_count'] 上月累计常规课时
      * @param lesson_already_lesson_count t_lesson_info中课程上的累计课时
      * @param teacher_money_type t_lesson_info中课程上的老师工资类型
      * @param teacher_type t_teacher_info中老师类型
@@ -4340,66 +4343,48 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $list;
     }
 
-    public function get_teacher_lesson_money_list_new($teacherid,$start_time,$end_time,$show_type="current"){
-        $start_date         = strtotime(date("Y-m-01",$start_time));
-        $now_date           = strtotime(date("Y-m-01",$end_time));
-        $list = [];
-        for($i=0,$flag=true;$flag!=false;$i++){
-            $j     = $i+1;
-            $start = strtotime("+".$i."month",$start_date);
-            $end   = strtotime("+".$j."month",$start_date);
-            if($end==$now_date || $end>$now_date){
-                $flag = false;
-            }
-
-            $start_list[] = $start;
-            $list[$i]["date"]               = date("Y年m月",$start);
-            $list[$i]["start_time"]         = $start;
-            $list[$i]["end_time"]           = $end;
-            $list[$i]["lesson_price"]       = 0;
-            $list[$i]["lesson_normal"]      = 0;
-            $list[$i]["lesson_trial"]       = 0;
-            $list[$i]["lesson_reward"]      = 0;
-            $list[$i]["lesson_cost"]        = 0;
-            $list[$i]["lesson_cost_normal"] = 0;
-            $list[$i]["lesson_total"]       = 0;
-            $reward_list = $this->get_teacher_reward_money_list_new($teacherid,$start,$end);
-            $list[$i]['reward_list']        = $reward_list;
-
-            //拉取上个月的课时信息
-            $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$teacherid);
-            $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end,-1,$show_type);
-            if(!empty($lesson_list)){
-                foreach($lesson_list as $key => &$val){
-                    $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
-                    if($val['lesson_type'] != 2){
-                        $val['money']       = $this->get_teacher_base_money($teacherid,$val);
-                        $val['lesson_base'] = $val['money']*$lesson_count;
-                        \App\Helper\Utils::check_isset_data($list[$i]['lesson_normal'],$val['lesson_base']);
-                        $reward = $this->get_lesson_reward_money(
-                            $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$val['teacher_type'],$val['type']
-                        );
-                    }else{
-                        $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
-                            $val['teacher_money_type'],$val['teacher_type'],$val['lesson_start']
-                        );
-                        \App\Helper\Utils::check_isset_data($list[$i]['lesson_trial'],$val['lesson_base']);
-                        $reward = 0;
-                    }
-                    $val['lesson_reward'] = $reward*$lesson_count;
-
-                    $this->get_lesson_cost_info($val);
-                    $lesson_price = $val['lesson_base']+$val['lesson_reward']-$val['lesson_cost'];
-                    $list[$i]['lesson_price']       += $lesson_price;
-                    $list[$i]['lesson_reward']      += $val['lesson_reward'];
-                    $list[$i]['lesson_cost']        += $val['lesson_cost'];
-                    $list[$i]['lesson_cost_normal'] += $val['lesson_cost_normal'];
-                    $list[$i]['lesson_total']       += $lesson_count;
+    /**
+     * 更改中的老师薪资列表，请勿使用
+     * @param int teacherid 老师id
+     * @param int start     开始时间戳
+     * @param int end     结束时间戳
+     * @param string show_type 是否显示未上课程 all 包括未上   current 不包括未上
+     * @return array
+     */
+    public function get_teacher_lesson_money_list_new($teacherid,$start,$end,$show_type="current"){
+        $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$teacherid);
+        $reward_list = $this->get_teacher_reward_money_list_new($teacherid,$start,$end);
+        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end,-1,$show_type);
+        if(!empty($lesson_list)){
+            foreach($lesson_list as $key => &$val){
+                $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
+                if($val['lesson_type'] != 2){
+                    $val['money']       = $this->get_teacher_base_money($teacherid,$val);
+                    $val['lesson_base'] = $val['money']*$lesson_count;
+                    \App\Helper\Utils::check_isset_data($list[$i]['lesson_normal'],$val['lesson_base']);
+                    $reward = $this->get_lesson_reward_money(
+                        $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$val['teacher_type'],$val['type']
+                    );
+                }else{
+                    $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
+                        $val['teacher_money_type'],$val['teacher_type'],$val['lesson_start']
+                    );
+                    \App\Helper\Utils::check_isset_data($list[$i]['lesson_trial'],$val['lesson_base']);
+                    $reward = 0;
                 }
+                $val['lesson_reward'] = $reward*$lesson_count;
+
+                $this->get_lesson_cost_info($val);
+                $lesson_price = $val['lesson_base']+$val['lesson_reward']-$val['lesson_cost'];
+
+                \App\Helper\Utils::set_default_value($money_list['lesson_price'], $lesson_price);
+                \App\Helper\Utils::set_default_value($money_list['lesson_reward'], $val['lesson_reward']);
+                \App\Helper\Utils::set_default_value($money_list['lesson_cost'], $val['lesson_cost']);
+                \App\Helper\Utils::set_default_value($money_list['lesson_total'], $lesson_count);
             }
         }
 
-        return $list;
+        return $money_list;
     }
 
 
@@ -4712,9 +4697,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $lesson_end_time;
     }
 
-    //黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
-    //张珍颖奥数 58812 所有都是75元/课时
-    //学生吕穎姍 379758 的课时费在在他升到高一年级前都按高一来算
+    /**
+     * 黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
+     * 张珍颖奥数 58812 所有都是75元/课时
+     * 学生吕穎姍 379758 的课时费在在他升到高一年级前都按高一来算
+     * 获取老师课时基本工资
+     * @param int teacherid
+     * @param array lesson_info 课程信息
+     */
     public function get_teacher_base_money($teacherid,$lesson_info){
         $money            = $lesson_info['money'];
         //黄嵩婕切换新版工资版本时间,之前的课程计算工资不变,之后的工资变成新版工资

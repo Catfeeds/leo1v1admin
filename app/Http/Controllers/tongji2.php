@@ -378,16 +378,16 @@ class tongji2 extends Controller
         $week_info = $this->t_month_def_type->get_month_week_time($month);
         foreach($week_info as $item_k){
             $week_order = $item_k['week_order'];
-            $start_time = date('m-d',$item_k['start_time']);
-            $end_time = date('m-d',$item_k['end_time']);
+            $start_time = date('m/d',$item_k['start_time']);
+            $end_time = date('m/d',$item_k['end_time']-1);
             if($week_order == E\Eweek_order::V_1){
-                $week[E\Eweek_order::V_1][] = $start_time.'/'.$end_time;
+                $week[E\Eweek_order::V_1][] = $start_time.'-'.$end_time;
             }elseif($week_order == E\Eweek_order::V_2){
-                $week[E\Eweek_order::V_2][] = $start_time.'/'.$end_time;
+                $week[E\Eweek_order::V_2][] = $start_time.'-'.$end_time;
             }elseif($week_order == E\Eweek_order::V_3){
-                $week[E\Eweek_order::V_3][] = $start_time.'/'.$end_time;
+                $week[E\Eweek_order::V_3][] = $start_time.'-'.$end_time;
             }elseif($week_order == E\Eweek_order::V_4){
-                $week[E\Eweek_order::V_4][] = $start_time.'/'.$end_time;
+                $week[E\Eweek_order::V_4][] = $start_time.'-'.$end_time;
             }
         }
         foreach($week as $key=>$item_w){
@@ -1923,5 +1923,9 @@ class tongji2 extends Controller
             E\Epad_type::set_item_value_simple_str($item,"pad");
         }
         return $this->pageView(__METHOD__,$ret_info);
+    }
+
+    public function market_extension(){
+        // $ret_info = $this->
     }
 }

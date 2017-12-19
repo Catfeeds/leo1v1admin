@@ -29,6 +29,7 @@
                     <td>试听时间:<span class="font_color">{{$require_info['request_time']}}</span></td>
                     <td>
                         老师身份:<span class="font_color">{{ $require_info['tea_identity_str'] }}</span><br/>
+                        老师类型:<span class="font_color">{{ $require_info['teacher_type_str'] }}</span><br/>
                         年龄要求:<span class="font_color">{{ $require_info['tea_age_str'] }}</span><br/>
                         性别要求:<span class="font_color">{{ $require_info['tea_gender_str'] }}</span><br/>
                     </td>
@@ -97,6 +98,14 @@
                 <div class="input-group ">
                     <span class="input-group-addon">年龄要求</span>
                     <select class="opt-change form-control" id="id_tea_age">
+                        <option value="0">无要求</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-3" >
+                <div class="input-group ">
+                    <span class="input-group-addon">老师类型</span>
+                    <select class="opt-change form-control" id="id_teacher_type">
                         <option value="0">无要求</option>
                     </select>
                 </div>
