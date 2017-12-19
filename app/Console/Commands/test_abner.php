@@ -181,7 +181,7 @@ class test_abner extends cmd_base
                     $teacher_case['初中科学']['has_class'] ++;
                     $flag_map[$key]=true;
                 }elseif(!empty($item['courseid'])){
-                    $teacher_case['其它综合']['has_class'] ++;
+                    $teacher_case['其他综合']['has_class'] ++;
                     $flag_map[$key]=true;
                 }
             }
@@ -271,9 +271,9 @@ class test_abner extends cmd_base
 
             }else{
                 if($item['lesson_type'] == 2)
-                    $teacher_case['其它综合']['test_count'] ++;
+                    $teacher_case['其他综合']['test_count'] ++;
                 else
-                    $teacher_case['其它综合']['regular_count'] ++;
+                    $teacher_case['其他综合']['regular_count'] ++;
 
             }
 
