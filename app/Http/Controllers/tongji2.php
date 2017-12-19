@@ -1932,6 +1932,7 @@ class tongji2 extends Controller
 
         foreach($ret_info as &$item){
             $item['add_time_str'] = \App\Helper\Utils::unixtime2date($item['add_time']);
+            $item['gift_type_str'] = E\Emarket_gift_type::get_desc($item['gift_type']);
             if($item['activity_status'] == 0){
                 $item['activity_status_str'] = "<font class='blue'>未设置</font>";
             }elseif($item['activity_status'] == 1){
