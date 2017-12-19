@@ -4758,7 +4758,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $subject_str = $this->gen_sql("(t.subject=%u or t.second_subject=%u)",$subject,$subject);
         $teacher_arr = $this->teacher_common_sql("t",[$subject_str]);
 
-        $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,t.second_subject,t.second_grade_start,"
+        $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,t.second_subject,t.second_grade_start,t.teacher_type,"
                                   ." t.second_grade_end,t.limit_plan_lesson_type,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.train_through_new_time,t.identity,t.gender,t.age,t.realname,"
                                   ." t.phone,tf.free_time_new,t.teacher_tags"

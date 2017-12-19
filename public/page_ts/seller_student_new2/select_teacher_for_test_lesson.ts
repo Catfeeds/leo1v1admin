@@ -7,6 +7,7 @@ function load_data(){
 		    identity      : $('#id_identity').val(),
 		    gender        : $('#id_gender').val(),
 		    tea_age       : $('#id_tea_age').val(),
+		    teacher_type  : $('#id_teacher_type').val(),
 		    teacher_tags  : $('#id_teacher_tags').val(),
 		    lesson_tags   : $('#id_lesson_tags').val(),
 		    teaching_tags : $('#id_teaching_tags').val(),
@@ -19,9 +20,11 @@ $(function(){
     Enum_map.append_option_list("identity",$("#id_identity"),true,[5,6,7,8]);
     Enum_map.append_option_list("gender",$("#id_gender"),true,[1,2]);
     Enum_map.append_option_list("tea_age",$("#id_tea_age"),true,[1,2,3,4]);
+    Enum_map.append_option_list("teacher_type",$("#id_teacher_type"),true,[1,3]);
     $("#id_identity").val(g_args.identity);
     $("#id_gender").val(g_args.gender);
     $("#id_tea_age").val(g_args.tea_age);
+    $("#id_teacher_type").val(g_args.teacher_type);
     $("#id_teacher_tags").val(g_args.teacher_tags);
     $("#id_teaching_tags").val(g_args.teaching_tags);
     $("#id_lesson_tags").val(g_args.lesson_tags);
@@ -37,7 +40,6 @@ $(function(){
         var notice_html = "请选择需要排课的试听需求！";
         $(".require_content").html(notice_html);
     }
-    console.log(g_account_role);
     if(g_account_role!=12 && g_account_role!=3){
         var notice_html = "所在角色组没有权限！";
         $(".require_content").html(notice_html);
