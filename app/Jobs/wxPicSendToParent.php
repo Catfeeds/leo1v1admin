@@ -55,15 +55,31 @@ class wxPicSendToParent extends Job implements ShouldQueue
         $wx = new \App\Helper\Wx() ;
         $media_id = $this->media_id;
 
-        $parent_list = $t_parent_info->get_parent_opend_list();
+        if($a){
+
+        }
+
+        // $parent_wx_openid = $t_parent_info->get_parent_opend_list();
 
 
         // 向家长发送推送
-        $parent_wx_openid =[
-            ["wx_openid"=>"orwGAs_IqKFcTuZcU1xwuEtV3Kek"],
-            ["wx_openid"=>"orwGAs9SVtEGH9vgTxAkfnSkxyXY"],
-            ["wx_openid"=>"orwGAs0ayobuEtO1YZZhW3Yed2To"],
-            ["wx_openid"=>"orwGAswflHkLg-4PgNuJwsQZZKFE"],
+        $parent_wx_openid = [
+            [
+                "wx_openid"=>"orwGAs_IqKFcTuZcU1xwuEtV3Kek",
+                "parentid"=>"111",
+            ],
+            // [
+            //     "wx_openid"=>"orwGAs9SVtEGH9vgTxAkfnSkxyXY",
+            //     "parentid"=>"111",
+            // ],
+            // [
+            //     "wx_openid"=>"orwGAs0ayobuEtO1YZZhW3Yed2To",
+            //     "parentid"=>"111",
+            // ],
+            // [
+            //     "wx_openid"=>"orwGAswflHkLg-4PgNuJwsQZZKFE",
+            //     "parentid"=>"111",
+            // ],
         ];
 
         $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
@@ -78,7 +94,14 @@ class wxPicSendToParent extends Job implements ShouldQueue
 
         foreach($parent_wx_openid as $item ){
             $wx->send_template_msg($item['wx_openid'], $parent_template_id, $data_parent, $url_parent);
+
+            $t_parent_send_mgs_log->row_insert([
+                "parentid"     => $item['parentid'],
+                "create_time"  => time(),
+                "is_send_flag" => 6 // 市场活动推送模板消息
+            ]);
         }
+    }
 
 
 
@@ -125,7 +148,7 @@ class wxPicSendToParent extends Job implements ShouldQueue
 
         // }
 
-    }
+    // }
 
 
     public function https_post($url,$data){

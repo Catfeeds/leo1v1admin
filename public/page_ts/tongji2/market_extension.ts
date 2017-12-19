@@ -35,8 +35,12 @@ $(function(){
         var $title = $("<textarea/>");
         var $describe = $("<textarea/>");
         var $img = $("<div/>");
+        //http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png
 
-        $img.html("<div><div></div><div>封面</div></div>");
+        $img.html("<div><div>PNG格式</div>     <div style='margin-top:1rem;'><span style='margin-right:1rem;'>封面</span><img id='id_img1' src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/><span style=' font-size:0.2rem;'>尺寸:300X300</span></div>    </div>");
+
+
+
 
         Enum_map.append_option_list("market_gift_type", $main_type_name,true);
 
@@ -62,7 +66,9 @@ $(function(){
                 });
             }
         },function(){
-
+            $('#id_img1').on("click", function (g_adminid_right) {
+                alert(11);
+            });
         });
     });
 
