@@ -7,8 +7,6 @@ $(function(){
     $('#id_lesson_type').val(g_args.lesson_type);
     $('#id_student').val(g_args.userid);
 
-
-
     //时间插件
     $("#id_start_date").datetimepicker({
         lang:'ch',
@@ -64,11 +62,6 @@ $(function(){
             }
         })
     });
-
-
-
-
-
 
     $("#id_end_date").datetimepicker({
         lang:'ch',
@@ -142,6 +135,7 @@ $(function(){
                     $.custom_upload_file_process(
                         btn_id, 0,
                         function(up, info, file, lesson_info) {
+                            // console.log(info)
                             var res = $.parseJSON(info);
                             if(res.key!=''){
                                 set_url_fun(res.key);
@@ -187,6 +181,7 @@ $(function(){
         $.do_ajax("/common/get_bucket_info",{
             is_public : 0
         },function(ret){
+            // console.log(opt_data)
             var id_student = gen_upload_item(
                 btn_student_upload_id,stu_status,
                 "l_stu_"+opt_data.lessonid,
@@ -347,6 +342,7 @@ $(function(){
                         "tea_cw_pic_flag"    : tea_cw_pic_flag,
                         "old_tea_cw_url"     : opt_data.tea_cw_url,
                     });
+
                 }
             },function(){
                 id_student["onshown_init"]();
@@ -362,10 +358,131 @@ $(function(){
                         item.parent().parent().hide();
                     });
                 }
+                //添加上传文件新选项
+                if(!(lesson_type>=1000 && lesson_type <2000)){
+                    $('#id_teacher_upload,#id_student_upload,#id_issue_upload').hover(function(){
+                        add_upload_select($(this));
+                    },function(){
+                        $('.opt-select-file').hover(function(){
+                            $(this).show();
+                        },function(){
+                            $(this).hide();
+                        });
+                        $('.opt-select-file').hide();
+                    });
+                }
+
             },false,900);
         });
-    };
 
+        var add_upload_select = function(obj){
+            var X = obj.offset().top;
+            var Y = obj.offset().left;
+            var H = obj.outerHeight();
+            var top = X+H;
+            $('.opt-select-file').css({'top':top,'left':Y});
+            $('.opt-select-file').show();
+            $('.opt-local').on('click', function(){
+                obj.click();
+            });
+            $('.opt-my-res').attr('upload_id', obj.attr('id'));
+        }
+        var dlg_tr = {};
+        var get_res = function(ajax_url,opt_type,btn_type,dir_id){
+            $("<div></div>").tea_select_res_ajax({
+                "opt_type" :  "select", // or "list"
+                "url"      :  ajax_url,
+                //其他参数
+                "args_ex" : {
+                    'is_js'  : 1,
+                    'dir_id' : dir_id,
+                },
+                //字段列表
+                'field_list' :[
+                    {
+                    title:"文件名",
+                    width:200,
+                    render:function(val,item) {
+                        return item.file_title;
+                    }
+                },{
+                    title:"创建日期",
+                    render:function(val,item) {
+                        return item.create_time;
+                    }
+                },{
+                    title:"文件类型",
+                    class:"type-mark",
+                    render:function(val,item) {
+                        $(this).addClass(item.file_type);
+                        return item.file_type;
+                    }
+                },{
+                    title:"文件大小",
+                    //width :50,
+                    render:function(val,item) {
+                        return item.file_size ;
+                    }
+                }] ,
+                filter_list: [[{}]] ,
+                "auto_close"       : true,
+                //选择
+                "onChange"         : null,
+                //加载数据后，其它的设置
+                "onLoadData"       : function(dlg, ret){
+                    dlg_tr = ret.crumbs;
+                },
+                "onshown"          : function(dlg){
+                    //等待弹出出现后才执行
+                    $('.my-mark').empty();
+                    var cru_str = '<div class="col-xs-12">';
+                    $.each($(dlg_tr), function(i,val){
+                        cru_str = cru_str + '<a class="opt-dir" data-id='+val.dir_id+' >'+val.name+'</a>&nbsp;/&nbsp;';
+                    });
+                    cru_str = cru_str + '</div>';
+                    $('.my-mark').append(cru_str);
+                    $('.my-mark a').css('cursor','pointer');
+                    $('.my-mark a').on('click',function(){
+                        dlg.$modalHeader.find('.close').click()
+                        get_res(ajax_url, opt_type, btn_type,$(this).data('id'));
+                    });
+                    $('.tr_mark').each(function(){
+                        $(this).on('click', function(){
+                            if( $(this).children().eq(2).text() == '文件夹' ){
+                                dlg.$modalHeader.find('.close').click()
+                                get_res(ajax_url, opt_type, btn_type, $(this).data('id'));
+                            }
+                        });
+                    });
+
+                },
+                "custom"           : function(){
+                    if(opt_type == 'leo'){//三个绑定
+                    } else {//单个
+                        if(btn_type == 'id_teacher_upload'){
+                            tea_cw_url = $('.warning').data('link');
+                        } else if (btn_type == 'id_student_upload'){
+                            stu_cw_url = $('.warning').data('link');
+                        } else if (btn_type == 'id_issue_upload') {
+                            issue_url = $('.warning').data('link');
+                        }
+                        $('#'+btn_type).removeClass('btn-warning').addClass('btn-primary');
+                        $('#'+btn_type).text('重传');
+                        $('#'+btn_type).parent().nextAll().show();
+                    }
+                }
+            });
+        };
+
+        $('.opt-leo-res').on('click',function(){
+            get_res('/teacher_info/get_leo_resource', 'leo');
+        });
+
+        $('.opt-my-res').on('click',function(){
+            get_res('/teacher_info/tea_resource', 'my',$(this).attr('upload_id'));
+        });
+
+    };
 
     $(".opt-teacher-pdf").on("click", function( ){
         var opt_data = $(this).get_opt_data();
@@ -791,8 +908,6 @@ $(function(){
             BootstrapDialog.alert("您有一节模拟试听课需要完成。模拟试听课程通过后，您将获得50元开课红包，赶紧开始吧。(才可以接正常试听课，老师加油！)");
         }
     });
-
-
 
     $(".opt-complaint").on("click",function(){
         var data                = $(this).get_opt_data();

@@ -63,6 +63,7 @@
                     </div>
                 </div>
                 <div  class="col-xs-6 col-md-4">
+                    <button type="button" class="btn btn-warning" id="show_warning_info">点击查看预警信息</button>
                     <input id="id_revisit_warning_type" style="display:none;" />
                     <button type="button" class="btn btn-default opt-warning-type" id="warning-one">{{$warning['warning_type_one']}}</button>
                     <button type="button" class="btn btn-default opt-warning-type" id="warning-two">{{$warning['warning_type_two']}}</button>
@@ -156,17 +157,17 @@
                                 <tbody>
                                     <tr>
                                         <td>今日</td>
-                                        <td>{{@$today_info["revisit_num"]/1}} </td>
-                                        <td>{{@$today_info["goal"]}} </td>
-                                        <td>{{@$today_info["call_num"]}} </td>
-                                        <td>{{@$today_info["goal"]*3}}:00 </td>
+                                        <td id="today_revisit_num">{{@$today_info["revisit_num"]/1}} </td>
+                                        <td id="today_goal">{{@$today_info["goal"]}} </td>
+                                        <td id="today_call_num">{{@$today_info["call_num"]}} </td>
+                                        <td id="today_goal_three">{{@$today_info["goal"]*3}}:00 </td>
                                     </tr>
                                     <tr>
                                         <td>本月</td>
-                                        <td>{{@$month_info["revisit_num"]/1}} </td>
-                                        <td>{{@$month_info["stu_num"]*2}} </td>
-                                        <td>{{@$month_info["call_num"]}} </td>
-                                        <td>{{@$month_info["stu_num"]*6}}:00 </td>
+                                        <td  id="month_revisit_num">{{@$month_info["revisit_num"]/1}} </td>
+                                        <td id="month_stu_num">{{@$month_info["stu_num"]*2}} </td>
+                                        <td  id="month_call_num">{{@$month_info["call_num"]}} </td>
+                                        <td  id="month_stu_num_three">{{@$month_info["stu_num"]*6}}:00 </td>
                                     </tr>
 
                                 </tbody>

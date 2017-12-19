@@ -20,10 +20,11 @@ tofile:
 /// <reference path="../g_args.d.ts/rule_txt-process_info.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		process_id:	$('#id_process_id').val()
-    });
+		});
 }
 $(function(){
 
@@ -45,4 +46,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_process_id" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["process_id title", "process_id", "th_process_id" ]])!!}
 */

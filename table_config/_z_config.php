@@ -311,6 +311,8 @@ return array(
     ["db_question_new","t_knowledge_point","knowledge_id"] ,
     ["db_question_new","t_answer","answer_id"] ,
     ["db_question_new","t_question_knowledge","id"],
-    ["db_question_new","t_knowledge_level","id"], 
+    ["db_question_new","t_knowledge_level","id"],
+    ["db_question_new","t_textbook","textbook_id"],
+    ["db_question_new","t_textbook_knowledge","id"], 
 
 );

@@ -582,47 +582,29 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"tlsr.origin");
         $where_arr[]= $ret_in_str;
         $this->where_arr_adminid_in_list($where_arr,"ssn.first_seller_adminid",$adminid_list);
-        if ($distinct == 0) {
-            $sql=$this->gen_sql_new(
-                "select $field_name  as check_value , count(tlsr.require_id) as require_count, "
-                ."count(if(tlsr.accept_flag = 1,tlsr.require_id,null)) as test_lesson_count, "
-                ." count(distinct if(tlsr.accept_flag = 1,tls.userid,null)) as distinct_test_count, "
-                ." sum(tlssl.success_flag in (0,1 )) as succ_test_lesson_count  "
-                ." from %s ssn "
-                ." left join %s si on ssn.userid = si.userid "
-                ." left join %s tls on tls.userid = ssn.userid"
-                ." left join %s tlsr on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id"
-                ." left join %s tlssl on tlsr.current_lessonid = tlssl.lessonid"
-                ." left join %s li on tlsr.current_lessonid=li.lessonid"
-                ." where %s group by  check_value ",
-                t_seller_student_new::DB_TABLE_NAME,
-                t_student_info::DB_TABLE_NAME,
-                t_test_lesson_subject::DB_TABLE_NAME,
-                t_test_lesson_subject_require::DB_TABLE_NAME,
-                t_test_lesson_subject_sub_list::DB_TABLE_NAME,
-                t_lesson_info::DB_TABLE_NAME,
-                $where_arr
-            );
-        }else{
-            $where_arr[] = 'tlssl.success_flag in (0,1)';
-            $sql=$this->gen_sql_new(
-                "select $field_name  as check_value ,count( distinct tls.userid ) as distinct_succ_count "
-                ." from %s ssn "
-                ." left join %s si on ssn.userid = si.userid "
-                ." left join %s tls on tls.userid = ssn.userid"
-                ." left join %s tlsr on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id"
-                ." left join %s tlssl on tlsr.current_lessonid = tlssl.lessonid"
-                ." left join %s li on tlsr.current_lessonid=li.lessonid"
-                ." where %s group by  check_value ",
-                t_seller_student_new::DB_TABLE_NAME,
-                t_student_info::DB_TABLE_NAME,
-                t_test_lesson_subject::DB_TABLE_NAME,
-                t_test_lesson_subject_require::DB_TABLE_NAME,
-                t_test_lesson_subject_sub_list::DB_TABLE_NAME,
-                t_lesson_info::DB_TABLE_NAME,
-                $where_arr
-            );
-        }
+
+
+        $sql=$this->gen_sql_new(
+            "select $field_name  as check_value , count(tlsr.require_id) as require_count, "
+            ." count(if(tlsr.accept_flag = 1,tlsr.require_id,null)) as test_lesson_count, "
+            ." count(distinct if(tlsr.accept_flag = 1,tls.userid,null)) as distinct_test_count, "
+            ." sum(tlssl.success_flag in (0,1 )) as succ_test_lesson_count,"
+            ." count(distinct if(tlssl.success_flag in (0,1 ),tls.userid,null)) as distinct_succ_count"
+            ." from %s ssn "
+            ." left join %s si on ssn.userid = si.userid "
+            ." left join %s tls on tls.userid = ssn.userid"
+            ." left join %s tlsr on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id"
+            ." left join %s tlssl on tlsr.current_lessonid = tlssl.lessonid"
+            ." left join %s li on tlsr.current_lessonid=li.lessonid"
+            ." where %s group by  check_value ",
+            t_seller_student_new::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_test_lesson_subject_require::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            $where_arr
+        );
 
         return $this->main_get_list($sql);
     }

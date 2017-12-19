@@ -8301,7 +8301,6 @@ class tongji_ss extends Controller
         $admin_revisiterid = $this->get_in_int_val("admin_revisiterid", -1);
         $groupid           = $this->get_in_int_val("groupid",-1);
         $tmk_adminid       = $this->get_in_int_val("tmk_adminid", -1);
-
         $check_field_id    = $this->get_in_int_val("check_field_id",1);
         $is_history = $this->get_in_int_val('is_history',1);
         $sta_data_type = $this->get_in_int_val('sta_data_type',1);
@@ -8367,19 +8366,14 @@ class tongji_ss extends Controller
                     $data_map[$check_value]["distinct_test_count"] = $test_item["distinct_test_count"];
                     $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
                     $data_map[$check_value]["test_lesson_count"] = $test_item["test_lesson_count"];
-                }
-                //去掉重复userid
-                $distinct_test_lesson_list=$this->t_seller_student_origin->get_lesson_list_new($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid,1);
-                foreach ($distinct_test_lesson_list as  $test_item ) {
-                    $check_value=$test_item["check_value"];
                     $data_map[$check_value]["distinct_succ_count"] = $test_item["distinct_succ_count"];
                     //试听率
                     if(@$data_map[$check_value]['tq_called_count'])
                         $data_map[$check_value]["audition_rate"] = number_format($test_item["distinct_succ_count"]/$data_map[$check_value]['tq_called_count']*100,2);
                     else
                         $data_map[$check_value]["audition_rate"] = '';
-                }
 
+                }
                 //统计试听课相关信息  ---begin---
 
                 //统计订单相关信息  ---begin---
@@ -8476,14 +8470,6 @@ class tongji_ss extends Controller
 
                 $ret_info = $this->t_test_lesson_subject_require->get_funnel_data($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
                 $data_map=&$ret_info["list"];
-                //计算不重复的成功预约数  ---begin---
-                $test_lesson_info = $this->t_test_lesson_subject_require->get_distinct_class($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
-                foreach ($test_lesson_info as  $item ) {
-                    $check_value=$item["check_value"];
-                    \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
-                    $data_map[$check_value]["distinct_succ_count"] = $item["distinct_succ_count"];
-                }
-                //计算不重复的成功预约数  ---end---
                 //计算不重复的订单数[合同人数] ---begin--
                 $order_info = $this->t_test_lesson_subject_require->get_distinct_order_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
                 foreach ($order_info as  $item ) {
@@ -8519,6 +8505,7 @@ class tongji_ss extends Controller
                 $ret_info = $this->t_order_info->get_funnel_data($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
                 $data_map=&$ret_info["list"];
             }
+
             foreach ($data_map as &$item ) {
                 if($field_class_name ) {
                     $item["title"]= $field_class_name::get_desc($item["check_value"]);
@@ -8889,6 +8876,13 @@ class tongji_ss extends Controller
             return $this->output_err('存档类型错误!');
         }
         return $this->output_succ();
+    }
+    //@desn:渠道统计信息流
+    public function channel_sta_flow(){
+        $this->set_in_value("origin_ex","信息流,,,,");
+        $this->set_in_value("is_history",2);
+        $this->set_in_value("sta_data_type",1);
+        return $this->channel_statistics();
     }
 
 

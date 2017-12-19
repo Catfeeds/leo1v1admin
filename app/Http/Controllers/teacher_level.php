@@ -26,27 +26,28 @@ class teacher_level extends Controller
         $end_time   = strtotime(date('Y-m-d H:i:s',mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
         $this->set_in_value("quarter_start",$start_time);
         $quarter_start = $this->get_in_int_val("quarter_start");
-        $teacher_money_type = $this->get_in_int_val("teacher_money_type",5);
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type",6);
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $page_info = $this->get_in_page_info();
 
 
-        $start_time = strtotime("2017-09-01");
+        //  $start_time = strtotime("2017-09-01");
         $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,-1,-1,-1,0);
         foreach($ret_info["list"] as &$item){
-            $item["level"]=$item["level_before"];
-            if($item["teacher_money_type"]==6){
+            //$item["level"]=$item["level_before"];
+            $item["level"]=$item["real_level"];
+            if($teacher_money_type==6){
                 //  E\Enew_level::set_item_value_str($item,"level_before");
                 // E\Enew_level::set_item_value_str($item,"level_after");
-                $item["level_str"] = E\Enew_level::v2s($item["level"]);
-                $item["level_after_str"] = E\Enew_level::v2s($item["level_after"]);
+                $item["level_str"] = E\Enew_level::get_simple_desc($item["level"]);
+                $item["level_after_str"] = E\Enew_level::get_simple_desc($item["level_after"]);
 
 
             }else{
                 //  E\Elevel::set_item_value_str($item,"level_before");
                 // E\Elevel::set_item_value_str($item,"level_after");
-                $item["level_str"] = E\Elevel::v2s($item["level"]);
-                $item["level_after_str"] = E\Elevel::v2s($item["level_after"]);
+                $item["level_str"] = E\Elevel::get_simple_desc($item["level"]);
+                $item["level_after_str"] = E\Elevel::get_simple_desc($item["level_after"]);
 
             }
             \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");

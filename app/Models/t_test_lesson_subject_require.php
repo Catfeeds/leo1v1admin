@@ -3705,7 +3705,8 @@ ORDER BY require_time ASC";
             " count(distinct if(tlsr.accept_flag = 1,tls.userid,null)) distinct_test_count,".
             " sum(tlssl.success_flag in (0,1 )) succ_test_lesson_count,".
             " sum(if((oi.contract_type = 0 and oi.contract_status > 0),1,0)) order_count,".
-            " round(sum(if((oi.contract_type = 0 and oi.contract_status > 0 ),oi.price/100,0))) order_all_money".
+            " round(sum(if((oi.contract_type = 0 and oi.contract_status > 0 ),oi.price/100,0))) order_all_money,".
+            " coutn(distinct if(tlssl.success_flag in (0,1 ),tls.userid,null)) succ_test_lesson_count".
             " from %s tlsr ".
             " left join %s tlssl on tlsr.current_lessonid=tlssl.lessonid ".
             " left join %s li on tlsr.current_lessonid = li.lessonid".
