@@ -1924,4 +1924,8 @@ class tongji2 extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
+
+    public function market_extension(){
+        // $ret_info = $this->
+    }
 }
