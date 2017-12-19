@@ -2,6 +2,7 @@
 @section('content')
     <script type="text/javascript" src="/js/area/distpicker.data.js"></script>
 	  <script type="text/javascript" src="/js/area/distpicker.js"></script>
+	  <script type="text/javascript" src="/js/pdfobject.js"></script>
     <script>
      var tag_one = '{{$tag_info['tag_one']['menu']}}';
      var tag_two = '{{$tag_info['tag_two']['menu']}}';
@@ -105,4 +106,8 @@
         </table>
         @include("layouts.page")
     </section>
+    <div class="col-md-12 look-pdf"   style="width:80%;height:90%;position:fixed;right:10%;top:5%;border-radius:5px;background:#eee;display:none;">
+    </div>
+
+
 @endsection

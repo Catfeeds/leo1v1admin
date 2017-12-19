@@ -37,14 +37,13 @@ class month_def_type extends Controller
         $start_time = strtotime($start_time);
         $end_time = strtotime($end_time);
 
-        $res = $this->t_month_def_type->get_count_by_def_time($def_time);
+        $res = $this->t_month_def_type->get_count_by_def_time($def_time,$month_def_type);
         if($month_def_type != E\Emonth_def_type::V_3){
             $week_order = 0;
         }
         if (!$res) {
             $this->t_month_def_type->row_insert([
                 "month_def_type" => $month_def_type,
-                //'def_time' => time(),
                 'def_time' => $def_time,
                 "start_time" => $start_time,
                 "end_time" => $end_time,
@@ -56,7 +55,6 @@ class month_def_type extends Controller
             if ($month_def_type == E\Emonth_def_type::V_3) {
                 $this->t_month_def_type->row_insert([
                     "month_def_type" => $month_def_type,
-                    //'def_time' => time(),
                     'def_time' => $def_time,
                     "start_time" => $start_time,
                     "end_time" => $end_time,

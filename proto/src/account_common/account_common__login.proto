@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+//__CMD: 100x0006
+//__DESC: 登录  http://admin.leo1v1.com/account_common/login
+//__TAGS: for login 
+
+
+message in  {
+  string phone =1;//手机
+  int32 role =2;//角色
+  string verify_code =3;//验证码
+  string passwd =4;//密码 md5(md5(passwd)."leo") 
+
+}
+
+message out {
+   int32 userid =1;//id
+}

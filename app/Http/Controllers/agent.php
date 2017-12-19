@@ -454,6 +454,11 @@ class agent extends Controller
     }
 
     public function test_new(){
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        $adminid=$this->get_account_id();
+        $month= date("Ym",$start_time);
+        $master_kpi=\App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid=314, $start_time, $end_time);
+        dd($master_kpi);
         // $now=time(NULL);
         // $start_time=strtotime( date("Y-m-01",$now));
         // $end_time=$now;

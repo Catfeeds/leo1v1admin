@@ -1,0 +1,13 @@
+#!/bin/bash
+cd $(dirname $0)
+project_name=account_common
+rm -rf ./php_${project_name}
+./gen_proto  --controller_dir=./  $project_name
+
+#rm -rf ../app/proto/$project_name/
+#mkdir -p   ../app/proto/
+#cp -rf ./php_${project_name} ../app/proto/$project_name
+
+
+mkdir -p ../public/proto/
+cp -rf ./php_${project_name}/$project_name*.json   ../public/proto/

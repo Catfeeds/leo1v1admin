@@ -183,6 +183,7 @@ interface RowData {
 	interview_acc	:any;
 	textbook	:any;
 	fine_dimension	:any;
+	full_flag	:any;
 }
 
 /*

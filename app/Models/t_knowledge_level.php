@@ -26,6 +26,8 @@ class t_knowledge_level extends \App\Models\Zgen\z_t_knowledge_level
         return  $this->main_get_list_by_page($sql,$page_num,10);
     }
 
+    
+
     public function del_by_id($id){
         $sql=$this->gen_sql("delete from %s where knowledge_id=%u"
                             ,self::DB_TABLE_NAME

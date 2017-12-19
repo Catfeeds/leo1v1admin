@@ -825,18 +825,18 @@ class main_page extends Controller
         }
         #dd($assistant_renew);exit;
 
-        $ass_adminid = $this->get_account_id();
-        $now = time();
-        $three = $now - 86400*7;
-        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid, $three,-1);
-        $warning_type_num = [
-            'warning_type_one' =>0,
-            'warning_type_two' =>0,
-            'warning_type_three' =>0
-        ];
-        foreach($warning_count as $item){
-            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
-        }
+        // $ass_adminid = $this->get_account_id();
+        // $now = time();
+        // $three = $now - 86400*7;
+        // $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid, $three,-1);
+        // $warning_type_num = [
+        //     'warning_type_one' =>0,
+        //     'warning_type_two' =>0,
+        //     'warning_type_three' =>0
+        // ];
+        // foreach($warning_count as $item){
+        //     \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        // }
 
         $opt_date_type = $this->get_in_int_val("opt_date_type",3);
         // dd($opt_date_type);
@@ -848,21 +848,21 @@ class main_page extends Controller
             $cur_start = strtotime(date('Y-m-01',$end_time));
             $cur_end = strtotime(date('Y-m-01',$cur_start+40*86400));
         }
-        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1, $cur_start, $cur_end);
-        $warning_type_num['warning_type_three'] = $three_count;
+        // $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1, $cur_start, $cur_end);
+        // $warning_type_num['warning_type_three'] = $three_count;
 
 
-        //月回访信息
-        $month_list = $this->t_revisit_assess_info->get_month_assess_info_by_uid($ass_adminid, $cur_start, $cur_end);
-        $month_info = @$month_list[0];
-        $month_info["call_num"]= \App\Helper\Common::get_time_format_minute(@$month_info["call_num"]);
-        //当天回访信息
-        $start_time = strtotime( "today" );
-        $end_time   = strtotime("tomorrow");
-        $today_info = $this->t_manager_info->get_today_assess_info_by_uid($ass_adminid, $start_time, $end_time);
-        $call_num   = $this->t_revisit_call_count->get_today_call_count($ass_adminid, $start_time, $end_time);
-        $today_info["call_num"]= \App\Helper\Common::get_time_format_minute($call_num);
-        $today_info['goal'] = ceil(@$today_info['stu_num']/10);
+        // //月回访信息
+        // $month_list = $this->t_revisit_assess_info->get_month_assess_info_by_uid($ass_adminid, $cur_start, $cur_end);
+        // $month_info = @$month_list[0];
+        // $month_info["call_num"]= \App\Helper\Common::get_time_format_minute(@$month_info["call_num"]);
+        // //当天回访信息
+        // $start_time = strtotime( "today" );
+        // $end_time   = strtotime("tomorrow");
+        // $today_info = $this->t_manager_info->get_today_assess_info_by_uid($ass_adminid, $start_time, $end_time);
+        // $call_num   = $this->t_revisit_call_count->get_today_call_count($ass_adminid, $start_time, $end_time);
+        // $today_info["call_num"]= \App\Helper\Common::get_time_format_minute($call_num);
+        // $today_info['goal'] = ceil(@$today_info['stu_num']/10);
 
 
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($cur_start);
@@ -920,9 +920,9 @@ class main_page extends Controller
             "lesson_all"   =>$lesson_all,
             "user_all"     =>$user_all,
             "xs"           =>$xs,
-            "warning"      => $warning_type_num,
-            "month_info"   => $month_info,
-            "today_info"   => $today_info,
+            "warning"      => @$warning_type_num,
+            "month_info"   => @$month_info,
+            "today_info"   => @$today_info,
             "ass_month"    =>  $ass_month,
             "assign_lesson_count"=>$assign_lesson_count,
             "used_assign_lesson_count"=>$used_assign_lesson_count
