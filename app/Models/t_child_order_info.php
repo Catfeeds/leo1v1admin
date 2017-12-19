@@ -242,15 +242,17 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
     }
 
     public function get_all_payed_prder_info(){
-        $sql = $this->gen_sql_new("select p.parentid,o.userid,o.competition_flag,o.grade"
+        $sql = $this->gen_sql_new("select distinct p.parentid,o.userid,o.competition_flag,o.grade"
                                   ." from %s c left join %s o on c.parent_orderid = o.orderid"
                                   ." left join %s pc on pc.userid = o.userid"
                                   ." left join %s p on pc.parentid = p.parentid"
-                                  ." where c.price>0 and c.pay_status>0",
+                                  ." left join %s s on o.userid = s.userid"
+                                  ." where c.price>0 and c.pay_status>0 and s.is_test_user=0",
                                   self::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME,
                                   t_parent_child::DB_TABLE_NAME,
-                                  t_parent_info::DB_TABLE_NAME
+                                  t_parent_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
     }
