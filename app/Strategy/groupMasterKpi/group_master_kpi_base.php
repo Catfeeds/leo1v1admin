@@ -40,10 +40,11 @@ class group_master_kpi_base {
         $tt= new \App\Console\Tasks\TaskController();
         //试听成功数
         list($res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4],$res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid]['fail_all_count'],$res[$adminid]['test_lesson_count']) = [[],[],[],[],0,0,0,0];
+        //cc自定义月时间
         $def_info = $tt->t_month_def_type->get_time_by_def_time(strtotime(date('Y-m-1',$start_time)));
         $start_time_new = $def_info['start_time'];
         $end_time_new = $def_info['end_time'];
-        $ret_new = $tt->t_month_def_type->get_month_week_time($start_time_new);
+        //全月在职组员
         $adminid_list = $tt->t_admin_group_name->get_group_admin_list($adminid);
         $adminid_list = array_unique(array_column($adminid_list,'adminid'));
         $adminid_info = $tt->t_manager_info->get_group_admin_list($adminid_list);
@@ -74,9 +75,9 @@ class group_master_kpi_base {
             $adminid_info[$key]['create_time_str'] = $create_time?date('Y-m-d H:i:s',$create_time):'';
             $adminid_info[$key]['leave_member_time_str'] = $leave_member_time?date('Y-m-d H:i:s',$leave_member_time):'';
         }
-        dd($adminid_info,$adminid_list);
+        //cc自定义试听成功周
+        $ret_new = $tt->t_month_def_type->get_month_week_time($start_time_new);
         $test_leeson_list_new = $tt->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid,$adminid_list);
-
         foreach($test_leeson_list_new['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             $lesson_start = $item['lesson_start'];
