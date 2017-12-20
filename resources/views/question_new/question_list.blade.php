@@ -37,6 +37,12 @@
             </div>
 
             <div class="col-xs-1 col-md-1">
+                <div class=" input-group-btn ">
+                    <button style="margin-left:10px" id="edit_question_type" type="button" class="btn btn-success">编辑题型</button>
+                </div>
+            </div>
+
+            <div class="col-xs-1 col-md-1">
                 <div class="input-group">
                     <button style="margin-left:10px" id="knowledge_list" type="button" class="btn btn-primary">知识点列表</button>
                 </div>
@@ -82,7 +88,6 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa-edit opt-set" title="编辑题目"> </a>
-                                <a class="fa-align-justify add_question_know" title="添加题目的知识点"> </a>
                                 <a class="fa-tags edit_question_know" title="编辑答案详情"> </a>
                                 @if(@$var["open_flag"] == 1)
                                     <a class="fa fa-lock lock_question_know" title="禁用"> </a>

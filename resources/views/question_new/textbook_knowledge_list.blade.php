@@ -56,7 +56,7 @@
                     </div>
                     
                     <div class=" input-group-btn ">
-                        <button style="margin-left:10px" id="add_textbook" type="button" class="btn btn-success">添加教材</button>
+                        <button style="margin-left:10px" id="add_textbook" type="button" class="btn btn-success">编辑教材</button>
                     </div>
 
                     <div class=" input-group-btn ">

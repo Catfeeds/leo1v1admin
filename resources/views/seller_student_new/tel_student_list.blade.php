@@ -57,7 +57,6 @@
             <thead>
                 <tr>
                     <td style="width:60px">时间</td>
-                    <td style="display:none;">手机号</td>
                     <td >基本信息</td>
                     <td >来源</td>
                     <td style="width:70px">回访状态</td>
@@ -82,11 +81,12 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{$var["add_time"]}} </td>
-                        <td>{{$var["phone"]}} </td>
                         <td>
-                            {{$var["phone"]}} <br/>
+                            <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
+                                {{@$var["phone_hide"]}}
+                            </a>
                             {{$var["phone_location"]}} <br/>
-                                {{$var["nick"]}}
+                            {{$var["nick"]}}
                         </td>
 
                         <td>

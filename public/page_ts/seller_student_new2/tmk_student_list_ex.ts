@@ -268,6 +268,8 @@ $(function(){
         $.wopen("/seller_student_new/tmk_assign_sub_adminid_list?userid="+ opt_data.userid );
     });
 
-
-
+    $(".show_phone").on("click",function(){
+        var phone = $(this).data("phone");
+        BootstrapDialog.alert(phone);
+    });
 });

@@ -126,7 +126,7 @@
                                     @if(in_array($acc,["adrian","jim",$var['acc'],"jack","林文彬"]))
                                         <a class="opt-edit" title="更改状态">审核 </a>
                                     @endif
-                                    @if(in_array($acc,["jack","jim","林文彬"]))
+                                    @if(in_array($acc,["jack","jim","林文彬","孙瞿"]))
                                         <a class="opt-edit-new" title="更改状态">审核-new </a>
                                     @endif
 

@@ -1617,16 +1617,20 @@ lesson_type in (0,1) "
             "confirm_flag!=2",
             "lesson_status=2",
             "s.is_test_user=0",
+            "t.is_test_user=0",
             "lesson_del_flag=0",
         ];
-        $sql=$this->gen_sql_new("select l.teacherid,sum(lesson_count) as lesson_count,count(*) as count,"
+        $sql=$this->gen_sql_new("select l.teacherid,sum(lesson_count) as lesson_count,"
+                                ." sum(if(lesson_type=2,lesson_count,0)) as trial_lesson_count,"
+                                ." sum(if(lesson_type!=2,lesson_count,0)) as normal_lesson_count,"
+                                ." count(1) as count,"
                                 ." count(distinct(l.userid)) as stu_num,"
-                                ." t.teacher_money_type,t.subject"
+                                ." t.teacher_money_type,t.subject,t.realname"
                                 ." from %s l"
                                 ." left join %s s on l.userid=s.userid"
                                 ." left join %s t on l.teacherid=t.teacherid"
                                 ." where %s"
-                                ." and lesson_type in (0,1,3) "
+                                ." and lesson_type <1000 "
                                 ." and lesson_del_flag=0 "
                                 ." group by l.teacherid "
                                 ,self::DB_TABLE_NAME

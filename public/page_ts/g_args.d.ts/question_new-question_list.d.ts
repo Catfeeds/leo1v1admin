@@ -20,6 +20,8 @@ interface RowData {
 	open_flag	:any;
 	difficult	:any;
 	question_type	:any;
+	question_resource_name	:any;
+	question_resource_type	:any;
 	subject_str	:any;
 	open_str	:any;
 	knowledge_detail	:any;

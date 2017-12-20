@@ -67,7 +67,6 @@ class account_common extends Controller
         $phone = $this->get_in_str_val("phone");
         $role = $this->get_in_int_val("role");
 
-
         //验证用户是否存在
         $exist = $this->t_phone_to_user->get_userid($phone,$role);
         if(!$exist){
@@ -75,11 +74,7 @@ class account_common extends Controller
         }
 
         return $this->send_time_code();
-
     }
-
-
-
 
     //发送验证码
     public function send_verification_code(){
@@ -112,7 +107,6 @@ class account_common extends Controller
             $code_key  => $phone_code,
         ]);
 
-      
         $phone_index = $this->get_current_verify_num($phone,$role);
 
         /*
@@ -126,10 +120,6 @@ class account_common extends Controller
         ],1);
 
         return $this->output_succ();
-
-        
-
-
     }
 
     //用户注册

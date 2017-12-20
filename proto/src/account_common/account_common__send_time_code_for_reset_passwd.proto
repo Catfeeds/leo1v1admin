@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 //__CMD: 100x0002
-//__DESC: 发送验证码前发送时间戳给前端,回调验证(重置密码使用)  http://admin.leo1v1.com/account_common/send_time_code_for_reset_passwd
+//__DESC: 发送验证码前发送时间戳给前端,回调验证(重置密码使用)  http://api.account.leo1v1.com/account_common/send_time_code_for_reset_passwd
 //__TAGS: send_time_code_for_reset_passwd 
 
 
