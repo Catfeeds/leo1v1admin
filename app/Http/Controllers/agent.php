@@ -62,8 +62,10 @@ class agent extends Controller
         $agent_total_num = $ret_info['total_num'];
         return $this->pageView(__METHOD__,$ret_info,['agent_total_num'=>$agent_total_num]);
     }
+
     //@desn:学员列表
     public function student_list() {
+        $this->check_and_switch_tongji_domain();
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $userid           = $this->get_in_userid(-1);
         $phone            = $this->get_in_phone();

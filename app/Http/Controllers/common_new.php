@@ -15,7 +15,6 @@ use App\Jobs\deal_pdf_to_image;
 
 require_once  app_path("/Libs/Qiniu/functions.php");
 
-
 class common_new extends Controller
 {
     var $check_login_flag = false;
@@ -33,18 +32,15 @@ class common_new extends Controller
         return $this->output_succ(["account"=> $account]);
     }
 
-
-
     function send_err_mail()
     {
-        $to=$this->get_in_str_val("to");
-        $title=$this->get_in_str_val("title");
-        $body=trim($this->get_in_str_val("body"));
+        $to    = $this->get_in_str_val("to");
+        $title = $this->get_in_str_val("title");
+        $body  = trim($this->get_in_str_val("body"));
 
         $body.="<br/>from:  " .$this->get_in_client_ip();
 
         dispatch( new \App\Jobs\send_error_mail( $to,$title,$body ) );
-
     }
 
 
