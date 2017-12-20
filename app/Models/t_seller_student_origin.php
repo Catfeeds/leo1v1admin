@@ -623,8 +623,9 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
             $field_name = 'oi.origin';
         $where_arr=[
             ["oi.origin like '%%%s%%' ",$origin,""],
-            'tls.require_admin_type=2',
-            'si.is_test_user = 0'
+            'si.is_test_user = 0',
+            ['oi.contract_type = %u',0],
+            "oi.contract_status >0 ",
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         $this->where_arr_add__2_setid_field($where_arr,"ssn.tmk_adminid",$tmk_adminid);
@@ -638,13 +639,14 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
             ." left join %s oi on ssn.userid = oi.userid "
             ." left join %s mi on oi.sys_operator = mi.account "
             ." left join %s si on oi.userid = si.userid "
-            ." left join %s tls on ssn.userid = tls.userid "
+            ." left join (select * from %s where require_admin_type = %u group by userid ) tls on ssn.userid = tls.userid "
             ." where %s group by  check_value ",
             t_seller_student_new::DB_TABLE_NAME,
             t_order_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
+            2,
             $where_arr
         );
         return $this->main_get_list($sql);

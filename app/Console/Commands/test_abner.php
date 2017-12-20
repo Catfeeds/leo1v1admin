@@ -150,7 +150,8 @@ class test_abner extends cmd_base
             ]
         ];
 
-        $data = $this->task->t_teacher_info->get_teacher_code($start_time,$end_time); 
+        $data = $this->task->t_teacher_info->get_teacher_code($start_time,$end_time);
+
         foreach($data as $key => $item){
 
             if(!@$flag_map[$key]){

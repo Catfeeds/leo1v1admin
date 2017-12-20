@@ -233,18 +233,9 @@ class ss_deal extends Controller
         $userid_list=\App\Helper\Utils::json_decode_as_int_array($userid_list_str);
         $seller_resource_type = $this->get_in_int_val('seller_resource_type');
         $assign_time =$this->get_in_unixtime_from_str("assign_time");
-        //dd($seller_resource_type);
         if ( count($userid_list) ==0 ) {
             return $this->output_err("还没选择例子");
         }
-
-        //主管分配
-        // if(in_array($this->get_account_id(),[287,416,1221,1200])){
-        //     $majordomo_adminid = $this->t_admin_group_user->get_majordomo_adminid($opt_adminid);
-        //     if($majordomo_adminid == $this->get_account_id()){
-        //         $this->output_err('只能分配给自己组员');
-        //     }
-        // }
 
         $account=$this->get_account();
         $opt_account=$this->t_manager_info->get_account($opt_adminid);
@@ -253,8 +244,7 @@ class ss_deal extends Controller
 
         foreach ( $userid_list as $userid ) {
             $this->t_seller_student_new->set_admin_info_new(
-//$opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account,$seller_resource_type  );
-               $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account, $assign_time );
+               $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account, $assign_time);
             $origin_assistantid= $this->t_student_info->get_origin_assistantid($userid);
             $nick = $this->t_student_info->get_nick($userid);
             $account_role = $this->t_manager_info->get_account_role($origin_assistantid);

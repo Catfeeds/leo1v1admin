@@ -279,9 +279,9 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
             "tl.recommended_teacherid!=0"
         ];
         if ($type == 1) { // 推荐机构老师总数
-            array_push($where_arr, "t.identity in (5,6,7)");
+            array_push($where_arr, "t.identity in (5,6)");
         } else { // 推荐在校学生总数
-            array_push($where_arr, "t.identity not in (5,6,7)");
+            array_push($where_arr, "t.identity not in (5,6)");
         }
         if ($time) {
             array_push($where_arr, ["tl.add_time<=%u", $time,0]);

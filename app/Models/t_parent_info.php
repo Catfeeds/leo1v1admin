@@ -278,7 +278,9 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
     public function getParentNum(){
         $where_arr = [
             "o.price>0",
-            "contract_status in (1,2)"
+            "contract_status in (1,2)",
+            "p.wx_openid is not null",
+            "p.wx_openid != ''"
         ];
         $sql = $this->gen_sql_new("  select p.wx_openid,p.parentid from %s p "
                                   ." left join %s pc on pc.parentid=p.parentid"
