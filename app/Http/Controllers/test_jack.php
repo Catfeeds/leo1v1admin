@@ -342,7 +342,7 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
-        $list = $this->get_baidu_money_charge_pay_info(11800);
+        $list = $this->get_baidu_money_charge_pay_info_test();
         dd($list);
 
         $key = "sms_phone_13817759346";
