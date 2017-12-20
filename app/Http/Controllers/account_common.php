@@ -41,6 +41,8 @@ class account_common extends Controller
         session([
             $key  => $value,
         ]);
+        \App\Helper\Utils::logger("value:".$value);
+
         return $this->output_succ(["time"=>$time]);
 
 
@@ -53,7 +55,7 @@ class account_common extends Controller
 
 
         //验证用户是否存在
-        $exist = $this->t_phone_to_user->get_userid($phone,$role);
+        $exist = $this->t_phone_to_user->get_userid_by_phone($phone,$role);
         if($exist){
             return $this->output_err("用户已存在");
         }
@@ -68,7 +70,7 @@ class account_common extends Controller
         $role = $this->get_in_int_val("role");
 
         //验证用户是否存在
-        $exist = $this->t_phone_to_user->get_userid($phone,$role);
+        $exist = $this->t_phone_to_user->get_userid_by_phone($phone,$role);
         if(!$exist){
             return $this->output_err("用户不存在");
         }
@@ -81,6 +83,7 @@ class account_common extends Controller
         $phone = $this->get_in_str_val("phone");
         $role = $this->get_in_int_val("role");
         $time_code = $this->get_in_str_val("time_code");
+        $reg_ip = $this->get_in_str_val("reg_ip");
 
         $check_phone =  \App\Helper\Utils::check_phone($phone);
         if(!$check_phone){
@@ -109,16 +112,20 @@ class account_common extends Controller
 
         $phone_index = $this->get_current_verify_num($phone,$role);
 
+        // \App\Helper\Utils::logger("address::".\App\Helper\Config::get_monitor_new_url()."/notice/sms_register");
+
         /*
           模板名称: 通用验证
           模板ID: SMS_10671029
           *模板内容: 您的手机验证码为：${code} ，请尽快完成验证 编号为： ${index}
           */
-        \App\Helper\Net::send_sms_taobao($phone,0, 10671029,[
+        \App\Helper\Net::send_sms_taobao($phone,$reg_ip, 10671029,[
             "code"  => $phone_code,
             "index" => $phone_index,
         ],1);
 
+        \App\Helper\Utils::logger("code:".$phone_code);
+        \App\Helper\Utils::logger("index:".$phone_index);
         return $this->output_succ();
     }
 
@@ -136,7 +143,7 @@ class account_common extends Controller
         }
 
         //验证用户是否存在
-        $exist = $this->t_phone_to_user->get_userid($phone,$role);
+        $exist = $this->t_phone_to_user->get_userid_by_phone($phone,$role);
         if($exist){
             return $this->output_err("用户已存在");
         }
@@ -164,7 +171,7 @@ class account_common extends Controller
             "phone" =>$phone,
             "userid" =>$userid,
         ]);
-        if($rolo==E\Erole::V_STUDENT){
+        if($role==E\Erole::V_STUDENT){
             $region = $this->get_in_str_val("region");
             $grade = $this->get_in_int_val("grade");
             $ret = $this->t_student_info->add_student($userid,$grade,$phone,"",$region);
@@ -188,7 +195,7 @@ class account_common extends Controller
         }
 
         //验证用户是否存在
-        $userid = $this->t_phone_to_user->get_userid($phone,$role);
+        $userid = $this->t_phone_to_user->get_userid_by_phone($phone,$role);
         if(!$userid){
             return $this->output_err("用户不存在");
         }
@@ -224,7 +231,7 @@ class account_common extends Controller
         }
 
         //验证用户是否存在
-        $userid = $this->t_phone_to_user->get_userid($phone,$role);
+        $userid = $this->t_phone_to_user->get_userid_by_phone($phone,$role);
         if(!$userid){
             return $this->output_err("用户不存在");
         }

@@ -96,11 +96,37 @@ $(function(){
         }
     };
 
-    var gen_upload_item = function(btn_id ,status, file_name_fix, get_url_fun, set_url_fun, bucket_info, noti_origin_file_func, back_flag){
+    //获取学科化标签
+    var get_sub_grade_tag = function(subject,grade,obj,opt_type){
+        obj.empty();
+        do_ajax("/resource/get_sub_grade_tag_js",{
+                'subject' : subject,
+                'grade'   : grade,
+            } ,function(result){
+                if(result.ret == 0){
+                    obj.empty();
+                    obj.next().remove();
+                    var tag_info = result.tag;
+                    if($(tag_info).length == 0) {
+                        obj.append('<option value="-1">全部</option>');
+                    } else {
+                        var tag_str = '';
+                        $.each($(tag_info),function(i, val){
+                            tag_str = tag_str + '<option value='+i+'>'+val+'</option>';
+                        });
+                        obj.append(tag_str);
+                    }
+                } else {
+                    BootstrapDialog.alert(result.info);
+                }
+            });
+    }
+
+    var gen_upload_item = function(btn_id ,status, file_name_fix, get_url_fun, set_url_fun, bucket_info, noti_origin_file_func, back_flag,clear_file_id){
         var id_item = $(
             "<div class=\"row\"> "+
                 "<div class=\" col-md-2\">" +
-                "<button class=\"btn btn-primary  upload \" id=\""+btn_id+"\">上传</button>"+
+                "<button class=\"btn btn-primary btn-width upload \" id=\""+btn_id+"\">上传</button>"+
                 "</div>"+
                 "<div class=\" col-md-2\">" +
                 "<button class=\"btn btn-primary show\">查看 </button>"+
@@ -118,6 +144,7 @@ $(function(){
             set_url_fun("");
             id_item.find("input").val("");
             upload_status_show(id_item,0);
+            clear_file_id(btn_id);
         });
 
         upload_status_show(id_item,status);
@@ -129,6 +156,7 @@ $(function(){
                 }, function( ret,ctminfo){
                     set_url_fun(ret.file_name);
                     upload_status_show(id_item,1);
+                    clear_file_id(btn_id);
                 });
             }else{
                 try {
@@ -141,6 +169,8 @@ $(function(){
                                 set_url_fun(res.key);
                                 upload_status_show(id_item,1);
                             }
+                            clear_file_id(btn_id);
+
                         }, [], ["pdf","zip"], bucket_info, noti_origin_file_func);
                 }catch(e){
                     $.self_upload_process(btn_id,
@@ -151,6 +181,7 @@ $(function(){
                                           }, function( ret,ctminfo){
                                               set_url_fun(ret.file_name);
                                               upload_status_show(id_item,1);
+                                              clear_file_id(btn_id);
                                           });
                 }
             }
@@ -159,7 +190,25 @@ $(function(){
         return id_item;
     };
 
+
     var upload_info = function( opt_data, back_flag){
+        var use_res_id_list = [];
+        var new_res_id_list = [];
+        var tea_cw_file_id  = opt_data.tea_cw_file_id;
+        var stu_cw_file_id  = opt_data.stu_cw_file_id;
+        var issue_file_id   = opt_data.issue_file_id;
+        var tea_cw_origin   = opt_data.tea_cw_origin;
+        var stu_cw_origin   = opt_data.stu_cw_origin;
+        var issue_origin    = opt_data.issue_origin;
+        if(tea_cw_file_id > 0){
+            use_res_id_list.push(tea_cw_file_id);
+        }
+        if(stu_cw_file_id > 0){
+            use_res_id_list.push(stu_cw_file_id);
+        }
+        if(issue_file_id > 0){
+            use_res_id_list.push(issue_file_id);
+        }
         var tea_cw_url  = opt_data.tea_cw_url;
         var stu_cw_url  = opt_data.stu_cw_url;
         var issue_url   = opt_data.issue_url;
@@ -187,18 +236,17 @@ $(function(){
                 "l_stu_"+opt_data.lessonid,
                 function(){return stu_cw_url; },
                 function(url) {stu_cw_url=url;}, ret ,function(file_name) {
-                },back_flag
+                },back_flag,clear_file_id
             );
             var id_teacher_list      = [];
             var id_teacher_desc_list = [];
             for (var i=0;i<5;i++) {
                 var gen_item = function  ( i ) {
-                    var id_teacher_desc = $(
-                        "<div class=\"tea_cw_ex col-md-4\" >"
-                            +"<div class=\"input-group\">"
-                            +"<input style=\"\" placeholder=\"文件说明\" />"
-                            +"</div></div>"
-                    );
+                    var id_teacher_desc = $("<div class=\"tea_cw_ex col-md-4\" >"
+                                            +"<div class=\"input-group\">"
+                                            +"<input style=\"\" placeholder=\"文件说明\" />"
+                                            +"</div></div>"
+                                           );
                     id_teacher_desc_list.push(id_teacher_desc);
                     if (!$.isArray( tea_cw_url_list[i]) ) {
                         tea_cw_url_list[i]=["",""];
@@ -209,14 +257,17 @@ $(function(){
                         !! tea_cw_url_list[i][0],
                         "l_"+i+"_"+opt_data.lessonid,
                         function(){
-                            return tea_cw_url_list[i][0] ;
+                            return tea_cw_url_
                         },function(url){
                             tea_cw_url_list[i][0] = url;
                         },ret,function(origin_file_name){
                             id_teacher_desc.find("input").val(origin_file_name);
-                        },back_flag
+                        },back_flag,clear_file_id
                     );
 
+                    if(tea_cw_url_list[i][3] != undefined){
+                        use_res_id_list.push( parseInt(tea_cw_url_list[i][3]) );
+                    }
                     item.prepend(id_teacher_desc);
                     return item;
                 }
@@ -233,16 +284,27 @@ $(function(){
                 },function(url) {
                     tea_cw_url=url;
                 },ret,function(origin_file_name) {
-                },back_flag
+                },back_flag,clear_file_id
             );
             var id_show_teacher_list_btn = $("<button class=\"btn btn-primary\"> 显示更多</button>");
             id_show_teacher_list_btn.on("click",function(){
                 $.each(id_teacher_list,function(i,item){
-                    var p_item=item.parent().parent();
-                    if (p_item.css("display") == "none" ) {
-                        p_item.show();
-                    }else{
-                        p_item.hide();
+                    if(!(lesson_type>=1000 && lesson_type <2000)){
+                        if(i>0){
+                            var p_item=item.parent().parent();
+                            if (p_item.css("display") == "none" ) {
+                                p_item.show();
+                            }else{
+                                p_item.hide();
+                            }
+                        }
+                    } else {
+                        var p_item=item.parent().parent();
+                        if (p_item.css("display") == "none" ) {
+                            p_item.show();
+                        }else{
+                            p_item.hide();
+                        }
                     }
                 });
             });
@@ -250,7 +312,7 @@ $(function(){
                 btn_issue_upload_id ,homework_status, "l_hw_" + opt_data.lessonid,
                 function(){return issue_url; },
                 function(url){issue_url=url;},ret,function(origin_file_name) {
-                },back_flag
+                },back_flag,clear_file_id
             );
             var id_lesson_name        = $("<input/>");
             var id_point1             = $("<input/>");
@@ -277,13 +339,13 @@ $(function(){
                 ["知识点1",  id_point1],
                 ["知识点2",  id_point2],
                 ["----","上传课堂讲义"],
-                ["学生讲义", id_student],
-                ["教师讲义", id_teacher],
+                ["授课课件", id_teacher],
             ];
 
             $.each(id_teacher_list,function(i,item){
                 arr.push(["额外的教师讲义_"+(i+1),item]);
             });
+            arr.push(['学生讲义', id_student]);
 
             if(!(lesson_type>=1000 && lesson_type <2000)){
                 arr.push(["----","上传课堂作业"]);
@@ -318,14 +380,26 @@ $(function(){
                     }
 
                     var tmp_arr=[];
+                    new_res_id_list.push( parseInt(tea_cw_file_id) );
+                    new_res_id_list.push( parseInt(stu_cw_file_id) );
+                    new_res_id_list.push( parseInt(issue_file_id) );
                     $.each(tea_cw_url_list,function(i,tmp_url){
                         var desc=id_teacher_desc_list[i].find("input").val();
+
                         if (tmp_url[0]) {
-                            tmp_arr.push([tmp_url[0],desc]);
+                            tea_cw_url_list[i][1] = desc;
+                            tmp_arr.push(tea_cw_url_list[i]);
+                        }
+                        if(tmp_url[2] > 1){
+                            new_res_id_list.push( parseInt(tmp_url[3]) );
                         }
                     });
 
+                    // console.log(new_res_id_list)
+                    // return false;
                     var tea_more_cw_url = JSON.stringify(tmp_arr);
+                    use_res_id_list = JSON.stringify(use_res_id_list);
+                    new_res_id_list = JSON.stringify(new_res_id_list);
                     tea_cw_pic_flag = id_tea_cw_pic.val();
                     $.do_ajax("/teacher_info/update_teacher_student_pdf",{
                         "lessonid"           : opt_data.lessonid,
@@ -341,6 +415,15 @@ $(function(){
                         "tea_more_cw_url"    : tea_more_cw_url,
                         "tea_cw_pic_flag"    : tea_cw_pic_flag,
                         "old_tea_cw_url"     : opt_data.tea_cw_url,
+                        "tea_cw_origin"      : tea_cw_origin,
+                        "stu_cw_origin"      : stu_cw_origin,
+                        "issue_origin"       : issue_origin,
+                        "tea_cw_file_id"     : tea_cw_file_id,
+                        "stu_cw_file_id"     : stu_cw_file_id,
+                        "issue_file_id"      : issue_file_id,
+                        "use_res_id_list"    : use_res_id_list,
+                        "new_res_id_list"    : new_res_id_list,
+
                     });
 
                 }
@@ -361,6 +444,7 @@ $(function(){
                 //添加上传文件新选项
                 if(!(lesson_type>=1000 && lesson_type <2000)){
                     $('#id_teacher_upload,#id_student_upload,#id_issue_upload').hover(function(){
+                        $('.opt-leo-res').removeClass('unbind');
                         add_upload_select($(this));
                     },function(){
                         $('.opt-select-file').hover(function(){
@@ -370,10 +454,64 @@ $(function(){
                         });
                         $('.opt-select-file').hide();
                     });
+
+                    $('.tea_cw_ex').first().parent().parent().prev().text('老师讲义');
+                    $('.tea_cw_ex').first().parent().parent().parent().show();
+                    for(var l=0; l<5;l++){
+                        if(l == 0){
+                            $('.opt-leo-res').removeClass('unbind');
+                            $('#id_teacher_upload_0').hover(function(){
+                                add_upload_select($(this));
+                            },function(){
+                                $('.opt-select-file').hover(function(){
+                                    $(this).show();
+                                },function(){
+                                    $(this).hide();
+                                });
+                                $('.opt-select-file').hide();
+                            });
+                        } else {
+
+                            $('#id_teacher_upload_'+l).hover(function(){
+                                add_upload_select($(this));
+                                $('.opt-leo-res').addClass('unbind');
+                            },function(){
+                                $('.opt-select-file').hover(function(){
+                                    $(this).show();
+                                },function(){
+                                    $(this).hide();
+                                });
+                                $('.opt-select-file').hide();
+                            });
+                        }
+                    }
                 }
 
             },false,900);
         });
+
+        var clear_file_id = function(btn_id){
+            if(btn_id == 'id_teacher_upload') {
+                console.log(1)
+                tea_cw_file_id = 0;
+                tea_cw_origin = 0;
+            } else if(btn_id == 'id_student_upload'){
+                console.log(2)
+                stu_cw_file_id = 0;
+                stu_cw_origin = 0;
+            } else if (btn_id == 'id_issue_upload'){
+                console.log(3)
+                issue_file_id = 0;
+                issue_origin = 0;
+            } else {
+                console.log(4)
+                var n = parseInt( btn_id.slice(-1) );
+                tea_cw_url_list[n][0] = $('.warning').data('link');
+                tea_cw_url_list[n][2] = 0;
+                tea_cw_url_list[n][3] = 0;
+            }
+        }
+
 
         var add_upload_select = function(obj){
             var X = obj.offset().top;
@@ -386,7 +524,7 @@ $(function(){
             $('.opt-local').on('click', function(){
                 obj.click();
             });
-            $('.opt-my-res').attr('upload_id', obj.attr('id'));
+            $('.opt-my-res,.opt-leo-res').attr('upload_id', obj.attr('id'));
         }
         var dlg_tr = {};
         var get_res = function(ajax_url,opt_type,btn_type,dir_id){
@@ -442,9 +580,24 @@ $(function(){
                     'arg_name' :  "grade"  ,
                 },{
                     title:"教材版本",
-                    size_class: "col-md-3 leo-region_version",
+                    size_class: "col-md-3 leo-tag_one",
                     type  : "select" ,
                     'arg_name' :  "tag_one"  ,
+                },{
+                    title:"春暑秋寒",
+                    size_class: "col-md-3 leo-tag_two",
+                    type  : "select" ,
+                    'arg_name' :  "tag_two"  ,
+                },{
+                    title:"学科化标签",
+                    size_class: "col-md-3 leo-tag_three",
+                    type  : "select" ,
+                    'arg_name' :  "tag_three"  ,
+                },{
+                    title:"难度类型",
+                    size_class: "col-md-3 leo-tag_four",
+                    type  : "select" ,
+                    'arg_name' :  "tag_four"  ,
                 }]] ,
                 "auto_close"       : true,
                 //选择
@@ -476,10 +629,36 @@ $(function(){
                             });
                         });
                     } else {
-                        Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),false,[1,2,3]);
+                        Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,[1,2,3]);
                         Enum_map.append_option_list("subject",$('.leo-subject select'));
                         Enum_map.append_option_list("grade",$('.leo-grade select'));
-                        Enum_map.append_option_list("region_version",$('.leo-region_version select'));
+                        Enum_map.append_option_list("region_version",$('.leo-tag_one select'));
+                        Enum_map.append_option_list("resource_season",$('.leo-tag_two select'));
+                        $('.leo-tag_two').nextAll().hide();
+                        $('.leo-resource_type select').change(function(){
+                            if($(this).val() < 3){
+                                $('.leo-tag_two span').text('春暑秋寒');
+                                $('.leo-tag_two select').empty();
+                                Enum_map.append_option_list("resource_season",$('.leo-tag_two select'));
+                                $('.leo-tag_two').nextAll().hide();
+                                $('.leo-tag_three select').val(-1);
+                                $('.leo-tag_four select').val(-1);
+                            } else {
+                                $('.leo-tag_two span').text('试听类型');
+                                $('.leo-tag_two').nextAll().show();
+                                $('.leo-tag_two select').empty();
+                                Enum_map.append_option_list("resource_free",$('.leo-tag_two select'));
+                                Enum_map.append_option_list("resource_diff_level",$('.leo-tag_four select'));
+                            }
+                            $('.leo-subject,.leo-grade select').change(function(){
+                                if($('.leo-resource_type select').val() == 3){
+                                    var leo_sub = $('.leo-subject select').val();
+                                    var leo_gra = $('.leo-grade select').val();
+                                    get_sub_grade_tag(leo_sub, leo_gra,$('.leo-tag_three select') );
+                                }
+                            });
+
+                        });
                     }
                 },
                 "custom"           : function(){
@@ -488,17 +667,29 @@ $(function(){
                         $.do_ajax("/teacher_info/get_res_files_js",{
                             "res_id": res_id
                         },function(ret){
-                            console.log(ret)
                             if(ret.ret==0){
                                 var file_obj = ret.data;
+                                tea_cw_origin = 3;
+                                stu_cw_origin = 3;
+                                issue_origin = 3;
                                 $.each($(file_obj), function(i,val){
                                     if(val.file_use_type == 0){
-
-                                    } else if (val.file_use_type == 1){
                                         tea_cw_url = val.file_link;
+                                        tea_cw_file_id = val.file_id;
+                                    } else if (val.file_use_type == 1){
+                                        //老师讲义
+                                        tea_cw_url_list[0][0] = val.file_link;
+                                        tea_cw_url_list[0][1] = $('.tea_cw_ex input').first().val();
+                                        tea_cw_url_list[0][2] = 3;
+                                        tea_cw_url_list[0][3] = val.file_id;
+                                        $('#id_teacher_upload_0').removeClass('btn-warning').addClass('btn-primary');
+                                        $('#id_teacher_upload_0').text('重传');
+                                        $('#id_teacher_upload_0').parent().nextAll().show();
                                     } else if (val.file_use_type == 2){
                                         stu_cw_url = val.file_link;
                                         issue_url = val.file_link;
+                                        stu_cw_file_id = val.file_id;
+                                        issue_file_id = val.file_id;
                                     }
                                 });
                                 $('#id_teacher_upload,#id_student_upload,#id_issue_upload').removeClass('btn-warning').addClass('btn-primary');
@@ -510,25 +701,76 @@ $(function(){
                             }
                         });
 
-                    } else {//单个
+                    } else if(opt_type == 'my'){//老师自己的资料库
+                        var my_file_id = $('.warning').data('file_id');
                         if(btn_type == 'id_teacher_upload'){
                             tea_cw_url = $('.warning').data('link');
+                            if( my_file_id > 0 ) {
+                                tea_cw_origin  = 2;
+                                tea_cw_file_id = my_file_id;
+                            } else {
+                                tea_cw_origin  = 1;
+                            }
                         } else if (btn_type == 'id_student_upload'){
                             stu_cw_url = $('.warning').data('link');
+                            if( my_file_id > 0 ) {
+                                stu_cw_origin  = 2;
+                                stu_cw_file_id = my_file_id;
+                            } else {
+                                stu_cw_origin  = 1;
+                            }
                         } else if (btn_type == 'id_issue_upload') {
                             issue_url = $('.warning').data('link');
+                            if( my_file_id > 0 ) {
+                                issue_origin  = 2;
+                                issue_file_id = my_file_id;
+                            } else {
+                                issue_origin  = 1;
+                            }
+
+                        } else {
+                            var n = parseInt( btn_type.slice(-1) );
+                            tea_cw_url_list[n][0] = $('.warning').data('link');
+                            if( my_file_id >0 ){//收藏文件
+                                tea_cw_url_list[n][2] = 2;
+                                tea_cw_url_list[n][3] = my_file_id;
+                            } else {//自己上传
+                                tea_cw_url_list[n][2] = 1;
+                            }
+                        }
+                        $('#'+btn_type).removeClass('btn-warning').addClass('btn-primary');
+                        $('#'+btn_type).text('重传');
+                        $('#'+btn_type).parent().nextAll().show();
+                    } else if(opt_type == 'leo_one'){//额外的讲义
+
+                        console.log(btn_type)
+                        var n = parseInt( btn_type.slice(-1) );
+                        tea_cw_url_list[n][0] = $('.warning').data('link');
+                        if($('.warning').data('res_id') != undefined){//资料库
+                            tea_cw_url_list[n][2] = 3;
+                            tea_cw_url_list[n][3] = $('.warning').data('file_id');
+                        } else if($('.warning').data('file_id') > 0){//收藏
+                            tea_cw_url_list[n][2] = 2;
+                            tea_cw_url_list[n][3] = $('.warning').data('file_id');
+                        } else {//自己的资料库
+                            tea_cw_url_list[n][2] = 1;
                         }
                         $('#'+btn_type).removeClass('btn-warning').addClass('btn-primary');
                         $('#'+btn_type).text('重传');
                         $('#'+btn_type).parent().nextAll().show();
                     }
+
                 }
             });
         };
 
         $('.opt-leo-res,.opt-my-res').unbind('click');
         $('.opt-leo-res').on('click',function(){
-            get_res('/teacher_info/get_leo_resource', 'leo');
+            if($(this).hasClass('unbind')){
+                get_res('/teacher_info/get_leo_resource', 'leo_one',$(this).attr('upload_id'));
+            }else {
+                get_res('/teacher_info/get_leo_resource', 'leo');
+            }
         });
 
         $('.opt-my-res').on('click',function(){
