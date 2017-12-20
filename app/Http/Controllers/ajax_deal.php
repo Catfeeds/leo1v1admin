@@ -292,7 +292,7 @@ class ajax_deal extends Controller
         $check_money_desc    = $this->get_in_str_val('check_money_desc');
         $is_test_flag = \App\Helper\Utils::check_env_is_test();
         $is_local_flag = \App\Helper\Utils::check_env_is_local();
-        if($check_money_adminid != 301){
+        if($check_money_adminid != 301 && $check_money_adminid != 281){
             if(!$is_test_flag && !$is_local_flag)
                 return $this->output_err('无权限!');
         }
