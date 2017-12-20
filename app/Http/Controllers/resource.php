@@ -146,7 +146,7 @@ class resource extends Controller
             @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error_num'] += $item['error_num'];//收藏次数
             @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use_num'] += $item['use_num'];//使用次数
             @$list[$item['subject']][$item['adminid']][$item['resource_type']]['visit'] += $visit;//浏览量
-            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error'] += $visit;//收藏量
+            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error'] += $error;//收藏量
             @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use'] += $use;//使用量
         }
         $final_list = [];
