@@ -55,21 +55,24 @@ class wxPicSendToParent extends Job implements ShouldQueue
         $wx = new \App\Helper\Wx() ;
         $media_id = $this->media_id;
 
-        if($a){
 
-        }
-
-        $parent_wx_openid1 = $t_parent_info->getParentNum();
-
-        \App\Helper\Utils::logger("job_james: ".count($parent_wx_openid1));
+        $parent_wx_openid = $t_parent_info->getParentNum();
 
         // 向家长发送推送
-        $parent_wx_openid = [
-            [
-                "wx_openid"=>"orwGAs_IqKFcTuZcU1xwuEtV3Kek",
-                "parentid"=>"111",
-            ],
-        ];
+        // $parent_wx_openid = [
+        //     [
+        //         "wx_openid"=>"orwGAs_IqKFcTuZcU1xwuEtV3Kek",
+        //         "parentid"=>"111",
+        //     ],
+        //     [
+        //         "wx_openid"=>"orwGAs0ayobuEtO1YZZhW3Yed2To",
+        //         "parentid"=>"111",
+        //     ],
+        //     [
+        //         "wx_openid"=>"orwGAs9SVtEGH9vgTxAkfnSkxyXY",
+        //         "parentid"=>"111",
+        //     ],
+        // ];
 
         $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
         $data_parent = [

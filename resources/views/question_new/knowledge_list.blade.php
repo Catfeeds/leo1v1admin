@@ -59,7 +59,7 @@
 
             <div class="col-xs-1 col-md-1">
                 <div class="input-group">
-                    <button style="margin-left:10px" id="text_book_knowledge" type="button" class="btn btn-success">教材知识点</button>
+                    <button style="margin-left:10px" id="text_book_knowledge" type="button" class="btn btn-success">查看教材</button>
                 </div>
             </div>
 
