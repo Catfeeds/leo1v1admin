@@ -1123,8 +1123,14 @@ class wx_teacher_api extends Controller
             $wx->send_ass_for_first($jw_openid, $data, $url);
         }
 
-        $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
-        $this->t_test_lesson_subject_require->field_update_list($require_id, [
+
+
+        // $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+        // $this->t_test_lesson_subject_require->field_update_list($require_id, [
+        //     "accept_status"=>$status
+        // ]);
+
+        $this->t_lesson_info->field_update_list($lessonid, [
             "accept_status"=>$status
         ]);
 
