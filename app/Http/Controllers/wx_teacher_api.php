@@ -1051,7 +1051,7 @@ class wx_teacher_api extends Controller
     }
 
     public function getResourceList(){ // 讲义系统 boby
-        
+
     }
 
     public function update_accept_status(){ //更新接受状态并发送微信推送
