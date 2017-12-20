@@ -132,7 +132,7 @@ class resource extends Controller
     }
 
     public function resource_count(){
-        list($start_time,$end_time) = $this->get_in_date_range(-7, 0 );
+        list($start_time,$end_time) = $this->get_in_date_range(-30, 0 );
         $ret_info = $this->t_resource->get_count($start_time, $end_time);
 
         $list = [];
