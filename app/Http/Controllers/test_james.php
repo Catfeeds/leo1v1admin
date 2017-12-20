@@ -844,7 +844,7 @@ class test_james extends Controller
 
         // $Media_id = Media::upload($filename, $type);
 
-        $parent_list = $this->t_parent_info->get_parent_opend_list();
+        // $parent_list = $this->t_parent_info->get_parent_opend_list();
 
         // dd($parent_list);
 

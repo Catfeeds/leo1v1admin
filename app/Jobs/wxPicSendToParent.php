@@ -55,9 +55,6 @@ class wxPicSendToParent extends Job implements ShouldQueue
         $wx = new \App\Helper\Wx() ;
         $media_id = $this->media_id;
 
-        if($a){
-
-        }
 
         $parent_wx_openid1 = $t_parent_info->getParentNum();
 
