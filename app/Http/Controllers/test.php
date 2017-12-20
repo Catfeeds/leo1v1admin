@@ -14,6 +14,7 @@ class test extends Controller
 
     public function tt() {
         $this->check_and_switch_tongji_domain();
+
         dd( $_SERVER );
         phpinfo();
     }

@@ -2137,7 +2137,6 @@ function custom_show_pdf(file_url) {
     });
 };
 
-
 function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, noti_process ){
     do_ajax( "/common/get_bucket_info",{
         is_public: is_public_bucket ? 1:0
