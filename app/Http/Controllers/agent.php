@@ -454,6 +454,10 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $ret = $this->t_paper_info->field_update_list($paperid=454508,[
+            'wx_openid'=>null,
+        ]);
+        dd($ret);
         $this->t_seller_new_count_get_detail->add($new_count_id=99,$get_desc='aa');
         $adminid=1210;
         if (!$this->t_seller_new_count->get_free_new_count_id($adminid,"获取新例子"))  {
