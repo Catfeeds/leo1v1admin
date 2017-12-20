@@ -410,7 +410,7 @@ class question_new extends Controller
         $question_id = $this->get_in_int_val('question_id');
         $answer_type = $this->get_in_int_val('answer_type');
         $difficult   = $this->get_in_int_val('difficult',1);
-        $score   = $this->get_in_int_val('score',0);
+        $score   = $this->get_in_str_val('score',0);
         $detail   = $this->get_in_str_val('detail','');
 
         $knowledge_old   = $this->get_in_str_val('knowledge_old','');

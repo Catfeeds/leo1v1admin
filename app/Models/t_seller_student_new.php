@@ -253,16 +253,18 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 }
             }
             if($tong_count>$tao_count){
-                $adminid = 416;
-                $account = '童宇周';
-            }else{
                 $adminid = 1200;
                 $account = '陶建华';
+            }else{
+                $adminid = 416;
+                $account = '童宇周';
             }
             $this->field_update_list($userid,[
                 "admin_assignerid"  => 0,
                 "sub_assign_adminid_1"  => $adminid,
                 "sub_assign_time_1"  => time(),
+                "admin_revisiterid"  => $adminid,
+                "admin_assign_time"  => time(),
             ]);
             $this->task->t_book_revisit->add_book_revisit(
                 $phone,
@@ -270,7 +272,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "system"
             );
             // $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
-            $this->task->t_manager_info->send_wx_todo_msg('tom',"来自:系统","分配给[$account]的'$origin'例子:".$phone);
+            $this->task->t_manager_info->send_wx_todo_msg('宫卫彬',"来自:系统","分配给[$account]的'$origin'例子:".$phone);
         }
 
         return $userid;

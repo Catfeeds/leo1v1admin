@@ -1204,7 +1204,7 @@
                     <div class="col-xs-12 col-md-2 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp科目：</span>
-                            <select id="id_stu_subject_new_two" class=" form-control "   >
+                            <select id="id_stu_subject_new_two" name="subject_score_new_two" class=" form-control "   >
                             </select>
                         </div>
                     </div>
