@@ -1839,6 +1839,7 @@ $(function(){
         var id_update_check_subject    = $("<button class='btn btn-primary'>审核信息</button>");
         var id_set_test_user           = $("<button class='btn btn-danger'>设为测试</button>");
         var id_update_tea_ref_type     = $("<button class='btn btn-primary'>渠道信息</button>");
+        var id_part_to_full            = $("<button class='btn btn-danger'>一键转全职</button>");
 
         id_subject_info.on("click",function(){update_subject_info(data);});
         id_change_tea_to_new.on("click",function(){opt_change_tea_to_new(data);});
@@ -1852,6 +1853,7 @@ $(function(){
         id_update_tea_ref_type.on("click",function(){update_tea_ref_type(data);});
         id_switch_teacher_to_test.on("click",function(){switch_teacher_to_test(data);});
         id_send_offer_info.on("click",function(){send_offer_info(data);});
+        id_part_to_full.on('click',function(){part_to_full(data);});
 
         var arr = [
             ["",id_send_offer_info],
@@ -1880,9 +1882,23 @@ $(function(){
             ];
 
         }
+        if(acc=="jim" || acc=="宫卫彬") {
+            var extra_arr = [
+                ["",id_part_to_full],
+            ];
+            arr = arr.concat(extra_arr);
+        }
 
         $.show_key_value_table("账号信息修改",arr);
     });
+
+    // 一键转全职
+    var part_to_full = function(data){
+        var teacherid = data.teacherid;
+        $.do_ajax('/teacher_trans/one_part_to_full', {
+            "teacherid":teacherid
+        });
+    }
 
     //发送入职邮件
     var send_offer_info = function(data){
