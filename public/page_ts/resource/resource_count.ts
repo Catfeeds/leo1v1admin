@@ -30,15 +30,22 @@ $(function(){
         }
     });
 
-    $('.key1,.key2').each(function(i){
-        var key1 = $(this).data('key1');
+    // $('.key1').each(function(i){
+    //     var key1 = $(this).data('key1');
+
+    //     $(this).on('click',function(){
+    //         $('[key1='+key1+']').each(function(i){
+    //             if(i != 0){
+    //                 $(this).toggle();
+    //             }
+    //         });
+    //    });
+    // });
+
+    $('.key2').each(function(i){
         var key2 = $(this).data('key2');
+
         $(this).on('click',function(){
-            $('[key1='+key1+']').each(function(i){
-                if(i != 0){
-                    $(this).toggle();
-                }
-            });
             $('[key2='+key2+']').each(function(i){
                 if(i != 0){
                     $(this).toggle();
