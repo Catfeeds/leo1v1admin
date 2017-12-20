@@ -110,7 +110,7 @@ class question_new_api extends Controller
         ];
         $ret = $this->t_answer->answer_list($where_arr);
 
-        $i = 1;
+        $i = 0;
         $type = 1;
         if($ret){
             foreach( $ret as &$item ){
@@ -118,8 +118,8 @@ class question_new_api extends Controller
                 $item['answer_type_str'] = E\Eanswer_type::get_desc($item['answer_type']);
 
                 if( $type == $item['answer_type']){
-                    $item['step_str'] = E\Eanswer_type::get_desc($type).$i;
                     $i++;
+                    $item['step_str'] = E\Eanswer_type::get_desc($type).$i;
                 }else{
                     $type = $item['answer_type'];
                     $i = 1;
