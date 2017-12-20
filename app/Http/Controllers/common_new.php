@@ -989,16 +989,16 @@ class common_new extends Controller
                 switch ($prize_type)
                 {
                 case 1:
-                    $list['prize_str'] = "恭喜您抽中10元折扣券一张";
+                    $list['prize_str'] = "抽中10元折扣券一张";
                     break;
                 case 2:
-                    $list['prize_str'] = "恭喜您抽中20元折扣券一张";
+                    $list['prize_str'] = "抽中20元折扣券一张";
                     break;
                 case 3:
-                    $list['prize_str'] = "恭喜您抽中50元折扣券一张";
+                    $list['prize_str'] = "抽中50元折扣券一张";
                     break;
                 case 4:
-                    $list['prize_str'] = "恭喜您获得价值200元的试听课一节"; //前端确认 试听课返回true
+                    $list['prize_str'] = "获得价值200元的试听课一节"; 
                     break;
                 }
             }else{
