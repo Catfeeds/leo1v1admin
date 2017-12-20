@@ -49,10 +49,6 @@ $(function(){
         window.open('/question_new/answer_edit?question_id='+question_id);
     })
     
-    //编辑对应的知识点
-    $('.add_question_know').on('click',function(){
-
-    });
 
     //删除题目
     $('.opt-del').on('click',function(){

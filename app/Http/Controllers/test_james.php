@@ -1413,13 +1413,11 @@ class test_james extends Controller
     }
 
 
-    public function dsss(){
-        $pwd = mt_rand(0,1000000)."_bydelete";
+    public function get_parent_tmp(){
+        $num = $this->t_parent_info->getParentNum();
 
-        dd($pwd);
-        $emailList = $this->t_manager_info->getEmailLeft();
+        dd($num);
 
-        dd($emailList);
     }
 
 

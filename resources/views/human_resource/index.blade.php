@@ -428,7 +428,7 @@
                         <td>{{@$var["teacher_type_str"]}} </td>
                         <td>
                             <a href="javascript:;" class="show_phone" data-phone="{{$var["phone_spare"]}}" >
-                                {{@$var["phone_ex"]}}
+                                {{@$var["phone_spare_hide"]}}
                             </a>
                         </td>
                         <td>{{$var["email"]}}</td>
