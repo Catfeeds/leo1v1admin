@@ -136,6 +136,11 @@ $(function(){
 
     })
 
+    //查看教材
+    $('.look_textbook').click(function(){
+        var opt_data=$(this).get_opt_data();
+        window.open("/question_new/textbook_knowledge_list?id_subject="+opt_data.subject+"&id_textbook="+opt_data.textbook_id);
+    })
 })
 function publicAjax(data){
     $.ajax({
