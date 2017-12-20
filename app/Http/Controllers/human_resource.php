@@ -990,7 +990,7 @@ class human_resource extends Controller
 
             // 全职兼职 2017-12-19
             $item['full_flag'] = false;
-            if ($item['teacher_money_type'] == 7 || ($item['teacher_money_type'] == 3 && $item['teacher_type'] == 0)) {
+            if ($item['teacher_money_type'] == 7 || ($item['teacher_type'] == 3 && $item['teacher_money_type'] == 0)) {
                 $item['full_flag'] = true;
             }
         }
