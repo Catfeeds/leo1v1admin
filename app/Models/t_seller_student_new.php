@@ -240,6 +240,23 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $this->set_admin_info(0,[$userid],60,60);
         }
 
+        //美团-1230
+        if($origin == '美团-1230'){
+            $adminid = 831;
+            $account = 'tom';
+            $this->field_update_list($userid,[
+                "admin_assignerid"  => 0,
+                "sub_assign_adminid_1"  => $adminid,
+                "sub_assign_time_1"  => time(),
+            ]);
+            $this->task->t_book_revisit->add_book_revisit(
+                $phone,
+                "操作者: 系统 状态: 分配给总监 [ $account ] ",
+                "system"
+            );
+            $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你例子:".$phone);
+        }
+
         return $userid;
     }
 
@@ -936,7 +953,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }elseif($opt_type == 3){//tmk
                 $hand_get_adminid = E\Ehand_get_adminid::V_4;
             }
-            $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
+            $up_adminid=$this->task->t_admin_group_user->get_master_adminid($opt_adminid);
             $sub_assign_adminid_1 =$this->t_admin_main_group_name->get_up_group_adminid($up_adminid);
             $set_arr=[
                 "admin_assignerid"  => $self_adminid,
@@ -972,7 +989,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
             $this->t_test_lesson_subject->set_seller_require_adminid([$userid] , $opt_adminid );
 
-            $ret_update = $this->t_book_revisit->add_book_revisit(
+            $ret_update = $this->task->t_book_revisit->add_book_revisit(
                 $phone,
                 "操作者: $account 状态: 分配给组员 [ $opt_account ] ",
                 "system"
