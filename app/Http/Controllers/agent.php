@@ -467,7 +467,7 @@ class agent extends Controller
         if($tong_count>$tao_count){
             $adminid = 416;
             $account = '童宇周';
-        }else{
+        }elseif($tao_count>$tong_count){
             $adminid = 1200;
             $account = '陶建华';
         }

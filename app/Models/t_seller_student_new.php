@@ -253,11 +253,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 }
             }
             if($tong_count>$tao_count){
-                $adminid = 416;
-                $account = '童宇周';
-            }else{
                 $adminid = 1200;
                 $account = '陶建华';
+            }else{
+                $adminid = 416;
+                $account = '童宇周';
             }
             $this->field_update_list($userid,[
                 "admin_assignerid"  => 0,
