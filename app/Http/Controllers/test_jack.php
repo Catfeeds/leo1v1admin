@@ -342,6 +342,9 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
+        $list = $this->get_baidu_money_charge_pay_info(11800);
+        dd($list);
+
         $key = "sms_phone_13817759346";
         $data = json_decode( \App\Helper\Common::redis_get($key) ,true);
         dd($data);
