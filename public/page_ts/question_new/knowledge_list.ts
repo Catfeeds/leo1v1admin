@@ -5,6 +5,8 @@
 /// <reference path="../../ztree/jquery.ztree.exhide.min.js" />
 /// <reference path="../../js/MathJax/MathJax.js" />
 /// <reference path="../../page_js/question_edit_new.js" />
+/// <reference path="../../js/MathJax/MathJax.js" />
+/// <reference path="../g_args.d.ts/question_new-knowledge_edit.d.ts" />
 
 
 var setting = {
@@ -49,14 +51,18 @@ function beforeDrag(){
 function beforeRemove(treeId,treeNode){
     var zTree = $.fn.zTree.getZTreeObj("treeDemo");
     zTree.selectNode(treeNode);
-    return confirm("确认删除 节点 -- " + treeNode.name + " 吗？"); 
+    return confirm("确认删除 节点 -- " + treeNode.name + "及下面所有的子节点吗？"); 
 }
 
 function onRemove(e,treeId,treeNode){
-    
+    var idstr ='' ;
+    idstr = getAllChildrenNodes(treeNode,idstr);
+    idstr = treeNode.id + idstr;
     var data = {
-        'knowledge_id':treeNode.id
+        'idstr':idstr
     };
+
+    console.log(idstr);
 
     $.ajax({
         type : "post",
@@ -76,6 +82,19 @@ function onRemove(e,treeId,treeNode){
         }
     });
 
+}
+
+function getAllChildrenNodes(treeNode,result){
+    if (treeNode.isParent) {
+        var childrenNodes = treeNode.children;
+        if (childrenNodes) {
+            for (var i = 0; i < childrenNodes.length; i++) {
+                result += ',' + childrenNodes[i].id;
+                result = getAllChildrenNodes(childrenNodes[i], result);
+            }
+        }
+    }
+    return result;
 }
 
 function beforeEditName(treeId, treeNode) {
@@ -234,6 +253,9 @@ $(function(){
     //var zNodes = $('#zNodes').val();
     $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 
+    //初始化数学公式
+    var mathId = document.getElementById("mathview");
+    Cquestion_editor.init_mathjax(mathId);
 
     $("#show_all_knowledge").click(function(){
         var treeObj = $.fn.zTree.getZTreeObj('treeDemo');
@@ -246,7 +268,6 @@ $(function(){
     $('.opt-change').set_input_change_event(load_data);
     
     function load_data(){
-
         var data = {
             id_subject : $("#id_subject").val(),
         };
@@ -255,39 +276,24 @@ $(function(){
     }
 
 
-    //进入知识点列表页面
+    //进入题目列表页面
     $('#question_list').on('click',function(){
-        var opt_data=$(this).get_opt_data();
-        window.open('/question_new/question_list');
+        var subject = $('#id_subject').val();
+        window.open('/question_new/question_list?id_open_flag=1&id_subject='+subject);
     });
 
-    // //添加根部知识点
-    // $('#id_add_knowledge').on('click',function(){
-    //     var level = 0;
-    //     var father_id = 0;
-    //     var editType = 1;
-    //     var father_subject = $('#id_subject').val();
-    //     window.open('/question_new/knowledge_edit?level='+level+'&father_id='+father_id+'&editType='+editType+'&father_subject='+father_subject);
-    // });
+    //进入知识点显示
+    $('#knowledge_pic').on('click',function(){
+        var subject = $('#id_subject').val();
+        window.open('/question_new/knowledge_get?subject='+subject);
+    });
 
-    // //添加子知识点
-    // $('.add_son').on('click',function(){
-    //     var opt_data = $(this).get_opt_data();
-    //     var level = parseInt(opt_data.level) + 1;
-    //     var father_id = opt_data.knowledge_id;
-    //     var father_subject = $('#id_subject').val();
-    //     var editType = 1;
-    //     window.open('/question_new/knowledge_edit?level='+level+'&father_id='+father_id+'&editType='+editType+'&father_subject='+father_subject);
-    // });
+    //教材知识点
+    $('#text_book_knowledge').on('click',function(){
+        var subject = $('#id_subject').val();
+        window.open('/question_new/textbook_knowledge_list?subject='+subject);
+    });
 
-    // //进入知识点编辑页面
-    // $('.opt-set').on('click',function(){
-    //     var opt_data=$(this).get_opt_data();
-    //     var knowledge_id = opt_data.knowledge_id;
-    //     var father_subject = $('#id_subject').val();
-    //     var editType = 2;
-    //     window.open('/question_new/knowledge_edit?knowledge_id='+knowledge_id+'&editType='+editType+'&father_subject='+father_subject);
-    // });
 
     //初始化每个公式显示框
     $('.MathPreview').each(function(){

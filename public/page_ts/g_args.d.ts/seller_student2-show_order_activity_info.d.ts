@@ -60,13 +60,14 @@ tofile:
 /// <reference path="../g_args.d.ts/seller_student2-show_order_activity_info.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		id_open_flag:	$('#id_id_open_flag').val(),
 		id_can_disable_flag:	$('#id_id_can_disable_flag').val(),
 		id_discount_type:	$('#id_id_discount_type').val(),
 		id_spec_need_flg:	$('#id_id_spec_need_flg').val()
-    });
+		});
 }
 $(function(){
 
@@ -91,6 +92,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_id_open_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["id_open_flag title", "id_open_flag", "th_id_open_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -98,6 +100,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_id_can_disable_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["id_can_disable_flag title", "id_can_disable_flag", "th_id_can_disable_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -105,6 +108,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_id_discount_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["id_discount_type title", "id_discount_type", "th_id_discount_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -112,4 +116,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_id_spec_need_flg" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["id_spec_need_flg title", "id_spec_need_flg", "th_id_spec_need_flg" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

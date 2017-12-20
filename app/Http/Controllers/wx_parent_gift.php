@@ -308,16 +308,16 @@ class wx_parent_gift extends Controller
 
 
     /**
-     *@ 微信图文[理优一段故事]
+     * @ 微信图文[理优一段故事]
+     * @ 
      **/
     public function christmasHistory(){ //微信推文 理优历史
         $p_appid     = \App\Helper\Config::get_wx_appid();
         $p_appsecret = \App\Helper\Config::get_wx_appsecret();
-        $type = $this->get_in_int_val('type');// 0:分享人 1:当前人
         $pid1 = $this->get_in_int_val('pid1');
 
         $wx= new \App\Helper\Wx($p_appid,$p_appsecret);
-        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/checkParInfo?pid1=".$pid1."&type=".$type );
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/checkParInfo?pid1=".$pid1 );
         $wx->goto_wx_login( $redirect_url );
     }
 
@@ -329,12 +329,16 @@ class wx_parent_gift extends Controller
         $user_info = $wx->get_token_from_code($code);
         $openid    = @$user_info["openid"];
         $pid1 = $this->get_in_int_val('pid1');
-        $type = $this->get_in_int_val('type');
         $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
 
-        if($pid1 == 0){ $pid1=$parentid; }
-        $orderid = $this->t_order_info->getOrderByParentid($parentid);
-        header("Location: http://wx-parent-web.leo1v1.com/anniversary_day/index.html?pid1=".$pid1."&pid2=".$parentid."&type=".$type);//链接待定
+        if($pid1 == 0 && $parentid == 0) { // 上级与本人都是未注册用户 则跳转至报名页
+            header("Location: http://www.leo1v1.com/market/index.html?%E6%9C%8D%E5%8A%A1%E5%8F%B7%E2%80%94%E8%8F%9C%E5%8D%95%E6%A0%8F=");
+            return;
+        }elseif($pid1 == 0 && $parentid != 0){
+            $pid1=$parentid;
+        }
+
+        header("Location: http://wx-parent-web.leo1v1.com/chrismas_day/index.html?pid1=".$pid1."&pid2=".$parentid);//链接待定
         return ;
     }
 
@@ -342,29 +346,55 @@ class wx_parent_gift extends Controller
      * @ 点击抽奖
      **/
     public function dealLottery(){
-        $this->get_in_int_val("parentid");
-        $orderid = $this->t_order_info->getOrderByParentid($parentid);
+        $parentid = $this->get_in_int_val("parentid");
+        $orderid  = $this->t_order_info->getOrderByParentid($parentid);
 
-        // $prize_type = $this->t_activity_christmas->get_prize_type();
-
-        if($orderid>0){
-            $rand = mt_rand(0,100);
-            $prize_type = 0;
-            if($rand<=60){
-                $prize_type = 1;
-            }elseif(60<$rand && $rand<=90){
-                $prize_type = 2;
-            }elseif(90<$rand && $rand<=100){
-                $prize_type = 3;
+        $prize_type = $this->t_activity_christmas->getPrizeType($parentid);
+        if($prize_type==0){
+            if($orderid>0){
+                $rand = mt_rand(0,100);
+                $prize_type = 0;
+                if($rand<=60){
+                    $prize_type = 1;
+                }elseif(60<$rand && $rand<=90){
+                    $prize_type = 2;
+                }elseif(90<$rand && $rand<=100){
+                    $prize_type = 3;
+                }
+            }else{
+                $prize_type = 4;
             }
-        }else{
-            $prize_type = 4;
+
+            $this->t_activity_christmas->row_insert([
+                "christmas_price_type" => $prize_type,
+                "parentid" => $parentid,
+                "win_time" => time(),
+            ]);
         }
 
-        
+        switch ($prize_type)
+        {
+        case 1:
+            $prize_str = "恭喜您抽中10元折扣券一张";
+            break;
+        case 2:
+            $prize_str = "恭喜您抽中20元折扣券一张";
+            break;
+        case 3:
+            $prize_str = "恭喜您抽中50元折扣券一张";
+            break;
+        case 4:
+            $prize_str = "恭喜您抽中价值200元的试听课一节";
+            break;
+        }
 
+        $prize_result = [
+            "prize_str"  => $prize_str,
+            "prize_type" => $prize_type
 
+        ];
 
+        return $this->output_succ($prize_result);
     }
 
 
@@ -372,8 +402,13 @@ class wx_parent_gift extends Controller
     /**
      * @ 展示当前个人信息
      */
-    public function showAdminInfo(){ //
+    public function getAdminInfo(){ //
+        $parentid = $this->get_in_int_val("parentid");
+        $orderid  = $this->t_order_info->getOrderByParentid($parentid);
 
+
+
+        return $this->output_succ();
     }
 
     public function getUserId(){

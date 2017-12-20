@@ -2379,4 +2379,53 @@ class ajax_deal2 extends Controller
 
 
     }
+
+    public function get_assistant_warning_info(){
+        $ass_adminid = $this->get_account_id();
+        $now = time();
+        $three = $now - 86400*7;
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid, $three,-1);
+        $warning_type_num = [
+            'warning_type_one' =>0,
+            'warning_type_two' =>0,
+            'warning_type_three' =>0
+        ];
+        foreach($warning_count as $item){
+            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        }
+
+        $opt_date_type = $this->get_in_int_val("opt_date_type",3);
+        $start_time    = strtotime($this->get_in_str_val("start_time"));
+        $end_time      = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+        // dd($opt_date_type);
+        if($opt_date_type==3){
+            $cur_start = $start_time;
+            $cur_end = $end_time;
+
+        }else{
+            $cur_start = strtotime(date('Y-m-01',$end_time));
+            $cur_end = strtotime(date('Y-m-01',$cur_start+40*86400));
+        }
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1, $cur_start, $cur_end);
+        $warning_type_num['warning_type_three'] = $three_count;
+
+
+        //月回访信息
+        $month_list = $this->t_revisit_assess_info->get_month_assess_info_by_uid($ass_adminid, $cur_start, $cur_end);
+        $month_info = @$month_list[0];
+        $month_info["call_num"]= \App\Helper\Common::get_time_format_minute(@$month_info["call_num"]);
+        //当天回访信息
+        $start_time = strtotime( "today" );
+        $end_time   = strtotime("tomorrow");
+        $today_info = $this->t_manager_info->get_today_assess_info_by_uid($ass_adminid, $start_time, $end_time);
+        $call_num   = $this->t_revisit_call_count->get_today_call_count($ass_adminid, $start_time, $end_time);
+        $today_info["call_num"]= \App\Helper\Common::get_time_format_minute($call_num);
+        $today_info['goal'] = ceil(@$today_info['stu_num']/10);
+        return $this->output_succ([
+            "warning"      => @$warning_type_num,
+            "month_info"   => @$month_info,
+            "today_info"   => @$today_info,  
+        ]);
+ 
+    }
 }

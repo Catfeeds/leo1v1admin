@@ -37,6 +37,12 @@
             </div>
 
             <div class="col-xs-1 col-md-1">
+                <div class=" input-group-btn ">
+                    <button style="margin-left:10px" id="edit_question_type" type="button" class="btn btn-success">编辑题型</button>
+                </div>
+            </div>
+
+            <div class="col-xs-1 col-md-1">
                 <div class="input-group">
                     <button style="margin-left:10px" id="knowledge_list" type="button" class="btn btn-primary">知识点列表</button>
                 </div>
@@ -70,11 +76,7 @@
                                 @foreach (json_decode($var['knowledge_detail'],true) as $item)
                                     <p style="margin-bottom:5px">
                                         {{$item['title']}}
-                                        <input type="hidden" value="{{$item['id']}}">
-                                        <span style="margin-left:5px">{{$item['difficult_str']}}</span>
-                                        <span class="get_knowledge_detail" style="margin-left:5px;color:green;cursor:pointer">详情</span>
-                                        <span class="del_knowledge" style="margin-left:5px;color:#fb3b3b;cursor:pointer">删除</span>
-                                        <span class="question_knowledge_detail">{{$item['detail']}}</span>
+                                        <input type="hidden" value="{{$item['knowledge_id']}}">
                                     </p>
                                 @endforeach
                             @endif
@@ -86,7 +88,6 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa-edit opt-set" title="编辑题目"> </a>
-                                <a class="fa-align-justify add_question_know" title="添加题目的知识点"> </a>
                                 <a class="fa-tags edit_question_know" title="编辑答案详情"> </a>
                                 @if(@$var["open_flag"] == 1)
                                     <a class="fa fa-lock lock_question_know" title="禁用"> </a>

@@ -67,6 +67,8 @@
                     <td >单月提成金额</td>
                     <td >季度提成金额</td>
                     <td >计算方式</td>
+                    <td >主管kpi</td>
+                    <td >主管kpi计算方式</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -116,6 +118,8 @@
                         <td class="cur_month_money" ></td>
                         <td class="three_month_money" ></td>
                         <td class="desc" ></td>
+                        <td class="group_kpi" ></td>
+                        <td class="group_kpi_desc" ></td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

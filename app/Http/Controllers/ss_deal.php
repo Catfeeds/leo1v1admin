@@ -391,6 +391,7 @@ class ss_deal extends Controller
         $ret["subject_score"] = $ss_item['subject_score'];
         $ret["subject_tag"] = json_decode($tt_item['subject_tag']);
         $ret["phone_location"] = mb_substr($student["phone_location"],0,2);
+        $ret["teacher_type"]   = $tt_item["teacher_type"];
         // dd($ret["subject_tag"]);
 
         return $this->output_succ(["data" => $ret ]);
@@ -1602,7 +1603,7 @@ class ss_deal extends Controller
         }
 
         $old_teacherid = $this->get_in_str_val('old_teacherid');
-        $old_lesson_start = $this->get_in_str_val('old_lesson_start');
+        $old_lesson_start = strtotime($this->get_in_str_val('old_lesson_start'));
         $date_week = \App\Helper\Utils::get_week_range($lesson_start,1);
         $lstart    = $date_week["sdate"];
         $date_week_old = \App\Helper\Utils::get_week_range($old_lesson_start,1);

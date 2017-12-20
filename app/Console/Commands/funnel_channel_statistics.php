@@ -62,21 +62,16 @@ class funnel_channel_statistics extends cmd_base
             $data_map[$check_value]["distinct_test_count"] = $test_item["distinct_test_count"];
             $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
             $data_map[$check_value]["test_lesson_count"] = $test_item["test_lesson_count"];
-        }
-        //去掉重复userid
-        $distinct_test_lesson_list=$this->task->t_seller_student_origin->get_lesson_list_new($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid,1);
-        foreach ($distinct_test_lesson_list as  $test_item ) {
-            $check_value=$test_item["check_value"];
             $data_map[$check_value]["distinct_succ_count"] = $test_item["distinct_succ_count"];
             //试听率
             if(@$data_map[$check_value]['tq_called_count'])
                 $data_map[$check_value]["audition_rate"] = number_format($test_item["distinct_succ_count"]/$data_map[$check_value]['tq_called_count']*100,2);
             else
                 $data_map[$check_value]["audition_rate"] = '';
+
         }
 
-
-        //统计试听课相关信息  ---begin---
+        //统计试听课相关信息  ---end---
 
         //统计订单相关信息  ---begin---
         //合同

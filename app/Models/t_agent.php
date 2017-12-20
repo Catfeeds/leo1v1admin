@@ -1134,7 +1134,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 if($p_level== 1){//黄金
                     $p_price = $level1_price*100;
                 }elseif($p_level == 2){//水晶
-                    $p_price = $level2_p_price*200;
+                    $p_price = $level2_p_price*100;
                 }
 
                 if($pp_level== 2){//水晶

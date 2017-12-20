@@ -980,6 +980,30 @@ class common_new extends Controller
             } else {
                 $list['last_title'] = '“理优1对1期待你的加入”';
             }
+
+            $prize_type = $this->t_activity_christmas->getPrizeType($parentid);
+            if($prize_type >0 ){
+                $list['has_done'] = 1;
+                switch ($prize_type)
+                {
+                case 1:
+                    $list['prize_str'] = "恭喜您抽中10元折扣券一张";
+                    break;
+                case 2:
+                    $list['prize_str'] = "恭喜您抽中20元折扣券一张";
+                    break;
+                case 3:
+                    $list['prize_str'] = "恭喜您抽中50元折扣券一张";
+                    break;
+                case 4:
+                    $list['prize_str'] = "恭喜您获得价值200元的试听课一节"; //前端确认 试听课返回true
+                    break;
+                }
+            }else{
+                $list['has_done']  = 0;
+                $list['prize_str'] = '';
+            }
+
             return $this->output_succ(["list"=>$list]);
         } else {
             return $this->output_err("请重新绑定您的学生！");
@@ -1179,6 +1203,11 @@ class common_new extends Controller
             if($status==8){
                 $parent_orderid = $this->t_orderid_orderno_list->get_parent_orderid($orderNo);
                 $userid = $this->t_order_info->get_userid($parent_orderid);
+
+                //更新家长课程信息
+                $this->reset_parent_course_info($userid,$$orderNo);
+
+
                 if($parent_orderid>0){
                     $this->t_manager_info->send_wx_todo_msg(
                         "jack",
@@ -1230,6 +1259,10 @@ class common_new extends Controller
                         "period_num"  =>$period_new,
                         "parent_name" =>$parent_name
                     ]);
+                   
+                    // 更新家长课程信息
+                    $this->reset_parent_course_info($userid,$orderNo);
+
                     $this->t_manager_info->send_wx_todo_msg(
                         "jack",
                         "百度分期付款通知",
@@ -1369,6 +1402,75 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $concatStr .= 'key='.$strSecretKey;
         return strtoupper(md5($concatStr));
     }
+
+
+    //更新家长百度有钱花课程信息
+    public function reset_parent_course_info($userid,$orderNo){
+
+        $pp_info = $this->t_student_info->field_get_list($userid,"parentid,grade");
+        $courseid = $this->t_orderid_orderno_list->get_courseid($orderNo);
+        $grade=$pp_info["grade"];
+        $parent_orderid = $this->t_orderid_orderno_list->get_parent_orderid($orderNo);
+        $competition_flag = $this->t_order_info->get_competition_flag($parent_orderid);
+        if($competition_flag==1){
+            if(!$courseid){
+                $courseid = "SHLEOZ3101006"; 
+            }
+            $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
+            if($course_list){
+                $list=json_decode($course_list,true);
+            }else{
+                $list=[];
+            }
+            @$list[4][]=$courseid;
+            $str = json_encode($list);
+            
+        }elseif($grade >=100 && $grade<200){
+            if(!$courseid){
+                $courseid = "SHLEOZ3101001"; 
+            }
+            $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
+            if($course_list){
+                $list=json_decode($course_list,true);
+            }else{
+                $list=[];
+            }
+            @$list[1][]=$courseid;
+            $str = json_encode($list);
+        }elseif($grade >=200 && $grade<300){
+            if(!$courseid){
+                $courseid = "SHLEOZ3101011"; 
+            }
+            $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
+            if($course_list){
+                $list=json_decode($course_list,true);
+            }else{
+                $list=[];
+            }
+            @$list[2][]=$courseid;
+            $str = json_encode($list);
+        }elseif($grade >=300 && $grade<400){
+            if(!$courseid){
+                $courseid = "SHLEOZ3101016"; 
+            }
+            $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
+            if($course_list){
+                $list=json_decode($course_list,true);
+            }else{
+                $list=[];
+            }
+            @$list[3][]=$courseid;
+            $str = json_encode($list);
+        }
+        $this->t_parent_info->field_update_list($pp_info["parentid"],[
+            "baidu_class_info" =>$str 
+        ]);
+
+
+        
+
+    }
+
 
 
     //建行回调地址

@@ -48,6 +48,16 @@
                     </select>
                 </div>
             </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span> QC数据 </span>
+                    <select id="id_qc_flag" class="opt-change" >
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="col-xs-12 col-md-2">
                 <div class="input-group ">
                     <button class="btn btn-primary" id="id_add_refund">合同退费</button>

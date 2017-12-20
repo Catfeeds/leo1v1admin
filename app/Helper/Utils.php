@@ -1097,8 +1097,8 @@ class Utils  {
      * type 3 课时累计由学生决定,公司全职老师,试听课价格为0
      * type 2 课时累计由上月常规+试听课时决定,试听课价格为30
      * type 4 课时累计由上月常规时决定,试听课价格为30
-     * @param  teacher_money_type 老师工资分类
-     * @param  teacher_type 老师类型
+     * @param int teacher_money_type 老师工资分类
+     * @param int teacher_type 老师类型
      * @return integer
      */
     static function check_teacher_money_type($teacher_money_type,$teacher_type=0){

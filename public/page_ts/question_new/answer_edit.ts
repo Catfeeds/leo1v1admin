@@ -2,8 +2,70 @@
 /// <reference path="../../page_js/question_edit_new.js" />
 /// <reference path="../../js/MathJax/MathJax.js" />
 /// <reference path="../g_args.d.ts/question_new-knowledge_edit.d.ts" />
+var setting = {
+    view: {
+        showIcon: false,
+    },
+    check: {  
+        enable: true,  
+        chkStyle: "checkbox",  
+        chkboxType: { "Y": "", "N": "" }  
+    },
+    data: {
+        simpleData: {
+            enable: true
+        }
+    },
+    callback: {
+        
+    }
+}
+
+function open_know(index){
+    if( zNodes ==''){
+        BootstrapDialog.alert('暂无知识点，请添加');
+        return false;
+    }
+    var obj = $("#knowledge_exits_"+index);
+    if( obj.find('span').length > 0 ){
+        var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+        obj.find('span').each(function(){
+            var node = treeObj.getNodeByParam("id", $(this).attr('knowledge_id'), null);
+            treeObj.checkNode(node, true, true);
+        })
+    }
+    $('#save_knowledge').attr({"answer_id":index});
+    $('.knowledge_all').show();
+}
+
+function close_know(){
+    var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+    treeObj.checkAllNodes(false);
+    $('#save_knowledge').attr({"answer_id":""});
+    $('.knowledge_all').hide();
+}
+
+function save_know(){
+    var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+    var nodes = treeObj.getCheckedNodes();
+    //var checkNode = '';
+    var html = '';
+    if(nodes.length>0){
+        for(var i = 0;i<nodes.length;i++){
+            html += "<span knowledge_id='"+nodes[i].id+"'>" + nodes[i].name + "</span>";
+        }
+    }
+    var index = $('#save_knowledge').attr('answer_id');
+    $('#knowledge_exits_'+index).html(html);
+    close_know();
+}
 
 $(function(){
+    $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+    $("#show_all_knowledge").click(function(){
+        var treeObj = $.fn.zTree.getZTreeObj('treeDemo');
+        treeObj.expandAll(true); 
+    });
 
     var id_question_type = null;
     var domain = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/';
@@ -101,6 +163,18 @@ $(function(){
     //保存答案
     $(".answer-save").click(function(){
         var obj = $(this).parents('.answer_step');
+
+        //旧的知识点
+        var knowledge_old = obj.find('.knowledge_old').val();
+        //新的知识点
+        var knowledge_new = '';
+        if( obj.find(".knowledge_exits").find('span').length > 0 ){
+            obj.find('.knowledge_exits span').each(function(){
+                knowledge_new += $(this).attr('knowledge_id') + ','
+            })
+            knowledge_new = knowledge_new.substring(0, knowledge_new.length-1);
+        }
+
         var data = {
             'editType':obj.find('.editType').val(),
             'question_id':$('#question_id').val(),
@@ -109,9 +183,10 @@ $(function(){
             'answer_type':obj.find('.answer_type').val(),
             'detail':obj.find('.id_mathjax_content').val(),
             'score':obj.find('.answer_score').val(),
+            'knowledge_new':knowledge_new,
+            'knowledge_old':knowledge_old
         };
-        // console.log(data);
-        // return false;
+        
         $.ajax({
             type : "post",
             url : "/question_new/answer_add",

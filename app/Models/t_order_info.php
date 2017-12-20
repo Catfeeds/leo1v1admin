@@ -94,36 +94,35 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         });
     }
 
-    public function get_order_list_for_tongji( $start_time, $end_time)
+    public function get_order_list_for_tongji( $start_time, $end_time,$is_test_user=0)
     {
-        $is_test_user=0;
-        $where_arr=[
-            ["order_time>=%u" , $start_time, -1],
-            ["order_time<=%u" , $end_time, -1],
-            ["is_test_user=%u" , $is_test_user, -1],
+        $where_arr = [
+            ["o.order_time>=%u", $start_time, -1],
+            ["o.order_time<=%u", $end_time, -1],
+            ["s.is_test_user=%u", $is_test_user, -1],
+            "o.contract_type in (0,3)",
+            "o.contract_status>0",
+            "o.price>0",
         ];
-        $contract_type=-2;
-        if ($contract_type==-2) { //1v1
 
-            $where_arr[]="contract_type in(0,1,3)" ;
-            /*
-              0 => "常规",
-              1 => "赠送",
-              2 => "试听",
-              3 => "续费",
-            */
-        }
-
-        $where_arr[] = "contract_status <> 0";
-        $where_arr[] = "price>0" ;
-
-        $sql = $this->gen_sql("select t1.userid, t1.orderid,  order_time  , default_lesson_count*lesson_total "
-                              ." from %s t1 "
-                              ." left join %s t2 on t1.userid = t2.userid "
-                              ." where %s order by order_time desc",
-                              self::DB_TABLE_NAME,
-                              Z\z_t_student_info::DB_TABLE_NAME,
-                              [$this->where_str_gen($where_arr)]
+        $sql = $this->gen_sql_new("select o.userid,o.orderid,o.order_time,"
+                                  ." o.default_lesson_count*o.lesson_total,"
+                                  ." o.contract_type,o.contract_status,o.sys_operator,m.account_role,"
+                                  ." a.nick as ass_nick,if(r.orderid>0,1,0) as has_refund,"
+                                  ." r.orderid as refund_orderid"
+                                  ." from %s o "
+                                  ." left join %s s on o.userid = s.userid "
+                                  ." left join %s m on o.sys_operator=m.account"
+                                  ." left join %s a on s.assistantid=a.assistantid"
+                                  ." left join %s r on o.orderid=r.orderid"
+                                  ." where %s "
+                                  ." group by o.orderid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_assistant_info::DB_TABLE_NAME
+                                  ,t_order_refund::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_list($sql);
     }
@@ -791,15 +790,20 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-    public function get_1v1_order_list_by_adminid( $start_time,$end_time ,$stu_from_type=-1,$adminid=-1) {
+    public function get_1v1_order_list_by_adminid( $start_time,$end_time ,$stu_from_type=-1,$adminid=-1,$adminid_list=[]) {
         $where_arr = [
             ["order_time>=%u" , $start_time, -1],
             ["order_time<=%u" , $end_time, -1],
             ["is_test_user=%u" , 0, -1],
             "contract_type in(0)",
             ["stu_from_type=%u" , $stu_from_type, -1],
-            ["t2.uid=%u" ,$adminid,-1],
+            // ["t2.uid=%u" ,$adminid,-1],
         ];
+        if(count($adminid_list)>0){
+            $this->where_arr_add_int_or_idlist($where_arr,'t2.uid',$adminid_list);
+        }else{
+            $this->where_arr_add_int_field($where_arr,'t2.uid',$adminid);
+        }
         $sql = $this->gen_sql_new("select t2.uid adminid,count(*) all_new_contract,sum(price) all_price,MAX(price) max_price,"
                                   ."t2.create_time,t2.become_member_time,t2.leave_member_time,t2.del_flag "
                                   ." from %s t1 "

@@ -76,7 +76,8 @@ $(function(){
 		"select_value" : g_args.adminid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_adminid",
-		"can_sellect_all_flag"     : true
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
 	});
 
 
@@ -87,6 +88,11 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -94,6 +100,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_grab_lesson_link" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["grab_lesson_link title", "grab_lesson_link", "th_grab_lesson_link" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -101,6 +108,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_grabid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["grabid title", "grabid", "th_grabid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -108,6 +116,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_live_time" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["live_time title", "live_time", "th_live_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -115,4 +124,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["adminid title", "adminid", "th_adminid" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

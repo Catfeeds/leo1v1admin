@@ -8,6 +8,14 @@ class t_activity_christmas extends \App\Models\Zgen\z_t_activity_christmas
 		parent::__construct();
 	}
 
+    public function getPrizeType($parentid){
+        $sql = $this->gen_sql_new("  select christmas_price_type from %s ac"
+                                  ." where ac.parentid=$parentid"
+                                  ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_value($sql);
+    }
+
 }
 
 

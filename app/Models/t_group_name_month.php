@@ -48,6 +48,25 @@ class t_group_name_month extends \App\Models\Zgen\z_t_group_name_month
         return $this->main_update($sql);
     }
 
+    public function get_group_admin_list($adminid,$month){
+        $where_arr = [
+            ["gn.master_adminid = %d ",$adminid],
+            ["gn.month = %d ",$month],
+            ["gu.month = %d ",$month],
+        ];
+
+        $sql = $this->gen_sql_new(" select adminid "
+                                  ." from %s gn "
+                                  ." left join %s gu on gn.groupid = gu.groupid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_group_user_month::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
 }
 
 

@@ -1022,17 +1022,20 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
     }
 
-    public function tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid=-1 ) {
+    public function tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid=-1,$adminid_list=[]) {
         $where_arr=[
             "accept_flag=1",
             "require_admin_type=2",
             "is_test_user=0",
-            ['cur_require_adminid=%u',$adminid,-1],
             "l.lesson_del_flag=0",
         ];
+        if(count($adminid_list)>0){
+            $this->where_arr_add_int_or_idlist($where_arr,"cur_require_adminid",$adminid_list);
+        }else{
+            $this->where_arr_add_int_field($where_arr,"cur_require_adminid",$adminid);
+        }
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $where_arr[]=$this->where_get_in_str_query("s.grade",$grade_list);
-
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
 
@@ -1058,18 +1061,21 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list_as_page($sql);
     }
 
-    public function tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid=-1 ) {
+    public function tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid=-1,$adminid_list=[]) {
         $where_arr=[
             "accept_flag=1",
             "require_admin_type=2",
             "is_test_user=0",
             '(lesson_user_online_status in (0,1) or  f.flow_status = 2)',
-            ['cur_require_adminid=%u',$adminid,-1],
             "l.lesson_del_flag=0",
         ];
+        if(count($adminid_list)>0){
+            $this->where_arr_add_int_or_idlist($where_arr,"cur_require_adminid",$adminid_list);
+        }else{
+            $this->where_arr_add_int_field($where_arr,"cur_require_adminid",$adminid);
+        }
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $where_arr[]=$this->where_get_in_str_query("s.grade",$grade_list);
-
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
 
@@ -3662,7 +3668,7 @@ ORDER BY require_time ASC";
             ["tr.require_id=%u",$require_id,-1]
         ];
         $sql = $this->gen_sql_new("select s.nick,s.gender,s.grade,t.subject,"
-                                  ." tr.curl_stu_request_test_lesson_time,"
+                                  ." tr.curl_stu_request_test_lesson_time,t.teacher_type,"
                                   ." tr.test_stu_request_test_lesson_demand,t.tea_identity,t.tea_gender,t.tea_age,"
                                   ." t.intention_level,t.quotation_reaction,tr.seller_top_flag,t.subject_tag,tr.current_lessonid"
                                   ." from %s tr "
@@ -3705,7 +3711,8 @@ ORDER BY require_time ASC";
             " count(distinct if(tlsr.accept_flag = 1,tls.userid,null)) distinct_test_count,".
             " sum(tlssl.success_flag in (0,1 )) succ_test_lesson_count,".
             " sum(if((oi.contract_type = 0 and oi.contract_status > 0),1,0)) order_count,".
-            " round(sum(if((oi.contract_type = 0 and oi.contract_status > 0 ),oi.price/100,0))) order_all_money".
+            " round(sum(if((oi.contract_type = 0 and oi.contract_status > 0 ),oi.price/100,0))) order_all_money,".
+            " coutn(distinct if(tlssl.success_flag in (0,1 ),tls.userid,null)) succ_test_lesson_count".
             " from %s tlsr ".
             " left join %s tlssl on tlsr.current_lessonid=tlssl.lessonid ".
             " left join %s li on tlsr.current_lessonid = li.lessonid".

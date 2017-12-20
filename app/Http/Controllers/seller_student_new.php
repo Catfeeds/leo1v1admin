@@ -101,7 +101,7 @@ class seller_student_new extends Controller
             6 => array("tmk_assign_time","微信分配时间"),
             ], 0,0, true
         );
-        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)=$this->get_in_order_by_str( );
+        list( $order_in_db_flag,$order_by_str,$order_field_name,$order_type)=$this->get_in_order_by_str( );
 
         $userid            = $this->get_in_userid(-1);
         $origin            = trim($this->get_in_str_val('origin', ''));
@@ -111,19 +111,19 @@ class seller_student_new extends Controller
         $phone_location    = trim($this->get_in_str_val('phone_location', ''));
         $admin_revisiterid = $this->get_in_int_val('admin_revisiterid', -1);
         $tq_called_flag    = $this->get_in_int_val("tq_called_flag", -1,E\Etq_called_flag::class);
-        $global_tq_called_flag = $this->get_in_int_val("global_tq_called_flag", -1,E\Etq_called_flag::class);
+        $global_tq_called_flag = $this->get_in_int_val("global_tq_called_flag",-1,E\Etq_called_flag::class);
         $seller_student_status = $this->get_in_el_seller_student_status();
 
-        $page_num              = $this->get_in_page_num();
-        $page_count            = $this->get_in_page_count();
-        $has_pad               = $this->get_in_int_val("has_pad", -1, E\Epad_type::class);
-        $sub_assign_adminid_2  = $this->get_in_int_val("sub_assign_adminid_2", 0);
-        $origin_assistantid    = $this->get_in_int_val("origin_assistantid",-1  );
-        $tmk_adminid           = $this->get_in_int_val("tmk_adminid",-1, "");
-        $account_role     = $this->get_in_enum_list(E\Eaccount_role::class, -1 );
-        $origin_level          = $this-> get_in_el_origin_level("0,1,2,3,4");
+        $page_num                  = $this->get_in_page_num();
+        $page_count                = $this->get_in_page_count();
+        $has_pad                   = $this->get_in_int_val("has_pad", -1, E\Epad_type::class);
+        $sub_assign_adminid_2      = $this->get_in_int_val("sub_assign_adminid_2", 0);
+        $origin_assistantid        = $this->get_in_int_val("origin_assistantid",-1  );
+        $tmk_adminid               = $this->get_in_int_val("tmk_adminid",-1, "");
+        $account_role              = $this->get_in_enum_list(E\Eaccount_role::class, -1 );
+        $origin_level              = $this-> get_in_el_origin_level("0,1,2,3,4");
         $seller_student_sub_status = $this->get_in_enum_val(E\Eseller_student_sub_status::class,-1);
-        $tmk_student_status        = $this->get_in_int_val("tmk_student_status", -1, E\Etmk_student_status::class);
+        $tmk_student_status        = $this->get_in_int_val("tmk_student_status",-1,E\Etmk_student_status::class);
         $seller_resource_type      = $this->get_in_int_val("seller_resource_type",0, E\Eseller_resource_type::class);
         $sys_invaild_flag  =$this->get_in_e_boolean(0,"sys_invaild_flag");
         $publish_flag  = $this->get_in_e_boolean(1,"publish_flag");
@@ -176,8 +176,8 @@ class seller_student_new extends Controller
             $origin,$opt_date_str,$start_time,$end_time,$grade,
             $subject,$phone_location,$origin_ex,$has_pad,$sub_assign_adminid_2,
             $seller_resource_type,$origin_assistantid,$tq_called_flag,$global_tq_called_flag,$tmk_adminid,
-            $tmk_student_status,$origin_level,$seller_student_sub_status, $order_by_str,$publish_flag
-            ,$admin_del_flag ,$account_role , $sys_invaild_flag ,$seller_level, $wx_invaild_flag,$do_filter,
+            $tmk_student_status,$origin_level,$seller_student_sub_status, $order_by_str,$publish_flag,
+            $admin_del_flag ,$account_role , $sys_invaild_flag ,$seller_level, $wx_invaild_flag,$do_filter,
             $first_seller_adminid ,$suc_test_count,$call_phone_count,$call_count,
             $main_master_flag,$self_adminid, $origin_count,$admin_revisiterid_list
         );
@@ -232,8 +232,7 @@ class seller_student_new extends Controller
 
 
             E\Eseller_student_status::set_item_value_str($item,"first_seller_status");
-
-
+            \App\Helper\Utils::hide_item_phone($item);
         }
 
         // 未分配信息
@@ -262,18 +261,9 @@ class seller_student_new extends Controller
         $subject = $this->get_in_el_subject();
         list($start_time,$end_time) = $this->get_in_date_range(-7,1);
 
-        /*
-          $max_end_time= strtotime(date( "Y-m-d" ))  -1*86400;
-          if ($end_time > $max_end_time) {
-          $end_time= $max_end_time;
-          }
-        */
-
         $seller_student_status      = $this->get_in_int_val('seller_student_status', -1, E\Eseller_student_status::class);
 
         $ret_info = $this->t_seller_student_new->get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject);
-
-        // dd($ret_info);
 
         $real_page_num = $ret_info["page_info"]["page_num"]-1;
         foreach( $ret_info["list"] as $index=> &$item ) {
@@ -293,7 +283,7 @@ class seller_student_new extends Controller
             $this->cache_set_item_account_nick($item,"admin_revisiterid","admin_revisiter_nick");
             $this->cache_set_item_account_nick($item,"origin_assistantid","origin_assistant_nick");
             $this->cache_set_item_account_nick($item,"tmk_adminid","tmk_admin_nick");
-
+            \App\Helper\Utils::hide_item_phone($item);
         }
 
         // 未分配信息
@@ -1176,6 +1166,10 @@ class seller_student_new extends Controller
                 4 => array("n.last_revisit_time","最后CC联系时间"),
             ], 1,0, true
         );
+        if(($end_time - $start_time)>3600*24*7){
+            $end_time = $start_time+3600*24*7;
+        }
+        // dd($start_time,$end_time);
         $page_num   = $this->get_in_page_num();
         $phone_name = trim($this->get_in_str_val("phone_name"));
         $phone_location = trim($this->get_in_str_val("phone_location"));
@@ -1444,24 +1438,13 @@ class seller_student_new extends Controller
         $userid                = $this->get_in_userid(-1);
         $page_num              = $this->get_in_page_num();
         $global_tq_called_flag = $this->get_in_el_tq_called_flag("-1", "global_tq_called_flag");
-        $grade    = $this->get_in_el_grade();
-        $subject = $this->get_in_el_subject();
+        $grade                 = $this->get_in_el_grade();
+        $subject               = $this->get_in_el_subject();
         list($start_time,$end_time) = $this->get_in_date_range(-7,1);
 
-        /*
-        $max_end_time= strtotime(date( "Y-m-d" ))  -1*86400;
-        if ($end_time > $max_end_time) {
-            $end_time= $max_end_time;
-        }
-        */
+        $seller_student_status = $this->get_in_int_val('seller_student_status',-1,E\Eseller_student_status::class);
 
-        $seller_student_status = $this->get_in_int_val('seller_student_status', -1, E\Eseller_student_status::class);
-
-        $ret_info = $this->t_seller_student_new->get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject);
-        // $ret_info = $this->t_seller_student_new->get_tmk_list_new( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject);
-
-
-        // dd($ret_info);
+        $ret_info = $this->t_seller_student_new->get_tmk_list($start_time,$end_time,$seller_student_status,$page_num,$global_tq_called_flag,$grade,$subject);
 
         $real_page_num = $ret_info["page_info"]["page_num"]-1;
         foreach( $ret_info["list"] as $index=> &$item ) {
@@ -1481,7 +1464,7 @@ class seller_student_new extends Controller
             $this->cache_set_item_account_nick($item,"admin_revisiterid","admin_revisiter_nick");
             $this->cache_set_item_account_nick($item,"origin_assistantid","origin_assistant_nick");
             $this->cache_set_item_account_nick($item,"tmk_adminid","tmk_admin_nick");
-
+            \App\Helper\Utils::hide_item_phone($item);
         }
 
         // 未分配信息
