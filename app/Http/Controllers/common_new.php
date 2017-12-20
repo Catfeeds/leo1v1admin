@@ -15,7 +15,6 @@ use App\Jobs\deal_pdf_to_image;
 
 require_once  app_path("/Libs/Qiniu/functions.php");
 
-
 class common_new extends Controller
 {
     var $check_login_flag = false;
@@ -33,18 +32,15 @@ class common_new extends Controller
         return $this->output_succ(["account"=> $account]);
     }
 
-
-
     function send_err_mail()
     {
-        $to=$this->get_in_str_val("to");
-        $title=$this->get_in_str_val("title");
-        $body=trim($this->get_in_str_val("body"));
+        $to    = $this->get_in_str_val("to");
+        $title = $this->get_in_str_val("title");
+        $body  = trim($this->get_in_str_val("body"));
 
         $body.="<br/>from:  " .$this->get_in_client_ip();
 
         dispatch( new \App\Jobs\send_error_mail( $to,$title,$body ) );
-
     }
 
 
@@ -915,6 +911,8 @@ class common_new extends Controller
 
             $homework_finish_info = $this->t_lesson_info_b2->get_stu_homework_finish($userid, $start_time);
             if ($homework_finish_info['count']) {
+                \App\Helper\Utils::logger("james_22898: ".$homework_finish_info['count']);
+
                 $nofinish_num = str_pad($homework_finish_info['nofinish'],2,'0',STR_PAD_LEFT);
                 $list['D'] = "未完成作业{$nofinish_num}次";
                 $rate = intval (round( ( 1-($homework_finish_info['nofinish']/$homework_finish_info['count']) )*100 ) );
@@ -987,16 +985,16 @@ class common_new extends Controller
                 switch ($prize_type)
                 {
                 case 1:
-                    $list['prize_str'] = "恭喜您抽中10元折扣券一张";
+                    $list['prize_str'] = "抽中10元折扣券一张";
                     break;
                 case 2:
-                    $list['prize_str'] = "恭喜您抽中20元折扣券一张";
+                    $list['prize_str'] = "抽中20元折扣券一张";
                     break;
                 case 3:
-                    $list['prize_str'] = "恭喜您抽中50元折扣券一张";
+                    $list['prize_str'] = "抽中50元折扣券一张";
                     break;
                 case 4:
-                    $list['prize_str'] = "恭喜您获得价值200元的试听课一节"; //前端确认 试听课返回true
+                    $list['prize_str'] = "获得价值200元的试听课一节"; 
                     break;
                 }
             }else{
@@ -1260,9 +1258,7 @@ class common_new extends Controller
                         "parent_name" =>$parent_name
                     ]);
                    
-                    // 更新家长课程信息
-                    $this->reset_parent_course_info($userid,$orderNo);
-
+                   
                     $this->t_manager_info->send_wx_todo_msg(
                         "jack",
                         "百度分期付款通知",
@@ -1287,6 +1283,9 @@ class common_new extends Controller
                         "百度分期付款通知",
                         "学生:".$user_info["nick"]." 百度分期付款成功,支付方式:百度有钱花,订单号:".$orderNo,
                         "");
+
+                    // 更新家长课程信息
+                    $this->reset_parent_course_info($userid,$orderNo);
 
 
                     //生成还款信息

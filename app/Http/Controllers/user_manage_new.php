@@ -2511,6 +2511,7 @@ class user_manage_new extends Controller
     }
 
     public function month_user_info() {
+        $this->check_and_switch_tongji_domain();
         $year=$this->get_in_int_val("year","2016");
         $month=$this->get_in_int_val("month","5");
         $start_time=strtotime( "$year-$month-01");

@@ -240,7 +240,59 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $this->set_admin_info(0,[$userid],60,60);
         }
 
+        //美团-1230
+        if($origin == '美团-1230'){
+            $tong_count = 0;
+            $tao_count = 0;
+            $count = $this->get_meituan_count_by_adminid();
+            foreach($count as $item){
+                if($item['adminid'] == 416){
+                    $tong_count += 1;
+                }else{
+                    $tao_count += 1;
+                }
+            }
+            if($tong_count>$tao_count){
+                $adminid = 1200;
+                $account = '陶建华';
+            }else{
+                $adminid = 416;
+                $account = '童宇周';
+            }
+            $this->field_update_list($userid,[
+                "admin_assignerid"  => 0,
+                "sub_assign_adminid_1"  => $adminid,
+                "sub_assign_time_1"  => time(),
+                "admin_revisiterid"  => $adminid,
+                "admin_assign_time"  => time(),
+            ]);
+            $this->task->t_book_revisit->add_book_revisit(
+                $phone,
+                "操作者: 系统 状态: 分配给总监 [ $account ] ",
+                "system"
+            );
+            // $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
+            $this->task->t_manager_info->send_wx_todo_msg('tom',"来自:系统","分配给[$account]的'$origin'例子:".$phone);
+        }
+
         return $userid;
+    }
+
+    public function get_meituan_count_by_adminid(){
+        $where_arr=[
+            "s.origin = '美团-1230'",
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr,'n.sub_assign_adminid_1',[416,1200]);
+        $sql=$this->gen_sql_new(
+            "select n.userid,n.sub_assign_adminid_1 adminid "
+            ." from %s n "
+            ." left join %s s on s.userid = n.userid "
+            ." where %s "
+            , self::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
     public function get_tmk_student_list (
@@ -936,7 +988,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }elseif($opt_type == 3){//tmk
                 $hand_get_adminid = E\Ehand_get_adminid::V_4;
             }
-            $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
+            $up_adminid=$this->task->t_admin_group_user->get_master_adminid($opt_adminid);
             $sub_assign_adminid_1 =$this->t_admin_main_group_name->get_up_group_adminid($up_adminid);
             $set_arr=[
                 "admin_assignerid"  => $self_adminid,
@@ -972,7 +1024,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
             $this->t_test_lesson_subject->set_seller_require_adminid([$userid] , $opt_adminid );
 
-            $ret_update = $this->t_book_revisit->add_book_revisit(
+            $ret_update = $this->task->t_book_revisit->add_book_revisit(
                 $phone,
                 "操作者: $account 状态: 分配给组员 [ $opt_account ] ",
                 "system"

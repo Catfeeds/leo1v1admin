@@ -321,7 +321,7 @@
                          </td>
                          <td  class="td-phone">
                              <div class="phone-data">
-                                 @if($var['origin'] == '优学优享' || $var['origin'] == '知识库')
+                                 @if($var['origin'] == '优学优享' || $var['origin'] == '知识库' || $var['origin'] == 'jingqi-0805')
                                      <font color="red">{{$var["origin"]}}/{{$var["nickname"]}}</font>
                                  @endif
                              </div>
@@ -1204,7 +1204,7 @@
                     <div class="col-xs-12 col-md-2 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp科目：</span>
-                            <select id="id_stu_subject_new_two" class=" form-control "   >
+                            <select id="id_stu_subject_new_two" name="subject_score_new_two" class=" form-control "   >
                             </select>
                         </div>
                     </div>

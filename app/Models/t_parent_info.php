@@ -285,7 +285,7 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
         $sql = $this->gen_sql_new("  select p.wx_openid,p.parentid from %s p "
                                   ." left join %s pc on pc.parentid=p.parentid"
                                   ." left join %s o on o.userid=pc.userid"
-                                  ." where %s"
+                                  ." where %s group by p.parentid"
                                   ,self::DB_TABLE_NAME
                                   ,t_parent_child::DB_TABLE_NAME
                                   ,t_order_info::DB_TABLE_NAME

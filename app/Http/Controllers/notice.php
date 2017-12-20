@@ -159,6 +159,7 @@ class notice extends Controller
         if (!is_array ($args) ) {
             return $this->output_err("xx");
         }
+        \App\Helper\Utils::logger("111111");
         $this->sms_common_regiter($phone,$user_ip,$type, $args);
 
         return $this->output_succ();
@@ -216,6 +217,8 @@ class notice extends Controller
         }
 
 
+        \App\Helper\Utils::logger("111111");
+
         $is_success=0;
         if ($user_ip) {
             //每个ip 最多 10个
@@ -225,6 +228,7 @@ class notice extends Controller
         }else{
             return;
         }
+        \App\Helper\Utils::logger("111112");
 
         if($phone){
             //每个手机 最多 3个
@@ -235,6 +239,8 @@ class notice extends Controller
         }else{
             return;
         }
+        \App\Helper\Utils::logger("111113");
+
         $receive_content="";
 
         //$test_flag=true;

@@ -126,4 +126,20 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
+    public function getResourceId($subject,$grade){
+        $where_arr = [
+            "r.subject=$subject",
+            "r.grade=$grade",
+            "r.use_type=1",
+            "r.resource_type=3"
+        ];
+
+        $sql = $this->gen_sql_new("  select r.resource_id from %s r "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
 }

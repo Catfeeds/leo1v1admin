@@ -1484,10 +1484,8 @@ class main_page extends Controller
         $ret_info = \App\Helper\Utils::list_to_page_info($teacher_info);
 
         return $this->pageView(__METHOD__,$ret_info);
-
-
-
     }
+
     public function zs_teacher(){
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
 
@@ -1731,8 +1729,10 @@ class main_page extends Controller
     public function zs_teacher_old(){
         return $this->zs_teacher();
     }
+
     public function zs_teacher_new(){
-        $this->switch_tongji_database();
+        $this->check_and_switch_tongji_domain();
+        // $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],1 );
 
         $all_total = $system_total=$self_total=$no_call_total=0;
