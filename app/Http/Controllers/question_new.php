@@ -12,8 +12,8 @@ class question_new extends Controller
         $subject   = $this->get_in_int_val('id_subject',1);
         $open_flag   = $this->get_in_int_val('id_open_flag',1);
         $where_arr = [
-            ["subject=%d" , $subject,-1 ],
-            ["open_flag=%d" , $open_flag,-1 ],
+            ["qu.subject=%d" , $subject,-1 ],
+            ["qu.open_flag=%d" , $open_flag,-1 ],
         ];
         $page_num        = $this->get_in_page_num();
         $ret_list = $this->t_question->question_list($where_arr,$page_num);
@@ -346,14 +346,14 @@ class question_new extends Controller
         ];
         $ret = $this->t_answer->answer_list($where_arr);
         $next_step = 10;
-        $i = 1;
+        $i = 0;
         $type = 1;
         if($ret){
             foreach( $ret as &$item ){
                 $item['difficult_str'] = E\Equestion_difficult_new::get_desc($item['difficult']);
                 if( $type == $item['answer_type']){
-                    $item['step_str'] = E\Eanswer_type::get_desc($type).$i;
                     $i++;
+                    $item['step_str'] = E\Eanswer_type::get_desc($type).$i;
                 }else{
                     $type = $item['answer_type'];
                     $i = 1;
@@ -370,7 +370,7 @@ class question_new extends Controller
             }
             $next_step = (int)end($ret)['step'] + 10;
         }
-
+        //dd($ret);
         //获取题目信息
         $question_info = $this->t_question->get_question_info($question_id);
         //所有知识点

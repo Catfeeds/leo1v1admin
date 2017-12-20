@@ -1260,9 +1260,7 @@ class common_new extends Controller
                         "parent_name" =>$parent_name
                     ]);
                    
-                    // 更新家长课程信息
-                    $this->reset_parent_course_info($userid,$orderNo);
-
+                   
                     $this->t_manager_info->send_wx_todo_msg(
                         "jack",
                         "百度分期付款通知",
@@ -1287,6 +1285,9 @@ class common_new extends Controller
                         "百度分期付款通知",
                         "学生:".$user_info["nick"]." 百度分期付款成功,支付方式:百度有钱花,订单号:".$orderNo,
                         "");
+
+                    // 更新家长课程信息
+                    $this->reset_parent_course_info($userid,$orderNo);
 
 
                     //生成还款信息

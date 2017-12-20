@@ -8294,6 +8294,7 @@ class tongji_ss extends Controller
 
     //@desn:新版渠道统计
     public function channel_statistics(){
+        $this->check_and_switch_tongji_domain();
         $origin            = trim($this->get_in_str_val("origin",""));
         $origin_ex         = $this->get_in_str_val('origin_ex', "");
         $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");

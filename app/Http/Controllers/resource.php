@@ -146,7 +146,7 @@ class resource extends Controller
             @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error_num'] += $item['error_num'];//收藏次数
             @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use_num'] += $item['use_num'];//使用次数
             @$list[$item['subject']][$item['adminid']][$item['resource_type']]['visit'] += $visit;//浏览量
-            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error'] += $visit;//收藏量
+            @$list[$item['subject']][$item['adminid']][$item['resource_type']]['error'] += $error;//收藏量
             @$list[$item['subject']][$item['adminid']][$item['resource_type']]['use'] += $use;//使用量
         }
         $final_list = [];
@@ -178,9 +178,9 @@ class resource extends Controller
                         'visit'             => $v['visit'],
                         'use'               => $v['use'],
                         'error'             => $v['error'],
-                        'visit_rate'        => round( $v['visit']/$v['file_num'], 2),
-                        'error_rate'        => round( $v['error']/$v['file_num'], 2),
-                        'use_rate'          => round( $v['use']/$v['file_num'], 2),
+                        'visit_rate'        => round( $v['visit']*100/$v['file_num'], 2) . '%',
+                        'error_rate'        => round( $v['error']*100/$v['file_num'], 2) . '%',
+                        'use_rate'          => round( $v['use']*100/$v['file_num'], 2) . '%',
                         'score'             => $v['use_num']*(0.2)+$v['visit_num']*(0.2)+$v['error_num']*(0.6),
                     ];
                     $flag++;

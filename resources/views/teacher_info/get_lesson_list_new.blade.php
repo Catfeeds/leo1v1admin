@@ -21,6 +21,9 @@
  .bg_train_lesson{
      background-color:#ccc;
  }
+ .btn-width{
+     width:80px;
+ }
 </style>
 <section class="content li-section">
 
@@ -269,9 +272,9 @@
     </div>
 </div>
 <div class="opt-select-file" style="position:absolute;display:none;z-index: 1051;">
-    <button class="btn btn-default opt-local">本地</button><br/>
-    <button class="btn btn-default opt-leo-res">资料库</button><br/>
-    <button class="btn btn-default opt-my-res">我的收藏</button>
+    <button class="btn btn-width btn-default opt-local">本地</button><br/>
+    <button class="btn btn-width btn-default opt-leo-res">资料库</button><br/>
+    <button class="btn btn-width btn-default opt-my-res">我的收藏</button>
 </div>
 
 

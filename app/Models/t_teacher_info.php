@@ -4845,20 +4845,30 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             'si.is_test_user = 0',
             'li.lesson_status =2'
         ];
+        $where_li_arr = [
+            'li.confirm_flag in (0,1,3)',
+            ['li.lesson_del_flag = %u',0],
+            'li.lesson_status =2'
+        ];
+        $where_si_arr = [
+            'si.is_test_user = 0',
+        ];
+        $where_arr = [];
         $this->where_arr_add_time_range($where_arr, 'tf.simul_test_lesson_pass_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
             'select tf.teacherid,tf.subject,tf.grade,li.userid,li.lesson_type,'.
             'li.lesson_count/100 as lesson_count,li.courseid '.
             'from %s tf '.
-            'left join %s li on tf.teacherid = li.teacherid '.
-            'left join %s si on li.userid = si.userid '.
+            'left join %s li on tf.teacherid = li.teacherid and %s '.
+            'left join %s si on li.userid = si.userid and %s '.
             'where %s',
             t_teacher_flow::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
+            $where_li_arr,
             t_student_info::DB_TABLE_NAME,
+            $where_si_arr,
             $where_arr
         );
-
         return $this->main_get_list($sql,function($item){
             return $item['teacherid'];
         });
