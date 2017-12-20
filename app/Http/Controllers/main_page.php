@@ -1732,9 +1732,7 @@ class main_page extends Controller
         return $this->zs_teacher();
     }
     public function zs_teacher_new(){
-        // dd("暂停!");
         $this->switch_tongji_database();
-
         list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],1 );
 
         $all_total = $system_total=$self_total=$no_call_total=0;
@@ -1752,7 +1750,7 @@ class main_page extends Controller
             $ret_info[] =["uid"=>513,"account"=>"徐月","name"=>"徐月","admin_work_status"=>0];
         }
 
-        $zs_entry_list=$zs_video_list =$zs_one_list= $ret_info;
+        $zs_entry_list=$zs_video_list = $zs_one_list= $ret_info;
 
         $list  = $this->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time);
         $list1  = $this->t_teacher_lecture_appointment_info->tongji_no_call_count_by_accept_adminid();
@@ -1784,10 +1782,7 @@ class main_page extends Controller
             $item["video_per"] = !empty( $item["video_account_real"] )?round( $item["video_account_pass"]/$item["video_account_real"]*100,2):0;
             $item["one_per"] = !empty( $item["one_account_real"] )?round( $item["one_account_pass"]/$item["one_account_real"]*100,2):0;
             $item["all_per"] = !empty( $item["one_account_real"]+$item["video_account_real"] )?round( ($item["one_account_pass"]+$item["video_account_pass"])/($item["one_account_real"]+$item["video_account_real"])*100,2):0;
-
-
         }
-
 
         \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
         $data =[];

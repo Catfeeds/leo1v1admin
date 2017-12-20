@@ -1,8 +1,5 @@
 /// <reference path="../typings/tsd.d.ts" />
 $(function () {
-
-
-
     $(".opt-update-news2").on("click", function () {
         var phone = $(this).get_opt_data("phone");
         do_ajax("/seller_student/get_user_info", {

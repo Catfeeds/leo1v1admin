@@ -57,13 +57,15 @@ class t_agent_income_log extends \App\Models\Zgen\z_t_agent_income_log
             //判断是否生成该邀请人的非全额佣金奖励
             $issued_money = $this->get_issued_money($agent_id,$child_agent_id,$agent_income_type);
             $money -=$issued_money;
-            $this->row_insert([
-                'agent_income_type' => $agent_income_type,
-                'money' => $money,
-                'agent_id' => $agent_id,
-                'child_agent_id' => $child_agent_id,
-                'create_time' => time(NULL)
-            ]);
+            if($money > 0){
+                $this->row_insert([
+                    'agent_income_type' => $agent_income_type,
+                    'money' => $money,
+                    'agent_id' => $agent_id,
+                    'child_agent_id' => $child_agent_id,
+                    'create_time' => time(NULL)
+                ]);
+            }
         }
     }
     //@desn:获取佣金非全额记录

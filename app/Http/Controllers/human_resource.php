@@ -901,7 +901,7 @@ class human_resource extends Controller
             $item["train_through_new_str"] = $item['train_through_new']==0?"否":"是";
 
             $item['phone_spare']=\App\Helper\Utils::get_teacher_contact_way($item);
-            $item["phone_ex"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone_spare']);
+            \App\Helper\Utils::hide_item_phone($item,"phone_spare");
             if(!empty($item["freeze_adminid"])){
                 $item["freeze_adminid_str"] = $this->t_manager_info->get_account($item["freeze_adminid"]);
             }else{
@@ -986,6 +986,12 @@ class human_resource extends Controller
                 $item["fine_dimension"]="维度D候选";
             }else{
                 $item["fine_dimension"]="其他";
+            }
+
+            // 全职兼职 2017-12-19
+            $item['full_flag'] = false;
+            if ($item['teacher_money_type'] == 7 || ($item['teacher_type'] == 3 && $item['teacher_money_type'] == 0)) {
+                $item['full_flag'] = true;
             }
         }
 

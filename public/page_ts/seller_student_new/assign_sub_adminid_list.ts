@@ -877,7 +877,10 @@ $(function(){
         });
     });
 
-
+    $(".show_phone").on("click",function(){
+        var phone = $(this).data("phone");
+        BootstrapDialog.alert(phone);
+    });
     if(g_account=="wenbin"){
         download_show();
     }

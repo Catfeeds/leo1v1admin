@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+//__CMD: 100x0003
+//__DESC: 发送验证码 http://api.account.leo1v1.com/account_common/send_verification_code
+//__TAGS: for app 
+
+
+message in  {
+  string phone =1;//手机
+  int32 role =2;//角色
+  string time_code =3;//md5("leo".$time.$phone.$role."1v1")
+  string reg_ip =4;//ip
+
+}
+
+message out {
+  
+}

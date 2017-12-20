@@ -962,7 +962,7 @@ class tongji2 extends Controller
         //课时目标系数
         $lesson_target     = $this->t_ass_group_target->get_rate_target($cur_start);
         if(empty($lesson_target)){
-            $lesson_target= 14.0; 
+            $lesson_target= 14.0;
         }
         foreach($ass_list as $k=>&$val){
             /*$val["userid_list_first"] = isset($userid_list_first[$k])?$userid_list_first[$k]:[];
@@ -1275,9 +1275,9 @@ class tongji2 extends Controller
 
 
 
- 
+
                 }
-               
+
 
 
 
@@ -1511,13 +1511,13 @@ class tongji2 extends Controller
 
 
             //课时消耗目标数量
-            $last_year_start = strtotime("-1 years",$month_start); 
-            $last_year_end = strtotime("+1 months",$last_year_start); 
+            $last_year_start = strtotime("-1 years",$month_start);
+            $last_year_end = strtotime("+1 months",$last_year_start);
 
             $month_start_grade_info = $this->t_cr_week_month_info->get_data_by_type($month_start,$type);
             $month_start_grade_str = @$month_start_grade_info["grade_stu_list"];
             $grade_arr = json_decode($month_start_grade_str,true); //月初各年级在读人数
-        
+
             $lesson_consume    = $this->t_lesson_info->get_total_consume_by_grade( $last_year_start,$last_year_end);
             $lesson_consume_target = 0;
             foreach($lesson_consume as $kk=>$vv){
@@ -1926,6 +1926,23 @@ class tongji2 extends Controller
     }
 
     public function market_extension(){
-        // $ret_info = $this->
+        $type = $this->get_in_int_val('type',-1);
+        list($start_time, $end_time) = $this->get_in_date_range(0,0,0,[],3 );
+        $ret_info = $this->t_activity_usually->getActivityList($type,$start_time,$end_time);
+
+        foreach($ret_info as &$item){
+            $item['add_time_str'] = \App\Helper\Utils::unixtime2date($item['add_time']);
+            $item['gift_type_str'] = E\Emarket_gift_type::get_desc($item['gift_type']);
+            if($item['activity_status'] == 0){
+                $item['activity_status_str'] = "<font class='blue'>未设置</font>";
+            }elseif($item['activity_status'] == 1){
+                $item['activity_status_str'] = "<font class='green'>进行中</font>";
+            }elseif($item['activity_status'] == 2){
+                $item['activity_status_str'] = "<font class='red'>已失效</font>";
+            }
+        }
+
+        return $this->pageView(__METHOD__,$ret_info);
+
     }
 }

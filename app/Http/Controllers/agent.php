@@ -457,6 +457,15 @@ class agent extends Controller
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $adminid=$this->get_account_id();
         $month= date("Ym",$start_time);
+        $adminid_list = $this->t_group_name_month->get_group_admin_list($adminid,strtotime(date('Y-m-1',$start_time)));
+        // dd($adminid_list);
+        if(!$adminid_list){
+            dd('a');
+        }else{
+            dd('b');
+        }
+        // $adminid_list = $this->t_admin_group_name->get_group_admin_list($adminid=177);
+        dd($adminid_list);
         $master_kpi=\App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
         dd($master_kpi);
         // $now=time(NULL);

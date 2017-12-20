@@ -2058,7 +2058,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr = [
             ["p.parentid=%u",$parentid,0],
         ];
-        $sql = $this->gen_sql_new("SELECT s.userid, s.face AS stu_face, s.lesson_count_left"
+        $sql = $this->gen_sql_new("SELECT s.nick, s.userid, s.face AS stu_face, s.lesson_count_left"
                                   .",SUM( if(l.lesson_type in (0,1,3),1,0) ) AS normal_nums "
                                   ." FROM %s s"
                                   ." LEFT JOIN %s l ON l.userid=s.userid"

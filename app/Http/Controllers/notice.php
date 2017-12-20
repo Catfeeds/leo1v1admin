@@ -74,9 +74,9 @@ class notice extends Controller
 
         if ($is_success==0) {
             if ( \App\Helper\Utils::check_env_is_release()  || $test_flag) {
-                $ret=\App\Helper\Common::send_sms_with_taobao($phone,
-                                                              "SMS_".$type,
-                                                              $data);
+                $ret=\App\Helper\Common::send_sms_with_taobao(
+                    $phone,"SMS_".$type,$data
+                );
 
                 $receive_content= json_encode($ret );
                 if ( property_exists($ret,"result") && $ret->result->err_code==="0") {
@@ -118,7 +118,6 @@ class notice extends Controller
         ]);
         return $is_success;
     }
-    
 
     public function get_in_user_ip()  {
         return  $this->get_in_str_val("user_ip");
@@ -160,6 +159,7 @@ class notice extends Controller
         if (!is_array ($args) ) {
             return $this->output_err("xx");
         }
+        \App\Helper\Utils::logger("111111");
         $this->sms_common_regiter($phone,$user_ip,$type, $args);
 
         return $this->output_succ();
@@ -217,6 +217,8 @@ class notice extends Controller
         }
 
 
+        \App\Helper\Utils::logger("111111");
+
         $is_success=0;
         if ($user_ip) {
             //每个ip 最多 10个
@@ -226,6 +228,7 @@ class notice extends Controller
         }else{
             return;
         }
+        \App\Helper\Utils::logger("111112");
 
         if($phone){
             //每个手机 最多 3个
@@ -236,6 +239,8 @@ class notice extends Controller
         }else{
             return;
         }
+        \App\Helper\Utils::logger("111113");
+
         $receive_content="";
 
         //$test_flag=true;

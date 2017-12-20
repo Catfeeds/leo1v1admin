@@ -188,11 +188,11 @@
                         <div
                             {!! \App\Helper\Utils::gen_jquery_data($var) !!}
                         >
-                            @if($var['trial_train_status']==-1 || in_array($acc,["adrian","夏宏东","amyshen","jack","zoe"]) || $var["trial_train_status"]==2)
+                            @if($var['trial_train_status']==-1 || in_array($acc,["adrian","夏宏东","amyshen","jack","zoe","林文彬","孙瞿"]) || $var["trial_train_status"]==2)
                                 <a class="opt-set-server" title="服务器" >切换</a>
                                 <!-- <a class="fa-edit opt-edit" title="审核"></a> -->
                                 <a class="opt-edit-new" title="审核">审核</a>
-                                @if($acc=="jack" || $acc=="jim" || $acc=="林文彬")
+                                @if($acc=="jack" || $acc=="jim" || $acc=="林文彬" || $acc=="孙瞿")
                                     <a class="opt-test" >测试</a>
                                     <a class="opt-edit-pass" title="审核">审核-new</a>
                                     <a class="opt-edit-no-pass" title="判定为不通过">不通过 </a>

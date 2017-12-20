@@ -3988,6 +3988,9 @@ class user_deal extends Controller
         $adminid=$this->get_in_adminid();
         $month= date("Ym",$start_time);
 
+        $group_kpi['group_kpi'] = '';
+        $group_kpi['group_kpi_desc'] = '';
+
         switch ( $month ) {
         case "201702" :
         case "201703" :
@@ -4011,6 +4014,7 @@ class user_deal extends Controller
                 "201710", $adminid, $start_time, $end_time );
             break;
         default:
+            $group_kpi = \App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_cur_info(
                 $adminid, $start_time, $end_time ) ;
             break;
@@ -4138,6 +4142,8 @@ class user_deal extends Controller
                 break;
             }
         }
+        $arr['group_kpi'] = isset($group_kpi['group_kpi'])?$group_kpi['group_kpi']:'';
+        $arr['group_kpi_desc'] = isset($group_kpi['group_kpi_desc'])?$group_kpi['group_kpi_desc']:'';
 
         return $this->output_succ($arr);
     }

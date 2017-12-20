@@ -66,6 +66,8 @@ $(function(){
     Enum_map.append_option_list("question_difficult_new",$("#question_difficult"),true,[1,2,3,4,5]);
     Enum_map.append_option_list("subject", $("#id_subject"),false,[1,2,3,4,5,6,7,8,9,10,11]);
     Enum_map.append_option_list("boolean", $("#id_open_flag"),true);
+    Enum_map.append_option_list("question_resource_type", $("#id_question_resource_type"),true);
+
     $("#id_subject").val(g_args.subject);
     $('#id_open_flag').val(1);
     if(g_args.editType == 2){
@@ -76,7 +78,9 @@ $(function(){
         $("#id_score").val(editData.score);
         $("#id_mathjax_content_0").val(editData.title);
         $("#id_mathjax_content_1").val(editData.detail);
-
+        $('#question_type').val(editData.question_type);
+        $('#id_question_resource_name').val(editData.question_resource_name);
+        $('#id_question_resource_type').val(editData.question_resource_type);
 
         Cquestion_editor.preview_update(null,$("#id_mathjax_content_0"),$("#MathPreview_0"),'MathPreview_0');
         Cquestion_editor.preview_update(null,$("#id_mathjax_content_1"),$("#MathPreview_1"),'MathPreview_1');
@@ -161,6 +165,12 @@ $(function(){
 
     })
 
+    //编辑答案
+    $('#eidt_answer').click(function(){
+        var question_id = $('#question_id').val();
+        window.open('/question_new/answer_edit?question_id='+question_id);
+    });
+
     //保存题目
     $("#save_know").click(function(){
 
@@ -174,7 +184,7 @@ $(function(){
             })
                 knowledge_new = knowledge_new.substring(0, knowledge_new.length-1);
         }
-        console.log(knowledge_new);
+        //console.log(knowledge_new);
 
         var data = {
             'editType':g_args.editType,
@@ -185,6 +195,9 @@ $(function(){
             'detail':$('#id_mathjax_content_1').val(),
             'open_flag':$('#id_open_flag').val(),
             'subject':$('#id_subject').val(),
+            'question_type':$('#question_type').val(),
+            'question_resource_name':$('#id_question_resource_name').val(),
+            'question_resource_type':$('#id_question_resource_type').val(),
             'knowledge_old':knowledge_old,
             'knowledge_new':knowledge_new
         };
@@ -196,8 +209,13 @@ $(function(){
             data:data,
             success : function(res){
                 BootstrapDialog.alert(res.msg);
-                if( res.status = 200 ){
+                if( res.status == 200 ){
                     //window.close();
+                    var subject = $('#id_subject').val();
+                    var question_id = res.question_id;
+                    window.location = '/question_new/question_edit?editType=2&question_id='+question_id+'&subject='+subject;
+                }else{
+                    window.location.reload();
                 }
             },
             error:function(){

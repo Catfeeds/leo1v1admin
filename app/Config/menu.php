@@ -207,6 +207,7 @@ class menu{
                 ["power_id"=>5, "name"=>"老师工资", "list"=>[
                     ["power_id"=>1, "name"=>"老师课时-总体",   "url"=>"/user_manage_new/tea_lesson_count_total_list"],
                     ['power_id'=>30, "name"=>"老师银行卡信息", "url" => "/teacher_money/show_teacher_bank_info_human"],
+                    ['power_id'=>31, "name"=>"全转兼审核", "url"=>"/teacher_trans/full_to_part_trans_info"],
                     ["power_id"=>2, "name"=>"老师工资",   "url"=>"/user_manage_new/tea_lesson_count_detail_list"],
                     ["power_id"=>3, "name"=>"老师课时工资配置信息",   "url"=>"/user_manage_new/get_teacher_money_list"],
                     ["power_id"=>4, "name"=>"学生课程年级异常",   "url"=>"/user_manage_new/lesson_student_grade_list"],
@@ -391,9 +392,9 @@ class menu{
                 ["power_id"=>9, "name"=>"约课 课程包管理",   "url"=>"/appoint/index2"],
                 ["power_id"=>18, "name"=>"h5 活动页 ",   "url"=>"/admin_manage/web_page_info"],
 
-                // ["power_id"=>19, "name"=>"配置功能", "list"=>[
-                //     ["power_id"=>34, "name"=>"推广活动",   "url"=>"/user_manage/complaint_department_deal_teacher_qc"],
-                // ]],
+                ["power_id"=>19, "name"=>"配置功能", "list"=>[
+                    ["power_id"=>34, "name"=>"推广活动",   "url"=>"/tongji2/market_extension"],
+                ]],
 
             ]],
 

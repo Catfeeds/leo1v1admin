@@ -214,15 +214,16 @@ class test_code extends Controller
 
     public function get_user_data(){
         $cookie = "acw_tc=AQAAAMD/1xZN7QwAPeBRZWlqFabRep+r; JSESSIONID=EE5ED08F7F71DB7B0135D364E94564E7; logined=y";
-        $get_url = $this->base_url."/vipRepay/getRepayList.html";
+        $get_url  = $this->base_url."/vipRepay/getRepayList.html";
         $get_data = [
-            "page"=>1,
-            "rows"=>10,
+            "page" => 1,
+            "rows" => 10,
         ];
         $ret = $this->send_post_data($get_url,$get_data,false,$cookie);
         \App\Helper\Utils::debug_to_html( $ret );
         dd($ret);
     }
+
 
     /**
      * @param string url 访问的地址
@@ -254,6 +255,8 @@ class test_code extends Controller
         return $result;
     }
 
+
+
     public function get_order_data(){
         $start_time = strtotime("2017-1-1");
         $end_time   = strtotime("2017-12-1");
@@ -277,6 +280,17 @@ class test_code extends Controller
         }
     }
 
+    public function test_sms(){
+        $code  = $this->get_in_str_val("code","5593");
+        $index = $this->get_in_str_val("index","1");
+        $phone = $this->get_in_str_val("phone","18790256265");
+        $template_code = "SMS_10671030";
+        $data = [
+            "code"  => $code,
+            "index" => $index,
+        ];
+        \App\Helper\Common::send_sms_with_taobao($phone, $template_code, $data);
+    }
 
 
 }

@@ -75,5 +75,19 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
         return $this->main_get_list($sql);
     }
 
+    // 全转兼 更新时间
+    public function get_id_for_time($teacherid, $start_time, $end_time) {
+        $where_arr = [
+            ['teacherid=%u', $teacherid, 0],
+            ['add_time>=%u', $start_time, 0],
+            ['add_time<%u', $end_time, 0],
+        ];
+        $sql = $this->gen_sql_new("select id from %s where %s ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
 
 }

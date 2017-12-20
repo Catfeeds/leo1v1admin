@@ -107,6 +107,8 @@
                     <span class="input-group-addon">老师类型</span>
                     <select class="opt-change form-control" id="id_teacher_type">
                         <option value="0">无要求</option>
+                        <option value="1">非全职老师</option>
+                        <option value="3">全职老师</option>
                     </select>
                 </div>
             </div>

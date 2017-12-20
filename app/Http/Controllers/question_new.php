@@ -25,7 +25,7 @@ class question_new extends Controller
                 $item['knowledge_detail'] = json_encode($knowledge_detail);
             }
         }
-        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712121556"]);
+        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712191556"]);
     }
 
     public function question_edit(){
@@ -36,6 +36,9 @@ class question_new extends Controller
         $ret = [
             'describe' => '新增题目',
         ];
+
+        //取出当前科目对应的题型
+        $question_type = $this->t_question_type->question_type_list($subject,1);
 
         //编辑题目
         $editData = [];
@@ -73,11 +76,13 @@ class question_new extends Controller
         //dd($know_arr);
 
         $knowledge = json_encode($knowledge);
-        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712161417",
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712181447",
                                                   "ret"=>$ret,
                                                   'editData'=>$editData,
                                                   'knowledge'=>$knowledge,
-                                                  'know_arr'=>$know_arr
+                                                  'know_arr'=>$know_arr,
+                                                  'question_id' =>$question_id,
+                                                  'question_type' => $question_type
 
         ]);
  
@@ -93,7 +98,9 @@ class question_new extends Controller
         $data['detail']   = $this->get_in_str_val('detail','');
         $data['open_flag']   = $this->get_in_str_val('open_flag',1);
         $data['difficult']   = $this->get_in_str_val('difficult',1);
-        $data['question_type']   = $this->get_in_str_val('question_type',1);
+        $data['question_type']   = $this->get_in_int_val('question_type',1);
+        $data['question_resource_name']   = $this->get_in_str_val('question_resource_name','');
+        $data['question_resource_type']   = $this->get_in_int_val('question_resource_type',1);
 
         $knowledge_old   = $this->get_in_str_val('knowledge_old','');
         $knowledge_new   = $this->get_in_str_val('knowledge_new','');
@@ -107,6 +114,7 @@ class question_new extends Controller
                 $question_id = $this->t_question->get_last_insertid();
                 $this->question_or_answer_know_add($question_id,$knowledge_old,$knowledge_new,1);
                 $result['status'] = 200;
+                $result['question_id'] = $question_id;
                 $result['msg'] = "添加成功";
             }else{
                 $result['status'] = 500;
@@ -119,7 +127,7 @@ class question_new extends Controller
             $this->question_or_answer_know_add($question_id,$knowledge_old,$knowledge_new,1);
             $ret = $this->t_question->field_update_list($question_id,$data);
             if($ret){
-                $result['status'] = 200;
+                $result['status'] = 201;
                 $result['msg'] = "更新成功";
             }else{
                 $result['status'] = 500;
@@ -543,11 +551,24 @@ class question_new extends Controller
         } 
     }
 
+    public function textbook_list(){
+        $subject   = $this->get_in_int_val('id_subject',1);
+        $open_flag   = $this->get_in_int_val('id_open_flag',1);
+        $textbook = $this->t_textbook->textbook_list($subject,$open_flag);
+        if($textbook){
+            foreach($textbook as &$item){
+                $item['subject_str'] = E\Esubject::get_desc($item['subject']); ;
+            }
+        }
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712181048",'textbook'=> $textbook]);
+    }
+
     public function textbook_add(){
         $editType   = $this->get_in_int_val('editType',1); //1:add 2:update
         $textbook_id   = $this->get_in_int_val('textbook_id');
         $data['name']  = $this->get_in_str_val('name');
         $data['subject']  = $this->get_in_int_val('subject');
+        $data['open_flag']  = $this->get_in_int_val('open_flag',1);
 
         if( $editType == 1 ){
             $is_exit = $this->t_textbook->is_exit($data['name'],$data['subject']);
@@ -588,5 +609,62 @@ class question_new extends Controller
         return $this->output_succ(); 
     }
 
+    public function question_type_list(){
+        $subject   = $this->get_in_int_val('id_subject',1);
+        $open_flag   = $this->get_in_int_val('id_open_flag',1);
+        $question_type = $this->t_question_type->question_type_list($subject,$open_flag);
+        if($question_type){
+            foreach($question_type as &$item){
+                $item['subject_str'] = E\Esubject::get_desc($item['subject']); ;
+            }
+        }
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712181048",'question_type'=> $question_type]);
+    }
+
+    public function question_type_add(){
+        $editType   = $this->get_in_int_val('editType',1); //1:add 2:update
+        $id   = $this->get_in_int_val('id');
+        $data['name']  = $this->get_in_str_val('name');
+        $data['subject']  = $this->get_in_int_val('subject');
+        $data['open_flag']  = $this->get_in_int_val('open_flag',1);
+
+        if( $editType == 1 ){
+            $is_exit = $this->t_question_type->is_exit($data['name'],$data['subject']);
+            if($is_exit){
+                $result['status'] = 500;
+                $result['msg'] = "该题型已经存在，请不要重复添加";
+                return $this->output_succ($result); 
+            }
+            $ret = $this->t_question_type->row_insert($data);
+            if($ret){        
+                $result['status'] = 200;
+                $result['msg'] = "添加成功";
+            }else{
+                $result['status'] = 500;
+                $result['msg'] = "添加失败";
+            }
+            return $this->output_succ($result); 
+        }
+
+        if( $editType == 2 ){
+            $ret = $this->t_question_type->field_update_list($id,$data);
+            if($ret){
+                $result['status'] = 200;
+                $result['msg'] = "更新成功";
+            }else{
+                $result['status'] = 500;
+                $result['msg'] = "更新失败";
+            }
+            return $this->output_succ($result); 
+
+        }
+
+    }
+
+    public function question_type_dele(){
+        $question_type_id = $this->get_in_int_val('question_type_id');
+        $this->t_question_type->del_by_id($question_type_id);
+        return $this->output_succ(); 
+    }
 
 }

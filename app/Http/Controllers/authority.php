@@ -121,10 +121,10 @@ class authority extends Controller
             }
             E\Eboolean::set_item_value_simple_str($item,"day_new_user_flag");
         }
-        $acc= $this->get_account();
 
+        $acc = $this->get_account();
         return $this->pageView(__METHOD__,$ret_info,[
-            "acc"  =>$acc
+            "acc" => $acc
         ]);
     }
 

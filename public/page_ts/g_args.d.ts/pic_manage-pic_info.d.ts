@@ -73,6 +73,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["type title", "type", "th_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -80,4 +81,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_usage_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["usage_type title", "usage_type", "th_usage_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

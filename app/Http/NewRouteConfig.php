@@ -54,6 +54,7 @@ class NewRouteConfig {
         "resource"=>true,
         'test_bacon'=>true,
         'question_new'=>true,
+        'question_new_api'=>true,
     ];
 
     static public function check_is_new_ctl($ctl) {
@@ -446,8 +447,12 @@ class NewRouteConfig {
         "/question_new/answer_dele"              => true,
         "/question_new/textbook_knowledge_list"        => true,
         "/question_new/textbook_knowledge_add"        => true,
+        "/question_new/textbook_list"        => true,
         "/question_new/textbook_add"        => true,
         "/question_new/textbook_dele"        => true,
+        "/question_new/question_type_list"        => true,
+        "/question_new/question_type_add"        => true,
+        "/question_new/question_type_dele"        => true,
 
         "/seller_student_new/tmk_seller_student_new"  => true,
         "/seller_student2/show_order_activity_info"  => true,
@@ -670,7 +675,13 @@ class NewRouteConfig {
         "/channel_manage/update_channel_name"            => true,
         "/channel_manage/set_teacher_ref_type"           => true,
         "/channel_manage/zs_origin_list_new"             => true,
-
+        
+        "/question_new_api/get_grade_and_subject"        =>true,
+        "/question_new_api/get_textbook_subject"         =>true,
+        "/question_new_api/get_textbook_knowledge"       =>true,
+        "/question_new_api/get_question_type_and_resource"  =>true,
+        "/question_new_api/get_questions"                =>true,
+        "/question_new_api/get_answers"                  =>true,
     ];
 
     static $dev_url_map = [

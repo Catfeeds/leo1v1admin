@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
     <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
@@ -57,7 +56,6 @@
             <thead>
                 <tr>
                     <td style="width:60px">时间</td>
-                    <td style="display:none;">手机号</td>
                     <td >基本信息</td>
                     <td >来源</td>
                     <td style="width:70px">回访状态</td>
@@ -79,9 +77,10 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{$var["add_time"]}} </td>
-                        <td>{{$var["phone"]}} </td>
                         <td>
-                            {{$var["phone"]}} <br/>
+                            <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
+                                {{@$var["phone_hide"]}}
+                            </a>
                             {{$var["phone_location"]}} <br/>
                             {{$var["nick"]}}
                         </td>
@@ -126,8 +125,6 @@
                             {{$var["sub_assign_admin_2_nick"]}} / {{$var["admin_revisiter_nick"]}}
                             <br/>
                         </td>
-
-
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
@@ -148,5 +145,4 @@
         </table>
         @include("layouts.page")
     </section>
-
 @endsection

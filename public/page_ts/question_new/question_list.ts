@@ -49,10 +49,6 @@ $(function(){
         window.open('/question_new/answer_edit?question_id='+question_id);
     })
     
-    //编辑对应的知识点
-    $('.add_question_know').on('click',function(){
-
-    });
 
     //删除题目
     $('.opt-del').on('click',function(){
@@ -130,6 +126,10 @@ $(function(){
 
     })
 
+    $('#edit_question_type').click(function(){
+        var subject = $('#id_subject').val();
+        window.open('/question_new/question_type_list?subject='+subject);
+    })
 })
 
 function remove_knowledge(id){
