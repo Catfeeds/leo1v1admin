@@ -643,7 +643,9 @@ class wx_yxyx_common extends Controller
     public function top_invite_list(){
         $agent_info = $this->t_yxyx_new_list->get_agent_info();
         $ret_info = [];
-        foreach($agent_info as $key => $val){
+        foreach($agent_info as $key => &$val){
+            $val['new_phone'] = substr($val['new_phone'],0,3).'****'.substr($val['new_phone'],-4);
+            $val['from_phone'] = substr($val['from_phone'],0,3).'****'.substr($val['from_phone'],-4);
             $new_division = empty($val['new_nick']) ? '':'/';
             $from_division = empty($val['from_nick']) ? '':'/';
             $ret_info[$key]['new_nick'] = $val['new_phone'].$new_division.$val['new_nick'];
