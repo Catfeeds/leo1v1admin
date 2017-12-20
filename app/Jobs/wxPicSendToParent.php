@@ -59,8 +59,9 @@ class wxPicSendToParent extends Job implements ShouldQueue
 
         }
 
-        // $parent_wx_openid = $t_parent_info->get_parent_opend_list();
+        $parent_wx_openid1 = $t_parent_info->getParentNum();
 
+        \App\Helper\Utils::logger("job_james: ".count($parent_wx_openid1));
 
         // 向家长发送推送
         $parent_wx_openid = [
@@ -68,25 +69,13 @@ class wxPicSendToParent extends Job implements ShouldQueue
                 "wx_openid"=>"orwGAs_IqKFcTuZcU1xwuEtV3Kek",
                 "parentid"=>"111",
             ],
-            // [
-            //     "wx_openid"=>"orwGAs9SVtEGH9vgTxAkfnSkxyXY",
-            //     "parentid"=>"111",
-            // ],
-            // [
-            //     "wx_openid"=>"orwGAs0ayobuEtO1YZZhW3Yed2To",
-            //     "parentid"=>"111",
-            // ],
-            // [
-            //     "wx_openid"=>"orwGAswflHkLg-4PgNuJwsQZZKFE",
-            //     "parentid"=>"111",
-            // ],
         ];
 
         $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
         $data_parent = [
             'first' => '“呼朋唤友”活动来袭',
             'keyword1' =>'呼朋唤友',
-            'keyword2' => "邀请好友一起上课，万元礼品等你来",
+            'keyword2' => "\n邀请好友一起上课，万元礼品等你来拿 \n参与方式： \n方法1：咨询您的助教老师，立即参与。\n方法2：回复“呼朋唤友”咨询我们，立即参与 ",
             'keyword3' => '12月12日至12月31日',
             'remark'   => ""
         ];
