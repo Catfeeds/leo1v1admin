@@ -454,6 +454,7 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $this->t_seller_new_count_get_detail->add($new_count_id=99,$get_desc='aa');
         $adminid=1210;
         if (!$this->t_seller_new_count->get_free_new_count_id($adminid,"获取新例子"))  {
             return $this->output_err("今天的配额,已经用完了");
