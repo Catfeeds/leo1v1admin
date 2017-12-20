@@ -17,17 +17,23 @@ interface RowData {
 	lesson_type	:any;
 	lesson_start	:any;
 	lesson_end	:any;
+	stu_cw_origin	:any;
+	tea_cw_origin	:any;
 	lesson_intro	:any;
 	grade	:any;
 	subject	:any;
 	confirm_flag	:any;
 	assistantid	:any;
 	ass_phone	:any;
+	issue_origin	:any;
+	issue_file_id	:any;
 	lesson_num	:any;
 	userid	:any;
 	lesson_name	:any;
 	lesson_status	:any;
 	ass_comment_audit	:any;
+	stu_cw_file_id	:any;
+	tea_cw_file_id	:any;
 	homework_status	:any;
 	stu_status	:any;
 	tea_status	:any;
@@ -56,10 +62,6 @@ interface RowData {
 	grade_str	:any;
 	lesson_time	:any;
 	tea_comment_str	:any;
-	cc_id	:any;
-	ass_nick	:any;
-	stu_nick	:any;
-	tea_comment	:any;
 	pdf_status_str	:any;
 }
 

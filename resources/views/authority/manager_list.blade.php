@@ -161,7 +161,7 @@
                                     <a href="javascript:;" title="设置角色" class="fa fa-venus-double set-account-role"></a>
                                     <a href="javascript:;" title="绑定微信账号" class="fa fa-link opt_set_openid"></a>
                                     <a href="javascript:;" title="更改员工状态" class="fa fa-trash-o  opt-del"></a>
-                                    @if(in_array($acc,['何洁','jim','孙瞿']))
+                                    @if(in_array($acc,['何洁','jim','孙瞿',"adrian"]))
                                         <a href="javascript:;" title="更改权限组" class="fa fa-hand-o-up opt-power" style="display:none"></a>
                                     @endif
                                     <a href="javascript:;" title="用此账号登录" class="opt-login">登录</a>
