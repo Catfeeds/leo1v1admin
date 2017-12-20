@@ -454,23 +454,15 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $tong_count = 0;
-        $tao_count = 0;
-        $count = $this->t_seller_student_new->get_meituan_count_by_adminid();
-        foreach($count as $item){
-            if($item['adminid'] == 831){
-                $tong_count += 1;
-            }else{
-                $tao_count += 1;
-            }
+        $adminid=1210;
+        if(!$this->t_seller_student_new->check_admin_add($adminid,$get_count,$max_day_count )){
+            dd($adminid,$get_count,$max_day_count);
+            return $this->output_err("目前你持有的例子数[$get_count]>=最高上限[$max_day_count]");
         }
-        if($tong_count>$tao_count){
-            $adminid = 1200;
-            $account = '陶建华';
-        }else{
-            $adminid = 416;
-            $account = '童宇周';
-        }
+        dd('aaa');
+        $count_info=$this->t_seller_new_count->get_now_count_info($adminid=99);
+        $count_info["left_count"] = $count_info["count"]-  $count_info["get_count"];
+        dd($count_info);
         dd($tong_count,$tao_count,$adminid,$account);
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $adminid=$this->get_account_id();
