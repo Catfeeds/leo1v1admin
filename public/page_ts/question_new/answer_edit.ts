@@ -17,7 +17,7 @@ var setting = {
         }
     },
     callback: {
-        
+        onClick: zTreeOnClick,
     }
 }
 
@@ -60,11 +60,21 @@ function save_know(){
     close_know();
 }
 
+function zTreeOnClick(event, treeId, treeNode){
+    var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+    treeObj.expandNode(treeNode, true, true, true);
+}
+
 $(function(){
     $.fn.zTree.init($("#treeDemo"), setting, zNodes);
     $("#show_all_knowledge").click(function(){
         var treeObj = $.fn.zTree.getZTreeObj('treeDemo');
         treeObj.expandAll(true); 
+    });
+
+    $("#hide_all_knowledge").click(function(){
+        var treeObj = $.fn.zTree.getZTreeObj('treeDemo');
+        treeObj.expandAll(false); 
     });
 
     var id_question_type = null;
