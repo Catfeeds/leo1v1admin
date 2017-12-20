@@ -34,6 +34,21 @@ class t_teacher_full_part_trans_info extends \App\Models\Zgen\z_t_teacher_full_p
 
         return $this->main_get_value($sql);
     }
+
+    public function get_accept_list($start_time, $end_time) {
+        $where_arr = [
+            ["accept_time>=%u", $start_time, 0],
+            ["accept_time<%u", $end_time, 0]
+        ];
+
+        $sql = $this->gen_sql_new("select teacherid,accept_time from %s where %s ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql, function ($item) {
+            return $item['teacherid'];
+        });
+    }
 }
 
 

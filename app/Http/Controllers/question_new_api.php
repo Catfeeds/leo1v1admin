@@ -74,7 +74,7 @@ class question_new_api extends Controller
         $difficult = E\Equestion_difficult_new::$desc_map;
         $question_resource_type = E\Equestion_resource_type::$desc_map;
 
-        return $this->output_succ(["question_type" => $question_type,"difficult" => $difficult,"question_resource_type" => $resource]);
+        return $this->output_succ(["question_type" => $question_type,"difficult" => $difficult,"question_resource_type" => $question_resource_type]);
     }
 
     //根据知识点、题型、来源、难度 获取对应的题目
