@@ -13,6 +13,8 @@ class test extends Controller
     var $check_login_flag =false;
 
     public function tt() {
+        $this->check_and_switch_tongji_domain();
+        dd( $_SERVER );
         phpinfo();
     }
 
