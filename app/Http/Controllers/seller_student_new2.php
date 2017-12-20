@@ -284,12 +284,16 @@ class seller_student_new2 extends Controller
             E\Ehabit_remodel::set_item_value_str($item);
             E\Egender::set_item_value_str($item);
 
-            if($item['accept_status'] == 0){
-                $item['accept_status_str'] = '<font color="blue">未设置</font>';
-            }elseif($item['accept_status'] == 1){
-                $item['accept_status_str'] = '<font color="green">已接受</font>';
-            }elseif($item['accept_status'] == 2){
+            if($item['lesson_del_flag'] == 1){
                 $item['accept_status_str'] = '<font color="red">已拒绝</font>';
+            }else{
+                if($item['accept_status'] == 0){
+                    $item['accept_status_str'] = '<font color="blue">未设置</font>';
+                }elseif($item['accept_status'] == 1){
+                    $item['accept_status_str'] = '<font color="green">已接受</font>';
+                }elseif($item['accept_status'] == 2){
+                    $item['accept_status_str'] = '<font color="red">已拒绝</font>';
+                }
             }
 
 

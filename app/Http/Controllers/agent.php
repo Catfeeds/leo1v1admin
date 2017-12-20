@@ -62,8 +62,10 @@ class agent extends Controller
         $agent_total_num = $ret_info['total_num'];
         return $this->pageView(__METHOD__,$ret_info,['agent_total_num'=>$agent_total_num]);
     }
+
     //@desn:学员列表
     public function student_list() {
+        $this->check_and_switch_tongji_domain();
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $userid           = $this->get_in_userid(-1);
         $phone            = $this->get_in_phone();
@@ -454,6 +456,26 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $tong_count = 0;
+        $tao_count = 0;
+        $count = $this->t_seller_student_new->get_meituan_count_by_adminid();
+        foreach($count as $item){
+            if($item['adminid'] == 416){
+                $tong_count += 1;
+            }else{
+                $tao_count += 1;
+            }
+        }
+        if($tong_count>$tao_count){
+            $adminid = 416;
+            $account = '童宇周';
+        }elseif($tao_count>$tong_count){
+            $adminid = 1200;
+            $account = '陶建华';
+        }
+        dd($tong_count,$tao_count,$count);
+        dd($ret);
+        $this->t_seller_new_count_get_detail->add($new_count_id=99,$get_desc='aa');
         $adminid=1210;
         if (!$this->t_seller_new_count->get_free_new_count_id($adminid,"获取新例子"))  {
             return $this->output_err("今天的配额,已经用完了");

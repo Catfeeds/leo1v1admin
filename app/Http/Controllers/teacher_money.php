@@ -822,6 +822,8 @@ class teacher_money extends Controller
     }
 
     public function get_teacher_type() {
+        $this->add_reference_price(50000, 50001);
+        exit;
         $teacherid = $this->get_in_int_val("teacherid");
         $type = $this->t_teacher_info->get_teacher_type($teacherid);
         if ($type == 1) {
@@ -849,5 +851,10 @@ class teacher_money extends Controller
             $item["bank_phone"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['bank_phone']);
         }
         return $this->pageView(__METHOD__,$ret_info);
+    }
+
+
+    public function update_bole_reward($teacherid, $re_teacherid) {
+        $this->add_reference_price($teacherid, $re_teacherid);
     }
 }

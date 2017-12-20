@@ -1383,6 +1383,7 @@ class test_james extends Controller
 
     /**
      * @ leo1v1.whytouch.com token:bbcffc83539bd9069b755e1d359bc70a
+     ﻿﻿* @ ok:ge8f6101611aa12c5949fcd272c5b5e1 [cQ161]
      * @ 测试 文件上传
      * @ 已为您生成SDK测试账号，token：bbcffc83539bd9069b755e1d359bc70a，其权限与微演示账户michael@leoedu.com相同。
      * @ 使用方法请参看 http://ts.whytouch.com/help.php#dev
