@@ -46,8 +46,8 @@ class update_bole_reward extends Command
 
         $references = $task->t_teacher_lecture_appointment_info->get_references();
         $teacherids = $task->t_teacher_info->get_teacherids();
-        echo json_encode($references);
-        echo json_encode($teacherids);
+        //echo json_encode($references);
+        // echo json_encode($teacherids);
         foreach($references as $key => $item) {
             if (isset($teacherids[$key])) {
                 $a_info = $task->t_teacher_lecture_appointment_info->get_money_list($start_time, $end_time, $key);
