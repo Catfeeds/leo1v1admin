@@ -62,7 +62,7 @@
         </div>
 
 
-        <table     class="common-table"  >
+        <table     class="common-table"  style="overflow-x:scroll">
             <thead>
                 <tr>
                     <td>id </td>
