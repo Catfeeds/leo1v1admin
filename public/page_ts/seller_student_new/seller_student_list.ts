@@ -2369,7 +2369,7 @@ function init_edit() {
                 });
             });
 
-            html_node.find("#id_stu_rev_info") .on("click",function(){
+            html_node.find("#id_stu_rev_info_new") .on("click",function(){
                 $(opt_obj).parent().find(".opt-return-back-list").click();
             });
             var id_stu_nick          = html_node.find("#id_stu_nick");

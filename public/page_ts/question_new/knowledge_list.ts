@@ -285,13 +285,14 @@ $(function(){
     //进入知识点显示
     $('#knowledge_pic').on('click',function(){
         var subject = $('#id_subject').val();
-        window.open('/question_new/knowledge_get?subject='+subject);
+        window.open('/question_new/knowledge_get?id_subject='+subject);
     });
 
     //教材知识点
     $('#text_book_knowledge').on('click',function(){
         var subject = $('#id_subject').val();
-        window.open('/question_new/textbook_knowledge_list?subject='+subject);
+        window.open('/question_new/textbook_list?id_subject='+subject);
+        //window.open('/question_new/textbook_knowledge_list?subject='+subject);
     });
 
 

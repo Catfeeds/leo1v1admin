@@ -844,11 +844,11 @@ class test_james extends Controller
 
         // $Media_id = Media::upload($filename, $type);
 
-        $parent_list = $this->t_parent_info->get_parent_opend_list();
+        // $parent_list = $this->t_parent_info->get_parent_opend_list();
 
-        dd($parent_list);
+        // dd($parent_list);
 
-        // dispatch( new \App\Jobs\wxPicSendToParent(''));
+        dispatch( new \App\Jobs\wxPicSendToParent(''));
 
 
 
@@ -1394,7 +1394,7 @@ class test_james extends Controller
      **/
     public function translate_pdf(){
         $path = $this->get_in_str_val('path');
-        $cmd  = "curl -F doc=@'$path' 'http://ts.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=James&fn=新文件.pptx'";
+        $cmd  = "curl -F doc=@'$path' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=James&fn=新文件.pdf'";
         $uuid = exec($cmd);
         dd($uuid);
     }

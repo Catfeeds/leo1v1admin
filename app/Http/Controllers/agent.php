@@ -456,6 +456,35 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $tong_count = 0;
+        $tao_count = 0;
+        $count = $this->t_seller_student_new->get_meituan_count_by_adminid();
+        foreach($count as $item){
+            if($item['adminid'] == 416){
+                $tong_count += 1;
+            }else{
+                $tao_count += 1;
+            }
+        }
+        if($tong_count>$tao_count){
+            $adminid = 416;
+            $account = '童宇周';
+        }elseif($tao_count>$tong_count){
+            $adminid = 1200;
+            $account = '陶建华';
+        }
+        dd($tong_count,$tao_count,$count);
+        dd($ret);
+        $this->t_seller_new_count_get_detail->add($new_count_id=99,$get_desc='aa');
+        $adminid=1210;
+        if (!$this->t_seller_new_count->get_free_new_count_id($adminid,"获取新例子"))  {
+            return $this->output_err("今天的配额,已经用完了");
+        }
+        dd('aaa');
+        $count_info=$this->t_seller_new_count->get_now_count_info($adminid=99);
+        $count_info["left_count"] = $count_info["count"]-  $count_info["get_count"];
+        dd($count_info);
+        dd($tong_count,$tao_count,$adminid,$account);
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $adminid=$this->get_account_id();
         $month= date("Ym",$start_time);
