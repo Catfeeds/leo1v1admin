@@ -389,7 +389,7 @@
                     var $tbody=me.$body.find("#id_body");
                     $tbody.html("");
                     $.each( ret_list, function(i,item){
-                        var $tr_item=$("<tr class=\"tr_mark\" data-id="+item.tea_res_id+" data-res_id="+item.resource_id+" data-link="+item.file_link+"/>");
+                        var $tr_item=$("<tr class=\"tr_mark\" data-id="+item.tea_res_id+" data-file_id="+item.file_id+" data-res_id="+item.resource_id+" data-link="+item.file_link+"/>");
                         $tr_item.data( "row_data", JSON.stringify( item  ));
 
                         $.each( me.options.field_list,function (f_i,f_item){

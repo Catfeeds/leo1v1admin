@@ -88,7 +88,7 @@
                         <td>{{@$var["file_title"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
-                        <td>{{@$var["file_size"]}}M </td>
+                        <td>{{@$var["file_size"]}}</td>
                         <td>{{@$var["use_num"]}} </td>
                         <td>
                             @if($var['tea_res_id'] == 0)
