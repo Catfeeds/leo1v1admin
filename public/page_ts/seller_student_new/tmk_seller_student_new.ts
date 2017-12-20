@@ -92,11 +92,8 @@ $(function(){
         }
     });
 
-
-
     $(".opt-edit").on("click",function(){
         var opt_data=$(this).get_opt_data();
-
         /*
           if(opt_data.lessonid > 0 ){
           alert('已有排课, 你可以换时间,换老师!');
@@ -116,14 +113,14 @@ $(function(){
 
 
         $tmk_next_revisit_time.datetimepicker({
-        lang:'ch',
-        datepicker:true,
-        timepicker:true,
-        format:'Y-m-d H:i',
-        step:30,
-          onChangeDateTime :function(){
+            lang:'ch',
+            datepicker:true,
+            timepicker:true,
+            format:'Y-m-d H:i',
+            step:30,
+            onChangeDateTime :function(){
             }
-      });
+        });
 
         $nick.val(opt_data.nick);
         $grade.val(opt_data.grade);
@@ -146,22 +143,28 @@ $(function(){
         $.show_key_value_table("编辑", arr ,[
             {
 
-                label    : '确认',
-                cssClass : 'btn-warning',
-                action   : function(dialog) {
-                    $.do_ajax("/ss_deal/tmk_save_user_info_new",{
-                        'test_lesson_subject_id' : opt_data.test_lesson_subject_id,
-                        'userid'                 : opt_data.userid,
-                        'nick'                   : $nick.val(),
-                        'grade'                  : $grade.val(),
-                        'subject'                : $subject.val(),
-                        'tmk_desc'               : $tmk_desc.val(),
-                        'tmk_next_revisit_time'  : $tmk_next_revisit_time.val(),
-                        'tmk_student_status'     : $tmk_student_status.val(),
-                        'tmk_student_status_old' : opt_data.tmk_student_status
-                    });
-                }
-            }],function(){
-            });
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax("/ss_deal/tmk_save_user_info_new",{
+                    'test_lesson_subject_id' : opt_data.test_lesson_subject_id,
+                    'userid'                 : opt_data.userid,
+                    'nick'                   : $nick.val(),
+                    'grade'                  : $grade.val(),
+                    'subject'                : $subject.val(),
+                    'tmk_desc'               : $tmk_desc.val(),
+                    'tmk_next_revisit_time'  : $tmk_next_revisit_time.val(),
+                    'tmk_student_status'     : $tmk_student_status.val(),
+                    'tmk_student_status_old' : opt_data.tmk_student_status
+                });
+            }
+        }],function(){
+        });
     });
+
+    $(".show_phone").on("click",function(){
+        var phone = $(this).data("phone");
+        BootstrapDialog.alert(phone);
+    });
+
 });

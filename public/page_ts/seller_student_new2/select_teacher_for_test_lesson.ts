@@ -20,7 +20,7 @@ $(function(){
     Enum_map.append_option_list("identity",$("#id_identity"),true,[5,6,7,8]);
     Enum_map.append_option_list("gender",$("#id_gender"),true,[1,2]);
     Enum_map.append_option_list("tea_age",$("#id_tea_age"),true,[1,2,3,4]);
-    Enum_map.append_option_list("teacher_type",$("#id_teacher_type"),true,[1,3]);
+    // Enum_map.append_option_list("teacher_type",$("#id_teacher_type"),true,[1,3]);
     $("#id_identity").val(g_args.identity);
     $("#id_gender").val(g_args.gender);
     $("#id_tea_age").val(g_args.tea_age);
