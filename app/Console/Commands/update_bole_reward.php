@@ -52,10 +52,10 @@ class update_bole_reward extends Command
             if (isset($teacherids[$key])) {
                 $a_info = $task->t_teacher_lecture_appointment_info->get_money_list($start_time, $end_time, $key);
                 $m_info = $task->t_teacher_money_list->get_money_list($start_time, $end_time, $teacherids[$key]['teacherid']);
-                dd($m_info);
                 if (count($a_info) != count($m_info)) {
                     foreach($a_info as $val) {
-                        $tea->update_bole_reward($teacherids[$key]['teacherid'],$val['teacherid']);
+                        echo $teacherids[$key]['teacherid'].' --- '.$val['teacherid'];
+                            //$tea->update_bole_reward($teacherids[$key]['teacherid'],$val['teacherid']);
                     }
                 }
             }

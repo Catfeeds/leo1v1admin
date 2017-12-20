@@ -1333,7 +1333,6 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
-        echo $sql;
         return $this->main_get_list($sql, function($item) {
             return $item['teacherid'];
         });
