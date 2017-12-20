@@ -2,7 +2,7 @@ syntax = "proto3";
 
 //__CMD: 100x0003
 //__DESC: 发送验证码 http://api.account.leo1v1.com/account_common/send_verification_code
-//__TAGS: for send_verification_code 
+//__TAGS: for app 
 
 
 message in  {
