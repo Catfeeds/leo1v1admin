@@ -70,7 +70,11 @@ class question_new_api extends Controller
     public function get_question_type_and_resource(){
         $subject = $this->get_in_int_val('subject');
         $question_type = $this->t_question_type->question_type_list($subject,1);
-
+        if($question_type){
+            foreach( $question_type as &$item){
+                $item['subject_str'] = E\Esubject::get_desc($item['subject']);
+            }
+        }
         $difficult = E\Equestion_difficult_new::$desc_map;
         $question_resource_type = E\Equestion_resource_type::$desc_map;
 

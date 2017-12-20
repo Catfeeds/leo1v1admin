@@ -162,6 +162,7 @@ class test_james extends Controller
 
 
 
+
     //以下代码勿删
 
     public function get_file_url()
@@ -1420,6 +1421,15 @@ class test_james extends Controller
 
     }
 
+
+    public function get_teacher_note(){
+        $file_link = $this->get_in_str_val("link");
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+        $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $file_link );
+        dd($authUrl);
+        return $this->output_succ(["url" => $authUrl]);
+    }
 
 
 }
