@@ -36,7 +36,7 @@ $(function(){
     var m_html_count_list=[];
 
     $.each( g_data_ex_list.m_html_count_list,function(i, item){
-       m_html_count_list.push([item["log_time"]*1000, item["count"] ]);
+       m_html_count_list.push([item["log_time"]*1000+8*3600000, item["count"] ]);
     });
 
 
