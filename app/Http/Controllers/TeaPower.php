@@ -4415,10 +4415,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
 
             $identity = $recommended_info['identity'];
-            if (in_array($identity,[E\Eidentity::V_5,E\Eidentity::V_6,E\Eidentity::V_7])) {
+            if (in_array($identity,[E\Eidentity::V_5,E\Eidentity::V_6])) {
                 $type = 1; // 机构老师
             } else {
-                $type = 0; // 在样学生
+                $type = 0; // 在校学生 (高校生, 其他在职人士, 未设置)
             }
             $reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type) + 1;
 
@@ -4439,6 +4439,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $reference_price = 60;
             }elseif($teacherid == 149697){ //明日之星 50元/个
                 $reference_price = 50;
+            }elseif($teacherid == 176348 && $type = 1) { //田克平
+                $reference_price = 80;
             }
 
             $this->t_teacher_money_list->row_insert([

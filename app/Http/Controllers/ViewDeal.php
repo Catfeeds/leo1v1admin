@@ -528,21 +528,21 @@ trait  ViewDeal {
         return view( $view,$data,$mergeData )->render();
     }
 
-    function view($method ,$data= []){
+    function view($method,$data=[]){
         if (preg_match("/([a-zA-Z0-9_]+)::([a-zA-Z0-9_]+)/",$method, $matches)  )  {
-            $ctr=$matches[1];
-            $action=strtolower($matches[2]);
+            $ctr    = $matches[1];
+            $action = strtolower($matches[2]);
             return static::view_with_header_info("$ctr.$action", $data ,[
-                "_ctr"=> $ctr ,
-                "_publish_version"=> \App\Config\publish_version::$version ,
-                "_act"=> $action,
-                "_origin_act" => @$_REQUEST["_act"],
+                "_ctr"             => $ctr ,
+                "_publish_version" => \App\Config\publish_version::$version ,
+                "_act"             => $action,
+                "_origin_act"      => @$_REQUEST["_act"],
             ]);
         }
     }
 
     function error_view($errors) {
-        $data=["errors"=>$errors];
+        $data = ["errors" => $errors];
         return static::view_with_header_info ("common.errors", $data ,[
             "_ctr"=> "common",
             "_publish_version"=> \App\Config\publish_version::$version ,

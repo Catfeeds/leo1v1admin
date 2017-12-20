@@ -4842,11 +4842,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             'li.confirm_flag in (0,1,3)',
             ['li.lesson_del_flag = %u',0],
-            'si.is_test_user = 0'
+            'si.is_test_user = 0',
+            'li.lesson_status =2'
         ];
         $this->where_arr_add_time_range($where_arr, 'tf.simul_test_lesson_pass_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
-            'select tf.teacherid,tf.subject,tf.grade,li.userid,li.lesson_type,li.lesson_count/100 as lesson_count,li.courseid '.
+            'select tf.teacherid,tf.subject,tf.grade,li.userid,li.lesson_type,'.
+            'li.lesson_count/100 as lesson_count,li.courseid '.
             'from %s tf '.
             'left join %s li on tf.teacherid = li.teacherid '.
             'left join %s si on li.userid = si.userid '.

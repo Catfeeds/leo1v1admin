@@ -428,7 +428,7 @@
                         <td>{{@$var["teacher_type_str"]}} </td>
                         <td>
                             <a href="javascript:;" class="show_phone" data-phone="{{$var["phone_spare"]}}" >
-                                {{@$var["phone_ex"]}}
+                                {{@$var["phone_spare_hide"]}}
                             </a>
                         </td>
                         <td>{{$var["email"]}}</td>
@@ -565,7 +565,7 @@
                                 <a class=" opt-teacher-cancel-lesson-list div_show" >老师取消课程记录</a>
                                 <a class=" opt-jianli div_show" >简历</a>
 
-                                @if(in_array($acc, ['jim', 'ricky']) && $var['full_flag'])
+                                @if(in_array($acc, ['jim', 'ricky', '宫卫彬']) && $var['full_flag'])
                                     <a class=" opt-full-to-part">全职转兼职</a>
                                 @endif
                             </div>

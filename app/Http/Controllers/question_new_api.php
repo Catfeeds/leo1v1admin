@@ -70,11 +70,15 @@ class question_new_api extends Controller
     public function get_question_type_and_resource(){
         $subject = $this->get_in_int_val('subject');
         $question_type = $this->t_question_type->question_type_list($subject,1);
-
+        if($question_type){
+            foreach( $question_type as &$item){
+                $item['subject_str'] = E\Esubject::get_desc($item['subject']);
+            }
+        }
         $difficult = E\Equestion_difficult_new::$desc_map;
         $question_resource_type = E\Equestion_resource_type::$desc_map;
 
-        return $this->output_succ(["question_type" => $question_type,"difficult" => $difficult,"question_resource_type" => $resource]);
+        return $this->output_succ(["question_type" => $question_type,"difficult" => $difficult,"question_resource_type" => $question_resource_type]);
     }
 
     //根据知识点、题型、来源、难度 获取对应的题目
@@ -111,6 +115,8 @@ class question_new_api extends Controller
         if($ret){
             foreach( $ret as &$item ){
                 $item['difficult_str'] = E\Equestion_difficult_new::get_desc($item['difficult']);
+                $item['answer_type_str'] = E\Eanswer_type::get_desc($item['answer_type']);
+
                 if( $type == $item['answer_type']){
                     $item['step_str'] = E\Eanswer_type::get_desc($type).$i;
                     $i++;
@@ -124,7 +130,7 @@ class question_new_api extends Controller
                 $item['know_str'] = '';
                 $know_arr = $this->t_question_knowledge->answer_know_get($item['answer_id']);
                 if($know_arr){
-                    $item['know_str'] = json_encode($know_arr);
+                    $item['know_str'] = $know_arr;
                 }
             }
         }

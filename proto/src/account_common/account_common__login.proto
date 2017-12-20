@@ -2,7 +2,7 @@ syntax = "proto3";
 
 //__CMD: 100x0006
 //__DESC: 登录  http://api.account.leo1v1.com/account_common/login
-//__TAGS: for login 
+//__TAGS: for app 
 
 
 message in  {

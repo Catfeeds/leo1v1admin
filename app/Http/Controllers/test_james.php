@@ -162,6 +162,7 @@ class test_james extends Controller
 
 
 
+
     //以下代码勿删
 
     public function get_file_url()
@@ -933,49 +934,8 @@ class test_james extends Controller
 
 
 
-    /**
-     * @ 测试 文件上传
-     * @ 已为您生成SDK测试账号，token：bbcffc83539bd9069b755e1d359bc70a，其权限与微演示账户michael@leoedu.com相同。
-     * @ 使用方法请参看 http://ts.whytouch.com/help.php#dev
-     * @ 测试期间请勿上传过量文件，以免影响系统正常运行，否则客服人员可能暂停或关闭本测试账户。
-     * @ michael@leoedu.com 密码 ： 021130
-     * @gf5090e8e98978bfbf0e3e074593ade[cq161]
-     * @ g9029ce6062262c6fd33a4bb38956ac8 //uuid [test.pdf]
-     * @ curl -F doc=@'/home/ybai/test.pdf' 'http://ts.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=James&f n=新文件.pptx'
-     **/
-    public function translate_pdf(){
-        $path = $this->get_in_str_val('path');
-        $cmd  = "curl -F doc=@'$path' 'http://ts.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=James&fn=新文件.pptx'";
-        $uuid = exec($cmd);
-        dd($uuid);
-    }
-
-    public function ce(){
-        $unbound_list = $this->t_teacher_info->get_unbound_teacher_list();
-
-        dd($unbound_list);
-
-        dd($lesson_start);
-        $a = "﻿﻿ok:gb6c18f0de819d61b4d33ab0d3e6cce8";
-    }
 
 
-    /**
-     * @ 叶老师 试听课
-     **/
-    public function update_lesson_list(){
-        $start_time = $this->get_in_int_val("s");
-        $end_time   = $this->get_in_int_val("e");
-        $type = $this->get_in_int_val('type',-1);
-        $lesson_list = $this->t_lesson_info_b3->get_unlesson($start_time, $end_time,$type);
-
-        foreach($lesson_list as $item){
-            $this->t_lesson_info_b3->field_update_list($item['lessonid'], [
-                "lesson_user_online_status"=>2
-            ]);
-        }
-        dd($lesson_list);
-    }
 
 
     public function get_lesson_list(){
@@ -1413,15 +1373,40 @@ class test_james extends Controller
     }
 
 
-    public function dsss(){
-        $pwd = mt_rand(0,1000000)."_bydelete";
+    public function get_parent_tmp(){
+        $num = $this->t_parent_info->getParentNum();
 
-        dd($pwd);
-        $emailList = $this->t_manager_info->getEmailLeft();
+        dd($num);
 
-        dd($emailList);
     }
 
+
+    /**
+     * @ leo1v1.whytouch.com token:bbcffc83539bd9069b755e1d359bc70a
+     * @ 测试 文件上传
+     * @ 已为您生成SDK测试账号，token：bbcffc83539bd9069b755e1d359bc70a，其权限与微演示账户michael@leoedu.com相同。
+     * @ 使用方法请参看 http://ts.whytouch.com/help.php#dev
+     * @ 测试期间请勿上传过量文件，以免影响系统正常运行，否则客服人员可能暂停或关闭本测试账户。
+     * @ michael@leoedu.com 密码 ： 021130
+     * @gf5090e8e98978bfbf0e3e074593ade[cq161]
+     * @ g9029ce6062262c6fd33a4bb38956ac8 //uuid [test.pdf]
+     * @ curl -F doc=@'/home/ybai/test.pdf' 'http://ts.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=James&f n=新文件.pptx'
+     **/
+    public function translate_pdf(){
+        $path = $this->get_in_str_val('path');
+        $cmd  = "curl -F doc=@'$path' 'http://ts.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=James&fn=新文件.pptx'";
+        $uuid = exec($cmd);
+        dd($uuid);
+    }
+
+    public function get_teacher_note(){
+        $file_link = $this->get_in_str_val("link");
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+        $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $file_link );
+        dd($authUrl);
+        return $this->output_succ(["url" => $authUrl]);
+    }
 
 
 }

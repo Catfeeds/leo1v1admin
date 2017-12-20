@@ -2,9 +2,7 @@
 /// <reference path="../g_args.d.ts/authority-manager_list.d.ts" />
 $(function(){
 
-
     //判断是否是产品/研发
-
     $.do_ajax("/user_deal/check_account_role",{
         "account" : g_account,
     },function(ret){

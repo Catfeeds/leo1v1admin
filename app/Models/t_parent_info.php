@@ -275,4 +275,23 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
         return $this->main_get_list($sql);
     }
 
+    public function getParentNum(){
+        $where_arr = [
+            "o.price>0",
+            "contract_status in (1,2)",
+            "p.wx_openid is not null",
+            "p.wx_openid != ''"
+        ];
+        $sql = $this->gen_sql_new("  select p.wx_openid,p.parentid from %s p "
+                                  ." left join %s pc on pc.parentid=p.parentid"
+                                  ." left join %s o on o.userid=pc.userid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_parent_child::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

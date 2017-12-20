@@ -33,6 +33,17 @@ class Controller extends ControllerEx
         $this->setUpTraits();
     }
 
+    // 用于 慢查询 的 域名, 免得 admin 返回504
+    public function check_and_switch_tongji_domain() {
+        if ( \App\Helper\Utils::check_env_is_release() ){
+            $server_name= $_SERVER["SERVER_NAME"];
+            if ($server_name != "admin-tongji.leo1v1.com"){
+                header('Location: http://admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
+                exit;
+            }
+        }
+    }
+
     protected function switch_tongji_database( $flag = true) {
         $this->switch_tongji_database_flag = $flag;
     }
