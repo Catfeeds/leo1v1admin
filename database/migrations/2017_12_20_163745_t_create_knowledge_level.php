@@ -43,7 +43,7 @@ class TCreateKnowledgeLevel extends Migration
         // });
 
         Schema::table('db_question_new.t_answer', function (Blueprint $table){
-            $table->decimal('score',6,1)->change();
+            //$table->decimal('score',6,1)->change();
         });
 
     }
