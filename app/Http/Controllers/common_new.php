@@ -915,6 +915,8 @@ class common_new extends Controller
 
             $homework_finish_info = $this->t_lesson_info_b2->get_stu_homework_finish($userid, $start_time);
             if ($homework_finish_info['count']) {
+                \App\Helper\Utils::logger("james_22898: ".$homework_finish_info['count']);
+
                 $nofinish_num = str_pad($homework_finish_info['nofinish'],2,'0',STR_PAD_LEFT);
                 $list['D'] = "未完成作业{$nofinish_num}次";
                 $rate = intval (round( ( 1-($homework_finish_info['nofinish']/$homework_finish_info['count']) )*100 ) );
