@@ -43,7 +43,7 @@ $(function(){
     // });
 
     $('.key2').each(function(i){
-        $(this).({color: "#3c8dbc", cursor:"pointer"});
+        $(this).css({color: "#3c8dbc", cursor:"pointer"});
         var key2 = $(this).data('key2');
 
         $(this).on('click',function(){
