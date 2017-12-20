@@ -52,6 +52,7 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa-edit opt-set edit_textbook" title="编辑教材"> </a>
+                                <a class="fa-align-justify look_textbook" title="查看教材知识点"> </a>
                                 @if(@$var["open_flag"] == 1)
                                     <a class="fa fa-lock lock_question_know" title="禁用"> </a>
                                 @else
