@@ -195,6 +195,11 @@ $(function(){
         do_ajax('/teacher_info/tea_look_resource',{'tea_res_id':id,'tea_flag':0},function(ret){
             if(ret.ret == 0){
                 $('.look-pdf').show();
+                $('.look-pdf').mousedown(function(e){
+                    if(e.which == 3){
+                        return false;
+                    }
+                });
                 PDFObject.embed(ret.url, ".look-pdf");
             } else {
                 BootstrapDialog.alert(ret.info);
