@@ -26,10 +26,13 @@ class t_question extends \App\Models\Zgen\z_t_question
         ];
 
         $where_str = $this->where_str_gen($where_arr);
-        $sql = $this->gen_sql("select qu.* from %s qu left join %s know on
-                              qu.question_id = know.question_id where  %s order by qu.question_id desc ",
+        $sql = $this->gen_sql("select qu.*,qt.name as question_type_str from %s qu
+                              left join %s know on qu.question_id = know.question_id
+                              left join %s qt on qu.question_type = qt.id
+                              where  %s order by qu.question_id desc ",
                               self::DB_TABLE_NAME,
                               t_question_knowledge::DB_TABLE_NAME,
+                              t_question_type::DB_TABLE_NAME,
                               [$where_str]
         );
         return  $this->main_get_list_by_page($sql,$page_num);
