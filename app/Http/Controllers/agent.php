@@ -454,6 +454,15 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $adminid=1210;
+        if (!$this->t_seller_new_count->get_free_new_count_id($adminid,"获取新例子"))  {
+            return $this->output_err("今天的配额,已经用完了");
+        }
+        dd('aaa');
+        $count_info=$this->t_seller_new_count->get_now_count_info($adminid=99);
+        $count_info["left_count"] = $count_info["count"]-  $count_info["get_count"];
+        dd($count_info);
+        dd($tong_count,$tao_count,$adminid,$account);
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $adminid=$this->get_account_id();
         $month= date("Ym",$start_time);
