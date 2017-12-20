@@ -151,7 +151,6 @@ class test_abner extends cmd_base
         ];
 
         $data = $this->task->t_teacher_info->get_teacher_code($start_time,$end_time);
-        var_dump($data);exit;
 
         foreach($data as $key => $item){
 
