@@ -42,10 +42,9 @@ class TCreateKnowledgeLevel extends Migration
         //     t_field($table->integer('open_flag')->default(1),"是否开启");
         // });
 
-        // Schema::table('db_question_new.t_question', function (Blueprint $table){
-        //     t_field($table->string('question_resource_name')->default(null),"题目来源名字");
-        //     t_field($table->integer('question_resource_type')->default(0),"题目来源类型");
-        // });
+        Schema::table('db_question_new.t_answer', function (Blueprint $table){
+            $table->decimal('score',6,1)->change();
+        });
 
     }
 
