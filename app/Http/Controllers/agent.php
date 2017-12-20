@@ -455,10 +455,8 @@ class agent extends Controller
 
     public function test_new(){
         $adminid=1210;
-        if(!$this->t_seller_student_new->check_admin_add($adminid,$get_count,$max_day_count )){
-            dd($adminid,$get_count,$max_day_count);
-            return $this->output_err("目前你持有的例子数[$get_count]>=最高上限[$max_day_count]");
-        }
+        $this->t_seller_student_new->check_admin_add($adminid,$get_count,$max_day_count);
+        dd($adminid,$get_count,$max_day_count);
         dd('aaa');
         $count_info=$this->t_seller_new_count->get_now_count_info($adminid=99);
         $count_info["left_count"] = $count_info["count"]-  $count_info["get_count"];
