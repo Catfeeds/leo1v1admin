@@ -915,6 +915,8 @@ class common_new extends Controller
 
             $homework_finish_info = $this->t_lesson_info_b2->get_stu_homework_finish($userid, $start_time);
             if ($homework_finish_info['count']) {
+                \App\Helper\Utils::logger("james_22898: ".$homework_finish_info['count']);
+
                 $nofinish_num = str_pad($homework_finish_info['nofinish'],2,'0',STR_PAD_LEFT);
                 $list['D'] = "未完成作业{$nofinish_num}次";
                 $rate = intval (round( ( 1-($homework_finish_info['nofinish']/$homework_finish_info['count']) )*100 ) );
@@ -972,7 +974,8 @@ class common_new extends Controller
             $list['reduce_gas']    = $lesson_total? number_format($lesson_total * 200/3, 2):'000';
             $list['add_greenland'] = $lesson_total? number_format($lesson_total * 0.63/3, 2):'00';
             $list['add_sky']       = $lesson_total? number_format($lesson_total * 0.92/3, 2):'00';
-            $list['lesson_count_left'] = str_pad($list['lesson_count_left']/100,2,'0',STR_PAD_LEFT);
+            $list['lesson_count_left'] = round($list['lesson_count_left']/100,0);
+            // $list['lesson_count_left'] = str_pad($list['lesson_count_left']/100,2,'0',STR_PAD_LEFT);
             if ($list['lesson_count_left'] > 1) {
                 $list['last_title'] = '“理优1对1永远和你在一起”';
             } else if ( $list['first_normal_lesson_time'] !== '无' ) {
