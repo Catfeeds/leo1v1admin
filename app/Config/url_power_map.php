@@ -150,6 +150,7 @@ class url_power_map {
 			'/human_resource/teacher_meeting_join_info'	=>1042102,
 			'/user_manage_new/tea_lesson_count_total_list'	=>1040501,
 			'/teacher_money/show_teacher_bank_info_human'	=>1040530,
+			'/teacher_trans/full_to_part_trans_info'	=>1040531,
 			'/user_manage_new/tea_lesson_count_detail_list'	=>1040502,
 			'/user_manage_new/get_teacher_money_list'	=>1040503,
 			'/user_manage_new/lesson_student_grade_list'	=>1040504,

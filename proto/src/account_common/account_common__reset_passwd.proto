@@ -2,7 +2,7 @@ syntax = "proto3";
 
 //__CMD: 100x0005
 //__DESC: 重置密码 http://api.account.leo1v1.com/account_common/reset_passwd
-//__TAGS: for reset_passwd
+//__TAGS: for app
 
 
 message in  {
