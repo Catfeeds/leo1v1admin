@@ -349,13 +349,15 @@ class table_manage extends Controller
         }
     }
     public function query()  {
-        $db_name=$this->get_in_str_val("db_name","db_weiyi");
-        $sql = trim($this->get_in_str_val("sql"));
-        $page_info= $this->get_in_page_info();
-        $this->t_admin_group->switch_tongji_database();
+        $this->check_and_switch_tongji_domain();
+        // $this->t_admin_group->switch_tongji_database();
+
+        $db_name   = $this->get_in_str_val("db_name","db_weiyi");
+        $sql       = trim($this->get_in_str_val("sql"));
+        $page_info = $this->get_in_page_info();
         $this->t_admin_group->db_query("use $db_name");
-        $ret_info=null;
-        $len=strlen($sql);
+        $ret_info = null;
+        $len      = strlen($sql);
         if ( $sql && $sql[$len-1]==";" ) {
             $sql=trim($sql);
             $sql=substr($sql,0,$len-1);
@@ -398,19 +400,20 @@ class table_manage extends Controller
         //$arr= @json_decode(file_get_contents( "http://tool.lu/sql/ajax.html?code=". urlencode($format_sql)  ),true);
         //$new_format_sql= @$arr["text"];
         */
-        $file_name="/tmp/sql.".rand().rand() ;
+        $file_name = "/tmp/sql.".rand().rand() ;
         file_put_contents($file_name, $format_sql );
-        $cmd= app_path("../tools/fsqlf" ). " $file_name";
+        $cmd = app_path("../tools/fsqlf" ). " $file_name";
         \App\Helper\Utils::logger("cmd:$cmd ");
 
-        $format_sql=\App\Helper\Utils::exec_cmd($cmd);
+        $format_sql = \App\Helper\Utils::exec_cmd($cmd);
         unlink($file_name);
 
         return $this->pageView(__METHOD__, $ret_info, [
-            "col_name_list"=>$col_name_list,
-            "format_sql"=>$format_sql
+            "col_name_list" => $col_name_list,
+            "format_sql"    => $format_sql
         ]);
     }
+
     public function table_list() {
         $config_arr=[
             "db_weiyi"       => "t_student_info",
@@ -418,12 +421,13 @@ class table_manage extends Controller
             "db_weiyi_admin" => "t_admin_users",
             "db_account"     => "t_user_info",
         ];
-        $db_name    = $this->get_in_str_val("db_name","db_weiyi");
+        $db_name = $this->get_in_str_val("db_name","db_weiyi");
 
         //得到table 注释
-        $table         = $this->get_table($db_name);
+        $table = $this->get_table($db_name);
 
-        $sql = $table->gen_sql(" select TABLE_NAME as table_name  ,TABLE_COMMENT as table_comment  from information_schema.TABLES "
+        $sql = $table->gen_sql("select TABLE_NAME as table_name,TABLE_COMMENT as table_comment "
+                               ." from information_schema.TABLES "
                                ." where TABLE_SCHEMA='%s' "
                                ." and TABLE_NAME <> 't_opt_table_log' "
                                ,$db_name
@@ -435,8 +439,7 @@ class table_manage extends Controller
                 $t_item["table_comment"]=$table_comment;
             }
         }
-       return $this->pageView(__METHOD__,  \App\Helper\Utils::list_to_page_info($table_list));
-
+        return $this->pageView(__METHOD__,  \App\Helper\Utils::list_to_page_info($table_list));
     }
 
     public function get_nick_sql(){
