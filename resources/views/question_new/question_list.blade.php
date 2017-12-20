@@ -58,6 +58,7 @@
                     <td >题目标题</td>
                     <td >科目类型</td>
                     <td >题目分值</td>
+                    <td >题型</td>
                     <td style="display:">涉及知识点</td>
                     <td >是否开启</td>
                     <td style="display:none">题目详情</td>
@@ -71,6 +72,7 @@
                         <td >{{$var["title"]}}</td>
                         <td >{{$var["subject_str"]}}</td>
                         <td >{{$var["score"]}}</td>
+                        <td >{{$var["question_type_str"]}}</td>
                         <td >
                             @if(@$var["knowledge_detail"])
                                 @foreach (json_decode($var['knowledge_detail'],true) as $item)

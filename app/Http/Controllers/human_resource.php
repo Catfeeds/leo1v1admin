@@ -3746,6 +3746,7 @@ class human_resource extends Controller
     }
 
     public function teacher_test_lesson_info(){
+        $this->check_and_switch_tongji_domain();
         $sum_field_list = [
             "all_lesson",
             "success_lesson",
