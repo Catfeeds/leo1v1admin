@@ -623,7 +623,9 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
             $field_name = 'oi.origin';
         $where_arr=[
             ["oi.origin like '%%%s%%' ",$origin,""],
-            'si.is_test_user = 0'
+            'si.is_test_user = 0',
+            ['oi.contract_type = %u',0],
+            "oi.contract_status >0 ",
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         $this->where_arr_add__2_setid_field($where_arr,"ssn.tmk_adminid",$tmk_adminid);
