@@ -1045,11 +1045,13 @@ class wx_teacher_api extends Controller
         // 数据待确认
         $ret_info['handout_flag'] = 0; //无讲义
 
+        // $ret_info['handout_flag'] = $this->t_resource->getResourceId($subject,$grade);
+
         return $this->output_succ(["data"=>$ret_info]);
     }
 
-    public function get_resource_list(){ // 讲义系统 boby
-
+    public function getResourceList(){ // 讲义系统 boby
+        
     }
 
     public function update_accept_status(){ //更新接受状态并发送微信推送
