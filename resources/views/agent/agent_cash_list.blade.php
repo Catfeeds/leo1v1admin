@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-    <section class="content ">
+    <section class="content " style="overflow-x:scroll;">
 
         <div>
             <div class="row  row-query-list" >
@@ -62,7 +62,7 @@
         </div>
 
 
-        <table     class="common-table"  style="overflow-x:scroll">
+        <table     class="common-table"  >
             <thead>
                 <tr>
                     <td>id </td>
