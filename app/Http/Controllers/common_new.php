@@ -1747,6 +1747,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $count=$this->get_in_int_val("count" );
         $log_time=$this->get_in_int_val("log_time" );
         $log_type =2017120201;
+        $this->t_tongji_date->del_log_time($log_type, $log_time);
         $this->t_tongji_date->add( $log_type,$log_time,0,$count);
         return $this->output_succ();
     }
