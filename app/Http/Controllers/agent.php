@@ -454,7 +454,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret = $this->t_paper_info->field_update_list($paperid=454508,[
+        $ret = $this->t_parent_info->field_update_list($paperid=454508,[
             'wx_openid'=>null,
         ]);
         dd($ret);
