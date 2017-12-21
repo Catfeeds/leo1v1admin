@@ -75,7 +75,7 @@ $(function(){
         });
 
         plot_data_list.push({
-            data: m_html_count_list ,
+            data: m_html_book_list ,
             lines: { show: true },
             points: { show: true },
             label: "预约请求量" ,
