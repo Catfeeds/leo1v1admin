@@ -40,6 +40,13 @@
                         <button class="btn btn-primary" id="id_add_teacher_money">添加</button>
                     </div>
                 </div>
+                @if (isset($info['msg']))
+                    <div class="col-xs-12 col-md-2">
+                        <div class="input-group">
+                            <span>{{$info['msg']}}</span>
+                        </div>
+                    </div>
+                @endif
                 @if (isset($info['total']))
                     <div class="col-xs-12 col-md-2">
                         <div class="input-group">
