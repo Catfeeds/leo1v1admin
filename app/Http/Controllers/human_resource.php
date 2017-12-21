@@ -4249,7 +4249,7 @@ class human_resource extends Controller
             E\Eteacher_money_type::set_item_value_str($item);
             E\Etextbook_type::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"train_through_new_time","_str");
-            \App\Helper\Utils::unixtime2date_for_item($item,"trial_lecture_pass_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item,"simul_test_lesson_pass_time","_str");
             if($item["train_through_new_time"] !=0){
                 $item["work_day"] = ceil((time()-$item["train_through_new_time"])/86400)."天";
             }else{
