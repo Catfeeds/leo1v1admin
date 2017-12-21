@@ -53,6 +53,7 @@ class update_bole_reward extends Command
                 if (count($a_info) != count($m_info)) {
                     foreach($a_info as $val) {
                         if(!isset($m_info[$val['teacherid']])) { // 处理丢失数据
+                            echo $teacherids[$key]['teacherid'].' '.$val['teacherid'].PHP_EOL;
                             // $tea->update_bole_reward($teacherids[$key]['teacherid'],$val['teacherid']);
                         }
                     }
