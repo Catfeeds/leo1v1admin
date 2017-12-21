@@ -88,5 +88,10 @@ $(function(){
                );
     });
 
+    $(".show_phone").on("click",function(){
+        var phone = $(this).data("phone");
+        BootstrapDialog.alert(phone);
+    });
+
     $('.opt-change').set_input_change_event(load_data);
 });
