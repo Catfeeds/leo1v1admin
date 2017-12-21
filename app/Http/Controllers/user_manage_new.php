@@ -3852,8 +3852,13 @@ class user_manage_new extends Controller
         $list = \App\Helper\Utils::list_to_page_info($list);
         $info = [];
         if ($type == E\Ereward_type::V_6 && $teacherid > 0) {
+            $start_time = 0;
+            $end_time = time();
             // 在校学生总数
-            $info['stu_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, 0);
+            //$info['stu_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, 0);
+            $phone = $this->t_teacher_info->field_get_list($teacherid, "phone");
+            $info['stu_sum'] = $this->get_total_for_teacherid($start_time, $end_time, $phone, $type);
+
             if ($teacherid == 269222) { // 处理赵志园二个账号
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459, 0);
                 $info['stu_sum'] += $num;
