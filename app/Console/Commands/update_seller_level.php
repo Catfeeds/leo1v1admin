@@ -134,6 +134,9 @@ class update_seller_level extends cmd_base
                             $next_level = $item['seller_level'];
                             $level_face = $item['level_face'];
                         }
+                        if($this_level== 700 && in_array($next_level,[500,600])){
+                            $next_level = 401;
+                        }
                     }
                     $update_flag = 1;
                 }
