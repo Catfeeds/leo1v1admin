@@ -122,7 +122,7 @@ $(function(){
             });
     }
 
-    var gen_upload_item = function(btn_id ,status, file_name_fix, get_url_fun, set_url_fun, bucket_info, noti_origin_file_func, back_flag,clear_file_id){
+    var gen_upload_item = function(btn_id ,status, file_name_fix, get_url_fun, set_url_fun, bucket_info, noti_origin_file_func, back_flag,clear_file_id,look_pdf){
         var id_item = $(
             "<div class=\"row\"> "+
                 "<div class=\" col-md-2\">" +
@@ -137,7 +137,9 @@ $(function(){
                 "</div>"
         );
         id_item.find(".show").on("click",function(){
-            $.custom_show_pdf(get_url_fun(),"/teacher_info/get_pdf_download_url");
+
+            look_pdf(btn_id);
+            // $.custom_show_pdf(get_url_fun(),"/teacher_info/get_pdf_download_url");
         });
 
         id_item.find(".del").on("click",function(){
@@ -236,7 +238,7 @@ $(function(){
                 "l_stu_"+opt_data.lessonid,
                 function(){return stu_cw_url; },
                 function(url) {stu_cw_url=url;}, ret ,function(file_name) {
-                },back_flag,clear_file_id
+                },back_flag,clear_file_id,look_pdf
             );
             var id_teacher_list      = [];
             var id_teacher_desc_list = [];
@@ -262,7 +264,7 @@ $(function(){
                             tea_cw_url_list[i][0] = url;
                         },ret,function(origin_file_name){
                             id_teacher_desc.find("input").val(origin_file_name);
-                        },back_flag,clear_file_id
+                        },back_flag,clear_file_id,look_pdf
                     );
 
                     if(tea_cw_url_list[i][3] != undefined){
@@ -284,7 +286,7 @@ $(function(){
                 },function(url) {
                     tea_cw_url=url;
                 },ret,function(origin_file_name) {
-                },back_flag,clear_file_id
+                },back_flag,clear_file_id,look_pdf
             );
             var id_show_teacher_list_btn = $("<button class=\"btn btn-primary\"> 显示更多</button>");
             id_show_teacher_list_btn.on("click",function(){
@@ -312,7 +314,7 @@ $(function(){
                 btn_issue_upload_id ,homework_status, "l_hw_" + opt_data.lessonid,
                 function(){return issue_url; },
                 function(url){issue_url=url;},ret,function(origin_file_name) {
-                },back_flag,clear_file_id
+                },back_flag,clear_file_id,look_pdf
             );
             var id_lesson_name        = $("<input/>");
             var id_point1             = $("<input/>");
@@ -492,19 +494,15 @@ $(function(){
 
         var clear_file_id = function(btn_id){
             if(btn_id == 'id_teacher_upload') {
-                console.log(1)
                 tea_cw_file_id = 0;
                 tea_cw_origin = 0;
             } else if(btn_id == 'id_student_upload'){
-                console.log(2)
                 stu_cw_file_id = 0;
                 stu_cw_origin = 0;
             } else if (btn_id == 'id_issue_upload'){
-                console.log(3)
                 issue_file_id = 0;
                 issue_origin = 0;
             } else {
-                console.log(4)
                 var n = parseInt( btn_id.slice(-1) );
                 tea_cw_url_list[n][0] = $('.warning').data('link');
                 tea_cw_url_list[n][2] = 0;
@@ -512,6 +510,60 @@ $(function(){
             }
         }
 
+        var get_pdf_info = function(res_id, tea_flag){
+
+            do_ajax('/teacher_info/tea_look_resource',{'tea_res_id':res_id,'tea_flag':tea_flag},function(ret){
+                if(ret.ret == 0){
+                    $('.look-pdf').show();
+                    $('.look-pdf').mousedown(function(e){
+                        if(e.which == 3){
+                            return false;
+                        }
+                    });
+                    PDFObject.embed(ret.url, ".look-pdf");
+                } else {
+                    BootstrapDialog.alert(ret.info);
+                }
+            });
+        };
+
+        var look_pdf = function(btn_id,bank_func){
+            if(btn_id == 'id_teacher_upload') {
+                if(tea_cw_origin > 0){
+                    get_pdf_info(tea_cw_file_id,tea_cw_origin);
+                } else {
+                    $.custom_show_pdf(tea_cw_url,"/teacher_info/get_pdf_download_url");
+                }
+
+            } else if(btn_id == 'id_student_upload'){
+
+                if(stu_cw_origin > 0){
+                    get_pdf_info(stu_cw_file_id,stu_cw_origin);
+                } else {
+                    $.custom_show_pdf(stu_cw_file,"/teacher_info/get_pdf_download_url");
+                }
+
+            } else if (btn_id == 'id_issue_upload'){
+
+                if(issue_origin > 0){
+                    get_pdf_info(issue_file_id,issue_origin);
+                } else {
+                    $.custom_show_pdf(issue_url,"/teacher_info/get_pdf_download_url");
+                }
+
+            } else {
+
+                var n = parseInt( btn_id.slice(-1) );
+                tea_cw_url_list[n][2] = 0;
+                tea_cw_url_list[n][3] = 0;
+                if(tea_cw_url_list[n][2] > 0){
+                    get_pdf_info(tea_cw_url_list[n][3],tea_cw_url_list[n][2]);
+                } else {
+                    $.custom_show_pdf(tea_cw_url_list[n][0],"/teacher_info/get_pdf_download_url");
+                }
+
+            }
+        }
 
         var add_upload_select = function(obj){
             var X = obj.offset().top;
@@ -1141,7 +1193,7 @@ $(function(){
 
     $.each($(".opt-download-test-paper"),function(i,item){
         var opt_data= $(this).get_opt_data();
-        if( opt_data["st_test_paper"] || opt_data.stu_test_paper ){
+        if( opt_data["stu_test_paper"] || opt_data.stu_test_paper ){
             $(this).show();
         }else{
             $(this).hide();
@@ -1226,5 +1278,9 @@ $(function(){
         });
 
     });
+    $('body').on('click', function(){
+        $('.look-pdf').hide().empty();
+    });
+
 
 });

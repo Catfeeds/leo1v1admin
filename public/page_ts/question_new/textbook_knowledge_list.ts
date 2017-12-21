@@ -24,7 +24,7 @@ var setting = {
         }
     },
     callback: {
-        //onClick: zTreeOnClick,
+        onClick:zExitOnClick,
         beforeDrag: beforeDrag,
     }
 }
@@ -48,6 +48,7 @@ var setting2 = {
         }
     },
     callback: {
+        onClick: zTreeOnClick,
         beforeDrag: beforeDrag,
     }
 }
@@ -106,6 +107,15 @@ function save_know(){
     
 }
 
+function zTreeOnClick(event, treeId, treeNode){
+    var treeObj = $.fn.zTree.getZTreeObj("all_knowledge");
+    treeObj.expandNode(treeNode, true, true, true);
+}
+
+function zExitOnClick(event, treeId, treeNode){
+    var treeObj = $.fn.zTree.getZTreeObj("exit_knowledge");
+    treeObj.expandNode(treeNode, true, true, true);
+}
 
 $(function(){
     //console.log(zExitKnow);
@@ -118,9 +128,19 @@ $(function(){
         treeObj.expandAll(true); 
     });
 
+    $("#hide_all_knowledge").click(function(){
+        var treeObj = $.fn.zTree.getZTreeObj('all_knowledge');
+        treeObj.expandAll(false); 
+    });
+
     $("#show_exit_knowledge").click(function(){
         var treeObj = $.fn.zTree.getZTreeObj('exit_knowledge');
         treeObj.expandAll(true); 
+    });
+
+    $("#hide_exit_knowledge").click(function(){
+        var treeObj = $.fn.zTree.getZTreeObj('exit_knowledge');
+        treeObj.expandAll(false); 
     });
 
     Enum_map.append_option_list("subject", $("#id_subject"),true,[1,2,3,4,5,6,7,8,9,10,11]);

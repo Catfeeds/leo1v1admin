@@ -15,7 +15,6 @@ use App\Jobs\deal_pdf_to_image;
 
 require_once  app_path("/Libs/Qiniu/functions.php");
 
-
 class common_new extends Controller
 {
     var $check_login_flag = false;
@@ -33,18 +32,15 @@ class common_new extends Controller
         return $this->output_succ(["account"=> $account]);
     }
 
-
-
     function send_err_mail()
     {
-        $to=$this->get_in_str_val("to");
-        $title=$this->get_in_str_val("title");
-        $body=trim($this->get_in_str_val("body"));
+        $to    = $this->get_in_str_val("to");
+        $title = $this->get_in_str_val("title");
+        $body  = trim($this->get_in_str_val("body"));
 
         $body.="<br/>from:  " .$this->get_in_client_ip();
 
         dispatch( new \App\Jobs\send_error_mail( $to,$title,$body ) );
-
     }
 
 
@@ -989,16 +985,16 @@ class common_new extends Controller
                 switch ($prize_type)
                 {
                 case 1:
-                    $list['prize_str'] = "恭喜您抽中10元折扣券一张";
+                    $list['prize_str'] = "抽中10元折扣券一张";
                     break;
                 case 2:
-                    $list['prize_str'] = "恭喜您抽中20元折扣券一张";
+                    $list['prize_str'] = "抽中20元折扣券一张";
                     break;
                 case 3:
-                    $list['prize_str'] = "恭喜您抽中50元折扣券一张";
+                    $list['prize_str'] = "抽中50元折扣券一张";
                     break;
                 case 4:
-                    $list['prize_str'] = "恭喜您获得价值200元的试听课一节"; //前端确认 试听课返回true
+                    $list['prize_str'] = "获得价值200元的试听课一节"; 
                     break;
                 }
             }else{
@@ -1744,6 +1740,19 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $account=trim($this->get_in_str_val("account"));
         $noti_info= $this->get_in_str_val("noti_info");
         $this->t_manager_info->send_wx_todo_msg($account, "SYS", $noti_info, $noti_info);
+        return $this->output_succ();
+    }
+
+    public function tongji_date_add_m_html_count( ) {
+        $count=$this->get_in_int_val("count" );
+        $log_time=$this->get_in_int_val("log_time" );
+
+        //按小时
+        $log_time-=$log_time%3600;
+
+        $log_type =2017120201;
+        $this->t_tongji_date->del_log_time($log_type, $log_time);
+        $this->t_tongji_date->add( $log_type,$log_time,0,$count);
         return $this->output_succ();
     }
 

@@ -84,11 +84,18 @@ class question_new_api extends Controller
     //根据知识点、题型、来源、难度 获取对应的题目
     public function get_questions(){
         $knowledge_id   = $this->get_in_int_val('knowledge_id');
+        $knowledge_str = '(';
+        if($knowledge_id){
+            //获取该知识点的子级id
+            $knowledge_str .= $this->get_tree($knowledge_id);
+            $knowledge_str = substr($knowledge_str, 0, -1).')';
+        }
+        //dd($knowledge_str);
         $question_type   = $this->get_in_int_val('question_type',-1);
         $question_resource_type   = $this->get_in_int_val('question_resource_type',-1);
         $difficult   = $this->get_in_int_val('difficult',-1);
         $page_num    = $this->get_in_int_val('page_num',1);
-        $questions = $this->t_question->question_get($knowledge_id,$question_type,$question_resource_type,$difficult,$page_num);
+        $questions = $this->t_question->question_get($knowledge_str,$question_type,$question_resource_type,$difficult,$page_num);
         //dd($questions);
         if($questions){
             foreach( $questions['list'] as &$qu){
@@ -101,6 +108,19 @@ class question_new_api extends Controller
 
         return $this->output_succ(["list" => $questions]);
     }
+
+    private function get_tree($pid){  
+        $know_str = "$pid,";                                //每次都声明一个新数组用来放子元素
+        $children = $this->t_knowledge_level->get_by_father_id($pid);
+        if($children){
+            foreach($children as $v){  
+                $know_str .= $this->get_tree($v['knowledge_id']); //递归获取子记录                   
+            }
+        }
+        
+        return $know_str;                                  //返回新数组  
+    }
+
 
     //根据题目获取对应的解题、解析、答案
     public function get_answers(){

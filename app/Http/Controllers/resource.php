@@ -29,6 +29,14 @@ class resource extends Controller
         $file_title    = trim( $this->get_in_str_val('file_title', '') );
         $page_info     = $this->get_in_page_info();
 
+        if($use_type == 1){
+            $resource_type = ($resource_type<1)?1:$resource_type;
+            $resource_type = ($resource_type>7)?7:$resource_type;
+        }else if($use_type == 2){
+            $resource_type = 9;
+        }else{
+            $resource_type = 8;
+        }
         $ret_info = $this->t_resource->get_all(
             $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info
         );
@@ -132,7 +140,7 @@ class resource extends Controller
     }
 
     public function resource_count(){
-        list($start_time,$end_time) = $this->get_in_date_range(-7, 0 );
+        list($start_time,$end_time) = $this->get_in_date_range(-30, 0 );
         $ret_info = $this->t_resource->get_count($start_time, $end_time);
 
         $list = [];
