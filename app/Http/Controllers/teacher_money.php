@@ -822,8 +822,6 @@ class teacher_money extends Controller
     }
 
     public function get_teacher_type() {
-        $this->add_reference_price(50000, 50001);
-        exit;
         $teacherid = $this->get_in_int_val("teacherid");
         $type = $this->t_teacher_info->get_teacher_type($teacherid);
         if ($type == 1) {

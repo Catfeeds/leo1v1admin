@@ -315,5 +315,6 @@ return array(
     ["db_question_new","t_knowledge_level","id"],
     ["db_question_new","t_textbook","textbook_id"],
     ["db_question_new","t_textbook_knowledge","id"], 
-    ["db_question_new","t_question_type","id"], 
+    ["db_question_new","t_question_type","id"],
+    ["db_question_new","t_student_answer","id"], 
 );

@@ -337,7 +337,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
 
 
-        $sql = $this->gen_sql_new("select t.*,ta.id label_id,ta.tag_info,tf.trial_lecture_pass_time "
+        $sql = $this->gen_sql_new("select t.*,ta.id label_id,ta.tag_info,tf.simul_test_lesson_pass_time "
                                   ." from %s t left join %s ta on t.teacherid = ta.teacherid and ta.label_origin=1000"
                                   .' left join %s tf on t.teacherid = tf.teacherid'
                                   ." where %s"
