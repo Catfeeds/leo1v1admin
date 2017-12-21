@@ -1,38 +1,38 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/human_resource-teacher_lecture_list.d.ts" />
-var Cwhiteboard=null;
-var notify_cur_playpostion =null;
+var Cwhiteboard            = null;
+var notify_cur_playpostion = null;
 
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			      date_type_config : $('#id_date_type_config').val(),
-			      date_type        : $('#id_date_type').val(),
-			      opt_date_type    : $('#id_opt_date_type').val(),
-			      start_time       : $('#id_start_time').val(),
-			      end_time         : $('#id_end_time').val(),
-			      grade            : $('#id_grade').val(),
-			      trans_grade      : $('#id_trans_grade').val(),
-			      subject          : $('#id_subject').val(),
-            identity         : $('#id_identity').val(),
-			      status           : $('#id_status').val(),
-			      phone            : $('#id_phone').val(),
-			      teacherid        : $('#id_teacherid').val(),
-			      is_test_flag     : $('#id_is_test_flag').val(),
-			      full_time        : $('#id_full_time').val(),
-			      have_wx:	$('#id_have_wx').val(),
-                  id_train_through_new_time:$("#id_train_through_new_time").val(),
-                  id_train_through_new:$("#id_train_through_new").val(),
+			      date_type_config          : $('#id_date_type_config').val(),
+			      date_type                 : $('#id_date_type').val(),
+			      opt_date_type             : $('#id_opt_date_type').val(),
+			      start_time                : $('#id_start_time').val(),
+			      end_time                  : $('#id_end_time').val(),
+			      grade                     : $('#id_grade').val(),
+			      trans_grade               : $('#id_trans_grade').val(),
+			      subject                   : $('#id_subject').val(),
+            identity                  : $('#id_identity').val(),
+			      status                    : $('#id_status').val(),
+			      phone                     : $('#id_phone').val(),
+			      teacherid                 : $('#id_teacherid').val(),
+			      is_test_flag              : $('#id_is_test_flag').val(),
+			      full_time                 : $('#id_full_time').val(),
+			      have_wx                   :	$('#id_have_wx').val(),
+            id_train_through_new_time : $("#id_train_through_new_time").val(),
+            id_train_through_new      : $("#id_train_through_new").val(),
         });
     }
 
     $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
+        'date_type'      : g_args.date_type,
+        'opt_date_type'  : g_args.opt_date_type,
+        'start_time'     : g_args.start_time,
+        'end_time'       : g_args.end_time,
         date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
+        onQuery          : function() {
             load_data();
         }
     });

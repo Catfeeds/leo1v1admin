@@ -337,13 +337,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
 
 
-        $sql = $this->gen_sql_new("select t.*,ta.id label_id,ta.tag_info,trl.add_time"
+        $sql = $this->gen_sql_new("select t.*,ta.id label_id,ta.tag_info"
                                   ." from %s t left join %s ta on t.teacherid = ta.teacherid and ta.label_origin=1000"
-                                  .' left join %s trl on t.teacherid = trl.teacherid and trial_train_status = 1'
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_label::DB_TABLE_NAME
-                                  ,t_teacher_record_list::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num);
@@ -926,7 +924,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_teacher_info($teacherid){
         $sql = $this->gen_sql(
-            "select teacherid,train_through_new_time,is_quit,teacher_money_type,level,wx_openid,nick,email,"
+            "select teacherid,train_through_new_time,is_quit,teacher_money_type,level,wx_openid,email,"
             ." teacher_type,teacher_ref_type,create_time,identity,phone,realname,nick,"
             ." gender,birth,address,face,grade_part_ex,bankcard,teacher_money_flag,transfer_teacherid,transfer_time,"
             ." train_through_new,trial_lecture_is_pass,wx_use_flag,teacher_money_type_simulate,level_simulate,"

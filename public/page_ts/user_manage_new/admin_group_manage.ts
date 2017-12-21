@@ -522,7 +522,7 @@ $(function(){
                 $.do_ajax("/user_deal/admin_group_user_add",{
                     "groupid" : opt_data.groupid,
                     "main_type" : opt_data.main_type,
-                    "adminid" :  adminid
+                    "adminid" :  adminid,
                 });
             }
         });
@@ -838,7 +838,7 @@ $(function(){
                     "groupid" : opt_data.groupid,
                     "main_type" : opt_data.main_type,
                     "adminid" :  adminid,
-                    "start_time" : g_args.start_time
+                    "start_time" : g_args.start_time,
                 });
             }
         });

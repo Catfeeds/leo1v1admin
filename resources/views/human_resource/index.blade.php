@@ -508,14 +508,13 @@
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!}  >
                                 <a class="fa-user opt-user-info div_show" href="/teacher_info_admin/index?teacherid={{$var["teacherid"]}}" target="_blank" title="老师信息"> </a>
-                                <a class="fa-edit opt-edit div_show"  title="编辑"> </a>
-                                <a class="fa-hand-o-up opt-tea-note div_show"  title="修改教务备注"> </a>
-                                <a class="fa-list opt-interview-assess div_show"  title="修改面试评价"> </a>
-                                <a class="opt-show-lessons div_show"  title="课程列表">课程</a>
-                                <a class="opt-show-lessons-new"  title="课程列表-new">课程-new</a>
+                                <a class="fa-edit opt-edit div_show" title="编辑"> </a>
+                                <a class="fa-hand-o-up opt-tea-note div_show" title="修改教务备注"> </a>
+                                <a class="fa-list opt-interview-assess div_show" title="修改面试评价"> </a>
+                                <a class="opt-show-lessons div_show" title="课程列表">课程</a>
+                                <a class="opt-show-lessons-new" title="课程列表-new">课程-new</a>
                                 <a  href="/teacher_info_admin/lesson_list?teacherid={{$var["teacherid"]}}" target="_blank" title="跳转到老师课表">课 </a>
                                 <a class="fa-gavel opt-set-tmp-passwd div_show"  title="临时密码"></a>
-                                <a class="fa-institution opt-meeting done_create_meeting div_show" title="设置是否可以创建会议"></a>
                                 <a class="opt-teacher-freeze div_show">冻结排课</a>
                                 <a class="opt-freeze-list div_show">冻结排课记录</a>
                                 <a class="opt-limit-plan-lesson div_show" >限制排课</a>
@@ -529,7 +528,8 @@
                                 <a class="opt-set-refuse-record div_show">添加拒接反馈</a>
                                 <a class="fa-comment opt-return-back-new div_show" title="回访信息录入-new" ></a>
                                 <a class="fa-comments opt-return-back-list-new div_show" title="回访列表" ></a>
-                                @if(in_array($acc,["ted","夏宏东","haku","low-key","zoe","amyshen","朱丽莎","陆小梅"]) || in_array($account_role,[12]))
+                                @if(in_array($acc,["ted","夏宏东","haku","low-key","zoe","amyshen","朱丽莎","陆小梅"])
+                                    || in_array($account_role,[12]))
                                     <a class="opt-account-number" title="老师账号信息修改功能">账号相关</a>
                                     <a class="opt-change-week-lesson-num-list" >周排课修改记录</a>
                                     <a class="opt-change-good-teacher">优秀老师</a>
@@ -548,11 +548,6 @@
                                 @endif
                                 <a class=" opt-set-grade-range div_show">设置新版年级段</a>
                                 <a class=" opt-complaints-teacher div_show" >投诉老师</a>
-                                @if(in_array($acc,["alina","lee","June-王梦琼","nina","jack","jim","michael","alan","adrian","余成芳"]))
-                                    <a class=" opt-set-leave"  title="设置请假">请假 </a>
-                                    <a class="opt-require-teacher-quit" title="离职申请" >离职申请</a>
-                                    <a class="fa-gratipay opt-test-user" title="设置为测试用户"></a>
-                                @endif
                                 @if(in_array($acc,["michael"]))
                                     <a class=" opt-set-quit"  title="设置离职">离职 </a>
                                 @endif
@@ -564,7 +559,6 @@
                                 <a class=" opt-regular-lesson-detele-list div_show" >常规课表空闲记录</a>
                                 <a class=" opt-teacher-cancel-lesson-list div_show" >老师取消课程记录</a>
                                 <a class=" opt-jianli div_show" >简历</a>
-
                                 @if(in_array($acc, ['jim', 'ricky', '宫卫彬']) && $var['full_flag'])
                                     <a class=" opt-full-to-part">全职转兼职</a>
                                 @endif

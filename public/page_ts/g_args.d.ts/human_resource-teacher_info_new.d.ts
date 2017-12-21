@@ -197,7 +197,6 @@ interface RowData {
 	qq_info	:any;
 	label_id	:any;
 	tag_info	:any;
-	add_time	:any;
 	teacher_type_str	:any;
 	gender_str	:any;
 	subject_str	:any;
@@ -211,7 +210,7 @@ interface RowData {
 	teacher_money_type_str	:any;
 	textbook_type_str	:any;
 	train_through_new_time_str	:any;
-	add_time_str	:any;
+	create_time_str	:any;
 	work_day	:any;
 	limit_plan_lesson_type_str	:any;
 	limit_plan_lesson_time_str	:any;

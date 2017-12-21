@@ -849,8 +849,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
 
     public function get_1v1_order_seller_list_group_self( $start_time,$end_time, $groupid) {
-
-
         $where_arr = [
             ["order_time>=%u" , $start_time, -1],
             ["order_time<=%u" , $end_time, -1],
@@ -1095,6 +1093,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "contract_type in(0,3)",
             "contract_status in(1,2)",
             "m.account_role=2",
+            "m.account_role=2",
+            "g.main_type=2",
             // "g.master_adminid not in(364,416)",
         ];
         $sql = $this->gen_sql_new("select g.group_img,g.groupid, group_name , sum(price) as all_price,count(*)as all_count,"
@@ -1106,13 +1106,13 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s g on gu.groupid =g.groupid "
                                   ." left join %s gm on gm.groupid =g.groupid and gm.month = '%s' "
                                   ." where %s "
-                                  ."  group by g.groupid order by %s ",
-                                  self::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,
-                                  t_manager_info::DB_TABLE_NAME,
-                                  t_admin_group_user::DB_TABLE_NAME,
-                                  t_admin_group_name::DB_TABLE_NAME,
-                                  t_admin_group_month_time::DB_TABLE_NAME,
+                                  ." group by g.groupid order by %s ",
+                                  self::DB_TABLE_NAME,//o
+                                  t_student_info::DB_TABLE_NAME,//s
+                                  t_manager_info::DB_TABLE_NAME,//m
+                                  t_admin_group_user::DB_TABLE_NAME,//gu
+                                  t_admin_group_name::DB_TABLE_NAME,//g
+                                  t_admin_group_month_time::DB_TABLE_NAME,//gm
                                   $start_first,
                                   $where_arr,
                                   $order_by_str

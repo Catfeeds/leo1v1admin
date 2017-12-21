@@ -124,6 +124,7 @@ interface RowData {
 	first_set_master_desc	:any;
 	first_set_cc_desc	:any;
 	first_seller_status_str	:any;
+	phone_hide	:any;
 }
 
 /*

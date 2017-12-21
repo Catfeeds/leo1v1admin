@@ -586,11 +586,9 @@ $(function(){
         });
     });
 
-    $('.opt-meeting').on('click', function(){
-    var opt_data= $(this).get_opt_data();
-        get_create_meeting(opt_data.teacherid);
-    });
-
+    /**
+     * 老师创建会议权限
+     */
     var get_create_meeting = function(teacherid) {
         $.getJSON('/tea_manage/get_create_meeting', {
             'teacherid': teacherid
@@ -823,7 +821,6 @@ $(function(){
         $(".lesson_hold_flag").show();
         $(".test_transfor_per").show();
     }else{
-        $(".opt-meeting").hide();
         $(".opt-interview-assess").hide();
         $(".opt-edit").hide();
         $(".opt-set-grade-range").hide();
@@ -1819,9 +1816,6 @@ $(function(){
         });
     }
 
-    if(acc=="alan" || acc=="adrian" || acc=="seven" || acc=="jack" || acc=="孙瞿"){
-        $(".opt-edit").show();
-    }
 
     $(".opt-account-number").on("click",function(){
 	      var data = $(this).get_opt_data();
@@ -2141,7 +2135,6 @@ $(function(){
             ["审核科目",id_subject],
             ["审核年级",id_grade],
         ];
-        console.log(id_grade);
         $.show_key_value_table("审核信息",arr,{
             label    : "确认",
             cssClass : "btn-warning",
@@ -2209,8 +2202,6 @@ $(function(){
         }
     });
 
-    download_hide();
-
     $(".opt-full-to-part").on("click", function() {
         var data = $(this).get_opt_data();
         var require_reason = $("<textarea></textarea>");
@@ -2223,14 +2214,19 @@ $(function(){
             cssClass : "btn-warning",
             action   : function(diolog) {
                 $.do_ajax('/teacher_trans/full_to_part', {
-                    'teacherid': data.teacherid,
-                    'level':data.level,
-                    'teacher_money_type':data.teacher_money_type,
-                    'require_reason' : require_reason.val()
+                    'teacherid'          : data.teacherid,
+                    'level'              : data.level,
+                    'teacher_money_type' : data.teacher_money_type,
+                    'require_reason'     : require_reason.val()
                 });
             }
         });
     });
+
+    download_hide();
+    if(acc=="alan" || acc=="adrian" || acc=="seven" || acc=="jack" || acc=="孙瞿"){
+        $(".opt-edit").show();
+    }
 
 });
 
