@@ -45,7 +45,8 @@ class t_group_user_month extends \App\Models\Zgen\z_t_group_user_month
                                  ."gu.groupid= g.groupid and  "
                                  ." main_type=%u and adminid=%u and month=%u",
                                  self::DB_TABLE_NAME,
-                                 t_admin_group_name::DB_TABLE_NAME,
+                                 // t_admin_group_name::DB_TABLE_NAME,
+                                 t_group_name_month::DB_TABLE_NAME,
                                  $main_type,
                                  $adminid,
                                  $month
