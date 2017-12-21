@@ -50,6 +50,9 @@ class update_bole_reward extends Command
         // echo json_encode($teacherids);
         foreach($references as $key => $item) {
             if (isset($teacherids[$key])) {
+                if ($key == '15366667766') {
+                    echo $teacherids[$key]['teacherid'];
+                }
                 $a_info = $task->t_teacher_lecture_appointment_info->get_money_list($start_time, $end_time, $key);
                 $m_info = $task->t_teacher_money_list->get_money_list($start_time, $end_time, $teacherids[$key]['teacherid']);
                 if (count($a_info) != count($m_info)) {
