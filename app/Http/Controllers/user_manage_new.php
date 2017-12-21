@@ -3857,7 +3857,7 @@ class user_manage_new extends Controller
             // 在校学生总数
             //$info['stu_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, 0);
             $phone = $this->t_teacher_info->field_get_list($teacherid, "phone");
-            $info['stu_sum'] = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $phone, $type);
+            $info['stu_sum'] = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $phone, 0);
 
             if ($teacherid == 269222) { // 处理赵志园二个账号
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459, 0);
@@ -3868,7 +3868,8 @@ class user_manage_new extends Controller
             if ($info['stu_sum'] > 20) $info['stu_reward'] = 50;
             if ($info['stu_sum'] > 30) $info['stu_reward'] = 60;
             // 机构老师总数
-            $info['tea_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid);
+            //$info['tea_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid);
+            $info['tea_sum'] = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $phone, 1);
             if ($teacherid == 269222) { // 处理赵志园二个账号
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459);
                 $info['tea_sum'] += $num;
