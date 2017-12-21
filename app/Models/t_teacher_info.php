@@ -337,11 +337,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
 
 
-        $sql = $this->gen_sql_new("select t.*,ta.id label_id,ta.tag_info "
+        $sql = $this->gen_sql_new("select t.*,ta.id label_id,ta.tag_info,trl.add_time"
                                   ." from %s t left join %s ta on t.teacherid = ta.teacherid and ta.label_origin=1000"
+                                  .' left join %s trl on t.teacherid = trl.teacherid and trial_train_status = 1'
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_label::DB_TABLE_NAME
+                                  ,t_teacher_record_list::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num);
