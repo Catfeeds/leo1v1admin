@@ -82,7 +82,11 @@
                     <tr>
                         <td>{{@$var["adminid_nick"]}} </td>
                         <td>{{@$var["uid_nick"]}} </td>
-                        <td>{{@$var["phone_hide"]}} </td>
+                        <td>
+                            <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
+                                {{@$var["phone_hide"]}}
+                            </a>
+                        </td>
                         <td>{{@$var["hand_get_adminid_str"]}} </td>
                         <td>{{@$var["origin"]}} </td>
                         <td>{!! @$var["global_tq_called_flag_str"] !!} </td>
