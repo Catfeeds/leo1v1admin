@@ -385,15 +385,15 @@ class common_new extends Controller
              * @ 从老师分享页进入注册的 老师
              * @ christmas_type  0:正常用户 1:从分享页面进来的老师
              */
-            $main_pid    = $this->get_in_int_val('main_pid');
-            $next_openid = $this->get_in_str_val('next_openid');
+            $shareId   = $this->get_in_int_val('shareId');
+            $currentId = $this->get_in_str_val('currentId');
             $christmas_type = $this->get_in_int_val('christmas_type');
             if($christmas_type == 1){
-                $isHasAdd = $this->t_teacher_christmas->checkHasAdd($main_pid,$next_openid);
+                $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId);
                 if(!$isHasAdd){
                     $this->t_teacher_christmas->row_insert([
-                        "teacherid"   => $main_pid,
-                        "next_openid" => $next_openid,
+                        "teacherid"   => $shareId,
+                        "next_openid" => $currentId,
                         "add_time"    => time(),
                         "score"       => 10
                     ]);

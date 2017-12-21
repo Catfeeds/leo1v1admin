@@ -1180,28 +1180,28 @@ class wx_teacher_api extends Controller
     public function christmasTeaLink () {
         $Tea_appid     = \App\Helper\Config::get_teacher_wx_appid();
         $Tea_appsecret = \App\Helper\Config::get_teacher_wx_appsecret();
-        $main_pid = $this->get_in_int_val("main_pid");
+        $shareId = $this->get_in_int_val("shareId");
 
         $wx= new \App\Helper\Wx($Tea_appid,$Tea_appsecret);
-        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_teacher_api/rewriteLink?main_pid=".$main_pid );
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_teacher_api/rewriteLink?shareId=".$shareId );
         $wx->goto_wx_login($redirect_url);
     }
 
     public function rewriteLink(){
         $Tea_appid     = \App\Helper\Config::get_teacher_wx_appid();
         $Tea_appsecret = \App\Helper\Config::get_teacher_wx_appsecret();
-        $main_pid = $this->get_in_int_val('main_pid');
+        $shareId = $this->get_in_int_val('shareId');
 
         $code       = $this->get_in_str_val('code');
         $wx         = new \App\Helper\Wx($Tea_appid,$Tea_appsecret);
         $token_info = $wx->get_token_from_code($code);
-        $next_openid     = @$token_info["openid"];
+        $currentId  = @$token_info["openid"];
         // $token      = $wx->get_wx_token($Tea_appid,$Tea_appsecret);
         // $user_info  = $wx->get_user_info($openid,$token);
         // $subscribe = @$user_info['subscribe'];
         // $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
 
-        header("Location: http://wx-parent-web.leo1v1.com/chrismas_day/index.html?main_pid=".$main_pid."&next_openid=".$next_openid);//链接待定
+        header("Location: http://wx-parent-web.leo1v1.com/teachris/index.html?shareId=".$shareId ."&currentId=".$currentId);//链接待定
         return ;
 
     }
@@ -1211,14 +1211,14 @@ class wx_teacher_api extends Controller
      * @ type: 0:点击分享页面 +1 积分 1:老师注册进入 +10积分
      **/
     public function addClickLog(){
-        $main_pid    = $this->get_in_int_val('main_pid');
-        $next_openid = $this->get_in_str_val('next_openid ');
+        $shareId   = $this->get_in_int_val('shareId');
+        $currentId = $this->get_in_str_val('currentId');
 
-        $isHasAdd = $this->t_teacher_christmas->checkHasAdd($main_pid,$next_openid);
+        $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId);
         if(!$isHasAdd){
             $this->t_teacher_christmas->row_insert([
-                "teacherid"   => $main_pid,
-                "next_openid" => $next_openid,
+                "teacherid"   => $shareId,
+                "next_openid" => $currentId,
                 "add_time"    => time(),
                 "score"       => 1
             ]);
