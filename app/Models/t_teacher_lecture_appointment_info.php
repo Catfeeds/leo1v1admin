@@ -1328,7 +1328,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             ["train_through_new_time>=%u", $start_time, 0],
             ["train_through_new_time<%u", $end_time, 0]
         ];
-        $sql = $this->gen_sql_new("select teacherid,name from %s t left join %s ta on t.phone=ta.phone where %s",
+        $sql = $this->gen_sql_new("select teacherid from %s t left join %s ta on t.phone=ta.phone where %s",
                                   t_teacher_info::DB_TABLE_NAME,
                                   self::DB_TABLE_NAME,
                                   $where_arr
