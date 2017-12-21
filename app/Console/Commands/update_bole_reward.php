@@ -42,33 +42,20 @@ class update_bole_reward extends Command
         $start_time = strtotime(date('Y-m-1', strtotime('-1 month')));
         $end_time = strtotime(date('Y-m-1', time()));
 
-        $references = $task->t_teacher_lecture_appointment_info->get_references();
-        $teacherids = $task->t_teacher_info->get_teacherids();
-        //echo json_encode($references);
-        // echo json_encode($teacherids);
+        $references = $task->t_teacher_lecture_appointment_info->get_references(); // 获取所有推荐人
+        $teacherids = $task->t_teacher_info->get_teacherids(); // 获取所有老师
         foreach($references as $key => $item) {
-            if (isset($teacherids[$key])) {
-                if ($key == '15366667766') {
-                    echo $teacherids[$key]['teacherid'];
-                }
+            if (isset($teacherids[$key])) { // 判断当前老师是否是推荐人
+                // 获取推荐人上月推荐人数
                 $a_info = $task->t_teacher_lecture_appointment_info->get_money_list($start_time, $end_time, $key);
+                // 获取推荐人上月已获伯乐奖人数
                 $m_info = $task->t_teacher_money_list->get_money_list($start_time, $end_time, $teacherids[$key]['teacherid']);
                 if (count($a_info) != count($m_info)) {
-                    if ($key == '15366667766') {
-                        var_dump($a_info);
-                        var_dump($m_info);
-                        //exit;
-                    }
                     foreach($a_info as $val) {
-                        if(!isset($m_info[$val['teacherid']])) {
-                            if ($key == '15366667766') {
-                                echo ' --- wel --- ';
-                            }
+                        if(!isset($m_info[$val['teacherid']])) { // 处理丢失数据
+                            // $tea->update_bole_reward($teacherids[$key]['teacherid'],$val['teacherid']);
                         }
-                        //echo $teacherids[$key]['teacherid'].' --- '.$val['teacherid'];
-                            //$tea->update_bole_reward($teacherids[$key]['teacherid'],$val['teacherid']);
                     }
-                    //dd($m_info);
                 }
             }
         }
