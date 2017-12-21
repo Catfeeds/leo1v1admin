@@ -1718,6 +1718,25 @@ trait TeaPower {
     }
 
     /**
+     * 修改老师手机号
+     * @param int teacherid 老师id
+     * @param string phone  老师手机号
+     * @return string 错误信息
+     */
+    public function change_teacher_phone($teacherid,$new_phone){
+        $check_phone = \App\Helper\Utils::check_phone($new_phone);
+        if(!$ret){
+            return "手机号不是11位!";
+        }
+        $check_flag = $this->t_phone_to_user->check_is_exist_by_phone_and_userid(-1,$new_phone,E\Erole::V_TEACHER);
+        if(!empty($check_flag)){
+            return "该账号已存在！";
+        }
+
+
+    }
+
+    /**
      * 通过手机号设置老师为离职状态
      * @param phone string 手机号
      * @param is_quit int 离职状态 0 未离职 1 已离职
@@ -1843,11 +1862,11 @@ trait TeaPower {
             $update_arr["nick"]     = $appointment_info['name'];
             $update_arr["realname"] = $appointment_info['name'];
         }
-        if(in_array($teacher_info['teacher_type'],[32])){
-            $update_arr['teacher_type']=0;
+        if(in_array($teacher_info['teacher_type'],[E\Eteacher_type::V_32])){
+            $update_arr['teacher_type']=E\Eteacher_type::V_0;
         }
         if($appointment_info['full_time']==1){
-            $update_arr['teacher_type']=3;
+            $update_arr['teacher_type']=E\Eteacher_type::V_3;
         }
         if($teacher_info['trial_lecture_is_pass']==0){
             $update_arr['trial_lecture_is_pass']=1;
@@ -1855,8 +1874,8 @@ trait TeaPower {
         if($teacher_info['wx_use_flag']==0){
             $update_arr['wx_use_flag']=1;
         }
-        if($teacher_info['identity']==0){
-            $update_arr['identity'] = $appointment_info['teacher_type'];
+        if($teacher_info['identity']==E\Eidentity::V_0){
+            $update_arr['identity']=$appointment_info['teacher_type'];
         }
         if(!empty($update_arr)){
             $ret = $this->t_teacher_info->field_update_list($teacher_info['teacherid'],$update_arr);
@@ -2032,8 +2051,8 @@ trait TeaPower {
      * @param info 中需要teacher_type,teacher_money_type,level
      */
     public function teacher_level_up_html($info){
-        $name          = $info['nick'];
-        $level_str     = \App\Helper\Utils::get_teacher_level_str($info);
+        $name      = $info['nick'];
+        $level_str = \App\Helper\Utils::get_teacher_level_str($info);
 
         $star_num=0;
         if($level_str=="中级教师" ){
@@ -2054,6 +2073,7 @@ trait TeaPower {
                 $star_num=1;
             }
         }
+
         $show_star = "<img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>";
         $star_html = $show_star;
         for($i=2;$i<=$star_num;$i++){
@@ -4435,13 +4455,23 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             } else {
                 $type = 0; // 在校学生 (高校生, 其他在职人士, 未设置)
             }
-            //$reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type) + 1;
-            $start_time = 0;
-            $end_time = time();
-            if ($teacher_info['teacher_type'] == 21 && $teacher_info['teacher_type'] == 22) { // 工作室是从11月开始累如
-                $start_time = strtotime("2017-11-1");
+
+            if ($teacherid == 274115) { // join中国 60元/个
+                $reference_price = 60;
+            }elseif($teacherid == 149697){ //明日之星 50元/个
+                $reference_price = 50;
+            }elseif(($teacherid == 176348 || $teacher_info['teacher_type'] == 21 || $teacher_info['teacher_type'] == 22) && $type = 1) { //田克平 廖老师工作室 王老师工作室 推荐机构老师 80 元/个
+                $reference_price = 80;
+            } else {
+                //$reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type) + 1;
+                $start_time = strtotime('2015-1-1');
+                $end_time = time();
+                if ($teacher_info['teacher_type'] == 21 && $teacher_info['teacher_type'] == 22) { // 工作室是从11月开始累如
+                    $start_time = strtotime("2017-11-1");
+                }
+                $reference_num = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher_info['phone'], $type);
+                $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
             }
-            $reference_num = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher_info['phone'], $type);
 
             /**
              * 廖祝佳，王菊香推荐的在职老师起步都是80元/个
@@ -4454,15 +4484,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             //         break;
             //     }
             // }
-
-            $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
-            if ($teacherid == 274115) { // join中国 60元/个
-                $reference_price = 60;
-            }elseif($teacherid == 149697){ //明日之星 50元/个
-                $reference_price = 50;
-            }elseif(($teacherid == 176348 || $teacher_info['teacher_type'] == 21 || $teacher_info['teacher_type'] == 22) && $type = 1) { //田克平 廖老师工作室 王老师工作室 推荐机构老师 80 元/个
-                $reference_price = 80;
-            }
 
             $this->t_teacher_money_list->row_insert([
                 "teacherid"  => $teacherid,

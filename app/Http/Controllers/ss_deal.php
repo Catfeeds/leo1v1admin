@@ -5151,6 +5151,7 @@ class ss_deal extends Controller
         $qq                   = $this->get_in_str_val("qq");
         $reference            = $this->get_in_str_val("reference");
         $age                  = $this->get_in_int_val("age");
+        $gender               = $this->get_in_int_val("gender");
         $grade_ex             = $this->get_in_int_val("grade_ex");
         $subject_ex           = $this->get_in_int_val("subject_ex");
         $teacher_type         = $this->get_in_int_val("teacher_type");
@@ -5201,7 +5202,13 @@ class ss_deal extends Controller
             "custom"               => $custom,
         ]);
         $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
-        $ret = $this->t_teacher_info->field_update_list($teacherid, ['age'=>$age]);
+
+        $ret = $this->t_teacher_info->field_update_list($teacherid, [
+            'age'    => $age,
+            'gender' => $gender
+        ]);
+
+
         return $this->output_succ();
     }
 

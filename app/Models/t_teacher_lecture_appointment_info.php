@@ -90,11 +90,12 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                  $teacher_ref_type,$interview_type=-1,$have_wx=-1, $lecture_revisit_type=-1,
                                  $full_time=-1, $lecture_revisit_type_new=-1,$fulltime_teacher_type=-1,
                                  $accept_adminid=-1,$second_train_status=-1,$teacher_pass_type=-1,
-                                 $opt_date_str=1
+                                 $opt_date_str=1,$gender=-1
     ){
         $where_arr = [
             ["lecture_appointment_status=%u", $lecture_appointment_status, -1 ],
             ["t.teacherid=%u", $teacherid, -1 ],
+            ["tt.gender=%u", $gender, -1 ],
             ["la.accept_adminid=%u", $adminid, -1 ],
             ["la.full_time=%u", $full_time, -1 ],
             ["la.accept_adminid=%u", $accept_adminid, -1 ],
@@ -190,7 +191,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." ta.teacherid interviewer_teacherid,"
                                   ." if(t.nick='',t.realname,t.nick) as reference_name,reference,t.teacherid,m.account, "
                                   ." m.name as zs_name,"
-                                  ." tt.teacherid train_teacherid,la.qq,tt.wx_openid,tt.user_agent,la.hand_flag,"
+                                  ." tt.teacherid train_teacherid,la.qq,tt.wx_openid,tt.user_agent,la.hand_flag,tt.gender,"
                                   ." tr2.trial_train_status as full_status,tr2.record_info as full_record_info,"
                                   ." la.teacher_pass_type,la.no_pass_reason "
                                   ." from %s la"

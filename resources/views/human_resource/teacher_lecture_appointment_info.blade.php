@@ -63,6 +63,13 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
+                        <span class="input-group-addon">性别</span>
+                        <select class="opt-change form-control" id="id_gender" >
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
                         <span class="input-group-addon">面试类型</span>
                         <select class="opt-change form-control" id="id_interview_type" >
                             <option value="-1">全部</option>
@@ -103,7 +110,6 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span >回访状态</span>
@@ -155,13 +161,13 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-xs-6 col-md-4" data-always_show="1">
+                <div class="col-xs-6 col-md-2" data-always_show="1">
                     <div class="input-group">
                         <input type="text" value="" class=" form-control click_on put_name opt-change"  data-field="user_name"
                                id="id_user_name" placeholder="姓名,手机号,QQ,科目,年级段,教材,院校,师资 回车查找"/>
                     </div>
                 </div>
-                <div class="col-md-2 col-xs-6 "  >
+                <div class="col-md-1 col-xs-6">
                     <div>
                         <button class="btn btn-danger" id="id_add_teacher_lecture_appointment">新增试讲预约</button>
                     </div>
@@ -171,12 +177,12 @@
                         <button class="btn btn-primary" id="id_upload_xls"> 上传xls </button>
                     </div>
                 </div>
-                <div class="col-md-2 col-xs-6 "  >
+                <div class="col-md-1 col-xs-6 "  >
                     <div>
                         <button class="btn btn-warning" id="id_update_lecture_appointment_status">批量修改状态</button>
                     </div>
                 </div>
-                <div class="col-md-2 col-xs-6 "  >
+                <div class="col-md-1 col-xs-6 "  >
                     <div>
                         <button class="btn btn-warning" id="id_set_zs_work_status">设置招师工作状态</button>
                     </div>
@@ -200,6 +206,7 @@
                     <td>QQ</td>
                     <td>邮箱</td>
                     <td>绑定微信</td>
+                    <td>性别</td>
                     <td>科目</td>
                     <td>年级</td>
                     <td>扩科</td>
@@ -226,16 +233,12 @@
                     <tr>
                         <td><input type="checkbox" class="opt-select-item" data-id="{{$var["id"]}}"/></td>
                         <td>{{@$var["id"]}}</td>
-                        <td>{{@$var["name"]}} </td>
+                        <td>{{ @$var["name"] }}</td>
                         <td>{{@$var["begin"]}} </td>
                         <td>{{@$var["train_through_new_time_str"]}} </td>
                         <td>
                             <a href="javascript:;" class="show_detail" data-value="{{$var["phone"]}}" >
-                                @if(in_array($account_id,["448","349","967"]))
-                                    {{$var["phone"]}}
-                                @else
-                                    {{$var["phone_ex"]}}
-                                @endif
+                                {{$var["phone_ex"]}}
                             </a>
                         </td>
                         <td>
@@ -245,6 +248,7 @@
                             <a href="javascript:;" class="show_detail" data-value="{{$var["email"]}}" >{{$var["email_ex"]}}</a>
                         </td>
                         <td>{{@$var["have_wx_flag"]}}</td>
+                        <td>{{@$var["gender_str"]}}</td>
                         <td>{{@$var["subject_ex_str"]}} </td>
                         <td>{{@$var["grade_ex_str"]}} </td>
                         <td>{{@$var["trans_subject_ex_str"]}} </td>
