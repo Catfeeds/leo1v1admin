@@ -48,7 +48,7 @@ class update_bole_reward extends Command
         foreach($references as $key => $item) {
             if (isset($teacherids[$key])) { // 判断当前老师是否是推荐人
                 $teacherid = $teacherids[$key]['teacherid'];
-                if (in_array($teacher_filter, $teacherid)) continue;
+                if (in_array($teacherid,$teacher_filter)) continue;
                 // 获取推荐人上月推荐人数
                 $a_info = $task->t_teacher_lecture_appointment_info->get_money_list($start_time, $end_time, $key);
                 // 获取推荐人上月已获伯乐奖人数
