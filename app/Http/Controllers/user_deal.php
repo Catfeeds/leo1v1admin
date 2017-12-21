@@ -2286,31 +2286,18 @@ class user_deal extends Controller
         $adminid=$this->get_in_int_val("adminid");
         $main_type=$this->get_in_int_val("main_type");
         $month = strtotime($this->get_in_str_val("start_time"));
-        $monthtime_flag=$this->get_in_int_val("monthtime_flag");
-        if($monthtime_flag == 1){//非历史
-            $db_groupid=$this->t_admin_group_user->get_groupid_by_adminid($main_type,$adminid);
-            if ($db_groupid ) {
-                $group_name=$this->t_admin_group_name->get_group_name_by_groupid($db_groupid);
-                return $this->output_err("此人已在[$group_name]中,不能添加");
-            }
 
-            $this->t_admin_group_user->row_insert([
-                "groupid"   => $groupid,
-                "adminid"   => $adminid,
-            ]);
-        }elseif($monthtime_flag == 2){//历史
-            $db_groupid=$this->t_group_user_month->get_groupid_by_adminid($main_type,$adminid,$month);
-            if ($db_groupid ) {
-                $group_name=$this->t_group_name_month->get_group_name($db_groupid,$month);
-                return $this->output_err("此人已在".date('Y-m',$month)."月[$group_name]中,不能添加");
-            }
-
-            $this->t_group_user_month->row_insert([
-                "groupid"   => $groupid,
-                "adminid"   => $adminid,
-                "month"     => $month
-            ]);
+        $db_groupid=$this->t_group_user_month->get_groupid_by_adminid($main_type,$adminid,$month);
+        if ($db_groupid ) {
+            $group_name=$this->t_group_name_month->get_group_name($db_groupid,$month);
+            return $this->output_err("此人已在".date('Y-m',$month)."月[$group_name]中,不能添加");
         }
+
+        $this->t_group_user_month->row_insert([
+            "groupid"   => $groupid,
+            "adminid"   => $adminid,
+            "month"     => $month
+        ]);
 
         // 添加到 日志表
         $this->t_user_group_change_log->row_insert([
