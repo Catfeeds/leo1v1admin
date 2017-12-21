@@ -55,12 +55,12 @@ class log_seller_call_phone_day extends Command
         $list=$tt->t_seller_student_new->tongji_last_revisite_time($log_time,$end_time);
 
         foreach ($list as $item ) {
-            $tt->t_tongji_date->add($log_type,$log_time,$item["id"],$item["count"]); 
+            $tt->t_tongji_date->add($log_type,$log_time,$item["id"],$item["count"]);
         }
         $now=time(NULL);
 
         $tq_no_call_count=$tt->t_seller_student_new-> get_all_tq_no_call_count( $now-60*86400, $now );
-        $tt->t_tongji_date->add(2,$log_time,0,$tq_no_call_count ); 
+        $tt->t_tongji_date->add(2,$log_time,0,$tq_no_call_count );
         //
     }
 }

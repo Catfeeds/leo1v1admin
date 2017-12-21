@@ -2637,11 +2637,11 @@ class teacher_info extends Controller
 
     }
 
-    public function tea_look_resource() {
+     public function tea_look_resource() {
         $tea_res_id = $this->get_in_int_val("tea_res_id");
         $tea_flag = $this->get_in_int_val("tea_flag",1);
         if($tea_res_id <=0){
-            return $this->output_err('信息有误，下载失败！');
+            return $this->output_err('信息有误，操作失败！');
         }
         $teacherid = $this->get_login_teacher();
         if($tea_flag == 1){//下载自己的文件
