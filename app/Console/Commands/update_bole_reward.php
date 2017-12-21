@@ -52,12 +52,12 @@ class update_bole_reward extends Command
                 // 获取推荐人上月推荐人数
                 $a_info = $task->t_teacher_lecture_appointment_info->get_money_list($start_time, $end_time, $key);
                 // 获取推荐人上月已获伯乐奖人数
-                $m_info = $task->t_teacher_money_list->get_money_list($start_time, $end_time, $teacherids[$key]['teacherid']);
+                $m_info = $task->t_teacher_money_list->get_money_list($start_time, $end_time, $teacherid);
                 if (count($a_info) != count($m_info)) {
                     foreach($a_info as $val) {
                         if(!isset($m_info[$val['teacherid']])) { // 处理丢失数据
-                            echo $teacherids[$key]['teacherid'].' '.$val['teacherid'].PHP_EOL;
-                            // $tea->update_bole_reward($teacherids[$key]['teacherid'],$val['teacherid']);
+                            echo $teacherid.' '.$val['teacherid'].PHP_EOL;
+                            // $tea->update_bole_reward($teacherid,$val['teacherid']);
                         }
                     }
                 }
