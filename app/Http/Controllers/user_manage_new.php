@@ -3857,7 +3857,7 @@ class user_manage_new extends Controller
             // 在校学生总数
             //$info['stu_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, 0);
             $phone = $this->t_teacher_info->field_get_list($teacherid, "phone");
-            $info['stu_sum'] = $this->get_total_for_teacherid($start_time, $end_time, $phone, $type);
+            $info['stu_sum'] = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $phone, $type);
 
             if ($teacherid == 269222) { // 处理赵志园二个账号
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459, 0);
