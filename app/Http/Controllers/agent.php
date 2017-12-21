@@ -456,6 +456,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $duration= strtotime("1970-01-01 00:00:00");//3600*8
+        dd($duration);
         dd($tong_count,$tao_count,$count);
         dd($ret);
         $this->t_seller_new_count_get_detail->add($new_count_id=99,$get_desc='aa');

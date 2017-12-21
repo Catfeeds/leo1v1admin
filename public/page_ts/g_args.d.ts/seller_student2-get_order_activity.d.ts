@@ -20,10 +20,11 @@ tofile:
 /// <reference path="../g_args.d.ts/seller_student2-get_order_activity.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		id:	$('#id_id').val()
-    });
+		});
 }
 $(function(){
 
@@ -45,4 +46,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_id" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["id title", "id", "th_id" ]])!!}
 */

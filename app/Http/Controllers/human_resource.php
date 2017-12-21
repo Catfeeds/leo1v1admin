@@ -3525,7 +3525,7 @@ class human_resource extends Controller
     }
 
     /**
-     * 更改用户的手机号
+     * 更改老师的手机号
      */
     public function change_phone(){
         $userid    = $this->get_in_int_val("userid");

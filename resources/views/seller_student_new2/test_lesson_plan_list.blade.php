@@ -484,7 +484,7 @@
                                     @if ($cur_page =="ass_test_lesson_list" || $cur_page =="ass_test_lesson_list_tran" )
                                         <a title="上传试卷" id="upload-test-paper-{{$var["require_id"]}}" class="fa-upload opt-upload-test-paper show_flag"></a>
                                         <a title="编辑" class=" fa-edit opt-edit show_flag"></a>
-                                        @if(in_array($adminid,[99,831,349,448,68,1093,1122,188,60,1118]))
+                                        @if(in_array($adminid,[99,831,349,448,68,1093,1122,188,60,1118]) || $account_role==12)
                                             <a title="编辑-new" class=" fa-edit opt-edit-new show_flag"></a>
                                         @endif
                                         <a title="删除" class=" fa-trash-o opt-del show_flag"></a>

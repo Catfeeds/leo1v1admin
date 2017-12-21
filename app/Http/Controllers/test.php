@@ -19,6 +19,14 @@ class test extends Controller
         phpinfo();
     }
 
+    public function get_user_list(){
+        $page_info= $this->get_in_page_info();
+        $grade=$this->get_in_el_grade();
+        $ret_info=$this->t_student_info->get_test_list($page_info, $grade );
+
+        $this->pageView($method, $ret_info);
+    }
+
     public function t() {
         //app_path("/Libs/xx/init.php");
 

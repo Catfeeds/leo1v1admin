@@ -44,17 +44,20 @@ class update_bole_reward extends Command
 
         $references = $task->t_teacher_lecture_appointment_info->get_references(); // 获取所有推荐人
         $teacherids = $task->t_teacher_info->get_teacherids(); // 获取所有老师
+        $teacher_filter = [320557,420745,437138,330856,271370,271383,271386,271389,271391]; // 青团社,153...,黄桂荣，淅泰, ABCDE
         foreach($references as $key => $item) {
             if (isset($teacherids[$key])) { // 判断当前老师是否是推荐人
+                $teacherid = $teacherids[$key]['teacherid'];
+                if (in_array($teacherid,$teacher_filter)) continue;
                 // 获取推荐人上月推荐人数
                 $a_info = $task->t_teacher_lecture_appointment_info->get_money_list($start_time, $end_time, $key);
                 // 获取推荐人上月已获伯乐奖人数
-                $m_info = $task->t_teacher_money_list->get_money_list($start_time, $end_time, $teacherids[$key]['teacherid']);
+                $m_info = $task->t_teacher_money_list->get_money_list($start_time, $end_time, $teacherid);
                 if (count($a_info) != count($m_info)) {
                     foreach($a_info as $val) {
                         if(!isset($m_info[$val['teacherid']])) { // 处理丢失数据
-                            echo $teacherids[$key]['teacherid'].' '.$val['teacherid'].PHP_EOL;
-                            // $tea->update_bole_reward($teacherids[$key]['teacherid'],$val['teacherid']);
+                            echo $teacherid.' '.$val['teacherid'].PHP_EOL;
+                            $tea->update_bole_reward($teacherid,$val['teacherid']);
                         }
                     }
                 }
