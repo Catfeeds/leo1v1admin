@@ -178,6 +178,7 @@ class tea_manage extends Controller
 
     public function lesson_list()
     {
+        $this->check_and_switch_tongji_domain();
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             = $this->get_in_order_by_str([],"lesson_start asc",[
                 "grade" => "s.grade",
@@ -2142,7 +2143,6 @@ class tea_manage extends Controller
             2 => array("tr.add_time", "审核时间"),
             ],3);
 
-        // list($start_time,$end_time) = $this->get_in_date_range(-7,7);
         $status        = $this->get_in_int_val("status",-1);
         $lesson_status = $this->get_in_int_val("lesson_status",2);
         $grade         = $this->get_in_int_val("grade",-1);

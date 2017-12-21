@@ -191,7 +191,11 @@ class menu{
                 ["power_id"=>8, "name"=>"题库题目统计",  "icon"=>"fa-book", "url"=>"/human_resource/get_question_tongji"]
             ]],
 
-
+            ["power_id"=>44, "name"=>"理优题库新", "list"=>[
+                ["power_id"=>22, "name"=>"题目列表",   "url"=>"/question_new/question_list"],
+                ["power_id"=>24, "name"=>"知识点",   "url"=>"/question_new/knowledge_list"],
+                ["power_id"=>25, "name"=>"教材列表",   "url"=>"/question_new/textbook_list"],
+            ]],
             ["power_id"=>4, "name"=>"人事绩效", "list"=>[
                 ["power_id"=>22, "name"=>"教师档案(试讲老师)",   "url"=>"/human_resource/index_new"],
                 ["power_id"=>1, "name"=>"教师档案(全部老师)",   "url"=>"/human_resource/index"],

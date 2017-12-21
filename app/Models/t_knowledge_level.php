@@ -46,6 +46,15 @@ class t_knowledge_level extends \App\Models\Zgen\z_t_knowledge_level
  
     }
 
+    public function get_by_father_id($id){
+        $sql=$this->gen_sql("select * from %s where father_id=%u"
+                            ,self::DB_TABLE_NAME
+                            ,$id
+        );
+        return $this->main_get_list($sql);
+ 
+    }
+
 }
 
 

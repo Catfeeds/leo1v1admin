@@ -1045,10 +1045,18 @@ class wx_teacher_api extends Controller
         // 数据待确认
         $ret_info['handout_flag'] = 0; //无讲义
 
+        // $ret_info['handout_flag'] = $this->t_resource->getResourceId($subject,$grade);
+
         return $this->output_succ(["data"=>$ret_info]);
     }
 
-    public function get_resource_list(){ // 讲义系统 boby
+    public function getResourceList(){ // 讲义系统 boby
+        $resource_id = $this->get_in_int_val($field_name);
+        $resourceList = $this->t_resource_file->getResoureList($resource_id);
+    }
+
+    public function chooseResource(){
+        $file_id = $this->get_in_int_val('file_id');
 
     }
 
@@ -1121,8 +1129,14 @@ class wx_teacher_api extends Controller
             $wx->send_ass_for_first($jw_openid, $data, $url);
         }
 
-        $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
-        $this->t_test_lesson_subject_require->field_update_list($require_id, [
+
+
+        // $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+        // $this->t_test_lesson_subject_require->field_update_list($require_id, [
+        //     "accept_status"=>$status
+        // ]);
+
+        $this->t_lesson_info->field_update_list($lessonid, [
             "accept_status"=>$status
         ]);
 
@@ -1153,6 +1167,49 @@ class wx_teacher_api extends Controller
         $teacher_info['tea_label_str'] = $tea_label_type_str;
         return $this->output_succ(["data"=>$teacher_info]);
     }
+
+
+    /**
+     * @ 老师圣诞节活动 积分
+     * @ 老师分享链接后 后续人员点击链接+1
+     * @ 从分享链接注册进来的老师 则分享人积分+10
+     * @
+     * @
+     **/
+
+    public function christmasTeaLink () {
+        $Tea_appid     = \App\Helper\Config::get_teacher_wx_appid();
+        $Tea_appsecret = \App\Helper\Config::get_teacher_wx_appsecret();
+
+        $wx= new \App\Helper\Wx($Tea_appid,$Tea_appsecret);
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_teacher_api/rewriteLink" );
+        $wx->goto_wx_login( $redirect_url );
+    }
+
+    public function rewriteLink(){
+        $Tea_appid     = \App\Helper\Config::get_teacher_wx_appid();
+        $Tea_appsecret = \App\Helper\Config::get_teacher_wx_appsecret();
+
+        $code = $this->get_in_str_val('code');
+        $wx= new \App\Helper\Wx($Tea_appid,$Tea_appsecret);
+        $token_info = $wx->get_token_from_code($code);
+        $openid   = @$token_info["openid"];
+        $token = $wx->get_wx_token($p_appid,$p_appsecret);
+        $user_info = $wx->get_user_info($openid,$token);
+
+        session(["wx_parent_openid" => $openid ] );
+
+        $subscribe = @$user_info['subscribe'];
+        $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
+        $type = 0;
+
+
+        header("location: http://wx-parent-web.leo1v1.com/m11/m11.html?type=".$type);
+        return ;
+
+    }
+
+
 
 
 }

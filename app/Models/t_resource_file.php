@@ -66,4 +66,19 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         return $this->main_get_list($sql);
     }
 
+    public function getResoureList($resource_id){
+        $where_arr = [
+            "rf.resource_id=$resource_id",
+            "rf.status=0",
+            "rf.file_use_type=1"
+        ];
+
+        $sql = $this->gen_sql_new("  select rf.file_title, rf.file_type, rf.file_link from %s rf "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        // retu
+    }
 }

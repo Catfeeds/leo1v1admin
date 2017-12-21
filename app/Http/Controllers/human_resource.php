@@ -891,7 +891,13 @@ class human_resource extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, "recover_class_time","_str");
 
             if($item["train_through_new_time"] !=0){
-                $item["work_day"] = \App\Helper\Utils::change_time_difference_to_day($item['train_through_new_time']);
+                $lecture = $this->t_teacher_record_list->get_data_to_teacher_flow_id(E\Etrain_type::V_4, $item['teacherid']);
+                if ($lecture) {
+                    $item["work_day"] = \App\Helper\Utils::change_time_difference_to_day($lecture['add_time']);
+                } else {
+                    $item['work_day'] = "";
+                }
+                //$item["work_day"] = \App\Helper\Utils::change_time_difference_to_day($item['train_through_new_time']);
             }else{
                 $item["work_day"] ="";
             }
@@ -1552,6 +1558,9 @@ class human_resource extends Controller
         $full_time     = $this->get_in_int_val('full_time',-1);
         $fulltime_flag = $this->get_in_int_val('fulltime_flag');
         $id_train_through_new_time = $this->get_in_int_val("id_train_through_new_time",-1);
+        //如果用电话号码检索不区分库
+        if($phone)
+            $tea_subject = '';
 
         //判断招师主管
         $is_master_flag = $this->t_admin_group_name->check_is_master(8,$adminid);
@@ -2767,9 +2776,9 @@ class human_resource extends Controller
         $lesson_info   = $this->t_lesson_info->get_lesson_info($lessonid);
         if($status==1){
             $ret = $this->t_teacher_info->field_update_list($teacherid,[
-                "trial_train_flag" => 1,
-                "train_through_new"      => 1,
-                "level"                  =>1
+                "trial_train_flag"  => 1,
+                "train_through_new" => 1,
+                "level"             => 1
             ]);
             $keyword2   = "已通过";
             $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
@@ -2784,15 +2793,14 @@ class human_resource extends Controller
              * {{remark.DATA}}
              */
             $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
-            $level_degree    = \App\Helper\Utils::get_teacher_level_str($teacher_info);
             if($wx_openid){
                 $data=[];
                 $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
-                $data['first']    = "恭喜您获得了晋升";
+                $data['first']    = "恭喜您通过模拟试听课审核，加入排课群，和排课老师沟通可上课时间。点详情，看群号。";
                 $data['keyword1'] = $teacher_info["nick"];
-                $data['keyword2'] = $level_degree;
+                $data['keyword2'] = "二星级";
                 $data['keyword3'] = date("Y-m-d H:i",time());
-                $data['remark']   = "\n升级原因:".$record_info."\n您将获得20元的课时奖励,愿老师您与我们一起以春风化雨的精神，打造高品质教学服务，助我们理优学子更上一层楼。";
+                $data['remark']   = "\n升级原因:具备线上教学能力。".$record_info."\n您将获得20元奖励，请在微信老师帮-个人中心-我的收入-绑定银行卡，每月10日发放上月薪资到绑定的银行卡。";
                 $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=".$teacherid;
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
             }
@@ -4247,7 +4255,7 @@ class human_resource extends Controller
             E\Eteacher_money_type::set_item_value_str($item);
             E\Etextbook_type::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"train_through_new_time","_str");
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time","_str");
             if($item["train_through_new_time"] !=0){
                 $item["work_day"] = ceil((time()-$item["train_through_new_time"])/86400)."天";
             }else{
@@ -4303,7 +4311,6 @@ class human_resource extends Controller
         if($is_master_flag_jw==1 || in_array($acc,["jack","jim","CoCo老师","孙瞿"])){
             $is_master_flag_jw=1;
         }
-
 
         return $this->pageView(__METHOD__,$ret_info,[
             "acc"          => $acc,

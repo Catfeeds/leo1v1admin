@@ -2511,6 +2511,7 @@ class user_manage_new extends Controller
     }
 
     public function month_user_info() {
+        $this->check_and_switch_tongji_domain();
         $year=$this->get_in_int_val("year","2016");
         $month=$this->get_in_int_val("month","5");
         $start_time=strtotime( "$year-$month-01");
@@ -3851,8 +3852,13 @@ class user_manage_new extends Controller
         $list = \App\Helper\Utils::list_to_page_info($list);
         $info = [];
         if ($type == E\Ereward_type::V_6 && $teacherid > 0) {
+            $start_time = 0;
+            $end_time = time();
             // 在校学生总数
-            $info['stu_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, 0);
+            //$info['stu_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, 0);
+            $phone = $this->t_teacher_info->field_get_list($teacherid, "phone");
+            $info['stu_sum'] = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $phone, 0);
+
             if ($teacherid == 269222) { // 处理赵志园二个账号
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459, 0);
                 $info['stu_sum'] += $num;
@@ -3862,7 +3868,8 @@ class user_manage_new extends Controller
             if ($info['stu_sum'] > 20) $info['stu_reward'] = 50;
             if ($info['stu_sum'] > 30) $info['stu_reward'] = 60;
             // 机构老师总数
-            $info['tea_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid);
+            //$info['tea_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid);
+            $info['tea_sum'] = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $phone, 1);
             if ($teacherid == 269222) { // 处理赵志园二个账号
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459);
                 $info['tea_sum'] += $num;

@@ -166,7 +166,7 @@
                         <td>{{$var["teacher_money_type_str"]}} </td>
                         <td>{{$var["identity_str"]}} </td>
                         <td>{{@$var["train_through_new_time_str"]}} </td>
-                        <td>{{@$var["create_time_str"]}} </td>
+                        <td>{{@$var["add_time_str"]}} </td>
                         <td>{{@$var["work_day"]}}</td>
                         <td>{{$var["level_str"]}} </td>
                         <td>{{$var["teacher_type_str"]}} </td>

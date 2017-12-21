@@ -47,22 +47,22 @@
 
             <div class="col-xs-1 col-md-1">
                 <div class="input-group">
-                    <button style="margin-left:10px" id="question_list" type="button" class="btn btn-primary">题目列表</button>
-                </div>
-            </div>
-
-            <div class="col-xs-1 col-md-1">
-                <div class="input-group">
                     <button style="margin-left:10px" id="knowledge_pic" type="button" class="btn btn-info">知识点展现</button>
                 </div>
             </div>
 
-            <div class="col-xs-1 col-md-1">
-                <div class="input-group">
-                    <button style="margin-left:10px" id="text_book_knowledge" type="button" class="btn btn-success">教材知识点</button>
-                </div>
-            </div>
+            <!-- <div class="col-xs-1 col-md-1">
+                 <div class="input-group">
+                 <button style="margin-left:10px" id="question_list" type="button" class="btn btn-primary">题目列表</button>
+                 </div>
+                 </div>
 
+                 <div class="col-xs-1 col-md-1">
+                 <div class="input-group">
+                 <button style="margin-left:10px" id="text_book_knowledge" type="button" class="btn btn-success">查看教材</button>
+                 </div>
+                 </div>
+            -->
         </div>
         <hr/>
         <div class="row skin-blue">

@@ -375,16 +375,16 @@ class wx_parent_gift extends Controller
         switch ($prize_type)
         {
         case 1:
-            $prize_str = "恭喜您抽中10元折扣券一张";
+            $prize_str = "抽中10元折扣券一张";
             break;
         case 2:
-            $prize_str = "恭喜您抽中20元折扣券一张";
+            $prize_str = "抽中20元折扣券一张";
             break;
         case 3:
-            $prize_str = "恭喜您抽中50元折扣券一张";
+            $prize_str = "抽中50元折扣券一张";
             break;
         case 4:
-            $prize_str = "恭喜您抽中价值200元的试听课一节";
+            $prize_str = "抽中价值200元的试听课一节";
             break;
         }
 
@@ -397,6 +397,15 @@ class wx_parent_gift extends Controller
         return $this->output_succ($prize_result);
     }
 
+    /**
+    *@ 检查是否是在读学员
+    */
+    public function checkIsRead(){
+        $parentid = $this->get_in_int_val("pid");
+        $orderid  = $this->t_order_info->getOrderByParentid($parentid);
+        if($orderid>0){$orderid=1;}
+        return $this->output_succ(["is_read"=>$orderid]);
+    }
 
 
     /**
