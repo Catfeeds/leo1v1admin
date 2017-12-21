@@ -39,6 +39,12 @@ $(function(){
        m_html_count_list.push([item["log_time"]*1000+8*3600000, item["count"] ]);
     });
 
+    var m_html_book_list=[];
+    $.each( g_data_ex_list.m_html_book_list,function(i, item){
+       m_html_book_list.push([item["log_time"]*1000+8*3600000, item["count"] ]);
+    });
+
+
 
     $("#id_pic_user_count").css({
         "height"  : "400px",
@@ -67,6 +73,15 @@ $(function(){
             label: "网页打开量" ,
             color: "blue",
         });
+
+        plot_data_list.push({
+            data: m_html_count_list ,
+            lines: { show: true },
+            points: { show: true },
+            label: "预约请求量" ,
+            color: "green",
+        });
+
 
 
 
