@@ -1051,6 +1051,12 @@ class wx_teacher_api extends Controller
     }
 
     public function getResourceList(){ // 讲义系统 boby
+        $resource_id = $this->get_in_int_val($field_name);
+        $resourceList = $this->t_resource_file->getResoureList($resource_id);
+    }
+
+    public function chooseResource(){
+        $file_id = $this->get_in_int_val('file_id');
 
     }
 
@@ -1161,6 +1167,66 @@ class wx_teacher_api extends Controller
         $teacher_info['tea_label_str'] = $tea_label_type_str;
         return $this->output_succ(["data"=>$teacher_info]);
     }
+
+
+    /**
+     * @ 老师圣诞节活动 积分
+     * @ 老师分享链接后 后续人员点击链接+1
+     * @ 从分享链接注册进来的老师 则分享人积分+10
+     * @
+     * @
+     **/
+
+    public function christmasTeaLink () {
+        $Tea_appid     = \App\Helper\Config::get_teacher_wx_appid();
+        $Tea_appsecret = \App\Helper\Config::get_teacher_wx_appsecret();
+        $shareId = $this->get_in_int_val("shareId");
+
+        $wx= new \App\Helper\Wx($Tea_appid,$Tea_appsecret);
+        $redirect_url=urlencode("http://wx-teacher.leo1v1.com/wx_teacher_api/rewriteLink?shareId=".$shareId );
+        $wx->goto_wx_login($redirect_url);
+    }
+
+    public function rewriteLink(){
+        $Tea_appid     = \App\Helper\Config::get_teacher_wx_appid();
+        $Tea_appsecret = \App\Helper\Config::get_teacher_wx_appsecret();
+        $shareId = $this->get_in_int_val('shareId');
+
+        $code       = $this->get_in_str_val('code');
+        $wx         = new \App\Helper\Wx($Tea_appid,$Tea_appsecret);
+        $token_info = $wx->get_token_from_code($code);
+        $currentId  = @$token_info["openid"];
+        // $token      = $wx->get_wx_token($Tea_appid,$Tea_appsecret);
+        // $user_info  = $wx->get_user_info($openid,$token);
+        // $subscribe = @$user_info['subscribe'];
+        // $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
+
+        header("Location: http://wx-parent-web.leo1v1.com/teachris/index.html?shareId=".$shareId ."&currentId=".$currentId);//链接待定
+        return ;
+
+    }
+
+    /**
+     * @ 记录积分值
+     * @ type: 0:点击分享页面 +1 积分 1:老师注册进入 +10积分
+     **/
+    public function addClickLog(){
+        $shareId   = $this->get_in_int_val('shareId');
+        $currentId = $this->get_in_str_val('currentId');
+
+        $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId);
+        if(!$isHasAdd){
+            $this->t_teacher_christmas->row_insert([
+                "teacherid"   => $shareId,
+                "next_openid" => $currentId,
+                "add_time"    => time(),
+                "score"       => 1
+            ]);
+        }
+        return $this->output_succ(['test'=>$isHasAdd]);
+    }
+
+
 
 
 }

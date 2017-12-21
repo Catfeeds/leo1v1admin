@@ -471,7 +471,8 @@ class NewRouteConfig {
         "/seller_student2/get_current_activity"  => true,
         "/seller_student2/update_power_value"  => true,
         "/seller_student2/get_all_activity"  => true,
-        "/test_bacon/power_group_edit"  => true,
+        "/test_bacon/get_power"  => true,
+        "/test_bacon/download_power"  => true,
         "/appoint/index2"                  => true,
         "/appoint/get_package_simple_info" => true,
         "/appoint/get_package_pic"         => true,
@@ -682,6 +683,7 @@ class NewRouteConfig {
         "/question_new_api/get_question_type_and_resource"  =>true,
         "/question_new_api/get_questions"                =>true,
         "/question_new_api/get_answers"                  =>true,
+        "/question_new_api/save_answers"                 =>true,
     ];
 
     static $dev_url_map = [

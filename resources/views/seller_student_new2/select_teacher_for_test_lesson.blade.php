@@ -57,12 +57,12 @@
                     <input id="id_lesson_time" type="text" value="{{ @$require_info['lesson_time'] }}" />
                 </div>
             </div>
-            <div class="col-xs-6 col-md-2">
+            <div class="col-xs-6 col-md-3">
                 <div class="input-group ">
-                    <span>老师</span>
+                    <span>老师信息</span>
                     <input id="id_teacherid" style="display:none" type="text"
                            value="{{ @$require_info['teacherid'] }}" autocomplete="off" />
-                    <span id="id_teacher_name" type="text" style="height:34px" >{{ @$require_info['tea_nick'] }}</span>
+                    <input id="id_teacher_info" type="text" value="{{ @$require_info['teacher_info'] }}" autocomplete="off" />
                 </div>
             </div>
             <div class="col-md-1 col-xs-3">
@@ -113,7 +113,6 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">

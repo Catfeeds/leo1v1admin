@@ -891,7 +891,13 @@ class human_resource extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, "recover_class_time","_str");
 
             if($item["train_through_new_time"] !=0){
-                $item["work_day"] = \App\Helper\Utils::change_time_difference_to_day($item['train_through_new_time']);
+                $lecture = $this->t_teacher_record_list->get_data_to_teacher_flow_id(E\Etrain_type::V_4, $item['teacherid']);
+                if ($lecture) {
+                    $item["work_day"] = \App\Helper\Utils::change_time_difference_to_day($lecture['add_time']);
+                } else {
+                    $item['work_day'] = "";
+                }
+                //$item["work_day"] = \App\Helper\Utils::change_time_difference_to_day($item['train_through_new_time']);
             }else{
                 $item["work_day"] ="";
             }
@@ -1552,6 +1558,9 @@ class human_resource extends Controller
         $full_time     = $this->get_in_int_val('full_time',-1);
         $fulltime_flag = $this->get_in_int_val('fulltime_flag');
         $id_train_through_new_time = $this->get_in_int_val("id_train_through_new_time",-1);
+        //如果用电话号码检索不区分库
+        if($phone)
+            $tea_subject = '';
 
         //判断招师主管
         $is_master_flag = $this->t_admin_group_name->check_is_master(8,$adminid);
@@ -1800,9 +1809,6 @@ class human_resource extends Controller
 
         if($status==E\Echeck_status::V_1){
             $teacher_info     = $this->t_teacher_info->get_teacher_info_by_phone($lecture_info['phone']);
-
-
-
 
             $appointment_info = $this->t_teacher_lecture_appointment_info->get_appointment_info_by_id($appointment_id);
             $nick = $appointment_info['name'];
@@ -2115,6 +2121,8 @@ class human_resource extends Controller
         $accept_adminid             = $this->get_in_int_val("accept_adminid", -1);
         $second_train_status        = $this->get_in_int_val("second_train_status", -1);
         $teacher_pass_type          = $this->get_in_int_val("teacher_pass_type", -1);
+        $gender                     = $this->get_in_int_val("gender", -1);
+
         if($show_full_time ==1){
             $interview_type = $this->get_in_int_val("interview_type",-1);
         }else{
@@ -2139,7 +2147,7 @@ class human_resource extends Controller
             $user_name,$status,$adminid,$record_status,$grade,$subject,$teacher_ref_type,
             $interview_type,$have_wx, $lecture_revisit_type,$full_time,
             $lecture_revisit_type_new,$fulltime_teacher_type,$accept_adminid,
-            $second_train_status,$teacher_pass_type,$opt_date_str
+            $second_train_status,$teacher_pass_type,$opt_date_str,$gender
         );
         foreach($ret_info["list"] as &$item){
             $item["begin"] = date("Y-m-d H:i:s",$item["answer_begin_time"]);
@@ -2159,6 +2167,7 @@ class human_resource extends Controller
             }
             E\Esubject::set_item_value_str($item,"subject_ex");
             E\Esubject::set_item_value_str($item,"trans_subject_ex");
+            E\Egender::set_item_value_str($item);
 
             if(($item['status']=="-2" && empty($item["lesson_start"])) || ($item['add_time'] <= 0 && $item['status'] <= 0 && $item['trial_train_status'] == -2)){
                 $item['status_str'] = "无试讲";
@@ -3516,7 +3525,7 @@ class human_resource extends Controller
     }
 
     /**
-     * 更改用户的手机号
+     * 更改老师的手机号
      */
     public function change_phone(){
         $userid    = $this->get_in_int_val("userid");
@@ -4302,7 +4311,6 @@ class human_resource extends Controller
         if($is_master_flag_jw==1 || in_array($acc,["jack","jim","CoCo老师","孙瞿"])){
             $is_master_flag_jw=1;
         }
-
 
         return $this->pageView(__METHOD__,$ret_info,[
             "acc"          => $acc,

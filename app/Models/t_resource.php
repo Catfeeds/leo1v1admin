@@ -16,13 +16,20 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ['resource_type=%u', $resource_type, -1],
             ['subject=%u', $subject, -1],
             ['grade=%u', $grade, -1],
-            ['tag_one=%u', $tag_one, -1],
             ['tag_two=%u', $tag_two, -1],
             ['tag_three=%u', $tag_three, -1],
             ['tag_four=%u', $tag_four, -1],
             ['is_del=%u', $is_del, -1],
             ['status=%u', $is_del, -1],
         ];
+        if( in_array($resource_type, [1,2,3,4,5,9]) ){
+            //添加通用版50000
+            if($tag_one != -1){
+                $where_arr[] = " tag_one in ($tag_one, 50000) ";
+            }
+        } else {
+            $where_arr[] = ['tag_one=%u', $tag_one, -1];
+        }
 
         if($file_title != ''){
             $where_arr[] = ["file_title like '%s%%'", $this->ensql( $file_title), ""];
@@ -93,7 +100,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ['r.resource_type=%u', $resource_type, -1],
             ['r.subject=%u', $subject, -1],
             ['r.grade=%u', $grade, -1],
-            ['r.tag_one=%u', $tag_one, -1],
+            // ['r.tag_one=%u', $tag_one, -1],
             ['r.tag_two=%u', $tag_two, -1],
             ['r.tag_three=%u', $tag_three, -1],
             ['r.tag_four=%u', $tag_four, -1],
@@ -101,6 +108,17 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             'f.status=0',
             'ra.is_ban=0',
         ];
+
+        //老师只开放了１－６
+        if( $resource_type < 6){
+            //添加通用版50000
+            if($tag_one != -1){
+                $where_arr[] = " r.tag_one in ($tag_one, 50000) ";
+            }
+        } else {
+            $where_arr[] = ['r.tag_one=%u', $tag_one, -1];
+        }
+
 
         $sql = $this->gen_sql_new(
             "select r.resource_id,r.resource_type,f.file_title,f.file_size,f.file_type, max(v.create_time) create_time,f.file_id,"

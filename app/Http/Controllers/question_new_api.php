@@ -159,5 +159,63 @@ class question_new_api extends Controller
 
     }
 
+    public function save_answers(){
+        $data   = $this->get_in_str_val('data');
+        if(empty($data)){
+            return $this->output_succ(["status" => 301,"msg"=>'不能传空值']);
+        }
+        //dd($data);
+        $arr = json_decode($data,true);
+        if(empty($arr) || !is_array($arr)){
+            return $this->output_succ(["status" => 302,"msg"=>'请传json格式的二维数组']);
+        }
+        if(count($arr) == count($arr, 1)){
+            return $this->output_succ(["status" => 303,"msg"=>'请传二维数组不是一维数组']);
+        }
+        $insertCheck = [
+            "question_id" => 0,
+            "student_id"  => 0,
+            "teachher_id" => 0,
+            "answer_id"   => 0,
+            "score"       => 0,
+            "time"        => 0,
+        ];
+        foreach($arr as $k => $item){
+            $check1 = array_diff_key($insertCheck,$item);
+            $check2 = array_diff_key($item,$insertCheck);
+            $k += 1;
+            if(!empty($check1)){
+                $lackkey = implode(',',array_keys($check1));
+                $msg = "question_id,student_id,teachher_id,answer_id,score,time都是数组必须具备的值,你在二维数组中第".$k."个数组中遗漏了".$lackkey;
+                return $this->output_succ(["status" => 304,"msg"=>$msg]);
+            }
+            if(!empty($check1)){
+                $morekey = implode(',',array_keys($check2));
+                $msg = "二维数组中只需传question_id,student_id,teachher_id,answer_id,score,time,你在二维数组中第".$k."个数组中多传了".$morekey;
+                return $this->output_succ(["status" => 305,"msg"=>$msg]);
+            }
+        }
 
+        //所要保存的条数
+        $saveItem = count($arr);
+        //已经保存的条数
+        $haveSave = 0;
+        //保存未成功的条数
+        $lackItem = "以下未保存成功:第";
+        foreach($arr as $k => $item){
+            $k += 1;
+            $ret = $this->t_student_answer->row_insert($item);
+            if($ret){
+                $haveSave ++;
+            }else{
+                $lackItem .= $k.",";
+            }
+        }
+        $lackItem = substr($lackItem, 0, -1);
+        if( $haveSave < $saveItem ){
+            return $this->output_succ(["status" => 201,"msg"=>$lackItem]);
+        }else{
+            return $this->output_succ(["status" => 200,"msg"=>"全部保存成功"]);
+        }
+    }
 }

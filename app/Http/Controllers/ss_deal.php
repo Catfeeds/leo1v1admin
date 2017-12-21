@@ -5143,6 +5143,9 @@ class ss_deal extends Controller
         return $this->output_succ();
     }
 
+    /**
+     * 更新老师招师库信息
+     */
     public function update_lecture_appointment_info(){
         $id                   = $this->get_in_str_val("id");
         $name                 = $this->get_in_str_val("name");
@@ -5151,6 +5154,7 @@ class ss_deal extends Controller
         $qq                   = $this->get_in_str_val("qq");
         $reference            = $this->get_in_str_val("reference");
         $age                  = $this->get_in_int_val("age");
+        $gender               = $this->get_in_int_val("gender");
         $grade_ex             = $this->get_in_int_val("grade_ex");
         $subject_ex           = $this->get_in_int_val("subject_ex");
         $teacher_type         = $this->get_in_int_val("teacher_type");
@@ -5158,6 +5162,11 @@ class ss_deal extends Controller
         $custom               = $this->get_in_int_val("custom");
         $acc                  = $this->get_account();
 
+        if(empty($name) || empty($phone) || empty($grade_ex) || empty($subject_ex) || empty($teacher_type)
+           || empty($email) || empty($qq) || empty($age) || empty($gender)
+        ){
+            return $this->output_err("红色部分不能为空");
+        }
         $check_phone = \App\Helper\Utils::check_phone($phone);
         if(!$check_phone){
             return $this->output_err("请输入正确的手机号!");
@@ -5172,22 +5181,40 @@ class ss_deal extends Controller
         if(!$check_email){
             return $this->output_err("请输入正确的邮箱!");
         }
-
+        if($age>100){
+            return $this->output_err("请输入合理的老师年龄！");
+        }
         $old_phone = $this->t_teacher_lecture_appointment_info->get_phone($id);
         if($old_phone != $phone){
-            $id_old = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);
-            if($id_old>0){
+            $check_phone = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);
+            if($check_phone>0){
                 return $this->output_err("该手机号已存在");
             }
+            $update_phone_flag = true;
+        }else{
+            $update_phone_flag = false;
         }
 
-        if(empty($name) || empty($phone) || empty($grade_ex) || empty($subject_ex) || empty($teacher_type)
-           || empty($email) || empty($qq) || empty($age)
-        ){
-            return $this->output_err("红色部分不能为空");
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($old_phone);
+        if(!$teacherid){
+            $teacher_info['phone'] = $new_phone;
+            $ret = $this->add_teacher_common($teacher_info);
+            if($ret<=0){
+                return $this->output_err($ret);
+            }else{
+                $teacherid = $ret;
+            }
         }
-
-        $ret = $this->t_teacher_lecture_appointment_info->field_update_list($id,[
+        if($update_phone_flag){
+            $this->change_teacher_phone($teacherid,$new_phone);
+        }
+        if($teacherid>0){
+            $this->t_teacher_info->field_update_list($teacherid, [
+                'age'    => $age,
+                'gender' => $gender
+            ]);
+        }
+        $this->t_teacher_lecture_appointment_info->field_update_list($id,[
             "name"                 => $name,
             "phone"                => $phone,
             "email"                => $email,
@@ -5200,8 +5227,7 @@ class ss_deal extends Controller
             "lecture_revisit_type" => $lecture_revisit_type,
             "custom"               => $custom,
         ]);
-        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
-        $ret = $this->t_teacher_info->field_update_list($teacherid, ['age'=>$age]);
+
         return $this->output_succ();
     }
 

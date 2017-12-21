@@ -37,9 +37,16 @@ class test_abner extends cmd_base
      */
     public function handle()
     {
+        // $this->get_teacher_case();
+        // $this->get_today_headline
+    }
+
+    //@param:获取每月各科目教师入职、帯课、试听课耗、常规课耗
+    private function get_teacher_case(){
         //
         $start_time = strtotime(date('Y-09-01'));
         $end_time = strtotime('+1 month -1 second',$start_time);
+
         $flag_map = [];
         $teacher_map = [];
         $teacher_case = [
@@ -372,5 +379,6 @@ class test_abner extends cmd_base
 
         fclose($fp);
         echo 'ok!';
+
     }
 }

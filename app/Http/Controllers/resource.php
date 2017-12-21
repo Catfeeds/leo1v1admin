@@ -265,19 +265,38 @@ class resource extends Controller
         $adminid  = $this->get_account_id();
         $time     = time();
         $ban_level = count($arr);
+
+        //暂时使用
+        $s_g = [
+            1 => [101,102,103,104,105,106,201,202,203,301,302,303],
+            2 => [101,102,103,104,105,106,201,202,203,301,302,303],
+            3 => [101,102,103,104,105,106,201,202,203,301,302,303],
+            4 => [201,202,203,301,302,303],
+            5 => [201,202,203,301,302,303],
+            6 => [201,202,203,301,302,303],
+            7 => [201,202,203,301,302,303],
+            8 => [201,202,203,301,302,303],
+            9 => [201,202,203,301,302,303],
+            10 => [201,202,203,301,302,303],
+            11 => [201,202,203,301,302,303],
+        ];
         if($do_type === 'add'){//添加版本
             if($arr[0] < 3) {//1v1
                 $season = E\Eresource_season::$desc_map;
                 foreach($season as $key=>$v) {
-                    $this->t_resource_agree_info->row_insert([
-                        'resource_type' => $arr[0],
-                        'subject'       => $arr[1],
-                        'grade'         => $arr[2],
-                        'tag_one'       => $region,
-                        'tag_two'       => $key,
-                        'agree_adminid' => $adminid,
-                        'agree_time'    => $time,
-                    ]);
+                    //2017-12-21 暂时改动，一键给该类型科目下所有的年级添加版本
+                    foreach($s_g[ $arr[1] ] as $g){
+                        $this->t_resource_agree_info->row_insert([
+                            'resource_type' => $arr[0],
+                            'subject'       => $arr[1],
+                            // 'grade'         => $arr[2],
+                            'grade'         => $g,
+                            'tag_one'       => $region,
+                            'tag_two'       => $key,
+                            'agree_adminid' => $adminid,
+                            'agree_time'    => $time,
+                        ]);
+                    }
                 }
             } else if ($arr[0] == 3){//标准试听课
                 $free = E\Eresource_free::$desc_map;
@@ -286,17 +305,22 @@ class resource extends Controller
                     foreach($diff as $d=>$val){
                         $sub_grade_arr = \App\Helper\Utils::get_sub_grade_tag($arr[1],@$arr[2]);
                         foreach($sub_grade_arr as $sg => $value){
-                            $this->t_resource_agree_info->row_insert([
-                                'resource_type' => $arr[0],
-                                'subject'       => $arr[1],
-                                'grade'         => @$arr[2],
-                                'tag_one'       => $region,
-                                'tag_two'       => $f,
-                                'tag_three'     => $d,
-                                'tag_four'      => $sg,
-                                'agree_adminid' => $adminid,
-                                'agree_time'    => $time,
-                            ]);
+                            //2017-12-21 暂时改动，一键给该类型科目下所有的年级添加版本
+
+                            foreach($s_g[ $arr[1] ] as $g){
+                                $this->t_resource_agree_info->row_insert([
+                                    'resource_type' => 3,
+                                    'subject'       => $arr[1],
+                                    // 'grade'         => @$arr[2],
+                                    'grade'         => $g,
+                                    'tag_one'       => $region,
+                                    'tag_two'       => $f,
+                                    'tag_three'     => $d,
+                                    'tag_four'      => $sg,
+                                    'agree_adminid' => $adminid,
+                                    'agree_time'    => $time,
+                                ]);
+                            }
                         }
                     }
                 }

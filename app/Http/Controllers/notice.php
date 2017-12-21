@@ -79,6 +79,7 @@ class notice extends Controller
                 );
 
                 $receive_content= json_encode($ret );
+                \App\Helper\Utils::logger("sms_ret:".$receive_content."sms_phone:".$phone);
                 if ( property_exists($ret,"result") && $ret->result->err_code==="0") {
                     $is_success=1;
                 }else{
