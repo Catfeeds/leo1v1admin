@@ -1,5 +1,9 @@
 <?php
 namespace App\Http\Controllers;
+/**
+ * @use Controller
+ *
+ */
 trait  ViewDeal {
     static $page_self_view_data=[];
 
@@ -628,6 +632,20 @@ trait  ViewDeal {
         $objWriter->save('php://output');
 
         exit;
+    }
+
+
+    function pageOutJson( $method ,$ret_info=null,$data_ex=array(),$ex_js_args=null,$showPages=10  ){
+
+        if (!$ret_info) {
+            $ret_info=\App\Helper\Utils::list_to_page_info([]);
+        }
+
+        $data=$this->getPageData($ret_info,$ex_js_args,$showPages);
+        if (count($data_ex)>0 )  {
+            $data=array_merge($data,$data_ex) ;
+        }
+        $this->output_succ($data);
     }
 
 

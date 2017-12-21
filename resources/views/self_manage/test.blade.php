@@ -12,6 +12,14 @@
         <div id="id_header_query_info" >
         </div>
 
+        <div class="row">
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <button class="btn btn-primary">xxx </button>
+                </div>
+            </div>
+        </div>
+
 
 
 

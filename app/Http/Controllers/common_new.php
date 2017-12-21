@@ -1747,10 +1747,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $count=$this->get_in_int_val("count" );
         $log_time=$this->get_in_int_val("log_time" );
 
+        $log_type = $this->get_in_int_val("log_type",  2017120201 );
+        //2017120201 ,m_html 访问量
+        //2017122101 ,m_html -> 调用 预约接口的量
+
         //按小时
         $log_time-=$log_time%3600;
 
-        $log_type =2017120201;
         $this->t_tongji_date->del_log_time($log_type, $log_time);
         $this->t_tongji_date->add( $log_type,$log_time,0,$count);
         return $this->output_succ();
