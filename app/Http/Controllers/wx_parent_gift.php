@@ -397,6 +397,15 @@ class wx_parent_gift extends Controller
         return $this->output_succ($prize_result);
     }
 
+    /**
+    *@ 检查是否是在读学员
+    */
+    public function checkIsRead(){
+        $parentid = $this->get_in_int_val("pid");
+        $orderid  = $this->t_order_info->getOrderByParentid($parentid);
+        if($orderid>0){$orderid=1;}
+        return $this->output_succ(["is_read"=>$orderid]);
+    }
 
 
     /**
