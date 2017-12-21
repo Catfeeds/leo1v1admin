@@ -3852,12 +3852,24 @@ class user_manage_new extends Controller
         $list = \App\Helper\Utils::list_to_page_info($list);
         $info = [];
         if ($type == E\Ereward_type::V_6 && $teacherid > 0) {
+            //$info['stu_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, 0);
+            $teacher = $this->t_teacher_info->field_get_list($teacherid, "phone,teacher_type");
+            if ($teacher['teacher_type'] == 21 || $teacher['teacher_type'] == 22) {
+                $info['msg'] = '特殊渠道-工作室';
+            }
+
+            if ($teacherid == 420745 || $teacherid == 437138) {
+                $info['msg'] = '15333268257 和  李桂荣两位老师12月后的伯乐奖关掉';
+            } elseif ($teacherid == 274115) {
+                $info['msg'] = 'join中国的伯乐奖都是60元/个';
+            } elseif ($teacherid == 149697) {
+                $info['msg'] = '明日之星的伯乐奖都是50元/个';
+            } elseif ($teacherid == 176348) {
+                $info['msg'] = '特殊渠道-田克平';
+            }
             $start_time = strtotime('2015-1-1');
             $end_time = time();
-            // 在校学生总数
-            //$info['stu_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, 0);
-            $phone = $this->t_teacher_info->field_get_list($teacherid, "phone");
-            $info['stu_sum'] = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $phone, 0);
+            $info['stu_sum'] = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher['phone'], 0);
 
             if ($teacherid == 269222) { // 处理赵志园二个账号
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459, 0);
@@ -3869,7 +3881,7 @@ class user_manage_new extends Controller
             if ($info['stu_sum'] > 30) $info['stu_reward'] = 60;
             // 机构老师总数
             //$info['tea_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid);
-            $info['tea_sum'] = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $phone, 1);
+            $info['tea_sum'] = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher['phone'], 1);
             if ($teacherid == 269222) { // 处理赵志园二个账号
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459);
                 $info['tea_sum'] += $num;
@@ -5335,11 +5347,16 @@ class user_manage_new extends Controller
             //     ]);
             //     continue;
             // }
-            $type = 1;
-            if ($item['identity'] == 0 || $item['identity'] == 8) {
-                $type = 0;
+            $type = 0;
+            if ($item['identity'] == 5 || $item['identity'] == 6) {
+                $type = 1;
             }
-            $num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type, $item['add_time']);
+            $start_time = strtotime("2015-1-1");
+            $end_time = time();
+            $phone = $this->t_teacher_info->field_get_list($teacherid, "phone");
+            $num = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $phone, $type);
+
+            //$num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type, $item['add_time']);
             $reward = $this->ret_reward($num, $type);
             if ($reward != $item['money']) {
                 $this->t_teacher_money_list->field_update_list($item['id'],[

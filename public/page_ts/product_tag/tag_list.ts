@@ -41,16 +41,16 @@ $(function(){
     var tag_l1_sort = $('#id_tag_l1_sort');
     var tag_l2_sort = $('#id_tag_l2_sort');
     var tag_l3_sort = $('#id_tag_l3_sort');
-    var old_tag_l1_sort = g_args.tag_l1_sort;
+    var old_tag_l1_sort = '';
     if(old_tag_l1_sort == ''){
         old_tag_l1_sort="标签一级分类";
     }
 
-    var old_tag_l2_sort = g_args.tag_l2_sort;
+    var old_tag_l2_sort = '';
     if(old_tag_l2_sort == ''){
         old_tag_l2_sort="标签二级分类";
     }
-    var old_tag_l3_sort = g_args.tag_l3_sort;
+    var old_tag_l3_sort = '';
     if(old_tag_l3_sort == ''){
         old_tag_l3_sort="标签三级分类";
     }
