@@ -850,4 +850,9 @@ class teacher_money extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
+
+
+    public function update_bole_reward($teacherid, $re_teacherid) {
+        $this->add_reference_price($teacherid, $re_teacherid);
+    }
 }

@@ -165,6 +165,7 @@ $(function(){
     var add_or_del_or_edit = function(info_str,do_type){
         var id_book = $("<select />");
         Enum_map.append_option_list("region_version",id_book,true);
+        // id_book.val(50000);
         var arr= [
             ["添加教材版本：", id_book],
         ];

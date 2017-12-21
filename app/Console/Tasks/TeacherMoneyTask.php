@@ -157,6 +157,7 @@ class TeacherMoneyTask extends TaskController
                     $this->t_teacher_salary_list->field_update_list($id, [
                         'pay_time' => $start_time
                     ]);
+                    $this->t_user_log->add_data("修改全转兼工资 id: ".$id." 修改后时间: ".date('Y-m-d H:i:s', $start_time));
                 }
             }
             if($is_full){

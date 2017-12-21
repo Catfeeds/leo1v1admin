@@ -891,7 +891,13 @@ class human_resource extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, "recover_class_time","_str");
 
             if($item["train_through_new_time"] !=0){
-                $item["work_day"] = \App\Helper\Utils::change_time_difference_to_day($item['train_through_new_time']);
+                $lecture = $this->t_teacher_record_list->get_data_to_teacher_flow_id(E\Etrain_type::V_4, $item['teacherid']);
+                if ($lecture) {
+                    $item["work_day"] = \App\Helper\Utils::change_time_difference_to_day($lecture['add_time']);
+                } else {
+                    $item['work_day'] = "";
+                }
+                //$item["work_day"] = \App\Helper\Utils::change_time_difference_to_day($item['train_through_new_time']);
             }else{
                 $item["work_day"] ="";
             }
@@ -1552,6 +1558,9 @@ class human_resource extends Controller
         $full_time     = $this->get_in_int_val('full_time',-1);
         $fulltime_flag = $this->get_in_int_val('fulltime_flag');
         $id_train_through_new_time = $this->get_in_int_val("id_train_through_new_time",-1);
+        //如果用电话号码检索不区分库
+        if($phone)
+            $tea_subject = '';
 
         //判断招师主管
         $is_master_flag = $this->t_admin_group_name->check_is_master(8,$adminid);
@@ -4249,7 +4258,7 @@ class human_resource extends Controller
             E\Eteacher_money_type::set_item_value_str($item);
             E\Etextbook_type::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"train_through_new_time","_str");
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item,"trial_lecture_pass_time","_str");
             if($item["train_through_new_time"] !=0){
                 $item["work_day"] = ceil((time()-$item["train_through_new_time"])/86400)."天";
             }else{

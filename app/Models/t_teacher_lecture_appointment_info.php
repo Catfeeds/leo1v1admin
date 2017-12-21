@@ -1312,5 +1312,31 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_value($sql);
     }
 
+    public function get_references() {
+        $sql = $this->gen_sql_new("select reference from %s where reference != '' and reference != 0 ",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql, function($item) {
+            return $item['reference'];
+        });
+    }
+
+    public function get_money_list($start_time, $end_time, $reference) { 
+        //select teacherid,name from t_teacher_info t left join t_teacher_lecture_appointment_info ta on t.phone=ta.phone where ta.reference ='15366667766' and t.train_through_new_time  > 0 and train_through_new_time >= unix_timestamp('2017-11-1') and unix_timestamp('2017-12-1')
+        $where_arr = [
+            "ta.reference='$reference' ",
+            "t.train_through_new_time>0",
+            ["train_through_new_time>=%u", $start_time, 0],
+            ["train_through_new_time<%u", $end_time, 0]
+        ];
+        $sql = $this->gen_sql_new("select teacherid from %s t left join %s ta on t.phone=ta.phone where %s",
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql, function($item) {
+            return $item['teacherid'];
+        });
+    }
 
 }
