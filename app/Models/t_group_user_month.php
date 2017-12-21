@@ -42,8 +42,8 @@ class t_group_user_month extends \App\Models\Zgen\z_t_group_user_month
     }
     public function get_groupid_by_adminid( $main_type, $adminid,$month) {
         $sql =$this->gen_sql_new("select g.groupid from %s gu, %s g where "
-                                 ."gu.groupid= g.groupid and  "
-                                 ." main_type=%u and adminid=%u and month=%u",
+                                 ."gu.groupid= g.groupid and  gu.month= g.month "
+                                 ." main_type=%u and adminid=%u and gu.month=%u ",
                                  self::DB_TABLE_NAME,
                                  // t_admin_group_name::DB_TABLE_NAME,
                                  t_group_name_month::DB_TABLE_NAME,
