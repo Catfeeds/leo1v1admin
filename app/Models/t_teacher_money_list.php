@@ -330,14 +330,13 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
             "l.type=6",
             ["t.train_through_new_time>=%u", $start_time, 0],
             ["t.train_through_new_time<%u", $end_time, 0],
-            ['t.teacherid=%u', $teacherid, 0]
+            ['l.teacherid=%u', $teacherid, 0]
         ];
         $sql = $this->gen_sql_new("select recommended_teacherid,t.nick from %s l left join %s t on t.teacherid=l.recommended_teacherid where %s",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        echo $sql;
         return $this->main_get_list($sql, function($item) {
             return $item['recommended_teacherid'];
         });

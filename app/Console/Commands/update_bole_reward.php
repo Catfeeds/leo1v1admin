@@ -39,10 +39,8 @@ class update_bole_reward extends Command
     {
         $task = new \App\Console\Tasks\TaskController();
         $tea = new \App\Http\Controllers\teacher_money();
-        //$start_time = strtotime(date('Y-m-1', strtotime('-1 month')));
-        //$end_time = strtotime(date('Y-m-1', time()));
-        $start_time = 0;
-        $end_time = time();
+        $start_time = strtotime(date('Y-m-1', strtotime('-1 month')));
+        $end_time = strtotime(date('Y-m-1', time()));
 
         $references = $task->t_teacher_lecture_appointment_info->get_references();
         $teacherids = $task->t_teacher_info->get_teacherids();
@@ -59,12 +57,13 @@ class update_bole_reward extends Command
                     if ($key == '15366667766') {
                         var_dump($a_info);
                         var_dump($m_info);
-                        exit;
+                        //exit;
                     }
                     foreach($a_info as $val) {
-                        if(isset($m_info[$val['teacherid']])) {
-                            echo ' --- wel ---   ';
-                            exit;
+                        if(!isset($m_info[$val['teacherid']])) {
+                            if ($key == '15366667766') {
+                                echo ' --- wel --- ';
+                            }
                         }
                         //echo $teacherids[$key]['teacherid'].' --- '.$val['teacherid'];
                             //$tea->update_bole_reward($teacherids[$key]['teacherid'],$val['teacherid']);
