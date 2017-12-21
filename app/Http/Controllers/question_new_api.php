@@ -164,6 +164,7 @@ class question_new_api extends Controller
         if(empty($data)){
             return $this->output_succ(["status" => 301,"msg"=>'不能传空值']);
         }
+        //dd($data);
         $arr = json_decode($data,true);
         if(empty($arr) || !is_array($arr)){
             return $this->output_succ(["status" => 302,"msg"=>'请传json格式的二维数组']);
@@ -184,12 +185,12 @@ class question_new_api extends Controller
             $check2 = array_diff_key($item,$insertCheck);
             $k += 1;
             if(!empty($check1)){
-                $lackkey = explode(',',array_keys($check1));
+                $lackkey = implode(',',array_keys($check1));
                 $msg = "question_id,student_id,teachher_id,answer_id,score,time都是数组必须具备的值,你在二维数组中第".$k."个数组中遗漏了".$lackkey;
                 return $this->output_succ(["status" => 304,"msg"=>$msg]);
             }
             if(!empty($check1)){
-                $morekey = explode(',',array_keys($check2));
+                $morekey = implode(',',array_keys($check2));
                 $msg = "二维数组中只需传question_id,student_id,teachher_id,answer_id,score,time,你在二维数组中第".$k."个数组中多传了".$morekey;
                 return $this->output_succ(["status" => 305,"msg"=>$msg]);
             }

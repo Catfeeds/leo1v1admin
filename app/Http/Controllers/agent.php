@@ -456,23 +456,6 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $tong_count = 0;
-        $tao_count = 0;
-        $count = $this->t_seller_student_new->get_meituan_count_by_adminid();
-        foreach($count as $item){
-            if($item['adminid'] == 416){
-                $tong_count += 1;
-            }else{
-                $tao_count += 1;
-            }
-        }
-        if($tong_count>$tao_count){
-            $adminid = 416;
-            $account = '童宇周';
-        }elseif($tao_count>$tong_count){
-            $adminid = 1200;
-            $account = '陶建华';
-        }
         dd($tong_count,$tao_count,$count);
         dd($ret);
         $this->t_seller_new_count_get_detail->add($new_count_id=99,$get_desc='aa');
