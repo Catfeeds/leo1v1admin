@@ -387,8 +387,7 @@ class common_new extends Controller
              */
             $shareId   = $this->get_in_int_val('shareId');
             $currentId = $this->get_in_str_val('currentId');
-            $christmas_type = $this->get_in_int_val('christmas_type');
-            if($christmas_type == 1){
+            if($shareId > 0){
                 $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId);
                 if(!$isHasAdd){
                     $this->t_teacher_christmas->row_insert([
