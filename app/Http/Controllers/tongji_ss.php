@@ -1809,9 +1809,14 @@ class tongji_ss extends Controller
         }
         ksort($list);
 
+        $log_type =2017120201;
+        $m_html_list=$this->t_tongji_date->get_list($log_type, $start_time, $end_time,0 );
+
+
         return $this->pageView(__METHOD__,null, [
             "g_data_ex_list"=> [
                 "new_user_count_list" => $list,
+                "m_html_count_list" =>  $m_html_list,
             ],
         ]);
 
@@ -8294,6 +8299,7 @@ class tongji_ss extends Controller
 
     //@desn:新版渠道统计
     public function channel_statistics(){
+        $this->check_and_switch_tongji_domain();
         $origin            = trim($this->get_in_str_val("origin",""));
         $origin_ex         = $this->get_in_str_val('origin_ex', "");
         $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");

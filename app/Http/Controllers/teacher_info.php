@@ -515,6 +515,48 @@ class teacher_info extends Controller
         $old_stu_cw_time    = trim($this->get_in_str_val("old_stu_cw_time"));
         $old_issue_time     = trim($this->get_in_str_val("old_issue_time"));
         $old_tea_cw_url     = trim($this->get_in_str_val("old_tea_cw_url"));
+        $tea_cw_origin      = $this->get_in_str_val("tea_cw_origin");
+        $stu_cw_origin      = $this->get_in_str_val("stu_cw_origin");
+        $issue_origin       = $this->get_in_str_val("issue_origin");
+        $tea_cw_file_id     = $this->get_in_str_val("tea_cw_file_id");
+        $stu_cw_file_id     = $this->get_in_str_val("stu_cw_file_id");
+        $issue_file_id      = $this->get_in_str_val("issue_file_id");
+        $new_res_id_list    = $this->get_in_str_val("new_res_id_list");
+        $use_res_id_list    = $this->get_in_str_val("use_res_id_list");
+
+        if($use_res_id_list != $new_res_id_list){//有变化说明说明修改了使用课件
+            $old_id = explode(',', substr($use_res_id_list,1,-1));
+            $new_id = explode(',', substr($new_res_id_list,1,-1));
+            foreach($new_id as $file_id){
+                $key = array_search($file_id, $old_id);
+                if($key === false) {
+                    //新增使用
+                    if($file_id > 0){
+                        $this->t_resource_file_visit_info->row_insert([
+                            'file_id'      => $file_id,
+                            'visit_type'   => 7,
+                            'visitor_type' => 1,
+                            'visitor_id'   => $teacherid,
+                            'create_time'  => time(),
+                            'ip'           => $_SERVER["REMOTE_ADDR"],
+                        ]);
+                        $this->t_resource_file->add_num('use_num', $file_id);
+                    }
+                } else {
+                    //删除使用的，剩下的都是不再使用的
+                    unset($old_id[$key]);
+                }
+            }
+
+            foreach($old_id as $file_id){
+                //不再使用
+                if($file_id > 0){
+                    $this->t_resource_file->minus_num('use_num', $file_id);
+                }
+
+           }
+
+        }
 
         $now = time(NULL);
         $db_teacherid = $this->t_lesson_info_b2->get_teacherid($lessonid);
@@ -556,6 +598,10 @@ class teacher_info extends Controller
             "lesson_intro"       => $lesson_intro,
             "lesson_name"        => $lesson_name,
             "tea_cw_pic_flag"    => $tea_cw_pic_flag,
+            "tea_cw_origin"      => $tea_cw_origin,
+            "stu_cw_origin"      => $stu_cw_origin,
+            "tea_cw_file_id"     => $tea_cw_file_id,
+            "stu_cw_file_id"     => $stu_cw_file_id,
         ]);
 
         $lesson_type=$this->t_lesson_info_b2->get_lesson_type($lessonid);
@@ -567,6 +613,8 @@ class teacher_info extends Controller
                 "work_status"        => $work_status,
                 "pdf_question_count" => $pdf_question_count,
                 "issue_time"         => $issue_time,
+                "issue_origin"        => $issue_origin,
+                "issue_file_id"       => $issue_file_id,
             ]);
         }
 
@@ -2300,7 +2348,7 @@ class teacher_info extends Controller
         $tag_arr = \App\Helper\Utils::get_tag_arr($resource_type);
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            $item['file_size'] = round( $item['file_size'] / 1024,2);
+            $item['file_size'] = round( $item['file_size'] / 1024,2) . 'M';
             $item['tag_one_name'] = $tag_arr['tag_one']['name'];
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
             $item['tag_three_name'] = $tag_arr['tag_three']['name'];
@@ -2413,7 +2461,6 @@ class teacher_info extends Controller
         foreach($files as $item){
             \App\Helper\Utils::unixtime2date_for_item($item,'create_time');
             $item['file_size'] = round($item['file_size']/1024, 2) . 'M';
-            $item['file_link'] = 'http://teacher-doc.leo1v1.com/'.$item['file_link'];
             $list[] = $item;
         }
 
@@ -2590,11 +2637,11 @@ class teacher_info extends Controller
 
     }
 
-    public function tea_look_resource() {
+     public function tea_look_resource() {
         $tea_res_id = $this->get_in_int_val("tea_res_id");
         $tea_flag = $this->get_in_int_val("tea_flag",1);
         if($tea_res_id <=0){
-            return $this->output_err('信息有误，下载失败！');
+            return $this->output_err('信息有误，操作失败！');
         }
         $teacherid = $this->get_login_teacher();
         if($tea_flag == 1){//下载自己的文件

@@ -191,7 +191,11 @@ class menu{
                 ["power_id"=>8, "name"=>"题库题目统计",  "icon"=>"fa-book", "url"=>"/human_resource/get_question_tongji"]
             ]],
 
-
+            ["power_id"=>44, "name"=>"理优题库新", "list"=>[
+                ["power_id"=>22, "name"=>"题目列表",   "url"=>"/question_new/question_list"],
+                ["power_id"=>24, "name"=>"知识点",   "url"=>"/question_new/knowledge_list"],
+                ["power_id"=>25, "name"=>"教材列表",   "url"=>"/question_new/textbook_list"],
+            ]],
             ["power_id"=>4, "name"=>"人事绩效", "list"=>[
                 ["power_id"=>22, "name"=>"教师档案(试讲老师)",   "url"=>"/human_resource/index_new"],
                 ["power_id"=>1, "name"=>"教师档案(全部老师)",   "url"=>"/human_resource/index"],
@@ -207,6 +211,7 @@ class menu{
                 ["power_id"=>5, "name"=>"老师工资", "list"=>[
                     ["power_id"=>1, "name"=>"老师课时-总体",   "url"=>"/user_manage_new/tea_lesson_count_total_list"],
                     ['power_id'=>30, "name"=>"老师银行卡信息", "url" => "/teacher_money/show_teacher_bank_info_human"],
+                    ['power_id'=>31, "name"=>"全转兼审核", "url"=>"/teacher_trans/full_to_part_trans_info"],
                     ["power_id"=>2, "name"=>"老师工资",   "url"=>"/user_manage_new/tea_lesson_count_detail_list"],
                     ["power_id"=>3, "name"=>"老师课时工资配置信息",   "url"=>"/user_manage_new/get_teacher_money_list"],
                     ["power_id"=>4, "name"=>"学生课程年级异常",   "url"=>"/user_manage_new/lesson_student_grade_list"],

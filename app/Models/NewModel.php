@@ -284,7 +284,7 @@ abstract class NewModel
         return \App\Helper\Utils::list_to_page_info($ret_list);
     }
 
-    public function main_get_list_by_page($sql,$page_info,$page_count=10,$use_group_by_flag=false,$order_str="",$list_key_func=null)
+    public function main_get_list_by_page($sql,$page_info,$page_count=10,$use_group_by_flag=false,$order_str="",$list_key_func=null )
     {
         if(is_array($page_info)){
             $page_num= $page_info["page_num"];

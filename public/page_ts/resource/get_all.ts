@@ -3,9 +3,23 @@
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
+    var res_type = 0;
+    if($('#id_use_type').val() == 1){
+        if( $('#id_resource_type').val() >7) {
+            res_type = 1;
+        } else {
+            res_type = $('#id_resource_type').val();
+        }
+    } else if ($('#id_use_type').val() == 2){
+        res_type = 9;
+    } else {
+        res_type = 8;
+    }
+
+
     $.reload_self_page ( {
         use_type     :	$('#id_use_type').val(),
-        resource_type :	$('#id_resource_type').val(),
+        resource_type :	res_type,
         subject       :	$('#id_subject').val(),
         grade         :	$('#id_grade').val(),
         tag_one       :	$('#id_tag_one').val(),
@@ -83,8 +97,18 @@ $(function(){
 
     }
 
-    Enum_map.append_option_list("use_type", $("#id_use_type"),true);
-    Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6,7,9]);
+    Enum_map.append_option_list("use_type", $("#id_use_type"),true,[1,2]);
+    $('#id_use_type').val(g_args.use_type);
+    if(g_args.use_type == 1){
+        Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6,7]);
+        $('#id_resource_type').val(g_args.resource_type);
+    } else if (g_args.use_type == 2){
+        Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[9]);
+        $('#id_resource_type').val(9);
+    } else {
+        Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[8]);
+        $('#id_resource_type').val(8);
+    }
     Enum_map.append_option_list("subject", $("#id_subject"),false, my_subject);
     Enum_map.append_option_list("grade", $("#id_grade"),false, my_grade);
 
@@ -106,8 +130,6 @@ $(function(){
         $("#id_tag_three").append('<option value="-1">全部</option>');
     }
 
-    $('#id_use_type').val(g_args.use_type);
-    $('#id_resource_type').val(g_args.resource_type);
     $('#id_subject').val(g_args.subject);
     $('#id_grade').val(g_args.grade);
     $('#id_tag_one').val(g_args.tag_one);
@@ -170,9 +192,9 @@ $(function(){
         var id_les_file      = $("<button class=\"btn\" id=\"id_les_file\">选择文件</button>");//课件
         var id_tea_file      = $("<button class=\"btn\" id=\"id_tea_file\">选择文件</button>");//老师
         var id_stu_file      = $("<button class=\"btn\" id=\"id_stu_file\">选择文件</button>");//学生
-
-        Enum_map.append_option_list("use_type",id_use_type,true);
-        Enum_map.append_option_list("resource_type",id_resource_type,true,[1,2,3,4,5,6,7,9]);
+        var use_res = [1,[1,2,3,4,5,6,7],[9],[8]];
+        Enum_map.append_option_list("use_type",id_use_type,true,[1,2]);
+        Enum_map.append_option_list("resource_type",id_resource_type,true,use_res[g_args.use_type]);
         Enum_map.append_option_list("subject",id_subject,true,my_subject);
         Enum_map.append_option_list("grade",id_grade,true,my_grade);
 
@@ -289,6 +311,26 @@ $(function(){
                 if($(this).parent().prev().text() == ''){
                     $(this).parent().parent().hide();
                 }
+            });
+            $('.use').change(function(){
+                $('.resource').empty();
+                Enum_map.append_option_list("resource_type",id_resource_type,true,use_res[$(this).val()]);
+                if($(this).val() == 1){
+                    if( $('.resource').val() >7) {
+                        $('.resource').val(1);
+                    }
+                } else if ($(this).val() == 2){
+                    $('.resource').val(9);
+                } else {
+                    $('.resource').val(8);
+                    alert('该类型暂不可用，请刷新页面！');
+                }
+
+                $('.sel_flag').empty();
+                $('.sel_flag').val(0);
+                $('.sel_flag').parent().parent().show();
+                var type_id = $('.resource').val();
+                change_tag(type_id);
             });
 
             $('.resource').change(function(){
@@ -788,4 +830,5 @@ $(function(){
         $('#id_tag_three').val(-1);
     });
     $('.opt-change').set_input_change_event(load_data);
+
 });

@@ -107,4 +107,17 @@ class teacher_trans extends Controller
         
         return $this->output_succ();
     }
+
+    public function one_part_to_full() { // 一键转全职 (用于测试)
+        $teacherid = $this->get_in_str_val("teacherid");
+        $info = $this->t_teacher_info->field_get_list($teacherid, "teacher_type,teacher_money_type");
+        $this->t_teacher_info->field_update_list($teacherid, [
+            'teacher_type' => 3,
+            'teacher_money_type' => 0
+        ]);
+
+        $this->t_user_log->add_data("一键转全职 teacherid:".$teacherid.' 转前信息'.json_encode($info).' 转后 teacher_type:3 工资类型:0');
+
+        return $this->output_succ();
+    }
 }

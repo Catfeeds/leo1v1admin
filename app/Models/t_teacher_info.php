@@ -4758,7 +4758,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $subject_str = $this->gen_sql("(t.subject=%u or t.second_subject=%u)",$subject,$subject);
         $teacher_arr = $this->teacher_common_sql("t",[$subject_str]);
 
-        $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,t.second_subject,t.second_grade_start,t.teacher_type,"
+        $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,"
+                                  ." t.second_subject,t.second_grade_start,t.teacher_type,"
                                   ." t.second_grade_end,t.limit_plan_lesson_type,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.train_through_new_time,t.identity,t.gender,t.age,t.realname,"
                                   ." t.phone,tf.free_time_new,t.teacher_tags"
@@ -4842,21 +4843,33 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             'li.confirm_flag in (0,1,3)',
             ['li.lesson_del_flag = %u',0],
-            'si.is_test_user = 0'
+            'si.is_test_user = 0',
+            'li.lesson_status =2'
         ];
+        $where_li_arr = [
+            'li.confirm_flag in (0,1,3)',
+            ['li.lesson_del_flag = %u',0],
+            'li.lesson_status =2'
+        ];
+        $where_si_arr = [
+            'si.is_test_user = 0',
+        ];
+        $where_arr = [];
         $this->where_arr_add_time_range($where_arr, 'tf.simul_test_lesson_pass_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
-            'select tf.teacherid,tf.subject,tf.grade,li.userid,li.lesson_type,li.lesson_count/100 as lesson_count,li.courseid '.
+            'select tf.teacherid,tf.subject,tf.grade,li.userid,li.lesson_type,'.
+            'li.lesson_count/100 as lesson_count,li.courseid '.
             'from %s tf '.
-            'left join %s li on tf.teacherid = li.teacherid '.
-            'left join %s si on li.userid = si.userid '.
+            'left join %s li on tf.teacherid = li.teacherid and %s '.
+            'left join %s si on li.userid = si.userid and %s '.
             'where %s',
             t_teacher_flow::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
+            $where_li_arr,
             t_student_info::DB_TABLE_NAME,
+            $where_si_arr,
             $where_arr
         );
-
         return $this->main_get_list($sql,function($item){
             return $item['teacherid'];
         });
@@ -4906,6 +4919,36 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         //     t_student_info::DB_TABLE_NAME,
         //     $where_arr
         // );
+    }
+
+    public function get_total_for_teacherid($start_time, $end_time, $phone, $type) {
+        //select teacherid,name from t_teacher_info t left join t_teacher_lecture_appointment_info ta on t.phone=ta.phone where ta.reference ='15366667766' and t.train_through_new_time  > 0 and train_through_new_time >= unix_timestamp('2017-11-1') and unix_timestamp('2017-12-1')
+        $where_arr = [
+            ['t.train_through_new_time>=%u', $start_time, 0],
+            ['t.train_through_new_time<%u', $end_time, 0],
+            ['ta.reference=%s', $phone, 0]
+        ];
+        if ($type == 1) {
+            array_push($where_arr, 'identity in (5,6)');
+        } else {
+            array_push($where_arr, 'identity in (0,7,8)');
+        }
+
+        $sql = $this->gen_sql_new("select count(*) from %s t left join %s ta on t.phone=ta.phone where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_teacherids() {
+        $sql = $this->gen_sql_new("select teacherid,phone from %s where is_test_user=0",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql, function($item) {
+            return $item['phone'];
+        });
     }
 
 } 

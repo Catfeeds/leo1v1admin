@@ -312,7 +312,7 @@ class common extends Controller
                 //培训通过
                 if($totalvalue>=90 ){
                     if($teacher_info['train_through_new']==0){
-                        $this->teacher_train_through_deal($teacher_info);
+                        $this->teacher_train_through_deal($answer['userid']);
                     }
 
                     //发送微信通知进行模拟课堂
@@ -391,7 +391,7 @@ class common extends Controller
         $html = $this->teacher_level_up_html($teacher_info);
         if($is_test){
             $teacher_info['email']   = "wg392567893@163.com";
-            $teacher_info['subject'] = 4;
+            $teacher_info['subject'] = E\Esubject::V_4;
             $ret = \App\Helper\Common::send_paper_mail($teacher_info['email'],"上海理优教研室",$html);
             if($teacher_info['wx_openid']!=""){
                 $template_id      = "1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II";

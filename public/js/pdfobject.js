@@ -168,9 +168,9 @@
         var style = "";
 
         if(targetSelector && targetSelector !== document.body){
-            style = "width: " + width + "; height: " + height + ";";
+            style = "width: " + width + "; height: " + height + ";margin-top:-60px;";
         } else {
-            style = "position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%;";
+            style = "position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%;margin-top:-60px;";
         }
 
         targetNode.className += " pdfobject-container";

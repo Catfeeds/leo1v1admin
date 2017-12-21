@@ -28,15 +28,17 @@
     <style>
      .row{ margin-left:-10px}
      .knowledge_all{ background:rgba(0, 0, 0, 0.4);position:absolute;top:0px;left:0px;width:100%;height:100%;z-index:999;display:none}
-     .zTreeDemoBackground{position:absolute;top:20%;left:35%;background: white;padding:20px }
+     .zTreeDemoBackground{position:absolute;top:20%;left:35%;background: white;padding:20px;min-width:300px }
      #close_knowledge{ position:absolute;top:5px;right:5px;z-index:9999}
      .knowledge_exits span{ color: #258e25;font-weight: bold;margin-right:10px}
+     .expand_node{ diplay:inline-block}
     </style>
 
     <div class="knowledge_all">
         <div class="zTreeDemoBackground">
             <button type="button" class="btn btn-danger btn-circle" id="close_knowledge" onclick="close_know()"><i class="fa fa-times"></i></button>
-            <a href="javascript:;" id="show_all_knowledge"> 显示全部知识点 </a>
+            <a href="javascript:;" class="expand_node" id="show_all_knowledge"> 显示全部 </a>
+            <a href="javascript:;" class="expand_node" id="hide_all_knowledge"> 隐藏全部 </a>
             <ul id="treeDemo" class="ztree"></ul>
             <button type="button" class="btn btn-primary" id="save_knowledge" answer_id="" onclick="save_know()" title="编辑完成">编辑完成</button>
         </div>

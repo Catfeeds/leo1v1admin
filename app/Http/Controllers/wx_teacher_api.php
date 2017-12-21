@@ -1045,10 +1045,12 @@ class wx_teacher_api extends Controller
         // 数据待确认
         $ret_info['handout_flag'] = 0; //无讲义
 
+        // $ret_info['handout_flag'] = $this->t_resource->getResourceId($subject,$grade);
+
         return $this->output_succ(["data"=>$ret_info]);
     }
 
-    public function get_resource_list(){ // 讲义系统 boby
+    public function getResourceList(){ // 讲义系统 boby
 
     }
 
@@ -1121,8 +1123,14 @@ class wx_teacher_api extends Controller
             $wx->send_ass_for_first($jw_openid, $data, $url);
         }
 
-        $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
-        $this->t_test_lesson_subject_require->field_update_list($require_id, [
+
+
+        // $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+        // $this->t_test_lesson_subject_require->field_update_list($require_id, [
+        //     "accept_status"=>$status
+        // ]);
+
+        $this->t_lesson_info->field_update_list($lessonid, [
             "accept_status"=>$status
         ]);
 

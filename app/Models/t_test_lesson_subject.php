@@ -1085,7 +1085,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             "l.lessonid=$lessonid"
         ];
 
-        $sql = $this->gen_sql_new("  select ts.tea_identity, ts.subject_tag, l.lesson_del_flag, tr.accept_status as status, if(test_stu_request_test_lesson_demand='',stu_request_test_lesson_demand,test_stu_request_test_lesson_demand) as  stu_request_test_lesson_demand, s.nick, s.gender, ts.grade, ts.subject, l.lesson_start, l.lesson_end from %s l "
+        $sql = $this->gen_sql_new("  select ts.tea_identity, ts.subject_tag, l.lesson_del_flag, l.accept_status as status, if(test_stu_request_test_lesson_demand='',stu_request_test_lesson_demand,test_stu_request_test_lesson_demand) as  stu_request_test_lesson_demand, s.nick, s.gender, ts.grade, ts.subject, l.lesson_start, l.lesson_end from %s l "
                                   ." left join %s tls on tls.lessonid=l.lessonid "
                                   ." left join %s tr on tr.require_id=tls.require_id "
                                   ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id"
@@ -1219,7 +1219,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         $this->where_arr_add_time_range($where_arr, 'ssn.add_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
             'select si.origin as channel_name,count(*) as all_count,'.
-            'count(si.userid) as heavy_count,count(ssn.admin_revisiterid >0) assigned_count,'.
+            'count(distinct si.userid) as heavy_count,count(ssn.admin_revisiterid >0) assigned_count,'.
             'count(ssn.tmk_student_status=3) as tmk_assigned_count,'.
             'avg(if(ssn.add_time<ssn.first_call_time,ssn.first_call_time-ssn.add_time,null)) avg_first_time,'.
             'sum(ssn.global_tq_called_flag <>0) tq_called_count,'.

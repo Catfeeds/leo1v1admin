@@ -14,6 +14,7 @@ $(function(){
         events: {
             "noti_order_payed": function (e) {
                 alert("xxxxx");
+                console.log(e);
                 /*
                 $.ajax({
                     'url': "/wx_login/check",

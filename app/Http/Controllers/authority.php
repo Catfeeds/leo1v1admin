@@ -57,7 +57,6 @@ class authority extends Controller
         $this->get_in_int_val("assign_account_role",-1);
 
         $creater_adminid=$this->get_in_int_val("creater_adminid",-1);
-
         $adminid           = $this->get_in_adminid(-1);
         $uid               = $this->get_in_int_val('uid',0);
         $user_info         = trim($this->get_in_str_val('user_info',''));
@@ -121,10 +120,10 @@ class authority extends Controller
             }
             E\Eboolean::set_item_value_simple_str($item,"day_new_user_flag");
         }
-        $acc= $this->get_account();
 
+        $acc = $this->get_account();
         return $this->pageView(__METHOD__,$ret_info,[
-            "acc"  =>$acc
+            "acc" => $acc
         ]);
     }
 

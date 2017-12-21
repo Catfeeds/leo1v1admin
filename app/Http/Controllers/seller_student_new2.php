@@ -26,13 +26,11 @@ class seller_student_new2 extends Controller
 
 
     public function tmk_student_list_ex () {
-        list($start_time,$end_time, $opt_date_str)=$this->get_in_date_range(
-            -30,0, 1, [
-                1 => array("tmk_assign_time","微信运营分配时间"),
-                2 => array( "add_time", "资源进入时间"),
-                3 => array( "lesson_start", "上课时间"),
-            ]
-        );
+        list($start_time,$end_time, $opt_date_str)=$this->get_in_date_range(-30,0, 1, [
+            1 => array("tmk_assign_time","微信运营分配时间"),
+            2 => array( "add_time", "资源进入时间"),
+            3 => array( "lesson_start", "上课时间"),
+        ]);
 
         $origin             = trim($this->get_in_str_val('origin', ''));
         $page_num           = $this->get_in_page_num();
@@ -44,7 +42,7 @@ class seller_student_new2 extends Controller
         $grade              = $this->get_in_grade();
         $phone_name         = trim($this->get_in_str_val("phone_name"));
         $publish_flag       = $this->get_in_e_boolean(1,"publish_flag");
-        $seller_student_stutus= $this->get_in_enum_val(E\Eseller_student_status::class,-1);
+        $seller_student_stutus = $this->get_in_enum_val(E\Eseller_student_status::class,-1);
 
         $nick  = "";
         $phone = "";
@@ -93,6 +91,7 @@ class seller_student_new2 extends Controller
 
             $this->cache_set_item_account_nick($item,"tmk_set_seller_adminid","tmk_set_seller_adminid_nick");
             $this->cache_set_item_account_nick($item,"tmk_adminid","tmk_admin_nick");
+            \App\Helper\Utils::hide_item_phone($item);
         }
 
         return $this->pageView(__METHOD__,$ret_info);
@@ -285,12 +284,16 @@ class seller_student_new2 extends Controller
             E\Ehabit_remodel::set_item_value_str($item);
             E\Egender::set_item_value_str($item);
 
-            if($item['accept_status'] == 0){
-                $item['accept_status_str'] = '<font color="blue">未设置</font>';
-            }elseif($item['accept_status'] == 1){
-                $item['accept_status_str'] = '<font color="green">已接受</font>';
-            }elseif($item['accept_status'] == 2){
+            if($item['lesson_del_flag'] == 1){
                 $item['accept_status_str'] = '<font color="red">已拒绝</font>';
+            }else{
+                if($item['accept_status'] == 0){
+                    $item['accept_status_str'] = '<font color="blue">未设置</font>';
+                }elseif($item['accept_status'] == 1){
+                    $item['accept_status_str'] = '<font color="green">已接受</font>';
+                }elseif($item['accept_status'] == 2){
+                    $item['accept_status_str'] = '<font color="red">已拒绝</font>';
+                }
             }
 
 
@@ -1563,7 +1566,14 @@ class seller_student_new2 extends Controller
                 $tea_val['is_identity'] = $identity==$tea_val['identity']?1:0;
                 $tea_val['is_gender']   = $gender==$tea_val['gender']?1:0;
                 $tea_val['is_age']      = $tea_age==$tea_val['age_flag']?1:0;
-                $tea_val['is_teacher_type'] = $teacher_type==$tea_val['teacher_type']?1:0;
+
+                if($teacher_type==3){
+                    $tea_val['is_teacher_type'] = $teacher_type==$tea_val['teacher_type']?1:0;
+                }elseif($teacher_type==1){
+                    $tea_val['is_teacher_type'] = $tea_val['teacher_type']!=3?1:0;
+                }else{
+                    $tea_val['is_teacher_type'] = 0;
+                }
 
                 if($del_flag){
                     unset($tea_list[$tea_key]);
