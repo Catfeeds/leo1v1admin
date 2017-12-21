@@ -1051,6 +1051,12 @@ class wx_teacher_api extends Controller
     }
 
     public function getResourceList(){ // 讲义系统 boby
+        $resource_id = $this->get_in_int_val($field_name);
+        $resourceList = $this->t_resource_file->getResoureList($resource_id);
+    }
+
+    public function chooseResource(){
+        $file_id = $this->get_in_int_val('file_id');
 
     }
 
@@ -1162,5 +1168,15 @@ class wx_teacher_api extends Controller
         return $this->output_succ(["data"=>$teacher_info]);
     }
 
+
+    /**
+     * @ 老师圣诞节活动 积分
+     * @ 老师分享链接后 后续人员点击链接+1
+     * @ 从分享链接注册进来的老师 则分享人积分+10
+     * @
+     * @
+     **/
+
+    // function share
 
 }
