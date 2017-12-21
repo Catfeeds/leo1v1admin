@@ -1183,7 +1183,7 @@ class wx_teacher_api extends Controller
         $shareId = $this->get_in_int_val("shareId");
 
         $wx= new \App\Helper\Wx($Tea_appid,$Tea_appsecret);
-        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_teacher_api/rewriteLink?shareId=".$shareId );
+        $redirect_url=urlencode("http://wx-teacher.leo1v1.com/wx_teacher_api/rewriteLink?shareId=".$shareId );
         $wx->goto_wx_login($redirect_url);
     }
 
