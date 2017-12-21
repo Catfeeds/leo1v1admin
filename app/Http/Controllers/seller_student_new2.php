@@ -1452,6 +1452,7 @@ class seller_student_new2 extends Controller
             E\Equotation_reaction::set_item_value_str($require_info);
             E\Eintention_level::set_item_value_str($require_info);
             $require_info['request_time'] = \App\Helper\Utils::unixtime2date($require_info['curl_stu_request_test_lesson_time']);
+            $require_info['request_time_end'] = \App\Helper\Utils::unixtime2date($require_info['curl_stu_request_test_lesson_time_end']);
             $subject_tag_arr = json_decode($require_info['subject_tag'],true);
             if(is_array($subject_tag_arr)){
                 \App\Helper\Utils::set_default_value($require_info['风格性格'], $subject_tag_arr,"",'风格性格');
@@ -1461,19 +1462,23 @@ class seller_student_new2 extends Controller
             }
 
             $lesson_start = $require_info['curl_stu_request_test_lesson_time'];
-            $lesson_end   = strtotime("+40 minute",$lesson_start);
+            $lesson_end   = $require_info['curl_stu_request_test_lesson_time_end'];
+            // $lesson_end   = strtotime("+40 minute",$lesson_start);
             $redis_key    = "require_key_".$require_id;
             $tea_list     = $this->get_teacher_list_for_test_lesson(
                 $redis_key,$lesson_start,$lesson_end,$require_info['grade'],$require_info['subject'],$refresh_flag,
                 $identity,$gender,$tea_age,$require_info['subject_tag'],$teacher_tags,$lesson_tags,$teaching_tags,$teacher_type
             );
             $require_info['teacherid'] = "";
-            $require_info['tea_nick']  = "";
+            $require_info['teacher_info']  = "";
             $require_info['lesson_time']  = "";
             if($require_info['current_lessonid']){
                 $lesson_info = $this->t_lesson_info->get_lesson_info($require_info['current_lessonid']);
                 $require_info['teacherid'] = $lesson_info['teacherid'];
-                $require_info['tea_nick']  = $this->cache_get_teacher_nick($require_info['teacherid']);
+                $teacher_info = $this->t_teacher_info->get_teacher_info($lesson_info['teacherid']);
+                $tea_nick = $teacher_info['realname'];
+                $tea_phone = $teacher_info['phone'];
+                $require_info['teacher_info']  = $tea_nick."/".$tea_phone;
                 $require_info['lesson_time'] = \App\Helper\Utils::unixtime2date($lesson_info['lesson_start']);
             }
         }else{

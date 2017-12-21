@@ -41,6 +41,7 @@
 	wx_openid	:any;
 	user_agent	:any;
 	hand_flag	:any;
+	gender	:any;
 	full_status	:any;
 	full_record_info	:any;
 	teacher_pass_type	:any;
@@ -55,6 +56,7 @@
 	full_time_str	:any;
 	subject_ex_str	:any;
 	trans_subject_ex_str	:any;
+	gender_str	:any;
 	status_str	:any;
 	full_status_str	:any;
 	phone_ex	:any;

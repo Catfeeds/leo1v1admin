@@ -24,6 +24,7 @@ $(function(){
             accept_adminid             : $('#id_accept_adminid').val(),
             second_train_status        : $('#id_second_train_status').val(),
             teacher_pass_type          : $('#id_teacher_pass_type').val(),
+            gender                     : $('#id_gender').val(),
         });
     }
 
@@ -66,6 +67,7 @@ $(function(){
     Enum_map.append_option_list("lecture_revisit_type", $('#id_lecture_revisit_type_new'),false,[0,2,5,6,8]);
     Enum_map.append_option_list("boolean", $('#id_full_time'));
     Enum_map.append_option_list("fulltime_teacher_type", $('#id_fulltime_teacher_type'),false,[1,2]);
+    Enum_map.append_option_list("gender", $('#id_gender'));
     if(g_args.interview_type==-1){
         Enum_map.append_option_list("check_status", $('#id_status'));
     }else if(g_args.interview_type==0){
@@ -80,22 +82,23 @@ $(function(){
 
 
     $('#id_lecture_appointment_status').val(g_args.lecture_appointment_status);
-  $('#id_full_time').val(g_args.full_time);
-  $('#id_user_name').val(g_args.user_name);
-  $('#id_grade').val(g_args.grade);
-  $('#id_subject').val(g_args.subject);
-  $('#id_status').val(g_args.status);
+    $('#id_full_time').val(g_args.full_time);
+    $('#id_user_name').val(g_args.user_name);
+    $('#id_grade').val(g_args.grade);
+    $('#id_subject').val(g_args.subject);
+    $('#id_status').val(g_args.status);
     $("#id_teacherid").val(g_args.teacherid);
     $("#id_record_status").val(g_args.record_status);
     $("#id_teacher_ref_type").val(g_args.teacher_ref_type);
-  $('#id_interview_type').val(g_args.interview_type);
-  $('#id_have_wx').val(g_args.have_wx);
-  $('#id_lecture_revisit_type').val(g_args.lecture_revisit_type);
-  $('#id_lecture_revisit_type_new').val(g_args.lecture_revisit_type_new);
-  $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
-  $('#id_accept_adminid').val(g_args.accept_adminid);
-  $('#id_second_train_status').val(g_args.second_train_status);
-  $('#id_teacher_pass_type').val(g_args.teacher_pass_type);
+    $('#id_interview_type').val(g_args.interview_type);
+    $('#id_have_wx').val(g_args.have_wx);
+    $('#id_lecture_revisit_type').val(g_args.lecture_revisit_type);
+    $('#id_lecture_revisit_type_new').val(g_args.lecture_revisit_type_new);
+    $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
+    $('#id_accept_adminid').val(g_args.accept_adminid);
+    $('#id_second_train_status').val(g_args.second_train_status);
+    $('#id_teacher_pass_type').val(g_args.teacher_pass_type);
+    $('#id_gender').val(g_args.gender);
 
     $.enum_multi_select($("#id_teacher_ref_type"),"teacher_ref_type", function( ){
         load_data();
@@ -1026,6 +1029,7 @@ $(function(){
         var id_qq                         = $("<input/>");
         var id_reference                  = $("<input/>");
         var id_age                        = $("<input/>");
+        var id_gender                     = $("<select/>");
         var id_grade_ex                   = $("<select/>");
         var id_subject_ex                 = $("<select/>");
         var id_identity                   = $("<select/>");
@@ -1035,6 +1039,7 @@ $(function(){
         Enum_map.append_option_list("grade_part", id_grade_ex ,true);
         Enum_map.append_option_list("subject", id_subject_ex, true, [0,1,2,3,4,5,6,7,8,9,10]);
         Enum_map.append_option_list("identity", id_identity, true);
+        Enum_map.append_option_list("gender", id_gender, true);
         if(opt_data.full_time==0){
             Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[0,1,2,3,4] );
         }else{
@@ -1050,6 +1055,7 @@ $(function(){
             [red_font+"QQ"+red_font_end, id_qq],
             ["推荐人号码",id_reference],
             [red_font+"年龄"+red_font_end,id_age],
+            [red_font+"性别"+red_font_end,id_gender],
             [red_font+"年级"+red_font_end,id_grade_ex],
             [red_font+"科目"+red_font_end,id_subject_ex],
             [red_font+"老师身份"+red_font_end,id_identity],
@@ -1063,6 +1069,7 @@ $(function(){
         id_qq.val(opt_data.qq);
         id_reference.val(opt_data.reference);
         id_age.val(opt_data.age);
+        id_gender.val(opt_data.gender);
         id_grade_ex.val(opt_data.grade_ex);
         id_subject_ex.val(opt_data.subject_ex);
         id_identity.val(opt_data.teacher_type);
@@ -1081,6 +1088,7 @@ $(function(){
                     "qq"                   : id_qq.val(),
                     "reference"            : id_reference.val(),
                     "age"                  : id_age.val(),
+                    "gender"               : id_gender.val(),
                     "grade_ex"             : id_grade_ex.val(),
                     "subject_ex"           : id_subject_ex.val(),
                     "teacher_type"         : id_identity.val(),

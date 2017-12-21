@@ -2032,8 +2032,8 @@ trait TeaPower {
      * @param info 中需要teacher_type,teacher_money_type,level
      */
     public function teacher_level_up_html($info){
-        $name          = $info['nick'];
-        $level_str     = \App\Helper\Utils::get_teacher_level_str($info);
+        $name      = $info['nick'];
+        $level_str = \App\Helper\Utils::get_teacher_level_str($info);
 
         $star_num=0;
         if($level_str=="中级教师" ){
@@ -2054,6 +2054,7 @@ trait TeaPower {
                 $star_num=1;
             }
         }
+
         $show_star = "<img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>";
         $star_html = $show_star;
         for($i=2;$i<=$star_num;$i++){
