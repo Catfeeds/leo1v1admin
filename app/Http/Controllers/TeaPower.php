@@ -1718,6 +1718,25 @@ trait TeaPower {
     }
 
     /**
+     * 修改老师手机号
+     * @param int teacherid 老师id
+     * @param string phone  老师手机号
+     * @return string 错误信息
+     */
+    public function change_teacher_phone($teacherid,$new_phone){
+        $check_phone = \App\Helper\Utils::check_phone($new_phone);
+        if(!$ret){
+            return "手机号不是11位!";
+        }
+        $check_flag = $this->t_phone_to_user->check_is_exist_by_phone_and_userid(-1,$new_phone,E\Erole::V_TEACHER);
+        if(!empty($check_flag)){
+            return "该账号已存在！";
+        }
+
+
+    }
+
+    /**
      * 通过手机号设置老师为离职状态
      * @param phone string 手机号
      * @param is_quit int 离职状态 0 未离职 1 已离职
@@ -1843,11 +1862,11 @@ trait TeaPower {
             $update_arr["nick"]     = $appointment_info['name'];
             $update_arr["realname"] = $appointment_info['name'];
         }
-        if(in_array($teacher_info['teacher_type'],[32])){
-            $update_arr['teacher_type']=0;
+        if(in_array($teacher_info['teacher_type'],[E\Eteacher_type::V_32])){
+            $update_arr['teacher_type']=E\Eteacher_type::V_0;
         }
         if($appointment_info['full_time']==1){
-            $update_arr['teacher_type']=3;
+            $update_arr['teacher_type']=E\Eteacher_type::V_3;
         }
         if($teacher_info['trial_lecture_is_pass']==0){
             $update_arr['trial_lecture_is_pass']=1;
@@ -1855,8 +1874,8 @@ trait TeaPower {
         if($teacher_info['wx_use_flag']==0){
             $update_arr['wx_use_flag']=1;
         }
-        if($teacher_info['identity']==0){
-            $update_arr['identity'] = $appointment_info['teacher_type'];
+        if($teacher_info['identity']==E\Eidentity::V_0){
+            $update_arr['identity']=$appointment_info['teacher_type'];
         }
         if(!empty($update_arr)){
             $ret = $this->t_teacher_info->field_update_list($teacher_info['teacherid'],$update_arr);

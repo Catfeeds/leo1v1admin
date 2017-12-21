@@ -1810,9 +1810,6 @@ class human_resource extends Controller
         if($status==E\Echeck_status::V_1){
             $teacher_info     = $this->t_teacher_info->get_teacher_info_by_phone($lecture_info['phone']);
 
-
-
-
             $appointment_info = $this->t_teacher_lecture_appointment_info->get_appointment_info_by_id($appointment_id);
             $nick = $appointment_info['name'];
             if($full_time==1){

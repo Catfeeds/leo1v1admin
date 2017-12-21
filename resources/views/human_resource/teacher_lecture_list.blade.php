@@ -205,7 +205,6 @@
                                     @if(in_array($acc,["adrian","jack"]))
                                         <a class="opt-set_test">测试数据切换</a>
                                     @endif
-                                    
                                     @if($var["account"]!="" || in_array($acc,["adrian","jack","jim","林文彬"]) || $account_role==12)
                                         @if($account_role != 8) 
                                             <!-- 蔡老师要求　招师不可见 -->
