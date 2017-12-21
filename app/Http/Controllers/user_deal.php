@@ -2261,8 +2261,8 @@ class user_deal extends Controller
         $group_name = '';
         if ($db_groupid ) {//
             $group_name=$this->t_admin_group_name->get_group_name_by_groupid($db_groupid);
-            $this->t_admin_group_user->row_delete_2( $db_groupid, $adminid);
-            // return $this->output_err("此人已在[$group_name]中,不能添加");
+            // $this->t_admin_group_user->row_delete_2( $db_groupid, $adminid);
+            return $this->output_err("此人已在[$group_name]中,不能添加");
         }
 
         $this->t_admin_group_user->row_insert([
