@@ -251,6 +251,8 @@ class common_new extends Controller
         $full_time                    = $this->get_in_int_val("full_time");
         $is_test_user                 = $this->get_in_int_val("is_test_user");
 
+
+
         if(!preg_match("/^1[34578]{1}\d{9}$/",$phone) && !in_array($reference,["13661763881","18790256265"])){
             return $this->output_err("请填写正确的手机号！");
         }
@@ -375,6 +377,26 @@ class common_new extends Controller
                     $record_info = $name."已填写报名信息";
                     $status_str  = "已报名";
                     \App\Helper\Utils::send_reference_msg_for_wx($wx_openid,$record_info,$status_str);
+                }
+            }
+
+            /**
+             * @ 处理老师圣诞节|元旦节活动
+             * @ 从老师分享页进入注册的 老师
+             * @ christmas_type  0:正常用户 1:从分享页面进来的老师
+             */
+            $main_pid    = $this->get_in_int_val('main_pid');
+            $next_openid = $this->get_in_str_val('next_openid');
+            $christmas_type = $this->get_in_int_val('christmas_type');
+            if($christmas_type == 1){
+                $isHasAdd = $this->t_teacher_christmas->checkHasAdd($main_pid,$next_openid);
+                if(!$isHasAdd){
+                    $this->t_teacher_christmas->row_insert([
+                        "teacherid"   => $main_pid,
+                        "next_openid" => $next_openid,
+                        "add_time"    => time(),
+                        "score"       => 10
+                    ]);
                 }
             }
 
@@ -994,7 +1016,7 @@ class common_new extends Controller
                     $list['prize_str'] = "抽中50元折扣券一张";
                     break;
                 case 4:
-                    $list['prize_str'] = "获得价值200元的试听课一节"; 
+                    $list['prize_str'] = "获得价值200元的试听课一节";
                     break;
                 }
             }else{
@@ -1257,8 +1279,8 @@ class common_new extends Controller
                         "period_num"  =>$period_new,
                         "parent_name" =>$parent_name
                     ]);
-                   
-                   
+
+
                     $this->t_manager_info->send_wx_todo_msg(
                         "jack",
                         "百度分期付款通知",
@@ -1413,7 +1435,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $competition_flag = $this->t_order_info->get_competition_flag($parent_orderid);
         if($competition_flag==1){
             if(!$courseid){
-                $courseid = "SHLEOZ3101006"; 
+                $courseid = "SHLEOZ3101006";
             }
             $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
             if($course_list){
@@ -1423,10 +1445,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
             @$list[4][]=$courseid;
             $str = json_encode($list);
-            
+
         }elseif($grade >=100 && $grade<200){
             if(!$courseid){
-                $courseid = "SHLEOZ3101001"; 
+                $courseid = "SHLEOZ3101001";
             }
             $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
             if($course_list){
@@ -1438,7 +1460,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $str = json_encode($list);
         }elseif($grade >=200 && $grade<300){
             if(!$courseid){
-                $courseid = "SHLEOZ3101011"; 
+                $courseid = "SHLEOZ3101011";
             }
             $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
             if($course_list){
@@ -1450,7 +1472,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $str = json_encode($list);
         }elseif($grade >=300 && $grade<400){
             if(!$courseid){
-                $courseid = "SHLEOZ3101016"; 
+                $courseid = "SHLEOZ3101016";
             }
             $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
             if($course_list){
@@ -1462,11 +1484,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $str = json_encode($list);
         }
         $this->t_parent_info->field_update_list($pp_info["parentid"],[
-            "baidu_class_info" =>$str 
+            "baidu_class_info" =>$str
         ]);
 
 
-        
+
 
     }
 
