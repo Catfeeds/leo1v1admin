@@ -289,7 +289,8 @@ class test_code extends Controller
             "code"  => $code,
             "index" => $index,
         ];
-        \App\Helper\Common::send_sms_with_taobao($phone, $template_code, $data);
+        $ret = \App\Helper\Common::send_sms_with_taobao($phone, $template_code, $data);
+        dd($ret);
     }
 
 

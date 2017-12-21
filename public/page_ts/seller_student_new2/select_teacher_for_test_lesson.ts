@@ -29,7 +29,6 @@ $(function(){
     $("#id_teaching_tags").val(g_args.teaching_tags);
     $("#id_lesson_tags").val(g_args.lesson_tags);
     $("#id_teacherid").val();
-    $("#id_teacher_name").val();
     $('#id_require_id').val(g_args.require_id);
     $('#id_').val(g_args.require_id);
     $('#id_refresh_flag').val(g_args.refresh_flag);
@@ -65,7 +64,6 @@ $(function(){
 
     var select_teacher = function(){
         var select_teacherid = parseInt($("#id_teacherid").val());
-        console.log(select_teacherid);
         $(".teacher-info").each(function(){
             var teacherid = $(this).data("teacherid");
             if(select_teacherid==teacherid){
@@ -80,11 +78,24 @@ $(function(){
     $(".opt-set-teacher").on("click",function(){
         var data = $(this).get_opt_data();
         no_select_teacher();
-
+        var teacher_info = data.realname+"/"+data.phone;
         $(this).parents("tr").addClass("red-border");
         $("#id_teacherid").val(data.teacherid);
-        $("#id_teacher_name").html(data.realname);
+        $("#id_teacher_info").val(teacher_info);
     });
+
+    $("#id_teacher_info").keydown(function(event){
+        var val = $(this).val();
+	      if(event.keyCode==8){
+            $("#id_teacher_info").val('');
+            console.log(val);
+        }
+        if(event.keyCode==13){
+            alert("回车");
+            console.log(val);
+        }
+    });
+
 
     //排课
     $("#id_set_lesson_time").on("click",function(){
