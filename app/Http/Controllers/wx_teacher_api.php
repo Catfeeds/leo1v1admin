@@ -1210,13 +1210,13 @@ class wx_teacher_api extends Controller
         $pid    = $this->get_in_int_val('pid');
         $openid = $this->get_in_str_val('openid');
 
-        $isHas = $this->t_teacher_christmas->checkHasAdd($pid,$openid);
+        // $isHas = $this->t_teacher_christmas->checkHasAdd($pid,$openid);
         if($isHasAdd){
             return $this->output_succ();
         }else{
-            $this->t_teacher_christmas->row_insert([
-                ""
-            ]);
+            // $this->t_teacher_christmas->row_insert([
+            //     ""
+            // ]);
 
         }
     }
