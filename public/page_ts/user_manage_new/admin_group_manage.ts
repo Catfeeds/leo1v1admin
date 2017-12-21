@@ -522,7 +522,8 @@ $(function(){
                 $.do_ajax("/user_deal/admin_group_user_add",{
                     "groupid" : opt_data.groupid,
                     "main_type" : opt_data.main_type,
-                    "adminid" :  adminid
+                    "adminid" :  adminid,
+                    "monthtime_flag" : $('#id_monthtime_flag').val(),
                 });
             }
         });

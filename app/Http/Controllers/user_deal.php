@@ -1252,7 +1252,7 @@ class user_deal extends Controller
         }elseif($key0){
             $key_str="key1";
         }
-        \App\Helper\Utils::logger("key_str $key_str "); 
+        \App\Helper\Utils::logger("key_str $key_str ");
         $list=$this->t_origin_key->get_key_list($key1,$key2,$key3,$key_str,$key0);
         $list=\App\Helper\Common::sort_pinyin($list,"k");
         $last_level=$this->t_origin_key->get_last_level( $key1, $key2 );
@@ -1306,7 +1306,7 @@ class user_deal extends Controller
                     }
                 }
             }
-        } 
+        }
         return $this->output_succ([
             "key0_list"=>$key0_list,
             "key1_list"=>$key1_list,
@@ -2286,18 +2286,31 @@ class user_deal extends Controller
         $adminid=$this->get_in_int_val("adminid");
         $main_type=$this->get_in_int_val("main_type");
         $month = strtotime($this->get_in_str_val("start_time"));
+        $monthtime_flag=$this->get_in_int_val("monthtime_flag");
+        if($monthtime_flag == 1){//非历史
+            $db_groupid=$this->t_admin_group_user->get_groupid_by_adminid($main_type,$adminid);
+            if ($db_groupid ) {
+                $group_name=$this->t_admin_group_name->get_group_name_by_groupid($db_groupid);
+                return $this->output_err("此人已在[$group_name]中,不能添加");
+            }
 
-        $db_groupid=$this->t_group_user_month->get_groupid_by_adminid($main_type,$adminid,$month);
-        if ($db_groupid ) {//
-            $group_name=$this->t_group_name_month->get_group_name($db_groupid,$month);
-            return $this->output_err("此人已在[$group_name]中,不能添加");
+            $this->t_admin_group_user->row_insert([
+                "groupid"   => $groupid,
+                "adminid"   => $adminid,
+            ]);
+        }elseif($monthtime_flag == 2){//历史
+            $db_groupid=$this->t_group_user_month->get_groupid_by_adminid($main_type,$adminid,$month);
+            if ($db_groupid ) {
+                $group_name=$this->t_group_name_month->get_group_name($db_groupid,$month);
+                return $this->output_err("此人已在".date('Y-m',$month)."月[$group_name]中,不能添加");
+            }
+
+            $this->t_group_user_month->row_insert([
+                "groupid"   => $groupid,
+                "adminid"   => $adminid,
+                "month"     => $month
+            ]);
         }
-
-       $this->t_group_user_month->row_insert([
-            "groupid"   => $groupid,
-            "adminid"   => $adminid,
-            "month"     => $month
-        ]);
 
         // 添加到 日志表
         $this->t_user_group_change_log->row_insert([
@@ -4639,7 +4652,7 @@ class user_deal extends Controller
                 "courseware_requirements"=>$courseware_requirements,
                 "diathesis_cultivation"=>$diathesis_cultivation,
             ];
-            $this->set_teacher_label_new($teacherid,$lessonid,"",$tea_tag_arr,5,1,1); 
+            $this->set_teacher_label_new($teacherid,$lessonid,"",$tea_tag_arr,5,1,1);
 
             $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","教学质量反馈待处理",$account."老师提交了一条教学质量反馈,请尽快处理","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
 
@@ -5924,7 +5937,7 @@ class user_deal extends Controller
     public function set_train_lesson_recover(){
         $id = $this->get_in_int_val("id");
         $this->t_teacher_record_list->field_update_list($id,[
-            "trial_train_status" =>0 
+            "trial_train_status" =>0
         ]);
         return $this->output_succ();
     }
@@ -5966,7 +5979,7 @@ class user_deal extends Controller
         }else{
             $stu_comment = $this->t_lesson_info->get_stu_comment($lessonid);
             $arr= json_decode($stu_comment,true);
-        }       
+        }
         return $this->output_succ(["data"=>$arr]);
     }
 
