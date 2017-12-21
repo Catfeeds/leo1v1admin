@@ -56,6 +56,11 @@ class update_bole_reward extends Command
                 $a_info = $task->t_teacher_lecture_appointment_info->get_money_list($start_time, $end_time, $key);
                 $m_info = $task->t_teacher_money_list->get_money_list($start_time, $end_time, $teacherids[$key]['teacherid']);
                 if (count($a_info) != count($m_info)) {
+                    if ($key == '15366667766') {
+                        var_dump($a_info);
+                        var_dump($m_info);
+                        exit;
+                    }
                     foreach($a_info as $val) {
                         if(isset($m_info[$val['teacherid']])) {
                             echo ' --- wel ---   ';
