@@ -8,6 +8,7 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
 		parent::__construct();
 	}
 
+<<<<<<< HEAD
     public function checkHasAdd($main_pid,$next_openid){
         $where_arr = [
             "teacherid=$main_pid",
@@ -21,6 +22,8 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
 
         return $this->main_get_value($sql);
     }
+=======
+>>>>>>> b4a35589e989ae57683b234d1146f62d89989560
 }
 
 
