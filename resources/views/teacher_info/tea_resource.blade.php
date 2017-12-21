@@ -48,11 +48,11 @@
                 <div class="col-xs-4 col-md-1">
                     <button class="btn btn-info opt-move">移动</button>
                 </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group " >
-                        <input type="text" value=""  class="opt-change"  id="id_file_title"  placeholder="输入文件名称搜索"  />
-                    </div>
-                </div>
+                <!-- <div class="col-xs-6 col-md-2">
+                     <div class="input-group " >
+                     <input type="text" value=""  class="opt-change"  id="id_file_title"  placeholder="输入文件名称搜索"  />
+                     </div>
+                     </div> -->
             </div>
         </div>
         <div class="row">
