@@ -1223,7 +1223,7 @@ class wx_teacher_api extends Controller
                 "score"       => 1
             ]);
         }
-        return $this->output_succ();
+        return $this->output_succ(['test'=>$isHasAdd]);
     }
 
 
