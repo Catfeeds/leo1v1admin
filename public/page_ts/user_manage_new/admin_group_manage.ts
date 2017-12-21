@@ -523,7 +523,6 @@ $(function(){
                     "groupid" : opt_data.groupid,
                     "main_type" : opt_data.main_type,
                     "adminid" :  adminid,
-                    "monthtime_flag" : $('#id_monthtime_flag').val(),
                 });
             }
         });
@@ -839,7 +838,7 @@ $(function(){
                     "groupid" : opt_data.groupid,
                     "main_type" : opt_data.main_type,
                     "adminid" :  adminid,
-                    "start_time" : g_args.start_time
+                    "start_time" : g_args.start_time,
                 });
             }
         });
