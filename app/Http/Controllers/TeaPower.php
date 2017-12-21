@@ -4455,13 +4455,23 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             } else {
                 $type = 0; // 在校学生 (高校生, 其他在职人士, 未设置)
             }
-            //$reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type) + 1;
-            $start_time = 0;
-            $end_time = time();
-            if ($teacher_ref_type == 1 && $teacher_ref_type == 2) { // 工作室是从11月开始累如
-                $start_time = strtotime("2017-11-1");
+
+            if ($teacherid == 274115) { // join中国 60元/个
+                $reference_price = 60;
+            }elseif($teacherid == 149697){ //明日之星 50元/个
+                $reference_price = 50;
+            }elseif(($teacherid == 176348 || $teacher_info['teacher_type'] == 21 || $teacher_info['teacher_type'] == 22) && $type = 1) { //田克平 廖老师工作室 王老师工作室 推荐机构老师 80 元/个
+                $reference_price = 80;
+            } else {
+                //$reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type) + 1;
+                $start_time = strtotime('2015-1-1');
+                $end_time = time();
+                if ($teacher_info['teacher_type'] == 21 && $teacher_info['teacher_type'] == 22) { // 工作室是从11月开始累如
+                    $start_time = strtotime("2017-11-1");
+                }
+                $reference_num = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher_info['phone'], $type);
+                $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
             }
-            $reference_num = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher_info['phone'], $type);
 
             /**
              * 廖祝佳，王菊香推荐的在职老师起步都是80元/个
@@ -4474,15 +4484,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             //         break;
             //     }
             // }
-
-            $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
-            if ($teacherid == 274115) { // join中国 60元/个
-                $reference_price = 60;
-            }elseif($teacherid == 149697){ //明日之星 50元/个
-                $reference_price = 50;
-            }elseif(($teacherid == 176348 || $teacher_ref_type == 1 || $teacher_ref_type == 2) && $type = 1) { //田克平 廖老师工作室 王老师工作室 推荐机构老师 80 元/个
-                $reference_price = 80;
-            }
 
             $this->t_teacher_money_list->row_insert([
                 "teacherid"  => $teacherid,

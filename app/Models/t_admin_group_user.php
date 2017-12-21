@@ -170,7 +170,9 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
     public function get_user_list_new_new($groupid,$month) {
         $sql=$this->gen_sql_new("select u.adminid,m.account,"
                                 ."m.create_time,m.become_member_time,m.leave_member_time,m.del_flag,m.seller_level "
-                                ." from %s u,%s m where u.adminid= m.uid and groupid=%u and (m.leave_member_time>$month or m.leave_member_time =0)",
+                                ." from %s u,%s m where u.adminid= m.uid and groupid=%u and "
+                                // ."(m.leave_member_time>$month or m.leave_member_time =0)",
+                                ."((m.leave_member_time>$month and m.del_flag=1) or m.del_flag =0)",
                                 self::DB_TABLE_NAME,
                                 t_manager_info::DB_TABLE_NAME,
                                 $groupid);
