@@ -9,7 +9,6 @@ message in  {
   string phone =1;//手机
   int32 role =2;//角色
   string time_code =3;//md5("leo".$time.$phone.$role."1v1")
-  string reg_ip =4;//ip
 
 }
 

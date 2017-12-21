@@ -10,10 +10,9 @@ message in  {
   int32 role =2;//角色
   string verify_code =3;//验证码
   string passwd =4;//密码 md5(passwd)
-  string reg_ip =5;//ip
-  string reg_channel =6;//注册渠道
-  string region =7;//地区
-  int32 grade =8;//年级
+  string reg_channel =5;//注册渠道
+  string region =6;//地区
+  int32 grade =7;//年级
 
 }
 
