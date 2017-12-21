@@ -1051,7 +1051,13 @@ class wx_teacher_api extends Controller
     }
 
     public function getResourceList(){ // 讲义系统 boby
-        
+        $resource_id = $this->get_in_int_val($field_name);
+        $resourceList = $this->t_resource_file->getResoureList($resource_id);
+    }
+
+    public function chooseResource(){
+        $file_id = $this->get_in_int_val('file_id');
+
     }
 
     public function update_accept_status(){ //更新接受状态并发送微信推送
@@ -1123,8 +1129,14 @@ class wx_teacher_api extends Controller
             $wx->send_ass_for_first($jw_openid, $data, $url);
         }
 
-        $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
-        $this->t_test_lesson_subject_require->field_update_list($require_id, [
+
+
+        // $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+        // $this->t_test_lesson_subject_require->field_update_list($require_id, [
+        //     "accept_status"=>$status
+        // ]);
+
+        $this->t_lesson_info->field_update_list($lessonid, [
             "accept_status"=>$status
         ]);
 
@@ -1156,5 +1168,15 @@ class wx_teacher_api extends Controller
         return $this->output_succ(["data"=>$teacher_info]);
     }
 
+
+    /**
+     * @ 老师圣诞节活动 积分
+     * @ 老师分享链接后 后续人员点击链接+1
+     * @ 从分享链接注册进来的老师 则分享人积分+10
+     * @
+     * @
+     **/
+
+    // function share
 
 }
