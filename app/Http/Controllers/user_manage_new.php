@@ -3881,7 +3881,7 @@ class user_manage_new extends Controller
             if ($info['stu_sum'] > 30) $info['stu_reward'] = 60;
             // 机构老师总数
             //$info['tea_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid);
-            $info['tea_sum'] = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $phone, 1);
+            $info['tea_sum'] = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher['phone'], 1);
             if ($teacherid == 269222) { // 处理赵志园二个账号
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459);
                 $info['tea_sum'] += $num;
