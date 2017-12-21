@@ -1415,51 +1415,56 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             if(!$courseid){
                 $courseid = "SHLEOZ3101006"; 
             }
-            $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
-            if($course_list){
-                $list=json_decode($course_list,true);
-            }else{
-                $list=[];
-            }
-            @$list[4][]=$courseid;
-            $str = json_encode($list);
+            $str = $this->get_parent_courseid($courseid,4,$pp_info["parentid"]);
+
+            // $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
+            // if($course_list){
+            //     $list=json_decode($course_list,true);
+            // }else{
+            //     $list=[];
+            // }
+            // @$list[4][]=$courseid;
+            // $str = json_encode($list);
             
         }elseif($grade >=100 && $grade<200){
             if(!$courseid){
                 $courseid = "SHLEOZ3101001"; 
             }
-            $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
-            if($course_list){
-                $list=json_decode($course_list,true);
-            }else{
-                $list=[];
-            }
-            @$list[1][]=$courseid;
-            $str = json_encode($list);
+            $str = $this->get_parent_courseid($courseid,1,$pp_info["parentid"]);
+            // $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
+            // if($course_list){
+            //     $list=json_decode($course_list,true);
+            // }else{
+            //     $list=[];
+            // }
+            // @$list[1][]=$courseid;
+            // $str = json_encode($list);
         }elseif($grade >=200 && $grade<300){
             if(!$courseid){
                 $courseid = "SHLEOZ3101011"; 
             }
-            $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
-            if($course_list){
-                $list=json_decode($course_list,true);
-            }else{
-                $list=[];
-            }
-            @$list[2][]=$courseid;
-            $str = json_encode($list);
+            $str = $this->get_parent_courseid($courseid,2,$pp_info["parentid"]);
+            // $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
+            // if($course_list){
+            //     $list=json_decode($course_list,true);
+            // }else{
+            //     $list=[];
+            // }
+            // @$list[2][]=$courseid;
+            // $str = json_encode($list);
         }elseif($grade >=300 && $grade<400){
             if(!$courseid){
                 $courseid = "SHLEOZ3101016"; 
             }
-            $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
-            if($course_list){
-                $list=json_decode($course_list,true);
-            }else{
-                $list=[];
-            }
-            @$list[3][]=$courseid;
-            $str = json_encode($list);
+            $str = $this->get_parent_courseid($courseid,3,$pp_info["parentid"]);
+            // $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
+            // if($course_list){
+            //     $list=json_decode($course_list,true);
+            // }else{
+            //     $list=[];
+            // }
+            // @$list[3][]=$courseid;
+            // $str = json_encode($list);
         }
         $this->t_parent_info->field_update_list($pp_info["parentid"],[
             "baidu_class_info" =>$str 
@@ -1467,6 +1472,35 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
 
         
+
+    }
+
+
+    //家长各年级百度分期课程号更新
+    public function get_parent_courseid($courseid,$num,$parentid){
+        $course_list = $this->t_parent_info->get_baidu_class_info($parentid);
+        if($course_list){
+            $list=json_decode($course_list,true);
+            if(isset($list[$num])){
+                $course_arr = $list[$num];
+                $i=0;
+                foreach($course_arr as $val){
+                    if($val==$courseid){
+                        $i=1;
+                    }
+                }
+                if($i==0){
+                    @$list[$num][]=$courseid;
+                }
+            }else{
+                @$list[$num][]=$courseid;
+            }
+        }else{
+            $list=[];
+            @$list[$num][]=$courseid;
+        }
+        $str = json_encode($list);
+        return $str;
 
     }
 
