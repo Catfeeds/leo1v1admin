@@ -68,7 +68,7 @@
                 <tr>
                     <td>分配人 </td>
                     <td>被分配人 </td>
-                    <td>分配例子 </td>
+                    <td>学生 </td>
                     <td>分配类型 </td>
                     <td>渠道 </td>
                     <td>是否联系 </td>
@@ -82,7 +82,7 @@
                     <tr>
                         <td>{{@$var["adminid_nick"]}} </td>
                         <td>{{@$var["uid_nick"]}} </td>
-                        <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["phone_hide"]}} </td>
                         <td>{{@$var["hand_get_adminid_str"]}} </td>
                         <td>{{@$var["origin"]}} </td>
                         <td>{!! @$var["global_tq_called_flag_str"] !!} </td>

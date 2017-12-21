@@ -1265,8 +1265,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         //S,A,B级3h前进来的已设置/27h前进来的所有,其他级别6h前进来的已设置/30h前进来的所有
         $check_no_call_time_str="((origin_level >0  and n.add_time < $before_24_time )  or ( n.add_time < $before_48_time))";
         \App\Helper\Utils::logger( "seller_level_flag:".$seller_level_flag);
-        E\Eseller_level::V_300;
-        E\Eorigin_level::V_3;
+        // E\Eseller_level::V_300;
+        // E\Eorigin_level::V_3;
         switch ( $seller_level_flag ) {
         case 1 :  //S级:所有
         case 2 :  //A级:已设置/3h前进来的已设置/27h前进来的所有
@@ -1711,7 +1711,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public  function sync_tq($phone,$tq_called_flag,$call_time,$tquin=0) {
+    public function sync_tq($phone,$tq_called_flag,$call_time,$tquin=0) {
         $userid=$this->get_userid_by_phone($phone);
         $admin_info=$this->t_manager_info->get_info_by_tquin($tquin,"uid");
         if($userid && $admin_info)  {
