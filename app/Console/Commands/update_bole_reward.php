@@ -57,6 +57,7 @@ class update_bole_reward extends Command
                         echo $teacherids[$key]['teacherid'].' --- '.$val['teacherid'];
                             //$tea->update_bole_reward($teacherids[$key]['teacherid'],$val['teacherid']);
                     }
+                    dd($m_info);
                 }
             }
         }
