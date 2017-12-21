@@ -83,7 +83,7 @@ class account_common extends Controller
         $phone = $this->get_in_str_val("phone");
         $role = $this->get_in_int_val("role");
         $time_code = $this->get_in_str_val("time_code");
-        $reg_ip = $this->get_in_str_val("reg_ip");
+        $reg_ip = $this->get_in_client_ip();
 
         $check_phone =  \App\Helper\Utils::check_phone($phone);
         if(!$check_phone){
@@ -135,7 +135,7 @@ class account_common extends Controller
         $role = $this->get_in_int_val("role");
         $passwd = $this->get_in_str_val("passwd");
         $verify_code = $this->get_in_str_val("verify_code");
-        $reg_ip = ip2long($this->get_in_str_val("reg_ip"));
+        $reg_ip = ip2long($this->get_in_client_ip());
 
         $check_phone =  \App\Helper\Utils::check_phone($phone);
         if(!$check_phone){
