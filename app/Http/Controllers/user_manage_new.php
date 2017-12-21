@@ -3852,6 +3852,12 @@ class user_manage_new extends Controller
         $list = \App\Helper\Utils::list_to_page_info($list);
         $info = [];
         if ($type == E\Ereward_type::V_6 && $teacherid > 0) {
+            //$info['stu_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, 0);
+            $teacher = $this->t_teacher_info->field_get_list($teacherid, "phone,teacher_type");
+            if ($teacher['teacher_type'] == 21 || $teacher['teacher_type'] == 22) {
+                $info['msg'] = '特殊渠道-工作室';
+            }
+
             if ($teacherid == 420745 || $teacherid == 437138) {
                 $info['msg'] = '15333268257 和  李桂荣两位老师12月后的伯乐奖关掉';
             } elseif ($teacherid == 274115) {
@@ -3863,12 +3869,6 @@ class user_manage_new extends Controller
             }
             $start_time = strtotime('2015-1-1');
             $end_time = time();
-            // 在校学生总数
-            //$info['stu_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, 0);
-            $teacher = $this->t_teacher_info->field_get_list($teacherid, "phone,teacher_type");
-            if ($teacher['teacher_type'] == 21 || $teacher['teacher_type'] == 22) {
-                $info['msg'] = '特殊渠道-工作室';
-            }
             $info['stu_sum'] = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher['phone'], 0);
 
             if ($teacherid == 269222) { // 处理赵志园二个账号
