@@ -682,6 +682,7 @@ class NewRouteConfig {
         "/question_new_api/get_question_type_and_resource"  =>true,
         "/question_new_api/get_questions"                =>true,
         "/question_new_api/get_answers"                  =>true,
+        "/question_new_api/save_answers"                 =>true,
     ];
 
     static $dev_url_map = [
