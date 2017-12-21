@@ -1049,16 +1049,16 @@ $(function(){
         var red_font_end = "</font>";
         var arr = [
             ["-----","红色必填"],
-            [red_font+"老师姓名"+red_font_end, id_name],
-            [red_font+"老师号码"+red_font_end, id_phone],
+            [red_font+"姓名"+red_font_end, id_name],
+            [red_font+"电话"+red_font_end, id_phone],
             [red_font+"邮箱"+red_font_end,id_email],
             [red_font+"QQ"+red_font_end, id_qq],
-            ["推荐人号码",id_reference],
-            ["性别",id_gender],
+            [red_font+"性别"+red_font_end,id_gender],
             [red_font+"年龄"+red_font_end,id_age],
             [red_font+"年级"+red_font_end,id_grade_ex],
             [red_font+"科目"+red_font_end,id_subject_ex],
             [red_font+"老师身份"+red_font_end,id_identity],
+            ["推荐人号码",id_reference],
             ["回访状态", id_lecture_revisit_type],
             ["备注",id_return_revisit_note],
         ];

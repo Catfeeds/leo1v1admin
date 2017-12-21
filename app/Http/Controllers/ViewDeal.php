@@ -537,6 +537,9 @@ trait  ViewDeal {
                 "_publish_version" => \App\Config\publish_version::$version ,
                 "_act"             => $action,
                 "_origin_act"      => @$_REQUEST["_act"],
+                "account"          => session("acc"),
+                "account_role"     => session("account_role"),
+                "adminid"          => session("adminid"),
             ]);
         }
     }

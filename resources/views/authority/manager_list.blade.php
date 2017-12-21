@@ -96,7 +96,7 @@
                 <button class="btn btn-warning  add_player " >添加</button>
                 <button id="id_email_list" class="btn btn-primary " >邮箱</button>
             </div>
-            @if(in_array($acc,["jim","jack","孙瞿"]))
+            @if(in_array($account,["jim","jack","孙瞿"]))
                 <div class="col-md-1 remove-for-xs col-xs-6 "  >
                     <div>
                         <button class="btn btn-primary" id="id_upload_xls"> 上传 </button>
@@ -161,12 +161,12 @@
                                     <a href="javascript:;" title="设置角色" class="fa fa-venus-double set-account-role"></a>
                                     <a href="javascript:;" title="绑定微信账号" class="fa fa-link opt_set_openid"></a>
                                     <a href="javascript:;" title="更改员工状态" class="fa fa-trash-o  opt-del"></a>
-                                    @if(in_array($acc,['何洁','jim','孙瞿',"adrian"]))
+                                    @if(in_array($account,['何洁','孙瞿',"adrian","jim"]))
                                         <a href="javascript:;" title="更改权限组" class="fa fa-hand-o-up opt-power" style="display:none"></a>
                                     @endif
                                     <a href="javascript:;" title="用此账号登录" class="opt-login">登录</a>
                                     <a href="javascript:;" title="修改账号"
-                                       class="fa fa-gears  opt-change-account"> </a>
+                                       class="fa fa-gears opt-change-account"> </a>
                                     <a href="javascript:;" title="同步考勤" class="fa fa-refresh opt-sync-kaoqin  "> </a>
                                     <a href="javascript:;" title="邮箱配置" class="opt-email"> 邮箱 </a>
                                     <a href="javascript:;" title="设置全职老师类型" class="opt-set-fulltime-teacher-type"> 全</a>
@@ -178,13 +178,13 @@
                                         <a href="javascript:;" title="同步老师入职时间" class="opt-set-train-through-time">同</a>
                                         <a href="javascript:;" title="修改老师等级" class="opt-set-teacher-level">等</a>
                                     @endif
-                                    @if(in_array($acc,["jim","jack","孙瞿"]))
+                                    @if(in_array($account,["jim","jack","孙瞿"]))
                                         <a href="javascript:;" title="权限删除测试" class="opt-delete-permission">权限删除测</a>
                                     @endif
-                                    @if(in_array($acc,["michelle","jack","jim"]))
+                                    @if(in_array($account,["michelle","jack","jim"]))
                                         <a href="javascript:;" title="权限备份互换" class="opt-change-permission-new">权限更换</a>
                                     @endif
-                                    @if(in_array($acc, ['jim', 'ricky',"孙瞿"]))
+                                    @if(in_array($account, ['jim', 'ricky',"孙瞿"]))
                                         <a href="javascript:;" title="个人拥有权限" class="opt-ower-permission">个人权限</a>
                                     @endif
                                 </div>

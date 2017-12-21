@@ -1616,7 +1616,6 @@ trait TeaPower {
 
         $uid = $this->t_manager_info->get_id_by_phone($phone);
         if($uid>0){
-
             $del_flag = $this->t_manager_info->get_del_flag($uid);
             if($del_flag!=1){
                 $tea_nick = $this->t_manager_info->get_name($uid);
@@ -1637,7 +1636,7 @@ trait TeaPower {
             $is_test_user=1;
         }
 
-        $passwd = \App\Helper\Utils::get_common_passwd($phone,$use_easy_pass);
+        $passwd     = \App\Helper\Utils::get_common_passwd($phone,$use_easy_pass);
         $passwd_md5 = md5($passwd);
         $this->t_user_info->start_transaction();
         $this->t_user_info->row_insert([
@@ -1724,16 +1723,52 @@ trait TeaPower {
      * @return string 错误信息
      */
     public function change_teacher_phone($teacherid,$new_phone){
+        $role = E\Erole::V_TEACHER;
+        $old_phone = $this->t_teacher_info->get_phone($teacherid);
+        if($old_phone==$new_phone){
+            return $this->output_err("更改的手机号与旧手机号相同!");
+        }
         $check_phone = \App\Helper\Utils::check_phone($new_phone);
         if(!$ret){
-            return "手机号不是11位!";
+            return $this->output_err("手机号不是11位!");
         }
-        $check_flag = $this->t_phone_to_user->check_is_exist_by_phone_and_userid(-1,$new_phone,E\Erole::V_TEACHER);
+        $check_flag = $this->t_phone_to_user->check_is_exist_by_phone_and_userid(-1,$new_phone,$role);
         if(!empty($check_flag)){
-            return "该账号已存在！";
+            return $this->output_err("该账号已存在!");
+        }
+        $update_tea_arr = [
+            "phone"       => $new_phone,
+            "phone_spare" => $new_phone,
+        ];
+        if(substr($new_phone,0,3)=="999"){
+            $update_tea_arr["is_test_user"] = 1;
         }
 
+        $this->t_phone_to_user->start_transaction();
+        $update_ret = $this->t_phone_to_user->set_phone($new_phone,$role,$teacherid);
+        if(!$update_ret){
+            $this->t_phone_to_user->rollback();
+            return $this->output_err("更新用户表出错！请重试！");
+        }
+        $tea_ret = $this->t_teacher_info->field_update_list($userid,$update_tea_arr);
+        if(!$tea_ret){
+            $this->t_phone_to_user->rollback();
+            return $this->output_err("更新老师表出错！请重试！");
+        }
 
+        $this->t_phone_to_user->commit();
+        \App\Helper\Utils::logger("update teacher phone success!teacherid:".$userid
+                                  ." old phone:".$old_phone."new phone:".$new_phone);
+
+        $record_info = "手机变更,由".$old_phone."变更为".$new_phone;
+        $this->t_teacher_record_list->row_insert([
+            'teacherid'   => $userid,
+            'type'        => 6,
+            'record_info' => $record_info,
+            'add_time'    => time(),
+            'acc'         => $this->get_account(),
+        ]);
+        return $this->output_succ();
     }
 
     /**
