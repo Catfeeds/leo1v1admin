@@ -2224,7 +2224,7 @@ $(function(){
     });
 
     download_hide();
-    if(acc=="alan" || acc=="adrian" || acc=="seven" || acc=="jack" || acc=="孙瞿"){
+    if(g_account_role==12){
         $(".opt-edit").show();
     }
 
