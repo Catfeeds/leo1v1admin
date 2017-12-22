@@ -1410,14 +1410,14 @@
 
         <div class="row">
             <div class="col-xs-12 col-md-12  " >
-                <span>试听要求</span>
+                <span>试听内容</span>
                 <span style="margin-left:70px;" id="id_add_tag_new_two"></span>
             </div>
             <div class="col-xs-12 col-md-9  ">
                 <div class="row">
                     <div class="col-xs-12 col-md-12 ">
                         <div class="input-group ">
-                            <span class="input-group-addon" >　<font style="color:red">*</font>&nbsp　试听内容：</span>
+                            <span class="input-group-addon" >　<font style="color:red">*</font>&nbsp　试听要求：</span>
                             <textarea class="form-control" style="height:115px;" class="class_stu_request_test_lesson_demand_new_two" id="id_stu_request_test_lesson_demand_new_two" ></textarea>
                         </div>
                     </div>
@@ -1507,7 +1507,7 @@
                     </div>
                     <div class="col-xs-12 col-md-3 " style="display:block;">
                         <div class="input-group ">
-                            <span class="input-group-addon">&nbsp老师类型：</span>
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp老师类型：</span>
                             <select id="id_teacher_type_new_two" class=" form-control " >
                             </select>
                         </div>

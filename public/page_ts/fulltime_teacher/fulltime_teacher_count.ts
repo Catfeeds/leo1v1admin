@@ -23,6 +23,25 @@ $(function(){
         }
     });
 
+    // $("#id_data").on("click",function(){
+    //     var config_list=["fulltime_teacher_count","fulltime_teacher_student","fulltime_teacher_pro","fulltime_teacher_student_pro","fulltime_teacher_lesson_count","fulltime_teacher_cc_per","part_teacher_lesson_count","part_teacher_cc_per","fulltime_teacher_lesson_count_per","platform_teacher_cc_per","fulltime_normal_stu_num","fulltime_normal_stu_pro"];
+
+        
+    //     $.each( config_list,  function(){
+    //         var config_type=this; 
+    //         $.do_ajax("/ajax_deal2/fulltime_teacher_count_data_with_type",{
+		// 	          start_time: g_args.start_time	,
+		// 	          end_time: g_args.end_time	,
+    //             "type" :  config_type,
+    //         } ,function(resp){
+    //             $("#"+config_type).text(resp.value) ;
+    //         } );
+
+    //     } );
+        
+    // });
+   
+
     $('.opt-change').set_input_change_event(load_data);
 });
 

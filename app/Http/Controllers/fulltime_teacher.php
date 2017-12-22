@@ -300,12 +300,12 @@ class fulltime_teacher extends Controller
     }
 
     public function fulltime_teacher_count(){
-        $this->switch_tongji_database();
-        $this->check_and_switch_tongji_domain();
+        // $this->switch_tongji_database();
+        // $this->check_and_switch_tongji_domain();
 
-        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],1);
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
 
-       
+        $ret=[]; 
 
         $lesson_end_time = $this->get_test_lesson_end_time($end_time);
 
@@ -384,6 +384,7 @@ class fulltime_teacher extends Controller
             }elseif($grade==3){
                 $num=$m3;
             }elseif($grade==4 || $grade==6){
+
                 $s = $this->t_lesson_info_b2->get_teacher_lesson_grade_count($start_time,$end_time,$val["teacherid"],1);
                 $m = $this->t_lesson_info_b2->get_teacher_lesson_grade_count($start_time,$end_time,$val["teacherid"],2);
                 $per = !empty($s+$m)?$s/($s+$m):0;

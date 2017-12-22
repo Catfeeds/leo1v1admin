@@ -30,7 +30,7 @@
                 <div class="input-group">
                     <div class=" input-group-btn ">
                         <button id="id_add_question" type="submit"  class="btn  btn-warning" >
-                            <i class="fa fa-plus"></i>添加答案步骤
+                            <i class="fa fa-plus"></i>添加题目
                         </button>
                     </div>
                 </div>
