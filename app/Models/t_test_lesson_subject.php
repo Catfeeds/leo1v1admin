@@ -1248,5 +1248,51 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             return $item['channel_name'];
         });
     }
+    //@desn:获取节点型例子进入量
+    public function get_example_num_now($field_name, $opt_date_str,$start_time,$end_time,$origin,$origin_ex,$seller_groupid_ex,$adminid_list=[],$tmk_adminid=-1){
+        if($field_name == 'grade')
+            $field_name="si.grade";
+        $where_arr=[
+            ["si.origin like '%%%s%%' ",$origin,""],
+            'tls.require_admin_type=2',
+            'si.is_test_user = 0'
+        ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+        $this->where_arr_add__2_setid_field($where_arr,"ssn.tmk_adminid",$tmk_adminid);
+        $ret_in_str=$this->task->t_origin_key->get_in_str_key_list($origin_ex,"si.origin");
+        $where_arr[]= $ret_in_str;
+        $this->where_arr_adminid_in_list($where_arr,"ssn.first_seller_adminid",$adminid_list);
+
+        $sql = $this->gen_sql_new(
+            'select '.$field_name.' as check_value,count(*) as all_count,'.
+            'count(distinct si.userid) as heavy_count,count(ssn.admin_revisiterid >0) assigned_count,'.
+            'count(ssn.tmk_student_status=3) as tmk_assigned_count,'.
+            'avg(if(ssn.add_time<ssn.first_call_time,ssn.first_call_time-ssn.add_time,null)) avg_first_time,'.
+            'sum(ssn.global_tq_called_flag <>0) tq_called_count,'.
+            'sum(ssn.global_tq_called_flag=0) tq_no_call_count,'.
+            'format(sum(ssn.global_tq_called_flag <>2)/count(*)*100,2) consumption_rate,'.
+            'sum(ssn.global_tq_called_flag =2) as called_num,'.
+            'sum(ssn.global_tq_called_flag =2 and ssn.sys_invaild_flag=0) tq_call_succ_valid_count,'.
+            'sum(ssn.global_tq_called_flag =2 and  ssn.sys_invaild_flag =1) tq_call_succ_invalid_count,'.
+            'format(sum(ssn.global_tq_called_flag =2)/sum(ssn.global_tq_called_flag <>0)*100,2) called_rate,'.
+            'format(sum(ssn.global_tq_called_flag =2 and ssn.sys_invaild_flag =0)/sum(ssn.global_tq_called_flag <>0)*100,2) effect_rate,'.
+            'sum(ssn.global_tq_called_flag=1) tq_call_fail_count,'.
+            'sum(ssn.global_tq_called_flag =1 and ssn.sys_invaild_flag =1) tq_call_fail_invalid_count,'.
+            'sum(tls.seller_student_status =100 and ssn.global_tq_called_flag =2) have_intention_a_count,'.
+            'sum(tls.seller_student_status =101 and ssn.global_tq_called_flag =2) have_intention_b_count,'.
+            'sum(tls.seller_student_status =102 and ssn.global_tq_called_flag =2) have_intention_c_count '.
+            'from %s tls '.
+            'left join %s ssn on tls.userid = ssn.userid '.
+            'left join %s si on tls.userid = si.userid '.
+            'where %s group by check_value',
+            self::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list_as_page($sql,function($item){
+            return $item['check_value'];
+        });
+    }
 
 }

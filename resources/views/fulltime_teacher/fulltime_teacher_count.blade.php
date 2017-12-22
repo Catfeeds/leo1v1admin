@@ -78,7 +78,12 @@
                     <div id="id_date_range" >
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-1">
+                    <button class="btn btn-warning" id="id_data"  >生成数据</button>
+                </div>
+
             </div>
+            
             <hr/>
            
 
@@ -96,41 +101,41 @@
                                 <tbody >
                                         <tr>
                                             <td class="panel-yellow">全职老师总人数</td> 
-                                            <td class="panel-yellow">{{$ret_info["fulltime_teacher_count"]}} </td>
+                                            <td class="panel-yellow" id="fulltime_teacher_count">{{@$ret_info["fulltime_teacher_count"]}} </td>
                                             <td class="panel-red" title="所选时间内上课的学生数量">全职老师上课学生总数(按人头)</td>
-                                            <td class="panel-red">{{$ret_info['fulltime_teacher_student']}}</td>
+                                            <td class="panel-red" id="fulltime_teacher_student">{{@$ret_info['fulltime_teacher_student']}}</td>
                                         </tr>
                                         <tr>
                                             <td class="panel-yellow">占平台人数比例</td> 
-                                            <td class="panel-yellow">{{$ret_info['fulltime_teacher_pro']}}%({{$ret_info['fulltime_teacher_count']}}/{{$ret_info['platform_teacher_count']}})</td>
+                                            <td class="panel-yellow" id="fulltime_teacher_pro">{{@$ret_info['fulltime_teacher_pro']}}%({{@$ret_info['fulltime_teacher_count']}}/{{@$ret_info['platform_teacher_count']}})</td>
                                             <td class="panel-red">占平台上课学生总数的比例(按人头)</td>
-                                            <td class="panel-red">{{$ret_info['fulltime_teacher_student_pro']}}%({{$ret_info['fulltime_teacher_student']}}/{{$ret_info['platform_teacher_student']}})</td>
+                                            <td class="panel-red"  id="fulltime_teacher_student_pro">{{@$ret_info['fulltime_teacher_student_pro']}}%({{@$ret_info['fulltime_teacher_student']}}/{{@$ret_info['platform_teacher_student']}})</td>
                                         </tr>
                                         <tr>
                                             <td class="panel-green">全职老师完成的课耗总数</td> 
-                                            <td class="panel-green">{{$ret_info['fulltime_teacher_lesson_count']}}</td>
+                                            <td class="panel-green" id="fulltime_teacher_lesson_count">{{@$ret_info['fulltime_teacher_lesson_count']}}</td>
                                             <td class="panel-blue">全职老师cc转化率</td>
-                                            <td class="panel-blue">{{$ret_info['fulltime_teacher_cc_per']}}%({{$ret_info['fulltime_teacher_cc_order']}}/{{$ret_info['fulltime_teacher_cc_lesson']}})</td>
+                                            <td class="panel-blue" id="fulltime_teacher_cc_per">{{@$ret_info['fulltime_teacher_cc_per']}}%({{@$ret_info['fulltime_teacher_cc_order']}}/{{@$ret_info['fulltime_teacher_cc_lesson']}})</td>
                                         </tr>
                                         <tr>
                                             <td class="panel-green">兼职老师完成的课耗总数</td> 
-                                            <td class="panel-green">{{$ret_info['part_teacher_lesson_count']}}</td>
+                                            <td class="panel-green" id="part_teacher_lesson_count">{{@$ret_info['part_teacher_lesson_count']}}</td>
                                             <td class="panel-blue">兼职老师cc转化率</td>
-                                            <td class="panel-blue">{{$ret_info['part_teacher_cc_per']}}%({{$ret_info['part_teacher_cc_order']}}/{{$ret_info['part_teacher_cc_lesson']}})</td>
+                                            <td class="panel-blue" id="part_teacher_cc_per">{{@$ret_info['part_teacher_cc_per']}}%({{@$ret_info['part_teacher_cc_order']}}/{{@$ret_info['part_teacher_cc_lesson']}})</td>
                                         </tr>
 
 
                                         <tr>
                                             <td class="panel-green">占平台课耗总数的比例</td> 
-                                            <td class="panel-green">{{$ret_info['fulltime_teacher_lesson_count_per']}}%({{$ret_info['fulltime_teacher_lesson_count']}}/{{$ret_info['platform_teacher_lesson_count']}})</td>
+                                            <td class="panel-green" id="fulltime_teacher_lesson_count_per">{{@$ret_info['fulltime_teacher_lesson_count_per']}}%({{@$ret_info['fulltime_teacher_lesson_count']}}/{{@$ret_info['platform_teacher_lesson_count']}})</td>
                                             <td class="panel-blue">平台整体cc转化率</td>
-                                            <td class="panel-blue">{{$ret_info['platform_teacher_cc_per']}}%({{$ret_info['platform_teacher_cc_order']}}/{{$ret_info['platform_teacher_cc_lesson']}})</td>
+                                            <td class="panel-blue" id="platform_teacher_cc_per">{{@$ret_info['platform_teacher_cc_per']}}%({{@$ret_info['platform_teacher_cc_order']}}/{{@$ret_info['platform_teacher_cc_lesson']}})</td>
                                         </tr>
                                         <tr>
                                             <td class="panel-orange" title="当前所在周加上前后两个两周，共5周内的上课学生数">全职老师当前所带学生数(按人次)</td>
-                                            <td class="panel-orange">{{$ret_info['fulltime_normal_stu_num']}}</td>
+                                            <td class="panel-orange" id="fulltime_normal_stu_num">{{@$ret_info['fulltime_normal_stu_num']}}</td>
                                             <td class="panel-orange">占当前所有学生总数的比例(按人次)</td>
-                                            <td class="panel-orange">{{$ret_info['fulltime_normal_stu_pro']}}%({{$ret_info['fulltime_normal_stu_num']}}/{{$ret_info['platform_normal_stu_num']}})</td>
+                                            <td class="panel-orange" id="fulltime_normal_stu_pro">{{@$ret_info['fulltime_normal_stu_pro']}}%({{@$ret_info['fulltime_normal_stu_num']}}/{{@$ret_info['platform_normal_stu_num']}})</td>
 
                                            
                                         </tr>

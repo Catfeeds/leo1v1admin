@@ -34,14 +34,14 @@ function open_know(index){
             treeObj.checkNode(node, true, true);
         })
     }
-    $('#save_knowledge').attr({"answer_id":index});
+    $('#save_knowledge').attr({"step_id":index});
     $('.knowledge_all').show();
 }
 
 function close_know(){
     var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
     treeObj.checkAllNodes(false);
-    $('#save_knowledge').attr({"answer_id":""});
+    $('#save_knowledge').attr({"step_id":""});
     $('.knowledge_all').hide();
 }
 
@@ -55,7 +55,7 @@ function save_know(){
             html += "<span knowledge_id='"+nodes[i].id+"'>" + nodes[i].name + "</span>";
         }
     }
-    var index = $('#save_knowledge').attr('answer_id');
+    var index = $('#save_knowledge').attr('step_id');
     $('#knowledge_exits_'+index).html(html);
     close_know();
 }
@@ -80,7 +80,7 @@ $(function(){
     var id_question_type = null;
     var domain = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/';
 
-
+    var answer_type_option = $("#answer_type_0").html();
     //初始化每个公式显示框
     $('.MathPreview').each(function(){
         var mathId = $(this).attr('id');
@@ -92,13 +92,12 @@ $(function(){
         //上传图片
         Cquestion_editor.custom_upload( $('#id_mathjax_add_pic_'+id_index)[0],$('#id_mathjax_add_pic_div_'+id_index)[0],domain,null,id_mathjax_content,MathPreview,mathId);
         Cquestion_editor.preview_update(id_question_type,id_mathjax_content,MathPreview,mathId);
-
-        var answer_type = $(this).parents('.answer_step').find('.answer_type').attr('id');
-        Enum_map.append_option_list("answer_type",$("#"+answer_type),true);
-        if( answer_type != 'answer_type_0'){
-            var answer_type_value = $(this).parents('.answer_step').find('.answer_type_value').val();
+        var answer_type_obj = $(this).parents('.answer_step').find('.answer_type');
+        if( answer_type_obj.attr('id') != 'answer_type_0'){
+            answer_type_obj.html(answer_type_option);
+            var answer_type_value = answer_type_obj.attr('answer_type_value');
             //console.log(answer_type_value);
-            $("#"+answer_type).val(answer_type_value);
+            answer_type_obj.val(answer_type_value);
         } 
     });
 
@@ -170,6 +169,29 @@ $(function(){
 
     })
 
+    //查看其他标准答案
+    $(".other_answers").click(function(){
+        var question_id = $('#question_id').val();
+        var answer_no = $(this).val();
+        window.open('/question_new/answer_edit?question_id='+question_id+'&answer_no='+answer_no);
+    })
+
+    //添加其他答案
+    $("#answer_no").click(function(){
+        var question_id = $('#question_id').val();
+        //当前已经存在的标准答案序号
+        var current_answer = new Array($(this).val());
+        //其他答案序号
+        if($('.other_answers').length > 0){
+            $('.other_answers').each(function(){
+                current_answer.push($(this).val());
+            })
+        }
+        var answer_no = Math.max.apply(null, current_answer) + 1;
+        window.open('/question_new/answer_edit?question_id='+question_id+'&answer_no='+answer_no);
+
+    })
+
     //保存答案
     $(".answer-save").click(function(){
         var obj = $(this).parents('.answer_step');
@@ -188,7 +210,8 @@ $(function(){
         var data = {
             'editType':obj.find('.editType').val(),
             'question_id':$('#question_id').val(),
-            'answer_id':obj.find('.answer_id').val(),
+            'answer_no' : $('#answer_no').val(),
+            'step_id':obj.find('.step_id').val(),
             'step':obj.find('.step').val(),
             'answer_type':obj.find('.answer_type').val(),
             'detail':obj.find('.id_mathjax_content').val(),
@@ -219,7 +242,7 @@ $(function(){
     $('.answer-dele').click(function(){
         var obj = $(this).parents('.answer_step');
         var data = {
-            'answer_id':obj.find('.answer_id').val(),
+            'step_id':obj.find('.step_id').val(),
         };
         var title = "你确定删除本步骤";
        

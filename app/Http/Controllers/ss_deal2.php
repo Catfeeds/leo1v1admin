@@ -460,7 +460,7 @@ class ss_deal2 extends Controller
                 }
             }
         }
-
+        $res[count($res)] = ['tag_name'=>'无要求','tag_id'=>0];
         return $this->output_succ(["data"=> $res]);
     }
 
@@ -502,7 +502,7 @@ class ss_deal2 extends Controller
                 }
             }
         }
-
+        $res[count($res)] = ['tag_name'=>'无要求','tag_id'=>0];
         return $this->output_succ(["data"=> $res]);
     }
 
@@ -544,7 +544,7 @@ class ss_deal2 extends Controller
                 }
             }
         }
-
+        $res[count($res)] = ['tag_name'=>'无要求','tag_id'=>0];
         return $this->output_succ(["data"=> $res]);
     }
 
@@ -586,7 +586,7 @@ class ss_deal2 extends Controller
                 }
             }
         }
-
+        $res[count($res)] = ['tag_name'=>'无要求','tag_id'=>0];
         return $this->output_succ(["data"=> $res]);
     }
 
@@ -628,7 +628,7 @@ class ss_deal2 extends Controller
                 }
             }
         }
-
+        $res[count($res)] = ['tag_name'=>'无要求','tag_id'=>0];
         return $this->output_succ(["data"=> $res]);
     }
 

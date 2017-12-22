@@ -44,10 +44,16 @@
 
             <div class="col-xs-1 col-md-1">
                 <div class="input-group">
-                    <button style="margin-left:10px" id="knowledge_list" type="button" class="btn btn-primary">知识点列表</button>
+                    <button style="margin-left:10px" id="edit_answer_list" type="button" class="btn btn-primary">编辑答案步骤</button>
                 </div>
             </div>
 
+            <!-- <div class="col-xs-1 col-md-1">
+                 <div class="input-group">
+                 <button style="margin-left:10px" id="knowledge_list" type="button" class="btn btn-primary">知识点列表</button>
+                 </div>
+                 </div>
+            -->
         </div>
         <hr/>
 

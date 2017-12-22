@@ -855,7 +855,7 @@ class user_deal extends Controller
         $contract_type = $order_item["contract_type"];
         $lesson_total  = $order_item["lesson_total"];
         $price         = $order_item["price"]/100;
-        if($contract_type==0 &&  $check_money_flag == 1){ //
+        if($contract_type==0 &&  $check_money_flag == 1){
             $start_time            = strtotime(date("Y-m-d"));
             $end_time              = $start_time+20*86400-1;
             // $seller_new_count_type = E\Eseller_new_count_type::V_ORDER_ADD ;
@@ -863,7 +863,7 @@ class user_deal extends Controller
             $value_ex              = $orderid;
             $adminid               = $this->t_manager_info->get_id_by_account($sys_operator);
             if (!$flowid  ){
-                if ( $price<10000) {
+                if ( $price<10000){
                     $count=3;
                 }else{
                     $count=5;
@@ -884,14 +884,14 @@ class user_deal extends Controller
                         $this->t_manager_info->send_wx_todo_msg(
                             '龚隽',
                             "CC:".$sys_operator,
-                            "公海签单赠送 抢新生名额[$count] ",
+                            "公海签单[$phone]赠送 抢新生名额[$count]个 ",
                             "学生:". $this->cache_get_student_nick($userid),
                             ""
                         );
                         $this->t_manager_info->send_wx_todo_msg(
                             'tom',
                             "CC:".$sys_operator,
-                            "公海签单赠送 抢新生名额[$count]",
+                            "公海签单[$phone]赠送 抢新生名额[$count]个 ",
                             "学生:". $this->cache_get_student_nick($userid),
                             ""
                         );
@@ -911,7 +911,6 @@ class user_deal extends Controller
         $account = $this->get_in_str_val("account");
         $this->t_student_info->noti_ass_order($userid,$account);
         return $this->output_succ();
-
     }
 
     public function update_admin_assign_percent(){
@@ -5598,7 +5597,6 @@ class user_deal extends Controller
         }
 
         $data['post_time'] = time(NULL);
-
         $data['cc_id']     = $cc_id;
         $data["call_time"] = strtotime($data["call_time"]);
         $data["first_lesson_time"] = strtotime($data["first_lesson_time"]);
@@ -5710,7 +5708,7 @@ class user_deal extends Controller
             "init_info_pdf_url"   =>  "true",
             "seller_adminid" => $this->get_account_id(),
         ]);
-
+        $this->t_seller_student_new->field_update_list($userid,['hold_flag'=>0]);
         //记录数据
         $phone = $this->t_student_info->get_phone($userid);
         $nick = $this->t_student_info->get_nick($userid);

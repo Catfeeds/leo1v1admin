@@ -20,11 +20,24 @@ class t_channel_node_type_statistics extends \App\Models\Zgen\z_t_channel_node_t
     }
     //@desn:获取漏斗型存档数据
     //@month_begin: 月初时间
-    public function get_list($month_begin){
+    public function get_list($month_begin,$origin_ex){
+        $where_arr = [
+            ['add_time = %u',$month_begin]
+        ];
+        if($origin_ex){
+            $origin_arr = explode(',', $origin_ex);
+            $this->where_arr_add_str_field($where_arr, 'key0',$origin_arr[0]);
+            $this->where_arr_add_str_field($where_arr, 'key1',$origin_arr[1]);
+            $where_add = " or sort = 0 or key0 = '".$origin_arr[0]."'";
+        }else{
+            $where_add = '';
+        }
+
+
         $sql = $this->gen_sql_new(
-            'select * from %s where add_time = %u order by sort asc',
+            'select * from %s where %s '.$where_add.' order by sort asc',
             self::DB_TABLE_NAME,
-            $month_begin
+            $where_arr
         );
         return $this->main_get_list_as_page($sql);
     }

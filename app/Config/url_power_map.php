@@ -328,7 +328,6 @@ class url_power_map {
 			'/tongji_ex/top_list'	=>1101000,
 			'/human_resource/get_input_score_list'	=>1101300,
 			'/human_resource/get_lesson_modify_list'	=>1101400,
-			'/tongji/contract_down'	=>1100199,
 			'/tongji/contract'	=>1100101,
 			'/tongji/user_count'	=>1100102,
 			'/tongji/seller_user_count'	=>1100121,

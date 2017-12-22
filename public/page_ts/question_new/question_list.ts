@@ -130,6 +130,12 @@ $(function(){
         var subject = $('#id_subject').val();
         window.open('/question_new/question_type_list?subject='+subject);
     })
+
+    $('#edit_answer_list').click(function(){
+        var subject = $('#id_subject').val();
+        window.open('/question_new/answer_type_list?subject='+subject);
+    })
+
 })
 
 function remove_knowledge(id){

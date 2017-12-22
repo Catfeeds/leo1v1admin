@@ -486,6 +486,23 @@ class teacher_info extends Controller
         }
     }
 
+    public function get_pdf_download_url_new()
+    {
+        $file_url = $this->get_in_str_val("file_url");
+
+        if (strlen($file_url) == 0) {
+            return $this->output_err(array( 'info' => '文件名为空', 'file' => $file_url));
+        }
+
+        if (preg_match("/http/", $file_url)) {
+            return $this->output_succ( array('ret' => 0, 'info' => '成功', 'file' => $file_url));
+        } else {
+            $new_url=$this->gen_download_url($file_url);
+            // dd($new_url);
+            return $this->output_succ(['url' => $new_url]);
+        }
+    }
+
     private function gen_download_url($file_url)
     {
         // 构建鉴权对象
