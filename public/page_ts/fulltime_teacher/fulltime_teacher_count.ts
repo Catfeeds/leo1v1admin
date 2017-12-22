@@ -40,6 +40,40 @@ $(function(){
     //     } );
         
     // });
+    $("#id_data").on("click",function(){
+        var row_list=$("#id_tbody td ");
+        console.log(row_list.length);
+        var do_index=0;
+        function do_once(){
+            if(do_index < row_list.length){
+                var $td =  $(row_list[do_index]);
+                console.log($($td));
+                var tid = $td.attr("id");
+                if(tid != undefined){
+                    $.do_ajax("/ajax_deal2/fulltime_teacher_count_data_with_type",{
+			                  start_time: g_args.start_time	,
+			                  end_time: g_args.end_time	,
+                        "type" :  tid,
+                    } ,function(resp){
+                        $("#"+tid).text(resp.value) ;
+                    } );
+
+
+                }else{
+                }
+               // alert(tid);
+                do_index++;
+                do_once();
+            }
+            
+        }
+        do_once();
+
+       
+
+    });
+
+
    
 
     $('.opt-change').set_input_change_event(load_data);
