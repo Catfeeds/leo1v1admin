@@ -49,8 +49,8 @@ class update_teaching_core_data extends Command
             $month_st=1;
         }
         // dd(1111);
-        // for($i=$month_st;$i<=$month_num;$i++){
-        for($i=1;$i<=13;$i++){
+        for($i=$month_st;$i<=$month_num;$i++){
+        // for($i=1;$i<=13;$i++){
 
             $time =strtotime("2016-12-01");
             $start_time=strtotime("+".$i." month",$time);
@@ -413,7 +413,7 @@ class update_teaching_core_data extends Command
 
 
             //全职老师相关数据
-            $lesson_end_time = $this->get_test_lesson_end_time($end_time);
+            $lesson_end_time = $task->get_test_lesson_end_time($end_time);
 
             $fulltime_teacher_count = $task->t_manager_info->get_fulltime_teacher_num($end_time);
             $ret_platform_teacher_lesson_count = $task->t_lesson_info_b3->get_teacher_list($start_time,$end_time);//统计平台老师总人数/课时
