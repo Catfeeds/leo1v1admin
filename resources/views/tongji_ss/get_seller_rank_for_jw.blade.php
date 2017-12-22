@@ -6,9 +6,7 @@
          text-align:center;
      }
     </style>
-  
     <section class="content " id="id_content">
-
         <div class="col-xs-12 col-md-12">
             <div class="panel panel-warning"  >
                 <div class="panel-heading">
@@ -20,7 +18,6 @@
                             <tr>
                                 <td>排名</td>
                                 <td>销售人 </td>
-                                <td>签单数</td>
                             </tr>
                         </thead>
                         <tbody id="id_person_body">
@@ -28,17 +25,12 @@
                                 <tr>
                                     <td> <span> {{$var["index"]}} </span> </td>
                                     <td>{{$var["sys_operator"]}} </td>
-                                    <td>{{$var["all_count"]}} </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-
                 </div>
             </div>
-        </div>              
-
-
+        </div>
     </section>
-
 @endsection

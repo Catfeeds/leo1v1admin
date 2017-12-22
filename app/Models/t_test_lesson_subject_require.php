@@ -3667,8 +3667,8 @@ ORDER BY require_time ASC";
         $where_arr = [
             ["tr.require_id=%u",$require_id,-1]
         ];
-        $sql = $this->gen_sql_new("select s.nick,s.gender,s.grade,t.subject,"
-                                  ." tr.curl_stu_request_test_lesson_time,t.teacher_type,tr.curl_stu_request_test_lesson_time_end,"
+        $sql = $this->gen_sql_new("select s.nick,s.gender,s.grade,t.subject,t.textbook,t.stu_request_test_lesson_time_end,"
+                                  ." t.stu_request_test_lesson_time,tr.curl_stu_request_test_lesson_time,t.teacher_type,"
                                   ." tr.test_stu_request_test_lesson_demand,t.tea_identity,t.tea_gender,t.tea_age,"
                                   ." t.intention_level,t.quotation_reaction,tr.seller_top_flag,t.subject_tag,tr.current_lessonid"
                                   ." from %s tr "
@@ -3684,8 +3684,11 @@ ORDER BY require_time ASC";
         );
         return $this->main_get_row($sql);
     }
+
     //@desn:获取已不同时间检索的漏斗数据
-    public function get_funnel_data( $field_name, $opt_date_str,$start_time,$end_time,$origin,$origin_ex,$seller_groupid_ex,$adminid_list=[],$tmk_adminid=-1){
+    public function get_funnel_data(
+        $field_name,$opt_date_str,$start_time,$end_time,$origin,$origin_ex,$seller_groupid_ex,$adminid_list=[],$tmk_adminid=-1
+    ){
         if($field_name == 'grade')
             $field_name="si.grade";
         elseif($field_name == 'origin')

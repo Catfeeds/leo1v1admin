@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
 <script type="text/javascript" src="/page_js/lib/flow.js"></script>
 <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
 <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
@@ -8,7 +7,6 @@
 <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
 <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
 <script type="text/javascript" src="/js/jquery.md5.js"></script>
-
 <script type="text/javascript" src="/page_js/select_course.js"></script>
 <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
 <script type="text/javascript" src="/page_js/select_user.js"></script>
@@ -21,8 +19,6 @@
 <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
 <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
 <script type="text/javascript" src="/js/jquery.md5.js"></script>
-
-
 <script type="text/javascript">
  var _KDA = _KDA || [];
  window._KDA = _KDA;
@@ -41,7 +37,6 @@
          s.parentNode.insertBefore(dealAdmin, s);
      })();
  })();
-
     function onKDAReady(){
        // 客户下拉组件
         KDAJsSdk.widget.createCustomerDropMenuWidget({
@@ -52,7 +47,6 @@
             $title.text("K");
             $(".kda-customer-widget .KDA_customerDropMenuCon"  ).attr( "style" ,"width:30px;");
         });
-
     }
 
     if (typeof KDAJsSdk == "undefined"){
@@ -66,7 +60,6 @@
         onKDAReady();
     }
 </script>
-
 <style>
  .btn-app {
      border-radius: 3px;
@@ -412,10 +405,7 @@
                                     上课4小时前取消: {{$var["fail_greater_4_hour_flag_str"]}} <br/>
                                     出错类型:{{$var["test_lesson_fail_flag_str"]}} <br/>
                                     说明:{{$var["fail_reason"]}} <br/>
-
                                 @endif
-
-
                          </td>
                          <td >{{$var["accept_admin_nick"]}} </td>
                          <td >{{$var["teacher_nick"]}}
@@ -445,8 +435,7 @@
                          <td >
                                 {!!$var["success_flag_str"]!!}
                          </td>
-                        <td >
-
+                         <td >
                             @if ($var["success_flag"] ==2 )
                                 @if (! $var["success_flag"]   )
                                 @elseif ( in_array( $var["test_lesson_fail_flag"], [1,2,3]) )
@@ -455,21 +444,17 @@
                                     <font > 不付</font>
                                 @endif
                             @endif
-
-                        </td>
-                        <td >
+                         </td>
+                         <td >
                             @if ($var["success_flag"] ==2 )
                                 {{$var["test_lesson_fail_flag_str"]}}
                             @endif
                          </td>
-
                          <td >{{$var["seller_require_change_flag_str"]}} </td>
                          <td >{{intval($var["order_price"])}} </td>
                          <td >{{$var["test_lesson_order_fail_flag_str"]}} </td>
                          <td >{{$var["test_lesson_order_fail_desc"]}} </td>
-
-
-                        <td>
+                         <td>
                             <div
                                 @if($show_son_flag)
                                 style="display:none;"

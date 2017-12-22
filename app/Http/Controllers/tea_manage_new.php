@@ -118,6 +118,7 @@ class tea_manage_new extends Controller
         $tea_nick              = $this->get_in_str_val('tea_nick',"");
         $realname              = $this->get_in_str_val('realname',"");
         $gender                = $this->get_in_int_val('gender', -1);
+        $age                   = $this->get_in_int_val('age', -1);
         $birth                 = $this->get_in_str_val('birth',"");
         $work_year             = $this->get_in_int_val('work_year', 0);
         $email                 = $this->get_in_str_val('email',"");
@@ -152,6 +153,7 @@ class tea_manage_new extends Controller
             'nick'                  => $tea_nick,
             'realname'              => $realname,
             'gender'                => $gender,
+            'age'                   => $age,
             'birth'                 => $birth,
             'work_year'             => $work_year,
             'email'                 => $email,

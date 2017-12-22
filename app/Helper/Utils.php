@@ -2358,16 +2358,16 @@ class Utils  {
      */
     static public function check_teacher_age($age){
         switch($age){
-        case $age>20:
+        case $age<30:
             $age_flag = 1;
             break;
-        case $age>30:
+        case $age<40:
             $age_flag = 2;
             break;
-        case $age>40:
+        case $age<50:
             $age_flag = 3;
             break;
-        case $age>50:
+        case $age<60:
             $age_flag = 4;
             break;
         default:

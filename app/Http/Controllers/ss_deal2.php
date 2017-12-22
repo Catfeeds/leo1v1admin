@@ -1140,40 +1140,38 @@ class ss_deal2 extends Controller
         ]);
 
         return $this->output_succ();
-
     }
-
 
     public function save_user_info_new()
     {
-        $new_demand_flag = $this->get_in_int_val("new_demand_flag");//试听需求新版本标识
+        $new_demand_flag        = $this->get_in_int_val("new_demand_flag");//试听需求新版本标识
         $userid                 = $this->get_in_userid();
         $test_lesson_subject_id = $this->get_in_int_val('test_lesson_subject_id');
         $phone                  = $this->get_in_phone();
         if ($phone == "") {
             $phone=$this->t_seller_student_new->get_phone($userid);
         }
-        $stu_nick      = $this->get_in_str_val("stu_nick");//学生姓名
-        $gender        = $this->get_in_int_val("gender");//学生性别
-        $par_nick      = $this->get_in_str_val("par_nick");//家长昵称
-        $par_type      = $this->get_in_str_val("par_type");//家长关系
-        $grade         = $this->get_in_grade();//学生当前年级
-        $subject       = $this->get_in_subject();//报名学科
-        $editionid     = $this->get_in_int_val("editionid");//教材版本
-        $has_pad       = $this->get_in_int_val("has_pad");//pad
-        $school        = $this->get_in_str_val("school");//在读学校
-        $character_type     = $this->get_in_str_val("character_type");//性格
-        $interests_and_hobbies     = $this->get_in_str_val("interests_and_hobbies");//兴趣爱好
-        $province      = $this->get_in_int_val("province");//省
-        $city      = $this->get_in_str_val("city");//市.区
-        $area      = $this->get_in_str_val("area");//县市
-        $region      = $this->get_in_str_val("region");//省
-        $address       = $this->get_in_str_val("address");//详细地址
-        $class_rank     = $this->get_in_str_val("class_rank");//班级排名
-        $class_num     = $this->get_in_int_val("class_num");//班级人数
-        $grade_rank     = $this->get_in_str_val("grade_rank");//年级排名
-        $subject_score = $this->get_in_str_val('subject_score');//学科分数
-        $subject_score_arr = array_filter(explode(',',$subject_score));
+        $stu_nick              = $this->get_in_str_val("stu_nick");//学生姓名
+        $gender                = $this->get_in_int_val("gender");//学生性别
+        $par_nick              = $this->get_in_str_val("par_nick");//家长昵称
+        $par_type              = $this->get_in_str_val("par_type");//家长关系
+        $grade                 = $this->get_in_grade();//学生当前年级
+        $subject               = $this->get_in_subject();//报名学科
+        $editionid             = $this->get_in_int_val("editionid");//教材版本
+        $has_pad               = $this->get_in_int_val("has_pad");//pad
+        $school                = $this->get_in_str_val("school");//在读学校
+        $character_type        = $this->get_in_str_val("character_type");//性格
+        $interests_and_hobbies = $this->get_in_str_val("interests_and_hobbies");//兴趣爱好
+        $province              = $this->get_in_int_val("province");//省
+        $city                  = $this->get_in_str_val("city");//市.区
+        $area                  = $this->get_in_str_val("area");//县市
+        $region                = $this->get_in_str_val("region");//省
+        $address               = $this->get_in_str_val("address");//详细地址
+        $class_rank            = $this->get_in_str_val("class_rank");//班级排名
+        $class_num             = $this->get_in_int_val("class_num");//班级人数
+        $grade_rank            = $this->get_in_str_val("grade_rank");//年级排名
+        $subject_score         = $this->get_in_str_val('subject_score');//学科分数
+        $subject_score_arr     = array_filter(explode(',',$subject_score));
         $sub_subject_scour_arr = [];
         foreach($subject_score_arr as $item){
             $subject_arr = explode(':',$item);
@@ -1340,41 +1338,35 @@ class ss_deal2 extends Controller
 
         //更新首次回访时间
         if (! $ss_item["first_revisit_time"])  {
-            $ss_arr["first_revisit_time"]=time(NULL);
+            $ss_arr["first_revisit_time"] = time(NULL);
         }
         if ( $user_desc  ) {
             $ss_arr["last_revisit_time"]=time(NULL);
             $ss_arr["last_revisit_msg"]=$user_desc;
             $this->t_book_revisit->add_book_revisit($phone , $user_desc, $this->get_account());
         }
-
-
         $this->t_seller_student_new->field_update_list($userid,$ss_arr);
 
 
         $textbook = E\Eregion_version::get_desc($editionid);
-        $tt_arr=[
-            "subject" =>$subject,
-            "stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
-            "stu_request_test_lesson_time_end" =>$stu_request_test_lesson_time_end,
-            // "stu_request_test_lesson_time_info" =>$stu_request_test_lesson_time_info,
-            //  "stu_request_lesson_time_info" =>$stu_request_lesson_time_info,
-           "stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
-            // "stu_test_lesson_level" =>$stu_test_lesson_level,
-            "seller_student_sub_status" => $seller_student_sub_status,
-            "textbook"                  => $textbook,
-            "intention_level"           => $intention_level,
-            "demand_urgency"            => $demand_urgency,
-            "quotation_reaction"        => $quotation_reaction,
-            // "knowledge_point_location"           =>$knowledge_point_location,
-            "recent_results" => $recent_results,
-            "advice_flag"    => $advice_flag,
-            "stu_test_paper" => $stu_test_paper,
-            "subject_tag"    => $subject_tag,
-            "tea_identity"   => $tea_identity,
-            "tea_age"        => $tea_age,
-            "tea_gender"     => $tea_gender,
-            "teacher_type"  => $teacher_type,
+        $tt_arr = [
+            "subject"                          => $subject,
+            "stu_request_test_lesson_time"     => $stu_request_test_lesson_time,
+            "stu_request_test_lesson_time_end" => $stu_request_test_lesson_time_end,
+            "stu_request_test_lesson_demand"   => $stu_request_test_lesson_demand,
+            "seller_student_sub_status"        => $seller_student_sub_status,
+            "textbook"                         => $textbook,
+            "intention_level"                  => $intention_level,
+            "demand_urgency"                   => $demand_urgency,
+            "quotation_reaction"               => $quotation_reaction,
+            "recent_results"                   => $recent_results,
+            "advice_flag"                      => $advice_flag,
+            "stu_test_paper"                   => $stu_test_paper,
+            "subject_tag"                      => $subject_tag,
+            "tea_identity"                     => $tea_identity,
+            "tea_age"                          => $tea_age,
+            "tea_gender"                       => $tea_gender,
+            "teacher_type"                     => $teacher_type,
         ];
 
         if ($db_tt_item["subject"] != $subject ) { //和数据库不一致
@@ -1392,7 +1384,7 @@ class ss_deal2 extends Controller
 
         //更新 seller_student_status
         if ($db_tt_item["seller_student_status"] != $seller_student_status) {
-            $this->t_test_lesson_subject->set_seller_student_status( $test_lesson_subject_id, $seller_student_status,  $this->get_account() );
+            $this->t_test_lesson_subject->set_seller_student_status($test_lesson_subject_id,$seller_student_status,$this->get_account());
         }
 
         if($seller_student_status==420){
