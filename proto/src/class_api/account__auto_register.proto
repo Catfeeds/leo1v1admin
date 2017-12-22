@@ -2,7 +2,7 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1007
-//__DESC:  /account/register 后台新增用户(已废弃)
+//__DESC:  /account/register 后台新增用户
 //__TAGS: for_admin
 
 
