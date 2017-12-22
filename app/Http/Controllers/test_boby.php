@@ -1272,6 +1272,5 @@ class test_boby extends Controller
             }
         }
     }
-    // $sql = "delete from t_resource_agree_info where resource_type=6";
 
 }
