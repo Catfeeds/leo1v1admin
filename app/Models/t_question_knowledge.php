@@ -20,13 +20,13 @@ class t_question_knowledge extends \App\Models\Zgen\z_t_question_knowledge
         return $this->main_get_list($sql);
     }
 
-    public function answer_know_get($answer_id){
+    public function answer_know_get($step_id){
         $sql = $this->gen_sql("select know.knowledge_id,know.title from %s qa left join %s know on qa.knowledge_id = know.knowledge_id
                                where qa.answer_id = %s and qa.type = 2
                                order by qa.answer_id desc ",
                               self::DB_TABLE_NAME,
                               t_knowledge_point::DB_TABLE_NAME,
-                              $answer_id
+                              $step_id
         );
 
         return $this->main_get_list($sql);

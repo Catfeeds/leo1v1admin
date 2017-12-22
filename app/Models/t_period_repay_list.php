@@ -109,6 +109,29 @@ class t_period_repay_list extends \App\Models\Zgen\z_t_period_repay_list
 
     }
 
+    public function get_no_repay_list(){
+        $where_arr=[
+            "p.repay_status in (2,3)",
+            "s.is_test_user=0",
+        ];
+
+        $sql = $this->gen_sql_new("select o.userid,p.repay_status,s.nick,c.from_orderno,p.orderid,"
+                                  ."p.period,paid_time ,due_date   "
+                                  ." from %s p"
+                                  ." left join %s c on p.orderid=c.child_orderid"
+                                  ." left join %s o on c.parent_orderid = o.orderid"
+                                  ." left join %s s on o.userid = s.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_child_order_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_as_page($sql);
+
+    }
+
 
 }
 

@@ -2,7 +2,7 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1001
-//__DESC:  /account/register 用户注册
+//__DESC:  /account/register 用户注册(已废弃)
 //__TAGS: for_app
 
 
