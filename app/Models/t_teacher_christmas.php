@@ -28,7 +28,7 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
             "teacherid=$teacherid"
         ];
 
-        $sql = $this->gen_sql_new("  select sum(if(tc.type=0,1,0)) as click_num, sum(if(tc.type=1,1,0)) as share_num, sum(if(tc.type=2,1,0)) as register_num, count(tc.score) from %s tc "
+        $sql = $this->gen_sql_new("  select sum(if(tc.type=0,1,0)) as click_num, sum(if(tc.type=1,1,0)) as share_num, sum(if(tc.type=2,1,0)) as register_num, sum(tc.score) as currentScore  from %s tc "
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
@@ -43,9 +43,11 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
         $end_time = strtotime("2017-1-2");
         $this->where_arr_add_time_range($where_arr, "tc.add_time", $start_time, $end_time);
 
-        $sql = $this->gen_sql_new(" select sum(tc.score) as totalScore, tc.teacherid from %s tc"
+        $sql = $this->gen_sql_new(" select sum(tc.score) as totalScore, tc.teacherid, t.phone from %s tc"
+                                  ." left join %s t on t.teacherid=tc.teacherid"
                                   ." where %s group by tc.teacherid order by totalScore desc limit 60"
                                   ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
 
