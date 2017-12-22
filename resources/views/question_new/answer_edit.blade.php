@@ -40,7 +40,7 @@
             <a href="javascript:;" class="expand_node" id="show_all_knowledge"> 显示全部 </a>
             <a href="javascript:;" class="expand_node" id="hide_all_knowledge"> 隐藏全部 </a>
             <ul id="treeDemo" class="ztree"></ul>
-            <button type="button" class="btn btn-primary" id="save_knowledge" answer_id="" onclick="save_know()" title="编辑完成">编辑完成</button>
+            <button type="button" class="btn btn-primary" id="save_knowledge" step_id="" onclick="save_know()" title="编辑完成">编辑完成</button>
         </div>
     </div>
 
@@ -49,12 +49,24 @@
         <input type="hidden" value="{{@$question['question_id']}}" id="question_id" />
         <div id="id_question_editor" >
             <div class="row">
-                <div class="col-xs-6 col-md-6">
+                <div class="col-xs-7 col-md-7">
                     <div class="input-group "><h3>题目:{{@$question['title']}} 总分:{{@$question['score']}}</h3></div>
-                    <div class="input-group ">
-                     
+                </div>
+                <div class="col-xs-1 col-md-1">
+                    <div class="input-group" style="margin-top:12px">                    
+                        <button style="margin-left:10px" id="answer_no" value="{{$answer_no}}" type="button" class="btn btn-success">添加其他答案</button>                      
                     </div>
                 </div>
+
+                @if(!empty($other_answers))
+                    @foreach($other_answers as $item)
+                        <div class="col-xs-1 col-md-1">
+                            <div class="input-group" style="margin-top:12px">                    
+                                <button style="margin-left:10px" class="btn btn-info other_answers" value="{{$item['answer_no']}}" type="button">标准答案{{$item['answer_no']+1}}</button>                      
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
             </div>
             @foreach($ret as $key => $item)
                 <div class="answer_step">
@@ -63,11 +75,10 @@
                             <div class="btn-toolbar" role="toolbar">
                                 <div id="id_mathjax_add_pic_div_{{$key+1}}" class="btn-group ">
                                     <input type="hidden" class="editType" value="2">
-                                    <input type="hidden" class="answer_id" value="{{$item['answer_id']}}">
+                                    <input type="hidden" class="step_id" value="{{$item['step_id']}}">
                                     <input type="hidden" class="step" value="{{$item['step']}}">
                                     <button type="button" class=" btn  btn-primary opt-title " style="height:30px;" >步骤类型:</button>
-                                    <select class="btn answer_type" style="height:30px;padding:0px;width:100px" id="answer_type_{{$key+1}}"></select>
-                                    <input type="hidden" class="answer_type_value" value="{{$item['answer_type']}}">
+                                    <select class="btn answer_type"  style="height:30px;padding:0px;width:100px" id="answer_type_{{$key+1}}" answer_type_value="{{$item['answer_type']}}"></select>                                  
 
                                     <button type="button" class=" btn  btn-primary answer-step" style="height:30px;margin-right:10px" title="默认添加最后一步，可以点击选择在两步之间添加本步骤">{{$item['step_str']}}</button>
 
@@ -128,10 +139,16 @@
                         <div class="btn-toolbar" role="toolbar">
                             <div id="id_mathjax_add_pic_div_0" class="btn-group ">
                                 <input type="hidden" class="editType" value="1">
-                                <input type="hidden" class="answer_id" value="">
+                                <input type="hidden" class="step_id" value="">
                                 <input type="hidden" class="step" value="{{$next_step}}">
                                 <button type="button" class=" btn  btn-primary opt-title " style="height:30px;" >步骤类型:</button>
-                                <select class="btn answer_type" style="height:30px;padding:0px;width:100px" id="answer_type_0"></select>
+                                <select class="btn answer_type" style="height:30px;padding:0px;width:100px" id="answer_type_0">
+                                    @if(!empty($answer_type))
+                                        @foreach($answer_type as $item)
+                                            <option value="{{$item['id']}}">{{$item['name']}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
 
                                 <button type="button" class=" btn  btn-primary answer-step" style="height:30px;margin-right:10px" title="默认添加最后一步，可以点击选择在两步之间添加本步骤">最新步骤</button>
 
