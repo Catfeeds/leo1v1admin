@@ -862,7 +862,6 @@ class user_deal extends Controller
             $seller_new_count_type = E\Eseller_new_count_type::V_CJG_ORDER_ADD;
             $value_ex              = $orderid;
             $adminid               = $this->t_manager_info->get_id_by_account($sys_operator);
-            $this->t_seller_student_new->field_update_list($userid,['hold_flag'=>0]);
             if (!$flowid  ){
                 if ( $price<10000){
                     $count=3;
@@ -5598,7 +5597,6 @@ class user_deal extends Controller
         }
 
         $data['post_time'] = time(NULL);
-
         $data['cc_id']     = $cc_id;
         $data["call_time"] = strtotime($data["call_time"]);
         $data["first_lesson_time"] = strtotime($data["first_lesson_time"]);
@@ -5710,7 +5708,7 @@ class user_deal extends Controller
             "init_info_pdf_url"   =>  "true",
             "seller_adminid" => $this->get_account_id(),
         ]);
-
+        $this->t_seller_student_new->field_update_list($userid,['hold_flag'=>0]);
         //记录数据
         $phone = $this->t_student_info->get_phone($userid);
         $nick = $this->t_student_info->get_nick($userid);
