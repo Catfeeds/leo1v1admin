@@ -23,8 +23,10 @@ class test extends Controller
         $page_info= $this->get_in_page_info();
         $grade=$this->get_in_el_grade();
         $ret_info=$this->t_student_info->get_test_list($page_info, $grade );
-
-        $this->pageView($method, $ret_info);
+        foreach($ret_info["list"] as &$item) {
+            E\Egrade::set_item_value_str($item);
+        }
+        return $this->pageOutJson(__METHOD__, $ret_info);
     }
 
     public function t() {

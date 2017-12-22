@@ -34,13 +34,6 @@ $(function(){
     });
 
 
-    $("#id_userid").admin_select_user({
-        "user_type" : "student",
-        "onChange"     : load_data,
-        "th_input_id" :  "th_userid",
-        "can_sellect_all_flag" :true,
-        "select_value" : g_args.userid,
-    });
 
     $('#id_record_audio_server1').val(g_args.record_audio_server1);
     $('#id_xmpp_server_name').val(g_args.xmpp_server_name);
