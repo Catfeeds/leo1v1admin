@@ -384,6 +384,7 @@ class fulltime_teacher extends Controller
         //     }elseif($grade==3){
         //         $num=$m3;
         //     }elseif($grade==4 || $grade==6){
+
         //         $s = $this->t_lesson_info_b2->get_teacher_lesson_grade_count($start_time,$end_time,$val["teacherid"],1);
         //         $m = $this->t_lesson_info_b2->get_teacher_lesson_grade_count($start_time,$end_time,$val["teacherid"],2);
         //         $per = !empty($s+$m)?$s/($s+$m):0;
@@ -498,7 +499,7 @@ class fulltime_teacher extends Controller
        
         // //  $platform_normal_stu_list = $this->t_teacher_info->get_teacher_list(1,$week_start,$week_end);
         // //  $ret['platform_normal_stu_num'] =$platform_normal_stu_list["stu_num"];
-        // $ret['fulltime_normal_stu_pro'] =  $ret['platform_normal_stu_num']>0?round(100*$ret['fulltime_normal_stu_num']/$ret['platform_normal_stu_num'],2):0;
+        // $ret['fulltime_normal_stu_pro'] =  @$ret['platform_normal_stu_num']>0?round(100*@$ret['fulltime_normal_stu_num']/@$ret['platform_normal_stu_num'],2):0;
 
 
         return $this->pageView(__METHOD__ ,null, [

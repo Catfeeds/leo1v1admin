@@ -29,7 +29,7 @@ function load_data(){
         var id = $(this).parent().attr('data_id');
         var teacherid = $(this).parent().attr('data_teacherid');
         var teacher_money_type = $(this).parent().attr('data_money_type');
-        var accept_status = $("<select><option value='1'>不通过</option><option value='2'>通过</option></select>");
+        var accept_status = $("<select><option value='0'>未审核</option><option value='1'>未通过</option><option value='2'>已通过</option></select>");
         var accept_info = $('<textarea></textarea>');
         var arr = [
             ['审核', accept_status],

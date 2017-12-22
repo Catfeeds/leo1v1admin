@@ -676,7 +676,7 @@ class url_power_map {
 			'/user_manage/complaint_department_deal_product'	=>1423800,
 			'/requirement/requirement_info_product_new'	=>1424000,
 			'/requirement/requirement_info_product'	=>1425500,
-			'/class_stu_manage/a'	=>3800101,
+			'/cc_manage/index'	=>3800101,
 			'/class_stu_manage/b'	=>3800102,
 			'/class_stu_manage/c'	=>3800103,
 			'/class_stu_manage/d'	=>3800104,
