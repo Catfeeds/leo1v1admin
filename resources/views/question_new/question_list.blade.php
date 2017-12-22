@@ -30,18 +30,30 @@
                 <div class="input-group">
                     <div class=" input-group-btn ">
                         <button id="id_add_question" type="submit"  class="btn  btn-warning" >
-                            <i class="fa fa-plus"></i>添加题目
+                            <i class="fa fa-plus"></i>添加答案步骤
                         </button>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-1 col-md-1">
-                <div class="input-group">
-                    <button style="margin-left:10px" id="knowledge_list" type="button" class="btn btn-primary">知识点列表</button>
+                <div class=" input-group-btn ">
+                    <button style="margin-left:10px" id="edit_question_type" type="button" class="btn btn-success">编辑题型</button>
                 </div>
             </div>
 
+            <div class="col-xs-1 col-md-1">
+                <div class="input-group">
+                    <button style="margin-left:10px" id="edit_answer_list" type="button" class="btn btn-primary">编辑答案步骤</button>
+                </div>
+            </div>
+
+            <!-- <div class="col-xs-1 col-md-1">
+                 <div class="input-group">
+                 <button style="margin-left:10px" id="knowledge_list" type="button" class="btn btn-primary">知识点列表</button>
+                 </div>
+                 </div>
+            -->
         </div>
         <hr/>
 
@@ -52,6 +64,7 @@
                     <td >题目标题</td>
                     <td >科目类型</td>
                     <td >题目分值</td>
+                    <td >题型</td>
                     <td style="display:">涉及知识点</td>
                     <td >是否开启</td>
                     <td style="display:none">题目详情</td>
@@ -65,16 +78,13 @@
                         <td >{{$var["title"]}}</td>
                         <td >{{$var["subject_str"]}}</td>
                         <td >{{$var["score"]}}</td>
+                        <td >{{$var["question_type_str"]}}</td>
                         <td >
                             @if(@$var["knowledge_detail"])
                                 @foreach (json_decode($var['knowledge_detail'],true) as $item)
                                     <p style="margin-bottom:5px">
                                         {{$item['title']}}
-                                        <input type="hidden" value="{{$item['id']}}">
-                                        <span style="margin-left:5px">{{$item['difficult_str']}}</span>
-                                        <span class="get_knowledge_detail" style="margin-left:5px;color:green;cursor:pointer">详情</span>
-                                        <span class="del_knowledge" style="margin-left:5px;color:#fb3b3b;cursor:pointer">删除</span>
-                                        <span class="question_knowledge_detail">{{$item['detail']}}</span>
+                                        <input type="hidden" value="{{$item['knowledge_id']}}">
                                     </p>
                                 @endforeach
                             @endif
@@ -86,7 +96,6 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa-edit opt-set" title="编辑题目"> </a>
-                                <a class="fa-align-justify add_question_know" title="添加题目的知识点"> </a>
                                 <a class="fa-tags edit_question_know" title="编辑答案详情"> </a>
                                 @if(@$var["open_flag"] == 1)
                                     <a class="fa fa-lock lock_question_know" title="禁用"> </a>

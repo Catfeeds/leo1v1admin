@@ -175,7 +175,7 @@ interface RowData {
 	lesson_info_week	:any;
 	test_user_str	:any;
 	train_through_new_str	:any;
-	phone_ex	:any;
+	phone_spare_hide	:any;
 	freeze_adminid_str	:any;
 	week_lesson_num	:any;
 	week_left_num	:any;
@@ -183,6 +183,7 @@ interface RowData {
 	interview_acc	:any;
 	textbook	:any;
 	fine_dimension	:any;
+	full_flag	:any;
 }
 
 /*

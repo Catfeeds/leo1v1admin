@@ -931,6 +931,7 @@ class Utils  {
             if ( \App\Helper\Utils::check_env_is_release()  || $test_flag) {
                 $ret = \App\Helper\Common::send_sms_with_taobao($phone,"SMS_".$type,$data,$sign_name);
                 $receive_content = json_encode($ret );
+                \App\Helper\Utils::logger("sms_send_log:".$receive_content."send_phone".$phone);
                 if(property_exists($ret,"result") && $ret->result->err_code==="0") {
                     $is_success = 1;
                 }else{
@@ -1096,8 +1097,8 @@ class Utils  {
      * type 3 课时累计由学生决定,公司全职老师,试听课价格为0
      * type 2 课时累计由上月常规+试听课时决定,试听课价格为30
      * type 4 课时累计由上月常规时决定,试听课价格为30
-     * @param  teacher_money_type 老师工资分类
-     * @param  teacher_type 老师类型
+     * @param int teacher_money_type 老师工资分类
+     * @param int teacher_type 老师类型
      * @return integer
      */
     static function check_teacher_money_type($teacher_money_type,$teacher_type=0){
@@ -1363,8 +1364,6 @@ class Utils  {
         // chmod($targetName,0777);
         $fp = fopen($targetName,'wb');
 
-
-
         curl_setopt($ch,CURLOPT_URL,$pic_url);
         curl_setopt($ch,CURLOPT_FILE,$fp);
         curl_setopt($ch,CURLOPT_HEADER,0);
@@ -1372,8 +1371,6 @@ class Utils  {
         curl_close($ch);
         fclose($fp);
         $msg['savePathFile'] = $savePathFile;
-
-        \App\Helper\Utils::logger("savePathFile_msg:".json_encode($msg));
 
         return $msg;
     }

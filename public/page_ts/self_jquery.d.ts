@@ -34,7 +34,10 @@ interface JQueryStatic {
 
     show_key_value_table (title:string,arr:Array<Array<any>> ,btn_config?:Object,onshownfunc?: ()=>void, close_flag?:boolean ,width? ):void;
 
-    admin_enum_select (options):any; 
+    admin_enum_select (options):any;
+    admin_query_input ( options):any;
+    admin_date_select ( options):any;
+    admin_ajax_select_user ( options):any;
 
     //<script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     /*
@@ -147,14 +150,14 @@ interface JQuery {
     admin_select_dlg_ajax(conf:Object):void;
 
     /*
-	  $('#id_contract_type').admin_set_select_field({
-		    "enum_type"    : "contract_type",
-		    "select_value" : g_args.contract_type,
-		    "onChange"     : load_data,
-		    "th_input_id"  : "th_contract_type",
+    $('#id_contract_type').admin_set_select_field({
+        "enum_type"    : "contract_type",
+        "select_value" : g_args.contract_type,
+        "onChange"     : load_data,
+        "th_input_id"  : "th_contract_type",
         "only_show_in_th_input" :true,
-		    "btn_id_config"     : {}
-	  });
+        "btn_id_config"     : {}
+    });
     */
     admin_set_select_field (conf:Object ):void;
 
@@ -173,13 +176,13 @@ interface JQuery {
     admin_set_lesson_time(obj:Object);
     admin_select_user(obj:Object) ;
     /*
-	  $('#id_studentid').admin_select_user_new({
-		    "user_type"    : "student",
-		    "select_value" : g_args.studentid,
-		    "onChange"     : load_data,
-		    "th_input_id"  : "th_studentid",
-		    "can_select_all_flag"     : true
-	  });
+    $('#id_studentid').admin_select_user_new({
+        "user_type"    : "student",
+        "select_value" : g_args.studentid,
+        "onChange"     : load_data,
+        "th_input_id"  : "th_studentid",
+        "can_select_all_flag"     : true
+    });
     */
     admin_select_user_new(obj:Object) ;
 

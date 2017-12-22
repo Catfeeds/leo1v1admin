@@ -17,6 +17,30 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	id	:any;
+	pay_time	:any;
+	add_time	:any;
+	teacherid	:any;
+	realname	:any;
+	phone	:any;
+	level	:any;
+	bankcard	:any;
+	bank_address	:any;
+	bank_account	:any;
+	idcard	:any;
+	bank_phone	:any;
+	bank_type	:any;
+	bank_province	:any;
+	bank_city	:any;
+	money	:any;
+	pay_status	:any;
+	is_negative	:any;
+	teacher_money_type	:any;
+	teacher_type	:any;
+	subject	:any;
+	subject_str	:any;
+	teacher_type_str	:any;
+	teacher_money_type_str	:any;
 }
 
 /*
@@ -61,7 +85,8 @@ $(function(){
 		"select_value" : g_args.teacherid,
 		"onChange"     : load_data,
 		"th_input_id"  : "th_teacherid",
-		"can_sellect_all_flag"     : true
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
 	});
 	$('#id_g_adminid').val(g_args.g_adminid);
 
@@ -73,6 +98,11 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -80,6 +110,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_teacher" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teacher title", "teacher", "th_teacher" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -87,6 +118,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_teacher_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teacher_type title", "teacher_type", "th_teacher_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -94,6 +126,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_teacherid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teacherid title", "teacherid", "th_teacherid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -101,4 +134,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_g_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["g_adminid title", "g_adminid", "th_g_adminid" ]])!!}
 */

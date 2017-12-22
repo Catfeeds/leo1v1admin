@@ -2,22 +2,23 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-class TConfigKnowledge extends Migration
+
+class TResourceFileAddFilePoster extends Migration
 {
     /**
      * Run the migrations.
-     *OrderActivityConfigChangeValue
+     *
      * @return void
      */
     public function up()
     {
-        
-        // Schema::table('db_question_new.t_question', function (Blueprint $table){
-           
-        //     t_field($table->integer('difficult')->default(1),"难度分为五极1,2,3,4,5");
-        // });
-        
+        //
+        Schema::table('db_weiyi.t_resource_file', function( Blueprint $table)
+        {
+            t_field($table->string("file_poster"),"文件海报");
+        });
 
+       //
     }
 
     /**

@@ -556,13 +556,14 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
     public function get_admin_member_list_tmp(  $month=-1,$main_type = -1 ,$adminid=-1){
-        
+
         $where_arr=[
             [ "tm.main_type =%u ", $main_type,-1] , // 测试
             // [ "m.main_type =%u ", $main_type,-1] ,
             [  "am.account not like 'c\_%s%%'", "",  1] ,
             [  "am.account not like 'q\_%s%%'", "",  1] ,
-            "(am.leave_member_time>$month or am.leave_member_time =0)"
+            // "(am.leave_member_time>$month or am.leave_member_time =0)"
+            "((am.leave_member_time>$month and am.del_flag=1) or am.del_flag =0)",
         ];
         $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
 
@@ -598,7 +599,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             [ "m.main_type =%u ", $main_type,-1] ,
             [  "am.account not like 'c\_%s%%'", "",  1] ,
             [  "am.account not like 'q\_%s%%'", "",  1] ,
-             "(am.leave_member_time>$month or am.leave_member_time =0)"
+             // "(am.leave_member_time>$month or am.leave_member_time =0)",
+            "((am.leave_member_time>$month and am.del_flag=1) or am.del_flag =0)",
         ];
         $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
 
@@ -848,7 +850,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     public function get_jw_teacher_list_new($del_flag=0){
         $where_arr=[
-            ["del_flag=%u",$del_flag,-1]  
+            ["del_flag=%u",$del_flag,-1]
         ];
         $sql = $this->gen_sql_new("select uid,account from %s ".
                                   " where account_role = 3 and %s "
@@ -2335,6 +2337,28 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $where_arr[] = ['leave_member_time<%u', $end_time, 0];
         $sql = $this->gen_sql_new("select count(*) from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_value($sql);
- 
+
+    }
+
+    public function getEmailLeft(){
+        $sql = $this->gen_sql_new("  select email from %s m "
+                                  ." where del_flag=1"
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    public function get_group_admin_list($adminid_list){
+        $where_arr = [];
+        $this->where_arr_add_int_or_idlist($where_arr,'uid',$adminid_list);
+        $sql = $this->gen_sql_new(" select uid adminid,del_flag,create_time,leave_member_time "
+                                  ." from %s ".
+                                  " where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
     }
 }

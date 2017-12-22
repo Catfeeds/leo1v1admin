@@ -486,6 +486,23 @@ class teacher_info extends Controller
         }
     }
 
+    public function get_pdf_download_url_new()
+    {
+        $file_url = $this->get_in_str_val("file_url");
+
+        if (strlen($file_url) == 0) {
+            return $this->output_err(array( 'info' => '文件名为空', 'file' => $file_url));
+        }
+
+        if (preg_match("/http/", $file_url)) {
+            return $this->output_succ( array('ret' => 0, 'info' => '成功', 'file' => $file_url));
+        } else {
+            $new_url=$this->gen_download_url($file_url);
+            // dd($new_url);
+            return $this->output_succ(['url' => $new_url]);
+        }
+    }
+
     private function gen_download_url($file_url)
     {
         // 构建鉴权对象
@@ -515,6 +532,48 @@ class teacher_info extends Controller
         $old_stu_cw_time    = trim($this->get_in_str_val("old_stu_cw_time"));
         $old_issue_time     = trim($this->get_in_str_val("old_issue_time"));
         $old_tea_cw_url     = trim($this->get_in_str_val("old_tea_cw_url"));
+        $tea_cw_origin      = $this->get_in_str_val("tea_cw_origin");
+        $stu_cw_origin      = $this->get_in_str_val("stu_cw_origin");
+        $issue_origin       = $this->get_in_str_val("issue_origin");
+        $tea_cw_file_id     = $this->get_in_str_val("tea_cw_file_id");
+        $stu_cw_file_id     = $this->get_in_str_val("stu_cw_file_id");
+        $issue_file_id      = $this->get_in_str_val("issue_file_id");
+        $new_res_id_list    = $this->get_in_str_val("new_res_id_list");
+        $use_res_id_list    = $this->get_in_str_val("use_res_id_list");
+
+        if($use_res_id_list != $new_res_id_list){//有变化说明说明修改了使用课件
+            $old_id = explode(',', substr($use_res_id_list,1,-1));
+            $new_id = explode(',', substr($new_res_id_list,1,-1));
+            foreach($new_id as $file_id){
+                $key = array_search($file_id, $old_id);
+                if($key === false) {
+                    //新增使用
+                    if($file_id > 0){
+                        $this->t_resource_file_visit_info->row_insert([
+                            'file_id'      => $file_id,
+                            'visit_type'   => 7,
+                            'visitor_type' => 1,
+                            'visitor_id'   => $teacherid,
+                            'create_time'  => time(),
+                            'ip'           => $_SERVER["REMOTE_ADDR"],
+                        ]);
+                        $this->t_resource_file->add_num('use_num', $file_id);
+                    }
+                } else {
+                    //删除使用的，剩下的都是不再使用的
+                    unset($old_id[$key]);
+                }
+            }
+
+            foreach($old_id as $file_id){
+                //不再使用
+                if($file_id > 0){
+                    $this->t_resource_file->minus_num('use_num', $file_id);
+                }
+
+           }
+
+        }
 
         $now = time(NULL);
         $db_teacherid = $this->t_lesson_info_b2->get_teacherid($lessonid);
@@ -556,6 +615,10 @@ class teacher_info extends Controller
             "lesson_intro"       => $lesson_intro,
             "lesson_name"        => $lesson_name,
             "tea_cw_pic_flag"    => $tea_cw_pic_flag,
+            "tea_cw_origin"      => $tea_cw_origin,
+            "stu_cw_origin"      => $stu_cw_origin,
+            "tea_cw_file_id"     => $tea_cw_file_id,
+            "stu_cw_file_id"     => $stu_cw_file_id,
         ]);
 
         $lesson_type=$this->t_lesson_info_b2->get_lesson_type($lessonid);
@@ -567,6 +630,8 @@ class teacher_info extends Controller
                 "work_status"        => $work_status,
                 "pdf_question_count" => $pdf_question_count,
                 "issue_time"         => $issue_time,
+                "issue_origin"        => $issue_origin,
+                "issue_file_id"       => $issue_file_id,
             ]);
         }
 
@@ -2282,9 +2347,16 @@ class teacher_info extends Controller
         // $file_title    = $this->get_in_str_val('file_title', '');
         $page_info     = $this->get_in_page_info();
 
-        $resource_type = $resource_type<1?1:$resource_type;
-        $resource_type = $resource_type>6?6:$resource_type;
+        //兼容js调用
+        $is_js = $this->get_in_int_val('is_js', 0);
 
+        if($is_js){//只有三种可以用
+            $resource_type = $resource_type<1?1:$resource_type;
+            $resource_type = $resource_type>3?3:$resource_type;
+        }else{
+            $resource_type = $resource_type<1?1:$resource_type;
+            $resource_type = $resource_type>6?6:$resource_type;
+        }
         //禁用，删除，老师段则不在显示
         $ret_info = $this->t_resource->get_all_for_tea(
             $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$page_info
@@ -2293,7 +2365,7 @@ class teacher_info extends Controller
         $tag_arr = \App\Helper\Utils::get_tag_arr($resource_type);
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            $item['file_size'] = round( $item['file_size'] / 1024,2);
+            $item['file_size'] = round( $item['file_size'] / 1024,2) . 'M';
             $item['tag_one_name'] = $tag_arr['tag_one']['name'];
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
             $item['tag_three_name'] = $tag_arr['tag_three']['name'];
@@ -2310,6 +2382,9 @@ class teacher_info extends Controller
                 $tag_arr['tag_three']['menu'] => 'tag_three',
                 $tag_arr['tag_four']['menu'] => 'tag_four',
             ]);
+        }
+        if($is_js != 0){
+            return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,]);
         }
 
         return $this->pageView( __METHOD__,$ret_info,['tag_info' => $tag_arr]);
@@ -2370,6 +2445,8 @@ class teacher_info extends Controller
         $dir_id    = $this->get_in_int_val('dir_id', 0);
         $teacherid = $this->get_login_teacher();
         $page_info = $this->get_in_page_info();
+        //兼容js调用
+        $is_js = $this->get_in_int_val('is_js', 0);
 
         //生成面包屑
         $crumbs = $this->get_crumbs($dir_id);
@@ -2387,7 +2464,10 @@ class teacher_info extends Controller
             $item['file_title'] = $item['name'];
             $item['file_size'] = '';
             $item['file_id'] = -1;
-            $item['tea_res_id'] = -1;
+            $item['tea_res_id'] = $item['dir_id'];
+            if($is_js != 0){
+                $item['file_type'] = '文件夹';
+            }
             $list[] = $item;
         }
 
@@ -2403,6 +2483,12 @@ class teacher_info extends Controller
 
         $k = count($crumbs) -1;
         $cur_dir = $crumbs[$k]['dir_id'];
+        if($is_js != 0){
+            return $this->output_ajax_table(\App\Helper\Utils::list_to_page_info($list) ,[
+                'crumbs'  => $crumbs,
+                'cur_dir' => $cur_dir,
+            ]);
+        }
         return $this->pageView( __METHOD__, \App\Helper\Utils::list_to_page_info($list) ,[
             'crumbs'  => $crumbs,
             'cur_dir' => $cur_dir,
@@ -2456,4 +2542,278 @@ class teacher_info extends Controller
             return $this->output_succ();
         }
     }
+
+    public function tea_edit_file(){
+        $type   = $this->get_in_str_val('type');
+        $resource_type = $this->get_in_int_val('resource_type', 1);
+        $subject       = $this->get_in_int_val('subject', -1);
+        $grade         = $this->get_in_int_val('grade', -1);
+        $tag_one       = $this->get_in_int_val('tag_one', -1);
+        $tag_two       = $this->get_in_int_val('tag_two', -1);
+        $tag_three     = $this->get_in_int_val('tag_three', -1);
+        $tag_four      = $this->get_in_int_val('tag_four', -1);
+        $file_title    = trim($this->get_in_str_val('file_title', '') );
+        $file_hash     = $this->get_in_str_val('file_hash');
+        $file_size     = round( $this->get_in_int_val('file_size')/1024, 2);
+        $file_type     = $this->get_in_str_val('file_type');
+        $file_link     = $this->get_in_str_val('file_link');
+        $dir_id = $this->get_in_int_val('dir_id');
+        $teacherid = $this->get_login_teacher();
+        //处理文件名
+        $dot_pos = strrpos($file_title,'.');
+        $file_title = substr($file_title,0,$dot_pos);
+        //处理文件类型
+        $file_type = trim( strrchr($file_type, '/'), '/' );
+
+        if($type == 'add'){//添加文件
+            $this->t_teacher_resource->row_insert([
+                'resource_type' => $resource_type,
+                'subject'       => $subject,
+                'grade'         => $grade,
+                'tag_one'       => $tag_one,
+                'tag_two'       => $tag_two,
+                'tag_three'     => $tag_three,
+                'tag_four'      => $tag_four,
+                'file_title'    => $file_title,
+                'file_type'     => $file_type,
+                'file_size'     => $file_size,
+                'file_hash'     => $file_hash,
+                'file_link'     => $file_link,
+                'teacherid'     => $teacherid,
+                'dir_id'        => $dir_id,
+                'create_time'   => time(),
+            ]);
+            return $this->output_succ();
+        }
+    }
+
+    public function del_dir_or_file(){
+        $id_info = $this->get_in_str_val('id_info', '');
+        $teacherid = $this->get_login_teacher();
+        if($id_info === ''){
+            return $this->output_err('请选择文件！');
+        }
+        $id_info = ltrim($id_info, '[');
+        $id_info = rtrim($id_info, ']');
+        $id_arr = explode(',', $id_info);
+        foreach($id_arr as $item){
+            $item = trim($item, '"');
+            $item = explode("|", $item);
+            //$item[0]是 file_id   $item[1]是　tea_res_id 或者　dir_id
+            if($item[0] == -1){//目录
+                //递归检查文件夹中是否有文件
+                $this_tea = $this->t_teacher_resource_dir->get_teacherid($item[1]);
+                if($this_tea == $teacherid){//是老师自己的文件
+                    $res = $this->check_has_file($item[1]);
+                    if($res == true){
+                        return $this->output_err('请先删除文件夹中的文件！');
+                    }
+                    $this->del_dir($item[1]);
+                }
+            } else if($item[0] > 0){//收藏的文件
+
+                $this_tea = $this->t_teacher_resource->get_teacherid($item[1]);
+                if($this_tea == $teacherid){//是老师自己的文件
+                    $this->t_teacher_resource->field_update_list($item[1], ['is_del' => 1]);
+                    //同步减少收藏次数
+                    $this->t_resource_file->minus_num('error_num', $item[0]);
+                }
+            } else {//自己上传的文件
+                $this_tea = $this->t_teacher_resource->get_teacherid($item[1]);
+                if($this_tea == $teacherid){//是老师自己的文件
+                    $this->t_teacher_resource->field_update_list($item[1], ['is_del' => 1]);
+                }
+            }
+        }
+        return $this->output_succ();
+
+    }
+
+    public function rename_dir_or_file(){
+        $file_id = $this->get_in_int_val('file_id', -2);
+        $id = $this->get_in_int_val('id', -1);
+        $new_name = trim( $this->get_in_str_val('new_name') );
+        $teacherid = $this->get_login_teacher();
+        if($new_name === ''){
+            return $this->output_err('名称不能为空！');
+        }
+        if($file_id == -1){//目录
+            $this_tea = $this->t_teacher_resource_dir->get_teacherid($id);
+            if($this_tea == $teacherid){//是老师自己的文件
+                $this->t_teacher_resource_dir->field_update_list($id, ['name' => $new_name]);
+                return $this->output_succ();
+            }
+        } else {//文件
+            $this_tea = $this->t_teacher_resource->get_teacherid($id);
+            if($this_tea == $teacherid){//是老师自己的文件
+                $this->t_teacher_resource->field_update_list($id, ['file_title' => $new_name]);
+                return $this->output_succ();
+            }
+        }
+        return $this->output_err('操作失败！');
+
+    }
+
+     public function tea_look_resource() {
+        $tea_res_id = $this->get_in_int_val("tea_res_id");
+        $tea_flag = $this->get_in_int_val("tea_flag",1);
+        if($tea_res_id <=0){
+            return $this->output_err('信息有误，操作失败！');
+        }
+        $teacherid = $this->get_login_teacher();
+        if($tea_flag == 1){//下载自己的文件
+            $this_tea = $this->t_teacher_resource->get_teacherid($tea_res_id);
+            $file_id = $this->t_teacher_resource->get_file_id($tea_res_id);
+            if($this_tea == $teacherid && $file_id == 0){//是老师自己上传的文件
+                $file_link = $this->t_teacher_resource->get_file_link($tea_res_id);
+
+                $store=new \App\FileStore\file_store_tea();
+                $auth=$store->get_auth();
+                // $file_path = $store->get_file_path($teacherid,$file_path);
+                $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $file_link );
+                return $this->output_succ(["url" => $authUrl]);
+            }
+        } else {//预览理优资料
+            $file_link = $this->t_resource_file->get_file_link($tea_res_id);
+            if(!$file_link){
+                return $this->output_err('信息有误，预览失败！');
+            }
+            //添加浏览记录
+            $this->t_resource_file_visit_info->row_insert([
+                'file_id'      => $tea_res_id,
+                'visitor_type' => 1,
+                'visitor_id'   => $teacherid,
+                'create_time'  => time(),
+                'ip'           => $_SERVER["REMOTE_ADDR"],
+            ]);
+            $this->t_resource_file->add_num('visit_num', $tea_res_id);
+
+            $store=new \App\FileStore\file_store_tea();
+            $auth=$store->get_auth();
+            $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $file_link );
+            return $this->output_succ(["url" => $authUrl]);
+        }
+
+        return $this->output_err('信息有误，下载失败！');
+    }
+
+    public function tea_file_reupload(){
+        $file_title = trim($this->get_in_str_val('file_title', '') );
+        $file_hash  = $this->get_in_str_val('file_hash');
+        $file_size  = round( $this->get_in_int_val('file_size')/1024, 2);
+        $file_type  = $this->get_in_str_val('file_type');
+        $file_link  = $this->get_in_str_val('file_link');
+        //处理文件名
+        $dot_pos = strrpos($file_title,'.');
+        $file_title = substr($file_title,0,$dot_pos);
+        //处理文件类型
+        $file_type = trim( strrchr($file_type, '/'), '/' );
+
+        $tea_res_id = $this->get_in_int_val('tea_res_id');
+        $teacherid  = $this->get_login_teacher();
+        if($tea_res_id <= 0){
+            $this->output_err('信息有误，操作失败!');
+        }
+        $this_tea = $this->t_teacher_resource->get_teacherid($tea_res_id);
+        if($this_tea == $teacherid){//是老师自己的文件
+            $this->t_teacher_resource->field_update_list($tea_res_id, [
+                'file_title' => $file_title,
+                'file_type'  => $file_type,
+                'file_size'  => $file_size,
+                'file_hash'  => $file_hash,
+                'file_link'  => $file_link,
+           ]);
+            return $this->output_succ();
+        }
+        $this->output_err('信息有误，操作失败!');
+    }
+
+    public function move_dir_or_file(){
+        $id_info = $this->get_in_str_val('id_info', '');
+        $move_to = $this->get_in_int_val('move_to', -1);
+        $teacherid = $this->get_login_teacher();
+        if($id_info === ''){
+            return $this->output_err('请选择文件！');
+        }
+        if($move_to === -1){
+            return $this->output_err('选择文件夹错误,操作失败！');
+        }
+        //检查是否存在该目录
+        if($move_to != 0){
+            $this_tea = $this->t_teacher_resource_dir->get_teacherid($move_to);
+            if($this_tea != $teacherid){//是老师自己的文件
+                return $this->output_err('不存在该目录，移动失败！');
+            }
+        }
+        $id_info = ltrim($id_info, '[');
+        $id_info = rtrim($id_info, ']');
+        $id_arr = explode(',', $id_info);
+        foreach($id_arr as $item){
+            $item = trim($item, '"');
+            $item = explode("|", $item);
+            //$item[0]是 file_id   $item[1]是　tea_res_id 或者　dir_id
+            if($item[0] == -1){//目录
+                //递归检查文件夹中是否有文件
+                $this_tea = $this->t_teacher_resource_dir->get_teacherid($item[1]);
+                if($this_tea == $teacherid){//是老师自己的文件
+                    $this->t_teacher_resource_dir->field_update_list($item[1], ['pid' => $move_to]);
+                }
+            } else {//自己上传的文件
+                $this_tea = $this->t_teacher_resource->get_teacherid($item[1]);
+                if($this_tea == $teacherid){//是老师自己的文件
+                    $this->t_teacher_resource->field_update_list($item[1], ['dir_id' => $move_to]);
+                }
+            }
+        }
+        return $this->output_succ();
+
+    }
+    //递归检查文件夹中是否有文件
+    public function check_has_file($dir_id){
+        $res = $this->t_teacher_resource->check_file($dir_id);
+        if($res != false){
+            return true;
+        }
+        $son_ids = $this->t_teacher_resource_dir->get_dir_id_by_pid($dir_id);
+        if($son_ids != false){
+            foreach($son_ids as $id){
+                $res = $this->check_has_file($id['dir_id']);
+                if ($res == true){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    //递归删除文件夹，不包括文件
+    public function del_dir($dir_id){
+        $this->t_teacher_resource_dir->field_update_list($dir_id, ['is_del' => 1]);
+        $son_ids = $this->t_teacher_resource_dir->get_dir_id_by_pid($dir_id);
+        if($son_ids != false){
+            foreach($son_ids as $id){
+                $res = $this->del_dir($id['dir_id']);
+            }
+        }
+    }
+
+    public function get_all_dir_js(){
+        $teacherid = $this->get_login_teacher();
+        $dir_list = $this->t_teacher_resource_dir->get_tea_all_dir($teacherid);
+        return $this->output_succ(['dir_list' => json_encode($dir_list)]);
+    }
+
+    public function get_res_files_js(){
+        $resource_id = $this->get_in_int_val('res_id', 0);
+        if($resource_id <= 0){
+            return $this->output_err("信息有误，操作失败！") ;
+        }
+        $files = $this->t_resource_file->get_files_by_resource_id($resource_id);
+        if($files == false){
+            return $this->output_err("信息有误，操作失败！") ;
+        } else {
+            return $this->output_succ(['data' => $files]) ;
+        }
+    }
+
 }

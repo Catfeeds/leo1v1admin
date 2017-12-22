@@ -14,16 +14,59 @@
     <script type="text/javascript" src="/page_js/select_course.js"></script>
     <script type="text/javascript" src="/page_js/select_user.js"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+
+    <link href="/ztree/zTreeStyle.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="/ztree/jquery.ztree.all.min.js"></script>
+    <script type="text/javascript" src="/ztree/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/ztree/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="/ztree/jquery.ztree.exedit.min.js"></script>
+    <script type="text/javascript" src="/ztree/jquery.ztree.exhide.min.js"></script>
+    <script type="text/javascript">
+     var zNodes = <?php echo $knowledge?>;
+    </script>
+
+    <style>
+     .row{ margin-left:-10px}
+     .knowledge_all{ background:rgba(0, 0, 0, 0.4);position:absolute;top:0px;left:0px;width:100%;height:100%;z-index:999;display:none}
+     .zTreeDemoBackground{position:absolute;top:20%;left:35%;background: white;padding:20px;min-width:300px }
+     #close_knowledge{ position:absolute;top:5px;right:5px;z-index:9999}
+     .knowledge_exits span{ color: #258e25;font-weight: bold;margin-right:10px}
+     .expand_node{ diplay:inline-block}
+    </style>
+
+    <div class="knowledge_all">
+        <div class="zTreeDemoBackground">
+            <button type="button" class="btn btn-danger btn-circle" id="close_knowledge" onclick="close_know()"><i class="fa fa-times"></i></button>
+            <a href="javascript:;" class="expand_node" id="show_all_knowledge"> 显示全部 </a>
+            <a href="javascript:;" class="expand_node" id="hide_all_knowledge"> 隐藏全部 </a>
+            <ul id="treeDemo" class="ztree"></ul>
+            <button type="button" class="btn btn-primary" id="save_knowledge" step_id="" onclick="save_know()" title="编辑完成">编辑完成</button>
+        </div>
+    </div>
+
+
     <section class="content">
         <input type="hidden" value="{{@$question['question_id']}}" id="question_id" />
         <div id="id_question_editor" >
             <div class="row">
-                <div class="col-xs-6 col-md-6">
-                    <div class="input-group "><h3>题目:{{@$question['title']}}</h3></div>
-                    <div class="input-group ">
-                     
+                <div class="col-xs-7 col-md-7">
+                    <div class="input-group "><h3>题目:{{@$question['title']}} 总分:{{@$question['score']}}</h3></div>
+                </div>
+                <div class="col-xs-1 col-md-1">
+                    <div class="input-group" style="margin-top:12px">                    
+                        <button style="margin-left:10px" id="answer_no" value="{{$answer_no}}" type="button" class="btn btn-success">添加其他答案</button>                      
                     </div>
                 </div>
+
+                @if(!empty($other_answers))
+                    @foreach($other_answers as $item)
+                        <div class="col-xs-1 col-md-1">
+                            <div class="input-group" style="margin-top:12px">                    
+                                <button style="margin-left:10px" class="btn btn-info other_answers" value="{{$item['answer_no']}}" type="button">标准答案{{$item['answer_no']+1}}</button>                      
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
             </div>
             @foreach($ret as $key => $item)
                 <div class="answer_step">
@@ -32,24 +75,26 @@
                             <div class="btn-toolbar" role="toolbar">
                                 <div id="id_mathjax_add_pic_div_{{$key+1}}" class="btn-group ">
                                     <input type="hidden" class="editType" value="2">
-                                    <input type="hidden" class="answer_id" value="{{$item['answer_id']}}">
+                                    <input type="hidden" class="step_id" value="{{$item['step_id']}}">
                                     <input type="hidden" class="step" value="{{$item['step']}}">
                                     <button type="button" class=" btn  btn-primary opt-title " style="height:30px;" >步骤类型:</button>
-                                    <select class="btn" style="height:30px;padding:0px;width:100px" class="id_answer_type">
-                                        <option>解析过程</option>
-                                        <option>答案</option>
-                                    </select>
+                                    <select class="btn answer_type"  style="height:30px;padding:0px;width:100px" id="answer_type_{{$key+1}}" answer_type_value="{{$item['answer_type']}}"></select>                                  
 
                                     <button type="button" class=" btn  btn-primary answer-step" style="height:30px;margin-right:10px" title="默认添加最后一步，可以点击选择在两步之间添加本步骤">{{$item['step_str']}}</button>
 
 
                                     <button type="button" class=" btn  btn-primary opt-title " style="height:30px;" >分值:</button>
-                                    <input class="btn" style="height:30px;margin-right:10px;padding:0px;text-align: left;
-                                                  text-indent: 4px;width: 100px;" class="id_answer_score" value="{{$item['score']}}" >
+                                    <input class="btn answer_score" style="height:30px;margin-right:10px;padding:0px;text-align: left;
+                                                  text-indent: 4px;width: 100px;" value="{{$item['score']}}" >
+
+                                   
+                                    <button class="btn btn-primary add_question_knowledge" style="height:30px;margin-right:10px" title="编辑知识点" onclick="open_know({{$key+1}})">编辑知识点</button>
+                                    
 
                                     <button type="button" class=" btn  btn-warning answer-save" style="height:30px;margin-right:10px" title="点击保存本步骤">保存步骤</button>
 
-
+                                    <button type="button" class=" btn  btn-danger answer-dele" style="height:30px;margin-right:10px" title="点击保存本步骤">删除步骤</button>
+                                    
                                     <button type="button" class="btn btn-default fa fa-picture-o add_pic" id="id_mathjax_add_pic_{{$key+1}}" title="图片" style="z-index: 1;"></button>
                                     <button type="button" class="btn btn-default add_under_line" id="id_mathjax_add_under_line_{{$key+1}}" title="插入下划线" style="height:28px">____</button>
                                     <button type="button" class="btn btn-default add_kuo_hao" id="id_mathjax_add_kuo_hao_{{$key+1}}" title="插入括号" style="height:28px">(&nbsp;&nbsp;&nbsp;&nbsp;)</button>            
@@ -62,13 +107,26 @@
                     </div>
 
                     <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                            <input type="hidden" value="{{$item['know_str']}}" id="knowledge_old_{{$key+1}}" class="knowledge_old" />
+                            <div id="knowledge_exits_{{$key+1}}" class="knowledge_exits">
+                                @if(!empty($item['know_str']))
+                                    @foreach(json_decode($item['know_str'],true) as $var)
+                                        <span knowledge_id="{{$var['knowledge_id']}}">{{$var['title']}}</span>
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-xs-6 col-md-6">
-                            <textarea type="text" value="{{$item['detail']}}" class="form-control math-opt-change-q id_mathjax_content" style="height:140px;font-size:18px;"  id="id_mathjax_content_{{$key+1}}" placeholder=""></textarea>
+                            <textarea type="text" class="form-control math-opt-change-q id_mathjax_content" style="height:auto;font-size:18px;"  id="id_mathjax_content_{{$key+1}}" placeholder="">{{$item['detail']}}</textarea>
                             
                         </div>
 
                         <div class="col-xs-6 col-md-6  ">
-                            <div class="MathPreview" id="MathPreview_{{$key+1}}" style="border: 1px solid; width: 100%; height: 140px; overflow: auto; font-size: 18px;">
+                            <div class="MathPreview" id="MathPreview_{{$key+1}}" style="background:white; width: 100%; height:auto; overflow: auto; font-size: 18px;padding:6px 12px">
                             </div>    
                         </div>
                     </div>
@@ -81,20 +139,25 @@
                         <div class="btn-toolbar" role="toolbar">
                             <div id="id_mathjax_add_pic_div_0" class="btn-group ">
                                 <input type="hidden" class="editType" value="1">
-                                <input type="hidden" class="answer_id" value="">
+                                <input type="hidden" class="step_id" value="">
                                 <input type="hidden" class="step" value="{{$next_step}}">
                                 <button type="button" class=" btn  btn-primary opt-title " style="height:30px;" >步骤类型:</button>
-                                <select class="btn" style="height:30px;padding:0px;width:100px" class="id_answer_type">
-                                    <option>解析过程</option>
-                                    <option>答案</option>
+                                <select class="btn answer_type" style="height:30px;padding:0px;width:100px" id="answer_type_0">
+                                    @if(!empty($answer_type))
+                                        @foreach($answer_type as $item)
+                                            <option value="{{$item['id']}}">{{$item['name']}}</option>
+                                        @endforeach
+                                    @endif
                                 </select>
 
                                 <button type="button" class=" btn  btn-primary answer-step" style="height:30px;margin-right:10px" title="默认添加最后一步，可以点击选择在两步之间添加本步骤">最新步骤</button>
 
 
                                 <button type="button" class=" btn  btn-primary opt-title " style="height:30px;" >分值:</button>
-                                <input class="btn" style="height:30px;margin-right:10px;padding:0px;text-align: left;
-                                              text-indent: 4px;width: 100px;" class="id_answer_score" >
+                                <input class="btn answer_score" style="height:30px;margin-right:10px;padding:0px;text-align: left;
+                                              text-indent: 4px;width: 100px;" >
+
+                                <button class="btn btn-primary add_question_knowledge" style="height:30px;margin-right:10px" title="编辑知识点" onclick="open_know(0)">编辑知识点</button>
 
                                 <button type="button" class=" btn  btn-warning answer-save" style="height:30px;margin-right:10px" title="点击保存本步骤">保存步骤</button>
 
@@ -106,6 +169,13 @@
                                 @include('question_new.mathjax')
                             </ul>
                         </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <input type="hidden" value="" id="knowledge_old_0" class="knowledge_old" />
+                        <div id="knowledge_exits_0" class="knowledge_exits"></div>
                     </div>
                 </div>
 

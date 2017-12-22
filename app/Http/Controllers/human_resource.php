@@ -725,12 +725,12 @@ class human_resource extends Controller
         $this->set_in_value("fulltime_flag",0);
         return $this->index_new() ;
     }
+
     public function index_fulltime(){
         $this->set_in_value("is_test_user",0);
         $this->set_in_value("fulltime_flag",1);
         return $this->index_new() ;
     }
-
 
     public function index_seller(){
         $this->set_in_value("seller_flag",1);
@@ -891,7 +891,13 @@ class human_resource extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, "recover_class_time","_str");
 
             if($item["train_through_new_time"] !=0){
-                $item["work_day"] = \App\Helper\Utils::change_time_difference_to_day($item['train_through_new_time']);
+                $lecture = $this->t_teacher_record_list->get_data_to_teacher_flow_id(E\Etrain_type::V_4, $item['teacherid']);
+                if ($lecture) {
+                    $item["work_day"] = \App\Helper\Utils::change_time_difference_to_day($lecture['add_time']);
+                } else {
+                    $item['work_day'] = "";
+                }
+                //$item["work_day"] = \App\Helper\Utils::change_time_difference_to_day($item['train_through_new_time']);
             }else{
                 $item["work_day"] ="";
             }
@@ -901,7 +907,7 @@ class human_resource extends Controller
             $item["train_through_new_str"] = $item['train_through_new']==0?"否":"是";
 
             $item['phone_spare']=\App\Helper\Utils::get_teacher_contact_way($item);
-            $item["phone_ex"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone_spare']);
+            \App\Helper\Utils::hide_item_phone($item,"phone_spare");
             if(!empty($item["freeze_adminid"])){
                 $item["freeze_adminid_str"] = $this->t_manager_info->get_account($item["freeze_adminid"]);
             }else{
@@ -986,6 +992,12 @@ class human_resource extends Controller
                 $item["fine_dimension"]="维度D候选";
             }else{
                 $item["fine_dimension"]="其他";
+            }
+
+            // 全职兼职 2017-12-19
+            $item['full_flag'] = false;
+            if ($item['teacher_money_type'] == 7 || ($item['teacher_type'] == 3 && $item['teacher_money_type'] == 0)) {
+                $item['full_flag'] = true;
             }
         }
 
@@ -1546,6 +1558,9 @@ class human_resource extends Controller
         $full_time     = $this->get_in_int_val('full_time',-1);
         $fulltime_flag = $this->get_in_int_val('fulltime_flag');
         $id_train_through_new_time = $this->get_in_int_val("id_train_through_new_time",-1);
+        //如果用电话号码检索不区分库
+        if($phone)
+            $tea_subject = '';
 
         //判断招师主管
         $is_master_flag = $this->t_admin_group_name->check_is_master(8,$adminid);
@@ -1794,9 +1809,6 @@ class human_resource extends Controller
 
         if($status==E\Echeck_status::V_1){
             $teacher_info     = $this->t_teacher_info->get_teacher_info_by_phone($lecture_info['phone']);
-
-
-
 
             $appointment_info = $this->t_teacher_lecture_appointment_info->get_appointment_info_by_id($appointment_id);
             $nick = $appointment_info['name'];
@@ -2109,6 +2121,8 @@ class human_resource extends Controller
         $accept_adminid             = $this->get_in_int_val("accept_adminid", -1);
         $second_train_status        = $this->get_in_int_val("second_train_status", -1);
         $teacher_pass_type          = $this->get_in_int_val("teacher_pass_type", -1);
+        $gender                     = $this->get_in_int_val("gender", -1);
+
         if($show_full_time ==1){
             $interview_type = $this->get_in_int_val("interview_type",-1);
         }else{
@@ -2133,7 +2147,7 @@ class human_resource extends Controller
             $user_name,$status,$adminid,$record_status,$grade,$subject,$teacher_ref_type,
             $interview_type,$have_wx, $lecture_revisit_type,$full_time,
             $lecture_revisit_type_new,$fulltime_teacher_type,$accept_adminid,
-            $second_train_status,$teacher_pass_type,$opt_date_str
+            $second_train_status,$teacher_pass_type,$opt_date_str,$gender
         );
         foreach($ret_info["list"] as &$item){
             $item["begin"] = date("Y-m-d H:i:s",$item["answer_begin_time"]);
@@ -2153,6 +2167,7 @@ class human_resource extends Controller
             }
             E\Esubject::set_item_value_str($item,"subject_ex");
             E\Esubject::set_item_value_str($item,"trans_subject_ex");
+            E\Egender::set_item_value_str($item);
 
             if(($item['status']=="-2" && empty($item["lesson_start"])) || ($item['add_time'] <= 0 && $item['status'] <= 0 && $item['trial_train_status'] == -2)){
                 $item['status_str'] = "无试讲";
@@ -2761,9 +2776,9 @@ class human_resource extends Controller
         $lesson_info   = $this->t_lesson_info->get_lesson_info($lessonid);
         if($status==1){
             $ret = $this->t_teacher_info->field_update_list($teacherid,[
-                "trial_train_flag" => 1,
-                "train_through_new"      => 1,
-                "level"                  =>1
+                "trial_train_flag"  => 1,
+                "train_through_new" => 1,
+                "level"             => 1
             ]);
             $keyword2   = "已通过";
             $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
@@ -2778,15 +2793,14 @@ class human_resource extends Controller
              * {{remark.DATA}}
              */
             $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
-            $level_degree    = \App\Helper\Utils::get_teacher_level_str($teacher_info);
             if($wx_openid){
                 $data=[];
                 $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
-                $data['first']    = "恭喜您获得了晋升";
+                $data['first']    = "恭喜您通过模拟试听课审核，加入排课群，和排课老师沟通可上课时间。点详情，看群号。";
                 $data['keyword1'] = $teacher_info["nick"];
-                $data['keyword2'] = $level_degree;
+                $data['keyword2'] = "二星级";
                 $data['keyword3'] = date("Y-m-d H:i",time());
-                $data['remark']   = "\n升级原因:".$record_info."\n您将获得20元的课时奖励,愿老师您与我们一起以春风化雨的精神，打造高品质教学服务，助我们理优学子更上一层楼。";
+                $data['remark']   = "\n升级原因:具备线上教学能力。".$record_info."\n您将获得20元奖励，请在微信老师帮-个人中心-我的收入-绑定银行卡，每月10日发放上月薪资到绑定的银行卡。";
                 $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=".$teacherid;
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
             }
@@ -3511,7 +3525,7 @@ class human_resource extends Controller
     }
 
     /**
-     * 更改用户的手机号
+     * 更改老师的手机号
      */
     public function change_phone(){
         $userid    = $this->get_in_int_val("userid");
@@ -3740,6 +3754,7 @@ class human_resource extends Controller
     }
 
     public function teacher_test_lesson_info(){
+        $this->check_and_switch_tongji_domain();
         $sum_field_list = [
             "all_lesson",
             "success_lesson",
@@ -4296,7 +4311,6 @@ class human_resource extends Controller
         if($is_master_flag_jw==1 || in_array($acc,["jack","jim","CoCo老师","孙瞿"])){
             $is_master_flag_jw=1;
         }
-
 
         return $this->pageView(__METHOD__,$ret_info,[
             "acc"          => $acc,

@@ -5,6 +5,13 @@ use Illuminate\Support\Facades\Redis ;
 
 defined('DYNAMIC_PASSWD_DB') OR define('DYNAMIC_PASSWD_DB', 10);
 class Net {
+    public static function  rpc_api ( $path_name, $args ) {
+        $base_url= \App\Helper\Config::get_config("api_url");
+        $url= $base_url .  $path_name    ;
+        return static::rpc($url, $args );
+
+    }
+
     public static  function rpc( $url,  $args =null ){
         /*
         $args_str_arr=[];
@@ -72,8 +79,11 @@ class Net {
 
     }
 
-    static public function  send_sms_taobao(  $phone ,  $user_ip, $type, $args){
+    static public function  send_sms_taobao(  $phone ,  $user_ip, $type, $args,$register_flag=0){
         $url = Config::get_monitor_new_url()."/notice/sms";
+        if($register_flag==1){
+            $url = Config::get_monitor_new_url()."/notice/sms_register";
+        }
 
         $send_data = array(
             'phone'   => $phone,

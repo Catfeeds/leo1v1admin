@@ -43,9 +43,16 @@ function load_data(){
 function add_subject_score(obj){
     // alert($(obj).parent().parent().attr('class'));
     // $(obj).parent().parent().parent().append("<div class='col-xs-12 col-md-3 subject_score '><div class='input-group'><select name='subject_score_new_two' class='form-control'></select><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /><input type='text' class='form-control' name='subject_score_two_new_two' placeholder='满数' /><button class='btn btn-primary'  title='添加科目' onclick='add_subject_score(this)' ><i class='fa fa-plus'></i></button><button class='btn btn-primary' onclick='del_subject_score(this)'  title='删除科目' ><i class='fa fa-minus'></i></button></div></div>");
-    $(obj).parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'><font style='color:red'>*</font>&nbsp科目：</span><select name='subject_score_new_two' class='form-control' style='width:70px'></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:55px;'><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 -4%'><div class='input-group' style='width:55px;'><input type='text' class='form-control'  name='subject_score_two_new_two' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -2%;cursor: pointer;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
-    var id_subject_score = $(obj).parent().parent().parent().find("select[name='subject_score_new_two']");
-    Enum_map.append_option_list("subject",id_subject_score, true);
+    $(obj).parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'><font style='color:red'>*</font>&nbsp科目：</span><select name='subject_score_new_two' class='form-control' style='width:70px'></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:45px;'><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0.1% 0 -5%'><div class='input-group' style='width:50px;'><input type='text' class='form-control'  name='subject_score_two_new_two' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:1% 0 0 0%;cursor: pointer;padding:0 0 0 0;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
+    var id_subject_score = $(obj).parent().parent().parent().find("select[name='subject_score_new_two']").last();
+    var id_grade = $(obj).parent().parent().parent().parent().parent().parent().parent().find('#id_stu_grade_new_two').val();
+    if(id_grade==101 || id_grade==102 || id_grade==103 || id_grade==104 || id_grade==105 || id_grade==106){
+        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3]);
+    }else if(id_grade==201 || id_grade==202 || id_grade==203){
+        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9,10]);
+    }else if(id_grade==301 || id_grade==302 || id_grade==303){
+        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9]);
+    }
 }
 function del_subject_score(obj){
     $(obj).parent().parent().remove();
@@ -1698,17 +1705,67 @@ function init_edit() {
                     return;
                 }
 
-                BootstrapDialog.confirm("要新增转介绍? 手机["+phone +"] ",function(val){
-                    if (val) {
-                        $.do_ajax("/ss_deal/ass_add_seller_user", {
-                            "phone"         : phone,
-                            "origin_userid" : origin_userid,
-                            "origin_assistantid" : origin_assistantid,
-                            "grade"         : $grade.val(),
-                            "subject"       : $subject.val()
-                        });
+                $.do_ajax('/ajax_deal2/check_origin_assistantid_info',{
+                    "origin_userid" : origin_userid,
+                    "origin_assistantid" : origin_assistantid,
+                },function(result){
+                    var account_role = result.account_role;
+                    var cc_flag = result.cc_flag;
+                    if(account_role==1){
+                        if(cc_flag==0){
+                            var origin_flag=$("<select><option value= \"1\">自行跟进</option><option value= \"2\">分配CC总监</option></select>");
+                            var arr=[
+                                ["分配方式",origin_flag]  
+                            ];
+                            $.show_key_value_table("选择分配方式", arr, {
+                                label    : '提交',
+                                cssClass : 'btn-danger',
+                                action   : function(dialog) {
+                                    $.do_ajax("/ss_deal/ass_add_seller_user", {
+                                        "phone"         : phone,
+                                        "origin_userid" : origin_userid,
+                                        "origin_assistantid" : origin_assistantid,
+                                        "grade"         : $grade.val(),
+                                        "subject"       : $subject.val(),
+                                        "origin_flag"   : origin_flag.val()
+                                    });
+
+                                }
+                            });
+
+
+                        }else{
+                            BootstrapDialog.confirm("要新增转介绍? 手机["+phone +"] ",function(val){
+                                if (val) {
+                                    $.do_ajax("/ss_deal/ass_add_seller_user", {
+                                        "phone"         : phone,
+                                        "origin_userid" : origin_userid,
+                                        "origin_assistantid" : origin_assistantid,
+                                        "grade"         : $grade.val(),
+                                        "subject"       : $subject.val(),
+                                        "origin_flag"   : 0
+                                    });
+                                }
+                            } );
+
+                        }
+                    }else{
+                        BootstrapDialog.confirm("要新增转介绍? 手机["+phone +"] ",function(val){
+                            if (val) {
+                                $.do_ajax("/ss_deal/ass_add_seller_user", {
+                                    "phone"         : phone,
+                                    "origin_userid" : origin_userid,
+                                    "origin_assistantid" : origin_assistantid,
+                                    "grade"         : $grade.val(),
+                                    "subject"       : $subject.val(),
+                                    "origin_flag"   : 0
+                                });
+                            }
+                        } );
+ 
                     }
-                } );
+                });
+
             }
         },function(){
             $.admin_select_user( $origin_userid, "student"  );
@@ -2312,7 +2369,7 @@ function init_edit() {
                 });
             });
 
-            html_node.find("#id_stu_rev_info") .on("click",function(){
+            html_node.find("#id_stu_rev_info_new") .on("click",function(){
                 $(opt_obj).parent().find(".opt-return-back-list").click();
             });
             var id_stu_nick          = html_node.find("#id_stu_nick");
@@ -3291,6 +3348,7 @@ function init_edit() {
             var id_tea_gender = html_node.find("#id_tea_gender_new_two");
             var id_class_env = html_node.find("#id_class_env_new_two");
             var id_courseware = html_node.find("#id_courseware_new_two");
+            var id_teacher_type = html_node.find("#id_teacher_type_new_two");
             var id_add_tag = html_node.find("#id_add_tag_new_two");
 
             var wuyaoqiu_html = "<option value='0'>无要求</option>";
@@ -3318,6 +3376,7 @@ function init_edit() {
             id_tea_gender.append(wuyaoqiu_html);
             Enum_map.append_option_list("gender", id_tea_gender, true,[1,2]);
             Enum_map.append_option_list("tea_age", id_tea_age, true);
+            Enum_map.append_option_list("teacher_type", id_teacher_type, true,[0,1,3]);
             id_stu_request_test_lesson_time.datetimepicker({
                 lang             : 'ch',
                 timepicker       : true,
@@ -3900,7 +3959,11 @@ function init_edit() {
 
             id_stu_nick.val(data.stu_nick);
             id_par_nick.val(data.par_nick);
-            id_par_type.val(data.par_type);
+            if(data.par_type>0){
+                id_par_type.val(data.par_type);
+            }else{
+                id_par_type.val(1);
+            }
             id_grade.val(data.grade);
             if(id_grade.val()==101 || id_grade.val()==102 || id_grade.val()==103 || id_grade.val()==104 || id_grade.val()==105 || id_grade.val()==106){
                 Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3]);
@@ -3925,7 +3988,7 @@ function init_edit() {
                         html_node.find("#id_main_subject_score_two_new_two").val(arr_new[1]);
                     }else{
                         // html_node.find("#id_add_subject_score_new_two").parent().parent().parent().append("<div class='col-xs-12 col-md-3 subject_score '><div class='input-group'><select id='subject_score_"+index+"' name='subject_score_new_two' class='form-control'><option>"+arr[0]+"</option></select><input type='text' class='form-control' name='subject_score_one_new_two' value='"+arr_new[0]+"' placeholder='分数' /><input type='text' class='form-control' name='subject_score_two_new_two' value='"+arr_new[1]+"' placeholder='满数' /><button class='btn btn-primary'  title='添加科目' onclick='add_subject_score(this)' ><i class='fa fa-plus'></i></button><button class='btn btn-primary' onclick='del_subject_score(this)'  title='删除科目' ><i class='fa fa-minus'></i></button></div></div>");
-                        html_node.find("#id_main_subject_score_two_new_two").parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'><font style='color:red'>*</font>&nbsp科目：</span><select name='subject_score_new_two' id='subject_score_"+index+"' class='form-control' style='width:70px'><option>"+arr[0]+"</option></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:55px;'><input type='text' class='form-control' value='"+arr_new[0]+"' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 -4%'><div class='input-group' style='width:55px;'><input type='text' class='form-control' name='subject_score_two_new_two' value='"+arr_new[1]+"' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -2%;cursor: pointer;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
+                        html_node.find("#id_main_subject_score_two_new_two").parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'><font style='color:red'>*</font>&nbsp科目：</span><select name='subject_score_new_two' id='subject_score_"+index+"' class='form-control' style='width:70px'><option>"+arr[0]+"</option></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:45px;'><input type='text' class='form-control' value='"+arr_new[0]+"' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0.1% 0 -5%'><div class='input-group' style='width:50px;'><input type='text' class='form-control' name='subject_score_two_new_two' value='"+arr_new[1]+"' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:1% 0 0 0%;cursor: pointer;padding:0 0 0 0;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
                     }
                 }
             });
@@ -3957,6 +4020,7 @@ function init_edit() {
             id_tea_status.val(data.tea_identity);
             id_tea_age.val(data.tea_age);
             id_tea_gender.val(data.tea_gender);
+            id_teacher_type.val(data.teacher_type);
             if(!data.knowledge_point_location ){
                 html_node.find("#id_knowledge_point_location").val(data.stu_request_test_lesson_demand);
             }else{
@@ -3994,19 +4058,16 @@ function init_edit() {
             id_grade.change(function(){
                 $.do_ajax("/product_tag/get_all_tag", {
                 },function(resp){
-                    id_subject.find("option").remove();
-                    id_subject_score.find("option").remove();
-                    // alert($("#id_main_subject_new_two").parent().parent().parent().find("div:[class=subject_score]").attr('class'));
-                    if(id_grade.val()==101 || id_grade.val()==102 || id_grade.val()==103 || id_grade.val()==104 || id_grade.val()==105 || id_grade.val()==106){
-                        Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3]);
-                        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3]);
-                    }else if(id_grade.val()==201 || id_grade.val()==202 || id_grade.val()==203){
-                        Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3,4,5,6,7,8,9,10]);
-                        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9,10]);
-                    }else if(id_grade.val()==301 || id_grade.val()==302 || id_grade.val()==303){
-                        Enum_map.append_option_list("subject", id_subject, true,[0,1,2,3,4,5,6,7,8,9]);
-                        Enum_map.append_option_list("subject", id_subject_score, true,[0,1,2,3,4,5,6,7,8,9]);
-                    }
+                    $("select[name='subject_score_new_two']").each(function(){
+                        $(this).find("option").remove();
+                        if(id_grade.val()==101 || id_grade.val()==102 || id_grade.val()==103 || id_grade.val()==104 || id_grade.val()==105 || id_grade.val()==106){
+                            Enum_map.append_option_list("subject", $(this), true,[0,1,2,3]);
+                        }else if(id_grade.val()==201 || id_grade.val()==202 || id_grade.val()==203){
+                            Enum_map.append_option_list("subject", $(this), true,[0,1,2,3,4,5,6,7,8,9,10]);
+                        }else if(id_grade.val()==301 || id_grade.val()==302 || id_grade.val()==303){
+                            Enum_map.append_option_list("subject", $(this), true,[0,1,2,3,4,5,6,7,8,9]);
+                        }
+                    });
                     id_add_tag.parent().children("span[class='sub_tag_name']").remove();
                     id_add_tag.parent().children('input[type=checkbox]').remove();
                     var data=resp.data;
@@ -4116,6 +4177,17 @@ function init_edit() {
                 format: "Y-m-d H:i",
                 onChangeDateTime :function(){
                 }
+            });
+            id_stu_request_test_lesson_time.change(function(){
+                var start_time = Date.parse(new Date(id_stu_request_test_lesson_time.val()))+3600*2*1000;
+                var time = new Date(start_time);
+                var year = time.getFullYear();
+                var month = time.getMonth()+1;
+                var date = time.getDate();
+                var hours = time.getHours();
+                var minutes = time.getMinutes();
+                var start_date = year+'-'+add0(month)+'-'+add0(date)+' '+add0(hours)+':'+add0(minutes);
+                id_stu_request_test_lesson_time_end.val(start_date);
             });
             var origin=data.origin;
             if (  /bm_/.test(origin) ||
@@ -4253,6 +4325,7 @@ function init_edit() {
                             tea_identity:id_tea_status.val(),
                             tea_age:id_tea_age.val(),
                             tea_gender:id_tea_gender.val(),
+                            teacher_type:id_teacher_type.val(),
                             need_teacher_style: id_need_teacher_style.val(),
                             quotation_reaction: id_quotation_reaction.val(),
                             intention_level : id_intention_level.val(),
@@ -4593,6 +4666,7 @@ function init_edit() {
                             tea_identity:id_tea_status.val(),
                             tea_age:id_tea_age.val(),
                             tea_gender:id_tea_gender.val(),
+                            teacher_type:id_teacher_type.val(),
                             need_teacher_style: id_need_teacher_style.val(),
                             quotation_reaction: id_quotation_reaction.val(),
                             intention_level : id_intention_level.val(),

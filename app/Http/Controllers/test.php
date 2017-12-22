@@ -13,11 +13,22 @@ class test extends Controller
     var $check_login_flag =false;
 
     public function tt() {
+        $this->check_and_switch_tongji_domain();
+
+        dd( $_SERVER );
         phpinfo();
     }
 
+    public function get_user_list(){
+        $page_info= $this->get_in_page_info();
+        $grade=$this->get_in_el_grade();
+        $ret_info=$this->t_student_info->get_test_list($page_info, $grade );
+
+        $this->pageView($method, $ret_info);
+    }
+
     public function t() {
-        //app_path("/Libs/xx/init.php"); 
+        //app_path("/Libs/xx/init.php");
 
 
         $objReader = \PHPExcel_IOFactory::createReader('Excel2003XML');

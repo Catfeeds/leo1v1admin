@@ -7,10 +7,8 @@
 <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
 <script type="text/javascript" src="/js/jquery.md5.js"></script>
 <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
-
-    <script type="text/javascript" src="/page_js/seller_student_new/common.js?{{@$_publish_version}}"></script>
+<script type="text/javascript" src="/page_js/seller_student_new/common.js?{{@$_publish_version}}"></script>
     <section class="content ">
-
         <div>
             <div class="row  row-query-list" >
                 <div class="col-xs-6 col-md-2">
@@ -20,7 +18,6 @@
                         </select>
                     </div>
                 </div>
-
 
                 <div class="col-xs-12 col-md-6"  data-title="时间段">
                     <div  id="id_date_range" >
@@ -32,8 +29,6 @@
                         <input class="opt-change form-control" id="id_phone_name" placeholder="电话,姓名,回车搜索"/>
                     </div>
                 </div>
-
-
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
@@ -55,8 +50,6 @@
                         </select>
                     </div>
                 </div>
-
-
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">科目</span>
@@ -64,17 +57,12 @@
                         </select>
                     </div>
                 </div>
-
-
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">渠道</span>
                         <input class="opt-change form-control" id="id_origin" />
                     </div>
                 </div>
-
-
-
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">Pad</span>
@@ -89,9 +77,6 @@
                         <input class="opt-change form-control" id="id_admin_revisiterid" />
                     </div>
                 </div>
-
-
-
                 <div class="col-xs-6 col-md-2 " data-always_show="1" >
                     <div class="input-group ">
                         <span class="input-group-addon">TMK状态</span>
@@ -120,7 +105,6 @@
             <thead>
                 <tr>
                     <td style="width:60px">时间</td>
-                    <td style="display:none;">手机号</td>
                     <td >基本信息</td>
                     <td >来源</td>
                     <td >回公海次数</td>
@@ -145,11 +129,12 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{$var["opt_time"]}} </td>
-                        <td>{{$var["phone"]}} </td>
                         <td>
-                            {{$var["phone"]}} <br/>
+                            <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
+                                {{@$var["phone_hide"]}}
+                            </a>
                             {{$var["phone_location"]}} <br/>
-                                {{$var["nick"]}}
+                            {{$var["nick"]}}
                         </td>
 
                         <td>

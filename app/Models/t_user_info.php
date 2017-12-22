@@ -72,4 +72,18 @@ class t_user_info extends \App\Models\Zgen\z_t_user_info
         return $this->main_get_value( $sql  );
     }
 
+    public function add( $passwd,$passwd_md5_two,  $reg_ip ,$reg_channel ) {
+        $this->row_insert([
+            "passwd" =>$passwd,
+            "reg_ip" =>$reg_ip,
+            "reg_channel" =>$reg_channel,
+            "reg_time" =>time(NULL),
+            "passwd_md5_two"=>$passwd_md5_two
+        ]);
+        return $this->get_last_insertid();
+
+    }
+
+   
+
 }

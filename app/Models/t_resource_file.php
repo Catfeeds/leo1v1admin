@@ -48,5 +48,37 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
     }
 
 
+    public function get_files_by_resource_id($resource_id){
+        $where_arr = [
+            ['f.resource_id=%u', $resource_id, -1],
+            'f.status=0',
+            'r.is_del=0',
+            'r.resource_type in (1,2,3)',
+        ];
+        $sql = $this->gen_sql_new("select file_title,file_link,file_type,file_id,file_use_type"
+                                  ." from %s f"
+                                  ." left join %s r on r.resource_id=f.resource_id"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_resource::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
+    public function getResoureList($resource_id){
+        $where_arr = [
+            "rf.resource_id=$resource_id",
+            "rf.status=0",
+            "rf.file_use_type=1"
+        ];
+
+        $sql = $this->gen_sql_new("  select rf.file_title, rf.file_type, rf.file_link from %s rf "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

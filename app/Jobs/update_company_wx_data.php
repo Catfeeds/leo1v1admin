@@ -240,10 +240,11 @@ class update_company_wx_data extends Job implements ShouldQueue
                 $perm = @$tag[$tag_users[$item['userid']]['id']]['not_leader_power'];
             }
             if ($perm) {
-                if ($item['power']) $perm = $item['power'].',';
+                //if ($item['power']) $perm = $item['power'].',';
                 $perm = substr($perm,0,-1);
                 $perm = explode(',', $perm);
-                array_unique($perm);
+                $perm = array_unique($perm);
+                $perm = array_filter($perm);
                 $perm = implode(',', $perm);
                 $t_manager_info->field_update_list($item['uid'], [
                     'power' => $perm

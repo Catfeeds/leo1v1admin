@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+//__CMD: 0x1011 
+//__DESC: 用户注册
+//__TAGS: for_app
+
+message in  {
+  string phone = 1; //电话
+}
+
+message out {
+  int32  id = 1 ;
+}

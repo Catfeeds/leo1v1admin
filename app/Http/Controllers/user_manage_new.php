@@ -121,9 +121,13 @@ class user_manage_new extends Controller
         $ret_list = $this->t_lesson_info->get_tea_confirm_lesson_list($start_time,$end_time,$teacher_money_type);
 
         foreach($ret_list['list'] as &$item ){
-            $item["teacher_nick"] =$this->cache_get_teacher_nick($item["teacherid"]);
             E\Eteacher_money_type::set_item_value_str($item);
+            E\Esubject::set_item_value_str($item);
+            $item['lesson_count'] /= 100;
+            $item['trial_lesson_count'] /= 100;
+            $item['normal_lesson_count'] /= 100;
         }
+
         return $this->Pageview(__METHOD__,$ret_list );
     }
 
@@ -1241,23 +1245,24 @@ class user_manage_new extends Controller
                             $item3['id'] = $k3;
                             $item3['pId'] = $k2;
                             $check3 = false;
+                            //echo $item['']
                             if (isset($power_map[$item3['page_id']]) && $power_map[$item3['page_id']]) {
-                                $check = true;
+                                $check3 = true;
                                 $k ++;
                             }
                             $item3['checked'] = $check3;
                             unset($item3['url']);
                             $info[] = $item3;
-                            // $i ++;
-                            // if ($len2 == $k) {
-                            //     $item2['checked'] = $check2;
-                            //     $j ++;
-                            // }
+                            $i ++;
+                            if ($len2 == $k) {
+                                $item2['checked'] = true;
+                                $j ++;
+                            }
                         }
                     }
-                    // if ($len1 == $j) {
-                    //     $item['checked'] = $check1;
-                    // }
+                    if ($len1 == $j) {
+                        $item['checked'] = true;
+                    }
                     $info[] = $item2;
                 }
                 
@@ -2506,6 +2511,7 @@ class user_manage_new extends Controller
     }
 
     public function month_user_info() {
+        $this->check_and_switch_tongji_domain();
         $year=$this->get_in_int_val("year","2016");
         $month=$this->get_in_int_val("month","5");
         $start_time=strtotime( "$year-$month-01");
@@ -3846,8 +3852,25 @@ class user_manage_new extends Controller
         $list = \App\Helper\Utils::list_to_page_info($list);
         $info = [];
         if ($type == E\Ereward_type::V_6 && $teacherid > 0) {
-            // 在校学生总数
-            $info['stu_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, 0);
+            //$info['stu_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, 0);
+            $teacher = $this->t_teacher_info->field_get_list($teacherid, "phone,teacher_type");
+            if ($teacher['teacher_type'] == 21 || $teacher['teacher_type'] == 22) {
+                $info['msg'] = '特殊渠道-工作室';
+            }
+
+            if ($teacherid == 420745 || $teacherid == 437138) {
+                $info['msg'] = '15333268257 和  李桂荣两位老师12月后的伯乐奖关掉';
+            } elseif ($teacherid == 274115) {
+                $info['msg'] = 'join中国的伯乐奖都是60元/个';
+            } elseif ($teacherid == 149697) {
+                $info['msg'] = '明日之星的伯乐奖都是50元/个';
+            } elseif ($teacherid == 176348) {
+                $info['msg'] = '特殊渠道-田克平';
+            }
+            $start_time = strtotime('2015-1-1');
+            $end_time = time();
+            $info['stu_sum'] = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher['phone'], 0);
+
             if ($teacherid == 269222) { // 处理赵志园二个账号
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459, 0);
                 $info['stu_sum'] += $num;
@@ -3857,7 +3880,8 @@ class user_manage_new extends Controller
             if ($info['stu_sum'] > 20) $info['stu_reward'] = 50;
             if ($info['stu_sum'] > 30) $info['stu_reward'] = 60;
             // 机构老师总数
-            $info['tea_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid);
+            //$info['tea_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid);
+            $info['tea_sum'] = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher['phone'], 1);
             if ($teacherid == 269222) { // 处理赵志园二个账号
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459);
                 $info['tea_sum'] += $num;
@@ -5323,11 +5347,16 @@ class user_manage_new extends Controller
             //     ]);
             //     continue;
             // }
-            $type = 1;
-            if ($item['identity'] == 0 || $item['identity'] == 8) {
-                $type = 0;
+            $type = 0;
+            if ($item['identity'] == 5 || $item['identity'] == 6) {
+                $type = 1;
             }
-            $num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type, $item['add_time']);
+            $start_time = strtotime("2015-1-1");
+            $end_time = time();
+            $phone = $this->t_teacher_info->field_get_list($teacherid, "phone");
+            $num = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $phone, $type);
+
+            //$num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type, $item['add_time']);
             $reward = $this->ret_reward($num, $type);
             if ($reward != $item['money']) {
                 $this->t_teacher_money_list->field_update_list($item['id'],[

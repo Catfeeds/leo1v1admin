@@ -3,7 +3,6 @@
 
 
 **  设置 Job 处理
-   
   sudo cp ./install_files/laravel-worker.conf /etc/supervisor/conf.d/
   sudo  sed -i -e "s/ybai/$USER/" /etc/supervisor/conf.d/laravel-worker.conf
   sudo /etc/init.d/supervisor restart 
@@ -41,14 +40,12 @@
   cd ./table_config/  && ./_z_gen_table dev
   目录
 
-  mkdir  -p ./storage/{app,framework/{cache,sessions,views,views-testing},logs}
-
+  mkdir  -p ./storage/{app,framework/{cache,sessions,views,views-testing},logs} 
   文件权限
   chmod a+wr -R ./storage/ ./bootstrap/cache ./public/page_ts/g_args.d.ts
 
 
 * nginx 配置
-
   sudo ln -s ~/admin_yb1v1 /var/www/admin.yb1v1.com
 
   cd ~/admin_yb1v1

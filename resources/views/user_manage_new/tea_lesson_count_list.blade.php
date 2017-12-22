@@ -24,34 +24,34 @@
                 <tr>
                     <td >老师id</td>
                     <td >昵称</td>
+                    <td >科目</td>
                     <td >老师工资类型</td>
-                    <td >消耗课时数</td> 
-                    <td >课次统计</td> 
-                    <td >学生数</td> 
-                    <td >阶梯1</td> 
-                    <td >阶梯2</td> 
+                    <td >总课时数</td>
+                    <td >常规课时数</td>
+                    <td >试听课时数</td>
+                    <td >课次统计</td>
+                    <td >学生数</td>
                     <td >操作</td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($table_data_list as $var)
-				    <tr>
+				            <tr>
                         <td >{{$var["teacherid"]}}</td>
-                        <td >{{$var["teacher_nick"]}}</td>
+                        <td >{{$var["realname"]}}</td>
+                        <td >{{$var["subject_str"]}}</td>
                         <td >{{$var["teacher_money_type_str"]}}</td>
-                        <td >{{$var["lesson_count"]/100}}</td>
+                        <td >{{$var["lesson_count"]}}</td>
+                        <td >{{$var["normal_lesson_count"]}}</td>
+                        <td >{{$var["trial_lesson_count"]}}</td>
                         <td >{{$var["count"]}}</td>
                         <td >{{$var["stu_num"]}}</td>
-                        <td ></td> 
-                        <td ></td> 
                         <td >
-                            <div class="btn-group"
-                                 data-teacherid="{{$var["teacherid"]}}" 
-                                 >
+                            <div class="btn-group" data-teacherid="{{$var["teacherid"]}}" >
                                 <a class=" fa-list-alt opt-show-lesson-list" title="显示对应课程列表"></a>
                             </div>
                         </td>
-				    </tr>
+				            </tr>
                 @endforeach
             </tbody>
         </table>

@@ -240,7 +240,59 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $this->set_admin_info(0,[$userid],60,60);
         }
 
+        //美团-1230
+        if($origin == '美团-1230'){
+            $tong_count = 0;
+            $tao_count = 0;
+            $count = $this->get_meituan_count_by_adminid();
+            foreach($count as $item){
+                if($item['adminid'] == 416){
+                    $tong_count += 1;
+                }else{
+                    $tao_count += 1;
+                }
+            }
+            if($tong_count>$tao_count){
+                $adminid = 1200;
+                $account = '陶建华';
+            }else{
+                $adminid = 416;
+                $account = '童宇周';
+            }
+            $this->field_update_list($userid,[
+                "admin_assignerid"  => 0,
+                "sub_assign_adminid_1"  => $adminid,
+                "sub_assign_time_1"  => time(),
+                "admin_revisiterid"  => $adminid,
+                "admin_assign_time"  => time(),
+            ]);
+            $this->task->t_book_revisit->add_book_revisit(
+                $phone,
+                "操作者: 系统 状态: 分配给总监 [ $account ] ",
+                "system"
+            );
+            // $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
+            $this->task->t_manager_info->send_wx_todo_msg('tom',"来自:系统","分配给[$account]的'$origin'例子:".$phone);
+        }
+
         return $userid;
+    }
+
+    public function get_meituan_count_by_adminid(){
+        $where_arr=[
+            "s.origin = '美团-1230'",
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr,'n.sub_assign_adminid_1',[416,1200]);
+        $sql=$this->gen_sql_new(
+            "select n.userid,n.sub_assign_adminid_1 adminid "
+            ." from %s n "
+            ." left join %s s on s.userid = n.userid "
+            ." where %s "
+            , self::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
     public function get_tmk_student_list (
@@ -936,7 +988,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }elseif($opt_type == 3){//tmk
                 $hand_get_adminid = E\Ehand_get_adminid::V_4;
             }
-            $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
+            $up_adminid=$this->task->t_admin_group_user->get_master_adminid($opt_adminid);
             $sub_assign_adminid_1 =$this->t_admin_main_group_name->get_up_group_adminid($up_adminid);
             $set_arr=[
                 "admin_assignerid"  => $self_adminid,
@@ -972,7 +1024,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
             $this->t_test_lesson_subject->set_seller_require_adminid([$userid] , $opt_adminid );
 
-            $ret_update = $this->t_book_revisit->add_book_revisit(
+            $ret_update = $this->task->t_book_revisit->add_book_revisit(
                 $phone,
                 "操作者: $account 状态: 分配给组员 [ $opt_account ] ",
                 "system"
@@ -1213,8 +1265,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         //S,A,B级3h前进来的已设置/27h前进来的所有,其他级别6h前进来的已设置/30h前进来的所有
         $check_no_call_time_str="((origin_level >0  and n.add_time < $before_24_time )  or ( n.add_time < $before_48_time))";
         \App\Helper\Utils::logger( "seller_level_flag:".$seller_level_flag);
-        E\Eseller_level::V_300;
-        E\Eorigin_level::V_3;
+        // E\Eseller_level::V_300;
+        // E\Eorigin_level::V_3;
         switch ( $seller_level_flag ) {
         case 1 :  //S级:所有
         case 2 :  //A级:已设置/3h前进来的已设置/27h前进来的所有
@@ -1659,7 +1711,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public  function sync_tq($phone,$tq_called_flag,$call_time,$tquin=0) {
+    public function sync_tq($phone,$tq_called_flag,$call_time,$tquin=0) {
         $userid=$this->get_userid_by_phone($phone);
         $admin_info=$this->t_manager_info->get_info_by_tquin($tquin,"uid");
         if($userid && $admin_info)  {
@@ -3178,6 +3230,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $sql = "select last_revisit_time from db_weiyi.t_seller_student_new where phone= $phone ";
         return $this->main_get_value($sql);
     }
+
     public function update_cc_no_called_count_new($phone,$total){
         $sql = "update db_weiyi.t_seller_student_new set cc_no_called_count_new = $total where phone = $phone ";
         return $this->main_update($sql);
@@ -3226,5 +3279,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
 
+
+    
 
 }

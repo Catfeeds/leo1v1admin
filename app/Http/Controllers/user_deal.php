@@ -855,7 +855,7 @@ class user_deal extends Controller
         $contract_type = $order_item["contract_type"];
         $lesson_total  = $order_item["lesson_total"];
         $price         = $order_item["price"]/100;
-        if($contract_type==0 &&  $check_money_flag == 1){ //
+        if($contract_type==0 &&  $check_money_flag == 1){
             $start_time            = strtotime(date("Y-m-d"));
             $end_time              = $start_time+20*86400-1;
             // $seller_new_count_type = E\Eseller_new_count_type::V_ORDER_ADD ;
@@ -863,7 +863,7 @@ class user_deal extends Controller
             $value_ex              = $orderid;
             $adminid               = $this->t_manager_info->get_id_by_account($sys_operator);
             if (!$flowid  ){
-                if ( $price<10000) {
+                if ( $price<10000){
                     $count=3;
                 }else{
                     $count=5;
@@ -884,14 +884,14 @@ class user_deal extends Controller
                         $this->t_manager_info->send_wx_todo_msg(
                             '龚隽',
                             "CC:".$sys_operator,
-                            "公海签单赠送 抢新生名额[$count] ",
+                            "公海签单[$phone]赠送 抢新生名额[$count]个 ",
                             "学生:". $this->cache_get_student_nick($userid),
                             ""
                         );
                         $this->t_manager_info->send_wx_todo_msg(
                             'tom',
                             "CC:".$sys_operator,
-                            "公海签单赠送 抢新生名额[$count]",
+                            "公海签单[$phone]赠送 抢新生名额[$count]个 ",
                             "学生:". $this->cache_get_student_nick($userid),
                             ""
                         );
@@ -911,7 +911,6 @@ class user_deal extends Controller
         $account = $this->get_in_str_val("account");
         $this->t_student_info->noti_ass_order($userid,$account);
         return $this->output_succ();
-
     }
 
     public function update_admin_assign_percent(){
@@ -1238,18 +1237,22 @@ class user_deal extends Controller
     }
 
     public function origin_get_key_list() {
+        $key0=$this->get_in_str_val("key0");
         $key1=$this->get_in_str_val("key1");
         $key2=$this->get_in_str_val("key2");
         $key3=$this->get_in_str_val("key3");
-        $key_str="key1";
+        $key_str="key0";
         if ($key3){
             $key_str="key4";
         }else  if ($key2){
             $key_str="key3";
         }else  if ($key1){
             $key_str="key2";
+        }elseif($key0){
+            $key_str="key1";
         }
-        $list=$this->t_origin_key->get_key_list($key1,$key2,$key3,$key_str);
+        \App\Helper\Utils::logger("key_str $key_str ");
+        $list=$this->t_origin_key->get_key_list($key1,$key2,$key3,$key_str,$key0);
         $list=\App\Helper\Common::sort_pinyin($list,"k");
         $last_level=$this->t_origin_key->get_last_level( $key1, $key2 );
 
@@ -1281,24 +1284,30 @@ class user_deal extends Controller
 
 
     public function origin_init_key_list() {
+        $key0=$this->get_in_str_val("key0");
         $key1=$this->get_in_str_val("key1");
         $key2=$this->get_in_str_val("key2");
         $key3=$this->get_in_str_val("key3");
 
-        $key1_list=$this->t_origin_key->get_key_list("","","","key1");
+        $key0_list=$this->t_origin_key->get_key_list("","","","key0");
+        $key1_list=[];
         $key2_list=[];
         $key3_list=[];
         $key4_list=[];
-        if ( $key1 ) {
-            $key2_list=$this->t_origin_key->get_key_list($key1,"","","key2");
-            if ($key2) {
-                $key3_list=$this->t_origin_key->get_key_list($key1,$key2,"","key3");
-                if ($key3) {
-                    $key4_list=$this->t_origin_key->get_key_list($key1,$key2,$key3,"key4");
+        if($key0){
+            $key1_list=$this->t_origin_key->get_key_list("","","","key1",$key0);
+            if ( $key1 ) {
+                $key2_list=$this->t_origin_key->get_key_list($key1,"","","key2",$key0);
+                if ($key2) {
+                    $key3_list=$this->t_origin_key->get_key_list($key1,$key2,"","key3",$key0);
+                    if ($key3) {
+                        $key4_list=$this->t_origin_key->get_key_list($key1,$key2,$key3,"key4",$key0);
+                    }
                 }
             }
         }
         return $this->output_succ([
+            "key0_list"=>$key0_list,
             "key1_list"=>$key1_list,
             "key2_list"=>$key2_list,
             "key3_list"=>$key3_list,
@@ -2251,8 +2260,8 @@ class user_deal extends Controller
         $group_name = '';
         if ($db_groupid ) {//
             $group_name=$this->t_admin_group_name->get_group_name_by_groupid($db_groupid);
-            $this->t_admin_group_user->row_delete_2( $db_groupid, $adminid);
-            // return $this->output_err("此人已在[$group_name]中,不能添加");
+            // $this->t_admin_group_user->row_delete_2( $db_groupid, $adminid);
+            return $this->output_err("此人已在[$group_name]中,不能添加");
         }
 
         $this->t_admin_group_user->row_insert([
@@ -2278,12 +2287,12 @@ class user_deal extends Controller
         $month = strtotime($this->get_in_str_val("start_time"));
 
         $db_groupid=$this->t_group_user_month->get_groupid_by_adminid($main_type,$adminid,$month);
-        if ($db_groupid ) {//
+        if ($db_groupid ) {
             $group_name=$this->t_group_name_month->get_group_name($db_groupid,$month);
-            return $this->output_err("此人已在[$group_name]中,不能添加");
+            return $this->output_err("此人已在".date('Y-m',$month)."月[$group_name]中,不能添加");
         }
 
-       $this->t_group_user_month->row_insert([
+        $this->t_group_user_month->row_insert([
             "groupid"   => $groupid,
             "adminid"   => $adminid,
             "month"     => $month
@@ -2638,8 +2647,7 @@ class user_deal extends Controller
         $acc = $this->get_account();
 
         $lesson_confirm_start_time=\App\Helper\Config::get_lesson_confirm_start_time();
-
-        if($acc != "jim" && $acc != "adrian" && $acc != "cora" ) {
+        if($acc != "jim" && $acc != "adrian" ) {
             if(!$this->t_order_info->has_1v1_order($userid)) {
                 return $this->output_err("有合同了,不能修改年级,找jim处理");
             }else{
@@ -3978,6 +3986,10 @@ class user_deal extends Controller
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $adminid=$this->get_in_adminid();
         $month= date("Ym",$start_time);
+
+        $group_kpi['group_kpi'] = '';
+        $group_kpi['group_kpi_desc'] = '';
+
         switch ( $month ) {
         case "201702" :
         case "201703" :
@@ -4001,6 +4013,7 @@ class user_deal extends Controller
                 "201710", $adminid, $start_time, $end_time );
             break;
         default:
+            $group_kpi = \App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_cur_info(
                 $adminid, $start_time, $end_time ) ;
             break;
@@ -4128,6 +4141,8 @@ class user_deal extends Controller
                 break;
             }
         }
+        $arr['group_kpi'] = isset($group_kpi['group_kpi'])?$group_kpi['group_kpi']:'';
+        $arr['group_kpi_desc'] = isset($group_kpi['group_kpi_desc'])?$group_kpi['group_kpi_desc']:'';
 
         return $this->output_succ($arr);
     }
@@ -4623,7 +4638,7 @@ class user_deal extends Controller
                 "courseware_requirements"=>$courseware_requirements,
                 "diathesis_cultivation"=>$diathesis_cultivation,
             ];
-            $this->set_teacher_label_new($teacherid,$lessonid,"",$tea_tag_arr,5,1,1); 
+            $this->set_teacher_label_new($teacherid,$lessonid,"",$tea_tag_arr,5,1,1);
 
             $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"理优教育","教学质量反馈待处理",$account."老师提交了一条教学质量反馈,请尽快处理","http://admin.leo1v1.com/tea_manage_new/get_seller_ass_record_info?id=".$id);
 
@@ -5582,7 +5597,6 @@ class user_deal extends Controller
         }
 
         $data['post_time'] = time(NULL);
-
         $data['cc_id']     = $cc_id;
         $data["call_time"] = strtotime($data["call_time"]);
         $data["first_lesson_time"] = strtotime($data["first_lesson_time"]);
@@ -5694,7 +5708,7 @@ class user_deal extends Controller
             "init_info_pdf_url"   =>  "true",
             "seller_adminid" => $this->get_account_id(),
         ]);
-
+        $this->t_seller_student_new->field_update_list($userid,['hold_flag'=>0]);
         //记录数据
         $phone = $this->t_student_info->get_phone($userid);
         $nick = $this->t_student_info->get_nick($userid);
@@ -5908,7 +5922,7 @@ class user_deal extends Controller
     public function set_train_lesson_recover(){
         $id = $this->get_in_int_val("id");
         $this->t_teacher_record_list->field_update_list($id,[
-            "trial_train_status" =>0 
+            "trial_train_status" =>0
         ]);
         return $this->output_succ();
     }
@@ -5943,8 +5957,14 @@ class user_deal extends Controller
 
     public function get_train_lesson_comment(){
         $lessonid = $this->get_in_int_val("lessonid",281011);
-        $stu_comment = $this->t_lesson_info->get_stu_comment($lessonid);
-        $arr= json_decode($stu_comment,true);
+        $lesson_type = $this->get_in_int_val("lesson_type");
+        if($lesson_type==2){
+            $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+            $arr = $this->t_test_lesson_subject_require->field_get_list($require_id,"stu_lesson_content,stu_lesson_status,stu_study_status ,stu_advantages,stu_disadvantages ,stu_lesson_plan ,stu_teaching_direction,stu_textbook_info ,stu_teaching_aim ,stu_lesson_count ,stu_advice ");
+        }else{
+            $stu_comment = $this->t_lesson_info->get_stu_comment($lessonid);
+            $arr= json_decode($stu_comment,true);
+        }
         return $this->output_succ(["data"=>$arr]);
     }
 

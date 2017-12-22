@@ -1,8 +1,5 @@
 /// <reference path="../typings/tsd.d.ts" />
 $(function () {
-
-
-
     $(".opt-update-news2").on("click", function () {
         var phone = $(this).get_opt_data("phone");
         do_ajax("/seller_student/get_user_info", {
@@ -132,6 +129,7 @@ $(function () {
 
     //多级搜索
     $("#id_origin_ex").on("click", function () {
+        var $key0 = $("<select/>");
         var $key1 = $("<select/>");
         var $key2 = $("<select/>");
         var $key3 = $("<select/>");
@@ -146,15 +144,21 @@ $(function () {
         key_list = key_list.split(",");
         //处理key
         do_ajax("/user_deal/origin_init_key_list", {
-            "key1": key_list[0],
-            "key2": key_list[1],
-            "key3": key_list[2]
+            "key0": key_list[0],
+            "key1": key_list[1],
+            "key2": key_list[2],
+            "key3": key_list[3]
         }, function (ret) {
+            clean_select($key0);
             clean_select($key1);
             clean_select($key2);
             clean_select($key3);
             clean_select($key4);
 
+            $.each(ret.key0_list, function () {
+                var v = this.k;
+                $key0.append("<option value=\"" + v + "\">" + v + "</option>");
+            });
             $.each(ret.key1_list, function () {
                 var v = this.k;
                 $key1.append("<option value=\"" + v + "\">" + v + "</option>");
@@ -173,16 +177,18 @@ $(function () {
                 var v = this.k;
                 $key4.append("<option value=\"" + v + "\">" + v + "</option>");
             });
-            $key1.val(key_list[0]);
-            $key2.val(key_list[1]);
-            $key3.val(key_list[2]);
-            $key4.val(key_list[3]);
+            $key0.val(key_list[0]);
+            $key1.val(key_list[1]);
+            $key2.val(key_list[2]);
+            $key3.val(key_list[3]);
+            $key4.val(key_list[4]);
         });
 
 
 
-        var set_select = function ($select, key1, key2, key3) {
+        var set_select = function ($select, key1, key2, key3,key0) {
             do_ajax("/user_deal/origin_get_key_list", {
+                "key0": key0,
                 "key1": key1,
                 "key2": key2,
                 "key3": key3
@@ -198,13 +204,22 @@ $(function () {
 
         };
 
+        $key0.on("change", function () {
+            clean_select($key1);
+            clean_select($key2);
+            clean_select($key3);
+            clean_select($key4);
+            if ($key0.val()) {
+                set_select($key1, "", "", "",$key0.val());
+            }
+        });
 
         $key1.on("change", function () {
             clean_select($key2);
             clean_select($key3);
             clean_select($key4);
             if ($key1.val()) {
-                set_select($key2, $key1.val(), "", "");
+                set_select($key2, $key1.val(), "", "",$key0.val());
             }
         });
 
@@ -212,18 +227,19 @@ $(function () {
             clean_select($key3);
             clean_select($key4);
             if ($key2.val()) {
-                set_select($key3, $key1.val(), $key2.val(), "");
+                set_select($key3, $key1.val(), $key2.val(), "",$key0.val());
             }
         });
         $key3.on("change", function () {
             clean_select($key4);
             if ($key3.val()) {
-                set_select($key4, $key1.val(), $key2.val(), $key3.val());
+                set_select($key4, $key1.val(), $key2.val(), $key3.val(),$key0.val());
             }
         });
 
 
         var arr = [
+            ["零级", $key0],
             ["一级", $key1],
             ["二级", $key2],
             ["三级", $key3],
@@ -235,6 +251,7 @@ $(function () {
             cssClass: 'btn-warning',
             action: function (dialog) {
                 var arr = [];
+                arr.push($key0.val());
                 arr.push($key1.val());
                 arr.push($key2.val());
                 arr.push($key3.val());

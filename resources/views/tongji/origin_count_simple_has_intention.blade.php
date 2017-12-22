@@ -168,6 +168,7 @@
                 <table class="common-table   ">
                     <thead>
                         <tr>
+                            <td >key0</td>
                             <td >key1</td>
                             <td >key2</td>
                             <td >key3</td>
@@ -205,10 +206,11 @@
                     <tbody>
                         @foreach ($table_data_list as $var)
                             <tr class="{{@$var["level"]}}">
-                                <td data-class_name="{{$var["key1_class"]}}" class="key1" >{{$var["key1"]}}</td>
-                                <td data-class_name="{{$var["key2_class"]}}" class=" key2  {{$var["key1_class"]}}  {{$var["key2_class"]}} " >{{$var["key2"]}}</td>
-                                <td data-class_name="{{$var["key3_class"]}}" class="key3  {{$var["key2_class"]}} {{$var["key3_class"]}}  "  >{{$var["key3"]}}</td>
-                                <td data-class_name="{{$var["key4_class"]}}" class="key4   {{$var["key3_class"]}} {{$var["key4_class"]}}"  >{{$var["key4"]}}</td>
+                                <td data-class_name="{{@$var["key0_class"]}}" class="key0" >{{@$var["key0"]}}</td>
+                                <td data-class_name="{{@$var["key1_class"]}}" class="key1 {{@$var["key0_class"]}}  {{@$var["key1_class"]}}" >{{@$var["key1"]}}</td>
+                                <td  data-class_name="{{@$var["key2_class"]}}" class=" key2  {{@$var["key1_class"]}}  {{@$var["key2_class"]}} " >{{@$var["key2"]}}</td>
+                                <td data-class_name="{{@$var["key3_class"]}}" class="key3  {{@$var["key2_class"]}} {{@$var["key3_class"]}}  "  >{{@$var["key3"]}}</td>
+                                <td data-class_name="{{@$var["key4_class"]}}" class="key4   {{@$var["key3_class"]}} {{@$var["key4_class"]}}"  >{{@$var["key4"]}}</td>
                                 @if($origin_type)
                                     <td ><a target="_blank" href="http://admin.leo1v1.com/agent/agent_list_new?start_time={{@$start_time}}&end_time={{@$end_time}}">{{@$var["all_count"]}}</a></td>
                                     <td ><a target="_blank" href="http://admin.leo1v1.com/agent/agent_list_new?type=2&start_time={{@$start_time}}&end_time={{@$end_time}}">{{@$var["assigned_count"]}}</a></td>

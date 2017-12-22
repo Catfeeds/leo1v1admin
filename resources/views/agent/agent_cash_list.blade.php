@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-    <section class="content ">
+    <section class="content " style="overflow-x:scroll;">
 
         <div>
             <div class="row  row-query-list" >
@@ -92,7 +92,7 @@
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
-                    <tr @if(@$var['cash'] > @$var['all_open_cush_money']) style="color:red;" @endif>
+                    <tr @if(@$var['check_money_flag'] == 0 && @$var['cash']+@$var["all_have_cush_money"] > @$var['all_open_cush_money']) style="color:red;" @endif>
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var["nickname"]}} </td>
                         <td>{{@$var["phone"]}} </td>

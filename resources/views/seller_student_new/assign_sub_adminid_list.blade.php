@@ -377,9 +377,7 @@
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
                     </td>
                     <td style="width:60px">时间</td>
-                    <td style="display:none;">手机号</td>
                     <td >基本信息</td>
-                    <td >地区</td>
                     <td >来源</td>
                     <td >回访间隔</td>
                     @if ($show_list_flag==0)
@@ -415,15 +413,14 @@
                             <input type="checkbox" class="opt-select-item" data-userid="{{$var["userid"]}}"/>   {{$var["index"]}}
                         </td>
                         <td>{{$var["opt_time"]}} </td>
-                        <td>{{$var["phone"]}} </td>
                         <td>
-                            {{$var["phone"]}} <br/>
+                            <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
+                                {{@$var["phone_hide"]}}
+                            </a>
                             {{$var["phone_location"]}} <br/>
                             {{$var["nick"]}} <br/>
                             {{$var["seller_resource_type_str"]}}
                         </td>
-                        <td>{{$var["phone_location"]}} </td>
-
                         <td>
                             @if  ($var["origin_assistantid"]==0)
                                 {{$var["origin"]}} ({{$var["origin_level_str"]}})/{{$var["nickname"]}} <br/>

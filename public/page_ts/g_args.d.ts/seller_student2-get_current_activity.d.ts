@@ -46,10 +46,11 @@ tofile:
 /// <reference path="../g_args.d.ts/seller_student2-get_current_activity.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		id_open_flag:	$('#id_id_open_flag').val()
-    });
+		});
 }
 $(function(){
 
@@ -71,4 +72,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_id_open_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["id_open_flag title", "id_open_flag", "th_id_open_flag" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

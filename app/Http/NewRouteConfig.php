@@ -54,6 +54,7 @@ class NewRouteConfig {
         "resource"=>true,
         'test_bacon'=>true,
         'question_new'=>true,
+        'question_new_api'=>true,
     ];
 
     static public function check_is_new_ctl($ctl) {
@@ -98,6 +99,13 @@ class NewRouteConfig {
         "/teacher_info/grab_visit_info"           => true,
         "/teacher_info/tea_resource"              => true,
         "/teacher_info/tea_edit_dir"              => true,
+        "/teacher_info/tea_edit_file"             => true,
+        "/teacher_info/del_dir_or_file"           => true,
+        "/teacher_info/rename_dir_or_file"        => true,
+        "/teacher_info/tea_file_reupload"         => true,
+        "/teacher_info/tea_look_resource"         => true,
+        "/teacher_info/get_res_files_js"          => true,
+        "/teacher_info/get_all_dir_js"            => true,
         "/teacher_info/get_leo_resource"          => true,
         "/teacher_info/do_collect"                => true,
         "/lesson_manage/stu_status_count"         => true,
@@ -424,6 +432,7 @@ class NewRouteConfig {
 
         "/question_new/question_list"              => true,
         "/question_new/knowledge_list"              => true,
+        "/question_new/knowledge_get"              => true,
         "/question_new/question_know_list"              => true,
         "/question_new/answer_list"              => true,
         "/question_new/question_add"              => true,
@@ -436,9 +445,16 @@ class NewRouteConfig {
         "/question_new/answer_add"              => true,
         "/question_new/answer_edit"              => true,
         "/question_new/answer_dele"              => true,
-        "/question_new/question_know_get"        => true,
-        "/question_new/question_know_add"        => true,
-        "/question_new/question_know_dele"        => true,
+        "/question_new/textbook_knowledge_list"        => true,
+        "/question_new/textbook_knowledge_add"        => true,
+        "/question_new/textbook_list"        => true,
+        "/question_new/textbook_add"        => true,
+        "/question_new/textbook_dele"        => true,
+        "/question_new/question_type_list"        => true,
+        "/question_new/question_type_add"        => true,
+        "/question_new/question_type_dele"        => true,
+        "/question_new/answer_type_list"        => true,
+        "/question_new/answer_type_add"        => true,
 
         "/seller_student_new/tmk_seller_student_new"  => true,
         "/seller_student2/show_order_activity_info"  => true,
@@ -457,7 +473,8 @@ class NewRouteConfig {
         "/seller_student2/get_current_activity"  => true,
         "/seller_student2/update_power_value"  => true,
         "/seller_student2/get_all_activity"  => true,
-        "/test_bacon/power_group_edit"  => true,
+        "/test_bacon/get_power"  => true,
+        "/test_bacon/download_power"  => true,
         "/appoint/index2"                  => true,
         "/appoint/get_package_simple_info" => true,
         "/appoint/get_package_pic"         => true,
@@ -661,6 +678,15 @@ class NewRouteConfig {
         "/channel_manage/update_channel_name"            => true,
         "/channel_manage/set_teacher_ref_type"           => true,
         "/channel_manage/zs_origin_list_new"             => true,
+
+        "/question_new_api/get_agent_id"        =>true,
+        "/question_new_api/get_grade_and_subject"        =>true,
+        "/question_new_api/get_textbook_subject"         =>true,
+        "/question_new_api/get_textbook_knowledge"       =>true,
+        "/question_new_api/get_question_type_and_resource"  =>true,
+        "/question_new_api/get_questions"                =>true,
+        "/question_new_api/get_answers"                  =>true,
+        "/question_new_api/save_answers"                 =>true,
 
     ];
 

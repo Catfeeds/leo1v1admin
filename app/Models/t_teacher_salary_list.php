@@ -33,9 +33,9 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
         if ($teacherid != -1) {
             array_push($where_arr, ["t.teacherid=%u", $teacherid, -1]);
         }
-        if ($teacher_type == 1) {
+        if ($teacher_type == 1) { // 全职老师
             array_push($where_arr, "t.teacher_money_type=7 or (t.teacher_type=3 and t.teacher_money_type=0)");
-        } elseif ($teacher_type == 2) {
+        } elseif ($teacher_type == 2) { // 兼职老师
             array_push($where_arr, "t.teacher_money_type != 7 and (t.teacher_type != 3 or t.teacher_money_type != 0)");
         }
         $sql = $this->gen_sql_new("select ts.id,ts.pay_time,ts.add_time,"
@@ -73,6 +73,20 @@ class t_teacher_salary_list extends \App\Models\Zgen\z_t_teacher_salary_list
     public function get_teacher_money_info() {
         $sql = $this->gen_sql_new("select teacher_money_type,teacher_type,realname,teacherid from %s where is_test_user=0", t_teacher_info::DB_TABLE_NAME);
         return $this->main_get_list($sql);
+    }
+
+    // 全转兼 更新时间
+    public function get_id_for_time($teacherid, $start_time, $end_time) {
+        $where_arr = [
+            ['teacherid=%u', $teacherid, 0],
+            ['add_time>=%u', $start_time, 0],
+            ['add_time<%u', $end_time, 0],
+        ];
+        $sql = $this->gen_sql_new("select id from %s where %s ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
     }
 
 

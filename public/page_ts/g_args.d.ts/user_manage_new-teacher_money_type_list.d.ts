@@ -30,11 +30,12 @@ tofile:
 /// <reference path="../g_args.d.ts/user_manage_new-teacher_money_type_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		teacher_money_type:	$('#id_teacher_money_type').val(),
 		level:	$('#id_level').val()
-    });
+		});
 }
 $(function(){
 
@@ -57,6 +58,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_teacher_money_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teacher_money_type title", "teacher_money_type", "th_teacher_money_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -64,4 +66,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_level" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["level title", "level", "th_level" ]])!!}
 */

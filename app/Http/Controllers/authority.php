@@ -57,7 +57,6 @@ class authority extends Controller
         $this->get_in_int_val("assign_account_role",-1);
 
         $creater_adminid=$this->get_in_int_val("creater_adminid",-1);
-
         $adminid           = $this->get_in_adminid(-1);
         $uid               = $this->get_in_int_val('uid',0);
         $user_info         = trim($this->get_in_str_val('user_info',''));
@@ -121,11 +120,8 @@ class authority extends Controller
             }
             E\Eboolean::set_item_value_simple_str($item,"day_new_user_flag");
         }
-        $acc= $this->get_account();
 
-        return $this->pageView(__METHOD__,$ret_info,[
-            "acc"  =>$acc
-        ]);
+        return $this->pageView(__METHOD__,$ret_info);
     }
 
     public function update_lesson_call_end_time(){
@@ -281,6 +277,18 @@ class authority extends Controller
         $this->t_manager_info->sync_kaoqin_user($uid);
         $account_role = $this->t_manager_info->get_account_role($uid);
         $phone = $this->t_manager_info->get_phone($uid);
+
+
+        /**
+         * @ 离职后邮箱密码重置
+         */
+        $pwd = mt_rand(0,1000000)."_bydelete";
+        $email = $this->t_manager_info->get_email($uid);
+        $zmcmd = "zmprov sp $email $pwd &>/dev/null ;";
+        $cmd="sshpass -p\"yb142857\" ssh -2  -o \"StrictHostKeyChecking no\" -p22 -l\"zimbra\" 115.28.89.73   \"   $zmcmd \"";
+        \App\Helper\Utils::exec_cmd($cmd);
+
+
         /**
          * 助教和销售离职,需要把其老师账号设为离职
          * 其他角色离职,需要手动设置其老师账号是否离职

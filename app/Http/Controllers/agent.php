@@ -62,8 +62,10 @@ class agent extends Controller
         $agent_total_num = $ret_info['total_num'];
         return $this->pageView(__METHOD__,$ret_info,['agent_total_num'=>$agent_total_num]);
     }
+
     //@desn:学员列表
     public function student_list() {
+        $this->check_and_switch_tongji_domain();
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $userid           = $this->get_in_userid(-1);
         $phone            = $this->get_in_phone();
@@ -415,6 +417,7 @@ class agent extends Controller
     }
 
     public function check(){
+        E\Eseller_level::V_700;
         $page_info = $this->get_in_page_info();
         $grade = $this->get_in_int_val("grade",-1);
         $subject = $this->get_in_int_val("subject",-1);
@@ -453,6 +456,37 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $this->t_student_cc_to_cr->row_insert($arr);
+        $ret = $this->t_seller_student_new->field_update_list($userid=62721,['hold_flag'=>0]);
+        dd($ret);
+        $duration= strtotime("1970-01-01 00:00:00");//3600*8
+        dd($duration);
+        dd($tong_count,$tao_count,$count);
+        dd($ret);
+        $this->t_seller_new_count_get_detail->add($new_count_id=99,$get_desc='aa');
+        $adminid=1210;
+        if (!$this->t_seller_new_count->get_free_new_count_id($adminid,"获取新例子"))  {
+            return $this->output_err("今天的配额,已经用完了");
+        }
+        dd('aaa');
+        $count_info=$this->t_seller_new_count->get_now_count_info($adminid=99);
+        $count_info["left_count"] = $count_info["count"]-  $count_info["get_count"];
+        dd($count_info);
+        dd($tong_count,$tao_count,$adminid,$account);
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        $adminid=$this->get_account_id();
+        $month= date("Ym",$start_time);
+        $adminid_list = $this->t_group_name_month->get_group_admin_list($adminid,strtotime(date('Y-m-1',$start_time)));
+        // dd($adminid_list);
+        if(!$adminid_list){
+            dd('a');
+        }else{
+            dd('b');
+        }
+        // $adminid_list = $this->t_admin_group_name->get_group_admin_list($adminid=177);
+        dd($adminid_list);
+        $master_kpi=\App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
+        dd($master_kpi);
         // $now=time(NULL);
         // $start_time=strtotime( date("Y-m-01",$now));
         // $end_time=$now;

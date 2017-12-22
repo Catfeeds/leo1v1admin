@@ -341,8 +341,74 @@ class test_jack  extends Controller
         
     }
 
+    public function get_parent_courseid($courseid,$num,$parentid){
+        $course_list = $this->t_parent_info->get_baidu_class_info($parentid);
+        if($course_list){
+            $list=json_decode($course_list,true);
+            if(isset($list[$num])){
+                $course_arr = $list[$num];
+                $i=0;
+                foreach($course_arr as $val){
+                    if($val==$courseid){
+                        $i=1;
+                    }
+                }
+                if($i==0){
+                    @$list[$num][]=$courseid;
+                }
+            }else{
+                @$list[$num][]=$courseid;
+            }
+        }else{
+            $list=[];
+            @$list[$num][]=$courseid;
+        }
+        $str = json_encode($list);
+        return $str;
+
+    }
+
     public function test_period(){
-        dd(date("H"));
+        $tt = $this->get_parent_courseid(1111,2,303);
+        dd($tt);
+        // $list = $this->get_baidu_money_charge_pay_info_test();
+        dd(111);
+
+        $key = "sms_phone_13817759346";
+        $data = json_decode( \App\Helper\Common::redis_get($key) ,true);
+        dd($data);
+
+        $this->reset_parent_course_info(358650,1391851545550);
+        dd(111);
+
+        $list = $this->t_child_order_info->get_all_payed_prder_info();
+        foreach($list as $val){
+            $competition_flag = $val["competition_flag"];
+            if($competition_flag==1){
+                $courseid = "SHLEOZ3101006";
+                $arr =[4=>[$courseid]];
+                $coursename = "思维拓展在线课程";
+            }elseif($val["grade"] >=100 && $val["grade"]<200){
+                $courseid = "SHLEOZ3101001";
+                $arr =[1=>[$courseid]];
+                $coursename = "小学在线课程";
+            }elseif($val["grade"] >=200 && $val["grade"]<300){
+                $courseid = "SHLEOZ3101011";
+                $arr =[2=>[$courseid]];
+                $coursename = "初中在线课程";
+            }elseif($val["grade"] >=300 && $val["grade"]<400){
+                $courseid = "SHLEOZ3101016";
+                $arr =[3=>[$courseid]];
+                $coursename = "高中在线课程";
+            }
+            $str = json_encode($arr);
+            dd($str);
+            $this->t_parent_info->field_update_list($val["parentid"],[
+                "baidu_class_info" => $str
+            ]);
+
+        }
+        dd($list);
 
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $adminid= $this->get_in_int_val("adminid",480 );
@@ -696,7 +762,78 @@ class test_jack  extends Controller
 
     }
 
+        //更新家长百度有钱花课程信息
+    public function reset_parent_course_info($userid,$orderNo){
+        $pp_info = $this->t_student_info->field_get_list($userid,"parentid,grade");
+        $courseid = $this->t_orderid_orderno_list->get_courseid($orderNo);
+        $grade=$pp_info["grade"];
+        $parent_orderid = $this->t_orderid_orderno_list->get_parent_orderid($orderNo);
+        $competition_flag = $this->t_order_info->get_competition_flag($parent_orderid);
+        if($competition_flag==1){
+            if(!$courseid){
+                $courseid = "SHLEOZ3101006"; 
+            }
+            $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
+            if($course_list){
+                $list=json_decode($course_list,true);
+            }else{
+                $list=[];
+            }
+            @$list[4][]=$courseid;
+            $str = json_encode($list);
+            
+        }elseif($grade >=100 && $grade<200){
+            if(!$courseid){
+                $courseid = "SHLEOZ3101001"; 
+            }
+            $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
+            if($course_list){
+                $list=json_decode($course_list,true);
+            }else{
+                $list=[];
+            }
+            @$list[1][]=$courseid;
+            $str = json_encode($list);
+        }elseif($grade >=200 && $grade<300){
+            if(!$courseid){
+                $courseid = "SHLEOZ3101012"; 
+            }
+            $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
+            if($course_list){
+                $list=json_decode($course_list,true);
+            }else{
+                $list=[];
+            }
+            @$list[2][]=$courseid;
+            $str = json_encode($list);
+        }elseif($grade >=300 && $grade<400){
+            if(!$courseid){
+                $courseid = "SHLEOZ3101016"; 
+            }
+            $course_list = $this->t_parent_info->get_baidu_class_info($pp_info["parentid"]);
+            if($course_list){
+                $list=json_decode($course_list,true);
+            }else{
+                $list=[];
+            }
+            @$list[3][]=$courseid;
+            $str = json_encode($list);
+        }
+        $this->t_parent_info->field_update_list($pp_info["parentid"],[
+            "baidu_class_info" =>$str 
+        ]);
+
+
+        
+
+    }
+
+
     public function test_wx(){
+        $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid(60001);
+        //$admin_revisiterid= $origin_assistantid;
+        dd($admin_revisiterid);
+
         $this->t_flow_node->row_insert([
             "node_type"=>1,
             "flowid"   =>4713,
@@ -1305,7 +1442,13 @@ class test_jack  extends Controller
 
 
     public function test_ws() {
-        return $this->pageView(__METHOD__);
+        $list = $this->t_period_repay_list->get_no_repay_list();
+        foreach($list["list"] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item, "paid_time","_str","Y-m-d");
+            \App\Helper\Utils::unixtime2date_for_item($item, "due_date","_str","Y-m-d");
+            E\Erepay_status::set_item_value_str($item);
+        }
+        return $this->pageView(__METHOD__,$list);
     }
 
     public function test_hha(){

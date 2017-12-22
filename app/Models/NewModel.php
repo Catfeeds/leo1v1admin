@@ -284,7 +284,7 @@ abstract class NewModel
         return \App\Helper\Utils::list_to_page_info($ret_list);
     }
 
-    public function main_get_list_by_page($sql,$page_info,$page_count=10,$use_group_by_flag=false,$order_str="",$list_key_func=null)
+    public function main_get_list_by_page($sql,$page_info,$page_count=10,$use_group_by_flag=false,$order_str="",$list_key_func=null )
     {
         if(is_array($page_info)){
             $page_num= $page_info["page_num"];
@@ -1015,10 +1015,11 @@ abstract class NewModel
      * @param int start_time 开始时间
      * @param int end_time   结束时间
      * @param string alias   表别名
+     * @param array merge_arr 待合并的sql数组
      * @return array
      */
-    public function lesson_start_common_sql($start_time,$end_time,$alias=''){
-        $where_arr = $this->lesson_start_sql($start_time,$end_time,$alias);
+    public function lesson_start_common_sql($start_time,$end_time,$alias='',$merge_arr=[]){
+        $where_arr = $this->lesson_start_sql($start_time,$end_time,$alias,$merge_arr);
         $where_arr = $this->lesson_common_sql($alias,$where_arr);
         return $where_arr;
     }
@@ -1041,4 +1042,31 @@ abstract class NewModel
         return array_merge($where_arr,$merge_arr);
     }
 
+    /**
+     * 获取计算学生有效课程的筛选条件
+     * @param string alias 表别名
+     * @param array merge_arr 待合并的sql数组
+     */
+    public function student_effective_lesson_sql($alias='',$merge_arr=[]){
+        $alias = $this->get_table_alias($alias);
+        $where_arr = [
+            $alias."lesson_del_flag=0",
+            $alias."confirm_flag in (0,1,3)",
+        ];
+        return array_merge($where_arr,$merge_arr);
+    }
+
+    /**
+     * 获取计算老师有效课程的筛选条件
+     * @param string alias 表别名
+     * @param array merge_arr 待合并的sql数组
+     */
+    public function teacher_effective_lesson_sql($alias='',$merge_arr=[]){
+        $alias = $this->get_table_alias($alias);
+        $where_arr = [
+            $alias."lesson_del_flag=0",
+            $alias."confirm_flag !=2",
+        ];
+        return array_merge($where_arr,$merge_arr);
+    }
 }

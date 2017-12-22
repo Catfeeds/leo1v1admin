@@ -586,11 +586,9 @@ $(function(){
         });
     });
 
-    $('.opt-meeting').on('click', function(){
-    var opt_data= $(this).get_opt_data();
-        get_create_meeting(opt_data.teacherid);
-    });
-
+    /**
+     * 老师创建会议权限
+     */
     var get_create_meeting = function(teacherid) {
         $.getJSON('/tea_manage/get_create_meeting', {
             'teacherid': teacherid
@@ -823,7 +821,6 @@ $(function(){
         $(".lesson_hold_flag").show();
         $(".test_transfor_per").show();
     }else{
-        $(".opt-meeting").hide();
         $(".opt-interview-assess").hide();
         $(".opt-edit").hide();
         $(".opt-set-grade-range").hide();
@@ -1819,9 +1816,6 @@ $(function(){
         });
     }
 
-    if(acc=="alan" || acc=="adrian" || acc=="seven" || acc=="jack" || acc=="孙瞿"){
-        $(".opt-edit").show();
-    }
 
     $(".opt-account-number").on("click",function(){
 	      var data = $(this).get_opt_data();
@@ -1839,6 +1833,7 @@ $(function(){
         var id_update_check_subject    = $("<button class='btn btn-primary'>审核信息</button>");
         var id_set_test_user           = $("<button class='btn btn-danger'>设为测试</button>");
         var id_update_tea_ref_type     = $("<button class='btn btn-primary'>渠道信息</button>");
+        var id_part_to_full            = $("<button class='btn btn-danger'>一键转全职</button>");
 
         id_subject_info.on("click",function(){update_subject_info(data);});
         id_change_tea_to_new.on("click",function(){opt_change_tea_to_new(data);});
@@ -1852,6 +1847,7 @@ $(function(){
         id_update_tea_ref_type.on("click",function(){update_tea_ref_type(data);});
         id_switch_teacher_to_test.on("click",function(){switch_teacher_to_test(data);});
         id_send_offer_info.on("click",function(){send_offer_info(data);});
+        id_part_to_full.on('click',function(){part_to_full(data);});
 
         var arr = [
             ["",id_send_offer_info],
@@ -1880,9 +1876,23 @@ $(function(){
             ];
 
         }
+        if(acc=="jim" || acc=="宫卫彬") {
+            var extra_arr = [
+                ["",id_part_to_full],
+            ];
+            arr = arr.concat(extra_arr);
+        }
 
         $.show_key_value_table("账号信息修改",arr);
     });
+
+    // 一键转全职
+    var part_to_full = function(data){
+        var teacherid = data.teacherid;
+        $.do_ajax('/teacher_trans/one_part_to_full', {
+            "teacherid":teacherid
+        });
+    }
 
     //发送入职邮件
     var send_offer_info = function(data){
@@ -2125,7 +2135,6 @@ $(function(){
             ["审核科目",id_subject],
             ["审核年级",id_grade],
         ];
-        console.log(id_grade);
         $.show_key_value_table("审核信息",arr,{
             label    : "确认",
             cssClass : "btn-warning",
@@ -2193,8 +2202,6 @@ $(function(){
         }
     });
 
-    download_hide();
-
     $(".opt-full-to-part").on("click", function() {
         var data = $(this).get_opt_data();
         var require_reason = $("<textarea></textarea>");
@@ -2202,19 +2209,24 @@ $(function(){
             ['申请原因', require_reason]
         ];
 
-        $.show_key_value_table("设置身份",arr,{
+        $.show_key_value_table("全转兼申请",arr,{
             label    : "确认",
             cssClass : "btn-warning",
             action   : function(diolog) {
-                $.do_ajax('/teacher_common/full_to_part', {
-                    'teacherid': data.teacherid,
-                    'level':data.level,
-                    'teacher_money_type':data.teacher_money_type,
-                    'require_reason' : require_reason.val()
+                $.do_ajax('/teacher_trans/full_to_part', {
+                    'teacherid'          : data.teacherid,
+                    'level'              : data.level,
+                    'teacher_money_type' : data.teacher_money_type,
+                    'require_reason'     : require_reason.val()
                 });
             }
         });
     });
+
+    download_hide();
+    if(g_account_role==12){
+        $(".opt-edit").show();
+    }
 
 });
 

@@ -56,22 +56,16 @@ class tom_do_once extends Command
      */
     public function handle()
     {
-        $ret_info = $this->task->t_seller_level_month->get_all_list_new();
-        foreach($ret_info as $item){
-            $id = $item['id'];
-            $adminid = $item['adminid'];
-            $account = $item['account'];
-            $this_level = $item['seller_level'];
-            $become_member_time = $item['create_time'];
-            //入职小于2月,定级>D
-            if(time(null)-$become_member_time<60*3600*24 && $this_level>E\Eseller_level::V_500){
-                $month_level = E\Eseller_level::V_500;
-                $this->task->t_seller_level_month->field_update_list($id,[
-                    'seller_level'=>$month_level,
-                ]);
-                echo $account.':'.$this_level."=>".$month_level."\n";
-            }
+        $day=$this->option('day');
+        if ($day===null) {
+            $now=time(NULL);
+            $start_time=$now-60*15;
+            $end_time=$now;
+        }else{
+            $start_time=strtotime($day);
+            $end_time=$start_time+86400;
         }
+        echo $day.':'.$start_time.'-'.$end_time;
 
         // $ret = $this->task->t_seller_student_new->get_all_list($start_time=0,$end_time=0);
         // $userid_arr = array_unique(array_column($ret,'userid'));

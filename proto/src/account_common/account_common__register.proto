@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+//__CMD: 100x0004
+//__DESC: 注册 http://api.account.leo1v1.com/account_common/register
+//__TAGS: for app 
+
+
+message in  {
+  string phone =1;//手机
+  int32 role =2;//角色
+  string verify_code =3;//验证码
+  string passwd =4;//密码 md5(passwd)
+  string reg_channel =5;//注册渠道
+  string region =6;//地区
+  int32 grade =7;//年级
+
+}
+
+message out {
+  
+}

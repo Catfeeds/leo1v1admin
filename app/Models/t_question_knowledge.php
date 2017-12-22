@@ -8,11 +8,10 @@ class t_question_knowledge extends \App\Models\Zgen\z_t_question_knowledge
 		parent::__construct();
 	}
 
-    public function question_know_list($question_id){
-        $sql = $this->gen_sql("select kq.id,kq.difficult,kq.knowledge_id,kn.subject,kn.title,kn.detail
-                               from %s kq left join %s kn on kq.knowledge_id = kn.knowledge_id
-                               where kq.question_id = %s
-                               order by question_id desc ",
+    public function question_know_get($question_id){
+        $sql = $this->gen_sql("select know.knowledge_id,know.title from %s qa left join %s know on qa.knowledge_id = know.knowledge_id
+                               where qa.question_id = %s and qa.type = 1
+                               order by qa.question_id desc ",
                               self::DB_TABLE_NAME,
                               t_knowledge_point::DB_TABLE_NAME,
                               $question_id
@@ -21,18 +20,19 @@ class t_question_knowledge extends \App\Models\Zgen\z_t_question_knowledge
         return $this->main_get_list($sql);
     }
 
-    public function is_question_know_exit($question_id,$knowledge_id,$difficult){
-        $sql = $this->gen_sql("select * from %s 
-                               where question_id = %s and knowledge_id = %d and difficult = %d",
+    public function answer_know_get($step_id){
+        $sql = $this->gen_sql("select know.knowledge_id,know.title from %s qa left join %s know on qa.knowledge_id = know.knowledge_id
+                               where qa.answer_id = %s and qa.type = 2
+                               order by qa.answer_id desc ",
                               self::DB_TABLE_NAME,
-                              $question_id,
-                              $knowledge_id,
-                              $difficult
+                              t_knowledge_point::DB_TABLE_NAME,
+                              $step_id
         );
 
-        return $this->main_get_row($sql);
+        return $this->main_get_list($sql);
 
     }
+
 
     public function del_by_id($id){
         $sql=$this->gen_sql("delete from %s where id=%u"
@@ -50,6 +50,49 @@ class t_question_knowledge extends \App\Models\Zgen\z_t_question_knowledge
         );
         return $this->main_update($sql);
     }
+
+    public function dele_by_id_arr($id,$deleArr,$type){
+        if( $type == 1 ){
+            foreach( $deleArr as $know){
+                $sql=$this->gen_sql("delete from %s where question_id = %s and knowledge_id = %s and type =%d"
+                                    ,self::DB_TABLE_NAME,$id,$know,$type);
+
+                $this->main_update($sql);
+            }
+        }
+
+        if( $type == 2 ){
+            foreach( $deleArr as $know){
+                $sql=$this->gen_sql("delete from %s where answer_id = %s and knowledge_id = %s and type =%d"
+                                    ,self::DB_TABLE_NAME,$id,$know,$type);
+
+                $this->main_update($sql);
+            }
+        }
+
+    }
+
+    public function add_id_arr($id,$addArr,$type){
+        
+        $sql = "insert into %s ( question_id, answer_id, difficult, type, knowledge_id ) values ";
+        if( $type == 1 ){
+            foreach( $addArr as $know){
+                $sql .= " ( ".$id.", 0 , 0 , ".$type." , ".$know." ),";
+            }
+        }
+        if( $type == 2 ){
+            foreach( $addArr as $know){
+                $sql .= " ( 0 , ".$id." , 0 , ".$type." , ".$know." ),";
+            }
+        }
+        $sqlwhole = substr($sql, 0,-1);
+        //dd($sqlwhole);
+        $sql=$this->gen_sql($sqlwhole,self::DB_TABLE_NAME);
+
+        $this->main_update($sql);
+
+    }
+
 }
 
 

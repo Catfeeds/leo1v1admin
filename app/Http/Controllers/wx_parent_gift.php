@@ -297,17 +297,141 @@ class wx_parent_gift extends Controller
 
 
 
-    //市场部圣诞节活动
+    /**
+
+     *@ 市场部圣诞节活动
+     *@
+     *@
+     *@
+     **/
+
+
+
+    /**
+     * @ 微信图文[理优一段故事]
+     * @ 
+     **/
+    public function christmasHistory(){ //微信推文 理优历史
+        $p_appid     = \App\Helper\Config::get_wx_appid();
+        $p_appsecret = \App\Helper\Config::get_wx_appsecret();
+        $pid1 = $this->get_in_int_val('pid1');
+
+        $wx= new \App\Helper\Wx($p_appid,$p_appsecret);
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/checkParInfo?pid1=".$pid1 );
+        $wx->goto_wx_login( $redirect_url );
+    }
+
+    public function checkParInfo(){
+        $p_appid     = \App\Helper\Config::get_wx_appid();
+        $p_appsecret = \App\Helper\Config::get_wx_appsecret();
+        $code = $this->get_in_str_val('code');
+        $wx   = new \App\Helper\Wx($p_appid,$p_appsecret);
+        $user_info = $wx->get_token_from_code($code);
+        $openid    = @$user_info["openid"];
+        $pid1 = $this->get_in_int_val('pid1');
+        $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
+
+        if($pid1 == 0 && $parentid == 0) { // 上级与本人都是未注册用户 则跳转至报名页
+            header("Location: http://www.leo1v1.com/market/index.html?%E6%9C%8D%E5%8A%A1%E5%8F%B7%E2%80%94%E8%8F%9C%E5%8D%95%E6%A0%8F=");
+            return;
+        }elseif($pid1 == 0 && $parentid != 0){
+            $pid1=$parentid;
+        }
+
+        header("Location: http://wx-parent-web.leo1v1.com/chrismas_day/index.html?pid1=".$pid1."&pid2=".$parentid);//链接待定
+        return ;
+    }
+
+    /**
+     * @ 点击抽奖
+     **/
+    public function dealLottery(){
+        $parentid = $this->get_in_int_val("parentid");
+        $orderid  = $this->t_order_info->getOrderByParentid($parentid);
+
+        $prize_type = $this->t_activity_christmas->getPrizeType($parentid);
+        if($prize_type==0){
+            if($orderid>0){
+                $rand = mt_rand(0,100);
+                $prize_type = 0;
+                if($rand<=60){
+                    $prize_type = 1;
+                }elseif(60<$rand && $rand<=90){
+                    $prize_type = 2;
+                }elseif(90<$rand && $rand<=100){
+                    $prize_type = 3;
+                }
+            }else{
+                $prize_type = 4;
+            }
+
+            $this->t_activity_christmas->row_insert([
+                "christmas_price_type" => $prize_type,
+                "parentid" => $parentid,
+                "win_time" => time(),
+            ]);
+        }
+
+        switch ($prize_type)
+        {
+        case 1:
+            $prize_str = "抽中10元折扣券一张";
+            break;
+        case 2:
+            $prize_str = "抽中20元折扣券一张";
+            break;
+        case 3:
+            $prize_str = "抽中50元折扣券一张";
+            break;
+        case 4:
+            $prize_str = "抽中价值200元的试听课一节";
+            break;
+        }
+
+        $prize_result = [
+            "prize_str"  => $prize_str,
+            "prize_type" => $prize_type
+
+        ];
+
+        return $this->output_succ($prize_result);
+    }
+
+    /**
+    *@ 检查是否是在读学员
+    */
+    public function checkIsRead(){
+        $parentid = $this->get_in_int_val("pid");
+        $orderid  = $this->t_order_info->getOrderByParentid($parentid);
+        if($orderid>0){$orderid=1;}
+        return $this->output_succ(["is_read"=>$orderid]);
+    }
+
+
+    /**
+     * @ 展示当前个人信息
+     */
+    public function getAdminInfo(){ //
+        $parentid = $this->get_in_int_val("parentid");
+        $orderid  = $this->t_order_info->getOrderByParentid($parentid);
+
+
+
+        return $this->output_succ();
+    }
 
     public function getUserId(){
 
     }
 
 
+
+
+
     /**
      *市场部赠送图书活动
      *
-    **/
+     **/
 
     public function set_identity_for_book(){
         $_SESSION['check_flag']=1;
@@ -331,7 +455,7 @@ class wx_parent_gift extends Controller
 
     /***
      *双11活动 理优在线
-    **/
+     **/
 
     public function get_prize_list(){ // 获取奖品列表
         $parentid   = $this->get_parentid();
@@ -568,7 +692,7 @@ class wx_parent_gift extends Controller
            array(6,"","500元折扣券" ),
            array(7,"","免费3次正式课" ),
            array(8,"","试听课" ),
-         **/
+        **/
 
         if($stu_type == 1){ // 新用户
             if($today < $eleven){
@@ -633,7 +757,7 @@ class wx_parent_gift extends Controller
 
     /**
        双11活动 理优在线
-     **/
+    **/
 
 
 
@@ -756,7 +880,7 @@ class wx_parent_gift extends Controller
            活动时间：{{keyword2.DATA}}
            活动结果：{{keyword3.DATA}}
            {{remark.DATA}}
-         **/
+        **/
 
         $appid     = \App\Helper\Config::get_yxyx_wx_appid();
         $appsecret = \App\Helper\Config::get_yxyx_wx_appsecret();

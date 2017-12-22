@@ -23,6 +23,7 @@ interface GargsStatic {
 	accept_adminid:	number;
 	second_train_status:	number;
 	teacher_pass_type:	number;
+	gender:	number;
 	interview_type:	number;
 	tea_adminid:	number;
 	fulltime_flag:	number;
@@ -79,6 +80,7 @@ interface RowData {
 	wx_openid	:any;
 	user_agent	:any;
 	hand_flag	:any;
+	gender	:any;
 	full_status	:any;
 	full_record_info	:any;
 	teacher_pass_type	:any;
@@ -93,6 +95,7 @@ interface RowData {
 	full_time_str	:any;
 	subject_ex_str	:any;
 	trans_subject_ex_str	:any;
+	gender_str	:any;
 	status_str	:any;
 	full_status_str	:any;
 	phone_ex	:any;
@@ -138,6 +141,7 @@ function load_data(){
 		accept_adminid:	$('#id_accept_adminid').val(),
 		second_train_status:	$('#id_second_train_status').val(),
 		teacher_pass_type:	$('#id_teacher_pass_type').val(),
+		gender:	$('#id_gender').val(),
 		interview_type:	$('#id_interview_type').val(),
 		tea_adminid:	$('#id_tea_adminid').val(),
 		fulltime_flag:	$('#id_fulltime_flag').val(),
@@ -189,6 +193,7 @@ $(function(){
 	$('#id_accept_adminid').val(g_args.accept_adminid);
 	$('#id_second_train_status').val(g_args.second_train_status);
 	$('#id_teacher_pass_type').val(g_args.teacher_pass_type);
+	$('#id_gender').val(g_args.gender);
 	$('#id_interview_type').val(g_args.interview_type);
 	$('#id_tea_adminid').val(g_args.tea_adminid);
 	$('#id_fulltime_flag').val(g_args.fulltime_flag);
@@ -345,6 +350,14 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["teacher_pass_type title", "teacher_pass_type", "th_teacher_pass_type" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">gender</span>
+                <input class="opt-change form-control" id="id_gender" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["gender title", "gender", "th_gender" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

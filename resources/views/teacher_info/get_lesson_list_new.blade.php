@@ -6,6 +6,10 @@
 <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
 <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
 <script type="text/javascript" src="/js/jquery.md5.js"></script>
+<script type="text/javascript" src="/page_js/lib/select_resource_ajax.js"></script>
+<!-- <script type="text/javascript" src="/js/pdfobject.js"></script> -->
+<script type="text/javascript" src="/js/jquery.media.js"></script>
+
 <style>
  textarea{
      resize:both;
@@ -18,6 +22,9 @@
  }
  .bg_train_lesson{
      background-color:#ccc;
+ }
+ .btn-width{
+     width:80px;
  }
 </style>
 <section class="content li-section">
@@ -264,5 +271,16 @@
 
 <div class="row">
     <div class="col-xs-6 col-md-2">
+    </div>
+</div>
+<div class="opt-select-file" style="position:absolute;display:none;z-index: 1051;">
+    <button class="btn btn-width btn-default opt-local">本地</button><br/>
+    <button class="btn btn-width btn-default opt-leo-res">资料库</button><br/>
+    <button class="btn btn-width btn-default opt-my-res">我的收藏</button>
+</div>
+<div class="col-md-12 look-pdf"   style="width:80%;height:95%;position:fixed;right:10%;top:2.5%;border-radius:5px;background:#eee;display:none;z-index:8888;overflow:hidden;">
+    <div style="width:120%;height:110%;margin:-60px;">
+        <div class="look-pdf-son" id="test">
+        </div>
     </div>
 </div>

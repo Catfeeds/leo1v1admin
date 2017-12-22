@@ -78,7 +78,9 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         return $this->main_get_value($sql);
     }
 
-    //获取所有额外薪资明细
+    /**
+     * 获取所有额外薪资明细
+     */
     public function get_teacher_honor_money_list($teacherid,$start,$end,$type=0){
         $where_arr = [
             ["tm.teacherid=%u",$teacherid,0],
@@ -139,19 +141,6 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
                                   ,$has_sql
         );
         return $this->main_get_list($sql);
-    }
-
-    public function add_reference_reward($reference_info,$teacherid){
-        $where_arr = [
-            ["reference=%u",$reference_info['phone'],""]
-        ];
-        $sql = $this->gen_sql_new("select count(1) "
-                                  ." from %s "
-                                  ." where %s "
-                                  ,self::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        $reference_num = $this->main_get_value($sql);
     }
 
     public function add_teacher_rewrad_money($type,$teacherid,$money,$money_info){
@@ -290,9 +279,9 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
             "tl.recommended_teacherid!=0"
         ];
         if ($type == 1) { // 推荐机构老师总数
-            array_push($where_arr, "t.identity in (5,6,7)");
+            array_push($where_arr, "t.identity in (5,6)");
         } else { // 推荐在校学生总数
-            array_push($where_arr, "t.identity not in (5,6,7)");
+            array_push($where_arr, "t.identity not in (5,6)");
         }
         if ($time) {
             array_push($where_arr, ["tl.add_time<=%u", $time,0]);
@@ -334,4 +323,23 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_money_list($start_time, $end_time, $teacherid) {
+        //select recommended_teacherid,t.nick  from t_teacher_money_list l left join t_teacher_info t on t.teacherid=l.recommended_teacherid  where l.teacherid=149697 and l.type=6
+        $where_arr = [
+            "l.type=6",
+            ["t.train_through_new_time>=%u", $start_time, 0],
+            ["t.train_through_new_time<%u", $end_time, 0],
+            ['l.teacherid=%u', $teacherid, 0]
+        ];
+        $sql = $this->gen_sql_new("select recommended_teacherid,t.nick from %s l left join %s t on t.teacherid=l.recommended_teacherid where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql, function($item) {
+            return $item['recommended_teacherid'];
+        });
+    }
+
 }

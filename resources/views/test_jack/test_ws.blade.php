@@ -30,14 +30,22 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>字段1 </td>
+                    <td>userid </td>
+                    <td>学生 </td>
+                    <td>应还款日期 </td>
+                    <td>实际还款日期 </td>
+                    <td>还款状态 </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["userid"]}} </td>
+                        <td>{{@$var["nick"]}} </td>
+                        <td>{{@$var["due_date_str"]}} </td>
+                        <td>{{@$var["paid_time_str"]}} </td>
+                        <td>{{@$var["repay_status_str"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

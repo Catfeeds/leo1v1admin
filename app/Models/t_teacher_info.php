@@ -337,7 +337,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
 
 
-        $sql = $this->gen_sql_new("select t.*,ta.id label_id,ta.tag_info "
+        $sql = $this->gen_sql_new("select t.*,ta.id label_id,ta.tag_info"
                                   ." from %s t left join %s ta on t.teacherid = ta.teacherid and ta.label_origin=1000"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
@@ -924,7 +924,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_teacher_info($teacherid){
         $sql = $this->gen_sql(
-            "select teacherid,train_through_new_time,is_quit,teacher_money_type,level,wx_openid,nick,email,"
+            "select teacherid,train_through_new_time,is_quit,teacher_money_type,level,wx_openid,email,"
             ." teacher_type,teacher_ref_type,create_time,identity,phone,realname,nick,"
             ." gender,birth,address,face,grade_part_ex,bankcard,teacher_money_flag,transfer_teacherid,transfer_time,"
             ." train_through_new,trial_lecture_is_pass,wx_use_flag,teacher_money_type_simulate,level_simulate,"
@@ -2481,15 +2481,17 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["t.teacher_money_type=%u",$teacher_money_type,-1],
             "t.train_through_new = 1",
             "l.lesson_del_flag=0",
-            "l.confirm_flag <>2",
+            "l.confirm_flag  <>2",
             "l.lesson_type<1000",
-            "l.lesson_type <>2"
+            "l.lesson_type <>2",
+            "t.level>=2"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new("select t.teacherid,sum(l.lesson_count) lesson_count,count(distinct l.userid) stu_num "
                                   ." from %s t left join %s l on t.teacherid=l.teacherid"
-                                  ." where %s group by t.teacherid having(lesson_count>=18000)",
-                                  self::DB_TABLE_NAME,
+                                  ." where %s group by t.teacherid"
+                                  //." having(lesson_count>=18000)"
+                                  ,self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
@@ -2587,7 +2589,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   $start_time,
                                   $where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_info,500);
+        return $this->main_get_list_as_page($sql);
 
 
     }
@@ -4711,9 +4713,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $start_time = $week_range['sdate']<$month_range['sdate']?$week_range['sdate']:$month_range['sdate'];
         $end_time   = $week_range['edate']<$month_range['edate']?$week_range['edate']:$month_range['edate'];
 
-        $day_arr   = $this->lesson_start_sql($day_range['sdate'],$day_range['edate']);
-        $week_arr  = $this->lesson_start_sql($week_range['sdate'],$week_range['edate']);
-        $month_arr = $this->lesson_start_sql($month_range['sdate'],$month_range['edate']);
+        $lesson_type_arr = [
+            "l.lesson_type=2",
+        ];
+        $day_arr   = $this->lesson_start_sql($day_range['sdate'],$day_range['edate'],'l',$lesson_type_arr);
+        $week_arr  = $this->lesson_start_sql($week_range['sdate'],$week_range['edate'],'l',$lesson_type_arr);
+        $month_arr = $this->lesson_start_sql($month_range['sdate'],$month_range['edate'],'l',$lesson_type_arr);
         $has_arr   = $this->lesson_start_sql($lesson_start, $lesson_end,"l",["l.lesson_del_flag=0","confirm_flag<2"]);
 
         $subject_str = $this->gen_sql("(t.subject=%u or t.second_subject=%u)",$subject,$subject);
@@ -4753,7 +4758,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $subject_str = $this->gen_sql("(t.subject=%u or t.second_subject=%u)",$subject,$subject);
         $teacher_arr = $this->teacher_common_sql("t",[$subject_str]);
 
-        $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,t.second_subject,t.second_grade_start,"
+        $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,"
+                                  ." t.second_subject,t.second_grade_start,t.teacher_type,"
                                   ." t.second_grade_end,t.limit_plan_lesson_type,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.train_through_new_time,t.identity,t.gender,t.age,t.realname,"
                                   ." t.phone,tf.free_time_new,t.teacher_tags"
@@ -4832,5 +4838,117 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list($sql);
     }
+    //@param:获取近几月教师代课及课耗情况
+    public function get_teacher_code($start_time,$end_time){
+        $where_arr = [
+            'li.confirm_flag in (0,1,3)',
+            ['li.lesson_del_flag = %u',0],
+            'si.is_test_user = 0',
+            'li.lesson_status =2'
+        ];
+        $where_li_arr = [
+            'li.confirm_flag in (0,1,3)',
+            ['li.lesson_del_flag = %u',0],
+            'li.lesson_status =2'
+        ];
+        $where_si_arr = [
+            'si.is_test_user = 0',
+        ];
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr, 'tf.simul_test_lesson_pass_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select tf.teacherid,tf.subject,tf.grade,li.userid,li.lesson_type,'.
+            'li.lesson_count/100 as lesson_count,li.courseid '.
+            'from %s tf '.
+            'left join %s li on tf.teacherid = li.teacherid and %s '.
+            'left join %s si on li.userid = si.userid and %s '.
+            'where %s',
+            t_teacher_flow::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            $where_li_arr,
+            t_student_info::DB_TABLE_NAME,
+            $where_si_arr,
+            $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item['teacherid'];
+        });
+        // $sql = $this->gen_sql_new(
+        //     'select subject_grade,sum(guest_number) as guest_number,'.
+        //     'ceil(sum(class_consumption)) class_consumption from ('.
+        //     "select  (CASE 
+        //               WHEN li.subject = 1 and li.grade <= 106
+        //               THEN '小学语文'
+        //               WHEN li.subject = 1 and li.grade <= 203 and li.grade >= 200
+        //               THEN '初中语文'
+        //               WHEN li.subject = 1 and li.grade >= 300 and li.grade <= 303
+        //               THEN '高中语文'
+        //               WHEN li.subject = 2 and li.grade <= 106
+        //               THEN '小学数学'
+        //               WHEN li.subject = 2 and li.grade <= 203 and li.grade >= 200
+        //               THEN '初中数学'
+        //               WHEN li.subject = 2 and li.grade >= 300 and li.grade <= 303
+        //               THEN '高中数学'
+        //               WHEN li.subject = 3 and li.grade <= 106
+        //               THEN '小学英语'
+        //               WHEN li.subject = 3 and li.grade <= 203 and li.grade >= 200
+        //               THEN '初中英语'
+        //               WHEN li.subject = 3 and li.grade >= 300 and li.grade <= 303
+        //               THEN '高中英语'
+        //               WHEN li.subject = 5 and li.grade <= 203 and li.grade >= 200
+        //               THEN '初中物理'
+        //               WHEN li.subject = 5 and li.grade >= 300 and li.grade <= 303
+        //               THEN '高中物理'
+        //               WHEN li.subject = 4 and li.grade <= 203 and li.grade >= 200
+        //               THEN '初中化学'
+        //               WHEN li.subject = 4 and li.grade >= 300 and li.grade <= 303
+        //               THEN '高中化学'
+        //               WHEN li.subject = 10 and li.grade <= 203 and li.grade >= 200
+        //               THEN '初中科学'
+        //               ELSE '其他综合'
+        //               END) AS subject_grade
+        //               , count(distinct li.userid)AS guest_number
+        //               , sum(lesson_count)/100 as class_consumption ".
+        //     'from %s ti '.
+        //     'left join %s li on ti.teacherid = li.teacherid '.
+        //     'left join %s si on li.userid = si.userid '.
+        //     'where %s group by li.grade,li.subject'
+        //     .') as aa group by subject_grade',
+        //     self::DB_TABLE_NAME,
+        //     t_lesson_info::DB_TABLE_NAME,
+        //     t_student_info::DB_TABLE_NAME,
+        //     $where_arr
+        // );
+    }
 
-}
+    public function get_total_for_teacherid($start_time, $end_time, $phone, $type) {
+        //select teacherid,name from t_teacher_info t left join t_teacher_lecture_appointment_info ta on t.phone=ta.phone where ta.reference ='15366667766' and t.train_through_new_time  > 0 and train_through_new_time >= unix_timestamp('2017-11-1') and unix_timestamp('2017-12-1')
+        $where_arr = [
+            ['t.train_through_new_time>=%u', $start_time, 0],
+            ['t.train_through_new_time<%u', $end_time, 0],
+            ['ta.reference=%s', $phone, 0]
+        ];
+        if ($type == 1) {
+            array_push($where_arr, 'identity in (5,6)');
+        } else {
+            array_push($where_arr, 'identity in (0,7,8)');
+        }
+
+        $sql = $this->gen_sql_new("select count(*) from %s t left join %s ta on t.phone=ta.phone where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_teacherids() {
+        $sql = $this->gen_sql_new("select teacherid,phone from %s where is_test_user=0",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql, function($item) {
+            return $item['phone'];
+        });
+    }
+
+} 

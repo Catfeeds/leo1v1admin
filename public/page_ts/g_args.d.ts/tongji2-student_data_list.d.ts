@@ -18,22 +18,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	userid	:any;
-	add_time	:any;
-	lesson_time	:any;
-	grade	:any;
-	subject	:any;
-	pad	:any;
-	location	:any;
-	cor	:any;
-	three_origin	:any;
-	two_origin	:any;
-	origin_count	:any;
-	cc_called_count	:any;
-	return_publish_count	:any;
-	grade_str	:any;
-	subject_str	:any;
-	pad_str	:any;
 }
 
 /*

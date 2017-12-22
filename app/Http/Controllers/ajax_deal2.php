@@ -133,6 +133,8 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
+
+
     public function set_tmk_valid() {
         $userid=$this->get_in_userid();
         $tmk_student_status = $this->get_in_e_tmk_student_status();
@@ -213,7 +215,11 @@ class ajax_deal2 extends Controller
         $one_lesson_count    = $row["lesson_weeks"] ;
         $per_lesson_interval = $row["lesson_duration"] ;
 
-        $order_start_time    = $row["contract_starttime"];
+        if($row['contract_starttime']>0){
+            $order_start_time = $row["contract_starttime"];
+        }else{
+            $order_start_time = $row["order_time"];
+        }
         $order_end_time      = \App\Helper\Utils::get_order_term_of_validity($order_start_time,$lesson_count);
         $contract_type       = $row["contract_type"];
         $contract_status     = $row["contract_status"];
@@ -977,10 +983,11 @@ class ajax_deal2 extends Controller
             $arr=$objPHPExcel->getActiveSheet()->toArray();
             $now=time(NULL);
             $title_info=array_shift($arr);
-            if ($title_info[0] != "key1" ) {
+            if ($title_info[0] != "key0" ) {
                 return $this->output_err("文件格式不对!");
             }
             $origin_arr=[];
+            $key0="";
             $key1="";
             $key2="";
             $key3="";
@@ -988,17 +995,19 @@ class ajax_deal2 extends Controller
             $value="";
             $fix="";
             foreach ($arr as $index => $item) {
-                $key1= trim($item[0])? trim($item[0]): $key1 ;
-                $key2= trim($item[1])? trim($item[1]): $key2 ;
-                $key3= trim($item[2])? trim($item[2]): $key3 ;
-                $key4= trim($item[3])? trim($item[3]): $key4 ;
-                $value= trim($item[4]);
-                $fix= trim($item[5])? trim($item[5]): $fix;
+                $key0= trim($item[0])? trim($item[0]): $key0 ;
+                $key1= trim($item[1])? trim($item[1]): $key1 ;
+                $key2= trim($item[2])? trim($item[2]): $key2 ;
+                $key3= trim($item[3])? trim($item[3]): $key3 ;
+                $key4= trim($item[4])? trim($item[4]): $key4 ;
+                $value= trim($item[5]);
+                $fix= trim($item[6])? trim($item[6]): $fix;
 
                 $fix_value=$fix.$value;
                 $origin_arr[]=$fix_value;
                 $this->t_origin_key->row_insert([
                     "create_time" => $now,
+                    "key0" => $key0,
                     "key1" => $key1,
                     "key2" => $key2,
                     "key3" => $key3,
@@ -2344,5 +2353,79 @@ class ajax_deal2 extends Controller
         }
         $competition_flag = $this->t_order_info->check_is_have_competition_order($origin_userid);
         return $this->output_succ(["flag"=>$competition_flag]);
+    }
+
+    //检查转介绍负责人以及转介绍人类型
+    public function check_origin_assistantid_info(){
+        $origin_userid = $this->get_in_int_val("origin_userid");
+        $origin_assistantid = $this->get_in_int_val("origin_assistantid");
+        $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
+
+        //原CC
+        $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
+        $cc_flag = 0;
+        if($admin_revisiterid>0){
+            $del_flag = $this->t_manager_info->get_del_flag($admin_revisiterid);
+            if($del_flag==0){
+                $cc_flag=1;
+            }
+        }
+        return $this->output_succ([
+            "account_role"=>$account_role,
+            "cc_flag"     =>$cc_flag
+        ]);
+        
+
+
+
+    }
+
+    public function get_assistant_warning_info(){
+        $ass_adminid = $this->get_account_id();
+        $now = time();
+        $three = $now - 86400*7;
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid, $three,-1);
+        $warning_type_num = [
+            'warning_type_one' =>0,
+            'warning_type_two' =>0,
+            'warning_type_three' =>0
+        ];
+        foreach($warning_count as $item){
+            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        }
+
+        $opt_date_type = $this->get_in_int_val("opt_date_type",3);
+        $start_time    = strtotime($this->get_in_str_val("start_time"));
+        $end_time      = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+        // dd($opt_date_type);
+        if($opt_date_type==3){
+            $cur_start = $start_time;
+            $cur_end = $end_time;
+
+        }else{
+            $cur_start = strtotime(date('Y-m-01',$end_time));
+            $cur_end = strtotime(date('Y-m-01',$cur_start+40*86400));
+        }
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1, $cur_start, $cur_end);
+        $warning_type_num['warning_type_three'] = $three_count;
+
+
+        //月回访信息
+        $month_list = $this->t_revisit_assess_info->get_month_assess_info_by_uid($ass_adminid, $cur_start, $cur_end);
+        $month_info = @$month_list[0];
+        $month_info["call_num"]= \App\Helper\Common::get_time_format_minute(@$month_info["call_num"]);
+        //当天回访信息
+        $start_time = strtotime( "today" );
+        $end_time   = strtotime("tomorrow");
+        $today_info = $this->t_manager_info->get_today_assess_info_by_uid($ass_adminid, $start_time, $end_time);
+        $call_num   = $this->t_revisit_call_count->get_today_call_count($ass_adminid, $start_time, $end_time);
+        $today_info["call_num"]= \App\Helper\Common::get_time_format_minute($call_num);
+        $today_info['goal'] = ceil(@$today_info['stu_num']/10);
+        return $this->output_succ([
+            "warning"      => @$warning_type_num,
+            "month_info"   => @$month_info,
+            "today_info"   => @$today_info,  
+        ]);
+ 
     }
 }

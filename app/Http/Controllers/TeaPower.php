@@ -1616,7 +1616,6 @@ trait TeaPower {
 
         $uid = $this->t_manager_info->get_id_by_phone($phone);
         if($uid>0){
-
             $del_flag = $this->t_manager_info->get_del_flag($uid);
             if($del_flag!=1){
                 $tea_nick = $this->t_manager_info->get_name($uid);
@@ -1637,7 +1636,7 @@ trait TeaPower {
             $is_test_user=1;
         }
 
-        $passwd = \App\Helper\Utils::get_common_passwd($phone,$use_easy_pass);
+        $passwd     = \App\Helper\Utils::get_common_passwd($phone,$use_easy_pass);
         $passwd_md5 = md5($passwd);
         $this->t_user_info->start_transaction();
         $this->t_user_info->row_insert([
@@ -1715,6 +1714,61 @@ trait TeaPower {
         ]);
 
         return (int)$teacherid;
+    }
+
+    /**
+     * 修改老师手机号
+     * @param int teacherid 老师id
+     * @param string phone  老师手机号
+     * @return string 错误信息
+     */
+    public function change_teacher_phone($teacherid,$new_phone){
+        $role = E\Erole::V_TEACHER;
+        $old_phone = $this->t_teacher_info->get_phone($teacherid);
+        if($old_phone==$new_phone){
+            return $this->output_err("更改的手机号与旧手机号相同!");
+        }
+        $check_phone = \App\Helper\Utils::check_phone($new_phone);
+        if(!$ret){
+            return $this->output_err("手机号不是11位!");
+        }
+        $check_flag = $this->t_phone_to_user->check_is_exist_by_phone_and_userid(-1,$new_phone,$role);
+        if(!empty($check_flag)){
+            return $this->output_err("该账号已存在!");
+        }
+        $update_tea_arr = [
+            "phone"       => $new_phone,
+            "phone_spare" => $new_phone,
+        ];
+        if(substr($new_phone,0,3)=="999"){
+            $update_tea_arr["is_test_user"] = 1;
+        }
+
+        $this->t_phone_to_user->start_transaction();
+        $update_ret = $this->t_phone_to_user->set_phone($new_phone,$role,$teacherid);
+        if(!$update_ret){
+            $this->t_phone_to_user->rollback();
+            return $this->output_err("更新用户表出错！请重试！");
+        }
+        $tea_ret = $this->t_teacher_info->field_update_list($userid,$update_tea_arr);
+        if(!$tea_ret){
+            $this->t_phone_to_user->rollback();
+            return $this->output_err("更新老师表出错！请重试！");
+        }
+
+        $this->t_phone_to_user->commit();
+        \App\Helper\Utils::logger("update teacher phone success!teacherid:".$userid
+                                  ." old phone:".$old_phone."new phone:".$new_phone);
+
+        $record_info = "手机变更,由".$old_phone."变更为".$new_phone;
+        $this->t_teacher_record_list->row_insert([
+            'teacherid'   => $userid,
+            'type'        => 6,
+            'record_info' => $record_info,
+            'add_time'    => time(),
+            'acc'         => $this->get_account(),
+        ]);
+        return $this->output_succ();
     }
 
     /**
@@ -1843,11 +1897,11 @@ trait TeaPower {
             $update_arr["nick"]     = $appointment_info['name'];
             $update_arr["realname"] = $appointment_info['name'];
         }
-        if(in_array($teacher_info['teacher_type'],[32])){
-            $update_arr['teacher_type']=0;
+        if(in_array($teacher_info['teacher_type'],[E\Eteacher_type::V_32])){
+            $update_arr['teacher_type']=E\Eteacher_type::V_0;
         }
         if($appointment_info['full_time']==1){
-            $update_arr['teacher_type']=3;
+            $update_arr['teacher_type']=E\Eteacher_type::V_3;
         }
         if($teacher_info['trial_lecture_is_pass']==0){
             $update_arr['trial_lecture_is_pass']=1;
@@ -1855,8 +1909,8 @@ trait TeaPower {
         if($teacher_info['wx_use_flag']==0){
             $update_arr['wx_use_flag']=1;
         }
-        if($teacher_info['identity']==0){
-            $update_arr['identity'] = $appointment_info['teacher_type'];
+        if($teacher_info['identity']==E\Eidentity::V_0){
+            $update_arr['identity']=$appointment_info['teacher_type'];
         }
         if(!empty($update_arr)){
             $ret = $this->t_teacher_info->field_update_list($teacher_info['teacherid'],$update_arr);
@@ -2028,14 +2082,15 @@ trait TeaPower {
     }
 
     /**
+     * 老师晋升邮件
      * @param info 中需要teacher_type,teacher_money_type,level
      */
     public function teacher_level_up_html($info){
-        $name          = $info['nick'];
-        $level_str     = \App\Helper\Utils::get_teacher_level_str($info);
+        $name      = $info['nick'];
+        $level_str = \App\Helper\Utils::get_teacher_level_str($info);
 
         $star_num=0;
-        if($level_str=="中级教师"){
+        if($level_str=="中级教师" ){
             $level_eng="Intermediate Teacher";
             $star_num=2;
         }elseif($level_str=="高级教师"){
@@ -2046,13 +2101,14 @@ trait TeaPower {
             $star_num=4;
         }else{
             $level_eng=" ";
-            if($info["teacher_money_type"]==6){
+            if($info["teacher_money_type"]==E\Eteacher_money_type::V_6){
                 $star_num = $info["level"]+1;
             }
             if($star_num<1){
                 $star_num=1;
             }
         }
+
         $show_star = "<img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>";
         $star_html = $show_star;
         for($i=2;$i<=$star_num;$i++){
@@ -2061,7 +2117,23 @@ trait TeaPower {
         $date_begin = date("m月d日0时",time());
         $date       = date("Y年m月d日",time());
 
-        $html="
+        if($level_str=="中级教师" || $level_str =="二星级教师"){
+            $header_html = "<div class='t2em'>
+                                 恭喜您成功通过理优1对1模拟试讲，鉴于您在模拟试讲中态度认真负责，教学方法灵活高效，
+                                 达到晋升标准。
+                            </div>";
+        }else{
+            $header_html = "<div class='t2em'>
+                        鉴于您在上一季度的教学过程中，工作态度认真负责，教学方法灵活高效，并在学生和家长群体中赢得了广泛好评，
+                        达到晋升考核标准（
+                        <span class='color_red'>课时量</span>、
+                        <span class='color_red'>转化率</span>和
+                        <span class='color_red'>教学质量</span>
+                        三个考核维度的评分俱皆达标），且无一起有效教学事故类退费或投诉。
+                    </div>";
+        }
+
+        $html = "
 <!DOCTYPE html>
 <html>
     <head>
@@ -2148,14 +2220,7 @@ trait TeaPower {
                 <div >感谢您一路对我们的支持与信任</div>
                 <div class='border tl'>
                     尊敬的<span class='tea_name size18'>".$name."</span>老师，您好！
-                    <div class='t2em'>
-                        鉴于您在上一季度的教学过程中，工作态度认真负责，教学方法灵活高效，并在学生和家长群体中赢得了广泛好评，
-                        达到晋升考核标准（
-                        <span class='color_red'>课时量</span>、
-                        <span class='color_red'>转化率</span>和
-                        <span class='color_red'>教学质量</span>
-                        三个考核维度的评分俱皆达标），且无一起有效教学事故类退费或投诉。
-                    </div>
+                        ".$header_html."
                     <div class='t2em'>
                         故公司经研究决定：将您晋升为
                         <span class='tea_level'>".$level_str."</span>。
@@ -2506,19 +2571,21 @@ trait TeaPower {
 
     /**
      * 老师培训通过后的处理操作
+     * @param int teacherid
      */
-    public function teacher_train_through_deal($teacher_info){
-        $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
+    public function teacher_train_through_deal($teacherid){
+        $ret = $this->t_teacher_info->field_update_list($teacherid,[
             "train_through_new_time" => time(),
         ]);
-        $teacher_info['level']=0;
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $teacher_info['level'] = 0;
         $this->send_offer_info($teacher_info);
 
         $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
         if(isset($reference_info['teacherid']) && !empty($reference_info['teacherid'])){
             //各类渠道合作的平台总代理，助理不发伯乐奖
             if(!in_array($reference_info['teacher_type'],[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
-                $this->add_reference_price($reference_info['teacherid'],$teacher_info['teacherid']);
+                $this->add_reference_price($reference_info['teacherid'],$teacherid);
             }
         }
     }
@@ -2547,11 +2614,11 @@ trait TeaPower {
              * {{remark.DATA}}
              */
             $template_id      = "1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II";
-            $data["first"]    = "老师您好，恭喜你已经通过理优入职培训，成为理优正式授课老师，等级为：".$level_str;
+            $data["first"]    = "老师您好，恭喜您已经通过了新师培训测评，等级为：一星级老师。请务必在七天内完成模拟试听课，通过审核后，即获得上课权限！";
             $data["keyword1"] = "教职老师";
-            $data["keyword2"] = "理优教育";
+            $data["keyword2"] = "上海理优教育";
             $data["keyword3"] = $today_date;
-            $data["remark"]   = "愿老师您与我们一起以春风化雨的精神,打造高品质教学服务,助我们理优学子更上一层楼。";
+            $data["remark"]   = "";
             $offer_url        = "http://admin.leo1v1.com/common/show_offer_html?teacherid=".$teacher_info["teacherid"];
             \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
         }
@@ -2559,12 +2626,13 @@ trait TeaPower {
 
     public function get_offer_html($teacher_info){
         $name       = $teacher_info['nick'];
-        // $level_str  = E\Elevel::get_desc($teacher_info['level']);
         $level_str = \App\Helper\Utils::get_teacher_level_str($teacher_info);
         $date_str  = \App\Helper\Utils::unixtime2date(time(),"Y.m.d");
-        // dd($teacher_info);
-        // $group_html = $this->get_qq_group_html($teacher_info['subject']);
-        $group_html = $this->get_new_qq_group_html($teacher_info['grade_start'],$teacher_info['grade_part_ex'],$teacher_info['subject']);
+        if($teacher_info['train_through_new']>0){
+            $group_html = $this->get_new_qq_group_html($teacher_info['grade_start'],$teacher_info['grade_part_ex'],$teacher_info['subject']);
+        }else{
+            $group_html = "";
+        }
         $html       = "
 <!DOCTYPE html>
 <html>
@@ -2650,10 +2718,7 @@ trait TeaPower {
             </div>
             <div class='todo size12' align='left'>
                 <div class='size20 color333'>待办事项</div>
-                <div class='ul_title size14 color333'>
-                    -加入相关QQ群(请备注 科目-年级-姓名)
-                </div>
-                <ul>".$group_html."</ul>
+                ".$group_html."
                 <div class='ul_title size14 color333'>
                     -理优老师后台链接
                 </div>
@@ -2811,13 +2876,16 @@ trait TeaPower {
             ],
         ];
 
-        $html="";
         $list = @$qq_group[ $grade ][ $subject ] ? $qq_group[ $grade ][ $subject ] : $qq_group[ $grade ][99];
         $list[] = @$qq_answer[ $subject ] ? $qq_answer[ $subject ] : $qq_answer[99];
-        // dd($list);
+        $html = "<div class='ul_title size14 color333'>"
+              ."-加入相关QQ群(请备注 科目-年级-姓名)"
+              ."</div>"
+              ."<ul>";
         foreach($list as $val){
             $html .= "<li>【LEO】".$val[0]."<br>群号：".$val[1]."<br>群介绍：".$val[2]."</li>";
         }
+        $html .= "</ul>";
         return $html;
     }
 
@@ -2958,13 +3026,15 @@ trait TeaPower {
 
     /**
      * 获取老师上个月的累计常规课时和累计常规+试听课时
-     * @param start_time 本月开始时间
-     * @param end_time   本月结束时间
+     * @param int start_time 本月开始时间
+     * @param int end_time   本月结束时间
      * @return array all_lesson_count 上月累计常规+试听课时  all_normal_count 上月累计常规课时
      */
     public function get_last_lesson_count_info($start_time,$end_time,$teacherid){
         $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
-        $last_lesson_count['all_lesson_count'] = $this->get_already_lesson_count($start_time,$end_time,$teacherid,0);
+        $last_lesson_count['all_lesson_count'] = $this->get_already_lesson_count(
+            $start_time,$end_time,$teacherid,0
+        );
         $last_lesson_count['all_normal_count'] = $this->get_already_lesson_count(
             $start_time,$end_time,$teacherid,E\Eteacher_money_type::V_6
         );
@@ -2981,7 +3051,8 @@ trait TeaPower {
 
     /**
      * 获取课程对应的累计课时
-     * @param last_lesson_count array key/all_lesson_count 上月累计常规+试听课时 key/all_normal_count 上月累计常规课时
+     * @param last_lesson_count array ['all_lesson_count'] 上月累计常规+试听课时
+     *                                ['all_normal_count'] 上月累计常规课时
      * @param lesson_already_lesson_count t_lesson_info中课程上的累计课时
      * @param teacher_money_type t_lesson_info中课程上的老师工资类型
      * @param teacher_type t_teacher_info中老师类型
@@ -3511,6 +3582,8 @@ trait TeaPower {
         return $result;
 
     }
+
+      
 
     //查询百度有钱花订单还款信息
     public function get_baidu_money_charge_pay_info($orderid){
@@ -4340,66 +4413,48 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $list;
     }
 
-    public function get_teacher_lesson_money_list_new($teacherid,$start_time,$end_time,$show_type="current"){
-        $start_date         = strtotime(date("Y-m-01",$start_time));
-        $now_date           = strtotime(date("Y-m-01",$end_time));
-        $list = [];
-        for($i=0,$flag=true;$flag!=false;$i++){
-            $j     = $i+1;
-            $start = strtotime("+".$i."month",$start_date);
-            $end   = strtotime("+".$j."month",$start_date);
-            if($end==$now_date || $end>$now_date){
-                $flag = false;
-            }
-
-            $start_list[] = $start;
-            $list[$i]["date"]               = date("Y年m月",$start);
-            $list[$i]["start_time"]         = $start;
-            $list[$i]["end_time"]           = $end;
-            $list[$i]["lesson_price"]       = 0;
-            $list[$i]["lesson_normal"]      = 0;
-            $list[$i]["lesson_trial"]       = 0;
-            $list[$i]["lesson_reward"]      = 0;
-            $list[$i]["lesson_cost"]        = 0;
-            $list[$i]["lesson_cost_normal"] = 0;
-            $list[$i]["lesson_total"]       = 0;
-            $reward_list = $this->get_teacher_reward_money_list_new($teacherid,$start,$end);
-            $list[$i]['reward_list']        = $reward_list;
-
-            //拉取上个月的课时信息
-            $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$teacherid);
-            $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end,-1,$show_type);
-            if(!empty($lesson_list)){
-                foreach($lesson_list as $key => &$val){
-                    $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
-                    if($val['lesson_type'] != 2){
-                        $val['money']       = $this->get_teacher_base_money($teacherid,$val);
-                        $val['lesson_base'] = $val['money']*$lesson_count;
-                        \App\Helper\Utils::check_isset_data($list[$i]['lesson_normal'],$val['lesson_base']);
-                        $reward = $this->get_lesson_reward_money(
-                            $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$val['teacher_type'],$val['type']
-                        );
-                    }else{
-                        $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
-                            $val['teacher_money_type'],$val['teacher_type'],$val['lesson_start']
-                        );
-                        \App\Helper\Utils::check_isset_data($list[$i]['lesson_trial'],$val['lesson_base']);
-                        $reward = 0;
-                    }
-                    $val['lesson_reward'] = $reward*$lesson_count;
-
-                    $this->get_lesson_cost_info($val);
-                    $lesson_price = $val['lesson_base']+$val['lesson_reward']-$val['lesson_cost'];
-                    $list[$i]['lesson_price']       += $lesson_price;
-                    $list[$i]['lesson_reward']      += $val['lesson_reward'];
-                    $list[$i]['lesson_cost']        += $val['lesson_cost'];
-                    $list[$i]['lesson_cost_normal'] += $val['lesson_cost_normal'];
-                    $list[$i]['lesson_total']       += $lesson_count;
+    /**
+     * 更改中的老师薪资列表，请勿使用
+     * @param int teacherid 老师id
+     * @param int start     开始时间戳
+     * @param int end     结束时间戳
+     * @param string show_type 是否显示未上课程 all 包括未上   current 不包括未上
+     * @return array
+     */
+    public function get_teacher_lesson_money_list_new($teacherid,$start,$end,$show_type="current"){
+        $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$teacherid);
+        $reward_list = $this->get_teacher_reward_money_list_new($teacherid,$start,$end);
+        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end,-1,$show_type);
+        if(!empty($lesson_list)){
+            foreach($lesson_list as $key => &$val){
+                $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
+                if($val['lesson_type'] != 2){
+                    $val['money']       = $this->get_teacher_base_money($teacherid,$val);
+                    $val['lesson_base'] = $val['money']*$lesson_count;
+                    \App\Helper\Utils::check_isset_data($list[$i]['lesson_normal'],$val['lesson_base']);
+                    $reward = $this->get_lesson_reward_money(
+                        $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$val['teacher_type'],$val['type']
+                    );
+                }else{
+                    $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
+                        $val['teacher_money_type'],$val['teacher_type'],$val['lesson_start']
+                    );
+                    \App\Helper\Utils::check_isset_data($list[$i]['lesson_trial'],$val['lesson_base']);
+                    $reward = 0;
                 }
+                $val['lesson_reward'] = $reward*$lesson_count;
+
+                $this->get_lesson_cost_info($val);
+                $lesson_price = $val['lesson_base']+$val['lesson_reward']-$val['lesson_cost'];
+
+                \App\Helper\Utils::set_default_value($money_list['lesson_price'], $lesson_price);
+                \App\Helper\Utils::set_default_value($money_list['lesson_reward'], $val['lesson_reward']);
+                \App\Helper\Utils::set_default_value($money_list['lesson_cost'], $val['lesson_cost']);
+                \App\Helper\Utils::set_default_value($money_list['lesson_total'], $lesson_count);
             }
         }
 
-        return $list;
+        return $money_list;
     }
 
 
@@ -4430,31 +4485,40 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
 
             $identity = $recommended_info['identity'];
-            if (in_array($identity,[E\Eidentity::V_5,E\Eidentity::V_6,E\Eidentity::V_7])) {
+            if (in_array($identity,[E\Eidentity::V_5,E\Eidentity::V_6])) {
                 $type = 1; // 机构老师
             } else {
-                $type = 0; // 在样学生
+                $type = 0; // 在校学生 (高校生, 其他在职人士, 未设置)
             }
-            $reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type) + 1;
+
+            if ($teacherid == 274115) { // join中国 60元/个
+                $reference_price = 60;
+            }elseif($teacherid == 149697){ //明日之星 50元/个
+                $reference_price = 50;
+            }elseif(($teacherid == 176348 || $teacher_info['teacher_type'] == 21 || $teacher_info['teacher_type'] == 22) && $type = 1) { //田克平 廖老师工作室 王老师工作室 推荐机构老师 80 元/个
+                $reference_price = 80;
+            } else {
+                //$reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type) + 1;
+                $start_time = strtotime('2015-1-1');
+                $end_time = time();
+                if ($teacher_info['teacher_type'] == 21 && $teacher_info['teacher_type'] == 22) { // 工作室是从11月开始累如
+                    $start_time = strtotime("2017-11-1");
+                }
+                $reference_num = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher_info['phone'], $type);
+                $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
+            }
 
             /**
              * 廖祝佳，王菊香推荐的在职老师起步都是80元/个
              * 明日之星推荐的在职老师起步都是50元/个
              */
-            if($reference_type==2){
-                switch($teacher_ref_type){
-                case E\Eteacher_ref_type::V_1:case E\Eteacher_ref_type::V_2:
-                    $reference_num += 30;
-                    break;
-                }
-            }
-
-            $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
-            if ($teacherid == 274115) { // join中国 60元/个
-                $reference_price = 60;
-            }elseif($teacherid == 149697){ //明日之星 50元/个
-                $reference_price = 50;
-            }
+            // if($reference_type==2){
+            //     switch($teacher_ref_type){
+            //     case E\Eteacher_ref_type::V_1:case E\Eteacher_ref_type::V_2:
+            //         $reference_num += 30;
+            //         break;
+            //     }
+            // }
 
             $this->t_teacher_money_list->row_insert([
                 "teacherid"  => $teacherid,
@@ -4712,9 +4776,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $lesson_end_time;
     }
 
-    //黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
-    //张珍颖奥数 58812 所有都是75元/课时
-    //学生吕穎姍 379758 的课时费在在他升到高一年级前都按高一来算
+    /**
+     * 黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
+     * 张珍颖奥数 58812 所有都是75元/课时
+     * 学生吕穎姍 379758 的课时费在在他升到高一年级前都按高一来算
+     * 获取老师课时基本工资
+     * @param int teacherid
+     * @param array lesson_info 课程信息
+     */
     public function get_teacher_base_money($teacherid,$lesson_info){
         $money            = $lesson_info['money'];
         //黄嵩婕切换新版工资版本时间,之前的课程计算工资不变,之后的工资变成新版工资
@@ -4733,4 +4802,21 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
         return $money;
     }
+
+
+    public function reset_teacher_lesson_info($teacherid, $teacher_money_type, $level, $teacher_type=0){
+        $res = $this->t_lesson_info->update_field_list('t_lesson_info', [
+            'teacher_money_type' => $teacher_money_type,
+            //'level' => $level,
+            'teacher_type' => $teacher_type
+        ], 'teacherid', $teacherid);
+
+        if ($res) {
+            $this->t_user_log->add_data("teacherid:".$teacherid."教师类型:".$teacher_type."等级:".$level."老师工资类型:".$teacher_money_type."全转兼时lesson表更新成功");
+        } else {
+            $this->t_user_log->add_data("teacherid:".$teacherid."教师类型:".$teacher_type."等级:".$level."老师工资类型:".$teacher_money_type."全转兼时lesson表更新失败");
+        }
+        return '';
+    }
+
 }

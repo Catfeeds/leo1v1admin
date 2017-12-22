@@ -1544,7 +1544,7 @@ class tongji extends Controller
     }
 
     public function origin_count_yxb_simple () {
-        $this->set_in_value("origin_ex","优学帮,,,");
+        $this->set_in_value("origin_ex","自有渠道,优学帮,,,");
         return $this->origin_count_simple_has_intention();
     }
 
@@ -1605,7 +1605,7 @@ class tongji extends Controller
         $test_area_map    = [];
         $test_subject_map = [];
         $test_grade_map   = [];
-        $test_data=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex);
+        $test_data=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex,'','','',$opt_date_str);
         foreach ($test_data as $a_item) {
             $subject   = $a_item["subject"];
             $grade     = $a_item["grade"];
@@ -1681,7 +1681,8 @@ class tongji extends Controller
         }
 
         if ($field_name=="origin") {
-            $ret_info["list"]= $this->gen_origin_data($ret_info["list"],["avg_first_time"], $origin_ex);
+            $tongji_ss = new \App\Http\Controllers\tongji_ss();
+            $ret_info["list"]= $tongji_ss->gen_origin_data_level5($ret_info["list"],["avg_first_time"], $origin_ex);
         }
 
 

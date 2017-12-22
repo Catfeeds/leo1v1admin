@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+//__CMD: 100x0001
+//__DESC: 发送验证码前发送时间戳给前端,回调验证(注册使用) http://api.account.leo1v1.com/account_common/send_time_code_for_register
+//__TAGS: for app
+
+
+message in  {
+  string phone =1;//手机
+  int32 role =2;//角色    1 学生,2 老师,3 助教,4 家长,6 销售
+
+}
+
+message out {
+  int32 time =1;//返回时间戳,验证使用  
+  
+}

@@ -29,6 +29,7 @@
                     <td>试听时间:<span class="font_color">{{$require_info['request_time']}}</span></td>
                     <td>
                         老师身份:<span class="font_color">{{ $require_info['tea_identity_str'] }}</span><br/>
+                        老师类型:<span class="font_color">{{ $require_info['teacher_type_str'] }}</span><br/>
                         年龄要求:<span class="font_color">{{ $require_info['tea_age_str'] }}</span><br/>
                         性别要求:<span class="font_color">{{ $require_info['tea_gender_str'] }}</span><br/>
                     </td>
@@ -56,12 +57,12 @@
                     <input id="id_lesson_time" type="text" value="{{ @$require_info['lesson_time'] }}" />
                 </div>
             </div>
-            <div class="col-xs-6 col-md-2">
+            <div class="col-xs-6 col-md-3">
                 <div class="input-group ">
-                    <span>老师</span>
+                    <span>老师信息</span>
                     <input id="id_teacherid" style="display:none" type="text"
                            value="{{ @$require_info['teacherid'] }}" autocomplete="off" />
-                    <span id="id_teacher_name" type="text" style="height:34px" >{{ @$require_info['tea_nick'] }}</span>
+                    <input id="id_teacher_info" type="text" value="{{ @$require_info['teacher_info'] }}" autocomplete="off" />
                 </div>
             </div>
             <div class="col-md-1 col-xs-3">
@@ -101,8 +102,17 @@
                     </select>
                 </div>
             </div>
+            <div class="col-xs-6 col-md-3" >
+                <div class="input-group ">
+                    <span class="input-group-addon">老师类型</span>
+                    <select class="opt-change form-control" id="id_teacher_type">
+                        <option value="0">无要求</option>
+                        <option value="1">非全职老师</option>
+                        <option value="3">全职老师</option>
+                    </select>
+                </div>
+            </div>
         </div>
-
         <div class="row">
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">

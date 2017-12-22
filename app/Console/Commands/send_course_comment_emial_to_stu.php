@@ -39,7 +39,7 @@ class send_course_comment_emial_to_stu extends Command
     {
         /**  @var   $task \App\Console\Tasks\TaskController */
 
-        $task=new \App\Console\Tasks\TaskController();
+        $task       = new \App\Console\Tasks\TaskController();
         $start_time = strtotime(date("Y-m-d",time()))-10*86400;
         $end_time   = time();
         $level      = [0=>"",1=>"加油",2=>"还行",3=>"不错",4=>"良好",5=>"优秀"];
@@ -47,7 +47,7 @@ class send_course_comment_emial_to_stu extends Command
         $lesson_info = $task->t_lesson_info->get_performance_stu_new($start_time,$end_time);
         foreach ($lesson_info as $item){
             if(!empty($item['stu_performance']) && !empty($item['stu_email'])){
-                $ret_info     = json_decode($item['stu_performance'],true);
+                $ret_info = json_decode($item['stu_performance'],true);
                 if(is_array($ret_info) && isset($ret_info['total_judgement'])){
                     $lesson_start = date('Y-m-d H:i',$item['lesson_start']);
                     $lesson_end   = date('H:i',$item['lesson_end']);
