@@ -2284,7 +2284,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_status=2"
         ];
 
-        $sql = $this->gen_sql_new("  select max(l.lesson_start) as max_time, min(l.lesson_end) as min_time from %s l"
+        $sql = $this->gen_sql_new("  select min(l.lesson_start) as min_time, max(l.lesson_start) as max_time from %s l"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
