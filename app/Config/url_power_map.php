@@ -541,7 +541,6 @@ class url_power_map {
 			'/tea_manage_new/get_teacher_complaints_info_jw'	=>1142600,
 			'/tongji_ss/get_seller_rank_for_jw'	=>1142700,
 			'/seller_student_new2/test_lesson_plan_list_jw_leader'	=>1142800,
-			'/user_manage/tongji_cc'	=>1142900,
 			'/user_manage/subject_by_month'	=>1143000,
 			'/main_page/teacher_management_info'	=>1143100,
 			'/main_page/zs_teacher_new'	=>1250100,
