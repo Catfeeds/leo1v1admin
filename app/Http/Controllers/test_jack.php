@@ -1442,7 +1442,8 @@ class test_jack  extends Controller
 
 
     public function test_ws() {
-        return $this->pageView(__METHOD__);
+        // $list = $this->t_\
+       return $this->pageView(__METHOD__);
     }
 
     public function test_hha(){
