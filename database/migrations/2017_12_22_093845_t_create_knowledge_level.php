@@ -52,16 +52,16 @@ class TCreateKnowledgeLevel extends Migration
         //         t_field($table->integer('time'),"学生答题时间");
         // });
 
-        Schema::table('db_question_new.t_answer', function (Blueprint $table){
-            t_field($table->integer('answer_no')->default(1),"默认:标准答案1");
-        });
-        Schema::create('db_question_new.t_answer_type', function (Blueprint $table){
-            $table->increments('id');
-                t_field($table->integer('answer_type_no'),"答案序号");
-                t_field($table->string('name'),"步骤名字");
-                t_field($table->integer('subject'),"科目id");
-                t_field($table->integer('open_flag')->default(1),"开启与否");
-        });
+        // Schema::table('db_question_new.t_answer', function (Blueprint $table){
+        //     t_field($table->integer('answer_no')->default(0),"默认:标准答案1");
+        // });
+        // Schema::create('db_question_new.t_answer_type', function (Blueprint $table){
+        //     $table->increments('id');
+        //         t_field($table->integer('answer_type_no'),"答案序号");
+        //         t_field($table->string('name'),"步骤名字");
+        //         t_field($table->integer('subject'),"科目id");
+        //         t_field($table->integer('open_flag')->default(1),"开启与否");
+        // });
 
 
     }
