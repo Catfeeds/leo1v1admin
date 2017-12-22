@@ -474,7 +474,9 @@ class ss_deal2 extends Controller
         $arr = json_decode($cultivation,true);
         $data="";
         foreach($arr as $v){
-            $data .= $list[$v].",";
+            if($v>0){
+                $data .= $list[$v].",";
+            }
         }
         $data = trim($data,",");
         return $this->output_succ(["data"=> $data]);
@@ -516,7 +518,9 @@ class ss_deal2 extends Controller
         $arr = json_decode($teacher_nature,true);
         $data="";
         foreach($arr as $v){
-            $data .= $list[$v].",";
+            if($v>0){
+                $data .= $list[$v].",";
+            }
         }
         $data = trim($data,",");
         return $this->output_succ(["data"=> $data]);
@@ -558,7 +562,9 @@ class ss_deal2 extends Controller
         $arr = json_decode($pro_ability,true);
         $data="";
         foreach($arr as $v){
-            $data .= $list[$v].",";
+            if($v>0){
+                $data .= $list[$v].",";
+            }
         }
         $data = trim($data,",");
         return $this->output_succ(["data"=> $data]);
@@ -600,7 +606,9 @@ class ss_deal2 extends Controller
         $arr = json_decode($class_env,true);
         $data="";
         foreach($arr as $v){
-            $data .= $list[$v].",";
+            if($v>0){
+                $data .= $list[$v].",";
+            }
         }
         $data = trim($data,",");
         return $this->output_succ(["data"=> $data]);
@@ -642,7 +650,9 @@ class ss_deal2 extends Controller
         $arr = json_decode($courseware,true);
         $data="";
         foreach($arr as $v){
-            $data .= $list[$v].",";
+            if($v>0){
+                $data .= $list[$v].",";
+            }
         }
         $data = trim($data,",");
         return $this->output_succ(["data"=> $data]);

@@ -39,6 +39,7 @@
                         <td>{{$var['accept_status_str']}}</td>
                         <td data_id="{{$var['id']}}" data_teacherid="{{$var['teacherid']}}" data_money_type="{{$var['teacher_money_type_after']}}">
                             @if($var['accept_status'] == 0)
+                                <a class="btn fa fa-cog td-info" href="javascript:void(0)" title="坚向显示"></a>
                                 <a class="fa fa-edit opt-accept"  title="审核"> </a>
                             @endif
                         </td>
