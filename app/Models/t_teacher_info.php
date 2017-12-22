@@ -732,7 +732,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         }
 
         $sql = $this->gen_sql_new("select t.wx_openid,t.need_test_lesson_flag,t.nick,t.realname, t.teacher_type,t.jianli,"
-                                  ." t.gender,t.teacher_money_type,t.identity,t.is_test_user,t.add_acc,"
+                                  ." t.gender,t.age,t.teacher_money_type,t.identity,t.is_test_user,t.add_acc,"
                                   ." t.train_through_new, t.train_through_new_time,t.phone_spare,"
                                   ." t.birth,t.phone,t.email,t.rate_score,t.teacherid,t.user_agent,"
                                   ." t.teacher_tags,t.teacher_textbook,t.wx_use_flag,"
@@ -4728,7 +4728,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,t.second_subject,t.second_grade_start,"
                                   ." t.second_grade_end,t.limit_plan_lesson_type,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.train_through_new_time,t.identity,t.gender,t.age,t.realname,"
-                                  ." t.phone,tf.free_time_new,t.teacher_tags,"
+                                  ." t.phone,tf.free_time_new,t.teacher_tags,t.teacher_textbook,"
                                   ." count(if(%s,true,null)) as day_num,"
                                   ." count(if(%s,true,null)) as week_num,"
                                   ." count(if(%s,true,null)) as month_num,"
@@ -4762,7 +4762,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." t.second_subject,t.second_grade_start,t.teacher_type,"
                                   ." t.second_grade_end,t.limit_plan_lesson_type,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.train_through_new_time,t.identity,t.gender,t.age,t.realname,"
-                                  ." t.phone,tf.free_time_new,t.teacher_tags"
+                                  ." t.phone,tf.free_time_new,t.teacher_tags,t.teacher_textbook"
                                   ." from %s t"
                                   ." left join %s tf on t.teacherid=tf.teacherid"
                                   ." where %s"

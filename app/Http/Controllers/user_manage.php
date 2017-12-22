@@ -1036,14 +1036,13 @@ class user_manage extends Controller
                 $ret_list= $this->t_manager_info->get_list_for_select($id,$gender, $nick_phone, $page_num,$main_type);
             }
         }elseif($type=="student_ass"){ //助教学生
-            //  $adminid=324;
             $adminid = $this->get_account_id();
             $ret_list= $this->t_student_info->get_ass_list_for_select($id,$gender, $nick_phone, $page_num,$adminid);
         }
 
         $lru_list=null;
-        if ($lru_flag) {
-            $lru_list=\App\Helper\Common::redis_get_json($lru_key);
+        if( $lru_flag ){
+            $lru_list = \App\Helper\Common::redis_get_json($lru_key);
             if (!$lru_list) {
                 $lru_list=[];
             }
@@ -2993,7 +2992,7 @@ class user_manage extends Controller
      */
     public function tongji_cc()
     {
-
+        return $this->pageView(__METHOD__, []);
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
         $ret_info = $this->t_lesson_info->get_tongji_cc($start_time,$end_time,0,0); //普通排课
