@@ -25,11 +25,11 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
     public function get_test_list( $page_info, $grade ) {
         $where_arr=[] ;
-        $this->where_arr_add_int_or_idlist($where_arr, $grade);
+        $this->where_arr_add_int_or_idlist($where_arr,"grade", $grade );
 
         $sql = $this->gen_sql_new("select  userid, nick,realname,  phone, grade "
                               ." from %s ".
-                              "  where   ",
+                              "  where  %s ",
                               self::DB_TABLE_NAME,
                                   $where_arr
         );

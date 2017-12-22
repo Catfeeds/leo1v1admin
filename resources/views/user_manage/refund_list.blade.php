@@ -209,8 +209,8 @@
                             <td >{{$var["tea_nick"]}}</td>
                             <td >{{@$var["duty_str"]}}</td>
 
-                            <td >{{@$var["max_time_str"]}}</td>
                             <td >{{@$var["min_time_str"]}}</td>
+                            <td >{{@$var["max_time_str"]}}</td>
 
                             <td >{{$var["qc_contact_status_str"]}}</td>
                             <td >{{$var["qc_advances_status_str"]}}</td>

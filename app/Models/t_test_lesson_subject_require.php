@@ -3854,4 +3854,57 @@ ORDER BY require_time ASC";
         );
         return $this->main_get_list($sql);
     }
+    //@desn:获取节点型试听课统计数据
+    //@param:$start_time 开始时间
+    //@param:$end_time 结束时间
+    //@param:$opt_date_str 检索时间类型
+    public function get_test_lesson_data_now($origin='', $field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="" ){
+        switch ( $field_name ) {
+        case "origin" :
+            $field_name="si.origin";
+            break;
+        case "grade" :
+            $field_name="li.grade";
+            break;
+        case "subject" :
+            $field_name="li.subject";
+            break;
+        default:
+            break;
+        }
+
+        $where_arr=[
+            ["si.origin like '%%%s%%' ",$origin,''],
+        ];
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"si.origin");
+        $where_arr[]= $ret_in_str;
+        $this->where_arr_adminid_in_list($where_arr,"tls.require_adminid",$adminid_list);
+
+        $this->where_arr_add__2_setid_field($where_arr,"ssn.tmk_adminid",$tmk_adminid);
+        $this->where_arr_add_time_range($where_arr, 'tlsr.require_time', $start_time, $end_time);
+
+        $sql = $this->gen_sql_new(
+            'select '.$field_name.' as check_value,count(tlsr.require_id) as require_count,'.
+            'count(tlsr.accept_flag = 1) test_lesson_count,'.
+            'sum(tlssl.success_flag in (0,1 )) as succ_test_lesson_count,'.
+            'count(distinct if(tlsr.accept_flag = 1,tls.userid,null)) as distinct_test_count,'.
+            'count(distinct if(tlssl.success_flag in (0,1 ),tls.userid,null)) as distinct_succ_count '.
+            'from %s tlsr '.
+            'left join %s tls on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id '.
+            'left join %s tlssl on tlssl.require_id = tlsr.require_id '.
+            'left join %s li on tlsr.current_lessonid=li.lessonid '.
+            'left join %s si on tls.userid=si.userid '.
+            'left join %s ssn on tls.userid = ssn.userid '.
+            'where %s group by check_value',
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }

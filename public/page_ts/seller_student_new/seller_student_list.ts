@@ -43,7 +43,7 @@ function load_data(){
 function add_subject_score(obj){
     // alert($(obj).parent().parent().attr('class'));
     // $(obj).parent().parent().parent().append("<div class='col-xs-12 col-md-3 subject_score '><div class='input-group'><select name='subject_score_new_two' class='form-control'></select><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /><input type='text' class='form-control' name='subject_score_two_new_two' placeholder='满数' /><button class='btn btn-primary'  title='添加科目' onclick='add_subject_score(this)' ><i class='fa fa-plus'></i></button><button class='btn btn-primary' onclick='del_subject_score(this)'  title='删除科目' ><i class='fa fa-minus'></i></button></div></div>");
-    $(obj).parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'><font style='color:red'>*</font>&nbsp科目：</span><select name='subject_score_new_two' class='form-control' style='width:70px'></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:45px;'><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0.1% 0 -5%'><div class='input-group' style='width:50px;'><input type='text' class='form-control'  name='subject_score_two_new_two' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:1% 0 0 0%;cursor: pointer;padding:0 0 0 0;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
+    $(obj).parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'>科目：</span><select name='subject_score_new_two' class='form-control' style='width:70px'></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:45px;'><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0.1% 0 -5%'><div class='input-group' style='width:50px;'><input type='text' class='form-control'  name='subject_score_two_new_two' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:1% 0 0 0%;cursor: pointer;padding:0 0 0 0;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
     var id_subject_score = $(obj).parent().parent().parent().find("select[name='subject_score_new_two']").last();
     var id_grade = $(obj).parent().parent().parent().parent().parent().parent().parent().find('#id_stu_grade_new_two').val();
     if(id_grade==101 || id_grade==102 || id_grade==103 || id_grade==104 || id_grade==105 || id_grade==106){
@@ -1715,7 +1715,7 @@ function init_edit() {
                         if(cc_flag==0){
                             var origin_flag=$("<select><option value= \"1\">自行跟进</option><option value= \"2\">分配CC总监</option></select>");
                             var arr=[
-                                ["分配方式",origin_flag]  
+                                ["分配方式",origin_flag]
                             ];
                             $.show_key_value_table("选择分配方式", arr, {
                                 label    : '提交',
@@ -1762,7 +1762,7 @@ function init_edit() {
                                 });
                             }
                         } );
- 
+
                     }
                 });
 
@@ -3363,20 +3363,24 @@ function init_edit() {
             Enum_map.append_option_list("boolean", id_stu_test_ipad_flag, true);
             Enum_map.append_option_list("boolean", id_advice_flag, true);
             Enum_map.append_option_list("academic_goal", id_academic_goal, true);
-            Enum_map.append_option_list("test_stress", id_test_stress, true);
+            Enum_map.append_option_list("test_stress", id_test_stress, true,[1,2,3]);
+            id_test_stress.append(wuyaoqiu_html);
             Enum_map.append_option_list("habit_remodel", id_habit_remodel, true);
             Enum_map.append_option_list("extra_improvement", id_extra_improvement, true);
-            Enum_map.append_option_list("entrance_school_type", id_entrance_school_type, true);
+            Enum_map.append_option_list("entrance_school_type", id_entrance_school_type, true,[1,2,3,4,5,6,7]);
+            id_entrance_school_type.append(wuyaoqiu_html);
             Enum_map.append_option_list("interest_cultivation", id_interest_cultivation, true);
             Enum_map.append_option_list("intention_level", id_intention_level, true);
             Enum_map.append_option_list("demand_urgency", id_demand_urgency, true);
             Enum_map.append_option_list("quotation_reaction", id_quotation_reaction, true);
-            id_tea_status.append(wuyaoqiu_html);
             Enum_map.append_option_list("identity", id_tea_status, true,[5,6,7,8]);
-            id_tea_gender.append(wuyaoqiu_html);
+            id_tea_status.append(wuyaoqiu_html);
             Enum_map.append_option_list("gender", id_tea_gender, true,[1,2]);
-            Enum_map.append_option_list("tea_age", id_tea_age, true);
-            Enum_map.append_option_list("teacher_type", id_teacher_type, true,[0,1,3]);
+            id_tea_gender.append(wuyaoqiu_html);
+            Enum_map.append_option_list("tea_age", id_tea_age, true,[1,2,3,4]);
+            id_tea_age.append(wuyaoqiu_html);
+            Enum_map.append_option_list("teacher_type", id_teacher_type, true,[1,3]);
+            id_teacher_type.append(wuyaoqiu_html);
             id_stu_request_test_lesson_time.datetimepicker({
                 lang             : 'ch',
                 timepicker       : true,
@@ -3987,8 +3991,7 @@ function init_edit() {
                         html_node.find("#id_main_subject_score_one_new_two").val(arr_new[0]);
                         html_node.find("#id_main_subject_score_two_new_two").val(arr_new[1]);
                     }else{
-                        // html_node.find("#id_add_subject_score_new_two").parent().parent().parent().append("<div class='col-xs-12 col-md-3 subject_score '><div class='input-group'><select id='subject_score_"+index+"' name='subject_score_new_two' class='form-control'><option>"+arr[0]+"</option></select><input type='text' class='form-control' name='subject_score_one_new_two' value='"+arr_new[0]+"' placeholder='分数' /><input type='text' class='form-control' name='subject_score_two_new_two' value='"+arr_new[1]+"' placeholder='满数' /><button class='btn btn-primary'  title='添加科目' onclick='add_subject_score(this)' ><i class='fa fa-plus'></i></button><button class='btn btn-primary' onclick='del_subject_score(this)'  title='删除科目' ><i class='fa fa-minus'></i></button></div></div>");
-                        html_node.find("#id_main_subject_score_two_new_two").parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'><font style='color:red'>*</font>&nbsp科目：</span><select name='subject_score_new_two' id='subject_score_"+index+"' class='form-control' style='width:70px'><option>"+arr[0]+"</option></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:45px;'><input type='text' class='form-control' value='"+arr_new[0]+"' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0.1% 0 -5%'><div class='input-group' style='width:50px;'><input type='text' class='form-control' name='subject_score_two_new_two' value='"+arr_new[1]+"' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:1% 0 0 0%;cursor: pointer;padding:0 0 0 0;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
+                        html_node.find("#id_main_subject_score_two_new_two").parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'>科目：</span><select name='subject_score_new_two' id='subject_score_"+index+"' class='form-control' style='width:70px'><option>"+arr[0]+"</option></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:45px;'><input type='text' class='form-control' value='"+arr_new[0]+"' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0.1% 0 -5%'><div class='input-group' style='width:50px;'><input type='text' class='form-control' name='subject_score_two_new_two' value='"+arr_new[1]+"' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:1% 0 0 0%;cursor: pointer;padding:0 0 0 0;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
                     }
                 }
             });
@@ -4048,7 +4051,6 @@ function init_edit() {
                                     checked = "checked='checked'";
                                 }
                             });
-                            // id_add_tag.parent().append("<button class='btn  btn-primary' value='"+item['tag_name']+"' title='' >"+item['tag_name']+"</button><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' "+checked+" />");
                             id_add_tag.parent().append("<span class='sub_tag_name'>"+item['tag_name']+"</span><input name='subject_tag' type='checkbox' value='"+item['tag_name']+"' "+checked+" style='margin:0 10px 0 0' />");
                         }
                     });
@@ -4107,6 +4109,9 @@ function init_edit() {
                 id_main_subject_score_two.val('');
             });
             $.each(data.subject_tag,function(index,value){
+                if(value == ''){
+                    value = '无要求';
+                }
                 if(index == '素质培养'){
                     id_cultivation.val(value);
                 }else if(index == '风格性格'){
@@ -4460,7 +4465,7 @@ function init_edit() {
                         }else{
                             html_node.find("#id_stu_addr_new_two").parent().attr('style','');
                         }
-                        var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数 
+                        var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数
                         if(html_node.find("#id_class_rank_new_two").val() == '' || html_node.find("#id_class_num_new_two").val() == ''){
                             html_node.find("#id_class_rank_new_two").attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
@@ -4487,7 +4492,7 @@ function init_edit() {
                             var check = true;
                             html_node.find("#id_main_subject_new_two").parent().attr('style','');
                             $("input[name='subject_score_one_new_two'],input[name='subject_score_two_new_two']").each(function(){
-                                var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数 
+                                var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数
                                 if($(this).val() !== ''){
                                     if(r.test($(this).val())){
                                         $(this).attr('style','');
@@ -4503,18 +4508,18 @@ function init_edit() {
                                 return false;
                             }
                         }
-                        if(html_node.find("#id_test_stress_new_two").val() <= 0){
-                            html_node.find("#id_test_stress_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_test_stress_new_two").parent().attr('style','');
-                        }
-                        if(html_node.find("#id_entrance_school_type_new_two").val() <= 0){
-                            html_node.find("#id_entrance_school_type_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_entrance_school_type_new_two").parent().attr('style','');
-                        }
+                        // if(html_node.find("#id_test_stress_new_two").val() <= 0){
+                        //     html_node.find("#id_test_stress_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        //     return false;
+                        // }else{
+                        //     html_node.find("#id_test_stress_new_two").parent().attr('style','');
+                        // }
+                        // if(html_node.find("#id_entrance_school_type_new_two").val() <= 0){
+                        //     html_node.find("#id_entrance_school_type_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        //     return false;
+                        // }else{
+                        //     html_node.find("#id_entrance_school_type_new_two").parent().attr('style','');
+                        // }
                         if(html_node.find("#id_cultivation_new_two").val() == ''){
                             html_node.find("#id_cultivation_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;

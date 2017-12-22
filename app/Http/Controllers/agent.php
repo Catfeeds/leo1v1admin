@@ -456,6 +456,11 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $ret_info= $this->t_order_info->get_1v1_order_seller_list_new($start_time=1504195200,$end_time=1506787200,[],'');
+        dd($ret_info);
+        $this->t_student_cc_to_cr->row_insert($arr);
+        $ret = $this->t_seller_student_new->field_update_list($userid=62721,['hold_flag'=>0]);
+        dd($ret);
         $duration= strtotime("1970-01-01 00:00:00");//3600*8
         dd($duration);
         dd($tong_count,$tao_count,$count);

@@ -1364,8 +1364,6 @@ class Utils  {
         // chmod($targetName,0777);
         $fp = fopen($targetName,'wb');
 
-
-
         curl_setopt($ch,CURLOPT_URL,$pic_url);
         curl_setopt($ch,CURLOPT_FILE,$fp);
         curl_setopt($ch,CURLOPT_HEADER,0);
@@ -1373,8 +1371,6 @@ class Utils  {
         curl_close($ch);
         fclose($fp);
         $msg['savePathFile'] = $savePathFile;
-
-        \App\Helper\Utils::logger("savePathFile_msg:".json_encode($msg));
 
         return $msg;
     }

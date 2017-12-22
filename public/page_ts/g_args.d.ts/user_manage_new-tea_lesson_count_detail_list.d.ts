@@ -32,19 +32,34 @@ tofile:
 /// <reference path="../g_args.d.ts/user_manage_new-tea_lesson_count_detail_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		teacherid:	$('#id_teacherid').val(),
 		studentid:	$('#id_studentid').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val()
-    });
+		});
 }
 $(function(){
 
 
-	$('#id_teacherid').val(g_args.teacherid);
-	$('#id_studentid').val(g_args.studentid);
+	$('#id_teacherid').admin_select_user_new({
+		"user_type"    : "teacher",
+		"select_value" : g_args.teacherid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_teacherid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
+	$('#id_studentid').admin_select_user_new({
+		"user_type"    : "student",
+		"select_value" : g_args.studentid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_studentid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_start_time').val(g_args.start_time);
 	$('#id_end_time').val(g_args.end_time);
 
@@ -63,6 +78,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_teacherid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teacherid title", "teacherid", "th_teacherid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -70,6 +86,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_studentid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["studentid title", "studentid", "th_studentid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -77,6 +94,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_start_time" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -84,4 +102,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_end_time" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 */

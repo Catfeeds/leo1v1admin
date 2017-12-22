@@ -1413,9 +1413,36 @@ class test_james extends Controller
         $store=new \App\FileStore\file_store_tea();
         $auth=$store->get_auth();
         $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $file_link );
+        return $authUrl;
         dd($authUrl);
         return $this->output_succ(["url" => $authUrl]);
     }
+
+
+
+
+
+
+
+
+
+    public function downloadLink(){
+        $file_link = $this->get_in_str_val("link");
+        $pdfOnlineLink = $this->getPdfLink($file_link);
+        $savePathFile = public_path('wximg').'/'.$file_link;
+
+        \App\Helper\Utils::savePicToServer($pdfOnlineLink,$savePathFile);
+    }
+
+
+    public function getPdfLink($file_link){
+        $store = new \App\FileStore\file_store_tea();
+        $auth  = $store->get_auth();
+        $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$file_link );
+        return $authUrl;
+    }
+
+
 
 
 }

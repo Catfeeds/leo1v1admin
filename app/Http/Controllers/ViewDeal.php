@@ -638,17 +638,28 @@ trait  ViewDeal {
     }
 
 
-    function pageOutJson( $method ,$ret_info=null,$data_ex=array(),$ex_js_args=null,$showPages=10  ){
+    function pageOutJson( $method , $ret_info=null,$data_ex=array(),$showPages=10  ){
+        if (\App\Helper\Utils::check_env_is_local() ){
+            if (preg_match("/([a-zA-Z0-9_]+)::([a-zA-Z0-9_]+)/",$method, $matches)  )  {
+                $this->view_ctrl=$matches[1];
+                $this->view_action=strtolower($matches[2]);
+            }
+        }
+
 
         if (!$ret_info) {
             $ret_info=\App\Helper\Utils::list_to_page_info([]);
         }
+        if (\App\Helper\Utils::check_env_is_local() ){
+            //生成 g_args 的 .d.ts
+            $this->store_gargs_d_ts_file($ret_info["list"]);
+        }
 
-        $data=$this->getPageData($ret_info,$ex_js_args,$showPages);
-        if (count($data_ex)>0 )  {
+        $data=$ret_info;
+        if (count($data_ex)>0 ){
             $data=array_merge($data,$data_ex) ;
         }
-        $this->output_succ($data);
+        return $this->output_succ($data);
     }
 
 

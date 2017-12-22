@@ -25,7 +25,7 @@ class question_new extends Controller
                 $item['knowledge_detail'] = json_encode($knowledge_detail);
             }
         }
-        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712191556"]);
+        return $this->pageView(__METHOD__,$ret_list, [ "_publish_version" => "201712221556"]);
     }
 
     public function question_edit(){
@@ -76,7 +76,7 @@ class question_new extends Controller
         //dd($know_arr);
 
         $knowledge = json_encode($knowledge);
-        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712181447",
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712221447",
                                                   "ret"=>$ret,
                                                   'editData'=>$editData,
                                                   'knowledge'=>$knowledge,
@@ -107,7 +107,14 @@ class question_new extends Controller
 
         $knowledge_old = !empty($knowledge_old) ? array_column( json_decode($knowledge_old,true),'knowledge_id' ):[];
         $knowledge_new = !empty($knowledge_new) ? explode(',',$knowledge_new):[];
-       
+
+        $checkResult = $this->question_similar_check($question_id,$data['subject'],$data['question_type'],$data['detail']);
+        //dd($checkResult);
+        if( $checkResult[0] == 2 ){
+            $result['status'] = 500;
+            $result['msg'] = "与问题id:".$checkResult[1].' 相似度为'.$checkResult[2];
+            return $this->output_succ($result); 
+        }
         if( $editType == 1 ){
             $ret = $this->t_question->row_insert($data);
             if($ret){
@@ -135,6 +142,75 @@ class question_new extends Controller
             }
             return $this->output_succ($result); 
 
+        }
+    }
+
+    //录入题目相似度检测
+    public function question_similar_check($question_id,$subject,$question_type,$detail){
+        $questions = $this->t_question->question_check($question_id,$subject,$question_type);
+        if($questions){
+            foreach($questions as $item){
+                $checkResult = $this->getSimilar($detail,$item['detail']);
+                $checkResult = sprintf('%.4f',$checkResult);
+                if($checkResult > 0.8 ){
+                    $checkResult = ($checkResult * 100).'%';
+                    return array(2,$item['question_id'],$checkResult);
+                }
+            }
+        }
+        return array(1);
+    }
+    
+    var $c = array();
+    var $str1;
+    var $str2;
+
+    /*返回串一和串二的最长公共子序列
+     */
+    private function getLCS($str1, $str2, $len1 = 0, $len2 = 0) {
+        $this->str1 = $str1;
+        $this->str2 = $str2;
+        if ($len1 == 0) $len1 = strlen($str1);
+        if ($len2 == 0) $len2 = strlen($str2);
+        $this->initC($len1, $len2);
+        return $this->printLCS($this->c, $len1 - 1, $len2 - 1);
+    }
+    /*返回两个串的相似度
+     */
+    private function getSimilar($str1, $str2) {
+        $len1 = strlen($str1);
+        $len2 = strlen($str2);
+        $len = strlen($this->getLCS($str1, $str2, $len1, $len2));
+        return $len * 2 / ($len1 + $len2);
+    }
+
+    private function initC($len1, $len2) {
+        for ($i = 0; $i < $len1; $i++) $this->c[$i][0] = 0;
+        for ($j = 0; $j < $len2; $j++) $this->c[0][$j] = 0;
+        for ($i = 1; $i < $len1; $i++) {
+            for ($j = 1; $j < $len2; $j++) {
+                if ($this->str1[$i] == $this->str2[$j]) {
+                    $this->c[$i][$j] = $this->c[$i - 1][$j - 1] + 1;
+                } else if ($this->c[$i - 1][$j] >= $this->c[$i][$j - 1]) {
+                    $this->c[$i][$j] = $this->c[$i - 1][$j];
+                } else {
+                    $this->c[$i][$j] = $this->c[$i][$j - 1];
+                }
+            }
+        }
+    }
+
+    private function printLCS($c, $i, $j) {
+        if ($i == 0 || $j == 0) {
+            if ($this->str1[$i] == $this->str2[$j]) return $this->str2[$j];
+            else return "";
+        }
+        if ($this->str1[$i] == $this->str2[$j]) {
+            return $this->printLCS($this->c, $i - 1, $j - 1).$this->str2[$j];
+        } else if ($this->c[$i - 1][$j] >= $this->c[$i][$j - 1]) {
+            return $this->printLCS($this->c, $i - 1, $j);
+        } else {
+            return $this->printLCS($this->c, $i, $j - 1);
         }
     }
 
@@ -341,8 +417,10 @@ class question_new extends Controller
 
     public function answer_edit(){
         $question_id   = $this->get_in_int_val('question_id');
+        $answer_no = $this->get_in_int_val('answer_no',0);
         $where_arr = [
             ["question_id=%d" , $question_id ],
+            ["answer_no=%d" , $answer_no ],
         ];
         $ret = $this->t_answer->answer_list($where_arr);
         $next_step = 10;
@@ -353,16 +431,16 @@ class question_new extends Controller
                 $item['difficult_str'] = E\Equestion_difficult_new::get_desc($item['difficult']);
                 if( $type == $item['answer_type']){
                     $i++;
-                    $item['step_str'] = E\Eanswer_type::get_desc($type).$i;
+                    $item['step_str'] = $item['answer_type_name'].$i;
                 }else{
                     $type = $item['answer_type'];
                     $i = 1;
-                    $item['step_str'] = E\Eanswer_type::get_desc($type).$i;
+                    $item['step_str'] = $item['answer_type_name'].$i;
                 }
 
                 //取出题目对应的知识点
                 $item['know_str'] = '';
-                $know_arr = $this->t_question_knowledge->answer_know_get($item['answer_id']);
+                $know_arr = $this->t_question_knowledge->answer_know_get($item['step_id']);
                 if($know_arr){
                     $item['know_str'] = json_encode($know_arr);
                 }
@@ -370,11 +448,16 @@ class question_new extends Controller
             }
             $next_step = (int)end($ret)['step'] + 10;
         }
-        //dd($ret);
+
         //获取题目信息
         $question_info = $this->t_question->get_question_info($question_id);
+
         //所有知识点
         $knowledge = [];
+
+        //查找该科目的解题类型
+        $answer_type = [];
+
         if($question_info){        
             $where_arr = [
                 ["subject=%d" , $question_info['subject'] ],
@@ -392,13 +475,24 @@ class question_new extends Controller
                     $knowledge[] = $arr;
                 }
             }
+
+            //查找该科目的解题类型
+            $answer_type = $this->t_answer_type->answer_type_list($question_info['subject'],1);
+
         }
         $knowledge = json_encode($knowledge);
-        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712141058",
+        
+        //查找是否有其他标准答案
+        $other_answers = $this->t_answer->answer_others($question_id,$answer_no);
+     
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712221148",
                                                   'ret'=>$ret,
                                                   'next_step'=>$next_step,
                                                   'question'=>$question_info,
-                                                  'knowledge'=>$knowledge
+                                                  'knowledge'=>$knowledge,
+                                                  'other_answers'=>$other_answers,
+                                                  'answer_type'=>$answer_type,
+                                                  'answer_no' => $answer_no
         ]);
         
     }
@@ -406,9 +500,10 @@ class question_new extends Controller
     public function answer_add(){
         $editType   = $this->get_in_int_val('editType',1);
         $step = $this->get_in_int_val('step');
-        $answer_id = $this->get_in_int_val('answer_id');
+        $step_id = $this->get_in_int_val('step_id');
         $question_id = $this->get_in_int_val('question_id');
         $answer_type = $this->get_in_int_val('answer_type');
+        $answer_no = $this->get_in_int_val('answer_no');
         $difficult   = $this->get_in_int_val('difficult',1);
         $score   = $this->get_in_str_val('score',0);
         $detail   = $this->get_in_str_val('detail','');
@@ -426,6 +521,7 @@ class question_new extends Controller
             "difficult"   => $difficult,
             "score"   => $score,
             "detail"   => $detail,
+            "answer_no" => $answer_no
         ];
 
         //dd($data);
@@ -434,8 +530,8 @@ class question_new extends Controller
         if( $editType == 1 ){
             $ret = $this->t_answer->row_insert($data);
             if($ret){
-                $answer_id = $this->t_answer->get_last_insertid();
-                $this->question_or_answer_know_add($answer_id,$knowledge_old,$knowledge_new,2);
+                $step_id = $this->t_answer->get_last_insertid();
+                $this->question_or_answer_know_add($step_id,$knowledge_old,$knowledge_new,2);
 
                 $result['status'] = 200;
                 $result['msg'] = "添加成功";
@@ -447,8 +543,8 @@ class question_new extends Controller
         }
 
         if( $editType == 2 ){
-            $this->question_or_answer_know_add($answer_id,$knowledge_old,$knowledge_new,2);
-            $ret = $this->t_answer->field_update_list($answer_id,$data);
+            $this->question_or_answer_know_add($step_id,$knowledge_old,$knowledge_new,2);
+            $ret = $this->t_answer->field_update_list($step_id,$data);
             if($ret){
                 $result['status'] = 200;
                 $result['msg'] = "更新成功";
@@ -463,8 +559,8 @@ class question_new extends Controller
     }
 
     public function answer_dele(){
-        $answer_id = $this->get_in_int_val('answer_id');
-        $this->t_answer->del_by_id($answer_id);
+        $step_id = $this->get_in_int_val('step_id');
+        $this->t_answer->del_by_id($step_id);
         return $this->output_succ(); 
     }
 
@@ -605,7 +701,7 @@ class question_new extends Controller
 
     public function textbook_dele(){
         $textbook_id = $this->get_in_int_val('textbook_id');
-        $this->t_textbook->del_by_id($answer_id);
+        $this->t_textbook->del_by_id($textbook_id);
         return $this->output_succ(); 
     }
 
@@ -665,6 +761,59 @@ class question_new extends Controller
         $question_type_id = $this->get_in_int_val('question_type_id');
         $this->t_question_type->del_by_id($question_type_id);
         return $this->output_succ(); 
+    }
+
+    public function answer_type_list(){
+        $subject   = $this->get_in_int_val('id_subject',1);
+        $open_flag   = $this->get_in_int_val('id_open_flag',1);
+        $list = $this->t_answer_type->answer_type_list($subject,$open_flag);
+        if($list){
+            foreach($list as &$item){
+                $item['subject_str'] = E\Esubject::get_desc($item['subject']); ;
+            }
+        }
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712181048",'list'=> $list]);
+    }
+
+    public function answer_type_add(){
+        $editType   = $this->get_in_int_val('editType',1); //1:add 2:update
+        $id   = $this->get_in_int_val('id');
+        $data['answer_type_no']  = $this->get_in_int_val('answer_type_no');
+        $data['name']  = $this->get_in_str_val('name');
+        $data['subject']  = $this->get_in_int_val('subject');
+        $data['open_flag']  = $this->get_in_int_val('open_flag',1);
+
+        if( $editType == 1 ){
+            $is_exit = $this->t_answer_type->is_exit($data['name'],$data['subject']);
+            if($is_exit){
+                $result['status'] = 500;
+                $result['msg'] = "该科目的步骤类型已经存在，请不要重复添加";
+                return $this->output_succ($result); 
+            }
+            $ret = $this->t_answer_type->row_insert($data);
+            if($ret){        
+                $result['status'] = 200;
+                $result['msg'] = "添加成功";
+            }else{
+                $result['status'] = 500;
+                $result['msg'] = "添加失败";
+            }
+            return $this->output_succ($result); 
+        }
+
+        if( $editType == 2 ){
+            $ret = $this->t_answer_type->field_update_list($id,$data);
+            if($ret){
+                $result['status'] = 200;
+                $result['msg'] = "更新成功";
+            }else{
+                $result['status'] = 500;
+                $result['msg'] = "更新失败";
+            }
+            return $this->output_succ($result); 
+
+        }
+
     }
 
 }
