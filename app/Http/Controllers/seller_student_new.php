@@ -747,17 +747,15 @@ class seller_student_new extends Controller
                 $old_row_data["tq_called_flag"] ==0 &&
                 $old_row_data["admin_revisiterid"] !=$adminid
                 &&  $now- $old_row_data["competition_call_time"] < 3600  ) {
-                return $this->output_err("有新例子tq未拨打",["need_deal_cur_user_flag" =>true]);
-
+                return $this->output_err("有新例子未拨打",["need_deal_cur_user_flag" =>true]);
             }
             if(!$this->t_seller_student_new->check_admin_add($adminid,$get_count,$max_day_count )){
                 return $this->output_err("目前你持有的例子数[$get_count]>=最高上限[$max_day_count]");
             }
-
-            if (!$this->t_seller_new_count->get_free_new_count_id($adminid,"获取新例子"))  {
+            if(!$this->t_seller_new_count->get_free_new_count_id($adminid,"获取新例子")){
                 return $this->output_err("今天的配额,已经用完了");
             }
-            //检查是否有成功试听未回访
+            //试听成功未回访
             $this->refresh_test_call_end();
             $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
             $userid_new = $lesson_call_end['userid'];
@@ -765,14 +763,14 @@ class seller_student_new extends Controller
                 return $this->output_err("有试听课成功未回访",["userid" =>$userid_new,'adminid'=>$adminid]);
             }
 
-            $row_data= $this->t_seller_student_new->field_get_list($userid,"competition_call_time, competition_call_adminid, admin_revisiterid,phone ");
+            $row_data= $this->t_seller_student_new->field_get_list($userid,"competition_call_time, competition_call_adminid, admin_revisiterid,phone");
             $competition_call_time = $row_data["competition_call_time"];
             $competition_call_adminid = $row_data["competition_call_adminid"];
             $admin_revisiterid = $row_data["admin_revisiterid"];
-            if ($admin_revisiterid !=  0  && $admin_revisiterid != $adminid) {
+            if($admin_revisiterid !=  0  && $admin_revisiterid != $adminid) {
                 return $this->output_err("已经被人抢了1");
             }
-            if ( $competition_call_adminid != $adminid &&  $now- $competition_call_time  < 3600  ) { //
+            if($competition_call_adminid != $adminid &&  $now- $competition_call_time  < 3600  ) { //
                 return $this->output_err("已经被人抢了2");
             }
 

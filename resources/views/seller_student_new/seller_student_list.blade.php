@@ -1507,7 +1507,7 @@
                     </div>
                     <div class="col-xs-12 col-md-3 " style="display:block;">
                         <div class="input-group ">
-                            <span class="input-group-addon">&nbsp老师类型：</span>
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp老师类型：</span>
                             <select id="id_teacher_type_new_two" class=" form-control " >
                             </select>
                         </div>

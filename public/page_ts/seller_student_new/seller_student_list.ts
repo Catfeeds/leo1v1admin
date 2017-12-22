@@ -3363,20 +3363,23 @@ function init_edit() {
             Enum_map.append_option_list("boolean", id_stu_test_ipad_flag, true);
             Enum_map.append_option_list("boolean", id_advice_flag, true);
             Enum_map.append_option_list("academic_goal", id_academic_goal, true);
-            Enum_map.append_option_list("test_stress", id_test_stress, true);
+            Enum_map.append_option_list("test_stress", id_test_stress, true,[1,2,3]);
+            id_test_stress.append(wuyaoqiu_html);
             Enum_map.append_option_list("habit_remodel", id_habit_remodel, true);
             Enum_map.append_option_list("extra_improvement", id_extra_improvement, true);
-            Enum_map.append_option_list("entrance_school_type", id_entrance_school_type, true);
+            Enum_map.append_option_list("entrance_school_type", id_entrance_school_type, true,[1,2,3,4,5,6,7]);
+            id_entrance_school_type.append(wuyaoqiu_html);
             Enum_map.append_option_list("interest_cultivation", id_interest_cultivation, true);
             Enum_map.append_option_list("intention_level", id_intention_level, true);
             Enum_map.append_option_list("demand_urgency", id_demand_urgency, true);
             Enum_map.append_option_list("quotation_reaction", id_quotation_reaction, true);
-            id_tea_status.append(wuyaoqiu_html);
             Enum_map.append_option_list("identity", id_tea_status, true,[5,6,7,8]);
-            id_tea_gender.append(wuyaoqiu_html);
+            id_tea_status.append(wuyaoqiu_html);
             Enum_map.append_option_list("gender", id_tea_gender, true,[1,2]);
             Enum_map.append_option_list("tea_age", id_tea_age, true);
-            Enum_map.append_option_list("teacher_type", id_teacher_type, true,[0,1,3]);
+            id_tea_gender.append(wuyaoqiu_html);
+            Enum_map.append_option_list("teacher_type", id_teacher_type, true,[1,3]);
+            id_teacher_type.append(wuyaoqiu_html);
             id_stu_request_test_lesson_time.datetimepicker({
                 lang             : 'ch',
                 timepicker       : true,
@@ -4503,18 +4506,18 @@ function init_edit() {
                                 return false;
                             }
                         }
-                        if(html_node.find("#id_test_stress_new_two").val() <= 0){
-                            html_node.find("#id_test_stress_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_test_stress_new_two").parent().attr('style','');
-                        }
-                        if(html_node.find("#id_entrance_school_type_new_two").val() <= 0){
-                            html_node.find("#id_entrance_school_type_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_entrance_school_type_new_two").parent().attr('style','');
-                        }
+                        // if(html_node.find("#id_test_stress_new_two").val() <= 0){
+                        //     html_node.find("#id_test_stress_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        //     return false;
+                        // }else{
+                        //     html_node.find("#id_test_stress_new_two").parent().attr('style','');
+                        // }
+                        // if(html_node.find("#id_entrance_school_type_new_two").val() <= 0){
+                        //     html_node.find("#id_entrance_school_type_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        //     return false;
+                        // }else{
+                        //     html_node.find("#id_entrance_school_type_new_two").parent().attr('style','');
+                        // }
                         if(html_node.find("#id_cultivation_new_two").val() == ''){
                             html_node.find("#id_cultivation_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;

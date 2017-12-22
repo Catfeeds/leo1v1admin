@@ -195,19 +195,21 @@ $(function(){
         do_ajax('/teacher_info/tea_look_resource',{'tea_res_id':id,'tea_flag':0},function(ret){
             if(ret.ret == 0){
                 $('.look-pdf').show();
-                $('.look-pdf').mousedown(function(e){
+                $('.look-pdf-son').mousedown(function(e){
                     if(e.which == 3){
                         return false;
                     }
                 });
-                PDFObject.embed(ret.url, ".look-pdf");
+                PDFObject.embed(ret.url, ".look-pdf-son");
+                $('.look-pdf-son').css({'width':'120%','height':'120%','margin':'-10%'});
             } else {
                 BootstrapDialog.alert(ret.info);
             }
         });
     });
     $('body').on('click', function(){
-        $('.look-pdf').hide().empty();
+        // $('.look-pdf').hide().empty();
+        $('.look-pdf').hide().children().children().empty();
     });
 
     $('.opt-change').set_input_change_event(load_data);

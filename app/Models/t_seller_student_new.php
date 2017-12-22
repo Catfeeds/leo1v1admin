@@ -1728,13 +1728,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }
 
 
-            if ($item["first_call_time"] == 0) {//第一次拨打时间
+            if ($item["first_call_time"] == 0) {
                 $set_arr["first_call_time"]=$call_time;
             }
-            $set_arr["last_revisit_time"]=$call_time;//最后回访时间
+            $set_arr["last_revisit_time"]=$call_time;
 
 
-            if ($tq_called_flag ==2) {//拨通
+            if ($tq_called_flag ==2) {
                 if ($item["first_contact_time"] == 0) {
                     $set_arr["first_contact_time"]=$call_time;
                 }
@@ -1760,7 +1760,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             //同步给销售
             if (  $tq_called_flag ==2
                   &&  $admin_info["uid"] == $competition_call_adminid
-                  &&  $item["seller_resource_type"] ==0
+                  &&  $item["seller_resource_type"] == 0
                   &&  $item["tmk_student_status"]<>E\Etmk_student_status::V_3
                   && !$item["admin_revisiterid"]
                   &&  $item["competition_call_time"]+3600 > time(NULL)
