@@ -137,9 +137,7 @@ $(function(){
                 "</div>"
         );
         id_item.find(".show").on("click",function(){
-
             look_pdf(btn_id);
-            // $.custom_show_pdf(get_url_fun(),"/teacher_info/get_pdf_download_url");
         });
 
         id_item.find(".del").on("click",function(){
@@ -538,41 +536,14 @@ $(function(){
         var look_pdf = function(btn_id){
 
             if(btn_id == 'id_teacher_upload') {
-                // if(tea_cw_origin > 0){
                 get_pdf_info(tea_cw_origin,tea_cw_url,tea_cw_file_id,tea_cw_origin);
-                    // $.resource_show_pdf(tea_cw_url,"/teacher_info/get_pdf_download_url");
-                // } else {
-                //     $.custom_show_pdf(tea_cw_url,"/teacher_info/get_pdf_download_url");
-                // }
-
             } else if(btn_id == 'id_student_upload'){
-
-                // if(stu_cw_origin > 0){
                 get_pdf_info(stu_cw_origin, stu_cw_url, stu_cw_file_id,stu_cw_origin);
-                    // $.resource_show_pdf(stu_cw_url,"/teacher_info/get_pdf_download_url");
-                // } else {
-                //     $.custom_show_pdf(stu_cw_file,"/teacher_info/get_pdf_download_url");
-                // }
-
             } else if (btn_id == 'id_issue_upload'){
-
-                // if(issue_origin > 0){
-                    // $.resource_show_pdf(issue_url,"/teacher_info/get_pdf_download_url");
                 get_pdf_info(issue_origin, issue_url, issue_file_id,issue_origin);
-                // } else {
-                //     $.custom_show_pdf(issue_url,"/teacher_info/get_pdf_download_url");
-                // }
-
             } else {
-
                 var n = parseInt( btn_id.slice(-1) );
-                // if(tea_cw_url_list[n][2] > 0){
-                    // $.resource_show_pdf(tea_cw_url_list[n][0],"/teacher_info/get_pdf_download_url");
                 get_pdf_info(tea_cw_url_list[n][2],tea_cw_url_list[n][0], tea_cw_url_list[n][3],tea_cw_url_list[n][2]);
-                // } else {
-                //     $.custom_show_pdf(tea_cw_url_list[n][0],"/teacher_info/get_pdf_download_url");
-                // }
-
             }
         }
 
