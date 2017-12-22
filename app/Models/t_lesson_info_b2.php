@@ -628,7 +628,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr){
         $where_arr=[
-            "confirm_flag in (0,1)",
+            "confirm_flag in (0,1,3)",
             "lesson_del_flag=0",
             "lesson_type <>2",
             "lesson_status=2"
