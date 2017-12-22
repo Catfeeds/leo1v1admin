@@ -22,12 +22,13 @@ tofile:
 /// <reference path="../g_args.d.ts/teacher_level-get_teacher_level_quarter_info_fulltime.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		order_by_str:	$('#id_order_by_str').val(),
 		quarter_start:	$('#id_quarter_start').val(),
 		fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
-    });
+		});
 }
 $(function(){
 
@@ -51,6 +52,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_order_by_str" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["order_by_str title", "order_by_str", "th_order_by_str" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -58,6 +60,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_quarter_start" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["quarter_start title", "quarter_start", "th_quarter_start" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -65,4 +68,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_fulltime_teacher_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["fulltime_teacher_type title", "fulltime_teacher_type", "th_fulltime_teacher_type" ]])!!}
 */
