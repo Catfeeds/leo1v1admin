@@ -1761,7 +1761,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                   &&  $item["seller_resource_type"] == 0
                   &&  $item["tmk_student_status"]<>E\Etmk_student_status::V_3
                   && !$item["admin_revisiterid"]
-                  &&  $item["competition_call_time"]+9000 > time(NULL)
+                  &&  $item["competition_call_time"]+3600 > time(NULL)
                   &&  $competition_call_adminid ) {
                 if ($this->task->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子"))  {
                     \App\Helper\Utils::logger("SET COMPETITION_CALL_ADMINID ");
