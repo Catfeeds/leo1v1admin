@@ -3378,8 +3378,8 @@ function init_edit() {
             id_tea_gender.append(wuyaoqiu_html);
             Enum_map.append_option_list("gender", id_tea_gender, true,[1,2]);
             Enum_map.append_option_list("tea_age", id_tea_age, true);
-            id_teacher_type.append(wuyaoqiu_html);
             Enum_map.append_option_list("teacher_type", id_teacher_type, true,[1,3]);
+            id_teacher_type.append(wuyaoqiu_html);
             id_stu_request_test_lesson_time.datetimepicker({
                 lang             : 'ch',
                 timepicker       : true,
