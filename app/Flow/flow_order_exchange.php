@@ -127,6 +127,11 @@ class flow_order_exchange extends flow_base{
         return 0;
     }
 
+    static function do_succ_end( $flow_info, $self_info ) {
+        $orderid=$self_info["orderid"];
+        $t_order_info  = new \App\Models\t_order_info();
+        $t_order_info->set_order_payed($orderid, 0, 0);
+    }
 
 
 
