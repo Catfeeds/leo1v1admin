@@ -420,7 +420,7 @@ class update_teaching_core_data extends Command
             $platform_teacher_count = $ret_platform_teacher_lesson_count["tea_num"];//统计平台老师总人数
             $fulltime_lesson_count = $task->t_lesson_info_b3->get_teacher_list($start_time,$end_time,1);//统计全职老师总人数/课时
             $fulltime_teacher_student =$fulltime_lesson_count["stu_num"]; //全职老师所带学生总数
-            $platform_teacher_student_list= $task->t_student_info->get_total_student_num($type);//统计平台学生数
+            $platform_teacher_student_list= $task->t_student_info->get_total_student_num(-1);//统计平台学生数
             $platform_teacher_student = $platform_teacher_student_list[0]['platform_teacher_student'];
             $ret_info  = $task->t_manager_info->get_research_teacher_list_new(5,-1);
             $qz_tea_arr=[];
