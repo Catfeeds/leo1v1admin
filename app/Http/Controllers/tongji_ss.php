@@ -1818,10 +1818,16 @@ class tongji_ss extends Controller
         $m_html_list=$this->t_tongji_date->get_list($log_type, $start_time, $end_time,0 );
 
 
+        $log_type =2017122101;
+        $m_html_book_list=$this->t_tongji_date->get_list($log_type, $start_time, $end_time,0 );
+
+
+
         return $this->pageView(__METHOD__,null, [
             "g_data_ex_list"=> [
                 "new_user_count_list" => $list,
                 "m_html_count_list" =>  $m_html_list,
+                "m_html_book_list" =>  $m_html_book_list,
             ],
         ]);
 

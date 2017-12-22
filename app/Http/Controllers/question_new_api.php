@@ -19,16 +19,45 @@ require_once  app_path("/Libs/Qiniu/functions.php");
 require_once(app_path("/Libs/OSS/autoload.php"));
 use OSS\OssClient;
 use OSS\Core\OssException;
+//use Illuminate\Support\Facades\Redis;
 class question_new_api extends Controller
 {
     use CacheNick;
     var $check_login_flag=false;
     public function __construct() {
         parent::__construct();
+
+        if(!$this->check_ip_frequent() ){
+            echo $this->output_err("当前操作过于频繁！");
+            exit;
+        }
+
         if (! $this->get_agent_id()){
             // echo $this->output_err("未登录");
             // exit;
         }
+    }
+
+    //获取毫秒数
+    function getMillisecond() {
+        list($t1, $t2) = explode(' ', microtime());
+        return (float)sprintf('%.0f',(floatval($t1)+floatval($t2))*1000);
+    }
+
+    //检查该ip取数据的频繁次数,限制1秒取1次
+    private function check_ip_frequent(){
+        $redis= $this->get_redis();
+    
+        $oldTime = $redis->get($_SERVER["REMOTE_ADDR"]);
+        $time = $this->getMillisecond();        
+        
+        if( $time - $oldTime <= 1000 ){
+            return false;
+        }else{
+            $redis->set($_SERVER["REMOTE_ADDR"],$time);
+        }
+
+        return true;
     }
 
     public function get_agent_id(){
@@ -129,33 +158,40 @@ class question_new_api extends Controller
             ["question_id=%d" , $question_id ],
         ];
         $ret = $this->t_answer->answer_list($where_arr);
-
+       
         $i = 0;
-        $type = 1;
+        $answer_type = 1;
+        $answer_no = 0;
+        $answer_arr = [];
         if($ret){
             foreach( $ret as &$item ){
                 $item['difficult_str'] = E\Equestion_difficult_new::get_desc($item['difficult']);
-                $item['answer_type_str'] = E\Eanswer_type::get_desc($item['answer_type']);
 
-                if( $type == $item['answer_type']){
+                if( $answer_type == $item['answer_type']){
                     $i++;
-                    $item['step_str'] = E\Eanswer_type::get_desc($type).$i;
                 }else{
-                    $type = $item['answer_type'];
+                    $answer_type = $item['answer_type'];
                     $i = 1;
-                    $item['step_str'] = E\Eanswer_type::get_desc($type).$i;
+                }
+
+                $item['step_str'] = $item['answer_type_name'].$i;
+
+                if( $answer_no != $item['answer_no'] ){
+                    $answer_no = $item['answer_no'];
                 }
 
                 //取出题目对应的知识点
                 $item['know_str'] = '';
-                $know_arr = $this->t_question_knowledge->answer_know_get($item['answer_id']);
+                $know_arr = $this->t_question_knowledge->answer_know_get($item['step_id']);
                 if($know_arr){
                     $item['know_str'] = $know_arr;
                 }
+
+                $answer_arr[$answer_no][] = $item;
             }
         }
 
-        return $this->output_succ(["list" => $ret]);
+        return $this->output_succ(["list" => $answer_arr]);
 
     }
 

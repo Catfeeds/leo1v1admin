@@ -106,7 +106,9 @@
         </table>
         @include("layouts.page")
     </section>
-    <div class="col-md-12 look-pdf"   style="width:80%;height:90%;position:fixed;right:10%;top:5%;border-radius:5px;background:#eee;display:none;">
+    <div class="col-md-12 look-pdf"   style="width:80%;height:95%;position:fixed;right:10%;top:2.5%;border-radius:5px;background:#eee;display:none;z-index:8888;overflow:hidden;">
+        <div class="look-pdf-son">
+        </div>
     </div>
 
 

@@ -168,9 +168,9 @@
         var style = "";
 
         if(targetSelector && targetSelector !== document.body){
-            style = "width: " + width + "; height: " + height + ";margin-top:-60px;";
+            style = "width: " + width + "; height: " + height + ";";
         } else {
-            style = "position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%;margin-top:-60px;";
+            style = "position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%;";
         }
 
         targetNode.className += " pdfobject-container";
@@ -203,7 +203,7 @@
             targetNode = getTargetElement(targetSelector),
             fallbackHTML = "",
             pdfOpenFragment = "",
-            fallbackHTML_default = "该浏览器不支持在线预览！";
+            fallbackHTML_default = "<h1 style='margin:20% 15%;'>该浏览器不支持在线预览！推荐您下载使用<a href='http://www.baidu.com/link?url=dcjUzAoy9BgMXmGlVFFSl4RvC_i9UfMApaX0J2-Ys-CmBYkEfpFWmm3_K-VfikumThU9GGXv0FrbSS3Of5vCoCDRmOUO_lOIkwJ5-RS6icK&wd=&eqid=b8c533280000f694000000045a3cb06d' target='_blank'>谷歌浏览器</a>！</h1>";
 
         //If target element is specified but is not valid, exit without doing anything
         if(!targetNode){ return embedError("Target element cannot be determined"); }

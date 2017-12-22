@@ -1015,6 +1015,7 @@ class seller_student_new2 extends Controller
             $ret_info = $this->t_seller_edit_log->get_distribution_list($adminid,$start_time,$end_time,$page_info,$global_tq_called_flag,$origin_ex,$user_name,$uid);
         }
         foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::hide_item_phone($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             $item["adminid_nick"]= $item["adminid"]>0?$this->cache_get_account_nick($item["adminid"]):'';
             $item["uid_nick"]= $this->cache_get_account_nick($item["uid"]);

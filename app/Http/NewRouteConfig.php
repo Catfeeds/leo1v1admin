@@ -453,6 +453,8 @@ class NewRouteConfig {
         "/question_new/question_type_list"        => true,
         "/question_new/question_type_add"        => true,
         "/question_new/question_type_dele"        => true,
+        "/question_new/answer_type_list"        => true,
+        "/question_new/answer_type_add"        => true,
 
         "/seller_student_new/tmk_seller_student_new"  => true,
         "/seller_student2/show_order_activity_info"  => true,
@@ -471,7 +473,8 @@ class NewRouteConfig {
         "/seller_student2/get_current_activity"  => true,
         "/seller_student2/update_power_value"  => true,
         "/seller_student2/get_all_activity"  => true,
-        "/test_bacon/power_group_edit"  => true,
+        "/test_bacon/get_power"  => true,
+        "/test_bacon/download_power"  => true,
         "/appoint/index2"                  => true,
         "/appoint/get_package_simple_info" => true,
         "/appoint/get_package_pic"         => true,
@@ -675,7 +678,8 @@ class NewRouteConfig {
         "/channel_manage/update_channel_name"            => true,
         "/channel_manage/set_teacher_ref_type"           => true,
         "/channel_manage/zs_origin_list_new"             => true,
-        
+
+        "/question_new_api/get_agent_id"        =>true,
         "/question_new_api/get_grade_and_subject"        =>true,
         "/question_new_api/get_textbook_subject"         =>true,
         "/question_new_api/get_textbook_knowledge"       =>true,
@@ -683,6 +687,7 @@ class NewRouteConfig {
         "/question_new_api/get_questions"                =>true,
         "/question_new_api/get_answers"                  =>true,
         "/question_new_api/save_answers"                 =>true,
+
     ];
 
     static $dev_url_map = [

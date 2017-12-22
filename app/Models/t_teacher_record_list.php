@@ -1449,6 +1449,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         ];
         //t_lesson_info userid是老师id lesson_type=1100 tran_type=5 lesson_del_flag=0
         //t_teacher_record_list     用train_lessonid  匹配   试讲通过 trial_train_status =1 通过时间  add_time
+        //select tr.add_time from t_lesson_info l left join t_teacher_record_list tr on l.teacherid=tr.teacherid where l.train_type=4 and l.lesson_type=1100 and llesson_def_flag=0 and l.teacherid= and tr.trial_train_status=1 and tr.train_lessonid=l.lessonid
         $sql = $this->gen_sql_new("select l.teacherid teacherid,l.subject,l.grade,tr.add_time "
                                   ." from %s l "
                                   ." left join %s tr on l.teacherid=tr.teacherid"

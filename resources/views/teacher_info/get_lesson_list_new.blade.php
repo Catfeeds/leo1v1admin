@@ -277,5 +277,9 @@
     <button class="btn btn-width btn-default opt-leo-res">资料库</button><br/>
     <button class="btn btn-width btn-default opt-my-res">我的收藏</button>
 </div>
-<div class="col-md-12 look-pdf"   style="width:80%;height:95%;position:fixed;right:10%;top:5%;border-radius:5px;background:#eee;display:none;z-index:9999;overflow:hidden;">
+<div class="col-md-12 look-pdf"   style="width:80%;height:95%;position:fixed;right:10%;top:2.5%;border-radius:5px;background:#eee;display:none;z-index:8888;overflow:hidden;">
+    <div class="look-pdf-son">
+    </div>
 </div>
+
+

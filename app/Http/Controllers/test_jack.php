@@ -341,7 +341,36 @@ class test_jack  extends Controller
         
     }
 
+    public function get_parent_courseid($courseid,$num,$parentid){
+        $course_list = $this->t_parent_info->get_baidu_class_info($parentid);
+        if($course_list){
+            $list=json_decode($course_list,true);
+            if(isset($list[$num])){
+                $course_arr = $list[$num];
+                $i=0;
+                foreach($course_arr as $val){
+                    if($val==$courseid){
+                        $i=1;
+                    }
+                }
+                if($i==0){
+                    @$list[$num][]=$courseid;
+                }
+            }else{
+                @$list[$num][]=$courseid;
+            }
+        }else{
+            $list=[];
+            @$list[$num][]=$courseid;
+        }
+        $str = json_encode($list);
+        return $str;
+
+    }
+
     public function test_period(){
+        $tt = $this->get_parent_courseid(1111,2,303);
+        dd($tt);
         // $list = $this->get_baidu_money_charge_pay_info_test();
         dd(111);
 
@@ -1413,7 +1442,13 @@ class test_jack  extends Controller
 
 
     public function test_ws() {
-        return $this->pageView(__METHOD__);
+        $list = $this->t_period_repay_list->get_no_repay_list();
+        foreach($list["list"] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item, "paid_time","_str","Y-m-d");
+            \App\Helper\Utils::unixtime2date_for_item($item, "due_date","_str","Y-m-d");
+            E\Erepay_status::set_item_value_str($item);
+        }
+        return $this->pageView(__METHOD__,$list);
     }
 
     public function test_hha(){
