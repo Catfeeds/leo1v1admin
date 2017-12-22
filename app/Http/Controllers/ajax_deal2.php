@@ -1475,12 +1475,12 @@ class ajax_deal2 extends Controller
         if ($type=="fulltime_teacher_count") {
             $value = $this->t_manager_info->get_fulltime_teacher_num($end_time);//全职老师总人数
         }else if($type=="fulltime_teacher_student"){
-            $fulltime_lesson_count = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time,1);//统计全职老师总人数/课时
+            $fulltime_lesson_count = $this->t_lesson_info_b3->get_teacher_list($start_time,$end_time,1);//统计全职老师总人数/课时
             $value =$fulltime_lesson_count["stu_num"]; //全职老师所带学生总数
 
         }else if($type=="fulltime_teacher_pro"){
             $fulltime_teacher_count = $this->t_manager_info->get_fulltime_teacher_num($end_time);
-            $ret_platform_teacher_lesson_count = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);//统计平台老师总人数/课时
+            $ret_platform_teacher_lesson_count = $this->t_lesson_info_b3->get_teacher_list($start_time,$end_time);//统计平台老师总人数/课时
             $ret['platform_teacher_count'] = $ret_platform_teacher_lesson_count["tea_num"];//统计平台老师总人数
             if($ret['platform_teacher_count']){
                 $ret['fulltime_teacher_pro'] = round($fulltime_teacher_count*100/$ret['platform_teacher_count'],2);
@@ -1490,7 +1490,7 @@ class ajax_deal2 extends Controller
             }
             
         }else if($type=="fulltime_teacher_student_pro"){
-            $fulltime_lesson_count = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time,1);//统计全职老师总人数/课时
+            $fulltime_lesson_count = $this->t_lesson_info_b3->get_teacher_list($start_time,$end_time,1);//统计全职老师总人数/课时
             $fulltime_teacher_student =$fulltime_lesson_count["stu_num"]; //全职老师所带学生总数
             $platform_teacher_student_list= $this->t_student_info->get_total_student_num($type);//统计平台学生数
             $platform_teacher_student = $platform_teacher_student_list[0]['platform_teacher_student'];
@@ -1545,7 +1545,7 @@ class ajax_deal2 extends Controller
            
 
         }else if($type=="part_teacher_lesson_count"){
-            $ret_platform_teacher_lesson_count = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);//统计平台老师总人数/课时
+            $ret_platform_teacher_lesson_count = $this->t_lesson_info_b3->get_teacher_list($start_time,$end_time);//统计平台老师总人数/课时
             $ret['platform_teacher_lesson_count'] = round($ret_platform_teacher_lesson_count["lesson_count"]/100);//全职老师完成的课耗总数
             $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5,-1);
             $qz_tea_arr=[];
@@ -1599,7 +1599,7 @@ class ajax_deal2 extends Controller
 
 
         }else if($type=="fulltime_teacher_lesson_count_per"){
-            $ret_platform_teacher_lesson_count = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);//统计平台老师总人数/课时
+            $ret_platform_teacher_lesson_count = $this->t_lesson_info_b3->get_teacher_list($start_time,$end_time);//统计平台老师总人数/课时
             $ret['platform_teacher_lesson_count'] = round($ret_platform_teacher_lesson_count["lesson_count"]/100);//全职老师完成的课耗总数
             $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5,-1);
             $qz_tea_arr=[];
