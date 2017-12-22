@@ -40,6 +40,21 @@ class t_question extends \App\Models\Zgen\z_t_question
         return  $this->main_get_list_by_page($sql,$page_num);
     }
 
+    public function question_check($question_id,$subject,$question_type){
+        $where_arr = [
+            ['subject = %u' , $subject ],
+            //["question_type=%u", $question_type] ,
+            ["open_flag=%u", 1] ,
+        ];
+        if(!empty($question_id)){
+            $where_arr[] = ["question_id != %u",$question_id];
+        }
+        $where_str = $this->where_str_gen($where_arr);
+        $sql = $this->gen_sql("select question_id,title,detail from %s where %s order by question_id asc",
+                              self::DB_TABLE_NAME,[$where_str]);
+        return $this->main_get_list($sql);
+    }
+
     public function get_question_info($question_id){
         $where_arr = [
             ["question_id=%d" , $question_id ],
