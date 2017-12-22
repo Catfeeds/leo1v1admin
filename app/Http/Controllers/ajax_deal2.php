@@ -1466,6 +1466,236 @@ class ajax_deal2 extends Controller
 
     }
 
+    public function  fulltime_teacher_count_data_with_type () {
+        $this->switch_tongji_database();
+        $this->check_and_switch_tongji_domain();
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $type= $this->get_in_str_val("type");
+        $lesson_end_time = $this->get_test_lesson_end_time($end_time);
+        if ($type=="fulltime_teacher_count") {
+            $value = $this->t_manager_info->get_fulltime_teacher_num($end_time);//全职老师总人数
+        }else if($type=="fulltime_teacher_student"){
+            $fulltime_lesson_count = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time,1);//统计全职老师总人数/课时
+            $value =$fulltime_lesson_count["stu_num"]; //全职老师所带学生总数
+
+        }else if($type=="fulltime_teacher_pro"){
+            $fulltime_teacher_count = $this->t_manager_info->get_fulltime_teacher_num($end_time);
+            $ret_platform_teacher_lesson_count = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);//统计平台老师总人数/课时
+            $ret['platform_teacher_count'] = $ret_platform_teacher_lesson_count["tea_num"];//统计平台老师总人数
+            if($ret['platform_teacher_count']){
+                $ret['fulltime_teacher_pro'] = round($fulltime_teacher_count*100/$ret['platform_teacher_count'],2);
+                $value = $ret['fulltime_teacher_pro'].'%('.$fulltime_teacher_count.'/'.$ret['platform_teacher_count'].')';
+            }else{
+                $value='0%';
+            }
+            
+        }else if($type=="fulltime_teacher_student_pro"){
+            $fulltime_lesson_count = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time,1);//统计全职老师总人数/课时
+            $fulltime_teacher_student =$fulltime_lesson_count["stu_num"]; //全职老师所带学生总数
+            $platform_teacher_student_list= $this->t_student_info->get_total_student_num($type);//统计平台学生数
+            $platform_teacher_student = $platform_teacher_student_list[0]['platform_teacher_student'];
+            $fulltime_teacher_student_pro = round($fulltime_teacher_student*100/$platform_teacher_student,2);
+            $value = $fulltime_teacher_student_pro.'%('.$fulltime_teacher_student.'/'.$platform_teacher_student.')';
+           
+        }else if($type=="fulltime_teacher_lesson_count"){
+            $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5,-1);
+            $qz_tea_arr=[];
+            foreach($ret_info as $yy=>$item){
+                if($item["teacherid"] != 97313){
+                    $qz_tea_arr[] =$item["teacherid"];
+                }else{
+                    unset($ret_info[$yy]);
+                }
+            }
+            $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr);
+            $value=0;
+            foreach($lesson_count as $val){
+                $value +=$val["lesson_all"]/100;
+            }
+        }else if($type=="fulltime_teacher_cc_per"){
+
+            $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5,-1);
+            $qz_tea_arr=[];
+            foreach($ret_info as $yy=>$item){
+                if($item["teacherid"] != 97313){
+                    $qz_tea_arr[] =$item["teacherid"];
+                }else{
+                    unset($ret_info[$yy]);
+                }
+            }
+
+            $list = $ret_info;
+            $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time, $lesson_end_time);          
+            $tran_avg= $lesson_avg=[];
+            foreach($ret_info as &$item){
+                $item["cc_lesson_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["all_lesson"]:0;
+                $item["cc_order_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["order_num"]:0;
+                
+                @$tran_avg["cc_lesson_num"] +=$item["cc_lesson_num"];
+                @$tran_avg["cc_order_num"] +=$item["cc_order_num"];
+            }
+           
+            $tran_avg["cc_per"] = !empty($tran_avg["cc_lesson_num"])?round($tran_avg["cc_order_num"]/$tran_avg["cc_lesson_num"]*100,2):0;
+            if( $tran_avg["cc_per"]){
+                
+                $value = $tran_avg["cc_per"].'%('.$tran_avg["cc_order_num"].'/'.$tran_avg["cc_lesson_num"].')';
+            }else{
+                $value="0%";
+            }
+           
+
+        }else if($type=="part_teacher_lesson_count"){
+            $ret_platform_teacher_lesson_count = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);//统计平台老师总人数/课时
+            $ret['platform_teacher_lesson_count'] = round($ret_platform_teacher_lesson_count["lesson_count"]/100);//全职老师完成的课耗总数
+            $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5,-1);
+            $qz_tea_arr=[];
+            foreach($ret_info as $yy=>$item){
+                if($item["teacherid"] != 97313){
+                    $qz_tea_arr[] =$item["teacherid"];
+                }else{
+                    unset($ret_info[$yy]);
+                }
+            }
+            $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr);
+            $value=0;
+            foreach($lesson_count as $val){
+                $value +=$val["lesson_all"]/100;
+            }
+
+            $value = $ret['platform_teacher_lesson_count']-$value;
+
+        }else if($type=="part_teacher_cc_per"){
+            $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$lesson_end_time);
+            $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5,-1);
+            $qz_tea_arr=[];
+            foreach($ret_info as $yy=>$item){
+                if($item["teacherid"] != 97313){
+                    $qz_tea_arr[] =$item["teacherid"];
+                }else{
+                    unset($ret_info[$yy]);
+                }
+            }
+
+            $list = $ret_info;
+            $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time, $lesson_end_time);          
+            $tran_avg= $lesson_avg=[];
+            foreach($ret_info as &$item){
+                $item["cc_lesson_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["all_lesson"]:0;
+                $item["cc_order_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["order_num"]:0;
+                
+                @$tran_avg["cc_lesson_num"] +=$item["cc_lesson_num"];
+                @$tran_avg["cc_order_num"] +=$item["cc_order_num"];
+            }
+            $part_lesson = @$test_person_num_total['person_num']-@$tran_avg["cc_lesson_num"];
+            $part_order = @$test_person_num_total['have_order']-@$tran_avg["cc_order_num"];
+            $part_per = !empty($part_lesson)?round( $part_order/$part_lesson*100,2):0;
+            if($part_per){
+                
+                $value = $part_per.'%('.$part_order.'/'.$part_lesson.')';
+            }else{
+                $value="0%";
+            }
+
+
+
+        }else if($type=="fulltime_teacher_lesson_count_per"){
+            $ret_platform_teacher_lesson_count = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);//统计平台老师总人数/课时
+            $ret['platform_teacher_lesson_count'] = round($ret_platform_teacher_lesson_count["lesson_count"]/100);//全职老师完成的课耗总数
+            $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5,-1);
+            $qz_tea_arr=[];
+            foreach($ret_info as $yy=>$item){
+                if($item["teacherid"] != 97313){
+                    $qz_tea_arr[] =$item["teacherid"];
+                }else{
+                    unset($ret_info[$yy]);
+                }
+            }
+            $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr);
+            $full=0;
+            foreach($lesson_count as $val){
+                $full +=$val["lesson_all"]/100;
+            }
+
+            $full_per = !empty( $ret['platform_teacher_lesson_count'])?round( $full/$ret['platform_teacher_lesson_count']*100,2):0;
+            if($full_per){
+                
+                $value = $full_per.'%('.$full.'/'.$ret['platform_teacher_lesson_count'].')';
+            }else{
+                $value="0%";
+            }
+
+
+
+        }elseif($type=="platform_teacher_cc_per"){
+            $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$lesson_end_time);
+            $part_lesson = @$test_person_num_total['person_num'];
+            $part_order = @$test_person_num_total['have_order'];
+            $part_per = !empty($part_lesson)?round( $part_order/$part_lesson*100,2):0;
+            if($part_per){
+                
+                $value = $part_per.'%('.$part_order.'/'.$part_lesson.')';
+            }else{
+                $value="0%";
+            }
+        }elseif($type=="fulltime_normal_stu_num"){
+            $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
+            $week_start = $date_week["sdate"]-14*86400;
+            $week_end = $date_week["sdate"]+21*86400;
+            $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5);
+            $qz_tea_arr=[];
+            foreach($ret_info as $yy=>$item){
+                if($item["teacherid"] != 97313){
+                    $qz_tea_arr[] =$item["teacherid"];
+                }else{
+                    unset($ret_info[$yy]);
+                }
+            }
+
+            $normal_stu_num = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);
+            foreach($normal_stu_num as $val){
+                @$ret['fulltime_normal_stu_num'] +=$val["num"];
+            }
+            $value = @$ret['fulltime_normal_stu_num'];
+
+ 
+        }elseif($type=="fulltime_normal_stu_pro"){
+            $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
+            $week_start = $date_week["sdate"]-14*86400;
+            $week_end = $date_week["sdate"]+21*86400;
+            $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5);
+            $qz_tea_arr=[];
+            foreach($ret_info as $yy=>$item){
+                if($item["teacherid"] != 97313){
+                    $qz_tea_arr[] =$item["teacherid"];
+                }else{
+                    unset($ret_info[$yy]);
+                }
+            }
+
+            $normal_stu_num = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);
+            foreach($normal_stu_num as $val){
+                @$ret['fulltime_normal_stu_num'] +=$val["num"];
+            }
+            $normal_stu_num_all = $this->t_lesson_info_b2->get_tea_stu_num_list([],$week_start,$week_end,false);
+            foreach($normal_stu_num_all as $val){
+                @$ret['platform_normal_stu_num'] +=$val["num"];
+            }
+            $ret['fulltime_normal_stu_pro'] =  @$ret['platform_normal_stu_num']>0?round(100*@$ret['fulltime_normal_stu_num']/@$ret['platform_normal_stu_num'],2):0;
+            if(@$ret['fulltime_normal_stu_pro']){
+                
+                $value = @$ret['fulltime_normal_stu_pro'].'%('.@$ret['fulltime_normal_stu_num'].'/'.@$ret['platform_normal_stu_num'].')';
+            }else{
+                $value="0%";
+            }
+
+
+        }
+
+        return $this->output_succ(["value"=>$value]);
+
+    }
+
+
     public function  set_lesson_current_server() {
         $lessonid=$this->get_in_lessonid();
         $courseid=$this->t_lesson_info->get_courseid($lessonid);
