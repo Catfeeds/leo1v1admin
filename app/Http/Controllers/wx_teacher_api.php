@@ -1269,6 +1269,7 @@ class wx_teacher_api extends Controller
 
         $ret_info = $this->t_teacher_christmas->getChriDate($teacherid);
         $ret_info['totalList'] = $this->t_teacher_christmas->getTotalList();
+        $ret_info['end_time'] = strtotime('2017-1-2');
         foreach($ret_info['totalList'] as $i => &$item){
             if($item['teacherid'] == $teacherid){
                 $ret_info['ranking'] = $i;
