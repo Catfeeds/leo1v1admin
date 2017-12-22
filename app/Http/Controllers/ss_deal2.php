@@ -665,7 +665,6 @@ class ss_deal2 extends Controller
             }else{
                 $data .= '无要求'.",";
             }
-
         }
         $data = trim($data,",");
         return $this->output_succ(["data"=> $data]);
