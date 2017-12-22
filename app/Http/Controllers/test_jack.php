@@ -1442,8 +1442,13 @@ class test_jack  extends Controller
 
 
     public function test_ws() {
-        // $list = $this->t_\
-       return $this->pageView(__METHOD__);
+        $list = $this->t_period_repay_list->get_no_repay_list();
+        foreach($list["list"] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item, "paid_time","_str","Y-m-d");
+            \App\Helper\Utils::unixtime2date_for_item($item, "due_date","_str","Y-m-d");
+            E\Erepay_status::set_item_value_str($item);
+        }
+        return $this->pageView(__METHOD__,$list);
     }
 
     public function test_hha(){
