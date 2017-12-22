@@ -1197,29 +1197,17 @@ class wx_teacher_api extends Controller
         /**
          * @ 老用户首次进入时 获得20积分
          */
-        $currentTeacherId = $this->t_teacher_info->get_teacherid_by_openid($currentId);
-        $train_through_new_time = $this->t_teacher_info->get_train_through_new_time();
-        $checkTime = strtotime('2017-12-25');
-        if($train_through_new_time<$checkTime){ // 老用户
-            $checkScore = 20;
-            $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId, $currentId, $checkScore);
-            if(!$isHasAdd){
-                $this->t_teacher_christmas->row_insert([
-                    "teacherid"   => $currentTeacherId,
-                    "next_openid" => $currentId,
-                    "add_time"    => time(),
-                    "score"       => $checkScore
-                ]);
-            }
-        }
+        // $currentTeacherId = $this->t_teacher_info->get_teacherid_by_openid($currentId);
+        // $train_through_new_time = $this->t_teacher_info->get_train_through_new_time();
+        // $checkTime = strtotime('2017-12-25');
 
-        if($shareId == 0 && $currentTeacherId  == 0){ // 分享人和自己都是非老师
-            header("Location: http://wx-teacher-web.leo1v1.com/tea.html?reference=?shareId=".$shareId ."&currentId=".$currentId);//链接待定
-            return ;
-        }else{
-            header("Location: http://wx-parent-web.leo1v1.com/teachris/index.html?shareId=".$shareId ."&currentId=".$currentId);
-            return ;
-        }
+        // if($shareId == 0 && $currentTeacherId  == 0){ // 分享人和自己都是非老师
+        //     header("Location: http://wx-teacher-web.leo1v1.com/tea.html?reference=?shareId=".$shareId ."&currentId=".$currentId);//链接待定
+        //     return ;
+        // }else{
+        header("Location: http://wx-parent-web.leo1v1.com/teachris/index.html?shareId=".$shareId ."&currentId=".$currentId);
+        return ;
+        // }
         // $token      = $wx->get_wx_token($Tea_appid,$Tea_appsecret);
         // $user_info  = $wx->get_user_info($openid,$token);
         // $subscribe = @$user_info['subscribe'];
@@ -1229,21 +1217,22 @@ class wx_teacher_api extends Controller
 
     /**
      * @ 记录积分值
-     * @ type: 0:转发页面 转发者积分+1  1:点击分享页面 +2 积分 2:老师注册进入 +10积分
+     * @ type: 积分来源类型 0:点击 +2 1:分享 +1 2:注册 +10 3:赠送 +20
      * @ 重复点击不算入计算
      **/
     public function addClickLog(){
         $shareId   = $this->get_in_int_val('shareId');
         $currentId = $this->get_in_str_val('currentId');
-        $checkScore= 2;
+        $checkScore= 0;
 
         $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId,$checkScore);
-        if(!$isHasAdd){
+        if(!$isHasAdd && $shareId>0){
             $this->t_teacher_christmas->row_insert([
                 "teacherid"   => $shareId,
                 "next_openid" => $currentId,
                 "add_time"    => time(),
-                "score"       => $checkScore
+                "score"       => 2,
+                "type"        => 0
             ]);
         }
         return $this->output_succ();
@@ -1252,28 +1241,22 @@ class wx_teacher_api extends Controller
 
     /**
      * @ 记录积分值
-     * @ type: 0:转发页面 转发者积分+1  1:点击分享页面 +2 积分 2:老师注册进入 +10积分
+     * @ type: 积分来源类型 0:点击 +2 1:分享 +1 2:注册 +10 3:赠送 +20
      * @ 非注册用户可以转发但不计入排名统计
+     * @ 给上级+2 自己+1
      * @
      **/
     public function shareClickLog(){
-        $shareId   = $this->get_in_int_val('shareId');
         $currentId = $this->get_in_str_val('currentId');
         $currentTeacherId = $this->t_teacher_info->get_teacherid_by_openid($currentId);
 
-        if($currentTeacherId>0){
+        if($currentTeacherId>0){ // 若自己已经是老师 分享+1
             $this->t_teacher_christmas->row_insert([
                 "teacherid"   => $currentTeacherId,
                 "next_openid" => '',
                 "add_time"    => time(),
-                "score"       => 1
-            ]);
-        }else{
-            $this->t_teacher_christmas->row_insert([
-                "teacherid"   => $shareId,
-                "next_openid" => $currentId,
-                "add_time"    => time(),
-                "score"       => 1
+                "score"       => 1,
+                "type"        => 1 //分享
             ]);
         }
 
@@ -1281,7 +1264,14 @@ class wx_teacher_api extends Controller
     }
 
     public function getShareDate(){
+        $openid = $this->get_in_int_val('openid');
+        $teacherid = $this->t_teacher_info->get_teacherid_by_openid($openid);
 
+        $ret_info = $this->t_teacher_christmas->getChriDate($teacherid);
+        $ret_info['totalList']  = $this->t_teacher_christmas->getTotalList();
+        $ret_info['totalScore'] = $ret_info['totalList'][$teacherid];
+
+        return $this->output_succ($ret_info);
     }
 
 

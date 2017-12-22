@@ -5,8 +5,8 @@ class menu{
        //return [];
        return [
             ["power_id"=>80, "name"=>"小班课",  "list"=> [
-                ["power_id"=>1, "name"=>"人事绩效",   "list"=>[
-                    ["power_id"=>1, "name"=>"老师",   "url"=>"/class_stu_manage/a"],
+                ["power_id"=>1, "name"=>"学生数据管理",   "list"=>[
+                    ["power_id"=>1, "name"=>"例子数据管理",   "url"=>"/cc_manage/index"],
                     ["power_id"=>2, "name"=>"咨询",   "url"=>"/class_stu_manage/b"],
                     ["power_id"=>3, "name"=>"助教",   "url"=>"/class_stu_manage/c"],
                     ["power_id"=>4, "name"=>"薪资反馈处理",   "url"=>"/class_stu_manage/d"],

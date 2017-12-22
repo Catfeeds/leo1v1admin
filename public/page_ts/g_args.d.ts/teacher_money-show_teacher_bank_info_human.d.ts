@@ -37,10 +37,11 @@ tofile:
 /// <reference path="../g_args.d.ts/teacher_money-show_teacher_bank_info_human.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		is_bank:	$('#id_is_bank').val()
-    });
+		});
 }
 $(function(){
 
@@ -62,4 +63,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_is_bank" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["is_bank title", "is_bank", "th_is_bank" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */
