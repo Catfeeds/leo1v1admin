@@ -515,12 +515,14 @@ $(function(){
             var ret_func = function(ret){
                  if(ret.ret == 0){
                     $('.look-pdf').show();
-                    $('.look-pdf-son').media({
-                        width:'100%',
-                        height:'100%',
-                        autoplay: true,
-                        src:ret.url,
-                    });
+                     $('.look-pdf-son').mousedown(function(e){
+                         if(e.which == 3){
+                             return false;
+                         }
+                     });
+                     PDFObject.embed(ret.url, ".look-pdf-son");
+                     $('.look-pdf-son').css({'width':'120%','height':'120%','margin':'-10%'});
+
                 } else {
                     BootstrapDialog.alert(ret.info);
                 }
@@ -1263,6 +1265,5 @@ $(function(){
     $('body').on('click', function(){
         $('.look-pdf').hide().children().children().empty();
     });
-
 
 });
