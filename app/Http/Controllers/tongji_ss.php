@@ -498,9 +498,12 @@ class tongji_ss extends Controller
 
 
     public function origin_count_bd () {
+        $is_history = $this->get_in_int_val('is_history',1);
+        $sta_data_type = $this->get_in_int_val('sta_data_type',1);
+
         $this->set_in_value("origin_ex","渠道,,,,");
-        $this->set_in_value("is_history",2);
-        $this->set_in_value("sta_data_type",1);
+        $this->set_in_value("is_history",$is_history);
+        $this->set_in_value("sta_data_type",$sta_data_type);
         return $this->channel_statistics();
     }
 
@@ -518,10 +521,12 @@ class tongji_ss extends Controller
     }
 
     public function origin_count_yxb() {
+        $is_history = $this->get_in_int_val('is_history',1);
+        $sta_data_type = $this->get_in_int_val('sta_data_type',1);
 
+        $this->set_in_value("is_history",$is_history);
+        $this->set_in_value("sta_data_type",$sta_data_type);
         $this->set_in_value("origin_ex","自有渠道,优学帮,,,");
-        $this->set_in_value("is_history",2);
-        $this->set_in_value("sta_data_type",1);
         return $this->channel_statistics();
     }
 
@@ -8346,15 +8351,47 @@ class tongji_ss extends Controller
 
         if($is_history == 1 && $sta_data_type == 1){
             //漏斗形存档数据
-            $ret_info = $this->t_channel_funnel_archive_data->get_list($month_begin);
+            $ret_info = $this->t_channel_funnel_archive_data->get_list($month_begin,$origin_ex);
         }elseif($is_history == 1 && $sta_data_type == 2){
             //节点型存档数据
-            $ret_info = $this->t_channel_node_type_statistics->get_list($month_begin);
+            $ret_info = $this->t_channel_node_type_statistics->get_list($month_begin,$origin_ex);
+        }elseif($is_history == 2 && $sta_data_type == 2){
+            //节点型实时数据
+            //例子总量
+            $ret_info = $this->t_test_lesson_subject->get_example_num_now($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
+            $data_map=&$ret_info["list"];
+            //试听信息
+            $test_lesson_data = $this->t_test_lesson_subject_require->get_test_lesson_data_now($origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex);
+            foreach ($test_lesson_data as  $test_item ) {
+                $channel_name=$test_item["check_value"];
+                \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $channel_name,["check_value" => $channel_name] );
+                $data_map[$channel_name]["require_count"] = $test_item["require_count"];
+                $data_map[$channel_name]["test_lesson_count"] = $test_item["test_lesson_count"];
+                $data_map[$channel_name]["distinct_test_count"] = $test_item["distinct_test_count"];
+                $data_map[$channel_name]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
+                $data_map[$channel_name]["distinct_succ_count"] = $test_item["distinct_succ_count"];
+                //试听率
+                if(@$data_map[$channel_name]['tq_called_count'])
+                    $data_map[$channel_name]["audition_rate"] = number_format($test_item["distinct_succ_count"]/$data_map[$channel_name]['tq_called_count']*100,2);
+                else
+                    $data_map[$channel_name]["audition_rate"] = '';
+
+            }
+            //订单信息
+            $order_data = $this->t_order_info->get_node_type_order_data_now($field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str, $origin);
+            foreach($order_data as $order_item){
+                $channel_name=$order_item["check_value"];
+                \App\Helper\Utils:: array_item_init_if_nofind($data_map, $channel_name,["check_value" => $channel_name]);
+
+                $data_map[$channel_name]["order_count"] = $order_item["order_count"];
+                $data_map[$channel_name]["user_count"] = $order_item["user_count"];
+                $data_map[$channel_name]["order_all_money"] = $order_item["order_all_money"];
+            }
+
+
+
         }elseif($is_history == 2 && $sta_data_type == 1){
             //漏斗型实时数据
-
-
-            //按结点时间
             if(in_array($opt_date_str,['add_time','tmk_assign_time'])){
                 //显示饼图
                 $is_show_pie_flag = 1;
@@ -8512,6 +8549,11 @@ class tongji_ss extends Controller
                 $data_map=&$ret_info["list"];
             }
 
+            
+        }
+
+        //实时数据需要对数据进行处理
+        if($is_history == 2){
             foreach ($data_map as &$item ) {
                 if($field_class_name ) {
                     $item["title"]= $field_class_name::get_desc($item["check_value"]);
@@ -8535,7 +8577,7 @@ class tongji_ss extends Controller
                     ['avg_first_time','consumption_rate','called_rate','effect_rate','audition_rate'],
                     $origin_ex
                 );
-            }
+            } 
         }
 
         //将显示饼图标识发送到js
@@ -8885,9 +8927,11 @@ class tongji_ss extends Controller
     }
     //@desn:渠道统计信息流
     public function channel_sta_flow(){
+        $is_history = $this->get_in_int_val('is_history',1);
+        $sta_data_type = $this->get_in_int_val('sta_data_type',1);
+        $this->set_in_value("is_history",$is_history);
+        $this->set_in_value("sta_data_type",$sta_data_type);
         $this->set_in_value("origin_ex","信息流,,,,");
-        $this->set_in_value("is_history",2);
-        $this->set_in_value("sta_data_type",1);
         return $this->channel_statistics();
     }
 
