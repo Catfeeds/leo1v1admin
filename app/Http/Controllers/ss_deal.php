@@ -3535,7 +3535,7 @@ class ss_deal extends Controller
 
         //自己回流过的例子
         $add_time = $this->t_test_subject_free_list->get_row_by_userid_adminid($this->get_account_id(),$userid);
-        $hand_get_adminid = $add_time>0?0:E\Ehand_get_adminid::V_5;
+        $hand_get_adminid = $add_time>0?0:5;
         $this->t_seller_student_new->field_update_list($userid,[
             "admin_revisiterid" => $this->get_account_id() ,
             "admin_assign_time" => $now,
