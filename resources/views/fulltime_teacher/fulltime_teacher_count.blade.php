@@ -85,7 +85,7 @@
             </div>
             
             <hr/>
-           
+            
 
             <div class="row">
 
@@ -97,8 +97,8 @@
                         <div class="panel-body">
 
                             <table   class="table table-bordered "   >
-                               
-                                <tbody >
+                                
+                                <tbody id="id_tbody">
                                         <tr>
                                             <td class="panel-yellow">全职老师总人数</td> 
                                             <td class="panel-yellow" id="fulltime_teacher_count">{{@$ret_info["fulltime_teacher_count"]}} </td>
