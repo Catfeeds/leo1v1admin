@@ -2992,7 +2992,7 @@ class user_manage extends Controller
      */
     public function tongji_cc()
     {
-
+        return $this->pageView(__METHOD__, []);
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
         $ret_info = $this->t_lesson_info->get_tongji_cc($start_time,$end_time,0,0); //普通排课
