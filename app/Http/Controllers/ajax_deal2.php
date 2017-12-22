@@ -1467,7 +1467,7 @@ class ajax_deal2 extends Controller
     }
 
     public function  fulltime_teacher_count_data_with_type () {
-        $this->switch_tongji_database();
+        //$this->switch_tongji_database();
         // $this->check_and_switch_tongji_domain();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $type= $this->get_in_str_val("type");
