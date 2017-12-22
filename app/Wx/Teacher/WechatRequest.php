@@ -149,7 +149,20 @@ class WechatRequest  {
      */
     public static function text(&$request){
 
-        $content = "
+        if($request['content'] == '排名'){
+            $tuwenList[] = array(
+                'title' => "理优老师帮测试",
+                'description' => "Test",
+                'pic_url' => "http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E6%95%99%E8%82%B2%E5%9C%A8%E7%BA%BF-%E5%8E%9F%E5%9B%BE/%E6%B4%BB%E5%8A%A8/800%2A800.png",
+                'url' => "http://wx-parent-web.leo1v1.com/teachris/rank.html?openid=".$request['fromusername'],
+            );
+            $item = array();
+            foreach($tuwenList as $tuwen){
+                $item[] = ResponsePassive::newsItem($tuwen['title'], $tuwen['description'], $tuwen['pic_url'], $tuwen['url']);
+            }
+            return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
+        }else{
+            $content = "
 老师您好，如果有什么疑问，您可以点击以下问题分类查看答案。
 <a href='http://admin.leo1v1.com/article_wx/leo_teacher_wages'>薪资问题【点击查看】</a>
 <a href='http://admin.leo1v1.com/article_wx/leo_teacher_train'>教师培训问题【点击查看】</a>
@@ -160,7 +173,10 @@ class WechatRequest  {
 <a href='http://admin.leo1v1.com/article_wx/leo_teacher_lesson_equipment'>设备问题【点击查看】</a>
 如以上回答还不能解决您的问题，请添加理优问题答疑QQ群（请在入职邮件内查看群号）
 ";
-        return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
+            return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
+
+        }
+
 
     }
 
