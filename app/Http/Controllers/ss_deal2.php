@@ -476,6 +476,8 @@ class ss_deal2 extends Controller
         foreach($arr as $v){
             if($v>0){
                 $data .= $list[$v].",";
+            }else{
+                $data .= '无要求'.",";
             }
         }
         $data = trim($data,",");
@@ -520,6 +522,8 @@ class ss_deal2 extends Controller
         foreach($arr as $v){
             if($v>0){
                 $data .= $list[$v].",";
+            }else{
+                $data .= '无要求'.",";
             }
         }
         $data = trim($data,",");
@@ -564,7 +568,10 @@ class ss_deal2 extends Controller
         foreach($arr as $v){
             if($v>0){
                 $data .= $list[$v].",";
+            }else{
+                $data .= '无要求'.",";
             }
+
         }
         $data = trim($data,",");
         return $this->output_succ(["data"=> $data]);
@@ -608,7 +615,10 @@ class ss_deal2 extends Controller
         foreach($arr as $v){
             if($v>0){
                 $data .= $list[$v].",";
+            }else{
+                $data .= '无要求'.",";
             }
+
         }
         $data = trim($data,",");
         return $this->output_succ(["data"=> $data]);
@@ -652,7 +662,10 @@ class ss_deal2 extends Controller
         foreach($arr as $v){
             if($v>0){
                 $data .= $list[$v].",";
+            }else{
+                $data .= '无要求'.",";
             }
+
         }
         $data = trim($data,",");
         return $this->output_succ(["data"=> $data]);
@@ -1201,12 +1214,12 @@ class ss_deal2 extends Controller
         $class_env  = $this->get_in_str_val("class_env");//课堂气氛
         $courseware  = $this->get_in_str_val("courseware");//课件要求
         $subject_tag_arr = [];
-        $subject_tag_arr['素质培养'] = $cultivation;
+        $subject_tag_arr['素质培养'] = $cultivation=='无要求'?'':$cultivation;
         $subject_tag_arr['学科化标签'] = $add_tag;
-        $subject_tag_arr['风格性格'] = $teacher_nature;
-        $subject_tag_arr['专业能力'] = $pro_ability;
-        $subject_tag_arr['课堂气氛'] = $class_env;
-        $subject_tag_arr['课件要求'] = $courseware;
+        $subject_tag_arr['风格性格'] = $teacher_nature=='无要求'?'':$teacher_nature;
+        $subject_tag_arr['专业能力'] = $pro_ability=='无要求'?'':$pro_ability;
+        $subject_tag_arr['课堂气氛'] = $class_env=='无要求'?'':$class_env;
+        $subject_tag_arr['课件要求'] = $courseware=='无要求'?'':$courseware;
         $subject_tag = json_encode($subject_tag_arr);//学科标签
         $recent_results = $this->get_in_str_val("recent_results");//近期成绩
         $advice_flag    = $this->get_in_int_val("advice_flag");//是否进步
