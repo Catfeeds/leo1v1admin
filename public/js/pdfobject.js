@@ -203,7 +203,7 @@
             targetNode = getTargetElement(targetSelector),
             fallbackHTML = "",
             pdfOpenFragment = "",
-            fallbackHTML_default = "该浏览器不支持在线预览！";
+            fallbackHTML_default = "<h1 style='magin:300px 100px;'>该浏览器不支持在线预览！</h1>";
 
         //If target element is specified but is not valid, exit without doing anything
         if(!targetNode){ return embedError("Target element cannot be determined"); }
