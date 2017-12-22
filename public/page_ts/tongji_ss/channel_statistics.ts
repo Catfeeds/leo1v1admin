@@ -175,15 +175,7 @@ $(function(){
     }
 
     $("#id_query").on("click",function(){
-        var sta_data_type = $('#id_sta_data_type').val();
-        var is_history = $('#id_is_history').val();
-        if(sta_data_type == 2 && is_history == 2){
-            alert('节点型没有存档数据啊！');
-            return false;
-        }else{
-            load_data();
-        }
-
+        load_data();
     });
 
 
