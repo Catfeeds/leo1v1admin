@@ -1264,13 +1264,16 @@ class wx_teacher_api extends Controller
     }
 
     public function getShareDate(){
-        $openid = $this->get_in_int_val('openid');
+        $openid = $this->get_in_str_val('openid');
         $teacherid = $this->t_teacher_info->get_teacherid_by_openid($openid);
 
         $ret_info = $this->t_teacher_christmas->getChriDate($teacherid);
-        $ret_info['totalList']  = $this->t_teacher_christmas->getTotalList();
-        $ret_info['totalScore'] = $ret_info['totalList'][$teacherid];
-
+        $ret_info['totalList'] = $this->t_teacher_christmas->getTotalList();
+        foreach($ret_info['totalList'] as $i => $item){
+            if($item['teacherid'] == $teacherid){
+                $ret_info['ranking'] = $i;
+            }
+        }
         return $this->output_succ($ret_info);
     }
 
