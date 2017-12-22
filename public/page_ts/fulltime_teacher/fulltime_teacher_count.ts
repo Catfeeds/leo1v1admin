@@ -56,14 +56,20 @@ $(function(){
                         "type" :  tid,
                     } ,function(resp){
                         $("#"+tid).text(resp.value) ;
+                        do_index++;
+                        do_once();
+
                     } );
 
 
                 }else{
+                    do_index++;
+                    do_once();
+
                 }
                // alert(tid);
-                do_index++;
-                do_once();
+                // do_index++;
+                // do_once();
             }
             
         }
