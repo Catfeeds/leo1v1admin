@@ -3373,10 +3373,10 @@ function init_edit() {
             Enum_map.append_option_list("intention_level", id_intention_level, true);
             Enum_map.append_option_list("demand_urgency", id_demand_urgency, true);
             Enum_map.append_option_list("quotation_reaction", id_quotation_reaction, true);
-            id_tea_status.append(wuyaoqiu_html);
             Enum_map.append_option_list("identity", id_tea_status, true,[5,6,7,8]);
-            id_tea_gender.append(wuyaoqiu_html);
+            id_tea_status.append(wuyaoqiu_html);
             Enum_map.append_option_list("gender", id_tea_gender, true,[1,2]);
+            id_tea_gender.append(wuyaoqiu_html);
             Enum_map.append_option_list("tea_age", id_tea_age, true);
             Enum_map.append_option_list("teacher_type", id_teacher_type, true,[1,3]);
             id_teacher_type.append(wuyaoqiu_html);
