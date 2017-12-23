@@ -99,13 +99,11 @@
                         <a href="javascript:;" id="id_select_all" title="全选">全</a>
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
                     </td>
-                    <td style="width:30%">文件名</td>
-                    <td style="width:15%">删除日期</td>
+                    <td style="width:45%">文件名</td>
+                    <td style="width:20%">删除日期</td>
                     <td style="width:10%">操作人</td>
                     <td style="width:10%">文件类型</td>
                     <td style="width:10%">文件大小</td>
-                    <td style="width:10%">下载次数</td>
-                    <td style="width:10%">纠错次数</td>
                 </tr>
             </thead>
             <tbody>
