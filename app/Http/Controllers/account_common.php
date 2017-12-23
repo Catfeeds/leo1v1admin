@@ -112,6 +112,7 @@ class account_common extends Controller
         
 
         $phone_index = $this->get_current_verify_num($phone,$role);
+        return $this->output_succ(["msg_num"=>$phone_index,"verify_code"=>$phone_code]);
 
         //测试
         $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"yzm","yzm","code:".$phone_code.",num:".$phone_index,"");
