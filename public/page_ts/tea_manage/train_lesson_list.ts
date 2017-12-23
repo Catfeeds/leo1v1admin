@@ -184,7 +184,7 @@ $(function(){
             ["是否被冻结",id_is_freeze],
         ];
 
-        if(acc=="adrian" || acc=="jim"){
+        if(g_account=="adrian" || g_account=="jim"){
             var test=["测试老师",id_is_test_user];
             Enum_map.append_option_list("boolean",id_is_test_user,true);
             arr.push(test);
@@ -222,7 +222,7 @@ $(function(){
                             grade_str+=$(this).val()+",";
                         });
                         var is_test_user=0;
-                        if(acc=="adrian" || acc=="jim"){
+                        if(g_account=="adrian" || g_account=="jim"){
                             is_test_user=id_is_test_user.val();
                         }
 
@@ -601,11 +601,11 @@ $(function(){
             }
         },function(){
             $("#id_all_user").on("click",function(){
-	            show_user_list(data);
+	              show_user_list(data);
             });
 
             $("#id_through_user").on("click",function(){
-	            show_through_user_list(data);
+	              show_through_user_list(data);
             });
         });
     });
@@ -623,11 +623,11 @@ $(function(){
                                 "lessonid" : data.lessonid,
                                 "userid"   : userid
                             },function(result){
-                                if(result.ret!=0){
-                                    BootstrapDialog.alert(result.info);
-                                }else{
-                                    window.location.reload();
-                                }
+                                // if(result.ret!=0){
+                                //     BootstrapDialog.alert(result.info);
+                                // }else{
+                                //     window.location.reload();
+                                // }
                             });
                         }
                     });
@@ -656,13 +656,13 @@ $(function(){
                 "url"  : "/tea_manage/get_train_lesson_user" ,
                 "data" : {
                     "type"     : 0,
-                    "lessonid" : data.lessonid 
+                    "lessonid" : data.lessonid
                 }
             }
         });
     }
 
-    var show_through_user_list=function(data){
+    var show_through_user_list = function(data){
         show_ajax_table({
             "title" : "通过列表",
             "field_list" : [{

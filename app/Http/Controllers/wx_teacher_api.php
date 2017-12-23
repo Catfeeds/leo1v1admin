@@ -1221,9 +1221,13 @@ class wx_teacher_api extends Controller
      * @ 重复点击不算入计算
      **/
     public function addClickLog(){
-        $shareId   = $this->get_in_int_val('shareId');
+        $shareIdOpenid = $this->get_in_str_val('shareIdOpenid');//分享人openid
+        $shareId = $this->t_teacher_info->get_teacherid_by_openid($shareIdOpenid);
         $currentId = $this->get_in_str_val('currentId');
         $checkScore= 0;
+
+
+        \App\Helper\Utils::logger("shareIdOpenid11: $shareIdOpenid ");
 
         $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId,$checkScore);
         if(!$isHasAdd && $shareId>0){

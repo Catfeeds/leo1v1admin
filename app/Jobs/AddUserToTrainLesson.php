@@ -110,7 +110,7 @@ class AddUserToTrainLesson extends Job implements ShouldQueue
                     $data['keyword1'] = "新师培训";
                     $data['keyword3'] = date("Y-m-d H:i",time());
                     $data['remark']   = "如有疑问,可在新师培训QQ群:315540732 咨询【师训】老师";
-                    \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
+                    \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data);
                 }
             }
         }

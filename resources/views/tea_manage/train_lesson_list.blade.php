@@ -15,9 +15,6 @@
          height:5px;width:0;background:#0bceff;font-size:5px;position:absolute;left:0;top:0;z-index:2;
      }
     </style>
-    <script>
-     var acc="{{$acc}}";
-    </script>
     <section class="content">
         <div class="row">
             <div class="col-xs-12 col-md-4" data-title="时间段">
