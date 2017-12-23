@@ -1001,6 +1001,7 @@ class common_new extends Controller
             }
 
             $prize_type = $this->t_activity_christmas->getPrizeType($parentid);
+            $list['prize_type'] = $prize_type;
             if($prize_type >0 ){
                 $list['has_done'] = 1;
                 switch ($prize_type)

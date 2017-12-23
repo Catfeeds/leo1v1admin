@@ -1168,7 +1168,7 @@ class wx_teacher_api extends Controller
         $uuid = $this->get_in_str_val('uuid');
         $status = $this->get_in_str_val('s');
 
-        \App\Helper\Utils::logger("uiiidd");
+        \App\Helper\Utils::logger("uiiiddd: $uuid status: $status");
 
         return $this->output_succ();
     }
