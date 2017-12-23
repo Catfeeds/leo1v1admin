@@ -4582,7 +4582,7 @@ function init_edit() {
                         }
                         if((id_stu_request_test_lesson_time.val() != '' && id_stu_request_test_lesson_time.val() != '无') && (id_stu_request_test_lesson_time_end.val() != '' && id_stu_request_test_lesson_time_end.val() != '无')){
                             var min_time = Date.parse(new Date(id_stu_request_test_lesson_time.val()));
-                            var start_time = Date.parse(new Date(id_stu_request_test_lesson_time.val()))+3600*24*2*1000;
+                            var start_time = Date.parse(new Date(id_stu_request_test_lesson_time.val()))+3600*2*1000;
                             var time = new Date(start_time);
                             var year = time.getFullYear();
                             var month = time.getMonth()+1;

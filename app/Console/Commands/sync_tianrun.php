@@ -90,20 +90,18 @@ class sync_tianrun extends cmd_base
         $record_url=  $item["recordFile"];
 
         $db_item=$this->task->t_tq_call_info->field_get_list($id, "id, record_url")  ;
-        if ($db_item) { //更新
+        if ($db_item) { 
             if ($db_item["record_url"] != $record_url){
                 $this->task->t_tq_call_info->field_update_list($id,[
                     "record_url" =>  $record_url ,
                 ]);
             }
         }else{
-            //bridgeDuration
-            $bridgeDuration= $item["bridgeDuration"];//通话时长
-            $duration= strtotime("1970-01-01 $bridgeDuration")+28800;//3600*8
-
-            $cdr_customer_number= $item["customerNumber"];//客户号码
+            $cdr_customer_number= $item["customerNumber"];
+            $bridgeDuration= $item["bridgeDuration"];
+            $duration= strtotime("1970-01-01 $bridgeDuration")+28800;
             $called_flag=( $duration>30)?2:1;
-            $cdr_end_time =strtotime( $item["bridgeTime"] )+  $duration ;//客户接听时间
+            $cdr_end_time =strtotime( $item["bridgeTime"] )+  $duration ;
             $this->task->t_tq_call_info->add(
                 $id,
                 $cdr_bridged_cno,
@@ -111,11 +109,9 @@ class sync_tianrun extends cmd_base
                 $cdr_answer_time,
                 $cdr_end_time,
                 $duration,
-                $called_flag
-                ,
+                $called_flag,
                 "" );
             $this->task->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno );
-
         }
         /*
         */
