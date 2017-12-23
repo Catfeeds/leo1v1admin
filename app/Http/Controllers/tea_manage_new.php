@@ -1299,7 +1299,7 @@ class tea_manage_new extends Controller
         $teacherid = $this->get_in_int_val("teacherid",-1);
 
         $ret_info = $this->t_teacher_approve_refer_to_data->get_all_list($start_time, $end_time, $page_num, $teacherid);
-        foreach ($info['list'] as &$item) {
+        foreach ($ref_info['list'] as &$item) {
             if($item['cc_lesson_num']>0){
                 $item['cc_rate'] = $item['cc_order_num']/$item['cc_lesson_num'];
             }else{
