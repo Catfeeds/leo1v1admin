@@ -130,7 +130,7 @@ class sync_tianrun extends cmd_base
                 $cdr_end_time,
                 $duration,
                 $is_called_flag,
-                '',
+                $record_url,
                 0,
                 0,
                 $obj_start_time);
