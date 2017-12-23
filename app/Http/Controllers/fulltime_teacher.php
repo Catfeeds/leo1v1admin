@@ -318,6 +318,7 @@ class fulltime_teacher extends Controller
             $item["part_teacher_cc_per"] = !empty($item["part_teacher_cc_lesson"])?round($item["part_teacher_cc_order"]/$item["part_teacher_cc_lesson"]*100,2):0;
             $item["fulltime_teacher_lesson_count_per"] = !empty($item["platform_teacher_lesson_count"])?round($item["fulltime_teacher_lesson_count"]/$item["platform_teacher_lesson_count"]*100,2):0;
             $item["fulltime_normal_stu_pro"] = !empty($item["platform_normal_stu_num"])?round($item["fulltime_normal_stu_num"]/$item["platform_normal_stu_num"]*100,2):0;
+            $item["fulltime_teacher_student_pro"] = !empty($item["platform_teacher_student"])?round($item["fulltime_teacher_student"]/$item["platform_teacher_student"]*100,2):0;
 
 
         }
