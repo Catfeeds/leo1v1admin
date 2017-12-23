@@ -1272,7 +1272,7 @@ class wx_teacher_api extends Controller
         $ret_info['end_time'] = strtotime('2018-1-2')-time();
         foreach($ret_info['totalList'] as $i => &$item){
             if($item['teacherid'] == $teacherid){
-                $ret_info['ranking'] = $i;
+                $ret_info['ranking'] = $i+1;
             }
             $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);;
         }
