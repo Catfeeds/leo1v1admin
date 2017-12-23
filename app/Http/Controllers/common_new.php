@@ -385,9 +385,9 @@ class common_new extends Controller
              * @ 从老师分享页进入注册的 老师
              * @ christmas_type  0:正常用户 1:从分享页面进来的老师
              */
-            $shareId   = $this->get_in_int_val('shareId');
+            $shareId   = $this->get_in_str_val('shareId');
             $currentId = $this->get_in_str_val('currentId');
-            if($shareId > 0){
+            if($shareId){
                 $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId);
                 if(!$isHasAdd){
                     $this->t_teacher_christmas->row_insert([
