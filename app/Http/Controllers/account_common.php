@@ -208,7 +208,9 @@ class account_common extends Controller
 
         
         $check_verify_code = session($code_key);
+        return $this->output_succ(["code"=>$verify_code,"check_verify_code"=>$check_verify_code]);
         $check_flag = $this->check_verify_code( $verify_code,$check_verify_code,$phone,$role);
+        
         if(!$check_flag){
             return $this->output_err("验证码错误或已失效");
         }else{
