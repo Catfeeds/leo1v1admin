@@ -1300,13 +1300,13 @@ class tea_manage_new extends Controller
         $info = $this->t_teacher_approve_refer_to_data->get_all_list($start_time, $end_time, $teacherid);
         foreach ($info as &$item) {
             if($item['cc_lesson_num']>0){
-                $item['cc_rate'] = $cc_order_num/$cc_lesson_num;
+                $item['cc_rate'] = $item['cc_order_num']/$item['cc_lesson_num'];
             }else{
                 $item['cc_rate'] = 0;
             }
 
             if($item['cr_lesson_num']>0){
-                $item['cr_rate'] = $cr_order_num/$cr_lesson_num;
+                $item['cr_rate'] = $item['cr_order_num']/$item['cr_lesson_num'];
             }else{
                 $item['cr_rate'] = 0;
             }
