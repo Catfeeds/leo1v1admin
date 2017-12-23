@@ -151,9 +151,9 @@ class WechatRequest  {
 
         if($request['content'] == '排名'){
             $tuwenList[] = array(
-                'title' => "理优老师帮测试",
-                'description' => "Test",
-                'pic_url' => "http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E6%95%99%E8%82%B2%E5%9C%A8%E7%BA%BF-%E5%8E%9F%E5%9B%BE/%E6%B4%BB%E5%8A%A8/800%2A800.png",
+                'title' => "理优1对1致力于为初高中学生提供专业、专注、有效的教学。",
+                'description' => "",
+                'pic_url' => "http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%8F%8C%E6%97%A6%E8%8A%82%E6%8E%92%E5%90%8D.jpg",
                 'url' => "http://wx-parent-web.leo1v1.com/teachris/rank.html?openid=".$request['fromusername'],
             );
             $item = array();
