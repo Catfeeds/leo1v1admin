@@ -169,6 +169,7 @@
                     <td >性别</td>
                     <td >年龄</td>
                     <td >老师类型</td>
+                    <td >教材版本</td>
                     <td >手机号</td>
                     <td >入职时长</td>
                     <td >可上课时间</td>
@@ -185,6 +186,7 @@
                         <td>{{$var["gender_str"]}}</td>
                         <td>{{$var["age"]}}</td>
                         <td>{{$var["teacher_type_str"]}}</td>
+                        <td>{{$var["teacher_textbook_str"]}}</td>
                         <td>
                             <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
                                 {{$var["phone_hide"]}}
