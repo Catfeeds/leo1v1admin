@@ -391,7 +391,7 @@ class common_new extends Controller
             \App\Helper\Utils::logger("shareIdKKK:1 $shareId currentIdBB: $currentId");
 
 
-            if($shareId > 0){
+            if($shareId){
                 $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId);
                 if(!$isHasAdd){
                     $this->t_teacher_christmas->row_insert([
