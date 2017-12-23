@@ -1951,15 +1951,18 @@ class tongji2 extends Controller
         $openid = $this->t_teacher_info->get_wx_openid_by_phone($phone);
         $page_num  = $this->get_in_page_num();
 
-        $ret_info = $this->t_teacher_christmas->getChriDatePage($openid,$page_num);
-        $ret_info['totalList'] = $this->t_teacher_christmas->getTotalList($isLimit=1);
-        $ret_info['end_time'] = strtotime('2017-1-2');
-        foreach($ret_info['totalList'] as $i => &$item){
-            if($item['teacherid'] == $teacherid){
-                $ret_info['ranking'] = $i;
-            }
-            $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);;
-        }
+        $ret_info = [];
+        // $ret_info = $this->t_teacher_christmas->getChriDatePage($openid,$page_num);
+        // $ret_info['totalList'] = $this->t_teacher_christmas->getTotalList($isLimit=1);
+        // $ret_info['end_time'] = strtotime('2017-1-2');
+        // foreach($ret_info['totalList'] as $i => &$item){
+        //     if($item['teacherid'] == $teacherid){
+        //         $ret_info['ranking'] = $i;
+        //     }
+        //     $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);;
+        // }
+
+        // dd($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info);
 
