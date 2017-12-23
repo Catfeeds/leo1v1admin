@@ -667,8 +667,6 @@ class common_new extends Controller
         }
         \App\Helper\Utils::logger("duration ,$duration, $obj_start_time");
 
-
-
         $this->t_tq_call_info->add(
             $recid,
             $cdr_bridged_cno,
@@ -678,6 +676,7 @@ class common_new extends Controller
             $duration,
             $cdr_status==28?1:0,
             "",0,0, $obj_start_time);
+
         $called_flag=($cdr_status==28 && $duration>60)?2:1;
         $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno );
         return json_encode(["result"=>"success"]);
