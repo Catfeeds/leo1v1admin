@@ -265,7 +265,6 @@ $(function(){
     $(".opt-post-test-lesson_new").on("click",function(){
         var me=this;
         var opt_data=$(this).get_opt_data();
-
         var do_add_test_lesson= function() {
             $.do_ajax("/ss_deal/get_user_info",{
                 "userid"                 : opt_data.userid ,
@@ -312,12 +311,12 @@ $(function(){
                     return;
                 }
 
-                if (require_time < need_start_time ) {
-                    alert("申请时间不能早于 "+ min_date_time );
-                    $(me).parent().find(".opt-edit-new").click();
-                    return;
-                    //申请时间
-                }
+                // if (require_time < need_start_time ) {
+                //     alert("申请时间不能早于 "+ min_date_time );
+                //     $(me).parent().find(".opt-edit-new").click();
+                //     return;
+                //     //申请时间
+                // }
 
                 var id_stu_test_ipad_flag   = $("<select/>");
                 var id_not_test_ipad_reason = $("<textarea>");
