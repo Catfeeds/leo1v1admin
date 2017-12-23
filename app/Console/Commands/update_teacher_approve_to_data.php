@@ -52,7 +52,7 @@ class update_teacher_approve_to_data extends Command
             $item['violation_num'] = array_sum($violation_info);
 
             $id = $task->t_teacher_approve_refer_to_data->get_id_for_teacherid($start_time, $end_time, $teacherid);
-            dd($id);
+            echo $id;
 
             if ($id) {
                 $task->t_teacher_approve_refer_to_data->field_update_list($id, [
