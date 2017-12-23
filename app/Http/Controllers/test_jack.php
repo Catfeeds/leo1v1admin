@@ -369,6 +369,15 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
+
+        $role=1;
+        $phone = $this->get_in_phone();
+        $code_key = $phone."-".$role."-code";
+
+        
+        $check_verify_code = session($code_key);
+        dd($check_verify_code);
+
         $tt = $this->get_parent_courseid(1111,2,303);
         dd($tt);
         // $list = $this->get_baidu_money_charge_pay_info_test();
