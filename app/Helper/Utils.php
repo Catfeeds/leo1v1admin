@@ -2399,7 +2399,10 @@ class Utils  {
                 $item['file_use_type_str'] = '老师版';
             }else if ($item['file_use_type'] == 2 ){
                 $item['file_use_type_str'] = '学生版';
+            }else if ($item['file_use_type'] == 3 ){
+                $item['file_use_type_str'] = '额外文件';
             }
+
         }
     }
 
