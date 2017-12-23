@@ -55,6 +55,7 @@ class update_teacher_approve_to_data extends Command
             echo $id;
 
             if ($id) {
+                echo '调用更新';
                 $task->t_teacher_approve_refer_to_data->field_update_list($id, [
                     'stu_num' => $item['stu_num'],
                     'total_lesson_num' => $item['total_lesson_num'],
@@ -65,8 +66,9 @@ class update_teacher_approve_to_data extends Command
                     'violation_num' => $violation_info,
                 ]);
             } else {
+                echo '调用添加';
                 $task->t_teacher_approve_refer_to_data->row_insert([
-                    'teacherid' => $item['teacherid'],
+                    'teacherid' => $teacherid,
                     'stu_num' => $item['stu_num'],
                     'total_lesson_num' => $item['total_lesson_num'],
                     'cc_order_num' => $cc_order_num,
