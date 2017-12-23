@@ -117,12 +117,6 @@
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
                         <td>{{@$var["file_size"]}}M </td>
-                        <td>{{@$var["down_num"]}} </td>
-                        <td>{{@$var["error_num"]}} </td>
-                        <!-- <td>{{@$var["is_use_str"]}} </td> -->
-                        <!-- <td>
-                             <a class="opt-restore btn"  title="还原" data-resource_id="{{@$var['resource_id']}}">还原</a>
-                             </td> -->
                     </tr>
                 @endforeach
             </tbody>
