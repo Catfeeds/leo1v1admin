@@ -402,17 +402,17 @@ $(function(){
                 }
             }
             //其他版本
-            get_qiniu(new_flag,true,false,'id_other_file',0, 'other_file');
+            get_qiniu(new_flag,true,false,'id_other_file',0, 'other_file', 'pdf,PDF');
             //课件版
-            get_qiniu(new_flag,false,false,'id_les_file',0, 'les_file');
+            get_qiniu(new_flag,false,false,'id_les_file',0, 'les_file', 'pdf,PDF');
             //老师版
-            get_qiniu(new_flag,false,false,'id_tea_file',1, 'tea_file');
+            get_qiniu(new_flag,false,false,'id_tea_file',1, 'tea_file', 'pdf,PDF');
             //学生版
-            get_qiniu(new_flag,false,false,'id_stu_file',2, 'stu_file');
+            get_qiniu(new_flag,false,false,'id_stu_file',2, 'stu_file', 'pdf,PDF');
             //额外讲义
-            get_qiniu(new_flag,true,false,'id_ex_file',3, 'ex_file');
+            get_qiniu(new_flag,true,false,'id_ex_file',3, 'ex_file', 'pdf,PDF,mp3,mp4,MP3,MP4');
             //仅对resource_type = 4,5
-            get_qiniu(new_flag,false,false,'id_ff_file',0, 'ff_file');
+            get_qiniu(new_flag,false,false,'id_ff_file',0, 'ff_file', 'pdf,PDF');
 
         },false,600);
     };
@@ -552,7 +552,7 @@ $(function(){
         return remove_id;
     }
 
-    var get_qiniu = function(flag,is_multi, is_auto_upload, btn_id,use_type=0,add_class){
+    var get_qiniu = function(flag,is_multi, is_auto_upload, btn_id,use_type=0,add_class,allow_str){
 
         multi_upload_file(flag, is_multi, is_auto_upload, btn_id, 1,
                           function(files){
@@ -595,7 +595,7 @@ $(function(){
                                   }
                               }
                           },
-                          'mp4,pdf,mp3,MP3,MP4,PDF','fsUploadProgress'
+                          allow_str,'fsUploadProgress'
                          );
 
     };
@@ -694,6 +694,11 @@ $(function(){
 
     var re_upload = function(resource_id,file_id, file_use_type, ex_num){
 
+        if(file_use_type == 3){
+            var allow_str = 'mp4,pdf,mp3,MP3,MP4,PDF';
+        } else {
+            var allow_str = 'pdf,PDF';
+        }
         //重新上传
         multi_upload_file('',false,true,'upload_flag',1,'',function(up,file) {
             $('.opt_process').show();
@@ -724,7 +729,7 @@ $(function(){
                     }
                 });
             }
-        }, 'mp4,pdf,mp3,MP3,MP4,PDF','fsUploadProgress');
+        }, allow_str,'fsUploadProgress');
 
         //上传额外讲义
         multi_upload_file('',true,true,'ex_upload_flag',1,'',function(up,file) {
@@ -755,7 +760,7 @@ $(function(){
                     }
                 });
             }
-        }, 'mp4,pdf,mp3,MP3,MP4,PDF','fsUploadProgress');
+        }, allow_str,'fsUploadProgress');
 
     };
 
