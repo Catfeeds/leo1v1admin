@@ -680,9 +680,7 @@ class common_new extends Controller
             $duration= $cdr_end_time-$obj_start_time;
         }
         \App\Helper\Utils::logger("duration ,$duration, $obj_start_time");
-
-
-        $called_flag=($cdr_status==28 && $duration>60  )?2:1;
+        // $called_flag=($cdr_status==28 && $duration>60  )?2:1;
 
         $this->t_tq_call_info->add(
             $recid,
