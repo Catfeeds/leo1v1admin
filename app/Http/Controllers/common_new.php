@@ -331,6 +331,9 @@ class common_new extends Controller
             $teacher_info['identity']      = $teacher_type;
             $teacher_info['is_test_user']  = $is_test_user;
 
+
+            $teacher_info['wx_openid']  =  $this->get_in_str_val('currentId');// 老师双旦节活动
+
             \App\Helper\Utils::logger("teacher appointment:".$phone."data:".json_encode($data));
             if($full_time==1){
                 $html = $this->get_full_time_html($data);
