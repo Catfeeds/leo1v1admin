@@ -4283,6 +4283,7 @@ function init_edit() {
                             }
                         });
                         $.do_ajax("/ss_deal2/save_user_info_new",{
+                            save   : 1,
                             new_demand_flag   : 1,
                             click_type        : click_type,
                             userid            : opt_data.userid,
@@ -4619,6 +4620,7 @@ function init_edit() {
                         }
 
                         $.do_ajax("/ss_deal2/save_user_info_new",{
+                            save   : 2,
                             new_demand_flag   : 1,
                             click_type        : click_type,
                             userid            : opt_data.userid,

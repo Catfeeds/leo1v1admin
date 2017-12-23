@@ -456,6 +456,11 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $adminid = 99;
+        $key="DEAL_NEW_USER_$adminid";
+        $userid=\App\Helper\Common::redis_get($key)*1;
+        dd($userid);
+        dd($_SERVER);
         dd('aa');
     }
 
