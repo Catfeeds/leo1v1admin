@@ -213,6 +213,20 @@
                         <div class="col-xs-10 col-md-10"  >
                             <div class="row">
                                 <div class="col-xs-2 col-md-2 row-td-field-name"  >
+                                    <span >最大合同数预期:</span>
+                                </div>
+                                <div class="col-xs-5 col-md-5  row-td-field-value">
+                                    <span>{{@$ret_info['diff_max_count']}}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-10 col-md-10"  >
+                            <div class="row">
+                                <div class="col-xs-2 col-md-2 row-td-field-name"  >
                                     <span >优惠份额最大个数:</span>
                                 </div>
                                 <div class="col-xs-5 col-md-5  row-td-field-value">
@@ -391,7 +405,6 @@
                                 </div>
                                 <div class="col-xs-5 col-md-5  row-td-field-value">
                                     <button style="margin-left:10px"  id="id_close" type="button" class="btn btn-success">关闭</button>
-                                    <button style="margin-left:10px"  id="id_return" type="button" class="btn btn-default">返回</button>
                                 </div>
                             </div>
                         </div>
