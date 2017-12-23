@@ -224,6 +224,7 @@ class seller_student_new2 extends Controller
                 $item["use_new_flag"]=0;
             }
             $item["except_lesson_time"] = $item["stu_request_test_lesson_time"];
+            \App\Helper\Utils::unixtime2date_for_item($item, "curl_stu_request_test_lesson_time_end");
             \App\Helper\Utils::unixtime2date_for_item($item, "stu_request_test_lesson_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "set_lesson_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "require_time");
@@ -1478,8 +1479,8 @@ class seller_student_new2 extends Controller
             E\Eintention_level::set_item_value_str($require_info);
             E\Eseller_student_status::set_item_value_str($require_info,"test_lesson_student_status");
 
-            $require_info['request_time'] = \App\Helper\Utils::unixtime2date($require_info['stu_request_test_lesson_time']);
-            $require_info['request_time_end'] = \App\Helper\Utils::unixtime2date($require_info['stu_request_test_lesson_time_end']);
+            $require_info['request_time'] = \App\Helper\Utils::unixtime2date($require_info['curl_stu_request_test_lesson_time']);
+            $require_info['request_time_end'] = \App\Helper\Utils::unixtime2date($require_info['curl_stu_request_test_lesson_time_end']);
             $subject_tag_arr = json_decode($require_info['subject_tag'],true);
             if(is_array($subject_tag_arr)){
                 $default_tag = "无要求";
@@ -1490,8 +1491,8 @@ class seller_student_new2 extends Controller
                 \App\Helper\Utils::set_default_value($require_info['学科化标签'], $subject_tag_arr,$default_tag,'学科化标签');
             }
 
-            $lesson_start = $require_info['stu_request_test_lesson_time'];
-            $lesson_end   = $require_info['stu_request_test_lesson_time_end'];
+            $lesson_start = $require_info['curl_stu_request_test_lesson_time'];
+            $lesson_end   = $require_info['curl_stu_request_test_lesson_time_end'];
             $redis_key    = "require_key_".$require_id;
             $tea_list     = $this->get_teacher_list_for_test_lesson(
                 $redis_key,$lesson_start,$lesson_end,$require_info['grade'],$require_info['subject'],$refresh_flag
@@ -1612,8 +1613,9 @@ class seller_student_new2 extends Controller
                 }
                 if($tea_val['teacher_textbook']!=""){
                     $teacher_textbook_arr = explode(",",$tea_val['teacher_textbook']);
+                    $teacher_textbook_str = [];
                     foreach($teacher_textbook_arr as $textbook_val){
-                        $teacher_textbook_str[] = $textbook_map[$textbook_val];
+                        $teacher_textbook_str[] = @$textbook_map[$textbook_val];
                     }
                     $tea_val['teacher_textbook_str'] = implode(",",$teacher_textbook_str);
                 }else{
