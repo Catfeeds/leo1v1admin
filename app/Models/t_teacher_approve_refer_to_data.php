@@ -21,7 +21,21 @@ class t_teacher_approve_refer_to_data extends \App\Models\Zgen\z_t_teacher_appro
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list_by_page($sql, $page_num, 50);
+        return $this->main_get_list_by_page($sql, $page_num);
+    }
+
+    public function get_id_for_teacherid($start_time, $end_time, $teacherid) {
+        $where_arr = [
+            ['add_time>=%u', $start_time, 0],
+            ['add_time<%u', $end_time, 0],
+            ['teacherid=%u', $teacherid, 0]
+        ];
+
+        $sql = $this->gen_sql_new("select id from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
     }
 
 }
