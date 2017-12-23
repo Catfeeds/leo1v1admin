@@ -326,6 +326,19 @@ class account_common extends Controller
         }
  
     }
+
+    public function test(){
+        $role=$this->get_in_int_val("role",1);
+        $phone = $this->get_in_phone();
+        $code_key = $phone."-".$role."-code";
+        \App\Helper\Utils::logger("key:$code_key");
+
+
+        
+        $check_verify_code = session($code_key);
+        dd($check_verify_code);
+ 
+    }
    
    
 
