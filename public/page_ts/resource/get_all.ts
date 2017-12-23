@@ -772,6 +772,8 @@ $(function(){
             [obj.data('file_use_type_str'), obj.data('file_title')],
             ["文件大小", obj.data('file_size')+'M'],
         ];
+        console.log(obj);
+        console.log(arr);
         $.show_key_value_table('文件详情', arr,false,function(){
             $('.bootstrap-dialog-message td').each(function(i){
                 if($(this).text() == ''){

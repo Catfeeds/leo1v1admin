@@ -64,6 +64,10 @@ class resource extends Controller
                 $tag_arr['tag_three']['menu'] => 'tag_three',
                 $tag_arr['tag_four']['menu'] => 'tag_four',
             ]);
+            if($item['tag_four'] != -1) {
+                $item['tag_four_str'] = \App\Helper\Utils::get_sub_grade_tag($item['subject'],$item['grade'])[ $item['tag_four'] ];
+            }
+
         }
 
         //查询老师负责的科目,年级
