@@ -68,7 +68,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             $adminid,
             $admin_role,
             $obj_start_time
-        ) ;
+        );
         return $this->main_insert($sql);
     }
 
