@@ -1295,7 +1295,6 @@ class tea_manage_new extends Controller
     public function approved_data_new(){
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $page_num = $this->get_in_page_num();
-        $page_num['page_count'] = 50;
         $teacherid = $this->get_in_int_val("teacherid",-1);
 
         $ret_info = $this->t_teacher_approve_refer_to_data->get_all_list($start_time, $end_time, $page_num, $teacherid);
