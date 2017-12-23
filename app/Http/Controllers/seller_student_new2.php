@@ -1614,7 +1614,7 @@ class seller_student_new2 extends Controller
                 if($tea_val['teacher_textbook']!=""){
                     $teacher_textbook_arr = explode(",",$tea_val['teacher_textbook']);
                     foreach($teacher_textbook_arr as $textbook_val){
-                        $teacher_textbook_str[] = $textbook_map[$textbook_val];
+                        $teacher_textbook_str[] = @$textbook_map[$textbook_val];
                     }
                     $tea_val['teacher_textbook_str'] = implode(",",$teacher_textbook_str);
                 }else{
