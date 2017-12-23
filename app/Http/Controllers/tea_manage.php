@@ -2296,7 +2296,7 @@ class tea_manage extends Controller
         $is_zs_flag = (($this->t_admin_group_user->get_main_type($adminid))==8)?1:0;
         if($is_zs_flag==1 && $is_master_flag !=1){
             // $accept_adminid = $adminid;
-            $accept_adminid = -1;
+            $accept_adminid = $adminid;
             $id_train_through_new=0;
         }else{
             $accept_adminid = -1;
