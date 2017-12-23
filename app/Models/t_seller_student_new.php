@@ -3296,7 +3296,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                                   ." from %s n "
                                   ." left join %s s on n.userid = s.userid"
                                   ." left join %s l on n.userid=l.userid and l.lesson_type=2 and l.lesson_del_flag=0 and not exists( select 1 from %s where userid=l.userid and lesson_type=2 and lesson_del_flag=0 and lesson_start<l.lesson_start)"
-                                  ." left join %s o on o.price>0 and o.contract_status>0 and o.userid= n.userid and exists (select 1 from %s where price>0 and userid=o.userid and order_time<o.order_time and contract_status>0)"
+                                  ." left join %s o on o.price>0 and o.contract_status>0 and o.userid= n.userid and not exists (select 1 from %s where price>0 and userid=o.userid and order_time<o.order_time and contract_status>0)"
                                   ." left join %s m on m.uid= n.admin_revisiterid"
                                   ." left join %s m2 on s.origin_assistantid = m2.uid "
                                   ." left join %s a on a.phone = m2.phone "
