@@ -112,10 +112,10 @@ class account_common extends Controller
         
 
         $phone_index = $this->get_current_verify_num($phone,$role);
-        return $this->output_succ(["msg_num"=>$phone_index,"verify_code"=>$phone_code]);
+        // return $this->output_succ(["msg_num"=>$phone_index,"verify_code"=>$phone_code]);
 
-        //测试
-        $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"yzm","yzm","code:".$phone_code.",num:".$phone_index,"");
+        // //测试
+        // $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"yzm","yzm","code:".$phone_code.",num:".$phone_index,"");
 
 
         // \App\Helper\Utils::logger("address::".\App\Helper\Config::get_monitor_new_url()."/notice/sms_register");
@@ -241,6 +241,9 @@ class account_common extends Controller
 
         
         $check_verify_code = session($code_key);
+
+        return $this->output_succ(["code"=>$verify_code,"check_verify_code"=>$check_verify_code]);
+
         $check_flag = $this->check_verify_code( $verify_code,$check_verify_code,$phone,$role);
         if(!$check_flag){
             return $this->output_err("验证码错误或已失效");
