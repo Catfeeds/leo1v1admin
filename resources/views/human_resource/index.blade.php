@@ -361,9 +361,7 @@
             <thead>
                 <tr>
                     <td style="display:none;">id </td>
-                    <td  style="display:none;">昵称 </td>
                     <td >真实姓名</td>
-                    <td style="display:none;">机构信息</td>
                     <td style="display:none;" >工资分类</td>
                     <td style="display:none;" >推荐渠道</td>
                     <td >老师身份</td>
@@ -375,14 +373,13 @@
                     <td id="phone_num" style="display:none;">手机号</td>
                     <td style="display:none;">邮箱</td>
                     <td>性别</td>
+                    <td>年龄</td>
                     <td class="tea_address">所在地</td>
                     <td class="tea_school">学校</td>
-                    <td>年级段</td>
                     <td>第一科目</td>
+                    <td>第一科目年级段</td>
                     <td>第二科目</td>
-                    <td style="display:none;">第二年级段</td>
-                    <td style="display:none;">第三科目</td>
-                    <td style="display:none;">第三年级段</td>
+                    <td style="display:none;">第二科目年级段</td>
                     <td style="width:320px">面试评价</td>
                     <td style="display:none;">教务备注</td>
                     <td >教研备注</td>
@@ -415,9 +412,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{$var["teacherid"]}} </td>
-                        <td>{{$var["teacherid"]}} <br/>{{$var["nick"]}} </td>
                         <td>{{$var["realname"]}} </td>
-                        <td>{{$var["part_remarks"]}} </td>
                         <td>{{@$var["teacher_money_type_str"]}} </td>
                         <td>{{@$var["teacher_ref_type_str"]}} </td>
                         <td>{{@$var["identity_str"]}} </td>
@@ -433,8 +428,10 @@
                         </td>
                         <td>{{$var["email"]}}</td>
                         <td>{{@$var["gender_str"]}} </td>
+                        <td>{{@$var["age"]}} </td>
                         <td>{{$var["address"]}} </td>
                         <td>{{$var["school"]}} </td>
+                        <td>{{@$var["subject_str"]}} </td>
                         <td>
                             @if(@$var["grade_start"]>0)
                                 {{@$var["grade_start_str"]}} 至 {{@$var["grade_end_str"]}}
@@ -442,11 +439,8 @@
                                 {{@$var["grade_part_ex_str"]}}
                             @endif
                         </td>
-                        <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["second_subject_str"]}} </td>
                         <td>{{@$var["second_grade_str"]}} </td>
-                        <td>{{@$var["third_subject_str"]}} </td>
-                        <td>{{@$var["third_grade_str"]}} </td>
                         @if($var["interview_access"])
                             <td class="content_show" data-content="{{@$var["interview_access"]}}">
                                 {{@$var["interview_access"]}}

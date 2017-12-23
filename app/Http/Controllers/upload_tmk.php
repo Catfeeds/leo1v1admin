@@ -51,6 +51,9 @@ class upload_tmk extends Controller {
 
     public function upload_xls() {
         $file = Input::file('file');
+
+        \App\Helper\Utils::logger("UPLOAD_XLS");
+
         $postid=$this->get_in_postid();
         // dd(1);
         // dd($file);
@@ -58,6 +61,7 @@ class upload_tmk extends Controller {
         if ($file->isValid()) {
             //处理列
             $realPath = $file->getRealPath();
+            \App\Helper\Utils::logger("UPLOAD_XLS:$realPath");
             $ret = $this->upload_from_xls_data($postid, $realPath);
 
             // dd($ret);

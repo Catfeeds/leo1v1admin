@@ -126,7 +126,7 @@ class account_common extends Controller
 
         \App\Helper\Utils::logger("code:".$phone_code);
         \App\Helper\Utils::logger("index:".$phone_index);
-        return $this->output_succ();
+        return $this->output_succ(["msg_num"=>$phone_index,"verify_code"=>$phone_code]);
     }
 
     //用户注册
@@ -192,6 +192,24 @@ class account_common extends Controller
         }
         return $this->output_succ();
  
+    }
+
+    public function check_verify_code_phone(){
+        $phone = $this->get_in_str_val("phone");
+        $role = $this->get_in_int_val("role");
+        $verify_code = $this->get_in_str_val("verify_code");
+        $code_key = $phone."-".$role."-code";
+
+        
+        $check_verify_code = session($code_key);
+        $check_flag = $this->check_verify_code( $verify_code,$check_verify_code,$phone,$role);
+        if(!$check_flag){
+            return $this->output_err("验证码错误或已失效");
+        }else{
+            return $this->output_succ();
+        }
+
+
     }
 
 

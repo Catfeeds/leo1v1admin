@@ -50,7 +50,7 @@ class update_teaching_core_data extends Command
         }
         // dd(1111);
         for($i=$month_st;$i<=$month_num;$i++){
-        // for($i=1;$i<=11;$i++){
+        // for($i=1;$i<=13;$i++){
 
             $time =strtotime("2016-12-01");
             $start_time=strtotime("+".$i." month",$time);
@@ -409,6 +409,69 @@ class update_teaching_core_data extends Command
             }
             $deal_time = $deal_num>0?round($deal_time/$deal_num/86400,1):0;
 
+
+
+
+            //全职老师相关数据
+            $lesson_end_time = $task->get_test_lesson_end_time($end_time);
+
+            $fulltime_teacher_count = $task->t_manager_info->get_fulltime_teacher_num($end_time);
+            $ret_platform_teacher_lesson_count = $task->t_lesson_info_b3->get_teacher_list($start_time,$end_time);//统计平台老师总人数/课时
+            $platform_teacher_count = $ret_platform_teacher_lesson_count["tea_num"];//统计平台老师总人数
+            $fulltime_lesson_count = $task->t_lesson_info_b3->get_teacher_list($start_time,$end_time,1);//统计全职老师总人数/课时
+            $fulltime_teacher_student =$fulltime_lesson_count["stu_num"]; //全职老师所带学生总数
+            $platform_teacher_student_list= $task->t_student_info->get_total_student_num(-1);//统计平台学生数
+            $platform_teacher_student = $platform_teacher_student_list[0]['platform_teacher_student'];
+            $ret_info  = $task->t_manager_info->get_research_teacher_list_new(5,-1);
+            $qz_tea_arr=[];
+            foreach($ret_info as $yy=>$item){
+                if($item["teacherid"] != 97313){
+                    $qz_tea_arr[] =$item["teacherid"];
+                }else{
+                    unset($ret_info[$yy]);
+                }
+            }
+            $lesson_count_qz = $task->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr);
+            $fulltime_teacher_lesson_count=0;
+            foreach($lesson_count_qz as $val){
+                $fulltime_teacher_lesson_count +=$val["lesson_all"];//全职老师完成的课耗总数
+            }
+           
+            $platform_teacher_lesson_count = $ret_platform_teacher_lesson_count["lesson_count"];//平台所有老师完成的课耗总数
+
+            $test_person_num_total= $task->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$lesson_end_time);
+           
+            $qz_tea_list  = $task->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time, $lesson_end_time);          
+            $tran_avg= $lesson_avg=[];
+            foreach($ret_info as &$item){
+                $item["cc_lesson_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["all_lesson"]:0;
+                $item["cc_order_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["order_num"]:0;
+                
+                @$tran_avg["cc_lesson_num"] +=$item["cc_lesson_num"];
+                @$tran_avg["cc_order_num"] +=$item["cc_order_num"];
+            }
+            $platform_teacher_cc_lesson = @$test_person_num_total['person_num'];
+            $fulltime_teacher_cc_lesson  = @$tran_avg["cc_lesson_num"];
+            $platform_teacher_cc_order = @$test_person_num_total['have_order'];
+            $fulltime_teacher_cc_order  =@$tran_avg["cc_order_num"];
+
+            $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
+            $week_start = $date_week["sdate"]-14*86400;
+            $week_end = $date_week["sdate"]+21*86400;          
+
+            $normal_stu_num = $task->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);
+            foreach($normal_stu_num as $val){
+                @$ret['fulltime_normal_stu_num'] +=$val["num"];
+            }
+            $fulltime_normal_stu_num= @$ret['fulltime_normal_stu_num'];
+            $normal_stu_num_all = $task->t_lesson_info_b2->get_tea_stu_num_list([],$week_start,$week_end,false);
+            foreach($normal_stu_num_all as $val){
+                @$ret['platform_normal_stu_num'] +=$val["num"];
+            }
+            $platform_normal_stu_num= @$ret['platform_normal_stu_num'];
+          
+
+
             $exist_info = $task->t_teaching_core_data->field_get_list_2($start_time,1,"time");
             if($exist_info){
                 $task->t_teaching_core_data->field_update_list_2($start_time,1,[
@@ -487,7 +550,19 @@ class update_teaching_core_data extends Command
                     "lose_teacher_num_three_multiple"=>$tea_num_lose_three_zonghe,
                     "tea_complaint_num"               =>$complaint_num,
                     "tea_complaint_deal_time"         =>$deal_time,
-                    "test_no_reg_num" =>$tea_nu
+                    "test_no_reg_num" =>$tea_nu,
+                    "fulltime_teacher_count" =>$fulltime_teacher_count,
+                    "fulltime_teacher_student" =>$fulltime_teacher_student,
+                    "platform_teacher_student" =>$platform_teacher_student ,
+                    "fulltime_teacher_lesson_count" =>$fulltime_teacher_lesson_count,
+                    "platform_teacher_lesson_count" =>$platform_teacher_lesson_count,
+                    "platform_teacher_cc_lesson" =>$platform_teacher_cc_lesson,
+                    "platform_teacher_cc_order" =>$platform_teacher_cc_order ,
+                    "fulltime_teacher_cc_lesson" =>$fulltime_teacher_cc_lesson,
+                    "fulltime_teacher_cc_order" =>$fulltime_teacher_cc_order,
+                    "fulltime_normal_stu_num" =>$fulltime_normal_stu_num ,
+                    "platform_normal_stu_num" =>$platform_normal_stu_num,
+                    "platform_teacher_count" =>$platform_teacher_count,
                 ]);
 
             }else{
@@ -569,7 +644,19 @@ class update_teaching_core_data extends Command
                     "lose_teacher_num_three_multiple"=>$tea_num_lose_three_zonghe,
                     "tea_complaint_num"               =>$complaint_num,
                     "tea_complaint_deal_time"         =>$deal_time,
-                    "test_no_reg_num" =>$tea_nu
+                    "test_no_reg_num" =>$tea_nu,
+                    "fulltime_teacher_count" =>$fulltime_teacher_count,
+                    "fulltime_teacher_student" =>$fulltime_teacher_student,
+                    "platform_teacher_student" =>$platform_teacher_student ,
+                    "fulltime_teacher_lesson_count" =>$fulltime_teacher_lesson_count,
+                    "platform_teacher_lesson_count" =>$platform_teacher_lesson_count,
+                    "platform_teacher_cc_lesson" =>$platform_teacher_cc_lesson,
+                    "platform_teacher_cc_order" =>$platform_teacher_cc_order ,
+                    "fulltime_teacher_cc_lesson" =>$fulltime_teacher_cc_lesson,
+                    "fulltime_teacher_cc_order" =>$fulltime_teacher_cc_order,
+                    "fulltime_normal_stu_num" =>$fulltime_normal_stu_num ,
+                    "platform_normal_stu_num" =>$platform_normal_stu_num,
+                    "platform_teacher_count" =>$platform_teacher_count,
                 ]);
  
             }          

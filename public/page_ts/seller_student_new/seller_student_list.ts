@@ -4526,12 +4526,6 @@ function init_edit() {
                         }else{
                             html_node.find("#id_cultivation_new_two").parent().attr('style','');
                         }
-                        // if(add_tag == ''){
-                        //     html_node.find("#id_add_tag_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                        //     return false;
-                        // }else{
-                        //     html_node.find("#id_add_tag_new_two").parent().attr('style','');
-                        // }
                         if(html_node.find("#id_stu_request_test_lesson_demand_new_two").val() == ''){
                             html_node.find("#id_stu_request_test_lesson_demand_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
@@ -4623,6 +4617,7 @@ function init_edit() {
                                 html_node.find("#id_stu_request_test_lesson_time").attr('style','');
                             }
                         }
+
                         $.do_ajax("/ss_deal2/save_user_info_new",{
                             new_demand_flag   : 1,
                             click_type        : click_type,

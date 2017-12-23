@@ -13,5 +13,6 @@ message in  {
 }
 
 message out {
-  
+  int32 msg_num =1;//验证码编号
+  string verify_code =2;//验证码 
 }

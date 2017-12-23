@@ -4406,8 +4406,8 @@ class user_manage_new extends Controller
                     if($item["card_start_time"]==0 && $item["card_end_time"]==0){
                         $item["result"]="旷工";
                     }else{
-                        $off_time = $item["off_time"]==0?($item["attendance_time"]+9.5*3600):$item["off_time"];
-                        $delay_time = $item["delay_work_time"]==0?($item["attendance_time"]+18.5*3600):$item["delay_work_time"];
+                        $off_time = $item["off_time"]==0?($item["attendance_time"]+18.5*3600):$item["off_time"];
+                        $delay_time = $item["delay_work_time"]==0?($item["attendance_time"]+9.5*3600):$item["delay_work_time"];
                         if($item["card_start_time"]<=$delay_time && $item["card_end_time"]>=$off_time){
                             $item["result"]="正常";
                         }elseif($item["card_start_time"]>$delay_time && $item["card_end_time"]<$off_time){
