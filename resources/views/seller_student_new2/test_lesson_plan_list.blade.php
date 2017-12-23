@@ -291,7 +291,7 @@
                         <td style="min-width:250px">排课信息</td>
                         <td style="display:none;">老师</td>
                         <td style="display:none;">实际上课时间</td>
-                        <td  class="limit-require-info" style="display:none;">限课特殊申请情况</td>
+                        <td class="limit-require-info" style="display:none;">限课特殊申请情况</td>
                         <td style="width:130px" >操作</td>
                     </tr>
                 </thead>
@@ -357,16 +357,15 @@
                                     兴趣爱好  : {{$var["interests_and_hobbies"]}} <br/>
                                     性格特点  : {{$var["character_type"]}} <br/>
                                     所需老师风格  : {{$var["need_teacher_style"]}} <br/>
-
                                 @endif
                             </td>
                             <td >{{$var["require_time"]}}</td>
                             <td > {{$var["require_admin_nick"]}}</td>
-                            <td class="">{{$var["origin"]}}</td>
-                            <td class="">{{$var["nick"]}}</td>
-                            <td class="">{{$var["test_lesson_student_status_str"]}}</td>
+                            <td >{{$var["origin"]}}</td>
+                            <td >{{$var["nick"]}}</td>
+                            <td >{{$var["test_lesson_student_status_str"]}}</td>
                             <td >{{$var["user_desc"]}}</td>
-                            <td class="">{{$var["grade_str"]}}</td>
+                            <td >{{$var["grade_str"]}}</td>
                             <td >{{$var["subject_str"]}}</td>
                             <td >{{$var["has_pad_str"]}}</td>
                             <td >{{$var["stu_request_test_lesson_time"]}}</td>
@@ -406,7 +405,6 @@
                                     已分配教务:{{@$var["accept_account"]}} <br/>
                                     排课操作时间:{{@$var["set_lesson_time"]}} <br/>
                                 @endif
-
                                 申请是否接受: {!!  $var["accept_flag_str"] !!} <br/>
                                 老师是否可看到该课程: {!!  $var["lesson_used_flag_str"] !!} <br/>
                                 老师:{{$var["teacher_nick"]}} <br/>
@@ -419,7 +417,6 @@
                                 确认人:{!!$var["confirm_admin_nick"]!!} <br/>
                                 确认时间:{!!$var["confirm_time"]!!} <br/>
                                 试听课排课状态:{!!$var["accept_status_str"]!!} <br/>
-
                                 @if ($var["success_flag"]==2)
                                     是否付工资:
                                     @if ( in_array( $var["test_lesson_fail_flag"], [1,2,3]) )
@@ -472,9 +469,7 @@
                                 状态:{{$var["limit_accept_flag_str"]}}
                             </td>
                             <td>
-                                <div class="opt-div"
-                                     {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
-                                >
+                                <div class="opt-div" {!!  \App\Helper\Utils::gen_jquery_data($var )  !!} >
                                     <a title="用户信息" class="fa-user opt-user show_flag"></a>
                                     <a title="查看回访" class="fa-comments opt-return-back-list show_flag"></a>
                                     <a title="下载试卷" class="fa-download opt-download-test-paper show_flag"></a>
@@ -525,8 +520,6 @@
             </table>
             @include("layouts.page")
         </div>
-
-
         <div style="display:none;" id="id_dlg_post_user_info_new_two">
             <div class="row">
                 <div class="col-xs-12 col-md-12  ">

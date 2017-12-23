@@ -53,7 +53,7 @@
                 </tr>
                 <tr>
                     <td colspan="4">
-                        排课状态:<span class='font_color'>{{$require_info['test_stu_request_test_lesson_demand']}}</span>
+                        排课状态:<span class='font_color'>{{$require_info['test_lesson_student_status_str']}}</span>
                     </td>
                 </tr>
             </table>
