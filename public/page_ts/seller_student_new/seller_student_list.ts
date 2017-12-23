@@ -3231,22 +3231,22 @@ function init_edit() {
 
 
     $(".opt-edit-new_new_two").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        var opt_obj=this;
-        var click_type=2;
+        var opt_data   = $(this).get_opt_data();
+        var opt_obj    = this;
+        var click_type = 2;
         edit_user_info_new_two(opt_data,opt_obj,click_type);
     });
 
-    var edit_user_info_new_two=function(opt_data,opt_obj,click_type){
+    var edit_user_info_new_two = function(opt_data,opt_obj,click_type){
         $.do_ajax("/ss_deal/get_user_info",{
             "userid" : opt_data.userid ,
             "test_lesson_subject_id" : opt_data.test_lesson_subject_id ,
         },function(ret){
-            var data=ret.data;
-            var html_node = $.dlg_need_html_by_id( "id_dlg_post_user_info_new_two");
-            var show_noti_info_flag=false;
-            var $note_info=html_node.find(".note-info");
-            var note_msg="";
+            var data                = ret.data;
+            var html_node           = $.dlg_need_html_by_id( "id_dlg_post_user_info_new_two");
+            var show_noti_info_flag = false;
+            var $note_info          = html_node.find(".note-info");
+            var note_msg            = "";
             if (data.test_lesson_count >0 ) {
                 show_noti_info_flag=true;
                 note_msg="已有试听课:"+data.test_lesson_count +"次" ;
