@@ -230,6 +230,13 @@ class common_new extends Controller
      * 老师报名
      */
     public function add_teacher_lecture_appoinment_info_for_new(){
+        $shareId   = $this->get_in_str_val('shareId');
+        $currentId = $this->get_in_str_val('currentId');
+
+        \App\Helper\Utils::logger("shareId_ajaj: $shareId");
+
+
+
         $answer_begin_time            = strtotime($this->get_in_str_val("answer_begin_time"));
         $answer_end_time              = strtotime($this->get_in_str_val("answer_end_time"));
         $name                         = $this->get_in_str_val("name");
@@ -331,11 +338,19 @@ class common_new extends Controller
             $teacher_info['identity']      = $teacher_type;
             $teacher_info['is_test_user']  = $is_test_user;
 
+
+
             \App\Helper\Utils::logger("teacher appointment:".$phone."data:".json_encode($data));
             if($full_time==1){
                 $html = $this->get_full_time_html($data);
             }else{
-                $this->add_teacher_common($teacher_info);
+                $teacheridNewAdd = $this->add_teacher_common($teacher_info);
+                $currentId = $this->get_in_str_val('currentId');// 老师双旦节活动
+                if($currentId && $teacheridNewAdd>0){
+                    $this->t_teacher_info->field_update_list($teacheridNewAdd, ['wx_openid'=>$currentId]);
+                }
+
+
                 $html = $this->get_email_html_new($name);
             }
 
@@ -385,19 +400,18 @@ class common_new extends Controller
              * @ 从老师分享页进入注册的 老师
              * @ christmas_type  0:正常用户 1:从分享页面进来的老师
              */
-            $shareId   = $this->get_in_int_val('shareId');
+            $shareId   = $this->get_in_str_val('shareId');
             $currentId = $this->get_in_str_val('currentId');
-            if($shareId > 0){
-                $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId);
-                if(!$isHasAdd){
-                    $this->t_teacher_christmas->row_insert([
-                        "shareId"   => $shareId,
-                        "currentId" => $currentId,
-                        "add_time"    => time(),
-                        "score"       => 10,
-                        "type"        => 2 // 注册
-                     ]);
-                }
+
+
+            if($shareId){
+                $this->t_teacher_christmas->row_insert([
+                    "shareId"   => $shareId,
+                    "currentId" => $currentId,
+                    "add_time"    => time(),
+                    "score"       => 10,
+                    "type"        => 2 // 注册
+                ]);
             }
 
             //全职老师推送蔡老师,范老师

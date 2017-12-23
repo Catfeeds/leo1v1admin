@@ -8,12 +8,6 @@
      .font_color{color:#ff3451;}
     </style>
     <section class="content require_content" style="display:none">
-        <div style="display:none">
-            <div class="input-group ">
-                <span>需求id</span>
-                <input id="id_require_id"/>
-            </div>
-        </div>
         @if(!empty($require_info))
             <div align="center">
                 <h3>试听需求</h3>
@@ -48,7 +42,13 @@
                 </tr>
                 <tr>
                     <td colspan="4">
-                        试听需求:<span class='font_color'>{{$require_info['test_stu_request_test_lesson_demand']}}</span>
+                        学科化标签:<span class='font_color'>{{ @$require_info['学科化标签'] }}</span><br/>
+                        试听需求  :<span class='font_color'>{{$require_info['test_stu_request_test_lesson_demand']}}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        排课状态:<span class='font_color'>{{$require_info['test_lesson_student_status_str']}}</span>
                     </td>
                 </tr>
             </table>
@@ -70,12 +70,12 @@
                            autocomplete="off" placeholder="输入老师姓名/手机回车搜索" />
                 </div>
             </div>
-            <div class="col-md-1 col-xs-3">
+            <div class="col-md-1 col-xs-3 require_status">
                 <div>
                     <button class="btn btn-primary" id="id_set_lesson_time">排课</button>
                 </div>
             </div>
-            <div class="col-md-1 col-xs-3">
+            <div class="col-md-1 col-xs-3 require_status">
                 <div>
                     <button class="btn btn-danger" id="id_refund_lesson">驳回</button>
                 </div>
@@ -172,7 +172,7 @@
                     <td >手机号</td>
                     <td >入职时长</td>
                     <td >可上课时间</td>
-                    <td >标签</td>
+                    <td width="300px">标签</td>
                     <td >操作</td>
                 </tr>
             </thead>

@@ -1040,7 +1040,7 @@ class wx_teacher_api extends Controller
         $ret_info['identity'] = E\Eidentity::get_desc($ret_info['tea_identity']);
         $ret_info['atmosphere'] = $subject_tag_arr['课堂气氛'];
         $ret_info['courseware'] = $subject_tag_arr['课件要求'];
-        $ret_info['subject_tag'] = $subject_tag_arr['学科化标签'];
+        $ret_info['subject_tag'] = rtrim($subject_tag_arr['学科化标签'],',');
 
         // 数据待确认
         $ret_info['handout_flag'] = 0; //无讲义
@@ -1089,7 +1089,6 @@ class wx_teacher_api extends Controller
             $url = "http://wx-teacher-web.leo1v1.com/teacher_info.html?lessonid=".$lessonid;
 
             $wx = new \App\Helper\WxSendMsg();
-            $wx->send_ass_for_first("orwGAszZI_oaYSXVfb_Va6BlhtW0", $data, $url);//james
             $wx->send_ass_for_first($lesson_info['wx_openid'], $data, $url);
 
 
@@ -1225,8 +1224,11 @@ class wx_teacher_api extends Controller
         $currentId = $this->get_in_str_val('currentId');
         $checkScore= 0;
 
+        \App\Helper\Utils::logger("addClickLog111: $shareId ");
+
+
         $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId,$checkScore);
-        if(!$isHasAdd && $shareId>0){
+        if(!$isHasAdd && $shareId){
             $this->t_teacher_christmas->row_insert([
                 "shareId"   => $shareId,
                 "currentId" => $currentId,
@@ -1248,11 +1250,14 @@ class wx_teacher_api extends Controller
      **/
     public function shareClickLog(){
         $currentId = $this->get_in_str_val('currentId');
-        $currentTeacherId = $this->t_teacher_info->get_teacherid_by_openid($currentId);
+        // $currentTeacherId = $this->t_teacher_info->get_teacherid_by_openid($currentId);
 
-        if($currentTeacherId>0){ // 若自己已经是老师 分享+1
+        \App\Helper\Utils::logger("shareClickLog2222: $currentId ");
+
+
+        if($currentId){ // 若自己已经是老师 分享+1
             $this->t_teacher_christmas->row_insert([
-                "shareId"   => $currentTeacherId,
+                "shareId"   => $currentId,
                 "currentId" => '',
                 "add_time"    => time(),
                 "score"       => 1,
@@ -1265,17 +1270,32 @@ class wx_teacher_api extends Controller
 
     public function getShareDate(){
         $openid = $this->get_in_str_val('openid');
-        // $teacherid = $this->t_teacher_info->get_teacherid_by_openid($openid);
 
         $ret_info = $this->t_teacher_christmas->getChriDate($openid);
         $ret_info['totalList'] = $this->t_teacher_christmas->getTotalList();
         $ret_info['end_time'] = strtotime('2018-1-2')-time();
+        $phone = $this->t_teacher_info->get_phone_by_wx_openid($openid);
+        if($phone>0){
+            $ret_info['currentPhone'] = substr($phone,0,3)."****".substr($phone,7);
+        }else{
+            $ret_info['currentPhone'] = 0;
+        }
+
+        $ret_info['ranking'] = 0;
         foreach($ret_info['totalList'] as $i => &$item){
             if($item['shareId'] == $openid){
                 $ret_info['ranking'] = $i+1;
             }
-            $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);;
+            $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
         }
+
+        $ret_info['ranking'] = $ret_info['ranking']?$ret_info['ranking']:0;
+        $ret_info['click_num'] = $ret_info['click_num']?$ret_info['click_num']:0;
+        $ret_info['share_num'] = $ret_info['share_num']?$ret_info['share_num']:0;
+        $ret_info['register_num'] = $ret_info['register_num']?$ret_info['register_num']:0;
+        $ret_info['register_num'] = $ret_info['register_num']?$ret_info['register_num']:0;
+        $ret_info['currentScore'] = $ret_info['currentScore']?$ret_info['currentScore']:0;
+
         return $this->output_succ($ret_info);
     }
 

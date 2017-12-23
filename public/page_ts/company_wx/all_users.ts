@@ -40,7 +40,7 @@ $(function(){
                 }
 
                 for(var i=0; i<perm.length; i++) {
-                    if (perm[i] == this['groupid']) {
+                    if (parseInt(perm[i]) == this['groupid']) {
                         select_list.push (this["groupid"]) ;
                     }
                 }
@@ -56,7 +56,7 @@ $(function(){
                         "id": id,
                         "status": status,
                         "groupid_list":JSON.stringify(select_list),
-                        //"old_permission": permission,
+                        "old_permission": permission,
                     });
                 }
             });
