@@ -10,7 +10,7 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
 
     public function checkHasAdd($main_pid,$next_openid,$checkScore=-1){
         $where_arr = [
-            "shareId=$main_pid",
+            "shareId='$main_pid'",
             "currentId='$next_openid'",
             ["type=%d",$checkScore,-1]
         ];
@@ -25,7 +25,7 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
 
     public function getChriDate($shareId){
         $where_arr = [
-            ["tc.shareId=%s",$shareId,-1]
+            ["tc.shareId='%s'",$shareId,-1]
         ];
 
         $sql = $this->gen_sql_new("  select sum(if(tc.type=0,1,0)) as click_num, sum(if(tc.type=1,1,0)) as share_num, sum(if(tc.type=2,1,0)) as register_num, sum(tc.score) as currentScore  from %s tc "
