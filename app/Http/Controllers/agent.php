@@ -456,6 +456,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $cdr_answer_time = intval( preg_split("/\-/", $uniqueId='ccic_dev_11-1344323905.20')[1]);
+        dd($cdr_answer_time);
         $ret_info= $this->t_order_info->get_1v1_order_seller_list_new($start_time=1504195200,$end_time=1506787200,[],'');
         dd($ret_info);
         $this->t_student_cc_to_cr->row_insert($arr);
