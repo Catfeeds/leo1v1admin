@@ -373,6 +373,7 @@
                             <td >{{$var["school"]}}</td>
                             <td >
                                 期待时间: {{$var["stu_request_test_lesson_time"]}} <br/>
+                                期待结束时间: {{$var["curl_stu_request_test_lesson_time_end"]}} <br/>
                                 @if($var["use_new_flag"]==0 || ($var["use_new_flag"]==1 && $var["new_demand_flag"]==0 ))
                                     期待时间(其它): {!!  $var["stu_request_test_lesson_time_info_str"]!!} <br/>
                                     正式上课: {!!  $var["stu_request_lesson_time_info_str"]!!} <br/>

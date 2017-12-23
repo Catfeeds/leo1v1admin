@@ -1731,7 +1731,7 @@ trait TeaPower {
             return $this->output_err("更改的手机号与旧手机号相同!");
         }
         $check_phone = \App\Helper\Utils::check_phone($new_phone);
-        if(!$ret){
+        if(!$check_phone){
             return $this->output_err("手机号不是11位!");
         }
         $check_flag = $this->t_phone_to_user->check_is_exist_by_phone_and_userid(-1,$new_phone,$role);
@@ -1752,25 +1752,25 @@ trait TeaPower {
             $this->t_phone_to_user->rollback();
             return $this->output_err("更新用户表出错！请重试！");
         }
-        $tea_ret = $this->t_teacher_info->field_update_list($userid,$update_tea_arr);
+        $tea_ret = $this->t_teacher_info->field_update_list($teacherid,$update_tea_arr);
         if(!$tea_ret){
             $this->t_phone_to_user->rollback();
             return $this->output_err("更新老师表出错！请重试！");
         }
 
         $this->t_phone_to_user->commit();
-        \App\Helper\Utils::logger("update teacher phone success!teacherid:".$userid
+        \App\Helper\Utils::logger("update teacher phone success!teacherid:".$teacherid
                                   ." old phone:".$old_phone."new phone:".$new_phone);
 
         $record_info = "手机变更,由".$old_phone."变更为".$new_phone;
         $this->t_teacher_record_list->row_insert([
-            'teacherid'   => $userid,
-            'type'        => 6,
+            'teacherid'   => $teacherid,
+            'type'        => E\Erecord_type::V_6,
             'record_info' => $record_info,
             'add_time'    => time(),
             'acc'         => $this->get_account(),
         ]);
-        return $this->output_succ();
+        return true;
     }
 
     /**

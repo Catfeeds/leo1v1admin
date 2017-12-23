@@ -492,4 +492,36 @@ class assistant_performance extends Controller
  
     }
 
+    public function get_assistant_origin_order_losson_info_all(){
+        list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(date("Y-m-01"),0,1,[
+            1 => array("n.add_time","下单日期"),
+            2 => array("o.order_time","下单日期"),
+            3 => array("o.pay_time", "生效日期"),
+        ],3);
+
+        $studentid         = $this->get_in_studentid(-1);
+        $page_info          = $this->get_in_page_info();
+        $sys_operator      = $this->get_in_str_val("sys_operator","");       
+        $teacherid         = $this->get_in_teacherid(-1);
+        $origin_userid     = $this->get_in_int_val("origin_userid", -1);          
+        $order_adminid          = $this->get_in_adminid(-1);
+        $assistantid       = $this->get_in_assistantid(-1);
+        $ret_info = $this->t_order_info->get_assistant_origin_order_losson_list_all($start_time,$end_time,$opt_date_type, $studentid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid );
+
+        foreach($ret_info["list"] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item, 'order_time','_str'); 
+            \App\Helper\Utils::unixtime2date_for_item($item, 'pay_time','_str'); 
+            E\Egrade::set_item_value_str($item,"grade");
+            E\Esubject::set_item_value_str($item,"subject");
+          
+            $item["phone_ex"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone']);
+
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+
+
+ 
+    }
+
+
 }

@@ -5194,10 +5194,9 @@ class ss_deal extends Controller
         }else{
             $update_phone_flag = false;
         }
-
         $teacherid = $this->t_teacher_info->get_teacherid_by_phone($old_phone);
         if(!$teacherid){
-            $teacher_info['phone'] = $new_phone;
+            $teacher_info['phone'] = $phone;
             $ret = $this->add_teacher_common($teacher_info);
             if($ret<=0){
                 return $this->output_err($ret);
@@ -5206,12 +5205,20 @@ class ss_deal extends Controller
             }
         }
         if($update_phone_flag){
-            $this->change_teacher_phone($teacherid,$new_phone);
+            $ret = $this->change_teacher_phone($teacherid,$phone);
+            if($ret!=true){
+                return $ret;
+            }
         }
         if($teacherid>0){
             $this->t_teacher_info->field_update_list($teacherid, [
-                'age'    => $age,
-                'gender' => $gender
+                'realname' => $name,
+                'nick'     => $name,
+                'identity' => $teacher_type,
+                'age'      => $age,
+                'gender'   => $gender,
+                'email'    => $email,
+                'qq_info'  => $qq,
             ]);
         }
         $this->t_teacher_lecture_appointment_info->field_update_list($id,[
@@ -5219,10 +5226,10 @@ class ss_deal extends Controller
             "phone"                => $phone,
             "email"                => $email,
             "qq"                   => $qq,
+            "teacher_type"         => $teacher_type,
             "reference"            => $reference,
             "grade_ex"             => $grade_ex,
             "subject_ex"           => $subject_ex,
-            "teacher_type"         => $teacher_type,
             "reference"            => $reference,
             "lecture_revisit_type" => $lecture_revisit_type,
             "custom"               => $custom,
