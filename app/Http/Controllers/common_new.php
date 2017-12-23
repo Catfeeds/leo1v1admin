@@ -387,6 +387,10 @@ class common_new extends Controller
              */
             $shareId   = $this->get_in_int_val('shareId');
             $currentId = $this->get_in_str_val('currentId');
+
+            \App\Helper\Utils::logger("shareIdKKK:1 $shareId currentIdBB: $currentId");
+
+
             if($shareId > 0){
                 $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId);
                 if(!$isHasAdd){
