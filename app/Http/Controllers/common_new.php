@@ -392,7 +392,7 @@ class common_new extends Controller
 
 
             if($shareId){
-                $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId);
+                $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId,2);
                 if(!$isHasAdd){
                     $this->t_teacher_christmas->row_insert([
                         "shareId"   => $shareId,
