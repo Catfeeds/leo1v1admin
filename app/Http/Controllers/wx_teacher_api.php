@@ -1282,6 +1282,7 @@ class wx_teacher_api extends Controller
             $ret_info['currentPhone'] = 0;
         }
 
+        $ret_info['ranking'] = 0;
         foreach($ret_info['totalList'] as $i => &$item){
             if($item['shareId'] == $openid){
                 $ret_info['ranking'] = $i+1;
