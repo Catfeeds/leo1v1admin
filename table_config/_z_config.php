@@ -138,7 +138,7 @@ return array(
 
 
     ["db_weiyi","t_month_student_count","id"] ,
-    ["db_weiyi","t_train_lesson_user","userid","add_time"] ,
+    ["db_weiyi","t_train_lesson_user","lessonid","userid"] ,
     ["db_weiyi","t_psychological_teacher_time_list","day","start"] ,
     ["db_weiyi","t_student_init_info","userid"] ,
     ["db_weiyi","t_gift_consign","exchangeid"] ,

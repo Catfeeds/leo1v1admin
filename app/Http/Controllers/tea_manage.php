@@ -1731,7 +1731,6 @@ class tea_manage extends Controller
         $lessonid        = $this->get_in_int_val("lessonid",-1);
         $lesson_sub_type = $this->get_in_int_val("lesson_sub_type",-1);
         $train_type      = $this->get_in_int_val("train_type",-1);
-        $acc             = $this->get_account();
         $page_num        = $this->get_in_page_num();
 
         $this->t_lesson_info->switch_tongji_database();
@@ -1767,9 +1766,7 @@ class tea_manage extends Controller
             $val['server_type_str'] = \App\Helper\Utils::get_server_type_str($val);
         }
 
-        return $this->pageView(__METHOD__,$ret_info,[
-            "acc" => $acc
-        ]);
+        return $this->pageView(__METHOD__,$ret_info);
     }
 
     public function add_train_lesson(){
