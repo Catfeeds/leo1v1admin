@@ -134,7 +134,7 @@ class sync_tianrun extends cmd_base
                 0,
                 0,
                 $obj_start_time);
-            $called_flag = ($duration>30)?2:1;
+            $called_flag = ($duration>60)?2:1;
             $this->task->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno);
         }
         /*
