@@ -61,6 +61,7 @@ interface RowData {
 	teacher_type	:any;
 	jianli	:any;
 	gender	:any;
+	age	:any;
 	teacher_money_type	:any;
 	identity	:any;
 	is_test_user	:any;
@@ -152,7 +153,6 @@ interface RowData {
 	second_grade_str	:any;
 	third_grade_str	:any;
 	identity_str	:any;
-	age	:any;
 	level_str	:any;
 	teacher_money_type_str	:any;
 	teacher_ref_type_str	:any;

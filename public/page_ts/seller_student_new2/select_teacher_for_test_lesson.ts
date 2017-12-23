@@ -4,6 +4,7 @@
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page({
+		    teacher_info  : $('#id_teacher_info').val(),
 		    identity      : $('#id_identity').val(),
 		    gender        : $('#id_gender').val(),
 		    tea_age       : $('#id_tea_age').val(),
@@ -13,6 +14,7 @@ function load_data(){
 		    teaching_tags : $('#id_teaching_tags').val(),
 		    require_id    : $('#id_require_id').val(),
 		    refresh_flag  : $('#id_refresh_flag').val(),
+		    region_version: $('#id_region_version').val(),
     });
 }
 
@@ -20,7 +22,9 @@ $(function(){
     Enum_map.append_option_list("identity",$("#id_identity"),true,[5,6,7,8]);
     Enum_map.append_option_list("gender",$("#id_gender"),true,[1,2]);
     Enum_map.append_option_list("tea_age",$("#id_tea_age"),true,[1,2,3,4]);
-    // Enum_map.append_option_list("teacher_type",$("#id_teacher_type"),true,[1,3]);
+    Enum_map.append_option_list("teacher_type",$("#id_teacher_type"),true,[1,3]);
+    Enum_map.append_option_list_by_not_id("region_version",$("#id_region_version"),true,[0]);
+    $("#id_teacher_info").val(g_args.teacher_info);
     $("#id_identity").val(g_args.identity);
     $("#id_gender").val(g_args.gender);
     $("#id_tea_age").val(g_args.tea_age);
@@ -30,9 +34,10 @@ $(function(){
     $("#id_lesson_tags").val(g_args.lesson_tags);
     $("#id_teacherid").val();
     $('#id_require_id').val(g_args.require_id);
-    $('#id_').val(g_args.require_id);
+    $('#id_region_version').val(g_args.region_version);
     $('#id_refresh_flag').val(g_args.refresh_flag);
-	  $('.opt-change').set_input_change_event(load_data);
+
+    $('.opt-change').set_input_change_event(load_data);
     $("#id_lesson_time").datetimepicker();
 
     if(g_args.require_id==0){
@@ -82,20 +87,22 @@ $(function(){
         $(this).parents("tr").addClass("red-border");
         $("#id_teacherid").val(data.teacherid);
         $("#id_teacher_info").val(teacher_info);
+        $("#id_teacher_info").data("select_flag",1);
     });
 
     $("#id_teacher_info").keydown(function(event){
         var val = $(this).val();
-	      if(event.keyCode==8){
+        var select_flag = $(this).data("select_flag");
+        //判断退格键是全部清空还是正常退格 0 正常退格 1 全部清空
+	      if(event.keyCode==8 && select_flag==1){
+            no_select_teacher();
             $("#id_teacher_info").val('');
-            console.log(val);
+            $(this).data("select_flag",0);
         }
         if(event.keyCode==13){
-            alert("回车");
-            console.log(val);
+            load_data();
         }
     });
-
 
     //排课
     $("#id_set_lesson_time").on("click",function(){

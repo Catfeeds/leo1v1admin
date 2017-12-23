@@ -854,8 +854,6 @@ class human_resource extends Controller
             $item["revisit_add_time"]    = $revisit_info["add_time"];
             $item["recover_class_time"]  = $revisit_info["recover_class_time"];
             $item["revisit_record_info"] = $revisit_info["record_info"];
-            $birth_year = substr((string)$item['birth'],0,4);
-            $age        = (int)date('Y',time())-(int)$birth_year;
             E\Eteacher_type::set_item_value_str($item,"teacher_type");
             E\Eboolean::set_item_value_str($item,"need_test_lesson_flag");
             E\Egender::set_item_value_str($item,"gender");
@@ -867,12 +865,7 @@ class human_resource extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"third_grade");
             E\Eidentity::set_item_value_str($item);
             $item['user_agent'] = \App\Helper\Utils::get_user_agent_info($item['user_agent']);
-            $item['age']        = $age;
-            if($item['teacher_money_type']==6){
-                E\Enew_level::set_item_value_str($item,"level");
-            }else{
-                E\Elevel::set_item_value_str($item,"level");
-            }
+            $item['level_str'] = \App\Helper\Utils::get_teacher_level_str($item);
             E\Eteacher_money_type::set_item_value_str($item);
             E\Eteacher_ref_type::set_item_value_str($item); //是否全职
             E\Etextbook_type::set_item_value_str($item);
@@ -897,7 +890,6 @@ class human_resource extends Controller
                 } else {
                     $item['work_day'] = "";
                 }
-                //$item["work_day"] = \App\Helper\Utils::change_time_difference_to_day($item['train_through_new_time']);
             }else{
                 $item["work_day"] ="";
             }

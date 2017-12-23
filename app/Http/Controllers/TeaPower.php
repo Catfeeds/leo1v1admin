@@ -4664,7 +4664,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * @return int match_num 匹配度
      */
     public function match_teacher_free_time($teacher_free_time,$match_time,$match_time_end){
-        $match_num  = 0;
+        $match_num = 0;
         if($teacher_free_time !=""){
             $teacher_free_time_arr = json_decode($teacher_free_time);
             $break_flag = false;

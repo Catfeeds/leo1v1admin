@@ -118,6 +118,7 @@ class tea_manage_new extends Controller
         $tea_nick              = $this->get_in_str_val('tea_nick',"");
         $realname              = $this->get_in_str_val('realname',"");
         $gender                = $this->get_in_int_val('gender', -1);
+        $age                   = $this->get_in_int_val('age', -1);
         $birth                 = $this->get_in_str_val('birth',"");
         $work_year             = $this->get_in_int_val('work_year', 0);
         $email                 = $this->get_in_str_val('email',"");
@@ -152,6 +153,7 @@ class tea_manage_new extends Controller
             'nick'                  => $tea_nick,
             'realname'              => $realname,
             'gender'                => $gender,
+            'age'                   => $age,
             'birth'                 => $birth,
             'work_year'             => $work_year,
             'email'                 => $email,
@@ -1255,10 +1257,13 @@ class tea_manage_new extends Controller
 
     public function approved_data(){
 
+        $this->check_and_switch_tongji_domain();
+
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $page_num = $this->get_in_page_num();
         $teacherid = $this->get_in_int_val("teacherid",-1);
 
+        $this->t_lesson_info_b3->switch_tongji_database();
         $ret_info = [];
         $ret_info = $this->t_lesson_info_b3->get_tea_lesson_info_for_approved($start_time, $end_time,$page_num,$teacherid);
 
@@ -1283,9 +1288,6 @@ class tea_manage_new extends Controller
             $violation_info = $this->t_lesson_info_b3->get_violation_num($start_time, $end_time, $item['teacherid']);
             $item['violation_num'] = array_sum($violation_info);
 
-
-            // 计算总课时
-            // $item['total_lesson_num'] = $this->t_lesson_info_b3->get_total_lesson_time($start_time, $end_time,$item['teacherid']);
         }
 
 

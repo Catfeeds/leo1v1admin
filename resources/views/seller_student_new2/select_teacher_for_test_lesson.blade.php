@@ -26,12 +26,16 @@
                     <td>试听科目:<span class="font_color">{{$require_info['subject_str']}}</span></td>
                 </tr
                 <tr>
-                    <td>试听时间:<span class="font_color">{{$require_info['request_time']}}</span></td>
+                    <td>
+                        开始时间:<span class="font_color">{{$require_info['request_time']}}</span><br/>
+                        结束时间:<span class="font_color">{{$require_info['request_time_end']}}</span>
+                    </td>
                     <td>
                         老师身份:<span class="font_color">{{ $require_info['tea_identity_str'] }}</span><br/>
-                        老师类型:<span class="font_color">{{ $require_info['teacher_type_str'] }}</span><br/>
-                        年龄要求:<span class="font_color">{{ $require_info['tea_age_str'] }}</span><br/>
                         性别要求:<span class="font_color">{{ $require_info['tea_gender_str'] }}</span><br/>
+                        年龄要求:<span class="font_color">{{ $require_info['tea_age_str'] }}</span><br/>
+                        老师类型:<span class="font_color">{{ $require_info['teacher_type_str'] }}</span><br/>
+                        学生教材:<span class="font_color">{{ $require_info['textbook'] }}</span><br/>
                     </td>
                     <td>报价反应:<span class="font_color">{{$require_info['quotation_reaction_str']}}</span></td>
                     <td>上课意向:<span class="font_color">{{$require_info['intention_level_str']}}</span></td>
@@ -44,7 +48,7 @@
                 </tr>
                 <tr>
                     <td colspan="4">
-                        试听需求：<span class='font_color'>{{$require_info['test_stu_request_test_lesson_demand']}}</span>
+                        试听需求:<span class='font_color'>{{$require_info['test_stu_request_test_lesson_demand']}}</span>
                     </td>
                 </tr>
             </table>
@@ -58,11 +62,12 @@
                 </div>
             </div>
             <div class="col-xs-6 col-md-3">
-                <div class="input-group ">
+                <div class="input-group">
                     <span>老师信息</span>
-                    <input id="id_teacherid" style="display:none" type="text"
-                           value="{{ @$require_info['teacherid'] }}" autocomplete="off" />
-                    <input id="id_teacher_info" type="text" value="{{ @$require_info['teacher_info'] }}" autocomplete="off" />
+                    <input id="id_teacherid"  type="text" value="{{ @$require_info['teacherid'] }}"
+                           autocomplete="off" style="display:none" />
+                    <input id="id_teacher_info" type="text" value="{{ @$require_info['teacher_info'] }}"
+                           autocomplete="off" placeholder="输入老师姓名/手机回车搜索" />
                 </div>
             </div>
             <div class="col-md-1 col-xs-3">
@@ -107,8 +112,6 @@
                     <span class="input-group-addon">老师类型</span>
                     <select class="opt-change form-control" id="id_teacher_type">
                         <option value="0">无要求</option>
-                        <option value="1">非全职老师</option>
-                        <option value="3">全职老师</option>
                     </select>
                 </div>
             </div>
@@ -116,9 +119,17 @@
         <div class="row">
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">
+                    <span class="input-group-addon">教材版本</span>
+                    <select class="opt-change form-control" id="id_region_version">
+                        <option value="0">无要求</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-3" >
+                <div class="input-group ">
                     <span class="input-group-addon">教师相关</span>
                     <select class="opt-change form-control" id="id_teacher_tags" >
-                        <option value ="">[全部]</option>
+                        <option value ="">无要求</option>
                         @foreach($teacher_tags as $val)
                             <option value="{{$val}}">{{$val}}</option>
                         @endforeach
@@ -129,7 +140,7 @@
                 <div class="input-group ">
                     <span class="input-group-addon">课堂相关</span>
                     <select class="opt-change form-control" id="id_lesson_tags" >
-                        <option value ="">[全部]</option>
+                        <option value ="">无要求</option>
                         @foreach($lesson_tags as $val)
                             <option value="{{$val}}">{{$val}}</option>
                         @endforeach
@@ -140,7 +151,7 @@
                 <div class="input-group ">
                     <span class="input-group-addon">教学相关</span>
                     <select class="opt-change form-control" id="id_teaching_tags" >
-                        <option value ="">[全部]</option>
+                        <option value ="">无要求</option>
                         @foreach($teaching_tags as $val)
                             <option value="{{$val}}">{{$val}}</option>
                         @endforeach
@@ -154,11 +165,12 @@
                 <tr>
                     <td style="display:none">老师id</td>
                     <td >姓名</td>
+                    <td >老师身份</td>
                     <td >性别</td>
                     <td >年龄</td>
+                    <td >老师类型</td>
                     <td >手机号</td>
                     <td >入职时长</td>
-                    <td >老师身份</td>
                     <td >可上课时间</td>
                     <td >标签</td>
                     <td >操作</td>
@@ -169,15 +181,16 @@
                     <tr class="teacher-info" data-teacherid ="{{ $var['teacherid'] }}">
                         <td>{{$var["teacherid"]}}</td>
                         <td>{{$var["realname"]}}</td>
+                        <td>{{$var["identity_str"]}}</td>
                         <td>{{$var["gender_str"]}}</td>
                         <td>{{$var["age"]}}</td>
+                        <td>{{$var["teacher_type_str"]}}</td>
                         <td>
                             <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
                                 {{$var["phone_hide"]}}
                             </a>
                         </td>
                         <td>{{$var["work_day"]}}</td>
-                        <td>{{$var["identity_str"]}}</td>
                         <td>
                             <a href="javascript:;" class="show_tea_free_time" data-teacherid="{{$var["teacherid"]}}" >
                                 查看详情
@@ -195,4 +208,3 @@
         </table>
     </section>
 @endsection
-

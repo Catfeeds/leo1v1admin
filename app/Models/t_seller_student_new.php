@@ -1715,9 +1715,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $userid=$this->get_userid_by_phone($phone);
         $admin_info=$this->t_manager_info->get_info_by_tquin($tquin,"uid");
         if($userid && $admin_info)  {
-
             $item=$this->field_get_list($userid,"tq_called_flag,global_tq_called_flag,admin_revisiterid, competition_call_adminid,  seller_resource_type ,last_contact_time,first_contact_time ,called_time, first_call_time,tmk_student_status ,competition_call_time,cc_called_count,cc_no_called_count,last_revisit_time ");
-
             $set_arr=[];
             if ($item["tq_called_flag"]<$tq_called_flag) {
                 $set_arr["tq_called_flag"]=$tq_called_flag;
@@ -1758,7 +1756,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             );
             */
             //同步给销售
-            if (  $tq_called_flag ==2
+            if (  $tq_called_flag == 2
                   &&  $admin_info["uid"] == $competition_call_adminid
                   &&  $item["seller_resource_type"] == 0
                   &&  $item["tmk_student_status"]<>E\Etmk_student_status::V_3
