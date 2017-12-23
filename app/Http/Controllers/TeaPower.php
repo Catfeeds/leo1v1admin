@@ -184,7 +184,7 @@ trait TeaPower {
             $teacher_tags = $this->t_teacher_info->get_teacher_tags($teacherid);
             $teacher_tags_list = json_decode($teacher_tags,true);
             if(is_array($teacher_tags_list)){
-                
+
             }else{
                 $tag = trim($teacher_tags,",");
                 if($tag){
@@ -205,11 +205,11 @@ trait TeaPower {
 
                         $teacher_tags_list[$val]=1;
                     }
- 
+
                 }else{
                     $teacher_tags_list=[];
                 }
- 
+
             }
 
             foreach($list as $val){
@@ -284,7 +284,7 @@ trait TeaPower {
                     ]);
                 }
                 if(is_array($teacher_tags_list)){
-                
+
                 }else{
                     $tag = trim($teacher_tags_old,",");
                     if($tag){
@@ -293,7 +293,7 @@ trait TeaPower {
                         foreach($arr as $val){
                             $teacher_tags_list[$val]=1;
                         }
- 
+
                     }else{
                         $teacher_tags_list=[];
                     }
@@ -326,9 +326,9 @@ trait TeaPower {
 
 
             }elseif($set_flag==2){
-                            
+
                 $id = $this->t_teacher_label->check_label_exist_teacherid($teacherid);
-               
+
 
                 if($id>0){
                     $old_tag = $this->t_teacher_label->get_tag_info($id);
@@ -356,7 +356,7 @@ trait TeaPower {
                                     if($v<=0){
                                         unset($teacher_tags_list[$val]);
                                     }else{
-                                        $teacher_tags_list[$val]=$v; 
+                                        $teacher_tags_list[$val]=$v;
                                     }
 
                                 }
@@ -364,7 +364,7 @@ trait TeaPower {
                         }
 
                     }
-                                      
+
 
                     foreach($tea_tag_arr as $item){
                         $ret= json_decode($item,true);
@@ -391,9 +391,9 @@ trait TeaPower {
                         "tag_info"    =>$tag_info,
                         "set_adminid"   =>$this->get_account_id(),
                     ]);
-                   
+
                     if(is_array($teacher_tags_list)){
-                
+
                     }else{
                         $tag = trim($teacher_tags_old,",");
                         if($tag){
@@ -402,7 +402,7 @@ trait TeaPower {
                             foreach($arr as $val){
                                 $teacher_tags_list[$val]=1;
                             }
- 
+
                         }else{
                             $teacher_tags_list=[];
                         }
@@ -426,7 +426,7 @@ trait TeaPower {
                     $teacher_tags = json_encode($teacher_tags_list);
 
                 }
-                         
+
                 $this->t_teacher_info->field_update_list($teacherid,[
                     "teacher_tags"  =>$teacher_tags
                 ]);
@@ -986,7 +986,7 @@ trait TeaPower {
         }else{
 
             $teacher_type= $this->t_teacher_info->get_teacher_type($teacherid);
-            if($test_lesson_num >=6 && $is_test==0 && $teacher_type !=3){                
+            if($test_lesson_num >=6 && $is_test==0 && $teacher_type !=3){
                 return $this->output_err(
                     "新入职老师,试听课一周限排6节!目前老师已排".$test_lesson_num."节!目前老师已排".$test_lesson_num."节."
                 );
@@ -1109,8 +1109,8 @@ trait TeaPower {
         $grade_start     = $tea_info['grade_start'];
         $grade_end       = $tea_info['grade_end'];
         if($is_test==0){
-            
-        
+
+
             if($stu_grade_range<$grade_start || $stu_grade_range>$grade_end){
                 return $this->output_err("学生年级与老师年级范围不匹配!");
             }
@@ -1585,7 +1585,7 @@ trait TeaPower {
         }else{
             $default_teacher_money_type = E\Eteacher_money_type::V_4;
         }
-
+        $wx_openid = '';
         \App\Helper\Utils::set_default_value($acc,$teacher_info,"","acc");
         \App\Helper\Utils::set_default_value($wx_use_flag,$teacher_info,0,"wx_use_flag");
         \App\Helper\Utils::set_default_value($trial_lecture_is_pass,$teacher_info,0,"trial_lecture_is_pass");
@@ -1661,37 +1661,72 @@ trait TeaPower {
         }else{
             $grade_range = \App\Helper\Utils::change_grade_to_grade_range($grade);
         }
-        $ret = $this->t_teacher_info->row_insert([
-            "teacherid"              => $teacherid,
-            "nick"                   => $tea_nick,
-            "realname"               => $realname,
-            "phone"                  => $phone,
-            "phone_spare"            => $phone_spare,
-            "teacher_money_type"     => $teacher_money_type,
-            "level"                  => $level,
-            "subject"                => $subject,
-            "grade_part_ex"          => $grade,
-            "grade_start"            => $grade_range['grade_start'],
-            "grade_end"              => $grade_range['grade_end'],
-            "not_grade"              => $not_grade,
-            "create_time"            => time(),
-            "trial_lecture_is_pass"  => $trial_lecture_is_pass,
-            "train_through_new"      => $train_through_new,
-            "train_through_new_time" => $train_through_new_time,
-            "wx_use_flag"            => $wx_use_flag,
-            "identity"               => $identity,
-            "teacher_type"           => $teacher_type,
-            "teacher_ref_type"       => $teacher_ref_type,
-            "add_acc"                => $acc,
-            "is_test_user"           => $is_test_user,
-            "base_intro"             => $base_intro,
-            "email"                  => $email,
-            "school"                 => $school,
-            "transfer_teacherid"     => $transfer_teacherid,
-            "transfer_time"          => $transfer_time,
-            "interview_access"       => $interview_access,
-            "wx_openid"              => $wx_openid,
-        ]);
+
+
+        if($wx_openid){
+            $ret = $this->t_teacher_info->row_insert([
+                "teacherid"              => $teacherid,
+                "nick"                   => $tea_nick,
+                "realname"               => $realname,
+                "phone"                  => $phone,
+                "phone_spare"            => $phone_spare,
+                "teacher_money_type"     => $teacher_money_type,
+                "level"                  => $level,
+                "subject"                => $subject,
+                "grade_part_ex"          => $grade,
+                "grade_start"            => $grade_range['grade_start'],
+                "grade_end"              => $grade_range['grade_end'],
+                "not_grade"              => $not_grade,
+                "create_time"            => time(),
+                "trial_lecture_is_pass"  => $trial_lecture_is_pass,
+                "train_through_new"      => $train_through_new,
+                "train_through_new_time" => $train_through_new_time,
+                "wx_use_flag"            => $wx_use_flag,
+                "identity"               => $identity,
+                "teacher_type"           => $teacher_type,
+                "teacher_ref_type"       => $teacher_ref_type,
+                "add_acc"                => $acc,
+                "is_test_user"           => $is_test_user,
+                "base_intro"             => $base_intro,
+                "email"                  => $email,
+                "school"                 => $school,
+                "transfer_teacherid"     => $transfer_teacherid,
+                "transfer_time"          => $transfer_time,
+                "interview_access"       => $interview_access,
+                "wx_openid"              => $wx_openid,
+            ]);
+        }else{
+            $ret = $this->t_teacher_info->row_insert([
+                "teacherid"              => $teacherid,
+                "nick"                   => $tea_nick,
+                "realname"               => $realname,
+                "phone"                  => $phone,
+                "phone_spare"            => $phone_spare,
+                "teacher_money_type"     => $teacher_money_type,
+                "level"                  => $level,
+                "subject"                => $subject,
+                "grade_part_ex"          => $grade,
+                "grade_start"            => $grade_range['grade_start'],
+                "grade_end"              => $grade_range['grade_end'],
+                "not_grade"              => $not_grade,
+                "create_time"            => time(),
+                "trial_lecture_is_pass"  => $trial_lecture_is_pass,
+                "train_through_new"      => $train_through_new,
+                "train_through_new_time" => $train_through_new_time,
+                "wx_use_flag"            => $wx_use_flag,
+                "identity"               => $identity,
+                "teacher_type"           => $teacher_type,
+                "teacher_ref_type"       => $teacher_ref_type,
+                "add_acc"                => $acc,
+                "is_test_user"           => $is_test_user,
+                "base_intro"             => $base_intro,
+                "email"                  => $email,
+                "school"                 => $school,
+                "transfer_teacherid"     => $transfer_teacherid,
+                "transfer_time"          => $transfer_time,
+                "interview_access"       => $interview_access,
+            ]);
+        }
 
         if(!$ret){
             $this->t_user_info->rollback();
@@ -3588,7 +3623,7 @@ trait TeaPower {
 
     }
 
-      
+
 
     //查询百度有钱花订单还款信息
     public function get_baidu_money_charge_pay_info($orderid){
@@ -3958,8 +3993,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
 
         if($old_lessonid){
-            
- 
+
+
         }else{
             $check = $this->research_fulltime_teacher_lesson_plan_limit($item["teacherid"],$item["userid"]);
             if($check){
@@ -4470,7 +4505,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * @param boolean notice_flag 是否需要推送提醒
      */
     public function add_reference_price($teacherid,$recommended_teacherid,$notice_flag=true){
-        // 关掉15333268257 和  李桂荣两位老师11月后的伯乐奖 
+        // 关掉15333268257 和  李桂荣两位老师11月后的伯乐奖
         if ($teacherid == 420745 || $teacherid == 437138) {
             return '';
         }
