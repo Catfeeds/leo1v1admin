@@ -1276,6 +1276,7 @@ class wx_teacher_api extends Controller
         $ret_info['totalList'] = $this->t_teacher_christmas->getTotalList();
         $ret_info['end_time'] = strtotime('2018-1-2')-time();
 
+        dd($ret_info);
         if(!empty($ret_info['totalList'])){
             foreach($ret_info['totalList'] as $i => &$item){
                 if($item['shareId'] == $openid){
