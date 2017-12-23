@@ -8,7 +8,7 @@ class t_teacher_approve_refer_to_data extends \App\Models\Zgen\z_t_teacher_appro
 		parent::__construct();
 	}
 
-    public function get_all_list($start_time, $end_time,$teacherid = -1) {
+    public function get_all_list($start_time, $end_time,$page_num,$teacherid = -1) {
         $where_arr = [
             ["add_time>=%u", $start_time, 0],
             ["add_time<%u", $end_time, 0],
@@ -21,8 +21,7 @@ class t_teacher_approve_refer_to_data extends \App\Models\Zgen\z_t_teacher_appro
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
-        echo $sql;
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql, $page_info, 50);
     }
 
 }
