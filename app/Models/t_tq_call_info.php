@@ -12,7 +12,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         parent::__construct();
     }
 
-    public function add($id, $uid, $phone, $start_time, $end_time, $duration, $is_called_phone, $record_url ,$adminid=0, $admin_role=0,  $obj_start_time=0) {
+    public function add($id, $uid, $phone, $start_time, $end_time, $duration, $is_called_phone,$record_url ,$adminid=0, $admin_role=0,  $obj_start_time=0) {
         if ($adminid==0) {
             $admin_info=$this->task->t_manager_info->get_user_info_for_tq($uid);
             if ($admin_info){
@@ -68,7 +68,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             $adminid,
             $admin_role,
             $obj_start_time
-        ) ;
+        );
         return $this->main_insert($sql);
     }
 

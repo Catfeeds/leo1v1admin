@@ -234,18 +234,18 @@ class company_wx extends Controller
                 $power = explode(',', $item['leader_power']);
                 $power_s = '';
                 foreach($power as $val) {
-                    $power_s .= $val.'-'.$group[$val];
+                    $power_s .= $val.'-'.$group[$val].',';
                 }
-                $item['leader_power'] = $power_s;
+                $item['leader_power'] = substr($power_s,0,-1);
             }
             // no_leader_power
             if ($item['no_leader_power']) {
                 $power = explode(',', $item['no_leader_power']);
                 $power_s = '';
                 foreach($power as $val) {
-                    $power_s .= $val.'-'.$group[$val];
+                    $power_s .= $val.'-'.$group[$val].',';
                 }
-                $item['no_leader_power'] = $power_s;
+                $item['no_leader_power'] = substr($power_s,0,-1);
             }
         }
         
@@ -303,6 +303,8 @@ class company_wx extends Controller
         //$userid = $this->get_in_str_val("userid",0);
         $id = $this->get_in_int_val("id");
         $status = $this->get_in_int_val("status");
+        $old_permission = $this-> get_in_str_val('old_permission');
+        $adminid = session('adminid');
         $groupid_list = \App\Helper\Utils::json_decode_as_int_array( $this->get_in_str_val("groupid_list"));
         $permission = implode(",",$groupid_list);
         // $this->t_company_wx_users->update_field_list('db_weiyi_admin.t_company_wx_users',[
@@ -317,24 +319,19 @@ class company_wx extends Controller
                 "no_leader_power" => $permission
             ]);
         }
+
+        $adminid = session('adminid');
+        $type = 1;
+        $old = $old_permission;
+        $new = $permission;
+        $this->t_seller_edit_log->row_insert([
+            "adminid"     => $adminid,
+            "type"        => $type,
+            "old"         => $old,
+            "new"         => $new,
+            "create_time" => time(NULL),
+        ],false,false,true );
         return $this->output_succ();
-
-        // //$old_permission = $this-> get_in_str_val('old_permission');
-        // $adminid = session('adminid');
-        // $uid = $uid;
-        // $type = 1;
-        // $old = $old_permission;
-        // $new = $permission;
-        // $this->t_seller_edit_log->row_insert([
-        //     "adminid"     => $adminid,
-        //     "type"        => $type,
-        //     "uid"         => $uid,
-        //     "old"         => $old,
-        //     "new"         => $new,
-        //     "create_time" => time(NULL),
-        // ],false,false,true );
-        //return $this->output_succ();
-
     }
 
     public function test_list() {

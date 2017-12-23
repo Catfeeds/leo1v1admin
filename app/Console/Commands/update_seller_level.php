@@ -159,7 +159,6 @@ class update_seller_level extends cmd_base
                 // echo $account.':'.$this_level."=>".$next_level.','.date('Y-m-d H:i:s',$time)."\n";
                 // $this->task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
                 $this->task->t_manager_info->send_wx_todo_msg_by_adminid(831,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
-                // $this->task->t_manager_info->send_wx_todo_msg_by_adminid(412,"咨询师等级修改","咨询师等级修改",$account."从".E\Eseller_level::get_desc($this_level)."级修改为".E\Eseller_level::get_desc($next_level)."级","");
             }
         }
     }

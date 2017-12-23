@@ -10,8 +10,8 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
 
     public function checkHasAdd($main_pid,$next_openid,$checkScore=-1){
         $where_arr = [
-            "teacherid=$main_pid",
-            "next_openid='$next_openid'",
+            "shareId='$main_pid'",
+            "currentId='$next_openid'",
             ["type=%d",$checkScore,-1]
         ];
         $sql = $this->gen_sql_new("  select id from %s tc"
@@ -23,9 +23,9 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
         return $this->main_get_value($sql);
     }
 
-    public function getChriDate($teacherid){
+    public function getChriDate($shareId){
         $where_arr = [
-            ["tc.teacherid=%d",$teacherid,-1]
+            ["tc.shareId='%s'",$shareId,-1]
         ];
 
         $sql = $this->gen_sql_new("  select sum(if(tc.type=0,1,0)) as click_num, sum(if(tc.type=1,1,0)) as share_num, sum(if(tc.type=2,1,0)) as register_num, sum(tc.score) as currentScore  from %s tc "
@@ -49,9 +49,9 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
 
         $this->where_arr_add_time_range($where_arr, "tc.add_time", $start_time, $end_time);
 
-        $sql = $this->gen_sql_new(" select sum(tc.score) as totalScore, tc.teacherid, t.phone from %s tc"
-                                  ." left join %s t on t.teacherid=tc.teacherid"
-                                  ." where %s group by tc.teacherid order by totalScore desc $limitStr"
+        $sql = $this->gen_sql_new(" select sum(tc.score) as totalScore, tc.shareId, t.phone from %s tc"
+                                  ." left join %s t on t.wx_openid=tc.shareId"
+                                  ." where %s group by tc.shareId order by totalScore desc $limitStr"
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr

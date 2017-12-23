@@ -1,19 +1,6 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/authority-manager_list.d.ts" />
 $(function(){
-
-    //判断是否是产品/研发
-    $.do_ajax("/user_deal/check_account_role",{
-        "account" : g_account,
-    },function(ret){
-        var flag = ret.data;
-        if(flag == 1){
-            $(".opt-power").show();
-        }
-    });
-
-
-
     var show_name_key="";
     show_name_key="account_name_"+g_adminid;
 
@@ -582,9 +569,6 @@ $(function(){
     });
     if (g_args.assign_groupid) {
         $(".set-account-role").hide();
-    }
-    if ( window.location.pathname !="/authority/manager_list" ) {
-        //$('.opt-power').hide();
     }
     if ( window.location.pathname =="/authority/manager_list_for_ass" ) {
         $(".add_player").hide();

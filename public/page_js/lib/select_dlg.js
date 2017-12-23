@@ -2,13 +2,16 @@
     //定义构造函数
     var Cselect_dlg= function(ele, opt) {
         this.$element = ele;
+        var screen_height=window.screen.availHeight-350;
+
         this.defaults = {
             'data_list': [],
             "header_list":["id","属性"] ,
             "onChange":null,
             "select_list":[],
             "multi_selection":false,
-            "btn_list":[]
+            "btn_list":[],
+            "div_style":{"height":screen_height,"overflow":"auto"}
         };
         var me=this;
 
@@ -107,6 +110,7 @@
                     label: '完成',
                     cssClass: 'btn-warning',
                     action: function(dialog) {
+                        console.log(111111);
                         if( me.options.multi_selection ) {
                             var select_item_list=$tbody.find("tr.warning");
                             var select_list=[];
@@ -145,6 +149,10 @@
             dlg.getModalDialog().find( ".modal-footer").css({
                 "margin-top":"0px"
             });
+            var div_style = me.options.div_style ;
+            console.log(div_style);
+            dlg.getModalDialog().find( ".bootstrap-dialog-message").css(div_style);
+          
         }
     };
 

@@ -474,11 +474,13 @@ class seller_student2 extends Controller
         $id = $this->get_in_int_val('id');
         $power_value = $this->get_in_int_val('power_value',null);
         $max_count = $this->get_in_int_val('max_count',null);
+        $diff_max_count = $this->get_in_int_val('diff_max_count',100);
         $max_change_value = $this->get_in_int_val('max_change_value',null);
         $updateArr = [
             'power_value' => $power_value,
             'max_count' => $max_count,
             'max_change_value' => $max_change_value,
+            'diff_max_count' => $diff_max_count
         ];
         if($this->t_order_activity_config->field_update_list($id,$updateArr)){
             return $this->output_succ();

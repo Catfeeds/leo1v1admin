@@ -97,13 +97,31 @@ class sync_tianrun extends cmd_base
                 ]);
             }
         }else{
-            //bridgeDuration
-            $bridgeDuration= $item["bridgeDuration"];//通话时长
-            $duration= strtotime("1970-01-01 $bridgeDuration")+28800;//3600*8
+            // $bridgeDuration= $item["bridgeDuration"];//通话时长
+            // $duration= strtotime("1970-01-01 $bridgeDuration")+28800;//3600*8
+            // $cdr_customer_number= $item["customerNumber"];//客户号码
+            // $called_flag=( $duration>30)?2:1;
+            // $cdr_end_time =strtotime( $item["bridgeTime"] )+  $duration ;//客户接听时间
+            // $this->task->t_tq_call_info->add(
+            //     $id,
+            //     $cdr_bridged_cno,
+            //     $cdr_customer_number,
+            //     $cdr_answer_time,
+            //     $cdr_end_time,
+            //     $duration,
+            //     $called_flag
+            //     ,
+            //     "" );
+            // $this->task->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno );
 
-            $cdr_customer_number= $item["customerNumber"];//客户号码
-            $called_flag=( $duration>30)?2:1;
-            $cdr_end_time =strtotime( $item["bridgeTime"] )+  $duration ;//客户接听时间
+            $cdr_customer_number= $item["customerNumber"];
+            $is_called_flag = ($item['status']=='双方接听')?1:0;
+            $obj_start_time = strtotime($item['bridgeTime'])?strtotime($item['bridgeTime']):0;
+            $bridgeDuration = $item["bridgeDuration"];
+            $duration = strtotime("1970-01-01 $bridgeDuration")+28800;
+            $totalDuration = $item['totalDuration'];
+            $totalDuration = strtotime("1970-01-01 $totalDuration")+28800;
+            $cdr_end_time = $cdr_answer_time + $totalDuration;
             $this->task->t_tq_call_info->add(
                 $id,
                 $cdr_bridged_cno,
@@ -111,11 +129,13 @@ class sync_tianrun extends cmd_base
                 $cdr_answer_time,
                 $cdr_end_time,
                 $duration,
-                $called_flag
-                ,
-                "" );
-            $this->task->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno );
-
+                $is_called_flag,
+                $record_url,
+                0,
+                0,
+                $obj_start_time);
+            $called_flag = ($duration>60)?2:1;
+            $this->task->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno);
         }
         /*
         */

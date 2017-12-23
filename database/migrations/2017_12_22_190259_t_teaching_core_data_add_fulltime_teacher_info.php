@@ -27,10 +27,6 @@ class TTeachingCoreDataAddFulltimeTeacherInfo extends Migration
             t_field($table->integer("fulltime_teacher_cc_order"),"全职老师CC签单量");
             t_field($table->integer("fulltime_normal_stu_num"),"全职老师当前所带学生数(按人次)");
             t_field($table->integer("platform_normal_stu_num"),"平台老师当前所带学生数(按人次)");
-
-            
-
-            
         });
 
     }
