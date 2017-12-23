@@ -373,7 +373,7 @@ $(function(){
 
 
             if( $('.resource').val() <3 ){
-                $('#id_other_file,#id_other_file').parent().parent().hide();
+                $('#id_other_file,#id_ff_file').parent().parent().hide();
                 get_book();
             } else if ($('.resource').val() ==3 ){
 
