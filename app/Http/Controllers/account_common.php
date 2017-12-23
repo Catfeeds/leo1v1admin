@@ -337,6 +337,9 @@ class account_common extends Controller
     public function test(){
         $role=$this->get_in_int_val("role",1);
         $phone = $this->get_in_phone();
+        $redis_key = $phone."-".$role."-index";
+        $list =  \App\Helper\Common::redis_get_json($redis_key);
+        dd($list);
         $code_key = $phone."-".$role."-code";
         \App\Helper\Utils::logger("key:$code_key");
 
