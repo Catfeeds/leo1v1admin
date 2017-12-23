@@ -473,6 +473,9 @@ class NewRouteConfig {
         "/seller_student2/get_current_activity"  => true,
         "/seller_student2/update_power_value"  => true,
         "/seller_student2/get_all_activity"  => true,
+        "/seller_student2/get_current_commom_activity"  => true,
+        "/seller_student2/update_current_commom_activity"  => true,
+
         "/test_bacon/get_power"  => true,
         "/test_bacon/download_power"  => true,
         "/appoint/index2"                  => true,

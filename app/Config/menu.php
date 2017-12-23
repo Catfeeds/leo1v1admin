@@ -279,6 +279,7 @@ class menu{
                     ["power_id"=>2, "name"=>"销售个人出勤",   "url"=>"/user_manage_new/seller_attendance_info"]
                 ]],
                 ["power_id"=>104, "name"=>"合同配置管理", "list"=>[
+                    ["power_id"=>2, "name"=>"查看当前活动",   "url"=>"/seller_student2/get_current_commom_activity"],
                     ["power_id"=>1, "name"=>"活动管理",   "url"=>"/seller_student2/show_order_activity_info"],
                 ]],
 
