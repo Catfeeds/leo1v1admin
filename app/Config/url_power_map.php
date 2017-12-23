@@ -323,7 +323,7 @@ class url_power_map {
 			'/news_info/stu_detail_message_list'	=>1091000,
 			'/user_manage_new/product_info'	=>1093500,
 			'/aliyun_oss/upload_list'	=>1093600,
-			'/tea_manage_new/approved_data'	=>1093700,
+			'/tea_manage_new/approved_data_new'	=>1093700,
 			'/product_tag/tag_list'	=>1094700,
 			'/tongji_ex/top_list'	=>1101000,
 			'/human_resource/get_input_score_list'	=>1101300,
