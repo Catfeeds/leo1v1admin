@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+//__CMD: 100x0007
+//__DESC: 检查验证码是否正确 http://api.account.leo1v1.com/account_common/check_verify_code_phone
+//__TAGS: for app 
+
+
+message in  {
+  string phone =1;//手机
+  int32 role =2;//角色
+  string verify_code =3;//验证码 
+ 
+
+}
+
+message out {
+}
