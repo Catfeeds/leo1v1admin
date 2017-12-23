@@ -78,7 +78,7 @@
                     <div id="id_date_range" >
                     </div>
                 </div>
-                <div class="col-xs-6 col-md-1">
+                <div class="col-xs-6 col-md-1" style="display:none">
                     <button class="btn btn-warning" id="id_data"  >生成数据</button>
                 </div>
 

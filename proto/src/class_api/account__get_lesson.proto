@@ -8,7 +8,7 @@ import "class_api/common.proto";
 
 message in  {
   	string type = 1; //week,month
-  	string offset = 0; //当前周期
+  	int32 offset = 2; //跨多少个周期
 }
 
 message out {

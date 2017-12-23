@@ -331,8 +331,7 @@ class company_wx extends Controller
             "new"         => $new,
             "create_time" => time(NULL),
         ],false,false,true );
-        //return $this->output_succ();
-
+        return $this->output_succ();
     }
 
     public function test_list() {

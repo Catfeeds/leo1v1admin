@@ -1176,7 +1176,7 @@ class wx_teacher_api extends Controller
     public function christmasTeaLink () {
         $Tea_appid     = \App\Helper\Config::get_teacher_wx_appid();
         $Tea_appsecret = \App\Helper\Config::get_teacher_wx_appsecret();
-        $shareId = $this->get_in_int_val("shareId");
+        $shareId = $this->get_in_str_val("shareId");
 
         $wx= new \App\Helper\Wx($Tea_appid,$Tea_appsecret);
         $redirect_url=urlencode("http://wx-teacher.leo1v1.com/wx_teacher_api/rewriteLink?shareId=".$shareId );
@@ -1186,7 +1186,7 @@ class wx_teacher_api extends Controller
     public function rewriteLink(){
         $Tea_appid     = \App\Helper\Config::get_teacher_wx_appid();
         $Tea_appsecret = \App\Helper\Config::get_teacher_wx_appsecret();
-        $shareId = $this->get_in_int_val('shareId');
+        $shareId = $this->get_in_str_val('shareId');
 
         $code       = $this->get_in_str_val('code');
         $wx         = new \App\Helper\Wx($Tea_appid,$Tea_appsecret);
@@ -1221,15 +1221,15 @@ class wx_teacher_api extends Controller
      * @ 重复点击不算入计算
      **/
     public function addClickLog(){
-        $shareId   = $this->get_in_int_val('shareId');
+        $shareId = $this->get_in_str_val('shareId');//分享人openid
         $currentId = $this->get_in_str_val('currentId');
         $checkScore= 0;
 
         $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId,$checkScore);
         if(!$isHasAdd && $shareId>0){
             $this->t_teacher_christmas->row_insert([
-                "teacherid"   => $shareId,
-                "next_openid" => $currentId,
+                "shareId"   => $shareId,
+                "currentId" => $currentId,
                 "add_time"    => time(),
                 "score"       => 2,
                 "type"        => 0
@@ -1252,8 +1252,8 @@ class wx_teacher_api extends Controller
 
         if($currentTeacherId>0){ // 若自己已经是老师 分享+1
             $this->t_teacher_christmas->row_insert([
-                "teacherid"   => $currentTeacherId,
-                "next_openid" => '',
+                "shareId"   => $currentTeacherId,
+                "currentId" => '',
                 "add_time"    => time(),
                 "score"       => 1,
                 "type"        => 1 //分享
@@ -1265,13 +1265,14 @@ class wx_teacher_api extends Controller
 
     public function getShareDate(){
         $openid = $this->get_in_str_val('openid');
-        $teacherid = $this->t_teacher_info->get_teacherid_by_openid($openid);
+        // $teacherid = $this->t_teacher_info->get_teacherid_by_openid($openid);
 
-        $ret_info = $this->t_teacher_christmas->getChriDate($teacherid);
+        $ret_info = $this->t_teacher_christmas->getChriDate($openid);
         $ret_info['totalList'] = $this->t_teacher_christmas->getTotalList();
+        $ret_info['end_time'] = strtotime('2018-1-2')-time();
         foreach($ret_info['totalList'] as $i => &$item){
-            if($item['teacherid'] == $teacherid){
-                $ret_info['ranking'] = $i;
+            if($item['shareId'] == $openid){
+                $ret_info['ranking'] = $i+1;
             }
             $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);;
         }

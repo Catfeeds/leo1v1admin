@@ -282,6 +282,7 @@ $(function(){
         var id_level                  = $("<select/>");
         var id_gender                 = $("<select/>");
         var id_birth                  = $("<input/>");
+        var id_age                    = $("<input/>");
         var id_work_year              = $("<input/>");
         var id_email                  = $("<input/>");
         var id_realname               = $("<input/>");
@@ -335,12 +336,14 @@ $(function(){
         id_second_subject.val(opt_data.second_subject);
         id_grade_part_ex.val(opt_data.grade_part_ex);
         id_second_grade_part_ex.val(opt_data.second_grade);
+        id_age.val(opt_data.age);
 
         var arr=[
             ["昵称", id_tea_nick],
             ["姓名", id_realname],
             ["备用手机", id_phone_spare],
             ["性别", id_gender],
+            ["年龄", id_age],
             ["出生年月", id_birth],
             ["工作年限", id_work_year],
             ["所在地", id_address],
@@ -368,6 +371,7 @@ $(function(){
                     "realname"              : id_realname.val(),
                     "phone_spare"           : id_phone_spare.val(),
                     "gender"                : id_gender.val(),
+                    "age"                   : id_age.val(),
                     "birth"                 : birth,
                     "work_year"             : id_work_year.val(),
                     "email"                 : id_email.val(),
