@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+
 <script type="text/javascript" src="/page_js/lib/flow.js"></script>
 <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
 <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
@@ -7,6 +8,7 @@
 <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
 <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
 <script type="text/javascript" src="/js/jquery.md5.js"></script>
+
 <script type="text/javascript" src="/page_js/select_course.js"></script>
 <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
 <script type="text/javascript" src="/page_js/select_user.js"></script>
@@ -19,6 +21,8 @@
 <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
 <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
 <script type="text/javascript" src="/js/jquery.md5.js"></script>
+
+
 <script type="text/javascript">
  var _KDA = _KDA || [];
  window._KDA = _KDA;
@@ -37,6 +41,7 @@
          s.parentNode.insertBefore(dealAdmin, s);
      })();
  })();
+
     function onKDAReady(){
        // 客户下拉组件
         KDAJsSdk.widget.createCustomerDropMenuWidget({
@@ -47,6 +52,7 @@
             $title.text("K");
             $(".kda-customer-widget .KDA_customerDropMenuCon"  ).attr( "style" ,"width:30px;");
         });
+
     }
 
     if (typeof KDAJsSdk == "undefined"){
@@ -60,6 +66,7 @@
         onKDAReady();
     }
 </script>
+
 <style>
  .btn-app {
      border-radius: 3px;
@@ -74,7 +81,9 @@
      background-color: #f4f4f4;
      font-size: 12px;
  }
+
 </style>
+
 <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_edit.js?v={{@$_publish_version}}"></script>
     <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
@@ -82,7 +91,7 @@
         <div>
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-6"  data-title="时间段">
-                    <div id="id_date_range" >
+                    <div  id="id_date_range" >
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
@@ -99,6 +108,7 @@
                         </select>
                     </div>
                 </div>
+
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">全局TQ</span>
@@ -106,6 +116,7 @@
                         </select>
                     </div>
                 </div>
+
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">试听申请</span>
@@ -113,6 +124,8 @@
                         </select>
                     </div>
                 </div>
+
+
                 <div class="col-xs-6 col-md-2"  data-always_hide="1">
                     <div class="input-group ">
                         <span class="input-group-addon">学生</span>
@@ -155,6 +168,7 @@
                         <input class="opt-change form-control" id="id_phone_location" />
                     </div>
                 </div>
+
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">科目</span>
@@ -162,6 +176,7 @@
                         </select>
                     </div>
                 </div>
+
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">PAD类型</span>
@@ -169,6 +184,8 @@
                             </select>
                     </div>
                 </div>
+
+
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">转介绍负责人</span>
@@ -395,7 +412,10 @@
                                     上课4小时前取消: {{$var["fail_greater_4_hour_flag_str"]}} <br/>
                                     出错类型:{{$var["test_lesson_fail_flag_str"]}} <br/>
                                     说明:{{$var["fail_reason"]}} <br/>
+
                                 @endif
+
+
                          </td>
                          <td >{{$var["accept_admin_nick"]}} </td>
                          <td >{{$var["teacher_nick"]}}
@@ -425,7 +445,8 @@
                          <td >
                                 {!!$var["success_flag_str"]!!}
                          </td>
-                         <td >
+                        <td >
+
                             @if ($var["success_flag"] ==2 )
                                 @if (! $var["success_flag"]   )
                                 @elseif ( in_array( $var["test_lesson_fail_flag"], [1,2,3]) )
@@ -434,17 +455,21 @@
                                     <font > 不付</font>
                                 @endif
                             @endif
-                         </td>
-                         <td >
+
+                        </td>
+                        <td >
                             @if ($var["success_flag"] ==2 )
                                 {{$var["test_lesson_fail_flag_str"]}}
                             @endif
                          </td>
+
                          <td >{{$var["seller_require_change_flag_str"]}} </td>
                          <td >{{intval($var["order_price"])}} </td>
                          <td >{{$var["test_lesson_order_fail_flag_str"]}} </td>
                          <td >{{$var["test_lesson_order_fail_desc"]}} </td>
-                         <td>
+
+
+                        <td>
                             <div
                                 @if($show_son_flag)
                                 style="display:none;"
@@ -454,10 +479,12 @@
                                 <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
                                 @if($account_role==12 || in_array($account,['tom','jim']))
-                                    <a title="试听申请new" class="fa-chevron-up opt-edit-new_new_two"></a>
-                                    @if(!in_array($account,['tom','jim']))
-                                        <a title="试听申请new" class="fa-chevron-up opt-post-test-lesson_new"></a>
-                                    @endif
+                                    <a title="试听申请new" class="  fa-chevron-up opt-edit-new_new_two"></a>
+                                    <a title="试听申请new" class="  fa-chevron-up opt-post-test-lesson_new"
+                                       @if(!in_array($account,['tom','jim']))
+                                       style="display:none;"
+                                       @endif
+                                    ></a>
                                 @endif
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new_new"></a>
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new"  style=" display:none"></a>
@@ -488,6 +515,8 @@
                                     style="   {{$cur_page!=10001?"display:none;":""}}"
                                     title="删除" class="fa  fa-trash-o   opt-del "></a>
 
+
+
                                 <a href="javascript:;" class="btn fa fa-gavel opt-confirm" title="确认课时"></a>
 
                                 <a title="扩课"  class="  fa-share-alt opt-kuoke"></a>
@@ -495,7 +524,7 @@
                                 <a class="btn  opt-seller-qr-code " title="产生二维码">P</a>
                                 <a class="btn fa-hand-o-right opt-seller-green-channel" title="申请绿色通道"></a>
 
-                                <div class="kda-customer-widget"
+                                <div  class="kda-customer-widget"
                                      auid="{{$var["userid"]}}"
                                      duid=""
                                      name="{{$var["nick"]?$var["nick"]:"无昵称"}}"
@@ -503,7 +532,7 @@
                                      email=""
                                      company=""
                                      title=""
-                                     style=" display:inline-block;  "> </div>
+                                      style=" display:inline-block;  "> </div>
                                 @if($is_seller_master==1)
                                     <a href="javascript:;" class="opt-require-commend-teacher" title="申请推荐老师">推</a>
                                 @endif
