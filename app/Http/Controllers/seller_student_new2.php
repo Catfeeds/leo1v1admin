@@ -1432,7 +1432,6 @@ class seller_student_new2 extends Controller
      */
     public function select_teacher_for_test_lesson(){
         $require_id    = $this->get_in_int_val("require_id");
-        $teacher_info  = $this->get_in_str_val("teacher_info");
         $teacher_tags  = $this->get_in_str_val("teacher_tags");
         $teaching_tags = $this->get_in_str_val("teaching_tags");
         $lesson_tags   = $this->get_in_str_val("lesson_tags");
@@ -1447,11 +1446,26 @@ class seller_student_new2 extends Controller
                 $require_info['region_version'] = 0;
             }
 
+            if($require_info['current_lessonid']){
+                $lesson_info = $this->t_lesson_info->get_lesson_info($require_info['current_lessonid']);
+                $require_info['teacherid'] = $lesson_info['teacherid'];
+                $teacher_info = $this->t_teacher_info->get_teacher_info($lesson_info['teacherid']);
+                $tea_nick = $teacher_info['realname'];
+                $tea_phone = $teacher_info['phone'];
+                $require_info['teacher_info']  = $tea_nick."/".$tea_phone;
+                $require_info['lesson_time'] = \App\Helper\Utils::unixtime2date($lesson_info['lesson_start']);
+            }else{
+                $require_info['teacherid'] = "";
+                $require_info['teacher_info']  = "";
+                $require_info['lesson_time']  = "";
+            }
+
             $identity       = $this->get_in_int_val("identity",$require_info['tea_identity']);
             $gender         = $this->get_in_int_val("gender",$require_info['tea_gender']);
             $tea_age        = $this->get_in_int_val("tea_age",$require_info['tea_age']);
             $teacher_type   = $this->get_in_int_val("teacher_type",$require_info['teacher_type']);
             $region_version = $this->get_in_int_val("region_version",$require_info['region_version']);
+            $teacher_info   = $this->get_in_str_val("teacher_info",$require_info['teacher_info']);
 
             E\Egender::set_item_value_str($require_info);
             E\Egender::set_item_value_str($require_info,"tea_gender");
@@ -1483,18 +1497,6 @@ class seller_student_new2 extends Controller
                 ,$identity,$gender,$tea_age,$require_info['subject_tag'],$teacher_tags,$lesson_tags,$teaching_tags,$teacher_type
                 ,$region_version,$teacher_info
             );
-            $require_info['teacherid'] = "";
-            $require_info['teacher_info']  = "";
-            $require_info['lesson_time']  = "";
-            if($require_info['current_lessonid']){
-                $lesson_info = $this->t_lesson_info->get_lesson_info($require_info['current_lessonid']);
-                $require_info['teacherid'] = $lesson_info['teacherid'];
-                $teacher_info = $this->t_teacher_info->get_teacher_info($lesson_info['teacherid']);
-                $tea_nick = $teacher_info['realname'];
-                $tea_phone = $teacher_info['phone'];
-                $require_info['teacher_info']  = $tea_nick."/".$tea_phone;
-                $require_info['lesson_time'] = \App\Helper\Utils::unixtime2date($lesson_info['lesson_start']);
-            }
         }else{
             $tea_list = [];
         }

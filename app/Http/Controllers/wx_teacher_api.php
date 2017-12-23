@@ -1225,8 +1225,11 @@ class wx_teacher_api extends Controller
         $currentId = $this->get_in_str_val('currentId');
         $checkScore= 0;
 
+        \App\Helper\Utils::logger("addClickLog111: $shareId ");
+
+
         $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId,$checkScore);
-        if(!$isHasAdd && $shareId>0){
+        if(!$isHasAdd && $shareId){
             $this->t_teacher_christmas->row_insert([
                 "shareId"   => $shareId,
                 "currentId" => $currentId,
@@ -1248,11 +1251,14 @@ class wx_teacher_api extends Controller
      **/
     public function shareClickLog(){
         $currentId = $this->get_in_str_val('currentId');
-        $currentTeacherId = $this->t_teacher_info->get_teacherid_by_openid($currentId);
+        // $currentTeacherId = $this->t_teacher_info->get_teacherid_by_openid($currentId);
 
-        if($currentTeacherId>0){ // 若自己已经是老师 分享+1
+        \App\Helper\Utils::logger("shareClickLog2222: $currentId ");
+
+
+        if($currentId){ // 若自己已经是老师 分享+1
             $this->t_teacher_christmas->row_insert([
-                "shareId"   => $currentTeacherId,
+                "shareId"   => $currentId,
                 "currentId" => '',
                 "add_time"    => time(),
                 "score"       => 1,
@@ -1265,17 +1271,28 @@ class wx_teacher_api extends Controller
 
     public function getShareDate(){
         $openid = $this->get_in_str_val('openid');
-        // $teacherid = $this->t_teacher_info->get_teacherid_by_openid($openid);
 
         $ret_info = $this->t_teacher_christmas->getChriDate($openid);
         $ret_info['totalList'] = $this->t_teacher_christmas->getTotalList();
         $ret_info['end_time'] = strtotime('2018-1-2')-time();
-        foreach($ret_info['totalList'] as $i => &$item){
-            if($item['shareId'] == $openid){
-                $ret_info['ranking'] = $i+1;
+
+        if(!empty($ret_info['totalList'])){
+            foreach($ret_info['totalList'] as $i => &$item){
+                if($item['shareId'] == $openid){
+                    $ret_info['ranking'] = $i+1;
+                    $ret_info['currentPhone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
+                }
+                $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
             }
-            $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);;
+        }else{
+            $ret_info['ranking'] = 0;
+            $ret_info['click_num'] = 0;
+            $ret_info['share_num'] = 0;
+            $ret_info['register_num'] = 0;
+            $ret_info['currentScore'] = 0;
+            $ret_info['currentPhone'] = 0;
         }
+
         return $this->output_succ($ret_info);
     }
 

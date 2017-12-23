@@ -1256,9 +1256,7 @@ class tea_manage_new extends Controller
     }
 
     public function approved_data(){
-
         $this->check_and_switch_tongji_domain();
-
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $page_num = $this->get_in_page_num();
         $teacherid = $this->get_in_int_val("teacherid",-1);
@@ -1292,6 +1290,32 @@ class tea_manage_new extends Controller
 
 
         return $this->pageView(__METHOD__,$ret_info);
+    }
+
+    public function approved_data_new(){
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        $page_num = $this->get_in_page_num();
+        $teacherid = $this->get_in_int_val("teacherid",-1);
+
+        $info = $this->t_teacher_approve_refer_to_data->get_all_list($start_time, $end_time, $teacherid);
+        foreach ($info as &$item) {
+            if($item['cc_lesson_num']>0){
+                $item['cc_rate'] = $cc_order_num/$cc_lesson_num;
+            }else{
+                $item['cc_rate'] = 0;
+            }
+
+            if($item['cr_lesson_num']>0){
+                $item['cr_rate'] = $cr_order_num/$cr_lesson_num;
+            }else{
+                $item['cr_rate'] = 0;
+            }
+
+            $item['tea_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
+        }
+        return $this->pageView(__METHOD__,'',[
+            'info' => $info
+        ]);
     }
 
     public function add_train_lesson_new(){

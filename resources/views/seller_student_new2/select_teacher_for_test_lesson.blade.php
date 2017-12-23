@@ -51,6 +51,11 @@
                         试听需求:<span class='font_color'>{{$require_info['test_stu_request_test_lesson_demand']}}</span>
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="4">
+                        排课状态:<span class='font_color'>{{$require_info['test_stu_request_test_lesson_demand']}}</span>
+                    </td>
+                </tr>
             </table>
         @endif
         <hr/>
