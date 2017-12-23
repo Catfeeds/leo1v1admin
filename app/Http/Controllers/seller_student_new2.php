@@ -1481,13 +1481,13 @@ class seller_student_new2 extends Controller
             $require_info['request_time'] = \App\Helper\Utils::unixtime2date($require_info['stu_request_test_lesson_time']);
             $require_info['request_time_end'] = \App\Helper\Utils::unixtime2date($require_info['stu_request_test_lesson_time_end']);
             $subject_tag_arr = json_decode($require_info['subject_tag'],true);
-
             if(is_array($subject_tag_arr)){
                 $default_tag = "无要求";
                 \App\Helper\Utils::set_default_value($require_info['风格性格'], $subject_tag_arr,$default_tag,'风格性格');
                 \App\Helper\Utils::set_default_value($require_info['专业能力'], $subject_tag_arr,$default_tag,'专业能力');
                 \App\Helper\Utils::set_default_value($require_info['课堂气氛'], $subject_tag_arr,$default_tag,'课堂气氛');
                 \App\Helper\Utils::set_default_value($require_info['课件要求'], $subject_tag_arr,$default_tag,'课件要求');
+                \App\Helper\Utils::set_default_value($require_info['学科化标签'], $subject_tag_arr,$default_tag,'学科化标签');
             }
 
             $lesson_start = $require_info['stu_request_test_lesson_time'];

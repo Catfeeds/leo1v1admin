@@ -1040,7 +1040,7 @@ class wx_teacher_api extends Controller
         $ret_info['identity'] = E\Eidentity::get_desc($ret_info['tea_identity']);
         $ret_info['atmosphere'] = $subject_tag_arr['课堂气氛'];
         $ret_info['courseware'] = $subject_tag_arr['课件要求'];
-        $ret_info['subject_tag'] = $subject_tag_arr['学科化标签'];
+        $ret_info['subject_tag'] = rtrim($subject_tag_arr['学科化标签'],',');
 
         // 数据待确认
         $ret_info['handout_flag'] = 0; //无讲义
@@ -1089,7 +1089,6 @@ class wx_teacher_api extends Controller
             $url = "http://wx-teacher-web.leo1v1.com/teacher_info.html?lessonid=".$lessonid;
 
             $wx = new \App\Helper\WxSendMsg();
-            $wx->send_ass_for_first("orwGAszZI_oaYSXVfb_Va6BlhtW0", $data, $url);//james
             $wx->send_ass_for_first($lesson_info['wx_openid'], $data, $url);
 
 
