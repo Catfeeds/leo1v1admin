@@ -1314,7 +1314,7 @@ class tea_manage_new extends Controller
 
             $item['tea_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
         }
-        return $this->pageView(__METHOD__,$ref_info);
+        return $this->pageView(__METHOD__,$ret_info);
     }
 
     public function add_train_lesson_new(){
