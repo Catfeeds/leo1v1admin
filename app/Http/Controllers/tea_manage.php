@@ -2295,7 +2295,11 @@ class tea_manage extends Controller
         //判断是否是招师
         $is_zs_flag = (($this->t_admin_group_user->get_main_type($adminid))==8)?1:0;
         if($is_zs_flag==1 && $is_master_flag !=1){
-            $accept_adminid = $adminid;
+            // $accept_adminid = $adminid;
+            if($train_teacherid > 0)//通过面试老师可以检索别人面试老师
+                $accept_adminid = -1;
+            else
+                $accept_adminid = $adminid;
             $id_train_through_new=0;
         }else{
             $accept_adminid = -1;

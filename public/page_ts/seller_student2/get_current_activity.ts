@@ -1,5 +1,5 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/seller_student_new2-show_order_activity_info.d.ts" />
+/// <reference path="../g_args.d.ts/seller_student2-get_current_activity.d.ts" />
 
 $(function(){
     Enum_map.append_option_list("open_flag", $("#id_open_flag"),false,[1,2]);
@@ -59,7 +59,7 @@ $(function(){
     $('.act-edit').on('click',function(){
         var opt_data=$(this).get_opt_data();
         window.open(
-            '/seller_student2/get_order_activity?id='+ opt_data.id +"&return_url="+ encodeURIComponent(window.location.href)
+            '/seller_student2/get_order_activity?id='+ opt_data.id +"&return=current"
         );
     });
 
