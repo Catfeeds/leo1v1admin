@@ -2338,7 +2338,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
 
-    public function get_tea_lesson_info_for_approved($start_time, $end_time,$page_num,$teacherid){
+    public function get_tea_lesson_info_for_approved($start_time, $end_time,$page_num=0,$teacherid=-1){
         $where_arr = [
             "t.trial_lecture_is_pass=1",
             "t.is_test_user=0",
@@ -2356,7 +2356,10 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_num,10,true);
+        if ($page_num) {
+            return $this->main_get_list_by_page($sql,$page_num,10,true);
+        }
+        return $this->main_get_list($sql);
     }
 
 

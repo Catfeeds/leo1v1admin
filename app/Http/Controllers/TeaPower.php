@@ -2975,15 +2975,15 @@ trait TeaPower {
         return $subject;
     }
 
-    public function check_is_special_reference($phone){
-        //田克平
-        if($phone=="13387970861"){
-            $check_flag=1;
-        }else{
-            $check_flag=0;
-        }
-        return $check_flag;
-    }
+    // public function check_is_special_reference($phone){
+    //     //田克平
+    //     if($phone=="13387970861"){
+    //         $check_flag=1;
+    //     }else{
+    //         $check_flag=0;
+    //     }
+    //     return $check_flag;
+    // }
 
     /**
      * 获取老师的高校生/在校老师的推荐数量
@@ -4476,13 +4476,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $teacher_ref_type = $teacher_info['teacher_ref_type'];
 
             $reference_type = \App\Config\teacher_rule::check_reference_type($recommended_info['identity']);
-            $check_flag     = $this->check_is_special_reference($teacher_info['phone']);
-            if($check_flag){
-                $begin_time = 0;
-            }else{
-                $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
-                $begin_time = strtotime($begin_date);
-            }
+            // $check_flag     = $this->check_is_special_reference($teacher_info['phone']);
+            // if($check_flag){
+            //     $begin_time = 0;
+            // }else{
+            //     $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
+            //     $begin_time = strtotime($begin_date);
+            // }
 
             $identity = $recommended_info['identity'];
             if (in_array($identity,[E\Eidentity::V_5,E\Eidentity::V_6])) {
@@ -4507,18 +4507,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $reference_num = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher_info['phone'], $type);
                 $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
             }
-
-            /**
-             * 廖祝佳，王菊香推荐的在职老师起步都是80元/个
-             * 明日之星推荐的在职老师起步都是50元/个
-             */
-            // if($reference_type==2){
-            //     switch($teacher_ref_type){
-            //     case E\Eteacher_ref_type::V_1:case E\Eteacher_ref_type::V_2:
-            //         $reference_num += 30;
-            //         break;
-            //     }
-            // }
 
             $this->t_teacher_money_list->row_insert([
                 "teacherid"  => $teacherid,
