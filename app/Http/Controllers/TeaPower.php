@@ -1585,7 +1585,6 @@ trait TeaPower {
         }else{
             $default_teacher_money_type = E\Eteacher_money_type::V_4;
         }
-        // $wx_openid = '';
         \App\Helper\Utils::set_default_value($acc,$teacher_info,"","acc");
         \App\Helper\Utils::set_default_value($wx_use_flag,$teacher_info,0,"wx_use_flag");
         \App\Helper\Utils::set_default_value($trial_lecture_is_pass,$teacher_info,0,"trial_lecture_is_pass");
@@ -1613,9 +1612,6 @@ trait TeaPower {
         \App\Helper\Utils::set_default_value($transfer_time,$teacher_info,0,"transfer_time");
         \App\Helper\Utils::set_default_value($interview_access,$teacher_info,"","interview_access");
 
-        // if($teacher_info['wx_openid']){
-            // \App\Helper\Utils::set_default_value($wx_openid,$teacher_info,"","wx_openid");
-        // }
         $train_through_new_time = $train_through_new==1?time():0;
 
         $uid = $this->t_manager_info->get_id_by_phone($phone);
@@ -1663,70 +1659,36 @@ trait TeaPower {
         }
 
 
-        // if($wx_openid){
-            $ret = $this->t_teacher_info->row_insert([
-                "teacherid"              => $teacherid,
-                "nick"                   => $tea_nick,
-                "realname"               => $realname,
-                "phone"                  => $phone,
-                "phone_spare"            => $phone_spare,
-                "teacher_money_type"     => $teacher_money_type,
-                "level"                  => $level,
-                "subject"                => $subject,
-                "grade_part_ex"          => $grade,
-                "grade_start"            => $grade_range['grade_start'],
-                "grade_end"              => $grade_range['grade_end'],
-                "not_grade"              => $not_grade,
-                "create_time"            => time(),
-                "trial_lecture_is_pass"  => $trial_lecture_is_pass,
-                "train_through_new"      => $train_through_new,
-                "train_through_new_time" => $train_through_new_time,
-                "wx_use_flag"            => $wx_use_flag,
-                "identity"               => $identity,
-                "teacher_type"           => $teacher_type,
-                "teacher_ref_type"       => $teacher_ref_type,
-                "add_acc"                => $acc,
-                "is_test_user"           => $is_test_user,
-                "base_intro"             => $base_intro,
-                "email"                  => $email,
-                "school"                 => $school,
-                "transfer_teacherid"     => $transfer_teacherid,
-                "transfer_time"          => $transfer_time,
-                "interview_access"       => $interview_access,
-                // "wx_openid"              => $wx_openid,
-            ]);
-        // }else{
-        //     $ret = $this->t_teacher_info->row_insert([
-        //         "teacherid"              => $teacherid,
-        //         "nick"                   => $tea_nick,
-        //         "realname"               => $realname,
-        //         "phone"                  => $phone,
-        //         "phone_spare"            => $phone_spare,
-        //         "teacher_money_type"     => $teacher_money_type,
-        //         "level"                  => $level,
-        //         "subject"                => $subject,
-        //         "grade_part_ex"          => $grade,
-        //         "grade_start"            => $grade_range['grade_start'],
-        //         "grade_end"              => $grade_range['grade_end'],
-        //         "not_grade"              => $not_grade,
-        //         "create_time"            => time(),
-        //         "trial_lecture_is_pass"  => $trial_lecture_is_pass,
-        //         "train_through_new"      => $train_through_new,
-        //         "train_through_new_time" => $train_through_new_time,
-        //         "wx_use_flag"            => $wx_use_flag,
-        //         "identity"               => $identity,
-        //         "teacher_type"           => $teacher_type,
-        //         "teacher_ref_type"       => $teacher_ref_type,
-        //         "add_acc"                => $acc,
-        //         "is_test_user"           => $is_test_user,
-        //         "base_intro"             => $base_intro,
-        //         "email"                  => $email,
-        //         "school"                 => $school,
-        //         "transfer_teacherid"     => $transfer_teacherid,
-        //         "transfer_time"          => $transfer_time,
-        //         "interview_access"       => $interview_access,
-        //     ]);
-        // }
+        $ret = $this->t_teacher_info->row_insert([
+            "teacherid"              => $teacherid,
+            "nick"                   => $tea_nick,
+            "realname"               => $realname,
+            "phone"                  => $phone,
+            "phone_spare"            => $phone_spare,
+            "teacher_money_type"     => $teacher_money_type,
+            "level"                  => $level,
+            "subject"                => $subject,
+            "grade_part_ex"          => $grade,
+            "grade_start"            => $grade_range['grade_start'],
+            "grade_end"              => $grade_range['grade_end'],
+            "not_grade"              => $not_grade,
+            "create_time"            => time(),
+            "trial_lecture_is_pass"  => $trial_lecture_is_pass,
+            "train_through_new"      => $train_through_new,
+            "train_through_new_time" => $train_through_new_time,
+            "wx_use_flag"            => $wx_use_flag,
+            "identity"               => $identity,
+            "teacher_type"           => $teacher_type,
+            "teacher_ref_type"       => $teacher_ref_type,
+            "add_acc"                => $acc,
+            "is_test_user"           => $is_test_user,
+            "base_intro"             => $base_intro,
+            "email"                  => $email,
+            "school"                 => $school,
+            "transfer_teacherid"     => $transfer_teacherid,
+            "transfer_time"          => $transfer_time,
+            "interview_access"       => $interview_access,
+        ]);
 
         if(!$ret){
             $this->t_user_info->rollback();

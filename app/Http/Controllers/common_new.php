@@ -332,17 +332,18 @@ class common_new extends Controller
             $teacher_info['is_test_user']  = $is_test_user;
 
 
-            $currentId = $this->get_in_str_val('currentId');// 老师双旦节活动
-
-            if($currentId){
-                $teacher_info['wx_openid']  =  $currentId;
-            }
 
             \App\Helper\Utils::logger("teacher appointment:".$phone."data:".json_encode($data));
             if($full_time==1){
                 $html = $this->get_full_time_html($data);
             }else{
-                $this->add_teacher_common($teacher_info);
+                $teacheridNewAdd = $this->add_teacher_common($teacher_info);
+                $currentId = $this->get_in_str_val('currentId');// 老师双旦节活动
+                if($currentId && $teacheridNewAdd>0){
+                    $this->t_teacher_info->field_update_list($teacheridNewAdd, ['wx_openid'=>$currentId]);
+                }
+
+
                 $html = $this->get_email_html_new($name);
             }
 
