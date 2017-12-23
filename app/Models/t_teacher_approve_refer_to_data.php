@@ -21,7 +21,7 @@ class t_teacher_approve_refer_to_data extends \App\Models\Zgen\z_t_teacher_appro
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list_by_page($sql, $page_info, 50);
+        return $this->main_get_list_by_page($sql, $page_num, 50);
     }
 
 }
