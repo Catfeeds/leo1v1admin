@@ -391,8 +391,8 @@ class common_new extends Controller
                 $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId);
                 if(!$isHasAdd){
                     $this->t_teacher_christmas->row_insert([
-                        "teacherid"   => $shareId,
-                        "next_openid" => $currentId,
+                        "shareId"   => $shareId,
+                        "currentId" => $currentId,
                         "add_time"    => time(),
                         "score"       => 10,
                         "type"        => 2 // 注册
