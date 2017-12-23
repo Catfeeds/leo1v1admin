@@ -1275,6 +1275,7 @@ class wx_teacher_api extends Controller
         $ret_info = $this->t_teacher_christmas->getChriDate($openid);
         $ret_info['totalList'] = $this->t_teacher_christmas->getTotalList();
         $ret_info['end_time'] = strtotime('2018-1-2')-time();
+        $ret_info['currentPhone'] = $this->t_teacher_info->get_phone_by_wx_openid($openid);
 
         if(!empty($ret_info['totalList'])){
             foreach($ret_info['totalList'] as $i => &$item){
@@ -1285,7 +1286,11 @@ class wx_teacher_api extends Controller
             }
         }else{
             $ret_info['ranking'] = 0;
-            // $ret_info['ranking'] = 0;
+            $ret_info['click_num'] = 0;
+            $ret_info['share_num'] = 0;
+            $ret_info['register_num'] = 0;
+            $ret_info['currentScore'] = 0;
+            $ret_info['currentPhone'] = 0;
         }
 
         return $this->output_succ($ret_info);
