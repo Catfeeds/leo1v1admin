@@ -1502,9 +1502,9 @@ class Utils  {
     static public function set_default_value(&$set_value,$check_data,$default_value=1,$check_key=0){
         self::check_isset_data($set_value,"");
         if(is_array($check_data)){
-            $set_value = !isset($check_data[$check_key])?$default_value:$check_data[$check_key];
+            $set_value = !isset($check_data[$check_key]) || empty($check_data[$check_key])?$default_value:$check_data[$check_key];
         }else{
-            $set_value = !isset($check_data)?$default_value:$check_data;
+            $set_value = !isset($check_data) || empty($check_data)?$default_value:$check_data;
         }
     }
 

@@ -72,7 +72,6 @@ $(function(){
         $(".teacher-info").each(function(){
             var teacherid = $(this).data("teacherid");
             if(select_teacherid==teacherid){
-                console.log(teacherid);
                 $(this).addClass("red-border");
             }
         });
@@ -106,15 +105,13 @@ $(function(){
 
     //排课
     $("#id_set_lesson_time").on("click",function(){
-        var require_id      = $("#id_require_id").val();
         var lesson_time     = $("#id_lesson_time").val();
         var teacherid       = $("#id_teacherid").val();
         var grade           = $("#id_require_info").data("grade");
         var seller_top_flag = $("#id_require_info").data("seller_top_flag");
-
         var do_post = function(){
             $.do_ajax("/ss_deal/course_set_new",{
-                'require_id'      : require_id,
+                'require_id'      : g_args.require_id,
                 "grade"           : grade,
                 'teacherid'       : teacherid,
                 'lesson_start'    : lesson_time,
@@ -144,10 +141,10 @@ $(function(){
 
     //驳回
     $("#id_refund_lesson").on("click",function(){
-        var nick = $("#id_require_info").data("nick");
+        var nick        = $("#id_require_info").data("nick");
         var subject_str = $("#id_require_info").data("subject_str");
-        var require_id  = $("#id_require_info").data("require_id");
-        var $input = $("<input style=\"width:180px\"  placeholder=\"驳回理由\"/>");
+        var require_id  = g_args.require_id;
+        var $input      = $("<input style=\"width:180px\"  placeholder=\"驳回理由\"/>");
         $.show_input(
             nick+" : "+ subject_str+ ",要驳回, 不计算排课数?! ",
             "",function(val){
