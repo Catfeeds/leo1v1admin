@@ -1612,7 +1612,10 @@ trait TeaPower {
         \App\Helper\Utils::set_default_value($transfer_teacherid,$teacher_info,0,"transfer_teacherid");
         \App\Helper\Utils::set_default_value($transfer_time,$teacher_info,0,"transfer_time");
         \App\Helper\Utils::set_default_value($interview_access,$teacher_info,"","interview_access");
-        \App\Helper\Utils::set_default_value($wx_openid,$teacher_info,"","wx_openid");
+
+        if($teacher_info['wx_openid']){
+            \App\Helper\Utils::set_default_value($wx_openid,$teacher_info,"","wx_openid");
+        }
         $train_through_new_time = $train_through_new==1?time():0;
 
         $uid = $this->t_manager_info->get_id_by_phone($phone);
