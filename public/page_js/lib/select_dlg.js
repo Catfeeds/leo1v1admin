@@ -107,6 +107,7 @@
                     label: '完成',
                     cssClass: 'btn-warning',
                     action: function(dialog) {
+                        console.log(111111);
                         if( me.options.multi_selection ) {
                             var select_item_list=$tbody.find("tr.warning");
                             var select_list=[];
