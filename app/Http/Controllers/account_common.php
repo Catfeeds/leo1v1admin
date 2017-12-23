@@ -354,15 +354,16 @@ class account_common extends Controller
         // dd($check_verify_code);
 
 
-        $redis_key = $phone."-".$role."-index";
-        $list =  \App\Helper\Common::redis_get_json($redis_key);
-        dd($list);
+        // $redis_key = $phone."-".$role."-index";
+        // $list =  \App\Helper\Common::redis_get_json($redis_key);
+        // dd($list);
         $code_key = $phone."-".$role."-code";
         \App\Helper\Utils::logger("key:$code_key");
 
 
         
-        $check_verify_code = session($code_key);
+        // $check_verify_code = session($code_key);
+        $check_verify_code = \App\Helper\Common::redis_get($code_key);
         dd($check_verify_code);
  
     }
