@@ -1294,5 +1294,33 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             return $item['check_value'];
         });
     }
+    //@desn:获取周月报例子数据
+    //@param:$start_time 开始时间
+    //@param:$end_time 结束时间
+    public function get_example_info($start_time,$end_time){
+        $where_arr=[
+            'tls.require_admin_type=2',
+            'si.is_test_user = 0'
+        ];
+        $this->where_arr_add_time_range($where_arr, 'ssn.add_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'selct count(userid) as example_num,sum(if(ssn.global_tq_called_flag <>0,1,0)) as called_num,'.
+            'sum(if(ssn.global_tq_called_flag =2 and ssn.sys_invaild_flag=0,1,0)) as valid_example_num,'.
+            'sum(if(ssn.global_tq_called_flag =2 and ssn.sys_invaild_flag =1,1,0)) as invalid_example_num,'.
+            'sum(if(ssn.global_tq_called_flag=1,1,0)) as not_through_num,'.
+            'sum(if(si.grade >= 100 and si.grade <= 106),1,0) as primary_num,'.
+            'sum(if(si.grade >= 200 and si.grade <= 203),1,0) as middle_num,'.
+            'sum(if(si.grade >= 300 and si.grade <= 303),1,0) as high_num '.
+            'from %s tls '.
+            'left join %s ssn on ssn.userid = tls.userid '.
+            'left join %s si on ssn.userid=si.userid '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 
 }
