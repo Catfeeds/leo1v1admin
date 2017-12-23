@@ -2,6 +2,8 @@
     //定义构造函数
     var Cselect_dlg= function(ele, opt) {
         this.$element = ele;
+        var screen_height=window.screen.availHeight-350;
+
         this.defaults = {
             'data_list': [],
             "header_list":["id","属性"] ,
@@ -9,7 +11,7 @@
             "select_list":[],
             "multi_selection":false,
             "btn_list":[],
-            "div_style":{"height":"700px","overflow":"auto"}
+            "div_style":{"height":screen_height,"overflow":"auto"}
         };
         var me=this;
 
@@ -150,7 +152,7 @@
             var div_style = me.options.div_style ;
             console.log(div_style);
             dlg.getModalDialog().find( ".bootstrap-dialog-message").css(div_style);
-
+          
         }
     };
 
