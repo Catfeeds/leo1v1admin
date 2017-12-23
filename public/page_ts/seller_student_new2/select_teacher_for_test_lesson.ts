@@ -109,6 +109,12 @@ $(function(){
         var teacherid       = $("#id_teacherid").val();
         var grade           = $("#id_require_info").data("grade");
         var seller_top_flag = $("#id_require_info").data("seller_top_flag");
+        var data            = $("#id_require_info").data();
+        if(data.test_lesson_student_status != 200 && data.test_lesson_student_status != 120 ){
+            BootstrapDialog.alert("非待排课状态，若更换试听课，请取消课程，重新排课!");
+            return;
+        }
+
         var do_post = function(){
             $.do_ajax("/ss_deal/course_set_new",{
                 'require_id'      : g_args.require_id,

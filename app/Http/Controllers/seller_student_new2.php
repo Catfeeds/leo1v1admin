@@ -1450,13 +1450,13 @@ class seller_student_new2 extends Controller
                 $lesson_info = $this->t_lesson_info->get_lesson_info($require_info['current_lessonid']);
                 $require_info['teacherid'] = $lesson_info['teacherid'];
                 $teacher_info = $this->t_teacher_info->get_teacher_info($lesson_info['teacherid']);
-                $tea_nick = $teacher_info['realname'];
+                $tea_nick  = $teacher_info['realname'];
                 $tea_phone = $teacher_info['phone'];
-                $require_info['teacher_info']  = $tea_nick."/".$tea_phone;
-                $require_info['lesson_time'] = \App\Helper\Utils::unixtime2date($lesson_info['lesson_start']);
+                $require_info['teacher_info'] = $tea_nick."/".$tea_phone;
+                $require_info['lesson_time']  = \App\Helper\Utils::unixtime2date($lesson_info['lesson_start']);
             }else{
-                $require_info['teacherid'] = "";
-                $require_info['teacher_info']  = "";
+                $require_info['teacherid']    = "";
+                $require_info['teacher_info'] = "";
                 $require_info['lesson_time']  = "";
             }
 
@@ -1476,6 +1476,7 @@ class seller_student_new2 extends Controller
             E\Esubject::set_item_value_str($require_info);
             E\Equotation_reaction::set_item_value_str($require_info);
             E\Eintention_level::set_item_value_str($require_info);
+            E\Eseller_student_status::set_item_value_str($require_info,"test_lesson_student_status");
 
             $require_info['request_time'] = \App\Helper\Utils::unixtime2date($require_info['stu_request_test_lesson_time']);
             $require_info['request_time_end'] = \App\Helper\Utils::unixtime2date($require_info['stu_request_test_lesson_time_end']);

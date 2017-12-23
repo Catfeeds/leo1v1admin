@@ -2852,6 +2852,15 @@ $(function(){
 
     $(".select-teacher-for-test-lesson").on("click",function(){
         var data = $(this).get_opt_data();
+
+        if(data.jw_test_lesson_status == 2){
+            BootstrapDialog.alert("请先解除挂载!");
+            return;
+        }
+        if(data.accept_status == 1){
+            BootstrapDialog.alert('已确认课程，若更换试听课，请取消课程，重新排课；');
+            return;
+        }
         var url = "/seller_student_new2/select_teacher_for_test_lesson?require_id="+data.require_id;
         window.open(url);
     });
