@@ -1440,7 +1440,7 @@ Enum_map = {
       return desc;
     };
   },
-  append_option_list : function (group_name, $select , not_add_all_option, id_list ){
+    append_option_list : function (group_name, $select , not_add_all_option, id_list){
       // console.log(group_name);
       var desc_map=g_enum_map[group_name]["desc_map"];
 
@@ -1458,7 +1458,27 @@ Enum_map = {
             }
         });
         $select.append(html_str);
-  },
+    },
+    append_option_list_by_not_id : function (group_name, $select , not_add_all_option, not_id_list){
+        var desc_map=g_enum_map[group_name]["desc_map"];
+
+        var html_str="";
+        if (!not_add_all_option  ){
+            html_str += "<option value=\"-1\">[全部]</option>";
+        }
+
+        $.each(desc_map, function(k,v){
+            if ($.isArray( not_id_list)) {
+                if($.inArray( parseInt(k), not_id_list ) == -1 ){
+                    html_str+="<option value=\""+k+"\">"+v+"</option>";
+                }
+            }else{
+                html_str+="<option value=\""+k+"\">"+v+"</option>";
+            }
+        });
+
+        $select.append(html_str);
+    },
     append_child_option_list : function(group_name,$select,$child_select,not_add_all_option){
         var desc_map = g_enum_map[group_name]['desc_map'];
         var html_str = "";

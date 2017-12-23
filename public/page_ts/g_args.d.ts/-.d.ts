@@ -1,6 +1,8 @@
 interface GargsStatic {
-	id_subject:	number;
-}
+	page_num:	number;
+	page_count:	number;
+	grade:	string;//枚举列表: \App\Enums\Egrade
+ }
 declare module "g_args" {
     export = g_args;
 }
@@ -9,15 +11,11 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	knowledge_id	:any;
-	title	:any;
-	subject	:any;
-	detail	:any;
-	open_flag	:any;
-	id	:any;
-	level	:any;
-	father_id	:any;
-	subject_str	:any;
+	userid	:any;
+	nick	:any;
+	realname	:any;
+	phone	:any;
+	grade	:any;
 }
 
 /*
@@ -32,13 +30,22 @@ function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
-		id_subject:	$('#id_id_subject').val()
+		grade:	$('#id_grade').val()
 		});
 }
 $(function(){
 
 
-	$('#id_id_subject').val(g_args.id_subject);
+	$('#id_grade').admin_set_select_field({
+		"enum_type"    : "grade",
+		"field_name" : "grade",
+		"select_value" : g_args.grade,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_grade",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -48,12 +55,14 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">id_subject</span>
-                <input class="opt-change form-control" id="id_id_subject" />
+                <span class="input-group-addon">grade</span>
+                <input class="opt-change form-control" id="id_grade" />
             </div>
         </div>
-{!!\App\Helper\Utils::th_order_gen([["id_subject title", "id_subject", "th_id_subject" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["grade title", "grade", "th_grade" ]])!!}
 */

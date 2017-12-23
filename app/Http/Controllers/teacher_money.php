@@ -823,14 +823,16 @@ class teacher_money extends Controller
 
     public function get_teacher_type() {
         $teacherid = $this->get_in_int_val("teacherid");
-        $type = $this->t_teacher_info->get_teacher_type($teacherid);
-        if ($type == 1) {
+        //$type = $this->t_teacher_info->get_teacher_type($teacherid);
+        $info = $this->t_teacher_info->field_get_list($teacherid, "teacher_money_type,teacher_type");
+        if ($info['teacher_money_type'] == 7 || ($info['teacher_type'] == 3 || $info['teacher_money_type'] == 0)) {
             $type = '全职老师';
-        } else if ($type == 2) {
-            $type = '兼职老师';
         } else {
-            $type = E\Eteacher_type::get_desc($type);
+            $type = '兼职老师';
         }
+        // else {
+        //     $type = E\Eteacher_type::get_desc($type);
+        // }
         return $this->output_succ(["type"=>$type]);
     }
 
@@ -853,7 +855,6 @@ class teacher_money extends Controller
 
 
     public function update_bole_reward($teacherid, $re_teacherid) {
-        echo ' --- wel ---';
-        //$this->add_reference_price($teacherid, $re_teacherid, false);
+        $this->add_reference_price($teacherid, $re_teacherid, false);
     }
 }

@@ -1058,8 +1058,10 @@ class wx_teacher_api extends Controller
     }
 
     public function chooseResource(){
-        $file_id = $this->get_in_int_val('file_id');
+        $file_id   = $this->get_in_int_val('file_id');
         $file_link = $this->t_resource_file->get_file_link($file_id);
+
+
     }
 
     public function update_accept_status(){ //更新接受状态并发送微信推送
@@ -1190,34 +1192,91 @@ class wx_teacher_api extends Controller
         $wx         = new \App\Helper\Wx($Tea_appid,$Tea_appsecret);
         $token_info = $wx->get_token_from_code($code);
         $currentId  = @$token_info["openid"];
+
+
+        /**
+         * @ 老用户首次进入时 获得20积分
+         */
+        // $currentTeacherId = $this->t_teacher_info->get_teacherid_by_openid($currentId);
+        // $train_through_new_time = $this->t_teacher_info->get_train_through_new_time();
+        // $checkTime = strtotime('2017-12-25');
+
+        // if($shareId == 0 && $currentTeacherId  == 0){ // 分享人和自己都是非老师
+        //     header("Location: http://wx-teacher-web.leo1v1.com/tea.html?reference=?shareId=".$shareId ."&currentId=".$currentId);//链接待定
+        //     return ;
+        // }else{
+        header("Location: http://wx-parent-web.leo1v1.com/teachris/index.html?shareId=".$shareId ."&currentId=".$currentId);
+        return ;
+        // }
         // $token      = $wx->get_wx_token($Tea_appid,$Tea_appsecret);
         // $user_info  = $wx->get_user_info($openid,$token);
         // $subscribe = @$user_info['subscribe'];
         // $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
-
-        header("Location: http://wx-parent-web.leo1v1.com/teachris/index.html?shareId=".$shareId ."&currentId=".$currentId);//链接待定
-        return ;
-
     }
+
 
     /**
      * @ 记录积分值
-     * @ type: 0:点击分享页面 +1 积分 1:老师注册进入 +10积分
+     * @ type: 积分来源类型 0:点击 +2 1:分享 +1 2:注册 +10 3:赠送 +20
+     * @ 重复点击不算入计算
      **/
     public function addClickLog(){
         $shareId   = $this->get_in_int_val('shareId');
         $currentId = $this->get_in_str_val('currentId');
+        $checkScore= 0;
 
-        $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId);
-        if(!$isHasAdd){
+        $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId,$checkScore);
+        if(!$isHasAdd && $shareId>0){
             $this->t_teacher_christmas->row_insert([
                 "teacherid"   => $shareId,
                 "next_openid" => $currentId,
                 "add_time"    => time(),
-                "score"       => 1
+                "score"       => 2,
+                "type"        => 0
             ]);
         }
-        return $this->output_succ(['test'=>$isHasAdd]);
+        return $this->output_succ();
+    }
+
+
+    /**
+     * @ 记录积分值
+     * @ type: 积分来源类型 0:点击 +2 1:分享 +1 2:注册 +10 3:赠送 +20
+     * @ 非注册用户可以转发但不计入排名统计
+     * @ 给上级+2 自己+1
+     * @
+     **/
+    public function shareClickLog(){
+        $currentId = $this->get_in_str_val('currentId');
+        $currentTeacherId = $this->t_teacher_info->get_teacherid_by_openid($currentId);
+
+        if($currentTeacherId>0){ // 若自己已经是老师 分享+1
+            $this->t_teacher_christmas->row_insert([
+                "teacherid"   => $currentTeacherId,
+                "next_openid" => '',
+                "add_time"    => time(),
+                "score"       => 1,
+                "type"        => 1 //分享
+            ]);
+        }
+
+        return $this->output_succ();
+    }
+
+    public function getShareDate(){
+        $openid = $this->get_in_str_val('openid');
+        $teacherid = $this->t_teacher_info->get_teacherid_by_openid($openid);
+
+        $ret_info = $this->t_teacher_christmas->getChriDate($teacherid);
+        $ret_info['totalList'] = $this->t_teacher_christmas->getTotalList();
+        $ret_info['end_time'] = strtotime('2018-1-2')-time();
+        foreach($ret_info['totalList'] as $i => &$item){
+            if($item['teacherid'] == $teacherid){
+                $ret_info['ranking'] = $i;
+            }
+            $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);;
+        }
+        return $this->output_succ($ret_info);
     }
 
 

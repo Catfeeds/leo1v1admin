@@ -464,7 +464,6 @@ class menu{
                 ["power_id"=>13, "name"=>"学生成绩录入记录",   "url"=>"/human_resource/get_input_score_list"],
                 ["power_id"=>14, "name"=>"家长申请调时间记录",   "url"=>"/human_resource/get_lesson_modify_list"],
                 ["power_id"=>1, "name"=>"销售", "list"=>[
-                    ["power_id"=>99,"name"=>"每日合同金额","url"=>"/tongji/contract_down"],
                     ["power_id"=>1, "name"=>"合同每日统计",   "url"=>"/tongji/contract"],
                     ["power_id"=>2, "name"=>"例子统计",   "url"=>"/tongji/user_count"],
                     ["power_id"=>21, "name"=>"例子统计-个人",   "url"=>"/tongji/seller_user_count"],
@@ -760,7 +759,7 @@ class menu{
                 ["power_id"=>26, "name"=>"投诉老师列表",   "url"=>"/tea_manage_new/get_teacher_complaints_info_jw"],
                 ["power_id"=>27, "name"=>"销售个人排行榜",   "url"=>"/tongji_ss/get_seller_rank_for_jw"],
                 ["power_id"=>28, "name"=>"限课特殊申请",   "url"=>"/seller_student_new2/test_lesson_plan_list_jw_leader"],
-                ["power_id"=>29, "name"=>"CC转化率统计", "url"=>"/user_manage/tongji_cc"],
+                // ["power_id"=>29, "name"=>"CC转化率统计", "url"=>"/user_manage/tongji_cc"],
                 ["power_id"=>30, "name"=>"月份-科目统计", "url"=>"/user_manage/subject_by_month"],
                 ["power_id"=>31, "name"=>"师资管理-首页", "url"=>"/main_page/teacher_management_info"],
 

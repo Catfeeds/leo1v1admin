@@ -2284,7 +2284,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_status=2"
         ];
 
-        $sql = $this->gen_sql_new("  select max(l.lesson_start) as max_time, min(l.lesson_end) as min_time from %s l"
+        $sql = $this->gen_sql_new("  select min(l.lesson_start) as min_time, max(l.lesson_start) as max_time from %s l"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
@@ -2587,6 +2587,39 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
 
     }
+
+    /**
+     * @function 获取平台老师课耗总数
+     */
+    public function get_teacher_list($start_time,$end_time,$full_flag=0){
+        $where_arr = [
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "l.confirm_flag in (0,1,3)",
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_status=2",
+            "l.lesson_start>=".$start_time,
+            "l.lesson_start<".$end_time
+        ];
+        if($full_flag==1){
+            $where_arr[]="m.del_flag=0";
+            $where_arr[]="m.account_role=5";
+        }
+
+        $sql = $this->gen_sql_new("select sum(l.lesson_count) lesson_count,count(distinct l.teacherid) tea_num,"
+                                  ."count(distinct l.assistantid) ass_num,count(distinct l.userid) stu_num "
+                                  ." from %s l left join %s t on t.teacherid =l.teacherid"
+                                  ." left join %s m on t.phone= m.phone"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
 
 }
 

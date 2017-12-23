@@ -127,19 +127,19 @@ return [
     'redis' => [
         'cluster' => false,
         'default' => [
-            'host'     => env('REDIS_HOST', 'localhost'),
+            'host'     => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
             'port'     => env('REDIS_PORT', 6379),
             'database' => 0,
         ],
         'cache_nick' => [
-            'host'     => env('CACHE_REDIS_HOST', 'localhost'),
+            'host'     => env('CACHE_REDIS_HOST', '127.0.0.1'),
             'password' => env('CACHE_REDIS_PASSWORD', null),
             'port'     => env('CACHE_REDIS_PORT', 6379),
             'database' => 0,
         ],
         'api' => [
-            'host'     => env('API_REDIS_HOST', 'localhost'),
+            'host'     => env('API_REDIS_HOST', '127.0.0.1'),
             'password' => env('API_REDIS_PASSWORD', null),
             'port'     => env('API_REDIS_PORT', 6379),
             'database' => 0,

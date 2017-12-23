@@ -174,7 +174,20 @@ class account_common extends Controller
         if($role==E\Erole::V_STUDENT){
             $region = $this->get_in_str_val("region");
             $grade = $this->get_in_int_val("grade");
+            $addr_code = $this->get_in_int_val("addr_code");
+            $editionid = $this->get_in_int_val("editionid");
+            $guest_code = $this->get_in_str_val("guest_code");
+            $textbook = $this->get_in_str_val("textbook");
             $ret = $this->t_student_info->add_student($userid,$grade,$phone,"",$region);
+            if($ret){
+                $this->t_student_info->field_update_list($userid,[
+                    "addr_code" =>$addr_code, 
+                    "editionid" =>$editionid, 
+                    "guest_code" =>$guest_code, 
+                    "textbook" =>$textbook, 
+                ]);
+            }
+            
  
         }
         return $this->output_succ();

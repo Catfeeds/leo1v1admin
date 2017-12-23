@@ -394,8 +394,9 @@ class common_new extends Controller
                         "teacherid"   => $shareId,
                         "next_openid" => $currentId,
                         "add_time"    => time(),
-                        "score"       => 10
-                    ]);
+                        "score"       => 10,
+                        "type"        => 2 // 注册
+                     ]);
                 }
             }
 
