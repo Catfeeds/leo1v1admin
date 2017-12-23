@@ -53,13 +53,13 @@ class update_teacher_approve_to_data extends Command
                 $cr_lesson_num = $task->t_order_info->get_cc_lesson_num($start_time, $end_time, $item['teacherid'], '1');
                 $violation_info = $task->t_lesson_info_b3->get_violation_num($start_time, $end_time, $item['teacherid']);
                 $violation_num = array_sum($violation_info);
-                var_dump($item);
-                echo 'cc_order_num:'.$cc_order_num;
-                echo 'cc_lesson_num:'.$cc_lesson_num;
-                echo 'cr_order_num:'.$cr_order_num;
-                echo 'cr_lesson_num:'.$cr_lesson_num;
-                echo 'violation_num:'.$violation_num;
-                exit;
+                // var_dump($item);
+                // echo 'cc_order_num:'.$cc_order_num;
+                // echo 'cc_lesson_num:'.$cc_lesson_num;
+                // echo 'cr_order_num:'.$cr_order_num;
+                // echo 'cr_lesson_num:'.$cr_lesson_num;
+                // echo 'violation_num:'.$violation_num;
+                // exit;
 
                 $task->t_teacher_approve_refer_to_data->row_insert([
                     'teacherid' => $item['teacherid'],
