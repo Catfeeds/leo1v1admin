@@ -106,9 +106,12 @@ class account_common extends Controller
 
         $phone_code=\App\Helper\Common::gen_rand_code(6);
         $code_key = $phone."-".$role."-code";
-        session([
-            $code_key  => $phone_code,
-        ]);
+
+        \App\Helper\Common::redis_set_expire_value($code_key, $phone_code,1200);
+
+        // session([
+        //     $code_key  => $phone_code,
+        // ]);
         
 
         $phone_index = $this->get_current_verify_num($phone,$role);
@@ -157,7 +160,9 @@ class account_common extends Controller
         $code_key = $phone."-".$role."-code";
 
         
-        $check_verify_code = session($code_key);
+        // $check_verify_code = session($code_key);
+        $check_verify_code = \App\Helper\Common::redis_get($code_key);
+
         $check_flag = $this->check_verify_code( $verify_code,$check_verify_code,$phone,$role);
         if(!$check_flag){
             return $this->output_err("验证码错误或已失效");
@@ -207,8 +212,9 @@ class account_common extends Controller
         $code_key = $phone."-".$role."-code";
 
         
-        $check_verify_code = session($code_key);
-        return $this->output_succ(["code"=>$verify_code,"check_verify_code"=>$check_verify_code]);
+        //$check_verify_code = session($code_key);
+        $check_verify_code = \App\Helper\Common::redis_get($code_key);
+        return $this->output_succ(["code"=>$verify_code,"check_verify_code"=>$check_verify_code,"code_key"=>$code_key]);
         $check_flag = $this->check_verify_code( $verify_code,$check_verify_code,$phone,$role);
         
         if(!$check_flag){
@@ -242,9 +248,10 @@ class account_common extends Controller
         $code_key = $phone."-".$role."-code";
 
         
-        $check_verify_code = session($code_key);
+        // $check_verify_code = session($code_key);
+        $check_verify_code = \App\Helper\Common::redis_get($code_key);
 
-        return $this->output_succ(["code"=>$verify_code,"check_verify_code"=>$check_verify_code]);
+        //return $this->output_succ(["code"=>$verify_code,"check_verify_code"=>$check_verify_code]);
 
         $check_flag = $this->check_verify_code( $verify_code,$check_verify_code,$phone,$role);
         if(!$check_flag){
@@ -330,8 +337,8 @@ class account_common extends Controller
         $redis_key = $phone."-".$role."-index";
         $list =  \App\Helper\Common::redis_get_json($redis_key);
         $time = $list["time"];
-        if($verify_code ==$check_verify_code){
-            // if($time>=(time()-120) && $verify_code ==$check_verify_code){
+        // if($verify_code ==$check_verify_code){
+        if($time>=(time()-120) && $verify_code ==$check_verify_code){
             return true;//时效
         }else{
             return false;
@@ -347,15 +354,16 @@ class account_common extends Controller
         // dd($check_verify_code);
 
 
-        $redis_key = $phone."-".$role."-index";
-        $list =  \App\Helper\Common::redis_get_json($redis_key);
-        dd($list);
+        // $redis_key = $phone."-".$role."-index";
+        // $list =  \App\Helper\Common::redis_get_json($redis_key);
+        // dd($list);
         $code_key = $phone."-".$role."-code";
         \App\Helper\Utils::logger("key:$code_key");
 
 
         
-        $check_verify_code = session($code_key);
+        // $check_verify_code = session($code_key);
+        $check_verify_code = \App\Helper\Common::redis_get($code_key);
         dd($check_verify_code);
  
     }
