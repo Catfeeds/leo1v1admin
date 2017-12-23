@@ -4522,6 +4522,49 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     }
 
+    //助教转介绍合同
+    public function get_assistant_origin_order_losson_list_all($start_time,$end_time,$opt_date_str, $userid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid ){               
+        $where_arr=[
+            ["o.sys_operator like '%%%s%%'" , $sys_operator, ""],
+            ["l.teacherid=%u" , $teacherid, -1],
+            ["a.assistantid = %u" , $assistantid, -1],
+            ["m.uid = %u" , $order_adminid, -1],
+            ["s.origin_userid = %u" , $origin_userid, -1],
+            //  "o.contract_type=0",
+            "o.price>0",
+            "o.contract_status>0",
+            "m.account_role=1",
+            "s.origin_userid>0",
+            // "s.origin_assistantid>0",
+            "s.is_test_user=0"
+        ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+        $sql = $this->gen_sql_new("select s.nick,s.userid,l.lessonid,l.grade,l.subject,s.phone,t.realname,"
+                                  ." l.teacherid,o.price,o.order_time,o.pay_time,o.sys_operator,m2.name "
+                                  ." from %s o "
+                                  ."left join %s l on o.userid=l.userid and l.lesson_type=2 and l.lesson_del_flag=0 and not exists( select 1 from %s where userid=l.userid and lesson_type=2 and lesson_del_flag=0 and lesson_start<l.lesson_start)"
+                                  ." left join %s s on o.userid = s.userid"
+                                  ." left join %s m on m.account = o.sys_operator"
+                                  ." left join %s m2 on s.origin_assistantid = m2.uid "
+                                  ." left join %s a on a.phone = m2.phone "
+                                  ." left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s and not exists (select 1 from %s where price>0 and userid=o.userid and order_time<o.order_time)",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr,
+                                  t_order_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+
+    }
+
+
     public function getOrderByParentid($parentid){
         $sql = $this->gen_sql_new("  select o.orderid from %s o "
                                   ." left join %s pc on pc.userid=o.userid"
