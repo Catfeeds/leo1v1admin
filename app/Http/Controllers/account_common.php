@@ -107,7 +107,7 @@ class account_common extends Controller
         $phone_code=\App\Helper\Common::gen_rand_code(6);
         $code_key = $phone."-".$role."-code";
 
-        \App\Helper\Common::redis_set_expire_value($code_key, $phone_code,130);
+        \App\Helper\Common::redis_set_expire_value($code_key, $phone_code,1200);
 
         // session([
         //     $code_key  => $phone_code,
