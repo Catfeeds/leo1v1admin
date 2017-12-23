@@ -1281,23 +1281,20 @@ class wx_teacher_api extends Controller
         }else{
             $ret_info['currentPhone'] = 0;
         }
-        $ret_info['ranking'] = 0;
 
-        if($ret_info['currentPhone']){
-            foreach($ret_info['totalList'] as $i => &$item){
-                if($item['shareId'] == $openid){
-                    $ret_info['ranking'] = $i+1;
-                }
-                $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
+        foreach($ret_info['totalList'] as $i => &$item){
+            if($item['shareId'] == $openid){
+                $ret_info['ranking'] = $i+1;
             }
-        }else{
-            $ret_info['ranking'] = 0;
-            $ret_info['click_num'] = 0;
-            $ret_info['share_num'] = 0;
-            $ret_info['register_num'] = 0;
-            $ret_info['currentScore'] = 0;
-            $ret_info['currentPhone'] = 0;
+            $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
         }
+
+        $ret_info['ranking'] = $ret_info['ranking']?$ret_info['ranking']:0;
+        $ret_info['click_num'] = $ret_info['click_num']?$ret_info['click_num']:0;
+        $ret_info['share_num'] = $ret_info['share_num']?$ret_info['share_num']:0;
+        $ret_info['register_num'] = $ret_info['register_num']?$ret_info['register_num']:0;
+        $ret_info['register_num'] = $ret_info['register_num']?$ret_info['register_num']:0;
+        $ret_info['currentScore'] = $ret_info['currentScore']?$ret_info['currentScore']:0;
 
         return $this->output_succ($ret_info);
     }
