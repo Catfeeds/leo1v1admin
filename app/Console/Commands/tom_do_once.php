@@ -179,17 +179,6 @@ class tom_do_once extends cmd_base
      */
     public function do_handle()
     {
-
-        $day=$this->option('day');
-        if ($day===null) {
-            $now=time(NULL);
-            $start_time=$now-60*15;
-            $end_time=$now;
-        }else{
-            $start_time=strtotime($day);
-            $end_time=$start_time+86400;
-        }
-
         $this->load_data($start_time=1514018100,$end_time=1514018340);
         //
     }
