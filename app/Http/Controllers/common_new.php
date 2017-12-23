@@ -230,6 +230,13 @@ class common_new extends Controller
      * 老师报名
      */
     public function add_teacher_lecture_appoinment_info_for_new(){
+        $shareId   = $this->get_in_str_val('shareId');
+        $currentId = $this->get_in_str_val('currentId');
+
+        \App\Helper\Utils::logger("shareId_ajaj: $shareId");
+
+
+
         $answer_begin_time            = strtotime($this->get_in_str_val("answer_begin_time"));
         $answer_end_time              = strtotime($this->get_in_str_val("answer_end_time"));
         $name                         = $this->get_in_str_val("name");
@@ -395,6 +402,8 @@ class common_new extends Controller
              */
             $shareId   = $this->get_in_str_val('shareId');
             $currentId = $this->get_in_str_val('currentId');
+
+
             if($shareId){
                 $this->t_teacher_christmas->row_insert([
                     "shareId"   => $shareId,
