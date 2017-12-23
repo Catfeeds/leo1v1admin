@@ -19,6 +19,7 @@ class t_teacher_approve_refer_to_data extends \App\Models\Zgen\z_t_teacher_appro
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
+        echo $sql;
         return $this->main_get_list($sql);
     }
 

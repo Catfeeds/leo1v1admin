@@ -40,7 +40,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ( $table_data_list as $var )
+                @foreach ( $info as $var )
                     <tr>
                         <td>
                             {{@$var["tea_nick"]}}
