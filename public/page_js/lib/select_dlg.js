@@ -8,7 +8,8 @@
             "onChange":null,
             "select_list":[],
             "multi_selection":false,
-            "btn_list":[]
+            "btn_list":[],
+            "div_style":{"height":"700px","overflow":"auto"}
         };
         var me=this;
 
@@ -146,6 +147,10 @@
             dlg.getModalDialog().find( ".modal-footer").css({
                 "margin-top":"0px"
             });
+            var div_style = me.options.div_style ;
+            console.log(div_style);
+            dlg.getModalDialog().find( ".bootstrap-dialog-message").css(div_style);
+
         }
     };
 
