@@ -513,7 +513,7 @@ $(function(){
                     console.log(check_flag);
                     console.log(check_again);
                     if(check_again==1 && check_flag==1){
-                        str += "<label style=\"margin-left:6px\"><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" checkedstyle=\"margin-top:-3px;\" /> "+item_p+"</label>";
+                        str += "<label style=\"margin-left:6px\"><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" style=\"margin-top:-3px;\" checked /> "+item_p+"</label>";
                     }else{
                         str += "<label style=\"margin-left:6px\"><input name=\""+i+"\" type=\"checkbox\" value=\""+item_p+"\" style=\"margin-top:-3px;\" /> "+item_p+"</label>";
                     }
