@@ -1225,8 +1225,11 @@ class wx_teacher_api extends Controller
         $currentId = $this->get_in_str_val('currentId');
         $checkScore= 0;
 
+        \App\Helper\Utils::logger("addClickLog111: $shareId ");
+
+
         $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId,$checkScore);
-        if(!$isHasAdd && $shareId>0){
+        if(!$isHasAdd && $shareId){
             $this->t_teacher_christmas->row_insert([
                 "shareId"   => $shareId,
                 "currentId" => $currentId,
@@ -1248,11 +1251,14 @@ class wx_teacher_api extends Controller
      **/
     public function shareClickLog(){
         $currentId = $this->get_in_str_val('currentId');
-        $currentTeacherId = $this->t_teacher_info->get_teacherid_by_openid($currentId);
+        // $currentTeacherId = $this->t_teacher_info->get_teacherid_by_openid($currentId);
 
-        if($currentTeacherId>0){ // 若自己已经是老师 分享+1
+        \App\Helper\Utils::logger("shareClickLog2222: $currentId ");
+
+
+        if($currentId){ // 若自己已经是老师 分享+1
             $this->t_teacher_christmas->row_insert([
-                "shareId"   => $currentTeacherId,
+                "shareId"   => $currentId,
                 "currentId" => '',
                 "add_time"    => time(),
                 "score"       => 1,
