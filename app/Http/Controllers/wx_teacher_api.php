@@ -1275,12 +1275,18 @@ class wx_teacher_api extends Controller
         $ret_info = $this->t_teacher_christmas->getChriDate($openid);
         $ret_info['totalList'] = $this->t_teacher_christmas->getTotalList();
         $ret_info['end_time'] = strtotime('2018-1-2')-time();
+        $phone = $this->t_teacher_info->get_phone_by_wx_openid($openid);
+        if($phone>0){
+            $ret_info['currentPhone'] = substr($phone,0,3)."****".substr($phone,7);
+        }else{
+            $ret_info['currentPhone'] = 0;
+        }
+        $ret_info['ranking'] = 0;
 
         if($ret_info['currentPhone']){
             foreach($ret_info['totalList'] as $i => &$item){
                 if($item['shareId'] == $openid){
                     $ret_info['ranking'] = $i+1;
-                    $ret_info['currentPhone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
                 }
                 $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
             }
