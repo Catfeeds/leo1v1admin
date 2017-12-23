@@ -437,7 +437,7 @@ class update_teaching_core_data extends Command
                 $fulltime_teacher_lesson_count +=$val["lesson_all"];//全职老师完成的课耗总数
             }
            
-            $platform_teacher_lesson_count = $ret_platform_teacher_lesson_count_list["lesson_count"];//平台所有老师完成的课耗总数
+            $platform_teacher_lesson_count = $ret_platform_teacher_lesson_count["lesson_count"];//平台所有老师完成的课耗总数
 
             $test_person_num_total= $task->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$lesson_end_time);
            
