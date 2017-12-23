@@ -214,7 +214,7 @@ class account_common extends Controller
         
         //$check_verify_code = session($code_key);
         $check_verify_code = \App\Helper\Common::redis_get($code_key);
-        return $this->output_succ(["code"=>$verify_code,"check_verify_code"=>$check_verify_code]);
+        return $this->output_succ(["code"=>$verify_code,"check_verify_code"=>$check_verify_code,"code_key"=>$code_key]);
         $check_flag = $this->check_verify_code( $verify_code,$check_verify_code,$phone,$role);
         
         if(!$check_flag){
