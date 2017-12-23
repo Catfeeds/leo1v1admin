@@ -1,0 +1,19 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1011
+//__DESC:  /teacher/add_schedule　指定时间/周期
+//__TAGS: for_admin
+
+
+message in  {
+  	int32 id = 1; //t_teacher_free_time主键
+  	int32 day_of_week = 2; //星期几
+  	string begin_time = 3; //0800代表上午８：００
+  	string end_time = 4; //0800代表上午８：００
+
+}
+
+message out {
+	string data=1;
+}
