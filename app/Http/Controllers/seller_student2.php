@@ -30,97 +30,7 @@ class seller_student2 extends Controller
         $gradeArr = E\Egrade_only::$desc_map;
         if($ret_list['list']){
             foreach( $ret_list['list'] as &$item){
-                $item['period_flag_list_str'] = '';
-                if($item['period_flag_list']){
-                    $periodArr = explode(",",$item['period_flag_list']);
-                    foreach($periodArr as $pe){
-                        $item['period_flag_list_str'] .= E\Eperiod_flag::get_desc($pe).',';
-                    }
-                    $item['period_flag_list_str'] = substr($item['period_flag_list_str'],0,-1);
-                }else{
-                    $item['period_flag_list_str'] = E\Eperiod_flag::get_desc($item['period_flag_list']);
-                }
-
-                $item['contract_type_list_str'] = '';
-                if($item['contract_type_list']){
-                    $conArr = explode(",",$item['contract_type_list']);
-                    foreach($conArr as $con){
-                        $item['contract_type_list_str'] .= E\Econtract_type::get_desc($con).',';
-                    }
-                    $item['contract_type_list_str'] = substr($item['contract_type_list_str'],0,-1);
-                }else{
-                    $item['contract_type_list_str'] = E\Econtract_type::get_desc($item['contract_type_list']);
-                }
-
-                $item['need_spec_require_flag_str']   = E\Eboolean::get_desc($item['need_spec_require_flag']);
-                $item['can_disable_flag_str']   = E\Ecan_disable_flag::get_desc($item['can_disable_flag']);
-                $item['open_flag_str']   = E\Eopen_flag::get_desc($item['open_flag']);
-                $item['order_activity_discount_type_str']   = E\Eorder_activity_discount_type::get_desc($item['order_activity_discount_type']);
-                if($item['grade_list']){
-                    if( strpos($item['grade_list'], ",")){
-                        $gradeArr = explode(",",$item['grade_list']);
-                        $item['grade_list_str'] = '';
-                        foreach( $gradeArr as $grade){
-                            $item['grade_list_str'] .= E\Egrade_only::get_desc($grade).',';
-                        }
-                        $item['grade_list_str'] = substr($item['grade_list_str'],0,-1);
-
-                    }else{
-                        $item['grade_list_str'] = E\Egrade_only::get_desc($item['grade_list']);
-                    }
-                }else{
-                    $item['grade_list_str'] = '未设置';
-                }
-
-                if( $item['date_range_start'] && $item['date_range_end']){
-                    $item['date_range_time'] = date('Y-m-d',$item["date_range_start"]).' 至 '.date('Y-m-d',$item["date_range_end"]);
-                }else{
-                    $item['date_range_time'] = "未设置";
-                }
-
-                if( $item['lesson_times_min'] && $item['lesson_times_max'] ){
-                    $item['lesson_times_range'] = $item['lesson_times_min']."-".$item['lesson_times_max'];
-                }else{
-                    $item['lesson_times_range'] = "未设置";
-                }
-
-                if( $item['user_join_time_start'] && $item['user_join_time_end']){
-                    $item['user_join_time_range'] = date('Y-m-d',$item["user_join_time_start"]).' 至 '.date('Y-m-d',$item["user_join_time_end"]);
-                }else{
-                    $item['user_join_time_range'] = "未设置";
-                }
-
-                if( $item['last_test_lesson_start'] && $item['last_test_lesson_end']){
-                    $item['last_test_lesson_range'] = date('Y-m-d',$item["last_test_lesson_start"]).' 至 '.date('Y-m-d',$item["last_test_lesson_end"]);
-                }else{
-                    $item['last_test_lesson_range'] = "未设置";
-                }
-
-                //优惠列表展示
-                $discount_str = '';
-                if($item['discount_json']){
-                    //优惠列表展示
-                    $discount_list = $this->discount_list($item['order_activity_discount_type'],$item['discount_json']);
-                    if(!empty($discount_list)){
-                        foreach( $discount_list as $v){
-                            $discount_str .= $v.' ; ';
-                        }
-                    }
-                }
-
-                $item['discount_list'] = $discount_str;
-
-                //配额组合
-                $activity_type_list_str = '';
-                if($item['max_count_activity_type_list']){
-                    $activity_type_list = $this->t_order_activity_config->get_activity_exits_list($item['max_count_activity_type_list']);
-                    if(!empty($activity_type_list)){
-                        foreach( $activity_type_list as $v){
-                            $activity_type_list_str .= $v['title'].' ; ';
-                        }
-                    }
-                }
-                $item['activity_type_list_str'] = $activity_type_list_str;
+                $item = $this->return_item($item);
             }
         }
         return $this->pageView(__METHOD__,$ret_list,
@@ -262,6 +172,103 @@ class seller_student2 extends Controller
         );
 
     }
+
+    private function return_item($item){
+        $item['period_flag_list_str'] = '';
+        if($item['period_flag_list']){
+            $periodArr = explode(",",$item['period_flag_list']);
+            foreach($periodArr as $pe){
+                $item['period_flag_list_str'] .= E\Eperiod_flag::get_desc($pe).',';
+            }
+            $item['period_flag_list_str'] = substr($item['period_flag_list_str'],0,-1);
+        }else{
+            $item['period_flag_list_str'] = E\Eperiod_flag::get_desc($item['period_flag_list']);
+        }
+
+        $item['contract_type_list_str'] = '';
+        if($item['contract_type_list']){
+            $conArr = explode(",",$item['contract_type_list']);
+            foreach($conArr as $con){
+                $item['contract_type_list_str'] .= E\Econtract_type::get_desc($con).',';
+            }
+            $item['contract_type_list_str'] = substr($item['contract_type_list_str'],0,-1);
+        }else{
+            $item['contract_type_list_str'] = E\Econtract_type::get_desc($item['contract_type_list']);
+        }
+
+        $item['need_spec_require_flag_str']   = E\Eboolean::get_desc($item['need_spec_require_flag']);
+        $item['can_disable_flag_str']   = E\Ecan_disable_flag::get_desc($item['can_disable_flag']);
+        $item['open_flag_str']   = E\Eopen_flag::get_desc($item['open_flag']);
+        $item['order_activity_discount_type_str']   = E\Eorder_activity_discount_type::get_desc($item['order_activity_discount_type']);
+        if($item['grade_list']){
+            if( strpos($item['grade_list'], ",")){
+                $gradeArr = explode(",",$item['grade_list']);
+                $item['grade_list_str'] = '';
+                foreach( $gradeArr as $grade){
+                    $item['grade_list_str'] .= E\Egrade_only::get_desc($grade).',';
+                }
+                $item['grade_list_str'] = substr($item['grade_list_str'],0,-1);
+
+            }else{
+                $item['grade_list_str'] = E\Egrade_only::get_desc($item['grade_list']);
+            }
+        }else{
+            $item['grade_list_str'] = '未设置';
+        }
+
+        if( $item['date_range_start'] && $item['date_range_end']){
+            $item['date_range_time'] = date('Y-m-d',$item["date_range_start"]).' 至 '.date('Y-m-d',$item["date_range_end"]);
+        }else{
+            $item['date_range_time'] = "未设置";
+        }
+
+        if( $item['lesson_times_min'] && $item['lesson_times_max'] ){
+            $item['lesson_times_range'] = $item['lesson_times_min']."-".$item['lesson_times_max'];
+        }else{
+            $item['lesson_times_range'] = "未设置";
+        }
+
+        if( $item['user_join_time_start'] && $item['user_join_time_end']){
+            $item['user_join_time_range'] = date('Y-m-d',$item["user_join_time_start"]).' 至 '.date('Y-m-d',$item["user_join_time_end"]);
+        }else{
+            $item['user_join_time_range'] = "未设置";
+        }
+
+        if( $item['last_test_lesson_start'] && $item['last_test_lesson_end']){
+            $item['last_test_lesson_range'] = date('Y-m-d',$item["last_test_lesson_start"]).' 至 '.date('Y-m-d',$item["last_test_lesson_end"]);
+        }else{
+            $item['last_test_lesson_range'] = "未设置";
+        }
+
+        //优惠列表展示
+        $discount_str = '';
+        if($item['discount_json']){
+            //优惠列表展示
+            $discount_list = $this->discount_list($item['order_activity_discount_type'],$item['discount_json']);
+            if(!empty($discount_list)){
+                foreach( $discount_list as $v){
+                    $discount_str .= $v.' ; ';
+                }
+            }
+        }
+
+        $item['discount_list'] = $discount_str;
+
+        //配额组合
+        $activity_type_list_str = '';
+        if($item['max_count_activity_type_list']){
+            $activity_type_list = $this->t_order_activity_config->get_activity_exits_list($item['max_count_activity_type_list']);
+            if(!empty($activity_type_list)){
+                foreach( $activity_type_list as $v){
+                    $activity_type_list_str .= $v['title'].' ; ';
+                }
+            }
+        }
+        $item['activity_type_list_str'] = $activity_type_list_str;
+        return $item;
+    }
+
+
     //获取所有活动
     public function get_all_activity(){
         $id = $this->get_in_int_val('id',-1);
@@ -591,5 +598,38 @@ class seller_student2 extends Controller
 
     }
 
+    //给一般人员使用的查看当前有效活动
+    public function get_current_commom_activity(){
 
+        $open_flag   = $this->get_in_int_val('id_open_flag',-1);
+        $page_num        = $this->get_in_page_num();
+        $ret = $this->t_order_activity_config->get_current_activity($open_flag,$page_num);
+
+        if($ret['list']){
+            foreach($ret['list'] as &$item){
+                $item = $this->return_item($item);
+            }
+        }
+        return $this->pageView(__METHOD__,$ret,
+                               [
+                                   "_publish_version"      => "201711281348",
+                                   "ret_info" => $ret,
+                               ]
+        );
+    }
+
+    //只运行一般人员更新当前活动的最大合同数
+    public function update_current_commom_activity(){
+        $id = $this->get_in_int_val('id');
+        $max_count = $this->get_in_int_val('max_count');
+        $updateArr = [
+            'max_count' => $max_count,
+        ];
+        if($this->t_order_activity_config->field_update_list($id,$updateArr)){
+            return $this->output_succ();
+        }else{
+            return $this->output_err("更新出错！");
+        };
+
+    }
 }

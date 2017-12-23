@@ -367,6 +367,7 @@
                                 <a class="opt-send_email" title="发送邮件">邮</a>
                                 <a class="opt-require_set_confirm_flag_4" title="申请老师付工资，学生不扣课时" >申</a>
                                 <a class="opt-require_lesson_success" title="申请课程成功" >申</a>
+                                    <a class="opt-seller-ass-record-new" title="教学质量反馈" >馈</a>
                                 <a class="fa-list-alt opt-log-list" title="登录日志"></a>
                                 @if($var['lesson_type']==2)
                                     <a class="btn opt-show_stu_request" title="查看学生试听需求">需</a>
@@ -374,16 +375,15 @@
                                 @if($acc=="adrian")
                                     <a class="opt-add_reward" title="添加奖励">奖</a>
                                 @endif
-                                <a class="opt-seller-ass-record" title="教学质量反馈" >馈</a>
                                 <a class="fa fa-list-alt opt-manage-all" title="课程管理信息汇总" ></a>
                                 <a class="fa opt-modify-lesson-time" title="处理调课申请" >调课</a>
                                 <a class="fa-sitemap opt-set-server " title="xmpp" ></a>
                                 @if(in_array($account_role,[9,12]))
-                                    <a class="opt-first-lesson-record" >质监反馈</a>
-                                @endif
-                                @if(in_array($acc,["jim","jack","林文彬","孙瞿"]))
                                     <a class="opt-first-lesson-record-new" >质监反馈-new</a>
-                                    <a class="opt-seller-ass-record-new" title="教学质量反馈" >馈-new</a>
+                                @endif
+                                @if(in_array($acc,["jack"]))
+                                    <a class="opt-seller-ass-record" title="教学质量反馈" >馈-old</a>
+                                    <a class="opt-first-lesson-record" >质监反馈-old</a>
                                 @endif
                             </div>
                         </td>

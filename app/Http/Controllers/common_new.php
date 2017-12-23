@@ -385,10 +385,14 @@ class common_new extends Controller
              * @ 从老师分享页进入注册的 老师
              * @ christmas_type  0:正常用户 1:从分享页面进来的老师
              */
-            $shareId   = $this->get_in_int_val('shareId');
+            $shareId   = $this->get_in_str_val('shareId');
             $currentId = $this->get_in_str_val('currentId');
-            if($shareId > 0){
-                $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId);
+
+            \App\Helper\Utils::logger("shareIdKKK:1 $shareId currentIdBB: $currentId");
+
+
+            if($shareId){
+                $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId,2);
                 if(!$isHasAdd){
                     $this->t_teacher_christmas->row_insert([
                         "shareId"   => $shareId,
@@ -1001,6 +1005,7 @@ class common_new extends Controller
             }
 
             $prize_type = $this->t_activity_christmas->getPrizeType($parentid);
+            $list['prize_type'] = $prize_type;
             if($prize_type >0 ){
                 $list['has_done'] = 1;
                 switch ($prize_type)
