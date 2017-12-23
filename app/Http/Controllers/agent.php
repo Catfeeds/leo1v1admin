@@ -456,6 +456,29 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $item['status'] = '双方接';
+        $is_called_flag = ($item['status']=='双方接听')?1:0;
+        dd($is_called_flag);
+        $item['bridgeTime'] = '-';
+        $obj_start_time = strtotime($item['bridgeTime'])?strtotime($item['bridgeTime']):0;
+        dd($obj_start_time);
+        $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
+        $post_arr=[
+            "enterpriseId" => 3005131  ,
+            "userName" => "admin" ,
+            "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
+            "seed" => "seed1",
+            "startTime" => date("Y-m-d H:i:s",1514008800),
+            "endTime" => date("Y-m-d H:i:s",1514016000),
+        ];
+        $post_arr["start"]  = 0;
+        $post_arr["limit"]  = 20;
+        $return_content= \App\Helper\Net::send_post_data($url,$post_arr);
+        $ret=json_decode($return_content, true  );
+        dd($ret);
+        $status = '双方接听';
+        $called_flag = ($status=='双方接听')?1:0;
+        dd($called_flag);
         $cdr_answer_time = intval( preg_split("/\-/", $uniqueId='ccic_dev_11-1344323905.20')[1]);
         dd($cdr_answer_time);
         $ret_info= $this->t_order_info->get_1v1_order_seller_list_new($start_time=1504195200,$end_time=1506787200,[],'');
