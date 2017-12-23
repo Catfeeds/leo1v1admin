@@ -507,11 +507,11 @@ class assistant_performance extends Controller
         $order_adminid          = $this->get_in_adminid(-1);
         $assistantid       = $this->get_in_assistantid(-1);
         $ret_info = $this->t_seller_student_new->get_assistant_origin_order_losson_list_all($start_time,$end_time,$opt_date_type, $studentid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid );
-        dd($ret_info);
 
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item, 'order_time','_str'); 
             \App\Helper\Utils::unixtime2date_for_item($item, 'pay_time','_str'); 
+            \App\Helper\Utils::unixtime2date_for_item($item, 'add_time','_str'); 
             E\Egrade::set_item_value_str($item,"grade");
             E\Esubject::set_item_value_str($item,"subject");
           
