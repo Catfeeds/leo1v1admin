@@ -27,6 +27,7 @@ interface RowData {
 	use_type	:any;
 	create_time	:any;
 	visitor_id	:any;
+	ex_num	:any;
 	file_hash	:any;
 	subject	:any;
 	grade	:any;
@@ -48,7 +49,6 @@ interface RowData {
 	resource_type_str	:any;
 	use_type_str	:any;
 	tag_one_str	:any;
-	tag_two_str	:any;
 	tag_four_str	:any;
 }
 

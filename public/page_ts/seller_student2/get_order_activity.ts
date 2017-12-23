@@ -147,14 +147,10 @@ $(function(){
         var id_power_value = $("<input/>");
         var id_max_count = $("<input/>");
         var id_max_change_value = $("<input/>");
-        var param = GetQueryString("return");
-        if( param == 'all'){
-            var id_diff_max_count = $("<input/>");
-            id_diff_max_count.val(opt_data["diff_max_count"]);
-        }else{
-            var id_diff_max_count = $("<span />");
-            id_diff_max_count.text(opt_data["diff_max_count"]);
-        }
+        var param = GetQueryString("return");        
+        var id_diff_max_count = $("<input/>");
+        id_diff_max_count.val(opt_data["diff_max_count"]);
+        
         id_power_value.val(opt_data["power_value"]);
         id_max_count.val(opt_data["max_count"]);
         id_max_change_value.val(opt_data["max_change_value"]);
@@ -169,14 +165,9 @@ $(function(){
         $.show_key_value_table("编辑活动", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
-            action : function(dialog) {
-
-                if( param == 'all'){
-                    var diff_max_count = parseInt(id_diff_max_count.val());
-                }else{
-                    var diff_max_count = parseInt(id_diff_max_count.text());
-                }
-
+            action : function(dialog) {               
+                var diff_max_count = parseInt(id_diff_max_count.val());
+                
                 var max_count = id_max_count.val();
                 if( diff_max_count < max_count ){
                     BootstrapDialog.alert("最大合同数不能大于预期最大合同数");

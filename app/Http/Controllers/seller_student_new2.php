@@ -1560,7 +1560,7 @@ class seller_student_new2 extends Controller
         }else{
             $tea_list = $ret_list;
         }
-
+        $textbook_map = E\Eregion_version::$desc_map;
 
         if(!empty($tea_list) && is_array($tea_list)){
             foreach($tea_list as $tea_key => &$tea_val){
@@ -1609,6 +1609,15 @@ class seller_student_new2 extends Controller
                     $tea_val['is_textbook'] = 1;
                 }else{
                     $tea_val['is_textbook'] = 0;
+                }
+                if($tea_val['teacher_textbook']!=""){
+                    $teacher_textbook_arr = explode(",",$tea_val['teacher_textbook']);
+                    foreach($teacher_textbook_arr as $textbook_val){
+                        $teacher_textbook_str[] = $textbook_map[$textbook_val];
+                    }
+                    $tea_val['teacher_textbook_str'] = implode(",",$teacher_textbook_str);
+                }else{
+                    $tea_val['teacher_textbook_str'] = "";
                 }
 
                 if($teacher_type==3){

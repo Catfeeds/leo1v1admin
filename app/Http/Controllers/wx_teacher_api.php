@@ -1164,6 +1164,17 @@ class wx_teacher_api extends Controller
     }
 
 
+    public function getConversionStatus(){
+        $uuid = $this->get_in_str_val('uuid');
+        $status = $this->get_in_str_val('s');
+
+        //g247344459f06491690e1127b7f87b9b
+        \App\Helper\Utils::logger("uiiiddd: $uuid status: $status");
+
+        return $this->output_succ();
+    }
+
+
     /**
      * @ 老师圣诞节活动 积分
      * @ 老师分享链接后 后续人员点击链接+1

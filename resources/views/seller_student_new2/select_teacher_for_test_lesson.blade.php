@@ -86,7 +86,7 @@
                 <div class="input-group ">
                     <span class="input-group-addon">老师身份</span>
                     <select class="opt-change form-control" id="id_identity">
-                        <option value="0">无要求</option>
+                        <option value="-1">无要求</option>
                     </select>
                 </div>
             </div>
@@ -94,7 +94,7 @@
                 <div class="input-group ">
                     <span class="input-group-addon">性别要求</span>
                     <select class="opt-change form-control" id="id_gender">
-                        <option value="0">无要求</option>
+                        <option value="-1">无要求</option>
                     </select>
                 </div>
             </div>
@@ -103,7 +103,7 @@
                 <div class="input-group ">
                     <span class="input-group-addon">年龄要求</span>
                     <select class="opt-change form-control" id="id_tea_age">
-                        <option value="0">无要求</option>
+                        <option value="-1">无要求</option>
                     </select>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                 <div class="input-group ">
                     <span class="input-group-addon">老师类型</span>
                     <select class="opt-change form-control" id="id_teacher_type">
-                        <option value="0">无要求</option>
+                        <option value="-1">无要求</option>
                     </select>
                 </div>
             </div>
@@ -121,7 +121,7 @@
                 <div class="input-group ">
                     <span class="input-group-addon">教材版本</span>
                     <select class="opt-change form-control" id="id_region_version">
-                        <option value="0">无要求</option>
+                        <option value="-1">无要求</option>
                     </select>
                 </div>
             </div>
@@ -169,6 +169,7 @@
                     <td >性别</td>
                     <td >年龄</td>
                     <td >老师类型</td>
+                    <td width="300px">教材版本</td>
                     <td >手机号</td>
                     <td >入职时长</td>
                     <td >可上课时间</td>
@@ -185,6 +186,7 @@
                         <td>{{$var["gender_str"]}}</td>
                         <td>{{$var["age"]}}</td>
                         <td>{{$var["teacher_type_str"]}}</td>
+                        <td>{{$var["teacher_textbook_str"]}}</td>
                         <td>
                             <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
                                 {{$var["phone_hide"]}}
