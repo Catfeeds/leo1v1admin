@@ -1227,7 +1227,7 @@ class wx_teacher_api extends Controller
         $checkScore= 0;
 
 
-        \App\Helper\Utils::logger("shareIdOpenid: $shareIdOpenid ");
+        \App\Helper\Utils::logger("shareIdOpenid11: $shareIdOpenid ");
 
         $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId,$checkScore);
         if(!$isHasAdd && $shareId>0){
