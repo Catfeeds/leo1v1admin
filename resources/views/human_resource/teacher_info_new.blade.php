@@ -225,11 +225,12 @@
                                     <a class="fa-gavel opt-set-tmp-passwd div_show"  title="临时密码"></a>
                                     <a class="opt-old ">旧版</a>
                                 @endif
-                                @if($var["label_id"]==0 && in_array($acc,["jim","jack","林文彬","孙瞿"]))
+                                @if($var["label_id"]==0)
                                     <a class="opt-set-teacher-label" title="设置标签<">设置标签</a>
-                                @elseif($var["label_id"]>0  && in_array($acc,["jim","jack","林文彬","孙瞿"]))
+                                @elseif($var["label_id"]>0)
                                     <a class="opt-set-teacher-label" title="修改标签<">修改标签</a>
                                 @endif
+
                             </div>
                         </td>
                     </tr>

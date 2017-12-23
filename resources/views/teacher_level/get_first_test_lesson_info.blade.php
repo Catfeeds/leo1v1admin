@@ -103,9 +103,10 @@
                                    data-type="leoedu://video.leoedu.com/video="
                                    title="视频播放二维码" > </a>
 
-                                <a class="opt-first-lesson-record" >反馈</a>
+                                <a class="opt-first-lesson-record-new" >反馈</a>
                                 @if(in_array($acc,["jack","jim","林文彬","孙瞿"]))
-                                    <a class="opt-first-lesson-record-new" >反馈-new</a>
+                                    <a class="opt-first-lesson-record" >反馈-old</a>
+
                                 @endif
 
                                 @if($var["record_info"])
