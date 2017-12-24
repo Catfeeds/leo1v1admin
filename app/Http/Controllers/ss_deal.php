@@ -3622,7 +3622,7 @@ class ss_deal extends Controller
             $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"转介绍","学生[$nick][$phone]","助教自签,类型1","/seller_student_new/seller_student_list_all?userid=$userid");
 
 
- 
+
         }elseif($origin_flag==2){
             $sub_assign_adminid_1=0;
             $campus_id = $this->t_admin_group_user->get_campus_id_by_adminid($origin_assistantid);
@@ -6230,7 +6230,7 @@ class ss_deal extends Controller
             $arr= json_decode($label,true);
             foreach($arr as $item){
                 $ret = json_decode($item,true);
-                if($ret){                                   
+                if($ret){
                     foreach($ret as $v){
                         @$str .=$v.",";
                     }
@@ -7627,4 +7627,12 @@ class ss_deal extends Controller
         return $this->output_succ(['data'=>$violation_info]);
     }
 
+    public function addMarketExtend(){
+        $gift_type = $this->get_in_int_val('gift_type');
+        $title     = $this->get_in_str_val('title');
+        $shareImgUrl = $this->get_in_str_val('shareImgUrl');
+        $coverImgUrl = $this->get_in_str_val('coverImgUrl');
+        $activityImgUrl = $this->get_in_str_val('activityImgUrl');
+        $followImgUrl   = $this->get_in_str_val('followImgUrl');
+    }
 }
