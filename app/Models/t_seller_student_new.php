@@ -994,6 +994,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "admin_assignerid"  => $self_adminid,
                 "admin_revisiterid"  => $opt_adminid,
                 "admin_assign_time"  => $now,
+                "seller_resource_type"  => 0,
                 "sub_assign_adminid_2"  => $up_adminid,
                 "sub_assign_time_2"  => $now ,
                 "sub_assign_adminid_1"  => $sub_assign_adminid_1,
