@@ -1446,6 +1446,12 @@ class test_james extends Controller
         dd(md5('021130'));
     }
 
+    public function getUrl(){
+        $url = $this->get_in_str_val('url');
+        $domain = config('admin')['qiniu']['public']['url'];
+        $change_reason_url = $domain.'/'.$url;
+        dd($change_reason_url);
+    }
 
 
 

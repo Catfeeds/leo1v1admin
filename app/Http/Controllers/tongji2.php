@@ -1927,18 +1927,19 @@ class tongji2 extends Controller
 
     public function market_extension(){
         $type = $this->get_in_int_val('type',-1);
+        $page_num = $this->get_in_page_num();
         list($start_time, $end_time) = $this->get_in_date_range(0,0,0,[],3 );
-        $ret_info = $this->t_activity_usually->getActivityList($type,$start_time,$end_time);
+        $ret_info = $this->t_activity_usually->getActivityList($type,$start_time,$end_time,$page_num);
 
-        foreach($ret_info as &$item){
+        foreach($ret_info['list'] as &$item){
             $item['add_time_str'] = \App\Helper\Utils::unixtime2date($item['add_time']);
             $item['gift_type_str'] = E\Emarket_gift_type::get_desc($item['gift_type']);
             if($item['activity_status'] == 0){
-                $item['activity_status_str'] = "<font class='blue'>未设置</font>";
+                $item['activity_status_str'] = "<font color='blue'>未设置</font>";
             }elseif($item['activity_status'] == 1){
-                $item['activity_status_str'] = "<font class='green'>进行中</font>";
+                $item['activity_status_str'] = "<font color='green'>进行中</font>";
             }elseif($item['activity_status'] == 2){
-                $item['activity_status_str'] = "<font class='red'>已失效</font>";
+                $item['activity_status_str'] = "<font color='red'>已失效</font>";
             }
         }
 
@@ -1952,7 +1953,7 @@ class tongji2 extends Controller
         $page_num  = $this->get_in_page_num();
 
         $ret_info = [];
-        // $ret_info = $this->t_teacher_christmas->getChriDatePage($openid,$page_num);
+        $ret_info = $this->t_teacher_christmas->getChriDatePage($openid,$page_num);
         // $ret_info['totalList'] = $this->t_teacher_christmas->getTotalList($isLimit=1);
         // $ret_info['end_time'] = strtotime('2017-1-2');
         // foreach($ret_info['totalList'] as $i => &$item){

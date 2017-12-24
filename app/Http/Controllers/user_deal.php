@@ -6030,4 +6030,33 @@ class user_deal extends Controller
         $is_flag = $this->t_manager_info->get_account_role_by_account($account);
         return $this->output_succ(['data'=>$is_flag]);
     }
+
+
+    public function delMarketExtend(){
+        $id = $this->get_in_int_val('id');
+        $this->t_activity_usually->field_update_list($id,[
+            "activity_status" => 2 // 0:未设置 1:活动进行中 2:已失效
+        ]);
+        return $this->output_succ();
+    }
+
+    public function editMarketExtend(){
+        $id = $this->get_in_int_val('id');
+        $ret_info = $this->t_activity_usually->getMarketExtendInfo($id);
+        return $this->output_succ(['data'=>$ret_info]);
+    }
+
+
+    public function showMarketExtendImg(){
+        $id = $this->get_in_int_val('id');
+        $imgList = $this->t_activity_usually->getImgList($id);
+        dd($imgList);
+
+        $domain = config('admin')['qiniu']['public']['url'];
+        $change_reason_url = $domain.'/'.$url;
+
+        // $imgList['shareImgUrl']
+
+        return $this->output_succ(['data'=>$imgList]);
+    }
 }

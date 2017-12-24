@@ -7630,9 +7630,26 @@ class ss_deal extends Controller
     public function addMarketExtend(){
         $gift_type = $this->get_in_int_val('gift_type');
         $title     = $this->get_in_str_val('title');
+        $act_descr = $this->get_in_str_val('act_descr');
         $shareImgUrl = $this->get_in_str_val('shareImgUrl');
         $coverImgUrl = $this->get_in_str_val('coverImgUrl');
         $activityImgUrl = $this->get_in_str_val('activityImgUrl');
         $followImgUrl   = $this->get_in_str_val('followImgUrl');
+        $add_time = time();
+        $uid = $this->get_account_id();
+
+        $this->t_activity_usually->row_insert([
+            "gift_type" => $gift_type,
+            "title"     => $title,
+            "add_time"  => $add_time,
+            "uid"       => $uid,
+            "act_descr" => $act_descr,
+            "shareImgUrl" => $shareImgUrl,
+            "coverImgUrl" => $coverImgUrl,
+            "activityImgUrl" => $activityImgUrl,
+            "followImgUrl"   => $followImgUrl
+        ]);
+
+        return $this->output_succ();
     }
 }
