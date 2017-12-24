@@ -70,7 +70,7 @@ $(function(){
             cssClass: 'btn-warning',
             action: function (dialog) {
 
-                $.do_ajax("/ss_deal/add_refund_complaint",{
+                $.do_ajax("/ss_deal/addMarketExtend",{
                     // 'apply_time' : opt_data.apply_time
                 });
             }
