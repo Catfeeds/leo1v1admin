@@ -1309,16 +1309,16 @@ class test_boby extends Controller
                     $item["$percent_name"] = @$v1['responsibility_percent'];
                 // }
             }
-            if($a == 1){
-                $a++;
-                $ks = array_keys($item);
-                echo '<tr>';
-                foreach($ks as $kv){
-                    echo '<td>',$kv,'</td>';
-                }
-                echo '</tr>';
+            // if($a == 1){
+            //     $a++;
+            //     $ks = array_keys($item);
+            //     echo '<tr>';
+            //     foreach($ks as $kv){
+            //         echo '<td>',$kv,'</td>';
+            //     }
+            //     echo '</tr>';
 
-            }
+            // }
 
             echo '<tr>';
             foreach($item as $iv){
