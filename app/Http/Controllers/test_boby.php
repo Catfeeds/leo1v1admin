@@ -1200,7 +1200,7 @@ class test_boby extends Controller
         );
         $refund_info = [];
         $list_new = [];
-        foreach($ret_info as $kkk=> &$item){
+        foreach($ret_info as  $k_f => &$item){
             $item['deal_nick'] = $this->cache_get_account_nick($item['qc_adminid']);
             \App\Helper\Utils::unixtime2date_for_item($item,"qc_deal_time");
 
@@ -1268,7 +1268,7 @@ class test_boby extends Controller
             $item['max_time_str'] = @$lesson_time_arr['max_time']?@unixtime2date($lesson_time_arr['max_time']):'无';
             $item['min_time_str'] = @$lesson_time_arr['min_time']?@unixtime2date($lesson_time_arr['min_time']):'无';
 
-            foreach($arr['key1_value'] as $kkk =>&$v1){
+            foreach($arr['key1_value'] as &$v1){
                 $key1_name = @$v1['value'].'一级原因';
                 $key2_name = @$v1['value'].'二级原因';
                 $key3_name = @$v1['value'].'三级原因';
@@ -1303,14 +1303,14 @@ class test_boby extends Controller
                 $item["$score_name"]   = @$v1['score'];
                 $item["$percent_name"] = @$v1['responsibility_percent'];
             }
-            dd($item);
 
-            // if(@$item['老师责任值'] || @$item['科目责任值'] || @$item['老师一级原因'] || @$item['老师二级原因'] || @$item['老师三级原因'] ){
-            //     $list_new[] = $item;
-            // }
+            if(@$item['老师责任值'] || @$item['科目责任值'] || @$item['老师一级原因'] || @$item['老师二级原因'] || @$item['老师三级原因'] ){
+                $list_new[] = $item;
+            }
+            unset($ret_info[$k_f]);
         }
 
-        dd($list_new);
+        dd(count($list_new));
         $th_arr = ['签约时间','退费申请时间','原因分析','科目','老师一级原因','老师二级原因','老师三级原因','责任鉴定 | 老师','责任鉴定 | 科目'];
         $s = $this->table_start($th_arr);
         echo $s;
