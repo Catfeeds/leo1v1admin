@@ -2546,20 +2546,6 @@ class tea_manage extends Controller
         return $this->output_succ();
     }
 
-    public function set_teacher_part_remark(){
-        $teacherid   = $this->get_in_int_val("teacherid");
-        $part_remarks = $this->get_in_str_val("part_remarks");
-
-        $ret = $this->t_teacher_info->field_update_list($teacherid,[
-            "part_remarks"=>$part_remarks
-        ]);
-
-        if(!$ret){
-            return $this->output_err("更新失败！请重试！");
-        }
-        return $this->output_succ();
-    }
-
      public function set_stu_performance_for_seller(){
         $lessonid               = $this->get_in_int_val("lessonid");
         $stu_lesson_content     = $this->get_in_str_val("stu_lesson_content");

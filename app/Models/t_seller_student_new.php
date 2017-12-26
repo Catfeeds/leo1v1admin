@@ -3173,7 +3173,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function get_item_list($page_info,$start_time,$end_time,$origin_ex='公众号,金数据,占豪,,'){
+    public function get_item_list($start_time,$end_time,$origin_ex){
         $where_arr = [
             's.lesson_count_all=0',
             'n.seller_resource_type=1',
@@ -3187,7 +3187,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr[]= $ret_in_str;
 
         $sql = $this->gen_sql_new(
-            "select t.test_lesson_subject_id,n.add_time,n.userid,n.phone,s.origin "
+            "select t.test_lesson_subject_id,n.add_time,n.userid,n.phone,n.admin_revisiterid,s.origin,m.account "
             ." from %s t "
             ." left join %s n on t.userid=n.userid "
             ." left join %s s on s.userid=n.userid "
@@ -3205,7 +3205,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ,t_test_lesson_subject_require::DB_TABLE_NAME
             ,$where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_info);
+        return $this->main_get_list($sql);
     }
 
     public function get_item_list_new(){

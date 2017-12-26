@@ -417,15 +417,41 @@ class agent extends Controller
     }
 
     public function check(){
-        $origin_ex = $this->get_in_str_val('origin_ex');
+        $now = time();
+        $adminid = 287;
+        $hand_get_adminid = E\Ehand_get_adminid::V_3;
+        $origin_ex = $this->get_in_str_val('origin_ex','公众号,金数据,占豪,,');
         list($start_time,$end_time) = [1512057600,1514736000];
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_seller_student_new->get_item_list($page_info,$start_time,$end_time,$origin_ex);
-        foreach($ret_info['list'] as &$item){
-            \App\Helper\Utils::hide_item_phone($item);
+        $ret_info = $this->t_seller_student_new->get_item_list($start_time,$end_time,$origin_ex);
+        foreach($ret_info as &$item){
+            $userid = $item['userid'];
+            $phone = $item['phone'];
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            if($item['admin_revisiterid'] == 0){
+                $this->t_seller_student_new->field_update_list($userid, [
+                    "sub_assign_adminid_1"  => $adminid,
+                    "sub_assign_time_1"  => $now,
+                    "admin_revisiterid"  => $adminid,
+                    "admin_assign_time"  => $now,
+                    "hold_flag" => 1,
+                    "hand_get_adminid" => $hand_get_adminid,
+                ]);
+                $this->t_book_revisit->add_book_revisit(
+                    $phone,
+                    "操作者: tom 状态: 分配给组员 [ leowang ] ",
+                    "tom"
+                );
+                $this->t_seller_edit_log->row_insert([
+                    'adminid'=>831,//分配人
+                    'uid'=>$adminid,//组员
+                    'new'=>$userid,//例子
+                    'type'=>E\Eseller_edit_log_type::V_3,
+                    'create_time'=>$now,
+                ]);
+            }
         }
-        return $this->Pageview(__METHOD__,$ret_info);
+        return $this->Pageview(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
 
     public function test_new(){
