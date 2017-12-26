@@ -1456,6 +1456,11 @@ class test_james extends Controller
     }
 
     public function test_ce(){
+        $b = "http://leo1v1.whytouch.com/export.php?uuid=gf15a4973b034c84d4f631be74b21741&email=michael@leoedu.com&pwd=bbcffc83539bd9069b755e1d359bc70a";
+        $a = file_get_contents($b);
+
+        dd($a);
+
         $domain = config('admin')['qiniu']['public']['url'];
         $a = 'ok:gf15a4973b034c84d4f631be74b21741.zip';
         // $b = $domain."/".$a;

@@ -64,7 +64,6 @@ class pdfConversionH5 extends Command
             $cmd  = "curl -F doc=@'$savePathFile' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=leoedu&fn=".$item['file_link'].".pdf'";
             $uuid_tmp = shell_exec($cmd);
             $uuid_arr = explode(':', $uuid_tmp);
-            // $uuid = substr($uuid_tmp,3);
 
             $uuid = $uuid_arr['1'];
             \App\Helper\Utils::logger("qiniuupload_james_9999: $uuid");
@@ -76,10 +75,6 @@ class pdfConversionH5 extends Command
             \App\Helper\Utils::logger("qiniuupload_james_1000: $h5DownloadUrl");
             \App\Helper\Utils::logger("qiniuupload_james_788: $saveH5FilePath");
             \App\Helper\Utils::savePicToServer($h5DownloadUrl,$saveH5FilePath);
-
-
-
-
 
 
             // file_put_contents($saveH5FilePath, fopen($h5DownloadUrl, 'r'));
