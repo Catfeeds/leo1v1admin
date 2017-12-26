@@ -56,41 +56,20 @@ class tom_do_once extends Command
      */
     public function handle()
     {
-        $day=$this->option('day');
-        if ($day===null) {
-            $now=time(NULL);
-            $start_time=$now-60*15;
-            $end_time=$now;
-        }else{
-            $start_time=strtotime($day);
-            $end_time=$start_time+86400;
+        $ret = $this->task->t_seller_student_new->get_all_list($start_time=1506787200,$end_time=1509465600);
+        foreach($ret as $item){
+            $userid = $item['userid'];
+            $phone = $item['phone'];
+            $last_contact_cc = $item['last_contact_cc'];
+            if($last_contact_cc==0){
+                $last_call = $this->task->t_tq_call_info->get_last_call_by_phone($phone);
+                $adminid = isset($last_call['adminid'])?$last_call['adminid']:0;
+                if($adminid>0){
+                    $this->task->t_seller_student_new->field_update_list($userid,['last_contact_cc'=>$adminid]);
+                    echo $userid.':'.$last_contact_cc."=>".$adminid."\n";
+                }
+            }
         }
-        echo $day.':'.$start_time.'-'.$end_time;
-
-        // $ret = $this->task->t_seller_student_new->get_all_list($start_time=0,$end_time=0);
-        // $userid_arr = array_unique(array_column($ret,'userid'));
-        // foreach($userid_arr as $item){
-        //     $num = 0;
-        //     $userid = $item;
-        //     $cc_no_called_count = 0;
-        //     foreach($ret as $info){
-        //         if($item == $info['userid']){
-        //             $is_called_phone = $info['is_called_phone'];
-        //             $cc_no_called_count = $info['cc_no_called_count'];
-        //             $admin_role = $info['admin_role'];
-        //             if($is_called_phone == 1 && $admin_role==E\Eaccount_role::V_2){
-        //                 $num = 0;
-        //                 break;
-        //             }elseif($is_called_phone == 0 && isset($info['is_called_phone']) && $admin_role==E\Eaccount_role::V_2){
-        //                 $num += 1;
-        //             }
-        //         }
-        //     }
-        //     if($num != $cc_no_called_count){
-        //         $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
-        //         echo $userid.':'.$cc_no_called_count."=>".$num."\n";
-        //     }
-        // }
     }
 
 }
