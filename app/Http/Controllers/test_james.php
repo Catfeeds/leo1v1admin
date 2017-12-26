@@ -29,6 +29,15 @@ use LaneWeChat\Core\UserManage;
 use LaneWeChat\Core\TemplateMessage;
 
 
+// 引入鉴权类
+use Qiniu\Auth;
+
+// 引入上传类
+use Qiniu\Storage\UploadManager;
+use Qiniu\Storage\BucketManager;
+
+
+
 include(app_path("Libs/LaneWeChat/lanewechat.php"));
 
 

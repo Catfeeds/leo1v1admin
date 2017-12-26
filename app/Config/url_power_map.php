@@ -639,6 +639,7 @@ class url_power_map {
 			'/tea_manage_new/get_teacher_complaints_info'	=>1323326,
 			'/human_resource/reaearch_teacher_lesson_list_research'	=>1320200,
 			'/main_page/quality_control_jy'	=>1327300,
+			'/user_manage_new/admin_group_manage_fulltime'	=>1342200,
 			'/fulltime_teacher/fulltime_teacher_count'	=>1348000,
 			'/fulltime_teacher/fulltime_teacher_work_attendance_info'	=>1348100,
 			'/fulltime_teacher/fulltime_teacher_attendance_info_month'	=>1348200,
