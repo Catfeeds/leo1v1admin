@@ -994,6 +994,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "admin_assignerid"  => $self_adminid,
                 "admin_revisiterid"  => $opt_adminid,
                 "admin_assign_time"  => $now,
+                "seller_resource_type"  => 0,
                 "sub_assign_adminid_2"  => $up_adminid,
                 "sub_assign_time_2"  => $now ,
                 "sub_assign_adminid_1"  => $sub_assign_adminid_1,
@@ -2644,19 +2645,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function get_all_list($start_time,$end_time){
-        $where_arr = [
-            ['tq.admin_role=%u',E\Eaccount_role::V_2],
-            'seller_add_time=1511452800',
-        ];
-        // $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
         $sql = $this->gen_sql_new(
-            " select n.userid,n.phone,n.cc_no_called_count,"
-            ." tq.is_called_phone,tq.admin_role "
+            " select n.userid,n.phone,n.last_contact_cc "
             ." from %s n"
-            ." left join %s tq on tq.phone=n.phone "
             ." where %s order by n.userid "
             ,self::DB_TABLE_NAME
-            ,t_tq_call_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);
@@ -3172,14 +3167,23 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function get_item_list($page_info){
-        $sql = "select n.admin_revisiterid,"
-            ."m.account,m.seller_level,"
-            ."sum(if(n.admin_revisiterid>0,1,0)) count "
-            ."from t_seller_student_new n "
-            ."left join db_weiyi_admin.t_manager_info m on m.uid=n.admin_revisiterid "
-            ."where n.admin_revisiterid>0 and m.account_role=2  group by n.admin_revisiterid";
-        return $this->main_get_list_by_page($sql,$page_info);
+    public function get_item_list($start_time,$end_time){
+        $where_arr = [
+        ];
+        $this->where_arr_add_time_range($where_arr,'n.add_time', $start_time, $end_time);
+        // $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        // $where_arr[]= $ret_in_str;
+        $sql = $this->gen_sql_new(
+            " select n.userid,n.phone,s.origin,n.add_time,n.global_tq_called_flag,"
+            ." n.last_succ_test_lessonid,n.last_contact_cc adminid "
+            ." from %s n "
+            ." left join %s s on n.userid=s.userid "
+            ." where %s order by n.add_time desc"
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
     public function get_item_list_new(){
@@ -3276,6 +3280,47 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
+
+    //助教转介绍例子
+    public function get_assistant_origin_order_losson_list_all($start_time,$end_time,$opt_date_str, $userid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid ){               
+        $where_arr=[
+            ["o.sys_operator like '%%%s%%'" , $sys_operator, ""],
+            ["l.teacherid=%u" , $teacherid, -1],
+            ["a.assistantid = %u" , $assistantid, -1],
+            ["m.uid = %u" , $order_adminid, -1],
+            ["s.origin_userid = %u" , $origin_userid, -1],
+            "m.account_role=1",
+            "s.origin_userid>0",
+            "s.is_test_user=0"
+        ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+        $sql = $this->gen_sql_new("select s.nick,s.userid,l.lessonid,l.grade,l.subject,s.phone,t.realname,"
+                                  ." l.teacherid,o.price,o.order_time,o.pay_time,o.sys_operator,m2.name, "
+                                  ." n.add_time,m.name ass_name "
+                                  ." from %s n "
+                                  ." left join %s s on n.userid = s.userid"
+                                  ." left join %s l on n.userid=l.userid and l.lesson_type=2 and l.lesson_del_flag=0 and not exists( select 1 from %s where userid=l.userid and lesson_type=2 and lesson_del_flag=0 and lesson_start<l.lesson_start)"
+                                  ." left join %s o on o.price>0 and o.contract_status>0 and o.userid= n.userid and not exists (select 1 from %s where price>0 and userid=o.userid and order_time<o.order_time and contract_status>0)"
+                                  ." left join %s m on m.uid= n.admin_revisiterid"
+                                  ." left join %s m2 on s.origin_assistantid = m2.uid "
+                                  ." left join %s a on a.phone = m2.phone "
+                                  ." left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+
+    }
 
 
     

@@ -1361,7 +1361,6 @@ class Utils  {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 
-        // chmod($targetName,0777);
         $fp = fopen($targetName,'wb');
 
         curl_setopt($ch,CURLOPT_URL,$pic_url);
@@ -1373,6 +1372,22 @@ class Utils  {
         $msg['savePathFile'] = $savePathFile;
 
         return $msg;
+
+
+        /**
+           $ch = curl_init($url);
+           $fp = fopen($dir, "wb");
+           curl_setopt($ch, CURLOPT_FILE, $fp);
+           curl_setopt($ch, CURLOPT_HEADER, 0);
+           $res=curl_exec($ch);
+           curl_close($ch);
+           fclose($fp);
+           return $res;
+
+
+
+
+         */
     }
 
     /**
@@ -2399,7 +2414,10 @@ class Utils  {
                 $item['file_use_type_str'] = '老师版';
             }else if ($item['file_use_type'] == 2 ){
                 $item['file_use_type_str'] = '学生版';
+            }else if ($item['file_use_type'] == 3 ){
+                $item['file_use_type_str'] = '额外文件';
             }
+
         }
     }
 

@@ -27,6 +27,7 @@ interface RowData {
 	use_type	:any;
 	create_time	:any;
 	visitor_id	:any;
+	ex_num	:any;
 	file_hash	:any;
 	subject	:any;
 	grade	:any;

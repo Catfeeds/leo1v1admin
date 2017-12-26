@@ -65,10 +65,18 @@ class t_group_user_month extends \App\Models\Zgen\z_t_group_user_month
         $this->main_update( $sql  ); 
     }
 
-    public function del_by_month($month) {
-        $sql = $this->gen_sql_new("delete from %s where  month=%u",
+    public function del_by_month($month,$main_type_flag=0) {
+        $where_arr=[
+            ["u.month=%u",$month,0],  
+            ["n.month=%u",$month,0],  
+            ["n.main_type=%u",$main_type_flag,0],  
+        ];
+        $sql = $this->gen_sql_new("delete u from %s u "
+                                  ." left join %s n on u.groupid = n.groupid and u.month = n.month "
+                                  ."where %s",
                                   self::DB_TABLE_NAME
-                                  ,$month
+                                  ,t_group_name_month::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_update($sql);
     }

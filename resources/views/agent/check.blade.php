@@ -1,8 +1,5 @@
 @extends('layouts.app')
 @section('content')
-<script type="text/javascript">
- g_qiniu_domain = "{{$qiniu_domain}}";
-</script>
 <script type="text/javascript" src="/page_js/set_lesson_time.js"></script>
 <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
 <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
@@ -24,8 +21,8 @@
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
+                        <span >渠道</span>
+                        <input type="text" value=""  class="opt-change"  id="id_origin_ex"  placeholder=""  />
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
@@ -39,20 +36,32 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>教材 </td>
+                    <td>userid </td>
+                    <td>渠道 </td>
+                    <td>进入时间 </td>
+                    <td>最后联系cc所在部门 </td>
+                    <td>是否接通 </td>
+                    <td>是否试听成功 </td>
+                    <td>是否签单 </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["textbook_str"]}} </td>
+                        <td>{{@$var["userid"]}} </td>
+                        <td>{{@$var["origin"]}} </td>
+                        <td>{{@$var["add_time"]}} </td>
+                        <td>{{@$var["adminid"]}} </td>
+                        <td>{{@$var["global_tq_called_flag"]}} </td>
+                        <td>{{@$var["last_succ_test_lessonid"]}} </td>
+                        <td>{{@$var["is_order"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                <a class="fa fa-times opt-del" title="删除"> </a>
+                                <a class="fa fa-edit opt-edit" style="display:none;" title="编辑"> </a>
+                                <a class="fa fa-times opt-del" style="display:none;" title="删除"> </a>
                             </div>
                         </td>
                     </tr>

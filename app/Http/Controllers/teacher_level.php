@@ -31,7 +31,7 @@ class teacher_level extends Controller
         $page_info = $this->get_in_page_info();
 
 
-        //  $start_time = strtotime("2017-09-01");
+         $start_time = strtotime("2017-10-01");
         $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,-1,-1,-1,0);
         foreach($ret_info["list"] as &$item){
             //$item["level"]=$item["level_before"];
@@ -167,8 +167,8 @@ class teacher_level extends Controller
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",6);
         $page_info = $this->get_in_page_info();
 
-        $start_time = strtotime("2017-09-01");
-        $end_time = strtotime("2017-12-01");
+        $start_time = strtotime("2017-10-01");
+        $end_time = strtotime("2018-01-01");
         $teacher_money_type=6;
         $list     = $this->t_teacher_info->get_teacher_info_by_money_type($teacher_money_type,$start_time,$end_time);
         $tea_list = [];

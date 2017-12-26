@@ -267,9 +267,13 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." t.ass_test_lesson_type, stu_score_info, stu_character_info , s.school, s.editionid, stu_test_lesson_level,"
             ." stu_test_ipad_flag, stu_request_lesson_time_info,  stu_request_test_lesson_time_info, tr.require_id,"
             ." t.test_lesson_subject_id ,ss.add_time, tr.test_lesson_student_status,  s.userid,s.nick, tr.origin, ss.phone_location,"
-            ." ss.phone,ss.userid, t.require_adminid,  tr.curl_stu_request_test_lesson_time stu_request_test_lesson_time , "
-            ." if(test_stu_request_test_lesson_demand='',stu_request_test_lesson_demand,test_stu_request_test_lesson_demand) as stu_request_test_lesson_demand ,tr.intention_level, "
-            ." s.gender,s.origin_assistantid , s.origin_userid  ,  t.subject, tr.test_stu_grade as grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,"
+            ." ss.phone,ss.userid, t.require_adminid, "
+            ." tr.curl_stu_request_test_lesson_time stu_request_test_lesson_time , "
+            ." tr.curl_stu_request_test_lesson_time_end, "
+            ." if(test_stu_request_test_lesson_demand='',stu_request_test_lesson_demand,"
+            ." test_stu_request_test_lesson_demand) as stu_request_test_lesson_demand ,tr.intention_level, "
+            ." s.gender,s.origin_assistantid,s.origin_userid,t.subject,tr.test_stu_grade as grade,ss.user_desc,"
+            ." ss.has_pad, ss.last_revisit_time,"
             ." ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag,tr.require_time,l.teacherid,"
             ." t.stu_test_paper, t.tea_download_paper_time,tss.success_flag,t.learning_situation,"
             ." tss.fail_greater_4_hour_flag, tss.test_lesson_fail_flag, tss.fail_reason,tr.seller_require_change_flag,"
@@ -440,7 +444,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list($sql);
 
     }
-    public function add_require( $cur_require_adminid ,$sys_operator, $test_lesson_subject_id,$origin,$curl_stu_request_test_lesson_time, $test_stu_grade,$test_stu_request_test_lesson_demand,$change_reason_url='',$change_reason='',$change_teacher_reason_type=0) {
+    public function add_require( $cur_require_adminid ,$sys_operator, $test_lesson_subject_id,$origin,$curl_stu_request_test_lesson_time,$test_stu_grade,$test_stu_request_test_lesson_demand,$change_reason_url='',$change_reason='',$change_teacher_reason_type=0,$curl_stu_request_test_lesson_time_end=0) {
         //检查没有其他处理中的请求
         \App\Helper\Utils::logger("add_require1");
         $is_has = $this->check_is_end_by_test_lesson_subject_id($test_lesson_subject_id);
@@ -456,6 +460,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "cur_require_adminid" => $cur_require_adminid,
             "require_time"=>time(NULL),
             "curl_stu_request_test_lesson_time"=>$curl_stu_request_test_lesson_time,
+            "curl_stu_request_test_lesson_time_end"=>$curl_stu_request_test_lesson_time_end,
             "test_stu_grade" => $test_stu_grade,
             "test_stu_request_test_lesson_demand" => $test_stu_request_test_lesson_demand,
             "change_teacher_reason_img_url" => $change_reason_url,
@@ -3668,7 +3673,8 @@ ORDER BY require_time ASC";
             ["tr.require_id=%u",$require_id,-1]
         ];
         $sql = $this->gen_sql_new("select s.nick,s.gender,s.grade,t.subject,t.textbook,t.stu_request_test_lesson_time_end,"
-                                  ." t.stu_request_test_lesson_time,tr.curl_stu_request_test_lesson_time,t.teacher_type,"
+                                  ." tr.curl_stu_request_test_lesson_time_end,tr.curl_stu_request_test_lesson_time,"
+                                  ." t.teacher_type,"
                                   ." tr.test_stu_request_test_lesson_demand,t.tea_identity,t.tea_gender,t.tea_age,"
                                   ." t.intention_level,t.quotation_reaction,tr.seller_top_flag,t.subject_tag,tr.current_lessonid,"
                                   ." tr.test_lesson_student_status"

@@ -1320,7 +1320,7 @@ class user_deal extends Controller
         $main_type_name=$this->get_in_str_val("main_type_name");
         $main_group_name=$this->get_in_str_val("main_group_name");
         $group_name=$this->get_in_str_val("group_name");
-        $main_type_list =["助教"=>1,"销售"=>2,"教务"=>3];
+        $main_type_list =["助教"=>1,"销售"=>2,"教务"=>3,"全职老师"=>5];
         $key2_list=[];
         $key3_list=[];
         $key4_list=[];
@@ -5070,11 +5070,12 @@ class user_deal extends Controller
 
     public function copy_admin_group_info(){
         $month = strtotime($this->get_in_str_val("start_time"));
-        $this->t_group_name_month->del_by_month($month);
-        $this->t_group_user_month->del_by_month($month);
-        $this->t_main_group_name_month->del_by_month($month);
-        $this->t_main_major_group_name_month->del_by_month($month);
-        $admin_group_name_list = $this->t_admin_group_name->get_all_list();
+        $main_type_flag = $this->get_in_int_val("main_type_flag");
+        $this->t_group_user_month->del_by_month($month,$main_type_flag);
+        $this->t_group_name_month->del_by_month($month,$main_type_flag);
+        $this->t_main_group_name_month->del_by_month($month,$main_type_flag);
+        $this->t_main_major_group_name_month->del_by_month($month,$main_type_flag);
+        $admin_group_name_list = $this->t_admin_group_name->get_all_list($main_type_flag);
         foreach($admin_group_name_list as $item){
             $this->t_group_name_month->row_insert([
                 "groupid"    =>$item["groupid"],
@@ -5086,7 +5087,7 @@ class user_deal extends Controller
                 "group_assign_percent" =>$item["group_assign_percent"]
             ]);
         }
-        $admin_group_user_list = $this->t_admin_group_user->get_all_list();
+        $admin_group_user_list = $this->t_admin_group_user->get_all_list($main_type_flag);
         foreach($admin_group_user_list as $item){
             $this->t_group_user_month->row_insert([
                 "groupid"    =>$item["groupid"],
@@ -5096,7 +5097,7 @@ class user_deal extends Controller
             ]);
         }
 
-        $admin_main_group_name_list = $this->t_admin_main_group_name->get_all_list();
+        $admin_main_group_name_list = $this->t_admin_main_group_name->get_all_list($main_type_flag);
         foreach($admin_main_group_name_list as $item){
             $this->t_main_group_name_month->row_insert([
                 "groupid"    =>$item["groupid"],
@@ -5109,7 +5110,7 @@ class user_deal extends Controller
             ]);
         }
 
-        $major_admin_list = $this->t_admin_majordomo_group_name->get_all_list();
+        $major_admin_list = $this->t_admin_majordomo_group_name->get_all_list($main_type_flag);
         foreach($major_admin_list as $k=>$item){
             $this->t_main_major_group_name_month->row_insert([
                 "groupid"  =>$item["groupid"],
@@ -6029,5 +6030,32 @@ class user_deal extends Controller
         $account = $this->get_in_str_val('account');
         $is_flag = $this->t_manager_info->get_account_role_by_account($account);
         return $this->output_succ(['data'=>$is_flag]);
+    }
+
+
+    public function delMarketExtend(){
+        $id = $this->get_in_int_val('id');
+        $this->t_activity_usually->field_update_list($id,[
+            "activity_status" => 2 // 0:未设置 1:活动进行中 2:已失效
+        ]);
+        return $this->output_succ();
+    }
+
+    public function editMarketExtend(){
+        $id = $this->get_in_int_val('id');
+        $ret_info = $this->t_activity_usually->getMarketExtendInfo($id);
+        return $this->output_succ(['data'=>$ret_info]);
+    }
+
+
+    public function showMarketExtendImg(){
+        $id = $this->get_in_int_val('id');
+        $imgList = $this->t_activity_usually->getImgList($id);
+        $domain = config('admin')['qiniu']['public']['url'];
+        if($imgList['shareImgUrl']){ $imgList['shareImgUrl'] = $domain."/".$imgList['shareImgUrl'];}
+        if($imgList['coverImgUrl']){ $imgList['coverImgUrl'] = $domain."/".$imgList['coverImgUrl'];}
+        if($imgList['activityImgUrl']){ $imgList['activityImgUrl'] = $domain."/".$imgList['activityImgUrl'];}
+        if($imgList['followImgUrl']){ $imgList['followImgUrl'] = $domain."/".$imgList['followImgUrl'];}
+        return $this->output_succ(['data'=>$imgList]);
     }
 }

@@ -27,6 +27,8 @@
                 <td >活动ID</td>
                 <td >活动标题</td>
                 <td >优惠力度</td>
+                <td >当前最大合同数</td>
+                <td >预期最大合同数</td>
                 <td >活动时间</td>
                 <td >开启类型</td>
                 <td >操作</td>
@@ -38,6 +40,8 @@
                     <td >{{$var["id"]}}</td>
                     <td >{{$var["title"]}}</td>
                     <td >{{$var["power_value"]}}</td>
+                    <td >{{$var["max_count"]}}</td>
+                    <td >{{$var["diff_max_count"]}}</td>
                     <td >{{$var["date_range_time"]}}</td>
                     <td >{{$var["open_flag_str"]}}</td>
                     <td >

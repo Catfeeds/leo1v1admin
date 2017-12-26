@@ -109,7 +109,7 @@ class sync_tq extends cmd_base
                     $phone=$item["Caller_id"];
                     $call_time =  $item["Start_time"];
                     $tq_called_flag=1;
-                    if ( $duration >60 && $item["Is_called_phone"] ) {
+                    if ($duration >60 && $item["Is_called_phone"] ) {
                         $tq_called_flag=2;
                     }
                     $admin_info = @$tquin_map[$tquin];
@@ -121,7 +121,6 @@ class sync_tq extends cmd_base
                     }
 
                     $this->task->t_seller_student_new->sync_tq($phone ,$tq_called_flag , $call_time,$tquin);
-
                 }
             }
         }

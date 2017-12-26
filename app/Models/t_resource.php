@@ -36,7 +36,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         }
 
         $sql = $this->gen_sql_new(
-            "select r.resource_id,resource_type,file_title,file_size,file_type,use_type,v.create_time,v.visitor_id,"
+            "select r.resource_id,resource_type,file_title,file_size,file_type,use_type,v.create_time,v.visitor_id,f.ex_num,"
             ." file_hash,subject,grade,tag_one,tag_two,tag_three,tag_four,use_type,file_link,f.file_id,file_use_type"
             ." from %s r"
             ." left join %s f on f.resource_id=r.resource_id"
@@ -60,15 +60,14 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ['r.create_time>%u', $start_time, -1],
             ['r.create_time<=%u', $end_time, -1],
         ];
-        $sql = $this->gen_sql_new(
-            "select resource_type,adminid,subject,f.file_id,f.visit_num,f.use_num,f.error_num"
-            ." from %s f"
-            ." left join %s r on r.resource_id=f.resource_id"
-            ." where %s"
-            ." group by file_id"
-            ,t_resource_file::DB_TABLE_NAME
-            ,self::DB_TABLE_NAME
-            ,$where_arr
+        $sql = $this->gen_sql_new("select resource_type,adminid,subject,f.file_id,f.visit_num,f.use_num,f.error_num"
+                                  ." from %s f"
+                                  ." left join %s r on r.resource_id=f.resource_id"
+                                  ." where %s"
+                                  ." group by file_id"
+                                  ,t_resource_file::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
 
         return $this->main_get_list($sql);
@@ -159,5 +158,20 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         );
 
         return $this->main_get_value($sql);
+    }
+
+    public function getResourceList(){
+        $where_arr = [];
+        $sql = $this->gen_sql_new("  select rf.file_link "
+                                  ." from %s r"
+                                  ." left join %s rf on rf.resource_id=r.resource_id"
+                                  ." left join %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_resource_file::DB_TABLE_NAME
+                                  ,t_resource_file::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
     }
 }

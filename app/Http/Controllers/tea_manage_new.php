@@ -584,7 +584,7 @@ class tea_manage_new extends Controller
         $data=[];
         foreach($arr as $k=>$v){
             if(!in_array($v,$list)){
-                $data[] = $v;
+                $data[] = intval($v);
             }
         }
         //dd($list);

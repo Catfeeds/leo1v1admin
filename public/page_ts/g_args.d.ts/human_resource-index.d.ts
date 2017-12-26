@@ -12,7 +12,6 @@ interface GargsStatic {
 	is_new_teacher:	number;
 	gender:	number;
 	free_time:	string;
-	grade_part_ex:	number;
 	subject:	number;
 	second_subject:	number;
 	trial_flag:	number;
@@ -42,7 +41,6 @@ interface GargsStatic {
 	month_stu_num:	number;
 	record_score_num:	number;
 	identity:	number;
-	tea_label_type:	number;
 	plan_level:	number;
 	teacher_textbook:	number;
 }
@@ -92,7 +90,6 @@ interface RowData {
 	third_subject	:any;
 	school	:any;
 	tea_note	:any;
-	grade_part_ex	:any;
 	is_freeze	:any;
 	freeze_reason	:any;
 	freeze_adminid	:any;
@@ -147,11 +144,11 @@ interface RowData {
 	need_test_lesson_flag_str	:any;
 	gender_str	:any;
 	subject_str	:any;
+	grade_start_str	:any;
+	grade_end_str	:any;
 	second_subject_str	:any;
-	third_subject_str	:any;
-	grade_part_ex_str	:any;
-	second_grade_str	:any;
-	third_grade_str	:any;
+	second_grade_start_str	:any;
+	second_grade_end_str	:any;
 	identity_str	:any;
 	level_str	:any;
 	teacher_money_type_str	:any;
@@ -166,8 +163,6 @@ interface RowData {
 	lesson_hold_flag_time_str	:any;
 	class_will_type_str	:any;
 	class_will_sub_type_str	:any;
-	grade_start_str	:any;
-	grade_end_str	:any;
 	revisit_add_time_str	:any;
 	recover_class_time_str	:any;
 	work_day	:any;
@@ -209,7 +204,6 @@ function load_data(){
 		is_new_teacher:	$('#id_is_new_teacher').val(),
 		gender:	$('#id_gender').val(),
 		free_time:	$('#id_free_time').val(),
-		grade_part_ex:	$('#id_grade_part_ex').val(),
 		subject:	$('#id_subject').val(),
 		second_subject:	$('#id_second_subject').val(),
 		trial_flag:	$('#id_trial_flag').val(),
@@ -239,7 +233,6 @@ function load_data(){
 		month_stu_num:	$('#id_month_stu_num').val(),
 		record_score_num:	$('#id_record_score_num').val(),
 		identity:	$('#id_identity').val(),
-		tea_label_type:	$('#id_tea_label_type').val(),
 		plan_level:	$('#id_plan_level').val(),
 		teacher_textbook:	$('#id_teacher_textbook').val()
 		});
@@ -265,7 +258,6 @@ $(function(){
 	$('#id_is_new_teacher').val(g_args.is_new_teacher);
 	$('#id_gender').val(g_args.gender);
 	$('#id_free_time').val(g_args.free_time);
-	$('#id_grade_part_ex').val(g_args.grade_part_ex);
 	$('#id_subject').val(g_args.subject);
 	$('#id_second_subject').val(g_args.second_subject);
 	$('#id_trial_flag').val(g_args.trial_flag);
@@ -295,7 +287,6 @@ $(function(){
 	$('#id_month_stu_num').val(g_args.month_stu_num);
 	$('#id_record_score_num').val(g_args.record_score_num);
 	$('#id_identity').val(g_args.identity);
-	$('#id_tea_label_type').val(g_args.tea_label_type);
 	$('#id_plan_level').val(g_args.plan_level);
 	$('#id_teacher_textbook').val(g_args.teacher_textbook);
 
@@ -397,14 +388,6 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["free_time title", "free_time", "th_free_time" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">grade_part_ex</span>
-                <input class="opt-change form-control" id="id_grade_part_ex" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["grade_part_ex title", "grade_part_ex", "th_grade_part_ex" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -637,14 +620,6 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["identity title", "identity", "th_identity" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">tea_label_type</span>
-                <input class="opt-change form-control" id="id_tea_label_type" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["tea_label_type title", "tea_label_type", "th_tea_label_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

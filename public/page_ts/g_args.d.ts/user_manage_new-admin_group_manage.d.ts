@@ -5,6 +5,7 @@ interface GargsStatic {
 	start_time:	string;
 	end_time:	string;
 	monthtime_flag:	number;
+	main_type_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -20,7 +21,6 @@ interface RowData {
 	group_name	:any;
 	account	:any;
 	main_type_class	:any;
-	first_group_name_class	:any;
 	up_group_name_class	:any;
 	group_name_class	:any;
 	account_class	:any;
@@ -52,7 +52,8 @@ function load_data(){
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
-		monthtime_flag:	$('#id_monthtime_flag').val()
+		monthtime_flag:	$('#id_monthtime_flag').val(),
+		main_type_flag:	$('#id_main_type_flag').val()
 		});
 }
 $(function(){
@@ -68,6 +69,7 @@ $(function(){
 			load_data();
 		});
 	$('#id_monthtime_flag').val(g_args.monthtime_flag);
+	$('#id_main_type_flag').val(g_args.main_type_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -90,4 +92,12 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["monthtime_flag title", "monthtime_flag", "th_monthtime_flag" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">main_type_flag</span>
+                <input class="opt-change form-control" id="id_main_type_flag" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["main_type_flag title", "main_type_flag", "th_main_type_flag" ]])!!}
 */

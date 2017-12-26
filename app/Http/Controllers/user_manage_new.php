@@ -1643,7 +1643,17 @@ class user_manage_new extends Controller
             $item['become_member_num'] = isset($item['become_member_num'])?$item['become_member_num']:'';
             $item['leave_member_num'] = isset($item['leave_member_num'])?$item['leave_member_num']:'';
         }
-        foreach($list as &$item){
+
+
+        //各部门标识
+        $main_type_flag = $this->get_in_int_val("main_type_flag");
+        foreach($list as $kk=>&$item){
+            if($main_type_flag>0){
+                if($item['main_type'] != $main_type_flag ){
+                    unset($list[$kk]);
+                }
+            }
+
             if(($item['main_type'] == '未定义') or ($item['main_type'] == '助教')){
                 unset($item);
             }else{
@@ -1672,9 +1682,18 @@ class user_manage_new extends Controller
         foreach( $list as &$item ) {
             E\Emain_type::set_item_value_str($item);
         }
-        //dd($list);
+
+        $this->set_filed_for_js("main_type_flag",$main_type_flag);
+
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list),["monthtime_flag"=>$monthtime_flag]);
     }
+
+    public function admin_group_manage_fulltime(){
+        $this->set_in_value("main_type_flag",5);
+        return $this->admin_group_manage();
+
+    }
+
 
 
     public function edit_seller_time(){
@@ -3853,8 +3872,8 @@ class user_manage_new extends Controller
         $info = [];
         if ($type == E\Ereward_type::V_6 && $teacherid > 0) {
             //$info['stu_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, 0);
-            $teacher = $this->t_teacher_info->field_get_list($teacherid, "phone,teacher_type");
-            if ($teacher['teacher_type'] == 21 || $teacher['teacher_type'] == 22) {
+            $teacher = $this->t_teacher_info->field_get_list($teacherid, "phone,teacher_type,teacher_ref_type");
+            if (in_array($teacher['teacher_type'], [21,22]) && in_array($teacher['teacher_ref_type'], [1,2])) {
                 $info['msg'] = '特殊渠道-工作室';
             }
 
@@ -3885,6 +3904,9 @@ class user_manage_new extends Controller
             if ($teacherid == 269222) { // 处理赵志园二个账号
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459);
                 $info['tea_sum'] += $num;
+            }
+            if ($teacherid == 226810) { //处理赵海岗
+                $info['tea_sum'] += 1;
             }
             $info['tea_reward'] = 40;
             if ($info['tea_sum'] > 10) $info['tea_reward'] = 50;

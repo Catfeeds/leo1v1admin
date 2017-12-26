@@ -91,7 +91,7 @@ function outputjson_error($errno, $array=null){
 
         $array["ret"]=$errno;
         if (!isset( $array["info"] )) {
-            $array["info"]=app\Enums\Eerror::get_desc($errno) ;
+            $array["info"]= "出错";
         }
 
         if (!is_array( $array) ){

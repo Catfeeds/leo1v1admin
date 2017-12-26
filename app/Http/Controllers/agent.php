@@ -417,130 +417,34 @@ class agent extends Controller
     }
 
     public function check(){
-        E\Eseller_level::V_700;
-        $page_info = $this->get_in_page_info();
-        $grade = $this->get_in_int_val("grade",-1);
-        $subject = $this->get_in_int_val("subject",-1);
-        $address  = trim($this->get_in_str_val('address',''));
-        $ret_info =  $this->t_location_subject_grade_textbook_info->get_all_info_new($page_info,$grade,$subject,$address);
+        $this->check_and_switch_tongji_domain();
+        list($start_time,$end_time) = [1506787200,1509465600];
+        $ret_info = $this->t_seller_student_new->get_item_list($start_time, $end_time);
         foreach($ret_info as &$item){
-            E\Esubject::set_item_value_str($item,"subject");
-            E\Egrade::set_item_value_str($item,"grade");
-            $arr= explode(",",$item["teacher_textbook"]);
-            foreach($arr as $val){
-                @$item["textbook_str"] .=  E\Eregion_version::get_desc ($val).",";
-            }
-            $item["textbook_str"] = trim($item["textbook_str"],",");
+            $userid = $item['userid'];
+            $phone = $item['phone'];
+            $origin = $item['origin'];
+            $orderid = $this->t_order_info->get_orderid_by_userid_new($userid);
+            $item['is_order'] = $orderid>0?1:0;
         }
-        $ret_arr = array_unique(array_column($ret_info,'teacher_textbook'));
-        $textid_arr = [];
-        foreach($ret_arr as $item){
-            $arr= explode(",",$item);
-            if(count($arr)>1){
-                foreach($arr as $info){
-                    $textid_arr[] = $info;
-                }
-            }else{
-                $textid_arr[] = $item;
-            }
-        }
-        $textid_arr = array_unique($textid_arr);
-        $list = [];
-        foreach($textid_arr as $key=>$item){
-            $list[$key]['textbook_str'] = E\Eregion_version::get_desc($item);
-        }
-        // return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
-
-        $qiniu_url=\App\Helper\Config::get_qiniu_public_url();
-        return $this->Pageview(__METHOD__,\App\Helper\Utils::list_to_page_info($list),["qiniu_domain"=>$qiniu_url]);
+        dd($ret_info);
+        return $this->Pageview(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
 
     public function test_new(){
-        $item['status'] = '双方接';
-        $is_called_flag = ($item['status']=='双方接听')?1:0;
-        dd($is_called_flag);
-        $item['bridgeTime'] = '-';
-        $obj_start_time = strtotime($item['bridgeTime'])?strtotime($item['bridgeTime']):0;
-        dd($obj_start_time);
-        $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
-        $post_arr=[
-            "enterpriseId" => 3005131  ,
-            "userName" => "admin" ,
-            "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
-            "seed" => "seed1",
-            "startTime" => date("Y-m-d H:i:s",1514008800),
-            "endTime" => date("Y-m-d H:i:s",1514016000),
-        ];
-        $post_arr["start"]  = 0;
-        $post_arr["limit"]  = 20;
-        $return_content= \App\Helper\Net::send_post_data($url,$post_arr);
-        $ret=json_decode($return_content, true  );
-        dd($ret);
-        $status = '双方接听';
-        $called_flag = ($status=='双方接听')?1:0;
-        dd($called_flag);
-        $cdr_answer_time = intval( preg_split("/\-/", $uniqueId='ccic_dev_11-1344323905.20')[1]);
-        dd($cdr_answer_time);
-        $ret_info= $this->t_order_info->get_1v1_order_seller_list_new($start_time=1504195200,$end_time=1506787200,[],'');
-        dd($ret_info);
-        $this->t_student_cc_to_cr->row_insert($arr);
-        $ret = $this->t_seller_student_new->field_update_list($userid=62721,['hold_flag'=>0]);
-        dd($ret);
-        $duration= strtotime("1970-01-01 00:00:00");//3600*8
-        dd($duration);
-        dd($tong_count,$tao_count,$count);
-        dd($ret);
-        $this->t_seller_new_count_get_detail->add($new_count_id=99,$get_desc='aa');
-        $adminid=1210;
-        if (!$this->t_seller_new_count->get_free_new_count_id($adminid,"获取新例子"))  {
-            return $this->output_err("今天的配额,已经用完了");
-        }
-        dd('aaa');
-        $count_info=$this->t_seller_new_count->get_now_count_info($adminid=99);
-        $count_info["left_count"] = $count_info["count"]-  $count_info["get_count"];
-        dd($count_info);
-        dd($tong_count,$tao_count,$adminid,$account);
-        list($start_time,$end_time)=$this->get_in_date_range_month(0);
-        $adminid=$this->get_account_id();
-        $month= date("Ym",$start_time);
-        $adminid_list = $this->t_group_name_month->get_group_admin_list($adminid,strtotime(date('Y-m-1',$start_time)));
-        // dd($adminid_list);
-        if(!$adminid_list){
-            dd('a');
-        }else{
-            dd('b');
-        }
-        // $adminid_list = $this->t_admin_group_name->get_group_admin_list($adminid=177);
-        dd($adminid_list);
-        $master_kpi=\App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
-        dd($master_kpi);
-        // $now=time(NULL);
-        // $start_time=strtotime( date("Y-m-01",$now));
-        // $end_time=$now;
-		// $group_start_time=$start_time;
-        // dd($group_start_time);
-        //雷江博
-        $tongji_type= E\Etongji_type::V_SELLER_MONTH_FAIL_LESSON_PERCENT;
-        $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_five($start_time=1509465600,$end_time=1512057600,$grade_list=[-1] , $origin_ex="",$adminid=882);
-        $test_lesson_fail_per = $test_lesson_list["list"];
-        $test_lesson_all_count= [] ;
-        $test_lesson_fail_count= [] ;
-        foreach($test_lesson_fail_per as &$item){
-            $adminid=$item["admin_revisiterid"];
-            $item["adminid"] = $adminid ;
-            if($item['test_lesson_count'] != 0){
-                $item['value'] = round($item['fail_all_count']/$item['test_lesson_count'],2)*100;
-            }else{
-                $item['value']=0;
-            }
-            $test_lesson_all_count[]= [ "adminid" =>$adminid , "value"=> $item['test_lesson_count']  ] ;
-            $test_lesson_fail_count[]= [ "adminid" =>$adminid , "value"=> $item['fail_all_count']  ] ;
-        }
-        \App\Helper\Utils::order_list($test_lesson_fail_per,"value",1);
-        \App\Helper\Utils::order_list($test_lesson_fail_count,"value",1);
-        \App\Helper\Utils::order_list($test_lesson_all_count,"value",1);
+        /*
+          公众号,信息流,BD,其他
+          userid,origin,add_time,last_cc,is_called,is_suc_test_lesson,is_orderid,
 
-        dd($test_lesson_all_count,$test_lesson_fail_count,$test_lesson_fail_per);
+
+         */
+
+        $adminid = 99;
+        $key="DEAL_NEW_USER_$adminid";
+        $userid=\App\Helper\Common::redis_get($key)*1;
+        dd($userid);
+        dd($_SERVER);
+        dd('aa');
     }
 
     //处理等级头像

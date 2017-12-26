@@ -872,7 +872,8 @@ $(function(){
             function(val) {
                 if  (val)  {
                     $.do_ajax( "/user_deal/copy_admin_group_info", {
-                        "start_time" : g_args.start_time
+                        "start_time" : g_args.start_time,
+                        "main_type_flag":g_args.main_type_flag
                     }) ;
                 }
             }

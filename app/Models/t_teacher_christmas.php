@@ -62,9 +62,9 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
 
 
 
-    public function getChriDatePage($teacherid,$page_num){
+    public function getChriDatePage($shareId,$page_num){
         $where_arr = [
-            ["tc.teacherid=%d",$teacherid,-1]
+            ["tc.shareId=%s",$shareId,""]
         ];
 
         $sql = $this->gen_sql_new("  select sum(if(tc.type=0,1,0)) as click_num, sum(if(tc.type=1,1,0)) as share_num, sum(if(tc.type=2,1,0)) as register_num, sum(tc.score) as currentScore  from %s tc "
@@ -74,6 +74,35 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
         );
 
         return $this->main_get_list_by_page($sql, $page_num);
+    }
+
+    public function get_total($start_time) {
+        $where_arr = [
+            ["add_time>=%u", $start_time, 0],
+            //["add_time<%u", $end_time, 0]
+        ];
+        $sql = $this->gen_sql_new("select count(distinct shareId) teacher_num,sum(score) score from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_all_list($start_time) {
+        //select t.nick,sum(if(tc.type=0,1,0)) as click_num, sum(if(tc.type=1,1,0)) as share_num, sum(if(tc.type=2,1,0)) as register_num, sum(tc.score) as currentScore  from t_teacher_christmas tc left join t_teacher_info t on tc.shareId=t.wx_openId where tc.add_time >= unix_timestamp('2017-12-25') group by shareId
+        $where_arr = [
+            ["add_time>=%u", $start_time, 0]
+        ];
+        $sql = $this->gen_sql_new("select t.realname,t.nick,sum(if(tc.type=0,1,0)) click_num, sum(if(tc.type=1,1,0)) share_num, sum(if(tc.type=2,1,0)) register_num, sum(tc.score) score"
+                                  ." from %s tc "
+                                  ." left join %s t "
+                                  ." on tc.shareId=t.wx_openId "
+                                  ." where %s group by shareId order by score desc",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
 }

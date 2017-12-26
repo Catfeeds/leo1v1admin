@@ -265,7 +265,6 @@ $(function(){
     $(".opt-post-test-lesson_new").on("click",function(){
         var me=this;
         var opt_data=$(this).get_opt_data();
-
         var do_add_test_lesson= function() {
             $.do_ajax("/ss_deal/get_user_info",{
                 "userid"                 : opt_data.userid ,
@@ -312,12 +311,12 @@ $(function(){
                     return;
                 }
 
-                if (require_time < need_start_time ) {
-                    alert("申请时间不能早于 "+ min_date_time );
-                    $(me).parent().find(".opt-edit-new").click();
-                    return;
-                    //申请时间
-                }
+                // if (require_time < need_start_time ) {
+                //     alert("申请时间不能早于 "+ min_date_time );
+                //     $(me).parent().find(".opt-edit-new").click();
+                //     return;
+                //     //申请时间
+                // }
 
                 var id_stu_test_ipad_flag   = $("<select/>");
                 var id_not_test_ipad_reason = $("<textarea>");
@@ -3358,8 +3357,6 @@ function init_edit() {
             });
             Enum_map.append_option_list("grade", id_grade, true,[101,102,103,104,105,106,201,202,203,301,302,303]);
             Enum_map.append_option_list("pad_type", id_has_pad, true);
-            // Enum_map.append_option_list("subject", id_subject, true);
-            // Enum_map.append_option_list("subject",id_subject_score, true);
             Enum_map.append_option_list("boolean", id_stu_test_ipad_flag, true);
             Enum_map.append_option_list("boolean", id_advice_flag, true);
             Enum_map.append_option_list("academic_goal", id_academic_goal, true);
@@ -4283,6 +4280,7 @@ function init_edit() {
                             }
                         });
                         $.do_ajax("/ss_deal2/save_user_info_new",{
+                            save   : 1,
                             new_demand_flag   : 1,
                             click_type        : click_type,
                             userid            : opt_data.userid,
@@ -4619,6 +4617,7 @@ function init_edit() {
                         }
 
                         $.do_ajax("/ss_deal2/save_user_info_new",{
+                            save   : 2,
                             new_demand_flag   : 1,
                             click_type        : click_type,
                             userid            : opt_data.userid,
@@ -4677,7 +4676,94 @@ function init_edit() {
                             stu_test_ipad_flag:id_stu_test_ipad_flag.val(),
                             user_desc     : id_user_desc.val(),
                         },function(){
-                            $(opt_obj).parent().find('.opt-post-test-lesson_new').click();
+                            // $(opt_obj).parent().find('.opt-post-test-lesson_new').click();
+                            var id_grade_select         = $("<select />");
+                            var id_user_agent           = $("<div />");
+                            var id_stu_test_ipad_flag   = $("<select/>");
+                            var id_not_test_ipad_reason = $("<textarea>");
+
+                            Enum_map.append_option_list("boolean", id_stu_test_ipad_flag, true);
+                            Enum_map.append_option_list("grade", id_grade_select, true);
+
+                            if(data.user_agent ==""){
+                                id_user_agent.html("您还没有设备信息!");
+                                id_user_agent.css("color","red");
+                            }else if(data.user_agent.indexOf("ipad") <0 && data.user_agent.indexOf("iPad")<0){
+                                id_user_agent.html(data.user_agent);
+                                id_user_agent.css("color","red");
+                            }else{
+                                id_user_agent.html(data.user_agent);
+                            }
+
+                            var arr=[
+                                ["姓名", id_stu_nick.val()],
+                                ["年级", id_grade_select],
+                                ["科目", html_node.find('#id_stu_subject_new_two').find("option:selected").text()],
+                                ["学校", id_school.val()],
+                                ["试听时间", id_stu_request_test_lesson_time.val()+'~'+id_stu_request_test_lesson_time_end.val()],
+                                ["试听需求", id_stu_request_test_lesson_demand.val()],
+                                ["机器版本",  id_user_agent ],
+                                ["是否已经连线测试 ", id_stu_test_ipad_flag],
+                                ["未连线测试原因", id_not_test_ipad_reason]
+                            ];
+
+                            id_grade_select.val(id_grade.val());
+                            id_stu_test_ipad_flag.val(data.stu_test_ipad_flag);
+                            id_not_test_ipad_reason.val(data.not_test_ipad_reason);
+                            id_stu_test_ipad_flag.on("change",function(){
+                                if(id_stu_test_ipad_flag.val() == 1){
+                                    id_not_test_ipad_reason.parent().parent().hide();
+                                }else{
+                                    id_not_test_ipad_reason.parent().parent().show();
+                                }
+                            });
+
+                            $.show_key_value_table("试听申请", arr, {
+                                label: '确认',
+                                cssClass: 'btn-warning',
+                                action: function (dialog) {
+                                    $.do_ajax("/ss_deal/require_test_lesson", {
+                                        "test_lesson_subject_id"  : opt_data.test_lesson_subject_id,
+                                        "userid" : opt_data.userid ,
+                                        "stu_test_ipad_flag" : id_stu_test_ipad_flag.val(),
+                                        "not_test_ipad_reason" : id_not_test_ipad_reason.val(),
+                                        "test_stu_grade" : id_grade_select.val(),
+                                    },function(resp){
+                                        if(resp.ret !=0){
+                                            BootstrapDialog.alert(resp.info);
+                                        }else{
+                                            if(resp.seller_top_flag==1){
+                                                if(11){
+                                                    var uu=40-resp.top_num;
+                                                    dialog.close();
+                                                    alert("试听申请成功,您的精排名额剩余"+uu+"个");
+                                                    window.location.reload();
+                                                }else if(resp.top_num==29){
+                                                    dialog.close();
+                                                    BootstrapDialog.alert("试听申请成功,您的精排名额剩余10个");
+                                                } else if(resp.top_num==34){
+                                                    dialog.close();
+                                                    BootstrapDialog.alert("试听申请成功,您的精排名额剩余5个");
+                                                } else if(resp.top_num==38){
+                                                    dialog.close();
+                                                    BootstrapDialog.alert("试听申请成功,您的精排名额剩余1个");
+                                                }else{
+                                                    dialog.close();
+                                                    window.location.reload();
+                                                }
+                                            }else{
+                                                window.location.reload();
+                                            }
+                                        }
+                                    });
+                                }
+                            },function(){
+                                if(id_stu_test_ipad_flag.val() == 1){
+                                    id_not_test_ipad_reason.parent().parent().hide();
+                                }else{
+                                    id_not_test_ipad_reason.parent().parent().show();
+                                }
+                            });
                         });
                     }
                 }]

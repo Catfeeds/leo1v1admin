@@ -3,7 +3,7 @@
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-
+        'origin_ex':$('#id_origin_ex').val(),
     });
 }
 $(function(){
@@ -27,6 +27,10 @@ $(function(){
     uploader.bind('FilesAdded',function(up, files) {
         uploader.start();
     });
+
+    if(g_account == 'tom'){
+        download_show();
+    }
 
     $('.opt-change').set_input_change_event(load_data);
 });

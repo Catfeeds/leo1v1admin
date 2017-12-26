@@ -183,7 +183,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return false;
     }
 
-    public function get_all_manager($page_num,$uid,$user_info,$has_question_user,$creater_adminid,$account_role,$del_flag,$cardid,$tquin ,$day_new_user_flag,$seller_level=-1,$adminid=-1,$fulltime_teacher_type=-1,$call_phone_type=-1)
+    public function get_all_manager($page_num,$uid,$user_info,$has_question_user,$creater_adminid,$account_role,$del_flag,$cardid,$tquin ,$day_new_user_flag,$seller_level=-1,$adminid=-1,$fulltime_teacher_type=-1,$call_phone_type=-1,$adminid_list=[])
     {
         $where_arr=[
             [  "t1.creater_adminid =%u ", $creater_adminid,  -1] ,
@@ -216,6 +216,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $this->where_arr_add_int_or_idlist($where_arr,"seller_level", $seller_level);
         $this->where_arr_add_int_or_idlist($where_arr,"t1.del_flag", $del_flag);
         $this->where_arr_add_int_or_idlist($where_arr,"t1.uid", $adminid);
+        $this->where_arr_adminid_in_list($where_arr,"t1.uid", $adminid_list );
+
 
         $sql =$this->gen_sql_new("select t1.no_update_seller_level_flag,t1.create_time,leave_member_time,become_member_time,call_phone_type, call_phone_passwd, fingerprint1 ,ytx_phone,wx_id,up_adminid,day_new_user_flag, account_role,creater_adminid,t1.uid,t1.del_flag,t1.account,t1.seller_level, name,nickname, email, phone,password, permission,tquin,wx_openid ,cardid,become_full_member_flag,main_department,fulltime_teacher_type from %s t1  left join %s t2 on t1.uid=t2.id    left join %s t_wx on t1.wx_openid =t_wx.openid  where  %s  order by t1.uid desc",
                                  self::DB_TABLE_NAME,

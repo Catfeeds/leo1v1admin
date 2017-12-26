@@ -529,7 +529,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_detail_info_new($page_num,$teacherid,$teacher_money_type,$need_test_lesson_flag,$textbook_type=-1,
-                                                $is_good_flag=-1 ,$is_new_teacher=1,$gender = -1,$grade_part_ex=-1,$subject=-1,
+                                                $is_good_flag=-1 ,$is_new_teacher=1,$gender = -1,$subject=-1,
                                                 $trial_flag = 0,$address="",$test_flag = 0,$is_test_user=-1,$second_subject=-1,
                                                 $level=-1,$is_freeze=-1,$tea_subject="",$limit_plan_lesson_type=-1,
                                                 $is_record_flag=-1,$test_lesson_full_flag=-1,$lstart,$lend,$train_through_new=-1,
@@ -538,7 +538,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                                 $teacher_type,$lesson_hold_flag_adminid  =-1,$is_quit=-1 ,$set_leave_flag=-1,
                                                 $fulltime_flag=-1,$seller_hold_flag=-1,$teacher_ref_type=-1,$have_wx=-1,
                                                 $grade_plan=-1,$subject_plan=-1,$fulltime_teacher_type=-1,$month_stu_num=-1,
-                                                $record_score_num=-1,$identity=-1,$tea_label_type_str="",$plan_level=-1,
+                                                $record_score_num=-1,$identity=-1,$plan_level=-1,
                                                 $teacher_textbook=-1
     ){
         $where_arr = array(
@@ -548,7 +548,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array( "t.is_good_flag=%u", $is_good_flag, -1 ),
             array( "t.need_test_lesson_flag=%u ", $need_test_lesson_flag, -1 ),
             array( "t.gender=%u ", $gender, -1 ),
-            array( "t.grade_part_ex=%u ", $grade_part_ex, -1 ),
             array( "t.subject=%u ", $subject, -1 ),
             array( "t.second_subject=%u ", $second_subject, -1 ),
             array( "t.is_test_user=%u ", $is_test_user, -1 ),
@@ -562,7 +561,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array( "t.identity=%u ", $identity, -1 ),
             array( "t.lesson_hold_flag_adminid=%u ", $lesson_hold_flag_adminid, -1 ),
             array( "m.fulltime_teacher_type=%u ", $fulltime_teacher_type, -1 ),
-            array( "t.teacher_tags like '%%%s%%' ", $tea_label_type_str, "" ),
         );
 
         if($teacher_ref_type==-2){
@@ -620,14 +618,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         if($test_flag ==1){
             $where_arr[] = "(t.nick not like '%%测试%%' and  t.nick not like '%%test%%')";
         }
-        $hh = "";
-        /*  if($test_lesson_full_flag ==1){
-            $hh = "having (sum(tss.lessonid>0)>=8)";
-        }else if($test_lesson_full_flag ==2){
-            $hh = "having (sum(tss.lessonid>0)<8 or sum(tss.lessonid >0) is null)";
-        }else{
-            $hh = "";
-            }*/
         if($test_lesson_full_flag ==1){
             $where_arr[] = "two_week_test_lesson_num =0";
         }else if($test_lesson_full_flag ==2){
@@ -738,7 +728,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." t.teacher_tags,t.teacher_textbook,t.wx_use_flag,"
                                   ." t.create_meeting,t.level,t.work_year,t.advantage,t.base_intro,t.textbook_type,t.is_good_flag,"
                                   ." t.create_time,t.address,t.subject,t.second_subject,t.third_subject,t.school,t.tea_note,"
-                                  ." t.grade_part_ex,t.is_freeze,t.freeze_reason,t.freeze_adminid,t.freeze_time, "
+                                  ." t.is_freeze,t.freeze_reason,t.freeze_adminid,t.freeze_time, "
                                   ." t.limit_plan_lesson_type,t.limit_plan_lesson_reason,t.limit_plan_lesson_time,"
                                   ." t.limit_plan_lesson_account,t.second_grade,t.third_grade,t.interview_access,"
                                   ." t.lesson_hold_flag,t.lesson_hold_flag_acc,t.research_note ,"
@@ -760,7 +750,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   //." and l.lesson_type=2 and l.lesson_del_flag =0 and l.lesson_start >= %u and l.lesson_end < %u)"
                                   // ." left join %s tss on (l.lessonid= tss.lessonid and tss.success_flag in(0,1))"
                                   ." where %s "
-                                  // ." group by t.teacherid %s"
                                   ." order by t.have_test_lesson_flag asc,t.train_through_new_time desc "
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
@@ -770,7 +759,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   //  ,$lend
                                   // ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
                                   ,$where_arr
-                                  // ,$hh
         );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
@@ -4728,7 +4716,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,t.second_subject,t.second_grade_start,"
                                   ." t.second_grade_end,t.limit_plan_lesson_type,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.train_through_new_time,t.identity,t.gender,t.age,t.realname,"
-                                  ." t.phone,tf.free_time_new,t.teacher_tags,t.teacher_textbook,"
+                                  ." t.phone,tf.free_time_new,t.teacher_tags,t.teacher_textbook,t.teacher_type,"
                                   ." count(if(%s,true,null)) as day_num,"
                                   ." count(if(%s,true,null)) as week_num,"
                                   ." count(if(%s,true,null)) as month_num,"

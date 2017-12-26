@@ -46,13 +46,14 @@ interface RowData {
 	is_age	:any;
 	is_search	:any;
 	is_textbook	:any;
+	teacher_textbook_str	:any;
 	is_teacher_type	:any;
 	match_time	:any;
 	tags_str	:any;
 	match_tags	:any;
-	teacher_type_str	:any;
 	identity_str	:any;
 	gender_str	:any;
+	teacher_type_str	:any;
 	work_day	:any;
 	phone_hide	:any;
 }

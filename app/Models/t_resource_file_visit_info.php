@@ -8,10 +8,11 @@ class t_resource_file_visit_info extends \App\Models\Zgen\z_t_resource_file_visi
 		parent::__construct();
 	}
 
-    public function get_visit_detail( $page_num, $resource_id, $file_use_type ){
+    public function get_visit_detail( $page_num, $resource_id, $file_use_type, $ex_num ){
         $where_arr = [
             ['f.resource_id=%u', $resource_id, -1],
             ['f.file_use_type=%u', $file_use_type, -1],
+            ['f.ex_num=%u', $ex_num, -1],
             'v.visitor_type=0',
         ];
 
