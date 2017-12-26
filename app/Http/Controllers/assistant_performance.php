@@ -494,7 +494,7 @@ class assistant_performance extends Controller
 
     public function get_assistant_origin_order_losson_info_all(){
         list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(date("Y-m-01"),0,1,[
-            1 => array("n.add_time","下单日期"),
+            1 => array("n.add_time","例子添加日期"),
             2 => array("o.order_time","下单日期"),
             3 => array("o.pay_time", "生效日期"),
         ],3);
@@ -506,11 +506,12 @@ class assistant_performance extends Controller
         $origin_userid     = $this->get_in_int_val("origin_userid", -1);          
         $order_adminid          = $this->get_in_adminid(-1);
         $assistantid       = $this->get_in_assistantid(-1);
-        $ret_info = $this->t_order_info->get_assistant_origin_order_losson_list_all($start_time,$end_time,$opt_date_type, $studentid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid );
+        $ret_info = $this->t_seller_student_new->get_assistant_origin_order_losson_list_all($start_time,$end_time,$opt_date_type, $studentid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid );
 
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item, 'order_time','_str'); 
             \App\Helper\Utils::unixtime2date_for_item($item, 'pay_time','_str'); 
+            \App\Helper\Utils::unixtime2date_for_item($item, 'add_time','_str'); 
             E\Egrade::set_item_value_str($item,"grade");
             E\Esubject::set_item_value_str($item,"subject");
           

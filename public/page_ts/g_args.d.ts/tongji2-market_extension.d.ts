@@ -1,5 +1,7 @@
 interface GargsStatic {
 	type:	number;
+	page_num:	number;
+	page_count:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -14,6 +16,18 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	gift_type	:any;
+	title	:any;
+	id	:any;
+	act_descr	:any;
+	url	:any;
+	activity_status	:any;
+	add_time	:any;
+	uid	:any;
+	account	:any;
+	add_time_str	:any;
+	gift_type_str	:any;
+	activity_status_str	:any;
 }
 
 /*
@@ -66,6 +80,8 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["type title", "type", "th_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}

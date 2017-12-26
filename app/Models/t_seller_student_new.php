@@ -994,6 +994,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "admin_assignerid"  => $self_adminid,
                 "admin_revisiterid"  => $opt_adminid,
                 "admin_assign_time"  => $now,
+                "seller_resource_type"  => 0,
                 "sub_assign_adminid_2"  => $up_adminid,
                 "sub_assign_time_2"  => $now ,
                 "sub_assign_adminid_1"  => $sub_assign_adminid_1,
@@ -3276,6 +3277,47 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
+
+    //助教转介绍例子
+    public function get_assistant_origin_order_losson_list_all($start_time,$end_time,$opt_date_str, $userid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid ){               
+        $where_arr=[
+            ["o.sys_operator like '%%%s%%'" , $sys_operator, ""],
+            ["l.teacherid=%u" , $teacherid, -1],
+            ["a.assistantid = %u" , $assistantid, -1],
+            ["m.uid = %u" , $order_adminid, -1],
+            ["s.origin_userid = %u" , $origin_userid, -1],
+            "m.account_role=1",
+            "s.origin_userid>0",
+            "s.is_test_user=0"
+        ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+        $sql = $this->gen_sql_new("select s.nick,s.userid,l.lessonid,l.grade,l.subject,s.phone,t.realname,"
+                                  ." l.teacherid,o.price,o.order_time,o.pay_time,o.sys_operator,m2.name, "
+                                  ." n.add_time,m.name ass_name "
+                                  ." from %s n "
+                                  ." left join %s s on n.userid = s.userid"
+                                  ." left join %s l on n.userid=l.userid and l.lesson_type=2 and l.lesson_del_flag=0 and not exists( select 1 from %s where userid=l.userid and lesson_type=2 and lesson_del_flag=0 and lesson_start<l.lesson_start)"
+                                  ." left join %s o on o.price>0 and o.contract_status>0 and o.userid= n.userid and not exists (select 1 from %s where price>0 and userid=o.userid and order_time<o.order_time and contract_status>0)"
+                                  ." left join %s m on m.uid= n.admin_revisiterid"
+                                  ." left join %s m2 on s.origin_assistantid = m2.uid "
+                                  ." left join %s a on a.phone = m2.phone "
+                                  ." left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+
+    }
 
 
     

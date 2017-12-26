@@ -1227,7 +1227,7 @@ class common_new extends Controller
                 $userid = $this->t_order_info->get_userid($parent_orderid);
 
                 //更新家长课程信息
-                $this->reset_parent_course_info($userid,$$orderNo);
+                $this->reset_parent_course_info($userid,$orderNo);
 
 
                 if($parent_orderid>0){
@@ -1269,8 +1269,12 @@ class common_new extends Controller
             $arrParams['sign'] = $this->createBaseSign($data, $strSecretKey);
             if($arrParams['sign'] != $sign){
                 return $this->output_succ(["status"=>2,"msg"=>"参数错误"]);
-            }else{
+            }else{               
                 if($status==8){
+                    $old_list = $this->t_child_order_info->field_get_list($orderid,"pay_status,pay_time,channel");
+                    if($old_list["pay_status"]==1 && $old_list["pay_time"]>0 && $old_list["channel"]=="baidu"){
+                        return $this->output_succ(["status"=>0,"msg"=>"success"]);
+                    }
                     $parentid= $this->t_student_info->get_parentid($userid);
                     $parent_name = $this->t_parent_info->get_nick($parentid);
                     $this->t_child_order_info->field_update_list($orderid,[
