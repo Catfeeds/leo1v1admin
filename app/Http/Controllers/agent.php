@@ -417,6 +417,7 @@ class agent extends Controller
     }
 
     public function check(){
+        $this->check_and_switch_tongji_domain();
         list($start_time,$end_time) = [1506787200,1509465600];
         $ret_info = $this->t_seller_student_new->get_item_list($start_time, $end_time);
         foreach($ret_info as &$item){
@@ -428,7 +429,7 @@ class agent extends Controller
             $orderid = $this->t_order_info->get_orderid_by_userid_new($userid);
             $item['is_order'] = $orderid>0?1:0;
         }
-        // dd($ret_info);
+        dd($ret_info);
         return $this->Pageview(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
 
