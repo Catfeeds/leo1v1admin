@@ -424,8 +424,6 @@ class agent extends Controller
             $userid = $item['userid'];
             $phone = $item['phone'];
             $origin = $item['origin'];
-            $last_call = $this->t_tq_call_info->get_last_call_by_phone($phone);
-            $item['last_adminid'] = isset($last_call['adminid'])?$last_call['adminid']:0;
             $orderid = $this->t_order_info->get_orderid_by_userid_new($userid);
             $item['is_order'] = $orderid>0?1:0;
         }

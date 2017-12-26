@@ -52,7 +52,7 @@
                         <td>{{@$var["userid"]}} </td>
                         <td>{{@$var["origin"]}} </td>
                         <td>{{@$var["add_time"]}} </td>
-                        <td>{{@$var["last_adminid"]}} </td>
+                        <td>{{@$var["adminid"]}} </td>
                         <td>{{@$var["global_tq_called_flag"]}} </td>
                         <td>{{@$var["last_succ_test_lessonid"]}} </td>
                         <td>{{@$var["is_order"]}} </td>
