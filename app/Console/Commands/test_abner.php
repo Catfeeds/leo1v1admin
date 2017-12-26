@@ -37,8 +37,31 @@ class test_abner extends cmd_base
      */
     public function handle()
     {
+        $data = $this->get_wx_user_info($wx_openid='oAJiDwEId4b1lA6WV1wbRS83WXvo');
+        $status = $this->task->t_agent->field_update_list($id=1316, [
+            'headimgurl' => $data['headimgurl']
+        ]);
+        echo $status;
+        echo 'ok';
+
         // $this->get_teacher_case();
         // $this->get_today_headline
+    }
+
+    public function get_wx_user_info($wx_openid){
+        $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
+        $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+        $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($output,true);
+
+        return $data;
     }
 
     //@param:获取每月各科目教师入职、帯课、试听课耗、常规课耗
