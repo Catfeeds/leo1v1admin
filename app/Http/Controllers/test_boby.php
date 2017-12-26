@@ -1271,7 +1271,7 @@ class test_boby extends Controller
             $item['min_time_str'] = @$lesson_time_arr['min_time']?@unixtime2date($lesson_time_arr['min_time']):'无';
 
             foreach($arr['key1_value'] as $kkk=>&$v1){
-                if(in_array($kkk, [2,7,8])){
+                // if(in_array($kkk, [2,7,8])){
                     $key1_name = @$v1['value'].'一级原因';
                     $key2_name = @$v1['value'].'二级原因';
                     $key3_name = @$v1['value'].'三级原因';
@@ -1305,11 +1305,11 @@ class test_boby extends Controller
                     $percent_name = $v1['value'].'责任值';
                     $item["$score_name"]   = @$v1['score'];
                     $item["$percent_name"] = @$v1['responsibility_percent'];
-                }
+                // }
             }
 
-            if(@$item['老师责任值'] || @$item['科目责任值'] || @$item['老师一级原因'] || @$item['老师二级原因'] || @$item['老师三级原因'] ){
-                $s= $this->tr_add('',$item['order_time_str'], $item["apply_time_str"], $item['refund_info'],$item['subject_str'], @$item['老师一级原因'], @$item['老师二级原因'],@$item['老师三级原因'],@$item['老师责任值'],@$item['科目责任值']);
+            if(@$item['老师责任值'] || @$item['科目责任值'] || @$item['老师管理一级原因'] || @$item['老师管理二级原因'] || @$item['老师管理三级原因'] ){
+                $s= $this->tr_add('',$item['order_time_str'], $item["apply_time_str"], $item['refund_info'],$item['subject_str'], @$item['老师管理一级原因'], @$item['老师管理二级原因'],@$item['老师管理三级原因'],@$item['老师责任值'],@$item['科目责任值']);
                 echo $s;
 
             }
