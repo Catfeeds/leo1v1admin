@@ -1166,6 +1166,7 @@ class ss_deal2 extends Controller
 
     public function save_user_info_new()
     {
+        $save                   = $this->get_in_int_val('save',1);
         $new_demand_flag        = $this->get_in_int_val("new_demand_flag");//试听需求新版本标识
         $userid                 = $this->get_in_userid();
         $test_lesson_subject_id = $this->get_in_int_val('test_lesson_subject_id');
@@ -1414,12 +1415,13 @@ class ss_deal2 extends Controller
                 "type" =>0
             ]);
         }
-
         $current_require_id  =  $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
         if($current_require_id>0){
-            $this->t_test_lesson_subject_require->field_update_list($current_require_id,[
-                "test_stu_request_test_lesson_demand"=> $stu_request_test_lesson_demand,
-            ]);
+            $tr_arr["test_stu_request_test_lesson_demand"]=$stu_request_test_lesson_demand;
+            if($save == 2){
+                $tr_arr["curl_stu_request_test_lesson_time_end"] = $stu_request_test_lesson_time_end;
+            }
+            $this->t_test_lesson_subject_require->field_update_list($current_require_id,$tr_arr);
         }
         return $this->output_succ();
     }

@@ -338,7 +338,7 @@ class account_common extends Controller
         $list =  \App\Helper\Common::redis_get_json($redis_key);
         $time = $list["time"];
         // if($verify_code ==$check_verify_code){
-        if($time>=(time()-120) && $verify_code ==$check_verify_code){
+        if( $verify_code ==$check_verify_code){
             return true;//时效
         }else{
             return false;

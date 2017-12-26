@@ -44,16 +44,19 @@
             <tbody>
                 @foreach ( $table_data_list as $i => $var )
                     <tr>
-                        <td>{{@$i}} </td>
-                        <td>{{@$var["userid"]}} </td>
-
-
+                        <td>{{@$var['id']}} </td>
+                        <td>{{@$var["gift_type_str"]}} </td>
+                        <td>{{@$var["title"]}} </td>
+                        <td>{{@$var["act_descr"]}} </td>
+                        <td>{{@$var["url"]}} </td>
+                        <td>{!!@$var["activity_status_str"]!!} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-edit opt-edit"  title="编辑"> </a>
                                 <a class="fa fa-times opt-del" title="删除"> </a>
+                                <a class="fa fa-file-image-o opt-show" title="活动图片"> </a>
 
                             </div>
                         </td>

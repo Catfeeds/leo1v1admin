@@ -1404,7 +1404,7 @@ class test_james extends Controller
     public function translate_pdf(){
         $path = $this->get_in_str_val('path');
         $cmd  = "curl -F doc=@'$path' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=James&fn=新文件.pdf'";
-        $uuid = exec($cmd);
+        $uuid = shell_exec($cmd);
         dd($uuid);
     }
 
@@ -1446,6 +1446,12 @@ class test_james extends Controller
         dd(md5('021130'));
     }
 
+    public function getUrl(){
+        $url = $this->get_in_str_val('url');
+        $domain = config('admin')['qiniu']['public']['url'];
+        $change_reason_url = $domain.'/'.$url;
+        dd($change_reason_url);
+    }
 
 
 
