@@ -1174,7 +1174,7 @@ class test_boby extends Controller
     }
 
     public function refund_list(){
-        $this->switch_tongji_database();
+        // $this->switch_tongji_database();
         list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range_month(0,0, [
             0 => array( "apply_time", "申请时间"),
             1 => array("flow_status_time","审批时间"),
