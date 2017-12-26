@@ -19,6 +19,228 @@ trait  ViewDeal {
         }
         return $this->getTplPageInfoAndJsValue($this->last_in_values,$page_data["page_info"],$page_data["list"],$showPages );
     }
+    public function store_vue_ts_file($table_data_list)
+    {
+        $str="";
+        $reload_filed_str="";
+        $set_filed_str="";
+
+
+        $check_data_range=false;
+        if (isset( $this->last_in_values["date_type_config"] ) ) { //id_date_type
+
+            $set_filed_str.=
+                "\t\t$.admin_date_select ({\n".
+                "\t\t'join_header'  : \$header_query_info,\n".
+                "\t\t'title' : \"时间\",\n".
+                "\t\t'date_type' : this.get_args().date_type,\n".
+                "\t\t'opt_date_type' : this.get_args().opt_date_type,\n".
+                "\t\t'start_time'    : this.get_args().start_time,\n".
+                "\t\t'end_time'      : this.get_args().end_time,\n".
+                "\t\tdate_type_config : JSON.parse(this.get_args().date_type_config),\n".
+                "\t\tas_header_query :true,\n".
+                "\t\t});\n\n";
+            $check_data_range=true;
+        }
+        foreach( $this->last_in_types as $key => $value)  {
+            $is_enum_flag=false;
+            $is_enum_list_flag=false;
+            $muti_enum_class="";
+            if (is_array ($value) ) {
+                $muti_enum_class = $value["enum_class"] ;
+                $value= $value["type"];
+            }
+            if ($value == "number" || $value=="string" ) {
+                $str.=  "\t$key:\t$value;\n";
+            }else if (  $value== "enum_list" ){
+                $str.=  "\t$key:\tstring;//枚举列表: $muti_enum_class\n ";
+                $is_enum_list_flag=true;
+            }else{//枚举
+                $str.=  "\t$key:\tnumber;//枚举: $value\n";
+                $is_enum_flag=true;
+            }
+            if ($is_enum_flag) {
+                $enum_type_str=preg_replace("/.*E/", "", $value);
+                $name=$value::$name;
+
+
+            }else{
+                if ( !in_array( $key ,["page_num","page_count"]) ) {
+
+                    $add_html_filed_flag=false;
+                    if ($check_data_range) {
+                        if ( !in_array ( $key, ["date_type_config","date_type", "opt_date_type","start_time","end_time"] ) )  {
+                            $add_html_filed_flag=true;
+                        }
+
+                    }else{
+                        $add_html_filed_flag=true;
+                    }
+                }
+
+
+            }
+
+
+
+            if ( !in_array( $key ,["page_num","page_count"]) ) {
+                $reload_filed_str.=  "\t\t$key:\t\$('#id_$key').val(),\n";
+                $add_set_filed_flag=false;
+                if ($check_data_range) {
+                    if ( !in_array ( $key, ["date_type_config","date_type", "opt_date_type","start_time","end_time"] ) )  {
+                        $add_set_filed_flag=true;
+                    }
+
+                }else{
+                    $add_set_filed_flag=true;
+                }
+                if ($add_set_filed_flag) {
+                    if ($is_enum_list_flag) {
+                        $enum_type_str=preg_replace("/.*E/", "", $muti_enum_class);
+                        $set_filed_str.= "\t\$.admin_enum_select({\n"
+                                      ."\t\t'join_header'  : \$header_query_info,\n"
+                                      .'"enum_type"    : "'.$enum_type_str.'",' . "\n"
+                                      .'"field_name" : "'.$key .'",'  . "\n"
+                                      .'"select_value" : this.get_args().'.$key .','  . "\n"
+                                      .'		"multi_select_flag"     : true,'  . "\n"
+                                      .'		"onChange"     : load_data,'  . "\n"
+                                      .'		"th_input_id"  : "th_'.$key .'",'  . "\n"
+                                      .'		"btn_id_config"     : {},' . "\n"
+                                      ."	});"  . "\n\n";
+                    }else if ( $is_enum_flag ) {
+                        $set_filed_str.= "\t\$.admin_enum_select({\n"
+                            ."\t\t'join_header'  : \$header_query_info,\n"
+                            .'		"enum_type"    : "'.$enum_type_str.'",' . "\n"
+                            .'		"field_name" : "'.$key .'",'  . "\n"
+                            .'		"select_value" : this.get_args().'.$key .','  . "\n"
+                            .'		"onChange"     : load_data,'  . "\n"
+                            .'		"multi_select_flag"     : false ,'  . "\n"
+                            .'		"th_input_id"  : "th_'.$key .'",'  . "\n"
+                            .'		"btn_id_config"     : {},' . "\n"
+                            ."	});"  . "\n\n";
+                    }else{
+                        $user_type_config=[
+                            "userid"=> "student",
+                            "studentid"=> "student",
+                            "adminid"=> "account",
+                            "assistantid"=> "assistant",
+                            "teacherid"=> "teacher",
+                        ];
+
+                        if (  @$user_type_config[$key] ) {
+                            $user_type=$user_type_config[$key];
+                            $set_filed_str.= "\t\$.admin_ajax_select_user({\n"
+                                          ."\t\t'join_header'  : \$header_query_info,\n"
+                                          .'		"user_type"    : "'.$user_type .'",' . "\n"
+                                          .'		"select_value" : this.get_args().'.$key .','  . "\n"
+                                          .'		"onChange"     : load_data,'  . "\n"
+                                          .'		"th_input_id"  : "th_'.$key .'",'  . "\n"
+                                          .'		"only_show_in_th_input"     : false,' . "\n"
+                                          .'		"can_select_all_flag"     : true' . "\n"
+                                          ."	});"  . "\n";
+
+                        }
+                    }
+                }
+            }
+        }
+
+
+        $reload_filed_str=substr($reload_filed_str,0,-2)."\n";
+
+
+        $row_file_name =app_path("../public/page_ts/g_args.d.ts/.vue-row-{$this->view_ctrl}-{$this->view_action}.tmp");
+        $row_str="";
+        if ( count($table_data_list) >0) {
+            $row_item = @$table_data_list[0];
+            if (!$row_item) {
+                foreach ($table_data_list as $k_item ) {
+                    $row_item =$k_item;
+                    break;
+                }
+            }
+
+            if ($row_item) {
+
+                foreach ($row_item as  $r_k=>$r_v )    {
+                    if ( !is_int($r_k)) {
+                        $row_str.="\t$r_k\t:any;\n";
+                    }
+                }
+            }
+
+            $row_old_data=@file_get_contents( $row_file_name);
+            if( $row_old_data != $row_str ) {
+                file_put_contents( $row_file_name, $row_str);
+                chmod(  $row_file_name,0777);
+            }
+
+        }else{
+            $row_str=@file_get_contents($row_file_name);
+        }
+
+
+
+$data= "interface self_Args {\n".
+            $str.
+            "}\n".
+            "interface self_RowData {\n".
+            $row_str.
+            "}\n\n".
+            "export  {self_RowData , self_Args  }\n"
+            ."/*\n"
+            ."\ntofile: \n\t mkdir -p ../../src/views/{$this->view_ctrl}; vi  ../../src/views/{$this->view_ctrl}/{$this->view_action}.ts\n\n".
+            "/// <reference path=\"../../../d.ts.d/common.d.ts\" />\n".
+            "\n".
+            "import Vue from 'vue'\n".
+
+            "import Component from 'vue-class-component'\n".
+            "\n".
+            "import vbase from \"../layout/vbase\"\n".
+            "\n".
+            "import {self_RowData, self_Args } from \"../../../d.ts.d/g_args.d.ts/{$this->view_ctrl}-{$this->view_action}\"\n".
+            "\n".
+            "\n".
+            "// @Component 修饰符注明了此类为一个 Vue 组件\n".
+            "@Component({\n".
+            "  // 所有的组件选项都可以放在这里\n".
+            "  template:  require(\"./{$this->view_action}.html\" ),\n".
+            "})\n".
+            "\n".
+            "export default class extends vbase {\n".
+            "\n".
+            "  get_opt_data(obj):self_RowData {return this.get_opt_data_base(obj );}\n".
+                "  get_args() :self_Args  {return  this.get_args_base();}\n".
+            "\n".
+            "  query_init(): void{\n".
+            "    console.log(\"init_query\");\n".
+            "    var me =this;\n".
+            "\n".
+            "    var \$header_query_info= \$(\"#id_header_query_info\").admin_header_query ({\n".
+            "    });\n".
+            $set_filed_str.
+            "\n".
+            "  }\n".
+            "\n".
+            "\n".
+            "  row_init() :void {\n".
+            "    var me =this;\n".
+            "\n".
+            "  }\n".
+            "}\n"
+            ."*/\n";
+
+
+        $file_name =app_path("../public/page_ts/g_args.d.ts/{$this->view_ctrl}-{$this->view_action}.ts");
+
+        $old_data=@file_get_contents($file_name);
+        if( $old_data !=$data  ) {
+            @unlink( $file_name );
+            file_put_contents($file_name,$data);
+            @chmod(  $file_name,0777);
+        }
+    }
+
 
     public function store_gargs_d_ts_file($table_data_list)
     {
@@ -652,7 +874,7 @@ trait  ViewDeal {
         }
         if (\App\Helper\Utils::check_env_is_local() ){
             //生成 g_args 的 .d.ts
-            $this->store_gargs_d_ts_file($ret_info["list"]);
+            $this->store_vue_ts_file($ret_info["list"]);
         }
 
         $data=$ret_info;

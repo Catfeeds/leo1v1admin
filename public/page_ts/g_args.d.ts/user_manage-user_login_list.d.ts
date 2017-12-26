@@ -8,9 +8,7 @@ interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
 }
-declare module "g_args" {
-    export = g_args;
-}
+
 declare var g_args: GargsStatic;
 declare var g_account: string;
 declare var g_account_role: any;
