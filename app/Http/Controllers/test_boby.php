@@ -1199,9 +1199,11 @@ class test_boby extends Controller
             $opt_date_str,$refund_type,$userid,$start_time,$end_time, $is_test_user,$refund_userid,$require_adminid_list
         );
         $refund_info = [];
-        $th_arr = ['签约时间','退费申请时间','原因分析','科目','老师一级原因','老师二级原因','老师三级原因','责任鉴定 | 老师','责任鉴定 | 科目'];
-        $s = $this->table_start($th_arr);
-        echo $s;
+        // $th_arr = ['签约时间','退费申请时间','原因分析','科目','老师一级原因','老师二级原因','老师三级原因','责任鉴定 | 老师','责任鉴定 | 科目'];
+        // $s = $this->table_start($th_arr);
+        // echo $s;
+        echo '<table border=1>';
+        $a =1;
         foreach($ret_info as  $k_f => &$item){
             $item['deal_nick'] = $this->cache_get_account_nick($item['qc_adminid']);
             \App\Helper\Utils::unixtime2date_for_item($item,"qc_deal_time");
@@ -1307,12 +1309,22 @@ class test_boby extends Controller
                     $item["$percent_name"] = @$v1['responsibility_percent'];
                 // }
             }
-
-            if(@$item['老师责任值'] || @$item['科目责任值'] || @$item['老师管理一级原因'] || @$item['老师管理二级原因'] || @$item['老师管理三级原因'] ){
-                $s= $this->tr_add('',$item['order_time_str'], $item["apply_time_str"], $item['refund_info'],$item['subject_str'], @$item['老师管理一级原因'], @$item['老师管理二级原因'],@$item['老师管理三级原因'],@$item['老师责任值'],@$item['科目责任值']);
-                echo $s;
+            if($a == 1){
+                $a++;
+                $ks = array_keys($item);
+                echo '<tr>';
+                foreach($ks as $kv){
+                    echo '<td>',$kv,'</td>';
+                }
+                echo '</tr>';
 
             }
+
+            echo '<tr>';
+            foreach($item as $iv){
+                echo '<td>',$iv,'</td>';
+            }
+            echo '</tr>';
             unset($ret_info[$k_f]);
         }
 
