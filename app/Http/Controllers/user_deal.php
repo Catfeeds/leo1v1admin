@@ -5070,11 +5070,12 @@ class user_deal extends Controller
 
     public function copy_admin_group_info(){
         $month = strtotime($this->get_in_str_val("start_time"));
-        $this->t_group_name_month->del_by_month($month);
-        $this->t_group_user_month->del_by_month($month);
-        $this->t_main_group_name_month->del_by_month($month);
-        $this->t_main_major_group_name_month->del_by_month($month);
-        $admin_group_name_list = $this->t_admin_group_name->get_all_list();
+        $main_type_flag = $this->get_in_int_val("main_type_flag");
+        $this->t_group_user_month->del_by_month($month,$main_type_flag);
+        $this->t_group_name_month->del_by_month($month,$main_type_flag);
+        $this->t_main_group_name_month->del_by_month($month,$main_type_flag);
+        $this->t_main_major_group_name_month->del_by_month($month,$main_type_flag);
+        $admin_group_name_list = $this->t_admin_group_name->get_all_list($main_type_flag);
         foreach($admin_group_name_list as $item){
             $this->t_group_name_month->row_insert([
                 "groupid"    =>$item["groupid"],
@@ -5086,7 +5087,7 @@ class user_deal extends Controller
                 "group_assign_percent" =>$item["group_assign_percent"]
             ]);
         }
-        $admin_group_user_list = $this->t_admin_group_user->get_all_list();
+        $admin_group_user_list = $this->t_admin_group_user->get_all_list($main_type_flag);
         foreach($admin_group_user_list as $item){
             $this->t_group_user_month->row_insert([
                 "groupid"    =>$item["groupid"],
@@ -5096,7 +5097,7 @@ class user_deal extends Controller
             ]);
         }
 
-        $admin_main_group_name_list = $this->t_admin_main_group_name->get_all_list();
+        $admin_main_group_name_list = $this->t_admin_main_group_name->get_all_list($main_type_flag);
         foreach($admin_main_group_name_list as $item){
             $this->t_main_group_name_month->row_insert([
                 "groupid"    =>$item["groupid"],
@@ -5109,7 +5110,7 @@ class user_deal extends Controller
             ]);
         }
 
-        $major_admin_list = $this->t_admin_majordomo_group_name->get_all_list();
+        $major_admin_list = $this->t_admin_majordomo_group_name->get_all_list($main_type_flag);
         foreach($major_admin_list as $k=>$item){
             $this->t_main_major_group_name_month->row_insert([
                 "groupid"  =>$item["groupid"],

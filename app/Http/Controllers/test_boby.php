@@ -1309,7 +1309,8 @@ class test_boby extends Controller
                 $item["$score_name"]   = @$v1['score'];
                 $item["$percent_name"] = @$v1['responsibility_percent'];
             }
-            if($item['老师责任值'] || $item['科目责任值'] || $item['老师一级原因'] || $item['老师二级原因'] || $item['老师三级原因'] ){
+            // dd($item);
+            if(@$item['老师责任值'] || @$item['科目责任值'] || @$item['老师一级原因'] || @$item['老师二级原因'] || @$item['老师三级原因'] ){
                 $list_new[] = $item;
             }
         }
@@ -1319,7 +1320,7 @@ class test_boby extends Controller
         $s = $this->table_start($th_arr);
         foreach($list_new as $kk =>$v){
             // echo $kk;
-            $s= $this->tr_add($s,$v['order_time_str'], $v["apply_time_str"], $v['refund_info'],$v['subject_str'], $v['老师一级原因'], $v['老师二级原因'],$v['老师三级原因'],$v['老师责任值'],$v['科目责任值']);
+            $s= $this->tr_add($s,$v['order_time_str'], $v["apply_time_str"], $v['refund_info'],$v['subject_str'], @$v['老师一级原因'], @$v['老师二级原因'],@$v['老师三级原因'],@$v['老师责任值'],@$v['科目责任值']);
         }
         $s = $this->table_end($s);
 
