@@ -99,7 +99,7 @@ class login extends Controller
                     $icon="fa-circle-o";
                 }
 
-                $url_base= \App\Helper\Config::get_admin_domain_url($admin_domain_type );
+                $url_base= \App\Helper\Config::get_admin_domain_url( $this->get_menu_node_admin_domain_type($node, $admin_domain_type) );
                 return '<li> <a href="'.$url_base.$node["url"].'"><i class="fa '.$icon.'"></i><span>'.
                                        $node["name"].'</span></a></li>';
             }else{
@@ -107,6 +107,14 @@ class login extends Controller
             }
         }
     }
+    public function get_menu_node_admin_domain_type( $node , $def ) {
+        if (isset( $node[ "domain_type"]  ) ) {
+            return  $node[ "domain_type"] ;
+        }else{
+            return $def;
+        }
+    }
+
 
     function  gen_one_item ($node,$power_fix,$level,$power_map,$admin_domain_type) {
         \App\Helper\Utils::logger("do:".$node["name"]);
@@ -161,8 +169,8 @@ class login extends Controller
                 if (!$icon) {
                     $icon="fa-circle-o";
                 }
+                $url_base= \App\Helper\Config::get_admin_domain_url( $this->get_menu_node_admin_domain_type($node, $admin_domain_type) );
 
-                $url_base= \App\Helper\Config::get_admin_domain_url($admin_domain_type );
 
                 return '<li> <a href="'.$url_base.$node["url"].'"><i class="fa '.$icon.'"></i><span>'.
                                        $node["name"].'</span></a></li>';

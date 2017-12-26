@@ -777,7 +777,8 @@ $(function(){
             var load_data_flag = window.localStorage.getItem( flag_key );
             var list_type_key = "query_list_type_"+ window.location.pathname;
             var list_type = window.localStorage.getItem(list_type_key  );
-            var $list_type=$("<select  > <option value=0>紧凑</option> <option value=1>列表</option> </select> ");
+            var $list_type=$("<select  >   <option value=0>紧凑</option> <option value=1>列表</option> <option value=2>超级紧凑</option> </select>  ");
+
             var $load_data_flag=$("<select  > <option value=0>是</option> <option value=1>不是</option> </select> ");
             list_type= list_type?list_type:0;
             load_data_flag= load_data_flag?load_data_flag:0;

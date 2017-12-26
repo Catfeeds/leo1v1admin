@@ -659,6 +659,8 @@ trait  ViewDeal {
         if (count($data_ex)>0 ){
             $data=array_merge($data,$data_ex) ;
         }
+
+        $data["g_args"]=$this->last_in_values;
         return $this->output_succ($data);
     }
 

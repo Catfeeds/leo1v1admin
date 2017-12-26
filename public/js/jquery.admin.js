@@ -1333,7 +1333,6 @@ jQuery.extend({
 
     do_ajax: function( url,data, success_func, jsonp_flag ){
 
-
         function ajax_default_deal_func(result){
             if (result.ret ){
                 BootstrapDialog.alert(result['info']);
