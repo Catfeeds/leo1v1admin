@@ -44,7 +44,8 @@ class pdfConversionH5 extends Command
         $store=new \App\FileStore\file_store_tea();
         $auth=$store->get_auth();
         $email = "michael@leoedu.com";
-        $pwd   = 021130; // bbcffc83539bd9069b755e1d359bc70a
+        // $pwd   = md5(021130); // bbcffc83539bd9069b755e1d359bc70a
+        $pwd   = 'bbcffc83539bd9069b755e1d359bc70a';
 
 
         // $handoutArray = $this->task->t_resource->getResourceList();
