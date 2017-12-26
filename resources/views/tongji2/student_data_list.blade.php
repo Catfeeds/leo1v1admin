@@ -7,7 +7,7 @@
       <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
       <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <section class="content ">
-        
+
         <div>
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-5"  data-title="时间段">
@@ -38,7 +38,7 @@
             </div>
         </div>
         <hr/>
-        <table     class="common-table"  > 
+        <table     class="common-table"  >
             <thead>
                 <tr>
                     <td>ID</td>
@@ -90,6 +90,5 @@
         </table>
         @include("layouts.page")
     </section>
-    
-@endsection
 
+@endsection
