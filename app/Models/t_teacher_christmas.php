@@ -81,8 +81,9 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
             ["add_time>=%u", $start_time, 0],
             ["add_time<%u", $end_time, 0]
         ];
-        $sql = $this->gen_sql_new("select count(distinct shareId) teacher_num,sum(score) score from %s",
-                                  self::DB_TABLE_NAME
+        $sql = $this->gen_sql_new("select count(distinct shareId) teacher_num,sum(score) score from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
         );
         return $this->main_get_row($sql);
     }

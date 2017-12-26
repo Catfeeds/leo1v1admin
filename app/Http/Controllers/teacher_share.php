@@ -113,7 +113,6 @@ class teacher_share extends Controller
     public function christmas_list() {
         list($start_time, $end_time) = $this->get_in_date_range_day(0);
         $info = $this->t_teacher_christmas->get_total($start_time, $end_time);
-        var_dump($info);
         return $this->pageView(__METHOD__, '', [
             'info' => $info
         ]);
