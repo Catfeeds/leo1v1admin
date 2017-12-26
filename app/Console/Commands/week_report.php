@@ -37,6 +37,15 @@ class week_report extends cmd_base
      */
     public function handle()
     {
-        //
+        // if($time_now == 'Wednesday'){
+        // }else echo '统计时间出错!';
+        $time_now = date('l');
+        $start_time = strtotime('last Tuesday');
+        $end_time = strtotime('+ 8 day',$start_time)-1;
+        $report = new \App\Http\Controllers\report();
+        $data_arr = $report->get_week_of_monthly_report($start_time, $end_time, $data_arr=[]);
+        if($data_arr)//添加统计数据
+            $this->task->t_week_of_monthly_report->job_row_insert($start_time,$report_type=1,$data_arr);
+        echo 'week report ok!';
     }
 }
