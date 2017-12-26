@@ -8,56 +8,9 @@
      .huge {
          font-size: 40px;
      }
-     .panel-green {
-         border-color: #5cb85c;
-     }
-     .panel-green .panel-heading {
-         background-color: #5cb85c;
-         border-color: #5cb85c;
-         color: #fff;
-     }
-     .panel-green {
-         background-color: #5cb85c;
-     }
-     .panel-green a:hover {
-         color: #3d8b3d;
-     }
-     .panel-red {
-         background-color: #d9534f;
-     }
-     .panel-red .panel-heading {
-         background-color: #d9534f;
-         border-color: #d9534f;
-         color: #fff;
-     }
-     .panel-red a {
-         color: #d9534f;
-     }
-     .panel-red a:hover {
-         color: #b52b27;
-     }
-     .panel-yellow {
-         background-color: #f0ad4f;
-     }
-     .panel-yellow .panel-heading {
-         background-color: #f0ad4e;
-         border-color: #f0ad4e;
-         color: #fff;
-     }
-     .panel-yellow a {
-         color: #f0ad4e;
-     }
-     .panel-yellow a:hover {
-         color: #df8a13;
-     }
-     .panel-blue {
-         background-color: #9ff;
-     }
-
-
     </style>
     <script type="text/javascript" >
-     var g_data= <?php  echo json_encode($arr); ?> ;
+     var g_data= <?php  echo json_encode($data_arr); ?> ;
     </script>
 
 
@@ -91,13 +44,13 @@
                     <div class="panel panel-warning"  >
                         <!-- 报表表头  begin -->
                         <div class="panel-heading center-title ">
-                            @if($arr['type'] == 1)
+                            @if($data_arr['type'] == 1)
                                 月报
                             @else
                                 周报
                             @endif
-                            @if($arr['create_time_range'])
-                                <br/>统计时段({{@$arr['create_time_range']}})
+                            @if($data_arr['create_time_range'])
+                                <br/>统计时段({{@$data_arr['create_time_range']}})
                             @endif
                         </div>
                         <!-- 报表表头  end  -->
@@ -120,14 +73,14 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> {{@$arr['total_income']}}</td> 
-                                        <td> {{@$arr['person_num']}}</td> 
-                                        <td> {{@$arr['total_price_thirty']}} </td> 
-                                        <td> {{@$arr['person_num_thirty']}}</td> 
-                                        <td> {{@$arr['person_num_thirty_per']}}</td> 
-                                        <td> {{@$arr['average_person_effect']}}</td> 
-                                        <td> {{@$arr['contract_per']}} </td> 
-                                        <td> {{@$arr['month_kpi_per']}}% </td> 
+                                        <td> {{@$data_arr['all_example_info']['example_num']}}</td> 
+                                        <td> {{@$data_arr['all_example_info']['valid_example_num']}}</td> 
+                                        <td> {{@$data_arr['all_example_info']['called_num']}} </td> 
+                                        <td> {{@$data_arr['all_example_info']['valid_rate']}}%</td> 
+                                        <td> {{@$data_arr['all_example_info']['invalid_example_num']}}</td> 
+                                        <td> {{@$data_arr['all_example_info']['invalid_rate']}}%</td> 
+                                        <td> {{@$data_arr['all_example_info']['not_through_num']}}</td> 
+                                        <td> {{@$data_arr['all_example_info']['not_through_rate']}}% </td> 
                                     </tr>
                                 </tbody>
                             </table>
@@ -158,13 +111,13 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> {{@$arr['total_income']}}</td> 
-                                        <td> {{@$arr['person_num']}}</td> 
-                                        <td> {{@$arr['total_price_thirty']}} </td> 
-                                        <td> {{@$arr['person_num_thirty']}}%</td> 
-                                        <td> {{@$arr['person_num_thirty_per']}}</td> 
-                                        <td> {{@$arr['average_person_effect']}}</td> 
-                                        <td> {{@$arr['contract_per']}} </td> 
+                                        <td> {{@$data_arr['all_example_info']['example_num']}}</td> 
+                                        <td> {{@$data_arr['all_example_info']['high_num']}}</td> 
+                                        <td> {{@$data_arr['all_example_info']['high_num_rate']}}%</td> 
+                                        <td> {{@$data_arr['all_example_info']['middle_num']}}</td> 
+                                        <td> {{@$data_arr['all_example_info']['middle_num_rate']}}%</td> 
+                                        <td> {{@$data_arr['all_example_info']['primary_num']}}</td> 
+                                        <td> {{@$data_arr['all_example_info']['primary_num_rate']}}%</td> 
                                     </tr>
                                 </tbody>
                             </table>
@@ -192,9 +145,9 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> %{{@$arr['total_income']}}</td> 
-                                        <td> {{@$arr['person_num']}}</td> 
-                                        <td> {{@$arr['total_price_thirty']}} </td> 
+                                        <td> {{@$data_arr['wx_example_num']}}</td> 
+                                        <td> {{@$data_arr['wx_order_info']['wx_order_count']}}</td> 
+                                        <td> {{@$data_arr['wx_order_info']['wx_order_all_money']}} </td> 
                                     </tr>
                                 </tbody>
                             </table>
@@ -222,10 +175,10 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                         <tr>
-                                            <td class="panel-yellow" > %{{@$arr['lesson_target']}}</td>
-                                            <td class="panel-yellow" > {{@$arr['total_student']}} </td>
-                                            <td>{{@$arr['lesson_consume_target']}} </td>
-                                            <td> {{@$arr['lesson_consume']}}</td>
+                                            <td class="panel-yellow" >暂无数据</td>
+                                            <td class="panel-yellow" >暂无数据</td>
+                                            <td>暂无数据</td>
+                                            <td>暂无数据</td>
                                         </tr>
                                 </tbody>
                             </table>
@@ -252,9 +205,9 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td class="panel-yellow" > %{{@$arr['read_num']}}  </td>
-                                        <td class="panel-yellow" > {{@$arr['stop_student']}}</td>
-                                        <td class="panel-yellow" > {{@$arr['drop_student']}} </td>
+                                        <td class="panel-yellow" > {{@$data_arr['pn_example_num']}}  </td>
+                                        <td class="panel-yellow" > {{@$data_arr['pn_order_num']}}</td>
+                                        <td class="panel-yellow" > {{@$data_arr['pn_order_money']}} </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -283,7 +236,7 @@
                                 <tbody id="id_lesson_count_list">
                                     <tr>
                                         <td class="panel-yellow" >投放金额/例子总量(去重)</td>
-                                        <td class="panel-yellow" ></td>
+                                        <td class="panel-yellow" >{{@$data_arr['public_class_num']}}</td>
                                         <td class="panel-yellow" >人工统计</td>
                                         <td class="panel-yellow" >人工统计</td>
                                         <td>人工统计</td>

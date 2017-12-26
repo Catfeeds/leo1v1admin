@@ -18,23 +18,55 @@ class report extends Controller
         $data_arr['create_time_range'] = '不在统计时段内';
         $data_arr['type'] = 1;
 
-        if($is_history_data == 1){
-            //历史数据
+        if($is_history_data == 2){
+            $data_arr['create_time_range'] = date('Y-m-d',$start_time).'—'.date('Y-m-d',$end_time);
+
             if($opt_date_type == 2){
                 //周报
+                $data_arr['type'] = 2;
+                $data_arr['create_time_range'] = date('Y-m-d H:i:s',$start_time).'—'.date('Y-m-d H:i:s',$end_time);
+            }
+
+            if($opt_date_type == 2 || $opt_date_type == 3){
+                //历史数据
                 $example_info = $this->t_test_lesson_subject->get_example_info($start_time,$end_time);
-                foreach($example_info as &$item){
-                    $item['valid_rate'] = number_format($item['valid_example_num']/$item['called_num'], 2);
-                    $item['invalid_rate'] = number_format($item['invalid_example_num']/$item['called_num'], 2);
-                    $item['not_through_rate'] = number_format($item['not_through_num']/$item['called_num'], 2);
+                if(@$example_info['called_num'] > 0){
+                    $example_info['valid_rate'] = number_format(@$example_info['valid_example_num']/@$example_info['called_num']*100, 2);
+                    $example_info['invalid_rate'] = number_format(@$example_info['invalid_example_num']/@$example_info['called_num']*100, 2);
+                    $example_info['not_through_rate'] = number_format(@$example_info['not_through_num']/@$example_info['called_num']*100, 2);
+                    $example_info['high_num_rate'] = number_format(@$example_info['high_num']/@$example_info['example_num']*100, 2);
+                    $example_info['middle_num_rate'] = number_format(@$example_info['middle_num']/@$example_info['example_num']*100, 2);
+                    $example_info['primary_num_rate'] = number_format(@$example_info['primary_num']/@$example_info['example_num']*100, 2);
                 }
                 //获取公开课次数
                 $public_class_num = $this->t_lesson_info->get_public_class_num($start_time,$end_time);
                 //微信运营信息
-                $wx_example_num = $this->t_seller_student_new->get_wechat_info($start_time,$end_time);
-            }else{
-                //月报
+                $wx_example_num = $this->t_seller_student_new->get_wx_example_num($start_time,$end_time);
+                $wx_order_info = $this->t_order_info->get_wx_order_info($start_time,$end_time);
+                //获取所有公众号渠道
+                $all_public_number_origin_list = $this->t_origin_key->get_all_public_number_origin();
+                $all_public_number_origin_arr = array_column($all_public_number_origin_list, 'value');
+                //公众号信息
+                $pn_example_num = 0;
+                $pn_order_num = 0;
+                $pn_order_money = 0;
+                $public_number_example_info = $this->t_seller_student_new->get_public_number_example_info($start_time,$end_time);
+                $public_number_order_info = $this->t_order_info->get_public_number_order_info($start_time,$end_time);
+                foreach($all_public_number_origin_arr as $item){
+                    $pn_example_num += @$public_number_example_info[$item]['public_number_num'];
+                    $pn_order_num += @$public_number_order_info[$item]['pn_order_count'];
+                    $pn_order_money += @$public_number_order_info[$item]['pn_order_all_money'];
+                }
+                //将统计数据放进数组里
+                $data_arr['all_example_info'] = $example_info;
+                $data_arr['public_class_num'] = $public_class_num;
+                $data_arr['wx_example_num'] = $wx_example_num;
+                $data_arr['wx_order_info'] = $wx_order_info;
+                $data_arr['pn_example_num'] = $pn_example_num;
+                $data_arr['pn_order_num'] = $pn_order_num;
+                $data_arr['pn_order_money'] = $pn_order_money;
             }
+
         }else{
             //即时数据
             if($opt_date_type == 2){
@@ -45,9 +77,6 @@ class report extends Controller
             }
         }
 
-        $header_arr['create_time_range'] ='不在统计时间段内';
-        $header_arr['type'] = 0;
-
-        return $this->pageView(__METHOD__,null,["arr"=>$header_arr]);
+        return $this->pageView(__METHOD__,null,["data_arr"=>$data_arr]);
     }
 }

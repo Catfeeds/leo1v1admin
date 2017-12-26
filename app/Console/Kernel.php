@@ -196,6 +196,7 @@ class Kernel extends ConsoleKernel
         Commands\funnel_channel_statistics::class,
         Commands\node_type_channel_statistics::class,
         Commands\test_abner::class,
+        Commands\week_report::class,
     ];
 
     /**

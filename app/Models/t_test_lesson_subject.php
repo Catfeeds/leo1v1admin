@@ -1304,13 +1304,13 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         ];
         $this->where_arr_add_time_range($where_arr, 'ssn.add_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
-            'selct count(userid) as example_num,sum(if(ssn.global_tq_called_flag <>0,1,0)) as called_num,'.
+            'select count(ssn.userid) as example_num,sum(if(ssn.global_tq_called_flag <>0,1,0)) as called_num,'.
             'sum(if(ssn.global_tq_called_flag =2 and ssn.sys_invaild_flag=0,1,0)) as valid_example_num,'.
             'sum(if(ssn.global_tq_called_flag =2 and ssn.sys_invaild_flag =1,1,0)) as invalid_example_num,'.
             'sum(if(ssn.global_tq_called_flag=1,1,0)) as not_through_num,'.
-            'sum(if(si.grade >= 100 and si.grade <= 106),1,0) as primary_num,'.
-            'sum(if(si.grade >= 200 and si.grade <= 203),1,0) as middle_num,'.
-            'sum(if(si.grade >= 300 and si.grade <= 303),1,0) as high_num '.
+            'sum(if((si.grade >= 100 and si.grade <= 106),1,0)) as primary_num,'.
+            'sum(if((si.grade >= 200 and si.grade <= 203),1,0)) as middle_num,'.
+            'sum(if((si.grade >= 300 and si.grade <= 303),1,0)) as high_num '.
             'from %s tls '.
             'left join %s ssn on ssn.userid = tls.userid '.
             'left join %s si on ssn.userid=si.userid '.
