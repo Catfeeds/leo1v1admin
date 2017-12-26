@@ -6050,13 +6050,11 @@ class user_deal extends Controller
     public function showMarketExtendImg(){
         $id = $this->get_in_int_val('id');
         $imgList = $this->t_activity_usually->getImgList($id);
-        dd($imgList);
-
         $domain = config('admin')['qiniu']['public']['url'];
-        $change_reason_url = $domain.'/'.$url;
-
-        // $imgList['shareImgUrl']
-
+        if($imgList['shareImgUrl']){ $imgList['shareImgUrl'] = $domain."/".$imgList['shareImgUrl'];}
+        if($imgList['coverImgUrl']){ $imgList['coverImgUrl'] = $domain."/".$imgList['coverImgUrl'];}
+        if($imgList['activityImgUrl']){ $imgList['activityImgUrl'] = $domain."/".$imgList['activityImgUrl'];}
+        if($imgList['followImgUrl']){ $imgList['followImgUrl'] = $domain."/".$imgList['followImgUrl'];}
         return $this->output_succ(['data'=>$imgList]);
     }
 }

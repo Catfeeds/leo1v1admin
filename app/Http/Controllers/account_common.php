@@ -288,6 +288,8 @@ class account_common extends Controller
 
 
         $db_passwd=$this->t_user_info->get_passwd_md5_two($userid);
+
+
         $check_phone_flag= ($db_passwd == $passwd);
         if (!$check_phone_flag) { // check 临时密码
             $key = "md5_two_".$phone.'_'.$role;

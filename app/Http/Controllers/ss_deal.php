@@ -7643,6 +7643,24 @@ class ss_deal extends Controller
         $add_time = time();
         $uid = $this->get_account_id();
 
+        //检测图片尺寸
+        $domain = config('admin')['qiniu']['public']['url'];
+        $shareImgUrlOnline = $domain."/".$shareImgUrl;
+        $coverImgUrlOnline = $domain."/".$coverImgUrl;
+        $activityImgUrlOnline = $domain."/".$activityImgUrl;
+        $followImgUrlOnline = $domain."/".$followImgUrl;
+
+        list($shareWidth,$shareHeight,$shareType,$shareAttr)=getimagesize($shareImgUrlOnline);
+        list($coverWidth,$coverHeight,$coverType,$coverAttr)=getimagesize($coverImgUrlOnline);
+        list($activityWidth,$activityHeight,$activityType,$activityAttr)=getimagesize($activityImgUrl);
+        list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
+
+        if($shareWidth>750 || $shareHeight>1334){ return $this->output_err('分享页图片过大,请重新上传!'); }
+        if($coverWidth>300 || $coverHeight>300){ return $this->output_err('封面页图片过大,请重新上传!'); }
+        if($activityWidth>750 || $activityWidth>1334){ return $this->output_err('活动页图片过大,请重新上传!'); }
+        if($followWidth>750 || $followHeight>1334){ return $this->output_err('关注页图片过大,请重新上传!'); }
+
+
         $this->t_activity_usually->row_insert([
             "gift_type" => $gift_type,
             "title"     => $title,
@@ -7654,6 +7672,18 @@ class ss_deal extends Controller
             "activityImgUrl" => $activityImgUrl,
             "followImgUrl"   => $followImgUrl
         ]);
+        $id = $this->t_activity_usually->get_last_insertid();
+        $share_type = $id+100;
+        $url= "http://wx-parent.leo1v1.com/wx_parent_gift/marketingActivityUsually?type=".$share_type;
+        $this->t_activity_usually->field_update_list($id, ['url'=>$url]);
+
+        $this->t_web_page_info->row_insert([
+            "url" =>$url,
+            "title" =>$title,
+            "add_time" => time(NULL),
+            "add_adminid" =>  $this->get_account_id(),
+        ]);
+
 
         return $this->output_succ();
     }

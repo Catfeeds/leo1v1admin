@@ -76,7 +76,7 @@ class question_new extends Controller
         //dd($know_arr);
 
         $knowledge = json_encode($knowledge);
-        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712221447",
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712261447",
                                                   "ret"=>$ret,
                                                   'editData'=>$editData,
                                                   'knowledge'=>$knowledge,
@@ -175,6 +175,7 @@ class question_new extends Controller
         $this->initC($len1, $len2);
         return $this->printLCS($this->c, $len1 - 1, $len2 - 1);
     }
+
     /*返回两个串的相似度
      */
     private function getSimilar($str1, $str2) {
@@ -485,7 +486,7 @@ class question_new extends Controller
         //查找是否有其他标准答案
         $other_answers = $this->t_answer->answer_others($question_id,$answer_no);
      
-        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712221148",
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712261148",
                                                   'ret'=>$ret,
                                                   'next_step'=>$next_step,
                                                   'question'=>$question_info,

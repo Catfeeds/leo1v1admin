@@ -972,8 +972,70 @@ class wx_parent_gift extends Controller
         );
 
         return $this->output_succ();
+    }
 
+    /**
+     * @ 市场部常规活动 获取图片链接
+     **/
+    public function getImgUrlInfo(){
+        $id = $this->get_in_int_val('id');
+
+        $imgUrlInfo = $this->t_activity_usually->getImgUrlInfo($id);
+        $domain = config('admin')['qiniu']['public']['url'];
+        if($imgUrlInfo['shareImgUrl']){
+            $imgUrlInfo['shareImgUrl'] = $domain."/".$imgUrlInfo['shareImgUrl'] ; //分享页面
+        }
+
+        if($imgUrlInfo['coverImgUrl']){
+            $imgUrlInfo['coverImgUrl'] = $domain."/".$imgUrlInfo['coverImgUrl'] ; //分享页面
+        }
+
+        if($imgUrlInfo['activityImgUrl']){
+            $imgUrlInfo['activityImgUrl'] = $domain."/".$imgUrlInfo['activityImgUrl'] ; //分享页面
+        }
+
+        if($imgUrlInfo['followImgUrl']){
+            $imgUrlInfo['followImgUrl'] = $domain."/".$imgUrlInfo['followImgUrl'] ; //分享页面
+        }
+
+        return $this->output_succ(['data'=>$imgUrlInfo]);
     }
 
 
+    public function marketingActivityUsually () { // 市场部常规分享活动
+        $p_appid     = \App\Helper\Config::get_wx_appid();
+        $p_appsecret = \App\Helper\Config::get_wx_appsecret();
+        $type = $this->get_in_int_val('type');
+        $web_page_id = $this->get_in_int_val('web_page_id');
+        $from_adminid = $this->get_in_int_val('from_adminid');
+
+        $wx= new \App\Helper\Wx($p_appid,$p_appsecret);
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/rewriteUrlUsually?type=$shareid&web_page_id=$web_page_id&from_adminid=$from_adminid");
+        $wx->goto_wx_login( $redirect_url );
+    }
+
+    public function rewriteUrlUsually(){
+        $p_appid     = \App\Helper\Config::get_wx_appid();
+        $p_appsecret = \App\Helper\Config::get_wx_appsecret();
+
+        $code = $this->get_in_str_val('code');
+        $wx   = new \App\Helper\Wx($p_appid,$p_appsecret);
+        $token_info = $wx->get_token_from_code($code);
+        $openid     = @$token_info["openid"];
+        $token      = $wx->get_wx_token($p_appid,$p_appsecret);
+        $user_info  = $wx->get_user_info($openid,$token);
+
+        $type = $this->get_in_int_val("type");
+        $is_share = $this->t_market_department_activity->check_flag($openid,$type);
+
+        $web_page_id  = $this->get_in_int_val('web_page_id');
+        $from_adminid = $this->get_in_int_val('from_adminid');
+
+        if($is_share){
+            header("location: http://wx-parent-web.leo1v1.com/wx-parent-activity/shareSuc.html?openid=".$openid."&type=".$type."&web_page_id=$web_page_id&from_adminid=$from_adminid");
+        }else{
+            header("location: http://wx-parent-web.leo1v1.com/wx-parent-activity/index.html?openid=".$openid."&type=".$type."&web_page_id=$web_page_id&from_adminid=$from_adminid");
+        }
+        return ;
+    }
 }
