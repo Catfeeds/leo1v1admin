@@ -3173,7 +3173,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function get_item_list($page_info,$start_time,$end_time,$origin_ex){
+    public function get_item_list($page_info,$start_time,$end_time,$origin_ex='公众号,金数据,占豪,,'){
         $where_arr = [
             's.lesson_count_all=0',
             'n.seller_resource_type=1',

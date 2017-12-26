@@ -855,6 +855,7 @@ class teacher_money extends Controller
 
 
     public function update_bole_reward($teacherid, $re_teacherid) {
+        echo '调用成功 '.$teacherid.' --- '.$re_teacherid;
         $this->add_reference_price($teacherid, $re_teacherid, false);
     }
 }

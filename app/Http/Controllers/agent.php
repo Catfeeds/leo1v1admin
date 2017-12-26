@@ -417,14 +417,10 @@ class agent extends Controller
     }
 
     public function check(){
+        $origin_ex = $this->get_in_str_val('origin_ex');
         list($start_time,$end_time) = [1512057600,1514736000];
-        $origin_ex = ['公众号,金数据,占豪,,',
-                      '公众号,金数据,洞见,,',
-                      '公众号,金数据,教育百师通,,',
-                      '公众号,金数据,教育,,',
-                      '公众号,金数据,杏仁医生,,'];
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_seller_student_new->get_item_list($page_info,$start_time,$end_time,$origin_ex[0]);
+        $ret_info = $this->t_seller_student_new->get_item_list($page_info,$start_time,$end_time,$origin_ex);
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
         }

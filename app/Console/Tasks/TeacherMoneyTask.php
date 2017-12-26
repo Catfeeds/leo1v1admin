@@ -144,6 +144,7 @@ class TeacherMoneyTask extends TaskController
         $tea_list = $this->t_teacher_info->get_need_set_teacher_salary_list($start_time,$end_time);
         $full_list = $this->t_teacher_full_part_trans_info->get_accept_list($start_time,$end_time); // 查询上月全转兼老师
         foreach($tea_list as $t_val){
+            if ($t_val['teacherid'] != 146762) continue;
             $salary_info  = $teacher_money->get_teacher_salary($t_val['teacherid'],$start_time,$end_time);
             $lesson_money = ($salary_info['lesson_price_tax']+$salary_info['lesson_reward_admin'])*100;
 
@@ -151,6 +152,7 @@ class TeacherMoneyTask extends TaskController
                 $t_val['teacher_money_type'],$t_val['teacher_type'],$t_val['teacherid']
             );
             if (isset($full_list[$t_val['teacherid']])) { // 处理全转兼上月工资
+                dd('调用成功');
                 $accept_time = $full_list[$t_val['teacherid']]['accept_time'];
                 $id = $this->t_teacher_salary_list->get_id_for_time($t_val['teacherid'], $start_time, $end_time);
                 if ($id) {
