@@ -423,12 +423,12 @@ class agent extends Controller
         $origin_ex = $this->get_in_str_val('origin_ex','公众号,金数据,占豪,,');
         list($start_time,$end_time) = [1512057600,1514736000];
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_seller_student_new->get_item_list($page_info,$start_time,$end_time,$origin_ex);
-        foreach($ret_info['list'] as &$item){
+        $ret_info = $this->t_seller_student_new->get_item_list($start_time,$end_time,$origin_ex);
+        foreach($ret_info as &$item){
             $userid = $item['userid'];
             $phone = $item['phone'];
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
-            if($item['account'] == ''){
+            if($item['admin_revisiterid'] == 0){
                 $this->t_seller_student_new->field_update_list($userid, [
                     "sub_assign_adminid_1"  => $adminid,
                     "sub_assign_time_1"  => $now,
@@ -451,7 +451,7 @@ class agent extends Controller
                 ]);
             }
         }
-        return $this->Pageview(__METHOD__,$ret_info);
+        return $this->Pageview(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
 
     public function test_new(){
