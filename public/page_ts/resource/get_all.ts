@@ -380,7 +380,7 @@ $(function(){
                 $('.subject').empty();
                 Enum_map.append_option_list("subject",$('.subject'),true,[1,2,3,4,5]);
 
-                $('#id_other_file,#id_other_file').parent().parent().hide();
+                $('#id_other_file,#id_ff_file').parent().parent().hide();
                 get_book();
                 get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_four'));
 
