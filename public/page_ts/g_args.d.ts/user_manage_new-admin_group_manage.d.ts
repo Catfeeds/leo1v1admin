@@ -5,6 +5,7 @@ interface GargsStatic {
 	start_time:	string;
 	end_time:	string;
 	monthtime_flag:	number;
+	fulltime_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -52,7 +53,8 @@ function load_data(){
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
-		monthtime_flag:	$('#id_monthtime_flag').val()
+		monthtime_flag:	$('#id_monthtime_flag').val(),
+		fulltime_flag:	$('#id_fulltime_flag').val()
 		});
 }
 $(function(){
@@ -68,6 +70,7 @@ $(function(){
 			load_data();
 		});
 	$('#id_monthtime_flag').val(g_args.monthtime_flag);
+	$('#id_fulltime_flag').val(g_args.fulltime_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -90,4 +93,12 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["monthtime_flag title", "monthtime_flag", "th_monthtime_flag" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">fulltime_flag</span>
+                <input class="opt-change form-control" id="id_fulltime_flag" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["fulltime_flag title", "fulltime_flag", "th_fulltime_flag" ]])!!}
 */
