@@ -73,43 +73,40 @@ class pdfConversionH5 extends Command
             $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=$uuid&email=$email&pwd=$pwd";
             $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
 
-            \App\Helper\Utils::logger("qiniuupload_james_788: $saveH5FilePath");
+            // \App\Helper\Utils::logger("qiniuupload_james_788: $saveH5FilePath");
             // \App\Helper\Utils::savePicToServer($h5DownloadUrl,$saveH5FilePath);
 
-            file_put_contents($saveH5FilePath, fopen($h5DownloadUrl, 'r'));
 
-            // //download to ZIP
-            // $filename = str_replace('\\', '/', public_path()) . '/downloads_xml/' . date('YmdHis') . '.zip'; // 最终生成的文件名（含路径）
-            // // 生成文件
-            // $zip = new ZipArchive (); // 使用本类，linux需开启zlib，windows需取消php_zip.dll前的注释
-            // if ($zip->open($filename, ZIPARCHIVE::CREATE) !== TRUE) {
-            //     exit ('无法打开文件，或者文件创建失败');
-            // }
-            // $list = image::where('event_id', $id)->where('user_id', Auth::user()->id)->with('author')->get();
-            // foreach ($list as $key => $value) {
-            //     $fingerprint = explode('.', $value->fingerprint)[0];
-            //     $zip->addFile(str_replace('\\', '/', public_path()) . '/downloads_xml/' . $fingerprint . '.xml', basename($fingerprint . ' --' . ($key+1) . '.xml')); // 第二个参数是放在压缩包中的文件名称，如果文件可能会有重复，就需要注意一下
-            // }
-            // $zip->close(); // 关闭
-            // //下面是输出下载;
-            // header("Cache-Control: max-age=0");
-            // header("Content-Description: File Transfer");
-            // header('Content-disposition: attachment; filename=' . basename($filename)); // 文件名
-            // header("Content-Type: application/zip"); // zip格式的
-            // header("Content-Transfer-Encoding: binary"); // 告诉浏览器，这是二进制文件
-            // header('Content-Length: ' . filesize($filename)); // 告诉浏览器，文件大小
-            // @readfile($filename);//输出文件;
+
+
+            $len = filesize($h5DownloadUrl);
+            $ctype = 'application/zip';
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Cache-Control: public");
+            header("Content-Description: File Transfer");
+
+            //Use the switch-generated Content-Type
+            header("Content-Type: $ctype");
+
+            //Force the download
+            $header="Content-Disposition: attachment; filename=".$h5DownloadUrl.";";
+            header($header);
+            header("Content-Transfer-Encoding: binary");
+            header("Content-Length: ".$len);
+            @readfile($saveH5FilePath);
 
 
 
 
-
+            // file_put_contents($saveH5FilePath, fopen($h5DownloadUrl, 'r'));
 
 
             // 上传七牛
-            $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
+            // $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
 
-            \App\Helper\Utils::logger("qiniuupload_james_1: $saveH5Upload");
+            // \App\Helper\Utils::logger("qiniuupload_james_1: $saveH5Upload");
             //ok:gf15a4973b034c84d4f631be74b21741.zip
         }
     }

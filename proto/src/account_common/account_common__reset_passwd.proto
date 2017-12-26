@@ -9,6 +9,7 @@ message in  {
   string phone =1;//手机
   int32 role =2;//角色
   string passwd =3;//密码 md5(passwd)
+  string verify_code=4;//验证码
 
 }
 
