@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\pdfConversionH5::class,
         Commands\update_teacher_approve_to_data::class,
         Commands\update_bole_reward::class,
         Commands\add_teacher_warn::class,

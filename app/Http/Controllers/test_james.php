@@ -29,6 +29,15 @@ use LaneWeChat\Core\UserManage;
 use LaneWeChat\Core\TemplateMessage;
 
 
+// 引入鉴权类
+use Qiniu\Auth;
+
+// 引入上传类
+use Qiniu\Storage\UploadManager;
+use Qiniu\Storage\BucketManager;
+
+
+
 include(app_path("Libs/LaneWeChat/lanewechat.php"));
 
 
@@ -1444,6 +1453,15 @@ class test_james extends Controller
 
     public function md5Pwd(){
         dd(md5('021130'));
+    }
+
+    public function test_ce(){
+        $domain = config('admin')['qiniu']['public']['url'];
+        $a = 'ok:gf15a4973b034c84d4f631be74b21741.zip';
+        $b = $domain."/".$a;
+
+        // $b = substr($a,3);
+        dd($b);
     }
 
     public function getUrl(){
