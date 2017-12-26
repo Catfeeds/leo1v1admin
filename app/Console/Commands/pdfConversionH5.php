@@ -44,7 +44,8 @@ class pdfConversionH5 extends Command
         $store=new \App\FileStore\file_store_tea();
         $auth=$store->get_auth();
         $email = "michael@leoedu.com";
-        $pwd   = 021130;
+        $pwd   = 021130; // bbcffc83539bd9069b755e1d359bc70a
+
 
         // $handoutArray = $this->task->t_resource->getResourceList();
         $handoutArray = [
@@ -61,7 +62,7 @@ class pdfConversionH5 extends Command
 
             //上传未达
             $cmd  = "curl -F doc=@'$savePathFile' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=leoedu&fn=".$item['file_link'].".pdf'";
-            $uuid = shell_exec($cmd);
+            $uuid = substr(shell_exec($cmd),3);
 
             //从未达下载
             $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=$uuid&email=$email&pwd=$pwd";
@@ -72,6 +73,7 @@ class pdfConversionH5 extends Command
             $saveH5FilePath =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
 
             \App\Helper\Utils::logger("qiniuupload_james: $saveH5FilePath");
+            //ok:gf15a4973b034c84d4f631be74b21741.zip
         }
     }
 }

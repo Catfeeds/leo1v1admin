@@ -1455,6 +1455,15 @@ class test_james extends Controller
         dd(md5('021130'));
     }
 
+    public function test_ce(){
+        $domain = config('admin')['qiniu']['public']['url'];
+        $a = 'ok:gf15a4973b034c84d4f631be74b21741.zip';
+        $b = $domain."/".$a;
+
+        // $b = substr($a,3);
+        dd($b);
+    }
+
     public function getUrl(){
         $url = $this->get_in_str_val('url');
         $domain = config('admin')['qiniu']['public']['url'];
