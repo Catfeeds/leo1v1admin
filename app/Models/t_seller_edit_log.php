@@ -187,4 +187,9 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
 
         return $this->main_get_list($sql);
     }
+
+    public function get_item_list(){
+        $sql = "select ss.userid  from db_weiyi_admin.t_seller_edit_log l  left join db_weiyi.t_seller_student_new ss on ss.userid=l.new left join db_weiyi.t_student_info s on s.userid=ss.userid  where l.adminid = 831 and l.uid = 287 and l.uid <> l.adminid and l.type = 3 and s.is_test_user=0 and l.create_time>=1512057600 and l.create_time<1514736000";
+        return $this->main_get_list($sql);
+    }
 }

@@ -30,6 +30,10 @@ class account_common extends Controller
         $phone = $this->get_in_str_val("phone");
         $role = $this->get_in_int_val("role");
 
+        if($role==0){
+            return $this->output_err("角色值不能为空!");
+        }
+
         $check_phone =  \App\Helper\Utils::check_phone($phone);
         if(!$check_phone){
             return $this->output_err("手机号码不合法!");
@@ -84,6 +88,10 @@ class account_common extends Controller
         $role = $this->get_in_int_val("role");
         $time_code = $this->get_in_str_val("time_code");
         $reg_ip = $this->get_in_client_ip();
+
+        if($role==0){
+            return $this->output_err("角色值不能为空!");
+        }
 
 
         $check_phone =  \App\Helper\Utils::check_phone($phone);
@@ -146,6 +154,10 @@ class account_common extends Controller
         $passwd = $this->get_in_str_val("passwd");
         //  $verify_code = $this->get_in_str_val("verify_code");
         $reg_ip = ip2long($this->get_in_client_ip());
+
+        if($role==0){
+            return $this->output_err("角色值不能为空!");
+        }
 
         $check_phone =  \App\Helper\Utils::check_phone($phone);
         if(!$check_phone){
@@ -213,6 +225,10 @@ class account_common extends Controller
         $code_key = $phone."-".$role."-code";
 
         
+        if($role==0){
+            return $this->output_err("角色值不能为空!");
+        }
+
         $check_verify_code = session($code_key);
         // $check_verify_code = \App\Helper\Common::redis_get($code_key);
         // return $this->output_succ(["code"=>$verify_code,"check_verify_code"=>$check_verify_code,"code_key"=>$code_key]);
@@ -233,6 +249,10 @@ class account_common extends Controller
         $phone = $this->get_in_str_val("phone");
         $role = $this->get_in_int_val("role");
         $passwd = $this->get_in_str_val("passwd");
+
+        if($role==0){
+            return $this->output_err("角色值不能为空!");
+        }
         //  $verify_code = $this->get_in_str_val("verify_code");
 
         $check_phone =  \App\Helper\Utils::check_phone($phone);
@@ -275,6 +295,10 @@ class account_common extends Controller
         $role = $this->get_in_int_val("role");
         $passwd = $this->get_in_str_val("passwd");//两次md5之后的数据
 
+        if($role==0){
+            return $this->output_err("角色值不能为空!");
+        }
+
         $check_phone =  \App\Helper\Utils::check_phone($phone);
         if(!$check_phone){
             return $this->output_err("手机号码不合法!");
@@ -304,8 +328,8 @@ class account_common extends Controller
             return $this->output_err("密码错误");
         }
         if($role==1){
-            $_SESSION['uid']  = $userid;
-            $_SESSION['role'] = 1;
+            // $_SESSION['uid']  = $userid;
+            // $_SESSION['role'] = 1;
 
             // $old_passwd = $this->t_user_info->get_passwd($userid);
             // $data = file_get_contents("http://api.leo1v1.com/login/stu_login?phone=".$phone."&passwd=".$old_passwd);
