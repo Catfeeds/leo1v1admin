@@ -3,7 +3,7 @@
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-
+        'origin_ex':$('#id_origin_ex').val(),
     });
 }
 $(function(){
