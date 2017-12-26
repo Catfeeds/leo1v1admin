@@ -1312,6 +1312,7 @@ class test_boby extends Controller
 
             }
             unset($ret_info[$k_f]);
+            sleep(1);
         }
 
         return 'ok';
