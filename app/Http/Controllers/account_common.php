@@ -85,6 +85,7 @@ class account_common extends Controller
         $time_code = $this->get_in_str_val("time_code");
         $reg_ip = $this->get_in_client_ip();
 
+
         $check_phone =  \App\Helper\Utils::check_phone($phone);
         if(!$check_phone){
             return $this->output_err("手机号码不合法!");
@@ -107,11 +108,11 @@ class account_common extends Controller
         $phone_code=\App\Helper\Common::gen_rand_code(6);
         $code_key = $phone."-".$role."-code";
 
-        \App\Helper\Common::redis_set_expire_value($code_key, $phone_code,1200);
+        // \App\Helper\Common::redis_set_expire_value($code_key, $phone_code,1200);
 
-        // session([
-        //     $code_key  => $phone_code,
-        // ]);
+        session([
+            $code_key  => $phone_code,
+        ]);
         
 
         $phone_index = $this->get_current_verify_num($phone,$role);
@@ -212,9 +213,9 @@ class account_common extends Controller
         $code_key = $phone."-".$role."-code";
 
         
-        //$check_verify_code = session($code_key);
-        $check_verify_code = \App\Helper\Common::redis_get($code_key);
-        // return $this->output_succ(["code"=>$verify_code,"check_verify_code"=>$check_verify_code,"code_key"=>$code_key]);
+        $check_verify_code = session($code_key);
+        // $check_verify_code = \App\Helper\Common::redis_get($code_key);
+        return $this->output_succ(["code"=>$verify_code,"check_verify_code"=>$check_verify_code,"code_key"=>$code_key]);
         $check_flag = $this->check_verify_code( $verify_code,$check_verify_code,$phone,$role);
         
         if(!$check_flag){
