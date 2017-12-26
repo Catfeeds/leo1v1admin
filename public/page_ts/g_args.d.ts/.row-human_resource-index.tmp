@@ -36,7 +36,6 @@
 	third_subject	:any;
 	school	:any;
 	tea_note	:any;
-	grade_part_ex	:any;
 	is_freeze	:any;
 	freeze_reason	:any;
 	freeze_adminid	:any;
@@ -91,11 +90,11 @@
 	need_test_lesson_flag_str	:any;
 	gender_str	:any;
 	subject_str	:any;
+	grade_start_str	:any;
+	grade_end_str	:any;
 	second_subject_str	:any;
-	third_subject_str	:any;
-	grade_part_ex_str	:any;
-	second_grade_str	:any;
-	third_grade_str	:any;
+	second_grade_start_str	:any;
+	second_grade_end_str	:any;
 	identity_str	:any;
 	level_str	:any;
 	teacher_money_type_str	:any;
@@ -110,8 +109,6 @@
 	lesson_hold_flag_time_str	:any;
 	class_will_type_str	:any;
 	class_will_sub_type_str	:any;
-	grade_start_str	:any;
-	grade_end_str	:any;
 	revisit_add_time_str	:any;
 	recover_class_time_str	:any;
 	work_day	:any;

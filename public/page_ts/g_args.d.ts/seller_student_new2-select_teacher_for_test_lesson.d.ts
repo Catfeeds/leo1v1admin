@@ -51,9 +51,9 @@ interface RowData {
 	match_time	:any;
 	tags_str	:any;
 	match_tags	:any;
-	teacher_type_str	:any;
 	identity_str	:any;
 	gender_str	:any;
+	teacher_type_str	:any;
 	work_day	:any;
 	phone_hide	:any;
 }

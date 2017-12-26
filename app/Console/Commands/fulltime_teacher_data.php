@@ -47,7 +47,7 @@ class fulltime_teacher_data extends Command
         $i = $first_time;
         $montharr = [];
         while($i  <= $second_time){
-            $montharr[] = date('Y-m-01',$i);                                                                     
+            $montharr[] = date('Y-m-01',$i);
             $i = strtotime('+1 month', $i);
         }
         $i = 0;
@@ -65,31 +65,31 @@ class fulltime_teacher_data extends Command
             $cc_transfer_sh = $task->t_manager_info->get_fulltime_teacher_cc_transfer($time1,$time2,1);
             $cc_transfer_wh = $task->t_manager_info->get_fulltime_teacher_cc_transfer($time1,$time2,2);
             $cc_transfer_all_per = $cc_transfer_all['all_lesson'] > 0?100 * round(100*$cc_transfer_all['order_num']/$cc_transfer_all['all_lesson'],2):0;
-            $cc_transfer_sh_per      = $cc_transfer_sh['all_lesson'] > 0?100 * round(100*$cc_transfer_sh['order_num']/$cc_transfer_sh['all_lesson'],2):0;
-            $cc_transfer_wh_per      = $cc_transfer_wh['all_lesson']>0?100 * round(100*$cc_transfer_wh['order_num']/$cc_transfer_wh['all_lesson'],2):0;
+            $cc_transfer_sh_per = $cc_transfer_sh['all_lesson'] > 0?100 * round(100*$cc_transfer_sh['order_num']/$cc_transfer_sh['all_lesson'],2):0;
+            $cc_transfer_wh_per = $cc_transfer_wh['all_lesson']>0?100 * round(100*$cc_transfer_wh['order_num']/$cc_transfer_wh['all_lesson'],2):0;
             $data_all = [
-                "create_time" => $time1,
-                "time_range" => date("Y-m-d",$time1).'--'.date("Y-m-d",$time2),
-                "teacher_type" => 0,//all
-                "student_num" => $student_num['stu_num'],
-                "lesson_count" => $lesson_count['lesson_all'],
+                "create_time"     => $time1,
+                "time_range"      => date("Y-m-d",$time1).'--'.date("Y-m-d",$time2),
+                "teacher_type"    => 0,//all
+                "student_num"     => $student_num['stu_num'],
+                "lesson_count"    => $lesson_count['lesson_all'],
                 "cc_transfer_per" => $cc_transfer_all_per
             ];
             $data_sh = [
-                 "create_time" => $time1,
-                "time_range" => date("Y-m-d",$time1).'--'.date("Y-m-d",$time2),
-                "teacher_type" => 1,//sh
-                "student_num" => $student_num['sh_num'],
-                "lesson_count" => $lesson_count['sh_lesson_all'],
+                "create_time"     => $time1,
+                "time_range"      => date("Y-m-d",$time1).'--'.date("Y-m-d",$time2),
+                "teacher_type"    => 1,//sh
+                "student_num"     => $student_num['sh_num'],
+                "lesson_count"    => $lesson_count['sh_lesson_all'],
                 "cc_transfer_per" => $cc_transfer_sh_per
             ];
             $data_wh = [
-                 "create_time" => $time1,
-                "time_range" => date("Y-m-d",$time1).'--'.date("Y-m-d",$time2),
-                "teacher_type" => 2,//wh
-                "student_num" => $student_num['wh_num'],
-                "lesson_count" => $lesson_count['wh_lesson_all'],
-                "cc_transfer_per" =>  $cc_transfer_wh_per
+                "create_time"     => $time1,
+                "time_range"      => date("Y-m-d",$time1).'--'.date("Y-m-d",$time2),
+                "teacher_type"    => 2,//wh
+                "student_num"     => $student_num['wh_num'],
+                "lesson_count"    => $lesson_count['wh_lesson_all'],
+                "cc_transfer_per" => $cc_transfer_wh_per
             ];
             $create_time = $time1;
 

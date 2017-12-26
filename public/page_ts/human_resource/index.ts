@@ -40,7 +40,6 @@ $(function(){
             month_stu_num:	$('#id_month_stu_num').val(),
 			record_score_num:	$('#id_record_score_num').val(),
 			identity:	$('#id_identity').val(),
-			tea_label_type:	$('#id_tea_label_type').val(),
 			plan_level:	$('#id_plan_level').val(),
 			teacher_textbook:	$('#id_teacher_textbook').val()
         });
@@ -48,7 +47,7 @@ $(function(){
 
     $('#id_teacherid').val(g_args.teacherid);
     $('#id_reference_teacherid').val(g_args.reference_teacherid);
-    Enum_map.append_option_list("teacher_money_type", $("#id_teacher_money_type") );
+    Enum_map.append_option_list("teacher_money_type", $("#id_teacher_money_type"),false,[0,6,7] );
     Enum_map.append_option_list("teacher_type", $("#id_teacher_type") );
     Enum_map.append_option_list("teacher_ref_type", $("#id_teacher_ref_type") );
     Enum_map.append_option_list("level", $("#id_level") );
@@ -68,7 +67,6 @@ $(function(){
     Enum_map.append_option_list("subject", $("#id_subject_plan") );
     Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type"),false,[1,2] );
     Enum_map.append_option_list("identity", $("#id_identity") );
-    Enum_map.append_option_list("tea_label_type", $("#id_tea_label_type"),false,[6,7,8,9,10,11,12,13,14]  );
     Enum_map.append_option_list("region_version", $("#id_teacher_textbook") );
 
 
@@ -104,7 +102,6 @@ $(function(){
 	$('#id_month_stu_num').val(g_args.month_stu_num);
 	$('#id_record_score_num').val(g_args.record_score_num);
 	$('#id_identity').val(g_args.identity);
-	$('#id_tea_label_type').val(g_args.tea_label_type);
 	$('#id_plan_level').val(g_args.plan_level);
 	$('#id_teacher_textbook').val(g_args.teacher_textbook);
 	$('#id_train_through_new').val(g_args.train_through_new);
@@ -1367,11 +1364,7 @@ $(function(){
                         "teacherid" : opt_data.teacherid,
                         "phone"     : opt_data.phone,
                     },function(result){
-                        if(result.ret==0){
-                            window.location.reload();
-                        }else{
-                            BootstrapDialog.alert(result.info);
-                        }
+                        BootstrapDialog.alert(result.info);
                     });
 		            }
 	          }]
@@ -1481,11 +1474,7 @@ $(function(){
                         "teacher_ref_type" : id_teacher_ref_type.val(),
                         "teacher_type"     : id_teacher_type.val(),
                     },function(result){
-                        if(result.ret==0){
-                            window.location.reload();
-                        }else{
-                            BootstrapDialog.alert(result.info);
-                        }
+                        BootstrapDialog.alert(result.info);
                     })
                 }
             });
@@ -1790,37 +1779,6 @@ $(function(){
         })
     }
 
-    $(".opt-set-remark").on("click",function(){
-	      var data = $(this).get_opt_data();
-        update_part_remarks(data);
-    });
-
-    var update_part_remarks = function(data){
-         var id_part_remarks = $("<textarea/>");
-
-        var arr = [
-            ["其他机构信息",id_part_remarks]
-        ];
-
-        $.show_key_value_table("编辑机构信息",arr,{
-            label    : "确认",
-            cssClass : "btn-warning",
-            action   : function(dialog) {
-                $.do_ajax("/tea_manage/set_teacher_part_remark",{
-                    "teacherid"   : data.teacherid,
-                    "part_remarks" : id_part_remarks.val(),
-                },function(result){
-                    if(result.ret==0){
-                        window.location.reload();
-                    }else{
-                        BootstrapDialog.alert(result.info);
-                    }
-                })
-            }
-        });
-    }
-
-
     $(".opt-account-number").on("click",function(){
 	      var data = $(this).get_opt_data();
 
@@ -1833,7 +1791,6 @@ $(function(){
         var id_update_tea_level        = $("<button class='btn btn-primary'>老师工资类型</button>");
         var id_update_tea_bank         = $("<button class='btn btn-danger'>银行卡</button>");
         var id_update_tea_pass_info    = $("<button class='btn btn-primary'>通过信息</button>");
-        var id_update_part_remarks     = $("<button class='btn btn-danger'>机构备注</button>");
         var id_update_check_subject    = $("<button class='btn btn-primary'>审核信息</button>");
         var id_set_test_user           = $("<button class='btn btn-danger'>设为测试</button>");
         var id_update_tea_ref_type     = $("<button class='btn btn-primary'>渠道信息</button>");
@@ -1845,7 +1802,6 @@ $(function(){
         id_update_tea_level.on("click",function(){set_teacher_level(data);});
         id_update_tea_bank.on("click",function(){update_tea_bank_info(data);});
         id_update_tea_pass_info.on("click",function(){update_tea_pass_info(data);});
-        id_update_part_remarks.on("click",function(){update_part_remarks(data);});
         id_set_test_user.on("click",function(){set_test_user(data);});
         id_update_check_subject.on("click",function(){update_tea_check_info(data);});
         id_update_tea_ref_type.on("click",function(){update_tea_ref_type(data);});
@@ -1866,7 +1822,6 @@ $(function(){
                 ["",id_update_tea_level],
                 ["",id_update_tea_bank],
                 ["",id_update_tea_pass_info],
-                ["",id_update_part_remarks],
                 ["",id_update_check_subject],
                 ["",id_set_test_user],
                 ["",id_update_tea_ref_type],
@@ -1916,11 +1871,7 @@ $(function(){
                     $.do_ajax("/common/send_offer_info_by_teacherid",{
                         "teacherid" : data.teacherid
                     },function(result){
-                        if(result.ret==0){
-                            window.location.reload();
-                        }else{
-                            BootstrapDialog.alert(result.info);
-                        }
+                        BootstrapDialog.alert(result.info);
                     })
 		            }
 	          }]
@@ -2157,11 +2108,7 @@ $(function(){
                     "subject"   : id_subject.val(),
                     "grade"     : grade_str,
                 },function(result){
-                    if(result.ret==0){
-                        window.location.reload();
-                    }else{
-                        BootstrapDialog.alert(result.info);
-                    }
+                    BootstrapDialog.alert(result.info);
                 })
             }
         });
