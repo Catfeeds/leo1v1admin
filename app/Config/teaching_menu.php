@@ -210,6 +210,7 @@ class teaching_menu{
 
 
                 [ "name"=>"教学部", "list"=>[
+                    ["name"=>"全职老师",  "url"=>"/user_manage_new/admin_group_manage_fulltime"],
                     ["name"=>"全职老师考勤信息",   "url"=>"/fulltime_teacher/fulltime_teacher_work_attendance_info"],
                     ["name"=>"全职老师考勤汇总",   "url"=>"/fulltime_teacher/fulltime_teacher_attendance_info_month"],
                     [ "name"=>"全职老师产能",   "url"=>"/fulltime_teacher/fulltime_teacher_count"],
