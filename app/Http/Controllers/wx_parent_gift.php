@@ -972,7 +972,6 @@ class wx_parent_gift extends Controller
         );
 
         return $this->output_succ();
-
     }
 
     /**
@@ -1006,12 +1005,12 @@ class wx_parent_gift extends Controller
     public function marketingActivityUsually () { // 市场部常规分享活动
         $p_appid     = \App\Helper\Config::get_wx_appid();
         $p_appsecret = \App\Helper\Config::get_wx_appsecret();
-        $shareid = $this->get_in_int_val('shareid');
+        $type = $this->get_in_int_val('type');
         $web_page_id = $this->get_in_int_val('web_page_id');
         $from_adminid = $this->get_in_int_val('from_adminid');
 
         $wx= new \App\Helper\Wx($p_appid,$p_appsecret);
-        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/rewriteUrlUsually?shareid=$shareid&web_page_id=$web_page_id&from_adminid=$from_adminid");
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/rewriteUrlUsually?type=$shareid&web_page_id=$web_page_id&from_adminid=$from_adminid");
         $wx->goto_wx_login( $redirect_url );
     }
 
@@ -1026,19 +1025,17 @@ class wx_parent_gift extends Controller
         $token      = $wx->get_wx_token($p_appid,$p_appsecret);
         $user_info  = $wx->get_user_info($openid,$token);
 
-        $shareid = $this->get_in_int_val("shareid");
+        $type = $this->get_in_int_val("type");
         $is_share = $this->t_market_department_activity->check_flag($openid,$type);
 
         $web_page_id  = $this->get_in_int_val('web_page_id');
         $from_adminid = $this->get_in_int_val('from_adminid');
 
         if($is_share){
-            header("location: http://wx-parent-web.leo1v1.com/wx-activity/shareSuc.html?openid=".$openid."&shareid=".$shareid."&web_page_id=$web_page_id&from_adminid=$from_adminid");
+            header("location: http://wx-parent-web.leo1v1.com/wx-parent-activity/shareSuc.html?openid=".$openid."&type=".$type."&web_page_id=$web_page_id&from_adminid=$from_adminid");
         }else{
-            header("location: http://wx-parent-web.leo1v1.com/wx-activity/index.html?openid=".$openid."&shareid=".$shareid."&web_page_id=$web_page_id&from_adminid=$from_adminid");
+            header("location: http://wx-parent-web.leo1v1.com/wx-parent-activity/index.html?openid=".$openid."&type=".$type."&web_page_id=$web_page_id&from_adminid=$from_adminid");
         }
         return ;
     }
-
-
 }

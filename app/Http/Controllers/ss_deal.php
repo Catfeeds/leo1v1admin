@@ -7672,8 +7672,19 @@ class ss_deal extends Controller
             "activityImgUrl" => $activityImgUrl,
             "followImgUrl"   => $followImgUrl
         ]);
+        $id = $this->t_activity_usually->get_last_insertid();
+        $share_type = $id+100;
+        $url= "http://wx-parent.leo1v1.com/wx_parent_gift/marketingActivityUsually?type=".$share_type;
+        $this->t_activity_usually->field_update_list($id, ['url'=>$url]);
 
-        $id = $this->t_activity_usually->last_insert_id();
+        $this->t_web_page_info->row_insert([
+            "url" =>$url,
+            "title" =>$title,
+            "add_time" => time(NULL),
+            "add_adminid" =>  $this->get_account_id(),
+        ]);
+
+
         return $this->output_succ();
     }
 }

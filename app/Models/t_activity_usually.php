@@ -52,6 +52,7 @@ class t_activity_usually extends \App\Models\Zgen\z_t_activity_usually
 
         return $this->main_get_row($sql);
     }
+
 }
 
 
