@@ -1,8 +1,5 @@
 @extends('layouts.app')
 @section('content')
-<script type="text/javascript">
- g_qiniu_domain = "{{$qiniu_domain}}";
-</script>
 <script type="text/javascript" src="/page_js/set_lesson_time.js"></script>
 <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
 <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
@@ -39,20 +36,24 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>教材 </td>
+                    <td>手机 </td>
+                    <td>渠道 </td>
+                    <td>进入时间 </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["textbook_str"]}} </td>
+                        <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["origin"]}} </td>
+                        <td>{{@$var["add_time"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                <a class="fa fa-times opt-del" title="删除"> </a>
+                                <a class="fa fa-edit opt-edit" style="display:none;" title="编辑"> </a>
+                                <a class="fa fa-times opt-del" style="display:none;" title="删除"> </a>
                             </div>
                         </td>
                     </tr>
