@@ -265,7 +265,6 @@ $(function(){
     $(".opt-post-test-lesson_new").on("click",function(){
         var me=this;
         var opt_data=$(this).get_opt_data();
-
         var do_add_test_lesson= function() {
             $.do_ajax("/ss_deal/get_user_info",{
                 "userid"                 : opt_data.userid ,
@@ -312,12 +311,12 @@ $(function(){
                     return;
                 }
 
-                if (require_time < need_start_time ) {
-                    alert("申请时间不能早于 "+ min_date_time );
-                    $(me).parent().find(".opt-edit-new").click();
-                    return;
-                    //申请时间
-                }
+                // if (require_time < need_start_time ) {
+                //     alert("申请时间不能早于 "+ min_date_time );
+                //     $(me).parent().find(".opt-edit-new").click();
+                //     return;
+                //     //申请时间
+                // }
 
                 var id_stu_test_ipad_flag   = $("<select/>");
                 var id_not_test_ipad_reason = $("<textarea>");
@@ -3231,22 +3230,22 @@ function init_edit() {
 
 
     $(".opt-edit-new_new_two").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        var opt_obj=this;
-        var click_type=2;
+        var opt_data   = $(this).get_opt_data();
+        var opt_obj    = this;
+        var click_type = 2;
         edit_user_info_new_two(opt_data,opt_obj,click_type);
     });
 
-    var edit_user_info_new_two=function(opt_data,opt_obj,click_type){
+    var edit_user_info_new_two = function(opt_data,opt_obj,click_type){
         $.do_ajax("/ss_deal/get_user_info",{
             "userid" : opt_data.userid ,
             "test_lesson_subject_id" : opt_data.test_lesson_subject_id ,
         },function(ret){
-            var data=ret.data;
-            var html_node = $.dlg_need_html_by_id( "id_dlg_post_user_info_new_two");
-            var show_noti_info_flag=false;
-            var $note_info=html_node.find(".note-info");
-            var note_msg="";
+            var data                = ret.data;
+            var html_node           = $.dlg_need_html_by_id( "id_dlg_post_user_info_new_two");
+            var show_noti_info_flag = false;
+            var $note_info          = html_node.find(".note-info");
+            var note_msg            = "";
             if (data.test_lesson_count >0 ) {
                 show_noti_info_flag=true;
                 note_msg="已有试听课:"+data.test_lesson_count +"次" ;
@@ -4283,6 +4282,7 @@ function init_edit() {
                             }
                         });
                         $.do_ajax("/ss_deal2/save_user_info_new",{
+                            save   : 1,
                             new_demand_flag   : 1,
                             click_type        : click_type,
                             userid            : opt_data.userid,
@@ -4526,12 +4526,6 @@ function init_edit() {
                         }else{
                             html_node.find("#id_cultivation_new_two").parent().attr('style','');
                         }
-                        // if(add_tag == ''){
-                        //     html_node.find("#id_add_tag_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                        //     return false;
-                        // }else{
-                        //     html_node.find("#id_add_tag_new_two").parent().attr('style','');
-                        // }
                         if(html_node.find("#id_stu_request_test_lesson_demand_new_two").val() == ''){
                             html_node.find("#id_stu_request_test_lesson_demand_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
@@ -4582,13 +4576,13 @@ function init_edit() {
                         }
                         if((id_stu_request_test_lesson_time.val() != '' && id_stu_request_test_lesson_time.val() != '无') && (id_stu_request_test_lesson_time_end.val() != '' && id_stu_request_test_lesson_time_end.val() != '无')){
                             var min_time = Date.parse(new Date(id_stu_request_test_lesson_time.val()));
-                            var start_time = Date.parse(new Date(id_stu_request_test_lesson_time.val()))+3600*24*2*1000;
+                            var start_time = Date.parse(new Date(id_stu_request_test_lesson_time.val()))+3600*2*1000;
                             var time = new Date(start_time);
                             var year = time.getFullYear();
                             var month = time.getMonth()+1;
                             var date = time.getDate();
-                            var hours = 0;
-                            var minutes = 0;
+                            var hours = time.getHours();
+                            var minutes = time.getMinutes();
                             var seconds = 0;
                             var end_date = year+'-'+add0(month)+'-'+add0(date)+' '+add0(hours)+':'+add0(minutes)+':'+add0(seconds);
                             var max_time = Date.parse(new Date(end_date));
@@ -4623,7 +4617,9 @@ function init_edit() {
                                 html_node.find("#id_stu_request_test_lesson_time").attr('style','');
                             }
                         }
+
                         $.do_ajax("/ss_deal2/save_user_info_new",{
+                            save   : 2,
                             new_demand_flag   : 1,
                             click_type        : click_type,
                             userid            : opt_data.userid,

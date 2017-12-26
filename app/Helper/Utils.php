@@ -1502,9 +1502,9 @@ class Utils  {
     static public function set_default_value(&$set_value,$check_data,$default_value=1,$check_key=0){
         self::check_isset_data($set_value,"");
         if(is_array($check_data)){
-            $set_value = !isset($check_data[$check_key])?$default_value:$check_data[$check_key];
+            $set_value = !isset($check_data[$check_key]) || empty($check_data[$check_key])?$default_value:$check_data[$check_key];
         }else{
-            $set_value = !isset($check_data)?$default_value:$check_data;
+            $set_value = !isset($check_data) || empty($check_data)?$default_value:$check_data;
         }
     }
 
@@ -2354,16 +2354,16 @@ class Utils  {
      */
     static public function check_teacher_age($age){
         switch($age){
-        case $age>20:
+        case $age<30:
             $age_flag = 1;
             break;
-        case $age>30:
+        case $age<40:
             $age_flag = 2;
             break;
-        case $age>40:
+        case $age<50:
             $age_flag = 3;
             break;
-        case $age>50:
+        case $age<60:
             $age_flag = 4;
             break;
         default:
@@ -2399,7 +2399,10 @@ class Utils  {
                 $item['file_use_type_str'] = '老师版';
             }else if ($item['file_use_type'] == 2 ){
                 $item['file_use_type_str'] = '学生版';
+            }else if ($item['file_use_type'] == 3 ){
+                $item['file_use_type_str'] = '额外文件';
             }
+
         }
     }
 
@@ -2499,11 +2502,11 @@ class Utils  {
                 303 => ['结构化学(化学键、原子、晶体结构)','化学反应原理(平衡与速率)','离子反应及氧化还原反应'],
             ],
             5 => [
-                202 => ['压力、压强','浮力','力学','机械', '热学'],
-                203 => ['压力、压强','浮力','电学','机械', '热学'],
-                301 => ['压力、压强','浮力','力学','机械', '热学'],
-                302 => ['压力、压强','浮力','电学','机械', '热学'],
-                303 => ['压力、压强','浮力','力学','机械', '热学'],
+                202 => ['压力压强','浮力','力学','机械', '热学'],
+                203 => ['压力压强','浮力','电学','机械', '热学'],
+                301 => ['力学','机械', '热学'],
+                302 => ['电场','电路','电磁'],
+                303 => ['力学','机械','热学','电场', '电路', '电磁'],
             ],
         ];
         if($is_all == false){

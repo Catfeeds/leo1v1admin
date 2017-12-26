@@ -305,7 +305,25 @@ class fulltime_teacher extends Controller
 
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
 
-        $ret=[]; 
+        $list=$this->t_teaching_core_data->get_all_info(-1,$start_time);
+        foreach($list["list"] as &$item){
+            $item["fulltime_teacher_lesson_count"] =  $item["fulltime_teacher_lesson_count"]/100;
+            $item["platform_teacher_lesson_count"] =  $item["platform_teacher_lesson_count"]/100;
+            $item['fulltime_teacher_pro'] = $item['platform_teacher_count']>0?round($item["fulltime_teacher_count"]*100/$item['platform_teacher_count'],2):0;
+            $item["fulltime_teacher_cc_per"] = !empty($item["fulltime_teacher_cc_lesson"])?round($item["fulltime_teacher_cc_order"]/$item["fulltime_teacher_cc_lesson"]*100,2):0;
+            $item["platform_teacher_cc_per"] = !empty($item["platform_teacher_cc_lesson"])?round($item["platform_teacher_cc_order"]/$item["platform_teacher_cc_lesson"]*100,2):0;
+            $item["part_teacher_lesson_count"] =  $item["platform_teacher_lesson_count"]-$item["fulltime_teacher_lesson_count"];
+            $item["part_teacher_cc_lesson"] = $item["platform_teacher_cc_lesson"]-$item["fulltime_teacher_cc_lesson"];
+            $item["part_teacher_cc_order"] = $item["platform_teacher_cc_order"]-$item["fulltime_teacher_cc_order"];
+            $item["part_teacher_cc_per"] = !empty($item["part_teacher_cc_lesson"])?round($item["part_teacher_cc_order"]/$item["part_teacher_cc_lesson"]*100,2):0;
+            $item["fulltime_teacher_lesson_count_per"] = !empty($item["platform_teacher_lesson_count"])?round($item["fulltime_teacher_lesson_count"]/$item["platform_teacher_lesson_count"]*100,2):0;
+            $item["fulltime_normal_stu_pro"] = !empty($item["platform_normal_stu_num"])?round($item["fulltime_normal_stu_num"]/$item["platform_normal_stu_num"]*100,2):0;
+            $item["fulltime_teacher_student_pro"] = !empty($item["platform_teacher_student"])?round($item["fulltime_teacher_student"]/$item["platform_teacher_student"]*100,2):0;
+
+
+        }
+        $ret = @$list["list"][0];
+
 
         // $lesson_end_time = $this->get_test_lesson_end_time($end_time);
 

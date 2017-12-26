@@ -80,6 +80,7 @@ interface RowData {
 	phone	:any;
 	require_adminid	:any;
 	stu_request_test_lesson_time	:any;
+	curl_stu_request_test_lesson_time_end	:any;
 	stu_request_test_lesson_demand	:any;
 	intention_level	:any;
 	gender	:any;

@@ -1,5 +1,5 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/assistant_performance-get_ass_stu_lesson_month.d.ts" />
+/// <reference path="../g_args.d.ts/assistant_performance-get_assistant_origin_order_losson_info.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}

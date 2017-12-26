@@ -129,7 +129,11 @@ $(function(){
                         id_teacher_textbook.val(select_list);
                         dlg.close();
                     }
+                },function(){
+                   // var  = $(this).find("#id_th_list").parent().parent();
+                    console.log(header_list);
                 });
+
                 
             });
         });

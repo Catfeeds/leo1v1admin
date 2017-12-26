@@ -1398,13 +1398,13 @@ class test_james extends Controller
      * @ 测试期间请勿上传过量文件，以免影响系统正常运行，否则客服人员可能暂停或关闭本测试账户。
      * @ michael@leoedu.com 密码 ： 021130
      * @gf5090e8e98978bfbf0e3e074593ade[cq161]
-     * @ g9029ce6062262c6fd33a4bb38956ac8 //uuid [test.pdf]
+     * @ g9029ce6062262c6fd33a4bb38956ac8 //uuid [test.pdf] g28bcd158f6b7d823d8f1c6df23bbaf5
      * @ curl -F doc=@'/home/ybai/test.pdf' 'http://ts.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=James&f n=新文件.pptx'
      **/
     public function translate_pdf(){
         $path = $this->get_in_str_val('path');
         $cmd  = "curl -F doc=@'$path' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=James&fn=新文件.pdf'";
-        $uuid = exec($cmd);
+        $uuid = shell_exec($cmd);
         dd($uuid);
     }
 
@@ -1442,6 +1442,16 @@ class test_james extends Controller
         return $authUrl;
     }
 
+    public function md5Pwd(){
+        dd(md5('021130'));
+    }
+
+    public function getUrl(){
+        $url = $this->get_in_str_val('url');
+        $domain = config('admin')['qiniu']['public']['url'];
+        $change_reason_url = $domain.'/'.$url;
+        dd($change_reason_url);
+    }
 
 
 

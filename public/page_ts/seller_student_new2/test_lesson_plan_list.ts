@@ -632,8 +632,6 @@ $(function(){
                 }
                 need_start_time=$.strtotime(min_date_time );
 
-                // alert(require_time);
-
                 if(!require_time){
                     alert("请选择试听时间!");
                     return;
@@ -641,9 +639,7 @@ $(function(){
 
                 if (require_time < need_start_time ) {
                     alert("试听时间不能早于 "+ min_date_time );
-                    //  $(me).parent().find(".opt-edit").click();
                     return;
-                    //申请时间
                 }
 
                 $.do_ajax("/ss_deal/ass_add_require_test_lesson",{
@@ -743,42 +739,41 @@ $(function(){
         id_lesson_start_time.val($.DateFormat(opt_data.require_change_lesson_time , "yyyy-MM-dd hh:mm"  ));
         $.show_key_value_table("申请更换试听课时间", arr ,[
             {
-                label    : '驳回',
-                cssClass : 'btn-danger',
-                action   : function(dialog) {
-                    $.do_ajax("/ss_deal/refuce_seller_require_change",{
-                        require_id : opt_data.require_id
+            label    : '驳回',
+            cssClass : 'btn-danger',
+            action   : function(dialog) {
+                $.do_ajax("/ss_deal/refuce_seller_require_change",{
+                    require_id : opt_data.require_id
+                }) ;
+
+            }
+        },{
+
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                var now = (new Date()).getTime()/1000;
+                var start_time = $.strtotime(id_lesson_start_time.val());
+                if ( now > start_time ) {
+                    alert("上课时间比现在还小." );
+                    return ;
+                }else{
+                    $.do_ajax("/ss_deal/done_seller_require_change",{
+                        require_id : opt_data.require_id,
+                        lesson_start: id_lesson_start_time.val(),
+                        userid:opt_data.userid,
+                        lessonid: opt_data.lessonid,
+                        teacherid:opt_data.teacherid
                     }) ;
 
                 }
-            },{
-
-                label    : '确认',
-                cssClass : 'btn-warning',
-                action   : function(dialog) {
-                    var now = (new Date()).getTime()/1000;
-                    var start_time = $.strtotime(id_lesson_start_time.val());
-                    if ( now > start_time ) {
-                        alert("上课时间比现在还小." );
-                        return ;
-                    }else{
-                        $.do_ajax("/ss_deal/done_seller_require_change",{
-                            require_id : opt_data.require_id,
-                            lesson_start: id_lesson_start_time.val(),
-                            userid:opt_data.userid,
-                            lessonid: opt_data.lessonid,
-                            teacherid:opt_data.teacherid
-                        }) ;
-
-                    }
-                }
-            }]);
+            }
+        }]);
     });
 
     $(".opt-edit").on("click",function(){
         var opt_data=$(this).get_opt_data();
 
-        // console.log(opt_data);
         var $nick=$("<input/>").val(opt_data.nick );
         var $parent_name=$("<input/>").val(opt_data.parent_name);
         var $school=$("<input/>").val(opt_data.school );
@@ -815,10 +810,6 @@ $(function(){
             onChangeDateTime :function(){
             }
         });
-
-        // console.log($stu_request_test_lesson_time);
-
-
 
         $ass_test_lesson_type.on("change",function(){
             if($ass_test_lesson_type.val() == 2){
@@ -2852,6 +2843,15 @@ $(function(){
 
     $(".select-teacher-for-test-lesson").on("click",function(){
         var data = $(this).get_opt_data();
+
+        if(data.jw_test_lesson_status == 2){
+            BootstrapDialog.alert("请先解除挂载!");
+            return;
+        }
+        if(data.accept_status == 1){
+            BootstrapDialog.alert('已确认课程，若更换试听课，请取消课程，重新排课；');
+            return;
+        }
         var url = "/seller_student_new2/select_teacher_for_test_lesson?require_id="+data.require_id;
         window.open(url);
     });

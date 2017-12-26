@@ -281,6 +281,7 @@ class menu{
                     ["power_id"=>2, "name"=>"销售个人出勤",   "url"=>"/user_manage_new/seller_attendance_info"]
                 ]],
                 ["power_id"=>104, "name"=>"合同配置管理", "list"=>[
+                    ["power_id"=>2, "name"=>"查看当前活动",   "url"=>"/seller_student2/get_current_commom_activity"],
                     ["power_id"=>1, "name"=>"活动管理",   "url"=>"/seller_student2/show_order_activity_info"],
                 ]],
 
@@ -456,7 +457,7 @@ class menu{
                 ["power_id"=>10, "name"=>"用户消息列表",   "url"=>"/news_info/stu_detail_message_list"],
                 ["power_id"=>35, "name"=>"产品问题记录文档",   "url"=>"/user_manage_new/product_info"],
                 ["power_id"=>36, "name"=>"软件版本控制",   "url"=>"/aliyun_oss/upload_list"],
-                ["power_id"=>37, "name"=>"老师晋升参考数据",   "url"=>"/tea_manage_new/approved_data"],
+                ["power_id"=>37, "name"=>"老师晋升参考数据",   "url"=>"/tea_manage_new/approved_data_new"],
                 ["power_id"=>47, "name"=>"标签库",   "url"=>"/product_tag/tag_list"],
             ]],
 
@@ -761,7 +762,7 @@ class menu{
                 ["power_id"=>26, "name"=>"投诉老师列表",   "url"=>"/tea_manage_new/get_teacher_complaints_info_jw"],
                 ["power_id"=>27, "name"=>"销售个人排行榜",   "url"=>"/tongji_ss/get_seller_rank_for_jw"],
                 ["power_id"=>28, "name"=>"限课特殊申请",   "url"=>"/seller_student_new2/test_lesson_plan_list_jw_leader"],
-                ["power_id"=>29, "name"=>"CC转化率统计", "url"=>"/user_manage/tongji_cc"],
+                // ["power_id"=>29, "name"=>"CC转化率统计", "url"=>"/user_manage/tongji_cc"],
                 ["power_id"=>30, "name"=>"月份-科目统计", "url"=>"/user_manage/subject_by_month"],
                 ["power_id"=>31, "name"=>"师资管理-首页", "url"=>"/main_page/teacher_management_info"],
 

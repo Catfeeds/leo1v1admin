@@ -85,6 +85,7 @@ class account_common extends Controller
         $time_code = $this->get_in_str_val("time_code");
         $reg_ip = $this->get_in_client_ip();
 
+
         $check_phone =  \App\Helper\Utils::check_phone($phone);
         if(!$check_phone){
             return $this->output_err("手机号码不合法!");
@@ -106,11 +107,20 @@ class account_common extends Controller
 
         $phone_code=\App\Helper\Common::gen_rand_code(6);
         $code_key = $phone."-".$role."-code";
+
+        // \App\Helper\Common::redis_set_expire_value($code_key, $phone_code,1200);
+
         session([
             $code_key  => $phone_code,
         ]);
+        
 
         $phone_index = $this->get_current_verify_num($phone,$role);
+        // return $this->output_succ(["msg_num"=>$phone_index,"verify_code"=>$phone_code]);
+
+        // //测试
+        // $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"yzm","yzm","code:".$phone_code.",num:".$phone_index,"");
+
 
         // \App\Helper\Utils::logger("address::".\App\Helper\Config::get_monitor_new_url()."/notice/sms_register");
 
@@ -126,7 +136,7 @@ class account_common extends Controller
 
         \App\Helper\Utils::logger("code:".$phone_code);
         \App\Helper\Utils::logger("index:".$phone_index);
-        return $this->output_succ();
+        return $this->output_succ(["msg_num"=>$phone_index,"verify_code"=>$phone_code]);
     }
 
     //用户注册
@@ -134,7 +144,7 @@ class account_common extends Controller
         $phone = $this->get_in_str_val("phone");
         $role = $this->get_in_int_val("role");
         $passwd = $this->get_in_str_val("passwd");
-        $verify_code = $this->get_in_str_val("verify_code");
+        //  $verify_code = $this->get_in_str_val("verify_code");
         $reg_ip = ip2long($this->get_in_client_ip());
 
         $check_phone =  \App\Helper\Utils::check_phone($phone);
@@ -151,11 +161,13 @@ class account_common extends Controller
         $code_key = $phone."-".$role."-code";
 
         
-        $check_verify_code = session($code_key);
-        $check_flag = $this->check_verify_code( $verify_code,$check_verify_code,$phone,$role);
-        if(!$check_flag){
-            return $this->output_err("验证码错误或已失效");
-        }
+        // $check_verify_code = session($code_key);
+        // $check_verify_code = \App\Helper\Common::redis_get($code_key);
+
+        // $check_flag = $this->check_verify_code( $verify_code,$check_verify_code,$phone,$role);
+        // if(!$check_flag){
+        //     return $this->output_err("验证码错误或已失效");
+        // }
 
 
         //用户注册
@@ -194,13 +206,34 @@ class account_common extends Controller
  
     }
 
+    public function check_verify_code_phone(){
+        $phone = $this->get_in_str_val("phone");
+        $role = $this->get_in_int_val("role");
+        $verify_code = $this->get_in_str_val("verify_code");
+        $code_key = $phone."-".$role."-code";
+
+        
+        $check_verify_code = session($code_key);
+        // $check_verify_code = \App\Helper\Common::redis_get($code_key);
+        return $this->output_succ(["code"=>$verify_code,"check_verify_code"=>$check_verify_code,"code_key"=>$code_key]);
+        $check_flag = $this->check_verify_code( $verify_code,$check_verify_code,$phone,$role);
+        
+        if(!$check_flag){
+            return $this->output_err("验证码错误或已失效");
+        }else{
+            return $this->output_succ();
+        }
+
+
+    }
+
 
     //重置密码
     public function reset_passwd(){
         $phone = $this->get_in_str_val("phone");
         $role = $this->get_in_int_val("role");
         $passwd = $this->get_in_str_val("passwd");
-        $verify_code = $this->get_in_str_val("verify_code");
+        //  $verify_code = $this->get_in_str_val("verify_code");
 
         $check_phone =  \App\Helper\Utils::check_phone($phone);
         if(!$check_phone){
@@ -216,11 +249,15 @@ class account_common extends Controller
         $code_key = $phone."-".$role."-code";
 
         
-        $check_verify_code = session($code_key);
-        $check_flag = $this->check_verify_code( $verify_code,$check_verify_code,$phone,$role);
-        if(!$check_flag){
-            return $this->output_err("验证码错误或已失效");
-        }
+        // $check_verify_code = session($code_key);
+        // $check_verify_code = \App\Helper\Common::redis_get($code_key);
+
+        //return $this->output_succ(["code"=>$verify_code,"check_verify_code"=>$check_verify_code]);
+
+        // $check_flag = $this->check_verify_code( $verify_code,$check_verify_code,$phone,$role);
+        // if(!$check_flag){
+        //     return $this->output_err("验证码错误或已失效");
+        // }
 
         //更新密码
         $passwd_md5_two=md5($passwd."@leo");
@@ -301,11 +338,34 @@ class account_common extends Controller
         $redis_key = $phone."-".$role."-index";
         $list =  \App\Helper\Common::redis_get_json($redis_key);
         $time = $list["time"];
-        if($time>=(time()-120) && $verify_code ==$check_verify_code){
+        // if($verify_code ==$check_verify_code){
+        if( $verify_code ==$check_verify_code){
             return true;//时效
         }else{
             return false;
         }
+ 
+    }
+
+    public function test(){
+        $role=$this->get_in_int_val("role",1);
+        $phone = $this->get_in_phone();
+        // $key = $phone."-".$role."time";
+        // $check_verify_code = session($key);
+        // dd($check_verify_code);
+
+
+        // $redis_key = $phone."-".$role."-index";
+        // $list =  \App\Helper\Common::redis_get_json($redis_key);
+        // dd($list);
+        $code_key = $phone."-".$role."-code";
+        \App\Helper\Utils::logger("key:$code_key");
+
+
+        
+        // $check_verify_code = session($code_key);
+        $check_verify_code = \App\Helper\Common::redis_get($code_key);
+        dd($check_verify_code);
  
     }
    

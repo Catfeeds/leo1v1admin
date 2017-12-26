@@ -385,14 +385,16 @@ class common_new extends Controller
              * @ 从老师分享页进入注册的 老师
              * @ christmas_type  0:正常用户 1:从分享页面进来的老师
              */
-            $shareId   = $this->get_in_int_val('shareId');
+            $shareId   = $this->get_in_str_val('shareId');
             $currentId = $this->get_in_str_val('currentId');
-            if($shareId > 0){
-                $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId);
+
+
+            if($shareId){
+                $isHasAdd = $this->t_teacher_christmas->checkHasAdd($shareId,$currentId,2);
                 if(!$isHasAdd){
                     $this->t_teacher_christmas->row_insert([
-                        "teacherid"   => $shareId,
-                        "next_openid" => $currentId,
+                        "shareId"   => $shareId,
+                        "currentId" => $currentId,
                         "add_time"    => time(),
                         "score"       => 10,
                         "type"        => 2 // 注册
@@ -667,9 +669,6 @@ class common_new extends Controller
         }
         \App\Helper\Utils::logger("duration ,$duration, $obj_start_time");
 
-
-        $called_flag=($cdr_status==28 && $duration>60  )?2:1;
-
         $this->t_tq_call_info->add(
             $recid,
             $cdr_bridged_cno,
@@ -679,6 +678,8 @@ class common_new extends Controller
             $duration,
             $cdr_status==28?1:0,
             "",0,0, $obj_start_time);
+
+        $called_flag=($cdr_status==28 && $duration>60)?2:1;
         $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno );
         return json_encode(["result"=>"success"]);
     }
@@ -1002,6 +1003,7 @@ class common_new extends Controller
             }
 
             $prize_type = $this->t_activity_christmas->getPrizeType($parentid);
+            $list['prize_type'] = $prize_type;
             if($prize_type >0 ){
                 $list['has_done'] = 1;
                 switch ($prize_type)

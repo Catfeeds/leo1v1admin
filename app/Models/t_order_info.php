@@ -4522,6 +4522,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     }
 
+   
+
     public function getOrderByParentid($parentid){
         $sql = $this->gen_sql_new("  select o.orderid from %s o "
                                   ." left join %s pc on pc.userid=o.userid"

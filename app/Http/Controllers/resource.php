@@ -64,6 +64,10 @@ class resource extends Controller
                 $tag_arr['tag_three']['menu'] => 'tag_three',
                 $tag_arr['tag_four']['menu'] => 'tag_four',
             ]);
+            if($item['tag_four'] != -1) {
+                $item['tag_four_str'] = \App\Helper\Utils::get_sub_grade_tag($item['subject'],$item['grade'])[ $item['tag_four'] ];
+            }
+
         }
 
         //查询老师负责的科目,年级
@@ -382,7 +386,7 @@ class resource extends Controller
     }
 
     public function add_resource() {
-        $use_type     = $this->get_in_int_val('use_type');
+        $use_type      = $this->get_in_int_val('use_type');
         $resource_type = $this->get_in_int_val('resource_type');
         $subject       = $this->get_in_int_val('subject');
         $grade         = $this->get_in_int_val('grade',0);
@@ -422,11 +426,26 @@ class resource extends Controller
         $file_type     = $this->get_in_str_val('file_type');
         $file_link     = $this->get_in_str_val('file_link');
         $file_use_type = $this->get_in_int_val('file_use_type');
+        $ex_num        = $this->get_in_int_val('ex_num', 0);
+        $is_reupload   = $this->get_in_int_val('is_reupload', 0);
         //处理文件名
         $dot_pos = strrpos($file_title,'.');
         $file_title = substr($file_title,0,$dot_pos);
         //处理文件类型
         $file_type = trim( strrchr($file_type, '/'), '/' );
+
+        if ($file_use_type == 3){
+            if($is_reupload == 0){
+                $ex_num_max = $this->t_resource_file->get_max_ex_num($resource_id);
+                $ex_num     = @$ex_num_max+1;
+            } else {
+                if($ex_num == 0) {
+                    //上传额外文件区间，不属于重新上传
+                    $ex_num_max = $this->t_resource_file->get_max_ex_num($resource_id);
+                    $ex_num     = @$ex_num_max+1;
+                }
+            }
+        }
         $this->t_resource_file->row_insert([
             'resource_id'   => $resource_id,
             'file_title'    => $file_title,
@@ -435,19 +454,24 @@ class resource extends Controller
             'file_hash'     => $file_hash,
             'file_link'     => $file_link,
             'file_use_type' => $file_use_type,
+            'ex_num'        => $ex_num,
         ]);
 
         $file_id = $this->t_resource_file->get_last_insertid();
-        $adminid = $this->get_account_id();
-        $this->t_resource_file_visit_info->row_insert([
-            'file_id'     => $file_id,
-            'visit_type'  => 9,
-            'create_time' => time(),
-            'visitor_id'  => $adminid,
-            'ip'          => $_SERVER["REMOTE_ADDR"],
-        ]);
+        if($is_reupload == 0){
+            $adminid = $this->get_account_id();
+            $this->t_resource_file_visit_info->row_insert([
+                'file_id'     => $file_id,
+                'visit_type'  => 9,
+                'create_time' => time(),
+                'visitor_id'  => $adminid,
+                'ip'          => $_SERVER["REMOTE_ADDR"],
+            ]);
 
-        return $this->output_succ();
+            return $this->output_succ();
+        } else {
+            return $file_id;
+        }
     }
 
     public function rename_resource() {
@@ -474,22 +498,29 @@ class resource extends Controller
     }
 
     public function reupload_resource() {
-        $resource_id = $this->get_in_int_val('resource_id','');
-        $file_id     = $this->get_in_int_val('file_id');
-        $adminid     = $this->get_account_id();
-        $time    = time();
+        $resource_id   = $this->get_in_int_val('resource_id','');
+        $file_id       = $this->get_in_int_val('file_id','');
+        $file_use_type = $this->get_in_int_val('file_use_type', 0);
+        $ex_num        = $this->get_in_int_val('ex_num', 0);
+        $adminid       = $this->get_account_id();
+        $time          = time();
 
-        $this->t_resource_file->field_update_list($file_id, ['status' => 2]);
+        if($file_id != 0){
+            $this->t_resource_file->field_update_list($file_id, ['status' => 2]);
+            $visit_type = 2;
+        } else {//添加额外文件
+            $visit_type = 9;
+        }
+        $this->set_in_value('is_reupload', 1);
+        $file_id = $this->add_file();
+
         $this->t_resource_file_visit_info->row_insert([
             'file_id'     => $file_id,
-            'visit_type'  => 2,
+            'visit_type'  => $visit_type,
             'create_time' => $time,
             'visitor_id'  => $adminid,
             'ip'          => $_SERVER["REMOTE_ADDR"],
         ]);
-
-        $this->add_file();
-
         return $this->output_succ();
     }
 
@@ -539,10 +570,11 @@ class resource extends Controller
     }
 
     public function get_list_by_resource_id_js(){
-        $page_num = $this->get_in_page_num();
+        $page_num      = $this->get_in_page_num();
         $resource_id   = $this->get_in_int_val('resource_id', -1);
         $file_use_type = $this->get_in_int_val('file_use_type', -1);
-        $ret_list = $this->t_resource_file_visit_info->get_visit_detail( $page_num,$resource_id, $file_use_type);
+        $ex_num        = $this->get_in_int_val('ex_num', 0);
+        $ret_list      = $this->t_resource_file_visit_info->get_visit_detail( $page_num,$resource_id, $file_use_type, $ex_num);
         foreach ($ret_list['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             $this->cache_set_item_account_nick($item,"visitor_id", 'nick');

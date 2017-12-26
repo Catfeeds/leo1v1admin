@@ -184,7 +184,7 @@ trait TeaPower {
             $teacher_tags = $this->t_teacher_info->get_teacher_tags($teacherid);
             $teacher_tags_list = json_decode($teacher_tags,true);
             if(is_array($teacher_tags_list)){
-                
+
             }else{
                 $tag = trim($teacher_tags,",");
                 if($tag){
@@ -205,11 +205,11 @@ trait TeaPower {
 
                         $teacher_tags_list[$val]=1;
                     }
- 
+
                 }else{
                     $teacher_tags_list=[];
                 }
- 
+
             }
 
             foreach($list as $val){
@@ -284,7 +284,7 @@ trait TeaPower {
                     ]);
                 }
                 if(is_array($teacher_tags_list)){
-                
+
                 }else{
                     $tag = trim($teacher_tags_old,",");
                     if($tag){
@@ -293,7 +293,7 @@ trait TeaPower {
                         foreach($arr as $val){
                             $teacher_tags_list[$val]=1;
                         }
- 
+
                     }else{
                         $teacher_tags_list=[];
                     }
@@ -326,9 +326,9 @@ trait TeaPower {
 
 
             }elseif($set_flag==2){
-                            
+
                 $id = $this->t_teacher_label->check_label_exist_teacherid($teacherid);
-               
+
 
                 if($id>0){
                     $old_tag = $this->t_teacher_label->get_tag_info($id);
@@ -356,7 +356,7 @@ trait TeaPower {
                                     if($v<=0){
                                         unset($teacher_tags_list[$val]);
                                     }else{
-                                        $teacher_tags_list[$val]=$v; 
+                                        $teacher_tags_list[$val]=$v;
                                     }
 
                                 }
@@ -364,7 +364,7 @@ trait TeaPower {
                         }
 
                     }
-                                      
+
 
                     foreach($tea_tag_arr as $item){
                         $ret= json_decode($item,true);
@@ -391,9 +391,9 @@ trait TeaPower {
                         "tag_info"    =>$tag_info,
                         "set_adminid"   =>$this->get_account_id(),
                     ]);
-                   
+
                     if(is_array($teacher_tags_list)){
-                
+
                     }else{
                         $tag = trim($teacher_tags_old,",");
                         if($tag){
@@ -402,7 +402,7 @@ trait TeaPower {
                             foreach($arr as $val){
                                 $teacher_tags_list[$val]=1;
                             }
- 
+
                         }else{
                             $teacher_tags_list=[];
                         }
@@ -426,7 +426,7 @@ trait TeaPower {
                     $teacher_tags = json_encode($teacher_tags_list);
 
                 }
-                         
+
                 $this->t_teacher_info->field_update_list($teacherid,[
                     "teacher_tags"  =>$teacher_tags
                 ]);
@@ -986,7 +986,7 @@ trait TeaPower {
         }else{
 
             $teacher_type= $this->t_teacher_info->get_teacher_type($teacherid);
-            if($test_lesson_num >=6 && $is_test==0 && $teacher_type !=3){                
+            if($test_lesson_num >=6 && $is_test==0 && $teacher_type !=3){
                 return $this->output_err(
                     "新入职老师,试听课一周限排6节!目前老师已排".$test_lesson_num."节!目前老师已排".$test_lesson_num."节."
                 );
@@ -1109,8 +1109,8 @@ trait TeaPower {
         $grade_start     = $tea_info['grade_start'];
         $grade_end       = $tea_info['grade_end'];
         if($is_test==0){
-            
-        
+
+
             if($stu_grade_range<$grade_start || $stu_grade_range>$grade_end){
                 return $this->output_err("学生年级与老师年级范围不匹配!");
             }
@@ -1585,7 +1585,6 @@ trait TeaPower {
         }else{
             $default_teacher_money_type = E\Eteacher_money_type::V_4;
         }
-
         \App\Helper\Utils::set_default_value($acc,$teacher_info,"","acc");
         \App\Helper\Utils::set_default_value($wx_use_flag,$teacher_info,0,"wx_use_flag");
         \App\Helper\Utils::set_default_value($trial_lecture_is_pass,$teacher_info,0,"trial_lecture_is_pass");
@@ -1612,6 +1611,7 @@ trait TeaPower {
         \App\Helper\Utils::set_default_value($transfer_teacherid,$teacher_info,0,"transfer_teacherid");
         \App\Helper\Utils::set_default_value($transfer_time,$teacher_info,0,"transfer_time");
         \App\Helper\Utils::set_default_value($interview_access,$teacher_info,"","interview_access");
+
         $train_through_new_time = $train_through_new==1?time():0;
 
         $uid = $this->t_manager_info->get_id_by_phone($phone);
@@ -1657,6 +1657,8 @@ trait TeaPower {
         }else{
             $grade_range = \App\Helper\Utils::change_grade_to_grade_range($grade);
         }
+
+
         $ret = $this->t_teacher_info->row_insert([
             "teacherid"              => $teacherid,
             "nick"                   => $tea_nick,
@@ -1729,7 +1731,7 @@ trait TeaPower {
             return $this->output_err("更改的手机号与旧手机号相同!");
         }
         $check_phone = \App\Helper\Utils::check_phone($new_phone);
-        if(!$ret){
+        if(!$check_phone){
             return $this->output_err("手机号不是11位!");
         }
         $check_flag = $this->t_phone_to_user->check_is_exist_by_phone_and_userid(-1,$new_phone,$role);
@@ -1750,25 +1752,25 @@ trait TeaPower {
             $this->t_phone_to_user->rollback();
             return $this->output_err("更新用户表出错！请重试！");
         }
-        $tea_ret = $this->t_teacher_info->field_update_list($userid,$update_tea_arr);
+        $tea_ret = $this->t_teacher_info->field_update_list($teacherid,$update_tea_arr);
         if(!$tea_ret){
             $this->t_phone_to_user->rollback();
             return $this->output_err("更新老师表出错！请重试！");
         }
 
         $this->t_phone_to_user->commit();
-        \App\Helper\Utils::logger("update teacher phone success!teacherid:".$userid
+        \App\Helper\Utils::logger("update teacher phone success!teacherid:".$teacherid
                                   ." old phone:".$old_phone."new phone:".$new_phone);
 
         $record_info = "手机变更,由".$old_phone."变更为".$new_phone;
         $this->t_teacher_record_list->row_insert([
-            'teacherid'   => $userid,
-            'type'        => 6,
+            'teacherid'   => $teacherid,
+            'type'        => E\Erecord_type::V_6,
             'record_info' => $record_info,
             'add_time'    => time(),
             'acc'         => $this->get_account(),
         ]);
-        return $this->output_succ();
+        return true;
     }
 
     /**
@@ -2975,15 +2977,15 @@ trait TeaPower {
         return $subject;
     }
 
-    public function check_is_special_reference($phone){
-        //田克平
-        if($phone=="13387970861"){
-            $check_flag=1;
-        }else{
-            $check_flag=0;
-        }
-        return $check_flag;
-    }
+    // public function check_is_special_reference($phone){
+    //     //田克平
+    //     if($phone=="13387970861"){
+    //         $check_flag=1;
+    //     }else{
+    //         $check_flag=0;
+    //     }
+    //     return $check_flag;
+    // }
 
     /**
      * 获取老师的高校生/在校老师的推荐数量
@@ -3583,7 +3585,7 @@ trait TeaPower {
 
     }
 
-      
+
 
     //查询百度有钱花订单还款信息
     public function get_baidu_money_charge_pay_info($orderid){
@@ -3953,8 +3955,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
 
         if($old_lessonid){
-            
- 
+
+
         }else{
             $check = $this->research_fulltime_teacher_lesson_plan_limit($item["teacherid"],$item["userid"]);
             if($check){
@@ -4465,7 +4467,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * @param boolean notice_flag 是否需要推送提醒
      */
     public function add_reference_price($teacherid,$recommended_teacherid,$notice_flag=true){
-        // 关掉15333268257 和  李桂荣两位老师11月后的伯乐奖 
+        // 关掉15333268257 和  李桂荣两位老师11月后的伯乐奖
         if ($teacherid == 420745 || $teacherid == 437138) {
             return '';
         }
@@ -4476,13 +4478,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $teacher_ref_type = $teacher_info['teacher_ref_type'];
 
             $reference_type = \App\Config\teacher_rule::check_reference_type($recommended_info['identity']);
-            $check_flag     = $this->check_is_special_reference($teacher_info['phone']);
-            if($check_flag){
-                $begin_time = 0;
-            }else{
-                $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
-                $begin_time = strtotime($begin_date);
-            }
+            // $check_flag     = $this->check_is_special_reference($teacher_info['phone']);
+            // if($check_flag){
+            //     $begin_time = 0;
+            // }else{
+            //     $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
+            //     $begin_time = strtotime($begin_date);
+            // }
 
             $identity = $recommended_info['identity'];
             if (in_array($identity,[E\Eidentity::V_5,E\Eidentity::V_6])) {
@@ -4507,18 +4509,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $reference_num = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher_info['phone'], $type);
                 $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
             }
-
-            /**
-             * 廖祝佳，王菊香推荐的在职老师起步都是80元/个
-             * 明日之星推荐的在职老师起步都是50元/个
-             */
-            // if($reference_type==2){
-            //     switch($teacher_ref_type){
-            //     case E\Eteacher_ref_type::V_1:case E\Eteacher_ref_type::V_2:
-            //         $reference_num += 30;
-            //         break;
-            //     }
-            // }
 
             $this->t_teacher_money_list->row_insert([
                 "teacherid"  => $teacherid,
@@ -4664,7 +4654,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * @return int match_num 匹配度
      */
     public function match_teacher_free_time($teacher_free_time,$match_time,$match_time_end){
-        $match_num  = 0;
+        $match_num = 0;
         if($teacher_free_time !=""){
             $teacher_free_time_arr = json_decode($teacher_free_time);
             $break_flag = false;
