@@ -3887,7 +3887,6 @@ class user_manage_new extends Controller
                 $info['tea_sum'] += $num;
             }
             if ($teacherid == 226810) { //处理赵海岗
-                echo 'wwww';
                 $info['tea_sum'] += 1;
             }
             $info['tea_reward'] = 40;
