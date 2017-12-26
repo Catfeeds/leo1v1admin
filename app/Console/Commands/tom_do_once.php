@@ -56,7 +56,7 @@ class tom_do_once extends Command
      */
     public function handle()
     {
-        $ret = $this->task->t_seller_student_new->get_all_list($start_time=1509465600,$end_time=1512057600);
+        $ret = $this->task->t_seller_student_new->get_all_list($start_time=1512057600,$end_time=1514736000);
         foreach($ret as $item){
             $userid = $item['userid'];
             $phone = $item['phone'];
