@@ -62,17 +62,19 @@ class pdfConversionH5 extends Command
 
             //上传未达
             $cmd  = "curl -F doc=@'$savePathFile' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=leoedu&fn=".$item['file_link'].".pdf'";
-            $uuid = substr(shell_exec($cmd),3);
+            $uuid_tmp = shell_exec($cmd);
+            $uuid = substr($uuid_tmp,3);
 
             //从未达下载
             $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=$uuid&email=$email&pwd=$pwd";
             $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
+
             \App\Helper\Utils::savePicToServer($h5DownloadUrl,$saveH5FilePath);
 
             // 上传七牛
             $saveH5FilePath =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
 
-            \App\Helper\Utils::logger("qiniuupload_james: $saveH5FilePath");
+            \App\Helper\Utils::logger("qiniuupload_james_1: $saveH5FilePath");
             //ok:gf15a4973b034c84d4f631be74b21741.zip
         }
     }
