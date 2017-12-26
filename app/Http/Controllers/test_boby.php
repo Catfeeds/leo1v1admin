@@ -850,7 +850,6 @@ class test_boby extends Controller
         }
     }
 
-
     public function get_tea_free_info(){
         $time = strtotime('2017-08-01');
         $end = strtotime('2017-11-01');
@@ -1072,7 +1071,6 @@ class test_boby extends Controller
 
     }
 
-
     public function test_md5(){
         return $this->pageView( __METHOD__,[]);
     }
@@ -1174,5 +1172,241 @@ class test_boby extends Controller
             }
         }
     }
+
+    public function refund_list(){
+        $this->switch_tongji_database();
+        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range_month(0,0, [
+            0 => array( "apply_time", "申请时间"),
+            1 => array("flow_status_time","审批时间"),
+            2 => array("qc_deal_time","定责时间"),
+        ]);
+        $start_time = strtotime('2017-10-01');
+        $end_time = time();
+        // dd($start_time);
+        // $opt_date_str = 'apply_time';
+
+        $adminid       = $this->get_account_id();
+        $refund_type   = $this->get_in_int_val('refund_type',-1);
+        $userid        = $this->get_in_int_val('userid',-1);
+        $is_test_user  = $this->get_in_int_val('is_test_user',0);
+        $page_num      = $this->get_in_page_num();
+        $refund_userid = $this->get_in_int_val("refund_userid", -1);
+        $qc_flag = $this->get_in_int_val("qc_flag", 1);
+
+        $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
+        $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        $adminid_right        = $this->get_seller_adminid_and_right();
+        $acc                  = $this->get_account();
+
+        $ret_info = $this->t_order_refund->get_order_refund_list_nopage(
+            $opt_date_str,$refund_type,$userid,$start_time,$end_time, $is_test_user,$refund_userid,$require_adminid_list
+        );
+        $refund_info = [];
+        $list_new = [];
+        foreach($ret_info as $kkk=> &$item){
+            $item['deal_nick'] = $this->cache_get_account_nick($item['qc_adminid']);
+            \App\Helper\Utils::unixtime2date_for_item($item,"qc_deal_time");
+
+            // $item['ass_nick'] = $this->cache_get_assistant_nick($item['assistantid']);
+            $item['tea_nick'] = $this->cache_get_teacher_nick($item['teacher_id']);
+            $item['subject_str'] = E\Esubject::get_desc($item['subject']);
+
+            $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
+            $item['user_nick']         = $this->cache_get_student_nick($item['userid']);
+            $item['refund_user']       = $this->cache_get_account_nick($item['refund_userid']);
+            $item['lesson_total']      = $item['lesson_total']/100;
+            $item['should_refund']     = $item['should_refund']/100;
+            $item['price']             = $item['price']/100;
+            $item['real_refund']       = $item['real_refund']/100;
+            $item['discount_price']    = $item['discount_price']/100;
+            $item['apply_time_str']    = date("Y-m-d H:i",$item['apply_time']);
+            $item['refund_status_str'] = $item['refund_status']?'已打款':'未付款';
+
+            \App\Helper\Common::set_item_enum_flow_status($item);
+            E\Econtract_type::set_item_value_str($item,"contract_type");
+            E\Eboolean::set_item_value_str($item,"need_receipt");
+            E\Egrade::set_item_value_str($item);
+
+            E\Eqc_advances_status::set_item_value_str($item);
+            E\Eqc_contact_status::set_item_value_str($item);
+            E\Eqc_voluntarily_status::set_item_value_str($item);
+
+            \App\Helper\Utils::unixtime2date_for_item($item,"flow_status_time");
+            $item['order_time_str'] = date('Y-m-d H:i:s',$item['order_time']);
+
+            if($qc_flag==0){
+                continue;
+            }
+            //以下不处理
+
+            $refund_qc_list = $this->t_order_refund->get_refund_analysis($item['apply_time'], $item['orderid']);
+            if($refund_qc_list['qc_other_reason']
+               || $refund_qc_list['qc_analysia']
+               || $refund_qc_list['qc_reply']
+            ){
+                $item['flow_status_str'] = '<font style="color:#a70192;">QC已审核</font>';
+            }
+
+
+            $pass_time = $item['apply_time']-$item['order_time'];
+            if($pass_time >= (90*24*3600)){ // 下单是否超过3个月
+                $item['is_pass'] = '<font style="color:#ff0000;">是</font>';
+            }else{
+                $item['is_pass'] = '<font style="color:#2bec2b;">否</font>';
+            }
+
+            //处理 投诉分析 [QC-文斌]
+            $arr = $this->get_refund_analysis_info($item['orderid'],$item['apply_time']);
+            $item['qc_other_reason'] = trim($arr['qc_anaysis']['qc_other_reason']);
+            $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
+            $item['qc_reply']        = trim($arr['qc_anaysis']['qc_reply']);
+            $item['duty']            = $arr['duty'];
+            E\Eboolean::set_item_value_str($item, "duty");
+
+            /**
+             * @demand 获取孩子[首次上课时间] [末次上课时间]
+             */
+            $lesson_time_arr = $this->t_lesson_info_b3->get_extreme_lesson_time($item['userid']);
+
+            $item['max_time_str'] = @$lesson_time_arr['max_time']?@unixtime2date($lesson_time_arr['max_time']):'无';
+            $item['min_time_str'] = @$lesson_time_arr['min_time']?@unixtime2date($lesson_time_arr['min_time']):'无';
+
+            // dd($item);
+            foreach($arr['key1_value'] as $kkk =>&$v1){
+                // echo $kkk,'-->',$v1['value'],'<br>';
+                $key1_name = @$v1['value'].'一级原因';
+                $key2_name = @$v1['value'].'二级原因';
+                $key3_name = @$v1['value'].'三级原因';
+                $reason_name    = @$v1['value'].'reason';
+                $dep_score_name = @$v1['value'].'dep_score';
+
+                $item["$key1_name"] = '';
+                $item["$key2_name"] = '';
+                $item["$key3_name"] = '';
+                $item["$reason_name"]     = "";
+                $item["$dep_score_name"]  = "";
+
+                foreach($arr['list'] as $v2){
+                    if($v2['key1_str'] == $v1['value']){
+                        if(isset($v1["$key1_name"])){
+                            $item["$key1_name"] = @$item["$key1_name"].'/'.$v2['key2_str'];
+                            $item["$key2_name"] = @$item["$key2_name"].'/'.$v2['key3_str'];
+                            $item["$key3_name"] = @$item["$key3_name"].'/'.$v2['key4_str'];
+                            $item["$reason_name"]     = @$item["$reason_name"].'/'.$v2['reason'];
+                            $item["$dep_score_name"]  = @$item["$dep_score_name"].'/'.$v2['score'];
+                        }else{
+                            $item["$key1_name"] = @$v2['key2_str'];
+                            $item["$key2_name"] = @$v2['key3_str'];
+                            $item["$key3_name"] = @$v2['key4_str'];
+                            $item["$reason_name"]     = @$v2['reason'];
+                            $item["$dep_score_name"]  = @$v2['score'];
+                        }
+                    }
+                }
+
+                $score_name   = $v1['value'].'扣分值';
+                $percent_name = $v1['value'].'责任值';
+                $item["$score_name"]   = @$v1['score'];
+                $item["$percent_name"] = @$v1['responsibility_percent'];
+            }
+            if($item['老师责任值'] || $item['科目责任值'] || $item['老师一级原因'] || $item['老师二级原因'] || $item['老师三级原因'] ){
+                $list_new[] = $item;
+            }
+        }
+
+        // dd($ret_info);
+        $th_arr = ['签约时间','退费申请时间','原因分析','科目','老师一级原因','老师二级原因','老师三级原因','责任鉴定 | 老师','责任鉴定 | 科目'];
+        $s = $this->table_start($th_arr);
+        foreach($list_new as $kk =>$v){
+            // echo $kk;
+            $s= $this->tr_add($s,$v['order_time_str'], $v["apply_time_str"], $v['refund_info'],$v['subject_str'], $v['老师一级原因'], $v['老师二级原因'],$v['老师三级原因'],$v['老师责任值'],$v['科目责任值']);
+        }
+        $s = $this->table_end($s);
+
+        return $s;
+
+
+    }
+
+    public function  get_refund_analysis_info($orderid,$apply_time){
+        $list = $this->t_refund_analysis->get_list($orderid,$apply_time);
+
+        foreach ($list as $key =>&$item) {
+            $keys       = $this->t_order_refund_confirm_config->get_refundid_by_configid($item['configid']);
+            $ret        = @$this->t_order_refund_confirm_config->get_refund_str_by_keys($keys);
+            $list[$key] = @array_merge($item,$ret);
+        }
+
+        // dd($list);
+        //以上处理原因填写
+        /**
+         * 规则: 如果教学部的责任为0 则 老师|科目的责任也为0 [QC-文斌]
+         * 责任占比=部门分值/总分
+         * 部门分值=（部门问题1分值+。。。。。。+部门问题N分值）/N
+         * 总分=部门1分值+。。。+部门N分值
+         */
+
+        $total_score = 0;
+        $key1_value  = $this->t_order_refund_confirm_config->get_all_key1_value();
+        $is_teaching_flag = true;
+        $duty = 0;
+
+        foreach($key1_value as $k1=>&$v1){
+            $num = 0;
+            $score = 0;
+
+            foreach($list as $i2=>&$v2){
+                $v2['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($v2['configid']);
+
+                if($v2['score'] >0 && $v2['department'] == '教学部'){
+                    $is_teaching_flag = false;
+                }
+
+                /**
+                 * @demand 老师管理或教学部出现责任划分时，该部分自动引用之老师和科目选择的字段，若无责任则默认空值
+                 **/
+                if(($v2['score'] >0 && $v2['department'] == '教学部') || ($v2['score']>0 && $v2['department'] == '老师管理') ){
+                    $duty = 1;
+                }
+
+
+                if($v2['department'] == $v1['value']){
+                    $num++;
+                    $score += $v2['score'];
+                }
+            }
+
+            if($num>0){
+                $v1['score'] = $score/$num;
+                $total_score += ($score/$num);
+            }
+        }
+
+        foreach($key1_value as &$v3){
+            if($is_teaching_flag && ($v3['value'] == '老师' || $v3['value']=='科目') ){
+                if(isset($v3['score'])){
+                    $total_score-=$v3['score'];
+                    $v3['score'] = 0;
+                }
+            }
+        }
+
+        foreach($key1_value as &$v4){
+            if($total_score>0){
+                if(isset($v4['score'])){
+                    $v4['responsibility_percent'] = number_format(($v4['score']/$total_score)*100,2).'%';
+                }else{
+                    $v4['responsibility_percent'] = '0%';
+                }
+            }
+        }
+
+        $arr['qc_anaysis'] = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($orderid, $apply_time);
+        $arr['key1_value'] = $key1_value;
+        $arr['list']       = $list;
+        $arr['duty']       = $duty;
+        return $arr;
+    }
+
 
 }
