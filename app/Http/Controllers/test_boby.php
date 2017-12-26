@@ -1207,17 +1207,17 @@ class test_boby extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"qc_deal_time");
 
             // $item['ass_nick'] = $this->cache_get_assistant_nick($item['assistantid']);
-            $item['tea_nick'] = $this->cache_get_teacher_nick($item['teacher_id']);
+            // $item['tea_nick'] = $this->cache_get_teacher_nick($item['teacher_id']);
             $item['subject_str'] = E\Esubject::get_desc($item['subject']);
 
             $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
-            $item['user_nick']         = $this->cache_get_student_nick($item['userid']);
-            $item['refund_user']       = $this->cache_get_account_nick($item['refund_userid']);
-            $item['lesson_total']      = $item['lesson_total']/100;
-            $item['should_refund']     = $item['should_refund']/100;
-            $item['price']             = $item['price']/100;
-            $item['real_refund']       = $item['real_refund']/100;
-            $item['discount_price']    = $item['discount_price']/100;
+            // $item['user_nick']         = $this->cache_get_student_nick($item['userid']);
+            // $item['refund_user']       = $this->cache_get_account_nick($item['refund_userid']);
+            // $item['lesson_total']      = $item['lesson_total']/100;
+            // $item['should_refund']     = $item['should_refund']/100;
+            // $item['price']             = $item['price']/100;
+            // $item['real_refund']       = $item['real_refund']/100;
+            // $item['discount_price']    = $item['discount_price']/100;
             $item['apply_time_str']    = date("Y-m-d H:i",$item['apply_time']);
             $item['refund_status_str'] = $item['refund_status']?'已打款':'未付款';
 
@@ -1256,11 +1256,11 @@ class test_boby extends Controller
 
             //处理 投诉分析 [QC-文斌]
             $arr = $this->get_refund_analysis_info($item['orderid'],$item['apply_time']);
-            $item['qc_other_reason'] = trim($arr['qc_anaysis']['qc_other_reason']);
-            $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
-            $item['qc_reply']        = trim($arr['qc_anaysis']['qc_reply']);
-            $item['duty']            = $arr['duty'];
-            E\Eboolean::set_item_value_str($item, "duty");
+            // $item['qc_other_reason'] = trim($arr['qc_anaysis']['qc_other_reason']);
+            // $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
+            // $item['qc_reply']        = trim($arr['qc_anaysis']['qc_reply']);
+            // $item['duty']            = $arr['duty'];
+            // E\Eboolean::set_item_value_str($item, "duty");
 
             /**
              * @demand 获取孩子[首次上课时间] [末次上课时间]
@@ -1270,40 +1270,42 @@ class test_boby extends Controller
             $item['max_time_str'] = @$lesson_time_arr['max_time']?@unixtime2date($lesson_time_arr['max_time']):'无';
             $item['min_time_str'] = @$lesson_time_arr['min_time']?@unixtime2date($lesson_time_arr['min_time']):'无';
 
-            foreach($arr['key1_value'] as &$v1){
-                $key1_name = @$v1['value'].'一级原因';
-                $key2_name = @$v1['value'].'二级原因';
-                $key3_name = @$v1['value'].'三级原因';
-                $reason_name    = @$v1['value'].'reason';
-                $dep_score_name = @$v1['value'].'dep_score';
+            foreach($arr['key1_value'] as $kkk=>&$v1){
+                if(in_array($kkk, [2,7,8])){
+                    $key1_name = @$v1['value'].'一级原因';
+                    $key2_name = @$v1['value'].'二级原因';
+                    $key3_name = @$v1['value'].'三级原因';
+                    $reason_name    = @$v1['value'].'reason';
+                    $dep_score_name = @$v1['value'].'dep_score';
 
-                $item["$key1_name"] = '';
-                $item["$key2_name"] = '';
-                $item["$key3_name"] = '';
-                $item["$reason_name"]     = "";
-                $item["$dep_score_name"]  = "";
+                    $item["$key1_name"] = '';
+                    $item["$key2_name"] = '';
+                    $item["$key3_name"] = '';
+                    $item["$reason_name"]     = "";
+                    $item["$dep_score_name"]  = "";
 
-                foreach($arr['list'] as $v2){
-                    if($v2['key1_str'] == $v1['value']){
-                        if(isset($v1["$key1_name"])){
-                            $item["$key1_name"] = @$item["$key1_name"].'/'.$v2['key2_str'];
-                            $item["$key2_name"] = @$item["$key2_name"].'/'.$v2['key3_str'];
-                            $item["$key3_name"] = @$item["$key3_name"].'/'.$v2['key4_str'];
-                            $item["$reason_name"]     = @$item["$reason_name"].'/'.$v2['reason'];
-                            $item["$dep_score_name"]  = @$item["$dep_score_name"].'/'.$v2['score'];
-                        }else{
-                            $item["$key1_name"] = @$v2['key2_str'];
-                            $item["$key2_name"] = @$v2['key3_str'];
-                            $item["$key3_name"] = @$v2['key4_str'];
-                            $item["$reason_name"]     = @$v2['reason'];
-                            $item["$dep_score_name"]  = @$v2['score'];
+                    foreach($arr['list'] as $v2){
+                        if($v2['key1_str'] == $v1['value']){
+                            if(isset($v1["$key1_name"])){
+                                $item["$key1_name"] = @$item["$key1_name"].'/'.$v2['key2_str'];
+                                $item["$key2_name"] = @$item["$key2_name"].'/'.$v2['key3_str'];
+                                $item["$key3_name"] = @$item["$key3_name"].'/'.$v2['key4_str'];
+                                $item["$reason_name"]     = @$item["$reason_name"].'/'.$v2['reason'];
+                                $item["$dep_score_name"]  = @$item["$dep_score_name"].'/'.$v2['score'];
+                            }else{
+                                $item["$key1_name"] = @$v2['key2_str'];
+                                $item["$key2_name"] = @$v2['key3_str'];
+                                $item["$key3_name"] = @$v2['key4_str'];
+                                $item["$reason_name"]     = @$v2['reason'];
+                                $item["$dep_score_name"]  = @$v2['score'];
+                            }
                         }
                     }
+                    $score_name   = $v1['value'].'扣分值';
+                    $percent_name = $v1['value'].'责任值';
+                    $item["$score_name"]   = @$v1['score'];
+                    $item["$percent_name"] = @$v1['responsibility_percent'];
                 }
-                $score_name   = $v1['value'].'扣分值';
-                $percent_name = $v1['value'].'责任值';
-                $item["$score_name"]   = @$v1['score'];
-                $item["$percent_name"] = @$v1['responsibility_percent'];
             }
 
             if(@$item['老师责任值'] || @$item['科目责任值'] || @$item['老师一级原因'] || @$item['老师二级原因'] || @$item['老师三级原因'] ){
@@ -1312,7 +1314,6 @@ class test_boby extends Controller
 
             }
             unset($ret_info[$k_f]);
-            sleep(1);
         }
 
         return 'ok';
