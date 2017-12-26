@@ -428,15 +428,15 @@ class agent extends Controller
             $userid = $item['userid'];
             $phone = $item['phone'];
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
-            $this->t_seller_student_new->field_update_list($userid, [
-                "sub_assign_adminid_1"  => $adminid,
-                "sub_assign_time_1"  => $now,
-                "admin_revisiterid"  => $adminid,
-                "admin_assign_time"  => $now,
-                "hold_flag" => 1,
-                "hand_get_adminid" => $hand_get_adminid,
-            ]);
             if($item['account'] == ''){
+                $this->t_seller_student_new->field_update_list($userid, [
+                    "sub_assign_adminid_1"  => $adminid,
+                    "sub_assign_time_1"  => $now,
+                    "admin_revisiterid"  => $adminid,
+                    "admin_assign_time"  => $now,
+                    "hold_flag" => 1,
+                    "hand_get_adminid" => $hand_get_adminid,
+                ]);
                 $this->t_book_revisit->add_book_revisit(
                     $phone,
                     "操作者: tom 状态: 分配给组员 [ leowang ] ",
