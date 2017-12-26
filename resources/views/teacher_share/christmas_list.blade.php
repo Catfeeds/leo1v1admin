@@ -29,7 +29,11 @@
             <tbody>
                 @foreach ( $info as $var )
                     <tr>
-                        <td>{{$var["nick"]}}</td>
+                        @if($var['nick'])
+                            <td>{{$var["nick"]}}</td>
+                        @else
+                            <td>{{$var["realname"]}}</td>
+                        @endif
                         <td>{{$var['click_num']}}</td>
                         <td>{{$var['share_num']}}</td>
                         <td>{{$var['register_num']}}</td>
