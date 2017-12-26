@@ -38,6 +38,7 @@ class test_abner extends cmd_base
     public function handle()
     {
         $data = $this->get_wx_user_info($wx_openid='oAJiDwEId4b1lA6WV1wbRS83WXvo');
+        print_r($data);
         $status = $this->task->t_agent->field_update_list($id=1316, [
             'headimgurl' => $data['headimgurl']
         ]);
