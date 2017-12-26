@@ -2254,7 +2254,7 @@ class Utils  {
 
 
             // sleep(2);
-            $image_5 = imagecreatefromjpeg($datapath);
+            $image_5 = @imagecreatefromjpeg($datapath);
 
             $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
             $color = imagecolorallocate($image_6, 255, 255, 255);
