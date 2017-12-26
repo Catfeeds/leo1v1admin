@@ -1471,7 +1471,7 @@ class seller_student_new2 extends Controller
             E\Egender::set_item_appoint_value_str($require_info,"tea_gender",0,"无要求");
             E\Etea_age::set_item_appoint_value_str($require_info,"tea_age",0,"无要求");
             E\Eidentity::set_item_appoint_value_str($require_info,"tea_identity",0,"无要求");
-            E\Eteacher_type::set_item_value_str($require_info);
+            E\Eteacher_type::set_item_appoint_value_str($require_info,"teacher_type",0,"无要求");
             E\Egrade::set_item_value_str($require_info);
             E\Esubject::set_item_value_str($require_info);
             E\Equotation_reaction::set_item_value_str($require_info);
