@@ -426,10 +426,14 @@ $(function(){
                 id_issue["onshown_init"]();
 
                 if(tea_more_cw_url[0][0]){
-
+                    var show_flag = 0;
                     $.each(id_teacher_list,function(i,item){
-                        if( i>1 && !tea_more_cw_url[i][0] ){
-                            item.parent().parent().hide();
+                        if( i>1 && !tea_more_cw_url[i][0]){
+                            if(show_flag > 0){
+                                item.parent().parent().hide();
+                            } else {
+                                show_flag++;
+                            }
                         }
                     });
 

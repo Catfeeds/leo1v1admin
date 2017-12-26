@@ -215,7 +215,7 @@ class account_common extends Controller
         
         $check_verify_code = session($code_key);
         // $check_verify_code = \App\Helper\Common::redis_get($code_key);
-        return $this->output_succ(["code"=>$verify_code,"check_verify_code"=>$check_verify_code,"code_key"=>$code_key]);
+        // return $this->output_succ(["code"=>$verify_code,"check_verify_code"=>$check_verify_code,"code_key"=>$code_key]);
         $check_flag = $this->check_verify_code( $verify_code,$check_verify_code,$phone,$role);
         
         if(!$check_flag){
@@ -339,7 +339,7 @@ class account_common extends Controller
         $list =  \App\Helper\Common::redis_get_json($redis_key);
         $time = $list["time"];
         // if($verify_code ==$check_verify_code){
-        if( $verify_code ==$check_verify_code){
+        if( $time>(time()-120) && $verify_code ==$check_verify_code){
             return true;//时效
         }else{
             return false;
