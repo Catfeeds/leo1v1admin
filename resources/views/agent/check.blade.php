@@ -46,7 +46,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["phone_hide"]}} </td>
+                        <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["origin"]}} </td>
                         <td>{{@$var["account"]}} </td>
                         <td>{{@$var["add_time"]}} </td>
