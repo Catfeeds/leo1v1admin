@@ -72,7 +72,8 @@ class MyMiddleware
             \App\Helper\Utils::logger( session("power_list"));
             $in_arr=$request->input();
             if (isset( $in_arr["callback"])) {
-                return outputjson_error(1001,"没有权限!");
+                return \Illuminate\Http\Response( outputjson_error(1001,"没有权限!"));
+
             }else{
                 $ret_str=\App\Http\Controllers\Controller::view_with_header_info(
                     "common.without-power", [],[
