@@ -28,5 +28,9 @@ $(function(){
         uploader.start();
     });
 
+    if(g_args.account == 'tom'){
+        window.download_show();
+    }
+
     $('.opt-change').set_input_change_event(load_data);
 });
