@@ -1318,14 +1318,14 @@ class test_boby extends Controller
         // dd($ret_info);
         $th_arr = ['签约时间','退费申请时间','原因分析','科目','老师一级原因','老师二级原因','老师三级原因','责任鉴定 | 老师','责任鉴定 | 科目'];
         $s = $this->table_start($th_arr);
-        foreach($list_new as $kk =>$v){
-            // echo $kk;
-            $s= $this->tr_add($s,$v['order_time_str'], $v["apply_time_str"], $v['refund_info'],$v['subject_str'], @$v['老师一级原因'], @$v['老师二级原因'],@$v['老师三级原因'],@$v['老师责任值'],@$v['科目责任值']);
+        echo $s;
+        foreach($list_new as $v){
+            $s= $this->tr_add('',$v['order_time_str'], $v["apply_time_str"], $v['refund_info'],$v['subject_str'], @$v['老师一级原因'], @$v['老师二级原因'],@$v['老师三级原因'],@$v['老师责任值'],@$v['科目责任值']);
+            echo $s;
         }
-        $s = $this->table_end($s);
+        // $s = $this->table_end($s);
 
-        return $s;
-
+        // return $s;
 
     }
 
