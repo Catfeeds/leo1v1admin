@@ -5,6 +5,8 @@ class menu{
         return [
 
             ["power_id"=>40, "name"=>"核心数据",  "list"=> [
+                ["power_id"=>80, "name"=>"测试","url"=>"/test/get_user_list", "domain_type" =>100  ],
+                ["power_id"=>81, "name"=>"测试22","url"=>"/test/get_user_list1", "domain_type" =>100  ],
                 ["power_id"=>1, "name"=>"试听转化率统计-招师","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zs"],
                 ["power_id"=>2, "name"=>"试听转化率统计","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_for_jx"],
                 ["power_id"=>3, "name"=>"教师试讲预约-招师",   "url"=>"/human_resource/teacher_lecture_appointment_info_zs"],

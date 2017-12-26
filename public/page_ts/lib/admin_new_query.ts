@@ -143,7 +143,13 @@
         var list_type_key = "query_list_type_"+ window.location.pathname;
         var list_type = parseInt( window.localStorage.getItem( list_type_key));
 
-        this.options.list_type = list_type ?1:0;
+        this.options.list_type = list_type;
+        //超级紧凑
+        this.min_flag=false;
+        if ( this.options.list_type ==2 ){
+            this.options.list_type =0;
+            this.min_flag=true;
+        }
 
         this.list_type=this.options.list_type;
         this.load_data_flag= load_data_flag;
@@ -156,9 +162,9 @@
             '<div class="row  header-query-row " >'
             +'</div>  '
 
-            +'<div class="row " >'
-            +'    <div class="col-xs-12 col-md-12 used-query-list"  >'
-            +'        <div class="btn-group" style=" width: 120px;">'
+            +'<div class="row used-query-list " >'
+            +'    <div class="col-xs-2 col-md-2 "  >'
+            +'        <div class="btn-group" style=" width: 120px; float:left;">'
             +'            <button type="button" class="btn btn-default query-meum-select-all">全部条件</button>'
             +'            <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">'
             +'                <span class="caret"></span>'
@@ -167,8 +173,8 @@
             +'            <ul class="dropdown-menu select-menu-list " role="menu">'
             +'            </ul>'
             +'        </div>'
-            +query_but_str
             +'</div>'
+            +query_but_str
             +'</div>'
             +'<div class="row  query-list " >'
             +'</div>';
@@ -184,7 +190,7 @@
 
         var show_menu_btn_deal=function( $btn ) {
             var show_flag= ( $btn.data("show_flag") );
-            var $query_list= me.$ele.find(".query-list");
+            var $query_list= me.$ele;//.find(".query-list");
             var index= ( $btn.data("index") );
             if (show_flag) {
                 $btn.addClass( me.menu_item_select_css  );
@@ -307,7 +313,8 @@
                 $menu_list.append( $menu_item );
             }
 
-            if (query_info) {
+            if (query_info &&  !$.check_in_phone() && !me.min_flag ) {
+
                 var btn= $('<a href="#" class="btn  btn-info btn-flat used-query-item " data-index="'+index+'" >'+
                            query_info +'<i class="fa fa-times"></i></a>');
                 $used_query_list.append( btn );
@@ -330,7 +337,11 @@
                 $query_obj = $query_item_list_obj;
                 $query_obj.addClass("query-item-line-" + index );
                 if (me.list_type ==0 )  {
-                    $query_list.append($query_obj);
+                    if (me.min_flag ) {
+                        $used_query_list.append($query_obj);
+                    }else{
+                        $query_list.append($query_obj);
+                    }
                 }else{
                     $header_query_row.append($query_obj);
                 }

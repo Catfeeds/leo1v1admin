@@ -107,9 +107,16 @@ class Controller extends ControllerEx
             if (!\App\Helper\Utils::check_env_is_test()) {
                 \App\Helper\Utils::logger("GOTO: " .$_SERVER["REQUEST_URI"] );
 
-                header('Location: /?to_url='. bin2hex( $_SERVER["REQUEST_URI"] ) );
-                exit;
+                if ($this->get_in_str_val("callback"))  {
+                    echo $this->output_err( 1005 );
+                    exit;
+
+                }else{
+                    header('Location: /?to_url='.  $_SERVER["REQUEST_URI"]  );
+                    exit;
+                }
             }else{
+
             }
         }
     }
