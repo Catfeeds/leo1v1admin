@@ -72,9 +72,9 @@ class pdfConversionH5 extends Command
             \App\Helper\Utils::savePicToServer($h5DownloadUrl,$saveH5FilePath);
 
             // 上传七牛
-            $saveH5FilePath =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
+            $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
 
-            \App\Helper\Utils::logger("qiniuupload_james_1: $saveH5FilePath");
+            \App\Helper\Utils::logger("qiniuupload_james_1: $saveH5Upload");
             //ok:gf15a4973b034c84d4f631be74b21741.zip
         }
     }
