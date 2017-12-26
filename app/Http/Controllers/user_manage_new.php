@@ -3886,6 +3886,9 @@ class user_manage_new extends Controller
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459);
                 $info['tea_sum'] += $num;
             }
+            if ($teacherid == 226810) { //处理赵海岗
+                $info['tea_sum'] += 1;
+            }
             $info['tea_reward'] = 40;
             if ($info['tea_sum'] > 10) $info['tea_reward'] = 50;
             if ($info['tea_sum'] > 20) $info['tea_reward'] = 70;
