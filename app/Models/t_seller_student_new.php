@@ -3174,7 +3174,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         // $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         // $where_arr[]= $ret_in_str;
         $sql = $this->gen_sql_new(
-            " select n.userid,n.phone,s.origin,n.add_time,n.global_tq_called_flag,n.last_succ_test_lessonid "
+            " select n.userid,n.phone,s.origin,n.add_time,n.global_tq_called_flag,"
+            ." n.last_succ_test_lessonid,n.last_contact_cc adminid "
             ." from %s n "
             ." left join %s s on n.userid=s.userid "
             ." where %s order by n.add_time desc"
