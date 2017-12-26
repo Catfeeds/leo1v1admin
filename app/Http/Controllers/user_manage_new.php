@@ -3872,8 +3872,8 @@ class user_manage_new extends Controller
         $info = [];
         if ($type == E\Ereward_type::V_6 && $teacherid > 0) {
             //$info['stu_sum'] = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, 0);
-            $teacher = $this->t_teacher_info->field_get_list($teacherid, "phone,teacher_type");
-            if ($teacher['teacher_type'] == 21 || $teacher['teacher_type'] == 22) {
+            $teacher = $this->t_teacher_info->field_get_list($teacherid, "phone,teacher_type,teacher_ref_type");
+            if (in_array($teacher['teacher_type'], [21,22]) && in_array($teacher['teacher_ref_type'], [1,2])) {
                 $info['msg'] = '特殊渠道-工作室';
             }
 

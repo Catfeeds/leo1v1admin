@@ -1458,7 +1458,10 @@ class test_james extends Controller
     public function test_ce(){
         $domain = config('admin')['qiniu']['public']['url'];
         $a = 'ok:gf15a4973b034c84d4f631be74b21741.zip';
-        $b = $domain."/".$a;
+        // $b = $domain."/".$a;
+
+        $uuid_arr = explode(':', $a);
+        dd($uuid_arr);
 
         // $b = substr($a,3);
         dd($b);

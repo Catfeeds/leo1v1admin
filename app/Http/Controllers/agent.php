@@ -417,15 +417,6 @@ class agent extends Controller
     }
 
     public function check(){
-        $ret_info = $this->t_seller_edit_log->get_item_list();
-        foreach($ret_info as $item){
-            $userid = $item['userid'];
-            if($userid > 0){
-                $this->t_seller_student_new->field_update_list($userid, [
-                    "seller_resource_type"  => E\Eseller_resource_type::V_0,
-                ]);
-            }
-        }
         dd('a');
         return $this->Pageview(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
