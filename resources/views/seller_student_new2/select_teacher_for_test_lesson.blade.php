@@ -14,7 +14,7 @@
             </div>
             <table class="common-table require-table" id="id_require_info" {!! \App\Helper\Utils::gen_jquery_data($require_info) !!}>
                 <tr >
-                    <td>学生姓名:<span class="font_color" >{{$require_info['nick']}}</span></td>
+                    <td>学生姓名:<span class="font_color">{{$require_info['nick']}}</span></td>
                     <td>学生性别:<span class="font_color">{{$require_info['gender_str']}}</span></td>
                     <td>学生年级:<span class="font_color">{{$require_info['grade_str']}}</span></td>
                     <td>试听科目:<span class="font_color">{{$require_info['subject_str']}}</span></td>
@@ -78,6 +78,11 @@
             <div class="col-md-1 col-xs-3 require_status">
                 <div>
                     <button class="btn btn-danger" id="id_refund_lesson">驳回</button>
+                </div>
+            </div>
+            <div class="col-md-1 col-xs-3 require_status">
+                <div>
+                    <button class="btn btn-success" id="id_refresh_flag" data-refresh_flag=0>刷新列表</button>
                 </div>
             </div>
         </div>

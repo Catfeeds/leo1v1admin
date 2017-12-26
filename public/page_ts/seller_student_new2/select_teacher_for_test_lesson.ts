@@ -3,6 +3,7 @@
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
+    var refresh_flag = $("#id_refresh_flag").data("refresh_flag");
     $.reload_self_page({
 		    teacher_info  : $('#id_teacher_info').val(),
 		    identity      : $('#id_identity').val(),
@@ -13,13 +14,17 @@ function load_data(){
 		    lesson_tags   : $('#id_lesson_tags').val(),
 		    teaching_tags : $('#id_teaching_tags').val(),
 		    require_id    : g_args.require_id,
-		    refresh_flag  : $('#id_refresh_flag').val(),
+		    refresh_flag  : refresh_flag,
 		    region_version: $('#id_region_version').val(),
     });
 }
 
 $(function(){
     var require_info = $("#id_require_info").data();
+    $("#id_refresh_flag").on("click",function(){
+        $(this).data("refresh_flag",1);
+        load_data();
+    });
 
     Enum_map.append_option_list("identity",$("#id_identity"),true,[5,6,7,8]);
     Enum_map.append_option_list("gender",$("#id_gender"),true,[1,2]);

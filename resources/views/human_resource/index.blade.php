@@ -129,14 +129,6 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span >授课风格</span>
-                        <select id="id_tea_label_type" class ="opt-change" ></select>
-                    </div>
-                </div>
-
-
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
                         <span >性别</span>
                         <select id="id_gender" class ="opt-change" ></select>
                     </div>
@@ -378,7 +370,7 @@
                     <td class="tea_school">学校</td>
                     <td>第一科目</td>
                     <td>第一科目年级段</td>
-                    <td>第二科目</td>
+                    <td style="display:none;">第二科目</td>
                     <td style="display:none;">第二科目年级段</td>
                     <td style="width:320px">面试评价</td>
                     <td style="display:none;">教务备注</td>
@@ -433,14 +425,12 @@
                         <td>{{$var["school"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>
-                            @if(@$var["grade_start"]>0)
-                                {{@$var["grade_start_str"]}} 至 {{@$var["grade_end_str"]}}
-                            @else
-                                {{@$var["grade_part_ex_str"]}}
-                            @endif
+                            {{@$var["grade_start_str"]}} 至 {{@$var["grade_end_str"]}}
                         </td>
                         <td>{{@$var["second_subject_str"]}} </td>
-                        <td>{{@$var["second_grade_str"]}} </td>
+                        <td>
+                            {{@$var["second_grade_start_str"]}} 至 {{@$var["second_grade_end_str"]}}
+                        </td>
                         @if($var["interview_access"])
                             <td class="content_show" data-content="{{@$var["interview_access"]}}">
                                 {{@$var["interview_access"]}}
@@ -536,9 +526,6 @@
                                 @endif
                                 @if(in_array($acc,["amyshen","朱丽莎","陆小梅"]))
                                     <a class="opt-trial-pass div_show"  title="设置试讲/培训通过">通过信息</a>
-                                @endif
-                                @if(in_array($acc,["ted","alan","CoCo老师"]))
-                                    <a class="opt-set-remark"  title="是否在其他机构代课">机构备注</a>
                                 @endif
                                 <a class=" opt-set-grade-range div_show">设置新版年级段</a>
                                 <a class=" opt-complaints-teacher div_show" >投诉老师</a>
