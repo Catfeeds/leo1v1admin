@@ -1174,14 +1174,13 @@ class test_boby extends Controller
     }
 
     public function refund_list(){
+        set_time_limit(0);
         // $this->switch_tongji_database();
         list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range_month(0,0, [
             0 => array( "apply_time", "申请时间"),
             1 => array("flow_status_time","审批时间"),
             2 => array("qc_deal_time","定责时间"),
         ]);
-        $start_time = strtotime('2017-10-01');
-        $end_time = time();
 
         $adminid       = $this->get_account_id();
         $refund_type   = $this->get_in_int_val('refund_type',-1);
@@ -1270,7 +1269,6 @@ class test_boby extends Controller
             $item['min_time_str'] = @$lesson_time_arr['min_time']?@unixtime2date($lesson_time_arr['min_time']):'无';
 
             foreach($arr['key1_value'] as $kkk =>&$v1){
-                echo $kkk,'-->',$v1['value'],'<br>';
                 $key1_name = @$v1['value'].'一级原因';
                 $key2_name = @$v1['value'].'二级原因';
                 $key3_name = @$v1['value'].'三级原因';
@@ -1300,12 +1298,12 @@ class test_boby extends Controller
                         }
                     }
                 }
-
                 $score_name   = $v1['value'].'扣分值';
                 $percent_name = $v1['value'].'责任值';
                 $item["$score_name"]   = @$v1['score'];
                 $item["$percent_name"] = @$v1['responsibility_percent'];
             }
+            dd($item);
 
             // if(@$item['老师责任值'] || @$item['科目责任值'] || @$item['老师一级原因'] || @$item['老师二级原因'] || @$item['老师三级原因'] ){
             //     $list_new[] = $item;
