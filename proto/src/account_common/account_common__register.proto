@@ -9,13 +9,14 @@ message in  {
   string phone =1;//手机
   int32 role =2;//角色
   string passwd =3;//密码 md5(passwd)
-  string reg_channel =4;//注册渠道
-  string region =5;//地区
-  int32 grade =6;//年级
-  string textbook =7;//教科书版本(针对学生)
-  int32 addr_code =8;//地址码(针对学生)
-  int32 	editionid =9;//editionid教材版本(针对学生)
-  string guest_code =10;//邀请码(针对学生)
+  string verify_code=4;//验证码
+  string reg_channel =5;//注册渠道
+  string region =6;//地区
+  int32 grade =7;//年级
+  string textbook =8;//教科书版本(针对学生)
+  int32 addr_code =9;//地址码(针对学生)
+  int32 	editionid =10;//editionid教材版本(针对学生)
+  string guest_code =11;//邀请码(针对学生)
  
 
 }
