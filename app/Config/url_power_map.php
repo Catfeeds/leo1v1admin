@@ -3,6 +3,8 @@ namespace App\Config;
 class url_power_map {
 	static  public  function get_config()  {
 		return [
+			'/test/get_user_list'	=>1408000,
+			'/test/get_user_list1'	=>1408100,
 			'/tongji_ss/tongji_seller_test_lesson_order_info_zs'	=>1400100,
 			'/tongji_ss/tongji_seller_test_lesson_order_info_for_jx'	=>1400200,
 			'/human_resource/teacher_lecture_appointment_info_zs'	=>1400300,

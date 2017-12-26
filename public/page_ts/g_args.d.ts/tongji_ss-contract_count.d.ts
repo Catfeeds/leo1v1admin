@@ -5,7 +5,7 @@ interface GargsStatic {
 	start_time:	string;
 	end_time:	string;
 	contract_type:	number;
-	is_test_user:	number;//App\Enums\Eboolean
+	is_test_user:	number;//枚举: App\Enums\Eboolean
 	studentid:	number;
 	check_money_flag:	number;
 	origin:	string;
@@ -22,6 +22,14 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	account_role	:any;
+	all_price	:any;
+	transfer_introduction_price	:any;
+	new_price	:any;
+	normal_price	:any;
+	extend_price	:any;
+	all_price_suc	:any;
+	all_price_fail	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;
@@ -45,8 +53,9 @@ tofile:
 /// <reference path="../g_args.d.ts/tongji_ss-contract_count.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -61,25 +70,39 @@ function load_data(){
 		account_role:	$('#id_account_role').val(),
 		sys_operator:	$('#id_sys_operator').val(),
 		seller_groupid_ex:	$('#id_seller_groupid_ex').val()
-    });
+		});
 }
 $(function(){
 
-	Enum_map.append_option_list("boolean",$("#id_is_test_user"));
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
 	$('#id_contract_type').val(g_args.contract_type);
-	$('#id_is_test_user').val(g_args.is_test_user);
-	$('#id_studentid').val(g_args.studentid);
+	$('#id_is_test_user').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "is_test_user",
+		"select_value" : g_args.is_test_user,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_is_test_user",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_studentid').admin_select_user_new({
+		"user_type"    : "student",
+		"select_value" : g_args.studentid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_studentid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_check_money_flag').val(g_args.check_money_flag);
 	$('#id_origin').val(g_args.origin);
 	$('#id_from_type').val(g_args.from_type);
@@ -95,6 +118,11 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -102,6 +130,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_contract_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["contract_type title", "contract_type", "th_contract_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -110,6 +139,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["is_test_user title", "is_test_user", "th_is_test_user" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -117,6 +147,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_studentid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["studentid title", "studentid", "th_studentid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -124,6 +155,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_check_money_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["check_money_flag title", "check_money_flag", "th_check_money_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -131,6 +163,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_origin" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["origin title", "origin", "th_origin" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -138,6 +171,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_from_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["from_type title", "from_type", "th_from_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -145,6 +179,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_account_role" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["account_role title", "account_role", "th_account_role" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -152,6 +187,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_sys_operator" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["sys_operator title", "sys_operator", "th_sys_operator" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -159,4 +195,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_seller_groupid_ex" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["seller_groupid_ex title", "seller_groupid_ex", "th_seller_groupid_ex" ]])!!}
 */

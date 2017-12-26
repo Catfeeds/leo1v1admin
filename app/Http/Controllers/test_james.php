@@ -1472,6 +1472,7 @@ class test_james extends Controller
         $domain = config('admin')['qiniu']['public']['url'];
         $change_reason_url = $domain.'/'.$url;
         dd($change_reason_url);
+        //gdb752962bc31cc483cf576fb1fdd8d7.zip
     }
 
 

@@ -73,14 +73,52 @@ class pdfConversionH5 extends Command
             $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=$uuid&email=$email&pwd=$pwd";
             $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
 
-            \App\Helper\Utils::logger("qiniuupload_james_788: $saveH5FilePath");
-            \App\Helper\Utils::savePicToServer($h5DownloadUrl,$saveH5FilePath);
+            // \App\Helper\Utils::logger("qiniuupload_james_788: $saveH5FilePath");
+            // \App\Helper\Utils::savePicToServer($h5DownloadUrl,$saveH5FilePath);
+
+
+
+
+            $len = filesize($h5DownloadUrl);
+            $ctype = 'application/zip';
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Cache-Control: public");
+            header("Content-Description: File Transfer");
+
+            //Use the switch-generated Content-Type
+            header("Content-Type: $ctype");
+
+            //Force the download
+            $header="Content-Disposition: attachment; filename=".$h5DownloadUrl.";";
+            header($header);
+            header("Content-Transfer-Encoding: binary");
+            header("Content-Length: ".$len);
+            @readfile($saveH5FilePath);
+
+
+
+
+            // file_put_contents($saveH5FilePath, fopen($h5DownloadUrl, 'r'));
+
 
             // 上传七牛
-            $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
+            // $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
 
-            \App\Helper\Utils::logger("qiniuupload_james_1: $saveH5Upload");
+            // \App\Helper\Utils::logger("qiniuupload_james_1: $saveH5Upload");
             //ok:gf15a4973b034c84d4f631be74b21741.zip
         }
+    }
+
+    public function curl_download($url, $dir){
+        $ch = curl_init($url);
+        $fp = fopen($dir, "wb");
+        curl_setopt($ch, CURLOPT_FILE, $fp);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $res=curl_exec($ch);
+        curl_close($ch);
+        fclose($fp);
+        return $res;
     }
 }
