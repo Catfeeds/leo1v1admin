@@ -109,4 +109,13 @@ class teacher_share extends Controller
         $authUrl = $auth->privateDownloadUrl("http://file-store.leo1v1.com/". $file_path );
         return $this->output_succ(["url" => $authUrl]);
     }
+
+    public function christmas_list() {
+        list($start_time, $end_time) = $this->get_in_date_range_day(0);
+        $info = $this->t_teacher_christmas->get_total($start_time, $end_time);
+        var_dump($info);
+        return $this->pageView(__METHOD__, '', [
+            'info' => $info
+        ]);
+    }
 }
