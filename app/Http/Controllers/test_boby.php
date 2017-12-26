@@ -1308,8 +1308,8 @@ class test_boby extends Controller
                 // }
             }
 
-            if(@$item['老师责任值'] || @$item['科目责任值'] || @$item['老师一级原因'] || @$item['老师二级原因'] || @$item['老师三级原因'] ){
-                $s= $this->tr_add('',$item['order_time_str'], $item["apply_time_str"], $item['refund_info'],$item['subject_str'], @$item['老师一级原因'], @$item['老师二级原因'],@$item['老师三级原因'],@$item['老师责任值'],@$item['科目责任值']);
+            if(@$item['老师管理责任值'] || @$item['科目责任值'] || @$item['老师管理一级原因'] || @$item['老师管理二级原因'] || @$item['老师管理三级原因'] ){
+                $s= $this->tr_add('',$item['order_time_str'], $item["apply_time_str"], $item['refund_info'],$item['subject_str'], @$item['老师管理一级原因'], @$item['老师管理二级原因'],@$item['老师管理三级原因'],@$item['老师管理责任值'],@$item['科目责任值']);
                 echo $s;
 
             }
