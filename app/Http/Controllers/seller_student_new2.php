@@ -196,6 +196,8 @@ class seller_student_new2 extends Controller
         $ass_test_lesson_type       = $this->get_in_int_val("ass_test_lesson_type",-1, E\Eass_test_lesson_type::class);
         $test_lesson_fail_flag      = $this->get_in_int_val("test_lesson_fail_flag", -1, E\Etest_lesson_fail_flag::class);
         $adminid_right              = $this->get_seller_adminid_and_right();
+        // dd($adminid_right);
+        // $adminid_right=[0=>"全职老师",1=>"",2=>"",3=>""];
         $accept_adminid             = $this->get_in_int_val("accept_adminid",-1);
         $is_jw                      = $this->get_in_int_val("is_jw",0);
         $is_ass_tran                = $this->get_in_int_val("is_ass_tran",0);
