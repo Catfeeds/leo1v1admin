@@ -29,11 +29,18 @@ class t_company_wx_users extends \App\Models\Zgen\z_t_company_wx_users
     }
 
     public function get_all_list_for_manager() {
-        $sql = $this->gen_sql_new("select m.uid,m.account,m.phone,u.userid,m.power,u.department,u.isleader from %s u left join %s m on u.mobile=m.phone where m.uid != ''",
+        $sql = $this->gen_sql_new("select m.uid,m.account,m.phone,u.userid,m.power,u.department,u.isleader "
+                                  ."from %s u left join %s m on u.mobile=m.phone "
+                                  ."where m.uid != ''",
                                   self::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
+    }
+
+    public function row_delete_for_department($department) {
+        $sql = $this->gen_sql("delete from %s where department=$department", self::DB_TABLE_NAME);
+        return $this->main_update($sql);
     }
 
 }
