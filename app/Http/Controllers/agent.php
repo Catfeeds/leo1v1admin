@@ -417,11 +417,29 @@ class agent extends Controller
     }
 
     public function check(){
-        dd('a');
+        list($start_time,$end_time) = [1506787200,1509465600];
+        $ret_info = $this->t_seller_student_new->get_item_list($start_time, $end_time);
+        foreach($ret_info as &$item){
+            $userid = $item['userid'];
+            $phone = $item['phone'];
+            $origin = $item['origin'];
+            $last_call = $this->t_tq_call_info->get_last_call_by_phone($phone);
+            $item['last_adminid'] = isset($last_call['adminid'])?$last_call['adminid']:0;
+            $orderid = $this->t_order_info->get_orderid_by_userid_new($userid);
+            $item['is_order'] = $orderid>0?1:0;
+        }
+        // dd($ret_info);
         return $this->Pageview(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
 
     public function test_new(){
+        /*
+          公众号,信息流,BD,其他
+          userid,origin,add_time,last_cc,is_called,is_suc_test_lesson,is_orderid,
+
+
+         */
+
         $adminid = 99;
         $key="DEAL_NEW_USER_$adminid";
         $userid=\App\Helper\Common::redis_get($key)*1;
