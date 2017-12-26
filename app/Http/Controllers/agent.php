@@ -422,6 +422,7 @@ class agent extends Controller
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_seller_student_new->get_item_list($page_info,$start_time,$end_time,$origin_ex);
         foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::hide_item_phone($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
         }
         return $this->Pageview(__METHOD__,$ret_info);
