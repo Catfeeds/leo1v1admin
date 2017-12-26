@@ -38,6 +38,7 @@
                 <tr>
                     <td>手机 </td>
                     <td>渠道 </td>
+                    <td>cc </td>
                     <td>进入时间 </td>
                     <td> 操作  </td>
                 </tr>
@@ -47,6 +48,7 @@
                     <tr>
                         <td>{{@$var["phone_hide"]}} </td>
                         <td>{{@$var["origin"]}} </td>
+                        <td>{{@$var["account"]}} </td>
                         <td>{{@$var["add_time"]}} </td>
                         <td>
                             <div
