@@ -55,7 +55,7 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
             'r.is_del=0',
             'r.resource_type in (1,2,3)',
         ];
-        $sql = $this->gen_sql_new("select file_title,file_link,file_type,file_id,file_use_type"
+        $sql = $this->gen_sql_new("select file_title,file_link,file_type,file_id,file_use_type,ex_num"
                                   ." from %s f"
                                   ." left join %s r on r.resource_id=f.resource_id"
                                   ." where %s"
