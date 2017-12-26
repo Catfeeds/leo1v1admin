@@ -4497,7 +4497,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $reference_price = 60;
             }elseif($teacherid == 149697){ //明日之星 50元/个
                 $reference_price = 50;
-            }elseif(($teacherid == 176348 || $teacher_info['teacher_type'] == 21 || $teacher_info['teacher_type'] == 22) && $type = 1) { //田克平 廖老师工作室 王老师工作室 推荐机构老师 80 元/个
+            }elseif(($teacherid == 176348 || (in_array($teacher_info['teacher_type'], [21,22]) && in_array($teacher_ref_type, [1,2]))) && $type = 1) { //田克平 廖老师工作室 王老师工作室 推荐机构老师 80 元/个
                 $reference_price = 80;
             } else {
                 //$reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type) + 1;
@@ -4507,6 +4507,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     $start_time = strtotime("2017-11-1");
                 }
                 $reference_num = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher_info['phone'], $type);
+                if ($teacherid == 226810 && $type == 1) {
+                    $reference_num += 1;
+                }
                 $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
             }
 

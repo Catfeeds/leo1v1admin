@@ -120,8 +120,8 @@ class seller_student_new2 extends Controller
         $this->set_in_value("limit_require_send_adminid",$adminid);
         $this->set_in_value("limit_require_flag",1);
         return $this->test_lesson_plan_list();
-
     }
+
     public function test_lesson_plan_list_ass_leader(){
         $adminid = $this->get_account_id();
         if($adminid==349){
@@ -146,7 +146,7 @@ class seller_student_new2 extends Controller
     public function test_lesson_plan_list()
     {
         $cur_page = $this->get_in_str_val("cur_page");
-        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0, 7, 1, [
+        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0,7,1,[
             1 => array("require_time","申请时间"),
             2 => array("stu_request_test_lesson_time", "期待试听时间"),
             4 => array("lesson_start", "上课时间"),
@@ -196,6 +196,8 @@ class seller_student_new2 extends Controller
         $ass_test_lesson_type       = $this->get_in_int_val("ass_test_lesson_type",-1, E\Eass_test_lesson_type::class);
         $test_lesson_fail_flag      = $this->get_in_int_val("test_lesson_fail_flag", -1, E\Etest_lesson_fail_flag::class);
         $adminid_right              = $this->get_seller_adminid_and_right();
+        // dd($adminid_right);
+        // $adminid_right=[0=>"全职老师",1=>"",2=>"",3=>""];
         $accept_adminid             = $this->get_in_int_val("accept_adminid",-1);
         $is_jw                      = $this->get_in_int_val("is_jw",0);
         $is_ass_tran                = $this->get_in_int_val("is_ass_tran",0);
@@ -1469,10 +1471,10 @@ class seller_student_new2 extends Controller
             $teacher_info   = $this->get_in_str_val("teacher_info",$require_info['teacher_info']);
 
             E\Egender::set_item_value_str($require_info);
-            E\Egender::set_item_value_str($require_info,"tea_gender");
-            E\Etea_age::set_item_value_str($require_info,"tea_age");
-            E\Eidentity::set_item_value_str($require_info,"tea_identity");
-            E\Eteacher_type::set_item_value_str($require_info);
+            E\Egender::set_item_appoint_value_str($require_info,"tea_gender",0,"无要求");
+            E\Etea_age::set_item_appoint_value_str($require_info,"tea_age",0,"无要求");
+            E\Eidentity::set_item_appoint_value_str($require_info,"tea_identity",0,"无要求");
+            E\Eteacher_type::set_item_appoint_value_str($require_info,"teacher_type",0,"无要求");
             E\Egrade::set_item_value_str($require_info);
             E\Esubject::set_item_value_str($require_info);
             E\Equotation_reaction::set_item_value_str($require_info);
@@ -1598,10 +1600,10 @@ class seller_student_new2 extends Controller
                 }
 
                 $tea_val['age_flag']    = \App\Helper\Utils::check_teacher_age($tea_val['age']);
-                $tea_val['is_identity'] = $identity==$tea_val['identity']?1:0;
-                $tea_val['is_gender']   = $gender==$tea_val['gender']?1:0;
-                $tea_val['is_age']      = $tea_age==$tea_val['age_flag']?1:0;
-                if($teacher_info!="" && (strstr($tea_val['realname'],$teacher_info) || strstr($tea_val['phone'],$teacher_info))){
+                $tea_val['is_identity'] = $identity==$tea_val['identity'] && $identity!=0?1:0;
+                $tea_val['is_gender']   = $gender==$tea_val['gender'] && $gender!=0?1:0;
+                $tea_val['is_age']      = $tea_age==$tea_val['age_flag'] && $tea_age!=0?1:0;
+                if($teacher_info!="" && (strstr($teacher_info,$tea_val['realname']) || strstr($teacher_info,$tea_val['phone']))){
                     $tea_val['is_search'] = 1;
                 }else{
                     $tea_val['is_search'] = 0;
@@ -1647,9 +1649,9 @@ class seller_student_new2 extends Controller
                     $teacher_type_list[$tea_key] = $tea_val['is_teacher_type'];
                     $search_list[$tea_key]       = $tea_val['is_search'];
                     $textbook_list[$tea_key]     = $tea_val['is_textbook'];
-                    E\Eteacher_type::set_item_value_str($tea_val);
                     E\Eidentity::set_item_value_str($tea_val);
                     E\Egender::set_item_value_str($tea_val);
+                    E\Eteacher_type::set_item_value_str($tea_val);
 
                     if($tea_val['train_through_new_time']>0){
                         $tea_val['work_day'] = \App\Helper\Utils::change_time_difference_to_day($tea_val['train_through_new_time']);

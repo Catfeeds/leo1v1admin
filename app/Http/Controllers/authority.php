@@ -69,12 +69,24 @@ class authority extends Controller
         $tquin             = $this->get_in_int_val("tquin", -1);
         $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
         $call_phone_type = $this->get_in_int_val("call_phone_type", -1);
+
+        $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
+        $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        if($account_role==5){
+            $adminid_right=[0=>"全职老师",1=>"",2=>"",3=>""];
+        }else{
+            $adminid_right=[];
+        }
+
+
+       
+
         $seller_level      = $this->get_in_el_seller_level();
         if (!$cardid) {
             $cardid = -1;
         }
 
-        $ret_info = $this->t_manager_info->get_all_manager( $page_info,$uid,$user_info,$has_question_user, $creater_adminid,$account_role,$del_flag,$cardid,$tquin,$day_new_user_flag,$seller_level,$adminid,$fulltime_teacher_type,$call_phone_type);
+        $ret_info = $this->t_manager_info->get_all_manager( $page_info,$uid,$user_info,$has_question_user, $creater_adminid,$account_role,$del_flag,$cardid,$tquin,$day_new_user_flag,$seller_level,$adminid,$fulltime_teacher_type,$call_phone_type,$adminid_list);
 
         $group_list=$this->t_authority_group->get_auth_groups();
         $group_map=[];
@@ -121,7 +133,9 @@ class authority extends Controller
             E\Eboolean::set_item_value_simple_str($item,"day_new_user_flag");
         }
 
-        return $this->pageView(__METHOD__,$ret_info);
+        return $this->pageView(__METHOD__,$ret_info,[
+            "adminid_right"     => $adminid_right
+        ]);
     }
 
     public function update_lesson_call_end_time(){

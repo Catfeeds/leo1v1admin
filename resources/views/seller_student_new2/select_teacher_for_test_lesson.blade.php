@@ -14,7 +14,7 @@
             </div>
             <table class="common-table require-table" id="id_require_info" {!! \App\Helper\Utils::gen_jquery_data($require_info) !!}>
                 <tr >
-                    <td>学生姓名:<span class="font_color" >{{$require_info['nick']}}</span></td>
+                    <td>学生姓名:<span class="font_color">{{$require_info['nick']}}</span></td>
                     <td>学生性别:<span class="font_color">{{$require_info['gender_str']}}</span></td>
                     <td>学生年级:<span class="font_color">{{$require_info['grade_str']}}</span></td>
                     <td>试听科目:<span class="font_color">{{$require_info['subject_str']}}</span></td>
@@ -57,13 +57,13 @@
         <div class="row">
             <div class="col-xs-6 col-md-3">
                 <div class="input-group ">
-                    <span>上课时间</span>
+                    <span><font color="red">*</font>上课时间</span>
                     <input id="id_lesson_time" type="text" value="{{ @$require_info['lesson_time'] }}" />
                 </div>
             </div>
             <div class="col-xs-6 col-md-3">
                 <div class="input-group">
-                    <span>老师信息</span>
+                    <span><font color="red">*</font>老师信息</span>
                     <input id="id_teacherid"  type="text" value="{{ @$require_info['teacherid'] }}"
                            autocomplete="off" style="display:none" />
                     <input id="id_teacher_info" type="text" value="{{ @$require_info['teacher_info'] }}"
@@ -80,38 +80,43 @@
                     <button class="btn btn-danger" id="id_refund_lesson">驳回</button>
                 </div>
             </div>
+            <div class="col-md-1 col-xs-3 require_status">
+                <div>
+                    <button class="btn btn-success" id="id_refresh_flag" data-refresh_flag=0>刷新列表</button>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">
-                    <span class="input-group-addon">老师身份</span>
+                    <span class="input-group-addon">&nbsp;老师身份</span>
                     <select class="opt-change form-control" id="id_identity">
-                        <option value="-1">无要求</option>
+                        <option value="0">无要求</option>
                     </select>
                 </div>
             </div>
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">
-                    <span class="input-group-addon">性别要求</span>
+                    <span class="input-group-addon">&nbsp;性别要求</span>
                     <select class="opt-change form-control" id="id_gender">
-                        <option value="-1">无要求</option>
+                        <option value="0">无要求</option>
                     </select>
                 </div>
             </div>
 
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">
-                    <span class="input-group-addon">年龄要求</span>
+                    <span class="input-group-addon">&nbsp;年龄要求</span>
                     <select class="opt-change form-control" id="id_tea_age">
-                        <option value="-1">无要求</option>
+                        <option value="0">无要求</option>
                     </select>
                 </div>
             </div>
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">
-                    <span class="input-group-addon">老师类型</span>
+                    <span class="input-group-addon">&nbsp;老师类型</span>
                     <select class="opt-change form-control" id="id_teacher_type">
-                        <option value="-1">无要求</option>
+                        <option value="0">无要求</option>
                     </select>
                 </div>
             </div>
@@ -119,15 +124,15 @@
         <div class="row">
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">
-                    <span class="input-group-addon">教材版本</span>
+                    <span class="input-group-addon">&nbsp;教材版本</span>
                     <select class="opt-change form-control" id="id_region_version">
-                        <option value="-1">无要求</option>
+                        <option value="0">无要求</option>
                     </select>
                 </div>
             </div>
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">
-                    <span class="input-group-addon">教师相关</span>
+                    <span class="input-group-addon">&nbsp;教师相关</span>
                     <select class="opt-change form-control" id="id_teacher_tags" >
                         <option value ="">无要求</option>
                         @foreach($teacher_tags as $val)
@@ -138,7 +143,7 @@
             </div>
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">
-                    <span class="input-group-addon">课堂相关</span>
+                    <span class="input-group-addon">&nbsp;课堂相关</span>
                     <select class="opt-change form-control" id="id_lesson_tags" >
                         <option value ="">无要求</option>
                         @foreach($lesson_tags as $val)
@@ -149,7 +154,7 @@
             </div>
             <div class="col-xs-6 col-md-3" >
                 <div class="input-group ">
-                    <span class="input-group-addon">教学相关</span>
+                    <span class="input-group-addon">&nbsp;教学相关</span>
                     <select class="opt-change form-control" id="id_teaching_tags" >
                         <option value ="">无要求</option>
                         @foreach($teaching_tags as $val)

@@ -25,10 +25,15 @@ class t_main_group_name_month extends \App\Models\Zgen\z_t_main_group_name_month
         return $this->main_get_value($sql);
     }
 
-    public function del_by_month($month) {
-        $sql = $this->gen_sql_new("delete from %s where  month=%u",
+    public function del_by_month($month,$main_type_flag=0) {
+        $where_arr=[
+            ["month=%u",$month,0],  
+            ["main_type=%u",$main_type_flag,0],  
+        ];
+
+        $sql = $this->gen_sql_new("delete from %s where %s",
                                   self::DB_TABLE_NAME
-                                  ,$month
+                                  ,$where_arr
         );
         return $this->main_update($sql);
     }

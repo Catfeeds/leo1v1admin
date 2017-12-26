@@ -15,39 +15,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	no_update_seller_level_flag	:any;
-	create_time	:any;
-	leave_member_time	:any;
-	become_member_time	:any;
-	call_phone_type	:any;
-	call_phone_passwd	:any;
-	fingerprint1	:any;
-	ytx_phone	:any;
-	wx_id	:any;
-	up_adminid	:any;
-	day_new_user_flag	:any;
-	account_role	:any;
-	creater_adminid	:any;
-	uid	:any;
-	del_flag	:any;
-	account	:any;
-	seller_level	:any;
-	name	:any;
-	nickname	:any;
-	email	:any;
-	phone	:any;
-	password	:any;
-	permission	:any;
-	tquin	:any;
-	wx_openid	:any;
-	cardid	:any;
-	become_full_member_flag	:any;
-	main_department	:any;
-	fulltime_teacher_type	:any;
-	account_role_str	:any;
-	seller_level_str	:any;
-	department_str	:any;
-	become_full_member_flag_str	:any;
 }
 
 /*

@@ -417,45 +417,29 @@ class agent extends Controller
     }
 
     public function check(){
-        E\Eseller_level::V_700;
-        $page_info = $this->get_in_page_info();
-        $grade = $this->get_in_int_val("grade",-1);
-        $subject = $this->get_in_int_val("subject",-1);
-        $address  = trim($this->get_in_str_val('address',''));
-        $ret_info =  $this->t_location_subject_grade_textbook_info->get_all_info_new($page_info,$grade,$subject,$address);
+        list($start_time,$end_time) = [1506787200,1509465600];
+        $ret_info = $this->t_seller_student_new->get_item_list($start_time, $end_time);
         foreach($ret_info as &$item){
-            E\Esubject::set_item_value_str($item,"subject");
-            E\Egrade::set_item_value_str($item,"grade");
-            $arr= explode(",",$item["teacher_textbook"]);
-            foreach($arr as $val){
-                @$item["textbook_str"] .=  E\Eregion_version::get_desc ($val).",";
-            }
-            $item["textbook_str"] = trim($item["textbook_str"],",");
+            $userid = $item['userid'];
+            $phone = $item['phone'];
+            $origin = $item['origin'];
+            $last_call = $this->t_tq_call_info->get_last_call_by_phone($phone);
+            $item['last_adminid'] = isset($last_call['adminid'])?$last_call['adminid']:0;
+            $orderid = $this->t_order_info->get_orderid_by_userid_new($userid);
+            $item['is_order'] = $orderid>0?1:0;
         }
-        $ret_arr = array_unique(array_column($ret_info,'teacher_textbook'));
-        $textid_arr = [];
-        foreach($ret_arr as $item){
-            $arr= explode(",",$item);
-            if(count($arr)>1){
-                foreach($arr as $info){
-                    $textid_arr[] = $info;
-                }
-            }else{
-                $textid_arr[] = $item;
-            }
-        }
-        $textid_arr = array_unique($textid_arr);
-        $list = [];
-        foreach($textid_arr as $key=>$item){
-            $list[$key]['textbook_str'] = E\Eregion_version::get_desc($item);
-        }
-        // return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
-
-        $qiniu_url=\App\Helper\Config::get_qiniu_public_url();
-        return $this->Pageview(__METHOD__,\App\Helper\Utils::list_to_page_info($list),["qiniu_domain"=>$qiniu_url]);
+        // dd($ret_info);
+        return $this->Pageview(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
 
     public function test_new(){
+        /*
+          公众号,信息流,BD,其他
+          userid,origin,add_time,last_cc,is_called,is_suc_test_lesson,is_orderid,
+
+
+         */
+
         $adminid = 99;
         $key="DEAL_NEW_USER_$adminid";
         $userid=\App\Helper\Common::redis_get($key)*1;

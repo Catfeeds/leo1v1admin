@@ -3,6 +3,7 @@
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
+    var refresh_flag = $("#id_refresh_flag").data("refresh_flag");
     $.reload_self_page({
 		    teacher_info  : $('#id_teacher_info').val(),
 		    identity      : $('#id_identity').val(),
@@ -13,13 +14,17 @@ function load_data(){
 		    lesson_tags   : $('#id_lesson_tags').val(),
 		    teaching_tags : $('#id_teaching_tags').val(),
 		    require_id    : g_args.require_id,
-		    refresh_flag  : $('#id_refresh_flag').val(),
+		    refresh_flag  : refresh_flag,
 		    region_version: $('#id_region_version').val(),
     });
 }
 
 $(function(){
     var require_info = $("#id_require_info").data();
+    $("#id_refresh_flag").on("click",function(){
+        $(this).data("refresh_flag",1);
+        load_data();
+    });
 
     Enum_map.append_option_list("identity",$("#id_identity"),true,[5,6,7,8]);
     Enum_map.append_option_list("gender",$("#id_gender"),true,[1,2]);
@@ -74,35 +79,33 @@ $(function(){
             var teacherid = $(this).data("teacherid");
             if(select_teacherid==teacherid){
                 $(this).addClass("red-border");
+                $("#id_teacher_info").data("select_flag",1);
             }
         });
     }
     no_select_teacher();
     select_teacher();
 
-    $(".opt-set-teacher").on("click",function(){
-        var data = $(this).get_opt_data();
-        no_select_teacher();
-        var teacher_info = data.realname+"/"+data.phone;
-        $(this).parents("tr").addClass("red-border");
-        $("#id_teacherid").val(data.teacherid);
-        $("#id_teacher_info").val(teacher_info);
-        $("#id_teacher_info").data("select_flag",1);
-    });
-
-    $("#id_teacher_info").keydown(function(event){
-        var val = $(this).val();
-        var select_flag = $(this).data("select_flag");
-        //判断退格键是全部清空还是正常退格 0 正常退格 1 全部清空
-	      if(event.keyCode==8 && select_flag==1){
-            no_select_teacher();
-            $("#id_teacher_info").val('');
-            $(this).data("select_flag",0);
-        }
-        if(event.keyCode==13){
-            load_data();
-        }
-    });
+    if(require_info.test_lesson_student_status != 200 && require_info.test_lesson_student_status != 120 ){
+        $(".require_status").hide();
+        $("#id_teacher_info").attr("readOnly","true");
+        $("#id_lesson_time").attr("readOnly","true");
+    }else{
+        $("#id_teacher_info").keydown(function(event){
+            var val = $(this).val();
+            var select_flag = $(this).data("select_flag");
+            //判断退格键是全部清空还是正常退格 0 正常退格 1 全部清空
+	          if(event.keyCode==8 && select_flag==1){
+                no_select_teacher();
+                $("#id_teacher_info").val('');
+                $("#id_teacherid").val(0);
+                $(this).data("select_flag",0);
+            }
+            if(event.keyCode==13){
+                load_data();
+            }
+        });
+    }
 
     var check_require_status = function(){
         if(require_info.test_lesson_student_status != 200 && require_info.test_lesson_student_status != 120 ){
@@ -112,40 +115,72 @@ $(function(){
         return true;
     }
 
+    $(".opt-set-teacher").on("click",function(){
+        if(check_require_status()){
+            var data = $(this).get_opt_data();
+            no_select_teacher();
+            var teacher_info = data.realname+"/"+data.phone;
+            $(this).parents("tr").addClass("red-border");
+            $("#id_teacherid").val(data.teacherid);
+            $("#id_teacher_info").val(teacher_info);
+            select_teacher();
+        }
+    });
+
+
     //排课
     $("#id_set_lesson_time").on("click",function(){
-        var lesson_time = $("#id_lesson_time").val();
-        var teacherid   = $("#id_teacherid").val();
+        var lesson_time  = $("#id_lesson_time").val();
+        var teacherid    = $("#id_teacherid").val();
+        var teacher_info = $("#id_teacher_info").val();
 
-        if(check_require_status()){
-            var do_post = function(){
-                $.do_ajax("/ss_deal/course_set_new",{
-                    'require_id'      : g_args.require_id,
-                    "grade"           : require_info.grade,
-                    'teacherid'       : teacherid,
-                    'lesson_start'    : lesson_time,
-                    'top_seller_flag' : require_info.seller_top_flag
-                });
-            };
+        if(teacherid==0 || teacher_info==""){
+            BootstrapDialog.alert("请选择老师!");
+        }else if(lesson_time==""){
+            BootstrapDialog.alert("请选择时间!");
+        }else{
+            var notice_html = "确定排课老师为："+teacher_info+"时间为："+lesson_time+"？";
+            BootstrapDialog.show({
+	              title   : "信息确认",
+	              message : notice_html,
+	              buttons : [{
+		                label  : "返回",
+		                action : function(dialog) {
+			                  dialog.close();
+		                }
+	              }, {
+		                label    : "确认",
+		                cssClass : "btn-warning",
+		                action   : function(dialog) {
+                        if(check_require_status()){
+                            var do_post = function(){
+                                $.do_ajax("/ss_deal/course_set_new",{
+                                    'require_id'      : g_args.require_id,
+                                    "grade"           : require_info.grade,
+                                    'teacherid'       : teacherid,
+                                    'lesson_start'    : lesson_time,
+                                    'top_seller_flag' : require_info.seller_top_flag
+                                });
+                            };
 
-            var now        = (new Date()).getTime()/1000;
-            var start_time = $.strtotime(lesson_time);
-            if ( now > start_time ) {
-                BootstrapDialog.alert("上课时间比现在还小.");
-                return ;
-            } else if ( now + 5*3600  > start_time ) {
-                BootstrapDialog.confirm("上课时间离现在很近了,要提交吗?!",function(val){
-                    if(val) {
-                        do_post();
-                    }
-                });
-            }else if(teacherid=="" || teacherid==0){
-                BootstrapDialog.alert("请选择老师!");
-            }else if(lesson_time==""){
-                BootstrapDialog.alert("请选择时间!");
-            }else{
-                do_post();
-            }
+                            var now        = (new Date()).getTime()/1000;
+                            var start_time = $.strtotime(lesson_time);
+                            if ( now > start_time ) {
+                                BootstrapDialog.alert("上课时间比现在还小.");
+                                return ;
+                            } else if ( now + 5*3600  > start_time ) {
+                                BootstrapDialog.confirm("上课时间离现在很近了,要提交吗?!",function(val){
+                                    if(val) {
+                                        do_post();
+                                    }
+                                });
+                            }else{
+                                do_post();
+                            }
+                        }
+		                }
+	              }]
+            });
         }
     });
 

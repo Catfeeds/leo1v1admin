@@ -40,44 +40,11 @@ class update_company_wx_data extends Command
     public function handle()
     {
         $task = new \App\Console\Tasks\TaskController();
-
-        // 企业微信用户
-        $users = $task->t_company_wx_users->get_all_users();
-        // 后台管理用户
-        $manager = $task->t_manager_info->get_all_list();
-        foreach($users as $item) {
-            if (!$item['mobile']) {
-                $phone = '';
-                foreach($manager as $val) {
-                    if ($val['name'] == $item['name']) {
-                        $phone = $val['phone'];
-                    }
-                }
-                echo $item['name'].' '.$item['mobile'].' '.$phone.','.PHP_EOL;
-                continue;
-            }
-            if (!isset($manager[$item['mobile']])) {
-                $phone = '';
-                foreach($manager as $val) {
-                    if ($val['name'] == $item['name']) {
-                        $phone = $val['phone'];
-                    }
-                }
-                echo $item['name'].' '.$item['mobile'].' '.$phone.','.PHP_EOL;
-            } 
-        }
-        exit;
-        //$type = $this->argument('type');
-        //if ($type == 1) { // 刷新权限
-        //    $this->flush_permission($task); // 刷新权限
-        //} else { // 刷新企业微信数据到本地
-        //    $this->flush_data_for_company_wx($task); // 刷新企业微信数据到本地
-        //}
         $url = $this->get_url();
         $token = $this->get_token(); // 获取token
         //$this->flush_tag_data($token,$url,$task); // 刷新tag
-        //$this->flush_users_data($token,$url,$task); // 刷新组织用户
-        $this->flush_permission($task); // 刷新权限
+        $this->flush_users_data($token,$url,$task); // 刷新组织用户
+        //$this->flush_permission($task); // 刷新权限
     }
 
     public function flush_users_data($token,$burl,$task) {
@@ -101,9 +68,10 @@ class update_company_wx_data extends Command
                 echo date('Y-m-d H:i:s',time()).'加载部门为'.$department.'下的用户数据开始'.PHP_EOL;
                 $users = $this->get_company_wx_data($url, 'userlist');
                 if ($users) {
+                    $task->t_company_wx_users->row_delete_for_department($department);
                     foreach($users as $item) {
                         $depart = array_flip($item['department']);
-                        if (in_array($department.$item['userid'], $peo)) continue; //判断当前用户是否已存在
+                        //if (in_array($department.$item['userid'], $peo)) continue; //判断当前用户是否已存在
                         $task->t_company_wx_users->row_insert([ // 加载用户数据
                             "userid" => $item['userid'],
                             "name" => $item['name'],

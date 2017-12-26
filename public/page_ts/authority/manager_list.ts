@@ -23,6 +23,7 @@ $(function(){
             del_flag          : $('#id_del_flag').val(),
             fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
             call_phone_type:	$('#id_call_phone_type').val(),
+		        seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
             adminid           :	$('#id_adminid').val()
         });
     }
@@ -37,6 +38,10 @@ $(function(){
     });
 
 
+
+    $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
+
+    $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right);
 
     Enum_map.append_option_list("boolean",$("#id_day_new_user_flag"));
     Enum_map.append_option_list("account_role", $('#id_account_role'));

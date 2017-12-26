@@ -1,7 +1,4 @@
 interface GargsStatic {
-	type:	number;
-	page_num:	number;
-	page_count:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -16,37 +13,20 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	shareImgUrl	:any;
-	coverImgUrl	:any;
-	activityImgUrl	:any;
-	followImgUrl	:any;
-	gift_type	:any;
-	title	:any;
-	id	:any;
-	act_descr	:any;
-	url	:any;
-	activity_status	:any;
-	add_time	:any;
-	uid	:any;
-	account	:any;
-	add_time_str	:any;
-	gift_type_str	:any;
-	activity_status_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../tongji2; vi  ../tongji2/market_extension.ts
+	 mkdir -p ../teacher_share; vi  ../teacher_share/christmas_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji2-market_extension.d.ts" />
+/// <reference path="../g_args.d.ts/teacher_share-christmas_list.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
-		type:	$('#id_type').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -66,7 +46,6 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
-	$('#id_type').val(g_args.type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -76,16 +55,6 @@ $(function(){
 
 */
 /* HTML ...
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">type</span>
-                <input class="opt-change form-control" id="id_type" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["type title", "type", "th_type" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
