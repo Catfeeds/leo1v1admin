@@ -1645,11 +1645,11 @@ class user_manage_new extends Controller
         }
 
 
-        //全职老师标识
-        $fulltime_flag = $this->get_in_int_val("fulltime_flag");
+        //各部门标识
+        $main_type_flag = $this->get_in_int_val("main_type_flag");
         foreach($list as $kk=>&$item){
-            if($fulltime_flag==1){
-                if(isset($item) && ($item['main_type'] !=5 || $item['main_type']=="未定义") ){
+            if($main_type_flag>0){
+                if($item['main_type'] != $main_type_flag ){
                     unset($list[$kk]);
                 }
             }
@@ -1682,11 +1682,14 @@ class user_manage_new extends Controller
         foreach( $list as &$item ) {
             E\Emain_type::set_item_value_str($item);
         }
+
+        $this->set_filed_for_js("main_type_flag",$main_type_flag);
+
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list),["monthtime_flag"=>$monthtime_flag]);
     }
 
     public function admin_group_manage_fulltime(){
-        $this->set_in_value("fulltime_flag",1);
+        $this->set_in_value("main_type_flag",5);
         return $this->admin_group_manage();
 
     }

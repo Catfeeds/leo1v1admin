@@ -230,9 +230,18 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
         return $this->main_get_list($sql);
     }
 
-    public function get_all_list(){
-        $sql=$this->gen_sql_new("select * from %s ",
-                                self::DB_TABLE_NAME) ;
+    public function get_all_list($main_type_flag=0){
+        $where_arr=[
+            ["n.main_type=%u",$main_type_flag,0],  
+        ];
+
+        $sql=$this->gen_sql_new("select u.* from %s u "
+                                ." left join %s n on u.groupid = n.groupid "
+                                ." where %s",
+                                self::DB_TABLE_NAME,
+                                t_admin_group_name::DB_TABLE_NAME,
+                                $where_arr
+        ) ;
         return $this->main_get_list($sql);
     }
 
