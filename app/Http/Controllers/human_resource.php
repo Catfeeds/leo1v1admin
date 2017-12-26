@@ -752,7 +752,6 @@ class human_resource extends Controller
         $is_new_teacher           = $this->get_in_int_val("is_new_teacher",1);
         $gender                   = $this->get_in_int_val("gender",-1);
         $free_time                = $this->get_in_str_val("free_time","");
-        $grade_part_ex            = $this->get_in_int_val("grade_part_ex",-1);
         $subject                  = $this->get_in_int_val("subject",-1);
         $second_subject           = $this->get_in_int_val("second_subject",-1);
         $trial_flag               = $this->get_in_int_val("trial_flag",0);
@@ -782,16 +781,10 @@ class human_resource extends Controller
         $month_stu_num            = $this->get_in_int_val("month_stu_num", -1);
         $record_score_num         = $this->get_in_int_val("record_score_num", -1);
         $identity                 = $this->get_in_int_val("identity", -1);
-        $tea_label_type           = $this->get_in_int_val("tea_label_type", -1);
         $plan_level               = $this->get_in_int_val("plan_level", -1);
         $teacher_textbook         = $this->get_in_int_val("teacher_textbook", -1);
         if($teacher_textbook != -1){
             $teacher_textbook = $teacher_textbook;
-        }
-        if($tea_label_type==-1){
-            $tea_label_type_str="";
-        }else{
-            $tea_label_type_str =  E\Etea_label_type::get_desc($tea_label_type).",";
         }
 
         if(!empty($free_time)){
@@ -819,14 +812,14 @@ class human_resource extends Controller
 
         $ret_info = $this->t_teacher_info->get_teacher_detail_info_new(
             $page_num,$teacherid,$teacher_money_type,$need_test_lesson_flag,$textbook_type,
-            $is_good_flag,$is_new_teacher,$gender,$grade_part_ex,$subject,
+            $is_good_flag,$is_new_teacher,$gender,$subject,
             $trial_flag,$address,$test_flag,$is_test_user,$second_subject,
             $level,$is_freeze,$tea_subject,$limit_plan_lesson_type,$is_record_flag,
             $test_lesson_full_flag,$lstart,$lend,$train_through_new,$lesson_hold_flag,$test_transfor_per,
             $week_liveness,$interview_score,$second_interview_score,$teacherid_arr,$seller_flag,
             $qz_flag,$teacher_type,$lesson_hold_flag_adminid,$is_quit,$set_leave_flag,$fulltime_flag,$seller_hold_flag,
             $teacher_ref_type,$have_wx,$grade_plan,$subject_plan,$fulltime_teacher_type,$month_stu_num,
-            $record_score_num,$identity,$tea_label_type_str,$plan_level,$teacher_textbook
+            $record_score_num,$identity,$plan_level,$teacher_textbook
         );
 
         $tea_list = [];
@@ -846,7 +839,6 @@ class human_resource extends Controller
         }
 
         $test_lesson_num_list = $this->t_lesson_info->get_teacher_lesson_num_list($tea_list,$lstart,$lend);
-
         foreach($ret_info['list'] as  &$item){
             $revisit_info = $this->t_teacher_record_list->get_jw_revisit_info($item["teacherid"]);
             $item["class_will_type"]     = $revisit_info["class_will_type"];
@@ -857,12 +849,15 @@ class human_resource extends Controller
             E\Eteacher_type::set_item_value_str($item,"teacher_type");
             E\Eboolean::set_item_value_str($item,"need_test_lesson_flag");
             E\Egender::set_item_value_str($item,"gender");
+
             E\Esubject::set_item_value_str($item,"subject");
+            E\Egrade_range::set_item_value_str($item,"grade_start");
+            E\Egrade_range::set_item_value_str($item,"grade_end");
+
             E\Esubject::set_item_value_str($item,"second_subject");
-            E\Esubject::set_item_value_str($item,"third_subject");
-            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
-            E\Egrade_part_ex::set_item_value_str($item,"second_grade");
-            E\Egrade_part_ex::set_item_value_str($item,"third_grade");
+            E\Egrade_range::set_item_value_str($item,"second_grade_start");
+            E\Egrade_range::set_item_value_str($item,"second_grade_end");
+
             E\Eidentity::set_item_value_str($item);
             $item['user_agent'] = \App\Helper\Utils::get_user_agent_info($item['user_agent']);
             $item['level_str'] = \App\Helper\Utils::get_teacher_level_str($item);
@@ -878,8 +873,6 @@ class human_resource extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_hold_flag_time","_str");
             E\Eclass_will_type::set_item_value_str($item);
             E\Eclass_will_sub_type::set_item_value_str($item);
-            E\Egrade_range::set_item_value_str($item,"grade_start");
-            E\Egrade_range::set_item_value_str($item,"grade_end");
             \App\Helper\Utils::unixtime2date_for_item($item, "revisit_add_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($item, "recover_class_time","_str");
 
@@ -929,7 +922,6 @@ class human_resource extends Controller
                 }
             }
 
-            // $item["label"] = @$label_list[$item["teacherid"]];
             $not_grade_arr = explode(",",$item["not_grade"]);
             $not_grade_str = "";
             if(!empty($not_grade_arr)){
