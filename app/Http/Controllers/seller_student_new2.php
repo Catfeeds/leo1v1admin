@@ -1502,7 +1502,6 @@ class seller_student_new2 extends Controller
         }else{
             $tea_list = [];
         }
-        dd($tea_list);
 
         $teacher_tags  = $this->get_tags_list("教师相关","");
         $lesson_tags   = $this->get_tags_list("课堂相关","");
