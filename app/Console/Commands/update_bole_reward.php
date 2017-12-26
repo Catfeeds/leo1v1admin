@@ -41,7 +41,7 @@ class update_bole_reward extends Command
         $tea = new \App\Http\Controllers\teacher_money();
         $start_time = strtotime(date('Y-m-1', strtotime('-1 month')));
         $end_time = strtotime(date('Y-m-1', time()));
-        $start_time = strtotime(data('Y-m-1', time()));
+        $start_time = strtotime(date('Y-m-1', time()));
         $end_time = time();
 
         $references = $task->t_teacher_lecture_appointment_info->get_references(); // 获取所有推荐人

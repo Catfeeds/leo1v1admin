@@ -417,42 +417,18 @@ class agent extends Controller
     }
 
     public function check(){
-        E\Eseller_level::V_700;
+        list($start_time,$end_time) = [1512057600,1514736000];
+        $origin_ex = ['公众号,金数据,占豪,,',
+                      '公众号,金数据,洞见,,',
+                      '公众号,金数据,教育百师通,,',
+                      '公众号,金数据,教育,,',
+                      '公众号,金数据,杏仁医生,,'];
         $page_info = $this->get_in_page_info();
-        $grade = $this->get_in_int_val("grade",-1);
-        $subject = $this->get_in_int_val("subject",-1);
-        $address  = trim($this->get_in_str_val('address',''));
-        $ret_info =  $this->t_location_subject_grade_textbook_info->get_all_info_new($page_info,$grade,$subject,$address);
-        foreach($ret_info as &$item){
-            E\Esubject::set_item_value_str($item,"subject");
-            E\Egrade::set_item_value_str($item,"grade");
-            $arr= explode(",",$item["teacher_textbook"]);
-            foreach($arr as $val){
-                @$item["textbook_str"] .=  E\Eregion_version::get_desc ($val).",";
-            }
-            $item["textbook_str"] = trim($item["textbook_str"],",");
+        $ret_info = $this->t_seller_student_new->get_item_list($page_info,$start_time,$end_time,$origin_ex[0]);
+        foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
         }
-        $ret_arr = array_unique(array_column($ret_info,'teacher_textbook'));
-        $textid_arr = [];
-        foreach($ret_arr as $item){
-            $arr= explode(",",$item);
-            if(count($arr)>1){
-                foreach($arr as $info){
-                    $textid_arr[] = $info;
-                }
-            }else{
-                $textid_arr[] = $item;
-            }
-        }
-        $textid_arr = array_unique($textid_arr);
-        $list = [];
-        foreach($textid_arr as $key=>$item){
-            $list[$key]['textbook_str'] = E\Eregion_version::get_desc($item);
-        }
-        // return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
-
-        $qiniu_url=\App\Helper\Config::get_qiniu_public_url();
-        return $this->Pageview(__METHOD__,\App\Helper\Utils::list_to_page_info($list),["qiniu_domain"=>$qiniu_url]);
+        return $this->Pageview(__METHOD__,$ret_info);
     }
 
     public function test_new(){
