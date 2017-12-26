@@ -22,12 +22,16 @@ class report extends Controller
             //历史数据
             if($opt_date_type == 2){
                 //周报
-                $example_arr = $this->t_test_lesson_subject->get_example_info($start_time,$end_time);
-                foreach($example_arr as &$item){
+                $example_info = $this->t_test_lesson_subject->get_example_info($start_time,$end_time);
+                foreach($example_info as &$item){
                     $item['valid_rate'] = number_format($item['valid_example_num']/$item['called_num'], 2);
                     $item['invalid_rate'] = number_format($item['invalid_example_num']/$item['called_num'], 2);
                     $item['not_through_rate'] = number_format($item['not_through_num']/$item['called_num'], 2);
                 }
+                //获取公开课次数
+                $public_class_num = $this->t_lesson_info->get_public_class_num($start_time,$end_time);
+                //微信运营信息
+                $wx_example_num = $this->t_seller_student_new->get_wechat_info($start_time,$end_time);
             }else{
                 //月报
             }

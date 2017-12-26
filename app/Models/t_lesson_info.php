@@ -9885,5 +9885,24 @@ lesson_type in (0,1) "
         );
         return $this->main_get_list($sql);
     }
+    //@desn:获取公开课字数
+    //@param:$start_time 开始时间
+    //@param:$end_time 结束时间
+    public function get_public_class_num($start_time,$end_time){
+        $where_arr = [
+            'li.lesson_type in (1001,1002,1003)'
+        ];
+        $where_arr[] = '(li.lesson_num <> 1 and co.lesson_total <> 0) ';
+        $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select count(li.courseid) as public_class_num from %s li '.
+            'left join %s co on li.courseid = co.courseid '.
+            'where %s',
+            t_lesson_info::DB_TABLE_NAME,
+            t_course_order::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 
 }

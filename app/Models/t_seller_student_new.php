@@ -3276,8 +3276,29 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
-
-
-    
+    // @desn:获取微信运营信息
+    // @param:$start_time 开始时间
+    // @param:$end_time 结束时间
+    public function get_wechat_info($start_time,$end_time){
+        $where_arr=[
+            'tls.require_admin_type=2',
+            'si.is_test_user = 0',
+            'ssn.tmk_adminid >0',
+            'ssn.wx_invaild_flag = 1'
+        ];
+        $this->where_arr_add_time_range($where_arr, 'ssn.add_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            "select count(ssn.userid) wx_example_num ".
+            "from %s ssn ".
+            "left join %s si on si.userid = ssn.userid ".
+            "left join %s tls on tls.userid= ssn.userid ".
+            "where %s ",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 
 }

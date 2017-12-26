@@ -1322,5 +1322,4 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         );
         return $this->main_get_row($sql);
     }
-
 }
