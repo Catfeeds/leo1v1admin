@@ -1467,11 +1467,12 @@ class seller_student_new2 extends Controller
             $teacher_type   = $this->get_in_int_val("teacher_type",$require_info['teacher_type']);
             $region_version = $this->get_in_int_val("region_version",$require_info['region_version']);
             $teacher_info   = $this->get_in_str_val("teacher_info",$require_info['teacher_info']);
+
             E\Egender::set_item_value_str($require_info);
             E\Egender::set_item_appoint_value_str($require_info,"tea_gender",0,"无要求");
             E\Etea_age::set_item_appoint_value_str($require_info,"tea_age",0,"无要求");
             E\Eidentity::set_item_appoint_value_str($require_info,"tea_identity",0,"无要求");
-            E\Eteacher_type::set_item_value_str($require_info);
+            E\Eteacher_type::set_item_appoint_value_str($require_info,"teacher_type",0,"无要求");
             E\Egrade::set_item_value_str($require_info);
             E\Esubject::set_item_value_str($require_info);
             E\Equotation_reaction::set_item_value_str($require_info);
@@ -1501,6 +1502,7 @@ class seller_student_new2 extends Controller
         }else{
             $tea_list = [];
         }
+        dd($tea_list);
 
         $teacher_tags  = $this->get_tags_list("教师相关","");
         $lesson_tags   = $this->get_tags_list("课堂相关","");
@@ -1597,9 +1599,9 @@ class seller_student_new2 extends Controller
                 }
 
                 $tea_val['age_flag']    = \App\Helper\Utils::check_teacher_age($tea_val['age']);
-                $tea_val['is_identity'] = $identity==$tea_val['identity']?1:0;
-                $tea_val['is_gender']   = $gender==$tea_val['gender']?1:0;
-                $tea_val['is_age']      = $tea_age==$tea_val['age_flag']?1:0;
+                $tea_val['is_identity'] = $identity==$tea_val['identity'] && $identity!=0?1:0;
+                $tea_val['is_gender']   = $gender==$tea_val['gender'] && $gender!=0?1:0;
+                $tea_val['is_age']      = $tea_age==$tea_val['age_flag'] && $tea_age!=0?1:0;
                 if($teacher_info!="" && (strstr($tea_val['realname'],$teacher_info) || strstr($tea_val['phone'],$teacher_info))){
                     $tea_val['is_search'] = 1;
                 }else{
