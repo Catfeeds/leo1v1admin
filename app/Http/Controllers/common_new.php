@@ -63,6 +63,7 @@ class common_new extends Controller
         if(!is_array($xls_data)) {
             return $this->output_err("download error");
         }
+        $xls_data = array_filter($xls_data);
 
         $objPHPExcel = new \PHPExcel();
         $objPHPExcel->getProperties()->setCreator("jim ")
@@ -83,7 +84,6 @@ class common_new extends Controller
             ,"DA","DB","DC","DD","DE","DF","DG","DH","DI","DJ","DK","DL","DM","DN","DO","DP","DQ","DR","DS","DT","DU","DV","DW","DX","DY","DZ"
 
         ];
-        $xls_data = array_filter($xls_data);
         foreach( $xls_data as $index=> $item ) {
             foreach ( $item as $key => $cell_data ) {
                 $index_str = $index+1;
