@@ -331,7 +331,11 @@ $(function(){
             ];
 
             $.each(id_teacher_list,function(i,item){
-                arr.push(["其他讲义_"+i,item]);
+                if(!(lesson_type>=1000 && lesson_type <2000)){
+                    arr.push(["其他讲义_"+i,item]);
+                } else {
+                    arr.push(["其他讲义_"+(i+1),item]);
+                }
             });
             arr.push(['学生讲义', id_student]);
 
@@ -422,6 +426,13 @@ $(function(){
                 id_issue["onshown_init"]();
 
                 if(tea_more_cw_url[0][0]){
+
+                    $.each(id_teacher_list,function(i,item){
+                        if( i>1 && !tea_more_cw_url[i][0] ){
+                            item.parent().parent().hide();
+                        }
+                    });
+
                 }else{
                     $.each(id_teacher_list,function(i,item){
                         if(i>1){

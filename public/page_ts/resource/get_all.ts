@@ -760,7 +760,7 @@ $(function(){
                     }
                 });
             }
-        }, allow_str,'fsUploadProgress');
+        }, 'mp4,pdf,mp3,MP3,MP4,PDF','fsUploadProgress');
 
     };
 
