@@ -2295,7 +2295,7 @@ class Utils  {
             imagedestroy($image_2);
             imagedestroy($image_3);
             imagedestroy($image_4);
-            imagedestroy($image_5);
+            @imagedestroy($image_5);
             imagedestroy($image_6);
 
             $cmd_rm = "rm /tmp/yxyx_wx_".$phone."*";
