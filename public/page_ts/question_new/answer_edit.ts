@@ -91,14 +91,26 @@ $(function(){
         Cquestion_editor.init_mathjax(mathId);
         //上传图片
         Cquestion_editor.custom_upload( $('#id_mathjax_add_pic_'+id_index)[0],$('#id_mathjax_add_pic_div_'+id_index)[0],domain,null,id_mathjax_content,MathPreview,mathId);
-        Cquestion_editor.preview_update(id_question_type,id_mathjax_content,MathPreview,mathId);
+       
+        //答案类型
         var answer_type_obj = $(this).parents('.answer_step').find('.answer_type');
         if( answer_type_obj.attr('id') != 'answer_type_0'){
             answer_type_obj.html(answer_type_option);
             var answer_type_value = answer_type_obj.attr('answer_type_value');
-            //console.log(answer_type_value);
             answer_type_obj.val(answer_type_value);
-        } 
+        }
+
+        //答案内容
+        var detail = id_mathjax_content.val();
+        detail = detail.replace(/<br\/>/g,'\n');
+        detail = detail.replace(/&nbsp/g, ' ');
+        detail = detail.replace(/<img src=\'/g,'![](');
+        detail = detail.replace(/\'\/>/g,')[]&');
+
+        id_mathjax_content.val(detail);
+
+        Cquestion_editor.preview_update(id_question_type,id_mathjax_content,MathPreview,mathId);
+
     });
 
     // 为每一个textarea绑定事件使其高度自适应
@@ -207,6 +219,12 @@ $(function(){
             knowledge_new = knowledge_new.substring(0, knowledge_new.length-1);
         }
 
+        var detail = obj.find('.id_mathjax_content').val();
+        detail = detail.replace(/\n/g, '<br/>');
+        detail = detail.replace(/[ ]/g, '&nbsp');
+        detail = detail.replace(/(\!\[\]\()/g,"<img src='");
+        detail = detail.replace(/(\)\[\]\&)/ig,"'/>");
+
         var data = {
             'editType':obj.find('.editType').val(),
             'question_id':$('#question_id').val(),
@@ -214,7 +232,7 @@ $(function(){
             'step_id':obj.find('.step_id').val(),
             'step':obj.find('.step').val(),
             'answer_type':obj.find('.answer_type').val(),
-            'detail':obj.find('.id_mathjax_content').val(),
+            'detail':detail,
             'score':obj.find('.answer_score').val(),
             'knowledge_new':knowledge_new,
             'knowledge_old':knowledge_old

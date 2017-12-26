@@ -494,7 +494,7 @@ class assistant_performance extends Controller
 
     public function get_assistant_origin_order_losson_info_all(){
         list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(date("Y-m-01"),0,1,[
-            1 => array("n.add_time","下单日期"),
+            1 => array("n.add_time","例子添加日期"),
             2 => array("o.order_time","下单日期"),
             3 => array("o.pay_time", "生效日期"),
         ],3);

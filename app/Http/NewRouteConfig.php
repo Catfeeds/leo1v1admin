@@ -681,7 +681,7 @@ class NewRouteConfig {
         "/channel_manage/update_channel_name"            => true,
         "/channel_manage/set_teacher_ref_type"           => true,
         "/channel_manage/zs_origin_list_new"             => true,
-
+        
         "/question_new_api/get_agent_id"        =>true,
         "/question_new_api/get_grade_and_subject"        =>true,
         "/question_new_api/get_textbook_subject"         =>true,
@@ -690,6 +690,7 @@ class NewRouteConfig {
         "/question_new_api/get_questions"                =>true,
         "/question_new_api/get_answers"                  =>true,
         "/question_new_api/save_answers"                 =>true,
+        "/question_new_api/get_recommend"                 =>true,
 
     ];
 

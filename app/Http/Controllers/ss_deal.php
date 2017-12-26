@@ -1261,6 +1261,7 @@ class ss_deal extends Controller
         $not_test_ipad_reason = $this->get_in_str_val("not_test_ipad_reason");
 
         $curl_stu_request_test_lesson_time = $this->t_test_lesson_subject->get_stu_request_test_lesson_time($test_lesson_subject_id);
+        $curl_stu_request_test_lesson_time_end = $this->t_test_lesson_subject->get_stu_request_test_lesson_time_end($test_lesson_subject_id);
 
         $test_stu_request_test_lesson_demand = $this->t_test_lesson_subject->get_stu_request_test_lesson_demand($test_lesson_subject_id);
         $intention_level  =  $this->t_test_lesson_subject->get_intention_level($test_lesson_subject_id);
@@ -1282,7 +1283,11 @@ class ss_deal extends Controller
             $origin_info["origin"],
             $curl_stu_request_test_lesson_time,
             $test_stu_grade,
-            $test_stu_request_test_lesson_demand
+            $test_stu_request_test_lesson_demand,
+            '',
+            '',
+            0,
+            $curl_stu_request_test_lesson_time_end
         ) ;
 
 

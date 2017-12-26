@@ -246,7 +246,8 @@ class question_new_api extends Controller
                 'teacher_id'=>$arr['tid'],
                 'time'=>$arr['time'],
                 'score'=>$item['score'],
-                'step_id'=>$item['step_id']
+                'step_id'=>$item['step_id'],
+                'create_time' => time(),
             ];
             $ret = $this->t_student_answer->row_insert($item);
             if($ret){
@@ -259,11 +260,12 @@ class question_new_api extends Controller
         if( $haveSave < $saveItem ){
             return $this->output_err($lackItem);
         }else{
-            return $this->output_succ("全部保存成功");
+            return $this->output_succ();
         }
     }
 
     public function get_recommend(){
-        
+        $knowledge_id = $this->get_in_str_val('knowledge_id');
+
     }
 }
