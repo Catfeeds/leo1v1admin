@@ -293,5 +293,8 @@ class test_code extends Controller
         dd($ret);
     }
 
+    public function test_jump(){
+
+    }
 
 }
