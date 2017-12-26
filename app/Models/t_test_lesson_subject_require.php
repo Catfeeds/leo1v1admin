@@ -444,7 +444,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list($sql);
 
     }
-    public function add_require( $cur_require_adminid ,$sys_operator, $test_lesson_subject_id,$origin,$curl_stu_request_test_lesson_time, $test_stu_grade,$test_stu_request_test_lesson_demand,$change_reason_url='',$change_reason='',$change_teacher_reason_type=0) {
+    public function add_require( $cur_require_adminid ,$sys_operator, $test_lesson_subject_id,$origin,$curl_stu_request_test_lesson_time,$test_stu_grade,$test_stu_request_test_lesson_demand,$change_reason_url='',$change_reason='',$change_teacher_reason_type=0,$curl_stu_request_test_lesson_time_end=0) {
         //检查没有其他处理中的请求
         \App\Helper\Utils::logger("add_require1");
         $is_has = $this->check_is_end_by_test_lesson_subject_id($test_lesson_subject_id);
@@ -460,6 +460,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "cur_require_adminid" => $cur_require_adminid,
             "require_time"=>time(NULL),
             "curl_stu_request_test_lesson_time"=>$curl_stu_request_test_lesson_time,
+            "curl_stu_request_test_lesson_time_end"=>$curl_stu_request_test_lesson_time_end,
             "test_stu_grade" => $test_stu_grade,
             "test_stu_request_test_lesson_demand" => $test_stu_request_test_lesson_demand,
             "change_teacher_reason_img_url" => $change_reason_url,

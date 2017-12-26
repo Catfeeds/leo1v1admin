@@ -397,9 +397,6 @@ class menu{
                 ["power_id"=>9, "name"=>"约课 课程包管理",   "url"=>"/appoint/index2"],
                 ["power_id"=>18, "name"=>"h5 活动页 ",   "url"=>"/admin_manage/web_page_info"],
 
-                ["power_id"=>19, "name"=>"配置功能", "list"=>[
-                    ["power_id"=>34, "name"=>"推广活动",   "url"=>"/tongji2/market_extension"],
-                ]],
 
             ]],
 
@@ -457,6 +454,11 @@ class menu{
                 ["power_id"=>36, "name"=>"软件版本控制",   "url"=>"/aliyun_oss/upload_list"],
                 ["power_id"=>37, "name"=>"老师晋升参考数据",   "url"=>"/tea_manage_new/approved_data_new"],
                 ["power_id"=>47, "name"=>"标签库",   "url"=>"/product_tag/tag_list"],
+                ["power_id"=>19, "name"=>"配置功能", "list"=>[
+                    ["power_id"=>34, "name"=>"推广活动",   "url"=>"/tongji2/market_extension"],
+                ]],
+
+
             ]],
 
             ["power_id"=>10, "name"=>"统计", "list"=>[

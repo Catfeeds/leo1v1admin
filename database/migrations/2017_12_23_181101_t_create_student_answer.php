@@ -18,7 +18,8 @@ class TCreateStudentAnswer extends Migration
                 t_field($table->integer('teacher_id'),"教师id");
                 t_field($table->integer('step_id'),"答案id");
                 t_field($table->integer('score'),"老师打分");
-                t_field($table->integer('time'),"学生答题时间");
+                t_field($table->integer('time'),"学生答题耗时");
+                t_field($table->integer('create_time'),"学生答案上传时间");
         });
     }
 

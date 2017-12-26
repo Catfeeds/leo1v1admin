@@ -1643,7 +1643,17 @@ class user_manage_new extends Controller
             $item['become_member_num'] = isset($item['become_member_num'])?$item['become_member_num']:'';
             $item['leave_member_num'] = isset($item['leave_member_num'])?$item['leave_member_num']:'';
         }
-        foreach($list as &$item){
+
+
+        //全职老师标识
+        $fulltime_flag = $this->get_in_int_val("fulltime_flag");
+        foreach($list as $kk=>&$item){
+            if($fulltime_flag==1){
+                if(isset($item) && ($item['main_type'] !=5 || $item['main_type']=="未定义") ){
+                    unset($list[$kk]);
+                }
+            }
+
             if(($item['main_type'] == '未定义') or ($item['main_type'] == '助教')){
                 unset($item);
             }else{
@@ -1672,9 +1682,15 @@ class user_manage_new extends Controller
         foreach( $list as &$item ) {
             E\Emain_type::set_item_value_str($item);
         }
-        //dd($list);
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list),["monthtime_flag"=>$monthtime_flag]);
     }
+
+    public function admin_group_manage_fulltime(){
+        $this->set_in_value("fulltime_flag",1);
+        return $this->admin_group_manage();
+
+    }
+
 
 
     public function edit_seller_time(){
@@ -3885,6 +3901,9 @@ class user_manage_new extends Controller
             if ($teacherid == 269222) { // 处理赵志园二个账号
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459);
                 $info['tea_sum'] += $num;
+            }
+            if ($teacherid == 226810) { //处理赵海岗
+                $info['tea_sum'] += 1;
             }
             $info['tea_reward'] = 40;
             if ($info['tea_sum'] > 10) $info['tea_reward'] = 50;

@@ -16,6 +16,10 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	shareImgUrl	:any;
+	coverImgUrl	:any;
+	activityImgUrl	:any;
+	followImgUrl	:any;
 	gift_type	:any;
 	title	:any;
 	id	:any;

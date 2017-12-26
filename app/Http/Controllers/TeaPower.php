@@ -4507,6 +4507,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     $start_time = strtotime("2017-11-1");
                 }
                 $reference_num = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher_info['phone'], $type);
+                if ($teacherid == 226810 && $type == 1) {
+                    $reference_num += 1;
+                }
                 $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
             }
 

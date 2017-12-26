@@ -77,7 +77,15 @@ $(function(){
         $("#question_difficult").val(editData.difficult);
         $("#id_score").val(editData.score);
         $("#id_mathjax_content_0").val(editData.title);
-        $("#id_mathjax_content_1").val(editData.detail);
+
+        var detail = editData.detail;
+        detail = detail.replace(/<br\/>/g,'\n');
+        detail = detail.replace(/&nbsp/g, ' ');
+
+        detail = detail.replace(/<img src=\'/g,'![](');
+        detail = detail.replace(/\'\/>/g,')[]&');
+
+        $("#id_mathjax_content_1").val(detail);
         $('#question_type').val(editData.question_type);
         $('#id_question_resource_name').val(editData.question_resource_name);
         $('#id_question_resource_type').val(editData.question_resource_type);
@@ -185,6 +193,11 @@ $(function(){
                 knowledge_new = knowledge_new.substring(0, knowledge_new.length-1);
         }
         //console.log(knowledge_new);
+        var detail = $('#id_mathjax_content_1').val();
+        detail = detail.replace(/\n/g, '<br/>');
+        detail = detail.replace(/[ ]/g, '&nbsp');
+        detail = detail.replace(/(\!\[\]\()/g,"<img src='");
+        detail = detail.replace(/(\)\[\]\&)/ig,"'/>");
 
         var data = {
             'editType':g_args.editType,
@@ -192,7 +205,7 @@ $(function(){
             'score':$('#id_score').val(),
             'difficult':$('#question_difficult').val(),
             'title':$('#id_mathjax_content_0').val(),
-            'detail':$('#id_mathjax_content_1').val(),
+            'detail':detail,
             'open_flag':$('#id_open_flag').val(),
             'subject':$('#id_subject').val(),
             'question_type':$('#question_type').val(),
