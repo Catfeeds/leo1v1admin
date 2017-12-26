@@ -305,7 +305,7 @@ class account_common extends Controller
         }
         if($role==1){
             $old_passwd = $this->t_user_info->get_passwd($userid);
-            $data = file_get_contents("http://api.leo1v1.com/login/stu_login?phone=".$phone."&passwd=".$old_passwd);
+            $data = file_get_contents("http://api.leo1v1.com/login/stu_login?phone=".$phone."&passwd=".$old_passw);
         }
         dd($data);
 
