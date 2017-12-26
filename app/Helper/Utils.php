@@ -2260,7 +2260,7 @@ class Utils  {
             $color = imagecolorallocate($image_6, 255, 255, 255);
             imagefill($image_6, 0, 0, $color);
             imageColorTransparent($image_6, $color);
-            imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),@imagesx($image_5),@imagesy($image_5));
+            @imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),@imagesx($image_5),@imagesy($image_5));
 
             $ext = pathinfo($bg_url);
             if ($ext['extension'] == 'jpg') {
