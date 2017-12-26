@@ -2645,19 +2645,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function get_all_list($start_time,$end_time){
-        $where_arr = [
-            ['tq.admin_role=%u',E\Eaccount_role::V_2],
-            'seller_add_time=1511452800',
-        ];
-        // $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
         $sql = $this->gen_sql_new(
-            " select n.userid,n.phone,n.cc_no_called_count,"
-            ." tq.is_called_phone,tq.admin_role "
+            " select n.userid,n.phone,n.last_contact_cc "
             ." from %s n"
-            ." left join %s tq on tq.phone=n.phone "
             ." where %s order by n.userid "
             ,self::DB_TABLE_NAME
-            ,t_tq_call_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);
