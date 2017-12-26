@@ -369,6 +369,7 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
+        dd(md5("@leo"));
         $orderid = $this->get_in_int_val("orderid");
         $old_list = $this->t_child_order_info->field_get_list($orderid,"pay_status,pay_time,channel");
         if($old_list["pay_status"]==1 && $old_list["pay_time"]>0 && $old_list["channel"]=="baidu"){
