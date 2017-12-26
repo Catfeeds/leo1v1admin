@@ -73,29 +73,11 @@ class pdfConversionH5 extends Command
             $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=$uuid&email=$email&pwd=$pwd";
             $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
 
-            // \App\Helper\Utils::logger("qiniuupload_james_788: $saveH5FilePath");
-            // \App\Helper\Utils::savePicToServer($h5DownloadUrl,$saveH5FilePath);
+            \App\Helper\Utils::logger("qiniuupload_james_1000: $h5DownloadUrl");
+            \App\Helper\Utils::logger("qiniuupload_james_788: $saveH5FilePath");
+            \App\Helper\Utils::savePicToServer($h5DownloadUrl,$saveH5FilePath);
 
 
-
-
-            $len = filesize($h5DownloadUrl);
-            $ctype = 'application/zip';
-            header("Pragma: public");
-            header("Expires: 0");
-            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-            header("Cache-Control: public");
-            header("Content-Description: File Transfer");
-
-            //Use the switch-generated Content-Type
-            header("Content-Type: $ctype");
-
-            //Force the download
-            $header="Content-Disposition: attachment; filename=".$h5DownloadUrl.";";
-            header($header);
-            header("Content-Transfer-Encoding: binary");
-            header("Content-Length: ".$len);
-            @readfile($saveH5FilePath);
 
 
 
