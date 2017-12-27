@@ -309,7 +309,7 @@ class wx_parent_gift extends Controller
 
     /**
      * @ 微信图文[理优一段故事]
-     * @ 
+     * @
      **/
     public function christmasHistory(){ //微信推文 理优历史
         $p_appid     = \App\Helper\Config::get_wx_appid();
@@ -979,6 +979,7 @@ class wx_parent_gift extends Controller
      **/
     public function getImgUrlInfo(){
         $id = $this->get_in_int_val('id');
+        $id = $id-100;
 
         $imgUrlInfo = $this->t_activity_usually->getImgUrlInfo($id);
         $domain = config('admin')['qiniu']['public']['url'];
