@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="col-xs-6 col-md-2"  >
-                    <button type="button" class="btn btn-primary" id="id_add">+ 添加</button>
+                    <button type="button" class="btn btn-primary" id="id_add">+ 添加活动</button>
                 </div>
 
                 <div class="col-xs-6 col-md-2">
