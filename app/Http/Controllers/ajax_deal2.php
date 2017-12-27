@@ -1341,13 +1341,13 @@ class ajax_deal2 extends Controller
                     }
 
                     $tr_str.= " <tr  class=\"table-row\" data-order_activity_type=\"$order_activity_type\" data-succ_flag=\"$succ_flag\" data-need_spec_require_flag=\"$need_spec_require_flag\" ><td> <font color=\"blue\"> <a href=\"/seller_student_new2/show_order_activity_info?order_activity_type={$order_activity_type}\" target=\"_blank\"> ". $title. "</font> </a> <td>".$succ_str."<td>".$item["activity_desc"]
-                        . "<td> <font color=\"red\"> ". $item["cur_price"]."  </font> "
-                        . "<td> <font color=\"red\"> ". $item["cur_present_lesson_count"]."  </font> "
+                           . "<td> <font color=\"red\"> ". $item["cur_price"]."  </font> "
+                           . "<td> <font color=\"red\"> ". $item["cur_present_lesson_count"]."  </font> "
                            . "<td> <font color=\"red\"> ". @$item["change_value"]."  </font> "
                            . "<td> <font color=\"red\"> ". @$item["off_money"]."  </font> "
                            . "<td> <font color=\"red\"> ". $need_spec_require_flag_str ."  </font> "
-                        . "<td>  ". $period_str
-                        . " </tr> ";
+                           . "<td>  ". $period_str
+                           . " </tr> ";
                 }
             }
             $row_count= count( $arr);
