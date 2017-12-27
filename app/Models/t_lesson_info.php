@@ -9886,4 +9886,18 @@ lesson_type in (0,1) "
         return $this->main_get_list($sql);
     }
 
+    public function reset_lesson_enable_video($courseid,$enable_video,$lesson_status=1){
+        $where_arr = [
+            ["courseid=%u",$courseid],
+            ["lesson_status=%u",$lesson_status],
+        ];
+        $sql = $this->gen_sql_new("update %s set enable_video=%u "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$enable_video
+                                  ,$where_arr
+        );
+        return $this->main_update($sql);
+    }
+
 }
