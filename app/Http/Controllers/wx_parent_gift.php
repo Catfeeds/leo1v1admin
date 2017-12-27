@@ -980,6 +980,8 @@ class wx_parent_gift extends Controller
     public function getImgUrlInfo(){
         $id = $this->get_in_int_val('id');
         $id = $id-100;
+        \App\Helper\Utils::logger("getImgUrlInfo_james: $id");
+
 
         $imgUrlInfo = $this->t_activity_usually->getImgUrlInfo($id);
         $domain = config('admin')['qiniu']['public']['url'];
