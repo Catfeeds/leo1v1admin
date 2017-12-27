@@ -978,7 +978,7 @@ class wx_parent_gift extends Controller
      * @ 市场部常规活动 获取图片链接
      **/
     public function getImgUrlInfo(){
-        $id = $this->get_in_int_val('id');
+        $id = $this->get_in_int_val('type');
         $id = $id-100;
         \App\Helper\Utils::logger("getImgUrlInfo_james: $id");
 
