@@ -80,6 +80,9 @@ class pdfConversionH5 extends Command
             // 上传七牛
             $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
 
+            $this->task->t_resource_file->field_update_list($item['file_id'],[
+                "zip_url" => $saveH5Upload
+            ]);
         }
     }
 
