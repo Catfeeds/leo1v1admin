@@ -418,17 +418,22 @@ class agent extends Controller
 
     public function check(){
         $this->check_and_switch_tongji_domain();
-        list($start_time,$end_time) = [1506787200,1509465600];
+        list($start_time,$end_time )= $this->get_in_date_range_month(0);
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_seller_student_new->get_item_list($page_info,$start_time, $end_time);
         foreach($ret_info['list'] as &$item){
             $userid = $item['userid'];
             $phone = $item['phone'];
             $origin = $item['origin'];
+            if($origin == 'jingqi-0805'){
+                $item['key0'] = $origin;
+            }else{
+                $item['key0'] = $this->t_origin_key->get_key0($origin);
+            }
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
             $adminid = $item['adminid'];
             $item['account'] = $this->t_manager_info->get_account_by_uid($adminid);
-            $item['group_name'] = $this->t_group_user_month->get_master_adminid_by_adminid($adminid,$start_time);
+            $item['group_name'] = $this->t_admin_group_user->get_main_major_group_name_by_adminid($adminid);
             $is_called = $item['global_tq_called_flag']==2?1:0;
             $item["is_called_str"] = \App\Helper\Common::get_boolean_color_str($is_called);
             $is_suc_test = $item['last_succ_test_lessonid']>0?1:0;
@@ -437,7 +442,6 @@ class agent extends Controller
             $is_order = $orderid>0?1:0;
             $item["is_order_str"] = \App\Helper\Common::get_boolean_color_str($is_order);
         }
-        // return $this->Pageview(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
         return $this->Pageview(__METHOD__,$ret_info);
     }
 

@@ -379,31 +379,24 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
         return $this->main_get_list($sql);
     }
 
-    public function get_main_major_group_name_by_adminid($amdinid,$month){
+    public function get_main_major_group_name_by_adminid($adminid){
         $where_arr = [
             ['u.adminid=%u',$adminid],
-            ['u.month=%u',$month],
         ];
         $sql = $this->gen_sql_new(
             " select j.group_name "
             ." from %s u "
-            ." left join %s g on u.groupid=g.groupid and g.month=u.month "
-            ." left join %s m on m.groupid=g.up_groupid and m.month=u.month "
-            ." left join %s j on j.groupid=m.up_groupid and j.month=m.month "
+            ." left join %s g on u.groupid=g.groupid "
+            ." left join %s m on m.groupid=g.up_groupid "
+            ." left join %s j on j.groupid=m.up_groupid "
             ." where %s "
             ,self::DB_TABLE_NAME//u
-            ,t_group_name_month::DB_TABLE_NAME//g
-            ,t_main_group_name_month::DB_TABLE_NAME//m
-            ,t_main_major_group_name_month::DB_TABLE_NAME//j
+            ,t_admin_group_name::DB_TABLE_NAME//g
+            ,t_admin_main_group_name::DB_TABLE_NAME//m
+            ,t_admin_majordomo_group_name::DB_TABLE_NAME//j
             ,$where_arr
         );
         return $this->main_get_value($sql);
     }
-        // t_group_user_month::DB_TABLE_NAME,//u
-        // $month,
-        // t_group_name_month::DB_TABLE_NAME,//g
-        // $month,
-        // t_main_group_name_month::DB_TABLE_NAME,//m
-        // $month,
-        // t_main_major_group_name_month::DB_TABLE_NAME,
+
 }
