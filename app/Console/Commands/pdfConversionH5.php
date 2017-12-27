@@ -70,20 +70,24 @@ class pdfConversionH5 extends Command
             \App\Helper\Utils::logger("qiniuupload_james_9999: $uuid");
 
             //从未达下载
-            $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=$uuid&email=$email&pwd=$pwd";
+            // $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=".$uuid."&email=".$email."&pwd=".$pwd;
+            $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=g050c18adf68d373aa34f63db3a906d8&email=michael@leoedu.com&pwd=bbcffc83539bd9069b755e1d359bc70a";
             $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
-            // $cmdDownload = "curl $h5DownloadUrl -o $saveH5FilePath";
-            \App\Helper\Utils::savePicToServer($h5DownloadUrl,$saveH5FilePath);
-            // shell_exec($cmdDownload);
+
+
+            $data=file_get_contents($h5DownloadUrl);
+            echo strlen($data);
+            \App\Helper\Utils::logger("pdfConversionH5_james111:".strlen($data));
+
+            file_put_contents($saveH5FilePath, $data);
 
             // \App\Helper\Utils::logger("qiniuupload_james_1000: $h5DownloadUrl");
             // \App\Helper\Utils::logger("qiniuupload_james_788: $saveH5FilePath");
-            // \App\Helper\Utils::savePicToServer($h5DownloadUrl,$saveH5FilePath);
 
             // 上传七牛
-            $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
+            // $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
 
-            \App\Helper\Utils::logger("qiniuupload_james_1: $saveH5Upload");
+            // \App\Helper\Utils::logger("qiniuupload_james_1: $saveH5Upload");
             //ok:gf15a4973b034c84d4f631be74b21741.zip
         }
     }

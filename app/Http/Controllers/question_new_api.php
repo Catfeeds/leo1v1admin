@@ -270,12 +270,103 @@ class question_new_api extends Controller
 
     public function get_recommend(){
         $room_id = $this->get_in_int_val('rid');
-        if( !$teacher_id || !$student_id ){
+        if( !$room_id ){
             return $this->output_err("请传房间id");
         }
         
         $count = $this->t_student_answer->get_answer_count($room_id);
-        $scores = $this->t_student_answer->get_answer_scores($room_id);
-         
+        if(!$count || $count['count'] == 0){
+            return $this->output_err("学生还没做题,无法推荐");
+        }
+
+        //学生做过的题目
+        $have_done = [];
+
+        //查看每个题目的答案得分情况
+        $answer_scores = $this->t_student_answer->get_answer_scores($room_id);
+
+        //每个知识点对应步骤解题的得分情况
+        $result = []; 
+
+        if( $answer_scores ){
+            foreach( $answer_scores as $sc){
+                if(!in_array($sc['question_id'], $have_done)){
+                    $have_done = $sc['question_id'];
+                }
+
+                //解题步骤对应的知识点
+                $solve_arr = [];
+                if($sc['know_str']){
+                    $solve_arr = explode(',', $sc['know_str']);        
+                }
+
+                $answer_arr = [];
+                //答题步骤对应的知识点
+                if( empty( $sc['know_str']) ){
+                    //查找该题目对应的知识点
+                    $answer_arr = $this->t_question->question_know_get($sc['question_id']);
+                }
+
+                //每个步骤的得分情况
+                if( $sc['full_score'] > 0 and $sc['score'] >= 0){
+                    //该步骤的分数情况
+                    $score =  sprintf("%.2f", $sc['score']/$sc['full_score']);
+
+                    //解题步骤对应的知识点得分
+                    if($solve_arr){
+                        foreach( $solve_arr as $v ){
+                            $result[$v][$sc['step_id']] = $score;
+                        }
+        
+                    }
+
+                    //答题步骤对应的知识点得分
+                    if($answer_arr){
+                        foreach( $answer_arr as $k){
+                            $result[$k['knowledge_id']][$sc['step_id']] = $score;
+                        }
+                    }
+                    
+                }
+
+            }
+        }
+        $question_str = '';
+        if($have_done){
+            $question_str = "(".implode(",", $have_done).")";
+        }
+        $knowledge_str = "";
+        $know_arr = [];
+        if($result and count($result) != count($result, 1) ){
+            $wrong = rsort($wrong);
+            foreach( $result as $k => $v){
+                $full = count($v);
+                $each_whole = 0;
+                foreach($v as $item){
+                    $each_whole += $item;
+                }
+                $know_arr[$k] = sprintf("%.2f", $each_whole/$full);
+            }
+            $know_arr = sort($know_arr);        
+            $knowledge_str .= "(".implode(",", $know_arr);
+        }
+        
+        $questions = $this->get_questions_by_kid($knowledge_str,$question_str);
+        return $this->output_succ(["list" => $questions]);
     }
+
+    private function get_questions_by_kid($knowledge_str,$question_str){
+        $questions = $this->t_question->question_get_by_id($knowledge_str,$question_str);
+        //dd($questions);
+        if($questions){
+            foreach( $questions['list'] as &$qu){
+                $qu['subject_str'] = E\Esubject::get_desc($qu['subject']);
+                $qu['difficult_str'] = E\Equestion_difficult_new::get_desc($qu['difficult']);
+                $qu['question_resource_type_str'] = E\Equestion_resource_type::get_desc($qu['question_resource_type']);
+                //$qu = ksort($qu);
+            }
+        }
+        return $questions;
+    }
+
 }
