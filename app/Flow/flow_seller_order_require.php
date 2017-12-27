@@ -13,7 +13,7 @@ class flow_seller_order_require  extends flow_base{
         1=>[ 2,"申请->主管审批"  ],
         2=>[ [4,3,-1],"主管审批->[部]主审批" ],
 
-        7=>[ [4,3,-1],"主管审批->[部]主审批" ],
+        7=>[ [-1,-1],"主管审批->[部]主审批" ],
         3=>[ -1 ,"[部]主审批->市场主管审批" ],
         4=>[ 5 ,"[部]主审批->优惠券审批" ],
         5=>[ -1 ,"[优惠券审批->市场主管审批" ],
@@ -138,28 +138,7 @@ class flow_seller_order_require  extends flow_base{
         list($flow_info,$self_info)=static::get_info($flowid);
         $contract_type=$self_info["contract_type"];
         $lesson_total=$self_info["lesson_total"]*  $self_info["default_lesson_count"] /100;
-
-        //新签，续费 ,　不用市场确认
-        if ( $contract_type==E\Econtract_type::V_0  ||  $contract_type==E\Econtract_type::V_3  ) {
-            return [-1, 0 ];
-        }
-
-        if (preg_match("/Y[0-9A-Za-z][0-9][0-9][0-9][0-9]/", $self_info["discount_reason"])) {
-            return [4, "amanda"]; //amanda
-        }
-
-        if ($contract_type==E\Econtract_type::V_0 &&  $lesson_total <90 ) { //30次课
-
-            if (($self_info["promotion_present_lesson"] !=$self_info["promotion_spec_present_lesson"]) ||
-                ($self_info["promotion_discount_price"] !=$self_info["promotion_spec_discount"])
-            ) {
-                return [3,"yueyue"];
-            }
-
-            return [-1, 0 ];
-        }else{
-            return [3, "yueyue"];
-        }
+        return 0;
     }
 
 
@@ -169,8 +148,8 @@ class flow_seller_order_require  extends flow_base{
         $lesson_total=$self_info["lesson_total"]*  $self_info["default_lesson_count"] /100;
 
         //新签，续费 ,　不用市场确认
-        if ( $contract_type==E\Econtract_type::V_0  ||  $contract_type==E\Econtract_type::V_3  ) {
-            return [-1, 0 ];
+        if (  $contract_type==E\Econtract_type::V_3  ) {
+            return [ 7,  static::get_admin_account_by_env(  "孙佳旭" ,"jim")];
         }
 
         if (preg_match("/Y[0-9A-Za-z][0-9][0-9][0-9][0-9]/", $self_info["discount_reason"])) {
