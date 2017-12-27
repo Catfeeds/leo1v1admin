@@ -1,5 +1,9 @@
 @extends('layouts.app')
 @section('content')
+    <script type="text/javascript" >
+     var g_adminid_right= <?php  echo json_encode($adminid_right); ?> ;
+    </script>
+
     <style>
      .center-title {
          font-size:20px;
@@ -67,6 +71,12 @@
                         <span class="input-group-addon">全职老师分类</span>
                         <select class="opt-change form-control" id="id_fulltime_teacher_type" >
                         </select>
+                    </div>
+                </div>
+                <div  class="col-xs-6 col-md-4">
+                    <div class="input-group ">
+                        <span class="input-group-addon">全职老师分组</span>
+                        <input class="opt-change form-control" id="id_seller_groupid_ex" />
                     </div>
                 </div>
 

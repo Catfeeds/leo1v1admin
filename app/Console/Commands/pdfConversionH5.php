@@ -72,8 +72,9 @@ class pdfConversionH5 extends Command
             //从未达下载
             $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=$uuid&email=$email&pwd=$pwd";
             $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
-            $cmdDownload = "curl $h5DownloadUrl -o $saveH5FilePath";
-            shell_exec($cmdDownload);
+            // $cmdDownload = "curl $h5DownloadUrl -o $saveH5FilePath";
+            \App\Helper\Utils::savePicToServer($h5DownloadUrl,$saveH5FilePath);
+            // shell_exec($cmdDownload);
 
             // \App\Helper\Utils::logger("qiniuupload_james_1000: $h5DownloadUrl");
             // \App\Helper\Utils::logger("qiniuupload_james_788: $saveH5FilePath");
