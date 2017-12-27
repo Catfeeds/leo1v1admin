@@ -200,7 +200,7 @@ class admin_manage extends Controller
         }
 
         $ret_info=\App\Helper\Common::gen_admin_member_data($ret_info["list"],['account_role'],0, strtotime( date("Y-m-01" )   ));
-        
+
         foreach( $ret_info as $k => &$item ) {
             E\Emain_type::set_item_value_str($item);
         }

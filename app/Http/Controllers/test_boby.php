@@ -17,7 +17,6 @@ class test_boby extends Controller
 //      $this->switch_tongji_database();
     }
 
-
     public function send_msg_to_tea_wx(){
         return 1;
         //boby oJ_4fxDrbnuMZnQ6HmPIjmUdRxVM
@@ -39,7 +38,6 @@ class test_boby extends Controller
 
         foreach ($tea_list as $item) {
             $html = $this->get_new_qq_group_html($item['grade_start'],$item['grade_part_ex'],$item['subject']);
-
 
             $wx_openid = $item['wx_openid'];
             $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
@@ -221,6 +219,7 @@ class test_boby extends Controller
         $s = $this->table_end($s);
         return $s;
     }
+
     //7-8月份签单学生，电话，地址和与之相关的销售或者tmk信息
     public function get_acc_tmk_by_order(){
         return 'bey';
@@ -723,6 +722,7 @@ class test_boby extends Controller
             }
 
         }
+        $this->table_start();
 
         $new_user = array_unique($new_user);
         $prev_month['new_pay_stu_num'] = count($new_user);
@@ -1028,13 +1028,12 @@ class test_boby extends Controller
     public function get_xiaoxue_user_lesson_info(){
         //统计小学生个人 上课时间段星期分布
 
-
         $this->switch_tongji_database();
         $start = strtotime('2017-9-1');
-        $end = strtotime('2017-10-1');
+        $end   = strtotime('2017-10-1');
 
-        $sql = "select s.nick,l.userid,group_concat(lesson_start) l_time from t_lesson_info l left join t_student_info s on s.userid=l.userid where l.grade<200 and lesson_start>=$start and lesson_start<$end and s.is_test_user=0 and l.lesson_del_flag=0 and l.lesson_type in (0,3) group by l.userid";
-        $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
+        $sql   = "select s.nick,l.userid,group_concat(lesson_start) l_time from t_lesson_info l left join t_student_info s on s.userid=l.userid where l.grade<200 and lesson_start>=$start and lesson_start<$end and s.is_test_user=0 and l.lesson_del_flag=0 and l.lesson_type in (0,3) group by l.userid";
+        $ret   = $this->t_grab_lesson_link_info->get_info_test($sql);
         // dd($ret);
         foreach($ret as &$v){
             $week = [0=>[],1=>[], 2=>[], 3=>[], 4=>[], 5=>[], 6=>[]];
@@ -1111,8 +1110,8 @@ class test_boby extends Controller
                     foreach($grade as $g){
                         $this->t_resource_agree_info->row_insert([
                             'resource_type' => $r,
-                            'subject' => $s,
-                            'grade' => $g,
+                            'subject'       => $s,
+                            'grade'         => $g,
                         ]);
                     }
                 } else {
@@ -1128,8 +1127,8 @@ class test_boby extends Controller
                                 'subject'       => $s,
                                 'grade'         => $g,
                                 'tag_one'       => $y,
-                                // 'tag_two'       => $sh,
-                                // 'tag_three'     => $c,
+                                // 'tag_two'    => $sh,
+                                // 'tag_three'  => $c,
                             ]);
                             //     }
                             // }
@@ -1248,7 +1247,6 @@ class test_boby extends Controller
                 $item['flow_status_str'] = '<font style="color:#a70192;">QC已审核</font>';
             }
 
-
             $pass_time = $item['apply_time']-$item['order_time'];
             if($pass_time >= (90*24*3600)){ // 下单是否超过3个月
                 $item['is_pass'] = '<font style="color:#ff0000;">是</font>';
@@ -1337,7 +1335,6 @@ class test_boby extends Controller
 
     public function  get_refund_analysis_info($orderid,$apply_time){
         $list = $this->t_refund_analysis->get_list($orderid,$apply_time);
-
         foreach ($list as $key =>&$item) {
             $keys       = $this->t_order_refund_confirm_config->get_refundid_by_configid($item['configid']);
             $ret        = @$this->t_order_refund_confirm_config->get_refund_str_by_keys($keys);
@@ -1376,7 +1373,6 @@ class test_boby extends Controller
                     $duty = 1;
                 }
 
-
                 if($v2['department'] == $v1['value']){
                     $num++;
                     $score += $v2['score'];
@@ -1413,7 +1409,10 @@ class test_boby extends Controller
         $arr['list']       = $list;
         $arr['duty']       = $duty;
         return $arr;
+
+        $this->table_start();
     }
+
 
 
 }
