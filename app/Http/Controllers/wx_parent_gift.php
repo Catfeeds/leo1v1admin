@@ -968,8 +968,7 @@ class wx_parent_gift extends Controller
             "type"    => $type, //活动类型
             "share_time"  => time(),
             "create_time" => time()
-        ]
-        );
+        ]);
 
         return $this->output_succ();
     }
