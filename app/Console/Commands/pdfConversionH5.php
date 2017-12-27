@@ -81,6 +81,8 @@ class pdfConversionH5 extends Command
 
             $data=file_get_contents($h5DownloadUrl);
             echo strlen($data);
+            \App\Helper\Utils::logger("pdfConversionH5_james:".strlen($data));
+
             // file_put_contents($saveH5FilePath, $data);
 
             // \App\Helper\Utils::logger("qiniuupload_james_1000: $h5DownloadUrl");
