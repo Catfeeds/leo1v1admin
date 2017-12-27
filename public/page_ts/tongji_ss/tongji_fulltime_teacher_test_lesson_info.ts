@@ -16,7 +16,7 @@ $(function(){
 
 
     if(g_args.seller_groupid_ex != ""){
-        var g_adminid_right = g_args.seller_groupid_ex.split(",");
+        g_adminid_right = g_args.seller_groupid_ex.split(",");
         $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right);
     }else{
         $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right); 
