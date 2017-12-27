@@ -7644,6 +7644,9 @@ class ss_deal extends Controller
         $uid = $this->get_account_id();
 
         //检测图片尺寸
+        if(strlen($act_descr)>90){
+            return $this->output_err('描述文字不可超出30个字!');
+        }
 
         $coverImgUrlOnline = '';
         $activityImgUrlOnline = '';
