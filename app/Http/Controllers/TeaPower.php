@@ -2111,12 +2111,6 @@ trait TeaPower {
             }
         }
 
-        if($info['train_through_new']>0){
-            $group_html = $this->get_new_qq_group_html($info['grade_start'],$info['grade_part_ex'],$info['subject']);
-        }else{
-            $group_html = "";
-        }
-
         $show_star = "<img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>";
         $star_html = $show_star;
         for($i=2;$i<=$star_num;$i++){
@@ -2130,6 +2124,7 @@ trait TeaPower {
                                  恭喜您成功通过理优1对1模拟试讲，鉴于您在模拟试讲中态度认真负责，教学方法灵活高效，
                                  达到晋升标准。
                             </div>";
+            $group_html = $this->get_new_qq_group_html($info['grade_start'],$info['grade_part_ex'],$info['subject']);
         }else{
             $header_html = "<div class='t2em'>
                         鉴于您在上一季度的教学过程中，工作态度认真负责，教学方法灵活高效，并在学生和家长群体中赢得了广泛好评，
@@ -2139,6 +2134,7 @@ trait TeaPower {
                         <span class='color_red'>教学质量</span>
                         三个考核维度的评分俱皆达标），且无一起有效教学事故类退费或投诉。
                     </div>";
+            $group_html = "";
         }
 
         $html = "
