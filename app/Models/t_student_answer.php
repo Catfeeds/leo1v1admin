@@ -34,7 +34,31 @@ class t_student_answer extends \App\Models\Zgen\z_t_student_answer
         return $this->main_get_row($sql); 
     }
 
+    public function get_answer_scores($teacher_id,$student_id){
+        $where_arr = [
+            ["sa.teacher_id=%d" , $teacher_id ],
+            ["sa.student_id=%d" , $student_id ]
+        ];
+        $where_str = $this->where_str_gen($where_arr);
+        $sql = $this->gen_sql("select sa.*,q.score as count_score from %s sa
+                               left join %s q on sa.question_id = q.question_id where %s limit 30"
+                              ,self::DB_TABLE_NAME
+                              ,t_question::DB_TABLE_NAME
+                              ,$where_str );
+        return $this->main_get_list($sql);
+    }
 
+    public function get_answer_count($teacher_id,$student_id){
+        $where_arr = [
+            ["sa.teacher_id=%d" , $teacher_id ],
+            ["sa.student_id=%d" , $student_id ]
+        ];
+        $where_str = $this->where_str_gen($where_arr);
+        $sql = $this->gen_sql("select count(question_id) from %s  where %s group by question_id"
+                              ,self::DB_TABLE_NAME
+                              ,$where_str );
+        return $this->main_get_row($sql);
+    }
 }
 
 

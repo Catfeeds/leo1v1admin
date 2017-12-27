@@ -210,6 +210,8 @@ class question_new_api extends Controller
         $insertCheck = [
             "sid"  => 0,
             "tid" => 0,
+            "qid" => 0,
+            "rid" => 0,
             "scores" => 0,
             "time"   => 0,
         ];
@@ -219,12 +221,12 @@ class question_new_api extends Controller
         //dd($check1);
         if(!empty($check1)){
             $lackkey = implode(',',array_keys($check1));
-            $msg = "sid,tid,scores,time都是数组必须具备的值,你遗漏了".$lackkey;
+            $msg = "sid,tid,qid,rid,scores,time都是数组必须具备的值,你遗漏了".$lackkey;
             return $this->output_err($msg);
         }
         if(!empty($check2)){
             $morekey = implode(',',array_keys($check2));
-            $msg = "数组中只需传sid,tid,scores,time你多传了".$morekey;
+            $msg = "数组中只需传sid,tid,qid,rid,scores,time你多传了".$morekey;
             return $this->output_err($msg);
         }
         
@@ -244,6 +246,8 @@ class question_new_api extends Controller
             $item = [
                 'student_id'=>$arr['sid'],
                 'teacher_id'=>$arr['tid'],
+                'question_id'=>$arr['qid'],
+                'room_id'=>$arr['rid'],
                 'time'=>$arr['time'],
                 'score'=>$item['score'],
                 'step_id'=>$item['step_id'],
@@ -265,7 +269,15 @@ class question_new_api extends Controller
     }
 
     public function get_recommend(){
-        $knowledge_id = $this->get_in_str_val('knowledge_id');
-
+        $knowledge_id = $this->get_in_int_val('kid');
+        $teacher_id = $this->get_in_int_val('tid');
+        $student_id = $this->get_in_int_val('sid');
+        if( !$teacher_id || !$student_id ){
+            return $this->output_err("请传老师id,和学生id");
+        }
+        
+        $count = $this->t_student_answer->get_answer_count($teacher_id,$student_id);
+        $scores = $this->t_student_answer->get_answer_scores($teacher_id,$student_id);
+         
     }
 }
