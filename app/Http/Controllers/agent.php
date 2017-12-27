@@ -437,7 +437,7 @@ class agent extends Controller
 
         $userid_arr = array_unique(array_column($ret_info,'userid'));
         $orderid_arr = $this->t_order_info->get_orderid_by_userid_new($userid_arr);
-
+        header("Content-Type:text/html;charset=utf-8");
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>'.date('Y-m-d',$start_time).'例子</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
