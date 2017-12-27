@@ -372,7 +372,7 @@ class test_jack  extends Controller
         $phone = 13720242210;
         $time = 1514313347;
         $role=1;
-        dd(md5("leo15143133471372024221011v1"));
+        dd(md5("leo15143216401381775934621v1"));
         $this->switch_tongji_database();
         $start_time = strtotime("2017-10-01");
         $end_time = strtotime("2018-01-01");
