@@ -53,9 +53,9 @@
                         <td>{{@$var["origin"]}} </td>
                         <td>{{@$var["add_time"]}} </td>
                         <td>{{@$var["adminid"]}} </td>
-                        <td>{{@$var["global_tq_called_flag"]}} </td>
-                        <td>{{@$var["last_succ_test_lessonid"]}} </td>
-                        <td>{{@$var["is_order"]}} </td>
+                        <td>{!! $var["is_called_str"] !!} </td>
+                        <td>{!! $var["is_suc_test_str"] !!} </td>
+                        <td>{!! $var["is_order_str"] !!} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

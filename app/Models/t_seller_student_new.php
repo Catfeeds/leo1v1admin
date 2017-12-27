@@ -3167,7 +3167,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function get_item_list($start_time,$end_time){
+    public function get_item_list($page_info,$start_time,$end_time){
         $where_arr = [
         ];
         $this->where_arr_add_time_range($where_arr,'n.add_time', $start_time, $end_time);
@@ -3183,7 +3183,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ,t_student_info::DB_TABLE_NAME
             ,$where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql, $page_info);
     }
 
     public function get_item_list_new(){
