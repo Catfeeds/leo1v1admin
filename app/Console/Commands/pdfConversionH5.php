@@ -53,7 +53,7 @@ class pdfConversionH5 extends Command
             [
                 "file_link" => '037ab4c73279591d363017b22e6b86521513827415246.pdf',
                 "file_id"   => 4,
-                "uuid"      => 11
+                "uuid"      => 'gfa6a2e9768a5cc4c12ba11fbc6a8ff2'
             ]
         ];
 
@@ -70,6 +70,7 @@ class pdfConversionH5 extends Command
 
             // 上传七牛
             $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
+            @unlink($saveH5FilePath);
 
             $task->t_resource_file->field_update_list($item['file_id'],[
                 "zip_url" => $saveH5Upload

@@ -2124,6 +2124,7 @@ trait TeaPower {
                                  恭喜您成功通过理优1对1模拟试讲，鉴于您在模拟试讲中态度认真负责，教学方法灵活高效，
                                  达到晋升标准。
                             </div>";
+            $group_html = $this->get_new_qq_group_html($info['grade_start'],$info['grade_part_ex'],$info['subject']);
         }else{
             $header_html = "<div class='t2em'>
                         鉴于您在上一季度的教学过程中，工作态度认真负责，教学方法灵活高效，并在学生和家长群体中赢得了广泛好评，
@@ -2133,6 +2134,7 @@ trait TeaPower {
                         <span class='color_red'>教学质量</span>
                         三个考核维度的评分俱皆达标），且无一起有效教学事故类退费或投诉。
                     </div>";
+            $group_html = "";
         }
 
         $html = "
@@ -2153,14 +2155,6 @@ trait TeaPower {
          .tl{text-align:left;}
          .tr{text-align:right;}
 
-         /* .size12{font-size:2.4rem;}
-            .size14{font-size:2.8rem;}
-            .size18{font-size:3.6rem;}
-            .size20{font-size:4rem;}
-            .size24{font-size:4.8rem;}
-            .size28{font-size:5.6rem;}
-            .size36{font-size:7.2rem;}
-            .hl{line-height:4.2rem;} */
          .size12{font-size:24px;}
          .size14{font-size:28px;}
          .size18{font-size:36px;}
@@ -2171,12 +2165,11 @@ trait TeaPower {
          .hl{line-height:42px;}
 
          .top-line{margin-top:24px;}
+         .bottom-line{margin-bottom:24px;}
          .color_red{color:red;}
          .t2em{text-indent:2em;}
          .content{width:700px;}
-         /* .title{margin:2rem 0;} */
          .title{margin:20px 0;}
-         /* .border{border:0.2rem solid #e8665e;border-radius:2rem;margin:4rem 0 2rem;padding:1.2rem 2.2rem 0.8rem 2rem;} */
          .border{border:2px solid #e8665e;border-radius:20px;margin:40px 0 20px;padding:12px 22px 8px 20px;}
          .tea_name{font-weight:bold;}
          .tea_level{font-weight:bold;}
@@ -2187,13 +2180,6 @@ trait TeaPower {
          .img_name{position:relative;z-index:1;height:0;top:535px;font-family:'Helvetica','方正舒体','华文行楷','隶书';}
 
          @media screen and (max-width: 720px) {
-             /* .size12{font-size:1.5rem;}
-                .size14{font-size:1.75rem;}
-                .size18{font-size:2.25rem;}
-                .size20{font-size:2.5rem;}
-                .size24{font-size:3rem;}
-                .size28{font-size:3.5rem;}
-                .size36{font-size:4.5rem;} */
              .size12{font-size:15px;}
              .size14{font-size:17.5px;}
              .size18{font-size:22.5px;}
@@ -2207,7 +2193,6 @@ trait TeaPower {
              .img_star{top:213px;}
              .img_star img{width:30px;}
              .img_name{top:285px;}
-             /* .hl{line-height:2.625rem;} */
              .hl{line-height:26.25px;}
          }
         </style>
@@ -2243,9 +2228,11 @@ trait TeaPower {
                         </div>
                     </div>
                     <img class='img_position' src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_certificate.png'/>
-
+                    ".$group_html."
+                    <div >
                     感谢您对公司所做出的积极贡献，希望您在以后的教学过程中再接再厉、超越自我、不忘初心、不负重托！<br>
                     特此通知!<br>
+                    </div>
                     <div class='fr tr'>
                         理优教学管理事业部<br>
                         ".$date."
@@ -2630,11 +2617,6 @@ trait TeaPower {
         $name       = $teacher_info['nick'];
         $level_str = \App\Helper\Utils::get_teacher_level_str($teacher_info);
         $date_str  = \App\Helper\Utils::unixtime2date(time(),"Y.m.d");
-        if($teacher_info['train_through_new']>0){
-            $group_html = $this->get_new_qq_group_html($teacher_info['grade_start'],$teacher_info['grade_part_ex'],$teacher_info['subject']);
-        }else{
-            $group_html = "";
-        }
         $html = "
 <!DOCTYPE html>
 <html>
@@ -2720,7 +2702,6 @@ trait TeaPower {
             </div>
             <div class='todo size12' align='left'>
                 <div class='size20 color333'>待办事项</div>
-                ".$group_html."
                 <div class='ul_title size14 color333'>
                     -理优老师后台链接
                 </div>
@@ -2749,42 +2730,6 @@ trait TeaPower {
 </body>
 </html>
 ";
-        return $html;
-    }
-
-    public function get_qq_group_html($subject){
-        // 528851744 原答疑1群，人数已满
-        $qq_common = ["问题答疑","476559597","用于薪资，软件等综合问题"];
-        $qq_group  = [
-            1=>[
-                ["教研-语文","126321887","处理教学相关事务"],
-                ["排课-语文","103229898","用于抢课"]
-            ],2=>[
-                ["教研-数学","29759286","处理教学相关事务"],
-                ["排课-数学","132041242","用于排课"],
-            ],3=>[
-                ["教研-英语","451786901","处理教学相关事务"],
-                ["排课-英语","41874330","用于排课"],
-            ],4=>[
-                ["教研-综合","513683916","处理教学相关事务"],
-                ["排课-理化","129811086","用于排课"],
-            ],5=>[
-                ["教研-综合","513683916","处理教学相关事务"],
-                ["排课-文理综合","538808064","用于排课"],
-            ],
-        ];
-        if($subject<=3){
-            $key=$subject;
-        }elseif(in_array($subject,[4,5])){
-            $key=4;
-        }else{
-            $key=5;
-        }
-        $qq_group[$key][]=$qq_common;
-        $html="";
-        foreach($qq_group[$key] as $qq_val){
-            $html .= "<li>【LEO】".$qq_val[0]."<br>群号：".$qq_val[1]."<br>群介绍：".$qq_val[2]."</li>";
-        }
         return $html;
     }
 
@@ -2878,16 +2823,13 @@ trait TeaPower {
             ],
         ];
 
-        $list = @$qq_group[ $grade ][ $subject ] ? $qq_group[ $grade ][ $subject ] : $qq_group[ $grade ][99];
+        $list   = @$qq_group[ $grade ][ $subject ] ? $qq_group[ $grade ][ $subject ] : $qq_group[ $grade ][99];
         $list[] = @$qq_answer[ $subject ] ? $qq_answer[ $subject ] : $qq_answer[99];
-        $html = "<div class='ul_title size14 color333'>"
-              ."-加入相关QQ群(请备注 科目-年级-姓名)"
-              ."</div>"
-              ."<ul>";
+        $html   = "<div>加入相关QQ群(请备注 科目-年级-姓名)";
         foreach($list as $val){
-            $html .= "<li>【LEO】".$val[0]."<br>群号：".$val[1]."<br>群介绍：".$val[2]."</li>";
+            $html .= "<div>[LEO]".$val[0]."<br>群号码：".$val[1]."<br>群介绍：".$val[2]."</div>";
         }
-        $html .= "</ul>";
+        $html .= "</div><br>";
         return $html;
     }
 
