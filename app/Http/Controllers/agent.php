@@ -426,11 +426,11 @@ class agent extends Controller
             $userid = $item['userid'];
             $phone = $item['phone'];
             $origin = $item['origin'];
-            if($origin == 'jingqi-0805'){
-                $item['key0'] = $origin;
-            }else{
-                $item['key0'] = $this->t_origin_key->get_key0($origin);
-            }
+            // if($origin == 'jingqi-0805'){
+            //     $item['key0'] = $origin;
+            // }else{
+            //     $item['key0'] = $this->t_origin_key->get_key0($origin);
+            // }
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
             $adminid = $item['adminid'];
             $item['account'] = $this->t_manager_info->get_account_by_uid($adminid);
