@@ -271,8 +271,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "操作者: 系统 状态: 分配给总监 [ $account ] ",
                 "system"
             );
-            // $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
-            $this->task->t_manager_info->send_wx_todo_msg('tom',"来自:系统","分配给[$account]的'$origin'例子:".$phone);
+            $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
+            // $this->task->t_manager_info->send_wx_todo_msg('tom',"来自:系统","分配给[$account]的'$origin'例子:".$phone);
         }
 
         return $userid;
@@ -3167,14 +3167,15 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function get_item_list($start_time,$end_time){
+    public function get_item_list($page_info,$start_time,$end_time){
         $where_arr = [
         ];
         $this->where_arr_add_time_range($where_arr,'n.add_time', $start_time, $end_time);
         // $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         // $where_arr[]= $ret_in_str;
         $sql = $this->gen_sql_new(
-            " select n.userid,n.phone,s.origin,n.add_time,n.global_tq_called_flag,n.last_succ_test_lessonid "
+            " select n.userid,n.phone,s.origin,n.add_time,n.global_tq_called_flag,"
+            ." n.last_succ_test_lessonid,n.last_contact_cc adminid "
             ." from %s n "
             ." left join %s s on n.userid=s.userid "
             ." where %s order by n.add_time desc"
@@ -3182,7 +3183,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ,t_student_info::DB_TABLE_NAME
             ,$where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql, $page_info);
     }
 
     public function get_item_list_new(){

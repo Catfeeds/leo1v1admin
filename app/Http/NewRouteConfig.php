@@ -478,6 +478,7 @@ class NewRouteConfig {
 
         "/test_bacon/get_power"  => true,
         "/test_bacon/download_power"  => true,
+        "/test_bacon/test_lang"  => true,
         "/appoint/index2"                  => true,
         "/appoint/get_package_simple_info" => true,
         "/appoint/get_package_pic"         => true,
