@@ -1,4 +1,6 @@
 interface GargsStatic {
+	page_num:	number;
+	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -14,8 +16,10 @@ interface RowData {
 	add_time	:any;
 	global_tq_called_flag	:any;
 	last_succ_test_lessonid	:any;
-	last_adminid	:any;
-	is_order	:any;
+	adminid	:any;
+	is_called_str	:any;
+	is_suc_test_str	:any;
+	is_order_str	:any;
 }
 
 /*
@@ -45,4 +49,6 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

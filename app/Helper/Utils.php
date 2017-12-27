@@ -2254,13 +2254,13 @@ class Utils  {
 
 
             // sleep(2);
-            $image_5 = imagecreatefromjpeg($datapath);
+            $image_5 = @imagecreatefromjpeg($datapath);
 
             $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
             $color = imagecolorallocate($image_6, 255, 255, 255);
             imagefill($image_6, 0, 0, $color);
             imageColorTransparent($image_6, $color);
-            imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
+            @imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),@imagesx($image_5),@imagesy($image_5));
 
             $ext = pathinfo($bg_url);
             if ($ext['extension'] == 'jpg') {
@@ -2295,7 +2295,7 @@ class Utils  {
             imagedestroy($image_2);
             imagedestroy($image_3);
             imagedestroy($image_4);
-            imagedestroy($image_5);
+            @imagedestroy($image_5);
             imagedestroy($image_6);
 
             $cmd_rm = "rm /tmp/yxyx_wx_".$phone."*";

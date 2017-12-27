@@ -107,13 +107,46 @@
                                          <td> <span> {{$role_1_diff_money_def}}</span> <a id="id_edit_teach_assistant_diff_money_def" class="fa fa-edit" href="#" ></td>
                                         <td> {{$role_1_diff_money}} </td>
                                         <td> {{$role_1_diff_money_def-$role_1_diff_money}} </td>
-                                        <td>  </td>
                                     </tr>
                                 </tbody>
                             </table>
 
                         </div>
                     </div>
+
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title">
+                            签单例子进入分布
+                        </div>
+                        <div class="panel-body">
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>例子时间</td>
+                                        <td>历史例子</td>
+                                        <td>上月例子</td>
+                                        <td>当月例子</td>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr>
+                                        <td>合同数量</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>合同占比</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
                 </div>
                 
                 <div class="order_activity_quota col-md-4">

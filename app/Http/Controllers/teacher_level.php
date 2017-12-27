@@ -31,7 +31,7 @@ class teacher_level extends Controller
         $page_info = $this->get_in_page_info();
 
 
-         $start_time = strtotime("2017-09-01");
+         $start_time = strtotime("2017-10-01");
         $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,-1,-1,-1,0);
         foreach($ret_info["list"] as &$item){
             //$item["level"]=$item["level_before"];
@@ -167,8 +167,8 @@ class teacher_level extends Controller
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",6);
         $page_info = $this->get_in_page_info();
 
-        $start_time = strtotime("2017-09-01");
-        $end_time = strtotime("2017-12-01");
+        $start_time = strtotime("2017-10-01");
+        $end_time = strtotime("2018-01-01");
         $teacher_money_type=6;
         $list     = $this->t_teacher_info->get_teacher_info_by_money_type($teacher_money_type,$start_time,$end_time);
         $tea_list = [];
@@ -227,6 +227,29 @@ class teacher_level extends Controller
                 $this->t_teacher_advance_list->row_insert([
                     "start_time" =>$start_time,
                     "teacherid"  =>$teacherid,
+                    "level_before"=>$item["level"],
+                    "lesson_count"=>$item["lesson_count"]*100,
+                    "lesson_count_score"=>$item["lesson_count_score"],
+                    "cc_test_num"=>$item["cc_test_num"],
+                    "cc_order_num" =>$item["cc_order_num"],
+                    "cc_order_per" =>$item["cc_order_per"],
+                    "cc_order_score" =>$item["cc_order_score"],
+                    "other_test_num"=>$item["other_test_num"],
+                    "other_order_num" =>$item["other_order_num"],
+                    "other_order_per" =>$item["other_order_per"],
+                    "other_order_score" =>$item["other_order_score"],
+                    "record_final_score"=>$item["record_final_score"],
+                    "record_score_avg" =>$item["record_score_avg"],
+                    "record_num"     =>$item["record_num"],
+                    "is_refund"      =>$item["is_refund"],
+                    "total_score"    =>$item["total_score"],
+                    "teacher_money_type"=>$item["teacher_money_type"],
+                    "stu_num"        =>$item["stu_num"],
+                    "stu_num_score"  =>$item["stu_num_score"]
+                ]);
+
+            }else{
+                $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
                     "level_before"=>$item["level"],
                     "lesson_count"=>$item["lesson_count"]*100,
                     "lesson_count_score"=>$item["lesson_count_score"],

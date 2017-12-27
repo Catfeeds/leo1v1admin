@@ -59,7 +59,7 @@ class update_bole_reward extends Command
                     foreach($a_info as $val) {
                         if(!isset($m_info[$val['teacherid']])) { // 处理丢失数据
                             echo $teacherid.' '.$val['teacherid'].PHP_EOL;
-                            if ($teacherid != 146389) continue;
+                            if ($teacherid != 138502) continue;
                             $tea->update_bole_reward($teacherid,$val['teacherid']);
                         }
                     }
