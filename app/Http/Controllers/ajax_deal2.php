@@ -2713,6 +2713,7 @@ class ajax_deal2 extends Controller
         $arr=[];
         $target_arr = explode(',',$target_orderid_list);
         $target_price =$target_orderid=0;
+        $target_orderid_list = [];
         foreach($target_arr as $val){
             $ret = $this->t_child_order_info->field_get_list($val,"parent_orderid,price");
             $parent_orderid = $ret["parent_orderid"];
@@ -2721,6 +2722,7 @@ class ajax_deal2 extends Controller
             }
             $target_price += $ret["price"];
             $target_orderid = $parent_orderid;
+            $target_orderid_list[]=$val;
         }
         if(count($arr)>1){
             return $this->output_err("目标合同不能出自两个以上的父合同");
@@ -2728,12 +2730,14 @@ class ajax_deal2 extends Controller
         
         $origin_orderid = $origin_price=0;
         $origin_arr= explode(',',$child_orderid_list);
+        $origin_orderid_list = [];
         foreach($origin_arr as $val){
             $ret = $this->t_child_order_info->field_get_list($val,"parent_orderid,price");
             $parent_orderid = $ret["parent_orderid"];
            
             $origin_price += $ret["price"];
             $origin_orderid = $parent_orderid;
+            $origin_orderid_list[]=$val;
         }
         if($target_price != $origin_price){
             return $this->output_err("价格需要一致!");
@@ -2748,6 +2752,21 @@ class ajax_deal2 extends Controller
                 "parent_orderid" => $target_orderid
             ]);
         }
+
+        //记录日志
+        $userid =$this->t_order_info->get_userid($target_orderid);
+        $data =[
+            "来源合同id" =>$origin_orderid_list,  
+            "目标合同id" =>$target_orderid_list,
+            "操作人"     =>$this->get_account_id().":".$this->get_account()
+        ];
+
+        $this->t_student_log->row_insert([
+            "userid"     => $userid,
+            "log_time"   => time(),
+            "type"       => 1,     //类型1,合同修改记录
+            "msg"        => json_encode($data) 
+        ]);
         return $this->output_succ();
 
 
