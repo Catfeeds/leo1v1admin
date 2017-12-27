@@ -2112,7 +2112,7 @@ trait TeaPower {
         }
 
         if($info['train_through_new']>0){
-            $group_html = $this->get_new_qq_group_html($teacher_info['grade_start'],$teacher_info['grade_part_ex'],$teacher_info['subject']);
+            $group_html = $this->get_new_qq_group_html($info['grade_start'],$info['grade_part_ex'],$info['subject']);
         }else{
             $group_html = "";
         }
