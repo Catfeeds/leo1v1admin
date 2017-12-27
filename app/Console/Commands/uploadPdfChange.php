@@ -74,9 +74,9 @@ class uploadPdfChange extends Command
 
             $uuid = @$uuid_arr[1];
 
-            $this->task->t_resource_file->field_update_list($item['file_id'],[
-                "uuid" => $uuid
-            ]);
+            // $this->task->t_resource_file->field_update_list($item['file_id'],[
+            //     "uuid" => $uuid
+            // ]);
         }
 
     }
