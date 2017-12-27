@@ -113,29 +113,38 @@ class question_new_api extends Controller
     //根据知识点、题型、来源、难度 获取对应的题目
     public function get_questions(){
         $knowledge_id   = $this->get_in_int_val('knowledge_id');
-        $knowledge_str = '(';
-        if($knowledge_id){
-            //获取该知识点的子级id
-            $knowledge_str .= $this->get_tree($knowledge_id);
-            $knowledge_str = substr($knowledge_str, 0, -1).')';
-        }
+        $room_id   = $this->get_in_str_val('rid');
         //dd($knowledge_str);
         $question_type   = $this->get_in_int_val('question_type',-1);
         $question_resource_type   = $this->get_in_int_val('question_resource_type',-1);
         $difficult   = $this->get_in_int_val('difficult',-1);
         $page_num    = $this->get_in_int_val('page_num',1);
-        $questions = $this->t_question->question_get($knowledge_str,$question_type,$question_resource_type,$difficult,$page_num);
-        //dd($questions);
-        if($questions){
-            foreach( $questions['list'] as &$qu){
-                $qu['subject_str'] = E\Esubject::get_desc($qu['subject']);
-                $qu['difficult_str'] = E\Equestion_difficult_new::get_desc($qu['difficult']);
-                $qu['question_resource_type_str'] = E\Equestion_resource_type::get_desc($qu['question_resource_type']);
-                //$qu = ksort($qu);
+
+        if(!empty($room_id)){
+            $questions = $this->get_recommend($room_id,$question_type,$question_resource_type,$difficult);
+            if(!empty($questions)){
+                return $this->output_succ(["list" => $questions]);
             }
         }
+    
+        if($knowledge_id){
+            //获取该知识点的子级id
+            $knowledge_str = '(';
+            $knowledge_str .= $this->get_tree($knowledge_id);
+            $knowledge_str = substr($knowledge_str, 0, -1).')';
+            $questions = $this->t_question->question_get($knowledge_str,$question_type,$question_resource_type,$difficult,$page_num);
+            //dd($questions);
+            if($questions){
+                foreach( $questions['list'] as &$qu){
+                    $qu['subject_str'] = E\Esubject::get_desc($qu['subject']);
+                    $qu['difficult_str'] = E\Equestion_difficult_new::get_desc($qu['difficult']);
+                    $qu['question_resource_type_str'] = E\Equestion_resource_type::get_desc($qu['question_resource_type']);
+                    //$qu = ksort($qu);
+                }
+            }
+            return $this->output_succ(["list" => $questions]);
+        }
 
-        return $this->output_succ(["list" => $questions]);
     }
 
     private function get_tree($pid){  
@@ -268,15 +277,14 @@ class question_new_api extends Controller
         }
     }
 
-    public function get_recommend(){
-        $room_id = $this->get_in_str_val('rid');
+    public function get_recommend($room_id,$question_type,$question_resource_type,$difficult){
         if( !$room_id ){
-            return $this->output_err("请传房间id");
+            return null;
         }
         
         $count = $this->t_student_answer->get_answer_count($room_id);
         if(!$count || $count['count'] == 0){
-            return $this->output_err("学生还没做题,无法推荐");
+            return null;
         }
 
         //学生做过的题目
@@ -284,6 +292,9 @@ class question_new_api extends Controller
         
         //查看每个题目的答案得分情况
         $answer_scores = $this->t_student_answer->get_answer_scores($room_id);
+        if(empty($answer_scores)){
+            return null;
+        }
 
         //每个知识点对应步骤解题的得分情况
         $result = []; 
@@ -348,23 +359,23 @@ class question_new_api extends Controller
                 //该知识点下做超过15个步骤。并且平均得分率在0.9以上的 推荐题目难度序列为 4,5,3,2,1
                 if($know_qu_items[$kn] >= 15){
                     if($sco >= 0.9 ){
-                        $difficult = "(qu.difficult, 4,5,3,2,1)";
+                        $difficult_str = "(qu.difficult, 4,5,3,2,1)";
                     }else if( $sco < 0.9 && $sco >= 0.8 ){
-                        $difficult = "(qu.difficult, 3,2,4,1,5)";
+                        $difficult_str = "(qu.difficult, 3,2,4,1,5)";
                     }else if( $sco < 0.8 && $sco >= 0.7 ){
-                        $difficult = "(qu.difficult, 2,1,3,4,5)";
+                        $difficult_str = "(qu.difficult, 2,1,3,4,5)";
                     }else{
-                        $difficult = "(qu.difficult, 1,2,3,4,5)";
+                        $difficult_str = "(qu.difficult, 1,2,3,4,5)";
                     }
                 }else{
-                    $difficult = "(qu.difficult, 1,2,3,4,5)";
+                    $difficult_str = "(qu.difficult, 1,2,3,4,5)";
                 }
 
                 if($have_done){
                     $question_str = "(".implode(",", $have_done).")";
                 }
 
-                $fetch_questions = $this->get_questions_by_kid($kn,$difficult,$question_str); 
+                $fetch_questions = $this->get_questions_by_kid($kn,$difficult_str,$question_str,$question_type,$question_resource_type,$difficult); 
                 $questions = array_merge($questions,$fetch_questions);
                 //dd($fetch_questions);
                 if($fetch_questions){
@@ -373,17 +384,16 @@ class question_new_api extends Controller
                     $have_done = array_merge($have_done,$fetch_question_id);
                     //去重
                     $have_done = array_unique($have_done);
-
                 }
             }
             //dd($knowledge_str);
         }
         
-        return $this->output_succ(["list" => $questions]);
+        return $questions;
     }
 
-    private function get_questions_by_kid($kn,$difficult,$question_str){
-        $questions = $this->t_question->question_get_by_id($kn,$difficult,$question_str);
+    private function get_questions_by_kid($kn,$difficult_str,$question_str,$question_type,$question_resource_type,$difficult){
+        $questions = $this->t_question->question_get_by_id($kn,$difficult_str,$question_str,$question_type,$question_resource_type,$difficult);
         //dd($questions);
         if($questions){
             foreach( $questions as &$qu){
