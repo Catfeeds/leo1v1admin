@@ -285,9 +285,9 @@ class t_origin_key extends \App\Models\Zgen\z_t_origin_key
         return $this->main_update($sql);
     }
 
-    public function get_key0_arr($origin){
+    public function get_key0_arr($origin_str){
         $where_arr = [
-            "value in ()",
+            "value in ($origin_str)",
         ];
         $sql=$this->gen_sql_new("select * from %s "
                                 , self::DB_TABLE_NAME
