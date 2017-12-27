@@ -422,7 +422,6 @@ class agent extends Controller
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_seller_student_new->get_item_list($page_info,$start_time, $end_time);
         $ret = array_chunk($ret_info,5000);
-        dd($ret[0]);
         echo"<table border='1px;'>";
         foreach($ret[0] as &$item){
             $userid = $item['userid'];
