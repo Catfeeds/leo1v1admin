@@ -2229,8 +2229,10 @@ trait TeaPower {
                     </div>
                     <img class='img_position' src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_certificate.png'/>
                     ".$group_html."
+                    <div class='t2em'>
                     感谢您对公司所做出的积极贡献，希望您在以后的教学过程中再接再厉、超越自我、不忘初心、不负重托！<br>
                     特此通知!<br>
+                    </div>
                     <div class='fr tr'>
                         理优教学管理事业部<br>
                         ".$date."
@@ -2823,14 +2825,14 @@ trait TeaPower {
 
         $list   = @$qq_group[ $grade ][ $subject ] ? $qq_group[ $grade ][ $subject ] : $qq_group[ $grade ][99];
         $list[] = @$qq_answer[ $subject ] ? $qq_answer[ $subject ] : $qq_answer[99];
-        $html   = "<div class='ul_title size14 color333'>"
-              ."-加入相关QQ群(请备注 科目-年级-姓名)"
-              ."</div>"
-              ."<ul>";
+        $html   = "<div>"
+                ."加入相关QQ群(请备注 科目-年级-姓名)";
+                // ."</div>"
+                // ."<ul>";
         foreach($list as $val){
-            $html .= "<li>【LEO】".$val[0]."<br>群号：".$val[1]."<br>群介绍：".$val[2]."</li>";
+            $html .= "<div>[LEO]".$val[0]."<br>群号：".$val[1]."<br>介绍：".$val[2]."</div>";
         }
-        $html .= "</ul>";
+        $html .= "</div>";
         return $html;
     }
 
