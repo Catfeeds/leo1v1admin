@@ -149,7 +149,7 @@ trait  ViewDeal {
         $reload_filed_str=substr($reload_filed_str,0,-2)."\n";
 
 
-        $row_file_name =app_path("../public/page_ts/g_args.d.ts/.vue-row-{$this->view_ctrl}-{$this->view_action}.tmp");
+        $row_file_name =app_path("../vue/src/views/page.d.ts/.vue-row-{$this->view_ctrl}-{$this->view_action}.tmp");
         $row_str="";
         if ( count($table_data_list) >0) {
             $row_item = @$table_data_list[0];
@@ -181,7 +181,7 @@ trait  ViewDeal {
 
 
 
-$data= "interface self_Args {\n".
+        $data= "interface self_Args {\n".
             $str.
             "}\n".
             "interface self_RowData {\n".
@@ -189,7 +189,7 @@ $data= "interface self_Args {\n".
             "}\n\n".
             "export  {self_RowData , self_Args  }\n"
             ."/*\n"
-            ."\ntofile: \n\t mkdir -p ../../src/views/{$this->view_ctrl}; vi  ../../src/views/{$this->view_ctrl}/{$this->view_action}.ts\n\n".
+            ."\ntofile: \n\t mkdir -p ../../../vue/src/views/{$this->view_ctrl}; vi  ../../../vue/src/views/{$this->view_ctrl}/{$this->view_action}.ts\n\n".
             "/// <reference path=\"../../../d.ts.d/common.d.ts\" />\n".
             "\n".
             "import Vue from 'vue'\n".
@@ -231,7 +231,7 @@ $data= "interface self_Args {\n".
             ."*/\n";
 
 
-        $file_name =app_path("../public/page_ts/g_args.d.ts/{$this->view_ctrl}-{$this->view_action}.ts");
+        $file_name =app_path("../vue/src/views/page.d.ts/{$this->view_ctrl}-{$this->view_action}.ts");
 
         $old_data=@file_get_contents($file_name);
         if( $old_data !=$data  ) {
