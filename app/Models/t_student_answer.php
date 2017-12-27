@@ -51,6 +51,7 @@ class t_student_answer extends \App\Models\Zgen\z_t_student_answer
 
 
     public function get_answer_count($room_id){
+        //dd($room_id);
         $sql = $this->gen_sql("select count(sa.question_id) as count from %s sa inner join %s q on
                                sa.question_id = q.question_id where sa.room_id = '%s' group by sa.question_id"
                               ,self::DB_TABLE_NAME
