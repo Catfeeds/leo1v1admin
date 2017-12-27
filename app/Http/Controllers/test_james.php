@@ -1537,6 +1537,7 @@ class test_james extends Controller
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 
+        @chmod($targetName, 0777);
         $fp = fopen($targetName,'wb');
 
         curl_setopt($ch,CURLOPT_URL,$pic_url);
