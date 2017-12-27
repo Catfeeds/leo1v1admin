@@ -33,7 +33,7 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
         $sql = $this->gen_sql_new("select a.*,t.realname,m.create_time become_member_time,t.level real_level "
                                   ." from %s a left join %s t on a.teacherid = t.teacherid"
                                   ." left join %s m on t.phone = m.phone"
-                                  ." where %s",
+                                  ." where %s order by total_score desc",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,

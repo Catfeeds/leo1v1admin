@@ -50,12 +50,12 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["userid"]}} </td>
-                        <td>{{@$var["origin"]}} </td>
+                        <td>{{@$var["key0"]}} </td>
                         <td>{{@$var["add_time"]}} </td>
-                        <td>{{@$var["adminid"]}} </td>
-                        <td>{{@$var["global_tq_called_flag"]}} </td>
-                        <td>{{@$var["last_succ_test_lessonid"]}} </td>
-                        <td>{{@$var["is_order"]}} </td>
+                        <td>{{@$var["account"]}}/{{@$var["group_name"]}} </td>
+                        <td>{!! $var["is_called_str"] !!} </td>
+                        <td>{!! $var["is_suc_test_str"] !!} </td>
+                        <td>{!! $var["is_order_str"] !!} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

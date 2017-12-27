@@ -1558,17 +1558,18 @@ class user_deal extends Controller
     }
 
     public function course_set_status_ex() {
-        $courseid             = $this->get_in_courseid();
-        $course_status        = $this->get_in_int_val("course_status");
-        $teacherid            = $this->get_in_teacherid();
-        $subject              = $this->get_in_int_val("subject");
-        $grade                = $this->get_in_int_val("grade");
-        $lesson_grade_type    = $this->get_in_int_val("lesson_grade_type");
-        $default_lesson_count = $this->get_in_int_val("default_lesson_count");
-        $week_comment_num     = $this->get_in_int_val("week_comment_num");
-        $enable_video         = $this->get_in_int_val("enable_video");
+        $courseid                = $this->get_in_courseid();
+        $course_status           = $this->get_in_int_val("course_status");
+        $teacherid               = $this->get_in_teacherid();
+        $subject                 = $this->get_in_int_val("subject");
+        $grade                   = $this->get_in_int_val("grade");
+        $lesson_grade_type       = $this->get_in_int_val("lesson_grade_type");
+        $default_lesson_count    = $this->get_in_int_val("default_lesson_count");
+        $week_comment_num        = $this->get_in_int_val("week_comment_num");
+        $enable_video            = $this->get_in_int_val("enable_video");
+        $old_enable_video        = $this->get_in_int_val("old_enable_video");
         $reset_lesson_count_flag = $this->get_in_int_val("reset_lesson_count_flag");
-        $account              = $this->get_account();
+        $account                 = $this->get_account();
 
         $check_flag = $this->check_teacher_is_pass($teacherid);
         if(!$check_flag){
@@ -1594,6 +1595,9 @@ class user_deal extends Controller
         \App\Helper\Utils::logger("course info has update.courseid is".$courseid
                                   ." course data to:".json_encode($data)."account:".$account." time:".time());
 
+        if($old_enable_video!=$enable_video){
+            $this->t_lesson_info->reset_lesson_enable_video($courseid,$enable_video);
+        }
         return $this->output_succ();
     }
 

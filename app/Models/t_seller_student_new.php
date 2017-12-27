@@ -241,7 +241,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
 
         //美团-1230
-        if($origin == '美团-1230'){
+        if($origin == '美团—1230'){
             $tong_count = 0;
             $tao_count = 0;
             $count = $this->get_meituan_count_by_adminid();
@@ -271,8 +271,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "操作者: 系统 状态: 分配给总监 [ $account ] ",
                 "system"
             );
-            // $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
-            $this->task->t_manager_info->send_wx_todo_msg('tom',"来自:系统","分配给[$account]的'$origin'例子:".$phone);
+            $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
         }
 
         return $userid;
@@ -3167,7 +3166,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function get_item_list($start_time,$end_time){
+    public function get_item_list($page_info,$start_time,$end_time){
         $where_arr = [
         ];
         $this->where_arr_add_time_range($where_arr,'n.add_time', $start_time, $end_time);
@@ -3183,6 +3182,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ,t_student_info::DB_TABLE_NAME
             ,$where_arr
         );
+        // return $this->main_get_list_by_page($sql, $page_info);
         return $this->main_get_list($sql);
     }
 

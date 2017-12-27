@@ -1570,7 +1570,7 @@ class seller_student_new2 extends Controller
                 $grade_start = 0;
                 $grade_end   = 0;
                 $del_flag    = false;
-                $limit_week_lesson_num = $tea_val['limit_week_lesson_num'];
+                $limit_week_lesson_num  = $tea_val['limit_week_lesson_num'];
                 $limit_plan_lesson_type = $tea_val['limit_plan_lesson_type'];
                 $limit_day   = $tea_val['limit_day_lesson_num'];
                 $day_num     = isset($tea_val['day_num'])?$tea_val['day_num']:0;
@@ -1578,7 +1578,6 @@ class seller_student_new2 extends Controller
                 $week_num    = isset($tea_val['week_num'])?$tea_val['week_num']:0;
                 $limit_month = $tea_val['limit_month_lesson_num'];
                 $month_num   = isset($tea_val['month_num'])?$tea_val['month_num']:0;
-                $has_num     = isset($tea_val['has_num'])?$tea_val['has_num']:0;
 
                 if($tea_val['subject']==$subject){
                     $grade_start = $tea_val['grade_start'];
@@ -1590,7 +1589,7 @@ class seller_student_new2 extends Controller
                     $del_flag = true;
                 }
 
-                if($grade_range_part>$grade_end || $grade_range_part<$grade_start || $has_num>0){
+                if($grade_range_part>$grade_end || $grade_range_part<$grade_start){
                     $del_flag = true;
                 }
                 if(($day_num>0 || $week_num>0 || $month_num>0)
@@ -1608,17 +1607,18 @@ class seller_student_new2 extends Controller
                 }else{
                     $tea_val['is_search'] = 0;
                 }
-                if(strstr($tea_val['teacher_textbook'],$region_version)){
-                    $tea_val['is_textbook'] = 1;
-                }else{
-                    $tea_val['is_textbook'] = 0;
-                }
+
+                $tea_val['is_textbook'] = 0;
                 if($tea_val['teacher_textbook']!=""){
                     $teacher_textbook_arr = explode(",",$tea_val['teacher_textbook']);
                     $teacher_textbook_str = [];
                     foreach($teacher_textbook_arr as $textbook_val){
                         $teacher_textbook_str[] = @$textbook_map[$textbook_val];
                     }
+                    if(in_array($region_version,$teacher_textbook_arr)){
+                        $tea_val['is_textbook'] = 1;
+                    }
+
                     $tea_val['teacher_textbook_str'] = implode(",",$teacher_textbook_str);
                 }else{
                     $tea_val['teacher_textbook_str'] = "";
@@ -1636,11 +1636,11 @@ class seller_student_new2 extends Controller
                     unset($tea_list[$tea_key]);
                 }else{
                     $tea_val['match_time'] = $this->match_teacher_free_time($tea_val['free_time_new'],$lesson_start,$lesson_end);
-                    $match_time[$tea_key]  = $tea_val['match_time'];
                     $tea_val['tags_str']   = $this->change_teacher_tags_to_string($tea_val['teacher_tags']);
                     $tea_val['match_tags'] = $this->match_tea_tags(
                         $tea_val['teacher_tags'],$subject_tags,$teacher_tags,$lesson_tags,$teaching_tags
                     );
+                    $match_time[$tea_key]  = $tea_val['match_time'];
                     $match_tags[$tea_key]        = $tea_val['match_tags'];
                     $identity_list[$tea_key]     = $tea_val['is_identity'];
                     $gender_list[$tea_key]       = $tea_val['is_gender'];

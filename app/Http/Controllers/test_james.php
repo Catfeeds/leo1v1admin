@@ -1459,6 +1459,7 @@ class test_james extends Controller
         $b = "http://leo1v1.whytouch.com/export.php?uuid=gf15a4973b034c84d4f631be74b21741&email=michael@leoedu.com&pwd=bbcffc83539bd9069b755e1d359bc70a";
         $a = file_get_contents($b);
 
+        file_put_contents("./test_jammes_pdf.zip", fopen($h5DownloadUrl, 'r'));
         dd($a);
 
         $domain = config('admin')['qiniu']['public']['url'];
@@ -1526,6 +1527,29 @@ class test_james extends Controller
         $public_flag=$this->get_in_int_val("publish_flag",0 );
         return $this->do_qiniu($public_flag );
     }
+
+
+
+    public  function savePicToServer() {
+        $savePathFile = "test.zip";
+        $url = "http://wx-parent-web.leo1v1.com/wx-parent-activity/share.html?openid=orwGAs_IqKFcTuZcU1xwuEtV3Kek&type=102&web_page_id=0&from_adminid=0";
+        $targetName   = $savePathFile;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+
+        $fp = fopen($targetName,'wb');
+
+        curl_setopt($ch,CURLOPT_URL,$pic_url);
+        curl_setopt($ch,CURLOPT_FILE,$fp);
+        curl_setopt($ch,CURLOPT_HEADER,0);
+        $ret_info['state'] = curl_exec($ch);
+        curl_close($ch);
+        fclose($fp);
+        $ret_info['savePathFile'] = $savePathFile;
+
+        return $ret_info;
+    }
+
 
 
 
