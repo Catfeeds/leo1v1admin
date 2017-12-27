@@ -369,6 +369,22 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
+        $this->switch_tongji_database();
+        $start_time = strtotime("2017-10-01");
+        $end_time = strtotime("2018-01-01");
+        $teacher_money_type=6;
+        $list     = $this->t_teacher_info->get_teacher_info_by_money_type($teacher_money_type,$start_time,$end_time);
+        dd($list);
+
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type",6);
+        $teacherid = $this->get_in_int_val("teacherid",-1);
+        $page_info = $this->get_in_page_info();
+
+
+        $start_time = strtotime("2017-10-01");
+        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,-1,-1,-1,0);
+        dd($ret_info);
+
         dd(md5("@leo"));
         $orderid = $this->get_in_int_val("orderid");
         $old_list = $this->t_child_order_info->field_get_list($orderid,"pay_status,pay_time,channel");

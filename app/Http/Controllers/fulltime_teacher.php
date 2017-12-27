@@ -737,8 +737,8 @@ class fulltime_teacher extends Controller
                 if(in_array($val["attendance_type"],[0,2]) && $w!=1 && $w !=2){
                     @$ret[$uid]["need_work_day"]++;
 
-                    $off_time = $val["off_time"]==0?($val["attendance_time"]+9.5*3600):$val["off_time"];
-                    $delay_time = $val["delay_work_time"]==0?($val["attendance_time"]+18.5*3600):$val["delay_work_time"];
+                    $off_time = $val["off_time"]==0?($val["attendance_time"]+18.5*3600):$val["off_time"];
+                    $delay_time = $val["delay_work_time"]==0?($val["attendance_time"]+9.5*3600):$val["delay_work_time"];
                     if($val["card_start_time"]>0){                                           
                         if($delay_time <$val["card_start_time"]){
                             @$ret[$uid]["late_num"]++;

@@ -4707,7 +4707,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $day_arr   = $this->lesson_start_sql($day_range['sdate'],$day_range['edate'],'l',$lesson_type_arr);
         $week_arr  = $this->lesson_start_sql($week_range['sdate'],$week_range['edate'],'l',$lesson_type_arr);
         $month_arr = $this->lesson_start_sql($month_range['sdate'],$month_range['edate'],'l',$lesson_type_arr);
-        $has_arr   = $this->lesson_start_sql($lesson_start, $lesson_end,"l",["l.lesson_del_flag=0","confirm_flag<2"]);
 
         $subject_str = $this->gen_sql("(t.subject=%u or t.second_subject=%u)",$subject,$subject);
         $teacher_arr = $this->teacher_common_sql("t",[$subject_str]);
@@ -4719,8 +4718,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." t.phone,tf.free_time_new,t.teacher_tags,t.teacher_textbook,t.teacher_type,"
                                   ." count(if(%s,true,null)) as day_num,"
                                   ." count(if(%s,true,null)) as week_num,"
-                                  ." count(if(%s,true,null)) as month_num,"
-                                  ." count(if(%s,true,null)) as has_num"
+                                  ." count(if(%s,true,null)) as month_num"
                                   ." from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid "
                                   ." left join %s tf on t.teacherid=tf.teacherid "
@@ -4730,7 +4728,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$day_arr
                                   ,$week_arr
                                   ,$month_arr
-                                  ,$has_arr
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_freetime_for_week::DB_TABLE_NAME
