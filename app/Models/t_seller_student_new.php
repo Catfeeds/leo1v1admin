@@ -272,7 +272,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "system"
             );
             $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
-            // $this->task->t_manager_info->send_wx_todo_msg('tom',"来自:系统","分配给[$account]的'$origin'例子:".$phone);
         }
 
         return $userid;
