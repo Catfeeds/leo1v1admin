@@ -216,6 +216,9 @@
                                 <a class="fa opt-update-price" title="修改合同价格">价格</a>
                                 @if($var["price"]>0)
                                     <a class="fa opt-order-partition-info" title="子合同详情">子合同详情</a>
+                                    @if(in_array($account,["jack","zero","jim"]) )
+                                        <a class="fa opt-child-order-trandfer" title="子合同转移">子合同转移</a>
+                                    @endif
                                 @endif
                                 
                             </div>

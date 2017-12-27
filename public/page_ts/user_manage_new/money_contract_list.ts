@@ -438,7 +438,7 @@ $(function(){
           return;
           }*/
         var title = "子合同详情";
-        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>金额</td><td>分期期数</td><td>付款</td><td>渠道</td><td>订单号</td><td>付款时间</td><td>家长姓名</td></tr></table></div>");
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>子合同id</td><td>类型</td><td>金额</td><td>分期期数</td><td>付款</td><td>渠道</td><td>订单号</td><td>付款时间</td><td>家长姓名</td></tr></table></div>");
         $.do_ajax("/ss_deal/get_child_order_list",{
             orderid: data.orderid,
         },function(resp){
@@ -448,7 +448,7 @@ $(function(){
                 return;
             }
             $.each(data_list,function(i,item){
-                html_node.find("table").append("<tr><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td>"+item['period_num_info']+"</td><td>"+item['pay_status_str']+"</td><td>"+item["channel"]+"</td><td>"+item["from_orderno"]+"</td><td>"+item["pay_time_str"]+"</td><td>"+item["parent_name"]+"</td></tr>");               
+                html_node.find("table").append("<tr><td>"+item['child_orderid']+"</td><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td>"+item['period_num_info']+"</td><td>"+item['pay_status_str']+"</td><td>"+item["channel"]+"</td><td>"+item["from_orderno"]+"</td><td>"+item["pay_time_str"]+"</td><td>"+item["parent_name"]+"</td></tr>");               
 
             });           
 
@@ -473,6 +473,71 @@ $(function(){
 
             dlg.getModalDialog().css("width","900px");
 
+        });
+
+    });
+
+    $(".opt-child-order-trandfer").on("click",function(){
+        var data = $(this).get_opt_data();
+        var id_child_orderid = $("<input>");
+        var id_target_orderid = $("<input>");
+        var arr = [
+            ["合同id",  id_child_orderid] ,
+            ["目标合同", id_target_orderid] ,
+        ];
+        id_child_orderid.on("click",function(){
+            var m = $(this);
+            get_child_order_list_by_type(m,data.orderid,1);
+        });
+        id_target_orderid.on("click",function(){
+            var m = $(this);
+            get_child_order_list_by_type(m,data.orderid,2);
+        });
+
+
+        var get_child_order_list_by_type = function(btn,parent_orderid,target_type){
+            $.do_ajax("/ajax_deal2/get_child_orderid_list",{
+                "parent_orderid" : parent_orderid,
+                "target_type"    : target_type
+            },function(response){
+                var data_list   = [];
+                var select_list = [];
+                $.each( response.data,function(){
+                    data_list.push([this["child_orderid"] , this["parent_orderid"], this["child_order_type_str"],this["pay_status_str"],this["channel"] ,this["from_orderno"],this["price"]/100]);
+
+                  
+                });
+
+                $(this).admin_select_dlg({
+                    header_list     : [ "子合同","父合同","类型","付款","渠道","订单号","价格" ],
+                    data_list       : data_list,
+                    multi_selection : true,
+                    select_list     : select_list,
+                    onChange        : function( select_list,dlg) {
+                        btn.val(select_list);
+                        dlg.close();
+                    }
+                });
+
+                
+            });
+
+        }
+
+
+        $.show_key_value_table("合同转移", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                if(id_child_orderid.val() == "" || id_target_orderid.val() == ""){
+                    BootstrapDialog.alert("请选择合同");
+                    return;
+                }
+                $.do_ajax("/ajax_deal2/set_child_orderid_transfer", {
+                    "child_orderid_list"       : id_child_orderid.val(),
+                    "target_orderid_list"       : id_target_orderid.val(),
+                });
+            }
         });
 
     });
