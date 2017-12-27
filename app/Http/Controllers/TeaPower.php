@@ -2173,6 +2173,7 @@ trait TeaPower {
          .hl{line-height:42px;}
 
          .top-line{margin-top:24px;}
+         .bottom-line{margin-bottom:24px;}
          .color_red{color:red;}
          .t2em{text-indent:2em;}
          .content{width:700px;}
@@ -2253,6 +2254,9 @@ trait TeaPower {
                         ".$date."
                     </div>
                     <div class='cl'></div>
+                </div>
+                <div class='tl bottom-line'>
+                ".$group_html."
                 </div>
             </div>
         </div>
