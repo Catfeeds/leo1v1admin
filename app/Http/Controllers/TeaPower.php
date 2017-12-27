@@ -2829,7 +2829,7 @@ trait TeaPower {
         foreach($list as $val){
             $html .= "<div>[LEO]".$val[0]."<br>群号码：".$val[1]."<br>群介绍：".$val[2]."</div>";
         }
-        $html .= "</div>";
+        $html .= "</div><br>";
         return $html;
     }
 
