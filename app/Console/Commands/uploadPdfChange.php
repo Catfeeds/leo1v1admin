@@ -70,7 +70,9 @@ class uploadPdfChange extends Command
             $cmd  = "curl -F doc=@'$savePathFile' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=leoedu&fn=".$item['file_link'].".pdf'";
             $uuid_tmp = shell_exec($cmd);
             $uuid_arr = explode(':', $uuid_tmp);
-            $uuid = $uuid_arr[1];
+            \App\Helper\Utils::logger("jjames_sjj: $uuid_tmp");
+
+            $uuid = @$uuid_arr[1];
 
             $this->task->t_resource_file->field_update_list($item['file_id'],[
                 "uuid" => $uuid
