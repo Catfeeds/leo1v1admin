@@ -418,7 +418,10 @@ class agent extends Controller
 
     public function check(){
         $this->check_and_switch_tongji_domain();
-        list($start_time,$end_time )= $this->get_in_date_range_month(0);
+        $start_time = $this->get_in_str_val('start_time',20171001);
+        $end_time = $this->get_in_str_val('end_time',20171101);
+        $start_time = strtotime($start_time);
+        $end_time = strtotime($end_time);
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_seller_student_new->get_item_list($page_info,$start_time, $end_time);
 
@@ -434,10 +437,17 @@ class agent extends Controller
 
         $userid_arr = array_unique(array_column($ret_info,'userid'));
         $orderid_arr = $this->t_order_info->get_orderid_by_userid_new($userid_arr);
+
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h1>'.date('Y-m-d',$start_time).'例子</h1></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>userid</th><th>渠道</th><th>进入时间</th><th>最后联系cc部门</th><th>是否接通</th><th>是否试听成功</th><th>是否签单</th>';
+        echo '</tr>';
         foreach($ret_info as &$item){
             $userid = $item['userid'];
             $phone = $item['phone'];
             $origin = $item['origin'];
+            $adminid = $item['adminid'];
             $item['key0'] = $origin;
             if($origin != 'jingqi-0805'){
                 foreach($key0_arr as $info){
@@ -448,13 +458,15 @@ class agent extends Controller
                 }
             }
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
-            $adminid = $item['adminid'];
+
+            $item['group_name'] = '';
             foreach($group_name_arr as $info){
                 if($info['adminid'] == $adminid){
                     $item['group_name'] = $info['group_name'];
                     break;
                 }
             }
+
             $is_called = $item['global_tq_called_flag']==2?1:0;
             $item["is_called_str"] = \App\Helper\Common::get_boolean_color_str($is_called);
             $is_suc_test = $item['last_succ_test_lessonid']>0?1:0;
@@ -469,7 +481,18 @@ class agent extends Controller
             }
             $is_order = $orderid>0?1:0;
             $item["is_order_str"] = \App\Helper\Common::get_boolean_color_str($is_order);
+            echo '<tr>';
+            echo '<td>'.$userid.'</td>';
+            echo '<td>'.$item['key0'].'</td>';
+            echo '<td>'.$item['add_time'].'</td>';
+            echo '<td>'.$item['group_name'].'</td>';
+            echo '<td>'.$item['is_called_str'].'</td>';
+            echo '<td>'.$item['is_suc_test_str'].'</td>';
+            echo '<td>'.$item['is_order_str'].'</td>';
+            echo '</tr>';
         }
+        echo '</table>';
+        exit;
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
 
