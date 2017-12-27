@@ -144,7 +144,7 @@ class account_common extends Controller
 
         \App\Helper\Utils::logger("code:".$phone_code);
         \App\Helper\Utils::logger("index:".$phone_index);
-        return $this->output_succ(["msg_num"=>$phone_index,"verify_code"=>$phone_code]);
+        return $this->output_succ(["msg_num"=>$phone_index]);
     }
 
     //用户注册
