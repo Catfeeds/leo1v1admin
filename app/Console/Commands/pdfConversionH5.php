@@ -56,18 +56,17 @@ class pdfConversionH5 extends Command
         ];
         foreach($handoutArray as $item){
             //七牛下载
-            $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $item['file_link'] );
-            $savePathFile = public_path('wximg').'/'.$item['file_link'];
-            \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
-            @chmod($savePathFile, 0777);
+            // $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $item['file_link'] );
+            // $savePathFile = public_path('wximg').'/'.$item['file_link'];
+            // \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
+            // @chmod($savePathFile, 0777);
 
             //上传未达
-            $cmd  = "curl -F doc=@'$savePathFile' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=leoedu&fn=".$item['file_link'].".pdf'";
-            $uuid_tmp = shell_exec($cmd);
-            $uuid_arr = explode(':', $uuid_tmp);
+            // $cmd  = "curl -F doc=@'$savePathFile' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=leoedu&fn=".$item['file_link'].".pdf'";
+            // $uuid_tmp = shell_exec($cmd);
+            // $uuid_arr = explode(':', $uuid_tmp);
 
-            $uuid = $uuid_arr['1'];
-            \App\Helper\Utils::logger("qiniuupload_james_9999: $uuid");
+            $uuid = $item['uuid'];
 
             //从未达下载
             $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=".$uuid."&email=".$email."&pwd=".$pwd;
