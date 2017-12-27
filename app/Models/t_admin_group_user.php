@@ -378,4 +378,22 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_main_major_group_name_by_adminid($amdinid){
+        $sql = $this->gen_sql_new(
+            " select groupid,adminid "
+            ." from %s "
+            ." where groupid = %u "
+            ,self::DB_TABLE_NAME//g
+            ,$self_groupid
+        );
+        return $this->main_get_list($sql);
+    }
+        // t_group_user_month::DB_TABLE_NAME,//u
+        // $month,
+        // t_group_name_month::DB_TABLE_NAME,//g
+        // $month,
+        // t_main_group_name_month::DB_TABLE_NAME,//m
+        // $month,
+        // t_main_major_group_name_month::DB_TABLE_NAME,
 }
