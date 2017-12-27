@@ -1062,7 +1062,6 @@ class user_manage extends Controller
         }elseif($type="student" || $type="student_ass"){
             foreach($ret_list["list"] as &$item){
                 $item["phone"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
-
             }
 
         }

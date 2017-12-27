@@ -417,20 +417,28 @@ class agent extends Controller
     }
 
     public function check(){
-        $ret_info = $this->t_seller_edit_log->get_item_list();
-        foreach($ret_info as $item){
+        $this->check_and_switch_tongji_domain();
+        list($start_time,$end_time) = [1506787200,1509465600];
+        $ret_info = $this->t_seller_student_new->get_item_list($start_time, $end_time);
+        foreach($ret_info as &$item){
             $userid = $item['userid'];
-            if($userid > 0){
-                $this->t_seller_student_new->field_update_list($userid, [
-                    "seller_resource_type"  => E\Eseller_resource_type::V_0,
-                ]);
-            }
+            $phone = $item['phone'];
+            $origin = $item['origin'];
+            $orderid = $this->t_order_info->get_orderid_by_userid_new($userid);
+            $item['is_order'] = $orderid>0?1:0;
         }
-        dd('a');
+        dd($ret_info);
         return $this->Pageview(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
 
     public function test_new(){
+        /*
+          公众号,信息流,BD,其他
+          userid,origin,add_time,last_cc,is_called,is_suc_test_lesson,is_orderid,
+
+
+         */
+
         $adminid = 99;
         $key="DEAL_NEW_USER_$adminid";
         $userid=\App\Helper\Common::redis_get($key)*1;

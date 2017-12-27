@@ -36,20 +36,26 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>手机 </td>
+                    <td>userid </td>
                     <td>渠道 </td>
-                    <td>cc </td>
                     <td>进入时间 </td>
+                    <td>最后联系cc所在部门 </td>
+                    <td>是否接通 </td>
+                    <td>是否试听成功 </td>
+                    <td>是否签单 </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["userid"]}} </td>
                         <td>{{@$var["origin"]}} </td>
-                        <td>{{@$var["account"]}} </td>
                         <td>{{@$var["add_time"]}} </td>
+                        <td>{{@$var["adminid"]}} </td>
+                        <td>{{@$var["global_tq_called_flag"]}} </td>
+                        <td>{{@$var["last_succ_test_lessonid"]}} </td>
+                        <td>{{@$var["is_order"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

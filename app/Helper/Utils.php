@@ -1361,7 +1361,6 @@ class Utils  {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 
-        // chmod($targetName,0777);
         $fp = fopen($targetName,'wb');
 
         curl_setopt($ch,CURLOPT_URL,$pic_url);
@@ -1373,6 +1372,22 @@ class Utils  {
         $msg['savePathFile'] = $savePathFile;
 
         return $msg;
+
+
+        /**
+           $ch = curl_init($url);
+           $fp = fopen($dir, "wb");
+           curl_setopt($ch, CURLOPT_FILE, $fp);
+           curl_setopt($ch, CURLOPT_HEADER, 0);
+           $res=curl_exec($ch);
+           curl_close($ch);
+           fclose($fp);
+           return $res;
+
+
+
+
+         */
     }
 
     /**
@@ -2239,13 +2254,13 @@ class Utils  {
 
 
             // sleep(2);
-            $image_5 = imagecreatefromjpeg($datapath);
+            $image_5 = @imagecreatefromjpeg($datapath);
 
             $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
             $color = imagecolorallocate($image_6, 255, 255, 255);
             imagefill($image_6, 0, 0, $color);
             imageColorTransparent($image_6, $color);
-            imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
+            @imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),@imagesx($image_5),@imagesy($image_5));
 
             $ext = pathinfo($bg_url);
             if ($ext['extension'] == 'jpg') {
@@ -2280,7 +2295,7 @@ class Utils  {
             imagedestroy($image_2);
             imagedestroy($image_3);
             imagedestroy($image_4);
-            imagedestroy($image_5);
+            @imagedestroy($image_5);
             imagedestroy($image_6);
 
             $cmd_rm = "rm /tmp/yxyx_wx_".$phone."*";

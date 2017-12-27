@@ -2645,19 +2645,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function get_all_list($start_time,$end_time){
-        $where_arr = [
-            ['tq.admin_role=%u',E\Eaccount_role::V_2],
-            'seller_add_time=1511452800',
-        ];
-        // $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
         $sql = $this->gen_sql_new(
-            " select n.userid,n.phone,n.cc_no_called_count,"
-            ." tq.is_called_phone,tq.admin_role "
+            " select n.userid,n.phone,n.last_contact_cc "
             ." from %s n"
-            ." left join %s tq on tq.phone=n.phone "
             ." where %s order by n.userid "
             ,self::DB_TABLE_NAME
-            ,t_tq_call_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);
@@ -3173,36 +3167,20 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function get_item_list($start_time,$end_time,$origin_ex){
+    public function get_item_list($start_time,$end_time){
         $where_arr = [
-            's.lesson_count_all=0',
-            'n.seller_resource_type=1',
-            'n.admin_revisiterid=0',
-            't.seller_student_status <> 50',
-            'n.sys_invaild_flag=0',
-            '(n.hand_free_count+n.auto_free_count)<5',
         ];
         $this->where_arr_add_time_range($where_arr,'n.add_time', $start_time, $end_time);
-        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
-        $where_arr[]= $ret_in_str;
-
+        // $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        // $where_arr[]= $ret_in_str;
         $sql = $this->gen_sql_new(
-            "select t.test_lesson_subject_id,n.add_time,n.userid,n.phone,n.admin_revisiterid,s.origin,m.account "
-            ." from %s t "
-            ." left join %s n on t.userid=n.userid "
-            ." left join %s s on s.userid=n.userid "
-            ." left join %s m on n.admin_revisiterid=m.uid "
-            ." left join %s l on l.lessonid=n.last_succ_test_lessonid "
-            ." left join %s tss on tss.lessonid=n.last_succ_test_lessonid "
-            ." left join %s tr on tr.require_id=tss.require_id "
-            ." where %s order by n.add_time"
-            ,t_test_lesson_subject::DB_TABLE_NAME
+            " select n.userid,n.phone,s.origin,n.add_time,n.global_tq_called_flag,"
+            ." n.last_succ_test_lessonid,n.last_contact_cc adminid "
+            ." from %s n "
+            ." left join %s s on n.userid=s.userid "
+            ." where %s order by n.add_time desc"
             ,self::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
-            ,t_manager_info::DB_TABLE_NAME
-            ,t_lesson_info::DB_TABLE_NAME
-            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
-            ,t_test_lesson_subject_require::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);

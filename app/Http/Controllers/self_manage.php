@@ -448,5 +448,13 @@ class self_manage extends Controller
 
         return $this->pageView(__METHOD__);
     }
-
+    public function get_login_info() {
+        return $this->output_succ([
+            "account" =>  session("acc"),
+            "adminid" =>  session("adminid"),
+            "power_list"=> session("power_list"),
+            "account_role"=> session("account_role"),
+            "menu_html"=> session("menu_html"),
+        ]);
+    }
 }
