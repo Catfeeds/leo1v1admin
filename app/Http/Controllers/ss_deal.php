@@ -7686,7 +7686,7 @@ class ss_deal extends Controller
 
         if($shareWidth!=750 || $shareHeight!=1334){ return $this->output_err('分享页图片尺寸不符合,请重新上传!'); }
         if($coverWidth!=300 || $coverHeight!=300){ return $this->output_err('封面页图片尺寸不符合,请重新上传!'); }
-        if($activityWidth!=750 || $activityWidth!=1334){ return $this->output_err('活动页图片尺寸不符合,请重新上传!'); }
+        if($activityWidth!=750 || $activityHeight!=1334){ return $this->output_err('活动页图片尺寸不符合,请重新上传!'); }
         if($followWidth!=750 || $followHeight!=1334){ return $this->output_err('关注页图片尺寸不符合,请重新上传!'); }
 
 
