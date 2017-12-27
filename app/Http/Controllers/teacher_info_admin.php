@@ -37,7 +37,7 @@ class teacher_info_admin extends Controller
         }else{
             $tea_info['birth_str']="";
         }
-        $tea_info['grade_str'] = $tea_info['grade_start']>0?(@E\Egrade_range::get_desc( $tea_info['grade_start'])."~".@E\Egrade_range::get_desc( $tea_info['grade_end'])):"未设置";
+        $tea_info['grade_str'] = @$tea_info['grade_start']>0?(@E\Egrade_range::get_desc( $tea_info['grade_start'])."~".@E\Egrade_range::get_desc( $tea_info['grade_end'])):"未设置";
         $tea_info['identity_str'] = @E\Eidentity::get_desc( $tea_info['identity']);
         $tea_info['level_str'] = @E\Enew_level::get_simple_desc( $tea_info['level']);
 
