@@ -143,7 +143,7 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
         $groupid="";
         $adminid="";
         $adminid_list = [];
-        $main_type_list =["助教"=>1,"销售"=>2,"教务"=>3];
+        $main_type_list =["助教"=>1,"销售"=>2,"教务"=>3,"全职老师"=>5];
         if (isset($arr[0]) && !empty($arr[0])){
             $main_type_name= $arr[0];
             $main_type = $main_type_list[$main_type_name];

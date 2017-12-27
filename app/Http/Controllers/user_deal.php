@@ -1320,7 +1320,7 @@ class user_deal extends Controller
         $main_type_name=$this->get_in_str_val("main_type_name");
         $main_group_name=$this->get_in_str_val("main_group_name");
         $group_name=$this->get_in_str_val("group_name");
-        $main_type_list =["助教"=>1,"销售"=>2,"教务"=>3];
+        $main_type_list =["助教"=>1,"销售"=>2,"教务"=>3,"全职老师"=>5];
         $key2_list=[];
         $key3_list=[];
         $key4_list=[];

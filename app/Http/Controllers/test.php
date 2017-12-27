@@ -10,7 +10,7 @@ require_once  app_path("Libs/Pingpp/init.php");
 
 class test extends Controller
 {
-    var $check_login_flag =false;
+    var $check_login_flag =true;
 
     public function tt() {
         $this->check_and_switch_tongji_domain();
@@ -19,10 +19,28 @@ class test extends Controller
         phpinfo();
     }
 
+    public function test1() {
+        return $this->output_succ();
+    }
+
     public function get_user_list(){
         $page_info= $this->get_in_page_info();
         $grade=$this->get_in_el_grade();
         $ret_info=$this->t_student_info->get_test_list($page_info, $grade );
+        $gender=$this->get_in_el_gender();
+        $this->get_in_query_text();
+        list($start_time, $end_time)=$this->get_in_date_range_day(0);
+
+        foreach($ret_info["list"] as &$item) {
+            E\Egrade::set_item_value_str($item);
+        }
+        return $this->pageOutJson(__METHOD__, $ret_info);
+    }
+    public function get_user_list1(){
+        $page_info= $this->get_in_page_info();
+        $grade=$this->get_in_el_grade();
+        $ret_info=$this->t_student_info->get_test_list($page_info, $grade );
+        $this->get_in_query_text();
         foreach($ret_info["list"] as &$item) {
             E\Egrade::set_item_value_str($item);
         }

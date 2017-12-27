@@ -1038,8 +1038,13 @@ class wx_teacher_api extends Controller
         $subject_tag_arr = json_decode($ret_info['subject_tag'],true);
         $ret_info['style'] = $subject_tag_arr['风格性格']?$subject_tag_arr['风格性格']:$default_tag;
         $ret_info['major'] = $subject_tag_arr['专业能力']?$subject_tag_arr['专业能力']:$default_tag;
-        $ret_info['identity'] = E\Eidentity::get_desc($ret_info['tea_identity']);
-        $ret_info['identity'] =  $ret_info['identity']?$ret_info['identity']:$default_tag;
+
+        if($ret_info['tea_identity']){
+            $ret_info['identity'] = E\Eidentity::get_desc($ret_info['tea_identity']);
+        }else{
+            $ret_info['identity'] = $default_tag;
+        }
+
         $ret_info['atmosphere'] = $subject_tag_arr['课堂气氛']?$subject_tag_arr['课堂气氛']:$default_tag;
         $ret_info['courseware'] = $subject_tag_arr['课件要求']?$subject_tag_arr['课件要求']:$default_tag;
         $subject_tag_arr['学科化标签'] = rtrim($subject_tag_arr['学科化标签'],',');
