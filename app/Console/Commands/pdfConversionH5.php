@@ -73,7 +73,7 @@ class pdfConversionH5 extends Command
             // $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=$uuid&email=$email&pwd=$pwd";
             $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=$uuid&email=$email&pwd=$pwd";
             // $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
-            $saveH5FilePath = '/home/james/admin_yb1v1/public/wximg/'.$uuid.".zip";
+            $saveH5FilePath = '/home/jim/admin_yb1v1/public/wximg/'.$uuid.".zip";
 
             // $cmdDownload = "curl $h5DownloadUrl -o $saveH5FilePath";
             // \App\Helper\Utils::savePicToServer($h5DownloadUrl,$saveH5FilePath);
