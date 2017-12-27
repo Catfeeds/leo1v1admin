@@ -2111,6 +2111,12 @@ trait TeaPower {
             }
         }
 
+        if($info['train_through_new']>0){
+            $group_html = $this->get_new_qq_group_html($teacher_info['grade_start'],$teacher_info['grade_part_ex'],$teacher_info['subject']);
+        }else{
+            $group_html = "";
+        }
+
         $show_star = "<img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>";
         $star_html = $show_star;
         for($i=2;$i<=$star_num;$i++){
@@ -2630,11 +2636,6 @@ trait TeaPower {
         $name       = $teacher_info['nick'];
         $level_str = \App\Helper\Utils::get_teacher_level_str($teacher_info);
         $date_str  = \App\Helper\Utils::unixtime2date(time(),"Y.m.d");
-        if($teacher_info['train_through_new']>0){
-            $group_html = $this->get_new_qq_group_html($teacher_info['grade_start'],$teacher_info['grade_part_ex'],$teacher_info['subject']);
-        }else{
-            $group_html = "";
-        }
         $html = "
 <!DOCTYPE html>
 <html>
@@ -2720,7 +2721,6 @@ trait TeaPower {
             </div>
             <div class='todo size12' align='left'>
                 <div class='size20 color333'>待办事项</div>
-                ".$group_html."
                 <div class='ul_title size14 color333'>
                     -理优老师后台链接
                 </div>
@@ -2878,9 +2878,9 @@ trait TeaPower {
             ],
         ];
 
-        $list = @$qq_group[ $grade ][ $subject ] ? $qq_group[ $grade ][ $subject ] : $qq_group[ $grade ][99];
+        $list   = @$qq_group[ $grade ][ $subject ] ? $qq_group[ $grade ][ $subject ] : $qq_group[ $grade ][99];
         $list[] = @$qq_answer[ $subject ] ? $qq_answer[ $subject ] : $qq_answer[99];
-        $html = "<div class='ul_title size14 color333'>"
+        $html   = "<div class='ul_title size14 color333'>"
               ."-加入相关QQ群(请备注 科目-年级-姓名)"
               ."</div>"
               ."<ul>";

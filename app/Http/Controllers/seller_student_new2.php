@@ -1546,6 +1546,7 @@ class seller_student_new2 extends Controller
      * @param string lesson_tags  课堂相关标签
      * @param string teaching_tags 教学相关标签
      * @param int teahcer_type 老师类型
+     * @param int region_version 老师教材版本
      * @param int teacher_info 搜索的老师信息
      * @return array
      */
@@ -1640,7 +1641,7 @@ class seller_student_new2 extends Controller
                     $tea_val['match_tags'] = $this->match_tea_tags(
                         $tea_val['teacher_tags'],$subject_tags,$teacher_tags,$lesson_tags,$teaching_tags
                     );
-                    $match_time[$tea_key]  = $tea_val['match_time'];
+                    $match_time[$tea_key]        = $tea_val['match_time'];
                     $match_tags[$tea_key]        = $tea_val['match_tags'];
                     $identity_list[$tea_key]     = $tea_val['is_identity'];
                     $gender_list[$tea_key]       = $tea_val['is_gender'];
@@ -1665,8 +1666,8 @@ class seller_student_new2 extends Controller
             if(!empty($tea_list)){
                 array_multisort(
                     $search_list,SORT_DESC,$identity_list,SORT_DESC,$gender_list,SORT_DESC,$tea_age_list,SORT_DESC,
-                    $teacher_type_list,SORT_DESC,$match_time,SORT_DESC,$match_tags,SORT_DESC,$ruzhi_list,SORT_DESC,
-                    $textbook_list,SORT_DESC,$tea_list
+                    $teacher_type_list,SORT_DESC,$textbook_list,SORT_DESC,$match_time,SORT_DESC,$match_tags,SORT_DESC,
+                    $ruzhi_list,SORT_DESC,$tea_list
                 );
             }
         }

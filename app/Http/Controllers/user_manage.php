@@ -575,8 +575,6 @@ class user_manage extends Controller
                 "contract_type" => "o.contract_type",
             ]);
 
-
-
         $orderid = $this->get_in_int_val('orderid',-1);
         $contract_type     = $this->get_in_el_contract_type();
         $contract_status   = $this->get_in_el_contract_status();

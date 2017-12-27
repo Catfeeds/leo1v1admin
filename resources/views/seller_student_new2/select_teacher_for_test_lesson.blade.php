@@ -176,9 +176,9 @@
                     <td >老师类型</td>
                     <td width="300px">教材版本</td>
                     <td >手机号</td>
-                    <td >入职时长</td>
                     <td >可上课时间</td>
                     <td width="300px">标签</td>
+                    <td >入职时长</td>
                     <td >操作</td>
                 </tr>
             </thead>
@@ -197,13 +197,13 @@
                                 {{$var["phone_hide"]}}
                             </a>
                         </td>
-                        <td>{{$var["work_day"]}}</td>
                         <td>
                             <a href="javascript:;" class="show_tea_free_time" data-teacherid="{{$var["teacherid"]}}" >
                                 查看详情
                             </a>
                         </td>
                         <td>{{$var['tags_str']}}</td>
+                        <td>{{$var["work_day"]}}</td>
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}>
                                 <a class="opt-set-teacher btn fa" title="选中老师">选中老师</a>
