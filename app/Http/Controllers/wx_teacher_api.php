@@ -1193,6 +1193,8 @@ class wx_teacher_api extends Controller
             $status = 1;
         }
 
+        \App\Helper\Utils::logger("wx_james_pdf_h5: $uuid status: $status");
+
         $this->t_resource_file->updateStatusByUuid($uuid,$status);
         return $this->output_succ();
     }
