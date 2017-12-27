@@ -4,28 +4,14 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-
-// 引入鉴权类
-use Qiniu\Auth;
-
-// 引入上传类
-use Qiniu\Storage\UploadManager;
-use Qiniu\Storage\BucketManager;
-
-require_once(app_path("/Libs/OSS/autoload.php"));
-use OSS\OssClient;
-
-use OSS\Core\OssException;
-
-
-class deal_pdf_to_png extends cmd_base
+class h5GetPoster extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:deal_pdf_to_png';
+    protected $signature = 'command:name';
 
     /**
      * The console command description.
@@ -49,12 +35,10 @@ class deal_pdf_to_png extends cmd_base
      *
      * @return mixed
      */
-
-    public function do_handle (){
-
-        while(true){
-            $this->do_change();
-        }
+    public function handle()
+    {
+        //
+        $this->do_change();
     }
 
 
@@ -84,14 +68,14 @@ class deal_pdf_to_png extends cmd_base
 
                 $filesize=filesize($savePathFile);
 
-                // if($filesize<512){
-                //     \App\Helper\Utils::logger("filesize_pdf: ".$savePathFile);
-                //     $this->task->t_pdf_to_png_info->field_update_list($id,[
-                //         "id_do_flag" => 3, // 文件大小异常
-                //         "deal_time"  => time()
-                //     ]);
-                //     return '';
-                // }
+                if($filesize<512){
+                    \App\Helper\Utils::logger("filesize_pdf: ".$savePathFile);
+                    $this->task->t_pdf_to_png_info->field_update_list($id,[
+                        "id_do_flag" => 3, // 文件大小异常
+                        "deal_time"  => time()
+                    ]);
+                    return '';
+                }
 
 
                 $imgs_url_list = $this->pdf2png($savePathFile,$path,$lessonid);
@@ -186,8 +170,6 @@ class deal_pdf_to_png extends cmd_base
             $bucket=$config["public"]["bucket"];
             $ossClient->uploadFile($bucket, $file_name, $target  );
 
-            \App\Helper\Utils::logger('shangchun55'. $config["public"]["url"]."/".$file_name);
-
             return $config["public"]["url"]."/".$file_name;
 
         } catch (OssException $e) {
@@ -196,7 +178,5 @@ class deal_pdf_to_png extends cmd_base
         }
 
     }
-
-
 
 }
