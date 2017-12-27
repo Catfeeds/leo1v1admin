@@ -1010,7 +1010,7 @@ class wx_parent_gift extends Controller
         $from_adminid = $this->get_in_int_val('from_adminid');
 
         $wx= new \App\Helper\Wx($p_appid,$p_appsecret);
-        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/rewriteUrlUsually?type=$shareid&web_page_id=$web_page_id&from_adminid=$from_adminid");
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/rewriteUrlUsually?type=$type&web_page_id=$web_page_id&from_adminid=$from_adminid");
         $wx->goto_wx_login( $redirect_url );
     }
 
