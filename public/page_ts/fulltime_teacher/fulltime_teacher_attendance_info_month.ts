@@ -4,14 +4,15 @@
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-		date_type_config:	$('#id_date_type_config').val(),
-		date_type:	$('#id_date_type').val(),
-		opt_date_type:	$('#id_opt_date_type').val(),
-		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val(),
-		teacherid:	$('#id_teacherid').val(),
-		adminid:	$('#id_adminid').val(),
-		fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
+		    date_type_config:	$('#id_date_type_config').val(),
+		    date_type:	$('#id_date_type').val(),
+		    opt_date_type:	$('#id_opt_date_type').val(),
+		    start_time:	$('#id_start_time').val(),
+		    end_time:	$('#id_end_time').val(),
+		    teacherid:	$('#id_teacherid').val(),
+		    adminid:	$('#id_adminid').val(),
+		    fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
+		    seller_groupid_ex:	$('#id_seller_groupid_ex').val()
     });
 }
 $(function(){
@@ -28,6 +29,10 @@ $(function(){
         }
     });
     $("#id_opt_date_type").hide();
+    $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
+
+    $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right);
+
 
     Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type"),false,[1,2]);
 	  $('#id_teacherid').val(g_args.teacherid);

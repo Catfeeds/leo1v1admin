@@ -721,12 +721,16 @@ class fulltime_teacher extends Controller
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $adminid = $this->get_in_int_val("adminid",-1);
         $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
+        $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
+        $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        $adminid_right=[0=>"全职老师",1=>"",2=>"",3=>""];
+
         $month_start = strtotime(date("Y-m-01",time()));
         if($start_time>=$month_start){
             $ret=[];
         }else{
             $ret=[];
-            $list = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list_new($start_time,$end_time,$attendance_type,$teacherid,$adminid,$account_role,$fulltime_teacher_type);
+            $list = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list_new($start_time,$end_time,$attendance_type,$teacherid,$adminid,$account_role,$fulltime_teacher_type,$adminid_list);
             foreach($list as $val){
                 $uid = $val["adminid"]; 
                 $teacherid = $val["teacherid"];
@@ -770,6 +774,7 @@ class fulltime_teacher extends Controller
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret),[
             "start" =>date("Y-m-d",$start_time),
             "end" =>date("Y-m-d",$end_time),
+            "adminid_right"     => $adminid_right
         ] );
        
        

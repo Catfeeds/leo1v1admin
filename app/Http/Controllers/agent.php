@@ -450,14 +450,14 @@ class agent extends Controller
         $origin = '美团—1230';
         $account = '童宇周';
         $phone='18792885534';
-        $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
+        $this->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
 
         $phone='18845040816';
-        $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
+        $this->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
 
         $account = '陶建华';
         $phone='18374129208';
-        $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
+        $this->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
 
         // $adminid = 99;
         // $key="DEAL_NEW_USER_$adminid";

@@ -49,7 +49,7 @@ class t_fulltime_teacher_attendance_list extends \App\Models\Zgen\z_t_fulltime_t
         return $this->main_get_list($sql);
     }
 
-    public function get_fulltime_teacher_attendance_list_new($start_time,$end_time,$attendance_type,$teacherid,$adminid,$account_role=-1,$fulltime_teacher_type=-1){
+    public function get_fulltime_teacher_attendance_list_new($start_time,$end_time,$attendance_type,$teacherid,$adminid,$account_role=-1,$fulltime_teacher_type=-1,$adminid_list=[]){
         $where_arr=[
             ["f.attendance_type=%u",$attendance_type,-1],
             ["f.teacherid=%u",$teacherid,-1],
@@ -58,6 +58,7 @@ class t_fulltime_teacher_attendance_list extends \App\Models\Zgen\z_t_fulltime_t
             ["m.fulltime_teacher_type=%u",$fulltime_teacher_type,-1],
         ];
         $this->where_arr_add_time_range($where_arr,"f.attendance_time",$start_time,$end_time);
+        $this->where_arr_adminid_in_list($where_arr,"m.uid", $adminid_list );
         $sql = $this->gen_sql_new("select t.realname,f.teacherid,f.adminid,f.add_time,f.attendance_time,f.attendance_type,f.day_num,f.off_time,f.cancel_flag,f.cancel_reason,f.id,f.lesson_count,f.delay_work_time,f.card_start_time ,f.card_end_time ,f.leave_type ,f.leave_custom,f.holiday_hugh_time from %s f"
                                   ." left join %s t on f.teacherid = t.teacherid"
                                   ." left join %s m on f.adminid = m.uid"

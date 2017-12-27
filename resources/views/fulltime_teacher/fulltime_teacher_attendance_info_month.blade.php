@@ -7,6 +7,9 @@
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <script type="text/javascript" src="/page_js/select_teacher_free_time.js"></script>
     <script type="text/javascript" src="/page_js/select_teacher_free_time_new.js"></script>
+    <script type="text/javascript" >
+     var g_adminid_right= <?php  echo json_encode($adminid_right); ?> ;
+    </script>
 
     <section class="content ">
 
@@ -37,6 +40,13 @@
                         </select>
                     </div>
                 </div>
+                <div  class="col-xs-6 col-md-4">
+                    <div class="input-group ">
+                        <span class="input-group-addon">全职老师分组</span>
+                        <input class="opt-change form-control" id="id_seller_groupid_ex" />
+                    </div>
+                </div>
+
 
 
 
