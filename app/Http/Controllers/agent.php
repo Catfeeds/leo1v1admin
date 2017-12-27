@@ -421,6 +421,7 @@ class agent extends Controller
         list($start_time,$end_time )= $this->get_in_date_range_month(0);
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_seller_student_new->get_item_list($page_info,$start_time, $end_time);
+        dd($ret_info);
         foreach($ret_info['list'] as &$item){
             $userid = $item['userid'];
             $phone = $item['phone'];
