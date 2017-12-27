@@ -3182,7 +3182,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ,t_student_info::DB_TABLE_NAME
             ,$where_arr
         );
-        return $this->main_get_list_by_page($sql, $page_info);
+        // return $this->main_get_list_by_page($sql, $page_info);
+        return $this->main_get_list($sql);
     }
 
     public function get_item_list_new(){
