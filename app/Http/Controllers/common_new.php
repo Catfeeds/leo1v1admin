@@ -63,11 +63,12 @@ class common_new extends Controller
         if(!is_array($xls_data)) {
             return $this->output_err("download error");
         }
-        $xls_data = array_filter($xls_data);
-        $xls_data_new = [];
-        foreach($xls_data as $item){
-            $xls_data_new[] = $item;
-        }
+
+        // $xls_data = array_filter($xls_data);
+        // $xls_data_new = [];
+        // foreach($xls_data as $item){
+        //     $xls_data_new[] = $item;
+        // }
 
         $objPHPExcel = new \PHPExcel();
         $objPHPExcel->getProperties()->setCreator("jim ")
@@ -77,7 +78,6 @@ class common_new extends Controller
                              ->setDescription("jim Desc")
                              ->setKeywords("jim key")
                              ->setCategory("jim  category");
-
         $objPHPExcel->setActiveSheetIndex(0);
 
         $col_list=[
@@ -88,7 +88,7 @@ class common_new extends Controller
             ,"DA","DB","DC","DD","DE","DF","DG","DH","DI","DJ","DK","DL","DM","DN","DO","DP","DQ","DR","DS","DT","DU","DV","DW","DX","DY","DZ"
 
         ];
-        foreach( $xls_data_new as $index=> $item ) {
+        foreach( $xls_data as $index=> $item ) {
             foreach ( $item as $key => $cell_data ) {
                 $index_str = $index+1;
                 $pos_str   = $col_list[$key].$index_str;
