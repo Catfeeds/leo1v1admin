@@ -431,6 +431,9 @@ class agent extends Controller
 
         $adminid_arr = array_unique(array_column($ret_info,'adminid'));
         $group_name_arr = $this->t_admin_group_user->get_main_major_group_name_by_adminid($adminid_arr);
+
+        $userid_arr = array_unique(array_column($ret_info,'userid'));
+        $orderid_arr = $this->t_order_info->get_orderid_by_userid_new($userid_arr);
         foreach($ret_info as &$item){
             $userid = $item['userid'];
             $phone = $item['phone'];
@@ -452,13 +455,20 @@ class agent extends Controller
                     break;
                 }
             }
-            // $is_called = $item['global_tq_called_flag']==2?1:0;
-            // $item["is_called_str"] = \App\Helper\Common::get_boolean_color_str($is_called);
-            // $is_suc_test = $item['last_succ_test_lessonid']>0?1:0;
-            // $item["is_suc_test_str"] = \App\Helper\Common::get_boolean_color_str($is_suc_test);
-            // $orderid = $this->t_order_info->get_orderid_by_userid_new($userid);
-            // $is_order = $orderid>0?1:0;
-            // $item["is_order_str"] = \App\Helper\Common::get_boolean_color_str($is_order);
+            $is_called = $item['global_tq_called_flag']==2?1:0;
+            $item["is_called_str"] = \App\Helper\Common::get_boolean_color_str($is_called);
+            $is_suc_test = $item['last_succ_test_lessonid']>0?1:0;
+            $item["is_suc_test_str"] = \App\Helper\Common::get_boolean_color_str($is_suc_test);
+
+            $orderid = 0;
+            foreach($orderid_arr as $info){
+                if($info['userid'] == $userid){
+                    $orderid = $info['orderid'];
+                    break;
+                }
+            }
+            $is_order = $orderid>0?1:0;
+            $item["is_order_str"] = \App\Helper\Common::get_boolean_color_str($is_order);
         }
         dd($ret_info);
         return $this->Pageview(__METHOD__,$ret_info);
