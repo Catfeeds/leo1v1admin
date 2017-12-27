@@ -50,7 +50,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["userid"]}} </td>
-                        <td>{{@$var["origin"]}} </td>
+                        <td>{{@$var["key0"]}} </td>
                         <td>{{@$var["add_time"]}} </td>
                         <td>{{@$var["account"]}}/{{@$var["group_name"]}} </td>
                         <td>{!! $var["is_called_str"] !!} </td>
