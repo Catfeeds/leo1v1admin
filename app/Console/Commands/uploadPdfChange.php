@@ -48,6 +48,7 @@ class uploadPdfChange extends Command
         $email = "michael@leoedu.com";
         // $pwd   = md5(021130); // bbcffc83539bd9069b755e1d359bc70a
         $pwd   = 'bbcffc83539bd9069b755e1d359bc70a';
+        $task=new \App\Console\Tasks\TaskController();
 
 
         // $handoutArray = $this->task->t_resource->getResourceList();
@@ -74,9 +75,9 @@ class uploadPdfChange extends Command
 
             $uuid = @$uuid_arr[1];
 
-            // $this->task->t_resource_file->field_update_list($item['file_id'],[
-            //     "uuid" => $uuid
-            // ]);
+            $task->t_resource_file->field_update_list($item['file_id'],[
+                "uuid" => $uuid
+            ]);
         }
 
     }
