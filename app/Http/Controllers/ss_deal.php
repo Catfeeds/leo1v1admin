@@ -7672,6 +7672,9 @@ class ss_deal extends Controller
             list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
         }
 
+        \App\Helper\Utils::logger("followType_aa: $followType followAttr_aa: $followAttr");
+
+
         if($shareType != 3){return $this->output_err('分享页图片格式不符合,请重新上传!');}
         if($coverType != 3){return $this->output_err('封面图片格式不符合,请重新上传!');}
         if($activityType != 3){return $this->output_err('活动页图片格式不符合,请重新上传!');}
