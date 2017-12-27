@@ -17,6 +17,8 @@ interface RowData {
 	global_tq_called_flag	:any;
 	last_succ_test_lessonid	:any;
 	adminid	:any;
+	account	:any;
+	group_name	:any;
 	is_called_str	:any;
 	is_suc_test_str	:any;
 	is_order_str	:any;
