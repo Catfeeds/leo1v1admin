@@ -421,6 +421,11 @@ class agent extends Controller
         list($start_time,$end_time )= $this->get_in_date_range_month(0);
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_seller_student_new->get_item_list($page_info,$start_time, $end_time);
+        $origin_arr = array_unique(array_column($ret_info,'origin'));
+        foreach($origin_arr as &$item_k){
+            $item_k = "'".$item_k."'";
+        }
+        dd($origin_arr);
         $origin_str = implode(',',array_unique(array_column($ret_info,'origin')));
         $key0_arr = $this->t_origin_key->get_key0_arr($origin_str);
         dd($key0_arr);
