@@ -1056,6 +1056,7 @@ $(function(){
                 require_id :  require_id
             },function(resp){
                 var data=resp.data;
+                console.log(data);
                 $discount_price.val(data.price );
                 $promotion_spec_present_lesson.val( data.present_lesson_count );
                 $promotion_spec_discount_price.val( data.discount_price );
