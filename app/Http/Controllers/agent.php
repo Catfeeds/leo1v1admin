@@ -427,17 +427,19 @@ class agent extends Controller
         }
         $origin_str = implode(',',$origin_arr);
         $key0_arr = $this->t_origin_key->get_key0_arr($origin_str);
-        dd($key0_arr);
         foreach($ret_info as &$item){
             $userid = $item['userid'];
             $phone = $item['phone'];
             $origin = $item['origin'];
-            echo $userid.',';
-            // if($origin == 'jingqi-0805'){
-            //     $item['key0'] = $origin;
-            // }else{
-            //     $item['key0'] = $this->t_origin_key->get_key0($origin);
-            // }
+            $item['key0'] = $origin;
+            if($origin != 'jingqi-0805'){
+                foreach($key0_arr as $info){
+                    if($info['value'] == $origin){
+                        $item['key0'] = $info['key0'];
+                        break;
+                    }
+                }
+            }
             // \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
             // $adminid = $item['adminid'];
             // $item['account'] = $this->t_manager_info->get_account_by_uid($adminid);
@@ -450,7 +452,7 @@ class agent extends Controller
             // $is_order = $orderid>0?1:0;
             // $item["is_order_str"] = \App\Helper\Common::get_boolean_color_str($is_order);
         }
-        exit;
+        dd($ret_info);
         return $this->Pageview(__METHOD__,$ret_info);
     }
 
