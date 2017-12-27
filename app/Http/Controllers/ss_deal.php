@@ -7649,6 +7649,11 @@ class ss_deal extends Controller
         $activityImgUrlOnline = '';
         $followImgUrlOnline = '';
         $shareImgUrlOnline = '';
+        $shareType = 0;
+        $coverType = 0;
+        $activityType = 0;
+        $followType = 0;
+
 
         $domain = config('admin')['qiniu']['public']['url'];
         if($shareImgUrl){ $shareImgUrlOnline = $domain."/".$shareImgUrl; }
@@ -7672,7 +7677,6 @@ class ss_deal extends Controller
             list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
         }
 
-        \App\Helper\Utils::logger("followType_aa: $followType followAttr_aa: $followAttr");
 
 
         if($shareType != 3){return $this->output_err('分享页图片格式不符合,请重新上传!');}
