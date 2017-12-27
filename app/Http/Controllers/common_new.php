@@ -64,11 +64,11 @@ class common_new extends Controller
             return $this->output_err("download error");
         }
 
-        // $xls_data = array_filter($xls_data);
-        // $xls_data_new = [];
-        // foreach($xls_data as $item){
-        //     $xls_data_new[] = $item;
-        // }
+        $xls_data = array_filter($xls_data);
+        $xls_data_new = [];
+        foreach($xls_data as $item){
+            $xls_data_new[] = $item;
+        }
 
         $objPHPExcel = new \PHPExcel();
         $objPHPExcel->getProperties()->setCreator("jim ")
