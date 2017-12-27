@@ -421,7 +421,7 @@ class agent extends Controller
         list($start_time,$end_time )= $this->get_in_date_range_month(0);
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_seller_student_new->get_item_list($page_info,$start_time, $end_time);
-        foreach($ret_info as &$item){
+        foreach($ret_info['list'] as &$item){
             $userid = $item['userid'];
             $phone = $item['phone'];
             $origin = $item['origin'];
@@ -442,7 +442,6 @@ class agent extends Controller
             $is_order = $orderid>0?1:0;
             $item["is_order_str"] = \App\Helper\Common::get_boolean_color_str($is_order);
         }
-        dd($ret_info);
         return $this->Pageview(__METHOD__,$ret_info);
     }
 
