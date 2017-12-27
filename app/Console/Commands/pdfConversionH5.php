@@ -44,7 +44,8 @@ class pdfConversionH5 extends Command
         $store=new \App\FileStore\file_store_tea();
         $auth=$store->get_auth();
         $email = "michael@leoedu.com";
-        $pwd   = 021130; // bbcffc83539bd9069b755e1d359bc70a
+        // $pwd   = md5(021130); // bbcffc83539bd9069b755e1d359bc70a
+        $pwd   = 'bbcffc83539bd9069b755e1d359bc70a';
 
 
         // $handoutArray = $this->task->t_resource->getResourceList();
@@ -64,7 +65,6 @@ class pdfConversionH5 extends Command
             $cmd  = "curl -F doc=@'$savePathFile' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=leoedu&fn=".$item['file_link'].".pdf'";
             $uuid_tmp = shell_exec($cmd);
             $uuid_arr = explode(':', $uuid_tmp);
-            // $uuid = substr($uuid_tmp,3);
 
             $uuid = $uuid_arr['1'];
             \App\Helper\Utils::logger("qiniuupload_james_9999: $uuid");
@@ -72,41 +72,17 @@ class pdfConversionH5 extends Command
             //从未达下载
             $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=$uuid&email=$email&pwd=$pwd";
             $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
+            $cmdDownload = "curl $h5DownloadUrl -o $saveH5FilePath";
+            shell_exec($cmdDownload);
 
+            // \App\Helper\Utils::logger("qiniuupload_james_1000: $h5DownloadUrl");
             // \App\Helper\Utils::logger("qiniuupload_james_788: $saveH5FilePath");
             // \App\Helper\Utils::savePicToServer($h5DownloadUrl,$saveH5FilePath);
 
-
-
-
-            $len = filesize($h5DownloadUrl);
-            $ctype = 'application/zip';
-            header("Pragma: public");
-            header("Expires: 0");
-            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-            header("Cache-Control: public");
-            header("Content-Description: File Transfer");
-
-            //Use the switch-generated Content-Type
-            header("Content-Type: $ctype");
-
-            //Force the download
-            $header="Content-Disposition: attachment; filename=".$h5DownloadUrl.";";
-            header($header);
-            header("Content-Transfer-Encoding: binary");
-            header("Content-Length: ".$len);
-            @readfile($saveH5FilePath);
-
-
-
-
-            // file_put_contents($saveH5FilePath, fopen($h5DownloadUrl, 'r'));
-
-
             // 上传七牛
-            // $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
+            $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
 
-            // \App\Helper\Utils::logger("qiniuupload_james_1: $saveH5Upload");
+            \App\Helper\Utils::logger("qiniuupload_james_1: $saveH5Upload");
             //ok:gf15a4973b034c84d4f631be74b21741.zip
         }
     }

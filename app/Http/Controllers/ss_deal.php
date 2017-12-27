@@ -7644,21 +7644,50 @@ class ss_deal extends Controller
         $uid = $this->get_account_id();
 
         //检测图片尺寸
+
+        $coverImgUrlOnline = '';
+        $activityImgUrlOnline = '';
+        $followImgUrlOnline = '';
+        $shareImgUrlOnline = '';
+        $shareType = 0;
+        $coverType = 0;
+        $activityType = 0;
+        $followType = 0;
+
+
         $domain = config('admin')['qiniu']['public']['url'];
-        $shareImgUrlOnline = $domain."/".$shareImgUrl;
-        $coverImgUrlOnline = $domain."/".$coverImgUrl;
-        $activityImgUrlOnline = $domain."/".$activityImgUrl;
-        $followImgUrlOnline = $domain."/".$followImgUrl;
+        if($shareImgUrl){ $shareImgUrlOnline = $domain."/".$shareImgUrl; }
+        if($coverImgUrl){ $coverImgUrlOnline = $domain."/".$coverImgUrl; }
+        if($activityImgUrl){ $activityImgUrlOnline = $domain."/".$activityImgUrl; }
+        if($followImgUrl){ $followImgUrlOnline = $domain."/".$followImgUrl; }
 
-        list($shareWidth,$shareHeight,$shareType,$shareAttr)=getimagesize($shareImgUrlOnline);
-        list($coverWidth,$coverHeight,$coverType,$coverAttr)=getimagesize($coverImgUrlOnline);
-        list($activityWidth,$activityHeight,$activityType,$activityAttr)=getimagesize($activityImgUrl);
-        list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
+        if($shareImgUrlOnline){
+            list($shareWidth,$shareHeight,$shareType,$shareAttr)=getimagesize($shareImgUrlOnline);
+        }
 
-        if($shareWidth>750 || $shareHeight>1334){ return $this->output_err('分享页图片过大,请重新上传!'); }
-        if($coverWidth>300 || $coverHeight>300){ return $this->output_err('封面页图片过大,请重新上传!'); }
-        if($activityWidth>750 || $activityWidth>1334){ return $this->output_err('活动页图片过大,请重新上传!'); }
-        if($followWidth>750 || $followHeight>1334){ return $this->output_err('关注页图片过大,请重新上传!'); }
+        if($coverImgUrlOnline){
+            list($coverWidth,$coverHeight,$coverType,$coverAttr)=getimagesize($coverImgUrlOnline);
+        }
+
+        if($activityImgUrlOnline){
+            list($activityWidth,$activityHeight,$activityType,$activityAttr)=getimagesize($activityImgUrlOnline);
+        }
+
+        if($followImgUrlOnline){
+            list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
+        }
+
+
+
+        if($shareType != 3){return $this->output_err('分享页图片格式不符合,请重新上传!');}
+        if($coverType != 3){return $this->output_err('封面图片格式不符合,请重新上传!');}
+        if($activityType != 3){return $this->output_err('活动页图片格式不符合,请重新上传!');}
+        if($followType != 3){return $this->output_err('关注页图片格式不符合,请重新上传!');}
+
+        if($shareWidth!=750 || $shareHeight!=1334){ return $this->output_err('分享页图片尺寸不符合,请重新上传!'); }
+        if($coverWidth!=300 || $coverHeight!=300){ return $this->output_err('封面页图片尺寸不符合,请重新上传!'); }
+        if($activityWidth!=750 || $activityWidth!=1334){ return $this->output_err('活动页图片尺寸不符合,请重新上传!'); }
+        if($followWidth!=750 || $followHeight!=1334){ return $this->output_err('关注页图片尺寸不符合,请重新上传!'); }
 
 
         $this->t_activity_usually->row_insert([

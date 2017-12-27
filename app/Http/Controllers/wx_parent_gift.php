@@ -309,7 +309,7 @@ class wx_parent_gift extends Controller
 
     /**
      * @ 微信图文[理优一段故事]
-     * @ 
+     * @
      **/
     public function christmasHistory(){ //微信推文 理优历史
         $p_appid     = \App\Helper\Config::get_wx_appid();
@@ -978,7 +978,10 @@ class wx_parent_gift extends Controller
      * @ 市场部常规活动 获取图片链接
      **/
     public function getImgUrlInfo(){
-        $id = $this->get_in_int_val('id');
+        $id = $this->get_in_int_val('type');
+        $id = $id-100;
+        \App\Helper\Utils::logger("getImgUrlInfo_james: $id");
+
 
         $imgUrlInfo = $this->t_activity_usually->getImgUrlInfo($id);
         $domain = config('admin')['qiniu']['public']['url'];
@@ -1010,7 +1013,7 @@ class wx_parent_gift extends Controller
         $from_adminid = $this->get_in_int_val('from_adminid');
 
         $wx= new \App\Helper\Wx($p_appid,$p_appsecret);
-        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/rewriteUrlUsually?type=$shareid&web_page_id=$web_page_id&from_adminid=$from_adminid");
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/rewriteUrlUsually?type=$type&web_page_id=$web_page_id&from_adminid=$from_adminid");
         $wx->goto_wx_login( $redirect_url );
     }
 
@@ -1030,6 +1033,14 @@ class wx_parent_gift extends Controller
 
         $web_page_id  = $this->get_in_int_val('web_page_id');
         $from_adminid = $this->get_in_int_val('from_adminid');
+
+        $id = $type-100;
+        $checkStatus = $this->t_activity_usually->get_activity_status($id);
+        if($checkStatus==2){
+
+            return ;
+            // header("location: http://wx-parent-web.leo1v1.com/wx-parent-activity/shareSuc.html?openid=".$openid."&type=".$type."&web_page_id=$web_page_id&from_adminid=$from_adminid");
+        }
 
         if($is_share){
             header("location: http://wx-parent-web.leo1v1.com/wx-parent-activity/shareSuc.html?openid=".$openid."&type=".$type."&web_page_id=$web_page_id&from_adminid=$from_adminid");

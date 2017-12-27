@@ -923,7 +923,7 @@ class menu{
 
             ]],
             ["power_id"=>34, "name"=>"角色-教学", "list"=>[
-                ["power_id"=>22, "name"=>"全职老师",  "url"=>"/user_manage_new/admin_group_manage_fulltime"],
+                ["power_id"=>22, "name"=>"全职老师架构管理",  "url"=>"/user_manage_new/admin_group_manage_fulltime"],
                 ["power_id"=>80, "name"=>"全职老师产能",   "url"=>"/fulltime_teacher/fulltime_teacher_count"],
                 ["power_id"=>81, "name"=>"全职老师考勤信息",   "url"=>"/fulltime_teacher/fulltime_teacher_work_attendance_info"],
                 ["power_id"=>82, "name"=>"全职老师考勤汇总",   "url"=>"/fulltime_teacher/fulltime_teacher_attendance_info_month"],

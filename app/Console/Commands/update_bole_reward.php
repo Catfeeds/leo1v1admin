@@ -39,8 +39,8 @@ class update_bole_reward extends Command
     {
         $task = new \App\Console\Tasks\TaskController();
         $tea = new \App\Http\Controllers\teacher_money();
-        $start_time = strtotime(date('Y-m-1', strtotime('-1 month')));
-        $end_time = strtotime(date('Y-m-1', time()));
+        //$start_time = strtotime(date('Y-m-1', strtotime('-1 month')));
+        //$end_time = strtotime(date('Y-m-1', time()));
         $start_time = strtotime(date('Y-m-1', time()));
         $end_time = time();
 
@@ -58,9 +58,8 @@ class update_bole_reward extends Command
                 if (count($a_info) != count($m_info)) {
                     foreach($a_info as $val) {
                         if(!isset($m_info[$val['teacherid']])) { // 处理丢失数据
-                            echo $teacherid.' '.$val['teacherid'].PHP_EOL;
-                            if ($teacherid != 146389) continue;
                             $tea->update_bole_reward($teacherid,$val['teacherid']);
+                            $task->t_user_log->add_data("脚本自动添加伯乐奖 推荐人id:".$teacherid.' 被推荐人id:'.$val['teacherid']);
                         }
                     }
                 }

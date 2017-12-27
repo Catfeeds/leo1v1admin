@@ -419,18 +419,25 @@ class agent extends Controller
     public function check(){
         $this->check_and_switch_tongji_domain();
         list($start_time,$end_time) = [1506787200,1509465600];
-        $ret_info = $this->t_seller_student_new->get_item_list($start_time, $end_time);
-        foreach($ret_info as &$item){
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_seller_student_new->get_item_list($page_info,$start_time, $end_time);
+        foreach($ret_info['list'] as &$item){
             $userid = $item['userid'];
             $phone = $item['phone'];
             $origin = $item['origin'];
-            $last_call = $this->t_tq_call_info->get_last_call_by_phone($phone);
-            $item['last_adminid'] = isset($last_call['adminid'])?$last_call['adminid']:0;
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            $adminid = $item['adminid'];
+            // $group_name = $this->t_group_user_month->get_master_adminid_by_adminid($adminid);
+            $is_called = $item['global_tq_called_flag']==2?1:0;
+            $item["is_called_str"] = \App\Helper\Common::get_boolean_color_str($is_called);
+            $is_suc_test = $item['last_succ_test_lessonid']>0?1:0;
+            $item["is_suc_test_str"] = \App\Helper\Common::get_boolean_color_str($is_suc_test);
             $orderid = $this->t_order_info->get_orderid_by_userid_new($userid);
-            $item['is_order'] = $orderid>0?1:0;
+            $is_order = $orderid>0?1:0;
+            $item["is_order_str"] = \App\Helper\Common::get_boolean_color_str($is_order);
         }
-        dd($ret_info);
-        return $this->Pageview(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
+        // return $this->Pageview(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
+        return $this->Pageview(__METHOD__,$ret_info);
     }
 
     public function test_new(){
