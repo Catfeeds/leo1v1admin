@@ -425,6 +425,7 @@ class agent extends Controller
             $userid = $item['userid'];
             $phone = $item['phone'];
             $origin = $item['origin'];
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
             $is_called = $item['global_tq_called_flag']==2?1:0;
             $item["is_called_str"] = \App\Helper\Common::get_boolean_color_str($is_called);
             $is_suc_test = $item['last_succ_test_lessonid']>0?1:0;
