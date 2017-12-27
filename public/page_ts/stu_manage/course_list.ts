@@ -262,16 +262,17 @@ $(function(){
             cssClass : 'btn-warning',
             action   : function(dialog) {
                 $.do_ajax("/user_deal/course_set_status_ex",{
-                    'courseid'             : opt_data.courseid,
-                    'teacherid'            : id_teacherid.val(),
-                    "course_status"        : id_course_status.val(),
-                    "subject"              : id_subject.val(),
-                    "grade"                : id_grade.val(),
-                    "lesson_grade_type"    : id_lesson_grade_type.val(),
-                    "default_lesson_count" : id_default_lesson_count.val()*100,
-                    "week_comment_num"     : id_week_comment_num.val(),
-                    "enable_video"         : id_enable_video.val(),
+                    'courseid'                : opt_data.courseid,
+                    'teacherid'               : id_teacherid.val(),
+                    "course_status"           : id_course_status.val(),
+                    "subject"                 : id_subject.val(),
+                    "grade"                   : id_grade.val(),
+                    "lesson_grade_type"       : id_lesson_grade_type.val(),
+                    "default_lesson_count"    : id_default_lesson_count.val()*100,
+                    "week_comment_num"        : id_week_comment_num.val(),
+                    "enable_video"            : id_enable_video.val(),
                     "reset_lesson_count_flag" : id_reset_lesson_count_flag.val(),
+                    "old_enable_video"        : opt_data.enable_video,
                 });
             }
         },function(){
