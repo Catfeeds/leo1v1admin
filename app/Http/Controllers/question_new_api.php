@@ -269,15 +269,13 @@ class question_new_api extends Controller
     }
 
     public function get_recommend(){
-        $knowledge_id = $this->get_in_int_val('kid');
-        $teacher_id = $this->get_in_int_val('tid');
-        $student_id = $this->get_in_int_val('sid');
+        $room_id = $this->get_in_int_val('rid');
         if( !$teacher_id || !$student_id ){
-            return $this->output_err("请传老师id,和学生id");
+            return $this->output_err("请传房间id");
         }
         
-        $count = $this->t_student_answer->get_answer_count($teacher_id,$student_id);
-        $scores = $this->t_student_answer->get_answer_scores($teacher_id,$student_id);
+        $count = $this->t_student_answer->get_answer_count($room_id);
+        $scores = $this->t_student_answer->get_answer_scores($room_id);
          
     }
 }

@@ -34,10 +34,9 @@ class t_student_answer extends \App\Models\Zgen\z_t_student_answer
         return $this->main_get_row($sql); 
     }
 
-    public function get_answer_scores($teacher_id,$student_id){
+    public function get_answer_scores($room_id){
         $where_arr = [
-            ["sa.teacher_id=%d" , $teacher_id ],
-            ["sa.student_id=%d" , $student_id ]
+            ["sa.room_id=%d" , $room_id ]
         ];
         $where_str = $this->where_str_gen($where_arr);
         $sql = $this->gen_sql("select sa.*,q.score as count_score from %s sa
@@ -50,8 +49,7 @@ class t_student_answer extends \App\Models\Zgen\z_t_student_answer
 
     public function get_answer_count($teacher_id,$student_id){
         $where_arr = [
-            ["sa.teacher_id=%d" , $teacher_id ],
-            ["sa.student_id=%d" , $student_id ]
+            ["sa.room_id=%d" , $room_id ]
         ];
         $where_str = $this->where_str_gen($where_arr);
         $sql = $this->gen_sql("select count(question_id) from %s  where %s group by question_id"
