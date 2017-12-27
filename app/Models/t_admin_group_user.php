@@ -379,12 +379,11 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
         return $this->main_get_list($sql);
     }
 
-    public function get_main_major_group_name_by_adminid($adminid){
-        $where_arr = [
-            ['u.adminid=%u',$adminid],
-        ];
+    public function get_main_major_group_name_by_adminid($adminid_arr){
+        $where_arr = [];
+        $this->where_arr_add_int_or_idlist($where_arr,'u.adminid', $adminid_arr);
         $sql = $this->gen_sql_new(
-            " select j.group_name "
+            " select u.adminid,j.group_name "
             ." from %s u "
             ." left join %s g on u.groupid=g.groupid "
             ." left join %s m on m.groupid=g.up_groupid "
@@ -396,7 +395,7 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
             ,t_admin_majordomo_group_name::DB_TABLE_NAME//j
             ,$where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
     }
 
 }

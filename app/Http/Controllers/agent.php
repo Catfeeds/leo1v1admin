@@ -421,12 +421,16 @@ class agent extends Controller
         list($start_time,$end_time )= $this->get_in_date_range_month(0);
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_seller_student_new->get_item_list($page_info,$start_time, $end_time);
+
         $origin_arr = array_unique(array_column($ret_info,'origin'));
         foreach($origin_arr as &$item_k){
             $item_k = "'".$item_k."'";
         }
         $origin_str = implode(',',$origin_arr);
         $key0_arr = $this->t_origin_key->get_key0_arr($origin_str);
+
+        $adminid_arr = array_unique(array_column($ret_info,'adminid'));
+        $group_name_arr = $this->t_admin_group_user->get_main_major_group_name_by_adminid($adminid_arr);
         foreach($ret_info as &$item){
             $userid = $item['userid'];
             $phone = $item['phone'];
@@ -440,10 +444,14 @@ class agent extends Controller
                     }
                 }
             }
-            // \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
-            // $adminid = $item['adminid'];
-            // $item['account'] = $this->t_manager_info->get_account_by_uid($adminid);
-            // $item['group_name'] = $this->t_admin_group_user->get_main_major_group_name_by_adminid($adminid);
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            $adminid = $item['adminid'];
+            foreach($group_name_arr as $info){
+                if($info['adminid'] == $adminid){
+                    $item['group_name'] = $info['group_name'];
+                    break;
+                }
+            }
             // $is_called = $item['global_tq_called_flag']==2?1:0;
             // $item["is_called_str"] = \App\Helper\Common::get_boolean_color_str($is_called);
             // $is_suc_test = $item['last_succ_test_lessonid']>0?1:0;
