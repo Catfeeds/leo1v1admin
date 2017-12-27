@@ -108,7 +108,7 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
 
     public function getResourceFileList(){
         $where_arr = [
-            "rf.uuid_status=0",
+            "rf.uuid=''",
             "rf.status=0"
         ];
         $sql = $this->gen_sql_new("  select file_link, file_id from %s rf"
@@ -130,7 +130,8 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
     public function getResourceList(){
         $where_arr = [
             "rf.uuid_status=1",
-            "rf.status=0"
+            "rf.status=0",
+            "rf.zip_url=''"
         ];
 
         $sql = $this->gen_sql_new("  select rf.file_id, rf.uuid "
