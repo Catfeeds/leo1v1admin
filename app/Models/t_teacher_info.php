@@ -2472,7 +2472,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.confirm_flag  <>2",
             "l.lesson_type<1000",
             "l.lesson_type <>2",
-            "t.level>=2"
+            "t.level>=1"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new("select t.teacherid,sum(l.lesson_count) lesson_count,count(distinct l.userid) stu_num "
