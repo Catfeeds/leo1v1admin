@@ -1569,6 +1569,15 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $verifyResult = \App\Helper\Utils::exec_cmd($cmd);
         // dd($verifyResult);
 
+        if(!$verifyResult){
+            $this->t_manager_info->send_wx_todo_msg(
+                "jack",
+                "合同付款通知",
+                "合同付款验签失败",
+                "学生:".$user_info["nick"]." 渠道:建行分期,订单号:".$orderNo,
+                "");
+
+        }
 
         //当前默认为true
         //$verifyResult=true;
