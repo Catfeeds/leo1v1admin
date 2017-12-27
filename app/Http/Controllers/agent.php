@@ -426,7 +426,6 @@ class agent extends Controller
             $item_k = "'".$item_k."'";
         }
         $origin_str = implode(',',$origin_arr);
-        dd($origin_str);
         $key0_arr = $this->t_origin_key->get_key0_arr($origin_str);
         dd($key0_arr);
         foreach($ret_info as &$item){
