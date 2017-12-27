@@ -439,7 +439,7 @@ class agent extends Controller
         $orderid_arr = $this->t_order_info->get_orderid_by_userid_new($userid_arr);
 
         echo '<table border="1" width="600" align="center">';
-        echo '<caption><h1>'.$start_time.'</h1></caption>';
+        echo '<caption><h1>'.date('Y-m-d',$start_time).'例子</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
         echo '<th>userid</th><th>渠道</th><th>进入时间</th><th>最后联系cc部门</th><th>是否接通</th><th>是否试听成功</th><th>是否签单</th>';
         echo '</tr>';
