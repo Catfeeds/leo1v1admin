@@ -46,12 +46,11 @@ class uploadPdfChange extends Command
         $store=new \App\FileStore\file_store_tea();
         $auth=$store->get_auth();
         $email = "michael@leoedu.com";
-        // $pwd   = md5(021130); // bbcffc83539bd9069b755e1d359bc70a
-        $pwd   = 'bbcffc83539bd9069b755e1d359bc70a';
+        $pwd   = 'bbcffc83539bd9069b755e1d359bc70a'; //md5(021130)
         $task=new \App\Console\Tasks\TaskController();
 
 
-        // $handoutArray = $this->task->t_resource->getResourceList();
+        // $handoutArray = $task->t_resource_file->getResourceFileList();
         $handoutArray = [
             [
                 "file_link" => '037ab4c73279591d363017b22e6b86521513827415246.pdf',
@@ -72,11 +71,10 @@ class uploadPdfChange extends Command
             $uuid_tmp = shell_exec($cmd);
             $uuid_arr = explode(':', $uuid_tmp);
             \App\Helper\Utils::logger("jjames_sjj: $uuid_tmp");
-
             $uuid = @$uuid_arr[1];
-
+            @unlink($savePathFile);
             $task->t_resource_file->field_update_list($item['file_id'],[
-                "uuid" => $uuid
+                "uuid" => $uuid,
             ]);
         }
 

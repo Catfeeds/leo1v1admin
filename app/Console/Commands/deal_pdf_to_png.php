@@ -161,10 +161,10 @@ class deal_pdf_to_png extends cmd_base
                     $Return[]= $Filename;
                 }
             }
-            $im->clear();
+            $IM->clear();
             return $Return;
         }else{
-            $im->clear();
+            $IM->clear();
             return [];
         }
 

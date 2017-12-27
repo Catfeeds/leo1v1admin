@@ -44,34 +44,25 @@ class pdfConversionH5 extends Command
         $store=new \App\FileStore\file_store_tea();
         $auth=$store->get_auth();
         $email = "michael@leoedu.com";
-        // $pwd   = md5(021130); // bbcffc83539bd9069b755e1d359bc70a
-        $pwd   = 'bbcffc83539bd9069b755e1d359bc70a';
+        $pwd   = 'bbcffc83539bd9069b755e1d359bc70a';// md5(021130)
         $task=new \App\Console\Tasks\TaskController();
 
+        // $handoutArray = $task->t_resource_file->getResourceList();
 
-        // $handoutArray = $task->t_resource->getResourceList();
         $handoutArray = [
             [
-                "file_link" => '037ab4c73279591d363017b22e6b86521513827415246.pdf'
+                "file_link" => '037ab4c73279591d363017b22e6b86521513827415246.pdf',
+                "file_id"   => 4,
+                "uuid"      => 'gfa6a2e9768a5cc4c12ba11fbc6a8ff2'
             ]
         ];
+
+
+
         foreach($handoutArray as $item){
-            //七牛下载
-            // $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $item['file_link'] );
-            // $savePathFile = public_path('wximg').'/'.$item['file_link'];
-            // \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
-            // @chmod($savePathFile, 0777);
-
-            //上传未达
-            // $cmd  = "curl -F doc=@'$savePathFile' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=leoedu&fn=".$item['file_link'].".pdf'";
-            // $uuid_tmp = shell_exec($cmd);
-            // $uuid_arr = explode(':', $uuid_tmp);
-
             $uuid = $item['uuid'];
-
             //从未达下载
             $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=".$uuid."&email=".$email."&pwd=".$pwd;
-            // $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=g050c18adf68d373aa34f63db3a906d8&email=michael@leoedu.com&pwd=bbcffc83539bd9069b755e1d359bc70a";
             $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
 
             $data=file_get_contents($h5DownloadUrl);
@@ -79,21 +70,13 @@ class pdfConversionH5 extends Command
 
             // 上传七牛
             $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
+            @unlink($saveH5FilePath);
 
             $task->t_resource_file->field_update_list($item['file_id'],[
                 "zip_url" => $saveH5Upload
             ]);
         }
     }
+    // $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=g050c18adf68d373aa34f63db3a906d8&email=michael@leoedu.com&pwd=bbcffc83539bd9069b755e1d359bc70a";
 
-    public function curl_download($url, $dir){
-        $ch = curl_init($url);
-        $fp = fopen($dir, "wb");
-        curl_setopt($ch, CURLOPT_FILE, $fp);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        $res=curl_exec($ch);
-        curl_close($ch);
-        fclose($fp);
-        return $res;
-    }
 }

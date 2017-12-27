@@ -99,12 +99,14 @@ class AddUserToTrainLesson extends Job implements ShouldQueue
                      * 日期：{{keyword3.DATA}}
                      * {{remark.DATA}}
                      */
-                    $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                    $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                    $lesson_time = date("Y年m月d日 H:i",$lesson['lesson_start']);
                     if($lesson['lesson_status']==2){
                         $data['first'] = "老师您好，为方便您尽快完成理优入职流程，特邀您观看【新师培训】回放视频";
                         $data['keyword2'] = "参训方法：登录老师端-我的培训-新师培训-播放视频";
                     }else{
-                        $data['first'] = "老师您好，为方便您尽快完成理优入职流程，特邀您参加在线【新师培训】";
+                        $data['first'] = "老师您好，为方便您尽快完成理优入职流程，特邀您参加在线【新师培训】"
+                                               ."\n培训时间:".$lesson_time;
                         $data['keyword2'] = "参训方法：登录老师端-我的培训-新师培训-进入课堂（提前5分钟）";
                     }
                     $data['keyword1'] = "新师培训";

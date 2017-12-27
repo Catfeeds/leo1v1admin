@@ -168,10 +168,11 @@ class admin_manage extends Controller
         list($start_time, $end_time  ) =$this->get_in_date_range_week(0);
         $ret_info=$this->t_web_page_trace_log->get_web_page($web_page_id,$start_time,$end_time);
         $all_list=$this->t_manager_info->get_admin_member_list(-1,-1,$sales_assistant_flag=1);
-
+        // dd($ret_info);
         $user_map=[];
 
         foreach ($ret_info["list"] as $k => &$item){
+            $item['share_count'] = $item['share_count'] - $item['has_zero'];
             $user_map[$item['adminid']]=true;
             if(!$item['group_name']){
                 $item['group_name'] = '未定义';
