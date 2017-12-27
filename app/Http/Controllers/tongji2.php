@@ -1935,7 +1935,7 @@ class tongji2 extends Controller
             $item['add_time_str'] = \App\Helper\Utils::unixtime2date($item['add_time']);
             $item['gift_type_str'] = E\Emarket_gift_type::get_desc($item['gift_type']);
             if($item['activity_status'] == 0){
-                $item['activity_status_str'] = "<font color='blue'>未设置</font>";
+                $item['activity_status_str'] = "<font color='blue'>进行中</font>";
             }elseif($item['activity_status'] == 1){
                 $item['activity_status_str'] = "<font color='green'>进行中</font>";
             }elseif($item['activity_status'] == 2){
