@@ -421,9 +421,7 @@ class agent extends Controller
         list($start_time,$end_time )= $this->get_in_date_range_month(0);
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_seller_student_new->get_item_list($page_info,$start_time, $end_time);
-        $ret = array_chunk($ret_info,5000);
-        echo"<table border='1px;'>";
-        foreach($ret[0] as &$item){
+        foreach($ret_info['list'] as &$item){
             $userid = $item['userid'];
             $phone = $item['phone'];
             $origin = $item['origin'];
@@ -443,33 +441,7 @@ class agent extends Controller
             $orderid = $this->t_order_info->get_orderid_by_userid_new($userid);
             $is_order = $orderid>0?1:0;
             $item["is_order_str"] = \App\Helper\Common::get_boolean_color_str($is_order);
-            // echo"<tr>";
-            // echo"<td>";
-            // echo $item['userid'];
-            // echo"</td>";
-            // echo"<td>";
-            // echo $item['key0'];
-            // echo"</td>";
-            // echo"<td>";
-            // echo $item['add_time'];
-            // echo"</td>";
-            // echo"<td>";
-            // echo $item['account'].'/'.$item["group_name"];
-            // echo"</td>";
-            // echo"<td>";
-            // echo $item['is_called_str'];
-            // echo"</td>";
-            // echo"<td>";
-            // echo $item['is_suc_test_str'];
-            // echo"</td>";
-            // echo"<td>";
-            // echo $item['is_order_str'];
-            // echo"</td>";
-            // echo"</tr>";
         }
-        echo"</table>";
-        exit;
-        dd($ret[0]);
         return $this->Pageview(__METHOD__,$ret_info);
     }
 
