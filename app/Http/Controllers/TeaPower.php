@@ -2825,12 +2825,12 @@ trait TeaPower {
 
         $list   = @$qq_group[ $grade ][ $subject ] ? $qq_group[ $grade ][ $subject ] : $qq_group[ $grade ][99];
         $list[] = @$qq_answer[ $subject ] ? $qq_answer[ $subject ] : $qq_answer[99];
-        $html   = "<div class='ul_title color333'>"
+        $html   = "<div>"
                 ."加入相关QQ群(请备注 科目-年级-姓名)";
                 // ."</div>"
                 // ."<ul>";
         foreach($list as $val){
-            $html .= "<div>【LEO】".$val[0]."<br>群号：".$val[1]."<br>群介绍：".$val[2]."</div>";
+            $html .= "<div>[LEO]".$val[0]."<br>群号：".$val[1]."<br>介绍：".$val[2]."</div>";
         }
         $html .= "</div>";
         return $html;
