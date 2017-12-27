@@ -9,7 +9,7 @@ class t_web_page_trace_log extends \App\Models\Zgen\z_t_web_page_trace_log
 	}
     public function get_admin_info($web_page_id) {
         $sql=$this->gen_sql_new(
-            "select from_adminid , log_time, count(*) as count ,   count(distinct ip) as ip_count "
+            "select from_adminid , log_time, ip, count(*) as count ,   count(distinct ip) as ip_count "
             . " from %s where web_page_id=%u group by from_adminid order by ip_count desc   ",
             self::DB_TABLE_NAME,  $web_page_id  );
 
