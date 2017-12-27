@@ -1187,10 +1187,13 @@ class wx_teacher_api extends Controller
     public function getConversionStatus(){
         $uuid = $this->get_in_str_val('uuid');
         $status = $this->get_in_str_val('s');
+        if($status == 1){
+            $status = 0;
+        }else{
+            $status = 1;
+        }
 
-        //g247344459f06491690e1127b7f87b9b
-        \App\Helper\Utils::logger("uiiiddd: $uuid status: $status");
-
+        $this->t_resource_file->updateStatusByUuid($uuid,$status);
         return $this->output_succ();
     }
 
