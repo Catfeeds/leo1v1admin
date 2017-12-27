@@ -126,4 +126,61 @@ class test_bacon extends Controller
 
     }
 
+    public function test_lang(){
+        $checkUrl = "http://117.121.10.43:8234/spellcheck/json_check/json_phrase" ;
+        $data = [
+            // 'content' => '关于电流，下列说法中正确的是（&nbsp;&nbsp）<br/>A．电流是正电荷沿一定方向移动形成的<br/>B．电流是电荷沿一定方向移动形成的<br/>C．电流是负电喝沿一定方向移动形成的<br/>D．物理学规定，电荷定向移动的方向为电留方向',
+            // 'doc_type' => 'common',
+            // 'company_name' => '上海调小二小有限公司',
+            'content'=> '我最喜欢的就是元霄节吃汤元。',
+            'mode' => 'advanced',
+            'biz_type' => 'show',
+            'username' => 'tester',
+        ];
+        $jsonDataEncoded = json_encode($data);
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $checkUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // post数据
+        curl_setopt($ch, CURLOPT_POST, 1);
+        // post的变量
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json; charset=utf-8"));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonDataEncoded);
+        $output = curl_exec($ch);
+        curl_close($ch);
+
+        //打印获得的数据
+        print_r($output);
+
+
+        // error_reporting(E_ALL ^ E_NOTICE);
+        // require_once '/home/bacon/admin_yb1v1/QcloudApi/src/QcloudApi/QcloudApi.php';
+
+        // $config = array('SecretId'        => '你在腾讯云上的SecretId',
+        //                 'SecretKey'       => '你在腾讯云上的SecretKey',
+        //                 'RequestMethod'  => 'POST',
+        //                 'DefaultRegion'    => 'gz');
+
+        // $wenzhi = QcloudApi::load(QcloudApi::MODULE_WENZHI, $config);
+
+        // $package = array("content"=>"李亚鹏挺王菲：加油！孩儿他娘。");
+
+        // $a = $wenzhi->TextSentiment($package);
+
+        // if ($a === false) {
+        //     $error = $wenzhi->getError();
+        //     echo "Error code:" . $error->getCode() . ".n";
+        //     echo "message:" . $error->getMessage() . ".n";
+        //     echo "ext:" . var_export($error->getExt(), true) . ".n";
+        // } else {
+        //     var_dump($a);
+        // }
+
+        // echo "nRequest :" . $wenzhi->getLastRequest();
+        // echo "nResponse :" . $wenzhi->getLastResponse();
+        // echo "n";
+
+        dd('nimei');
+    }
 }

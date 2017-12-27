@@ -7652,7 +7652,7 @@ class ss_deal extends Controller
 
         list($shareWidth,$shareHeight,$shareType,$shareAttr)=getimagesize($shareImgUrlOnline);
         list($coverWidth,$coverHeight,$coverType,$coverAttr)=getimagesize($coverImgUrlOnline);
-        list($activityWidth,$activityHeight,$activityType,$activityAttr)=getimagesize($activityImgUrl);
+        list($activityWidth,$activityHeight,$activityType,$activityAttr)=getimagesize($activityImgUrlOnline);
         list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
 
         if($shareWidth>750 || $shareHeight>1334){ return $this->output_err('分享页图片过大,请重新上传!'); }
