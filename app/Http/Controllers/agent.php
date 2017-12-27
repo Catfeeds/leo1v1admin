@@ -421,28 +421,29 @@ class agent extends Controller
         list($start_time,$end_time )= $this->get_in_date_range_month(0);
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_seller_student_new->get_item_list($page_info,$start_time, $end_time);
-        dd($ret_info);
-        foreach($ret_info['list'] as &$item){
+        foreach($ret_info as &$item){
             $userid = $item['userid'];
             $phone = $item['phone'];
             $origin = $item['origin'];
+            echo $userid.',';
             // if($origin == 'jingqi-0805'){
             //     $item['key0'] = $origin;
             // }else{
             //     $item['key0'] = $this->t_origin_key->get_key0($origin);
             // }
-            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
-            $adminid = $item['adminid'];
-            $item['account'] = $this->t_manager_info->get_account_by_uid($adminid);
-            $item['group_name'] = $this->t_admin_group_user->get_main_major_group_name_by_adminid($adminid);
-            $is_called = $item['global_tq_called_flag']==2?1:0;
-            $item["is_called_str"] = \App\Helper\Common::get_boolean_color_str($is_called);
-            $is_suc_test = $item['last_succ_test_lessonid']>0?1:0;
-            $item["is_suc_test_str"] = \App\Helper\Common::get_boolean_color_str($is_suc_test);
-            $orderid = $this->t_order_info->get_orderid_by_userid_new($userid);
-            $is_order = $orderid>0?1:0;
-            $item["is_order_str"] = \App\Helper\Common::get_boolean_color_str($is_order);
+            // \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            // $adminid = $item['adminid'];
+            // $item['account'] = $this->t_manager_info->get_account_by_uid($adminid);
+            // $item['group_name'] = $this->t_admin_group_user->get_main_major_group_name_by_adminid($adminid);
+            // $is_called = $item['global_tq_called_flag']==2?1:0;
+            // $item["is_called_str"] = \App\Helper\Common::get_boolean_color_str($is_called);
+            // $is_suc_test = $item['last_succ_test_lessonid']>0?1:0;
+            // $item["is_suc_test_str"] = \App\Helper\Common::get_boolean_color_str($is_suc_test);
+            // $orderid = $this->t_order_info->get_orderid_by_userid_new($userid);
+            // $is_order = $orderid>0?1:0;
+            // $item["is_order_str"] = \App\Helper\Common::get_boolean_color_str($is_order);
         }
+        exit;
         return $this->Pageview(__METHOD__,$ret_info);
     }
 
