@@ -470,7 +470,6 @@ class agent extends Controller
             $is_order = $orderid>0?1:0;
             $item["is_order_str"] = \App\Helper\Common::get_boolean_color_str($is_order);
         }
-        dd($ret_info);
         return $this->Pageview(__METHOD__,$ret_info);
     }
 
