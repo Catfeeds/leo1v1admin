@@ -72,6 +72,7 @@ class uploadPdfChange extends Command
             $uuid_arr = explode(':', $uuid_tmp);
             \App\Helper\Utils::logger("jjames_sjj: $uuid_tmp");
             $uuid = @$uuid_arr[1];
+            @unlink($savePathFile);
             $task->t_resource_file->field_update_list($item['file_id'],[
                 "uuid" => $uuid,
             ]);
