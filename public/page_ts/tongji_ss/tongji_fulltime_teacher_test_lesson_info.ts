@@ -15,7 +15,12 @@ $(function(){
     }
 
 
-    $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right);
+    if(g_args.seller_groupid_ex != ""){
+        g_adminid_right = g_args.seller_groupid_ex.split(",");
+        $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right);
+    }else{
+        $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right); 
+    }
     $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 
 

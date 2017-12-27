@@ -1530,5 +1530,28 @@ class test_james extends Controller
 
 
 
+    public  function savePicToServer() {
+        $savePathFile = "test.zip";
+        $url = "http://wx-parent-web.leo1v1.com/wx-parent-activity/share.html?openid=orwGAs_IqKFcTuZcU1xwuEtV3Kek&type=102&web_page_id=0&from_adminid=0";
+        $targetName   = $savePathFile;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+
+        $fp = fopen($targetName,'wb');
+
+        curl_setopt($ch,CURLOPT_URL,$pic_url);
+        curl_setopt($ch,CURLOPT_FILE,$fp);
+        curl_setopt($ch,CURLOPT_HEADER,0);
+        $ret_info['state'] = curl_exec($ch);
+        curl_close($ch);
+        fclose($fp);
+        $ret_info['savePathFile'] = $savePathFile;
+
+        return $ret_info;
+    }
+
+
+
+
 
 }

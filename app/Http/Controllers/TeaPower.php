@@ -2635,7 +2635,7 @@ trait TeaPower {
         }else{
             $group_html = "";
         }
-        $html       = "
+        $html = "
 <!DOCTYPE html>
 <html>
     <head>
