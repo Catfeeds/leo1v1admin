@@ -241,7 +241,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
 
         //美团-1230
-        if($origin == '美团-1230'){
+        if($origin == '美团—1230'){
             $tong_count = 0;
             $tao_count = 0;
             $count = $this->get_meituan_count_by_adminid();
