@@ -31,7 +31,13 @@ $(function(){
     $("#id_opt_date_type").hide();
     $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 
-    $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right);
+    
+    if(g_args.seller_groupid_ex != ""){
+        var g_adminid_right = g_args.seller_groupid_ex.split(",");
+        $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right);
+    }else{
+        $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right); 
+    }
 
 
     Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type"),false,[1,2]);
