@@ -318,7 +318,7 @@
                     <tr>
                          <td  class="td-phone">
                              <div class="phone-data">
-                                 @if($account == 'jim' || $account_role == 2 || $account == 'tom')
+                                 @if($account == 'jim' || $account_role == 12 || $account == 'tom')
                                      {{$var["phone"]}}
                                  @else
                                      {{$var["phone_hide"]}}
@@ -333,7 +333,7 @@
                              </div>
                          </td>
                          <td >
-                             @if($account == 'jim' || $account_role == 2 || $account == 'tom')
+                             @if($account == 'jim' || $account_role == 12 || $account == 'tom')
                                  {{$var["phone"]}}
                              @else
                                  {{$var["phone_hide"]}}
