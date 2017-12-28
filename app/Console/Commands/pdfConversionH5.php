@@ -85,34 +85,54 @@ class pdfConversionH5 extends Command
             }
             @closedir($handler);
             $test_data = '';
-            foreach ($files as $value) {
-                // echo $value."<br />";
-                $test_data.=$value." ";
-            }
-
-            \App\Helper\Utils::logger("test_data_2017-12-28: $test_data");
 
 
-            exit();
 
             $config=\App\Helper\Config::get_config("ali_oss");
-
             $ossClient = new OssClient(
                 $config["oss_access_id"],
                 $config["oss_access_key"],
                 $config["oss_endpoint"],
                 false
             );
-
-            $file_name=basename($target);
-
             $h5Path = "pdfToH5/".$uuid; // 环境文件夹
 
-            $h5FileName = $h5Path.'/'.$file_name;
+            foreach ($files as $file_name) {
+                // echo $value."<br />";
 
-            $bucket=$config["public"]["bucket"];
-            $ossClient->uploadFile($bucket, $h5FileName, $target  );
-            return $config["public"]["url"]."/".$h5FileName;
+                $h5FileName = $h5Path.'/'.$file_name;
+                $target = $unzipFilePath."/".$uuid."/".$file_name; //本地文件路径
+
+                $bucket=$config["public"]["bucket"];
+                $ossClient->uploadFile($bucket, $h5FileName, $target  );
+
+                $downLoad = $config["public"]["url"]."/".$h5FileName;
+                $test_data.=$downLoad." ";
+
+            }
+
+            \App\Helper\Utils::logger("test_data_ali_url: $test_data");
+
+            exit();
+
+            // $config=\App\Helper\Config::get_config("ali_oss");
+
+            // $ossClient = new OssClient(
+            //     $config["oss_access_id"],
+            //     $config["oss_access_key"],
+            //     $config["oss_endpoint"],
+            //     false
+            // );
+
+            // $file_name=basename($target);
+
+            // $h5Path = "pdfToH5/".$uuid; // 环境文件夹
+
+            // $h5FileName = $h5Path.'/'.$file_name;
+
+            // $bucket=$config["public"]["bucket"];
+            // $ossClient->uploadFile($bucket, $h5FileName, $target  );
+            // return $config["public"]["url"]."/".$h5FileName;
 
 
 
