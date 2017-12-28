@@ -17,7 +17,6 @@ class test_boby extends Controller
 //      $this->switch_tongji_database();
     }
 
-
     public function send_msg_to_tea_wx(){
         return 1;
         //boby oJ_4fxDrbnuMZnQ6HmPIjmUdRxVM
@@ -39,7 +38,6 @@ class test_boby extends Controller
 
         foreach ($tea_list as $item) {
             $html = $this->get_new_qq_group_html($item['grade_start'],$item['grade_part_ex'],$item['subject']);
-
 
             $wx_openid = $item['wx_openid'];
             $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
@@ -69,7 +67,7 @@ class test_boby extends Controller
     }
 
     public function table_start($th_arr){
-        $s   = '<table border=1><tr>';
+        $s = '<table border=1><tr>';
         foreach ($th_arr as $v) {
             $s = $s."<th>{$v}</th>";
         }
@@ -112,11 +110,11 @@ class test_boby extends Controller
     //七月份 同一ip的不同签单的家长电话
     public function get_id_info(){
         $start_time = strtotime('2017-07-01');
-        $end_time  = strtotime('2017-08-01');
-        $ret_info  = $this->t_order_info->get_order_group_by_id($start_time, $end_time);
-        $list  = $this->t_order_info->get_order_group_by_id(1, time());
+        $end_time   = strtotime('2017-08-01');
+        $ret_info   = $this->t_order_info->get_order_group_by_id($start_time, $end_time);
+        $list       = $this->t_order_info->get_order_group_by_id(1, time());
 
-        // $list = $this->t_order_info->get_phont_by_ip();
+        // $list                  = $this->t_order_info->get_phont_by_ip();
         // dd($list);
         $newarr = [];
         foreach ($list as $v){
@@ -126,11 +124,11 @@ class test_boby extends Controller
                 $newarr[$v['ip']] = $newarr[$v['ip']].';'.$v['phone'];
             }
         }
-        $s = '<table border=1><tr><th>ip</th><th>电话</th><th>电话N</th></tr>';
+        $s  = '<table border=1><tr><th>ip</th><th>电话</th><th>电话N</th></tr>';
         foreach ($ret_info as $v) {
-            $s = $s."<tr><td>{$v['ip']}</td><td>{$v['phone']}</td><td>";
+            $s   = $s."<tr><td>{$v['ip']}</td><td>{$v['phone']}</td><td>";
             $new = str_replace($v['phone'], '', $newarr[$v['ip']]);
-            $s = $s."{$new}</td></tr>";
+            $s   = $s."{$new}</td></tr>";
         }
         $s = $s.'</table>';
         return $s;
@@ -221,6 +219,7 @@ class test_boby extends Controller
         $s = $this->table_end($s);
         return $s;
     }
+
     //7-8月份签单学生，电话，地址和与之相关的销售或者tmk信息
     public function get_acc_tmk_by_order(){
         return 'bey';
@@ -723,6 +722,7 @@ class test_boby extends Controller
             }
 
         }
+        $this->table_start();
 
         $new_user = array_unique($new_user);
         $prev_month['new_pay_stu_num'] = count($new_user);
@@ -1028,13 +1028,12 @@ class test_boby extends Controller
     public function get_xiaoxue_user_lesson_info(){
         //统计小学生个人 上课时间段星期分布
 
-
         $this->switch_tongji_database();
         $start = strtotime('2017-9-1');
-        $end = strtotime('2017-10-1');
+        $end   = strtotime('2017-10-1');
 
-        $sql = "select s.nick,l.userid,group_concat(lesson_start) l_time from t_lesson_info l left join t_student_info s on s.userid=l.userid where l.grade<200 and lesson_start>=$start and lesson_start<$end and s.is_test_user=0 and l.lesson_del_flag=0 and l.lesson_type in (0,3) group by l.userid";
-        $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
+        $sql   = "select s.nick,l.userid,group_concat(lesson_start) l_time from t_lesson_info l left join t_student_info s on s.userid=l.userid where l.grade<200 and lesson_start>=$start and lesson_start<$end and s.is_test_user=0 and l.lesson_del_flag=0 and l.lesson_type in (0,3) group by l.userid";
+        $ret   = $this->t_grab_lesson_link_info->get_info_test($sql);
         // dd($ret);
         foreach($ret as &$v){
             $week = [0=>[],1=>[], 2=>[], 3=>[], 4=>[], 5=>[], 6=>[]];
@@ -1069,10 +1068,6 @@ class test_boby extends Controller
             'time' => $time_range
         ]);
 
-    }
-
-    public function test_md5(){
-        return $this->pageView( __METHOD__,[]);
     }
 
     public function hash_check(){
@@ -1111,8 +1106,8 @@ class test_boby extends Controller
                     foreach($grade as $g){
                         $this->t_resource_agree_info->row_insert([
                             'resource_type' => $r,
-                            'subject' => $s,
-                            'grade' => $g,
+                            'subject'       => $s,
+                            'grade'         => $g,
                         ]);
                     }
                 } else {
@@ -1128,8 +1123,8 @@ class test_boby extends Controller
                                 'subject'       => $s,
                                 'grade'         => $g,
                                 'tag_one'       => $y,
-                                // 'tag_two'       => $sh,
-                                // 'tag_three'     => $c,
+                                // 'tag_two'    => $sh,
+                                // 'tag_three'  => $c,
                             ]);
                             //     }
                             // }
@@ -1248,7 +1243,6 @@ class test_boby extends Controller
                 $item['flow_status_str'] = '<font style="color:#a70192;">QC已审核</font>';
             }
 
-
             $pass_time = $item['apply_time']-$item['order_time'];
             if($pass_time >= (90*24*3600)){ // 下单是否超过3个月
                 $item['is_pass'] = '<font style="color:#ff0000;">是</font>';
@@ -1309,16 +1303,16 @@ class test_boby extends Controller
                     $item["$percent_name"] = @$v1['responsibility_percent'];
                 // }
             }
-            if($a == 1){
-                $a++;
-                $ks = array_keys($item);
-                echo '<tr>';
-                foreach($ks as $kv){
-                    echo '<td>',$kv,'</td>';
-                }
-                echo '</tr>';
+            // if($a == 1){
+            //     $a++;
+            //     $ks = array_keys($item);
+            //     echo '<tr>';
+            //     foreach($ks as $kv){
+            //         echo '<td>',$kv,'</td>';
+            //     }
+            //     echo '</tr>';
 
-            }
+            // }
 
             echo '<tr>';
             foreach($item as $iv){
@@ -1337,7 +1331,6 @@ class test_boby extends Controller
 
     public function  get_refund_analysis_info($orderid,$apply_time){
         $list = $this->t_refund_analysis->get_list($orderid,$apply_time);
-
         foreach ($list as $key =>&$item) {
             $keys       = $this->t_order_refund_confirm_config->get_refundid_by_configid($item['configid']);
             $ret        = @$this->t_order_refund_confirm_config->get_refund_str_by_keys($keys);
@@ -1376,7 +1369,6 @@ class test_boby extends Controller
                     $duty = 1;
                 }
 
-
                 if($v2['department'] == $v1['value']){
                     $num++;
                     $score += $v2['score'];
@@ -1413,7 +1405,28 @@ class test_boby extends Controller
         $arr['list']       = $list;
         $arr['duty']       = $duty;
         return $arr;
+
+        $this->table_start();
     }
 
+    public function get_order(){
+        $sql = "select o.order_time,m.account,m.become_member_time,o.price,o.check_money_time from db_weiyi.t_order_info o left join db_weiyi_admin.t_manager_info m on m.account=o.sys_operator where o.order_time>=1504195200 and o.order_time<1514736000 and m.del_flag=0 and m.account_role=2 and o.contract_status>0 and o.contract_type =0";
+        $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
+
+        $th_arr = ['cc','入职时间','金额','下单时间','财务确认时间'];
+        $s = $this->table_start($th_arr);
+
+        foreach($ret as $v){
+            \App\Helper\Utils::unixtime2date_for_item($v, 'become_member_time');
+            \App\Helper\Utils::unixtime2date_for_item($v, 'order_time');
+            \App\Helper\Utils::unixtime2date_for_item($v, 'check_money_time');
+            $s= $this->tr_add($s, $v['account'], $v['become_member_time'],$v['price']/100, $v['order_time'],$v['check_money_time']);
+
+        }
+        $s = $this->table_end($s);
+
+        return $s;
+
+    }
 
 }

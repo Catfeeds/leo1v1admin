@@ -62,8 +62,8 @@ echo "start url : $url\n";
 $json_data= send_post_data($url,  ["table_list" =>  json_encode($table_list) ]  );
 echo "end url\n";
 
-// var_dump($table_list);
-// exit;
+ //var_dump($table_list);
+ //exit;
 
 
 $table_map = json_decode($json_data,true);

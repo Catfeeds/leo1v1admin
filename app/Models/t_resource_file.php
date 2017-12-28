@@ -96,4 +96,52 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         );
         return $this->main_get_value($sql);
     }
+
+    public function getFileIdByUuid($uuid){
+        $sql = $this->gen_sql_new("  select file_id from %s rf"
+                                  ." where uuid='$uuid'"
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+    public function getResourceFileList(){
+        $where_arr = [
+            "rf.uuid=''",
+            "rf.status=0"
+        ];
+        $sql = $this->gen_sql_new("  select file_link, file_id from %s rf"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    public function updateStatusByUuid($uuid,$status){
+        $sql = $this->gen_sql_new("  update %s set uuid_status=$status where  uuid='$uuid'"
+                                  ,self::DB_TABLE_NAME
+        );
+        return $this->main_update($sql);
+    }
+
+    public function getResourceList(){
+        $where_arr = [
+            "rf.uuid_status=1",
+            "rf.status=0",
+            "rf.zip_url=''"
+        ];
+
+        $sql = $this->gen_sql_new("  select rf.file_id, rf.uuid "
+                                  ." from %s rf"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
 }

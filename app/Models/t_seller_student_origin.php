@@ -339,7 +339,17 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         return $this->main_update($sql);
     }
 
-
+    //@desn:获取微信推广信息
+    //@param:$field_name 检索项
+    //@param:$opt_date_str 检索时间字段名称
+    //@param:$start_time $end_time 开始结束时间
+    //@param:$origin 渠道名称
+    //@param:$origin_ex 渠道key字符串
+    //@param:$seller_groupid_ex 销售小组id
+    //@param:$adminid_list 管理员id数组
+    //@param:$tmk_adminid 管理员id
+    //@param:$origin_level 渠道等级
+    //@param:$wx_invaild_flag 微信是否可见
     public function get_tmk_tongji_info( $field_name, $opt_date_str,$start_time,$end_time,$origin,$origin_ex,$seller_groupid_ex,$adminid_list=[],$tmk_adminid=-1, $origin_level=-1,$wx_invaild_flag){
 
         $this->switch_tongji_database();

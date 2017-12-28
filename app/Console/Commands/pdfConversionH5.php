@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use OSS\OssClient;
 
 class pdfConversionH5 extends Command
 {
@@ -44,57 +45,238 @@ class pdfConversionH5 extends Command
         $store=new \App\FileStore\file_store_tea();
         $auth=$store->get_auth();
         $email = "michael@leoedu.com";
-        // $pwd   = md5(021130); // bbcffc83539bd9069b755e1d359bc70a
-        $pwd   = 'bbcffc83539bd9069b755e1d359bc70a';
+        $pwd   = 'bbcffc83539bd9069b755e1d359bc70a';// md5(021130)
+        $task=new \App\Console\Tasks\TaskController();
 
+        // $handoutArray = $task->t_resource_file->getResourceList();
 
-        // $handoutArray = $this->task->t_resource->getResourceList();
         $handoutArray = [
             [
-                "file_link" => '037ab4c73279591d363017b22e6b86521513827415246.pdf'
+                "file_link" => 'aaf3622180de9ae8967eb7986c10bce61513827415224.pdf',
+                "file_id"   => 6,
+                "uuid"      => 'g03c6f7a81c9bdba93137ac50d77ea81'
             ]
         ];
+
+
+
         foreach($handoutArray as $item){
-            //七牛下载
-            $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $item['file_link'] );
-            $savePathFile = public_path('wximg').'/'.$item['file_link'];
-            \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
-            @chmod($savePathFile, 0777);
-
-            //上传未达
-            $cmd  = "curl -F doc=@'$savePathFile' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=leoedu&fn=".$item['file_link'].".pdf'";
-            $uuid_tmp = shell_exec($cmd);
-            $uuid_arr = explode(':', $uuid_tmp);
-
-            $uuid = $uuid_arr['1'];
-            \App\Helper\Utils::logger("qiniuupload_james_9999: $uuid");
-
+            $uuid = $item['uuid'];
             //从未达下载
-            $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=$uuid&email=$email&pwd=$pwd";
+            $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=".$uuid."&email=".$email."&pwd=".$pwd;
             $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
-            $cmdDownload = "curl $h5DownloadUrl -o $saveH5FilePath";
-            shell_exec($cmdDownload);
+            $unzipFilePath  =  public_path('wximg'); // 解压后的文件夹
 
-            // \App\Helper\Utils::logger("qiniuupload_james_1000: $h5DownloadUrl");
-            // \App\Helper\Utils::logger("qiniuupload_james_788: $saveH5FilePath");
-            // \App\Helper\Utils::savePicToServer($h5DownloadUrl,$saveH5FilePath);
+            $data=file_get_contents($h5DownloadUrl);
+            file_put_contents($saveH5FilePath, $data);
 
-            // 上传七牛
+
+            /**
+             * @ 将目录下的文件批量上传到阿里云
+             * @  解压文件包->获取文件包下文件->文件批量上传
+             */
+
+            $unzipShell = "unzip $saveH5FilePath -d $unzipFilePath ";
+            shell_exec($unzipShell);
+
+            $handler = opendir($unzipFilePath."/".$uuid);
+            while (($filename = readdir($handler)) !== false) {//务必使用!==，防止目录下出现类似文件名“0”等情况
+                if ($filename != "." && $filename != "..") {
+                    $files[] = $filename ;
+                }
+            }
+            @closedir($handler);
+            $test_data = '';
+
+            // 使用七牛上传
+            $qiniu     = \App\Helper\Config::get_config("qiniu");
+            $bucket    = $qiniu['public']['bucket'];
+            $accessKey = $qiniu['access_key'];
+            $secretKey = $qiniu['secret_key'];
+
+            // 构建鉴权对象
+            $auth = new \Qiniu\Auth ($accessKey, $secretKey);
+
+            $h5Path = "pdfToH5"; // 环境文件夹
+
+
+            foreach ($files as $key) {
+
+                // 上传到七牛后保存的文件名
+                $upkey = $h5Path."/".$uuid."/".$key;
+
+                // 生成上传 Token
+                $token = $auth->uploadToken($bucket,$upkey);
+                $Upfile = $unzipFilePath."/".$uuid."/".$key;
+
+                if($key == 'index.html'){
+                    \App\Helper\Utils::logger("upkey_qiniu: $upkey");
+                }
+                // 初始化 UploadManager 对象并进行文件的上传。
+                $uploadMgr = new \Qiniu\Storage\UploadManager();
+
+                // 调用 UploadManager 的 putFile 方法进行文件的上传。
+                list($ret, $err) = $uploadMgr->putFile($token, $key, $Upfile);
+                if ($err !== null) {
+                    return false;
+                } else {
+                    $test_data .= $ret["key"]." ";
+                }
+            }
+
+            \App\Helper\Utils::logger("test_data_qiniu_url: $test_data");
+
+
+            exit();
+
+
+
+            // $config=\App\Helper\Config::get_config("ali_oss");
+            // $ossClient = new OssClient(
+            //     $config["oss_access_id"],
+            //     $config["oss_access_key"],
+            //     $config["oss_endpoint"],
+            //     false
+            // );
+            // $h5Path = "pdfToH5/".$uuid; // 环境文件夹
+
+            // foreach ($files as $file_name) {
+            //     $h5FileName = $h5Path.'/'.$file_name;
+            //     $target = $unzipFilePath."/".$uuid."/".$file_name; //本地文件路径
+
+            //     $bucket=$config["public"]["bucket"];
+            //     $ossClient->uploadFile($bucket, $h5FileName, $target  );
+            //     $downLoad = $config["public"]["url"]."/".$h5FileName;
+
+            //     if($file_name == 'index.html'){ // 作为微信访问页
+
+            //     }
+            //     $test_data.=$downLoad." ";
+            // }
+
+            // \App\Helper\Utils::logger("test_data_ali_url: $test_data");
+
+            exit();
+
+            // $config=\App\Helper\Config::get_config("ali_oss");
+
+            // $ossClient = new OssClient(
+            //     $config["oss_access_id"],
+            //     $config["oss_access_key"],
+            //     $config["oss_endpoint"],
+            //     false
+            // );
+
+            // $file_name=basename($target);
+
+            // $h5Path = "pdfToH5/".$uuid; // 环境文件夹
+
+            // $h5FileName = $h5Path.'/'.$file_name;
+
+            // $bucket=$config["public"]["bucket"];
+            // $ossClient->uploadFile($bucket, $h5FileName, $target  );
+            // return $config["public"]["url"]."/".$h5FileName;
+
+
+
+
+
+
+            /*
+
+              $no = "unzip ./g050c18adf68d373aa34f63db3a906d8.zip ";
+              shell_exec($no);
+
+              exit();
+
+
+              //获取某目录下所有文件、目录名（不包括子目录下文件、目录名）
+              $handler = opendir("./tests");
+              while (($filename = readdir($handler)) !== false) {//务必使用!==，防止目录下出现类似文件名“0”等情况
+              if ($filename != "." && $filename != "..") {
+              $files[] = $filename ;
+              }
+              }
+              closedir($handler);
+
+              //打印所有文件名
+              foreach ($files as $value) {
+              echo $value."<br />";
+              }
+
+
+
+
+
+             */
+
+
+
+
+
+
+
+
+
+            // 压缩包上传七牛
             $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
+            // @unlink($saveH5FilePath);
 
-            \App\Helper\Utils::logger("qiniuupload_james_1: $saveH5Upload");
-            //ok:gf15a4973b034c84d4f631be74b21741.zip
+            // $task->t_resource_file->field_update_list($item['file_id'],[
+            //     "zip_url" => $saveH5Upload
+            // ]);
         }
     }
+    // $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=g050c18adf68d373aa34f63db3a906d8&email=michael@leoedu.com&pwd=bbcffc83539bd9069b755e1d359bc70a";
 
-    public function curl_download($url, $dir){
-        $ch = curl_init($url);
-        $fp = fopen($dir, "wb");
-        curl_setopt($ch, CURLOPT_FILE, $fp);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        $res=curl_exec($ch);
-        curl_close($ch);
-        fclose($fp);
-        return $res;
-    }
+
+    /***
+    *
+    *
+    配置环境
+                // 使用七牛上传
+            $qiniu     = \App\Helper\Config::get_config("qiniu");
+            $bucket    = $qiniu['public']['bucket'];
+            $accessKey = $qiniu['access_key'];
+            $secretKey = $qiniu['secret_key'];
+
+            // 构建鉴权对象
+            $auth = new \Qiniu\Auth ($accessKey, $secretKey);
+
+            $h5Path = "pdfToH5"; // 环境文件夹
+
+
+            foreach ($files as $key) {
+
+                // 上传到七牛后保存的文件名
+                $upkey = $h5Path."/".$key;
+
+                // 生成上传 Token
+                $token = $auth->uploadToken($bucket,$upkey);
+                $Upfile = $tmp."/".$key;
+
+                // 初始化 UploadManager 对象并进行文件的上传。
+                $uploadMgr = new \Qiniu\Storage\UploadManager();
+
+                // 调用 UploadManager 的 putFile 方法进行文件的上传。
+                list($ret, $err) = $uploadMgr->putFile($token, $key, $Upfile);
+                // if ($err !== null) {
+                //     return false;
+                // } else {
+                    $test_data .= $ret["key"]." ";
+                // }
+
+            }
+
+            \App\Helper\Utils::logger("test_data_qiniu_url_main: $test_data");
+
+            exit();
+
+
+    *
+    *
+
+
+     ***/
+
 }

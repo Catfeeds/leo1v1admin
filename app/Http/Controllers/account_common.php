@@ -93,6 +93,11 @@ class account_common extends Controller
             return $this->output_err("角色值不能为空!");
         }
 
+        if(empty($time_code)){
+            return $this->output_err("系统错误");
+        }
+
+
 
         $check_phone =  \App\Helper\Utils::check_phone($phone);
         if(!$check_phone){
@@ -144,7 +149,7 @@ class account_common extends Controller
 
         \App\Helper\Utils::logger("code:".$phone_code);
         \App\Helper\Utils::logger("index:".$phone_index);
-        return $this->output_succ(["msg_num"=>$phone_index,"verify_code"=>$phone_code]);
+        return $this->output_succ(["msg_num"=>$phone_index]);
     }
 
     //用户注册

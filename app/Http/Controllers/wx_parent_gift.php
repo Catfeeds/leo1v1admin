@@ -968,8 +968,7 @@ class wx_parent_gift extends Controller
             "type"    => $type, //活动类型
             "share_time"  => time(),
             "create_time" => time()
-        ]
-        );
+        ]);
 
         return $this->output_succ();
     }
@@ -1033,6 +1032,13 @@ class wx_parent_gift extends Controller
 
         $web_page_id  = $this->get_in_int_val('web_page_id');
         $from_adminid = $this->get_in_int_val('from_adminid');
+
+        $id = $type-100;
+        $checkStatus = $this->t_activity_usually->get_activity_status($id);
+        if($checkStatus==2){
+            header("location: http://wx-parent-web.leo1v1.com/wx-parent-activity/loginFail.html");
+            return ;
+        }
 
         if($is_share){
             header("location: http://wx-parent-web.leo1v1.com/wx-parent-activity/shareSuc.html?openid=".$openid."&type=".$type."&web_page_id=$web_page_id&from_adminid=$from_adminid");

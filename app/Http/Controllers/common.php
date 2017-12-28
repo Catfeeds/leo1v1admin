@@ -361,8 +361,6 @@ class common extends Controller
         $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
         $html = $this->get_offer_html($teacher_info);
         if($is_test){
-            // $teacher_info['email']   = "wg392567893@163.com";
-            // $teacher_info['subject'] = 4;
             $ret = \App\Helper\Common::send_paper_mail($teacher_info['email'],"上海理优教研室",$html);
             if($teacher_info['wx_openid']!=""){
                 $template_id      = "1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II";

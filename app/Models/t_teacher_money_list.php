@@ -342,4 +342,16 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         });
     }
 
+    public function get_haruteru_award($start_time, $end_time) {
+        $where_arr = [
+            ['add_time>=%u', $start_time, 0],
+            ['add_time<%u', $end_time, 0],
+            "type=7"
+        ];
+        $sql = $this->gen_sql_new("select id from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

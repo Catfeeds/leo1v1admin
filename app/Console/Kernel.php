@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\uploadPdfChange::class,
         Commands\pdfConversionH5::class,
         Commands\update_teacher_approve_to_data::class,
         Commands\update_bole_reward::class,
@@ -197,6 +198,8 @@ class Kernel extends ConsoleKernel
         Commands\funnel_channel_statistics::class,
         Commands\node_type_channel_statistics::class,
         Commands\test_abner::class,
+        Commands\week_report::class,
+        Commands\month_report::class,
     ];
 
     /**

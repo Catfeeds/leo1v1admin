@@ -174,8 +174,6 @@ class tea_manage extends Controller
         return $this->lesson_list();
     }
 
-
-
     public function lesson_list()
     {
         $this->check_and_switch_tongji_domain();

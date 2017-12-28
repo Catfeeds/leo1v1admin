@@ -142,11 +142,20 @@ var Cquestion_editor = {
         //id_question_type 题型 id_mathjax_content题目输入框 MathBuffer 当前输入的字符串 MathPreview题目显示框 mathId数学公式显示区域
         //var question_type = id_question_type.val();
         var mathjax_content = id_mathjax_content.val();
-   
+
+        if( id_question_type == 1){
+            mathjax_content += '<br/> A:' + $('#id_mathjax_q_A').val();
+            //console.log($('#id_mathjax_q_A').val());
+            mathjax_content += '<br/> B:' + $('#id_mathjax_q_B').val();
+            mathjax_content += '<br/> C:' + $('#id_mathjax_q_C').val();
+            mathjax_content += '<br/> D:' + $('#id_mathjax_q_D').val();
+        }
+        //console.log(mathjax_content);
         mathjax_content = mathjax_content.replace(/\n/g, '<br/>');
         mathjax_content = mathjax_content.replace(/[ ]/g, '&nbsp');
         mathjax_content = mathjax_content.replace(/(\!\[\]\()/g,"<img src='");
 	      mathjax_content = mathjax_content.replace(/(\)\[\]\&)/ig,"'/>");
+
         MathPreview.html(mathjax_content);
         MathJax.Hub.Queue(["Typeset",MathJax.Hub,mathId]);
         //Cquestion_editor.render_mathJax(MathPreview,mathId);

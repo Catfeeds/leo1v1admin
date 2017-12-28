@@ -63,12 +63,12 @@ class common_new extends Controller
         if(!is_array($xls_data)) {
             return $this->output_err("download error");
         }
+
         $xls_data = array_filter($xls_data);
         $xls_data_new = [];
         foreach($xls_data as $item){
             $xls_data_new[] = $item;
         }
-
         $objPHPExcel = new \PHPExcel();
         $objPHPExcel->getProperties()->setCreator("jim ")
                              ->setLastModifiedBy("jim")
@@ -77,7 +77,6 @@ class common_new extends Controller
                              ->setDescription("jim Desc")
                              ->setKeywords("jim key")
                              ->setCategory("jim  category");
-
         $objPHPExcel->setActiveSheetIndex(0);
 
         $col_list=[
@@ -789,15 +788,15 @@ class common_new extends Controller
                 $desc_sql   = sprintf("desc %s", $db_table_name );
                 $tmp_arr    = preg_split("/\./",$db_table_name);
                 $db_name    = $tmp_arr[0];
-                if ($db_name=="db_question") {
-                    $this->question_model->main_get_value(  "set names utf8" );
-                    $row  = $this->question_model->main_get_row($create_sql);
-                    $list = $this->question_model->main_get_list($desc_sql);
-                }else{
-                    $this->t_lesson_info ->main_get_value(  "set names utf8" );
-                    $row  = $this->t_lesson_info ->main_get_row($create_sql);
-                    $list = $this->t_lesson_info->main_get_list($desc_sql);
-                }
+                // if ($db_name=="db_question") {
+                //     $this->question_model->main_get_value(  "set names utf8" );
+                //     $row  = $this->question_model->main_get_row($create_sql);
+                //     $list = $this->question_model->main_get_list($desc_sql);
+                // }else{
+                $this->t_lesson_info->main_get_value(  "set names utf8" );
+                $row  = $this->t_lesson_info ->main_get_row($create_sql);
+                $list = $this->t_lesson_info->main_get_list($desc_sql);
+                // }
                 $ret_map[$db_table_name] = [
                     "table_desc" => $row["Create Table"],
                     "desc_list"  => $list
@@ -1536,7 +1535,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
 
 
-    //建行回调地址
+    //建行分期回调地址
     public function ccb_callback_return_info(){
 
         $orderNo = $this->get_in_str_val("ORDERID","701748525753");
@@ -1551,21 +1550,38 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $type = $this->get_in_str_val("TYPE","1");
         $referer = $this->get_in_str_val("REFERER","");
         $clientip = $this->get_in_str_val("CLIENTIP","116.226.191.6");
-        $installnum = $this->get_in_str_val("INSTALLNUM","12");
+        $installnum = $this->get_in_str_val("INSTALLNUM","");
         $errmsg = $this->get_in_str_val("ERRMSG");
         $sign = $this->get_in_str_val("SIGN","&CLIENTIP=116.226.191.6&INSTALLNUM=12&ERRMSG=&SIGN=5d00745445c4e3cc4dc99653bb2516cdac417701431e591088b5fdfddb984a116760e6156641ddd46cb6d434a6b5150aa4c37f7cf4732b2b94241ea926b0e1d4234b53f458d3ab2f80d6df3f6fc785450240105ace4b76dc6525191cbca54e1c09377b67cd6f42de89582e2987de1fd557368fa18dca273541f2d5a823ff30f6");
         $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&ACC_TYPE=".$acc_type."&SUCCESS=".$success."&TYPE=".$type."&REFERER=".$referer."&CLIENTIP=".$clientip."&INSTALLNUM=".$installnum."&ERRMSG=".$errmsg;
         // $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&SUCCESS=".$success;
         $der_data = "30819d300d06092a864886f70d010101050003818b0030818702818100d3248e9cfda6a7ca49fb480bc9539415e3083c07a82b3bded3fd39e33550228c6d9283b36219b78dab80783c01e241963e91dd2b8de8e400c8b0d19ce312d29fb790ec7d9257fbc421501ea0155f252635d52a7d5d8c5e0d5fe64202e41a096615b1e6a0164dd7ce3e4ce66e814fa3c1096c6d33c23710c736ebb69c1e9da205020111";
 
-        $cmd ='cd /home/ybai/bin/Cbb/ && java Main "'.$data.'" "'.$sign.'"';
+        $pay_channel=$cmd="";
+        if($posid=="002171923"){
+            $cmd ='cd /home/ybai/bin/Cbb/ && java Main "'.$data.'" "'.$sign.'"';
+            $pay_channel = "建行分期";
+        }elseif($posid=="002171916"){
+            $cmd ='cd /home/ybai/bin/Cbb/ && java Other "'.$data.'" "'.$sign.'"';
+            $pay_channel = "建行网关支付";
+        }
         // echo $cmd;
         //dd(11);
         // dd($cmd);
         $verifyResult = \App\Helper\Utils::exec_cmd($cmd);
         // dd($verifyResult);
 
+        if(!$verifyResult){
+            $this->t_manager_info->send_wx_todo_msg(
+                "jack",
+                "合同付款通知",
+                "合同付款验签失败",
+                "学生:".$user_info["nick"]." 渠道:".$pay_channel.",订单号:".$orderNo,
+                "");
 
+        }
+
+        
         //当前默认为true
         //$verifyResult=true;
         if($verifyResult && $success=="Y" ){
@@ -1585,7 +1601,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $this->t_child_order_info->field_update_list($orderid,[
                     "pay_status"  =>1,
                     "pay_time"    =>time(),
-                    "channel"     =>"建行分期",
+                    "channel"     =>$pay_channel,
                     "from_orderno"=>$orderNo,
                     // "period_num"  =>$period_new
                 ]);
@@ -1593,19 +1609,19 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     "jack",
                     "合同付款通知",
                     "合同付款通知",
-                    "学生:".$user_info["nick"]." 渠道:建行分期,订单号:".$orderNo,
+                    "学生:".$user_info["nick"]." 渠道:".$pay_channel.",订单号:".$orderNo,
                     "");
                 $this->t_manager_info->send_wx_todo_msg(
                     "zero",
                     "合同付款通知",
                     "合同付款通知",
-                    "学生:".$user_info["nick"]." 渠道:建行分期,订单号:".$orderNo,
+                    "学生:".$user_info["nick"]." 渠道:".$pay_channel.",订单号:".$orderNo,
                     "");
                 $this->t_manager_info->send_wx_todo_msg(
                     $sys_operator,
                     "合同付款通知",
                     "合同付款通知",
-                    "学生:".$user_info["nick"]." 渠道:建行分期,订单号:".$orderNo,
+                    "学生:".$user_info["nick"]." 渠道:".$pay_channel.",订单号:".$orderNo,
                     "");
 
 

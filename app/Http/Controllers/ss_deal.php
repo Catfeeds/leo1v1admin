@@ -2410,7 +2410,51 @@ class ss_deal extends Controller
                 "disable_activity_list" => $disable_activity_list
             ]
             );
+
+        // 开发中 勿删    如果匹配，再过滤一次
+        // echo '<pre>';
+        // print_r($ret);
+        // foreach($ret['desc_list'] as &$v){
+        //     $v['order_activity_type'] = intval( trim($v['order_activity_type'], '"') );
+        //     if( strlen($v['order_activity_type']) == 10 && $v['succ_flag'] ==1 ){
+        //         $this->set_in_value('order_activity_type', $v['order_activity_type']);
+        //         $is_match = $this->check_is_match( intval($v['order_activity_type']) );
+        //         if($is_match == false){
+        //             $v['activity_desc'] .= '(该括弧内为测试文字,不影响合同．)';
+        //         }
+        //     }
+        // }
         return $this->output_succ(["data"=>$ret]);
+    }
+
+    public function check_is_match($order_activity_type){
+        $adminid          = $this->get_account_id();
+        $end_time         = strtotime( substr($order_activity_type, 0, 8) );
+        $start_time       = 0;
+        $h5_count         = 0;
+        $no_has_prev      = 0;
+        while( !$h5_count ){
+            $prev_web_page_id = $this->t_web_page_info->get_prev_web_page_id($order_activity_type);
+            if($prev_web_page_id <2017 ){
+                $no_has_prev++;
+                break;
+            }
+            $start_time = strtotime( substr($prev_web_page_id, 0, 8) );
+            $h5_count = $this->t_web_page_info->h5_count($start_time, $end_time);
+        }
+        if($no_has_prev == 1){
+            return false;
+        }
+
+        $share_info = $this->t_web_page_info->is_all_share($start_time, $end_time, $adminid);
+
+        foreach($share_info as $item){
+            if($item['share_flag'] == 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function seller_add_contract()
@@ -7644,11 +7688,19 @@ class ss_deal extends Controller
         $uid = $this->get_account_id();
 
         //检测图片尺寸
+        if(strlen($act_descr)>90){
+            return $this->output_err('描述文字不可超出30个字!');
+        }
 
         $coverImgUrlOnline = '';
         $activityImgUrlOnline = '';
         $followImgUrlOnline = '';
         $shareImgUrlOnline = '';
+        $shareType = 0;
+        $coverType = 0;
+        $activityType = 0;
+        $followType = 0;
+
 
         $domain = config('admin')['qiniu']['public']['url'];
         if($shareImgUrl){ $shareImgUrlOnline = $domain."/".$shareImgUrl; }
@@ -7672,10 +7724,17 @@ class ss_deal extends Controller
             list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
         }
 
-        if($shareWidth>755 || $shareHeight>1336){ return $this->output_err('分享页图片过大,请重新上传!'); }
-        if($coverWidth>305 || $coverHeight>305){ return $this->output_err('封面页图片过大,请重新上传!'); }
-        if($activityWidth>755 || $activityWidth>1336){ return $this->output_err('活动页图片过大,请重新上传!'); }
-        if($followWidth>755 || $followHeight>1336){ return $this->output_err('关注页图片过大,请重新上传!'); }
+
+
+        if($shareType != 3){return $this->output_err('分享页图片格式不符合,请重新上传!');}
+        if($coverType != 3){return $this->output_err('封面图片格式不符合,请重新上传!');}
+        if($activityType != 3){return $this->output_err('活动页图片格式不符合,请重新上传!');}
+        if($followType != 3){return $this->output_err('关注页图片格式不符合,请重新上传!');}
+
+        if($shareWidth!=750 || $shareHeight!=1334){ return $this->output_err('分享页图片尺寸不符合,请重新上传!'); }
+        if($coverWidth!=300 || $coverHeight!=300){ return $this->output_err('封面页图片尺寸不符合,请重新上传!'); }
+        if($activityWidth!=750 || $activityHeight!=1334){ return $this->output_err('活动页图片尺寸不符合,请重新上传!'); }
+        if($followWidth!=750 || $followHeight!=1334){ return $this->output_err('关注页图片尺寸不符合,请重新上传!'); }
 
 
         $this->t_activity_usually->row_insert([

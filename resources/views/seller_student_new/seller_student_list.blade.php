@@ -317,17 +317,28 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                          <td  class="td-phone">
-                             <div class="phone-data">{{$var["phone"]}}</div>
+                             <div class="phone-data">
+                                 @if($account == 'jim' || $account_role == 12 || $account == 'tom')
+                                     {{$var["phone"]}}
+                                 @else
+                                     {{$var["phone_hide"]}}
+                                 @endif
+                             </div>
                          </td>
                          <td  class="td-phone">
                              <div class="phone-data">
-                                 @if($var['origin'] == '优学优享' || $var['origin'] == '知识库' || $var['origin'] == 'jingqi-0805')
+                                 @if($var['origin'] == '优学优享' || $var['origin'] == '知识库' || $var['origin'] == 'jingqi-0805' || $var['origin']=='美团—1230')
                                      <font color="red">{{$var["origin"]}}/{{$var["nickname"]}}</font>
                                  @endif
                              </div>
                          </td>
                          <td >
-                             {{$var["phone"]}} {{$var["phone_location"]}} <br/>
+                             @if($account == 'jim' || $account_role == 12 || $account == 'tom')
+                                 {{$var["phone"]}}
+                             @else
+                                 {{$var["phone_hide"]}}
+                             @endif
+                             {{$var["phone_location"]}} <br/>
                              姓名: {{$var["nick"]}} <br/>
                              年级:{{$var["grade_str"]}}<br/>
                              科目:{{$var["subject_str"]}}<br/>

@@ -721,12 +721,16 @@ class fulltime_teacher extends Controller
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $adminid = $this->get_in_int_val("adminid",-1);
         $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
+        $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
+        $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        $adminid_right=[0=>"全职老师",1=>"",2=>"",3=>""];
+
         $month_start = strtotime(date("Y-m-01",time()));
         if($start_time>=$month_start){
             $ret=[];
         }else{
             $ret=[];
-            $list = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list_new($start_time,$end_time,$attendance_type,$teacherid,$adminid,$account_role,$fulltime_teacher_type);
+            $list = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list_new($start_time,$end_time,$attendance_type,$teacherid,$adminid,$account_role,$fulltime_teacher_type,$adminid_list);
             foreach($list as $val){
                 $uid = $val["adminid"]; 
                 $teacherid = $val["teacherid"];
@@ -737,8 +741,8 @@ class fulltime_teacher extends Controller
                 if(in_array($val["attendance_type"],[0,2]) && $w!=1 && $w !=2){
                     @$ret[$uid]["need_work_day"]++;
 
-                    $off_time = $val["off_time"]==0?($val["attendance_time"]+9.5*3600):$val["off_time"];
-                    $delay_time = $val["delay_work_time"]==0?($val["attendance_time"]+18.5*3600):$val["delay_work_time"];
+                    $off_time = $val["off_time"]==0?($val["attendance_time"]+18.5*3600):$val["off_time"];
+                    $delay_time = $val["delay_work_time"]==0?($val["attendance_time"]+9.5*3600):$val["delay_work_time"];
                     if($val["card_start_time"]>0){                                           
                         if($delay_time <$val["card_start_time"]){
                             @$ret[$uid]["late_num"]++;
@@ -770,6 +774,7 @@ class fulltime_teacher extends Controller
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret),[
             "start" =>date("Y-m-d",$start_time),
             "end" =>date("Y-m-d",$end_time),
+            "adminid_right"     => $adminid_right
         ] );
        
        

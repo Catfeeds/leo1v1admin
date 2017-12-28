@@ -116,7 +116,7 @@
 
                 <tr>
 			        <td style="text-align:right; width:30%;">图片名称</td>
-			        <td><input value="" class="add_pic_name" type="text"/></td>
+			        <td><input value="" class="add_pic_name" type="text" size="30" /></td>
 		        </tr>
                 <tr class="icon_s">
 			        <td style="text-align:right; width:30%;">图标顺序/消息类型</td>

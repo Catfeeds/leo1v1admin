@@ -651,10 +651,9 @@ trait  ViewDeal {
         $page_info['result_num']   = $total;
         $page_info['page_num']     = ceil( \App\Helper\Common::div_safe( $total,$page_size));
         $page_info['current_page'] = $page;
-        $page_info['page_count'] = $page_size;
+        $page_info['page_count']   = $page_size;
         $page_info['pre_page']     = ($page - 1) == 0 ? $page : ($page - 1);
         $page_info['next_page']    = ($page + 1) > $page_info['page_num'] ? $page : ($page + 1);
-
         $page_info['page']         = $this->_page($page_info['page_num'],$page_size ,$page,$url,$showPages);
 
         // 范围：当前是从第X项到第Y项
@@ -857,7 +856,7 @@ trait  ViewDeal {
         if (!$ret_info) {
             $ret_info=\App\Helper\Utils::list_to_page_info([]);
         }
-        if (\App\Helper\Utils::check_env_is_local() ){
+        if (\App\Helper\Utils::check_env_is_local()){
             //生成 g_args 的 .d.ts
             $this->store_vue_ts_file($ret_info["list"]);
         }

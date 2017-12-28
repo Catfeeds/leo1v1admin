@@ -160,18 +160,4 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         return $this->main_get_value($sql);
     }
 
-    public function getResourceList(){
-        $where_arr = [];
-        $sql = $this->gen_sql_new("  select rf.file_link "
-                                  ." from %s r"
-                                  ." left join %s rf on rf.resource_id=r.resource_id"
-                                  ." left join %s "
-                                  ." where %s"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_resource_file::DB_TABLE_NAME
-                                  ,t_resource_file::DB_TABLE_NAME
-        );
-
-        return $this->main_get_list($sql);
-    }
 }

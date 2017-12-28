@@ -61,6 +61,7 @@ return array(
     'CreateTTeacherResource' => $baseDir . '/database/migrations/2017_12_13_140214_create_t_teacher_resource.php',
     'CreateTTeacherResourceDir' => $baseDir . '/database/migrations/2017_12_14_162726_create_t_teacher_resource_dir.php',
     'CreateTTeacherSalaryList' => $baseDir . '/database/migrations/2017_10_26_184755_create_t_teacher_salary_list.php',
+    'CreateTWeekOfMonthlyReport' => $baseDir . '/database/migrations/2017_12_26_164707_create_t_week_of_monthly_report.php',
     'CreateTWxGiveBook' => $baseDir . '/database/migrations/2017_10_10_145114_create_t_wx_give_book.php',
     'CreateTableCompanyWxAuth' => $baseDir . '/database/migrations/2017_11_24_105425_create_table_company_wx_auth.php',
     'CreateTableCompanyWxTag' => $baseDir . '/database/migrations/2017_11_28_153259_create_table_company_wx_tag.php',

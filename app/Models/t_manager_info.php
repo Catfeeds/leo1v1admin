@@ -531,26 +531,27 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         if($sales_assistant_flag == 1)
             $where_arr[]='am.account_role in (1,2)';
 
-        $sql = $this->gen_sql_new("select g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,".
-                                  "am.uid adminid,am.account,am.seller_level,".
-                                  "am.create_time,am.become_member_time,am.leave_member_time,".
-                                  "am.del_flag,am.seller_level,".
-                                  "(case am.account_role when 1 then '助教' when 2 then '销售' else '其他' end) as account_role".
-                                  " from %s am ".
-                                  " left join %s u on am.uid = u.adminid".
-                                  " left join %s g on u.groupid = g.groupid".
-                                  " left join %s m on g.up_groupid = m.groupid".
-                                  " left join %s ss on am.uid = ss.admin_revisiterid ".
-                                  " left join %s t on ss.userid = t.userid ".
-                                  " where %s ".
-                                  "  group by am.uid",
-                                  self::DB_TABLE_NAME,//am
-                                  t_admin_group_user::DB_TABLE_NAME,//u
-                                  t_admin_group_name::DB_TABLE_NAME,//g
-                                  t_admin_main_group_name::DB_TABLE_NAME,//m
-                                  t_seller_student_new::DB_TABLE_NAME,//ss
-                                  t_test_lesson_subject::DB_TABLE_NAME,//t
-                                  $where_arr
+        $sql = $this->gen_sql_new(
+            "select g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,".
+            "am.uid adminid,am.account,am.seller_level,".
+            "am.create_time,am.become_member_time,am.leave_member_time,".
+            "am.del_flag,am.seller_level,".
+            "(case am.account_role when 1 then '助教' when 2 then '销售' else '其他' end) as account_role".
+            " from %s am ".
+            " left join %s u on am.uid = u.adminid".
+            " left join %s g on u.groupid = g.groupid".
+            " left join %s m on g.up_groupid = m.groupid".
+            " left join %s ss on am.uid = ss.admin_revisiterid ".
+            " left join %s t on ss.userid = t.userid ".
+            " where %s ".
+            "  group by am.uid",
+            self::DB_TABLE_NAME,//am
+            t_admin_group_user::DB_TABLE_NAME,//u
+            t_admin_group_name::DB_TABLE_NAME,//g
+            t_admin_main_group_name::DB_TABLE_NAME,//m
+            t_seller_student_new::DB_TABLE_NAME,//ss
+            t_test_lesson_subject::DB_TABLE_NAME,//t
+            $where_arr
         );
         return $this->main_get_list_as_page($sql,function($item){
             return $item['adminid'];
@@ -1319,10 +1320,11 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
 
-    public function get_research_teacher_list_new($account_role,$fulltime_teacher_type=-1){
+    public function get_research_teacher_list_new($account_role,$fulltime_teacher_type=-1,$adminid_list=[]){
         $where_arr=[
             ["m.fulltime_teacher_type=%u",$fulltime_teacher_type,-1]
         ];
+        $this->where_arr_adminid_in_list($where_arr,"m.uid", $adminid_list );
         $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.train_through_new_time from %s m".
                                   " join %s t on m.phone=t.phone where %s and account_role=%u and del_flag =0",
                                   self::DB_TABLE_NAME,
