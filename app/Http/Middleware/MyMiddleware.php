@@ -26,6 +26,8 @@ class MyMiddleware
         global $g_account;
         $g_account=session("acc");
 
+        $in_arr=$request->input();
+        // dd($in_arr);
         // \Utils::debug_to_html(   );
         $arr=[];
         $in_start_time=time(NULL);
@@ -70,7 +72,6 @@ class MyMiddleware
 
             \App\Helper\Utils::logger("without power !!");
             \App\Helper\Utils::logger( session("power_list"));
-            $in_arr=$request->input();
             if (isset( $in_arr["callback"])) {
 
                 return new \Illuminate\Http\Response( outputjson_error(1001,"没有权限!"));
