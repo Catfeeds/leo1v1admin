@@ -1411,7 +1411,7 @@ class test_boby extends Controller
 
 
     public function get_order(){
-        $sql = "select o.order_time,m.account,m.become_member_time,o.price,o.check_money_time from db_weiyi.t_order_info o left join db_weiyi_admin.t_manager_info m on m.account=o.sys_operator where o.order_time>=1504195200 and o.order_time<1514736000 and m.del_flag=0 and m.account_role=2 and o.contract_status>0";
+        $sql = "select o.order_time,m.account,m.become_member_time,o.price,o.check_money_time from db_weiyi.t_order_info o left join db_weiyi_admin.t_manager_info m on m.account=o.sys_operator where o.order_time>=1504195200 and o.order_time<1514736000 and m.del_flag=0 and m.account_role=2 and o.contract_status>0 and o.contract_type =0";
         $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
 
         $th_arr = ['cc','入职时间','金额','下单时间','财务确认时间'];
