@@ -1418,7 +1418,7 @@ class test_boby extends Controller
         $s = $this->table_start($th_arr);
 
         foreach($ret as $v){
-            \App\Helper\Utils::unixtime2date_for_item($v, 'bocome_member_time');
+            \App\Helper\Utils::unixtime2date_for_item($v, 'become_member_time');
             \App\Helper\Utils::unixtime2date_for_item($v, 'order_time');
             \App\Helper\Utils::unixtime2date_for_item($v, 'check_money_time');
             $s= $this->tr_add($s, $v['account'], $v['become_member_time'],$v['price']/100, $v['order_time'],$v['check_money_time']);
