@@ -70,15 +70,16 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         $where_arr = [
             "rf.resource_id=$resource_id",
             "rf.status=0",
-            "rf.file_use_type=1"
+            "rf.file_use_type=0"//授课课件
         ];
 
-        $sql = $this->gen_sql_new("  select rf.file_title, rf.file_type, rf.file_link from %s rf "
+        $sql = $this->gen_sql_new("  select rf.file_title, rf.file_id, rf.file_type, rf.file_link, rf.file_poster, r.tag_three from %s rf "
+                                  ." left join %s r on r.resource_id=rf.resource_id"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
+                                  ,t_resource::DB_TABLE_NAME
                                   ,$where_arr
         );
-
         return $this->main_get_list($sql);
     }
 
@@ -111,7 +112,7 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
             "rf.uuid=''",
             "rf.status=0"
         ];
-        $sql = $this->gen_sql_new("  select file_link, file_id from %s rf"
+        $sql = $this->gen_sql_new("  select file_link, file_id, file_title from %s rf"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
@@ -144,4 +145,18 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         return $this->main_get_list($sql);
     }
 
+    public function getResourceFileInfoById($resource_id){
+        $where_arr = [
+            "f.resource_id=$resource_id",
+            "f.status=0",
+        ];
+
+        $sql = $this->gen_sql_new("  select file_title, file_type, file_link from %s f "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

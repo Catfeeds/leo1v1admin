@@ -287,12 +287,12 @@ class test_code extends Controller
         $code  = $this->get_in_str_val("code","5593");
         $index = $this->get_in_str_val("index","1");
         $phone = $this->get_in_str_val("phone","18790256265");
-        $template_code = "SMS_10671030";
+        $template_code = "SMS_7505220";
         $data = [
             "code"  => $code,
             "index" => $index,
         ];
-        $ret = \App\Helper\Common::send_sms_with_taobao($phone, $template_code, $data,"理优1对1");
+        $ret = \App\Helper\Common::send_sms_with_taobao($phone, $template_code, $data,"理优教育");
         dd($ret);
     }
 
