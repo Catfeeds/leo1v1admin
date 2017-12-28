@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use OSS\OssClient;
 
 class pdfConversionH5 extends Command
 {
@@ -69,6 +70,51 @@ class pdfConversionH5 extends Command
             $data=file_get_contents($h5DownloadUrl);
             file_put_contents($saveH5FilePath, $data);
 
+
+            /**
+             * @ 零时功能 pdf环境上传阿里
+             **/
+            $tmp = public_path()."/pdf_new";
+
+            $handler = opendir($tmp);
+            while (($filename = readdir($handler)) !== false) {//务必使用!==，防止目录下出现类似文件名“0”等情况
+                if ($filename != "." && $filename != "..") {
+                    $files[] = $filename ;
+                }
+            }
+            @closedir($handler);
+            $test_data = '';
+
+
+
+            $config=\App\Helper\Config::get_config("ali_oss");
+            $ossClient = new OssClient(
+                $config["oss_access_id"],
+                $config["oss_access_key"],
+                $config["oss_endpoint"],
+                false
+            );
+            $h5Path = "pdfToH5"; // 环境文件夹
+
+            foreach ($files as $file_name) {
+                $h5FileName = $h5Path.'/'.$file_name;
+                $target = $tmp."/".$file_name; //本地文件路径
+
+                $bucket=$config["public"]["bucket"];
+                $ossClient->uploadFile($bucket, $h5FileName, $target  );
+                $downLoad = $config["public"]["url"]."/".$h5FileName;
+
+                if($file_name == 'index.html'){ // 作为微信访问页
+
+                }
+                $test_data.=$downLoad." ";
+            }
+
+            \App\Helper\Utils::logger("test_data_ali_url_main: $test_data");
+
+
+            exit();
+
             /**
              * @ 将目录下的文件批量上传到阿里云
              * @  解压文件包->获取文件包下文件->文件批量上传
@@ -98,17 +144,17 @@ class pdfConversionH5 extends Command
             $h5Path = "pdfToH5/".$uuid; // 环境文件夹
 
             foreach ($files as $file_name) {
-                // echo $value."<br />";
-
                 $h5FileName = $h5Path.'/'.$file_name;
                 $target = $unzipFilePath."/".$uuid."/".$file_name; //本地文件路径
 
                 $bucket=$config["public"]["bucket"];
                 $ossClient->uploadFile($bucket, $h5FileName, $target  );
-
                 $downLoad = $config["public"]["url"]."/".$h5FileName;
-                $test_data.=$downLoad." ";
 
+                if($file_name == 'index.html'){ // 作为微信访问页
+
+                }
+                $test_data.=$downLoad." ";
             }
 
             \App\Helper\Utils::logger("test_data_ali_url: $test_data");
