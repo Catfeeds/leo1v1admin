@@ -30,6 +30,7 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
+                    <td>老师id</td>
                     <td >老师</td>
                     <td >学生数</td>
                     <td >课耗/(单位:课时)</td>
@@ -42,6 +43,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{@$var['teacherid']}}</td>
                         <td>
                             {{@$var["tea_nick"]}}
                         </td>

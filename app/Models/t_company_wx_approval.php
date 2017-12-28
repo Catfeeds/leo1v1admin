@@ -29,6 +29,14 @@ class t_company_wx_approval extends \App\Models\Zgen\z_t_company_wx_approval
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_all_info($start_time, $end_time) {
+        $where_arr = [
+            ["apply_time>=%u", $start_time, 0],
+            //["apply_time"]
+            //' 	apply_time '
+        ];
+    }
 }
 
 
