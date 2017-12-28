@@ -38,7 +38,9 @@ export default class vbase extends Vue {
   };
   //
   query_init () {
+
   };
+
   row_init  () {
   };
   page_info_init (page_info) {

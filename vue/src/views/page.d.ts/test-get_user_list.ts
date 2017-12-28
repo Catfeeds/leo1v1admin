@@ -47,9 +47,10 @@ export default class extends vbase {
   query_init(): void{
     console.log("init_query");
     var me =this;
-
     var $header_query_info= $("#id_header_query_info").admin_header_query ({
     });
+    me.$header_query_info= $header_query_info ;
+
 		$.admin_date_select ({
 		'join_header'  : $header_query_info,
 		'title' : "时间",

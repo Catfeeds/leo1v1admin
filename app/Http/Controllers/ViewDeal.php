@@ -203,9 +203,10 @@ trait  ViewDeal {
             "  query_init(): void{\n".
             "    console.log(\"init_query\");\n".
             "    var me =this;\n".
-            "\n".
             "    var \$header_query_info= \$(\"#id_header_query_info\").admin_header_query ({\n".
             "    });\n".
+            "    me.\$header_query_info= \$header_query_info ;\n".
+             "\n".
             $set_filed_str.
             "\n".
             "  }\n".
