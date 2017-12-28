@@ -27,6 +27,7 @@ class t_company_wx_approval extends \App\Models\Zgen\z_t_company_wx_approval
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
+        echo $sql;
         return $this->main_get_list($sql);
     }
 
