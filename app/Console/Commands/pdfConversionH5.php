@@ -106,6 +106,7 @@ class pdfConversionH5 extends Command
 
             $bucket=$config["public"]["bucket"];
             $ossClient->uploadFile($bucket, $file_name, $target  );
+            return $config["public"]["url"]."/".$file_name;
 
 
 
