@@ -101,10 +101,9 @@ trait  ViewDeal {
                                       ."\t\t'join_header'  : \$header_query_info,\n"
                                       .'"enum_type"    : "'.$enum_type_str.'",' . "\n"
                                       .'"field_name" : "'.$key .'",'  . "\n"
+                                      .'"title" : "'.$key .'",'  . "\n"
                                       .'"select_value" : this.get_args().'.$key .','  . "\n"
                                       .'		"multi_select_flag"     : true,'  . "\n"
-                                      .'		"onChange"     : load_data,'  . "\n"
-                                      .'		"th_input_id"  : "th_'.$key .'",'  . "\n"
                                       .'		"btn_id_config"     : {},' . "\n"
                                       ."	});"  . "\n\n";
                     }else if ( $is_enum_flag ) {
@@ -112,10 +111,8 @@ trait  ViewDeal {
                             ."\t\t'join_header'  : \$header_query_info,\n"
                             .'		"enum_type"    : "'.$enum_type_str.'",' . "\n"
                             .'		"field_name" : "'.$key .'",'  . "\n"
-                            .'		"select_value" : this.get_args().'.$key .','  . "\n"
-                            .'		"onChange"     : load_data,'  . "\n"
+                            .'"title" : "'.$key .'",'  . "\n"
                             .'		"multi_select_flag"     : false ,'  . "\n"
-                            .'		"th_input_id"  : "th_'.$key .'",'  . "\n"
                             .'		"btn_id_config"     : {},' . "\n"
                             ."	});"  . "\n\n";
                     }else{
@@ -185,7 +182,7 @@ trait  ViewDeal {
             "}\n\n".
             "export  {self_RowData , self_Args  }\n"
             ."/*\n"
-            ."\ntofile: \n\t mkdir -p ../../../vue/src/views/{$this->view_ctrl}; vi  ../../../vue/src/views/{$this->view_ctrl}/{$this->view_action}.ts\n\n".
+            ."\ntofile: \n\t mkdir -p ../{$this->view_ctrl}; vi  ../{$this->view_ctrl}/{$this->view_action}.ts\n\n".
             "\n".
             "import Vue from 'vue'\n".
             "import Component from 'vue-class-component'\n".

@@ -24,7 +24,6 @@ class test extends Controller
     }
 
     public function get_user_list(){
-        dd ("xx");
         $page_info= $this->get_in_page_info();
         $grade=$this->get_in_el_grade();
 
