@@ -871,7 +871,7 @@ trait  ViewDeal {
         if (!$ret_info) {
             $ret_info=\App\Helper\Utils::list_to_page_info([]);
         }
-        if (\App\Helper\Utils::check_env_is_local() ){
+        if (\App\Helper\Utils::check_env_is_local()){
             //生成 g_args 的 .d.ts
             $this->store_vue_ts_file($ret_info["list"]);
         }

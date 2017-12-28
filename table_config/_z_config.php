@@ -1,5 +1,6 @@
 <?php
 return array(
+    ['db_weiyi','t_week_of_monthly_report','id'],
     ['db_weiyi','t_teacher_approve_refer_to_data','id'],
     ['db_weiyi','t_teacher_christmas','id'],
     ['db_weiyi','t_activity_usually','id'],
@@ -187,7 +188,6 @@ return array(
     ["db_weiyi","t_taobao_item","open_iid"] ,
     ["db_weiyi","t_taobao_type_list","cid"] ,
 
-
     ["db_weiyi","t_audio_record_server","ip"] ,
     ["db_weiyi","t_baidu_msg","messageid"] ,
     ["db_weiyi","t_baidu_push_msg","messageid"] ,
@@ -305,20 +305,18 @@ return array(
     ["db_tool","t_scores_info","id"] ,
     ["db_tool","t_scores_min","id"] ,
     ["db_message","t_sms_msg","recordid"] ,
-    ["db_message","t_weixin_msg","recordid"], 
-    //["db_question","t_lesson_note_list","id"] ,
-    //["db_question","t_lesson_note","note_id"] ,
-    //["db_question","t_question","id"] ,
-    //["db_ejabberd","users","username"] ,
+    ["db_message","t_weixin_msg","recordid"],
+
+    ["db_ejabberd","users","username"] ,
 
     ["db_question_new","t_question","question_id"] ,
     ["db_question_new","t_knowledge_point","knowledge_id"] ,
     ["db_question_new","t_answer","step_id"] ,
-    ["db_question_new","t_answer_type","id"], 
+    ["db_question_new","t_answer_type","id"],
     ["db_question_new","t_question_knowledge","id"],
     ["db_question_new","t_knowledge_level","id"],
     ["db_question_new","t_textbook","textbook_id"],
-    ["db_question_new","t_textbook_knowledge","id"], 
+    ["db_question_new","t_textbook_knowledge","id"],
     ["db_question_new","t_question_type","id"],
-    ["db_question_new","t_student_answer","id"], 
+    ["db_question_new","t_student_answer","id"],
 );
