@@ -460,10 +460,13 @@ class tongji extends Controller
         $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
         $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,$adminid,100000 );
         $phone=$this->t_manager_info->field_get_value($adminid, 'phone');
+        var_dump($phone);
         $userid=$this->t_company_wx_users->get_userid_for_adminid($phone);
+        var_dump($userid);
         
         $info=$this->t_company_wx_approval->get_info_for_userid($userid, $start_time, $end_time);
         $len = count($info);
+        echo $len;
         foreach($info as $key => $item) {
             $num = ($item['end_time'] - $item['start_time']) / 86400;
             if ($num >= 1) {
