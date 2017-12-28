@@ -19,7 +19,7 @@ var setting = {
         }
     },
     callback: {
-        
+       onClick: zTreeOnClick, 
     }
 }
 
@@ -54,6 +54,11 @@ function save_know(){
 
     $('#knowledge_exits').html(html);
     close_know();
+}
+
+function zTreeOnClick(event, treeId, treeNode){
+    var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+    treeObj.expandNode(treeNode, true, true, true);
 }
 
 $(function(){

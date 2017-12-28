@@ -46,6 +46,9 @@ class question_new extends Controller
         //题目对应的知识点id
         $know_arr = [];
 
+        //取出题目对应的选项
+        $question_option = [];
+
         if($question_id){
             //取出题目
             $editData = $this->t_question->get_by_id($question_id);
@@ -54,8 +57,6 @@ class question_new extends Controller
             //取出题目对应的知识点
             $know_arr = $this->t_question_knowledge->question_know_get($question_id);
 
-            //取出题目对应的选项
-            $question_option = [];
             if( $editData['question_type'] == 1 || $editData['question_type'] == 2 ){
                 $option = $this->t_question_option->question_option_list($question_id);
                 if($option){
@@ -88,7 +89,7 @@ class question_new extends Controller
         //dd($know_arr);
     
         $knowledge = json_encode($knowledge);
-        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712271447",
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712271427",
                                                   "ret"=>$ret,
                                                   'editData'=>$editData,
                                                   'question_option'=>$question_option,
