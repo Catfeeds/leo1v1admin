@@ -2528,35 +2528,37 @@ class Utils  {
         }
     }
 
-    static public function check_is_match($adminid,$web_page_id){
+    static public function check_is_match($adminid,$activity_id){
 
         $task = new  \App\Console\Tasks\TaskController();
-        $end_time    = strtotime( substr($web_page_id, 0, 8) );
+        $end_time    = strtotime( substr($activity_id, 0, 8) );
         $start_time  = 0;
         $h5_count    = 0;
         $no_has_prev = 0;
+        $ret = ['ret' => 1];
         while( !$h5_count ){
-            $prev_web_page_id = $task->t_web_page_info->get_prev_web_page_id($web_page_id);
-            if($prev_web_page_id < 2017 ){
+            $prev_activity_id = $task->t_order_activity_config->get_prev_id($activity_id);
+            if($prev_activity_id < 2017 ){
                 $no_has_prev++;
                 break;
             }
-            $start_time = strtotime( substr($prev_web_page_id, 0, 8) );
+            $start_time = strtotime( substr($prev_activity_id, 0, 8) );
             $h5_count   = $task->t_web_page_info->h5_count($start_time, $end_time);
         }
+
         if($no_has_prev == 1){
-            return true;
+            return $ret;
         }
 
         $share_info = $task->t_web_page_info->is_all_share($start_time, $end_time, $adminid);
-
         foreach($share_info as $item){
             if($item['share_flag'] == 0) {
-                return false;
+                $ret['ret'] = 0;
+                $ret['info'][] = $item;
             }
         }
 
-        return true;
+        return $ret;
 
     }
 
