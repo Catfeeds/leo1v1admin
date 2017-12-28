@@ -719,6 +719,17 @@ class teacher_info_admin extends Controller
         $second_grade_end   = $this->get_in_int_val("second_grade_end");
 
         // $old_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $old_arr=$this->t_teacher_info->field_get_list($teacherid,"subject,grade_start,grade_end,second_subject,second_grade_start,second_grade_end");
+        $now_arr=[
+            "subject"            => $subject,
+            "grade_start"        => $grade_start,
+            "grade_end"          => $grade_end,
+            "second_subject"     => $second_subject,
+            "second_grade_start" => $second_grade_start,
+            "second_grade_end"   => $second_grade_end,
+        ];
+        $record_info=json_encode(["old"=> $old_arr,"new"=> $now_arr]);
+
 
         $ret = $this->t_teacher_info->field_update_list($teacherid,[
             "subject"            => $subject,
@@ -731,6 +742,15 @@ class teacher_info_admin extends Controller
 
         if(!$ret){
             return $this->output_err("更新失败或无需更新！");
+        }else{
+            //增加修改记录
+            $this->t_teacher_record_list->row_insert([
+                "teacherid" => $teacherid,
+                "type"      => 17,
+                "record_info"=> $record_info,
+                "acc"        => $this->get_account(),
+                "add_time"   => time()
+            ]);
         }
         return $this->output_succ();
     }
