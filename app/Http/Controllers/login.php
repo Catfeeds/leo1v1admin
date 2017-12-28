@@ -191,28 +191,29 @@ class login extends Controller
         $role_item_count = 0;
         $is_jiaose = 0;
         // $role_str_jiaoxue = "";
+        if(is_array($menu)){
+            foreach ($menu as $item) {
+                $item_name=$item["name"];
 
-        foreach ($menu as $item) {
-            $item_name=$item["name"];
+                $tmp=$this->gen_one_item( $item, $start,$level,$power_map, $admin_domain_type);
+                if($tmp) {
+                    $item_count++;
+                    if(is_array($tmp)) {
+                        $item_1=$tmp[1];
+                        if ( substr($item_name,0,7)== "角色-"  ) {
+                            $role_item_count++;
+                            $role_str.=$tmp[0];
+                        }else{
+                            $menu_str.=$tmp[0];
+                        }
 
-
-            $tmp=$this->gen_one_item( $item, $start,$level,$power_map, $admin_domain_type);
-            if($tmp) {
-                $item_count++;
-                if(is_array($tmp)) {
-                    $item_1=$tmp[1];
-                    if ( substr($item_name,0,7)== "角色-"  ) {
-                        $role_item_count++;
-                        $role_str.=$tmp[0];
                     }else{
-                        $menu_str.=$tmp[0];
+                        $menu_str.=$tmp;
                     }
-
-                }else{
-                    $menu_str.=$tmp;
                 }
             }
         }
+
 
         if ($item_count==1) {
             $menu_str=$item_1;
@@ -223,7 +224,6 @@ class login extends Controller
                 $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>角色列表</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str.'</ul> </li>';
             }
         }
-
         //\App\Helper\Utils::logger("menu_str_show: $menu_str");
         return $menu_str;
     }
