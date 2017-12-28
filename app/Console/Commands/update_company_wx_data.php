@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 
 use \App\Helper\Config as Config;
 
+use \App\Enums as E;
+
 class update_company_wx_data extends Command
 {
     /**
@@ -40,11 +42,123 @@ class update_company_wx_data extends Command
     public function handle()
     {
         $task = new \App\Console\Tasks\TaskController();
-        $url = $this->get_url();
-        $token = $this->get_token(); // 获取token
+        $start_time = strtotime(date('Y-m-d', strtotime('-1 month')));
+        //$end_time = strtotime(date('Y-m-1', time()));
+        $end_time = time();
+        echo date('Y-m-d H:i:s', $start_time);
+        echo date('Y-m-d H:i:s', $end_time);
+        $this->get_approve($task,$start_time, $end_time); // 拉取审批数据
+        //$url = $this->get_url();
+        //$token = $this->get_token(); // 获取token
         //$this->flush_tag_data($token,$url,$task); // 刷新tag
-        $this->flush_users_data($token,$url,$task); // 刷新组织用户
+        //$this->flush_users_data($token,$url,$task); // 刷新组织用户
         //$this->flush_permission($task); // 刷新权限
+    }
+
+    public function get_approve($task,$start_time, $end_time) { // 获取审批数据
+        $approv_type  = E\Eapprov_type::get_specify_select();
+        $approv_type = array_flip($approv_type);
+
+        $approv = $task->t_company_wx_approval->get_all_info($start_time, $end_time);
+
+        $config = Config::get_config("company_wx");
+        if (!$config) {
+            exit('没有配置');
+        }
+
+        // list($start_time, $end_time) = $this->get_in_date_range_day(0);
+        // $start_time = $this->get_in_str_val('start_time');
+        // $end_time = $this->get_in_str_val('end_time');
+        // 获取token
+        $config = Config::get_config("company_wx");
+        $url = $config['url'].'/cgi-bin/gettoken?corpid='.$config['CorpID'].'&corpsecret='.$config['Secret2'];
+        $token = $this->get_company_wx_data($url, 'access_token'); // 获取tocken
+
+        // 获取审批数据
+        $url = $config['url'].'/cgi-bin/corp/getapprovaldata?access_token='.$token;
+        $post_data = json_encode(["starttime" => $start_time,"endtime" => $end_time]);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $output = json_decode($output, true);
+
+        $info = $output['data'];
+        foreach($info as $item) {
+            if (isset($approv[$item['apply_user_id'].'-'.$item['apply_time']])) {
+                $index = $item['apply_user_id'].'-'.$item['apply_time'];
+                echo '调用成功';
+                if ($approv[$index]['sp_status'] != $item['sp_status']) {
+                    echo $approv[$index]['sp_status'].' ---- '.$item['sp_status'];
+                    $task->t_company_wx_approval->field_update_list($approv[$index]['id'], [
+                        "sp_status" => $item['sp_status']
+                    ]);
+                }
+                continue;
+            }
+            $approval_name = implode(',', $item['approval_name']);
+            $notify_name = implode(',', $item['notify_name']);
+            $common = [
+                'spname' => $item['spname'],
+                'apply_name' => $item['apply_name'],
+                'apply_org' => $item['apply_org'],
+                'approval_name' => $approval_name,
+                'notify_name' => $notify_name,
+                'sp_status' => $item['sp_status'],
+                'sp_num' => $item['sp_num'],
+                "apply_time" => $item['apply_time'],
+                "apply_user_id" => $item['apply_user_id']
+            ];
+
+            if (isset($item['leave'])) { // 处理请假
+                $lea = $item['leave'];
+                $leave = [
+                    "timeunit" => $lea['timeunit'],
+                    "approv_type" => $lea['leave_type'],
+                    "start_time" => $lea['start_time'],
+                    "end_time" => $lea['end_time'],
+                    "duration" => $lea['duration'],
+                    "reason" => $lea['reason']
+                ];
+                $common = array_merge($common, $leave);
+                $common['type'] = 1;
+            }
+            $leave = json_decode($item['comm']['apply_data'], true);
+            $items = '';
+            foreach ($leave as $val) {
+                if ($item['spname'] == "武汉请假流") {
+                    if ($val['title'] == '请假类型') {
+                        if (isset($approv_type[$val['value']])) {
+                            $common["approv_type"] = $approv_type[$val['value']];
+                        } else {
+                            $common["approv_type"] = 8;
+                        }
+                    }
+                    if ($val['title'] == '开始时间') $common['start_time'] = ($val['value'] / 1000);
+                    if ($val['title'] == '结束时间') $common['end_time'] = ($val['value'] / 1000);
+                    if ($val['title'] == '事由') $common['reason'] = $val['value'];
+                    $common['type'] = 2;
+                }
+                if ($item['spname'] == '拉取数据审批') {
+                    if ($val['title'] == '数据类型') $common['reason'] = $val['value'];
+                    if ($val['title'] == '需要时间') $common['start_time'] = $val['value'];
+                    $common['type'] = 4;
+                }
+                if ($item['spname'] == '费用申请') {
+                    if ($val['title'] == '费用类型') $common['reason'] = $val['value'];
+                    if ($val['title'] == '费用金额') $common['sums'] = $val['value'];
+                    if (isset($item['value'])) $items[$val['title']] = $val['value'];
+                    $common['type'] = 3;
+                }
+            }
+            if ($items) $common['item'] = json_encode($item);
+            // 添加数据
+            $task->t_company_wx_approval->row_insert($common);
+            echo '加载数据成功'.$common['spname'];
+        }
     }
 
     public function flush_users_data($token,$burl,$task) {
