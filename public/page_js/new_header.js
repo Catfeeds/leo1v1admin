@@ -2953,17 +2953,20 @@ function download_show(){
                 var row_data= [];
                 var $td_list= $(tr_item ).find("td");
                 $.each(  $td_list, function( i, td_item)  {
-                    console.log(td_item.className);
-
                     if ( i>0 && i< $td_list.length-1 ) {
                         if(td_item.className != 'ellipsis_jiaowu'){
-                            row_data.push( $.trim( $(td_item).text()) );
+                            if($(td_item).find('a').text() !== ''){
+                                row_data.push( $.trim($(td_item).find('a').text()));
+                            }else{
+                                if($(td_item).parent().parent().parent().attr('class') == 'common-table table table-bordered table-striped'){
+                                    row_data.push( $.trim( $(td_item).text()) );
+                                }
+                            }
                         }
                     }
                 });
                 list_data.push(row_data);
             });
-
             $.do_ajax ( "/page_common/upload_xls_data",{
                 xls_data :  JSON.stringify(list_data )
             },function(data){

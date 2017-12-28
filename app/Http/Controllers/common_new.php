@@ -69,7 +69,6 @@ class common_new extends Controller
         foreach($xls_data as $item){
             $xls_data_new[] = $item;
         }
-
         $objPHPExcel = new \PHPExcel();
         $objPHPExcel->getProperties()->setCreator("jim ")
                              ->setLastModifiedBy("jim")
