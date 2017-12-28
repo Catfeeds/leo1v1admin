@@ -19,7 +19,7 @@ var setting = {
         }
     },
     callback: {
-        
+       onClick: zTreeOnClick, 
     }
 }
 
@@ -54,6 +54,11 @@ function save_know(){
 
     $('#knowledge_exits').html(html);
     close_know();
+}
+
+function zTreeOnClick(event, treeId, treeNode){
+    var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+    treeObj.expandNode(treeNode, true, true, true);
 }
 
 $(function(){
@@ -177,6 +182,7 @@ $(function(){
 
     //插入括号
     $('.add_kuo_hao').click(function(){
+        id_question_type = $("#question_type").val();
         var kuohao = '(  )';
         var id = $(this).attr('id');
         var id_index = get_content_id(id);
@@ -277,12 +283,13 @@ $(function(){
             dataType : "json",
             data:data,
             success : function(res){
-                BootstrapDialog.alert(res.msg);
-                if( res.status == 200 ){
-                    //window.close();
+                if( res.status == 200 ){                  
+                    BootstrapDialog.alert(res.msg);
                     var subject = $('#id_subject').val();
                     var question_id = res.question_id;
                     window.location = '/question_new/question_edit?editType=2&question_id='+question_id+'&subject='+subject;
+                }else if( res.status == 400){
+                    BootstrapDialog.alert(res.msg);
                 }else{
                     window.location.reload();
                 }
