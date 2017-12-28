@@ -458,7 +458,22 @@ class question_new_api extends Controller
             }
         }
 
-        return $this->t_question->question_get($know_str,$question_type,$question_resource_type,$difficult,$page_num);
+        $questions = $this->t_question->question_get($know_str,$question_type,$question_resource_type,$difficult,$page_num);
+
+        if($questions){
+            foreach( $questions['list'] as &$qu){
+                $qu['subject_str'] = E\Esubject::get_desc($qu['subject']);
+                $qu['difficult_str'] = E\Equestion_difficult_new::get_desc($qu['difficult']);
+                $qu['question_resource_type_str'] = E\Equestion_resource_type::get_desc($qu['question_resource_type']);
+                if( $qu['question_type'] == 1 || $qu['question_type'] == 2 ){
+                    $qu['detail'] .= $this->get_question_option($qu['question_id']);
+                }
+                //$qu = ksort($qu);
+            }
+        }
+
+        return $questions;
+
     }
 
     // private function get_questions_by_kid($kn,$difficult_str,$question_str,$question_type,$question_resource_type,$difficult){
