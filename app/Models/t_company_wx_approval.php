@@ -19,7 +19,7 @@ class t_company_wx_approval extends \App\Models\Zgen\z_t_company_wx_approval
         $where_arr = [
             ['start_time>=%u', $start_time, 0],
             ['start_time<=%u', $end_time, 0],
-            ['apply_user_id=%u',$userid,0],
+            "apply_user_id='$userid'",
             'sp_status=2', // 已通过
             'type=1' // 请假
         ];
@@ -27,6 +27,7 @@ class t_company_wx_approval extends \App\Models\Zgen\z_t_company_wx_approval
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
+        echo $sql;
         return $this->main_get_list($sql);
     }
 
