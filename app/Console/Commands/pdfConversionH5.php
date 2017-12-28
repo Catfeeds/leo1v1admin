@@ -64,7 +64,7 @@ class pdfConversionH5 extends Command
             //从未达下载
             $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=".$uuid."&email=".$email."&pwd=".$pwd;
             $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
-            $unzipFilePath  =  public_path('wximg').'/'.$uuid; // 解压后的文件
+            $unzipFilePath  =  public_path('wximg').'/'.$uuid; // 解压后的文件夹
 
             $data=file_get_contents($h5DownloadUrl);
             file_put_contents($saveH5FilePath, $data);
@@ -83,7 +83,7 @@ class pdfConversionH5 extends Command
                     $files[] = $filename ;
                 }
             }
-            closedir($handler);
+            @closedir($handler);
             $test_data = '';
             foreach ($files as $value) {
                 // echo $value."<br />";
@@ -101,11 +101,16 @@ class pdfConversionH5 extends Command
             $ossClient = new OssClient(
                 $config["oss_access_id"],
                 $config["oss_access_key"],
-                $config["oss_endpoint"], false);
+                $config["oss_endpoint"], false
+            );
 
+            $h5Path = "pdfToH5/".$uuid; // 环境文件夹
+
+            $h5FileName = $h5Path.'/'.$file_name;
 
             $bucket=$config["public"]["bucket"];
-            $ossClient->uploadFile($bucket, $file_name, $target  );
+            $ossClient->uploadFile($bucket, $h5FileName, $target  );
+            return $config["public"]["url"]."/".$h5FileName;
 
 
 

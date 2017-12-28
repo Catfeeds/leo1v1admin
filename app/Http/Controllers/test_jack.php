@@ -369,6 +369,31 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
+         $page_info= $this->get_in_page_info();
+        $grade=$this->get_in_el_grade();
+        $ret_info=$this->t_student_info->get_test_list($page_info, $grade );
+        // $gender=$this->get_in_el_gender();
+        $this->get_in_query_text();
+        // list($start_time, $end_time)=$this->get_in_date_range_day(0);
+
+        foreach($ret_info["list"] as &$item) {
+            E\Egrade::set_item_value_str($item);
+        }
+        $tt=  $this->last_in_values;
+        dd($tt);
+
+        return $this->pageOutJson(__METHOD__, $ret_info);
+
+       //  $ret_info=[];
+        return $this->pageOutJson(__METHOD__, $ret_info);
+
+        $method = __METHOD__;
+        if (preg_match("/([a-zA-Z0-9_]+)::([a-zA-Z0-9_]+)/",$method, $matches)  )  {
+            // $this->view_ctrl=$matches[1];
+            // $this->view_action=strtolower($matches[2]);
+        }
+        dd($matches);
+
         $orderNo = $this->get_in_str_val("ORDERID","701748525753");
         $posid   = $this->get_in_str_val("POSID","002171923");
         $branchid = $this->get_in_str_val("BRANCHID","310000000");
