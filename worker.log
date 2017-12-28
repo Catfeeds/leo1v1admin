@@ -566,3 +566,83 @@ PHP Fatal error:  method_exists(): The script tried to execute a method or acces
   imagecreatefromjpeg(): gd-jpeg: JPEG library reports unrecoverable error: Not a JPEG file: starts with 0x89 0x50  
                                                                                                                     
 
+PHP Fatal error:  Uncaught ReflectionException: Class log does not exist in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php:738
+Stack trace:
+#0 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(738): ReflectionClass->__construct('log')
+#1 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(633): Illuminate\Container\Container->build('log', Array)
+#2 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(697): Illuminate\Container\Container->make('log', Array)
+#3 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(853): Illuminate\Foundation\Application->make('log')
+#4 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(808): Illuminate\Container\Container->resolveClass(Object(ReflectionParameter))
+#5 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(778): Illuminat in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 738
+PHP Fatal error:  Uncaught ReflectionException: Class log does not exist in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php:738
+Stack trace:
+#0 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(738): ReflectionClass->__construct('log')
+#1 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(633): Illuminate\Container\Container->build('log', Array)
+#2 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(697): Illuminate\Container\Container->make('log', Array)
+#3 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(853): Illuminate\Foundation\Application->make('log')
+#4 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(808): Illuminate\Container\Container->resolveClass(Object(ReflectionParameter))
+#5 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(778): Illuminat in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 738
+PHP Fatal error:  Uncaught ReflectionException: Class log does not exist in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php:738
+Stack trace:
+#0 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(738): ReflectionClass->__construct('log')
+#1 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(633): Illuminate\Container\Container->build('log', Array)
+#2 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(697): Illuminate\Container\Container->make('log', Array)
+#3 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(853): Illuminate\Foundation\Application->make('log')
+#4 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(808): Illuminate\Container\Container->resolveClass(Object(ReflectionParameter))
+#5 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(778): Illuminat in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 738
+PHP Fatal error:  Uncaught ReflectionException: Class log does not exist in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php:738
+Stack trace:
+#0 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(738): ReflectionClass->__construct('log')
+#1 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(633): Illuminate\Container\Container->build('log', Array)
+#2 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(697): Illuminate\Container\Container->make('log', Array)
+#3 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(853): Illuminate\Foundation\Application->make('log')
+#4 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(808): Illuminate\Container\Container->resolveClass(Object(ReflectionParameter))
+#5 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(778): Illuminat in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 738
+PHP Fatal error:  Uncaught ReflectionException: Class log does not exist in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php:738
+Stack trace:
+#0 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(738): ReflectionClass->__construct('log')
+#1 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(633): Illuminate\Container\Container->build('log', Array)
+#2 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(697): Illuminate\Container\Container->make('log', Array)
+#3 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(853): Illuminate\Foundation\Application->make('log')
+#4 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(808): Illuminate\Container\Container->resolveClass(Object(ReflectionParameter))
+#5 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(778): Illuminat in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 738
+PHP Fatal error:  Uncaught ReflectionException: Class log does not exist in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php:738
+Stack trace:
+#0 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(738): ReflectionClass->__construct('log')
+#1 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(633): Illuminate\Container\Container->build('log', Array)
+#2 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(697): Illuminate\Container\Container->make('log', Array)
+#3 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(853): Illuminate\Foundation\Application->make('log')
+#4 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(808): Illuminate\Container\Container->resolveClass(Object(ReflectionParameter))
+#5 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(778): Illuminat in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 738
+PHP Fatal error:  Uncaught ReflectionException: Class log does not exist in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php:738
+Stack trace:
+#0 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(738): ReflectionClass->__construct('log')
+#1 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(633): Illuminate\Container\Container->build('log', Array)
+#2 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(697): Illuminate\Container\Container->make('log', Array)
+#3 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(853): Illuminate\Foundation\Application->make('log')
+#4 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(808): Illuminate\Container\Container->resolveClass(Object(ReflectionParameter))
+#5 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(778): Illuminat in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 738
+PHP Fatal error:  Uncaught ReflectionException: Class log does not exist in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php:738
+Stack trace:
+#0 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(738): ReflectionClass->__construct('log')
+#1 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(633): Illuminate\Container\Container->build('log', Array)
+#2 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(697): Illuminate\Container\Container->make('log', Array)
+#3 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(853): Illuminate\Foundation\Application->make('log')
+#4 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(808): Illuminate\Container\Container->resolveClass(Object(ReflectionParameter))
+#5 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(778): Illuminat in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 738
+PHP Fatal error:  Uncaught ReflectionException: Class log does not exist in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php:738
+Stack trace:
+#0 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(738): ReflectionClass->__construct('log')
+#1 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(633): Illuminate\Container\Container->build('log', Array)
+#2 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(697): Illuminate\Container\Container->make('log', Array)
+#3 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(853): Illuminate\Foundation\Application->make('log')
+#4 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(808): Illuminate\Container\Container->resolveClass(Object(ReflectionParameter))
+#5 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(778): Illuminat in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 738
+PHP Fatal error:  Uncaught ReflectionException: Class log does not exist in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php:738
+Stack trace:
+#0 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(738): ReflectionClass->__construct('log')
+#1 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(633): Illuminate\Container\Container->build('log', Array)
+#2 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(697): Illuminate\Container\Container->make('log', Array)
+#3 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(853): Illuminate\Foundation\Application->make('log')
+#4 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(808): Illuminate\Container\Container->resolveClass(Object(ReflectionParameter))
+#5 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(778): Illuminat in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 738

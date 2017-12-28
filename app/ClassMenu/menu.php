@@ -2,7 +2,9 @@
 namespace App\ClassMenu;
 class menu{
    static  public  function get_config()  {
-       //return [];
+       return [];
+
+       /*
        return [
             ["power_id"=>80, "name"=>"小班课",  "list"=> [
                 ["power_id"=>1, "name"=>"学生数据管理",   "list"=>[
@@ -52,6 +54,7 @@ class menu{
                 ["power_id"=>2, "name"=>"招师渠道统计", "url"=>""],
             ]],
         ];
+       */
 
     }
 

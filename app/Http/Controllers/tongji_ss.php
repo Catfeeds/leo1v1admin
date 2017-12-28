@@ -7419,7 +7419,10 @@ class tongji_ss extends Controller
         $m = date("m",$start_time);
         $n = ($end_time - $start_time)/86400/31;
         $d = ($end_time - $start_time)/86400;
-        $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5,$fulltime_teacher_type);
+        $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
+        $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        $adminid_right=[0=>"全职老师",1=>"",2=>"",3=>""];
+        $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5,$fulltime_teacher_type,$adminid_list);
         $qz_tea_arr=[];
         foreach($ret_info as $yy=>$item){
             if($item["teacherid"] != 97313){
@@ -7639,7 +7642,11 @@ class tongji_ss extends Controller
         array_push($ret_info,$tran_all);
         array_push($list,$lesson_avg);
         array_push($list,$lesson_all);
-        return $this->pageView(__METHOD__,null,["ret_info"=>$ret_info,"list"=>$list]);
+        return $this->pageView(__METHOD__,null,[
+            "ret_info"=>$ret_info,
+            "list"=>$list,
+            "adminid_right"     => $adminid_right
+        ]);
 
     }
 

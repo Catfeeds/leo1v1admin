@@ -2473,7 +2473,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                 ];
             }
             $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
-
             $this->where_arr_add__2_setid_field($where_arr,"s.assistantid",$assistantid);
             $this->where_arr_add_int_or_idlist($where_arr,"s.grade",$grade);
             $this->where_arr_add_int_or_idlist($where_arr,"o.subject",$subject);
@@ -2488,15 +2487,15 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                 $this->where_arr_add_time_range($sub_where_arr,$opt_date_str,$start_time,$end_time);
 
                 $where_arr[]= $this->gen_sql_new(
-                    "o.orderid in (select s_o.orderid  from %s s_o join %s soa  on s_o.orderid=soa.orderid where %s)   ", self::DB_TABLE_NAME,
-                    t_order_activity_info::DB_TABLE_NAME,
-                    $sub_where_arr );
+                    "o.orderid in (select s_o.orderid from %s s_o join %s soa on s_o.orderid=soa.orderid where %s)"
+                    ,self::DB_TABLE_NAME
+                    ,t_order_activity_info::DB_TABLE_NAME
+                    ,$sub_where_arr
+                );
             }
 
             if ($contract_type==-2) {
                 $where_arr[]="contract_type in(0,1,3)" ;
-                \App\Helper\Utils::logger("stu");
-
             }else if ( $contract_type==-3){
                 $where_arr[]="contract_type in(0,3)" ;
             }else {
@@ -2534,11 +2533,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         //http:7u2f5q.com2.z0.glb.qiniucdn.com/8008e863f1b6151890ccf278f711ab691460108026469.png
         //select count(*) from t_order_info as o,t_book_info as s where o.userid=s.userid, s.origin like "%APP课程包%" ;
-        $where_arr[] = ["t3.account_role = %u" , $account_role, -1];
+        $where_arr[] = ["m2.account_role = %u" , $account_role, -1];
         if ($referral_adminid>0) {
             $where_arr[] = ["s.origin_assistantid = %u ", $referral_adminid] ;
         }
-        // $where_arr[] = ["t3.account_role = %u" , $account_role, -1];
 
         $sql = $this->gen_sql_new(
             "select  order_price_desc, promotion_spec_is_not_spec_flag,promotion_spec_diff_money,origin_assistantid,"
@@ -2561,7 +2559,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." if(co.child_order_type=2,1,0) is_staged_flag,o.can_period_flag"
             ." from %s o "
             ." left join %s s on o.userid = s.userid "
-            ." left join %s t3 on o.sys_operator = t3.account "
             ." left join %s c on o.orderid = c.orderid "
             ." left join %s n on o.userid = n.userid "
             ." left join %s l on l.lessonid = o.from_test_lesson_id "
@@ -2573,17 +2570,16 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." where %s "
             ." group by o.orderid "
             ." $order_by_str ",
-            self::DB_TABLE_NAME,
-            t_student_info::DB_TABLE_NAME,
-            t_manager_info::DB_TABLE_NAME,
-            t_course_order::DB_TABLE_NAME,
-            t_seller_student_new::DB_TABLE_NAME,
-            t_lesson_info::DB_TABLE_NAME,
-            t_flow::DB_TABLE_NAME,
-            t_manager_info::DB_TABLE_NAME,
-            t_manager_info::DB_TABLE_NAME,
-            t_student_init_info::DB_TABLE_NAME,
-            t_child_order_info::DB_TABLE_NAME,
+            self::DB_TABLE_NAME, //o
+            t_student_info::DB_TABLE_NAME, //s
+            t_course_order::DB_TABLE_NAME, //c
+            t_seller_student_new::DB_TABLE_NAME, //n
+            t_lesson_info::DB_TABLE_NAME, //l
+            t_flow::DB_TABLE_NAME, //f
+            t_manager_info::DB_TABLE_NAME, //m
+            t_manager_info::DB_TABLE_NAME, //m2
+            t_student_init_info::DB_TABLE_NAME, //ti
+            t_child_order_info::DB_TABLE_NAME, //co
             $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10,true);
@@ -4298,19 +4294,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
     }
 
-    public function get_orderid_by_userid_new($userid){
+    public function get_orderid_by_userid_new($userid_arr){
         $where_arr = [
-            ['userid=%u',$userid,-1],
             'contract_type = 0',
             'contract_status > 0',
         ];
-        $sql = $this->gen_sql_new("select orderid "
+        $this->where_arr_add_int_or_idlist($where_arr,'userid', $userid_arr);
+        $sql = $this->gen_sql_new("select userid,orderid "
                                   ." from %s "
-                                  ." where %s"
+                                  ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
     }
     public function get_seller_add_time_by_orderid_str($orderid_arr){
         $where_arr = [];
@@ -4637,7 +4633,62 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_list($sql);
     }
+    //@desn:获取微信运营订单信息
+    public function get_wx_order_info($start_time,$end_time){
+        $where_arr=[
+            "oi.contract_type = 0 ",
+            "si.is_test_user=0",
+            "oi.contract_status >0 ",
+            "ssn.tmk_adminid >0 ",
+            "oi.order_time>ssn.tmk_assign_time",
+            'ssn.wx_invaild_flag = 1'
+        ];
 
+        $this->where_arr_add_time_range($where_arr,"oi.order_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new(
+            "select count(*) as wx_order_count,sum(price)/100 as wx_order_all_money "
+            ." from %s oi "
+            ." left join %s si  on oi.userid=si.userid "
+            ." left join %s ssn  on oi.userid=ssn.userid "
+            ." where %s ",
+            self::DB_TABLE_NAME ,
+            t_student_info::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            $where_arr
+        );
+
+        return $this->main_get_row($sql);
+    }
+    //@desn:获取公众号订单信息
+    //@param:$start_time 开始时间
+    //@param:$end_time 结束时间
+    public function get_public_number_order_info($start_time,$end_time){
+        $where_arr=[
+            "oi.contract_type = 0 ",
+            "si.is_test_user=0",
+            "oi.contract_status >0 ",
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"oi.order_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new(
+            "select oi.origin,count(*) as pn_order_count,sum(price)/100 as pn_order_all_money "
+            ." from %s oi "
+            ." left join %s si  on oi.userid=si.userid "
+            ." left join %s ssn  on oi.userid=ssn.userid "
+            ." where %s group by oi.origin ",
+            self::DB_TABLE_NAME ,
+            t_student_info::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            $where_arr
+        );
+
+        return $this->main_get_list($sql,function($item){
+            return $item["origin"];
+        });
+
+    }
 
 }
 

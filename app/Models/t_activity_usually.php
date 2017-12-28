@@ -14,11 +14,11 @@ class t_activity_usually extends \App\Models\Zgen\z_t_activity_usually
         ];
 
         $sql = $this->gen_sql_new("  select shareImgUrl, coverImgUrl,  activityImgUrl, followImgUrl, gift_type, title, au.id, act_descr, au.url, activity_status, add_time, au.uid, m.account from %s au "
-                           ." left join %s m on m.uid=au.uid"
-                           ." where %s "
-                           ,self::DB_TABLE_NAME
-                           ,t_manager_info::DB_TABLE_NAME
-                           ,$where_arr
+                                  ." left join %s m on m.uid=au.uid"
+                                  ." where %s  order by activity_status asc "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
         );
 
         return $this->main_get_list_by_page($sql, $page_num);

@@ -284,5 +284,28 @@ class t_origin_key extends \App\Models\Zgen\z_t_origin_key
         );
         return $this->main_update($sql);
     }
+    //@desn:获取key0为公众号的所有渠道名称
+    public function get_all_public_number_origin(){
+        $where_arr = [
+            "key0 = '公众号'"
+        ];
+        $sql = $this->gen_sql_new(
+            'select value from %s where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
+    public function get_key0_arr($origin_str){
+        $where_arr = [];
+        if($origin_str != ''){
+            $where_arr[] = "value in ($origin_str)";
+        }
+        $sql=$this->gen_sql_new("select * from %s where %s "
+                                , self::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

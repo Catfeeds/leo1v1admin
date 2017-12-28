@@ -369,6 +369,65 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
+         $page_info= $this->get_in_page_info();
+        $grade=$this->get_in_el_grade();
+        $ret_info=$this->t_student_info->get_test_list($page_info, $grade );
+        // $gender=$this->get_in_el_gender();
+        $this->get_in_query_text();
+        // list($start_time, $end_time)=$this->get_in_date_range_day(0);
+
+        foreach($ret_info["list"] as &$item) {
+            E\Egrade::set_item_value_str($item);
+        }
+        $tt=  $this->last_in_values;
+        dd($tt);
+
+        return $this->pageOutJson(__METHOD__, $ret_info);
+
+       //  $ret_info=[];
+        return $this->pageOutJson(__METHOD__, $ret_info);
+
+        $method = __METHOD__;
+        if (preg_match("/([a-zA-Z0-9_]+)::([a-zA-Z0-9_]+)/",$method, $matches)  )  {
+            // $this->view_ctrl=$matches[1];
+            // $this->view_action=strtolower($matches[2]);
+        }
+        dd($matches);
+
+        $orderNo = $this->get_in_str_val("ORDERID","701748525753");
+        $posid   = $this->get_in_str_val("POSID","002171923");
+        $branchid = $this->get_in_str_val("BRANCHID","310000000");
+        $payment  = $this->get_in_str_val("PAYMENT","1.00");
+        $curcode = $this->get_in_str_val("CURCODE","01");
+        $remark1 = $this->get_in_str_val("REMARK1","");
+        $remark2 = $this->get_in_str_val("REMARK2","");
+        $success = $this->get_in_str_val("SUCCESS","N");
+        $acc_type = $this->get_in_str_val("ACC_TYPE","30");
+        $type = $this->get_in_str_val("TYPE","1");
+        $referer = $this->get_in_str_val("REFERER","");
+        $clientip = $this->get_in_str_val("CLIENTIP","116.226.191.6");
+        $installnum = $this->get_in_str_val("INSTALLNUM","12");
+        $errmsg = $this->get_in_str_val("ERRMSG");
+        $sign = $this->get_in_str_val("SIGN","&CLIENTIP=116.226.191.6&INSTALLNUM=12&ERRMSG=&SIGN=5d00745445c4e3cc4dc99653bb2516cdac417701431e591088b5fdfddb984a116760e6156641ddd46cb6d434a6b5150aa4c37f7cf4732b2b94241ea926b0e1d4234b53f458d3ab2f80d6df3f6fc785450240105ace4b76dc6525191cbca54e1c09377b67cd6f42de89582e2987de1fd557368fa18dca273541f2d5a823ff30f6");
+        $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&ACC_TYPE=".$acc_type."&SUCCESS=".$success."&TYPE=".$type."&REFERER=".$referer."&CLIENTIP=".$clientip."&INSTALLNUM=".$installnum."&ERRMSG=".$errmsg;
+        dd([1=>$sign,2=>$data]);
+        // $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&SUCCESS=".$success;
+
+        if($posid=="002171923"){
+            $cmd ='cd /home/ybai/bin/Cbb/ && java Main "'.$data.'" "'.$sign.'"'; 
+        }elseif($posid=="002171916"){
+            $cmd ='cd /home/ybai/bin/Cbb/ && java Other "'.$data.'" "'.$sign.'"'; 
+        }
+        // echo $cmd;
+        //dd(11);
+        // dd($cmd);
+        $verifyResult = \App\Helper\Utils::exec_cmd($cmd);
+        dd($verifyResult);
+
+        $phone = 13720242210;
+        $time = 1514313347;
+        $role=1;
+        dd(md5("leo15143216401381775934621v1"));
         $this->switch_tongji_database();
         $start_time = strtotime("2017-10-01");
         $end_time = strtotime("2018-01-01");

@@ -418,26 +418,82 @@ class agent extends Controller
 
     public function check(){
         $this->check_and_switch_tongji_domain();
-        list($start_time,$end_time) = [1506787200,1509465600];
+        $start_time = $this->get_in_str_val('start_time',20171001);
+        $end_time = $this->get_in_str_val('end_time',20171101);
+        $start_time = strtotime($start_time);
+        $end_time = strtotime($end_time);
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_seller_student_new->get_item_list($page_info,$start_time, $end_time);
-        foreach($ret_info['list'] as &$item){
+
+        $origin_arr = array_unique(array_column($ret_info,'origin'));
+        foreach($origin_arr as &$item_k){
+            $item_k = "'".$item_k."'";
+        }
+        $origin_str = implode(',',$origin_arr);
+        $key0_arr = $this->t_origin_key->get_key0_arr($origin_str);
+
+        $adminid_arr = array_unique(array_column($ret_info,'adminid'));
+        $group_name_arr = $this->t_admin_group_user->get_main_major_group_name_by_adminid($adminid_arr);
+
+        $userid_arr = array_unique(array_column($ret_info,'userid'));
+        $orderid_arr = $this->t_order_info->get_orderid_by_userid_new($userid_arr);
+        header("Content-Type:text/html;charset=utf-8");
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h1>'.date('Y-m-d',$start_time).'例子</h1></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>userid</th><th>渠道</th><th>进入时间</th><th>最后联系cc部门</th><th>是否接通</th><th>是否试听成功</th><th>是否签单</th>';
+        echo '</tr>';
+        foreach($ret_info as &$item){
             $userid = $item['userid'];
             $phone = $item['phone'];
             $origin = $item['origin'];
-            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
             $adminid = $item['adminid'];
-            // $group_name = $this->t_group_user_month->get_master_adminid_by_adminid($adminid);
+            $item['key0'] = $origin;
+            if($origin != 'jingqi-0805'){
+                foreach($key0_arr as $info){
+                    if($info['value'] == $origin){
+                        $item['key0'] = $info['key0'];
+                        break;
+                    }
+                }
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+
+            $item['group_name'] = '';
+            foreach($group_name_arr as $info){
+                if($info['adminid'] == $adminid){
+                    $item['group_name'] = $info['group_name'];
+                    break;
+                }
+            }
+
             $is_called = $item['global_tq_called_flag']==2?1:0;
             $item["is_called_str"] = \App\Helper\Common::get_boolean_color_str($is_called);
             $is_suc_test = $item['last_succ_test_lessonid']>0?1:0;
             $item["is_suc_test_str"] = \App\Helper\Common::get_boolean_color_str($is_suc_test);
-            $orderid = $this->t_order_info->get_orderid_by_userid_new($userid);
+
+            $orderid = 0;
+            foreach($orderid_arr as $info){
+                if($info['userid'] == $userid){
+                    $orderid = $info['orderid'];
+                    break;
+                }
+            }
             $is_order = $orderid>0?1:0;
             $item["is_order_str"] = \App\Helper\Common::get_boolean_color_str($is_order);
+            echo '<tr>';
+            echo '<td>'.$userid.'</td>';
+            echo '<td>'.$item['key0'].'</td>';
+            echo '<td>'.$item['add_time'].'</td>';
+            echo '<td>'.$item['group_name'].'</td>';
+            echo '<td>'.$item['is_called_str'].'</td>';
+            echo '<td>'.$item['is_suc_test_str'].'</td>';
+            echo '<td>'.$item['is_order_str'].'</td>';
+            echo '</tr>';
         }
-        // return $this->Pageview(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
-        return $this->Pageview(__METHOD__,$ret_info);
+        echo '</table>';
+        exit;
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
 
     public function test_new(){
@@ -447,12 +503,11 @@ class agent extends Controller
 
 
          */
-
-        $adminid = 99;
-        $key="DEAL_NEW_USER_$adminid";
-        $userid=\App\Helper\Common::redis_get($key)*1;
-        dd($userid);
-        dd($_SERVER);
+        // $adminid = 99;
+        // $key="DEAL_NEW_USER_$adminid";
+        // $userid=\App\Helper\Common::redis_get($key)*1;
+        // dd($userid);
+        // dd($_SERVER);
         dd('aa');
     }
 

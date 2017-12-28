@@ -416,7 +416,7 @@ class Utils  {
     }
 
     //检测当前环境
-    static function   check_env_is_local(){
+    static function check_env_is_local(){
         return \Illuminate\Support\Facades\App::environment( E\Eenv::S_LOCAL );
     }
 
@@ -573,9 +573,8 @@ class Utils  {
             $arr=$title;
             $str="";
             foreach( $arr as $item ) {
-
-                $order_field= $item[1];
-                $order_str="";
+                $order_field = $item[1];
+                $order_str   = "";
                 if ($order_field) {
                     $order_str=' <a href="javascript:;" class=" fa fa-sort td-sort-item  " data-field-name="'.$order_field.'"  ></a>';
 
@@ -1356,6 +1355,20 @@ class Utils  {
         dispatch( new \App\Jobs\send_error_mail($to,$title,$content));
     }
 
+
+
+    static function curl_download($url, $dir) {
+        $ch = curl_init($url);
+        $fp = fopen($dir, "wb");
+        curl_setopt($ch, CURLOPT_FILE, $fp);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $res=curl_exec($ch);
+        curl_close($ch);
+        fclose($fp);
+        return $res;
+    }
+
+
     static public  function savePicToServer($pic_url,$savePathFile) {
         $targetName   = $savePathFile;
         $ch = curl_init();
@@ -1372,22 +1385,6 @@ class Utils  {
         $msg['savePathFile'] = $savePathFile;
 
         return $msg;
-
-
-        /**
-           $ch = curl_init($url);
-           $fp = fopen($dir, "wb");
-           curl_setopt($ch, CURLOPT_FILE, $fp);
-           curl_setopt($ch, CURLOPT_HEADER, 0);
-           $res=curl_exec($ch);
-           curl_close($ch);
-           fclose($fp);
-           return $res;
-
-
-
-
-         */
     }
 
     /**
@@ -2494,7 +2491,7 @@ class Utils  {
                 203 => ['相似三角形','二次函数','垂径定理'],
                 301 => ['函数','不等式','集合'],
                 302 => ['解析几何','三角函数','数列'],
-                303 => ['立体几何','排列组合','复数'],
+                303 => ['函数','排列组合','复数'],
             ],
             3 => [
                 101 => ['字母','自然拼读','词汇'],

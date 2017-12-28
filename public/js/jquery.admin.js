@@ -611,6 +611,18 @@ jQuery.fn.extend({
                         $select.html("<option value=\"\">[全部]</option>");
                     };
 
+                }else if(key_list[0]=="助教"){
+                    $main_type_name.html("<option value=\"\" >[全部]</option><option value=\"助教\" selected >助教</option><option value=\"销售\"  >销售</option><option value=\"教务\" >教务</option><option value=\"全职老师\"  >全职老师</option>")
+                    var clean_select = function ($select) {
+                        $select.html("<option value=\"\">[全部]</option>");
+                    };
+
+                }else if(key_list[0]=="教务"){
+                    $main_type_name.html("<option value=\"\" >[全部]</option><option value=\"助教\"  >助教</option><option value=\"销售\"  >销售</option><option value=\"教务\" selected >教务</option><option value=\"全职老师\"  >全职老师</option>")
+                    var clean_select = function ($select) {
+                        $select.html("<option value=\"\">[全部]</option>");
+                    };
+
                 }
             }
             //处理key

@@ -1341,13 +1341,13 @@ class ajax_deal2 extends Controller
                     }
 
                     $tr_str.= " <tr  class=\"table-row\" data-order_activity_type=\"$order_activity_type\" data-succ_flag=\"$succ_flag\" data-need_spec_require_flag=\"$need_spec_require_flag\" ><td> <font color=\"blue\"> <a href=\"/seller_student_new2/show_order_activity_info?order_activity_type={$order_activity_type}\" target=\"_blank\"> ". $title. "</font> </a> <td>".$succ_str."<td>".$item["activity_desc"]
-                        . "<td> <font color=\"red\"> ". $item["cur_price"]."  </font> "
-                        . "<td> <font color=\"red\"> ". $item["cur_present_lesson_count"]."  </font> "
+                           . "<td> <font color=\"red\"> ". $item["cur_price"]."  </font> "
+                           . "<td> <font color=\"red\"> ". $item["cur_present_lesson_count"]."  </font> "
                            . "<td> <font color=\"red\"> ". @$item["change_value"]."  </font> "
                            . "<td> <font color=\"red\"> ". @$item["off_money"]."  </font> "
                            . "<td> <font color=\"red\"> ". $need_spec_require_flag_str ."  </font> "
-                        . "<td>  ". $period_str
-                        . " </tr> ";
+                           . "<td>  ". $period_str
+                           . " </tr> ";
                 }
             }
             $row_count= count( $arr);
@@ -2658,4 +2658,120 @@ class ajax_deal2 extends Controller
         ]);
  
     }
+
+    public function get_child_orderid_list(){
+        $parent_orderid = $this->get_in_int_val("parent_orderid");
+        $target_type = $this->get_in_int_val("target_type",1);
+        if($target_type==1){
+            $list = $this->t_child_order_info-> get_all_child_order_info($parent_orderid); 
+        }elseif($target_type==2){
+            $userid = $this->t_order_info->get_userid($parent_orderid);
+            $list = $this->t_child_order_info->get_other_child_order_list($parent_orderid,$userid);
+
+        }
+        foreach($list as &$item){
+            if($item["child_order_type"]==0){
+                $item["child_order_type_str"]="默认";
+            }elseif($item["child_order_type"]==1){
+                $item["child_order_type_str"]="首付款";
+            }elseif($item["child_order_type"]==2){
+                $item["child_order_type_str"]="分期";
+            }elseif($item["child_order_type"]==3){
+                $item["child_order_type_str"]="其他";
+            }
+
+            if($item["pay_status"]==0){
+                $item["pay_status_str"]="未付款";
+            }elseif($item["pay_status"]==1){
+                $item["pay_status_str"]="已付款";
+            }
+
+            if($item["child_order_type"]==2){
+                $item["period_num_info"] = $item["period_num"]."期";
+            }else{
+                $item["period_num_info"] ="";
+            }
+
+            $userid = $this->t_order_info->get_userid($item["parent_orderid"]);
+            $parentid= $this->t_student_info->get_parentid($userid);
+            $parent_name = $this->t_parent_info->get_nick($parentid);
+            if(empty($item["parent_name"])){
+                $item["parent_name"] = $parent_name;
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item, "pay_time","_str");
+
+
+
+        }
+        return $this->output_succ(["data"=>$list]);
+                
+    }
+
+    public function set_child_orderid_transfer(){
+        $child_orderid_list = $this->get_in_str_val("child_orderid_list");
+        $target_orderid_list = $this->get_in_str_val("target_orderid_list");
+        $arr=[];
+        $target_arr = explode(',',$target_orderid_list);
+        $target_price =$target_orderid=0;
+        $target_orderid_list = [];
+        foreach($target_arr as $val){
+            $ret = $this->t_child_order_info->field_get_list($val,"parent_orderid,price");
+            $parent_orderid = $ret["parent_orderid"];
+            if(!isset($arr[$parent_orderid])){
+                $arr[$parent_orderid] = $parent_orderid;
+            }
+            $target_price += $ret["price"];
+            $target_orderid = $parent_orderid;
+            $target_orderid_list[]=$val;
+        }
+        if(count($arr)>1){
+            return $this->output_err("目标合同不能出自两个以上的父合同");
+        }
+        
+        $origin_orderid = $origin_price=0;
+        $origin_arr= explode(',',$child_orderid_list);
+        $origin_orderid_list = [];
+        foreach($origin_arr as $val){
+            $ret = $this->t_child_order_info->field_get_list($val,"parent_orderid,price");
+            $parent_orderid = $ret["parent_orderid"];
+           
+            $origin_price += $ret["price"];
+            $origin_orderid = $parent_orderid;
+            $origin_orderid_list[]=$val;
+        }
+        if($target_price != $origin_price){
+            return $this->output_err("价格需要一致!");
+        }
+        foreach($target_arr as $val){
+            $this->t_child_order_info->field_update_list($val,[
+                "parent_orderid" => $origin_orderid
+            ]);
+        }
+        foreach($origin_arr as $val){
+            $this->t_child_order_info->field_update_list($val,[
+                "parent_orderid" => $target_orderid
+            ]);
+        }
+
+        //记录日志
+        $userid =$this->t_order_info->get_userid($target_orderid);
+        $data =[
+            "来源合同id" =>$origin_orderid_list,  
+            "目标合同id" =>$target_orderid_list,
+            "操作人"     =>$this->get_account_id().":".$this->get_account()
+        ];
+
+        $this->t_student_log->row_insert([
+            "userid"     => $userid,
+            "log_time"   => time(),
+            "type"       => 1,     //类型1,合同修改记录
+            "msg"        => json_encode($data) 
+        ]);
+        return $this->output_succ();
+
+
+
+
+    }
+
 }
