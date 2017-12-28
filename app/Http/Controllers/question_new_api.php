@@ -121,33 +121,33 @@ class question_new_api extends Controller
         $page_num    = $this->get_in_int_val('page_num',1);
 
         if(!empty($room_id)){
-            $questions = $this->get_recommend($room_id,$question_type,$question_resource_type,$difficult);
+            $questions = $this->get_recommend($room_id,$question_type,$question_resource_type,$difficult,$page_num);
             if(!empty($questions)){
                 return $this->output_succ(["list" => $questions]);
             }
         }
-    
+        $knowledge_str = '';
         if($knowledge_id){
             //获取该知识点的子级id
-            $knowledge_str = '(';
-            $knowledge_str .= $this->get_tree($knowledge_id);
+            $knowledge_str .= '('.$this->get_tree($knowledge_id);
             $knowledge_str = substr($knowledge_str, 0, -1).')';
-            $questions = $this->t_question->question_get($knowledge_str,$question_type,$question_resource_type,$difficult,$page_num);
-            //dd($questions);
-            if($questions){
-                foreach( $questions['list'] as &$qu){
-                    $qu['subject_str'] = E\Esubject::get_desc($qu['subject']);
-                    $qu['difficult_str'] = E\Equestion_difficult_new::get_desc($qu['difficult']);
-                    $qu['question_resource_type_str'] = E\Equestion_resource_type::get_desc($qu['question_resource_type']);
-                    //$qu = ksort($qu);
-                    if( $qu['question_type'] == 1 || $qu['question_type'] == 2 ){
-                        $qu['detail'] .= $this->get_question_option($qu['question_id']);
-                    }
-                }
-            }
-            return $this->output_succ(["list" => $questions]);
         }
 
+        $questions = $this->t_question->question_get($knowledge_str,$question_type,$question_resource_type,$difficult,$page_num);
+        //dd($questions);
+        if($questions){
+            foreach( $questions['list'] as &$qu){
+                $qu['subject_str'] = E\Esubject::get_desc($qu['subject']);
+                $qu['difficult_str'] = E\Equestion_difficult_new::get_desc($qu['difficult']);
+                $qu['question_resource_type_str'] = E\Equestion_resource_type::get_desc($qu['question_resource_type']);
+                //$qu = ksort($qu);
+                if( $qu['question_type'] == 1 || $qu['question_type'] == 2 ){
+                    $qu['detail'] .= $this->get_question_option($qu['question_id']);
+                }
+            }
+        }
+        return $this->output_succ(["list" => $questions]);
+       
     }
 
     private function get_tree($pid){  
@@ -280,7 +280,7 @@ class question_new_api extends Controller
         }
     }
 
-    public function get_recommend($room_id,$question_type,$question_resource_type,$difficult){
+    public function get_recommend($room_id,$question_type,$question_resource_type,$difficult,$page_num){
         if( !$room_id ){
             return null;
         }

@@ -21,12 +21,13 @@ class t_question extends \App\Models\Zgen\z_t_question
 
     public function question_get($knowledge_str,$question_type,$question_resource_type,$difficult,$page_num){
         $where_arr = [
-            ['know.knowledge_id in %s' , $knowledge_str ],
             ["qu.question_type=%u", $question_type, -1] ,
             ["qu.question_resource_type=%u", $question_resource_type, -1] ,
             ["qu.difficult=%u", $difficult, -1] ,
         ];
-
+        if(!empty($knowledge_str)){
+            $where_arr[] = ['know.knowledge_id in %s' , $knowledge_str ];
+        }
         $where_str = $this->where_str_gen($where_arr);
         $sql = $this->gen_sql("select distinct(qu.question_id),qu.*,qt.name as question_type_str from %s qu
                               left join %s know on qu.question_id = know.question_id
