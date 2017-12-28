@@ -190,12 +190,9 @@ class login extends Controller
         $role_str        = "";
         $role_item_count = 0;
         $is_jiaose = 0;
-        // $role_str_jiaoxue = "";
 
         foreach ($menu as $item) {
             $item_name=$item["name"];
-
-
             $tmp=$this->gen_one_item( $item, $start,$level,$power_map, $admin_domain_type);
             if($tmp) {
                 $item_count++;
@@ -224,7 +221,6 @@ class login extends Controller
             }
         }
 
-        //\App\Helper\Utils::logger("menu_str_show: $menu_str");
         return $menu_str;
     }
 
@@ -243,9 +239,7 @@ class login extends Controller
     }
 
     public function reset_power($account) {
-
         \App\Helper\Utils::logger("loginx4");
-
 
         $ret_permission = $this->t_manager_info->get_user_permission(array($account));
         $permission = array();
@@ -261,15 +255,13 @@ class login extends Controller
         $_SESSION['adminid']         = $ret_row["uid"];
         $_SESSION['account_role']    = $ret_row["account_role"];
         $_SESSION['seller_level']    = $ret_row["seller_level"];
-        // $_SESSION['face_pic']    = $ret_row["face_pic"];
-        $_SESSION['face_pic']    = isset($ret_row["face_pic"])?$ret_row["face_pic"]:'';
+        $_SESSION['face_pic']        = isset($ret_row["face_pic"])?$ret_row["face_pic"]:'';
         $_SESSION['power_set_time']  = time(NULL);
 
 
         $_SESSION['permission'] = @$permission[$account];
 
         $menu_config=preg_split("/,/", $ret_row["menu_config"] );
-
 
         //power_list
         $power_list = $this->t_manager_info->get_permission_list($account);

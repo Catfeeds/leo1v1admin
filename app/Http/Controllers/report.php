@@ -17,6 +17,8 @@ class report extends Controller
         $opt_date_type = $this->get_in_int_val("opt_date_type",2);
         $data_arr['create_time_range'] = '不在统计时段内';
         $data_arr['type'] = 1;
+        $this->check_and_switch_tongji_domain();
+        $this->switch_tongji_database();
 
         if($is_history_data == 2){
             $data_arr['create_time_range'] = date('Y-m-d',$start_time).'—'.date('Y-m-d',$end_time);

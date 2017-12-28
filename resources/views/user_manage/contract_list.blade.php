@@ -183,7 +183,6 @@
                     <td style="display:none;" >1v1详细分类</td>
                     <td style="display:none;">是否新增 </td>
                     <td >试听课时间</td>
-
                     {!!\App\Helper\Utils::th_order_gen([["年级", "grade", "th_grade" ]])!!}
                     {!!\App\Helper\Utils::th_order_gen([["科目", "", "th_subject" ]])!!}
                     {!!\App\Helper\Utils::th_order_gen([["合同状态", "contract_status", "th_contract_status" ]])!!}
@@ -198,10 +197,10 @@
                     <td >原始金额</td>
                     <td >实付/原始单价</td>
                     <td style="display:none;" >优惠原因</td>
-                    <td  style="display:none;" >包类型</td>
+                    <td style="display:none;" >包类型</td>
                     {!!\App\Helper\Utils::th_order_gen([["下单人", "", "th_adminid" ]])!!}
                     <td style="display:none;">淘宝订单号</td>
-                    <td style="display:none">courseid</td>
+                    <td style="display:none;">courseid</td>
                     <td style="display:none;">助教</td>
                     <td style="display:none;" >竞赛合同</td>
                     <td style="display:none;" >设备信息</td>
@@ -217,7 +216,7 @@
             </thead>
             <tbody>
                 @foreach ($table_data_list as $var)
-            <tr>
+                    <tr>
                         <td >{{$var["userid"]}}</td>
                         <td >{{$var["orderid"]}}</td>
                         <td class="td-origin" >{{$var["origin"]}}<br> {{$var["origin_assistant_nick"]}} </td>
@@ -251,10 +250,10 @@
                         <td class="price">{{$var["price"]}}</td>
                         <td >{{$var["pre_money_info"]}}</td>
                         <td >{{$var["discount_price"]}}</td>
-                            <td >
-                                {{ $var["lesson_total"] ? intval($var["price"]/$var["lesson_total"]):"-" }}/
-                                {{ $var["lesson_total"] ? @intval(@$var["discount_price"]/@$var["lesson_total"]):"-" }}
-                            </td>
+                        <td >
+                            {{ $var["lesson_total"] ? intval($var["price"]/$var["lesson_total"]):"-" }}/
+                            {{ $var["lesson_total"] ? @intval(@$var["discount_price"]/@$var["lesson_total"]):"-" }}
+                        </td>
                         <td >{{$var["discount_reason"]}}</td>
                         <td >{{$var["from_type_str"]}}</td>
                         <td >{{$var["sys_operator"]}}</td>
@@ -301,7 +300,7 @@
                                 @endif
                             </div>
                         </td>
-            </tr>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
@@ -314,8 +313,6 @@
                 </div>
             </div>
         </div>
-
-
         <div style="display:none;" id="id_dlg_change_state">
             <div class="mesg_alertCont">
               <table border="0" cellspacing="0" width="100%" style="border-collapse:collapse;" class="stu_tab02">
@@ -757,7 +754,6 @@
                 </div>
             </div>
         </div>
-
     </div>
     <script type="text/javascript" src="/page_js/select_course.js"></script>
     <script type="text/javascript" src="/page_js/select_user.js"></script>
