@@ -3323,4 +3323,52 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     
 
+    // @desn:获取微信运营信息
+    // @param:$start_time 开始时间
+    // @param:$end_time 结束时间
+    public function get_wx_example_num($start_time,$end_time){
+        $where_arr=[
+            'tls.require_admin_type=2',
+            'si.is_test_user = 0',
+            'ssn.tmk_adminid >0',
+            'ssn.wx_invaild_flag = 1'
+        ];
+        $this->where_arr_add_time_range($where_arr, 'ssn.add_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            "select count(ssn.userid) wx_example_num ".
+            "from %s ssn ".
+            "left join %s si on si.userid = ssn.userid ".
+            "left join %s tls on tls.userid= ssn.userid ".
+            "where %s ",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+    //@desn:获取公众号例子信息
+    // @param:$start_time 开始时间
+    // @param:$end_time 结束时间
+    public function get_public_number_example_info($start_time,$end_time){
+        $where_arr=[
+            'tls.require_admin_type=2',
+            'si.is_test_user = 0'
+        ];
+        $this->where_arr_add_time_range($where_arr, 'ssn.add_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select si.origin,count(ssn.userid) as public_number_num '.
+            'from %s ssn '.
+            "left join %s si on si.userid = ssn.userid ".
+            "left join %s tls on tls.userid= ssn.userid ".
+            "where %s group by si.origin ",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["origin"];
+        });
+    }
 }

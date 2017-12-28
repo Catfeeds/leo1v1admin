@@ -49,8 +49,9 @@ tofile:
 /// <reference path="../g_args.d.ts/seller_student_new2-seller_edit_log_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -62,22 +63,28 @@ function load_data(){
 		hand_get_adminid:	$('#id_hand_get_adminid').val(),
 		origin_ex:	$('#id_origin_ex').val(),
 		global_tq_called_flag:	$('#id_global_tq_called_flag').val()
-    });
+		});
 }
 $(function(){
 
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
-	$('#id_adminid').val(g_args.adminid);
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
+	$('#id_adminid').admin_select_user_new({
+		"user_type"    : "account",
+		"select_value" : g_args.adminid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_adminid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_uid').val(g_args.uid);
 	$('#id_user_name').val(g_args.user_name);
 	$('#id_hand_get_adminid').val(g_args.hand_get_adminid);
@@ -92,6 +99,11 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -99,6 +111,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["adminid title", "adminid", "th_adminid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -106,6 +119,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_uid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["uid title", "uid", "th_uid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -113,6 +127,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_user_name" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["user_name title", "user_name", "th_user_name" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -120,6 +135,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_hand_get_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["hand_get_adminid title", "hand_get_adminid", "th_hand_get_adminid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -127,6 +143,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_origin_ex" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["origin_ex title", "origin_ex", "th_origin_ex" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -134,4 +151,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_global_tq_called_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["global_tq_called_flag title", "global_tq_called_flag", "th_global_tq_called_flag" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

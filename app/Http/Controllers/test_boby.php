@@ -110,11 +110,11 @@ class test_boby extends Controller
     //七月份 同一ip的不同签单的家长电话
     public function get_id_info(){
         $start_time = strtotime('2017-07-01');
-        $end_time  = strtotime('2017-08-01');
-        $ret_info  = $this->t_order_info->get_order_group_by_id($start_time, $end_time);
-        $list  = $this->t_order_info->get_order_group_by_id(1, time());
+        $end_time   = strtotime('2017-08-01');
+        $ret_info   = $this->t_order_info->get_order_group_by_id($start_time, $end_time);
+        $list       = $this->t_order_info->get_order_group_by_id(1, time());
 
-        // $list = $this->t_order_info->get_phont_by_ip();
+        // $list                  = $this->t_order_info->get_phont_by_ip();
         // dd($list);
         $newarr = [];
         foreach ($list as $v){
@@ -124,11 +124,11 @@ class test_boby extends Controller
                 $newarr[$v['ip']] = $newarr[$v['ip']].';'.$v['phone'];
             }
         }
-        $s = '<table border=1><tr><th>ip</th><th>电话</th><th>电话N</th></tr>';
+        $s  = '<table border=1><tr><th>ip</th><th>电话</th><th>电话N</th></tr>';
         foreach ($ret_info as $v) {
-            $s = $s."<tr><td>{$v['ip']}</td><td>{$v['phone']}</td><td>";
+            $s   = $s."<tr><td>{$v['ip']}</td><td>{$v['phone']}</td><td>";
             $new = str_replace($v['phone'], '', $newarr[$v['ip']]);
-            $s = $s."{$new}</td></tr>";
+            $s   = $s."{$new}</td></tr>";
         }
         $s = $s.'</table>';
         return $s;
@@ -1070,10 +1070,6 @@ class test_boby extends Controller
 
     }
 
-    public function test_md5(){
-        return $this->pageView( __METHOD__,[]);
-    }
-
     public function hash_check(){
 
         $str1 = $this->get_in_str_val('str1');
@@ -1413,6 +1409,27 @@ class test_boby extends Controller
         $this->table_start();
     }
 
+
+    public function get_order(){
+        $sql = "select o.order_time,m.account,m.become_member_time,o.price,o.check_money_time from db_weiyi.t_order_info o left join db_weiyi_admin.t_manager_info m on m.account=o.sys_operator where o.order_time>=1504195200 and o.order_time<1514736000 and m.del_flag=0 and m.account_role=2 and o.contract_status>0 and o.contract_type =0";
+        $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
+
+        $th_arr = ['cc','入职时间','金额','下单时间','财务确认时间'];
+        $s = $this->table_start($th_arr);
+
+        foreach($ret as $v){
+            \App\Helper\Utils::unixtime2date_for_item($v, 'become_member_time');
+            \App\Helper\Utils::unixtime2date_for_item($v, 'order_time');
+            \App\Helper\Utils::unixtime2date_for_item($v, 'check_money_time');
+            $s= $this->tr_add($s, $v['account'], $v['become_member_time'],$v['price']/100, $v['order_time'],$v['check_money_time']);
+
+        }
+        $s = $this->table_end($s);
+
+        return $s;
+
+
+    }
 
 
 }

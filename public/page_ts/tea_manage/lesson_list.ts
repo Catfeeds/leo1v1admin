@@ -751,18 +751,20 @@ $(function(){
 
                 return html_node;
             },
-            buttons : [{
-                label  : '查看老师版课件',
-                cssClass : 'btn-warning',
-                action : function(dialog) {
+            buttons : [
+            //     {
+            //     label  : '查看老师版课件',
+            //     cssClass : 'btn-warning',
+            //     action : function(dialog) {
 
-                    window.open('./tea_imgs_show/?lessonid='+lessonid, '_blank');
-                   //                        window.open('/pdf_viewer?file='+ret.file, '_blank');
+            //         window.open('./tea_imgs_show/?lessonid='+lessonid, '_blank');
+            //        //                        window.open('/pdf_viewer?file='+ret.file, '_blank');
 
 
-                    dialog.close();
-                }
-            },{
+            //         dialog.close();
+            //     }
+            // },
+                {
                 label  : '返回',
                 action : function(dialog) {
                     dialog.close();

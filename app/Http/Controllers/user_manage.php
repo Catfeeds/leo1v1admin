@@ -570,9 +570,9 @@ class user_manage extends Controller
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             = $this->get_in_order_by_str([],"order_time desc",[
-                "grade" => "s.grade",
+                "grade"           => "s.grade",
                 "contract_status" => "o.contract_status",
-                "contract_type" => "o.contract_type",
+                "contract_type"   => "o.contract_type",
             ]);
 
         $orderid = $this->get_in_int_val('orderid',-1);
