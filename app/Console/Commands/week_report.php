@@ -39,7 +39,7 @@ class week_report extends cmd_base
     public function handle()
     {
         $time_now = date('l');
-        // if($time_now == 'Wednesday'){
+        if($time_now == 'Wednesday'){
             $start_time = strtotime('- 2 Tuesday');
             $end_time = strtotime('+ 7 day',$start_time);
             $data_arr = $this->get_week_of_monthly_report($start_time, $end_time, $data_arr=[]);
@@ -52,7 +52,7 @@ class week_report extends cmd_base
             }
             echo 'week report ok!';
 
-        // }else echo '统计时间出错!';
+        }else echo '统计时间出错!';
 
     }
     //@desn:获取周月报统计数据
