@@ -56,7 +56,7 @@ class update_company_wx_data extends Command
         $approv_type  = E\Eapprov_type::get_specify_select();
         $approv_type = array_flip($approv_type);
 
-        $approv = $task->t_company_wx_approval->get_all_list($start_time, $end_time);
+        $approv = $task->t_company_wx_approval->get_all_info($start_time, $end_time);
 
         $config = Config::get_config("company_wx");
         if (!$config) {
@@ -85,6 +85,17 @@ class update_company_wx_data extends Command
 
         $info = $output['data'];
         foreach($info as $item) {
+            if (isset($approv[$item['apply_user_id'].'-'.$item['apply_time']])) {
+                $index = $item['apply_user_id'].'-'.$item['apply_time'];
+                echo '调用成功';
+                if ($approv[$index]['sp_status'] != $item['sp_status']) {
+                    echo $approv[$index]['sp_status'].' ---- '.$item['sp_status'];
+                    $task->t_company_wx_approval->field_update_list($approv[$index]['id'], [
+                        "sp_status" => $item['sp_status']
+                    ]);
+                }
+                continue;
+            }
             $approval_name = implode(',', $item['approval_name']);
             $notify_name = implode(',', $item['notify_name']);
             $common = [
