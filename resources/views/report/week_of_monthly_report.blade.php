@@ -145,9 +145,15 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> {{@$data_arr['wx_example_num']}}</td> 
-                                        <td> {{@$data_arr['wx_order_info']['wx_order_count']}}</td> 
-                                        <td> {{@$data_arr['wx_order_info']['wx_order_all_money']}} </td> 
+                                        @if($is_history_data==1)
+                                            <td> {{@$data_arr['all_example_info']['wx_example_num']}}</td> 
+                                            <td> {{@$data_arr['all_example_info']['wx_order_count']}}</td> 
+                                            <td> {{@$data_arr['all_example_info']['wx_order_all_money']}} </td> 
+                                        @else
+                                            <td> {{@$data_arr['wx_example_num']}}</td> 
+                                            <td> {{@$data_arr['wx_order_info']['wx_order_count']}}</td> 
+                                            <td> {{@$data_arr['wx_order_info']['wx_order_all_money']}} </td> 
+                                        @endif
                                     </tr>
                                 </tbody>
                             </table>
@@ -205,9 +211,15 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td class="panel-yellow" > {{@$data_arr['pn_example_num']}}  </td>
-                                        <td class="panel-yellow" > {{@$data_arr['pn_order_num']}}</td>
-                                        <td class="panel-yellow" > {{@$data_arr['pn_order_money']}} </td>
+                                        @if($is_history_data==1)
+                                            <td> {{@$data_arr['all_example_info']['pn_example_num']}}</td> 
+                                            <td> {{@$data_arr['all_example_info']['pn_order_num']}}</td> 
+                                            <td> {{@$data_arr['all_example_info']['pn_order_money']}} </td> 
+                                        @else
+                                            <td> {{@$data_arr['pn_example_num']}}  </td>
+                                            <td> {{@$data_arr['pn_order_num']}}</td>
+                                            <td> {{@$data_arr['pn_order_money']}} </td>
+                                        @endif
                                     </tr>
                                 </tbody>
                             </table>
@@ -236,7 +248,11 @@
                                 <tbody id="id_lesson_count_list">
                                     <tr>
                                         <td class="panel-yellow" >投放金额/例子总量(去重)</td>
-                                        <td class="panel-yellow" >{{@$data_arr['public_class_num']}}</td>
+                                        @if($is_history_data==1)
+                                            <td> {{@$data_arr['all_example_info']['public_class_num']}}</td> 
+                                        @else
+                                            <td>{{@$data_arr['public_class_num']}}</td>
+                                        @endif
                                         <td class="panel-yellow" >人工统计</td>
                                         <td class="panel-yellow" >人工统计</td>
                                         <td>人工统计</td>

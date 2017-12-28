@@ -5,6 +5,7 @@ interface GargsStatic {
 	start_time:	string;
 	end_time:	string;
 	history:	number;
+	is_history_data:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -33,7 +34,8 @@ function load_data(){
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
-		history:	$('#id_history').val()
+		history:	$('#id_history').val(),
+		is_history_data:	$('#id_is_history_data').val()
 		});
 }
 $(function(){
@@ -49,6 +51,7 @@ $(function(){
 			load_data();
 		});
 	$('#id_history').val(g_args.history);
+	$('#id_is_history_data').val(g_args.is_history_data);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -71,4 +74,12 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["history title", "history", "th_history" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">is_history_data</span>
+                <input class="opt-change form-control" id="id_is_history_data" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["is_history_data title", "is_history_data", "th_is_history_data" ]])!!}
 */

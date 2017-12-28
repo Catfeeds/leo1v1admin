@@ -27,73 +27,89 @@ $(function(){
     $('#id_is_history_data').val(g_args.history);
 
     $("#download_data").on("click",function(){
+        var report_type = g_data.type == 1?'月报':'周报';
 
-       /* var list_data=[];
-        var $tr_list=$(this).parent().parent().find("table").find("tr" );
-        $.each($tr_list ,function(i,tr_item )  {
-            var row_data= [];
-            var $td_list= $(tr_item ).find("td");
-            $.each(  $td_list, function( i, td_item)  {
-                if ( i>0 && i< $td_list.length-1 ) {
-                    row_data.push( $.trim( $(td_item).text()) );
-                }
-            });
-            list_data.push(row_data);
-            });*/
-        var lesson_per = g_data.student_arrive_per+"% ("+g_data.student_arrive+"/"+g_data.lesson_plan+")";
-        var list_data=[
-            ["月度目标收入",g_data.target],
-            ["完成金额",g_data.total_price],
-            ["完成率",g_data.kpi_per+"%"],
-            ["缺口金额",g_data.gap_money],
-            ["现金总收入",g_data.total_income],
-            ["下单总人数",g_data.person_num],
-            ["入职完整月人员签单额",g_data.total_price_thirty],
-            ["入职完整月人员人数",g_data.person_num_thirty],
-            ["平均人效",g_data.person_num_thirty_per],
-            ["平均单笔",g_data.contract_per],
-            ["月KPI完整率",g_data.month_kpi_per+"%"],
-            ["CR总人数",g_data.cr_num],
-            ["结课学员数",g_data.finish_num],
-            ["退费总人数",g_data.refund_num],
-            ["课时系数目标量",g_data.lesson_target],
-            ["在读学生数量",g_data.read_num],
-            ["上课学生数量",g_data.total_student],
-            ["课时消耗目标数量","节点"],
-            ["课时消耗实际数量",g_data.lesson_consume],
-            ["老师请假课时",g_data.teacher_leave],
-            ["学生请假课时",g_data.student_leave],
-            ["其他原因未上课时",g_data.other_leave],
-            ["课时完成率","节点"],
-            ["学生到课率",lesson_per],
-            ["课时收入",g_data.lesson_income],
-            ["预计结课学生数量",g_data.expect_finish_num],
-            ["计划内续费学生数量",g_data.plan_renew_num],
-            ["计划外续费学生数量",g_data.other_renew_num],
-            ["实际续费学生数量",g_data.real_renew_num],
-            ["续费金额",g_data.total_renew],
-            ["平均单笔",g_data.renew_num_per],
-            ["月续费率",g_data.renew_per+"%"],
-            ["月预警续费率",g_data.finish_renew_per+"%"],
-            ["转介绍至CC例子量",g_data.tranfer_phone_num],
-            ["转介绍至CC例子签单量",g_data.tranfer_total_num],
-            ["转介绍至CC例子签单金额",g_data.tranfer_total_price],
-            ["月转介绍至CC签单率",g_data.tranfer_success_per+"%"],
-            ["转介绍成单数量",g_data.tranfer_num],
-            ["转介绍总金额",g_data.total_tranfer],
-            ["平均单笔",g_data.tranfer_num_per],
-            ["扩课试听数量",g_data.total_test_lesson_num],
-            ["扩课成单数量",g_data.success_num],
-            ["扩科待跟进数量",g_data.wait_num],
-            ["扩科未成单数量",g_data.fail_num],
-            ["月扩课成功率",g_data.kk_success_per+"%"],
-            ["家长投诉数量",""],
-            ["非正常退费事件数量",""],
-            ["非正常退费金额",""],
-            ["不可抗力退费数量",""],
-            ["不可抗力退费金额",""],
-            ["退费总额",""],
-        ];
+        if(g_args.is_history_data ==1){
+            var list_data=[
+                ['报告类型','统计时段'],
+                [report_type,g_data.create_time_range],
+                ["例子数",g_data.all_example_info.example_num],
+                ["有效例子",g_data.all_example_info.valid_example_num],
+                ["已拨打例子",g_data.all_example_info.called_num],
+                ["有效例子数占比",g_data.all_example_info.valid_rate+'%'],
+                ["无效资源",g_data.all_example_info.invalid_example_num],
+                ["无效例子数占比",g_data.all_example_info.invalid_rate+'%'],
+                ["未接通",g_data.all_example_info.not_through_num],
+                ["未接通例子数占比",g_data.all_example_info.not_through_rate+'%'],
+                ['年级统计','结点'],
+                ["例子数",g_data.all_example_info.example_num],
+                ["高中例子",g_data.all_example_info.high_num],
+                ["高中例子数占比",g_data.all_example_info.high_num_rate+'%'],
+                ["初中例子",g_data.all_example_info.middle_num],
+                ["初中例子数占比",g_data.all_example_info.middle_num_rate+'%'],
+                ["小学例子",g_data.all_example_info.primary_num],
+                ["小学例子数占比",g_data.all_example_info.primary_num_rate+'%'],
+                ['微信运营','结点'],
+                ["微信运营例子",g_data.all_example_info.wx_example_num],
+                ["新签数",g_data.all_example_info.wx_order_count],
+                ["新签金额",g_data.all_example_info.wx_order_all_money],
+                ['微课统计','结点'],
+                ["微课",'暂无数据'],
+                ["微课例子",'暂无数据'],
+                ["微课签单数",'暂无数据'],
+                ["微课签单金额",'暂无数据'],
+                ["公众号统计 ","节点"],
+                ["公众号例子",g_data.all_example_info.pn_example_num],
+                ["公众号签单数",g_data.all_example_info.pn_order_num],
+                ["公众号签单金额",g_data.all_example_info.pn_order_money],
+                ["人工统计","节点"],
+                ["平均单线索价格",'投放金额/例子总量(去重)'],
+                ["公开课次数",g_data.all_example_info.public_class_num],
+                ["软文发布篇数",'人工统计'],
+                ["群维护次数",'人工统计'],
+                ["微博微信发布数",'人工统计']
+            ];
+        }else{
+            var list_data=[
+                ['报告类型','统计时段'],
+                [report_type,g_data.create_time_range],
+                ["例子数",g_data.all_example_info.example_num],
+                ["有效例子",g_data.all_example_info.valid_example_num],
+                ["已拨打例子",g_data.all_example_info.called_num],
+                ["有效例子数占比",g_data.all_example_info.valid_rate+'%'],
+                ["无效资源",g_data.all_example_info.invalid_example_num],
+                ["无效例子数占比",g_data.all_example_info.invalid_rate+'%'],
+                ["未接通",g_data.all_example_info.not_through_num],
+                ["未接通例子数占比",g_data.all_example_info.not_through_rate+'%'],
+                ['年级统计','结点'],
+                ["例子数",g_data.all_example_info.example_num],
+                ["高中例子",g_data.all_example_info.high_num],
+                ["高中例子数占比",g_data.all_example_info.high_num_rate+'%'],
+                ["初中例子",g_data.all_example_info.middle_num],
+                ["初中例子数占比",g_data.all_example_info.middle_num_rate+'%'],
+                ["小学例子",g_data.all_example_info.primary_num],
+                ["小学例子数占比",g_data.all_example_info.primary_num_rate+'%'],
+                ['微信运营','结点'],
+                ["微信运营例子",g_data.wx_example_num],
+                ["新签数",g_data.wx_order_info.wx_order_count],
+                ["新签金额",g_data.wx_order_info.wx_order_all_money],
+                ['微课统计','结点'],
+                ["微课",'暂无数据'],
+                ["微课例子",'暂无数据'],
+                ["微课签单数",'暂无数据'],
+                ["微课签单金额",'暂无数据'],
+                ["公众号统计 ","节点"],
+                ["公众号例子",g_data.pn_example_num],
+                ["公众号签单数",g_data.pn_order_num],
+                ["公众号签单金额",g_data.pn_order_money],
+                ["人工统计","节点"],
+                ["平均单线索价格",'投放金额/例子总量(去重)'],
+                ["公开课次数",g_data.public_class_num],
+                ["软文发布篇数",'人工统计'],
+                ["群维护次数",'人工统计'],
+                ["微博微信发布数",'人工统计']
+            ];
+        }
 
 
         $.do_ajax ( "/page_common/upload_xls_data",{

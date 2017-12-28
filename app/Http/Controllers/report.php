@@ -29,19 +29,33 @@ class report extends Controller
 
             if($opt_date_type == 2 || $opt_date_type == 3)//获取实时周月报时间
                 $data_arr = $this->get_week_of_monthly_report($start_time, $end_time,$data_arr);
-            dd($data_arr);
 
         }else{
-            //即时数据
+            //存档数据
             if($opt_date_type == 2){
+                $start_time = strtotime(' + 1 day',$start_time);
+                $end_time = strtotime(' + 1 day',$end_time);
                 //周报
+                $data_arr['type'] = 2;
+                $data_arr['create_time_range'] = date('Y-m-d H:i:s',$start_time).'—'.date('Y-m-d H:i:s',$end_time);
+                $example_info = $this->t_week_of_monthly_report->get_example_info($report_type=1,$start_time);
+
+                $data_arr['all_example_info'] = $example_info;
 
             }else{
+                $data_arr['create_time_range'] = date('Y-m-d',$start_time).'—'.date('Y-m-d',$end_time);
                 //月报
+                $example_info = $this->t_week_of_monthly_report->get_example_info($report_type=2,$start_time);
+                // dd($example_info);
+                $data_arr['all_example_info'] = $example_info;
             }
         }
+        $this->set_filed_for_js('is_history_data', $is_history_data);
 
-        return $this->pageView(__METHOD__,null,["data_arr"=>$data_arr]);
+        return $this->pageView(__METHOD__,null,[
+            "data_arr"=>$data_arr,
+            'is_history_data' => $is_history_data
+        ]);
     }
     //@desn:获取周月报统计数据
     //@param:$start_time 开始时间
