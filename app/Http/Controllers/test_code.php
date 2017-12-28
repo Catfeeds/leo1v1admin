@@ -292,7 +292,7 @@ class test_code extends Controller
             "code"  => $code,
             "index" => $index,
         ];
-        $ret = \App\Helper\Common::send_sms_with_taobao($phone, $template_code, $data,"理优在线教育");
+        $ret = \App\Helper\Common::send_sms_with_taobao($phone, $template_code, $data,"理优教育");
         dd($ret);
     }
 
