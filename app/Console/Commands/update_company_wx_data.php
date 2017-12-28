@@ -44,7 +44,8 @@ class update_company_wx_data extends Command
         $task = new \App\Console\Tasks\TaskController();
         $start_time = strtotime(date('Y-m-1', strtotime('-1 month')));
         $end_time = strtotime(date('Y-m-1', time()));
-        echo E\Eapprov_type::get_specify_select();
+        $select  = E\Eapprov_type::get_specify_select();
+        dd($select);
         exit;
         $this->get_approve($task,$start_time, $end_time); // 拉取审批数据
         //$url = $this->get_url();

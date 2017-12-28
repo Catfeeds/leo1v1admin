@@ -12,7 +12,7 @@ class TChangeOrderActivityConfig extends Migration
     public function up()
     {
         Schema::table('db_weiyi.t_order_activity_config', function (Blueprint $table){
-            t_field($table->integer('diff_max_count')->default(100),"预期最大合同数");
+            t_field($table->integer('is_need_share_wechat')->default(0),"是否需要分享微信");
         });	
     }
 
