@@ -385,6 +385,7 @@ class test_jack  extends Controller
         $errmsg = $this->get_in_str_val("ERRMSG");
         $sign = $this->get_in_str_val("SIGN","&CLIENTIP=116.226.191.6&INSTALLNUM=12&ERRMSG=&SIGN=5d00745445c4e3cc4dc99653bb2516cdac417701431e591088b5fdfddb984a116760e6156641ddd46cb6d434a6b5150aa4c37f7cf4732b2b94241ea926b0e1d4234b53f458d3ab2f80d6df3f6fc785450240105ace4b76dc6525191cbca54e1c09377b67cd6f42de89582e2987de1fd557368fa18dca273541f2d5a823ff30f6");
         $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&ACC_TYPE=".$acc_type."&SUCCESS=".$success."&TYPE=".$type."&REFERER=".$referer."&CLIENTIP=".$clientip."&INSTALLNUM=".$installnum."&ERRMSG=".$errmsg;
+        dd([1=>$sign,2=>$data]);
         // $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&SUCCESS=".$success;
 
         if($posid=="002171923"){

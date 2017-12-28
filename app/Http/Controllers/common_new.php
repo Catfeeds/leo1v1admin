@@ -88,7 +88,7 @@ class common_new extends Controller
             ,"DA","DB","DC","DD","DE","DF","DG","DH","DI","DJ","DK","DL","DM","DN","DO","DP","DQ","DR","DS","DT","DU","DV","DW","DX","DY","DZ"
 
         ];
-        foreach( $xls_data as $index=> $item ) {
+        foreach( $xls_data_new as $index=> $item ) {
             foreach ( $item as $key => $cell_data ) {
                 $index_str = $index+1;
                 $pos_str   = $col_list[$key].$index_str;
@@ -1558,10 +1558,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         // $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&SUCCESS=".$success;
         $der_data = "30819d300d06092a864886f70d010101050003818b0030818702818100d3248e9cfda6a7ca49fb480bc9539415e3083c07a82b3bded3fd39e33550228c6d9283b36219b78dab80783c01e241963e91dd2b8de8e400c8b0d19ce312d29fb790ec7d9257fbc421501ea0155f252635d52a7d5d8c5e0d5fe64202e41a096615b1e6a0164dd7ce3e4ce66e814fa3c1096c6d33c23710c736ebb69c1e9da205020111";
 
+        $pay_channel=$cmd="";
         if($posid=="002171923"){
-            $cmd ='cd /home/ybai/bin/Cbb/ && java Main "'.$data.'" "'.$sign.'"'; 
+            $cmd ='cd /home/ybai/bin/Cbb/ && java Main "'.$data.'" "'.$sign.'"';
+            $pay_channel = "建行分期";
         }elseif($posid=="002171916"){
-            $cmd ='cd /home/ybai/bin/Cbb/ && java Other "'.$data.'" "'.$sign.'"'; 
+            $cmd ='cd /home/ybai/bin/Cbb/ && java Other "'.$data.'" "'.$sign.'"';
+            $pay_channel = "建行网关支付";
         }
         // echo $cmd;
         //dd(11);
@@ -1569,7 +1572,17 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $verifyResult = \App\Helper\Utils::exec_cmd($cmd);
         // dd($verifyResult);
 
+        if(!$verifyResult){
+            $this->t_manager_info->send_wx_todo_msg(
+                "jack",
+                "合同付款通知",
+                "合同付款验签失败",
+                "学生:".$user_info["nick"]." 渠道:".$pay_channel.",订单号:".$orderNo,
+                "");
 
+        }
+
+        
         //当前默认为true
         //$verifyResult=true;
         if($verifyResult && $success=="Y" ){
@@ -1589,7 +1602,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $this->t_child_order_info->field_update_list($orderid,[
                     "pay_status"  =>1,
                     "pay_time"    =>time(),
-                    "channel"     =>"建行分期",
+                    "channel"     =>$pay_channel,
                     "from_orderno"=>$orderNo,
                     // "period_num"  =>$period_new
                 ]);
@@ -1597,19 +1610,19 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     "jack",
                     "合同付款通知",
                     "合同付款通知",
-                    "学生:".$user_info["nick"]." 渠道:建行分期,订单号:".$orderNo,
+                    "学生:".$user_info["nick"]." 渠道:".$pay_channel.",订单号:".$orderNo,
                     "");
                 $this->t_manager_info->send_wx_todo_msg(
                     "zero",
                     "合同付款通知",
                     "合同付款通知",
-                    "学生:".$user_info["nick"]." 渠道:建行分期,订单号:".$orderNo,
+                    "学生:".$user_info["nick"]." 渠道:".$pay_channel.",订单号:".$orderNo,
                     "");
                 $this->t_manager_info->send_wx_todo_msg(
                     $sys_operator,
                     "合同付款通知",
                     "合同付款通知",
-                    "学生:".$user_info["nick"]." 渠道:建行分期,订单号:".$orderNo,
+                    "学生:".$user_info["nick"]." 渠道:".$pay_channel.",订单号:".$orderNo,
                     "");
 
 

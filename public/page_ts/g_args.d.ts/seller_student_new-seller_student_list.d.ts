@@ -139,6 +139,7 @@ interface RowData {
 	tmk_desc	:any;
 	tmk_student_status	:any;
 	nickname	:any;
+	phone_hide	:any;
 	lesson_plan_status	:any;
 	editionid_str	:any;
 	stu_request_test_lesson_time_old	:any;
