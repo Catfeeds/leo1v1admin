@@ -42,8 +42,11 @@ class update_company_wx_data extends Command
     public function handle()
     {
         $task = new \App\Console\Tasks\TaskController();
-        $start_time = strtotime(date('Y-m-1', strtotime('-1 month')));
-        $end_time = strtotime(date('Y-m-1', time()));
+        $start_time = strtotime(date('Y-m-d', strtotime('-1 month')));
+        //$end_time = strtotime(date('Y-m-1', time()));
+        $end_time = time();
+        echo date('Y-m-d H:i:s', $start_time);
+        echo date('Y-m-d H:i:s', $end_time);
         $this->get_approve($task,$start_time, $end_time); // 拉取审批数据
         //$url = $this->get_url();
         //$token = $this->get_token(); // 获取token
