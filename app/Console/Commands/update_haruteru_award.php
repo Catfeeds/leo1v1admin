@@ -45,7 +45,7 @@ class update_haruteru_award extends Command
 
         $check = $task->t_teacher_money_list->get_haruteru_award($start_time, $end_time);
         if ($check) { // 本月有数据直接退出
-            exit;
+            exit('本月数据已经刷过');
         }
         // 小学
         $p_info =$task->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,[],2,false);
