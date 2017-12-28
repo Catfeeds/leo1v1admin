@@ -96,12 +96,12 @@ class test_boby extends Controller
     }
 
     public function for_add_news() {
-        $title = $this->get_in_str_val("title");
-        $type = $this->get_in_int_val("type");
-        $des = $this->get_in_str_val("des");
-        $pic = $this->get_in_str_val("pic");
+        $title    = $this->get_in_str_val("title");
+        $type     = $this->get_in_int_val("type");
+        $des      = $this->get_in_str_val("des");
+        $pic      = $this->get_in_str_val("pic");
         $new_link = $this->get_in_str_val("new_link");
-        $adminid = session("adminid");
+        $adminid  = session("adminid");
         $create_time = time();
         $ret_info = $this->t_yxyx_wxnews_info->add_news($title, $des,$pic,$new_link,$adminid,$type);
         dd($ret_info);
@@ -185,7 +185,7 @@ class test_boby extends Controller
         exit;
         $ret_info = $this->t_order_info->get_teacherid_subject_by_orderid($orderid_str);
 
-        $s = '<table border=1><tr><td>orderid</td><td>id-姓名/科目';
+        $s   = '<table border=1><tr><td>orderid</td><td>id-姓名/科目';
         $par =  '';
         foreach ($ret_info as &$item) {
             E\Esubject::set_item_value_str($item);
@@ -205,8 +205,8 @@ class test_boby extends Controller
     //公开课6.7.8月，报名数，年级，科目
     public function get_open_lesson_info(){
         $start_time = strtotime('2017-06-01');
-        $end_time = strtotime('2017-09-01');
-        $ret_info = $this->t_lesson_info_b2->get_open_lesson_info($start_time, $end_time);
+        $end_time   = strtotime('2017-09-01');
+        $ret_info   = $this->t_lesson_info_b2->get_open_lesson_info($start_time, $end_time);
 
         $th_arr = ['科目','人数','上课人数','时间','年级','公开课id'];
         $s = $this->table_start($th_arr);
@@ -225,8 +225,8 @@ class test_boby extends Controller
         return 'bey';
         $day = $this->get_in_str_val('day','today');
         $start_time = strtotime($day);
-        $end_time = time();
-        $ret_info = $this->t_order_info->get_order_stu_acc_info($start_time, $end_time);
+        $end_time   = time();
+        $ret_info   = $this->t_order_info->get_order_stu_acc_info($start_time, $end_time);
 
         // dd($ret_info);
         $th_arr = ['orderid','签单人','渠道' ,'金额' ,'电话' ,'城市' ,'下单时间' ,'拨打者' ,'角色' ,'拨打时间' ,'是否打通(0:否；1：是)'];
@@ -239,6 +239,7 @@ class test_boby extends Controller
                 \App\Helper\Utils::unixtime2date_for_item($val,"start_time");
                 $this->cache_set_item_account_nick($val);
                 E\Eaccount_role::set_item_value_str($val,"admin_role");
+
                 $s = $this->tr_add($s,$item["orderid"], $item["sys_operator"],$item["origin"],$item["price"],$item["phone"],$item["phone_location"],$item["order_time"],$val["admin_nick"],$val["admin_role_str"],$val["start_time"],$val["is_called_phone"]);
             }
 
@@ -254,7 +255,7 @@ class test_boby extends Controller
 
         // return 'bey';
         $start_time = strtotime ( $this->get_in_str_val('start') );
-        $end_time = strtotime ( $this->get_in_str_val('end') );
+        $end_time   = strtotime ( $this->get_in_str_val('end') );
 
         $s = '<table border=1><tr>'
            .'<td>科目</td>'
@@ -294,8 +295,8 @@ class test_boby extends Controller
 
     //添加给老师添加公开课学生
     public function add_stu_to_tea_open_lesson(){
-        $start_time = strtotime('2017-09-01');
-        $end_time = strtotime('2017-10-01');
+        $start_time  = strtotime('2017-09-01');
+        $end_time    = strtotime('2017-10-01');
         $userid_list = $this->t_order_info->get_userid_by_pay_time($start_time, $end_time);
 
         // $teacherid = "(180795)";
@@ -336,8 +337,8 @@ class test_boby extends Controller
         //     }
         // }
         $userid_xiao = [];
-        $userid_chu = [];
-        $userid_gao = [];
+        $userid_chu  = [];
+        $userid_gao  = [];
         foreach ($userid_list as $item) {
             if ($item['grade'] > 0) {
                 if ($item['grade'] < 200 ) {
@@ -393,10 +394,10 @@ class test_boby extends Controller
 
     public function get_role(){
         return false;
-        $arr = $this->get_b_txt();
+        $arr    = $this->get_b_txt();
         $th_arr = ['电话','老师','员工','学生','其他'];
-        $s = $this->table_start($th_arr);
-        $admin = [];
+        $s      = $this->table_start($th_arr);
+        $admin  = [];
         foreach ($arr as $k) {
             $sql = "select teacherid from db_weiyi.t_teacher_info where phone='{$k}'";
             $ret = $this->t_teacher_info->is_teacher($sql);
@@ -431,18 +432,18 @@ class test_boby extends Controller
         echo "<br>";
 
         foreach ($arr as $v) {
-            $month = $v;
-            $start_time = strtotime("2017-$month");
-            $end_time = strtotime("+1 month",$start_time);
-            $v = $this->t_lesson_info_b3->get_test_succ_count($start_time,$end_time);
-            echo $month."|".'小学'."|".$v['min']."|".$v['min_succ'];
-            echo "<br>";
-            echo $month."|".'初中'."|".$v['mid']."|".$v['mid_succ'];
-            echo "<br>";
-            echo $month."|".'高中'."|".$v['heigh']."|".$v['heigh_succ'];
-            echo "<br>";
+                $month = $v;
+                    $start_time = strtotime("2017-$month");
+                $end_time = strtotime("+1 month",$start_time);
+                  $v = $this->t_lesson_info_b3->get_test_succ_count($start_time,$end_time);
+                 echo $month."|".'小学'."|".$v['min']."|".$v['min_succ'];
+                echo "<br>";
+                        echo $month."|".'初中'."|".$v['mid']."|".$v['mid_succ'];
+                echo "<br>";
+                    echo $month."|".'高中'."|".$v['heigh']."|".$v['heigh_succ'];
+                echo "<br>";
+            }
         }
-    }
 
     public function get_tea_succ_count(){
         echo '<table border=1> <tr><td>月</td><td>老师</td><td>科目</td><td>年级</td><td>试听课数</td><td>成功数</td><td>常规课耗</td></tr>';
@@ -1402,13 +1403,12 @@ class test_boby extends Controller
 
         $arr['qc_anaysis'] = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($orderid, $apply_time);
         $arr['key1_value'] = $key1_value;
-        $arr['list']       = $list;
-        $arr['duty']       = $duty;
+        $arr['list'] = $list;
+        $arr['duty'] = $duty;
         return $arr;
 
         $this->table_start();
     }
-
     public function get_order(){
         $sql = "select o.order_time,m.account,m.become_member_time,o.price,o.check_money_time from db_weiyi.t_order_info o left join db_weiyi_admin.t_manager_info m on m.account=o.sys_operator where o.order_time>=1504195200 and o.order_time<1514736000 and m.del_flag=0 and m.account_role=2 and o.contract_status>0 and o.contract_type =0";
         $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
@@ -1424,9 +1424,7 @@ class test_boby extends Controller
 
         }
         $s = $this->table_end($s);
-
         return $s;
 
     }
-
 }
