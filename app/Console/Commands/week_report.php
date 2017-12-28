@@ -42,8 +42,6 @@ class week_report extends cmd_base
         // if($time_now == 'Wednesday'){
             $start_time = strtotime('- 2 Tuesday');
             $end_time = strtotime('+ 7 day',$start_time);
-            echo date('Y-m-d H:i:s',$start_time);
-            dd(date('Y-m-d H:i:s',$end_time));
             $data_arr = $this->get_week_of_monthly_report($start_time, $end_time, $data_arr=[]);
             $id = $this->task->t_week_of_monthly_report->get_id_by_time_type($start_time,$report_type=1);
             if($data_arr){//添加统计数据
