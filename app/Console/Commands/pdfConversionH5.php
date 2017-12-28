@@ -94,6 +94,24 @@ class pdfConversionH5 extends Command
 
 
             exit();
+
+            $config=\App\Helper\Config::get_config("ali_oss");
+            $file_name=basename($target);
+
+            $ossClient = new OssClient(
+                $config["oss_access_id"],
+                $config["oss_access_key"],
+                $config["oss_endpoint"], false);
+
+
+            $bucket=$config["public"]["bucket"];
+            $ossClient->uploadFile($bucket, $file_name, $target  );
+
+
+
+
+
+
             /*
 
               $no = "unzip ./g050c18adf68d373aa34f63db3a906d8.zip ";
