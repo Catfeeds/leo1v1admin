@@ -47,6 +47,7 @@ class h5GetPoster extends Command
         //
 
         $pdf_lists = $this->task->t_pdf_to_png_info->get_pdf_list_for_doing();
+        // $pdfList = $this->
 
         while(list($key,$item)=each($pdf_lists)){
             $id       = $item['id'];
@@ -58,25 +59,13 @@ class h5GetPoster extends Command
             ]);
 
             $pdf_file_path = $this->get_pdf_download_url($pdf_url);
-
             $savePathFile = public_path('wximg').'/'.$pdf_url;
-
             if($pdf_url){
                 \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
                 $path = public_path().'/wximg';
                 @chmod($savePathFile, 0777);
 
                 $filesize=filesize($savePathFile);
-
-                if($filesize<512){
-                    \App\Helper\Utils::logger("filesize_pdf: ".$savePathFile);
-                    $this->task->t_pdf_to_png_info->field_update_list($id,[
-                        "id_do_flag" => 3, // 文件大小异常
-                        "deal_time"  => time()
-                    ]);
-                    return '';
-                }
-
 
                 $imgs_url_list = $this->pdf2png($savePathFile,$path,$lessonid);
                 $file_name_origi = array();
