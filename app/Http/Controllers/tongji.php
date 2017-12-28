@@ -466,6 +466,7 @@ class tongji extends Controller
         
         $info=$this->t_company_wx_approval->get_info_for_userid($userid, $start_time, $end_time);
         $len = count($info);
+        echo $len;
         foreach($info as $key => $item) {
             $num = ($item['end_time'] - $item['start_time']) / 86400;
             if ($num >= 1) {
