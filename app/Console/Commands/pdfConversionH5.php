@@ -87,30 +87,75 @@ class pdfConversionH5 extends Command
 
 
 
-            $config=\App\Helper\Config::get_config("ali_oss");
-            $ossClient = new OssClient(
-                $config["oss_access_id"],
-                $config["oss_access_key"],
-                $config["oss_endpoint"],
-                false
-            );
+            // $config=\App\Helper\Config::get_config("ali_oss");
+            // $ossClient = new OssClient(
+            //     $config["oss_access_id"],
+            //     $config["oss_access_key"],
+            //     $config["oss_endpoint"],
+            //     false
+            // );
+            // $h5Path = "pdfToH5"; // 环境文件夹
+
+            // foreach ($files as $file_name) {
+            //     $h5FileName = $h5Path.'/'.$file_name;
+            //     $target = $tmp."/".$file_name; //本地文件路径
+
+            //     $bucket=$config["public"]["bucket"];
+            //     $ossClient->uploadFile($bucket, $h5FileName, $target  );
+            //     $downLoad = $config["public"]["url"]."/".$h5FileName;
+
+            //     if($file_name == 'index.html'){ // 作为微信访问页
+
+            //     }
+            //     $test_data.=$downLoad." ";
+            // }
+
+
+
+
+
+
+
+            // 使用七牛上传
+            $qiniu     = \App\Helper\Config::get_config("qiniu");
+            $bucket    = $qiniu['public']['bucket'];
+            $accessKey = $qiniu['access_key'];
+            $secretKey = $qiniu['secret_key'];
+
+            // 构建鉴权对象
+            $auth = new \Qiniu\Auth ($accessKey, $secretKey);
+
             $h5Path = "pdfToH5"; // 环境文件夹
 
-            foreach ($files as $file_name) {
-                $h5FileName = $h5Path.'/'.$file_name;
-                $target = $tmp."/".$file_name; //本地文件路径
 
-                $bucket=$config["public"]["bucket"];
-                $ossClient->uploadFile($bucket, $h5FileName, $target  );
-                $downLoad = $config["public"]["url"]."/".$h5FileName;
+            foreach ($files as $key) {
 
-                if($file_name == 'index.html'){ // 作为微信访问页
+                // 上传到七牛后保存的文件名
+                $upkey = $h5Path."/".$key;
 
+                // 生成上传 Token
+                $token = $auth->uploadToken($bucket,$upkey);
+                $Upfile = $tmp."/".$key;
+
+                // 初始化 UploadManager 对象并进行文件的上传。
+                $uploadMgr = new \Qiniu\Storage\UploadManager ();
+
+                // 调用 UploadManager 的 putFile 方法进行文件的上传。
+                list($ret, $err) = $uploadMgr->putFile($token, $key, $Upfile);
+                if ($err !== null) {
+                    return false;
+                } else {
+                    $test_data .= $ret["key"]." ";
                 }
-                $test_data.=$downLoad." ";
+
             }
 
-            \App\Helper\Utils::logger("test_data_ali_url_main: $test_data");
+            \App\Helper\Utils::logger("test_data_qiniu_url_main: $test_data");
+
+
+
+
+
 
 
             exit();
@@ -134,30 +179,96 @@ class pdfConversionH5 extends Command
 
 
 
-            $config=\App\Helper\Config::get_config("ali_oss");
-            $ossClient = new OssClient(
-                $config["oss_access_id"],
-                $config["oss_access_key"],
-                $config["oss_endpoint"],
-                false
-            );
-            $h5Path = "pdfToH5/".$uuid; // 环境文件夹
 
-            foreach ($files as $file_name) {
-                $h5FileName = $h5Path.'/'.$file_name;
-                $target = $unzipFilePath."/".$uuid."/".$file_name; //本地文件路径
+            // 使用七牛上传
+            $qiniu     = \App\Helper\Config::get_config("qiniu");
+            $bucket    = $qiniu['public']['bucket'];
+            $accessKey = $qiniu['access_key'];
+            $secretKey = $qiniu['secret_key'];
 
-                $bucket=$config["public"]["bucket"];
-                $ossClient->uploadFile($bucket, $h5FileName, $target  );
-                $downLoad = $config["public"]["url"]."/".$h5FileName;
+            // 构建鉴权对象
+            $auth = new \Qiniu\Auth ($accessKey, $secretKey);
 
-                if($file_name == 'index.html'){ // 作为微信访问页
+            foreach ($files as $key) {
 
+                // 上传到七牛后保存的文件名
+                // $key = basename($file);
+
+                // 生成上传 Token
+                $token = $auth->uploadToken($bucket,$key);
+
+                // 初始化 UploadManager 对象并进行文件的上传。
+                $uploadMgr = new \Qiniu\Storage\UploadManager ();
+
+                // 调用 UploadManager 的 putFile 方法进行文件的上传。
+                list($ret, $err) = $uploadMgr->putFile($token, $key, $file);
+                if ($err !== null) {
+                    return false;
+                } else {
+                    return  $ret["key"];
                 }
-                $test_data.=$downLoad." ";
             }
 
-            \App\Helper\Utils::logger("test_data_ali_url: $test_data");
+
+
+
+
+            exit();
+
+
+
+
+
+
+
+
+
+
+
+            // $file_name=basename($target);
+
+            // $h5Path = "pdfToH5/".$uuid; // 环境文件夹
+
+            // $h5FileName = $h5Path.'/'.$file_name;
+
+            // $bucket=$config["public"]["bucket"];
+            // $ossClient->uploadFile($bucket, $h5FileName, $target  );
+            // return $config["public"]["url"]."/".$h5FileName;
+
+
+
+
+
+
+
+            exit();
+
+
+
+            // $config=\App\Helper\Config::get_config("ali_oss");
+            // $ossClient = new OssClient(
+            //     $config["oss_access_id"],
+            //     $config["oss_access_key"],
+            //     $config["oss_endpoint"],
+            //     false
+            // );
+            // $h5Path = "pdfToH5/".$uuid; // 环境文件夹
+
+            // foreach ($files as $file_name) {
+            //     $h5FileName = $h5Path.'/'.$file_name;
+            //     $target = $unzipFilePath."/".$uuid."/".$file_name; //本地文件路径
+
+            //     $bucket=$config["public"]["bucket"];
+            //     $ossClient->uploadFile($bucket, $h5FileName, $target  );
+            //     $downLoad = $config["public"]["url"]."/".$h5FileName;
+
+            //     if($file_name == 'index.html'){ // 作为微信访问页
+
+            //     }
+            //     $test_data.=$downLoad." ";
+            // }
+
+            // \App\Helper\Utils::logger("test_data_ali_url: $test_data");
 
             exit();
 
@@ -213,24 +324,6 @@ class pdfConversionH5 extends Command
 
              */
 
-            // $config=\App\Helper\Config::get_config("ali_oss");
-            // $file_name=basename($target);
-
-            // $ossClient = new OssClient(
-            //     $config["oss_access_id"],
-            //     $config["oss_access_key"],
-            //     $config["oss_endpoint"], false);
-
-
-            // $bucket=$config["public"]["bucket"];
-            // $ossClient->uploadFile($bucket, $file_name, $target  );
-
-            // return $config["public"]["url"]."/".$file_name;
-
-
-
-
-
 
 
 
@@ -240,7 +333,7 @@ class pdfConversionH5 extends Command
 
 
             // 压缩包上传七牛
-            // $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
+            $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
             // @unlink($saveH5FilePath);
 
             // $task->t_resource_file->field_update_list($item['file_id'],[
