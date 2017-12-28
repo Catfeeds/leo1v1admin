@@ -163,12 +163,40 @@
 
             <div class="row">
                 <div class="col-xs-6 col-md-6">
-                    <textarea type="text" value="" class="form-control math-opt-change-q id_mathjax_content" style="height:450px;font-size:18px;" id="id_mathjax_content_1" placeholder=""></textarea>
-                    
+                    <textarea type="text" value="" class="form-control math-opt-change-q id_mathjax_content" style="height:300px;font-size:18px;" id="id_mathjax_content_1" placeholder=""></textarea>
+                    <div class="row opt-select-div">
+                        <div class="col-md-6">
+                            <div class="input-group ">
+                                <span>A</span>
+                                <input type="text" value="{{@$question_option['A']['option_text']}}" option_id="{{@$question_option['A']['id']}}" class="math-opt-change-q" id="id_mathjax_q_A" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group ">
+                                <span>B</span>
+                                <input type="text" value="{{@$question_option['B']['option_text']}}" option_id="{{@$question_option['B']['id']}}" class="math-opt-change-q" id="id_mathjax_q_B" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row opt-select-div">
+                        <div class="col-md-6">
+                            <div class="input-group ">
+                                <span>C</span>
+                                <input type="text" value="{{@$question_option['C']['option_text']}}" option_id="{{@$question_option['C']['id']}}" class="math-opt-change-q" id="id_mathjax_q_C" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group ">
+                                <span>D</span>
+                                <input type="text" value="{{@$question_option['D']['option_text']}}" option_id="{{@$question_option['D']['id']}}" class="math-opt-change-q" id="id_mathjax_q_D" placeholder="">
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-xs-6 col-md-6  ">
-                    <div class="MathPreview" id="MathPreview_1" style="border: 1px solid; width: 100%; height: 450px; overflow: auto; font-size: 18px;">
+                    <div class="MathPreview" id="MathPreview_1" style="border: 1px solid; width: 100%; min-height: 300px; overflow: auto; font-size: 18px;">
                     </div>    
                 </div>
             </div>

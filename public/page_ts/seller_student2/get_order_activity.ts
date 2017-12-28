@@ -281,12 +281,16 @@ $(function(){
         var id_need_spec_require_flag =$("<select/>");
         Enum_map.append_option_list("boolean", id_need_spec_require_flag,true);
 
+        var id_is_need_share_wechat =$("<select/>");
+        Enum_map.append_option_list("boolean", id_is_need_share_wechat,true);
+
         id_can_disable_flag.val(opt_data["can_disable_flag"]);
         id_open_flag.val(opt_data["open_flag"]);
         id_need_spec_require_flag.val(opt_data["need_spec_require_flag"]);
-
+        id_is_need_share_wechat.val(opt_data["is_need_share_wechat"]);
         var arr=[
             ["是否需要特殊申请", id_need_spec_require_flag ],
+            ["是否需要分享微信", id_is_need_share_wechat ],
             ["是否开启活动", id_open_flag ],
             ["是否手动开启活动", id_can_disable_flag ],
         ];
@@ -300,6 +304,7 @@ $(function(){
                     'id': opt_data["id"],
                     'can_disable_flag':id_can_disable_flag.val(),
                     'open_flag':id_open_flag.val(),
+                    'is_need_share_wechat':id_is_need_share_wechat.val(),
                     'need_spec_require_flag':id_need_spec_require_flag.val(),
                 }
 

@@ -53,6 +53,18 @@ class question_new extends Controller
 
             //取出题目对应的知识点
             $know_arr = $this->t_question_knowledge->question_know_get($question_id);
+
+            //取出题目对应的选项
+            $question_option = [];
+            if( $editData['question_type'] == 1 || $editData['question_type'] == 2 ){
+                $option = $this->t_question_option->question_option_list($question_id);
+                if($option){
+                    foreach( $option as $v){
+                        $question_option[$v['option_name']] = $v;
+                    }
+                }
+            }
+            //dd($question_option);
        
         }
         $editData = json_encode($editData);
@@ -74,11 +86,12 @@ class question_new extends Controller
             }
         }
         //dd($know_arr);
-
+    
         $knowledge = json_encode($knowledge);
-        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712261447",
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712271447",
                                                   "ret"=>$ret,
                                                   'editData'=>$editData,
+                                                  'question_option'=>$question_option,
                                                   'knowledge'=>$knowledge,
                                                   'know_arr'=>$know_arr,
                                                   'question_id' =>$question_id,
@@ -102,24 +115,42 @@ class question_new extends Controller
         $data['question_resource_name']   = $this->get_in_str_val('question_resource_name','');
         $data['question_resource_type']   = $this->get_in_int_val('question_resource_type',1);
 
+        //知识点
         $knowledge_old   = $this->get_in_str_val('knowledge_old','');
         $knowledge_new   = $this->get_in_str_val('knowledge_new','');
 
         $knowledge_old = !empty($knowledge_old) ? array_column( json_decode($knowledge_old,true),'knowledge_id' ):[];
         $knowledge_new = !empty($knowledge_new) ? explode(',',$knowledge_new):[];
 
+        //题目选项
+        $option_A = trim($this->get_in_str_val('option_A'));
+        $option_B = trim($this->get_in_str_val('option_B'));
+        $option_C = trim($this->get_in_str_val('option_C'));
+        $option_D = trim($this->get_in_str_val('option_D'));
+        $option_A_id = trim($this->get_in_int_val('option_A_id'));
+        $option_B_id = trim($this->get_in_int_val('option_B_id'));
+        $option_C_id = trim($this->get_in_int_val('option_C_id'));
+        $option_D_id = trim($this->get_in_int_val('option_D_id'));
+
         $checkResult = $this->question_similar_check($question_id,$data['subject'],$data['question_type'],$data['detail']);
         //dd($checkResult);
+        //相似度检查
         if( $checkResult[0] == 2 ){
             $result['status'] = 500;
             $result['msg'] = "与问题id:".$checkResult[1].' 相似度为'.$checkResult[2];
             return $this->output_succ($result); 
         }
+
         if( $editType == 1 ){
             $ret = $this->t_question->row_insert($data);
             if($ret){
                 $question_id = $this->t_question->get_last_insertid();
+                //添加知识点
                 $this->question_or_answer_know_add($question_id,$knowledge_old,$knowledge_new,1);
+
+                //添加题目选项
+                $this->question_add_option($question_id,$option_A,$option_B,$option_C,$option_D);
+             
                 $result['status'] = 200;
                 $result['question_id'] = $question_id;
                 $result['msg'] = "添加成功";
@@ -131,8 +162,15 @@ class question_new extends Controller
         }
 
         if( $editType == 2 ){
+            //编辑题目知识点
             $this->question_or_answer_know_add($question_id,$knowledge_old,$knowledge_new,1);
+
+            //编辑题目选项
+            $this->question_add_option($question_id,$option_A,$option_B,$option_C,$option_D,$option_A_id,$option_B_id,$option_C_id,$option_D_id);
+
+            //编辑题目
             $ret = $this->t_question->field_update_list($question_id,$data);
+
             if($ret){
                 $result['status'] = 201;
                 $result['msg'] = "更新成功";
@@ -229,6 +267,61 @@ class question_new extends Controller
         }
     }
 
+    //添加题目对应的选项
+    private function question_add_option($question_id,$option_A,$option_B,$option_C,$option_D,$option_A_id=null,
+                                        $option_B_id=null,$option_C_id=null,$option_D_id=null){
+        
+        if(!empty($option_A)){
+            $option_A = [
+                "question_id"=>$question_id,
+                "option_name"=>"A",
+                "option_text"=>$option_A
+            ];
+            if(!empty($option_A_id)){
+                $this->t_question_option->field_update_list($option_A_id,$option_A);
+            }else{
+                $this->t_question_option->row_insert($option_A);
+            }
+        }
+        if(!empty($option_B)){
+            $option_B = [
+                "question_id"=>$question_id,
+                "option_name"=>"B",
+                "option_text"=>$option_B
+            ];
+            if(!empty($option_B_id)){
+                $this->t_question_option->field_update_list($option_B_id,$option_B);
+            }else{
+                $this->t_question_option->row_insert($option_B);
+            }
+        }
+        if(!empty($option_C)){
+            $option_C = [
+                "question_id"=>$question_id,
+                "option_name"=>"C",
+                "option_text"=>$option_C
+            ];
+            if(!empty($option_C_id)){
+                $this->t_question_option->field_update_list($option_C_id,$option_C);
+            }else{
+                $this->t_question_option->row_insert($option_C);
+            }
+        }
+        if(!empty($option_D)){
+            $option_D = [
+                "question_id"=>$question_id,
+                "option_name"=>"D",
+                "option_text"=>$option_D
+            ];
+            if(!empty($option_D_id)){
+                $this->t_question_option->field_update_list($option_D_id,$option_D);
+            }else{
+                $this->t_question_option->row_insert($option_D);
+            }
+        }     
+    }
+
+    
     public function question_flag(){
         $question_id = $this->get_in_int_val('question_id');
         $open_flag = $this->get_in_int_val('open_flag');
