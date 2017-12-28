@@ -188,7 +188,6 @@ return array(
     ["db_weiyi","t_taobao_item","open_iid"] ,
     ["db_weiyi","t_taobao_type_list","cid"] ,
 
-
     ["db_weiyi","t_audio_record_server","ip"] ,
     ["db_weiyi","t_baidu_msg","messageid"] ,
     ["db_weiyi","t_baidu_push_msg","messageid"] ,
@@ -307,10 +306,6 @@ return array(
     ["db_tool","t_scores_min","id"] ,
     ["db_message","t_sms_msg","recordid"] ,
     ["db_message","t_weixin_msg","recordid"],
-
-    ["db_question","t_lesson_note_list","id"] ,
-    ["db_question","t_lesson_note","note_id"] ,
-    ["db_question","t_question","id"] ,
 
     ["db_ejabberd","users","username"] ,
 
