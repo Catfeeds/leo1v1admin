@@ -7658,6 +7658,14 @@ class ss_deal extends Controller
         $coverType = 0;
         $activityType = 0;
         $followType = 0;
+        $shareWidth = 0;
+        $shareHeight = 0;
+        $coverWidth  = 0;
+        $coverHeight = 0;
+        $activityWidth = 0;
+        $activityHeight = 0;
+        $followWidth = 0;
+        $followHeight = 0;
 
 
         $domain = config('admin')['qiniu']['public']['url'];
