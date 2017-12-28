@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use OSS\OssClient;
 
 class pdfConversionH5 extends Command
 {
@@ -64,20 +65,18 @@ class pdfConversionH5 extends Command
             //从未达下载
             $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=".$uuid."&email=".$email."&pwd=".$pwd;
             $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
-            $unzipFilePath  =  public_path('wximg').'/'.$uuid; // 解压后的文件夹
+            $unzipFilePath  =  public_path('wximg'); // 解压后的文件夹
 
             $data=file_get_contents($h5DownloadUrl);
             file_put_contents($saveH5FilePath, $data);
 
+
             /**
-             * @ 将目录下的文件批量上传到阿里云
-             * @  解压文件包->获取文件包下文件->文件批量上传
-             */
+             * @ 零时功能 pdf环境上传阿里
+             **/
+            $tmp = public_path()."/pdf_new";
 
-            $unzipShell = "unzip $saveH5FilePath";
-            shell_exec($unzipShell);
-
-            $handler = opendir($unzipFilePath);
+            $handler = opendir($tmp);
             while (($filename = readdir($handler)) !== false) {//务必使用!==，防止目录下出现类似文件名“0”等情况
                 if ($filename != "." && $filename != "..") {
                     $files[] = $filename ;
@@ -85,32 +84,101 @@ class pdfConversionH5 extends Command
             }
             @closedir($handler);
             $test_data = '';
-            foreach ($files as $value) {
-                // echo $value."<br />";
-                $test_data.=$value;
+
+
+
+            $config=\App\Helper\Config::get_config("ali_oss");
+            $ossClient = new OssClient(
+                $config["oss_access_id"],
+                $config["oss_access_key"],
+                $config["oss_endpoint"],
+                false
+            );
+            $h5Path = "pdfToH5"; // 环境文件夹
+
+            foreach ($files as $file_name) {
+                $h5FileName = $h5Path.'/'.$file_name;
+                $target = $tmp."/".$file_name; //本地文件路径
+
+                $bucket=$config["public"]["bucket"];
+                $ossClient->uploadFile($bucket, $h5FileName, $target  );
+                $downLoad = $config["public"]["url"]."/".$h5FileName;
+
+                if($file_name == 'index.html'){ // 作为微信访问页
+
+                }
+                $test_data.=$downLoad." ";
             }
 
-            \App\Helper\Utils::logger("test_data_2017-12-28: $test_data");
+            \App\Helper\Utils::logger("test_data_ali_url_main: $test_data");
 
 
             exit();
 
-            $config=\App\Helper\Config::get_config("ali_oss");
-            $file_name=basename($target);
+            /**
+             * @ 将目录下的文件批量上传到阿里云
+             * @  解压文件包->获取文件包下文件->文件批量上传
+             */
 
+            $unzipShell = "unzip $saveH5FilePath -d $unzipFilePath ";
+            shell_exec($unzipShell);
+
+            $handler = opendir($unzipFilePath."/".$uuid);
+            while (($filename = readdir($handler)) !== false) {//务必使用!==，防止目录下出现类似文件名“0”等情况
+                if ($filename != "." && $filename != "..") {
+                    $files[] = $filename ;
+                }
+            }
+            @closedir($handler);
+            $test_data = '';
+
+
+
+            $config=\App\Helper\Config::get_config("ali_oss");
             $ossClient = new OssClient(
                 $config["oss_access_id"],
                 $config["oss_access_key"],
-                $config["oss_endpoint"], false
+                $config["oss_endpoint"],
+                false
             );
-
             $h5Path = "pdfToH5/".$uuid; // 环境文件夹
 
-            $h5FileName = $h5Path.'/'.$file_name;
+            foreach ($files as $file_name) {
+                $h5FileName = $h5Path.'/'.$file_name;
+                $target = $unzipFilePath."/".$uuid."/".$file_name; //本地文件路径
 
-            $bucket=$config["public"]["bucket"];
-            $ossClient->uploadFile($bucket, $h5FileName, $target  );
-            return $config["public"]["url"]."/".$h5FileName;
+                $bucket=$config["public"]["bucket"];
+                $ossClient->uploadFile($bucket, $h5FileName, $target  );
+                $downLoad = $config["public"]["url"]."/".$h5FileName;
+
+                if($file_name == 'index.html'){ // 作为微信访问页
+
+                }
+                $test_data.=$downLoad." ";
+            }
+
+            \App\Helper\Utils::logger("test_data_ali_url: $test_data");
+
+            exit();
+
+            // $config=\App\Helper\Config::get_config("ali_oss");
+
+            // $ossClient = new OssClient(
+            //     $config["oss_access_id"],
+            //     $config["oss_access_key"],
+            //     $config["oss_endpoint"],
+            //     false
+            // );
+
+            // $file_name=basename($target);
+
+            // $h5Path = "pdfToH5/".$uuid; // 环境文件夹
+
+            // $h5FileName = $h5Path.'/'.$file_name;
+
+            // $bucket=$config["public"]["bucket"];
+            // $ossClient->uploadFile($bucket, $h5FileName, $target  );
+            // return $config["public"]["url"]."/".$h5FileName;
 
 
 

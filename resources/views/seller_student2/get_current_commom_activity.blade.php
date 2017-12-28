@@ -27,6 +27,7 @@
                 <td >是否开启</td>
                 <td >当前合同</td>
                 <td >预期最大合同</td>
+                <td >是否分享微信</td>
                 <td style="display:none">是否需要特殊申请</td>
                 <td style="display:none">是否手动开启</td>
                 <td style="display:none">优惠力度</td>
@@ -53,6 +54,7 @@
                     <td >{{$var["open_flag_str"]}}</td>
                     <td >{{$var["max_count"]}}</td>
                     <td >{{$var["diff_max_count"]}}</td>
+                    <td >{{$var["is_need_share_wechat_str"]}}</td>
 
                     <td >{{$var["need_spec_require_flag_str"]}}</td>
                     <td >{{$var["can_disable_flag_str"]}}</td>

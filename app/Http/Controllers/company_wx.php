@@ -132,25 +132,64 @@ class company_wx extends Controller
         curl_close($ch);
         $output = json_decode($output, true);
 
-        dd($output);
+        //dd($output);
         $info = $output['data'];
-        // foreach($info as $item) {
-        //     $approval_name = implode(',', $item['approval_name']);
-        //     $notify_name = implode(',', $item['notify_name']);
-        //     // 添加数据
-        //     $this->t_table_name->row_insert([
-        //         'spname' => $item['spane'],
-        //         'apply_name' => $item['apply_name'],
-        //         'apply_org' => $item['apply_org'],
-        //         'approval_name' => $approval_name,
-        //         'notify_name' => $notify_name,
-        //         'sp_status' => $item['sp_status'],
-        //         'sp_num' => $item['sp_num'],
-        //         'title' => $item['title'],
-        //"apply_time" => $item['apply_time'],
-        //          "apply_user_id" => $item['apply_user_id']
-        //     ]);
-        // }
+        foreach($info as $item) {
+            $approval_name = implode(',', $item['approval_name']);
+            $notify_name = implode(',', $item['notify_name']);
+            $common = [
+                'spname' => $item['spname'],
+                'apply_name' => $item['apply_name'],
+                'apply_org' => $item['apply_org'],
+                'approval_name' => $approval_name,
+                'notify_name' => $notify_name,
+                'sp_status' => $item['sp_status'],
+                'sp_num' => $item['sp_num'],
+                'mediaids' => json_encode($item['mediaids']),
+                "apply_time" => $item['apply_time'],
+                "apply_user_id" => $item['apply_user_id']
+            ];
+
+            if (isset($item['leave'])) { // 处理请假
+                $lea = $item['leave'];
+                $leave = [
+                    "timeunit" => $lea['timeunit'],
+                    "leave_type" => $lea['leave_type'],
+                    "start_time" => $lea['start_time'],
+                    "end_time" => $lea['end_time'],
+                    "duration" => $lea['duration'],
+                    "reason" => $lea['reason']
+                ];
+                $common = array_merge($common, $leave);
+                $common['type'] = 1;
+            }
+            $leave = json_decode($item['comm']['apply_data'], true);
+            $items = '';
+            foreach ($leave as $val) {
+                if ($item['spname'] == "武汉请假流") {
+                    if ($val['title'] == '请假类型') $common["leave_type"] = 3;
+                    if ($val['title'] == '开始时间') $common['start_time'] = ($val['value'] / 1000);
+                    if ($val['title'] == '结束时间') $common['end_time'] = ($val['value'] / 1000);
+                    if ($val['title'] == '事由') $common['reason'] = $val['value'];
+                    $common['type'] = 2;
+                }
+                if ($item['spname'] == '拉取数据审批') {
+                    if ($val['title'] == '数据类型') $common['reason'] = $val['value'];
+                    if ($val['title'] == '需要时间') $common['start_time'] = $val['value'];
+                    $common['type'] = 4;
+                }
+                if ($item['spname'] == '费用申请') {
+                    if ($val['title'] == '费用类型') $common['reason'] = $val['value'];
+                    if ($val['title'] == '费用金额') $common['sums'] = $val['value'];
+                    if (isset($item['value'])) $items[$val['title']] = $val['value'];
+                    $common['type'] = 3;
+                }
+            }
+            if ($items) $common['item'] = json_encode($item);
+            // 添加数据
+            $this->t_company_wx_approval->row_insert($common);
+            echo '加载数据成功'.$common['spname'];
+        }
     }
 
     public function get_company_wx_data($url, $index='') { //根据不同路由获取不同的数据 (企业微信)
@@ -160,6 +199,33 @@ class company_wx extends Controller
             return $info[$index];
         }
         return $info;
+    }
+
+    public function show_approv() {
+        $info = $this->t_company_wx_approval->get_all_list();
+        foreach($info as &$item) {
+            $item['apply_time_str'] = date('Y-m-d H:i:s', $item['apply_time']);
+            $item['start_time_str'] = date('Y-m-d H:i:s', $item['start_time']);
+            $item['end_time_str'] = date('Y-m-d H:i:s', $item['end_time']);
+            //：1审批中；2 已通过；3已驳回；4已取消；6通过后撤销；10已支付
+            
+            if ($item['sp_status'] == 1) {
+                $item['sp_status_str'] = '审批中';
+            } elseif ($item['sp_status'] == 2) {
+                $item['sp_status_str'] = '已通过';
+            } elseif ($item['sp_status'] == 3) {
+                $item['sp_status_str'] = '已驳回';
+            } elseif ($item['sp_status'] == 4) {
+                $item['sp_status_str'] = '已取消';
+            } elseif ($item['sp_status'] == 6) {
+                $item['sp_status_str'] = '通过后撤销';
+            } elseif ($item['sp_status'] == 10) {
+                $item['sp_status_str'] == '已支付';
+            }
+        }
+        return $this->pageView(__METHOD__, '', [
+            'info' => $info
+        ]);
     }
 
     public function show_department_users() {

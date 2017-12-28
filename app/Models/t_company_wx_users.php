@@ -43,6 +43,11 @@ class t_company_wx_users extends \App\Models\Zgen\z_t_company_wx_users
         return $this->main_update($sql);
     }
 
+    public function get_userid_for_adminid($phone) {
+        $sql = $this->gen_sql_new("select userid from %s where mobile=$phone", self::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
+    }
+
 }
 
 
