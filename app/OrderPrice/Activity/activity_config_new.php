@@ -239,6 +239,8 @@ class activity_config_new extends  activity_new_base {
             }
         }
 
+        //check wx info
+
         //\App\Helper\Utils::logger("按课次数送课: ".$this->title.json_encode($this->lesson_times_present_lesson_count));
 
         //按课次数送课

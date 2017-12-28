@@ -1306,7 +1306,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         $sql = $this->gen_sql_new(
             'select count(ssn.userid) as example_num,sum(if(ssn.global_tq_called_flag <>0,1,0)) as called_num,'.
             'sum(if(ssn.global_tq_called_flag =2 and ssn.sys_invaild_flag=0,1,0)) as valid_example_num,'.
-            'sum(if(ssn.global_tq_called_flag =2 and ssn.sys_invaild_flag =1,1,0)) as invalid_example_num,'.
+            'sum(if(ssn.sys_invaild_flag =1,1,0)) as invalid_example_num,'.
             'sum(if(ssn.global_tq_called_flag=1,1,0)) as not_through_num,'.
             'sum(if((si.grade >= 100 and si.grade <= 106),1,0)) as primary_num,'.
             'sum(if((si.grade >= 200 and si.grade <= 203),1,0)) as middle_num,'.
