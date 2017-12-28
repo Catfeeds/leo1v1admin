@@ -2528,6 +2528,36 @@ class Utils  {
         }
     }
 
+    static public function check_is_match($adminid,$web_page_id){
 
+        $task = new  \App\Console\Tasks\TaskController();
+        $end_time    = strtotime( substr($web_page_id, 0, 8) );
+        $start_time  = 0;
+        $h5_count    = 0;
+        $no_has_prev = 0;
+        while( !$h5_count ){
+            $prev_web_page_id = $task->t_web_page_info->get_prev_web_page_id($web_page_id);
+            if($prev_web_page_id < 2017 ){
+                $no_has_prev++;
+                break;
+            }
+            $start_time = strtotime( substr($prev_web_page_id, 0, 8) );
+            $h5_count   = $task->t_web_page_info->h5_count($start_time, $end_time);
+        }
+        if($no_has_prev == 1){
+            return true;
+        }
+
+        $share_info = $task->t_web_page_info->is_all_share($start_time, $end_time, $adminid);
+
+        foreach($share_info as $item){
+            if($item['share_flag'] == 0) {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
 
 };
