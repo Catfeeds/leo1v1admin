@@ -1,5 +1,6 @@
 <?php
 return array(
+    ['db_weiyi_admin','t_company_wx_approval','id'],
     ['db_weiyi','t_teacher_approve_refer_to_data','id'],
     ['db_weiyi','t_teacher_christmas','id'],
     ['db_weiyi','t_activity_usually','id'],
