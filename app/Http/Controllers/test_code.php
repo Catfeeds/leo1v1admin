@@ -1,5 +1,8 @@
 <?php
 namespace App\Http\Controllers;
+
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Controller;
@@ -293,8 +296,10 @@ class test_code extends Controller
         dd($ret);
     }
 
-    public function test_jump(){
-
+    public function help(){
+        array_first($array);
     }
+
+
 
 }
