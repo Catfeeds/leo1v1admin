@@ -1057,17 +1057,13 @@ class wx_teacher_api extends Controller
         return $this->output_succ(["data"=>$ret_info]);
     }
 
-    public function getResourceList(){ // 讲义系统 boby
+    public function getResourceList(){ // 讲义系统
         $resource_id  = $this->get_in_int_val('resource_id');
         $resourceList = $this->t_resource_file->getResoureList($resource_id);
 
         foreach($resourceList as &$item){
             $item['file_type_str'] = E\Efile_type::get_desc($item['file_type']);
-            //config_resource_diff_level.php
-            // $item['level'] = E\Eresource_diff_level::g
-            // if($){
-
-            // }
+            $item['level'] = E\Eresource_diff_level::get_desc($item['tag_three']);
         }
 
         return $this->output_succ(["resourceList"=>$resourceList]);
@@ -1095,7 +1091,7 @@ class wx_teacher_api extends Controller
             $file_link = $domain.'/'.$file_link;
         }
 
-        return $this->output_succ(["data"=>$file_link]);
+        return $this->output_succ(["file_link"=>$file_link]);
 
     }
 

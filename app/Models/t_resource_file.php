@@ -73,7 +73,7 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
             "rf.file_use_type=0"//授课课件
         ];
 
-        $sql = $this->gen_sql_new("  select rf.file_title, rf.file_type, rf.file_link, rf.file_poster, r.tag_three from %s rf "
+        $sql = $this->gen_sql_new("  select rf.file_title, rf.file_id, rf.file_type, rf.file_link, rf.file_poster, r.tag_three from %s rf "
                                   ." left join %s r on r.resource_id=rf.resource_id"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
