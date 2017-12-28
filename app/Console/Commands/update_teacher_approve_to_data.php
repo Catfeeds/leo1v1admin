@@ -85,6 +85,7 @@ class update_teacher_approve_to_data extends Command
             }
 
         }
+        }
         exit;
         $start_time = strtotime(date('Y-m-1', time()));
         $end_time = time();
