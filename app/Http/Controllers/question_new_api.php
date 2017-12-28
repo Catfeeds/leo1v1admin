@@ -141,7 +141,7 @@ class question_new_api extends Controller
                     $qu['question_resource_type_str'] = E\Equestion_resource_type::get_desc($qu['question_resource_type']);
                     //$qu = ksort($qu);
                     if( $qu['question_type'] == 1 || $qu['question_type'] == 2 ){
-                        $qu['question_option'] = $this->get_question_option($qu['question_id']);
+                        $qu['detail'] .= $this->get_question_option($qu['question_id']);
                     }
                 }
             }
@@ -404,7 +404,7 @@ class question_new_api extends Controller
                 $qu['difficult_str'] = E\Equestion_difficult_new::get_desc($qu['difficult']);
                 $qu['question_resource_type_str'] = E\Equestion_resource_type::get_desc($qu['question_resource_type']);
                 if( $qu['question_type'] == 1 || $qu['question_type'] == 2 ){
-                    $qu['question_option'] = $this->get_question_option($qu['question_id']);
+                    $qu['question_option'] .= $this->get_question_option($qu['question_id']);
                 }
                 //$qu = ksort($qu);
             }
@@ -414,6 +414,10 @@ class question_new_api extends Controller
 
     private function get_question_option($question_id){
         $question_option = $this->t_question_option->question_option_list($question_id);
-        return $question_option;
+        $option = '';
+        foreach( $question_option as $v ){
+            $option .= $v['option_name'].'. '.$v['option_text'].'<br/>';
+        }
+        return $option;
     }
 }
