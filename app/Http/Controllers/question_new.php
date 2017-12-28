@@ -89,7 +89,7 @@ class question_new extends Controller
         //dd($know_arr);
     
         $knowledge = json_encode($knowledge);
-        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712271427",
+        return $this->pageView(__METHOD__,null, [ "_publish_version" => "201712281427",
                                                   "ret"=>$ret,
                                                   'editData'=>$editData,
                                                   'question_option'=>$question_option,
@@ -109,7 +109,7 @@ class question_new extends Controller
         $data['subject']  = $this->get_in_int_val('subject',1);
         $data['score']    = $this->get_in_int_val('score',1);
         $data['title']    = $this->get_in_str_val('title','');
-        $data['detail']   = $this->get_in_str_val('detail','');
+        $in_detail = $data['detail']   = $this->get_in_str_val('detail','');
         $data['open_flag']   = $this->get_in_str_val('open_flag',1);
         $data['difficult']   = $this->get_in_str_val('difficult',1);
         $data['question_type']   = $this->get_in_int_val('question_type',1);
@@ -133,11 +133,16 @@ class question_new extends Controller
         $option_C_id = trim($this->get_in_int_val('option_C_id'));
         $option_D_id = trim($this->get_in_int_val('option_D_id'));
 
-        $checkResult = $this->question_similar_check($question_id,$data['subject'],$data['question_type'],$data['detail']);
+        //录入内容
+        
+        if( !empty($option_A) ){
+            $in_detail .=  'A:'.$option_A.'B:'.$option_B.'C:'.$option_C.'D:'.$option_D;
+        }
+        $checkResult = $this->question_similar_check($question_id,$data['subject'],$data['question_type'],$in_detail);
         //dd($checkResult);
         //相似度检查
         if( $checkResult[0] == 2 ){
-            $result['status'] = 500;
+            $result['status'] = 400;
             $result['msg'] = "与问题id:".$checkResult[1].' 相似度为'.$checkResult[2];
             return $this->output_succ($result); 
         }
@@ -189,7 +194,14 @@ class question_new extends Controller
         $questions = $this->t_question->question_check($question_id,$subject,$question_type);
         if($questions){
             foreach($questions as $item){
-                $checkResult = $this->getSimilar($detail,$item['detail']);
+                $exit_detail = $item['detail'];
+                $question_option = $this->t_question_option->question_option_list($item['question_id']);
+                if($question_option){
+                    foreach( $question_option as $option){
+                        $exit_detail .= $option['option_name'].':'.$option['option_text'];
+                    }
+                }
+                $checkResult = $this->getSimilar($detail,$exit_detail);
                 $checkResult = sprintf('%.4f',$checkResult);
                 if($checkResult > 0.8 ){
                     $checkResult = ($checkResult * 100).'%';
