@@ -77,7 +77,7 @@ class pdfConversionH5 extends Command
             $unzipShell = "unzip $saveH5FilePath -d $unzipFilePath ";
             shell_exec($unzipShell);
 
-            $handler = opendir($unzipFilePath);
+            $handler = opendir($unzipFilePath."/".$uuid);
             while (($filename = readdir($handler)) !== false) {//务必使用!==，防止目录下出现类似文件名“0”等情况
                 if ($filename != "." && $filename != "..") {
                     $files[] = $filename ;
@@ -87,7 +87,7 @@ class pdfConversionH5 extends Command
             $test_data = '';
             foreach ($files as $value) {
                 // echo $value."<br />";
-                $test_data.=$value;
+                $test_data.=$value." ";
             }
 
             \App\Helper\Utils::logger("test_data_2017-12-28: $test_data");
