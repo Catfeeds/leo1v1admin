@@ -83,7 +83,7 @@ class pdfConversionH5 extends Command
                     $files[] = $filename ;
                 }
             }
-            closedir($handler);
+            @closedir($handler);
             $test_data = '';
             foreach ($files as $value) {
                 // echo $value."<br />";
