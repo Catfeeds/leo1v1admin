@@ -1070,10 +1070,6 @@ class test_boby extends Controller
 
     }
 
-    public function test_md5(){
-        return $this->pageView( __METHOD__,[]);
-    }
-
     public function hash_check(){
 
         $str1 = $this->get_in_str_val('str1');
@@ -1413,6 +1409,26 @@ class test_boby extends Controller
         $this->table_start();
     }
 
+
+    public function get_order(){
+        $sql = "select m.account,m.become_member_time,o.price,o.check_money_time from db_weiyi.t_order_info o left join db_weiyi_admin.t_manager_info m on m.account=o.sys_operator where o.order_time>=1504195200 and o.order_time<1514736000 and m.del_flag=0 and m.account_role=2";
+        $ret = $this->t_grab_lesson_link_info->get_info_test($sql);
+
+        $th_arr = ['cc','入职时间','金额','下单时间','财务确认时间'];
+        $s = $this->table_start($th_arr);
+
+        foreach($ret as $v){
+            \App\Helper\Utils::unixtime2date_for_item($v, 'order_time');
+            \App\Helper\Utils::unixtime2date_for_item($v, 'check_money_time');
+            $s= $this->tr_add($s, $v['account'], $v['become_member_time'],$v['price']/100, $v['order_time'],$v['check_money_time']);
+
+        }
+        $s = $this->table_end($s);
+
+        return $s;
+
+
+    }
 
 
 }
