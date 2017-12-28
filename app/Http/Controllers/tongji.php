@@ -459,6 +459,24 @@ class tongji extends Controller
         $adminid= $this->get_in_int_val("adminid",0 );
         $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
         $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,$adminid,100000 );
+        $phone=$this->t_manager_info->field_get_value($adminid, 'phone');
+        $userid=$this->t_company_wx_users->get_userid_for_adminid($phone);
+        
+        $info=$this->t_company_wx_approval->get_info_for_userid($userid, $start_time, $end_time);
+        $len = count($info);
+        foreach($info as $key => $item) {
+            $num = ($item['end_time'] - $item['start_time']) / 86400;
+            if ($num >= 1) {
+                for($i = 0; $i <= $num; $i ++) {
+                    $info[$len]['start_time'] = $item['start_time'] + 86400 * $i;
+                    $info[$len]['start_leavetime'] = $item['start_time'];
+                    $info[$len]['end_time'] = $item['end_time'];
+                    $len ++;
+                }
+ 
+            }
+        }
+        
 
         foreach ($ret_info["list"] as $item ) {
             $logtime=$item["logtime"];
@@ -478,6 +496,18 @@ class tongji extends Controller
         }
 
         foreach( $date_list as  &$d_item ) {
+            $current = strtotime(date('Y', time()).'-'.$d_item['title']);
+            foreach($info as $key => $val) {
+                if ($val['start_time'] >= $current && ($val['start_time'] - $current < 19*3600)) {
+                    if (!isset($val['start_leavetime'])) $val['start_leavetime'] = $val['start_time'];
+                    if ($val['start_time'] - $current < 10*3600) {
+                        $d_item["error_str"] ="请假 |".date('Y-m-d H:i:s', $val['start_leavetime']).'-'.date('Y-m-d H:i:s', $val['end_time']);
+                    } else {
+                        $d_item["error_str"] = date('H', $val['start_time'])."点请假 |".date('Y-m-d H:i:s', $val['start_leavetime']).'-'.date('Y-m-d H:i:s', $val['end_time']);
+                    }
+                    unset($info[$key]);
+                }
+            }
             if (isset ( $d_item["start_logtime"]) ){
                 $d_item["work_time"]=  $d_item["end_logtime"] -  $d_item["start_logtime"] ;
                 $d_item["work_time_str"] =\App\Helper\Common::get_time_format( $d_item["work_time"]  );

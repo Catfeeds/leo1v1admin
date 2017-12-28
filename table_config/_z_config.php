@@ -1,5 +1,6 @@
 <?php
 return array(
+    ['db_weiyi_admin','t_company_wx_approval','id'],
     ['db_weiyi','t_week_of_monthly_report','id'],
     ['db_weiyi','t_teacher_approve_refer_to_data','id'],
     ['db_weiyi','t_teacher_christmas','id'],
@@ -319,4 +320,6 @@ return array(
     ["db_question_new","t_textbook_knowledge","id"],
     ["db_question_new","t_question_type","id"],
     ["db_question_new","t_student_answer","id"],
+    ["db_question_new","t_question_option","id"], 
+
 );

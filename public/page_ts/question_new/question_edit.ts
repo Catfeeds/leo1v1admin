@@ -19,7 +19,7 @@ var setting = {
         }
     },
     callback: {
-        
+       onClick: zTreeOnClick, 
     }
 }
 
@@ -56,6 +56,11 @@ function save_know(){
     close_know();
 }
 
+function zTreeOnClick(event, treeId, treeNode){
+    var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+    treeObj.expandNode(treeNode, true, true, true);
+}
+
 $(function(){
     $.fn.zTree.init($("#treeDemo"), setting, zNodes);
     $("#show_all_knowledge").click(function(){
@@ -63,10 +68,17 @@ $(function(){
         treeObj.expandAll(true); 
     });
 
+    var id_question_type;
+    var domain = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/';
+
     Enum_map.append_option_list("question_difficult_new",$("#question_difficult"),true,[1,2,3,4,5]);
     Enum_map.append_option_list("subject", $("#id_subject"),false,[1,2,3,4,5,6,7,8,9,10,11]);
     Enum_map.append_option_list("boolean", $("#id_open_flag"),true);
     Enum_map.append_option_list("question_resource_type", $("#id_question_resource_type"),true);
+
+    $.each($("textarea"), function(i, n){
+        Cquestion_editor.autoTextarea($(n)[0]);
+    });
 
     $("#id_subject").val(g_args.subject);
     $('#id_open_flag').val(1);
@@ -90,13 +102,11 @@ $(function(){
         $('#id_question_resource_name').val(editData.question_resource_name);
         $('#id_question_resource_type').val(editData.question_resource_type);
 
+        id_question_type = $("#question_type").val();
+
         Cquestion_editor.preview_update(null,$("#id_mathjax_content_0"),$("#MathPreview_0"),'MathPreview_0');
-        Cquestion_editor.preview_update(null,$("#id_mathjax_content_1"),$("#MathPreview_1"),'MathPreview_1');
+        Cquestion_editor.preview_update(id_question_type,$("#id_mathjax_content_1"),$("#MathPreview_1"),'MathPreview_1');
     }
-
-    var id_question_type = null;
-    var domain = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/';
-
 
     //初始化每个公式显示框
     $('.MathPreview').each(function(){
@@ -112,6 +122,7 @@ $(function(){
 
     //失去光标事件
     $('.id_mathjax_content').blur(function(){
+        id_question_type = $("#question_type").val();
         var id_mathjax = $(this).attr('id');
         var id_mathjax_content = $('#'+id_mathjax);
         var id_index = get_content_id(id_mathjax);
@@ -126,6 +137,7 @@ $(function(){
 
     //输入事件
     $('.id_mathjax_content').bind('input propertychange',function(){
+        id_question_type = $("#question_type").val();
         var id_mathjax = $(this).attr('id');
         var id_mathjax_content = $('#'+id_mathjax);
         var id_index = get_content_id(id_mathjax);
@@ -134,8 +146,29 @@ $(function(){
         Cquestion_editor.preview_update(id_question_type,id_mathjax_content,MathPreview,mathId);
     }); 
 
+    $('#id_mathjax_q_A,#id_mathjax_q_B,#id_mathjax_q_C,#id_mathjax_q_D').bind('input propertychange',function(){
+        id_question_type = $("#question_type").val();
+        var id_mathjax_content = $('#id_mathjax_content_1');
+        var mathId = 'MathPreview_1';
+        var MathPreview = $('#MathPreview_1');
+        Cquestion_editor.preview_update(id_question_type,id_mathjax_content,MathPreview,mathId);
+
+    });
+
+    var current_input;
+    var can_input = new Array('id_mathjax_content_0','id_mathjax_content_1','id_mathjax_q_A','id_mathjax_q_B','id_mathjax_q_C','id_mathjax_q_D');
+    //console.log(can_input);
+    document.onclick = function (e) {
+        var current_id = e.target.getAttribute("id");
+        if( jQuery.inArray(current_id, can_input) > 0){
+            current_input = $('#'+current_id);
+            //console.log(current_input);
+        }
+    }
+
     //点击传符号
     $('.dropdown-menu li button').click(function(){
+        id_question_type = $("#question_type").val();
         var navbar = '$'+$(this).find('script[type="math/tex"]').html()+'$';
         var id = $(this).parents('.navbar-nav').attr('id');
         var id_index = get_content_id(id);
@@ -143,24 +176,26 @@ $(function(){
         var mathId = 'MathPreview_'+id_index;
         var MathPreview = $('#'+mathId);
 
-        id_mathjax_content.insertAtCaret(navbar);
+        current_input.insertAtCaret(navbar);
         Cquestion_editor.preview_update(id_question_type,id_mathjax_content,MathPreview,mathId);
     })
 
     //插入括号
     $('.add_kuo_hao').click(function(){
+        id_question_type = $("#question_type").val();
         var kuohao = '(  )';
         var id = $(this).attr('id');
         var id_index = get_content_id(id);
         var id_mathjax_content = $('#id_mathjax_content_'+id_index);
         var mathId = 'MathPreview_'+id_index;
         var MathPreview = $('#'+mathId);
-        id_mathjax_content.insertAtCaret(kuohao);
+        current_input.insertAtCaret(kuohao);
         Cquestion_editor.preview_update(id_question_type,id_mathjax_content,MathPreview,mathId);
     })
 
     //添加横线
     $('.add_under_line').click(function(){
+        id_question_type = $("#question_type").val();
         var kuohao = '____';
         var id = $(this).attr('id');
         var id_index = get_content_id(id);
@@ -168,7 +203,7 @@ $(function(){
         var mathId = 'MathPreview_'+id_index;
         var MathPreview = $('#'+mathId);
 
-        id_mathjax_content.insertAtCaret(kuohao);
+        current_input.insertAtCaret(kuohao);
         Cquestion_editor.preview_update(id_question_type,id_mathjax_content,MathPreview,mathId);
 
     })
@@ -188,7 +223,7 @@ $(function(){
         var knowledge_new = '';
         if( $("#knowledge_exits").find('span').length > 0 ){
             $('#knowledge_exits span').each(function(){
-                knowledge_new += $(this).attr('knowledge_id') + ','
+                knowledge_new += $(this).attr('knowledge_id') + ',';
             })
                 knowledge_new = knowledge_new.substring(0, knowledge_new.length-1);
         }
@@ -199,9 +234,33 @@ $(function(){
         detail = detail.replace(/(\!\[\]\()/g,"<img src='");
         detail = detail.replace(/(\)\[\]\&)/ig,"'/>");
 
+        var option_A = $("#id_mathjax_q_A").val();
+        option_A = option_A.replace(/\n/g, '<br/>');
+        var option_A_id = $("#id_mathjax_q_A").attr("option_id");
+
+        var option_B = $("#id_mathjax_q_B").val();
+        option_B = option_B.replace(/\n/g, '<br/>');
+        var option_B_id = $("#id_mathjax_q_B").attr("option_id");
+
+        var option_C = $("#id_mathjax_q_C").val();
+        option_C = option_C.replace(/\n/g, '<br/>');
+        var option_C_id = $("#id_mathjax_q_C").attr("option_id");
+
+        var option_D = $("#id_mathjax_q_D").val();
+        option_D = option_D.replace(/\n/g, '<br/>');
+        var option_D_id = $("#id_mathjax_q_D").attr("option_id");
+        
         var data = {
             'editType':g_args.editType,
             'question_id':g_args.question_id,
+            'option_A':option_A,
+            'option_B':option_B,
+            'option_C':option_C,
+            'option_D':option_D,
+            'option_A_id':option_A_id,
+            'option_B_id':option_B_id,
+            'option_C_id':option_C_id,
+            'option_D_id':option_D_id,
             'score':$('#id_score').val(),
             'difficult':$('#question_difficult').val(),
             'title':$('#id_mathjax_content_0').val(),
@@ -215,21 +274,23 @@ $(function(){
             'knowledge_new':knowledge_new
         };
 
+        // console.log(data);
+        // return false;
+        
         $.ajax({
             type : "post",
             url : "/question_new/question_add",
             dataType : "json",
             data:data,
             success : function(res){
-                BootstrapDialog.alert(res.msg);
-                if( res.status == 200 ){
-                    //window.close();
+                if( res.status == 200 ){                  
+                    BootstrapDialog.alert(res.msg);
                     var subject = $('#id_subject').val();
                     var question_id = res.question_id;
                     window.location = '/question_new/question_edit?editType=2&question_id='+question_id+'&subject='+subject;
-                }
-
-                if( res.status == 201 ){
+                }else if( res.status == 400){
+                    BootstrapDialog.alert(res.msg);
+                }else{
                     window.location.reload();
                 }
             },

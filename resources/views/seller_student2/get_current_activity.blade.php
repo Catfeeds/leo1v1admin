@@ -31,6 +31,7 @@
                 <td >预期最大合同数</td>
                 <td >活动时间</td>
                 <td >开启类型</td>
+                <td >是否需要分享微信</td>
                 <td >操作</td>
             </tr>
         </thead>
@@ -44,6 +45,7 @@
                     <td >{{$var["diff_max_count"]}}</td>
                     <td >{{$var["date_range_time"]}}</td>
                     <td >{{$var["open_flag_str"]}}</td>
+                    <td >{{$var["is_need_share_wechat_str"]}}</td>
                     <td >
                         <div {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}>
                             <a class="fa-hand-o-up opt-stu-origin btn fa" title="编辑优惠力度"></a>
