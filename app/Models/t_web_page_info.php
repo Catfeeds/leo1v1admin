@@ -20,16 +20,6 @@ class t_web_page_info extends \App\Models\Zgen\z_t_web_page_info
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
-    public function get_prev_web_page_id($web_page_id){
-        $where_arr=[
-            ["web_page_id<%u",  $web_page_id, -1  ]
-        ];
-
-        $sql= $this->gen_sql_new("select max(web_page_id) from %s where %s order by  web_page_id  desc ",
-                                 self::DB_TABLE_NAME,  $where_arr );
-
-        return $this->main_get_value($sql);
-    }
 
     public function h5_count($start_time, $end_time){
         $where_arr=[
@@ -52,7 +42,7 @@ class t_web_page_info extends \App\Models\Zgen\z_t_web_page_info
         ];
 
         $sql=$this->gen_sql_new(
-            "select max(l.share_wx_flag) as share_flag, w.web_page_id ".
+            "select max(l.share_wx_flag) as share_flag, w.web_page_id, w.title, w.url ".
             "from %s w ".
             "left join %s l on l.web_page_id=w.web_page_id ".
             "where %s ".

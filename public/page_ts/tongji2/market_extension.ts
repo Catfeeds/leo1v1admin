@@ -146,6 +146,9 @@ $(function(){
 
     $('.opt-edit').on("click", function (g_adminid_right) {
         var opt_data=$(this).get_opt_data();
+
+        // console.log(opt_data);
+
         var $main_type_name = $("<select/>");
         var $title = $("<textarea style='width:100%' />");
         var $describe = $("<textarea style='width:100%'/>");
@@ -170,9 +173,6 @@ $(function(){
             ["图片4",$img_src4]
         ];
 
-        $title.val(opt_data.title);
-        $main_type_name.val(opt_data.gift_type);
-        $describe.val(opt_data.act_descr);
 
         $.show_key_value_table("添加推广活动", arr, {
             label: '确认',
@@ -181,7 +181,14 @@ $(function(){
                 if(!$main_type_name.val()){ alert('请选择礼品类型!'); return; }
                 if(!$title.val()){ alert('请填写活动标题!'); return; }
                 if(!$describe.val()){ alert('请填写活动描述!'); return; }
-                if(!$img_src1.val() && !$img_src2.val() && !$img_src3.val() && !$img_src4.val() ){ alert('请选择活动图片!'); return; }
+                if(!$img_src1.val() && !$img_src2.val() && !$img_src3.val() && !$img_src4.val() ){
+                    console.log($img_src1.val());
+                    console.log($img_src2.val());
+                    console.log($img_src3.val());
+                    console.log($img_src4.val());
+                    alert('请选择活动图片!');
+                    return;
+                }
 
                 $.do_ajax("/ss_deal/addMarketExtend",{
                     'gift_type' : $main_type_name.val(),
@@ -205,6 +212,15 @@ $(function(){
             if(opt_data.activityimgurl){ $('.del_activity').css('display','block');}
             if(opt_data.shareimgurl){ $('.del_share').css('display','block');}
             if(opt_data.followimgurl){ $('.del_follow').css('display','block');}
+
+            $title.val(opt_data.title);
+            $main_type_name.val(opt_data.gift_type);
+            $describe.val(opt_data.act_descr);
+            $img_src1.val(opt_data.coverimgurl);
+            $img_src2.val(opt_data.activityimgurl);
+            $img_src3.val(opt_data.shareimgurl);
+            $img_src4.val(opt_data.followimgurl);
+
 
 
 
@@ -231,35 +247,28 @@ $(function(){
                 $img_src4.val(res.key);
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
-
-
-            // if(opt_data.coverimgurl){ $('.del_cover').css('display','block');}
-            // if(opt_data.activityimgurl){ $('.del_activity').css('display','block');}
-            // if(opt_data.shareimgurl){ $('.del_share').css('display','block');}
-            // if(opt_data.followimgurl){ $('.del_follow').css('display','block');}
-
-
             $('.del_cover').on("click",function(){
                 $img_src1.val('');
-                $('.del_cover').remove();
-
-                // $('.del_cover').css('display','none');
+                // $('.del_cover').remove();
+                $('.del_cover').css('display','none');
             });
 
             $('.del_activity').on("click",function(){
                 $img_src2.val('');
-                $('.del_activity').remove();
-                // $('.del_activity').css('display','none');
+                // $('.del_activity').remove();
+                $('.del_activity').css('display','none');
             });
 
             $('.del_share').on("click",function(){
                 $img_src3.val('');
-                $('.del_share').remove();
+                // $('.del_share').remove();
+                $('.del_share').css('display','none');
             });
 
             $('.del_follow').on("click",function(){
                 $img_src4.val('');
-                $('.del_follow').remove();
+                $('.del_follow').css('display','none');
+                // $('.del_follow').remove();
             });
 
         });

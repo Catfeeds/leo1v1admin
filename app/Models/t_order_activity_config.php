@@ -116,4 +116,16 @@ class t_order_activity_config extends \App\Models\Zgen\z_t_order_activity_config
         );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
+
+    public function get_prev_id($id){
+        $where_arr=[
+            ["id<%u",  $id, -1  ]
+        ];
+
+        $sql= $this->gen_sql_new("select max(id) from %s where %s order by  id  desc ",
+                                 self::DB_TABLE_NAME,  $where_arr );
+
+        return $this->main_get_value($sql);
+    }
+
 }
