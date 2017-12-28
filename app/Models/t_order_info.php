@@ -4637,7 +4637,62 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_list($sql);
     }
+    //@desn:获取微信运营订单信息
+    public function get_wx_order_info($start_time,$end_time){
+        $where_arr=[
+            "oi.contract_type = 0 ",
+            "si.is_test_user=0",
+            "oi.contract_status >0 ",
+            "ssn.tmk_adminid >0 ",
+            "oi.order_time>ssn.tmk_assign_time",
+            'ssn.wx_invaild_flag = 1'
+        ];
 
+        $this->where_arr_add_time_range($where_arr,"oi.order_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new(
+            "select count(*) as wx_order_count,sum(price)/100 as wx_order_all_money "
+            ." from %s oi "
+            ." left join %s si  on oi.userid=si.userid "
+            ." left join %s ssn  on oi.userid=ssn.userid "
+            ." where %s ",
+            self::DB_TABLE_NAME ,
+            t_student_info::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            $where_arr
+        );
+
+        return $this->main_get_row($sql);
+    }
+    //@desn:获取公众号订单信息
+    //@param:$start_time 开始时间
+    //@param:$end_time 结束时间
+    public function get_public_number_order_info($start_time,$end_time){
+        $where_arr=[
+            "oi.contract_type = 0 ",
+            "si.is_test_user=0",
+            "oi.contract_status >0 ",
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"oi.order_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new(
+            "select oi.origin,count(*) as pn_order_count,sum(price)/100 as pn_order_all_money "
+            ." from %s oi "
+            ." left join %s si  on oi.userid=si.userid "
+            ." left join %s ssn  on oi.userid=ssn.userid "
+            ." where %s group by oi.origin ",
+            self::DB_TABLE_NAME ,
+            t_student_info::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            $where_arr
+        );
+
+        return $this->main_get_list($sql,function($item){
+            return $item["origin"];
+        });
+
+    }
 
 }
 
