@@ -419,6 +419,7 @@ class seller_student_new extends Controller
         $notify_lesson_check_start_time=$now - 3600;
 
         foreach ($ret_info["list"] as &$item) {
+            \App\Helper\Utils::hide_item_phone($item);
             if($item['call_end_time']){
                 $item["call_end_time"] = date('Y-m-d H:i',$item['call_end_time']);
             }else{
