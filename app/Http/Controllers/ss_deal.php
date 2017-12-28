@@ -7684,10 +7684,10 @@ class ss_deal extends Controller
 
 
 
-        if($shareType != 3){return $this->output_err('分享页图片格式不符合,请重新上传!');}
-        if($coverType != 3){return $this->output_err('封面图片格式不符合,请重新上传!');}
-        if($activityType != 3){return $this->output_err('活动页图片格式不符合,请重新上传!');}
-        if($followType != 3){return $this->output_err('关注页图片格式不符合,请重新上传!');}
+        if($shareType != 3 && $shareType !=0){return $this->output_err('分享页图片格式不符合,请重新上传!');}
+        if($coverType != 3 && $coverType !=0){return $this->output_err('封面图片格式不符合,请重新上传!');}
+        if($activityType != 3 && $activityType !=0){return $this->output_err('活动页图片格式不符合,请重新上传!');}
+        if($followType != 3 && $followType !=0){return $this->output_err('关注页图片格式不符合,请重新上传!');}
 
         if($shareWidth!=750 || $shareHeight!=1334){ return $this->output_err('分享页图片尺寸不符合,请重新上传!'); }
         if($coverWidth!=300 || $coverHeight!=300){ return $this->output_err('封面页图片尺寸不符合,请重新上传!'); }

@@ -173,13 +173,6 @@ $(function(){
             ["图片4",$img_src4]
         ];
 
-        $title.val(opt_data.title);
-        $main_type_name.val(opt_data.gift_type);
-        $describe.val(opt_data.act_descr);
-        $img_src1.val(opt_data.coverimgurl);
-        $img_src2.val(opt_data.activityimgurl);
-        $img_src3.val(opt_data.shareimgurl);
-        $img_src4.val(opt_data.followimgurl);
 
         $.show_key_value_table("添加推广活动", arr, {
             label: '确认',
@@ -220,6 +213,15 @@ $(function(){
             if(opt_data.shareimgurl){ $('.del_share').css('display','block');}
             if(opt_data.followimgurl){ $('.del_follow').css('display','block');}
 
+            $title.val(opt_data.title);
+            $main_type_name.val(opt_data.gift_type);
+            $describe.val(opt_data.act_descr);
+            $img_src1.val(opt_data.coverimgurl);
+            $img_src2.val(opt_data.activityimgurl);
+            $img_src3.val(opt_data.shareimgurl);
+            $img_src4.val(opt_data.followimgurl);
+
+
 
 
             $.custom_upload_file('id_img1',true,function (up, info, file) { // 封面页
@@ -247,25 +249,26 @@ $(function(){
 
             $('.del_cover').on("click",function(){
                 $img_src1.val('');
-                $('.del_cover').remove();
-
-                // $('.del_cover').css('display','none');
+                // $('.del_cover').remove();
+                $('.del_cover').css('display','none');
             });
 
             $('.del_activity').on("click",function(){
                 $img_src2.val('');
-                $('.del_activity').remove();
-                // $('.del_activity').css('display','none');
+                // $('.del_activity').remove();
+                $('.del_activity').css('display','none');
             });
 
             $('.del_share').on("click",function(){
                 $img_src3.val('');
-                $('.del_share').remove();
+                // $('.del_share').remove();
+                $('.del_share').css('display','none');
             });
 
             $('.del_follow').on("click",function(){
                 $img_src4.val('');
-                $('.del_follow').remove();
+                $('.del_follow').css('display','none');
+                // $('.del_follow').remove();
             });
 
         });
