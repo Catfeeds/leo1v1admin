@@ -64,7 +64,7 @@ class pdfConversionH5 extends Command
             //从未达下载
             $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=".$uuid."&email=".$email."&pwd=".$pwd;
             $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
-            $unzipFilePath  =  public_path('wximg').'/'.$uuid; // 解压后的文件夹
+            $unzipFilePath  =  public_path('wximg'); // 解压后的文件夹
 
             $data=file_get_contents($h5DownloadUrl);
             file_put_contents($saveH5FilePath, $data);
@@ -74,7 +74,7 @@ class pdfConversionH5 extends Command
              * @  解压文件包->获取文件包下文件->文件批量上传
              */
 
-            $unzipShell = "unzip $saveH5FilePath";
+            $unzipShell = "unzip $saveH5FilePath -d $unzipFilePath ";
             shell_exec($unzipShell);
 
             $handler = opendir($unzipFilePath);
@@ -96,13 +96,15 @@ class pdfConversionH5 extends Command
             exit();
 
             $config=\App\Helper\Config::get_config("ali_oss");
-            $file_name=basename($target);
 
             $ossClient = new OssClient(
                 $config["oss_access_id"],
                 $config["oss_access_key"],
-                $config["oss_endpoint"], false
+                $config["oss_endpoint"],
+                false
             );
+
+            $file_name=basename($target);
 
             $h5Path = "pdfToH5/".$uuid; // 环境文件夹
 
