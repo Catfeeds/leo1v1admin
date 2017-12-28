@@ -105,7 +105,7 @@ class teacher_money extends Controller
                 $lesson_list[$key]['lesson_base']   = strval($val['lesson_base']);
                 $lesson_list[$key]['lesson_reward'] = strval($val['lesson_reward']+$val['lesson_full_reward']);
                 $lesson_list[$key]['lesson_cost']   = $val['lesson_cost'];
-                $lesson_list[$key]['lesson_price']  = strva($lesson_price);
+                $lesson_list[$key]['lesson_price']  = strval($lesson_price);
                 $lesson_list[$key]['stu_nick']      = $val['stu_nick'];
                 $lesson_list[$key]['lesson_time']   = date("m.d H:i",$val['lesson_start'])."-".date("H:i",$val['lesson_end']);
                 $lesson_list[$key]['late_status']   = $val['deduct_come_late'];
