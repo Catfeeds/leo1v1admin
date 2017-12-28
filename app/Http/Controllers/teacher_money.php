@@ -825,7 +825,7 @@ class teacher_money extends Controller
         $teacherid = $this->get_in_int_val("teacherid");
         //$type = $this->t_teacher_info->get_teacher_type($teacherid);
         $info = $this->t_teacher_info->field_get_list($teacherid, "teacher_money_type,teacher_type");
-        if ($info['teacher_money_type'] == 7 || ($info['teacher_type'] == 3 || $info['teacher_money_type'] == 0)) {
+        if ($info['teacher_money_type'] == 7 || ($info['teacher_type'] == 3 && $info['teacher_money_type'] == 0)) {
             $type = '全职老师';
         } else {
             $type = '兼职老师';

@@ -113,29 +113,38 @@ class question_new_api extends Controller
     //根据知识点、题型、来源、难度 获取对应的题目
     public function get_questions(){
         $knowledge_id   = $this->get_in_int_val('knowledge_id');
-        $knowledge_str = '(';
-        if($knowledge_id){
-            //获取该知识点的子级id
-            $knowledge_str .= $this->get_tree($knowledge_id);
-            $knowledge_str = substr($knowledge_str, 0, -1).')';
-        }
+        $room_id   = $this->get_in_str_val('rid');
         //dd($knowledge_str);
         $question_type   = $this->get_in_int_val('question_type',-1);
         $question_resource_type   = $this->get_in_int_val('question_resource_type',-1);
         $difficult   = $this->get_in_int_val('difficult',-1);
         $page_num    = $this->get_in_int_val('page_num',1);
-        $questions = $this->t_question->question_get($knowledge_str,$question_type,$question_resource_type,$difficult,$page_num);
-        //dd($questions);
-        if($questions){
-            foreach( $questions['list'] as &$qu){
-                $qu['subject_str'] = E\Esubject::get_desc($qu['subject']);
-                $qu['difficult_str'] = E\Equestion_difficult_new::get_desc($qu['difficult']);
-                $qu['question_resource_type_str'] = E\Equestion_resource_type::get_desc($qu['question_resource_type']);
-                //$qu = ksort($qu);
+
+        if(!empty($room_id)){
+            $questions = $this->get_recommend($room_id,$question_type,$question_resource_type,$difficult);
+            if(!empty($questions)){
+                return $this->output_succ(["list" => $questions]);
             }
         }
+    
+        if($knowledge_id){
+            //获取该知识点的子级id
+            $knowledge_str = '(';
+            $knowledge_str .= $this->get_tree($knowledge_id);
+            $knowledge_str = substr($knowledge_str, 0, -1).')';
+            $questions = $this->t_question->question_get($knowledge_str,$question_type,$question_resource_type,$difficult,$page_num);
+            //dd($questions);
+            if($questions){
+                foreach( $questions['list'] as &$qu){
+                    $qu['subject_str'] = E\Esubject::get_desc($qu['subject']);
+                    $qu['difficult_str'] = E\Equestion_difficult_new::get_desc($qu['difficult']);
+                    $qu['question_resource_type_str'] = E\Equestion_resource_type::get_desc($qu['question_resource_type']);
+                    //$qu = ksort($qu);
+                }
+            }
+            return $this->output_succ(["list" => $questions]);
+        }
 
-        return $this->output_succ(["list" => $questions]);
     }
 
     private function get_tree($pid){  
@@ -210,6 +219,8 @@ class question_new_api extends Controller
         $insertCheck = [
             "sid"  => 0,
             "tid" => 0,
+            "qid" => 0,
+            "rid" => 0,
             "scores" => 0,
             "time"   => 0,
         ];
@@ -219,12 +230,12 @@ class question_new_api extends Controller
         //dd($check1);
         if(!empty($check1)){
             $lackkey = implode(',',array_keys($check1));
-            $msg = "sid,tid,scores,time都是数组必须具备的值,你遗漏了".$lackkey;
+            $msg = "sid,tid,qid,rid,scores,time都是数组必须具备的值,你遗漏了".$lackkey;
             return $this->output_err($msg);
         }
         if(!empty($check2)){
             $morekey = implode(',',array_keys($check2));
-            $msg = "数组中只需传sid,tid,scores,time你多传了".$morekey;
+            $msg = "数组中只需传sid,tid,qid,rid,scores,time你多传了".$morekey;
             return $this->output_err($msg);
         }
         
@@ -244,9 +255,12 @@ class question_new_api extends Controller
             $item = [
                 'student_id'=>$arr['sid'],
                 'teacher_id'=>$arr['tid'],
+                'question_id'=>$arr['qid'],
+                'room_id'=>$arr['rid'],
                 'time'=>$arr['time'],
                 'score'=>$item['score'],
-                'step_id'=>$item['step_id']
+                'step_id'=>$item['step_id'],
+                'create_time' => time(),
             ];
             $ret = $this->t_student_answer->row_insert($item);
             if($ret){
@@ -259,11 +273,137 @@ class question_new_api extends Controller
         if( $haveSave < $saveItem ){
             return $this->output_err($lackItem);
         }else{
-            return $this->output_succ("全部保存成功");
+            return $this->output_succ();
         }
     }
 
-    public function get_recommend(){
+    public function get_recommend($room_id,$question_type,$question_resource_type,$difficult){
+        if( !$room_id ){
+            return null;
+        }
         
+        $count = $this->t_student_answer->get_answer_count($room_id);
+        if(!$count || $count['count'] == 0){
+            return null;
+        }
+
+        //学生做过的题目
+        $have_done = [];
+        
+        //查看每个题目的答案得分情况
+        $answer_scores = $this->t_student_answer->get_answer_scores($room_id);
+        if(empty($answer_scores)){
+            return null;
+        }
+
+        //每个知识点对应步骤解题的得分情况
+        $result = []; 
+
+        if( $answer_scores ){
+            foreach( $answer_scores as $sc){
+                if(!in_array($sc['question_id'], $have_done)){
+                    $have_done[] = $sc['question_id'];
+                }
+
+                //步骤对应的知识点
+                $know_arr = [];
+                if($sc['step_know']){
+                    $know_arr = explode(',', $sc['step_know']);        
+                }
+
+                //如果步骤没有知识点则查找问题对应的知识点
+                if( empty( $sc['know_str']) &&  $sc['qu_know'] ){
+                    $know_arr = explode(',', $sc['qu_know']); 
+                }
+
+                //每个步骤的得分情况
+                if( $sc['full_score'] > 0 and $sc['score'] >= 0){
+                    //该步骤的分数情况
+                    $score =  sprintf("%.2f", $sc['score']/$sc['full_score']);
+
+                    //每个知识点对应的得分
+                    if(!empty($know_arr)){
+                        foreach( $know_arr as $v ){
+                            $result[$v][$sc['step_id']] = $score;
+                        }
+                    }
+
+                    
+                }
+
+            }
+        }
+        //dd($result);
+        $knowledge_str = "";
+        //每个知识点的评估得分率
+        $know_average_arr = [];
+        //每个知识点做过的题目数量
+        $know_qu_items = [];
+        //取出的题目
+        $questions = [];
+        //已经取出的题目id
+        $question_str = '';
+        if($result and count($result) != count($result, 1) ){
+            foreach( $result as $k => $v){
+                $full = count($v);
+                $each_whole = 0;
+                foreach($v as $item){
+                    $each_whole += $item;
+                }
+                $know_average_arr[$k] = sprintf("%.2f", $each_whole/$full);
+                $know_qu_items[$k] = $full;
+            }
+            arsort($know_average_arr);
+            //dd($know_average_arr);
+            foreach( $know_average_arr as $kn => $sco){
+                //该知识点下做超过15个步骤。并且平均得分率在0.9以上的 推荐题目难度序列为 4,5,3,2,1
+                if($know_qu_items[$kn] >= 15){
+                    if($sco >= 0.9 ){
+                        $difficult_str = "(qu.difficult, 4,5,3,2,1)";
+                    }else if( $sco < 0.9 && $sco >= 0.8 ){
+                        $difficult_str = "(qu.difficult, 3,2,4,1,5)";
+                    }else if( $sco < 0.8 && $sco >= 0.7 ){
+                        $difficult_str = "(qu.difficult, 2,1,3,4,5)";
+                    }else{
+                        $difficult_str = "(qu.difficult, 1,2,3,4,5)";
+                    }
+                }else{
+                    $difficult_str = "(qu.difficult, 1,2,3,4,5)";
+                }
+
+                if($have_done){
+                    $question_str = "(".implode(",", $have_done).")";
+                }
+
+                $fetch_questions = $this->get_questions_by_kid($kn,$difficult_str,$question_str,$question_type,$question_resource_type,$difficult); 
+                $questions = array_merge($questions,$fetch_questions);
+                //dd($fetch_questions);
+                if($fetch_questions){
+                    //已经取出来的题目标记
+                    $fetch_question_id = array_column($fetch_questions,'question_id');
+                    $have_done = array_merge($have_done,$fetch_question_id);
+                    //去重
+                    $have_done = array_unique($have_done);
+                }
+            }
+            //dd($knowledge_str);
+        }
+        
+        return $questions;
     }
+
+    private function get_questions_by_kid($kn,$difficult_str,$question_str,$question_type,$question_resource_type,$difficult){
+        $questions = $this->t_question->question_get_by_id($kn,$difficult_str,$question_str,$question_type,$question_resource_type,$difficult);
+        //dd($questions);
+        if($questions){
+            foreach( $questions as &$qu){
+                $qu['subject_str'] = E\Esubject::get_desc($qu['subject']);
+                $qu['difficult_str'] = E\Equestion_difficult_new::get_desc($qu['difficult']);
+                $qu['question_resource_type_str'] = E\Equestion_resource_type::get_desc($qu['question_resource_type']);
+                //$qu = ksort($qu);
+            }
+        }
+        return $questions;
+    }
+
 }

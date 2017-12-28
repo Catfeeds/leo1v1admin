@@ -42,6 +42,25 @@ class main_page2 extends Controller
             'left_quota' => ($sum_activity_quota-$used_quota)/100,
         ];
 
+        $current_month_first = strtotime(date("Y-m-01"));
+        $current_month_last = strtotime(date("Y-m-t"));
+
+        $last_month_first = strtotime(date("Y-m-01",strtotime("-1 month")));
+        $last_month_last  = strtotime(date("Y-m-t",strtotime("-1 month")));
+
+        $history_month_last = strtotime(date("Y-m-t",strtotime("-2 month")));
+
+        $contract_status=1;  //合同状态
+        $test_user=0;        //是否是测试用户
+        $stu_from_type=0;    //签约类型
+        $has_money=1;        //是否有钱 
+
+        $where_arr=[
+            ["is_test_user=%u" , $test_user],
+            ["stu_from_type=%u" , $stu_from_type],
+            ["price>%u" , 0],
+            ["contract_status=%u" , $contract_status],
+        ];
 
         return $this->pageView(__METHOD__,null,[
             "role_1_diff_money" => $role_1_diff_money ,

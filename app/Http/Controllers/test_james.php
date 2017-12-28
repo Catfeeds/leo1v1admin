@@ -29,6 +29,15 @@ use LaneWeChat\Core\UserManage;
 use LaneWeChat\Core\TemplateMessage;
 
 
+// 引入鉴权类
+use Qiniu\Auth;
+
+// 引入上传类
+use Qiniu\Storage\UploadManager;
+use Qiniu\Storage\BucketManager;
+
+
+
 include(app_path("Libs/LaneWeChat/lanewechat.php"));
 
 
@@ -1446,12 +1455,102 @@ class test_james extends Controller
         dd(md5('021130'));
     }
 
+    public function test_ce(){
+        $b = "http://leo1v1.whytouch.com/export.php?uuid=gf15a4973b034c84d4f631be74b21741&email=michael@leoedu.com&pwd=bbcffc83539bd9069b755e1d359bc70a";
+        $a = file_get_contents($b);
+
+        file_put_contents("./test_jammes_pdf.zip", fopen($h5DownloadUrl, 'r'));
+        dd($a);
+
+        $domain = config('admin')['qiniu']['public']['url'];
+        $a = 'ok:gf15a4973b034c84d4f631be74b21741.zip';
+        // $b = $domain."/".$a;
+
+        $uuid_arr = explode(':', $a);
+        dd($uuid_arr);
+
+        // $b = substr($a,3);
+        dd($b);
+    }
+
     public function getUrl(){
         $url = $this->get_in_str_val('url');
         $domain = config('admin')['qiniu']['public']['url'];
         $change_reason_url = $domain.'/'.$url;
         dd($change_reason_url);
+        //gdb752962bc31cc483cf576fb1fdd8d7.zip
     }
+
+
+    public function do_qiniu ( $public_flag )  {
+
+        /*
+        'qiniu' => [
+            "public" => [
+                "url"    => env('QINIU_PUBLIC_URL', 'http://7u2f5q.com2.z0.glb.qiniucdn.com'),
+                "bucket" => "ybprodpub",
+            ] ,
+            "private_url" => [
+                "url"    => env('QINIU_PRIVATE_URL', 'http://7tszue.com2.z0.glb.qiniucdn.com'),
+                "bucket" => "ybprod",
+            ] ,
+            "access_key" => "yPmhHAZNeHlKndKBLvhwV3fw4pzNBVvGNU5ne6Px",
+            "secret_key" => "gPwzN2_b1lVJAr7Iw6W1PCRmUPZyrGF6QPbX1rxz",
+
+        ],
+        */
+        $config=\App\Helper\Config::get_config("qiniu");
+
+
+        // 构建鉴权对象
+        $auth = new Auth($config["access_key"], $config["secret_key"]);
+
+        if ($public_flag ) {
+            $bucket_info=$config["public" ];
+        }else{
+            $bucket_info=$config["private_url" ];
+        }
+        $bucket=$bucket_info["bucket"];
+
+        // 生成上传 Token
+        $token = $auth->uploadToken($bucket);
+
+
+        return  $this->output_succ([
+            "bucket" =>  $bucket,
+            "token" =>$token,
+            "url"=> $bucket_info["url"]
+        ] );
+    }
+
+    function qiniu_upload_token() {
+        $public_flag=$this->get_in_int_val("publish_flag",0 );
+        return $this->do_qiniu($public_flag );
+    }
+
+
+
+    public  function savePicToServer() {
+        $savePathFile = "test.zip";
+        $url = "http://wx-parent-web.leo1v1.com/wx-parent-activity/share.html?openid=orwGAs_IqKFcTuZcU1xwuEtV3Kek&type=102&web_page_id=0&from_adminid=0";
+        $targetName   = $savePathFile;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+
+        $fp = fopen($targetName,'wb');
+
+        curl_setopt($ch,CURLOPT_URL,$pic_url);
+        curl_setopt($ch,CURLOPT_FILE,$fp);
+        curl_setopt($ch,CURLOPT_HEADER,0);
+        $ret_info['state'] = curl_exec($ch);
+        curl_close($ch);
+        fclose($fp);
+        $ret_info['savePathFile'] = $savePathFile;
+
+        return $ret_info;
+    }
+
+
 
 
 

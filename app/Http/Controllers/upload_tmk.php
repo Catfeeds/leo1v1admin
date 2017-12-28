@@ -117,9 +117,12 @@ class upload_tmk extends Controller {
         );
         $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
 
+        \App\Helper\Utils::logger("load file start :$obj_file" );
         $objPHPExcel = $objReader->load($obj_file);
+        \App\Helper\Utils::logger("load file end ");
         $objPHPExcel->setActiveSheetIndex(0);
         $arr=$objPHPExcel->getActiveSheet()->toArray();
+
         // dd($arr);
         foreach ($arr as $index => $item) {
             if ($index== 0) { //标题

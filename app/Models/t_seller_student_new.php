@@ -241,7 +241,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
 
         //美团-1230
-        if($origin == '美团-1230'){
+        if($origin == '美团—1230'){
             $tong_count = 0;
             $tao_count = 0;
             $count = $this->get_meituan_count_by_adminid();
@@ -271,8 +271,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "操作者: 系统 状态: 分配给总监 [ $account ] ",
                 "system"
             );
-            // $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
-            $this->task->t_manager_info->send_wx_todo_msg('tom',"来自:系统","分配给[$account]的'$origin'例子:".$phone);
+            $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
         }
 
         return $userid;
@@ -2645,19 +2644,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function get_all_list($start_time,$end_time){
-        $where_arr = [
-            ['tq.admin_role=%u',E\Eaccount_role::V_2],
-            'seller_add_time=1511452800',
-        ];
-        // $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
         $sql = $this->gen_sql_new(
-            " select n.userid,n.phone,n.cc_no_called_count,"
-            ." tq.is_called_phone,tq.admin_role "
+            " select n.userid,n.phone,n.last_contact_cc "
             ." from %s n"
-            ." left join %s tq on tq.phone=n.phone "
             ." where %s order by n.userid "
             ,self::DB_TABLE_NAME
-            ,t_tq_call_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);
@@ -3173,14 +3166,22 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function get_item_list($page_info){
-        $sql = "select n.admin_revisiterid,"
-            ."m.account,m.seller_level,"
-            ."sum(if(n.admin_revisiterid>0,1,0)) count "
-            ."from t_seller_student_new n "
-            ."left join db_weiyi_admin.t_manager_info m on m.uid=n.admin_revisiterid "
-            ."where n.admin_revisiterid>0 and m.account_role=2  group by n.admin_revisiterid";
-        return $this->main_get_list_by_page($sql,$page_info);
+    public function get_item_list($page_info,$start_time,$end_time){
+        $where_arr = [
+        ];
+        $this->where_arr_add_time_range($where_arr,'n.add_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select n.userid,n.phone,s.origin,n.add_time,n.global_tq_called_flag,"
+            ." n.last_succ_test_lessonid,n.last_contact_cc adminid "
+            ." from %s n "
+            ." left join %s s on n.userid=s.userid "
+            ." where %s order by n.add_time desc"
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        // return $this->main_get_list_by_page($sql, $page_info);
+        return $this->main_get_list($sql);
     }
 
     public function get_item_list_new(){

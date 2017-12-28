@@ -83,16 +83,15 @@ class deal_pdf_to_png extends cmd_base
                 @chmod($savePathFile, 0777);
 
                 $filesize=filesize($savePathFile);
-                \App\Helper\Utils::logger("filesize_pdf1: ".$savePathFile);
 
-                if($filesize<512){
-                    \App\Helper\Utils::logger("filesize_pdf: ".$savePathFile);
-                    $this->task->t_pdf_to_png_info->field_update_list($id,[
-                        "id_do_flag" => 3, // 文件大小异常
-                        "deal_time"  => time()
-                    ]);
-                    return '';
-                }
+                // if($filesize<512){
+                //     \App\Helper\Utils::logger("filesize_pdf: ".$savePathFile);
+                //     $this->task->t_pdf_to_png_info->field_update_list($id,[
+                //         "id_do_flag" => 3, // 文件大小异常
+                //         "deal_time"  => time()
+                //     ]);
+                //     return '';
+                // }
 
 
                 $imgs_url_list = $this->pdf2png($savePathFile,$path,$lessonid);
@@ -162,10 +161,10 @@ class deal_pdf_to_png extends cmd_base
                     $Return[]= $Filename;
                 }
             }
-            $im->clear();
+            $IM->clear();
             return $Return;
         }else{
-            $im->clear();
+            $IM->clear();
             return [];
         }
 

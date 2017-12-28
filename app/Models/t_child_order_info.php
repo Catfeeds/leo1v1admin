@@ -257,6 +257,18 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         return $this->main_get_list($sql);
     }
 
+    public function get_other_child_order_list($parent_orderid,$userid){
+        $sql = $this->gen_sql_new("select c.* from %s c"
+                                  ." left join %s o on c.parent_orderid = o.orderid"
+                                  ." where c.parent_orderid <> %u and o.userid = %u",
+                                  self::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  $parent_orderid,
+                                  $userid
+        );
+        return $this->main_get_list($sql);
+    }
+
 
 }
 

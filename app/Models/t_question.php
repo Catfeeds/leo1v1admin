@@ -40,6 +40,30 @@ class t_question extends \App\Models\Zgen\z_t_question
         return  $this->main_get_list_by_page($sql,$page_num);
     }
 
+    public function question_get_by_id($kn,$difficult_str,$question_str,$question_type,$question_resource_type,$difficult){
+        $where_arr = [
+            ['know.knowledge_id = %s' , $kn ],
+            ["qu.question_id not in %s", $question_str ] ,
+            ["qu.question_type=%u", $question_type, -1] ,
+            ["qu.question_resource_type=%u", $question_resource_type, -1] ,
+            ["qu.difficult=%u", $difficult, -1] ,
+        ];
+
+        $where_str = $this->where_str_gen($where_arr);
+        $sql = $this->gen_sql("select distinct(qu.question_id),qu.*,qt.name as question_type_str from %s qu
+                              left join %s know on qu.question_id = know.question_id
+                              left join %s qt on qu.question_type = qt.id
+                              where  %s order by FIELD%s,qu.question_id desc limit 10",
+                              self::DB_TABLE_NAME,
+                              t_question_knowledge::DB_TABLE_NAME,
+                              t_question_type::DB_TABLE_NAME,
+                              [$where_str],
+                              $difficult_str
+        );
+        return  $this->main_get_list($sql);
+
+    }
+
     public function question_check($question_id,$subject,$question_type){
         $where_arr = [
             ['subject = %u' , $subject ],

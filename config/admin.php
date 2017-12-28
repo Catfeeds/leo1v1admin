@@ -5,6 +5,8 @@ return [
     "admin_domain_url_config"=>[
         \App\Enums\Eadmin_domain_type::V_ADMIN_1V1 => env( "ADMIN_1V1_URL", "http://admin.leo1v1.com"),
         \App\Enums\Eadmin_domain_type::V_ADMIN_CLASS => env( "ADMIN_CLASS_URL", "http://admin.class.leo1v1.com"),
+        \App\Enums\Eadmin_domain_type::V_ADMIN_1V1_VUE => env( "ADMIN_1V1_VUE_URL", "http://localhost:9528/#"),
+        \App\Enums\Eadmin_domain_type::V_ADMIN_CLASS_VUE => env( "ADMIN_CLASS_VUE_URL", "http://localhost:9528/#"),
     ],
 
     'qiniu' => [

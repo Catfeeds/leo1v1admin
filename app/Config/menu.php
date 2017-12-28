@@ -5,6 +5,8 @@ class menu{
         return [
 
             ["power_id"=>40, "name"=>"核心数据",  "list"=> [
+                ["power_id"=>80, "name"=>"测试","url"=>"/test/get_user_list", "domain_type" =>100  ],
+                ["power_id"=>81, "name"=>"测试22","url"=>"/test/get_user_list1", "domain_type" =>100  ],
                 ["power_id"=>1, "name"=>"试听转化率统计-招师","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zs"],
                 ["power_id"=>2, "name"=>"试听转化率统计","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_for_jx"],
                 ["power_id"=>3, "name"=>"教师试讲预约-招师",   "url"=>"/human_resource/teacher_lecture_appointment_info_zs"],
@@ -397,9 +399,6 @@ class menu{
                 ["power_id"=>9, "name"=>"约课 课程包管理",   "url"=>"/appoint/index2"],
                 ["power_id"=>18, "name"=>"h5 活动页 ",   "url"=>"/admin_manage/web_page_info"],
 
-                ["power_id"=>19, "name"=>"配置功能", "list"=>[
-                    ["power_id"=>34, "name"=>"推广活动",   "url"=>"/tongji2/market_extension"],
-                ]],
 
             ]],
 
@@ -457,6 +456,11 @@ class menu{
                 ["power_id"=>36, "name"=>"软件版本控制",   "url"=>"/aliyun_oss/upload_list"],
                 ["power_id"=>37, "name"=>"老师晋升参考数据",   "url"=>"/tea_manage_new/approved_data_new"],
                 ["power_id"=>47, "name"=>"标签库",   "url"=>"/product_tag/tag_list"],
+                ["power_id"=>19, "name"=>"配置功能", "list"=>[
+                    ["power_id"=>34, "name"=>"推广活动",   "url"=>"/tongji2/market_extension"],
+                ]],
+
+
             ]],
 
             ["power_id"=>10, "name"=>"统计", "list"=>[
@@ -919,6 +923,7 @@ class menu{
 
             ]],
             ["power_id"=>34, "name"=>"角色-教学", "list"=>[
+                ["power_id"=>22, "name"=>"全职老师架构管理",  "url"=>"/user_manage_new/admin_group_manage_fulltime"],
                 ["power_id"=>80, "name"=>"全职老师产能",   "url"=>"/fulltime_teacher/fulltime_teacher_count"],
                 ["power_id"=>81, "name"=>"全职老师考勤信息",   "url"=>"/fulltime_teacher/fulltime_teacher_work_attendance_info"],
                 ["power_id"=>82, "name"=>"全职老师考勤汇总",   "url"=>"/fulltime_teacher/fulltime_teacher_attendance_info_month"],

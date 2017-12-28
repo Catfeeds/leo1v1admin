@@ -2589,6 +2589,37 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list_by_page($sql,$page_num,10,true);
     }
 
+    public function get_cc_order_count($where_arr){
+        $sql = $this->gen_sql_new(
+            "select  count(o.orderid) as count_order from %s o "
+            ." left join %s s on o.userid = s.userid "
+            ." left join %s t3 on o.sys_operator = t3.account "
+            ." left join %s c on o.orderid = c.orderid "
+            ." left join %s n on o.userid = n.userid "
+            ." left join %s l on l.lessonid = o.from_test_lesson_id "
+            ." left join %s f on ( f.from_key_int = o.orderid  and f.flow_type in ( 2002, 3002))"
+            ." left join %s m on s.ass_master_adminid = m.uid"
+            ." left join %s m2 on o.sys_operator = m2.account"
+            ." left join %s ti on o.userid = ti.userid"
+            ." left join %s co on (co.parent_orderid = o.orderid and co.child_order_type = 2)"
+            ." where %s "
+            ." group by o.orderid ",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_course_order::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_student_init_info::DB_TABLE_NAME,
+            t_child_order_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
     public function get_order_list_require_adminid_new(
         $page_num,$start_time,$end_time,$contract_type,$contract_status
         ,$userid,$config_courseid,$is_test_user,$show_yueyue_flag,$has_money
@@ -4267,6 +4298,20 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
     }
 
+    public function get_orderid_by_userid_new($userid_arr){
+        $where_arr = [
+            'contract_type = 0',
+            'contract_status > 0',
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr,'userid', $userid_arr);
+        $sql = $this->gen_sql_new("select userid,orderid "
+                                  ." from %s "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
     public function get_seller_add_time_by_orderid_str($orderid_arr){
         $where_arr = [];
         $this->where_arr_add_int_or_idlist($where_arr,'o.orderid',$orderid_arr);

@@ -596,7 +596,7 @@ jQuery.fn.extend({
             var $account = $("<select/>");
             var me = $(this);
             var key_list = me.val();
-            $main_type_name.html("<option value=\"\" >[全部]</option><option value=\"助教\" >助教</option><option value=\"销售\" selected >销售</option><option value=\"教务\" >教务</option>")
+            $main_type_name.html("<option value=\"\" >[全部]</option><option value=\"助教\" >助教</option><option value=\"销售\" selected >销售</option><option value=\"教务\" >教务</option><option value=\"全职老师\" >全职老师</option>")
             var clean_select = function ($select) {
                 $select.html("<option value=\"\">[全部]</option>");
             };
@@ -605,6 +605,25 @@ jQuery.fn.extend({
             if(g_adminid_right != "" && g_adminid_right != null){
                 key_list = g_adminid_right;
                 console.log(g_adminid_right);
+                if(key_list[0]=="全职老师"){
+                    $main_type_name.html("<option value=\"\" >[全部]</option><option value=\"助教\" >助教</option><option value=\"销售\"  >销售</option><option value=\"教务\" >教务</option><option value=\"全职老师\" selected >全职老师</option>")
+                    var clean_select = function ($select) {
+                        $select.html("<option value=\"\">[全部]</option>");
+                    };
+
+                }else if(key_list[0]=="助教"){
+                    $main_type_name.html("<option value=\"\" >[全部]</option><option value=\"助教\" selected >助教</option><option value=\"销售\"  >销售</option><option value=\"教务\" >教务</option><option value=\"全职老师\"  >全职老师</option>")
+                    var clean_select = function ($select) {
+                        $select.html("<option value=\"\">[全部]</option>");
+                    };
+
+                }else if(key_list[0]=="教务"){
+                    $main_type_name.html("<option value=\"\" >[全部]</option><option value=\"助教\"  >助教</option><option value=\"销售\"  >销售</option><option value=\"教务\" selected >教务</option><option value=\"全职老师\"  >全职老师</option>")
+                    var clean_select = function ($select) {
+                        $select.html("<option value=\"\">[全部]</option>");
+                    };
+
+                }
             }
             //处理key
             $.do_ajax("/user_deal/seller_init_group_info", {
@@ -1332,7 +1351,6 @@ jQuery.extend({
     },
 
     do_ajax: function( url,data, success_func, jsonp_flag ){
-
 
         function ajax_default_deal_func(result){
             if (result.ret ){

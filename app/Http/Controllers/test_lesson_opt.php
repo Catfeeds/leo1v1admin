@@ -9,6 +9,7 @@ class test_lesson_opt extends Controller
     use CacheNick;
 
     public function test_opt_list(){
+        $this->check_and_switch_tongji_domain();
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $test_lesson_type = $this->get_in_int_val('test_lesson_type',-1);
         $action           = $this->get_in_int_val('action',-1);

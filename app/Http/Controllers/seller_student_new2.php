@@ -120,8 +120,8 @@ class seller_student_new2 extends Controller
         $this->set_in_value("limit_require_send_adminid",$adminid);
         $this->set_in_value("limit_require_flag",1);
         return $this->test_lesson_plan_list();
-
     }
+
     public function test_lesson_plan_list_ass_leader(){
         $adminid = $this->get_account_id();
         if($adminid==349){
@@ -146,7 +146,7 @@ class seller_student_new2 extends Controller
     public function test_lesson_plan_list()
     {
         $cur_page = $this->get_in_str_val("cur_page");
-        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0, 7, 1, [
+        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0,7,1,[
             1 => array("require_time","申请时间"),
             2 => array("stu_request_test_lesson_time", "期待试听时间"),
             4 => array("lesson_start", "上课时间"),
@@ -196,6 +196,8 @@ class seller_student_new2 extends Controller
         $ass_test_lesson_type       = $this->get_in_int_val("ass_test_lesson_type",-1, E\Eass_test_lesson_type::class);
         $test_lesson_fail_flag      = $this->get_in_int_val("test_lesson_fail_flag", -1, E\Etest_lesson_fail_flag::class);
         $adminid_right              = $this->get_seller_adminid_and_right();
+        // dd($adminid_right);
+        // $adminid_right=[0=>"全职老师",1=>"",2=>"",3=>""];
         $accept_adminid             = $this->get_in_int_val("accept_adminid",-1);
         $is_jw                      = $this->get_in_int_val("is_jw",0);
         $is_ass_tran                = $this->get_in_int_val("is_ass_tran",0);
@@ -1469,10 +1471,10 @@ class seller_student_new2 extends Controller
             $teacher_info   = $this->get_in_str_val("teacher_info",$require_info['teacher_info']);
 
             E\Egender::set_item_value_str($require_info);
-            E\Egender::set_item_value_str($require_info,"tea_gender");
-            E\Etea_age::set_item_value_str($require_info,"tea_age");
-            E\Eidentity::set_item_value_str($require_info,"tea_identity");
-            E\Eteacher_type::set_item_value_str($require_info);
+            E\Egender::set_item_appoint_value_str($require_info,"tea_gender",0,"无要求");
+            E\Etea_age::set_item_appoint_value_str($require_info,"tea_age",0,"无要求");
+            E\Eidentity::set_item_appoint_value_str($require_info,"tea_identity",0,"无要求");
+            E\Eteacher_type::set_item_appoint_value_str($require_info,"teacher_type",0,"无要求");
             E\Egrade::set_item_value_str($require_info);
             E\Esubject::set_item_value_str($require_info);
             E\Equotation_reaction::set_item_value_str($require_info);
@@ -1544,6 +1546,7 @@ class seller_student_new2 extends Controller
      * @param string lesson_tags  课堂相关标签
      * @param string teaching_tags 教学相关标签
      * @param int teahcer_type 老师类型
+     * @param int region_version 老师教材版本
      * @param int teacher_info 搜索的老师信息
      * @return array
      */
@@ -1568,7 +1571,7 @@ class seller_student_new2 extends Controller
                 $grade_start = 0;
                 $grade_end   = 0;
                 $del_flag    = false;
-                $limit_week_lesson_num = $tea_val['limit_week_lesson_num'];
+                $limit_week_lesson_num  = $tea_val['limit_week_lesson_num'];
                 $limit_plan_lesson_type = $tea_val['limit_plan_lesson_type'];
                 $limit_day   = $tea_val['limit_day_lesson_num'];
                 $day_num     = isset($tea_val['day_num'])?$tea_val['day_num']:0;
@@ -1576,7 +1579,6 @@ class seller_student_new2 extends Controller
                 $week_num    = isset($tea_val['week_num'])?$tea_val['week_num']:0;
                 $limit_month = $tea_val['limit_month_lesson_num'];
                 $month_num   = isset($tea_val['month_num'])?$tea_val['month_num']:0;
-                $has_num     = isset($tea_val['has_num'])?$tea_val['has_num']:0;
 
                 if($tea_val['subject']==$subject){
                     $grade_start = $tea_val['grade_start'];
@@ -1588,7 +1590,7 @@ class seller_student_new2 extends Controller
                     $del_flag = true;
                 }
 
-                if($grade_range_part>$grade_end || $grade_range_part<$grade_start || $has_num>0){
+                if($grade_range_part>$grade_end || $grade_range_part<$grade_start){
                     $del_flag = true;
                 }
                 if(($day_num>0 || $week_num>0 || $month_num>0)
@@ -1598,25 +1600,26 @@ class seller_student_new2 extends Controller
                 }
 
                 $tea_val['age_flag']    = \App\Helper\Utils::check_teacher_age($tea_val['age']);
-                $tea_val['is_identity'] = $identity==$tea_val['identity']?1:0;
-                $tea_val['is_gender']   = $gender==$tea_val['gender']?1:0;
-                $tea_val['is_age']      = $tea_age==$tea_val['age_flag']?1:0;
-                if($teacher_info!="" && (strstr($tea_val['realname'],$teacher_info) || strstr($tea_val['phone'],$teacher_info))){
+                $tea_val['is_identity'] = $identity==$tea_val['identity'] && $identity!=0?1:0;
+                $tea_val['is_gender']   = $gender==$tea_val['gender'] && $gender!=0?1:0;
+                $tea_val['is_age']      = $tea_age==$tea_val['age_flag'] && $tea_age!=0?1:0;
+                if($teacher_info!="" && (strstr($teacher_info,$tea_val['realname']) || strstr($teacher_info,$tea_val['phone']))){
                     $tea_val['is_search'] = 1;
                 }else{
                     $tea_val['is_search'] = 0;
                 }
-                if(strstr($tea_val['teacher_textbook'],$region_version)){
-                    $tea_val['is_textbook'] = 1;
-                }else{
-                    $tea_val['is_textbook'] = 0;
-                }
+
+                $tea_val['is_textbook'] = 0;
                 if($tea_val['teacher_textbook']!=""){
                     $teacher_textbook_arr = explode(",",$tea_val['teacher_textbook']);
                     $teacher_textbook_str = [];
                     foreach($teacher_textbook_arr as $textbook_val){
                         $teacher_textbook_str[] = @$textbook_map[$textbook_val];
                     }
+                    if(in_array($region_version,$teacher_textbook_arr)){
+                        $tea_val['is_textbook'] = 1;
+                    }
+
                     $tea_val['teacher_textbook_str'] = implode(",",$teacher_textbook_str);
                 }else{
                     $tea_val['teacher_textbook_str'] = "";
@@ -1634,11 +1637,11 @@ class seller_student_new2 extends Controller
                     unset($tea_list[$tea_key]);
                 }else{
                     $tea_val['match_time'] = $this->match_teacher_free_time($tea_val['free_time_new'],$lesson_start,$lesson_end);
-                    $match_time[$tea_key]  = $tea_val['match_time'];
                     $tea_val['tags_str']   = $this->change_teacher_tags_to_string($tea_val['teacher_tags']);
                     $tea_val['match_tags'] = $this->match_tea_tags(
                         $tea_val['teacher_tags'],$subject_tags,$teacher_tags,$lesson_tags,$teaching_tags
                     );
+                    $match_time[$tea_key]        = $tea_val['match_time'];
                     $match_tags[$tea_key]        = $tea_val['match_tags'];
                     $identity_list[$tea_key]     = $tea_val['is_identity'];
                     $gender_list[$tea_key]       = $tea_val['is_gender'];
@@ -1647,9 +1650,9 @@ class seller_student_new2 extends Controller
                     $teacher_type_list[$tea_key] = $tea_val['is_teacher_type'];
                     $search_list[$tea_key]       = $tea_val['is_search'];
                     $textbook_list[$tea_key]     = $tea_val['is_textbook'];
-                    E\Eteacher_type::set_item_value_str($tea_val);
                     E\Eidentity::set_item_value_str($tea_val);
                     E\Egender::set_item_value_str($tea_val);
+                    E\Eteacher_type::set_item_value_str($tea_val);
 
                     if($tea_val['train_through_new_time']>0){
                         $tea_val['work_day'] = \App\Helper\Utils::change_time_difference_to_day($tea_val['train_through_new_time']);
@@ -1663,8 +1666,8 @@ class seller_student_new2 extends Controller
             if(!empty($tea_list)){
                 array_multisort(
                     $search_list,SORT_DESC,$identity_list,SORT_DESC,$gender_list,SORT_DESC,$tea_age_list,SORT_DESC,
-                    $teacher_type_list,SORT_DESC,$match_time,SORT_DESC,$match_tags,SORT_DESC,$ruzhi_list,SORT_DESC,
-                    $textbook_list,SORT_DESC,$tea_list
+                    $teacher_type_list,SORT_DESC,$textbook_list,SORT_DESC,$match_time,SORT_DESC,$match_tags,SORT_DESC,
+                    $ruzhi_list,SORT_DESC,$tea_list
                 );
             }
         }

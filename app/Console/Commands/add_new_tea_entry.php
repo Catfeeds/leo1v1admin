@@ -56,6 +56,11 @@ class add_new_tea_entry extends Command
         // exit;
 
         $teacher_money = new \App\Http\Controllers\teacher_money();
+        $start_time = strtotime('2017-11-1');
+        $end_time = strtotime("2017-12-1");
+        $teacher= $teacher_money->get_teacher_salary(146762,$start_time,$end_time);
+        dd($teacher);
+
         // 拉取数据(6月至11月的总工资)
         //$arr = [6,7,8,9,10,11];
         $arr = [11];

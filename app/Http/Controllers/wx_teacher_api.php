@@ -1034,13 +1034,33 @@ class wx_teacher_api extends Controller
         $ret_info['lesson_time_str'] = date('m-d H:i',$ret_info['lesson_start'])." ~ ".date('H:i',$ret_info['lesson_end']);
         $ret_info['gender_str'] = E\Egender::get_desc($ret_info['gender']);
 
+        $default_tag = "无要求";
         $subject_tag_arr = json_decode($ret_info['subject_tag'],true);
-        $ret_info['style'] = $subject_tag_arr['风格性格'];
-        $ret_info['major'] = $subject_tag_arr['专业能力'];
-        $ret_info['identity'] = E\Eidentity::get_desc($ret_info['tea_identity']);
-        $ret_info['atmosphere'] = $subject_tag_arr['课堂气氛'];
-        $ret_info['courseware'] = $subject_tag_arr['课件要求'];
-        $ret_info['subject_tag'] = rtrim($subject_tag_arr['学科化标签'],',');
+        $ret_info['style'] = $subject_tag_arr['风格性格']?$subject_tag_arr['风格性格']:$default_tag;
+        $ret_info['major'] = $subject_tag_arr['专业能力']?$subject_tag_arr['专业能力']:$default_tag;
+
+        if($ret_info['tea_identity']){
+            $ret_info['identity'] = E\Eidentity::get_desc($ret_info['tea_identity']);
+        }else{
+            $ret_info['identity'] = $default_tag;
+        }
+
+        $ret_info['atmosphere'] = $subject_tag_arr['课堂气氛']?$subject_tag_arr['课堂气氛']:$default_tag;
+        $ret_info['courseware'] = $subject_tag_arr['课件要求']?$subject_tag_arr['课件要求']:$default_tag;
+        $subject_tag_arr['学科化标签'] = rtrim($subject_tag_arr['学科化标签'],',');
+        $ret_info['subject_tag'] = $subject_tag_arr['学科化标签']?$subject_tag_arr['学科化标签']:$default_tag;
+
+
+
+        // if(is_array($subject_tag_arr)){
+        //     $default_tag = "无要求";
+        //     \App\Helper\Utils::set_default_value($require_info['风格性格'], $subject_tag_arr,$default_tag,'风格性格');
+        //     \App\Helper\Utils::set_default_value($require_info['专业能力'], $subject_tag_arr,$default_tag,'专业能力');
+        //     \App\Helper\Utils::set_default_value($require_info['课堂气氛'], $subject_tag_arr,$default_tag,'课堂气氛');
+        //     \App\Helper\Utils::set_default_value($require_info['课件要求'], $subject_tag_arr,$default_tag,'课件要求');
+        //     \App\Helper\Utils::set_default_value($require_info['学科化标签'], $subject_tag_arr,$default_tag,'学科化标签');
+        // }
+
 
         // 数据待确认
         $ret_info['handout_flag'] = 0; //无讲义
@@ -1167,10 +1187,15 @@ class wx_teacher_api extends Controller
     public function getConversionStatus(){
         $uuid = $this->get_in_str_val('uuid');
         $status = $this->get_in_str_val('s');
+        if($status == 1){
+            $status = 0;
+        }else{
+            $status = 1;
+        }
 
-        //g247344459f06491690e1127b7f87b9b
-        \App\Helper\Utils::logger("uiiiddd: $uuid status: $status");
+        \App\Helper\Utils::logger("wx_james_pdf_h5: $uuid status: $status");
 
+        $this->t_resource_file->updateStatusByUuid($uuid,$status);
         return $this->output_succ();
     }
 

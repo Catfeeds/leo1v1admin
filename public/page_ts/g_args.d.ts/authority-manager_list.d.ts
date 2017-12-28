@@ -15,6 +15,7 @@ interface GargsStatic {
 	tquin:	number;
 	fulltime_teacher_type:	number;
 	call_phone_type:	number;
+	seller_groupid_ex:	string;
 	seller_level:	string;//枚举列表: \App\Enums\Eseller_level
  }
 declare module "g_args" {
@@ -95,6 +96,7 @@ function load_data(){
 		tquin:	$('#id_tquin').val(),
 		fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
 		call_phone_type:	$('#id_call_phone_type').val(),
+		seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
 		seller_level:	$('#id_seller_level').val()
 		});
 }
@@ -131,6 +133,7 @@ $(function(){
 	$('#id_tquin').val(g_args.tquin);
 	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 	$('#id_call_phone_type').val(g_args.call_phone_type);
+	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 	$('#id_seller_level').admin_set_select_field({
 		"enum_type"    : "seller_level",
 		"field_name" : "seller_level",
@@ -265,6 +268,14 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["call_phone_type title", "call_phone_type", "th_call_phone_type" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">seller_groupid_ex</span>
+                <input class="opt-change form-control" id="id_seller_groupid_ex" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["seller_groupid_ex title", "seller_groupid_ex", "th_seller_groupid_ex" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
