@@ -44,9 +44,6 @@ class update_company_wx_data extends Command
         $task = new \App\Console\Tasks\TaskController();
         $start_time = strtotime(date('Y-m-1', strtotime('-1 month')));
         $end_time = strtotime(date('Y-m-1', time()));
-        $select  = E\Eapprov_type::get_specify_select();
-        dd($select);
-        exit;
         $this->get_approve($task,$start_time, $end_time); // 拉取审批数据
         //$url = $this->get_url();
         //$token = $this->get_token(); // 获取token
@@ -56,6 +53,11 @@ class update_company_wx_data extends Command
     }
 
     public function get_approve($task,$start_time, $end_time) { // 获取审批数据
+        $approv_type  = E\Eapprov_type::get_specify_select();
+        $approv_type = array_flip($approv_type);
+
+        $approv = $task->t_company_wx_approval->get_all_list($start_time, $end_time);
+
         $config = Config::get_config("company_wx");
         if (!$config) {
             exit('没有配置');
@@ -93,7 +95,6 @@ class update_company_wx_data extends Command
                 'notify_name' => $notify_name,
                 'sp_status' => $item['sp_status'],
                 'sp_num' => $item['sp_num'],
-                'mediaids' => json_encode($item['mediaids']),
                 "apply_time" => $item['apply_time'],
                 "apply_user_id" => $item['apply_user_id']
             ];
@@ -102,7 +103,7 @@ class update_company_wx_data extends Command
                 $lea = $item['leave'];
                 $leave = [
                     "timeunit" => $lea['timeunit'],
-                    "leave_type" => $lea['leave_type'],
+                    "approv_type" => $lea['leave_type'],
                     "start_time" => $lea['start_time'],
                     "end_time" => $lea['end_time'],
                     "duration" => $lea['duration'],
@@ -115,7 +116,13 @@ class update_company_wx_data extends Command
             $items = '';
             foreach ($leave as $val) {
                 if ($item['spname'] == "武汉请假流") {
-                    if ($val['title'] == '请假类型') $common["leave_type"] = 3;
+                    if ($val['title'] == '请假类型') {
+                        if (isset($approv_type[$val['value']])) {
+                            $common["approv_type"] = $approv_type[$val['value']];
+                        } else {
+                            $common["approv_type"] = 8;
+                        }
+                    }
                     if ($val['title'] == '开始时间') $common['start_time'] = ($val['value'] / 1000);
                     if ($val['title'] == '结束时间') $common['end_time'] = ($val['value'] / 1000);
                     if ($val['title'] == '事由') $common['reason'] = $val['value'];
