@@ -61,6 +61,8 @@ class t_web_page_trace_log extends \App\Models\Zgen\z_t_web_page_trace_log
 
         return $this->main_get_list_as_page($sql);
     }
+
+
 }
 
 

@@ -56,7 +56,7 @@ class main_page2 extends Controller
         $has_money=1;        //是否有钱 
 
         $where_arr=[
-            ["is_test_user=%u" , $is_test_user],
+            ["is_test_user=%u" , $test_user],
             ["stu_from_type=%u" , $stu_from_type],
             ["price>%u" , 0],
             ["contract_status=%u" , $contract_status],
