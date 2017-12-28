@@ -593,7 +593,7 @@ $(function(){
         var id_change_tea_to_new       = $("<button class='btn btn-primary'>账号转移</button>");
         var id_subject_info            = $("<button class='btn btn-danger'>年级/科目修改</button>");
 
-        var id_identity                = $("<button class='btn btn-danger'>老师身份修改</button>");
+        var id_identity                = $("<button class='btn btn-danger'>老师信息修改</button>");
        
 
        
@@ -760,19 +760,28 @@ $(function(){
 
     var set_teacher_identity = function(opt_data){
         var id_identity_new = $("<select/>");
+        var id_realname = $("<input/>");
+        var id_wx_openid = $("<input/>");
         Enum_map.append_option_list("identity", id_identity_new, true,[5,6,7,8] );
         var arr          = [
+            ["姓名", id_realname],
             ["老师身份",id_identity_new],
+            ["微信openid", id_wx_openid],
+
         ];
         id_identity_new.val(opt_data.identity);
+        id_realname.val(opt_data.realname);
+        id_wx_openid.val(opt_data.wx_openid);
 
-        $.show_key_value_table("修改老师身份", arr ,{
+        $.show_key_value_table("修改老师信息", arr ,{
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
                 $.do_ajax("/ajax_deal2/set_teacher_identity",{
                     "teacherid"    : opt_data.teacherid,
-                    "identity" : id_identity_new.val(),
+                    "identity"     : id_identity_new.val(),
+                    "realname"     : id_realname.val(),
+                    "wx_openid"     : id_wx_openid.val()
                 },function(result){
                     if(result.ret<0){
                         BootstrapDialog.alert(result.info);
