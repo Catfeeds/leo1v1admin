@@ -287,12 +287,23 @@ class test_code extends Controller
         $code  = $this->get_in_str_val("code","5593");
         $index = $this->get_in_str_val("index","1");
         $phone = $this->get_in_str_val("phone","18790256265");
-        $template_code = "SMS_7505220";
+        $is_new = $this->get_in_int_val("is_new",1);
+        $new_sign = $this->get_in_int_val("new_sign",1);
+        if($is_new){
+            $template_code = "SMS_10450146";
+        }else{
+            $template_code = "SMS_7505220";
+        }
+        if($new_sign){
+            $sign = "理优在线教育";
+        }else{
+            $sign = "理优教育";
+        }
         $data = [
             "code"  => $code,
             "index" => $index,
         ];
-        $ret = \App\Helper\Common::send_sms_with_taobao($phone, $template_code, $data,"理优教育");
+        $ret = \App\Helper\Common::send_sms_with_taobao($phone, $template_code, $data,$sign);
         dd($ret);
     }
 
