@@ -288,16 +288,12 @@ class test_code extends Controller
         $index    = $this->get_in_str_val("index","1");
         $phone    = $this->get_in_int_val("phone","18790256265");
 
-        $template_code = "SMS_10671029";
+        $type = 10671029;
         $data = [
             "code"  => $code,
             "index" => $index,
         ];
-
-        $ret = \App\Helper\Common::send_sms_with_taobao($phone, $template_code, $data);
-
-        // $ret = \App\Helper\Net::send_sms_taobao($phone,0,10671029,$data);
-        dd($ret);
+        \App\Helper\Utils::sms_common($phone, $type, $data);
     }
 
 
