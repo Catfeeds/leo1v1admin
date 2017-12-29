@@ -210,7 +210,6 @@ class WxSendMsg{
         $data['remark']   = "请查阅邮件(报名时填写的邮箱),准备好耳机和话筒,并在面试开始前5分钟进入软件,理优教育致力于打造高水平的教学服务团队,期待您的加入,加油!";
 
         self::wx_send_to_teacher($wx_openid,$template_id,$data);
-
     }
 
     //老师　邀请参训通知(原来在job中，通知为通过测试的老师，人数较多用job)
@@ -223,7 +222,6 @@ class WxSendMsg{
         $data['remark']   = "如有任何疑问可在新师培训群：315540732咨询【师训】沈老师。";
 
         self::wx_send_to_teacher($wx_openid,$template_id,$data);
-
     }
 
     //老师 试听课提醒
@@ -232,7 +230,6 @@ class WxSendMsg{
         $wx_openid = $task->t_teacher_info->get_wx_openid($teacherid);
 
         if($wx_openid!='') {
-
             $template_id      = WxSendMsg::$tea_todo_reminder;
             $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
             $data['keyword1'] = "备课通知";
@@ -247,7 +244,6 @@ class WxSendMsg{
             $url = "http://www.leo1v1.com/login/teacher";
 
             self::wx_send_to_teacher($wx_openid,$template_id,$data,$url);
-
         }
     }
 

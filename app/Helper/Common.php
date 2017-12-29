@@ -196,6 +196,7 @@ class Common {
         try {
             $resp = $c->execute($req);
         }catch(\Exception $e ) {
+
         }
         return $resp;
     }
@@ -1568,8 +1569,8 @@ class Common {
             return false;
         }
     }
-    static function sort_pinyin ($list , $field_name ) {
 
+    static function sort_pinyin ($list , $field_name ) {
         foreach ($list as &$item ) {
             $item["_gb_k"]= @iconv('UTF-8', 'GBK', $item[$field_name ]);
         }
@@ -1585,7 +1586,6 @@ class Common {
         }
 
         return $list;
-
     }
 
 
@@ -1713,7 +1713,6 @@ class Common {
             // if($secs>0){$r.=', ';}
         }
 
-
         if($secs>=60){
             $minutes=floor($secs/60);
             $secs=$secs%60;
@@ -1725,11 +1724,7 @@ class Common {
             // {$r.='s';}
             return $r;
         }
-
-
     }
-
-
 
     static function sortArrByField(&$array, $field, $desc = false){
         $fieldArr = array();
@@ -1751,7 +1746,6 @@ class Common {
         }
     }
 
-
     static public function gen_day_time_list($time_list,$start_time,$end_time, $field_time="logtime", $field_value="value" ) {
         if (count($time_list) != 1440 ) {
             $t=$start_time;
@@ -1771,7 +1765,6 @@ class Common {
             $time_list=$tmp_list;
         }
         return $time_list;
-
     }
 
 };
