@@ -36,6 +36,14 @@
             </div>
 
 
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">用户id</span>
+                    <input class="opt-change form-control" id="id_userid" />
+                </div>
+            </div>
+
+
             <div class="col-xs-12 col-md-4">
                 <div class="input-group ">
                     <span class="input-group-addon">状态</span>

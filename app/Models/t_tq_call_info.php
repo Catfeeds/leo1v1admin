@@ -73,21 +73,22 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         return $this->main_insert($sql);
     }
 
-    public function get_call_phone_list($page_num, $start_time,$end_time,$uid, $is_called_phone ,$phone,$seller_student_status ,$user_info) {
+    public function get_call_phone_list($page_num, $start_time,$end_time,$uid, $is_called_phone ,$phone,$seller_student_status ,$user_info,$userid) {
         $where_arr=[
             ["tq.uid=%u", $uid, -1] ,
             ["tq.is_called_phone=%u", $is_called_phone, -1] ,
             ["tq.phone='%s'", $phone, ''] ,
+            ["n.userid=%d", $userid, -1] ,
         ];
-        
+
         if ($user_info!=""){
             $where_arr[]=array( "(m.account like '%%%s%%' or  m.name like '%%%s%%')",
                                 array(
                                     $this->ensql($user_info),
                                     $this->ensql($user_info)));
         }
-        
-        if (!$phone) {
+
+        if (!($phone || $userid != -1 )) {
             $where_arr[]= ["tq.start_time>=%u", $start_time, -1] ;
             $where_arr[]=["tq.start_time<%u", $end_time, -1] ;
 
@@ -675,7 +676,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         $sql = "select m.account ,t.adminid, count(distinct(t.phone)) as total_user".
         /*
         , sum(if((o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_time > 1509465600),o.price,0)) as total_money,
-        sum(if((o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_time > 1509465600),1,0)) as total_num 
+        sum(if((o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_time > 1509465600),1,0)) as total_num
         */
         " from db_weiyi_admin.t_tq_call_info  t
 left join db_weiyi.t_student_info s on s.phone = t.phone
@@ -684,7 +685,7 @@ left join db_weiyi_admin.t_manager_info m on m.uid = t.adminid
 where t.start_time > 1509465600 and t.start_time < 1512057600  and t.admin_role =2 group by t.adminid";
         return $this->main_get_list($sql,function($item){
                return $item["account"];
-        }); 
+        });
     }
 
     public function get_all_info_by_cc_new(){
@@ -693,13 +694,13 @@ where t.start_time > 1509465600 and t.start_time < 1512057600  and t.admin_role 
         where start_time > 1509465600 and start_time < 1512057600 and is_called_phone=1 and admin_role =2 group by adminid";
         return $this->main_get_list($sql,function($item){
                return $item["account"];
-        }); 
+        });
 
     }
 
     public function get_all_info_by_cc_test(){
         $sql = "select o.sys_operator, count(o.orderid) as total_num , sum(o.price)  as total_money from
-db_weiyi.t_order_info o 
+db_weiyi.t_order_info o
 left join db_weiyi.t_student_info s on s.userid = o.userid
 where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_time > 1509465600 and exists( select 1 from db_weiyi_admin.t_tq_call_info t where t.phone=s.phone and t.start_time > 1509465600 and t.start_time < 1512057600)  group by o.sys_operator";
         return $this->main_get_list($sql,function($item){

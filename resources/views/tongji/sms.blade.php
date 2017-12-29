@@ -1,19 +1,13 @@
 @extends('layouts.app')
 @section('content')
 	<script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.min.js"></script>
-
 	<script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.categories.js"></script>
 	<script language="javascript" type="text/javascript" src="/page_js/lib/select_date_range.js"></script>
-    <script type="text/javascript" >
-     
-    </script>
-
     <section class="content ">
         <div class="row">
             <div class="col-xs-12 col-md-5">
                 <div id="id_date_range"> </div>
             </div>
-
             <div class="col-md-2">
                 <div class="input-group">
                     <select id="id_is_succ" class="opt-change">
@@ -33,7 +27,6 @@
 
         </div>
         <div id="id_pic_user_count" > </div>
-
             <hr/>
             <table     class="common-table"  > 
                 <thead>
@@ -57,6 +50,5 @@
             </table>
 
     </section>
-        
 @endsection
 

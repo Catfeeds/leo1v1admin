@@ -200,12 +200,9 @@ trait  ViewDeal {
             "  get_opt_data(obj):self_RowData {return this.get_opt_data_base(obj );}\n".
                 "  get_args() :self_Args  {return  this.get_args_base();}\n".
             "\n".
-            "  query_init(): void{\n".
+             "  query_init( \$header_query_info): void{\n".
             "    console.log(\"init_query\");\n".
             "    var me =this;\n".
-            "    var \$header_query_info= \$(\"#id_header_query_info\").admin_header_query ({\n".
-            "    });\n".
-            "    me.\$header_query_info= \$header_query_info ;\n".
              "\n".
             $set_filed_str.
             "\n".

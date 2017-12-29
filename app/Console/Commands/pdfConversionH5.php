@@ -48,17 +48,7 @@ class pdfConversionH5 extends Command
         $pwd   = 'bbcffc83539bd9069b755e1d359bc70a';// md5(021130)
         $task=new \App\Console\Tasks\TaskController();
 
-        // $handoutArray = $task->t_resource_file->getResourceList();
-
-        $handoutArray = [
-            [
-                "file_link" => 'aaf3622180de9ae8967eb7986c10bce61513827415224.pdf',
-                "file_id"   => 6,
-                "uuid"      => 'g03c6f7a81c9bdba93137ac50d77ea81'
-            ]
-        ];
-
-
+        $handoutArray = $task->t_resource_file->getResourceList();
 
         foreach($handoutArray as $item){
             $uuid = $item['uuid'];
@@ -67,7 +57,7 @@ class pdfConversionH5 extends Command
             $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
             $unzipFilePath  =  public_path('wximg'); // 解压后的文件夹
 
-            $data=file_get_contents($h5DownloadUrl);
+            $data=@file_get_contents($h5DownloadUrl);
             file_put_contents($saveH5FilePath, $data);
 
 
@@ -109,22 +99,31 @@ class pdfConversionH5 extends Command
                 $uploadMgr = new \Qiniu\Storage\UploadManager();
 
                 // 调用 UploadManager 的 putFile 方法进行文件的上传。
-                list($ret, $err) = $uploadMgr->putFile($token, $upkey, $Upfile);
-                $test_data .= $ret["key"]." ";
-                if($key == 'index.html'){
-                    \App\Helper\Utils::logger("upkey_qiniu: $upkey");
+                $checkIsExists = file_exists($Upfile);
+                if($checkIsExists){
+                    list($ret, $err) = @$uploadMgr->putFile($token, $upkey, $Upfile);
+                    $test_data .= $ret["key"]." ";
+                    if($key == 'index.html'){
+                        \App\Helper\Utils::logger("upkey_qiniu: $upkey");
+                        $task->t_resource_file->field_update_list($item['file_id'],[
+                            "wx_index" => "https://ybprodpub.leo1v1.com/".$upkey
+                        ]);
+
+                    }
                 }
             }
 
             // 压缩包上传七牛
-            $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
-            @unlink($saveH5FilePath);
-            $this->deldir($unzipFilePath."/".$uuid); // 删除解压包
-            // 七牛 资源域名 https://ybprodpub.leo1v1.com/
+            if(file_exists($saveH5FilePath)){
+                $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
+                @unlink($saveH5FilePath);
+                $this->deldir($unzipFilePath."/".$uuid); // 删除解压包
+                // 七牛 资源域名 https://ybprodpub.leo1v1.com/
 
-            $task->t_resource_file->field_update_list($item['file_id'],[
-                "zip_url" => $saveH5Upload
-            ]);
+                $task->t_resource_file->field_update_list($item['file_id'],[
+                    "zip_url" => $saveH5Upload
+                ]);
+            }
         }
     }
 

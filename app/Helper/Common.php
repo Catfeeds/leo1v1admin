@@ -150,10 +150,19 @@ class Common {
     public static function send_sms_with_taobao($phone,$template_code,$data,$sign_name="理优教育"){
         include_once( app_path("Libs/taobao_sms/TopSdk.php") );
 
-        foreach ($data as   &$value) {
-            $value=strval($value);
-        }
+        // foreach ($data as   &$value) {
+        //     $value=strval($value);
+        // }
         $c = new \TopClient();
+
+        /**
+         * 原账号的短信被限制,将 10671030,10671029 两个验证码短信切换到另一个账号上发送
+         */
+        if($template_code == "SMS_10671030"){
+            $template_code = "SMS_7795923";
+        }elseif($template_code == "SMS_10671029"){
+            $template_code = "SMS_7771547";
+        }
 
         /**
          * array( 7795923 ,'register','用户注册验证码',),
@@ -162,15 +171,6 @@ class Common {
          * array( 8295424 ,'','课程当天早上通知',),
          */
         $template_value = substr($template_code,4);
-
-        /**
-         * 原账号的短信被限制,将 10671030,10671029 两个验证码短信切换到另一个账号上发送
-         */
-        if($template_value==10671030){
-            $template_value = 7795923;
-        }elseif($template_value==10671029){
-            $template_value = 7771547;
-        }
 
         if ( $template_value==7795923
             ||$template_value==7786570
@@ -196,6 +196,7 @@ class Common {
         try {
             $resp = $c->execute($req);
         }catch(\Exception $e ) {
+
         }
         return $resp;
     }
@@ -1568,8 +1569,8 @@ class Common {
             return false;
         }
     }
-    static function sort_pinyin ($list , $field_name ) {
 
+    static function sort_pinyin ($list , $field_name ) {
         foreach ($list as &$item ) {
             $item["_gb_k"]= @iconv('UTF-8', 'GBK', $item[$field_name ]);
         }
@@ -1585,7 +1586,6 @@ class Common {
         }
 
         return $list;
-
     }
 
 
@@ -1713,7 +1713,6 @@ class Common {
             // if($secs>0){$r.=', ';}
         }
 
-
         if($secs>=60){
             $minutes=floor($secs/60);
             $secs=$secs%60;
@@ -1725,11 +1724,7 @@ class Common {
             // {$r.='s';}
             return $r;
         }
-
-
     }
-
-
 
     static function sortArrByField(&$array, $field, $desc = false){
         $fieldArr = array();
@@ -1751,7 +1746,6 @@ class Common {
         }
     }
 
-
     static public function gen_day_time_list($time_list,$start_time,$end_time, $field_time="logtime", $field_value="value" ) {
         if (count($time_list) != 1440 ) {
             $t=$start_time;
@@ -1771,7 +1765,6 @@ class Common {
             $time_list=$tmp_list;
         }
         return $time_list;
-
     }
 
 };

@@ -113,7 +113,7 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
             "rf.status=0"
         ];
         $sql = $this->gen_sql_new("  select file_link, file_id, file_title from %s rf"
-                                  ." where %s"
+                                  ." where %s limit 5"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
@@ -137,7 +137,7 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
 
         $sql = $this->gen_sql_new("  select rf.file_id, rf.uuid "
                                   ." from %s rf"
-                                  ." where %s"
+                                  ." where %s limit 5"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
@@ -151,7 +151,7 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
             "f.status=0",
         ];
 
-        $sql = $this->gen_sql_new("  select file_title, file_type, file_link from %s f "
+        $sql = $this->gen_sql_new("  select file_use_type, file_id, file_title, file_type, file_link from %s f "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
@@ -168,7 +168,7 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         ];
 
         $sql = $this->gen_sql_new("  select file_id, file_type, file_link from %s f "
-                                  ." where %s"
+                                  ." where %s limit 5"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
@@ -176,7 +176,4 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         return $this->main_get_list($sql);
     }
 
-    public function savePosterUrl($id, $file_name_origi_str){
-        
-    }
 }

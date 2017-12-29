@@ -138,7 +138,7 @@
             </thead>
             <tbody>
                 @foreach ($table_data_list as $var)
-            <tr>
+                    <tr>
                         <td >{{$var["lesson_start"]}} </td>
                         <td >{{$var["order_time_1_day_flag_str"]}}</td>
                         <td >{{$var["check_money_time_1_day_flag_str"]}}</td>
@@ -187,7 +187,6 @@
                                     价格:{{$var["promotion_spec_discount"]/100}}元
                                     ({{intval($var["promotion_spec_discount"]*10000/$var["discount_price"])/100}}折)
                                 @endif
-
                             @endif
                         </td>
                         <td >{{$var["price"]}}</td>
@@ -220,10 +219,9 @@
                                         <a class="fa opt-child-order-trandfer" title="子合同转移">子合同转移</a>
                                     @endif
                                 @endif
-                                
                             </div>
                         </td>
-            </tr>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
