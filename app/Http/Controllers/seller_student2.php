@@ -124,7 +124,7 @@ class seller_student2 extends Controller
             }else{
                 $item['contract_type_list_str'] = E\Econtract_type::get_desc($item['contract_type_list']);
             }
-
+            $item['is_need_share_wechat_str']   = E\Eboolean::get_desc($item['is_need_share_wechat']);
             $item['need_spec_require_flag_str']   = E\Eboolean::get_desc($item['need_spec_require_flag']);
             $item['can_disable_flag_str']   = E\Ecan_disable_flag::get_desc($item['can_disable_flag']);
             $item['open_flag_str']   = E\Eopen_flag::get_desc($item['open_flag']);
@@ -163,7 +163,7 @@ class seller_student2 extends Controller
         $gradeArr = E\Egrade_only::$desc_map;
         return $this->pageView(__METHOD__,null,
                                [
-                                   "_publish_version"      => "201711251757",
+                                   "_publish_version"      => "201712251757",
                                    "ret_info" => $item,
                                    "gradeArr" => $gradeArr,
                                    "discount_list"=>$discount_list,
@@ -195,7 +195,7 @@ class seller_student2 extends Controller
         }else{
             $item['contract_type_list_str'] = E\Econtract_type::get_desc($item['contract_type_list']);
         }
-
+        $item['is_need_share_wechat_str']   = E\Eboolean::get_desc($item['is_need_share_wechat']);
         $item['need_spec_require_flag_str']   = E\Eboolean::get_desc($item['need_spec_require_flag']);
         $item['can_disable_flag_str']   = E\Ecan_disable_flag::get_desc($item['can_disable_flag']);
         $item['open_flag_str']   = E\Eopen_flag::get_desc($item['open_flag']);
@@ -296,6 +296,7 @@ class seller_student2 extends Controller
 
         if($ret['list']){
             foreach($ret['list'] as &$item){
+                $item['is_need_share_wechat_str']   = E\Eboolean::get_desc($item['is_need_share_wechat']);
                 $item['open_flag_str']   = E\Eopen_flag::get_desc($item['open_flag']);
                 if( $item['date_range_start'] && $item['date_range_end']){
                     $item['date_range_time'] = date('Y-m-d',$item["date_range_start"]).' 至 '.date('Y-m-d',$item["date_range_end"]);
@@ -515,10 +516,13 @@ class seller_student2 extends Controller
         $can_disable_flag = $this->get_in_int_val('can_disable_flag',1);
         $open_flag = $this->get_in_int_val('open_flag',2);
         $need_spec_require_flag = $this->get_in_int_val('need_spec_require_flag',0);
+        $is_need_share_wechat = $this->get_in_int_val('is_need_share_wechat',0);
+
         $updateArr = [
             'can_disable_flag' => $can_disable_flag,
             'open_flag' => $open_flag,
             'need_spec_require_flag' => $need_spec_require_flag,
+            'is_need_share_wechat'   => $is_need_share_wechat
         ];
         if($this->t_order_activity_config->field_update_list($id,$updateArr)){
             return $this->output_succ();

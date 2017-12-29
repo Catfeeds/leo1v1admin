@@ -13,9 +13,9 @@ class t_activity_usually extends \App\Models\Zgen\z_t_activity_usually
             ["gift_type=%d",$type,-1]
         ];
 
-        $sql = $this->gen_sql_new("  select shareImgUrl, coverImgUrl,  activityImgUrl, followImgUrl, gift_type, title, au.id, act_descr, au.url, activity_status, add_time, au.uid, m.account from %s au "
+        $sql = $this->gen_sql_new("  select au.id, shareImgUrl, coverImgUrl,  activityImgUrl, followImgUrl, gift_type, title, au.id, act_descr, au.url, activity_status, add_time, au.uid, m.account from %s au "
                                   ." left join %s m on m.uid=au.uid"
-                                  ." where %s  order by activity_status asc "
+                                  ." where %s  order by activity_status asc, au.add_time desc "
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr

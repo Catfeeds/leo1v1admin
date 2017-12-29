@@ -69,7 +69,6 @@ class common_new extends Controller
         foreach($xls_data as $item){
             $xls_data_new[] = $item;
         }
-
         $objPHPExcel = new \PHPExcel();
         $objPHPExcel->getProperties()->setCreator("jim ")
                              ->setLastModifiedBy("jim")
@@ -789,15 +788,15 @@ class common_new extends Controller
                 $desc_sql   = sprintf("desc %s", $db_table_name );
                 $tmp_arr    = preg_split("/\./",$db_table_name);
                 $db_name    = $tmp_arr[0];
-                if ($db_name=="db_question") {
-                    $this->question_model->main_get_value(  "set names utf8" );
-                    $row  = $this->question_model->main_get_row($create_sql);
-                    $list = $this->question_model->main_get_list($desc_sql);
-                }else{
-                    $this->t_lesson_info ->main_get_value(  "set names utf8" );
-                    $row  = $this->t_lesson_info ->main_get_row($create_sql);
-                    $list = $this->t_lesson_info->main_get_list($desc_sql);
-                }
+                // if ($db_name=="db_question") {
+                //     $this->question_model->main_get_value(  "set names utf8" );
+                //     $row  = $this->question_model->main_get_row($create_sql);
+                //     $list = $this->question_model->main_get_list($desc_sql);
+                // }else{
+                $this->t_lesson_info->main_get_value(  "set names utf8" );
+                $row  = $this->t_lesson_info ->main_get_row($create_sql);
+                $list = $this->t_lesson_info->main_get_list($desc_sql);
+                // }
                 $ret_map[$db_table_name] = [
                     "table_desc" => $row["Create Table"],
                     "desc_list"  => $list
@@ -1838,6 +1837,56 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $this->t_tongji_date->del_log_time($log_type, $log_time);
         $this->t_tongji_date->add( $log_type,$log_time,0,$count);
         return $this->output_succ();
+    }
+
+        public function get_mobile_image() {
+        $this->set_in_value("usage_type", 303);
+        $this->set_in_value("type", 'mobile');
+        return $this->get_image();
+    }
+
+    public function get_pc_image() {
+        $this->set_in_value("usage_type", 302);
+        $this->set_in_value("type", 'pc');
+        return $this->get_image();
+    }
+
+    public function get_image() {
+        $usage_type = $this->get_in_int_val('usage_type');
+        $type = $this->get_in_str_val("type");
+        $info = $this->t_pic_manage_info->get_pic_or_mobile_info($usage_type);
+        $banner_count = count($info);
+        //$custom_type = $video_type = $page_type = '';
+        //$i = $j = $k = 0;
+        // foreach ($info as $item) {
+        //     if ($item['jump_type'] == 2) {
+        //         $custom_type[$i]['img_url'] = $item['img_url'];
+        //         $custom_type[$i]['jump_url'] = $item['jump_url'];
+        //         $custom_type[$i]['order_by'] = $item['order_by'];
+        //         $i ++;
+        //     }
+        //     if ($item['jump_type'] == 1) {
+        //         $video_type[$j]['img_url'] = $item['img_url'];
+        //         $video_type[$j]['jump_url'] = $item['jump_url'];
+        //         $video_type[$j]['order_by'] = $item['order_by'];
+        //         $j ++;
+        //     }
+        //     if ($item['jump_type'] == 0) {
+        //         $page_type[$k]['img_url'] = $item['img_url'];
+        //         $page_type[$k]['jump_url'] = $item['jump_url'];
+        //         $page_type[$k]['order_by'] = $item['order_by'];
+        //         $k ++;
+        //     }
+        // }
+        $res = [$type => ['data' => [
+            'banner_count' => $banner_count,
+            'info' => $info
+            // 'custom_type' => $custom_type,
+            // 'video_type' => $video_type,
+            // 'page_type' => $page_type
+        ]]];
+        return $this->output_succ($res);
+        //return outputJson($res);
     }
 
 }

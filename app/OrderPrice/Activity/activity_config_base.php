@@ -13,6 +13,9 @@ class activity_config_base extends  activity_base {
     //是否可不使用
     public $can_disable_flag =true;
 
+    //是否可不使用
+    public $is_need_share_wechat = 0;
+
     public  $check_grade_list=[] ; //适配年级 [ 101,102,103,104,105,106, . ]
 
     static public  $max_count_activity_type_list=[]; // 总配额 组合

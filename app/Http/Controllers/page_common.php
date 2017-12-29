@@ -71,7 +71,6 @@ class page_common extends Controller
         */
         $xls_data = $this->get_in_str_val("xls_data");
         $xls_arr  = json_decode($xls_data,true);
-
         $this->t_user_log->row_insert([
             "add_time" => time(),
             "adminid"  => $this->get_account_id(),

@@ -135,12 +135,6 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span >年级段</span>
-                        <select id="id_grade_part_ex" class ="opt-change" ></select>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
                         <span >第一科目</span>
                         <select id="id_subject" class ="opt-change" ></select>
                     </div>

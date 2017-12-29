@@ -2398,6 +2398,45 @@ class ajax_deal2 extends Controller
 
     }
 
+    public  function web_page_info_send_admin_new ()   {
+        $adminid         = $this->get_in_int_val("adminid");
+        $web_page_id_str = $this->get_in_str_val("web_page_id_list");
+
+        if ( $adminid ==0 ) {
+            return $this->output_err("还没选择例子");
+        }
+        if ( strlen($web_page_id_str) ==0 ) {
+            return $this->output_err("信息有误，发送失败！");
+        }
+
+        $web_list = $this->t_web_page_info->get_web_info($web_page_id_str);
+
+        foreach($web_list as $web_page_info ) {
+
+            $url      = $web_page_info["url"];
+            $title    = $web_page_info["title"];
+            $send_url = "";
+            if (preg_match("/\?/", $url ) ){
+                $send_url = "$url&web_page_id={$web_page_info['web_page_id']}&from_adminid=$adminid";
+            }else {
+                $send_url = "$url?web_page_id={$web_page_info['web_page_id']}&from_adminid=$adminid";
+            }
+
+            $this->t_manager_info->send_wx_todo_msg_by_adminid(
+                $adminid,
+                "系统推送 分享",
+                "点击分享",
+                "分享:$title",
+                $send_url,
+                "点击进入 分享到朋友圈 "
+            );
+        }
+
+        return $this->output_succ();
+
+    }
+
+
     public function delete_permission_by_uid(){
         $adminid= $this->get_in_int_val("adminid");
         $this->test_jack_new($adminid);
@@ -2566,8 +2605,12 @@ class ajax_deal2 extends Controller
     public function set_teacher_identity(){
         $teacherid = $this->get_in_int_val("teacherid");
         $identity = $this->get_in_int_val("identity");
+        $realname = $this->get_in_str_val("realname");
+        $wx_openid = $this->get_in_str_val("wx_openid");
         $this->t_teacher_info->field_update_list($teacherid,[
-           "identity" =>$identity 
+            "identity" =>$identity,
+            "realname" =>$realname,
+            "wx_openid"=>$wx_openid
         ]);
         return $this->output_succ();
 

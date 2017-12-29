@@ -543,7 +543,7 @@ $(function(){
         ];
         id_email.val(data.email);
 
-        $.show_key_value_table("扩课年级",arr,{
+        $.show_key_value_table("发送邮件",arr,{
             label    : "确认",
             cssClass : "btn-warning",
             action   : function(dialog) {

@@ -35,6 +35,7 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
+                    <td>id</td>
                     <td>老师</td>
                     <td>等级</td>
                     <td>课耗平均</td>
@@ -65,6 +66,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{@$var["teacherid"]}} </td>
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["level_str"]}} </td>
                         <td>{{@$var["lesson_count"]}} </td>

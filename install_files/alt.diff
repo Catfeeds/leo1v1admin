@@ -1,0 +1,56 @@
+diff js/adminlte.js /home/jim/admin_yb1v1/public/AdminLTE-2.4.0-rc/dist/js/adminlte.js
+33a34
+> 
+80a82
+> 
+101a104
+> 
+104a108,115
+> 
+>       var windowWidth = $(window).width()
+> 
+>       if (windowWidth <= 767) {
+>           $( Selector. logo ).hide();
+>       }else{
+>           $( Selector. logo ).show();
+>       }
+128a140
+> 
+213a226,227
+> 
+> 
+276a291
+> 
+371a387,397
+> 
+>       var  setCookie=function(name,value)
+>       {
+>           var Days = 30;
+>           var exp = new Date();
+>           exp.setTime(exp.getTime() + Days*24*60*60*1000);
+>           document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString()+";path=/";
+> 
+>       };
+> 
+>       setCookie("show-menu",  !$('body').hasClass("sidebar-collapse") );
+390a417
+> 
+395c422
+<     accordion     : true,
+---
+>     accordion     : false,
+435a463
+> 
+445a474
+> 
+447a477
+> 
+457a488
+> 
+485c516
+<       that.toggle($(this), event)
+---
+>         that.toggle($(this), event)
+521a553
+> 
+js/pages 和 /home/jim/admin_yb1v1/public/AdminLTE-2.4.0-rc/dist/js/pages 有共同的子目录

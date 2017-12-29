@@ -1478,6 +1478,7 @@ class test_james extends Controller
         $domain = config('admin')['qiniu']['public']['url'];
         $change_reason_url = $domain.'/'.$url;
         dd($change_reason_url);
+        //https://ybprodpub.leo1v1.com/
         //gdb752962bc31cc483cf576fb1fdd8d7.zip
     }
 
@@ -1548,6 +1549,51 @@ class test_james extends Controller
         $ret_info['savePathFile'] = $savePathFile;
 
         return $ret_info;
+    }
+
+    public function dddd(){
+        $key = $this->get_in_str_val("key");
+        // 构建鉴权对象
+
+        $qiniu     = \App\Helper\Config::get_config("qiniu");
+        $bucket    = $qiniu['public']['bucket'];
+        $accessKey = $qiniu['access_key'];
+        $secretKey = $qiniu['secret_key'];
+
+        $unzipFilePath  =  public_path('pdfToH5'); // 解压后的文件夹
+        $auth = new \Qiniu\Auth ($accessKey, $secretKey);
+        $h5Path = "pdfToH5"; // 环境文件夹
+        // 上传到七牛后保存的文件名
+        $upkey = $h5Path."/".$key;
+
+        // 生成上传 Token
+        $token = $auth->uploadToken($bucket,$upkey);
+        $Upfile = $unzipFilePath."/".$key;
+
+        // 初始化 UploadManager 对象并进行文件的上传。
+        $uploadMgr = new \Qiniu\Storage\UploadManager();
+
+        // 调用 UploadManager 的 putFile 方法进行文件的上传。
+        list($ret, $err) = $uploadMgr->putFile($token, $upkey, $Upfile);
+
+
+
+        exit();
+
+
+        $hotcat =array(
+            array('catid'=>'1546','catname'=>'数组排序 一级','count'=>'588'),
+            array('catid'=>'1546','catname'=>'数组排序二级','count'=>'584'),
+            array('catid'=>'1546','catname'=>'数组排序 三级','count'=>'589')
+        );
+
+        foreach($hotcat as $i => $item){
+            $ret[$i] = $item['count'];
+        }
+
+        array_multisort($ret,SORT_DESC,$hotcat);//此处对数组进行降序排列；SORT_DESC按降序排列
+
+        dd($hotcat);
     }
 
 

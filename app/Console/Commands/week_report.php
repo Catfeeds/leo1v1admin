@@ -38,20 +38,22 @@ class week_report extends cmd_base
      */
     public function handle()
     {
-        // if($time_now == 'Wednesday'){
-        // }else echo '统计时间出错!';
         $time_now = date('l');
-        $start_time = strtotime('- 2 Tuesday');
-        $end_time = strtotime('+ 8 day',$start_time);
-        $data_arr = $this->get_week_of_monthly_report($start_time, $end_time, $data_arr=[]);
-        $id = $this->task->t_week_of_monthly_report->get_id_by_time_type($start_time,$report_type=1);
-        if($data_arr){//添加统计数据
-            if($id)
-                $this->task->t_week_of_monthly_report->job_row_update($id,$start_time,$report_type=1,$data_arr);
-            else
-                $this->task->t_week_of_monthly_report->job_row_insert($start_time,$report_type=1,$data_arr);
-        }
-        echo 'week report ok!';
+        if($time_now == 'Wednesday'){
+            $start_time = strtotime('- 2 Tuesday');
+            $end_time = strtotime('+ 7 day',$start_time);
+            $data_arr = $this->get_week_of_monthly_report($start_time, $end_time, $data_arr=[]);
+            $id = $this->task->t_week_of_monthly_report->get_id_by_time_type($start_time,$report_type=1);
+            if($data_arr){//添加统计数据
+                if($id)
+                    $this->task->t_week_of_monthly_report->job_row_update($id,$start_time,$report_type=1,$data_arr);
+                else
+                    $this->task->t_week_of_monthly_report->job_row_insert($start_time,$report_type=1,$data_arr);
+            }
+            echo 'week report ok!';
+
+        }else echo '统计时间出错!';
+
     }
     //@desn:获取周月报统计数据
     //@param:$start_time 开始时间
