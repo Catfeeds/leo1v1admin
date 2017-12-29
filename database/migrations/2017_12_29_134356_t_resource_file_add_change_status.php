@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TLessonInfoAdd extends Migration
+class TResourceFileAddChangeStatus extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class TLessonInfoAdd extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_lesson_info', function( Blueprint $table)
+        Schema::table('db_weiyi.t_resource_file', function( Blueprint $table)
         {
-            // t_field($table->string("zip_url",100) ,"老师讲义压缩包链接");
+            t_field($table->tinyInteger("change_status") ,"海报转化状态 0:未转化 1:已完成 2:失败");
         });
-
     }
 
     /**

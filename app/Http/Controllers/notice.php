@@ -59,8 +59,7 @@ class notice extends Controller
             return;
         }
 
-
-        $is_success=0;
+        $is_success = 0;
         if ($user_ip) {
             //每个ip 最多 10个
             if (!\App\Helper\Common::redis_day_add_with_max_limit("sms_ip_$user_ip",1, 20)){

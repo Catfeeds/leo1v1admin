@@ -31,9 +31,11 @@ interface RowData {
 	title_share	:any;
 	info_share	:any;
 	jump_type	:any;
+	del_flag	:any;
 	type_str	:any;
 	time_type_str	:any;
 	usage_type_str	:any;
+	active_status	:any;
 }
 
 /*
