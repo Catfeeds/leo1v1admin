@@ -64,12 +64,12 @@ class t_web_page_info extends \App\Models\Zgen\z_t_web_page_info
     public function get_web_info($web_page_id_str) {
 
         $where_arr = [
-            ['web_page_id_str in (%s)', $web_page_id_str,-1],
+            ['web_page_id in (%s)', $web_page_id_str,-1],
         ];
 
-        $sql=$this->gen_sql_new("select web_page_id, title, url ".
-                                "from %s  ".
-                                "where %s ".
+        $sql=$this->gen_sql_new("select web_page_id, title,url ".
+                                " from %s  ".
+                                " where %s ",
                                 self::DB_TABLE_NAME,
                                 $where_arr
         );
