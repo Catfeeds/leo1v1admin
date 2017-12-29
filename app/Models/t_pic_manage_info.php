@@ -18,7 +18,7 @@ class t_pic_manage_info extends \App\Models\Zgen\z_t_pic_manage_info
         if($usage_type==208 || $usage_type==210 || $usage_type==104){
             $order_str="order by order_by asc";
         }else{
-            $order_str="";
+            $order_str="order by id desc";
         }
 
         $sql = $this->gen_sql("select * from %s where %s %s"
@@ -94,6 +94,20 @@ class t_pic_manage_info extends \App\Models\Zgen\z_t_pic_manage_info
                                   ." order by order_by"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_pic_or_mobile_info($type) {
+        $current = time();
+        $where_arr = [
+            ['start_time<=%u', $current, 0],
+            ['end_time>%u', $current, 0],
+            "usage_type=$type"
+        ];
+        $sql = $this->gen_sql_new("select img_url,jump_type,jump_url,order_by from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
         );
         return $this->main_get_list($sql);
     }

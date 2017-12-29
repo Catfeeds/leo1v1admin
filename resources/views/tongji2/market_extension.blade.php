@@ -34,8 +34,8 @@
                 <tr>
                     <td>ID</td>
                     <td>礼品类型</td>
-                    <td>标题</td>
-                    <td>活动描述</td>
+                    <td >标题</td>
+                    <td style="width:250px">活动描述</td>
                     <td>活动链接</td>
                     <td>活动状态</td>
                     <td> 操作  </td>
@@ -54,9 +54,11 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                <a class="fa fa-times opt-del" title="删除"> </a>
                                 <a class="fa fa-file-image-o opt-show" title="活动图片"> </a>
+                                @if ($var['activity_status']<2)
+                                    <a class="fa fa-trash-o opt-del" title="删除"> </a>
+                                    <a class="fa fa-edit opt-edit"  title="编辑"> </a>
+                                @endif
 
                             </div>
                         </td>

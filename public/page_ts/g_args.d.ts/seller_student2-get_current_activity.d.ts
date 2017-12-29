@@ -34,6 +34,8 @@ interface RowData {
 	contract_type_list	:any;
 	need_spec_require_flag	:any;
 	diff_max_count	:any;
+	is_need_share_wechat	:any;
+	is_need_share_wechat_str	:any;
 	open_flag_str	:any;
 	date_range_time	:any;
 }

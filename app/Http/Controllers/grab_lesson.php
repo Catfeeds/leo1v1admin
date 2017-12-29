@@ -6,7 +6,6 @@ use \App\Enums as E;
 
 use Illuminate\Support\Facades\Mail ;
 
-
 class grab_lesson extends Controller
 {
 
@@ -25,7 +24,10 @@ class grab_lesson extends Controller
         $live_time = ($this->get_in_int_val('live_time'))*60;
         $adminid   = $this->get_in_int_val('adminid');
         $page_info = $this->get_in_page_info();
-        $ret_info  = $this->t_grab_lesson_link_info->get_all_info($start_time, $end_time,$grabid, $grab_lesson_link, $live_time, $adminid, $page_info);
+        $ret_info  = $this->t_grab_lesson_link_info->get_all_info(
+            $start_time, $end_time,$grabid, $grab_lesson_link, $live_time, $adminid, $page_info
+            );
+
         foreach($ret_info['list'] as &$item) {
             $this->cache_set_item_account_nick($item,"adminid", "nick");
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
@@ -40,6 +42,7 @@ class grab_lesson extends Controller
         $page_num = $this->get_in_page_num();
         $grabid   = $this->get_in_int_val('grabid', -1);
         $ret_list = $this->t_grab_lesson_link_visit_info->get_visit_detail_by_grabid($page_num, $grabid);
+
         foreach ($ret_list['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"visit_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"grab_time");

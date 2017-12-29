@@ -101,10 +101,9 @@ trait  ViewDeal {
                                       ."\t\t'join_header'  : \$header_query_info,\n"
                                       .'"enum_type"    : "'.$enum_type_str.'",' . "\n"
                                       .'"field_name" : "'.$key .'",'  . "\n"
+                                      .'"title" : "'.$key .'",'  . "\n"
                                       .'"select_value" : this.get_args().'.$key .','  . "\n"
                                       .'		"multi_select_flag"     : true,'  . "\n"
-                                      .'		"onChange"     : load_data,'  . "\n"
-                                      .'		"th_input_id"  : "th_'.$key .'",'  . "\n"
                                       .'		"btn_id_config"     : {},' . "\n"
                                       ."	});"  . "\n\n";
                     }else if ( $is_enum_flag ) {
@@ -112,10 +111,8 @@ trait  ViewDeal {
                             ."\t\t'join_header'  : \$header_query_info,\n"
                             .'		"enum_type"    : "'.$enum_type_str.'",' . "\n"
                             .'		"field_name" : "'.$key .'",'  . "\n"
-                            .'		"select_value" : this.get_args().'.$key .','  . "\n"
-                            .'		"onChange"     : load_data,'  . "\n"
+                            .'"title" : "'.$key .'",'  . "\n"
                             .'		"multi_select_flag"     : false ,'  . "\n"
-                            .'		"th_input_id"  : "th_'.$key .'",'  . "\n"
                             .'		"btn_id_config"     : {},' . "\n"
                             ."	});"  . "\n\n";
                     }else{
@@ -132,11 +129,9 @@ trait  ViewDeal {
                             $set_filed_str.= "\t\$.admin_ajax_select_user({\n"
                                           ."\t\t'join_header'  : \$header_query_info,\n"
                                           .'		"user_type"    : "'.$user_type .'",' . "\n"
+                                          ."\t\t".'"field_name"    : "'.$key.'" , '. "\n"
+                                          ."\t\t".'"title"        :  "'.$key.'",'  . "\n"
                                           .'		"select_value" : this.get_args().'.$key .','  . "\n"
-                                          .'		"onChange"     : load_data,'  . "\n"
-                                          .'		"th_input_id"  : "th_'.$key .'",'  . "\n"
-                                          .'		"only_show_in_th_input"     : false,' . "\n"
-                                          .'		"can_select_all_flag"     : true' . "\n"
                                           ."	});"  . "\n";
 
                         }
@@ -179,8 +174,6 @@ trait  ViewDeal {
             $row_str=@file_get_contents($row_file_name);
         }
 
-
-
         $data= "interface self_Args {\n".
             $str.
             "}\n".
@@ -189,17 +182,12 @@ trait  ViewDeal {
             "}\n\n".
             "export  {self_RowData , self_Args  }\n"
             ."/*\n"
-            ."\ntofile: \n\t mkdir -p ../../../vue/src/views/{$this->view_ctrl}; vi  ../../../vue/src/views/{$this->view_ctrl}/{$this->view_action}.ts\n\n".
-            "/// <reference path=\"../../../d.ts.d/common.d.ts\" />\n".
+            ."\ntofile: \n\t mkdir -p ../{$this->view_ctrl}; vi  ../{$this->view_ctrl}/{$this->view_action}.ts\n\n".
             "\n".
             "import Vue from 'vue'\n".
-
             "import Component from 'vue-class-component'\n".
-            "\n".
             "import vbase from \"../layout/vbase\"\n".
-            "\n".
-            "import {self_RowData, self_Args } from \"../../../d.ts.d/g_args.d.ts/{$this->view_ctrl}-{$this->view_action}\"\n".
-            "\n".
+            "import {self_RowData, self_Args } from \"../page.d.ts/{$this->view_ctrl}-{$this->view_action}\"\n".
             "\n".
             "// @Component 修饰符注明了此类为一个 Vue 组件\n".
             "@Component({\n".
@@ -215,16 +203,11 @@ trait  ViewDeal {
             "  query_init(): void{\n".
             "    console.log(\"init_query\");\n".
             "    var me =this;\n".
-            "\n".
             "    var \$header_query_info= \$(\"#id_header_query_info\").admin_header_query ({\n".
             "    });\n".
+            "    me.\$header_query_info= \$header_query_info ;\n".
+             "\n".
             $set_filed_str.
-            "\n".
-            "  }\n".
-            "\n".
-            "\n".
-            "  row_init() :void {\n".
-            "    var me =this;\n".
             "\n".
             "  }\n".
             "}\n"
