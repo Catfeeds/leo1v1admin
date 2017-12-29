@@ -2537,14 +2537,19 @@ class Utils  {
         $no_has_prev = 0;
         $ret = ['ret' => 1];
 
-        //\App\Helper\Utils::logger("查看是s微信: ".$adminid.'-'.$end_time.'-'.$activity_id);
+        \App\Helper\Utils::logger("查看是s微信: ".$adminid.'-'.$end_time.'-'.$activity_id);
+        \App\Helper\Utils::logger("查看是sss00000 ");
 
         while( !$h5_count ){
             $prev_activity_id = $task->t_order_activity_config->get_prev_id($activity_id);
+
+            \App\Helper\Utils::logger(gettype($prev_activity_id));
             if($prev_activity_id < 2017 ){
+                \App\Helper\Utils::logger($prev_activity_id);
                 $no_has_prev++;
                 break;
             }
+
             $activity_id = $prev_activity_id;
             $start_time = strtotime( substr($prev_activity_id, 0, 8) );
             $h5_count   = $task->t_web_page_info->h5_count($start_time, $end_time);
@@ -2552,6 +2557,7 @@ class Utils  {
         }
 
         if($no_has_prev == 1){
+            \App\Helper\Utils::logger("222 ");
             return $ret;
         }
 
