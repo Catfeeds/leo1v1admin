@@ -34,12 +34,12 @@ $(function(){
         }
         var id_lesson_target=$("<input/>");
         var id_renew_target=$("<input/>");
-        id_lesson_target.val(lesson_target);
+        id_lesson_target.val(g_args.rate_target);
         var arr=[
             ["目标系数", id_lesson_target],          
             ["目标续费值", id_renew_target],          
         ];
-        id_renew_target.val(opt_data.renew_target);
+        id_renew_target.val(g_args.renew_target);
         $.show_key_value_table("编辑", arr ,{
             label: '确认',
             cssClass: 'btn-warning',

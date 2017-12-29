@@ -1781,6 +1781,10 @@ class user_manage_new extends Controller
 
         }
 
+        $this->set_filed_for_js("rate_target",@$target_info["rate_target"]);
+        $this->set_filed_for_js("renew_target",@$target_info["renew_target"]/100);
+
+
         return $this->pageView(__METHOD__, $ret_info);
     }
 
