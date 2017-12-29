@@ -2551,11 +2551,15 @@ class Utils  {
         }
 
         $share_info = $task->t_web_page_info->is_all_share($start_time, $end_time, $adminid);
+        $web_page_id_list = '';
         foreach($share_info as $item){
             if($item['share_flag'] == 0) {
                 $ret['ret'] = 0;
-                $ret['info'][] = $item;
+                $web_page_id_list .= ','.$item['web_page_id'];
             }
+        }
+        if($web_page_id_list != ''){
+            $ret['url'] = "/ajax_deal2/web_page_info_send_admin_new?adminid=$adminid&web_page_id_str=$web_page_id_list";
         }
 
         return $ret;
