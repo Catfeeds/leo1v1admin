@@ -84,47 +84,83 @@ $(function(){
             $.custom_upload_file('id_img1',true,function (up, info, file) { // 封面页
                 var res = $.parseJSON(info);
                 $img_src1.val(res.key);
-                if(res.key){ $('.del_cover').css('display','block');}
+                if(res.key){
+                    $('.del_cover').css('display','block');
+                    $('#id_img1').attr('src','https://ybprodpub.leo1v1.com'+res.key);
+                }
+
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
             $.custom_upload_file('id_img2',true,function (up, info, file) { // 活动页
                 var res = $.parseJSON(info);
                 $img_src2.val(res.key);
-                if(res.key){ $('.del_activity').css('display','block');}
+                if(res.key){
+                    $('.del_activity').css('display','block');
+                    $('#id_img2').attr('src','https://ybprodpub.leo1v1.com'+res.key);
+                }
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
             $.custom_upload_file('id_img3',true,function (up, info, file) { // 分享页
                 var res = $.parseJSON(info);
                 $img_src3.val(res.key);
-                if(res.key){ $('.del_share').css('display','block');}
+                if(res.key){
+                    $('.del_share').css('display','block');
+                    $('#id_img3').attr('src','https://ybprodpub.leo1v1.com'+res.key);
+                }
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
             $.custom_upload_file('id_img4',true,function (up, info, file) { // 关注页
                 var res = $.parseJSON(info);
                 $img_src4.val(res.key);
-                if(res.key){ $('.del_follow').css('display','block');}
+                if(res.key){
+                    $('.del_follow').css('display','block');
+                    $('#id_img3').attr('src','https://ybprodpub.leo1v1.com'+res.key);
+                }
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
 
             $('.del_cover').on("click",function(){
                 $img_src1.val('');
+                $('#id_img1').attr('src','');
                 $('.del_cover').css('display','none');
             });
 
             $('.del_activity').on("click",function(){
                 $img_src2.val('');
+                $('#id_img2').attr('src','');
                 $('.del_activity').css('display','none');
             });
 
             $('.del_share').on("click",function(){
                 $img_src3.val('');
+                $('#id_img3').attr('src','');
                 $('.del_share').css('display','none');
             });
 
             $('.del_follow').on("click",function(){
                 $img_src4.val('');
+                $('#id_img4').attr('src','');
                 $('.del_follow').css('display','none');
             });
+
+
+
+
+
+            if(opt_data.activityimgurl){
+                $('#id_img2').attr('src','https://ybprodpub.leo1v1.com'+opt_data.activityimgurl);
+            }
+
+            if(opt_data.shareimgurl){
+                $('#id_img3').attr('src','https://ybprodpub.leo1v1.com'+opt_data.shareimgurl);
+            }
+
+
+            if(opt_data.followimgurl){
+                $('#id_img4').attr('src','https://ybprodpub.leo1v1.com'+opt_data.followimgurl);
+            }
+
+
 
         });
     });
