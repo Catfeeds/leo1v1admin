@@ -118,8 +118,8 @@ class company_wx extends Controller
         $url = $config['url'].'/cgi-bin/gettoken?corpid='.$config['CorpID'].'&corpsecret='.$config['Secret2'];
         $token = $this->get_company_wx_data($url, 'access_token'); // 获取tocken
 
-        $start_time = strtotime('2017-11-29');
-        $end_time = strtotime('2017-12-1');
+        $start_time = strtotime('2017-12-6');
+        $end_time = strtotime('2017-12-7');
         // 获取审批数据
         $url = $config['url'].'/cgi-bin/corp/getapprovaldata?access_token='.$token;
         $post_data = json_encode(["starttime" => $start_time,"endtime" => $end_time]);
@@ -132,7 +132,7 @@ class company_wx extends Controller
         curl_close($ch);
         $output = json_decode($output, true);
 
-        //dd($output);
+        dd($output);
         $info = $output['data'];
         foreach($info as $item) {
             $approval_name = implode(',', $item['approval_name']);
