@@ -1082,17 +1082,8 @@ class wx_teacher_api extends Controller
         ]);
 
         $this->t_resource_file->add_num("visit_num", $file_id);
-
-        $resource_id = $this->t_resource_file->get_resource_id($file_id);
-        $file_link = $this->t_resource_file->get_file_link($resource_id);
-
-        if($file_link){
-            $domain = config('admin')['qiniu']['public']['url'];
-            $file_link = $domain.'/'.$file_link;
-        }
-
-        return $this->output_succ(["file_link"=>$file_link]);
-
+        $wx_index = $this->t_resource_file->get_wx_index($file_id);
+        return $this->output_succ(["wx_index"=>$wx_index]);
     }
 
     /**
