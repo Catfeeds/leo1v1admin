@@ -308,7 +308,7 @@ return array(
     ["db_message","t_sms_msg","recordid"] ,
     ["db_message","t_weixin_msg","recordid"],
 
-    ["db_ejabberd","users","username"] ,
+    // ["db_ejabberd","users","username"] ,
 
     ["db_question_new","t_question","question_id"] ,
     ["db_question_new","t_knowledge_point","knowledge_id"] ,

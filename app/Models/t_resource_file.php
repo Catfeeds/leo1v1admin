@@ -168,7 +168,7 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         ];
 
         $sql = $this->gen_sql_new("  select file_id, file_type, file_link from %s f "
-                                  ." where %s"
+                                  ." where %s limit 10"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );

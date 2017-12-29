@@ -171,6 +171,7 @@ class Common {
          * array( 8295424 ,'','课程当天早上通知',),
          */
         $template_value = substr($template_code,4);
+
         if ( $template_value==7795923
             ||$template_value==7786570
             ||$template_value==7771547

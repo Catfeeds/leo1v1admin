@@ -15,7 +15,7 @@ class TLessonResetZipUrl extends Migration
         //
         Schema::table('db_weiyi.t_lesson_info', function( Blueprint $table)
         {
-            t_field($table->string("zip_url",100) ,"老师讲义压缩包链接");
+            //t_field($table->string("zip_url",100) ,"老师讲义压缩包链接");
         });
 
     }
