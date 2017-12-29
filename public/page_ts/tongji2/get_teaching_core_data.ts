@@ -16,7 +16,7 @@ $(function(){
        // alert("备注:"+text);
     });
 
-    var screen_height=window.screen.availHeight-350;        
+    var screen_height=window.screen.availHeight-150;        
 
     $(".common-table").parent().css({"height":screen_height,"overflow":"auto"});
 
