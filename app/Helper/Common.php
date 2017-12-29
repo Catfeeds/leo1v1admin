@@ -166,17 +166,13 @@ class Common {
         /**
          * 原账号的短信被限制,将 10671030,10671029 两个验证码短信切换到另一个账号上发送
          */
-        // switch($template_value){
-        // case 10671030: //注册验证码
-        //     $template_value = 7795923;
-        //     break;
-        // case 10671029: //通用验证
-        //     $template_value = 7771547;
-        //     break;
-        // }
+        if($template_value==10671030){
+            $template_value = 7795923;
+        }elseif($template_value==10671029){
+            $template_value = 7771547;
+        }
 
-        if (
-            $template_value==7795923
+        if ( $template_value==7795923
             ||$template_value==7786570
             ||$template_value==7771547
             ||$template_value==8295424
