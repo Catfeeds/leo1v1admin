@@ -3006,6 +3006,8 @@ $(function () {
         $(this).bind("contextmenu copy selectstart", function() {
             // return false;
         });
+        $(this).parent().css({"overflow":"auto"});
+
     });
 });
 
