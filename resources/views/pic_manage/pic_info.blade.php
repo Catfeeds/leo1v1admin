@@ -38,7 +38,8 @@
                     <td>类型</td>
                     <td>图片预览</td>
                     <td>图片备注</td>
-                    <td>用途</td> 
+                    <td>用途</td>
+                    <td>活动状态</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -51,6 +52,7 @@
                         <td><img src="{{$var["img_url"]}}" height="100"></td>
                         <td>{{$var["name"]}}</td>
                         <td>{{$var["usage_type_str"]}}</td>
+                        <td>{{$var['active_status']}}</td>
                         <td class="remove-for-xs">
                             <div class="btn-group" data-id="{{$var["id"]}}">
                                 <a href="javascript:;" class="btn fa fa-edit opt-update-pic_info" title="更改"></a>

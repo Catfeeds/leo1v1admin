@@ -118,9 +118,11 @@ $(function(){
                     if ($(this).val() == 2) {
                         if ($('.add_pic_usage_type').val() == 302) {
                             $('.add_jump_url').val('http://www.leo1v1.com/service_chat_panel.html');
+                            $('.add_jump_url').attr("disabled","disabled");
                         }
                         if ($('.add_pic_usage_type').val() == 303) {
                             $('.add_jump_url').val('http://m.leo1v1.com/chat.html');
+                            $('.add_jump_url').attr("disabled","disabled");
                         }
                     }
                 });
@@ -271,15 +273,16 @@ $(function(){
                 label: '确认',
                 cssClass: 'btn-primary',
                 action: function(dialog){
-		            $.ajax({
-			            type     :"post",
-			            url      :"/pic_manage/del_pic_info",
-			            dataType :"json",
-			            data     :{"id":id},
-			            success  : function(result){
-                            window.location.reload();
-                        }
-		            });
+                    $.do_ajax('/pic_manage/del_pic_info', {'id':id});
+		            // $.ajax({
+			          //   type     :"post",
+			          //   url      :"/pic_manage/del_pic_info",
+			          //   dataType :"json",
+			          //   data     :{"id":id},
+			          //   success  : function(result){
+                //             window.location.reload();
+                //         }
+		            // });
                     dialog.close();
                 }
             }, {
