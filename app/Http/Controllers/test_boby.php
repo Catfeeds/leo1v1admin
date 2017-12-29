@@ -1445,7 +1445,7 @@ class test_boby extends Controller {
             ."from db_weiyi.t_order_info o "
             ."left join db_weiyi_admin.t_manager_info m on m.account=o.sys_operator "
             ."left join db_weiyi_admin.t_admin_group_user u on u.adminid=m.uid "
-            ."left join db_weiyi_admin.t_admin_group_name g on g.groupid=g.groupid "
+            ."left join db_weiyi_admin.t_admin_group_name g on u.groupid=g.groupid "
             ."where o.order_time>=1510675200 and o.order_time<1514736000 and m.del_flag=0 and m.account_role=2 and o.contract_status>0 and o.contract_type =0 and g.group_name='新人营'";
 		$ret = $this->t_grab_lesson_link_info->get_info_test($sql);
 
