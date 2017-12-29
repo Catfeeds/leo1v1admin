@@ -156,6 +156,15 @@ class Common {
         $c = new \TopClient();
 
         /**
+         * 原账号的短信被限制,将 10671030,10671029 两个验证码短信切换到另一个账号上发送
+         */
+        if($template_code=="SMS_10671030"){
+            $template_value = "SMS_7795923";
+        }elseif($template_value=="SMS_10671029"){
+            $template_value = "SMS_7771547";
+        }
+
+        /**
          * array( 7795923 ,'register','用户注册验证码',),
          * array( 7786570,'','通知家长预约成功',),
          * array( 7771547,'','通用验证',),
@@ -163,14 +172,6 @@ class Common {
          */
         $template_value = substr($template_code,4);
 
-        /**
-         * 原账号的短信被限制,将 10671030,10671029 两个验证码短信切换到另一个账号上发送
-         */
-        if($template_value==10671030){
-            $template_value = 7795923;
-        }elseif($template_value==10671029){
-            $template_value = 7771547;
-        }
 
         if ( $template_value==7795923
             ||$template_value==7786570

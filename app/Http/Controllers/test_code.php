@@ -288,7 +288,7 @@ class test_code extends Controller
         $index    = $this->get_in_str_val("index","1");
         $phone    = $this->get_in_int_val("phone","18790256265");
 
-        $template_code = "SMS_7771547";
+        $template_code = "SMS_10671029";
         $data = [
             "code"  => $code,
             "index" => $index,
