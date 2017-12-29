@@ -124,14 +124,16 @@ class pdfConversionH5 extends Command
             }
 
             // 压缩包上传七牛
-            $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
-            @unlink($saveH5FilePath);
-            $this->deldir($unzipFilePath."/".$uuid); // 删除解压包
-            // 七牛 资源域名 https://ybprodpub.leo1v1.com/
+            if(file_exists($saveH5FilePath)){
+                $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
+                @unlink($saveH5FilePath);
+                $this->deldir($unzipFilePath."/".$uuid); // 删除解压包
+                // 七牛 资源域名 https://ybprodpub.leo1v1.com/
 
-            $task->t_resource_file->field_update_list($item['file_id'],[
-                "zip_url" => $saveH5Upload
-            ]);
+                $task->t_resource_file->field_update_list($item['file_id'],[
+                    "zip_url" => $saveH5Upload
+                ]);
+            }
         }
     }
 
