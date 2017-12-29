@@ -151,7 +151,7 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
             "f.status=0",
         ];
 
-        $sql = $this->gen_sql_new("  select file_title, file_type, file_link from %s f "
+        $sql = $this->gen_sql_new("  select file_use_type, file_id, file_title, file_type, file_link from %s f "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
