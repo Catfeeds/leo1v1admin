@@ -2624,6 +2624,15 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_row($sql);
     }
 
+    public function checkIsUse($lessonid){
+        $sql = $this->gen_sql_new("  select 1 from %s l"
+                                  ." where l.lessonid=$lessonid and zip_url != ''"
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
+    }
+
 
 }
 

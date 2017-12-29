@@ -1102,6 +1102,12 @@ class wx_teacher_api extends Controller
         $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
         $resource_id = $this->t_resource_file->get_resource_id($file_id);
 
+        $checkIsUse = $this->t_lesson_info_b3->checkIsUse($lessonid);
+
+        if($checkIsUse){
+            return $this->output_succ(['checkIsUse'=>$checkIsUse]);
+        }
+
         $resourceFileInfo = $this->t_resource_file->getResourceFileInfoById($resource_id);
 
         $this->t_resource_file_visit_info->row_insert([ //使用
@@ -1155,7 +1161,8 @@ class wx_teacher_api extends Controller
             // 转化pdf to png
             $this->get_pdf_url($pdf_file_path, $lessonid, $pdfToImg);
         }
-        return $this->output_succ();
+
+        return $this->output_succ(['checkIsUse'=>$checkIsUse]);
     }
 
 
