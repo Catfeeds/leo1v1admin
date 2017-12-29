@@ -497,11 +497,29 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $pattern = '/(https?|ftps?):\/\/(www)\.([^\.\/]+)\.(com|net|org)(\/[\w-\.\/\?\%\&\=]*)?/i';
+        $subject = "网址为http://www.chinagpx.com/index.php的位置是chinagpx";
+        preg_match($pattern, $subject, $matches);
+        dd($matches);
+        if(preg_match($pattern, $subject, $matches))
+        {
+            echo "搜索到的URL为：".$matches[0]."<br>";    //数组中第一个元素保存全部匹配结果
+            echo "URL中的协议为：".$matches[1]."<br>";    //数组中第二个元素保存第一个子表达式
+            echo "URL中的主机为：".$matches[2]."<br>";    //数组中第三个元素保存第二个子表达式
+            echo "URL中的域名为：".$matches[3]."<br>";    //数组中第四个元素保存第三个子表达式
+            echo "URL中的顶域为：".$matches[4]."<br>";    //数组中第五个元素保存第四个子表达式
+            echo "URL中的文件为：".$matches[5]."<br>";    //数组中第六个元素保存第五个子表达式
+        }
+        else
+        {
+            echo "搜索失败！";                             //如果和正则表达式没有匹配成功则输出
+        }
+
         $wline=fopen("./test2.txt","a+t");
-        chmod("./test2.txt",757);   
+        chmod("./test2.txt",757);
         $line="它-024";
         fwrite($wline,$line);
-        fclose($wline); 
+        fclose($wline);
         $basedir = dirname(__FILE__);
         dd($basedir);
         /*
