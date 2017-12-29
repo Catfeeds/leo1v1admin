@@ -47,7 +47,7 @@ $(function(){
                 $.do_ajax( '/user_deal/set_ass_month_target',{
                     "month" : g_args.start_time,
                     "lesson_target" : id_lesson_target.val(),
-                    "renew_target"  : id_renew_target.val() * 1000
+                    "renew_target"  : id_renew_target.val()*100
                 });
                 
             }
