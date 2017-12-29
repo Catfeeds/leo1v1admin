@@ -88,9 +88,7 @@ class update_company_wx_data extends Command
         foreach($info as $item) {
             if (isset($approv[$item['apply_user_id'].'-'.$item['apply_time']])) {
                 $index = $item['apply_user_id'].'-'.$item['apply_time'];
-                echo '调用成功';
                 if ($approv[$index]['sp_status'] != $item['sp_status']) {
-                    echo $approv[$index]['sp_status'].' ---- '.$item['sp_status'];
                     $task->t_company_wx_approval->field_update_list($approv[$index]['id'], [
                         "sp_status" => $item['sp_status']
                     ]);
@@ -148,9 +146,10 @@ class update_company_wx_data extends Command
                 if ($item['spname'] == '费用申请') {
                     if ($val['title'] == '费用类型') $common['reason'] = $val['value'];
                     if ($val['title'] == '费用金额') $common['sums'] = $val['value'];
-                    if (isset($item['value'])) $items[$val['title']] = $val['value'];
+                    //if (isset($item['value'])) $items[$val['title']] = $val['value'];
                     $common['type'] = 3;
                 }
+                if (isset($val['value'])) $items[$val['title']] = $val['value'];
             }
             if ($items) $common['item'] = json_encode($item);
             // 添加数据

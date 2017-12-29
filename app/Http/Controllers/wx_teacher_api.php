@@ -1099,6 +1099,7 @@ class wx_teacher_api extends Controller
     public function useResource(){
         $lessonid = $this->get_in_int_val("lessonid");
         $file_id  = $this->get_in_int_val('file_id');
+        $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
         $resource_id = $this->t_resource_file->get_resource_id($file_id);
 
         $resourceFileInfo = $this->t_resource_file->getResourceFileInfoById($resource_id);
@@ -1137,7 +1138,7 @@ class wx_teacher_api extends Controller
         foreach($resourceFileInfo as $i => $item){
             $sort[$i] = $item['file_type'];
         }
-        array_multisort($ret,SORT_ASC,$resourceFileInfo);//此处对数组进行降序排列；SORT_DESC按降序排列
+        array_multisort($sort,SORT_ASC,$resourceFileInfo);//此处对数组进行降序排列；SORT_DESC按降序排列
         $this->t_lesson_info->field_update_list($lessonid, [
             "tea_more_cw_url" => json_encode($resourceFileInfo),
             "tea_cw_origin"   => 3, // 理优资源
