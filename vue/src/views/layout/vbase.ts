@@ -28,6 +28,14 @@ export default class vbase extends Vue {
   load_data_for_route () {
     this.load_data();
   };
+  get_query_header_init(){
+    var $header_query_info= $("#id_header_query_info").admin_header_query ({
+    });
+    this.$header_query_info= $header_query_info ;
+    return this.$header_query_info;
+
+  }
+
   base_init () {
     var me = this;
     window["vue_load_data"] = function () {
@@ -37,7 +45,7 @@ export default class vbase extends Vue {
 
   };
   //
-  query_init () {
+  query_init ( $header_query_info ) {
 
   };
 
@@ -49,8 +57,12 @@ export default class vbase extends Vue {
     var per_page_count = page_info.per_page_count;
     var total_num = page_info.total_num;
     var total_page_count = Math.ceil(total_num / per_page_count);
-    var show_start_index = cur_page_num - 3;
-    var show_end_index = cur_page_num + 3;
+    var fix_count= 3;
+    if ($.check_in_phone() ) {
+      fix_count =0;
+    }
+    var show_start_index = cur_page_num - fix_count  ;
+    var show_end_index = cur_page_num + fix_count  ;
     if (show_start_index < 1) {
       show_start_index = 1;
     }
@@ -184,7 +196,7 @@ export default class vbase extends Vue {
           me.reset_sort_info(resp.g_args.order_by_str);
         }
         me.$nextTick(function () {
-          me.query_init();
+          me.query_init(  me.get_query_header_init() );
           me.table_row_init();
           me.page_info_init(resp.page_info);
         });

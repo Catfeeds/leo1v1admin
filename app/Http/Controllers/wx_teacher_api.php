@@ -1077,6 +1077,15 @@ class wx_teacher_api extends Controller
     public function chooseResource(){
         $file_id   = $this->get_in_int_val('file_id');
         $teacherid = $this->get_in_int_val("teacherid");
+        $lessonid  = $this->get_in_int_val("lessonid");
+
+        $ret_info['checkIsUse'] = $this->t_lesson_info_b3->checkIsUse($lessonid);
+        $ret_info['wx_index']  = '';
+
+        if($ret_info['checkIsUse']){
+            return $this->output_succ(["data"=>$ret_info]);
+        }
+
 
         $this->t_resource_file_visit_info->row_insert([ // 增加浏览记录
             'file_id'      => $file_id,
@@ -1087,8 +1096,8 @@ class wx_teacher_api extends Controller
         ]);
 
         $this->t_resource_file->add_num("visit_num", $file_id);
-        $wx_index = $this->t_resource_file->get_wx_index($file_id);
-        return $this->output_succ(["wx_index"=>$wx_index]);
+        $ret_info['wx_index'] = $this->t_resource_file->get_wx_index($file_id);
+        return $this->output_succ(["data"=>$ret_info]);
     }
 
     /**
@@ -1101,6 +1110,7 @@ class wx_teacher_api extends Controller
         $file_id  = $this->get_in_int_val('file_id');
         $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
         $resource_id = $this->t_resource_file->get_resource_id($file_id);
+
 
         $resourceFileInfo = $this->t_resource_file->getResourceFileInfoById($resource_id);
 
@@ -1155,6 +1165,7 @@ class wx_teacher_api extends Controller
             // 转化pdf to png
             $this->get_pdf_url($pdf_file_path, $lessonid, $pdfToImg);
         }
+
         return $this->output_succ();
     }
 

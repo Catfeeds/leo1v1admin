@@ -44,11 +44,12 @@ class tq extends Controller
         }
         $page_num        = $this->get_in_page_num();
         $seller_student_status  = $this->get_in_el_seller_student_status();
+        $userid=$this->get_in_userid(-1);
 
 
         $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("leoAa123456" )."seed1")  . "&seed=seed1"  ;
 
-        $ret_info=$this->t_tq_call_info->get_call_phone_list($page_num,$start_time,$end_time,$uid,$is_called_phone,$phone, $seller_student_status,$user_info );
+        $ret_info=$this->t_tq_call_info->get_call_phone_list($page_num,$start_time,$end_time,$uid,$is_called_phone,$phone, $seller_student_status,$user_info,$userid );
         $now=time(NULL);
         foreach($ret_info["list"] as &$item) {
             $record_url= $item["record_url"] ;

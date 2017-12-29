@@ -45,13 +45,11 @@ class main_page2 extends Controller
         $current_month_first = strtotime(date("Y-m-01"));
         $current_month_last = strtotime(date("Y-m-t 23:59:59"));
 
-        $last_month_first_date = date("Y-m-01",strtotime("-1 month"));
-        $last_month_first = strtotime($last_month_first_date);       
-        $last_month_last  = strtotime(date("Y-m-t 23:59:59",strtotime("-1 month")));
+        $last_month_first = strtotime(date("Y-m-01",strtotime("-1 month")));       
+        $last_month_last  = $current_month_first;
 
-        //dd(date("Y-m-d H:i:s",1509465599));
-
-        $history_month_last = strtotime(date("Y-m-t 23:59:59",strtotime("-2 month")));
+        $history_month_last = strtotime(date("Y-m-t",strtotime("-2 month")));
+        //dd(date("Y-m-t",strtotime("-2 month")));
 
         $contract_status="(1,2,3)";  //合同状态
         $test_user=0;        //是否是测试用户
@@ -61,7 +59,7 @@ class main_page2 extends Controller
         $where_arr=[
             ["stu_from_type=%u" , $stu_from_type],
             ["o.price>%u" , 0],
-            ["contract_status in %s" , $contract_status],
+            ["contract_status != %u" , 0 ],
         ];
 
         $current_month_time = [
@@ -106,11 +104,11 @@ class main_page2 extends Controller
         !empty($history_month_all_row) ? $history_month_all = $history_month_all_row['count_order'] : $history_month_all = 0;        
 
         $history_month_num_row = $this->t_order_info->get_cc_order_count(array_merge($where_arr,$history_month_time));
-        !empty($last_month_num_row) ? $history_month_num = $history_month_num_row['count_order'] : $history_month_num = 0;
+        !empty($last_month_num_row) ? $history_month_num = ( $history_month_num_row['count_order'] - 1): $history_month_num = 0;
 
         $history_month_rate = 0;
         if( $history_month_num > 0 && $history_month_all > 0){
-            $history_month_rate = sprintf('%.4f', $history_month_num/$history_month_all); 
+            $history_month_rate = sprintf('%.4f', $history_month_num/$history_month_all ); 
         }
 
 

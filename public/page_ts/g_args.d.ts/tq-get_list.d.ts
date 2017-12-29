@@ -11,7 +11,8 @@ interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
 	seller_student_status:	string;//枚举列表: \App\Enums\Eseller_student_status
- }
+ 	userid:	number;
+}
 declare module "g_args" {
     export = g_args;
 }
@@ -60,7 +61,8 @@ function load_data(){
 		is_called_phone:	$('#id_is_called_phone').val(),
 		uid:	$('#id_uid').val(),
 		user_info:	$('#id_user_info').val(),
-		seller_student_status:	$('#id_seller_student_status').val()
+		seller_student_status:	$('#id_seller_student_status').val(),
+		userid:	$('#id_userid').val()
 		});
 }
 $(function(){
@@ -97,6 +99,14 @@ $(function(){
 		"th_input_id"  : "th_seller_student_status",
 		"only_show_in_th_input"     : false,
 		"btn_id_config"     : {},
+	});
+	$('#id_userid').admin_select_user_new({
+		"user_type"    : "student",
+		"select_value" : g_args.userid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_userid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
 	});
 
 
@@ -155,4 +165,12 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["seller_student_status title", "seller_student_status", "th_seller_student_status" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">userid</span>
+                <input class="opt-change form-control" id="id_userid" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["userid title", "userid", "th_userid" ]])!!}
 */

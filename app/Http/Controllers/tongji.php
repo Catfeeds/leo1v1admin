@@ -312,25 +312,27 @@ class tongji extends Controller
         }
         return $this->pageView(__METHOD__, $ret_info,['group_list'=>$group_list,'count_ave'=>$count_ave,'avg_call_interval_ave'=>$avg_call_interval_ave]);
     }
+
     public function change_week_value($value){
         return date('Y-m-d',$value);
     }
 
     public function sms() {
-        list($start_time,$end_time)=$this->get_in_date_range( -14,0);
-        $is_succ                    = $this->get_in_int_val('is_succ',-1);
-        $type                       = $this->get_in_int_val("type",-1);
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+        $is_succ = $this->get_in_int_val('is_succ',-1);
+        $type    = $this->get_in_int_val("type",-1);
 
-        $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
-
-        $ret_list= $this->t_sms_msg->tongji_get_list($start_time,$end_time,$is_succ,$type);
+        $date_list = \App\Helper\Common::get_date_time_list($start_time, $end_time-1);
+        $ret_list  = $this->t_sms_msg->tongji_get_list($start_time,$end_time,$is_succ,$type);
         foreach ($ret_list as $item)  {
-            $opt_date=$item["log_date"];
-            $date_item= &$date_list[$opt_date];
-            $date_item["count"]=@$date_item["count"]+$item["count"];
+            $opt_date           = $item["log_date"];
+            $date_item          = &$date_list[$opt_date];
+            $date_item["count"] = @$date_item["count"]+$item["count"];
         }
-        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($date_list) );
+        $ret_info = \App\Helper\Utils::list_to_page_info($date_list);
+        return $this->pageView(__METHOD__,  $ret_info);
     }
+
     public function sms_type() {
         list($start_time,$end_time)=$this->get_in_date_range( -14,0);
 
