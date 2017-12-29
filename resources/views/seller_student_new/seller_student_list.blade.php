@@ -84,7 +84,6 @@
 
 </style>
 
-<script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_edit.js?v={{@$_publish_version}}"></script>
     <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
     <section class="content ">
@@ -498,7 +497,7 @@
                                     ></a>
                                 @endif
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new_new"></a>
-                                <a title="录入回访信息" class="  fa-edit opt-edit-new"  style=" display:none"></a>
+                                <a title="录入回访信息" class="  fa-edit opt-edit-new"  style="display:none"></a>
                                 <a title="手机拨打&录入回访信息" class=" fa-phone  opt-telphone   "></a>
                                 <a title="试听申请" class="fa fa-headphones opt-post-test-lesson "></a>
                                 <a class="fa  opt-flow-node-list fa-facebook " title="不传试卷,审核进度"></a>
