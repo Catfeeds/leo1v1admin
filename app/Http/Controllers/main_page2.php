@@ -45,23 +45,76 @@ class main_page2 extends Controller
         $current_month_first = strtotime(date("Y-m-01"));
         $current_month_last = strtotime(date("Y-m-t"));
 
-        $last_month_first = strtotime(date("Y-m-01",strtotime("-1 month")));
-        $last_month_last  = strtotime(date("Y-m-t",strtotime("-1 month")));
+        $last_month_first_date = date("Y-m-01 00:00:00",strtotime("-1 month"));
+        $last_month_first = strtotime($last_month_first_date);
+        //echo $last_month_first_date,' ',$last_month_first;
+
+        $last_month_last  = strtotime(date("Y-m-t 11:59:59",strtotime("-1 month")));
 
         $history_month_last = strtotime(date("Y-m-t",strtotime("-2 month")));
 
-        $contract_status=1;  //合同状态
+        $contract_status="(1,2,3)";  //合同状态
         $test_user=0;        //是否是测试用户
         $stu_from_type=0;    //签约类型
         $has_money=1;        //是否有钱 
 
         $where_arr=[
-            ["is_test_user=%u" , $test_user],
             ["stu_from_type=%u" , $stu_from_type],
-            ["price>%u" , 0],
-            ["contract_status=%u" , $contract_status],
+            ["o.price>%u" , 0],
+            ["contract_status in %s" , $contract_status],
         ];
 
+        $current_month_time = [
+            ["is_test_user=%u" , $test_user],
+            ["o.order_time>=%d" , $current_month_first ],
+            ["o.order_time<%d" , $current_month_last ]
+        ];
+        
+        $current_month_all_row = $this->t_order_info->get_cc_order_count($current_month_time);
+        !empty($current_month_all_row) ? $current_month_all = $current_month_all_row['count_order'] : $current_month_all = 0;        
+
+        $current_month_num_row = $this->t_order_info->get_cc_order_count(array_merge($where_arr,$current_month_time));
+        !empty($current_month_num_row) ? $current_month_num = $current_month_num_row['count_order'] : $current_month_num = 0;        
+     
+        $current_month_rate = 0;
+        if( $current_month_num > 0 && $current_month_all > 0){
+            $current_month_rate = sprintf('%.4f', $current_month_num/$current_month_all); 
+        }
+        $last_month_time = [
+            ["is_test_user=%u" , $test_user],
+            ["o.order_time>=%d" , $last_month_first ],
+            ["o.order_time<%d" , $last_month_last ]
+        ];
+       
+        $last_month_all_row = $this->t_order_info->get_cc_order_count($last_month_time);
+        !empty($current_month_all_row) ? $last_month_all = $last_month_all_row['count_order'] : $last_month_all = 0;        
+     
+        $last_month_num_row = $this->t_order_info->get_cc_order_count(array_merge($where_arr,$last_month_time));
+        !empty($last_month_num_row) ? $last_month_num = $last_month_num_row['count_order'] : $last_month_num = 0;
+
+        $last_month_rate = 0;
+        if( $last_month_num > 0 && $last_month_all > 0){
+            $last_month_rate = sprintf('%.4f', $last_month_num/$last_month_all); 
+        }
+
+        $history_month_time = [
+            ["is_test_user=%u" , $test_user],
+            ["o.order_time<%d" , $history_month_last ]
+        ];
+       
+        $history_month_all_row = $this->t_order_info->get_cc_order_count($history_month_time);
+        !empty($history_month_all_row) ? $history_month_all = $history_month_all_row['count_order'] : $history_month_all = 0;        
+
+        $history_month_num_row = $this->t_order_info->get_cc_order_count(array_merge($where_arr,$history_month_time));
+        !empty($last_month_num_row) ? $history_month_num = $history_month_num_row['count_order'] : $history_month_num = 0;
+
+        $history_month_rate = 0;
+        if( $history_month_num > 0 && $history_month_all > 0){
+            $history_month_rate = sprintf('%.4f', $history_month_num/$history_month_all); 
+        }
+
+
+        //dd(date("Y-m-01 00:00:00",strtotime("-1 month")));
         return $this->pageView(__METHOD__,null,[
             "role_1_diff_money" => $role_1_diff_money ,
             "role_2_diff_money" => $role_2_diff_money ,
@@ -69,6 +122,12 @@ class main_page2 extends Controller
             "role_1_diff_money_def" =>  $role_1_diff_money_def,
             'sum_order_activity_quota' => $sum_activity_quota_arr,
             'order_activity_detail' => $order_activity_detail,
+            'current_month_num' => $current_month_num,
+            'current_month_rate' => $current_month_rate,
+            'last_month_num' => $last_month_num,
+            'last_month_rate' => $last_month_rate,
+            'history_month_num' => $history_month_num,
+            'history_month_rate' => $history_month_rate,
         ]);
     }
     //@desn:配置合同活动总配额
