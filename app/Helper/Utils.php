@@ -2550,6 +2550,7 @@ class Utils  {
                 break;
             }
 
+            \App\Helper\Utils::logger($prev_activity_id);
             $activity_id = $prev_activity_id;
             $start_time = strtotime( substr($prev_activity_id, 0, 8) );
             $h5_count   = $task->t_web_page_info->h5_count($start_time, $end_time);
