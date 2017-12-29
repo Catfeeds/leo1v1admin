@@ -113,6 +113,10 @@ class pdfConversionH5 extends Command
                 $test_data .= $ret["key"]." ";
                 if($key == 'index.html'){
                     \App\Helper\Utils::logger("upkey_qiniu: $upkey");
+                    $task->t_resource_file->field_update_list($item['file_id'],[
+                        "wx_index" => "https://ybprodpub.leo1v1.com/".$upkey
+                    ]);
+
                 }
             }
 
