@@ -43,15 +43,15 @@ class main_page2 extends Controller
         ];
 
         $current_month_first = strtotime(date("Y-m-01"));
-        $current_month_last = strtotime(date("Y-m-t"));
+        $current_month_last = strtotime(date("Y-m-t 23:59:59"));
 
-        $last_month_first_date = date("Y-m-01 00:00:00",strtotime("-1 month"));
-        $last_month_first = strtotime($last_month_first_date);
-        // echo $last_month_first_date,' ',$last_month_first;
-        // dd(1);
-        $last_month_last  = strtotime(date("Y-m-t 11:59:59",strtotime("-1 month")));
+        $last_month_first_date = date("Y-m-01",strtotime("-1 month"));
+        $last_month_first = strtotime($last_month_first_date);       
+        $last_month_last  = strtotime(date("Y-m-t 23:59:59",strtotime("-1 month")));
 
-        $history_month_last = strtotime(date("Y-m-t",strtotime("-2 month")));
+        //dd(date("Y-m-d H:i:s",1509465599));
+
+        $history_month_last = strtotime(date("Y-m-t 23:59:59",strtotime("-2 month")));
 
         $contract_status="(1,2,3)";  //合同状态
         $test_user=0;        //是否是测试用户
