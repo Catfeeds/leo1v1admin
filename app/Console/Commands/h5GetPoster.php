@@ -140,7 +140,7 @@ class h5GetPoster extends Command
 
         if($is_exit){
             try{
-                $IM->readImage($pdf);
+                @$IM->readImage($pdf);
             }catch (Exception $e) {
                 echo 'Caught exception_H5: ',  $e->getMessage(), "\n";
                 $IM->clear();

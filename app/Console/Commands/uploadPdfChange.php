@@ -51,14 +51,6 @@ class uploadPdfChange extends Command
 
 
         $handoutArray = $task->t_resource_file->getResourceFileList();
-        // $handoutArray = [
-        //     [
-        //         "file_link" => '037ab4c73279591d363017b22e6b86521513827415246.pdf',
-        //         "file_id"   => 4,
-        //         "file_title" => "提高）氧气的性质-教师"
-        //     ]
-        // ];
-
 
         foreach($handoutArray as $item){
             //七牛下载

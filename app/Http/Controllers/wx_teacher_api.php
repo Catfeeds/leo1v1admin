@@ -1099,6 +1099,7 @@ class wx_teacher_api extends Controller
     public function useResource(){
         $lessonid = $this->get_in_int_val("lessonid");
         $file_id  = $this->get_in_int_val('file_id');
+        $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
         $resource_id = $this->t_resource_file->get_resource_id($file_id);
 
         $resourceFileInfo = $this->t_resource_file->getResourceFileInfoById($resource_id);
