@@ -24,6 +24,7 @@ interface RowData {
 	level	:any;
 	main_type_str	:any;
 	lesson_target	:any;
+	renew_target	:any;
 }
 
 /*

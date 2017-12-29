@@ -57,6 +57,7 @@
                     <td>小组 </td>
                     <td>成员 </td>
                     <td>目标系数</td>
+                    <td>续费目标值</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -69,12 +70,13 @@
                         <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >{{$var["group_name"]}}</td>
                         <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}}"  >{{$var["account"]}}</td>
                         <td class="lesson_target">{{@$var["lesson_target"]}}</td> 
+                        <td class="renew_target">{{@$var["renew_target"]/100}}</td> 
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 
-                               <a  title="编辑当月目标系数" class="fa fa-cny opt-ass-month-target"></a>
+                               <a  title="编辑当月目标系数" class="fa fa-edit opt-ass-month-target"></a>
                             </div>
                         </td>
                     </tr>
