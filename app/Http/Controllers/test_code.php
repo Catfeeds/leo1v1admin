@@ -286,15 +286,18 @@ class test_code extends Controller
     public function test_sms(){
         $code     = $this->get_in_str_val("code","5593");
         $index    = $this->get_in_str_val("index","1");
-        $phone    = $this->get_in_str_val("phone","18790256265");
+        $phone    = $this->get_in_int_val("phone","18790256265");
 
-        $template_code = "SMS_10671030";
+        // $template_code = "SMS_10671030";
+        $template_code = 10671030;
         $data = [
             "code"  => $code,
             "index" => $index,
         ];
 
-        $ret = \App\Helper\Common::send_sms_with_taobao($phone, $template_code, $data);
+        // $ret = \App\Helper\Common::send_sms_with_taobao($phone, $template_code, $data);
+
+        $ret = \App\Helper\Net::send_sms_taobao($phone,0,10671029,$data);
         dd($ret);
     }
 
