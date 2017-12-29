@@ -2959,7 +2959,7 @@ function download_show(){
                             //     row_data.push( $.trim($(td_item).find('a').text()));
                             // }else{
                             //     if($(td_item).parent().parent().parent().attr('class') == 'common-table table table-bordered table-striped'){
-                                    row_data.push( $.trim( $(td_item).text()) );
+                            row_data.push( $.trim( $(td_item).text()) );
                                 // }
                             // }
                         }
