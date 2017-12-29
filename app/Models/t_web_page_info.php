@@ -37,15 +37,15 @@ class t_web_page_info extends \App\Models\Zgen\z_t_web_page_info
     public function is_all_share($start_time, $end_time, $adminid) {
         $where_arr = [
             ['l.from_adminid=%u', $adminid,-1],
-            ["w.add_time>=%u",  $start_time, -1  ],
-            ["w.add_time<%u",  $end_time, -1  ],
+            ["w.add_time>=%u",  $start_time, -1],
+            ["w.add_time<%u",  $end_time, -1],
         ];
 
         $sql=$this->gen_sql_new("select max(l.share_wx_flag) as share_flag, w.web_page_id ".
                                 "from %s w ".
                                 "left join %s l on l.web_page_id=w.web_page_id ".
                                 "where %s ".
-                                "group by w.web_page_id".
+                                "group by w.web_page_id",
                                 self::DB_TABLE_NAME,
                                 t_web_page_trace_log::DB_TABLE_NAME,
                                 $where_arr

@@ -1463,4 +1463,8 @@ class test_boby extends Controller {
 		return $s;
 
 	}
+
+    public function test(){
+        // \App\Helper\Utils::check_is_match(11,20171230);
+    }
 }
