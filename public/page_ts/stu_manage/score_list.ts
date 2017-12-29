@@ -178,6 +178,10 @@ $(function(){
                 });
             }
         },function(){
+            console.log(id_grade.val())
+            id_grade.change(function(){
+                console.log($(this).val());
+            });
             $.custom_upload_file(
                 "id_upload_from_url" ,
                 true,function( up, info, file ){
