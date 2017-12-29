@@ -497,6 +497,13 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $wline=fopen("./test2.txt","a+t");
+        chmod("./test2.txt",757);   
+        $line="它-024";
+        fwrite($wline,$line);
+        fclose($wline); 
+        $basedir = dirname(__FILE__);
+        dd($basedir);
         /*
           公众号,信息流,BD,其他
           userid,origin,add_time,last_cc,is_called,is_suc_test_lesson,is_orderid,
