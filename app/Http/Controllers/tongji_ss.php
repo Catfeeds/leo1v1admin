@@ -1666,6 +1666,7 @@ class tongji_ss extends Controller
     }
 
     public function day_report()  {
+        $this->check_and_switch_tongji_domain();
         list($start_time,$end_time) = $this->get_in_date_range_day(-1);
         $week_start_time            = $start_time-7*86400;
         $month_start_time=\App\Helper\Utils::get_up_month_day($start_time);
