@@ -82,32 +82,25 @@ class h5GetPoster extends Command
                 @chmod($savePathFile, 0777);
 
                 $imgs_url_list = $this->pdf2png($savePathFile,$path,$id);
-                // $file_name_origi = array();
                 $file_name_origi_str = '';
-                // foreach($imgs_url_list as $item){
                 if(!empty($imgs_url_list)){
                     $file_name_origi_str = @$this->put_img_to_alibaba($imgs_url_list[0]);
                 }
-                // }
 
-                // $file_name_origi_str = implode(',',$file_name_origi);
                 $this->task->t_resource_file->field_update_list($id,[
                     "change_status" => 1,
                     "file_poster"   => $file_name_origi_str
                 ]);
 
-
                 foreach($imgs_url_list as $item_orgi){
                     @unlink($item_orgi);
                 }
-
                 @unlink($savePathFile);
             }
         }
 
-
         if ( count( $pdf_lists)==0  )  {
-            sleep(20);
+            sleep(2);
         }
     }
 
@@ -140,7 +133,7 @@ class h5GetPoster extends Command
 
         if($is_exit){
             try{
-                $IM->readImage($pdf);
+                @$IM->readImage($pdf);
             }catch (Exception $e) {
                 echo 'Caught exception_H5: ',  $e->getMessage(), "\n";
                 $IM->clear();

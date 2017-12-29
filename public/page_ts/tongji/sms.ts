@@ -5,12 +5,12 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			is_succ:	$('#id_is_succ').val(),
-			type:	$('#id_type').val()
+			      date_type:	$('#id_date_type').val(),
+			      opt_date_type:	$('#id_opt_date_type').val(),
+			      start_time:	$('#id_start_time').val(),
+			      end_time:	$('#id_end_time').val(),
+			      is_succ:	$('#id_is_succ').val(),
+			      type:	$('#id_type').val()
         });
     }
 
@@ -26,11 +26,10 @@ $(function(){
     });
 
     Enum_map.append_option_list("sms_type",$("#id_type"));
-	$('#id_is_succ').val(g_args.is_succ);
-	$('#id_type').val(g_args.type);
+	  $('#id_is_succ').val(g_args.is_succ);
+	  $('#id_type').val(g_args.type);
 
-
-	$('.opt-change').set_input_change_event(load_data);
+	  $('.opt-change').set_input_change_event(load_data);
 });
 
 

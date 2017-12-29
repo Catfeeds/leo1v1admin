@@ -1178,7 +1178,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "m.account_role = 1 ",
             // "m.del_flag =0",
             "o.price >0",
-            "o.contract_type in (3,3001)"
+            "o.contract_type in (3,3001)",
+            "o.orderid not in (29362)"
         ];
         // $where_arr[] = $this->where_get_in_str("o.userid",$warning_stu_list,true);
         $sql =$this->gen_sql_new("select  uid,sum(if(co.child_order_type=2 and (co.channel='建行分期' or co.channel='baidu'),co.price*0.8,co.price)) money ".

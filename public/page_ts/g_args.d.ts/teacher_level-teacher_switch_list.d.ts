@@ -48,21 +48,29 @@ tofile:
 /// <reference path="../g_args.d.ts/teacher_level-teacher_switch_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		teacher_money_type:	$('#id_teacher_money_type').val(),
 		teacherid:	$('#id_teacherid').val(),
 		batch:	$('#id_batch').val(),
 		not_start:	$('#id_not_start').val(),
 		not_end:	$('#id_not_end').val(),
 		status:	$('#id_status').val()
-    });
+		});
 }
 $(function(){
 
 
 	$('#id_teacher_money_type').val(g_args.teacher_money_type);
-	$('#id_teacherid').val(g_args.teacherid);
+	$('#id_teacherid').admin_select_user_new({
+		"user_type"    : "teacher",
+		"select_value" : g_args.teacherid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_teacherid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_batch').val(g_args.batch);
 	$('#id_not_start').val(g_args.not_start);
 	$('#id_not_end').val(g_args.not_end);
@@ -83,6 +91,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_teacher_money_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teacher_money_type title", "teacher_money_type", "th_teacher_money_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -90,6 +99,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_teacherid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teacherid title", "teacherid", "th_teacherid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -97,6 +107,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_batch" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["batch title", "batch", "th_batch" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -104,6 +115,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_not_start" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["not_start title", "not_start", "th_not_start" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -111,6 +123,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_not_end" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["not_end title", "not_end", "th_not_end" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -118,4 +131,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_status" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["status title", "status", "th_status" ]])!!}
 */

@@ -50,16 +50,6 @@ class pdfConversionH5 extends Command
 
         $handoutArray = $task->t_resource_file->getResourceList();
 
-        // $handoutArray = [
-        //     [
-        //         "file_link" => 'aaf3622180de9ae8967eb7986c10bce61513827415224.pdf',
-        //         "file_id"   => 6,
-        //         "uuid"      => 'g03c6f7a81c9bdba93137ac50d77ea81'
-        //     ]
-        // ];
-
-
-
         foreach($handoutArray as $item){
             $uuid = $item['uuid'];
             //从未达下载
@@ -67,7 +57,7 @@ class pdfConversionH5 extends Command
             $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
             $unzipFilePath  =  public_path('wximg'); // 解压后的文件夹
 
-            $data=file_get_contents($h5DownloadUrl);
+            $data=@file_get_contents($h5DownloadUrl);
             file_put_contents($saveH5FilePath, $data);
 
 

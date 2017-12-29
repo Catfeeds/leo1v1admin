@@ -497,6 +497,13 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $stooges = array('Moe','Larry','Curly');
+        unset($stooges[1]);
+        $new = serialize($stooges);
+        dd($stooges,$new,unserialize($new));
+        echo "<br />";
+        print_r(unserialize($new));
+
         $pattern = '/(https?|ftps?):\/\/(www)\.([^\.\/]+)\.(com|net|org)(\/[\w-\.\/\?\%\&\=]*)?/i';
         $subject = "网址为http://www.chinagpx.com/index.php的位置是chinagpx";
         preg_match($pattern, $subject, $matches);

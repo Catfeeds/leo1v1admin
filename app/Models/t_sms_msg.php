@@ -8,11 +8,11 @@ class t_sms_msg extends \App\Models\Zgen\z_t_sms_msg
         parent::__construct();
     }
 
-    public function get_sms_list($page_num, $start, $end, $phone, $is_success, $type,$search_info)
+    public function get_sms_list($page_num, $start, $end, $phone, $is_success, $type,$receive_content)
     {
         $where_arr=[
             ["phone like \"%%%s%%\"",$phone,"" ],
-            ["receive_content like \"%%%s%%\"",$search_info,"" ],
+            ["receive_content like \"%%%s%%\"",$receive_content,"" ],
             ["is_success =%u ",$is_success, -1 ],
             ["type =%u ",$type , -1 ],
         ];
@@ -24,7 +24,7 @@ class t_sms_msg extends \App\Models\Zgen\z_t_sms_msg
             $end,
             $where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_num,15);
+        return $this->main_get_list_by_page($sql,$page_num);
     }
 
     public function tongji_get_list($start_time, $end_time, $is_success, $type)
@@ -40,9 +40,14 @@ class t_sms_msg extends \App\Models\Zgen\z_t_sms_msg
             $type_str="type,";
         }
 
-        $sql=$this->gen_sql_new("select from_unixtime(send_time ,'%%Y-%%m-%%d') as log_date , $type_str count(*) as count from %s where %s  group  by $type_str log_date  ", self::DB_TABLE_NAME, $where_arr);
+        $sql = $this->gen_sql_new("select from_unixtime(send_time ,'%%Y-%%m-%%d') as log_date , $type_str count(*) as count"
+                                  ." from %s where %s  group  by $type_str log_date  "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
         return $this->main_get_list($sql);
     }
+
     public function tongji_type_get_list($start_time, $end_time)
     {
         $where_arr=[
