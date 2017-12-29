@@ -114,6 +114,7 @@ class assistant_performance extends Controller
         $month_half = $start_time+15*86400;
         $last_month = strtotime("-1 month",$start_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
+        dd($ass_month);
         $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
         
 
