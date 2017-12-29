@@ -82,8 +82,7 @@ $(function(){
                                 $upload_link.attr("href", resp.url);
                                 $upload_link.html("查看");
                             })
-                        },
-                        null,
+                        }, null,
                         ["exe","jpg","jpeg","zip","rar","gz","pdf","doc","deb"] );
                 })
             }

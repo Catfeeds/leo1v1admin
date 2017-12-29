@@ -15,6 +15,13 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	id	:any;
+	file_path	:any;
+	file_url	:any;
+	file_type	:any;
+	is_publish	:any;
+	publish_time	:any;
+	file_type_str	:any;
 }
 
 /*
