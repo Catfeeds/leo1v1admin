@@ -52,8 +52,8 @@ class pic_manage extends Controller
 
         $start_time  = $this->get_in_str_val('start_time');
         $end_time    = $this->get_in_str_val('end_time');
-        $title_share = $this->get_in_str_val('title_share');
-        $info_share  = $this->get_in_str_val('info_share');
+        $title_share = $this->get_in_str_val('title_share','');
+        $info_share  = $this->get_in_str_val('info_share','');
         $jump_url    = $this->get_in_str_val('jump_url');
         $jump_type   = $this->get_in_int_val('jump_type');
 
@@ -75,6 +75,5 @@ class pic_manage extends Controller
 
         return outputjson_success();
     }
-
 
 }

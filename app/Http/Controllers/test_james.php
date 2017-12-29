@@ -1552,6 +1552,29 @@ class test_james extends Controller
     }
 
     public function dddd(){
+        $key = $this->get_in_str_val("key");
+        // 构建鉴权对象
+
+        $unzipFilePath  =  public_path('pdfToH5'); // 解压后的文件夹
+        $auth = new \Qiniu\Auth ($accessKey, $secretKey);
+        $h5Path = "pdfToH5"; // 环境文件夹
+        // 上传到七牛后保存的文件名
+        $upkey = $h5Path."/".$key;
+
+        // 生成上传 Token
+        $token = $auth->uploadToken($bucket,$upkey);
+        $Upfile = $unzipFilePath."/".$key;
+
+        // 初始化 UploadManager 对象并进行文件的上传。
+        $uploadMgr = new \Qiniu\Storage\UploadManager();
+
+        // 调用 UploadManager 的 putFile 方法进行文件的上传。
+        list($ret, $err) = $uploadMgr->putFile($token, $upkey, $Upfile);
+
+
+
+        exit();
+
 
         $hotcat =array(
             array('catid'=>'1546','catname'=>'数组排序 一级','count'=>'588'),

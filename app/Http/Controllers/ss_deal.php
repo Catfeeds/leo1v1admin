@@ -7816,7 +7816,7 @@ class ss_deal extends Controller
         ]);
 
         $dealAccount = $this->get_account_id();
-        $web_page_id = $this->t_web_page_info->updateUrlInfo($id, $url, $title, $dealAccount);
+        $web_page_id = $this->t_web_page_info->updateUrlInfo($id, $title, $dealAccount);
         return $this->output_succ();
     }
 

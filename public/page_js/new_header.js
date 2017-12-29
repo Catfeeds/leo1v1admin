@@ -2955,13 +2955,13 @@ function download_show(){
                 $.each(  $td_list, function( i, td_item)  {
                     if ( i>0 && i< $td_list.length-1 ) {
                         if(td_item.className != 'ellipsis_jiaowu'){
-                            if($(td_item).find('a').text() !== ''){
-                                row_data.push( $.trim($(td_item).find('a').text()));
-                            }else{
-                                if($(td_item).parent().parent().parent().attr('class') == 'common-table table table-bordered table-striped'){
+                            // if($(td_item).find('a').text() !== ''){
+                            //     row_data.push( $.trim($(td_item).find('a').text()));
+                            // }else{
+                            //     if($(td_item).parent().parent().parent().attr('class') == 'common-table table table-bordered table-striped'){
                                     row_data.push( $.trim( $(td_item).text()) );
-                                }
-                            }
+                                // }
+                            // }
                         }
                     }
                 });
