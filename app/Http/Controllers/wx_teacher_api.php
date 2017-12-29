@@ -1073,7 +1073,7 @@ class wx_teacher_api extends Controller
         $file_id   = $this->get_in_int_val('file_id');
         $teacherid = $this->get_in_int_val("teacherid");
 
-        $this->t_resource_file_visit_info->row_insert([ // 浏览
+        $this->t_resource_file_visit_info->row_insert([ // 增加浏览记录
             'file_id'      => $file_id,
             'visitor_type' => 1,
             'visitor_id'   => $teacherid,
@@ -1147,7 +1147,8 @@ class wx_teacher_api extends Controller
             "tea_cw_origin"   => 3, // 理优资源
             "stu_cw_origin"   => 3,// 理优资源
             "tea_cw_file_id"  => $teaFileId,
-            "stu_cw_file_id"  => $stuFileId
+            "stu_cw_file_id"  => $stuFileId,
+            "zip_url"         => 
         ]);
 
         if($pdfToImg){
