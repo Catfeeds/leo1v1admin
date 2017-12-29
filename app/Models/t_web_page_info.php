@@ -54,6 +54,11 @@ class t_web_page_info extends \App\Models\Zgen\z_t_web_page_info
 
         return $this->main_get_list($sql);
     }
+
+    public function updateUrlInfo($id, $url, $title, $dealAccount){
+        // $sql = 
+        // $this->
+    }
 }
 
 

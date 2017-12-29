@@ -190,7 +190,7 @@ $(function(){
                     return;
                 }
 
-                $.do_ajax("/ss_deal/addMarketExtend",{
+                $.do_ajax("/ss_deal/updateMarketExtend",{
                     'gift_type' : $main_type_name.val(),
                     'title'     : $title.val(),
                     'act_descr' : $describe.val(),
@@ -198,6 +198,7 @@ $(function(){
                     'coverImgUrl' : $img_src1.val(),
                     'followImgUrl' : $img_src4.val(),
                     'activityImgUrl' : $img_src2.val(),
+                    'id' : opt_data.id
                 });
             }
         },function(){
@@ -214,14 +215,32 @@ $(function(){
             if(opt_data.followimgurl){ $('.del_follow').css('display','block');}
 
             $title.val(opt_data.title);
-            $main_type_name.val(opt_data.gift_type);
             $describe.val(opt_data.act_descr);
+            $main_type_name.val(opt_data.gift_type);
             $img_src1.val(opt_data.coverimgurl);
             $img_src2.val(opt_data.activityimgurl);
             $img_src3.val(opt_data.shareimgurl);
             $img_src4.val(opt_data.followimgurl);
 
 
+
+            if(opt_data.coverimgurl){
+                $('#id_img1').attr('src','https://ybprodpub.leo1v1.com'+opt_data.coverimgurl);
+            }
+
+
+            if(opt_data.activityimgurl){
+                $('#id_img2').attr('src','https://ybprodpub.leo1v1.com'+opt_data.activityimgurl);
+            }
+
+            if(opt_data.shareimgurl){
+                $('#id_img3').attr('src','https://ybprodpub.leo1v1.com'+opt_data.shareimgurl);
+            }
+
+
+            if(opt_data.followimgurl){
+                $('#id_img4').attr('src','https://ybprodpub.leo1v1.com'+opt_data.followimgurl);
+            }
 
 
             $.custom_upload_file('id_img1',true,function (up, info, file) { // 封面页
