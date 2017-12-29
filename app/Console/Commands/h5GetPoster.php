@@ -140,16 +140,22 @@ class h5GetPoster extends Command
         $is_exit = file_exists($pdf);
 
         if($is_exit){
-            $IM->readImage($pdf);
-            foreach($IM as $key => $Var){
-                @$Var->setImageFormat('png');
-                $Filename = $path."/pdf_to_h5".$id."_".$key.".png" ;
-                if($Var->writeImage($Filename)==true){
-                    $Return[]= $Filename;
+            try{
+                $IM->readImage($pdf);
+                foreach($IM as $key => $Var){
+                    @$Var->setImageFormat('png');
+                    $Filename = $path."/pdf_to_h5".$id."_".$key.".png" ;
+                    if($Var->writeImage($Filename)==true){
+                        $Return[]= $Filename;
+                    }
                 }
+                $IM->clear();
+                return $Return;
+            }catch (Exception $e) {
+                echo 'Caught exception_H5: ',  $e->getMessage(), "\n";
+                $IM->clear();
+                return [];
             }
-            $IM->clear();
-            return $Return;
         }else{
             $IM->clear();
             return [];
