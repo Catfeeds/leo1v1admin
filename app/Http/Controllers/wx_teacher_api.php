@@ -1024,6 +1024,7 @@ class wx_teacher_api extends Controller
     public function get_test_lesson_info(){
         $lessonid  = $this->get_in_int_val('lessonid',-1);
         $ret_info  = $this->t_test_lesson_subject->get_test_require_info($lessonid);
+        $ret_info['teacherid'] = $this->t_lesson_info->get_teacherid($lessonid);
 
         if($ret_info['lesson_del_flag']==1){
             $ret_info['status'] = 2;
@@ -1051,8 +1052,12 @@ class wx_teacher_api extends Controller
         $ret_info['subject_tag'] = $subject_tag_arr['学科化标签']?$subject_tag_arr['学科化标签']:$default_tag;
 
         // 数据待确认
-        // $ret_info['handout_flag'] = $this->t_resource->getResourceId($subject,$grade);
-        $ret_info['handout_flag'] = 0; //无讲义
+
+        if($ret_info['teacherid'] == 357372){//文彬 测试
+            $ret_info['handout_flag'] = $this->t_resource->getResourceId($ret_info['subject'],$ret_info['grade']);
+        }else{
+            $ret_info['handout_flag'] = 0; //无讲义
+        }
 
         return $this->output_succ(["data"=>$ret_info]);
     }

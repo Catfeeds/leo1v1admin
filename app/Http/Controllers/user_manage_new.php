@@ -1775,10 +1775,14 @@ class user_manage_new extends Controller
                 $item["renew_target"]="";
             }else{
                 $item["lesson_target"]=@$target_info["rate_target"];
-                $item["renew_target"]=@$target_info["renew_target"];
+                $item["renew_target"]=@$target_info["renew_target"]/100;
             }
 
         }
+
+        $this->set_filed_for_js("rate_target",@$target_info["rate_target"]);
+        $this->set_filed_for_js("renew_target",@$target_info["renew_target"]/100);
+
 
         return $this->pageView(__METHOD__, $ret_info);
     }

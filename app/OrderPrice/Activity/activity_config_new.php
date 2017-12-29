@@ -243,13 +243,12 @@ class activity_config_new extends  activity_new_base {
 
         //查看是否必须分享微信
         if($this->is_need_share_wechat == 1){
-            //$is_share_result = [];
-            $is_share_result = \App\Helper\Utils::check_is_match($this->get_task_controler()->get_account_id(),$this->order_activity_type);
-            \App\Helper\Utils::logger("查看是否必须分享微信: ".json_encode($is_share_result));
-            if($is_share_result && @$is_share_result['ret'] == 0){
-                $desc_list[]=$this->gen_activity_item(0,  $activity_desc. ",必须分享微信,你还没分享呢！<a target='_blank' href='".$is_share_result['url']."'>分享点击</a>"  , $price,  $present_lesson_count, $can_period_flag );
-                return false;
-            };
+            // $is_share_result = \App\Helper\Utils::check_is_match($this->get_task_controler()->get_account_id(),$this->order_activity_type);
+            // \App\Helper\Utils::logger("查看是否必须分享微信: ".json_encode($is_share_result));
+            // if($is_share_result && @$is_share_result['ret'] == 0){
+            //     $desc_list[]=$this->gen_activity_item(0,  $activity_desc. ",必须分享微信,你还没分享呢！<a target='_blank' href='".$is_share_result['url']."'>分享点击</a>"  , $price,  $present_lesson_count, $can_period_flag );
+            //     return false;
+            // };
         }
 
         //\App\Helper\Utils::logger("按课次数送课: ".$this->title.json_encode($this->lesson_times_present_lesson_count));

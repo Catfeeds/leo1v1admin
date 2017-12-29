@@ -13,7 +13,7 @@
                     <td colspan="22" align="center">核心数据</td>
                     <td colspan="13" align="center">招师数据</td>
                     <td colspan="3" align="center">培训数据</td>
-                    <td colspan="16" align="center">教务数据</td>
+                    <td colspan="18" align="center">教务数据</td>
                     <td colspan="21" align="center">运营数据</td>                  
                    
                     <td  >操作</td>

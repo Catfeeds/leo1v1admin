@@ -3782,13 +3782,13 @@ class user_deal extends Controller
         if($res){
             $this->t_ass_group_target->field_update_list($month,[
                 "rate_target"=>$lesson_target,
-                "renew_target"=>$renew_target*100
+                "renew_target"=>$renew_target
             ]);
         }else{
             $this->t_ass_group_target->row_insert([
                 "rate_target"=>$lesson_target,
                 "month"=>$month,
-                "renew_target"=>$renew_target*100
+                "renew_target"=>$renew_target
             ]);
         }
         return $this->output_succ();
