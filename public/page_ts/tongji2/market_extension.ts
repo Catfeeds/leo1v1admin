@@ -121,25 +121,25 @@ $(function(){
 
             $('.del_cover').on("click",function(){
                 $img_src1.val('');
-                $('#id_img1').attr('src','');
+                $('#id_img1').attr('src','http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png');
                 $('.del_cover').css('display','none');
             });
 
             $('.del_activity').on("click",function(){
                 $img_src2.val('');
-                $('#id_img2').attr('src','');
+                $('#id_img2').attr('src','http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png');
                 $('.del_activity').css('display','none');
             });
 
             $('.del_share').on("click",function(){
                 $img_src3.val('');
-                $('#id_img3').attr('src','');
+                $('#id_img3').attr('src','http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png');
                 $('.del_share').css('display','none');
             });
 
             $('.del_follow').on("click",function(){
                 $img_src4.val('');
-                $('#id_img4').attr('src','');
+                $('#id_img4').attr('src','http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png');
                 $('.del_follow').css('display','none');
             });
 
@@ -305,28 +305,28 @@ $(function(){
             $('.del_cover').on("click",function(){
                 $img_src1.val('');
                 // $('.del_cover').remove();
-                $('#id_img1').attr('src','');
+                $('#id_img1').attr('src','http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png');
                 $('.del_cover').css('display','none');
             });
 
             $('.del_activity').on("click",function(){
                 $img_src2.val('');
                 // $('.del_activity').remove();
-                $('#id_img2').attr('src','');
+                $('#id_img2').attr('src','http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png');
                 $('.del_activity').css('display','none');
             });
 
             $('.del_share').on("click",function(){
                 $img_src3.val('');
                 // $('.del_share').remove();
-                $('#id_img3').attr('src','');
+                $('#id_img3').attr('src','http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png');
                 $('.del_share').css('display','none');
             });
 
             $('.del_follow').on("click",function(){
                 $img_src4.val('');
                 $('.del_follow').css('display','none');
-                $('#id_img4').attr('src','');
+                $('#id_img4').attr('src','http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png');
                 // $('.del_follow').remove();
             });
 
