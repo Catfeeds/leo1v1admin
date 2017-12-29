@@ -76,7 +76,7 @@ class main_page2 extends Controller
         $current_month_cc_row = $this->t_order_info->get_cc_order_count($current_arr);
         if( $current_month_num > 0 && $current_month_cc_row ){
             $current_month_cc = $current_month_cc_row['count_order'];
-            $current_month_rate = sprintf('%.4f', $current_month_cc/$current_month_all)*100;
+            $current_month_rate = sprintf('%.4f', $current_month_cc/$current_month_num)*100;
             $current_month_rate = $current_month_rate.'%';
         }
 
@@ -88,7 +88,7 @@ class main_page2 extends Controller
         $last_month_cc_row = $this->t_order_info->get_cc_order_count($last_arr);
         if( $current_month_num > 0 && $last_month_cc_row ){
             $last_month_cc = $last_month_cc_row['count_order'];
-            $last_month_rate = sprintf('%.4f', $last_month_cc/$current_month_all)*100;
+            $last_month_rate = sprintf('%.4f', $last_month_cc/$current_month_num)*100;
             $last_month_rate = $last_month_rate.'%';
         }
         
@@ -100,7 +100,7 @@ class main_page2 extends Controller
         $his_month_cc_row = $this->t_order_info->get_cc_order_count($his_arr);
         if( $current_month_num > 0 && $his_month_cc_row ){
             $his_month_cc = $his_month_cc_row['count_order'];
-            $his_month_rate = sprintf('%.4f', $his_month_cc/$current_month_all)*100;
+            $his_month_rate = sprintf('%.4f', $his_month_cc/$current_month_num)*100;
             $his_month_rate = $his_month_rate.'%';
         }
 
