@@ -15,7 +15,7 @@ class TVersionControlAddVersionName extends Migration
         //
         Schema::table('db_weiyi.t_version_control', function( Blueprint $table)
         {
-            t_field($table->string("version_name",255) ,"version_name");
+            t_field($table->string("version_name",255) ,"版本名称");
         });
     }
 
