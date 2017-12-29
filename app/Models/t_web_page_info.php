@@ -54,9 +54,12 @@ class t_web_page_info extends \App\Models\Zgen\z_t_web_page_info
         return $this->main_get_list($sql);
     }
 
-    public function updateUrlInfo($id, $url, $title, $dealAccount){
-        // $sql = 
-        // $this->
+    public function updateUrlInfo($id,$title, $dealAdminId){
+        $sql = $this->gen_sql_new("  update %s tw set title='$title', add_adminid=$dealAdminId "
+                                  ." where id=$id"
+                                  ,self::DB_TABLE_NAME
+        );
+        return $this->main_update($sql);
     }
 
     public function get_web_info($web_page_id_str) {
