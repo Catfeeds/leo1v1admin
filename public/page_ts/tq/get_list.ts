@@ -16,7 +16,8 @@ $(function(){
             user_info         : $('#id_user_info').val(),
             is_called_phone:    $('#id_is_called_phone').val(),
             seller_student_status:  $('#id_seller_student_status').val(),
-            uid:    $('#id_uid').val()
+            uid:    $('#id_uid').val(),
+            userid:    $('#id_userid').val(),
         });
     }
 
@@ -92,6 +93,7 @@ $(function(){
     $('#id_phone').val(g_args.phone);
     $('#id_is_called_phone').val(g_args.is_called_phone);
     $('#id_uid').val(g_args.uid);
+    $('#id_userid').val(g_args.userid);
     $.admin_select_user( $("#id_uid"), "admin",  load_data );
     $('#id_seller_student_status').val(g_args.seller_student_status);
     $.enum_multi_select( $('#id_seller_student_status'), 'seller_student_status', function(){load_data();} )

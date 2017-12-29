@@ -3776,14 +3776,19 @@ class user_deal extends Controller
         // $adminid         = $this->get_in_int_val("adminid");
         $lesson_target   = $this->get_in_str_val("lesson_target");
         $month           = strtotime($this->get_in_str_val("month"));
+        $renew_target   = $this->get_in_str_val("renew_target");
 
-        $res = $this->t_ass_group_target->field_get_list($month,"rate_target");
+        $res = $this->t_ass_group_target->field_get_list($month,"month");
         if($res){
-            $this->t_ass_group_target->field_update_list($month,["rate_target"=>$lesson_target]);
+            $this->t_ass_group_target->field_update_list($month,[
+                "rate_target"=>$lesson_target,
+                "renew_target"=>$renew_target
+            ]);
         }else{
             $this->t_ass_group_target->row_insert([
                 "rate_target"=>$lesson_target,
-                "month"=>$month
+                "month"=>$month,
+                "renew_target"=>$renew_target
             ]);
         }
         return $this->output_succ();

@@ -2587,7 +2587,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function get_cc_order_count($where_arr){
         $sql = $this->gen_sql_new(
-            "select  count(o.orderid) as count_order from %s o "
+            "select  count(distinct o.orderid) as count_order from %s o "
             ." left join %s s on o.userid = s.userid "
             ." left join %s t3 on o.sys_operator = t3.account "
             ." left join %s c on o.orderid = c.orderid "
@@ -2598,8 +2598,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." left join %s m2 on o.sys_operator = m2.account"
             ." left join %s ti on o.userid = ti.userid"
             ." left join %s co on (co.parent_orderid = o.orderid and co.child_order_type = 2)"
-            ." where %s "
-            ." group by o.orderid ",
+            ." where %s ",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,

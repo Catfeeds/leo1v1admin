@@ -6,6 +6,7 @@ interface GargsStatic {
 	end_time:	string;
 	is_succ:	number;
 	phone:	string;
+	receive_content:	string;
 	type:	number;
 	page_num:	number;
 	page_count:	number;
@@ -47,6 +48,7 @@ function load_data(){
 		end_time:	$('#id_end_time').val(),
 		is_succ:	$('#id_is_succ').val(),
 		phone:	$('#id_phone').val(),
+		receive_content:	$('#id_receive_content').val(),
 		type:	$('#id_type').val()
 		});
 }
@@ -64,6 +66,7 @@ $(function(){
 		});
 	$('#id_is_succ').val(g_args.is_succ);
 	$('#id_phone').val(g_args.phone);
+	$('#id_receive_content').val(g_args.receive_content);
 	$('#id_type').val(g_args.type);
 
 
@@ -95,6 +98,14 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["phone title", "phone", "th_phone" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">receive_content</span>
+                <input class="opt-change form-control" id="id_receive_content" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["receive_content title", "receive_content", "th_receive_content" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

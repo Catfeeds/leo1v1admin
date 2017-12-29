@@ -136,10 +136,10 @@ class test_bacon extends Controller
         echo '<br/>';
 
         $text = "关于电流，下列说法中正确的是（&nbsp;&nbsp）<br/>A．电流是正电荷沿一定方向移动形成的<br/>B．电流是电荷沿一定方向移动形成的<br/>C．电流是负电喝沿一定方向移动形成的<br/>D．物理学规定，电荷定向移动的方向为电留方向";
-        $text = "睡交吃饭";
+        //$text = "睡交吃饭";
 
         $secretKey = 'DSSDjzz4tSlEj0yd2ViRzqPjngLsQi2E';
-        $srcStr = 'GETwenzhi.api.qcloud.com/v2/index.php?Action=LexicalCheck&InstanceIds.0=ins-09dx96dg&Nonce='.$nonce.'&Region=ap-shanghai&SecretId=AKIDaqpY359OgjUzFGniiVnGa0TwoiN0nvqL&SignatureMethod=HmacSHA256&Timestamp='.$current.'&text='.$text;
+        $srcStr = 'GETwenzhi.api.qcloud.com/v2/index.php?Action=LexicalCheck&Nonce='.$nonce.'&Region=ap-shanghai&SecretId=AKIDaqpY359OgjUzFGniiVnGa0TwoiN0nvqL&SignatureMethod=HmacSHA256&Timestamp='.$current.'&text='.$text;
         //"&SignatureMethod=HmacSHA256";
         echo $srcStr;
         echo '<br/>';

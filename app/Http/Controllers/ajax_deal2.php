@@ -2400,7 +2400,7 @@ class ajax_deal2 extends Controller
 
     public  function web_page_info_send_admin_new ()   {
         $adminid         = $this->get_in_int_val("adminid");
-        $web_page_id_str = $this->get_in_str_val("web_page_id_list");
+        $web_page_id_str = $this->get_in_str_val("web_page_id_str");
 
         if ( $adminid ==0 ) {
             return $this->output_err("还没选择例子");

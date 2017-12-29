@@ -1391,43 +1391,44 @@ jQuery.extend({
           jsonp_flag=true;
         }
       }
+      $.ajax({
+        url:  url,
+        type: 'POST',
+        data:data,
+        dataType: jsonp_flag? "jsonp": 'json',
+        success: function (result)  {
 
+          if (result.ret ){
+            if (result.ret==1005) {
+              alert("未登录");
+              window.location.href=window.admin_api+"?to_url=" + encodeURIComponent( window.location.href );
 
-
-        function ajax_default_deal_func(result){
-            if (result.ret ){
-              if (result.ret==1005) {
-              }else{
-                BootstrapDialog.alert(result['info']);
-              }
             }else{
-                if (!window.g_t ) {
-                  if (  window.vue_load_data  ) {
-                    window.vue_load_data();
-                  }else{
-                    $.reload();
-                  }
-                }
+              BootstrapDialog.alert(result['info']);
             }
-        }
-
-        if (  !success_func) {
-            success_func= ajax_default_deal_func ;
-        }
-
-        $.ajax({
-            url:  url,
-            type: 'POST',
-            data:data,
-            dataType: jsonp_flag? "jsonp": 'json',
-            success: success_func
-
-            ,error: function( XMLHttpRequest, textStatus, errorThrown ) {
-                if( XMLHttpRequest.readyState ==4 ) {
-                    alert("系统错误- 操作失败, 已发邮件 通知开发人员 ");
+          }else{
+            if (success_func ) {
+              success_func(result);
+            }else{
+              if (!window.g_t ) {
+                if (  window.vue_load_data  ) {
+                  window.vue_load_data();
+                }else{
+                  $.reload();
                 }
-            },
-        });
+              }
+
+            }
+
+          }
+        }
+
+        ,error: function( XMLHttpRequest, textStatus, errorThrown ) {
+          if( XMLHttpRequest.readyState ==4 ) {
+            alert("系统错误- 操作失败, 已发邮件 通知开发人员 ");
+          }
+        },
+      });
     },
     do_ajax_t: function (url,data,success_func){
         if (!success_func) {

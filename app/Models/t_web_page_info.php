@@ -36,21 +36,20 @@ class t_web_page_info extends \App\Models\Zgen\z_t_web_page_info
 
     public function is_all_share($start_time, $end_time, $adminid) {
         $where_arr = [
-            ['l.from_adminid=%u', $adminid,-1],
+            // ['l.from_adminid=%u', $adminid,-1],
             ["w.add_time>=%u",  $start_time, -1],
             ["w.add_time<%u",  $end_time, -1],
         ];
 
-        $sql=$this->gen_sql_new("select max(l.share_wx_flag) as share_flag, w.web_page_id ".
-                                "from %s w ".
-                                "left join %s l on l.web_page_id=w.web_page_id ".
-                                "where %s ".
-                                "group by w.web_page_id",
+        $sql=$this->gen_sql_new("select max(l.share_wx_flag) as share_flag, w.web_page_id,l.from_adminid ".
+                                " from %s w ".
+                                " left join %s l on l.web_page_id=w.web_page_id and l.from_adminid=$adminid".
+                                " where %s ".
+                                " group by w.web_page_id",
                                 self::DB_TABLE_NAME,
                                 t_web_page_trace_log::DB_TABLE_NAME,
                                 $where_arr
         );
-
         return $this->main_get_list($sql);
     }
 
@@ -65,12 +64,12 @@ class t_web_page_info extends \App\Models\Zgen\z_t_web_page_info
     public function get_web_info($web_page_id_str) {
 
         $where_arr = [
-            ['web_page_id_str in (%s)', $web_page_id_str,-1],
+            ['web_page_id in (%s)', $web_page_id_str,-1],
         ];
 
-        $sql=$this->gen_sql_new("select web_page_id, title, url ".
-                                "from %s  ".
-                                "where %s ".
+        $sql=$this->gen_sql_new("select web_page_id, title,url ".
+                                " from %s  ".
+                                " where %s ",
                                 self::DB_TABLE_NAME,
                                 $where_arr
         );

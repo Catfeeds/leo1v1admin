@@ -44,13 +44,13 @@ class common_ex extends Controller
 
         \App\Helper\Common::redis_set("JOIN_USER_PHONE_$phone", $code );
 
-        $ret=\App\Helper\Utils::sms_common($phone, 10671029,[
-            "code" => $code,
-            "index" => $msg_num
+        $ret = \App\Helper\Utils::sms_common($phone, 10671029,[
+            "code"  => (string)$code,
+            "index" => (string)$msg_num
         ] );
         $ret_arr= ["msg_num" =>$msg_num  ];
         if ( $code_flag ) {
-            $ret_arr["code"] =  $code;
+            $ret_arr["code"] = $code;
         }
 
         return $this->output_succ($ret_arr);

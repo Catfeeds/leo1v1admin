@@ -153,6 +153,10 @@
         var load_data_flag = parseInt( window.localStorage.getItem( flag_key ));
         var list_type_key = "query_list_type_"+ window.location.pathname;
         var list_type = parseInt( window.localStorage.getItem( list_type_key));
+      if (!list_type) {
+        list_type=0;
+      }
+
 
         this.options.list_type = list_type;
         //超级紧凑
@@ -365,11 +369,13 @@
                     $header_query_row.append($query_obj);
                 }
             }
+          if ( $query_obj) {
             if (!show_flag ) {
-                $query_obj.hide();
+              $query_obj.hide();
             }else{
-                $query_obj.show();
+              $query_obj.show();
             }
+          }
         }
     };
 
@@ -901,6 +907,80 @@
     //在插件中使用对象
     $.admin_ajax_select_user  = function(options) {
        return new  Cadmin_ajax_select_user (  options);
+    };
+
+})(jQuery, window, document);
+(function($, window, document,undefined) {
+
+    var Ccommon = function(opt) {
+
+        var me =this;
+        this.defaults = {
+            "join_header" : null,
+            "length_css" : "col-xs-12 col-md-2",
+          jquery_body :  "" ,
+          "title" : "命令列表",
+          "as_header_query" : false ,
+        };
+
+        this.options    = $.extend({}, this.defaults, opt);
+        this.title      = this.options.title;
+        me.header_query = this.options.join_header;
+        me.list_type =  me.header_query .list_type;
+
+        this.field_name= this.options.field_name ;
+
+        this.$ele=  $(
+            '<div class="'+me.options.length_css +'">'
+                +'</div>'
+        );
+
+        if ( this.list_type ==1 && !this.options.as_header_query ){
+            this.$ele.css( {
+                "padding-left": "0px"
+            });
+        }
+      this.$ele.html( this.options.jquery_body );
+
+
+        //加入到列表
+        this.header_query.add(this);
+    };
+
+    //定义方法
+    Ccommon.prototype = {
+        get_title :function() {
+          return this.title ;
+        },
+        //是否作为头部查询
+        get_as_header_query:function() {
+            return this.options.as_header_query;
+        },
+
+        set_query_arg_clean(){
+        },
+
+        get_show_flag:function() {
+          return  true;
+        },
+
+        get_query_args:function () {
+          return null;
+        },
+        get_query_info:function() {
+          return null;
+        },
+
+        get_query_obj:function( ) {
+            return this.$ele;
+        }
+
+    };
+
+
+    //在插件中使用对象
+    $.admin_query_common = function(options) {
+       return new Ccommon (  options);
     };
 
 })(jQuery, window, document);

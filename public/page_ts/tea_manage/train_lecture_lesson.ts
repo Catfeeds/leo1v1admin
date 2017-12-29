@@ -564,8 +564,7 @@ $(function(){
                     var id_total_score = $("<input readonly /> ");
                     var id_res         = $("<select/>");
                     var flag_html      = "<option value='0'>不通过</option>"
-                                        +"<option value='1'>通过</option>"
-                                        +"<option value='2'>老师未到</option>";
+                                        +"<option value='1'>通过</option>";
                     id_res.append(flag_html);
                     var id_identity      = $("<select/>");
                     var id_work_year     = $("<input />");
@@ -775,8 +774,7 @@ $(function(){
             var id_total_score = $("<input readonly /> ");
             var id_res         = $("<select/>");
             var flag_html      = "<option value='0'>不通过</option>"
-                +"<option value='1'>通过</option>"
-                +"<option value='2'>老师未到</option>";
+                +"<option value='1'>通过</option>";
             id_res.append(flag_html);
             var id_identity      = $("<select/>");
             var id_work_year     = $("<input />");
@@ -956,7 +954,7 @@ $(function(){
 
     $(".opt-edit-no-pass").on("click",function(){
         var data           = $(this).get_opt_data();
-        var id_lecture_out=$("<label><input name=\"lecture_out\" type=\"checkbox\" value=\"3\" />语速过慢/过快 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"4\" />语调沉闷 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"5\" />节奏拖沓 </label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"6\" />枯燥乏味 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"8\" />解题错误</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"9\" />普通话发音不标准</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"10\" />英文发音不标准</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"100\" />其他</label>");
+        var id_lecture_out=$("<label><input name=\"lecture_out\" type=\"checkbox\" value=\"3\" />语速过慢/过快 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"4\" />语调沉闷 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"5\" />节奏拖沓 </label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"6\" />枯燥乏味 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"8\" />解题错误</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"9\" />普通话发音不标准</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"10\" />英文发音不标准</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"11\" />老师未到</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"100\" />其他</label>");
         var id_reason_all = $("<textarea/>");
 
         var arr = [

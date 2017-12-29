@@ -1024,6 +1024,7 @@ class wx_teacher_api extends Controller
     public function get_test_lesson_info(){
         $lessonid  = $this->get_in_int_val('lessonid',-1);
         $ret_info  = $this->t_test_lesson_subject->get_test_require_info($lessonid);
+        $ret_info['teacherid'] = $this->t_lesson_info->get_teacherid($lessonid);
 
         if($ret_info['lesson_del_flag']==1){
             $ret_info['status'] = 2;
@@ -1051,8 +1052,12 @@ class wx_teacher_api extends Controller
         $ret_info['subject_tag'] = $subject_tag_arr['学科化标签']?$subject_tag_arr['学科化标签']:$default_tag;
 
         // 数据待确认
-        // $ret_info['handout_flag'] = $this->t_resource->getResourceId($subject,$grade);
-        $ret_info['handout_flag'] = 0; //无讲义
+
+        if($ret_info['teacherid'] == 357372){//文彬 测试
+            $ret_info['handout_flag'] = $this->t_resource->getResourceId($ret_info['subject'],$ret_info['grade']);
+        }else{
+            $ret_info['handout_flag'] = 0; //无讲义
+        }
 
         return $this->output_succ(["data"=>$ret_info]);
     }
@@ -1082,17 +1087,8 @@ class wx_teacher_api extends Controller
         ]);
 
         $this->t_resource_file->add_num("visit_num", $file_id);
-
-        $resource_id = $this->t_resource_file->get_resource_id($file_id);
-        $file_link = $this->t_resource_file->get_file_link($resource_id);
-
-        if($file_link){
-            $domain = config('admin')['qiniu']['public']['url'];
-            $file_link = $domain.'/'.$file_link;
-        }
-
-        return $this->output_succ(["file_link"=>$file_link]);
-
+        $wx_index = $this->t_resource_file->get_wx_index($file_id);
+        return $this->output_succ(["wx_index"=>$wx_index]);
     }
 
     /**
@@ -1103,7 +1099,14 @@ class wx_teacher_api extends Controller
     public function useResource(){
         $lessonid = $this->get_in_int_val("lessonid");
         $file_id  = $this->get_in_int_val('file_id');
+        $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
         $resource_id = $this->t_resource_file->get_resource_id($file_id);
+
+        $checkIsUse = $this->t_lesson_info_b3->checkIsUse($lessonid);
+
+        if($checkIsUse){
+            return $this->output_succ(['checkIsUse'=>$checkIsUse]);
+        }
 
         $resourceFileInfo = $this->t_resource_file->getResourceFileInfoById($resource_id);
 
@@ -1141,7 +1144,7 @@ class wx_teacher_api extends Controller
         foreach($resourceFileInfo as $i => $item){
             $sort[$i] = $item['file_type'];
         }
-        array_multisort($ret,SORT_ASC,$resourceFileInfo);//此处对数组进行降序排列；SORT_DESC按降序排列
+        array_multisort($sort,SORT_ASC,$resourceFileInfo);//此处对数组进行降序排列；SORT_DESC按降序排列
         $this->t_lesson_info->field_update_list($lessonid, [
             "tea_more_cw_url" => json_encode($resourceFileInfo),
             "tea_cw_origin"   => 3, // 理优资源
@@ -1158,7 +1161,8 @@ class wx_teacher_api extends Controller
             // 转化pdf to png
             $this->get_pdf_url($pdf_file_path, $lessonid, $pdfToImg);
         }
-        return $this->output_succ();
+
+        return $this->output_succ(['checkIsUse'=>$checkIsUse]);
     }
 
 
