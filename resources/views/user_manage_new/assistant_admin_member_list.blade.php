@@ -70,7 +70,7 @@
                         <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >{{$var["group_name"]}}</td>
                         <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}}"  >{{$var["account"]}}</td>
                         <td class="lesson_target">{{@$var["lesson_target"]}}</td> 
-                        <td class="renew_target">{{@$var["renew_target"]/100}}</td> 
+                        <td class="renew_target">{{@$var["renew_target"]}}</td> 
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
