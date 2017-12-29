@@ -22,27 +22,60 @@ class aliyun_oss  extends Controller
         $ret_info = $this->t_version_control->get_list($page_info,$start_time,$end_time);
         foreach($ret_info['list'] as $key => &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"publish_time");
-            E\Efile_type::set_item_value_str($item);
+            E\Eversion_status::set_item_value_str($item,"is_publish");
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
-
+    public function update_status(){
+        $id = $this->get_in_int_val("id");
+        $ret_update = $this->t_version_control->update_info_new($id);
+        if($ret_update){
+            return outputjson_success();
+        }else{
+            return outputjson_error();
+        }
+    }
     public function add_file(){
-        $file_type = $this->get_in_int_val("file_type",-1);
-        $file_name = $this->get_in_str_val("file_name","");
-        $file_url  = $this->get_in_str_val("file_url","");
+        $version   = $this->get_in_str_val("version","");
+        $exe_file_url  = $this->get_in_str_val("file_url","");
+        $yml_file_url  = $this->get_in_str_val("file_url_yml","");
+        $dmg_file_url  = $this->get_in_str_val("file_url_dmg","");
+        //update 
+        $ret_update    = $this->t_version_control->update_info();
         $data = [
             "publish_time" => time(),
-            "file_path"    => $file_name,
-            "file_type"    => $file_type,
-            "file_url"     => $file_url,
+            "file_path"    => pathinfo($exe_file_url)['filename'],
+            "file_url"     => $exe_file_url,    
+            "is_publish"   => 1,
+            "publish_time" => time(),
+            "version_name" => $version,
         ];
         $ret_info = $this->t_version_control->row_insert($data);
+        $data_b2 = [
+            "publish_time" => time(),
+            "file_path"    => pathinfo($yml_file_url)['filename'],
+            "file_url"     => $yml_file_url,    
+            "is_publish"   => 1,
+            "publish_time" => time(),
+            "version_name" => $version,
+        ];
+        $ret_info = $this->t_version_control->row_insert($data_b2);
+        $data_b3 = [
+            "publish_time" => time(),
+            "file_path"    => pathinfo($dmg_file_url)['filename'],
+            "file_url"     => $dmg_file_url,    
+            "is_publish"   => 1,
+            "publish_time" => time(),
+            "version_name" => $version,
+        ];
+        $ret_info = $this->t_version_control->row_insert($data_b3);
         if($ret_info){
             return outputjson_success();
         }else{
             return outputjson_error();
         }
+        
+        
     }
 
 }

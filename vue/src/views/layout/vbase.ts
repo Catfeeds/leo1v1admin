@@ -11,10 +11,12 @@ import Component from 'vue-class-component'
   mounted: function () {
     this["base_init"]();
   },
+
   data: function () {
-    return {
+    return $.extend({}, this["data_ex"](),
+    {
       table_data: [],
-    };
+    });
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
@@ -23,6 +25,11 @@ import Component from 'vue-class-component'
 
 })
 export default class vbase extends Vue {
+
+  data_ex(){
+    return {};
+  }
+
   $header_query_info:any;
 
   load_data_for_route () {
@@ -190,6 +197,7 @@ export default class vbase extends Vue {
         console.log("out:");
         console.log(resp);
         me.$data.table_data = resp.list;
+        me.$data.message = resp.message;
         window["g_args"] = resp.g_args;
         $table_p.find(".overlay").remove();
         if (resp.g_args.order_by_str) {

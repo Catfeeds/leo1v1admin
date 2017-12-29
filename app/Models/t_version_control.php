@@ -20,6 +20,16 @@ class t_version_control extends \App\Models\Zgen\z_t_version_control
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
+    public function update_info(){
+        $sql = "update db_weiyi.t_version_control set is_publish  = 2 where is_publish = 1";
+        return $this->main_update($sql);
+    }
+    public function update_info_new($id){
+        $sql = "update db_weiyi.t_version_control set is_publish  = 2 where id = $id";
+        return $this->main_update($sql);
+    }
+
+
 
 }
 
