@@ -39,7 +39,7 @@ $(function(){
             ["目标系数", id_lesson_target],          
             ["目标续费值", id_renew_target],          
         ];
-        id_renew_target.val(opt_data.renew_target/100);
+        id_renew_target.val(opt_data.renew_target);
         $.show_key_value_table("编辑", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
