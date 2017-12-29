@@ -86,7 +86,7 @@ $(function(){
                 $img_src1.val(res.key);
                 if(res.key){
                     $('.del_cover').css('display','block');
-                    $('#id_img1').attr('src','https://ybprodpub.leo1v1.com'+res.key);
+                    $('#id_img1').attr('src','https://ybprodpub.leo1v1.com/'+res.key);
                 }
 
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
@@ -96,7 +96,7 @@ $(function(){
                 $img_src2.val(res.key);
                 if(res.key){
                     $('.del_activity').css('display','block');
-                    $('#id_img2').attr('src','https://ybprodpub.leo1v1.com'+res.key);
+                    $('#id_img2').attr('src','https://ybprodpub.leo1v1.com/'+res.key);
                 }
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
@@ -105,7 +105,7 @@ $(function(){
                 $img_src3.val(res.key);
                 if(res.key){
                     $('.del_share').css('display','block');
-                    $('#id_img3').attr('src','https://ybprodpub.leo1v1.com'+res.key);
+                    $('#id_img3').attr('src','https://ybprodpub.leo1v1.com/'+res.key);
                 }
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
@@ -114,7 +114,7 @@ $(function(){
                 $img_src4.val(res.key);
                 if(res.key){
                     $('.del_follow').css('display','block');
-                    $('#id_img3').attr('src','https://ybprodpub.leo1v1.com'+res.key);
+                    $('#id_img3').attr('src','https://ybprodpub.leo1v1.com/'+res.key);
                 }
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
@@ -142,24 +142,6 @@ $(function(){
                 $('#id_img4').attr('src','');
                 $('.del_follow').css('display','none');
             });
-
-
-
-
-
-            if(opt_data.activityimgurl){
-                $('#id_img2').attr('src','https://ybprodpub.leo1v1.com'+opt_data.activityimgurl);
-            }
-
-            if(opt_data.shareimgurl){
-                $('#id_img3').attr('src','https://ybprodpub.leo1v1.com'+opt_data.shareimgurl);
-            }
-
-
-            if(opt_data.followimgurl){
-                $('#id_img4').attr('src','https://ybprodpub.leo1v1.com'+opt_data.followimgurl);
-            }
-
 
 
         });
@@ -261,21 +243,21 @@ $(function(){
 
 
             if(opt_data.coverimgurl){
-                $('#id_img1').attr('src','https://ybprodpub.leo1v1.com'+opt_data.coverimgurl);
+                $('#id_img1').attr('src','https://ybprodpub.leo1v1.com/'+opt_data.coverimgurl);
             }
 
 
             if(opt_data.activityimgurl){
-                $('#id_img2').attr('src','https://ybprodpub.leo1v1.com'+opt_data.activityimgurl);
+                $('#id_img2').attr('src','https://ybprodpub.leo1v1.com/'+opt_data.activityimgurl);
             }
 
             if(opt_data.shareimgurl){
-                $('#id_img3').attr('src','https://ybprodpub.leo1v1.com'+opt_data.shareimgurl);
+                $('#id_img3').attr('src','https://ybprodpub.leo1v1.com/'+opt_data.shareimgurl);
             }
 
 
             if(opt_data.followimgurl){
-                $('#id_img4').attr('src','https://ybprodpub.leo1v1.com'+opt_data.followimgurl);
+                $('#id_img4').attr('src','https://ybprodpub.leo1v1.com/'+opt_data.followimgurl);
             }
 
 
@@ -305,24 +287,28 @@ $(function(){
             $('.del_cover').on("click",function(){
                 $img_src1.val('');
                 // $('.del_cover').remove();
+                $('#id_img1').attr('src','');
                 $('.del_cover').css('display','none');
             });
 
             $('.del_activity').on("click",function(){
                 $img_src2.val('');
                 // $('.del_activity').remove();
+                $('#id_img2').attr('src','');
                 $('.del_activity').css('display','none');
             });
 
             $('.del_share').on("click",function(){
                 $img_src3.val('');
                 // $('.del_share').remove();
+                $('#id_img3').attr('src','');
                 $('.del_share').css('display','none');
             });
 
             $('.del_follow').on("click",function(){
                 $img_src4.val('');
                 $('.del_follow').css('display','none');
+                $('#id_img4').attr('src','');
                 // $('.del_follow').remove();
             });
 
