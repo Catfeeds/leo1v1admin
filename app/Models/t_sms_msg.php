@@ -40,9 +40,14 @@ class t_sms_msg extends \App\Models\Zgen\z_t_sms_msg
             $type_str="type,";
         }
 
-        $sql=$this->gen_sql_new("select from_unixtime(send_time ,'%%Y-%%m-%%d') as log_date , $type_str count(*) as count from %s where %s  group  by $type_str log_date  ", self::DB_TABLE_NAME, $where_arr);
+        $sql = $this->gen_sql_new("select from_unixtime(send_time ,'%%Y-%%m-%%d') as log_date , $type_str count(*) as count"
+                                  ." from %s where %s  group  by $type_str log_date  "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
         return $this->main_get_list($sql);
     }
+
     public function tongji_type_get_list($start_time, $end_time)
     {
         $where_arr=[
