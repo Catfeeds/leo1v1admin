@@ -34,7 +34,7 @@
                 <tr>
                     <td>ID</td>
                     <td>礼品类型</td>
-                    <td>标题</td>
+                    <td style="width:120px">标题</td>
                     <td>活动描述</td>
                     <td>活动链接</td>
                     <td>活动状态</td>
