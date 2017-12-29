@@ -109,14 +109,17 @@ class pdfConversionH5 extends Command
                 $uploadMgr = new \Qiniu\Storage\UploadManager();
 
                 // 调用 UploadManager 的 putFile 方法进行文件的上传。
-                list($ret, $err) = $uploadMgr->putFile($token, $upkey, $Upfile);
-                $test_data .= $ret["key"]." ";
-                if($key == 'index.html'){
-                    \App\Helper\Utils::logger("upkey_qiniu: $upkey");
-                    $task->t_resource_file->field_update_list($item['file_id'],[
-                        "wx_index" => "https://ybprodpub.leo1v1.com/".$upkey
-                    ]);
+                $checkIsExists = file_exists($Upfile);
+                if($checkIsExists){
+                    list($ret, $err) = @$uploadMgr->putFile($token, $upkey, $Upfile);
+                    $test_data .= $ret["key"]." ";
+                    if($key == 'index.html'){
+                        \App\Helper\Utils::logger("upkey_qiniu: $upkey");
+                        $task->t_resource_file->field_update_list($item['file_id'],[
+                            "wx_index" => "https://ybprodpub.leo1v1.com/".$upkey
+                        ]);
 
+                    }
                 }
             }
 

@@ -8,22 +8,23 @@ class t_sms_msg extends \App\Models\Zgen\z_t_sms_msg
         parent::__construct();
     }
 
-    public function get_sms_list($page_num, $start, $end, $phone, $is_success, $type)
+    public function get_sms_list($page_num, $start, $end, $phone, $is_success, $type,$search_info)
     {
         $where_arr=[
             ["phone like \"%%%s%%\"",$phone,"" ],
+            ["receive_content like \"%%%s%%\"",$search_info,"" ],
             ["is_success =%u ",$is_success, -1 ],
             ["type =%u ",$type , -1 ],
         ];
-        $sql = $this->gen_sql(
+        $sql = $this->gen_sql_new(
             "select recordid, phone, message, send_time, type, user_ip, receive_content, is_success from %s ".
             "where send_time > %u and send_time < %u and %s order by  send_time desc",
             self::DB_TABLE_NAME,
             $start,
             $end,
-            [$this->where_str_gen($where_arr) ]
+            $where_arr
         );
-        return $this->main_get_list_by_page($sql, $page_num, 15);
+        return $this->main_get_list_by_page($sql,$page_num,15);
     }
 
     public function tongji_get_list($start_time, $end_time, $is_success, $type)
