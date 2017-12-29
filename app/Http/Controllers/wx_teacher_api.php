@@ -1148,7 +1148,7 @@ class wx_teacher_api extends Controller
             "stu_cw_origin"   => 3,// 理优资源
             "tea_cw_file_id"  => $teaFileId,
             "stu_cw_file_id"  => $stuFileId,
-            "zip_url"         => 
+            // "zip_url"         => 
         ]);
 
         if($pdfToImg){
