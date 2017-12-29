@@ -65,7 +65,6 @@ class h5GetPoster extends Command
         $auth=$store->get_auth();
 
 
-        // $pdf_lists = $this->task->t_pdf_to_png_info->get_pdf_list_for_doing();
         $pdf_lists = $this->task->t_resource_file->getH5PosterInfo();
 
         while(list($key,$item)=each($pdf_lists)){
@@ -140,16 +139,22 @@ class h5GetPoster extends Command
         $is_exit = file_exists($pdf);
 
         if($is_exit){
-            $IM->readImage($pdf);
-            foreach($IM as $key => $Var){
-                @$Var->setImageFormat('png');
-                $Filename = $path."/pdf_to_h5".$id."_".$key.".png" ;
-                if($Var->writeImage($Filename)==true){
-                    $Return[]= $Filename;
+            try{
+                $IM->readImage($pdf);
+                foreach($IM as $key => $Var){
+                    @$Var->setImageFormat('png');
+                    $Filename = $path."/pdf_to_h5".$id."_".$key.".png" ;
+                    if($Var->writeImage($Filename)==true){
+                        $Return[]= $Filename;
+                    }
                 }
+                $IM->clear();
+                return $Return;
+            }catch (Exception $e) {
+                echo 'Caught exception_H5: ',  $e->getMessage(), "\n";
+                $IM->clear();
+                return [];
             }
-            $IM->clear();
-            return $Return;
         }else{
             $IM->clear();
             return [];

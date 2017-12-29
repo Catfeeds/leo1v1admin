@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TLessonInfoResetZipUrl extends Migration
+class TAssGroupTargetAddRenewTarget extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class TLessonInfoResetZipUrl extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_lesson_info', function( Blueprint $table)
+        Schema::table('db_weiyi_admin.t_ass_group_target', function( Blueprint $table)
         {
-            // $table->dropColumn('zip_url');
-            // t_field($table->string("zip_url",100) ,"老师讲义压缩包链接");
+            t_field($table->integer("renew_target") ,"助教月续费目标");
         });
 
     }

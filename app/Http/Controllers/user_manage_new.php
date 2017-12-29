@@ -1766,18 +1766,24 @@ class user_manage_new extends Controller
             $up_master_adminid=0;
         }
 
-        $lesson_target = $this->t_ass_group_target->get_rate_target($start_time);
+        $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target");
         $ret_info = $this->t_manager_info->get_assistant_month_target_info($start_time,$up_master_adminid,$account_id);
         $ret_info['list']=\App\Helper\Common::gen_admin_member_data($ret_info['list']);
         foreach( $ret_info["list"] as &$item ) {
             E\Emain_type::set_item_value_str($item);
             if($item["level"] != "l-4"){
                 $item["lesson_target"]="";
+                $item["renew_target"]="";
             }else{
-                $item["lesson_target"]=$lesson_target;
+                $item["lesson_target"]=@$target_info["rate_target"];
+                $item["renew_target"]=@$target_info["renew_target"]/100;
             }
 
         }
+
+        $this->set_filed_for_js("rate_target",@$target_info["rate_target"]);
+        $this->set_filed_for_js("renew_target",@$target_info["renew_target"]/100);
+
 
         return $this->pageView(__METHOD__, $ret_info);
     }
