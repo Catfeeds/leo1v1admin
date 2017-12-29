@@ -11,7 +11,6 @@
                     <option value="db_weiyi_admin">db_weiyi_admin</option>
                     <option value="db_tool">db_tool</option>
                     <option value="db_account">db_account</option>
-
                 </select>
                 <span class="input-group-addon">表</span>
                 <select class="input-change form-control" id="id_table_name" >
@@ -22,7 +21,6 @@
 
             </div>
         </div>
-
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
                 <button class="btn btn-primary" id="id_change_table_comment"> 修改表注释 </button>
@@ -33,12 +31,9 @@
                 <button class="btn btn-primary" id="id_edit"> 编辑数据</button>
             </div>
         </div>
-
-
     </div>
-    <hr/> 
-
-    <table   class=" common-table "   >
+    <hr/>
+    <table class=" common-table "   >
         <thead>
             <tr>
                 <td style="width:100px;" >Field</td>
@@ -49,7 +44,7 @@
                 <td style="display:none;"  >Default</td>
                 <td style="display:none;"  >Extra</td>
                 <td style="display:none;"  >Privileges</td>
-                <td  >Comment</td>
+                <td >Comment</td>
                 <td style="min-width:100px">操作</td>
             </tr>
         </thead>
@@ -65,7 +60,7 @@
                     <td >{{$var["Extra"]}}</td>
                     <td >{{$var["Privileges"]}}</td>
                     <td >{{$var["Comment"]}}</td>
-                    <td  >
+                    <td >
                         <div
                             data-field="{{$var["Field"]}}"
                           data-comment="{{$var["Comment"]}}"

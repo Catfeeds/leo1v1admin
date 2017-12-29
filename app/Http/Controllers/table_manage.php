@@ -94,8 +94,8 @@ class table_manage extends Controller
 
         }
         return $this->pageView(__METHOD__,$ret_info );
-
     }
+
     public function index()
     {
         $config_arr=[
