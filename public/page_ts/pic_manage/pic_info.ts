@@ -183,7 +183,6 @@ $(function(){
                                 return false;
                             }
                         }
-                        alert(pic_url);
                         if (!pic_url) {
                             alert('图片不存在');
                             return false;
