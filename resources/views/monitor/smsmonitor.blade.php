@@ -4,21 +4,12 @@
         <div class="right">
             <div class="upload_list">
                 <div class="row">
-                    <div class="col-md-5 col-xs-12">
+                    <div class="col-md-4 col-xs-12">
                         <div id="id_date_range"> </div>
                     </div>
                     <div class="col-md-2">
                         <div class="input-group">
-                            <input type="text" value="" class="form-control opt-change"
-                                   placeholder="联系电话 回车查找" data-field="phone"   id="id_phone"  />
-
-                            <input type="text" value="" class="form-control opt-change"
-                                   placeholder=" 错误原因 查找" id="id_search_info"  />
-                        </div>
-                    </div>
-
-                    <div class="col-md-2">
-                        <div class="input-group">
+                            <span >发送结果</span>
                             <select id="id_is_succ" class="opt-change">
                                 <option value="-1">全部</option>
                                 <option value="0">失败</option>
@@ -28,11 +19,26 @@
                     </div>
                     <div class="col-md-2">
                         <div class="input-group">
-                            <span >类型</span>
+                            <span >短信类型</span>
                             <select id="id_type" class="opt-change">
                             </select>
                         </div>
                     </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <input type="text" value="" class="form-control opt-change"
+                                   placeholder="联系电话 回车查找" data-field="phone"   id="id_phone"  />
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+
+                            <input type="text" value="" class="form-control opt-change"
+                                   placeholder=" 错误原因 查找" id="id_receive_content"  />
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <hr>
