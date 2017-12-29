@@ -1182,7 +1182,7 @@ jQuery.extend({
         });
 
     },
-    custom_upload_file_soft : function(file_type, file_name,btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, noti_process ){
+    custom_upload_file_soft : function(file_type, btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, noti_process ){
         do_ajax( "/common/get_bucket_info",{
             is_public: is_public_bucket ? 1:0
         },function(ret){
@@ -1261,14 +1261,12 @@ jQuery.extend({
                         var key = "";
                         var time = (new Date()).valueOf();
                         var match = file.name.match(/.*\.(.*)?/);
+                        
                         // var file_name=$.md5(file.name) +time +'.' + match[1];
                         if(file_type == 1){
-                            var new_file_name = "student/"+file.name+'.'+match[1];
-                        }else if(file_type == 2){
-                            var new_file_name = "teacher/"+file.name+'.'+match[1];
-                        }else{
-                            var new_file_name = file.name+'.'+match[1];
+                            var new_file_name = "student/"+match[0];
                         }
+                        alert(new_file_name);
                         console.log('gen file_name:'+new_file_name);
                         return new_file_name;
                     }

@@ -321,8 +321,11 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         ];
         if($revisit_type==-2){
             $where_arr[]="revisit_type in (0,1,2,3,4,5)";            
-        }else{
+        }elseif($revisit_type==5){
             $where_arr[]=["revisit_type=%u",$revisit_type,-1];
+            $where_arr[]="call_phone_id>0";
+        }else{
+            $where_arr[]=["revisit_type=%u",$revisit_type,-1]; 
         }
 
         $this->where_arr_add_time_range($where_arr,"revisit_time",$start_time,$end_time);

@@ -1423,8 +1423,10 @@ jQuery.extend({
           }
         }
 
-        ,error: function( XMLHttpRequest, textStatus, errorThrown ) {
-          if( XMLHttpRequest.readyState ==4 ) {
+        ,error: function(  jqXHR, textStatus, errorThrown ) {
+          console.log(jqXHR);
+          if(  jqXHR .readyState ==4 ) {
+            alert(jqXHR .responseText )
             alert("系统错误- 操作失败, 已发邮件 通知开发人员 ");
           }
         },

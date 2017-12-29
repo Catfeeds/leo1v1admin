@@ -2118,7 +2118,7 @@ function init_edit() {
             var id_intention_level            = html_node.find("#id_intention_level");
             var id_next_revisit_time = html_node.find("#id_next_revisit_time");
             var id_stu_request_test_lesson_time = html_node.find("#id_stu_request_test_lesson_time");
-           var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand");
+            var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand");
           //  var id_stu_score_info = html_node.find("#id_stu_score_info");
            // var id_stu_character_info = html_node.find("#id_stu_character_info");
            // var id_stu_test_lesson_level = html_node.find("#id_stu_test_lesson_level");

@@ -1465,14 +1465,12 @@ class test_boby extends Controller {
 
 	}
 
-	/**	
-	 * 
-	 */
 	public function test() {
-		echo 'ss看看';
-		\App\Helper\Utils::check_is_match(11, 20171230);
+		// \App\Helper\Utils::check_is_match(11, 20171230);
 		// \App\Helper\Utils::unixtime2date_for_item($itme, "create_time");
-		echo '托尔斯泰';
+		echo '测试后';
 	}
+
+
 
 }
