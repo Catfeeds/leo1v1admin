@@ -76,19 +76,19 @@ $(function(){
         });
 
         html_node.find('#half_speed').on("click",function(){
-            myVid=document.getElementById("myaudio");
-            myVid.playbackRate=0.5;
+            var myVid=document.getElementById("myaudio");
+            myVid["playbackRate"]=0.5;
         });
         html_node.find('#one_speed').on("click",function(){
-            myVid=document.getElementById("myaudio");
-            myVid.playbackRate=1;
+            var myVid=document.getElementById("myaudio");
+            myVid["playbackRate"]=1;
         });
         html_node.find('#one_half_speed').on("click",function(){
-            myVid=document.getElementById("myaudio");
-            myVid.playbackRate=1.5;
+            var  myVid=document.getElementById("myaudio");
+            myVid["playbackRate"]=1.5;
         });
     });
-    
+
 
     $('#id_phone').val(g_args.phone);
     $('#id_is_called_phone').val(g_args.is_called_phone);
@@ -98,6 +98,6 @@ $(function(){
     $('#id_seller_student_status').val(g_args.seller_student_status);
     $.enum_multi_select( $('#id_seller_student_status'), 'seller_student_status', function(){load_data();} )
 
-    
+
     $('.opt-change').set_input_change_event(load_data);
 });
