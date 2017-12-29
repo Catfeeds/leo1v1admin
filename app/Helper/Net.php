@@ -95,8 +95,6 @@ class Net {
         $ret_send = self::send_post_data($url, $send_data);
     }
 
-
-
     static public  function send_post_data($url, $data)
     {
         // the data should be key-value, or something unexpectable may happen.
