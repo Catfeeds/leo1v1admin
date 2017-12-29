@@ -21,7 +21,8 @@ interface RowData {
 	file_type	:any;
 	is_publish	:any;
 	publish_time	:any;
-	file_type_str	:any;
+	version_name	:any;
+	is_publish_str	:any;
 }
 
 /*
