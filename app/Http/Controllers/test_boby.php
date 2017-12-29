@@ -1431,7 +1431,7 @@ class test_boby extends Controller {
 			\App\Helper\Utils::unixtime2date_for_item($v, 'become_member_time');
 			\App\Helper\Utils::unixtime2date_for_item($v, 'order_time');
 			\App\Helper\Utils::unixtime2date_for_item($v, 'check_money_time');
-			$s = $this->tr_add($s, $v['account'], $v['become_member_time'], $v['price'] / 100, $v['  order_time'], $v['check_money_time']);
+			$s = $this->tr_add($s, $v['account'], $v['become_member_time'], $v['price'] / 100, $v['order_time'], $v['check_money_time']);
 
 		}
 		$s = $this->table_end($s);
@@ -1456,7 +1456,7 @@ class test_boby extends Controller {
 			\App\Helper\Utils::unixtime2date_for_item($v, 'become_member_time');
 			\App\Helper\Utils::unixtime2date_for_item($v, 'order_time');
 			\App\Helper\Utils::unixtime2date_for_item($v, 'check_money_time');
-			$s = $this->tr_add($s, $v['account'], $v['become_member_time'], $v['price'] / 100, $v['  order_time'], $v['check_money_time']);
+			$s = $this->tr_add($s, $v['account'], $v['become_member_time'], $v['price'] / 100, $v['order_time'], $v['check_money_time']);
 
 		}
 		$s = $this->table_end($s);
