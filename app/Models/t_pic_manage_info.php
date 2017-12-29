@@ -105,7 +105,7 @@ class t_pic_manage_info extends \App\Models\Zgen\z_t_pic_manage_info
             ['end_time>%u', $current, 0],
             "usage_type=$type"
         ];
-        $sql = $this->gen_sql_new("select img_url,jump_type,jump_url from %s where %s",
+        $sql = $this->gen_sql_new("select img_url,jump_type,jump_url,order_by from %s where %s",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );

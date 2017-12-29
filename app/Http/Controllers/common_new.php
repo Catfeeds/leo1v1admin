@@ -1862,16 +1862,19 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             if ($item['jump_type'] == 2) {
                 $custom_type[$i]['img_url'] = $item['img_url'];
                 $custom_type[$i]['jump_url'] = $item['jump_url'];
+                $custom_type[$i]['order_by'] = $item['order_by'];
                 $i ++;
             }
             if ($item['jump_type'] == 1) {
                 $video_type[$j]['img_url'] = $item['img_url'];
                 $video_type[$j]['jump_url'] = $item['jump_url'];
+                $video_type[$j]['order_by'] = $item['order_by'];
                 $j ++;
             }
             if ($item['jump_type'] == 0) {
-                $page_type[$i]['img_url'] = $item['img_url'];
-                $page_type[$i]['jump_url'] = $item['jump_url'];
+                $page_type[$k]['img_url'] = $item['img_url'];
+                $page_type[$k]['jump_url'] = $item['jump_url'];
+                $page_type[$k]['order_by'] = $item['order_by'];
                 $k ++;
             }
         }
