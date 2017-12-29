@@ -176,7 +176,4 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         return $this->main_get_list($sql);
     }
 
-    public function savePosterUrl($id, $file_name_origi_str){
-        
-    }
 }
