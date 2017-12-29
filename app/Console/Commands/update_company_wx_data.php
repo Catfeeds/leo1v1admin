@@ -151,7 +151,7 @@ class update_company_wx_data extends Command
                 }
                 if (isset($val['value'])) $items[$val['title']] = $val['value'];
             }
-            if ($items) $common['item'] = json_encode($item);
+            if ($items) $common['item'] = json_encode($items);
             // 添加数据
             $task->t_company_wx_approval->row_insert($common);
             echo '加载数据成功'.$common['spname'];
