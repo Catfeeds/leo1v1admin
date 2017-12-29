@@ -139,13 +139,13 @@ class test_bacon extends Controller
         $text = "睡交吃饭";
 
         $secretKey = 'DSSDjzz4tSlEj0yd2ViRzqPjngLsQi2E';
-        $srcStr = 'wenzhi.api.qcloud.com/v2/index.php?Action=LexicalCheck&Nonce='.$nonce.'&Region=sh&SecretId=AKIDaqpY359OgjUzFGniiVnGa0TwoiN0nvqL&Timestamp='.$current.'&text='.$text;
-
+        $srcStr = 'GETwenzhi.api.qcloud.com/v2/index.php?Action=LexicalCheck&InstanceIds.0=ins-09dx96dg&Nonce='.$nonce.'&Region=ap-shanghai&SecretId=AKIDaqpY359OgjUzFGniiVnGa0TwoiN0nvqL&SignatureMethod=HmacSHA256&Timestamp='.$current.'&text='.$text;
+        //"&SignatureMethod=HmacSHA256";
         echo $srcStr;
         echo '<br/>';
 
-        $signStr = base64_encode(hash_hmac('sha1', $srcStr, $secretKey, true));
-        $signStr = urlencode($signStr);
+        $signStr = base64_encode(hash_hmac('sha256', $srcStr, $secretKey, true));
+        //$signStr = urlencode($signStr);
         echo $signStr;
         echo '<br/>';
 
@@ -153,10 +153,10 @@ class test_bacon extends Controller
         $data = [
             'Action' => 'LexicalCheck',
             'Nonce' => $nonce,
-            'Region' => 'sh',
+            'Region' => 'ap-shanghai',
             'SecretId' => 'AKIDaqpY359OgjUzFGniiVnGa0TwoiN0nvqL',
             'Timestamp' => $current,
-            'SignatureMethod' => 'sha1',
+            'SignatureMethod' => 'HmacSHA256',
             'Signature' => $signStr,
             'text'  => $text
         ];
