@@ -2,15 +2,15 @@ interface self_Args {
 	page_num:	number;
 	page_count:	number;
 	grade:	string;//枚举列表: \App\Enums\Egrade
- 	order_by_str:	string;
-	gender:	string;//枚举列表: \App\Enums\Egender
- 	query_text:	string;
-	userid:	number;
-	date_type_config:	string;
+ 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	order_by_str:	string;
+	gender:	string;//枚举列表: \App\Enums\Egender
+ 	query_text:	string;
+	userid:	number;
 }
 interface self_RowData {
 	userid	:any;
@@ -44,12 +44,9 @@ export default class extends vbase {
   get_opt_data(obj):self_RowData {return this.get_opt_data_base(obj );}
   get_args() :self_Args  {return  this.get_args_base();}
 
-  query_init(): void{
+  query_init( $header_query_info): void{
     console.log("init_query");
     var me =this;
-    var $header_query_info= $("#id_header_query_info").admin_header_query ({
-    });
-    me.$header_query_info= $header_query_info ;
 
 		$.admin_date_select ({
 		'join_header'  : $header_query_info,
