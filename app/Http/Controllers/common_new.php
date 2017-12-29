@@ -1856,33 +1856,34 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $type = $this->get_in_str_val("type");
         $info = $this->t_pic_manage_info->get_pic_or_mobile_info($usage_type);
         $banner_count = count($info);
-        $custom_type = $video_type = $page_type = '';
-        $i = $j = $k = 0;
-        foreach ($info as $item) {
-            if ($item['jump_type'] == 2) {
-                $custom_type[$i]['img_url'] = $item['img_url'];
-                $custom_type[$i]['jump_url'] = $item['jump_url'];
-                $custom_type[$i]['order_by'] = $item['order_by'];
-                $i ++;
-            }
-            if ($item['jump_type'] == 1) {
-                $video_type[$j]['img_url'] = $item['img_url'];
-                $video_type[$j]['jump_url'] = $item['jump_url'];
-                $video_type[$j]['order_by'] = $item['order_by'];
-                $j ++;
-            }
-            if ($item['jump_type'] == 0) {
-                $page_type[$k]['img_url'] = $item['img_url'];
-                $page_type[$k]['jump_url'] = $item['jump_url'];
-                $page_type[$k]['order_by'] = $item['order_by'];
-                $k ++;
-            }
-        }
+        //$custom_type = $video_type = $page_type = '';
+        //$i = $j = $k = 0;
+        // foreach ($info as $item) {
+        //     if ($item['jump_type'] == 2) {
+        //         $custom_type[$i]['img_url'] = $item['img_url'];
+        //         $custom_type[$i]['jump_url'] = $item['jump_url'];
+        //         $custom_type[$i]['order_by'] = $item['order_by'];
+        //         $i ++;
+        //     }
+        //     if ($item['jump_type'] == 1) {
+        //         $video_type[$j]['img_url'] = $item['img_url'];
+        //         $video_type[$j]['jump_url'] = $item['jump_url'];
+        //         $video_type[$j]['order_by'] = $item['order_by'];
+        //         $j ++;
+        //     }
+        //     if ($item['jump_type'] == 0) {
+        //         $page_type[$k]['img_url'] = $item['img_url'];
+        //         $page_type[$k]['jump_url'] = $item['jump_url'];
+        //         $page_type[$k]['order_by'] = $item['order_by'];
+        //         $k ++;
+        //     }
+        // }
         $res = [$type => ['data' => [
             'banner_count' => $banner_count,
-            'custom_type' => $custom_type,
-            'video_type' => $video_type,
-            'page_type' => $page_type
+            'info' => $info
+            // 'custom_type' => $custom_type,
+            // 'video_type' => $video_type,
+            // 'page_type' => $page_type
         ]]];
         return $this->output_succ($res);
         //return outputJson($res);

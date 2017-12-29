@@ -1555,6 +1555,11 @@ class test_james extends Controller
         $key = $this->get_in_str_val("key");
         // 构建鉴权对象
 
+        $qiniu     = \App\Helper\Config::get_config("qiniu");
+        $bucket    = $qiniu['public']['bucket'];
+        $accessKey = $qiniu['access_key'];
+        $secretKey = $qiniu['secret_key'];
+
         $unzipFilePath  =  public_path('pdfToH5'); // 解压后的文件夹
         $auth = new \Qiniu\Auth ($accessKey, $secretKey);
         $h5Path = "pdfToH5"; // 环境文件夹
