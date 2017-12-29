@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TLessonInfoAdd extends Migration
+class AddDefFlagForPicManageInfo extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,9 @@ class TLessonInfoAdd extends Migration
      */
     public function up()
     {
-        //
-        Schema::table('db_weiyi.t_lesson_info', function( Blueprint $table)
-        {
-            // t_field($table->string("zip_url",100) ,"老师讲义压缩包链接");
+        Schema::table("db_weiyi.t_pic_manage_info", function(Blueprint $table) {
+            t_field($table->tinyInteger("del_flag"), "删除标识 0正常 1删除");
         });
-
     }
 
     /**

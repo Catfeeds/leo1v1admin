@@ -38,10 +38,10 @@ $(function(){
     var do_add_or_update = function( opt_type, item ){
         var html_txt = $.dlg_get_html_by_class('dlg_add_pic_info');
         html_txt=html_txt.
-            replace(/\"id_upload_add\"/, "\"id_upload_add_tmp\"" ).
-            replace(/\"id_container_add\"/, "\"id_container_add_tmp\"" ).
-            replace(/\"id_upload_tag_add\"/, "\"id_upload_tag_add_tmp\"" ).
-            replace(/\"id_container_tag_add\"/, "\"id_container_tag_add_tmp\"" )
+            replace(/\"id_upload_add\"/, "\"id_upload_add_tmp\"" )
+            .replace(/\"id_container_add\"/, "\"id_container_add_tmp\"" )
+            // .replace(/\"id_upload_tag_add\"/, "\"id_upload_tag_add_tmp\"" )
+            // .replace(/\"id_container_tag_add\"/, "\"id_container_tag_add_tmp\"" )
         ;
         var html_node = $("<div></div>").html(html_txt);
 
@@ -74,10 +74,10 @@ $(function(){
                 html_node.find(".share_s").show();
             }
             html_node.find(".add_pic_order_by").val(item.order_by);
-            html_node.find(".add_pic_grade").val(item.grade);
-            html_node.find(".add_pic_subject").val(item.subject);
-            html_node.find(".add_title_share").val(item.title_share);
-            html_node.find(".add_info_share").val(item.info_share);
+            //html_node.find(".add_pic_grade").val(item.grade);
+            //html_node.find(".add_pic_subject").val(item.subject);
+            //html_node.find(".add_title_share").val(item.title_share);
+            //html_node.find(".add_info_share").val(item.info_share);
             html_node.find(".add_jump_url").val(item.jump_url);
             html_node.find(".add_jump_type").val(item.jump_type);
             html_node.find(".add_start_date").val(item.start_time);
@@ -108,6 +108,25 @@ $(function(){
             closable        : true,
             closeByBackdrop : false,
             onshown         : function(dialog){
+                $(".add_pic_usage_type").on("change", function() {
+                    if ($(this).val() == 303) { // 删除视频选项
+                        $(".add_jump_type option[value='1']").remove()
+
+                    }
+                });
+                $('.add_jump_type').on("change", function() {
+                    if ($(this).val() == 2) {
+                        if ($('.add_pic_usage_type').val() == 302) {
+                            $('.add_jump_url').val('http://www.leo1v1.com/service_chat_panel.html');
+                            $('.add_jump_url').attr("disabled","disabled");
+                        }
+                        if ($('.add_pic_usage_type').val() == 303) {
+                            $('.add_jump_url').val('http://m.leo1v1.com/chat.html');
+                            $('.add_jump_url').attr("disabled","disabled");
+                        }
+                    }
+                });
+
                 custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
                                     g_args.qiniu_upload_domain_url,true,
                                     function (up, info, file){
@@ -118,14 +137,14 @@ $(function(){
                                         html_node.find(".add_header_img").html(pic_img);
                                         html_node.find(".pic_url").html(pic_url);
                                     });
-                custom_qiniu_upload("id_upload_tag_add_tmp","id_container_tag_add_tmp",
-                                    g_args.qiniu_upload_domain_url , true,
-                                    function (up, info, file){
-                                        var res = $.parseJSON(info);
-                                        tag_url = g_args.qiniu_upload_domain_url + res.key;
-                                        tag_img="<img width=80 src=\""+tag_url+"\" />";
-                                        html_node.find(".add_header_tag_img").html(tag_img);
-                                    });
+                // custom_qiniu_upload("id_upload_tag_add_tmp","id_container_tag_add_tmp",
+                //                     g_args.qiniu_upload_domain_url , true,
+                //                     function (up, info, file){
+                //                         var res = $.parseJSON(info);
+                //                         tag_url = g_args.qiniu_upload_domain_url + res.key;
+                //                         tag_img="<img width=80 src=\""+tag_url+"\" />";
+                //                         html_node.find(".add_header_tag_img").html(tag_img);
+                //                     });
             },
             buttons: [
                 {
@@ -135,8 +154,8 @@ $(function(){
                         if (opt_type=="update") {
 		                        var id =  item.id;
                         }
-                        var grade        = '';
-                        var subject      = '';
+                        //var grade        = html_node.find(".add_pic_grade").val();
+                        //var subject      = html_node.find(".add_pic_subject").val();
                         var name         = html_node.find(".add_pic_name").val();
                         var type         = html_node.find(".add_pic_type").val();
                         var usage_type   = html_node.find(".add_pic_usage_type").val();
@@ -152,14 +171,27 @@ $(function(){
                             alert('图片名称不能为空，请填写保持在30字符之后')
                             return false;
                         }
-                        alert(grade);
-                        if (!grade) {
-                            alert('请选择年级');
+                        if (!start_time) {
+                            alert("请选择开始时间");
+                            return false;
+                        }
+                        if (!end_time) {
+                            alert("请选择结束时间");
+                            return false;
+                        }
+                        if (click_status == 1) { //处理可点击
+                            if (!jump_url) {
+                                alert("请输入跳转地址");
+                                return false;
+                            }
+                        }
+                        if (!pic_url) {
+                            alert('图片不存在');
                             return false;
                         }
                         // if(usage_type==207){
-                            grade   = html_node.find(".add_pic_grade").val();
-                            subject = html_node.find(".add_pic_subject").val();
+                            //grade   = html_node.find(".add_pic_grade").val();
+                            //subject = html_node.find(".add_pic_subject").val();
                         // }
                         $.ajax({
 			                      type     : "post",
@@ -173,13 +205,13 @@ $(function(){
                                 ,"usage_type"   : usage_type
                                 ,"click_status" : click_status
                                 ,"order_by"     : order_by
-                                ,"subject"      : subject
-                                ,"grade"        : grade
+                                //,"subject"      : subject
+                                //,"grade"        : grade
                                 ,"pic_url"      : pic_url 
-                                ,"tag_url"      : tag_url 
+                                //,"tag_url"      : tag_url 
                                 ,"jump_url"     : jump_url 
-                                ,"title_share"  : title_share
-                                ,"info_share"   : info_share
+                                //,"title_share"  : title_share
+                                //,"info_share"   : info_share
                                 ,"start_time"   : start_time 
                                 ,"end_time"     : end_time 
                                 ,"jump_type"    : jump_type 
@@ -241,15 +273,16 @@ $(function(){
                 label: '确认',
                 cssClass: 'btn-primary',
                 action: function(dialog){
-		            $.ajax({
-			            type     :"post",
-			            url      :"/pic_manage/del_pic_info",
-			            dataType :"json",
-			            data     :{"id":id},
-			            success  : function(result){
-                            window.location.reload();
-                        }
-		            });
+                    $.do_ajax('/pic_manage/del_pic_info', {'id':id});
+		            // $.ajax({
+			          //   type     :"post",
+			          //   url      :"/pic_manage/del_pic_info",
+			          //   dataType :"json",
+			          //   data     :{"id":id},
+			          //   success  : function(result){
+                //             window.location.reload();
+                //         }
+		            // });
                     dialog.close();
                 }
             }, {

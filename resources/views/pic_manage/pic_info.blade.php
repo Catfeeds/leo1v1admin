@@ -38,7 +38,8 @@
                     <td>类型</td>
                     <td>图片预览</td>
                     <td>图片备注</td>
-                    <td>用途</td> 
+                    <td>用途</td>
+                    <td>活动状态</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -51,6 +52,7 @@
                         <td><img src="{{$var["img_url"]}}" height="100"></td>
                         <td>{{$var["name"]}}</td>
                         <td>{{$var["usage_type_str"]}}</td>
+                        <td>{{$var['active_status']}}</td>
                         <td class="remove-for-xs">
                             <div class="btn-group" data-id="{{$var["id"]}}">
                                 <a href="javascript:;" class="btn fa fa-edit opt-update-pic_info" title="更改"></a>
@@ -76,24 +78,37 @@
                 <tr>
 			        <td style="text-align:right; width:30%;">用途类型</td>
 			        <td>
-                        <select class="add_pic_usage_type">
-                        </select>
-                    </td>
-		        </tr>
-                <tr class="icon_s class_icon_s">
-			        <td style="text-align:right; width:30%;">年级</td>
-			        <td>
-                        <select class="add_pic_grade">
-                        </select>
-                    </td>
-		        </tr>
-                <tr class="icon_s class_icon_s">
-			        <td style="text-align:right; width:30%;">科目</td>
-			        <td>
-                        <select class="add_pic_subject">
-                        </select>
-                    </td>
-		        </tr>
+                  <select class="add_pic_usage_type">
+                  </select>
+              </td>
+		            </tr>
+                <tr>
+			              <td style="text-align:right; width:30%;">图片名称</td>
+			              <td><input value="" class="add_pic_name" type="text" size="30" /></td>
+		            </tr>
+                <tr class="time_s">
+			              <td style="text-align:right; width:30%;">开始时间</td>
+			              <td><input class="add_start_date" type="text"/></td>
+                </tr>
+                <tr class="time_s">
+			              <td style="text-align:right; width:30%;">结束时间</td>
+			              <td><input class="add_end_date" type="text"/></td>
+                </tr>
+
+            <!-- <tr class="icon_s class_icon_s">
+			           <td style="text-align:right; width:30%;">年级</td>
+			           <td>
+                 <select class="add_pic_grade">
+                 </select>
+                 </td>
+		             </tr>
+                 <tr class="icon_s class_icon_s">
+			           <td style="text-align:right; width:30%;">科目</td>
+			           <td>
+                 <select class="add_pic_subject">
+                 </select>
+                 </td>
+		             </tr> -->
                 <tr>
 			        <td style="text-align:right; width:30%;">图片上传</td>
 			        <td>
@@ -104,55 +119,44 @@
                         <div class="pic_url"></div>
                     </td>
 		        </tr>
-		        <tr>
-			        <td style="text-align:right;width:30%;">tag/分享图片上传</td>
-			        <td>
-                        <div id="id_container_tag_add">
-                            <input id="id_upload_tag_add" value="上传图片" class="btn btn-primary add_tag_img" style="margin-bottom:5px;" type="button"/>
-                        </div>
-                        <div class="add_header_tag_img"></div>
-                    </td>
-		        </tr>
+		        <!-- <tr>
+			           <td style="text-align:right;width:30%;">tag/分享图片上传</td>
+			           <td>
+                 <div id="id_container_tag_add">
+                 <input id="id_upload_tag_add" value="上传图片" class="btn btn-primary add_tag_img" style="margin-bottom:5px;" type="button"/>
+                 </div>
+                 <div class="add_header_tag_img"></div>
+                 </td>
+		             </tr>
+            -->
 
-                <tr>
-			        <td style="text-align:right; width:30%;">图片名称</td>
-			        <td><input value="" class="add_pic_name" type="text" size="30" /></td>
-		        </tr>
                 <tr class="icon_s">
 			        <td style="text-align:right; width:30%;">图标顺序/消息类型</td>
 			        <td><input value="" class="add_pic_order_by" type="text"/></td>
 		        </tr>
-                <tr class="time_s">
-			        <td style="text-align:right; width:30%;">开始时间</td>
-			        <td><input class="add_start_date" type="text"/></td>
-                </tr>
-                <tr class="time_s">
-			        <td style="text-align:right; width:30%;">结束时间</td>
-			        <td><input class="add_end_date" type="text"/></td>
-                </tr>
                 <tr>
 			        <td style="text-align:right; width:30%;">图片点击状态</td>
 			        <td>
                   <select class="add_pic_click_status">
                   </select>
               </td>
-		        </tr>
+		            </tr>
+                <tr class="share_s">
+			              <td style="text-align:right; width:30%;">跳转目标类型</td>
+			              <td><select class="add_jump_type"></select></td>
+                </tr>
             <tr class="share_s">
 			          <td style="text-align:right; width:30%;">跳转地址</td>
 			          <td><input class="add_jump_url" type="text"/></td>
             </tr>
-            <tr class="share_s">
-			          <td style="text-align:right; width:30%;">跳转目标类型</td>
-			          <td><select class="add_jump_type"></select></td>
-            </tr>
-            <tr class="share_s">
-			          <td style="text-align:right; width:30%;">分享标题</td>
-			          <td><input class="add_title_share" type="text"/></td>
-            </tr>
-            <tr class="share_s">
-			          <td style="text-align:right; width:30%;">分享内容</td>
-			          <td><textarea class="add_info_share"></textarea></td>
-            </tr>
+            <!-- <tr class="share_s">
+			           <td style="text-align:right; width:30%;">分享标题</td>
+			           <td><input class="add_title_share" type="text"/></td>
+                 </tr>
+                 <tr class="share_s">
+			           <td style="text-align:right; width:30%;">分享内容</td>
+			           <td><textarea class="add_info_share"></textarea></td>
+                 </tr> -->
 		    </tbody>
 	    </table>
     </div>
