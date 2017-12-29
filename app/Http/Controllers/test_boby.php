@@ -1465,16 +1465,14 @@ class test_boby extends Controller {
 
 	}
 
-	/**
-	 * @DateTime 2017-12-29
-	 * @param    [copyright]
-	 * @version  [version]
-	 * @return   [type]      [description]
+	/**	
+	 * 
 	 */
 	public function test() {
 		echo 'ss看看';
 		\App\Helper\Utils::check_is_match(11, 20171230);
 		// \App\Helper\Utils::unixtime2date_for_item($itme, "create_time");
+		echo '托尔斯泰';
 	}
 
 }
