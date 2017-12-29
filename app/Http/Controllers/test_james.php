@@ -1552,7 +1552,7 @@ class test_james extends Controller
     }
 
     public function dddd(){
-        $$key = $this->get_in_str_val("key");
+        $key = $this->get_in_str_val("key");
         // 构建鉴权对象
 
         $unzipFilePath  =  public_path('pdfToH5'); // 解压后的文件夹
