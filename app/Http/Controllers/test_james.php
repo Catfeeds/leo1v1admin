@@ -1478,6 +1478,7 @@ class test_james extends Controller
         $domain = config('admin')['qiniu']['public']['url'];
         $change_reason_url = $domain.'/'.$url;
         dd($change_reason_url);
+        //https://ybprodpub.leo1v1.com/
         //gdb752962bc31cc483cf576fb1fdd8d7.zip
     }
 
@@ -1548,6 +1549,23 @@ class test_james extends Controller
         $ret_info['savePathFile'] = $savePathFile;
 
         return $ret_info;
+    }
+
+    public function dddd(){
+
+        $hotcat =array(
+            array('catid'=>'1546','catname'=>'数组排序 一级','count'=>'588'),
+            array('catid'=>'1546','catname'=>'数组排序二级','count'=>'584'),
+            array('catid'=>'1546','catname'=>'数组排序 三级','count'=>'589')
+        );
+
+        foreach($hotcat as $i => $item){
+            $ret[$i] = $item['count'];
+        }
+
+        array_multisort($ret,SORT_DESC,$hotcat);//此处对数组进行降序排列；SORT_DESC按降序排列
+
+        dd($hotcat);
     }
 
 

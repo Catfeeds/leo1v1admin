@@ -67,7 +67,7 @@ class uploadPdfChange extends Command
             @chmod($savePathFile, 0777);
 
             //上传未达
-            $cmd  = "curl -F doc=@'$savePathFile' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=leoedu&fn=".$item['file_link'].".pdf'";
+            $cmd  = "curl -F doc=@'$savePathFile' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=leoedu&fn=".$item['file_title'].".pdf'";
             $uuid_tmp = shell_exec($cmd);
             $uuid_arr = explode(':', $uuid_tmp);
             \App\Helper\Utils::logger("jjames_sjj: $uuid_tmp");

@@ -590,22 +590,147 @@ $(function(){
 
         
         var id_change_phone            = $("<button class='btn btn-danger'>更换手机</button>");
-        var id_identity                = $("<button class='btn btn-danger'>老师身份修改</button>");
+        var id_change_tea_to_new       = $("<button class='btn btn-primary'>账号转移</button>");
+        var id_subject_info            = $("<button class='btn btn-danger'>年级/科目修改</button>");
+
+        var id_identity                = $("<button class='btn btn-danger'>老师信息修改</button>");
        
 
        
         id_change_phone.on("click",function(){change_phone(data);});
         id_identity.on("click",function(){set_teacher_identity(data);});
+        id_subject_info.on("click",function(){update_subject_info(data);});
+        id_change_tea_to_new.on("click",function(){opt_change_tea_to_new(data);});
+
        
 
         var arr = [
             ["",id_change_phone],
+            ["",id_change_tea_to_new],
+            ["",id_subject_info],
             ["",id_identity]
         ];
       
 
         $.show_key_value_table("账号信息修改",arr);
     });
+
+    var opt_change_tea_to_new = function(data){
+        var id_new_phone    = $("<input/>");
+        var id_lesson_start = $("<input/>");
+
+        id_lesson_start.datetimepicker({
+            lang       : 'ch',
+            timepicker : false,
+            format     : 'Y-m-d ',
+        });
+
+        var arr = [
+            ["老师新账号",id_new_phone],
+            ["需要转移的课程开始时间","如果不填则默认当天之后的未上课程"],
+            ["开始时间",id_lesson_start],
+        ];
+
+        $.show_key_value_table("转移老师信息至新账号",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                var lesson_start  = id_lesson_start.val();
+                data.lesson_start = lesson_start;
+                var new_phone = id_new_phone.val();
+                check_new_phone(new_phone,data);
+            }
+        });
+    }
+
+    var check_new_phone = function(new_phone,old_info){
+        $.do_ajax("/human_resource/change_teacher_to_new",{
+            "new_phone" : new_phone,
+            "phone"     : old_info.phone,
+        },function(result){
+            if(result.ret==0){
+                var new_teacherid = result.new_teacherid;
+                change_tea_to_new(old_info,new_teacherid);
+            }else{
+                BootstrapDialog.alert(result.info);
+            }
+        });
+    }
+
+    var change_tea_to_new = function(old_info,new_teacherid){
+        $.do_ajax("/human_resource/transfer_teacher_info",{
+            "old_teacherid" : old_info.teacherid,
+            "new_teacherid" : new_teacherid,
+            "lesson_start"  : old_info.lesson_start,
+        },function(result){
+            if(result.ret==0){
+                BootstrapDialog.alert("转移完成!");
+                sleep(1000);
+                window.location.reload();
+            }else{
+                BootstrapDialog.alert(result.info);
+            }
+        })
+    }
+
+
+
+
+    //更新老师的科目和年级信息
+    var update_subject_info = function(data){
+        var id_subject            = $("<select>");
+        var id_grade_start        = $("<select>");
+        var id_grade_end          = $("<select>");
+        var id_second_subject     = $("<select>");
+        var id_second_grade_start = $("<select>");
+        var id_second_grade_end   = $("<select>");
+
+        Enum_map.append_option_list("subject",id_subject,true);
+        Enum_map.append_option_list("subject",id_second_subject,true);
+        Enum_map.append_option_list("grade_range",id_grade_start,true);
+        Enum_map.append_option_list("grade_range",id_grade_end,true);
+        Enum_map.append_option_list("grade_range",id_second_grade_start,true);
+        Enum_map.append_option_list("grade_range",id_second_grade_end,true);
+
+        var arr = [
+            ["第一科目",id_subject],
+            ["开始年级",id_grade_start],
+            ["结束年级",id_grade_end],
+            ["第二科目",id_second_subject],
+            ["开始年级",id_second_grade_start],
+            ["结束年级",id_second_grade_end],
+        ];
+        id_subject.val(data.subject);
+        id_second_subject.val(data.second_subject);
+        id_grade_start.val(data.grade_start);
+        id_grade_end.val(data.grade_end);
+        id_second_grade_start.val(data.second_grade_start);
+        id_second_grade_end.val(data.second_grade_end);
+
+        $.show_key_value_table("更新老师的科目和年级信息",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/teacher_info_admin/update_teacher_subject_info",{
+                    "teacherid"          : data.teacherid,
+                    "subject"            : id_subject.val(),
+                    "second_subject"     : id_second_subject.val(),
+                    "grade_start"        : id_grade_start.val(),
+                    "grade_end"          : id_grade_end.val(),
+                    "second_grade_start" : id_second_grade_start.val(),
+                    "second_grade_end"   : id_second_grade_end.val(),
+                },function(result){
+                    if(result.ret==0){
+                        BootstrapDialog.alert("更新成功！");
+                        dialog.close();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                });
+            }
+        });
+    }
+
 
     var change_phone = function(opt_data){
         var id_new_phone = $("<input/>");
@@ -635,19 +760,28 @@ $(function(){
 
     var set_teacher_identity = function(opt_data){
         var id_identity_new = $("<select/>");
+        var id_realname = $("<input/>");
+        var id_wx_openid = $("<input/>");
         Enum_map.append_option_list("identity", id_identity_new, true,[5,6,7,8] );
         var arr          = [
+            ["姓名", id_realname],
             ["老师身份",id_identity_new],
+            ["微信openid", id_wx_openid],
+
         ];
         id_identity_new.val(opt_data.identity);
+        id_realname.val(opt_data.realname);
+        id_wx_openid.val(opt_data.wx_openid);
 
-        $.show_key_value_table("修改老师身份", arr ,{
+        $.show_key_value_table("修改老师信息", arr ,{
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
                 $.do_ajax("/ajax_deal2/set_teacher_identity",{
                     "teacherid"    : opt_data.teacherid,
-                    "identity" : id_identity_new.val(),
+                    "identity"     : id_identity_new.val(),
+                    "realname"     : id_realname.val(),
+                    "wx_openid"     : id_wx_openid.val()
                 },function(result){
                     if(result.ret<0){
                         BootstrapDialog.alert(result.info);

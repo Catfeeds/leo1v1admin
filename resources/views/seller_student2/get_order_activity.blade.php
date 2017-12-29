@@ -278,6 +278,19 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-xs-10 col-md-10"  >
+                            <div class="row">
+                                <div class="col-xs-2 col-md-2 row-td-field-name"  >
+                                    <span >是否需要分享微信:</span>
+                                </div>
+                                <div class="col-xs-5 col-md-5  row-td-field-value">
+                                    <span>{{@$ret_info['is_need_share_wechat_str']}}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-xs-10 col-md-10"  >

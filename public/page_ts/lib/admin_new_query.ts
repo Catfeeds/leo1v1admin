@@ -136,6 +136,10 @@
 
         this.query_item_list=[];
         this.options = $.extend({}, this.defaults, opt);
+        var  need_show_field_index_list=[];
+        $.each($ele.find(".select-menu-list select"),function(){
+            need_show_field_index_list.push( $(this).data("index"));
+        });
 
         this.menu_item_select_css="select";
         var flag_key = "query_flag_"+ window.location.pathname;

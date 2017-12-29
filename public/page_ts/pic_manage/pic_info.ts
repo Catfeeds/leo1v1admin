@@ -62,12 +62,12 @@ $(function(){
             html_node.find(".pic_url").html(pic_url);
             html_node.find(".add_header_tag_img").html(tag_img);
 
-            html_node.find(".add_pic_type").val(item.type);
+            html_node.find(".add_pic_type").val(item.type); // 图片类型
             Enum_map.append_child_option_list("pic_usage_type",html_node.find(".add_pic_type"),
                                               html_node.find(".add_pic_usage_type"),true);
 
 
-            html_node.find(".add_pic_usage_type").val(item.usage_type);
+            html_node.find(".add_pic_usage_type").val(item.usage_type); 
             html_node.find(".add_pic_name").val(item.name);
             html_node.find(".add_pic_click_status").val(item.status);
             if(item.status==1){
@@ -148,6 +148,15 @@ $(function(){
                         var info_share   = html_node.find(".add_info_share").val();
                         var start_time   = html_node.find(".add_start_date").val();
                         var end_time     = html_node.find(".add_end_date").val();
+                        if (!name) {
+                            alert('图片名称不能为空，请填写保持在30字符之后')
+                            return false;
+                        }
+                        alert(grade);
+                        if (!grade) {
+                            alert('请选择年级');
+                            return false;
+                        }
                         // if(usage_type==207){
                             grade   = html_node.find(".add_pic_grade").val();
                             subject = html_node.find(".add_pic_subject").val();
@@ -204,7 +213,7 @@ $(function(){
 
     };
 
-    $(".add_pic_info").on("click",function(){
+    $(".add_pic_info").on("click",function(){ // 添加数据
         do_add_or_update("add");
     });
 
