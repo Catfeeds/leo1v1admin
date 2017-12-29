@@ -3006,7 +3006,9 @@ $(function () {
         $(this).bind("contextmenu copy selectstart", function() {
             // return false;
         });
-        $(this).parent().css({"overflow":"auto"});
+        var screen_height=window.screen.availHeight-350;        
+
+        $(this).parent().css({"height":screen_height,"overflow":"auto"});
 
     });
 });
