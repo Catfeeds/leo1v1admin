@@ -13,7 +13,12 @@ import {self_RowData, self_Args } from "../page.d.ts/test-get_user_list"
     message: "" ,
   }
 })
+
 export default class extends vbase {
+
+  data_ex() {
+    return {"message": "xx" }
+  }
 
   get_opt_data(obj):self_RowData {return this.get_opt_data_base(obj );}
   get_args() :self_Args  {return  this.get_args_base();}
