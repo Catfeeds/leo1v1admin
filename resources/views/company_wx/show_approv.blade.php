@@ -3,15 +3,13 @@
 @section('content')
 <section class='content'>
     <div> <!-- search ... -->
-        <div class='row  row-query-list' >
-            <div class='col-xs-12 col-md-5' data-title='时间段'>
+        <div class='row ' >
+            
+            <div class='col-xs-2 col-md-5'>
+                <div id='id_date_range' >
+                </div>
             </div>
-        <!-- 
-             <div class='col-xs-2 col-md-5'>
-             <div id='id_date_range' >
-             </div>
-             </div>
-           -->
+            
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
                 <bttton id="id_add" class="btn btn-primary">添加</button>
