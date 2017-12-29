@@ -115,6 +115,7 @@ class assistant_performance extends Controller
         $last_month = strtotime("-1 month",$start_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
         $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
+        $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target");
         
 
         // //销售月拆解
@@ -342,8 +343,8 @@ class assistant_performance extends Controller
             //计算助教相关退费
 
             $renw_target = @$last_ass_month[$k]["warning_student"]*0.8*7000*100;
-            if($start_time==strtotime("2017-11-01")){
-                $renw_target = 12000000; 
+            if($start_time>=strtotime("2017-11-01")){
+                $renw_target = @$target_info["renew_target"]; 
             }
             $item["renw_target"] =  $renw_target;
             // $renw_price = $item["renw_price"]+$item["tran_price"]-$item["ass_refund_money"];
