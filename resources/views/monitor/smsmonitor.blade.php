@@ -28,17 +28,14 @@
                         <div class="input-group">
                             <input type="text" value="" class="form-control opt-change"
                                    placeholder="联系电话 回车查找" data-field="phone"   id="id_phone"  />
-
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="input-group">
-
                             <input type="text" value="" class="form-control opt-change"
                                    placeholder=" 错误原因 查找" id="id_receive_content"  />
                         </div>
                     </div>
-
                 </div>
             </div>
             <hr>
@@ -51,7 +48,7 @@
                         <td >发送时间</td>
                         <td >是否成功</td>
                         <td >内容</td>
-                        <td width="300px" style="display:none;" >短信系统返回</td>
+                        <td style="display:none;" >短信系统返回</td>
                         <td >操作</td>
                     </tr>
                 </thead>
