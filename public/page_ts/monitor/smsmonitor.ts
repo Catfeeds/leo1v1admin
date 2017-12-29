@@ -9,7 +9,7 @@ $(function(){
 			      end_time      :	$('#id_end_time').val(),
 			      is_succ       :	$('#id_is_succ').val(),
 			      phone         :	$('#id_phone').val(),
-			      search_info   :	$('#id_search_info').val(),
+			      receive_content:	$('#id_receive_content').val(),
 			      type          :	$('#id_type').val()
         });
     }
@@ -28,7 +28,7 @@ $(function(){
     Enum_map.append_option_list("sms_type",$("#id_type"));
 	  $('#id_is_succ').val(g_args.is_succ);
 	  $('#id_phone').val(g_args.phone);
-	  $('#id_search_info').val(g_args.search_info);
+	  $('#id_receive_content').val(g_args.receive_content);
 	  $('#id_type').val(g_args.type);
 
 	  $('.opt-change').set_input_change_event(load_data);

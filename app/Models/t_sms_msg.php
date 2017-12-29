@@ -8,11 +8,11 @@ class t_sms_msg extends \App\Models\Zgen\z_t_sms_msg
         parent::__construct();
     }
 
-    public function get_sms_list($page_num, $start, $end, $phone, $is_success, $type,$search_info)
+    public function get_sms_list($page_num, $start, $end, $phone, $is_success, $type,$receive_content)
     {
         $where_arr=[
             ["phone like \"%%%s%%\"",$phone,"" ],
-            ["receive_content like \"%%%s%%\"",$search_info,"" ],
+            ["receive_content like \"%%%s%%\"",$receive_content,"" ],
             ["is_success =%u ",$is_success, -1 ],
             ["type =%u ",$type , -1 ],
         ];
@@ -24,7 +24,7 @@ class t_sms_msg extends \App\Models\Zgen\z_t_sms_msg
             $end,
             $where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_num,15);
+        return $this->main_get_list_by_page($sql,$page_num);
     }
 
     public function tongji_get_list($start_time, $end_time, $is_success, $type)
