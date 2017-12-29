@@ -145,7 +145,7 @@ class company_wx extends Controller
                 'notify_name' => $notify_name,
                 'sp_status' => $item['sp_status'],
                 'sp_num' => $item['sp_num'],
-                'mediaids' => json_encode($item['mediaids']),
+                //'mediaids' => json_encode($item['mediaids']),
                 "apply_time" => $item['apply_time'],
                 "apply_user_id" => $item['apply_user_id']
             ];
@@ -202,11 +202,14 @@ class company_wx extends Controller
     }
 
     public function show_approv() {
-        $info = $this->t_company_wx_approval->get_all_list();
+        list($start_time, $end_time) = $this->get_in_date_range_day(0);
+        $info = $this->t_company_wx_approval->get_all_list($start_time, $end_time);
         foreach($info as &$item) {
             $item['apply_time_str'] = date('Y-m-d H:i:s', $item['apply_time']);
-            $item['start_time_str'] = date('Y-m-d H:i:s', $item['start_time']);
-            $item['end_time_str'] = date('Y-m-d H:i:s', $item['end_time']);
+            $item['start_time_str'] = '';
+            $item['end_time_str'] = '';
+            if ($item['start_time']) $item['start_time_str'] = date('Y-m-d H:i:s', $item['start_time']);
+            if ($item['end_time']) $item['end_time_str'] = date('Y-m-d H:i:s', $item['end_time']);
             //：1审批中；2 已通过；3已驳回；4已取消；6通过后撤销；10已支付
             
             if ($item['sp_status'] == 1) {
