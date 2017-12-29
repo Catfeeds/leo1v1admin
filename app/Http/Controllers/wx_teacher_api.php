@@ -1024,6 +1024,7 @@ class wx_teacher_api extends Controller
     public function get_test_lesson_info(){
         $lessonid  = $this->get_in_int_val('lessonid',-1);
         $ret_info  = $this->t_test_lesson_subject->get_test_require_info($lessonid);
+        $ret_info['teacherid'] = $this->t_lesson_info->get_teacherid($lessonid);
 
         if($ret_info['lesson_del_flag']==1){
             $ret_info['status'] = 2;

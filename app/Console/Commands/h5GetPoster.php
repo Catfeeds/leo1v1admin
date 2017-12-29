@@ -65,7 +65,6 @@ class h5GetPoster extends Command
         $auth=$store->get_auth();
 
 
-        // $pdf_lists = $this->task->t_pdf_to_png_info->get_pdf_list_for_doing();
         $pdf_lists = $this->task->t_resource_file->getH5PosterInfo();
 
         while(list($key,$item)=each($pdf_lists)){
