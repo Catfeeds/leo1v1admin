@@ -163,7 +163,8 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
     public function getH5PosterInfo(){
         $where_arr = [
             "f.status=0",
-            "f.file_use_type=0"
+            "f.file_use_type=0",
+            "f.change_status=0"
         ];
 
         $sql = $this->gen_sql_new("  select file_id, file_type, file_link from %s f "
@@ -173,5 +174,9 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         );
 
         return $this->main_get_list($sql);
+    }
+
+    public function savePosterUrl($id, $file_name_origi_str){
+        
     }
 }

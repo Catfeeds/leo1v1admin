@@ -55,6 +55,10 @@ class h5GetPoster extends Command
 
         while(list($key,$item)=each($pdf_lists)){
             $pdf_url  = $item['file_link'];
+            $id = $item['file_id'];
+            $this->task->t_resource_file->field_update_list($id,[
+                "change_status" => 2,
+            ]);
 
             $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$item['file_link'] );
             $savePathFile = public_path('wximg').'/'.$pdf_url;
@@ -63,19 +67,21 @@ class h5GetPoster extends Command
                 $path = public_path().'/wximg';
                 @chmod($savePathFile, 0777);
 
-                $imgs_url_list = $this->pdf2png($savePathFile,$path,$lessonid);
-                $file_name_origi = array();
-                foreach($imgs_url_list as $item){
-                    $file_name_origi[] = @$this->put_img_to_alibaba($item);
+                $imgs_url_list = $this->pdf2png($savePathFile,$path,$id);
+                // $file_name_origi = array();
+                $file_name_origi_str = '';
+                // foreach($imgs_url_list as $item){
+                if(!empty($imgs_url_list)){
+                    $file_name_origi_str = @$this->put_img_to_alibaba($imgs_url_list[0]);
                 }
+                // }
 
-                $file_name_origi_str = implode(',',$file_name_origi);
-
-                $ret = $this->task->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
-                $this->task->t_pdf_to_png_info->field_update_list($id,[
-                    "id_do_flag" => 1,
-                    "deal_time"  => time()
+                // $file_name_origi_str = implode(',',$file_name_origi);
+                $this->task->t_resource_file->field_update_list($id,[
+                    "change_status" => 1,
+                    "file_poster"   => $file_name_origi_str
                 ]);
+
 
                 foreach($imgs_url_list as $item_orgi){
                     @unlink($item_orgi);
@@ -104,7 +110,7 @@ class h5GetPoster extends Command
 
 
     //
-    public function pdf2png($pdf,$path, $lessonid){
+    public function pdf2png($pdf,$path, $id){
 
         if(!extension_loaded('imagick')){
             return false;
@@ -118,14 +124,11 @@ class h5GetPoster extends Command
 
         $is_exit = file_exists($pdf);
 
-
-        \App\Helper\Utils::logger("check_pdf $pdf");
-
         if($is_exit){
             $IM->readImage($pdf);
             foreach($IM as $key => $Var){
                 @$Var->setImageFormat('png');
-                $Filename = $path."/l_t_pdf_".$lessonid."_".$key.".png" ;
+                $Filename = $path."/pdf_to_h5".$id."_".$key.".png" ;
                 if($Var->writeImage($Filename)==true){
                     $Return[]= $Filename;
                 }
