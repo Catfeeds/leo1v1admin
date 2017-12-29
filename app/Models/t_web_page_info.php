@@ -41,7 +41,7 @@ class t_web_page_info extends \App\Models\Zgen\z_t_web_page_info
             ["w.add_time<%u",  $end_time, -1],
         ];
 
-        $sql=$this->gen_sql_new("select max(l.share_wx_flag) as share_flag, w.web_page_id ".
+        $sql=$this->gen_sql_new("select max(l.share_wx_flag) as share_flag, w.web_page_id,l.from_adminid ".
                                 "from %s w ".
                                 "left join %s l on l.web_page_id=w.web_page_id and l.from_adminid=$adminid".
                                 "where %s ".
@@ -50,7 +50,6 @@ class t_web_page_info extends \App\Models\Zgen\z_t_web_page_info
                                 t_web_page_trace_log::DB_TABLE_NAME,
                                 $where_arr
         );
-
         return $this->main_get_list($sql);
     }
 
