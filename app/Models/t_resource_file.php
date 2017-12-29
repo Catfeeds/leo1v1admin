@@ -159,4 +159,19 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
 
         return $this->main_get_list($sql);
     }
+
+    public function getH5PosterInfo(){
+        $where_arr = [
+            "f.status=0",
+            "f.file_use_type=0"
+        ];
+
+        $sql = $this->gen_sql_new("  select file_id, file_type, file_link from %s f "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

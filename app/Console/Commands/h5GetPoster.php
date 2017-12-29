@@ -11,7 +11,7 @@ class h5GetPoster extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'command:h5GetPoster';
 
     /**
      * The console command description.
@@ -45,27 +45,23 @@ class h5GetPoster extends Command
     public function do_change()
     {
         //
+        $this->task=new \App\Console\Tasks\TaskController();
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
 
-        $pdf_lists = $this->task->t_pdf_to_png_info->get_pdf_list_for_doing();
-        // $pdfList = $this->
+
+        // $pdf_lists = $this->task->t_pdf_to_png_info->get_pdf_list_for_doing();
+        $pdfList = $this->task->t_resource_file->getH5PosterInfo();
 
         while(list($key,$item)=each($pdf_lists)){
-            $id       = $item['id'];
-            $pdf_url  = $item['pdf_url'];
-            $lessonid = $item['lessonid'];
-            $this->task->t_pdf_to_png_info->field_update_list($id,[
-                "id_do_flag" => 2,
-                "deal_time"  => time()
-            ]);
+            $pdf_url  = $item['file_link'];
 
-            $pdf_file_path = $this->get_pdf_download_url($pdf_url);
+            $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$item['file_link'] );
             $savePathFile = public_path('wximg').'/'.$pdf_url;
             if($pdf_url){
                 \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
                 $path = public_path().'/wximg';
                 @chmod($savePathFile, 0777);
-
-                $filesize=filesize($savePathFile);
 
                 $imgs_url_list = $this->pdf2png($savePathFile,$path,$lessonid);
                 $file_name_origi = array();
