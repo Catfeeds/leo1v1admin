@@ -48,15 +48,15 @@ class pdfConversionH5 extends Command
         $pwd   = 'bbcffc83539bd9069b755e1d359bc70a';// md5(021130)
         $task=new \App\Console\Tasks\TaskController();
 
-        // $handoutArray = $task->t_resource_file->getResourceList();
+        $handoutArray = $task->t_resource_file->getResourceList();
 
-        $handoutArray = [
-            [
-                "file_link" => 'aaf3622180de9ae8967eb7986c10bce61513827415224.pdf',
-                "file_id"   => 6,
-                "uuid"      => 'g03c6f7a81c9bdba93137ac50d77ea81'
-            ]
-        ];
+        // $handoutArray = [
+        //     [
+        //         "file_link" => 'aaf3622180de9ae8967eb7986c10bce61513827415224.pdf',
+        //         "file_id"   => 6,
+        //         "uuid"      => 'g03c6f7a81c9bdba93137ac50d77ea81'
+        //     ]
+        // ];
 
 
 
