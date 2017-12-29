@@ -13,6 +13,9 @@ class activity_config_new extends  activity_new_base {
     //是否可不使用
     public $can_disable_flag =true;
 
+    //是否需要分享微信
+    public $is_need_share_wechat = 0;
+
     public  $check_grade_list=[] ; //适配年级 [ 101,102,103,104,105,106, . ]
 
     public  $max_count_activity_type_list=[]; // 总配额 组合
@@ -99,7 +102,7 @@ class activity_config_new extends  activity_new_base {
         $this->max_count = $item['max_count'];
         $this->max_change_value = $item['max_change_value'];
         $this->need_spec_require_flag = $item['need_spec_require_flag'];
-
+        $this->is_need_share_wechat = $item['is_need_share_wechat'];
         $discount_json = json_decode($item['discount_json'],true);
 
         switch($item['order_activity_discount_type']){
@@ -146,7 +149,6 @@ class activity_config_new extends  activity_new_base {
         //手动开启检查
         if ($this->can_disable_flag ) {
             if ( in_array( $this->order_activity_type ,$this->args["disable_activity_list"] ) ) {
-
                 $desc_list[]=$this->gen_activity_item(2,  "手动不开启" , $price,  $present_lesson_count, $can_period_flag );
                 return false;
             }
@@ -182,7 +184,7 @@ class activity_config_new extends  activity_new_base {
             if  (!( $lesson_times>= $this->lesson_times_range[0]
                     && $lesson_times<= $this->lesson_times_range[1] ) ) {
                 $desc_list[]=$this->gen_activity_item(0,  "购买课时{$lesson_times}, 课时数不匹配  " , $price,  $present_lesson_count, $can_period_flag );
-                return false ;
+                return false;
             }
         }
 
@@ -239,7 +241,15 @@ class activity_config_new extends  activity_new_base {
             }
         }
 
-        //check wx info
+        //查看是否必须分享微信
+        if($this->is_need_share_wechat == 1){
+            // $is_share_result = \App\Helper\Utils::check_is_match($this->get_account_id(),$this->order_activity_type);
+            // if($is_share_result && @$is_share_result['ret'] == 0){
+
+            //     $desc_list[]=$this->gen_activity_item(0,  $activity_desc. ",必须分享微信,你还没分享呢！"  , $price,  $present_lesson_count, $can_period_flag );
+            //     return false;
+            // };
+        }
 
         //\App\Helper\Utils::logger("按课次数送课: ".$this->title.json_encode($this->lesson_times_present_lesson_count));
 
