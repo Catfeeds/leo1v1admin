@@ -150,18 +150,18 @@ class Common {
     public static function send_sms_with_taobao($phone,$template_code,$data,$sign_name="理优教育"){
         include_once( app_path("Libs/taobao_sms/TopSdk.php") );
 
-        foreach ($data as   &$value) {
-            $value=strval($value);
-        }
+        // foreach ($data as   &$value) {
+        //     $value=strval($value);
+        // }
         $c = new \TopClient();
 
         /**
          * 原账号的短信被限制,将 10671030,10671029 两个验证码短信切换到另一个账号上发送
          */
-        if($template_code=="SMS_10671030"){
-            $template_value = "SMS_7795923";
-        }elseif($template_value=="SMS_10671029"){
-            $template_value = "SMS_7771547";
+        if($template_code == "SMS_10671030"){
+            $template_code = "SMS_7795923";
+        }elseif($template_code == "SMS_10671029"){
+            $template_code = "SMS_7771547";
         }
 
         /**
@@ -171,8 +171,6 @@ class Common {
          * array( 8295424 ,'','课程当天早上通知',),
          */
         $template_value = substr($template_code,4);
-
-
         if ( $template_value==7795923
             ||$template_value==7786570
             ||$template_value==7771547
