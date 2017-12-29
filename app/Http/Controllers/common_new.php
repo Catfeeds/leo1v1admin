@@ -1839,4 +1839,50 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $this->output_succ();
     }
 
+        public function get_mobile_image() {
+        $this->set_in_value("usage_type", 303);
+        $this->set_in_value("type", 'mobile');
+        return $this->get_image();
+    }
+
+    public function get_pc_image() {
+        $this->set_in_value("usage_type", 302);
+        $this->set_in_value("type", 'pc');
+        return $this->get_image();
+    }
+
+    public function get_image() {
+        $usage_type = $this->get_in_int_val('usage_type');
+        $type = $this->get_in_str_val("type");
+        $info = $this->t_pic_manage_info->get_pic_or_mobile_info($usage_type);
+        $banner_count = count($info);
+        $custom_type = $video_type = $page_type = '';
+        $i = $j = $k = 0;
+        foreach ($info as $item) {
+            if ($item['jump_type'] == 2) {
+                $custom_type[$i]['img_url'] = $item['img_url'];
+                $custom_type[$i]['jump_url'] = $item['jump_url'];
+                $i ++;
+            }
+            if ($item['jump_type'] == 1) {
+                $video_type[$j]['img_url'] = $item['img_url'];
+                $video_type[$j]['jump_url'] = $item['jump_url'];
+                $j ++;
+            }
+            if ($item['jump_type'] == 0) {
+                $page_type[$i]['img_url'] = $item['img_url'];
+                $page_type[$i]['jump_url'] = $item['jump_url'];
+                $k ++;
+            }
+        }
+        $res = [$type => ['data' => [
+            'banner_count' => $banner_count,
+            'custom_type' => $custom_type,
+            'video_type' => $video_type,
+            'page_type' => $page_type
+        ]]];
+        return $this->output_succ($res);
+        //return outputJson($res);
+    }
+
 }
