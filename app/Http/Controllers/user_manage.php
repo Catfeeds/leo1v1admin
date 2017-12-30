@@ -791,7 +791,7 @@ class user_manage extends Controller
         \App\Helper\Utils::logger("del_contract orderid:".$orderid." account:".$account);
 
         $child_status = $this->t_child_order_info->chick_all_order_have_pay($orderid,1);
-        if($child_status==1 && !in_array($this->get_account(),["jack"])){
+        if($child_status==1 && !in_array($this->get_account(),["jack","zero"])){
             return $this->output_err("已有子合同付过款,不能删除");
         }
         $contract_status = $this->t_order_info->get_contract_status($orderid);

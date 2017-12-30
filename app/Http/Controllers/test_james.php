@@ -1602,6 +1602,9 @@ class test_james extends Controller
         $subject = $this->get_in_int_val('subject');
         $grade = $this->get_in_int_val('grade');
         $file_id = $this->t_resource->getResourceId($subject,$grade);
+        $resource_id = $this->t_resource->getResourceId($subject,$grade);
+
+        dd($resource_id);
 
         dd($file_id);
 
@@ -1628,8 +1631,10 @@ class test_james extends Controller
         $list = $this->t_resource_file->getList();
 
         foreach($list as $item){
+            $file_poster = explode(',', $item['filelinks']);
             $this->t_resource_file->field_update_list($item['file_id'], [
-                "change_status"
+                "change_status"=>1,
+                "file_poster" => $file_poster[0]
             ]);
         }
     }
