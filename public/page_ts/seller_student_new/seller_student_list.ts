@@ -3693,12 +3693,6 @@ function init_edit() {
                         }else{
                             html_node.find("#city_new_two").parent().attr('style','');
                         }
-                        if(html_node.find("#area_new_two").text() == ''){
-                            html_node.find("#area_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#area_new_two").parent().attr('style','');
-                        }
                         if(html_node.find("#id_stu_addr_new_two").val() <= 0){
                             html_node.find("#id_stu_addr_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
