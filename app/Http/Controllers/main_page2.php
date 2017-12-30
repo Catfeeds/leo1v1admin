@@ -48,7 +48,7 @@ class main_page2 extends Controller
         $last_month_first = strtotime(date("Y-m-01",strtotime("-1 month")));       
         $last_month_last  = $current_month_first;
 
-        $history_month_last = strtotime(date("Y-m-t",strtotime("-2 month")));
+        $history_month_last = $last_month_first;
         //dd(date("Y-m-t",strtotime("-2 month")));
 
         $contract_status="(1,2,3)";  //合同状态
