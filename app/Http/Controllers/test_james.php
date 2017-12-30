@@ -854,6 +854,11 @@ class test_james extends Controller
     //             }
     // }
 
+    public function get(){
+        $parent_wx_openid = $this->t_parent_info->getParentNum();
+        dd($parent_wx_openid);
+    }
+
     public function wx_news(){ // 使用客服接口发送消息
 
         // $filename = "/home/ybai/tu.jpg";
