@@ -2,10 +2,10 @@
   <div style="background:#f0f2f5;margin-top: -20px;">
     <div class="wscn-http404">
       <div class="bullshit">
-        <div class="bullshit__oops">OOPS!</div>
+        <div class="bullshit__oops">SORRY</div>
         <div class="bullshit__headline">{{ message }}</div>
         <div class="bullshit__info">请检查您输入的网址是否正确，请点击以下按钮返回主页或者发送错误报告</div>
-        <a href="/" class="bullshit__return-home">返回首页</a>
+        <a href="/" @click=jump_start_page class="bullshit__return-home">返回首页</a>
       </div>
     </div>
   </div>
@@ -13,16 +13,25 @@
 
 <script>
 
- export default {
-   data() {
-     return {
-     }
-   },
-   computed: {
-     message() {
-       return '该页面你不能进......'
-     }
-   }
+export default {
+    data() {
+        return {
+        }
+    },
+    computed: {
+        message() {
+            return '该页面你不能进......'
+        }
+    },
+    methods: {
+        jump_start_page(e) {
+            $(e.target).attr("href", window.admin_api );
+            //alert(window.admin_api);
+            //$.wopen( window.admin_api,true);
+            //window.location.href=window.admin_api;
+            //return false;
+        }
+  }
  }
 </script>
 

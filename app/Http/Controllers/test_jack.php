@@ -1535,13 +1535,7 @@ class test_jack  extends Controller
 
 
     public function test_ws() {
-        $list = $this->t_period_repay_list->get_no_repay_list();
-        foreach($list["list"] as &$item){
-            \App\Helper\Utils::unixtime2date_for_item($item, "paid_time","_str","Y-m-d");
-            \App\Helper\Utils::unixtime2date_for_item($item, "due_date","_str","Y-m-d");
-            E\Erepay_status::set_item_value_str($item);
-        }
-        return $this->pageView(__METHOD__,$list);
+        return $this->pageView(__METHOD__,[]);
     }
 
     public function test_hha(){
@@ -1594,7 +1588,8 @@ class test_jack  extends Controller
     }
 
     public function test_sms(){
-        \App\Helper\Net::send_sms_taobao(13661596957,0, 10671029,[
+        \App\Helper\Net::
+        send_sms_taobao(13661596957,0, 10671029,[
             "code"  => 1111,
             "index" => 3,
         ]);

@@ -44,7 +44,7 @@ class test extends Controller
         }
 
         return $this->pageOutJson(__METHOD__, $ret_info,[
-            "message" =>  "cur usrid:".$userid .xx
+            "message" =>  "cur usrid:".$userid
         ]);
     }
     public function get_user_list1(){

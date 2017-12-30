@@ -30,7 +30,7 @@ tofile:
 
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import vbase from "../layout/vbase"
+import vtable from "../../components/vtable"
 import {self_RowData, self_Args } from "../page.d.ts/test-get_user_list"
 
 // @Component 修饰符注明了此类为一个 Vue 组件
@@ -39,7 +39,7 @@ import {self_RowData, self_Args } from "../page.d.ts/test-get_user_list"
   template:  require("./get_user_list.html" ),
 })
 
-export default class extends vbase {
+export default class extends vtable {
 
   get_opt_data(obj):self_RowData {return this.get_opt_data_base(obj );}
   get_args() :self_Args  {return  this.get_args_base();}
