@@ -513,11 +513,11 @@ class agent extends Controller
 
         if(is_array($arr)){
             array_shift($arr);
-            dd($arr,array_shift($arr));
             /*
               {"PhoneRecId":"33676335","UIN":"9747576","NickName":[],"Admin_uin":"9747409","Insert_time":"1507547011","Caller_id":"18762207248","Called_id":"6031","Call_style":"3","Call_type":[],"Deal_state":"0","Resume":[],"Visitor_entry":[],"Visitor_last_page":[],"Visitor_comes":[],"Client_uin":[],"Client_id":[],"Rand":[],"Is_called_phone":"1","Call_type_code":[],"Serialno":"0","Caller_ip":[],"Serial_wiseid":[],"RecordFile":"http:\/\/mdb.tq.cn\/mj\/filelist.do?type=voiceRecords&uid=7c65601e-ace1-11e7-a052-93c1e15497be&callagent_time=&token=","Start_time":"1507547011","End_time":"1507547036","Queuename":[],"Third_phone_id":[],"Media_id":[],"Area_id":"8625516","Area_name":"\u6c5f\u82cf\u7701\u5f90\u5dde\u5e02\u4e2d\u56fd\u79fb\u52a8","duration":"00:00:07","Satisfaction_degree":[],"Seatid":"6105","Pathway":"1","Dnis":[],"Caller_queue_time":[],"Caller_stime":"1507547029","Hangup_side":[],"Ring_duration":"00:00:18","Phone_create_time":"1507547011","Phone_hangup_time":"1507547036","FsuniqueId":"7c65601e-ace1-11e7-a052-93c1e15497be","Insert_db_time":"1507547041"}
             */
             foreach ($arr as $item ) {
+                dd($item);
                 if(isset($item["Start_time"])){
                     if(isset($item["RecordFile"])){
                         if(is_array($item["RecordFile"])){
