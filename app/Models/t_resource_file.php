@@ -216,4 +216,13 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         return $this->main_get_list($sql);
     }
 
+    public function getList(){
+        $sql = $this->gen_sql_new(" select filelinks, file_id from %s rf"
+                                  ." where change_status=2"
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
+    }
+
 }
