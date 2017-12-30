@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import vbase from "../layout/vbase"
+import vtable from "../../components/vtable"
 import {self_RowData, self_Args } from "../page.d.ts/test-get_user_list"
-
 
 // @Component 修饰符注明了此类为一个 Vue 组件
 @Component({
@@ -13,7 +12,7 @@ import {self_RowData, self_Args } from "../page.d.ts/test-get_user_list"
   }
 })
 
-export default class extends vbase {
+export default class extends vtable {
 
   data_ex() {
     return {"message": "xx" }
