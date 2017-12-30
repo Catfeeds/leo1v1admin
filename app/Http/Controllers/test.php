@@ -27,6 +27,7 @@ class test extends Controller
         $page_info= $this->get_in_page_info();
         $grade=$this->get_in_el_grade();
 
+
         list($start_time, $end_time)=$this->get_in_date_range_day(0);
         list($order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             =$this->get_in_order_by_str([],"userid desc");
@@ -43,7 +44,7 @@ class test extends Controller
         }
 
         return $this->pageOutJson(__METHOD__, $ret_info,[
-            "message" =>  "cur usrid:".$userid 
+            "message" =>  "cur usrid:".$userid .xx
         ]);
     }
     public function get_user_list1(){
