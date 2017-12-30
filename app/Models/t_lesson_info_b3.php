@@ -2626,7 +2626,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function checkIsUse($lessonid){
         $sql = $this->gen_sql_new("  select 1 from %s l"
-                                  ." where l.lessonid=$lessonid and zip_url != ''"
+                                  ." where l.lessonid=$lessonid and tea_cw_origin=3 "
                                   ,self::DB_TABLE_NAME
         );
 

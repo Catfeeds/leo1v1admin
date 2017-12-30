@@ -131,13 +131,13 @@
                                 <tbody >
                                     <tr>
                                         <td>合同数量</td>
-                                        <td>{{$history_month_num}}</td>
-                                        <td>{{$last_month_num}}</td>
-                                        <td>{{$current_month_num}}</td>
+                                        <td>{{$his_month_cc}}</td>
+                                        <td>{{$last_month_cc}}</td>
+                                        <td>{{$current_month_cc}}</td>
                                     </tr>
                                     <tr>
                                         <td>合同占比</td>
-                                        <td>{{$history_month_rate}}</td>
+                                        <td>{{$his_month_rate}}</td>
                                         <td>{{$last_month_rate}}</td>
                                         <td>{{$current_month_rate}}</td>
                                     </tr>

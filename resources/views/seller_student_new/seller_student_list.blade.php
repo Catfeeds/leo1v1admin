@@ -492,7 +492,6 @@
                                     <a title="试听申请new" class="  fa-chevron-up opt-edit-new_new_two"></a>
                                 @endif
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new_new"></a>
-                                <a title="录入回访信息" class="  fa-edit opt-edit-new"  style="display:none"></a>
                                 <a title="手机拨打&录入回访信息" class=" fa-phone  opt-telphone   "></a>
                                 <a title="试听申请" class="fa fa-headphones opt-post-test-lesson "></a>
                                 <a class="fa  opt-flow-node-list fa-facebook " title="不传试卷,审核进度"></a>
