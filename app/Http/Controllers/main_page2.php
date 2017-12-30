@@ -99,7 +99,13 @@ class main_page2 extends Controller
         $his_arr[] =["n.add_time<%d", $history_month_last];
         $his_month_cc_row = $this->t_order_info->get_cc_order_count($his_arr);
         if( $current_month_num > 0 && $his_month_cc_row ){
+            //历史例子
             $his_month_cc = $his_month_cc_row['count_order'];
+            //不存在的或者删除例子
+            $dele_cc = $current_month_num - $current_month_cc - $last_month_cc - $his_month_cc;
+            if($dele_cc > 0){
+                $his_month_cc += $dele_cc;
+            }
             $his_month_rate = sprintf('%.4f', $his_month_cc/$current_month_num)*100;
             $his_month_rate = $his_month_rate.'%';
         }
