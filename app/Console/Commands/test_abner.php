@@ -46,17 +46,18 @@ class test_abner extends cmd_base
         $teacher_student_arr = [];
         $is_turn_teacher = 0;
         foreach($teacher_violation as $item){
-            if(isset($teacher_student_arr[$item['userid']][$item['subject']])
-               // && @$teacher_student_arr[$item['userid']][$item['subject']]['teacherid'] != $item['teacherid']
-               && in_array($item['teacherid'],$teacher_student_arr[$item['userid']][$item['subject']]))
+            if(@$teacher_student_arr[$item['userid']][$item['subject']]['teacherid']
+               && @$teacher_student_arr[$item['userid']][$item['subject']]['teacherid'] != $item['teacherid']
+               // && in_array($item['teacherid'],$teacher_student_arr[$item['userid']][$item['subject']])
+            )
                 //该学生该课程的老师存在变更
                 $is_turn_teacher = 1;
 
-            // $teacher_student_arr[$item['userid']][$item['subject']] = [
-            //     'teacherid' => $item['teacherid'],
-            // ];
+            $teacher_student_arr[$item['userid']][$item['subject']] = [
+                'teacherid' => $item['teacherid'],
+            ];
 
-            $teacher_student_arr[$item['userid']][$item['subject']][] = $item['teacherid'];
+            // $teacher_student_arr[$item['userid']][$item['subject']][] = $item['teacherid'];
 
             if(!@$teacher_violation_arr[$item['teacherid']]){
                 //初始化每个老师的数据
