@@ -497,8 +497,8 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $start_date = '2017-12-30 13:37:01';
-        $end_date = '2017-12-30 13:39:00';
+        $start_time = '2017-12-30 13:37:01';
+        $end_time = '2017-12-30 13:39:00';
         $phone= 18358256448;
 
         $client     = new \SoapClient("http://webservice.sh.tq.cn/Servers/services/ServerNew?wsdl");
