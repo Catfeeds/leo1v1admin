@@ -30,6 +30,7 @@ class tongji_ss extends Controller
     }
 
     public function user_count() {
+        $this->check_and_switch_tongji_domain();
         $sum_field_list=[
             "add_time_count",
             "call_count",

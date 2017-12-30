@@ -514,6 +514,7 @@ class tongji2 extends Controller
     }
 
     public function seller_student_admin_list() {
+        $this->check_and_switch_tongji_domain();
         $del_flag=$this->get_in_e_boolean(-1,"del_flag");
         $ret_info=$this->t_seller_student_new->admin_list($del_flag);
         foreach ($ret_info["list"]  as  &$item) {

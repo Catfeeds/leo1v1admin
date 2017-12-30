@@ -1,0 +1,63 @@
+cr_info_funnel_month.php:                $tranfer            = $task->t_seller_student_new->get_tranfer_phone_num($start_time,$end_time);
+cr_info_funnel_month.php:                //$tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month($cur_month,$end_time);
+cr_info_funnel_month.php:                $month_tranfer = $task->t_seller_student_new->get_tranfer_phone_num_new($start_time,$end_time);
+cr_info_funnel_month.php:                //$tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month(strtotime($end_month),$end_time);
+cr_info_funnel_week.php:                $month_tranfer = $task->t_seller_student_new->get_tranfer_phone_num_new($cur_month,$end_time);
+cr_info_funnel_week.php:                //$tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month(strtotime($end_month),$end_time);
+cr_info_funnel_week.php:                //$tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month($cur_month,$end_time);
+cr_info_funnel_week.php:                /*$tranfer            = $task->t_seller_student_new->get_tranfer_phone_num($cur_month,$end_time);
+cr_info_month.php:        $tranfer = $task->t_seller_student_new->get_tranfer_phone_num_new($start_time,$end_time);
+cr_info_month.php:        $tranfer_cr = $task->t_seller_student_new->get_tranfer_phone_num($start_time,$end_time);
+cr_info_month.php:        $month_tranfer = $task->t_seller_student_new->get_tranfer_phone_num_new($start_time,$end_time);
+cr_info_month.php:        //$tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month(strtotime($end_month),$end_time);
+cr_info_month.php:        //$tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month($start_time,$end_time);
+cr_info_week.php:        $tranfer = $task->t_seller_student_new->get_tranfer_phone_num_new($start_time,$end_time);
+cr_info_week.php:        $month_tranfer = $task->t_seller_student_new->get_tranfer_phone_num_new($end_month_time,$end_time);
+cr_info_week.php:        //$tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month(strtotime($end_month),$end_time);
+gen_todo.php:        $list=$this->task->t_seller_student_new->get_next_revisit_time_list($start_time, $end_time );
+gen_top_info.php:        $assign_count_list = $this->task->t_seller_student_new->tongji_assign_count_list($start_time,$end_time);
+jhp.php:                /*$seller_adminid = $task->t_seller_student_new->get_admin_revisiterid($userid);
+limit_require_deal.php:            $task->t_seller_student_new->field_update_list($userid,[
+limit_require_deal.php:                $phone           = $task->t_seller_student_new->get_phone($userid);
+log_seller_call_phone_day.php:        $list=$tt->t_seller_student_new->tongji_last_revisite_time($log_time,$end_time);
+log_seller_call_phone_day.php:        $tq_no_call_count=$tt->t_seller_student_new-> get_all_tq_no_call_count( $now-60*86400, $now );
+notify_regiter_user.php:                $task->t_seller_student_new->book_free_lesson_new("",$phone,$grade,$origin,$subject,$has_pad);
+reset_lesson_count_when_lesson_start.php:            $user_list = $task->t_seller_student_new->get_user_list_by_add_time( $now-86400*101,$now );
+reset_lesson_count_when_lesson_start.php:                $task->t_seller_student_new->reset_sys_invaild_flag($userid);
+reset_lesson_count_when_lesson_start.php:                    $task->t_seller_student_new->field_update_list($userid,[
+reset_parent_call_status.php:        $seller_student_arr = $task->t_seller_student_new->get_all_stu_uid();
+reset_parent_call_status.php:                $task->t_seller_student_new->field_update_list($val['userid'],[
+reset_parent_call_status.php:                $task->t_seller_student_new->field_update_list($val['userid'],[
+save_seller_info_by_week.php:        // $ret_info['has_tq_succ'] = $task->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
+save_seller_info_by_week.php:        $ret_info['has_tq_succ'] = $task->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
+save_seller_info_by_week.php:        $ret_info['claim_num'] = $task->t_seller_student_new->get_claim_num($start_time, $end_time);//  认领量
+save_seller_info_by_week.php:        $ret_info['new_stu'] = $task->t_seller_student_new->get_new_stu_num($start_time, $end_time); // 本月新进例子数
+save_seller_info_by_week.php:        $ret_info['has_tq_succ_invit_month']  = $task->t_seller_student_new->get_tq_succ_for_invit_month($month_start_time_funnel, $end_time); // 已拨通[月邀约数]
+save_seller_info_by_week.php:        $ret_info['has_tq_succ_sign_month'] = $task->t_seller_student_new->get_tq_succ_num_for_sign($month_start_time_funnel, $end_time); // 拨通电话数量[月签约率]
+save_seller_info.php:        // $ret_info['has_tq_succ'] = $task->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
+save_seller_info.php:        $ret_info['has_tq_succ'] = $task->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
+save_seller_info.php:        $ret_info['claim_num'] = $task->t_seller_student_new->get_claim_num($start_time, $end_time);//  认领量
+save_seller_info.php:        $ret_info['new_stu'] = $task->t_seller_student_new->get_new_stu_num($start_time, $end_time); // 本月新进例子数
+save_seller_info.php:        $ret_info['has_tq_succ_invit_month']  = $task->t_seller_student_new->get_tq_succ_for_invit_month($start_time, $end_time); // 已拨通[月邀约数]
+save_seller_info.php:        $ret_info['has_tq_succ_sign_month'] = $task->t_seller_student_new->get_tq_succ_num_for_sign($start_time, $end_time); // 拨通电话数量[月签约率]
+seller_reset_no_call_to_new_user.php:        $ret_info=$this->task->t_seller_student_new->get_no_call_to_free_list(1,1000000,-1,-1 , -1 );
+seller_reset_no_call_to_new_user.php:            $this->task->t_seller_student_new->set_admin_info(
+set_new_user_later_call_free.php:        $this->task->t_seller_student_new->get_no_call_to_free_list();
+sync_tianrun.php:            // $this->task->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno );
+sync_tianrun.php:            $this->task->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno);
+sync_tq.php:                    $this->task->t_seller_student_new->sync_tq($phone ,$tq_called_flag , $call_time,$tquin);
+test_sam.php:            $task->t_seller_student_new->update_cc_no_called_count_new($phone,$total);
+tom_do_once.php:        $ret = $this->task->t_seller_student_new->get_all_list($start_time=1512057600,$end_time=1514736000);
+tom_do_once.php:                    $this->task->t_seller_student_new->field_update_list($userid,['last_contact_cc'=>$adminid]);
+update_cc_no_called_count.php:        $ret = $this->task->t_seller_student_new->get_all_list_new($start_time,$end_time);
+update_cc_no_called_count.php:        // $min = $this->task->t_seller_student_new->get_min_userid();
+update_cc_no_called_count.php:        // $max = $this->task->t_seller_student_new->get_max_userid();
+update_cc_no_called_count.php:        // $ret = $this->task->t_seller_student_new->get_all_list($min,$max);
+update_cc_no_called_count.php:                $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
+update_seller_add_time.php:        $min   = $this->task->t_seller_student_new->get_min_add_time();
+update_seller_add_time.php:        $max   = $this->task->t_seller_student_new->get_max_add_time();
+update_seller_add_time.php:                $this->task->t_seller_student_new->field_update_list($userid,[
+update_test_lesson_opt_flag.php:                            $task->t_seller_student_new->field_update_list($userid,[
+week_report.php:        $wx_example_num = $this->task->t_seller_student_new->get_wx_example_num($start_time,$end_time);
+week_report.php:        $public_number_example_info = $this->task->t_seller_student_new->get_public_number_example_info($start_time,$end_time);
+ytx_sync.php:                $this->task->t_seller_student_new->sync_tq($phone , $call_state+1, $rec_start_time );
