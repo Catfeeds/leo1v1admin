@@ -40,11 +40,18 @@ class resource extends Controller
         $ret_info = $this->t_resource->get_all(
             $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info
         );
-
+        $r_mark = 0;
+        $index  = 1;
         $tag_arr = \App\Helper\Utils::get_tag_arr( $resource_type );
         foreach($ret_info['list'] as &$item){
+            if($r_mark == $item['resource_id']){
+                $index++;
+            } else {
+                $r_mark = $item['resource_id'];
+                $index = 1;
+            }
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            \App\Helper\Utils::get_file_use_type_str($item);
+            \App\Helper\Utils::get_file_use_type_str($item, $index);
             $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
             $item['file_size'] = round( $item['file_size'] / 1024,2);
 
@@ -52,11 +59,7 @@ class resource extends Controller
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
             $item['tag_three_name'] = $tag_arr['tag_three']['name'];
             $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
-            if($item['ex_num']>0){
-                $item['file_use_type_str'] = $item['file_use_type_str'].$item['ex_num'];
-            }
             // dd($item);
-
             E\Egrade::set_item_field_list($item, [
                 "subject",
                 "grade",
@@ -86,7 +89,6 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            'resource_type' => $resource_type,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),

@@ -1300,6 +1300,11 @@ class wx_teacher_api extends Controller
         $jw_nick  = $this->cache_get_account_nick($lesson_info['accept_adminid']);
         $lesson_time_str = date('m-d H:i',$lesson_info['lesson_start'])." ~ ".date("H:i",$lesson_info['lesson_end']);
 
+        $checkStatus = $this->t_lesson_info->get_accept_status($lessonid);
+        if($checkStatus>0){
+            return $this->output_succ(["status"=>$checkStatus]);
+        }
+
         if($status == 1){ //接受 []
             /**
              * @ 教务排课的推送 家长 | CC推送需要取消
