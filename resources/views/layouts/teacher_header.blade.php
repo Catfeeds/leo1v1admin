@@ -130,8 +130,17 @@
                             </ul>
                         </li>
                        {{-- <li  ><a href="{{@$_cur_http}}/teacher_info/file_store"><i class="fa fa-book"></i> <span>资料库</span> </a></li>--}}
-                        <li  ><a href="{{@$_cur_http}}/teacher_info/tea_resource"><i class="fa fa-book"></i> <span>我的资料</span> </a></li> 
-                        <li  ><a href="{{@$_cur_http}}/teacher_info/get_leo_resource"><i class="fa fa-book"></i> <span>理优资料库</span> </a></li> 
+                        <li class="treeview menu-open">
+                            <a href="#">
+                                <i class="fa fa-book"></i> <span>资料库</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu" style="display:block;">
+                                <li> <a href="{{@$_cur_http}}/teacher_info/tea_resource"><i class="fa fa-folder"></i> <span>我的资料</span> </a></li>
+                                <li><a href="{{@$_cur_http}}/teacher_info/get_leo_resource"><i class="fa fa-folder"></i> <span>理优资料库</span> </a></li> 
+                            </ul>
                     </ul>
                 </section>
                 <!-- /.sidebar -->
