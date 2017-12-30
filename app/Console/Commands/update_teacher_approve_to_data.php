@@ -49,11 +49,11 @@ class update_teacher_approve_to_data extends Command
                 $teacherid = $item['teacherid'];
                 $violation_info = $task->t_lesson_info_b3->get_violation_num($start_time, $end_time, $teacherid);
                 $nick = $task->cache_get_teacher_nick($teacherid);
-                echo $teacherid.' '.$nick.' ';
+                echo $teacherid.' '.$nick;
                 foreach ($violation_info as $v) {
-                    dd($v);
-                    echo $v['late_num'].' '.$v['cancel_num'].' '.$v['comment_num'].' '.$v['tea_cw_num'].' '.$v['work_num'].PHP_EOL;
+                    echo ' '.$v;
                 }
+                echo PHP_EOL;
                 // "late_num" => "0"
                 //            "cancel_num" => "0"
                 //            "comment_num" => "0"
