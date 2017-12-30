@@ -497,20 +497,21 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $start_time = '2017-12-30 13:37:01';
-        $end_time = '2017-12-30 13:39:00';
+        $start_date = '2017-12-30 13:37:01';
+        $end_date = '2017-12-30 13:39:00';
         $phone= 18358256448;
+        $cmd= new \App\Console\Commands\sync_tq();
+        $count=$cmd->load_data($start_date,$end_date,$phone);
+        dd($count);
+        // $client     = new \SoapClient("http://webservice.sh.tq.cn/Servers/services/ServerNew?wsdl");
+        // $adminuin      = 9747409;
+        // $adminpassword = strtoupper(md5("Aaron1988"));
+        // $caller_id=$phone;
 
-        $client     = new \SoapClient("http://webservice.sh.tq.cn/Servers/services/ServerNew?wsdl");
-        $adminuin      = 9747409;
-        $adminpassword = strtoupper(md5("Aaron1988"));
-        $caller_id=$phone;
-
-        $ret=$client->getPhoneRecordByClient("" ,$adminuin, "" ,$adminpassword, "", $caller_id, "",$start_time, $end_time, "");
-        $ret=preg_replace("/gb2312/","utf-8",$ret);
-        $ret_list=\App\Helper\Common::xml2array($ret);
-        $arr= $ret_list["RECORD"] ;
-        dd($arr);
+        // $ret=$client->getPhoneRecordByClient("" ,$adminuin, "" ,$adminpassword, "", $caller_id, "",$start_time, $end_time, "");
+        // $ret=preg_replace("/gb2312/","utf-8",$ret);
+        // $ret_list=\App\Helper\Common::xml2array($ret);
+        // $arr= $ret_list["RECORD"] ;
     }
 
     //处理等级头像

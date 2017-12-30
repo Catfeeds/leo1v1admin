@@ -33,14 +33,13 @@ function zTreeOnClick(event, treeId, treeNode) {
                     select_list.push (this["groupid"]) ;
                 }
             });
+            
 
-            var screen_height=window.screen.availHeight-300;        
             $(this).admin_select_dlg({
                 header_list     : [ "id","名称" ],
                 data_list       : data_list,
                 multi_selection : true,
                 select_list     : select_list,
-                div_style       : {"height":screen_height,"overflow":"auto"},
                 onChange        : function( select_list,dlg) {
                     $.do_ajax("/user_manage_new/set_power_with_groupid_list",{
                         powerid: powerid,
@@ -67,6 +66,7 @@ function load_data(){
     });
 }
 $(function(){
+
     $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 
     // 处理全选
