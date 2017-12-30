@@ -1631,8 +1631,10 @@ class test_james extends Controller
         $list = $this->t_resource_file->getList();
 
         foreach($list as $item){
+            $file_poster = explode(',', $item['filelinks']);
             $this->t_resource_file->field_update_list($item['file_id'], [
-                "change_status"
+                "change_status"=>1,
+                "file_poster" => $file_poster[0]
             ]);
         }
     }
