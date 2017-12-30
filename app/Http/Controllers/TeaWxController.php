@@ -52,6 +52,7 @@ class TeaWxController extends Controller
         // 测试
 
 
+
         if ($role==2 &&  $teacherid ) {
             return $teacherid;
         }else{

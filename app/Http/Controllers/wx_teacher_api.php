@@ -1501,6 +1501,9 @@ class wx_teacher_api extends Controller
 
         \App\Helper\Utils::logger("shareClickLog2222: $currentId ");
 
+        if ($currentId == 'oJ_4fxCmcY4CKtE7YY9xrBt2DiB0' || $currentId == 'oJ_4fxAjIZGjUxy4Gk4mW8wR3vmM' || $currentId == 'oJ_4fxIcdLLlk9BisycIAuUFXhP4') {
+            return $this->output_succ();
+        }
 
         if($currentId){ // 若自己已经是老师 分享+1
             $this->t_teacher_christmas->row_insert([
