@@ -1391,7 +1391,7 @@ jQuery.extend({
           jsonp_flag=true;
         }
       }
-      $.ajax({
+      var ajax_call=$.ajax({
         url:  url,
         type: 'POST',
         data:data,
@@ -1424,13 +1424,13 @@ jQuery.extend({
         }
 
         ,error: function(  jqXHR, textStatus, errorThrown ) {
-          console.log(jqXHR);
           if(  jqXHR .readyState ==4 ) {
-            alert(jqXHR .responseText )
-            alert("系统错误- 操作失败, 已发邮件 通知开发人员 ");
+            BootstrapDialog.alert($("<a href=\""+this.url +"\"> 系统错误- 操作失败, 已发邮件 通知开发人员   </a>" ) );
           }
         },
+
       });
+      console.log(ajax_call );
     },
     do_ajax_t: function (url,data,success_func){
         if (!success_func) {

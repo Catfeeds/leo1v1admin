@@ -1265,7 +1265,7 @@
                     </div>
                     <div class="col-xs-12 col-md-2">
                         <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp区(县)</span>
+                            <span class="input-group-addon">区(县)</span>
                             <select class="form-control" id="area_new_two" name="area">
                             </select>
                         </div>
@@ -1412,53 +1412,7 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-xs-12 col-md-12  " >
-                <span>试听内容</span>
-                <span style="margin-left:70px;" id="id_add_tag_new_two"></span>
-            </div>
-            <div class="col-xs-12 col-md-9  ">
-                <div class="row">
-                    <div class="col-xs-12 col-md-12 ">
-                        <div class="input-group ">
-                            <span class="input-group-addon" >　<font style="color:red">*</font>&nbsp　试听要求：</span>
-                            <textarea class="form-control" style="height:115px;" class="class_stu_request_test_lesson_demand_new_two" id="id_stu_request_test_lesson_demand_new_two" ></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-md-3  "  style="margin:0 0 0 -2%;">
-                <div class="row">
-                    <div class="col-xs-12 col-md-12 " style="width:310px;">
-                        <div class="input-group " >
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp试听时间：</span>
-                            <input id="id_stu_request_test_lesson_time_new_two" placeholder="开始时间" class=" form-control " style="1"  />
-                            <input id="id_stu_request_test_lesson_time_end_new_two" placeholder="结束时间" class=" form-control "   />
-                            <div class=" input-group-btn "  >
-                                <button class="btn  btn-primary" id="id_stu_reset_stu_request_test_lesson_time_new_two"  title="取消" >
-                                    <i class="fa fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12 col-md-12  ">
-                        <div class="input-group ">
-                            <span class="input-group-addon">上传试卷：</span>
-                            <input type="text" class=" form-control "  id="id_test_paper_new_two"   / >
-                            <div class=" input-group-btn "  >
-                                <button class="btn  btn-primary upload_test_paper"  title="上传" >
-                                    上传
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
+         <div class="row">
             <div class="col-xs-12 col-md-12  ">
                 <span>老师要求</span>
             </div>
@@ -1514,6 +1468,52 @@
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp老师类型：</span>
                             <select id="id_teacher_type_new_two" class=" form-control " >
                             </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12  " >
+                <span>试听内容</span>
+                <span style="margin-left:70px;" id="id_add_tag_new_two"></span>
+            </div>
+            <div class="col-xs-12 col-md-9  ">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon" >　<font style="color:red">*</font>&nbsp　试听要求：</span>
+                            <textarea class="form-control" style="height:115px;" class="class_stu_request_test_lesson_demand_new_two" id="id_stu_request_test_lesson_demand_new_two" ></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-3  "  style="margin:0 0 0 -2%;">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 " style="width:310px;">
+                        <div class="input-group " >
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp试听时间：</span>
+                            <input id="id_stu_request_test_lesson_time_new_two" placeholder="开始时间" class=" form-control " style="1"  />
+                            <input id="id_stu_request_test_lesson_time_end_new_two" placeholder="结束时间" class=" form-control "   />
+                            <div class=" input-group-btn "  >
+                                <button class="btn  btn-primary" id="id_stu_reset_stu_request_test_lesson_time_new_two"  title="取消" >
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-12  ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">上传试卷：</span>
+                            <input type="text" class=" form-control "  id="id_test_paper_new_two"   / >
+                            <div class=" input-group-btn "  >
+                                <button class="btn  btn-primary upload_test_paper"  title="上传" >
+                                    上传
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

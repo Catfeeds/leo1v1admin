@@ -22,6 +22,7 @@ interface RowData {
 	add_time	:any;
 	add_adminid	:any;
 	del_flag	:any;
+	act_usuall_id	:any;
 	add_adminid_nick	:any;
 	del_flag_str	:any;
 }
