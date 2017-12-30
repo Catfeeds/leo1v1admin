@@ -83,7 +83,7 @@ trait  ViewDeal {
 
 
 
-            if ( !in_array( $key ,["page_num","page_count"]) ) {
+            if ( !in_array( $key ,["page_num","page_count", "order_by_str"]) ) {
                 $reload_filed_str.=  "\t\t$key:\t\$('#id_$key').val(),\n";
                 $add_set_filed_flag=false;
                 if ($check_data_range) {
@@ -129,7 +129,16 @@ trait  ViewDeal {
                             $set_filed_str.= "\t\$.admin_ajax_select_user({\n"
                                           ."\t\t'join_header'  : \$header_query_info,\n"
                                           .'		"user_type"    : "'.$user_type .'",' . "\n"
-                                          ."\t\t".'"field_name"    : "'.$key.'" , '. "\n"
+                                          ."\t\t".'"field_name"    : "'.$key.'",'. "\n"
+                                          ."\t\t".'"title"        :  "'.$key.'",'  . "\n"
+                                          .'		"select_value" : this.get_args().'.$key .','  . "\n"
+                                          ."	});"  . "\n";
+
+                        }else{
+
+                            $set_filed_str.= "\t\$.admin_query_input({\n"
+                                ."\t\t'join_header'  : \$header_query_info,\n"
+                                          ."\t\t".'"field_name"    : "'.$key.'" ,'. "\n"
                                           ."\t\t".'"title"        :  "'.$key.'",'  . "\n"
                                           .'		"select_value" : this.get_args().'.$key .','  . "\n"
                                           ."	});"  . "\n";
@@ -146,7 +155,7 @@ trait  ViewDeal {
 
         $row_file_name =app_path("../vue/src/views/page.d.ts/.vue-row-{$this->view_ctrl}-{$this->view_action}.tmp");
         $row_str="";
-        if ( count($table_data_list) >0) {
+        if ( count($table_data_list) >0 && count($table_data_list[0])>0 ) {
             $row_item = @$table_data_list[0];
             if (!$row_item) {
                 foreach ($table_data_list as $k_item ) {
@@ -182,7 +191,7 @@ trait  ViewDeal {
             "}\n\n".
             "export  {self_RowData , self_Args  }\n"
             ."/*\n"
-            ."\ntofile: \n\t mkdir -p ../{$this->view_ctrl}; vi  ../{$this->view_ctrl}/{$this->view_action}.ts\n\n".
+            ."\ntofile:\n\t mkdir -p ../{$this->view_ctrl}; vi  ../{$this->view_ctrl}/{$this->view_action}.ts\n\n".
             "\n".
             "import Vue from 'vue'\n".
             "import Component from 'vue-class-component'\n".
@@ -197,9 +206,14 @@ trait  ViewDeal {
             "\n".
             "export default class extends vbase {\n".
             "\n".
+
             "  get_opt_data(obj):self_RowData {return this.get_opt_data_base(obj );}\n".
                 "  get_args() :self_Args  {return  this.get_args_base();}\n".
             "\n".
+             "  data_ex() {\n".
+             "    //扩展的 data  数据\n ".
+             "    return {\"message\": \"xx\" }\n ".
+             "  }\n".
              "  query_init( \$header_query_info): void{\n".
             "    console.log(\"init_query\");\n".
             "    var me =this;\n".

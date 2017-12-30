@@ -388,7 +388,7 @@ $(function(){
                 $('#id_les_file,#id_other_file,#id_tea_file,#id_stu_file').parent().parent().hide();
                 get_book();
             }else if($('.resource').val() == 6){
-                $('#id_les_file,#id_other_file').parent().parent().hide();
+                $('#id_les_file,#id_other_file,#id_ff_file').parent().parent().hide();
                 get_province($('.tag_two'), true);
                 $('.tag_two').change(function(){
                     get_city($('.tag_three'), $(this).val(), true);

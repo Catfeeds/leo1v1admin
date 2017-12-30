@@ -52,6 +52,9 @@ class resource extends Controller
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
             $item['tag_three_name'] = $tag_arr['tag_three']['name'];
             $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
+            if($item['ex_num']>0){
+                $item['file_use_type_str'] = $item['file_use_type_str'].$item['ex_num'];
+            }
             // dd($item);
 
             E\Egrade::set_item_field_list($item, [
@@ -83,10 +86,11 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            'tag_info' => $tag_arr,
-            'subject'  => json_encode($sub_grade_info['subject']),
-            'grade'    => json_encode($sub_grade_info['grade']),
-            'book'     => json_encode($book_arr),
+            'resource_type' => $resource_type,
+            'tag_info'      => $tag_arr,
+            'subject'       => json_encode($sub_grade_info['subject']),
+            'grade'         => json_encode($sub_grade_info['grade']),
+            'book'          => json_encode($book_arr),
         ]);
     }
 
