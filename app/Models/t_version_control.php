@@ -34,6 +34,10 @@ class t_version_control extends \App\Models\Zgen\z_t_version_control
         return $this->main_update($sql);
     }
 
+    public function get_publish_url(){
+        $sql = "select * from db_weiyi.t_version_control where is_publish = 1";
+        return $this->main_get_list($sql);
+    }
 
 
 }
