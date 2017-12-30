@@ -1176,8 +1176,13 @@ class wx_teacher_api extends Controller
             "stu_cw_origin"   => 3,// 理优资源
             "tea_cw_file_id"  => $teaFileId,
             "stu_cw_file_id"  => $stuFileId,
-            "tea_cw_pic"      => $filelinks
+            "tea_cw_pic"      => $filelinks,
+            "tea_cw_status"   => 1,
+            "stu_cw_status"   => 1
+
         ]);
+
+        $this->t_homework_info->updateWorkStatus($lessonid);
 
         // if($pdfToImg){
             // $this->t_pdf_to_png_info->row_insert([

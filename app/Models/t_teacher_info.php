@@ -4935,5 +4935,26 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             return $item['phone'];
         });
     }
+    //@desn:获取所有兼职老师课程数据
+    //@param:$begin_time 开始时间
+    //@param:$end_time 结束时间
+    public function get_teacher_violation($begin_time,$end_time){
+        $where_arr =[
+            'ti.teacher_type = 1',
+        ];
+        $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $begin_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select li.teacherid,li.userid,ti.realname,li.confirm_flag,li.lesson_del_flag,'.
+            'li.lesson_type,li.deduct_upload_cw,li.deduct_come_late,li.deduct_rate_student,'.
+            'li.deduct_change_class,li.lesson_cancel_reason_type,li.subject '.
+            'from %s ti '.
+            'left join %s li on ti.teacherid = li.teacherid '.
+            'where %s',
+            t_teacher_info::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 } 
