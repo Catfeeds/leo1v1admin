@@ -793,6 +793,7 @@ return array(
     'TUserInfoPasswdMd5Two' => $baseDir . '/database/migrations/2017_11_23_164411_t_user_info_passwd_md5_two.php',
     'TUserLog' => $baseDir . '/database/migrations/2017_10_24_132146_t_user_log.php',
     'TVersionControl' => $baseDir . '/database/migrations/2017_11_29_155922_t_version_control.php',
+    'TVersionControlAddAdminid' => $baseDir . '/database/migrations/2017_12_30_135318_t_version_control_add_adminid.php',
     'TVersionControlAddUploadTime' => $baseDir . '/database/migrations/2017_11_29_160623_t_version_control_add_upload_time.php',
     'TVersionControlAddVersionName' => $baseDir . '/database/migrations/2017_12_29_180418_t_version_control_add_version_name.php',
     'TWebPageInfoAddAct' => $baseDir . '/database/migrations/2017_12_28_200443_t_web_page_info_add_act.php',

@@ -8,6 +8,7 @@ Copyright: 2016, Nils Adermann <naderman@naderman.de>
            2016, Jordi Boggiano <j.boggiano@seld.be>
 License: Expat
 
+Files: src/Composer/Util/TlsHelper.php
 Files: res/cacert.pem
 Copyright: 2015, Mozilla Foundation
 License: MPL-2.0

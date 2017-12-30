@@ -70,17 +70,24 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         $where_arr = [
             "rf.resource_id=$resource_id",
             "rf.status=0",
+            'r.is_del=0',
+            'ra.is_ban=0',
             "rf.file_use_type=0"//授课课件
         ];
 
         $sql = $this->gen_sql_new("  select rf.file_title, rf.file_id, rf.file_type, rf.file_link, rf.file_poster, r.tag_three from %s rf "
                                   ." left join %s r on r.resource_id=rf.resource_id"
+                                  ." left join %s ra on "
+                                  ." ra.resource_type=r.resource_type and ra.subject=r.subject and ra.grade=r.grade and ra.tag_one=r.tag_one and"
+                                  ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three and ra.tag_four=r.tag_four "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_resource::DB_TABLE_NAME
+                                  ,t_resource_agree_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
+
     }
 
 
@@ -88,14 +95,20 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         $where_arr = [
             "rf.file_id=$file_id",
             "rf.status=0",
+            'r.is_del=0',
+            'ra.is_ban=0',
             "rf.file_use_type=0"//授课课件
         ];
 
         $sql = $this->gen_sql_new("  select rf.file_title, rf.file_id, rf.file_type, rf.file_link, rf.file_poster, r.tag_three from %s rf "
                                   ." left join %s r on r.resource_id=rf.resource_id"
+                                  ." left join %s ra on "
+                                  ." ra.resource_type=r.resource_type and ra.subject=r.subject and ra.grade=r.grade and ra.tag_one=r.tag_one and"
+                                  ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three and ra.tag_four=r.tag_four "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_resource::DB_TABLE_NAME
+                                  ,t_resource_agree_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);

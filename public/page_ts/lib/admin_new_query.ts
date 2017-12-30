@@ -18,6 +18,9 @@
                 on_change : null,
                 data_list : [],
             };
+
+
+          this.menu_item_select_css="select";
             this.$ele= $ele;
             this.options = $.extend({}, this.defaults, opt);
             this.menu_item_select_css="select";
@@ -133,19 +136,27 @@
             "list_type" : null,
         };
 
+      me.need_show_field_index_list=[];
+      $.each($ele.find(".select-menu-list .select"),function(){
+        me.need_show_field_index_list.push( $(this).data("index"));
+      });
+
+      me.select_all_flag= $ele.find(".query-meum-select-all").data("select_all_flag");
+
+
 
         this.query_item_list=[];
         this.options = $.extend({}, this.defaults, opt);
-        var  need_show_field_index_list=[];
-        $.each($ele.find(".select-menu-list select"),function(){
-            need_show_field_index_list.push( $(this).data("index"));
-        });
 
         this.menu_item_select_css="select";
         var flag_key = "query_flag_"+ window.location.pathname;
         var load_data_flag = parseInt( window.localStorage.getItem( flag_key ));
         var list_type_key = "query_list_type_"+ window.location.pathname;
         var list_type = parseInt( window.localStorage.getItem( list_type_key));
+      if (!list_type) {
+        list_type=0;
+      }
+
 
         this.options.list_type = list_type;
         //超级紧凑
@@ -189,7 +200,7 @@
         var $menu_list       = this.$ele.find(".select-menu-list");
         var $query_list      = this.$ele.find(".query-list");
         var $used_query_list = this.$ele.find(".used-query-list");
-        var select_query_all = this.$ele.find(".query-meum-select-all") ;
+      var select_query_all = this.$ele.find(".query-meum-select-all") ;
 
 
         var show_menu_btn_deal=function( $btn ) {
@@ -262,6 +273,9 @@
             return false;
         });
 
+      if (me.select_all_flag ) { //原来的情况
+        select_query_all.click();
+      }
 
     };
 
@@ -298,12 +312,17 @@
             var $header_query_row =  this.$ele.find(".header-query-row");
 
             //设置回调
+          //TODO
 
 
             var title=item.get_title() ;
             var query_info =item.get_query_info() ;
             var $query_item_list_obj =item.get_query_obj();
             var show_flag=item.get_show_flag();
+
+          if ($.inArray( index, me.need_show_field_index_list  ) !== -1 ) {
+            show_flag =1;
+          }
             var as_header_query =  item.get_as_header_query?  item.get_as_header_query():false;
             var class_str="";
             if ( show_flag  ) {
@@ -350,11 +369,13 @@
                     $header_query_row.append($query_obj);
                 }
             }
+          if ( $query_obj) {
             if (!show_flag ) {
-                $query_obj.hide();
+              $query_obj.hide();
             }else{
-                $query_obj.show();
+              $query_obj.show();
             }
+          }
         }
     };
 
@@ -790,8 +811,6 @@
         };
 
         this.options = $.extend({}, this.defaults, opt);
-
-        this.options = $.extend({}, this.defaults, opt);
         this.menu_item_select_css="select";
         this.title= this.options.title;
         this.select_value= this.options.select_value;
@@ -834,10 +853,13 @@
                 me.header_query.query();
             }
         } );
-        this.$input.admin_select_user_new( this.options );
+      this.options["onChange"]=function() {
+        me.header_query.query();
+      };
+      this.$input.admin_select_user_new( this.options );
 
-        //加入到列表
-        this.header_query.add(this);
+      //加入到列表
+      this.header_query.add(this);
 
     };
 
@@ -870,6 +892,7 @@
                 return  ret;
             }
         },
+
         get_query_info:function(){
             return null;
         },
@@ -884,6 +907,80 @@
     //在插件中使用对象
     $.admin_ajax_select_user  = function(options) {
        return new  Cadmin_ajax_select_user (  options);
+    };
+
+})(jQuery, window, document);
+(function($, window, document,undefined) {
+
+    var Ccommon = function(opt) {
+
+        var me =this;
+        this.defaults = {
+            "join_header" : null,
+            "length_css" : "col-xs-12 col-md-2",
+          jquery_body :  "" ,
+          "title" : "命令列表",
+          "as_header_query" : false ,
+        };
+
+        this.options    = $.extend({}, this.defaults, opt);
+        this.title      = this.options.title;
+        me.header_query = this.options.join_header;
+        me.list_type =  me.header_query .list_type;
+
+        this.field_name= this.options.field_name ;
+
+        this.$ele=  $(
+            '<div class="'+me.options.length_css +'">'
+                +'</div>'
+        );
+
+        if ( this.list_type ==1 && !this.options.as_header_query ){
+            this.$ele.css( {
+                "padding-left": "0px"
+            });
+        }
+      this.$ele.html( this.options.jquery_body );
+
+
+        //加入到列表
+        this.header_query.add(this);
+    };
+
+    //定义方法
+    Ccommon.prototype = {
+        get_title :function() {
+          return this.title ;
+        },
+        //是否作为头部查询
+        get_as_header_query:function() {
+            return this.options.as_header_query;
+        },
+
+        set_query_arg_clean(){
+        },
+
+        get_show_flag:function() {
+          return  true;
+        },
+
+        get_query_args:function () {
+          return null;
+        },
+        get_query_info:function() {
+          return null;
+        },
+
+        get_query_obj:function( ) {
+            return this.$ele;
+        }
+
+    };
+
+
+    //在插件中使用对象
+    $.admin_query_common = function(options) {
+       return new Ccommon (  options);
     };
 
 })(jQuery, window, document);
