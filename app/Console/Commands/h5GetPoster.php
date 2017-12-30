@@ -88,7 +88,7 @@ class h5GetPoster extends Command
                 foreach($imgs_url_list as $i=> $item){
                     $file_name_origi[] = @$this->put_img_to_alibaba($item);
                     if($i==0){
-                        $this->t_resource_file->field_update_list($id,[
+                        $this->task->t_resource_file->field_update_list($id,[
                             "file_poster" => $item
                         ]);
                     }

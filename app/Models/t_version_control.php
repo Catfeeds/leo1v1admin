@@ -13,7 +13,7 @@ class t_version_control extends \App\Models\Zgen\z_t_version_control
             ["publish_time>%u",$start_time,-1],
             ["publish_time<%u",$end_time,-1]
         ];
-        $sql = $this->gen_sql_new(" select * from %s  where %s order by is_publish asc, publish_time desc"
+        $sql = $this->gen_sql_new(" select * from %s  where %s order by is_publish asc, publish_time desc, id desc"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );

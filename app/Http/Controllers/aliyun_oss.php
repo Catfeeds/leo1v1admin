@@ -23,6 +23,7 @@ class aliyun_oss  extends Controller
         foreach($ret_info['list'] as $key => &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"publish_time");
             E\Eversion_status::set_item_value_str($item,"is_publish");
+            $item["add_nick"]   = $this->cache_get_account_nick($item["adminid"]);
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
@@ -41,7 +42,7 @@ class aliyun_oss  extends Controller
         $yml_file_url  = $this->get_in_str_val("file_url_yml","");
         $dmg_file_url  = $this->get_in_str_val("file_url_dmg","");
         //update 
-        
+        $adminid       = $this->get_account_id();
         if($exe_file_url != ''){
             $ret_update    = $this->t_version_control->update_info_filetype(1);
             $data = [
@@ -52,6 +53,7 @@ class aliyun_oss  extends Controller
                 "publish_time" => time(),
                 "file_type"    => 1,
                 "version_name" => $version,
+                "adminid"      => $adminid,
             ];
             $ret_info = $this->t_version_control->row_insert($data);
         }
@@ -66,6 +68,7 @@ class aliyun_oss  extends Controller
                 "publish_time" => time(),
                 "file_type"    => 2,
                 "version_name" => $version,
+                "adminid"      => $adminid,
             ];
             $ret_info = $this->t_version_control->row_insert($data_b2);
         }
@@ -80,6 +83,7 @@ class aliyun_oss  extends Controller
                 "publish_time" => time(),
                 "file_type"    => 3,
                 "version_name" => $version,
+                "adminid"      => $adminid,
             ];
             $ret_info = $this->t_version_control->row_insert($data_b3);
         }

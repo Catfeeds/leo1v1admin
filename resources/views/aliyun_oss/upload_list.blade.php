@@ -26,10 +26,10 @@
                 <tr>
                     <td>ID</td>
                     <td>上传时间</td>
+                    <td>上传者</td>
                     <td>版本号</td>
                     <td>文件名</td>
                     <td>状态</td>
-
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -38,6 +38,7 @@
                     <tr>
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var['publish_time']}}</td>
+                        <td>{{@$var['add_nick']}}</td>
                         <td>{{@$var['version_name']}}</td>
                         <td>{{@$var['file_path']}}</td>
                         <td>{{@$var['is_publish_str']}}</td>
