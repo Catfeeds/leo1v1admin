@@ -30,4 +30,10 @@ enum  enum_error {
 
   //输入格式错误
   ERR_IN_PARAM = 3008;
+
+  //该手机号已被注册
+  PHONE_CODE_BEEN_USED = 3009;
+
+  //例子数已满，不能注册新例子
+  STU_NUM_MAX = 3010;
 };

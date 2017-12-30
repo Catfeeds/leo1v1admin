@@ -223,13 +223,8 @@
                                 </div>
                             </div>
                         </div>
-
-
-                        
-
                     </div>
                     <div class="row">
-                        
                         <div class="col-xs-6 col-md-3"  >
                             <div class="row">
                                 <div class="col-xs-6 col-md-5 row-td-field-name"  >
@@ -389,10 +384,6 @@
                             </div>
                         </div>
                     </div>
-
-
-                    
-
                     <div class="row">
                         <div class="col-xs-6 col-md-2  row-td-field-name"   > <span>操作:</span></div>
                         <div class="col-xs-6 col-md-10  row-td-field-value"  data-teacherid="{{@$tea_info['teacherid']}}">

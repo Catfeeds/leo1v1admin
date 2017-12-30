@@ -81,21 +81,36 @@ class h5GetPoster extends Command
                 $path = public_path().'/wximg';
                 @chmod($savePathFile, 0777);
 
+                // $filesize=filesize($savePathFile);
+
                 $imgs_url_list = $this->pdf2png($savePathFile,$path,$id);
-                $file_name_origi_str = '';
-                if(!empty($imgs_url_list)){
-                    $file_name_origi_str = @$this->put_img_to_alibaba($imgs_url_list[0]);
+                $file_name_origi = array();
+                foreach($imgs_url_list as $i=> $item){
+                    $file_name_origi[] = @$this->put_img_to_alibaba($item);
+                    if($i==0){
+                        $this->t_resource_file->field_update_list($id,[
+                            "file_poster" => $item
+                        ]);
+                    }
                 }
 
+                $file_name_origi_str = implode(',',$file_name_origi);
+
                 $this->task->t_resource_file->field_update_list($id,[
-                    "change_status" => 1,
-                    "file_poster"   => $file_name_origi_str
+                    "filelinks" => $file_name_origi_str
+                ]);
+
+                $this->task->t_pdf_to_png_info->field_update_list($id,[
+                    "id_do_flag" => 1,
+                    "deal_time"  => time()
                 ]);
 
                 foreach($imgs_url_list as $item_orgi){
                     @unlink($item_orgi);
                 }
+
                 @unlink($savePathFile);
+
             }
         }
 
@@ -142,7 +157,7 @@ class h5GetPoster extends Command
 
             foreach($IM as $key => $Var){
                 @$Var->setImageFormat('png');
-                $Filename = $path."/pdf_to_h5".$id."_".$key.".png" ;
+                $Filename = $path."/handoutToPng_".$id."_".$key.".png" ;
                 if($Var->writeImage($Filename)==true){
                     $Return[]= $Filename;
                 }

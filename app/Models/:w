@@ -83,28 +83,6 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         return $this->main_get_list($sql);
     }
 
-
-    public function getResoureInfoById($file_id){
-        $where_arr = [
-            "rf.file_id=$file_id",
-            "rf.status=0",
-            "rf.file_use_type=0"//授课课件
-        ];
-
-        $sql = $this->gen_sql_new("  select rf.file_title, rf.file_id, rf.file_type, rf.file_link, rf.file_poster, r.tag_three from %s rf "
-                                  ." left join %s r on r.resource_id=rf.resource_id"
-                                  ." where %s"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_resource::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
-    }
-
-
-
-
-
     public function get_max_ex_num($resource_id){
         $where_arr = [
             ['resource_id=%u', $resource_id, -1],
