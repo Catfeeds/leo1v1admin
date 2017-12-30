@@ -9,13 +9,13 @@ interface GargsStatic {
 	page_count:	number;
 	userid:	number;
 	admin_revisiterid:	number;
-	tmk_student_status:	number;//App\Enums\Etmk_student_status
-	subject:	number;//App\Enums\Esubject
-	has_pad:	number;//App\Enums\Epad_type
-	grade:	number;//App\Enums\Egrade
+	tmk_student_status:	number;//枚举: App\Enums\Etmk_student_status
+	subject:	number;//枚举: App\Enums\Esubject
+	has_pad:	number;//枚举: App\Enums\Epad_type
+	grade:	number;//枚举: App\Enums\Egrade
 	phone_name:	string;
-	publish_flag:	number;//\App\Enums\Eboolean
-	seller_student_status:	number;//App\Enums\Eseller_student_status
+	publish_flag:	number;//枚举: \App\Enums\Eboolean
+	seller_student_status:	number;//枚举: App\Enums\Eseller_student_status
 	tmk_adminid:	number;
 }
 declare module "g_args" {
@@ -97,8 +97,9 @@ tofile:
 /// <reference path="../g_args.d.ts/seller_student_new2-tmk_student_list_ex.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -115,37 +116,91 @@ function load_data(){
 		publish_flag:	$('#id_publish_flag').val(),
 		seller_student_status:	$('#id_seller_student_status').val(),
 		tmk_adminid:	$('#id_tmk_adminid').val()
-    });
+		});
 }
 $(function(){
 
-	Enum_map.append_option_list("tmk_student_status",$("#id_tmk_student_status"));
-	Enum_map.append_option_list("subject",$("#id_subject"));
-	Enum_map.append_option_list("pad_type",$("#id_has_pad"));
-	Enum_map.append_option_list("grade",$("#id_grade"));
-	Enum_map.append_option_list("boolean",$("#id_publish_flag"));
-	Enum_map.append_option_list("seller_student_status",$("#id_seller_student_status"));
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
 	$('#id_origin').val(g_args.origin);
-	$('#id_userid').val(g_args.userid);
+	$('#id_userid').admin_select_user_new({
+		"user_type"    : "student",
+		"select_value" : g_args.userid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_userid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_admin_revisiterid').val(g_args.admin_revisiterid);
-	$('#id_tmk_student_status').val(g_args.tmk_student_status);
-	$('#id_subject').val(g_args.subject);
-	$('#id_has_pad').val(g_args.has_pad);
-	$('#id_grade').val(g_args.grade);
+	$('#id_tmk_student_status').admin_set_select_field({
+		"enum_type"    : "tmk_student_status",
+		"field_name" : "tmk_student_status",
+		"select_value" : g_args.tmk_student_status,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_tmk_student_status",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_subject').admin_set_select_field({
+		"enum_type"    : "subject",
+		"field_name" : "subject",
+		"select_value" : g_args.subject,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_subject",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_has_pad').admin_set_select_field({
+		"enum_type"    : "pad_type",
+		"field_name" : "has_pad",
+		"select_value" : g_args.has_pad,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_has_pad",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_grade').admin_set_select_field({
+		"enum_type"    : "grade",
+		"field_name" : "grade",
+		"select_value" : g_args.grade,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_grade",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_phone_name').val(g_args.phone_name);
-	$('#id_publish_flag').val(g_args.publish_flag);
-	$('#id_seller_student_status').val(g_args.seller_student_status);
+	$('#id_publish_flag').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "publish_flag",
+		"select_value" : g_args.publish_flag,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_publish_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_seller_student_status').admin_set_select_field({
+		"enum_type"    : "seller_student_status",
+		"field_name" : "seller_student_status",
+		"select_value" : g_args.seller_student_status,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_seller_student_status",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_tmk_adminid').val(g_args.tmk_adminid);
 
 
@@ -156,6 +211,11 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -163,6 +223,9 @@ $(function(){
                 <input class="opt-change form-control" id="id_origin" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["origin title", "origin", "th_origin" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -170,6 +233,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_userid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["userid title", "userid", "th_userid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -177,6 +241,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_admin_revisiterid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["admin_revisiterid title", "admin_revisiterid", "th_admin_revisiterid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -185,6 +250,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tmk_student_status title", "tmk_student_status", "th_tmk_student_status" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -193,6 +259,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["subject title", "subject", "th_subject" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -201,6 +268,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["has_pad title", "has_pad", "th_has_pad" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -209,6 +277,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["grade title", "grade", "th_grade" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -216,6 +285,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_phone_name" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["phone_name title", "phone_name", "th_phone_name" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -224,6 +294,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["publish_flag title", "publish_flag", "th_publish_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -232,6 +303,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["seller_student_status title", "seller_student_status", "th_seller_student_status" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -239,4 +311,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_tmk_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tmk_adminid title", "tmk_adminid", "th_tmk_adminid" ]])!!}
 */
