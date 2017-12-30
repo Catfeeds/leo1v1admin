@@ -119,7 +119,7 @@
                     <td style="width:15%">修改日期</td>
                     <td style="width:5%">操作人</td>
                     <td style="width:7%">文件格式</td>
-                    <td style="width:15%">使用类型</td>
+                    <td style="width:15%">文件信息</td>
                     <td style="width:7%">文件大小</td>
                     <td style="width:7%">是否使用</td>
                 </tr>

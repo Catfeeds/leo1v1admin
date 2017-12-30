@@ -77,7 +77,7 @@
                     <td style="width:35%">文件名</td>
                     <td style="width:15%">修改日期</td>
                     <td style="width:7%">文件格式</td>
-                    <td style="width:17%">使用类型</td>
+                    <td style="width:17%">文件信息</td>
                     <td style="width:7%">文件大小</td>
                     <td style="width:7%">使用次数</td>
                     <td style="width:7%">收藏状态</td>
