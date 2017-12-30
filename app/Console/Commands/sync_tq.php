@@ -88,7 +88,7 @@ class sync_tq extends cmd_base
                     */
                     if(isset($item["Called_id"])){
                         if ( is_array( $item["Called_id"]) ) {
-                            // continue;
+                           // continue;
                         }else{
 
                         }
