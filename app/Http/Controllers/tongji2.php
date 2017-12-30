@@ -514,6 +514,7 @@ class tongji2 extends Controller
     }
 
     public function seller_student_admin_list() {
+        $this->check_and_switch_tongji_domain();
         $del_flag=$this->get_in_e_boolean(-1,"del_flag");
         $ret_info=$this->t_seller_student_new->admin_list($del_flag);
         foreach ($ret_info["list"]  as  &$item) {
@@ -964,6 +965,7 @@ class tongji2 extends Controller
         if(empty($lesson_target)){
             $lesson_target= 14.0;
         }
+        $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target");
         foreach($ass_list as $k=>&$val){
             /*$val["userid_list_first"] = isset($userid_list_first[$k])?$userid_list_first[$k]:[];
             $val["userid_list_first_target"] = count($val["userid_list_first"]);
@@ -977,6 +979,9 @@ class tongji2 extends Controller
             $val["revisit_real"] = isset($ass_month[$k])?$ass_month[$k]["revisit_real"]:0;
             $val["revisit_per"] = !empty( $val["revisit_target"])?round($val["revisit_real"]/$val["revisit_target"]*100,2):0;
             $val["renw_target"]  = @$ass_last_month[$k]["warning_student"]*0.8*7000;
+            if($start_time >= strtotime("2017-11-01")){
+                $val["renw_target"] = @$target_info["renew_target"]/100;
+            }
             // $val["renw_price"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["renw_price"]/100:0;
             $val["renw_price"] = isset($ass_month[$k])?$ass_month[$k]["renw_price"]/100:0;
             $val["renw_per"] = !empty( $val["renw_target"])?round($val["renw_price"]/$val["renw_target"]*100,2):0;

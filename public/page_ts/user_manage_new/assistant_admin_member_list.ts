@@ -33,19 +33,22 @@ $(function(){
             lesson_target = o_m;
         }
         var id_lesson_target=$("<input/>");
-        id_lesson_target.val(lesson_target);
+        var id_renew_target=$("<input/>");
+        id_lesson_target.val(g_args.rate_target);
         var arr=[
-            ["目标系数", id_lesson_target]          
+            ["目标系数", id_lesson_target],          
+            ["目标续费值", id_renew_target],          
         ];
-        $.show_key_value_table("编辑月度系数", arr ,{
+        id_renew_target.val(g_args.renew_target);
+        $.show_key_value_table("编辑", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action : function(dialog) {
-                $.do_ajax( '/user_deal/set_ass_month_target',
-                           {
-                               "month" : g_args.start_time,
-                               "lesson_target" : id_lesson_target.val()
-                           });
+                $.do_ajax( '/user_deal/set_ass_month_target',{
+                    "month" : g_args.start_time,
+                    "lesson_target" : id_lesson_target.val(),
+                    "renew_target"  : id_renew_target.val()*100
+                });
                 
             }
         });

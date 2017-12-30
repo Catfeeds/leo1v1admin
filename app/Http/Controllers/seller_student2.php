@@ -163,7 +163,7 @@ class seller_student2 extends Controller
         $gradeArr = E\Egrade_only::$desc_map;
         return $this->pageView(__METHOD__,null,
                                [
-                                   "_publish_version"      => "201712251757",
+                                   "_publish_version"      => "201712271757",
                                    "ret_info" => $item,
                                    "gradeArr" => $gradeArr,
                                    "discount_list"=>$discount_list,
@@ -296,6 +296,7 @@ class seller_student2 extends Controller
 
         if($ret['list']){
             foreach($ret['list'] as &$item){
+                $item['is_need_share_wechat_str']   = E\Eboolean::get_desc($item['is_need_share_wechat']);
                 $item['open_flag_str']   = E\Eopen_flag::get_desc($item['open_flag']);
                 if( $item['date_range_start'] && $item['date_range_end']){
                     $item['date_range_time'] = date('Y-m-d',$item["date_range_start"]).' 至 '.date('Y-m-d',$item["date_range_end"]);

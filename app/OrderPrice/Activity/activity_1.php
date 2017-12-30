@@ -7,7 +7,7 @@ class activity_1 extends  activity_config_new {
     public function __construct(  $args   ) {
 
         parent::__construct(null,$args);
-        $this->open_flag = 1; 
+        $this->open_flag = 1;
         $this->order_activity_type= E\Eorder_activity_type::V_1;
         $this->date_range=[ "2017-08-01"  , "2017-12-31"];
         $this->period_flag_list= [ E\Eperiod_flag::V_0 ,E\Eperiod_flag::V_1  ];

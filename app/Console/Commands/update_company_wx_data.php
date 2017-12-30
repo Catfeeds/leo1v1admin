@@ -45,8 +45,6 @@ class update_company_wx_data extends Command
         $start_time = strtotime(date('Y-m-d', strtotime('-1 month')));
         //$end_time = strtotime(date('Y-m-1', time()));
         $end_time = time();
-        echo date('Y-m-d H:i:s', $start_time);
-        echo date('Y-m-d H:i:s', $end_time);
         $this->get_approve($task,$start_time, $end_time); // 拉取审批数据
         //$url = $this->get_url();
         //$token = $this->get_token(); // 获取token
@@ -90,10 +88,8 @@ class update_company_wx_data extends Command
         foreach($info as $item) {
             if (isset($approv[$item['apply_user_id'].'-'.$item['apply_time']])) {
                 $index = $item['apply_user_id'].'-'.$item['apply_time'];
-                echo '调用成功';
                 if ($approv[$index]['sp_status'] != $item['sp_status']) {
-                    echo $approv[$index]['sp_status'].' ---- '.$item['sp_status'];
-                    $task->t_company_wx_approval->field_update_list($approv[$index]['id'], [
+                    $task->t_company_wx_approval->field_update_list($approv[$index]['id'], [ // 更改审核状态
                         "sp_status" => $item['sp_status']
                     ]);
                 }
@@ -144,17 +140,18 @@ class update_company_wx_data extends Command
                 }
                 if ($item['spname'] == '拉取数据审批') {
                     if ($val['title'] == '数据类型') $common['reason'] = $val['value'];
-                    if ($val['title'] == '需要时间') $common['start_time'] = $val['value'];
+                    //if ($val['title'] == '需要时间') $common['start_time'] = $val['value'];
                     $common['type'] = 4;
                 }
                 if ($item['spname'] == '费用申请') {
                     if ($val['title'] == '费用类型') $common['reason'] = $val['value'];
                     if ($val['title'] == '费用金额') $common['sums'] = $val['value'];
-                    if (isset($item['value'])) $items[$val['title']] = $val['value'];
+                    //if (isset($item['value'])) $items[$val['title']] = $val['value'];
                     $common['type'] = 3;
                 }
+                if (isset($val['value'])) $items[$val['title']] = $val['value'];
             }
-            if ($items) $common['item'] = json_encode($item);
+            if ($items) $common['item'] = json_encode($items);
             // 添加数据
             $task->t_company_wx_approval->row_insert($common);
             echo '加载数据成功'.$common['spname'];

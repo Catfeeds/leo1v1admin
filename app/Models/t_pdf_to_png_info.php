@@ -10,7 +10,7 @@ class t_pdf_to_png_info extends \App\Models\Zgen\z_t_pdf_to_png_info
 
 
     public function get_pdf_list_for_doing (){
-        $sql = $this->gen_sql_new(" select id, pdf_url, lessonid from %s tp where id_do_flag in (0,3) order by create_time asc limit 10"
+        $sql = $this->gen_sql_new(" select id, origin_id, pdf_url, lessonid from %s tp where id_do_flag in (0,3) order by create_time asc limit 10"
                                   ,self::DB_TABLE_NAME
         );
 

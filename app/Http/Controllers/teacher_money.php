@@ -321,7 +321,7 @@ class teacher_money extends Controller
         }
 
         $teacher_info = $this->get_teacher_info_for_total_money($teacherid);
-        $list = $this->get_teacher_lesson_money_list_new($teacherid,$start_time,$now_time,$show_type);
+        $list = $this->get_teacher_lesson_money_list_test($teacherid,$start_time,$now_time,$show_type);
 
         return $this->output_succ([
             "teacher_info" => $teacher_info,

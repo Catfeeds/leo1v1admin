@@ -66,21 +66,62 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         return $this->main_get_list($sql);
     }
 
-    public function getResoureList($resource_id){
+    public function getResoureList($resource_id_str){
         $where_arr = [
-            "rf.resource_id=$resource_id",
             "rf.status=0",
-            "rf.file_use_type=1"
+            'r.is_del=0',
+            'ra.is_ban=0',
+            "rf.file_use_type=0"//授课课件,
         ];
 
-        $sql = $this->gen_sql_new("  select rf.file_title, rf.file_type, rf.file_link from %s rf "
-                                  ." where %s"
+
+        if($resource_id_str){
+            $where_arr[] = "rf.resource_id in ($resource_id_str)";
+        }
+
+
+        $sql = $this->gen_sql_new("  select rf.file_title, rf.file_id, rf.file_type, rf.file_link, rf.file_poster, r.tag_three from %s rf "
+                                  ." left join %s r on r.resource_id=rf.resource_id"
+                                  ." left join %s ra on "
+                                  ." ra.resource_type=r.resource_type and ra.subject=r.subject and ra.grade=r.grade and ra.tag_one=r.tag_one and"
+                                  ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three and ra.tag_four=r.tag_four "
+                                  ." where %s group by rf.file_id"
                                   ,self::DB_TABLE_NAME
+                                  ,t_resource::DB_TABLE_NAME
+                                  ,t_resource_agree_info::DB_TABLE_NAME
                                   ,$where_arr
         );
+        return $this->main_get_list($sql);
 
+    }
+
+
+    public function getResoureInfoById($file_id){
+        $where_arr = [
+            "rf.file_id=$file_id",
+            "rf.status=0",
+            'r.is_del=0',
+            'ra.is_ban=0',
+            "rf.file_use_type=0"//授课课件
+        ];
+
+        $sql = $this->gen_sql_new("  select rf.file_title, rf.file_id, rf.file_type, rf.file_link, rf.file_poster, r.tag_three from %s rf "
+                                  ." left join %s r on r.resource_id=rf.resource_id"
+                                  ." left join %s ra on "
+                                  ." ra.resource_type=r.resource_type and ra.subject=r.subject and ra.grade=r.grade and ra.tag_one=r.tag_one and"
+                                  ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three and ra.tag_four=r.tag_four "
+                                  ." where %s group by file_id"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_resource::DB_TABLE_NAME
+                                  ,t_resource_agree_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
         return $this->main_get_list($sql);
     }
+
+
+
+
 
     public function get_max_ex_num($resource_id){
         $where_arr = [
@@ -111,8 +152,8 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
             "rf.uuid=''",
             "rf.status=0"
         ];
-        $sql = $this->gen_sql_new("  select file_link, file_id from %s rf"
-                                  ." where %s"
+        $sql = $this->gen_sql_new("  select file_link, file_id, file_title from %s rf"
+                                  ." where %s limit 5"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
@@ -136,9 +177,49 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
 
         $sql = $this->gen_sql_new("  select rf.file_id, rf.uuid "
                                   ." from %s rf"
+                                  ." where %s limit 5"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    public function getResourceFileInfoById($resource_id){
+        $where_arr = [
+            "f.resource_id=$resource_id",
+            "f.status=0",
+        ];
+
+        $sql = $this->gen_sql_new("  select file_use_type, file_id, file_title, file_type, file_link from %s f "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    public function getH5PosterInfo(){
+        $where_arr = [
+            "f.status=0",
+            "f.file_use_type=0",
+            "f.change_status=0"
+        ];
+
+        $sql = $this->gen_sql_new("  select file_id, file_type, file_link from %s f "
+                                  ." where %s limit 5"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    public function getList(){
+        $sql = $this->gen_sql_new(" select filelinks, file_id from %s rf"
+                                  ." where change_status=2"
+                                  ,self::DB_TABLE_NAME
         );
 
         return $this->main_get_list($sql);

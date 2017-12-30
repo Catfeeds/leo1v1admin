@@ -2403,16 +2403,17 @@ class Utils  {
         return $arr;
     }
 
-    static public function get_file_use_type_str(&$item){
+    static public function get_file_use_type_str(&$item, $index){
         if( isset($item['file_use_type']) ) {
+
             if($item['file_use_type'] == 0 ){
-                $item['file_use_type_str'] = '文件';
+                $item['file_use_type_str'] = "第{$item['resource_id']}套-第{$index}份资料-授课课件";
             } else if ($item['file_use_type'] == 1 ){
-                $item['file_use_type_str'] = '老师版';
+                $item['file_use_type_str'] = "第{$item['resource_id']}套-第{$index}份资料-教师讲义";
             }else if ($item['file_use_type'] == 2 ){
-                $item['file_use_type_str'] = '学生版';
+                $item['file_use_type_str'] = "第{$item['resource_id']}套-第{$index}份资料-学生讲义";
             }else if ($item['file_use_type'] == 3 ){
-                $item['file_use_type_str'] = '额外文件';
+                $item['file_use_type_str'] = "第{$item['resource_id']}套-第{$index}份资料-其他资料";
             }
 
         }
@@ -2528,6 +2529,54 @@ class Utils  {
         }
     }
 
+    static public function check_is_match($adminid,$activity_id){
+        $task = new  \App\Console\Tasks\TaskController();
+        $end_time    = strtotime( substr($activity_id, 0, 8) );
+        $start_time  = 0;
+        $h5_count    = 0;
+        $no_has_prev = 0;
+        $ret = ['ret' => 1];
+        if($adminid != 1093){
+            return $ret;
+        }
 
+        while( !$h5_count ){
+            $prev_activity_id = $task->t_order_activity_config->get_prev_id($activity_id);
+
+            // \App\Helper\Utils::logger(gettype($prev_activity_id));
+            if($prev_activity_id < 2017 ){
+                \App\Helper\Utils::logger($prev_activity_id);
+                $no_has_prev++;
+                break;
+            }
+            \App\Helper\Utils::logger($prev_activity_id);
+            $activity_id = $prev_activity_id;
+            $start_time = strtotime( substr($prev_activity_id, 0, 8) );
+            $h5_count   = $task->t_web_page_info->h5_count($start_time, $end_time);
+
+        }
+
+        if($no_has_prev == 1){
+            \App\Helper\Utils::logger("222 ");
+            return $ret;
+        }
+
+        $share_info = $task->t_web_page_info->is_all_share($start_time, $end_time, $adminid);
+        $web_page_id_list = '';
+        foreach($share_info as $item){
+            if($item['share_flag'] == 0) {
+                $ret['ret'] = 0;
+                $web_page_id_list .= $item['web_page_id'].',';
+            }
+        }
+
+        if($web_page_id_list != ''){
+            $web_page_id_list = substr($web_page_id_list,0,-1);
+            $ret['url'] = "/ajax_deal2/web_page_info_send_admin_new?adminid=$adminid&web_page_id_str=$web_page_id_list";
+        }
+
+        return $ret;
+
+    }
 
 };

@@ -2,16 +2,15 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1007
-//__DESC:  /account/register 后台新增用户
+//__DESC:  /account/auto_register 后台新增用户
 //__TAGS: for_admin
 
 
 message in  {
-	int32  role = 1; // 角色
-	string phone = 2; //电话
-	string adminid = 3; //ccID
+	string phone = 1; //电话
+	string adminid = 2; //ccID
 }
 
 message out {
-  int32  id = 1 ;
+  int32  id = 1 ; //新学生id
 }

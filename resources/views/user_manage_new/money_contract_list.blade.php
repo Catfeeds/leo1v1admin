@@ -138,7 +138,7 @@
             </thead>
             <tbody>
                 @foreach ($table_data_list as $var)
-            <tr>
+                    <tr>
                         <td >{{$var["lesson_start"]}} </td>
                         <td >{{$var["order_time_1_day_flag_str"]}}</td>
                         <td >{{$var["check_money_time_1_day_flag_str"]}}</td>
@@ -187,7 +187,6 @@
                                     价格:{{$var["promotion_spec_discount"]/100}}元
                                     ({{intval($var["promotion_spec_discount"]*10000/$var["discount_price"])/100}}折)
                                 @endif
-
                             @endif
                         </td>
                         <td >{{$var["price"]}}</td>
@@ -214,16 +213,16 @@
                                 <a class="fa opt-flow-node-list fa-facebook " title="审核进度"></a>
                                 <a class="fa opt-update-order-time" title="修改下单时间">下单时间</a>
                                 <a class="fa opt-update-price" title="修改合同价格">价格</a>
+                                <a class="opt-del" title="删除合同"> 删除</a>
                                 @if($var["price"]>0)
                                     <a class="fa opt-order-partition-info" title="子合同详情">子合同详情</a>
                                     @if(in_array($account,["jack","zero","jim"]) )
                                         <a class="fa opt-child-order-trandfer" title="子合同转移">子合同转移</a>
                                     @endif
                                 @endif
-                                
                             </div>
                         </td>
-            </tr>
+                    </tr>
                 @endforeach
             </tbody>
         </table>

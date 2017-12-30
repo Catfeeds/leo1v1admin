@@ -4,6 +4,21 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+
+// 引入鉴权类
+use Qiniu\Auth;
+
+// 引入上传类
+use Qiniu\Storage\UploadManager;
+use Qiniu\Storage\BucketManager;
+
+require_once(app_path("/Libs/OSS/autoload.php"));
+use OSS\OssClient;
+
+use OSS\Core\OssException;
+
+
+
 class h5GetPoster extends Command
 {
     /**
@@ -11,7 +26,7 @@ class h5GetPoster extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'command:h5GetPoster';
 
     /**
      * The console command description.
@@ -45,40 +60,42 @@ class h5GetPoster extends Command
     public function do_change()
     {
         //
+        $this->task=new \App\Console\Tasks\TaskController();
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
 
-        $pdf_lists = $this->task->t_pdf_to_png_info->get_pdf_list_for_doing();
-        // $pdfList = $this->
+
+        $pdf_lists = $this->task->t_resource_file->getH5PosterInfo();
 
         while(list($key,$item)=each($pdf_lists)){
-            $id       = $item['id'];
-            $pdf_url  = $item['pdf_url'];
-            $lessonid = $item['lessonid'];
-            $this->task->t_pdf_to_png_info->field_update_list($id,[
-                "id_do_flag" => 2,
-                "deal_time"  => time()
+            $pdf_url  = $item['file_link'];
+            $id = $item['file_id'];
+            $this->task->t_resource_file->field_update_list($id,[
+                "change_status" => 2,
             ]);
 
-            $pdf_file_path = $this->get_pdf_download_url($pdf_url);
+            $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$item['file_link'] );
             $savePathFile = public_path('wximg').'/'.$pdf_url;
             if($pdf_url){
                 \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
                 $path = public_path().'/wximg';
                 @chmod($savePathFile, 0777);
 
-                $filesize=filesize($savePathFile);
+                // $filesize=filesize($savePathFile);
 
-                $imgs_url_list = $this->pdf2png($savePathFile,$path,$lessonid);
+                $imgs_url_list = $this->pdf2png($savePathFile,$path,$id);
                 $file_name_origi = array();
-                foreach($imgs_url_list as $item){
+                foreach($imgs_url_list as $i=> $item){
                     $file_name_origi[] = @$this->put_img_to_alibaba($item);
                 }
 
+
                 $file_name_origi_str = implode(',',$file_name_origi);
 
-                $ret = $this->task->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
-                $this->task->t_pdf_to_png_info->field_update_list($id,[
-                    "id_do_flag" => 1,
-                    "deal_time"  => time()
+                $this->task->t_resource_file->field_update_list($id,[
+                    "filelinks" => $file_name_origi_str,
+                    "change_status" => 1,
+                    "file_poster"   => $file_name_origi[0]
                 ]);
 
                 foreach($imgs_url_list as $item_orgi){
@@ -86,12 +103,12 @@ class h5GetPoster extends Command
                 }
 
                 @unlink($savePathFile);
+
             }
         }
 
-
         if ( count( $pdf_lists)==0  )  {
-            sleep(20);
+            sleep(2);
         }
     }
 
@@ -108,7 +125,7 @@ class h5GetPoster extends Command
 
 
     //
-    public function pdf2png($pdf,$path, $lessonid){
+    public function pdf2png($pdf,$path, $id){
 
         if(!extension_loaded('imagick')){
             return false;
@@ -122,14 +139,18 @@ class h5GetPoster extends Command
 
         $is_exit = file_exists($pdf);
 
-
-        \App\Helper\Utils::logger("check_pdf $pdf");
-
         if($is_exit){
-            $IM->readImage($pdf);
+            try{
+                @$IM->readImage($pdf);
+            }catch (Exception $e) {
+                echo 'Caught exception_H5: ',  $e->getMessage(), "\n";
+                $IM->clear();
+                return [];
+            }
+
             foreach($IM as $key => $Var){
                 @$Var->setImageFormat('png');
-                $Filename = $path."/l_t_pdf_".$lessonid."_".$key.".png" ;
+                $Filename = $path."/handoutToPng_".$id."_".$key.".png" ;
                 if($Var->writeImage($Filename)==true){
                     $Return[]= $Filename;
                 }

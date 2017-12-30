@@ -1,0 +1,29 @@
+<section class="content ">
+  <admin-remote-script  @load=js_xx_loaded  src="/js/xx.js" />
+
+  <div id="id_header_query_info" > </div>
+
+  <hr/>
+
+  <div > test :{{message}} </div>
+  <table class=" common-table " >
+    <thead>
+      <tr> <td data-field_name="userid"> userid </td>
+        <td >姓名</td>
+        <td data-field_name="grade" >年级</td>
+        <td>操作</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(item, index) in table_data" >
+        <td> {{ index }} {{ item.userid }} </td>
+        <td> {{ item.phone}} </td>
+        <td> {{ item.grade_str}} </td>
+        <td >
+          <div v-bind:data-index="index" >
+            <a class="fa-times " title="xxxxx" @click="doOpt" > </a> </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>

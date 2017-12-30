@@ -128,31 +128,43 @@ class test_bacon extends Controller
 
     public function test_lang(){
         $nonce = rand(100000,999999);
+        echo $nonce;
+        echo '<br/>';
+
         $current = time();
+        echo $current;
+        echo '<br/>';
+
         $text = "关于电流，下列说法中正确的是（&nbsp;&nbsp）<br/>A．电流是正电荷沿一定方向移动形成的<br/>B．电流是电荷沿一定方向移动形成的<br/>C．电流是负电喝沿一定方向移动形成的<br/>D．物理学规定，电荷定向移动的方向为电留方向";
+        //$text = "睡交吃饭";
 
-        // $secretKey = 'DSSDjzz4tSlEj0yd2ViRzqPjngLsQi2E';
-        // $srcStr = 'wenzhi.api.qcloud.com/v2/index.php?Action=LexicalCheck&Nonce='.$nonce.'&Region=ap-shanghai&SecretId=AKIDaqpY359OgjUzFGniiVnGa0TwoiN0nvqL&SignatureMethod=HmacSHA256&Timestamp='.$current.'&text='.$text;
-
-        $srcStr = 'wenzhi.api.qcloud.com/v2/index.php?Action=LexicalCheck&Nonce=345122&Region=sz&SecretId=AKIDz8krbsJ5yKBZQpn74WFkmLPx3gnPhESA&Timestamp=1408704141&text=睡交吃饭';
-        $secretKey = "Gu5t9xGARNpq86cd98joQYCN3Cozk1qA";
+        $secretKey = 'DSSDjzz4tSlEj0yd2ViRzqPjngLsQi2E';
+        $srcStr = 'GETwenzhi.api.qcloud.com/v2/index.php?Action=LexicalCheck&Nonce='.$nonce.'&Region=ap-shanghai&SecretId=AKIDaqpY359OgjUzFGniiVnGa0TwoiN0nvqL&SignatureMethod=HmacSHA256&Timestamp='.$current.'&text='.$text;
+        //"&SignatureMethod=HmacSHA256";
+        echo $srcStr;
+        echo '<br/>';
 
         $signStr = base64_encode(hash_hmac('sha256', $srcStr, $secretKey, true));
-        dd($signStr);
+        //$signStr = urlencode($signStr);
+        echo $signStr;
+        echo '<br/>';
 
         $checkUrl = "https://wenzhi.api.qcloud.com/v2/index.php";
         $data = [
-            // 'content' => '关于电流，下列说法中正确的是（&nbsp;&nbsp）<br/>A．电流是正电荷沿一定方向移动形成的<br/>B．电流是电荷沿一定方向移动形成的<br/>C．电流是负电喝沿一定方向移动形成的<br/>D．物理学规定，电荷定向移动的方向为电留方向',
             'Action' => 'LexicalCheck',
             'Nonce' => $nonce,
             'Region' => 'ap-shanghai',
             'SecretId' => 'AKIDaqpY359OgjUzFGniiVnGa0TwoiN0nvqL',
             'Timestamp' => $current,
+            'SignatureMethod' => 'HmacSHA256',
             'Signature' => $signStr,
             'text'  => $text
         ];
 
         $jsonDataEncoded = json_encode($data);
+        echo $jsonDataEncoded;
+        echo '<br/>';
+        
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $checkUrl);
@@ -160,8 +172,8 @@ class test_bacon extends Controller
         // post数据
         curl_setopt($ch, CURLOPT_POST, 1);
         // post的变量
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json; charset=utf-8"));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonDataEncoded);
+        //curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json; charset=utf-8"));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $output = curl_exec($ch);
         curl_close($ch);
         $output = json_decode($output);

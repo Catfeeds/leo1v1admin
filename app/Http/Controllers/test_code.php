@@ -284,20 +284,15 @@ class test_code extends Controller
     }
 
     public function test_sms(){
-        $code  = $this->get_in_str_val("code","5593");
-        $index = $this->get_in_str_val("index","1");
-        $phone = $this->get_in_str_val("phone","18790256265");
-        $template_code = "SMS_10671030";
-        $data = [
-            "code"  => $code,
-            "index" => $index,
-        ];
-        $ret = \App\Helper\Common::send_sms_with_taobao($phone, $template_code, $data,"理优1对1");
-        dd($ret);
-    }
+        $phone    = $this->get_in_int_val("phone","18790256265");
 
-    public function help(){
-        array_first($array);
+        $type = 15960017;
+        $data = [
+            "name"  => "测试",
+            "wx_id" => "测试id",
+            "phone" => "测试电话",
+        ];
+        \App\Helper\Utils::sms_common($phone, $type, $data);
     }
 
 

@@ -312,25 +312,27 @@ class tongji extends Controller
         }
         return $this->pageView(__METHOD__, $ret_info,['group_list'=>$group_list,'count_ave'=>$count_ave,'avg_call_interval_ave'=>$avg_call_interval_ave]);
     }
+
     public function change_week_value($value){
         return date('Y-m-d',$value);
     }
 
     public function sms() {
-        list($start_time,$end_time)=$this->get_in_date_range( -14,0);
-        $is_succ                    = $this->get_in_int_val('is_succ',-1);
-        $type                       = $this->get_in_int_val("type",-1);
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+        $is_succ = $this->get_in_int_val('is_succ',-1);
+        $type    = $this->get_in_int_val("type",-1);
 
-        $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
-
-        $ret_list= $this->t_sms_msg->tongji_get_list($start_time,$end_time,$is_succ,$type);
+        $date_list = \App\Helper\Common::get_date_time_list($start_time, $end_time-1);
+        $ret_list  = $this->t_sms_msg->tongji_get_list($start_time,$end_time,$is_succ,$type);
         foreach ($ret_list as $item)  {
-            $opt_date=$item["log_date"];
-            $date_item= &$date_list[$opt_date];
-            $date_item["count"]=@$date_item["count"]+$item["count"];
+            $opt_date           = $item["log_date"];
+            $date_item          = &$date_list[$opt_date];
+            $date_item["count"] = @$date_item["count"]+$item["count"];
         }
-        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($date_list) );
+        $ret_info = \App\Helper\Utils::list_to_page_info($date_list);
+        return $this->pageView(__METHOD__,  $ret_info);
     }
+
     public function sms_type() {
         list($start_time,$end_time)=$this->get_in_date_range( -14,0);
 
@@ -460,13 +462,10 @@ class tongji extends Controller
         $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
         $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,$adminid,100000 );
         $phone=$this->t_manager_info->field_get_value($adminid, 'phone');
-        var_dump($phone);
         $userid=$this->t_company_wx_users->get_userid_for_adminid($phone);
-        var_dump($userid);
         
         $info=$this->t_company_wx_approval->get_info_for_userid($userid, $start_time, $end_time);
         $len = count($info);
-        echo $len;
         foreach($info as $key => $item) {
             $num = ($item['end_time'] - $item['start_time']) / 86400;
             if ($num >= 1) {
@@ -653,6 +652,7 @@ class tongji extends Controller
 
 
     public function revisit_info_tongji_ass(){
+        $this->check_and_switch_tongji_domain();
         list($start_time,$end_time)=$this->get_in_date_range(date('Y-m-01',time()),0);
 
         $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");

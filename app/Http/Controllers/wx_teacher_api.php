@@ -1024,6 +1024,7 @@ class wx_teacher_api extends Controller
     public function get_test_lesson_info(){
         $lessonid  = $this->get_in_int_val('lessonid',-1);
         $ret_info  = $this->t_test_lesson_subject->get_test_require_info($lessonid);
+        $ret_info['teacherid'] = $this->t_lesson_info->get_teacherid($lessonid);
 
         if($ret_info['lesson_del_flag']==1){
             $ret_info['status'] = 2;
@@ -1050,39 +1051,256 @@ class wx_teacher_api extends Controller
         $subject_tag_arr['学科化标签'] = rtrim($subject_tag_arr['学科化标签'],',');
         $ret_info['subject_tag'] = $subject_tag_arr['学科化标签']?$subject_tag_arr['学科化标签']:$default_tag;
 
-
-
-        // if(is_array($subject_tag_arr)){
-        //     $default_tag = "无要求";
-        //     \App\Helper\Utils::set_default_value($require_info['风格性格'], $subject_tag_arr,$default_tag,'风格性格');
-        //     \App\Helper\Utils::set_default_value($require_info['专业能力'], $subject_tag_arr,$default_tag,'专业能力');
-        //     \App\Helper\Utils::set_default_value($require_info['课堂气氛'], $subject_tag_arr,$default_tag,'课堂气氛');
-        //     \App\Helper\Utils::set_default_value($require_info['课件要求'], $subject_tag_arr,$default_tag,'课件要求');
-        //     \App\Helper\Utils::set_default_value($require_info['学科化标签'], $subject_tag_arr,$default_tag,'学科化标签');
-        // }
-
-
         // 数据待确认
-        $ret_info['handout_flag'] = 0; //无讲义
 
-        // $ret_info['handout_flag'] = $this->t_resource->getResourceId($subject,$grade);
+        if($ret_info['teacherid'] == 357372){//文彬 测试
+            $checkHasHandout = $this->t_lesson_info->get_tea_cw_url($lessonid);
+            $resource_id_arr = $this->t_resource->getResourceId($ret_info['subject'],$ret_info['grade']);
+            $resource_id_str = '';
+            foreach($resource_id_arr as $item){
+                $resource_id_str.=$item['resource_id'].",";
+            }
+            $resource_id_str = rtrim($resource_id_str,',');
+            $ret_info['resource_id_str'] = $resource_id_str;
+
+
+            $hasResourceId = $this->t_lesson_info_b3->getResourceId($lessonid);
+            if($hasResourceId>0){
+                $ret_info['handout_flag'] = 1;
+            }elseif(!empty($resource_id_arr) && !$checkHasHandout){
+                    $ret_info['handout_flag'] = 1;
+            }else{
+                $ret_info['handout_flag'] = 0;
+            }
+        }else{
+            $ret_info['handout_flag'] = 0; //无讲义
+        }
 
         return $this->output_succ(["data"=>$ret_info]);
     }
 
-    public function getResourceList(){ // 讲义系统 boby
-        $resource_id  = $this->get_in_int_val('resource_id');
-        $resourceList = $this->t_resource_file->getResoureList($resource_id);
+    public function getResourceList(){ // 讲义系统
+        $resource_id_str  = $this->get_in_str_val('resource_id');
+        $lessonid     = $this->get_in_int_val('lessonid');
+        $file_id = $this->t_lesson_info->get_tea_cw_file_id($lessonid);
+
+        if($file_id>0){
+            $resourceList = $this->t_resource_file->getResoureInfoById($file_id);
+        }else{
+            $resourceList = $this->t_resource_file->getResoureList($resource_id_str);
+        }
+
+        foreach($resourceList as &$item){
+            $item['file_type_str'] = E\Efile_type::get_desc($item['file_type']);
+            $item['level'] = E\Eresource_diff_level::get_desc($item['tag_three']);
+        }
 
         return $this->output_succ(["resourceList"=>$resourceList]);
     }
 
     public function chooseResource(){
         $file_id   = $this->get_in_int_val('file_id');
-        $file_link = $this->t_resource_file->get_file_link($file_id);
+        $teacherid = $this->get_in_int_val("teacherid");
+        $lessonid  = $this->get_in_int_val("lessonid");
 
+        $ret_info['checkIsUse'] = $this->t_lesson_info_b3->checkIsUse($lessonid);
+        $ret_info['wx_index']  = $this->t_resource_file->get_filelinks($file_id);
+
+
+        $this->t_resource_file_visit_info->row_insert([ // 增加浏览记录
+            'file_id'      => $file_id,
+            'visitor_type' => 1,
+            'visitor_id'   => $teacherid,
+            'create_time'  => time(),
+            'ip'           => $_SERVER["REMOTE_ADDR"],
+        ]);
+
+        if($ret_info['checkIsUse']){
+            return $this->output_succ(["data"=>$ret_info]);
+        }
+
+        $this->t_resource_file->add_num("visit_num", $file_id);
+
+        return $this->output_succ(["data"=>$ret_info]);
+    }
+
+    /**
+     * @ 获取fie_id
+     * @ 更新lesson_info 中的字段
+     * @
+     */
+    public function useResource(){
+        $lessonid = $this->get_in_int_val("lessonid");
+        $file_id  = $this->get_in_int_val('file_id');
+        $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
+        $resource_id = $this->t_resource_file->get_resource_id($file_id);
+
+        $resourceFileInfo = $this->t_resource_file->getResourceFileInfoById($resource_id);
+        $this->t_resource_file_visit_info->row_insert([ //使用
+            'file_id'      => $file_id,
+            'visit_type'   => 7,
+            'visitor_type' => 1,
+            'visitor_id'   => $teacherid,
+            'create_time'  => time(),
+            'ip'           => $_SERVER["REMOTE_ADDR"],
+        ]);
+
+        $this->t_resource_file->add_num("use_num", $file_id); //增加使用次数
+        // 更新lesson_info 表中信息 授课讲义存入lesson_info 老师讲义
+        $pdfToImg = '';
+        foreach($resourceFileInfo as $i=> $item){
+            if($item['file_use_type'] == 0){ //
+                $teaFileId = $item['file_id'];
+                $pdfToImg  = $item['file_link'];
+                $this->t_lesson_info->field_update_list($lessonid, [
+                    "tea_cw_url" => $item['file_link']
+                ]);
+                unset($resourceFileInfo[$i]);
+            }elseif($item['file_use_type'] == 2){
+                $stuFileId = $item['file_id'];
+                $this->t_lesson_info->field_update_list($lessonid, [
+                    "stu_cw_url" => $item['file_link']
+                ]);
+                unset($resourceFileInfo[$i]);
+            }
+        }
+
+        foreach($resourceFileInfo as $i => $item){
+            $sort[$i] = $item['file_type'];
+        }
+        array_multisort($sort,SORT_ASC,$resourceFileInfo);//此处对数组进行降序排列；SORT_DESC按降序排列
+        $filelinks = $this->t_resource_file->get_filelinks($file_id);
+        $this->t_lesson_info->field_update_list($lessonid, [
+            "tea_more_cw_url" => json_encode($resourceFileInfo),
+            "tea_cw_origin"   => 3, // 理优资源
+            "stu_cw_origin"   => 3,// 理优资源
+            "tea_cw_file_id"  => $teaFileId,
+            "stu_cw_file_id"  => $stuFileId,
+            "tea_cw_pic"      => $filelinks,
+            "tea_cw_status"   => 1,
+            "stu_cw_status"   => 1
+
+        ]);
+
+        $this->t_homework_info->updateWorkStatus($lessonid);
+
+        // if($pdfToImg){
+            // $this->t_pdf_to_png_info->row_insert([
+            //     'lessonid'    => $lessonid,
+            //     'pdf_url'     => $pdfToImg,
+            //     'create_time' => time(),
+            //     'origin_id'   => 1
+            // ]);
+        // }
+
+        return $this->output_succ();
+    }
+
+
+
+    public function get_pdf_url($pdf_file_path, $lessonid,$pdf_url){
+        $savePathFile = public_path('wximg').'/'.$pdf_url;
+
+        if($pdf_url){
+            \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
+            $path = public_path().'/wximg';
+
+            @chmod($savePathFile, 0777);
+            $imgs_url_list = @$this->pdf2png($savePathFile,$path,$lessonid);
+
+            // dd($imgs_url_list);
+            $file_name_origi = array();
+            foreach($imgs_url_list as $item){
+                $file_name_origi[] = @$this->put_img_to_alibaba($item);
+            }
+
+            $file_name_origi_str = implode(',',$file_name_origi);
+            $ret = $this->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
+
+            foreach($imgs_url_list as $item_orgi){
+                @unlink($item_orgi);
+            }
+            @unlink($savePathFile);
+        }
+    }
+
+
+    private function gen_download_url($file_url)
+    {
+        // 构建鉴权对象
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+
+        $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
+
+        $base_url=$auth->privateDownloadUrl($file_url );
+        return $base_url;
+    }
+
+    //
+    public function pdf2png($pdf,$path, $lessonid){
+
+        if(!extension_loaded('imagick')){
+            return false;
+        }
+        if(!$pdf){
+            return false;
+        }
+        $IM =new \imagick();
+        $IM->setResolution(100,100);
+        $IM->setCompressionQuality(100);
+
+        $is_exit = file_exists($pdf);
+
+        if($is_exit){
+            @$IM->readImage($pdf);
+            foreach($IM as $key => $Var){
+                @$Var->setImageFormat('png');
+                $Filename = $path."/l_t_pdf_".$lessonid."_".$key.".png" ;
+                if($Var->writeImage($Filename)==true){
+                    $Return[]= $Filename;
+                }
+            }
+            return $Return;
+        }else{
+            return [];
+        }
 
     }
+
+
+    public function put_img_to_alibaba($target){
+        try {
+            $config=\App\Helper\Config::get_config("ali_oss");
+            $file_name=basename($target);
+
+            $ossClient = new OssClient(
+                $config["oss_access_id"],
+                $config["oss_access_key"],
+                $config["oss_endpoint"], false);
+
+
+            $bucket=$config["public"]["bucket"];
+            $ossClient->uploadFile($bucket, $file_name, $target  );
+
+            \App\Helper\Utils::logger('shangchun55'. $config["public"]["url"]."/".$file_name);
+
+            return $config["public"]["url"]."/".$file_name;
+
+        } catch (OssException $e) {
+            \App\Helper\Utils::logger( "init OssClient fail");
+            return "" ;
+        }
+
+    }
+
+
+
+
+
+
 
     public function update_accept_status(){ //更新接受状态并发送微信推送
         $lessonid = $this->get_in_int_val('lessonid');
@@ -1094,6 +1312,11 @@ class wx_teacher_api extends Controller
         $stu_nick = $this->cache_get_student_nick($lesson_info['userid']);
         $jw_nick  = $this->cache_get_account_nick($lesson_info['accept_adminid']);
         $lesson_time_str = date('m-d H:i',$lesson_info['lesson_start'])." ~ ".date("H:i",$lesson_info['lesson_end']);
+
+        $checkStatus = $this->t_lesson_info->get_accept_status($lessonid);
+        if($checkStatus>0){
+            return $this->output_succ(["status"=>$checkStatus]);
+        }
 
         if($status == 1){ //接受 []
             /**

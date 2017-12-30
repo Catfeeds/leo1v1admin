@@ -497,18 +497,12 @@ class agent extends Controller
     }
 
     public function test_new(){
-        /*
-          公众号,信息流,BD,其他
-          userid,origin,add_time,last_cc,is_called,is_suc_test_lesson,is_orderid,
-
-
-         */
-        // $adminid = 99;
-        // $key="DEAL_NEW_USER_$adminid";
-        // $userid=\App\Helper\Common::redis_get($key)*1;
-        // dd($userid);
-        // dd($_SERVER);
-        dd('aa');
+        $new_count_id=$this->t_seller_new_count->get_free_new_count_id($adminid=440);
+        if (!$new_count_id) {
+            dd('a');
+            return false;
+        }
+        dd('b');
     }
 
     //处理等级头像

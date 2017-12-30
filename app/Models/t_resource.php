@@ -148,16 +148,25 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             "r.subject=$subject",
             "r.grade=$grade",
             "r.use_type=1",
-            "r.resource_type=3"
+            "r.resource_type=3", // 标准试听课
+            "r.is_del=0",
+            "ra.is_ban=0",
+            "f.status=0"
         ];
 
         $sql = $this->gen_sql_new("  select r.resource_id from %s r "
-                                  ." where %s "
+                                  ." left join %s f on f.resource_id=r.resource_id"
+                                  ." left join %s ra on "
+                                  ." ra.resource_type=r.resource_type and ra.subject=r.subject and ra.grade=r.grade and ra.tag_one=r.tag_one and"
+                                  ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three and ra.tag_four=r.tag_four "
+
+                                  ." where %s group by r.resource_id "
                                   ,self::DB_TABLE_NAME
+                                  ,t_resource_file::DB_TABLE_NAME
+                                  ,t_resource_agree_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-
-        return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
     }
 
 }

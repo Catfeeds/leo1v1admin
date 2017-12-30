@@ -990,8 +990,8 @@ class user_manage_new extends Controller
         $contract_status = $this->get_in_el_contract_status();
 
         $config_courseid = -1;
-        $is_test_user    =  $this->get_in_int_val("is_test_user", 0 , E\Eboolean::class  );
-        $can_period_flag    =  $this->get_in_int_val("can_period_flag",-1);
+        $is_test_user    = $this->get_in_int_val("is_test_user", 0 , E\Eboolean::class  );
+        $can_period_flag = $this->get_in_int_val("can_period_flag",-1);
         $studentid       = $this->get_in_studentid(-1);
 
         $check_money_flag = $this->get_in_int_val("check_money_flag", -1);
@@ -1002,7 +1002,6 @@ class user_manage_new extends Controller
         $has_money        = -1;
         $sys_operator     = $this->get_in_str_val("sys_operator","");
         $need_receipt     = $this->get_in_int_val("need_receipt", -1, E\Eboolean::class);
-
 
         $account=$this->get_account();
         $show_yueyue_flag = false;
@@ -1766,18 +1765,24 @@ class user_manage_new extends Controller
             $up_master_adminid=0;
         }
 
-        $lesson_target = $this->t_ass_group_target->get_rate_target($start_time);
+        $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target");
         $ret_info = $this->t_manager_info->get_assistant_month_target_info($start_time,$up_master_adminid,$account_id);
         $ret_info['list']=\App\Helper\Common::gen_admin_member_data($ret_info['list']);
         foreach( $ret_info["list"] as &$item ) {
             E\Emain_type::set_item_value_str($item);
             if($item["level"] != "l-4"){
                 $item["lesson_target"]="";
+                $item["renew_target"]="";
             }else{
-                $item["lesson_target"]=$lesson_target;
+                $item["lesson_target"]=@$target_info["rate_target"];
+                $item["renew_target"]=@$target_info["renew_target"]/100;
             }
 
         }
+
+        $this->set_filed_for_js("rate_target",@$target_info["rate_target"]);
+        $this->set_filed_for_js("renew_target",@$target_info["renew_target"]/100);
+
 
         return $this->pageView(__METHOD__, $ret_info);
     }
@@ -5025,7 +5030,7 @@ class user_manage_new extends Controller
         $discount_price   = $this->get_in_str_val("discount_price");
         $account = $this->get_account();
 
-        if(!in_array($account,["zero","echo","jack"])){
+        if(!in_array($account,["zero","echo","jack","adrian","jim"])){
             return $this->output_err("你没有权限");
         }
         $old_price = $this->t_order_info->get_price($orderid);
@@ -5044,11 +5049,8 @@ class user_manage_new extends Controller
            "price"  => $new_price
         ]);
 
-
         //设置主合同是否分期
         $this->set_order_partition_flag($orderid);
-
-
 
         $ret = $this->t_order_info->field_update_list($orderid,[
             "price"          => $price*100,

@@ -25,6 +25,7 @@ interface RowData {
 	has_login	:any;
 	email	:any;
 	wx_openid	:any;
+	baidu_class_info	:any;
 	time	:any;
 	phone_hide	:any;
 }

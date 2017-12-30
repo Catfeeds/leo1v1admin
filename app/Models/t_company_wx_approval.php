@@ -8,9 +8,14 @@ class t_company_wx_approval extends \App\Models\Zgen\z_t_company_wx_approval
 		parent::__construct();
 	}
 
-    public function get_all_list() {
-        $sql = $this->gen_sql_new("select * from %s",
-                                  self::DB_TABLE_NAME
+    public function get_all_list($start_time, $end_time) {
+        $where_arr = [
+            ["apply_time>=%u", $start_time, 0],
+            ["apply_time<%u", $end_time, 0]
+        ];
+        $sql = $this->gen_sql_new("select * from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
         );
         return $this->main_get_list($sql);
     }
@@ -27,7 +32,6 @@ class t_company_wx_approval extends \App\Models\Zgen\z_t_company_wx_approval
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
-        echo $sql;
         return $this->main_get_list($sql);
     }
 

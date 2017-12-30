@@ -26,6 +26,8 @@ class MyMiddleware
         global $g_account;
         $g_account=session("acc");
 
+        $in_arr=$request->input();
+        // dd($in_arr);
         // \Utils::debug_to_html(   );
         $arr=[];
         $in_start_time=time(NULL);
@@ -70,7 +72,6 @@ class MyMiddleware
 
             \App\Helper\Utils::logger("without power !!");
             \App\Helper\Utils::logger( session("power_list"));
-            $in_arr=$request->input();
             if (isset( $in_arr["callback"])) {
 
                 return new \Illuminate\Http\Response( outputjson_error(1001,"没有权限!"));
@@ -113,8 +114,15 @@ class MyMiddleware
         if ($need_powerid) { //url
             if (!session("acc")) {
                 \App\Helper\Utils::logger("SESSION ACC NOFIND");
+
                 if (!\App\Helper\Utils::check_env_is_test() ) {
-                    header('Location: /?to_url='. urlencode(@$_SERVER['REQUEST_URI'] )   );
+                    $in_arr=$request->input();
+                    if (isset($in_arr["callback"])) {
+                        echo  outputjson_error(1005,"没有权限!");
+                        exit;
+                    }else{
+                        header("Location: /?to_url=". urlencode(@$_SERVER['REQUEST_URI'] )   );
+                    }
                 }
                 exit;
             }

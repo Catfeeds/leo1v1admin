@@ -50,14 +50,7 @@ class uploadPdfChange extends Command
         $task=new \App\Console\Tasks\TaskController();
 
 
-        // $handoutArray = $task->t_resource_file->getResourceFileList();
-        $handoutArray = [
-            [
-                "file_link" => '037ab4c73279591d363017b22e6b86521513827415246.pdf',
-                "file_id"   => 4
-            ]
-        ];
-
+        $handoutArray = $task->t_resource_file->getResourceFileList();
 
         foreach($handoutArray as $item){
             //七牛下载
@@ -67,7 +60,7 @@ class uploadPdfChange extends Command
             @chmod($savePathFile, 0777);
 
             //上传未达
-            $cmd  = "curl -F doc=@'$savePathFile' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=leoedu&fn=".$item['file_link'].".pdf'";
+            $cmd  = "curl -F doc=@'$savePathFile' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=leoedu&fn=".$item['file_title'].".pdf'";
             $uuid_tmp = shell_exec($cmd);
             $uuid_arr = explode(':', $uuid_tmp);
             \App\Helper\Utils::logger("jjames_sjj: $uuid_tmp");

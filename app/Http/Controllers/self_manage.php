@@ -455,6 +455,7 @@ class self_manage extends Controller
             "power_list"=> session("power_list"),
             "account_role"=> session("account_role"),
             "menu_html"=> session("menu_html"),
+            "face_pic" => session("face_pic"),
         ]);
     }
 }

@@ -1754,8 +1754,8 @@ class ss_deal extends Controller
         $this->t_test_lesson_subject_require->set_test_lesson_status(
             $require_id, E\Eseller_student_status::V_210 , $this->get_account() );
 
-        // $account_role = $this->get_account_role();
-        // if($account_role == 12){ // 文彬测试
+        $account_role = $this->get_account_role();
+        if($account_role == 12){ // 文彬测试
 
             /**
              * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
@@ -1790,7 +1790,7 @@ class ss_deal extends Controller
 
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
 
-        // }
+        }
 
 
 
@@ -2012,9 +2012,9 @@ class ss_deal extends Controller
             $lesson_time_str    = \App\Helper\Utils::fmt_lesson_time($lesson_start,$lesson_end);
             $require_admin_nick = $this->cache_get_account_nick($require_adminid);
 
-            // $do_adminid = $this->get_account_id();
-            // $account_role = $this->get_account_role();
-            // if($account_role == 12){ // 文彬测试
+            $do_adminid = $this->get_account_id();
+            $account_role = $this->get_account_role();
+            if($account_role == 12){ // 文彬测试
                 /**
                  * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
                  * 标题课程 : 待办事项提醒
@@ -2038,43 +2038,43 @@ class ss_deal extends Controller
                 $url = "http://wx-teacher-web.leo1v1.com/student_info.html?lessonid=".$lessonid; //[标签系统 给老师帮发]
 
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
-            // }else{
-            //     $this->t_manager_info->send_wx_todo_msg(
-            //         $require_admin_nick,"来自:".$this->get_account()
-            //         ,"排课[$phone][$nick] 老师[$teacher_nick] 上课时间[$lesson_time_str]","","");
+            }else{
+                $this->t_manager_info->send_wx_todo_msg(
+                    $require_admin_nick,"来自:".$this->get_account()
+                    ,"排课[$phone][$nick] 老师[$teacher_nick] 上课时间[$lesson_time_str]","","");
 
-            //     $parentid = $this->t_student_info->get_parentid($userid);
+                $parentid = $this->t_student_info->get_parentid($userid);
 
-            //     if($parentid>0){
-            //         $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
-            //     }
+                if($parentid>0){
+                    $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
+                }
 
-            //     /**
-            //      * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
-            //      * 标题课程 : 待办事项提醒
-            //      * {{first.DATA}}
-            //      * 待办主题：{{keyword1.DATA}}
-            //      * 待办内容：{{keyword2.DATA}}
-            //      * 日期：{{keyword3.DATA}}
-            //      * {{remark.DATA}}
-            //      */
-            //     $wx_openid        = $this->t_teacher_info->get_wx_openid($teacherid);
-            //     $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-            //     $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
-            //     $data['keyword1'] = "备课通知";
-            //     $data['keyword2'] = "\n上课时间：$lesson_time_str "
-            //                       ."\n教务电话：$require_phone"
-            //                       ."\n试听需求：$demand"
-            //                       ."\n1、请及时确认试听需求并备课"
-            //                       ."\n2、请尽快上传教师讲义、学生讲义（用于学生预习）和作业"
-            //                       ."\n3、老师可提前15分钟进入课堂进行上课准备";
-            //     $data['keyword3'] = date("Y-m-d H:i",time());
-            //     $data['remark']   = "";
-            //     $url = "http://www.leo1v1.com/login/teacher";
+                /**
+                 * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                 * 标题课程 : 待办事项提醒
+                 * {{first.DATA}}
+                 * 待办主题：{{keyword1.DATA}}
+                 * 待办内容：{{keyword2.DATA}}
+                 * 日期：{{keyword3.DATA}}
+                 * {{remark.DATA}}
+                 */
+                $wx_openid        = $this->t_teacher_info->get_wx_openid($teacherid);
+                $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
+                $data['keyword1'] = "备课通知";
+                $data['keyword2'] = "\n上课时间：$lesson_time_str "
+                                  ."\n教务电话：$require_phone"
+                                  ."\n试听需求：$demand"
+                                  ."\n1、请及时确认试听需求并备课"
+                                  ."\n2、请尽快上传教师讲义、学生讲义（用于学生预习）和作业"
+                                  ."\n3、老师可提前15分钟进入课堂进行上课准备";
+                $data['keyword3'] = date("Y-m-d H:i",time());
+                $data['remark']   = "";
+                $url = "http://www.leo1v1.com/login/teacher";
 
-            //     \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
 
-            // }
+            }
         }
 
         //优学优享
@@ -2411,51 +2411,9 @@ class ss_deal extends Controller
             ]
             );
 
-        // 开发中 勿删    如果匹配，再过滤一次
-        // echo '<pre>';
-        // print_r($ret);
-        // foreach($ret['desc_list'] as &$v){
-        //     $v['order_activity_type'] = intval( trim($v['order_activity_type'], '"') );
-        //     if( strlen($v['order_activity_type']) == 10 && $v['succ_flag'] ==1 ){
-        //         $this->set_in_value('order_activity_type', $v['order_activity_type']);
-        //         $is_match = $this->check_is_match( intval($v['order_activity_type']) );
-        //         if($is_match == false){
-        //             $v['activity_desc'] .= '(该括弧内为测试文字,不影响合同．)';
-        //         }
-        //     }
-        // }
         return $this->output_succ(["data"=>$ret]);
     }
 
-    public function check_is_match($order_activity_type){
-        $adminid          = $this->get_account_id();
-        $end_time         = strtotime( substr($order_activity_type, 0, 8) );
-        $start_time       = 0;
-        $h5_count         = 0;
-        $no_has_prev      = 0;
-        while( !$h5_count ){
-            $prev_web_page_id = $this->t_web_page_info->get_prev_web_page_id($order_activity_type);
-            if($prev_web_page_id <2017 ){
-                $no_has_prev++;
-                break;
-            }
-            $start_time = strtotime( substr($prev_web_page_id, 0, 8) );
-            $h5_count = $this->t_web_page_info->h5_count($start_time, $end_time);
-        }
-        if($no_has_prev == 1){
-            return false;
-        }
-
-        $share_info = $this->t_web_page_info->is_all_share($start_time, $end_time, $adminid);
-
-        foreach($share_info as $item){
-            if($item['share_flag'] == 0) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 
     public function seller_add_contract()
     {
@@ -7700,6 +7658,14 @@ class ss_deal extends Controller
         $coverType = 0;
         $activityType = 0;
         $followType = 0;
+        $shareWidth = 0;
+        $shareHeight = 0;
+        $coverWidth  = 0;
+        $coverHeight = 0;
+        $activityWidth = 0;
+        $activityHeight = 0;
+        $followWidth = 0;
+        $followHeight = 0;
 
 
         $domain = config('admin')['qiniu']['public']['url'];
@@ -7726,15 +7692,17 @@ class ss_deal extends Controller
 
 
 
-        if($shareType != 3){return $this->output_err('分享页图片格式不符合,请重新上传!');}
-        if($coverType != 3){return $this->output_err('封面图片格式不符合,请重新上传!');}
-        if($activityType != 3){return $this->output_err('活动页图片格式不符合,请重新上传!');}
-        if($followType != 3){return $this->output_err('关注页图片格式不符合,请重新上传!');}
+        if($shareType != 3 && $shareType !=0){return $this->output_err('分享页图片格式不符合,请重新上传!');}
+        if($coverType != 3 && $coverType !=0){return $this->output_err('封面图片格式不符合,请重新上传!');}
+        if($activityType != 3 && $activityType !=0){return $this->output_err('活动页图片格式不符合,请重新上传!');}
+        if($followType != 3 && $followType !=0){return $this->output_err('关注页图片格式不符合,请重新上传!');}
 
-        if($shareWidth!=750 || $shareHeight!=1334){ return $this->output_err('分享页图片尺寸不符合,请重新上传!'); }
-        if($coverWidth!=300 || $coverHeight!=300){ return $this->output_err('封面页图片尺寸不符合,请重新上传!'); }
-        if($activityWidth!=750 || $activityHeight!=1334){ return $this->output_err('活动页图片尺寸不符合,请重新上传!'); }
-        if($followWidth!=750 || $followHeight!=1334){ return $this->output_err('关注页图片尺寸不符合,请重新上传!'); }
+        if(($shareWidth!=750 || $shareHeight<1200 || $shareHeight>1340 )&&$shareType!=0){ return $this->output_err('分享页图片尺寸不符合,请重新上传!'); }
+        if(($coverWidth!=300 || $coverHeight!=300)&&$coverType!=0){ return $this->output_err('封面页图片尺寸不符合,请重新上传!'); }
+        if(($activityWidth!=750 || $activityHeight>1340 || $activityHeight<1200 )&&$activityType!=0){ return $this->output_err('活动页图片尺寸不符合,请重新上传!'); }
+        if(($followWidth!=750 || $followHeight<1200 || $followHeight>1340 )&&$followType!=0){ return $this->output_err('关注页图片尺寸不符合,请重新上传!'); }
+
+
 
 
         $this->t_activity_usually->row_insert([
@@ -7757,10 +7725,101 @@ class ss_deal extends Controller
             "url" =>$url,
             "title" =>$title,
             "add_time" => time(NULL),
-            "add_adminid" =>  $this->get_account_id(),
+            "add_adminid"   =>  $this->get_account_id(),
+            "act_usuall_id" => $id
         ]);
 
 
         return $this->output_succ();
     }
+
+
+
+    public function updateMarketExtend(){
+        $gift_type = $this->get_in_int_val('gift_type');
+        $title     = $this->get_in_str_val('title');
+        $act_descr = $this->get_in_str_val('act_descr');
+        $shareImgUrl = $this->get_in_str_val('shareImgUrl');
+        $coverImgUrl = $this->get_in_str_val('coverImgUrl');
+        $activityImgUrl = $this->get_in_str_val('activityImgUrl');
+        $followImgUrl   = $this->get_in_str_val('followImgUrl');
+        $add_time = time();
+        $uid = $this->get_account_id();
+        $id = $this->get_in_int_val('id');
+
+        //检测图片尺寸
+        if(strlen($act_descr)>90){
+            return $this->output_err('描述文字不可超出30个字!');
+        }
+
+        $coverImgUrlOnline = '';
+        $activityImgUrlOnline = '';
+        $followImgUrlOnline = '';
+        $shareImgUrlOnline = '';
+        $shareType = 0;
+        $coverType = 0;
+        $activityType = 0;
+        $followType = 0;
+        $shareWidth = 0;
+        $shareHeight = 0;
+        $coverWidth  = 0;
+        $coverHeight = 0;
+        $activityWidth = 0;
+        $activityHeight = 0;
+        $followWidth = 0;
+        $followHeight = 0;
+
+
+        $domain = config('admin')['qiniu']['public']['url'];
+        if($shareImgUrl){ $shareImgUrlOnline = $domain."/".$shareImgUrl; }
+        if($coverImgUrl){ $coverImgUrlOnline = $domain."/".$coverImgUrl; }
+        if($activityImgUrl){ $activityImgUrlOnline = $domain."/".$activityImgUrl; }
+        if($followImgUrl){ $followImgUrlOnline = $domain."/".$followImgUrl; }
+
+        if($shareImgUrlOnline){
+            list($shareWidth,$shareHeight,$shareType,$shareAttr)=getimagesize($shareImgUrlOnline);
+        }
+
+        if($coverImgUrlOnline){
+            list($coverWidth,$coverHeight,$coverType,$coverAttr)=getimagesize($coverImgUrlOnline);
+        }
+
+        if($activityImgUrlOnline){
+            list($activityWidth,$activityHeight,$activityType,$activityAttr)=getimagesize($activityImgUrlOnline);
+        }
+
+        if($followImgUrlOnline){
+            list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
+        }
+
+
+
+        if($shareType != 3 && $shareType !=0){return $this->output_err('分享页图片格式不符合,请重新上传!');}
+        if($coverType != 3 && $coverType !=0){return $this->output_err('封面图片格式不符合,请重新上传!');}
+        if($activityType != 3 && $activityType !=0){return $this->output_err('活动页图片格式不符合,请重新上传!');}
+        if($followType != 3 && $followType !=0){return $this->output_err('关注页图片格式不符合,请重新上传!');}
+
+        if(($shareWidth!=750 || $shareHeight<1200 || $shareHeight>1340 )&&$shareType!=0){ return $this->output_err('分享页图片尺寸不符合,请重新上传!'); }
+        if(($coverWidth!=300 || $coverHeight!=300)&&$coverType!=0){ return $this->output_err('封面页图片尺寸不符合,请重新上传!'); }
+        if(($activityWidth!=750 || $activityHeight>1340 || $activityHeight<1200 )&&$activityType!=0){ return $this->output_err('活动页图片尺寸不符合,请重新上传!'); }
+        if(($followWidth!=750 || $followHeight<1200 || $followHeight>1340 )&&$followType!=0){ return $this->output_err('关注页图片尺寸不符合,请重新上传!'); }
+
+
+        $this->t_activity_usually->field_update_list($id,[
+            "gift_type" => $gift_type,
+            "title"     => $title,
+            "add_time"  => $add_time,
+            "uid"       => $uid,
+            "act_descr" => $act_descr,
+            "shareImgUrl" => $shareImgUrl,
+            "coverImgUrl" => $coverImgUrl,
+            "activityImgUrl" => $activityImgUrl,
+            "followImgUrl"   => $followImgUrl
+        ]);
+
+        $dealAccount = $this->get_account_id();
+        $web_page_id = $this->t_web_page_info->updateUrlInfo($id, $title, $dealAccount);
+        return $this->output_succ();
+    }
+
 }
