@@ -497,7 +497,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $new_count_id=$this->t_seller_new_count->get_free_new_count_id($adminid=902);
+        $new_count_id=$this->t_seller_new_count->get_free_new_count_id($adminid=440);
         if (!$new_count_id) {
             dd('a');
             return false;
