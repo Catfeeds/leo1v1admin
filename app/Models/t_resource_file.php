@@ -80,7 +80,7 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
                                   ." left join %s ra on "
                                   ." ra.resource_type=r.resource_type and ra.subject=r.subject and ra.grade=r.grade and ra.tag_one=r.tag_one and"
                                   ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three and ra.tag_four=r.tag_four "
-                                  ." where %s group by file_id"
+                                  ." where %s group by rf.file_id"
                                   ,self::DB_TABLE_NAME
                                   ,t_resource::DB_TABLE_NAME
                                   ,t_resource_agree_info::DB_TABLE_NAME

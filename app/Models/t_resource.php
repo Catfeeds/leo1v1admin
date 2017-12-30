@@ -166,7 +166,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
                                   ,t_resource_agree_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
     }
 
 }
