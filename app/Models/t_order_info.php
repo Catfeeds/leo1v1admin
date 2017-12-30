@@ -104,7 +104,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "o.contract_status>0",
             "o.price>0",
         ];
-
         $sql = $this->gen_sql_new("select o.userid,o.orderid,o.order_time,"
                                   ." o.default_lesson_count*o.lesson_total,"
                                   ." o.contract_type,o.contract_status,o.sys_operator,m.account_role,"
