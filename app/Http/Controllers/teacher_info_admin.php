@@ -30,7 +30,7 @@ class teacher_info_admin extends Controller
         $tea_info['grade_part_ex_str'] = empty($tea_info['grade_part_ex'])?"":@E\Egrade_part_ex::get_desc( $tea_info['grade_part_ex']);
         $tea_info['subject_str'] = empty($tea_info['subject'])?"":@E\Esubject::get_desc( $tea_info['subject']);
         $tea_info['putonghua_is_correctly_str'] = @E\Eputonghua_is_correctly::get_desc( $tea_info['putonghua_is_correctly']);
-        if(@$tea_info['birth']){                   
+        if(@$tea_info['birth']){
             $tea_info['birth_str'] = substr(@$tea_info['birth'],0,4)
                 ."-".substr(@$tea_info['birth'],4,2)
                 ."-".substr(@$tea_info['birth'],6,2);
@@ -175,11 +175,7 @@ class teacher_info_admin extends Controller
         $gender                 = $this->get_in_int_val("gender");
         $birth                  = $this->get_in_str_val("birth");
         $work_year              = $this->get_in_int_val("work_year");
-        // $is_good_flag           = $this->get_in_int_val("is_good_flag");
-        $phone                  = $this->get_in_int_val("phone");
-        /* $textbook_type          = $this->get_in_int_val("textbook_type");
-        $grade_part_ex          = $this->get_in_int_val("grade_part_ex");
-        $subject                = $this->get_in_int_val("subject");*/
+        $phone_spare            = $this->get_in_int_val("phone_spare");
         $putonghua_is_correctly = $this->get_in_int_val("putonghua_is_correctly");
         $email                  = $this->get_in_str_val("email");
         $advantage              = $this->get_in_str_val("advantage");
@@ -202,9 +198,13 @@ class teacher_info_admin extends Controller
                         'ret' => -1,
                         'info' => "邮箱格式有误 ",
                     ));
-
                 }
             }
+        }
+
+        $ret = \App\Helper\Utils::check_phone($phone_spare);
+        if(!$ret){
+            return $this->output_err("手机号错误!");
         }
 
         if(!preg_match("/^\d*$/",$qq_info)){
@@ -212,28 +212,19 @@ class teacher_info_admin extends Controller
                 'ret' => -1,
                 'info' => "请输入有效的ＱＱ号码 ",
             ));
-
         }
-        // if(strlen($phone) != 11){
-        //    return outputJson(array(
-        //         'ret' => -1,
-        //         'info' => "手机号码长度有误 ",
-        //     ));
-        // }
+
         if(!empty($birth)){
             $birth = substr($birth,0,4).''.substr($birth,5,2).''.substr($birth,8,2);
         }
 
         $this->t_teacher_info->field_update_list($teacherid,[
             "nick"                   => $nick,
-            //  "realname"               => $realname,
-            // "phone"                  => $phone,
             "email"                  => $email,
+            "phone_spare"            => $phone_spare,
             "gender"                 => $gender,
             "birth"                  => $birth,
             "work_year"              => $work_year,
-            // "advantage"              => $advantage,
-            // "base_intro"             => $base_intro,
             "putonghua_is_correctly" => $putonghua_is_correctly,
             "dialect_notes"          => $dialect_notes,
             "parent_student_evaluate"=> $parent_student_evaluate,
@@ -241,7 +232,7 @@ class teacher_info_admin extends Controller
             "age"                    => $age,
             "teacher_textbook"       => $teacher_textbook,
             "qq_info"                => $qq_info,
-            "identity"               => $identity
+            "identity"               => $identity,
         ]);
 
         return $this->output_succ();
