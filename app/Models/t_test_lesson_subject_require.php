@@ -859,6 +859,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." where %s "
             ." and lesson_start >=%u "
             ." and lesson_start<%u "
+            ." and l.lesson_type=2"
             ." and accept_flag=1 "
             ." and s.is_test_user=0"
             ,self::DB_TABLE_NAME
@@ -1563,7 +1564,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             " accept_flag =1  ",
             "success_flag in (0,1)",
             "is_test_user=0",
-            "t.require_admin_type=2"
+            "t.require_admin_type=2",
+            "l.lesson_type=2"
         ];
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new(

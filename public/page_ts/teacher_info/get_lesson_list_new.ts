@@ -332,9 +332,9 @@ $(function(){
 
             $.each(id_teacher_list,function(i,item){
                 if(!(lesson_type>=1000 && lesson_type <2000)){
-                    arr.push(["其他讲义_"+i,item]);
+                    arr.push(["其他资料_"+i,item]);
                 } else {
-                    arr.push(["其他讲义_"+(i+1),item]);
+                    arr.push(["其他资料_"+(i+1),item]);
                 }
             });
             arr.push(['学生讲义', id_student]);
@@ -458,7 +458,7 @@ $(function(){
                         $('.opt-select-file').hide();
                     });
 
-                    $('.tea_cw_ex').first().parent().parent().prev().text('老师讲义');
+                    $('.tea_cw_ex').first().parent().parent().prev().text('教师讲义');
                     $('.tea_cw_ex').first().parent().parent().parent().show();
                     for(var l=0; l<11;l++){
                         if(l == 0){
@@ -562,6 +562,7 @@ $(function(){
             });
             $('.opt-my-res,.opt-leo-res').attr('upload_id', obj.attr('id'));
         }
+        var book_info = [];
         var dlg_tr = {};
         var get_res = function(ajax_url,opt_type,btn_type,dir_id){
             $("<div></div>").tea_select_res_ajax({
@@ -586,11 +587,17 @@ $(function(){
                         return item.create_time;
                     }
                 },{
-                    title:"文件类型",
+                    title:"文件格式",
                     class:"type-mark",
                     render:function(val,item) {
                         $(this).addClass(item.file_type);
                         return item.file_type;
+                    }
+                },{
+                    title:"文件类型",
+                    class:"type-mark",
+                    render:function(val,item) {
+                        return item.file_use_type_str;
                     }
                 },{
                     title:"文件大小",
@@ -640,6 +647,10 @@ $(function(){
                 "onChange"         : null,
                 //加载数据后，其它的设置
                 "onLoadData"       : function(dlg, ret){
+                    var book_arr = ret.book.split(',');
+                    $.each($(book_arr),function(i,val){
+                        book_info.push(parseInt(val));
+                    });
                     dlg_tr = ret.crumbs;
                 },
                 "onshown"          : function(dlg){
@@ -668,7 +679,7 @@ $(function(){
                         Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,[1,2,3]);
                         Enum_map.append_option_list("subject",$('.leo-subject select'));
                         Enum_map.append_option_list("grade",$('.leo-grade select'));
-                        Enum_map.append_option_list("region_version",$('.leo-tag_one select'));
+                        Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
                         Enum_map.append_option_list("resource_season",$('.leo-tag_two select'));
                         $('.leo-tag_two').nextAll().hide();
                         $('.leo-resource_type select').change(function(){
@@ -713,7 +724,7 @@ $(function(){
                                         tea_cw_url = val.file_link;
                                         tea_cw_file_id = val.file_id;
                                     } else if (val.file_use_type == 1){
-                                        //老师讲义
+                                        //教师讲义
                                         tea_cw_url_list[0][0] = val.file_link;
                                         tea_cw_url_list[0][1] = $('.tea_cw_ex input').first().val();
                                         tea_cw_url_list[0][2] = 3;
@@ -751,7 +762,7 @@ $(function(){
                             }
                         });
 
-                    } else if(opt_type == 'my'){//老师自己的资料库
+                    } else if(opt_type == 'my'){//教师自己的资料库
                         var my_file_id = $('.warning').data('file_id');
                         if(btn_type == 'id_teacher_upload'){
                             tea_cw_url = $('.warning').data('link');

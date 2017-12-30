@@ -59,11 +59,13 @@ $(function(){
 
             });
 
+            var screen_height=window.screen.availHeight-300;        
             $(this).admin_select_dlg({
                 header_list     : [ "id","教材版本" ],
                 data_list       : data_list,
                 multi_selection : true,
                 select_list     : select_list,
+                div_style       : {"height":screen_height,"overflow":"auto"},
                 onChange        : function( select_list,dlg) {
                     //alert(JSON.stringify(select_list));return;
                     $.do_ajax("/ajax_deal2/set_teacher_textbook",{

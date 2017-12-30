@@ -26,6 +26,7 @@
                 <td>申请人名</td>
                 <td>开始时间</td>
                 <td>结束时间</td>
+                <td>申请原因</td>
                 <td>申请人部门</td>
                 <td>审批人</td>
                 <td>抄送人</td>
@@ -42,6 +43,7 @@
                 <td>{{$item['apply_name']}}</td>
                 <td>{{$item['start_time_str']}}</td>
                 <td>{{$item['end_time_str']}}</td>
+                <td>{{$item['reason']}}</td>
                 <td>{{$item['apply_org']}}</td>
                 <td>{{$item['approval_name']}}</td>
                 <td>{{$item['notify_name']}}</td>

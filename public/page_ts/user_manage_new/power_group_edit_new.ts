@@ -33,6 +33,7 @@ function zTreeOnClick(event, treeId, treeNode) {
                     select_list.push (this["groupid"]) ;
                 }
             });
+            
 
             $(this).admin_select_dlg({
                 header_list     : [ "id","名称" ],
@@ -65,6 +66,7 @@ function load_data(){
     });
 }
 $(function(){
+
     $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 
     // 处理全选

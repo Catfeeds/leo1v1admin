@@ -117,19 +117,11 @@
                     </td>
                     <td style="width:40%">文件名</td>
                     <td style="width:15%">修改日期</td>
-                    @if($resource_type<7)
-                        <td style="width:8%">操作人</td>
-                        <td style="width:8%">文件类型</td>
-                        <td style="width:8%">文件别称</td>
-                        <td style="width:8%">文件大小</td>
-                        <td style="width:8%">是否使用</td>
-                    @else
-                        <td style="width:8%">操作人</td>
-                        <td style="width:8%">文件类型</td>
-                        <td style="width:8%">文件别称</td>
-                        <td style="width:8%">文件大小</td>
-                        <td style="width:8%">是否使用</td>
-                    @endif
+                    <td style="width:5%">操作人</td>
+                    <td style="width:7%">文件格式</td>
+                    <td style="width:15%">文件信息</td>
+                    <td style="width:7%">文件大小</td>
+                    <td style="width:7%">是否使用</td>
                 </tr>
             </thead>
             <tbody>
@@ -142,11 +134,7 @@
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
-
-                        @if($resource_type<7)
-                            <td>{{@$var["file_use_type_str"]}} </td>
-                        @endif
-
+                        <td>{{@$var["file_use_type_str"]}} </td>
                         <td>{{@$var["file_size"]}}M </td>
                         <td>是</td>
                     </tr>
