@@ -11,7 +11,7 @@
             "select_list":[],
             "multi_selection":false,
             "btn_list":[],
-            "div_style":{"height":screen_height,"overflow":"auto"}
+            "div_style":null
         };
         var me=this;
 

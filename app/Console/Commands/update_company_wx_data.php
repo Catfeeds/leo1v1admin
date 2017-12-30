@@ -140,7 +140,7 @@ class update_company_wx_data extends Command
                 }
                 if ($item['spname'] == '拉取数据审批') {
                     if ($val['title'] == '数据类型') $common['reason'] = $val['value'];
-                    if ($val['title'] == '需要时间') $common['start_time'] = $val['value'];
+                    //if ($val['title'] == '需要时间') $common['start_time'] = $val['value'];
                     $common['type'] = 4;
                 }
                 if ($item['spname'] == '费用申请') {

@@ -195,7 +195,7 @@ trait  ViewDeal {
             "\n".
             "import Vue from 'vue'\n".
             "import Component from 'vue-class-component'\n".
-            "import vbase from \"../layout/vbase\"\n".
+            "import vtable from \"../../components/vtable\"\n".
             "import {self_RowData, self_Args } from \"../page.d.ts/{$this->view_ctrl}-{$this->view_action}\"\n".
             "\n".
             "// @Component 修饰符注明了此类为一个 Vue 组件\n".
@@ -204,7 +204,7 @@ trait  ViewDeal {
             "  template:  require(\"./{$this->view_action}.html\" ),\n".
             "})\n".
             "\n".
-            "export default class extends vbase {\n".
+            "export default class extends vtable {\n".
             "\n".
 
             "  get_opt_data(obj):self_RowData {return this.get_opt_data_base(obj );}\n".

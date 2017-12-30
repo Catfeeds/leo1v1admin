@@ -375,12 +375,12 @@ class test_james extends Controller
         //     $table->index('add_time');
         // });
 
-        Schema::create('db_weiyi.t_teacher_christmas', function(Blueprint $table) {
-            t_field($table->increments("id"), "老师圣诞节-元旦节活动");
-            t_field($table->integer("teacherid"), "分享人");
-            t_field($table->string("next_openid"), "下级openid");
-            t_field($table->integer("add_time"), "添加时间");
-            t_field($table->integer("score"), "积分");
+        Schema::create('db_weiyi.t_handoutToPng', function(Blueprint $table) {
+            t_field($table->increments("id"), "标签系统理优讲义转png");
+            t_field($table->integer("file_id"), "文件id");
+            t_field($table->string("file_link"), "讲义链接");
+            t_field($table->text("pnglinks"), "图片链接");
+            t_field($table->integer("转化状态"), "0:未处理 1:已成功 2:失败");
 
             $table->index('teacherid');
             $table->index('add_time');
@@ -1598,6 +1598,13 @@ class test_james extends Controller
 
 
     public function chooseResource(){
+
+        $subject = $this->get_in_int_val('subject');
+        $grade = $this->get_in_int_val('grade');
+        $file_id = $this->t_resource->getResourceId($subject,$grade);
+
+        dd($file_id);
+
         $file_id   = $this->get_in_int_val('file_id');
         $teacherid = $this->get_in_int_val("teacherid");
         $lessonid  = $this->get_in_int_val("lessonid");
