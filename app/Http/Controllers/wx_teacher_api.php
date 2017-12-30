@@ -1097,11 +1097,8 @@ class wx_teacher_api extends Controller
         $lessonid  = $this->get_in_int_val("lessonid");
 
         $ret_info['checkIsUse'] = $this->t_lesson_info_b3->checkIsUse($lessonid);
-        $ret_info['wx_index']  = '';
+        $ret_info['wx_index']  = $this->t_resource_file->get_filelinks($file_id);
 
-        if($ret_info['checkIsUse']){
-            return $this->output_succ(["data"=>$ret_info]);
-        }
 
         $this->t_resource_file_visit_info->row_insert([ // 增加浏览记录
             'file_id'      => $file_id,
@@ -1110,12 +1107,13 @@ class wx_teacher_api extends Controller
             'create_time'  => time(),
             'ip'           => $_SERVER["REMOTE_ADDR"],
         ]);
+
+        if($ret_info['checkIsUse']){
+            return $this->output_succ(["data"=>$ret_info]);
+        }
+
         $this->t_resource_file->add_num("visit_num", $file_id);
 
-        $ret_info['wx_index']  = $this->t_resource_file->get_filelinks($file_id);
-        // $store=new \App\FileStore\file_store_tea();
-        // $auth=$store->get_auth();
-        // $ret_info['wx_index'] = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdfToImg);
         return $this->output_succ(["data"=>$ret_info]);
     }
 
