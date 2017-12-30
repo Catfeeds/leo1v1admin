@@ -1159,7 +1159,8 @@ class wx_teacher_api extends Controller
             $this->t_pdf_to_png_info->row_insert([
                 'lessonid'    => $lessonid,
                 'pdf_url'     => $pdfToImg,
-                'create_time' => time()
+                'create_time' => time(),
+                'origin_id'   => 1
             ]);
         }
 
