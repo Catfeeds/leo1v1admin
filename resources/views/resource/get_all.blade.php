@@ -32,7 +32,8 @@
                  </div>
                  </div>
                  </div> -->
-            <div class="row row-query-list">
+            <div class="row">
+                <!-- <div class="row row-query-list"> -->
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">角色</span>
@@ -117,7 +118,10 @@
                     <td style="width:40%">文件名</td>
                     <td style="width:15%">修改日期</td>
                     <td style="width:10%">操作人</td>
-                    <td style="width:10%">文件类型</td>
+                    <td style="width:5%">文件类型</td>
+                    @if($resource_type<7)
+                        <td style="width:10%">文件别称</td>
+                    @endif
                     <td style="width:10%">文件大小</td>
                     <td style="width:10%">是否使用</td>
                 </tr>
@@ -132,8 +136,13 @@
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
+
+                        @if($resource_type<7)
+                            <td>{{@$var["file_use_type_str"]}} </td>
+                        @endif
+
                         <td>{{@$var["file_size"]}}M </td>
-                        <td>{{@$var["is_use_str"]}}是 </td>
+                        <td>是</td>
                     </tr>
                 @endforeach
             </tbody>
