@@ -43,12 +43,12 @@ class main_page2 extends Controller
         ];
 
         $current_month_first = strtotime(date("Y-m-01"));
-        $current_month_last = strtotime(date("Y-m-t 23:59:59"));
+        $current_month_last = strtotime(date("Y-m-01",strtotime("+1 month")));
 
         $last_month_first = strtotime(date("Y-m-01",strtotime("-1 month")));       
         $last_month_last  = $current_month_first;
 
-        $history_month_last = strtotime(date("Y-m-t",strtotime("-2 month")));
+        $history_month_last = $last_month_first;
         //dd(date("Y-m-t",strtotime("-2 month")));
 
         $contract_status="(1,2,3)";  //合同状态
@@ -60,55 +60,48 @@ class main_page2 extends Controller
             ["stu_from_type=%u" , $stu_from_type],
             ["o.price>%u" , 0],
             ["contract_status != %u" , 0 ],
-        ];
-
-        $current_month_time = [
             ["is_test_user=%u" , $test_user],
             ["o.order_time>=%d" , $current_month_first ],
             ["o.order_time<%d" , $current_month_last ]
         ];
-        
-        $current_month_all_row = $this->t_order_info->get_cc_order_count($current_month_time);
-        !empty($current_month_all_row) ? $current_month_all = $current_month_all_row['count_order'] : $current_month_all = 0;        
-
-        $current_month_num_row = $this->t_order_info->get_cc_order_count(array_merge($where_arr,$current_month_time));
+        //根据4个筛选条件 所有新签合同的数量
+        $current_month_num_row = $this->t_order_info->get_cc_order_count($where_arr);
         !empty($current_month_num_row) ? $current_month_num = $current_month_num_row['count_order'] : $current_month_num = 0;        
-     
-        $current_month_rate = 0;
-        if( $current_month_num > 0 && $current_month_all > 0){
-            $current_month_rate = sprintf('%.4f', $current_month_num/$current_month_all); 
-        }
-        $last_month_time = [
-            ["is_test_user=%u" , $test_user],
-            ["o.order_time>=%d" , $last_month_first ],
-            ["o.order_time<%d" , $last_month_last ]
-        ];
-       
-        $last_month_all_row = $this->t_order_info->get_cc_order_count($last_month_time);
-        !empty($current_month_all_row) ? $last_month_all = $last_month_all_row['count_order'] : $last_month_all = 0;        
-     
-        $last_month_num_row = $this->t_order_info->get_cc_order_count(array_merge($where_arr,$last_month_time));
-        !empty($last_month_num_row) ? $last_month_num = $last_month_num_row['count_order'] : $last_month_num = 0;
 
-        $last_month_rate = 0;
-        if( $last_month_num > 0 && $last_month_all > 0){
-            $last_month_rate = sprintf('%.4f', $last_month_num/$last_month_all); 
+        $current_month_cc = 0;
+        $current_month_rate = '0%';
+        $current_arr = $where_arr;
+        $current_arr[] =["n.add_time>=%d", $current_month_first];
+        $current_arr[] =["n.add_time<%d", $current_month_last];
+        $current_month_cc_row = $this->t_order_info->get_cc_order_count($current_arr);
+        if( $current_month_num > 0 && $current_month_cc_row ){
+            $current_month_cc = $current_month_cc_row['count_order'];
+            $current_month_rate = sprintf('%.4f', $current_month_cc/$current_month_num)*100;
+            $current_month_rate = $current_month_rate.'%';
         }
 
-        $history_month_time = [
-            ["is_test_user=%u" , $test_user],
-            ["o.order_time<%d" , $history_month_last ]
-        ];
-       
-        $history_month_all_row = $this->t_order_info->get_cc_order_count($history_month_time);
-        !empty($history_month_all_row) ? $history_month_all = $history_month_all_row['count_order'] : $history_month_all = 0;        
-
-        $history_month_num_row = $this->t_order_info->get_cc_order_count(array_merge($where_arr,$history_month_time));
-        !empty($last_month_num_row) ? $history_month_num = ( $history_month_num_row['count_order'] - 1): $history_month_num = 0;
-
-        $history_month_rate = 0;
-        if( $history_month_num > 0 && $history_month_all > 0){
-            $history_month_rate = sprintf('%.4f', $history_month_num/$history_month_all ); 
+        $last_month_cc = 0;
+        $last_month_rate = '0%';
+        $last_arr = $where_arr;
+        $last_arr[] =["n.add_time>=%d", $last_month_first];
+        $last_arr[] =["n.add_time<%d", $last_month_last];
+        $last_month_cc_row = $this->t_order_info->get_cc_order_count($last_arr);
+        if( $current_month_num > 0 && $last_month_cc_row ){
+            $last_month_cc = $last_month_cc_row['count_order'];
+            $last_month_rate = sprintf('%.4f', $last_month_cc/$current_month_num)*100;
+            $last_month_rate = $last_month_rate.'%';
+        }
+        
+     
+        $his_month_cc = 0;
+        $his_month_rate = '0%';
+        $his_arr = $where_arr;
+        $his_arr[] =["n.add_time<%d", $history_month_last];
+        $his_month_cc_row = $this->t_order_info->get_cc_order_count($his_arr);
+        if( $current_month_num > 0 && $his_month_cc_row ){
+            $his_month_cc = $his_month_cc_row['count_order'];
+            $his_month_rate = sprintf('%.4f', $his_month_cc/$current_month_num)*100;
+            $his_month_rate = $his_month_rate.'%';
         }
 
 
@@ -120,12 +113,12 @@ class main_page2 extends Controller
             "role_1_diff_money_def" =>  $role_1_diff_money_def,
             'sum_order_activity_quota' => $sum_activity_quota_arr,
             'order_activity_detail' => $order_activity_detail,
-            'current_month_num' => $current_month_num,
+            'current_month_cc' => $current_month_cc,
             'current_month_rate' => $current_month_rate,
-            'last_month_num' => $last_month_num,
+            'last_month_cc' => $last_month_cc,
             'last_month_rate' => $last_month_rate,
-            'history_month_num' => $history_month_num,
-            'history_month_rate' => $history_month_rate,
+            'his_month_cc' => $his_month_cc,
+            'his_month_rate' => $his_month_rate,
         ]);
     }
     //@desn:配置合同活动总配额

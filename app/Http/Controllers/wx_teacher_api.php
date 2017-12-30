@@ -1086,7 +1086,6 @@ class wx_teacher_api extends Controller
             return $this->output_succ(["data"=>$ret_info]);
         }
 
-
         $this->t_resource_file_visit_info->row_insert([ // 增加浏览记录
             'file_id'      => $file_id,
             'visitor_type' => 1,
@@ -1094,9 +1093,12 @@ class wx_teacher_api extends Controller
             'create_time'  => time(),
             'ip'           => $_SERVER["REMOTE_ADDR"],
         ]);
-
         $this->t_resource_file->add_num("visit_num", $file_id);
-        $ret_info['wx_index'] = $this->t_resource_file->get_wx_index($file_id);
+
+        $pdfToImg = $this->t_resource_file->get_file_link($file_id);
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+        $ret_info['wx_index'] = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdfToImg);
         return $this->output_succ(["data"=>$ret_info]);
     }
 
@@ -1111,9 +1113,7 @@ class wx_teacher_api extends Controller
         $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
         $resource_id = $this->t_resource_file->get_resource_id($file_id);
 
-
         $resourceFileInfo = $this->t_resource_file->getResourceFileInfoById($resource_id);
-
         $this->t_resource_file_visit_info->row_insert([ //使用
             'file_id'      => $file_id,
             'visit_type'   => 7,
@@ -1124,8 +1124,6 @@ class wx_teacher_api extends Controller
         ]);
 
         $this->t_resource_file->add_num("use_num", $file_id); //增加使用次数
-
-
         // 更新lesson_info 表中信息 授课讲义存入lesson_info 老师讲义
         $pdfToImg = '';
         foreach($resourceFileInfo as $i=> $item){
@@ -1155,15 +1153,14 @@ class wx_teacher_api extends Controller
             "stu_cw_origin"   => 3,// 理优资源
             "tea_cw_file_id"  => $teaFileId,
             "stu_cw_file_id"  => $stuFileId,
-            "zip_url"         => $pdfToImg
         ]);
 
         if($pdfToImg){
-            $store=new \App\FileStore\file_store_tea();
-            $auth=$store->get_auth();
-            $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdfToImg);
-            // 转化pdf to png
-            $this->get_pdf_url($pdf_file_path, $lessonid, $pdfToImg);
+            $this->t_pdf_to_png_info->row_insert([
+                'lessonid'    => $lessonid,
+                'pdf_url'     => $pdfToImg,
+                'create_time' => time()
+            ]);
         }
 
         return $this->output_succ();

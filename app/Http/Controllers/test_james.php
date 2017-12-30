@@ -1597,6 +1597,28 @@ class test_james extends Controller
     }
 
 
+    public function chooseResource(){
+        $file_id   = $this->get_in_int_val('file_id');
+        $teacherid = $this->get_in_int_val("teacherid");
+        $lessonid  = $this->get_in_int_val("lessonid");
+
+        $ret_info['checkIsUse'] = $this->t_lesson_info_b3->checkIsUse($lessonid);
+        $ret_info['wx_index']  = '';
+
+        if($ret_info['checkIsUse']){
+            return $this->output_succ(["data"=>$ret_info]);
+        }
+
+
+        $pdfToImg = $this->t_resource_file->get_file_link($file_id);
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+        $ret_info['wx_index'] = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdfToImg);
+        return $this->output_succ(["data"=>$ret_info]);
+    }
+
+
+
 
 
 
