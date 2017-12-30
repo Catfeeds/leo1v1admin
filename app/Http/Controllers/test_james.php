@@ -1598,6 +1598,13 @@ class test_james extends Controller
 
 
     public function chooseResource(){
+
+        $subject = $this->get_in_int_val('subject');
+        $grade = $this->get_in_int_val('grade');
+        $file_id = $this->t_resource->getResourceId($subject,$grade);
+
+        dd($file_id);
+
         $file_id   = $this->get_in_int_val('file_id');
         $teacherid = $this->get_in_int_val("teacherid");
         $lessonid  = $this->get_in_int_val("lessonid");

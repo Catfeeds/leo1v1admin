@@ -1054,7 +1054,14 @@ class wx_teacher_api extends Controller
         // 数据待确认
 
         if($ret_info['teacherid'] == 357372){//文彬 测试
-            $ret_info['handout_flag'] = $this->t_resource->getResourceId($ret_info['subject'],$ret_info['grade']);
+            $checkHasHandout = $this->t_lesson_info->get_tea_cw_url($lessonid);
+            $resource_id = $this->t_resource->getResourceId($ret_info['subject'],$ret_info['grade']);
+
+            if($resource_id>0 && !$checkHasHandout){
+                $ret_info['handout_flag'] = $resource_id;
+            }else{
+                $ret_info['handout_flag'] = 0;
+            }
         }else{
             $ret_info['handout_flag'] = 0; //无讲义
         }
@@ -1064,7 +1071,14 @@ class wx_teacher_api extends Controller
 
     public function getResourceList(){ // 讲义系统
         $resource_id  = $this->get_in_int_val('resource_id');
-        $resourceList = $this->t_resource_file->getResoureList($resource_id);
+        $lessonid     = $this->get_in_int_val('lessonid');
+        $file_id = $this->t_lesson_info->get_tea_cw_file_id($lessonid);
+
+        if($file_id>0){
+            $resourceList = $this->t_resource_file->getResoureInfoById($file_id);
+        }else{
+            $resourceList = $this->t_resource_file->getResoureList($resource_id);
+        }
 
         foreach($resourceList as &$item){
             $item['file_type_str'] = E\Efile_type::get_desc($item['file_type']);
@@ -1095,10 +1109,10 @@ class wx_teacher_api extends Controller
         ]);
         $this->t_resource_file->add_num("visit_num", $file_id);
 
-        $pdfToImg = $this->t_resource_file->get_file_link($file_id);
-        $store=new \App\FileStore\file_store_tea();
-        $auth=$store->get_auth();
-        $ret_info['wx_index'] = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdfToImg);
+        $ret_info['wx_index']  = $this->t_resource_file->get_filelinks($file_id);
+        // $store=new \App\FileStore\file_store_tea();
+        // $auth=$store->get_auth();
+        // $ret_info['wx_index'] = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdfToImg);
         return $this->output_succ(["data"=>$ret_info]);
     }
 
@@ -1147,22 +1161,24 @@ class wx_teacher_api extends Controller
             $sort[$i] = $item['file_type'];
         }
         array_multisort($sort,SORT_ASC,$resourceFileInfo);//此处对数组进行降序排列；SORT_DESC按降序排列
+        $filelinks = $this->t_resource_file->get_filelinks($file_id);
         $this->t_lesson_info->field_update_list($lessonid, [
             "tea_more_cw_url" => json_encode($resourceFileInfo),
             "tea_cw_origin"   => 3, // 理优资源
             "stu_cw_origin"   => 3,// 理优资源
             "tea_cw_file_id"  => $teaFileId,
             "stu_cw_file_id"  => $stuFileId,
+            "tea_cw_pic"      => $filelinks
         ]);
 
-        if($pdfToImg){
-            $this->t_pdf_to_png_info->row_insert([
-                'lessonid'    => $lessonid,
-                'pdf_url'     => $pdfToImg,
-                'create_time' => time(),
-                'origin_id'   => 1
-            ]);
-        }
+        // if($pdfToImg){
+            // $this->t_pdf_to_png_info->row_insert([
+            //     'lessonid'    => $lessonid,
+            //     'pdf_url'     => $pdfToImg,
+            //     'create_time' => time(),
+            //     'origin_id'   => 1
+            // ]);
+        // }
 
         return $this->output_succ();
     }

@@ -39,6 +39,7 @@ class t_web_page_info extends \App\Models\Zgen\z_t_web_page_info
             // ['l.from_adminid=%u', $adminid,-1],
             ["w.add_time>=%u",  $start_time, -1],
             ["w.add_time<%u",  $end_time, -1],
+            "w.del_flag=0",
         ];
 
         $sql=$this->gen_sql_new("select max(l.share_wx_flag) as share_flag, w.web_page_id,l.from_adminid ".

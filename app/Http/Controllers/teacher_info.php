@@ -2365,6 +2365,7 @@ class teacher_info extends Controller
         $tag_arr = \App\Helper\Utils::get_tag_arr($resource_type);
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            \App\Helper\Utils::get_file_use_type_str($item);
             $item['file_size'] = round( $item['file_size'] / 1024,2) . 'M';
             $item['tag_one_name'] = $tag_arr['tag_one']['name'];
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
@@ -2383,11 +2384,24 @@ class teacher_info extends Controller
                 $tag_arr['tag_four']['menu'] => 'tag_four',
             ]);
         }
-        if($is_js != 0){
-            return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,]);
+
+        $book_arr = [];
+        if($resource_type != 6){
+            //获取所有开放的教材版本
+            $book = $this->t_resource_agree_info->get_all_resource_type();
+            $book_arr = [];
+            foreach($book as $v) {
+                if( $v['tag_one'] != 0 ){
+                    array_push($book_arr, intval($v['tag_one']) );
+                }
+            }
         }
 
-        return $this->pageView( __METHOD__,$ret_info,['tag_info' => $tag_arr]);
+        if($is_js != 0){
+            return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
+        }
+
+        return $this->pageView( __METHOD__,$ret_info,['tag_info' => $tag_arr,'book' => json_encode($book_arr)]);
     }
 
     public function do_collect(){
