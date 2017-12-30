@@ -1060,7 +1060,7 @@ class wx_teacher_api extends Controller
             foreach($resource_id_arr as $item){
                 $resource_id_str.=$item['resource_id'].",";
             }
-            rtrim($resource_id_str,',');
+            $resource_id_str = rtrim($resource_id_str,',');
             $ret_info['resource_id_str'] = $resource_id_str;
 
 
