@@ -135,8 +135,9 @@ class activity_config_new extends  activity_new_base {
     protected function do_exec (&$out_args ,&$can_period_flag,   &$price,  &$present_lesson_count,  &$desc_list )
     {
 
+        \App\Helper\Utils::logger("查看当前adminid: ".json_encode(session("acc")));
 
-        if ( in_array( session("acc"), ["jim", "bacon"]) ) {
+        if ( in_array( session("acc"), ["jim", "boby","顾培根","林文彬"]) ) {
             if ( $this->open_flag ==0 ) { // 1,2
                 return false;
             }
