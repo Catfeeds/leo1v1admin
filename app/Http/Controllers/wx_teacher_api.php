@@ -1057,7 +1057,7 @@ class wx_teacher_api extends Controller
             $checkHasHandout = $this->t_lesson_info->get_tea_cw_url($lessonid);
             $file_id = $this->t_resource->getResourceId($ret_info['subject'],$ret_info['grade']);
 
-            if($file_id>0 && $checkHasHandout){
+            if($file_id>0 && !$checkHasHandout){
                 $ret_info['handout_flag'] = 1;
             }else{
                 $ret_info['handout_flag'] = 0;
