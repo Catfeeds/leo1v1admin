@@ -24,7 +24,7 @@ interface self_RowData {
 export  {self_RowData , self_Args  }
 /*
 
-tofile: 
+tofile:
 	 mkdir -p ../test; vi  ../test/get_user_list.ts
 
 
@@ -44,6 +44,10 @@ export default class extends vbase {
   get_opt_data(obj):self_RowData {return this.get_opt_data_base(obj );}
   get_args() :self_Args  {return  this.get_args_base();}
 
+  data_ex() {
+    //扩展的 data  数据
+     return {"message": "xx" }
+   }
   query_init( $header_query_info): void{
     console.log("init_query");
     var me =this;
@@ -79,10 +83,16 @@ export default class extends vbase {
 		"btn_id_config"     : {},
 	});
 
+	$.admin_query_input({
+		'join_header'  : $header_query_info,
+		"field_name"    : "query_text" ,
+		"title"        :  "query_text",
+		"select_value" : this.get_args().query_text,
+	});
 	$.admin_ajax_select_user({
 		'join_header'  : $header_query_info,
 		"user_type"    : "student",
-		"field_name"    : "userid" , 
+		"field_name"    : "userid",
 		"title"        :  "userid",
 		"select_value" : this.get_args().userid,
 	});

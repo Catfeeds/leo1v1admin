@@ -1,4 +1,3 @@
-
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import vbase from "../layout/vbase"
@@ -65,6 +64,16 @@ export default class extends vbase {
       "title"        :  "userid",
       "select_value" : this.get_args().userid,
     });
+    $.admin_query_input({
+      'join_header'  : $header_query_info,
+      "field_name"  :"query_text",
+      "title"  :  "学生" ,
+      "placeholder" : "回车查询",
+      "length_css" : "col-xs-12 col-md-3",
+      "select_value" : this.get_args().query_text,
+      "as_header_query" :true,
+    });
+
 
     //
     var jquery_body = $("<div> <button class=\"btn  do-add\">增加</button> <a href=\"javascript:;\"class=\"btn btn-warning  do-test \">xx</a> </div>");
