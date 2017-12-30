@@ -4399,7 +4399,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
             // 添加
             $item['list'] = [
-                ['name'=>'签单奖','value'=>$item['lesson_reward_trial']],
                 ['name'=>'90分钟补偿','value'=>$item['lesson_reward_compensate']],
                 ['name'=>'工资补偿','value'=>$item['lesson_reward_compensate_price']],
                 ['name'=>'小班课工资','value'=>$item['lesson_reward_small_class']],
