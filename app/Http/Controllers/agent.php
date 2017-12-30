@@ -549,17 +549,15 @@ class agent extends Controller
                       $item["End_time"]="";
                       }
                     */
-                    if(isset($item["Called_id"])){
-                        if ( is_array( $item["Called_id"]) ) {
-                            dd($item,$arr);
-                            continue;
-                        }else{
-
-                        }
-                    }
+                    // if(isset($item["Called_id"])){
+                    //     if ( is_array( $item["Called_id"]) ) {
+                    //         continue;
+                    //     }else{
+                    //     }
+                    // }
                     //UIN
                     $tquin=  $item["UIN"];
-                    $this->task->t_tq_call_info->add(
+                    $this->t_tq_call_info->add(
                         "".$item["PhoneRecId"],
                         "".$tquin,
                         "".$item["Caller_id"],
@@ -569,21 +567,21 @@ class agent extends Controller
                         "".$item["Is_called_phone"],
                         "".$item["RecordFile"],0,0, $obj_start_time);
 
-                    $phone=$item["Caller_id"];
-                    $call_time =  $item["Start_time"];
-                    $tq_called_flag=1;
-                    if ($duration >60 && $item["Is_called_phone"] ) {
-                        $tq_called_flag=2;
-                    }
-                    $admin_info = @$tquin_map[$tquin];
-                    $adminid=0;
-                    $admin_role=0;
-                    if ($admin_info) {
-                        $adminid    = $admin_info ["uid"];
-                        $admin_role = $admin_info ["account_role"];
-                    }
+                    // $phone=$item["Caller_id"];
+                    // $call_time =  $item["Start_time"];
+                    // $tq_called_flag=1;
+                    // if ($duration >60 && $item["Is_called_phone"] ) {
+                    //     $tq_called_flag=2;
+                    // }
+                    // $admin_info = @$tquin_map[$tquin];
+                    // $adminid=0;
+                    // $admin_role=0;
+                    // if ($admin_info) {
+                    //     $adminid    = $admin_info ["uid"];
+                    //     $admin_role = $admin_info ["account_role"];
+                    // }
 
-                    $this->task->t_seller_student_new->sync_tq($phone ,$tq_called_flag , $call_time,$tquin);
+                    // $this->task->t_seller_student_new->sync_tq($phone ,$tq_called_flag , $call_time,$tquin);
                 }
             }
         }
