@@ -26,6 +26,7 @@ class seller_menu{
                     ["power_id"=>12, "name"=>"例子回流公海","url"=>"/seller_student_new/get_hold_list"],
                     ["power_id"=>13, "name"=>"试听签单与否反馈",   "url"=>"/seller_student_new/test_lesson_order_fail_list_seller"],
                     ["power_id"=>14, "name"=>"查找用户所在",   "url"=>"/seller_student_new/find_user" ],
+                    ["power_id"=>89, "name"=>"销售个人未回访",   "url"=>"/seller_student_new/no_lesson_call_end_time_list"],
                 ]],
                 ["power_id"=>13, "name"=>"试听排课", "list"=>[
                     ["power_id"=>35, "name"=>"销售-试听课表",   "url"=>"/human_resource/regular_course_seller"],
