@@ -8,6 +8,7 @@
      var tag_two = '{{$tag_info['tag_two']['menu']}}';
      var tag_three = '{{$tag_info['tag_three']['menu']}}';
      var tag_four = '{{$tag_info['tag_four']['menu']}}';
+     var book = {{@$book}};
     </script>
     <section class="content li-section">
         <div>
@@ -17,7 +18,7 @@
                  </div>
                  </div>
                  </div> -->
-            <div class="row row-query-list">
+            <div class="row">
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">资源类型</span>
@@ -75,7 +76,8 @@
                 <tr>
                     <td style="width:35%">文件名</td>
                     <td style="width:15%">修改日期</td>
-                    <td style="width:8%">文件类型</td>
+                    <td style="width:8%">文件格式</td>
+                    <td style="width:10%">使用类型</td>
                     <td style="width:8%">文件大小</td>
                     <td style="width:8%">使用次数</td>
                     <td style="width:8%">收藏状态</td>
@@ -84,10 +86,11 @@
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
-                    <tr >
+                    <tr data-resource_id="{{@$var['resource_id']}}">
                         <td>{{@$var["file_title"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
+                        <td>{{@$var["file_use_type_str"]}} </td>
                         <td>{{@$var["file_size"]}}</td>
                         <td>{{@$var["use_num"]}} </td>
                         <td>

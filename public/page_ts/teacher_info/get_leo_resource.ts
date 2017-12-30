@@ -3,6 +3,10 @@
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
+
+    if( $('#id_resource_type').val() == 6 && book != []) {
+        $('#id_tag_one').val('-1');
+    }
     $.reload_self_page ( {
         order_by_str  : g_args.order_by_str,
         resource_type :	$('#id_resource_type').val(),
@@ -92,7 +96,9 @@ $(function(){
     Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6]);
     Enum_map.append_option_list("subject", $("#id_subject"));
     Enum_map.append_option_list("grade", $("#id_grade"));
-    if(tag_one != ''){
+    if(tag_one == 'region_version'){
+        Enum_map.append_option_list(tag_one, $("#id_tag_one"), false, book);
+    }else if (tag_one != ''){
         Enum_map.append_option_list(tag_one, $("#id_tag_one"));
     } else {
         $("#id_tag_one").append('<option value="-1">全部</option>');
@@ -211,6 +217,20 @@ $(function(){
         // $('.look-pdf').hide().empty();
         $('.look-pdf').hide().children().children().empty();
     });
+
+    // var color_id = 0,color_res = 0,color_flag = 0;
+    // $('.common-table tr').each(function(i){
+    //     if(i>0){
+    //         if($(this).data('resource_id') == color_res){
+    //             $(this).css('background',color_id );
+    //         } else {
+    //             color_res = $(this).data('resource_id');
+    //             (color_flag == 0) ? color_flag = 1: color_flag = 0;
+    //             (color_flag == 0) ? color_id = '#e6e6e6' : color_id = '#bfbfbf';
+    //             $(this).css('background',color_id);
+    //         }
+    //     }
+    // });
 
     $('.opt-change').set_input_change_event(load_data);
 });
