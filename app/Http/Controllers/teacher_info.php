@@ -2363,16 +2363,24 @@ class teacher_info extends Controller
         );
 
         $tag_arr = \App\Helper\Utils::get_tag_arr($resource_type);
+        $r_mark = 0;
+        $index  = 1;
         foreach($ret_info['list'] as &$item){
+            if($r_mark == $item['resource_id']){
+                $index++;
+            } else {
+                $r_mark = $item['resource_id'];
+                $index = 1;
+            }
+
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            \App\Helper\Utils::get_file_use_type_str($item);
+            \App\Helper\Utils::get_file_use_type_str($item, $index);
             $item['file_size'] = round( $item['file_size'] / 1024,2) . 'M';
             $item['tag_one_name'] = $tag_arr['tag_one']['name'];
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
             $item['tag_three_name'] = $tag_arr['tag_three']['name'];
             $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
             // dd($item);
-
             E\Egrade::set_item_field_list($item, [
                 "subject",
                 "grade",
