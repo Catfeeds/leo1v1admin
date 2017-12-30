@@ -2406,7 +2406,7 @@ class Utils  {
     static public function get_file_use_type_str(&$item){
         if( isset($item['file_use_type']) ) {
             if($item['file_use_type'] == 0 ){
-                $item['file_use_type_str'] = '文件';
+                $item['file_use_type_str'] = '授课课件';
             } else if ($item['file_use_type'] == 1 ){
                 $item['file_use_type_str'] = '老师版';
             }else if ($item['file_use_type'] == 2 ){
@@ -2529,27 +2529,25 @@ class Utils  {
     }
 
     static public function check_is_match($adminid,$activity_id){
-
         $task = new  \App\Console\Tasks\TaskController();
         $end_time    = strtotime( substr($activity_id, 0, 8) );
         $start_time  = 0;
         $h5_count    = 0;
         $no_has_prev = 0;
         $ret = ['ret' => 1];
-
-        \App\Helper\Utils::logger("查看是s微信: ".$adminid.'-'.$end_time.'-'.$activity_id);
-        \App\Helper\Utils::logger("查看是sss00000 ");
+        if($adminid != 1093){
+            return $ret;
+        }
 
         while( !$h5_count ){
             $prev_activity_id = $task->t_order_activity_config->get_prev_id($activity_id);
 
-            \App\Helper\Utils::logger(gettype($prev_activity_id));
+            // \App\Helper\Utils::logger(gettype($prev_activity_id));
             if($prev_activity_id < 2017 ){
                 \App\Helper\Utils::logger($prev_activity_id);
                 $no_has_prev++;
                 break;
             }
-
             \App\Helper\Utils::logger($prev_activity_id);
             $activity_id = $prev_activity_id;
             $start_time = strtotime( substr($prev_activity_id, 0, 8) );
