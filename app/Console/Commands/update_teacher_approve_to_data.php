@@ -51,6 +51,7 @@ class update_teacher_approve_to_data extends Command
                 $nick = $task->cache_get_teacher_nick($teacherid);
                 echo $teacherid.' '.$nick.' ';
                 foreach ($violation_info as $v) {
+                    dd($v);
                     echo $v['late_num'].' '.$v['cancel_num'].' '.$v['comment_num'].' '.$v['tea_cw_num'].' '.$v['work_num'].PHP_EOL;
                 }
                 // "late_num" => "0"
