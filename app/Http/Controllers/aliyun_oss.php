@@ -41,41 +41,54 @@ class aliyun_oss  extends Controller
         $yml_file_url  = $this->get_in_str_val("file_url_yml","");
         $dmg_file_url  = $this->get_in_str_val("file_url_dmg","");
         //update 
-        $ret_update    = $this->t_version_control->update_info();
-        $data = [
-            "publish_time" => time(),
-            "file_path"    => pathinfo($exe_file_url)['filename'],
-            "file_url"     => $exe_file_url,    
-            "is_publish"   => 1,
-            "publish_time" => time(),
-            "version_name" => $version,
-        ];
-        $ret_info = $this->t_version_control->row_insert($data);
-        $data_b2 = [
-            "publish_time" => time(),
-            "file_path"    => pathinfo($yml_file_url)['filename'],
-            "file_url"     => $yml_file_url,    
-            "is_publish"   => 1,
-            "publish_time" => time(),
-            "version_name" => $version,
-        ];
-        $ret_info = $this->t_version_control->row_insert($data_b2);
-        $data_b3 = [
-            "publish_time" => time(),
-            "file_path"    => pathinfo($dmg_file_url)['filename'],
-            "file_url"     => $dmg_file_url,    
-            "is_publish"   => 1,
-            "publish_time" => time(),
-            "version_name" => $version,
-        ];
-        $ret_info = $this->t_version_control->row_insert($data_b3);
+        
+        if($exe_file_url != ''){
+            $ret_update    = $this->t_version_control->update_info_filetype(1);
+            $data = [
+                "publish_time" => time(),
+                "file_path"    => pathinfo($exe_file_url)['filename'],
+                "file_url"     => $exe_file_url,    
+                "is_publish"   => 1,
+                "publish_time" => time(),
+                "file_type"    => 1,
+                "version_name" => $version,
+            ];
+            $ret_info = $this->t_version_control->row_insert($data);
+        }
+        
+        if($yml_file_url != ''){
+            $ret_update    = $this->t_version_control->update_info_filetype(2);
+            $data_b2 = [
+                "publish_time" => time(),
+                "file_path"    => pathinfo($yml_file_url)['filename'],
+                "file_url"     => $yml_file_url,    
+                "is_publish"   => 1,
+                "publish_time" => time(),
+                "file_type"    => 2,
+                "version_name" => $version,
+            ];
+            $ret_info = $this->t_version_control->row_insert($data_b2);
+        }
+        
+        if($dmg_file_url != ''){
+            $ret_update    = $this->t_version_control->update_info_filetype(3);
+            $data_b3 = [
+                "publish_time" => time(),
+                "file_path"    => pathinfo($dmg_file_url)['filename'],
+                "file_url"     => $dmg_file_url,    
+                "is_publish"   => 1,
+                "publish_time" => time(),
+                "file_type"    => 3,
+                "version_name" => $version,
+            ];
+            $ret_info = $this->t_version_control->row_insert($data_b3);
+        }
+        
         if($ret_info){
             return outputjson_success();
         }else{
             return outputjson_error();
-        }
-        
-        
+        }  
     }
 
 }
