@@ -46,9 +46,6 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-edit opt-edit"  title="编辑" style="display:none"> </a>
-                                @if ($var['is_publish'] ==  1)
-                                <a class="fa fa-times opt-del" title="删除" > </a>
-                                @endif
 
                             </div>
                         </td>

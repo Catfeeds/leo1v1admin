@@ -7,8 +7,10 @@ $(function(){
     Enum_map.append_option_list("contract_type", $("#id_contract_type"));
     Enum_map.append_option_list("period_flag", $("#id_period_flag"));
 
-
-
+    //关闭活动
+    $('#id_close').click(function(){
+        window.close();
+    })
 
     //编辑活动1
     $('#opt_edit_01').on('click',function(){

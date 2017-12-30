@@ -1266,7 +1266,6 @@ jQuery.extend({
                         if(file_type == 1){
                             var new_file_name = "student/"+match[0];
                         }
-                        alert(new_file_name);
                         console.log('gen file_name:'+new_file_name);
                         return new_file_name;
                     }

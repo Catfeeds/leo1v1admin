@@ -89,7 +89,7 @@ class update_company_wx_data extends Command
             if (isset($approv[$item['apply_user_id'].'-'.$item['apply_time']])) {
                 $index = $item['apply_user_id'].'-'.$item['apply_time'];
                 if ($approv[$index]['sp_status'] != $item['sp_status']) {
-                    $task->t_company_wx_approval->field_update_list($approv[$index]['id'], [
+                    $task->t_company_wx_approval->field_update_list($approv[$index]['id'], [ // 更改审核状态
                         "sp_status" => $item['sp_status']
                     ]);
                 }

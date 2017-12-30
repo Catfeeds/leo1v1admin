@@ -38,6 +38,27 @@ class update_teacher_approve_to_data extends Command
     public function handle()
     {
         $task = new \App\Console\Tasks\TaskController();
+        // 拉取 9,10,11 三月的数据
+        $arr = [9,10,11];
+        foreach($arr as $val) {
+            echo $val.'月'.PHP_EOL;
+            $start_time = strtotime("2017-".$val.'-1');
+            $end_time = strtotime("2017-".($val + 1).'-1');
+            $ret_info = $task->t_lesson_info_b3->get_tea_lesson_info_for_approved($start_time, $end_time);
+
+            foreach($ret_info as $item) {
+                $teacherid = $item['teacherid'];
+                $violation_info = $task->t_lesson_info_b3->get_violation_num($start_time, $end_time, $teacherid);
+                $nick = $task->cache_get_teacher_nick($teacherid);
+                echo $teacherid.' '.$nick;
+                foreach ($violation_info as $v) {
+                    echo ' '.$v;
+                }
+                echo PHP_EOL;
+            }
+            sleep(5);
+        }
+        exit;
         // $arr = [9,10,11];
         // foreach($arr as $val) {
         //     $start_time = strtotime('2017-'.$val.'-1');

@@ -1889,4 +1889,23 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         //return outputJson($res);
     }
 
+    public function get_version_control(){
+        $ret_info = $this->t_version_control->get_publish_url();
+        $data['window_exe_url'] = '';
+        $data['window_yml_url'] = '';
+        $data['mac_dmg_url']    = '';
+        if($ret_info){
+           foreach ($ret_info as $key => $value) {
+                if($value['file_type'] == 1){
+                    $data['window_exe_url'] = $value['file_url'];
+                }else if($value['file_type'] == 2){
+                    $data['window_yml_url'] = $value['file_url'];
+                }else if($value['file_type'] == 3){
+                    $data['mac_dmg_url'] = $value['file_url'];
+                }
+            } 
+        }
+        
+        return $this->output_succ(['data' => $data]);
+    }
 }

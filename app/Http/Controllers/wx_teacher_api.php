@@ -1064,7 +1064,14 @@ class wx_teacher_api extends Controller
 
     public function getResourceList(){ // 讲义系统
         $resource_id  = $this->get_in_int_val('resource_id');
-        $resourceList = $this->t_resource_file->getResoureList($resource_id);
+        $lessonid     = $this->get_in_int_val('lessonid');
+        $file_id = $this->t_lesson_info->get_tea_cw_file_id($lessonid);
+
+        if($file_id>0){
+            $resourceList = $this->t_resource_file->getResoureInfoById($file_id);
+        }else{
+            $resourceList = $this->t_resource_file->getResoureList($resource_id);
+        }
 
         foreach($resourceList as &$item){
             $item['file_type_str'] = E\Efile_type::get_desc($item['file_type']);
@@ -1159,7 +1166,8 @@ class wx_teacher_api extends Controller
             $this->t_pdf_to_png_info->row_insert([
                 'lessonid'    => $lessonid,
                 'pdf_url'     => $pdfToImg,
-                'create_time' => time()
+                'create_time' => time(),
+                'origin_id'   => 1
             ]);
         }
 
