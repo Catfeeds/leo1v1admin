@@ -8,7 +8,38 @@ import store from './store'
 //import '@/icons' // icon
 import '@/permission' // 权限
 
-//Vue.use(ElementUI, { locale })
+Vue.component('admin-remote-script', {
+
+  render: function (createElement) {
+    var self = this;
+    return createElement('script', {
+      attrs: {
+        type: 'text/javascript',
+        src: window["admin_api"]+ this.src
+      },
+      on: {
+        load: function (event) {
+         self.$emit('load', event);
+        },
+        error: function (event) {
+          self.$emit('error', event);
+        },
+        readystatechange: function (event) {
+          if (this.readyState == 'complete') {
+            self.$emit('load', event);
+          }
+        }
+      }
+    });
+  },
+
+  props: {
+    src: {
+      type: String,
+      required: true
+    }
+  }
+});
 
 Vue.config.productionTip = false
 

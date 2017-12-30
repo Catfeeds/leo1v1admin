@@ -43,12 +43,14 @@ export default class vbase extends Vue {
 
   }
 
+  base_init_ex () {}
   base_init () {
     var me = this;
     window["vue_load_data"] = function () {
       me.load_data();
     };
     this.table_base_init();
+    this.base_init_ex();
 
   };
   //

@@ -22,6 +22,7 @@ export default class extends vbase {
   get_opt_data(obj):self_RowData {return this.get_opt_data_base(obj );}
   get_args() :self_Args  {return  this.get_args_base();}
 
+
   query_init( $header_query_info): void{
     console.log("init_query");
     var me =this;
@@ -99,4 +100,8 @@ export default class extends vbase {
     BootstrapDialog.alert(JSON.stringify(opt_data));
 
   };
+
+  js_xx_loaded ( e  ) {
+
+  }
 }
