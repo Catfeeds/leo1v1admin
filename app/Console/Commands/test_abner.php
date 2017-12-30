@@ -95,7 +95,7 @@ class test_abner extends cmd_base
             if($item['confirm_flag'] = 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21 && ($item['lesson_type'] == 0 || $item['lesson_type'] == 1 && $item['lesson_type'] == 3))
                 $teacher_violation_arr[$item['teacherid']]['regular_lesson_truancy_count'] ++;
 
-            if($is_turn_teacher == 1 && $item['lesson_type'] == 2)
+            if($is_turn_teacher == 1 && ($item['lesson_type'] == 0 || $item['lesson_type'] == 1 && $item['lesson_type'] == 3))
                 $teacher_violation_arr[$teacher_student_arr[$item['userid']][$item['subject']]['teacherid']]['turn_teacher_count'] ++;
 
 
