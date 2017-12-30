@@ -1182,6 +1182,8 @@ class wx_teacher_api extends Controller
 
         ]);
 
+        $this->t_homework_info->updateWorkStatus($lessonid);
+
         // if($pdfToImg){
             // $this->t_pdf_to_png_info->row_insert([
             //     'lessonid'    => $lessonid,
