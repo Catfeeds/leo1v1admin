@@ -1072,7 +1072,6 @@ class wx_teacher_api extends Controller
             }else{
                 $ret_info['handout_flag'] = 0;
             }
-
         }else{
             $ret_info['handout_flag'] = 0; //无讲义
         }
@@ -1081,7 +1080,7 @@ class wx_teacher_api extends Controller
     }
 
     public function getResourceList(){ // 讲义系统
-        $resource_id_str  = $this->get_in_str_val('resource_id_str');
+        $resource_id_str  = $this->get_in_str_val('resource_id');
         $lessonid     = $this->get_in_int_val('lessonid');
         $file_id = $this->t_lesson_info->get_tea_cw_file_id($lessonid);
 
