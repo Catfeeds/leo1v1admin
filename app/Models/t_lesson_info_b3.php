@@ -2634,6 +2634,17 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
 
+    public function getResourceId($lessonid){
+        $sql = $this->gen_sql_new("  select rf.resource_id from %s l "
+                                  ." left join %s rf on rf.file_id=l.tea_cw_file_id"
+                                  ." where l.lessonid=$lessonid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_resource_file::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
+    }
+
 }
 
 

@@ -1056,12 +1056,15 @@ class wx_teacher_api extends Controller
         if($ret_info['teacherid'] == 357372){//文彬 测试
             $checkHasHandout = $this->t_lesson_info->get_tea_cw_url($lessonid);
             $resource_id = $this->t_resource->getResourceId($ret_info['subject'],$ret_info['grade']);
-
-            if($resource_id>0 && !$checkHasHandout){
+            $hasResourceId = $this->t_lesson_info_b3->getResourceId($lessonid);
+            if($hasResourceId>0){
                 $ret_info['handout_flag'] = $resource_id;
+            }elseif($resource_id>0 && !$checkHasHandout){
+                    $ret_info['handout_flag'] = $resource_id;
             }else{
                 $ret_info['handout_flag'] = 0;
             }
+
         }else{
             $ret_info['handout_flag'] = 0; //无讲义
         }
