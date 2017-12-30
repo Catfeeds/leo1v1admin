@@ -4949,7 +4949,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             'li.deduct_change_class,li.lesson_cancel_reason_type,li.subject '.
             'from %s ti '.
             'left join %s li on ti.teacherid = li.teacherid '.
-            'where %s',
+            'where %s '.
+            'order by lesson_start desc ',
             t_teacher_info::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
             $where_arr
