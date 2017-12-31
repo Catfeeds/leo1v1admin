@@ -949,12 +949,16 @@ class user_manage extends Controller
         return outputjson_success();
     }
 
+    /**
+     * 
+     */
     public function get_user_list()
     {
         $type        = $this->get_in_str_val("type","teacher");
         $gender      = $this->get_in_int_val('gender',-1);
         $id          = $this->get_in_int_val('id',-1);
         $nick_phone  = trim($this->get_in_str_val('nick_phone',""));
+
         $lru_flag    = $this->get_in_int_val("lru_flag");
         $lru_id      = $this->get_in_int_val("lru_id");
         $lru_id_name = $this->get_in_str_val("lru_id_name" );
@@ -962,7 +966,7 @@ class user_manage extends Controller
 
         \App\Helper\Utils::logger("lru_id1: $lru_key, $lru_id");
 
-        if ($lru_id  ) {
+        if ($lru_id) {
             $lru_arr=\App\Helper\Common::redis_get_json($lru_key);
             if (!$lru_arr) {
                 $lru_arr=[];
@@ -971,8 +975,8 @@ class user_manage extends Controller
             $new_lru_arr[] = ["id"=> $lru_id, "name" => $lru_id_name ];
 
             foreach($lru_arr as $lru_item )  {
-                if ($lru_item["id"]!= $lru_id) {
-                    $new_lru_arr[]=$lru_item;
+                if ($lru_item["id"] != $lru_id) {
+                    $new_lru_arr[] = $lru_item;
                 }
             }
 
@@ -987,6 +991,7 @@ class user_manage extends Controller
         $groupid   = $this->get_in_int_val('groupid', -1);
         $adminid   = $this->get_in_int_val('adminid', -1);
         $page_num  = $this->get_in_page_num();
+
         $ret_list  = \App\Helper\Utils::list_to_page_info( array());
         if ($type=="teacher"){
             $ret_list= $this->t_teacher_info->get_tea_list_for_select($id,$gender, $nick_phone, $page_num);

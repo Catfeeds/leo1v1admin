@@ -2078,7 +2078,7 @@ class ss_deal extends Controller
         }
 
         //优学优享
-        $agent_id= $this->t_agent->get_agentid_by_userid($userid);
+        $agent_id = $this->t_agent->get_agentid_by_userid($userid);
         if ($agent_id) {
             dispatch( new \App\Jobs\agent_reset($agent_id) );
         }
