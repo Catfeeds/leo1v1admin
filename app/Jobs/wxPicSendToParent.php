@@ -58,14 +58,14 @@ class wxPicSendToParent extends Job implements ShouldQueue
 
         $parent_wx_openid = $t_parent_info->getParentNum();
 
-        // 向家长发送推送
+        // // 向家长发送推送
         // $parent_wx_openid = [
         //     [
         //         "wx_openid"=>"orwGAs_IqKFcTuZcU1xwuEtV3Kek",
         //         "parentid"=>"111",
         //     ],
         //     [
-        //         "wx_openid"=>"orwGAs0ayobuEtO1YZZhW3Yed2To",
+        //         "wx_openid"=>"orwGAs6J8tzBAO3mSKez8SX-DWq4",
         //         "parentid"=>"111",
         //     ],
         //     [
@@ -74,15 +74,19 @@ class wxPicSendToParent extends Job implements ShouldQueue
         //     ],
         // ];
 
+        if(count($parent_wx_openid) > 3500){
+            return '';
+        }
+
         $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
         $data_parent = [
-            'first' => '“呼朋唤友”活动来袭',
-            'keyword1' =>'呼朋唤友',
-            'keyword2' => "\n邀请好友一起上课，万元礼品等你来拿 \n参与方式： \n方法1：咨询您的助教老师，立即参与。\n方法2：回复“呼朋唤友”咨询我们，立即参与 ",
-            'keyword3' => '12月12日至12月31日',
+            'first' => '调价通知函',
+            'keyword1' =>'2018全新课价通知',
+            'keyword2' => "2018年1月1日起，理优1对1学费全面上涨10%，咨询您的助教老师，了解详细内容。",
+            'keyword3' => '2018年1月1日',
             'remark'   => ""
         ];
-        $url_parent = "http://mp.weixin.qq.com/s/zo69t-AYbhnxUxFFdAx5mg";
+        $url_parent = "http://mp.weixin.qq.com/s/MqSFF0CfRZrePqGp_lSskw";
 
         foreach($parent_wx_openid as $item ){
             $wx->send_template_msg($item['wx_openid'], $parent_template_id, $data_parent, $url_parent);
@@ -90,7 +94,7 @@ class wxPicSendToParent extends Job implements ShouldQueue
             $t_parent_send_mgs_log->row_insert([
                 "parentid"     => $item['parentid'],
                 "create_time"  => time(),
-                "is_send_flag" => 6 // 市场活动推送模板消息
+                "is_send_flag" => 7 // 市场活动推送模板消息
             ]);
         }
     }

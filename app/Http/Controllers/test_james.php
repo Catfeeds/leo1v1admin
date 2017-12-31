@@ -854,6 +854,11 @@ class test_james extends Controller
     //             }
     // }
 
+    public function get(){
+        $parent_wx_openid = $this->t_parent_info->getParentNum();
+        dd($parent_wx_openid);
+    }
+
     public function wx_news(){ // 使用客服接口发送消息
 
         // $filename = "/home/ybai/tu.jpg";
@@ -1598,6 +1603,16 @@ class test_james extends Controller
 
 
     public function chooseResource(){
+
+        $subject = $this->get_in_int_val('subject');
+        $grade = $this->get_in_int_val('grade');
+        $file_id = $this->t_resource->getResourceId($subject,$grade);
+        $resource_id = $this->t_resource->getResourceId($subject,$grade);
+
+        dd($resource_id);
+
+        dd($file_id);
+
         $file_id   = $this->get_in_int_val('file_id');
         $teacherid = $this->get_in_int_val("teacherid");
         $lessonid  = $this->get_in_int_val("lessonid");
@@ -1615,6 +1630,18 @@ class test_james extends Controller
         $auth=$store->get_auth();
         $ret_info['wx_index'] = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdfToImg);
         return $this->output_succ(["data"=>$ret_info]);
+    }
+
+    public function do_james(){
+        $list = $this->t_resource_file->getList();
+
+        foreach($list as $item){
+            $file_poster = explode(',', $item['filelinks']);
+            $this->t_resource_file->field_update_list($item['file_id'], [
+                "change_status"=>1,
+                "file_poster" => $file_poster[0]
+            ]);
+        }
     }
 
 

@@ -652,6 +652,7 @@ class tongji extends Controller
 
 
     public function revisit_info_tongji_ass(){
+        $this->check_and_switch_tongji_domain();
         list($start_time,$end_time)=$this->get_in_date_range(date('Y-m-01',time()),0);
 
         $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");

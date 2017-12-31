@@ -542,6 +542,50 @@ $(function(){
 
     });
 
+    $(".opt-del").on("click", function(){
+        var orderid = $(this).parent().data('orderid');
+        console.log(orderid);
+        var userid  = $(this).parent().data('userid');
+
+        var name  = $(this).closest("tr").find(".stu_nick").text();
+        var price = $(this).closest("tr").find(".price").text();
+
+        var dlg=BootstrapDialog.show({
+            title: '删除合同',
+            message : "删除["+name+"]的合同 ?! 金额："+price+"元",
+            closable: true,
+            buttons: [{
+                label: '返回',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            },{
+                label: '提交',
+                cssClass: 'btn-warning',
+                action: function(dialog) {
+                    $.ajax({
+                        type     :"post",
+                        url      :"/user_manage/del_contract",
+                        dataType :"json",
+                        data     :{
+                            'orderid': orderid,
+                            'userid':userid
+                        }, success  : function(result){
+                            if(result.ret == -1){
+                                BootstrapDialog.alert(result.info);
+                            }else{
+                                window.location.reload();
+                            }
+                        }
+                    });
+                }
+            }]
+        });
+        dlg.getModalDialog().css("width","250px");
+        dlg.getModalDialog().css("min-width","250px");
+    });
+
+
     // if(g_adminid==889 || g_adminid==716 || g_adminid==301 || g_adminid==780){
     //     download_show();
     // }

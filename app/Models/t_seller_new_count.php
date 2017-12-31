@@ -93,7 +93,6 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
     }
 
     public function get_free_new_count_id($adminid) {
-
         $time=time(NULL);
         $where_arr=[
             "end_time>$time",
