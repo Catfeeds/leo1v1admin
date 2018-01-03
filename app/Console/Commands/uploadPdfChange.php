@@ -49,27 +49,44 @@ class uploadPdfChange extends Command
         $pwd   = 'bbcffc83539bd9069b755e1d359bc70a'; //md5(021130)
         $task=new \App\Console\Tasks\TaskController();
 
-
-        $handoutArray = $task->t_resource_file->getResourceFileList();
+        $handoutArray = $task->t_lesson_info_b3->getPPtlinkList();
 
         foreach($handoutArray as $item){
             //七牛下载
-            $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$item['file_link'] );
+            // $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$item['file_link'] );
+            $pdf_file_path = $this->gen_download_url($item['file_link']);
+
             $savePathFile = public_path('wximg').'/'.$item['file_link'];
             \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
             @chmod($savePathFile, 0777);
 
             //上传未达
-            $cmd  = "curl -F doc=@'$savePathFile' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=leoedu&fn=".$item['file_title'].".pdf'";
+            $cmd  = "curl -F doc=@'$savePathFile' 'http://leo1v1.whytouch.com/mass_up.php?token=bbcffc83539bd9069b755e1d359bc70a&mode=-1&aut=leoedu&fn=".$item['file_title'].".pptx'";
             $uuid_tmp = shell_exec($cmd);
             $uuid_arr = explode(':', $uuid_tmp);
             \App\Helper\Utils::logger("jjames_sjj: $uuid_tmp");
             $uuid = @$uuid_arr[1];
             @unlink($savePathFile);
-            $task->t_resource_file->field_update_list($item['file_id'],[
+            $task->t_lesson_info->field_update_list($lessonid,[
                 "uuid" => $uuid,
             ]);
         }
 
     }
+
+
+    private function gen_download_url($file_url)
+    {
+        // 构建鉴权对象
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+
+        $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
+
+        $base_url=$auth->privateDownloadUrl($file_url );
+        return $base_url;
+    }
+
 }

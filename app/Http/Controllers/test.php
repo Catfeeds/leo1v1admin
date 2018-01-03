@@ -31,39 +31,38 @@ class test extends Controller
             =$this->get_in_order_by_str([],"userid desc");
 
         #输入参数
-        $grade=$this->get_in_el_grade();
         list($start_time, $end_time)=$this->get_in_date_range_day(0);
-        $ret_info=$this->t_student_info->get_test_list($page_info, $order_by_str,  $grade );
-        $gender=$this->get_in_el_gender();
-
-        $this->get_in_query_text();
         $userid=$this->get_in_userid(-1);
+        $grade=$this->get_in_el_grade();
+        $gender=$this->get_in_el_gender();
+        $query_text=$this->get_in_query_text();
 
-        #得到当前action :get_user_list 或  get_user_list1 
-        $action=$this->get_action_str();
-        \App\Helper\Utils::logger("action:$action");
+        $ret_info=$this->t_student_info->get_test_list($page_info, $order_by_str,  $grade );
 
         foreach($ret_info["list"] as &$item) {
             E\Egrade::set_item_value_str($item);
         }
 
-        #哪些数据不需要
-        $html_hide_list=[];
-        if ($action=="get_user_list1"){
-            $html_hide_list[]="grade";
-            $html_hide_list[]="opt_grade";
-        }
-
         return $this->pageOutJson(__METHOD__, $ret_info,[
-            "html_hide_list" =>  $html_hide_list,
-            #其他数据
             "message" =>  "cur usrid:".$userid,
         ]);
     }
     public function get_user_list1(){
         $this->set_in_value("grade", 101);
+        //
+        $this->html_hide_list_add([ "grade","opt_grade", "input_grade" ]);
         return $this->get_user_list();
     }
+
+    public function set_student_nick() {
+        $userid=$this->get_in_userid();
+        $nick=$this->get_in_str_val("nick");
+        $this->t_student_info->field_update_list($userid,[
+            "nick"  => $nick
+        ]);
+        return $this->output_succ();
+    }
+
 
     public function t() {
         //app_path("/Libs/xx/init.php");
