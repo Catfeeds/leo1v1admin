@@ -158,7 +158,7 @@ class limit_require_deal extends Command
                 $parentid= $task->t_student_info->get_parentid($userid);
                 $task->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
             }            
-            $require_month=["05"=>"2000","06"=>"35000","07"=>"6500","08"=>"7000","09"=>"7500","10"=>"12000","11"=>"18500","12"=>"19000"];
+            $require_month=["01"=>"18500","02"=>"18500","03"=>"18500","04"=>"18500","05"=>"2000","06"=>"35000","07"=>"6500","08"=>"7000","09"=>"7500","10"=>"12000","11"=>"18500","12"=>"19000"];
 
             $m = date("m",time());
             $start_time = strtotime(date("Y-m-01",time()));
