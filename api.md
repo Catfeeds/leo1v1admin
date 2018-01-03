@@ -87,10 +87,22 @@ $name=$this->get_in_strval("name");
             $table->unique(["role_groupid", "url","opt_key"],"role_url_opt_key");
         });
 
-```
+``
+
+### 自动生成 表 的对应代码
+
+
+### 操作 mysql 核心函数 
+
 
 
 ## vue整合
+
+**单页应用 无刷新**
+
+**支持typescript**
+
+
 
 ### 运行vue 开发环境
 ```bash
@@ -99,8 +111,8 @@ cd vue
 npm run dev 
 ```
 
-### Controller 改造 
 
+### Controller 改造 
 
 ```php
     public function get_user_list(){
@@ -175,8 +187,6 @@ export default class extends vtable {
       date_type_config : JSON.parse(this.get_args().date_type_config),
       as_header_query :true,
     });
-
-    var action=  this.get_action_str();
 
     $.admin_enum_select({
       'join_header'       : $header_query_info,
