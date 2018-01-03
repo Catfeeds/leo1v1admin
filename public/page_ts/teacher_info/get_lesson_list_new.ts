@@ -129,7 +129,10 @@ $(function(){
             });
     }
 
-    var gen_upload_item = function(btn_id ,status, file_name_fix, get_url_fun, set_url_fun, bucket_info, noti_origin_file_func, back_flag,clear_file_id,look_pdf){
+    var gen_upload_item = function(btn_id ,status, file_name_fix, get_url_fun, set_url_fun, bucket_info, noti_origin_file_func, back_flag,clear_file_id,look_pdf, allow_arr){
+        if(!allow_arr) {
+            allow_arr = ['pdf'];
+        }
         var id_item = $(
             "<div class=\"row\"> "+
                 "<div class=\" col-md-2\">" +
@@ -158,7 +161,7 @@ $(function(){
         id_item["onshown_init"]=function () {
             if ( back_flag ) {
 
-                $.self_upload_process(btn_id,"/common/upload_qiniu",[] ,["pdf","zip"],{
+                $.self_upload_process(btn_id,"/common/upload_qiniu",[] ,allow_arr,{
                     "file_name_fix":file_name_fix
                 }, function( ret,ctminfo){
                     set_url_fun(ret.file_name);
@@ -180,11 +183,11 @@ $(function(){
                             clear_file_id(btn_id);
                             next_td_show(btn_id,file.name);
 
-                        }, [], ["pdf","zip"], bucket_info, noti_origin_file_func);
+                        }, [], allow_arr, bucket_info, noti_origin_file_func);
                 }catch(e){
                     $.self_upload_process(btn_id,
                                           "/common/upload_qiniu",[] ,
-                                          ["pdf","zip"],
+                                          allow_arr,
                                           {
                                               "file_name_fix":file_name_fix
                                           }, function( ret,ctminfo){
@@ -263,6 +266,13 @@ $(function(){
                         tea_cw_url_list[i]=["",""];
                     }
                     id_teacher_desc.find("input").val(tea_cw_url_list[i][1]);
+
+                    var type_arr = '';
+                    if(!(lesson_type>=1000 && lesson_type <2000) || lesson_type==1100){
+                        if(i>0) {
+                            var type_arr = ['pdf','mp3','mp4'];
+                        }
+                    }
                     var item = gen_upload_item(
                         btn_teacher_upload_id+"_"+i,
                         !! tea_cw_url_list[i][0],
@@ -273,7 +283,7 @@ $(function(){
                             tea_cw_url_list[i][0] = url;
                         },ret,function(origin_file_name){
                             id_teacher_desc.find("input").val(origin_file_name);
-                        },back_flag,clear_file_id,look_pdf
+                        },back_flag,clear_file_id,look_pdf,type_arr
                     );
 
                     if(tea_cw_url_list[i][3] != undefined){
