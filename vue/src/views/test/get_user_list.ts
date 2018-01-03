@@ -7,9 +7,6 @@ import {self_RowData, self_Args } from "../page.d.ts/test-get_user_list"
 @Component({
   // 所有的组件选项都可以放在这里
   template:  require("./get_user_list.html" ),
-  data: {
-    message: "" ,
-  }
 })
 
 export default class extends vtable {
@@ -17,7 +14,6 @@ export default class extends vtable {
   data_ex() {
     return {
       "message"          : "xx",
-
     }
   }
 
@@ -41,26 +37,25 @@ export default class extends vtable {
     });
 
     var action=  this.get_action_str();
-    if (action!="get_user_list1") {
-      $.admin_enum_select({
-        'join_header'  : $header_query_info,
-        "enum_type"    : "grade",
-        "field_name" : "grade",
-        "title"        :  "年级",
-        "select_value" : this.get_args().grade,
-        "multi_select_flag"     : true,
-        "btn_id_config"     : {},
-      });
-    }
+
+    $.admin_enum_select({
+      'join_header'       : $header_query_info,
+      "enum_type"         : "grade",
+      "field_name"        : "grade",
+      "title"             : "年级",
+      "select_value"      : this.get_args().grade,
+      "multi_select_flag" : true,
+      "btn_id_config"     : {},
+    });
 
 
     $.admin_enum_select({
-      'join_header'  : $header_query_info,
-      "enum_type"    : "gender",
-      "field_name" : "gender",
-      "title"        :  "性别",
-      "select_value" : this.get_args().gender,
-      "multi_select_flag"     : true,
+      'join_header'       : $header_query_info,
+      "enum_type"         : "gender",
+      "field_name"        : "gender",
+      "title"             : "性别",
+      "select_value"      : this.get_args().gender,
+      "multi_select_flag" : true,
       "btn_id_config"     : {},
     });
 

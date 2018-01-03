@@ -52,6 +52,7 @@ class test extends Controller
         if ($action=="get_user_list1"){
             $html_hide_list[]="grade";
             $html_hide_list[]="opt_grade";
+            $html_hide_list[]="input_grade"; //不显示 grade输入
         }
 
         return $this->pageOutJson(__METHOD__, $ret_info,[

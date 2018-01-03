@@ -4904,7 +4904,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     //@param:$end_time 结束时间
     public function get_teacher_violation($begin_time,$end_time){
         $where_arr =[
-            'ti.teacher_type = 1',
+            'ti.teacher_type <> 3',
         ];
         $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $begin_time, $end_time);
         $sql = $this->gen_sql_new(
