@@ -14,19 +14,25 @@ use  App\Jobs\send_wx_notic_for_software;
 use  App\Jobs\send_wx_notic_to_tea;
 use  App\Jobs\wxPicSendToParent;
 
-use LaneWeChat\Core\Media;
+// use LaneWeChat\Core\Media;
 
-use LaneWeChat\Core\AccessToken;
+// use LaneWeChat\Core\AccessToken;
 
 use LaneWeChat\Core\ResponsePassive;
 
 use Illuminate\Http\Request;
 
-use LaneWeChat\Core\WeChatOAuth;
+// use LaneWeChat\Core\WeChatOAuth;
+use Teacher\Core\WeChatOAuth;
 
 use Teacher\Core\UserManage;
 
 use Teacher\Core\TemplateMessage;
+
+use Teacher\Core\Media;
+
+use Teacher\Core\AccessToken;
+
 
 
 
@@ -40,7 +46,8 @@ use Qiniu\Storage\BucketManager;
 
 
 
-include(app_path("Libs/LaneWeChat/lanewechat.php"));
+// include(app_path("Libs/LaneWeChat/lanewechat.php"));
+include(app_path("Wx/Teacher/lanewechat_teacher.php"));
 
 
 
