@@ -45,19 +45,18 @@ class test_abner extends cmd_base
         //记录学生课程情况数组
         $teacher_student_arr = [];
         $is_turn_teacher = 0;
+        $path = '/var/www/admin.yb1v1.com/9.txt';
+        $fp = fopen($path,"a+");
         foreach($teacher_violation as $item){
             if(@$teacher_student_arr[$item['userid']][$item['subject']]['teacherid']
                && @$teacher_student_arr[$item['userid']][$item['subject']]['teacherid'] != $item['teacherid']
                // && in_array($item['teacherid'],$teacher_student_arr[$item['userid']][$item['subject']])
             ){
-                echo 'begin';
-                echo "\n";
-                echo  $teacher_student_arr[$item['userid']][$item['subject']]['teacherid'];
-                echo "\n";
-                echo  $item['teacherid'];
-                echo "\n";
-                echo 'end';
-                echo "\n";
+                fwrite($fp, @$teacher_student_arr[$item['userid']][$item['subject']]['teacherid']);//1
+                fwrite($fp, '   ');
+                fwrite($fp, @$item['teacherid']);//2
+                fwrite($fp, "\n");
+
                 //该学生该课程的老师存在变更
                 $is_turn_teacher = 1;
             }
@@ -116,6 +115,8 @@ class test_abner extends cmd_base
 
 
         }
+
+        fclose($fp);
 
         //打印老师数据
         $path = '/var/www/admin.yb1v1.com/10.txt';
