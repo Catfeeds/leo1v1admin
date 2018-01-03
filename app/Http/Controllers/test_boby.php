@@ -1533,7 +1533,7 @@ class test_boby extends Controller {
         $info = [$gra, $sub, $cou];
         foreach($info as $item){
             foreach($item as $k=>$v){
-                $r = round( ($v/$count), 2)."%";
+                $r = round( (100*$v/$count), 2)."%";
                 $s = $this->tr_add($s, $k, $r );
             }
         }
