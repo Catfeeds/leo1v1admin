@@ -10,28 +10,6 @@ trait  ViewDeal {
     public  $view_ctrl;
     public  $view_action;
 
-    //保存要隐藏元素 列表
-    public $html_hide_list=[];
-
-    public function html_hide_list_add( $key ) {
-        if (is_array($key)) {
-            foreach ($key as $item) {
-                $this->html_hide_list[$item]= true;
-            }
-        }else{
-            $this->html_hide_list[$key]= true;
-        }
-    }
-
-    public function html_hide_list_del( $key ) {
-        if (is_array($key)) {
-            foreach ($key as $item) {
-                unset ( $this->html_hide_list[$item] ) ;
-            }
-        }else{
-            unset ( $this->html_hide_list[$key] ) ;
-        }
-    }
 
     function  getPageData( $page_data,$ex_js_args=null,$showPages=10 ){
         if (is_array($ex_js_args)){
