@@ -329,15 +329,47 @@ class fulltime_teacher_kaoqin extends Command
                 }
                 //wx
                 foreach ($arr as $key => $value) {
-                    $task->t_manager_info->send_wx_todo_msg_by_adminid (
-                        $key,
-                        $festival_info["name"]."延休统计",
-                        "延休数据汇总",
-                        "\n老师:".$value['realname'].
-                        "\n时间:".$festival_day_str.
-                        "\n累计上课课时:".$value['lesson_count'].
-                        "\n延休天数:".$value['day_num'].
-                        "\n延休日期:".$value['cross_time'],'');
+                    /**
+                     * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                     * 标题课程 : 待办事项提醒
+                     * {{first.DATA}}
+                     * 待办主题：{{keyword1.DATA}}
+                     * 待办内容：{{keyword2.DATA}}
+                     * 日期：{{keyword3.DATA}}
+                     * {{remark.DATA}}
+                     */
+                  
+                    $data=[];
+                    $url = "";
+                    $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                    $data['first']    =  $festival_info["name"]."延休统计";
+                    $data['keyword1'] = "延休数据汇总";
+                    $data['keyword2'] ="\n老师:".$value['realname'].
+                                      "\n时间:".$festival_day_str.
+                                      "\n累计上课课时:".$value['lesson_count'].
+                                      "\n延休天数:".$value['day_num'].
+                                      "\n延休日期:".$value['cross_time'];
+;
+
+                    $data['keyword3'] = date("Y-m-d H:i",time());
+                    $data['remark']   = ""; 
+                    // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+                    $wx_openid = $task->t_teacher_info->get_wx_openid($value["teacherid"]);
+        
+                    \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+
+
+
+
+                    // $task->t_manager_info->send_wx_todo_msg_by_adminid (
+                    //     $key,
+                    //     $festival_info["name"]."延休统计",
+                    //     "延休数据汇总",
+                    //     "\n老师:".$value['realname'].
+                    //     "\n时间:".$festival_day_str.
+                    //     "\n累计上课课时:".$value['lesson_count'].
+                    //     "\n延休天数:".$value['day_num'].
+                    //     "\n延休日期:".$value['cross_time'],'');
                 }
                 $namelist = $namelist_shanghai = $namelist_wuhan = '';
                 $num = $num_shanghai = $num_wuhan= 0;
