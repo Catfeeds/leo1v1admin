@@ -7,7 +7,7 @@ class t_online_count_log extends \App\Models\Zgen\z_t_online_count_log
 	{
 		parent::__construct();
 	}
-    public function test() {
+    public function test_xx() {
 
         $this->gen_sql_new("update %s  set online_count=%u  where id=%u ",
                            self::DB_TABLE_NAME, $online_count, $id);
