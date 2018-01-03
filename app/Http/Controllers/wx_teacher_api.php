@@ -1176,18 +1176,18 @@ class wx_teacher_api extends Controller
             "stu_cw_origin"   => 3,// 理优资源
             "tea_cw_file_id"  => $teaFileId,
             "stu_cw_file_id"  => $stuFileId,
-            "tea_cw_pic"      => $filelinks
+            "tea_cw_pic"      => $filelinks,
+            "tea_cw_status"   => 1,
+            "stu_cw_status"   => 1
         ]);
 
-        // if($pdfToImg){
-            // $this->t_pdf_to_png_info->row_insert([
-            //     'lessonid'    => $lessonid,
-            //     'pdf_url'     => $pdfToImg,
-            //     'create_time' => time(),
-            //     'origin_id'   => 1
-            // ]);
-        // }
+        $courseid = $this->t_lesson_info->get_courseid($lessonid);
 
+        $this->t_homework_info->field_update_list($courseid, [
+            "work_status"   => 1,
+            "issue_origin"  => 3,
+            "issue_file_id" => $stuFileId
+        ]);
         return $this->output_succ();
     }
 
@@ -1508,6 +1508,9 @@ class wx_teacher_api extends Controller
 
         \App\Helper\Utils::logger("shareClickLog2222: $currentId ");
 
+        if ($currentId == 'oJ_4fxCmcY4CKtE7YY9xrBt2DiB0' || $currentId == 'oJ_4fxAjIZGjUxy4Gk4mW8wR3vmM' || $currentId == 'oJ_4fxIcdLLlk9BisycIAuUFXhP4') {
+            return $this->output_succ();
+        }
 
         if($currentId){ // 若自己已经是老师 分享+1
             $this->t_teacher_christmas->row_insert([

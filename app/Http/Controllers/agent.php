@@ -497,13 +497,12 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id=159220);
-        $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id=159221);
-        $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id=159223);
-        $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id=159225);
-        $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id=159226);
-        $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id=159227);
-        dd('a');
+        $new_count_id=$this->t_seller_new_count->get_free_new_count_id($adminid=440);
+        if (!$new_count_id) {
+            dd('a');
+            return false;
+        }
+        dd('b');
     }
 
     //处理等级头像

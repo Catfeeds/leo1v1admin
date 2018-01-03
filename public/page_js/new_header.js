@@ -2417,7 +2417,6 @@ function reload_self_page(args){
         }
     });
 
-
     window.location.href=window.location.pathname +"?" +  args_str;
 }
 
@@ -2425,10 +2424,10 @@ function reload_self_page(args){
 
 function admin_select_user( $element, type, call_func, is_not_query_flag ) {
     var select_no_select_value = -1;
-    var select_no_select_title = "[全部]"  ;
-    if (is_not_query_flag)  {
+    var select_no_select_title = "[全部]";
+    if (is_not_query_flag) {
         select_no_select_value = 0;
-        select_no_select_title = "[未设置]"  ;
+        select_no_select_title = "[未设置]";
     }
 
     $element.admin_select_dlg_ajax({
@@ -2444,59 +2443,52 @@ function admin_select_user( $element, type, call_func, is_not_query_flag ) {
         select_display       : "nick",
 
         //字段列表
-        'field_list' :[
-            {
-                title:"id",
-                width :50,
-                field_name:"id"
-            },{
-                title:"性别",
-                render:function(val,item) {
-                    return item.gender;
-                }
-
-            },{
-                title:"昵称",
-                render:function(val,item) {
-                    return item.nick;
-                }
-            },{
-                title      : "电话",
-                field_name : "phone"
+        'field_list' :[{
+            title:"id",
+            width :50,
+            field_name:"id"
+        },{
+            title:"性别",
+            render:function(val,item) {
+                return item.gender;
             }
-        ] ,
+        },{
+            title  : "昵称",
+            render : function(val,item) {
+                return item.nick;
+            }
+        },{
+            title      : "电话",
+            field_name : "phone"
+        }],
         //查询列表
         filter_list:[
-            [
-                {
-                    size_class : "col-md-4" ,
-                    title      : "性别",
-                    type       : "select" ,
-                    'arg_name' : "gender"  ,
-                    select_option_list: [ {
-                        value : -1 ,
-                        text  : "全部"
-                    },{
-                        value : 1 ,
-                        text  : "男"
-                    },{
-                        value : 2 ,
-                        text  : "女"
-                    }]
+            [{
+                size_class : "col-md-4" ,
+                title      : "性别",
+                type       : "select" ,
+                'arg_name' : "gender"  ,
+                select_option_list : [{
+                    value : -1 ,
+                    text  : "全部"
                 },{
+                    value : 1 ,
+                    text  : "男"
+                },{
+                    value : 2 ,
+                    text  : "女"
+                }]},{
                     size_class : "col-md-8" ,
                     title      : "姓名/电话",
                     'arg_name' : "nick_phone"  ,
                     type       : "input"
-                }
-
-            ]
+                }]
         ],
-        "auto_close"       : true,
+        "auto_close" : true,
         //选择
-        "onChange"         : call_func,
+        "onChange"   : call_func,
         //加载数据后，其它的设置
-        "onLoadData"       : null
+        "onLoadData" : null
     });
 }
 
