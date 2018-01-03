@@ -2,7 +2,7 @@ api 文档
 ## Table of Contents
 
 * [Install](#install)
-* [vue整合](#vue整合)
+* [vue整合](#vue)
 
 ##  Install 
 
@@ -16,7 +16,6 @@ npm run dev
 ```
 
 ### Controller 改造 
-
 
 
 ```php
@@ -57,8 +56,11 @@ npm run dev
             "message" =>  "cur usrid:".$userid,
         ]);
     }
+
+    //公用ctrl
     public function get_user_list1(){
         $this->set_in_value("grade", 101);
         return $this->get_user_list();
     }
+
 ```
