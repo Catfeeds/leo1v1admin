@@ -86,14 +86,34 @@ $name=$this->get_in_strval("name");
             //唯一索引
             $table->unique(["role_groupid", "url","opt_key"],"role_url_opt_key");
         });
+```
 
-``
 
 ### 自动生成 表 的对应代码
 
 
 ### 操作 mysql 核心函数 
+#### 核心函数
 
+
+#### 通常 分页
+```php
+    public function get_test_list( $page_info, $order_by_str,  $grade ) {
+        $where_arr=[] ;
+        // int , 枚举, 枚举列表 ,都用这个
+        $this->where_arr_add_int_or_idlist($where_arr,"grade", $grade );
+
+        $sql = $this->gen_sql_new("select  userid, nick,realname,  phone, grade "
+                              ." from %s ".
+                                  "  where  %s  $order_by_str ",
+                              self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list_by_page($sql, $page_info);
+    }
+
+```
 
 
 ## vue整合
