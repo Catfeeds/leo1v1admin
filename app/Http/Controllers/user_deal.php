@@ -4153,6 +4153,12 @@ class user_deal extends Controller
                 $arr['last_seller_level'] = '高级';
                 break;
             }
+            $arr['suc_first_week'] = '';
+            $arr['suc_second_week'] = '';
+            $arr['suc_third_week'] = '';
+            $arr['suc_fourth_week'] = '';
+            $arr['lesson_per'] = '';
+            $arr['kpi'] = '';
         }
         $arr['group_kpi'] = isset($group_kpi['group_kpi'])?$group_kpi['group_kpi']:'';
         $arr['group_kpi_desc'] = isset($group_kpi['group_kpi_desc'])?$group_kpi['group_kpi_desc']:'';
