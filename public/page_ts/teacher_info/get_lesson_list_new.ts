@@ -564,9 +564,10 @@ $(function(){
                 $('.modal-dialog').mouseenter(function(){
                     $('.opt-my-res').parent().hide();
                 });
-                $('.opt-my-res,.opt-leo-res').attr('disabled', 'true');
+                $('.opt-my-res,.opt-leo-res').attr('disabled', true);
                 $('.opt-my-res,.opt-leo-res').css({'background': '#aaa', 'opacity':1});
             } else {
+                $('.opt-my-res,.opt-leo-res').attr('disabled', false);
                 $('.opt-my-res,.opt-leo-res').css('background','#fff');
                 $('.opt-my-res,.opt-leo-res').attr('upload_id', obj.attr('id'));
             }
