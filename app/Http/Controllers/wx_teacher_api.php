@@ -12,6 +12,19 @@ use Qiniu\Auth;
 // 引入上传类
 use Qiniu\Storage\UploadManager;
 use Qiniu\Storage\BucketManager;
+use Teacher\Core\WeChatOAuth;
+
+use Teacher\Core\UserManage;
+
+use Teacher\Core\TemplateMessage;
+
+use Teacher\Core\Media;
+
+use Teacher\Core\AccessToken;
+
+
+include(app_path("Wx/Teacher/lanewechat_teacher.php"));
+
 
 require_once  app_path("/Libs/Qiniu/functions.php");
 require_once(app_path("/Libs/OSS/autoload.php"));

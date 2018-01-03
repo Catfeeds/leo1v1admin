@@ -94,7 +94,7 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
         $where_arr = [
             ["add_time>=%u", $start_time, 0]
         ];
-        $sql = $this->gen_sql_new("select t.realname,t.nick,sum(if(tc.type=0,1,0)) click_num, sum(if(tc.type=1,1,0)) share_num, sum(if(tc.type=2,1,0)) register_num, sum(tc.score) score"
+        $sql = $this->gen_sql_new("select t.realname, t.wx_openid, t.phone, t.nick,sum(if(tc.type=0,1,0)) click_num, sum(if(tc.type=1,1,0)) share_num, sum(if(tc.type=2,1,0)) register_num, sum(tc.score) score"
                                   ." from %s tc "
                                   ." left join %s t "
                                   ." on tc.shareId=t.wx_openId "
