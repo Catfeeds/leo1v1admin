@@ -19,6 +19,7 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
+                    <td>老师id</td>
                     <td>老师姓名</td>
                     <td>单击次数 </td>
                     <td>分享次数 </td>
@@ -29,6 +30,7 @@
             <tbody>
                 @foreach ( $info as $var )
                     <tr>
+                        <td>{{$var["teacherid"]}}</td>
                         @if($var['nick'])
                             <td>{{$var["nick"]}}</td>
                         @else
