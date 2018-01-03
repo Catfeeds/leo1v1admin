@@ -1495,9 +1495,9 @@ class test_boby extends Controller {
     }
 
     public function get_order_info(){
-        $start = strtotime('2017-11-1');
+        $start = strtotime('2015-11-1');
         $end = strtotime('2017-12-1');
-        $sql = "select o.orderid,o.grade,o.subject,o.lesson_count"
+        $sql = "select o.orderid,o.grade,o.subject,o.lesson_total"
               ." from t_order_info o "
               ." left join t_student_info s on s.userid=o.userid"
              ." where s.is_test_user=0 and o.contract_type=0 and o.order_time>=$start and o.order_time<$end and o.contract_status>0 and o.price>0";
@@ -1510,9 +1510,10 @@ class test_boby extends Controller {
         foreach($ret as $v){
             E\Esubject::set_item_value_str($v);
             E\Egrade::set_item_value_str($v);
-            @$gra[$v['subject_str']]++;
+            @$sub[$v['subject_str']]++;
             @$gra[$v['grade_str']]++;
-            if ($v['lesson_count'] < 90){
+            $n = $v['lesson_total']/100;
+            if ($n < 90){
                 @$cou['0_90']++;
             } else if ($n < 180){
                 @$cou['90_180']++;
@@ -1531,6 +1532,7 @@ class test_boby extends Controller {
         $th_arr = ['类型', '占比'];
         $s      = $this->table_start($th_arr);
         $info = [$gra, $sub, $cou];
+        // dd($info);
         foreach($info as $item){
             foreach($item as $k=>$v){
                 $r = round( (100*$v/$count), 2)."%";
