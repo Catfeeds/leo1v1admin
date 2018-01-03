@@ -49,9 +49,10 @@ class test_abner extends cmd_base
             if(@$teacher_student_arr[$item['userid']][$item['subject']]['teacherid']
                && @$teacher_student_arr[$item['userid']][$item['subject']]['teacherid'] != $item['teacherid']
                // && in_array($item['teacherid'],$teacher_student_arr[$item['userid']][$item['subject']])
-            )
+            ){
                 //该学生该课程的老师存在变更
                 $is_turn_teacher = 1;
+            }
 
             $teacher_student_arr[$item['userid']][$item['subject']] = [
                 'teacherid' => $item['teacherid'],
