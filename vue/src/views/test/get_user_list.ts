@@ -78,15 +78,15 @@ export default class extends vtable {
     });
 
 
-    //
-    var jquery_body = $("<div> <button class=\"btn  do-add\">增加</button> <a href=\"javascript:;\"class=\"btn btn-warning  do-test \">xx</a> </div>");
+    //JQuery 写法
+    var jquery_body = $("<div> <button class=\"btn btn-primary do-add\">增加</button> <a href=\"javascript:;\"class=\"btn btn-warning  do-test \">xx</a> </div>");
 
     jquery_body.find(".do-add").on( "click" ,function(e) {
-      alert("showxx ");
+      BootstrapDialog.alert("asdfa");
     });
 
     jquery_body.find(".do-test").on( "click" ,function(e) {
-      alert("222");
+      BootstrapDialog.alert(" test 2");
     });
 
 
@@ -100,9 +100,27 @@ export default class extends vtable {
   doOpt(e  : MouseEvent ) {
     var opt_data = this.get_opt_data(e.target);
     BootstrapDialog.alert(JSON.stringify(opt_data));
-
   };
 
+  do_edit(e:MouseEvent) {
+    var opt_data = this.get_opt_data(e.target);
+    var $nick= $("<input/>");
+    $nick.val( opt_data.nick );
+    var arr=[
+      ["userid",opt_data.userid],
+      ["昵称",$nick],
+    ];
+    $.show_key_value_table("编辑",arr,{
+      label: '确认',
+      cssClass: 'btn-warning',
+      action: function(dialog) {
+        $.do_ajax("/test/set_student_nick",{
+          "userid" :opt_data.userid,
+          "nick" :$nick.val(),
+        });
+      }
+    });
+  }
   js_xx_loaded ( e  ) {
 
   }

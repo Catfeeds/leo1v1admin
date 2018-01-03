@@ -2056,19 +2056,28 @@ jQuery.extend({
             row_obj.append(td_obj);
             table_obj.append(row_obj);
         });
+
         var all_btn_config=[{
             label: '返回',
             action: function(dialog) {
                 dialog.close();
             }
         }];
+      var call_action_ex= function   (action_func){
+        return function( dialog ) {
+          dialog.close();
+          action_func( dialog);
+        };
+      }
         if (btn_config){
             if($.isArray( btn_config)){
                 $.each(btn_config ,function(){
+                  this.action=call_action_ex( this.action );
                     all_btn_config.push(this);
                 });
             }else{
-                all_btn_config.push(btn_config );
+              btn_config.action=call_action_ex( btn_config.action);
+              all_btn_config.push(btn_config );
             }
         }
         var closable = true;
