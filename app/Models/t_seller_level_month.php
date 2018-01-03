@@ -56,6 +56,10 @@ class t_seller_level_month extends \App\Models\Zgen\z_t_seller_level_month
         return $this->main_get_row($sql);
     }
 
+    public function get_12_list(){
+        $sql = 'select *  from db_weiyi_admin.t_seller_level_month  where month_date=1512057600';
+        return $this->main_get_list($sql);
+    }
 
 }
 
