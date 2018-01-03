@@ -265,7 +265,7 @@
             return false;
         });
 
-        $used_query_list.on("click", "a", function(){
+        $used_query_list.on("click", ">a", function(){
             var index=$(this).data("index");
             $(this).hide();
             me.query_item_list[index].set_query_arg_clean() ;

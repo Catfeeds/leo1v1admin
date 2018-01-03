@@ -2231,11 +2231,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $where_arr[]=sprintf( "( phone like '%s%%'  )", $this->ensql($nick_phone));
         }
 
-
-        $sql =  $this->gen_sql_new( "select  id ,  nickname as  nick,    nickname  as realname,  phone,'' as gender  from %s    where %s ",
-                                    self::DB_TABLE_NAME,  $where_arr );
+        $sql = $this->gen_sql_new( "select id ,nickname as nick,nickname as realname,phone,'' as gender "
+                                   ." from %s "
+                                   ." where %s "
+                                   ,self::DB_TABLE_NAME
+                                   ,$where_arr
+        );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
+
     private $id_map = [];
     private $student_count = 0;
     private $member_count = 0;

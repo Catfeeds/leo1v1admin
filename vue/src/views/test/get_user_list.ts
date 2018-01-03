@@ -15,7 +15,10 @@ import {self_RowData, self_Args } from "../page.d.ts/test-get_user_list"
 export default class extends vtable {
 
   data_ex() {
-    return {"message": "xx" }
+    return {
+      "message"          : "xx",
+
+    }
   }
 
   get_opt_data(obj):self_RowData {return this.get_opt_data_base(obj );}
@@ -37,15 +40,19 @@ export default class extends vtable {
       as_header_query :true,
     });
 
-    $.admin_enum_select({
-      'join_header'  : $header_query_info,
-      "enum_type"    : "grade",
-      "field_name" : "grade",
-      "title"        :  "年级",
-      "select_value" : this.get_args().grade,
-      "multi_select_flag"     : true,
-      "btn_id_config"     : {},
-    });
+    var action=  this.get_action_str();
+    if (action!="get_user_list1") {
+      $.admin_enum_select({
+        'join_header'  : $header_query_info,
+        "enum_type"    : "grade",
+        "field_name" : "grade",
+        "title"        :  "年级",
+        "select_value" : this.get_args().grade,
+        "multi_select_flag"     : true,
+        "btn_id_config"     : {},
+      });
+    }
+
 
     $.admin_enum_select({
       'join_header'  : $header_query_info,
@@ -56,6 +63,7 @@ export default class extends vtable {
       "multi_select_flag"     : true,
       "btn_id_config"     : {},
     });
+
 
     $.admin_ajax_select_user({
       'join_header'  : $header_query_info,
