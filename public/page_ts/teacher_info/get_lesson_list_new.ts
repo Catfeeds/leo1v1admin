@@ -331,7 +331,7 @@ $(function(){
             ];
 
             $.each(id_teacher_list,function(i,item){
-                if(!(lesson_type>=1000 && lesson_type <2000)){
+                if(!(lesson_type>=1000 && lesson_type <2000) || lesson_type==1100){
                     arr.push(["其他资料_"+i,item]);
                 } else {
                     arr.push(["其他资料_"+(i+1),item]);
@@ -339,7 +339,7 @@ $(function(){
             });
             arr.push(['学生讲义', id_student]);
 
-            if(!(lesson_type>=1000 && lesson_type <2000)){
+            if(!(lesson_type>=1000 && lesson_type <2000) || lesson_type==1100){
                 arr.push(["----","上传课堂作业"]);
                 arr.push(["作业PDF",id_issue]);
                 arr.push(["作业题目数",id_pdf_question_count]);
@@ -445,10 +445,10 @@ $(function(){
                     });
                 }
                 //添加上传文件新选项
-                if(!(lesson_type>=1000 && lesson_type <2000)){
+                if(!(lesson_type>=1000 && lesson_type <2000) || lesson_type==1100){
                     $('#id_teacher_upload,#id_student_upload,#id_issue_upload').hover(function(){
                         $('.opt-leo-res').removeClass('unbind');
-                        add_upload_select($(this));
+                        add_upload_select($(this),lesson_type);
                     },function(){
                         $('.opt-select-file').hover(function(){
                             $(this).show();
@@ -464,7 +464,7 @@ $(function(){
                         if(l == 0){
                             $('.opt-leo-res').removeClass('unbind');
                             $('#id_teacher_upload_0').hover(function(){
-                                add_upload_select($(this));
+                                add_upload_select($(this),lesson_type);
                             },function(){
                                 $('.opt-select-file').hover(function(){
                                     $(this).show();
@@ -476,7 +476,7 @@ $(function(){
                         } else {
 
                             $('#id_teacher_upload_'+l).hover(function(){
-                                add_upload_select($(this));
+                                add_upload_select($(this),lesson_type);
                                 $('.opt-leo-res').addClass('unbind');
                             },function(){
                                 $('.opt-select-file').hover(function(){
@@ -549,7 +549,7 @@ $(function(){
             }
         }
 
-        var add_upload_select = function(obj){
+        var add_upload_select = function(obj, num_flag){
             var X = obj.offset().top;
             var Y = obj.offset().left;
             var H = obj.outerHeight();
@@ -560,7 +560,17 @@ $(function(){
             $('.opt-local').on('click', function(){
                 obj.click();
             });
-            $('.opt-my-res,.opt-leo-res').attr('upload_id', obj.attr('id'));
+            if(num_flag == 1100){
+                $('.modal-dialog').mouseenter(function(){
+                    $('.opt-my-res').parent().hide();
+                });
+                $('.opt-my-res,.opt-leo-res').attr('disabled', true);
+                $('.opt-my-res,.opt-leo-res').css({'background': '#aaa', 'opacity':1});
+            } else {
+                $('.opt-my-res,.opt-leo-res').attr('disabled', false);
+                $('.opt-my-res,.opt-leo-res').css('background','#fff');
+                $('.opt-my-res,.opt-leo-res').attr('upload_id', obj.attr('id'));
+            }
         }
         var book_info = [];
         var dlg_tr = {};
