@@ -497,12 +497,8 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $new_count_id=$this->t_seller_new_count->get_free_new_count_id($adminid=440);
-        if (!$new_count_id) {
-            dd('a');
-            return false;
-        }
-        dd('b');
+        $ret = $this->t_group_user_month->del_item_row();
+        dd($ret);
     }
 
     //处理等级头像
