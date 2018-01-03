@@ -11,6 +11,7 @@ interface self_Args {
 	gender:	string;//枚举列表: \App\Enums\Egender
  	query_text:	string;
 	userid:	number;
+	_url:	string;
 }
 interface self_RowData {
 	userid	:any;
@@ -95,6 +96,12 @@ export default class extends vtable {
 		"field_name"    : "userid",
 		"title"        :  "userid",
 		"select_value" : this.get_args().userid,
+	});
+	$.admin_query_input({
+		'join_header'  : $header_query_info,
+		"field_name"    : "_url" ,
+		"title"        :  "_url",
+		"select_value" : this.get_args()._url,
 	});
 
   }
