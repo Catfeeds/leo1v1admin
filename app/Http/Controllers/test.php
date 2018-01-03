@@ -42,6 +42,7 @@ class test extends Controller
         foreach($ret_info["list"] as &$item) {
             E\Egrade::set_item_value_str($item);
         }
+        //sleep(3);
 
         return $this->pageOutJson(__METHOD__, $ret_info,[
             "message" =>  "cur usrid:".$userid,
