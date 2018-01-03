@@ -225,6 +225,14 @@ export default class vtable extends Vue {
           me.$data.html_hide_list[ field_name ]=true;
         });
 
+        //附加数据
+        $.each(resp ,function(k,v){
+          if ($.inArray(k, ["page_info", "ret","info","g_args","list","html_hide_list"] ) === -1  ) {
+            console.log("XXX ", k);
+            me.$data[k]= v;
+          }
+        });
+
         window["g_args"] = resp.g_args;
         $table_p.find(".overlay").remove();
         if (resp.g_args.order_by_str) {
