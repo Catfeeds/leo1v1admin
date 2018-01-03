@@ -4132,23 +4132,33 @@ class user_deal extends Controller
             $arr['base_salary'] = 6500;
             $arr['sup_salary'] = 0;
             switch(true){
-            case $arr['last_group_all_price']<500000 :
+            case $arr['last_group_all_price']<500000:
                 // $arr['per_salary'] = 10*$kpi;
                 $arr['per_salary'] = 1000;
+                $arr['last_seller_level'] = '初级';
                 break;
             case $arr['last_group_all_price']<800000 && $arr['last_group_all_price']>=500000:
                 // $arr['per_salary'] = 25*$kpi;
                 $arr['per_salary'] = 2500;
+                $arr['last_seller_level'] = '中级1';
                 break;
             case $arr['last_group_all_price']<1000000 && $arr['last_group_all_price']>=800000:
                 // $arr['per_salary'] = 35*$kpi;
                 $arr['per_salary'] = 3500;
+                $arr['last_seller_level'] = '中级2';
                 break;
             default:
                 // $arr['per_salary'] = 50*$kpi;
                 $arr['per_salary'] = 5000;
+                $arr['last_seller_level'] = '高级';
                 break;
             }
+            $arr['suc_first_week'] = '';
+            $arr['suc_second_week'] = '';
+            $arr['suc_third_week'] = '';
+            $arr['suc_fourth_week'] = '';
+            $arr['lesson_per'] = '';
+            $arr['kpi'] = '';
         }
         $arr['group_kpi'] = isset($group_kpi['group_kpi'])?$group_kpi['group_kpi']:'';
         $arr['group_kpi_desc'] = isset($group_kpi['group_kpi_desc'])?$group_kpi['group_kpi_desc']:'';

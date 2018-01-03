@@ -2,9 +2,93 @@ api 文档
 ## Table of Contents
 
 * [Install](#install)
+* [Controller  控制器](#controller)
+* [DB 数据库](#db)
 * [vue整合](#vue)
 
 ##  Install 
+
+## Controller  控制器
+
+```php
+    public function get_user_list(){
+        #分页信息
+        $page_info= $this->get_in_page_info();
+        #排序信息
+        list($order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str([],"userid desc");
+
+        #输入参数
+        list($start_time, $end_time)=$this->get_in_date_range_day(0);
+        $grade=$this->get_in_el_grade();
+
+        $ret_info=$this->t_student_info->get_test_list($page_info, $order_by_str, $start_time,$end_time ,  $grade );
+
+        foreach($ret_info["list"] as &$item) {
+            E\Egrade::set_item_value_str($item);
+        }
+
+        return $this->pageOutJson(__METHOD__, $ret_info,[
+            "message" =>  "cur usrid:".$userid,
+        ]);
+    }
+```
+
+
+### input
+
+
+```php
+$xxx=$this->get_in_el_xxx();
+//如:
+$grade=$this->get_in_el_grade();
+```
+
+#### 整数 
+```php
+$age=$this->get_in_intval("age", -1);
+```
+
+
+#### 字符串 
+```php
+$name=$this->get_in_strval("name");
+```
+
+### 切换数据库
+目前线上 有  主库, 只读1, 只读2(用统计) 
+对 后台而言 , select 默认使用只读1
+
+如果要 切到统计数据库
+```php
+    public function tt() {
+        $this->check_and_switch_tongji_domain();
+        ...
+        dd( $_SERVER );
+    }
+```
+
+## DB 数据库
+
+### migration 
+
+```php
+        Schema::create('db_weiyi_admin.t_url_desc_power', function( Blueprint $table)
+        {
+            //表注释
+            t_comment($table, "角色的每个页面的详细权限" );
+            //字段以及注释
+            t_field($table->integer("id",true) ,"自增id");
+            t_field($table->integer("role_groupid") ,"角色组id");
+            t_field($table->string("url") ,"页面地址:/test/get_user_list1");
+            t_field($table->string("opt_key") ,"权限识别:grade,opt_grade,input_grade..");
+            t_field($table->integer("open_flag") ,"是否开放权限");
+            //唯一索引
+            $table->unique(["role_groupid", "url","opt_key"],"role_url_opt_key");
+        });
+
+```
+
 
 ## vue整合
 
@@ -27,40 +111,26 @@ npm run dev
             =$this->get_in_order_by_str([],"userid desc");
 
         #输入参数
-        $grade=$this->get_in_el_grade();
         list($start_time, $end_time)=$this->get_in_date_range_day(0);
-        $ret_info=$this->t_student_info->get_test_list($page_info, $order_by_str,  $grade );
-        $gender=$this->get_in_el_gender();
-
-        $this->get_in_query_text();
         $userid=$this->get_in_userid(-1);
+        $grade=$this->get_in_el_grade();
+        $gender=$this->get_in_el_gender();
+        $query_text=$this->get_in_query_text();
 
-        #得到当前action :get_user_list 或  get_user_list1 
-        $action=$this->get_action_str();
-        \App\Helper\Utils::logger("action:$action");
+        $ret_info=$this->t_student_info->get_test_list($page_info, $order_by_str,  $grade );
 
         foreach($ret_info["list"] as &$item) {
             E\Egrade::set_item_value_str($item);
         }
 
-        #哪些数据不需要显示
-        $html_hide_list=[];
-        if ($action=="get_user_list1"){
-            $html_hide_list[]="grade"; //不显示 grade 列
-            $html_hide_list[]="opt_grade"; //不显示 操作 grade
-            $html_hide_list[]="input_grade"; //不显示 grade输入
-        }
-
         return $this->pageOutJson(__METHOD__, $ret_info,[
-            "html_hide_list" =>  $html_hide_list,
-            #其他数据
             "message" =>  "cur usrid:".$userid,
         ]);
     }
-
-    //公用ctrl
     public function get_user_list1(){
         $this->set_in_value("grade", 101);
+        //
+        $this->html_hide_list_add([ "grade","opt_grade", "input_grade" ]);
         return $this->get_user_list();
     }
 
@@ -77,9 +147,6 @@ import {self_RowData, self_Args } from "../page.d.ts/test-get_user_list"
 @Component({
   // 所有的组件选项都可以放在这里
   template:  require("./get_user_list.html" ),
-  data: {
-    message: "" ,
-  }
 })
 
 export default class extends vtable {
@@ -87,10 +154,9 @@ export default class extends vtable {
   data_ex() {
     return {
       "message"          : "xx",
-
     }
   }
-
+  
   get_opt_data(obj):self_RowData {return this.get_opt_data_base(obj );}
   get_args() :self_Args  {return  this.get_args_base();}
 
