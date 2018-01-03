@@ -48,11 +48,17 @@ export default class vtable extends Vue {
     }
   }
   get_query_header_init(){
+
     var $header_query_info= $("#id_header_query_info").admin_header_query ({
+      "html_hide_list": this.$data.html_hide_list,
     });
+
     this.$header_query_info= $header_query_info ;
     return this.$header_query_info;
 
+  }
+  check_show(field_name) {
+    return !this.$data.html_hide_list[field_name];
   }
 
   base_init_ex () {}

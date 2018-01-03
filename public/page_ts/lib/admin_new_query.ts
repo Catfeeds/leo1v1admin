@@ -134,6 +134,7 @@
         var me=this;
         this.defaults = {
             "list_type" : null,
+            "html_hide_list": {},
         };
 
       me.need_show_field_index_list=[];
@@ -304,15 +305,19 @@
 
         add :function( item ) {
             var me    = this;
+            var check_field_name="input_"+item.options.field_name;
+            console.log("check_field_name:"+check_field_name );
+            console.log( this.options.html_hide_list );
+            if (this.options.html_hide_list[ check_field_name ]) {
+                return ;
+            }
+
             var index = this.query_item_list.length;
             this.query_item_list.push(item);
             var $menu_list       = this.$ele.find(".select-menu-list");
             var $query_list      = this.$ele.find(".query-list");
             var $used_query_list = this.$ele.find(".used-query-list");
             var $header_query_row =  this.$ele.find(".header-query-row");
-
-            //设置回调
-          //TODO
 
 
             var title=item.get_title() ;
