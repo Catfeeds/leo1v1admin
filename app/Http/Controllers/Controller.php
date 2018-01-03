@@ -126,6 +126,16 @@ class Controller extends ControllerEx
         return in_array(session("acc"), $arr ) ;
     }
 
+    public function get_action_str() {
+        $path= $this->get_in_str_val("_url");
+        \App\Helper\Utils::logger("path:$path");
+
+        if (preg_match("/\/([a-zA-Z0-9_]+)\/([a-zA-Z0-9_]+)/",$path, $matches)  )  {
+            return strtolower($matches[2]);
+        }else{
+            return "index" ;
+        }
+    }
     function get_account(){
         return  session("acc");
     }

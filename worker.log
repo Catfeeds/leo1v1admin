@@ -646,3 +646,875 @@ Stack trace:
 #3 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(853): Illuminate\Foundation\Application->make('log')
 #4 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(808): Illuminate\Container\Container->resolveClass(Object(ReflectionParameter))
 #5 /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php(778): Illuminat in /home/adrian/admin_yb1v1/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 738
+--2018-01-01 23:10:47--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... --2018-01-01 23:10:47--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .........200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .... .......... .......... .......... 36% 1.78M 0s
+    50K ................. .......... ....... .......... ........ ........ ............. .......... 73% 1.51M 0s
+   100K .......... ............. 36%  669K 0s
+    50K .......... .......... .......... .......... ... .......... ......               100% 1.05M=0.09s
+
+2018-01-01 23:10:47 (1.42 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+........ 73% 25.1M 0s
+   100K .......... .......... .......... ......               100%  864K=0.1s
+
+2018-01-01 23:10:47 (1.12 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:48--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... --2018-01-01 23:10:48--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K ..........200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+ ...
+     0K .......... .......... .......... ................. .......... .... .......... 36% 1.40M 0s
+    50K .......... .......... ............ ............ .......... 36%  781K 0s.. .......... 73%  910K 0s
+   100K .......... .......... .......... ......               100% 5.34M=0.1s
+
+2018-01-01 23:10:48 (1.38 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+
+    50K .......... .......... .......... .......... .......... 73%  713K 0s
+   100K .......... .......... .......... ......               100% 1.82M=0.2s
+
+2018-01-01 23:10:48 (889 KB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:48--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... --2018-01-01 23:10:48--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 已连接。
+已发出 HTTP 请求，正在等待回应... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... ......200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K ............. .... .......... .......... .......... 36% 1.12M 0s
+    50K .......... .......... ......... .......... .......... .......... .......... 73% 1.83M 0s
+   100K .......... .......... .......... ......               100% 1.09M=0.1s
+
+2018-01-01 23:10:49 (1.29 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+........ .......... 36%  581K 0s
+    50K .......... .......... .......... .......... .......... 73% 2.21M 0s
+   100K .......... .......... .......... ......               100% 1.15M=0.1s
+
+2018-01-01 23:10:49 (982 KB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:49--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... --2018-01-01 23:10:49--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... ...182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... ....... .......... .......... .......... 36%  361K 0s
+    50K ....200 OK
+...长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... ...... .......... .......... ................ ....... .......... .......... 73% 1.08M 0s
+   100K ............. .......... ........ .......... 36%  640K 0s
+    50K .......... ..... ...........               100%  732K=0.2s
+
+2018-01-01 23:10:49 (584 KB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+... .......... .......... .......... 73%  552K 0s
+   100K .......... .......... .......... ......               100% 1.52M=0.2s
+
+2018-01-01 23:10:49 (712 KB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:50--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... --2018-01-01 23:10:50--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... ...182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... ....... .......... ....已连接。
+已发出 HTTP 请求，正在等待回应... ...... .......... 36% 1.19M 0s
+    50K .......... .......... ....200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... ......... .......... .......... 73% 1.90M 0s
+   100K .......... .......... ......... .......... .............. ......               100% 1.68M=0.09s
+
+2018-01-01 23:10:50 (1.52 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+.... .......... 36%  832K 0s
+    50K .......... .......... .......... .......... .......... 73% 1.18M 0s
+   100K .......... .......... .......... ......               100% 1.06M=0.1s
+
+2018-01-01 23:10:50 (1011 KB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:50--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1012K 0s
+    50K .......... .......... .......... .......... .......... 73% 1.72M 0s
+   100K .......... ..........--2018-01-01 23:10:50--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)...  .......... ......182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80...                100% 1.64M=0.1s
+
+2018-01-01 23:10:50 (1.34 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.77M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.87M 0s
+   100K .......... .......... .......... ......               100% 1.78M=0.07s
+
+2018-01-01 23:10:50 (1.81 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:51--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.03M 0s
+    50K .......... .......... .......... .......... .......... 73% 4.30M 0s
+   100K .......... .......... .......... ......               100% 2.31M=0.07s
+
+2018-01-01 23:10:51 (1.80 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:51--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36%  878K 0s
+    50K .......... .......... .......... .......... .......... 73% 1.97M 0s
+   100K .......... .......... .......... ......               100% 1.41M=0.1s
+
+2018-01-01 23:10:51 (1.25 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:51--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.05M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.73M 0s
+   100K .......... .......... .......... ......               100% 1.29M=0.1s
+
+2018-01-01 23:10:51 (1.30 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:51--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.96M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.45M 0s
+   100K .......... .......... .......... ......               100%  851K=0.1s
+
+2018-01-01 23:10:52 (1.31 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:52--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.12M 0s
+    50K .......... .......... .......... .......... .......... 73% 1007K 0s
+   100K .......... .......... .......... ......               100% 1.75M=0.1s
+
+2018-01-01 23:10:52 (1.18 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:52--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.38M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.26M 0s
+   100K .......... .......... .......... ......               100% 1.60M=0.1s
+
+2018-01-01 23:10:52 (1.38 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:52--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36%  651K 0s
+    50K .......... .......... .......... .......... .......... 73% 1.52M 0s
+   100K .......... .......... .......... ......               100% 1.44M=0.1s
+
+2018-01-01 23:10:52 (1023 KB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:53--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36%  955K 0s
+    50K .......... .......... .......... .......... .......... 73% 1.78M 0s
+   100K .......... .......... .......... ......               100% 1.53M=0.1s
+
+2018-01-01 23:10:53 (1.29 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:53--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.35M 0s
+    50K .......... .......... .......... .......... .......... 73% 1015K 0s
+   100K .......... .......... .......... ......               100%  835K=0.1s
+
+2018-01-01 23:10:53 (1.03 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:53--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.18M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.79M 0s
+   100K .......... .......... .......... ......               100% 1.67M=0.09s
+
+2018-01-01 23:10:53 (1.48 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:53--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36%  962K 0s
+    50K .......... .......... .......... .......... .......... 73% 2.13M 0s
+   100K .......... .......... .......... ......               100% 1.94M=0.09s
+
+2018-01-01 23:10:54 (1.43 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:54--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.20M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.98M 0s
+   100K .......... .......... .......... ......               100% 1.85M=0.08s
+
+2018-01-01 23:10:54 (1.58 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:54--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.05M 0s
+    50K .......... .......... .......... .......... .......... 73% 2.17M 0s
+   100K .......... .......... .......... ......               100% 1.59M=0.09s
+
+2018-01-01 23:10:54 (1.46 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:54--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36%  954K 0s
+    50K .......... .......... .......... .......... .......... 73%  601K 0s
+   100K .......... .......... .......... ......               100% 1.13M=0.2s
+
+2018-01-01 23:10:55 (817 KB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:55--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36%  881K 0s
+    50K .......... .......... .......... .......... .......... 73% 1021K 0s
+   100K .......... .......... .......... ......               100% 1.38M=0.1s
+
+2018-01-01 23:10:55 (1.01 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:55--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.18M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.36M 0s
+   100K .......... .......... .......... ......               100% 1.98M=0.1s
+
+2018-01-01 23:10:55 (1.40 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:55--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36%  974K 0s
+    50K .......... .......... .......... .......... .......... 73% 1.97M 0s
+   100K .......... .......... .......... ......               100% 1.41M=0.1s
+
+2018-01-01 23:10:55 (1.32 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:56--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.18M 0s
+    50K .......... .......... .......... .......... .......... 73% 2.06M 0s
+   100K .......... .......... .......... ......               100% 4.83M=0.07s
+
+2018-01-01 23:10:56 (1.85 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:56--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.08M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.86M 0s
+   100K ...PHP Fatal error:  method_exists(): The script tried to execute a method or access a property of an incomplete object. Please ensure that the class definition "App\Jobs\UpdateTeacherMoney" of the object you are trying to operate on was loaded _before_ unserialize() gets called or provide a __autoload() function to load the class definition  in /home/jim/admin_yb1v1_git/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php on line 74
+
+....... .......... .......... ......               100% 1.54M=0.09s
+
+2018-01-01 23:10:56 (1.41 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+                                                                                                                                                                                                                                                                                                                                       
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                                                                                                                                                                                                                                              
+  method_exists(): The script tried to execute a method or access a property of an incomplete object. Please ensure that the class definition "App\Jobs\UpdateTeacherMoney" of the object you are trying to operate on was loaded _before_ unserialize() gets called or provide a __autoload() function to load the class definition   
+                                                                                                                                                                                                                                                                                                                                       
+
+--2018-01-01 23:10:56--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.02M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.83M 0s
+   100K .......... .......... .......... ......               100%  522K=0.1s
+
+2018-01-01 23:10:57 (944 KB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:10:57--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.79.28, 182.254.86.164
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.07M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.76M 0s
+   100K .......... .......... .......... ......               100% 1.53M=0.1s
+
+2018-01-01 23:10:57 (1.38 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:37--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... --2018-01-01 23:12:37--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .....200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... ........... .......... ........... 36% 1.39M 0s
+    50K .......... .......... .......... .......... 36%  982K 0s
+    50K .......... .......... ..... .......... .......... 73%  792K 0s
+   100K .......... ............... ..... .......... ................ ......               100% 1.20M=0.1s
+
+2018-01-01 23:12:38 (1.04 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+.. 73%  511K 0s
+   100K .......... .......... .......... ......               100% 9.19M=0.2s
+
+2018-01-01 23:12:38 (896 KB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:38--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1009K 0s
+    50K .......... .......... .......... .......... .......... 73% 1.69M 0s
+   100K .......... .......... .......... ......               100% 1.93M=0.1s
+
+2018-01-01 23:12:38 (1.38 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:38--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36%  788K 0s
+    50K .......... .......... .......... .......... .......... 73% 1.60M 0s
+   100K .......... .......... .......... ......               100% 1.60M=0.1s
+
+2018-01-01 23:12:39 (1.15 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:39--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36%  861K 0s
+    50K .......... .......... .......... .....--2018-01-01 23:12:39--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... ..... .......... 73% 2.11M 0s
+   100K .......... .......... ....已连接。
+已发出 HTTP 请求，正在等待回应... ...... ......               100% 1.59M=0.1s
+
+2018-01-01 23:12:39 (1.29 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36%  899K 0s
+    50K .......... .......... .......... .......... .......... 73% 1.27M 0s
+   100K .......... .......... .......... ......               100% 1.17M=0.1s
+
+2018-01-01 23:12:39 (1.07 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:39--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36%  952K 0s
+    50K .......... .......... .......... .......... .......... 73% 1.92M 0s--2018-01-01 23:12:40--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 
+   100K .......... .......... .......... .182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... .....               100%  721K=0.1s
+
+2018-01-01 23:12:40 (1.04 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.12M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.52M 0s
+   100K .......... .......... .......... ......               100% 1.42M=0.1s
+
+2018-01-01 23:12:40 (1.32 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:40--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.07M 0s
+    50K .......... .......... .......... .......... .......... 73%  943K 0s
+   100K .......... .......... .......... ......               100% 2.86M=0.1s
+
+2018-01-01 23:12:40 (1.20 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:40--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.13M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.98M 0s
+   100K .......... .......... .......... ......               100% 1.73M=0.09s
+
+2018-01-01 23:12:40 (1.51 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:40--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.10M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.09M 0s
+   100K .......... .......... .......... ......               100% 1.42M=0.1s
+
+2018-01-01 23:12:40 (1.17 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:41--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.27M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.70M 0s
+   100K .......... .......... .......... ......               100% 1.42M=0.09s
+
+2018-01-01 23:12:41 (1.45 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:41--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.28M 0s
+    50K .......... .......... .......... .......... .......... 73% 2.03M 0s
+   100K .......... .......... .......... ......               100% 2.16M=0.08s
+
+2018-01-01 23:12:41 (1.70 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:41--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36%  890K 0s
+    50K .......... .......... .......... .......... .......... 73% 1.79M 0s
+   100K .......... .......... .......... ......               100% 2.03M=0.1s
+
+2018-01-01 23:12:41 (1.32 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:41--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36%  856K 0s
+    50K .......... .......... .......... .......... .......... 73% 1.82M 0s
+   100K .......... .......... .......... ......               100% 1.78M=0.1s
+
+2018-01-01 23:12:42 (1.27 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:42--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36%  924K 0s
+    50K .......... .......... .......... .......... .......... 73% 1.26M 0s
+   100K .......... .......... .......... ......               100% 1.49M=0.1s
+
+2018-01-01 23:12:42 (1.14 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:42--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.23M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.35M 0s
+   100K .......... .......... .......... ......               100% 1.45M=0.1s
+
+2018-01-01 23:12:42 (1.33 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:42--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36%  984K 0s
+    50K .......... .......... .......... .......... .......... 73%  869K 0s
+   100K .......... .......... .......... ......               100% 1.05M=0.1s
+
+2018-01-01 23:12:42 (959 KB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:43--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.02M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.68M 0s
+   100K .......... .......... .......... ......               100%  971K=0.1s
+
+2018-01-01 23:12:43 (1.16 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:43--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.37M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.85M 0s
+   100K .......... .......... .......... ......               100% 3.51M=0.07s
+
+2018-01-01 23:12:43 (1.85 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:43--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36%  908K 0s
+    50K .......... .......... .......... .......... .......... 73% 1.08M 0s
+   100K .......... .......... .......... ......               100% 1.04M=0.1s
+
+2018-01-01 23:12:43 (1016 KB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:44--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... ..--2018-01-01 23:12:44--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+..正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... ...... .......182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... ... .......... 36% 1.07M 0s
+    50K .......... .......... ..已连接。
+已发出 HTTP 请求，正在等待回应... ........ .......... .......... 73% 1.94M 0s
+   100K .......... .......200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... ...... .......... ......               100% 1.58M=0.09s
+
+2018-01-01 23:12:44 (1.43 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+....... .......... .......... .......... 36% 1.06M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.87M 0s
+   100K .......... .......... .......... ......               100% 2.20M=0.09s
+
+2018-01-01 23:12:44 (1.51 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:44--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... --2018-01-01 23:12:44--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... ...182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... ....... .......... ....200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... ......... .......... 36% 1.11M 0s
+    50K .......... ................ .......... .......... .......... 36% 1.77M 0s
+    50K ...... .......... ............ ...... .......... .......... .......... ............ 73% 1.53M 0s
+   100K .......... .......... .......... ......               100% 1.47M=0.08s
+
+2018-01-01 23:12:44 (1.59 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+..... 73%  631K 0s
+   100K .......... .......... .......... ......               100% 56.7M=0.1s
+
+2018-01-01 23:12:44 (1.08 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:45--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... --2018-01-01 23:12:45--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 已连接。
+已发出 HTTP 请求，正在等待回应... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... ...已连接。
+已发出 HTTP 请求，正在等待回应... ....... .......... .......... .......... 36% 1.59M 0s
+    50K .......... .......... .......200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... ...... .......... .......... 73% 1.58M 0s
+   100K .......... ............. ............. ..... .......... ......               100% 1022K=0.1s
+
+2018-01-01 23:12:45 (1.37 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+...... .......... 36%  424K 0s
+    50K .......... .......... .......... .......... .......... 73%  608K 0s
+   100K .......... .......... .......... ......               100%  462K=0.3s
+
+2018-01-01 23:12:45 (489 KB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:46--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... ...--2018-01-01 23:12:46--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... ....... .......... ....182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... ...... .......... 36% 1.11M 0s
+    50K .......... .......... .......... .已连接。
+已发出 HTTP 请求，正在等待回应... ......... .......... 73% 1.41M 0s
+   100K .......... .......... .......... .200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... ........               100% 1.60M=0.1s
+
+2018-01-01 23:12:46 (1.32 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+....... .......... .......... .......... 36% 1.06M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.65M 0s
+   100K .......... .......... .......... ......               100% 1.40M=0.1s
+
+2018-01-01 23:12:46 (1.32 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:46--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... ....--2018-01-01 23:12:46--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... ..182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... .... .......... 36%  878K 0s
+    50K .......... .......... .......... .......... .已连接。
+已发出 HTTP 请求，正在等待回应... ......... 73% 1.15M 0s
+   100K .......... .........200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+. ..
+     0K .......... ........... ......               100% 1.36M=0.1s
+
+2018-01-01 23:12:46 (1.06 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+....... .......... .......... .......... 36% 1.07M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.83M 0s
+   100K .......... .......... .......... ......               100% 1.29M=0.1s
+
+2018-01-01 23:12:46 (1.33 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+PHP Fatal error:  method_exists(): The script tried to execute a method or access a property of an incomplete object. Please ensure that the class definition "App\Jobs\UpdateTeacherMoney" of the object you are trying to operate on was loaded _before_ unserialize() gets called or provide a __autoload() function to load the class definition  in /home/jim/admin_yb1v1_git/vendor/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php on line 74
+
+                                                                                                                                                                                                                                                                                                                                       
+  [Symfony\Component\Debug\Exception\FatalErrorException]                                                                                                                                                                                                                                                                              
+  method_exists(): The script tried to execute a method or access a property of an incomplete object. Please ensure that the class definition "App\Jobs\UpdateTeacherMoney" of the object you are trying to operate on was loaded _before_ unserialize() gets called or provide a __autoload() function to load the class definition   
+                                                                                                                                                                                                                                                                                                                                       
+
+--2018-01-01 23:12:47--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36% 1.30M 0s
+    50K .......... .......... .......... .......... .......... 73% 1.95M 0s
+   100K .......... .......... .......... ......               100% 1.42M=0.09s
+
+2018-01-01 23:12:47 (1.52 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+
+--2018-01-01 23:12:47--  http://wx.qlogo.cn/mmopen/qWXgwvNz3ia0dLaYp29iao9JXvZd9gkONaa0o4H8Nw7USpa6KcxFXiap74VaWrU64xSdMtVI9mUfD31VSx0FB79Hd2YicUSDTwdz/0
+正在解析主机 wx.qlogo.cn (wx.qlogo.cn)... 182.254.88.194, 182.254.86.164, 182.254.79.28
+正在连接 wx.qlogo.cn (wx.qlogo.cn)|182.254.88.194|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 140115 (137K) [image/jpeg]
+正在保存至: “/tmp/yxyx_wx__headimg.jpg”
+
+     0K .......... .......... .......... .......... .......... 36%  946K 0s
+    50K .......... .......... .......... .......... .......... 73% 1.85M 0s
+   100K .......... .......... .......... ......               100% 1.22M=0.1s
+
+2018-01-01 23:12:47 (1.23 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
+

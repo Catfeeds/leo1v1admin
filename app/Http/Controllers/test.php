@@ -34,28 +34,30 @@ class test extends Controller
         $ret_info=$this->t_student_info->get_test_list($page_info, $order_by_str,  $grade );
         $gender=$this->get_in_el_gender();
 
-
         $this->get_in_query_text();
         $userid=$this->get_in_userid(-1);
 
+        $action=$this->get_action_str();
+        \App\Helper\Utils::logger("action:$action");
 
         foreach($ret_info["list"] as &$item) {
             E\Egrade::set_item_value_str($item);
+        }
+
+        $html_hide_list=[];
+        if ($action=="get_user_list1"){
+            $html_hide_list[]="grade";
+            $html_hide_list[]="opt_grade";
         }
 
         return $this->pageOutJson(__METHOD__, $ret_info,[
-            "message" =>  "cur usrid:".$userid
+            "message" =>  "cur usrid:".$userid,
+            "html_hide_list"=>  $html_hide_list,
         ]);
     }
     public function get_user_list1(){
-        $page_info= $this->get_in_page_info();
-        $grade=$this->get_in_el_grade();
-        $ret_info=$this->t_student_info->get_test_list($page_info, $grade );
-        $this->get_in_query_text();
-        foreach($ret_info["list"] as &$item) {
-            E\Egrade::set_item_value_str($item);
-        }
-        return $this->pageOutJson(__METHOD__, $ret_info);
+        $this->set_in_value("grade", 101);
+        return $this->get_user_list();
     }
 
     public function t() {

@@ -1,16 +1,17 @@
 <section class="content ">
   <admin-remote-script  @load=js_xx_loaded  src="/js/xx.js" />
+  <admin-remote-css  href="/css/test.css" />
 
   <div id="id_header_query_info" > </div>
 
   <hr/>
 
-  <div > test :{{message}} </div>
+  <div  > test :{{message}} </div>
   <table class=" common-table " >
     <thead>
       <tr> <td data-field_name="userid"> userid </td>
         <td >姓名</td>
-        <td data-field_name="grade" >年级</td>
+        <td data-field_name="grade"  v-if="!html_hide_list.grade"  >年级</td>
         <td>操作</td>
       </tr>
     </thead>
@@ -18,10 +19,10 @@
       <tr v-for="(item, index) in table_data" >
         <td> {{ index }} {{ item.userid }} </td>
         <td> {{ item.phone}} </td>
-        <td> {{ item.grade_str}} </td>
+        <td v-if="!html_hide_list.grade" > {{ item.grade_str}} </td>
         <td >
           <div v-bind:data-index="index" >
-            <a class="fa-times " title="xxxxx" @click="doOpt" > </a> </div>
+            <a class="fa-times " title="xxxxx" @click="doOpt" v-if="!html_hide_list.opt_grade"  > </a> </div>
         </td>
       </tr>
     </tbody>
