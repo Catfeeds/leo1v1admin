@@ -24,9 +24,9 @@ use Illuminate\Http\Request;
 
 use LaneWeChat\Core\WeChatOAuth;
 
-use LaneWeChat\Core\UserManage;
+use Teacher\Core\UserManage;
 
-use LaneWeChat\Core\TemplateMessage;
+use Teacher\Core\TemplateMessage;
 
 
 
