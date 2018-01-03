@@ -50,6 +50,14 @@ class test_abner extends cmd_base
                && @$teacher_student_arr[$item['userid']][$item['subject']]['teacherid'] != $item['teacherid']
                // && in_array($item['teacherid'],$teacher_student_arr[$item['userid']][$item['subject']])
             ){
+                echo 'begin';
+                echo "\n";
+                echo  $teacher_student_arr[$item['userid']][$item['subject']]['teacherid'];
+                echo "\n";
+                echo  $item['teacherid'];
+                echo "\n";
+                echo 'end';
+                echo "\n";
                 //该学生该课程的老师存在变更
                 $is_turn_teacher = 1;
             }
@@ -95,15 +103,16 @@ class test_abner extends cmd_base
                 $teacher_violation_arr[$item['teacherid']]['turn_class_count'] ++;
 
 
-            if($item['confirm_flag'] = 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 12)
+            if($item['confirm_flag'] == 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 12)
                 $teacher_violation_arr[$item['teacherid']]['ask_for_leavel_count'] ++;
-            if($item['confirm_flag'] = 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21 && $item['lesson_type'] == 2)
+            if($item['confirm_flag'] == 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21 && $item['lesson_type'] == 2)
                 $teacher_violation_arr[$item['teacherid']]['test_lesson_truancy_count'] ++;
-            if($item['confirm_flag'] = 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21  && in_array($item['lesson_type'],[0,1,3]))
+            if($item['confirm_flag'] == 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21  && in_array($item['lesson_type'],[0,1,3]))
                 $teacher_violation_arr[$item['teacherid']]['regular_lesson_truancy_count'] ++;
 
-            if($is_turn_teacher == 1 && in_array($item['lesson_type'],[0,1,3]))
+            if($is_turn_teacher == 1 && in_array($item['lesson_type'],[0,1,3])){
                 $teacher_violation_arr[$teacher_student_arr[$item['userid']][$item['subject']]['teacherid']]['turn_teacher_count'] ++;
+            }
 
 
         }
