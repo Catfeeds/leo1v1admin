@@ -498,12 +498,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret = $this->t_seller_level_month->get_12_list();
-        foreach($ret as $item){
-            $id = $item['id'];
-            $this->t_seller_level_month->row_delete($id);
-        }
-        dd($ret);
+        dd('aa');
     }
 
     //处理等级头像
