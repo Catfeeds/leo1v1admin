@@ -50,7 +50,7 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
 
         $this->where_arr_add_time_range($where_arr, "tc.add_time", $start_time, $end_time);
 
-        $sql = $this->gen_sql_new(" select sum(tc.score) as totalScore, tc.shareId, t.phone from %s tc"
+        $sql = $this->gen_sql_new(" select sum(tc.score) as totalScore, tc.shareId, t.phone, t.wx_openid from %s tc"
                                   ." left join %s t on t.wx_openid=tc.shareId"
                                   ." where %s group by tc.shareId order by totalScore desc $limitStr"
                                   ,self::DB_TABLE_NAME

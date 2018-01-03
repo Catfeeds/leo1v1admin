@@ -131,8 +131,8 @@ class teacher_share extends Controller
         $info = $this->t_teacher_christmas->get_all_list($start_time);
 
         foreach($info as &$item){
-            $userInfo = UserManage::getUserInfo($item['wx_openid']);
-            $item['wx_nick'] = @$userInfo['nickname'];
+            // $userInfo = UserManage::getUserInfo($item['wx_openid']);
+            // $item['wx_nick'] = @$userInfo['nickname'];
             $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
         }
 
