@@ -28,8 +28,7 @@ class update_seller_level extends cmd_base
     public function handle()
     {
         $reduce_flag = 0;
-        // $time = time(null);
-        $time = 1514820600;
+        $time = time(null);
         $ret_time = $this->task->t_month_def_type->get_all_list();
         $firstday = date("Y-m-01");
         $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
