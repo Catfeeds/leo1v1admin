@@ -9919,4 +9919,26 @@ lesson_type in (0,1) "
         return $this->main_update($sql);
     }
 
+    public function get_student_list($teacherid,$start,$end){
+        $where_arr=[
+            ["teacherid=%u",$teacherid,0],
+            ["lesson_start>%u",$start,0],
+            ["lesson_start<%u",$end,0],
+        ];
+        $sql=$this->gen_sql_new("select s.userid,if(s.nick!='',s.nick,s.realname) as nick "
+                                ." from %s l"
+                                ." left join %s s on l.userid=s.userid"
+                                ." where %s"
+                                ." and lesson_type<1000"
+                                ." and confirm_flag<2"
+                                ." and lesson_del_flag=0"
+                                ." group by s.userid"
+                                ,self::DB_TABLE_NAME
+                                ,t_student_info::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 }
