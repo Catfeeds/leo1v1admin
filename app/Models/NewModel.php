@@ -1069,4 +1069,68 @@ abstract class NewModel
         ];
         return array_merge($where_arr,$merge_arr);
     }
+
+    /**
+     * 模糊查询老师信息
+     * @param string search_info 模糊查询的内容
+     * @param array  merge_arr   待合并的sql数组
+     */
+    public function teacher_search_info_sql($search_info,$alias='',$merge_arr=[]){
+        if($search_info!=""){
+            $alias = $this->get_table_alias($alias);
+            $search_sql = $this->gen_sql_new("(".$alias."nick like '%%%s%%' or "
+                                             .$alias."realname like '%%%s%%' or "
+                                             .$alias."phone like '%%%s%%' or "
+                                             .$alias."teacherid like '%%%s%%')"
+                                             ,$search_info
+                                             ,$search_info
+                                             ,$search_info
+                                             ,$search_info
+            );
+            $merge_arr[] = $search_sql;
+        }
+        return $merge_arr;
+    }
+
+    /**
+     * 模糊查询学生信息
+     * @param string search_info 模糊查询的内容
+     * @param array  merge_arr   待合并的sql数组
+     */
+    public function student_search_info_sql($search_info,$alias='',$merge_arr=[]){
+        if($search_info!=""){
+            $alias = $this->get_table_alias($alias);
+            $search_sql = $this->gen_sql_new("(".$alias."nick like '%%%s%%' or "
+                                             .$alias."realname like '%%%s%%' or "
+                                             .$alias."phone like '%%%s%%' or "
+                                             .$alias."userid like '%%%s%%')"
+                                             ,$search_info
+                                             ,$search_info
+                                             ,$search_info
+                                             ,$search_info
+            );
+            $merge_arr[] = $search_sql;
+        }
+        return $merge_arr;
+    }
+
+    /**
+     * 模糊查询家长信息
+     * @param string search_info 模糊查询的内容
+     * @param array  merge_arr   待合并的sql数组
+     */
+    public function parent_search_info_sql($search_info,$alias='',$merge_arr=[]){
+        if($search_info!=""){
+            $alias = $this->get_table_alias($alias);
+            $search_sql = $this->gen_sql_new("(".$alias."nick like '%%%s%%' or "
+                                             .$alias."phone like '%%%s%%' or "
+                                             .$alias."parentid like '%%%s%%')"
+                                             ,$search_info
+                                             ,$search_info
+                                             ,$search_info
+            );
+            $merge_arr[] = $search_sql;
+        }
+        return $merge_arr;
+    }
 }

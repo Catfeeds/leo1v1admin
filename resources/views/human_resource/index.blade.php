@@ -457,7 +457,7 @@
                         </td>
                         <td>{{@$var["test_user_str"]}} </td>
                         <td>{{@$var["train_through_new_str"]}} </td>
-                        @if($account_role !=3 && $account_role !=4 && $account_role !=5 && $acc !="ted" && $acc != "jack" && $acc != "michael")
+                        @if(!in_array($account_role,[3,4,5]) && $acc !="ted" && $acc != "jack" && $acc != "michael")
                             <td></td>
                             <td></td>
                         @else

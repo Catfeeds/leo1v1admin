@@ -87,24 +87,22 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
 
     }
 
-    public function get_list_for_select($id,$gender, $nick_phone,  $page_num)
+    public function get_list_for_select($id,$gender,$nick_phone,$page_num)
     {
         $where_arr = array(
             array( "gender=%d", $gender, -1 ),
             array( "parentid=%d", $id, -1 ),
         );
-        if ($nick_phone!=""){
-            $where_arr[]=sprintf( "(nick like '%%%s%%' or  phone like '%%%s%%' )",
-                                    $this->ensql($nick_phone),
-                                    $this->ensql($nick_phone));
-        }
+        $where_arr = $this->parent_search_info_sql($nick_phone,'',$where_arr);
 
-        $sql = sprintf("select parentid as id , nick, phone,gender  from %s  where %s",
-                       self::DB_TABLE_NAME,  $this->where_str_gen( $where_arr));
+        $sql = $this->gen_sql_new("select parentid as id , nick, phone,gender "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
-
-
 
     public function update_parent_phone($phone,$old_phone){
         $sql =$this->gen_sql("update %s set phone=%u where phone = %u ",
