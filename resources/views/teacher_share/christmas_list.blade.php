@@ -20,8 +20,6 @@
             <thead>
                 <tr>
                     <td>老师姓名</td>
-                    <td>微信昵称</td>
-                    <td>老师号码</td>
                     <td>单击次数 </td>
                     <td>分享次数 </td>
                     <td>注册次数 </td>
@@ -36,8 +34,6 @@
                         @else
                             <td>{{$var["realname"]}}</td>
                         @endif
-                        <td>{{$var['wx_nick']}}</td>
-                        <td>{{$var['phone']}}</td>
                         <td>{{$var['click_num']}}</td>
                         <td>{{$var['share_num']}}</td>
                         <td>{{$var['register_num']}}</td>

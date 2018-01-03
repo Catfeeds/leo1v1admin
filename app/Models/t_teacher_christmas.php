@@ -39,7 +39,9 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
     }
 
     public function getTotalList($isLimit=-1){
-        $where_arr = [];
+        $where_arr = [
+            "t.teacherid>0"
+        ];
         $start_time = strtotime("2017-12-23");
         $end_time = strtotime("2018-1-3");
         if($isLimit == -1){

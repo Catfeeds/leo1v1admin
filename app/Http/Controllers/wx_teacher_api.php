@@ -1557,8 +1557,8 @@ class wx_teacher_api extends Controller
             }
             $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
 
-            $userInfo = UserManage::getUserInfo($item['wx_openid']);
-            $item['wx_nick'] = @$userInfo['nickname'];
+            // $userInfo = UserManage::getUserInfo($item['wx_openid']);
+            // $item['wx_nick'] = @$userInfo['nickname'];
         }
 
         $ret_info['ranking'] = $ret_info['ranking']?$ret_info['ranking']:0;
