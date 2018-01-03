@@ -1179,20 +1179,15 @@ class wx_teacher_api extends Controller
             "tea_cw_pic"      => $filelinks,
             "tea_cw_status"   => 1,
             "stu_cw_status"   => 1
-
         ]);
 
-        $this->t_homework_info->updateWorkStatus($lessonid);
+        $courseid = $this->t_lesson_info->get_courseid($lessonid);
 
-        // if($pdfToImg){
-            // $this->t_pdf_to_png_info->row_insert([
-            //     'lessonid'    => $lessonid,
-            //     'pdf_url'     => $pdfToImg,
-            //     'create_time' => time(),
-            //     'origin_id'   => 1
-            // ]);
-        // }
-
+        $this->t_homework_info->field_update_list($courseid, [
+            "work_status"   => 1,
+            "issue_origin"  => 3,
+            "issue_file_id" => $stuFileId
+        ]);
         return $this->output_succ();
     }
 
