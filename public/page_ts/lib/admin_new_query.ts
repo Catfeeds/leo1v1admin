@@ -306,8 +306,8 @@
         add :function( item ) {
             var me    = this;
             var check_field_name="input_"+item.options.field_name;
-            console.log("check_field_name:"+check_field_name );
-            console.log( this.options.html_hide_list );
+            //console.log("check_field_name:"+check_field_name );
+            //console.log( this.options.html_hide_list );
             if (this.options.html_hide_list[ check_field_name ]) {
                 return ;
             }

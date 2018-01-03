@@ -151,7 +151,6 @@ class HandleExceptions
      */
     protected function getExceptionHandler()
     {
-        
         return $this->app->make('Illuminate\Contracts\Debug\ExceptionHandler');
     }
 }
