@@ -266,10 +266,12 @@ $(function(){
                         tea_cw_url_list[i]=["",""];
                     }
                     id_teacher_desc.find("input").val(tea_cw_url_list[i][1]);
-                    if(i == 0) {
-                        var type_arr = '';
-                    } else {
-                        var type_arr = ['pdf','mp3','mp4'];
+
+                    var type_arr = '';
+                    if(!(lesson_type>=1000 && lesson_type <2000) || lesson_type==1100){
+                        if(i>0) {
+                            var type_arr = ['pdf','mp3','mp4'];
+                        }
                     }
                     var item = gen_upload_item(
                         btn_teacher_upload_id+"_"+i,
