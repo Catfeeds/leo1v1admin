@@ -559,7 +559,6 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
     public function get_admin_member_list_tmp(  $month=-1,$main_type = -1 ,$adminid=-1){
-
         $where_arr=[
             [ "tm.main_type =%u ", $main_type,-1] , // 测试
             // [ "m.main_type =%u ", $main_type,-1] ,

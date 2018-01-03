@@ -1,13 +1,13 @@
 interface self_Args {
 	page_num:	number;
 	page_count:	number;
+	order_by_str:	string;
 	grade:	string;//枚举列表: \App\Enums\Egrade
  	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	order_by_str:	string;
 	gender:	string;//枚举列表: \App\Enums\Egender
  	query_text:	string;
 	userid:	number;

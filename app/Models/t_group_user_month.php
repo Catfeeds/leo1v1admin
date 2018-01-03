@@ -3,10 +3,10 @@ namespace App\Models;
 use \App\Enums as E;
 class t_group_user_month extends \App\Models\Zgen\z_t_group_user_month
 {
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     public function get_user_list_new($groupid,$month) {
         $sql=$this->gen_sql_new("select u.adminid,m.account,"
@@ -62,14 +62,14 @@ class t_group_user_month extends \App\Models\Zgen\z_t_group_user_month
                        $adminid,
                        $month
         );
-        $this->main_update( $sql  ); 
+        $this->main_update( $sql  );
     }
 
     public function del_by_month($month,$main_type_flag=0) {
         $where_arr=[
-            ["u.month=%u",$month,0],  
-            ["n.month=%u",$month,0],  
-            ["n.main_type=%u",$main_type_flag,0],  
+            ["u.month=%u",$month,0],
+            ["n.month=%u",$month,0],
+            ["n.main_type=%u",$main_type_flag,0],
         ];
         $sql = $this->gen_sql_new("delete u from %s u "
                                   ." left join %s n on u.groupid = n.groupid and u.month = n.month "
@@ -89,7 +89,7 @@ class t_group_user_month extends \App\Models\Zgen\z_t_group_user_month
         );
         return $this->main_get_value($sql);
     }
-    
+
     public function get_adminid_list($groupid,$month) {
         $sql=$this->gen_sql_new("select adminid from %s u,%s m where  groupid=%u and month=%u ",
                                 self::DB_TABLE_NAME,
@@ -137,17 +137,12 @@ class t_group_user_month extends \App\Models\Zgen\z_t_group_user_month
 
     }
 
-
+    public function del_item_row(){
+        $sql=$this->gen_sql_new(
+            "delete from %s where groupid=0 and adminid=68 and month=1512057600",
+            self::DB_TABLE_NAME
+        );
+        return $this->main_update($sql);
+    }
 
 }
-
-
-
-
-
-
-
-
-
-
-
