@@ -41,6 +41,7 @@ class Controller extends ControllerEx
                 header('Location: http://admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
                 exit;
             }
+            $this->switch_tongji_database();
         }
     }
 

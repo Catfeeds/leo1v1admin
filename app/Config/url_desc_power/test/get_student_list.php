@@ -9,7 +9,7 @@ class  get_student_list{
             ["input_subject", "显示 科目输入框 "  ],
         ];
     }
-    static public function get_value_config() {
+    static public function get_input_value_config() {
         return [
             "field_name"=> "grade",
             "value_type"=> "enum",
