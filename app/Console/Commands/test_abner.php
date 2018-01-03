@@ -80,13 +80,13 @@ class test_abner extends cmd_base
 
             if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['lesson_type'] == 2)
                 $teacher_violation_arr[$item['teacherid']]['test_lesson_count'] ++;
-            if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && ($item['lesson_type'] == 0 || $item['lesson_type'] == 1 && $item['lesson_type'] == 3))
+            if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && in_array($item['lesson_type'],[0,1,3]))
                 $teacher_violation_arr[$item['teacherid']]['regular_lesson_count'] ++;
             if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['deduct_upload_cw'] == 1)
                 $teacher_violation_arr[$item['teacherid']]['no_notes_count'] ++;
             if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['deduct_come_late'] == 1 && $item['lesson_type'] == 2)
                 $teacher_violation_arr[$item['teacherid']]['test_lesson_later_count'] ++;
-            if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['deduct_come_late'] == 1  && ($item['lesson_type'] == 0 || $item['lesson_type'] == 1 && $item['lesson_type'] == 3))
+            if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['deduct_come_late'] == 1  && in_array($item['lesson_type'],[0,1,3]))
                 $teacher_violation_arr[$item['teacherid']]['regular_lesson_later_count'] ++;
             if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['deduct_rate_student'] == 1)
                 $teacher_violation_arr[$item['teacherid']]['no_evaluation_count'] ++;
@@ -98,10 +98,10 @@ class test_abner extends cmd_base
                 $teacher_violation_arr[$item['teacherid']]['ask_for_leavel_count'] ++;
             if($item['confirm_flag'] = 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21 && $item['lesson_type'] == 2)
                 $teacher_violation_arr[$item['teacherid']]['test_lesson_truancy_count'] ++;
-            if($item['confirm_flag'] = 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21 && ($item['lesson_type'] == 0 || $item['lesson_type'] == 1 && $item['lesson_type'] == 3))
+            if($item['confirm_flag'] = 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21  && in_array($item['lesson_type'],[0,1,3]))
                 $teacher_violation_arr[$item['teacherid']]['regular_lesson_truancy_count'] ++;
 
-            if($is_turn_teacher == 1 && ($item['lesson_type'] == 0 || $item['lesson_type'] == 1 && $item['lesson_type'] == 3))
+            if($is_turn_teacher == 1 && in_array($item['lesson_type'],[0,1,3]))
                 $teacher_violation_arr[$teacher_student_arr[$item['userid']][$item['subject']]['teacherid']]['turn_teacher_count'] ++;
 
 
