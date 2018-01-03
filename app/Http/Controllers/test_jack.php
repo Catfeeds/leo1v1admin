@@ -372,12 +372,10 @@ class test_jack  extends Controller
         $day_time =  strtotime("2018-01-02");
         $festival_info = $this->t_festival_info->get_festival_info_by_end_time($day_time);
         $festival_day_str = date("Y-m-d H:i:s",$festival_info["begin_time"])." ~ ".date("Y-m-d 22:i:s",$festival_info["end_time"]);
-        echo $festival_day_str."<br>";
 
         $add_time = strtotime("2018-01-01");
         $attendance_type = 3;
         $arr = $this->t_fulltime_teacher_attendance_list->get_festaival_info( $add_time,$attendance_type);
-        dd($arr);
         foreach ($arr as $key => $value) {
             /**
              * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
@@ -389,28 +387,29 @@ class test_jack  extends Controller
              * {{remark.DATA}}
              */
 
-            $holiday_hugh_time_arr = json_decode($item["holiday_hugh_time"],true);
-            $item["holiday_hugh_time_str"] = date("Y.m.d",@$holiday_hugh_time_arr["start"])."-".date("Y.m.d",@$holiday_hugh_time_arr["end"]);
+            $holiday_hugh_time_arr = json_decode($value["holiday_hugh_time"],true);
+            $holiday_hugh_time_str = date("Y.m.d",@$holiday_hugh_time_arr["start"])."-".date("Y.m.d",@$holiday_hugh_time_arr["end"]);
 
+            $lesson_count = $value["lesson_count"]/100;
             $data=[];
             $url = "";
             $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
             $data['first']    =  $festival_info["name"]."延休统计";
             $data['keyword1'] = "延休数据汇总";
-            $data['keyword2'] =                 "\n老师:".$value['realname'].
-                              "\n时间:2017-10-1 0:0:0 ~ 2017-10-8 22:0:0".
-                              "\n累计上课课时:".$value['lesson_count'].
+            $data['keyword2'] = "\n老师:".$value['realname'].
+                                "\n时间:".$festival_day_str.
+                                "\n累计上课课时:".$lesson_count.
                               "\n延休天数:".$value['day_num'].
-                              "\n延休日期:".$value['cross_time'];
+                              "\n延休日期:".$holiday_hugh_time_str;
 
             $data['keyword3'] = date("Y-m-d H:i",time());
-            $data['remark']   = "如有疑问,可在新师培训QQ群:315540732 咨询【师训】老师"; 
+            $data['remark']   = ""; 
             $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
         
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
  
         }
-        dd(111);
+        dd($arr);
 
        
 

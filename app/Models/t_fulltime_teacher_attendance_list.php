@@ -79,7 +79,8 @@ class t_fulltime_teacher_attendance_list extends \App\Models\Zgen\z_t_fulltime_t
             ["f.attendance_type=%u",$attendance_type,-1],
             ["f.add_time>=%u",$add_time,0],
         ];
-        $sql = $this->gen_sql_new("select distinct t.realname,f.adminid,holiday_hugh_time"
+        $sql = $this->gen_sql_new("select distinct t.realname,f.adminid,holiday_hugh_time,t.wx_openid"
+                                  .",lesson_count ,day_num "
                                   ." from %s f left join %s t on f.teacherid = t.teacherid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
