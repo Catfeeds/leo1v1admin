@@ -29,6 +29,8 @@ use LaneWeChat\Core\UserManage;
 use LaneWeChat\Core\TemplateMessage;
 
 
+
+
 // 引入鉴权类
 use Qiniu\Auth;
 
@@ -378,11 +380,7 @@ class test_james extends Controller
         Schema::table('db_weiyi.t_lesson_info', function(Blueprint $table) {
             t_field($table->integer("tea_cw_type"), "老师上传讲义的类型 0:pdf 1:ppt");
             t_field($table->string("uuid"), "老师PPT讲义的uuid");
-            t_field($table->text("pnglinks"), "图片链接");
             t_field($table->integer("ppt_status"), "ppt转化状态 0:未处理 1:已成功 2:失败");
-
-            $table->index('teacherid');
-            $table->index('add_time');
         });
 
     }
@@ -1642,6 +1640,35 @@ class test_james extends Controller
             ]);
         }
     }
+
+
+
+    public function getWxName(){
+        $openid = $this->get_in_str_val('openid');
+        $userInfo = UserManage::getUserInfo($openid);
+
+        dd($userInfo);
+
+        //第一步，获取CODE
+
+        WeChatOAuth::getCode('http://wx-parent-web.leo1v1.com/test_james/returnName', 1, 'snsapi_base');
+
+    }
+
+    public function returnName(){
+        //此时页面跳转到了http://www.lanecn.com/index.php，code和state在GET参数中。
+
+        $code = $_GET['code'];
+
+        //第二步，获取access_token网页版
+
+        $openId = WeChatOAuth::getAccessTokenAndOpenId($code);
+
+        //第三步，获取用户信息
+
+        $userInfo = UserManage::getUserInfo($openId['openid']);
+    }
+
 
 
 
