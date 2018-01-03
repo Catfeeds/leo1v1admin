@@ -144,7 +144,7 @@
         @include("layouts.page")
     </section>
 
-    <div class="col-md-12 opt_process"   style="width:600px;position:fixed;right:0;top:200px;border-radius:5px;background:#eee;opacity:0.8;display:none;">
+    <div class="col-md-12 opt_process"  style="width:600px;position:fixed;right:0;top:200px;border-radius:5px;background:#eee;opacity:0.8;display:none;">
         <div class="hide" id="up_load"> </div>
         <table class="table table-striped table-hover text-left" >
             <thead>
