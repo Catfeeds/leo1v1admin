@@ -157,7 +157,6 @@ export default class vtable extends Vue {
     });
     $page_info.find(".select_page_count").on("change", function (e) {
       var page_count = $(e.currentTarget).val();
-      console.log(page_count);
       me.reload_page_by_page_info(1, page_count);
       return false;
     });
@@ -217,8 +216,7 @@ export default class vtable extends Vue {
     $table_p.append(' <div class="overlay"> <i class="fa fa-refresh fa-spin"></i> </div> <!-- end loading --> </div> ');
     $.do_ajax(path, query_args, function (resp) {
       if (resp.ret == 0) {
-        console.log("out:");
-        console.log(resp);
+        console.log("ajax out",resp);
         me.$data.table_data = resp.list;
         me.$data.html_hide_list = {} ;
         $.each( resp.html_hide_list,function(i,field_name){
@@ -228,7 +226,6 @@ export default class vtable extends Vue {
         //附加数据
         $.each(resp ,function(k,v){
           if ($.inArray(k, ["page_info", "ret","info","g_args","list","html_hide_list"] ) === -1  ) {
-            console.log("XXX ", k);
             me.$data[k]= v;
           }
         });
@@ -297,7 +294,6 @@ export default class vtable extends Vue {
       $(e.currentTarget).closest("tr").find("td > div .td-info ").click();
     });
     var thead_tr = $table_list.find("thead >tr");
-    console.log(thead_tr);
     thead_tr.prepend('<td class="remove-for-not-xs" > </td>');
     $.each(thead_tr, function (table_i, th_item) {
       if ($(th_item).parent().hasClass("table-clean-flag")) {
@@ -502,19 +498,15 @@ export default class vtable extends Vue {
             not_for_xs_list.push(i);
           }
         });
-        console.log("TTTT:", display_none_list);
         //for
         $.each($row_list, function (i, item) {
           var $item = $(item);
           var td_list = $item.find("td");
-          console.log(td_list);
           if ($item.find(".start-opt-mobile").length > 0) {
             return;
           }
           $item.prepend($('<td class="remove-for-not-xs"  > <a class="  fa  fa-cog  start-opt-mobile " style="font-size:25px"  href="javascript:;"  > </a> </td>'));
-          console.log("xxxxLL", display_none_list );
           $.each(display_none_list, function (i, display_none_id) {
-            console.log("xxxx", display_none_id );
             $(td_list[display_none_id - 1]).css("display", "none");
           });
           $.each(not_for_xs_list, function (i, id) {
