@@ -404,7 +404,8 @@ class test_jack  extends Controller
 
             $data['keyword3'] = date("Y-m-d H:i",time());
             $data['remark']   = ""; 
-            $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+            // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+            $wx_openid = $value["wx_openid"];
         
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
  
