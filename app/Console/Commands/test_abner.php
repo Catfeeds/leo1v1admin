@@ -38,20 +38,36 @@ class test_abner extends cmd_base
     public function handle()
     {
         //获取所有违规老师的数据
-        $begin_time = strtotime(date('Y-10-1'));
+        $begin_time = strtotime(date('2017-10-1'));
         $end_time = strtotime('+ 1 month',$begin_time);
         $teacher_violation = $this->task->t_teacher_info->get_teacher_violation($begin_time,$end_time);
         $teacher_violation_arr = [];
         //记录学生课程情况数组
         $teacher_student_arr = [];
         $is_turn_teacher = 0;
+        $path = '/var/www/admin.yb1v1.com/9.txt';
+        $fp = fopen($path,"a+");
         foreach($teacher_violation as $item){
-            if(@$teacher_student_arr[$item['userid']][$item['subject']]['teacherid'] && @$teacher_student_arr[$item['userid']][$item['subject']]['teacherid'] != $item['teacherid'])//该学生该课程的老师存在变更
+            if(@$teacher_student_arr[$item['userid']][$item['subject']]['teacherid']
+               && @$teacher_student_arr[$item['userid']][$item['subject']]['teacherid'] != $item['teacherid']
+               // && in_array($item['teacherid'],$teacher_student_arr[$item['userid']][$item['subject']])
+            ){
+                fwrite($fp, @$teacher_student_arr[$item['userid']][$item['subject']]['teacherid']);//1
+                fwrite($fp, '   ');
+                fwrite($fp, @$item['teacherid']);//2
+                fwrite($fp, "\n");
+
+                //该学生该课程的老师存在变更
                 $is_turn_teacher = 1;
+            }else{
+                $is_turn_teacher = 0;
+            }
 
             $teacher_student_arr[$item['userid']][$item['subject']] = [
                 'teacherid' => $item['teacherid'],
             ];
+
+            // $teacher_student_arr[$item['userid']][$item['subject']][] = $item['teacherid'];
 
             if(!@$teacher_violation_arr[$item['teacherid']]){
                 //初始化每个老师的数据
@@ -74,13 +90,13 @@ class test_abner extends cmd_base
 
             if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['lesson_type'] == 2)
                 $teacher_violation_arr[$item['teacherid']]['test_lesson_count'] ++;
-            if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && ($item['lesson_type'] == 0 || $item['lesson_type'] == 1 && $item['lesson_type'] == 3))
+            if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && in_array($item['lesson_type'],[0,1,3]))
                 $teacher_violation_arr[$item['teacherid']]['regular_lesson_count'] ++;
             if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['deduct_upload_cw'] == 1)
                 $teacher_violation_arr[$item['teacherid']]['no_notes_count'] ++;
             if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['deduct_come_late'] == 1 && $item['lesson_type'] == 2)
                 $teacher_violation_arr[$item['teacherid']]['test_lesson_later_count'] ++;
-            if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['deduct_come_late'] == 1  && ($item['lesson_type'] == 0 || $item['lesson_type'] == 1 && $item['lesson_type'] == 3))
+            if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['deduct_come_late'] == 1  && in_array($item['lesson_type'],[0,1,3]))
                 $teacher_violation_arr[$item['teacherid']]['regular_lesson_later_count'] ++;
             if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['deduct_rate_student'] == 1)
                 $teacher_violation_arr[$item['teacherid']]['no_evaluation_count'] ++;
@@ -88,18 +104,21 @@ class test_abner extends cmd_base
                 $teacher_violation_arr[$item['teacherid']]['turn_class_count'] ++;
 
 
-            if($item['confirm_flag'] = 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 12)
+            if($item['confirm_flag'] == 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 12)
                 $teacher_violation_arr[$item['teacherid']]['ask_for_leavel_count'] ++;
-            if($item['confirm_flag'] = 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21 && $item['lesson_type'] == 2)
+            if($item['confirm_flag'] == 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21 && $item['lesson_type'] == 2)
                 $teacher_violation_arr[$item['teacherid']]['test_lesson_truancy_count'] ++;
-            if($item['confirm_flag'] = 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21 && ($item['lesson_type'] == 0 || $item['lesson_type'] == 1 && $item['lesson_type'] == 3))
+            if($item['confirm_flag'] == 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21  && in_array($item['lesson_type'],[0,1,3]))
                 $teacher_violation_arr[$item['teacherid']]['regular_lesson_truancy_count'] ++;
 
-            if($is_turn_teacher == 1 && ($item['lesson_type'] == 0 || $item['lesson_type'] == 1 && $item['lesson_type'] == 3))
+            if($is_turn_teacher == 1 && in_array($item['lesson_type'],[0,1,3])){
                 $teacher_violation_arr[$teacher_student_arr[$item['userid']][$item['subject']]['teacherid']]['turn_teacher_count'] ++;
+            }
 
 
         }
+
+        fclose($fp);
 
         //打印老师数据
         $path = '/var/www/admin.yb1v1.com/10.txt';

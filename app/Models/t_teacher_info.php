@@ -106,19 +106,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array( "gender=%d", $gender, -1 ),
             array( "teacherid=%d", $id, -1 ),
         );
-        if ($nick_phone!=""){
-            $where_arr[]=array( "(nick like '%%%s%%' or  realname like '%%%s%%' or  phone like '%%%s%%' )",array(
-                $this->ensql($nick_phone),
-                $this->ensql($nick_phone),
-                $this->ensql($nick_phone)
-            ));
-        }
-
-        $sql = sprintf("select teacherid as id , nick, phone,gender ,realname,"
-                       ." subject,grade_part_ex,grade_start,grade_end,teacher_type from %s "
-                       ." where %s and is_quit=0",
-                       self::DB_TABLE_NAME,
-                       $this->where_str_gen( $where_arr)
+        $where_arr = $this->teacher_search_info_sql($nick_phone,'',$where_arr);
+        $sql = $this->gen_sql_new("select teacherid as id , nick, phone,gender ,realname,"
+                                  ." subject,grade_part_ex,grade_start,grade_end,teacher_type from %s "
+                                  ." where %s and is_quit=0"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
@@ -156,17 +149,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array( "teacherid=%d", $id, -1 ),
             "is_freeze=0"
         );
-        if ($nick_phone!=""){
-            $where_arr[]=array( "(nick like '%%%s%%' or  realname like '%%%s%%' or  phone like '%%%s%%' )",
-                                array(
-                                    $this->ensql($nick_phone),
-                                    $this->ensql($nick_phone),
-                                    $this->ensql($nick_phone)));
-        }
+        $where_arr = $this->teacher_search_info_sql($nick_phone,'',$where_arr);
 
-        $sql = sprintf("select teacherid as id , nick, phone,gender ,realname,subject,"
-                       ."grade_part_ex,grade_start,grade_end from %s  where %s",
-                       self::DB_TABLE_NAME,  $this->where_str_gen( $where_arr));
+        $sql = $this->gen_sql_new("select teacherid as id , nick, phone,gender ,realname,subject,"
+                                  ."grade_part_ex,grade_start,grade_end from %s  where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
@@ -176,17 +165,14 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array( "teacherid=%d", $id, -1 ),
             "is_interview_teacher_flag =1"
         );
-        if ($nick_phone!=""){
-            $where_arr[]=array( "(nick like '%%%s%%' or  realname like '%%%s%%' or  phone like '%%%s%%' )",
-                                array(
-                                    $this->ensql($nick_phone),
-                                    $this->ensql($nick_phone),
-                                    $this->ensql($nick_phone)));
-        }
+        $where_arr = $this->teacher_search_info_sql($nick_phone,'',$where_arr);
 
-        $sql = sprintf("select teacherid as id , nick, phone,gender ,realname,"
-                       ."subject,grade_part_ex,grade_start,grade_end from %s  where %s",
-                       self::DB_TABLE_NAME,  $this->where_str_gen( $where_arr));
+        $sql = $this->gen_sql_new("select teacherid as id,nick,phone,gender,realname,"
+                                  ." subject,grade_part_ex,grade_start,grade_end "
+                                  ." from %s where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
         return $this->main_get_list_by_page($sql,$page_num,10);
 
     }
@@ -198,23 +184,17 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "m.account_role in(4,5,9)",
             "m.del_flag=0"
         );
-        if ($nick_phone!=""){
-            $where_arr[]=array( "(nick like '%%%s%%' or  realname like '%%%s%%' or  t.phone like '%%%s%%' )",
-                                array(
-                                    $this->ensql($nick_phone),
-                                    $this->ensql($nick_phone),
-                                    $this->ensql($nick_phone)));
-        }
-
-        $sql = sprintf("select teacherid as id , nick,t.phone,t.gender ,realname,"
-                       ."subject,grade_part_ex,grade_start,grade_end from %s t".
-                       " left join %s m on t.phone= m.phone".
-                       " where %s ",
-                       self::DB_TABLE_NAME,
-                       t_manager_info::DB_TABLE_NAME,
-                       $this->where_str_gen( $where_arr));
+        $where_arr = $this->teacher_search_info_sql($nick_phone,'t', $where_arr);
+        $sql = $this->gen_sql_new("select teacherid as id , nick,t.phone,t.gender ,realname,"
+                                  ." subject,grade_part_ex,grade_start,grade_end "
+                                  ." from %s t"
+                                  ." left join %s m on t.phone= m.phone"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
         return $this->main_get_list_by_page($sql,$page_num,10);
-
     }
 
     public function get_research_tea_list_for_select($id,$gender, $nick_phone, $page_num){
@@ -224,21 +204,16 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "m.account_role in(4,9)",
             "m.del_flag=0"
         );
-        if ($nick_phone!=""){
-            $where_arr[]=array( "(nick like '%%%s%%' or  realname like '%%%s%%' or  t.phone like '%%%s%%' )",
-                                array(
-                                    $this->ensql($nick_phone),
-                                    $this->ensql($nick_phone),
-                                    $this->ensql($nick_phone)));
-        }
+        $where_arr = $this->teacher_search_info_sql($nick_phone, '', $where_arr);
 
-        $sql = sprintf("select teacherid as id , nick,t.phone,t.gender ,"
-                       ."realname,subject,grade_part_ex,grade_start,grade_end from %s t".
-                       " left join %s m on t.phone= m.phone".
-                       " where %s ",
-                       self::DB_TABLE_NAME,
-                       t_manager_info::DB_TABLE_NAME,
-                       $this->where_str_gen( $where_arr));
+        $sql = $this->gen_sql_new("select teacherid as id , nick,t.phone,t.gender ,"
+                                  ."realname,subject,grade_part_ex,grade_start,grade_end from %s t".
+                                  " left join %s m on t.phone= m.phone".
+                                  " where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
         return $this->main_get_list_by_page($sql,$page_num,10);
 
     }
@@ -250,13 +225,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "train_through_new=1",
             "trial_lecture_is_pass=1",
         ];
-        if($nick_phone!=""){
-            $where_arr[] = array( "(nick like '%%%s%%' or  realname like '%%%s%%' or  t.phone like '%%%s%%' )",array(
-                $this->ensql($nick_phone),
-                $this->ensql($nick_phone),
-                $this->ensql($nick_phone))
-            );
-        }
+        $where_arr = $this->teacher_search_info_sql($nick_phone, '', $where_arr);
 
         $sql = $this->gen_sql_new("select teacherid as id , nick,t.phone,t.gender ,"
                                   ."realname,subject,grade_part_ex,grade_start,grade_end "
@@ -267,6 +236,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
+
     public function get_train_through_tea_list_for_select_new($id,$gender, $nick_phone, $page_num){
         $where_arr = [
             ["t.gender=%d",$gender,-1],
@@ -275,16 +245,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "trial_lecture_is_pass=1",
             "month_stu_num<=10"
         ];
-        if($nick_phone!=""){
-            $where_arr[] = array( "(nick like '%%%s%%' or  realname like '%%%s%%' or  t.phone like '%%%s%%' )",array(
-                $this->ensql($nick_phone),
-                $this->ensql($nick_phone),
-                $this->ensql($nick_phone))
-            );
-        }
+        $where_arr = $this->teacher_search_info_sql($nick_phone,'',$where_arr);
 
-        $sql = $this->gen_sql_new("select teacherid as id , nick,t.phone,t.gender ,"
-                                  ."realname,subject,grade_part_ex,grade_start,grade_end "
+        $sql = $this->gen_sql_new("select teacherid as id , nick,t.phone,t.gender,"
+                                  ." realname,subject,grade_part_ex,grade_start,grade_end "
                                   ." from %s t"
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
@@ -4949,7 +4913,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             'li.deduct_change_class,li.lesson_cancel_reason_type,li.subject '.
             'from %s ti '.
             'left join %s li on ti.teacherid = li.teacherid '.
-            'where %s',
+            'where %s '.
+            'order by lesson_start desc ',
             t_teacher_info::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
             $where_arr

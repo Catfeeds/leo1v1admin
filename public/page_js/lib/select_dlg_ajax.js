@@ -191,7 +191,6 @@
 
             if (get_value_desc_flag ) {
                 //do null
-
             } else if (val==me.options.select_no_select_value ) {
                 me.$show_input.val(me.options.select_no_select_title );
             } else if (val  && me.element_is_input ) {
@@ -472,12 +471,12 @@
                         $tbody.append( $tr_item);
                     });
 
-                    var html_str=get_page_node(ret_page_info ,function(url ){
+                    var html_str = get_page_node(ret_page_info ,function(url ){
                         me.reload_data(null,url);
                     });
                     me.$body.find("#id_page_info").html(html_str);
 
-                    var select_opt=function(){
+                    var select_opt = function(){
                         if ( $(this).hasClass("warning") ){
                             $lru_tbody.find("tr").removeClass("warning");
                             $tbody.find("tr").removeClass("warning");

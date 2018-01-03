@@ -207,12 +207,12 @@ class t_assistant_info extends \App\Models\Zgen\z_t_assistant_info
                        self::DB_TABLE_NAME,  $this->where_str_gen( $where_arr));
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
+
     public function get_account_by_id($assistantid) {
         //从email 中得到
         $adminid= $this->get_adminid_by_assistand($assistantid);
         return $this->t_manager_info->get_account($adminid);
     }
-
 
     /*
       public function get_teacher_clothes_list($type){
@@ -227,6 +227,7 @@ class t_assistant_info extends \App\Models\Zgen\z_t_assistant_info
         return $this->main_get_list($sql);
     }
     */
+
     public function get_assistant_list($assistantid){
         $sql = $this->gen_sql("select * from %s where assistantid = %u ",
                              self::DB_TABLE_NAME,

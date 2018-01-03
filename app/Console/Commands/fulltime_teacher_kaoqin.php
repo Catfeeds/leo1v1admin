@@ -261,6 +261,7 @@ class fulltime_teacher_kaoqin extends Command
             //节假日延休        
             $festival_info = $task->t_festival_info->get_festival_info_by_end_time($day_time);
             if($festival_info){
+                $festival_day_str = date("Y-m-d H:i:s",$festival_info["begin_time"])." ~ ".date("Y-m-d 22:i:s",$festival_info["end_time"]); 
                 $attendance_day = $day_time+86400;
                 $lesson_info = $task->t_lesson_info_b2->get_qz_tea_lesson_info_b2($festival_info["begin_time"],$attendance_day);
                 $list=[];
@@ -279,7 +280,7 @@ class fulltime_teacher_kaoqin extends Command
                     $teacherid = $teacher_info["teacherid"];
                     $realname = $task->t_teacher_info->get_realname($teacherid);
                     @$arr[$key]['teacherid'] = $teacherid;
-                    @$arr[$key]['fulltime_teacher_type'] = $fulltime_teacher_type;
+                    @$arr[$key]['fulltime_teacher_type'] = $teacher_info["fulltime_teacher_type"];
                     @$arr[$key]['realname']  = $task->t_teacher_info->get_realname($teacherid);
                     @$arr[$key]['lesson_count'] = $value;
                     @$arr[$key]['day_num'] = floor($value/10.5);
@@ -333,7 +334,7 @@ class fulltime_teacher_kaoqin extends Command
                         $festival_info["name"]."延休统计",
                         "延休数据汇总",
                         "\n老师:".$value['realname'].
-                        "\n时间:2017-10-1 0:0:0 ~ 2017-10-8 22:0:0".
+                        "\n时间:".$festival_day_str.
                         "\n累计上课课时:".$value['lesson_count'].
                         "\n延休天数:".$value['day_num'].
                         "\n延休日期:".$value['cross_time'],'');

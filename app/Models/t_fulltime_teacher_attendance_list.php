@@ -74,6 +74,22 @@ class t_fulltime_teacher_attendance_list extends \App\Models\Zgen\z_t_fulltime_t
         
     }
 
+    public function get_festaival_info( $add_time,$attendance_type){
+        $where_arr=[
+            ["f.attendance_type=%u",$attendance_type,-1],
+            ["f.add_time>=%u",$add_time,0],
+        ];
+        $sql = $this->gen_sql_new("select distinct t.realname,f.adminid,holiday_hugh_time"
+                                  ." from %s f left join %s t on f.teacherid = t.teacherid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
 }
 
 
