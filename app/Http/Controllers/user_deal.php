@@ -5837,7 +5837,20 @@ class user_deal extends Controller
     }
 
 
-     public function get_teacher_textbook(){
+    public function get_teacher_textbook_str(){
+        $textbook = $this->get_in_str_val('teacher_textbook');
+        $arr_text = json_decode($textbook,true);
+        foreach( $arr_text as $vall){
+            @$str .=  E\Eregion_version::get_desc ($vall).",";
+            @$num .= $vall.",";
+        }
+        @$str = trim($str,",");
+        @$num = trim($num,",");
+        return $this->output_succ(["textbook"=>@$str,"textbook_value"=>@$num]);
+
+
+    }
+    public function get_teacher_textbook(){
         $textbook = $this->get_in_str_val('textbook');
         // $textbook = "2,3";
         $list    = E\Eregion_version::$desc_map;
