@@ -1,3 +1,73 @@
+api 文档
+## Table of Contents
+
+* [Install](#install)
+* [vue整合](#vue)
+
+##  Install 
+
+## vue整合
+
+### 运行vue 开发环境
+```bash
+cdad
+cd vue
+npm run dev 
+```
+
+### Controller 改造 
+
+
+```php
+    public function get_user_list(){
+        #分页信息
+        $page_info= $this->get_in_page_info();
+        #排序信息
+        list($order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str([],"userid desc");
+
+        #输入参数
+        $grade=$this->get_in_el_grade();
+        list($start_time, $end_time)=$this->get_in_date_range_day(0);
+        $ret_info=$this->t_student_info->get_test_list($page_info, $order_by_str,  $grade );
+        $gender=$this->get_in_el_gender();
+
+        $this->get_in_query_text();
+        $userid=$this->get_in_userid(-1);
+
+        #得到当前action :get_user_list 或  get_user_list1 
+        $action=$this->get_action_str();
+        \App\Helper\Utils::logger("action:$action");
+
+        foreach($ret_info["list"] as &$item) {
+            E\Egrade::set_item_value_str($item);
+        }
+
+        #哪些数据不需要显示
+        $html_hide_list=[];
+        if ($action=="get_user_list1"){
+            $html_hide_list[]="grade"; //不显示 grade 列
+            $html_hide_list[]="opt_grade"; //不显示 操作 grade
+            $html_hide_list[]="input_grade"; //不显示 grade输入
+        }
+
+        return $this->pageOutJson(__METHOD__, $ret_info,[
+            "html_hide_list" =>  $html_hide_list,
+            #其他数据
+            "message" =>  "cur usrid:".$userid,
+        ]);
+    }
+
+    //公用ctrl
+    public function get_user_list1(){
+        $this->set_in_value("grade", 101);
+        return $this->get_user_list();
+    }
+
+```
+### ts 代码 
+
+```typescript
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import vtable from "../../components/vtable"
@@ -7,6 +77,9 @@ import {self_RowData, self_Args } from "../page.d.ts/test-get_user_list"
 @Component({
   // 所有的组件选项都可以放在这里
   template:  require("./get_user_list.html" ),
+  data: {
+    message: "" ,
+  }
 })
 
 export default class extends vtable {
@@ -14,6 +87,7 @@ export default class extends vtable {
   data_ex() {
     return {
       "message"          : "xx",
+
     }
   }
 
@@ -107,3 +181,38 @@ export default class extends vtable {
 
   }
 }
+
+```
+
+### html 模板
+```html
+<section class="content ">
+  <admin-remote-script  @load=js_xx_loaded  src="/js/xx.js" />
+  <admin-remote-css  href="/css/test.css" />
+
+  <div id="id_header_query_info" > </div>
+
+  <hr/>
+  <div  > test :{{message}} </div>
+  <table class=" common-table " >
+    <thead>
+      <tr> <td data-field_name="userid"> userid </td>
+        <td >姓名</td>
+        <td data-field_name="grade"  v-if="check_show('grade')"  >年级</td>
+        <td>操作</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(item, index) in table_data" >
+        <td> {{ index }} {{ item.userid }} </td>
+        <td> {{ item.phone}} </td>
+        <td v-if="check_show('grade')" > {{ item.grade_str}} </td>
+        <td >
+          <div v-bind:data-index="index" >
+            <a class="fa-times " title="xxxxx" @click="doOpt" v-if="check_show('opt_grade')"  > </a> </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+```
