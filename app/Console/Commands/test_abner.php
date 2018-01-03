@@ -37,13 +37,133 @@ class test_abner extends cmd_base
      */
     public function handle()
     {
-        $data = $this->get_wx_user_info($wx_openid='oAJiDwEId4b1lA6WV1wbRS83WXvo');
-        print_r($data);
-        $status = $this->task->t_agent->field_update_list($id=1316, [
-            'headimgurl' => $data['headimgurl']
-        ]);
-        echo $status;
-        echo 'ok';
+        //获取所有违规老师的数据
+        $begin_time = strtotime(date('2017-10-1'));
+        $end_time = strtotime('+ 1 month',$begin_time);
+        $teacher_violation = $this->task->t_teacher_info->get_teacher_violation($begin_time,$end_time);
+        $teacher_violation_arr = [];
+        //记录学生课程情况数组
+        $teacher_student_arr = [];
+        $is_turn_teacher = 0;
+        $path = '/var/www/admin.yb1v1.com/9.txt';
+        $fp = fopen($path,"a+");
+        foreach($teacher_violation as $item){
+            if(@$teacher_student_arr[$item['userid']][$item['subject']]['teacherid']
+               && @$teacher_student_arr[$item['userid']][$item['subject']]['teacherid'] != $item['teacherid']
+               // && in_array($item['teacherid'],$teacher_student_arr[$item['userid']][$item['subject']])
+            ){
+                fwrite($fp, @$teacher_student_arr[$item['userid']][$item['subject']]['teacherid']);//1
+                fwrite($fp, '   ');
+                fwrite($fp, @$item['teacherid']);//2
+                fwrite($fp, "\n");
+
+                //该学生该课程的老师存在变更
+                $is_turn_teacher = 1;
+            }else{
+                $is_turn_teacher = 0;
+            }
+
+            $teacher_student_arr[$item['userid']][$item['subject']] = [
+                'teacherid' => $item['teacherid'],
+            ];
+
+            // $teacher_student_arr[$item['userid']][$item['subject']][] = $item['teacherid'];
+
+            if(!@$teacher_violation_arr[$item['teacherid']]){
+                //初始化每个老师的数据
+                $teacher_violation_arr[$item['teacherid']] = [
+                    'teacher_id' => $item['teacherid'],
+                    'teacher_name' => $item['realname'],
+                    'test_lesson_count' => 0,
+                    'regular_lesson_count' => 0,
+                    'no_notes_count' => 0,
+                    'test_lesson_later_count' => 0,
+                    'regular_lesson_later_count' => 0,
+                    'no_evaluation_count' => 0,
+                    'turn_class_count' => 0,
+                    'ask_for_leavel_count' => 0,
+                    'test_lesson_truancy_count' => 0,
+                    'regular_lesson_truancy_count' => 0,
+                    'turn_teacher_count' => 0
+                ];
+            }
+
+            if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['lesson_type'] == 2)
+                $teacher_violation_arr[$item['teacherid']]['test_lesson_count'] ++;
+            if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && in_array($item['lesson_type'],[0,1,3]))
+                $teacher_violation_arr[$item['teacherid']]['regular_lesson_count'] ++;
+            if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['deduct_upload_cw'] == 1)
+                $teacher_violation_arr[$item['teacherid']]['no_notes_count'] ++;
+            if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['deduct_come_late'] == 1 && $item['lesson_type'] == 2)
+                $teacher_violation_arr[$item['teacherid']]['test_lesson_later_count'] ++;
+            if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['deduct_come_late'] == 1  && in_array($item['lesson_type'],[0,1,3]))
+                $teacher_violation_arr[$item['teacherid']]['regular_lesson_later_count'] ++;
+            if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['deduct_rate_student'] == 1)
+                $teacher_violation_arr[$item['teacherid']]['no_evaluation_count'] ++;
+            if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['deduct_change_class'] == 1)
+                $teacher_violation_arr[$item['teacherid']]['turn_class_count'] ++;
+
+
+            if($item['confirm_flag'] == 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 12)
+                $teacher_violation_arr[$item['teacherid']]['ask_for_leavel_count'] ++;
+            if($item['confirm_flag'] == 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21 && $item['lesson_type'] == 2)
+                $teacher_violation_arr[$item['teacherid']]['test_lesson_truancy_count'] ++;
+            if($item['confirm_flag'] == 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21  && in_array($item['lesson_type'],[0,1,3]))
+                $teacher_violation_arr[$item['teacherid']]['regular_lesson_truancy_count'] ++;
+
+            if($is_turn_teacher == 1 && in_array($item['lesson_type'],[0,1,3])){
+                $teacher_violation_arr[$teacher_student_arr[$item['userid']][$item['subject']]['teacherid']]['turn_teacher_count'] ++;
+            }
+
+
+        }
+
+        fclose($fp);
+
+        //打印老师数据
+        $path = '/var/www/admin.yb1v1.com/10.txt';
+        $fp = fopen($path,"a+");
+        foreach($teacher_violation_arr as $item){
+            fwrite($fp, @$item['teacher_id']);//1
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['teacher_name']);//2
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['test_lesson_count']);//3
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['regular_lesson_count']);//4
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['no_notes_count']);//5
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['test_lesson_later_count']);//6
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['regular_lesson_later_count']);//7
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['no_evaluation_count']);//8
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['turn_class_count']);//9
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['ask_for_leavel_count']);//10
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['test_lesson_truancy_count']);//11
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['regular_lesson_truancy_count']);//12
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['turn_teacher_count']);//13
+            fwrite($fp, "\n");
+        }
+
+        fclose($fp);
+        echo 'ok!';
+
+        //更新优学优享用户头像  --begin--
+        // $data = $this->get_wx_user_info($wx_openid='oAJiDwEId4b1lA6WV1wbRS83WXvo');
+        // print_r($data);
+        // $status = $this->task->t_agent->field_updte_list($id=1316, [
+        //     'headimgurl' => $data['headimgurl']
+        // ]);
+        // echo $status;
+        // echo 'ok';
+        //更新优学优享用户头像  --begin--
 
         // $this->get_teacher_case();
         // $this->get_today_headline

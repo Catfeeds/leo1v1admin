@@ -16,6 +16,7 @@ import Component from 'vue-class-component'
     return $.extend({}, this["data_ex"](),
     {
       table_data: [],
+      html_hide_list:{},
     });
   },
   watch: {
@@ -30,11 +31,22 @@ export default class vtable extends Vue {
     return {};
   }
 
+
+  last_page_url:any;
   $header_query_info:any;
 
   load_data_for_route () {
     this.load_data();
   };
+  get_action_str() {
+    var path = this["$route"].path;
+    var arr=path.split("/");
+    if (arr.length<3) {
+      return "index";
+    }else {
+      return $.trim(arr[2]);
+    }
+  }
   get_query_header_init(){
     var $header_query_info= $("#id_header_query_info").admin_header_query ({
     });
@@ -191,7 +203,10 @@ export default class vtable extends Vue {
     var query_args = this["$route"].query;
     var path = this["$route"].path;
     var me = this;
-    //me.$data.table_data=[];
+    if (me.last_page_url != path  ) { //
+      me.$data.table_data=[];
+    }
+    me.last_page_url= path;
     var $table_p = $(".common-table").parent();
     $table_p.append(' <div class="overlay"> <i class="fa fa-refresh fa-spin"></i> </div> <!-- end loading --> </div> ');
     $.do_ajax(path, query_args, function (resp) {
@@ -199,12 +214,17 @@ export default class vtable extends Vue {
         console.log("out:");
         console.log(resp);
         me.$data.table_data = resp.list;
-        me.$data.message = resp.message;
+        me.$data.html_hide_list = {} ;
+        $.each( resp.html_hide_list,function(i,field_name){
+          me.$data.html_hide_list[ field_name ]=true;
+        });
+
         window["g_args"] = resp.g_args;
         $table_p.find(".overlay").remove();
         if (resp.g_args.order_by_str) {
           me.reset_sort_info(resp.g_args.order_by_str);
         }
+
         me.$nextTick(function () {
           me.query_init(  me.get_query_header_init() );
           me.table_row_init();
@@ -468,15 +488,19 @@ export default class vtable extends Vue {
             not_for_xs_list.push(i);
           }
         });
+        console.log("TTTT:", display_none_list);
         //for
         $.each($row_list, function (i, item) {
           var $item = $(item);
           var td_list = $item.find("td");
+          console.log(td_list);
           if ($item.find(".start-opt-mobile").length > 0) {
             return;
           }
           $item.prepend($('<td class="remove-for-not-xs"  > <a class="  fa  fa-cog  start-opt-mobile " style="font-size:25px"  href="javascript:;"  > </a> </td>'));
+          console.log("xxxxLL", display_none_list );
           $.each(display_none_list, function (i, display_none_id) {
+            console.log("xxxx", display_none_id );
             $(td_list[display_none_id - 1]).css("display", "none");
           });
           $.each(not_for_xs_list, function (i, id) {
