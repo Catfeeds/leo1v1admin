@@ -7,9 +7,6 @@ import {self_RowData, self_Args } from "../page.d.ts/test-get_user_list"
 @Component({
   // 所有的组件选项都可以放在这里
   template:  require("./get_user_list.html" ),
-  data: {
-    message: "" ,
-  }
 })
 
 export default class extends vtable {
@@ -17,7 +14,6 @@ export default class extends vtable {
   data_ex() {
     return {
       "message"          : "xx",
-
     }
   }
 

@@ -876,6 +876,9 @@ trait  ViewDeal {
         }
 
         $data["g_args"]=$this->last_in_values;
+        unset ($data["per_page_count"] );
+        unset ($data["total_num"] );
+
         return $this->output_succ($data);
     }
 
