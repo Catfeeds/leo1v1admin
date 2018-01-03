@@ -42,17 +42,15 @@ trait  ViewDeal {
         }
         return $this->getTplPageInfoAndJsValue($this->last_in_values,$page_data["page_info"],$page_data["list"],$showPages );
     }
-    public function store_vue_ts_file($table_data_list)
-    {
+
+    public function store_vue_ts_file($table_data_list){
         $str="";
         $reload_filed_str="";
         $set_filed_str="";
 
-
-        $check_data_range=false;
+        $check_data_range = false;
         if (isset( $this->last_in_values["date_type_config"] ) ) { //id_date_type
-
-            $set_filed_str.=
+            $set_filed_str .=
                 "\t\t$.admin_date_select ({\n".
                 "\t\t'join_header'  : \$header_query_info,\n".
                 "\t\t'title' : \"时间\",\n".
@@ -85,26 +83,18 @@ trait  ViewDeal {
             if ($is_enum_flag) {
                 $enum_type_str=preg_replace("/.*E/", "", $value);
                 $name=$value::$name;
-
-
             }else{
                 if ( !in_array( $key ,["page_num","page_count"]) ) {
-
                     $add_html_filed_flag=false;
                     if ($check_data_range) {
                         if ( !in_array ( $key, ["date_type_config","date_type", "opt_date_type","start_time","end_time"] ) )  {
                             $add_html_filed_flag=true;
                         }
-
                     }else{
                         $add_html_filed_flag=true;
                     }
                 }
-
-
             }
-
-
 
             if ( !in_array( $key ,["page_num","page_count", "order_by_str"]) ) {
                 $reload_filed_str.=  "\t\t$key:\t\$('#id_$key').val(),\n";
@@ -158,25 +148,20 @@ trait  ViewDeal {
                                           ."	});"  . "\n";
 
                         }else{
-
                             $set_filed_str.= "\t\$.admin_query_input({\n"
                                 ."\t\t'join_header'  : \$header_query_info,\n"
                                           ."\t\t".'"field_name"    : "'.$key.'" ,'. "\n"
                                           ."\t\t".'"title"        :  "'.$key.'",'  . "\n"
                                           .'		"select_value" : this.get_args().'.$key .','  . "\n"
                                           ."	});"  . "\n";
-
                         }
                     }
                 }
             }
         }
 
-
-        $reload_filed_str=substr($reload_filed_str,0,-2)."\n";
-
-
-        $row_file_name =app_path("../vue/src/views/page.d.ts/.vue-row-{$this->view_ctrl}-{$this->view_action}.tmp");
+        $reload_filed_str = substr($reload_filed_str,0,-2)."\n";
+        $row_file_name = app_path("../vue/src/views/page.d.ts/.vue-row-{$this->view_ctrl}-{$this->view_action}.tmp");
         $row_str="";
         if ( count($table_data_list) >0 && count($table_data_list[0])>0 ) {
             $row_item = @$table_data_list[0];
@@ -188,7 +173,6 @@ trait  ViewDeal {
             }
 
             if ($row_item) {
-
                 foreach ($row_item as  $r_k=>$r_v )    {
                     if ( !is_int($r_k)) {
                         $row_str.="\t$r_k\t:any;\n";
@@ -201,7 +185,6 @@ trait  ViewDeal {
                 file_put_contents( $row_file_name, $row_str);
                 chmod(  $row_file_name,0777);
             }
-
         }else{
             $row_str=@file_get_contents($row_file_name);
         }
@@ -247,7 +230,6 @@ trait  ViewDeal {
             "}\n"
             ."*/\n";
 
-
         $file_name =app_path("../vue/src/views/page.d.ts/{$this->view_ctrl}-{$this->view_action}.ts");
 
         $old_data=@file_get_contents($file_name);
@@ -257,7 +239,6 @@ trait  ViewDeal {
             @chmod(  $file_name,0777);
         }
     }
-
 
     public function store_gargs_d_ts_file($table_data_list)
     {
@@ -850,12 +831,10 @@ trait  ViewDeal {
                 }
             }
 
-            // dd($k_map);
             foreach( $ret_info["list"] as $index=> $item ) {
                 foreach ( $item as $key => $cell_data ) {
                     if(!is_int($key)) {
                         $index_str = $index+2;
-                        // dd($k_map);
                         $pos_str   = $col_list[$k_map[$key]].$index_str;
                         // echo $pos_str." ~ ".$cell_data."<br>";
                         $objPHPExcel->getActiveSheet()->setCellValue( $pos_str, $cell_data);

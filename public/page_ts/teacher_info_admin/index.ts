@@ -41,6 +41,7 @@ $(function(){
         $.do_ajax("/teacher_info_admin/get_teacher_info_for_js", {
             "teacherid" : g_teacherid
         },function(resp){
+            console.log(resp.data);
             id_nick.val(resp.data.nick);
             id_realname.val(resp.data.realname);
             id_phone.val(resp.data.phone);
@@ -60,7 +61,8 @@ $(function(){
             id_parent_student_evaluate.val(resp.data.parent_student_evaluate);
             id_qq_info.val(resp.data.qq_info);
             id_age.val(resp.data.age);
-            id_teacher_textbook.val(resp.data.teacher_textbook);
+            id_teacher_textbook.val(resp.data.textbook);
+            id_teacher_textbook.data("textbook_str",resp.data.teacher_textbook);
             id_identity.val(resp.data.identity);
         });
 
@@ -98,8 +100,8 @@ $(function(){
         });
 
         id_teacher_textbook.on("click",function(){
-            var textbook = id_teacher_textbook.val();
-            console.log(textbook);
+            var textbook = id_teacher_textbook.data("textbook_str");
+            console.log(textbook+"111");
             $.do_ajax("/user_deal/get_teacher_textbook",{
                 "textbook" : textbook
             },function(response){
@@ -120,8 +122,16 @@ $(function(){
                     select_list     : select_list,
                     div_style       : {"height":screen_height,"overflow":"auto"},
                     onChange        : function( select_list,dlg) {
-                        id_teacher_textbook.val(select_list);
-                        dlg.close();
+                        $.do_ajax("/user_deal/get_teacher_textbook_str", {
+                            "teacher_textbook"               : JSON.stringify(select_list),
+                        },function(respdata){
+                            console.log(respdata);
+                            id_teacher_textbook.val(respdata.textbook);
+                            id_teacher_textbook.data("textbook_str",respdata.textbook_value);
+                            dlg.close();
+                            
+                        });
+
                     }
                 },function(){
                     console.log(header_list);
@@ -144,7 +154,7 @@ $(function(){
                     "qq_info"                : id_qq_info.val(),
                     "age"                     : id_age.val(),
                     "identity"                : id_identity.val(),
-                    "teacher_textbook"        : id_teacher_textbook.val(),
+                    "teacher_textbook"        : id_teacher_textbook.data("textbook_str"),
                     "putonghua_is_correctly"  : id_putonghua_is_correctly.val(),
                     "dialect_notes"           : id_dialect_notes.val(),
                     "teaching_achievement"    : id_teaching_achievement.val(),
