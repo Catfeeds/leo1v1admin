@@ -417,6 +417,7 @@ class agent extends Controller
     }
 
     public function check(){
+        dd('a');
         $this->check_and_switch_tongji_domain();
         $start_time = $this->get_in_str_val('start_time',20171001);
         $end_time = $this->get_in_str_val('end_time',20171101);
@@ -497,8 +498,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret = $this->t_group_user_month->del_item_row();
-        dd($ret);
+        dd('aa');
     }
 
     //处理等级头像
