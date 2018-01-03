@@ -500,7 +500,7 @@ class teacher_money extends Controller
 
             if($type==E\Ereward_type::V_2){
                 $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
-                if(!in_array($teacher_money_type,[0,4,5,6])){
+                if(!in_array($teacher_money_type,[0,4,5,6,7])){
                     return $this->output_err("老师工资分类错误！");
                 }
                 $update_arr['lessonid'] = $money_info;

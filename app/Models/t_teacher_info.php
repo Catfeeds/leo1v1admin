@@ -875,7 +875,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_info($teacherid){
-        $sql = $this->gen_sql(
+        $sql = $this->gen_sql_new(
             "select teacherid,train_through_new_time,is_quit,teacher_money_type,level,wx_openid,email,"
             ." teacher_type,teacher_ref_type,create_time,identity,phone,realname,nick,"
             ." gender,birth,address,face,grade_part_ex,bankcard,teacher_money_flag,transfer_teacherid,transfer_time,"
