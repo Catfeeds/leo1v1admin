@@ -60,7 +60,7 @@ $(function(){
             id_parent_student_evaluate.val(resp.data.parent_student_evaluate);
             id_qq_info.val(resp.data.qq_info);
             id_age.val(resp.data.age);
-            id_teacher_textbook.val(resp.data.age);
+            id_teacher_textbook.val(resp.data.teacher_textbook);
             id_identity.val(resp.data.identity);
         });
 
@@ -98,7 +98,7 @@ $(function(){
         });
 
         id_teacher_textbook.on("click",function(){
-            var textbook = "";
+            var textbook = id_teacher_textbook.val();
             console.log(textbook);
             $.do_ajax("/user_deal/get_teacher_textbook",{
                 "textbook" : textbook
