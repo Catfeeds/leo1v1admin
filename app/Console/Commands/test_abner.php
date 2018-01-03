@@ -59,6 +59,8 @@ class test_abner extends cmd_base
 
                 //该学生该课程的老师存在变更
                 $is_turn_teacher = 1;
+            }else{
+                $is_turn_teacher = 0;
             }
 
             $teacher_student_arr[$item['userid']][$item['subject']] = [
