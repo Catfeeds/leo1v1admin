@@ -94,7 +94,8 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
     public function get_all_list($start_time) {
         //select t.nick,sum(if(tc.type=0,1,0)) as click_num, sum(if(tc.type=1,1,0)) as share_num, sum(if(tc.type=2,1,0)) as register_num, sum(tc.score) as currentScore  from t_teacher_christmas tc left join t_teacher_info t on tc.shareId=t.wx_openId where tc.add_time >= unix_timestamp('2017-12-25') group by shareId
         $where_arr = [
-            ["add_time>=%u", $start_time, 0]
+            ["add_time>=%u", $start_time, 0],
+            "t.teacherid>0"
         ];
         $sql = $this->gen_sql_new("select t.teacherid, t.realname, tc.shareId as wx_openid , t.phone, t.nick,sum(if(tc.type=0,1,0)) click_num, sum(if(tc.type=1,1,0)) share_num, sum(if(tc.type=2,1,0)) register_num, sum(tc.score) score"
                                   ." from %s tc "
