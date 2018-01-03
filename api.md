@@ -27,40 +27,26 @@ npm run dev
             =$this->get_in_order_by_str([],"userid desc");
 
         #输入参数
-        $grade=$this->get_in_el_grade();
         list($start_time, $end_time)=$this->get_in_date_range_day(0);
-        $ret_info=$this->t_student_info->get_test_list($page_info, $order_by_str,  $grade );
-        $gender=$this->get_in_el_gender();
-
-        $this->get_in_query_text();
         $userid=$this->get_in_userid(-1);
+        $grade=$this->get_in_el_grade();
+        $gender=$this->get_in_el_gender();
+        $query_text=$this->get_in_query_text();
 
-        #得到当前action :get_user_list 或  get_user_list1 
-        $action=$this->get_action_str();
-        \App\Helper\Utils::logger("action:$action");
+        $ret_info=$this->t_student_info->get_test_list($page_info, $order_by_str,  $grade );
 
         foreach($ret_info["list"] as &$item) {
             E\Egrade::set_item_value_str($item);
         }
 
-        #哪些数据不需要显示
-        $html_hide_list=[];
-        if ($action=="get_user_list1"){
-            $html_hide_list[]="grade"; //不显示 grade 列
-            $html_hide_list[]="opt_grade"; //不显示 操作 grade
-            $html_hide_list[]="input_grade"; //不显示 grade输入
-        }
-
         return $this->pageOutJson(__METHOD__, $ret_info,[
-            "html_hide_list" =>  $html_hide_list,
-            #其他数据
             "message" =>  "cur usrid:".$userid,
         ]);
     }
-
-    //公用ctrl
     public function get_user_list1(){
         $this->set_in_value("grade", 101);
+        //
+        $this->html_hide_list_add([ "grade","opt_grade", "input_grade" ]);
         return $this->get_user_list();
     }
 
