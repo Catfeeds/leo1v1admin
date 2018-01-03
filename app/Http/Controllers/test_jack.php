@@ -369,6 +369,11 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
+        $day_time =  strtotime("2017-01-02");
+        $festival_info = $this->t_festival_info->get_festival_info_by_end_time($day_time);
+        $festival_day_str = date("Y-m-d H:i:s",$festival_info["begin_time"])." ~ ".date("Y-m-d 22:i:s",$festival_info["end_time"]);
+        echo $festival_day_str."<br>";
+
         $add_time = strtotime("2017-01-01");
         $attendance_type = 3;
         $arr = $this->t_fulltime_teacher_attendance_list->get_festaival_info( $add_time,$attendance_type);

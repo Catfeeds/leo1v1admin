@@ -80,7 +80,7 @@ class t_fulltime_teacher_attendance_list extends \App\Models\Zgen\z_t_fulltime_t
             ["f.add_time>=%u",$add_time,0],
         ];
         $sql = $this->gen_sql_new("select distinct t.realname,f.adminid,holiday_hugh_time"
-                                  ." from %s f left join %s t pn f.teacherid = t.teacherid"
+                                  ." from %s f left join %s t on f.teacherid = t.teacherid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
