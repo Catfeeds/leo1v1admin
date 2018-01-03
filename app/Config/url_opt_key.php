@@ -7,6 +7,7 @@ class url_opt_key {
                 ["opt_grade", "显示 编辑年级"  ],
                 ["grade", "显示 年级列"  ],
                 ["input_grade", "显示 年级输入框 "  ],
+                ["input_subject", "显示 科目输入框 "  ],
             ]
         ];
 
