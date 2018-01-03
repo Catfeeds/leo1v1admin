@@ -16,6 +16,7 @@ import Component from 'vue-class-component'
     return $.extend({}, this["data_ex"](),
     {
       table_data: [],
+      html_hide_list:{},
     });
   },
   watch: {
@@ -30,17 +31,34 @@ export default class vtable extends Vue {
     return {};
   }
 
+
+  last_page_url:any;
   $header_query_info:any;
 
   load_data_for_route () {
     this.load_data();
   };
+  get_action_str() {
+    var path = this["$route"].path;
+    var arr=path.split("/");
+    if (arr.length<3) {
+      return "index";
+    }else {
+      return $.trim(arr[2]);
+    }
+  }
   get_query_header_init(){
+
     var $header_query_info= $("#id_header_query_info").admin_header_query ({
+      "html_hide_list": this.$data.html_hide_list,
     });
+
     this.$header_query_info= $header_query_info ;
     return this.$header_query_info;
 
+  }
+  check_show(field_name) {
+    return !this.$data.html_hide_list[field_name];
   }
 
   base_init_ex () {}
@@ -139,7 +157,6 @@ export default class vtable extends Vue {
     });
     $page_info.find(".select_page_count").on("change", function (e) {
       var page_count = $(e.currentTarget).val();
-      console.log(page_count);
       me.reload_page_by_page_info(1, page_count);
       return false;
     });
@@ -169,6 +186,7 @@ export default class vtable extends Vue {
     var $th_list = $(".common-table").find("thead >tr>td");
     $th_list.find(".td-sort-item").remove();
     $.each($th_list, function (i, item) {
+      console.log( item);
       var field_name = $(item).data("field_name");
       if (field_name) {
         var $sort_item = $('<a href="javascript:;" class=" fa  td-sort-item " ></a>');
@@ -191,24 +209,35 @@ export default class vtable extends Vue {
     var query_args = this["$route"].query;
     var path = this["$route"].path;
     var me = this;
-    //me.$data.table_data=[];
+    if (me.last_page_url != path  ) { //
+      me.$data.table_data=[];
+    }
+    me.last_page_url= path;
     var $table_p = $(".common-table").parent();
     $table_p.append(' <div class="overlay"> <i class="fa fa-refresh fa-spin"></i> </div> <!-- end loading --> </div> ');
     $.do_ajax(path, query_args, function (resp) {
       if (resp.ret == 0) {
-        console.log("out:");
-        console.log(resp);
+        console.log("ajax out",resp);
         me.$data.table_data = resp.list;
-        me.$data.message = resp.message;
+        me.$data.html_hide_list =resp.html_hide_list;
+
+        //附加数据
+        $.each(resp ,function(k,v){
+          if ($.inArray(k, ["page_info", "ret","info","g_args","list","html_hide_list"] ) === -1  ) {
+            me.$data[k]= v;
+          }
+        });
+
         window["g_args"] = resp.g_args;
         $table_p.find(".overlay").remove();
-        if (resp.g_args.order_by_str) {
-          me.reset_sort_info(resp.g_args.order_by_str);
-        }
+
         me.$nextTick(function () {
           me.query_init(  me.get_query_header_init() );
           me.table_row_init();
           me.page_info_init(resp.page_info);
+          if (resp.g_args.order_by_str) {
+            me.reset_sort_info(resp.g_args.order_by_str);
+          }
         });
       }
       else {
@@ -252,10 +281,6 @@ export default class vtable extends Vue {
     $table_list.addClass("table");
     $table_list.addClass("table-bordered");
     $table_list.addClass("table-striped");
-    $table_list.css({
-      "border-top": "3px solid #d2d6de",
-      "border-radius": "3px",
-    });
     var $div = $("<div class=\"table-responsive box \"/>");
     $table_list.before($div);
     $div.append($table_list);
@@ -263,7 +288,6 @@ export default class vtable extends Vue {
       $(e.currentTarget).closest("tr").find("td > div .td-info ").click();
     });
     var thead_tr = $table_list.find("thead >tr");
-    console.log(thead_tr);
     thead_tr.prepend('<td class="remove-for-not-xs" > </td>');
     $.each(thead_tr, function (table_i, th_item) {
       if ($(th_item).parent().hasClass("table-clean-flag")) {

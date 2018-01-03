@@ -1754,6 +1754,7 @@ class ss_deal extends Controller
         $this->t_test_lesson_subject_require->set_test_lesson_status(
             $require_id, E\Eseller_student_status::V_210 , $this->get_account() );
 
+
         $account_role = $this->get_account_role();
         if($account_role == 12){ // 文彬测试
 
@@ -2020,6 +2021,8 @@ class ss_deal extends Controller
             $demand           = $stu_request_info['stu_request_test_lesson_demand'];
             $lesson_time_str    = \App\Helper\Utils::fmt_lesson_time($lesson_start,$lesson_end);
             $require_admin_nick = $this->cache_get_account_nick($require_adminid);
+
+
 
             $do_adminid = $this->get_account_id();
             $account_role = $this->get_account_role();

@@ -41,6 +41,27 @@ Vue.component('admin-remote-script', {
   }
 });
 
+Vue.component('admin-remote-css', {
+
+  render: function (createElement) {
+      //<link rel="stylesheet" href="http://self.admin.leo1v1.com/AdminLTE-2.4.0-rc/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    var self = this;
+    return createElement('link', {
+      attrs: {
+        rel: 'stylesheet',
+        href: window["admin_api"]+ this.href
+      },
+    });
+  },
+
+  props: {
+    href: {
+      type: String,
+      required: true
+    }
+  }
+});
+
 Vue.config.productionTip = false
 
 new Vue({

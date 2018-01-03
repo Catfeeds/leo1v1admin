@@ -22,7 +22,7 @@
 
 
   还原数据库
-  mysql -uroot -p ta0mee < my.sql
+  mysql -uroot -pta0mee < my.sql
 
 * 下载git代码
   cd ~

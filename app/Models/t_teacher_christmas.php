@@ -23,9 +23,10 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
         return $this->main_get_value($sql);
     }
 
-    public function getChriDate($shareId){
+    public function getChriDate($shareId, $start_time){
         $where_arr = [
-            ["tc.shareId='%s'",$shareId,-1]
+            ["tc.shareId='%s'",$shareId,-1],
+            ["add_time>=%u", $start_time, 0]
         ];
 
         $sql = $this->gen_sql_new("  select sum(if(tc.type=0,1,0)) as click_num, sum(if(tc.type=1,1,0)) as share_num, sum(if(tc.type=2,1,0)) as register_num, sum(tc.score) as currentScore  from %s tc "
@@ -39,8 +40,8 @@ class t_teacher_christmas extends \App\Models\Zgen\z_t_teacher_christmas
 
     public function getTotalList($isLimit=-1){
         $where_arr = [];
-        $start_time = strtotime("2017-12-20");
-        $end_time = strtotime("2018-1-2");
+        $start_time = strtotime("2017-12-23");
+        $end_time = strtotime("2018-1-3");
         if($isLimit == -1){
             $limitStr = 'limit 60';
         }else{

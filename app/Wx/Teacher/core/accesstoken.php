@@ -23,7 +23,7 @@ class AccessToken  {
         }
 
 
-        $wx= new \App\Helper\Wx() ;
+        $wx= new \App\Helper\Wx(WECHAT_APPID_TEC,WECHAT_APPSECRET_TEC) ;
         return $wx->get_wx_token(WECHAT_APPID_TEC,WECHAT_APPSECRET_TEC);
         /*
         //检测本地是否已经拥有access_token，并且检测access_token是否过期

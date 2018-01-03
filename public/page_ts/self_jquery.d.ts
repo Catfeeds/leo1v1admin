@@ -38,6 +38,7 @@ interface JQueryStatic {
     admin_query_input ( options):any;
     admin_date_select ( options):any;
     admin_ajax_select_user ( options):any;
+    admin_query_common(options):any;
 
     //<script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     /*

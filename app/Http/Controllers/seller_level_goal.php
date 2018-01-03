@@ -174,9 +174,10 @@ class seller_level_goal extends Controller
     }
 
     public function seller_level_month_list(){
+        list($start_time,$end_time )= $this->get_in_date_range_month(0);
         $adminid   = $this->get_in_int_val('adminid',-1);
         $page_info = $this->get_in_page_info();
-        $ret_info  = $this->t_seller_level_month->get_all_list($adminid,$page_info);
+        $ret_info  = $this->t_seller_level_month->get_all_list($adminid,$page_info,$start_time);
         foreach($ret_info['list'] as &$item){
             $item["account"] = $this->cache_get_account_nick($item["adminid"]);
             E\Eseller_level::set_item_value_str($item);
