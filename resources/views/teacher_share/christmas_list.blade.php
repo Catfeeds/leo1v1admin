@@ -20,6 +20,7 @@
             <thead>
                 <tr>
                     <td>老师id</td>
+                    <td style="display:none">老师openid</td>
                     <td>老师姓名</td>
                     <td>单击次数 </td>
                     <td>分享次数 </td>
@@ -31,6 +32,7 @@
                 @foreach ( $info as $var )
                     <tr>
                         <td>{{$var["teacherid"]}}</td>
+                        <td style="display:none">{{$var["wx_openid"]}}</td>
                         @if($var['nick'])
                             <td>{{$var["nick"]}}</td>
                         @else
