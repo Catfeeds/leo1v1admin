@@ -1270,7 +1270,7 @@ class common_new extends Controller
             $arrParams['sign'] = $this->createBaseSign($data, $strSecretKey);
             if($arrParams['sign'] != $sign){
                 return $this->output_succ(["status"=>2,"msg"=>"参数错误"]);
-            }else{               
+            }else{
                 if($status==8){
                     $old_list = $this->t_child_order_info->field_get_list($orderid,"pay_status,pay_time,channel");
                     if($old_list["pay_status"]==1 && $old_list["pay_time"]>0 && $old_list["channel"]=="baidu"){
@@ -1581,7 +1581,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         }
 
-        
+
         //当前默认为true
         //$verifyResult=true;
         if($verifyResult && $success=="Y" ){
@@ -1903,9 +1903,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 }else if($value['file_type'] == 3){
                     $data['mac_dmg_url'] = $value['file_url'];
                 }
-            } 
+            }
         }
-        
+
         return $this->output_succ(['data' => $data]);
+    }
+
+    public function origin_jump(  ){
+
     }
 }

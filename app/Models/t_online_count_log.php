@@ -7,6 +7,14 @@ class t_online_count_log extends \App\Models\Zgen\z_t_online_count_log
 	{
 		parent::__construct();
 	}
+    public function test() {
+
+        $this->gen_sql_new("update %s  set online_count=%u  where id=%u ",
+                           self::DB_TABLE_NAME, $online_count, $id);
+        $this->main_update($sql);
+        $row=$this->field_get_list($id, "*");
+        $this->get_online_count($id);
+    }
     public function get_list($start_time, $end_time) {
         $where_arr=[];
         $this->where_arr_add_time_range($where_arr,"logtime",$start_time,$end_time);

@@ -95,6 +95,38 @@ $name=$this->get_in_strval("name");
 ### 操作 mysql 核心函数 
 #### 核心函数
 
+```php
+#insert 
+        return $this->row_insert([
+            "logtime" =>$logtime,
+            "online_count" => $online_count,
+        ],true );
+# 主键更新 
+        $this->field_update_list($id, [
+            "online_count" => 100
+        ]);
+# 主键 得到记录
+        $row=$this->field_get_list($id, "*");
+# 主键 得到value
+        $this->get_xxxx($id);
+        $this->get_online_count($id);
+
+#普通的更新 
+        $this->gen_sql_new("update %s  set online_count=%u  where id=%u ",
+                           self::DB_TABLE_NAME, $online_count, $id);
+        $this->main_update($sql);
+
+#普通的得到记录
+        $this->main_get_row($sql);
+
+#普通的得到一个字段值
+        $this->main_get_value($sql);
+
+#普通的得到列表
+        $this->main_get_list$sql);
+
+```
+
 
 #### 通常 分页
 ```php
