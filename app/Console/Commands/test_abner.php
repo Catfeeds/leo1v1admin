@@ -38,7 +38,7 @@ class test_abner extends cmd_base
     public function handle()
     {
         //获取所有违规老师的数据
-        $begin_time = strtotime(date('Y-10-1'));
+        $begin_time = strtotime(date('2017-10-1'));
         $end_time = strtotime('+ 1 month',$begin_time);
         $teacher_violation = $this->task->t_teacher_info->get_teacher_violation($begin_time,$end_time);
         $teacher_violation_arr = [];
