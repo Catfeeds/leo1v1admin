@@ -132,7 +132,7 @@ class teacher_share extends Controller
 
         foreach($info as &$item){
             $userInfo = UserManage::getUserInfo($item['wx_openid']);
-            $item['wx_nick'] = $userInfo['nickname'];
+            $item['wx_nick'] = @$userInfo['nickname'];
             $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
         }
 
