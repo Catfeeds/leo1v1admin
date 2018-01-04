@@ -287,7 +287,8 @@ class NewRouteConfig {
         "/login/logout_teacher"          => true,
         "/login/login_check_verify_code" => true,
         "/login/get_verify_code"         => true,
-
+        "/tea_manage/new_get_stu_performance"     => true,
+        "/tea_manage/new_set_stu_performance"     => true,
         "/tea_manage/auto_rank_lesson"            => true,
         "/tea_manage/train_not_through_list"      => true,
         "/tea_manage/train_not_through_list_px"   => true,
