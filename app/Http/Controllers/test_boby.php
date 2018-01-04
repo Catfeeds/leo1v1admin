@@ -1495,8 +1495,8 @@ class test_boby extends Controller {
     }
 
     public function get_order_info(){
-        $start = strtotime('2015-11-1');
-        $end = strtotime('2017-12-1');
+        $start = strtotime('2017-12-1');
+        $end = strtotime('2018-1-1');
         $sql = "select o.orderid,o.grade,o.subject,o.lesson_total"
               ." from t_order_info o "
               ." left join t_student_info s on s.userid=o.userid"

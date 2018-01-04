@@ -1272,7 +1272,7 @@
                     </div>
                     <div class="col-xs-12 col-md-5 " >
                         <div class="input-group ">
-                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp详细住址：</span>
+                            <span class="input-group-addon">详细住址：</span>
                             <input type="text" id="id_stu_addr_new_two" placeholder="请输入详细住址" class="form-control" />
                         </div>
                     </div>

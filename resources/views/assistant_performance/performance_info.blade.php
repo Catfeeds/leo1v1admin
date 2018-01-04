@@ -64,9 +64,15 @@
                         <td>{{@$var["end_no_renw_reword"]}}</td> 
                         <td>{{@$var["lesson_count_finish_reword"]}}</td> 
                         <td>{{@$var["renw_target"]/100}}</td> 
-                        <td>{{@$var["renw_price"]/100}}</td> 
+                        <td >
+                            <a href="/user_manage_new/money_contract_list?studentid=-1&contract_type=-2&contract_status=-1&check_money_flag=1&start_time={{ $start }}&origin=&from_type=-1&sys_operator={{ $var["account"] }}&end_time={{ $end }}&is_test_user=0&need_receipt=-1&account_role=-1&userid_stu=undefined&can_period_flag=-1" target="_blank" >{{@$var["renw_price"]/100}}</a>                         
+                        </td>
+
                         <td>{{@$var["renw_reword"]}}</td> 
-                        <td>{{@$var["cc_tran_num"]}}</td> 
+                        <td >
+                            <a href="  /assistant_performance/get_assistant_origin_order_losson_info_all/?date_type_config=undefined&date_type=2&opt_date_type=3&start_time={{ $start }}&end_time={{ $end }}&assistantid={{ $var["assistantid"] }}&studentid=-1&sys_operator=&teacherid=-1&adminid=-1&origin_userid=-1&sys_operator_type=-1" target="_blank" >{{@$var["cc_tran_num"]}}</a>                         
+                        </td>
+
                         <td>{{@$var["cc_tran_reword"]}}</td> 
                         <td>{{@$var["all_reword"]}}</td> 
 

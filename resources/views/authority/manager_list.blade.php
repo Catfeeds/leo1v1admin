@@ -37,6 +37,7 @@
                     </select>
                 </div>
             </div>
+            @if (  !isset($html_hide_list["input_account_role"] )  )
             <div class="col-md-2 col-xs-0">
                 <div class="input-group ">
                     <span>角色</span>
@@ -44,6 +45,7 @@
                     </select>
                 </div>
             </div>
+            @endif
 
             <div class="col-md-2 col-xs-0">
                 <div class="input-group ">
@@ -124,7 +126,10 @@
                     <td>真实姓名</td>
                     <td style="display:none;">电子邮箱</td>
                     <td>手机号</td>
-                    <td>角色</td>
+
+                    @if (  !isset($html_hide_list["account_role"] )  )
+                        <td>角色</td>
+                    @endif
                     <td>权限组</td>
                     <td>创建者</td>
                     <td>是否转正</td>
@@ -149,7 +154,11 @@
                             <td>{{$var["name"]}}</td>
                             <td >{{$var["email"]}}</td>
                             <td>{{$var["phone"]}}</td>
-                            <td>{{$var["account_role_str"]}}</td>
+
+                            @if (  !isset($html_hide_list["account_role"] )  )
+                                <td>{{$var["account_role_str"]}}</td>
+                            @endif
+
                             <td>{{$var["permission"]}}</td>
                             <td>{{$var["creater_admin_nick"]}}</td>
                             <td>{{$var["become_full_member_flag_str"]}}</td>

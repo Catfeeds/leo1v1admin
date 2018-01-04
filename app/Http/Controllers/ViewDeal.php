@@ -467,6 +467,15 @@ trait  ViewDeal {
         return $js_values_str;
     }
 
+    public function get_html_hide_list($g_arr){
+        $js_values_str= "<script type=\"text/javascript\" >\n";
+        $js_values_str.="\tg_html_hide_list=".json_encode($g_arr).";\n";
+        $js_values_str.= "</script>\n";
+        return $js_values_str;
+    }
+
+    /*
+
     /*
         $args = array(
             "grade"         => $grade,
@@ -506,6 +515,7 @@ trait  ViewDeal {
         }
 
         $js_values_str = $this->get_js_g_args($g_args);
+        $html_hide_list_str= $this->get_html_hide_list( $this->html_hide_list );
         if (\App\Helper\Utils::check_env_is_local() ){
             //生成 g_args 的 .d.ts
             $this->store_gargs_d_ts_file($table_data_list);
@@ -518,6 +528,7 @@ trait  ViewDeal {
                                            $showPages);
         return [
             "js_values_str"   => $js_values_str,
+            "html_hide_list_str"   => $html_hide_list_str,
             'page_info'       => $a_page_info,
             'table_data_list' => $table_data_list,
         ];
@@ -866,6 +877,11 @@ trait  ViewDeal {
 
 
     function pageView( $method ,$ret_info=null,$data_ex=array(),$ex_js_args=null,$showPages=10  ){
+        global $_GET;
+        if (isset($_GET["callback"])) {
+            return $this->pageOutJson($method, $ret_info, $data_ex);
+        }
+
         if (\App\Helper\Utils::check_env_is_local() ){
             if (preg_match("/([a-zA-Z0-9_]+)::([a-zA-Z0-9_]+)/",$method, $matches)  )  {
                 $this->view_ctrl=$matches[1];
@@ -885,6 +901,7 @@ trait  ViewDeal {
         if (count($data_ex)>0 )  {
             $data=array_merge($data,$data_ex) ;
         }
+        $data["html_hide_list"] = $this->html_hide_list;
 
         return $this->view($method,$data);
     }

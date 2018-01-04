@@ -44,7 +44,7 @@ class test extends Controller
         }
         //sleep(3);
 
-        return $this->pageOutJson(__METHOD__, $ret_info,[
+        return $this->pageView(__METHOD__, $ret_info,[
             "message" =>  "cur usrid:".$userid,
         ]);
     }
