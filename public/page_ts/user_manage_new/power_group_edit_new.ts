@@ -1,22 +1,141 @@
 ``// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-power_group_edit_new.d.ts" />
 
-     var setting = {view: {showIcon: false},
-         check: {  
-             enable: true,  
-             chkStyle: "checkbox",  
-             chkboxType: { "Y": "ps", "N": "ps" }  
-         }, 
-         data: {
-             simpleData: {
-                 enable: true
-             }
-         },
-         callback: {
-             onClick: zTreeOnClick
-         }
+var setting = {
+    view: {showIcon: false},
+               check: {  
+                   enable: true,  
+                   chkStyle: "checkbox",  
+                   chkboxType: { "Y": "ps", "N": "ps" }  
+               },
+               edit: {
+                   enable: true,
+                   renameTitle:'配置权限',
+                   showRenameBtn:showRenameBtn,
+                   showRemoveBtn:showRemoveBtn
+               },
+               data: {
+                   simpleData: {
+                       enable: true
+                   }
+               },
+               callback: {
+                   onClick: zTreeOnClick,
+                   beforeEditName:beforeEditName,
+                   // beforeRename: beforeRename,//点击编辑时触发，用来判断该节点是否能编辑
+                   // onRename:onRename,//编辑后触发，用于操作后台
+               }
+};
 
-     };
+function beforeRename(){
+    return false;
+}
+
+function onRename(){
+    return false;
+}
+
+function beforeEditName(treeId, treeNode) {
+    var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+    var url      = treeNode.url;
+    var powerid  = treeNode.page_id;
+    if (powerid != 0) {
+
+        $("<div></div>").admin_select_dlg_ajax({
+                "opt_type" : "select", // or "list"
+                "url"      : "/user_manage_new/get_group_list_by_powerid_page",
+                //其他参数
+                "args_ex" : {
+                    powerid: powerid,
+                },
+                select_primary_field   : "id",   //要拿出来的值
+                select_display         : "",
+                select_no_select_value : 0,
+                select_no_select_title : "[未设置]",
+
+                //字段列表
+                'field_list' :[
+                   {
+                    title:"角色id",
+                    render:function(val,item) {
+                        return item.groupid;
+                    }
+                },{
+                    title:"角色名字",
+                    //width :50,
+                    render:function(val,item) {
+                        return item.group_name;
+                    }
+                }
+
+                ] ,
+                //查询列表
+                filter_list:[],
+                "auto_close"       : true,
+                //选择
+                "onChange"         : function(require_id,row_data){
+                    console.log(row_data);
+                    var group_id = row_data.groupid;
+                    var data = {
+                        //"url" : url,
+                        "group_id" : group_id,
+                    };
+
+                    $.do_ajax("/user_power/get_desc_power",data,function(response){
+                        var data_list   = [];
+                        var select_list = [];
+                        var all_list = [];
+                        $.each( response.data,function(){
+                            data_list.push([this["0"], this["1"]  ]);
+                            all_list.push(this["0"]);
+                            if (this["2"]) {
+                                select_list.push (this["0"]) ;
+                            }
+                        });
+                        
+
+                        $(this).admin_select_dlg({
+                            header_list     : [ "id","名称" ],
+                            data_list       : data_list,
+                            multi_selection : true,
+                            select_list     : select_list,
+                            onChange        : function( select_list,dlg) {
+                                $.do_ajax("/user_power/save_desc_power",{
+                                    "url" : url,
+                                    "group_id": group_id,
+                                    "opt_key_list":JSON.stringify(select_list),
+                                    "all_list":JSON.stringify(all_list)
+                                },function(){
+                                    dlg.close();
+                                });
+                            }
+                        });
+                    });
+
+                },
+                //加载数据后，其它的设置
+                "onLoadData"       : null
+            });
+
+    }
+   
+    return false;
+}
+
+//是否显示编辑button
+function  showRenameBtn(treeId, treeNode){
+    //获取节点所配置的noEditBtn属性值
+    if(treeNode.noEditBtn != undefined && treeNode.noEditBtn){
+        return false;
+    }else
+    {
+        return true;
+    }
+}
+//是否显示删除button
+function showRemoveBtn(treeId, treeNode){
+    return false;
+}
 
 function zTreeOnClick(event, treeId, treeNode) {
     var treeObj = $.fn.zTree.getZTreeObj("treeDemo");

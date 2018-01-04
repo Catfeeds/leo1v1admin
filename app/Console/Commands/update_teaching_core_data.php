@@ -469,8 +469,83 @@ class update_teaching_core_data extends Command
                 @$ret['platform_normal_stu_num'] +=$val["num"];
             }
             $platform_normal_stu_num= @$ret['platform_normal_stu_num'];
-          
 
+            //上海全职老师数据
+            $fulltime_teacher_count_shanghai = $task->t_manager_info->get_fulltime_teacher_num($end_time,1);//上海全职老师人数
+            $fulltime_lesson_count_shanghai = $task->t_lesson_info_b3->get_teacher_list($start_time,$end_time,1,1);//统计上海全职老师总人数/课时
+            $fulltime_teacher_student_shanghai =$fulltime_lesson_count_shanghai["stu_num"]; //上海全职老师所带学生总数
+            $ret_info_shanghai  = $task->t_manager_info->get_research_teacher_list_new(5,1);
+            $qz_tea_arr_shanghai=[];
+            foreach($ret_info_shanghai as $yy=>$val){
+                if($val["teacherid"] != 97313){
+                    $qz_tea_arr_shanghai[] =$val["teacherid"];
+                }else{
+                    unset($ret_info_shanghai[$yy]);
+                }
+            }
+            $lesson_count_qz_shanghai = $task->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr_shanghai);
+            $fulltime_teacher_lesson_count_shanghai=0;
+            foreach($lesson_count_qz_shanghai as $val){
+                $fulltime_teacher_lesson_count_shanghai +=$val["lesson_all"];//上海全职老师完成的课耗总数
+            }
+
+           
+            $qz_tea_list_shanghai  = $task->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr_shanghai,$start_time, $lesson_end_time);          
+            $tran_avg_shanghai= $lesson_avg_shanghai=[];
+            foreach($ret_info_shanghai as $item_pp){
+                $item_pp["cc_lesson_num"] =  isset($qz_tea_list_shanghai[$item_pp["teacherid"]])?$qz_tea_list_shanghai[$item_pp["teacherid"]]["all_lesson"]:0;
+                $item_pp["cc_order_num"] =  isset($qz_tea_list_shanghai[$item_pp["teacherid"]])?$qz_tea_list_shanghai[$item_pp["teacherid"]]["order_num"]:0;
+                
+                @$tran_avg_shanghai["cc_lesson_num"] +=$item_pp["cc_lesson_num"];
+                @$tran_avg_shanghai["cc_order_num"] +=$item_pp["cc_order_num"];
+            }
+            $fulltime_teacher_cc_lesson_shanghai  = @$tran_avg_shanghai["cc_lesson_num"];
+            $fulltime_teacher_cc_order_shanghai  =@$tran_avg_shanghai["cc_order_num"];        
+
+            $normal_stu_num_shanghai = $task->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr_shanghai,$week_start,$week_end);
+            foreach($normal_stu_num_shanghai as $val){
+                @$ret['fulltime_normal_stu_num_shanghai'] +=$val["num"];
+            }
+            $fulltime_normal_stu_num_shanghai= @$ret['fulltime_normal_stu_num_shanghai'];
+
+            //武汉全职老师数据
+            $fulltime_teacher_count_wuhan = $task->t_manager_info->get_fulltime_teacher_num($end_time,2);//武汉全职老师人数
+            $fulltime_lesson_count_wuhan = $task->t_lesson_info_b3->get_teacher_list($start_time,$end_time,1,2);//统计武汉全职老师总人数/课时
+            $fulltime_teacher_student_wuhan =$fulltime_lesson_count_wuhan["stu_num"]; //武汉全职老师所带学生总数
+            $ret_info_wuhan  = $task->t_manager_info->get_research_teacher_list_new(5,2);
+            $qz_tea_arr_wuhan=[];
+            foreach($ret_info_wuhan as $yy=>$val){
+                if($val["teacherid"] != 97313){
+                    $qz_tea_arr_wuhan[] =$val["teacherid"];
+                }else{
+                    unset($ret_info_wuhan[$yy]);
+                }
+            }
+            $lesson_count_qz_wuhan = $task->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr_wuhan);
+            $fulltime_teacher_lesson_count_wuhan=0;
+            foreach($lesson_count_qz_wuhan as $val){
+                $fulltime_teacher_lesson_count_wuhan +=$val["lesson_all"];//武汉全职老师完成的课耗总数
+            }
+
+           
+            $qz_tea_list_wuhan  = $task->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr_wuhan,$start_time, $lesson_end_time);          
+            $tran_avg_wuhan= $lesson_avg_wuhan=[];
+            foreach($ret_info_wuhan as $item_pp){
+                $item_pp["cc_lesson_num"] =  isset($qz_tea_list_wuhan[$item_pp["teacherid"]])?$qz_tea_list_wuhan[$item_pp["teacherid"]]["all_lesson"]:0;
+                $item_pp["cc_order_num"] =  isset($qz_tea_list_wuhan[$item_pp["teacherid"]])?$qz_tea_list_wuhan[$item_pp["teacherid"]]["order_num"]:0;
+                
+                @$tran_avg_wuhan["cc_lesson_num"] +=$item_pp["cc_lesson_num"];
+                @$tran_avg_wuhan["cc_order_num"] +=$item_pp["cc_order_num"];
+            }
+            $fulltime_teacher_cc_lesson_wuhan  = @$tran_avg_wuhan["cc_lesson_num"];
+            $fulltime_teacher_cc_order_wuhan  =@$tran_avg_wuhan["cc_order_num"];        
+
+            $normal_stu_num_wuhan = $task->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr_wuhan,$week_start,$week_end);
+            foreach($normal_stu_num_wuhan as $val){
+                @$ret['fulltime_normal_stu_num_wuhan'] +=$val["num"];
+            }
+            $fulltime_normal_stu_num_wuhan= @$ret['fulltime_normal_stu_num_wuhan'];
+           
 
             $exist_info = $task->t_teaching_core_data->field_get_list_2($start_time,1,"time");
             if($exist_info){

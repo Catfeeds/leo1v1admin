@@ -55,6 +55,7 @@ class NewRouteConfig {
         'test_bacon'=>true,
         'question_new'=>true,
         'question_new_api'=>true,
+        'user_power'=>true,
     ];
 
     static public function check_is_new_ctl($ctl) {
@@ -692,8 +693,10 @@ class NewRouteConfig {
         "/question_new_api/get_questions"                =>true,
         "/question_new_api/get_answers"                  =>true,
         "/question_new_api/save_answers"                 =>true,
-        "/question_new_api/get_recommend"                 =>true,
+        "/question_new_api/get_recommend"                =>true,
 
+        "/user_power/get_desc_power"                          =>true,
+        "/user_power/save_desc_power"                          =>true,
     ];
 
     static $dev_url_map = [

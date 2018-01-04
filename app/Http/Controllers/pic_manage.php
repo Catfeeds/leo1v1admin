@@ -11,9 +11,10 @@ class pic_manage extends Controller
     {
         $type      = $this->get_in_int_val('type',-1);
         $usage_type= $this->get_in_int_val('usage_type',-1);
+        $active_status = $this->get_in_int_val("active_status", 0);
         $page_num  = $this->get_in_page_num();
 
-        $ret_info  = $this->t_pic_manage_info->get_pic_info_list($type,$usage_type,$page_num);
+        $ret_info  = $this->t_pic_manage_info->get_pic_info_list($type,$usage_type,$active_status,$page_num);
         $current = time();
 
         foreach($ret_info["list"] as &$item){
@@ -22,6 +23,9 @@ class pic_manage extends Controller
             E\Epic_usage_type::set_item_value_str($item,"usage_type");
             $item['active_status'] = '';
             // 判断活动状态
+            if ($item['del_flag'] == 1) {
+                $item['active_status'] = '已删除';
+            } else {
             if ($current < $item['start_time']) {
                 $item['active_status'] = '待开始';
             } elseif ($current < $item['end_time']) {
@@ -29,10 +33,9 @@ class pic_manage extends Controller
             } elseif ($current > $item['end_time']) {
                 $item['active_status'] = '已结束';
             }
-            if ($item['del_flag'] == 1) {
-                $item['active_status'] = '已删除';
             }
         }
+
         return $this->pageView(__METHOD__,$ret_info,array(),[
             'qiniu_upload_domain_url' =>Config::get_qiniu_public_url()."/"
         ]);
@@ -71,7 +74,7 @@ class pic_manage extends Controller
         $jump_type   = $this->get_in_int_val('jump_type');
 
         $start = strtotime($start_time);
-        $end   = strtotime("+1 day",strtotime($end_time));
+        $end   = strtotime($end_time);
 
         $ret_info=$this->t_pic_manage_info->add_pic_info($opt_type,$id,$name,$type,$usage_type,
                                                          $pic_url,$tag_url,$click_status,$order_by,$grade,

@@ -54,7 +54,8 @@ class pdfConversionH5 extends Command
         $handoutArray = [
             [
                 "uuid"     => '1bef90ebf32aa93ba0c43433eefb9848',
-                "lessonid" => 470981
+                "lessonid" => 4546
+                //"lessonid" => 470981
             ]
         ];
 
@@ -77,6 +78,9 @@ class pdfConversionH5 extends Command
             $doneFilePath  = $indexFilePath;
             $link_arr = $this->dealHtml($indexFilePath, $doneFilePath);
 
+            \App\Helper\Utils::logger(" css_link_1: ".json_encode($link_arr['css']));
+            \App\Helper\Utils::logger(" js_link_1: ".json_encode($link_arr['js']));
+
             # 将需要的文件复制到文件夹中
             foreach($link_arr['css'] as $css_item){
                 $csPathFrom = public_path('pptfiles')."/".$css_item;
@@ -93,10 +97,11 @@ class pdfConversionH5 extends Command
             }
 
             # 重新打包压缩
+            $work_path= public_path('wximg');
             $zip_new_resource = public_path('wximg')."/".$uuid.".zip";
-            $zip_new_file = public_path('wximg')."/".$uuid;
-            $zipCmd  = "zip $zip_new_resource $zip_new_file";
-            shell_exec($zipCmd);
+            // $zip_new_file =$uuid;
+            $zipCmd  = " cd $work_path/$uuid,  zip -r ../".$uuid.".zip * ";
+            \App\Helper\Utils::exec_cmd($zipCmd);
 
             # 使用七牛上传  七牛 资源域名 https://ybprodpub.leo1v1.com/
             $qiniu     = \App\Helper\Config::get_config("qiniu");
@@ -122,44 +127,44 @@ class pdfConversionH5 extends Command
     public function dealHtml($indexFilePath, $doneFilePath){
         $html = file_get_contents($indexFilePath);
 
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         libxml_use_internal_errors(true);
         $dom->loadHTML($html);
-        $xpath = new DOMXPath($dom);
+        $xpath = new \DOMXPath($dom);
 
 
         # 遍历数据 link 引用css数据
         $nodeList = $xpath->query("//link");
-        $srcList = [];
         $cssLink = [];
         foreach ($nodeList as $node) {
             $cssLink_tmp = $node->attributes->getNamedItem('href')->nodeValue;
             $cssLink_arr = explode('/', $cssLink_tmp);
             if($cssLink_arr[0] == '..'){
                 $cssLink[] = $cssLink_arr[1];
+                \App\Helper\Utils::logger("cssLink_arr_item: ".$cssLink_arr[1]);
+
                 $node->setAttribute('href', $cssLink_arr[1]);
             }
         }
 
         # 遍历数据 script 引用js数据
         $scriptList = $xpath->query("//script[@type = 'text/javascript']");
-
-        $scriptSrcList = [];
-        $scriptLink = [];
-        foreach ($scriptList as $node) {
-            $jsLink_tmp = $node->attributes->getNamedItem('src')->nodeValue;
+        $jsLink = [];
+        foreach ($scriptList as $node_js) {
+            $jsLink_tmp = $node_js->attributes->getNamedItem('src')->nodeValue;
             $jsLink_arr = explode('/', $jsLink_tmp);
             if($jsLink_arr[0] == '..'){
                 $jsLink[] = $jsLink_arr[1];
-                $node->setAttribute('src', $cssLink_arr[1]);
+                $node_js->setAttribute('src', $jsLink_arr[1]);
+                \App\Helper\Utils::logger("jsLink_arr_item: ".$jsLink_arr[1]);
 
                 # 测试修改节点属性
                 // if($jsLink_arr[1] == 'wxpt.js'){
-                //     $node->setAttribute('src', 'wxpt.js');
+                //     $node_js->setAttribute('src', 'wxpt.js');
                 //     # 创建DOM节点
                 //     //appendChild
                 //     $root = $dom->createElement('test','ssssssss');
-                //     $node->appendChild( $root );
+                //     $node_js->appendChild( $root );
                 // }
             }
         }

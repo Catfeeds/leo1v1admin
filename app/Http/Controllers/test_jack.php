@@ -12,6 +12,40 @@ class test_jack  extends Controller
 {
     use CacheNick;
     use TeaPower;
+
+    public function get_user_list(){
+        #分页信息
+        $page_info= $this->get_in_page_info();
+        #排序信息
+        list($order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str([],"userid desc");
+
+        #输入参数
+        list($start_time, $end_time)=$this->get_in_date_range_day(0);
+        $userid=$this->get_in_userid(-1);
+        $grade=$this->get_in_el_grade();
+        $gender=$this->get_in_el_gender();
+        $query_text=$this->get_in_query_text();
+
+        $ret_info=$this->t_student_info->get_test_list($page_info, $order_by_str,  $grade );
+
+        foreach($ret_info["list"] as &$item) {
+            E\Egrade::set_item_value_str($item);
+        }
+
+        return $this->pageOutJson(__METHOD__, $ret_info,[
+            "message" =>  "cur usrid:".$userid,
+        ]);
+    }
+
+    public function get_user_list1(){
+        $this->set_in_value("grade", 101);
+        //
+        $this->html_hide_list_add([ "grade","opt_grade", "input_grade" ]);
+        return $this->get_user_list();
+    }
+
+
     public function test_kk(){
         $file = fopen("/home/ybai/1.csv","r");
         $goods_list=[];

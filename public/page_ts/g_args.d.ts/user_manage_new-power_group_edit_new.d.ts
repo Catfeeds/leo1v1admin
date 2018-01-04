@@ -12,7 +12,7 @@ declare var g_adminid: any;
 interface RowData {
 	power_id	:any;
 	name	:any;
-	domain_type	:any;
+	url	:any;
 	id	:any;
 	pId	:any;
 	page_id	:any;

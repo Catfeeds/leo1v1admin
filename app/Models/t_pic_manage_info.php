@@ -9,11 +9,21 @@ class t_pic_manage_info extends \App\Models\Zgen\z_t_pic_manage_info
         parent::__construct();
     }
 
-    public function get_pic_info_list($type,$usage_type,$page_num){
-        $where_str = $this->where_str_gen([
+    public function get_pic_info_list($type,$usage_type,$active_status=0,$page_num){
+        $where_str = [
             [ "type=%d", $type, -1 ],
             [ "usage_type=%d", $usage_type, -1 ],
-        ]);
+        ];
+        if ($active_status == 1) { // 待发布
+            array_push($where_str, ["start_time>%u", time(), 0]);
+        } elseif ($active_status == 2) {
+            array_push($where_str, ["start_time<=%u", itme(), 0]);
+            array_push($where_str, ["end_time<%u", time(), 0]);
+        } elseif ($active_status == 3) {
+            array_push($where_str, ["end_time>%u", time(), 0]);
+        } elseif ($active_status == 4) {
+            array_push($where_str, ['del_flag=1']);
+        }
 
         if($usage_type==208 || $usage_type==210 || $usage_type==104){
             $order_str="order by order_by asc";
@@ -21,9 +31,9 @@ class t_pic_manage_info extends \App\Models\Zgen\z_t_pic_manage_info
             $order_str="order by id desc";
         }
 
-        $sql = $this->gen_sql("select * from %s where %s %s"
+        $sql = $this->gen_sql_new("select * from %s where %s %s"
                               ,self::DB_TABLE_NAME
-                              ,[$where_str]
+                              ,$where_str
                               ,$order_str
         );
         return $this->main_get_list_by_page($sql,$page_num, 10);
@@ -103,9 +113,10 @@ class t_pic_manage_info extends \App\Models\Zgen\z_t_pic_manage_info
         $where_arr = [
             ['start_time<=%u', $current, 0],
             ['end_time>%u', $current, 0],
-            "usage_type=$type"
+            "usage_type=$type",
+            "del_flag=0"
         ];
-        $sql = $this->gen_sql_new("select img_url,jump_type,jump_url,order_by from %s where %s order by order_by",
+        $sql = $this->gen_sql_new("select status,img_url,jump_type,jump_url,order_by from %s where %s order by order_by asc, id desc",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
