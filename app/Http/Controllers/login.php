@@ -294,6 +294,12 @@ class login extends Controller
         }
         \App\Helper\Utils::logger("2 menu_html strlen ".strlen( "$menu_html") );
 
+        if (!\App\Helper\Utils::check_env_is_release()) {
+            //小班课
+            $class_menu_html = $this->gen_menu( $arr, \App\ClassMenu\menu::get_config() ,3,1, E\Eadmin_domain_type::V_ADMIN_CLASS);
+            $menu_html.=$class_menu_html;
+        }
+
         $menu      = \App\Helper\Config::get_menu();
         $menu_html .= $this->gen_menu( $arr,$menu,1,1);
 
@@ -303,9 +309,6 @@ class login extends Controller
         $stu_menu_html = $this->gen_menu( $arr,$stu_menu,201,2);
         $tea_menu_html = $this->gen_menu( $arr,$tea_menu,202,2);
 
-        //小班课
-        $class_menu_html = $this->gen_menu( $arr, \App\ClassMenu\menu::get_config() ,3,1, E\Eadmin_domain_type::V_ADMIN_CLASS);
-        $menu_html.=$class_menu_html;
 
         $_SESSION['menu_html']     = $menu_html;
         $_SESSION['stu_menu_html'] = $stu_menu_html;

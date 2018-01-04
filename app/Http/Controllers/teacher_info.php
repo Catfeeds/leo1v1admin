@@ -198,7 +198,11 @@ class teacher_info extends Controller
             $lesson_type = $item['lesson_type'];
             $subject     = $item['subject'];
             $grade       = $item['grade'];
-            E\Econtract_type::set_item_value_str($item,"lesson_type");
+            if(in_array($item['lesson_type'],[0,1,3])){
+                $item['lesson_type_str'] = "常规";
+            }else{
+                E\Econtract_type::set_item_value_str($item,"lesson_type");
+            }
             E\Egrade::set_item_value_str($item,"grade");
             if(isset($item["extra_improvement"])){
                 E\Eextra_improvement::set_item_value_str($item);
@@ -247,7 +251,7 @@ class teacher_info extends Controller
                 $item['ass_phone']                      = "315540732";
                 $item['lesson_type_str']                = "模拟试听";
                 @$from_lessonid                          = $train_from_lessonid_list[$subject][$grade];
-                $from_lesson_info                       = $this->t_test_lesson_subject->get_from_lesson_info($from_lessonid);
+                $from_lesson_info                       = $this->t_test_lesson_subject->get_from_lesson_info_new($from_lessonid);
                 $item['stu_test_paper']                 = $from_lesson_info['stu_test_paper'];
                 $item['stu_request_test_lesson_demand'] = $from_lesson_info['stu_request_test_lesson_demand'];
             }
