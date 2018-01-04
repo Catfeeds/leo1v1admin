@@ -44,7 +44,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($table_data_list as $var)
+                @foreach ($info as $var)
 				            <tr>
                         @include('layouts.td_xs_opt')
                         <td>{{$var["id"]}} </td>

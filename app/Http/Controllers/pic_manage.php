@@ -16,7 +16,7 @@ class pic_manage extends Controller
         $ret_info  = $this->t_pic_manage_info->get_pic_info_list($type,$usage_type,$page_num);
         $current = time();
 
-        $sort = '';
+        $sort1 = $sort2 = $sort3 = $sort4 = [];
         foreach($ret_info["list"] as &$item){
             E\Epic_type::set_item_value_str($item,"type");
             E\Epic_time_type::set_item_value_str($item,"time_type");
@@ -25,21 +25,22 @@ class pic_manage extends Controller
             // 判断活动状态
             if ($current < $item['start_time']) {
                 $item['active_status'] = '待开始';
-                $sort[] = 1;
+                $sort1[] = $item;
             } elseif ($current < $item['end_time']) {
                 $item['active_status'] = '已发布';
-                $sort[] = 2;
+                $sort2[] = $item;
             } elseif ($current > $item['end_time']) {
                 $item['active_status'] = '已结束';
-                $sort[] = 3;
+                $sort3[] = $item;
             }
             if ($item['del_flag'] == 1) {
                 $item['active_status'] = '已删除';
-                $sort[] = 4;
+                $sort4[] = $item;
             }
         }
-        //array_multisort($ret_info['list'], SORT_ASC, $sort);
-        return $this->pageView(__METHOD__,$ret_info,array(),[
+
+        $info = array_merge($sort1, $sort2, $sort3, $sort4);
+        return $this->pageView(__METHOD__,$ret_info,['info' => $info],[
             'qiniu_upload_domain_url' =>Config::get_qiniu_public_url()."/"
         ]);
     }
