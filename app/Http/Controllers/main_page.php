@@ -631,7 +631,6 @@ class main_page extends Controller
             $is_group_leader_flag = 0;
         }
         $self_info= $this->t_order_info->get_1v1_order_seller($this->get_account(),$start_time,$end_time );
-        dd($start_time,$end_time);
         $ret_info= $this->t_order_info->get_1v1_order_seller_list_new($start_time,$end_time);
         $groupid =$this->get_in_int_val("groupid",-1);
         if($groupid == -1) {
