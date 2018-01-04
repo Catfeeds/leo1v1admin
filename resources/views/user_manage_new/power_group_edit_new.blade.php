@@ -76,6 +76,7 @@
         <div class="row">
             <div class="col-xs-6 col-md-4">
                 <div class="row">
+                    <input type="hidden" value="{{$admin_id}}" id="admin_id" />
                     <div class="col-xs-6 col-md-10" style="padding:20px;">
                         <div>权限 <a href="javascript:;" id="id_show_all_power"> 显示全部 </a> <a href="javascript:;" id="id_show_power"> 显示有权限部分 </a> --------- </div>
                         <div class="zTreeDemoBackground">
