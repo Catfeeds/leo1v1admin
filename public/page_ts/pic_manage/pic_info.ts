@@ -141,14 +141,14 @@ $(function(){
                     }
                 });
                 $('.add_jump_type').on("change", function() {
-                    console.log(' jump_type: ' + $(this).val() + ' usage_type ' + parseInt($('.add_pic_usage_type').val()))
-
+                    console.log(' jump_type: ' + $(this).val() + ' usage_type ' + parseInt($('.add_pic_usage_type').val()));
+                    alert(html_node.find(".add_pic_usage_type").val());
                     if (parseInt($(this).val()) == 2) {
-                        if (parseInt($('.add_pic_usage_type').val()) == 302) {
+                        if (html_node.find(".add_pic_usage_type").val() == 302) {
                             $('.add_jump_url').val('http://www.leo1v1.com/service_chat_panel.html');
                             $('.add_jump_url').attr("disabled","disabled");
                         }
-                        if (parseInt($('.add_pic_usage_type').val()) == 303) {
+                        if (html_node.find(".add_pic_usage_type").val() == 303) {
                             $('.add_jump_url').val('http://m.leo1v1.com/chat.html');
                             $('.add_jump_url').attr("disabled","disabled");
                         }
