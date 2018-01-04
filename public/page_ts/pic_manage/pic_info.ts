@@ -133,11 +133,12 @@ $(function(){
                                         console.log(info);
                                         var res = $.parseJSON(info);
                                         pic_url = g_args.qiniu_upload_domain_url + res.key + "<button class='del_img'>删除</button>";
-                                        pic_img="<img width=80 src=\""+pic_url+"\" />";
+                                        pic_img="<img width=80 src=\""+pic_url+"\"/>";
                                         html_node.find(".add_header_img").html(pic_img);
                                         html_node.find(".pic_url").html(pic_url);
                                         $('.del_img').on("click", function(){
-                                            alert('删除');
+                                            html_node.find(".add_header_img").html('');
+                                            html_node.find(".pic_url").html('');
                                         });
                                     });
 

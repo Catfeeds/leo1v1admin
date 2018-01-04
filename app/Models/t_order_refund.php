@@ -552,4 +552,23 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_list($sql);
     }
 
+    public function get_order_refund_count_by_adminid($start_time,$end_time,$adminid){
+        $where_arr = [
+            "(s.is_test_user=0 or s.is_test_user is null)",
+            ['refund_userid=%u',$adminid,-1],
+        ];
+        $this->where_arr_add_time_range($where_arr,'apply_time',$start_time,$end_time);
+
+        $sql = $this->gen_sql_new(
+            " select count(orderid) "
+            ." from %s r "
+            ." left join %s s on s.userid=r.userid "
+            ." where %s "
+            ,self::DB_TABLE_NAME //r
+            ,t_student_info::DB_TABLE_NAME //s
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
 }

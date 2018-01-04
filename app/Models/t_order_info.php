@@ -4688,5 +4688,25 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     }
 
+    public function get_order_count_by_adminid($start_time,$end_time,$adminid=-1) {
+        $where_arr = [
+            ["order_time>=%u" , $start_time, -1],
+            ["order_time<=%u" , $end_time, -1],
+            ["is_test_user=%u" , 0, -1],
+            "contract_type in(0)",
+        ];
+        $this->where_arr_add_int_field($where_arr,'t2.uid',$adminid);
+        $sql = $this->gen_sql_new("select t2.uid adminid,count(*) order_count "
+                                  ." from %s t1 "
+                                  ." left join %s t2 on t1.sys_operator = t2.account "
+                                  ." left join %s t3 on t1.userid = t3.userid "
+                                  ." where %s and  contract_status <> 0 ",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  Z\z_t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 }
 
