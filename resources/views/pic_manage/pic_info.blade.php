@@ -73,8 +73,10 @@
                         <td>{{$var['active_status']}}</td>
                         <td class="remove-for-xs">
                             <div class="btn-group" data-id="{{$var["id"]}}">
+                                @if($var['del_flag'] == 0)
                                 <a href="javascript:;" class="btn fa fa-edit opt-update-pic_info" title="更改"></a>
                                 <a href="javascript:;" class="btn fa fa-trash-o opt-del" title="删除"></a>
+                                @endif
                             </div>
                         </td>
 				            </tr>
