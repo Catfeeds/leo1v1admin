@@ -1087,7 +1087,7 @@ abstract class NewModel
                 );
             }else{
                 $search_sql = $this->gen_sql_new("(".$alias."nick like '%s%%' or "
-                                                 .$alias."realname like '%s%%' or "
+                                                 .$alias."realname like '%s%%'  "
                                                  .")"
                                                  ,$search_info
                                                  ,$search_info
@@ -1115,7 +1115,7 @@ abstract class NewModel
                 );
             }else{
                 $search_sql = $this->gen_sql_new("(".$alias."nick like '%s%%' or "
-                                                 .$alias."realname like '%s%%' or "
+                                                 .$alias."realname like '%s%%' "
                                                  .")"
                                                  ,$search_info
                                                  ,$search_info

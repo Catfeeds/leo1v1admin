@@ -55,14 +55,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         if($student_type>-1)
             $where_arr[] = 'assistantid>0';
 
-        if ($user_name) {
-            $where_arr[]=sprintf( "(nick like '%s%%' or realname like '%s%%' or  phone like '%s%%' )",
-                                  $this->ensql($user_name),
-                                  $this->ensql($user_name),
-                                  $this->ensql($user_name));
-        }
-
-        $order_str="";
+        $order_str = "";
         switch ( $order_type ) {
         case 1 :
             $order_str=" order by lesson_count_left  desc";
@@ -76,15 +69,18 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         default:
             break;
         }
+        $where_arr = $this->student_search_info_sql($user_name,'',$where_arr);
 
-        $sql = $this->gen_sql("select origin_userid, userid, nick,realname, spree, phone, is_test_user, originid, origin, grade, praise, parent_name, parent_type, last_login_ip, last_lesson_time, last_login_time,assistantid, lesson_count_all, lesson_count_left, user_agent,seller_adminid,ass_assign_time ,reg_time,phone_location,origin_assistantid ,grade_up"
-                              ." from %s ".
-                              "  where  %s  %s  ",
-                              self::DB_TABLE_NAME,
-                              [$this->where_str_gen($where_arr)],
-                              $order_str
+        $sql = $this->gen_sql_new("select origin_userid, userid, nick,realname, spree, phone, is_test_user, "
+                                  ." originid, origin, grade, praise, parent_name, parent_type, last_login_ip, "
+                                  ." last_lesson_time, last_login_time,assistantid, lesson_count_all, lesson_count_left, "
+                                  ." user_agent,seller_adminid,ass_assign_time ,reg_time,phone_location,origin_assistantid ,grade_up"
+                                  ." from %s "
+                                  ." where %s %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,$order_str
         );
-
         $ret_info = $this->main_get_list_by_page($sql,$page_num,10);
         foreach  (  $ret_info["list"] as &$item) {
             if (!$item["phone_location"] ) {

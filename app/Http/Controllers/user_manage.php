@@ -100,7 +100,8 @@ class user_manage extends Controller
             $page_num,$all_flag, $userid, $grade, $status,
             $user_name, $phone, $teacherid,
             $assistantid, $test_user, $originid,
-            $seller_adminid,$order_type,$student_type);
+            $seller_adminid,$order_type,$student_type
+        );
 
         foreach($ret_info['list'] as &$item) {
             \App\Helper\Utils::hide_item_phone($item);
