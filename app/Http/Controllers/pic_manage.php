@@ -73,6 +73,30 @@ class pic_manage extends Controller
         $jump_url    = $this->get_in_str_val('jump_url');
         $jump_type   = $this->get_in_int_val('jump_type');
 
+        if ($type == 3 && $usage_type == 302) {
+            $size = getimagesize($pic_url);
+            if ($size) {
+                $width = $size[0];
+                $height = $size[1];
+                if (!($width == 1920 && $height == 750)) {
+                    return $this->output_err("电脑端图片大小是1920*750");
+                }
+            }
+        }
+
+
+        if ($type == 3 && $usage_type == 303) {
+            $size = getimagesize($pic_url);
+            if ($size) {
+                $width = $size[0];
+                $height = $size[1];
+                if (!($width == 750 && $height == 500)) {
+                    return $this->output_err("手机端图片大小是750*500");
+                }
+            }
+        }
+        return $this->output_err($usage_type);
+
         $start = strtotime($start_time);
         $end   = strtotime($end_time);
 
