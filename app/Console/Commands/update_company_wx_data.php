@@ -109,7 +109,7 @@ class update_company_wx_data extends Command
                 "apply_user_id" => $item['apply_user_id']
             ];
 
-            if (isset($item['leave'])) { // 处理请假
+            if (isset($item['leave'])) { // 处理请假 type=1 请假
                 $lea = $item['leave'];
                 $leave = [
                     "timeunit" => $lea['timeunit'],
@@ -136,11 +136,11 @@ class update_company_wx_data extends Command
                     if ($val['title'] == '开始时间') $common['start_time'] = ($val['value'] / 1000);
                     if ($val['title'] == '结束时间') $common['end_time'] = ($val['value'] / 1000);
                     if ($val['title'] == '事由') $common['reason'] = $val['value'];
-                    $common['type'] = 2;
+                    $common['type'] = 1;
                 }
                 if ($item['spname'] == '拉取数据审批') {
                     if ($val['title'] == '数据类型') $common['reason'] = $val['value'];
-                    if ($val['title'] == '需要时间') $common['start_time'] = $val['value'];
+                    //if ($val['title'] == '需要时间') $common['start_time'] = $val['value'];
                     $common['type'] = 4;
                 }
                 if ($item['spname'] == '费用申请') {

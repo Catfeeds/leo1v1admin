@@ -41,6 +41,8 @@ class add_new_tea_entry extends Command
         //$start_time = date('Y-m-d 00:00:00', strtotime('-1 day'));
         //$end_time = date('Y-m-d 23:59:59', strtotime('-1 day'));
         $task = new \App\Console\Tasks\TaskController();
+
+        
         // 明日之星
         // $start_time = strtotime("2017-11-1");
         // $end_time = strtotime("2017-12-1");

@@ -12,6 +12,19 @@ use Qiniu\Auth;
 // 引入上传类
 use Qiniu\Storage\UploadManager;
 use Qiniu\Storage\BucketManager;
+use Teacher\Core\WeChatOAuth;
+
+use Teacher\Core\UserManage;
+
+use Teacher\Core\TemplateMessage;
+
+use Teacher\Core\Media;
+
+use Teacher\Core\AccessToken;
+
+
+include(app_path("Wx/Teacher/lanewechat_teacher.php"));
+
 
 require_once  app_path("/Libs/Qiniu/functions.php");
 require_once(app_path("/Libs/OSS/autoload.php"));
@@ -1054,7 +1067,23 @@ class wx_teacher_api extends Controller
         // 数据待确认
 
         if($ret_info['teacherid'] == 357372){//文彬 测试
-            $ret_info['handout_flag'] = $this->t_resource->getResourceId($ret_info['subject'],$ret_info['grade']);
+            $checkHasHandout = $this->t_lesson_info->get_tea_cw_url($lessonid);
+            $resource_id_arr = $this->t_resource->getResourceId($ret_info['subject'],$ret_info['grade']);
+            $resource_id_str = '';
+            foreach($resource_id_arr as $item){
+                $resource_id_str.=$item['resource_id'].",";
+            }
+            $resource_id_str = rtrim($resource_id_str,',');
+            $ret_info['resource_id_str'] = $resource_id_str;
+
+            $hasResourceId = $this->t_lesson_info_b3->getResourceId($lessonid);
+            if($hasResourceId>0){
+                $ret_info['handout_flag'] = 1;
+            }elseif(!empty($resource_id_arr) && !$checkHasHandout){
+                    $ret_info['handout_flag'] = 1;
+            }else{
+                $ret_info['handout_flag'] = 0;
+            }
         }else{
             $ret_info['handout_flag'] = 0; //无讲义
         }
@@ -1063,8 +1092,15 @@ class wx_teacher_api extends Controller
     }
 
     public function getResourceList(){ // 讲义系统
-        $resource_id  = $this->get_in_int_val('resource_id');
-        $resourceList = $this->t_resource_file->getResoureList($resource_id);
+        $resource_id_str  = $this->get_in_str_val('resource_id');
+        $lessonid     = $this->get_in_int_val('lessonid');
+        $file_id = $this->t_lesson_info->get_tea_cw_file_id($lessonid);
+
+        if($file_id>0){
+            $resourceList = $this->t_resource_file->getResoureInfoById($file_id);
+        }else{
+            $resourceList = $this->t_resource_file->getResoureList($resource_id_str);
+        }
 
         foreach($resourceList as &$item){
             $item['file_type_str'] = E\Efile_type::get_desc($item['file_type']);
@@ -1080,11 +1116,8 @@ class wx_teacher_api extends Controller
         $lessonid  = $this->get_in_int_val("lessonid");
 
         $ret_info['checkIsUse'] = $this->t_lesson_info_b3->checkIsUse($lessonid);
-        $ret_info['wx_index']  = '';
+        $ret_info['wx_index']  = $this->t_resource_file->get_filelinks($file_id);
 
-        if($ret_info['checkIsUse']){
-            return $this->output_succ(["data"=>$ret_info]);
-        }
 
         $this->t_resource_file_visit_info->row_insert([ // 增加浏览记录
             'file_id'      => $file_id,
@@ -1093,12 +1126,13 @@ class wx_teacher_api extends Controller
             'create_time'  => time(),
             'ip'           => $_SERVER["REMOTE_ADDR"],
         ]);
+
+        if($ret_info['checkIsUse']){
+            return $this->output_succ(["data"=>$ret_info]);
+        }
+
         $this->t_resource_file->add_num("visit_num", $file_id);
 
-        $pdfToImg = $this->t_resource_file->get_file_link($file_id);
-        $store=new \App\FileStore\file_store_tea();
-        $auth=$store->get_auth();
-        $ret_info['wx_index'] = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdfToImg);
         return $this->output_succ(["data"=>$ret_info]);
     }
 
@@ -1147,22 +1181,24 @@ class wx_teacher_api extends Controller
             $sort[$i] = $item['file_type'];
         }
         array_multisort($sort,SORT_ASC,$resourceFileInfo);//此处对数组进行降序排列；SORT_DESC按降序排列
+        $filelinks = $this->t_resource_file->get_filelinks($file_id);
         $this->t_lesson_info->field_update_list($lessonid, [
             "tea_more_cw_url" => json_encode($resourceFileInfo),
             "tea_cw_origin"   => 3, // 理优资源
             "stu_cw_origin"   => 3,// 理优资源
             "tea_cw_file_id"  => $teaFileId,
             "stu_cw_file_id"  => $stuFileId,
+            "tea_cw_pic"      => $filelinks,
+            "tea_cw_status"   => 1,
+            "stu_cw_status"   => 1
         ]);
 
-        if($pdfToImg){
-            $this->t_pdf_to_png_info->row_insert([
-                'lessonid'    => $lessonid,
-                'pdf_url'     => $pdfToImg,
-                'create_time' => time()
-            ]);
-        }
-
+        $courseid = $this->t_lesson_info->get_courseid($lessonid);
+        $this->t_homework_info->field_update_list($courseid, [
+            "work_status"   => 1,
+            "issue_origin"  => 3,
+            "issue_file_id" => $stuFileId
+        ]);
         return $this->output_succ();
     }
 
@@ -1282,6 +1318,11 @@ class wx_teacher_api extends Controller
         $stu_nick = $this->cache_get_student_nick($lesson_info['userid']);
         $jw_nick  = $this->cache_get_account_nick($lesson_info['accept_adminid']);
         $lesson_time_str = date('m-d H:i',$lesson_info['lesson_start'])." ~ ".date("H:i",$lesson_info['lesson_end']);
+
+        $checkStatus = $this->t_lesson_info->get_accept_status($lessonid);
+        if($checkStatus>0){
+            return $this->output_succ(["status"=>$checkStatus]);
+        }
 
         if($status == 1){ //接受 []
             /**
@@ -1478,6 +1519,9 @@ class wx_teacher_api extends Controller
 
         \App\Helper\Utils::logger("shareClickLog2222: $currentId ");
 
+        if ($currentId == 'oJ_4fxCmcY4CKtE7YY9xrBt2DiB0' || $currentId == 'oJ_4fxAjIZGjUxy4Gk4mW8wR3vmM' || $currentId == 'oJ_4fxIcdLLlk9BisycIAuUFXhP4') {
+            return $this->output_succ();
+        }
 
         if($currentId){ // 若自己已经是老师 分享+1
             $this->t_teacher_christmas->row_insert([
@@ -1495,7 +1539,8 @@ class wx_teacher_api extends Controller
     public function getShareDate(){
         $openid = $this->get_in_str_val('openid');
 
-        $ret_info = $this->t_teacher_christmas->getChriDate($openid);
+        $start_time = strtotime("2017-12-23");
+        $ret_info = $this->t_teacher_christmas->getChriDate($openid,$start_time);
         $ret_info['totalList'] = $this->t_teacher_christmas->getTotalList();
         $ret_info['end_time'] = strtotime('2018-1-2')-time();
         $phone = $this->t_teacher_info->get_phone_by_wx_openid($openid);
@@ -1511,6 +1556,9 @@ class wx_teacher_api extends Controller
                 $ret_info['ranking'] = $i+1;
             }
             $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
+
+            // $userInfo = UserManage::getUserInfo($item['wx_openid']);
+            // $item['wx_nick'] = @$userInfo['nickname'];
         }
 
         $ret_info['ranking'] = $ret_info['ranking']?$ret_info['ranking']:0;

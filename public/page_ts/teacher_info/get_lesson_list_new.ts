@@ -129,7 +129,10 @@ $(function(){
             });
     }
 
-    var gen_upload_item = function(btn_id ,status, file_name_fix, get_url_fun, set_url_fun, bucket_info, noti_origin_file_func, back_flag,clear_file_id,look_pdf){
+    var gen_upload_item = function(btn_id ,status, file_name_fix, get_url_fun, set_url_fun, bucket_info, noti_origin_file_func, back_flag,clear_file_id,look_pdf, allow_arr){
+        if(!allow_arr) {
+            allow_arr = ['pdf'];
+        }
         var id_item = $(
             "<div class=\"row\"> "+
                 "<div class=\" col-md-2\">" +
@@ -158,7 +161,7 @@ $(function(){
         id_item["onshown_init"]=function () {
             if ( back_flag ) {
 
-                $.self_upload_process(btn_id,"/common/upload_qiniu",[] ,["pdf","zip"],{
+                $.self_upload_process(btn_id,"/common/upload_qiniu",[] ,allow_arr,{
                     "file_name_fix":file_name_fix
                 }, function( ret,ctminfo){
                     set_url_fun(ret.file_name);
@@ -180,11 +183,11 @@ $(function(){
                             clear_file_id(btn_id);
                             next_td_show(btn_id,file.name);
 
-                        }, [], ["pdf","zip"], bucket_info, noti_origin_file_func);
+                        }, [], allow_arr, bucket_info, noti_origin_file_func);
                 }catch(e){
                     $.self_upload_process(btn_id,
                                           "/common/upload_qiniu",[] ,
-                                          ["pdf","zip"],
+                                          allow_arr,
                                           {
                                               "file_name_fix":file_name_fix
                                           }, function( ret,ctminfo){
@@ -263,6 +266,13 @@ $(function(){
                         tea_cw_url_list[i]=["",""];
                     }
                     id_teacher_desc.find("input").val(tea_cw_url_list[i][1]);
+
+                    var type_arr = '';
+                    if(!(lesson_type>=1000 && lesson_type <2000) || lesson_type==1100){
+                        if(i>0) {
+                            var type_arr = ['pdf','mp3','mp4'];
+                        }
+                    }
                     var item = gen_upload_item(
                         btn_teacher_upload_id+"_"+i,
                         !! tea_cw_url_list[i][0],
@@ -273,7 +283,7 @@ $(function(){
                             tea_cw_url_list[i][0] = url;
                         },ret,function(origin_file_name){
                             id_teacher_desc.find("input").val(origin_file_name);
-                        },back_flag,clear_file_id,look_pdf
+                        },back_flag,clear_file_id,look_pdf,type_arr
                     );
 
                     if(tea_cw_url_list[i][3] != undefined){
@@ -331,15 +341,15 @@ $(function(){
             ];
 
             $.each(id_teacher_list,function(i,item){
-                if(!(lesson_type>=1000 && lesson_type <2000)){
-                    arr.push(["其他讲义_"+i,item]);
+                if(!(lesson_type>=1000 && lesson_type <2000) || lesson_type==1100){
+                    arr.push(["其他资料_"+i,item]);
                 } else {
-                    arr.push(["其他讲义_"+(i+1),item]);
+                    arr.push(["其他资料_"+(i+1),item]);
                 }
             });
             arr.push(['学生讲义', id_student]);
 
-            if(!(lesson_type>=1000 && lesson_type <2000)){
+            if(!(lesson_type>=1000 && lesson_type <2000) || lesson_type==1100){
                 arr.push(["----","上传课堂作业"]);
                 arr.push(["作业PDF",id_issue]);
                 arr.push(["作业题目数",id_pdf_question_count]);
@@ -445,10 +455,10 @@ $(function(){
                     });
                 }
                 //添加上传文件新选项
-                if(!(lesson_type>=1000 && lesson_type <2000)){
+                if(!(lesson_type>=1000 && lesson_type <2000) || lesson_type==1100){
                     $('#id_teacher_upload,#id_student_upload,#id_issue_upload').hover(function(){
                         $('.opt-leo-res').removeClass('unbind');
-                        add_upload_select($(this));
+                        add_upload_select($(this),lesson_type);
                     },function(){
                         $('.opt-select-file').hover(function(){
                             $(this).show();
@@ -458,13 +468,13 @@ $(function(){
                         $('.opt-select-file').hide();
                     });
 
-                    $('.tea_cw_ex').first().parent().parent().prev().text('老师讲义');
+                    $('.tea_cw_ex').first().parent().parent().prev().text('教师讲义');
                     $('.tea_cw_ex').first().parent().parent().parent().show();
                     for(var l=0; l<11;l++){
                         if(l == 0){
                             $('.opt-leo-res').removeClass('unbind');
                             $('#id_teacher_upload_0').hover(function(){
-                                add_upload_select($(this));
+                                add_upload_select($(this),lesson_type);
                             },function(){
                                 $('.opt-select-file').hover(function(){
                                     $(this).show();
@@ -476,7 +486,7 @@ $(function(){
                         } else {
 
                             $('#id_teacher_upload_'+l).hover(function(){
-                                add_upload_select($(this));
+                                add_upload_select($(this),lesson_type);
                                 $('.opt-leo-res').addClass('unbind');
                             },function(){
                                 $('.opt-select-file').hover(function(){
@@ -549,7 +559,7 @@ $(function(){
             }
         }
 
-        var add_upload_select = function(obj){
+        var add_upload_select = function(obj, num_flag){
             var X = obj.offset().top;
             var Y = obj.offset().left;
             var H = obj.outerHeight();
@@ -560,8 +570,19 @@ $(function(){
             $('.opt-local').on('click', function(){
                 obj.click();
             });
-            $('.opt-my-res,.opt-leo-res').attr('upload_id', obj.attr('id'));
+            if(num_flag == 1100){
+                $('.modal-dialog').mouseenter(function(){
+                    $('.opt-my-res').parent().hide();
+                });
+                $('.opt-my-res,.opt-leo-res').attr('disabled', true);
+                $('.opt-my-res,.opt-leo-res').css({'background': '#aaa', 'opacity':1});
+            } else {
+                $('.opt-my-res,.opt-leo-res').attr('disabled', false);
+                $('.opt-my-res,.opt-leo-res').css('background','#fff');
+                $('.opt-my-res,.opt-leo-res').attr('upload_id', obj.attr('id'));
+            }
         }
+        var book_info = [];
         var dlg_tr = {};
         var get_res = function(ajax_url,opt_type,btn_type,dir_id){
             $("<div></div>").tea_select_res_ajax({
@@ -586,11 +607,17 @@ $(function(){
                         return item.create_time;
                     }
                 },{
-                    title:"文件类型",
+                    title:"文件格式",
                     class:"type-mark",
                     render:function(val,item) {
                         $(this).addClass(item.file_type);
                         return item.file_type;
+                    }
+                },{
+                    title:"文件类型",
+                    class:"type-mark",
+                    render:function(val,item) {
+                        return item.file_use_type_str;
                     }
                 },{
                     title:"文件大小",
@@ -640,6 +667,10 @@ $(function(){
                 "onChange"         : null,
                 //加载数据后，其它的设置
                 "onLoadData"       : function(dlg, ret){
+                    var book_arr = ret.book.split(',');
+                    $.each($(book_arr),function(i,val){
+                        book_info.push(parseInt(val));
+                    });
                     dlg_tr = ret.crumbs;
                 },
                 "onshown"          : function(dlg){
@@ -668,7 +699,7 @@ $(function(){
                         Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,[1,2,3]);
                         Enum_map.append_option_list("subject",$('.leo-subject select'));
                         Enum_map.append_option_list("grade",$('.leo-grade select'));
-                        Enum_map.append_option_list("region_version",$('.leo-tag_one select'));
+                        Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
                         Enum_map.append_option_list("resource_season",$('.leo-tag_two select'));
                         $('.leo-tag_two').nextAll().hide();
                         $('.leo-resource_type select').change(function(){
@@ -713,7 +744,7 @@ $(function(){
                                         tea_cw_url = val.file_link;
                                         tea_cw_file_id = val.file_id;
                                     } else if (val.file_use_type == 1){
-                                        //老师讲义
+                                        //教师讲义
                                         tea_cw_url_list[0][0] = val.file_link;
                                         tea_cw_url_list[0][1] = $('.tea_cw_ex input').first().val();
                                         tea_cw_url_list[0][2] = 3;
@@ -751,7 +782,7 @@ $(function(){
                             }
                         });
 
-                    } else if(opt_type == 'my'){//老师自己的资料库
+                    } else if(opt_type == 'my'){//教师自己的资料库
                         var my_file_id = $('.warning').data('file_id');
                         if(btn_type == 'id_teacher_upload'){
                             tea_cw_url = $('.warning').data('link');
@@ -1260,7 +1291,7 @@ $(function(){
         var train_type   = $(this).data("train_type");
         if(train_type==4 && lesson_type==1100 && lesson_start==0 ){
             $(this).parents("tr").addClass("bg_train_lesson");
-            BootstrapDialog.alert("您有一节模拟试听课需要完成。模拟试听课程通过后，您将获得50元开课红包，赶紧开始吧。(才可以接正常试听课，老师加油！)");
+            BootstrapDialog.alert("您有一节模拟试听课需要完成。模拟试听课程通过后，您将获得20元开课红包，赶紧开始吧。(才可以接正常试听课，老师加油！)");
         }
     });
 

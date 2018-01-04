@@ -1261,12 +1261,11 @@ jQuery.extend({
                         var key = "";
                         var time = (new Date()).valueOf();
                         var match = file.name.match(/.*\.(.*)?/);
-                        
+
                         // var file_name=$.md5(file.name) +time +'.' + match[1];
                         if(file_type == 1){
                             var new_file_name = "student/"+match[0];
                         }
-                        alert(new_file_name);
                         console.log('gen file_name:'+new_file_name);
                         return new_file_name;
                     }
@@ -1372,8 +1371,20 @@ jQuery.extend({
             success: success_func
 
             ,error: function( XMLHttpRequest, textStatus, errorThrown ) {
+
+                var first_flag=true;
+                var args_str="";
+                $.each(data, function(key,value){
+                    if (first_flag) {
+                        args_str= key +"=" + encodeURIComponent( value);
+                        first_flag=false;
+                    }else{
+                        args_str+= "&"+key +"=" +  encodeURIComponent(value);
+                    }
+                });
                 if( XMLHttpRequest.readyState ==4 ) {
-                    alert("系统错误- 操作失败, 已发邮件 通知开发人员 ");
+                    var call_url= window.location.origin +  this.url+"?"+ args_str   ;
+                    BootstrapDialog.alert("<a href=\""+call_url+"\" target=\"_blank\">系统错误- 操作失败, 已发邮件 通知开发人员 </a>");
                 }
             },
         });

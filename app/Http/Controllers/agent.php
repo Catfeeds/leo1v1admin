@@ -417,6 +417,7 @@ class agent extends Controller
     }
 
     public function check(){
+        dd('a');
         $this->check_and_switch_tongji_domain();
         $start_time = $this->get_in_str_val('start_time',20171001);
         $end_time = $this->get_in_str_val('end_time',20171101);
@@ -497,49 +498,6 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $stooges = array('Moe','Larry','Curly');
-        unset($stooges[1]);
-        $new = serialize($stooges);
-        dd($stooges,$new,unserialize($new));
-        echo "<br />";
-        print_r(unserialize($new));
-
-        $pattern = '/(https?|ftps?):\/\/(www)\.([^\.\/]+)\.(com|net|org)(\/[\w-\.\/\?\%\&\=]*)?/i';
-        $subject = "网址为http://www.chinagpx.com/index.php的位置是chinagpx";
-        preg_match($pattern, $subject, $matches);
-        dd($matches);
-        if(preg_match($pattern, $subject, $matches))
-        {
-            echo "搜索到的URL为：".$matches[0]."<br>";    //数组中第一个元素保存全部匹配结果
-            echo "URL中的协议为：".$matches[1]."<br>";    //数组中第二个元素保存第一个子表达式
-            echo "URL中的主机为：".$matches[2]."<br>";    //数组中第三个元素保存第二个子表达式
-            echo "URL中的域名为：".$matches[3]."<br>";    //数组中第四个元素保存第三个子表达式
-            echo "URL中的顶域为：".$matches[4]."<br>";    //数组中第五个元素保存第四个子表达式
-            echo "URL中的文件为：".$matches[5]."<br>";    //数组中第六个元素保存第五个子表达式
-        }
-        else
-        {
-            echo "搜索失败！";                             //如果和正则表达式没有匹配成功则输出
-        }
-
-        $wline=fopen("./test2.txt","a+t");
-        chmod("./test2.txt",757);
-        $line="它-024";
-        fwrite($wline,$line);
-        fclose($wline);
-        $basedir = dirname(__FILE__);
-        dd($basedir);
-        /*
-          公众号,信息流,BD,其他
-          userid,origin,add_time,last_cc,is_called,is_suc_test_lesson,is_orderid,
-
-
-         */
-        // $adminid = 99;
-        // $key="DEAL_NEW_USER_$adminid";
-        // $userid=\App\Helper\Common::redis_get($key)*1;
-        // dd($userid);
-        // dd($_SERVER);
         dd('aa');
     }
 

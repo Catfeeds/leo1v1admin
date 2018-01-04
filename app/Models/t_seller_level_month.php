@@ -8,9 +8,10 @@ class t_seller_level_month extends \App\Models\Zgen\z_t_seller_level_month
 		parent::__construct();
 	}
 
-    public function get_all_list($adminid,$page_info){
+    public function get_all_list($adminid,$page_info,$start_time){
         $where_arr = [
             ['adminid=%u',$adminid,-1],
+            ['month_date=%u',$start_time,-1],
         ];
         $sql = $this->gen_sql_new(
             " select * "

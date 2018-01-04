@@ -117,13 +117,11 @@
                     </td>
                     <td style="width:40%">文件名</td>
                     <td style="width:15%">修改日期</td>
-                    <td style="width:10%">操作人</td>
-                    <td style="width:5%">文件类型</td>
-                    @if($resource_type<7)
-                        <td style="width:10%">文件别称</td>
-                    @endif
-                    <td style="width:10%">文件大小</td>
-                    <td style="width:10%">是否使用</td>
+                    <td style="width:5%">操作人</td>
+                    <td style="width:7%">文件格式</td>
+                    <td style="width:15%">文件信息</td>
+                    <td style="width:7%">文件大小</td>
+                    <td style="width:7%">是否使用</td>
                 </tr>
             </thead>
             <tbody>
@@ -136,11 +134,7 @@
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
-
-                        @if($resource_type<7)
-                            <td>{{@$var["file_use_type_str"]}} </td>
-                        @endif
-
+                        <td>{{@$var["file_use_type_str"]}} </td>
                         <td>{{@$var["file_size"]}}M </td>
                         <td>是</td>
                     </tr>
@@ -150,7 +144,7 @@
         @include("layouts.page")
     </section>
 
-    <div class="col-md-12 opt_process"   style="width:600px;position:fixed;right:0;top:200px;border-radius:5px;background:#eee;opacity:0.8;display:none;">
+    <div class="col-md-12 opt_process"  style="width:600px;position:fixed;right:0;top:200px;border-radius:5px;background:#eee;opacity:0.8;display:none;">
         <div class="hide" id="up_load"> </div>
         <table class="table table-striped table-hover text-left" >
             <thead>

@@ -2,7 +2,7 @@
 /// <reference path="../g_args.d.ts/human_resource-index.d.ts" />
 $(function(){
     function load_data(){
-        $.reload_self_page ( {
+        $.reload_self_page({
             need_test_lesson_flag    : $('#id_need_test_lesson_flag').val(),
             teacher_money_type       : $("#id_teacher_money_type").val(),
             level                    : $("#id_level").val(),
@@ -33,15 +33,15 @@ $(function(){
             teacher_type             : $('#id_teacher_type').val(),
             teacher_ref_type         : $('#id_teacher_ref_type').val(),
             reference_teacherid      : $('#id_reference_teacherid').val(),
-			have_wx:	$('#id_have_wx').val(),
-            grade_plan:	$('#id_grade_plan').val(),
-			subject_plan:	$('#id_subject_plan').val(),
-			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
-            month_stu_num:	$('#id_month_stu_num').val(),
-			record_score_num:	$('#id_record_score_num').val(),
-			identity:	$('#id_identity').val(),
-			plan_level:	$('#id_plan_level').val(),
-			teacher_textbook:	$('#id_teacher_textbook').val()
+			      have_wx                  : $('#id_have_wx').val(),
+            grade_plan               : $('#id_grade_plan').val(),
+			      subject_plan             : $('#id_subject_plan').val(),
+			      fulltime_teacher_type    : $('#id_fulltime_teacher_type').val(),
+            month_stu_num            : $('#id_month_stu_num').val(),
+			      record_score_num         : $('#id_record_score_num').val(),
+			      identity                 : $('#id_identity').val(),
+			      plan_level               : $('#id_plan_level').val(),
+			      teacher_textbook         : $('#id_teacher_textbook').val()
         });
     }
 
@@ -69,7 +69,6 @@ $(function(){
     Enum_map.append_option_list("identity", $("#id_identity") );
     Enum_map.append_option_list("region_version", $("#id_teacher_textbook") );
 
-
     $('#id_teacher_type').val(g_args.teacher_type);
     $('#id_teacher_ref_type').val(g_args.teacher_ref_type);
     $('#id_lesson_hold_flag').val(g_args.lesson_hold_flag);
@@ -96,23 +95,21 @@ $(function(){
     $('#id_second_interview_score').val(g_args.second_interview_score);
     $('#id_lesson_hold_flag_adminid').val(g_args.lesson_hold_flag_adminid);
     $('#id_set_leave_flag').val(g_args.set_leave_flag);
-	$('#id_grade_plan').val(g_args.grade_plan);
-	$('#id_subject_plan').val(g_args.subject_plan);
-	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
-	$('#id_month_stu_num').val(g_args.month_stu_num);
-	$('#id_record_score_num').val(g_args.record_score_num);
-	$('#id_identity').val(g_args.identity);
-	$('#id_plan_level').val(g_args.plan_level);
-	$('#id_teacher_textbook').val(g_args.teacher_textbook);
-	$('#id_train_through_new').val(g_args.train_through_new);
-
-
+	  $('#id_grade_plan').val(g_args.grade_plan);
+	  $('#id_subject_plan').val(g_args.subject_plan);
+	  $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
+	  $('#id_month_stu_num').val(g_args.month_stu_num);
+	  $('#id_record_score_num').val(g_args.record_score_num);
+	  $('#id_identity').val(g_args.identity);
+	  $('#id_plan_level').val(g_args.plan_level);
+	  $('#id_teacher_textbook').val(g_args.teacher_textbook);
+	  $('#id_train_through_new').val(g_args.train_through_new);
 
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
     $.admin_select_user($("#id_reference_teacherid"), "teacher", load_data);
     Enum_map.append_option_list("boolean", $("#id_need_test_lesson_flag") );
     $('#id_need_test_lesson_flag').val(g_args.need_test_lesson_flag);
-	$('#id_have_wx').val(g_args.have_wx);
+	  $('#id_have_wx').val(g_args.have_wx);
 
     if(g_args.teacherid>0){
         $("#lesson_plan_week").show();

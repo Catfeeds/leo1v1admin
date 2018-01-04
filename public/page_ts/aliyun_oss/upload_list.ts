@@ -33,7 +33,7 @@ $(function(){
 
     $(".opt-del").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        BootstrapDialog.confirm("确定删除["+opt_data.file_path+""+opt_data.version_name+"],点击确认应用包讲被替换",function(val){
+        BootstrapDialog.confirm("确定删除["+opt_data.file_path+""+opt_data.version_name+"],点击确认应用包将被替换",function(val){
             if(val){
                 $.do_ajax("/aliyun_oss/update_status",{
                     "id" : opt_data.id
@@ -75,8 +75,12 @@ $(function(){
             label    :  "确认",
             cssClass :  'btn-waring',
             action   :   function(dialog){    
-                if($upload_link.attr('href') === '' || $upload_link_b2.attr('href') === ''
-                   || $upload_link_b3.attr('href') === '' || id_version.val() === ''){
+                if( id_version.val() !== '' && ( 
+                    ($upload_link.attr('href') !==  '' && $upload_link_b2.attr('href') !== '' && $upload_link_b3.attr('href') !== '') 
+                        || ($upload_link.attr('href') !==  '' && $upload_link_b2.attr('href') !== '' && $upload_link_b3.attr('href') === '')
+                        || ($upload_link.attr('href') ===  '' && $upload_link_b2.attr('href') === '' && $upload_link_b3.attr('href') !== ''))){
+
+                }else{
                     alert("请将所有内容都填充完整");
                     return;
                 }

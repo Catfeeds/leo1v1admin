@@ -1,16 +1,16 @@
 interface self_Args {
 	page_num:	number;
 	page_count:	number;
-	grade:	string;//枚举列表: \App\Enums\Egrade
- 	date_type_config:	string;
+	order_by_str:	string;
+	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	order_by_str:	string;
-	gender:	string;//枚举列表: \App\Enums\Egender
- 	query_text:	string;
 	userid:	number;
+	grade:	string;//枚举列表: \App\Enums\Egrade
+ 	gender:	string;//枚举列表: \App\Enums\Egender
+ 	query_text:	string;
 }
 interface self_RowData {
 	userid	:any;
@@ -30,7 +30,7 @@ tofile:
 
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import vbase from "../layout/vbase"
+import vtable from "../../components/vtable"
 import {self_RowData, self_Args } from "../page.d.ts/test-get_user_list"
 
 // @Component 修饰符注明了此类为一个 Vue 组件
@@ -39,7 +39,7 @@ import {self_RowData, self_Args } from "../page.d.ts/test-get_user_list"
   template:  require("./get_user_list.html" ),
 })
 
-export default class extends vbase {
+export default class extends vtable {
 
   get_opt_data(obj):self_RowData {return this.get_opt_data_base(obj );}
   get_args() :self_Args  {return  this.get_args_base();}
@@ -63,6 +63,13 @@ export default class extends vbase {
 		as_header_query :true,
 		});
 
+	$.admin_ajax_select_user({
+		'join_header'  : $header_query_info,
+		"user_type"    : "student",
+		"field_name"    : "userid",
+		"title"        :  "userid",
+		"select_value" : this.get_args().userid,
+	});
 	$.admin_enum_select({
 		'join_header'  : $header_query_info,
 "enum_type"    : "grade",
@@ -88,13 +95,6 @@ export default class extends vbase {
 		"field_name"    : "query_text" ,
 		"title"        :  "query_text",
 		"select_value" : this.get_args().query_text,
-	});
-	$.admin_ajax_select_user({
-		'join_header'  : $header_query_info,
-		"user_type"    : "student",
-		"field_name"    : "userid",
-		"title"        :  "userid",
-		"select_value" : this.get_args().userid,
 	});
 
   }

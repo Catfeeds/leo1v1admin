@@ -48,85 +48,129 @@ class pdfConversionH5 extends Command
         $pwd   = 'bbcffc83539bd9069b755e1d359bc70a';// md5(021130)
         $task=new \App\Console\Tasks\TaskController();
 
-        $handoutArray = $task->t_resource_file->getResourceList();
+        // $handoutArray = $task->t_resource_file->getResourceList();
+
+        // 小班课测试PPT 1bef90ebf32aa93ba0c43433eefb9848  470981
+        $handoutArray = [
+            [
+                "uuid"     => '1bef90ebf32aa93ba0c43433eefb9848',
+                "lessonid" => 470981
+            ]
+        ];
 
         foreach($handoutArray as $item){
             $uuid = $item['uuid'];
-            //从未达下载
-            $h5DownloadUrl = "http://leo1v1.whytouch.com/export.php?uuid=".$uuid."&email=".$email."&pwd=".$pwd;
+            # 从未达下载
+            $h5DownloadUrl  = "http://leo1v1.whytouch.com/export.php?uuid=".$uuid."&email=".$email."&pwd=".$pwd;
             $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
             $unzipFilePath  =  public_path('wximg'); // 解压后的文件夹
 
             $data=@file_get_contents($h5DownloadUrl);
             file_put_contents($saveH5FilePath, $data);
 
-
-            /**
-             * @ 将目录下的文件批量上传到阿里云
-             * @  解压文件包->获取文件包下文件->文件批量上传
-             */
-
+            # 文件解压
             $unzipShell = "unzip $saveH5FilePath -d $unzipFilePath ";
             shell_exec($unzipShell);
 
-            $handler = opendir($unzipFilePath."/".$uuid);
-            while (($filename = readdir($handler)) !== false) {//务必使用!==，防止目录下出现类似文件名“0”等情况
-                if ($filename != "." && $filename != "..") {
-                    $files[] = $filename ;
-                }
-            }
-            @closedir($handler);
-            $test_data = '';
+            # 获取index.html中实际引用的文件
+            $indexFilePath = public_path('wximg')."/".$uuid."/index.html";
+            $doneFilePath  = $indexFilePath;
+            $link_arr = $this->dealHtml($indexFilePath, $doneFilePath);
 
-            // 使用七牛上传
+            # 将需要的文件复制到文件夹中
+            foreach($link_arr['css'] as $css_item){
+                $csPathFrom = public_path('pptfiles')."/".$css_item;
+                $csPathTo   = public_path('wximg')."/".$uuid."/".$css_item;
+                $cpCs = "cp $csPathFrom $csPathTo ";
+                shell_exec($cpCs);
+            }
+
+            foreach($link_arr['js'] as $js_item){
+                $jsPathFrom = public_path('pptfiles')."/".$js_item;
+                $jsPathTo   = public_path('wximg')."/".$uuid."/".$js_item;
+                $cpJs = "cp $jsPathFrom $jsPathTo ";
+                shell_exec($cpJs);
+            }
+
+            # 重新打包压缩
+            $zip_new_resource = public_path('wximg')."/".$uuid.".zip";
+            $zip_new_file = public_path('wximg')."/".$uuid;
+            $zipCmd  = "zip $zip_new_resource $zip_new_file";
+            shell_exec($zipCmd);
+
+            # 使用七牛上传  七牛 资源域名 https://ybprodpub.leo1v1.com/
             $qiniu     = \App\Helper\Config::get_config("qiniu");
             $bucket    = $qiniu['public']['bucket'];
             $accessKey = $qiniu['access_key'];
             $secretKey = $qiniu['secret_key'];
-
-            // 构建鉴权对象
+            # 构建鉴权对象
             $auth = new \Qiniu\Auth ($accessKey, $secretKey);
-            $h5Path = "pdfToH5"; // 环境文件夹
-            foreach ($files as $key) {
-                // 上传到七牛后保存的文件名
-                $upkey = $h5Path."/".$uuid."/".$key;
 
-                // 生成上传 Token
-                $token = $auth->uploadToken($bucket,$upkey);
-                $Upfile = $unzipFilePath."/".$uuid."/".$key;
-
-                // 初始化 UploadManager 对象并进行文件的上传。
-                $uploadMgr = new \Qiniu\Storage\UploadManager();
-
-                // 调用 UploadManager 的 putFile 方法进行文件的上传。
-                $checkIsExists = file_exists($Upfile);
-                if($checkIsExists){
-                    list($ret, $err) = @$uploadMgr->putFile($token, $upkey, $Upfile);
-                    $test_data .= $ret["key"]." ";
-                    if($key == 'index.html'){
-                        \App\Helper\Utils::logger("upkey_qiniu: $upkey");
-                        $task->t_resource_file->field_update_list($item['file_id'],[
-                            "wx_index" => "https://ybprodpub.leo1v1.com/".$upkey
-                        ]);
-
-                    }
-                }
-            }
-
-            // 压缩包上传七牛
-            if(file_exists($saveH5FilePath)){
-                $saveH5Upload =  \App\Helper\Utils::qiniu_upload($saveH5FilePath);
-                @unlink($saveH5FilePath);
-                $this->deldir($unzipFilePath."/".$uuid); // 删除解压包
-                // 七牛 资源域名 https://ybprodpub.leo1v1.com/
-
-                $task->t_resource_file->field_update_list($item['file_id'],[
+            # 压缩包上传七牛
+            if(file_exists($zip_new_resource)){
+                $saveH5Upload =  \App\Helper\Utils::qiniu_upload($zip_new_resource);
+                $rmZipCmd = "rm $zip_new_resource"; // 删除解压包
+                shell_exec($rmZipCmd);
+                $task->t_lesson_info_b3->field_update_list($item['lessonid'],[
                     "zip_url" => $saveH5Upload
                 ]);
             }
         }
     }
 
+
+    public function dealHtml($indexFilePath, $doneFilePath){
+        $html = file_get_contents($indexFilePath);
+
+        $dom = new DOMDocument();
+        libxml_use_internal_errors(true);
+        $dom->loadHTML($html);
+        $xpath = new DOMXPath($dom);
+
+
+        # 遍历数据 link 引用css数据
+        $nodeList = $xpath->query("//link");
+        $srcList = [];
+        $cssLink = [];
+        foreach ($nodeList as $node) {
+            $cssLink_tmp = $node->attributes->getNamedItem('href')->nodeValue;
+            $cssLink_arr = explode('/', $cssLink_tmp);
+            if($cssLink_arr[0] == '..'){
+                $cssLink[] = $cssLink_arr[1];
+                $node->setAttribute('href', $cssLink_arr[1]);
+            }
+        }
+
+        # 遍历数据 script 引用js数据
+        $scriptList = $xpath->query("//script[@type = 'text/javascript']");
+
+        $scriptSrcList = [];
+        $scriptLink = [];
+        foreach ($scriptList as $node) {
+            $jsLink_tmp = $node->attributes->getNamedItem('src')->nodeValue;
+            $jsLink_arr = explode('/', $jsLink_tmp);
+            if($jsLink_arr[0] == '..'){
+                $jsLink[] = $jsLink_arr[1];
+                $node->setAttribute('src', $cssLink_arr[1]);
+
+                # 测试修改节点属性
+                // if($jsLink_arr[1] == 'wxpt.js'){
+                //     $node->setAttribute('src', 'wxpt.js');
+                //     # 创建DOM节点
+                //     //appendChild
+                //     $root = $dom->createElement('test','ssssssss');
+                //     $node->appendChild( $root );
+                // }
+            }
+        }
+
+        $saveData = $dom->saveHTML();
+        file_put_contents($doneFilePath, $saveData);
+        $dom=null;
+        $ret['css'] = $cssLink;
+        $ret['js']  = $jsLink;
+        return $ret;
+    }
 
 
     function deldir($dir) {
@@ -152,81 +196,42 @@ class pdfConversionH5 extends Command
         }
     }
 
-
-    /***
-    *
-    *
-    配置环境
-                // 使用七牛上传
-            $qiniu     = \App\Helper\Config::get_config("qiniu");
-            $bucket    = $qiniu['public']['bucket'];
-            $accessKey = $qiniu['access_key'];
-            $secretKey = $qiniu['secret_key'];
-
-            // 构建鉴权对象
-            $auth = new \Qiniu\Auth ($accessKey, $secretKey);
-
-            $h5Path = "pdfToH5"; // 环境文件夹
+    // $handler = opendir($unzipFilePath."/".$uuid);
+    // while (($filename = readdir($handler)) !== false) {//务必使用!==，防止目录下出现类似文件名“0”等情况
+    //     if ($filename != "." && $filename != "..") {
+    //         $files[] = $filename ;
+    //     }
+    // }
+    // @closedir($handler);
 
 
-            foreach ($files as $key) {
+    // foreach ($files as $key) {
+    //     // 上传到七牛后保存的文件名
+    //     $upkey = $h5Path."/".$uuid."/".$key;
 
-                // 上传到七牛后保存的文件名
-                $upkey = $h5Path."/".$key;
+    //     // 生成上传 Token
+    //     $token = $auth->uploadToken($bucket,$upkey);
+    //     $Upfile = $unzipFilePath."/".$uuid."/".$key;
 
-                // 生成上传 Token
-                $token = $auth->uploadToken($bucket,$upkey);
-                $Upfile = $tmp."/".$key;
+    //     // 初始化 UploadManager 对象并进行文件的上传。
+    //     $uploadMgr = new \Qiniu\Storage\UploadManager();
 
-                // 初始化 UploadManager 对象并进行文件的上传。
-                $uploadMgr = new \Qiniu\Storage\UploadManager();
+    //     // 调用 UploadManager 的 putFile 方法进行文件的上传。
+    //     $checkIsExists = file_exists($Upfile);
+    //     if($checkIsExists){
+    //         list($ret, $err) = @$uploadMgr->putFile($token, $upkey, $Upfile);
+    //         $test_data .= $ret["key"]." ";
+    //         if($key == 'index.html'){
+    //             \App\Helper\Utils::logger("upkey_qiniu: $upkey");
+    //             $task->t_resource_file->field_update_list($item['file_id'],[
+    //                 "wx_index" => "https://ybprodpub.leo1v1.com/".$upkey
+    //             ]);
 
-                // 调用 UploadManager 的 putFile 方法进行文件的上传。
-                list($ret, $err) = $uploadMgr->putFile($token, $key, $Upfile);
-                // if ($err !== null) {
-                //     return false;
-                // } else {
-                    $test_data .= $ret["key"]." ";
-                // }
-
-            }
-
-            \App\Helper\Utils::logger("test_data_qiniu_url_main: $test_data");
-
-            exit();
-
-            // $config=\App\Helper\Config::get_config("ali_oss");
-            // $ossClient = new OssClient(
-            //     $config["oss_access_id"],
-            //     $config["oss_access_key"],
-            //     $config["oss_endpoint"],
-            //     false
-            // );
-            // $h5Path = "pdfToH5/".$uuid; // 环境文件夹
-
-            // foreach ($files as $file_name) {
-            //     $h5FileName = $h5Path.'/'.$file_name;
-            //     $target = $unzipFilePath."/".$uuid."/".$file_name; //本地文件路径
-
-            //     $bucket=$config["public"]["bucket"];
-            //     $ossClient->uploadFile($bucket, $h5FileName, $target  );
-            //     $downLoad = $config["public"]["url"]."/".$h5FileName;
-
-            //     if($file_name == 'index.html'){ // 作为微信访问页
-
-            //     }
-            //     $test_data.=$downLoad." ";
-            // }
-
-            // \App\Helper\Utils::logger("test_data_ali_url: $test_data");
-
-            exit();
+    //         }
+    //     }
+    // }
 
 
-    *
-    *
 
-
-     ***/
 
 }

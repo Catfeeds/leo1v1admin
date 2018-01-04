@@ -13,10 +13,9 @@ function get_request_method() {
         return $_POST["_method"];
     }
 
-    return $_SERVER;
- 
     return $_SERVER["REQUEST_METHOD"];
 }
+$method = get_request_method();
 
 if ($method == "OPTIONS") {
     header("Access-Control-Allow-Origin: *");
@@ -37,7 +36,6 @@ if (!$url) { $url="";}
 
 
 $arr=explode("/", $url);
-
 if (!isset($arr[1]) )  {
     $arr[1]="index";
 }
@@ -74,6 +72,7 @@ if ( !(
 //$_POST["_url"]=$url;
 $_REQUEST["_ctl"]=$arr[1];
 $_REQUEST["_act"]= $arr[2];
+
 
 
 /**
@@ -136,8 +135,6 @@ $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 $request= Illuminate\Http\Request::capture() ;
 $response = $kernel->handle($request);
 
-
 $response->send();
 
 $kernel->terminate($request, $response);
-

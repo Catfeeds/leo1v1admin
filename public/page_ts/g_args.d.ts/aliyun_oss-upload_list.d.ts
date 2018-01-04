@@ -22,7 +22,9 @@ interface RowData {
 	is_publish	:any;
 	publish_time	:any;
 	version_name	:any;
+	adminid	:any;
 	is_publish_str	:any;
+	add_nick	:any;
 }
 
 /*

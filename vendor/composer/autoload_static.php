@@ -7,11 +7,11 @@ namespace Composer\Autoload;
 class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
 {
     public static $files = array (
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '1d1b89d124cc9cb8219922c9d5569199' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
-        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
+        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
@@ -21,9 +21,17 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
     );
 
     public static $prefixLengthsPsr4 = array (
+        'p' => 
+        array (
+            'phpDocumentor\\Reflection\\' => 25,
+        ),
         'X' => 
         array (
             'XdgBaseDir\\' => 11,
+        ),
+        'W' => 
+        array (
+            'Webmozart\\Assert\\' => 17,
         ),
         'S' => 
         array (
@@ -52,6 +60,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'P' => 
         array (
             'Psy\\' => 4,
+            'Psr\\Log\\' => 8,
             'Proto\\agent_api\\' => 16,
             'Predis\\' => 7,
             'PhpParser\\' => 10,
@@ -76,9 +85,12 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         array (
             'Dotenv\\' => 7,
             'Doctrine\\Instantiator\\' => 22,
+            'Doctrine\\Common\\Cache\\' => 22,
+            'Doctrine\\Common\\' => 16,
         ),
         'C' => 
         array (
+            'Cron\\' => 5,
             'ClassPreloader\\' => 15,
             'Carbon\\' => 7,
         ),
@@ -89,9 +101,19 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
     );
 
     public static $prefixDirsPsr4 = array (
+        'phpDocumentor\\Reflection\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+        ),
         'XdgBaseDir\\' => 
         array (
             0 => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src',
+        ),
+        'Webmozart\\Assert\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/webmozart/assert/src',
         ),
         'Symfony\\Polyfill\\Util\\' => 
         array (
@@ -169,6 +191,10 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         array (
             0 => __DIR__ . '/..' . '/psy/psysh/src/Psy',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'Proto\\agent_api\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/proto/agent_api/Proto/agent_api',
@@ -205,6 +231,18 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
         ),
+        'Doctrine\\Common\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
+        ),
+        'Doctrine\\Common\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
+        ),
+        'Cron\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron',
+        ),
         'ClassPreloader\\' => 
         array (
             0 => __DIR__ . '/..' . '/classpreloader/classpreloader/src',
@@ -220,19 +258,15 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
     );
 
     public static $prefixesPsr0 = array (
-        'p' => 
+        'z' => 
         array (
-            'phpDocumentor' => 
+            'zedisdog\\LaravelSchemaExtend' => 
             array (
-                0 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+                0 => __DIR__ . '/..' . '/zedisdog/laravel-schema-extend/src',
             ),
         ),
         'P' => 
         array (
-            'Psr\\Log\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psr/log',
-            ),
             'Prophecy\\' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
@@ -262,16 +296,25 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         ),
         'D' => 
         array (
+            'Doctrine\\DBAL\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/dbal/lib',
+            ),
+            'Doctrine\\Common\\Lexer\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
+            ),
             'Doctrine\\Common\\Inflector\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/inflector/lib',
             ),
-        ),
-        'C' => 
-        array (
-            'Cron' => 
+            'Doctrine\\Common\\Collections\\' => 
             array (
-                0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src',
+                0 => __DIR__ . '/..' . '/doctrine/collections/lib',
+            ),
+            'Doctrine\\Common\\Annotations\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/annotations/lib',
             ),
         ),
     );
@@ -279,6 +322,8 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
     public static $classMap = array (
         'AddBindBankcardTimeForTeacher' => __DIR__ . '/../..' . '/database/migrations/2017_12_02_102734_add_bind_bankcard_time_for_teacher.php',
         'AddCompanyTagUsers' => __DIR__ . '/../..' . '/database/migrations/2017_12_01_133313_add_company_tag_users.php',
+        'AddCompanyWxApproval' => __DIR__ . '/../..' . '/database/migrations/2017_12_28_113714_add_company_wx_approval.php',
+        'AddDefFlagForPicManageInfo' => __DIR__ . '/../..' . '/database/migrations/2017_12_29_133440_add_def_flag_for_pic_manage_info.php',
         'AddLeaderPowerForCompanyWxTag' => __DIR__ . '/../..' . '/database/migrations/2017_11_29_144910_add_leader_power_for_company_wx_tag.php',
         'AddPermissionForCompanyWxUsers' => __DIR__ . '/../..' . '/database/migrations/2017_11_25_173608_add_permission_for_company_wx_users.php',
         'AddPowerForManager' => __DIR__ . '/../..' . '/database/migrations/2017_11_30_182706_add_power_for_manager.php',
@@ -332,6 +377,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'CreateTTeacherResource' => __DIR__ . '/../..' . '/database/migrations/2017_12_13_140214_create_t_teacher_resource.php',
         'CreateTTeacherResourceDir' => __DIR__ . '/../..' . '/database/migrations/2017_12_14_162726_create_t_teacher_resource_dir.php',
         'CreateTTeacherSalaryList' => __DIR__ . '/../..' . '/database/migrations/2017_10_26_184755_create_t_teacher_salary_list.php',
+        'CreateTWeekOfMonthlyReport' => __DIR__ . '/../..' . '/database/migrations/2017_12_26_164707_create_t_week_of_monthly_report.php',
         'CreateTWxGiveBook' => __DIR__ . '/../..' . '/database/migrations/2017_10_10_145114_create_t_wx_give_book.php',
         'CreateTableCompanyWxAuth' => __DIR__ . '/../..' . '/database/migrations/2017_11_24_105425_create_table_company_wx_auth.php',
         'CreateTableCompanyWxTag' => __DIR__ . '/../..' . '/database/migrations/2017_11_28_153259_create_table_company_wx_tag.php',
@@ -421,6 +467,13 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
         'IlluminateQueueClosure' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
         'ModifyIndexToTOriginKey' => __DIR__ . '/../..' . '/database/migrations/2017_12_01_094720_modify_index_to_t_origin_key.php',
+        'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/Assert.php',
+        'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/AssertionFailedError.php',
+        'PHPUnit\\Framework\\BaseTestListener' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/BaseTestListener.php',
+        'PHPUnit\\Framework\\Test' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/Test.php',
+        'PHPUnit\\Framework\\TestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/TestCase.php',
+        'PHPUnit\\Framework\\TestListener' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/TestListener.php',
+        'PHPUnit\\Framework\\TestSuite' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/TestSuite.php',
         'PHPUnit_Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit_Extensions_GroupTestSuite' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/GroupTestSuite.php',
         'PHPUnit_Extensions_PhptTestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/PhptTestCase.php',
@@ -748,6 +801,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'PHP_Token_NEW' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_NS_C' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_NS_SEPARATOR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PHP_Token_NULLSAFE_OBJECT_OPERATOR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_NUM_STRING' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_OBJECT_CAST' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_OBJECT_OPERATOR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
@@ -785,6 +839,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'PHP_Token_STRING' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_STRING_CAST' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_STRING_VARNAME' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PHP_Token_SUPER' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_SWITCH' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_Stream' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token/Stream.php',
         'PHP_Token_Stream_CachingFactory' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token/Stream/CachingFactory.php',
@@ -799,6 +854,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'PHP_Token_UNSET' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_UNSET_CAST' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_USE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PHP_Token_USE_FUNCTION' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_VAR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_VARIABLE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_WHERE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
@@ -884,9 +940,10 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TAgentMoneyEx' => __DIR__ . '/../..' . '/database/migrations/2017_10_10_145509_t_agent_money_ex.php',
         'TAgentWxMsgLog' => __DIR__ . '/../..' . '/database/migrations/2017_10_26_131423_t_agent_wx_msg_log.php',
         'TAreaDrop' => __DIR__ . '/../..' . '/database/migrations/2017_12_08_155454_t_area_drop.php',
+        'TAssGroupTargetAddRenewTarget' => __DIR__ . '/../..' . '/database/migrations/2017_12_29_153427_t_ass_group_target_add_renew_target.php',
         'TAssStuChangeListAddOldAssAdminid' => __DIR__ . '/../..' . '/database/migrations/2017_11_10_110244_t_ass_stu_change_list_add_old_ass_adminid.php',
         'TAssWeeklyInfoAddReadStudentList' => __DIR__ . '/../..' . '/database/migrations/2017_11_08_132904_t_ass_weekly_info_add_read_student_list.php',
-        'TChangeOrderActivityConfig' => __DIR__ . '/../..' . '/database/migrations/2017_12_23_144901_t_change_order_activity_config.php',
+        'TChangeOrderActivityConfig' => __DIR__ . '/../..' . '/database/migrations/2017_12_28_144901_t_change_order_activity_config.php',
         'TChildOrderInfoAddParentName' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_180712_t_child_order_info_add_parent_name.php',
         'TCourseOrderAddFlag' => __DIR__ . '/../..' . '/database/migrations/2017_11_29_175027_t_course_order_add_flag.php',
         'TCourseOrderAddFlagDefault' => __DIR__ . '/../..' . '/database/migrations/2017_11_29_175531_t_course_order_add_flag_default.php',
@@ -895,8 +952,9 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TCrWeekMonthInfoAveragePersonEffect' => __DIR__ . '/../..' . '/database/migrations/2017_11_15_114315_t_cr_week_month_info_average_person_effect.php',
         'TCreateAnswerType' => __DIR__ . '/../..' . '/database/migrations/2017_12_23_095623_t_create_answer_type.php',
         'TCreateKnowledgeLevel' => __DIR__ . '/../..' . '/database/migrations/2017_12_13_173745_t_create_knowledge_level.php',
+        'TCreateQuestionOption' => __DIR__ . '/../..' . '/database/migrations/2017_12_28_102101_t_create_question_option.php',
         'TCreateSellerLevelMonth' => __DIR__ . '/../..' . '/database/migrations/2017_11_18_125202_t_create_seller_level_month.php',
-        'TCreateStudentAnswer' => __DIR__ . '/../..' . '/database/migrations/2017_12_23_181101_t_create_student_answer.php',
+        'TCreateStudentAnswer' => __DIR__ . '/../..' . '/database/migrations/2017_12_27_181101_t_create_student_answer.php',
         'TFestivalInfoAddBeginTime' => __DIR__ . '/../..' . '/database/migrations/2017_11_23_175242_t_festival_info_add_begin_time.php',
         'TFlowNodeAddEx' => __DIR__ . '/../..' . '/database/migrations/2017_11_21_114203_t_flow_node_add_ex.php',
         'TFulltimeTeacherAttendanceListAddAttendanceTimeIndex' => __DIR__ . '/../..' . '/database/migrations/2017_12_06_151216_t_fulltime_teacher_attendance_list_add_attendance_time_index.php',
@@ -910,12 +968,15 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TGrabLessonLinkVisitOperationAddVisitidIndex' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_094505_t_grab_lesson_link_visit_operation_add_visitid_index.php',
         'THomeworkInfoAddIssueOrigin' => __DIR__ . '/../..' . '/database/migrations/2017_12_19_184104_t_homework_info_add_issue_origin.php',
         'TInterviewRemindAddCreateTime' => __DIR__ . '/../..' . '/database/migrations/2017_10_21_094948_t_interview_remind_add_create_time.php',
-        'TLessonInfoAdd' => __DIR__ . '/../..' . '/database/migrations/2017_12_20_180451_t_lesson_info_add.php',
+        'TLessonInfoAdd' => __DIR__ . '/../..' . '/database/migrations/2017_12_28_200758_t_lesson_info_add.php',
         'TLessonInfoAddColum' => __DIR__ . '/../..' . '/database/migrations/2017_12_08_105733_t_lesson_info_add_colum.php',
         'TLessonInfoAddOnWheatFlag' => __DIR__ . '/../..' . '/database/migrations/2017_10_27_101107_t_lesson_info_add_on_wheat_flag.php',
         'TLessonInfoAddOperateTimeIndex' => __DIR__ . '/../..' . '/database/migrations/2017_10_21_122844_t_lesson_info_add_operate_time_index.php',
+        'TLessonInfoAddPpt' => __DIR__ . '/../..' . '/database/migrations/2018_01_03_181649_t_lesson_info_add_ppt.php',
         'TLessonInfoAddTeaCwOrigin' => __DIR__ . '/../..' . '/database/migrations/2017_12_19_182608_t_lesson_info_add_tea_cw_origin.php',
         'TLessonInfoAddTeacherType' => __DIR__ . '/../..' . '/database/migrations/2017_12_16_164143_t_lesson_info_add_teacher_type.php',
+        'TLessonInfoResetZipUrl' => __DIR__ . '/../..' . '/database/migrations/2017_12_29_120318_t_lesson_info_reset_zip_url.php',
+        'TLessonResetZipUrl' => __DIR__ . '/../..' . '/database/migrations/2017_12_29_124430_t_lesson_reset_zip_url.php',
         'TLessonTimeModifyAddBackstageType' => __DIR__ . '/../..' . '/database/migrations/2017_10_21_110844_t_lesson_time_modify_add_backstage_type.php',
         'TLuckDrawYxyxForRuffianAddAgentId' => __DIR__ . '/../..' . '/database/migrations/2017_11_02_141647_t_luck_draw_yxyx_for_ruffian_add_agent_id.php',
         'TManageInfoAddPermissionBackup' => __DIR__ . '/../..' . '/database/migrations/2017_10_30_105458_t_manage_info_add_permission_backup.php',
@@ -942,6 +1003,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TParentInfoAddBaiduClassInfo' => __DIR__ . '/../..' . '/database/migrations/2017_12_19_140200_t_parent_info_add_baidu_class_info.php',
         'TParentLuckDrawInWxAddTestFlag' => __DIR__ . '/../..' . '/database/migrations/2017_12_14_155703_t_parent_luck_draw_in_wx_add_test_flag.php',
         'TParentSendMgsLog' => __DIR__ . '/../..' . '/database/migrations/2017_10_18_145354_t_parent_send_mgs_log.php',
+        'TPdfToPngInfoAdd' => __DIR__ . '/../..' . '/database/migrations/2017_12_29_201829_t_pdf_to_png_info_add.php',
         'TPeriodRepayListAddRepayStatus' => __DIR__ . '/../..' . '/database/migrations/2017_10_14_104102_t_period_repay_list_add_repay_status.php',
         'TPeriodRepayListAddRepayStatusNew' => __DIR__ . '/../..' . '/database/migrations/2017_10_14_104537_t_period_repay_list_add_repay_status_new.php',
         'TPeriodRepayListAddWxSendFlag' => __DIR__ . '/../..' . '/database/migrations/2017_10_26_171208_t_period_repay_list_add_wx_send_flag.php',
@@ -957,8 +1019,12 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TResourceAgreeInfoAddBanLevel' => __DIR__ . '/../..' . '/database/migrations/2017_12_13_172433_t_resource_agree_info_add_ban_level.php',
         'TResourceDrop' => __DIR__ . '/../..' . '/database/migrations/2017_12_01_150204_t_resource_drop.php',
         'TResourceDropSutHash' => __DIR__ . '/../..' . '/database/migrations/2017_11_29_191419_t_resource_drop_sut_hash.php',
+        'TResourceFileAdd' => __DIR__ . '/../..' . '/database/migrations/2017_12_27_133613_t_resource_file_add.php',
+        'TResourceFileAddChangeStatus' => __DIR__ . '/../..' . '/database/migrations/2017_12_29_134356_t_resource_file_add_change_status.php',
         'TResourceFileAddExNum' => __DIR__ . '/../..' . '/database/migrations/2017_12_23_163347_t_resource_file_add_ex_num.php',
         'TResourceFileAddFilePoster' => __DIR__ . '/../..' . '/database/migrations/2017_12_21_103316_t_resource_file_add_file_poster.php',
+        'TResourceFileAddWxIndex' => __DIR__ . '/../..' . '/database/migrations/2017_12_29_144649_t_resource_file_add_wx_index.php',
+        'TResourceFileReset' => __DIR__ . '/../..' . '/database/migrations/2017_12_30_111310_t_resource_file_reset.php',
         'TRevisitAssessInfoDropRevisitNumCallCount' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_114323_t_revisit_assess_info_drop_revisit_num_call_count.php',
         'TRevisitCallCountDrop' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_183545_t_revisit_call_count_drop.php',
         'TRuffianActivityAddItem' => __DIR__ . '/../..' . '/database/migrations/2017_11_03_154835_t_ruffian_activity_add_item.php',
@@ -986,7 +1052,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TSellerStudentNewAddTestLessonOptFlag' => __DIR__ . '/../..' . '/database/migrations/2017_10_26_144018_t_seller_student_new_add_test_lesson_opt_flag.php',
         'TSellerStudentNewAddTmkLastRevisitTime' => __DIR__ . '/../..' . '/database/migrations/2017_11_09_120255_t_seller_student_new_add_tmk_last_revisit_time.php',
         'TSellerStudentNewDropSubjectScore' => __DIR__ . '/../..' . '/database/migrations/2017_12_12_100756_t_seller_student_new_drop_subject_score.php',
-        'TSellerTongjiForMonthAdd' => __DIR__ . '/../..' . '/database/migrations/2017_10_29_131032_t_seller_tongji_for_month_add.php',
+        'TSellerTongjiForMonthAdd' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_162119_t_seller_tongji_for_month_add.php',
         'TSellerTongjiForMonthAddColumons' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_112953_t_seller_tongji_for_month_add_columons.php',
         'TSellerTongjiForMonthAddDataType' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_100551_t_seller_tongji_for_month_add_data_type.php',
         'TSellerTongjiForMonthAddItem' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_185426_t_seller_tongji_for_month_add_item.php',
@@ -1049,10 +1115,15 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TTqCallInfoAddIndexAdminRole' => __DIR__ . '/../..' . '/database/migrations/2017_11_08_134149_t_tq_call_info_add_index_admin_role.php',
         'TTqCallInfoAddIndexAdminid' => __DIR__ . '/../..' . '/database/migrations/2017_11_28_181501_t_tq_call_info_add_index_adminid.php',
         'TTqCallInfoAddObjStartTime' => __DIR__ . '/../..' . '/database/migrations/2017_10_09_182200_t_tq_call_info_add_obj_start_time.php',
+        'TUrlDescPower' => __DIR__ . '/../..' . '/database/migrations/2018_01_03_143050_t_url_desc_power.php',
         'TUserInfoPasswdMd5Two' => __DIR__ . '/../..' . '/database/migrations/2017_11_23_164411_t_user_info_passwd_md5_two.php',
         'TUserLog' => __DIR__ . '/../..' . '/database/migrations/2017_10_24_132146_t_user_log.php',
         'TVersionControl' => __DIR__ . '/../..' . '/database/migrations/2017_11_29_155922_t_version_control.php',
+        'TVersionControlAddAdminid' => __DIR__ . '/../..' . '/database/migrations/2017_12_30_135318_t_version_control_add_adminid.php',
         'TVersionControlAddUploadTime' => __DIR__ . '/../..' . '/database/migrations/2017_11_29_160623_t_version_control_add_upload_time.php',
+        'TVersionControlAddVersionName' => __DIR__ . '/../..' . '/database/migrations/2017_12_29_180418_t_version_control_add_version_name.php',
+        'TWebPageInfoAddAct' => __DIR__ . '/../..' . '/database/migrations/2017_12_28_200443_t_web_page_info_add_act.php',
+        'TWebPageInfoReset' => __DIR__ . '/../..' . '/database/migrations/2017_12_29_105711_t_web_page_info_reset.php',
         'TWebPageTraceLogAddShareWxFlag' => __DIR__ . '/../..' . '/database/migrations/2017_11_25_174305_t_web_page_trace_log_add_share_wx_flag.php',
         'TWebPageTraceLogAddWx' => __DIR__ . '/../..' . '/database/migrations/2017_11_25_180044_t_web_page_trace_log_add_wx.php',
         'TWxGiveBookModifyColumon' => __DIR__ . '/../..' . '/database/migrations/2017_10_10_172130_t_wx_give_book_modify_columon.php',

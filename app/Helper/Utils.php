@@ -1124,16 +1124,16 @@ class Utils  {
      */
     static public function check_teacher_is_full($teacher_money_type,$teacher_type,$teacherid){
         $is_full = false;
-        if(($teacher_money_type==E\Eteacher_money_type::V_0
-            && $teacher_type==E\Eteacher_type::V_3
-            && !in_array($teacherid,[51094,99504,97313]))
-           || $teacher_money_type==E\Eteacher_money_type::V_7
+        if(
+            ($teacher_money_type==E\Eteacher_money_type::V_0
+             && $teacher_type==E\Eteacher_type::V_3
+             && !in_array($teacherid,[51094,99504,97313])
+            ) || $teacher_money_type==E\Eteacher_money_type::V_7
         ){
             $is_full = true;
         }
         return $is_full;
     }
-
 
     /**
      * 获取短信签名
@@ -2403,16 +2403,17 @@ class Utils  {
         return $arr;
     }
 
-    static public function get_file_use_type_str(&$item){
+    static public function get_file_use_type_str(&$item, $index){
         if( isset($item['file_use_type']) ) {
+
             if($item['file_use_type'] == 0 ){
-                $item['file_use_type_str'] = '授课课件';
+                $item['file_use_type_str'] = "第{$item['resource_id']}套-第{$index}份资料-授课课件";
             } else if ($item['file_use_type'] == 1 ){
-                $item['file_use_type_str'] = '老师版';
+                $item['file_use_type_str'] = "第{$item['resource_id']}套-第{$index}份资料-教师讲义";
             }else if ($item['file_use_type'] == 2 ){
-                $item['file_use_type_str'] = '学生版';
+                $item['file_use_type_str'] = "第{$item['resource_id']}套-第{$index}份资料-学生讲义";
             }else if ($item['file_use_type'] == 3 ){
-                $item['file_use_type_str'] = '额外文件';
+                $item['file_use_type_str'] = "第{$item['resource_id']}套-第{$index}份资料-其他资料";
             }
 
         }

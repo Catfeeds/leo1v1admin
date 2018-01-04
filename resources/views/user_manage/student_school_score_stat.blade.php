@@ -75,7 +75,7 @@
                         <td>{{@$var["create_time"]}} </td>
                         @for($i=1; $i <@11; $i++)
                             @if($var["subject"] == $i)
-                                    <td>{{$var["score"]}}</td>
+                                    <td>{{$var["score"]/10}}</td>
                             @else
                                 <td></td>
                             @endif

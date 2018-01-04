@@ -930,6 +930,9 @@ trait TeaPower {
         }
 
         //老师科目/年级限制,包含冻结年级
+        //新版
+        $check_subject = $this->check_test_lesson_grade_subject_new($require_id,$teacherid,$grade,$is_test);
+
         $test_lesson_subject_id = $this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
         $tt_item          = $this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"subject,userid");
         $tt_item['grade'] = $grade;
@@ -939,23 +942,23 @@ trait TeaPower {
         $userid  = $tt_item["userid"];
         $subject = $tt_item["subject"];
 
-        if($subject==$teacher_subject["subject"]){
-            if($teacher_subject['grade_start']==0){
-                $check_subject = $this->check_teacher_subject_and_grade_new(
-                   $subject,$grade,$teacher_subject["subject"],$teacher_subject["second_subject"],$teacher_subject["third_subject"],
-                   $teacher_subject["grade_part_ex"],$teacher_subject["second_grade"],$teacher_subject["third_grade"],$is_test,
-                   $teacher_subject["not_grade"]
-                );
-            }else{
-                $check_subject = $this->check_teacher_grade_range_new($tt_item,$teacher_subject,$is_test);
-            }
-        }else{
-            $check_subject = $this->check_teacher_subject_and_grade_new(
-                $subject,$grade,$teacher_subject["subject"],$teacher_subject["second_subject"],$teacher_subject["third_subject"],
-                $teacher_subject["grade_part_ex"],$teacher_subject["second_grade"],$teacher_subject["third_grade"],$is_test,
-                $teacher_subject["not_grade"]
-            );
-        }
+        // if($subject==$teacher_subject["subject"]){
+        //     if($teacher_subject['grade_start']==0){
+        //         $check_subject = $this->check_teacher_subject_and_grade_new(
+        //            $subject,$grade,$teacher_subject["subject"],$teacher_subject["second_subject"],$teacher_subject["third_subject"],
+        //            $teacher_subject["grade_part_ex"],$teacher_subject["second_grade"],$teacher_subject["third_grade"],$is_test,
+        //            $teacher_subject["not_grade"]
+        //         );
+        //     }else{
+        //         $check_subject = $this->check_teacher_grade_range_new($tt_item,$teacher_subject,$is_test);
+        //     }
+        // }else{
+        //     $check_subject = $this->check_teacher_subject_and_grade_new(
+        //         $subject,$grade,$teacher_subject["subject"],$teacher_subject["second_subject"],$teacher_subject["third_subject"],
+        //         $teacher_subject["grade_part_ex"],$teacher_subject["second_grade"],$teacher_subject["third_grade"],$is_test,
+        //         $teacher_subject["not_grade"]
+        //     );
+        // }
 
         if($check_subject){
             return $check_subject;
@@ -1002,6 +1005,49 @@ trait TeaPower {
                 "试听课一天限排".$limit_num_info["limit_day_lesson_num"]."节!目前老师已排".$test_lesson_num_day."节"
             );
         }
+    }
+
+    public function   check_test_lesson_grade_subject_new($require_id,$teacherid,$grade,$is_test){
+        
+        $test_lesson_subject_id = $this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
+        $tt_item          = $this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"subject,userid");
+        $tea_info  = $this->t_teacher_info->field_get_list($teacherid,"*");
+        $userid  = $tt_item["userid"];
+        $subject = $tt_item["subject"];
+
+        $stu_grade_range = $this->get_grade_range_new($grade);
+        $not_grade       = explode(",",$tea_info['not_grade']);
+        $grade_start     = $tea_info['grade_start'];
+        $grade_end       = $tea_info['grade_end'];
+
+        if($is_test==0){
+            if(!in_array($subject,[$tea_info["subject"],$tea_info["second_subject"]])){
+                return $this->output_err("学生科目与老师科目不匹配!");
+            }
+
+            if($subject==$tea_info["subject"]){
+                if($stu_grade_range<$grade_start || $stu_grade_range>$grade_end){
+                    return $this->output_err("学生年级与老师年级范围不匹配!");
+                }
+                if(in_array($grade,$not_grade)){
+                    return $this->output_err("该老师对应年级段已被冻结!");
+                }
+ 
+            }elseif($subject==$tea_info["second_subject"]){
+                $not_grade_second       = explode(",",$tea_info['second_not_grade']);
+                $grade_start_second     = $tea_info['second_grade_start'];
+                $grade_end_second       = $tea_info['second_grade_end'];
+                if($stu_grade_range<$grade_start_second || $stu_grade_range>$grade_end_second){
+                    return $this->output_err("学生年级与老师年级范围不匹配!");
+                }
+                if(in_array($grade,$not_grade_second)){
+                    return $this->output_err("该老师对应年级段已被冻结!");
+                }
+
+                
+            }
+        }
+
     }
 
     public function check_teacher_subject_and_grade_new(
@@ -1240,7 +1286,7 @@ trait TeaPower {
         }
 
         //申请数量限制
-        $require_month=["05"=>"2000","06"=>"35000","07"=>"6500","08"=>"7000","09"=>"7500","10"=>"12000","11"=>"18500","12"=>"19000"];
+        $require_month=["01"=>"18500","02"=>"18500","03"=>"18500","04"=>"18500","05"=>"18500","06"=>"35000","07"=>"18500","08"=>"18500","09"=>"18500","10"=>"18500","11"=>"18500","12"=>"19000"];
         $m = date("m",time());
         $start_time = strtotime(date("Y-m-01",time()));
         $end_time = strtotime(date("Y-m-01",$start_time+40*86400));
@@ -4351,8 +4397,20 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $item['lesson_cost_tax'] = strval(round($item['lesson_price']*0.02,2));
                 $item['lesson_price'] -= $item['lesson_cost_tax'];
             }
+            // 老师帮 --- 我的收入页 12后显示选项
+            // if ($start < strtotime('2017-12-1')) {
+            //     $item['list'] = [];
+            // } else {
+                $item['list'] = [
+                    ['name'=>'90分钟补偿','value'=>$item['lesson_reward_compensate']],
+                    ['name'=>'工资补偿','value'=>$item['lesson_reward_compensate_price']],
+                    ['name'=>'小班课工资','value'=>$item['lesson_reward_small_class']],
+                    ['name'=>'微课工资','value'=>$item['lesson_reward_weike']],
+                    ['name'=>'公开课工资','value'=>$item['lesson_reward_open_class']]
+                ];
+            //}
         }
-        array_multisort($start_list,SORT_DESC,$list);
+        array_multisort($start_list,SORT_DESC,$list); 
 
         return $list;
     }

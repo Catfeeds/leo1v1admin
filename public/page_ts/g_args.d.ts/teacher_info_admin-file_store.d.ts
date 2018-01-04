@@ -26,16 +26,24 @@ tofile:
 /// <reference path="../g_args.d.ts/teacher_info_admin-file_store.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		teacherid:	$('#id_teacherid').val(),
 		dir:	$('#id_dir').val()
-    });
+		});
 }
 $(function(){
 
 
-	$('#id_teacherid').val(g_args.teacherid);
+	$('#id_teacherid').admin_select_user_new({
+		"user_type"    : "teacher",
+		"select_value" : g_args.teacherid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_teacherid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_dir').val(g_args.dir);
 
 
@@ -53,6 +61,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_teacherid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teacherid title", "teacherid", "th_teacherid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -60,4 +69,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_dir" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["dir title", "dir", "th_dir" ]])!!}
 */

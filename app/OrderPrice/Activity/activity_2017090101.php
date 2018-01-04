@@ -7,7 +7,7 @@ class activity_2017090101 extends  activity_config_base {
 
     public function __construct(  $args   ) {
         parent::__construct($args);
-        $this->date_range=[ "2017-08-01"  , "2017-12-31"];
+        $this->date_range=[ "2017-08-01"  , "2018-01-01"];
         $this->period_flag_list= [ E\Eperiod_flag::V_0 ,E\Eperiod_flag::V_1  ];
         $this->contract_type_list = [E\Econtract_type::V_0 ,  E\Econtract_type::V_3];
         $this->lesson_times_range = [1 ,  10000];

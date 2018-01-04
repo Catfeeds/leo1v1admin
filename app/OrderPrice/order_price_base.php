@@ -10,6 +10,7 @@ class order_price_base {
         E\Eorder_price_type::V_20170701 => order_price_20170701::class,
         E\Eorder_price_type::V_20170901 => order_price_20170901::class,
         E\Eorder_price_type::V_20171001 => order_price_20171001::class,
+        E\Eorder_price_type::V_20180101 => order_price_20180101::class,
     ];
 
     /**
@@ -140,9 +141,9 @@ class order_price_base {
     }
 
     static public function get_price_ex_cur( $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count, $args) {
-        if (time(NULL) < strtotime("2017-10-01") ) {
-            static::$cur_order_price_type = E\Eorder_price_type::V_20170901 ;
-        }
+        //if (\App\Helper\Utils::check_env_is_local()) {
+        static::$cur_order_price_type = E\Eorder_price_type::V_20180101 ;
+        //}
         return  static::get_price_ex_by_order_price_type(static::$cur_order_price_type , $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count,$args) ;
     }
 

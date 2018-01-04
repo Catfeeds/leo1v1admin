@@ -118,8 +118,8 @@ class company_wx extends Controller
         $url = $config['url'].'/cgi-bin/gettoken?corpid='.$config['CorpID'].'&corpsecret='.$config['Secret2'];
         $token = $this->get_company_wx_data($url, 'access_token'); // 获取tocken
 
-        $start_time = strtotime('2017-12-6');
-        $end_time = strtotime('2017-12-7');
+        $start_time = strtotime('2017-11-25');
+        $end_time = strtotime('2017-11-27');
         // 获取审批数据
         $url = $config['url'].'/cgi-bin/corp/getapprovaldata?access_token='.$token;
         $post_data = json_encode(["starttime" => $start_time,"endtime" => $end_time]);

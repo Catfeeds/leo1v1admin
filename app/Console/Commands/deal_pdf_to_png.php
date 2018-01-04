@@ -61,6 +61,9 @@ class deal_pdf_to_png extends cmd_base
     public function do_change()
     {
         //
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+
 
         $pdf_lists = $this->task->t_pdf_to_png_info->get_pdf_list_for_doing();
 
@@ -73,7 +76,13 @@ class deal_pdf_to_png extends cmd_base
                 "deal_time"  => time()
             ]);
 
-            $pdf_file_path = $this->get_pdf_download_url($pdf_url);
+            if($item['origin_id'] == 1){
+                $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$item['file_link'] );
+            }else{
+                $pdf_file_path = $this->get_pdf_download_url($pdf_url);
+            }
+
+
 
             $savePathFile = public_path('wximg').'/'.$pdf_url;
 

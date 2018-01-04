@@ -1,0 +1,16 @@
+* 安装
+npm config set registry https://registry.npm.taobao.org
+
+sudo npm install -g n
+n stable 
+
+npm install 
+* 开发
+npm run dev
+
+* 为新的页面从新生成route
+  ./gen_route.sh
+
+* 生成 发布版本
+./build.sh
+

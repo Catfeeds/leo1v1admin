@@ -14,19 +14,27 @@ use  App\Jobs\send_wx_notic_for_software;
 use  App\Jobs\send_wx_notic_to_tea;
 use  App\Jobs\wxPicSendToParent;
 
-use LaneWeChat\Core\Media;
+// use LaneWeChat\Core\Media;
 
-use LaneWeChat\Core\AccessToken;
+// use LaneWeChat\Core\AccessToken;
 
 use LaneWeChat\Core\ResponsePassive;
 
 use Illuminate\Http\Request;
 
-use LaneWeChat\Core\WeChatOAuth;
+// use LaneWeChat\Core\WeChatOAuth;
+use Teacher\Core\WeChatOAuth;
 
-use LaneWeChat\Core\UserManage;
+use Teacher\Core\UserManage;
 
-use LaneWeChat\Core\TemplateMessage;
+use Teacher\Core\TemplateMessage;
+
+use Teacher\Core\Media;
+
+use Teacher\Core\AccessToken;
+
+
+
 
 
 // 引入鉴权类
@@ -38,7 +46,8 @@ use Qiniu\Storage\BucketManager;
 
 
 
-include(app_path("Libs/LaneWeChat/lanewechat.php"));
+// include(app_path("Libs/LaneWeChat/lanewechat.php"));
+include(app_path("Wx/Teacher/lanewechat_teacher.php"));
 
 
 
@@ -375,15 +384,10 @@ class test_james extends Controller
         //     $table->index('add_time');
         // });
 
-        Schema::create('db_weiyi.t_teacher_christmas', function(Blueprint $table) {
-            t_field($table->increments("id"), "老师圣诞节-元旦节活动");
-            t_field($table->integer("teacherid"), "分享人");
-            t_field($table->string("next_openid"), "下级openid");
-            t_field($table->integer("add_time"), "添加时间");
-            t_field($table->integer("score"), "积分");
-
-            $table->index('teacherid');
-            $table->index('add_time');
+        Schema::table('db_weiyi.t_lesson_info', function(Blueprint $table) {
+            t_field($table->integer("tea_cw_type"), "老师上传讲义的类型 0:pdf 1:ppt");
+            t_field($table->string("uuid"), "老师PPT讲义的uuid");
+            t_field($table->integer("ppt_status"), "ppt转化状态 0:未处理 1:已成功 2:失败");
         });
 
     }
@@ -853,6 +857,11 @@ class test_james extends Controller
     //         "media_id":"MEDIA_ID"
     //             }
     // }
+
+    public function get(){
+        $parent_wx_openid = $this->t_parent_info->getParentNum();
+        dd($parent_wx_openid);
+    }
 
     public function wx_news(){ // 使用客服接口发送消息
 
@@ -1598,6 +1607,16 @@ class test_james extends Controller
 
 
     public function chooseResource(){
+
+        $subject = $this->get_in_int_val('subject');
+        $grade = $this->get_in_int_val('grade');
+        $file_id = $this->t_resource->getResourceId($subject,$grade);
+        $resource_id = $this->t_resource->getResourceId($subject,$grade);
+
+        dd($resource_id);
+
+        dd($file_id);
+
         $file_id   = $this->get_in_int_val('file_id');
         $teacherid = $this->get_in_int_val("teacherid");
         $lessonid  = $this->get_in_int_val("lessonid");
@@ -1616,6 +1635,47 @@ class test_james extends Controller
         $ret_info['wx_index'] = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdfToImg);
         return $this->output_succ(["data"=>$ret_info]);
     }
+
+    public function do_james(){
+        $list = $this->t_resource_file->getList();
+
+        foreach($list as $item){
+            $file_poster = explode(',', $item['filelinks']);
+            $this->t_resource_file->field_update_list($item['file_id'], [
+                "change_status"=>1,
+                "file_poster" => $file_poster[0]
+            ]);
+        }
+    }
+
+
+
+    public function getWxName(){
+        $openid = $this->get_in_str_val('openid');
+        $userInfo = UserManage::getUserInfo($openid);
+
+        dd($userInfo);
+
+        //第一步，获取CODE
+
+        WeChatOAuth::getCode('http://wx-parent-web.leo1v1.com/test_james/returnName', 1, 'snsapi_base');
+
+    }
+
+    public function returnName(){
+        //此时页面跳转到了http://www.lanecn.com/index.php，code和state在GET参数中。
+
+        $code = $_GET['code'];
+
+        //第二步，获取access_token网页版
+
+        $openId = WeChatOAuth::getAccessTokenAndOpenId($code);
+
+        //第三步，获取用户信息
+
+        $userInfo = UserManage::getUserInfo($openId['openid']);
+    }
+
 
 
 

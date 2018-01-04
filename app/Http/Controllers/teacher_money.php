@@ -321,7 +321,8 @@ class teacher_money extends Controller
         }
 
         $teacher_info = $this->get_teacher_info_for_total_money($teacherid);
-        $list = $this->get_teacher_lesson_money_list_new($teacherid,$start_time,$now_time,$show_type);
+        // $list = $this->get_teacher_lesson_money_list_test($teacherid,$start_time,$now_time,$show_type);
+        $list = [];
 
         return $this->output_succ([
             "teacher_info" => $teacher_info,
@@ -499,7 +500,7 @@ class teacher_money extends Controller
 
             if($type==E\Ereward_type::V_2){
                 $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
-                if(!in_array($teacher_money_type,[0,4,5,6])){
+                if(!in_array($teacher_money_type,[0,4,5,6,7])){
                     return $this->output_err("老师工资分类错误！");
                 }
                 $update_arr['lessonid'] = $money_info;
