@@ -105,6 +105,7 @@ $(function(){
             html_node.find(".add_jump_type").val(item.jump_type);
             html_node.find(".add_start_date").val(item.start_time);
             html_node.find(".add_end_date").val(item.end_time);
+            console.log($('.add_pic_type').val() + " : " + $(".add_pic_usage_type").val());
             if ($('.add_pic_type').val() == 3 && $('.add_pic_usage_type').val() == 303) { // 删除视频选项
                 $(".add_jump_type option[value='1']").remove()
             }
