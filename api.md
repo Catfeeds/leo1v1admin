@@ -144,7 +144,6 @@ $name=$this->get_in_strval("name");
 
         return $this->main_get_list_by_page($sql, $page_info);
     }
-
 ```
 
 

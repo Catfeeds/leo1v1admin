@@ -1195,7 +1195,7 @@ class user_manage_new extends Controller
 
         $len = count($menu);
         $i = 1;
-        $info = '';
+        $info = [];
         foreach($menu as &$item) { // 生成树对应的数据
             $k1 = $i;
             $item['id'] = $k1;
