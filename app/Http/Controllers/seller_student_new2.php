@@ -1682,6 +1682,7 @@ class seller_student_new2 extends Controller
         $test_count = $this->t_test_lesson_subject_require->get_test_count_by_adminid($start_time,$end_time,$adminid);
         $order_count = $this->t_order_info->get_order_count_by_adminid($start_time,$end_time,$adminid);
         $order_refund_count = $this->t_order_refund->get_order_refund_count_by_adminid($start_time,$end_time,$adminid);
+        dd($call_count,$test_count,$order_count,$order_refund_count);
         //试听成功数
         $arr['called_times'] = $call_count['called_count'];
         $arr['no_called_times'] = $call_count['no_called_count'];
