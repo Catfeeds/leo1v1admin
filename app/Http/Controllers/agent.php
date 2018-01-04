@@ -465,6 +465,17 @@ class agent extends Controller
     }
 
     public function test_new(){
+        list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
+        $time = time(null);
+        $ret_time = $this->t_month_def_type->get_all_list();
+        foreach($ret_time as $item){//本月
+            if($time>=$item['start_time'] && $time<$item['end_time']){
+                $start_time = $item['start_time'];
+                $end_time = $item['end_time'];
+                break;
+            }
+        }
+        dd($start_time,$end_time);
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid=99);
         dd($lesson_call_end);
         foreach([160881,160884,160888,160890,160892,160894,160897,160898,160899,160899,160901,160902,160908,160910,160912,160917,160920,160922,160925,160929,160882,160886,160891,160895,160934,160933,160932,160931,160930] as $item){

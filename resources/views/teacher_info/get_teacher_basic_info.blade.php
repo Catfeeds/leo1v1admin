@@ -311,7 +311,7 @@
                                             <th class="text-cen bg-lblue" >手机号</th>
                                             <td>
                                                 {!! $my_info['phone'] !!}
-                                                @if ($my_info['wx_openid'])
+                                                @if (!$my_info['wx_openid'])
                                                     <a href="javascript:;"  data-toggle="modal" data-target="#modal-band-wx" class="color-red band-wx">未绑定</a>
                                                 @endif
                                             </td>
