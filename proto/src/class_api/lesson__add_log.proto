@@ -10,7 +10,7 @@ message in  {
 	int32  role = 1; // 角色 1学生　2老师
   	int32 id = 2; //账号id
    	int32 lessonid = 3; //课程id 
-   	string server = 4; //xmpp服务器域名
+   	string xmpp = 4; //xmpp服务器域名
    	int32 opt_type = 5; //课堂操作类型 1 login 2 logout
 }
 
