@@ -6,6 +6,7 @@
 	value_ex	:any;
 	count	:any;
 	get_count	:any;
+	detail_id	:any;
 	admin_nick	:any;
 	seller_new_count_type_str	:any;
 	value_ex_str	:any;

@@ -130,7 +130,6 @@ class test_sam  extends Controller
                 ."<td >下单人</td>"
                 ."<td >应退课时</td>"
                 ."<td >实退金额</td>"
-
                 ."<td >支付账号</td>"
                 ."<td >退费理由</td>"
                 ."<td >挽单结果</td>"

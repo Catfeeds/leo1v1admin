@@ -4357,6 +4357,17 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         });
     }
 
+    public function get_lesson_stu_performance($lessonid){
+        $sql=$this->gen_sql("select stu_performance,lesson_intro "
+                            ." from %s"
+                            ." where lessonid=%u"
+                            ,self::DB_TABLE_NAME
+                            ,$lessonid
+        );
+        return $this->main_get_row($sql);
+    }
+
+
 
 
 

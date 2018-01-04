@@ -1078,15 +1078,21 @@ abstract class NewModel
     public function teacher_search_info_sql($search_info,$alias='',$merge_arr=[]){
         if($search_info!=""){
             $alias = $this->get_table_alias($alias);
-            $search_sql = $this->gen_sql_new("(".$alias."nick like '%%%s%%' or "
-                                             .$alias."realname like '%%%s%%' or "
-                                             .$alias."phone like '%%%s%%' or "
-                                             .$alias."teacherid like '%%%s%%')"
-                                             ,$search_info
-                                             ,$search_info
-                                             ,$search_info
-                                             ,$search_info
-            );
+            if($search_info>0){
+                $search_sql = $this->gen_sql_new("(".$alias."teacherid=%u or "
+                                                 .$alias."phone like '%s%%'"
+                                                 .")"
+                                                 ,$search_info
+                                                 ,$search_info
+                );
+            }else{
+                $search_sql = $this->gen_sql_new("(".$alias."nick like '%s%%' or "
+                                                 .$alias."realname like '%s%%'"
+                                                 .")"
+                                                 ,$search_info
+                                                 ,$search_info
+                );
+            }
             $merge_arr[] = $search_sql;
         }
         return $merge_arr;
@@ -1100,19 +1106,26 @@ abstract class NewModel
     public function student_search_info_sql($search_info,$alias='',$merge_arr=[]){
         if($search_info!=""){
             $alias = $this->get_table_alias($alias);
-            $search_sql = $this->gen_sql_new("(".$alias."nick like '%%%s%%' or "
-                                             .$alias."realname like '%%%s%%' or "
-                                             .$alias."phone like '%%%s%%' or "
-                                             .$alias."userid like '%%%s%%')"
-                                             ,$search_info
-                                             ,$search_info
-                                             ,$search_info
-                                             ,$search_info
-            );
+            if($search_info>0){
+                $search_sql = $this->gen_sql_new("(".$alias."userid=%u or "
+                                                 .$alias."phone like '%s%%'"
+                                                 .")"
+                                                 ,$search_info
+                                                 ,$search_info
+                );
+            }else{
+                $search_sql = $this->gen_sql_new("(".$alias."nick like '%s%%' or "
+                                                 .$alias."realname like '%s%%' "
+                                                 .")"
+                                                 ,$search_info
+                                                 ,$search_info
+                );
+            }
             $merge_arr[] = $search_sql;
         }
         return $merge_arr;
     }
+
 
     /**
      * 模糊查询家长信息

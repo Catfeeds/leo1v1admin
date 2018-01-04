@@ -3280,14 +3280,15 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
 
     //助教转介绍例子
-    public function get_assistant_origin_order_losson_list_all($start_time,$end_time,$opt_date_str, $userid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid ){               
+    public function get_assistant_origin_order_losson_list_all($start_time,$end_time,$opt_date_str, $userid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid ,$sys_operator_type=1){               
         $where_arr=[
             ["o.sys_operator like '%%%s%%'" , $sys_operator, ""],
             ["l.teacherid=%u" , $teacherid, -1],
             ["a.assistantid = %u" , $assistantid, -1],
             ["m.uid = %u" , $order_adminid, -1],
             ["s.origin_userid = %u" , $origin_userid, -1],
-            "m.account_role=1",
+            ["m.account_role = %u" , $sys_operator_type, -1],
+            "m2.account_role=1",
             "s.origin_userid>0",
             "s.is_test_user=0"
         ];

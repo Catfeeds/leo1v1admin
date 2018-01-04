@@ -37,7 +37,6 @@ class TUrlDescPower extends Migration
             $table->unique(["role_groupid", "url","field_name"],"role_url_field_name");
         });
 
-
     }
 
     /**

@@ -19,7 +19,7 @@ class test_sam extends Command
      *
      * @var string
      */
-    protected $description = '助教助长周报信息';
+    protected $description = 'test_sam';
 
     /**
      * Create a new command instance.
@@ -41,7 +41,40 @@ class test_sam extends Command
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
+        $ret_info = $task->t_order_refund->get_2017_11_refund_info();
         
+        $ret_file_name = \App\Helper\Utils::download_txt("sam_2017_11_refund_info",
+        $ret_info,
+        ["银行账号","卡号","卡的类型","省份","城市","支行"],
+        ['bank_account','bankcard','bank_type','bank_province','bank_city','bank_address']);
+
+        dd($ret_file_name);
+        $path = '/home/ybai/test_sam.txt';
+        //$path = '/home/sam/admin_yb1v1/a.txt';
+        $fp = fopen($path,"a+");
+        //dd($fp);
+        foreach ($ret_info as $key => $value) {
+            if($value['bankcard'] == ' '){
+
+            }else{
+                fwrite($fp, @$value['bank_account']);//1
+                fwrite($fp, '   ');
+                fwrite($fp, @$value['bankcard']);//1
+                fwrite($fp, '   ');
+                fwrite($fp, @$value['bank_type']);//2
+                fwrite($fp, '   ');
+                fwrite($fp, @$value['bank_province']);//2
+                fwrite($fp, '   ');
+                fwrite($fp, @$value['bank_city']);//2
+                fwrite($fp, '   ');
+                fwrite($fp, @$value['bank_address']);//2
+                fwrite($fp, "\n");
+            }
+            
+        }
+        fclose($fp);
+
+        /*
         $ret_info = $task->t_student_info->get_all_student_id();  
         foreach ($ret_info as $key => $value) {
             # code...
@@ -237,7 +270,7 @@ class test_sam extends Command
         }
         fclose($fw);
 
-    
+        */
         
 
 
@@ -247,33 +280,9 @@ class test_sam extends Command
         //$ret = $task->t_tq_call_info->get_all_info_by_cc_new();
         //$ret_test = $task->t_tq_call_info->get_all_info_by_cc_test();
         //$ret_info = $task->t_teacher_info->get_teacher_bank_info_new();
-        /*
-        $ret_info = $task->t_order_refund->get_2017_11_refund_info();
-        $path = '/home/ybai/test_sam.txt';
-        //$path = '/home/sam/admin_yb1v1/a.txt';
-        $fp = fopen($path,"a+");
-        //dd($fp);
-        foreach ($ret_info as $key => $value) {
-            if($value['bankcard'] == ' '){
-
-            }else{
-                fwrite($fp, @$value['bank_account']);//1
-                fwrite($fp, '   ');
-                fwrite($fp, @$value['bankcard']);//1
-                fwrite($fp, '   ');
-                fwrite($fp, @$value['bank_type']);//2
-                fwrite($fp, '   ');
-                fwrite($fp, @$value['bank_province']);//2
-                fwrite($fp, '   ');
-                fwrite($fp, @$value['bank_city']);//2
-                fwrite($fp, '   ');
-                fwrite($fp, @$value['bank_address']);//2
-                fwrite($fp, "\n");
-            }
-            
-        }
-        fclose($fp);
-        */
+        
+        
+        
         //dd($ret_info);
         /*
         $ret_info = $task->t_tq_call_info->get_all_info_group_by_phone();

@@ -53,8 +53,10 @@ class pdfConversionH5 extends Command
         // 小班课测试PPT 1bef90ebf32aa93ba0c43433eefb9848  470981
         $handoutArray = [
             [
-                "uuid"     => '1bef90ebf32aa93ba0c43433eefb9848',
-                "lessonid" => 4546
+                // "uuid"     => '1bef90ebf32aa93ba0c43433eefb9848',
+                "uuid"     => 'c22ae75a55d881892505556438c5031e',
+                // "uuid"     => '45e5c6e1981f5f9b76e0835a1a551140',
+                "lessonid" => 470981
                 //"lessonid" => 470981
             ]
         ];
@@ -63,8 +65,8 @@ class pdfConversionH5 extends Command
             $uuid = $item['uuid'];
             # 从未达下载
             $h5DownloadUrl  = "http://leo1v1.whytouch.com/export.php?uuid=".$uuid."&email=".$email."&pwd=".$pwd;
-            $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
-            $unzipFilePath  =  public_path('wximg'); // 解压后的文件夹
+            $saveH5FilePath = public_path('ppt').'/'.$uuid.".zip";
+            $unzipFilePath  =  public_path('ppt'); // 解压后的文件夹
 
             $data=@file_get_contents($h5DownloadUrl);
             file_put_contents($saveH5FilePath, $data);
@@ -74,33 +76,30 @@ class pdfConversionH5 extends Command
             shell_exec($unzipShell);
 
             # 获取index.html中实际引用的文件
-            $indexFilePath = public_path('wximg')."/".$uuid."/index.html";
+            $indexFilePath = public_path('ppt')."/".$uuid."/index.html";
             $doneFilePath  = $indexFilePath;
             $link_arr = $this->dealHtml($indexFilePath, $doneFilePath);
-
-            \App\Helper\Utils::logger(" css_link_1: ".json_encode($link_arr['css']));
-            \App\Helper\Utils::logger(" js_link_1: ".json_encode($link_arr['js']));
 
             # 将需要的文件复制到文件夹中
             foreach($link_arr['css'] as $css_item){
                 $csPathFrom = public_path('pptfiles')."/".$css_item;
-                $csPathTo   = public_path('wximg')."/".$uuid."/".$css_item;
+                $csPathTo   = public_path('ppt')."/".$uuid."/".$css_item;
                 $cpCs = "cp $csPathFrom $csPathTo ";
                 shell_exec($cpCs);
             }
 
             foreach($link_arr['js'] as $js_item){
                 $jsPathFrom = public_path('pptfiles')."/".$js_item;
-                $jsPathTo   = public_path('wximg')."/".$uuid."/".$js_item;
+                $jsPathTo   = public_path('ppt')."/".$uuid."/".$js_item;
                 $cpJs = "cp $jsPathFrom $jsPathTo ";
                 shell_exec($cpJs);
             }
 
             # 重新打包压缩
-            $zip_new_resource = public_path('wximg')."/".$uuid.".zip";
-            $zip_new_file = public_path('wximg')."/".$uuid;
-            $zipCmd  = "zip $zip_new_resource $zip_new_file";
-            shell_exec($zipCmd);
+            $work_path= public_path('ppt');
+            $zip_new_resource = public_path('ppt')."/".$uuid."_leo.zip";
+            $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo.zip * ";
+            \App\Helper\Utils::exec_cmd($zipCmd);
 
             # 使用七牛上传  七牛 资源域名 https://ybprodpub.leo1v1.com/
             $qiniu     = \App\Helper\Config::get_config("qiniu");
@@ -113,6 +112,7 @@ class pdfConversionH5 extends Command
             # 压缩包上传七牛
             if(file_exists($zip_new_resource)){
                 $saveH5Upload =  \App\Helper\Utils::qiniu_upload($zip_new_resource);
+                $this->deldir($work_path."/".$uuid);
                 $rmZipCmd = "rm $zip_new_resource"; // 删除解压包
                 shell_exec($rmZipCmd);
                 $task->t_lesson_info_b3->field_update_list($item['lessonid'],[
@@ -177,7 +177,7 @@ class pdfConversionH5 extends Command
     }
 
 
-    function deldir($dir) {
+   public  function deldir($dir) {
         //先删除目录下的文件：
         $dh=opendir($dir);
         while ($file=readdir($dh)) {
@@ -186,7 +186,7 @@ class pdfConversionH5 extends Command
                 if(!is_dir($fullpath)) {
                     unlink($fullpath);
                 } else {
-                    deldir($fullpath);
+                    $this->deldir($fullpath);
                 }
             }
         }

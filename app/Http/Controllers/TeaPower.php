@@ -1770,7 +1770,7 @@ trait TeaPower {
      * @param string phone  老师手机号
      * @return string 错误信息
      */
-    public function change_teacher_phone($teacherid,$new_phone){
+    public function change_teacher_phone($teacherid,$new_phone,$account=""){
         $role = E\Erole::V_TEACHER;
         $old_phone = $this->t_teacher_info->get_phone($teacherid);
         if($old_phone==$new_phone){
@@ -1809,12 +1809,15 @@ trait TeaPower {
                                   ." old phone:".$old_phone."new phone:".$new_phone);
 
         $record_info = "手机变更,由".$old_phone."变更为".$new_phone;
+        if($account==""){
+            $account = $this->get_account();
+        }
         $this->t_teacher_record_list->row_insert([
             'teacherid'   => $teacherid,
             'type'        => E\Erecord_type::V_6,
             'record_info' => $record_info,
             'add_time'    => time(),
-            'acc'         => $this->get_account(),
+            'acc'         => $account,
         ]);
         return true;
     }

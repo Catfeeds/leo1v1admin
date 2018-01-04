@@ -264,10 +264,12 @@ export default class vtable extends Vue {
     }
     $.do_select_menu(obj);
   };
-  get_table_key = function (fix) {
+
+  get_table_key (fix) {
     var path_list = window.location.hash.split("/");
     return "" + fix + "-" + path_list[1] + "-" + path_list[2].split("?")[0];
   };
+
   get_args_base  () {
     return window["g_args"];
   };

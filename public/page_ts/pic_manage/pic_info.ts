@@ -2,6 +2,20 @@
 /// <reference path="../g_args.d.ts/pic_manage-pic_info.d.ts" />
 
 $(function(){
+        function load_data(){
+        $.reload_self_page({
+            pic_type       : $(".pic_type").val(),
+		        //usage_type : val
+            active_status: $("#active_status").val()
+        });
+	  }
+
+    $(".pic_type").val(g_args.pic_type);
+    //$(".usage_type").val(usage_type);
+    $("#active_status").val(g_args.active_status);
+    	  $('.opt-change').set_input_change_event(load_data);
+
+
     Enum_map.append_option_list("pic_type", $(".pic_type"));
     Enum_map.append_option_list("pic_type", $(".add_pic_type"),true);
     Enum_map.append_option_list("pic_jump_type", $(".add_jump_type"),true);
@@ -20,20 +34,28 @@ $(function(){
     set_select_option_list();
     $(".pic_usage_type").val(g_args.usage_type);
 
-    function load_data(val){
-        $.reload_self_page({
-            type       : $(".pic_type").val(),
-		        usage_type : val 
-        });
-	  }
+    // function load_data(){
+    //     $.reload_self_page({
+    //         type       : $(".pic_type").val(),
+		//         //usage_type : val
+    //         active_status: $("#active_status").val()
+    //     });
+	  // }
 
-    //筛选
-	  $(".pic_type").on("change",function(){
-		    load_data(-1);
-	  });
-	  $(".pic_usage_type").on("change",function(){
-		    load_data($(this).val());
-	  });
+    // $(".pic_type").val(g_args.type);
+    // //$(".usage_type").val(usage_type);
+    // $("#active_status").val(g_args.active_status);
+
+    // //筛选
+	  // $(".pic_type").on("change",function(){
+		//     load_data(-1);
+	  // });
+	  // $(".pic_usage_type").on("change",function(){
+		//     load_data($(this).val());
+	  // });
+    // $("#active_status").on("change", function() {
+    //     alert($(this).val())
+    // });
 
     var do_add_or_update = function( opt_type, item ){
         var html_txt = $.dlg_get_html_by_class('dlg_add_pic_info');
@@ -52,6 +74,7 @@ $(function(){
 
         html_node.find(".share_s").hide();
         if (opt_type=="update") {
+
             pic_url=item.img_url;
             pic_img="<img width=100 src=\""+pic_url+"\" />";
             tag_url=item.img_tags_url;
@@ -82,6 +105,10 @@ $(function(){
             html_node.find(".add_jump_type").val(item.jump_type);
             html_node.find(".add_start_date").val(item.start_time);
             html_node.find(".add_end_date").val(item.end_time);
+            console.log(item.type + " : " + html_node.find(".add_pic_usage_type").val());
+            if (html_node.find(".add_pic_usage_type").val() == 303) {
+                $(".add_jump_type option[value='1']").remove()
+            }
         }
 
         var title = "";
@@ -108,19 +135,22 @@ $(function(){
             closable        : true,
             closeByBackdrop : false,
             onshown         : function(dialog){
+            if (html_node.find(".add_pic_usage_type").val() == 303) {
+                $(".add_jump_type option[value='1']").remove()
+            }
+
                 $(".add_pic_usage_type").on("change", function() {
                     if ($(this).val() == 303) { // 删除视频选项
                         $(".add_jump_type option[value='1']").remove()
-
                     }
                 });
                 $('.add_jump_type').on("change", function() {
-                    if ($(this).val() == 2) {
-                        if ($('.add_pic_usage_type').val() == 302) {
+                    if (parseInt($(this).val()) == 2) {
+                        if (html_node.find(".add_pic_usage_type").val() == 302) {
                             $('.add_jump_url').val('http://www.leo1v1.com/service_chat_panel.html');
                             $('.add_jump_url').attr("disabled","disabled");
                         }
-                        if ($('.add_pic_usage_type').val() == 303) {
+                        if (html_node.find(".add_pic_usage_type").val() == 303) {
                             $('.add_jump_url').val('http://m.leo1v1.com/chat.html');
                             $('.add_jump_url').attr("disabled","disabled");
                         }
@@ -130,6 +160,21 @@ $(function(){
                     }
                 });
 
+
+                                    custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
+                                    g_args.qiniu_upload_domain_url,true,
+                                    function (up, info, file){
+                                        console.log(info);
+                                        var res = $.parseJSON(info);
+                                        pic_url = g_args.qiniu_upload_domain_url + res.key;
+                                        pic_img="<img width=80 src=\""+pic_url+"\"/>";
+                                        html_node.find(".add_header_img").html(pic_img);
+                                        html_node.find(".pic_url").html(pic_url + "<button class='del_img'>删除</button>");
+                                        $('.del_img').on("click", function(){
+                                            html_node.find(".add_header_img").html('');
+                                            html_node.find(".pic_url").html('');
+                                        });
+                                    });
 
                 $('#id_upload_add_tmp').on('click', function() {
                     custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
@@ -195,8 +240,8 @@ $(function(){
                         var info_share   = html_node.find(".add_info_share").val();
                         var start_time   = html_node.find(".add_start_date").val();
                         var end_time     = html_node.find(".add_end_date").val();
-                        if (!name) {
-                            alert('图片名称不能为空，请填写保持在30字符之后')
+                        if (!name || name.length > 30) {
+                            alert('图片名称不能为空并长度不能超过30字符');
                             return false;
                         }
                         if (!start_time) {
@@ -249,6 +294,10 @@ $(function(){
                                 ,"jump_type"    : jump_type 
                             },
 			                      success : function(result){
+                                if (result.ret == -1) {
+                                    alert(result.info);
+                                }
+                                console.log(result);
                                 if(result.ret==0){
                                     window.location.reload();
                                 }else{
@@ -289,6 +338,7 @@ $(function(){
 			      dataType :"json",
 			      data     :{"id":id},
             success: function(data){
+                console.log(data.ret_info);
                 do_add_or_update("update", data.ret_info);
             }
         });

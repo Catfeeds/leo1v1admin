@@ -46,11 +46,14 @@ $(function(){
     }
 
     show_top( $("#id_per_count_list > tr")) ;
+    
 
     $(".order_lesson").on("click",function(){
         var adminid = $(this).data("adminid");
+        var d = new Date();
+        var hour = d.getHours();       
         console.log(adminid);
-        if(adminid > 0){           
+        if(adminid > 0 && (( hour>=9 &&  hour<10) || ( hour>=18 &&  hour<19))){           
             var title = "课程详情";
             var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>lessonid</td><td>时间</td><td>老师</td><td>学生</td><td>年级</td><td>科目</td></tr></table></div>");
 
@@ -92,6 +95,8 @@ $(function(){
 
             dlg.getModalDialog().css("width","1024px");
 
+        }else{
+            BootstrapDialog.alert("请在上午9点到10点或者晚上18点到19点查看!");
         }
         
     });

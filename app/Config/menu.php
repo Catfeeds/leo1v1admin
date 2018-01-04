@@ -2,6 +2,7 @@
 namespace App\Config;
 class menu{
    static  public  function get_config()  {
+       // 70 -89 小班
         return [
 
             ["power_id"=>40, "name"=>"核心数据",  "list"=> [
@@ -31,7 +32,7 @@ class menu{
                 ["power_id"=>23, "name"=>"教学事业部核心数据指标", "url" => "/tongji2/get_teaching_core_data" ],
             ]],
 
-            ["power_id"=>80, "name"=>"运维管理",  "list"=> [
+            ["power_id"=>41, "name"=>"运维管理",  "list"=> [
                 ["power_id"=>83, "name"=>"系统状态",   "url"=>"/main_page/admin"],
                 ["power_id"=>80, "name"=>"在线预计课数", "url"=>"/tongji/online_def_user_count_list"],
                 ["power_id"=>81, "name"=>"在线课数", "url"=>"/tongji/online_user_count_list"],
@@ -984,7 +985,6 @@ class menu{
                 //["power_id"=>42, "name"=>"测试-需求处理",   "url"=>"/requirement/requirement_info_test"],
             ]],
         ];
-
     }
 
 }

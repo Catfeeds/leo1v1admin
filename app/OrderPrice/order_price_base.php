@@ -105,7 +105,6 @@ class order_price_base {
         }
 
         $price = static::$grade_price_config[$grade]*$lesson_count;
-
         return [
             "price"                => $price,
             "present_lesson_count" => $present_lesson_count,

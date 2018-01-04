@@ -836,7 +836,6 @@ class tea_manage extends Controller
         $ret=$this->t_lesson_info->get_stu_performance($lessonid);
         \App\Helper\Utils::logger("xxooox1:".$ret);
 
-
         if($ret!=''){
             $ret_info = json_decode($ret,true);
             if(isset($ret_info['point_note_list']) && is_array($ret_info['point_note_list'])){
@@ -850,6 +849,82 @@ class tea_manage extends Controller
         }
 
         return $ret_info;
+    }
+
+    public function new_get_stu_performance(){
+        $lessonid = $this->get_in_int_val('lessonid',0);
+
+        $homework_situation = array_flip(E\Ehomework_situation::$desc_map);
+        $content_grasp = array_flip(E\Econtent_grasp::$desc_map);
+        $lesson_interact = array_flip(E\Elesson_interact::$desc_map);
+
+        $ret = $this->t_lesson_info_b2->get_lesson_stu_performance($lessonid);
+        if($ret['stu_performance']!=''){
+            $ret_info = json_decode($ret['stu_performance'],true);
+            $ret_info['homework_situation'] = $homework_situation[$ret_info['homework_situation']];
+            $ret_info['content_grasp']      = $content_grasp[$ret_info['content_grasp']];
+            $ret_info['lesson_interact']    = $lesson_interact[$ret_info['lesson_interact']];
+
+            if(isset($ret_info['point_note_list']) && is_array($ret_info['point_note_list'])){
+                foreach($ret_info['point_note_list'] as $key => $val){
+                    $ret_info['point_name'][$key]     = $val['point_name'];
+                    $ret_info['point_stu_desc'][$key] = $val['point_stu_desc'];
+                }
+            }else{
+                $ret_info['point_name']=explode("|",$ret['lesson_intro']);
+            }
+        }else{
+            $ret_info=explode("|",$ret['lesson_intro']);
+        }
+
+
+        return $ret_info;
+    }
+
+    public function new_set_stu_performance(){
+        $lessonid                    = $this->get_in_int_val('lessonid',0);
+        $ret_info['total_judgement'] = $this->get_in_str_val('total_judgement','');
+        $homework_situation          = $this->get_in_str_val('homework_situation',0);
+        $content_grasp               = $this->get_in_str_val('content_grasp',0);
+        $lesson_interact             = $this->get_in_int_val('lesson_interact',0);
+        $ret_info['stu_comment']     = $this->get_in_str_val('stu_comment','');
+        $point_name                  = $this->get_in_str_val('point_name','');
+        $point_stu_desc              = $this->get_in_str_val('point_stu_desc','');
+        $point_name2                 = $this->get_in_str_val('point_name2','');
+        $point_stu_desc2             = $this->get_in_str_val('point_stu_desc2','');
+
+        $ret_info['homework_situation'] = E\Ehomework_situation::get_desc($homework_situation);
+        $ret_info['content_grasp']      = E\Econtent_grasp::get_desc($content_grasp);
+        $ret_info['lesson_interact']    = E\Elesson_interact::get_desc($lesson_interact);
+
+        if($point_name!=''){
+            $ret_info['point_note_list'][0]['point_name']     = $point_name;
+            $ret_info['point_note_list'][0]['point_stu_desc'] = $point_stu_desc;
+            if($point_name2!=''){
+                $ret_info['point_note_list'][1]['point_name']     = $point_name2;
+                $ret_info['point_note_list'][1]['point_stu_desc'] = $point_stu_desc2;
+            }
+        }else{
+            $ret_info['point_note_list']='';
+        }
+
+        $stu_performance = json_encode($ret_info);
+        $ret_info = $this->t_lesson_info->field_update_list($lessonid,[
+            'stu_performance'   => $stu_performance,
+            'ass_comment_audit' => 3,
+            'tea_rate_time'     => time(NULL),
+        ]);
+
+        if(!$ret_info && $ret_info!=0){
+            return outputjson_error('设置失败!');
+        }
+
+        if(\App\Helper\Utils::check_env_is_release()){
+            $post_url = "http://admin.leo1v1.com/common_new/send_wx_to_par?lessonid=$lessonid";
+            $this->send_curl_post($post_url);
+        }
+
+        return outputjson_success();
     }
 
     public function get_stu_performance_new(){
