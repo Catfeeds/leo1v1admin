@@ -260,7 +260,7 @@ $(function(){
 
             });
 
-            multi_upload_file(new_flag,false,false,"id_tea_file",1,function(files){
+            multi_upload_file(new_flag,false,false,"id_tea_file",0,function(files){
                 var name_str = '';
                 remove_id.push($('.tea_file').data('id'));
                 $('.tea_file').prev().remove();
@@ -447,7 +447,7 @@ $(function(){
 
     var re_upload = function(obj){
 
-        multi_upload_file('',false,true,'upload_flag',1,function(){},function(up,file) {
+        multi_upload_file('',false,true,'upload_flag',0,function(){},function(up,file) {
             $('.opt_process').show();
         },function(up, file, info) {
             var res = $.parseJSON(info.response);

@@ -468,6 +468,7 @@ class agent extends Controller
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
         $time = time(null);
         $ret_time = $this->t_month_def_type->get_all_list();
+        dd($ret_time);
         foreach($ret_time as $item){//本月
             if($time>=$item['start_time'] && $time<$item['end_time']){
                 $start_time = $item['start_time'];

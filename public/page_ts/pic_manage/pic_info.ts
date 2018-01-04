@@ -105,7 +105,8 @@ $(function(){
             html_node.find(".add_jump_type").val(item.jump_type);
             html_node.find(".add_start_date").val(item.start_time);
             html_node.find(".add_end_date").val(item.end_time);
-            if ($('.add_jump_type') == 2 && $('.add_pic_usage_type').val() == 303) { // 删除视频选项
+            console.log($('.add_pic_type').val() + " : " + $(".add_pic_usage_type").val());
+            if ($('.add_pic_type').val() == 3 && $('.add_pic_usage_type').val() == 303) { // 删除视频选项
                 $(".add_jump_type option[value='1']").remove()
             }
 
@@ -157,6 +158,21 @@ $(function(){
                     }
                 });
 
+
+                                    custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
+                                    g_args.qiniu_upload_domain_url,true,
+                                    function (up, info, file){
+                                        console.log(info);
+                                        var res = $.parseJSON(info);
+                                        pic_url = g_args.qiniu_upload_domain_url + res.key;
+                                        pic_img="<img width=80 src=\""+pic_url+"\"/>";
+                                        html_node.find(".add_header_img").html(pic_img);
+                                        html_node.find(".pic_url").html(pic_url + "<button class='del_img'>删除</button>");
+                                        $('.del_img').on("click", function(){
+                                            html_node.find(".add_header_img").html('');
+                                            html_node.find(".pic_url").html('');
+                                        });
+                                    });
 
                 $('#id_upload_add_tmp').on('click', function() {
                     custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
@@ -276,6 +292,10 @@ $(function(){
                                 ,"jump_type"    : jump_type 
                             },
 			                      success : function(result){
+                                if (result.ret == -1) {
+                                    alert(result.info);
+                                }
+                                console.log(result);
                                 if(result.ret==0){
                                     window.location.reload();
                                 }else{

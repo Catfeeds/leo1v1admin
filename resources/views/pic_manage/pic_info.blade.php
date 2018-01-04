@@ -155,7 +155,7 @@
 			        <td style="text-align:right; width:150px;">图标顺序/消息类型</td>
 			        <td><!-- <input value="" class="add_pic_order_by" type="text"/> -->
                   <select class="add_pic_order_by">
-                      <option value="1">1</option>
+                      <option value="1" selected>1</option>
                       <option value="2">2</option>
                       <option value="3">3</option>
                       <option value="4">4</option>
