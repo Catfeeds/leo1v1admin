@@ -1195,7 +1195,7 @@ class user_manage_new extends Controller
 
         $len = count($menu);
         $i = 1;
-        $info = '';
+        $info = [];
         foreach($menu as &$item) { // 生成树对应的数据
             $k1 = $i;
             $item['id'] = $k1;
@@ -1210,7 +1210,7 @@ class user_manage_new extends Controller
             $check1 = false;
             if (isset($power_map[$page_id]) && $power_map[$page_id]) { $check1 = true;}
             $item['checked'] = $check1;
-            unset($item['url']);
+            //unset($item['url']);
             //$info[] = $item;
             if (isset($item['list'])) {
                 $len1 = count($item['list']);
@@ -1231,7 +1231,7 @@ class user_manage_new extends Controller
                         $j ++;
                     }
                     $item2['checked'] = $check2;
-                    unset($item2['url']);
+                    //unset($item2['url']);
                     //$info[] = $item2;
                     $i ++;
                     if (isset($item2['list'])) {
@@ -1250,7 +1250,7 @@ class user_manage_new extends Controller
                                 $k ++;
                             }
                             $item3['checked'] = $check3;
-                            unset($item3['url']);
+                            //unset($item3['url']);
                             $info[] = $item3;
                             $i ++;
                             if ($len2 == $k) {
@@ -1268,7 +1268,7 @@ class user_manage_new extends Controller
             }
             $info[] = $item;
         }
-
+        //dd($info);
         $key = $i;
         $info[] = ['id' => $key, 'pId' => 0, 'name' => '其它 - 0'];
         $i ++;
@@ -2108,6 +2108,7 @@ class user_manage_new extends Controller
         $user_list=$this->t_manager_info->get_power_group_user_list($groupid);
         $power_map=$this->t_authority_group->get_auth_group_map($groupid);
         $list=$this->get_menu_list_new($power_map );
+        $admin_id = $this->get_account_id();
         if ($show_flag!=2) { //只用户
             $ret_info=\App\Helper\Utils::list_to_page_info($list);
         }else{
@@ -2117,7 +2118,8 @@ class user_manage_new extends Controller
         return $this->Pageview(__METHOD__,$ret_info,[
             "group_list"=>$group_list,
             "user_list"=>$user_list,
-            "list"=>$list
+            "list"=>$list,
+            "admin_id" => $admin_id
         ]);
 
     }
@@ -2890,6 +2892,21 @@ class user_manage_new extends Controller
             $item["has_power"] = in_array($powerid,$p_list)?1:0;
         }
         return $this->output_succ(["data"=> $list]);
+    }
+
+    public function get_group_list_by_powerid_page()
+    {
+        $powerid = $this->get_in_int_val("powerid");
+        $ret  = \App\Helper\Utils::list_to_page_info([]);
+        $list    = $this->t_authority_group->get_all_list();
+        foreach ($list as &$item) {
+            $p_list=preg_split("/,/", $item["group_authority"] );
+            unset( $item["group_authority"]);
+            unset( $item["2"]);
+            $item["has_power"] = in_array($powerid,$p_list)?1:0;
+        }
+        $ret['list'] = $list;
+        return $this->output_ajax_table($ret); 
     }
 
     public function set_power_with_groupid_list() {

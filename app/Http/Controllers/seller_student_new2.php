@@ -1674,4 +1674,31 @@ class seller_student_new2 extends Controller
         return $tea_list;
     }
 
+    public function get_item_list(){
+        $this->switch_tongji_database();
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        $adminid=$this->get_in_adminid();
+        $month= date("Ym",$start_time);
+        $call_count = $this->t_tq_call_info->get_call_count_by_adminid($start_time, $end_time,$adminid);
+        $test_count = $this->t_test_lesson_subject_require->get_test_count_by_adminid($start_time,$end_time,$adminid);
+        $order_count = $this->t_order_info->get_order_count_by_adminid($start_time,$end_time,$adminid);
+        $order_refund_count = $this->t_order_refund->get_order_refund_count_by_adminid($start_time,$end_time,$adminid);
+        $level10 = $this->t_seller_edit_log->get_10_level($adminid);
+        $level11 = $this->t_seller_edit_log->get_11_level($adminid);
+        $level11 = $level11>0?$level11:$level10;
+        $level12 = $this->t_seller_edit_log->get_12_level($adminid);
+        $level12 = $level12>0?$level12:$level11;
+        //试听成功数
+        $arr['called_times'] = $call_count['called_count'];
+        $arr['no_called_times'] = $call_count['no_called_count'];
+        $arr['suc_test_lesson_cout'] = $test_count['succ_all_count'];
+        $arr['require_lesson_count'] = $test_count['test_lesson_count'];
+        $arr['order_count'] = $order_count;
+        $arr['refund_count'] = $order_refund_count;
+        $arr['level11'] = E\Eseller_level::get_desc($level11);
+        $arr['level12'] = E\Eseller_level::get_desc($level12);
+
+        return $this->output_succ($arr);
+    }
+
 }

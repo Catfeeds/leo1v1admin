@@ -36,7 +36,6 @@ define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
 /** Include PHPExcel */
 require_once dirname(__FILE__) . '/../Classes/PHPExcel.php';
 
-
 // Create new PHPExcel object
 echo date('H:i:s') , " Create new PHPExcel object" , EOL;
 $objPHPExcel = new PHPExcel();
@@ -94,7 +93,6 @@ $callStartTime = microtime(true);
 
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
-
 $callEndTime = microtime(true);
 $callTime = $callEndTime - $callStartTime;
 

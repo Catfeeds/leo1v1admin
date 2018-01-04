@@ -110,19 +110,27 @@ class update_seller_level extends cmd_base
                         }
                     }
                     //入职小于2月,定级>D
-                    if(time(null)-$become_member_time<60*3600*24 && $month_level>E\Eseller_level::V_500){
+                    $mix_time = strtotime(date('Y-m-1',$become_member_time));
+                    $mid_time = strtotime(date('Y-m-15',$become_member_time));
+                    if($become_member_time>$mix_time && $become_member_time<$mid_time){
+                        $max_time = strtotime(date("Y-m-d",strtotime(date('Y-m-1',$become_member_time)." +2 month")));
+                    }else{
+                        $max_time = strtotime(date("Y-m-d",strtotime(date('Y-m-1',$become_member_time)." +3 month")));
+                    }
+                    // if(time(null)-$become_member_time<60*3600*24 && $month_level>E\Eseller_level::V_500){
+                    if($become_member_time<$max_time && $month_level>E\Eseller_level::V_500){
                         $month_level = E\Eseller_level::V_500;
                     }
-                }
-                $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
-                $row = $this->task->t_seller_level_month->get_row_by_adminid_month_date($adminid,$month_date);
-                if(!$row){
-                    $this->task->t_seller_level_month->row_insert([
-                        'adminid' => $adminid,
-                        'month_date' => $month_date,
-                        'seller_level' => $month_level,
-                        'create_time' => $time,
-                    ]);
+                    $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
+                    $row = $this->task->t_seller_level_month->get_row_by_adminid_month_date($adminid,$month_date);
+                    if(!$row){
+                        $this->task->t_seller_level_month->row_insert([
+                            'adminid' => $adminid,
+                            'month_date' => $month_date,
+                            'seller_level' => $month_level,
+                            'create_time' => $time,
+                        ]);
+                    }
                 }
             }else{//月中
                 //统计本月

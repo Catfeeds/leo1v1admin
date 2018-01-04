@@ -25,6 +25,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
     public function get_test_list( $page_info, $order_by_str,  $grade ) {
         $where_arr=[] ;
+        // int , 枚举, 枚举列表 ,都用这个
         $this->where_arr_add_int_or_idlist($where_arr,"grade", $grade );
 
         $sql = $this->gen_sql_new("select  userid, nick,realname,  phone, grade "
@@ -54,14 +55,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         if($student_type>-1)
             $where_arr[] = 'assistantid>0';
 
-        if ($user_name) {
-            $where_arr[]=sprintf( "(nick like '%s%%' or realname like '%s%%' or  phone like '%s%%' )",
-                                  $this->ensql($user_name),
-                                  $this->ensql($user_name),
-                                  $this->ensql($user_name));
-        }
-
-        $order_str="";
+        $order_str = "";
         switch ( $order_type ) {
         case 1 :
             $order_str=" order by lesson_count_left  desc";
@@ -75,15 +69,18 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         default:
             break;
         }
+        $where_arr = $this->student_search_info_sql($user_name,'',$where_arr);
 
-        $sql = $this->gen_sql("select origin_userid, userid, nick,realname, spree, phone, is_test_user, originid, origin, grade, praise, parent_name, parent_type, last_login_ip, last_lesson_time, last_login_time,assistantid, lesson_count_all, lesson_count_left, user_agent,seller_adminid,ass_assign_time ,reg_time,phone_location,origin_assistantid ,grade_up"
-                              ." from %s ".
-                              "  where  %s  %s  ",
-                              self::DB_TABLE_NAME,
-                              [$this->where_str_gen($where_arr)],
-                              $order_str
+        $sql = $this->gen_sql_new("select origin_userid, userid, nick,realname, spree, phone, is_test_user, "
+                                  ." originid, origin, grade, praise, parent_name, parent_type, last_login_ip, "
+                                  ." last_lesson_time, last_login_time,assistantid, lesson_count_all, lesson_count_left, "
+                                  ." user_agent,seller_adminid,ass_assign_time ,reg_time,phone_location,origin_assistantid ,grade_up"
+                                  ." from %s "
+                                  ." where %s %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,$order_str
         );
-
         $ret_info = $this->main_get_list_by_page($sql,$page_num,10);
         foreach  (  $ret_info["list"] as &$item) {
             if (!$item["phone_location"] ) {
@@ -847,29 +844,21 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             array( "s.userid=%d", $id, -1 ),
             array( "m.uid=%d", $ass_adminid, -1 ),
         );
-        if ($nick_phone!=""){
-            $where_arr[]=sprintf( "(s.nick like '%s%%' or s.realname like '%s%%' or  s.phone like '%s%%' or s.userid like '%s%%' )",
-                                  $this->ensql($nick_phone),
-                                  $this->ensql($nick_phone),
-                                  $this->ensql($nick_phone),
-                                  $this->ensql($nick_phone)
-            );
-        }
+        $where_arr = $this->student_search_info_sql($nick_phone,'s',$where_arr);
 
         $sql = $this->gen_sql_new("select s.userid as id , s.nick, s.phone,s.gender,s.realname  "
                                   ." from %s s , %s a,%s m "
                                   ." where s.assistantid=a.assistantid"
-                                  ." and a.phone=m.phone and %s ",
-                                  self::DB_TABLE_NAME,
-                                  t_assistant_info::DB_TABLE_NAME,
-                                  t_manager_info::DB_TABLE_NAME,
-                                  $where_arr );
+                                  ." and a.phone=m.phone and %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_assistant_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
-
-    public function get_list_for_select($id,$gender, $nick_phone,  $page_num,$adminid=-1)
-    {
+    public function get_list_for_select($id,$gender, $nick_phone,  $page_num,$adminid=-1){
         $where_arr = array(
             array( "gender=%d", $gender, -1 ),
             array( "userid=%d", $id, -1 ),
@@ -891,7 +880,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
-
 
     public function set_lesson_count_info($studentid, $lesson_total_all, $lesson_left_all,$last_lesson_time)
     {

@@ -124,19 +124,47 @@ $(function(){
                             $('.add_jump_url').val('http://m.leo1v1.com/chat.html');
                             $('.add_jump_url').attr("disabled","disabled");
                         }
+                    } else {
+                        $('.add_jump_url').val('');
+                        $('.add_jump_url').removeAttr('disabled');
                     }
                 });
 
-                custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
+
+                $('#id_upload_add_tmp').on('click', function() {
+                    custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
                                     g_args.qiniu_upload_domain_url,true,
                                     function (up, info, file){
                                         console.log(info);
                                         var res = $.parseJSON(info);
                                         pic_url = g_args.qiniu_upload_domain_url + res.key;
-                                        pic_img="<img width=80 src=\""+pic_url+"\" />";
+                                        pic_img="<img width=80 src=\""+pic_url+"\"/>";
                                         html_node.find(".add_header_img").html(pic_img);
-                                        html_node.find(".pic_url").html(pic_url);
+                                        html_node.find(".pic_url").html(pic_url + "<button class='del_img'>删除</button>");
+                                        $('.del_img').on("click", function(){
+                                            html_node.find(".add_header_img").html('');
+                                            html_node.find(".pic_url").html('');
+                                        });
                                     });
+
+                });
+
+                // custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
+                //                     g_args.qiniu_upload_domain_url,true,
+                //                     function (up, info, file){
+                //                         console.log(info);
+                //                         var res = $.parseJSON(info);
+                //                         pic_url = g_args.qiniu_upload_domain_url + res.key;
+                //                         pic_img="<img width=80 src=\""+pic_url+"\"/>";
+                //                         html_node.find(".add_header_img").html(pic_img);
+                //                         html_node.find(".pic_url").html(pic_url + "<button class='del_img'>删除</button>");
+                //                         $('.del_img').on("click", function(){
+                //                             html_node.find(".add_header_img").html('');
+                //                             html_node.find(".pic_url").html('');
+                //                         });
+                //                     });
+
+
                 // custom_qiniu_upload("id_upload_tag_add_tmp","id_container_tag_add_tmp",
                 //                     g_args.qiniu_upload_domain_url , true,
                 //                     function (up, info, file){
@@ -167,8 +195,8 @@ $(function(){
                         var info_share   = html_node.find(".add_info_share").val();
                         var start_time   = html_node.find(".add_start_date").val();
                         var end_time     = html_node.find(".add_end_date").val();
-                        if (!name) {
-                            alert('图片名称不能为空，请填写保持在30字符之后')
+                        if (!name || name.length > 30) {
+                            alert('图片名称不能为空并长度不能超过30字符');
                             return false;
                         }
                         if (!start_time) {
@@ -177,6 +205,10 @@ $(function(){
                         }
                         if (!end_time) {
                             alert("请选择结束时间");
+                            return false;
+                        }
+                        if (start_time >= end_time) {
+                            alert("结束时间必须大于开始时间");
                             return false;
                         }
                         if (click_status == 1) { //处理可点击

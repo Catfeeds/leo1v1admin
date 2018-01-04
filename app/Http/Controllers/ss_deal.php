@@ -1754,6 +1754,7 @@ class ss_deal extends Controller
         $this->t_test_lesson_subject_require->set_test_lesson_status(
             $require_id, E\Eseller_student_status::V_210 , $this->get_account() );
 
+
         $account_role = $this->get_account_role();
         if($account_role == 12){ // 文彬测试
 
@@ -1888,14 +1889,24 @@ class ss_deal extends Controller
     }
 
     public function course_set_new(){
-        $require_id   = $this->get_in_require_id();
-        $teacherid    = $this->get_in_teacherid();
-        $lesson_start = $this->get_in_str_val('lesson_start');
-        $grade        = $this->get_in_int_val('grade');
+        $require_id      = $this->get_in_require_id();
+        $teacherid       = $this->get_in_teacherid();
+        $lesson_start    = $this->get_in_str_val('lesson_start');
+        $grade           = $this->get_in_int_val('grade');
         $top_seller_flag = $this->get_in_int_val('top_seller_flag');
+        $orderid         = 1;
+
+        $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+        $check_is_full = \App\Helper\Utils::check_teacher_is_full(
+            $teacher_info['teacher_money_type'],$teacher_info['teacher_type'],$teacherid
+        );
+        if($check_is_full){
+            $lesson_diff = 50*60;
+        }else{
+            $lesson_diff = 40*60;
+        }
         $lesson_start = strtotime($lesson_start);
-        $lesson_end   = $lesson_start+2400;
-        $orderid      = 1;
+        $lesson_end = $lesson_start+$lesson_diff;
 
         $db_lessonid = $this->t_test_lesson_subject_require->get_current_lessonid($require_id);
         $account_role = $this->get_account_role();
@@ -1938,9 +1949,8 @@ class ss_deal extends Controller
             );
         }
 
-        $teacher_info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,level");
-        $courseid     = $this->t_course_order->add_course_info_new($orderid,$userid,$grade,$subject,100,2,0,1,1,0,$teacherid);
-        $lessonid     = $this->t_lesson_info->add_lesson(
+        $courseid = $this->t_course_order->add_course_info_new($orderid,$userid,$grade,$subject,100,2,0,1,1,0,$teacherid);
+        $lessonid = $this->t_lesson_info->add_lesson(
             $courseid,0,$userid,0,2,
             $teacherid,0,$lesson_start,$lesson_end,$grade,
             $subject,100,$teacher_info["teacher_money_type"],$teacher_info["level"]
@@ -2011,6 +2021,8 @@ class ss_deal extends Controller
             $demand           = $stu_request_info['stu_request_test_lesson_demand'];
             $lesson_time_str    = \App\Helper\Utils::fmt_lesson_time($lesson_start,$lesson_end);
             $require_admin_nick = $this->cache_get_account_nick($require_adminid);
+
+
 
             $do_adminid = $this->get_account_id();
             $account_role = $this->get_account_role();

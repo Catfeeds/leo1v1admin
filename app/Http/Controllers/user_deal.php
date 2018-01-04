@@ -3331,27 +3331,27 @@ class user_deal extends Controller
         $ret=$this->t_manager_info->get_info_by_account($account,"wx_id,name,phone");
         return $this->output_succ(["data" => $ret]);
     }
+
     public function send_seller_sms_msg() {
-        $phone=$this->get_in_phone_ex();
-        $name=$this->get_in_str_val("name");
-        $wx_id=$this->get_in_str_val("wx_id");
-        $seller_phone=$this->get_in_str_val("seller_phone");
-        $template_code= 15960017 ;
-        $userid= $this->t_seller_student_new->get_userid_by_phone($phone);
-        $admin_revisiterid =$this->t_seller_student_new->get_admin_revisiterid($userid);
+        $phone         = $this->get_in_phone_ex();
+        $name          = $this->get_in_str_val("name");
+        $wx_id         = $this->get_in_str_val("wx_id");
+        $seller_phone  = $this->get_in_str_val("seller_phone");
+        $template_code = 15960017 ;
+
+        $userid            = $this->t_seller_student_new->get_userid_by_phone($phone);
+        $admin_revisiterid = $this->t_seller_student_new->get_admin_revisiterid($userid);
         if ($admin_revisiterid != $this->get_account_id() ) {
             return $this->output_err("这个例子还不是你的,不能发短信");
         }
 
-        $ret=(new notice())-> sms_common( $phone,0,
-                                          $template_code,[
-                                              "name"  => $name,
-                                              "wx_id"  => $wx_id,
-                                              "phone"  => $seller_phone,
-                                          ]);
+        $ret = (new notice())->sms_common( $phone,0,$template_code,[
+            "name"  => $name,
+            "wx_id" => $wx_id,
+            "phone" => $seller_phone,
+        ]);
         return $this->output_bool_ret($ret);
     }
-
 
     public function get_major_group_list ()
     {
@@ -4092,6 +4092,7 @@ class user_deal extends Controller
         $arr['lesson_per'] = $res[$adminid]['lesson_per'];
         $arr['kpi'] = $res[$adminid]['kpi'];
         //月末定级
+        $start_time_this = $start_time;
         $ret_time = $this->t_month_def_type->get_all_list();
         foreach($ret_time as $item){//本月
             if($start_time_new>=$item['start_time'] && $start_time_new<$item['end_time']){
@@ -4132,23 +4133,33 @@ class user_deal extends Controller
             $arr['base_salary'] = 6500;
             $arr['sup_salary'] = 0;
             switch(true){
-            case $arr['last_group_all_price']<500000 :
+            case $arr['last_group_all_price']<500000:
                 // $arr['per_salary'] = 10*$kpi;
                 $arr['per_salary'] = 1000;
+                $arr['last_seller_level'] = '初级';
                 break;
             case $arr['last_group_all_price']<800000 && $arr['last_group_all_price']>=500000:
                 // $arr['per_salary'] = 25*$kpi;
                 $arr['per_salary'] = 2500;
+                $arr['last_seller_level'] = '中级1';
                 break;
             case $arr['last_group_all_price']<1000000 && $arr['last_group_all_price']>=800000:
                 // $arr['per_salary'] = 35*$kpi;
                 $arr['per_salary'] = 3500;
+                $arr['last_seller_level'] = '中级2';
                 break;
             default:
                 // $arr['per_salary'] = 50*$kpi;
                 $arr['per_salary'] = 5000;
+                $arr['last_seller_level'] = '高级';
                 break;
             }
+            $arr['suc_first_week'] = '';
+            $arr['suc_second_week'] = '';
+            $arr['suc_third_week'] = '';
+            $arr['suc_fourth_week'] = '';
+            $arr['lesson_per'] = '';
+            $arr['kpi'] = '';
         }
         $arr['group_kpi'] = isset($group_kpi['group_kpi'])?$group_kpi['group_kpi']:'';
         $arr['group_kpi_desc'] = isset($group_kpi['group_kpi_desc'])?$group_kpi['group_kpi_desc']:'';
@@ -5080,6 +5091,7 @@ class user_deal extends Controller
     public function copy_admin_group_info(){
         $month = strtotime($this->get_in_str_val("start_time"));
         $main_type_flag = $this->get_in_int_val("main_type_flag");
+
         $this->t_group_user_month->del_by_month($month,$main_type_flag);
         $this->t_group_name_month->del_by_month($month,$main_type_flag);
         $this->t_main_group_name_month->del_by_month($month,$main_type_flag);
@@ -5096,6 +5108,7 @@ class user_deal extends Controller
                 "group_assign_percent" =>$item["group_assign_percent"]
             ]);
         }
+
         $admin_group_user_list = $this->t_admin_group_user->get_all_list($main_type_flag);
         foreach($admin_group_user_list as $item){
             $this->t_group_user_month->row_insert([
@@ -5131,7 +5144,6 @@ class user_deal extends Controller
             ]);
         }
         return $this->output_succ();
-
     }
 
     public function check_lesson_status($from_key_int){
@@ -5837,7 +5849,20 @@ class user_deal extends Controller
     }
 
 
-     public function get_teacher_textbook(){
+    public function get_teacher_textbook_str(){
+        $textbook = $this->get_in_str_val('teacher_textbook');
+        $arr_text = json_decode($textbook,true);
+        foreach( $arr_text as $vall){
+            @$str .=  E\Eregion_version::get_desc ($vall).",";
+            @$num .= $vall.",";
+        }
+        @$str = trim($str,",");
+        @$num = trim($num,",");
+        return $this->output_succ(["textbook"=>@$str,"textbook_value"=>@$num]);
+
+
+    }
+    public function get_teacher_textbook(){
         $textbook = $this->get_in_str_val('textbook');
         // $textbook = "2,3";
         $list    = E\Eregion_version::$desc_map;
