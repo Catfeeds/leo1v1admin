@@ -465,7 +465,25 @@ class agent extends Controller
     }
 
     public function test_new(){
-        dd('aa');
+        foreach([160911,160914,160916,160918,160919,160926,160927,160935,160936,160937,160938,160873,160874,160877,160878,160879,160883,160887,160893,160896,160900,160904,160905,160913,160915] as $item){
+            $id = $item;
+            $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id);
+        }
+        dd('a');
+        $this->t_seller_new_count_get_detail->get_detail_id($id);
+        $start_time = 1512057600;
+        $end_time = 1514736000;
+        $adminid = 315;
+        $call_count = $this->t_tq_call_info->get_call_count_by_adminid($start_time, $end_time,$adminid);
+        $test_count = $this->t_test_lesson_subject_require->get_test_count_by_adminid($start_time,$end_time,$adminid);
+        $order_count = $this->t_order_info->get_order_count_by_adminid($start_time,$end_time,$adminid);
+        $order_refund_count = $this->t_order_refund->get_order_refund_count_by_adminid($start_time,$end_time,$adminid);
+        $level10 = $this->t_seller_edit_log->get_10_level($adminid);
+        $level11 = $this->t_seller_edit_log->get_11_level($adminid);
+        $level11 = $level11>0?$level11:$level10;
+        $level12 = $this->t_seller_edit_log->get_12_level($adminid);
+        $level12 = $level12>0?$level12:$level11;
+        dd($call_count,$test_count);
     }
 
     //处理等级头像
