@@ -740,4 +740,20 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
         $sql = "select count(*) as total from db_weiyi_admin.t_tq_call_info where phone='".$phone."' and is_called_phone = 1";
         return $this->main_get_value($sql);
     }
+
+    public function get_call_count_by_adminid($start_time, $end_time,$adminid){
+        $where_arr=[
+            ['adminid=%u',$adminid,-1],
+            "admin_role=2",
+        ];
+        $this->where_arr_add_time_range($where_arr,"start_time",$start_time,$end_time);
+        $sql=$this->gen_sql_new(
+            "select sum(if(is_called_phone=0,1,0)) no_called_count,sum(if(is_called_phone=1,1,0)) called_count "
+            ."  from %s "
+            ." where  %s ",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 }
