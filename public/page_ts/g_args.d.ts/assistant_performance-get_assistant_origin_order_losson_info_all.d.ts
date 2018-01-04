@@ -12,6 +12,7 @@ interface GargsStatic {
 	origin_userid:	number;
 	adminid:	number;
 	assistantid:	number;
+	sys_operator_type:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -66,7 +67,8 @@ function load_data(){
 		teacherid:	$('#id_teacherid').val(),
 		origin_userid:	$('#id_origin_userid').val(),
 		adminid:	$('#id_adminid').val(),
-		assistantid:	$('#id_assistantid').val()
+		assistantid:	$('#id_assistantid').val(),
+		sys_operator_type:	$('#id_sys_operator_type').val()
 		});
 }
 $(function(){
@@ -115,6 +117,7 @@ $(function(){
 		"only_show_in_th_input"     : false,
 		"can_select_all_flag"     : true
 	});
+	$('#id_sys_operator_type').val(g_args.sys_operator_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -179,4 +182,12 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["assistantid title", "assistantid", "th_assistantid" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">sys_operator_type</span>
+                <input class="opt-change form-control" id="id_sys_operator_type" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["sys_operator_type title", "sys_operator_type", "th_sys_operator_type" ]])!!}
 */
