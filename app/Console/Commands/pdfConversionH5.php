@@ -53,8 +53,10 @@ class pdfConversionH5 extends Command
         // 小班课测试PPT 1bef90ebf32aa93ba0c43433eefb9848  470981
         $handoutArray = [
             [
-                "uuid"     => '1bef90ebf32aa93ba0c43433eefb9848',
-                "lessonid" => 4546
+                // "uuid"     => '1bef90ebf32aa93ba0c43433eefb9848',
+                "uuid"     => 'c22ae75a55d881892505556438c5031e',
+                // "uuid"     => '45e5c6e1981f5f9b76e0835a1a551140',
+                "lessonid" => 470981
                 //"lessonid" => 470981
             ]
         ];
@@ -98,9 +100,11 @@ class pdfConversionH5 extends Command
 
             # 重新打包压缩
             $work_path= public_path('wximg');
-            $zip_new_resource = public_path('wximg')."/".$uuid.".zip";
+            $zip_new_resource = public_path('wximg')."/".$uuid."_leo.zip";
+
             // $zip_new_file =$uuid;
-            $zipCmd  = " cd $work_path/$uuid,  zip -r ../".$uuid.".zip * ";
+            // $zipCmd  = " cd $work_path/$uuid,  zip -r ../".$uuid.".zip * ";
+            $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo.zip * ";
             \App\Helper\Utils::exec_cmd($zipCmd);
 
             # 使用七牛上传  七牛 资源域名 https://ybprodpub.leo1v1.com/
@@ -114,6 +118,7 @@ class pdfConversionH5 extends Command
             # 压缩包上传七牛
             if(file_exists($zip_new_resource)){
                 $saveH5Upload =  \App\Helper\Utils::qiniu_upload($zip_new_resource);
+                $this->deldir($work_path."/".$uuid);
                 $rmZipCmd = "rm $zip_new_resource"; // 删除解压包
                 shell_exec($rmZipCmd);
                 $task->t_lesson_info_b3->field_update_list($item['lessonid'],[

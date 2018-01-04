@@ -458,7 +458,10 @@ class assistant_performance extends Controller
             
         }
         // dd($ass_month);
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ass_month));
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ass_month),[
+            "start"=>date("Y-m-d H:i",$start_time),
+            "end"=>date("Y-m-d H:i",$end_time),
+        ]);
 
         //dd($ass_month);
         
