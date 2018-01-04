@@ -23,6 +23,10 @@ class pic_manage extends Controller
             E\Epic_usage_type::set_item_value_str($item,"usage_type");
             $item['active_status'] = '';
             // 判断活动状态
+            if ($item['del_flag'] == 1) {
+                $item['active_status'] = '已删除';
+                $sort4[] = $item;
+            } else {
             if ($current < $item['start_time']) {
                 $item['active_status'] = '待开始';
                 $sort1[] = $item;
@@ -33,9 +37,6 @@ class pic_manage extends Controller
                 $item['active_status'] = '已结束';
                 $sort3[] = $item;
             }
-            if ($item['del_flag'] == 1) {
-                $item['active_status'] = '已删除';
-                $sort4[] = $item;
             }
         }
 

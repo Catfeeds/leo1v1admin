@@ -520,4 +520,13 @@ class ajax_deal extends Controller
         return $this->output_succ();
     }
 
+    public function del_seller_new_detail(){
+        $detail_id = $this->get_in_int_val("detail_id");
+        if (!$this->check_account_in_arr(["jim","tom","龚隽"])) {
+            return  $this->output_err("没有权限");
+        }
+        $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($detail_id);
+        return $this->output_succ();
+    }
+
 }

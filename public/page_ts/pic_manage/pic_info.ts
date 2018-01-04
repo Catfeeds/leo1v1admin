@@ -195,8 +195,8 @@ $(function(){
                         var info_share   = html_node.find(".add_info_share").val();
                         var start_time   = html_node.find(".add_start_date").val();
                         var end_time     = html_node.find(".add_end_date").val();
-                        if (!name) {
-                            alert('图片名称不能为空，请填写保持在30字符之后')
+                        if (!name || name.length > 30) {
+                            alert('图片名称不能为空并长度不能超过30字符');
                             return false;
                         }
                         if (!start_time) {
