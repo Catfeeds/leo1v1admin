@@ -141,7 +141,7 @@ $(function(){
                     }
                 });
                 $('.add_jump_type').on("change", function() {
-                    console.log(' jump_type: ' + $(this).val())
+                    console.log(' jump_type: ' + $(this).val() + ' usage_type ' + parseInt($('.add_pic_usage_type').val()))
 
                     if (parseInt($(this).val()) == 2) {
                         if (parseInt($('.add_pic_usage_type').val()) == 302) {
