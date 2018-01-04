@@ -82,7 +82,12 @@ $(function(){
                 tag_img="<img width=100 src=\""+tag_url+"\" />";
             }
             html_node.find(".add_header_img").html(pic_img);
-            html_node.find(".pic_url").html(pic_url);
+            html_node.find(".pic_url").html(pic_url + "<button class='del_img'>删除</button>");
+            html_node.find('.del_img').on("click", function(){
+                html_node.find(".add_header_img").html('');
+                html_node.find(".pic_url").html('');
+            });
+
             html_node.find(".add_header_tag_img").html(tag_img);
 
             html_node.find(".add_pic_type").val(item.type); // 图片类型
@@ -105,10 +110,6 @@ $(function(){
             html_node.find(".add_jump_type").val(item.jump_type);
             html_node.find(".add_start_date").val(item.start_time);
             html_node.find(".add_end_date").val(item.end_time);
-            console.log(item.type + " : " + html_node.find(".add_pic_usage_type").val());
-            if (html_node.find(".add_pic_usage_type").val() == 303) {
-                $(".add_jump_type option[value='1']").remove()
-            }
         }
 
         var title = "";
@@ -164,7 +165,7 @@ $(function(){
                                     custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
                                     g_args.qiniu_upload_domain_url,true,
                                     function (up, info, file){
-                                        console.log(info);
+                                        //console.log(info);
                                         var res = $.parseJSON(info);
                                         pic_url = g_args.qiniu_upload_domain_url + res.key;
                                         pic_img="<img width=80 src=\""+pic_url+"\"/>";
@@ -180,7 +181,7 @@ $(function(){
                     custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
                                     g_args.qiniu_upload_domain_url,true,
                                     function (up, info, file){
-                                        console.log(info);
+                                        //console.log(info);
                                         var res = $.parseJSON(info);
                                         pic_url = g_args.qiniu_upload_domain_url + res.key;
                                         pic_img="<img width=80 src=\""+pic_url+"\"/>";
@@ -297,7 +298,7 @@ $(function(){
                                 if (result.ret == -1) {
                                     alert(result.info);
                                 }
-                                console.log(result);
+
                                 if(result.ret==0){
                                     window.location.reload();
                                 }else{
