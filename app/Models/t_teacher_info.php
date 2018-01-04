@@ -2790,7 +2790,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     /**
      * @function 获取平台老师课耗总数
      */
-    public function get_teacher_list($train_through_new,$start_time,$end_time,$full_flag=0){
+    public function get_teacher_list($train_through_new,$start_time,$end_time,$full_flag=0,$fulltime_teacher_type=-1){
         $where_arr = [
             " t.train_through_new=1 ",
             " t.is_quit=0 ",
@@ -2805,6 +2805,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         if($full_flag==1){
             $where_arr[]="m.del_flag=0";
             $where_arr[]="m.account_role=5";
+            $where_arr[] =["m.fulltime_teacher_type=%u",$fulltime_teacher_type,-1];
         }
 
         $sql = $this->gen_sql_new("select sum(l.lesson_count) lesson_count,count(distinct l.teacherid) tea_num,"
