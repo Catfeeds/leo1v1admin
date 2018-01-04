@@ -9,6 +9,7 @@ $(function(){
             start_time    : $('#id_start_time').val(),
             end_time      : $('#id_end_time').val(),
             status        : $('#id_status').val(),
+		        actual_flag:	$('#id_actual_flag').val(),
         });
     }
 
@@ -22,6 +23,9 @@ $(function(){
             load_data();
         }
     });
+
+    	$('#id_actual_flag').val(g_args.actual_flag);
+
 
     // $("#id_data").on("click",function(){
     //     var config_list=["fulltime_teacher_count","fulltime_teacher_student","fulltime_teacher_pro","fulltime_teacher_student_pro","fulltime_teacher_lesson_count","fulltime_teacher_cc_per","part_teacher_lesson_count","part_teacher_cc_per","fulltime_teacher_lesson_count_per","platform_teacher_cc_per","fulltime_normal_stu_num","fulltime_normal_stu_pro"];

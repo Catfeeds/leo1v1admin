@@ -32,6 +32,7 @@ class teacher_info extends Controller
         return self::get_lesson_list_new();
     }
 
+    //弃用，备份做参考
     public function get_lesson_list_new_bak() {
         $teacherid   = $this->get_login_teacher();
         $userid      = $this->get_in_int_val("userid",-1);
@@ -184,11 +185,11 @@ class teacher_info extends Controller
             return "<font color=$color>$desc</font>";
         };
 
-        $ret_info = $this->t_lesson_info->get_teacher_lesson_list_new(
+        $ret_info = $this->t_lesson_info_b2->get_teacher_lesson_list_www_new(
             $teacherid,$userid,$start_time,$end_time,$lesson_type_in_str
         );
 
-        $trial_train_list = $this->t_lesson_info->get_trial_train_list($teacherid);
+        $trial_train_list = $this->t_lesson_info->get_trial_train_list_new($teacherid);
         $ret_info['list'] = array_merge($trial_train_list,$ret_info['list']);
 
         $train_from_lessonid_list = \App\Helper\Config::get_config("trian_lesson_from_lessonid","train_lesson");
