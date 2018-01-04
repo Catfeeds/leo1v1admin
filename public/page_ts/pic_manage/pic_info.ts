@@ -105,6 +105,9 @@ $(function(){
             html_node.find(".add_jump_type").val(item.jump_type);
             html_node.find(".add_start_date").val(item.start_time);
             html_node.find(".add_end_date").val(item.end_time);
+            if (item.type == 3 && item.usage_type == 303) {
+                $(".add_jump_type option[value='1']").remove()
+            }
         }
 
         var title = "";
@@ -138,7 +141,6 @@ $(function(){
                     }
                 });
                 $('.add_jump_type').on("change", function() {
-                    console.log($(".add_pic_type").val());
 
                     if ($(this).val() == 2) {
                         if ($('.add_pic_usage_type').val() == 302) {
@@ -333,6 +335,7 @@ $(function(){
 			      dataType :"json",
 			      data     :{"id":id},
             success: function(data){
+                console.log(data.ret_info);
                 do_add_or_update("update", data.ret_info);
             }
         });
