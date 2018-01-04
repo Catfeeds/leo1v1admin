@@ -465,11 +465,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($detail_id=2);
-        dd('a');
-        $this->t_seller_new_count_get_detail->row_insert([
-        ]);
-        foreach([160911,160914,160916,160918,160919,160926,160927,160935,160936,160937,160938,160873,160874,160877,160878,160879,160883,160887,160893,160896,160900,160904,160905,160913,160915] as $item){
+        foreach([160881,160884,160888,160890,160892,160894,160897,160898,160899,160899,160901,160902,160908,160910,160912,160917,160920,160922,160925,160929,160882,160886,160891,160895] as $item){
             $id = $item;
             $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id);
         }
