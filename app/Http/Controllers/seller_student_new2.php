@@ -1675,6 +1675,7 @@ class seller_student_new2 extends Controller
     }
 
     public function get_item_list(){
+        $this->check_and_switch_tongji_domain();
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $adminid=$this->get_in_adminid();
         $month= date("Ym",$start_time);
