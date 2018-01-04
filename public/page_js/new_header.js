@@ -2246,8 +2246,8 @@ function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo ,
 };
 
 function multi_upload_file(new_flag,is_multi,is_auto_start,btn_id, is_public_bucket ,select_func,befor_func, complete_func, ext_file,process_id ){
-    do_ajax( "/common/get_new_bucket_info",{
-        // is_public: is_public_bucket ? 1:0
+    do_ajax( "/common/get_bucket_info",{
+        is_public: is_public_bucket ? 1:0
     },function(ret){
         var domain_name=ret.domain;
         var token=ret.token;
@@ -2353,6 +2353,8 @@ function multi_upload_file(new_flag,is_multi,is_auto_start,btn_id, is_public_buc
                     */
                     this.origin_file_name=file.name;
                     var file_name=$.md5(file.name) +time +'.' + match[1];
+                    //tpad1001231
+                    file_name = '/teacher-doc/'+file_name;
                     console.log('gen file_name:'+file_name);
                     return file_name;
 

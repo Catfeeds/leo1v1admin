@@ -1529,14 +1529,14 @@ class test_boby extends Controller {
 
         }
 
-        $th_arr = ['类型', '占比'];
+        $th_arr = ['类型',"数量", '占比'];
         $s      = $this->table_start($th_arr);
         $info = [$gra, $sub, $cou];
         // dd($info);
         foreach($info as $item){
             foreach($item as $k=>$v){
                 $r = round( (100*$v/$count), 2)."%";
-                $s = $this->tr_add($s, $k, $r );
+                $s = $this->tr_add($s, $k,$v, $r );
             }
         }
         $s = $this->table_end($s);
