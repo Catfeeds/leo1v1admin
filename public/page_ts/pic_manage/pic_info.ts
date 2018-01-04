@@ -74,6 +74,7 @@ $(function(){
 
         html_node.find(".share_s").hide();
         if (opt_type=="update") {
+
             pic_url=item.img_url;
             pic_img="<img width=100 src=\""+pic_url+"\" />";
             tag_url=item.img_tags_url;
@@ -104,6 +105,10 @@ $(function(){
             html_node.find(".add_jump_type").val(item.jump_type);
             html_node.find(".add_start_date").val(item.start_time);
             html_node.find(".add_end_date").val(item.end_time);
+            if ($('.add_jump_type') == 2 && $('.add_pic_usage_type').val() == 303) { // 删除视频选项
+                $(".add_jump_type option[value='1']").remove()
+            }
+
         }
 
         var title = "";
