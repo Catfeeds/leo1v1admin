@@ -963,7 +963,6 @@ class user_manage extends Controller
         $lru_id      = $this->get_in_int_val("lru_id");
         $lru_id_name = $this->get_in_str_val("lru_id_name" );
         $lru_key     = "USER_LIST_".$type."_".$this->get_account_id();
-
         \App\Helper\Utils::logger("lru_id1: $lru_key, $lru_id");
 
         if ($lru_id) {
