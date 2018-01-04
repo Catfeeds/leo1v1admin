@@ -95,7 +95,6 @@ class pic_manage extends Controller
                 }
             }
         }
-        return $this->output_err($usage_type);
 
         $start = strtotime($start_time);
         $end   = strtotime($end_time);
