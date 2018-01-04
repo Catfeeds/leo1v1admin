@@ -554,7 +554,7 @@ $(function(){
 
     var get_qiniu = function(flag,is_multi, is_auto_upload, btn_id,use_type=0,add_class,allow_str){
 
-        multi_upload_file(flag, is_multi, is_auto_upload, btn_id, 1,
+        multi_upload_file(flag, is_multi, is_auto_upload, btn_id, 0,
                           function(files){
                               var name_str = '';
                               if (!is_multi){
