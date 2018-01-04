@@ -107,10 +107,43 @@ class update_teacher_approve_to_data extends Command
 
         // }
         // }
-        
         $start_time = strtotime(date('Y-m-1', time()));
         $end_time = time();
-        $ret_info = $task->t_lesson_info_b3->get_tea_lesson_info_for_approved($start_time, $end_time);
+        // $ret_info = $task->t_lesson_info_b3->get_tea_lesson_info_for_approved($start_time, $end_time);
+        $ret_info = $task->t_lesson_info_b3->get_teacher_data($start_time, $end_time);
+        //求换老师个数 --begin--
+        $distinct_lesson_info = $task->t_lesson_info_b3->get_distinct_lesson_info($start_time, $end_time);
+        $teacher_violation_arr = [];
+        //记录学生课程情况数组
+        $teacher_student_arr = [];
+        foreach($distinct_lesson_info as $item){
+            if(!@$teacher_violation_arr[$item['teacherid']]){
+                //初始化每个老师的数据
+                $teacher_violation_arr[$item['teacherid']] = [
+                    'turn_teacher_count' => 0
+                ];
+
+                $teacher_student_arr[$item['userid']][$item['subject']][] = $item['teacherid'];
+            }
+
+            if(@isset($teacher_student_arr[$item['userid']][$item['subject']])
+               // && @$teacher_student_arr[$item['userid']][$item['subject']]['teacherid'] != $item['teacherid']
+               && !in_array($item['teacherid'],$teacher_student_arr[$item['userid']][$item['subject']])
+            ){
+                //该学生该课程的老师存在变更
+                $length = count($teacher_student_arr[$item['userid']][$item['subject']]);
+                $key = $length-1;
+                $err_teacher_id = $teacher_student_arr[$item['userid']][$item['subject']][$key];
+                if(!isset($teacher_violation_arr[$err_teacher_id]['turn_teacher_count']))
+                    $teacher_violation_arr[$err_teacher_id]['turn_teacher_count'] = 0;
+                $teacher_violation_arr[$err_teacher_id]['turn_teacher_count'] ++;
+
+                $teacher_student_arr[$item['userid']][$item['subject']][] = $item['teacherid'];
+            }
+        }
+
+        //求换老师个数 --end--
+
 
         foreach($ret_info as $item){
             $teacherid = $item['teacherid'];
@@ -118,8 +151,20 @@ class update_teacher_approve_to_data extends Command
             $cc_lesson_num = $task->t_order_info->get_cc_lesson_num($start_time, $end_time, $teacherid, '2');
             $cr_order_num  = $task->t_order_info->get_cc_test_lesson_num($start_time, $end_time, $teacherid,'1');
             $cr_lesson_num = $task->t_order_info->get_cc_lesson_num($start_time, $end_time, $teacherid, '1');
-            $violation_info = $task->t_lesson_info_b3->get_violation_num($start_time, $end_time, $teacherid);
-            $violation_num = array_sum($violation_info);
+            // $violation_info = $task->t_lesson_info_b3->get_violation_num($start_time, $end_time, $teacherid);
+            // $violation_num = array_sum($violation_info);
+            $violation_num = $item['no_notes_count']+$item['test_lesson_later_count']+$item['regular_lesson_later_count']+$item['no_evaluation_count']+$item['turn_class_count']+$item['ask_for_leavel_count']+$item['test_lesson_truancy_count']+$item['test_lesson_truancy_count'];
+            $test_lesson_count = $item['test_lesson_count'];
+            $regular_lesson_count = $item['regular_lesson_count'];
+            $no_notes_count =$item['no_notes_count'];
+            $test_lesson_later_count = $item['test_lesson_later_count'];
+            $regular_lesson_later_count = $item['regular_lesson_later_count'];
+            $no_evaluation_count = $item['no_evaluation_count'];
+            $turn_class_count = $item['turn_class_count'];
+            $ask_for_leavel_count = $item['ask_for_leavel_count'];
+            $test_lesson_truancy_count = $item['test_lesson_truancy_count'];
+            $regular_lesson_truancy_count = $item['regular_lesson_truancy_count'];
+            $stu_refund = $item['stu_refund'];
 
             $id = $task->t_teacher_approve_refer_to_data->get_id_for_teacherid($start_time, $end_time, $teacherid);
 
@@ -132,8 +177,19 @@ class update_teacher_approve_to_data extends Command
                     'cr_order_num' => $cr_order_num,
                     'cr_lesson_num' => $cr_lesson_num,
                     'violation_num' => $violation_num,
+                    'test_lesson_count' => $test_lesson_count,
+                    'regular_lesson_count' => $regular_lesson_count,
+                    'no_notes_count' => $no_notes_count,
+                    'test_lesson_later_count' => $test_lesson_later_count,
+                    'regular_lesson_later_count' => $regular_lesson_later_count,
+                    'no_evaluation_count' => $no_evaluation_count,
+                    'turn_class_count' => $turn_class_count,
+                    'ask_for_leavel_count' => $ask_for_leavel_count,
+                    'test_lesson_truancy_count' => $test_lesson_truancy_count,
+                    'regular_lesson_truancy_count' => $regular_lesson_truancy_count,
+                    'stu_refund' => $stu_refund
                 ]);
-            } else {
+            }else{
                 $task->t_teacher_approve_refer_to_data->row_insert([
                     'teacherid' => $teacherid,
                     'stu_num' => $item['stu_num'],
@@ -143,6 +199,17 @@ class update_teacher_approve_to_data extends Command
                     'cr_order_num' => $cr_order_num,
                     'cr_lesson_num' => $cr_lesson_num,
                     'violation_num' => $violation_num,
+                    'test_lesson_count' => $test_lesson_count,
+                    'regular_lesson_count' => $regular_lesson_count,
+                    'no_notes_count' => $no_notes_count,
+                    'test_lesson_later_count' => $test_lesson_later_count,
+                    'regular_lesson_later_count' => $regular_lesson_later_count,
+                    'no_evaluation_count' => $no_evaluation_count,
+                    'turn_class_count' => $turn_class_count,
+                    'ask_for_leavel_count' => $ask_for_leavel_count,
+                    'test_lesson_truancy_count' => $test_lesson_truancy_count,
+                    'regular_lesson_truancy_count' => $regular_lesson_truancy_count,
+                    'stu_refund' => $stu_refund,
                     'add_time' => $start_time
                 ]);
 

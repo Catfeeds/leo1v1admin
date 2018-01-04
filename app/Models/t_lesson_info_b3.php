@@ -2350,12 +2350,15 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.teacherid=%d",$teacherid,-1]
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
-        $sql = $this->gen_sql_new("  select sum(l.lesson_count)/100 as total_lesson_num, t.teacherid, t.nick as t_nick, count(distinct(l.lessonid)) as lesson_num, count(distinct(l.userid)) as stu_num from %s l "
-                                  ." left join %s t on t.teacherid=l.teacherid"
-                                  ." where %s group by t.teacherid order by total_lesson_num desc"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_teacher_info::DB_TABLE_NAME
-                                  ,$where_arr
+        $sql = $this->gen_sql_new(
+            "select sum(l.lesson_count)/100 as total_lesson_num, t.teacherid,".
+            "t.nick as t_nick, count(distinct(l.lessonid)) as lesson_num, count(distinct(l.userid)) as stu_num ".
+            "from %s l ".
+            "left join %s t on t.teacherid=l.teacherid ".
+            "where %s group by t.teacherid order by total_lesson_num desc"
+            ,self::DB_TABLE_NAME
+            ,t_teacher_info::DB_TABLE_NAME
+            ,$where_arr
         );
         if ($page_num) {
             return $this->main_get_list_by_page($sql,$page_num,10,true);
@@ -2644,6 +2647,95 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         return $this->main_get_value($sql);
     }
+    //@desn:获取老师晋升参考数据
+    //@param:$start_time 开始时间
+    //@param:$end_time 结束时间
+    public function get_teacher_data($start_time,$end_time){
+        $where_arr = [
+            "ti.trial_lecture_is_pass=1",
+            "ti.is_test_user=0",
+            "li.lesson_del_flag=0",
+            // "l.lesson_type in (0,1,3)",
+            "li.lesson_status=2",
+            // 'l.lesson_user_online_status=1',
+            "ti.teacher_money_type = 6",
+        ];
+        $this->where_arr_add_time_range($where_arr, "li.lesson_start", $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select ti.teacherid,ti.nick t_nick,'.
+            'sum(if((li.lesson_type in (0,1,3) and li.lesson_user_online_status = 1),l.lesson_count,0))/100 total_lesson_num,'.
+            'count(distinct if((li.lesson_type in (0,1,3) and li.lesson_user_online_status = 1),li.userid,null)) stu_num,'.
+            'sum(li.confirm_flag <> 2 and li.lesson_type=2) test_lesson_count,'.
+            'sum(li.confirm_flag <> 2 and li.lesson_type in (0,1,3)) regular_lesson_count,'.
+            'sum(li.confirm_flag <> 2 and li.deduct_upload_cw) no_notes_count,'.
+            'sum(li.confirm_flag <> 2 and li.deduct_come_late = 1 and li.lesson_type=2) test_lesson_later_count,'.
+            'sum(li.confirm_flag <> 2 and li.deduct_come_late = =1 and li.lesson_type in (0,1,3)) regular_lesson_later_count,'.
+            'sum(li.confirm_flag <> 2 and li.deduct_rate_student =1) no_evaluation_count,'.
+            'sum(li.confirm_flag <> 2 and li.deduct_change_class = 1) turn_class_count,'.
+            'sum(li.confirm_flag =2 and li.lesson_cancel_reason_type = 12) ask_for_leavel_count,'.
+            'sum(li.confirm_flag =2 and li.lesson_cancel_reason_type= 21 and li.lesson_type=2) test_lesson_truancy_count,'.
+            'sum(li.confirm_flag =2 and li.lesson_cancel_reason_type= 21 and li.lesson_type in (0,1,3)) regular_lesson_truancy_count,'.
+            'count(distinct (if(or.refund_status = 1,li.userid,null)) stu_refund '.
+            'from %s li '.
+            'left join %s ti on ti.teacherid=li.teacherid '.
+            'where %s group by ti.teacherid order by total_lesson_num desc'
+            ,self::DB_TABLE_NAME
+            ,t_teacher_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
+        $where_arr = [
+            'ti.trial_lecture_is_pass=1',
+            'ti.is_test_user=0',
+            'li.lesson_del_flag=0',
+            'li.lesson_status=2',
+            'ti.teacher_money_type=6'
+        ];
+        $sql = $this->gen_sql_new(
+            'select li.lesson_count,li.teacherid,t.nick as t_nick,li.lessonid,li.userid,'.
+            'li.lesson_type,li.deduct_upload_cw,li.deduct_come_late,li.deduct_rate_student,'.
+            'li.deduct_change_class,li.lesson_cancel_reason_type,li.subject,li.confirm_flag,'.
+            'li.lesson_user_online_status '.
+            'from %s li '.
+            'left join %s ti on li.teacherid = ti.teacherid '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_teacher_info::DB_TABLE_NAME,
+            $where_arr
+        );
+
+        return $this->main_get_list($sql);
+
+    }
+    //@desn:获取所有的不重复的subject userid课程信息
+    //@param:$start_time 开始时间
+    //@param:$end_time 结束时间
+    public function get_distinct_lesson_info($start_time, $end_time){
+        $where_arr = [
+            'li.lesson_type = 2',
+            "ti.trial_lecture_is_pass=1",
+            "ti.is_test_user=0",
+            "li.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "li.lesson_status=2",
+            'li.lesson_user_online_status=1',
+            "ti.teacher_money_type = 6"
+        ];
+        $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select distinct li.teacherid,li.subject,li.userid '.
+            'from %s li '.
+            'left join %s ti on ti.teacherid = li.teacherid '.
+            'where %s order by li.lesson_start asc',
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 
 }
 
