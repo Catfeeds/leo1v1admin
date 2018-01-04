@@ -52,6 +52,8 @@ class test_abner extends cmd_base
                 $teacher_violation_arr[$item['teacherid']] = [
                     'teacher_id' => $item['teacherid'],
                     'teacher_name' => $item['realname'],
+                    'all_test_lesson_count' => 0,
+                    'all_regular_lesson_count' => 0,
                     'test_lesson_count' => 0,
                     'regular_lesson_count' => 0,
                     'no_notes_count' => 0,
@@ -85,6 +87,10 @@ class test_abner extends cmd_base
 
 
 
+            if($item['lesson_del_flag'] == 0 && $item['lesson_type'] == 2)
+                $teacher_violation_arr[$item['teacherid']]['all_test_lesson_count'] ++;
+            if($item['lesson_del_flag'] == 0 && in_array($item['lesson_type'],[0,1,3]))
+                $teacher_violation_arr[$item['teacherid']]['all_regular_lesson_count'] ++;
             if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['lesson_type'] == 2)
                 $teacher_violation_arr[$item['teacherid']]['test_lesson_count'] ++;
             if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && in_array($item['lesson_type'],[0,1,3]))
