@@ -38,7 +38,7 @@ class pic_manage extends Controller
                 $sort[] = 4;
             }
         }
-        array_multisort($ret_info['list'], SORT_ASC, $sort);
+        //array_multisort($ret_info['list'], SORT_ASC, $sort);
         return $this->pageView(__METHOD__,$ret_info,array(),[
             'qiniu_upload_domain_url' =>Config::get_qiniu_public_url()."/"
         ]);
