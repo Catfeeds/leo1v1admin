@@ -124,13 +124,15 @@ $(function(){
                             $('.add_jump_url').val('http://m.leo1v1.com/chat.html');
                             $('.add_jump_url').attr("disabled","disabled");
                         }
+                    } else {
+                        $('.add_jump_url').val('');
+                        $('.add_jump_url').removeAttr('disabled');
                     }
                 });
 
 
                 $('#id_upload_add_tmp').on('click', function() {
-                    alert('调用成功');
-                                    custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
+                    custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
                                     g_args.qiniu_upload_domain_url,true,
                                     function (up, info, file){
                                         console.log(info);
@@ -203,6 +205,10 @@ $(function(){
                         }
                         if (!end_time) {
                             alert("请选择结束时间");
+                            return false;
+                        }
+                        if (start_time >= end_time) {
+                            alert("结束时间必须大于开始时间");
                             return false;
                         }
                         if (click_status == 1) { //处理可点击

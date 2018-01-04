@@ -126,10 +126,10 @@ class pdfConversionH5 extends Command
     public function dealHtml($indexFilePath, $doneFilePath){
         $html = file_get_contents($indexFilePath);
 
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         libxml_use_internal_errors(true);
         $dom->loadHTML($html);
-        $xpath = new DOMXPath($dom);
+        $xpath = new \DOMXPath($dom);
 
 
         # 遍历数据 link 引用css数据
@@ -140,6 +140,8 @@ class pdfConversionH5 extends Command
             $cssLink_arr = explode('/', $cssLink_tmp);
             if($cssLink_arr[0] == '..'){
                 $cssLink[] = $cssLink_arr[1];
+                \App\Helper\Utils::logger("cssLink_arr_item: ".$cssLink_arr[1]);
+
                 $node->setAttribute('href', $cssLink_arr[1]);
             }
         }
@@ -152,7 +154,8 @@ class pdfConversionH5 extends Command
             $jsLink_arr = explode('/', $jsLink_tmp);
             if($jsLink_arr[0] == '..'){
                 $jsLink[] = $jsLink_arr[1];
-                $node->setAttribute('src', $cssLink_arr[1]);
+                $node->setAttribute('src', $jsLink_arr[1]);
+                \App\Helper\Utils::logger("jsLink_arr_item: ".$jsLink_arr[1]);
 
                 # 测试修改节点属性
                 // if($jsLink_arr[1] == 'wxpt.js'){
