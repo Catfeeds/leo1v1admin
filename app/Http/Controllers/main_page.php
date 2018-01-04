@@ -329,7 +329,7 @@ class main_page extends Controller
         $time = time(null);
         $ret_time = $this->t_month_def_type->get_all_list();
         foreach($ret_time as $item){//本月
-            if($time>=$item['start_time'] && $time<$item['end_time']){
+            if($start_time>=$item['start_time'] && $start_time<$item['end_time']){
                 $start_time = $item['start_time'];
                 $end_time = $item['end_time'];
                 break;
@@ -584,7 +584,7 @@ class main_page extends Controller
         $time = time(null);
         $ret_time = $this->t_month_def_type->get_all_list();
         foreach($ret_time as $item){//本月
-            if($time>=$item['start_time'] && $time<$item['end_time']){
+            if($start_time>=$item['start_time'] && $start_time<$item['end_time']){
                 $start_time = $item['start_time'];
                 $end_time = $item['end_time'];
                 break;
