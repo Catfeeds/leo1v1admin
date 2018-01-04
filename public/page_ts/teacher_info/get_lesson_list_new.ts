@@ -1291,7 +1291,7 @@ $(function(){
         var train_type   = $(this).data("train_type");
         if(train_type==4 && lesson_type==1100 && lesson_start==0 ){
             $(this).parents("tr").addClass("bg_train_lesson");
-            BootstrapDialog.alert("您有一节模拟试听课需要完成。模拟试听课程通过后，您将获得50元开课红包，赶紧开始吧。(才可以接正常试听课，老师加油！)");
+            BootstrapDialog.alert("您有一节模拟试听课需要完成。模拟试听课程通过后，您将获得20元开课红包，赶紧开始吧。(才可以接正常试听课，老师加油！)");
         }
     });
 
