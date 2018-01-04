@@ -105,6 +105,7 @@ $(function(){
             html_node.find(".add_jump_type").val(item.jump_type);
             html_node.find(".add_start_date").val(item.start_time);
             html_node.find(".add_end_date").val(item.end_time);
+            console.log(item.type + " : " + item.usage_type);
             if (item.type == 3 && item.usage_type == 303) {
                 $(".add_jump_type option[value='1']").remove()
             }
@@ -137,7 +138,6 @@ $(function(){
                 $(".add_pic_usage_type").on("change", function() {
                     if ($(this).val() == 303) { // 删除视频选项
                         $(".add_jump_type option[value='1']").remove()
-
                     }
                 });
                 $('.add_jump_type').on("change", function() {
