@@ -4,6 +4,8 @@ api 文档
 * [Install](#install)
 * [Controller  控制器](#controller)
 * [DB 数据库](#db)
+* [power 权限设计 ](#power)
+
 * [vue整合](#vue)
 
 ##  Install 
@@ -145,6 +147,46 @@ $name=$this->get_in_strval("name");
 
         return $this->main_get_list_by_page($sql, $page_info);
     }
+```
+
+## power 权限设计
+
+通过配置 将会自动实现 以下代码 
+```php
+    public function get_user_list1(){
+        $this->set_in_value("grade", 101);
+        $this->set_in_value("sys_operid",  $this->get_account_id() );
+        //
+        $this->html_hide_list_add([ "grade","opt_grade", "input_grade" ]);
+        return $this->get_user_list();
+    }
+```
+
+blade  代码整合
+```html
+            @if (  !isset($html_hide_list["input_account_role"] )  )
+            <div class="col-md-2 col-xs-0">
+                <div class="input-group ">
+                    <span>角色</span>
+                    <select class="opt-change" id="id_account_role">
+                    </select>
+                </div>
+            </div>
+            @endif
+
+```
+
+```html
+表头
+@if (  !isset($html_hide_list["account_role"] )  )
+    <td>角色</td>
+@endif
+
+每一行
+@if (  !isset($html_hide_list["account_role"] )  )
+    <td>{{$var["account_role_str"]}}</td>
+@endif
+
 ```
 
 
