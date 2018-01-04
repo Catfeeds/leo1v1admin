@@ -127,20 +127,40 @@ $(function(){
                     }
                 });
 
-                custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
+
+                $('#id_upload_add_tmp').on('click', function() {
+                    alert('调用成功');
+                                    custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
                                     g_args.qiniu_upload_domain_url,true,
                                     function (up, info, file){
                                         console.log(info);
                                         var res = $.parseJSON(info);
-                                        pic_url = g_args.qiniu_upload_domain_url + res.key + "<button class='del_img'>删除</button>";
+                                        pic_url = g_args.qiniu_upload_domain_url + res.key;
                                         pic_img="<img width=80 src=\""+pic_url+"\"/>";
                                         html_node.find(".add_header_img").html(pic_img);
-                                        html_node.find(".pic_url").html(pic_url);
+                                        html_node.find(".pic_url").html(pic_url + "<button class='del_img'>删除</button>");
                                         $('.del_img').on("click", function(){
                                             html_node.find(".add_header_img").html('');
                                             html_node.find(".pic_url").html('');
                                         });
                                     });
+
+                });
+
+                // custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
+                //                     g_args.qiniu_upload_domain_url,true,
+                //                     function (up, info, file){
+                //                         console.log(info);
+                //                         var res = $.parseJSON(info);
+                //                         pic_url = g_args.qiniu_upload_domain_url + res.key;
+                //                         pic_img="<img width=80 src=\""+pic_url+"\"/>";
+                //                         html_node.find(".add_header_img").html(pic_img);
+                //                         html_node.find(".pic_url").html(pic_url + "<button class='del_img'>删除</button>");
+                //                         $('.del_img').on("click", function(){
+                //                             html_node.find(".add_header_img").html('');
+                //                             html_node.find(".pic_url").html('');
+                //                         });
+                //                     });
 
 
                 // custom_qiniu_upload("id_upload_tag_add_tmp","id_container_tag_add_tmp",
