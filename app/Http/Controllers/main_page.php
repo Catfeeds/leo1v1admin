@@ -582,14 +582,14 @@ class main_page extends Controller
         $order_by_str = $this->get_in_str_val('order_by_str','');
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
         $time = time(null);
-        $ret_time = $this->t_month_def_type->get_all_list();
-        foreach($ret_time as $item){//本月
-            if($time>=$item['start_time'] && $time<$item['end_time']){
-                $start_time = $item['start_time'];
-                $end_time = $item['end_time'];
-                break;
-            }
-        }
+        // $ret_time = $this->t_month_def_type->get_all_list();
+        // foreach($ret_time as $item){//本月
+        //     if($time>=$item['start_time'] && $time<$item['end_time']){
+        //         $start_time = $item['start_time'];
+        //         $end_time = $item['end_time'];
+        //         break;
+        //     }
+        // }
         $group_start_time = $start_time;
         $start_first = date('Y-m-01',$start_time);
         $adminid=$this->get_account_id();
