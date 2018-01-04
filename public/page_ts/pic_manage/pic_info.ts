@@ -124,6 +124,9 @@ $(function(){
                             $('.add_jump_url').val('http://m.leo1v1.com/chat.html');
                             $('.add_jump_url').attr("disabled","disabled");
                         }
+                    } else {
+                        $('.add_jump_url').val('');
+                        $('.add_jump_url').removeAttr('disabled');
                     }
                 });
 
