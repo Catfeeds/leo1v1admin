@@ -184,7 +184,7 @@ class teacher_info extends Controller
             return "<font color=$color>$desc</font>";
         };
 
-        $ret_info = $this->t_lesson_info_b2->get_teacher_lesson_list_new(
+        $ret_info = $this->t_lesson_info_b2->get_teacher_lesson_list_www(
             $teacherid,$userid,$start_time,$end_time,$lesson_type_in_str
         );
 
