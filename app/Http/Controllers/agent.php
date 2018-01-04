@@ -417,7 +417,6 @@ class agent extends Controller
     }
 
     public function check(){
-        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $account_role = E\Eaccount_role::V_2;
         $ret_info = $this->t_manager_info->get_seller_list_new_two($account_role);
         foreach($ret_info as $item){
@@ -465,6 +464,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid=99);
+        dd($lesson_call_end);
         foreach([160881,160884,160888,160890,160892,160894,160897,160898,160899,160899,160901,160902,160908,160910,160912,160917,160920,160922,160925,160929,160882,160886,160891,160895,160934,160933,160932,160931,160930] as $item){
             $id = $item;
             $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id);
