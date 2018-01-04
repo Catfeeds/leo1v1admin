@@ -105,8 +105,8 @@ $(function(){
             html_node.find(".add_jump_type").val(item.jump_type);
             html_node.find(".add_start_date").val(item.start_time);
             html_node.find(".add_end_date").val(item.end_time);
-            console.log(item.type + " : " + item.usage_type);
-            if (parseInt(item.usage_type) == 303) {
+            console.log(item.type + " : " + html_node.find(".add_pic_usage_type").val());
+            if (html_node.find(".add_pic_usage_type").val() == 303) {
                 $(".add_jump_type option[value='1']").remove()
             }
         }
@@ -141,8 +141,6 @@ $(function(){
                     }
                 });
                 $('.add_jump_type').on("change", function() {
-                    console.log(' jump_type: ' + $(this).val() + ' usage_type ' + parseInt($('.add_pic_usage_type').val()));
-                    alert(html_node.find(".add_pic_usage_type").val());
                     if (parseInt($(this).val()) == 2) {
                         if (html_node.find(".add_pic_usage_type").val() == 302) {
                             $('.add_jump_url').val('http://www.leo1v1.com/service_chat_panel.html');
