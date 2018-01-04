@@ -18,7 +18,7 @@
      .ztree li span.button {
          margin: 2px;
      }
-
+     .ztree li span.button.add { margin-left: 2px;margin-right: -1px;background-position: -144px 0;vertical-align: top;}
     </style>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <section class="content">
@@ -76,7 +76,7 @@
         <div class="row">
             <div class="col-xs-6 col-md-4">
                 <div class="row">
-                    <input type="hidden" value="{{$admin_id}}" id="admin_id" />
+                    <input type="hidden" value="{{$groupid}}" id="groupid" />
                     <div class="col-xs-6 col-md-10" style="padding:20px;">
                         <div>权限 <a href="javascript:;" id="id_show_all_power"> 显示全部 </a> <a href="javascript:;" id="id_show_power"> 显示有权限部分 </a> --------- </div>
                         <div class="zTreeDemoBackground">
