@@ -137,7 +137,8 @@ $(function(){
                                         html_node.find(".add_header_img").html(pic_img);
                                         html_node.find(".pic_url").html(pic_url);
                                         $('.del_img').on("click", function(){
-                                            alert('删除');
+                                            html_node.find(".add_header_img").html('');
+                                            html_node.find(".pic_url").html('');
                                         });
                                     });
 
