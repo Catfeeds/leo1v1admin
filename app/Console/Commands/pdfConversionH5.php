@@ -77,6 +77,9 @@ class pdfConversionH5 extends Command
             $doneFilePath  = $indexFilePath;
             $link_arr = $this->dealHtml($indexFilePath, $doneFilePath);
 
+            \App\Helper\Utils::logger(" css_link_1: ".json_encode($link_arr['css']));
+            \App\Helper\Utils::logger(" js_link_1: ".json_encode($link_arr['js']));
+
             # 将需要的文件复制到文件夹中
             foreach($link_arr['css'] as $css_item){
                 $csPathFrom = public_path('pptfiles')."/".$css_item;
@@ -130,7 +133,6 @@ class pdfConversionH5 extends Command
 
         # 遍历数据 link 引用css数据
         $nodeList = $xpath->query("//link");
-        $srcList = [];
         $cssLink = [];
         foreach ($nodeList as $node) {
             $cssLink_tmp = $node->attributes->getNamedItem('href')->nodeValue;
@@ -143,9 +145,7 @@ class pdfConversionH5 extends Command
 
         # 遍历数据 script 引用js数据
         $scriptList = $xpath->query("//script[@type = 'text/javascript']");
-
-        $scriptSrcList = [];
-        $scriptLink = [];
+        $jsLink = [];
         foreach ($scriptList as $node) {
             $jsLink_tmp = $node->attributes->getNamedItem('src')->nodeValue;
             $jsLink_arr = explode('/', $jsLink_tmp);
