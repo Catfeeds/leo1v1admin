@@ -2027,7 +2027,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   " and ll.userid = l.userid ".
                                   " and ll.subject = l.subject ".
                                   " and l.lesson_start= ".
-                                  " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type <>2 and lesson_status =2 and confirm_flag in (0,1) )and l.lesson_start >= %u and l.lesson_start < %u)".
+                                  " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type in (0,1,3) and lesson_status =2 and confirm_flag in (0,1) and lesson_del_flag=0 )and l.lesson_start >= %u and l.lesson_start < %u)".
                                   " join %s s on t.userid = s.userid ".
                                   " where %s group by accept_adminid ",
                                   self::DB_TABLE_NAME,
@@ -2077,7 +2077,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   " and ll.userid = l.userid ".
                                   " and ll.subject = l.subject ".
                                   " and l.lesson_start= ".
-                                  " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type <>2 and lesson_status =2 and confirm_flag in (0,1) )and l.lesson_start >= %u and l.lesson_start < %u)".
+                                  " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type in (0,1,3) and lesson_status =2 and confirm_flag in (0,1) and lesson_del_flag=0 )and l.lesson_start >= %u and l.lesson_start < %u)".
                                   " join %s s on t.userid = s.userid ".
                                   " where %s ",
                                   self::DB_TABLE_NAME,
@@ -2117,7 +2117,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   " and ll.userid = l.userid ".
                                   " and ll.subject = l.subject ".
                                   " and l.lesson_start= ".
-                                  " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type <>2 and lesson_status =2 and confirm_flag in (0,1) )and l.lesson_start >= %u and l.lesson_start < %u)".
+                                  " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type in (0,1,3) and lesson_status =2 and confirm_flag in (0,1) and lesson_del_flag=0 )and l.lesson_start >= %u and l.lesson_start < %u)".
                                   " join %s s on t.userid = s.userid ".
                                   " where %s group by accept_adminid ",
                                   self::DB_TABLE_NAME,
@@ -2161,7 +2161,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   " and ll.userid = l.userid ".
                                   " and ll.subject = l.subject ".
                                   " and l.lesson_start= ".
-                                  " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type <>2 and lesson_status =2 and confirm_flag in (0,1) )and l.lesson_start >= %u and l.lesson_start < %u)".
+                                  " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type in (0,1,3) and lesson_status =2 and confirm_flag in (0,1) and lesson_del_flag=0 )and l.lesson_start >= %u and l.lesson_start < %u)".
                                   " join %s s on t.userid = s.userid ".
                                   " where %s group by accept_adminid ",
                                   self::DB_TABLE_NAME,
@@ -2201,7 +2201,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   " and ll.userid = l.userid ".
                                   " and ll.subject = l.subject ".
                                   " and l.lesson_start= ".
-                                  " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type <>2 and lesson_status =2 and confirm_flag in (0,1) )and l.lesson_start >= %u and l.lesson_start < %u)".
+                                  " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type in (0,1,3) and lesson_status =2 and confirm_flag in (0,1) and lesson_del_flag=0 )and l.lesson_start >= %u and l.lesson_start < %u)".
                                   " join %s s on t.userid = s.userid ".
                                   " where %s  ",
                                   self::DB_TABLE_NAME,
@@ -2238,7 +2238,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   " and ll.userid = l.userid ".
                                   " and ll.subject = l.subject ".
                                   " and l.lesson_start= ".
-                                  " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type <>2 and lesson_status =2 and confirm_flag in (0,1) )and l.lesson_start >= %u and l.lesson_start < %u)".
+                                  " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type in (0,1,3) and lesson_status =2 and confirm_flag in (0,1) and lesson_del_flag=0 )and l.lesson_start >= %u and l.lesson_start < %u)".
                                   " join %s s on ll.userid = s.userid ".
                                   " join %s tt on ll.teacherid = tt.teacherid ".
                                   " where %s order by ll.userid ",
@@ -2257,37 +2257,37 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         return $this->main_get_list($sql);
 
-        $where_arr = [
-            "accept_adminid =".$adminid,
-            "m.account_role = 3",
-            "s.is_test_user=0"
-        ];
-        $sql = $this->gen_sql_new("select accept_adminid,ll.userid,ll.grade,ll.subject,s.nick,tt.realname tea_name,ll.lesson_start,ll.lessonid ".
-                                  " from %s tr join %s m on tr.accept_adminid = m.uid ".
-                                  " join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id ".
-                                  " join %s ll on tr.current_lessonid = ll.lessonid".
-                                  " join %s l on (ll.teacherid = l.teacherid ".
-                                  " and t.userid = l.userid ".
-                                  " and t.subject = l.subject ".
-                                  " and l.lesson_start= ".
-                                  " (select min(lesson_start) from %s where userid=t.userid and subject = t.subject and lesson_type <>2 and lesson_status =2 and confirm_flag in (0,1) )and l.lesson_start >= %u and l.lesson_start <= %u)".
-                                  " join %s s on ll.userid = s.userid".
-                                  " join %s tt on ll.teacherid=tt.teacherid".
-                                  " where %s  ",
-                                  self::DB_TABLE_NAME,
-                                  t_manager_info::DB_TABLE_NAME,
-                                  t_test_lesson_subject::DB_TABLE_NAME,
-                                  t_lesson_info::DB_TABLE_NAME,
-                                  t_lesson_info::DB_TABLE_NAME,
-                                  t_lesson_info::DB_TABLE_NAME,
-                                  $start_time,
-                                  $end_time,
-                                  t_student_info::DB_TABLE_NAME,
-                                  t_teacher_info::DB_TABLE_NAME,
-                                  $where_arr
-        );
+        // $where_arr = [
+        //     "accept_adminid =".$adminid,
+        //     "m.account_role = 3",
+        //     "s.is_test_user=0"
+        // ];
+        // $sql = $this->gen_sql_new("select accept_adminid,ll.userid,ll.grade,ll.subject,s.nick,tt.realname tea_name,ll.lesson_start,ll.lessonid ".
+        //                           " from %s tr join %s m on tr.accept_adminid = m.uid ".
+        //                           " join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id ".
+        //                           " join %s ll on tr.current_lessonid = ll.lessonid".
+        //                           " join %s l on (ll.teacherid = l.teacherid ".
+        //                           " and t.userid = l.userid ".
+        //                           " and t.subject = l.subject ".
+        //                           " and l.lesson_start= ".
+        //                           " (select min(lesson_start) from %s where userid=t.userid and subject = t.subject and lesson_type <>2 and lesson_status =2 and confirm_flag in (0,1) )and l.lesson_start >= %u and l.lesson_start <= %u)".
+        //                           " join %s s on ll.userid = s.userid".
+        //                           " join %s tt on ll.teacherid=tt.teacherid".
+        //                           " where %s  ",
+        //                           self::DB_TABLE_NAME,
+        //                           t_manager_info::DB_TABLE_NAME,
+        //                           t_test_lesson_subject::DB_TABLE_NAME,
+        //                           t_lesson_info::DB_TABLE_NAME,
+        //                           t_lesson_info::DB_TABLE_NAME,
+        //                           t_lesson_info::DB_TABLE_NAME,
+        //                           $start_time,
+        //                           $end_time,
+        //                           t_student_info::DB_TABLE_NAME,
+        //                           t_teacher_info::DB_TABLE_NAME,
+        //                           $where_arr
+        // );
 
-        return $this->main_get_list($sql);
+        // return $this->main_get_list($sql);
     }
 
 
