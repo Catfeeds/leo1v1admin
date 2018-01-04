@@ -1,0 +1,1 @@
+﻿var _note=["","","","","","","","","","","","","","","","","","","","","","","","","","","","",""];var _title="小班课";var _pubtm="2018-01-04";var _author="leoedu";var _mode=-1;var rest=1; var pptcolor="#ffffff";

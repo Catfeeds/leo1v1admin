@@ -43,6 +43,34 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
         });
     }
 
+    public function get_trial_train_list_new($teacherid){
+        $where_arr = [
+            ["l.teacherid=%u",$teacherid,0],
+            "lesson_start=0",
+            "l.lesson_type=1100",
+            "lesson_sub_type=1",
+            "train_type=4",
+            "lesson_del_flag=0",
+            "lesson_status=0",
+        ];
+        $sql = $this->gen_sql_new("select l.lessonid,l.grade,l.subject,lesson_name,l.lesson_type,l.train_type,"
+                                  ." lesson_start,lesson_end,lesson_intro,"
+                                  ." lesson_status,ass_comment_audit,stu_cw_status as stu_status,"
+                                  ." tea_cw_status as tea_status,tea_cw_url,tea_cw_upload_time,stu_cw_url,stu_cw_upload_time,"
+                                  ." tea_more_cw_url,if(h.work_status>0,1,0) as homework_status"
+                                  ." from %s l"
+                                  ." left join %s h on l.lessonid=h.lessonid"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_homework_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item['lessonid'];
+        });
+    }
+
+
     public function lesson_common_where_arr($others_arr=[]) {
         $others_arr[] ="lesson_del_flag=0" ;
         $others_arr[] ="confirm_flag<2" ;
@@ -9918,5 +9946,27 @@ lesson_type in (0,1) "
         );
         return $this->main_update($sql);
     }
+
+    public function get_student_list($teacherid,$start,$end){
+        $where_arr=[
+            ["teacherid=%u",$teacherid,0],
+            ["lesson_start>%u",$start,0],
+            ["lesson_start<%u",$end,0],
+        ];
+        $sql=$this->gen_sql_new("select s.userid,if(s.nick!='',s.nick,s.realname) as nick "
+                                ." from %s l"
+                                ." left join %s s on l.userid=s.userid"
+                                ." where %s"
+                                ." and lesson_type<1000"
+                                ." and confirm_flag<2"
+                                ." and lesson_del_flag=0"
+                                ." group by s.userid"
+                                ,self::DB_TABLE_NAME
+                                ,t_student_info::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 
 }
