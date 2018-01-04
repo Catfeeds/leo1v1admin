@@ -2119,31 +2119,30 @@ $(function(){
             "adminid" :  g_args.self_adminid
         });
     };
-    var add_free=function( from_parent_order_type ) {
-        var do_post_add_free=function ( parent_order_id, lesson_total,order_require_flag,order_require_reason,to_userid , from_parent_order_lesson_count,part_competition_flag) {
+
+    var add_free = function( from_parent_order_type ) {
+        var do_post_add_free = function ( parent_order_id, lesson_total,order_require_flag,order_require_reason,to_userid , from_parent_order_lesson_count,part_competition_flag) {
             if (! part_competition_flag) {
                 part_competition_flag =0;
             }
-                $.do_ajax("/ss_deal/seller_add_contract_free",{
-                    "from_parent_order_type" : from_parent_order_type,
-                    "parent_order_id"        : parent_order_id,
-                    "order_require_flag"     : order_require_flag,
-                    "order_require_reason"   : order_require_reason,
-                    "lesson_total"           : lesson_total*100,
-                    "to_userid" : to_userid,
-                    "from_parent_order_lesson_count" :  from_parent_order_lesson_count*100 ,
-                    "part_competition_flag" : part_competition_flag
-                });
+            $.do_ajax("/ss_deal/seller_add_contract_free",{
+                "from_parent_order_type" : from_parent_order_type,
+                "parent_order_id"        : parent_order_id,
+                "order_require_flag"     : order_require_flag,
+                "order_require_reason"   : order_require_reason,
+                "lesson_total"           : lesson_total*100,
+                "to_userid" : to_userid,
+                "from_parent_order_lesson_count" :  from_parent_order_lesson_count*100 ,
+                "part_competition_flag" : part_competition_flag
+            });
+        };
 
-            };
-
-
-        var show_add_free_dlg_5= function ( parent_order_id) {
+        //转赠课时
+        var show_add_free_dlg_5 = function ( parent_order_id) {
             if (parent_order_id<=0) {
                 alert("没有选择合同");
                 return ;
             }
-
 
             var $lesson_count=$("<input/>");
             var $from_parent_order_lesson_count =$("<input/>");
@@ -2163,7 +2162,7 @@ $(function(){
             $order_require_flag.on("change" ,function(){
                 opt_change_order_require_flag();
             });
-            var opt_change_order_require_flag=function () {
+            var opt_change_order_require_flag = function () {
                 $order_require_reason.key_value_table_show($order_require_flag.val()==1);
             };
 
@@ -2182,6 +2181,7 @@ $(function(){
                 $.admin_select_user($to_userid,"student");
             });
         };
+
         var show_add_free_dlg= function ( parent_order_id) {
             if (parent_order_id<=0) {
                 alert("没有选择合同");
@@ -2234,7 +2234,7 @@ $(function(){
                             var $part_competition_flag=$("<select > <option value=0>否</option>  <option value=1>是</option></select>") ;
                             var arr=[
                                 ["是否竞赛合同",  $part_competition_flag  ]
-                            ];                         
+                            ];
 
                             $.show_key_value_table ( "选择类型", arr ,{
                                 label: '确认',
@@ -2243,7 +2243,6 @@ $(function(){
                                     do_post_add_free( parent_order_id, 6,0,"",0,0,$part_competition_flag.val()); 
                                 }
                             });
-
                         }else{
                             do_post_add_free( parent_order_id, 6,0,"",0,0, 0 ); 
                         }
@@ -2294,21 +2293,15 @@ $(function(){
                     }
                 ] ,
                 filter_list: [],
-
                 "auto_close"       : true,
-                //选择
                 "onChange"         : function(orderid){
                     if (from_parent_order_type  ==5  ) {//转赠
-
                         show_add_free_dlg_5( orderid );
                     }else{
                         show_add_free_dlg( orderid );
                     }
                 },
-
-                //加载数据后，其它的设置
                 "onLoadData"       : null,
-
             });
         };
         var select_flag_str="student";
@@ -2331,22 +2324,22 @@ $(function(){
 
 
     $("#id_add_seller_contract").on("click",function(){
-        var btn_add_new=$("<button class=\"btn btn-primary\"> 新签合同 </button>");
-        var btn_add_new_1=$("<button class=\"btn btn-primary\"> 新签合同 新版 </button>");
-        var btn_extend_new_1=$("<button class=\"btn btn-primary\"> 新签合同 扩课 新版 </button>");
-        var btn_add_next=$("<button class=\"btn btn-warning\"> 续费合同 </button>");
-        var btn_add_next_1=$("<button class=\"btn btn-warning\"> 续费合同 新版</button>");
+        var btn_add_new      = $("<button class=\"btn btn-primary\"> 新签合同 </button>");
+        var btn_add_new_1    = $("<button class=\"btn btn-primary\"> 新签合同 新版 </button>");
+        var btn_extend_new_1 = $("<button class=\"btn btn-primary\"> 新签合同 扩课 新版 </button>");
+        var btn_add_next     = $("<button class=\"btn btn-warning\"> 续费合同 </button>");
+        var btn_add_next_1   = $("<button class=\"btn btn-warning\"> 续费合同 新版</button>");
         btn_add_new.on("click", opt_add_new );
         btn_add_new_1.on("click", opt_add_new_1 );
         btn_extend_new_1.on("click", opt_extend_new_1 );
-        var btn_add_0=$("<button class=\"btn btn-info\">  课程包特殊赠送  </button>");
-        var btn_add_1=$("<button class=\"btn btn-warning\">  转介绍赠送合同 </button>");
-        var btn_add_2=$("<button class=\"btn btn-warning\"> 试听24小时内 签约赠送 合同  </button>");
-        var btn_add_3=$("<button class=\"btn btn-warning\">  特批赠送 合同  </button>");
-        var btn_add_5=$("<button class=\"btn btn-warning  disabled \"> 转赠课时 </button>");
-        var btn_add_6=$("<button class=\"btn btn-warning\"> 助教配额赠送课时 </button>");
-        var btn_add_new_no_test_lesson=$("<button class=\"btn btn-primary\"> 新签 未听报 </button>");
-        var btn_add_new_no_test_lesson_1=$("<button class=\"btn btn-primary\"> 新签 未听报 新版 </button>");
+        var btn_add_0 = $("<button class=\"btn btn-info\">  课程包特殊赠送  </button>");
+        var btn_add_1 = $("<button class=\"btn btn-warning\">  转介绍赠送合同 </button>");
+        var btn_add_2 = $("<button class=\"btn btn-warning\"> 试听24小时内 签约赠送 合同  </button>");
+        var btn_add_3 = $("<button class=\"btn btn-warning\">  特批赠送 合同  </button>");
+        var btn_add_5 = $("<button class=\"btn btn-warning  disabled \"> 转赠课时 </button>");
+        var btn_add_6 = $("<button class=\"btn btn-warning\"> 助教配额赠送课时 </button>");
+        var btn_add_new_no_test_lesson   = $("<button class=\"btn btn-primary\"> 新签 未听报 </button>");
+        var btn_add_new_no_test_lesson_1 = $("<button class=\"btn btn-primary\"> 新签 未听报 新版 </button>");
         btn_add_new_no_test_lesson.on("click", opt_add_new_no_test_lesson );
         btn_add_new_no_test_lesson_1.on("click", opt_add_new_no_test_lesson_1 );
         btn_add_next.on("click", opt_add_next);
@@ -2375,8 +2368,11 @@ $(function(){
             add_free( 4 );
         });
         btn_add_5.on("click", function(){
-            alert("该功能下线 ");
-            //add_free( 5 );
+            if(g_account=="jim" || g_account=="adrian"){
+                add_free( 5 );
+            }else{
+                alert("该功能下线 ");
+            }
         });
         btn_add_6.on("click", function(){
             add_free( 6 );
@@ -3455,57 +3451,41 @@ $(function(){
 
             ] ,
             //查询列表
-            filter_list:[
-                [
-                {
-                    size_class: "col-md-2" ,
-                    title :"开启",
-                    type  : "select" ,
-                    'arg_name' :  "open_flag"  ,
-                    select_option_list: [
-                        {
-                        value : -1 ,
-                        text :  "全部"
-                    },
-                        {
-                        value :  0 ,
-                        text :  "关闭"
-                    },
-                        {
-                        value :  1 ,
-                        text :  "正式开启"
-                    },
-                        {
-                        value :  2 ,
-                        text :  "测试开启"
-                    },
-
-                    ]
-                },
-                {
-                    size_class : "col-md-4" ,
-                    title      : "活动ID",
-                    'arg_name' : "id"  ,
-                    type       : "input"
-                },
-                {
-                    size_class : "col-md-6" ,
-                    title      : "标题",
-                    'arg_name' : "title"  ,
-                    type       : "input"
-                }
-
-            ]
-            ],
+            filter_list:[[{
+                size_class: "col-md-2" ,
+                title :"开启",
+                type  : "select" ,
+                'arg_name' :  "open_flag"  ,
+                select_option_list: [{
+                    value : -1 ,
+                    text :  "全部"
+                },{
+                    value :  0 ,
+                    text :  "关闭"
+                },{
+                    value :  1 ,
+                    text :  "正式开启"
+                },{
+                    value :  2 ,
+                    text :  "测试开启"
+                }]
+            },{
+                size_class : "col-md-4" ,
+                title      : "活动ID",
+                'arg_name' : "id"  ,
+                type       : "input"
+            },{
+                size_class : "col-md-6" ,
+                title      : "标题",
+                'arg_name' : "title"  ,
+                type       : "input"
+            }]],
             "auto_close"       : true,
-            //选择
             "onChange"         : function(require_id,row_data){
                 $("#id_order_activity_type").val(require_id);
                 load_data();
             },
-            //加载数据后，其它的设置
             "onLoadData"       : null
-
         });
     });
 

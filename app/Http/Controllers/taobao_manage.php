@@ -370,8 +370,4 @@ class taobao_manage extends Controller
         }
     }
 
-    public function test_api(){
-        $ret = $this->tbShop->taobao_tae_items_list();
-    }
-
 }

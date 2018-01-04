@@ -284,16 +284,17 @@ class test_code extends Controller
     }
 
     public function test_sms(){
-        $phone    = $this->get_in_int_val("phone","18790256265");
+        $phone = $this->get_b_txt();
 
-        $type = 15960017;
+        // $phone = $this->get_in_int_val("phone","18790256265");
+
+        $type = 34775122;
         $data = [
-            "name"  => "测试",
-            "wx_id" => "测试id",
-            "phone" => "测试电话",
+            "time" => "2018年1月1日"
         ];
         \App\Helper\Utils::sms_common($phone, $type, $data);
     }
+
 
 
 

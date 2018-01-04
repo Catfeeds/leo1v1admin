@@ -100,7 +100,6 @@ export default class extends vtable {
   doOpt(e  : MouseEvent ) {
     var opt_data = this.get_opt_data(e.target);
     BootstrapDialog.alert(JSON.stringify(opt_data));
-
   };
 
   do_edit(e:MouseEvent) {

@@ -143,7 +143,6 @@ export default class vtable extends Vue {
     $page_info.append(' <a class="page_next " data-page_num="' + next_page_num + '"     >&gt;</a> ');
     var $table_p = $(".common-table").parent();
     $table_p.find(".pages").remove();
-    $table_p.find(".pages").remove();
     $table_p.append($page_info);
     $page_info.find("[data-page_num=" + cur_page_num + "]").addClass("page_cur");
     $page_info.find("a").attr("href", "javascript:;");
@@ -209,11 +208,12 @@ export default class vtable extends Vue {
     var query_args = this["$route"].query;
     var path = this["$route"].path;
     var me = this;
+    var $table_p = $(".common-table").parent();
     if (me.last_page_url != path  ) { //
       me.$data.table_data=[];
+      $table_p.find(".pages").remove();
     }
     me.last_page_url= path;
-    var $table_p = $(".common-table").parent();
     $table_p.append(' <div class="overlay"> <i class="fa fa-refresh fa-spin"></i> </div> <!-- end loading --> </div> ');
     $.do_ajax(path, query_args, function (resp) {
       if (resp.ret == 0) {
@@ -284,6 +284,8 @@ export default class vtable extends Vue {
     var $div = $("<div class=\"table-responsive box \"/>");
     $table_list.before($div);
     $div.append($table_list);
+
+
     $table_list.on("click", ".remove-for-not-xs .start-opt-mobile", function (e) {
       $(e.currentTarget).closest("tr").find("td > div .td-info ").click();
     });

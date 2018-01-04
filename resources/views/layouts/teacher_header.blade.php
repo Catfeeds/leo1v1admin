@@ -111,9 +111,19 @@
                 <section class="sidebar" style="height:auto">
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu tree" data-widget="tree">
-
-                        <li><a href="{{@$_cur_http}}/teacher_info/index"><i class="fa fa-clipboard"></i> <span> 课程列表 </span> </a></li>
-                        <li><a href="{{@$_cur_http}}/teacher_info/current_course"><i class="fa fa-calendar-check-o"></i> <span> 当前课表 </span> </a></li>
+                        <li class="treeview menu-open">
+                            <a href="#">
+                                <i class="fa fa-calendar"></i> <span>课程信息</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu" style="display:block;">
+                                <li><a href="{{@$_cur_http}}/teacher_info/index"><i class="fa fa-clipboard"></i> <span> 课程列表 </span> </a></li>
+                                <li><a href="{{@$_cur_http}}/teacher_info/current_course"><i class="fa fa-calendar-check-o"></i> <span> 当前课表 </span> </a></li>
+                                <li><a href="{{@$_cur_http}}/teacher_info/teacher_apply_list"><i class="fa fa-list"></i> <span>申请帮助列表</span> </a></li>
+                            </ul>
+                        </li>
                         {{--  <li><a href="/teacher_info/get_train_list"><i class="fa fa-calendar-check-o"></i> <span> 培训列表 </span> </a></li> --}}
                         <li class="treeview menu-open">
                             <a href="#">
@@ -141,6 +151,8 @@
                                 <li> <a href="{{@$_cur_http}}/teacher_info/tea_resource"><i class="fa fa-folder"></i> <span>我的资料</span> </a></li>
                                 <li><a href="{{@$_cur_http}}/teacher_info/get_leo_resource"><i class="fa fa-folder"></i> <span>理优资料库</span> </a></li> 
                             </ul>
+                        </li>
+                        <li><a href="{{@$_cur_http}}/teacher_info/teacher_lecture_appointment_info"><i class="fa fa-user"></i> <span>招师代理</span> </a></li>
                     </ul>
                 </section>
                 <!-- /.sidebar -->

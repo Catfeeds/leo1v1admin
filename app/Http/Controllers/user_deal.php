@@ -3331,27 +3331,27 @@ class user_deal extends Controller
         $ret=$this->t_manager_info->get_info_by_account($account,"wx_id,name,phone");
         return $this->output_succ(["data" => $ret]);
     }
+
     public function send_seller_sms_msg() {
-        $phone=$this->get_in_phone_ex();
-        $name=$this->get_in_str_val("name");
-        $wx_id=$this->get_in_str_val("wx_id");
-        $seller_phone=$this->get_in_str_val("seller_phone");
-        $template_code= 15960017 ;
-        $userid= $this->t_seller_student_new->get_userid_by_phone($phone);
-        $admin_revisiterid =$this->t_seller_student_new->get_admin_revisiterid($userid);
+        $phone         = $this->get_in_phone_ex();
+        $name          = $this->get_in_str_val("name");
+        $wx_id         = $this->get_in_str_val("wx_id");
+        $seller_phone  = $this->get_in_str_val("seller_phone");
+        $template_code = 15960017 ;
+
+        $userid            = $this->t_seller_student_new->get_userid_by_phone($phone);
+        $admin_revisiterid = $this->t_seller_student_new->get_admin_revisiterid($userid);
         if ($admin_revisiterid != $this->get_account_id() ) {
             return $this->output_err("这个例子还不是你的,不能发短信");
         }
 
-        $ret=(new notice())-> sms_common( $phone,0,
-                                          $template_code,[
-                                              "name"  => $name,
-                                              "wx_id"  => $wx_id,
-                                              "phone"  => $seller_phone,
-                                          ]);
+        $ret = (new notice())->sms_common( $phone,0,$template_code,[
+            "name"  => $name,
+            "wx_id" => $wx_id,
+            "phone" => $seller_phone,
+        ]);
         return $this->output_bool_ret($ret);
     }
-
 
     public function get_major_group_list ()
     {
@@ -5090,6 +5090,7 @@ class user_deal extends Controller
     public function copy_admin_group_info(){
         $month = strtotime($this->get_in_str_val("start_time"));
         $main_type_flag = $this->get_in_int_val("main_type_flag");
+
         $this->t_group_user_month->del_by_month($month,$main_type_flag);
         $this->t_group_name_month->del_by_month($month,$main_type_flag);
         $this->t_main_group_name_month->del_by_month($month,$main_type_flag);
@@ -5106,6 +5107,7 @@ class user_deal extends Controller
                 "group_assign_percent" =>$item["group_assign_percent"]
             ]);
         }
+
         $admin_group_user_list = $this->t_admin_group_user->get_all_list($main_type_flag);
         foreach($admin_group_user_list as $item){
             $this->t_group_user_month->row_insert([
@@ -5141,7 +5143,6 @@ class user_deal extends Controller
             ]);
         }
         return $this->output_succ();
-
     }
 
     public function check_lesson_status($from_key_int){

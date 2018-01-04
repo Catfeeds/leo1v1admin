@@ -86,11 +86,74 @@ $name=$this->get_in_strval("name");
             //唯一索引
             $table->unique(["role_groupid", "url","opt_key"],"role_url_opt_key");
         });
+```
+
+
+### 自动生成 表 的对应代码
+
+
+### 操作 mysql 核心函数 
+#### 核心函数
+
+```php
+#insert 
+        return $this->row_insert([
+            "logtime" =>$logtime,
+            "online_count" => $online_count,
+        ],true );
+# 主键更新 
+        $this->field_update_list($id, [
+            "online_count" => 100
+        ]);
+# 主键 得到记录
+        $row=$this->field_get_list($id, "*");
+# 主键 得到value
+        $this->get_xxxx($id);
+        $this->get_online_count($id);
+
+#普通的更新 
+        $this->gen_sql_new("update %s  set online_count=%u  where id=%u ",
+                           self::DB_TABLE_NAME, $online_count, $id);
+        $this->main_update($sql);
+
+#普通的得到记录
+        $this->main_get_row($sql);
+
+#普通的得到一个字段值
+        $this->main_get_value($sql);
+
+#普通的得到列表
+        $this->main_get_list$sql);
 
 ```
 
 
+#### 通常 分页
+```php
+    public function get_test_list( $page_info, $order_by_str,  $grade ) {
+        $where_arr=[] ;
+        // int , 枚举, 枚举列表 ,都用这个
+        $this->where_arr_add_int_or_idlist($where_arr,"grade", $grade );
+
+        $sql = $this->gen_sql_new("select  userid, nick,realname,  phone, grade "
+                              ." from %s ".
+                                  "  where  %s  $order_by_str ",
+                              self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list_by_page($sql, $page_info);
+    }
+```
+
+
 ## vue整合
+
+**单页应用 无刷新**
+
+**支持typescript**
+
+
 
 ### 运行vue 开发环境
 ```bash
@@ -99,8 +162,8 @@ cd vue
 npm run dev 
 ```
 
-### Controller 改造 
 
+### Controller 改造 
 
 ```php
     public function get_user_list(){
@@ -175,8 +238,6 @@ export default class extends vtable {
       date_type_config : JSON.parse(this.get_args().date_type_config),
       as_header_query :true,
     });
-
-    var action=  this.get_action_str();
 
     $.admin_enum_select({
       'join_header'       : $header_query_info,
