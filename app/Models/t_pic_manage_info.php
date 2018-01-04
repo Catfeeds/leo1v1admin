@@ -16,16 +16,16 @@ class t_pic_manage_info extends \App\Models\Zgen\z_t_pic_manage_info
         ];
         if ($active_status == 1) { // 待发布
             array_push($where_str, ["start_time>%u", time(), 0]);
-            array_push($where_str, ['del_flag=0']);
+            array_push($where_str, 'del_flag=0');
         } elseif ($active_status == 2) {
-            array_push($where_str, ["start_time<=%u", itme(), 0]);
+            array_push($where_str, ["start_time<=%u", time(), 0]);
             array_push($where_str, ["end_time>%u", time(), 0]);
-            array_push($where_str, ['del_flag=0']);
+            array_push($where_str, 'del_flag=0');
         } elseif ($active_status == 3) {
             array_push($where_str, ["end_time>%u", time(), 0]);
-            array_push($where_str, ['del_flag=0']);
+            array_push($where_str, 'del_flag=0');
         } elseif ($active_status == 4) {
-            array_push($where_str, ['del_flag=1']);
+            array_push($where_str, 'del_flag=1');
         }
 
         if($usage_type==208 || $usage_type==210 || $usage_type==104){
