@@ -28,7 +28,7 @@ api 文档
             E\Egrade::set_item_value_str($item);
         }
 
-        return $this->pageOutJson(__METHOD__, $ret_info,[
+        return $this->pageView(__METHOD__, $ret_info,[
             "message" =>  "cur usrid:".$userid,
         ]);
     }
@@ -86,6 +86,7 @@ $name=$this->get_in_strval("name");
             //唯一索引
             $table->unique(["role_groupid", "url","opt_key"],"role_url_opt_key");
         });
+
 ```
 
 
@@ -145,6 +146,7 @@ $name=$this->get_in_strval("name");
         return $this->main_get_list_by_page($sql, $page_info);
     }
 ```
+
 
 
 ## vue整合

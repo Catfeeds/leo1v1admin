@@ -3693,12 +3693,12 @@ function init_edit() {
                         }else{
                             html_node.find("#city_new_two").parent().attr('style','');
                         }
-                        if(html_node.find("#id_stu_addr_new_two").val() <= 0){
-                            html_node.find("#id_stu_addr_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_stu_addr_new_two").parent().attr('style','');
-                        }
+                        // if(html_node.find("#id_stu_addr_new_two").val() <= 0){
+                        //     html_node.find("#id_stu_addr_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        //     return false;
+                        // }else{
+                        //     html_node.find("#id_stu_addr_new_two").parent().attr('style','');
+                        // }
                         var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数
                         if(html_node.find("#id_class_rank_new_two").val() == '' || html_node.find("#id_class_num_new_two").val() == ''){
                             html_node.find("#id_class_rank_new_two").attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
