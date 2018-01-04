@@ -48,7 +48,15 @@ class pdfConversionH5 extends Command
         $pwd   = 'bbcffc83539bd9069b755e1d359bc70a';// md5(021130)
         $task=new \App\Console\Tasks\TaskController();
 
-        $handoutArray = $task->t_resource_file->getResourceList();
+        // $handoutArray = $task->t_resource_file->getResourceList();
+
+        // 小班课测试PPT 1bef90ebf32aa93ba0c43433eefb9848  470981
+        $handoutArray = [
+            [
+                "uuid"     => '1bef90ebf32aa93ba0c43433eefb9848',
+                "lessonid" => 470981
+            ]
+        ];
 
         foreach($handoutArray as $item){
             $uuid = $item['uuid'];

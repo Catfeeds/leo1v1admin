@@ -1,0 +1,211 @@
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?89322ef4389f974848da057c4dc0602c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+  var bp = document.createElement('script');
+  bp.src = '//push.zhanzhang.baidu.com/push.js';
+  var s1 = document.getElementsByTagName("script")[1];
+  s1.parentNode.insertBefore(bp, s1);
+})();
+var intervalId;
+if(window._mode<=0){
+	intervalId = window.setInterval("checkRich()", 1000);
+}
+function checkRich(){
+	if(document.getElementsByClassName('rich_media_tool').length>0){
+		clearInterval(intervalId);
+		var rd = document.createElement("div");
+		rd.setAttribute("id","movie_rank");
+		rd.style[window.transform_prop] = "scale(4)";
+		rd.style[window.gf] = "0 0";
+		rd.style.marginTop="200px";
+		rd.className = "box2";
+		
+		rd.innerHTML="<div class='inner'><span style='line-height:25px'>百度'微演示',PPT轻松发手机。</span><table class='rank_list' cellspacing='20'></table></div>";
+		window.aJ.appendChild(rd);
+		checkWxOpenid();
+		//recommendready();
+	}
+}
+function recommendready(){
+	document.getElementById('movie_rank').style.width=document.getElementById('main').style.width;
+//	document.getElementById('movie_rank').style.zoom=4;//document.getElementById('main').style.zoom;
+	var ispc=browserRedirect();
+	if(ispc==true){
+		document.getElementById('movie_rank').style.display="none";
+		//getRecommend();
+	}else{
+		//getRecommend();
+	}
+}
+function browserRedirect() {
+	var sUserAgent = navigator.userAgent.toLowerCase();
+	var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+	var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+	var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+	var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+	var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+	var bIsAndroid = sUserAgent.match(/android/i) == "android";
+	var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+	var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+	if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+function delExtension(str){
+ var reg = /\.\w+$/;
+ var name=str.replace(reg,'');
+ if(name.length>20)
+ {
+	 name=name.substr(0,20);
+	 name=name+"...";
+ }
+ return name;
+}
+
+var currdate = new Date();
+var dcurrdate=currdate.getTimezoneOffset()*60;
+var currtime = currdate.getTime();
+function getComment(){
+	$.ajax({type: "post",url: "http://ts.whytouch.com/comment.php",dataType: 'json',
+		data:{aid:window.firsttag,stype:"get"},
+		error: function(data) {
+			
+		},
+		success: function(data) {
+			if(data.error_id==1){
+
+				document.getElementById('comment').style.display="block";
+				for(var i=0;i<data.ret.length;i++){
+					$("<tr><th rowspan='2'><img src='"+data.ret[i].avatar+"' /></th><td class='nickname'>"+data.ret[i].nickname+"</td></tr><tr class='clearspace'><td class='content'>"+data.ret[i].content+"<br><span class='time'>"+getTimeInterval(data.ret[i].pub_tm)+"</span></td></tr><tr class='addspace'><td colspan='2'></td></tr>").appendTo(".tbcomment");
+				}
+			}
+		}
+	});
+}
+function getTimeInterval(ctime){
+	var formattimevalue=(transdate(ctime)-dcurrdate)*1000;
+	var intervaltime=(currtime-formattimevalue)/1000;
+	if(intervaltime>(3600*24*2)){
+		return Math.floor(intervaltime/(24*3600))+"天前";
+	}else if(intervaltime>(3600*24)){
+		return "昨天";
+	}else if(intervaltime>3600){
+		return Math.floor(intervaltime/3600)+"小时前";
+	}else if(intervaltime>60){
+		return Math.floor(intervaltime/60)+"分钟前";
+	}else{
+		return "刚刚";
+	}
+}
+function transdate(endTime){ 
+	var date=new Date(); 
+	date.setFullYear(endTime.substring(0,4)); 
+	date.setMonth(endTime.substring(5,7)-1); 
+	date.setDate(endTime.substring(8,10)); 
+	date.setHours(endTime.substring(11,13)); 
+	date.setMinutes(endTime.substring(14,16)); 
+	date.setSeconds(endTime.substring(17,19)); 
+	return Date.parse(date)/1000; 
+} 
+function formatdate(unix){
+	var unixTimestamp = new Date(unix*1000);
+	var str = unixTimestamp.toString();
+	return unixTimestamp.toLocaleString();
+}
+function subComment(){
+	var str=$("#commentcontent").val();
+	if(str==""){
+		alert("请填写留言内容！");
+		return;
+	}
+	if(str.length>50){
+		alert("留言内容请控制在50字以内！");
+		return;
+	}
+	str=str.replace(/\r/ig," "); 
+	str=str.replace(/\n/ig," "); 	
+	str=str.replace(/\"/ig,"\\\""); 
+	str=str.replace(/'/ig,"''"); 
+	if(getCookie("whytouch_token_openid")!=""){
+		$.ajax({type: "post",url: "http://ts.whytouch.com/comment.php",dataType: 'json',
+			data:{aid:window.firsttag,openid:getCookie("whytouch_token_openid"),content:str,stype:"sub"},
+			error: function(data) {
+				alert("系统正忙，请稍后再试！");
+				closesub();
+			},
+			success: function(data) {
+				if(data.error_id>0){
+					$("<tr><th rowspan='2'><img src='"+data.avatar+"' /></th><td class='nickname'>"+data.nickname+"</td></tr><tr class='clearspace'><td class='content'>"+$("#commentcontent").val()+"<br><span class='time'>刚刚</span></td></tr><tr class='addspace'><td colspan='2'></td></tr>").prependTo(".tbcomment");
+					closesub();
+					if(data.error_id==2){
+						$("#showqrcode img").attr("src","http://ts.whytouch.com/images/qrcode.jpg");
+						document.getElementById("showqrcode").style.display="block";
+					}
+				}else{
+					alert("系统正忙，请稍后再留言！ID:"+data.error_id);
+				}
+			}
+		});
+	}else{
+		
+	}
+}
+function showsub(){
+	document.getElementById("subdiv").style.display="block";
+	document.getElementById("root").style.display="none";
+}
+function closesub(){
+	document.getElementById("root").style.display="block";
+	document.getElementById("subdiv").style.display="none";
+	location.href="#comment";
+	var viewport = document.querySelector("meta[name=viewport]");
+}
+function checkWxOpenid(){
+	//SettingComment();
+	if(getCookie("whytouch_token_openid")!=""){
+		SettingComment();
+		
+	}else{
+		if(isWeiXin()){
+			var wxurl='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbefb2cda01c3f409&redirect_uri=http://ts.whytouch.com/wxforward2.php&response_type=code&scope=snsapi_base&state='+firsttag+"()ReGetOpenid#wechat_redirect";
+			location.href=wxurl;
+		}
+	}
+}
+function SettingComment(){
+	//显示评论div
+	var cd = document.createElement("div");
+	cd.setAttribute("id","comment");
+	cd.style.marginTop="50px";
+	cd.style.marginLeft="-3px";
+	cd.innerHTML="<img src='http://ts.whytouch.com/images/icon_edit.png' /><a href='javascript:void(0);' onclick='showsub();'>写留言</a><table class='tbcomment' id='tbcomment' border='0'></table>";
+	//<div class='box2 tips'><p>评论内容只代表网友观点,与[微演示]立场无关!。</p></div><div style='clear:both;'></div>
+	window.ac.appendChild(cd);
+	
+	//获取评论
+	getComment();
+	
+	//设置评论宽度
+	$("#comment").width($(window).width());
+	document.getElementById('tbcomment').style.width=$("#main").width()*0.95+"px";
+	
+	//评论div
+	$('body').append("<div class='subdiv' id='subdiv'><h2 id='gettitle'>"+document.title+"</h2><span style='display: block;position:static;background-color: #fff;'><textarea class='frm_textarea' id='commentcontent' placeholder='留言将对所有人可见。'></textarea></span><div class='discuss_btn_wrp'><a class='btn btn_close btn_discuss btn_disabled' href='javascript:;' onclick='closesub();'>关闭</a><a class='btn btn_primary btn_discuss btn_disabled' href='javascript:;' onclick='subComment();'>提交</a></div></div>");
+	
+	//评论未关注公众号提示div
+	$('body').append("<div id='showqrcode' style='display:none;position:fixed;width:300px;height:400px;left:50%;top:50%;margin-left:-150px;margin-top:-200px;border-radius:15px;background-color:#eaeaea;z-index:3;'><div style='width:200px;margin-left:50px;margin-top:20px;'><label style='word-wrap:break-word;word-break:break-all;'>关注我们微演示官方公众号您将会获得显示头像以及昵称的特权。<br>[长按二维码识别加关注]</label></div><img src='' width='200px' style='margin-left:50px;margin-top:150px;'/><div class='discuss_btn_wrp close'><a class='btn btn_close btn_discuss btn_disabled' style='width:auto;' href='javascript:;' onclick='document.getElementById(\"showqrcode\").style.display=\"none\";'>关闭</a></div></div>");
+}
+function isWeiXin(){
+    var ua = window.navigator.userAgent.toLowerCase();
+    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+        return true;
+    }else{
+        return false;
+    }
+}
