@@ -175,7 +175,7 @@ $(function(){
                                     custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
                                     g_args.qiniu_upload_domain_url,true,
                                     function (up, info, file){
-                                        //console.log(info);
+                                        console.log(info);
                                         var res = $.parseJSON(info);
                                         pic_url = g_args.qiniu_upload_domain_url + res.key;
                                         pic_img="<img width=80 src=\""+pic_url+"\"/>";
@@ -191,7 +191,7 @@ $(function(){
                     custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
                                     g_args.qiniu_upload_domain_url,true,
                                     function (up, info, file){
-                                        //console.log(info);
+                                        console.log(info);
                                         var res = $.parseJSON(info);
                                         pic_url = g_args.qiniu_upload_domain_url + res.key;
                                         pic_img="<img width=80 src=\""+pic_url+"\"/>";
