@@ -1675,7 +1675,8 @@ class seller_student_new2 extends Controller
     }
 
     public function get_item_list(){
-        $this->check_and_switch_tongji_domain();
+        $this->switch_tongji_database();
+        // $this->check_and_switch_tongji_domain();
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $adminid=$this->get_in_adminid();
         $month= date("Ym",$start_time);
@@ -1683,6 +1684,11 @@ class seller_student_new2 extends Controller
         $test_count = $this->t_test_lesson_subject_require->get_test_count_by_adminid($start_time,$end_time,$adminid);
         $order_count = $this->t_order_info->get_order_count_by_adminid($start_time,$end_time,$adminid);
         $order_refund_count = $this->t_order_refund->get_order_refund_count_by_adminid($start_time,$end_time,$adminid);
+        $level10 = $this->t_seller_edit_log->get_10_level($adminid);
+        $level11 = $this->t_seller_edit_log->get_11_level($adminid);
+        $level11 = $level11>0?$level11:$level10;
+        $level12 = $this->t_seller_edit_log->get_12_level($adminid);
+        $level12 = $level12>0?$level12:$level11;
         //试听成功数
         $arr['called_times'] = $call_count['called_count'];
         $arr['no_called_times'] = $call_count['no_called_count'];
@@ -1690,8 +1696,8 @@ class seller_student_new2 extends Controller
         $arr['require_lesson_count'] = $test_count['test_lesson_count'];
         $arr['order_count'] = $order_count;
         $arr['refund_count'] = $order_refund_count;
-        $arr['11_level'] = '';
-        $arr['12_level'] = '';
+        $arr['level11'] = E\Eseller_level::get_desc($level11);
+        $arr['level12'] = E\Eseller_level::get_desc($level12);
 
         return $this->output_succ($arr);
     }

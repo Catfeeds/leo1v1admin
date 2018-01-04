@@ -441,6 +441,7 @@
                 </div>
                 <!-- /.box (chat box) -->
 
+                @if (1>2)
                 <!-- Chat box -->
                 <div class="box box-info-ly">
                     <div class="box-header">
@@ -531,7 +532,6 @@
                     <!-- /.box-footer -->
                 </div>
                 <!-- /.box (chat box) -->
-                @if (1>2)
                     <!-- 暂时不显示内容 -->
                     <div class="box box-info direct-chat direct-chat-warning">
                         <div class="box-header with-border">

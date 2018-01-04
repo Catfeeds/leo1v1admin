@@ -97,10 +97,11 @@ class pdfConversionH5 extends Command
             }
 
             # 重新打包压缩
+            $work_path= public_path('wximg');
             $zip_new_resource = public_path('wximg')."/".$uuid.".zip";
-            $zip_new_file = public_path('wximg')."/".$uuid;
-            $zipCmd  = "zip $zip_new_resource $zip_new_file";
-            shell_exec($zipCmd);
+            // $zip_new_file =$uuid;
+            $zipCmd  = " cd $work_path/$uuid,  zip -r ../".$uuid.".zip * ";
+            \App\Helper\Utils::exec_cmd($zipCmd);
 
             # 使用七牛上传  七牛 资源域名 https://ybprodpub.leo1v1.com/
             $qiniu     = \App\Helper\Config::get_config("qiniu");
@@ -149,21 +150,21 @@ class pdfConversionH5 extends Command
         # 遍历数据 script 引用js数据
         $scriptList = $xpath->query("//script[@type = 'text/javascript']");
         $jsLink = [];
-        foreach ($scriptList as $node) {
-            $jsLink_tmp = $node->attributes->getNamedItem('src')->nodeValue;
+        foreach ($scriptList as $node_js) {
+            $jsLink_tmp = $node_js->attributes->getNamedItem('src')->nodeValue;
             $jsLink_arr = explode('/', $jsLink_tmp);
             if($jsLink_arr[0] == '..'){
                 $jsLink[] = $jsLink_arr[1];
-                $node->setAttribute('src', $jsLink_arr[1]);
+                $node_js->setAttribute('src', $jsLink_arr[1]);
                 \App\Helper\Utils::logger("jsLink_arr_item: ".$jsLink_arr[1]);
 
                 # 测试修改节点属性
                 // if($jsLink_arr[1] == 'wxpt.js'){
-                //     $node->setAttribute('src', 'wxpt.js');
+                //     $node_js->setAttribute('src', 'wxpt.js');
                 //     # 创建DOM节点
                 //     //appendChild
                 //     $root = $dom->createElement('test','ssssssss');
-                //     $node->appendChild( $root );
+                //     $node_js->appendChild( $root );
                 // }
             }
         }

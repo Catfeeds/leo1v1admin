@@ -11,34 +11,31 @@ class pic_manage extends Controller
     {
         $type      = $this->get_in_int_val('type',-1);
         $usage_type= $this->get_in_int_val('usage_type',-1);
+        $active_status = $this->get_in_int_val("active_status", 0);
         $page_num  = $this->get_in_page_num();
 
-        $ret_info  = $this->t_pic_manage_info->get_pic_info_list($type,$usage_type,$page_num);
+        $ret_info  = $this->t_pic_manage_info->get_pic_info_list($type,$usage_type,$active_status,$page_num);
         $current = time();
 
-        $sort = '';
         foreach($ret_info["list"] as &$item){
             E\Epic_type::set_item_value_str($item,"type");
             E\Epic_time_type::set_item_value_str($item,"time_type");
             E\Epic_usage_type::set_item_value_str($item,"usage_type");
             $item['active_status'] = '';
             // 判断活动状态
-            if ($current < $item['start_time']) {
-                $item['active_status'] = '待开始';
-                $sort[] = 1;
-            } elseif ($current < $item['end_time']) {
-                $item['active_status'] = '已发布';
-                $sort[] = 2;
-            } elseif ($current > $item['end_time']) {
-                $item['active_status'] = '已结束';
-                $sort[] = 3;
-            }
             if ($item['del_flag'] == 1) {
                 $item['active_status'] = '已删除';
-                $sort[] = 4;
+            } else {
+            if ($current < $item['start_time']) {
+                $item['active_status'] = '待开始';
+            } elseif ($current < $item['end_time']) {
+                $item['active_status'] = '已发布';
+            } elseif ($current > $item['end_time']) {
+                $item['active_status'] = '已结束';
+            }
             }
         }
-        array_multisort($ages, SORT_ASC, $sort);
+
         return $this->pageView(__METHOD__,$ret_info,array(),[
             'qiniu_upload_domain_url' =>Config::get_qiniu_public_url()."/"
         ]);

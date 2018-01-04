@@ -227,9 +227,18 @@ class ajax_deal2 extends Controller
         $this->t_student_info->field_update_list($userid,[
             "parent_name" => $parent_name
         ]);
+
+        if ($contract_status ==0 )  {
+            $username="   ";
+            $phone="   ";
+            $parent_name="   ";
+        }
+
+        /*
         if ($contract_status ==0 )  {
             return $this->output_err("未支付，不能生成合同");
         }
+        */
         if (!in_array(  $contract_type , array(E\Econtract_type::V_0 ,E\Econtract_type::V_3 )  )) {
             return $this->output_err("不是1对１合同，不能生成合同");
         }
@@ -1455,11 +1464,11 @@ class ajax_deal2 extends Controller
             $start_time = 1498838400;
             $leave_num = $this->t_manager_info->get_admin_leave_num($start_time,$end_time);
             $enter_num = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_enter($start_time,$end_time);
-            $value = $enter_num>0?round($leave_num/$enter_num*100,2):0;           
+            $value = $enter_num>0?round($leave_num/$enter_num*100,2):0;
             // $value .= "%";
             $value .= '%('. $leave_num.'/'.$enter_num.')';
 
- 
+
         }
 
         return $this->output_succ(["value"=>$value]);
@@ -1488,7 +1497,7 @@ class ajax_deal2 extends Controller
             }else{
                 $value='0%';
             }
-            
+
         }else if($type=="fulltime_teacher_student_pro"){
             $fulltime_lesson_count = $this->t_lesson_info_b3->get_teacher_list($start_time,$end_time,1);//统计全职老师总人数/课时
             $fulltime_teacher_student =$fulltime_lesson_count["stu_num"]; //全职老师所带学生总数
@@ -1496,7 +1505,7 @@ class ajax_deal2 extends Controller
             $platform_teacher_student = $platform_teacher_student_list[0]['platform_teacher_student'];
             $fulltime_teacher_student_pro = round($fulltime_teacher_student*100/$platform_teacher_student,2);
             $value = $fulltime_teacher_student_pro.'%('.$fulltime_teacher_student.'/'.$platform_teacher_student.')';
-           
+
         }else if($type=="fulltime_teacher_lesson_count"){
             $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5,-1);
             $qz_tea_arr=[];
@@ -1525,24 +1534,24 @@ class ajax_deal2 extends Controller
             }
 
             $list = $ret_info;
-            $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time, $lesson_end_time);          
+            $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time, $lesson_end_time);
             $tran_avg= $lesson_avg=[];
             foreach($ret_info as &$item){
                 $item["cc_lesson_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["all_lesson"]:0;
                 $item["cc_order_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["order_num"]:0;
-                
+
                 @$tran_avg["cc_lesson_num"] +=$item["cc_lesson_num"];
                 @$tran_avg["cc_order_num"] +=$item["cc_order_num"];
             }
-           
+
             $tran_avg["cc_per"] = !empty($tran_avg["cc_lesson_num"])?round($tran_avg["cc_order_num"]/$tran_avg["cc_lesson_num"]*100,2):0;
             if( $tran_avg["cc_per"]){
-                
+
                 $value = $tran_avg["cc_per"].'%('.$tran_avg["cc_order_num"].'/'.$tran_avg["cc_lesson_num"].')';
             }else{
                 $value="0%";
             }
-           
+
 
         }else if($type=="part_teacher_lesson_count"){
             $ret_platform_teacher_lesson_count = $this->t_lesson_info_b3->get_teacher_list($start_time,$end_time);//统计平台老师总人数/课时
@@ -1577,12 +1586,12 @@ class ajax_deal2 extends Controller
             }
 
             $list = $ret_info;
-            $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time, $lesson_end_time);          
+            $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time, $lesson_end_time);
             $tran_avg= $lesson_avg=[];
             foreach($ret_info as &$item){
                 $item["cc_lesson_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["all_lesson"]:0;
                 $item["cc_order_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["order_num"]:0;
-                
+
                 @$tran_avg["cc_lesson_num"] +=$item["cc_lesson_num"];
                 @$tran_avg["cc_order_num"] +=$item["cc_order_num"];
             }
@@ -1590,7 +1599,7 @@ class ajax_deal2 extends Controller
             $part_order = @$test_person_num_total['have_order']-@$tran_avg["cc_order_num"];
             $part_per = !empty($part_lesson)?round( $part_order/$part_lesson*100,2):0;
             if($part_per){
-                
+
                 $value = $part_per.'%('.$part_order.'/'.$part_lesson.')';
             }else{
                 $value="0%";
@@ -1618,7 +1627,7 @@ class ajax_deal2 extends Controller
 
             $full_per = !empty( $ret['platform_teacher_lesson_count'])?round( $full/$ret['platform_teacher_lesson_count']*100,2):0;
             if($full_per){
-                
+
                 $value = $full_per.'%('.$full.'/'.$ret['platform_teacher_lesson_count'].')';
             }else{
                 $value="0%";
@@ -1632,7 +1641,7 @@ class ajax_deal2 extends Controller
             $part_order = @$test_person_num_total['have_order'];
             $part_per = !empty($part_lesson)?round( $part_order/$part_lesson*100,2):0;
             if($part_per){
-                
+
                 $value = $part_per.'%('.$part_order.'/'.$part_lesson.')';
             }else{
                 $value="0%";
@@ -1657,7 +1666,7 @@ class ajax_deal2 extends Controller
             }
             $value = @$ret['fulltime_normal_stu_num'];
 
- 
+
         }elseif($type=="fulltime_normal_stu_pro"){
             $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
             $week_start = $date_week["sdate"]-14*86400;
@@ -1682,7 +1691,7 @@ class ajax_deal2 extends Controller
             }
             $ret['fulltime_normal_stu_pro'] =  @$ret['platform_normal_stu_num']>0?round(100*@$ret['fulltime_normal_stu_num']/@$ret['platform_normal_stu_num'],2):0;
             if(@$ret['fulltime_normal_stu_pro']){
-                
+
                 $value = @$ret['fulltime_normal_stu_pro'].'%('.@$ret['fulltime_normal_stu_num'].'/'.@$ret['platform_normal_stu_num'].')';
             }else{
                 $value="0%";
@@ -1907,12 +1916,12 @@ class ajax_deal2 extends Controller
 
         $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time,-1,-1,-1,-1,-1,"",-1,-1,-1,-1,-1);
         //
-      
+
         $total_arr=[];
         $total_arr["test_person_num"] =  $test_person_num_total["person_num"];//
         $total_arr["have_order"] = $test_person_num_total["have_order"];//
         //
-       
+
 
         $total_arr["order_num_per"] = !empty($total_arr["test_person_num"])?round($total_arr["have_order"]/$total_arr["test_person_num"],4)*100:0;
         return $this->output_succ([
@@ -1978,7 +1987,7 @@ class ajax_deal2 extends Controller
         }
         $cc_per= $cc_num>0?round($cc_order/$cc_num*100,2):0;
         $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $time,time(),-1,-1,$tea_arr,1);
-            
+
         foreach($cr_list as $val){
             $cr_num +=$val["person_num"];
             $cr_order +=$val["have_order"];
@@ -2014,7 +2023,7 @@ class ajax_deal2 extends Controller
         // }
         // $cc_per= $cc_num>0?round($cc_order/$cc_num*100,2):0;
         // $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,100,$tea_arr,1);
-            
+
         // foreach($cr_list as $val){
         //     $cr_num +=$val["person_num"];
         //     $cr_order +=$val["have_order"];
@@ -2050,7 +2059,7 @@ class ajax_deal2 extends Controller
 
 
 
-        
+
         // $teacherid             = $this->get_in_int_val("teacherid",50272);
         // $start_time = strtotime("2017-10-01");
         // $end_time = strtotime("2017-11-01");
@@ -2472,7 +2481,7 @@ class ajax_deal2 extends Controller
             $second_need=1;
         }else{
             $first_need=0;
-            $second_need=0; 
+            $second_need=0;
         }
         $second_real = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$cur_start,$cur_end,$account);
         $first_real = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$last_start,$last_end,$account);
@@ -2491,7 +2500,7 @@ class ajax_deal2 extends Controller
 
     //获取审核用标签
     public function get_teacher_tag_info(){
-       
+
         $list = $this->get_teacher_tag_list();
 
         return $this->output_succ(["data"=>$list]);
@@ -2513,11 +2522,11 @@ class ajax_deal2 extends Controller
             "diathesis_cultivation"=>$diathesis_cultivation,
         ];
         $set_flag=2;
-        $this->set_teacher_label_new($teacherid,0,"",$tea_tag_arr,1000,$set_flag); 
+        $this->set_teacher_label_new($teacherid,0,"",$tea_tag_arr,1000,$set_flag);
         return $this->output_succ();
 
 
- 
+
     }
 
 
@@ -2545,7 +2554,7 @@ class ajax_deal2 extends Controller
     }
 
     public function get_require_info_by_id(){
-        $require_id = $this->get_in_int_val('require_id',-1); 
+        $require_id = $this->get_in_int_val('require_id',-1);
         $data = $this->t_test_lesson_subject_require->get_require_list_by_requireid($require_id);
         $data["gender_str"] = E\Egender::get_desc(@$data["gender"]);
         $data["subject_str"] = E\Esubject::get_desc(@$data["subject"]);
@@ -2556,7 +2565,7 @@ class ajax_deal2 extends Controller
         return $this->output_succ(["data"=>$data]);
 
 
-        
+
     }
 
 
@@ -2576,14 +2585,14 @@ class ajax_deal2 extends Controller
         if(empty($start_time)){
             return $this->output_err("无数据!");
         }
-        
+
         $lesson_info = $this->t_lesson_info_b2->get_qz_tea_lesson_info($time,$time+86400,$teacherid);
         foreach($lesson_info as &$item){
             $item["lesson_start_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
             $item["lesson_end_str"] = date("Y-m-d H:i:s",$item["lesson_end"]);
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
-            
+
             if($item["lesson_type"]==2){
                 $item["lesson_count"] = 1.5;
                 $item["lesson_type_str"]="试听";
@@ -2622,7 +2631,7 @@ class ajax_deal2 extends Controller
         $userid = $this->t_order_info->get_userid($orderid);
         $origin_userid=$this->t_student_info->get_origin_userid($userid);
         if(!$origin_userid){
-            return $this->output_err("没有找到对应的转介绍人"); 
+            return $this->output_err("没有找到对应的转介绍人");
         }
         $competition_flag = $this->t_order_info->check_is_have_competition_order($origin_userid);
         return $this->output_succ(["flag"=>$competition_flag]);
@@ -2647,7 +2656,7 @@ class ajax_deal2 extends Controller
             "account_role"=>$account_role,
             "cc_flag"     =>$cc_flag
         ]);
-        
+
 
 
 
@@ -2697,16 +2706,16 @@ class ajax_deal2 extends Controller
         return $this->output_succ([
             "warning"      => @$warning_type_num,
             "month_info"   => @$month_info,
-            "today_info"   => @$today_info,  
+            "today_info"   => @$today_info,
         ]);
- 
+
     }
 
     public function get_child_orderid_list(){
         $parent_orderid = $this->get_in_int_val("parent_orderid");
         $target_type = $this->get_in_int_val("target_type",1);
         if($target_type==1){
-            $list = $this->t_child_order_info-> get_all_child_order_info($parent_orderid); 
+            $list = $this->t_child_order_info-> get_all_child_order_info($parent_orderid);
         }elseif($target_type==2){
             $userid = $this->t_order_info->get_userid($parent_orderid);
             $list = $this->t_child_order_info->get_other_child_order_list($parent_orderid,$userid);
@@ -2747,7 +2756,7 @@ class ajax_deal2 extends Controller
 
         }
         return $this->output_succ(["data"=>$list]);
-                
+
     }
 
     public function set_child_orderid_transfer(){
@@ -2770,14 +2779,14 @@ class ajax_deal2 extends Controller
         if(count($arr)>1){
             return $this->output_err("目标合同不能出自两个以上的父合同");
         }
-        
+
         $origin_orderid = $origin_price=0;
         $origin_arr= explode(',',$child_orderid_list);
         $origin_orderid_list = [];
         foreach($origin_arr as $val){
             $ret = $this->t_child_order_info->field_get_list($val,"parent_orderid,price");
             $parent_orderid = $ret["parent_orderid"];
-           
+
             $origin_price += $ret["price"];
             $origin_orderid = $parent_orderid;
             $origin_orderid_list[]=$val;
@@ -2799,7 +2808,7 @@ class ajax_deal2 extends Controller
         //记录日志
         $userid =$this->t_order_info->get_userid($target_orderid);
         $data =[
-            "来源合同id" =>$origin_orderid_list,  
+            "来源合同id" =>$origin_orderid_list,
             "目标合同id" =>$target_orderid_list,
             "操作人"     =>$this->get_account_id().":".$this->get_account()
         ];
@@ -2808,7 +2817,7 @@ class ajax_deal2 extends Controller
             "userid"     => $userid,
             "log_time"   => time(),
             "type"       => 1,     //类型1,合同修改记录
-            "msg"        => json_encode($data) 
+            "msg"        => json_encode($data)
         ]);
         return $this->output_succ();
 

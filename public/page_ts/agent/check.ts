@@ -48,8 +48,8 @@ $(function(){
                     $tr.find(".require_lesson_count").text(data["require_lesson_count"]);
                     $tr.find(".order_count").text(data["order_count"]);
                     $tr.find(".refund_count").text(data["refund_count"]);
-                    $tr.find(".11_level").text(data["11_level"]);
-                    $tr.find(".12_level").text(data["12_level"]);
+                    $tr.find(".level11").text(data["level11"]);
+                    $tr.find(".level12").text(data["level12"]);
 
                     do_index++;
                     do_one();
@@ -59,5 +59,8 @@ $(function(){
         do_one();
     };
     load_row_data ();
+    if(g_account=='tom'){
+        download_show();
+    }
 
 });
