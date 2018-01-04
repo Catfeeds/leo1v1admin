@@ -144,6 +144,16 @@ $(function(){
                     if ($(this).val() == 303) { // 删除视频选项
                         $(".add_jump_type option[value='1']").remove()
                     }
+                    var val = $(".add_jump_type option[value='1']").val();
+                    if (val == undefined) {
+                        $(".add_jump_type").append("<option value='1'>视频</option>");
+                    }
+                });
+                $(".add_pic_type").on("change", function() {
+                    var val = $(".add_jump_type option[value='1']").val();
+                    if (val == undefined) {
+                        $(".add_jump_type").append("<option value='1'>视频</option>");
+                    }
                 });
                 $('.add_jump_type').on("change", function() {
                     if (parseInt($(this).val()) == 2) {
