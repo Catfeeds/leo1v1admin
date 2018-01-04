@@ -78,6 +78,16 @@
                     <div id="id_date_range" >
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">类型</span>
+                        <select class="opt-change form-control" id="id_actual_flag">
+                            <option value="1">存档</option>
+                            <option value="2">实时</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="col-xs-6 col-md-1" style="display:none">
                     <button class="btn btn-warning" id="id_data"  >生成数据</button>
                 </div>

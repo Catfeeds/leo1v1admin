@@ -25,6 +25,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
     public function get_test_list( $page_info, $order_by_str,  $grade ) {
         $where_arr=[] ;
+        // int , 枚举, 枚举列表 ,都用这个
         $this->where_arr_add_int_or_idlist($where_arr,"grade", $grade );
 
         $sql = $this->gen_sql_new("select  userid, nick,realname,  phone, grade "

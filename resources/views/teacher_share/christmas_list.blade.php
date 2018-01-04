@@ -19,8 +19,9 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
+                    <td>老师id</td>
+                    <td style="display:none">老师openid</td>
                     <td>老师姓名</td>
-                    <td>微信昵称</td>
                     <td>老师号码</td>
                     <td>单击次数 </td>
                     <td>分享次数 </td>
@@ -31,12 +32,13 @@
             <tbody>
                 @foreach ( $info as $var )
                     <tr>
+                        <td>{{$var["teacherid"]}}</td>
+                        <td style="display:none">{{$var["wx_openid"]}}</td>
                         @if($var['nick'])
                             <td>{{$var["nick"]}}</td>
                         @else
                             <td>{{$var["realname"]}}</td>
                         @endif
-                        <td>{{$var['wx_nick']}}</td>
                         <td>{{$var['phone']}}</td>
                         <td>{{$var['click_num']}}</td>
                         <td>{{$var['share_num']}}</td>

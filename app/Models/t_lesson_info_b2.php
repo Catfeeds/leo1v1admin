@@ -4301,6 +4301,62 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     }
 
+    public function get_teacher_lesson_list_www_new($teacherid,$userid,$start_time,$end_time,$lesson_type_in_str)
+    {
+        $where_arr = [
+            ["lesson_start>=%d",$start_time, -1 ] ,
+            ["lesson_start<=%d",$end_time, -1 ] ,
+            ["l.lesson_type in (%s)",$lesson_type_in_str, "" ] ,
+            ["l.userid=%u",$userid, -1 ] ,
+            ["l.teacherid=%u",$teacherid, 0 ] ,
+            "l.lesson_del_flag=0",
+        ];
+
+        $sql =$this->gen_sql_new("select t.test_lesson_subject_id,l.lessonid,l.lesson_type,lesson_start,lesson_end,"
+                                 ." lesson_intro,l.grade,l.subject,l.confirm_flag,l.assistantid,ta.phone as ass_phone,"
+                                 ." l.lesson_num,l.userid,lesson_name,lesson_status,ass_comment_audit,l.userid,"
+                                 ." if(h.work_status>0,1,0) as homework_status,stu_cw_status as stu_status,"
+                                 ." tea_cw_status as tea_status, editionid,t.textbook,l.train_type, "
+                                 ." h.finish_url,h.check_url,l.tea_cw_url,l.tea_cw_upload_time,l.tea_cw_pic_flag,l.tea_cw_pic,"
+                                 ." l.stu_cw_url,l.stu_cw_upload_time,h.issue_url,h.issue_time,"
+                                 ." h.pdf_question_count ,tea_more_cw_url,  "
+                                 ." t.stu_test_paper,t.require_adminid, "
+                                 ." tm.name as cc_account,tm.phone as cc_phone,"
+                                 ." tr.accept_adminid,"
+                                 ." t.stu_request_test_lesson_demand,"
+                                 ." jm.name jw_name,jm.phone jw_phone,s.address,n.interests_and_hobbies, "
+                                 ." n.character_type ,n.need_teacher_style,n.extra_improvement,n.habit_remodel ,"
+                                 ." n.study_habit "
+                                 ." from %s l "
+                                 ." left join %s h on l.lessonid=h.lessonid "
+                                 ." left join %s s on l.userid=s.userid"
+                                 ." left join %s tr on l.lessonid=tr.current_lessonid"
+                                 ." left join %s t on tr.require_id=t.current_require_id"
+                                 ." left join %s tm on t.require_adminid=tm.uid"
+                                 ." left join %s ta on l.assistantid=ta.assistantid"
+                                 ." left join %s jm on tr.accept_adminid = jm.uid"
+                                 ." left join %s n on l.userid = n.userid"
+                                 ." where %s"
+                                 ." and confirm_flag!=2"
+                                 ." and l.lesson_type!=4001"
+                                 ." order by lesson_start ",
+                                 self::DB_TABLE_NAME ,
+                                 t_homework_info::DB_TABLE_NAME ,
+                                 t_student_info::DB_TABLE_NAME ,
+                                 t_test_lesson_subject_require::DB_TABLE_NAME ,
+                                 t_test_lesson_subject::DB_TABLE_NAME ,
+                                 t_manager_info::DB_TABLE_NAME,
+                                 t_assistant_info::DB_TABLE_NAME,
+                                 t_manager_info::DB_TABLE_NAME,
+                                 t_seller_student_new::DB_TABLE_NAME,
+                                 $where_arr
+        );
+        // dd($sql);
+        return $this->main_get_list_as_page($sql,function($item){
+            return $item['lessonid'];
+        });
+    }
+
 
 
 
