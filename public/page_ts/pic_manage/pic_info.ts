@@ -135,6 +135,10 @@ $(function(){
             closable        : true,
             closeByBackdrop : false,
             onshown         : function(dialog){
+            if (html_node.find(".add_pic_usage_type").val() == 303) {
+                $(".add_jump_type option[value='1']").remove()
+            }
+
                 $(".add_pic_usage_type").on("change", function() {
                     if ($(this).val() == 303) { // 删除视频选项
                         $(".add_jump_type option[value='1']").remove()

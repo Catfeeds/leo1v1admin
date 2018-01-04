@@ -138,19 +138,19 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog){
-                if(opt_data.del_flag == del_flag.val()){
-                    if(del_flag.val() == 1){
-                        var time_new = opt_data.leave_member_time;
-                    }else{
-                        var time_new = opt_data.become_member_time;
-                    }
-                }else{
-                    var time_new = time.val();
-                }
+                // if(opt_data.del_flag == del_flag.val()){
+                //     if(del_flag.val() == 1){
+                //         var time_new = opt_data.leave_member_time;
+                //     }else{
+                //         var time_new = opt_data.become_member_time;
+                //     }
+                // }else{
+                //     var time_new = time.val();
+                // }
                 $.do_ajax('/authority/del_manager', {
                     'uid'          : opt_data.uid,
                     'del_flag'     : del_flag.val(),
-                    'time'         : time_new,
+                    'time'         : time.val(),
                 });
             }
         });
