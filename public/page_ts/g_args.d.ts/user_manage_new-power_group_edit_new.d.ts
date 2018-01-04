@@ -13,6 +13,7 @@ interface RowData {
 	power_id	:any;
 	name	:any;
 	url	:any;
+	domain_type	:any;
 	id	:any;
 	pId	:any;
 	page_id	:any;
