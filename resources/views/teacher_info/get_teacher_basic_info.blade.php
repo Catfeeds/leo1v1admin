@@ -311,7 +311,7 @@
                                             <th class="text-cen bg-lblue" >手机号</th>
                                             <td>
                                                 {!! $my_info['phone'] !!}
-                                                @if ($my_info['wx_openid'])
+                                                @if (!$my_info['wx_openid'])
                                                     <a href="javascript:;"  data-toggle="modal" data-target="#modal-band-wx" class="color-red band-wx">未绑定</a>
                                                 @endif
                                             </td>
@@ -441,6 +441,7 @@
                 </div>
                 <!-- /.box (chat box) -->
 
+                @if (1>2)
                 <!-- Chat box -->
                 <div class="box box-info-ly">
                     <div class="box-header">
@@ -531,7 +532,6 @@
                     <!-- /.box-footer -->
                 </div>
                 <!-- /.box (chat box) -->
-                @if (1>2)
                     <!-- 暂时不显示内容 -->
                     <div class="box box-info direct-chat direct-chat-warning">
                         <div class="box-header with-border">

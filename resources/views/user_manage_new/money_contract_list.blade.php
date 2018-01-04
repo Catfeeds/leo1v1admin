@@ -216,7 +216,7 @@
                                 <a class="opt-del" title="删除合同"> 删除</a>
                                 @if($var["price"]>0)
                                     <a class="fa opt-order-partition-info" title="子合同详情">子合同详情</a>
-                                    @if(in_array($account,["jack","zero","jim"]) )
+                                    @if(in_array($account,["jack","zero","jim","adrian"]) )
                                         <a class="fa opt-child-order-trandfer" title="子合同转移">子合同转移</a>
                                     @endif
                                 @endif

@@ -198,7 +198,11 @@ class teacher_info extends Controller
             $lesson_type = $item['lesson_type'];
             $subject     = $item['subject'];
             $grade       = $item['grade'];
-            E\Econtract_type::set_item_value_str($item,"lesson_type");
+            if(in_array($item['lesson_type'],[0,1,3])){
+                $item['lesson_type_str'] = "常规";
+            }else{
+                E\Econtract_type::set_item_value_str($item,"lesson_type");
+            }
             E\Egrade::set_item_value_str($item,"grade");
             if(isset($item["extra_improvement"])){
                 E\Eextra_improvement::set_item_value_str($item);
@@ -247,7 +251,7 @@ class teacher_info extends Controller
                 $item['ass_phone']                      = "315540732";
                 $item['lesson_type_str']                = "模拟试听";
                 @$from_lessonid                          = $train_from_lessonid_list[$subject][$grade];
-                $from_lesson_info                       = $this->t_test_lesson_subject->get_from_lesson_info($from_lessonid);
+                $from_lesson_info                       = $this->t_test_lesson_subject->get_from_lesson_info_new($from_lessonid);
                 $item['stu_test_paper']                 = $from_lesson_info['stu_test_paper'];
                 $item['stu_request_test_lesson_demand'] = $from_lesson_info['stu_request_test_lesson_demand'];
             }
@@ -2816,10 +2820,10 @@ class teacher_info extends Controller
             if($this_tea == $teacherid && $file_id == 0){//是老师自己上传的文件
                 $file_link = $this->t_teacher_resource->get_file_link($tea_res_id);
 
-                $store=new \App\FileStore\file_store_tea();
-                $auth=$store->get_auth();
-                // $file_path = $store->get_file_path($teacherid,$file_path);
-                $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $file_link );
+                // $store=new \App\FileStore\file_store_tea();
+                // $auth=$store->get_auth();
+                // $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $file_link );
+                $authUrl = $this->gen_download_url($file_link);
                 return $this->output_succ(["url" => $authUrl]);
             }
         } else {//预览理优资料
@@ -2837,9 +2841,10 @@ class teacher_info extends Controller
             ]);
             $this->t_resource_file->add_num('visit_num', $tea_res_id);
 
-            $store=new \App\FileStore\file_store_tea();
-            $auth=$store->get_auth();
-            $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $file_link );
+            // $store=new \App\FileStore\file_store_tea();
+            // $auth=$store->get_auth();
+            // $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $file_link );
+            $authUrl = $this->gen_download_url($file_link);
             return $this->output_succ(["url" => $authUrl]);
         }
 

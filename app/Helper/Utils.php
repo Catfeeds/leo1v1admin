@@ -2579,4 +2579,34 @@ class Utils  {
 
     }
 
+    /**
+     * author   : sam
+     * function : 导数据,txt
+     */
+    static public function download_txt($file_name,$ret_info,$arr_title,$arr_data){
+        //create output file path
+        if(\App\Helper\Utils::check_env_is_local()){
+            $path = "/home/sam/".$file_name.".txt";
+        }else{
+            $path = "/home/ybai/".$file_name.".txt";
+        }
+        $fp = fopen($path,"w+");
+
+        //
+        foreach($arr_title as $key => $value){
+            fwrite($fp, @$value);
+            fwrite($fp, ',');
+        }
+        fwrite($fp, "\n");
+        foreach ($ret_info as $key => $value) {
+            foreach($arr_data as $akey => $avalue){
+                fwrite($fp, @$value[$avalue]);//2
+                fwrite($fp, ',');
+            }
+            fwrite($fp, "\n");
+        }
+        fclose($fp);
+        dd($path);
+        return $path;
+    }
 };

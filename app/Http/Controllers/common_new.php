@@ -1856,6 +1856,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $type = $this->get_in_str_val("type");
         $info = $this->t_pic_manage_info->get_pic_or_mobile_info($usage_type);
         $banner_count = count($info);
+        foreach($info as &$item) {
+            if ($item['status'] == 0) {
+                $item['jump_type'] = 9;
+            }
+        }
         //$custom_type = $video_type = $page_type = '';
         //$i = $j = $k = 0;
         // foreach ($info as $item) {

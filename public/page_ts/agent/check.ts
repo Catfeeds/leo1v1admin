@@ -59,5 +59,8 @@ $(function(){
         do_one();
     };
     load_row_data ();
+    if(g_account=='tom'){
+        download_show();
+    }
 
 });

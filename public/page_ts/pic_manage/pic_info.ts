@@ -2,6 +2,20 @@
 /// <reference path="../g_args.d.ts/pic_manage-pic_info.d.ts" />
 
 $(function(){
+        function load_data(){
+        $.reload_self_page({
+            pic_type       : $(".pic_type").val(),
+		        //usage_type : val
+            active_status: $("#active_status").val()
+        });
+	  }
+
+    $(".pic_type").val(g_args.pic_type);
+    //$(".usage_type").val(usage_type);
+    $("#active_status").val(g_args.active_status);
+    	  $('.opt-change').set_input_change_event(load_data);
+
+
     Enum_map.append_option_list("pic_type", $(".pic_type"));
     Enum_map.append_option_list("pic_type", $(".add_pic_type"),true);
     Enum_map.append_option_list("pic_jump_type", $(".add_jump_type"),true);
@@ -20,20 +34,28 @@ $(function(){
     set_select_option_list();
     $(".pic_usage_type").val(g_args.usage_type);
 
-    function load_data(val){
-        $.reload_self_page({
-            type       : $(".pic_type").val(),
-		        usage_type : val 
-        });
-	  }
+    // function load_data(){
+    //     $.reload_self_page({
+    //         type       : $(".pic_type").val(),
+		//         //usage_type : val
+    //         active_status: $("#active_status").val()
+    //     });
+	  // }
 
-    //筛选
-	  $(".pic_type").on("change",function(){
-		    load_data(-1);
-	  });
-	  $(".pic_usage_type").on("change",function(){
-		    load_data($(this).val());
-	  });
+    // $(".pic_type").val(g_args.type);
+    // //$(".usage_type").val(usage_type);
+    // $("#active_status").val(g_args.active_status);
+
+    // //筛选
+	  // $(".pic_type").on("change",function(){
+		//     load_data(-1);
+	  // });
+	  // $(".pic_usage_type").on("change",function(){
+		//     load_data($(this).val());
+	  // });
+    // $("#active_status").on("change", function() {
+    //     alert($(this).val())
+    // });
 
     var do_add_or_update = function( opt_type, item ){
         var html_txt = $.dlg_get_html_by_class('dlg_add_pic_info');
@@ -52,6 +74,7 @@ $(function(){
 
         html_node.find(".share_s").hide();
         if (opt_type=="update") {
+
             pic_url=item.img_url;
             pic_img="<img width=100 src=\""+pic_url+"\" />";
             tag_url=item.img_tags_url;
@@ -82,6 +105,10 @@ $(function(){
             html_node.find(".add_jump_type").val(item.jump_type);
             html_node.find(".add_start_date").val(item.start_time);
             html_node.find(".add_end_date").val(item.end_time);
+            if ($('.add_jump_type') == 2 && $('.add_pic_usage_type').val() == 303) { // 删除视频选项
+                $(".add_jump_type option[value='1']").remove()
+            }
+
         }
 
         var title = "";
@@ -195,8 +222,8 @@ $(function(){
                         var info_share   = html_node.find(".add_info_share").val();
                         var start_time   = html_node.find(".add_start_date").val();
                         var end_time     = html_node.find(".add_end_date").val();
-                        if (!name) {
-                            alert('图片名称不能为空，请填写保持在30字符之后')
+                        if (!name || name.length > 30) {
+                            alert('图片名称不能为空并长度不能超过30字符');
                             return false;
                         }
                         if (!start_time) {

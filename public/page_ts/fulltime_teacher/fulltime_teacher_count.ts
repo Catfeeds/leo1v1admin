@@ -10,6 +10,7 @@ $(function(){
             end_time      : $('#id_end_time').val(),
             status        : $('#id_status').val(),
 		        actual_flag:	$('#id_actual_flag').val(),
+		        fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 
@@ -24,7 +25,10 @@ $(function(){
         }
     });
 
-    	$('#id_actual_flag').val(g_args.actual_flag);
+    Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type"),false,[1,2]);
+
+    $('#id_actual_flag').val(g_args.actual_flag);
+	  $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 
 
     // $("#id_data").on("click",function(){
@@ -84,6 +88,9 @@ $(function(){
     });
 
 
+    if(g_args.actual_flag ==1){
+        $("#id_opt_date_type").hide();
+    }
    
 
     $('.opt-change').set_input_change_event(load_data);
