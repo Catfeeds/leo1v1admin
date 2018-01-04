@@ -3916,4 +3916,34 @@ ORDER BY require_time ASC";
         return $this->main_get_list($sql);
     }
 
+    public function get_test_count_by_adminid($start_time,$end_time,$adminid=-1){
+        $where_arr=[
+            "accept_flag=1",
+            "require_admin_type=2",
+            "is_test_user=0",
+            "l.lesson_del_flag=0",
+        ];
+        $this->where_arr_add_int_field($where_arr,"cur_require_adminid",$adminid);
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql=$this->gen_sql_new(
+            " select cur_require_adminid as admin_revisiterid,count(*) test_lesson_count,"
+            ." sum(lesson_user_online_status in (0,1) or f.flow_status = 2) succ_all_count "
+            ." from %s tr "
+            ." left join %s l on tr.current_lessonid=l.lessonid "
+            ." left join %s tss on tr.current_lessonid=tss.lessonid "
+            ." left join %s t on tr.test_lesson_subject_id=t.test_lesson_subject_id "
+            ." left join %s s on l.userid=s.userid"
+            ." left join %s f on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 }

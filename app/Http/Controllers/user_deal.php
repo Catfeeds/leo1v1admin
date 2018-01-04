@@ -4092,6 +4092,7 @@ class user_deal extends Controller
         $arr['lesson_per'] = $res[$adminid]['lesson_per'];
         $arr['kpi'] = $res[$adminid]['kpi'];
         //月末定级
+        $start_time_this = $start_time;
         $ret_time = $this->t_month_def_type->get_all_list();
         foreach($ret_time as $item){//本月
             if($start_time_new>=$item['start_time'] && $start_time_new<$item['end_time']){
