@@ -65,8 +65,8 @@ class pdfConversionH5 extends Command
             $uuid = $item['uuid'];
             # 从未达下载
             $h5DownloadUrl  = "http://leo1v1.whytouch.com/export.php?uuid=".$uuid."&email=".$email."&pwd=".$pwd;
-            $saveH5FilePath = public_path('wximg').'/'.$uuid.".zip";
-            $unzipFilePath  =  public_path('wximg'); // 解压后的文件夹
+            $saveH5FilePath = public_path('ppt').'/'.$uuid.".zip";
+            $unzipFilePath  =  public_path('ppt'); // 解压后的文件夹
 
             $data=@file_get_contents($h5DownloadUrl);
             file_put_contents($saveH5FilePath, $data);
@@ -76,34 +76,28 @@ class pdfConversionH5 extends Command
             shell_exec($unzipShell);
 
             # 获取index.html中实际引用的文件
-            $indexFilePath = public_path('wximg')."/".$uuid."/index.html";
+            $indexFilePath = public_path('ppt')."/".$uuid."/index.html";
             $doneFilePath  = $indexFilePath;
             $link_arr = $this->dealHtml($indexFilePath, $doneFilePath);
-
-            \App\Helper\Utils::logger(" css_link_1: ".json_encode($link_arr['css']));
-            \App\Helper\Utils::logger(" js_link_1: ".json_encode($link_arr['js']));
 
             # 将需要的文件复制到文件夹中
             foreach($link_arr['css'] as $css_item){
                 $csPathFrom = public_path('pptfiles')."/".$css_item;
-                $csPathTo   = public_path('wximg')."/".$uuid."/".$css_item;
+                $csPathTo   = public_path('ppt')."/".$uuid."/".$css_item;
                 $cpCs = "cp $csPathFrom $csPathTo ";
                 shell_exec($cpCs);
             }
 
             foreach($link_arr['js'] as $js_item){
                 $jsPathFrom = public_path('pptfiles')."/".$js_item;
-                $jsPathTo   = public_path('wximg')."/".$uuid."/".$js_item;
+                $jsPathTo   = public_path('ppt')."/".$uuid."/".$js_item;
                 $cpJs = "cp $jsPathFrom $jsPathTo ";
                 shell_exec($cpJs);
             }
 
             # 重新打包压缩
-            $work_path= public_path('wximg');
-            $zip_new_resource = public_path('wximg')."/".$uuid."_leo.zip";
-
-            // $zip_new_file =$uuid;
-            // $zipCmd  = " cd $work_path/$uuid,  zip -r ../".$uuid.".zip * ";
+            $work_path= public_path('ppt');
+            $zip_new_resource = public_path('ppt')."/".$uuid."_leo.zip";
             $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo.zip * ";
             \App\Helper\Utils::exec_cmd($zipCmd);
 
@@ -183,7 +177,7 @@ class pdfConversionH5 extends Command
     }
 
 
-    function deldir($dir) {
+   public  function deldir($dir) {
         //先删除目录下的文件：
         $dh=opendir($dir);
         while ($file=readdir($dh)) {
@@ -192,7 +186,7 @@ class pdfConversionH5 extends Command
                 if(!is_dir($fullpath)) {
                     unlink($fullpath);
                 } else {
-                    deldir($fullpath);
+                    $this->deldir($fullpath);
                 }
             }
         }
