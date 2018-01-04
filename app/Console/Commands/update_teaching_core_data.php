@@ -638,6 +638,18 @@ class update_teaching_core_data extends Command
                     "fulltime_normal_stu_num" =>$fulltime_normal_stu_num ,
                     "platform_normal_stu_num" =>$platform_normal_stu_num,
                     "platform_teacher_count" =>$platform_teacher_count,
+                    "fulltime_teacher_count_wuhan" =>$fulltime_teacher_count_wuhan ,
+                    "fulltime_teacher_student_wuhan" =>$fulltime_teacher_student_wuhan,
+                    "fulltime_teacher_lesson_count_wuhan"=>$fulltime_teacher_lesson_count_wuhan,
+                    "fulltime_teacher_cc_lesson_wuhan"   =>$fulltime_teacher_cc_lesson_wuhan,
+                    "fulltime_teacher_cc_order_wuhan"    =>$fulltime_teacher_cc_order_wuhan,
+                    "fulltime_normal_stu_num_wuhan"      =>$fulltime_normal_stu_num_wuhan,
+                    "fulltime_teacher_count_shanghai" =>$fulltime_teacher_count_shanghai ,
+                    "fulltime_teacher_student_shanghai" =>$fulltime_teacher_student_shanghai,
+                    "fulltime_teacher_lesson_count_shanghai"=>$fulltime_teacher_lesson_count_shanghai,
+                    "fulltime_teacher_cc_lesson_shanghai"   =>$fulltime_teacher_cc_lesson_shanghai,
+                    "fulltime_teacher_cc_order_shanghai"    =>$fulltime_teacher_cc_order_shanghai,
+                    "fulltime_normal_stu_num_shanghai"      =>$fulltime_normal_stu_num_shanghai,
                 ]);
 
             }else{
@@ -732,6 +744,18 @@ class update_teaching_core_data extends Command
                     "fulltime_normal_stu_num" =>$fulltime_normal_stu_num ,
                     "platform_normal_stu_num" =>$platform_normal_stu_num,
                     "platform_teacher_count" =>$platform_teacher_count,
+                    "fulltime_teacher_count_wuhan" =>$fulltime_teacher_count_wuhan ,
+                    "fulltime_teacher_student_wuhan" =>$fulltime_teacher_student_wuhan,
+                    "fulltime_teacher_lesson_count_wuhan"=>$fulltime_teacher_lesson_count_wuhan,
+                    "fulltime_teacher_cc_lesson_wuhan"   =>$fulltime_teacher_cc_lesson_wuhan,
+                    "fulltime_teacher_cc_order_wuhan"    =>$fulltime_teacher_cc_order_wuhan,
+                    "fulltime_normal_stu_num_wuhan"      =>$fulltime_normal_stu_num_wuhan,
+                    "fulltime_teacher_count_shanghai" =>$fulltime_teacher_count_shanghai ,
+                    "fulltime_teacher_student_shanghai" =>$fulltime_teacher_student_shanghai,
+                    "fulltime_teacher_lesson_count_shanghai"=>$fulltime_teacher_lesson_count_shanghai,
+                    "fulltime_teacher_cc_lesson_shanghai"   =>$fulltime_teacher_cc_lesson_shanghai,
+                    "fulltime_teacher_cc_order_shanghai"    =>$fulltime_teacher_cc_order_shanghai,
+                    "fulltime_normal_stu_num_shanghai"      =>$fulltime_normal_stu_num_shanghai,
                 ]);
  
             }          
