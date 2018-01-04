@@ -10,7 +10,7 @@ interface GargsStatic {
 	page_count:	number;
 	account_role:	number;
 	cardid:	number;
-	day_new_user_flag:	number;//App\Enums\Eboolean
+	day_new_user_flag:	number;//枚举: App\Enums\Eboolean
 	tquin:	number;
 }
 declare module "g_args" {
@@ -21,6 +21,7 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	no_update_seller_level_flag	:any;
 	create_time	:any;
 	leave_member_time	:any;
 	become_member_time	:any;
@@ -68,8 +69,9 @@ tofile:
 /// <reference path="../g_args.d.ts/authority-manager_list_offline.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		assign_groupid:	$('#id_assign_groupid').val(),
 		assign_account_role:	$('#id_assign_account_role').val(),
 		creater_adminid:	$('#id_creater_adminid').val(),
@@ -81,11 +83,10 @@ function load_data(){
 		cardid:	$('#id_cardid').val(),
 		day_new_user_flag:	$('#id_day_new_user_flag').val(),
 		tquin:	$('#id_tquin').val()
-    });
+		});
 }
 $(function(){
 
-	Enum_map.append_option_list("boolean",$("#id_day_new_user_flag"));
 
 	$('#id_assign_groupid').val(g_args.assign_groupid);
 	$('#id_assign_account_role').val(g_args.assign_account_role);
@@ -96,7 +97,16 @@ $(function(){
 	$('#id_del_flag').val(g_args.del_flag);
 	$('#id_account_role').val(g_args.account_role);
 	$('#id_cardid').val(g_args.cardid);
-	$('#id_day_new_user_flag').val(g_args.day_new_user_flag);
+	$('#id_day_new_user_flag').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "day_new_user_flag",
+		"select_value" : g_args.day_new_user_flag,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_day_new_user_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_tquin').val(g_args.tquin);
 
 
@@ -114,6 +124,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_assign_groupid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["assign_groupid title", "assign_groupid", "th_assign_groupid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -121,6 +132,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_assign_account_role" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["assign_account_role title", "assign_account_role", "th_assign_account_role" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -128,6 +140,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_creater_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["creater_adminid title", "creater_adminid", "th_creater_adminid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -135,6 +148,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_uid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["uid title", "uid", "th_uid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -142,6 +156,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_user_info" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["user_info title", "user_info", "th_user_info" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -149,6 +164,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_has_question_user" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["has_question_user title", "has_question_user", "th_has_question_user" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -156,6 +172,9 @@ $(function(){
                 <input class="opt-change form-control" id="id_del_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["del_flag title", "del_flag", "th_del_flag" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -163,6 +182,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_account_role" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["account_role title", "account_role", "th_account_role" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -170,6 +190,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_cardid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["cardid title", "cardid", "th_cardid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -178,6 +199,7 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["day_new_user_flag title", "day_new_user_flag", "th_day_new_user_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -185,4 +207,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_tquin" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tquin title", "tquin", "th_tquin" ]])!!}
 */

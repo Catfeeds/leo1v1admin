@@ -105,10 +105,10 @@ $(function(){
             html_node.find(".add_jump_type").val(item.jump_type);
             html_node.find(".add_start_date").val(item.start_time);
             html_node.find(".add_end_date").val(item.end_time);
-            if ($('.add_pic_type') == 3 && $('.add_pic_usage_type').val() == 303) { // 删除视频选项
+            console.log(item.type + " : " + item.usage_type);
+            if (parseInt(item.usage_type) == 303) {
                 $(".add_jump_type option[value='1']").remove()
             }
-
         }
 
         var title = "";
@@ -138,16 +138,17 @@ $(function(){
                 $(".add_pic_usage_type").on("change", function() {
                     if ($(this).val() == 303) { // 删除视频选项
                         $(".add_jump_type option[value='1']").remove()
-
                     }
                 });
                 $('.add_jump_type').on("change", function() {
-                    if ($(this).val() == 2) {
-                        if ($('.add_pic_usage_type').val() == 302) {
+                    console.log(' jump_type: ' + $(this).val() + ' usage_type ' + parseInt($('.add_pic_usage_type').val()));
+                    alert(html_node.find(".add_pic_usage_type").val());
+                    if (parseInt($(this).val()) == 2) {
+                        if (html_node.find(".add_pic_usage_type").val() == 302) {
                             $('.add_jump_url').val('http://www.leo1v1.com/service_chat_panel.html');
                             $('.add_jump_url').attr("disabled","disabled");
                         }
-                        if ($('.add_pic_usage_type').val() == 303) {
+                        if (html_node.find(".add_pic_usage_type").val() == 303) {
                             $('.add_jump_url').val('http://m.leo1v1.com/chat.html');
                             $('.add_jump_url').attr("disabled","disabled");
                         }
@@ -157,6 +158,21 @@ $(function(){
                     }
                 });
 
+
+                                    custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
+                                    g_args.qiniu_upload_domain_url,true,
+                                    function (up, info, file){
+                                        console.log(info);
+                                        var res = $.parseJSON(info);
+                                        pic_url = g_args.qiniu_upload_domain_url + res.key;
+                                        pic_img="<img width=80 src=\""+pic_url+"\"/>";
+                                        html_node.find(".add_header_img").html(pic_img);
+                                        html_node.find(".pic_url").html(pic_url + "<button class='del_img'>删除</button>");
+                                        $('.del_img').on("click", function(){
+                                            html_node.find(".add_header_img").html('');
+                                            html_node.find(".pic_url").html('');
+                                        });
+                                    });
 
                 $('#id_upload_add_tmp').on('click', function() {
                     custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
@@ -320,6 +336,7 @@ $(function(){
 			      dataType :"json",
 			      data     :{"id":id},
             success: function(data){
+                console.log(data.ret_info);
                 do_add_or_update("update", data.ret_info);
             }
         });
