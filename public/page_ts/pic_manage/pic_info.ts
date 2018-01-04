@@ -2,6 +2,20 @@
 /// <reference path="../g_args.d.ts/pic_manage-pic_info.d.ts" />
 
 $(function(){
+        function load_data(){
+        $.reload_self_page({
+            pic_type       : $(".pic_type").val(),
+		        //usage_type : val
+            active_status: $("#active_status").val()
+        });
+	  }
+
+    $(".pic_type").val(g_args.pic_type);
+    //$(".usage_type").val(usage_type);
+    $("#active_status").val(g_args.active_status);
+    	  $('.opt-change').set_input_change_event(load_data);
+
+
     Enum_map.append_option_list("pic_type", $(".pic_type"));
     Enum_map.append_option_list("pic_type", $(".add_pic_type"),true);
     Enum_map.append_option_list("pic_jump_type", $(".add_jump_type"),true);
@@ -20,20 +34,28 @@ $(function(){
     set_select_option_list();
     $(".pic_usage_type").val(g_args.usage_type);
 
-    function load_data(val){
-        $.reload_self_page({
-            type       : $(".pic_type").val(),
-		        usage_type : val 
-        });
-	  }
+    // function load_data(){
+    //     $.reload_self_page({
+    //         type       : $(".pic_type").val(),
+		//         //usage_type : val
+    //         active_status: $("#active_status").val()
+    //     });
+	  // }
 
-    //筛选
-	  $(".pic_type").on("change",function(){
-		    load_data(-1);
-	  });
-	  $(".pic_usage_type").on("change",function(){
-		    load_data($(this).val());
-	  });
+    // $(".pic_type").val(g_args.type);
+    // //$(".usage_type").val(usage_type);
+    // $("#active_status").val(g_args.active_status);
+
+    // //筛选
+	  // $(".pic_type").on("change",function(){
+		//     load_data(-1);
+	  // });
+	  // $(".pic_usage_type").on("change",function(){
+		//     load_data($(this).val());
+	  // });
+    // $("#active_status").on("change", function() {
+    //     alert($(this).val())
+    // });
 
     var do_add_or_update = function( opt_type, item ){
         var html_txt = $.dlg_get_html_by_class('dlg_add_pic_info');

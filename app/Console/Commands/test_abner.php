@@ -130,27 +130,9 @@ class test_abner extends cmd_base
             fwrite($fp, '   ');
             fwrite($fp, @$item['teacher_name']);//2
             fwrite($fp, '   ');
-            fwrite($fp, @$item['test_lesson_count']);//3
+            fwrite($fp, @$item['all_test_lesson_count']);//3
             fwrite($fp, '   ');
-            fwrite($fp, @$item['regular_lesson_count']);//4
-            fwrite($fp, '   ');
-            fwrite($fp, @$item['no_notes_count']);//5
-            fwrite($fp, '   ');
-            fwrite($fp, @$item['test_lesson_later_count']);//6
-            fwrite($fp, '   ');
-            fwrite($fp, @$item['regular_lesson_later_count']);//7
-            fwrite($fp, '   ');
-            fwrite($fp, @$item['no_evaluation_count']);//8
-            fwrite($fp, '   ');
-            fwrite($fp, @$item['turn_class_count']);//9
-            fwrite($fp, '   ');
-            fwrite($fp, @$item['ask_for_leavel_count']);//10
-            fwrite($fp, '   ');
-            fwrite($fp, @$item['test_lesson_truancy_count']);//11
-            fwrite($fp, '   ');
-            fwrite($fp, @$item['regular_lesson_truancy_count']);//12
-            fwrite($fp, '   ');
-            fwrite($fp, @$item['turn_teacher_count']);//13
+            fwrite($fp, @$item['all_regular_lesson_count']);//13
             fwrite($fp, "\n");
         }
 

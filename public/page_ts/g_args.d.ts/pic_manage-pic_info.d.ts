@@ -1,6 +1,7 @@
 interface GargsStatic {
 	type:	number;
 	usage_type:	number;
+	active_status:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -51,7 +52,8 @@ function load_data(){
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
 		type:	$('#id_type').val(),
-		usage_type:	$('#id_usage_type').val()
+		usage_type:	$('#id_usage_type').val(),
+		active_status:	$('#id_active_status').val()
 		});
 }
 $(function(){
@@ -59,6 +61,7 @@ $(function(){
 
 	$('#id_type').val(g_args.type);
 	$('#id_usage_type').val(g_args.usage_type);
+	$('#id_active_status').val(g_args.active_status);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -84,6 +87,14 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["usage_type title", "usage_type", "th_usage_type" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">active_status</span>
+                <input class="opt-change form-control" id="id_active_status" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["active_status title", "active_status", "th_active_status" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

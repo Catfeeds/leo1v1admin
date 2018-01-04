@@ -97,10 +97,11 @@ class pdfConversionH5 extends Command
             }
 
             # 重新打包压缩
+            $work_path= public_path('wximg');
             $zip_new_resource = public_path('wximg')."/".$uuid.".zip";
-            $zip_new_file = public_path('wximg')."/".$uuid;
-            $zipCmd  = "zip $zip_new_resource $zip_new_file";
-            shell_exec($zipCmd);
+            // $zip_new_file =$uuid;
+            $zipCmd  = " cd $work_path/$uuid,  zip -r ../".$uuid.".zip * ";
+            \App\Helper\Utils::exec_cmd($zipCmd);
 
             # 使用七牛上传  七牛 资源域名 https://ybprodpub.leo1v1.com/
             $qiniu     = \App\Helper\Config::get_config("qiniu");

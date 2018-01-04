@@ -17,17 +17,30 @@
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">图片类型</span>
-                    <select class="form-control pic_type" >
+                    <select class="form-control pic_type opt-change" >
                     </select>
                 </div>
             </div>
+            <!-- <div class="col-xs-6 col-md-2">
+                 <div class="input-group ">
+                 <span class="input-group-addon">用途类型</span>
+                 <select class="form-control pic_usage_type">
+                 </select>
+                 </div>
+                 </div> -->
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
-                    <span class="input-group-addon">用途类型</span>
-                    <select class="form-control pic_usage_type">
+                    <span class="input-group-addon">活动状态</span>
+                    <select id="active_status" class="opt-change">>
+                        <option value="0">[全部]</option>
+                        <option value="1">待开始</option>
+                        <option value="2">已发布</option>
+                        <option value="3">已结束</option>
+                        <option value="4">已删除</option>
                     </select>
                 </div>
             </div>
+
             <div class="col-xs-2">
                 <div class="input-group input-group-btn ">
                     <button class="btn btn-primary add_pic_info">添加数据</button>
@@ -49,7 +62,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($info as $var)
+                @foreach ($table_data_list as $var)
 				            <tr>
                         @include('layouts.td_xs_opt')
                         <td>{{$var["id"]}} </td>
@@ -70,7 +83,7 @@
         </table>
         @include("layouts.page")
     </section>
-    <div class="dlg_add_pic_info">
+    <div class="dlg_add_pic_info" style="display:none">
         <table class="table table-bordered table-striped">
 	        <tbody>
                 <tr>
