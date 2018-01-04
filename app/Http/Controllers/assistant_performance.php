@@ -364,6 +364,7 @@ class assistant_performance extends Controller
             }
 
             $item["renw_reword"] =  $renw_reword;
+            $item["renw_price"] =  $renw_price;
 
 
             /*转介绍奖金*/
@@ -382,6 +383,8 @@ class assistant_performance extends Controller
 
             $cc_tran_reword = $cc_tran_num_reword+$cc_tran_price_reword;
             $item["cc_tran_reword"] = $cc_tran_reword;
+
+            $item["cc_tran_num"] = $cc_tran_num;
 
 
             /*扩课20%、停课15%、结课未续费5%*/
@@ -455,7 +458,10 @@ class assistant_performance extends Controller
             
         }
         // dd($ass_month);
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ass_month));
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ass_month),[
+            "start"=>date("Y-m-d H:i",$start_time),
+            "end"=>date("Y-m-d H:i",$end_time),
+        ]);
 
         //dd($ass_month);
         
@@ -507,7 +513,8 @@ class assistant_performance extends Controller
         $origin_userid     = $this->get_in_int_val("origin_userid", -1);          
         $order_adminid          = $this->get_in_adminid(-1);
         $assistantid       = $this->get_in_assistantid(-1);
-        $ret_info = $this->t_seller_student_new->get_assistant_origin_order_losson_list_all($start_time,$end_time,$opt_date_type, $studentid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid );
+        $sys_operator_type  = $this->get_in_int_val("sys_operator_type", 1);
+        $ret_info = $this->t_seller_student_new->get_assistant_origin_order_losson_list_all($start_time,$end_time,$opt_date_type, $studentid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid,$sys_operator_type );
 
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item, 'order_time','_str'); 

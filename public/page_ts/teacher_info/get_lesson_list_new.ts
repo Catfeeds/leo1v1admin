@@ -940,10 +940,11 @@ $(function(){
         Enum_map.append_option_list( "content_grasp", $content_grasp,true);
         Enum_map.append_option_list( "lesson_interact", $lesson_interact,true);
 
-        $.do_ajax("/tea_manage/get_stu_performance",{
+        $.do_ajax("/tea_manage/new_get_stu_performance",{
             "lessonid":lessonid
         },function(result){
             if(result.total_judgement){
+                console.table(result)
                 $total_judgement.val(result.total_judgement);
                 $homework_situation.val(result.homework_situation);
                 $content_grasp.val(result.content_grasp);
@@ -1002,7 +1003,7 @@ $(function(){
                         return ;
                     }
 
-                    $.do_ajax("/tea_manage/set_stu_performance", {
+                    $.do_ajax("/tea_manage/new_set_stu_performance", {
                         "lessonid"           : lessonid,
                         "total_judgement"    : $total_judgement.val(),
                         "homework_situation" : homework_situation,

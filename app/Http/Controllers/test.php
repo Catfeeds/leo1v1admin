@@ -44,12 +44,13 @@ class test extends Controller
         }
         //sleep(3);
 
-        return $this->pageOutJson(__METHOD__, $ret_info,[
+        return $this->pageView(__METHOD__, $ret_info,[
             "message" =>  "cur usrid:".$userid,
         ]);
     }
     public function get_user_list1(){
         $this->set_in_value("grade", 101);
+        //$sys_operator_uid= $this->get_account_id();
         //
         $this->html_hide_list_add([ "grade","opt_grade", "input_grade" ]);
         return $this->get_user_list();

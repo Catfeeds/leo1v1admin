@@ -14,8 +14,8 @@ function load_data(){
         sys_operator      : $("#id_sys_operator").val(),      
         teacherid         : $('#id_teacherid').val(),
 		    adminid            : $('#id_adminid').val(),
-        origin_userid     : $('#id_origin_userid').val()
-
+        origin_userid     : $('#id_origin_userid').val(),
+		    sys_operator_type:	$('#id_sys_operator_type').val()
     });
 }
 $(function(){
@@ -31,6 +31,7 @@ $(function(){
             load_data();
         }
     });
+    	$('#id_sys_operator_type').val(g_args.sys_operator_type);
        
     $("#id_sys_operator").val(g_args.sys_operator);
     $('#id_assistantid').val(g_args.assistantid);

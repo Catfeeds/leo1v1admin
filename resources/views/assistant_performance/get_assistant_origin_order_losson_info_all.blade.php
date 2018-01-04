@@ -36,6 +36,18 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">负责人类型</span>
+                        <select class="opt-change form-control" id="id_sys_operator_type" >
+                            <option value="-1">全部</option>
+                            <option value="1">助教</option>
+                            <option value="2">销售</option>
+                        </select>
+                    </div>
+                </div>
+
+
                
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">

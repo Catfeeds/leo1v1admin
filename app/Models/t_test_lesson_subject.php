@@ -806,6 +806,24 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         );
         return $this->main_get_row($sql);
     }
+
+    public function get_from_lesson_info_new($lessonid){
+        $where_arr = [
+            ["lessonid=%u",$lessonid,0]
+        ];
+        $sql = $this->gen_sql_new("select stu_test_paper,test_stu_request_test_lesson_demand as stu_request_test_lesson_demand "
+                                  ." from %s tl"
+                                  ." left join %s tr on tl.test_lesson_subject_id =tr.test_lesson_subject_id"
+                                  ." left join %s tls on tr.require_id=tls.require_id"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
     public function set_seller_student_status_by_userid($userid,  $seller_student_status ) {
         $sql=$this->gen_sql_new(
             "update  %s "

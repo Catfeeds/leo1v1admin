@@ -2119,7 +2119,7 @@ class user_manage_new extends Controller
             "group_list"=>$group_list,
             "user_list"=>$user_list,
             "list"=>$list,
-            "admin_id" => $admin_id
+            "groupid" => $groupid
         ]);
 
     }

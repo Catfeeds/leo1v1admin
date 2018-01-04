@@ -465,11 +465,24 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($detail_id=2);
-        dd('a');
-        $this->t_seller_new_count_get_detail->row_insert([
-        ]);
-        foreach([160911,160914,160916,160918,160919,160926,160927,160935,160936,160937,160938,160873,160874,160877,160878,160879,160883,160887,160893,160896,160900,160904,160905,160913,160915] as $item){
+        $month = strtotime('2017-12-01');
+        $db_groupid=$this->t_group_user_month->get_groupid_by_adminid($main_type=2,$adminid=975,$month);
+        dd($db_groupid);
+        list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
+        $time = time(null);
+        $ret_time = $this->t_month_def_type->get_all_list();
+        dd($ret_time);
+        foreach($ret_time as $item){//本月
+            if($time>=$item['start_time'] && $time<$item['end_time']){
+                $start_time = $item['start_time'];
+                $end_time = $item['end_time'];
+                break;
+            }
+        }
+        dd($start_time,$end_time);
+        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid=99);
+        dd($lesson_call_end);
+        foreach([160881,160884,160888,160890,160892,160894,160897,160898,160899,160899,160901,160902,160908,160910,160912,160917,160920,160922,160925,160929,160882,160886,160891,160895,160934,160933,160932,160931,160930] as $item){
             $id = $item;
             $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id);
         }
