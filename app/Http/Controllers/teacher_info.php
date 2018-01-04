@@ -189,7 +189,7 @@ class teacher_info extends Controller
             $teacherid,$userid,$start_time,$end_time,$lesson_type_in_str
         );
 
-        $trial_train_list = $this->t_lesson_info->get_trial_train_list($teacherid);
+        $trial_train_list = $this->t_lesson_info->get_trial_train_list_new($teacherid);
         $ret_info['list'] = array_merge($trial_train_list,$ret_info['list']);
 
         $train_from_lessonid_list = \App\Helper\Config::get_config("trian_lesson_from_lessonid","train_lesson");
