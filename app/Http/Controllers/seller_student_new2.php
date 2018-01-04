@@ -1678,7 +1678,6 @@ class seller_student_new2 extends Controller
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $adminid=$this->get_in_adminid();
         $month= date("Ym",$start_time);
-
         $call_count = $this->t_tq_call_info->get_call_count_by_adminid($start_time, $end_time,$adminid);
         $test_count = $this->t_test_lesson_subject_require->get_test_count_by_adminid($start_time,$end_time,$adminid);
         $order_count = $this->t_order_info->get_order_count_by_adminid($start_time,$end_time,$adminid);
