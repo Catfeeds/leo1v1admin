@@ -26,12 +26,36 @@ class Controller extends ControllerEx
     use ViewDeal;
     use InputDeal;
 
+
     function __construct()  {
         if ($this->check_login_flag ) {
             $this->check_login();
         }
         $this->setUpTraits();
     }
+    //保存要隐藏元素 列表
+    public $html_hide_list=[];
+
+    public function html_hide_list_add( $key ) {
+        if (is_array($key)) {
+            foreach ($key as $item) {
+                $this->html_hide_list[$item]= true;
+            }
+        }else{
+            $this->html_hide_list[$key]= true;
+        }
+    }
+
+    public function html_hide_list_del( $key ) {
+        if (is_array($key)) {
+            foreach ($key as $item) {
+                unset ( $this->html_hide_list[$item] ) ;
+            }
+        }else{
+            unset ( $this->html_hide_list[$key] ) ;
+        }
+    }
+
 
     // 用于 慢查询 的 域名, 免得 admin 返回504
     public function check_and_switch_tongji_domain() {
@@ -41,6 +65,7 @@ class Controller extends ControllerEx
                 header('Location: http://admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
                 exit;
             }
+            $this->switch_tongji_database();
         }
     }
 
@@ -126,6 +151,16 @@ class Controller extends ControllerEx
         return in_array(session("acc"), $arr ) ;
     }
 
+    public function get_action_str() {
+        $path= $this->get_in_str_val("_url");
+        \App\Helper\Utils::logger("path:$path");
+
+        if (preg_match("/\/([a-zA-Z0-9_]+)\/([a-zA-Z0-9_]+)/",$path, $matches)  )  {
+            return strtolower($matches[2]);
+        }else{
+            return "index" ;
+        }
+    }
     function get_account(){
         return  session("acc");
     }

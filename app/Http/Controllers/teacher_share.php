@@ -1,7 +1,21 @@
 <?php
 namespace App\Http\Controllers;
 
+use Teacher\Core\WeChatOAuth;
+
+use Teacher\Core\UserManage;
+
+use Teacher\Core\TemplateMessage;
+
+use Teacher\Core\Media;
+
+use Teacher\Core\AccessToken;
+
+
 use \App\Enums as E;
+
+include(app_path("Wx/Teacher/lanewechat_teacher.php"));
+
 
 
 class teacher_share extends Controller
@@ -115,6 +129,16 @@ class teacher_share extends Controller
         $start_time = strtotime("2017-12-23");
         $total = $this->t_teacher_christmas->get_total($start_time);
         $info = $this->t_teacher_christmas->get_all_list($start_time);
+
+        foreach($info as &$item){
+            // $userInfo = UserManage::getUserInfo($item['wx_openid']);
+            // $item['wx_nick'] = @$userInfo['nickname'];
+            $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
+        }
+
+
+
+
         return $this->pageView(__METHOD__, '', [
             'total' => $total,
             "info" => $info

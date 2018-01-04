@@ -46,20 +46,7 @@ class test_abner extends cmd_base
         $teacher_student_arr = [];
         $is_turn_teacher = 0;
         foreach($teacher_violation as $item){
-            if(@$teacher_student_arr[$item['userid']][$item['subject']]['teacherid']
-               && @$teacher_student_arr[$item['userid']][$item['subject']]['teacherid'] != $item['teacherid']
-               // && in_array($item['teacherid'],$teacher_student_arr[$item['userid']][$item['subject']])
-            ){
-                //该学生该课程的老师存在变更
-                $is_turn_teacher = 1;
-            }
-
-            $teacher_student_arr[$item['userid']][$item['subject']] = [
-                'teacherid' => $item['teacherid'],
-            ];
-
-            // $teacher_student_arr[$item['userid']][$item['subject']][] = $item['teacherid'];
-
+            
             if(!@$teacher_violation_arr[$item['teacherid']]){
                 //初始化每个老师的数据
                 $teacher_violation_arr[$item['teacherid']] = [
@@ -77,7 +64,26 @@ class test_abner extends cmd_base
                     'regular_lesson_truancy_count' => 0,
                     'turn_teacher_count' => 0
                 ];
+
+                $teacher_student_arr[$item['userid']][$item['subject']][] = $item['teacherid'];
             }
+
+            if(@isset($teacher_student_arr[$item['userid']][$item['subject']])
+               // && @$teacher_student_arr[$item['userid']][$item['subject']]['teacherid'] != $item['teacherid']
+               && !in_array($item['teacherid'],$teacher_student_arr[$item['userid']][$item['subject']])
+            ){
+                //该学生该课程的老师存在变更
+                $is_turn_teacher = 1;
+                $length = count($teacher_student_arr[$item['userid']][$item['subject']]);
+                $key = $length-1;
+                $err_teacher_id = $teacher_student_arr[$item['userid']][$item['subject']][$key];
+
+                $teacher_student_arr[$item['userid']][$item['subject']][] = $item['teacherid'];
+            }else{
+                $is_turn_teacher = 0;
+            }
+
+
 
             if($item['confirm_flag'] != 2 && $item['lesson_del_flag'] == 0 && $item['lesson_type'] == 2)
                 $teacher_violation_arr[$item['teacherid']]['test_lesson_count'] ++;
@@ -95,18 +101,20 @@ class test_abner extends cmd_base
                 $teacher_violation_arr[$item['teacherid']]['turn_class_count'] ++;
 
 
-            if($item['confirm_flag'] = 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 12)
+            if($item['confirm_flag'] == 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 12)
                 $teacher_violation_arr[$item['teacherid']]['ask_for_leavel_count'] ++;
-            if($item['confirm_flag'] = 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21 && $item['lesson_type'] == 2)
+            if($item['confirm_flag'] == 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21 && $item['lesson_type'] == 2)
                 $teacher_violation_arr[$item['teacherid']]['test_lesson_truancy_count'] ++;
-            if($item['confirm_flag'] = 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21  && in_array($item['lesson_type'],[0,1,3]))
+            if($item['confirm_flag'] == 2 && $item['lesson_del_flag'] == 0 && $item['lesson_cancel_reason_type'] == 21  && in_array($item['lesson_type'],[0,1,3]))
                 $teacher_violation_arr[$item['teacherid']]['regular_lesson_truancy_count'] ++;
 
-            if($is_turn_teacher == 1 && in_array($item['lesson_type'],[0,1,3]))
-                $teacher_violation_arr[$teacher_student_arr[$item['userid']][$item['subject']]['teacherid']]['turn_teacher_count'] ++;
+            if($is_turn_teacher == 1 && in_array($item['lesson_type'],[0,1,3])){
+                $teacher_violation_arr[$err_teacher_id]['turn_teacher_count'] ++;
+            }
 
 
         }
+
 
         //打印老师数据
         $path = '/var/www/admin.yb1v1.com/10.txt';

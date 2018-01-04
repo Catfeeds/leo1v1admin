@@ -12,6 +12,19 @@ use Qiniu\Auth;
 // 引入上传类
 use Qiniu\Storage\UploadManager;
 use Qiniu\Storage\BucketManager;
+use Teacher\Core\WeChatOAuth;
+
+use Teacher\Core\UserManage;
+
+use Teacher\Core\TemplateMessage;
+
+use Teacher\Core\Media;
+
+use Teacher\Core\AccessToken;
+
+
+include(app_path("Wx/Teacher/lanewechat_teacher.php"));
+
 
 require_once  app_path("/Libs/Qiniu/functions.php");
 require_once(app_path("/Libs/OSS/autoload.php"));
@@ -1063,7 +1076,6 @@ class wx_teacher_api extends Controller
             $resource_id_str = rtrim($resource_id_str,',');
             $ret_info['resource_id_str'] = $resource_id_str;
 
-
             $hasResourceId = $this->t_lesson_info_b3->getResourceId($lessonid);
             if($hasResourceId>0){
                 $ret_info['handout_flag'] = 1;
@@ -1179,20 +1191,14 @@ class wx_teacher_api extends Controller
             "tea_cw_pic"      => $filelinks,
             "tea_cw_status"   => 1,
             "stu_cw_status"   => 1
-
         ]);
 
-        $this->t_homework_info->updateWorkStatus($lessonid);
-
-        // if($pdfToImg){
-            // $this->t_pdf_to_png_info->row_insert([
-            //     'lessonid'    => $lessonid,
-            //     'pdf_url'     => $pdfToImg,
-            //     'create_time' => time(),
-            //     'origin_id'   => 1
-            // ]);
-        // }
-
+        $courseid = $this->t_lesson_info->get_courseid($lessonid);
+        $this->t_homework_info->field_update_list($courseid, [
+            "work_status"   => 1,
+            "issue_origin"  => 3,
+            "issue_file_id" => $stuFileId
+        ]);
         return $this->output_succ();
     }
 
@@ -1533,7 +1539,8 @@ class wx_teacher_api extends Controller
     public function getShareDate(){
         $openid = $this->get_in_str_val('openid');
 
-        $ret_info = $this->t_teacher_christmas->getChriDate($openid);
+        $start_time = strtotime("2017-12-23");
+        $ret_info = $this->t_teacher_christmas->getChriDate($openid,$start_time);
         $ret_info['totalList'] = $this->t_teacher_christmas->getTotalList();
         $ret_info['end_time'] = strtotime('2018-1-2')-time();
         $phone = $this->t_teacher_info->get_phone_by_wx_openid($openid);
@@ -1549,6 +1556,9 @@ class wx_teacher_api extends Controller
                 $ret_info['ranking'] = $i+1;
             }
             $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
+
+            // $userInfo = UserManage::getUserInfo($item['wx_openid']);
+            // $item['wx_nick'] = @$userInfo['nickname'];
         }
 
         $ret_info['ranking'] = $ret_info['ranking']?$ret_info['ranking']:0;

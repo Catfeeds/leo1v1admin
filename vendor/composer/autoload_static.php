@@ -7,11 +7,11 @@ namespace Composer\Autoload;
 class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
 {
     public static $files = array (
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '1d1b89d124cc9cb8219922c9d5569199' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
-        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
+        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
@@ -21,9 +21,17 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
     );
 
     public static $prefixLengthsPsr4 = array (
+        'p' => 
+        array (
+            'phpDocumentor\\Reflection\\' => 25,
+        ),
         'X' => 
         array (
             'XdgBaseDir\\' => 11,
+        ),
+        'W' => 
+        array (
+            'Webmozart\\Assert\\' => 17,
         ),
         'S' => 
         array (
@@ -52,6 +60,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'P' => 
         array (
             'Psy\\' => 4,
+            'Psr\\Log\\' => 8,
             'Proto\\agent_api\\' => 16,
             'Predis\\' => 7,
             'PhpParser\\' => 10,
@@ -76,9 +85,12 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         array (
             'Dotenv\\' => 7,
             'Doctrine\\Instantiator\\' => 22,
+            'Doctrine\\Common\\Cache\\' => 22,
+            'Doctrine\\Common\\' => 16,
         ),
         'C' => 
         array (
+            'Cron\\' => 5,
             'ClassPreloader\\' => 15,
             'Carbon\\' => 7,
         ),
@@ -89,9 +101,19 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
     );
 
     public static $prefixDirsPsr4 = array (
+        'phpDocumentor\\Reflection\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+        ),
         'XdgBaseDir\\' => 
         array (
             0 => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src',
+        ),
+        'Webmozart\\Assert\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/webmozart/assert/src',
         ),
         'Symfony\\Polyfill\\Util\\' => 
         array (
@@ -169,6 +191,10 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         array (
             0 => __DIR__ . '/..' . '/psy/psysh/src/Psy',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'Proto\\agent_api\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/proto/agent_api/Proto/agent_api',
@@ -205,6 +231,18 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
         ),
+        'Doctrine\\Common\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
+        ),
+        'Doctrine\\Common\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
+        ),
+        'Cron\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron',
+        ),
         'ClassPreloader\\' => 
         array (
             0 => __DIR__ . '/..' . '/classpreloader/classpreloader/src',
@@ -220,19 +258,15 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
     );
 
     public static $prefixesPsr0 = array (
-        'p' => 
+        'z' => 
         array (
-            'phpDocumentor' => 
+            'zedisdog\\LaravelSchemaExtend' => 
             array (
-                0 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+                0 => __DIR__ . '/..' . '/zedisdog/laravel-schema-extend/src',
             ),
         ),
         'P' => 
         array (
-            'Psr\\Log\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psr/log',
-            ),
             'Prophecy\\' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
@@ -262,16 +296,25 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         ),
         'D' => 
         array (
+            'Doctrine\\DBAL\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/dbal/lib',
+            ),
+            'Doctrine\\Common\\Lexer\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
+            ),
             'Doctrine\\Common\\Inflector\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/inflector/lib',
             ),
-        ),
-        'C' => 
-        array (
-            'Cron' => 
+            'Doctrine\\Common\\Collections\\' => 
             array (
-                0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src',
+                0 => __DIR__ . '/..' . '/doctrine/collections/lib',
+            ),
+            'Doctrine\\Common\\Annotations\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/annotations/lib',
             ),
         ),
     );
@@ -424,6 +467,13 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
         'IlluminateQueueClosure' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
         'ModifyIndexToTOriginKey' => __DIR__ . '/../..' . '/database/migrations/2017_12_01_094720_modify_index_to_t_origin_key.php',
+        'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/Assert.php',
+        'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/AssertionFailedError.php',
+        'PHPUnit\\Framework\\BaseTestListener' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/BaseTestListener.php',
+        'PHPUnit\\Framework\\Test' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/Test.php',
+        'PHPUnit\\Framework\\TestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/TestCase.php',
+        'PHPUnit\\Framework\\TestListener' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/TestListener.php',
+        'PHPUnit\\Framework\\TestSuite' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/TestSuite.php',
         'PHPUnit_Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit_Extensions_GroupTestSuite' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/GroupTestSuite.php',
         'PHPUnit_Extensions_PhptTestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/PhptTestCase.php',
@@ -751,6 +801,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'PHP_Token_NEW' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_NS_C' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_NS_SEPARATOR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PHP_Token_NULLSAFE_OBJECT_OPERATOR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_NUM_STRING' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_OBJECT_CAST' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_OBJECT_OPERATOR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
@@ -788,6 +839,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'PHP_Token_STRING' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_STRING_CAST' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_STRING_VARNAME' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PHP_Token_SUPER' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_SWITCH' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_Stream' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token/Stream.php',
         'PHP_Token_Stream_CachingFactory' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token/Stream/CachingFactory.php',
@@ -802,6 +854,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'PHP_Token_UNSET' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_UNSET_CAST' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_USE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PHP_Token_USE_FUNCTION' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_VAR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_VARIABLE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_WHERE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
@@ -919,6 +972,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TLessonInfoAddColum' => __DIR__ . '/../..' . '/database/migrations/2017_12_08_105733_t_lesson_info_add_colum.php',
         'TLessonInfoAddOnWheatFlag' => __DIR__ . '/../..' . '/database/migrations/2017_10_27_101107_t_lesson_info_add_on_wheat_flag.php',
         'TLessonInfoAddOperateTimeIndex' => __DIR__ . '/../..' . '/database/migrations/2017_10_21_122844_t_lesson_info_add_operate_time_index.php',
+        'TLessonInfoAddPpt' => __DIR__ . '/../..' . '/database/migrations/2018_01_03_181649_t_lesson_info_add_ppt.php',
         'TLessonInfoAddTeaCwOrigin' => __DIR__ . '/../..' . '/database/migrations/2017_12_19_182608_t_lesson_info_add_tea_cw_origin.php',
         'TLessonInfoAddTeacherType' => __DIR__ . '/../..' . '/database/migrations/2017_12_16_164143_t_lesson_info_add_teacher_type.php',
         'TLessonInfoResetZipUrl' => __DIR__ . '/../..' . '/database/migrations/2017_12_29_120318_t_lesson_info_reset_zip_url.php',
@@ -1061,6 +1115,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TTqCallInfoAddIndexAdminRole' => __DIR__ . '/../..' . '/database/migrations/2017_11_08_134149_t_tq_call_info_add_index_admin_role.php',
         'TTqCallInfoAddIndexAdminid' => __DIR__ . '/../..' . '/database/migrations/2017_11_28_181501_t_tq_call_info_add_index_adminid.php',
         'TTqCallInfoAddObjStartTime' => __DIR__ . '/../..' . '/database/migrations/2017_10_09_182200_t_tq_call_info_add_obj_start_time.php',
+        'TUrlDescPower' => __DIR__ . '/../..' . '/database/migrations/2018_01_03_143050_t_url_desc_power.php',
         'TUserInfoPasswdMd5Two' => __DIR__ . '/../..' . '/database/migrations/2017_11_23_164411_t_user_info_passwd_md5_two.php',
         'TUserLog' => __DIR__ . '/../..' . '/database/migrations/2017_10_24_132146_t_user_log.php',
         'TVersionControl' => __DIR__ . '/../..' . '/database/migrations/2017_11_29_155922_t_version_control.php',

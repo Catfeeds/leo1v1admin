@@ -369,6 +369,52 @@ class test_jack  extends Controller
     }
 
     public function test_period(){
+        // $day_time =  strtotime("2018-01-02");
+        // $festival_info = $this->t_festival_info->get_festival_info_by_end_time($day_time);
+        // $festival_day_str = date("Y-m-d H:i:s",$festival_info["begin_time"])." ~ ".date("Y-m-d 22:i:s",$festival_info["end_time"]);
+
+        // $add_time = strtotime("2018-01-01");
+        // $attendance_type = 3;
+        // $arr = $this->t_fulltime_teacher_attendance_list->get_festaival_info( $add_time,$attendance_type);
+        // foreach ($arr as $key => $value) {
+        //     /**
+        //      * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+        //      * 标题课程 : 待办事项提醒
+        //      * {{first.DATA}}
+        //      * 待办主题：{{keyword1.DATA}}
+        //      * 待办内容：{{keyword2.DATA}}
+        //      * 日期：{{keyword3.DATA}}
+        //      * {{remark.DATA}}
+        //      */
+
+        //     $holiday_hugh_time_arr = json_decode($value["holiday_hugh_time"],true);
+        //     $holiday_hugh_time_str = date("Y.m.d",@$holiday_hugh_time_arr["start"])."-".date("Y.m.d",@$holiday_hugh_time_arr["end"]);
+
+        //     $lesson_count = $value["lesson_count"]/100;
+        //     $data=[];
+        //     $url = "";
+        //     $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+        //     $data['first']    =  $festival_info["name"]."延休统计";
+        //     $data['keyword1'] = "延休数据汇总";
+        //     $data['keyword2'] = "\n老师:".$value['realname'].
+        //                         "\n时间:".$festival_day_str.
+        //                         "\n累计上课课时:".$lesson_count.
+        //                       "\n延休天数:".$value['day_num'].
+        //                       "\n延休日期:".$holiday_hugh_time_str;
+
+        //     $data['keyword3'] = date("Y-m-d H:i",time());
+        //     $data['remark']   = ""; 
+        //     // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+        //     $wx_openid = $value["wx_openid"];
+        
+        //     \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+ 
+        // }
+        // dd($arr);
+
+       
+
+
          $page_info= $this->get_in_page_info();
         $grade=$this->get_in_el_grade();
         $ret_info=$this->t_student_info->get_test_list($page_info, $grade );

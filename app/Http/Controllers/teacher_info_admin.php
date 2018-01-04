@@ -93,6 +93,12 @@ class teacher_info_admin extends Controller
     public function get_teacher_info_for_js(){
         $teacherid = $this->get_in_teacherid();
         $tea_info  = $this->t_teacher_info->get_teacher_info_all($teacherid);
+        $arr_text= explode(",",@$tea_info["teacher_textbook"]);
+        foreach($arr_text as $vall){
+            @$tea_info["textbook"] .=  E\Eregion_version::get_desc ($vall).",";
+        }
+        @$tea_info["textbook"] = trim($tea_info["textbook"],",");
+
         return $this->output_succ(["data"=>$tea_info]);
     }
 

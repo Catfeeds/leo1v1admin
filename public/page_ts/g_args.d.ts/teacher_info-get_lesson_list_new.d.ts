@@ -62,10 +62,8 @@ interface RowData {
 	grade_str	:any;
 	lesson_time	:any;
 	tea_comment_str	:any;
-	cc_id	:any;
-	ass_nick	:any;
 	stu_nick	:any;
-	tea_comment	:any;
+	ass_nick	:any;
 	pdf_status_str	:any;
 }
 

@@ -1,6 +1,6 @@
 <?php
 namespace App\Config;
-class menu{
+class class_menu{
    static  public  function get_config()  {
         return [
 

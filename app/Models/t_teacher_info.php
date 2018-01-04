@@ -875,7 +875,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_info($teacherid){
-        $sql = $this->gen_sql(
+        $sql = $this->gen_sql_new(
             "select teacherid,train_through_new_time,is_quit,teacher_money_type,level,wx_openid,email,"
             ." teacher_type,teacher_ref_type,create_time,identity,phone,realname,nick,"
             ." gender,birth,address,face,grade_part_ex,bankcard,teacher_money_flag,transfer_teacherid,transfer_time,"
@@ -4904,7 +4904,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     //@param:$end_time 结束时间
     public function get_teacher_violation($begin_time,$end_time){
         $where_arr =[
-            'ti.teacher_type = 1',
+            'ti.teacher_type <> 3',
         ];
         $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $begin_time, $end_time);
         $sql = $this->gen_sql_new(

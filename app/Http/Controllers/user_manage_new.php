@@ -1195,7 +1195,7 @@ class user_manage_new extends Controller
 
         $len = count($menu);
         $i = 1;
-        $info = '';
+        $info = [];
         foreach($menu as &$item) { // 生成树对应的数据
             $k1 = $i;
             $item['id'] = $k1;
@@ -4416,7 +4416,7 @@ class user_manage_new extends Controller
                 E\Eattendance_type::set_item_value_str($item);
                 if($item["holiday_hugh_time"]){
                     $holiday_hugh_time_arr = json_decode($item["holiday_hugh_time"],true);
-                    $item["holiday_hugh_time_str"] = date("Y-m-d",@$holiday_hugh_time_arr["start"])."-".date("Y-m-d",@$holiday_hugh_time_arr["end"]);
+                    $item["holiday_hugh_time_str"] = date("Y.m.d",@$holiday_hugh_time_arr["start"])."-".date("Y.m.d",@$holiday_hugh_time_arr["end"]);
                     $item["holiday_start_time"] = @$holiday_hugh_time_arr["start"];
                 }else{
                     $item["holiday_hugh_time_str"]="";

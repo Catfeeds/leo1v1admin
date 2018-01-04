@@ -1516,9 +1516,6 @@ class seller_student_new extends Controller
             $limit_arr=array( [0, 6*60]);
             //$limit_arr=array( [0, 10*60 ] );
         }
-        if(date('Y-m-d',time()) == '2017-12-29'){
-            $limit_arr=array( [0, 12*60+30]);
-        }
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
         $this->set_filed_for_js("seller_level",$seller_level);
         $success_flag=true;
