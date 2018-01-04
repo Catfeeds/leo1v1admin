@@ -417,8 +417,6 @@ class agent extends Controller
     }
 
     public function check(){
-        $level11 = $this->t_seller_edit_log->get_11_level($adminid=99);
-        dd($level11);
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $account_role = E\Eaccount_role::V_2;
         $ret_info = $this->t_manager_info->get_seller_list_new_two($account_role);
