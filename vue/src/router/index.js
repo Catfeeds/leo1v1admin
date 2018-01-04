@@ -12,8 +12,6 @@ Vue.use(Router)
 export const constantRouterMap = [
   { path: '/test/get_user_list', component: _import_ts('test/get_user_list')  },
   { path: '/test/get_user_list1', component: _import_ts('test/get_user_list1')  },
-  { path: '/test_jack/get_user_list', component: _import_ts('test_jack/get_user_list')  },
-  { path: '/test_jack/get_user_list1', component: _import_ts('test_jack/get_user_list1')  },
 
   { path: '*', component: _import('404')  }
 ]
