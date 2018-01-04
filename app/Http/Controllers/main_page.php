@@ -580,9 +580,7 @@ class main_page extends Controller
     public function seller_gold_room()
     {
         $order_by_str = $this->get_in_str_val('order_by_str','');
-        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        // dd($start_time,$end_time);
-        // list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
+        list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
         $time = time(null);
         $ret_time = $this->t_month_def_type->get_all_list();
         foreach($ret_time as $item){//本月
@@ -633,6 +631,7 @@ class main_page extends Controller
             $is_group_leader_flag = 0;
         }
         $self_info= $this->t_order_info->get_1v1_order_seller($this->get_account(),$start_time,$end_time );
+        dd($start_time,$end_time);
         $ret_info= $this->t_order_info->get_1v1_order_seller_list_new($start_time,$end_time);
         $groupid =$this->get_in_int_val("groupid",-1);
         if($groupid == -1) {
