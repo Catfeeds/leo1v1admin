@@ -7,6 +7,11 @@
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <script type="text/javascript" src="/js/all.js"></script>
+    <style>
+     .modal-content {
+         width: 800px;
+     }
+    </style>
     <section class="content">
         <div class="row">
             <div class="col-xs-6 col-md-2">
@@ -65,12 +70,13 @@
         </table>
         @include("layouts.page")
     </section>
-    <div class="dlg_add_pic_info" style="display:none">
+    <div class="dlg_add_pic_info">
         <table class="table table-bordered table-striped">
 	        <tbody>
                 <tr>
 			        <td style="text-align:right; width:150px;">图片类型</td>
 			        <td>
+                  
                         <select class="add_pic_type ">
                         </select>
                     </td>
