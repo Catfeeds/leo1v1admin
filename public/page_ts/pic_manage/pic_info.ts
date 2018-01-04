@@ -129,8 +129,7 @@ $(function(){
 
 
                 $('#id_upload_add_tmp').on('click', function() {
-                    alert('调用成功');
-                                    custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
+                    custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
                                     g_args.qiniu_upload_domain_url,true,
                                     function (up, info, file){
                                         console.log(info);
