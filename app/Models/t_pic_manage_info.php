@@ -9,7 +9,7 @@ class t_pic_manage_info extends \App\Models\Zgen\z_t_pic_manage_info
         parent::__construct();
     }
 
-    public function get_pic_info_list($type,$usage_type,$active_status=0,$page_num){
+    public function get_pic_info_list($type,$usage_type=-1,$active_status=0,$page_num){
         $where_str = [
             [ "type=%d", $type, -1 ],
             [ "usage_type=%d", $usage_type, -1 ],
