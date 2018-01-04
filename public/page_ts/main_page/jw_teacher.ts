@@ -48,10 +48,11 @@ $(function(){
     show_top( $("#id_per_count_list > tr")) ;
     
 
+    var d = new Date();
+    var hour = d.getHours();  
     $(".order_lesson").on("click",function(){
         var adminid = $(this).data("adminid");
-        var d = new Date();
-        var hour = d.getHours();       
+            
         console.log(adminid);
         if(adminid > 0 && (( hour>=9 &&  hour<10) || ( hour>=18 &&  hour<19))){           
             var title = "课程详情";
@@ -104,7 +105,7 @@ $(function(){
     $(".tra_count_green").on("click",function(){
         var adminid = $(this).data("adminid");
         console.log(adminid);
-        if(adminid > 0){           
+        if(adminid > 0 && (( hour>=9 &&  hour<10) || ( hour>=18 &&  hour<19))){           
             var title = "绿色通道课程详情";
             var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>lessonid</td><td>时间</td><td>老师</td><td>学生</td><td>年级</td><td>科目</td></tr></table></div>");
 
@@ -147,6 +148,9 @@ $(function(){
 
             dlg.getModalDialog().css("width","1024px");
 
+        }else{
+
+            BootstrapDialog.alert("请在上午9点到10点或者晚上18点到19点查看!");
         }
         
     });
@@ -156,7 +160,7 @@ $(function(){
     $(".tra_count_seller").on("click",function(){
         var adminid = $(this).data("adminid");
         console.log(adminid);
-        if(adminid > 0){           
+        if(adminid > 0 && (( hour>=9 &&  hour<10) || ( hour>=18 &&  hour<19))){           
             var title = "销售课程详情";
             var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>lessonid</td><td>时间</td><td>老师</td><td>学生</td><td>年级</td><td>科目</td></tr></table></div>");
 
@@ -199,13 +203,15 @@ $(function(){
 
             dlg.getModalDialog().css("width","1024px");
 
+        }else{
+            BootstrapDialog.alert("请在上午9点到10点或者晚上18点到19点查看!");
         }
         
     });
     $(".tra_count_ass").on("click",function(){
         var adminid = $(this).data("adminid");
         console.log(adminid);
-        if(adminid > 0){           
+        if(adminid > 0 && (( hour>=9 &&  hour<10) || ( hour>=18 &&  hour<19))){           
             var title = "助教课程详情";
             var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>lessonid</td><td>时间</td><td>老师</td><td>学生</td><td>年级</td><td>科目</td></tr></table></div>");
 
@@ -248,6 +254,8 @@ $(function(){
 
             dlg.getModalDialog().css("width","1024px");
 
+        }else{
+            BootstrapDialog.alert("请在上午9点到10点或者晚上18点到19点查看!");
         }
         
     });
@@ -255,7 +263,7 @@ $(function(){
     $(".top_count").on("click",function(){
         var adminid = $(this).data("adminid");
         console.log(adminid);
-        if(adminid > 0){           
+        if(adminid > 0 && (( hour>=9 &&  hour<10) || ( hour>=18 &&  hour<19))){           
             var title = "精排详情";
             var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>状态</td><td>lessonid</td><td>时间</td><td>老师</td><td>维度</td><td>学生</td><td>年级</td><td>科目</td></tr></table></div>");
 
@@ -297,6 +305,8 @@ $(function(){
 
             dlg.getModalDialog().css("width","1024px");
 
+        }else{
+            BootstrapDialog.alert("请在上午9点到10点或者晚上18点到19点查看!");
         }
         
     });
@@ -304,7 +314,7 @@ $(function(){
     $(".tran_count_seller_top").on("click",function(){
         var adminid = $(this).data("adminid");
         console.log(adminid);
-        if(adminid > 0){           
+        if(adminid > 0 && (( hour>=9 &&  hour<10) || ( hour>=18 &&  hour<19))){           
             var title = "精排转化详情";
             var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>状态</td><td>lessonid</td><td>时间</td><td>老师</td><td>维度</td><td>学生</td><td>年级</td><td>科目</td><td>咨询师</td></tr></table></div>");
 
@@ -347,6 +357,8 @@ $(function(){
 
             dlg.getModalDialog().css("width","1024px");
 
+        }else{
+            BootstrapDialog.alert("请在上午9点到10点或者晚上18点到19点查看!");
         }
         
     });
@@ -354,7 +366,7 @@ $(function(){
     $(".order_num").on("click",function(){
         var adminid = $(this).data("adminid");
         console.log(adminid);
-        if(adminid > 0){           
+        if(adminid > 0 && (( hour>=9 &&  hour<10) || ( hour>=18 &&  hour<19))){           
             var title = "签单详情";
             var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>状态</td><td>lessonid</td><td>时间</td><td>老师</td><td>维度</td><td>学生</td><td>年级</td><td>科目</td><td>咨询师</td></tr></table></div>");
 
@@ -397,6 +409,8 @@ $(function(){
 
             dlg.getModalDialog().css("width","1024px");
 
+        }else{
+            BootstrapDialog.alert("请在上午9点到10点或者晚上18点到19点查看!");
         }
         
     });
