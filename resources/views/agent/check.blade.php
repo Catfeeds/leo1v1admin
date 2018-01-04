@@ -80,8 +80,8 @@
                         <td class="require_lesson_count"></td>
                         <td class="order_count"></td>
                         <td class="refund_count"></td>
-                        <td class="11_level"></td>
-                        <td class="12_level"></td>
+                        <td class="level11"></td>
+                        <td class="level12"></td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
