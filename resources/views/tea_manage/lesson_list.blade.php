@@ -352,8 +352,6 @@
                                 <a class="btn fa fa-qrcode  opt-qr-pad-new "
                                    data-type="leoedu://video.leoedu.com/video="
                                    title="视频播放二维码——新版" > </a>
-
-                                <a class="btn fa fa-print opt-add-error" title="写入错误信息"></a>
                                 @if($var['lesson_type']==2)
                                     <a class="btn fa fa-gavel opt-confirm-test" title="确认课时"></a>
                                 @else
