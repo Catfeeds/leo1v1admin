@@ -1,6 +1,6 @@
 <?php
 namespace App\Config\url_desc_power\test;
-class  get_student_list{
+class  tongji_seller_test_lesson_order_info_zs{
     static function get_config(){
         return [
             ["opt_grade", "显示 编辑年级"  ],
