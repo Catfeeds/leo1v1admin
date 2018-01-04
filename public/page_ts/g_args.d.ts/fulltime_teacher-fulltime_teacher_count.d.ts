@@ -1,4 +1,5 @@
 interface GargsStatic {
+	actual_flag:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -27,6 +28,7 @@ function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
+		actual_flag:	$('#id_actual_flag').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -46,6 +48,7 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
+	$('#id_actual_flag').val(g_args.actual_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -55,6 +58,14 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">actual_flag</span>
+                <input class="opt-change form-control" id="id_actual_flag" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["actual_flag title", "actual_flag", "th_actual_flag" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}

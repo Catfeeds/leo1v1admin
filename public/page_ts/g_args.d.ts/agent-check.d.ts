@@ -4,8 +4,6 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	page_num:	number;
-	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -15,19 +13,25 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	userid	:any;
-	phone	:any;
-	origin	:any;
-	add_time	:any;
-	global_tq_called_flag	:any;
-	last_succ_test_lessonid	:any;
-	adminid	:any;
-	key0	:any;
-	account	:any;
+	main_type	:any;
+	first_group_name	:any;
+	up_group_name	:any;
 	group_name	:any;
-	is_called_str	:any;
-	is_suc_test_str	:any;
-	is_order_str	:any;
+	account	:any;
+	main_type_class	:any;
+	first_group_name_class	:any;
+	up_group_name_class	:any;
+	group_name_class	:any;
+	account_class	:any;
+	level	:any;
+	become_member_time	:any;
+	leave_member_time	:any;
+	del_flag	:any;
+	main_type_str	:any;
+	seller_level_str	:any;
+	del_flag_str	:any;
+	become_member_num	:any;
+	leave_member_num	:any;
 }
 
 /*
@@ -75,6 +79,4 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */
