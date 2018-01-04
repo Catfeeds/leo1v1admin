@@ -278,6 +278,7 @@ class authority extends Controller
         $time     = strtotime($time_str);
         $set_arr['del_flag'] = $del_flag;
         if($del_flag==1){
+            dd($time_str);
             $set_arr['tquin'] = null;
             $set_arr['call_phone_type'] = 0;
             $set_arr['call_phone_passwd'] = '';
