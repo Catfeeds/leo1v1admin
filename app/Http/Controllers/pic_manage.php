@@ -71,7 +71,7 @@ class pic_manage extends Controller
         $jump_type   = $this->get_in_int_val('jump_type');
 
         $start = strtotime($start_time);
-        $end   = strtotime("+1 day",strtotime($end_time));
+        $end   = strtotime(strtotime($end_time));
 
         $ret_info=$this->t_pic_manage_info->add_pic_info($opt_type,$id,$name,$type,$usage_type,
                                                          $pic_url,$tag_url,$click_status,$order_by,$grade,

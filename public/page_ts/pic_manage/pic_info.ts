@@ -205,6 +205,10 @@ $(function(){
                             alert("请选择结束时间");
                             return false;
                         }
+                        if (start_time >= end_time) {
+                            alert("结束时间必须大于开始时间");
+                            return false;
+                        }
                         if (click_status == 1) { //处理可点击
                             if (!jump_url) {
                                 alert("请输入跳转地址");
