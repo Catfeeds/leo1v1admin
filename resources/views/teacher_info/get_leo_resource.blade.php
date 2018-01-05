@@ -8,8 +8,8 @@
      var tag_two = '{{$tag_info['tag_two']['menu']}}';
      var tag_three = '{{$tag_info['tag_three']['menu']}}';
      var tag_four = '{{$tag_info['tag_four']['menu']}}';
-     var tea_sub = {{ @$tea_sub }};
-     var tea_gra = {{ @$tea_gra }};
+     var tea_sub = {!! @$tea_sub!!} ;
+     var tea_gra = {!! @$tea_gra !!};
      var book = {{@$book}};
     </script>
     <section class="content li-section">
