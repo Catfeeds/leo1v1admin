@@ -101,7 +101,7 @@ class test_jack  extends Controller
 
     public function test_tt(){
         // $file = fopen("/home/jack/222.csv","r");
-        $file = fopen("/home/ybai/222.csv","r");
+        $file = fopen("/home/ybai/333.csv","r");
         $goods_list=[];
         $i=0; 
         while ($data = fgetcsv($file)) { //每次读取CSV里面的一行内容
