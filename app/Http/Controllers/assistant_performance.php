@@ -352,7 +352,7 @@ class assistant_performance extends Controller
             $renw_per = $renw_target>0?( $renw_price/$renw_target*100):0;
             $renw_reword = 0;
             if($renw_per>=120){
-                $renw_reword = $renw_target*0.04+($renw_price-$renw_target)*0.05;
+                $renw_reword = $renw_target*1.2*0.04+($renw_price-$renw_target*1.2)*0.05;
             }elseif($renw_per>=100){
                 $renw_reword = $renw_price*0.04;
             }elseif($renw_per>=75){
