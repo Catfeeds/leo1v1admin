@@ -374,6 +374,7 @@ class login extends Controller
             'permission' => $permission,
         ));
     }
+
     private function login_with_dymanic_passwd($phone, $role, $passwd)
     {
         Redis::select(10);
@@ -394,13 +395,11 @@ class login extends Controller
         $seccode  = $this->get_in_str_val('seccode') ;
         $ip       = $this->get_in_client_ip();
 
-
         if (  empty($seccode) || $seccode !== session('verify')) {
             return $this->output_err( E\Eerror::V_WRONG_VERIFY_CODE );
         }
 
         $userid = $this->t_user_info->check_login_userid($account, $password, E\Erole::V_TEACHER);
-        //dd($userid);
         if($userid>0){
             $teacherid = $userid;
         }else{
@@ -410,8 +409,7 @@ class login extends Controller
             }
             $teacherid= $this->t_phone_to_user->get_teacherid($account);
         }
-        //dd("success");
-       $tea_item= $this->t_teacher_info->field_get_list($teacherid,"nick,face");
+        $tea_item= $this->t_teacher_info->field_get_list($teacherid,"nick,face");
 
         $sess['tid']  = $teacherid;
         $sess["acc"]  = $teacherid;
