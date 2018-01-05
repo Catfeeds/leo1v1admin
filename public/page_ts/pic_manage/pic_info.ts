@@ -4,13 +4,13 @@
 $(function(){
         function load_data(){
         $.reload_self_page({
-            pic_type       : $(".pic_type").val(),
+            type       : $(".pic_type").val(),
 		        //usage_type : val
             active_status: $("#active_status").val()
         });
 	  }
 
-    $(".pic_type").val(g_args.pic_type);
+    $(".pic_type").val(g_args.type);
     //$(".usage_type").val(usage_type);
     $("#active_status").val(g_args.active_status);
     	  $('.opt-change').set_input_change_event(load_data);
