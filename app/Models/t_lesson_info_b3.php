@@ -2663,24 +2663,28 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $this->where_arr_add_time_range($where_arr, "li.lesson_start", $start_time, $end_time);
         $sql = $this->gen_sql_new(
             'select ti.teacherid,ti.nick t_nick,'.
-            'sum(if((li.lesson_type in (0,1,3) and li.lesson_user_online_status = 1),l.lesson_count,0))/100 total_lesson_num,'.
+            'sum(if((li.lesson_type in (0,1,3) and li.lesson_user_online_status = 1),li.lesson_count,0))/100 total_lesson_num,'.
             'count(distinct if((li.lesson_type in (0,1,3) and li.lesson_user_online_status = 1),li.userid,null)) stu_num,'.
             'sum(li.confirm_flag <> 2 and li.lesson_type=2) test_lesson_count,'.
             'sum(li.confirm_flag <> 2 and li.lesson_type in (0,1,3)) regular_lesson_count,'.
             'sum(li.confirm_flag <> 2 and li.deduct_upload_cw) no_notes_count,'.
             'sum(li.confirm_flag <> 2 and li.deduct_come_late = 1 and li.lesson_type=2) test_lesson_later_count,'.
-            'sum(li.confirm_flag <> 2 and li.deduct_come_late = =1 and li.lesson_type in (0,1,3)) regular_lesson_later_count,'.
+            'sum(li.confirm_flag <> 2 and li.deduct_come_late = 1 and li.lesson_type in (0,1,3)) regular_lesson_later_count,'.
             'sum(li.confirm_flag <> 2 and li.deduct_rate_student =1) no_evaluation_count,'.
             'sum(li.confirm_flag <> 2 and li.deduct_change_class = 1) turn_class_count,'.
             'sum(li.confirm_flag =2 and li.lesson_cancel_reason_type = 12) ask_for_leavel_count,'.
             'sum(li.confirm_flag =2 and li.lesson_cancel_reason_type= 21 and li.lesson_type=2) test_lesson_truancy_count,'.
             'sum(li.confirm_flag =2 and li.lesson_cancel_reason_type= 21 and li.lesson_type in (0,1,3)) regular_lesson_truancy_count,'.
-            'count(distinct (if(or.refund_status = 1,li.userid,null)) stu_refund '.
+            'count(distinct if(tor.refund_status = 1,li.userid,null)) stu_refund,'.
+            'sum(li.lesson_type=2) all_test_lesson_count,'.
+            'sum(li.lesson_type in (0,1,3)) all_regular_lesson_count '.
             'from %s li '.
             'left join %s ti on ti.teacherid=li.teacherid '.
+            'left join %s tor on li.userid = tor.userid '.
             'where %s group by ti.teacherid order by total_lesson_num desc'
             ,self::DB_TABLE_NAME
             ,t_teacher_info::DB_TABLE_NAME
+            ,t_order_refund::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);
@@ -2717,7 +2721,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "ti.trial_lecture_is_pass=1",
             "ti.is_test_user=0",
             "li.lesson_del_flag=0",
-            "l.lesson_type in (0,1,3)",
+            "li.lesson_type in (0,1,3)",
             "li.lesson_status=2",
             'li.lesson_user_online_status=1',
             "ti.teacher_money_type = 6"
@@ -2729,7 +2733,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             'left join %s ti on ti.teacherid = li.teacherid '.
             'where %s order by li.lesson_start asc',
             self::DB_TABLE_NAME,
-            t_student_info::DB_TABLE_NAME,
+            t_teacher_info::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list($sql);

@@ -15,6 +15,7 @@ return array(
     'AddPowerForManager' => $baseDir . '/database/migrations/2017_11_30_182706_add_power_for_manager.php',
     'AddRidForCompanyWxUsers' => $baseDir . '/database/migrations/2017_11_24_103609_add_rid_for_company_wx_users.php',
     'AddTTeacherApproveReferToData' => $baseDir . '/database/migrations/2018_01_04_143621_add_t_teacher_approve_refer_to_data.php',
+    'AddVotes2ToTTeacherApproveReferToData' => $baseDir . '/database/migrations/2018_01_04_155434_add_votes_2_to_t_teacher_approve_refer_to_data.php',
     'AddVotesToTAgent' => $baseDir . '/database/migrations/2017_10_24_102224_add_votes_to_t_agent.php',
     'AddVotesToTAgentDailyLottery' => $baseDir . '/database/migrations/2017_11_18_163011_add_votes_to_t_agent_daily_lottery.php',
     'AddVotesToTAgentIncomeLog' => $baseDir . '/database/migrations/2017_11_22_104231_add_votes_to_t_agent_income_log.php',

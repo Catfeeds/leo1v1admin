@@ -165,6 +165,8 @@ class update_teacher_approve_to_data extends Command
             $test_lesson_truancy_count = $item['test_lesson_truancy_count'];
             $regular_lesson_truancy_count = $item['regular_lesson_truancy_count'];
             $stu_refund = $item['stu_refund'];
+            $all_test_lesson_count  = $item['all_test_lesson_count'];
+            $all_regular_lesson_count = $item['all_regular_lesson_count'];
 
             $id = $task->t_teacher_approve_refer_to_data->get_id_for_teacherid($start_time, $end_time, $teacherid);
 
@@ -187,7 +189,9 @@ class update_teacher_approve_to_data extends Command
                     'ask_for_leavel_count' => $ask_for_leavel_count,
                     'test_lesson_truancy_count' => $test_lesson_truancy_count,
                     'regular_lesson_truancy_count' => $regular_lesson_truancy_count,
-                    'stu_refund' => $stu_refund
+                    'stu_refund' => $stu_refund,
+                    'all_test_lesson_count' => $all_test_lesson_count,
+                    'all_regular_lesson_count' => $all_regular_lesson_count
                 ]);
             }else{
                 $task->t_teacher_approve_refer_to_data->row_insert([
@@ -210,11 +214,15 @@ class update_teacher_approve_to_data extends Command
                     'test_lesson_truancy_count' => $test_lesson_truancy_count,
                     'regular_lesson_truancy_count' => $regular_lesson_truancy_count,
                     'stu_refund' => $stu_refund,
+                    'all_test_lesson_count' => $all_test_lesson_count,
+                    'all_regular_lesson_count' => $all_regular_lesson_count,
                     'add_time' => $start_time
                 ]);
 
             }
         }
+
+        echo 'update_teacher_approve_data ok!'."\n";
 
     }
 }
