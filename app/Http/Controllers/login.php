@@ -380,7 +380,7 @@ class login extends Controller
         Redis::select(10);
         $key = $phone."_".$role;
         $ret_redis=Redis::get($key);
-        if (strcmp($ret_redis, $passwd) == 0) {
+        if(strcmp($ret_redis,$passwd) == 0) {
             return true;
         }
         \App\Helper\Utils::logger("[$key]ret_redis:$ret_redis");
@@ -407,9 +407,9 @@ class login extends Controller
             if ($ret_dynamic == false) {
                 return $this->output_err("用户名密码出错");
             }
-            $teacherid= $this->t_phone_to_user->get_teacherid($account);
+            $teacherid = $this->t_phone_to_user->get_teacherid($account);
         }
-        $tea_item= $this->t_teacher_info->field_get_list($teacherid,"nick,face");
+        $tea_item = $this->t_teacher_info->field_get_list($teacherid,"nick,face");
 
         $sess['tid']  = $teacherid;
         $sess["acc"]  = $teacherid;
@@ -418,9 +418,7 @@ class login extends Controller
         $sess['role'] = E\Erole::V_TEACHER;
 
         session($sess);
-
         return $this->output_succ();
-
     }
 
     public function login_other() {

@@ -41,7 +41,7 @@ class teacher_money extends Controller
         $time_list   = [];
         $lesson_list = [];
         $lesson_info = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
-        $check_num = [];
+        $check_num   = [];
         if(!empty($lesson_info)){
             foreach($lesson_info as $key=>&$val){
                 $base_list   = [];
