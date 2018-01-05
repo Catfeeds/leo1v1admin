@@ -57,12 +57,21 @@ class h5GetPoster extends Command
     }
 
 
+    /**
+     * 修改1: pdf讲义地址修改 - 2018-01-05 by james
+     */
     public function do_change()
     {
         //
         $this->task=new \App\Console\Tasks\TaskController();
-        $store=new \App\FileStore\file_store_tea();
-        $auth=$store->get_auth();
+        // $store=new \App\FileStore\file_store_tea();
+        // $auth=$store->get_auth();
+
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+
 
 
         $pdf_lists = $this->task->t_resource_file->getH5PosterInfo();
@@ -76,7 +85,7 @@ class h5GetPoster extends Command
 
             # 此下载域名需要 已更换 boby
             $config=\App\Helper\Config::get_config("qiniu");
-            $bucket_info=$config["private_url" ];
+            $bucket_info=$config["private_url" ]['url'];
 
             $pdf_file_path = $auth->privateDownloadUrl($bucket_info.$item['file_link'] );
             $savePathFile = public_path('wximg').'/'.$pdf_url;
