@@ -465,10 +465,9 @@ class agent extends Controller
     }
 
     public function test_new(){
-        list($start_time,$end_time) = [1512057600,1514736000];
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $adminid=315;
         $month= date("Ym",$start_time);
-
         $group_kpi['group_kpi'] = '';
         $group_kpi['group_kpi_desc'] = '';
 
