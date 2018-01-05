@@ -137,7 +137,7 @@ $(function(){
             closeByBackdrop : false,
             onshown         : function(dialog){
                 if (html_node.find(".add_pic_usage_type").val() == 303) {
-                    if (html_node.find('.add_jump_type') == 1) {
+                    if (html_node.find('.add_jump_type').val() == 1) {
                         $('.add_jump_url').val('');
                     }
                     $(".add_jump_type option[value='1']").remove()
@@ -149,8 +149,8 @@ $(function(){
                         $(".add_jump_type").append("<option value='1'>视频</option>");
                     }
                     if ($(this).val() == 303) { // 删除视频选项
-                        console.log(html_node.find('.add_jump_type'));
-                        if (html_node.find('.add_jump_type') == 1) {
+                        console.log(html_node.find('.add_jump_type').val());
+                        if (html_node.find('.add_jump_type').val() == 1) {
                             $('.add_jump_url').val('');
                         }
                         $(".add_jump_type option[value='1']").remove()
