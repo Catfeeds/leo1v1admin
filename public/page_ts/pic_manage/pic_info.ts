@@ -122,11 +122,13 @@ $(function(){
 	      html_node.find('.add_start_date').datetimepicker({
 		        lang:'ch',
 		        timepicker:false,
+            minDate: 0,
 		        format:'Y-m-d'
 	      });
 	      html_node.find('.add_end_date').datetimepicker({
 		        lang:'ch',
 		        timepicker:false,
+            minDate: 0,
 		        format:'Y-m-d'
 	      });
 
@@ -317,9 +319,10 @@ $(function(){
 
                                 if(result.ret==0){
                                     window.location.reload();
-                                }else{
-                                    dialog.close();
                                 }
+                                // else{
+                                //     dialog.close();
+                                // }
 			                      }
                         });
                     }

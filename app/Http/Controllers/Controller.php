@@ -30,9 +30,24 @@ class Controller extends ControllerEx
     function __construct()  {
         if ($this->check_login_flag ) {
             $this->check_login();
+            $this->set_call_ctl_init();
         }
         $this->setUpTraits();
     }
+
+    public function  set_call_ctl_init(){
+        
+        $this->html_hide_list_add([ "grade","opt_grade", "input_grade" ]);
+        /*
+        $this->set_in_value("grade", 101);
+        //$sys_operator_uid= $this->get_account_id();
+        //$this->get_account_role();
+        $this->set_in_value("adminid", $this->get_account_id())  ;
+
+        $this->html_hide_list_add([ "grade","opt_grade", "input_grade" ]);
+        */
+    }
+
     //保存要隐藏元素 列表
     public $html_hide_list=[];
 

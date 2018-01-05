@@ -1637,9 +1637,17 @@ class test_james extends Controller
     }
 
     public function do_james(){
+
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+        // $store=new \App\FileStore\file_store_tea();
+        // $auth=$store->get_auth();
+
         $file_link = $this->get_in_str_val('f');
         $config=\App\Helper\Config::get_config("qiniu");
-        $bucket_info=$config["private_url" ];
+        $bucket_info=$config["private_url"]['url'];
 
         $pdf_file_path = $auth->privateDownloadUrl($bucket_info.$file_link );
 

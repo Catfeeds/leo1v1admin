@@ -92,7 +92,8 @@
 			        <td style="text-align:right; width:150px;">图片类型</td>
 			        <td>
                   
-                        <select class="add_pic_type ">
+                  <select class="add_pic_type ">
+                      <option value="0">请选择</option> 
                         </select>
                     </td>
 		        </tr>
@@ -100,6 +101,7 @@
 			        <td style="text-align:right; width:150px;">用途类型</td>
 			        <td>
                   <select class="add_pic_usage_type">
+                      <option value="0">请选择</option>
                   </select>
               </td>
 		            </tr>
