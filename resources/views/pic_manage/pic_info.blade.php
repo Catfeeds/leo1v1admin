@@ -12,6 +12,9 @@
          width: 800px;
      }
     </style>
+    <script type="text/javascript">
+        var min_date = '<?php echo $min_date; ?>';
+    </script>
     <section class="content">
         <div class="row">
             <div class="col-xs-6 col-md-2">
@@ -21,13 +24,13 @@
                     </select>
                 </div>
             </div>
-            <!-- <div class="col-xs-6 col-md-2">
-                 <div class="input-group ">
-                 <span class="input-group-addon">用途类型</span>
-                 <select class="form-control pic_usage_type">
-                 </select>
-                 </div>
-                 </div> -->
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">用途类型</span>
+                    <select class="form-control pic_usage_type opt-change">
+                    </select>
+                </div>
+            </div>
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">活动状态</span>

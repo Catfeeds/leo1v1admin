@@ -329,7 +329,7 @@
                                             <th class="text-cen bg-lblue" style="width:20%">教龄</th>
                                             <td> {!! $my_info['work_year_code'] !!} </td>
                                             <th class="text-cen bg-lblue" style="width:20%">教材版本</th>
-                                            <td>{{$my_info['textbook_type_str']}}</td>
+                                            <td>{{$my_info['teacher_textbook_str']}}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >科目</th>

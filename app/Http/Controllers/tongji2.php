@@ -562,7 +562,7 @@ class tongji2 extends Controller
         ];
 
         $order_field_arr =  array_merge(["account" ] ,$sum_field_list );
-
+        
         $group_adminid   = $this->get_in_int_val("group_adminid",-1);
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
@@ -603,7 +603,7 @@ class tongji2 extends Controller
         // dd($ret_info);
         foreach( $ret_info as &$item ) {
             E\Emain_type::set_item_value_str($item);
-            $item['price_num']  = $item['price_num']/100;
+            $item['price_num']  = @$item['price_num']/100;
         }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),["data_ex_list"=>$ret_info]);
 
