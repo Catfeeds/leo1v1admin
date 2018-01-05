@@ -2,13 +2,6 @@
 /// <reference path="../g_args.d.ts/teacher_info-get_teacher_money_info.d.ts" />
 
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-
-        });
-    }
-	  $('.opt-change').set_input_change_event(load_data);
-
     $('button[data-key]').on('click', function() {
         var key = $(this).attr('data-key');
         $('.'+key).slideToggle('show');
@@ -30,7 +23,6 @@ $(function(){
             check_num = max_num;
             loop_num = 0;
         }else{
-            //如果
             left_free  = cur_num-half_num;
             right_free = max_num-cur_num-half_num;
             if(left_free>0 ){
@@ -153,6 +145,5 @@ $(function(){
             }
         });
     });
-
 
 });
