@@ -126,12 +126,26 @@ trait  ViewDeal {
                                           ."	});"  . "\n";
 
                         }else{
-                            $set_filed_str.= "\t\$.admin_query_input({\n"
-                                ."\t\t'join_header'  : \$header_query_info,\n"
-                                          ."\t\t".'"field_name"    : "'.$key.'" ,'. "\n"
-                                          ."\t\t".'"title"        :  "'.$key.'",'  . "\n"
-                                          .'		"select_value" : this.get_args().'.$key .','  . "\n"
+                            if ($value=="string") {
+                                $set_filed_str.= "\t\$.admin_query_input({\n"
+                                      ."\t\t'join_header'  : \$header_query_info,\n"
+                                      ."\t\t".'"field_name"    : "'.$key.'" ,'. "\n"
+                                      ."\t\t".'"placeholder" : "回车查询", '."\n"
+                                      ."\t\t".'"length_css" : "col-xs-12 col-md-3", '."\n"
+                                      ."\t\t".'"title"        :  "'.$key.'",'  . "\n"
+                                      .'		"select_value" : this.get_args().'.$key .','  . "\n"
                                           ."	});"  . "\n";
+
+                            }else{
+                                $set_filed_str.= "\t\$.admin_query_input({\n"
+                                      ."\t\t'join_header'  : \$header_query_info,\n"
+                                      ."\t\t".'"field_name"    : "'.$key.'" ,'. "\n"
+                                      ."\t\t".'"length_css" : "col-xs-6 col-md-2", '."\n"
+                                      ."\t\t".'"show_title_flag":true, '."\n"
+                                      ."\t\t".'"title"        :  "'.$key.'",'  . "\n"
+                                      .'		"select_value" : this.get_args().'.$key .','  . "\n"
+                                      ."	});"  . "\n";
+                            }
                         }
                     }
                 }
