@@ -1086,7 +1086,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $where_arr[]= $ret_in_str;
 
         $sql=$this->gen_sql_new(
-            "select cur_require_adminid as admin_revisiterid,"
+            "select cur_require_adminid as admin_revisiterid,l.lessonid,"
             ." lesson_start "
             ." from %s tr "
             ." join %s l on tr.current_lessonid=l.lessonid "
