@@ -96,6 +96,11 @@ class pic_manage extends Controller
             }
         }
 
+        $ext = pathinfo($pic_url, PATHINFO_EXTENSION);
+        if ($ext != 'png') {
+            return $this->output_err("请上传png格式的图片");
+        }
+
         $start = strtotime($start_time);
         $end   = strtotime($end_time);
 

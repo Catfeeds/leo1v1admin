@@ -4,13 +4,13 @@
 $(function(){
         function load_data(){
         $.reload_self_page({
-            pic_type       : $(".pic_type").val(),
+            type       : $(".pic_type").val(),
 		        //usage_type : val
             active_status: $("#active_status").val()
         });
 	  }
 
-    $(".pic_type").val(g_args.pic_type);
+    $(".pic_type").val(g_args.type);
     //$(".usage_type").val(usage_type);
     $("#active_status").val(g_args.active_status);
     	  $('.opt-change').set_input_change_event(load_data);
@@ -136,13 +136,30 @@ $(function(){
             closable        : true,
             closeByBackdrop : false,
             onshown         : function(dialog){
-            if (html_node.find(".add_pic_usage_type").val() == 303) {
-                $(".add_jump_type option[value='1']").remove()
-            }
+                if (html_node.find(".add_pic_usage_type").val() == 303) {
+                    if (html_node.find('.add_jump_type').val() == 1) {
+                        $('.add_jump_url').val('');
+                    }
+                    $(".add_jump_type option[value='1']").remove()
+                }
 
                 $(".add_pic_usage_type").on("change", function() {
+                    var val = $(".add_jump_type option[value='1']").val();
+                    if (val == undefined) {
+                        $(".add_jump_type").append("<option value='1'>视频</option>");
+                    }
                     if ($(this).val() == 303) { // 删除视频选项
+                        console.log(html_node.find('.add_jump_type').val());
+                        if (html_node.find('.add_jump_type').val() == 1) {
+                            $('.add_jump_url').val('');
+                        }
                         $(".add_jump_type option[value='1']").remove()
+                    }
+                });
+                $(".add_pic_type").on("change", function() {
+                    var val = $(".add_jump_type option[value='1']").val();
+                    if (val == undefined) {
+                        $(".add_jump_type").append("<option value='1'>视频</option>");
                     }
                 });
                 $('.add_jump_type').on("change", function() {
@@ -165,7 +182,7 @@ $(function(){
                                     custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
                                     g_args.qiniu_upload_domain_url,true,
                                     function (up, info, file){
-                                        //console.log(info);
+                                        console.log(info);
                                         var res = $.parseJSON(info);
                                         pic_url = g_args.qiniu_upload_domain_url + res.key;
                                         pic_img="<img width=80 src=\""+pic_url+"\"/>";
@@ -181,7 +198,7 @@ $(function(){
                     custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",
                                     g_args.qiniu_upload_domain_url,true,
                                     function (up, info, file){
-                                        //console.log(info);
+                                        console.log(info);
                                         var res = $.parseJSON(info);
                                         pic_url = g_args.qiniu_upload_domain_url + res.key;
                                         pic_img="<img width=80 src=\""+pic_url+"\"/>";
@@ -295,6 +312,7 @@ $(function(){
                                 ,"jump_type"    : jump_type 
                             },
 			                      success : function(result){
+                                console.log(result);
                                 if (result.ret == -1) {
                                     alert(result.info);
                                 }

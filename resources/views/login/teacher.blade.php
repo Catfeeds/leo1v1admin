@@ -342,7 +342,6 @@
             </div>
             <!-- download-end -->
         </div>
-
         <!-- footer-start -->
         <div class="row footer">
             <div class="footer-btm">
