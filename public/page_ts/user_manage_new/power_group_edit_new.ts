@@ -121,9 +121,15 @@ function addHoverDom(treeId, treeNode) {
                             field_val != undefined ? id_select.val(field_val) : '';
                             arr[x].push(id_select);
                             
+                        }else if( res.data[x]['value_type'] == "function" ){
+                            Enum_map.append_option_list("function_power", id_select,true);
+                            field_val != undefined ? id_select.val(field_val) : '';
+                            arr[x].push(id_select);
+
                         }else{
                             field_val != undefined ? id_textarea.val(field_val) : '';
                             arr[x].push(id_textarea);
+
                         }
                                              
                     }
