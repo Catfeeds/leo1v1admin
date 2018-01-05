@@ -23,7 +23,7 @@ $(function(){
             del_flag          : $('#id_del_flag').val(),
             fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
             call_phone_type:	$('#id_call_phone_type').val(),
-		        seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
+            seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
             adminid           :	$('#id_adminid').val()
         });
     }
@@ -880,7 +880,7 @@ $(function(){
 
             $.each( response.data,function(){
                 data_list.push([this["groupid"], this["group_name"]  ]);
-                
+
 
                 for(var i=0; i<perm.length; i++) {
                     if (perm[i] == this['groupid']) {
@@ -948,4 +948,3 @@ $(function(){
             }
         });
     }
-

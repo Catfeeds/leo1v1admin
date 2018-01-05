@@ -4020,6 +4020,10 @@ class user_deal extends Controller
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
                 "201710", $adminid, $start_time, $end_time );
             break;
+        case "201711" :
+            $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
+                "201711", $adminid, $start_time, $end_time );
+            break;
         default:
             $group_kpi = \App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_cur_info(
@@ -4089,8 +4093,7 @@ class user_deal extends Controller
         $arr['suc_second_week'] = $res[$adminid]['suc_lesson_count_two'];
         $arr['suc_third_week'] = $res[$adminid]['suc_lesson_count_three'];
         $arr['suc_fourth_week'] = $res[$adminid]['suc_lesson_count_four'];
-        $arr['lesson_per'] = $res[$adminid]['lesson_per'];
-        $arr['lesson_per_desc'] = $res[$adminid]['lesson_per_desc'];
+        $arr['lesson_per'] = $res[$adminid]['lesson_per_desc'].'='.$res[$adminid]['lesson_per'];
         $arr['kpi'] = $res[$adminid]['kpi'];
         //月末定级
         $start_time_this = $start_time;
