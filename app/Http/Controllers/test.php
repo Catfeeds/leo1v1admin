@@ -41,7 +41,7 @@ class test extends Controller
 
         foreach($ret_info["list"] as &$item) {
             E\Egrade::set_item_value_str($item);
-            $item["testv"]=null;
+            $item["testv"]="xxx";
         }
         //sleep(3);
 
