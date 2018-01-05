@@ -1647,7 +1647,7 @@ class test_james extends Controller
 
         $file_link = $this->get_in_str_val('f');
         $config=\App\Helper\Config::get_config("qiniu");
-        $bucket_info=$config["private_url" ];
+        $bucket_info=$config["private_url"]['url'];
 
         $pdf_file_path = $auth->privateDownloadUrl($bucket_info.$file_link );
 
