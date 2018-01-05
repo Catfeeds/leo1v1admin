@@ -119,7 +119,99 @@ export default class extends vtable {
       "btn_id_config"     : {},
     });
 
+    //
+    var jquery_body = $("<div> <button class=\"btn btn-primary fa fa-plus do-add\">账号</button>  </div>");
 
+    jquery_body.find(".do-add").on( "click" , me.opt_add );
+
+    $.admin_query_common({
+      'join_header'  : $header_query_info,
+      "jquery_body" :  jquery_body,
+    });
+
+  }
+
+    initPicker(obj)
+    {
+      obj.datetimepicker({
+            lang       : 'ch',
+            datepicker : true,
+            timepicker : false,
+            format     : 'Y-m-d',
+            step       : 30,
+            onChangeDateTime :function(){
+              $(this).hide();
+            }
+        });
+    }
+  opt_add() {
+    var me=this;
+
+        var $account=$("<input/>");
+        var $phone=$("<input/>");
+        var $email=$("<input/>");
+        var $role=$("<select/>");
+        var $account_role=$("<select/>");
+        var date = new Date();
+        var currentdate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+        var $become_member_time=$("<input value=" + currentdate + " >");
+
+        $.do_ajax("/user_deal/admin_group_list_js",{},function(resp){
+            var str="";
+          $(resp.data).each(function(_,item){
+              if (me.get_args() .assign_groupid >0   ) {
+                    if( me.get_args() .assign_groupid == item["groupid"]) {
+                        str+="<option value="+item["groupid"]+"> " + item["group_name"]+ "</option>" ;
+                    }
+                }else{
+                    str+="<option value="+item["groupid"]+"> " + item["group_name"]+ "</option>" ;
+                }
+            });
+            $role.append(str);
+            $role.val(38);
+        });
+
+    var need_account_role_list:Array<any>=[];
+
+    if (me.get_args() .assign_account_role>0) {
+      need_account_role_list=[ me.get_args() .assign_account_role ];
+      Enum_map.append_option_list("account_role", $account_role,true,need_account_role_list);
+    }else{
+      Enum_map.append_option_list("account_role", $account_role,true);
+    }
+
+        var arr=[
+            ["account",$account] ,
+            ["电话", $phone],
+            ["email", $email],
+            ["角色", $account_role],
+            ["权限", $role ],
+            ['入职时间', $become_member_time]
+        ];
+        this.initPicker($become_member_time);
+
+        $.show_key_value_table("新增用户", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                var account=$.trim($account.val());
+                if (account.length <2) {
+                    alert("账号名太短");
+                    return ;
+                }
+
+                $.do_ajax("/authority/add_manager",{
+                    'account': account,
+                    'name': account,
+                    'email': $.trim($email.val().split("@")[0]) +"@leoedu.com",
+                    'phone': $phone.val(),
+                    'groupid': $role.val(),
+                    'passwd': account,
+                    'account_role': $account_role.val(),
+                    'become_member_time':$become_member_time.val()
+                });
+            }
+        });
 
   }
 
@@ -188,7 +280,6 @@ export default class extends vtable {
       ["部门",$main_department],
       ["不参加升级",$no_update_seller_level_flag],
     ];
-    //initPicker($become_member_time);
 
     $.show_key_value_table("修改用户信息", arr ,{
       label: '确认',
