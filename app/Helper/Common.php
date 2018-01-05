@@ -155,14 +155,14 @@ class Common {
         // }
         $c = new \TopClient();
 
-        /**
-         * 原账号的短信被限制,将 10671030,10671029 两个验证码短信切换到另一个账号上发送
-         */
-        if($template_code == "SMS_10671030"){
-            $template_code = "SMS_7795923";
-        }elseif($template_code == "SMS_10671029"){
-            $template_code = "SMS_7771547";
-        }
+        // /**
+        //  * 原账号的短信被限制,将 10671030,10671029 两个验证码短信切换到另一个账号上发送
+        //  */
+        // if($template_code == "SMS_10671030"){
+        //     $template_code = "SMS_7795923";
+        // }elseif($template_code == "SMS_10671029"){
+        //     $template_code = "SMS_7771547";
+        // }
 
         /**
          * array( 7795923 ,'register','用户注册验证码',),

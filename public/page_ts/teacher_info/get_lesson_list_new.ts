@@ -1319,6 +1319,54 @@ $(function(){
         });
 
     });
+
+    $(".opt-change-lesson-time").each(function(){
+        var opt_data=$(this).get_opt_data();
+        if(opt_data.lesson_type==1100 && opt_data.train_type==4 && opt_data.lesson_status==0 && opt_data.lesson_start>0){
+
+        }else{
+            $(this).hide();
+        }
+    });
+
+    $(".opt-change-lesson-time").on("click",function(){
+        var data = $(this).get_opt_data();
+        var id_lesson_start = $("<input>");
+
+        id_lesson_start.datetimepicker({
+            lang:'ch',
+            timepicker:true,
+            format:'Y-m-d H:i',
+            minDate:"-1970/01/01",
+            maxDate:"+1970/01/07",
+        });
+
+        var arr = [
+            ["选择开始时间",id_lesson_start],
+        ];
+
+        $.show_key_value_table("设置课程时间",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/teacher_info/change_train_lesson_time",{
+                    "lessonid"   : data.lessonid,
+                    "start_date" : id_lesson_start.val(),
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
+        });
+
+    });
+
+
+
+
     $('body').on('click', function(){
         $('.look-pdf').hide().children().children().empty();
     });

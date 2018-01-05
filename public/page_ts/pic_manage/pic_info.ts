@@ -5,13 +5,13 @@ $(function(){
         function load_data(){
         $.reload_self_page({
             type       : $(".pic_type").val(),
-		        //usage_type : val
+		        usage_type : $(".pic_usage_type").val(),
             active_status: $("#active_status").val()
         });
 	  }
 
     $(".pic_type").val(g_args.type);
-    //$(".usage_type").val(usage_type);
+    $(".pic_usage_type").val(g_args.usage_type);
     $("#active_status").val(g_args.active_status);
     	  $('.opt-change').set_input_change_event(load_data);
 
@@ -122,11 +122,14 @@ $(function(){
 	      html_node.find('.add_start_date').datetimepicker({
 		        lang:'ch',
 		        timepicker:false,
+            minDate: 0,
 		        format:'Y-m-d'
 	      });
 	      html_node.find('.add_end_date').datetimepicker({
 		        lang:'ch',
 		        timepicker:false,
+            //startDate: ,
+            minDate: min_date,
 		        format:'Y-m-d'
 	      });
 
@@ -317,9 +320,10 @@ $(function(){
 
                                 if(result.ret==0){
                                     window.location.reload();
-                                }else{
-                                    dialog.close();
                                 }
+                                // else{
+                                //     dialog.close();
+                                // }
 			                      }
                         });
                     }

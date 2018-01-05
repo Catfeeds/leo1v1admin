@@ -1031,7 +1031,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
     public function tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid=-1,$adminid_list=[]) {
         $where_arr=[
             "accept_flag=1",
-            "require_admin_type=2",
+            // "require_admin_type=2",
             "is_test_user=0",
             "l.lesson_del_flag=0",
         ];
@@ -1052,7 +1052,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." from %s tr "
             ." join %s l on tr.current_lessonid=l.lessonid "
             ." join %s tss on tr.current_lessonid=tss.lessonid "
-            ." join %s t on tr.test_lesson_subject_id=t.test_lesson_subject_id "
+            // ." join %s t on tr.test_lesson_subject_id=t.test_lesson_subject_id "
             ." join %s s on l.userid=s.userid"
             ." left join %s f on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
             ." where %s "
@@ -1060,7 +1060,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             self::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
-            t_test_lesson_subject::DB_TABLE_NAME,
+            // t_test_lesson_subject::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_flow::DB_TABLE_NAME,
             $where_arr);
@@ -1070,7 +1070,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
     public function tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid=-1,$adminid_list=[]) {
         $where_arr=[
             "accept_flag=1",
-            "require_admin_type=2",
+            // "require_admin_type=2",
             "is_test_user=0",
             '(lesson_user_online_status in (0,1) or  f.flow_status = 2)',
             "l.lesson_del_flag=0",
@@ -1091,14 +1091,14 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." from %s tr "
             ." join %s l on tr.current_lessonid=l.lessonid "
             ." join %s tss on tr.current_lessonid=tss.lessonid "
-            ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
+            // ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
             ." join %s s  on l.userid=s.userid"
             ." left join %s f  on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
-            ." where %s ",
+            ." where %s order by l.lesson_start ",
             self::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
-            t_test_lesson_subject::DB_TABLE_NAME,
+            // t_test_lesson_subject::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_flow::DB_TABLE_NAME,
             $where_arr);

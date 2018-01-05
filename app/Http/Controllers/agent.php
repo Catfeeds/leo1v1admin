@@ -526,7 +526,6 @@ class agent extends Controller
             }
         }
         foreach($res as $key=>$item){
-            dd($item[E\Eweek_order::V_1]);
             $res[$key]['suc_lesson_count_one'] = isset($item[E\Eweek_order::V_1])?count($item[E\Eweek_order::V_1]):0;
             $res[$key]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
             $res[$key]['suc_lesson_count_three'] = isset($item[E\Eweek_order::V_3])?count($item[E\Eweek_order::V_3]):0;
@@ -551,6 +550,7 @@ class agent extends Controller
         }
         $lesson_per = $res[$adminid]['test_lesson_count']!=0?(round($res[$adminid]['fail_all_count']/$res[$adminid]['test_lesson_count'],2)*100):0;
         $res[$adminid]['lesson_per'] = $lesson_per>0?$lesson_per."%":0;
+        $res[$adminid]['lesson_per_desc'] = $res[$adminid]['test_lesson_count']!=0?$res[$adminid]['fail_all_count'].'÷'.$res[$adminid]['test_lesson_count']:0;
         $res[$adminid]['lesson_kpi'] = $lesson_per<18?40:0;
         $kpi = $res[$adminid]['lesson_kpi']+$res[$adminid]['suc_lesson_count_rate_all'];
         $res[$adminid]['kpi'] = ($kpi && $res[$adminid]['test_lesson_count']>0)>0?$kpi."%":0;
@@ -563,6 +563,7 @@ class agent extends Controller
         $arr['suc_third_week'] = $res[$adminid]['suc_lesson_count_three'];
         $arr['suc_fourth_week'] = $res[$adminid]['suc_lesson_count_four'];
         $arr['lesson_per'] = $res[$adminid]['lesson_per'];
+        $arr['lesson_per_desc'] = $res[$adminid]['lesson_per_desc'];
         $arr['kpi'] = $res[$adminid]['kpi'];
         //月末定级
         $start_time_this = $start_time;

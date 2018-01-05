@@ -140,14 +140,18 @@ $(function(){
             }else{
                 try {
                     $.custom_upload_file_process(
-                        btn_id, 0,
+                        btn_id, 
+                        0,
                         function(up, info, file, lesson_info) {
                             var res = $.parseJSON(info);
                             if(res.key!=''){
                                 set_url_fun(res.key);
                                 upload_status_show(id_item,1);
                             }
-                        }, [], ["pdf","zip"], bucket_info, noti_origin_file_func);
+                        }, 
+                        [], 
+                        ["pdf","zip"], 
+                        bucket_info, noti_origin_file_func);
                 }catch(e){
                     $.self_upload_process(btn_id,
                                           "/common/upload_qiniu",[] ,

@@ -92,8 +92,7 @@ $(function(){
                 });
             }
         },function(){
-            $.custom_upload_file_soft(
-                        1,
+            $.custom_upload_file_process_soft(
                         "id_upload_from_url" ,
                         true,
                         function( up, info, file ){
@@ -108,8 +107,7 @@ $(function(){
                             })
                         }, null,
                         ["exe"] );
-            $.custom_upload_file_soft(
-                        1,
+            $.custom_upload_file_process_soft(
                         "id_upload_from_url_b2" ,
                         true,
                         function( up, info, file ){
@@ -122,10 +120,11 @@ $(function(){
                                 $upload_link_b2.attr("href", resp.url);
                                 $upload_link_b2.html("查看");
                             })
-                        }, null,
+                        }, 
+                        null,
                         ["yml"] );
-            $.custom_upload_file_soft(
-                        1,
+
+            $.custom_upload_file_process_soft(
                         "id_upload_from_url_b3" ,
                         true,
                         function( up, info, file ){

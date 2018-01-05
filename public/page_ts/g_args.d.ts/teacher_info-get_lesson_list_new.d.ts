@@ -12,6 +12,8 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+<<<<<<< HEAD
+=======
 	test_lesson_subject_id	:any;
 	lessonid	:any;
 	lesson_type	:any;
@@ -67,7 +69,12 @@ interface RowData {
 	habit_remodel_str	:any;
 	lesson_time	:any;
 	tea_comment_str	:any;
+	cc_id	:any;
+	ass_nick	:any;
+	stu_nick	:any;
+	tea_comment	:any;
 	pdf_status_str	:any;
+>>>>>>> 02ae174fe821c45ea7151fbca48eaf61eb223fcb
 }
 
 /*

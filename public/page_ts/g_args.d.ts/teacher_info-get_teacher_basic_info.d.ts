@@ -24,7 +24,7 @@ interface RowData {
 	address	:any;
 	realname	:any;
 	work_year	:any;
-	textbook_type	:any;
+	teacher_textbook	:any;
 	dialect_notes	:any;
 	level	:any;
 	face	:any;
@@ -58,7 +58,7 @@ interface RowData {
 	leave_count	:any;
 	normal_count	:any;
 	subject_str	:any;
-	textbook_type_str	:any;
+	teacher_textbook_str	:any;
 	identity_str	:any;
 	teacher_ref_type_str	:any;
 	gender_str	:any;

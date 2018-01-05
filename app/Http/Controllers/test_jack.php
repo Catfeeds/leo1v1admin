@@ -13,6 +13,16 @@ class test_jack  extends Controller
     use CacheNick;
     use TeaPower;
 
+    public function test_main(){
+        $this->switch_tongji_database();
+        $this->check_and_switch_tongji_domain();
+        $start_time = strtotime("2017-01-01");
+        $end_time = time();
+        $list  = $this->t_lesson_info_b3->get_teacher_student_first_subject_info($start_time,$end_time);
+        dd($list);
+
+    }
+
     public function get_user_list(){
         #分页信息
         $page_info= $this->get_in_page_info();
@@ -1279,12 +1289,12 @@ class test_jack  extends Controller
     }
 
     public function ajax_deal_jack(){
-        $teacherid             = $this->get_in_int_val("teacherid");
+        // $teacherid             = $this->get_in_int_val("teacherid");
         $start_time            = $this->get_in_int_val("start_time");
-        $end_time             = $this->get_in_int_val("end_time");
-        $list = $this->t_lesson_info_b3->get_teacher_lesson_info($teacherid,$start_time,$end_time,[],false);
-        $data = @$list[0];
-        return $this->output_succ($data);
+        $end_time             = strtotime("+1 months",$start_time);
+
+        $list = $this->t_lesson_info_b3->get_lesson_count_by_grade($start_time,$end_time);
+        return $this->output_succ($list);
 
         $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
         $week_start = $date_week["sdate"]-14*86400;
@@ -1418,16 +1428,36 @@ class test_jack  extends Controller
         // }
         // dd($ret);
 
-        $start = $this->get_in_str_val("start","2017-01-01");
-        $end = $this->get_in_str_val("end","2017-02-01");
-        $start_time = strtotime($start);
-        $end_time = strtotime($end);
+        $list=[];
+        $start_time = strtotime("2016-12-01");
+        for($i=1;$i<=12;$i++){
+            $first = strtotime(date("Y-m-01",strtotime("+".$i." months", $start_time)));
+            // $next = strtotime(date("Y-m-01",strtotime("+1 months", $first)));
+            $month = date("Y-m-d",$first);
+            /* $order_money_info = $this->t_order_info->get_order_lesson_money_info($first,$next);
+               $order_money_month = $this->t_order_info->get_order_lesson_money_use_info($first,$next);
+               $list[$month]["stu_num"] = @$order_money_info["stu_num"];
+               $list[$month]["all_price"] = @$order_money_info["all_price"];
+               $list[$month]["lesson_count_all"] = @$order_money_info["lesson_count_all"];
+               foreach($order_money_month as $val){
+               $list[$month][$val["time"]]=($val["all_price"]/100)."/".($val["lesson_count_all"]/100);
+               }*/
+            $list[$month]["time"] = date("Y年m月",$first);
+            $list[$month]["start"] = $first;
+
+
+        }
+
+        // $start = $this->get_in_str_val("start","2017-01-01");
+        // $end = $this->get_in_str_val("end","2017-02-01");
+        // $start_time = strtotime($start);
+        // $end_time = strtotime($end);
      
 
-        $list =  $this->t_teacher_info->get_all_train_throuth_teacher_list($start_time,$end_time);
-        foreach($list as &$item){
-            E\Eidentity::set_item_value_str($item);
-        }
+        // $list =  $this->t_teacher_info->get_all_train_throuth_teacher_list($start_time,$end_time);
+        // foreach($list as &$item){
+        //     E\Eidentity::set_item_value_str($item);
+        // }
 
         // $this->switch_tongji_database();
         // $start_time = time()-5*86400;
@@ -1465,9 +1495,7 @@ class test_jack  extends Controller
         // }
         // $list=[1];
         return $this->pageView(__METHOD__,null,[
-            "list"  =>$list,
-            "start_time"=>$start_time,
-            "end_time" =>$end_time
+            "list"  =>$list
         ]);
 
         // $first_month = strtotime("2016-01-01");

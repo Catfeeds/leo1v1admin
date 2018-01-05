@@ -6,16 +6,17 @@ use \App\Enums as E;
 use \App\Helper\Config;
 
 class pic_manage extends Controller
-{
-    public function pic_info()
     {
-        $type      = $this->get_in_int_val('type',-1);
+        public function pic_info()
+        {
+            $type      = $this->get_in_int_val('type',-1);
         $usage_type= $this->get_in_int_val('usage_type',-1);
         $active_status = $this->get_in_int_val("active_status", 0);
         $page_num  = $this->get_in_page_num();
 
         $ret_info  = $this->t_pic_manage_info->get_pic_info_list($type,$usage_type,$active_status,$page_num);
         $current = time();
+            $min_date = date('Y-m-d', strtotime('1day'));
 
         foreach($ret_info["list"] as &$item){
             E\Epic_type::set_item_value_str($item,"type");
@@ -26,17 +27,17 @@ class pic_manage extends Controller
             if ($item['del_flag'] == 1) {
                 $item['active_status'] = '已删除';
             } else {
-            if ($current < $item['start_time']) {
-                $item['active_status'] = '待开始';
-            } elseif ($current < $item['end_time']) {
-                $item['active_status'] = '已发布';
-            } elseif ($current > $item['end_time']) {
-                $item['active_status'] = '已结束';
-            }
+                if ($current < $item['start_time']) {
+                    $item['active_status'] = '待开始';
+                } elseif ($current < $item['end_time']) {
+                    $item['active_status'] = '已发布';
+                } elseif ($current > $item['end_time']) {
+                    $item['active_status'] = '已结束';
+                }
             }
         }
 
-        return $this->pageView(__METHOD__,$ret_info,array(),[
+        return $this->pageView(__METHOD__,$ret_info,['min_date' => $min_date],[
             'qiniu_upload_domain_url' =>Config::get_qiniu_public_url()."/"
         ]);
     }
@@ -93,15 +94,6 @@ class pic_manage extends Controller
                 if (!($width == 750 && $height == 500)) {
                     return $this->output_err("手机端图片大小是750*500");
                 }
-            }
-        }
-
-        file_get_contents($pic_url);
-        $responseInfo = $http_response_header;
-        //$responseInfo = explode(",", $responseInfo);
-        foreach($responseInfo as $item) {
-            if (stripos($item, "Content-Type")) {
-                return $this->output_err($item);
             }
         }
 
