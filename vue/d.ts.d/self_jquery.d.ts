@@ -3,6 +3,7 @@ interface JQueryStatic {
 
     self_upload_process(id,url,ctminfo,ext_file_list,ex_args,complete_func ):void;
 
+    admin_select_dlg(conf:Object):void;
     custom_upload_file_process (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, bucket_info  ,noti_origin_file_func   ):void;
 
     enum_multi_select ( $element, enum_name, onChange , id_list?, select_group_list? ):void ;
@@ -14,7 +15,7 @@ interface JQueryStatic {
   do_select_menu(obj):void;
     do_ajax( url:string,data: Object ,succ_call_back?: (result :any )=>void, jsonp_flag? ):void;
     do_ajax_t( url:string,data: Object ,succ_call_back?: (result :any )=>void   ):void;
-    wopen( url:string,open_self_window?:boolean):void;
+  wopen( url:string,open_self_window?:boolean ,vue_domain_flag?:boolean ):void;
     reload_self_page( args:Object, url? ):void;
     filed_init_date_range(date_type,  opt_date_type, start_time,  end_time):void;
     filed_init_date_range_query_str(date_type,  opt_date_type, start_time,  end_time):string;
@@ -182,8 +183,6 @@ interface JQuery {
     */
     admin_set_select_field (conf:Object ):void;
 
-    //<script type="text/javascript" src="/page_js/lib/select_dlg.js?v={{@$_publish_version}}"></script>
-    admin_select_dlg(conf:Object):void;
 
     admin_header_query (config ): any;
 
