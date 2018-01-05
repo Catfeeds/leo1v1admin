@@ -4401,18 +4401,21 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $item['lesson_price'] -= $item['lesson_cost_tax'];
             }
             // 老师帮 --- 我的收入页 12后显示选项
-            // if ($start < strtotime('2017-12-1')) {
-            //     $item['list'] = [];
-            // } else {
+            if ($start < strtotime('2017-12-1')) {
+                $item['list'] = [];
+            } else {
                 $item['list'] = [
-                    ['name'=>'90分钟补偿','value'=>$item['lesson_reward_compensate']],
-                    ['name'=>'工资补偿','value'=>$item['lesson_reward_compensate_price']],
-                    ['name'=>'小班课工资','value'=>$item['lesson_reward_small_class']],
-                    ['name'=>'微课工资','value'=>$item['lesson_reward_weike']],
-                    ['name'=>'公开课工资','value'=>$item['lesson_reward_open_class']]
+                    ['name'=>'90分钟补偿','value'=> $item['lesson_reward_compensate'].''], 
+                    ['name'=>'工资补偿','value'=> $item['lesson_reward_compensate_price'].''],
+                    ['name'=>'小班课工资','value'=> $item['lesson_reward_small_class'].''],
+                    ['name'=>'微课工资','value'=> $item['lesson_reward_weike'].''],
+                    ['name'=>'公开课工资','value'=> $item['lesson_reward_open_class'].'']
                 ];
-            //}
+            }
+            $item['lesson_reward_chunhui'] = $item['lesson_reward_chunhui'].'';
+            $item['lesson_reward_reference'] = $item['lesson_reward_reference'].'';
         }
+        dd($list);
         array_multisort($start_list,SORT_DESC,$list); 
 
         return $list;
