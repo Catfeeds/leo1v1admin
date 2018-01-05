@@ -2368,11 +2368,14 @@ $(function(){
             add_free( 4 );
         });
         btn_add_5.on("click", function(){
+            add_free( 5 );
+            /*
             if(g_account=="jim" || g_account=="adrian"){
                 add_free( 5 );
             }else{
                 alert("该功能下线 ");
             }
+            */
         });
         btn_add_6.on("click", function(){
             add_free( 6 );

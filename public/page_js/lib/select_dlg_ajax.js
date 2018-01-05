@@ -204,12 +204,7 @@
                 }
 
                 var key=me.$element.val();
-                $.ajax({
-                    type     : "post",
-                    url      :  me.options.url,
-                    dataType : data_type,
-                    data     : data,
-                    success  : function(result){
+                $.do_ajax(me.options.url, data, function(result){
                         var ret_list = result.data.list;
                         var row_data = ret_list[0];
                         if (row_data) {
@@ -225,8 +220,7 @@
                                 $th_input.text("[没找到]");
                             }
                         }
-                    }
-                });
+                    });
             }else{
                 me.$show_input.val("未设置");
             }
@@ -420,7 +414,7 @@
             me.reload_data(1);
         },reload_data:function(page_num,url){
             var me=this;
-            data = {lru_flag: me.options.lru_flag?1:0 };
+            var data = {lru_flag: me.options.lru_flag?1:0 };
             if (!url){
                 url     = me.options.url  ;
                 var $args=me.$body.find(".filter-arg");
@@ -431,78 +425,67 @@
                 data=$.extend({},me.options.args_ex,data);
             }
 
-            var data_type="json";
-            if ( me.options.url.substr(0, 7)=="http://" ) {
-                data_type="jsonp";
-            }
 
-
-            $.ajax({
-                type     : "post",
-                url      : url,
-                dataType : data_type,
-                data     : data,
-                success  : function(result){
-                    if (result.ret!=0) {
-                        alert(result.info);
-                        return;
-                    }
-                    var ret_list      = result.data.list;
-                    var ret_page_info = result.data.page_info;
-                    var lru_list = result.lru_list;
-
-
-                    var $lru_tbody=me.$lru_body.find("#id_lru_body");
-                    var $tbody=me.$body.find("#id_body");
-                    $tbody.html("");
-                    $.each( ret_list, function(i,item){
-                        var $tr_item=$("<tr />");
-                        $tr_item.data( "row_data", JSON.stringify( item  ));
-
-                        $.each( me.options.field_list,function (f_i,f_item){
-                            var $td_item=$("<td/>");
-                            if ( f_item.render) {
-                                $td_item.append( f_item.render( item[ f_item.field_name] ,item ));
-                            }else{
-                                $td_item.append( item[ f_item.field_name] );
-                            }
-                            $tr_item.append($td_item );
-                        });
-                        $tbody.append( $tr_item);
-                    });
-
-                    var html_str = get_page_node(ret_page_info ,function(url ){
-                        me.reload_data(null,url);
-                    });
-                    me.$body.find("#id_page_info").html(html_str);
-
-                    var select_opt = function(){
-                        if ( $(this).hasClass("warning") ){
-                            $lru_tbody.find("tr").removeClass("warning");
-                            $tbody.find("tr").removeClass("warning");
-                        }else{
-                            $lru_tbody.find("tr").removeClass("warning");
-                            $tbody.find("tr").removeClass("warning");
-                            $(this).addClass("warning");
-                        }
-                    };
-                    $tbody.find("tr").on("click", select_opt );
-
-
-                    $lru_tbody.html("");
-                    $.each( lru_list , function(i,item){
-                        var $tr_item=$("<tr > <td> "+item.id+" </td> <td> "+ item.name+"</tr>");
-                        $tr_item.data( "row_data", JSON.stringify( item  ));
-                        $lru_tbody.append( $tr_item);
-                    });
-
-                    $lru_tbody.find("tr").on("click", select_opt );
-
-                    if (me.options. onLoadData ) {
-                        me.options.onLoadData( me.dlg ,result );
-                    }
-
+            $.do_ajax(url, data, function(result){
+                if (result.ret!=0) {
+                    alert(result.info);
+                    return;
                 }
+                var ret_list      = result.data.list;
+                var ret_page_info = result.data.page_info;
+                var lru_list = result.lru_list;
+
+
+                var $lru_tbody=me.$lru_body.find("#id_lru_body");
+                var $tbody=me.$body.find("#id_body");
+                $tbody.html("");
+                $.each( ret_list, function(i,item){
+                    var $tr_item=$("<tr />");
+                    $tr_item.data( "row_data", JSON.stringify( item  ));
+
+                    $.each( me.options.field_list,function (f_i,f_item){
+                        var $td_item=$("<td/>");
+                        if ( f_item.render) {
+                            $td_item.append( f_item.render( item[ f_item.field_name] ,item ));
+                        }else{
+                            $td_item.append( item[ f_item.field_name] );
+                        }
+                        $tr_item.append($td_item );
+                    });
+                    $tbody.append( $tr_item);
+                });
+
+                var html_str = get_page_node(ret_page_info ,function(url ){
+                    me.reload_data(null,url);
+                });
+                me.$body.find("#id_page_info").html(html_str);
+
+                var select_opt = function(){
+                    if ( $(this).hasClass("warning") ){
+                        $lru_tbody.find("tr").removeClass("warning");
+                        $tbody.find("tr").removeClass("warning");
+                    }else{
+                        $lru_tbody.find("tr").removeClass("warning");
+                        $tbody.find("tr").removeClass("warning");
+                        $(this).addClass("warning");
+                    }
+                };
+                $tbody.find("tr").on("click", select_opt );
+
+
+                $lru_tbody.html("");
+                $.each( lru_list , function(i,item){
+                    var $tr_item=$("<tr > <td> "+item.id+" </td> <td> "+ item.name+"</tr>");
+                    $tr_item.data( "row_data", JSON.stringify( item  ));
+                    $lru_tbody.append( $tr_item);
+                });
+
+                $lru_tbody.find("tr").on("click", select_opt );
+
+                if (me.options. onLoadData ) {
+                    me.options.onLoadData( me.dlg ,result );
+                }
+
             });
         }
     };

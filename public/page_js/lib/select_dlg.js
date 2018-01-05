@@ -117,6 +117,7 @@
                             select_item_list.each(function(){
                                 select_list.push($(this).data("id") );
                             });
+                            dialog.close();
                             if (me.options.onChange) {
                                 me.options.onChange(select_list,dlg);
                             }
