@@ -41,11 +41,21 @@ class test_sam extends Command
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
-        $ret_info = $task->t_order_refund->get_2017_11_refund_info();
-        $file_name = '';
-        $arr_title = [];
-        $arr_data  = [];
+        $ret_info1 = $task->t_student_score_info->get_total_student_b1();
+        $ret_info2 = $task->t_student_score_info->get_total_student_b2();
+        $ret_info3 = $task->t_student_score_info->get_total_student_b3();
+        $ret_info4 = $task->t_student_score_info->get_total_student_b4();
+        $ret_info5 = $task->t_student_score_info->get_total_student_b5();
+        $ret_info6 = $task->t_student_score_info->get_total_student_b6();
+        dd($ret_info1,$ret_info2,$ret_info3,$ret_info4,$ret_info5,$ret_info6);
+
+        /*
+        $ret_info = $task->t_student_score_info->get_all_student_info();
+        $file_name = 'sam123';
+        $arr_title = ['ID',"昵称","号码"];
+        $arr_data  = ['userid','nick','phone'];
         $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
+        */
         dd($ret_file_name);
     }
 }
