@@ -149,7 +149,6 @@ $(function(){
                         $(".add_jump_type").append("<option value='1'>视频</option>");
                     }
                     if ($(this).val() == 303) { // 删除视频选项
-                        console.log(html_node.find('.add_jump_type').val());
                         if (html_node.find('.add_jump_type').val() == 1) {
                             $('.add_jump_url').val('');
                         }
@@ -312,7 +311,6 @@ $(function(){
                                 ,"jump_type"    : jump_type 
                             },
 			                      success : function(result){
-                                console.log(result);
                                 if (result.ret == -1) {
                                     alert(result.info);
                                 }

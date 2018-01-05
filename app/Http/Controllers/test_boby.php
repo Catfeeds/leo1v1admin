@@ -1569,15 +1569,15 @@ class test_boby extends Controller {
         }
         // dd($keys);
 
-        $ops = $bucketManager->buildBatchStat('teacher-doc', $keys);
-        list($ret, $err) = $bucketManager->batch($ops);
-        if ($err) {
-            dd($err);
-        } else {
-            dd($ret);
-        }
+        // $ops = $bucketManager->buildBatchStat('teacher-doc', $keys);
+        // list($ret, $err) = $bucketManager->batch($ops);
+        // if ($err) {
+        //     dd($err);
+        // } else {
+        //     dd($ret);
+        // }
 
-        return 1;
+        // return 1;
         $keyPairs = array();
         foreach ($keys as $key) {
             $keyPairs[$key] = "/teacher-doc/".$key;
@@ -1587,10 +1587,33 @@ class test_boby extends Controller {
         $destBucket = $qiniu["private_url"]['bucket'];
         $ops = $bucketManager->buildBatchCopy($srcBucket, $keyPairs, $destBucket, true);
         list($ret, $err) = $bucketManager->batch($ops);
+        $succ = 0;
+        $er = 0;
         if ($err) {
-            print_r($err);
+            // dd($err);
+            foreach($err as $v){
+                if ($v['code'] == 200){
+                    $succ++;
+                } else {
+                    $er++;
+                }
+            }
+            echo  '成功',$succ,';失败',$er;
         } else {
-            print_r($ret);
+            // dd($ret);
+            $s = $this->table_start(['文件','状态','code','原因','文件名','file_id']);
+            foreach($ret as $k=> $v){
+                if ($v['code'] == 200){
+                    $succ++;
+                    $s = $this->tr_add($s,$k,'成功','','',$list[$k]['file_link'], $list[$k]['file_id']);
+                } else {
+                    $er++;
+                    $s = $this->tr_add($s,$k,'失败',$v['code'] ,$v['data']['error'],$list[$k]['file_link'], $list[$k]['file_id']);
+                }
+            }
+
+            echo  '成功',$succ,';失败',$er;
+            return $s;
         }
 
     }
