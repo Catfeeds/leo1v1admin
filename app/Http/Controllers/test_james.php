@@ -206,6 +206,7 @@ class test_james extends Controller
         $pdf_file_path = $this->gen_download_url($pdf_url);
 
         // dd($pdf_file_path);
+        $pdf_url = ltrim($pdf_url,'/');
         $savePathFile = public_path('wximg').'/'.$pdf_url;
 
         if($pdf_url){
