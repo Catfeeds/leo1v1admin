@@ -40,6 +40,8 @@ class Controller extends ControllerEx
         $this->html_power_list_add([ "grade","opt_grade", "input_grade" ]);
         /*
         $this->set_in_value("grade", 101);
+        $this->set_in_value("grade",  this->get_account_id());
+
         //$sys_operator_uid= $this->get_account_id();
         //$this->get_account_role();
         $this->set_in_value("adminid", $this->get_account_id())  ;
