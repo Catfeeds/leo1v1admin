@@ -157,14 +157,14 @@ $name=$this->get_in_strval("name");
         $this->set_in_value("grade", 101);
         $this->set_in_value("sys_operid",  $this->get_account_id() );
         //
-        $this->html_hide_list_add([ "grade","opt_grade", "input_grade" ]);
+        $this->html_power_list_add([ "grade","opt_grade", "input_grade" ]);
         return $this->get_user_list();
     }
 ```
 
 blade  代码整合
 ```html
-            @if (  !isset($html_hide_list["input_account_role"] )  )
+            @if (  isset($html_power_list["input_account_role"] )  )
             <div class="col-md-2 col-xs-0">
                 <div class="input-group ">
                     <span>角色</span>
@@ -178,12 +178,12 @@ blade  代码整合
 
 ```html
 表头
-@if (  !isset($html_hide_list["account_role"] )  )
+@if ( isset($html_power_list["account_role"] )  )
     <td>角色</td>
 @endif
 
 每一行
-@if (  !isset($html_hide_list["account_role"] )  )
+@if (  isset($html_power_list["account_role"] )  )
     <td>{{$var["account_role_str"]}}</td>
 @endif
 
@@ -223,6 +223,17 @@ views/
     └── get_user_list.ts
 ```
 
+```bash
+localhost:~/admin_yb1v1/vue$ tree static/
+static/
+├── css
+│   └── new_header.css
+└── js
+    ├── jquery.admin.js
+    ├── new_header.js
+    └── vue_header.js
+```
+
 
 
 
@@ -256,7 +267,7 @@ views/
     public function get_user_list1(){
         $this->set_in_value("grade", 101);
         //
-        $this->html_hide_list_add([ "grade","opt_grade", "input_grade" ]);
+        $this->html_power_list_add([ "grade","opt_grade", "input_grade" ]);
         return $this->get_user_list();
     }
 
@@ -361,7 +372,7 @@ export default class extends vtable {
     });
 
   }
-  doOpt(e  : MouseEvent ) {
+  opt_xxx(e  : MouseEvent ) {
     var opt_data = this.get_opt_data(e.target);
     BootstrapDialog.alert(JSON.stringify(opt_data));
 
@@ -372,7 +383,54 @@ export default class extends vtable {
   }
 }
 
+
+
 ```
+```typescript 
+// g_args  =>  this->get_args()
+
+// var arr=[]; =>  arr:Array<any>=[] ;
+
+ $.each(arr, function(){
+    var v = this.value;
+})
+
+=>
+
+$.each(arr, function(i,item){
+    var v = item.value;
+})
+ 
+```
+```typescript 
+$(".opt-xxx").on("click",function(){
+  var opt_data=$(this).get_opt_data();
+	
+});
+
+=>
+  opt_xxx(e  : MouseEvent ) {
+    var opt_data = this.get_opt_data(e.target);
+    BootstrapDialog.alert(JSON.stringify(opt_data));
+
+  };
+``
+
+**重新实现** 
+```typescript 
+
+//vue_domain_flag 是否是静态页面,还是用来的页面
+//$.wopen( url:string,open_self_window?:boolean ,vue_domain_flag?:boolean ):void;
+
+$.wopen('/seller_student_new/no_lesson_call_end_time_list?adminid='+ opt_data.uid) ;
+
+
+// 自动调用到 php 服务
+
+$.do_ajax
+
+```
+
 
 ### html 模板
 ```html
@@ -399,10 +457,11 @@ export default class extends vtable {
         <td v-if="check_show('grade')" > {{ item.grade_str}} </td>
         <td >
           <div v-bind:data-index="index" >
-            <a class="fa-times " title="xxxxx" @click="doOpt" v-if="check_show('opt_grade')"  > </a> </div>
+            <a class="fa-times " title="xxxxx" @click="opt_xxx" v-if="check_show('opt_grade')"  > </a> </div>
         </td>
       </tr>
     </tbody>
   </table>
 </section>
 ```
+

@@ -5,17 +5,17 @@ interface GargsStatic {
 	adminid:	number;
 	uid:	number;
 	user_info:	string;
-	has_question_user:	number;
-	del_flag:	number;
-	page_num:	number;
+	has_question_user:	string;//枚举列表: \App\Enums\Eboolean
+ 	del_flag:	string;//枚举列表: \App\Enums\Eboolean
+ 	page_num:	number;
 	page_count:	number;
-	account_role:	number;
-	cardid:	number;
-	day_new_user_flag:	number;//枚举: App\Enums\Eboolean
-	tquin:	number;
-	fulltime_teacher_type:	number;
-	call_phone_type:	number;
-	seller_groupid_ex:	string;
+	account_role:	string;//枚举列表: \App\Enums\Eaccount_role
+ 	cardid:	number;
+	day_new_user_flag:	string;//枚举列表: \App\Enums\Eboolean
+ 	tquin:	number;
+	fulltime_teacher_type:	string;//枚举列表: \App\Enums\Efulltime_teacher_type
+ 	call_phone_type:	string;//枚举列表: \App\Enums\Ecall_phone_type
+ 	seller_groupid_ex:	string;
 	seller_level:	string;//枚举列表: \App\Enums\Eseller_level
  }
 declare module "g_args" {
@@ -116,23 +116,68 @@ $(function(){
 	});
 	$('#id_uid').val(g_args.uid);
 	$('#id_user_info').val(g_args.user_info);
-	$('#id_has_question_user').val(g_args.has_question_user);
-	$('#id_del_flag').val(g_args.del_flag);
-	$('#id_account_role').val(g_args.account_role);
+	$('#id_has_question_user').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "has_question_user",
+		"select_value" : g_args.has_question_user,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_has_question_user",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_del_flag').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "del_flag",
+		"select_value" : g_args.del_flag,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_del_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_account_role').admin_set_select_field({
+		"enum_type"    : "account_role",
+		"field_name" : "account_role",
+		"select_value" : g_args.account_role,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_account_role",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_cardid').val(g_args.cardid);
 	$('#id_day_new_user_flag').admin_set_select_field({
 		"enum_type"    : "boolean",
 		"field_name" : "day_new_user_flag",
 		"select_value" : g_args.day_new_user_flag,
+		"multi_select_flag"     : true,
 		"onChange"     : load_data,
-		"multi_select_flag"     : false ,
 		"th_input_id"  : "th_day_new_user_flag",
 		"only_show_in_th_input"     : false,
 		"btn_id_config"     : {},
 	});
 	$('#id_tquin').val(g_args.tquin);
-	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
-	$('#id_call_phone_type').val(g_args.call_phone_type);
+	$('#id_fulltime_teacher_type').admin_set_select_field({
+		"enum_type"    : "fulltime_teacher_type",
+		"field_name" : "fulltime_teacher_type",
+		"select_value" : g_args.fulltime_teacher_type,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_fulltime_teacher_type",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
+	$('#id_call_phone_type').admin_set_select_field({
+		"enum_type"    : "call_phone_type",
+		"field_name" : "call_phone_type",
+		"select_value" : g_args.call_phone_type,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_call_phone_type",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 	$('#id_seller_level').admin_set_select_field({
 		"enum_type"    : "seller_level",
@@ -238,9 +283,8 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">boolean</span>
-                <select class="opt-change form-control" id="id_day_new_user_flag" >
-                </select>
+                <span class="input-group-addon">day_new_user_flag</span>
+                <input class="opt-change form-control" id="id_day_new_user_flag" />
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["day_new_user_flag title", "day_new_user_flag", "th_day_new_user_flag" ]])!!}

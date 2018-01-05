@@ -194,20 +194,24 @@ class pdfConversionH5 extends Command
 
             if($jsLink_arr[0] == '..'){
                 # 原有的wxpt.js 替换为 bridge.js
-                # 调换节点位置
                 if($jsLink_arr[1] == 'wxpt.js'){
-                    $node_js->setAttribute('src', 'scmod1-0.3.js');
-                }
-                if($jsLink_arr[1] == 'scmod1-0.3.js'){
                     $node_js->setAttribute('src', 'bridge.js');
                     $jsLink[] = 'bridge.js';
                 }
+
+                # 调换节点位置
+                if($jsLink_arr[1] == 'scmod1-0.3.js'){
+                    $node_js->parentNode->removeChild($node_js);
+                }
+
 
                 # 修改属性
                 if($jsLink_arr[1] != 'wxpt.js' && $jsLink_arr[1] != 'recommend-0.2.js'){
                     $node_js->setAttribute('src', $jsLink_arr[1]);
                     $jsLink[] = $jsLink_arr[1];
                 }
+
+
 
                 # 删除无需引用的节点
                 if($jsLink_arr[1] == 'recommend-0.2.js'){
