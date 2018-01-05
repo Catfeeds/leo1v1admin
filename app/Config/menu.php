@@ -246,7 +246,9 @@ class menu{
                 ]],
             ]],
             ["power_id"=>6, "name"=>"系统设置", "list"=>[
+
                 ["power_id"=>2, "name"=>"用户管理",   "url"=>"/authority/manager_list"],
+                ["power_id"=>18, "name"=>"用户管理-vue",   "url"=>"/authority/manager_list", "domain_type" =>100 ],
                 ["power_id"=>12, "name"=>"邮件组管理",   "url"=>"/admin_manage/group_email_list"],
 
                 ["power_id"=>11, "name"=>"用户管理-考勤",   "url"=>"/authority/manager_list_for_kaoqin"],
