@@ -16,6 +16,7 @@ class pic_manage extends Controller
 
         $ret_info  = $this->t_pic_manage_info->get_pic_info_list($type,$usage_type,$active_status,$page_num);
         $current = time();
+            $min_date = date('Y-m-d', strtotime('1day'));
 
         foreach($ret_info["list"] as &$item){
             E\Epic_type::set_item_value_str($item,"type");
@@ -36,7 +37,7 @@ class pic_manage extends Controller
             }
         }
 
-        return $this->pageView(__METHOD__,$ret_info,array(),[
+        return $this->pageView(__METHOD__,$ret_info,['min_date' => $min_date],[
             'qiniu_upload_domain_url' =>Config::get_qiniu_public_url()."/"
         ]);
     }
