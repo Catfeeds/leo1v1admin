@@ -2,7 +2,7 @@
 namespace App\OrderPrice;
 namespace App\Strategy\sellerOrderMoney  ;
 
-class seller_order_money_201711  extends  seller_order_money_base
+class seller_order_money_201712  extends  seller_order_money_base
 {
 
     static $percent_config = [
