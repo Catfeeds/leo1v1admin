@@ -136,9 +136,12 @@ $(function(){
             closable        : true,
             closeByBackdrop : false,
             onshown         : function(dialog){
-            if (html_node.find(".add_pic_usage_type").val() == 303) {
-                $(".add_jump_type option[value='1']").remove()
-            }
+                if (html_node.find(".add_pic_usage_type").val() == 303) {
+                    if (html_node.find('.add_jump_type') == 1) {
+                        $('.add_jump_url').val('');
+                    }
+                    $(".add_jump_type option[value='1']").remove()
+                }
 
                 $(".add_pic_usage_type").on("change", function() {
                     var val = $(".add_jump_type option[value='1']").val();
@@ -146,6 +149,10 @@ $(function(){
                         $(".add_jump_type").append("<option value='1'>视频</option>");
                     }
                     if ($(this).val() == 303) { // 删除视频选项
+                        console.log(html_node.find('.add_jump_type'));
+                        if (html_node.find('.add_jump_type') == 1) {
+                            $('.add_jump_url').val('');
+                        }
                         $(".add_jump_type option[value='1']").remove()
                     }
                 });
