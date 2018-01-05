@@ -1568,19 +1568,29 @@ class test_boby extends Controller {
             $keys[] = $v['file_link'];
         }
         // dd($keys);
-        //每次最多不能超过1000个
-        // $keys = array(
-        //     'qiniu.mp4',
-        //     'qiniu.png',
-        //     'qiniu.jpg'
-        // );
 
-        $ops = $bucketManager->buildBatchStat($private_bucket, $keys);
+        $ops = $bucketManager->buildBatchStat('teacher-doc', $keys);
         list($ret, $err) = $bucketManager->batch($ops);
         if ($err) {
             dd($err);
         } else {
             dd($ret);
+        }
+
+        return 1;
+        $keyPairs = array();
+        foreach ($keys as $key) {
+            $keyPairs[$key] = "/teacher-doc/".$key;
+        }
+
+        $srcBucket = 'teacher-doc';
+        $destBucket = $qiniu["private_url"]['bucket'];
+        $ops = $bucketManager->buildBatchCopy($srcBucket, $keyPairs, $destBucket, true);
+        list($ret, $err) = $bucketManager->batch($ops);
+        if ($err) {
+            print_r($err);
+        } else {
+            print_r($ret);
         }
 
     }
