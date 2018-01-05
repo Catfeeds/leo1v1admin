@@ -122,13 +122,22 @@ $(function(){
                                 $upload_link_b2.attr("href", resp.url);
                                 $upload_link_b2.html("查看");
                             })
-                        }, null,
+                        }, 
+                        null,
                         ["yml"] );
-            $.custom_upload_file_soft(
-                        1,
+
+            $.custom_upload_file_process_soft(
                         "id_upload_from_url_b3" ,
                         true,
+                        function(up, info, file, lesson_info) {
+                            var res = $.parseJSON(info);
+                            if(res.key!=''){
+                                set_url_fun(res.key);
+                                upload_status_show(id_item,1);
+                            }
+                        }, 
                         function( up, info, file ){
+                            console.log(info);
                             var res = $.parseJSON(info);
                             var url=res.key;
                             $.do_ajax("/common_new/get_qiniu_download",{
