@@ -1702,7 +1702,7 @@ class Common {
             "___",
             "___",
             "___",
-            "___",
+            "\t\t\t\t\t",
             " ",
             "gz_null.png",
             " ",
@@ -1711,7 +1711,7 @@ class Common {
             " " ,
         ];
         $order_sex= str_replace($search,$replace, $order_temp );
-        $base_file_name= "order_empty_100001" ;
+        $base_file_name= "order_1000000_empty" ;
         // if( $gong_zhang_flag ) {
         //     $base_file_name.="_gz";
         // }
