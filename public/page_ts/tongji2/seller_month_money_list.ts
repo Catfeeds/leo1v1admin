@@ -51,7 +51,7 @@ $(function(){
                     $tr.find(".suc_second_week").text(data["suc_second_week"]);
                     $tr.find(".suc_third_week").text(data["suc_third_week"]);
                     $tr.find(".suc_fourth_week").text(data["suc_fourth_week"]);
-                    $tr.find(".lesson_per").text(data["lesson_per"]+'<br/>'+data["lesson_per_desc"]);
+                    $tr.find(".lesson_per").text(data["lesson_per"]+"<br/>("+data["lesson_per_desc"]+")");
                     $tr.find(".kpi").text(data["kpi"]);
                     $tr.find(".last_all_price").text(data["last_all_price"]);
                     $tr.find(".last_seller_level").text(data["last_seller_level"]);
