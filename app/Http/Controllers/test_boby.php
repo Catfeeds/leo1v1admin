@@ -1569,15 +1569,15 @@ class test_boby extends Controller {
         }
         // dd($keys);
 
-        $ops = $bucketManager->buildBatchStat('teacher-doc', $keys);
-        list($ret, $err) = $bucketManager->batch($ops);
-        if ($err) {
-            dd($err);
-        } else {
-            dd($ret);
-        }
+        // $ops = $bucketManager->buildBatchStat('teacher-doc', $keys);
+        // list($ret, $err) = $bucketManager->batch($ops);
+        // if ($err) {
+        //     dd($err);
+        // } else {
+        //     dd($ret);
+        // }
 
-        return 1;
+        // return 1;
         $keyPairs = array();
         foreach ($keys as $key) {
             $keyPairs[$key] = "/teacher-doc/".$key;
@@ -1587,10 +1587,31 @@ class test_boby extends Controller {
         $destBucket = $qiniu["private_url"]['bucket'];
         $ops = $bucketManager->buildBatchCopy($srcBucket, $keyPairs, $destBucket, true);
         list($ret, $err) = $bucketManager->batch($ops);
+        $succ = 0;
+        $er = 0;
+        $err_arr = [];
         if ($err) {
-            print_r($err);
+            // dd($err);
+            foreach($err as $v){
+                if ($v['code'] == 200){
+                    $succ++;
+                } else {
+                    $er++;
+                }
+            }
+            echo  '成功',$succ,';失败',$er;
         } else {
-            print_r($ret);
+            // dd($ret);
+            foreach($ret as $v){
+                if ($v['code'] == 200){
+                    $succ++;
+                } else {
+                    $err_arr[] = $v;
+                    $er++;
+                }
+            }
+            echo  '成功',$succ,';失败',$er;
+            dd($err_arr);
         }
 
     }
