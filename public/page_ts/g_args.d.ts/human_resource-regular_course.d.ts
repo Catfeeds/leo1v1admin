@@ -23,19 +23,34 @@ tofile:
 /// <reference path="../g_args.d.ts/human_resource-regular_course.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		teacherid:	$('#id_teacherid').val(),
 		userid:	$('#id_userid').val(),
 		account_role_self:	$('#id_account_role_self').val(),
 		ass_master_flag:	$('#id_ass_master_flag').val()
-    });
+		});
 }
 $(function(){
 
 
-	$('#id_teacherid').val(g_args.teacherid);
-	$('#id_userid').val(g_args.userid);
+	$('#id_teacherid').admin_select_user_new({
+		"user_type"    : "teacher",
+		"select_value" : g_args.teacherid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_teacherid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
+	$('#id_userid').admin_select_user_new({
+		"user_type"    : "student",
+		"select_value" : g_args.userid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_userid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 	$('#id_account_role_self').val(g_args.account_role_self);
 	$('#id_ass_master_flag').val(g_args.ass_master_flag);
 
@@ -54,6 +69,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_teacherid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teacherid title", "teacherid", "th_teacherid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -61,6 +77,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_userid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["userid title", "userid", "th_userid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -68,6 +85,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_account_role_self" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["account_role_self title", "account_role_self", "th_account_role_self" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -75,4 +93,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_ass_master_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["ass_master_flag title", "ass_master_flag", "th_ass_master_flag" ]])!!}
 */
