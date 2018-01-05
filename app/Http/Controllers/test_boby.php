@@ -1541,5 +1541,57 @@ class test_boby extends Controller {
         }
         $s = $this->table_end($s);
         return $s;
+
+    }
+
+    public function qiniu_test(){
+        // $accessKey = getenv('QINIU_ACCESS_KEY');
+        // $secretKey = getenv('QINIU_SECRET_KEY');
+        // $bucket = getenv('QINIU_TEST_BUCKET');
+
+        $qiniu         = \app\helper\config::get_config("qiniu");
+        $private_bucket = $qiniu["private_url"]['bucket'];
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+        // $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
+        // $token = $auth->uploadtoken($public_bucket);
+
+        // $auth = new Auth($accessKey, $secretKey);
+        $config = new \Qiniu\Config();
+        $bucketManager = new \Qiniu\Storage\BucketManager($auth, $config);
+
+        $list = $this->t_resource_file->get_all_file_title();
+        $keys = [];
+        foreach($list as $v){
+            $keys[] = $v['file_link'];
+        }
+        // dd($keys);
+
+        $ops = $bucketManager->buildBatchStat('teacher-doc', $keys);
+        list($ret, $err) = $bucketManager->batch($ops);
+        if ($err) {
+            dd($err);
+        } else {
+            dd($ret);
+        }
+
+        return 1;
+        $keyPairs = array();
+        foreach ($keys as $key) {
+            $keyPairs[$key] = "/teacher-doc/".$key;
+        }
+
+        $srcBucket = 'teacher-doc';
+        $destBucket = $qiniu["private_url"]['bucket'];
+        $ops = $bucketManager->buildBatchCopy($srcBucket, $keyPairs, $destBucket, true);
+        list($ret, $err) = $bucketManager->batch($ops);
+        if ($err) {
+            print_r($err);
+        } else {
+            print_r($ret);
+        }
+
     }
 }
