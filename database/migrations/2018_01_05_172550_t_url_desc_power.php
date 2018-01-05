@@ -25,17 +25,18 @@ class TUrlDescPower extends Migration
         // });
 
         //
-        Schema::dropIfExists('db_weiyi_admin.t_url_input_define');
-        Schema::create('db_weiyi_admin.t_url_input_define', function( Blueprint $table)
-        {
-            t_comment($table, "角色的每个页面的输入数据设置" );
-            t_field($table->integer("id",true) ,"自增id");
-            t_field($table->integer("role_groupid") ,"角色组id");
-            t_field($table->string("url") ,"页面地址:/test/get_user_list1");
-            t_field($table->string("field_name") ,"参数名:grade");
-            t_field($table->string("field_val") ,"值"); //string:101,  function::get_accountid
-            $table->unique(["role_groupid", "url","field_name"],"role_url_field_name");
-        });
+        // Schema::dropIfExists('db_weiyi_admin.t_url_input_define');
+        // Schema::create('db_weiyi_admin.t_url_input_define', function( Blueprint $table)
+        // {
+        //     t_comment($table, "角色的每个页面的输入数据设置" );
+        //     t_field($table->integer("id",true) ,"自增id");
+        //     t_field($table->integer("role_groupid") ,"角色组id");
+        //     t_field($table->string("url") ,"页面地址:/test/get_user_list1");
+        //     t_field($table->string("field_name") ,"参数名:grade");
+        //     t_field($table->string("field_val") ,"值"); //string:101,  function::get_accountid
+        //     $table->unique(["role_groupid", "url","field_name"],"role_url_field_name");
+        // });
+
 
     }
 

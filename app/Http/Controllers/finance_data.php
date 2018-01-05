@@ -19,17 +19,17 @@ class finance_data  extends Controller
             $item["month_str"] = date("Y年m月",$item["month"]);
         }
 
-        //获取2017年11月数据
-        $data = $this->t_order_info->get_order_money_user_info(strtotime("2017-11-01"),time());
-        $data["month"] = strtotime("2017-11-01");
-        $data["month_str"] = "2017年11月";
-        $data["new_order_money"]=2*$data["new_order_money"];
-        $data["renew_order_money"]=2*$data["renew_order_money"];
-        $data["new_order_stu"]=2*$data["new_order_stu"];
-        $data["renew_order_stu"]=2*$data["renew_order_stu"];
-        $data["new_signature_price"]=$data["new_order_stu"]>0?round( $data["new_order_money"]/$data["new_order_stu"]):0;
-        $data["renew_signature_price"]=$data["renew_order_stu"]>0?round( $data["renew_order_money"]/$data["renew_order_stu"]):0;
-        array_push($ret_info["list"],$data);
+        // //获取2017年11月数据
+        // $data = $this->t_order_info->get_order_money_user_info(strtotime("2017-11-01"),time());
+        // $data["month"] = strtotime("2017-11-01");
+        // $data["month_str"] = "2017年11月";
+        // $data["new_order_money"]=2*$data["new_order_money"];
+        // $data["renew_order_money"]=2*$data["renew_order_money"];
+        // $data["new_order_stu"]=2*$data["new_order_stu"];
+        // $data["renew_order_stu"]=2*$data["renew_order_stu"];
+        // $data["new_signature_price"]=$data["new_order_stu"]>0?round( $data["new_order_money"]/$data["new_order_stu"]):0;
+        // $data["renew_signature_price"]=$data["renew_order_stu"]>0?round( $data["renew_order_money"]/$data["renew_order_stu"]):0;
+        // array_push($ret_info["list"],$data);
         return $this->pageView(__METHOD__, $ret_info);
 
     }
@@ -75,15 +75,19 @@ class finance_data  extends Controller
 
     public function test_lesson_origin_tongji(){
         $time  = strtotime("2016-12-01");
-        $rr=["公众号"=>1,"信息流"=>2,"BD"=>3,"口碑"=>4,"转介绍"=>5,"其中：优学优享"=>6];
+        $rr=["公众号"=>1,"信息流"=>2,"BD"=>3,"口碑"=>4,"转介绍"=>5];
         $arr=[];
-        for($i=1;$i<11;$i++){
+        for($i=1;$i<13;$i++){
             $month = strtotime("+".$i." months",$time);
             $list =  $this->t_order_student_month_list->get_list_by_month($month);
             foreach($list as $val){
-                $arr[$month][$rr[$val["origin"]]]=$val; 
+                if(isset($rr[$val["origin"]])){                                    
+                    $arr[$month][$rr[$val["origin"]]]=$val;
+                }
             }
-            ksort($arr[$month]);
+            if($arr){
+                ksort($arr[$month]);
+            }
         }
         foreach($arr as $k=>&$item){
             $item["num"] = count($item);

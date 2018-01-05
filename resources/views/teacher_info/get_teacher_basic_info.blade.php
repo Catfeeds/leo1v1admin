@@ -40,7 +40,6 @@
                         </div>
                     </div>
                 </div>
-
                 @if ($show_flag)
                     <!-- Chat box -->
                     <div class="box box-warning">
@@ -82,6 +81,8 @@
                     <!-- /.box (chat box) -->
                 @endif
 
+                <!-- 暂时关闭 -->
+                @if(1==2)
                 <!-- Chat box -->
                 <div class="box box-info-ly collapsed-box">
                     <div class="box-header">
@@ -115,7 +116,8 @@
                     <!-- /.box-footer -->
                 </div>
                 <!-- /.box (chat box) -->
-
+                @endif
+                
                 <!-- Chat box -->
                 <div class="box box-info-ly collapsed-box">
                     <div class="box-header">
@@ -313,6 +315,8 @@
                                                 {!! $my_info['phone'] !!}
                                                 @if (!$my_info['wx_openid'])
                                                     <a href="javascript:;"  data-toggle="modal" data-target="#modal-band-wx" class="color-red band-wx">未绑定</a>
+                                                @else
+                                                    <span class="color-blue">已绑定</span>
                                                 @endif
                                             </td>
                                             <th class="text-cen bg-lblue" >信息创建时间</th>
@@ -605,7 +609,7 @@
                             <a href="javascript:void(0)" class="upload-img"> 上传头像</a>
                             <input type="file" class="" name="upload-file" id="upload-file" accept="image/jpg, image/png"/>
                         </div>
-                        <input type="button" id="btnCrop"  class="Btnsty_peyton" value="裁切">
+                        <input type="button" id="btnCrop"  class="Btnsty_peyton" value="剪切">
                         <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+"  >
                         <input type="button" id="btnZoomOut" class="Btnsty_peyton" value="-" >
                     </div>

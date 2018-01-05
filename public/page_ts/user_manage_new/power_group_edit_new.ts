@@ -35,7 +35,7 @@ function beforeEditName(treeId, treeNode) {
     var url      = treeNode.url;
     var powerid  = treeNode.page_id;
     var groupid = $("#groupid").val();
-    console.log(url);
+    //console.log(url);
     if (powerid != 0) {      
         var data = {
             "url" : url,
@@ -89,6 +89,7 @@ function addHoverDom(treeId, treeNode) {
         var zTree = $.fn.zTree.getZTreeObj("treeDemo");
         var url      = treeNode.url;
         var groupid = $("#groupid").val();
+        //console.log(url);
         var data = {
             "url" : url,
             "group_id" : groupid,
@@ -120,9 +121,15 @@ function addHoverDom(treeId, treeNode) {
                             field_val != undefined ? id_select.val(field_val) : '';
                             arr[x].push(id_select);
                             
+                        }else if( res.data[x]['value_type'] == "function" ){
+                            Enum_map.append_option_list("function_power", id_select,true);
+                            field_val != undefined ? id_select.val(field_val) : '';
+                            arr[x].push(id_select);
+
                         }else{
                             field_val != undefined ? id_textarea.val(field_val) : '';
                             arr[x].push(id_textarea);
+
                         }
                                              
                     }

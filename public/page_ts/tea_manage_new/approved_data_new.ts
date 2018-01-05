@@ -30,8 +30,8 @@ $(function(){
         }
     });
 
-
-    $(".violation_num").on("click",function(){
+    //2018-01-04 改版
+    /*$(".violation_num").on("click",function(){
         var teacherid    = $(this).attr('data-teacherid');
         var html_node    = $.obj_copy_node("#id_assign_log");
 
@@ -91,7 +91,7 @@ $(function(){
         //     }
         // });
 
-    });
+    });*/
 
 
 

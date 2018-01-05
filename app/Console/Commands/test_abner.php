@@ -37,6 +37,42 @@ class test_abner extends cmd_base
      */
     public function handle()
     {
+        $begin_time = strtotime(date('2017-08-01'));
+        $end_time = strtotime('+ 1 month',$begin_time);
+        $lesson_evaluation_data = $this->task->t_lesson_info_b3->get_lesson_evaluation_data($begin_time,$end_time);
+        $path = '/var/www/admin.yb1v1.com/10.txt';
+        $fp = fopen($path,"a+");
+        fwrite($fp, '8月份');//1
+        fwrite($fp, '   ');
+        fwrite($fp, @$lesson_evaluation_data['test_lesson_count']);//1
+        fwrite($fp, '   ');
+        fwrite($fp, @$lesson_evaluation_data['test_evaluation_count']);//2
+        fwrite($fp, '   ');
+        fwrite($fp, @$lesson_evaluation_data['regular_lesson_count']);//3
+        fwrite($fp, '   ');
+        fwrite($fp, @$lesson_evaluation_data['regular_evaluation_count']);//13
+        fwrite($fp, "\n");
+        fclose($fp);
+        echo 'ok!';
+
+
+        //更新优学优享用户头像  --begin--
+        // $data = $this->get_wx_user_info($wx_openid='oAJiDwEId4b1lA6WV1wbRS83WXvo');
+        // print_r($data);
+        // $status = $this->task->t_agent->field_updte_list($id=1316, [
+        //     'headimgurl' => $data['headimgurl']
+        // ]);
+        // echo $status;
+        // echo 'ok';
+        //更新优学优享用户头像  --begin--
+
+        // $this->get_teacher_case();
+        // $this->get_today_headline
+    }
+
+    //@desn:获取老师违规数据明细
+    //@date:2018-01-05
+    private function get_teacher_violation_data(){
         //获取所有违规老师的数据
         $begin_time = strtotime(date('2017-10-1'));
         $end_time = strtotime('+ 1 month',$begin_time);
@@ -46,7 +82,6 @@ class test_abner extends cmd_base
         $teacher_student_arr = [];
         $is_turn_teacher = 0;
         foreach($teacher_violation as $item){
-            
             if(!@$teacher_violation_arr[$item['teacherid']]){
                 //初始化每个老师的数据
                 $teacher_violation_arr[$item['teacherid']] = [
@@ -139,18 +174,6 @@ class test_abner extends cmd_base
         fclose($fp);
         echo 'ok!';
 
-        //更新优学优享用户头像  --begin--
-        // $data = $this->get_wx_user_info($wx_openid='oAJiDwEId4b1lA6WV1wbRS83WXvo');
-        // print_r($data);
-        // $status = $this->task->t_agent->field_updte_list($id=1316, [
-        //     'headimgurl' => $data['headimgurl']
-        // ]);
-        // echo $status;
-        // echo 'ok';
-        //更新优学优享用户头像  --begin--
-
-        // $this->get_teacher_case();
-        // $this->get_today_headline
     }
 
     public function get_wx_user_info($wx_openid){

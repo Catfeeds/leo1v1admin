@@ -99,7 +99,7 @@ class user_power extends Controller
 
     public function get_input_define()
 	{
-		$url       = $this->get_in_str_val('url',"ff/get_student_list");
+		$url       = $this->get_in_str_val('url');
         $group_id  = $this->get_in_int_val('group_id');
         $controller_name = substr($url, strripos($url,"/") + 1);
         if(!$controller_name){
@@ -161,7 +161,7 @@ class user_power extends Controller
         $url = $data['url'];
         $role_groupid = $data['role_groupid'];
         $field_name = $data['field_name'];
-
+        
         //查看是否存在
         $url_input_define_id = $this->t_url_input_define->url_input_define_id($url,$role_groupid,$field_name);
         if($url_input_define_id){

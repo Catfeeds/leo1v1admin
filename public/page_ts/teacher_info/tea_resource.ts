@@ -210,7 +210,8 @@ $(function(){
 
         Enum_map.append_option_list("resource_type",id_resource_type,true,[1,2,3,4,5,6]);
         Enum_map.append_option_list("subject",id_subject,true);
-        Enum_map.append_option_list("grade",id_grade,true,grade_info);
+        // Enum_map.append_option_list("grade",id_grade,true,grade_info);
+        Enum_map.append_option_list("grade",id_grade,true);
 
         Enum_map.append_option_list("region_version", id_tag_one,true );
         Enum_map.append_option_list("resource_season",id_tag_two,true);
@@ -230,10 +231,10 @@ $(function(){
             label    : '确认',
             cssClass : 'btn-info btn-mark',
             action   : function() {
-                if(id_subject.val() <= 0  || id_grade.val() <= 0 || id_tag_one.val() <= 0){
-                    alert('请完善信息!');
-                    return false;
-                } else {
+                // if(id_subject.val() <= 0  || id_grade.val() <= 0 || id_tag_one.val() <= 0){
+                //     alert('请完善信息!');
+                //     return false;
+                // } else {
                     var file_num = $('.tea_file').length;
                     if( file_num < 1){
                         alert('请选择上传文件!');
@@ -241,9 +242,10 @@ $(function(){
                     }
                     $('#up_load').attr('flag', new_flag);//开始上传
                     $('#up_load').click();//开始上传
-                }
+                // }
             }
         },function(){
+            $('.resource,.tag_two,.tag_three,.tag_four').parent().parent().hide();
 
             $('.sel_flag').each(function(){
                 if($(this).parent().prev().text() == ''){
