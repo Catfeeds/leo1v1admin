@@ -1697,9 +1697,9 @@ class Common {
         //     //$lesson_info.=",赠送($type_2_lesson_count)课时 ";
         // }
         $replace=[
-            "<br>",
-            "<br>",
-            "&nbsp",
+            "&nbsp\t&nbsp",
+            "&nbsp\t&nbsp",
+            "&nbsp\t&nbsp",
             "\t\t\t\t",
             "\t\t\t\t\t",
             "\t\t\t\t\t",
@@ -1711,7 +1711,7 @@ class Common {
             " " ,
         ];
         $order_sex= str_replace($search,$replace, $order_temp );
-        $base_file_name= "order_empty_1000111" ;
+        $base_file_name= "order_empty_1001111" ;
         // if( $gong_zhang_flag ) {
         //     $base_file_name.="_gz";
         // }

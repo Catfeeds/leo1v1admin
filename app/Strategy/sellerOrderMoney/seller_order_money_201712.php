@@ -43,20 +43,6 @@ class seller_order_money_201712  extends  seller_order_money_base
         $group_money_add_percent=0;
 
         if ( $ret_arr["group_default_money"] >0  ) {
-            // if ($ret_arr[ "group_all_price"] >= $ret_arr["group_default_money"] ) {
-            //     if ($percent){
-            //         $percent+=1.5;
-            //     }
-            //     if ($ret_arr["group_adminid"] == $adminid) { //是主管
-            //         $group_money_add_percent=1.8;
-            //     }
-            // }else if ($ret_arr[ "group_all_price"] >= $ret_arr["group_default_money"] *0.75 ) {
-
-            //     if ($ret_arr["group_adminid"] == $adminid) { //是主管
-            //         $group_money_add_percent=0.8;
-            //     }
-            // }
-
             if($ret_arr[ "group_all_price"] >= $ret_arr["group_default_money"]*1.1){
                 if ($percent){
                     $percent+=1.5;

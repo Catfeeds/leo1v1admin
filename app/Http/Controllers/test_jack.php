@@ -1293,9 +1293,14 @@ class test_jack  extends Controller
     }
 
     public function ajax_deal_jack(){
+        $this->switch_tongji_database();
+        $this->check_and_switch_tongji_domain();
+
         // $teacherid             = $this->get_in_int_val("teacherid");
         $start_time            = $this->get_in_int_val("start_time");
         $end_time             = strtotime("+1 months",$start_time);
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2018-01-01");
 
         // $list = $this->t_lesson_info_b3->get_lesson_count_by_grade($start_time,$end_time);
         $small = $this->t_lesson_info_b3->get_stu_num_by_grade($start_time,$end_time,1);
@@ -1303,10 +1308,11 @@ class test_jack  extends Controller
         $high = $this->t_lesson_info_b3->get_stu_num_by_grade($start_time,$end_time,3);
         $all =  $small+$middle+$high;
         $list=[];
-        $list["small_grade"] = round($small/$all*100,2);
+        $list["small_grade"] = round($small/$all*100,2)."%";
+        dd($list["small_grade"]);
 
-        $list["middle_grade"] = round($middle/$all*100,2);
-        $list["high_grade"] =round($high/$all*100,2);
+        $list["middle_grade"] = round($middle/$all*100,2)."%";
+        $list["high_grade"] =round($high/$all*100,2)."%";
         return $this->output_succ($list);
 
         $date_week                         = \App\Helper\Utils::get_week_range(time(),1);

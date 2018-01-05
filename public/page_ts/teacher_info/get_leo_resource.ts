@@ -20,8 +20,8 @@ function load_data(){
 }
 $(function(){
 
-    console.log(tea_info);
-    console.log(typeof tea_info);
+    console.log(tea_sub);
+    console.log(tea_gra);
     $('#id_resource_type').val(g_args.resource_type);
     $('#id_subject').val(g_args.subject);
     $('#id_grade').val(g_args.grade);
@@ -96,8 +96,8 @@ $(function(){
 
     }
     Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6]);
-    Enum_map.append_option_list("subject", $("#id_subject"));
-    Enum_map.append_option_list("grade", $("#id_grade"));
+    Enum_map.append_option_list("subject", $("#id_subject"),true, tea_sub);
+    Enum_map.append_option_list("grade", $("#id_grade"),true, tea_gra);
     if(tag_one == 'region_version'){
         Enum_map.append_option_list(tag_one, $("#id_tag_one"), false, book);
     }else if (tag_one != ''){
