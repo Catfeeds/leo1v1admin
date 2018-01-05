@@ -2413,7 +2413,8 @@ class teacher_info extends Controller
             }
 
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            \App\Helper\Utils::get_file_use_type_str($item, $index);
+            // \App\Helper\Utils::get_file_use_type_str($item, $index);
+            \App\Helper\Utils::get_file_use_type_str($item);
             $item['file_size'] = round( $item['file_size'] / 1024,2) . 'M';
             $item['tag_one_name'] = $tag_arr['tag_one']['name'];
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
@@ -2877,5 +2878,28 @@ class teacher_info extends Controller
             return $this->output_succ(['data' => $files]) ;
         }
     }
+
+    public function change_train_lesson_time(){
+        $lessonid     = $this->get_in_int_val("lessonid");
+        $start_date   = $this->get_in_str_val("start_date",date("Y-m-d H:i",time()));
+
+        $lesson_start = strtotime($start_date);
+        $lesson_end   = $lesson_start+1800;
+
+        $lesson_status = $this->t_lesson_info->get_lesson_status($lessonid);
+        if($lesson_status>0){
+            return $this->output_err("课程已开始或结束,不能修改!");
+        }
+        if($lesson_start <= time()){
+            return $this->output_err("课程时间不能早于当前时间");
+        }
+
+        $ret = $this->t_lesson_info->field_update_list($lessonid,[
+            "lesson_start" => $lesson_start,
+            "lesson_end"   => $lesson_end,
+        ]);
+        return $this->output_succ();
+    }
+
 
 }

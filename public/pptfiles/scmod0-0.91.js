@@ -2083,7 +2083,7 @@ function ae(lN) {
 function mL(p) {};
 function syncPageAnim(slide, anim, trigger, isBack) {
     console.log("syn:" + slide + "," + anim + "," + trigger + "," + isBack);
-    window.notifyStepChanged && window.notifyStepChanged(slide, anim, trigger, isBack);
+    window.onStepChanged && window.onStepChanged(slide, anim, trigger, isBack);
 };
 function execNext(){
  	if (!K.tl || !K.tl["sp-1"] || K.tl["sp-1"].ak == K.tl["sp-1"].au.length) {
