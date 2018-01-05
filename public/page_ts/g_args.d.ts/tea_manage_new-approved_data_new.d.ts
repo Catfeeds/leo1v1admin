@@ -16,32 +16,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	id	:any;
-	teacherid	:any;
-	stu_num	:any;
-	total_lesson_num	:any;
-	cc_order_num	:any;
-	cc_lesson_num	:any;
-	cr_order_num	:any;
-	cr_lesson_num	:any;
-	violation_num	:any;
-	test_lesson_count	:any;
-	regular_lesson_count	:any;
-	no_notes_count	:any;
-	test_lesson_later_count	:any;
-	regular_lesson_later_count	:any;
-	no_evaluation_count	:any;
-	turn_class_count	:any;
-	ask_for_leavel_count	:any;
-	test_lesson_truancy_count	:any;
-	regular_lesson_truancy_count	:any;
-	turn_teacher_count	:any;
-	stu_refund	:any;
-	all_test_lesson_count	:any;
-	all_regular_lesson_count	:any;
-	cc_rate	:any;
-	cr_rate	:any;
-	tea_nick	:any;
 }
 
 /*

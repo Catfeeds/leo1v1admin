@@ -53,7 +53,9 @@ class user_manage_new extends Controller
 
     public function stu_lesson_count_list() {
         $this->switch_tongji_database();
+        $this->check_and_switch_tongji_domain();
         list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],2 );
+        $page_number = $this->get_in_int_val("page_number",30);
         $assistantid=$this->get_in_assistantid(-1);
 
         $acc = $this->get_account();
@@ -79,7 +81,7 @@ class user_manage_new extends Controller
 
         $page_num=$this->get_in_page_num();
 
-        $ret_list=$this->t_lesson_info->get_confirm_lesson_list_user($page_num,$start_time,$end_time,$assistantid);
+        $ret_list=$this->t_lesson_info->get_confirm_lesson_list_user($page_num,$start_time,$end_time,$assistantid, $page_number);
         $lesson_money_list = $this->t_lesson_info_b2->get_stu_lesson_money_info($start_time,$end_time);
         foreach($ret_list['list'] as &$item ){
             $this->cache_set_item_student_nick($item);
