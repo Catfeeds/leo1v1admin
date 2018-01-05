@@ -422,8 +422,8 @@ class agent extends Controller
         $adminid = 314;
         list($start_time,$end_time)=[1509465600,1512057600];
         $phone_list = $this->t_tq_call_info->get_list_by_adminid($adminid,$start_time,$end_time);
-        dd($phone_list);
-        $phone_count = array_unique(array_column($phone_list,'phone'));
+        $phone_count = count(array_unique(array_column($phone_list,'phone')));
+        dd($phone_count);
         $seller_count = $this->t_seller_student_new->get_seller_count_by_adminid($adminid,$start_time,$end_time);
         $test_count = $this->t_test_lesson_subject_require->get_item_count($start_time,$end_time,$adminid);
     }
