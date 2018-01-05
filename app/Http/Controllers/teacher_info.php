@@ -2086,7 +2086,7 @@ class teacher_info extends Controller
 
             $this->get_lesson_cost_info($val,$check_num);
             $lesson_time = \App\Helper\Utils::get_lesson_time($val['lesson_start'],$val['lesson_end']);
-            $lesson_arr = [
+            $lesson_arr  = [
                 "name"       => $val['stu_nick'],
                 "time"       => $lesson_time,
                 "status_info"=> $val['lesson_cost_info'],
