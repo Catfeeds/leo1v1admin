@@ -150,8 +150,8 @@ class authority extends Controller
         }else{
             $ret = 1;
         }
+        return $this->output_succ( ["reset_ret" => $ret]  );
 
-        return $ret;
     }
 
     public function manager_list_offline()
