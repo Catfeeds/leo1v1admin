@@ -1637,6 +1637,15 @@ class test_james extends Controller
     }
 
     public function do_james(){
+        $file_link = $this->get_in_str_val('f');
+        $config=\App\Helper\Config::get_config("qiniu");
+        $bucket_info=$config["private_url" ];
+
+        $pdf_file_path = $auth->privateDownloadUrl($bucket_info.$file_link );
+
+        dd($pdf_file_path);
+
+
         $list = $this->t_resource_file->getList();
 
         foreach($list as $item){
