@@ -174,17 +174,17 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class=" fa-info opt-lesson-info" title="课程信息"></a>
-                                <a class=" fa-play opt-play " title="实时白板"></a>
+                                <!-- <a class=" fa-play opt-play" title="实时白板"></a> -->
                                 <a href="javascript:;" class="btn fa fa-qrcode opt-qr-pad-at-time "
                                    data-type="leoedu://meeting.leoedu.com/meeting="
                                    title="pad实时课程二维码" ></a>
                                 <a class=" fa-sitemap opt-set-server" title="服务器" ></a>
                                 <a class=" fa-list-alt opt-log-list" title="登录日志"></a>
                                 <a class=" fa-credit-card opt-lesson" title="课程详细信息"></a>
-                                <a class=" fa-rotate-left   opt-user-need-rejoin" title="让用户重进"></a>
+                                <!-- <a class=" fa-rotate-left   opt-user-need-rejoin" title="让用户重进"></a> -->
                                 <a class=" fa-comment   opt-user-send-xmpp-message " title="弹幕"></a>
                                 <a style="display:none;" class=" fa-gavel opt-set-server-type " title="设置服务器类型"></a>
-                                <a class=" fa-print opt-add-error" title="写入错误信息"></a>
+                                <!-- <a class=" fa-print opt-add-error" title="写入错误信息"></a> -->
                                 <a class=" fa-clock-o  opt-change-time" title="上课延时/调整上课时间"></a>
                                 <a class=" fa-list-alt opt-lesson-all " title="课程信息汇总"></a>
                             </div>
