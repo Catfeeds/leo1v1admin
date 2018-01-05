@@ -7,9 +7,10 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log ;
+
 use \App\Enums as E;
 
-//use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Session;
 
 require_once( app_path() ."/Helper/functions.php"  );
 /**
@@ -38,6 +39,17 @@ class Controller extends ControllerEx
     public function  set_call_ctl_init(){
         
         $this->html_hide_list_add([ "grade","opt_grade", "input_grade" ]);
+        $url_input_define = session('url_input_define') ? json_decode(session('url_input_define'),true) : [];
+        $url_desc_power = session('url_desc_power') ? json_decode(session('url_desc_power'),true) : [];
+        $url = $_SERVER['REQUEST_URI'];
+        //dd($url);
+        if(!empty($url_desc_power)){
+            foreach($url_desc_power as $v){
+                if( $url == $v['url'] ){
+                    
+                }
+            }
+        }
         /*
         $this->set_in_value("grade", 101);
         //$sys_operator_uid= $this->get_account_id();

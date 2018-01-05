@@ -25,6 +25,16 @@ class t_url_input_define extends \App\Models\Zgen\z_t_url_input_define
         );
         return $this->main_get_value($sql);
     }
+
+    public function url_input_define_by_gid($gid_str){
+        $sql=$this->gen_sql_new("select distinct url,field_name,field_val,GROUP_CONCAT(field_val) as field_val_str
+                                 from %s where role_groupid in (%s) group by url,field_name"
+                                ,self::DB_TABLE_NAME
+                                ,$gid_str
+        );
+        $data = $this->main_get_list($sql);
+        return $data;
+    }
 }
 
 
