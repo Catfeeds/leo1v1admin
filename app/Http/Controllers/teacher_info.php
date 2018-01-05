@@ -98,7 +98,6 @@ class teacher_info extends Controller
                 E\Ehabit_remodel::set_item_value_str($item);
             }
 
-
             $item["lesson_time"]     = \App\Helper\Utils::fmt_lesson_time($item["lesson_start"],$item["lesson_end"]);
             $item['tea_comment_str'] = "<font color=red>-</font>";
 
@@ -2502,9 +2501,12 @@ class teacher_info extends Controller
     }
 
     public function get_leo_resource(){
+        //获取老师科目年级段
+        $tea_info = $this->get_rule_range();
+
         $resource_type = $this->get_in_int_val('resource_type', 1);
-        $subject       = $this->get_in_int_val('subject', -1);
-        $grade         = $this->get_in_int_val('grade', -1);
+        $subject       = $this->get_in_int_val('subject', @$tea_info['subject'][0]);
+        $grade         = $this->get_in_int_val('grade', @$tea_info['grade'][0]);
         $tag_one       = $this->get_in_int_val('tag_one', -1);
         $tag_two       = $this->get_in_int_val('tag_two', -1);
         $tag_three     = $this->get_in_int_val('tag_three', -1);
@@ -2522,12 +2524,11 @@ class teacher_info extends Controller
             $resource_type = $resource_type<1?1:$resource_type;
             $resource_type = $resource_type>6?6:$resource_type;
         }
-        //获取老师科目年级段
-        $tea_info = $this->get_rule_range();
+
 
         //禁用，删除，老师段则不在显示
         $ret_info = $this->t_resource->get_all_for_tea(
-            $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$page_info
+             $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$page_info
         );
 
         $tag_arr = \App\Helper\Utils::get_tag_arr($resource_type);
@@ -2578,11 +2579,14 @@ class teacher_info extends Controller
             return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
         }
 
-        // dd(json_encode($tea_info));
+        // dd($tea_info);
         return $this->pageView( __METHOD__,$ret_info,[
             'tag_info' => $tag_arr,
-            'tea_info' => json_encode($tea_info),
-            'book' => json_encode($book_arr)]);
+            // 'tea_sub' => json_encode( $tea_info['subject'] ),
+            // 'tea_gra' => json_encode($tea_info['grade']),
+            'tea_sub' => '[1,2,3]',
+            'tea_gra' => '[1,2,3]',
+           'book' => json_encode($book_arr)]);
     }
 
     public function do_collect(){
@@ -3039,9 +3043,20 @@ class teacher_info extends Controller
         $teacherid = $this->get_login_teacher();
         if($teacherid != false){
             $info = $this->t_teacher_info->get_subject_grade_by_teacherid($teacherid);
+            $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
+            $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade($info['second_grade_start'], $info['second_grade_end']);
+            $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade(1, 2);
+            $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade(4, 4);
+            $grade = [];
+            foreach($grade_1 as $v){
+                $grade[] = $v;
+            }
+            foreach($grade_2 as $v){
+                $grade[] = $v;
+            }
             $data = [
-                'subject' => $info['subject'],
-                'grade'   => \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']),
+                'subject' => [$info['subject'],$info['second_subject']],
+                'grade'   => $grade
             ];
 
             return $data;
