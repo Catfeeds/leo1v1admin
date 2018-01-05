@@ -2413,7 +2413,8 @@ class teacher_info extends Controller
             }
 
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            \App\Helper\Utils::get_file_use_type_str($item, $index);
+            // \App\Helper\Utils::get_file_use_type_str($item, $index);
+            \App\Helper\Utils::get_file_use_type_str($item);
             $item['file_size'] = round( $item['file_size'] / 1024,2) . 'M';
             $item['tag_one_name'] = $tag_arr['tag_one']['name'];
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
