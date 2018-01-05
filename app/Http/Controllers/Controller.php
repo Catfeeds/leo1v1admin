@@ -36,38 +36,37 @@ class Controller extends ControllerEx
     }
 
     public function  set_call_ctl_init(){
-        
-        $this->html_hide_list_add([ "grade","opt_grade", "input_grade" ]);
+
+        $this->html_power_list_add([ "grade","opt_grade", "input_grade" ]);
         /*
         $this->set_in_value("grade", 101);
         //$sys_operator_uid= $this->get_account_id();
         //$this->get_account_role();
         $this->set_in_value("adminid", $this->get_account_id())  ;
 
-        $this->html_hide_list_add([ "grade","opt_grade", "input_grade" ]);
         */
     }
 
     //保存要隐藏元素 列表
-    public $html_hide_list=[];
+    public $html_power_list=[];
 
-    public function html_hide_list_add( $key ) {
+    public function html_power_list_add( $key ) {
         if (is_array($key)) {
             foreach ($key as $item) {
-                $this->html_hide_list[$item]= true;
+                $this->html_power_list[$item]= true;
             }
         }else{
-            $this->html_hide_list[$key]= true;
+            $this->html_power_list[$key]= true;
         }
     }
 
-    public function html_hide_list_del( $key ) {
+    public function html_power_list_del( $key ) {
         if (is_array($key)) {
             foreach ($key as $item) {
-                unset ( $this->html_hide_list[$item] ) ;
+                unset ( $this->html_power_list[$item] ) ;
             }
         }else{
-            unset ( $this->html_hide_list[$key] ) ;
+            unset ( $this->html_power_list[$key] ) ;
         }
     }
 
