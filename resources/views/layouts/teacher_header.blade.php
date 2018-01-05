@@ -70,7 +70,9 @@
                                                 </li> --}}
                             <li class="dropdown messages-menu">
                                 <a href="http://admin.leo1v1.com/login/teacher?download=1" class="dropdown-toggle" target="_blank">
-                                    <i class="fa  fa-download color-lyblue"></i>
+                                    <!-- <i class="fa  fa-download color-lyblue"></i> -->
+
+                                    <span style="font-size:14px;" class="color-lyblue">客户端下载</span>
                                 </a>
                             </li>
                             {{-- <li class="dropdown messages-menu">

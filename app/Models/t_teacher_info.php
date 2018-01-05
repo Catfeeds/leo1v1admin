@@ -4747,11 +4747,23 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." left join %s m on m.phone=t.phone"
                                   ." where m.uid = $adminid"
                                   ,self::DB_TABLE_NAME
-                                  ,$where_arr
+                                  ,t_manager_info::DB_TABLE_NAME
         );
 
         return $this->main_get_row($sql);
     }
+
+    public function get_subject_grade_by_teacherid($teacherid){
+        $sql = $this->gen_sql_new("select t.subject,t.grade_start,t.grade_end "
+                                  ." from %s t"
+                                  ." where t.teacherid = $teacherid"
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+
 
     public function get_all_train_throuth_teacher_list($start_time,$end_time){
         $where_arr   = [
