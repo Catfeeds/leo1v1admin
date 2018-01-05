@@ -21,10 +21,9 @@ $(function(){
     var qc_voluntarily_status  = $('#opt_qc_voluntarily_status').attr('data-val');
     var opt_teacherid      = $('#opt_teacherid').attr('data-val');
     var opt_subject      = $('#opt_subject').attr('data-val');
-     $("#id_teacher").val(opt_teacherid)
-     $("#id_subject").val(opt_subject)
+    $("#id_teacher").val(opt_teacherid);
 
-    $("#id_teacher").val(g_args.teacherid);
+    // $("#id_teacher").val(g_args.teacherid);
 
     $.admin_select_user( $("#id_teacher"), "teacher");
 
@@ -34,7 +33,9 @@ $(function(){
 
     Enum_map.append_option_list( "subject", $("#id_subject"));
 
-    $("#id_subject").val(g_args.subject);
+    // $("#id_subject").val(g_args.subject);
+    $("#id_subject").val(opt_subject);
+
 
     $("#id_qc_contact_status").find('option[value="'+qc_contact_status+'"]').attr('selected',1);
     $("#id_qc_advances_status").find('option[value="'+qc_advances_status+'"]').attr('selected',1);
