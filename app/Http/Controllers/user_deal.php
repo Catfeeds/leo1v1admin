@@ -4089,8 +4089,7 @@ class user_deal extends Controller
         $arr['suc_second_week'] = $res[$adminid]['suc_lesson_count_two'];
         $arr['suc_third_week'] = $res[$adminid]['suc_lesson_count_three'];
         $arr['suc_fourth_week'] = $res[$adminid]['suc_lesson_count_four'];
-        $arr['lesson_per'] = $res[$adminid]['lesson_per'];
-        $arr['lesson_per_desc'] = $res[$adminid]['lesson_per_desc'];
+        $arr['lesson_per'] = $res[$adminid]['lesson_per_desc'].'='.$res[$adminid]['lesson_per'];
         $arr['kpi'] = $res[$adminid]['kpi'];
         //月末定级
         $start_time_this = $start_time;
