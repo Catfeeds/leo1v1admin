@@ -81,7 +81,9 @@ class finance_data  extends Controller
             $month = strtotime("+".$i." months",$time);
             $list =  $this->t_order_student_month_list->get_list_by_month($month);
             foreach($list as $val){
-                $arr[$month][$rr[$val["origin"]]]=$val; 
+                if(isset($rr[$val["origin"]])){                                    
+                    $arr[$month][$rr[$val["origin"]]]=$val;
+                }
             }
             if($arr){
                 ksort($arr[$month]);
