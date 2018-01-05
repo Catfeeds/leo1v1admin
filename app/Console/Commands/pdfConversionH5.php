@@ -159,7 +159,7 @@ class pdfConversionH5 extends Command
         }
 
         # 遍历数据 script 引用js数据
-        $scriptList = $xpath->query("//script[@type = 'text/javascript']");
+        $scriptList = $xpath->query("//script");
         $jsLink = [];
         foreach ($scriptList as $node_js) {
             $jsLink_tmp = $node_js->attributes->getNamedItem('src')->nodeValue;

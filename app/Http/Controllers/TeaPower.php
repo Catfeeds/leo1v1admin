@@ -4256,13 +4256,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * @return array list
      */
     public function get_teacher_lesson_money_list($teacherid,$start_time,$end_time,$show_type="current"){
-        $start_date         = strtotime(date("Y-m-01",$start_time));
-        $now_date           = strtotime(date("Y-m-01",$end_time));
+        $start_date = strtotime(date("Y-m-01",$start_time));
+        $now_date   = strtotime(date("Y-m-01",$end_time));
 
-        $teacher_info       = $this->t_teacher_info->get_teacher_info($teacherid);
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
         $teacher_money_type = $teacher_info['teacher_money_type'];
-        $teacher_ref_type   = $teacher_info['teacher_ref_type'];
-        $teacher_type       = $teacher_info['teacher_type'];
+        $teacher_ref_type = $teacher_info['teacher_ref_type'];
+        $teacher_type = $teacher_info['teacher_type'];
         //检测老师是否需要被渠道抽成
         $check_flag = $this->t_teacher_lecture_appointment_info->check_tea_ref($teacherid,$teacher_ref_type);
         if($check_flag){
@@ -4272,6 +4272,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
 
         $list = [];
+        $check_num = [];
         for($i=0,$flag=true;$flag!=false;$i++){
             $j     = $i+1;
             $start = strtotime("+".$i."month",$start_date);
@@ -4339,10 +4340,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                         $list[$i]['lesson_trial'] += $val['lesson_base'];
                         $reward = "0";
                     }
-                    $val['lesson_full_reward'] = 0;
+                    $val['lesson_full_reward'] = '0';
                     $val['lesson_reward']      = $reward*$lesson_count+$val['lesson_full_reward'];
+                    $val['lesson_cost_normal'] = '0';
 
-                    $this->get_lesson_cost_info($val);
+                    $this->get_lesson_cost_info($val,$check_num);
                     $lesson_price = $val['lesson_base']+$val['lesson_reward']-$val['lesson_cost'];
                     $list[$i]['lesson_price']       += $lesson_price;
                     $list[$i]['lesson_reward']      += $val['lesson_reward'];
@@ -4364,6 +4366,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 +$item['lesson_reward_compensate_price']
                 +$item['lesson_reward_reference']
                 +$item['lesson_reward_train']
+                +$item['lesson_reward_chunhui']
             );
             $item['lesson_normal']       = strval($item['lesson_normal']);
             $item['lesson_trial']        = strval($item['lesson_trial']);
@@ -4431,6 +4434,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$teacherid);
         $reward_list = $this->get_teacher_reward_money_list_new($teacherid,$start,$end);
         $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end,-1,$show_type);
+        $check_num   = [];
         if(!empty($lesson_list)){
             foreach($lesson_list as $key => &$val){
                 $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
@@ -4450,7 +4454,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 }
                 $val['lesson_reward'] = $reward*$lesson_count;
 
-                $this->get_lesson_cost_info($val);
+                $this->get_lesson_cost_info($val,$check_num);
                 $lesson_price = $val['lesson_base']+$val['lesson_reward']-$val['lesson_cost'];
 
                 \App\Helper\Utils::set_default_value($money_list['lesson_price'], $lesson_price);
@@ -4815,6 +4819,61 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $this->t_user_log->add_data("teacherid:".$teacherid."教师类型:".$teacher_type."等级:".$level."老师工资类型:".$teacher_money_type."全转兼时lesson表更新失败");
         }
         return '';
+    }
+
+    private function get_lesson_cost_info(&$val,&$check_num){
+        $lesson_all_cost = 0;
+        $lesson_info     = "";
+        $deduct_type = E\Elesson_deduct::$s2v_map;
+        $deduct_info = E\Elesson_deduct::$desc_map;
+        $teacher_money = \App\Helper\Config::get_config("teacher_money");
+        $month_key     = date("Y-m",$val['lesson_start']);
+        \App\Helper\Utils::check_isset_data($check_num[$month_key]['change_num'],0,0);
+        \App\Helper\Utils::check_isset_data($check_num[$month_key]['late_num'],0,0);
+        $change_num = $check_num[$month_key]['change_num'];
+        $late_num   = $check_num[$month_key]['late_num'];
+
+        if($val['confirm_flag']==2 && $val['deduct_change_class']>0){
+            if($val['lesson_cancel_reason_type']==21){
+                $lesson_all_cost = $teacher_money['lesson_miss_cost']/100;
+                $info            = "上课旷课!";
+            }elseif(($val['lesson_cancel_reason_type']==2 || $val['lesson_cancel_reason_type']==12)
+            && $val['lesson_cancel_time_type']==1){
+                if($change_num>=3){
+                    $lesson_all_cost = $teacher_money['lesson_cost']/100;
+                    $lesson_info     = "课前４小时内取消上课！";
+                }else{
+                    $change_num++;
+                    $lesson_info     = "本月第".$change_num."次换课";
+                    $lesson_all_cost = 0;
+                }
+            }
+        }else{
+            $lesson_cost = $teacher_money['lesson_cost']/100;
+            foreach($deduct_type as $key=>$item){
+                if($val['deduct_change_class']==0){
+                    if($val[$key]>0){
+                        if($key=="deduct_come_late" && $late_num<3){
+                            $late_num++;
+                        }else{
+                            $lesson_all_cost += $lesson_cost;
+                            $lesson_info.=$deduct_info[$item]."/";
+                        }
+                    }
+                }
+            }
+        }
+
+        if($val['lesson_type']!=2){
+            $val['lesson_cost_normal'] = (string)$lesson_all_cost;
+        }else{
+            $val['lesson_cost_normal'] = "0";
+        }
+
+        $val['lesson_cost']      = $lesson_all_cost;
+        $val['lesson_cost_info'] = $lesson_info;
+        $check_num[$month_key]['change_num'] = $change_num;
+        $check_num[$month_key]['late_num']   = $late_num;
     }
 
 }

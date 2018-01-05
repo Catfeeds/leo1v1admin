@@ -14,6 +14,10 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_main(){
+        $pdf_file_url=\App\Helper\Common::gen_order_pdf_empty();
+
+        dd($pdf_file_url);
+
         $this->switch_tongji_database();
         $this->check_and_switch_tongji_domain();
         $start_time = strtotime("2017-01-01");

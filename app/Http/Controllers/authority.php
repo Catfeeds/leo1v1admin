@@ -53,6 +53,8 @@ class authority extends Controller
 
     public function manager_list()
     {
+        //opt_admin
+
         $this->get_in_int_val("assign_groupid", -1);
         $this->get_in_int_val("assign_account_role",-1);
 
@@ -148,8 +150,8 @@ class authority extends Controller
         }else{
             $ret = 1;
         }
+        return $this->output_succ( ["reset_ret" => $ret]  );
 
-        return $ret;
     }
 
     public function manager_list_offline()

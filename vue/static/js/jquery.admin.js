@@ -1275,14 +1275,21 @@ jQuery.extend({
     },
 
 
-    wopen: function (url,open_self_window){
-        if (open_self_window) {
-          console.log(url);
-            window.open(url,"_self");
-        }else{
-            window.open(url);
-        }
-    },
+  wopen: function (url,open_self_window, vue_domain_flag){
+
+    if ( url.substr(0, 7)=="http://" ) {
+    }else{
+      if (  window.admin_api  && !vue_domain_flag ) {
+        url=  window.admin_api + url;
+      }
+    }
+    if (open_self_window) {
+      console.log(url);
+      window.open(url,"_self");
+    }else{
+      window.open(url);
+    }
+  },
 
     dlg_get_html_by_class:function(item_class) {
         return $("." + item_class).html();

@@ -529,7 +529,7 @@ trait  ViewDeal {
         }
 
         $js_values_str = $this->get_js_g_args($g_args);
-        $html_hide_list_str= $this->get_html_hide_list( $this->html_hide_list );
+        $html_hide_list_str= $this->get_html_hide_list( $this->html_power_list );
         if (\App\Helper\Utils::check_env_is_local() ){
             //生成 g_args 的 .d.ts
             $this->store_gargs_d_ts_file($table_data_list);
@@ -881,8 +881,8 @@ trait  ViewDeal {
         }
 
         $data["g_args"]=$this->last_in_values;
-        //设置 html_hide_list
-        $data["html_hide_list"] = $this->html_hide_list;
+        //设置 html_power_list
+        $data["html_power_list"] = $this->html_power_list;
         unset ($data["per_page_count"] );
         unset ($data["total_num"] );
 
@@ -915,7 +915,7 @@ trait  ViewDeal {
         if (count($data_ex)>0 )  {
             $data=array_merge($data,$data_ex) ;
         }
-        $data["html_hide_list"] = $this->html_hide_list;
+        $data["html_power_list"] = $this->html_power_list;
 
         return $this->view($method,$data);
     }
