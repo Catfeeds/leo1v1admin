@@ -2277,7 +2277,6 @@ class teacher_info extends Controller
         $face    = $pub_url.$face;
 
         $res_info = $this->t_teacher_info->field_update_list($teacherid, ['face' => $face]);
-
         if ($res_info) {
             return outputjson_success();
         } else {
