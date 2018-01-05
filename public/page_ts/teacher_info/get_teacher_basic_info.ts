@@ -321,17 +321,14 @@ $(function(){
             cropper.zoomOut();
         })
         var pic_token;
-        $.ajax({
-            type    : "post",
-            url     : "/teacher_info/get_pub_upload_token",
-            success : function(result){
-                var ret = JSON.parse(result);
-                pic_token = ret.upload_token;
-            }
+        do_ajax("/teacher_info/get_pub_upload_token",{}, function(ret){
+            pic_token = ret.upload_token;
         });
+        console.log(pic_token)
 
         $('.opt-submit').on('click', function() {
             if (picStr) {
+                console.log(pic_token)
                 upload_base64(picStr, pic_token);
             } else {
                 BootstrapDialog.alert("请先剪切图片！");
