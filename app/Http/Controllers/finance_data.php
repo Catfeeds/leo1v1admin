@@ -75,15 +75,17 @@ class finance_data  extends Controller
 
     public function test_lesson_origin_tongji(){
         $time  = strtotime("2016-12-01");
-        $rr=["公众号"=>1,"信息流"=>2,"BD"=>3,"口碑"=>4,"转介绍"=>5,"其中：优学优享"=>6];
+        $rr=["公众号"=>1,"信息流"=>2,"BD"=>3,"口碑"=>4,"转介绍"=>5];
         $arr=[];
-        for($i=1;$i<11;$i++){
+        for($i=1;$i<13;$i++){
             $month = strtotime("+".$i." months",$time);
             $list =  $this->t_order_student_month_list->get_list_by_month($month);
             foreach($list as $val){
                 $arr[$month][$rr[$val["origin"]]]=$val; 
             }
-            ksort($arr[$month]);
+            if($arr){
+                ksort($arr[$month]);
+            }
         }
         foreach($arr as $k=>&$item){
             $item["num"] = count($item);
