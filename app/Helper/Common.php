@@ -1673,6 +1673,59 @@ class Common {
         return Config::get_qiniu_public_url()."/". $qiniu_file_name;
     }
 
+        static public function gen_order_pdf_empty() {
+            $work_dir=app_path("OrderPdf");
+        $order_temp= file_get_contents("$work_dir/order_temp.tex");
+
+        $search=[
+            "#UserName#",
+            "#LessonInfo#",
+            "#PriceInfo#",
+            "#OrderStartTime#",
+            "#OrderEndTime#",
+            "#PerLessonCount#",
+            "#OneLessonTime#",
+            "#GongZhang#",
+            "#UserPhone#",
+            "#ParentName#",
+            "#ParentPhone#",
+            "#FreeLessonCount#",
+        ];
+
+        // $lesson_info=E\Egrade::get_desc($grade)."($lesson_count)课时" . E\Ecompetition_flag::get_desc($competition_flag) ;
+        // if ($type_2_lesson_count ) {
+        //     //$lesson_info.=",赠送($type_2_lesson_count)课时 ";
+        // }
+        $replace=[
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "gz_null.png",
+            "",
+            "",
+            "",
+            "" ,
+        ];
+        $order_sex= str_replace($search,$replace, $order_temp );
+        $base_file_name= "order_empty_1000" ;
+        // if( $gong_zhang_flag ) {
+        //     $base_file_name.="_gz";
+        // }
+        $pdf_file="/tmp/$base_file_name.pdf" ;
+        $sex_file="/tmp/$base_file_name.tex";
+        file_put_contents($sex_file  , $order_sex );
+        $ret=\App\Helper\Utils::exec_cmd(" $work_dir/mktex.sh $sex_file  ");
+        $qiniu_file_name=\App\Helper\Utils::qiniu_upload($pdf_file);
+
+        //$ret=\App\Helper\Utils::exec_cmd("rm -rf /tmp/$base_file_name.*");
+        return Config::get_qiniu_public_url()."/". $qiniu_file_name;
+        }
+
+
     static   function cny($ns) {
 
         static $cnums=array("零","壹","贰","叁","肆","伍","陆","柒","捌","玖"),
