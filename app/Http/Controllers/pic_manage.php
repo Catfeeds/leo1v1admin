@@ -6,10 +6,10 @@ use \App\Enums as E;
 use \App\Helper\Config;
 
 class pic_manage extends Controller
-{
-    public function pic_info()
     {
-        $type      = $this->get_in_int_val('type',-1);
+        public function pic_info()
+        {
+            $type      = $this->get_in_int_val('type',-1);
         $usage_type= $this->get_in_int_val('usage_type',-1);
         $active_status = $this->get_in_int_val("active_status", 0);
         $page_num  = $this->get_in_page_num();
@@ -95,6 +95,28 @@ class pic_manage extends Controller
                 }
             }
         }
+
+        file_get_contents($pic_url);
+        $responseInfo = $http_response_header;
+        //$responseInfo = explode(",", $responseInfo);
+        foreach($responseInfo as $item) {
+            if (stripos($item, "Content-Type")) {
+                return $this->output_err($item);
+            }
+        }
+
+        // 通过判断response响应头
+        // file_get_contents($pic_url);
+        // $responseInfo = $http_response_header;
+        // foreach($responseInfo as $item) {
+        //     $val = explode(":", $item);
+        //     if (trim($val[0]) == 'Content-Type') {
+        //         if (trim($val[1]) != 'image/png') {
+        //             return $this->output_err("请上传png格式的图片");
+        //         }
+        //         break;
+        //     }
+        // }
 
         $ext = pathinfo($pic_url, PATHINFO_EXTENSION);
         if ($ext != 'png') {

@@ -68,7 +68,7 @@ $(function(){
             return;
         }
 
-        if(adminid != 540 && adminid != 968 && adminid != 99 && adminid != 1024 && adminid!=1184 ){
+        if(adminid != 540 && adminid != 968 && adminid != 99 && adminid != 1024 && adminid!=1184 && adminid!=1370 ){
             alert('您没有修改权限!');
             load_data();
         } else {
