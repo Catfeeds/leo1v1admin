@@ -1697,12 +1697,12 @@ class Common {
         //     //$lesson_info.=",赠送($type_2_lesson_count)课时 ";
         // }
         $replace=[
-            "&nbsp\t&nbsp",
-            "&nbsp\t&nbsp",
-            "&nbsp\t&nbsp",
-            "\t\t\t\t",
-            "\t\t\t\t\t",
-            "\t\t\t\t\t",
+            "   ",
+            "      ",
+            " ",
+            " ",
+            " ",
+            " ",
             " ",
             "gz_null.png",
             " ",
