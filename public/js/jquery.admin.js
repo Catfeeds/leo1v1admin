@@ -988,7 +988,7 @@ jQuery.extend({
                         console.log(' UploadComplete .. end ');
                     },
                     'FileUploaded' : function(up, file, info) {
-                        if(noti_process) {
+                        /*if(noti_process) {
                             noti_process (101);
                         }
                         console.log('Things below are from FileUploaded');
@@ -998,24 +998,48 @@ jQuery.extend({
                         }
 
                         complete_func(up, info, file, ctminfo);
+                        */
+                        if(noti_process) {
+                            noti_process (101);
+                        }
+                        console.log('Things below are from FileUploaded');
+                        console.log(1111);
+                        if(info.response){
+                            complete_func(up, info.response, file, ctminfo);
+                        }else{
+                            complete_func(up, info, file, ctminfo);
+                        }
                     },
                     'Error': function(up, err, errTip) {
                         console.log('Things below are from Error');
                         BootstrapDialog.alert(errTip);
                     },
                     'Key': function(up, file) {
+                        /*
                         var key = "";
                         var time = (new Date()).valueOf();
                         var match = file.name.match(/.*\.(.*)?/);
-                        /*
+                        
                           if( uploader.on_noti_origin_file_func) {
                           uploader.on_noti_origin_file_func(file.name);
                           }
-                        */
+                        
                         this.origin_file_name=file.name;
                         var file_name=$.md5(file.name) +time +'.' + match[1];
                         console.log('gen file_name:'+file_name);
                         return file_name;
+                        */
+                        var file_type = 1;
+                        var key = "";
+                        var time = (new Date()).valueOf();
+                        var match = file.name.match(/.*\.(.*)?/);
+
+                        // var file_name=$.md5(file.name) +time +'.' + match[1];
+                        if(file_type == 1){
+                            var new_file_name = "student/"+match[0];
+                        }
+                        console.log('gen file_name:'+new_file_name);
+                        return new_file_name;
 
                     }
                 }
