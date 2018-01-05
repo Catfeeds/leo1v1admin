@@ -697,6 +697,9 @@ class NewRouteConfig {
 
         "/user_power/get_desc_power"                          =>true,
         "/user_power/save_desc_power"                          =>true,
+        "/user_power/get_input_define"                          =>true,
+        "/user_power/save_input_define"                          =>true,
+
     ];
 
     static $dev_url_map = [
