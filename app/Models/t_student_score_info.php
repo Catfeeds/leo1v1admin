@@ -216,7 +216,7 @@ where is_test_user=0  and contract_status in  (1,2,3) and o.price>0   and s.grad
     }
 
     public function get_info_1(){
-        $sql = "select origin_assistantid, s.userid, s.origin_userid,o.price , o.orderid, o.userid from db_weiyi.t_student_info s  left join db_weiyi.t_order_info o on (o.userid = s.userid and o.contract_status>0 and  o.contract_type =0 )   left join db_weiyi.t_seller_student_new n on s.userid = n.userid where origin_assistantid>0 and n.add_time>=1510675200 and n.add_time<1514736000   ";
+        $sql = "select origin_assistantid, s.userid, s.origin_userid,o.price , o.orderid from db_weiyi.t_student_info s  left join db_weiyi.t_order_info o on (o.userid = s.userid and o.contract_status>0 and  o.contract_type =0 )   left join db_weiyi.t_seller_student_new n on s.userid = n.userid where origin_assistantid>0 and n.add_time>=1510675200 and n.add_time<1514736000   ";
         return $this->main_get_list($sql);
     }
 }
