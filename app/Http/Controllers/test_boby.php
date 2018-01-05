@@ -1575,7 +1575,7 @@ class test_boby extends Controller {
         //     'qiniu.jpg'
         // );
 
-        $ops = $bucketManager->buildBatchStat($private_bucket, $keys);
+        $ops = $bucketManager->buildBatchStat('teacher-doc', $keys);
         list($ret, $err) = $bucketManager->batch($ops);
         if ($err) {
             dd($err);
