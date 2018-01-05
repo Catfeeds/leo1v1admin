@@ -206,6 +206,7 @@ class test_james extends Controller
         $pdf_file_path = $this->gen_download_url($pdf_url);
 
         // dd($pdf_file_path);
+        $pdf_url = ltrim($pdf_url,'/');
         $savePathFile = public_path('wximg').'/'.$pdf_url;
 
         if($pdf_url){
@@ -1644,8 +1645,11 @@ class test_james extends Controller
         );
         // $store=new \App\FileStore\file_store_tea();
         // $auth=$store->get_auth();
-
         $file_link = $this->get_in_str_val('f');
+
+        $a =  $this->get_pdf_download_url($file_link);
+        
+        dd($a);
         $config=\App\Helper\Config::get_config("qiniu");
         $bucket_info=$config["private_url"]['url'];
 

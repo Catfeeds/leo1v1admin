@@ -2794,6 +2794,54 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    public function get_lesson_count_by_grade($start_time,$end_time){
+        $where_arr=[
+            "s.is_test_user=0",
+            "l.lesson_type in (0,1,3)",
+            "l.confirm_flag <2",
+            "l.lesson_del_flag=0"
+        ];
+        $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start_time, $end_time);
+        $sql = $this->gen_sql_new("select sum(if(l.grade>=100 and l.grade<200,l.lesson_count,0)) small_grade,"
+                                  ." sum(if(l.grade>=200 and l.grade<300,l.lesson_count,0)) middle_grade,"
+                                  ." sum(if(l.grade>=300 and l.grade<400,l.lesson_count,0)) high_grade "
+                                  ." from %s l left join %s s on l.userid = s.userid "
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+
+    }
+    public function get_stu_num_by_grade($start_time,$end_time,$grade_flag){
+        $where_arr=[
+            "s.is_test_user=0",
+            "l.lesson_type in (0,1,3)",
+            "l.confirm_flag <2",
+            "l.lesson_del_flag=0"
+        ];
+        $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start_time, $end_time);
+        if($grade_flag==1){
+            $where_arr[]="l.grade>=100 and l.grade<200";
+        }elseif($grade_flag==2){
+            $where_arr[]="l.grade>=200 and l.grade<300";
+        }elseif($grade_flag==3){
+            $where_arr[]="l.grade>=300 and l.grade<400";
+        }
+
+        $sql = $this->gen_sql_new("select count(distinct l.userid) num"
+                                  ." from %s l left join %s s on l.userid = s.userid "
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+
+    }
+
+
 }
 
 

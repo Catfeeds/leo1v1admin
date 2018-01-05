@@ -16,7 +16,7 @@ import Component from 'vue-class-component'
     return $.extend({}, this["data_ex"](),
     {
       table_data: [],
-      html_hide_list:{},
+      html_power_list:{},
     });
   },
   watch: {
@@ -50,7 +50,7 @@ export default class vtable extends Vue {
   get_query_header_init(){
 
     var $header_query_info= $("#id_header_query_info").admin_header_query ({
-      "html_hide_list": this.$data.html_hide_list,
+      "html_power_list": this.$data.html_power_list,
     });
 
     this.$header_query_info= $header_query_info ;
@@ -58,7 +58,7 @@ export default class vtable extends Vue {
 
   }
   check_show(field_name) {
-    return !this.$data.html_hide_list[field_name];
+    return this.$data.html_power_list[field_name];
   }
 
   base_init_ex () {}
@@ -220,11 +220,11 @@ export default class vtable extends Vue {
       if (resp.ret == 0) {
         console.log("ajax out",resp);
         me.$data.table_data = resp.list;
-        me.$data.html_hide_list =resp.html_hide_list;
+        me.$data.html_power_list =resp.html_power_list;
 
         //附加数据
         $.each(resp ,function(k,v){
-          if ($.inArray(k, ["page_info", "ret","info","g_args","list","html_hide_list"] ) === -1  ) {
+          if ($.inArray(k, ["page_info", "ret","info","g_args","list","html_power_list"] ) === -1  ) {
             me.$data[k]= v;
           }
         });

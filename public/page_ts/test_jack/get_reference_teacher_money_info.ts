@@ -18,10 +18,10 @@ $(function(){
             if (do_index < row_list.length ) {
                 var $tr=$(row_list[do_index]);
                 var opt_data=$tr.find(".row-data");
-                var teacherid = opt_data.data("teacherid");
+                // var teacherid = opt_data.data("teacherid");
                 var start_time = opt_data.data("start");
-                var end_time = opt_data.data("end");
-                if(teacherid>0){
+                // var end_time = opt_data.data("end");
+                if(start_time>0){
                    /* $.do_ajax("/teacher_money/user_deal/get_teacher_interview_info",{
                         "teacherid"           : opt_data.teacherid,
                         "type" : "admin",
@@ -43,25 +43,25 @@ $(function(){
                         do_one();
                         });*/
                     $.do_ajax("/test_jack/ajax_deal_jack",{
-                        "teacherid" : teacherid,
+                        // "teacherid" : teacherid,
                         "start_time": start_time,
-                        "end_time"  : end_time
+                        // "end_time"  : end_time
                     },function(resp){
                         console.log(resp.data);
                         var data = resp;
-                        $tr.find(".test_num").text(data.test_num);
-                        $tr.find(".all_test_num").text(data.all_test_num);
-                        $tr.find(".test_late_num").text(data.test_late_num);
-                        $tr.find(".test_kk_num").text(data.test_kk_num);
-                        $tr.find(".reg_num").text(data.reg_num);
-                        $tr.find(".all_reg_num").text(data.all_reg_num);
-                        $tr.find(".late_num").text(data.late_num);
-                        $tr.find(".invalid_late_num").text(data.invalid_late_num);
-                        $tr.find(".all_change_num").text(data.all_change_num);
-                        $tr.find(".change_num").text(data.change_num);
-                        $tr.find(".all_leave_num").text(data.all_leave_num);
-                        $tr.find(".leave_num").text(data.leave_num);
-                        $tr.find(".kk_num").text(data.kk_num);
+                        $tr.find(".small_grade").text(data.small_grade);
+                        $tr.find(".middle_grade").text(data.middle_grade);
+                        $tr.find(".high_grade").text(data.high_grade);
+                        // $tr.find(".test_kk_num").text(data.test_kk_num);
+                        // $tr.find(".reg_num").text(data.reg_num);
+                        // $tr.find(".all_reg_num").text(data.all_reg_num);
+                        // $tr.find(".late_num").text(data.late_num);
+                        // $tr.find(".invalid_late_num").text(data.invalid_late_num);
+                        // $tr.find(".all_change_num").text(data.all_change_num);
+                        // $tr.find(".change_num").text(data.change_num);
+                        // $tr.find(".all_leave_num").text(data.all_leave_num);
+                        // $tr.find(".leave_num").text(data.leave_num);
+                        // $tr.find(".kk_num").text(data.kk_num);
                        
 
 

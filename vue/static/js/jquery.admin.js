@@ -896,7 +896,7 @@ jQuery.extend({
         if (bucket_info) {
             init_upload(bucket_info);
         }else{
-            do_ajax( "/common/get_bucket_info",{
+            $.do_ajax( "/common/get_bucket_info",{
                 is_public: is_public_bucket ? 1:0
             },function(ret){
                 init_upload(ret);
@@ -1073,7 +1073,7 @@ jQuery.extend({
     },
 
     custom_upload_file :function (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, noti_process ){
-        do_ajax( "/common/get_bucket_info",{
+        $.do_ajax( "/common/get_bucket_info",{
             is_public: is_public_bucket ? 1:0
         },function(ret){
             var domain_name=ret.domain;
@@ -1164,7 +1164,7 @@ jQuery.extend({
 
     },
     custom_upload_file_soft : function(file_type, file_name,btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, noti_process ){
-        do_ajax( "/common/get_bucket_info",{
+        $.do_ajax( "/common/get_bucket_info",{
             is_public: is_public_bucket ? 1:0
         },function(ret){
             var domain_name=ret.domain;
@@ -1275,14 +1275,21 @@ jQuery.extend({
     },
 
 
-    wopen: function (url,open_self_window){
-        if (open_self_window) {
-          console.log(url);
-            window.open(url,"_self");
-        }else{
-            window.open(url);
-        }
-    },
+  wopen: function (url,open_self_window, vue_domain_flag){
+
+    if ( url.substr(0, 7)=="http://" ) {
+    }else{
+      if (  window.admin_api  && !vue_domain_flag ) {
+        url=  window.admin_api + url;
+      }
+    }
+    if (open_self_window) {
+      console.log(url);
+      window.open(url,"_self");
+    }else{
+      window.open(url);
+    }
+  },
 
     dlg_get_html_by_class:function(item_class) {
         return $("." + item_class).html();

@@ -53,22 +53,24 @@ class authority extends Controller
 
     public function manager_list()
     {
+        //opt_admin
+
         $this->get_in_int_val("assign_groupid", -1);
         $this->get_in_int_val("assign_account_role",-1);
 
-        $creater_adminid=$this->get_in_int_val("creater_adminid",-1);
-        $adminid           = $this->get_in_adminid(-1);
-        $uid               = $this->get_in_int_val('uid',0);
-        $user_info         = trim($this->get_in_str_val("user_info"));
-        $has_question_user = $this->get_in_el_boolean(0, 'has_question_user');
-        $del_flag          = $this->get_in_el_boolean(0,'del_flag');
-        $page_info         = $this->get_in_page_info();
-        $account_role      = $this->get_in_el_account_role();
-        $cardid            = $this->get_in_int_val("cardid",-1);
-        $day_new_user_flag = $this->get_in_el_boolean(-1, "day_new_user_flag");
-        $tquin             = $this->get_in_int_val("tquin", -1);
+        $creater_adminid       = $this->get_in_int_val("creater_adminid",-1);
+        $adminid               = $this->get_in_adminid(-1);
+        $uid                   = $this->get_in_int_val('uid',0);
+        $user_info             = trim($this->get_in_str_val("user_info"));
+        $has_question_user     = $this->get_in_el_boolean(0, 'has_question_user');
+        $del_flag              = $this->get_in_el_boolean(0,'del_flag');
+        $page_info             = $this->get_in_page_info();
+        $account_role          = $this->get_in_el_account_role();
+        $cardid                = $this->get_in_int_val("cardid",-1);
+        $day_new_user_flag     = $this->get_in_el_boolean(-1, "day_new_user_flag");
+        $tquin                 = $this->get_in_int_val("tquin", -1);
         $fulltime_teacher_type = $this->get_in_el_fulltime_teacher_type();
-        $call_phone_type = $this->get_in_el_call_phone_type();
+        $call_phone_type       = $this->get_in_el_call_phone_type();
 
         $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
         $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
@@ -130,7 +132,7 @@ class authority extends Controller
             if($item["seller_level_str"] == -1){
                 $item["seller_level_str"] = "未设置";
             }
-            E\Eboolean::set_item_value_simple_str($item,"day_new_user_flag");
+            E\Eboolean::set_item_value_str($item,"day_new_user_flag");
         }
 
         return $this->pageView(__METHOD__,$ret_info,[

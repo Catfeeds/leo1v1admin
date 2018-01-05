@@ -245,7 +245,7 @@
                     show_flag= 1;
                 }else{
                     var index= $btn.data("index");
-                    if ( me.query_item_list[index].get_show_flag()) {
+                    if (  me.query_item_list[index].options.always_show_flag || me.query_item_list[index].get_show_flag()) {
                         show_flag=1;
                     }
                 }
@@ -325,9 +325,14 @@
             var $query_item_list_obj =item.get_query_obj();
             var show_flag=item.get_show_flag();
 
+            if (item.options.allway_show_flag ) {
+                show_flag =1;
+            }
+
           if ($.inArray( index, me.need_show_field_index_list  ) !== -1 ) {
             show_flag =1;
           }
+
             var as_header_query =  item.get_as_header_query?  item.get_as_header_query():false;
             var class_str="";
             if ( show_flag  ) {

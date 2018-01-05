@@ -15,6 +15,21 @@
                         <input class="opt-change form-control" id="id_assistantid" />
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">每页行数</span>
+                        <select class="opt-change form-control" id="id_page_number" >
+                            <option value="10">每页10行</option>
+                            <option value="30">每页30行</option>
+                            <option value="50">每页50行</option>
+                            <option value="100">每页100行</option>
+                            <option value="500">每页500行</option>
+                            <option value="1000">每页1000行</option>
+                            <option value="5000">每页5000行</option>
+                        </select>
+                    </div>
+                </div>
+
 
             </div>
 

@@ -618,6 +618,14 @@ class teacher_info extends Controller
             $work_status = 1;
             $issue_time  = $old_issue_time==0?$now:$old_issue_time;
         }
+        //转换pdf,可以平铺
+        if($tea_cw_url!=false){
+            $this->t_pdf_to_png_info->row_insert([
+                'lessonid'    => $lessonid,
+                'pdf_url'     => $tea_cw_url,
+                'create_time' => time()
+            ]);
+        }
 
         $this->t_lesson_info_b2->field_update_list($lessonid,[
             "tea_cw_status"      => $tea_cw_status ,
@@ -2516,6 +2524,9 @@ class teacher_info extends Controller
             $resource_type = $resource_type<1?1:$resource_type;
             $resource_type = $resource_type>6?6:$resource_type;
         }
+        //获取老师科目年级段
+        $tea_info = $this->get_rule_range();
+
         //禁用，删除，老师段则不在显示
         $ret_info = $this->t_resource->get_all_for_tea(
             $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$page_info
@@ -2568,7 +2579,11 @@ class teacher_info extends Controller
             return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
         }
 
-        return $this->pageView( __METHOD__,$ret_info,['tag_info' => $tag_arr,'book' => json_encode($book_arr)]);
+        // dd(json_encode($tea_info));
+        return $this->pageView( __METHOD__,$ret_info,[
+            'tag_info' => $tag_arr,
+            'tea_info' => json_encode($tea_info),
+            'book' => json_encode($book_arr)]);
     }
 
     public function do_collect(){
@@ -3017,6 +3032,21 @@ class teacher_info extends Controller
             "lesson_end"   => $lesson_end,
         ]);
         return $this->output_succ();
+    }
+
+    public function get_rule_range(){
+
+        $teacherid = $this->get_login_teacher();
+        if($teacherid != false){
+            $info = $this->t_teacher_info->get_subject_grade_by_teacherid($teacherid);
+            $data = [
+                'subject' => $info['subject'],
+                'grade'   => \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']),
+            ];
+
+            return $data;
+        }
+        return false;
     }
 
 

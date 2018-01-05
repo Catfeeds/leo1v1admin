@@ -20,6 +20,9 @@
                     <td>经理 </td>
                     <td>小组 </td>
                     <td>成员 </td>
+                    <td>入职时间 </td>
+                    <td>离职时间 </td>
+                    <td>是否离职 </td>
                     <td>
                         第一周试听成功数
                         {{$first_week}}
@@ -37,7 +40,7 @@
                         {{$four_week}}
                     </td>
                     <td>取消率</td>
-                    <td>绩效对应系数<br/>(取消率<18%(40%)+周试听成功>=12节(15%))</td>
+                    <td>绩效对应系数<br/>(取消率<=18%(40%)+周试听成功>=12节(15%))</td>
                     <td >签约总金额 </td>
                     <td>上月签单 </td>
                     <td>月末定级 </td>
@@ -61,14 +64,13 @@
 
                     <td >提成点</td>
                     <td >主管提成点</td>
-                    <td >入职时间</td>
                     <td style="display:none;">新员工提成系数</td>
                     <td >提成金额</td>
                     <td >单月提成金额</td>
                     <td >季度提成金额</td>
                     <td >计算方式</td>
                     <td >主管kpi</td>
-                    <td >主管kpi计算方式<br/>实际上课数>=50(10%)+试听取消率<18%(10%)+试听转化率>=10%(40%)+离职率<=20%(40%)</td>
+                    <td >主管kpi计算方式<br/>实际上课数>=50(10%)+试听取消率<=18%(10%)+试听转化率>=10%(40%)+离职率<=20%(40%)</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -84,6 +86,9 @@
                                 /{{$var["seller_level_str"]}}
                             @endif
                         </td>
+                        <td >{{@$var["become_member_time"]}}</td>
+                        <td >{{@$var["leave_member_time"]}}</td>
+                        <td>{!! @$var["del_flag_str"] !!}</td>
                         <td class="suc_first_week"></td>
                         <td class="suc_second_week"></td>
                         <td class="suc_third_week"></td>
@@ -112,7 +117,6 @@
 
                         <td class="percent" ></td>
                         <td class="group_money_add_percent" ></td>
-                        <td class="create_time" ></td>
                         <td class="new_account_value" ></td>
                         <td class="money" ></td>
                         <td class="cur_month_money" ></td>
