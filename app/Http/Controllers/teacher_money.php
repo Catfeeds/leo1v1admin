@@ -14,8 +14,8 @@ class teacher_money extends Controller
 
     var $check_login_flag = false;
     var $teacher_money;
-    var $late_num   = 0;
-    var $change_num = 0;
+    // var $late_num   = 0;
+    // var $change_num = 0;
 
     public function __construct(){
         parent::__construct();
@@ -161,75 +161,75 @@ class teacher_money extends Controller
         }
     }
 
-    /**
-     * 获得老师扣款条目
-     */
-    private function get_lesson_cost_info(&$val){
-        $lesson_all_cost = 0;
-        $deduct_type     = E\Elesson_deduct::$s2v_map;
-        $deduct_info     = E\Elesson_deduct::$desc_map;
-        $month           = 0;
-        $lesson_month    = date("m",$val['lesson_start']);
-        if($month!=$lesson_month){
-            $month=$lesson_month;
-            $this->change_num=0;
-            $this->late_num=0;
-        }
+    // /**
+    //  * 获得老师扣款条目
+    //  */
+    // private function get_lesson_cost_info(&$val){
+    //     $lesson_all_cost = 0;
+    //     $deduct_type     = E\Elesson_deduct::$s2v_map;
+    //     $deduct_info     = E\Elesson_deduct::$desc_map;
+    //     $month           = 0;
+    //     $lesson_month    = date("m",$val['lesson_start']);
+    //     if($month!=$lesson_month){
+    //         $month=$lesson_month;
+    //         $this->change_num=0;
+    //         $this->late_num=0;
+    //     }
 
-        if($val['confirm_flag']==2 &&  $val['deduct_change_class']>0){
-            if($val['lesson_cancel_reason_type']==21){
-                $lesson_all_cost = $this->teacher_money['lesson_miss_cost']/100;
-                $info            = "上课旷课!";
-            }elseif(($val['lesson_cancel_reason_type']==2 || $val['lesson_cancel_reason_type']==12)
-                    && $val['lesson_cancel_time_type']==1){
-                if($this->change_num>=3){
-                    $lesson_all_cost = $this->teacher_money['lesson_cost']/100;
-                    $info            = "课前４小时内取消上课！";
-                }else{
-                    $this->change_num++;
-                    $lesson_all_cost = 0;
-                    $info            = "本月第".$this->change_num."次换课";
-                }
-            }
-            if(isset($info)){
-                $cost_info['type']  = 3;
-                $cost_info['money'] = $lesson_all_cost;
-                $cost_info['info']  = $info;
-                $val['list'][]      = $cost_info;
-            }
-        }else if($val['fail_greater_4_hour_flag']==0 && ($val['test_lesson_fail_flag']==101 || $val['test_lesson_fail_flag']==102)){
-            $cost_info['type']  = 3;
-            $cost_info['money'] = 0;
-            $cost_info['info']  = "老师原因4小时内取消试听课";
-            $val['list'][]      = $cost_info;
-        }else{
-            $lesson_cost = $this->teacher_money['lesson_cost']/100;
-            $lesson_all_cost = 0;
-            foreach($deduct_type as $key=>$item){
-                if($val['deduct_change_class']==0){
-                    if($val[$key]>0){
-                        if($key=="deduct_come_late" && $this->late_num<3){
-                            $this->late_num++;
-                        }else{
-                            $cost_info['type']  = 3;
-                            $cost_info['money'] = $lesson_cost;
-                            $cost_info['info']  = $deduct_info[$item];
+    //     if($val['confirm_flag']==2 &&  $val['deduct_change_class']>0){
+    //         if($val['lesson_cancel_reason_type']==21){
+    //             $lesson_all_cost = $this->teacher_money['lesson_miss_cost']/100;
+    //             $info            = "上课旷课!";
+    //         }elseif(($val['lesson_cancel_reason_type']==2 || $val['lesson_cancel_reason_type']==12)
+    //                 && $val['lesson_cancel_time_type']==1){
+    //             if($this->change_num>=3){
+    //                 $lesson_all_cost = $this->teacher_money['lesson_cost']/100;
+    //                 $info            = "课前４小时内取消上课！";
+    //             }else{
+    //                 $this->change_num++;
+    //                 $lesson_all_cost = 0;
+    //                 $info            = "本月第".$this->change_num."次换课";
+    //             }
+    //         }
+    //         if(isset($info)){
+    //             $cost_info['type']  = 3;
+    //             $cost_info['money'] = $lesson_all_cost;
+    //             $cost_info['info']  = $info;
+    //             $val['list'][]      = $cost_info;
+    //         }
+    //     }else if($val['fail_greater_4_hour_flag']==0 && ($val['test_lesson_fail_flag']==101 || $val['test_lesson_fail_flag']==102)){
+    //         $cost_info['type']  = 3;
+    //         $cost_info['money'] = 0;
+    //         $cost_info['info']  = "老师原因4小时内取消试听课";
+    //         $val['list'][]      = $cost_info;
+    //     }else{
+    //         $lesson_cost = $this->teacher_money['lesson_cost']/100;
+    //         $lesson_all_cost = 0;
+    //         foreach($deduct_type as $key=>$item){
+    //             if($val['deduct_change_class']==0){
+    //                 if($val[$key]>0){
+    //                     if($key=="deduct_come_late" && $this->late_num<3){
+    //                         $this->late_num++;
+    //                     }else{
+    //                         $cost_info['type']  = 3;
+    //                         $cost_info['money'] = $lesson_cost;
+    //                         $cost_info['info']  = $deduct_info[$item];
 
-                            $lesson_all_cost += $lesson_cost;
-                            $val["list"][]    = $cost_info;
-                        }
-                    }
-                }
-            }
-        }
+    //                         $lesson_all_cost += $lesson_cost;
+    //                         $val["list"][]    = $cost_info;
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
 
-        if($val['lesson_type']!=2){
-            $val['lesson_cost_normal'] = (string)$lesson_all_cost;
-        }else{
-            $val['lesson_cost_normal'] = "0";
-        }
-        $val['lesson_cost'] = (string)$lesson_all_cost;
-    }
+    //     if($val['lesson_type']!=2){
+    //         $val['lesson_cost_normal'] = (string)$lesson_all_cost;
+    //     }else{
+    //         $val['lesson_cost_normal'] = "0";
+    //     }
+    //     $val['lesson_cost'] = (string)$lesson_all_cost;
+    // }
 
     /**
      * 老师工资汇总
