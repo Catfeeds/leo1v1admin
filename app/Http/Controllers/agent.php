@@ -465,46 +465,179 @@ class agent extends Controller
     }
 
     public function test_new(){
-        if(date('Y-m-d',time()) == '2018-01-05'){
-            dd('a');
+        list($start_time,$end_time) = [1512057600,1514736000];
+        $adminid=315;
+        $month= date("Ym",$start_time);
+
+        $group_kpi['group_kpi'] = '';
+        $group_kpi['group_kpi_desc'] = '';
+
+        switch ( $month ) {
+        case "201702" :
+        case "201703" :
+        case "201704" :
+            $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
+                 $month, $adminid, $start_time, $end_time ) ;
+            break;
+        case "201705" :
+        case "201706" :
+        case "201707" :
+        case "201708" :
+            $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
+                "201705", $adminid, $start_time, $end_time ) ;
+            break;
+        case "201709" :
+            $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
+                "201709", $adminid, $start_time, $end_time );
+            break;
+        case "201710" :
+            $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
+                "201710", $adminid, $start_time, $end_time );
+            break;
+        default:
+            $group_kpi = \App\Strategy\groupMasterKpi\group_master_kpi_base::get_cur_info($adminid, $start_time, $end_time);
+            $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_cur_info(
+                $adminid, $start_time, $end_time ) ;
+            break;
         }
-        dd('b');
-        $month = strtotime('2017-12-01');
-        $db_groupid=$this->t_group_user_month->get_groupid_by_adminid($main_type=2,$adminid=975,$month);
-        dd($db_groupid);
-        list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
-        $time = time(null);
+        //试听成功数
+        list($res[$adminid][E\Eweek_order::V_1],$res[$adminid][E\Eweek_order::V_2],$res[$adminid][E\Eweek_order::V_3],$res[$adminid][E\Eweek_order::V_4],$res[$adminid]['lesson_per'],$res[$adminid]['kpi'],$res[$adminid]['fail_all_count'],$res[$adminid]['test_lesson_count']) = [[],[],[],[],0,0,0,0];
+        list($start_time_new,$end_time_new)= $this->get_in_date_range_month(date("Y-m-01"));
+        if($end_time_new >= time()){
+            $end_time_new = time();
+        }
+        $ret_new = $this->t_month_def_type->get_month_week_time($start_time_new);
+        $test_leeson_list_new = $this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_three($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid);
+        foreach($test_leeson_list_new['list'] as $item){
+            $adminid = $item['admin_revisiterid'];
+            $lesson_start = $item['lesson_start'];
+            foreach($ret_new as $info){
+                $start = $info['start_time'];
+                $end = $info['end_time'];
+                $week_order = $info['week_order'];
+               if($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_1){
+                    $res[$adminid][$week_order][] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_2){
+                    $res[$adminid][$week_order][] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_3){
+                    $res[$adminid][$week_order][] = $item;
+                }elseif($lesson_start>=$start && $lesson_start<$end && $week_order==E\Eweek_order::V_4){
+                    $res[$adminid][$week_order][] = $item;
+                }
+            }
+        }
+        foreach($res as $key=>$item){
+            dd($item[E\Eweek_order::V_1]);
+            $res[$key]['suc_lesson_count_one'] = isset($item[E\Eweek_order::V_1])?count($item[E\Eweek_order::V_1]):0;
+            $res[$key]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
+            $res[$key]['suc_lesson_count_three'] = isset($item[E\Eweek_order::V_3])?count($item[E\Eweek_order::V_3]):0;
+            $res[$key]['suc_lesson_count_four'] = isset($item[E\Eweek_order::V_4])?count($item[E\Eweek_order::V_4]):0;
+            $res[$key]['suc_lesson_count_one_rate'] = $res[$key]['suc_lesson_count_one']<12?0:15;
+            $res[$key]['suc_lesson_count_two_rate'] = $res[$key]['suc_lesson_count_two']<12?0:15;
+            $res[$key]['suc_lesson_count_three_rate'] = $res[$key]['suc_lesson_count_three']<12?0:15;
+            $res[$key]['suc_lesson_count_four_rate'] = $res[$key]['suc_lesson_count_four']<12?0:15;
+            $suc_lesson_count_rate = $res[$key]['suc_lesson_count_one_rate']+$res[$key]['suc_lesson_count_two_rate']+$res[$key]['suc_lesson_count_three_rate']+$res[$key]['suc_lesson_count_four_rate'];
+            $res[$key]['suc_lesson_count_rate'] = $suc_lesson_count_rate.'%';
+            $res[$key]['suc_lesson_count_rate_all'] = $suc_lesson_count_rate;
+        }
+        if($end_time >= time()){
+            $end_time = time();
+        }
+        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
+        foreach($test_leeson_list['list'] as $item){
+            $adminid = $item['admin_revisiterid'];
+            $res[$adminid]['succ_all_count']=$item['succ_all_count'];
+            $res[$adminid]['fail_all_count'] = $item['fail_all_count'];
+            $res[$adminid]['test_lesson_count'] = $item['test_lesson_count'];
+        }
+        $lesson_per = $res[$adminid]['test_lesson_count']!=0?(round($res[$adminid]['fail_all_count']/$res[$adminid]['test_lesson_count'],2)*100):0;
+        $res[$adminid]['lesson_per'] = $lesson_per>0?$lesson_per."%":0;
+        $res[$adminid]['lesson_kpi'] = $lesson_per<18?40:0;
+        $kpi = $res[$adminid]['lesson_kpi']+$res[$adminid]['suc_lesson_count_rate_all'];
+        $res[$adminid]['kpi'] = ($kpi && $res[$adminid]['test_lesson_count']>0)>0?$kpi."%":0;
+        $manager_info = $this->t_manager_info->field_get_list($adminid,'become_member_time,del_flag');
+        if($manager_info["become_member_time"]>0 && ($end_time-$manager_info["become_member_time"])<3600*24*60 && $manager_info["del_flag"]==0){
+            $item['kpi'] = "100%";
+        }
+        $arr['suc_first_week'] = $res[$adminid]['suc_lesson_count_one'];
+        $arr['suc_second_week'] = $res[$adminid]['suc_lesson_count_two'];
+        $arr['suc_third_week'] = $res[$adminid]['suc_lesson_count_three'];
+        $arr['suc_fourth_week'] = $res[$adminid]['suc_lesson_count_four'];
+        $arr['lesson_per'] = $res[$adminid]['lesson_per'];
+        $arr['kpi'] = $res[$adminid]['kpi'];
+        //月末定级
+        $start_time_this = $start_time;
         $ret_time = $this->t_month_def_type->get_all_list();
-        dd($ret_time);
         foreach($ret_time as $item){//本月
-            if($time>=$item['start_time'] && $time<$item['end_time']){
-                $start_time = $item['start_time'];
-                $end_time = $item['end_time'];
+            if($start_time_new>=$item['start_time'] && $start_time_new<$item['end_time']){
+                $start_time_this = $item['def_time'];
                 break;
             }
         }
-        dd($start_time,$end_time);
-        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid=99);
-        dd($lesson_call_end);
-        foreach([160881,160884,160888,160890,160892,160894,160897,160898,160899,160899,160901,160902,160908,160910,160912,160917,160920,160922,160925,160929,160882,160886,160891,160895,160934,160933,160932,160931,160930] as $item){
-            $id = $item;
-            $this->t_seller_new_count_get_detail->rwo_del_by_detail_id($id);
+        $last_seller_level = $this->t_seller_level_month->get_row_by_adminid_month_date($adminid,$start_time_this);
+        $arr['last_seller_level'] = isset($last_seller_level['seller_level'])?E\Eseller_salary_level::get_desc($last_seller_level['seller_level']):'';
+        $arr['base_salary'] = isset($last_seller_level['base_salary'])?$last_seller_level['base_salary']:'';
+        $arr['sup_salary'] = isset($last_seller_level['sup_salary'])?$last_seller_level['sup_salary']:'';
+        $arr['per_salary'] = isset($last_seller_level['per_salary'])?$last_seller_level['per_salary']:'';
+        //上月非退费签单金额
+        $account = $this->t_manager_info->get_account_by_uid($adminid);
+        $timestamp = strtotime(date("Y-m-01",$start_time));
+        $firstday_last  = date('Y-m-01',strtotime(date('Y',$timestamp).'-'.(date('m',$timestamp)-1).'-01'));
+        $lastday_last   = date('Y-m-d',strtotime("$firstday_last +1 month -1 day"));
+        list($start_time_last,$end_time_last)= [strtotime($firstday_last),strtotime($lastday_last)];
+        foreach($ret_time as $item){//上月
+            if($start_time_this-1>=$item['start_time'] && $start_time_this-1<$item['end_time']){
+                $start_time_last = $item['start_time'];
+                $end_time_last = $item['end_time'];
+            }
         }
-        dd('a');
-        $this->t_seller_new_count_get_detail->get_detail_id($id);
-        $start_time = 1512057600;
-        $end_time = 1514736000;
-        $adminid = 315;
-        $call_count = $this->t_tq_call_info->get_call_count_by_adminid($start_time, $end_time,$adminid);
-        $test_count = $this->t_test_lesson_subject_require->get_test_count_by_adminid($start_time,$end_time,$adminid);
-        $order_count = $this->t_order_info->get_order_count_by_adminid($start_time,$end_time,$adminid);
-        $order_refund_count = $this->t_order_refund->get_order_refund_count_by_adminid($start_time,$end_time,$adminid);
-        $level10 = $this->t_seller_edit_log->get_10_level($adminid);
-        $level11 = $this->t_seller_edit_log->get_11_level($adminid);
-        $level11 = $level11>0?$level11:$level10;
-        $level12 = $this->t_seller_edit_log->get_12_level($adminid);
-        $level12 = $level12>0?$level12:$level11;
-        dd($call_count,$test_count);
+        $last_all_price = $this->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_last,$end_time_last);
+        $last_all_price = isset($last_all_price)?$last_all_price/100:0;
+        $arr['last_all_price'] = $last_all_price;
+        //上月团队金额
+        $last_group_list = $this->t_order_info->month_get_1v1_order_seller_list_group($start_time_last,$end_time_last,$adminid);
+        $last_group_all_price=0;
+        if(count($last_group_list) ==1){
+            $last_group_all_price = $last_group_list[0]["all_price"];
+        }
+        $arr["last_group_all_price"] = $last_group_all_price/100;
+
+        $no_update_seller_level_flag = $this->t_manager_info->field_get_value($adminid,'no_update_seller_level_flag');
+        if($no_update_seller_level_flag == 1){
+            $arr['base_salary'] = 6500;
+            $arr['sup_salary'] = 0;
+            switch(true){
+            case $arr['last_group_all_price']<500000:
+                // $arr['per_salary'] = 10*$kpi;
+                $arr['per_salary'] = 1000;
+                $arr['last_seller_level'] = '初级';
+                break;
+            case $arr['last_group_all_price']<800000 && $arr['last_group_all_price']>=500000:
+                // $arr['per_salary'] = 25*$kpi;
+                $arr['per_salary'] = 2500;
+                $arr['last_seller_level'] = '中级1';
+                break;
+            case $arr['last_group_all_price']<1000000 && $arr['last_group_all_price']>=800000:
+                // $arr['per_salary'] = 35*$kpi;
+                $arr['per_salary'] = 3500;
+                $arr['last_seller_level'] = '中级2';
+                break;
+            default:
+                // $arr['per_salary'] = 50*$kpi;
+                $arr['per_salary'] = 5000;
+                $arr['last_seller_level'] = '高级';
+                break;
+            }
+            $arr['suc_first_week'] = '';
+            $arr['suc_second_week'] = '';
+            $arr['suc_third_week'] = '';
+            $arr['suc_fourth_week'] = '';
+            $arr['lesson_per'] = '';
+            $arr['kpi'] = '';
+        }
+        $arr['group_kpi'] = isset($group_kpi['group_kpi'])?$group_kpi['group_kpi']:'';
+        $arr['group_kpi_desc'] = isset($group_kpi['group_kpi_desc'])?$group_kpi['group_kpi_desc']:'';
+        dd($arr);
     }
 
     //处理等级头像
