@@ -6,10 +6,10 @@ use \App\Enums as E;
 use \App\Helper\Config;
 
 class pic_manage extends Controller
-{
-    public function pic_info()
     {
-        $type      = $this->get_in_int_val('type',-1);
+        public function pic_info()
+        {
+            $type      = $this->get_in_int_val('type',-1);
         $usage_type= $this->get_in_int_val('usage_type',-1);
         $active_status = $this->get_in_int_val("active_status", 0);
         $page_num  = $this->get_in_page_num();
