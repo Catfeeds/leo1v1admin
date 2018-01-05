@@ -317,8 +317,8 @@ $(function(){
             var id_point1             = $("<input/>");
             var id_point2             = $("<input/>");
             var id_pdf_question_count = $("<input/>");
-            var id_tea_cw_pic         = $("<select/>");
-            id_teacher.append("是否启用批量平铺功能");
+            var id_tea_cw_pic         = $("<select class='hide'/>");
+            // id_teacher.append("是否启用批量平铺功能");
             id_teacher.append(id_tea_cw_pic);
 
             Enum_map.append_option_list("boolean",id_tea_cw_pic,true);
