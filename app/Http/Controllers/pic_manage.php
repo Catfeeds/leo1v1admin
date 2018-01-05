@@ -27,13 +27,13 @@ class pic_manage extends Controller
             if ($item['del_flag'] == 1) {
                 $item['active_status'] = '已删除';
             } else {
-            if ($current < $item['start_time']) {
-                $item['active_status'] = '待开始';
-            } elseif ($current < $item['end_time']) {
-                $item['active_status'] = '已发布';
-            } elseif ($current > $item['end_time']) {
-                $item['active_status'] = '已结束';
-            }
+                if ($current < $item['start_time']) {
+                    $item['active_status'] = '待开始';
+                } elseif ($current < $item['end_time']) {
+                    $item['active_status'] = '已发布';
+                } elseif ($current > $item['end_time']) {
+                    $item['active_status'] = '已结束';
+                }
             }
         }
 
@@ -94,15 +94,6 @@ class pic_manage extends Controller
                 if (!($width == 750 && $height == 500)) {
                     return $this->output_err("手机端图片大小是750*500");
                 }
-            }
-        }
-
-        file_get_contents($pic_url);
-        $responseInfo = $http_response_header;
-        //$responseInfo = explode(",", $responseInfo);
-        foreach($responseInfo as $item) {
-            if (stripos($item, "Content-Type")) {
-                return $this->output_err($item);
             }
         }
 
