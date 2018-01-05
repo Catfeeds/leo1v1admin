@@ -1697,12 +1697,12 @@ class Common {
         //     //$lesson_info.=",赠送($type_2_lesson_count)课时 ";
         // }
         $replace=[
-            "\t\t\t\t",
-            "\t\t\t",
-            "\t\t\t",
-            "\t\t\t\t",
-            "\t\t\t\t\t",
-            "\t\t\t\t\t",
+            "___",
+            "__",
+            "___",
+            "___",
+            "___",
+            "___",
             " ",
             "gz_null.png",
             " ",
@@ -1711,7 +1711,7 @@ class Common {
             " " ,
         ];
         $order_sex= str_replace($search,$replace, $order_temp );
-        $base_file_name= "order_empty_1000000" ;
+        $base_file_name= "order_empty_1000001" ;
         // if( $gong_zhang_flag ) {
         //     $base_file_name.="_gz";
         // }
