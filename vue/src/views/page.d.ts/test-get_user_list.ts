@@ -19,6 +19,7 @@ interface self_RowData {
 	phone	:any;
 	grade	:any;
 	grade_str	:any;
+	testv	:any;
 }
 
 export  {self_RowData , self_Args  }

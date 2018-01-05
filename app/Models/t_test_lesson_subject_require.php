@@ -1094,7 +1094,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
             ." join %s s  on l.userid=s.userid"
             ." left join %s f  on f.flow_type=2003 and l.lessonid= f.from_key_int  " //特殊申请
-            ." where %s ",
+            ." where %s order by l.lesson_start ",
             self::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
