@@ -2262,7 +2262,7 @@ function multi_upload_file(new_flag,is_multi,is_auto_start,btn_id, is_public_buc
             browse_button: btn_id , //choose files id
             // container: 'container',
             // drop_element: 'container',
-            max_file_size: '500mb',
+            max_file_size: '15mb',
             filters: {
                 mime_types: [
                     {title: "", extensions: ext_file}

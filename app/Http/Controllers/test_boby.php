@@ -1544,8 +1544,9 @@ class test_boby extends Controller {
 
     }
 
-    /*
-     七牛云文件批量移动
+    /**
+     *七牛云文件批量移动
+     *2018-1-5
      */
     public function qiniu_test(){
         return 1;
@@ -1603,7 +1604,12 @@ class test_boby extends Controller {
 
     }
 
+    /**
+     *批量修改file_link
+     *2018-1-5
+     */
     public function upload_file_link(){
+        return 1;
         $list = $this->t_resource_file->get_all_file_title();
         $this->t_resource_file->start_transaction();
         foreach($list as $v){
