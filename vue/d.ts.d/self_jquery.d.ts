@@ -20,7 +20,7 @@ interface JQueryStatic {
     filed_init_date_range_query_str(date_type,  opt_date_type, start_time,  end_time):string;
     get_page_select_date_str(has_date_type?):string;
     plupload_Uploader(config:any):any;
-    get_action_str():string;
+    //get_action_str():string;
 
     flow_dlg_show(title, add_func , flow_type, from_key_int,  from_key2_int?, from_key_str? ):void;
 
@@ -47,6 +47,7 @@ interface JQueryStatic {
             "length_css" : "col-xs-12 col-md-3",
             "select_value" : "",
             "show_title_flag":false,
+            "allway_show_flag" :true,
             "as_header_query" : false ,
         };
     */
