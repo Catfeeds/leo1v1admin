@@ -83,7 +83,7 @@ class deal_pdf_to_png extends cmd_base
             }
 
 
-            $pdf_url = ltrim($pdf_url, '/');
+            $pdf_url = str_replace('/','_',$pdf_url);
             $savePathFile = public_path('wximg').'/'.$pdf_url;
 
             if($pdf_url){
