@@ -161,7 +161,7 @@ class user_power extends Controller
         $url = $data['url'];
         $role_groupid = $data['role_groupid'];
         $field_name = $data['field_name'];
-
+        
         //查看是否存在
         $url_input_define_id = $this->t_url_input_define->url_input_define_id($url,$role_groupid,$field_name);
         if($url_input_define_id){

@@ -2121,7 +2121,10 @@ class teacher_info extends Controller
         return outputjson_success();
     }
 
-    public function get_teacher_money_info(){
+    /**
+     * 使老师工资与后台,微信端同步
+     */
+    public function get_teacher_money_info_2018_1_4(){
         $teacherid = $this->get_login_teacher();
         if(!$teacherid){
             return $this->output_err("老师id出错！");
@@ -2137,6 +2140,26 @@ class teacher_info extends Controller
         }
         if($begin_time<$check_time){
             $begin_time = $check_time;
+        }
+        echo $end_time;exit;
+        $list = $this->get_teacher_lesson_money_list($teacherid,$start_time,$now_time,$show_type);
+    }
+
+    public function get_teacher_money_info(){
+        $teacherid = $this->get_login_teacher();
+        if(!$teacherid){
+            return $this->output_err("老师id出错！");
+        }
+
+        $now_date   = date("Y-m-01",time());
+        $check_time = strtotime("2016-12-1");
+        $begin_time = strtotime("-1 year",strtotime($now_date));
+        $end_time   = strtotime("+1 month",strtotime($now_date));
+        $first_lesson_time = $this->t_lesson_info_b3->get_first_lesson_time($teacherid);
+        if($begin_time<$check_time){
+            $begin_time = $check_time;
+        }elseif($begin_time<$first_lesson_time){
+            $begin_time = $first_lesson_time;
         }
 
         $simple_info = $this->t_teacher_info->get_teacher_info($teacherid);
@@ -2248,7 +2271,6 @@ class teacher_info extends Controller
             }
             $list[$month_key]['list'][$list_reward_key]["key_str"]  = $list_reward_key_str;
             $list[$month_key]['list'][$list_reward_key][]  = $reward_arr;
-            //$list[$month_key]["all_money"]    += $reward_money;
             $list[$month_key]["reward_money"] += $reward_money;
         }
 

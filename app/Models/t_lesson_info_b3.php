@@ -2718,7 +2718,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     //@param:$end_time 结束时间
     public function get_distinct_lesson_info($start_time, $end_time){
         $where_arr = [
-            'li.lesson_type = 2',
             "ti.trial_lecture_is_pass=1",
             "ti.is_test_user=0",
             "li.lesson_del_flag=0",
@@ -2746,6 +2745,30 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $sql = $this->gen_sql_new("");
 
         return $this->main_get_list($sql);
+    }
+    //@desn:获取总课程及评价课程次数
+    //@param $start_time 开始时间 $end_time 结束时间
+    public function get_lesson_evaluation_data($start_time,$end_time){
+        $where_arr = [
+            "ti.trial_lecture_is_pass=1",
+            "ti.is_test_user=0",
+            "li.lesson_del_flag=0",
+            "li.lesson_status=2",
+        ];
+        $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select sum(li.lesson_type = 2) test_lesson_count,'.
+            'sum(li.lesson_type = 2 and li.stu_rate_time > 0) test_evaluation_count,'.
+            'sum(li.lesson_type in (0,1,3)) regular_lesson_count,'.
+            'sum(li.lesson_type in (0,1,3) and li.stu_rate_time > 0) regular_evaluation_count '.
+            'from %s li '.
+            'left join %s ti on li.teacherid = ti.teacherid '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_teacher_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
     }
 
 }
