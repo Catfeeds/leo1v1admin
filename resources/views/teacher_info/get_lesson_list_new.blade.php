@@ -125,6 +125,7 @@
                                 <a class="opt-set_lesson_time" title="设置上课时间">立即接课</a>
                             @endif
                             <a class="opt-complaint" title="老师投诉">投诉</a>
+                            <a class="opt-change-lesson-time" title="换时间">换时间</a>
                         </div>
                     </td>
                 </tr>
