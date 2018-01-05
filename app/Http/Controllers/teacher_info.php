@@ -2506,9 +2506,27 @@ class teacher_info extends Controller
         //获取老师科目年级段
         $tea_info = $this->get_rule_range();
 
+        // dd($tea_info);
         $resource_type = $this->get_in_int_val('resource_type', 1);
-        $subject       = $this->get_in_int_val('subject', @$tea_info['subject'][0]);
-        $grade         = $this->get_in_int_val('grade', @$tea_info['grade'][0]);
+        $subject       = $this->get_in_int_val('subject', @$tea_info[0]['subject']);
+        $grade         = $this->get_in_int_val('grade', @$tea_info[0]['grade'][0]);
+        $flag = 0;
+        $tea_gra = [];
+        $tea_sub = [];
+        foreach($tea_info as $item){
+            $tea_sub[] = intval($item['subject']);
+            if($item['subject'] == $subject){
+                $flag = 1;
+                $tea_gra = $item['grade'];
+                if(!in_array($grade, $item['grade'])){
+                    $garde = @$item['grade'][0];
+                }
+            }
+        }
+        if($flag == 0){
+            $subject = $tea_info[0]['subject'];
+            $garde = $tea_info[0]['grade'][0];
+        }
         $tag_one       = $this->get_in_int_val('tag_one', -1);
         $tag_two       = $this->get_in_int_val('tag_two', -1);
         $tag_three     = $this->get_in_int_val('tag_three', -1);
@@ -2583,8 +2601,8 @@ class teacher_info extends Controller
         // dd($tea_info);
         return $this->pageView( __METHOD__,$ret_info,[
             'tag_info' => $tag_arr,
-            'tea_sub' => json_encode( $tea_info['subject'] ),
-            'tea_gra' => json_encode($tea_info['grade']),
+            'tea_sub' => json_encode( $tea_sub),
+            'tea_gra' => json_encode($tea_gra),
             'book' => json_encode($book_arr)]);
     }
 
@@ -3045,18 +3063,12 @@ class teacher_info extends Controller
             $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade($info['second_grade_start'], $info['second_grade_end']);
             // $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade(1, 2);
             // $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade(4, 4);
-            $grade = [];
-            foreach($grade_1 as $v){
-                $grade[] = $v;
-            }
-            foreach($grade_2 as $v){
-                $grade[] = $v;
-            }
-            $data = [
-                'subject' => [intval($info['subject']),intval($info['second_subject'])],
-                'grade'   => $grade
-            ];
 
+            $data = [];
+            $data[0]['subject'] = $info['subject'];
+            $data[0]['grade'] = $grade_1;
+            $data[1]['subject'] = $info['second_subject'];
+            $data[1]['grade'] = $grade_2;
             return $data;
         }
         return false;
