@@ -1711,7 +1711,7 @@ class Common {
             " " ,
         ];
         $order_sex= str_replace($search,$replace, $order_temp );
-        $base_file_name= "order_empty_2000" ;
+        $base_file_name= "order_empty_100000" ;
         // if( $gong_zhang_flag ) {
         //     $base_file_name.="_gz";
         // }
