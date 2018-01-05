@@ -526,8 +526,8 @@ class agent extends Controller
                 }
             }
         }
+        dd($res[$adminid]);
         foreach($res as $key=>$item){
-            dd($item[E\Eweek_order::V_1]);
             $res[$key]['suc_lesson_count_one'] = isset($item[E\Eweek_order::V_1])?count($item[E\Eweek_order::V_1]):0;
             $res[$key]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
             $res[$key]['suc_lesson_count_three'] = isset($item[E\Eweek_order::V_3])?count($item[E\Eweek_order::V_3]):0;
