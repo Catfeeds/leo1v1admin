@@ -465,10 +465,9 @@ class agent extends Controller
     }
 
     public function test_new(){
-        list($start_time,$end_time) = [1512057600,1514736000];
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $adminid=315;
         $month= date("Ym",$start_time);
-
         $group_kpi['group_kpi'] = '';
         $group_kpi['group_kpi_desc'] = '';
 
@@ -526,8 +525,8 @@ class agent extends Controller
                 }
             }
         }
-        dd($res[$adminid]);
         foreach($res as $key=>$item){
+            dd($item[E\Eweek_order::V_1]);
             $res[$key]['suc_lesson_count_one'] = isset($item[E\Eweek_order::V_1])?count($item[E\Eweek_order::V_1]):0;
             $res[$key]['suc_lesson_count_two'] = isset($item[E\Eweek_order::V_2])?count($item[E\Eweek_order::V_2]):0;
             $res[$key]['suc_lesson_count_three'] = isset($item[E\Eweek_order::V_3])?count($item[E\Eweek_order::V_3]):0;
