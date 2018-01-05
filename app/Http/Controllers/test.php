@@ -55,7 +55,7 @@ class test extends Controller
         //$this->get_account_role();
         $this->set_in_value("adminid", $this->get_account_id())  ;
 
-        $this->html_hide_list_add([ "grade","opt_grade", "input_grade" ]);
+        $this->html_power_list_add([ "grade","opt_grade", "input_grade" ]);
         return $this->get_user_list();
     }
 
