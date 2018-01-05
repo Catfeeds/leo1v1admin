@@ -169,7 +169,9 @@ class pdfConversionH5 extends Command
                 if($jsLink_arr[1] == 'recommend-0.2.js'){
                     $node_js->parentNode->removeChild($node_js);
                 }
-            }elseif($jsLink_arr[0] == ''){
+            }
+
+            if($jsLink_arr[0] == ''){
                 # 删除节点
                 $nodeContent = $node_js->nodeValue;
                 $domain = strstr($nodeContent,'shareimg');
@@ -190,7 +192,9 @@ class pdfConversionH5 extends Command
                       window.onload=function(){document.body.appendChild(script);}}';
                 }
 
-            }elseif($jsLink_arr[0] == 'http:'){
+            }
+
+            if($jsLink_arr[0] == 'http:'){
                 # 删除节点 不需要的节点
                 $node_js->parentNode->removeChild($node_js);
             }
