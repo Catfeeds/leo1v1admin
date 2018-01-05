@@ -94,6 +94,8 @@ export default class extends vtable {
 	$.admin_query_input({
 		'join_header'  : $header_query_info,
 		"field_name"    : "query_text" ,
+		"placeholder" : "回车查询", 
+		"length_css" : "col-xs-12 col-md-3", 
 		"title"        :  "query_text",
 		"select_value" : this.get_args().query_text,
 	});

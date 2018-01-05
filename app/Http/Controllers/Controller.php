@@ -36,50 +36,64 @@ class Controller extends ControllerEx
         $this->setUpTraits();
     }
 
-    public function  set_call_ctl_init(){
-        
-        $this->html_hide_list_add([ "grade","opt_grade", "input_grade" ]);
+    public function  set_call_ctl_init(){        
         $url_input_define = session('url_input_define') ? json_decode(session('url_input_define'),true) : [];
         $url_desc_power = session('url_desc_power') ? json_decode(session('url_desc_power'),true) : [];
         $url = $_SERVER['REQUEST_URI'];
         //dd($url);
+        $hide_desc_power = [];
         if(!empty($url_desc_power)){
             foreach($url_desc_power as $v){
+                if( $url == $v['url'] && $v['open_flag'] == 0 ){
+                    $hide_desc_power.push($v['opt_key']);
+                }
+            }
+        }
+
+        $this->html_power_list_add($hide_desc_power);
+
+        if(!empty($url_input_define)){
+            foreach( $url_input_define as $v ){
                 if( $url == $v['url'] ){
-                    
+                    if( $v['field_type'] != 'function'){
+                        $this->set_in_value($v['field_name'], $v['field_val']);
+                    }else{
+                        $this->set_in_value($v['field_name'], $this->$v['field_val']);
+                    }
                 }
             }
         }
         /*
         $this->set_in_value("grade", 101);
+        $this->set_in_value("grade",  this->get_account_id());
+
         //$sys_operator_uid= $this->get_account_id();
         //$this->get_account_role();
         $this->set_in_value("adminid", $this->get_account_id())  ;
 
-        $this->html_hide_list_add([ "grade","opt_grade", "input_grade" ]);
         */
     }
 
     //保存要隐藏元素 列表
-    public $html_hide_list=[];
+    public $html_power_list=[];
 
-    public function html_hide_list_add( $key ) {
+    public function html_power_list_add( $key ) {
         if (is_array($key)) {
             foreach ($key as $item) {
-                $this->html_hide_list[$item]= true;
+                $this->html_power_list[$item]= true;
             }
         }else{
-            $this->html_hide_list[$key]= true;
+            $this->html_power_list[$key]= true;
         }
     }
 
-    public function html_hide_list_del( $key ) {
+    public function html_power_list_del( $key ) {
         if (is_array($key)) {
             foreach ($key as $item) {
-                unset ( $this->html_hide_list[$item] ) ;
+                unset ( $this->html_power_list[$item] ) ;
             }
         }else{
-            unset ( $this->html_hide_list[$key] ) ;
+            unset ( $this->html_power_list[$key] ) ;
         }
     }
 
