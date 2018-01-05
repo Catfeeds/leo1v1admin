@@ -1303,10 +1303,10 @@ class test_jack  extends Controller
         $high = $this->t_lesson_info_b3->get_stu_num_by_grade($start_time,$end_time,3);
         $all =  $small+$middle+$high;
         $list=[];
-        $list["small_grade"] = round($small/$all*100,2);
+        $list["small_grade"] = round($small/$all*100,2)."%";
 
-        $list["middle_grade"] = round($middle/$all*100,2);
-        $list["high_grade"] =round($high/$all*100,2);
+        $list["middle_grade"] = round($middle/$all*100,2)."%";
+        $list["high_grade"] =round($high/$all*100,2)."%";
         return $this->output_succ($list);
 
         $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
