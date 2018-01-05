@@ -44,6 +44,7 @@ class test extends Controller
             $item["testv"]="xxx";
         }
         //sleep(3);
+        //dd($this->html_power_list);
 
         return $this->pageView(__METHOD__, $ret_info,[
             "message" =>  "cur usrid:".$userid,

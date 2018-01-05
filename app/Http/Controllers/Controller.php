@@ -37,7 +37,7 @@ class Controller extends ControllerEx
 
     public function  set_call_ctl_init(){
 
-        $this->html_power_list_add([ "grade","opt_grade", "input_grade" ]);
+        //$this->html_power_list_add([ "grade","opt_grade", "input_grade" ]);
         /*
         $this->set_in_value("grade", 101);
         $this->set_in_value("grade",  this->get_account_id());
