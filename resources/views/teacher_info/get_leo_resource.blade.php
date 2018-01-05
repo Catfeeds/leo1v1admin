@@ -8,6 +8,7 @@
      var tag_two = '{{$tag_info['tag_two']['menu']}}';
      var tag_three = '{{$tag_info['tag_three']['menu']}}';
      var tag_four = '{{$tag_info['tag_four']['menu']}}';
+     var tea_info = {!! @$tea_info !!};
      var book = {{@$book}};
     </script>
     <section class="content li-section">
