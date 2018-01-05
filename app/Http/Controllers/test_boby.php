@@ -1589,7 +1589,6 @@ class test_boby extends Controller {
         list($ret, $err) = $bucketManager->batch($ops);
         $succ = 0;
         $er = 0;
-        $err_arr = [];
         if ($err) {
             // dd($err);
             foreach($err as $v){
@@ -1602,16 +1601,19 @@ class test_boby extends Controller {
             echo  '成功',$succ,';失败',$er;
         } else {
             // dd($ret);
-            foreach($ret as $v){
+            $s = $this->table_start(['文件','状态','code','原因','文件名','file_id']);
+            foreach($ret as $k=> $v){
                 if ($v['code'] == 200){
                     $succ++;
+                    $s = $this->tr_add($s,$k,'成功','','',$list[$k]['file_link'], $list[$k]['file_id']);
                 } else {
-                    $err_arr[] = $v;
                     $er++;
+                    $s = $this->tr_add($s,$k,'失败',$v['code'] ,$v['data']['error'],$list[$k]['file_link'], $list[$k]['file_id']);
                 }
             }
+
             echo  '成功',$succ,';失败',$er;
-            dd($err_arr);
+            return $s;
         }
 
     }
