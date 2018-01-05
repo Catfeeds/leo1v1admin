@@ -23,9 +23,9 @@
                 </td>
                 <td>
                     @if($ret_info["tea_process_design_score"] < 5)
-                        <span >得分:<span style="color:#FF3451">{{$ret_info["tea_process_design_score"]}}</span>/<span style="color:#333333">10</span></span>
+                        <span >得分:<span style="color:#FF3451">{{@$ret_info["tea_process_design_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @else
-                        <span >得分:<span style="color:#F6A623">{{$ret_info["tea_process_design_score"]}}</span>/<span style="color:#333333">10</span></span>
+                        <span >得分:<span style="color:#F6A623">{{@$ret_info["tea_process_design_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @endif
                 </td>
             </tr>
@@ -35,9 +35,9 @@
                 </td>
                 <td>
                     @if($ret_info["language_performance_score"] < 5)
-                        <span >得分:<span style="color:#FF3451">{{$ret_info["language_performance_score"]}}</span>/<span style="color:#333333">10</span></span>
+                        <span >得分:<span style="color:#FF3451">{{@$ret_info["language_performance_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @else
-                        <span >得分:<span style="color:#F6A623">{{$ret_info["language_performance_score"]}}</span>/<span style="color:#333333">10</span></span>
+                        <span >得分:<span style="color:#F6A623">{{@$ret_info["language_performance_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @endif
                 </td>
             </tr>
@@ -45,9 +45,9 @@
                 <td>专业知识技能</td>
                 <td>
                     @if($ret_info["knw_point_score"] < 5)
-                        <span >得分:<span style="color:#FF3451">{{$ret_info["knw_point_score"]}}</span>/<span style="color:#333333">10</span></span>
+                        <span >得分:<span style="color:#FF3451">{{@$ret_info["knw_point_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @else
-                        <span >得分:<span style="color:#F6A623">{{$ret_info["knw_point_score"]}}</span>/<span style="color:#333333">10</span></span>
+                        <span >得分:<span style="color:#F6A623">{{@$ret_info["knw_point_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @endif
                 </td>
             </tr>
@@ -57,10 +57,10 @@
                 </td>
                 <td>
                     @if($ret_info["tea_rhythm_score"] < 5)
-                        <span >得分:<span style="color:#FF3451">{{$ret_info["tea_rhythm_score"]}}</span>/<span style="color:#333333">10</span></span>
+                        <span >得分:<span style="color:#FF3451">{{@$ret_info["tea_rhythm_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @else
 
-                        <span >得分:<span style="color:#F6A623">{{$ret_info["tea_rhythm_score"]}}</span>/<span style="color:#333333">10</span></span>
+                        <span >得分:<span style="color:#F6A623">{{@$ret_info["tea_rhythm_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @endif
                 </td>
             </tr>
@@ -71,10 +71,10 @@
                 </td>
                 <td>
                     @if($ret_info["tea_concentration_score"] < 5)
-                        <span >得分:<span style="color:#FF3451">{{$ret_info["tea_concentration_score"]}}</span>/<span style="color:#333333">10</span></span>
+                        <span >得分:<span style="color:#FF3451">{{@$ret_info["tea_concentration_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @else
 
-                        <span >得分:<span style="color:#F6A623">{{$ret_info["tea_concentration_score"]}}</span>/<span style="color:#333333">10</span></span>
+                        <span >得分:<span style="color:#F6A623">{{@$ret_info["tea_concentration_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @endif
                 </td>
 
@@ -83,10 +83,10 @@
                 <td>板书情况</td>
                 <td>
                     @if($ret_info["teacher_blackboard_writing_score"] < 5)
-                        <span >得分:<span style="color:#FF3451">{{$ret_info["teacher_blackboard_writing_score"]}}</span>/<span style="color:#333333">10</span></span>
+                        <span >得分:<span style="color:#FF3451">{{@$ret_info["teacher_blackboard_writing_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @else
 
-                        <span >得分:<span style="color:#F6A623">{{$ret_info["teacher_blackboard_writing_score"]}}</span>/<span style="color:#333333">10</span></span>
+                        <span >得分:<span style="color:#F6A623">{{@$ret_info["teacher_blackboard_writing_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @endif
                 </td>
             </tr>
@@ -94,10 +94,10 @@
                 <td>软件操作</td>
                 <td>
                     @if($ret_info["tea_operation_score"] < 5)
-                        <span >得分:<span style="color:#FF3451">{{$ret_info["tea_operation_score"]}}</span>/<span style="color:#333333">10</span></span>
+                        <span >得分:<span style="color:#FF3451">{{@$ret_info["tea_operation_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @else
 
-                        <span >得分:<span style="color:#F6A623">{{$ret_info["tea_operation_score"]}}</span>/<span style="color:#333333">10</span></span>
+                        <span >得分:<span style="color:#F6A623">{{@$ret_info["tea_operation_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @endif
                 </td>
             </tr>
@@ -105,10 +105,10 @@
                 <td>授课环境</td>
                 <td>
                     @if($ret_info["tea_environment_score"] < 3)
-                        <span >得分:<span style="color:#FF3451">{{$ret_info["tea_environment_score"]}}</span>/<span style="color:#333333">5</span></span>
+                        <span >得分:<span style="color:#FF3451">{{@$ret_info["tea_environment_score"]}}</span>/<span style="color:#333333">5</span></span>
                     @else
 
-                        <span >得分:<span style="color:#F6A623">{{$ret_info["tea_environment_score"]}}</span>/<span style="color:#333333">5</span></span>
+                        <span >得分:<span style="color:#F6A623">{{@$ret_info["tea_environment_score"]}}</span>/<span style="color:#333333">5</span></span>
                     @endif
                 </td>
             </tr>
@@ -116,10 +116,10 @@
                 <td>课后反馈</td>
                 <td>
                     @if($ret_info["answer_question_cre_score"] < 5)
-                        <span >得分:<span style="color:#FF3451">{{$ret_info["answer_question_cre_score"]}}</span>/<span style="color:#333333">10</span></span>
+                        <span >得分:<span style="color:#FF3451">{{@$ret_info["answer_question_cre_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @else
 
-                        <span >得分:<span style="color:#F6A623">{{$ret_info["answer_question_cre_score"]}}</span>/<span style="color:#333333">10</span></span>
+                        <span >得分:<span style="color:#F6A623">{{@$ret_info["answer_question_cre_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @endif
 
                 </td>
@@ -128,10 +128,10 @@
                 <td>流程规范操作</td>
                 <td>
                     @if($ret_info["class_abnormality_score"] < 8)
-                        <span >得分:<span style="color:#FF3451">{{$ret_info["class_abnormality_score"]}}</span>/<span style="color:#333333">15</span></span>
+                        <span >得分:<span style="color:#FF3451">{{@$ret_info["class_abnormality_score"]}}</span>/<span style="color:#333333">15</span></span>
                     @else
 
-                        <span >得分:<span style="color:#F6A623">{{$ret_info["class_abnormality_score"]}}</span>/<span style="color:#333333">15</span></span>
+                        <span >得分:<span style="color:#F6A623">{{@$ret_info["class_abnormality_score"]}}</span>/<span style="color:#333333">15</span></span>
                     @endif
 
 
@@ -142,15 +142,15 @@
             
             <tr>
                 <td>总得分</td>
-                <td colspan="2">{{$ret_info["record_score"]}}</td>
+                <td colspan="2">{{@$ret_info["record_score"]}}</td>
             </tr>       
             <tr>
                 <td>监课情况</td>
-                <td  colspan="2">{{$ret_info["record_monitor_class"]}}</td>
+                <td  colspan="2">{{@$ret_info["record_monitor_class"]}}</td>
             </tr>
             <tr>
                 <td>意见或建议</td>
-                <td colspan="2">{{$ret_info["record_info"]}}</td>
+                <td colspan="2">{{@$ret_info["record_info"]}}</td>
             </tr>
         </table>
     @endif
