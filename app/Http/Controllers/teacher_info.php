@@ -1828,7 +1828,7 @@ class teacher_info extends Controller
 
         foreach ($ret_info['list'] as &$item) {
             E\Esubject::set_item_value_str($item);
-            E\Etextbook_type::set_item_value_str($item);
+            E\Eregion_version::set_item_value_str($item,'teacher_textbook');
             E\Eidentity::set_item_value_str($item);
             E\Eteacher_ref_type::set_item_value_str($item);
             E\Egender::set_item_value_str($item);
