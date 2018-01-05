@@ -277,7 +277,7 @@ class authority extends Controller
 
         $time     = strtotime($time_str);
         $set_arr['del_flag'] = $del_flag;
-        if($del_flag){
+        if($del_flag==1){
             $set_arr['tquin'] = null;
             $set_arr['call_phone_type'] = 0;
             $set_arr['call_phone_passwd'] = '';
@@ -516,6 +516,7 @@ class authority extends Controller
     public function manager_list_for_seller() {
         $this->set_in_value("account_role", E\Eaccount_role::V_2);
         $this->set_in_value("assign_account_role",E\Eaccount_role::V_2);
+        $this->html_hide_list_add(["account_role", "input_account_role" ]);
         return $this->manager_list();
     }
 

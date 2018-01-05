@@ -1392,8 +1392,14 @@ class wx_teacher_api extends Controller
         $teacher_info = $this->t_teacher_info->get_test_teacher_info($lessonid);
         $teacher_info['tea_gender_str'] = E\Egender::get_desc($teacher_info['tea_gender']);
         $teacher_info['identity_str'] = E\Eidentity::get_desc($teacher_info['identity']);
-        $teacher_info['textbook_type_str'] = E\Etextbook_type::get_desc($teacher_info['textbook_type']);
         $tag_arr = array_keys(json_decode($teacher_info['teacher_tags'],true));
+
+        $arr_text= explode(",",@$teacher_info["teacher_textbook"]);
+        $tea_info['textbook'] = '';
+        foreach($arr_text as $val){
+            @$tea_info["textbook"] .=  E\Eregion_version::get_desc ($val).",";
+        }
+        $teacher_info["textbook_type_str"] = trim($tea_info["textbook"],",");
 
         $tag_l1_sort  = '教师相关';
         $tag_l2_sort  = '风格性格';

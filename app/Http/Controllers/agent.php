@@ -465,9 +465,13 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $month = strtotime('2017-12-01');
+        $db_groupid=$this->t_group_user_month->get_groupid_by_adminid($main_type=2,$adminid=975,$month);
+        dd($db_groupid);
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
         $time = time(null);
         $ret_time = $this->t_month_def_type->get_all_list();
+        dd($ret_time);
         foreach($ret_time as $item){//本月
             if($time>=$item['start_time'] && $time<$item['end_time']){
                 $start_time = $item['start_time'];

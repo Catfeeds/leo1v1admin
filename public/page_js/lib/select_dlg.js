@@ -150,8 +150,10 @@
                 "margin-top":"0px"
             });
             var div_style = me.options.div_style ;
-            console.log(div_style);
-            dlg.getModalDialog().find( ".bootstrap-dialog-message").css(div_style);
+            //console.log(div_style);
+            if(div_style != null || div_style != undefined ){
+                dlg.getModalDialog().find( ".bootstrap-dialog-message").css(div_style);
+            }
           
         }
     };

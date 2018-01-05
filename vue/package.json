@@ -11,11 +11,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
-    "axios": "0.17.1",
-    "element-ui": "2.0.5",
     "js-cookie": "2.2.0",
-    "normalize.css": "7.0.0",
-    "nprogress": "0.2.0",
     "vue": "^2.5.13",
     "vue-class-component": "^6.1.1",
     "vue-router": "3.0.1",
