@@ -2583,11 +2583,9 @@ class teacher_info extends Controller
         // dd($tea_info);
         return $this->pageView( __METHOD__,$ret_info,[
             'tag_info' => $tag_arr,
-            // 'tea_sub' => json_encode( $tea_info['subject'] ),
-            // 'tea_gra' => json_encode($tea_info['grade']),
-            'tea_sub' => '[1,2,3]',
-            'tea_gra' => '[1,2,3]',
-           'book' => json_encode($book_arr)]);
+            'tea_sub' => json_encode( $tea_info['subject'] ),
+            'tea_gra' => json_encode($tea_info['grade']),
+            'book' => json_encode($book_arr)]);
     }
 
     public function do_collect(){
@@ -3045,8 +3043,8 @@ class teacher_info extends Controller
             $info = $this->t_teacher_info->get_subject_grade_by_teacherid($teacherid);
             $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
             $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade($info['second_grade_start'], $info['second_grade_end']);
-            $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade(1, 2);
-            $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade(4, 4);
+            // $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade(1, 2);
+            // $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade(4, 4);
             $grade = [];
             foreach($grade_1 as $v){
                 $grade[] = $v;
@@ -3055,7 +3053,7 @@ class teacher_info extends Controller
                 $grade[] = $v;
             }
             $data = [
-                'subject' => [$info['subject'],$info['second_subject']],
+                'subject' => [intval($info['subject']),intval($info['second_subject'])],
                 'grade'   => $grade
             ];
 
