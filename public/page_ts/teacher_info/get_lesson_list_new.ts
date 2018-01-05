@@ -904,7 +904,7 @@ $(function(){
 
     $(".opt-get_stu_performance").each(function(){
         var opt_data=$(this).get_opt_data();
-        if(!(opt_data.lesson_type<1000)){
+        if(!(opt_data.lesson_type<1000 || (opt_data.lesson_type==1100 && opt_data.train_type==4))){
             $(this).hide();
         }
     });

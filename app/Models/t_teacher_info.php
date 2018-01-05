@@ -4754,9 +4754,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_subject_grade_by_teacherid($teacherid){
-        $sql = $this->gen_sql_new("select t.subject,t.grade_start,t.grade_end "
-                                  ." from %s t"
-                                  ." where t.teacherid = $teacherid"
+        $sql = $this->gen_sql_new("select subject,grade_start,grade_end, second_subject, second_grade_start, second_grade_end  "
+                                  ." from %s "
+                                  ." where teacherid = $teacherid"
                                   ,self::DB_TABLE_NAME
         );
 
