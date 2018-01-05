@@ -1294,6 +1294,12 @@ class test_jack  extends Controller
         $end_time             = strtotime("+1 months",$start_time);
 
         $list = $this->t_lesson_info_b3->get_lesson_count_by_grade($start_time,$end_time);
+        $small = $this->t_lesson_info_b3->get_stu_num_by_grade($start_time,$end_time,1);
+        $middle = $this->t_lesson_info_b3->get_stu_num_by_grade($start_time,$end_time,2);
+        $high = $this->t_lesson_info_b3->get_stu_num_by_grade($start_time,$end_time,3);
+        $list["small_grade"] = round($list["small_grade"]/$small/100,2);
+        $list["middle_grade"] = round($list["middle_grade"]/$middle/100,2);
+        $list["high_grade"] = round($list["high_grade"]/$high/100,2);
         return $this->output_succ($list);
 
         $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
