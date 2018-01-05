@@ -1569,7 +1569,7 @@ lesson_type in (0,1) "
         return $this->main_get_list_as_page($sql);
     }
 
-    public function get_confirm_lesson_list_user($page_num, $start_time,$end_time,$assistantid) {
+    public function get_confirm_lesson_list_user($page_num, $start_time,$end_time,$assistantid, $page_number=30) {
         $where_arr=[
             ["s.assistantid= %u",$assistantid, -1  ],
         ];
@@ -1580,7 +1580,7 @@ lesson_type in (0,1) "
                                 self::DB_TABLE_NAME,
                                 t_student_info::DB_TABLE_NAME, //
                                 $start_time,$end_time,  $where_arr);
-        return $this->main_get_list_by_page($sql,$page_num,30,true);
+        return $this->main_get_list_by_page($sql,$page_num,$page_number,true);
     }
     public function get_single_confirm_lesson_list_user($page_num, $start_time,$end_time,
         $assistantid,$teacherid,$studentid,$num) {

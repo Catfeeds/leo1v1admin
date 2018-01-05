@@ -91,7 +91,6 @@ $(function(){
                     $tr.find(".money").text(data["money"]);
                     $tr.find(".desc").text(data["desc"]);
                     $tr.find(".new_account_value").text(data["new_account_value"]);
-                    $tr.find(".create_time").text(data["create_time"]);
                     do_index++;
                     do_one();
                 });

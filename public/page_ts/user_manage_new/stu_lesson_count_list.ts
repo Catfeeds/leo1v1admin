@@ -4,11 +4,12 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			assistantid:	$('#id_assistantid').val()
+			      date_type:	$('#id_date_type').val(),
+			      opt_date_type:	$('#id_opt_date_type').val(),
+			      start_time:	$('#id_start_time').val(),
+			      end_time:	$('#id_end_time').val(),
+		        page_number:	$('#id_page_number').val(),
+			      assistantid:	$('#id_assistantid').val()
         });
     }
 
@@ -28,6 +29,7 @@ $(function(){
     $.admin_select_user( $('#id_assistantid'), "assistant", load_data );
 
 
+	$('#id_page_number').val(g_args.page_number);
 
 	$('.opt-change').set_input_change_event(load_data);
 

@@ -370,8 +370,20 @@ class tongji2 extends Controller
         // $admin_list=\App\Helper\Common::gen_admin_member_data($admin_list, [],0, strtotime( date("Y-m-01",$start_time )));
         $admin_list=\App\Helper\Common::gen_admin_member_data_new($admin_list, [],0, strtotime( date("Y-m-01",$start_time )));
         foreach( $admin_list as &$item ) {
+            $item["become_member_time"] = isset($item["create_time"])?$item["create_time"]:0;
+            $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
+            $item["del_flag"] = isset($item["del_flag"])?$item["del_flag"]:0;
             E\Emain_type::set_item_value_str($item);
             E\Eseller_level::set_item_value_str($item);
+            if($item['level'] == "l-5" ){
+                \App\Helper\Utils::unixtime2date_for_item($item,"become_member_time",'','Y-m-d');
+                \App\Helper\Utils::unixtime2date_for_item($item,"leave_member_time",'','Y-m-d');
+                $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
+            }else{
+                $item["become_member_time"] = '';
+                $item["leave_member_time"] = '';
+                $item["del_flag_str"] = '';
+            }
         }
         //周试听成功自定义时间
         list($week[E\Eweek_order::V_1],$week[E\Eweek_order::V_2],$week[E\Eweek_order::V_3],$week[E\Eweek_order::V_4],$ret_week[E\Eweek_order::V_1],$ret_week[E\Eweek_order::V_2],$ret_week[E\Eweek_order::V_3],$ret_week[E\Eweek_order::V_4]) = [[],[],[],[],'','','',''];
