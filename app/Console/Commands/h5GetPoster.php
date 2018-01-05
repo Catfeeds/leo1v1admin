@@ -74,6 +74,7 @@ class h5GetPoster extends Command
                 "change_status" => 2,
             ]);
 
+            # 此下载域名需要 更换 boby
             $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$item['file_link'] );
             $savePathFile = public_path('wximg').'/'.$pdf_url;
             if($pdf_url){
