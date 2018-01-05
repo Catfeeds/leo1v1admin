@@ -36,7 +36,21 @@
                     <td >课耗/(单位:课时)</td>
                     <td >CC转化率</td>
                     <td >CR转化率</td>
-                    <td >老师违规数</td>
+                    <td >老师违规总数</td>
+                    <td >有效试听课数</td>
+                    <td >有效常规课数</td>
+                    <td >未上传讲义数</td>
+                    <td >试听课迟到数</td>
+                    <td >常规课迟到数</td>
+                    <td >未课后评价数</td>
+                    <td >老师调课数</td>
+                    <td >老师请假数</td>
+                    <td >试听课旷课</td>
+                    <td >常规课旷课</td>
+                    <td >换老师数</td>
+                    <td >退费数</td>
+                    <td >所有试听课数</td>
+                    <td >所有常规课数</td>
                     <td > 操作  </td>
                 </tr>
             </thead>
@@ -59,12 +73,21 @@
                         <td>
                             {{@round($var['cr_rate']*100,2)}}%
                         </td>
-                        <td>
-                            <a class="violation_num" data-teacherid="{{@$var['teacherid']}}">
-                                {{@$var['violation_num']}}
-                            </a>
-                        </td>
-
+                        <td>{{@$var['violation_num']}}</td>
+                        <td>{{@$var['test_lesson_count']}}</td>
+                        <td>{{@$var['regular_lesson_count']}}</td>
+                        <td>{{@$var['no_notes_count']}}</td>
+                        <td>{{@$var['test_lesson_later_count']}}</td>
+                        <td>{{@$var['regular_lesson_later_count']}}</td>
+                        <td>{{@$var['no_evaluation_count']}}</td>
+                        <td>{{@$var['turn_class_count']}}</td>
+                        <td>{{@$var['ask_for_leavel_count']}}</td>
+                        <td>{{@$var['test_lesson_truancy_count']}}</td>
+                        <td>{{@$var['regular_lesson_truancy_count']}}</td>
+                        <td>{{@$var['turn_teacher_count']}}</td>
+                        <td>{{@$var['stu_refund']}}</td>
+                        <td>{{@$var['all_test_lesson_count']}}</td>
+                        <td>{{@$var['all_regular_lesson_count']}}</td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

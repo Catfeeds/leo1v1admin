@@ -206,6 +206,25 @@ cd vue
 npm run dev 
 ```
 
+目录结构
+```bash
+localhost:~/admin_yb1v1/vue/src$ tree components/ views/
+components/
+└── vtable.ts
+views/
+├── 404.vue
+├── common
+├── page.d.ts
+│   ├── test-get_user_list1.ts
+│   └── test-get_user_list.ts
+└── test
+    ├── get_user_list1.ts
+    ├── get_user_list.html
+    └── get_user_list.ts
+```
+
+
+
 
 ### Controller 改造 
 
