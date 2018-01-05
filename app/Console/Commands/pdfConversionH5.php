@@ -54,7 +54,7 @@ class pdfConversionH5 extends Command
         $handoutArray = [
             [
                 // "uuid"     => '1bef90ebf32aa93ba0c43433eefb9848',
-                "uuid"     => 'c22ae75a55d881892505556438c5031e',
+                "uuid"     => 'd4b206b3716cb449c073e7f8430e9128',
                 // "uuid"     => '45e5c6e1981f5f9b76e0835a1a551140',
                 "lessonid" => 470981
                 //"lessonid" => 470981
@@ -109,6 +109,7 @@ class pdfConversionH5 extends Command
 
             # 重新打包压缩
             $work_path= public_path('ppt');
+            $del_zip = $work_path."/".$uuid;
             $zip_new_resource = public_path('ppt')."/".$uuid."_leo.zip";
             $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo.zip * ";
             \App\Helper\Utils::exec_cmd($zipCmd);
@@ -125,7 +126,7 @@ class pdfConversionH5 extends Command
             if(file_exists($zip_new_resource)){
                 $saveH5Upload =  \App\Helper\Utils::qiniu_upload($zip_new_resource);
                 $this->deldir($work_path."/".$uuid);
-                $rmZipCmd = "rm $zip_new_resource"; // 删除解压包
+                $rmZipCmd = "rm $del_zip"; // 删除解压包
                 shell_exec($rmZipCmd);
                 $task->t_lesson_info_b3->field_update_list($item['lessonid'],[
                     "zip_url" => $saveH5Upload
@@ -162,7 +163,7 @@ class pdfConversionH5 extends Command
         $scriptList = $xpath->query("//script");
         $jsLink = [];
         foreach ($scriptList as $node_js) {
-            $jsLink_tmp = $node_js->attributes->getNamedItem('src')->nodeValue;
+            $jsLink_tmp = @$node_js->attributes->getNamedItem('src')->nodeValue;
             $jsLink_arr = explode('/', $jsLink_tmp);
 
             if($jsLink_arr[0] == ''){
@@ -193,12 +194,13 @@ class pdfConversionH5 extends Command
             }
 
             if($jsLink_arr[0] == '..'){
-                # 原有的wxpt.js 替换为 bridge.js
+                # 原有的recommend-0.2.js 替换为 bridge.js
                 # 调换节点位置
                 if($jsLink_arr[1] == 'wxpt.js'){
                     $node_js->setAttribute('src', 'scmod1-0.3.js');
+                    $jsLink[] = 'scmod1-0.3.js';
                 }
-                if($jsLink_arr[1] == 'scmod1-0.3.js'){
+                if($jsLink_arr[1] == 'recommend-0.2.js'){
                     $node_js->setAttribute('src', 'bridge.js');
                     $jsLink[] = 'bridge.js';
                 }
@@ -210,9 +212,9 @@ class pdfConversionH5 extends Command
                 }
 
                 # 删除无需引用的节点
-                if($jsLink_arr[1] == 'recommend-0.2.js'){
-                    $node_js->parentNode->removeChild($node_js);
-                }
+                // if($jsLink_arr[1] == 'recommend-0.2.js'){
+                //     $node_js->parentNode->removeChild($node_js);
+                // }
 
             }
 
