@@ -4401,7 +4401,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $item['lesson_price'] -= $item['lesson_cost_tax'];
             }
             // 老师帮 --- 我的收入页 12后显示选项
-            if ($start < strtotime('2017-12-1')) {
+            if ($item['start_time'] < strtotime('2017-12-1')) {
                 $item['list'] = [];
             } else {
                 $item['list'] = [
@@ -4416,7 +4416,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $item['lesson_reward_reference'] = $item['lesson_reward_reference'].'';
         }
         array_multisort($start_list,SORT_DESC,$list); 
-
         return $list;
     }
 
