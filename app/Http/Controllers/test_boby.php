@@ -1541,5 +1541,47 @@ class test_boby extends Controller {
         }
         $s = $this->table_end($s);
         return $s;
+
+    }
+
+    public function qiniu_test(){
+        // $accessKey = getenv('QINIU_ACCESS_KEY');
+        // $secretKey = getenv('QINIU_SECRET_KEY');
+        // $bucket = getenv('QINIU_TEST_BUCKET');
+
+        $qiniu         = \app\helper\config::get_config("qiniu");
+        $private_bucket = $qiniu["private_url"]['bucket'];
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+        // $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
+        // $token = $auth->uploadtoken($public_bucket);
+
+        // $auth = new Auth($accessKey, $secretKey);
+        $config = new \Qiniu\Config();
+        $bucketManager = new \Qiniu\Storage\BucketManager($auth, $config);
+
+        $list = $this->t_resource_file->get_all_file_title();
+        $keys = [];
+        foreach($list as $v){
+            $keys[] = $v['file_link'];
+        }
+        // dd($keys);
+        //每次最多不能超过1000个
+        // $keys = array(
+        //     'qiniu.mp4',
+        //     'qiniu.png',
+        //     'qiniu.jpg'
+        // );
+
+        $ops = $bucketManager->buildBatchStat($private_bucket, $keys);
+        list($ret, $err) = $bucketManager->batch($ops);
+        if ($err) {
+            dd($err);
+        } else {
+            dd($ret);
+        }
+
     }
 }
