@@ -42,17 +42,17 @@ class no_auto_student_change_type extends Command
         $task = new \App\Console\Tasks\TaskController ();
 
              
-        $start_time = strtotime("2017-01-01");
-        $end_time = strtotime("2018-01-01");
+        // $start_time = strtotime("2017-01-01");
+        // $end_time = strtotime("2018-01-01");
 
-        // $list = $this->t_lesson_info_b3->get_lesson_count_by_grade($start_time,$end_time);
-        $small = $task->t_lesson_info_b3->get_stu_num_by_grade($start_time,$end_time,1);
-        $middle = $task->t_lesson_info_b3->get_stu_num_by_grade($start_time,$end_time,2);
-        $high = $task->t_lesson_info_b3->get_stu_num_by_grade($start_time,$end_time,3);
-        $all =  $small+$middle+$high;
-        $list=[];
-        $list["small_grade"] = round($small/$all*100,2)."%";
-        dd($list["small_grade"]);
+        // // $list = $this->t_lesson_info_b3->get_lesson_count_by_grade($start_time,$end_time);
+        // $small = $task->t_lesson_info_b3->get_stu_num_by_grade($start_time,$end_time,1);
+        // $middle = $task->t_lesson_info_b3->get_stu_num_by_grade($start_time,$end_time,2);
+        // $high = $task->t_lesson_info_b3->get_stu_num_by_grade($start_time,$end_time,3);
+        // $all =  $small+$middle+$high;
+        // $list=[];
+        // $list["small_grade"] = round($small/$all*100,2)."%";
+        // dd($list["small_grade"]);
 
         // $list = $task->t_child_order_info->get_all_payed_prder_info();
         // foreach($list as $val){
