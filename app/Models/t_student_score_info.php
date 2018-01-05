@@ -167,7 +167,56 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
                                   ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-
         return $this->main_get_list_by_page($sql,$page_num,10,true);
+    }
+
+    
+
+
+
+
+
+
+
+
+
+    //拉数据专用,勿动
+    public function get_all_student_info(){
+        $sql = "select * from db_weiyi.t_student_info";
+        return $this->main_get_list($sql);
+    }
+    public function get_total_student_b1(){
+        $sql = "select count(*) from t_student_info where is_test_user = 0";
+        return $this->main_get_value($sql);
+
+    }
+    public function get_total_student_b2(){
+        $sql = "select count(*) from t_student_info where is_test_user = 0 and grade in(101,102,103)";
+        return $this->main_get_value($sql);
+    }
+    public function get_total_student_b3(){
+        $sql = "select count(distinct(l.userid)) from t_lesson_info l left join t_student_info s on s.userid = l.userid where lesson_type = 2  and lesson_start < 1515168000 and s.is_test_user = 0";
+        return $this->main_get_value($sql);
+    }
+    public function get_total_student_b4(){
+        $sql = "select count(distinct(l.userid)) from t_lesson_info l left join t_student_info s on s.userid = l.userid where lesson_type = 2  and lesson_start < 1515168000 and s.is_test_user = 0 and l.grade in(101,102,103)";
+        return $this->main_get_value($sql);
+    }
+    public function get_total_student_b5(){
+        $sql = "select count(distinct(o.userid))
+from db_weiyi.t_order_info o  left join db_weiyi.t_student_info s on o.userid = s.userid  left join db_weiyi.t_course_order c on o.orderid = c.orderid  left join db_weiyi.t_seller_student_new n on o.userid = n.userid  left join db_weiyi.t_lesson_info l on l.lessonid = o.from_test_lesson_id  left join db_weiyi_admin.t_flow f on ( f.from_key_int = o.orderid  and f.flow_type in ( 2002, 3002)) left join db_weiyi_admin.t_manager_info m on s.ass_master_adminid = m.uid left join db_weiyi_admin.t_manager_info m2 on o.sys_operator = m2.account left join db_weiyi.t_student_init_info ti on o.userid = ti.userid left join db_weiyi.t_child_order_info co on (co.parent_orderid = o.orderid and co.child_order_type = 2) 
+where is_test_user=0  and contract_status in  (1,2,3) and o.price>0 ";
+        return $this->main_get_value($sql);
+    }
+    public function get_total_student_b6(){
+        $sql = "select count(distinct(o.userid))
+from db_weiyi.t_order_info o  left join db_weiyi.t_student_info s on o.userid = s.userid  left join db_weiyi.t_course_order c on o.orderid = c.orderid  left join db_weiyi.t_seller_student_new n on o.userid = n.userid  left join db_weiyi.t_lesson_info l on l.lessonid = o.from_test_lesson_id  left join db_weiyi_admin.t_flow f on ( f.from_key_int = o.orderid  and f.flow_type in ( 2002, 3002)) left join db_weiyi_admin.t_manager_info m on s.ass_master_adminid = m.uid left join db_weiyi_admin.t_manager_info m2 on o.sys_operator = m2.account left join db_weiyi.t_student_init_info ti on o.userid = ti.userid left join db_weiyi.t_child_order_info co on (co.parent_orderid = o.orderid and co.child_order_type = 2) 
+where is_test_user=0  and contract_status in  (1,2,3) and o.price>0   and s.grade in(101,102,103)";
+        return $this->main_get_value($sql);
+    }
+
+    public function get_info_1(){
+        $sql = "select origin_assistantid, s.userid, s.origin_userid,o.price , o.orderid from db_weiyi.t_student_info s  left join db_weiyi.t_order_info o on (o.userid = s.userid and o.contract_status>0 and  o.contract_type =0 )   left join db_weiyi.t_seller_student_new n on s.userid = n.userid where origin_assistantid>0 and n.add_time>=1510675200 and n.add_time<1514736000   ";
+        return $this->main_get_list($sql);
     }
 }

@@ -59,7 +59,7 @@ class update_teacher_approve_to_data extends Command
         //     sleep(5);
         // }
         // exit;
-        // $arr = [9,10,11];
+        // $arr = [1,2,3,4,5,6,7,8];
         // foreach($arr as $val) {
         //     $start_time = strtotime('2017-'.$val.'-1');
         //     $end_time = strtotime('2017-'.($val + 1).'-1');
@@ -105,8 +105,11 @@ class update_teacher_approve_to_data extends Command
 
         //     }
 
+
         // }
+        // sleep(5);
         // }
+        // exit;
         $start_time = strtotime(date('Y-m-1', time()));
         $end_time = time();
         // $ret_info = $task->t_lesson_info_b3->get_tea_lesson_info_for_approved($start_time, $end_time);

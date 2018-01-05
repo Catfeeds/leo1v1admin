@@ -187,12 +187,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     {
         $where_arr=[
             [  "t1.creater_adminid =%u ", $creater_adminid,  -1] ,
-            [  "t1.account_role =%u ", $account_role,  -1] ,
             [  "t1.cardid =%u ", $cardid,  -1] ,
             [  "t1.tquin =%u ", $tquin,  -1] ,
+            [  "t1.call_phone_type =%u ", $call_phone_type ,  -1] ,
+            [  "t1.account_role =%u ", $account_role,  -1] ,
             [  "t1.day_new_user_flag =%u ", $day_new_user_flag ,  -1] ,
             [  "t1.fulltime_teacher_type =%u ", $fulltime_teacher_type ,  -1] ,
-            [  "t1.call_phone_type =%u ", $call_phone_type ,  -1] ,
         ];
         if ($user_info >0 ) {
             if  ($user_info < 10000) {

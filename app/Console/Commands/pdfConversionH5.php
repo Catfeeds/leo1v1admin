@@ -95,6 +95,11 @@ class pdfConversionH5 extends Command
                 shell_exec($cpJs);
             }
 
+
+
+
+
+
             # 重新打包压缩
             $work_path= public_path('ppt');
             $zip_new_resource = public_path('ppt')."/".$uuid."_leo.zip";
@@ -153,26 +158,83 @@ class pdfConversionH5 extends Command
             $jsLink_tmp = $node_js->attributes->getNamedItem('src')->nodeValue;
             $jsLink_arr = explode('/', $jsLink_tmp);
             if($jsLink_arr[0] == '..'){
-                $jsLink[] = $jsLink_arr[1];
+                # 原有的wxpt.js 替换为 bridge.js
+                if($jsLink_arr[1] == 'wxpt.js'){
+                    $node_js->setAttribute('src', 'bridge.js');
+                    $jsLink[] = 'bridge.js';
+                }
+                # 修改属性
                 $node_js->setAttribute('src', $jsLink_arr[1]);
-                \App\Helper\Utils::logger("jsLink_arr_item: ".$jsLink_arr[1]);
+                # 删除无需引用的节点
+                if($jsLink_arr[1] == 'recommend-0.2.js'){
+                    $node_js->parentNode->removeChild($node_js);
+                }
+            }elseif($jsLink_arr[0] == ''){
+                # 删除节点
+                $nodeContent = $node_js->nodeValue;
+                $domain = strstr($nodeContent,'shareimg');
+                if($domain){
+                    $node_js->parentNode->removeChild($node_js);
+                }
+                # 替换 节点内容
+                $domain_jq = strstr($nodeContent,'jquery-1.8.1.min.js');
+                if($domain_jq)
+                {
+                    # jq文件复制到index同级目录
+                    $jsLink[] = 'jquery-1.8.1.min.js';
 
-                # 测试修改节点属性
-                // if($jsLink_arr[1] == 'wxpt.js'){
-                //     $node_js->setAttribute('src', 'wxpt.js');
-                //     # 创建DOM节点
-                //     //appendChild
-                //     $root = $dom->createElement('test','ssssssss');
-                //     $node_js->appendChild( $root );
-                // }
+                    # 替换DOM节点 内容
+                    $node->nodeValue = 'if (!window.jQuery){
+                      var script = document.createElement("script");
+                      script.src = "jquery-1.8.1.min.js";
+                      window.onload=function(){document.body.appendChild(script);}}';
+                }
+
+            }elseif($jsLink_arr[0] == 'http:'){
+                # 删除节点 不需要的节点
+                $node_js->parentNode->removeChild($node_js);
             }
         }
+
+        # 遍历数据 img 处理img标签数据 [处理中]
+        $imgList = $xpath->query("//img[@src = '../loading.gif']");
+        $imgLink = [];
+        foreach ($imgList as $node_img) {
+            $imgLink_tmp = $node_img->attributes->getNamedItem('src')->nodeValue;
+            $imgLink_arr = explode('/', $imgLink_tmp);
+            if($imgLink_arr[1] == 'loading.gif'){
+                $imgLink[] = $imgLink_arr[1];
+                $node_img->setAttribute('src', $imgLink_arr[1]);
+            }
+        }
+
+        # 删除 HTML中无用标签 例如:[audio] [link href=data/f.css]
+        $audioList = $xpath->query("//audio");
+        foreach ($audioList as $node_audio) {
+            $node_audio->parentNode->removeChild($node_audio);
+        }
+        $linkList = $xpath->query("//link[@href='data/f.css']");
+        foreach ($linkList as $node_link) {
+            $node_link->parentNode->removeChild($node_link);
+        }
+
+        # 创建link节点
+        $htmlList = $xpath->query("//html");
+        foreach ($htmlList as $node_html) {
+            $root = $dom->createElement('link','');
+            $node_html->insertBefore($root,$node_html->firstChild);
+            $root->setAttribute('rel', 'stylesheet');
+            $root->setAttribute('type', 'text/css');
+            $root->setAttribute('href', 'data/f.css');
+        }
+
 
         $saveData = $dom->saveHTML();
         file_put_contents($doneFilePath, $saveData);
         $dom=null;
         $ret['css'] = $cssLink;
         $ret['js']  = $jsLink;
+        $ret['img'] = $imgLink;
         return $ret;
     }
 

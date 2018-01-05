@@ -41,6 +41,7 @@ class test extends Controller
 
         foreach($ret_info["list"] as &$item) {
             E\Egrade::set_item_value_str($item);
+            $item["testv"]=null;
         }
         //sleep(3);
 
@@ -51,7 +52,9 @@ class test extends Controller
     public function get_user_list1(){
         $this->set_in_value("grade", 101);
         //$sys_operator_uid= $this->get_account_id();
-        //
+        //$this->get_account_role();
+        $this->set_in_value("adminid", $this->get_account_id())  ;
+
         $this->html_hide_list_add([ "grade","opt_grade", "input_grade" ]);
         return $this->get_user_list();
     }

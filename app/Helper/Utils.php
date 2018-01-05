@@ -2403,17 +2403,17 @@ class Utils  {
         return $arr;
     }
 
-    static public function get_file_use_type_str(&$item, $index){
+    static public function get_file_use_type_str(&$item){
         if( isset($item['file_use_type']) ) {
 
             if($item['file_use_type'] == 0 ){
-                $item['file_use_type_str'] = "第{$item['resource_id']}套-第{$index}份资料-授课课件";
+                $item['file_use_type_str'] = "授课课件";
             } else if ($item['file_use_type'] == 1 ){
-                $item['file_use_type_str'] = "第{$item['resource_id']}套-第{$index}份资料-教师讲义";
+                $item['file_use_type_str'] = "教师讲义";
             }else if ($item['file_use_type'] == 2 ){
-                $item['file_use_type_str'] = "第{$item['resource_id']}套-第{$index}份资料-学生讲义";
+                $item['file_use_type_str'] = "学生讲义";
             }else if ($item['file_use_type'] == 3 ){
-                $item['file_use_type_str'] = "第{$item['resource_id']}套-第{$index}份资料-其他资料";
+                $item['file_use_type_str'] = "其他资料";
             }
 
         }
@@ -2585,6 +2585,9 @@ class Utils  {
      */
     static public function download_txt($file_name,$ret_info,$arr_title,$arr_data){
         //create output file path
+        if($file_name === ""){
+            $file_name = "sam";
+        }
         if(\App\Helper\Utils::check_env_is_local()){
             $path = "/home/sam/".$file_name.".txt";
         }else{
@@ -2592,21 +2595,34 @@ class Utils  {
         }
         $fp = fopen($path,"w+");
 
-        //
+        //add title
+        /*
         foreach($arr_title as $key => $value){
             fwrite($fp, @$value);
             fwrite($fp, ',');
+        }*/
+        for($i=0;$i< count($arr_title);$i++){
+            fwrite($fp, @$arr_title[$i]);
+            if($i != (count($arr_title)-1))
+                fwrite($fp, ',');
         }
         fwrite($fp, "\n");
+
+        //add foreach data
         foreach ($ret_info as $key => $value) {
+            /*
             foreach($arr_data as $akey => $avalue){
                 fwrite($fp, @$value[$avalue]);//2
                 fwrite($fp, ',');
+            }*/
+            for($i=0; $i < count($arr_data); $i++){
+                fwrite($fp, @$value[$arr_data[$i]]);//2
+                if($i != (count($arr_data)-1))
+                    fwrite($fp, ',');
             }
             fwrite($fp, "\n");
         }
         fclose($fp);
-        dd($path);
         return $path;
     }
 };

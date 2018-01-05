@@ -745,8 +745,14 @@ abstract class NewModel
                 $add_flag = true;
                 if(isset( $item[2] )){
                     $no_deal_value=$item[2];
-                    if ( $value == $no_deal_value ){
-                        $add_flag=false;
+                    if (is_array( $value ) ) {
+                        if (count($value)==1  && $value[0] == $no_deal_value  ){
+                            $add_flag=false;
+                        }
+                    }else{
+                        if ( $value == $no_deal_value ){
+                            $add_flag=false;
+                        }
                     }
                 }
                 if ($add_flag){

@@ -40,8 +40,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- 暂时关闭 -->
-                @if ($show_flag === '666')
+                @if ($show_flag)
                     <!-- Chat box -->
                     <div class="box box-warning">
                         <div class="box-header">
@@ -82,6 +81,8 @@
                     <!-- /.box (chat box) -->
                 @endif
 
+                <!-- 暂时关闭 -->
+                @if(1==2)
                 <!-- Chat box -->
                 <div class="box box-info-ly collapsed-box">
                     <div class="box-header">
@@ -115,7 +116,8 @@
                     <!-- /.box-footer -->
                 </div>
                 <!-- /.box (chat box) -->
-
+                @endif
+                
                 <!-- Chat box -->
                 <div class="box box-info-ly collapsed-box">
                     <div class="box-header">
@@ -327,7 +329,7 @@
                                             <th class="text-cen bg-lblue" style="width:20%">教龄</th>
                                             <td> {!! $my_info['work_year_code'] !!} </td>
                                             <th class="text-cen bg-lblue" style="width:20%">教材版本</th>
-                                            <td>{{$my_info['textbook_type_str']}}</td>
+                                            <td>{{$my_info['teacher_textbook_str']}}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >科目</th>

@@ -37,6 +37,19 @@ interface JQueryStatic {
     show_key_value_table (title:string,arr:Array<Array<any>> ,btn_config?:Object,onshownfunc?: ()=>void, close_flag?:boolean ,width? ):void;
 
     admin_enum_select  (options):any;
+
+    /*
+        this.defaults = {
+            "join_header" : null,
+            "field_name"  :null,
+            "title"  :  "",
+            "placeholder" : "回车查询",
+            "length_css" : "col-xs-12 col-md-3",
+            "select_value" : "",
+            "show_title_flag":false,
+            "as_header_query" : false ,
+        };
+    */
     admin_query_input  ( options):any;
     admin_query_common ( options):any;
     admin_date_select  ( options):any;

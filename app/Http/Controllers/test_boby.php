@@ -1541,5 +1541,85 @@ class test_boby extends Controller {
         }
         $s = $this->table_end($s);
         return $s;
+
+    }
+
+    /**
+     *七牛云文件批量移动
+     *2018-1-5
+     */
+    public function qiniu_test(){
+        return 1;
+        $qiniu         = \app\helper\config::get_config("qiniu");
+        $private_bucket = $qiniu["private_url"]['bucket'];
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+        $config = new \Qiniu\Config();
+        $bucketManager = new \Qiniu\Storage\BucketManager($auth, $config);
+
+        $list = $this->t_resource_file->get_all_file_title();
+        $keys = [];
+        foreach($list as $v){
+            $keys[] = $v['file_link'];
+        }
+        $keyPairs = array();
+        foreach ($keys as $key) {
+            $keyPairs[$key] = "/teacher-doc/".$key;
+        }
+
+        $srcBucket = 'teacher-doc';
+        $destBucket = $qiniu["private_url"]['bucket'];
+        $ops = $bucketManager->buildBatchCopy($srcBucket, $keyPairs, $destBucket, true);
+        list($ret, $err) = $bucketManager->batch($ops);
+        $succ = 0;
+        $er = 0;
+        if ($err) {
+            // dd($err);
+            foreach($err as $v){
+                if ($v['code'] == 200){
+                    $succ++;
+                } else {
+                    $er++;
+                }
+            }
+            echo  '成功',$succ,';失败',$er;
+        } else {
+            // dd($ret);
+            $s = $this->table_start(['文件','状态','code','原因','文件名','file_id']);
+            foreach($ret as $k=> $v){
+                if ($v['code'] == 200){
+                    $succ++;
+                    $s = $this->tr_add($s,$k,'成功','','',$list[$k]['file_link'], $list[$k]['file_id']);
+                } else {
+                    $er++;
+                    $s = $this->tr_add($s,$k,'失败',$v['code'] ,$v['data']['error'],$list[$k]['file_link'], $list[$k]['file_id']);
+                }
+            }
+
+            echo  '成功',$succ,';失败',$er;
+            return $s;
+        }
+
+    }
+
+    /**
+     *批量修改file_link
+     *2018-1-5
+     */
+    public function upload_file_link(){
+        return 1;
+        $list = $this->t_resource_file->get_all_file_title();
+        $this->t_resource_file->start_transaction();
+        foreach($list as $v){
+            $link = '/teacher-doc/'.$v['file_link'];
+            $ret = $this->t_resource_file->field_update_list($v['file_id'], ['file_link' => $link]);
+            if(!$ret) {
+                $this->t_resource_file->rollback();
+                dd('失败');
+            }
+        }
+        $this->t_resource_file->commit();
     }
 }

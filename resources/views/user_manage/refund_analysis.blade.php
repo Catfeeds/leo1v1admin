@@ -127,6 +127,8 @@
         <a style="display:none;" id="opt_qc_contact_status" data-val="{{$qc_anaysis['qc_contact_status']}}"></a>
         <a style="display:none;" id="opt_qc_advances_status" data-val="{{$qc_anaysis['qc_advances_status']}}"></a>
         <a style="display:none;" id="opt_qc_voluntarily_status" data-val="{{$qc_anaysis['qc_voluntarily_status']}}"></a>
+        <a style="display:none;" id="opt_teacherid" data-val="{{$qc_anaysis['teacher_id']}}"></a>
+        <a style="display:none;" id="opt_subject" data-val="{{$qc_anaysis['subject']}}"></a>
     </section>
 
 @endsection
