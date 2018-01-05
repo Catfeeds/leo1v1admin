@@ -60,7 +60,7 @@ class test_sam extends Command
         */
         
         $ret_info = $task->t_student_score_info->get_info_1();
-        foreach ($ret_info["list"] as &$item) {
+        foreach ($ret_info as &$item) {
             $item['is_money'] = $item['price'] > 0?"是":"否";
         }
         $file_name = 'samtext';
