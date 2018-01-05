@@ -1071,36 +1071,36 @@ $(function(){
     });
 
 
-    $(".opt-add-error").on("click", function(){
-        var lessonid     = $(this).parent().data("lessonid");
-        var courseid     = $(this).parent().data("courseid");
-        var lesson_type  = $(this).parent().data("lesson_type");
-        var lesson_start = $(this).parent().data("lesson_start");
-        var lesson_end   = $(this).parent().data("lesson_end");
-        var teacherid    = $(this).parents("td").siblings(".tea_nick").data("teacherid");
-        var tea_nick     = $(this).parents("td").siblings(".tea_nick").text();
-        var stu_id       = $(this).parents("td").siblings(".stu_nick").data("stu_id");
-        var stu_nick     = $(this).parents("td").siblings(".stu_nick").text();
-        $.do_ajax("/lesson_manage/add_error_lessonid",{
-            "lessonid"     : lessonid,
-            "courseid"     : courseid,
-            "lesson_type"  : lesson_type,
-            "lesson_start" : lesson_start,
-            "lesson_end"   : lesson_end,
-            "teacherid"    : teacherid,
-            "tea_nick"     : tea_nick,
-            "stu_id"       : stu_id,
-            "stu_nick"     : stu_nick
-        },function(result){
-            if(result.ret<0){
-                alert(result.info);
-            }else{
-                var url              = "/lesson_manage/error_info?lessonid="+lessonid;
-                //window.location.href = url;
-                window.open(url,"_blank");
-            }
-        });
-    });
+    // $(".opt-add-error").on("click", function(){
+    //     var lessonid     = $(this).parent().data("lessonid");
+    //     var courseid     = $(this).parent().data("courseid");
+    //     var lesson_type  = $(this).parent().data("lesson_type");
+    //     var lesson_start = $(this).parent().data("lesson_start");
+    //     var lesson_end   = $(this).parent().data("lesson_end");
+    //     var teacherid    = $(this).parents("td").siblings(".tea_nick").data("teacherid");
+    //     var tea_nick     = $(this).parents("td").siblings(".tea_nick").text();
+    //     var stu_id       = $(this).parents("td").siblings(".stu_nick").data("stu_id");
+    //     var stu_nick     = $(this).parents("td").siblings(".stu_nick").text();
+    //     $.do_ajax("/lesson_manage/add_error_lessonid",{
+    //         "lessonid"     : lessonid,
+    //         "courseid"     : courseid,
+    //         "lesson_type"  : lesson_type,
+    //         "lesson_start" : lesson_start,
+    //         "lesson_end"   : lesson_end,
+    //         "teacherid"    : teacherid,
+    //         "tea_nick"     : tea_nick,
+    //         "stu_id"       : stu_id,
+    //         "stu_nick"     : stu_nick
+    //     },function(result){
+    //         if(result.ret<0){
+    //             alert(result.info);
+    //         }else{
+    //             var url              = "/lesson_manage/error_info?lessonid="+lessonid;
+    //             //window.location.href = url;
+    //             window.open(url,"_blank");
+    //         }
+    //     });
+    // });
 
     $("#id_studentid").val(g_args.studentid);
     $("#id_seller_adminid").val(g_args.seller_adminid);
@@ -1171,10 +1171,11 @@ $(function(){
             $fail_reason.key_value_table_show( show_flag);
             $test_lesson_fail_flag.html("");
             if ($fail_greater_4_hour_flag.val() ==1 ) { //不付老师工资
-                Enum_map.append_option_list("test_lesson_fail_flag", $test_lesson_fail_flag, true, [100,106,107,108,109,110,111,112,113 ] );
+                Enum_map.append_option_list("test_lesson_fail_flag",$test_lesson_fail_flag,true,
+                                            [100,106,107,108,109,110,111,112,113]);
             }else{
-                Enum_map.append_option_list("test_lesson_fail_flag", $test_lesson_fail_flag, true ,
-                                            [1,2,109,110,111,112,113] );
+                Enum_map.append_option_list("test_lesson_fail_flag", $test_lesson_fail_flag,true,
+                                            [1,2,109,110,111,112,113]);
             }
         };
 

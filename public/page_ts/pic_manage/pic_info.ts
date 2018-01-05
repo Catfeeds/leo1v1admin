@@ -4,13 +4,13 @@
 $(function(){
         function load_data(){
         $.reload_self_page({
-            pic_type       : $(".pic_type").val(),
+            type       : $(".pic_type").val(),
 		        //usage_type : val
             active_status: $("#active_status").val()
         });
 	  }
 
-    $(".pic_type").val(g_args.pic_type);
+    $(".pic_type").val(g_args.type);
     //$(".usage_type").val(usage_type);
     $("#active_status").val(g_args.active_status);
     	  $('.opt-change').set_input_change_event(load_data);
@@ -82,7 +82,12 @@ $(function(){
                 tag_img="<img width=100 src=\""+tag_url+"\" />";
             }
             html_node.find(".add_header_img").html(pic_img);
-            html_node.find(".pic_url").html(pic_url);
+            html_node.find(".pic_url").html(pic_url + "<button class='del_img'>删除</button>");
+            html_node.find('.del_img').on("click", function(){
+                html_node.find(".add_header_img").html('');
+                html_node.find(".pic_url").html('');
+            });
+
             html_node.find(".add_header_tag_img").html(tag_img);
 
             html_node.find(".add_pic_type").val(item.type); // 图片类型
@@ -105,10 +110,6 @@ $(function(){
             html_node.find(".add_jump_type").val(item.jump_type);
             html_node.find(".add_start_date").val(item.start_time);
             html_node.find(".add_end_date").val(item.end_time);
-            console.log(item.type + " : " + item.usage_type);
-            if (parseInt(item.usage_type) == 303) {
-                $(".add_jump_type option[value='1']").remove()
-            }
         }
 
         var title = "";
@@ -135,20 +136,39 @@ $(function(){
             closable        : true,
             closeByBackdrop : false,
             onshown         : function(dialog){
+                if (html_node.find(".add_pic_usage_type").val() == 303) {
+                    if (html_node.find('.add_jump_type').val() == 1) {
+                        $('.add_jump_url').val('');
+                    }
+                    $(".add_jump_type option[value='1']").remove()
+                }
+
                 $(".add_pic_usage_type").on("change", function() {
+                    var val = $(".add_jump_type option[value='1']").val();
+                    if (val == undefined) {
+                        $(".add_jump_type").append("<option value='1'>视频</option>");
+                    }
                     if ($(this).val() == 303) { // 删除视频选项
+                        console.log(html_node.find('.add_jump_type').val());
+                        if (html_node.find('.add_jump_type').val() == 1) {
+                            $('.add_jump_url').val('');
+                        }
                         $(".add_jump_type option[value='1']").remove()
                     }
                 });
+                $(".add_pic_type").on("change", function() {
+                    var val = $(".add_jump_type option[value='1']").val();
+                    if (val == undefined) {
+                        $(".add_jump_type").append("<option value='1'>视频</option>");
+                    }
+                });
                 $('.add_jump_type').on("change", function() {
-                    console.log(' jump_type: ' + $(this).val() + ' usage_type ' + parseInt($('.add_pic_usage_type').val()))
-
                     if (parseInt($(this).val()) == 2) {
-                        if (parseInt($('.add_pic_usage_type').val()) == 302) {
+                        if (html_node.find(".add_pic_usage_type").val() == 302) {
                             $('.add_jump_url').val('http://www.leo1v1.com/service_chat_panel.html');
                             $('.add_jump_url').attr("disabled","disabled");
                         }
-                        if (parseInt($('.add_pic_usage_type').val()) == 303) {
+                        if (html_node.find(".add_pic_usage_type").val() == 303) {
                             $('.add_jump_url').val('http://m.leo1v1.com/chat.html');
                             $('.add_jump_url').attr("disabled","disabled");
                         }
@@ -292,10 +312,11 @@ $(function(){
                                 ,"jump_type"    : jump_type 
                             },
 			                      success : function(result){
+                                console.log(result);
                                 if (result.ret == -1) {
                                     alert(result.info);
                                 }
-                                console.log(result);
+
                                 if(result.ret==0){
                                     window.location.reload();
                                 }else{

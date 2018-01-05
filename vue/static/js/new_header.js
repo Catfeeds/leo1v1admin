@@ -346,11 +346,11 @@ function do_role() {
 
 
 function reset_item (){
-    if (check_in_phone()) {
+    if ($.check_in_phone()) {
         $(".remove-for-xs").hide();
         $(".remove-for-not-xs").show();
     }
-    if (!check_in_phone()) {
+    if (!$.check_in_phone()) {
         $(".remove-for-not-xs").hide();
         $(".remove-for-xs").show();
     }

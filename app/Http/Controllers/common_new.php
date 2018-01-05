@@ -1858,7 +1858,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $banner_count = count($info);
         foreach($info as &$item) {
             if ($item['status'] == 0) {
-                $item['jump_type'] = 9;
+                $item['jump_type'] = "9";
             }
         }
         //$custom_type = $video_type = $page_type = '';

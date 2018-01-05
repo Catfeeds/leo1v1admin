@@ -8,13 +8,10 @@ use \App\Enums as E;
 
 class user_power extends Controller
 {
-    public $desc_map = [
-        "get_student_list" => \App\Config\url_desc_power\test\get_student_list::class,
 
-    ];
     public function get_desc_power()
 	{
-		$url       = $this->get_in_str_val('url',"ff/get_student_list");
+		$url       = $this->get_in_str_val('url');
         $group_id  = $this->get_in_int_val('group_id',"");
         $controller_name = substr($url, strripos($url,"/") + 1);
         if(!$controller_name){
@@ -22,10 +19,11 @@ class user_power extends Controller
         }
         //dd($controller_name);
         //查找是否存在该类
-        if(!array_key_exists($controller_name, $this->desc_map)){
+        $desc_class="\\App\\Config\\url_desc_power\\test\\".$controller_name;
+
+        if(!class_exists($desc_class)){
             return $this->output_succ();
         };
-        $desc_class = $this->desc_map[$controller_name];
         $desc_power = $desc_class::get_config();
         //dd($desc_power2);
         $select_power = [];
@@ -81,8 +79,6 @@ class user_power extends Controller
             }
         }
         return $this->output_succ();
-        // echo $url;
-        // dd($opt_key_arr);
     }
 
     private function save_edit_desc_power($data){
@@ -99,6 +95,82 @@ class user_power extends Controller
             //添加
             $ret = $this->t_url_desc_power->row_insert($data);
         }
-
     }
+
+    public function get_input_define()
+	{
+		$url       = $this->get_in_str_val('url');
+        $group_id  = $this->get_in_int_val('group_id');
+        $controller_name = substr($url, strripos($url,"/") + 1);
+        if(!$controller_name){
+            return $this->output_succ();
+        }
+        //dd($controller_name);
+        //查找是否存在该类
+        $desc_class="\\App\\Config\\url_desc_power\\test\\".$controller_name;
+
+        if(!class_exists($desc_class)){
+            return $this->output_succ();
+        };
+
+        $desc_power = $desc_class::get_input_value_config();
+        //dd($desc_power2);
+        $select_power = [];
+        if($group_id){        
+            $select_power = $this->t_url_input_define->url_input_define_list($group_id,$url);
+            $result = [];
+            if($select_power){
+                $result = array_column($select_power,"field_val","field_name");
+                foreach( $desc_power as &$item){
+                    if( array_key_exists($item['field_name'],$result) ){
+                        $item['field_val'] = $result[$item['field_name']];
+                    }           
+                }
+           
+            }
+            
+        }
+        return $this->output_succ(["data"=> $desc_power,'status'=>200]);
+	}
+
+    public function save_input_define(){
+        $url       = $this->get_in_str_val('url');
+        $group_id  = $this->get_in_int_val('group_id');
+        $save_data  = $this->get_in_str_val('save_data');
+
+        if(!$url || !$group_id ){
+            return $this->output_succ();
+        }
+        $item = 0;
+        $data = [
+            "url" => $url,
+            "role_groupid" => $group_id,
+        ];
+        //dd($save_data);
+        if($save_data){
+            foreach($save_data as $key => $val){
+                $data["field_name"] = $key;
+                $data["field_val"] = $val;
+                $this->save_edit_input_define($data);
+            }
+        }
+        return $this->output_succ();
+    }
+
+    private function save_edit_input_define($data){
+        $url = $data['url'];
+        $role_groupid = $data['role_groupid'];
+        $field_name = $data['field_name'];
+        
+        //查看是否存在
+        $url_input_define_id = $this->t_url_input_define->url_input_define_id($url,$role_groupid,$field_name);
+        if($url_input_define_id){
+            //更新
+            $ret = $this->t_url_input_define->field_update_list($url_input_define_id,$data); 
+        }else{
+            //添加
+            $ret = $this->t_url_input_define->row_insert($data);
+        }
+    }
+
 }
