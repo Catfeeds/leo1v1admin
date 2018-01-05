@@ -141,12 +141,12 @@ $(function(){
             }
 
                 $(".add_pic_usage_type").on("change", function() {
-                    if ($(this).val() == 303) { // 删除视频选项
-                        $(".add_jump_type option[value='1']").remove()
-                    }
                     var val = $(".add_jump_type option[value='1']").val();
                     if (val == undefined) {
                         $(".add_jump_type").append("<option value='1'>视频</option>");
+                    }
+                    if ($(this).val() == 303) { // 删除视频选项
+                        $(".add_jump_type option[value='1']").remove()
                     }
                 });
                 $(".add_pic_type").on("change", function() {
@@ -305,6 +305,7 @@ $(function(){
                                 ,"jump_type"    : jump_type 
                             },
 			                      success : function(result){
+                                console.log(result);
                                 if (result.ret == -1) {
                                     alert(result.info);
                                 }
