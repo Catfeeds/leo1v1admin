@@ -597,7 +597,6 @@ class user_deal extends Controller
             $lesson_end   = $this->get_in_int_val("lesson_end");
         }
 
-
         if ($lesson_start >= $lesson_end) {
             return $this->output_err( "时间不对: $lesson_start>$lesson_end");
         }

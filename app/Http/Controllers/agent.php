@@ -465,6 +465,10 @@ class agent extends Controller
     }
 
     public function test_new(){
+        if(date('Y-m-d',time()) == '2018-01-05'){
+            dd('a');
+        }
+        dd('b');
         $month = strtotime('2017-12-01');
         $db_groupid=$this->t_group_user_month->get_groupid_by_adminid($main_type=2,$adminid=975,$month);
         dd($db_groupid);

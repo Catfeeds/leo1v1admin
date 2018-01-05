@@ -47,12 +47,13 @@ class test_jack  extends Controller
 
 
     public function test_kk(){
-        $file = fopen("/home/ybai/1.csv","r");
+        $file = fopen("/home/ybai/111.csv","r");
+        // $file = fopen("/home/jack/111.csv","r");
         $goods_list=[];
         $i=0; 
         while ($data = fgetcsv($file)) { //每次读取CSV里面的一行内容
             //print_r($data); //此为一个数组，要获得每一个数据，访问数组下标即可
-            if($i>=2 && $i<24){
+            if($i>=24 && $i<26){
                 $goods_list[] = $data; 
             }
             $i++;
@@ -81,24 +82,26 @@ class test_jack  extends Controller
             }
             
         }
+        // dd($goods_list);
 
-        // foreach($goods_list as $p_item){
-        //     $this->t_admin_corporate_income_list->row_insert([
-        //         "month"  =>$p_item[0],
-        //         "new_order_money"=>$p_item[1],
-        //         "renew_order_money"=>$p_item[2],
-        //         "new_order_stu"=>$p_item[3],
-        //         "renew_order_stu"=>$p_item[4],
-        //         "new_signature_price"=>$p_item[5],
-        //         "renew_signature_price"=>$p_item[6],
-        //     ]);
-        // }
+        foreach($goods_list as $p_item){
+            $this->t_admin_corporate_income_list->row_insert([
+                "month"  =>$p_item[0],
+                "new_order_money"=>$p_item[1],
+                "renew_order_money"=>$p_item[2],
+                "new_order_stu"=>$p_item[3],
+                "renew_order_stu"=>$p_item[4],
+                "new_signature_price"=>$p_item[5],
+                "renew_signature_price"=>$p_item[6],
+            ]);
+        }
         fclose($file); 
         
     }
 
     public function test_tt(){
-        $file = fopen("/home/ybai/2.csv","r");
+        $file = fopen("/home/jack/222.csv","r");
+        // $file = fopen("/home/ybai/222.csv","r");
         $goods_list=[];
         $i=0; 
         while ($data = fgetcsv($file)) { //每次读取CSV里面的一行内容
@@ -128,6 +131,7 @@ class test_jack  extends Controller
                 }
             }
         }
+        dd($goods_list);
         foreach($goods_list as $p_item){
             $this->t_admin_refund_order_list->row_insert([
                 "nick"   =>$p_item[0],

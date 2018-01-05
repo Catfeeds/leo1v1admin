@@ -38,6 +38,13 @@ class test_sam extends Command
      */
     public function handle()
     {
+
+        echo "姓名|电话";
+        echo PHP_EOL;
+        echo "1123213123|aklfjalksdfj";
+
+
+        exit;
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
