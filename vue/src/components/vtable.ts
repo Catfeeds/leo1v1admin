@@ -214,6 +214,7 @@ export default class vtable extends Vue {
       $table_p.find(".pages").remove();
     }
     me.last_page_url= path;
+    console.log("do:ajax ", path );
     $table_p.append(' <div class="overlay"> <i class="fa fa-refresh fa-spin"></i> </div> <!-- end loading --> </div> ');
     $.do_ajax(path, query_args, function (resp) {
       if (resp.ret == 0) {
@@ -230,11 +231,16 @@ export default class vtable extends Vue {
 
         window["g_args"] = resp.g_args;
         $table_p.find(".overlay").remove();
+        console.log("000" );
 
         me.$nextTick(function () {
+          console.log("111" );
           me.query_init(  me.get_query_header_init() );
+          console.log("222" );
           me.table_row_init();
+          console.log("333" );
           me.page_info_init(resp.page_info);
+          console.log("444" );
           if (resp.g_args.order_by_str) {
             me.reset_sort_info(resp.g_args.order_by_str);
           }

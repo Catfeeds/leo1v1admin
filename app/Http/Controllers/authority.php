@@ -59,16 +59,16 @@ class authority extends Controller
         $creater_adminid=$this->get_in_int_val("creater_adminid",-1);
         $adminid           = $this->get_in_adminid(-1);
         $uid               = $this->get_in_int_val('uid',0);
-        $user_info         = trim($this->get_in_str_val('user_info',''));
-        $has_question_user = $this->get_in_int_val('has_question_user',0);
-        $del_flag          = $this->get_in_int_val('del_flag',0);
+        $user_info         = trim($this->get_in_str_val("user_info"));
+        $has_question_user = $this->get_in_el_boolean(0, 'has_question_user');
+        $del_flag          = $this->get_in_el_boolean(0,'del_flag');
         $page_info         = $this->get_in_page_info();
-        $account_role      = $this->get_in_int_val('account_role', -1);
+        $account_role      = $this->get_in_el_account_role();
         $cardid            = $this->get_in_int_val("cardid",-1);
-        $day_new_user_flag = $this->get_in_boolean_val("day_new_user_flag",-1);
+        $day_new_user_flag = $this->get_in_el_boolean(-1, "day_new_user_flag");
         $tquin             = $this->get_in_int_val("tquin", -1);
-        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
-        $call_phone_type = $this->get_in_int_val("call_phone_type", -1);
+        $fulltime_teacher_type = $this->get_in_el_fulltime_teacher_type();
+        $call_phone_type = $this->get_in_el_call_phone_type();
 
         $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
         $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
@@ -79,7 +79,7 @@ class authority extends Controller
         }
 
 
-       
+
 
         $seller_level      = $this->get_in_el_seller_level();
         if (!$cardid) {

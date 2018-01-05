@@ -589,6 +589,7 @@
             "placeholder" : "回车查询",
             "length_css" : "col-xs-12 col-md-3",
             "select_value" : "",
+            "show_title_flag":false,
             "as_header_query" : false ,
         };
 
@@ -600,14 +601,24 @@
         me.list_type =  me.header_query .list_type;
 
         this.field_name= this.options.field_name ;
+        var btn_str="";
+        var title_str="";
+
+        if (me.options.show_title_flag) {
+
+            title_str= '<span>'+me.options.title+'</span>';
+        }else{
+            btn_str= '<div class="input-group-btn">'
+                +'<button type="button" class="btn btn-warning btn-flat"><i class="fa fa-search"></i>'
+                +'</button></div>';
+        }
 
         this.$ele=  $(
             '<div class="'+me.options.length_css +'">'
                 +'<div class="input-group ">'
+                + title_str 
                 +'<input class="form-control" placeholder="'+me.options.placeholder  +'" type="text">'
-                +'<div class="input-group-btn">'
-                +'<button type="button" class="btn btn-warning btn-flat"><i class="fa fa-search"></i>'
-                +'</button></div>'
+                + btn_str
                 +'</div>'
                 +'</div>'
         );
@@ -650,8 +661,8 @@
         },
 
         get_show_flag:function() {
-            if ( this.list_type==0 ){
-                return  this.select_value!="";
+            if ( this.list_type==0  ){
+                return  !(this.options.select_value=="" || this.options.select_value==-1) ;
             }else{
                 return  true;
             }
