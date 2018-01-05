@@ -450,16 +450,18 @@ class menu{
                 // ["power_id"=>68, "name"=>"教研备课后台",   "url"=>"/resource/get_all"],
                 // ["power_id"=>69, "name"=>"教研回收站",   "url"=>"/resource/get_del"],
                 ["power_id"=>67, "name"=>"抢课访问记录",   "url"=>"/grab_lesson/get_all_grab_info"],
-                ["power_id"=>4, "name"=>"图片管理",   "url"=>"/pic_manage/pic_info"],
+                //["power_id"=>4, "name"=>"图片管理",   "url"=>"/pic_manage/pic_info"],
                 ["power_id"=>5, "name"=>"节日列表",   "url"=>"/festival/festival_list"],
                 ["power_id"=>7, "name"=>"系统消息",   "url"=>"/news_info/stu_message_list"],
                 ["power_id"=>10, "name"=>"用户消息列表",   "url"=>"/news_info/stu_detail_message_list"],
                 ["power_id"=>35, "name"=>"产品问题记录文档",   "url"=>"/user_manage_new/product_info"],
-                ["power_id"=>36, "name"=>"软件版本控制",   "url"=>"/aliyun_oss/upload_list"],
+                //["power_id"=>36, "name"=>"软件版本控制",   "url"=>"/aliyun_oss/upload_list"],
                 ["power_id"=>37, "name"=>"老师晋升参考数据",   "url"=>"/tea_manage_new/approved_data_new"],
                 ["power_id"=>47, "name"=>"标签库",   "url"=>"/product_tag/tag_list"],
                 ["power_id"=>19, "name"=>"配置功能", "list"=>[
                     ["power_id"=>34, "name"=>"推广活动",   "url"=>"/tongji2/market_extension"],
+                    ["power_id"=>4, "name"=>"图片管理",   "url"=>"/pic_manage/pic_info"],
+                    ["power_id"=>36, "name"=>"软件版本控制",   "url"=>"/aliyun_oss/upload_list"],
                 ]],
 
 
