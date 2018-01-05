@@ -85,7 +85,7 @@ class h5GetPoster extends Command
 
             # 此下载域名需要 已更换 boby
             $config=\App\Helper\Config::get_config("qiniu");
-            $bucket_info=$config["private_url" ]['url'];
+            $bucket_info=$config["private_url"]['url'];
 
             $pdf_file_path = $auth->privateDownloadUrl($bucket_info.'/'.$item['file_link'] );
             $savePathFile = public_path('wximg').'/'.$pdf_url;

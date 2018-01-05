@@ -41,6 +41,7 @@ class teacher_money extends Controller
         $time_list   = [];
         $lesson_list = [];
         $lesson_info = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
+        $check_num = [];
         if(!empty($lesson_info)){
             foreach($lesson_info as $key=>&$val){
                 $base_list   = [];
@@ -100,7 +101,7 @@ class teacher_money extends Controller
                     }
                 }
 
-                $this->get_lesson_cost_info($val);
+                $this->get_lesson_cost_info($val,$check_num);
                 $lesson_price = $val['lesson_base']+$val['lesson_reward']+$val['lesson_full_reward']-$val['lesson_cost'];
                 $lesson_list[$key]['lesson_base']   = strval($val['lesson_base']);
                 $lesson_list[$key]['lesson_reward'] = strval($val['lesson_reward']+$val['lesson_full_reward']);

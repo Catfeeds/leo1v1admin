@@ -2817,8 +2817,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_stu_num_by_grade($start_time,$end_time,$grade_flag){
         $where_arr=[
             "s.is_test_user=0",
-            "l.lesson_type in (0,1,3)",
-            "l.confirm_flag <2",
+            "l.lesson_type =2",
+            "l.lesson_user_online_status<2",
             "l.lesson_del_flag=0"
         ];
         $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start_time, $end_time);
