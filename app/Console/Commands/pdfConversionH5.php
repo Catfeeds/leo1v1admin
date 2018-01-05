@@ -95,6 +95,11 @@ class pdfConversionH5 extends Command
                 shell_exec($cpJs);
             }
 
+
+
+
+
+
             # 重新打包压缩
             $work_path= public_path('ppt');
             $zip_new_resource = public_path('ppt')."/".$uuid."_leo.zip";
@@ -153,20 +158,42 @@ class pdfConversionH5 extends Command
             $jsLink_tmp = $node_js->attributes->getNamedItem('src')->nodeValue;
             $jsLink_arr = explode('/', $jsLink_tmp);
             if($jsLink_arr[0] == '..'){
-                $jsLink[] = $jsLink_arr[1];
+                if($jsLink_arr[1] != 'wxpt.js' && $jsLink_arr[1] != 'recommend-0.2.js'){
+                    $jsLink[] = $jsLink_arr[1];
+                }
+                # 修改属性
                 $node_js->setAttribute('src', $jsLink_arr[1]);
-                \App\Helper\Utils::logger("jsLink_arr_item: ".$jsLink_arr[1]);
+                # 删除无需引用的节点
+                if($jsLink_arr[1] == 'wxpt.js' || $jsLink_arr[1] == 'recommend-0.2.js'){
+                    $node_js->parentNode->removeChild($node_js);
+                }
+            }elseif($jsLink_arr[0] == ''){
+                # 删除节点
+                $nodeContent = $node_js->nodeValue;
+                $domain = strstr($nodeContent,'shareimg');
+                if($domain){
+                    $node_js->parentNode->removeChild($node_js);
+                }
+                # 替换 节点内容
+                $domain_jq = strstr($nodeContent,'jquery-1.8.1.min.js');
+                if($domain_jq)
+                {
+                    # 替换DOM节点 内容
+                    $node->nodeValue = 'if (!window.jQuery){
+                      var script = document.createElement("script");
+                      script.src = "jquery-1.8.1.min.js";
+                      window.onload=function(){document.body.appendChild(script);}}';
+                }
 
-                # 测试修改节点属性
-                // if($jsLink_arr[1] == 'wxpt.js'){
-                //     $node_js->setAttribute('src', 'wxpt.js');
-                //     # 创建DOM节点
-                //     //appendChild
-                //     $root = $dom->createElement('test','ssssssss');
-                //     $node_js->appendChild( $root );
-                // }
+            }elseif($jsLink_arr[0] == 'http:'){
+                # 删除节点 不需要的节点
+                $nodeContent = $node_js->nodeValue;
+                $domain = strstr($nodeContent,'shareimg');
             }
         }
+
+        # 处理HTML节点 [增加] [删除] [修改]
+
 
         $saveData = $dom->saveHTML();
         file_put_contents($doneFilePath, $saveData);
