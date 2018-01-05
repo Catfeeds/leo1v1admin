@@ -1544,21 +1544,17 @@ class test_boby extends Controller {
 
     }
 
+    /*
+     七牛云文件批量移动
+     */
     public function qiniu_test(){
-        // $accessKey = getenv('QINIU_ACCESS_KEY');
-        // $secretKey = getenv('QINIU_SECRET_KEY');
-        // $bucket = getenv('QINIU_TEST_BUCKET');
-
+        return 1;
         $qiniu         = \app\helper\config::get_config("qiniu");
         $private_bucket = $qiniu["private_url"]['bucket'];
         $auth = new \Qiniu\Auth(
             \App\Helper\Config::get_qiniu_access_key(),
             \App\Helper\Config::get_qiniu_secret_key()
         );
-        // $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
-        // $token = $auth->uploadtoken($public_bucket);
-
-        // $auth = new Auth($accessKey, $secretKey);
         $config = new \Qiniu\Config();
         $bucketManager = new \Qiniu\Storage\BucketManager($auth, $config);
 
@@ -1567,17 +1563,6 @@ class test_boby extends Controller {
         foreach($list as $v){
             $keys[] = $v['file_link'];
         }
-        // dd($keys);
-
-        // $ops = $bucketManager->buildBatchStat('teacher-doc', $keys);
-        // list($ret, $err) = $bucketManager->batch($ops);
-        // if ($err) {
-        //     dd($err);
-        // } else {
-        //     dd($ret);
-        // }
-
-        // return 1;
         $keyPairs = array();
         foreach ($keys as $key) {
             $keyPairs[$key] = "/teacher-doc/".$key;
@@ -1616,5 +1601,19 @@ class test_boby extends Controller {
             return $s;
         }
 
+    }
+
+    public function upload_file_link(){
+        $list = $this->t_resource_file->get_all_file_title();
+        $this->t_resource_file->start_transaction();
+        foreach($list as $v){
+            $link = '/teacher-doc/'.$v['file_link'];
+            $ret = $this->t_resource_file->field_update_list($v['file_id'], ['file_link' => $link]);
+            if(!$ret) {
+                $this->t_resource_file->rollback();
+                dd('失败');
+            }
+        }
+        $this->t_resource_file->commit();
     }
 }
