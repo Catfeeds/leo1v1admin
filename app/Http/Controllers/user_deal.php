@@ -4160,6 +4160,7 @@ class user_deal extends Controller
             $arr['suc_third_week'] = '';
             $arr['suc_fourth_week'] = '';
             $arr['lesson_per'] = '';
+            $arr['lesson_per_desc'] = '';
             $arr['kpi'] = '';
         }
         $arr['group_kpi'] = isset($group_kpi['group_kpi'])?$group_kpi['group_kpi']:'';
