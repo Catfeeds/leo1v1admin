@@ -13,6 +13,16 @@ class test_jack  extends Controller
     use CacheNick;
     use TeaPower;
 
+    public function test_main(){
+        $this->switch_tongji_database();
+        $this->check_and_switch_tongji_domain();
+        $start_time = strtotime("2017-01-01");
+        $end_time = time();
+        $list  = $this->t_lesson_info_b3->get_teacher_student_first_subject_info($start_time,$end_time);
+        dd($list);
+
+    }
+
     public function get_user_list(){
         #分页信息
         $page_info= $this->get_in_page_info();
