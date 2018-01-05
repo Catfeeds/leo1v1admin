@@ -20,6 +20,8 @@ function load_data(){
 }
 $(function(){
 
+    console.log(tea_info);
+    console.log(typeof tea_info);
     $('#id_resource_type').val(g_args.resource_type);
     $('#id_subject').val(g_args.subject);
     $('#id_grade').val(g_args.grade);

@@ -2524,7 +2524,7 @@ class teacher_info extends Controller
         }
         //获取老师科目年级段
         $tea_info = $this->get_rule_range();
-        // dd($tea_info);
+
         //禁用，删除，老师段则不在显示
         $ret_info = $this->t_resource->get_all_for_tea(
             $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$page_info
@@ -2578,7 +2578,11 @@ class teacher_info extends Controller
             return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
         }
 
-        return $this->pageView( __METHOD__,$ret_info,['tag_info' => $tag_arr,'book' => json_encode($book_arr)]);
+        // dd(json_encode($tea_info));
+        return $this->pageView( __METHOD__,$ret_info,[
+            'tag_info' => $tag_arr,
+            'tea_info' => json_encode($tea_info),
+            'book' => json_encode($book_arr)]);
     }
 
     public function do_collect(){
