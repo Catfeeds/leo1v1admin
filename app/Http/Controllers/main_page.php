@@ -400,12 +400,33 @@ class main_page extends Controller
         }
         $group_self_list = $this->t_order_info->get_1v1_order_seller_list_group_self($start_time,$end_time,$groupid);
         $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,$start_first,$order_by_str);
-        foreach($group_list as &$item){
+        foreach($group_list as $key=>&$item){
             $item['all_price'] = $item['all_price']/100;
             $all_price = $item['all_price'];
             $month_money = isset($item['month_money'])?$item['month_money']:0;
             $item['finish_per'] = $month_money>0?$all_price/$month_money:0;
-            $item['finish_per'] = round($item['finish_per']*100,1);
+            $item['finish_per'] = round($item['finish_per']*100,1).'%';
+            if($this->get_account() !== 'Tina' && $key>2){
+                $item["all_count"] = "***";
+                $item["all_price"] = "***";
+                if($key==3){
+                    $item["finish_per"] = "不好意思";
+                }elseif($key==4){
+                    $item["finish_per"] = "捂脸";
+                }elseif($key==5){
+                    $item["finish_per"] = "羞愧难当";
+                }elseif($key==6){
+                    $item["finish_per"] = "知耻近乎后勇";
+                }elseif($key==7){
+                    $item["finish_per"] = "加倍努力";
+                }elseif($key==8){
+                    $item["finish_per"] = "惭愧";
+                }elseif($key==9){
+                    $item["finish_per"] = "丢人丢大了";
+                }else{
+                    $item["finish_per"] = "下月冲冲冲";
+                }
+            }
         }
 
         $ret_info_first = [];
