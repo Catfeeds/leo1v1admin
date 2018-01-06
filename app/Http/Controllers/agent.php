@@ -452,7 +452,11 @@ class agent extends Controller
         echo '<th>销售</th><th>拨打数</th><th>认领数</th><th>邀约数</th><th>试听成功数</th>';
         echo '</tr>';
         foreach($ret_info as $item){
+            $item['account'] = isset($item['account'])?$item['account']:'';
+            $item['called_count'] = isset($item['called_count'])?$item['called_count']:0;
             $item['seller_count'] = isset($item['seller_count'])?$item['seller_count']:0;
+            $item['test_count'] = isset($item['test_count'])?$item['test_count']:0;
+            $item['suc_count'] = isset($item['suc_count'])?$item['suc_count']:0;
             echo '<tr>';
             echo '<td>'.$item['account'].'</td>';
             echo '<td>'.$item['called_count'].'</td>';
