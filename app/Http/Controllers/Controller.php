@@ -37,9 +37,9 @@ class Controller extends ControllerEx
     }
 
     public function  set_call_ctl_init(){        
-	if (\App\Helper\Utils::check_env_is_testing()) {
-		return;
-	}
+        if (\App\Helper\Utils::check_env_is_testing()) {
+            return;
+        }
 		
         $url_input_define = session('url_input_define') ? json_decode(session('url_input_define'),true) : [];
         $url_desc_power = session('url_desc_power') ? json_decode(session('url_desc_power'),true) : [];
