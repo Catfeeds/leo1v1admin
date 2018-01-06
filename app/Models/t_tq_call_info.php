@@ -321,14 +321,15 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         return $this->main_get_list($sql);
     }
 
-    public function get_list_by_adminid($adminid,$start_time,$end_time){
+    public function get_item_by_adminid($adminid_list=[],$start_time,$end_time){
         $where_arr = [
-            ['adminid=%u',$adminid,-1],
+            // ['adminid=%u',$adminid,-1],
             'is_called_phone=1',
         ];
+        $this->where_arr_add_int_or_idlist($where_arr,'adminid',$adminid_list);
         $this->where_arr_add_time_range($where_arr, 'start_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
-            " select phone ".
+            " select phone,adminid ".
             " from %s ".
             " where %s "
             ,self::DB_TABLE_NAME

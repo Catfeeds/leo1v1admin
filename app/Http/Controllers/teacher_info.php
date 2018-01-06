@@ -165,7 +165,7 @@ class teacher_info extends Controller
         $page_info = $this->get_in_page_info();
         $page_num  = $this->get_in_page_num();
         $ret_info  = [];
-        $ret_info  = $this->t_teacher_apply->get_teacher_apply_list($teacherid,$page_num);
+        $ret_info  = $this->t_teacher_apply->get_teacher_apply_list_new($teacherid,$page_num);
         foreach($ret_info['list'] as &$item){
             if($item['lesson_type']<1000){
                 $item['ass_nick'] = $this->cache_get_assistant_nick($item['assistantid']);
@@ -967,7 +967,7 @@ class teacher_info extends Controller
         $status    = $this->get_in_int_val("status",-1);
 
         $phone    = $this->t_teacher_info->get_phone($teacherid);
-        $ret_info = $this->t_teacher_lecture_appointment_info->get_all_info_b1($page_num,$start_time,$end_time,$phone,$status);
+        $ret_info = $this->t_teacher_lecture_appointment_info->get_all_info_new($page_num,$start_time,$end_time,$phone,$status);
 
         if($phone=="15366667766"){
              $show_teacher_info=1;
@@ -993,6 +993,9 @@ class teacher_info extends Controller
                     $item['name']  = mb_substr($item['name'],0,1,"utf-8")."老师";
                     $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
                 }
+                if($item['email']!=""){
+                    $item['email'] = substr($item['email'],0,3)."****".substr($item['email'],7);
+                }
             }
         }
 
@@ -1011,6 +1014,7 @@ class teacher_info extends Controller
             $count_num["all"]++;
         }
 
+        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "lecture_status"    => 1,
             "count_num"         => $count_num
@@ -2595,7 +2599,14 @@ class teacher_info extends Controller
         }
 
         if($is_js != 0){
-            return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
+            // return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
+            return $this->output_ajax_table($ret_info,[
+                'tag_info' => $tag_arr,
+                'tea_sub' => join( $tea_sub, ','),
+                'tea_gra' => join($tea_gra, ','),
+                'book' => join($book_arr, ',')
+            ]);
+
         }
 
         // dd($tea_info);
@@ -2603,7 +2614,8 @@ class teacher_info extends Controller
             'tag_info' => $tag_arr,
             'tea_sub' => json_encode( $tea_sub),
             'tea_gra' => json_encode($tea_gra),
-            'book' => json_encode($book_arr)]);
+            'book' => json_encode($book_arr)
+        ]);
     }
 
     public function do_collect(){

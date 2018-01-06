@@ -2367,4 +2367,17 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
         return $this->main_get_list($sql);
     }
+
+    public function get_item_list($adminid_list=[]){
+        $where_arr = [];
+        $this->where_arr_add_int_or_idlist($where_arr,'uid',$adminid_list);
+        $sql = $this->gen_sql_new(" select uid adminid,account "
+                                  ." from %s ".
+                                  " where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }
