@@ -470,20 +470,12 @@ class agent extends Controller
 
     public function test_new(){
         //入职小于2月,定级>D
-        $become_member_time = 1490940690;
-        $mix_time = strtotime(date('Y-m-1',$become_member_time));
-        $mid_time = strtotime(date('Y-m-15',$become_member_time));
-        if($become_member_time>$mix_time && $become_member_time<$mid_time){
-            $max_time = strtotime(date("Y-m-d",strtotime(date('Y-m-1',$become_member_time)." +2 month")));
-        }else{
-            $max_time = strtotime(date("Y-m-d",strtotime(date('Y-m-1',$become_member_time)." +3 month")));
+        $id_list = $this->t_seller_level_month->get_item_list();
+        foreach($id_list as $item){
+            $id = $item['id'];
+            $this->t_seller_level_month->row_delete($id);
         }
-        if($become_member_time<$max_time){
-            dd('a');
-            $month_level = E\Eseller_level::V_500;
-        }
-        dd('b');
-        dd($max_time);
+        dd('a');
     }
 
     //处理等级头像

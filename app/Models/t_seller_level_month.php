@@ -56,6 +56,19 @@ class t_seller_level_month extends \App\Models\Zgen\z_t_seller_level_month
         return $this->main_get_row($sql);
     }
 
+    public function get_item_list(){
+        $where_arr = [
+            ['month_date=%u',$month_date=1512057600,-1],
+        ];
+        $sql = $this->gen_sql_new(
+            " select id "
+            ." from %s "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }
 
