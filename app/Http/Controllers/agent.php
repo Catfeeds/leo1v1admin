@@ -469,8 +469,14 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $adminid=314;
+        $start_time=1512057600;
         $arr = [];
-        $adminid_list = $this->t_group_name_month->get_group_admin_list($adminid=314,strtotime(date('Y-m-1',$start_time=1512057600)));
+        //cc自定义月时间
+        $def_info = $this->t_month_def_type->get_time_by_def_time(strtotime(date('Y-m-1',$start_time)));
+        $start_time_new = $def_info['start_time'];
+        $end_time_new = $def_info['end_time'];
+        $adminid_list = $this->t_group_name_month->get_group_admin_list($adminid,strtotime(date('Y-m-1',$start_time)));
         if(!$adminid_list){
             $arr['kpi'] = '';
             $arr['kpi_desc'] = '';
