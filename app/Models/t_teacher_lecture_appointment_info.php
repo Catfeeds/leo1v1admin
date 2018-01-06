@@ -1339,4 +1339,51 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         });
     }
 
+    public function get_all_info_new($page_num,$start_time,$end_time,$phone,$status=-1){
+        $where_arr = [
+            ["answer_begin_time>=%u", $start_time, -1 ],
+            ["answer_begin_time<=%u", $end_time, -1 ],
+            ["reference like '%%%s%%'", $phone, -1 ],
+        ];
+
+        $status_str = "true";
+        if($status==-2){
+            $where_arr[] = " (l.status is null or l.add_time=0)";
+        }else{
+            if($status!=-1){
+                $where_arr[] = "l.add_time>0";
+            }else{
+                $where_arr[] = ["l.status=%u",$status,-1];
+            }
+            if($status==0){
+                $status_str = "1,2,3";
+            }elseif($status==1){
+                $status_str = "0,2,3";
+            }elseif($status==3){
+                $status_str = "0,1,2";
+            }
+        }
+
+        $sql = $this->gen_sql_new("select la.id,la.name,la.phone,la.email,la.grade_ex,la.subject_ex,la.textbook,la.school,"
+                                  ." la.teacher_type,la.custom,la.lecture_appointment_origin,la.qq,"
+                                  ." la.reference,la.answer_begin_time,la.answer_end_time,l.confirm_time,"
+                                  ." if(l.status is null or l.add_time=0,'-2',l.status) as status,l.subject,l.grade,l.reason,"
+                                  ." l.add_time"
+                                  ." from %s la"
+                                  ." left join %s l on l.phone=la.phone "
+                                  ." where %s "
+                                  ." and not exists ("
+                                  ." select 1 from %s where "
+                                  ." phone=l.phone and add_time>l.add_time and status in (%s) "
+                                  ." )"
+                                  ." group by la.phone "
+                                  ." order by answer_begin_time desc "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_lecture_info::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,t_teacher_lecture_info::DB_TABLE_NAME
+                                  ,$status_str
+        );
+        return $this->main_get_list_by_page($sql,$page_num,10,true);
+    }
 }
