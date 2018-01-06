@@ -2305,7 +2305,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   " from %s tr join %s m on tr.accept_adminid = m.uid ".
                                   " join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id ".
                                   " join %s ll on tr.current_lessonid = ll.lessonid".
-                                  " join %s trr on ll.teacherid=trr.teacherid and ll.subject =trr.lesson_subject and ll.userid =trr.userid and tr.type=18 ".
+                                  " join %s trr on ll.teacherid=trr.teacherid and ll.subject =trr.lesson_subject and ll.userid =trr.userid and trr.type=18 ".
                                   " join %s s on ll.userid = s.userid ".
                                   " join %s tt on ll.teacherid = tt.teacherid ".
                                   " where %s order by ll.userid ",
