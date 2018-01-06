@@ -2336,6 +2336,7 @@ function multi_upload_file(new_flag,is_multi,is_auto_start,btn_id, is_public_buc
                 },
                 'Error': function(up, err, errTip) {
                     // $('table').show();
+                    BootstrapDialog.alert('抱歉，文件最大不能超过15M哦！');
                     if(process_id != '') {
                         var progress = new FileProgress(err.file, process_id);
                         progress.setError();
@@ -3000,7 +3001,7 @@ $(function () {
         $(this).bind("contextmenu copy selectstart", function() {
             // return false;
         });
-        // var screen_height=window.screen.availHeight-350;        
+        // var screen_height=window.screen.availHeight-350;
 
         // $(this).parent().css({"height":screen_height,"overflow":"auto"});
 
