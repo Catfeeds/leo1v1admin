@@ -118,7 +118,7 @@ class update_seller_level extends cmd_base
                         $max_time = strtotime(date("Y-m-d",strtotime(date('Y-m-1',$become_member_time)." +3 month")));
                     }
                     // if(time(null)-$become_member_time<60*3600*24 && $month_level>E\Eseller_level::V_500){
-                    if($become_member_time<$max_time && $month_level>E\Eseller_level::V_500){
+                    if($become_member_time>$max_time && $month_level>E\Eseller_level::V_500){
                         $month_level = E\Eseller_level::V_500;
                     }
                     $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
