@@ -435,6 +435,7 @@ class agent extends Controller
         // $seller_count = $this->t_seller_student_new->get_seller_count_by_adminid($adminid_list,$start_time,$end_time);
         $test_list = $this->t_test_lesson_subject_require->get_item_count($start_time,$end_time,$adminid_list);
         foreach($test_list as $item){
+            dd($item);
             $ret_info[$item['admin_revisiterid']]['count'] = $item['test_lesson_count'];
             $ret_info[$item['admin_revisiterid']]['suc_count'] = $item['succ_all_count'];
         }
