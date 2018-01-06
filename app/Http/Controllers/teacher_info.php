@@ -989,11 +989,16 @@ class teacher_info extends Controller
                 }else{
                     E\Electure_status::set_item_value_str($item,"status");
                 }
-                if(!$show_teacher_info){
-                    $item['name']  = mb_substr($item['name'],0,1,"utf-8")."老师";
-                    $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
+                $item['name']  = mb_substr($item['name'],0,1,"utf-8")."老师";
+                $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
+                if($item['email']!=""){
+                    $item['email'] = substr($item['email'],0,3)."****".substr($item['email'],7);
                 }
             }
+        }else{
+            return $this->pageView(__METHOD__,[],[
+                "lecture_status" => 0
+            ]);
         }
 
         $all_info  = $this->t_teacher_lecture_appointment_info->get_lecture_count_info($start_time,$end_time,$phone);
