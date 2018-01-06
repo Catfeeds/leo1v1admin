@@ -28,7 +28,8 @@ class update_seller_level extends cmd_base
     public function handle()
     {
         $reduce_flag = 0;
-        $time = time(null);
+        // $time = time(null);
+        $time = 1514820600;
         $ret_time = $this->task->t_month_def_type->get_all_list();
         $firstday = date("Y-m-01");
         $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
@@ -100,6 +101,7 @@ class update_seller_level extends cmd_base
                         $update_flag = 0;
                     }
                 }
+                $update_flag = 0;
                 //定级
                 if($no_update_seller_level_flag == 0){//参与
                     $price_very_last = $this->task->t_order_info->get_1v1_order_seller_month_money_new($account,$start_time_very_last,$end_time_very_last);
@@ -117,17 +119,17 @@ class update_seller_level extends cmd_base
                     }else{
                         $max_time = strtotime(date("Y-m-d",strtotime(date('Y-m-1',$become_member_time)." +3 month")));
                     }
-                    // if(time(null)-$become_member_time<60*3600*24 && $month_level>E\Eseller_level::V_500){
-                    if($become_member_time<$max_time && $month_level>E\Eseller_level::V_500){
+                    $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
+                    if($month_date<$max_time && $month_level>E\Eseller_level::V_500){
                         $month_level = E\Eseller_level::V_500;
                     }
-                    $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
                     $row = $this->task->t_seller_level_month->get_row_by_adminid_month_date($adminid,$month_date);
                     if(!$row){
                         $this->task->t_seller_level_month->row_insert([
                             'adminid' => $adminid,
                             'month_date' => $month_date,
                             'seller_level' => $month_level,
+                            'money' => $price_very_last,
                             'create_time' => $time,
                         ]);
                     }

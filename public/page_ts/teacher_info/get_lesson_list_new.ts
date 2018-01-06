@@ -331,13 +331,14 @@ $(function(){
                 id_point2.val(point_arr[1]);
             }
 
+            var red_tip = '<span style="color:red;">&nbsp;*</span>';
             var arr= [
                 ["----","课堂信息"],
-                ["课堂标题(必填)",  id_lesson_name],
+                ["课堂标题"+red_tip,  id_lesson_name],
                 ["知识点1",  id_point1],
                 ["知识点2",  id_point2],
                 ["----","上传课堂讲义"],
-                ["授课课件", id_teacher],
+                ["授课课件"+red_tip, id_teacher],
             ];
 
             $.each(id_teacher_list,function(i,item){
@@ -347,7 +348,7 @@ $(function(){
                     arr.push(["其他资料_"+(i+1),item]);
                 }
             });
-            arr.push(['学生讲义', id_student]);
+            arr.push(['学生讲义'+red_tip, id_student]);
 
             if(!(lesson_type>=1000 && lesson_type <2000) || lesson_type==1100){
                 arr.push(["----","上传课堂作业"]);
@@ -369,16 +370,18 @@ $(function(){
                         point2="";
                     }
 
-                    if (issue_url) {
+                    // if (issue_url) {
                         check_lesson_info(id_pdf_question_count,'0');
-                    }
-                    if (lesson_type<1000) {
+                    // }
+                    // if (lesson_type<1000) {
                         check_lesson_info(id_lesson_name,"");
-                    }
-
+                    // }
+                    check_lesson_info($('#id_teacher_upload_0'),'',1);
+                    check_lesson_info(id_teacher,'');
+                    check_lesson_info(id_student,'');
                     if ($(".false").length>0) {
                         BootstrapDialog.alert("请完善信息");
-                        return;
+                        return false;
                     }
 
                     var tmp_arr=[];
@@ -468,7 +471,7 @@ $(function(){
                         $('.opt-select-file').hide();
                     });
 
-                    $('.tea_cw_ex').first().parent().parent().prev().text('教师讲义');
+                    $('.tea_cw_ex').first().parent().parent().prev().text('教师讲义').append(red_tip);
                     $('.tea_cw_ex').first().parent().parent().parent().show();
                     for(var l=0; l<11;l++){
                         if(l == 0){
@@ -895,10 +898,15 @@ $(function(){
         return Object.prototype.toString.call(obj) === '[object Array]';
     }
 
-    var check_lesson_info = function(obj,value){
+    var check_lesson_info = function(obj,value,par_flag){
         var str         = $.trim(obj.val());
-        var obj_name    = obj.parent().siblings().text();
-        var html_notice = "<div class=\"false\">"+obj_name+"不能为空</div>";
+        if(par_flag==1){
+            var obj_name    = obj.parent().parent().parent().siblings().text();
+            var html_notice = "<div class=\"false\">"+obj_name+"不能为空</div>";
+        }else {
+            var obj_name    = obj.parent().siblings().text();
+            var html_notice = "<div class=\"false\">"+obj_name+"不能为空</div>";
+        }
         if(str==value){
             if(!obj.parent().find("div").hasClass("false")){
                 obj.parent().append(html_notice);

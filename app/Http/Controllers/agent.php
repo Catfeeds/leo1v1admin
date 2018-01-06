@@ -469,55 +469,13 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $adminid=314;
-        $start_time=1512057600;
-        $arr = [];
-        //cc自定义月时间
-        $def_info = $this->t_month_def_type->get_time_by_def_time(strtotime(date('Y-m-1',$start_time)));
-        $start_time_new = $def_info['start_time'];
-        $end_time_new = $def_info['end_time'];
-        $adminid_list = $this->t_group_name_month->get_group_admin_list($adminid,strtotime(date('Y-m-1',$start_time)));
-        if(!$adminid_list){
-            $arr['kpi'] = '';
-            $arr['kpi_desc'] = '';
-            return $arr;
+        //入职小于2月,定级>D
+        $id_list = $this->t_seller_level_month->get_item_list();
+        foreach($id_list as $item){
+            $id = $item['id'];
+            $this->t_seller_level_month->row_delete($id);
         }
-        $adminid_list = array_unique(array_column($adminid_list,'adminid'));
-        $person_count = count($adminid_list);
-        $leave_count  = 0;
-        $adminid_info = $this->t_manager_info->get_group_admin_list($adminid_list);
-        foreach($adminid_info as $key=>$item){
-            $adminid = $item['adminid'];
-            $full_month_flag = 1;
-            $del_flag = $item['del_flag'];
-            $create_time = $item['create_time'];
-            $leave_member_time = $item['leave_member_time'];
-            if($del_flag == 0){
-                if($create_time>$start_time_new){
-                    $full_month_flag = 0;
-                }
-            }else{
-                if($leave_member_time>$start_time_new && $leave_member_time<$end_time_new){
-                    $leave_count += 1;
-                }
-                if($leave_member_time<$end_time_new){
-                    $full_month_flag = 0;
-                }
-            }
-            $adminid_info[$key]['full_month_flag'] = $full_month_flag;
-            if($full_month_flag == 0){
-                foreach($adminid_list as $key_i=>$info){
-                    if($adminid == $info){
-                        unset($adminid_list[$key_i]);
-                        break;
-                    }
-                }
-            }
-            $adminid_info[$key]['create_time_str'] = $create_time?date('Y-m-d H:i:s',$create_time):'';
-            $adminid_info[$key]['leave_member_time_str'] = $leave_member_time?date('Y-m-d H:i:s',$leave_member_time):'';
-        }
-        dd($leave_count,$person_count);
-        $leave_per = ($person_count>0 && round($leave_count/$person_count,2)<=20.00)?40:0;//离职率
+        dd('a');
     }
 
     //处理等级头像
