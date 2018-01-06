@@ -3947,13 +3947,13 @@ ORDER BY require_time ASC";
         return $this->main_get_row($sql);
     }
 
-    public function get_item_count($start_time,$end_time,$adminid=-1) {
+    public function get_item_count($start_time,$end_time,$adminid_list=[]) {
         $where_arr=[
             "accept_flag=1",
             "is_test_user=0",
             "l.lesson_del_flag=0",
         ];
-        $this->where_arr_add_int_field($where_arr,"cur_require_adminid",$adminid);
+        $this->where_arr_add_int_or_idlist($where_arr, 'cur_require_adminid', $adminid_list);
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
         $sql=$this->gen_sql_new(
@@ -3971,7 +3971,8 @@ ORDER BY require_time ASC";
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_flow::DB_TABLE_NAME,
-            $where_arr);
+            $where_arr
+        );
         return $this->main_get_list($sql);
     }
 

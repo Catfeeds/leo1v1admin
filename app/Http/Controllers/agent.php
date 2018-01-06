@@ -419,28 +419,26 @@ class agent extends Controller
     public function check(){
         $this->check_and_switch_tongji_domain();
         $adminid_list = [314,508,1157,1072,945,916,487,962,1077,834];
-        // $adminid = 314;
-        list($start_time,$end_time)=[1509465600,1512057600];
-        $phone_arr = [];
-        $phone_list = $this->t_tq_call_info->get_list_by_adminid($adminid_list,$start_time,$end_time);
+        list($start_time,$end_time,$ret_info)=[1509465600,1512057600,[]];
+        $phone_list = $this->t_tq_call_info->get_item_by_adminid($adminid_list,$start_time,$end_time);
         foreach($adminid_list as $info){
             $adminid = $info;
             foreach($phone_list as $item){
                 if($item['adminid'] == $adminid){
-                    $phone_arr[$adminid][] = $item;
+                    $ret_info[$adminid][] = $item;
                 }
             }
         }
-        foreach($phone_arr as $key=>$item){
-            $phone_arr[$key] = count(array_unique(array_column($item,'phone')));
+        foreach($ret_info as $adminid=>$item){
+            $ret_info[$adminid] = count(array_unique(array_column($item,'phone')));
         }
-        dd($phone_arr);
-        $phone_count = count(array_unique(array_column($phone_list,'phone')));
-        $seller_count = $this->t_seller_student_new->get_seller_count_by_adminid($adminid_list,$start_time,$end_time);
-        $test_info = $this->t_test_lesson_subject_require->get_item_count($start_time,$end_time,$adminid);
-        $test_count = $test_info['test_lesson_count'];
-        $suc_count = $test_info['succ_all_count'];
-        dd($test_count);
+        // $seller_count = $this->t_seller_student_new->get_seller_count_by_adminid($adminid_list,$start_time,$end_time);
+        $test_list = $this->t_test_lesson_subject_require->get_item_count($start_time,$end_time,$adminid_list);
+        foreach($test_list as $item){
+            $ret_info[$item['admin_revisiterid']]['count'] = $item['test_lesson_count'];
+            $ret_info[$item['admin_revisiterid']]['suc_count'] = $item['succ_all_count'];
+        }
+        dd($ret_info);
     }
 
     public function test_new(){

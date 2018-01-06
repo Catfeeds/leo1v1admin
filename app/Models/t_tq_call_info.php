@@ -321,7 +321,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         return $this->main_get_list($sql);
     }
 
-    public function get_list_by_adminid($adminid_list,$start_time,$end_time){
+    public function get_item_by_adminid($adminid_list=[],$start_time,$end_time){
         $where_arr = [
             // ['adminid=%u',$adminid,-1],
             'is_called_phone=1',
