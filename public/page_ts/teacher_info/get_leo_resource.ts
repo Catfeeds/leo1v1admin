@@ -1,27 +1,40 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/teacher_info-get_leo_resource.d.ts" />
 
+
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
 
     if( $('#id_resource_type').val() == 6 && book != []) {
         $('#id_tag_one').val('-1');
     }
-    $.reload_self_page ( {
-        order_by_str  : g_args.order_by_str,
-        resource_type :	$('#id_resource_type').val(),
-        subject       :	$('#id_subject').val(),
-        grade         :	$('#id_grade').val(),
-        tag_one       :	$('#id_tag_one').val(),
-        tag_two       :	$('#id_tag_two').val(),
-        tag_three     :	$('#id_tag_three').val(),
-        tag_four      :	$('#id_tag_four').val()
-    });
+
+    if(global_mark==0){
+        sub_info = {
+            order_by_str  : g_args.order_by_str,
+            resource_type :	$('#id_resource_type').val(),
+            subject       :	$('#id_subject').val(),
+            grade         :	$('#id_grade').val(),
+            tag_one       :	$('#id_tag_one').val(),
+            tag_two       :	$('#id_tag_two').val(),
+            tag_three     :	$('#id_tag_three').val(),
+            tag_four      :	$('#id_tag_four').val()
+        };
+    } else {
+        sub_info = {
+            order_by_str  : g_args.order_by_str,
+            resource_type :	$('#id_resource_type').val(),
+            subject       :	$('#id_subject').val(),
+            tag_one       :	$('#id_tag_one').val(),
+            tag_two       :	$('#id_tag_two').val(),
+            tag_three     :	$('#id_tag_three').val(),
+            tag_four      :	$('#id_tag_four').val()
+        };
+    }
+    $.reload_self_page (sub_info);
+
 }
 $(function(){
-
-    console.log(tea_sub);
-    console.log(tea_gra);
     $('#id_resource_type').val(g_args.resource_type);
     $('#id_subject').val(g_args.subject);
     $('#id_grade').val(g_args.grade);
@@ -30,7 +43,7 @@ $(function(){
     $('#id_tag_three').val(g_args.tag_three);
     $('#id_tag_four').val(g_args.tag_four);
 
-     //获取学科化标签
+    //获取学科化标签
     var get_sub_grade_tag = function(subject,grade,obj,opt_type){
         obj.empty();
         $.ajax({
@@ -124,6 +137,7 @@ $(function(){
     $('#id_subject').val(g_args.subject);
     $('#id_grade').val(g_args.grade);
     $('#id_tag_one').val(g_args.tag_one);
+
 
     if($('#id_resource_type').val() == 3){
         get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(), $('#id_tag_four'), 1);
@@ -234,6 +248,11 @@ $(function(){
         }
     });
 
+
+    global_mark=0;
+    $('#id_subject').on("change",function(){
+        global_mark=1;
+    });
 
     $('.opt-change').set_input_change_event(load_data);
 });
