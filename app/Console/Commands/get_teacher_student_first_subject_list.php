@@ -53,7 +53,7 @@ class get_teacher_student_first_subject_list extends Command
                 $task->t_teacher_record_list->field_update_list($id,[
                     "lesson_time" => $val["lesson_start"],
                     "record_info" => $info,
-                    "train_lessonid"=>$val["train_lessonid"]
+                    "train_lessonid"=>$val["lessonid"]
                 ]);
 
             }else{
