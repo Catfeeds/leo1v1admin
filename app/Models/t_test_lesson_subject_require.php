@@ -3957,7 +3957,7 @@ ORDER BY require_time ASC";
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
         $sql=$this->gen_sql_new(
-            "select cur_require_adminid as admin_revisiterid, count(*) test_lesson_count,"
+            "select cur_require_adminid admin_revisiterid, count(*) test_lesson_count,"
             ."sum(lesson_user_online_status in (0,1) or f.flow_status = 2) succ_all_count "
             ." from %s tr "
             ." join %s l on tr.current_lessonid=l.lessonid "
