@@ -447,7 +447,7 @@ class agent extends Controller
             $ret_info[$item['admin_revisiterid']]['suc_count'] = $item['succ_all_count'];
         }
         echo '<table border="1" width="600" align="center">';
-        echo '<caption><h1>联系人列表</h1></caption>';
+        echo '<caption><h1>'.date('Y-m',$start_time).'月</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
         echo '<th>销售</th><th>拨打数</th><th>认领数</th><th>邀约数</th><th>试听成功数</th>';
         echo '</tr>';
