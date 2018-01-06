@@ -438,7 +438,6 @@ class agent extends Controller
         }
         $seller_list = $this->t_seller_student_new->get_item_by_adminid($adminid_list,$start_time,$end_time);
         foreach($seller_list as $item){
-            $item['count'] = isset($item['count'])?$item['count']:0;
             $ret_info[$item['adminid']]['seller_count'] = $item['count'];
         }
         $test_list = $this->t_test_lesson_subject_require->get_item_count($start_time,$end_time,$adminid_list);
@@ -452,6 +451,7 @@ class agent extends Controller
         echo '<th>销售</th><th>拨打数</th><th>认领数</th><th>邀约数</th><th>试听成功数</th>';
         echo '</tr>';
         foreach($ret_info as $item){
+            $item['seller_count'] = isset($item['seller_count'])?$item['seller_count']:0;
             echo '<tr>';
             echo '<td>'.$item['account'].'</td>';
             echo '<td>'.$item['called_count'].'</td>';
