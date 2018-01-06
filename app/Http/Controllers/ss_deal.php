@@ -2832,7 +2832,22 @@ class ss_deal extends Controller
         $default_info = $this->t_child_order_info->get_info_by_parent_orderid($parent_orderid,0);
 
         if($default_info["pay_status"]>0){
-            return $this->output_err("默认子合同已付款,不能删除当前子合同");
+            $default_orderid = $default_info["child_orderid"];
+            $this->t_child_order_info->field_update_list($default_orderid,[
+                "child_order_type" =>3
+            ]);
+            $this->t_child_order_info->field_update_list($child_orderid,[
+                "child_order_type" =>0,
+                "period_num"       =>0
+            ]);
+            //设置主合同是否分期
+            $this->set_order_partition_flag($parent_orderid);
+
+
+            return $this->output_succ();
+
+
+            //return $this->output_err("默认子合同已付款,不能删除当前子合同");
         }
 
         //删除子合同
@@ -2866,12 +2881,13 @@ class ss_deal extends Controller
         $old_price = $this->t_child_order_info->get_price($child_orderid);
         $default_info = $this->t_child_order_info->get_info_by_parent_orderid($parent_orderid,0);
 
+
         //分期合同不能全款
         if($child_order_type==2){
             $period_money = $this->t_child_order_info->get_period_price_by_parent_orderid($parent_orderid);
             $all_price = $this->t_order_info->get_price($parent_orderid);
-            if(($price+$period_money) >($all_price-350000)){
-                // return $this->output_err("分期合同需要设置3500元的首付款!");
+            if(($price+$period_money-$old_price) >($all_price-350000)){
+                return $this->output_err("分期合同需要设置3500元的首付款!");
             }
         }
 
@@ -2881,7 +2897,19 @@ class ss_deal extends Controller
         }
 
         if($default_info["pay_status"]>0){
-            return $this->output_err("默认子合同已付款,不能修改当前子合同");
+            $default_orderid = $default_info["child_orderid"];
+            $this->t_child_order_info->field_update_list($default_orderid,[
+                "child_order_type" =>3
+            ]);
+            $this->t_child_order_info->row_insert([
+                "child_order_type"=>0,
+                "add_time"        =>time(),
+                "parent_orderid"  =>$parent_orderid,
+                "price"           =>0
+            ]);
+            $default_info = $this->t_child_order_info->get_info_by_parent_orderid($parent_orderid,0);
+
+            //return $this->output_err("默认子合同已付款,不能修改当前子合同");
         }
 
         if($child_order_type != 2){
@@ -2901,6 +2929,9 @@ class ss_deal extends Controller
 
         //更新默认合同信息
         $new_price = $old_price+$default_info["price"]-$price;
+        if($new_price<0){
+            return $this->output_err("金额超限,请确认!");
+        }
         $this->t_child_order_info->field_update_list($default_info["child_orderid"],[
             "price"  =>$new_price
         ]);
