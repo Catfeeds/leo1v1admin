@@ -2710,7 +2710,9 @@ class tongji_ss extends Controller
         $adminid = $this->get_in_int_val("adminid",-1);
         $is_green_flag = $this->get_in_int_val("is_green_flag",-1);
         $require_admin_type = $this->get_in_int_val("require_admin_type",-1);
-        $list = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_by_adminid($start_time,$end_time,$adminid,$is_green_flag,$require_admin_type);
+        //$list = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_by_adminid($start_time,$end_time,$adminid,$is_green_flag,$require_admin_type);
+        $list = $this->t_test_lesson_subject_require->get_tea_lesson_transfor_info_by_adminid_new($start_time,$end_time,$adminid,$is_green_flag,$require_admin_type);
+
         // $list = $this->t_test_lesson_subject_sub_list->get_teat_lesson_transfor_info_by_adminid($start_time,$end_time,$adminid);
 
         foreach($list as &$item){
