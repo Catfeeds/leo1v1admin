@@ -227,7 +227,13 @@ class Controller extends ControllerEx
     }
 
     public function get_login_teacher() {
-        return session("tid");
+        if (!session("tid") || session("tid")==null){
+            \App\Helper\Utils::logger("GOTO:".$_SERVER["REQUEST_URI"]);
+            header('Location: /login/teacher?to_url='.$_SERVER["REQUEST_URI"]);
+            exit;
+        }else{
+            return session("tid");
+        }
     }
 
     public function get_login_agent() {

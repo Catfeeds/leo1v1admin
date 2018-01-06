@@ -92,6 +92,7 @@ class user_manage extends Controller
             $userid    = $user_name;
             $user_name = "";
         }
+
         if ($assistantid >0 && $order_type == -1) {
             $order_type = 3;
         }

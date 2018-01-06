@@ -184,11 +184,12 @@ class test_code extends Controller
         foreach($lesson_list as $l_val){
             $this->t_lesson_info->row_delete($l_val['lessonid']);
         }
+        echo "over";
+        echo "<br>";
         $lesson_list = $this->t_lesson_info_b3->get_more_trial_lesson_list();
         if(!empty($lesson_list)){
             $this->delete_more_lesson();
         }
-        echo "over";
     }
 
     public function randFloat($min=0, $max=1){
