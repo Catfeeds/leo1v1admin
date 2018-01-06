@@ -113,13 +113,16 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
 
     }
 
-    public function check_and_add_new_count($adminid,$get_desc)  {
+    public function check_and_add_new_count($adminid,$get_desc,$userid=0)  {
         $new_count_id=$this->get_free_new_count_id($adminid);
         if (!$new_count_id) {
             return false;
         }
 
-        $this->t_seller_new_count_get_detail->add($new_count_id,$get_desc);
+        $detail_id = $this->t_seller_new_count_get_detail->get_row_by_userid($new_count_id,$userid);
+        if($detail_id == 0){
+            $this->t_seller_new_count_get_detail->add($new_count_id,$get_desc,$userid);
+        }
         return true;
     }
 
