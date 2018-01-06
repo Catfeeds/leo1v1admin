@@ -18,7 +18,7 @@ class test_jack  extends Controller
         $qiniu_file_name=\App\Helper\Utils::qiniu_upload($pdf_file);
 
         //$ret=\App\Helper\Utils::exec_cmd("rm -rf /tmp/$base_file_name.*");
-        $pdf_file_url= Config::get_qiniu_public_url()."/". $qiniu_file_name;
+        $pdf_file_url= \App\Helper\Config::get_qiniu_public_url()."/". $qiniu_file_name;
 
         //  $pdf_file_url=\App\Helper\Common::gen_order_pdf_empty();
 
