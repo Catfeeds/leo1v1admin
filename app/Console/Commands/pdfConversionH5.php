@@ -268,28 +268,32 @@ class pdfConversionH5 extends Command
         # 页面中添加 gavan 代码
         $headList = $xpath->query("//head");
         foreach ($headList as $node_head) {
-            $root = $dom->createElement('script','');
-            $node_head->appendChild( $root );
-            $root->nodeValue = "
-function gotoNextStep() {
-    execNext()
-}
-function gotoPreviousStep() {
-    ExecGoBack()
-}
-function gotoStep(slideIndex, stepIndex, trigger, isBack) {
-    syncExec(slideIndex, stepIndex, trigger, isBack)
-}
-$(document).ready(function () {
-    window.onRegistered && window.onRegistered(window._control.length, window._control[0].animations && window._control[0].animations.length)
-})
-function onRegistered(slidesCount, firstStepCount){
-  client && client.onRegistered(slidesCount, firstStepCount)
-}
-function onStepChanged(slideIndex, stepIndex, trigger, isBack){
-  client && client.onStepChanged(slideIndex, stepIndex, trigger, isBack)
-}
-";
+            $root_js = $dom->createElement('script','');
+            $node_head->appendChild($root_js);
+            $root_js->setAttribute('type', 'text/javascript');
+            $root_js->setAttribute('src', 'bridge.js');
+
+            // src="wxpt.js" type="text/javascript"
+//             $root->nodeValue = "
+// function gotoNextStep() {
+//     execNext()
+// }
+// function gotoPreviousStep() {
+//     ExecGoBack()
+// }
+// function gotoStep(slideIndex, stepIndex, trigger, isBack) {
+//     syncExec(slideIndex, stepIndex, trigger, isBack)
+// }
+// $(document).ready(function () {
+//     window.onRegistered && window.onRegistered(window._control.length, window._control[0].animations && window._control[0].animations.length)
+// })
+// function onRegistered(slidesCount, firstStepCount){
+//   client && client.onRegistered(slidesCount, firstStepCount)
+// }
+// function onStepChanged(slideIndex, stepIndex, trigger, isBack){
+//   client && client.onStepChanged(slideIndex, stepIndex, trigger, isBack)
+// }
+// ";
         }
 
 
