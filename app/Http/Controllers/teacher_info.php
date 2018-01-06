@@ -2599,7 +2599,14 @@ class teacher_info extends Controller
         }
 
         if($is_js != 0){
-            return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
+            // return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
+            return $this->output_ajax_table($ret_info,[
+                'tag_info' => $tag_arr,
+                'tea_sub' => join( $tea_sub, ','),
+                'tea_gra' => join($tea_gra, ','),
+                'book' => join($book_arr, ',')
+            ]);
+
         }
 
         // dd($tea_info);
@@ -2607,7 +2614,8 @@ class teacher_info extends Controller
             'tag_info' => $tag_arr,
             'tea_sub' => json_encode( $tea_sub),
             'tea_gra' => json_encode($tea_gra),
-            'book' => json_encode($book_arr)]);
+            'book' => json_encode($book_arr)
+        ]);
     }
 
     public function do_collect(){
@@ -3065,8 +3073,8 @@ class teacher_info extends Controller
             $info = $this->t_teacher_info->get_subject_grade_by_teacherid($teacherid);
             $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
             $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade($info['second_grade_start'], $info['second_grade_end']);
-            // $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade(1, 2);
-            // $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade(4, 4);
+            $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade(1, 2);
+            $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade(4, 4);
 
             $data = [];
             $data[0]['subject'] = $info['subject'];

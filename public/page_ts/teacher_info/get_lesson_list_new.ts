@@ -582,7 +582,7 @@ $(function(){
                 $('.opt-my-res,.opt-leo-res').attr('upload_id', obj.attr('id'));
             }
         }
-        var book_info = [];
+        var book_info = [],tea_sub_info = [], tea_gra_info = [];
         var dlg_tr = {};
         var get_res = function(ajax_url,opt_type,btn_type,dir_id){
             $("<div></div>").tea_select_res_ajax({
@@ -671,6 +671,14 @@ $(function(){
                     $.each($(book_arr),function(i,val){
                         book_info.push(parseInt(val));
                     });
+                    var tea_sub_arr = ret.tea_sub.split(',');
+                    $.each($(tea_sub_arr),function(i,val){
+                        tea_sub_info.push(parseInt(val));
+                    });
+                    var tea_gra_arr = ret.tea_gra.split(',');
+                    $.each($(tea_gra_arr),function(i,val){
+                        tea_gra_info.push(parseInt(val));
+                    });
                     dlg_tr = ret.crumbs;
                 },
                 "onshown"          : function(dlg){
@@ -697,8 +705,8 @@ $(function(){
                         });
                     } else {
                         Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,[1,2,3]);
-                        Enum_map.append_option_list("subject",$('.leo-subject select'));
-                        Enum_map.append_option_list("grade",$('.leo-grade select'));
+                        Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
+                        Enum_map.append_option_list("grade",$('.leo-grade select'), true, tea_gra_info);
                         Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
                         Enum_map.append_option_list("resource_season",$('.leo-tag_two select'));
                         $('.leo-tag_two').nextAll().hide();
