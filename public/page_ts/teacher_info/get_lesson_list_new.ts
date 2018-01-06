@@ -899,7 +899,7 @@ $(function(){
     }
 
     var check_lesson_info = function(obj,value,par_flag){
-        var str         = $.trim(obj.val());
+        var str = $.trim(obj.val());
         if(par_flag==1){
             var obj_name    = obj.parent().parent().parent().siblings().text();
             var html_notice = "<div class=\"false\">"+obj_name+"不能为空</div>";
