@@ -75,7 +75,7 @@ function fC(o, v) {
         return o;
     } else if (v.para == -2) {
         var V = o.children[0];
-        if (V.className == "ib") {
+        if (V && V.className == "ib") {
             return V;
         }
         return null;
@@ -623,6 +623,10 @@ function hu(d, az) {
 							}else{
 								eC["e" + c.eff](c.o, c, 1 - c.exit);
 								ay["e" + c.eff](c.o, c, 1 - c.exit);
+								if (c.bp && c.bp.parentNode) {
+                                    					c.o.firstElementChild.style.visibility = "";
+                                    					c.bp.style.visibility = "hidden";
+                                				}
 								c.o.style.visibility = (c.exit ? "hidden": "");
 							}
                         }
@@ -1448,11 +1452,11 @@ function jV() {
     UpCount();
 };
 function UpCount() {
-    var iP = hW(window.firsttag + "read");
-    if (iP != null) return;
-    jb("Get", "/getstat2.php?tag=" + window.firsttag,
-    function(json) {});
-    jr(window.firsttag + "read", 1, 365);
+    //var iP = hW(window.firsttag + "read");
+    //if (iP != null) return;
+    //jb("Get", "/getstat2.php?tag=" + window.firsttag,
+    //function(json) {});
+    //jr(window.firsttag + "read", 1, 365);
 };
 function PrepareBeginshow(a) {
     aJ.style.visibility = "hidden";
