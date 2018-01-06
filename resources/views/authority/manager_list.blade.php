@@ -155,7 +155,7 @@
                             <td >{{$var["email"]}}</td>
                             <td>{{$var["phone"]}}</td>
 
-                            @if (  isset($html_power_list["account_role"] )  )
+                            @if (  isset($html_power_list["account_role"] ) || true  )
                                 <td>{{$var["account_role_str"]}}</td>
                             @endif
 
