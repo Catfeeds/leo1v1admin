@@ -7,9 +7,10 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log ;
+
 use \App\Enums as E;
 
-//use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Session;
 
 require_once( app_path() ."/Helper/functions.php"  );
 /**
@@ -35,9 +36,50 @@ class Controller extends ControllerEx
         $this->setUpTraits();
     }
 
-    public function  set_call_ctl_init(){
+    public function  set_call_ctl_init(){        
+	if (\App\Helper\Utils::check_env_is_testing()) {
+		return;
+	}
+		
+        $url_input_define = session('url_input_define') ? json_decode(session('url_input_define'),true) : [];
+        $url_desc_power = session('url_desc_power') ? json_decode(session('url_desc_power'),true) : [];
+        $url = $_SERVER['REQUEST_URI'];
+        //dd($url);
+        $hide_desc_power = [];
+        if(!empty($url_desc_power)){
+            foreach($url_desc_power as $v){
+                if( $url == $v['url'] && $v['open_flag'] == 0 ){
+                    array_push($hide_desc_power,$v['opt_key']);
+                }
+            }
+        }
 
-        $this->html_power_list_add([ "grade","opt_grade", "input_grade" ]);
+        $this->html_power_list_add($hide_desc_power);
+        //dd($hide_desc_power);
+        if(!empty($url_input_define)){
+            foreach( $url_input_define as $v ){
+                if( $url == $v['url'] ){
+                    if( $v['field_type'] != 'function'){
+                        $this->set_in_value($v['field_name'], $v['field_val']);
+                    }else{
+                        switch ($v['field_val'])
+                        {
+                        case 1:
+                            $this->set_in_value($v['field_name'], $this->get_account());
+                            break;
+                        case 2:
+                            $this->set_in_value($v['field_name'], $this->get_account_id());
+                            break;
+                        case 3:
+                            $this->set_in_value($v['field_name'], $this->get_account_role());
+                            break;                 
+                        }
+                    }
+                }
+            }
+        }
+        //dd($url_input_define);
+        //$this->html_power_list_add([ "grade","opt_grade", "input_grade" ]);
         /*
         $this->set_in_value("grade", 101);
         $this->set_in_value("grade",  this->get_account_id());

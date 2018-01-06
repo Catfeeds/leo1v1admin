@@ -260,6 +260,12 @@ class login extends Controller
 
 
         $_SESSION['permission'] = @$permission[$account];
+        //dd($permission[$account]);
+        $url_input_define = $this->t_url_input_define->url_input_define_by_gid(@$permission[$account]);
+        $_SESSION['url_input_define'] = json_encode($url_input_define);
+
+        $url_desc_power = $this->t_url_desc_power->url_desc_power_by_gid(@$permission[$account]);
+        $_SESSION['url_desc_power'] = json_encode($url_desc_power);
 
         $menu_config=preg_split("/,/", $ret_row["menu_config"] );
 
@@ -314,7 +320,7 @@ class login extends Controller
         $_SESSION['stu_menu_html'] = $stu_menu_html;
         $_SESSION['tea_menu_html'] = $tea_menu_html;
         $_SESSION['power_list']    = json_encode($power_map);
-
+        //dd($_SESSION);
         session($_SESSION) ;
 
         return @$permission[$account];
@@ -380,7 +386,7 @@ class login extends Controller
         Redis::select(10);
         $key = $phone."_".$role;
         $ret_redis=Redis::get($key);
-        if (strcmp($ret_redis, $passwd) == 0) {
+        if(strcmp($ret_redis,$passwd) == 0) {
             return true;
         }
         \App\Helper\Utils::logger("[$key]ret_redis:$ret_redis");
@@ -407,9 +413,9 @@ class login extends Controller
             if ($ret_dynamic == false) {
                 return $this->output_err("用户名密码出错");
             }
-            $teacherid= $this->t_phone_to_user->get_teacherid($account);
+            $teacherid = $this->t_phone_to_user->get_teacherid($account);
         }
-        $tea_item= $this->t_teacher_info->field_get_list($teacherid,"nick,face");
+        $tea_item = $this->t_teacher_info->field_get_list($teacherid,"nick,face");
 
         $sess['tid']  = $teacherid;
         $sess["acc"]  = $teacherid;
@@ -418,9 +424,7 @@ class login extends Controller
         $sess['role'] = E\Erole::V_TEACHER;
 
         session($sess);
-
         return $this->output_succ();
-
     }
 
     public function login_other() {

@@ -37,6 +37,11 @@ class TUrlDescPower extends Migration
         //     $table->unique(["role_groupid", "url","field_name"],"role_url_field_name");
         // });
 
+        Schema::table('db_weiyi_admin.t_url_input_define', function( Blueprint $table)
+        {
+            t_field($table->string("field_type") ,"参数类型:string,function,enum");
+        });
+
 
     }
 

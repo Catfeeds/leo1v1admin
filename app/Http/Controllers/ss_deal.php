@@ -2871,7 +2871,7 @@ class ss_deal extends Controller
             $period_money = $this->t_child_order_info->get_period_price_by_parent_orderid($parent_orderid);
             $all_price = $this->t_order_info->get_price($parent_orderid);
             if(($price+$period_money) >($all_price-350000)){
-                return $this->output_err("分期合同需要设置3500元的首付款!");
+                // return $this->output_err("分期合同需要设置3500元的首付款!");
             }
         }
 
