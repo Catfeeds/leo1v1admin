@@ -180,7 +180,7 @@ class url_power_map {
 			'/human_resource/interview_remind'	=>1041200,
 			'/human_resource/teacher_lecture_list'	=>1040900,
 			'/teacher_feedback/teacher_feedback_list'	=>1041001,
-			'/authority/manager_list'	=>1061800,
+			'/authority/manager_list'	=>1060200,
 			'/admin_manage/group_email_list'	=>1061200,
 			'/authority/manager_list_for_kaoqin'	=>1061100,
 			'/authority/manager_list_offline'	=>1060300,

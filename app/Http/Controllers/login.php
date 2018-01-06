@@ -260,6 +260,12 @@ class login extends Controller
 
 
         $_SESSION['permission'] = @$permission[$account];
+        //dd($permission[$account]);
+        $url_input_define = $this->t_url_input_define->url_input_define_by_gid(@$permission[$account]);
+        $_SESSION['url_input_define'] = json_encode($url_input_define);
+
+        $url_desc_power = $this->t_url_desc_power->url_desc_power_by_gid(@$permission[$account]);
+        $_SESSION['url_desc_power'] = json_encode($url_desc_power);
 
         $menu_config=preg_split("/,/", $ret_row["menu_config"] );
 
@@ -314,7 +320,7 @@ class login extends Controller
         $_SESSION['stu_menu_html'] = $stu_menu_html;
         $_SESSION['tea_menu_html'] = $tea_menu_html;
         $_SESSION['power_list']    = json_encode($power_map);
-
+        //dd($_SESSION);
         session($_SESSION) ;
 
         return @$permission[$account];

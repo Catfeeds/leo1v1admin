@@ -24,12 +24,12 @@ class  manager_list{
                 "field_name"=> "account_role",
                 "desc" => "角色",
                 "value_type"=> "enum",//int, function
-                "enum_class"=> \App\Enums\Eaccount_role::class,
+                "enum_class"=> "account_role",
             ], [
                 "field_name"=> "assign_account_role",
                 "desc" => "可分配的角色",
                 "value_type"=> "enum",//int, function
-                "enum_class"=> \App\Enums\Eaccount_role::class,
+                "enum_class"=> "account_role",
             ],
         ];
 
