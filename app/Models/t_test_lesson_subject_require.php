@@ -2290,6 +2290,39 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         // return $this->main_get_list($sql);
     }
 
+    public function get_tea_lesson_transfor_info_by_adminid_new($start_time,$end_time,$adminid,$is_green_flag=-1,$require_admin_type=-1){
+        $where_arr = [
+            "accept_adminid =".$adminid,
+            "m.account_role = 3",
+            "s.is_test_user=0",
+            // "ll.lesson_user_online_status in (0,1)",
+            "ll.lesson_del_flag=0",
+            ["tr.is_green_flag=%u",$is_green_flag,-1],
+            ["t.require_admin_type=%u",$require_admin_type,-1],
+        ];
+        $this->where_arr_add_time_range($where_arr,"trr.lesson_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select accept_adminid,ll.userid,ll.grade,ll.subject,s.nick,tt.realname tea_name,ll.lesson_start,ll.lessonid".
+                                  " from %s tr join %s m on tr.accept_adminid = m.uid ".
+                                  " join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id ".
+                                  " join %s ll on tr.current_lessonid = ll.lessonid".
+                                  " join %s trr on ll.teacherid=trr.teacherid and ll.subject =trr.lesson_subject and ll.userid =trr.userid and tr.type=18 ".
+                                  " join %s s on ll.userid = s.userid ".
+                                  " join %s tt on ll.teacherid = tt.teacherid ".
+                                  " where %s order by ll.userid ",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+
 
 
     public function get_teat_lesson_transfor_info_new($start_time,$end_time){
