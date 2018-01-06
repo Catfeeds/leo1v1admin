@@ -431,6 +431,9 @@ class agent extends Controller
                 }
             }
         }
+        foreach($phone_arr as $key=>$item){
+            $phone_arr[$key] = count(array_unique(array_column($item,'phone')));
+        }
         dd($phone_arr);
         $phone_count = count(array_unique(array_column($phone_list,'phone')));
         $seller_count = $this->t_seller_student_new->get_seller_count_by_adminid($adminid_list,$start_time,$end_time);
