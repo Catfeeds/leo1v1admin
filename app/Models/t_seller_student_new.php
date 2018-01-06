@@ -3373,19 +3373,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         });
     }
 
-    public function get_seller_count_by_adminid($adminid_list,$start_time,$end_time){
-        $where_arr = [
-            // ['admin_revisiterid=%u',$adminid,-1],
-        ];
+    public function get_item_by_adminid($adminid_list,$start_time,$end_time){
+        $where_arr = [];
         $this->where_arr_add_int_or_idlist($where_arr, 'admin_revisiterid', $adminid_list);
         $this->where_arr_add_time_range($where_arr,'admin_assign_time',$start_time,$end_time);
         $sql = $this->gen_sql_new(" select "
-                                  ." sum(if(hand_get_adminid in (1,2),1,0)) count "
+                                  ." sum(if(hand_get_adminid in (1,2),1,0)) count,admin_revisiterid adminid "
                                   ." from %s "
-                                  ." where %s "
+                                  ." where %s group by admin_revisiterid "
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
     }
 }
