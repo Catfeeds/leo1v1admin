@@ -176,22 +176,20 @@ class pdfConversionH5 extends Command
                 }
                 # 替换 节点内容
 
-                $domain_jq = strstr($nodeContent,'jquery-1.8.1.min.js');
-                \App\Helper\Utils::logger('nodeContent_test: '.$nodeContent." domain: ".$domain." domain_jq: ".$domain_jq);
+                // $domain_jq = strstr($nodeContent,'jquery-1.8.1.min.js');
+                // \App\Helper\Utils::logger('nodeContent_test: '.$nodeContent." domain: ".$domain." domain_jq: ".$domain_jq);
 
-                if($domain_jq)
-                {
-                    $node_js->parentNode->removeChild($node_js);
+                // if($domain_jq)
+                // {
+                //     # jq文件复制到index同级目录
+                //     $jsLink[] = 'jquery-1.8.1.min.js';
 
-                    // # jq文件复制到index同级目录
-                    // $jsLink[] = 'jquery-1.8.1.min.js';
-
-                    // # 替换DOM节点 内容
-                    // $node_js->nodeValue = 'if (!window.jQuery){
-                    //   var script = document.createElement("script");
-                    //   script.src = "jquery-1.8.1.min.js";
-                    //   window.onload=function(){document.body.appendChild(script);}}';
-                }
+                //     # 替换DOM节点 内容
+                //     $node_js->nodeValue = 'if (!window.jQuery){
+                //       var script = document.createElement("script");
+                //       script.src = "jquery-1.8.1.min.js";
+                //       window.onload=function(){document.body.appendChild(script);}}';
+                // }
 
             }
 
@@ -199,16 +197,13 @@ class pdfConversionH5 extends Command
                 # 原有的recommend-0.2.js 替换为 bridge.js
                 # 调换节点位置
                 if($jsLink_arr[1] == 'wxpt.js'){
-                    $node_js->setAttribute('src', 'jquery-1.8.1.min.js');
+                    $node_js->setAttribute('src', 'scmod0-0.91.js');
+                    // $jsLink[] = 'scmod1-0.3.js';
                 }
                 if($jsLink_arr[1] == 'recommend-0.2.js'){
-                    $node_js->setAttribute('src', 'scmod0-0.91.js');
-                }
-                if($jsLink_arr[1] == 'scmod0-0.91.js'){
                     $node_js->setAttribute('src', 'bridge.js');
                     $jsLink[] = 'bridge.js';
                 }
-
 
                 # 修改属性
                 if($jsLink_arr[1] != 'wxpt.js' && $jsLink_arr[1] != 'recommend-0.2.js'){

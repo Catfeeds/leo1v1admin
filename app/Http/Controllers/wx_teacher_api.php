@@ -1419,6 +1419,9 @@ class wx_teacher_api extends Controller
     }
 
 
+    /**
+     * ppt => h5
+     */
     public function getConversionStatus(){
         $uuid = $this->get_in_str_val('uuid');
         $status = $this->get_in_str_val('s');
