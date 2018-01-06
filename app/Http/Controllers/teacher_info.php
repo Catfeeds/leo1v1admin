@@ -3073,8 +3073,8 @@ class teacher_info extends Controller
             $info = $this->t_teacher_info->get_subject_grade_by_teacherid($teacherid);
             $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
             $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade($info['second_grade_start'], $info['second_grade_end']);
-            $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade(1, 2);
-            $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade(4, 4);
+            // $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade(1, 2);
+            // $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade(4, 4);
 
             $data = [];
             $data[0]['subject'] = $info['subject'];
