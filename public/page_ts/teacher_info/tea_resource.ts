@@ -247,6 +247,7 @@ $(function(){
         },function(){
             $('.resource,.tag_two,.tag_three,.tag_four').parent().parent().hide();
 
+            $('#id_tea_file').after('<span style="padding-left:5px;">提示：文件大小不超过15M</span>');
             $('.sel_flag').each(function(){
                 if($(this).parent().prev().text() == ''){
                     $(this).parent().parent().hide();
