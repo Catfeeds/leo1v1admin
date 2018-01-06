@@ -783,9 +783,9 @@ class main_page extends Controller
 
     public  function assistant() {
         $this->switch_tongji_database();
-        // return $this->error_view([
-        //     "关闭首页统计,请看其它."
-        // ]);
+        return $this->error_view([
+            "关闭首页统计,请看其它."
+        ]);
 
         $end_time = strtotime( date("Y-m-d") );
         $end_time_date = date("Y-m-d") ;
