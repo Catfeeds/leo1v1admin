@@ -418,14 +418,26 @@ class agent extends Controller
 
     public function check(){
         $this->check_and_switch_tongji_domain();
-        // $adminid_list = [314,508,1157,1072,945,916,487,962,1077,834];
-        $adminid = 314;
+        $adminid_list = [314,508,1157,1072,945,916,487,962,1077,834];
+        // $adminid = 314;
         list($start_time,$end_time)=[1509465600,1512057600];
-        $phone_list = $this->t_tq_call_info->get_list_by_adminid($adminid,$start_time,$end_time);
+        $phone_arr = [];
+        $phone_list = $this->t_tq_call_info->get_list_by_adminid($adminid_list,$start_time,$end_time);
+        foreach($adminid_list as $info){
+            $adminid = $info;
+            foreach($phone_list as $item){
+                if($item['adminid'] == $adminid){
+                    $phone_arr[$adminid][] = $item;
+                }
+            }
+        }
+        dd($phone_arr);
         $phone_count = count(array_unique(array_column($phone_list,'phone')));
-        dd($phone_count);
-        $seller_count = $this->t_seller_student_new->get_seller_count_by_adminid($adminid,$start_time,$end_time);
-        $test_count = $this->t_test_lesson_subject_require->get_item_count($start_time,$end_time,$adminid);
+        $seller_count = $this->t_seller_student_new->get_seller_count_by_adminid($adminid_list,$start_time,$end_time);
+        $test_info = $this->t_test_lesson_subject_require->get_item_count($start_time,$end_time,$adminid);
+        $test_count = $test_info['test_lesson_count'];
+        $suc_count = $test_info['succ_all_count'];
+        dd($test_count);
     }
 
     public function test_new(){
