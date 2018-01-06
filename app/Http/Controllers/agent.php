@@ -419,23 +419,23 @@ class agent extends Controller
     public function check(){
         $this->check_and_switch_tongji_domain();
         $adminid_list = [314,508,1157,1072,945,916,487,962,1077,834];
-        list($start_time,$end_time,$ret_info)=[1509465600,1512057600,[]];
+        list($start_time,$end_time,$ret,$ret_info)=[1509465600,1512057600,[],[]];
         $phone_list = $this->t_tq_call_info->get_item_by_adminid($adminid_list,$start_time,$end_time);
         foreach($adminid_list as $info){
             $adminid = $info;
             foreach($phone_list as $item){
                 if($item['adminid'] == $adminid){
-                    $ret_info[$adminid][] = $item;
+                    $ret[$adminid][] = $item;
                 }
             }
         }
-        foreach($ret_info as $adminid=>$item){
-            $ret_info[$adminid] = count(array_unique(array_column($item,'phone')));
+        foreach($ret as $adminid=>$item){
+            $ret_info[$adminid]['called_count'] = count(array_unique(array_column($item,'phone')));
         }
         // $seller_count = $this->t_seller_student_new->get_seller_count_by_adminid($adminid_list,$start_time,$end_time);
         $test_list = $this->t_test_lesson_subject_require->get_item_count($start_time,$end_time,$adminid_list);
         foreach($test_list as $item){
-            $ret_info[$item['admin_revisiterid']]['count'] = $item['test_lesson_count'];
+            $ret_info[$item['admin_revisiterid']]['test_count'] = $item['test_lesson_count'];
             $ret_info[$item['admin_revisiterid']]['suc_count'] = $item['succ_all_count'];
         }
         dd($ret_info);
