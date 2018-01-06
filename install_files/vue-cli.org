@@ -1,0 +1,26 @@
+error in ./src/App.vue
+
+Syntax Error: Unexpected token {
+
+
+@ ./src/main.js 4:0-24
+@ multi ./build/dev-client ./src/main.js
+
+error in ./src/components/HelloWorld.vue
+
+Syntax Error: Unexpected token {
+
+
+@ ./src/router/index.js 3:0-49
+@ ./src/main.js
+@ multi ./build/dev-client ./src/main.js
+
+> Listening at http://localhost:8080
+
+ 
+
+ 
+
+安装"vue-loader": "11.1.4",可解决
+
+npm install vue-loader@11.1.4
