@@ -419,7 +419,7 @@ class agent extends Controller
     public function check(){
         $this->check_and_switch_tongji_domain();
         $start_time = strtotime($this->get_in_str_val('start_time','2017-11-01'));
-        $end_time = strtotime($this->get_in_str_val('start_time','2017-12-01'));
+        $end_time = strtotime($this->get_in_str_val('end_time','2017-12-01'));
         list($adminid_list,$ret,$ret_info)=[[314,508,1157,1072,945,916,487,962,1077,834],[],[]];
         $manager_list = $this->t_manager_info->get_item_list($adminid_list);
         foreach($manager_list as $item){
