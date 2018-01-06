@@ -420,6 +420,10 @@ class agent extends Controller
         $this->check_and_switch_tongji_domain();
         $adminid_list = [314,508,1157,1072,945,916,487,962,1077,834];
         list($start_time,$end_time,$ret,$ret_info)=[1509465600,1512057600,[],[]];
+        $manager_list = $this->t_manager_info->get_item_list($adminid_list);
+        foreach($manager_list as $item){
+            $ret_info[$item['adminid']]['account'] = $item['account'];
+        }
         $phone_list = $this->t_tq_call_info->get_item_by_adminid($adminid_list,$start_time,$end_time);
         foreach($adminid_list as $info){
             $adminid = $info;
@@ -432,7 +436,10 @@ class agent extends Controller
         foreach($ret as $adminid=>$item){
             $ret_info[$adminid]['called_count'] = count(array_unique(array_column($item,'phone')));
         }
-        // $seller_count = $this->t_seller_student_new->get_seller_count_by_adminid($adminid_list,$start_time,$end_time);
+        $seller_list = $this->t_seller_student_new->get_item_by_adminid($adminid_list,$start_time,$end_time);
+        foreach($seller_list as $item){
+            $ret_info[$item['adminid']]['seller_count'] = $item['count'];
+        }
         $test_list = $this->t_test_lesson_subject_require->get_item_count($start_time,$end_time,$adminid_list);
         foreach($test_list as $item){
             $ret_info[$item['admin_revisiterid']]['test_count'] = $item['test_lesson_count'];
