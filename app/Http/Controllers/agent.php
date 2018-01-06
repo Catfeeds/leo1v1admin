@@ -438,10 +438,8 @@ class agent extends Controller
         }
         $seller_list = $this->t_seller_student_new->get_item_by_adminid($adminid_list,$start_time,$end_time);
         foreach($seller_list as $item){
+            $item['count'] = isset($item['count'])?$item['count']:0;
             $ret_info[$item['adminid']]['seller_count'] = $item['count'];
-            if(!isset($ret_info[$item['adminid']]['seller_count'])){
-                $ret_info[$item['adminid']]['seller_count'] = 0;
-            }
         }
         $test_list = $this->t_test_lesson_subject_require->get_item_count($start_time,$end_time,$adminid_list);
         foreach($test_list as $item){
