@@ -2071,9 +2071,10 @@ class teacher_info extends Controller
             if($val['lesson_type'] != 2){
                 $val['money']       = $this->get_teacher_base_money($teacherid,$val);
                 $val['lesson_base'] = $val['money']*$lesson_count;
-                $lesson_reward      = $this->get_lesson_reward_money(
-                    $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$teacher_type,$val['type']
-                );
+                // $lesson_reward      = $this->get_lesson_reward_money(
+                //     $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$teacher_type,$val['type']
+                // );
+                $lesson_reward       = 0;
                 $list_lesson_key     = "normal_lesson";
                 $list_lesson_key_str = "常规课";
                 $lesson_total_key    = "normal_lesson_total";

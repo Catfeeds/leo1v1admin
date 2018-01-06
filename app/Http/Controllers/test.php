@@ -60,6 +60,17 @@ class test extends Controller
         return $this->get_user_list();
     }
 
+    public function test_user_list() {
+        $grade = $this->get_in_int_val("grade");
+        $this->set_in_value("grade", $grade);
+        //$sys_operator_uid= $this->get_account_id();
+        //$this->get_account_role();
+        $this->set_in_value("adminid", $this->get_account_id())  ;
+
+        $this->html_power_list_add([ "grade","opt_grade", "input_grade" ]);
+        return $this->get_user_list();
+    }
+
     public function set_student_nick() {
         $userid=$this->get_in_userid();
         $nick=$this->get_in_str_val("nick");

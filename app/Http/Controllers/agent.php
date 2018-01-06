@@ -419,7 +419,7 @@ class agent extends Controller
     public function check(){
         $this->check_and_switch_tongji_domain();
         $start_time = strtotime($this->get_in_str_val('start_time','2017-11-01'));
-        $end_time = strtotime($this->get_in_str_val('start_time','2017-12-01'));
+        $end_time = strtotime($this->get_in_str_val('end_time','2017-12-01'));
         list($adminid_list,$ret,$ret_info)=[[314,508,1157,1072,945,916,487,962,1077,834],[],[]];
         $manager_list = $this->t_manager_info->get_item_list($adminid_list);
         foreach($manager_list as $item){
@@ -447,7 +447,7 @@ class agent extends Controller
             $ret_info[$item['admin_revisiterid']]['suc_count'] = $item['succ_all_count'];
         }
         echo '<table border="1" width="600" align="center">';
-        echo '<caption><h1>联系人列表</h1></caption>';
+        echo '<caption><h1>'.date('Y-m',$start_time).'月</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
         echo '<th>销售</th><th>拨打数</th><th>认领数</th><th>邀约数</th><th>试听成功数</th>';
         echo '</tr>';
@@ -469,6 +469,16 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $id = $this->t_seller_new_count_get_detail->add( $new_count_id=11, $get_desc='a',$userid=10 );
+        dd($id);
+        $id = $this->t_seller_new_count_get_detail->get_row_by_userid($new_count_id=11, $userid=10);
+        dd($id);
+        $major_groupid = $this->t_admin_majordomo_group_name->get_master_adminid_by_adminid($adminid=99);
+        if($major_groupid>0){
+            $is_group_leader_flag = 1;
+            dd('b');
+        }
+        dd('a');
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         dd($start_time,$end_time);
         dd('a');
