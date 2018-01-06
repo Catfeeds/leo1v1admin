@@ -56,7 +56,7 @@ class Controller extends ControllerEx
             foreach( $url_input_define as $v ){
                 if( $url == $v['url'] ){
                     if( $v['field_type'] != 'function'){
-                        $this->set_in_value($v['field_name'], $v['field_val']);
+                        $this->set_in_value($v['field_name'], $v['field_val_str']);
                     }else{
                         switch ($v['field_val'])
                         {
