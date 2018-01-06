@@ -371,9 +371,7 @@ class login extends Controller
         }
 
         $permission = $this->reset_power($account);
-
-
-        session($_SESSION) ;
+        session($_SESSION);
         $this->t_admin_users->set_last_ip( $account,$ip );
 
         return $this->output_succ( array(

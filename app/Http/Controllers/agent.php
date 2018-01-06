@@ -469,6 +469,10 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $id = $this->t_seller_new_count_get_detail->add( $new_count_id=11, $get_desc='a',$userid=10 );
+        dd($id);
+        $id = $this->t_seller_new_count_get_detail->get_row_by_userid($new_count_id=11, $userid=10);
+        dd($id);
         $major_groupid = $this->t_admin_majordomo_group_name->get_master_adminid_by_adminid($adminid=99);
         if($major_groupid>0){
             $is_group_leader_flag = 1;

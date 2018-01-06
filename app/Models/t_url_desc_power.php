@@ -28,6 +28,11 @@ class t_url_desc_power extends \App\Models\Zgen\z_t_url_desc_power
     }
 
     public function url_desc_power_by_gid($gid_str){
+        $gid_str = $this->checkStr($gid_str);
+        if(!$gid_str){
+            return null;
+        }
+
         $sql=$this->gen_sql_new("select id,role_groupid,url,opt_key,open_flag from %s where role_groupid in (%s) "
                                 ,self::DB_TABLE_NAME
                                 ,$gid_str
@@ -66,6 +71,26 @@ class t_url_desc_power extends \App\Models\Zgen\z_t_url_desc_power
         }
 
         return $data;
+    }
+
+    private function checkStr($gid_str){
+        if( empty($gid_str) || $gid_str == "," || gettype($gid_str) != "string" ){
+            return false;
+        }
+        $strlenth = strlen($gid_str) - 1;
+        if( $strlenth == 0 ){
+            return $gid_str;
+        }
+
+        $last = strrpos($gid_str,',');
+        $first = strpos($gid_str,',');
+        if( $first == 0 ){
+            $gid_str = substr($gid_str,1);
+        }
+        if( $last == $strlenth ){
+            $gid_str = substr($gid_str,0,-1);
+        }
+        return $gid_str;
     }
 
 }
