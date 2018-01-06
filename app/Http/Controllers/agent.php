@@ -469,6 +469,12 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $major_groupid = $this->t_admin_majordomo_group_name->get_master_adminid_by_adminid($adminid=99);
+        if($major_groupid>0){
+            $is_group_leader_flag = 1;
+            dd('b');
+        }
+        dd('a');
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         dd($start_time,$end_time);
         dd('a');

@@ -36,8 +36,27 @@ class t_admin_majordomo_group_name extends \App\Models\Zgen\z_t_admin_majordomo_
         return $this->main_get_list($sql);
     }
 
+    public function get_majordomo_master_adminid($adminid){
+        $where_arr=[
+            ["main_type=%u",$main_type_flag,0],
+        ];
+        $sql=$this->gen_sql_new("select * from %s where %s",
+                                self::DB_TABLE_NAME,
+                                $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
-    
+    public function get_master_adminid_by_adminid($adminid){
+        $sql = $this->gen_sql_new(
+            " select groupid "
+            ." from %s "
+            ." where master_adminid = %u "
+            ,self::DB_TABLE_NAME
+            ,$adminid
+        );
+        return $this->main_get_value($sql);
+    }
 
 }
 
