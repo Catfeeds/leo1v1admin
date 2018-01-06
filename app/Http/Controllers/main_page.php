@@ -358,9 +358,8 @@ class main_page extends Controller
 
 
 
-        //组长&主管
+        //组长
         $test_seller_id = $this->get_in_int_val("test_seller_id",-1);
-
         $seller_account = $this->t_manager_info->get_account($test_seller_id);
         $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
         $son_adminid_arr = [];
@@ -381,6 +380,10 @@ class main_page extends Controller
             $is_group_leader_flag = 1;
         }else{
             $is_group_leader_flag = 0;
+        }
+        $major_groupid = $this->t_admin_majordomo_group_name->get_master_adminid_by_adminid($adminid);
+        if($major_groupid>0){
+            $is_group_leader_flag = 1;
         }
         $self_info= $this->t_order_info->get_1v1_order_seller($this->get_account(),
                                                               $start_time,$end_time );
