@@ -1699,19 +1699,19 @@ class Common {
         $replace=[
             "　　　",
             "　　　",
-            "　　　 ",
-            "　　　 ",
-            "　　　 ",
             "　　　",
-            "　　　 ",
+            "　　　",
+            "　　　",
+            "　　　",
+            "　　　",
             "gz_null.png",
             "　　　",
             "　　　",
-            "　　　 ",
-            "　　　 "
+            "　　　",
+            "　　　"
         ];
         $order_sex= str_replace($search,$replace, $order_temp );
-        $base_file_name= "order_empty_1001113" ;
+        $base_file_name= "order_empty_unique_leo123" ;
         // if( $gong_zhang_flag ) {
         //     $base_file_name.="_gz";
         // }
