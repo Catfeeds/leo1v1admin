@@ -2513,8 +2513,7 @@ class teacher_info extends Controller
         // dd($tea_info);
         $resource_type = $this->get_in_int_val('resource_type', 1);
         $subject       = $this->get_in_int_val('subject', @$tea_info[0]['subject']);
-        $grade         = $this->get_in_int_val('grade', @$tea_info[0]['grade'][0]);
-        $flag = 0;
+        $flag    = 0;
         $tea_gra = [];
         $tea_sub = [];
         foreach($tea_info as $item){
@@ -2522,15 +2521,15 @@ class teacher_info extends Controller
             if($item['subject'] == $subject){
                 $flag = 1;
                 $tea_gra = $item['grade'];
-                if(!in_array($grade, $item['grade'])){
-                    $garde = @$item['grade'][0];
-                }
+                $grade = $this->get_in_int_val('grade', @$tea_gra[0]);
             }
         }
         if($flag == 0){
             $subject = $tea_info[0]['subject'];
-            $garde = $tea_info[0]['grade'][0];
+            $tea_gra = $tea_info[0]['grade'];
         }
+        $grade = $this->get_in_int_val('grade', @$tea_gra[0]);
+        // dd($grade);
         $tag_one       = $this->get_in_int_val('tag_one', -1);
         $tag_two       = $this->get_in_int_val('tag_two', -1);
         $tag_three     = $this->get_in_int_val('tag_three', -1);
@@ -3071,6 +3070,7 @@ class teacher_info extends Controller
         $teacherid = $this->get_login_teacher();
         if($teacherid != false){
             $info = $this->t_teacher_info->get_subject_grade_by_teacherid($teacherid);
+            // dd($info);
             $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
             $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade($info['second_grade_start'], $info['second_grade_end']);
             // $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade(1, 2);
@@ -3078,9 +3078,9 @@ class teacher_info extends Controller
 
             $data = [];
             $data[0]['subject'] = $info['subject'];
-            $data[0]['grade'] = $grade_1;
+            $data[0]['grade'] = array_values($grade_1);
             $data[1]['subject'] = $info['second_subject'];
-            $data[1]['grade'] = $grade_2;
+            $data[1]['grade'] = array_values($grade_2);
             return $data;
         }
         return false;
