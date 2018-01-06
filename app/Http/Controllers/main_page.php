@@ -405,7 +405,7 @@ class main_page extends Controller
             $all_price = $item['all_price'];
             $month_money = isset($item['month_money'])?$item['month_money']:0;
             $item['finish_per'] = $month_money>0?$all_price/$month_money:0;
-            $item['finish_per'] = round($item['finish_per']*100,1);
+            $item['finish_per'] = round($item['finish_per']*100,1).'%';
             if($this->get_account() !== 'Tina' && $key>2){
                 $item["all_count"] = "***";
                 $item["all_price"] = "***";

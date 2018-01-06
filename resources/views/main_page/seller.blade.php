@@ -376,13 +376,13 @@
                                         </td>
                                         <td class="all_price">
                                             @if($key==0)
-                                                <font style="color:#F6A623;">{{$var["finish_per"]}}%</font>
+                                                <font style="color:#F6A623;">{{$var["finish_per"]}}</font>
                                             @elseif($key==1)
-                                                <font style="color:#9EB0C2;">{{$var["finish_per"]}}%</font>
+                                                <font style="color:#9EB0C2;">{{$var["finish_per"]}}</font>
                                             @elseif($key==2)
-                                                <font style="color:#CB7F31;">{{$var["finish_per"]}}%</font>
+                                                <font style="color:#CB7F31;">{{$var["finish_per"]}}</font>
                                             @else
-                                                {{$var["finish_per"]}}%
+                                                {{$var["finish_per"]}}
                                             @endif
                                         </td>
                                     </tr>
