@@ -102,9 +102,10 @@ class pdfConversionH5 extends Command
                 shell_exec($cpImg);
             }
 
-
-
-
+            $fntPathFrom = public_path('ppt')."/".$uuid."/data/fnt0.woff";
+            $fntPathTo   = public_path('ppt')."/".$uuid."/fnt0.woff";
+            $cpFnt = "cp $fntPathFrom $fntPathTo ";
+            shell_exec($cpFnt);
 
 
             # 重新打包压缩

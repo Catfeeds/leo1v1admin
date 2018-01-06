@@ -37,9 +37,9 @@ class Controller extends ControllerEx
     }
 
     public function  set_call_ctl_init(){        
-	if (\App\Helper\Utils::check_env_is_testing()) {
-		return;
-	}
+        if (\App\Helper\Utils::check_env_is_testing()) {
+            return;
+        }
 		
         $url_input_define = session('url_input_define') ? json_decode(session('url_input_define'),true) : [];
         $url_desc_power = session('url_desc_power') ? json_decode(session('url_desc_power'),true) : [];
@@ -60,7 +60,7 @@ class Controller extends ControllerEx
             foreach( $url_input_define as $v ){
                 if( $url == $v['url'] ){
                     if( $v['field_type'] != 'function'){
-                        $this->set_in_value($v['field_name'], $v['field_val']);
+                        $this->set_in_value($v['field_name'], $v['field_val_str']);
                     }else{
                         switch ($v['field_val'])
                         {
