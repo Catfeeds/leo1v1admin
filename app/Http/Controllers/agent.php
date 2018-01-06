@@ -479,7 +479,7 @@ class agent extends Controller
         $adminid_list = array_unique(array_column($adminid_list,'adminid'));
         $person_count = count($adminid_list);
         $leave_count  = 0;
-        $adminid_info = $tt->t_manager_info->get_group_admin_list($adminid_list);
+        $adminid_info = $this->t_manager_info->get_group_admin_list($adminid_list);
         foreach($adminid_info as $key=>$item){
             $adminid = $item['adminid'];
             $full_month_flag = 1;
