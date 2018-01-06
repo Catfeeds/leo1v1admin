@@ -37,7 +37,7 @@
                     </select>
                 </div>
             </div>
-            @if (  isset($html_power_list["input_account_role"] )  )
+            @if (  isset($html_power_list["input_account_role"] ) || true  )
             <div class="col-md-2 col-xs-0">
                 <div class="input-group ">
                     <span>角色</span>
@@ -127,7 +127,7 @@
                     <td style="display:none;">电子邮箱</td>
                     <td>手机号</td>
 
-                    @if (  isset($html_power_list["account_role"] )  )
+                    @if (  isset($html_power_list["account_role"] ) || true )
                         <td>角色</td>
                     @endif
                     <td>权限组</td>
