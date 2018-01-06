@@ -469,12 +469,6 @@ class agent extends Controller
     }
 
     public function test_new(){
-        //入职小于2月,定级>D
-        $id_list = $this->t_seller_level_month->get_item_list();
-        foreach($id_list as $item){
-            $id = $item['id'];
-            $this->t_seller_level_month->row_delete($id);
-        }
         dd('a');
     }
 
