@@ -967,7 +967,7 @@ class teacher_info extends Controller
         $status    = $this->get_in_int_val("status",-1);
 
         $phone    = $this->t_teacher_info->get_phone($teacherid);
-        $ret_info = $this->t_teacher_lecture_appointment_info->get_all_info_b1($page_num,$start_time,$end_time,$phone,$status);
+        $ret_info = $this->t_teacher_lecture_appointment_info->get_all_info_new($page_num,$start_time,$end_time,$phone,$status);
 
         if($phone=="15366667766"){
              $show_teacher_info=1;
@@ -989,16 +989,14 @@ class teacher_info extends Controller
                 }else{
                     E\Electure_status::set_item_value_str($item,"status");
                 }
-                $item['name']  = mb_substr($item['name'],0,1,"utf-8")."老师";
-                $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
+                if(!$show_teacher_info){
+                    $item['name']  = mb_substr($item['name'],0,1,"utf-8")."老师";
+                    $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
+                }
                 if($item['email']!=""){
                     $item['email'] = substr($item['email'],0,3)."****".substr($item['email'],7);
                 }
             }
-        }else{
-            return $this->pageView(__METHOD__,[],[
-                "lecture_status" => 0
-            ]);
         }
 
         $all_info  = $this->t_teacher_lecture_appointment_info->get_lecture_count_info($start_time,$end_time,$phone);
@@ -1016,6 +1014,7 @@ class teacher_info extends Controller
             $count_num["all"]++;
         }
 
+        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "lecture_status"    => 1,
             "count_num"         => $count_num
