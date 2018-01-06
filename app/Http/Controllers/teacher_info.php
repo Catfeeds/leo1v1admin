@@ -165,7 +165,7 @@ class teacher_info extends Controller
         $page_info = $this->get_in_page_info();
         $page_num  = $this->get_in_page_num();
         $ret_info  = [];
-        $ret_info  = $this->t_teacher_apply->get_teacher_apply_list($teacherid,$page_num);
+        $ret_info  = $this->t_teacher_apply->get_teacher_apply_list_new($teacherid,$page_num);
         foreach($ret_info['list'] as &$item){
             if($item['lesson_type']<1000){
                 $item['ass_nick'] = $this->cache_get_assistant_nick($item['assistantid']);

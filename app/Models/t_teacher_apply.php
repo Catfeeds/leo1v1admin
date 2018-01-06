@@ -29,6 +29,31 @@ class t_teacher_apply extends \App\Models\Zgen\z_t_teacher_apply
         return $this->main_get_list_by_page( $sql,$page_info);
     }
 
+    
+    public function get_teacher_apply_list_new($teacherid,$page_num)
+    {
+        $where_arr = array();
+        if($teacherid){
+            $where_arr = [
+                ['ta.teacherid = %d',$teacherid],  
+            ];
+        }
+        $sql = $this->gen_sql_new("select ta.id,ta.teacherid,ta.cc_id,ta.lessonid,ta.question_type,"
+                                  ." ta.question_content,ta.teacher_flag,ta.teacher_time,ta.cc_flag,"
+                                  ." ta.cc_time,ta.create_time,m.name cc_name,m.phone cc_phone,"
+                                  ." l.assistantid,l.lesson_type,l.lesson_name,l.train_type "
+                                  ." from %s ta "
+                                  ." left join %s m on m.uid = ta.cc_id "
+                                  ." left join %s l on l.lessonid = ta.lessonid "
+                                  ." where %s "
+                                  ." order by ta.create_time desc "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_num);
+    }
     //$this->where_arr_add_int_or_idlist($where_arr,$field_name,$value);
     // $this->where_arr_add_int_or_idlist($where_arr,"userid",$userid);
     // $this->where_arr_add_str_field($where_arr,"id",$id);

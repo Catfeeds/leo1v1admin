@@ -64,7 +64,7 @@
                                         <b class="ft18 text-yellow text-top" style="line-height: 20px">{{$my_info['integrity']}}%</b>
                                     </div>
                                     <div class="col-xs-12">
-                                        <p> 温馨提示：当前您还有<a href="javascript:;" class="color-red">基本信息</a>、<a href="javascript:;" class="color-red">简历</a>、<a href="javascript:;" class="color-red">资格证</a>、<a href="javascript:;" class="color-red">公校证明</a>没有补全。您的信息完整度将与您的晋升挂钩，（信息完整度只与简历、基本信息、银行卡信息有关。）所以请老师认真填写哦。</p>
+                                        <p style="text-indent:2em">温馨提示：当前您还有基本信息、简历、资格证、公校证明没有补全，请老师准确填写。（资料完整度只与简历，基本信息，银行卡信息有关。）</p>
                                         <br />
                                     </div>
                                 </div>
@@ -83,39 +83,39 @@
 
                 <!-- 暂时关闭 -->
                 @if(1==2)
-                <!-- Chat box -->
-                <div class="box box-info-ly collapsed-box">
-                    <div class="box-header">
-                        <h3 class="box-title color-blue" id="my_status" cur-status="{{$my_info['need_test_lesson_flag']}}">当前状态</h3>
-                        <div class="box-tools pull-right">
-                            <b class="color-red" data-status="full">饱和</b>
-                            <b style="color:#00b798" data-status="nofull">不饱和</b>
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-                            </button>
+                    <!-- Chat box -->
+                    <div class="box box-info-ly collapsed-box">
+                        <div class="box-header">
+                            <h3 class="box-title color-blue" id="my_status" cur-status="{{$my_info['need_test_lesson_flag']}}">当前状态</h3>
+                            <div class="box-tools pull-right">
+                                <b class="color-red" data-status="full">饱和</b>
+                                <b style="color:#00b798" data-status="nofull">不饱和</b>
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="bor-hr"></div>
-                    <div class="box-body border-radius-none">
-                        <div class="chart">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <p data-status="full"> 你当前处于饱和状态，不会收到排课邀请，如需排课，可设置状态为不饱和</p>
-                                    <p data-status="nofull">你当前处于不饱和状态，可以收到排课邀请，如需不接收排课需求，可设置状态为饱和</p>
-                                    <br>
-                                    <button type="button" data-opt="set-status" data-status="full" class="btn btn-block btn-info opt-set ft18">设置不饱和</button>
-                                    <button type="button" data-opt="set-status" data-status="nofull" class="btn btn-block btn-info opt-set ft18">设置饱和</button>
+                        <div class="bor-hr"></div>
+                        <div class="box-body border-radius-none">
+                            <div class="chart">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p data-status="full"> 你当前处于饱和状态，不会收到排课邀请，如需排课，可设置状态为不饱和</p>
+                                        <p data-status="nofull">你当前处于不饱和状态，可以收到排课邀请，如需不接收排课需求，可设置状态为饱和</p>
+                                        <br>
+                                        <button type="button" data-opt="set-status" data-status="full" class="btn btn-block btn-info opt-set ft18">设置不饱和</button>
+                                        <button type="button" data-opt="set-status" data-status="nofull" class="btn btn-block btn-info opt-set ft18">设置饱和</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer no-border">
-                        <div class="row">
+                        <!-- /.box-body -->
+                        <div class="box-footer no-border">
+                            <div class="row">
+                            </div>
                         </div>
+                        <!-- /.box-footer -->
                     </div>
-                    <!-- /.box-footer -->
-                </div>
-                <!-- /.box (chat box) -->
+                    <!-- /.box (chat box) -->
                 @endif
                 
                 <!-- Chat box -->
@@ -446,96 +446,96 @@
                 <!-- /.box (chat box) -->
 
                 @if (1>2)
-                <!-- Chat box -->
-                <div class="box box-info-ly">
-                    <div class="box-header">
-                        <h3 class="box-title color-blue">转化率</h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                            </button>
+                    <!-- Chat box -->
+                    <div class="box box-info-ly">
+                        <div class="box-header">
+                            <h3 class="box-title color-blue">转化率</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="bor-hr"></div>
-                    <div class="box-body border-radius-none">
-                        <div class="chart">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <table class="table table-bordered">
-                                        <tr>
-                                            <th style="width:20%">分类</th>
-                                            <th style="width:60%">转化率</th>
-                                            <th style="width:20%">百分比</th>
-                                        </tr>
-                                        <tr>
-                                            <td>新签</td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{$my_info['test_transfor_per']}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$my_info['test_transfor_per']}}%">
+                        <div class="bor-hr"></div>
+                        <div class="box-body border-radius-none">
+                            <div class="chart">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th style="width:20%">分类</th>
+                                                <th style="width:60%">转化率</th>
+                                                <th style="width:20%">百分比</th>
+                                            </tr>
+                                            <tr>
+                                                <td>新签</td>
+                                                <td>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{$my_info['test_transfor_per']}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$my_info['test_transfor_per']}}%">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-yellow">{{$my_info['test_transfor_per']}}%</span></td>
-                                        </tr>
-                                    </table>
+                                                </td>
+                                                <td><span class="badge bg-yellow">{{$my_info['test_transfor_per']}}%</span></td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer no-border">
+                        </div>
+                        <!-- /.box-footer -->
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer no-border">
-                    </div>
-                    <!-- /.box-footer -->
-                </div>
-                <!-- /.box  -->
+                    <!-- /.box  -->
 
-                <!-- Chat box -->
-                <div class="box box-info-ly">
-                    <div class="box-header">
-                        <h3 class="box-title color-blue">上课情况</h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                            </button>
+                    <!-- Chat box -->
+                    <div class="box box-info-ly">
+                        <div class="box-header">
+                            <h3 class="box-title color-blue">上课情况</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="bor-hr"></div>
-                    <div class="box-body border-radius-none">
-                        <div class="chart">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="col-sm-3">
-                                        <div class="col-sm-12 bg-lyellow text-cen bor-rds color-fff">
-                                            <h4>{{$my_info['leave_count']}}次</h4>
-                                            <p>请假次数</p>
+                        <div class="bor-hr"></div>
+                        <div class="box-body border-radius-none">
+                            <div class="chart">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-3">
+                                            <div class="col-sm-12 bg-lyellow text-cen bor-rds color-fff">
+                                                <h4>{{$my_info['leave_count']}}次</h4>
+                                                <p>请假次数</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="col-sm-12 bg-linfo text-cen bor-rds color-fff">
-                                            <h4>{{$my_info['late_count']}}次</h4>
-                                            <p>迟到次数</p>
+                                        <div class="col-sm-3">
+                                            <div class="col-sm-12 bg-linfo text-cen bor-rds color-fff">
+                                                <h4>{{$my_info['late_count']}}次</h4>
+                                                <p>迟到次数</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="col-sm-12 bg-lgreen text-cen bor-rds color-fff">
-                                            <h4>{{$my_info['noevaluate_count']}}次</h4>
-                                            <p>未评价次数</p>
+                                        <div class="col-sm-3">
+                                            <div class="col-sm-12 bg-lgreen text-cen bor-rds color-fff">
+                                                <h4>{{$my_info['noevaluate_count']}}次</h4>
+                                                <p>未评价次数</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="col-sm-12 bg-lpro text-cen bor-rds color-fff">
-                                            <h4>{{$my_info['change_count']}}次</h4>
-                                            <p>被换次数</p>
+                                        <div class="col-sm-3">
+                                            <div class="col-sm-12 bg-lpro text-cen bor-rds color-fff">
+                                                <h4>{{$my_info['change_count']}}次</h4>
+                                                <p>被换次数</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer no-border">
+                        </div>
+                        <!-- /.box-footer -->
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer no-border">
-                    </div>
-                    <!-- /.box-footer -->
-                </div>
-                <!-- /.box (chat box) -->
+                    <!-- /.box (chat box) -->
                     <!-- 暂时不显示内容 -->
                     <div class="box box-info direct-chat direct-chat-warning">
                         <div class="box-header with-border">
