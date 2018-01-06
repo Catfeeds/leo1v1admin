@@ -200,8 +200,7 @@ class pdfConversionH5 extends Command
                      }else{
                       var bridge = document.createElement("script");
                       bridge.src = "bridge.js";
-                      document.body.appendChild(bridge);
-                             ';
+                      window.onload=function(){document.body.appendChild(bridge)};}';
                 }
 
             }
