@@ -370,7 +370,7 @@
                                                 <font style="color:#9EB0C2;">{{$var["all_price"]}}</font>
                                             @elseif($key==2)
                                                 <font style="color:#CB7F31;">{{$var["all_price"]}}</font>
-                                            @elseif($key>2)
+                                            @else
                                             @endif
                                         </td>
                                         <td class="all_price">
