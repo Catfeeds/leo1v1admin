@@ -2779,7 +2779,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_del_flag=0"
         ];
         $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start_time, $end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,l.subject,l.userid,l.lesson_start,tr.id"
+        $sql = $this->gen_sql_new("select l.teacherid,l.subject,l.userid,l.lesson_start,tr.id,l.lessonid "
                                   ." from %s l left join %s s on l.userid = s.userid"
                                   ." left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s tr on l.teacherid = tr.teacherid and l.userid=tr.userid and l.subject = tr.lesson_subject and tr.type=18"
