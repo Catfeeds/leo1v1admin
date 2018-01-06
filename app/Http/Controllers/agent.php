@@ -469,7 +469,10 @@ class agent extends Controller
     }
 
     public function test_new(){
-        dd('a');
+        if((in_array($this->get_account(),['Tina','tom']))){
+            dd('a');
+        }
+        dd('b');
     }
 
     //处理等级头像
