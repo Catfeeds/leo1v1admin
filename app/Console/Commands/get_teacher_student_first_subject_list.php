@@ -43,7 +43,7 @@ class get_teacher_student_first_subject_list extends Command
         $time = strtotime("2016-12-01");
         // $end_time = strtotime("2018-01-06");
         $i=0;
-        for($j=1;$j<=12;$j++){
+        for($j=11;$j<=12;$j++){
             $start_time = strtotime("+$i months",$time);
             $end_time = strtotime("+1 months",$start_time);
             $list  = $task->t_lesson_info_b3->get_teacher_student_first_subject_info($start_time,$end_time);
