@@ -138,7 +138,7 @@
                                 <li ><a href="{{@$_cur_http}}/teacher_info/get_teacher_basic_info" ><i class="fa fa-user"></i>基本信息 </a></li>
                                 {{-- <li ><a href="/teacher_info/get_teacher_student"><i class="fa fa-graduation-cap"></i>我的学生</a></li> --}} 
                                 {{-- <li ><a href="index2.html"><i class="fa fa-cog"></i>操作台</a></li> --}}
-                                <li ><a href="{{@$_cur_http}}/teacher_info/get_teacher_money_info"><i class="fa fa-database"></i>薪资相关</a></li>
+                                {{--<li ><a href="{{@$_cur_http}}/teacher_info/get_teacher_money_info"><i class="fa fa-database"></i>薪资相关</a></li>--}}
                             </ul>
                         </li>
                        {{-- <li  ><a href="{{@$_cur_http}}/teacher_info/file_store"><i class="fa fa-book"></i> <span>资料库</span> </a></li>--}}
