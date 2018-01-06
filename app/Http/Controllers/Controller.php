@@ -45,24 +45,36 @@ class Controller extends ControllerEx
         if(!empty($url_desc_power)){
             foreach($url_desc_power as $v){
                 if( $url == $v['url'] && $v['open_flag'] == 0 ){
-                    $hide_desc_power.push($v['opt_key']);
+                    array_push($hide_desc_power,$v['opt_key']);
                 }
             }
         }
 
         $this->html_power_list_add($hide_desc_power);
-
+        //dd($hide_desc_power);
         if(!empty($url_input_define)){
             foreach( $url_input_define as $v ){
                 if( $url == $v['url'] ){
                     if( $v['field_type'] != 'function'){
                         $this->set_in_value($v['field_name'], $v['field_val']);
                     }else{
-                        $this->set_in_value($v['field_name'], $this->$v['field_val']);
+                        switch ($v['field_val'])
+                        {
+                        case 1:
+                            $this->set_in_value($v['field_name'], $this->get_account());
+                            break;
+                        case 2:
+                            $this->set_in_value($v['field_name'], $this->get_account_id());
+                            break;
+                        case 3:
+                            $this->set_in_value($v['field_name'], $this->get_account_role());
+                            break;                 
+                        }
                     }
                 }
             }
         }
+        //dd($url_input_define);
         /*
         $this->set_in_value("grade", 101);
         $this->set_in_value("grade",  this->get_account_id());

@@ -13,19 +13,21 @@ class user_power extends Controller
 	{
 		$url       = $this->get_in_str_val('url');
         $group_id  = $this->get_in_int_val('group_id',"");
-        $controller_name = substr($url, strripos($url,"/") + 1);
-        if(!$controller_name){
+        $desc_class = $this->get_class_function($url);
+        
+        if(!$desc_class){
             return $this->output_succ();
         }
-        //dd($controller_name);
+
+        //dd($desc_class);
         //查找是否存在该类
-        $desc_class="\\App\\Config\\url_desc_power\\test\\".$controller_name;
+        $desc_class="\\App\\Config\\url_desc_power\\".$desc_class[0]."\\".$desc_class[1];
 
         if(!class_exists($desc_class)){
             return $this->output_succ();
         };
         $desc_power = $desc_class::get_config();
-        //dd($desc_power2);
+        //dd($desc_power);
         $select_power = [];
         if($group_id){        
             $select_power = $this->t_url_desc_power->url_desc_power_list($group_id,$url);
@@ -33,18 +35,37 @@ class user_power extends Controller
 
             if($select_power){
                 $result = array_column($select_power,"open_flag","opt_key");
-            }
-            
-            foreach( $desc_power as &$item){
-                if( !empty($result) && array_key_exists($item[0],$result) && $result[$item[0]] != 1 ){
-                    array_push($item,0);
-                }else{
-                    array_push($item,1);
+                foreach( $desc_power as &$item){
+                    if(  array_key_exists($item['field_name'],$result) ){
+                        $item['field_value'] = $result[$item['field_name']];
+                    }
                 }
             }
+  
         }
         return $this->output_succ(["data"=> $desc_power]);
 	}
+
+    //查看该类和方法是否存
+    private function get_class_function($url){
+        if(!$url){
+            return false;
+        }
+        $strpos = strripos($url,"/");
+        if(!$strpos){
+            return false;
+        }
+        $controller_name = substr($url,1,$strpos - 1);
+        if(!$controller_name){
+            return false;
+        }
+        
+        $func_name = substr($url, $strpos + 1);
+        if(!$func_name){
+            return false;
+        }
+        return [$controller_name,$func_name];
+    }
 
     public function save_desc_power(){
         $url       = $this->get_in_str_val('url');
@@ -101,13 +122,15 @@ class user_power extends Controller
 	{
 		$url       = $this->get_in_str_val('url');
         $group_id  = $this->get_in_int_val('group_id');
-        $controller_name = substr($url, strripos($url,"/") + 1);
-        if(!$controller_name){
+        $desc_class = $this->get_class_function($url);
+        
+        if(!$desc_class){
             return $this->output_succ();
         }
-        //dd($controller_name);
+
+        //dd($desc_class);
         //查找是否存在该类
-        $desc_class="\\App\\Config\\url_desc_power\\test\\".$controller_name;
+        $desc_class="\\App\\Config\\url_desc_power\\".$desc_class[0]."\\".$desc_class[1];
 
         if(!class_exists($desc_class)){
             return $this->output_succ();
@@ -125,8 +148,7 @@ class user_power extends Controller
                     if( array_key_exists($item['field_name'],$result) ){
                         $item['field_val'] = $result[$item['field_name']];
                     }           
-                }
-           
+                }          
             }
             
         }
@@ -137,7 +159,7 @@ class user_power extends Controller
         $url       = $this->get_in_str_val('url');
         $group_id  = $this->get_in_int_val('group_id');
         $save_data  = $this->get_in_str_val('save_data');
-
+        //dd($save_data);
         if(!$url || !$group_id ){
             return $this->output_succ();
         }
@@ -150,7 +172,8 @@ class user_power extends Controller
         if($save_data){
             foreach($save_data as $key => $val){
                 $data["field_name"] = $key;
-                $data["field_val"] = $val;
+                $data["field_val"] = $val[0];
+                $data["field_type"] = $val[1];
                 $this->save_edit_input_define($data);
             }
         }
