@@ -14,13 +14,19 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_main(){
-        $pdf_file_url=\App\Helper\Common::gen_order_pdf_empty();
+        $pdf_file = "/home/ybai/no_order_show_parent_unique.pdf";
+        $qiniu_file_name=\App\Helper\Utils::qiniu_upload($pdf_file);
+
+        //$ret=\App\Helper\Utils::exec_cmd("rm -rf /tmp/$base_file_name.*");
+        $pdf_file_url= \App\Helper\Config::get_qiniu_public_url()."/". $qiniu_file_name;
+
+        //  $pdf_file_url=\App\Helper\Common::gen_order_pdf_empty();
 
         dd($pdf_file_url);
 
         $this->switch_tongji_database();
         $this->check_and_switch_tongji_domain();
-        $start_time = strtotime("2017-01-01");
+        $start_time = strtotime("2018-01-01");
         $end_time = time();
         $list  = $this->t_lesson_info_b3->get_teacher_student_first_subject_info($start_time,$end_time);
         dd($list);

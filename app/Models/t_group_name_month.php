@@ -57,14 +57,17 @@ class t_group_name_month extends \App\Models\Zgen\z_t_group_name_month
             ["gn.master_adminid = %d ",$adminid],
             ["gn.month = %d ",$month],
             ["gu.month = %d ",$month],
+            "((am.leave_member_time>$month and am.del_flag=1) or am.del_flag =0)",
         ];
 
         $sql = $this->gen_sql_new(" select adminid "
                                   ." from %s gn "
                                   ." left join %s gu on gn.groupid = gu.groupid"
+                                  ." left join %s am on am.uid = gu.adminid "
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_group_user_month::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
 
