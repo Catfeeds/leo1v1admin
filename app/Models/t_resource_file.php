@@ -203,7 +203,8 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
     public function getH5PosterInfo(){
         $where_arr = [
             "f.status=0",
-            // "f.file_use_type=0",
+            "f.file_use_type=0",
+            "f.file_type=pdf",
             "f.change_status=0"
         ];
 
