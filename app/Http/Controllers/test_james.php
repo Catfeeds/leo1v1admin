@@ -1698,6 +1698,14 @@ class test_james extends Controller
         $userInfo = UserManage::getUserInfo($openId['openid']);
     }
 
+    public function t_ss(){
+        $list = $this->t_resource_file->get_list_tmp();
+
+        foreach($list as $v){
+            
+        }
+    }
+
 
 
 

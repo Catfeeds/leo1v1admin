@@ -75,6 +75,7 @@ class Controller extends ControllerEx
             }
         }
         //dd($url_input_define);
+        //$this->html_power_list_add([ "grade","opt_grade", "input_grade" ]);
         /*
         $this->set_in_value("grade", 101);
         $this->set_in_value("grade",  this->get_account_id());

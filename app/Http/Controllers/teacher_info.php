@@ -98,7 +98,6 @@ class teacher_info extends Controller
                 E\Ehabit_remodel::set_item_value_str($item);
             }
 
-
             $item["lesson_time"]     = \App\Helper\Utils::fmt_lesson_time($item["lesson_start"],$item["lesson_end"]);
             $item['tea_comment_str'] = "<font color=red>-</font>";
 
@@ -2087,7 +2086,7 @@ class teacher_info extends Controller
 
             $this->get_lesson_cost_info($val,$check_num);
             $lesson_time = \App\Helper\Utils::get_lesson_time($val['lesson_start'],$val['lesson_end']);
-            $lesson_arr = [
+            $lesson_arr  = [
                 "name"       => $val['stu_nick'],
                 "time"       => $lesson_time,
                 "status_info"=> $val['lesson_cost_info'],
@@ -2504,9 +2503,30 @@ class teacher_info extends Controller
     }
 
     public function get_leo_resource(){
+        //获取老师科目年级段
+        $tea_info = $this->get_rule_range();
+
+        // dd($tea_info);
         $resource_type = $this->get_in_int_val('resource_type', 1);
-        $subject       = $this->get_in_int_val('subject', -1);
-        $grade         = $this->get_in_int_val('grade', -1);
+        $subject       = $this->get_in_int_val('subject', @$tea_info[0]['subject']);
+        $grade         = $this->get_in_int_val('grade', @$tea_info[0]['grade'][0]);
+        $flag = 0;
+        $tea_gra = [];
+        $tea_sub = [];
+        foreach($tea_info as $item){
+            $tea_sub[] = intval($item['subject']);
+            if($item['subject'] == $subject){
+                $flag = 1;
+                $tea_gra = $item['grade'];
+                if(!in_array($grade, $item['grade'])){
+                    $garde = @$item['grade'][0];
+                }
+            }
+        }
+        if($flag == 0){
+            $subject = $tea_info[0]['subject'];
+            $garde = $tea_info[0]['grade'][0];
+        }
         $tag_one       = $this->get_in_int_val('tag_one', -1);
         $tag_two       = $this->get_in_int_val('tag_two', -1);
         $tag_three     = $this->get_in_int_val('tag_three', -1);
@@ -2524,12 +2544,11 @@ class teacher_info extends Controller
             $resource_type = $resource_type<1?1:$resource_type;
             $resource_type = $resource_type>6?6:$resource_type;
         }
-        //获取老师科目年级段
-        $tea_info = $this->get_rule_range();
+
 
         //禁用，删除，老师段则不在显示
         $ret_info = $this->t_resource->get_all_for_tea(
-            $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$page_info
+             $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$page_info
         );
 
         $tag_arr = \App\Helper\Utils::get_tag_arr($resource_type);
@@ -2579,10 +2598,11 @@ class teacher_info extends Controller
             return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
         }
 
-        // dd(json_encode($tea_info));
+        // dd($tea_info);
         return $this->pageView( __METHOD__,$ret_info,[
             'tag_info' => $tag_arr,
-            'tea_info' => json_encode($tea_info),
+            'tea_sub' => json_encode( $tea_sub),
+            'tea_gra' => json_encode($tea_gra),
             'book' => json_encode($book_arr)]);
     }
 
@@ -3039,11 +3059,16 @@ class teacher_info extends Controller
         $teacherid = $this->get_login_teacher();
         if($teacherid != false){
             $info = $this->t_teacher_info->get_subject_grade_by_teacherid($teacherid);
-            $data = [
-                'subject' => $info['subject'],
-                'grade'   => \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']),
-            ];
+            $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
+            $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade($info['second_grade_start'], $info['second_grade_end']);
+            // $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade(1, 2);
+            // $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade(4, 4);
 
+            $data = [];
+            $data[0]['subject'] = $info['subject'];
+            $data[0]['grade'] = $grade_1;
+            $data[1]['subject'] = $info['second_subject'];
+            $data[1]['grade'] = $grade_2;
             return $data;
         }
         return false;
