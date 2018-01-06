@@ -179,6 +179,7 @@ class seller_level_goal extends Controller
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_seller_level_month->get_all_list($adminid,$page_info,$start_time);
         foreach($ret_info['list'] as &$item){
+            $item['money'] = $item['money']/100;
             $item["account"] = $this->cache_get_account_nick($item["adminid"]);
             E\Eseller_level::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,'month_date','','Y-m');

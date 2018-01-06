@@ -129,7 +129,7 @@ class update_seller_level extends cmd_base
                             'adminid' => $adminid,
                             'month_date' => $month_date,
                             'seller_level' => $month_level,
-                            'money' => $price_very_last,
+                            'money' => $price_very_last*100,
                             'create_time' => $time,
                         ]);
                     }
