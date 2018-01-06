@@ -155,22 +155,21 @@ trait  ViewDeal {
         $reload_filed_str = substr($reload_filed_str,0,-2)."\n";
         $row_file_name = app_path("../vue/src/views/page.d.ts/.vue-row-{$this->view_ctrl}-{$this->view_action}.tmp");
         $row_str="";
-        if ( count($table_data_list) >0 && count($table_data_list[0])>0 ) {
-            $row_item = @$table_data_list[0];
-            if (!$row_item) {
-                foreach ($table_data_list as $k_item ) {
-                    $row_item =$k_item;
-                    break;
-                }
-            }
 
-            if ($row_item) {
+
+
+        $row_item=[];
+        foreach( $table_data_list  as $_k  => $_v  ) {
+            $row_item=$_v;
+        }
+
+        if ( $row_item ) {
+
                 foreach ($row_item as  $r_k=>$r_v )    {
                     if ( !is_int($r_k)) {
                         $row_str.="\t$r_k\t:any;\n";
                     }
                 }
-            }
 
             $row_old_data=@file_get_contents( $row_file_name);
             if( $row_old_data != $row_str ) {
