@@ -136,6 +136,9 @@ class jw_teacher_test_lesson_assign_auto extends Command
                 }elseif($subject>3){
                     $accept_adminid = 436;
                 }
+                if(!isset($accept_adminid) || $accept_adminid==0){
+                    $accept_adminid=436;
+                }
 
                 $task->t_test_lesson_subject_require->field_update_list($vall["require_id"],[
                     "accept_adminid"=>$accept_adminid,
