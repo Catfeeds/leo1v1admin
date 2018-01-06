@@ -439,13 +439,30 @@ class agent extends Controller
         $seller_list = $this->t_seller_student_new->get_item_by_adminid($adminid_list,$start_time,$end_time);
         foreach($seller_list as $item){
             $ret_info[$item['adminid']]['seller_count'] = $item['count'];
+            if(!isset($ret_info[$item['adminid']]['seller_count'])){
+                $ret_info[$item['adminid']]['seller_count'] = 0;
+            }
         }
         $test_list = $this->t_test_lesson_subject_require->get_item_count($start_time,$end_time,$adminid_list);
         foreach($test_list as $item){
             $ret_info[$item['admin_revisiterid']]['test_count'] = $item['test_lesson_count'];
             $ret_info[$item['admin_revisiterid']]['suc_count'] = $item['succ_all_count'];
         }
-        dd($ret_info);
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h1>联系人列表</h1></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>销售</th><th>拨打数</th><th>认领数</th><th>邀约数</th><th>试听成功数</th>';
+        echo '</tr>';
+        foreach($ret_info as $item){
+            echo '<tr>';
+            echo '<td>'.$item['account'].'</td>';
+            echo '<td>'.$item['called_count'].'</td>';
+            echo '<td>'.$item['seller_count'].'</td>';
+            echo '<td>'.$item['test_count'].'</td>';
+            echo '<td>'.$item['suc_count'].'</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
     }
 
     public function test_new(){
