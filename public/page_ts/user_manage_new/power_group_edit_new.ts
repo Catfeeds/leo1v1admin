@@ -46,17 +46,20 @@ function beforeEditName(treeId, treeNode) {
             var data_list   = [];
             var select_list = [];
             var all_list = [];
+            console.log(response.data);
             $.each( response.data,function(){
-                data_list.push([this["0"], this["1"]  ]);
-                all_list.push(this["0"]);
-                if (this["2"]) {
-                    select_list.push (this["0"]) ;
+                data_list.push([this.field_name, this.desc]);
+                all_list.push(this.field_name);
+                if (this.field_value != undefined) {
+                    this.field_value == 1 ? select_list.push (this.field_name) : '';
+                }else{
+                    this.default_value == true ? select_list.push (this.field_name) : '';
                 }
             });
             
 
             $(this).admin_select_dlg({
-                header_list     : [ "id","名称" ],
+                header_list     : [ "field_name","描述" ],
                 data_list       : data_list,
                 multi_selection : true,
                 select_list     : select_list,
@@ -107,21 +110,21 @@ function addHoverDom(treeId, treeNode) {
                    
                     for(var x in res.data){
                         arr[x] = new Array();
-                        var field_name = res.data[x]['field_name'];
-                        var field = field_name + "( " + res.data[x]['value_type'] + " )";
+                        var field_name = res.data[x].field_name;
+                        var field = res.data[x].desc + "( " + field_name + " )";
                         arr[x].push(field);
-                        var field_val = res.data[x]['field_val'];
+                        var field_val = res.data[x].field_val;
 
                         //console.log(field_val);
                         var id_textarea = $("<textarea id='"+field_name+"' />");
                         var id_select = $("<select id='"+field_name+"' />");
 
-                        if(res.data[x]['value_type'] == "enum"){
-                            Enum_map.append_option_list(res.data[x]['field_name'], id_select,true);
+                        if(res.data[x].value_type == "enum"){
+                            Enum_map.append_option_list(res.data[x].enum_class, id_select,true);
                             field_val != undefined ? id_select.val(field_val) : '';
                             arr[x].push(id_select);
                             
-                        }else if( res.data[x]['value_type'] == "function" ){
+                        }else if( res.data[x].value_type == "function" ){
                             Enum_map.append_option_list("function_power", id_select,true);
                             field_val != undefined ? id_select.val(field_val) : '';
                             arr[x].push(id_select);
@@ -141,8 +144,8 @@ function addHoverDom(treeId, treeNode) {
                             var save_data = {};
 
                             for(var x in res.data){
-                                var field_name = res.data[x]['field_name'];
-                                save_data[field_name] = $("#"+field_name).val();
+                                var field_name = res.data[x].field_name;
+                                save_data[field_name] = [ $("#"+field_name).val() , res.data[x].value_type ];
                             }
                             var data = {
                                 "url" : url,
