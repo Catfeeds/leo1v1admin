@@ -1699,6 +1699,8 @@ class test_james extends Controller
     }
 
     public function t_ss(){
+        $ret_info = $this->t_teacher_info->get_teacher_bank_info_tmp($isbank, 5000);
+        dd($ret_info);
         $file_id = $this->get_in_int_val('fid',-1);
         $list = $this->t_resource_file->get_list_tmp($file_id);
 
