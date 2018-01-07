@@ -234,5 +234,19 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         return $this->main_get_list($sql);
     }
 
+    public function get_list_tmp($file_id){
+        $where_arr = [
+            "file_poster like '%%home%%'",
+            ["f.file_id=%d",$file_id,-1]
+        ];
+
+        $this->gen_sql_new("  select file_id, file_poster, filelinks from %s f"
+                           ." where %s"
+                           ,self::DB_TABLE_NAME
+                           ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 
 }

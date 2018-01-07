@@ -1649,7 +1649,7 @@ class test_james extends Controller
         $file_link = $this->get_in_str_val('f');
 
         $a =  $this->get_pdf_download_url($file_link);
-        
+
         dd($a);
         $config=\App\Helper\Config::get_config("qiniu");
         $bucket_info=$config["private_url"]['url'];
@@ -1699,11 +1699,19 @@ class test_james extends Controller
     }
 
     public function t_ss(){
-        $list = $this->t_resource_file->get_list_tmp();
+        $file_id = $this->get_in_int_val('fid',-1);
+        $list = $this->t_resource_file->get_list_tmp($file_id);
 
         foreach($list as $v){
-            
+            $linkArr = explode(',', $v['filelinks']);
+            $filePoster = $linkArr[0];
+
+            $this->t_resource_file->field_update_list($v['file_id'], [
+                "file_poster" => $filePoster
+            ]);
         }
+
+        return ;
     }
 
 
