@@ -22,6 +22,12 @@ class admin_manage extends Controller
 
     public function kaoqin_machine_adminid() {
         $page_info = $this->get_in_page_info();
+
+
+        #排序信息
+        list($order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str([],"userid desc");
+
         $machine_id = $this->get_in_int_val("machine_id",-1);
         $adminid    = $this->get_in_adminid(-1);
         $auth_flag = $this->get_in_e_boolean(-1,"auth_flag");
@@ -33,6 +39,7 @@ class admin_manage extends Controller
         }
 
         $machine_info = $this->t_kaoqin_machine->get_list(["page_num"=>1, "page_count"=>10000 ]);
+        $this->html_power_list_add("auth_flag");
 
         return $this->pageView(
             __METHOD__,$ret_info,

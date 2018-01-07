@@ -13,11 +13,12 @@ import Component from 'vue-class-component'
   },
 
   data: function () {
-    return $.extend({}, this["data_ex"](),
+    return $.extend({},
     {
       table_data: [],
+      table_config:{},
       html_power_list:{},
-    });
+    } ,this["data_ex"]());
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
@@ -141,7 +142,7 @@ export default class vtable extends Vue {
       $page_info.append(' <a class=" page_num" data-page_num="' + total_page_count + '" >' + total_page_count + '</a> ');
     }
     $page_info.append(' <a class="page_next " data-page_num="' + next_page_num + '"     >&gt;</a> ');
-    var $table_p = $(".common-table").parent();
+    var $table_p = $(".common-table, .vue-table").parent();
     $table_p.find(".pages").remove();
     $table_p.append($page_info);
     $page_info.find("[data-page_num=" + cur_page_num + "]").addClass("page_cur");
@@ -221,6 +222,8 @@ export default class vtable extends Vue {
         console.log("ajax out",resp);
         me.$data.table_data = resp.list;
         me.$data.html_power_list =resp.html_power_list;
+        me.$data.table_config.html_power_list =resp.html_power_list;
+        me.$data.table_config.order_by_str = resp.g_args.order_by_str;
 
         //附加数据
         $.each(resp ,function(k,v){
@@ -271,10 +274,6 @@ export default class vtable extends Vue {
     $.do_select_menu(obj);
   };
 
-  get_table_key (fix) {
-    var path_list = window.location.hash.split("/");
-    return "" + fix + "-" + path_list[1] + "-" + path_list[2].split("?")[0];
-  };
 
   get_args_base  () {
     return window["g_args"];
@@ -304,7 +303,7 @@ export default class vtable extends Vue {
         return;
       }
       var path_list = window.location.pathname.split("/");
-      var table_key = me.get_table_key("field_list");
+      var table_key = $.get_table_key("field_list");
       var opt_td = $(th_item).find("td:last");
       if (!opt_td.css("min-width")) {
         opt_td.css("min-width", "80px");
@@ -395,7 +394,7 @@ export default class vtable extends Vue {
         });
       }
     };
-    var table_key = me.get_table_key("field_list");
+    var table_key = $.get_table_key("field_list");
     if (!$.check_in_phone()) {
       var val = window.localStorage.getItem(table_key);
       var cur = (new Date()).getTime() / 1000;
@@ -421,7 +420,7 @@ export default class vtable extends Vue {
         });
       }
     }
-    thead_tr.on("click", ".td-sort-item", function (e) {
+    $("table").on("click", ".td-sort-item", function (e) {
       var order_by_str = "";
       var $this = $(e.currentTarget);
       var field_name = $.trim($this.parent().data("field_name"));
