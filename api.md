@@ -7,6 +7,7 @@ api 文档
 * [power 权限设计 ](#power)
 
 * [vue整合](#vue)
+* blade 迁移 到vue (#blade)
 
 ##  Install 
 
@@ -466,3 +467,42 @@ $.do_ajax
 </section>
 ```
 
+
+## blade迁移 vue
+
+```bash
+
+cdad 
+
+./gen_field_list ./resources/views/admin_manage/kaoqin_machine_adminid.blade.php 
+    var  field_list=[{
+      title: "考勤机",
+      field_name: "title",
+    },{
+      title: "用户",
+      field_name: "admin_nick",
+    },{
+      title: "管理员",
+      field_name: "auth_flag_str",
+    }];
+    var  row_opt_list =[{
+      text: " ",
+      title: "编辑",
+      face_icon: "fa-edit",
+      on_click: me.opt_edit,
+    },{
+      text: " ",
+      title: "删除",
+      face_icon: "fa-times",
+      on_click: me.opt_del,
+    }];
+
+  opt_edit( e:MouseEvent, opt_data: self_RowData ){
+    alert(JSON.stringify( opt_data));
+  }
+
+  opt_del( e:MouseEvent, opt_data: self_RowData ){
+    alert(JSON.stringify( opt_data));
+  }
+
+```
