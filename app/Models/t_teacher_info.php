@@ -4644,7 +4644,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
 
-    public function get_teacher_bank_info_tmp($is_bank, $limit) {
+    public function get_teacher_bank_info_tmp($is_bank, $s,$e) {
         $where_arr = ['is_test_user=0'];
         if ($is_bank == 1) {
             array_push($where_arr, "bankcard != '' ");
@@ -4652,7 +4652,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         if ($is_bank == 2) {
             array_push($where_arr, "bankcard = '' ");
         }
-        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.subject,t.phone,t.bank_account,t.bankcard,t.bank_type,t.bank_province,t.bank_city,t.bank_address,t.bank_phone,t.idcard,t.bind_bankcard_time from %s t where %s limit 0, $limit",
+        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.subject,t.phone,t.bank_account,t.bankcard,t.bank_type,t.bank_province,t.bank_city,t.bank_address,t.bank_phone,t.idcard,t.bind_bankcard_time from %s t where %s limit $s, $e",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
