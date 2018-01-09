@@ -114,7 +114,7 @@ class assistant_performance extends Controller
         $month_half = $start_time+15*86400;
         $last_month = strtotime("-1 month",$start_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
-        dd($ass_month);
+        
         $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
         
         $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target");
@@ -585,14 +585,14 @@ class assistant_performance extends Controller
         }
 
         //停课学员
-        $stop_student_list = $list["stop_student_list"];
+        $stop_student_list = $list["registered_student_list"];
         if($stop_student_list){
             $stop_student_arr = json_decode($stop_student_list,true);
             foreach($stop_student_arr as $val){
                 if(!isset($ret_info[$val])){
                     $ret_info[$val]=[
                         "userid" =>$val,
-                        "type_str"=>"停课学员",
+                        "type_str"=>"其他未结课学员",
                         "type_flag"=>3
                     ];
 
