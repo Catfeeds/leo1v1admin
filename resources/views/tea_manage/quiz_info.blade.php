@@ -16,18 +16,18 @@
                 <span >老师</span>
                 <input type="text" value="" class="click_on put_name for_input" style="display:none;" data-field="tea_name" />
                 <select class="will_change" id="id_teacher_list">
-					<option value="">全部</option>
+          <option value="">全部</option>
                     @foreach ($table_data_list as $var)
-						<option value="{{$var["nick"]}}">{{$var["nick"]}}</option>
+            <option value="{{$var["nick"]}}">{{$var["nick"]}}</option>
                     @endforeach
-				</select>
+        </select>
             </div>
         </div>
- 
+
     </div>
-    
+
     <hr/>
-    
+
     <table class="table table-bordered table-striped"   >
         <thead>
             <tr>

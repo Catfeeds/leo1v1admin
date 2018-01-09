@@ -134,7 +134,6 @@ class t_group_user_month extends \App\Models\Zgen\z_t_group_user_month
                                 $where_arr
         );
         return $this->main_get_value($sql);
-
     }
 
     public function del_item_row(){
