@@ -286,7 +286,7 @@ class send_wx_msg_common_lesson extends Command
             $lesson_str  = date("Y-m-d H:i",$itemLessonEnd['lesson_start'])." ~ ".date("H:i",$itemLessonEnd['lesson_end']);
             $templateIdLessonEnd = "IyYFpK8WkMGDMqMABls0WdZyC0-jV6xz4PFYO0eja9Q";
             $dataLessonEnd = [
-                "first"    => "家长您好, ".$itemLessonEnd['stu_nick']."同学已完成".$itemLessonEnd['lesson_count']."课时,请知晓。如有疑问,请联系班主任",
+                "first"    => "家长您好, ".$itemLessonEnd['stu_nick']."同学已完成".number_format($itemLessonEnd['lesson_count'],2)."课时,请知晓。如有疑问,请联系班主任",
                 "keyword1" => $subject_str,
                 "keyword2" => $lesson_str,
                 "remark"   => "联系电话: ".$itemLessonEnd['ass_nick']." ".$itemLessonEnd['ass_phone']

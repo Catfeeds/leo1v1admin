@@ -1701,6 +1701,8 @@ class test_james extends Controller
 
 
     public function check_function (){
+        dd(number_format(1.5000,2));
+        exit;
         $limit_time = strtotime(date('Y-m-1'));
         $six_time   = $limit_time + 5*86400;
 
