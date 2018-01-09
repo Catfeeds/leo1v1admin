@@ -80,7 +80,7 @@
                     <span >课程类型:</span> {{$var["lesson_type_str"]}} <br/>
                     <span >语音通道:</span> {{$var["server_type_str"]}} <br/>
                     <span >课程id:</span> {{$var["lessonid"]}} <br/>
-                    <span >负责人:</span> {{$stu_info["cur_require_admin_nick"]}}
+                    <span >负责人:</span> {{@$stu_info["cur_require_admin_nick"]}}
                     {{$var["account"] }}
                     <br/>
                     <span >上课时间:</span> {{$var["lesson_time"] }}<br/>
