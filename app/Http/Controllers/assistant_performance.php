@@ -584,7 +584,7 @@ class assistant_performance extends Controller
             }
         }
 
-        //停课学员
+        //其他未结课学员
         $stop_student_list = $list["registered_student_list"];
         if($stop_student_list){
             $stop_student_arr = json_decode($stop_student_list,true);
