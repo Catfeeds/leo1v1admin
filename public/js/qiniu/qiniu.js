@@ -1265,7 +1265,7 @@
                             case plupload.FILE_SIZE_ERROR:
                                 var max_file_size = up.getOption && up.getOption('max_file_size');
                                 max_file_size = max_file_size || (up.settings && up.settings.max_file_size);
-                                errTip = '浏览器最大可上传' + max_file_size + '。更大文件请使用命令行工具。';
+                                errTip = '最大可上传' + max_file_size + ',超出文件上传大小,上传失败!';
                                 break;
                             case plupload.FILE_EXTENSION_ERROR:
                                 errTip = '文件验证失败。请稍后重试。';

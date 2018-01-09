@@ -36,6 +36,7 @@ class Kernel extends ConsoleKernel
         Commands\ResetStudentLessonCount::class,
         Commands\SetLessonStuAttend::class,
         Commands\update_month_student_count::class,
+        Commands\get_teacher_student_first_subject_list::class,       
         Commands\import_to_teacher_flow::class,
         Commands\add_new_tea_entry::class,
         Commands\send_interview_remind_for_wx::class,

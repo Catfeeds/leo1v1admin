@@ -418,8 +418,9 @@ class agent extends Controller
 
     public function check(){
         $this->check_and_switch_tongji_domain();
-        $adminid_list = [314,508,1157,1072,945,916,487,962,1077,834];
-        list($start_time,$end_time,$ret,$ret_info)=[1509465600,1512057600,[],[]];
+        $start_time = strtotime($this->get_in_str_val('start_time','2017-11-01'));
+        $end_time = strtotime($this->get_in_str_val('end_time','2017-12-01'));
+        list($adminid_list,$ret,$ret_info)=[[314,508,1157,1072,945,916,487,962,1077,834],[],[]];
         $manager_list = $this->t_manager_info->get_item_list($adminid_list);
         foreach($manager_list as $item){
             $ret_info[$item['adminid']]['account'] = $item['account'];
@@ -445,11 +446,33 @@ class agent extends Controller
             $ret_info[$item['admin_revisiterid']]['test_count'] = $item['test_lesson_count'];
             $ret_info[$item['admin_revisiterid']]['suc_count'] = $item['succ_all_count'];
         }
-        dd($ret_info);
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h1>'.date('Y-m',$start_time).'月</h1></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>销售</th><th>拨打数</th><th>认领数</th><th>邀约数</th><th>试听成功数</th>';
+        echo '</tr>';
+        foreach($ret_info as $item){
+            $item['account'] = isset($item['account'])?$item['account']:'';
+            $item['called_count'] = isset($item['called_count'])?$item['called_count']:0;
+            $item['seller_count'] = isset($item['seller_count'])?$item['seller_count']:0;
+            $item['test_count'] = isset($item['test_count'])?$item['test_count']:0;
+            $item['suc_count'] = isset($item['suc_count'])?$item['suc_count']:0;
+            echo '<tr>';
+            echo '<td>'.$item['account'].'</td>';
+            echo '<td>'.$item['called_count'].'</td>';
+            echo '<td>'.$item['seller_count'].'</td>';
+            echo '<td>'.$item['test_count'].'</td>';
+            echo '<td>'.$item['suc_count'].'</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
     }
 
     public function test_new(){
-        dd('a');
+        if((in_array($this->get_account(),['Tina','tom']))){
+            dd('a');
+        }
+        dd('b');
     }
 
     //处理等级头像

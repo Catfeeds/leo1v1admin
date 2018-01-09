@@ -27,6 +27,10 @@ class t_url_input_define extends \App\Models\Zgen\z_t_url_input_define
     }
 
     public function url_input_define_by_gid($gid_str){
+        $gid_str = $this->checkStr($gid_str);
+        if(!$gid_str){
+            return null;
+        }
         $sql=$this->gen_sql_new("select id,url,field_name,field_val,field_type,GROUP_CONCAT(field_val) as field_val_str
                                  from %s where role_groupid in (%s) group by url,field_name"
                                 ,self::DB_TABLE_NAME
@@ -48,6 +52,24 @@ class t_url_input_define extends \App\Models\Zgen\z_t_url_input_define
             }
         }
         return $data;
+    }
+    private function checkStr($gid_str){
+        if( empty($gid_str) || $gid_str == "," || gettype($gid_str) != "string" ){
+            return false;
+        }
+        $strlenth = strlen($gid_str) - 1;
+        if( $strlenth == 0 ){
+            return $gid_str;
+        }
+        $last = strrpos($gid_str,',');
+        $first = strpos($gid_str,',');
+        if( $first == 0 ){
+            $gid_str = substr($gid_str,1);
+        }
+        if( $last == $strlenth ){
+            $gid_str = substr($gid_str,0,-1);
+        }
+        return $gid_str;
     }
 }
 

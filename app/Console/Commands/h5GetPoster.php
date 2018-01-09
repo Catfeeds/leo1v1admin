@@ -87,7 +87,8 @@ class h5GetPoster extends Command
             $config=\App\Helper\Config::get_config("qiniu");
             $bucket_info=$config["private_url"]['url'];
 
-            $pdf_file_path = $auth->privateDownloadUrl($bucket_info.'/'.$item['file_link'] );
+            $pdf_file_path = $auth->privateDownloadUrl($bucket_info.'/'.$pdf_url );
+            $pdf_url = str_replace('/','_',$pdf_url);
             $savePathFile = public_path('wximg').'/'.$pdf_url;
             if($pdf_url){
                 \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);

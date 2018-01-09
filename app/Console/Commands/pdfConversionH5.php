@@ -102,16 +102,17 @@ class pdfConversionH5 extends Command
                 shell_exec($cpImg);
             }
 
-
-
-
+            $fntPathFrom = public_path('ppt')."/".$uuid."/data/fnt0.woff";
+            $fntPathTo   = public_path('ppt')."/".$uuid."/fnt0.woff";
+            $cpFnt = "cp $fntPathFrom $fntPathTo ";
+            shell_exec($cpFnt);
 
 
             # 重新打包压缩
             $work_path= public_path('ppt');
-            $del_zip = $work_path."/".$uuid;
-            $zip_new_resource = public_path('ppt')."/".$uuid."_leo.zip";
-            $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo.zip * ";
+            $del_zip = $work_path."/".$uuid.".zip";
+            $zip_new_resource = public_path('ppt')."/".$uuid."_leo55.zip";
+            $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo55.zip * ";
             \App\Helper\Utils::exec_cmd($zipCmd);
 
             # 使用七牛上传  七牛 资源域名 https://ybprodpub.leo1v1.com/
@@ -127,7 +128,9 @@ class pdfConversionH5 extends Command
                 $saveH5Upload =  \App\Helper\Utils::qiniu_upload($zip_new_resource);
                 $this->deldir($work_path."/".$uuid);
                 $rmZipCmd = "rm $del_zip"; // 删除解压包
+                $rmResourceCmd = "rm $zip_new_resource";
                 shell_exec($rmZipCmd);
+                shell_exec($rmResourceCmd);
                 $task->t_lesson_info_b3->field_update_list($item['lessonid'],[
                     "zip_url" => $saveH5Upload
                 ]);
@@ -181,35 +184,41 @@ class pdfConversionH5 extends Command
 
                 if($domain_jq)
                 {
+                    # jq文件复制到index同级目录
                     $node_js->parentNode->removeChild($node_js);
 
-                    // # jq文件复制到index同级目录
                     // $jsLink[] = 'jquery-1.8.1.min.js';
+                    // $jsLink[] = 'bridge.js';
 
-                    // # 替换DOM节点 内容
-                    // $node_js->nodeValue = 'if (!window.jQuery){
-                    //   var script = document.createElement("script");
-                    //   script.src = "jquery-1.8.1.min.js";
-                    //   window.onload=function(){document.body.appendChild(script);}}';
-                }
+
+
+                    # 替换DOM节点 内容
+                //     $node_js->nodeValue = 'if (!window.jQuery){
+                //       var script = document.createElement("script");
+                //       var bridge = document.createElement("script");
+                //       script.src = "jquery-1.8.1.min.js";
+                //       bridge.src = "bridge.js";
+                //       window.onload=function(){document.body.appendChild(script);
+                //                     setTimeout(function(){
+                //                       document.body.appendChild(bridge);
+                //                      },100);}
+                //      }else{
+                //       var bridge = document.createElement("script");
+                //       bridge.src = "bridge.js";
+                //       window.onload=function(){document.body.appendChild(bridge)};}';
+                // }
+
+
+                // $node_js->nodeValue = 'if (!window.jQuery){
+                //       var script = document.createElement("script");
+                //       script.src = "jquery-1.8.1.min.js";
+                //       window.onload=function(){document.body.appendChild(script);}}';
+            }
+
 
             }
 
             if($jsLink_arr[0] == '..'){
-                # 原有的recommend-0.2.js 替换为 bridge.js
-                # 调换节点位置
-                if($jsLink_arr[1] == 'wxpt.js'){
-                    $node_js->setAttribute('src', 'jquery-1.8.1.min.js');
-                }
-                if($jsLink_arr[1] == 'recommend-0.2.js'){
-                    $node_js->setAttribute('src', 'scmod0-0.91.js');
-                }
-                if($jsLink_arr[1] == 'scmod0-0.91.js'){
-                    $node_js->setAttribute('src', 'bridge.js');
-                    $jsLink[] = 'bridge.js';
-                }
-
-
                 # 修改属性
                 if($jsLink_arr[1] != 'wxpt.js' && $jsLink_arr[1] != 'recommend-0.2.js'){
                     $node_js->setAttribute('src', $jsLink_arr[1]);
@@ -217,12 +226,10 @@ class pdfConversionH5 extends Command
                 }
 
                 # 删除无需引用的节点
-                // if($jsLink_arr[1] == 'recommend-0.2.js'){
-                //     $node_js->parentNode->removeChild($node_js);
-                // }
-
+                if($jsLink_arr[1] == 'recommend-0.2.js' || $jsLink_arr[1] == 'wxpt.js'){
+                    $node_js->parentNode->removeChild($node_js);
+                }
             }
-
 
             if($jsLink_arr[0] == 'http:'){
                 # 删除节点 不需要的节点
@@ -252,7 +259,7 @@ class pdfConversionH5 extends Command
             $node_link->parentNode->removeChild($node_link);
         }
 
-        # 创建link节点
+        # 创建link节点 script节点
         $htmlList = $xpath->query("//html");
         foreach ($htmlList as $node_html) {
             $root = $dom->createElement('link','');
@@ -261,6 +268,25 @@ class pdfConversionH5 extends Command
             $root->setAttribute('type', 'text/css');
             $root->setAttribute('href', 'data/f.css');
         }
+
+        # 页面中添加 gavan 代码
+        $headList = $xpath->query("//head");
+        foreach ($headList as $node_head) {
+            $root_js = $dom->createElement('script','');
+            $root_js_b = $dom->createElement('script','');
+            $node_head->appendChild($root_js);
+            $node_head->appendChild($root_js_b);
+            $root_js_b->setAttribute('type', 'text/javascript');
+            $root_js_b->setAttribute('src', 'bridge.js');
+
+            $root_js->setAttribute('type', 'text/javascript');
+            $root_js->setAttribute('src', 'jquery-1.8.1.min.js');
+
+            $jsLink[] = 'jquery-1.8.1.min.js';
+            $jsLink[] = 'bridge.js';
+
+        }
+
 
 
         $saveData = $dom->saveHTML();

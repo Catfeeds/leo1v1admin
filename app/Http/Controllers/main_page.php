@@ -358,9 +358,8 @@ class main_page extends Controller
 
 
 
-        //组长&主管
+        //组长
         $test_seller_id = $this->get_in_int_val("test_seller_id",-1);
-
         $seller_account = $this->t_manager_info->get_account($test_seller_id);
         $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
         $son_adminid_arr = [];
@@ -382,6 +381,10 @@ class main_page extends Controller
         }else{
             $is_group_leader_flag = 0;
         }
+        $major_groupid = $this->t_admin_majordomo_group_name->get_master_adminid_by_adminid($adminid);
+        if($major_groupid>0){
+            $is_group_leader_flag = 1;
+        }
         $self_info= $this->t_order_info->get_1v1_order_seller($this->get_account(),
                                                               $start_time,$end_time );
 
@@ -397,12 +400,16 @@ class main_page extends Controller
         }
         $group_self_list = $this->t_order_info->get_1v1_order_seller_list_group_self($start_time,$end_time,$groupid);
         $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,$start_first,$order_by_str);
-        foreach($group_list as &$item){
+        foreach($group_list as $key=>&$item){
             $item['all_price'] = $item['all_price']/100;
             $all_price = $item['all_price'];
             $month_money = isset($item['month_money'])?$item['month_money']:0;
             $item['finish_per'] = $month_money>0?$all_price/$month_money:0;
-            $item['finish_per'] = round($item['finish_per']*100,1);
+            $item['finish_per'] = round($item['finish_per']*100,1).'%';
+            if(!in_array($this->get_account(),['班洁','tom']) && $key>4){
+                $item["all_price"] = "***";
+                $item["finish_per"] = "加油";
+            }
         }
 
         $ret_info_first = [];

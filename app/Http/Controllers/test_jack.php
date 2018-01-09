@@ -14,9 +14,15 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_main(){
-        $pdf_file_url=\App\Helper\Common::gen_order_pdf_empty();
+        // $pdf_file = "/home/ybai/no_order_show_parent_unique.pdf";
+        // $qiniu_file_name=\App\Helper\Utils::qiniu_upload($pdf_file);
 
-        dd($pdf_file_url);
+        // //$ret=\App\Helper\Utils::exec_cmd("rm -rf /tmp/$base_file_name.*");
+        // $pdf_file_url= \App\Helper\Config::get_qiniu_public_url()."/". $qiniu_file_name;
+
+        // //  $pdf_file_url=\App\Helper\Common::gen_order_pdf_empty();
+
+        // dd($pdf_file_url);
 
         $this->switch_tongji_database();
         $this->check_and_switch_tongji_domain();

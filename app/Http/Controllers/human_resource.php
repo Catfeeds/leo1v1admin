@@ -367,14 +367,15 @@ class human_resource extends Controller
         $week = $arr[0];
         $start = @$arr[1];
 
-        if($opt_type=="add" || $opt_type =="update"){
-            if($start == $end_time){
-                return $this->output_err("开始时间不能与结束时间相同!") ;
+        $lesson_start = strtotime(date("Y-m-d", time(NULL))." $start");
+        $lesson_end = strtotime(date("Y-m-d", time(NULL))." $end_time");
+
+        if($opt_type=="add" || $opt_type =="update"){            
+            if($lesson_start >=  $lesson_end){
+                return $this->output_err("开始时间不能大于结束时间!") ;
             }
         }
         $old_start_time = $old_week."-".$old_start_time;
-        $lesson_start = strtotime(date("Y-m-d", time(NULL))." $start");
-        $lesson_end = strtotime(date("Y-m-d", time(NULL))." $end_time");
         $diff=($lesson_end-$lesson_start)/60;
         if(empty($lesson_count)){
             // if ($diff<=40) {
@@ -467,6 +468,13 @@ class human_resource extends Controller
         $old_start_time = $old_week."-".$old_start_time;
         $lesson_start = strtotime(date("Y-m-d", time(NULL))." $start");
         $lesson_end = strtotime(date("Y-m-d", time(NULL))." $end_time");
+
+        if($opt_type=="add" || $opt_type =="update"){            
+            if($lesson_start >=  $lesson_end){
+                return $this->output_err("开始时间不能大于结束时间!") ;
+            }
+        }
+
         $lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start, $lesson_end);
 
         // $diff=($lesson_end-$lesson_start)/60;
@@ -559,6 +567,12 @@ class human_resource extends Controller
         $old_start_time = $old_week."-".$old_start_time;
         $lesson_start = strtotime(date("Y-m-d", time(NULL))." $start");
         $lesson_end = strtotime(date("Y-m-d", time(NULL))." $end_time");
+        if($opt_type=="add" || $opt_type =="update"){            
+            if($lesson_start >=  $lesson_end){
+                return $this->output_err("开始时间不能大于结束时间!") ;
+            }
+        }
+
 
         $lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start, $lesson_end);
         // $diff=($lesson_end-$lesson_start)/60;
