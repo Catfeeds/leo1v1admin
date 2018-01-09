@@ -39,6 +39,29 @@ class get_ass_weekly_info extends Command
     {
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
+        $registered_userid_list = $task->t_student_info->get_read_student_ass_info(-2);//在册学员名单
+        $time=strtotime("2017-11-27");
+        for($i=0;$i<=6;$i++){
+            $start_time = $time+$i*7*86400;
+            $week_info = $task->t_ass_weekly_info->get_all_info($start_time);
+            foreach($week_info as $val){
+                $k = $val["adminid"];
+                $list = @$registered_userid_list[$k];
+                if($list){
+                    $arr = json_decode($list,true);
+                    $num = count($arr);
+                }else{
+                    $num=0;
+                    
+                }
+                $task->t_ass_weekly_info->field_update_list($val["id"],[
+                    "registered_student_list" => $list,
+                    "registered_student_num"  => $num
+                ]);
+            }
+        }
+        dd($registered_userid_list);
+
         $time = time()-86400;
         $date_week = \App\Helper\Utils::get_week_range($time,1);
         $start_time = $date_week["sdate"];
