@@ -120,8 +120,12 @@ class Controller extends ControllerEx
     public function check_and_switch_tongji_domain() {
         if ( \App\Helper\Utils::check_env_is_release() ){
             $server_name= $_SERVER["SERVER_NAME"];
-            if ($server_name != "admin-tongji.leo1v1.com"){
-                header('Location: http://admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
+            if (!($server_name == "admin-tongji.leo1v1.com" || $server_name == "p.admin-tongji.leo1v1.com"   )){
+                if ( $server_name== "admin.leo1v1.com" ) {
+                    header('Location: http://admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
+                }else{
+                    header('Location: http://p-admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
+                }
                 exit;
             }
             $this->switch_tongji_database();
