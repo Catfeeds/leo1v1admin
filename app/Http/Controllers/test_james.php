@@ -1705,7 +1705,7 @@ class test_james extends Controller
         // $oneMinuteStart = strtotime($this->get_in_str_val('s'));
         $oneMinuteStart = 1515490140;
 
-        $oneMinuteEnd   = $oneMinuteStart+60;
+        $oneMinuteEnd   = $oneMinuteStart+120;
         $lessonEndList  = $this->t_lesson_info_b3->getLessonEndList($oneMinuteStart,$oneMinuteEnd);
 
         dd($lessonEndList);
