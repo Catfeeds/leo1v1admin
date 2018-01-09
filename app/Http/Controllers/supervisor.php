@@ -381,7 +381,9 @@ class supervisor extends Controller
         $info = $this->t_lesson_info_b2-> get_info_for_monitor($lessonid);
         E\Egrade::set_item_value_str($info);
         E\Esubject::set_item_value_str($info);
-        $this->cache_set_item_account_nick($info, "cur_require_adminid", "cur_require_admin_nick");
+        if(isset($info["cur_require_adminid"])){                  
+            $this->cache_set_item_account_nick($info, "cur_require_adminid", "cur_require_admin_nick");
+        }
 
         $i=1;
         foreach($ret_info['list'] as $key=> &$item){
