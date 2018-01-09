@@ -1701,6 +1701,14 @@ class test_james extends Controller
 
 
     public function check_function (){
+
+        $oneMinuteStart = strtotime($this->get_in_str_val('s'));
+        $oneMinuteEnd   = $oneMinuteStart+60;
+        $lessonEndList  = $this->t_lesson_info_b3->getLessonEndList($oneMinuteStart,$oneMinuteEnd);
+
+        dd($lessonEndList);
+
+
         dd(number_format(1.5000,2));
         exit;
         $limit_time = strtotime(date('Y-m-1'));
