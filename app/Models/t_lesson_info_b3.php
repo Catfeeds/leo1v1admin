@@ -2205,8 +2205,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.confirm_flag<2",
             "l.lesson_type in (0,1,3)",
             ["l.userid = %u",$userid,-1],
-            ["l.start_time = %u",$start_time,0],
-            ["l.end_time = %u",$end_time,0],
+            ["l.lesson_start = %u",$start_time,0],
+            ["l.lesson_end = %u",$end_time,0],
             "l.lesson_status>0"
         ];
         $sql = $this->gen_sql_new("select l.subject,l.lesson_start,l.userid,l.assistantid,m.uid"
