@@ -1227,6 +1227,7 @@ class ajax_deal2 extends Controller
     public function delete_user_subject_textbook(){
         $userid    = $this->get_in_int_val("userid");
         $subject    = $this->get_in_int_val("subject");
+        $editionid =$this->t_student_subject_list->get_editionid($userid,$subject);
         $this->t_student_subject_list->row_delete_2($userid,$subject);
         $list = $this->t_student_subject_list->get_info_by_userid($userid);
         $subject_ex="";
