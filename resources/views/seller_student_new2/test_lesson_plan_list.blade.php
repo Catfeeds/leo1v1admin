@@ -369,7 +369,7 @@
                             <td >{{$var["grade_str"]}}</td>
                             <td >{{$var["subject_str"]}}</td>
                             <td >{{$var["has_pad_str"]}}</td>
-                            <td >{{$var["p_wx_openid_str"]}}</td>
+                            <td >{{@$var["p_wx_openid_str"]}}</td>
                             <td >{{$var["stu_request_test_lesson_time"]}}</td>
                             <td >{{$var["last_revisit_msg"]}}</td>
                             <td >{{$var["school"]}}</td>
