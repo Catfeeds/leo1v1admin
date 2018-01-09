@@ -295,10 +295,28 @@ class lesson extends TeaWxController
         $output = curl_exec($ch);
         curl_close($ch);
 
-        \App\Helper\Utils::logger("output1:$output");
-
-
         $ret_arr = json_decode($output,true);
+
+
+        /**
+         * @需求 每月5号24:00 之后 关闭上月课程申诉通道
+         * @作者 James
+         **/
+        $limit_time = strtotime(date('Y-m-1'));
+        $six_time   = $limit_time + 5*86400;
+        $now = time();
+
+        foreach($ret_arr['data'] as &$itme){
+            $item['is_forbid'] = 0;
+            $lesson_end = $this->t_lesson_info->get_lesson_end($item['lessonid']);
+            if(($lesson_end<$limit_time) && ($six_time<$now)){
+                $item['is_forbid'] = 1;
+            }
+            # 非测试人员 文彬 不可见
+            if($teacherid!=357372){
+                $item['is_forbid'] = 0;
+            }
+        }
 
 
         if($ret_arr && (!empty($ret_arr['all_reward_list']) || !empty($ret_arr['data']))){
