@@ -1701,7 +1701,10 @@ class test_james extends Controller
 
 
     public function check_function (){
+        $limit_time = strtotime(date('Y-m-1'));
+        $six_time   = $limit_time + 5*86400;
 
+        dd($six_time);
         $now = time();
         $oneMinuteStart = $now;
         $oneMinuteEnd   = $oneMinuteStart+60;
