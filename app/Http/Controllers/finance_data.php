@@ -19,17 +19,17 @@ class finance_data  extends Controller
             $item["month_str"] = date("Y年m月",$item["month"]);
         }
 
-        // //获取2017年11月数据
-        // $data = $this->t_order_info->get_order_money_user_info(strtotime("2017-11-01"),time());
-        // $data["month"] = strtotime("2017-11-01");
-        // $data["month_str"] = "2017年11月";
-        // $data["new_order_money"]=2*$data["new_order_money"];
-        // $data["renew_order_money"]=2*$data["renew_order_money"];
-        // $data["new_order_stu"]=2*$data["new_order_stu"];
-        // $data["renew_order_stu"]=2*$data["renew_order_stu"];
-        // $data["new_signature_price"]=$data["new_order_stu"]>0?round( $data["new_order_money"]/$data["new_order_stu"]):0;
-        // $data["renew_signature_price"]=$data["renew_order_stu"]>0?round( $data["renew_order_money"]/$data["renew_order_stu"]):0;
-        // array_push($ret_info["list"],$data);
+        //获取当前月数据
+        $data = $this->t_order_info->get_order_money_user_info(strtotime(date("Y-m-01",time())),time());
+        $data["month"] = strtotime(date("Y-m-01",time()));
+        $data["month_str"] = date("Y年m月",$data["month"]);
+        $data["new_order_money"]=2*$data["new_order_money"];
+        $data["renew_order_money"]=2*$data["renew_order_money"];
+        $data["new_order_stu"]=2*$data["new_order_stu"];
+        $data["renew_order_stu"]=2*$data["renew_order_stu"];
+        $data["new_signature_price"]=$data["new_order_stu"]>0?round( $data["new_order_money"]/$data["new_order_stu"]):0;
+        $data["renew_signature_price"]=$data["renew_order_stu"]>0?round( $data["renew_order_money"]/$data["renew_order_stu"]):0;
+        array_push($ret_info["list"],$data);
         return $this->pageView(__METHOD__, $ret_info);
 
     }
