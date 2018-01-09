@@ -837,18 +837,6 @@ class test_james extends Controller
         }
     }
 
-    public function ceshi(){
-
-        $limit_time = strtotime(date('Y-m-1'));
-
-        dd(date('Y-m-d',$limit_time+6*86400));
-        dd($limit_time);
-        $a = " https://fms.ipinyou.com/5/17/9E/0A/F001Nl1Q1NRQ000dMKdg.jpg";
-
-        $filesize=filesize('/home/james/admin_yb1v1/public/wximg/13818837473_2.png');
-        dd($filesize);
-    }
-
 
 
     // {
@@ -859,11 +847,6 @@ class test_james extends Controller
     //         "media_id":"MEDIA_ID"
     //             }
     // }
-
-    public function get(){
-        $parent_wx_openid = $this->t_parent_info->getParentNum();
-        dd($parent_wx_openid);
-    }
 
     public function wx_news(){ // 使用客服接口发送消息
 
@@ -1717,109 +1700,17 @@ class test_james extends Controller
     }
 
 
-    public function ddik(){
-        $a = '
-134257
-134643
-154876
-162060
-202106
-250704
-384755
-416212
-418358
-422178
-435790
-436887
-436957
-437062
-438561
-441394
-446161
-446962
-452258
-452893
-463512
-465682
-134386
-297258
-356558
-373339
-373830
-393082
-393361
-396052
-404809
-407229
-417582
-437520
-351178
-346831
-342420
-284692
-344022
-384766
-346727
-330632
-356384
-390030
-296642
-324764
-357225
-319397
-268962
-309589
-264490
-246391
-135007
-233004
-226570
-249806
-286027
-270380
-253876
-225335
-230886
-231068
-222319
-197444
-197054
-222817
-223871
-209358
-208600
-278442
-280027
-281536
-282881
-283620
-288535
-288706
-296502
-302306
-299008
-288945
-309382
-294611
-302570
-285900
-309478
-309139
-301406
-292725
-332075
-333590
-333036
-322520
-286480
-328398
-344343
-340996
-388347
-355039
-';
-    }
+    public function check_function (){
+        $limit_time = strtotime(date('Y-m-1'));
+        $six_time   = $limit_time + 5*86400;
 
+        dd($six_time);
+        $now = time();
+        $oneMinuteStart = $now;
+        $oneMinuteEnd   = $oneMinuteStart+60;
+        $lessonEndList  = $this->t_lesson_info_b3->getLessonEndList($oneMinuteStart,$oneMinuteEnd);
+        dd($lessonEndList);
+    }
 
 
 

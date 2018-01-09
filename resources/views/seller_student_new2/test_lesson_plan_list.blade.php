@@ -283,6 +283,7 @@
                         <td style="display:none;">年级</td>
                         <td style="display:none;" >科目</td>
                         <td style="display:none;">是否有pad</td>
+                        <td style="display:none;">家长wxid</td>
                         <td style="display:none;">期待试听时间</td>
                         <td style="display:none;">回访记录</td>
                         <td style="display:none;">学校</td>
@@ -368,6 +369,7 @@
                             <td >{{$var["grade_str"]}}</td>
                             <td >{{$var["subject_str"]}}</td>
                             <td >{{$var["has_pad_str"]}}</td>
+                            <td >{{@$var["p_wx_openid_str"]}}</td>
                             <td >{{$var["stu_request_test_lesson_time"]}}</td>
                             <td >{{$var["last_revisit_msg"]}}</td>
                             <td >{{$var["school"]}}</td>

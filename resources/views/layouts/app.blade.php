@@ -139,7 +139,7 @@
                                         <div class="pull-right" style="margin-bottom: 3px;">
 
                                             <a href="#" class="btn btn-default btn-flat" id="id_ssh_open">SSH 开启(开发)</a>
-                                            <a href="#" class="btn btn-default btn-flat" id="id_call_check_systen">电话辅助系统</a>
+                                            <a href="#" class="btn btn-default btn-flat" id="id_version_switch">切换冒烟版本</a>
                                         </div>
 
                                         <div class="pull-right">

@@ -43,6 +43,7 @@ export default class extends vtable {
       title: "角色",
       field_name: "account_role_str",
       default_display: "1",
+      need_power: "admin_opt",
     },{
       title: "权限组",
       field_name: "permission",
@@ -56,13 +57,9 @@ export default class extends vtable {
       field_name: "become_full_member_flag_str",
       default_display: "1",
     },{
-      title: "考勤卡id",
-      field_name: "cardid",
-      default_display: "1",
-    },{
       title: "微信openid",
       field_name: "wx_openid",
-      default_display: "",
+      default_display: false,
     },{
       title: "上级",
       field_name: "up_admin_nick",
@@ -86,15 +83,12 @@ export default class extends vtable {
     },{
       title: "入职时间",
       field_name: "become_time",
-      default_display: "1",
     },{
       title: "离职时间",
       field_name: "leave_time",
-      default_display: "1",
     },{
       title: "打电话账号",
       field_name: "tquin",
-      default_display: "1",
     }];
 
     var  row_opt_list =[{
@@ -107,91 +101,109 @@ export default class extends vtable {
       title: "设置角色",
       face_icon: "fa-venus-double",
       on_click: me.opt_set_account_role,
+      need_power:me.check_power_common_opt,
     },{
       text: "",
       title: "绑定微信账号",
       face_icon: "fa-link",
       on_click: me.opt_set_openid,
+      need_power:me.check_power_common_opt,
     },{
       text: "",
       title: "更改员工状态",
       face_icon: "fa-trash-o",
       on_click: me.opt_del,
+      need_power:me.check_power_common_opt,
     },{
       text: "",
       title: "更改权限组",
       face_icon: "fa-hand-o-up",
       on_click: me.opt_power,
+      need_power:me.check_power_common_opt,
     },{
       text: "登录",
       title: "用此账号登录",
       face_icon: "",
       on_click: me.opt_login,
+      need_power:me.check_power_common_opt,
     },{
       text: " ",
       title: "修改账号",
       face_icon: "fa-gears",
       on_click: me.opt_change_account,
+      need_power:me.check_power_common_opt,
     },{
       text: " ",
       title: "同步考勤",
       face_icon: "fa-refresh",
       on_click: me.opt_sync_kaoqin,
+      need_power:me.check_power_common_opt,
     },{
       text: " 邮箱 ",
       title: "邮箱配置",
       face_icon: "",
       on_click: me.opt_email,
+      need_power: "admin_opt",
     },{
       text: " 全",
       title: "设置全职老师类型",
       face_icon: "",
       on_click: me.opt_set_fulltime_teacher_type,
+      need_power:me.check_power_common_opt,
     },{
       text: "生成账号",
       title: "生成学生和家长账号",
       face_icon: "",
       on_click: me.opt_set_user_phone,
+      need_power:me.check_power_common_opt,
     },{
       text: "助",
       title: "生成助教账号",
       face_icon: "",
       on_click: me.opt_gen_ass,
+      need_power:me.check_power_common_opt,
     },{
       text: "log",
       title: "用户操作日志",
       face_icon: "",
       on_click: me.opt_log,
+      need_power:me.check_power_common_opt,
     },{
       text: "刷新回访",
       title: "刷新回访",
       face_icon: "",
       on_click: me.opt_refresh_call_end,
+      need_power:me.check_power_common_opt,
     },{
       text: "同",
       title: "同步老师入职时间",
       face_icon: "",
       on_click: me.opt_set_train_through_time,
+      need_power:me.check_power_common_opt,
     },{
       text: "等",
       title: "修改老师等级",
       face_icon: "",
       on_click: me.opt_set_teacher_level,
+      need_power:me.check_power_common_opt,
     },{
       text: "权限删除测",
       title: "权限删除测试",
       face_icon: "",
       on_click: me.opt_delete_permission,
+      need_power:me.check_power_common_opt,
     },{
       text: "权限更换",
       title: "权限备份互换",
       face_icon: "",
       on_click: me.opt_change_permission_new,
+      need_power:me.check_power_common_opt,
     },{
       text: "个人权限",
       title: "个人拥有权限",
       face_icon: "",
       on_click: me.opt_ower_permission,
+      need_power:me.check_power_common_opt,
     }];
 
 
@@ -314,7 +326,9 @@ export default class extends vtable {
     });
 
   }
-
+  check_power_common_opt(html_power_list) {
+    return  html_power_list["admin_opt"] ;
+  }
     initPicker(obj)
     {
       obj.datetimepicker({

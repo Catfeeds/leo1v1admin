@@ -371,13 +371,16 @@ $(function(){
                     }
 
                     // if (issue_url) {
-                        check_lesson_info(id_pdf_question_count,'0');
+                        // check_lesson_info(id_pdf_question_count,'0');
                     // }
                     // if (lesson_type<1000) {
                         check_lesson_info(id_lesson_name,"");
                     // }
+                    $('#id_teacher_upload_0').val(tea_cw_url_list[0][0]);
                     check_lesson_info($('#id_teacher_upload_0'),'',1);
+                    id_teacher.val(tea_cw_url);
                     check_lesson_info(id_teacher,'');
+                    id_student.val(stu_cw_url);
                     check_lesson_info(id_student,'');
                     if ($(".false").length>0) {
                         BootstrapDialog.alert("请完善信息");
@@ -670,6 +673,7 @@ $(function(){
                 "onChange"         : null,
                 //加载数据后，其它的设置
                 "onLoadData"       : function(dlg, ret){
+                    console.log(ret);
                     var book_arr = ret.book.split(',');
                     $.each($(book_arr),function(i,val){
                         book_info.push(parseInt(val));
@@ -899,6 +903,8 @@ $(function(){
     }
 
     var check_lesson_info = function(obj,value,par_flag){
+        console.log(obj)
+        console.log(value)
         var str = $.trim(obj.val());
         if(par_flag==1){
             var obj_name    = obj.parent().parent().parent().siblings().text();
@@ -913,7 +919,7 @@ $(function(){
             }
         }else{
             if(obj.parent().find("div").hasClass("false")){
-                obj.parent().find("div").remove();
+                obj.parent().find(".false").removeClass("false").addClass("hide");
             }
         }
     }

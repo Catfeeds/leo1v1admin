@@ -87,7 +87,10 @@ class t_month_ass_student_info extends \App\Models\Zgen\z_t_month_ass_student_in
             "(m.del_flag=0 or (m.del_flag=1 and leave_member_time>$end_time))"
         ];
         $sql = $this->gen_sql_new("select ma.*,n.master_adminid,m.name,m.account,a.assistantid "
-                                  ."from %s ma left join %s m on ma.adminid=m.uid"
+                                  .",m.account_role,m.del_flag,m.create_time,m.leave_member_time"
+                                  ." ,m.become_full_member_time,m.become_member_time,n.group_name,"
+                                  ." n.main_type "
+                                  ." from %s ma left join %s m on ma.adminid=m.uid"
                                   ." left join %s u on ma.adminid = u.adminid"
                                   ." left join %s n on u.groupid = n.groupid"
                                   ." left join %s a on m.phone = a.phone"

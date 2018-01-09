@@ -1032,7 +1032,7 @@ class user_deal extends Controller
             }
         }
 
-        $manager_info = $this->t_manager_info->field_get_list($uid,'face_pic,level_face_pic,seller_level');
+        $manager_info = $this->t_manager_info->field_get_list($uid,'face_pic,level_face_pic,seller_level,become_full_member_time,become_full_member_flag,create_time');
         $face_pic = $manager_info['face_pic'];
         $level_face_pic = $manager_info['level_face_pic'];
         $level_info = $this->t_seller_level_goal->field_get_list($seller_level,'level_face');
@@ -1043,6 +1043,13 @@ class user_deal extends Controller
             $level_face_pic = $this->get_top_img($uid,$face_pic,$level_face,$ex_str);
         }
 
+        if($become_full_member_flag==1 && empty($manager_info["become_full_member_time"]) && $manager_info["become_full_member_flag"]==0 ){
+            $become_full_member_time = time();
+        }elseif($become_full_member_flag==1 && empty($manager_info["become_full_member_time"])){
+            $become_full_member_time = $manager_info["create_time"]+90*86400;
+        }else{
+            $become_full_member_time = $manager_info["become_full_member_time"];
+        }
         $set_arr=[
             \App\Models\t_manager_info::C_phone=>$phone,
             \App\Models\t_manager_info::C_name=>$name,
@@ -1060,6 +1067,7 @@ class user_deal extends Controller
             "main_department" =>$main_department,
             "level_face_pic" => $level_face_pic,
             "no_update_seller_level_flag" => $no_update_seller_level_flag,
+            "become_full_member_time"     => $become_full_member_time
             //'become_member_time' => strtotime($become_member_time.' '.date('H:i', time()))
         ];
 

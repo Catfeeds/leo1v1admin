@@ -153,6 +153,27 @@ export default class admin_table extends Vue {
   check_show(field_info) {
     return this.check_power_show(field_info) && this.check_config_show(field_info);
   }
+  get_html_power_list() {
+    if (this.$props.table_config.html_power_list) {
+      return this.$props.table_config.html_power_list ;
+    }else{
+      return {} ;
+    }
+  }
+
+  check_need_power(need_power){
+    if (need_power ) {
+      var html_power_list  = this.get_html_power_list();
+      if ($.isFunction(need_power) ) {
+        return need_power( html_power_list  );
+      }else{
+        return html_power_list[need_power ];
+      }
+    }else{
+      return true;
+    }
+  }
+
   //隐藏
   check_config_show(field_info):boolean{
     //check 配置
@@ -165,7 +186,7 @@ export default class admin_table extends Vue {
         return true;
       }
     }else{
-      console.log("POWER ", config_value );
+      //console.log("POWER ", config_value );
       return config_value ;
     }
   }
@@ -182,10 +203,10 @@ export default class admin_table extends Vue {
     var file_name=$.get_table_key("")+date_str+".csv" ;
 
     $(e.currentTarget) .attr({
-               		  'download': file_name,
+                    'download': file_name,
                     'href': href ,
                     'target': '_blank'
-            		});
+                });
   }
 
   config_field_list(e :MouseEvent ){

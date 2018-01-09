@@ -114,7 +114,9 @@ class assistant_performance extends Controller
         $month_half = $start_time+15*86400;
         $last_month = strtotime("-1 month",$start_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
+        dd($ass_month);
         $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
+        
         $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target");
         
 
@@ -531,6 +533,66 @@ class assistant_performance extends Controller
 
  
     }
+
+
+    //助教每月回访信息回查列表
+    public function  get_ass_revisit_history_detail_info(){
+        $adminid = $this->get_in_int_val("adminid",324);
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
+        $list = @$ass_month[$adminid];        
+        $ret_info=[];
+
+        //月末在读学员
+        $read_student_list = $list["userid_list"];
+        if($read_student_list){
+            $read_student_arr = json_decode($read_student_list,true);
+            foreach($read_student_arr as $val){
+                $ret_info[$val]=[
+                    "userid" =>$val,
+                    "type_str"=>"在读学员",
+                    "type_flag"=>1
+                ];
+            }
+        }
+
+        //历史学生
+        $history_list = $this->t_ass_stu_change_list->get_ass_history_list($adminid,$start_time,$end_time);
+        foreach($history_list as $val){
+            $userid = $val["userid"];
+            if(!isset($ret_info[$userid])){
+                $ret_info[$userid]=[
+                    "userid" =>$userid,
+                    "type_str"=>"历史学员",
+                    "type_flag"=>2
+                ];
+
+            }
+        }
+
+        //停课学员
+        $stop_student_list = $list["stop_student_list"];
+        if($stop_student_list){
+            $stop_student_arr = json_decode($stop_student_list,true);
+            foreach($stop_student_arr as $val){
+                if(!isset($ret_info[$val])){
+                    $ret_info[$val]=[
+                        "userid" =>$val,
+                        "type_str"=>"停课学员",
+                        "type_flag"=>3
+                    ];
+
+                }
+            }
+        }
+        foreach($ret_info as &$item){
+            $item["stu_nick"]= $this->cache_get_student_nick($item["userid"]);
+        }
+
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
+
+    }
+
 
 
 }

@@ -261,6 +261,39 @@ class send_wx_msg_common_lesson extends Command
         }else{
             $this->to_waring('常规课 15分钟提示');
         }
+
+
+        # 常规课结束 想家长发送信息
+        /**
+         * @ 家长您好, xx同学已完成1.5课时,请知晓。如有疑问,请联系班主任
+         * @ 课程名称:数学
+　       * @ 上课时间:
+         * @ 联系电话: {助教电话}
+         IyYFpK8WkMGDMqMABls0WdZyC0-jV6xz4PFYO0eja9Q
+         {{first.DATA}}
+         课程名称：{{keyword1.DATA}}
+         下课时间：{{keyword2.DATA}}
+         {{remark.DATA}}
+         */
+        $wx  = new \App\Helper\Wx();
+        $oneMinuteStart = $now;
+        $oneMinuteEnd   = $oneMinuteStart+60;
+        $lessonEndList  = $task->t_lesson_info_b3->getLessonEndList($oneMinuteStart,$oneMinuteEnd);
+        $nowMonthStart  = strtotime(date("Y-m-1"));
+        $nowMonthEnd    = strtotime(date("Y-m-1",$nowMonthStart+32*86400));
+        foreach($lessonEndList as &$itemLessonEnd){
+            $subject_str = E\Esubject::get_desc($itemLessonEnd["subject"]);
+            $lesson_str  = date("Y-m-d H:i",$itemLessonEnd['lesson_start'])." ~ ".date("H:i",$itemLessonEnd['lesson_end']);
+            $templateIdLessonEnd = "IyYFpK8WkMGDMqMABls0WdZyC0-jV6xz4PFYO0eja9Q";
+            $dataLessonEnd = [
+                "first"    => "家长您好, ".$itemLessonEnd['stu_nick']."同学已完成".$itemLessonEnd['lesson_count']."课时,请知晓。如有疑问,请联系班主任",
+                "keyword1" => $subject_str,
+                "keyword2" => $lesson_str,
+                "remark"   => "联系电话: ".$itemLessonEnd['ass_nick']." ".$itemLessonEnd['ass_phone']
+            ];
+            $urlLessonEnd = "http://wx-teacher-web.leo1v1.com/wage_details.html?start=".$nowMonthStart."&end=".$nowMonthEnd;
+            $wx->send_template_msg("orwGAs_IqKFcTuZcU1xwuEtV3Kek",$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);//james
+        }
     }
 
 

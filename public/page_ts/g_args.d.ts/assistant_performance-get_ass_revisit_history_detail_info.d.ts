@@ -1,4 +1,5 @@
 interface GargsStatic {
+	adminid:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -18,15 +19,16 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../assistant_performance; vi  ../assistant_performance/performance_info.ts
+	 mkdir -p ../assistant_performance; vi  ../assistant_performance/get_ass_revisit_history_detail_info.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/assistant_performance-performance_info.d.ts" />
+/// <reference path="../g_args.d.ts/assistant_performance-get_ass_revisit_history_detail_info.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
+		adminid:	$('#id_adminid').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -46,6 +48,14 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
+	$('#id_adminid').admin_select_user_new({
+		"user_type"    : "account",
+		"select_value" : g_args.adminid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_adminid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -55,6 +65,14 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">adminid</span>
+                <input class="opt-change form-control" id="id_adminid" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["adminid title", "adminid", "th_adminid" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}

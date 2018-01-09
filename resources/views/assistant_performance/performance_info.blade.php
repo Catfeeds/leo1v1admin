@@ -57,7 +57,10 @@
                 @foreach ( $table_data_list as $key=>$var )
                     <tr>
                         <td>{{@$var["name"]}}</td> 
-                        <td>{{@$var["revisit_reword"]}}</td> 
+                        <td>
+                            <a href="/assistant_performance/get_ass_revisit_history_detail_info?adminid={{ $var["adminid"] }}&date_type_config=undefined&date_type=null&opt_date_type=3&start_time={{ $start }}&end_time={{ $end }}" target="_blank" >{{@$var["revisit_reword"]}}</a> 
+                            
+                        </td>
                         <td>{{@$var["kpi_lesson_count_finish_reword"]}}</td> 
                         <td>{{@$var["kk_reword"]}}</td> 
                         <td>{{@$var["stop_reword"]}}</td> 

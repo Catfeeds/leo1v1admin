@@ -286,7 +286,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." ss.class_rank,ss.grade_rank,ss.academic_goal,ss.test_stress,ss.entrance_school_type,ss.interest_cultivation,"
             ." ss.extra_improvement ,ss.habit_remodel ,ss.study_habit,ss.interests_and_hobbies,ss.character_type,"
             ." ss.need_teacher_style,ss.new_demand_flag,s.address,s.parent_name,tr.seller_top_flag,tss.grab_flag, "
-            ." t.rebut_info,t.rebut_flag "
+            ." t.rebut_info,t.rebut_flag,pp.wx_openid p_wx_openid "
             ." from  %s tr "
             ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
             ." left join %s ss on  t.userid = ss.userid "
@@ -296,6 +296,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." left join %s c on  tss.lessonid = c.ass_from_test_lesson_id "
             ." left join %s tc on tr.current_lessonid=tc.lessonid "
             ." left join %s tea on tea.teacherid=tr.limit_require_teacherid "
+            ." left join %s pp on s.parentid = pp.parentid"
             ." where  %s order by %s asc "
             , t_test_lesson_subject_require::DB_TABLE_NAME//tr
             , t_test_lesson_subject::DB_TABLE_NAME//t
@@ -306,6 +307,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             , t_course_order::DB_TABLE_NAME//c
             , t_teacher_cancel_lesson_list::DB_TABLE_NAME//tc
             , t_teacher_info::DB_TABLE_NAME//tea
+            , t_parent_info::DB_TABLE_NAME//pp
             ,$where_arr
             ,$opt_date_str
         );
