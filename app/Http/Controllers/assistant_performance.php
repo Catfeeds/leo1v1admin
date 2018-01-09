@@ -145,6 +145,9 @@ class assistant_performance extends Controller
             }
             \App\Helper\Utils::unixtime2date_for_item($item, 'become_member_time','_str',"Y-m-d");  
             \App\Helper\Utils::unixtime2date_for_item($item, 'become_full_member_time','_str',"Y-m-d");  
+            if($item["del_flag"]==0){
+                $item["leave_member_time"]=0;
+            }
             \App\Helper\Utils::unixtime2date_for_item($item, 'leave_member_time','_str',"Y-m-d");
 
             $item["del_flag_str"] = $item["del_flag"]?"离职":"在职";
