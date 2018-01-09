@@ -9,12 +9,12 @@ class  manager_list{
                 "default_value" =>  false,
             ], [
                 "field_name" => "gen_assistant_account",
-                "desc" => "",
+                "desc" => "生成助教账号",
                 "default_value" =>  true,
 
             ], [
                 "field_name" => "opt_login_other",
-                "desc" => "",
+                "desc" => "登录其他用户",
                 "default_value" =>  true,
             ]
 
