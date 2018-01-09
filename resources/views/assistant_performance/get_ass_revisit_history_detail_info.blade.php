@@ -30,6 +30,10 @@
                         <input class="opt-change form-control" id="id_adminid" />
                     </div>
                 </div>                            
+                <div class="col-xs-6 col-md-2">
+                    <button id="id_get_data" class="btn btn-primary">生成数据</button>
+                </div >
+
 
             </div>
         </div>
@@ -54,10 +58,11 @@
                        
 
                         <td>
-                            <div 
-                                
-                                {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                            <div class="row-data" data-userid="{{ $var["userid"] }}" 
+                                 
+                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >                               
+                                <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
                                 
                             </div>
                         </td>
