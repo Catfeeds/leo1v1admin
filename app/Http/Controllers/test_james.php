@@ -1701,9 +1701,10 @@ class test_james extends Controller
 
 
     public function check_function (){
+        $now = time();
         $oneMinuteStart = $now();
         $oneMinuteEnd   = $oneMinuteStart+60;
-        $lessonEndList = $task->t_lesson_info_b3->getLessonEndList($oneMinuteStart,$oneMinuteEnd);
+        $lessonEndList  = $task->t_lesson_info_b3->getLessonEndList($oneMinuteStart,$oneMinuteEnd);
         dd($lessonEndList);
     }
 
