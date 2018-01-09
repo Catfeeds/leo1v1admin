@@ -29,6 +29,10 @@ class reset_menu_url_power_map extends Command
     {
         parent::__construct();
     }
+    public function gen_url_field_default_true() {
+        $lines=\App\Helper\Utils::exec_cmd("cd ;ls */*.php");
+        $line=preg_split("/\n/", $lines);
+    }
 
     /**
      * Execute the console command.

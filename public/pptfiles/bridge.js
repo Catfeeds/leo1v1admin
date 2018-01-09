@@ -2,7 +2,7 @@ function onRegistered(slidesCount, firstStepCount){
     window.client && window.client.onRegistered(slidesCount, firstStepCount);
 }
 
-function notifyStepChanged(slideIndex, stepIndex, trigger, isBack){
+function onStepChanged(slideIndex, stepIndex, trigger, isBack){
     window.client && window.client.onStepChanged(slideIndex, stepIndex, trigger, isBack)
 }
 

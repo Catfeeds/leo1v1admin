@@ -111,8 +111,8 @@ class pdfConversionH5 extends Command
             # 重新打包压缩
             $work_path= public_path('ppt');
             $del_zip = $work_path."/".$uuid.".zip";
-            $zip_new_resource = public_path('ppt')."/".$uuid."_leo55.zip";
-            $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo55.zip * ";
+            $zip_new_resource = public_path('ppt')."/".$uuid."_leo34.zip";
+            $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo34.zip * ";
             \App\Helper\Utils::exec_cmd($zipCmd);
 
             # 使用七牛上传  七牛 资源域名 https://ybprodpub.leo1v1.com/
@@ -186,34 +186,7 @@ class pdfConversionH5 extends Command
                 {
                     # jq文件复制到index同级目录
                     $node_js->parentNode->removeChild($node_js);
-
-                    // $jsLink[] = 'jquery-1.8.1.min.js';
-                    // $jsLink[] = 'bridge.js';
-
-
-
-                    # 替换DOM节点 内容
-                //     $node_js->nodeValue = 'if (!window.jQuery){
-                //       var script = document.createElement("script");
-                //       var bridge = document.createElement("script");
-                //       script.src = "jquery-1.8.1.min.js";
-                //       bridge.src = "bridge.js";
-                //       window.onload=function(){document.body.appendChild(script);
-                //                     setTimeout(function(){
-                //                       document.body.appendChild(bridge);
-                //                      },100);}
-                //      }else{
-                //       var bridge = document.createElement("script");
-                //       bridge.src = "bridge.js";
-                //       window.onload=function(){document.body.appendChild(bridge)};}';
-                // }
-
-
-                // $node_js->nodeValue = 'if (!window.jQuery){
-                //       var script = document.createElement("script");
-                //       script.src = "jquery-1.8.1.min.js";
-                //       window.onload=function(){document.body.appendChild(script);}}';
-            }
+                }
 
 
             }

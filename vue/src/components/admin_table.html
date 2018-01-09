@@ -4,8 +4,7 @@
       <tr >
         <td class="remove-for-not-xs" style="display: none;"> </td>
         <td v-for="field_info in table_config.field_list"
-          v-if="check_power_show(field_info)"
-          v-show="check_show(field_info)"
+          v-if="check_show(field_info)"
           v-bind:data-field_name="field_info.order_field_name"
         >
           <span v-html="field_info.title"> </span>
@@ -27,13 +26,12 @@
           <a class="  fa  fa-cog   " style="font-size:25px" href="javascript:;" @click="show_as_list($event, item,index)" > </a>
         </td>
         <td v-for="field_info in table_config.field_list "
-          v-if="check_power_show(field_info)"
-          v-show="check_show(field_info)"
+          v-if="check_show(field_info)"
           v-html="field_render(item,  field_info,index)"></td>
         <td class="remove-for-xs"  >
           <div>
             <a href="javascript:;" class="btn  fa fa-cog td-info " title="竖向显示" @click="show_as_list($event, item,index)"></a>
-            <a v-for="opt_info in table_config.row_opt_list "  class="fa btn " v-bind:class="[opt_info.face_icon]"  @click="opt_info.on_click($event,item)" v-bind:title="opt_info.title"  > {{opt_info.text}} </a>
+            <a v-for="opt_info in table_config.row_opt_list " v-if="check_need_power(opt_info.need_power)"  class="fa btn " v-bind:class="[opt_info.face_icon]"  @click="opt_info.on_click($event,item)" v-bind:title="opt_info.title"  > {{opt_info.text}} </a>
           </div>
         </td>
       </tr>

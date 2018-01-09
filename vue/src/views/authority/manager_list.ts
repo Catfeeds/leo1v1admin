@@ -43,6 +43,7 @@ export default class extends vtable {
       title: "角色",
       field_name: "account_role_str",
       default_display: "1",
+      need_power: "admin_opt",
     },{
       title: "权限组",
       field_name: "permission",
@@ -56,13 +57,9 @@ export default class extends vtable {
       field_name: "become_full_member_flag_str",
       default_display: "1",
     },{
-      title: "考勤卡id",
-      field_name: "cardid",
-      default_display: "1",
-    },{
       title: "微信openid",
       field_name: "wx_openid",
-      default_display: "",
+      default_display: false,
     },{
       title: "上级",
       field_name: "up_admin_nick",
@@ -86,15 +83,12 @@ export default class extends vtable {
     },{
       title: "入职时间",
       field_name: "become_time",
-      default_display: "1",
     },{
       title: "离职时间",
       field_name: "leave_time",
-      default_display: "1",
     },{
       title: "打电话账号",
       field_name: "tquin",
-      default_display: "1",
     }];
 
     var  row_opt_list =[{
@@ -142,6 +136,7 @@ export default class extends vtable {
       title: "邮箱配置",
       face_icon: "",
       on_click: me.opt_email,
+      need_power: "admin_opt",
     },{
       text: " 全",
       title: "设置全职老师类型",
