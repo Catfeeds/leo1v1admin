@@ -2853,7 +2853,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $sql = $this->gen_sql_new("  select p.wx_openid, s.nick as stu_nick, l.subject, l.lesson_start, l.lesson_end, l.lesson_count/100 as lesson_count , a.nick as ass_nick, a.phone as ass_phone "
                                   ." from %s l"
                                   ." left join %s s on s.userid=l.userid"
-                                  ." left join %s p on p.parentid=p.parentid"
+                                  ." left join %s p on s.parentid=p.parentid"
                                   ." left join %s a on a.assistantid=s.assistantid"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
