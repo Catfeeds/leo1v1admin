@@ -37,15 +37,13 @@ $(function(){
             if (do_index < row_list.length ) {
                 var $tr=$(row_list[do_index]);
                 var opt_data=$tr.find(".row-data");
-                var userid = opt_data.userid;
-                alert(userid);
-                alert(g_args.start_time);
-                alert(g_args.adminid);
-                return;
+                var userid = opt_data.data("userid");
+                var type_flag = opt_data.data("type_flag");
                 $.do_ajax("/ajax_deal2/get_ass_stu_month_revisit_data",{
                     "userid" : userid,
                     "start_time": g_args.start_time,
-                    "adminid"    :g_args.adminid
+                    "adminid"    :g_args.adminid,
+                    "type_flag"  : type_flag
                 },function(resp){
                     console.log(resp.data);
                     var data = resp;
