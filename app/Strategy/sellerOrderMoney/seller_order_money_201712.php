@@ -76,7 +76,7 @@ class seller_order_money_201712  extends  seller_order_money_base
         $require_all_price_1=0;
         $v24_hour_all_price_1 =0;
         $require_and_24_hour_price_1 =0;
-        if ($percent >0  ||  $ret_arr["group_adminid"] == $adminid ) {
+        // if ($percent >0  ||  $ret_arr["group_adminid"] == $adminid ) {
             $percent_value=$percent/100;
             $group_all_price= $ret_arr[ "group_all_price"];
             $all_price= $ret_arr["all_price"];
@@ -100,7 +100,7 @@ class seller_order_money_201712  extends  seller_order_money_base
             // $desc= "($all_price * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_price *  $group_money_add_percent_val  "  ;
             $money= ($stage_money * $percent_value + $no_stage_money * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_stage_price *  $group_money_add_percent_val + $group_all_no_stage_price * $group_money_add_percent_val  ;
             $desc ="($stage_money * $percent_value + $no_stage_money * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_stage_price *  $group_money_add_percent_val + $group_all_no_stage_price * $group_money_add_percent_val  ";
-        }
+        // }
 
         $ret_arr["money"] =$money;
         $ret_arr["desc"] = $desc ;

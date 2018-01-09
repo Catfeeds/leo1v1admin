@@ -11,6 +11,20 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
         parent::__construct();
     }
 
+    public function get_course_info($courseid){
+        $where_arr = [
+            ["courseid=%u",$courseid,0]
+        ];
+        $sql = $this->gen_sql_new("select courseid,grade,subject,userid,teacherid,enable_video,reset_lesson_count_flag "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+
+    }
+
     public function add_courser_order($userid,$course_name, $course_type, $from_type) {
         return $this->row_insert([
             "userid"      => $userid,
@@ -183,7 +197,6 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
-
     public function change_teacher($courseid, $new_teacherid)
     {
         $ret_course = $this->check_course_available($courseid);
@@ -244,6 +257,7 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
 
         return false;
     }
+
     private function get_course_time($courseid)
     {
         $sql = sprintf("select course_start, course_end from %s where courseid = %u and " .
@@ -304,6 +318,7 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
         return $this->main_get_value($sql);
 
     }
+
     public function get_lesson_total_all($studentid)
     {
         $course_type = $this->where_get_in_str("contract_type", [
@@ -320,7 +335,6 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
         );
         return $this->main_get_value($sql);
     }
-
 
     public function get_student_courseid_by_userid($userid)
     {
@@ -346,7 +360,6 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
         );
         return $this->main_update($sql);
     }
-
 
     public function get_coursesid_by_orderid($orderid) {
         $sql= $this->gen_sql("select courseid from %s where orderid=%u",

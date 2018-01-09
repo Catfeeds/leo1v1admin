@@ -160,6 +160,13 @@ class t_summer_week_regular_course extends \App\Models\Zgen\z_t_summer_week_regu
         return $this->main_get_list($sql);
     }
 
+    public function delete_all_info(){
+        $sql = $this->gen_sql_new(" delete from %s ",self::DB_TABLE_NAME );
+        return $this->main_update($sql);
+
+    }
+
+
    
 
 }

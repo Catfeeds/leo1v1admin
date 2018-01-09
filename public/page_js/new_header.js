@@ -3008,6 +3008,14 @@ $(function () {
     });
 });
 
+//设置字体颜色
+function font_color(font_str,color){
+    if(color==undefined){
+        color = "red";
+    }
+    return "<font color="+color+">"+font_str+"</font>";
+}
+
 //下载隐藏
 function download_hide(){
     $(".page-opt-show-all-xls").hide();
