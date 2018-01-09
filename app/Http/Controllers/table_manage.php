@@ -103,6 +103,7 @@ class table_manage extends Controller
             "db_tool"        => "t_school_info",
             "db_weiyi_admin" => "t_admin_users",
             "db_account"     => "t_user_info",
+            "db_class"       => "t_course_info",
         ];
         $db_name    = $this->get_in_str_val("db_name","db_weiyi");
         $table_name = $this->get_in_str_val("table_name", $config_arr[$db_name]);
