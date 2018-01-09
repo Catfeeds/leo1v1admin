@@ -535,19 +535,11 @@ class assistant_performance extends Controller
 
     //助教每月回访信息回查列表
     public function  get_ass_revisit_history_detail_info(){
-        $adminid = $this->get_in_int_val("adminid");
-        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $adminid = $this->get_in_int_val("adminid",324);
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $adminid = 324;
-        $start_time = strtotime("2017-12-01");
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
-        $end_time = strtotime("+1 months",$start_time);
-        $list = @$ass_month[$adminid];
-        
-        if(!$list || !$adminid || !$start_time){
-            return $this->error_view([
-                "无数据!"
-            ]);
-        }
+        $list = @$ass_month[$adminid];        
         $ret_info=[];
 
         //月末在读学员
@@ -590,8 +582,11 @@ class assistant_performance extends Controller
             }
         }
         foreach($ret_info as &$item){
-            $item["_stu_nick"]= $this->cache_get_student_nick($item["userid"]);
+            $item["stu_nick"]= $this->cache_get_student_nick($item["userid"]);
         }
+
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
+
 
         dd($ret_info);
 
