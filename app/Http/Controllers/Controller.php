@@ -36,11 +36,12 @@ class Controller extends ControllerEx
         $this->setUpTraits();
     }
 
-    public function  set_call_ctl_init(){        
+
+    public function  set_call_ctl_init(){
         if (\App\Helper\Utils::check_env_is_testing()) {
             return;
         }
-		
+
         $url_input_define = session('url_input_define') ? json_decode(session('url_input_define'),true) : [];
         $url_desc_power = session('url_desc_power') ? json_decode(session('url_desc_power'),true) : [];
         $url = $_SERVER['REQUEST_URI'];
@@ -72,7 +73,7 @@ class Controller extends ControllerEx
                             break;
                         case 3:
                             $this->set_in_value($v['field_name'], $this->get_account_role());
-                            break;                 
+                            break;
                         }
                     }
                 }

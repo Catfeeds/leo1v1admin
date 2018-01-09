@@ -57,10 +57,6 @@ export default class extends vtable {
       field_name: "become_full_member_flag_str",
       default_display: "1",
     },{
-      title: "考勤卡id",
-      field_name: "cardid",
-      default_display: "1",
-    },{
       title: "微信openid",
       field_name: "wx_openid",
       default_display: false,
