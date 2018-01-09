@@ -15,6 +15,7 @@ $(function(){
     $.admin_select_user($("#id_userid"),"student",load_data);*/
 
 
+  
     function opt_item(opt_type, old_userid,old_week,old_start_time,old_end_time,old_key,old_count,old_teacherid,old_competition_flag) {
         var teacherid = g_args.teacherid ;
         if(opt_type == "add"){
@@ -263,7 +264,17 @@ $(function(){
 
 
 
-	$('.opt-change').set_input_change_event(load_data);
+    if(g_account=="jack" || g_account=="jim"){
+        $("#id_reset_course").parent().parent().show();
+    }
+
+    $("#id_reset_course").on("click",function(){
+        $.do_ajax("/ajax_deal2/reset_winter_summer_regular_course",{
+            "reset_type"  : 1           
+        } );
+
+    });
+	  $('.opt-change').set_input_change_event(load_data);
 
     $(".fc-day-header").each(function(){
         $(this).text(  $(this).text().split(" ")[0]);

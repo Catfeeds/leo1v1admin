@@ -262,6 +262,17 @@ $(function(){
         });
 
 
+    if(g_account=="jack" || g_account=="jim"){
+        $("#id_reset_course").parent().parent().show();
+    }
+
+    $("#id_reset_course").on("click",function(){
+        $.do_ajax("/ajax_deal2/reset_winter_summer_regular_course",{
+            "reset_type"  : 2         
+        } );
+
+    });
+
 
 	$('.opt-change').set_input_change_event(load_data);
 

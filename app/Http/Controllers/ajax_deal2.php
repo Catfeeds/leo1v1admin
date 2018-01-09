@@ -2827,4 +2827,19 @@ class ajax_deal2 extends Controller
 
     }
 
+
+    //重置寒假/暑假常规课表
+    public function reset_winter_summer_regular_course(){
+        $reset_type = $this->get_in_int_val("reset_type");//1,寒假课表重置;2,暑假课表重置
+        if($reset_type==1){
+            $this->t_winter_week_regular_course->delete_all_info();
+            $this->t_winter_week_regular_course->get_detail_info();
+
+        }elseif($reset_type==2){
+            $this->t_summer_week_regular_course->delete_all_info();
+            $this->t_summer_week_regular_course->get_detail_info();
+        }
+        return $this->output_succ();
+    }
+
 }
