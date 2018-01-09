@@ -397,7 +397,6 @@ class self_manage extends Controller
         // 计算缩放比例
         $info = getimagesize($origin_pic);
         $calc = min($width / $info[0], $height / $info[1]);
-
         $dim = $imagecreatefrom($origin_pic);
         // 创建缩略画布
         $tim = imagecreatetruecolor($width, $height);
