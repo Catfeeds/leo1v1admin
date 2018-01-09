@@ -478,6 +478,7 @@ $(function(){
                     });
 
                     // $('.tea_cw_ex').first().parent().parent().prev().text('教师讲义').append(red_tip);
+                    $('.tea_cw_ex').first().parent().parent().prev().text('教师讲义');
                     $('.tea_cw_ex').first().parent().parent().parent().show();
                     for(var l=0; l<11;l++){
                         if(l == 0){
