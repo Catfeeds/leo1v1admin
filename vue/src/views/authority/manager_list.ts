@@ -43,7 +43,7 @@ export default class extends vtable {
       title: "角色",
       field_name: "account_role_str",
       default_display: "1",
-      check_power: "admin_opt",
+      need_power: "admin_opt",
     },{
       title: "权限组",
       field_name: "permission",
@@ -140,7 +140,7 @@ export default class extends vtable {
       title: "邮箱配置",
       face_icon: "",
       on_click: me.opt_email,
-      check_power: "admin_opt",
+      need_power: "admin_opt",
     },{
       text: " 全",
       title: "设置全职老师类型",
