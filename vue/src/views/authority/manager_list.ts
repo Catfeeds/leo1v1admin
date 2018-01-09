@@ -96,6 +96,7 @@ export default class extends vtable {
       title: "编辑",
       face_icon: "fa-edit",
       on_click: me.opt_edit_manage,
+      need_power:me.check_power
     },{
       text: "",
       title: "设置角色",
@@ -309,7 +310,9 @@ export default class extends vtable {
     });
 
   }
-
+  check_power(html_power_list) {
+    return  html_power_list["admin_opt"] ;
+  }
     initPicker(obj)
     {
       obj.datetimepicker({

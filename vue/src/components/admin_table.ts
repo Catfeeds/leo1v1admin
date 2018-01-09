@@ -186,7 +186,7 @@ export default class admin_table extends Vue {
         return true;
       }
     }else{
-      console.log("POWER ", config_value );
+      //console.log("POWER ", config_value );
       return config_value ;
     }
   }
