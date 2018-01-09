@@ -39,6 +39,29 @@ class get_ass_weekly_info extends Command
     {
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
+        $registered_userid_list = $task->t_student_info->get_read_student_ass_info(-2);//在册学员名单
+        $time=strtotime("2017-11-27");
+        for($i=0;$i<=6;$i++){
+            $start_time = $time+$i*7*86400;
+            $week_info = $task->t_ass_weekly_info->get_all_info($start_time);
+            foreach($week_info as $val){
+                $k = $val["adminid"];
+                $list = @$registered_userid_list[$k];
+                if($list){
+                    $arr = json_decode($list,true);
+                    $num = count($arr);
+                }else{
+                    $num=0;
+                    
+                }
+                $task->t_ass_weekly_info->field_update_list($val["id"],[
+                    "registered_student_list" => $list,
+                    "registered_student_num"  => $num
+                ]);
+            }
+        }
+        dd($registered_userid_list);
+
         $time = time()-86400;
         $date_week = \App\Helper\Utils::get_week_range($time,1);
         $start_time = $date_week["sdate"];
@@ -59,6 +82,9 @@ class get_ass_weekly_info extends Command
 
         //类型在读学生列表
         $userid_list = $task->t_student_info->get_read_student_ass_info();
+
+        $registered_userid_list = $task->t_student_info->get_read_student_ass_info(-2);//在册学员名单
+
 
         foreach($ass_list as $k=>&$item){
             $item["read_student"] = isset($stu_info_all[$k])?$stu_info_all[$k]["read_count"]:0;
@@ -91,6 +117,13 @@ class get_ass_weekly_info extends Command
             $week_exist = $task->t_ass_weekly_info->get_id_by_unique_record($k,$start_time,1);
 
             $item["read_student_list"]  = @$userid_list[$k];
+            $item["registered_student_list"]  = @$registered_userid_list[$k];
+            if($item["registered_userid_list"]){
+                $registered_userid_arr = json_decode($item["registered_userid_list"],true);
+                $item["registered_student_num"] = count($registered_userid_arr);
+            }else{
+                $item["registered_student_num"]=0;
+            }
 
             if($week_exist>0){
                 $task->t_ass_weekly_info->field_update_list($week_exist,[
@@ -110,7 +143,9 @@ class get_ass_weekly_info extends Command
                     "renw_price"               => $item["renw_money"],
                     "new_stu_num"              =>$item["new_stu_num"],
                     "end_stu_num"              =>$item["end_stu_num"],
-                    "read_student_list"        =>$item["read_student_list"]
+                    "read_student_list"        =>$item["read_student_list"],
+                    "registered_student_list"  =>$item["registered_student_list"],
+                    "registered_student_num"   =>$item["registered_student_num"],
                 ]);
             }else{
                 $task->t_ass_weekly_info->row_insert([
@@ -133,7 +168,9 @@ class get_ass_weekly_info extends Command
                     "new_stu_num"              =>$item["new_stu_num"],
                     "end_stu_num"              =>$item["end_stu_num"],
                     "time_type"                =>1,
-                    "read_student_list"        =>$item["read_student_list"]
+                    "read_student_list"        =>$item["read_student_list"],
+                    "registered_student_list"  =>$item["registered_student_list"],
+                    "registered_student_num"   =>$item["registered_student_num"],
                 ]);
             }
 

@@ -2850,13 +2850,15 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_cancel_time_type=0"
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_end", $oneMinuteStart, $oneMinuteEnd);
-        $sql = $this->gen_sql_new("  select s.nick as stu_nick, l.subject, l.lesson_start, l.lesson_end, l.lesson_count/100 as lesson_count , a.nick as ass_nick, a.phone as ass_phone "
+        $sql = $this->gen_sql_new("  select p.wx_openid, s.nick as stu_nick, l.subject, l.lesson_start, l.lesson_end, l.lesson_count/100 as lesson_count , a.nick as ass_nick, a.phone as ass_phone "
                                   ." from %s l"
                                   ." left join %s s on s.userid=l.userid"
+                                  ." left join %s p on s.parentid=p.parentid"
                                   ." left join %s a on a.assistantid=s.assistantid"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
+                                  ,t_parent_info::DB_TABLE_NAME
                                   ,t_assistant_info::DB_TABLE_NAME
                                   ,$where_arr
         );

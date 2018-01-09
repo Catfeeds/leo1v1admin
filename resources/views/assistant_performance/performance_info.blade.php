@@ -36,7 +36,15 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>助教</td>
+                    <td>员工状态</td>
+                    <td>工号</td>
+                    <td>员工姓名</td>
+                    <td>英文名</td>
+                    <td>部门</td>
+                    <td>小组</td>
+                    <td>入职日期</td>
+                    <td>转正日期</td>
+                    <td>离职日期</td>
                     <td>绩效(回访) </td>
                     <td>绩效(课程消耗) </td>
                     <td>绩效(扩课) </td>
@@ -56,7 +64,15 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $key=>$var )
                     <tr>
+                        <td>{{@$var["del_flag_str"]}}</td> 
+                        <td>{{@$var["adminid"]}}</td> 
                         <td>{{@$var["name"]}}</td> 
+                        <td>{{@$var["account"]}}</td> 
+                        <td>{{@$var["account_role_str"]}}</td> 
+                        <td>{{@$var["group_name"]}}</td> 
+                        <td>{{@$var["become_member_time_str"]}}</td> 
+                        <td>{{@$var["become_full_member_time_str"]}}</td> 
+                        <td>{{@$var["leave_member_time_str"]}}</td> 
                         <td>
                             <a href="/assistant_performance/get_ass_revisit_history_detail_info?adminid={{ $var["adminid"] }}&date_type_config=undefined&date_type=null&opt_date_type=3&start_time={{ $start }}&end_time={{ $end }}" target="_blank" >{{@$var["revisit_reword"]}}</a> 
                             

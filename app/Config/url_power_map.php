@@ -682,6 +682,7 @@ class url_power_map {
 			'/requirement/requirement_info_product'	=>1425500,
 			'/cc_manage/index'	=>3800101,
 			'/tea_manage/index'	=>3800201,
+			'/course/index'	=>3800501,
 			'/stu_manage/index'	=>2010100,
 			'/stu_manage/parent_list'	=>2012000,
 			'/stu_manage/lesson_plan'	=>2010300,

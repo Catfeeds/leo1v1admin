@@ -114,7 +114,7 @@ class assistant_performance extends Controller
         $month_half = $start_time+15*86400;
         $last_month = strtotime("-1 month",$start_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
-        dd($ass_month);
+        
         $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
         
         $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target");
@@ -141,6 +141,20 @@ class assistant_performance extends Controller
 
 
         foreach($ass_month as $k=>&$item){
+            if(empty($item["become_member_time"])){
+                $item["become_member_time"]=$item["create_time"];
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item, 'become_member_time','_str',"Y-m-d");  
+            \App\Helper\Utils::unixtime2date_for_item($item, 'become_full_member_time','_str',"Y-m-d");  
+            if($item["del_flag"]==0){
+                $item["leave_member_time"]=0;
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item, 'leave_member_time','_str',"Y-m-d");
+
+            $item["del_flag_str"] = $item["del_flag"]?"离职":"在职";
+            E\Eaccount_role::set_item_value_str($item);
+
+
             /*回访*/
             $revisit_reword_per = 0.2;
             // //当前在读学员
@@ -570,15 +584,15 @@ class assistant_performance extends Controller
             }
         }
 
-        //停课学员
-        $stop_student_list = $list["stop_student_list"];
+        //其他未结课学员
+        $stop_student_list = $list["registered_student_list"];
         if($stop_student_list){
             $stop_student_arr = json_decode($stop_student_list,true);
             foreach($stop_student_arr as $val){
                 if(!isset($ret_info[$val])){
                     $ret_info[$val]=[
                         "userid" =>$val,
-                        "type_str"=>"停课学员",
+                        "type_str"=>"其他未结课学员",
                         "type_flag"=>3
                     ];
 

@@ -34,6 +34,15 @@
                     <button id="id_get_data" class="btn btn-primary">生成数据</button>
                 </div >
 
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">累计次数</span>
+                        <button btn="btn-warning"  id="id_num" >0</button>
+                    </div>
+                </div>                            
+
+
+
 
             </div>
         </div>
