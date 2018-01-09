@@ -44,7 +44,7 @@
                     <td>userid </td>
                     <td>学生姓名</td>
                     <td>类型 </td>
-                    <td>扣分值 </td>                  
+                    <td>扣分次数 </td>                  
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -58,7 +58,7 @@
                        
 
                         <td>
-                            <div class="row-data" data-userid="{{ $var["userid"] }}" 
+                            <div class="row-data" data-userid="{{ $var["userid"] }}" data-type_flag="{{ $var["type_flag"] }}" 
                                  
                                  {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >                               
