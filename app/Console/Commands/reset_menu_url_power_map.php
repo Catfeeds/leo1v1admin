@@ -54,16 +54,17 @@ class reset_menu_url_power_map extends Command
                     continue;
                 };
                 $get_config = $desc_class::get_config();
+                $get_default = "";
+
                 foreach( $get_config as $item){
-                    $get_default = "";
                     if( @$item['default_value'] ){
-                        foreach( $item as $k => $v){
-                            $get_default.="\t\t\t\t'$k'\t=>'$v',\n";
-                        }
-                    }
-                    if(!empty($get_default)){
-                        $str .= "\t\t\t'$url' \t=> [\n".$get_default."\t\t\t],\n ";
-                    }
+                        $field_name = @$item['field_name'];
+                        $get_default.="'$field_name',";                        
+                    }           
+                }
+                if(!empty($get_default)){
+                    $get_default = substr($get_default,0,-1);
+                    $str .= "\t\t\t'$url'\t=> [\n\t\t\t\t".$get_default."\n\t\t\t],\n ";
                 }
                 
             }
