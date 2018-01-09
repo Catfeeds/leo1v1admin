@@ -204,7 +204,7 @@
                                         </div>
                                         <div class="col-xs-8 col-md-7  row-td-field-value">
                                             <span  > 
-                                            {{$stu_info["cur_require_admin_nick"]}} |
+                                            {{@$stu_info["cur_require_admin_nick"]}} |
                                             {{@$var["st_application_nick"]}} {{$var["account"] }}
                                             </span>
                                         </div>
