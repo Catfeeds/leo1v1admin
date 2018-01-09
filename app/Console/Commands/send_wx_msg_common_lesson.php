@@ -261,6 +261,20 @@ class send_wx_msg_common_lesson extends Command
         }else{
             $this->to_waring('常规课 15分钟提示');
         }
+
+
+        # 常规课结束 想家长发送信息
+        /**
+         * @ 家长您好, xx同学已完成1.5课时,请知晓。如有疑问,请联系班主任
+         * @ 课程名称:数学
+　       * @ 上课时间:
+         * @ 联系电话: {助教电话}
+         */
+        // $oneMinuteStart = $now;
+        // $oneMinuteEnd   = $oneMinuteStart+60;
+        // $lessonEndList = $task->t_lesson_info_b3->getLessonEndList($oneMinuteStart,$oneMinuteEnd);
+
+
     }
 
 
@@ -303,7 +317,16 @@ class send_wx_msg_common_lesson extends Command
                     "keyword3" => date('Y-m-d H:i:s'),
                     "remark"   => "请尽快进入课堂，如有紧急情况请尽快联系助教老师"
                 ];
+            }elseif($type == 5){ // 课程结束
+                // $data = [
+                //     "first"    => "{ ".$item['teacher_nick']."}老师您好， 请尽快对本节课做出评价",
+                //     "keyword1" => '课程评价',
+                //     "keyword2" => "'".date('H:i',$item['lesson_start'])."' 开始的 $subject_str 课程已结束，请尽快登录老师端，进行评价。",
+                //     "keyword3" => '"'.date('Y-m-d H:i:s').'"',
+                //     "remark"   => "请尽快登录老师端，进行评价"
+                // ];
             }
+
 
         }elseif($account_role == 2){ // 老师
             if($type == 1){

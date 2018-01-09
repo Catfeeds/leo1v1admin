@@ -281,8 +281,6 @@ class lesson extends TeaWxController
         $start_time  = $this->get_in_int_val("start");
         $end_time    = $this->get_in_int_val("end");
 
-        \App\Helper\Utils::logger("teacherid12:$teacherid");
-
         $url = "http://admin.leo1v1.com/teacher_money/get_teacher_money_list";
         $post_data = array(
             "teacherid" => $teacherid,
