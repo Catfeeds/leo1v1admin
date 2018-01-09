@@ -537,7 +537,6 @@ class assistant_performance extends Controller
     public function  get_ass_revisit_history_detail_info(){
         $adminid = $this->get_in_int_val("adminid",324);
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        $adminid = 324;
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
         $list = @$ass_month[$adminid];        
         $ret_info=[];
