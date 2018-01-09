@@ -30,8 +30,51 @@ class reset_menu_url_power_map extends Command
         parent::__construct();
     }
     public function gen_url_field_default_true() {
-        $lines=\App\Helper\Utils::exec_cmd("cd ;ls */*.php");
+        $cmd = app_path("../app/Config/url_desc_power" );
+        $lines=\App\Helper\Utils::exec_cmd("cd ".$cmd.";ls */*.php");
         $line=preg_split("/\n/", $lines);
+        $pre = "\\App\\Config\\url_desc_power\\";
+
+        if( is_array($line)){
+
+            $str="<?php\n"
+                ."namespace App\Config;\n"
+                ."class power_config {\n"
+
+                ."\tstatic  public  function get_default_config()  {\n"
+                . "\t\treturn [\n";
+
+            foreach( $line as $var ){
+                $midd = strpos($var,"/") ;
+                $fileName = substr($var, 0, $midd);
+                $className  = substr($var, $midd + 1, -4 );
+                $desc_class = $pre.$fileName."\\".$className;
+                $url = '/'.$fileName.'/'.$className;
+                if(!class_exists($desc_class)){
+                    continue;
+                };
+                $get_config = $desc_class::get_config();
+                foreach( $get_config as $item){
+                    $get_default = "";
+                    if( @$item['default_value'] ){
+                        foreach( $item as $k => $v){
+                            $get_default.="\t\t\t\t'$k'\t=>'$v',\n";
+                        }
+                    }
+                    if(!empty($get_default)){
+                        $str .= "\t\t\t'$url' \t=> [\n".$get_default."\t\t\t],\n ";
+                    }
+                }
+                
+            }
+
+            $str.="\t\t];\n ";
+            $str.="\t}\n ";
+            $str.="}\n ";
+
+            file_put_contents(app_path("./Config/power_config.php"),$str);
+        }
+
     }
 
     /**
@@ -81,7 +124,7 @@ class reset_menu_url_power_map extends Command
         $str.="\t}\n ";
         $str.="}\n ";
 
-
+        $this->gen_url_field_default_true();
 
         file_put_contents(app_path("./Config/url_power_map.php"),$str);
 
