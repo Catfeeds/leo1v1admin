@@ -13,6 +13,8 @@ interface JQueryStatic {
     reload( ):void;
     isWeiXin():boolean;
   do_select_menu(obj):void;
+
+  get_table_key (fix):string ;
     do_ajax( url:string,data: Object ,succ_call_back?: (result :any )=>void, jsonp_flag? ):void;
     do_ajax_t( url:string,data: Object ,succ_call_back?: (result :any )=>void   ):void;
   wopen( url:string,open_self_window?:boolean ,vue_domain_flag?:boolean ):void;
@@ -141,6 +143,7 @@ interface RowData {
 interface JQuery {
     get_opt_data(text: string): any;
 
+  table2CSV(config?):string;
 
     table_group_level_4_init(show_flag?):void;
     table_admin_level_4_init(show_flag?):void;

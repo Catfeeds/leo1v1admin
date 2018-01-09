@@ -7,6 +7,8 @@ import router from './router'
 import store from './store'
 //import '@/icons' // icon
 import '@/permission' // 权限
+import admin_table from "./components/admin_table"
+Vue.component('admin-table' ,admin_table );
 
 Vue.component('admin-remote-script', {
 

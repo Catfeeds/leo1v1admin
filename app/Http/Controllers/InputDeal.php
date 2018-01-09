@@ -363,14 +363,31 @@ trait  InputDeal {
         throw new \Exception("$method  no find ");
     }
 
+    /**
+     * 通过ret的结果,返回信息
+     * @param boolean ret
+     * @param string  error_info 错误信息
+     */
+    public function output_ret($ret,$error_info="操作失败,请重试!"){
+        if($ret){
+            return $this->output_succ();
+        }else{
+            return $this->output_err($error_info);
+        }
+    }
+
     public function output_succ($arr=null) {
         return outputjson_success($arr );
     }
+
+    public function output_err( $errno, $array=null) {
+        return outputjson_error($errno,$array);
+    }
+
     public function output_ajax_table($ret_list, $arr=[] ) {
         $ret_list["page_info"] = $this->get_page_info_for_js($ret_list["page_info"]);
         return $this->output_succ( array_merge(["data" => $ret_list], $arr) );
     }
-
 
     public function output_api_ret_info($ret_info =null) {
         foreach ($ret_info["list"] as &$item) {
@@ -383,12 +400,6 @@ trait  InputDeal {
         unset($ret_info["total_num"]);
         unset($ret_info["per_page_count"]);
         return outputjson_success($ret_info);
-
-    }
-
-
-    public function output_err( $errno, $array=null) {
-        return outputjson_error($errno,$array);
     }
 
     public function get_in_order_by_str( $no_order_in_db_field_list=[],$def="", $key_map=[] ) {
