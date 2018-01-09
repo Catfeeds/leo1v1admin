@@ -1701,6 +1701,7 @@ class test_james extends Controller
 
 
     public function check_function (){
+
         $now = time();
         $oneMinuteStart = $now;
         $oneMinuteEnd   = $oneMinuteStart+60;
