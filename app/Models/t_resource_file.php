@@ -203,7 +203,8 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
     public function getH5PosterInfo(){
         $where_arr = [
             "f.status=0",
-            // "f.file_use_type=0",
+            "f.file_use_type=0",
+            "f.file_type=pdf",
             "f.change_status=0"
         ];
 
@@ -233,5 +234,19 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         return $this->main_get_list($sql);
     }
 
+    public function get_list_tmp($file_id){
+        $where_arr = [
+            "file_poster like '%%home%%'",
+            ["f.file_id=%d",$file_id,-1]
+        ];
+
+        $this->gen_sql_new("  select file_id, file_poster, filelinks from %s f"
+                           ." where %s"
+                           ,self::DB_TABLE_NAME
+                           ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 
 }

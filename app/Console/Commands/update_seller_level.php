@@ -117,17 +117,17 @@ class update_seller_level extends cmd_base
                     }else{
                         $max_time = strtotime(date("Y-m-d",strtotime(date('Y-m-1',$become_member_time)." +3 month")));
                     }
-                    // if(time(null)-$become_member_time<60*3600*24 && $month_level>E\Eseller_level::V_500){
-                    if($become_member_time>$max_time && $month_level>E\Eseller_level::V_500){
+                    $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
+                    if($month_date<$max_time && $month_level>E\Eseller_level::V_500){
                         $month_level = E\Eseller_level::V_500;
                     }
-                    $month_date = strtotime(date('Y-m-1',strtotime(date('Y-m-d',$time))-1));
                     $row = $this->task->t_seller_level_month->get_row_by_adminid_month_date($adminid,$month_date);
                     if(!$row){
                         $this->task->t_seller_level_month->row_insert([
                             'adminid' => $adminid,
                             'month_date' => $month_date,
                             'seller_level' => $month_level,
+                            'money' => $price_very_last*100,
                             'create_time' => $time,
                         ]);
                     }

@@ -181,46 +181,80 @@ trait  ViewDeal {
             $row_str=@file_get_contents($row_file_name);
         }
 
-        $data= "interface self_Args {\n".
-            $str.
-            "}\n".
-            "interface self_RowData {\n".
-            $row_str.
-            "}\n\n".
-            "export  {self_RowData , self_Args  }\n"
-            ."/*\n"
-            ."\ntofile:\n\t mkdir -p ../{$this->view_ctrl}; vi  ../{$this->view_ctrl}/{$this->view_action}.ts\n\n".
-            "\n".
-            "import Vue from 'vue'\n".
-            "import Component from 'vue-class-component'\n".
-            "import vtable from \"../../components/vtable\"\n".
-            "import {self_RowData, self_Args } from \"../page.d.ts/{$this->view_ctrl}-{$this->view_action}\"\n".
-            "\n".
-            "// @Component 修饰符注明了此类为一个 Vue 组件\n".
-            "@Component({\n".
-            "  // 所有的组件选项都可以放在这里\n".
-            "  template:  require(\"./{$this->view_action}.html\" ),\n".
-            "})\n".
-            "\n".
-            "export default class extends vtable {\n".
-            "\n".
+        $data=<<<END
+interface self_Args {
+$str
+}
+interface self_RowData {
+$row_str
+}
+export  {self_RowData , self_Args  }
+/*
+tofile:\n\t mkdir -p ../{$this->view_ctrl}; vi  ../{$this->view_ctrl}/{$this->view_action}.ts
 
-            "  get_opt_data(obj):self_RowData {return this.get_opt_data_base(obj );}\n".
-                "  get_args() :self_Args  {return  this.get_args_base();}\n".
-            "\n".
-             "  data_ex() {\n".
-             "    //扩展的 data  数据\n ".
-             "    return {\"message\": \"xx\" }\n ".
-             "  }\n".
-             "  query_init( \$header_query_info): void{\n".
-            "    console.log(\"init_query\");\n".
-            "    var me =this;\n".
-             "\n".
-            $set_filed_str.
-            "\n".
-            "  }\n".
-            "}\n"
-            ."*/\n";
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import vtable from "../../components/vtable"
+import {self_RowData, self_Args } from "../page.d.ts/{$this->view_ctrl}-{$this->view_action}"
+// @Component 修饰符注明了此类为一个 Vue 组件.
+@Component({
+  // 所有的组件选项都可以放在这里.
+  template:  require("./{$this->view_action}.html" ),
+})
+export default class extends vtable {
+
+  get_args() :self_Args  {return  this.get_args_base();}
+  data_ex() {
+    //扩展的 data  数据
+    var me=this;
+    var field_list=[{
+      field_name: "title",
+      "title": "说明",
+    },{
+      field_name: "admin_nick",
+      "order_field_name": "admin_nick",
+      "title": "昵称",
+      "default_display":  false,
+      render:function(value, item:self_RowData ,index){
+        return "<a class=\"fa btn\" >"+item.admin_nick+"</a>" ;
+      }
+    },{
+      field_name: "auth_flag_str",
+      "title": "管理员",
+      "order_field_name": "auth_flag",
+      need_power: "auth_flag",
+      render:function(value, item:self_RowData ,index){
+        return "<a class=\"fa btn\" >"+value+"</a>" ;
+      }
+    }];
+    var  row_opt_list =[{
+      face_icon: "fa-edit",
+      on_click: me.opt_edit ,
+      "title": "编辑",
+    },{
+      face_icon: "fa-times",
+      "title": "删除",
+    }];
+
+    return {
+      "table_config":  {
+        "field_list": field_list,
+        "row_opt_list": row_opt_list,
+      }
+    }
+  }
+  opt_edit( e:MouseEvent, opt_data: self_RowData ){
+    alert(JSON.stringify( opt_data));
+  }
+
+  query_init( \$header_query_info): void{
+    console.log("init_query");
+    var me =this;
+$set_filed_str
+  }
+}
+*/
+END;
 
         $file_name =app_path("../vue/src/views/page.d.ts/{$this->view_ctrl}-{$this->view_action}.ts");
 

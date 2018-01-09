@@ -241,7 +241,7 @@ class t_week_regular_course extends \App\Models\Zgen\z_t_week_regular_course
     public function get_all_week_regular_course_info($lstart,$assistantid,$userid,$teacherid,$adminid,$ass_flag=-1){
         $where_arr = [
             ["s.userid=%u",$userid,-1],
-            ["s.teacherid=%u",$teacherid,-1],
+            ["w.teacherid=%u",$teacherid,-1],
             ["m.uid=%u",$adminid,-1],
             "s.type= 0",
             "s.is_test_user=0",
