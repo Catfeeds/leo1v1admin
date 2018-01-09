@@ -753,12 +753,12 @@ $(function(){
     if(window.location.host=="admin.leo1v1.com"){
         $("#id_version_switch").text("切换到冒烟版本");
         $("#id_version_switch").on("click",function(){
-            window.location.href=window.location.href.replace("/admin.leo1v1.com/", "p.admin.leo1v1.com");
+            window.location.href=window.location.href.replace("admin.leo1v1.com", "p.admin.leo1v1.com");
         });
     }else{
         $("#id_version_switch").text("切换到稳定版本");
         $("#id_version_switch").on("click",function(){
-            window.location.href=window.location.href.replace("/p.admin.leo1v1.com/", "admin.leo1v1.com");
+            window.location.href=window.location.href.replace("p.admin.leo1v1.com", "admin.leo1v1.com");
         });
     }
 
