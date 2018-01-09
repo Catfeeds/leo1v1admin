@@ -1,76 +1,85 @@
-
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/stu_manage-course_lesson_list.d.ts" />
 
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			sid: g_sid	,
-			courseid: g_args.courseid, 
-			all_flag:	$('#id_all_flag').val()
+			      sid: g_sid	,
+			      courseid: g_args.courseid, 
+			      all_flag:	$('#id_all_flag').val()
         });
     }
-	$('#id_all_flag').val(g_args.all_flag);
-	$('.opt-change').set_input_change_event(load_data);
+	  $('#id_all_flag').val(g_args.all_flag);
+	  $('.opt-change').set_input_change_event(load_data);
 
     $(".cancel_lesson").on("click",function(){
-        var lessonid = $(this).get_opt_data('lessonid');
-        var courseid = $(this).get_opt_data('courseid');
-        
-        BootstrapDialog.show({
-            title: '取消',
-            message : "取消吗？" ,
-            closable: false, 
-            buttons: [{
-                label: '返回',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }, {
-                label: '确认',
-                cssClass: 'btn-warning',
-                action: function(dialog) {
-                    dialog.close();
+        var data          = $(this).get_opt_data();
+        var lessonid      = data.lessonid;
+        var lesson_status = data.lesson_status;
 
-                    $.ajax({
-                        url: '/user_deal/cancel_lesson',
-                        type: 'POST',
-                        data: {
-				            'lessonid':  lessonid
-			            },
-                        dataType: 'json',
-                        success: function(data) {
-                            window.location.reload();
-                        }
-                    });//返回可排课程列表调取新数据over
-
-                }
-            }]
-        }); 
+        if(lesson_status!=0){
+            BootstrapDialog.alert("课程状态不对,只能取消"+font_color("未开始")+"的课程!");
+        }else{
+            BootstrapDialog.show({
+                title    : '取消',
+                message  : "是否取消本课程吗？" ,
+                closable : false,
+                buttons  : [{
+                    label: '返回',
+                    action: function(dialog) {
+                        dialog.close();
+                    }
+                }, {
+                    label: '确认',
+                    cssClass: 'btn-warning',
+                    action: function(dialog) {
+                        dialog.close();
+                        $.do_ajax("/user_deal/cancel_lesson",{
+                            "lessonid":lessonid
+                        },function(result){
+                            if(result.ret==0){
+                                window.location.reload();
+                            }else{
+                                BootstrapDialog.alert(result.info);
+                            }
+                        })
+                    }
+                }]
+            });
+        }
     });
 
     $(".opt_change_lesson_count").on("click",function(){
-        var lessonid = $(this).get_opt_data('lessonid');
-        var $lesson_count=$("<input/>");
-        var arr =[
+        var data          = $(this).get_opt_data();
+        var lessonid      = data.lessonid;
+        var $lesson_count = $("<input/>");
+        var arr = [
+            ["修改规则","---------"],
+            ["1","无法修改 常规课上奥数课 之外的课程;  注:"
+             +font_color("\"常规课上奥数课标识\"")+"需要在学生的课程包列表的"
+             +font_color("\"课程包信息\"")+"处找到并修改"],
+            ["2","课程所在的次月"
+             +font_color("5号")+"之后无法修改课程的课时数; 如:一节2018年1月1日当天任何时间的课程,在2018年2月5日0点之后无法修改"],
+            ["3","取消课时请使用课程管理下的"
+             +font_color("\"课时确认\"")+"功能"],
             ["课时数"  ,$lesson_count  ]
         ];
+        $lesson_count.val(data.lesson_count);
         $.show_key_value_table("修改课时数", arr ,{
-            label: '确认',
-            cssClass: 'btn-warning',
+            label    : '确认',
+            cssClass : 'btn-warning',
             action: function(dialog) {
                 $.do_ajax( "/user_deal/lesson_change_lesson_count", {
-                    "lessonid" : lessonid ,
-                    'lesson_count': $lesson_count.val() *100
+                    "lessonid"     : lessonid ,
+                    'lesson_count' : $lesson_count.val() *100
                 },function(data){
                     if (data.ret !=0 ) {
-                        alert(data.info);
+                        BootstrapDialog.alert(data.info);
                     }else{
-                        alert("成功");
+                        BootstrapDialog.alert("成功");
                         window.location.reload();
                     }
-                }) ;
-                
+                });
             }
         });
     });
@@ -169,7 +178,7 @@ $(function(){
         // });
         if (g_args.courseid>0) {
             $.do_ajax("/user_deal/lesson_add_lesson",{
-                courseid:g_args.courseid
+                courseid : g_args.courseid
             },function(resp){
                 if(resp.ret==-1){
                     alert(resp.info);
