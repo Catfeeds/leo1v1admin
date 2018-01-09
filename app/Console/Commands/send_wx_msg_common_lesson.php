@@ -270,8 +270,8 @@ class send_wx_msg_common_lesson extends Command
 　       * @ 上课时间:
          * @ 联系电话: {助教电话}
          */
-        $oneMinuteStart = $now();
-        $oneMinuteEnd   = $oneMinuteStart+60;
+        // $oneMinuteStart = $now();
+        // $oneMinuteEnd   = $oneMinuteStart+60;
         // $lessonEndList = $task->t_lesson_info_b3->getLessonEndList($oneMinuteStart,$oneMinuteEnd);
 
 
