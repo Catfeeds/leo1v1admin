@@ -2,7 +2,7 @@
 cd $(dirname $0)
 ./gen_route.php
 npm run build
-sed -i -e "s/self\.//g" ./dist/index.html
+sed -i -e "s/self\./p./g" ./dist/index.html
 
 tar czvf  dist.tar.gz dist
 echo "cp dist.tar.gz to 0.6"
