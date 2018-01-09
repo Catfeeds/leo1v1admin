@@ -66,12 +66,12 @@ class NoticeAssForFirstLesson extends Command
                 $data = [
                     "first"    => '首次课后回访未设置',
                     "keyword1" => '首次课后回访',
-                    "keyword2" => "课时信息:".$lesson_count_str."课时,上课时间:".date("Y-m-d H:i",$item['lesson_start'])." ~ ".date('H:i',$item['lesson_end']).", 科目:$subject_str , 老师:$tea_nick",
+                    "keyword2" => "课时信息:".$lesson_count_str."课时,学生姓名:".$item['nick'].",上课时间:".date("Y-m-d H:i",$item['lesson_start'])." ~ ".date('H:i',$item['lesson_end']).", 科目:$subject_str , 老师:$tea_nick",
                     "keyword3" => date('Y-m-d H:i:s'),
                 ];
                 $url = "";
-                WxSendMsg::send_ass_for_first($item['wx_openid'], $data, $url); 
-                // WxSendMsg::send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url); //james
+                WxSendMsg::send_ass_for_first($item['wx_openid'], $data, $url);
+                WxSendMsg::send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url); //james
             }
         }
     }
