@@ -114,7 +114,6 @@ class assistant_performance extends Controller
         $month_half = $start_time+15*86400;
         $last_month = strtotime("-1 month",$start_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
-        dd($ass_month);
         $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
         
         $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target");
@@ -141,6 +140,17 @@ class assistant_performance extends Controller
 
 
         foreach($ass_month as $k=>&$item){
+            if(empty($item["become_member_time"])){
+                $item["become_member_time"]=$item["create_time"];
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item, 'become_member_time','_str',"Y-m-d");  
+            \App\Helper\Utils::unixtime2date_for_item($item, 'become_full_member_time','_str',"Y-m-d");  
+            \App\Helper\Utils::unixtime2date_for_item($item, 'leave_member_time','_str',"Y-m-d");
+
+            $item["del_flag_str"] = $item["del_flag"]?"离职":"在职";
+            E\Eaccount_role::set_item_value_str($item);
+
+
             /*回访*/
             $revisit_reword_per = 0.2;
             // //当前在读学员
