@@ -51,7 +51,7 @@ $(function(){
                     var num = $("#id_num").text();
                     console.log(num);
                     console.log(data.revisit_value);
-                    num = num+data.revisit_value;
+                    num = parseInt(num)+parseInt(data.revisit_value);
                     console.log(num);
                     $("#id_num").text(num);
                     
