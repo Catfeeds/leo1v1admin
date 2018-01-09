@@ -48,9 +48,12 @@ $(function(){
                     console.log(resp.data);
                     var data = resp;
                     $tr.find(".revisit_value").text(data.revisit_value);
-                    var num = $("#id_num").val();
+                    var num = $("#id_num").text();
+                    console.log(num);
+                    console.log(data.revisit_value);
                     num = num+data.revisit_value;
-                    $("#id_num").val(num);
+                    console.log(num);
+                    $("#id_num").text(num);
                     
                     do_index++;
                     do_one();

@@ -37,7 +37,7 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">累计次数</span>
-                        <button class="opt-change form-control" id="id_num"  readonly>0</button>
+                        <button  id="id_num" >0</button>
                     </div>
                 </div>                            
 
