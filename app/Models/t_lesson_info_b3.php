@@ -2199,19 +2199,25 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     }
 
-    public function get_stu_first_lesson_time_by_subject($userid){
+    public function get_stu_first_lesson_time_by_subject($userid=-1,$start_time=0,$end_time=0){
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.confirm_flag<2",
             "l.lesson_type in (0,1,3)",
             ["l.userid = %u",$userid,-1],
+            ["l.start_time = %u",$start_time,0],
+            ["l.end_time = %u",$end_time,0],
             "l.lesson_status>0"
         ];
-        $sql = $this->gen_sql_new("select l.subject,l.lesson_start,l.userid"
+        $sql = $this->gen_sql_new("select l.subject,l.lesson_start,l.userid,l.assistantid,m.uid"
                                   ." from %s l "
+                                  ." left join %s a on l.assistantid = a.assistantid"
+                                  ." left join %s m on a.phone = m.phone"
                                   ." where %s and l.lesson_start = (select min(lesson_start) from %s where lesson_del_flag=0 and confirm_flag<2 and lesson_type in (0,1,3) and subject = l.subject and userid = l.userid and lesson_status>0)"
                                   ." group by l.subject,l.userid",
                                   self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr,
                                   self::DB_TABLE_NAME
         );
