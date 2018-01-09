@@ -23,6 +23,9 @@ class test_jack  extends Controller
         // //  $pdf_file_url=\App\Helper\Common::gen_order_pdf_empty();
 
         // dd($pdf_file_url);
+        $userid  = 62938;
+        $regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_lesson_time_by_subject($userid);
+        dd($regular_lesson_list);
 
         $this->switch_tongji_database();
         $this->check_and_switch_tongji_domain();

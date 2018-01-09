@@ -25,14 +25,16 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-tea_lesson_count_list.d.ts" />
 
+function load_data(){
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		teacher_money_type:	$('#id_teacher_money_type').val()
+		});
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			teacher_money_type:	$('#id_teacher_money_type').val()
-        });
-    }
 
 
 	$('#id_start_time').val(g_args.start_time);
@@ -54,6 +56,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_start_time" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -61,6 +64,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_end_time" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -68,4 +72,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_teacher_money_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["teacher_money_type title", "teacher_money_type", "th_teacher_money_type" ]])!!}
 */

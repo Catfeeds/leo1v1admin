@@ -34,6 +34,15 @@
                     <button id="id_get_data" class="btn btn-primary">生成数据</button>
                 </div >
 
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">累计次数</span>
+                        <button btn="btn-warning"  id="id_num" >0</button>
+                    </div>
+                </div>                            
+
+
+
 
             </div>
         </div>
@@ -44,7 +53,7 @@
                     <td>userid </td>
                     <td>学生姓名</td>
                     <td>类型 </td>
-                    <td>扣分值 </td>                  
+                    <td>扣分次数 </td>                  
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -58,7 +67,7 @@
                        
 
                         <td>
-                            <div class="row-data" data-userid="{{ $var["userid"] }}" 
+                            <div class="row-data" data-userid="{{ $var["userid"] }}" data-type_flag="{{ $var["type_flag"] }}" 
                                  
                                  {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >                               
