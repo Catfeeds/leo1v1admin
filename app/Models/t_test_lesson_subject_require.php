@@ -307,7 +307,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             , t_course_order::DB_TABLE_NAME//c
             , t_teacher_cancel_lesson_list::DB_TABLE_NAME//tc
             , t_teacher_info::DB_TABLE_NAME//tea
-            , t_paper_info::DB_TABLE_NAME//pp
+            , t_parent_info::DB_TABLE_NAME//pp
             ,$where_arr
             ,$opt_date_str
         );
