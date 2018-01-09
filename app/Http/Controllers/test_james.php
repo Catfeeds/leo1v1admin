@@ -1704,7 +1704,7 @@ class test_james extends Controller
         $now = time();
         $oneMinuteStart = $now;
         $oneMinuteEnd   = $oneMinuteStart+60;
-        $lessonEndList  = $task->t_lesson_info_b3->getLessonEndList($oneMinuteStart,$oneMinuteEnd);
+        $lessonEndList  = $this->t_lesson_info_b3->getLessonEndList($oneMinuteStart,$oneMinuteEnd);
         dd($lessonEndList);
     }
 
