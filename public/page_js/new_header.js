@@ -750,16 +750,18 @@ $(function(){
     reset_item();
     $( window ).bind("resize",reset_item);
 
-
-    $("#id_call_check_systen").on("click",function(){
-        $.do_ajax("/ajax_deal2/get_rcrai_login_info",{},function(resp){
-            if (resp.data.staff ){
-                $.wopen("http://leoedu.rcrai.com/login/"+resp.data.staff.id ,true);
-            }else{
-                alert("无辅助系统的账号信息");
-            }
+    if(window.location.host=="admin.leo1v1.com"){
+        $("#id_version_switch").text("切换到冒烟版本");
+        $("#id_version_switch").on("click",function(){
+            window.location.href=window.location.href.replace("/admin.leo1v1.com/", "p.admin.leo1v1.com");
         });
-    });
+    }else{
+        $("#id_version_switch").text("切换到稳定版本");
+        $("#id_version_switch").on("click",function(){
+            window.location.href=window.location.href.replace("/p.admin.leo1v1.com/", "admin.leo1v1.com");
+        });
+    }
+
 
     $("#id_self_menu_add").on("click",function(){
         var title= $(".global-menu-select-item").text();
