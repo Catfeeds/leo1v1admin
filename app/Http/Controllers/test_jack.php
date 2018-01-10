@@ -71,8 +71,8 @@ class test_jack  extends Controller
 
         //获取销售转介绍合同信息
         $cc_order_list = $this->t_order_info->get_seller_tran_order_info($start_time,$end_time);
-        $new_tran_list=;
-        foreach($cc_order_info as $val){
+        $new_tran_list=[];
+        foreach($cc_order_list as $val){
             $orderid = $val["orderid"];
             $userid = $val["userid"];
             $price = $val["price"];
