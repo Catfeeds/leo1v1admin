@@ -52,7 +52,6 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
                                 'last_revisit_time'=>$start_time,
                                 'last_contact_cc'=>$adminid,
                             ]);
-                            dd('xx');
                         }
                     }elseif($is_called_phone==0){//未拨通
                         $cc_no_called_count_new = $this->task->t_seller_student_new->field_get_value($userid,'cc_no_called_count_new');
