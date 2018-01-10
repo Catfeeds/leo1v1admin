@@ -26,8 +26,7 @@ $(function(){
     });
 
     $(".seller_week_stu_num_info").on("click",function(){
-        var opt_data = $(this).get_opt_data();
-        var adminid = opt_data.adminid;
+        var adminid = $(this).data("adminid");
         var title = "每周在册学生详情";
         var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>时间(周)</td><td>学生数</td><td>学生名单</td></tr></table></div>");
 
