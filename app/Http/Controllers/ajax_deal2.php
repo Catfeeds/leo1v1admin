@@ -2853,52 +2853,81 @@ class ajax_deal2 extends Controller
         $account = $this->t_manager_info->get_account($adminid);
         $month_half = $start_time+15*86400;
         $revisit_value=0;
-        if($type_flag==1){                    
-            $regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_lesson_time_by_subject($userid);
-            $assign_time = $this->t_student_info->get_ass_assign_time($userid);
-            $first_lesson_time = @$regular_lesson_list[0]["lesson_start"];
-            foreach($regular_lesson_list as $t_item){
-                if($t_item["lesson_start"]>=$start_time && $t_item["lesson_start"]<=$end_time && $t_item["lesson_start"]>$assign_time){
-                    $revisit_end = $t_item["lesson_start"]+86400;
+        $deduct_list=[];
+
+        //先计算是否第一次课学员
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
+        $list = @$ass_month[$adminid];        
+        $first_lesson_stu_list = $list["first_lesson_stu_list"];
+        if($first_lesson_stu_list){
+            $first_lesson_stu_arr = json_decode($first_lesson_stu_list,true);
+            foreach($first_lesson_stu_arr as $val){
+                $first_userid = $val["userid"];
+                $lesson_start = $val["lesson_start"];
+                if($userid==$val["userid"]){
+                    $revisit_end = $lesson_start+86400;
                             
-                    $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$t_item["lesson_start"],$revisit_end,$account,5);
+                    $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$lesson_start,$revisit_end,$account,5);
                     if($revisit_num <=0){
                         $revisit_value +=1;
+                        $deduct_list[]=[
+                            "deduct_type"=>"第一次课",
+                            "subject"    => E\Esubject::get_desc(@$val["subject"]),
+                            "time"       => date("Y-m-d H:i",$lesson_start),                            
+                        ];
                     }
 
+                }
+            }
+        }
+
+        // if($type_flag==1){                    
+        //     $regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_lesson_time_by_subject($userid);
+        //     $assign_time = $this->t_student_info->get_ass_assign_time($userid);
+        //     $first_lesson_time = @$regular_lesson_list[0]["lesson_start"];
+        //     foreach($regular_lesson_list as $t_item){
+        //         if($t_item["lesson_start"]>=$start_time && $t_item["lesson_start"]<=$end_time && $t_item["lesson_start"]>$assign_time){
+        //             $revisit_end = $t_item["lesson_start"]+86400;
                             
-                }
-                if($t_item["lesson_start"]<$first_lesson_time){
-                    $first_lesson_time = $t_item["lesson_start"];
-                }
+        //             $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$t_item["lesson_start"],$revisit_end,$account,5);
+        //             if($revisit_num <=0){
+        //                 $revisit_value +=1;
+        //             }
+
+                            
+        //         }
+        //         if($t_item["lesson_start"]<$first_lesson_time){
+        //             $first_lesson_time = $t_item["lesson_start"];
+        //         }
 
                
-            }
+        //     }
            
         
 
-            if($first_lesson_time>0 && $first_lesson_time<$month_half){
-                if($assign_time < $month_half){
-                    $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$start_time,$end_time,$account,-2);
-                    if($revisit_num <2){
-                        $revisit_value +=1;
-                    }
-                }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
-                    $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$month_half,$end_time,$account,-2);
-                    if($revisit_num <1){
-                        $revisit_value +=1;
-                    }
+        //     if($first_lesson_time>0 && $first_lesson_time<$month_half){
+        //         if($assign_time < $month_half){
+        //             $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$start_time,$end_time,$account,-2);
+        //             if($revisit_num <2){
+        //                 $revisit_value +=1;
+        //             }
+        //         }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
+        //             $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$month_half,$end_time,$account,-2);
+        //             if($revisit_num <1){
+        //                 $revisit_value +=1;
+        //             }
 
-                }
-            }elseif($first_lesson_time>0 && $first_lesson_time>=$month_half &&  $first_lesson_time<=$end_time){                       
-                $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$month_half,$end_time,$account,-2);
-                if($revisit_num <1){
-                    $revisit_value +=1;
-                }
+        //         }
+        //     }elseif($first_lesson_time>0 && $first_lesson_time>=$month_half &&  $first_lesson_time<=$end_time){                       
+        //         $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$month_half,$end_time,$account,-2);
+        //         if($revisit_num <1){
+        //             $revisit_value +=1;
+        //         }
 
-            }
+        //     }
 
-        }elseif($type_flag==2){
+        // }else
+        if($type_flag==2){
             $history_list = $this->t_ass_stu_change_list->get_ass_history_list($adminid,$start_time,$end_time,$userid);
                        
             foreach($history_list as $val){
@@ -2907,6 +2936,12 @@ class ajax_deal2 extends Controller
                     $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$month_half,$item["account"],-2);
                     if($revisit_num <1){
                         $revisit_value +=1;
+                        $deduct_list[]=[
+                            "deduct_type"=>"常规回访扣分",
+                            "subject"    => "",
+                            "time"       => "",                            
+                        ];
+
                     }
 
                 }else{
@@ -2915,12 +2950,24 @@ class ajax_deal2 extends Controller
                         $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$item["account"],-2);
                         if($revisit_num <2){
                             $revisit_value +=1;
+                            $deduct_list[]=[
+                                "deduct_type"=>"常规回访扣分",
+                                "subject"    => "",
+                                "time"       => "",                            
+                            ];
+
                         }
 
                     }else{
                         $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$month_half,$end_time,$item["account"],-2);
                         if($revisit_num <1){
                             $revisit_value +=1;
+                            $deduct_list[]=[
+                                "deduct_type"=>"常规回访扣分",
+                                "subject"    => "",
+                                "time"       => "",                            
+                            ];
+
                         }
 
                     }
@@ -2930,7 +2977,7 @@ class ajax_deal2 extends Controller
             
             }
  
-        }elseif($type_flag==3){
+        }elseif($type_flag==3 || $type_flag==1){
             //先检查是否是本月才开始上课的(获取各科目常规课最早上课时间)
             $first_regular_lesson_time = $this->t_lesson_info_b3->get_stu_first_regular_lesson_time($userid);
             $assign_time = $this->t_student_info->get_ass_assign_time($userid);                        
@@ -2940,11 +2987,23 @@ class ajax_deal2 extends Controller
                     $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$start_time,$end_time,$account,-2);
                     if($revisit_num <2){
                         $revisit_value +=1;
+                        $deduct_list[]=[
+                            "deduct_type"=>"常规回访扣分",
+                            "subject"    => "",
+                            "time"       => "",                            
+                        ];
+
                     }
                 }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
                     $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$month_half,$end_time,$account,-2);
                     if($revisit_num <1){
                         $revisit_value +=1;
+                        $deduct_list[]=[
+                            "deduct_type"=>"常规回访扣分",
+                            "subject"    => "",
+                            "time"       => "",                            
+                        ];
+
                     }
 
                 }
@@ -2952,6 +3011,12 @@ class ajax_deal2 extends Controller
                 $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$month_half,$end_time,$account,-2);
                 if($revisit_num <1){
                     $revisit_value +=1;
+                    $deduct_list[]=[
+                        "deduct_type"=>"常规回访扣分",
+                        "subject"    => "",
+                        "time"       => "",                            
+                    ];
+
                 }
 
             }
