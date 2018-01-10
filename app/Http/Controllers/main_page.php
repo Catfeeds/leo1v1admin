@@ -66,6 +66,7 @@ class main_page extends Controller
         $opt_date_type = $this->get_in_int_val("opt_date_type",2);
         $history_data = $this->get_in_int_val('history_data');
         $nowTime = time();
+        $sellerNumArr = [];
 
         if($opt_date_type == 2){
             $start_time = $start_time+86400;
@@ -106,8 +107,6 @@ class main_page extends Controller
                 }
 
 
-                # 2018-1-9 以前
-                $ret_info['seller_num'] = $ret_info['one_department']+$ret_info['two_department']+$ret_info['three_department']+$ret_info['new_department']+$ret_info['train_department'];// 咨询一部+咨询二部+咨询三部+新人营
 
                 # 咨询各部人数修改
                 # 2018-1-9 之后
@@ -118,6 +117,9 @@ class main_page extends Controller
                         $sellerNum+=$sellerNumItem['seller_num'];
                     }
                     $ret_info['seller_num'] = $sellerNum;
+                }else{
+                    # 2018-1-9 以前
+                    $ret_info['seller_num'] = $ret_info['one_department']+$ret_info['two_department']+$ret_info['three_department']+$ret_info['new_department']+$ret_info['train_department']+$ret_info['five_department'];// 咨询一部+咨询二部+咨询三部+新人营
                 }
 
 
@@ -234,8 +236,6 @@ class main_page extends Controller
                     $ret_info['aver_money_cc'] = 0;
                 }
 
-                # 2018-1-9 之前
-                $ret_info['seller_num'] = $ret_info['one_department']+$ret_info['two_department']+$ret_info['three_department']+$ret_info['new_department']+$ret_info['train_department'];// 咨询一部+咨询二部+咨询三部+新人营
 
                 # 咨询各部人数修改
                 # 2018-1-9 之后
@@ -246,6 +246,9 @@ class main_page extends Controller
                         $sellerNum+=$sellerNumItem['seller_num'];
                     }
                     $ret_info['seller_num'] = $sellerNum;
+                }else{
+                    # 2018-1-9 之前
+                    $ret_info['seller_num'] = $ret_info['one_department']+$ret_info['two_department']+$ret_info['three_department']+$ret_info['new_department']+$ret_info['train_department']+$ret_info['five_department'];// 咨询一部+咨询二部+咨询三部+新人营
                 }
 
 
@@ -346,8 +349,9 @@ class main_page extends Controller
         }
 
         return $this->pageView(__METHOD__, $ret_info_arr,[
-            "ret_info" => $ret_info_arr['list'],
-
+            "ret_info"   => $ret_info_arr['list'],
+            "isTranFlag" => $isTranFlag,
+            "sellerNumArr" => $sellerNumArr
         ]);
     }
 
