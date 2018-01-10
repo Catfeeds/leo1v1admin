@@ -144,7 +144,7 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
 
     public function get_groupid_by_group_name($group_name,$main_type=-1){
         $where_arr=[
-            ["main_type = %u",$main_type,-1]  
+            ["main_type = %u",$main_type,-1]
         ];
         $sql = $this->gen_sql_new("select groupid from %s where group_name = '%s' and %s",
                                   self::DB_TABLE_NAME,
@@ -200,7 +200,7 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
 
     public function get_all_list($main_type_flag=0){
         $where_arr=[
-            ["main_type=%u",$main_type_flag,0]  
+            ["main_type=%u",$main_type_flag,0]
         ];
         $sql=$this->gen_sql_new("select * from %s where %s ",
                                 self::DB_TABLE_NAME,
@@ -356,7 +356,6 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
 
     public function get_group_seller_num($group_name, $start_time){
         $sql = $this->gen_sql_new("  select count(u.adminid) as seller_num from %s n"
-        // $sql = $this->gen_sql_new("  select m.account, m.leave_member_time  from %s n"
                                   ." left join %s u on u.groupid=n.groupid "
                                   ." left join %s mg on mg.groupid=n.up_groupid"
                                   ." left join %s mgn on mgn.groupid=mg.up_groupid"
@@ -370,7 +369,6 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
         );
 
         return $this->main_get_value($sql);
-        // return $this->main_get_list($sql);
     }
 
     public function get_group_new_count($group_name){
@@ -493,6 +491,25 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
         return $this->main_get_list($sql);
     }
 
-    
+    # 临时测试
+    public function get_group_seller_num_test($group_name, $start_time){
+        $sql = $this->gen_sql_new("  select count(u.adminid) as seller_num from %s n"
+                                  ." left join %s u on u.groupid=n.groupid "
+                                  ." left join %s mg on mg.groupid=n.up_groupid"
+                                  ." left join %s mgn on mgn.groupid=mg.up_groupid"
+                                  ." left join %s m on m.uid=u.adminid"
+                                  ." where mg.main_type=2  and (m.leave_member_time >$start_time or m.leave_member_time=0) "
+                                  ." group by mgn.group_name"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_admin_group_user::DB_TABLE_NAME
+                                  ,t_admin_main_group_name::DB_TABLE_NAME
+                                  ,t_admin_majordomo_group_name::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+
 
 }
