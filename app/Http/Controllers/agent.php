@@ -478,7 +478,7 @@ class agent extends Controller
             return $this->output_err("当前用户不存在");
         }
         $cmd= new \App\Console\Commands\sync_tq();
-        $count=$cmd->load_data($start_date,$end_date,$phone);
+        $count=$cmd->load_data($start_date,$end_date);
         dd($count);
     }
 
