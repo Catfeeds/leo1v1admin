@@ -44,7 +44,6 @@ class test_ricky extends Controller
         $start_time = strtotime("2018-1-1");
         $end_time = strtotime('2018-1-9');
         $count = $this->t_lesson_info_b3->get_test_lesson_count($start_time, $end_time);
-        dd($count);
         foreach($count as $item) {
             $order = $this->t_order_info->get_not_order($item);
             var_dump($order);
