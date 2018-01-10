@@ -40,6 +40,11 @@ class test_ricky extends Controller
         ]);
     }
 
+    public function get_count() {
+        $count = file_get_contents("http://p.admin.leo1v1.com/test_ricky/get_test_lesson_count");
+        dd($count);
+    }
+
     public function get_test_lesson_count() {
         $start_time = strtotime("2018-1-1");
         $end_time = strtotime('2018-1-9');
@@ -47,7 +52,7 @@ class test_ricky extends Controller
         foreach($count as $item) {
             $order = $this->t_order_info->get_not_order($item['userid']);
             if (!$order) {
-                echo $item['userid'].PHP_EOL;
+                echo $item['userid']."<hr/>";
             }
 
         }
