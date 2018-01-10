@@ -28,13 +28,13 @@ $(function(){
             data_line.push(data[i].subject_str);
             data_line.push(data[i].phone);
             data_line.push(data[i].back_account);
-            data_line.push(data[i].bankcard);
+            data_line.push(data[i].bankcard + '');
             data_line.push(data[i].bank_type);
             data_line.push(data[i].bank_province);
             data_line.push(data[i].bank_city);
             data_line.push(data[i].bank_address);
             data_line.push(data[i].bank_phone);
-            data_line.push(data[i].idcard);
+            data_line.push(data[i].idcard + '');
             data_line.push(data[i].bind_bankcard_time_str);
             list_data.push(data_line);
         }
