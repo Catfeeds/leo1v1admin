@@ -202,6 +202,19 @@ class user_power extends Controller
         $exits_power       = $this->get_in_str_val('exits_power');
         $edit_power_name       = $this->get_in_str_val('edit_power_name');
         $edit_power_id  = $this->get_in_str_val('edit_power_id');
+        if( $edit_type == 1){
+            //添加权限组
+
+        }else{
+            //编辑权限组
+
+        }
+
+        //该角色对应的权限组id
+        $group_exist = $this->t_authority_group->get_groupid_by_role($role_groupid);
+        $group_exist_id = array_column($group_exist,'groupid');
+        $choose_groupid = explode(',', $exits_power);
+
 
     }
 
