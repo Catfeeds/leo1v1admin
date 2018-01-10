@@ -243,7 +243,7 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
             ["f.file_id=%d",$file_id,-1]
         ];
 
-        $this->gen_sql_new("  select file_id, file_poster, filelinks from %s f"
+        $sql = $this->gen_sql_new("  select file_id, file_poster, filelinks from %s f"
                            ." where %s"
                            ,self::DB_TABLE_NAME
                            ,$where_arr

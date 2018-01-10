@@ -445,7 +445,7 @@ class url_power_map {
 			'/tongji2/ass_month_kpi_tongji_master'	=>1138800,
 			'/main_page/assistant_main_leader_new'	=>1138200,
 			'/tongji2/ass_month_kpi_tongji'	=>1138700,
-			'/assistant_performance/performance_info'	=>1132000,
+			'/assistant_performance/performance_info_show'	=>1132000,
 			'/tongji_ss/ass_weekly_info'	=>1138300,
 			'/tongji_ss/ass_weekly_info_master'	=>1138400,
 			'/tongji_ss/ass_month_info'	=>1135700,
