@@ -43,10 +43,11 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             if($admin_role == E\Eaccount_role::V_2){
                 if($userid>0){
                     $count_new = $this->get_called_count($phone,1);
+                    $count_new = 1;
                     if($is_called_phone==1){//拨通
                         $count = $this->task->t_seller_student_new->field_get_value($userid,'cc_called_count');
                         if($count_new != $count){
-                            $this->task->t_seller_student_new->field_update_list($userid,[
+                            $ret = $this->task->t_seller_student_new->field_update_list($userid,[
                                 'cc_called_count'=>$count_new,
                                 'cc_no_called_count'=>0,
                                 'last_revisit_time'=>$start_time,
