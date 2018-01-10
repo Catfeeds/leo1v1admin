@@ -4709,11 +4709,11 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
     }
 
-<<<<<<< HEAD
     public function get_not_order($userid) {
         $sql = $this->gen_sql_new("select courseid from %s where userid=$userid",self::DB_TABLE_NAME);
         return $this->main_get_value($sql);
-=======
+    }
+
     //助教合同详情信息(薪资版本) 助教自签
     public function get_assistant_performance_order_info($start_time,$end_time){
         $where_arr=[
@@ -4769,8 +4769,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   $where_arr
         );
         return $this->main_get_list($sql);
- 
->>>>>>> ff05ede0cdf5839aead70483846ec727013abb90
     }
 }
 
