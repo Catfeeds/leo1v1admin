@@ -69,7 +69,11 @@ class test_jack  extends Controller
         }
 
 
-        dd([$ass_new_info,$ass_renew_info]);    //续费金额 分期按80%计算,按新方法获取
+        //获取销售转介绍合同信息
+        $cc_order_list = $this->t_order_info->get_seller_tran_order_info($start_time,$end_time);
+
+        dd($cc_order_list);
+        //续费金额 分期按80%计算,按新方法获取
         $ass_renw_money = $this->t_manager_info->get_ass_renw_money_new($start_time,$end_time);
 
         //cc签单助教转介绍数据
