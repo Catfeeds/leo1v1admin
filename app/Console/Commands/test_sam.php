@@ -124,11 +124,11 @@ class test_sam extends Command
                 }
                 
             }
-            $file_name = 'sam_subject_grade_phone_location';
+            $month = date("Y-m",$start_time);
+            $file_name = $month.'sam_subject_grade_phone_location';
             $arr_title = ['科目',"年级","省份","数量"];
             $arr_data  = ['subject','grade','phone_location','num'];
             $ret_file_name = \App\Helper\Utils::download_txt($file_name,$res,$arr_title,$arr_data);
-            dd($ret_file_name);
         }
         
         
