@@ -45,6 +45,9 @@
                     <td>转正日期</td>
                     <td>离职日期</td>
                     <td>绩效(回访) </td>
+                    <td>平均学员数 </td>
+                    <td>销售月总课时 </td>
+                    <td>预估月课时消耗总量 </td>
                     <td>绩效(课程消耗) </td>
                     <td>绩效(扩课) </td>
                     <td>绩效(停课) </td>
@@ -76,6 +79,13 @@
                             <a href="/assistant_performance/get_ass_revisit_history_detail_info?adminid={{ $var["adminid"] }}&date_type_config=undefined&date_type=null&opt_date_type=3&start_time={{ $start }}&end_time={{ $end }}" target="_blank" >{{@$var["revisit_reword"]}}</a> 
                             
                         </td>
+                        <td class="seller_week_stu_num_info">{{@$var["seller_week_stu_num"]}}</td> 
+                        <td>
+                            <a href="/tea_manage/lesson_list?order_by_str=lesson_start%20asc&date_type=null&opt_date_type=0&start_time={{ $week_start }}&end_time={{ $week_end }}&lesson_status=-1&lesson_type=-2&confirm_flag=0%2C1&subject=-1&grade=-1&studentid=-1&teacherid=-1&lessonid=&assistantid={{  $var["assistantid"] }}&test_seller_id=-1&is_with_test_user=0&has_performance=-1&lesson_count=-1&lesson_del_flag=0&origin=&has_video_flag=-1&lesson_cancel_reason_type=-1&lesson_user_online_status=-1&fulltime_teacher_type=-1" target="_blank" >
+                                {{@$var["seller_month_lesson_count"]/100}}
+                            </a>
+                        </td>
+                        <td>{{@$var["estimate_month_lesson_count"]}}</td> 
                         <td>{{@$var["kpi_lesson_count_finish_reword"]}}</td> 
                         <td>{{@$var["kk_reword"]}}</td> 
                         <td>{{@$var["stop_reword"]}}</td> 
