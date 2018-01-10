@@ -219,4 +219,21 @@ where is_test_user=0  and contract_status in  (1,2,3) and o.price>0   and s.grad
         $sql = "select origin_assistantid, s.userid, s.origin_userid,o.price , o.orderid from db_weiyi.t_student_info s  left join db_weiyi.t_order_info o on (o.userid = s.userid and o.contract_status>0 and  o.contract_type =0 )   left join db_weiyi.t_seller_student_new n on s.userid = n.userid where origin_assistantid>0 and n.add_time>=1510675200 and n.add_time<1514736000   ";
         return $this->main_get_list($sql);
     }
+
+    public function get_info_by_month($start_time,$end_time){
+        $where_arr = [
+          ["t.lesson_start > %s",$start_time,-1],
+          ["t.lesson_start < %s",$end_time,-1],
+          "t.lesson_type=2"
+        ];
+
+        $sql = $this->gen_sql_new("SELECT s.phone_location, t.grade, t.subject,count(*) as num"
+                                ." from %s t"
+                                ." left join %s s on  s.userid = t.userid"
+                                ." where %s group by t.subject, t.grade,s.phone_location"
+                                ,t_lesson_info::DB_TABLE_NAME
+                                ,t_student_info::DB_TABLE_NAME
+                                ,$where_arr);
+        return $this->main_get_list($sql);
+    }
 }
