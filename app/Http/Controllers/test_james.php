@@ -1724,6 +1724,11 @@ class test_james extends Controller
     }
 
 
+    public function getSellerNum(){
+        $s = $this->get_in_str_val('s');
+        $ret = $this->t_admin_group_name->get_group_seller_num_test($s,1);
+        dd($ret);
+    }
 
 
 
