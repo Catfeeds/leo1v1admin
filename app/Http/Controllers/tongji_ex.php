@@ -158,5 +158,12 @@ class tongji_ex extends Controller
 
     }
 
+    public function seller_student_detail(){
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        list($start_time,$end_time)=[1483200000,1512057600];
+        $ret_info = $this->t_seller_student_new->get_all_list($start_time,$end_time);
+        dd($ret_info);
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
+    }
 
 }

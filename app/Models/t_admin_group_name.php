@@ -498,7 +498,7 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
                                   ." left join %s mg on mg.groupid=n.up_groupid"
                                   ." left join %s mgn on mgn.groupid=mg.up_groupid"
                                   ." left join %s m on m.uid=u.adminid"
-                                  ." where mg.main_type=2  and (m.leave_member_time >$start_time or m.leave_member_time=0) "
+                                  ." where mg.main_type=2 and (m.leave_member_time >$start_time or m.leave_member_time=0 or m.del_flag=0) "
                                   ." group by mgn.group_name"
                                   ,self::DB_TABLE_NAME
                                   ,t_admin_group_user::DB_TABLE_NAME
