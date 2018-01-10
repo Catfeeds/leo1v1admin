@@ -469,8 +469,8 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $cmd= new \App\Console\Commands\sync_tq();
-        $count=$cmd->handle();
+        $cmd= new \App\Console\Commands\sync_tianrun;
+        $count=$cmd->load_data($start_time=1515578400,$end_time=time());
         dd($count);
     }
 
