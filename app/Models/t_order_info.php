@@ -4708,5 +4708,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_not_order($userid) {
+        $sql = $this->gen_sql_new("select courseid from %s where userid=$userid",self::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
+    }
 }
 
