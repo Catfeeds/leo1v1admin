@@ -241,4 +241,21 @@ where is_test_user=0  and contract_status in  (1,2,3) and o.price>0   and s.grad
       $sql = "select grade, phone_location , count(*) as num from db_weiyi.t_student_info where grade in (101,102,103) and is_test_user = 0 group by grade,phone_location";
       return $this->main_get_list($sql);
     }
+
+    public function get_info_by_month_b2($start_time,$end_time){
+        $where_arr = [
+          ["t.lesson_start > %s",$start_time,-1],
+          ["t.lesson_start < %s",$end_time,-1],
+          "t.lesson_type=2"
+        ];
+
+        $sql = $this->gen_sql_new("SELECT  m.teacherid ,m.phone_location,m.grade_start, m.grade_end"
+                                ." from %s t"
+                                ." left join %s m on  m.teacherid = t.teacherid "
+                                ." where %s  group by m.teacherid"
+                                ,t_lesson_info::DB_TABLE_NAME
+                                ,t_teacher_info::DB_TABLE_NAME
+                                ,$where_arr);
+        return $this->main_get_list($sql);
+    }
 }
