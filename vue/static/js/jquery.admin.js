@@ -1,9 +1,13 @@
 
 jQuery.fn.extend({
 
-  table_head_static:  function(height ) {
 
-    var p_div=$('<div  style="  overflow: auto; background: #ddd; margin: 20px 10px; "><div>');
+  table_head_static:  function(height ) {
+    if($.check_in_phone() ) {
+      return;
+    }
+
+    var p_div=$('<div  style="  overflow: auto;  margin: 20px 10px; "><div>');
     height= height? height: 500;
     p_div.css({
       "height" : ""+ height +"px"
@@ -13,8 +17,8 @@ jQuery.fn.extend({
     $table.before(p_div);
     p_div.append($table);
 
-    $table.find("thead").css ( {
-      "background-color":  "rgb(221, 221, 221)",
+    $table.find("thead td").css ( {
+      "background-color":  "rgb(236, 240, 245)",
     });
 
 
