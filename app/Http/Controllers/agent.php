@@ -469,12 +469,17 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $no_count_new = $this->t_tq_call_info->item_insert();
-        dd($no_count_new);
-        if((in_array($this->get_account(),['Tina','tom']))){
-            dd('a');
+        $now=time(NULL);
+        $start_date = \App\Helper\Utils::unixtime2date($now-3*60*60 ,"Y-m-d H:i:s");
+        $end_date   = \App\Helper\Utils::unixtime2date($now,"Y-m-d H:i:s");
+        $phone = '15595399263';
+
+        if (!$phone) {
+            return $this->output_err("当前用户不存在");
         }
-        dd('b');
+        $cmd= new \App\Console\Commands\sync_tq();
+        $count=$cmd->load_data($start_date,$end_date,$phone);
+        dd($count);
     }
 
     //处理等级头像
