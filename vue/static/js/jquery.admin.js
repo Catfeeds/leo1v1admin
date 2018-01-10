@@ -1,6 +1,34 @@
 
 jQuery.fn.extend({
 
+  table_head_static:  function(height ) {
+
+    var p_div=$('<div  style="  overflow: auto; background: #ddd; margin: 20px 10px; "><div>');
+    height= height? height: 500;
+    p_div.css({
+      "height" : ""+ height +"px"
+    });
+
+    var $table=$(this);
+    $table.before(p_div);
+    p_div.append($table);
+
+    $table.find("thead").css ( {
+      "background-color":  "rgb(221, 221, 221)",
+    });
+
+
+    p_div.on('scroll',function(e){
+      var item=e.target;
+      var scrollTop = item.scrollTop;
+      console.log(e.target);
+      $(item).find('thead').css( {
+        "transform" : 'translateY(' + scrollTop + 'px)',
+      });
+    })
+  },
+
+
     table_admin_level_5_init:function(show_flag) {
 
         var $table=$(this);
@@ -1395,6 +1423,7 @@ jQuery.extend({
   },
     do_ajax: function( url,data, success_func, jsonp_flag ){
 
+      var old_url= url;
       if ( url.substr(0, 7)=="http://" ) {
         jsonp_flag=true;
       }else{
@@ -1415,6 +1444,9 @@ jQuery.extend({
               alert("未登录");
               window.location.href=window.admin_api+"?to_url=" + encodeURIComponent( window.location.href );
 
+            }else if ( result.ret==1101) {
+              //
+              $.do_ajax( result.jump_url+old_url,  url,data, success_func, jsonp_flag );
             }else{
               BootstrapDialog.alert(result['info']);
             }
@@ -1437,7 +1469,7 @@ jQuery.extend({
 
         ,error: function(  jqXHR, textStatus, errorThrown ) {
           if(  jqXHR .readyState ==4 ) {
-            BootstrapDialog.alert($("<a href=\""+this.url +"\"> 系统错误- 操作失败, 已发邮件 通知开发人员   </a>" ) );
+            BootstrapDialog.alert($("<a href=\""+this.url +"\" target=\"_blank\"> 系统错误- 操作失败, 已发邮件 通知开发人员   </a>" ) );
           }
         },
 
@@ -2294,4 +2326,5 @@ jQuery.fn.table2CSV = function(options) {
         generator.document.close();
         return true;
     }
+
 };

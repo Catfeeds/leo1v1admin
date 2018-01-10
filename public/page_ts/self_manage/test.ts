@@ -47,7 +47,13 @@ $(function(){
 
     $.admin_enum_select( {
         "join_header"  : $header_query_info,
-        "enum_type" : "contract_type",
+        "enum_type" : null,
+        "field_name" : "contract_type",
+        "option_map" : {
+            1: "xx",
+            2:"kkk 2 ",
+            3:"nnn3  ",
+        },
         "title" : "合同类型",
         "select_value" :g_args.contract_type,
     }) ;
