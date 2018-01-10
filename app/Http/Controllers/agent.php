@@ -469,10 +469,9 @@ class agent extends Controller
     }
 
     public function test_new(){
-        if((in_array($this->get_account(),['Tina','tom']))){
-            dd('a');
-        }
-        dd('b');
+        $cmd= new \App\Console\Commands\sync_tianrun;
+        $count=$cmd->load_data(1515567600,1515574800);
+        dd($count);
     }
 
     //处理等级头像

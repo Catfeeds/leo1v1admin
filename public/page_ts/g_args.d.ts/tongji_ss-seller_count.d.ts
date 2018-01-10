@@ -17,29 +17,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	admin_revisiterid	:any;
-	all_count	:any;
-	all_count_0	:any;
-	all_count_1	:any;
-	no_call	:any;
-	no_call_0	:any;
-	no_call_1	:any;
-	call_count	:any;
-	all_account	:any;
-	invalid_count	:any;
-	no_connect	:any;
-	valid_count	:any;
-	test_lesson_count	:any;
-	fail_need_pay_count	:any;
-	require_test_count	:any;
-	succ_all_count	:any;
-	fail_all_count	:any;
-	order_count	:any;
-	order_money	:any;
-	global_tq_no_call	:any;
-	new_user_count	:any;
-	assigned_count	:any;
-	get_histroy_count	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;
@@ -61,8 +38,9 @@ tofile:
 /// <reference path="../g_args.d.ts/tongji_ss-seller_count.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		grade:	$('#id_grade').val(),
 		group_adminid:	$('#id_group_adminid').val(),
 		order_by_str:	$('#id_order_by_str').val(),
@@ -72,23 +50,30 @@ function load_data(){
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
 		origin_ex:	$('#id_origin_ex').val()
-    });
+		});
 }
 $(function(){
 
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
-	$('#id_grade').val(g_args.grade);
-	$.enum_multi_select( $('#id_grade'), 'grade', function(){load_data();} )
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
+	$('#id_grade').admin_set_select_field({
+		"enum_type"    : "grade",
+		"field_name" : "grade",
+		"select_value" : g_args.grade,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_grade",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_group_adminid').val(g_args.group_adminid);
 	$('#id_order_by_str').val(g_args.order_by_str);
 	$('#id_origin_ex').val(g_args.origin_ex);
@@ -108,6 +93,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_grade" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["grade title", "grade", "th_grade" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -115,6 +101,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_group_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["group_adminid title", "group_adminid", "th_group_adminid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -122,6 +109,12 @@ $(function(){
                 <input class="opt-change form-control" id="id_order_by_str" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["order_by_str title", "order_by_str", "th_order_by_str" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -129,4 +122,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_origin_ex" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["origin_ex title", "origin_ex", "th_origin_ex" ]])!!}
 */

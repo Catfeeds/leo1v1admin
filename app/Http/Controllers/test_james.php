@@ -1720,9 +1720,22 @@ class test_james extends Controller
         $oneMinuteEnd   = $oneMinuteStart+60;
         $lessonEndList  = $this->t_lesson_info_b3->getLessonEndList($oneMinuteStart,$oneMinuteEnd);
         dd($lessonEndList);
+        //ceshi
     }
 
 
+    public function getSellerNum(){
+        $s = $this->get_in_str_val('s');
+        $ret = $this->t_admin_group_name->get_group_seller_num_test(1,$s);
+        dd($ret);
+    }
+
+    public function checkSellerNum(){
+        $s = $this->get_in_str_val('s');
+        $g = $this->get_in_str_val('g');
+        $ret = $this->t_admin_group_name->get_group_seller_num($s,$g);
+        dd($ret);
+    }
 
 
 
