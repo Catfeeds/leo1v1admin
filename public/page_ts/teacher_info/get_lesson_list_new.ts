@@ -376,8 +376,11 @@ $(function(){
                     // if (lesson_type<1000) {
                         check_lesson_info(id_lesson_name,"");
                     // }
-                    $('#id_teacher_upload_0').val(tea_cw_url_list[0][0]);
-                    check_lesson_info($('#id_teacher_upload_0'),'',1);
+
+                    //检查教师讲义
+                    // $('#id_teacher_upload_0').val(tea_cw_url_list[0][0]);
+                    // check_lesson_info($('#id_teacher_upload_0'),'',1);
+
                     id_teacher.val(tea_cw_url);
                     check_lesson_info(id_teacher,'');
                     id_student.val(stu_cw_url);
@@ -474,7 +477,8 @@ $(function(){
                         $('.opt-select-file').hide();
                     });
 
-                    $('.tea_cw_ex').first().parent().parent().prev().text('教师讲义').append(red_tip);
+                    // $('.tea_cw_ex').first().parent().parent().prev().text('教师讲义').append(red_tip);
+                    $('.tea_cw_ex').first().parent().parent().prev().text('教师讲义');
                     $('.tea_cw_ex').first().parent().parent().parent().show();
                     for(var l=0; l<11;l++){
                         if(l == 0){

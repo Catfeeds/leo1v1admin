@@ -2625,4 +2625,29 @@ class Utils  {
         fclose($fp);
         return $path;
     }
+
+
+    /**
+     * author   : sam
+     * function : phone_location => "省份"
+     */
+    static public function phone_location_to_province($phone_location){
+        if(strpos($phone_location, "黑龙江") || strpos($phone_location, "内蒙古") ){
+            $location = substr($phone_location,0,strlen($phone_location)-9);
+        }else if($phone_location == '重庆U友' || $phone_location == '江苏U友'  
+            || $phone_location == '北京U友'  || $phone_location == '辽宁U友' 
+            || $phone_location == '安徽U友'   || $phone_location == '湖北U友'
+            || $phone_location =='陕西U友'){
+            $location = substr($phone_location,0,6);
+        }else if( $phone_location == "鹏博士" || $phone_location == '' 
+               || $phone_location == '免商店充值卡' || $phone_location == '中麦通信' 
+               || $phone_location == "全国其它 " || $phone_location == '话机通信' 
+               || $phone_location == '阿里通信'  || $phone_location == '小米移动' 
+               || $phone_location == '普泰移动'  || $phone_location == '话机通信'){
+            $location = "其它";
+        }else{
+            $location = substr($phone_location,0,strlen($phone_location)-6);
+        }
+        return $location;
+    }
 };

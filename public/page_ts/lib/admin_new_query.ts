@@ -154,8 +154,8 @@
         var load_data_flag = parseInt( window.localStorage.getItem( flag_key ));
         var list_type_key = "query_list_type_"+ window.location.pathname;
         var list_type = parseInt( window.localStorage.getItem( list_type_key));
-      if (!list_type) {
-        list_type=0;
+        if (!(list_type >=0) ) {
+            list_type=2;
       }
 
 
@@ -407,7 +407,8 @@
         var me =this;
         this.defaults = {
             "join_header" : null,
-            "enum_type"   : "boolean",
+            "enum_type"   : null,
+            "option_map" : {},
             "field_name"  :null,
             "multi_select_flag"  :  true,
             "title"  :  "是否标志",
@@ -428,8 +429,10 @@
         me.header_query = this.options.join_header;
         me.list_type =  me.header_query .list_type;
 
+
         this.enum_type = this.options.enum_type;
         this.field_name= this.options.field_name?this.options.field_name:this.enum_type ;
+
         if ( !$.isArray(  this.options.select_value) )  { // 1,3,33,3
             var tmp_list=[];
             $.each( (""+this.options.select_value).split(","), function(){
@@ -440,10 +443,17 @@
             this.select_value  =this.options.select_value;
         }
 
+
+        var desc_map={};
+        if ( this.enum_type) {
+            desc_map=g_enum_map[this.enum_type]["desc_map"];
+        }else{
+            desc_map=this.options.option_map;
+        }
+
         if (me.list_type==1) { //
             var select_str="";
 
-            var desc_map=g_enum_map[this.enum_type]["desc_map"];
             $.each(desc_map, function(k,v){
                 var add_flag=false;
                 if ($.isArray( me.options.id_list)) {
@@ -487,7 +497,6 @@
         }else if ( me.list_type==0 ) { //紧凑模式
             var $html_obj= $( '<div class="col-xs-6 col-md-2"> </div>' );
             var data_list={};
-            var desc_map=g_enum_map[this.enum_type]["desc_map"];
             $.each(desc_map, function(k,v){
                 if ($.isArray( me.options.id_list)) {
                     if($.inArray( parseInt(k), me.options.id_list ) != -1 ){
@@ -558,7 +567,12 @@
             }else{
                 var list=[];
                 $.each( this.select_value, function(i, value){
-                    var desc= Enum_map.get_desc( me.enum_type , value);
+                    var desc="";
+                    if (me.enum_type ) {
+                        desc= Enum_map.get_desc( me.enum_type , value);
+                    }else{
+                        desc= me.options.option_map[value] ;
+                    }
                     list.push(desc);
                 });
                 return list.join(",");
@@ -621,7 +635,7 @@
         this.$ele=  $(
             '<div class="'+me.options.length_css +'">'
                 +'<div class="input-group ">'
-                + title_str 
+                + title_str
                 +'<input class="form-control" placeholder="'+me.options.placeholder  +'" type="text">'
                 + btn_str
                 +'</div>'
@@ -1005,3 +1019,4 @@
     };
 
 })(jQuery, window, document);
+

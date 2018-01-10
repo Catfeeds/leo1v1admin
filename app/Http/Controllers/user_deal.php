@@ -1032,7 +1032,7 @@ class user_deal extends Controller
             }
         }
 
-        $manager_info = $this->t_manager_info->field_get_list($uid,'face_pic,level_face_pic,seller_level,become_full_member_time,become_full_member_flag,create_time');
+        $manager_info = $this->t_manager_info->field_get_list($uid,'face_pic,level_face_pic,seller_level,become_full_member_time,become_full_member_flag,create_time,become_member_time');
         $face_pic = $manager_info['face_pic'];
         $level_face_pic = $manager_info['level_face_pic'];
         $level_info = $this->t_seller_level_goal->field_get_list($seller_level,'level_face');
@@ -1046,6 +1046,9 @@ class user_deal extends Controller
         if($become_full_member_flag==1 && empty($manager_info["become_full_member_time"]) && $manager_info["become_full_member_flag"]==0 ){
             $become_full_member_time = time();
         }elseif($become_full_member_flag==1 && empty($manager_info["become_full_member_time"])){
+            if($manager_info["become_member_time"]){
+                $manager_info["create_time"] = $manager_info["become_member_time"];
+            }
             $become_full_member_time = $manager_info["create_time"]+90*86400;
         }else{
             $become_full_member_time = $manager_info["become_full_member_time"];

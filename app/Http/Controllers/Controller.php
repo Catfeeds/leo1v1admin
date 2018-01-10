@@ -115,13 +115,26 @@ class Controller extends ControllerEx
         }
     }
 
-
     // 用于 慢查询 的 域名, 免得 admin 返回504
     public function check_and_switch_tongji_domain() {
         if ( \App\Helper\Utils::check_env_is_release() ){
             $server_name= $_SERVER["SERVER_NAME"];
-            if ($server_name != "admin-tongji.leo1v1.com"){
-                header('Location: http://admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
+            if (!($server_name == "admin-tongji.leo1v1.com" || $server_name == "p.admin-tongji.leo1v1.com"   )){
+                if (isset($_GET["callback"])) {
+                    if ( $server_name== "admin.leo1v1.com" ) {
+                        header('Location: http://admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
+                    }else{
+                        header('Location: http://p.admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
+                    }
+
+                }else{
+                    if ( $server_name== "admin.leo1v1.com" ) {
+                        echo $this->output_err(1101, ["jump_url" =>  "http://admin-tongji.leo1v1.com/"]);
+                    }else{
+                        echo $this->output_err(1101, ["jump_url" =>  "http://p.admin-tongji.leo1v1.com/"]);
+                    }
+                }
+
                 exit;
             }
             $this->switch_tongji_database();

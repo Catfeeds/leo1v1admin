@@ -100,6 +100,19 @@ class assistant_performance extends Controller
 
     }
 
+
+    /*
+      助教薪资版本
+      2017年11-12月使用第一版本
+      2018年1月开始第二版本
+    */
+    public function performance_info_show(){
+        return $this->performance_info();
+    }
+
+    /*
+      助教薪资第一版本
+     */
     public function performance_info(){
               
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
@@ -114,7 +127,7 @@ class assistant_performance extends Controller
         $month_half = $start_time+15*86400;
         $last_month = strtotime("-1 month",$start_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
-        dd($ass_month);
+        
         $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
         
         $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target");
@@ -141,6 +154,20 @@ class assistant_performance extends Controller
 
 
         foreach($ass_month as $k=>&$item){
+            if(empty($item["become_member_time"])){
+                $item["become_member_time"]=$item["create_time"];
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item, 'become_member_time','_str',"Y-m-d");  
+            \App\Helper\Utils::unixtime2date_for_item($item, 'become_full_member_time','_str',"Y-m-d");  
+            if($item["del_flag"]==0){
+                $item["leave_member_time"]=0;
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item, 'leave_member_time','_str',"Y-m-d");
+
+            $item["del_flag_str"] = $item["del_flag"]?"离职":"在职";
+            E\Eaccount_role::set_item_value_str($item);
+
+
             /*回访*/
             $revisit_reword_per = 0.2;
             // //当前在读学员
@@ -472,6 +499,260 @@ class assistant_performance extends Controller
         
     }
 
+    /*
+      助教薪资第二版本
+    */
+    public function performance_info_second(){
+        #分页信息
+        $page_info= $this->get_in_page_info();
+        #排序信息
+        list($order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str([],"adminid desc");
+
+        #输入参数 
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        if($start_time <strtotime("2017-08-01") ){
+            return $this->pageView(__METHOD__,null);
+        }
+        $test_time = strtotime("2017-10-01");        
+        $test_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($test_time);
+        // $end_time = strtotime("2017-11-01");
+
+
+        $month_half = $start_time+15*86400;
+        $last_month = strtotime("-1 month",$start_time);
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
+        
+        $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
+        
+        $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target");
+        
+
+        // //销售月拆解
+        // $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
+        // $first_week = $start_info["sdate"];
+        // $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
+        // if($end_info["edate"] <= $end_time){
+        //     $last_week =  $end_info["sdate"];
+        // }else{
+        //     $last_week =  $end_info["sdate"]-7*86400;
+        // }
+        // $n = ($last_week-$first_week)/(7*86400)+1;
+
+        // //每周助教在册学生数量获取
+        // $registered_student_num=[];
+        // for($i=0;$i<$n;$i++){
+        //     $week = $first_week+$i*7*86400;
+        //     $week_edate = $week+7*86400;
+        //     $week_info = $this->t_ass_weekly_info->get_all_info($week);
+        //     foreach($week_info as $val){
+        //         @$registered_student_num[$val["adminid"]] +=@$week_info[$val["adminid"]]["registered_student_num"];
+        //     } 
+        // }
+
+
+        foreach($ass_month as $k=>&$item){
+            if(empty($item["become_member_time"])){
+                $item["become_member_time"]=$item["create_time"];
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item, 'become_member_time','_str',"Y-m-d");  
+            \App\Helper\Utils::unixtime2date_for_item($item, 'become_full_member_time','_str',"Y-m-d");  
+            if($item["del_flag"]==0){
+                $item["leave_member_time"]=0;
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item, 'leave_member_time','_str',"Y-m-d");
+
+            $item["del_flag_str"] = $item["del_flag"]?"离职":"在职";
+            E\Eaccount_role::set_item_value_str($item);
+
+
+            /*回访*/
+            $revisit_reword_per = 0.2;
+                     
+
+            /*课时消耗达成率*/
+            // $registered_student_list = @$last_ass_month[$k]["registered_student_list"];
+            // if($registered_student_list){
+            //     $registered_student_arr = json_decode($registered_student_list,true);
+            //     $last_stu_num = count($registered_student_arr);//月初在册人员数
+            //     $last_lesson_total = $this->t_week_regular_course->get_lesson_count_all($registered_student_arr);//月初周总课时消耗数
+            //     $estimate_month_lesson_count =$n*$last_lesson_total/$last_stu_num;  //预估月课时消耗总量
+            // }else{
+            //     $registered_student_arr=[];      
+            //     $estimate_month_lesson_count =100;
+            // }
+
+            //平均学员数(销售周)
+            // $seller_stu_num = @$registered_student_num[$k]/$n;
+
+
+            //得到单位学员
+            $seller_stu_num = $item["seller_week_stu_num"];
+            $seller_lesson_count = $item["seller_month_lesson_count"];
+            $estimate_month_lesson_count = $item["estimate_month_lesson_count"];
+            if(empty($seller_stu_num)){
+                $lesson_count_finish_per=0;
+            }else{
+                $lesson_count_finish_per= round($seller_lesson_count/$seller_stu_num/$estimate_month_lesson_count*100,2);
+            }
+
+            //算出kpi中课时消耗达成率的情况
+            // if($lesson_count_finish_per>=70){
+            //     $kpi_lesson_count_finish_per = 0.4*100;
+            // }else{
+            //     $kpi_lesson_count_finish_per=0;
+            // }
+
+            // $item["kpi_lesson_count_finish_per"]=$kpi_lesson_count_finish_per;
+
+            /*课程消耗奖金*/
+            if($lesson_count_finish_per>=120){
+                $lesson_count_finish_reword=$seller_lesson_count*1.2;
+            }elseif($lesson_count_finish_per>=100 ){
+                $lesson_count_finish_reword=$seller_lesson_count*1;
+            }elseif($lesson_count_finish_per>=75 ){
+                $lesson_count_finish_reword=$seller_lesson_count*0.8;
+            }elseif($lesson_count_finish_per>=50 ){
+                $lesson_count_finish_reword=$seller_lesson_count*0.5;
+            }else{
+                $lesson_count_finish_reword=0;
+            }
+
+            $item["lesson_count_finish_reword"]=$lesson_count_finish_reword;
+
+            /*续费提成奖金*/
+            //计算助教相关退费
+
+            $renw_target = @$last_ass_month[$k]["warning_student"]*0.8*7000*100;
+            if($start_time>=strtotime("2017-11-01")){
+                $renw_target = @$target_info["renew_target"]; 
+            }
+            $item["renw_target"] =  $renw_target;
+            // $renw_price = $item["renw_price"]+$item["tran_price"]-$item["ass_refund_money"];
+            $renw_price = $item["renw_price"]+$item["tran_price"];
+            $renw_per = $renw_target>0?( $renw_price/$renw_target*100):0;
+            $renw_reword = 0;
+            if($renw_per>=120){
+                $renw_reword = $renw_target*1.2*0.04+($renw_price-$renw_target*1.2)*0.05;
+            }elseif($renw_per>=100){
+                $renw_reword = $renw_price*0.04;
+            }elseif($renw_per>=75){
+                $renw_reword = $renw_price*0.028;
+            }elseif($renw_per>=50){
+                $renw_reword = $renw_price*0.02;
+            }elseif($renw_per>=30){
+                $renw_reword = $renw_price*0.012;
+            }
+
+            $item["renw_reword"] =  $renw_reword;
+            $item["renw_price"] =  $renw_price;
+
+
+            /*转介绍奖金*/
+            //转介绍个数
+            $cc_tran_num = $item["cc_tran_num"]+$item["tran_num"]+$item["hand_tran_num"];
+            $cc_tran_num_reword=0;
+            if($cc_tran_num>5){
+                $cc_tran_num_reword = $cc_tran_num*50000;
+            }elseif($cc_tran_num>=3){
+                $cc_tran_num_reword = $cc_tran_num*30000;
+            }else{
+                $cc_tran_num_reword = $cc_tran_num*20000;
+            }
+            //转介绍金额提成
+            $cc_tran_price_reword = $item["cc_tran_money"]*0.02;
+
+            $cc_tran_reword = $cc_tran_num_reword+$cc_tran_price_reword;
+            $item["cc_tran_reword"] = $cc_tran_reword;
+
+            $item["cc_tran_num"] = $cc_tran_num;
+
+
+            /*扩课20%、停课15%、结课未续费5%*/
+            //退费
+            // $ass_refund_money = $item["ass_refund_money"];            
+            // $ass_renw_money = $item["renw_price"]+$item["tran_price"];
+            // $refund_per = $ass_renw_money>0?$ass_refund_money/$ass_renw_money:0;
+            // if($refund_per<=0.05){
+            //     $refund_reword_per = 0.2;
+            // }else{
+            //     $refund_reword_per = 0;
+            // }
+            // $item["refund_reword_per"]=$refund_reword_per;
+
+            //扩课
+            $kk_num = $item["kk_num"]+$item["hand_kk_num"];
+            $kk_per = $item["read_student"]>0?($kk_num/$item["read_student"]):0;
+            if($kk_per>=0.06){
+                $kk_reword_per = 0.2;
+            }else{
+                $kk_reword_per = 0;
+            }
+            $item["kk_reword_per"] = $kk_reword_per;
+
+            //停课
+            if($start_time <strtotime("2017-11-01")){
+                $all_stu_num =  @$test_month[$k]["all_ass_stu_num"];
+                $all_stop_num =  @$test_month[$k]["stop_student"];
+
+            }else{
+                $all_stu_num = $item["all_ass_stu_num"];//所有学员
+                $all_stop_num = $item["stop_student"];//停课学员               
+            }
+
+            $stop_per = $all_stu_num>0?($all_stop_num/$all_stu_num):0;
+            if($all_stu_num>=100 && $stop_per<=0.06){
+                $stop_reword_per = 0.15;
+            }elseif($all_stu_num>=50 && $stop_per<=0.05 && $all_stu_num<100){
+                $stop_reword_per = 0.15;
+            }elseif( $all_stu_num<50 && $stop_per<=0.04){
+                $stop_reword_per = 0.15;
+            }else{
+                $stop_reword_per = 0;
+            }
+            $item["stop_reword_per"]=$stop_reword_per;
+
+            //结课未续费
+            if($start_time <strtotime("2017-11-01")){
+                $end_no_renw_num = $item["end_stu_num"];//先以10月份当月结课学生数代替 
+            }else{
+                $end_no_renw_num = $item["end_no_renw_num"]; 
+            }
+            $end_no_renw_per = $all_stu_num>0?($end_no_renw_num/$all_stu_num):0;
+            if($end_no_renw_per <=0.08){
+                $end_no_renw_reword_per = 0.05;
+            }else{
+                $end_no_renw_reword_per = 0;
+            }
+            $item["end_no_renw_reword_per"]=$end_no_renw_reword_per;
+            
+
+            $item["revisit_reword"] = $item["revisit_reword_per"]*1500/100;
+            $item["kpi_lesson_count_finish_reword"] = $item["kpi_lesson_count_finish_per"]*1500/100;
+            $item["kk_reword"] = $item["kk_reword_per"]*1500;
+            $item["stop_reword"] = $item["stop_reword_per"]*1500;
+            $item["end_no_renw_reword"] = $item["end_no_renw_reword_per"]*1500;
+            $item["lesson_count_finish_reword"] = $item["lesson_count_finish_reword"]/100;
+            $item["renw_reword"] = $item["renw_reword"]/100;
+            $item["cc_tran_reword"] = $item["cc_tran_reword"]/100;
+            $item["all_reword"] =  $item["revisit_reword"]+$item["kpi_lesson_count_finish_reword"]+$item["kk_reword"]+$item["stop_reword"]+$item["end_no_renw_reword"]+ $item["lesson_count_finish_reword"]+$item["renw_reword"]+ $item["cc_tran_reword"];
+            
+        }
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ass_month),[
+            "start"=>date("Y-m-d H:i",$start_time),
+            "end"=>date("Y-m-d H:i",$end_time),
+        ]);
+
+        //dd($ass_month);
+        
+               
+        
+        
+    }
+
+
+
+
     public function get_assistant_origin_order_losson_info(){
         list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(date("Y-m-01"),0,1,[
             1 => array("o.order_time","下单日期"),
@@ -570,19 +851,36 @@ class assistant_performance extends Controller
             }
         }
 
-        //停课学员
-        $stop_student_list = $list["stop_student_list"];
+        //其他未结课学员
+        $stop_student_list = $list["registered_student_list"];
         if($stop_student_list){
             $stop_student_arr = json_decode($stop_student_list,true);
             foreach($stop_student_arr as $val){
                 if(!isset($ret_info[$val])){
                     $ret_info[$val]=[
                         "userid" =>$val,
-                        "type_str"=>"停课学员",
+                        "type_str"=>"其他未结课学员",
                         "type_flag"=>3
                     ];
 
                 }
+            }
+        }
+
+        $first_lesson_stu_list = $list["first_lesson_stu_list"];
+        if($first_lesson_stu_list){
+            $first_lesson_stu_arr = json_decode($first_lesson_stu_list,true);
+            foreach($first_lesson_stu_arr as $val){
+                $userid = $val["userid"];
+                if(!isset($ret_info[$userid])){
+                    $ret_info[$userid]=[
+                        "userid" =>$userid,
+                        "type_str"=>"第一次课学员",
+                        "type_flag"=>4
+                    ];
+
+                }
+
             }
         }
         foreach($ret_info as &$item){

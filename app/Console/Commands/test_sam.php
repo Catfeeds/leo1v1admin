@@ -49,6 +49,34 @@ class test_sam extends Command
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
+        
+
+        /*
+        $ret_info = $task->t_student_score_info->get_grade_by_info_b();
+        foreach ($ret_info as $key => &$value) {
+            # code...
+            $value['grade']   = E\Egrade::get_desc($value['grade']);
+            $value['phone_location'] = \App\Helper\Utils::phone_location_to_province($value['phone_location']);
+        }
+        $result = array();  
+        foreach($ret_info as $val){  
+            $key = $val['grade'].'_'.$val['phone_location'];  
+            if(!isset($result[$key])){  
+                $result[$key] = $val;  
+            }else{  
+                $result[$key]['num'] += $val['num'];  
+            }  
+        }  
+        $ret = array_values($result);
+        $file_name = 'sam_little';
+        $arr_title = ['年级',"省份","数量"];
+        $arr_data  = ['grade','phone_location','num'];
+        $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret,$arr_title,$arr_data);
+        dd($ret_file_name);
+
+        dd($ret);
+        */
+
         /*
         $ret_info1 = $task->t_student_score_info->get_total_student_b1();
         $ret_info2 = $task->t_student_score_info->get_total_student_b2();
@@ -59,14 +87,107 @@ class test_sam extends Command
         dd($ret_info1,$ret_info2,$ret_info3,$ret_info4,$ret_info5,$ret_info6);
         */
         
-        $ret_info = $task->t_student_score_info->get_info_1();
-        foreach ($ret_info as &$item) {
-            $item['is_money'] = $item['price'] > 0?"是":"否";
+
+        /*
+        $time = [
+            ['start_time' => 1506787200,'end_time' => 1509465600], //10
+            ['start_time' => 1509465600,'end_time' => 1512057600], //11
+            ['start_time' => 1512057600,'end_time' => 1514736000], //12
+        ];
+        foreach ($time as $key => $value) {
+            $start_time = $value['start_time'];
+            $end_time   = $value['end_time'];
+            $ret_info = $task->t_student_score_info->get_info_by_month($start_time,$end_time);
+            foreach ($ret_info as $kkey => &$vvalue) {
+                $vvalue['subject'] = E\Esubject::get_desc($vvalue['subject']);
+                $vvalue['grade']   = E\Egrade::get_desc($vvalue['grade']);
+                $vvalue['phone_location'] = \App\Helper\Utils::phone_location_to_province($vvalue['phone_location']);
+            }
+            
+
+            $res = array();
+            foreach($ret_info as $item) {
+                $flag = false;
+                foreach ($res as $key => $value) {
+                    if($item['subject'] == $value['subject'] && $item['grade'] == $value['grade'] 
+                        && $item['phone_location'] == $value['phone_location']) {
+                        $flag = true;
+                        $value['num'] = $value['num'] + $item['num'];
+                        break;
+                    }
+                    else {
+                        $flag = false;
+                    }
+                }
+                if(!$flag){
+                    $res[] = $item;
+                }  
+            }
+            //var_dump(date("Y-m-d",$start_time), date("Y-m-d",$end_time));
+            $month = date("Y-m",$start_time);
+            $file_name = $month.'sam_subject_grade_phone_location';
+            $arr_title = ['科目',"年级","省份","数量"];
+            $arr_data  = ['subject','grade','phone_location','num'];
+            //$ret_file_name = \App\Helper\Utils::download_txt($file_name,$res,$arr_title,$arr_data);
         }
-        $file_name = 'samtext';
-        $arr_title = ['被介绍人ID',"介绍人ID","是否签单"];
-        $arr_data  = ['userid','origin_userid','is_money'];
-        $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
-        dd($ret_file_name);
+        */
+        /*
+        $time = [
+            ['start_time' => 1506787200,'end_time' => 1509465600], //10
+            ['start_time' => 1509465600,'end_time' => 1512057600], //11
+            ['start_time' => 1512057600,'end_time' => 1514736000], //12
+        ];
+        foreach ($time as $key => $value) {
+            $start_time = $value['start_time'];
+            $end_time   = $value['end_time'];
+            $ret_info = $task->t_student_score_info->get_info_by_month_b2($start_time,$end_time);
+            foreach ($ret_info as $kkey => &$vvalue) {
+                $vvalue['teacher']     = $task->cache_get_teacher_nick($vvalue["teacherid"]);
+                $vvalue['grade_start'] = E\Egrade_range::get_desc($vvalue['grade_start']);
+                $vvalue['grade_end']   = E\Egrade_range::get_desc($vvalue['grade_end']);
+                $vvalue['grade_range'] = $vvalue['grade_start'].'~'.$vvalue['grade_end']; 
+                $vvalue['phone_location'] = \App\Helper\Utils::phone_location_to_province($vvalue['phone_location']);
+            }
+            //dd($ret_info);
+            //var_dump(date("Y-m-d",$start_time), date("Y-m-d",$end_time));
+            $month = date("Y-m",$start_time);
+            $file_name = "sam-".$month;
+            $arr_title = ['老师姓名',"年级段","省份"];
+            $arr_data  = ['teacher','grade_range','phone_location'];
+            $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
+        }
+        */
+
+        $time = [
+            ['start_time' => 1506787200,'end_time' => 1509465600], //10
+            ['start_time' => 1509465600,'end_time' => 1512057600], //11
+            ['start_time' => 1512057600,'end_time' => 1514736000], //12
+        ];
+        foreach ($time as $key => $value) {
+            $start_time = $value['start_time'];
+            $end_time   = $value['end_time'];
+            $ret_info = $task->t_student_score_info->get_info_by_month_b3($start_time,$end_time);
+            foreach ($ret_info as $kkey => &$vvalue) {
+                $vvalue['subject']= E\Esubject::get_desc($vvalue['subject']);
+                $vvalue['grade']  = E\Egrade::get_desc($vvalue['grade']);
+                $vvalue['phone_location'] = \App\Helper\Utils::phone_location_to_province($vvalue['phone_location']);
+
+                $vvalue['origin'] = E\Eaccount_role::get_desc($vvalue['require_admin_type']);
+
+
+                $vvalue['grade_start'] = E\Egrade_range::get_desc($vvalue['grade_start']);
+                $vvalue['grade_end']   = E\Egrade_range::get_desc($vvalue['grade_end']);
+                $vvalue['grade_range'] = $vvalue['grade_start'].'~'.$vvalue['grade_end']; 
+                $vvalue['teacher_phone_location'] = \App\Helper\Utils::phone_location_to_province($vvalue['teacher_phone_location']);
+            }
+            //dd($ret_info);
+            //var_dump(date("Y-m-d",$start_time), date("Y-m-d",$end_time));
+            $month = date("Y-m",$start_time);
+            $file_name = "sam123-".$month;
+            $arr_title = ['学生姓名',"学科","年级","省份","来源","老师姓名","年级段","老师省份"];
+            $arr_data  = ['nick','grade','subject','phone_location','origin','teacher_name',"grade_range","teacher_phone_location"];
+            $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
+        }
+        
     }
 }

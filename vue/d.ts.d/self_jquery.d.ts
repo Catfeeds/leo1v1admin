@@ -80,6 +80,7 @@ interface JQueryStatic {
 
     dlg_need_html_by_id( id ):JQuery;
 
+  treetable(obj:any);
 
     /*
 
@@ -188,7 +189,7 @@ interface JQuery {
 
 
     admin_header_query (config ): any;
-
+    table_head_static(height?):any;
     select_date_range(conf:Object):void;
 
     iCheck(str:any):JQuery;

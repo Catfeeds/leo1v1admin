@@ -1,10 +1,6 @@
 @extends('layouts.app')
 @section('content')
 
-    <style >
-
-
-    </style>
     <script type="text/javascript" src="/page_ts/lib/admin_new_query.js"></script>
 
     <section class="content ">

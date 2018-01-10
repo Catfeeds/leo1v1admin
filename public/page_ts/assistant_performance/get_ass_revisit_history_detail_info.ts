@@ -29,6 +29,15 @@ $(function(){
     $('#id_adminid').val(g_args.adminid);
     $.admin_select_user($('#id_adminid'),"admin", load_data,false,{"main_type":1});
 
+    //点击进入个人主页
+    $('.opt-user').on('click',function(){
+        var opt_data=$(this).get_opt_data();
+        window.open(
+            '/stu_manage?sid='+ opt_data.userid +"&return_url="+ encodeURIComponent(window.location.href)
+        );
+    });
+
+
     $("#id_get_data").on("click",function(){
         var row_list=$("#id_tbody tr");
         var do_index=0;
@@ -48,6 +57,13 @@ $(function(){
                     console.log(resp.data);
                     var data = resp;
                     $tr.find(".revisit_value").text(data.revisit_value);
+                    var num = $("#id_num").text();
+                    console.log(num);
+                    console.log(data.revisit_value);
+                    num = parseInt(num)+parseInt(data.revisit_value);
+                    console.log(num);
+                    $("#id_num").text(num);
+                    opt_data.data("deduct_list",data.deduct_list);
                     
                     do_index++;
                     do_one();
@@ -56,6 +72,40 @@ $(function(){
             }
         };
         do_one();
+
+    });
+
+    $(".opt-deduct-detail").on("click",function(){
+        var  deduct_list = $(this).parent().data("deduct_list");
+        var title = "扣分详情";
+        var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>科目</td><td>时间</td></tr></table></div>");
+
+
+        console.log(deduct_list);
+        $.each( deduct_list,function(i,item){
+            html_node.find("table").append("<tr><td>"+item["deduct_type"]+"</td><td>"+item["subject"]+"</td><td>"+item["time"]+"</td></tr>");
+        });
+
+            var dlg=BootstrapDialog.show({
+                title:title, 
+                message :  html_node   ,
+                closable: true, 
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+                    
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","600px");
+
 
     });
 

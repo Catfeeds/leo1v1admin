@@ -1,6 +1,9 @@
 
 @extends('layouts.app')
 @section('content')
+    <script type="text/javascript">
+     var g_data = <?php echo json_encode(['info' => $table_data_list ]);?>;
+    </script>
 <section class='content'>
     <div> <!-- search ... -->
         <div class="row">
@@ -20,6 +23,11 @@
                     <input id="id_teacherid"/>
                 </div>
             </div>
+            @if(in_array($acc,["ricky","sunny","孙瞿"]))
+            <div class="col-xs-6 col-md-2">
+                <div><a href="javascript:;" id="download_data" class="fa fa-download">下载</a></div>
+            </div>
+            @endif
         </div>
     </div>
     <hr/>
@@ -40,7 +48,7 @@
             <td>绑卡时间</td>
         </thead>
         <tbody>
-            @foreach($table_data_list as $var)
+,            @foreach($table_data_list as $var)
                 <tr>
                     <td>{{$var['teacherid']}}</td>
                     <td>{{$var['nick']}}</td>
