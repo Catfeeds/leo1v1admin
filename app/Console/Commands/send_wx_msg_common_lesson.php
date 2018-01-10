@@ -293,7 +293,7 @@ class send_wx_msg_common_lesson extends Command
                     "keyword2" => $lesson_str,
                     "remark"   => "联系电话: ".$itemLessonEnd['ass_nick']." ".$itemLessonEnd['ass_phone']
                 ];
-                $urlLessonEnd = "http://wx-teacher-web.leo1v1.com/wage_details.html?start=".$nowMonthStart."&end=".$nowMonthEnd;
+                $urlLessonEnd = "";
                 $wx->send_template_msg("orwGAs_IqKFcTuZcU1xwuEtV3Kek",$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);//james
             }
         }else{

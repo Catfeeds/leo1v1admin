@@ -236,4 +236,9 @@ where is_test_user=0  and contract_status in  (1,2,3) and o.price>0   and s.grad
                                 ,$where_arr);
         return $this->main_get_list($sql);
     }
+
+    public function get_grade_by_info_b(){
+      $sql = "select grade, phone_location , count(*) as num from db_weiyi.t_student_info where grade in (101,102,103) and is_test_user = 0 group by grade,phone_location";
+      return $this->main_get_list($sql);
+    }
 }
