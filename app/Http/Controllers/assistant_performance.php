@@ -598,7 +598,7 @@ class assistant_performance extends Controller
 
             //算出kpi中课时消耗达成率的情况
             if($lesson_count_finish_per>=70){
-                $kpi_lesson_count_finish_per = 0.4;
+                $kpi_lesson_count_finish_per = 0.4*100;
             }else{
                 $kpi_lesson_count_finish_per=0;
             }

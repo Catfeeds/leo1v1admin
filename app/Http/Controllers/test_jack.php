@@ -13,6 +13,74 @@ class test_jack  extends Controller
     use CacheNick;
     use TeaPower;
 
+    public function test_ass(){
+        //续费/新签合同数据
+        $start_time = strtotime("2017-12-01");
+        $end_time = strtotime("2018-01-01");
+        $ass_order_info = $this->t_order_info->get_assistant_performance_order_info($start_time,$end_time);
+        $renew_list=$new_list=[];
+        foreach($ass_order_info as $val){
+            $contract_type = $val["contract_type"];
+            $orderid = $val["orderid"];
+            $userid = $val["userid"];
+            $price = $val["price"];
+            $uid = $val["uid"];
+            $real_refund = $val["real_refund"];
+            if($contract_type==0){
+                $new_list[$orderid]["uid"] = $uid;
+                $new_list[$orderid]["userid"] = $userid;
+                $new_list[$orderid]["price"] = $price;
+                $new_list[$orderid]["orderid"] = $orderid;
+                @$new_list[$orderid]["real_refund"] += $real_refund;
+            }elseif($contract_type==3){
+                $renew_list[$orderid]["uid"] = $uid;
+                $renew_list[$orderid]["userid"] = $userid;
+                $renew_list[$orderid]["price"] = $price;
+                $renew_list[$orderid]["orderid"] = $orderid;
+                @$renew_list[$orderid]["real_refund"] += $real_refund;
+            }
+        }
+        $ass_renew_info = $ass_new_info=[];
+        foreach($renew_list as $val){
+            $orderid = $val["orderid"];
+            $userid = $val["userid"];
+            $price = $val["price"];
+            $uid = $val["uid"];
+            $real_refund = $val["real_refund"];
+            if(!isset($ass_renew_info[$uid]["user_list"][$userid])){
+                $ass_renew_info[$uid]["user_list"][$userid]=$userid;
+                @$ass_renew_info[$uid]["num"] +=1;
+            }
+            @$ass_renew_info[$uid]["money"] += $price-$real_refund;
+
+        }
+        foreach($new_list as $val){
+            $orderid = $val["orderid"];
+            $userid = $val["userid"];
+            $price = $val["price"];
+            $uid = $val["uid"];
+            $real_refund = $val["real_refund"];
+            if(!isset($ass_new_info[$uid]["user_list"][$userid])){
+                $ass_new_info[$uid]["user_list"][$userid]=$userid;
+                @$ass_new_info[$uid]["num"] +=1;
+            }
+            @$ass_new_info[$uid]["money"] += $price-$real_refund;
+
+        }
+
+
+        //获取销售转介绍合同信息
+        $cc_order_list = $this->t_order_info->get_seller_tran_order_info($start_time,$end_time);
+
+        dd($cc_order_list);
+        //续费金额 分期按80%计算,按新方法获取
+        $ass_renw_money = $this->t_manager_info->get_ass_renw_money_new($start_time,$end_time);
+
+        //cc签单助教转介绍数据
+        $cc_tran_order = $this->t_manager_info->get_cc_tran_origin_order_info($start_time,$end_time);
+
+
+    }
     public function test_main(){
         // $pdf_file = "/home/ybai/no_order_show_parent_unique.pdf";
         // $qiniu_file_name=\App\Helper\Utils::qiniu_upload($pdf_file);

@@ -22,6 +22,9 @@ class test extends Controller
     public function test1() {
         return $this->output_succ();
     }
+    public function tree() {
+        return $this->pageOutJson(__METHOD__);
+    }
 
     public function get_user_list(){
         #分页信息
