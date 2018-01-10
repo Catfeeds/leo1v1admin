@@ -3202,12 +3202,11 @@ class ss_deal extends Controller
         return $this->output_succ();
     }
 
-
-
-
-
+    /**
+     * 试听课确认课时
+     */
     public function confirm_test_lesson_ass() {
-        $lessonid   = $this->get_in_lessonid();
+        $lessonid     = $this->get_in_lessonid();
         $success_flag = $this->get_in_str_val("success_flag");
         $fail_reason  = $this->get_in_str_val("fail_reason");
         $test_lesson_fail_flag    = $this->get_in_str_val("test_lesson_fail_flag");
