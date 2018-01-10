@@ -4643,6 +4643,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list_by_page($sql, $page_info);
     }
 
+
+
     public function get_teacher_bank_info_new() {
         $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.subject,t.phone,t.bank_account,t.bankcard,t.bank_type,t.bank_province,t.bank_city,t.bank_address,t.bank_phone,t.idcard,t.bind_bankcard_time from %s t  where t.is_test_user = 0 group by t.teacherid ",
                                   self::DB_TABLE_NAME,

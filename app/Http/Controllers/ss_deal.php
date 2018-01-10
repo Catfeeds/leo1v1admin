@@ -1900,11 +1900,7 @@ class ss_deal extends Controller
         $check_is_full = \App\Helper\Utils::check_teacher_is_full(
             $teacher_info['teacher_money_type'],$teacher_info['teacher_type'],$teacherid
         );
-        if($check_is_full){
-            $lesson_diff = 50*60;
-        }else{
-            $lesson_diff = 40*60;
-        }
+        $lesson_diff = 40*60;
         $lesson_start = strtotime($lesson_start);
         $lesson_end = $lesson_start+$lesson_diff;
 

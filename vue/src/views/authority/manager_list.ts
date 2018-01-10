@@ -11,12 +11,208 @@ import {self_RowData, self_Args } from "../page.d.ts/authority-manager_list"
 
 export default class extends vtable {
 
-  get_opt_data(obj):self_RowData {return this.get_opt_data_base(obj );}
   get_args() :self_Args  {return  this.get_args_base();}
+
 
   data_ex() {
     //扩展的 data  数据
-    return {"message": "xx" }
+    var me=this;
+
+
+    var  field_list=[{
+      title: "id",
+      field_name: "uid",
+      default_display: "1",
+    },{
+      title: "用户名",
+      field_name: "account",
+      default_display: "1",
+    },{
+      title: "真实姓名",
+      field_name: "name",
+      default_display: "1",
+    },{
+      title: "电子邮箱",
+      field_name: "email",
+      default_display: "",
+    },{
+      title: "手机号",
+      field_name: "phone",
+      default_display: "1",
+    },{
+      title: "角色",
+      field_name: "account_role_str",
+      default_display: "1",
+      need_power: "admin_opt",
+    },{
+      title: "权限组",
+      field_name: "permission",
+      default_display: "1",
+    },{
+      title: "创建者",
+      field_name: "creater_admin_nick",
+      default_display: "1",
+    },{
+      title: "是否转正",
+      field_name: "become_full_member_flag_str",
+      default_display: "1",
+    },{
+      title: "微信openid",
+      field_name: "wx_openid",
+      default_display: false,
+    },{
+      title: "上级",
+      field_name: "up_admin_nick",
+      default_display: "1",
+    },{
+      title: "微信号/姓名",
+      field_name: "wx_id",
+      default_display: "1",
+    },{
+      title: "状态",
+      field_name: "del_flag_str",
+      default_display: "1",
+    },{
+      title: "每天新例子",
+      field_name: "day_new_user_flag_str",
+      default_display: "1",
+    },{
+      title: "咨询师权限等级/不参与升级",
+      field_name: "seller_level_str",
+      default_display: "1",
+    },{
+      title: "入职时间",
+      field_name: "become_time",
+    },{
+      title: "离职时间",
+      field_name: "leave_time",
+    },{
+      title: "打电话账号",
+      field_name: "tquin",
+    }];
+
+    var  row_opt_list =[{
+      text: "",
+      title: "编辑",
+      face_icon: "fa-edit",
+      on_click: me.opt_edit_manage,
+    },{
+      text: "",
+      title: "设置角色",
+      face_icon: "fa-venus-double",
+      on_click: me.opt_set_account_role,
+      need_power:me.check_power_common_opt,
+    },{
+      text: "",
+      title: "绑定微信账号",
+      face_icon: "fa-link",
+      on_click: me.opt_set_openid,
+      need_power:me.check_power_common_opt,
+    },{
+      text: "",
+      title: "更改员工状态",
+      face_icon: "fa-trash-o",
+      on_click: me.opt_del,
+      need_power:me.check_power_common_opt,
+    },{
+      text: "",
+      title: "更改权限组",
+      face_icon: "fa-hand-o-up",
+      on_click: me.opt_power,
+      need_power:me.check_power_common_opt,
+    },{
+      text: "登录",
+      title: "用此账号登录",
+      face_icon: "",
+      on_click: me.opt_login,
+      need_power:me.check_power_common_opt,
+    },{
+      text: " ",
+      title: "修改账号",
+      face_icon: "fa-gears",
+      on_click: me.opt_change_account,
+      need_power:me.check_power_common_opt,
+    },{
+      text: " ",
+      title: "同步考勤",
+      face_icon: "fa-refresh",
+      on_click: me.opt_sync_kaoqin,
+      need_power:me.check_power_common_opt,
+    },{
+      text: " 邮箱 ",
+      title: "邮箱配置",
+      face_icon: "",
+      on_click: me.opt_email,
+      need_power: "admin_opt",
+    },{
+      text: " 全",
+      title: "设置全职老师类型",
+      face_icon: "",
+      on_click: me.opt_set_fulltime_teacher_type,
+      need_power:me.check_power_common_opt,
+    },{
+      text: "生成账号",
+      title: "生成学生和家长账号",
+      face_icon: "",
+      on_click: me.opt_set_user_phone,
+      need_power:me.check_power_common_opt,
+    },{
+      text: "助",
+      title: "生成助教账号",
+      face_icon: "",
+      on_click: me.opt_gen_ass,
+      need_power:me.check_power_common_opt,
+    },{
+      text: "log",
+      title: "用户操作日志",
+      face_icon: "",
+      on_click: me.opt_log,
+      need_power:me.check_power_common_opt,
+    },{
+      text: "刷新回访",
+      title: "刷新回访",
+      face_icon: "",
+      on_click: me.opt_refresh_call_end,
+      need_power:me.check_power_common_opt,
+    },{
+      text: "同",
+      title: "同步老师入职时间",
+      face_icon: "",
+      on_click: me.opt_set_train_through_time,
+      need_power:me.check_power_common_opt,
+    },{
+      text: "等",
+      title: "修改老师等级",
+      face_icon: "",
+      on_click: me.opt_set_teacher_level,
+      need_power:me.check_power_common_opt,
+    },{
+      text: "权限删除测",
+      title: "权限删除测试",
+      face_icon: "",
+      on_click: me.opt_delete_permission,
+      need_power:me.check_power_common_opt,
+    },{
+      text: "权限更换",
+      title: "权限备份互换",
+      face_icon: "",
+      on_click: me.opt_change_permission_new,
+      need_power:me.check_power_common_opt,
+    },{
+      text: "个人权限",
+      title: "个人拥有权限",
+      face_icon: "",
+      on_click: me.opt_ower_permission,
+      need_power:me.check_power_common_opt,
+    }];
+
+
+    return {
+      "table_config":  {
+        "field_list": field_list,
+        "row_opt_list": row_opt_list,
+      }
+    }
   }
   query_init( $header_query_info): void{
     console.log("init_query");
@@ -130,7 +326,9 @@ export default class extends vtable {
     });
 
   }
-
+  check_power_common_opt(html_power_list) {
+    return  html_power_list["admin_opt"] ;
+  }
     initPicker(obj)
     {
       obj.datetimepicker({
@@ -215,8 +413,7 @@ export default class extends vtable {
 
   }
 
-  opt_edit_manage(e:MouseEvent) {
-    var opt_data = this.get_opt_data(e.target);
+  opt_edit_manage(e:MouseEvent,opt_data: self_RowData) {
 
 
     var uid= opt_data.uid;
@@ -311,9 +508,7 @@ export default class extends vtable {
     });
   }
 
-  opt_set_account_role(e:MouseEvent) {
-    var opt_data = this.get_opt_data(e.target);
-
+  opt_set_account_role(e:MouseEvent,opt_data: self_RowData) {
 
     var id_account_role=$("<select/>");
     var id_creater_adminid=$("<input/>");
@@ -355,8 +550,7 @@ export default class extends vtable {
   }
 
 
-  opt_set_openid(e:MouseEvent) {
-    var opt_data = this.get_opt_data(e.target);
+  opt_set_openid(e:MouseEvent,opt_data: self_RowData) {
     $(this).admin_select_dlg_ajax({
       "opt_type" :  "select", // or "list"
       select_no_select_value  :   0, // 没有选择是，设置的值
@@ -418,8 +612,7 @@ export default class extends vtable {
       "onLoadData"       : null
     });
   }
-  opt_del(e:MouseEvent) {
-    var opt_data = this.get_opt_data(e.target);
+  opt_del(e:MouseEvent,opt_data: self_RowData) {
 
     var uid = opt_data.uid;
     var del_flag     = $("<select/>");
@@ -470,8 +663,7 @@ export default class extends vtable {
       }
     });
   }
-  opt_power(e:MouseEvent) {
-    var opt_data = this.get_opt_data(e.target);
+  opt_power(e:MouseEvent,opt_data: self_RowData) {
 
 
     var uid= opt_data.uid;
@@ -515,15 +707,13 @@ export default class extends vtable {
       });
     }) ;
   }
-  opt_login(e:MouseEvent) {
-    var opt_data = this.get_opt_data(e.target);
+  opt_login(e:MouseEvent,opt_data: self_RowData) {
 
     $.do_ajax("/login/login_other",{
       "login_adminid" : opt_data.uid
     });
   }
-  opt_sync_kaoqin(e:MouseEvent) {
-    var opt_data = this.get_opt_data(e.target);
+  opt_sync_kaoqin(e:MouseEvent,opt_data: self_RowData) {
 
         $.do_ajax(  "/user_deal/get_kaoqin_machine_list",{
             "adminid" : opt_data.uid,
@@ -558,8 +748,7 @@ export default class extends vtable {
         });
   }
 
-  opt_set_fulltime_teacher_type (e:MouseEvent) {
-    var opt_data = this.get_opt_data(e.target);
+  opt_set_fulltime_teacher_type (e:MouseEvent,opt_data: self_RowData) {
 
     var uid= opt_data.uid;
 
@@ -582,8 +771,7 @@ export default class extends vtable {
 
   }
 
-  opt_email( e:MouseEvent) {
-    var opt_data = this.get_opt_data(e.target);
+  opt_email( e:MouseEvent,opt_data: self_RowData) {
 
     var  email   = opt_data.email;
     var name     = opt_data.name;
@@ -615,8 +803,7 @@ export default class extends vtable {
     }]);
   }
 
-  opt_set_user_phone (e:MouseEvent) {
-    var opt_data = this.get_opt_data(e.target);
+  opt_set_user_phone (e:MouseEvent,opt_data: self_RowData) {
 
     var account  = opt_data.account
     var phone    = opt_data.phone
@@ -641,8 +828,7 @@ export default class extends vtable {
   }
 
 
-  opt_change_account(e:MouseEvent) {
-    var opt_data = this.get_opt_data(e.target);
+  opt_change_account(e:MouseEvent,opt_data: self_RowData) {
 
 
     var uid = opt_data.uid;
@@ -664,8 +850,7 @@ export default class extends vtable {
       }
     });
   }
-  opt_gen_ass( e:MouseEvent){
-    var opt_data = this.get_opt_data(e.target);
+  opt_gen_ass( e:MouseEvent,opt_data: self_RowData){
     BootstrapDialog.confirm( "要生成助教账号:"+opt_data.account+"?", function(val){
       if (val) {
         $.do_ajax('/ajax_deal2/gen_ass_from_account', {
@@ -674,8 +859,7 @@ export default class extends vtable {
       }
     } );
   }
-  opt_delete_permission(e:MouseEvent ){
-    var opt_data = this.get_opt_data(e.target);
+  opt_delete_permission(e:MouseEvent ,opt_data: self_RowData){
     BootstrapDialog.confirm( "要清除该用户所有权限:"+opt_data.account+"?", function(val){
       if (val) {
         $.do_ajax('/ajax_deal2/delete_permission_by_uid', {
@@ -684,8 +868,7 @@ export default class extends vtable {
       }
     });
   }
-  opt_change_permission_newn(e:MouseEvent){
-    var opt_data = this.get_opt_data(e.target);
+  opt_change_permission_newn(e:MouseEvent,opt_data: self_RowData){
     BootstrapDialog.confirm( "要更换权限:"+opt_data.account+"?", function(val){
       if (val) {
         $.do_ajax('/ajax_deal2/change_permission_by_uid_new', {
@@ -695,12 +878,10 @@ export default class extends vtable {
     });
 
   }
-  opt_log( e:MouseEvent){
-    var opt_data = this.get_opt_data(e.target);
+  opt_log( e:MouseEvent,opt_data: self_RowData){
     $.wopen('/authority/seller_edit_log_list?adminid='+ opt_data.uid) ;
   }
-  opt_refresh_call_end( e:MouseEvent){
-    var opt_data = this.get_opt_data(e.target);
+  opt_refresh_call_end( e:MouseEvent,opt_data: self_RowData){
     $.do_ajax('/authority/update_lesson_call_end_time', {
       'adminid' : opt_data.uid
     },function(resp){
@@ -714,8 +895,7 @@ export default class extends vtable {
   }
 
 
-  opt_set_train_through_time(  e:MouseEvent){
-    var opt_data = this.get_opt_data(e.target);
+  opt_set_train_through_time(  e:MouseEvent,opt_data: self_RowData){
     BootstrapDialog.confirm( "要同步老师档案入职时间吗?", function(val){
       if (val) {
         $.do_ajax('/ajax_deal2/set_teacher_train_through_info', {
@@ -726,8 +906,7 @@ export default class extends vtable {
     } );
   }
 
-  opt_change_permission_new (e:MouseEvent) {
-    var opt_data = this.get_opt_data(e.target);
+  opt_change_permission_new (e:MouseEvent,opt_data: self_RowData) {
     BootstrapDialog.confirm( "要更换权限:"+opt_data.account+"?", function(val){
       if (val) {
         $.do_ajax('/ajax_deal2/change_permission_by_uid_new', {
@@ -738,8 +917,7 @@ export default class extends vtable {
 
   }
 
-  opt_set_teacher_level (e:MouseEvent) {
-    var opt_data = this.get_opt_data(e.target);
+  opt_set_teacher_level (e:MouseEvent,opt_data: self_RowData) {
     $.do_ajax('/ajax_deal2/get_teacherid_by_phone', {
       'phone' : opt_data.phone,
     },function(resp){
@@ -788,8 +966,7 @@ export default class extends vtable {
     });
   }
 
-  opt_ower_permission (e:MouseEvent) {
-    var opt_data = this.get_opt_data(e.target);
+  opt_ower_permission (e:MouseEvent,opt_data: self_RowData) {
     console.log(parseInt(opt_data.uid));
     $.do_ajax('/company_wx/get_ower_power',{
       'uid':parseInt(opt_data.uid)

@@ -27,12 +27,14 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/admin_manage-kaoqin_machine.d.ts" />
 
-$(function(){
-    function load_data(){
-        $.reload_self_page ( {
+function load_data(){
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 
-        });
-    }
+		});
+}
+$(function(){
 
 
 
@@ -44,4 +46,6 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

@@ -406,26 +406,9 @@ class main_page extends Controller
             $month_money = isset($item['month_money'])?$item['month_money']:0;
             $item['finish_per'] = $month_money>0?$all_price/$month_money:0;
             $item['finish_per'] = round($item['finish_per']*100,1).'%';
-            if(!in_array($this->get_account(),['班洁','tom']) && $key>2){
-                $item["all_count"] = "***";
+            if(!in_array($this->get_account(),['班洁','tom']) && $key>4){
                 $item["all_price"] = "***";
-                if($key==3){
-                    $item["finish_per"] = "不好意思";
-                }elseif($key==4){
-                    $item["finish_per"] = "捂脸";
-                }elseif($key==5){
-                    $item["finish_per"] = "羞愧难当";
-                }elseif($key==6){
-                    $item["finish_per"] = "知耻近乎后勇";
-                }elseif($key==7){
-                    $item["finish_per"] = "加倍努力";
-                }elseif($key==8){
-                    $item["finish_per"] = "惭愧";
-                }elseif($key==9){
-                    $item["finish_per"] = "丢人丢大了";
-                }else{
-                    $item["finish_per"] = "下月冲冲冲";
-                }
+                $item["finish_per"] = "加油";
             }
         }
 

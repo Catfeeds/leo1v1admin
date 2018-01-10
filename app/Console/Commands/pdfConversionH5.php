@@ -111,8 +111,8 @@ class pdfConversionH5 extends Command
             # 重新打包压缩
             $work_path= public_path('ppt');
             $del_zip = $work_path."/".$uuid.".zip";
-            $zip_new_resource = public_path('ppt')."/".$uuid."_leo55.zip";
-            $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo55.zip * ";
+            $zip_new_resource = public_path('ppt')."/".$uuid."_leo34.zip";
+            $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo34.zip * ";
             \App\Helper\Utils::exec_cmd($zipCmd);
 
             # 使用七牛上传  七牛 资源域名 https://ybprodpub.leo1v1.com/
@@ -179,12 +179,14 @@ class pdfConversionH5 extends Command
                 }
                 # 替换 节点内容
 
-                // $domain_jq = strstr($nodeContent,'jquery-1.8.1.min.js');
-                // \App\Helper\Utils::logger('nodeContent_test: '.$nodeContent." domain: ".$domain." domain_jq: ".$domain_jq);
+                $domain_jq = strstr($nodeContent,'jquery-1.8.1.min.js');
+                \App\Helper\Utils::logger('nodeContent_test: '.$nodeContent." domain: ".$domain." domain_jq: ".$domain_jq);
 
-                // if($domain_jq)
-                // {
-                // }
+                if($domain_jq)
+                {
+                    # jq文件复制到index同级目录
+                    $node_js->parentNode->removeChild($node_js);
+                }
 
 
             }

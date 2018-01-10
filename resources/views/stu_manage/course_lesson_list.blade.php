@@ -42,8 +42,8 @@
                 <td >结束</td>
                 <td >课次</td>
                 <td >课时数</td>
-                <td >课时确认</td> 
-                <td >课时取消原因</td> 
+                <td >课时确认</td>
+                <td >课时取消原因</td>
                 <td style="display:none;">课时确认人</td>
                 <td style="display:none;">课时确认时间</td>
                 <td style="display:none;">课时确认原因</td>

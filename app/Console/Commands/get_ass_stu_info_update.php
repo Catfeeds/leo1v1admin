@@ -49,6 +49,24 @@ class get_ass_stu_info_update extends Command
 
         $last_month = strtotime(date('Y-m-01',$start_time-100));
         $ass_last_month = $task->t_month_ass_student_info->get_ass_month_info($last_month);
+        // $regular_lesson_list = $task->t_lesson_info_b3->get_stu_first_lesson_time_by_subject(-1,$last_month,strtotime("+1 months",$last_month));
+        // $arr=[];
+        // foreach($regular_lesson_list as $vv){
+        //     $arr[$vv["uid"]][]=$vv;
+        // }
+        // foreach($ass_last_month as $k=>$val){
+        //     $first_lesson_stu_arr =@$arr[$k];
+        //     $first_lesson_stu_list="";
+        //     if($first_lesson_stu_arr){
+        //         $first_lesson_stu_list = json_encode($first_lesson_stu_arr);
+        //     }
+        //     $task->t_month_ass_student_info->get_field_update_arr($k,$val["month"],1,[
+        //         "first_lesson_stu_list" => $first_lesson_stu_list
+        //     ]);
+
+        // }
+        // dd( $regular_lesson_list);
+
         $lesson_count_list_old=[];       
 
         foreach($ass_last_month as $ks=>&$vs){

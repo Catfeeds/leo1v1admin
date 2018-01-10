@@ -1,0 +1,135 @@
+#!/usr/bin/php
+<?php
+function get_td_data_list($data, $start_str, $end_str ){
+    $head_start_pos=strpos($data, $start_str  );
+    $head_end_pos=strpos( $data, $end_str);
+    $str=substr($data,  $head_start_pos, $head_end_pos-$head_start_pos);
+
+    $lines=preg_split("/\n/", $str);
+    $td_arr=[];
+    $a_arr=[];
+    foreach($lines as $line ){
+        if(preg_match("/<td(.*)>(.*)<\/td>/",$line , $matches) ){
+            $td_arr[]=[$matches[2], $matches[1]  ];
+        }
+
+        if(preg_match("/<a(.*)>(.*)<\/a>/",$line , $matches) ){
+            $a_arr[]=[$matches[2], $matches[1]  ];
+        }
+    }
+    return [$td_arr, $a_arr];
+}
+function get_attr( $str, $key ) {
+    if(preg_match(
+        "/".$key."[ \t]*=[ \t]*[\"']([^\"']*)[\"']/",
+        $str, $matches) ){
+        return $matches[1];
+    }else{
+        return "";
+    }
+}
+
+if (count($argv)==1) {
+    echo " need file \n";
+    exit;
+}
+
+$data=file_get_contents( $argv[1] );
+
+$th_list=get_td_data_list($data,  "<thead>",  "</thead>"  );
+$row_list=get_td_data_list($data,  "<tbody>",  "</tbody>"  );
+$field_list=[];
+$td_list=$row_list[0];
+foreach ($th_list[0] as $index =>$th_item){
+    $item=[];
+    $title=trim($th_item[0]) ;
+    $item["title"] =$title;
+
+    $default_display=true;
+    if (strpos($th_item[1],"display")!==false){
+        $default_display=false;
+    }
+    $item["default_display"] =$default_display  ;
+    $field_name="";
+    $field_data=@$td_list[$index][0] ;
+    if(preg_match("/\"([^\"]*)\"/", $field_data  , $matches)) {
+        $item["field_name"] =$matches[1];
+    }
+    if(!($title =="操作" && $field_name=="") ) {
+        $field_list[]=$item;
+    }
+}
+
+$opt_list=$row_list[1];
+$row_opt_list=[];
+foreach($opt_list as $opt_item) {
+    $attr_str=$opt_item[1];
+    $title=trim(get_attr($attr_str,"title"));
+    $class_str=trim(get_attr($attr_str,"class"));
+    $class_list=preg_split("/[ \t]/",  $class_str);
+    $face_icon="";
+    $on_click="";
+    foreach($class_list as $css_class){
+        if (strpos($css_class, "fa-")===0) {
+            $face_icon=$css_class;
+        }else {
+            if ($css_class != "fa" ) {
+                $on_click= preg_replace("/-/", "_",  $css_class);
+            }
+        }
+    }
+    $row_opt_list[]=[
+        "text"=>$opt_item[0],
+        "title"=>$title,
+        "face_icon"=>$face_icon,
+        "on_click"=>$on_click,
+    ];
+}
+
+$item_str_list=[];
+$function_str="";
+foreach ( $row_opt_list as  $opt_item ) {
+
+    $on_click=$opt_item["on_click"];
+    $item_str_list[]=
+        "      text: \"".$opt_item["text"]."\",\n".
+        "      title: \"".$opt_item["title"]."\",\n".
+        "      face_icon: \"".$opt_item["face_icon"]."\",\n".
+        "      on_click: me.".$on_click.",\n";
+
+    $function_str.= <<<END
+
+  $on_click( e:MouseEvent, opt_data: self_RowData ){
+    alert(JSON.stringify( opt_data));
+  }
+
+END;
+
+}
+$row_opt_list_str=
+    "    var  row_opt_list =[{\n".
+    join($item_str_list, "    },{\n" )
+    ."    }];\n";
+
+
+$field_str_list=[];
+foreach ($field_list as $field_item ) {
+        $tmp_str= "      title: \"".$field_item["title"]."\",\n".
+        "      field_name: \"".$field_item["field_name"]."\",\n";
+    if(!$field_item["default_display"]) {
+        $tmp_str.= "      default_display: false,\n";
+    }
+
+    $field_str_list[]= $tmp_str;
+}
+
+$field_list_str=
+    "    var  field_list=[{\n".
+    join($field_str_list, "    },{\n" )
+    ."    }];\n";
+echo $field_list_str;
+
+echo $row_opt_list_str;
+
+echo  $function_str;
+

@@ -2199,19 +2199,25 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     }
 
-    public function get_stu_first_lesson_time_by_subject($userid){
+    public function get_stu_first_lesson_time_by_subject($userid=-1,$start_time=0,$end_time=0){
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.confirm_flag<2",
             "l.lesson_type in (0,1,3)",
             ["l.userid = %u",$userid,-1],
+            ["l.lesson_start >= %u",$start_time,0],
+            ["l.lesson_end < %u",$end_time,0],
             "l.lesson_status>0"
         ];
-        $sql = $this->gen_sql_new("select l.subject,l.lesson_start,l.userid"
+        $sql = $this->gen_sql_new("select l.subject,l.lesson_start,l.userid,l.assistantid,m.uid"
                                   ." from %s l "
+                                  ." left join %s a on l.assistantid = a.assistantid"
+                                  ." left join %s m on a.phone = m.phone"
                                   ." where %s and l.lesson_start = (select min(lesson_start) from %s where lesson_del_flag=0 and confirm_flag<2 and lesson_type in (0,1,3) and subject = l.subject and userid = l.userid and lesson_status>0)"
                                   ." group by l.subject,l.userid",
                                   self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr,
                                   self::DB_TABLE_NAME
         );
@@ -2490,7 +2496,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         ];
         $this->where_arr_add_time_range($where_arr, "l.lesson_end", $start_time, $end_time);
 
-        $sql = $this->gen_sql_new("  select l.userid, m.wx_openid, l.lesson_count, l.lesson_start, l.lesson_end, l.subject, l.teacherid from %s l"
+        $sql = $this->gen_sql_new("  select s.nick, l.userid, m.wx_openid, l.lesson_count, l.lesson_start, l.lesson_end, l.subject, l.teacherid from %s l"
                                   ." left join %s s on s.userid=l.userid"
                                   ." left join %s a on a.assistantid=s.assistantid"
                                   ." left join %s m on m.phone=a.phone"
@@ -2842,6 +2848,28 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     }
 
+
+    public function getLessonEndList($oneMinuteStart,$oneMinuteEnd){
+        $where_arr = [
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_del_flag=0",
+            "l.lesson_cancel_time_type=0"
+        ];
+        $this->where_arr_add_time_range($where_arr, "l.lesson_end", $oneMinuteStart, $oneMinuteEnd);
+        $sql = $this->gen_sql_new("  select p.wx_openid, s.nick as stu_nick, l.subject, l.lesson_start, l.lesson_end, l.lesson_count/100 as lesson_count , a.nick as ass_nick, a.phone as ass_phone "
+                                  ." from %s l"
+                                  ." left join %s s on s.userid=l.userid"
+                                  ." left join %s p on s.parentid=p.parentid"
+                                  ." left join %s a on a.assistantid=s.assistantid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_parent_info::DB_TABLE_NAME
+                                  ,t_assistant_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }
 

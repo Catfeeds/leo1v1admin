@@ -31,6 +31,12 @@
                 <a href="javascript:;" class="btn btn-warning"  id="id_add_config"  >增加</a>
             </div>
         </div>
+        <div class="col-xs-6 col-md-2" style="display:none">
+            <div class="input-group ">
+                <a href="javascript:;" class="btn btn-warning"  id="id_reset_course"  >刷新数据</a>
+            </div>
+        </div>
+
 
     </div>
 

@@ -9,7 +9,7 @@ $(function(){
 
     function load_data(){
         $.reload_self_page ( {
-      sid              : g_sid,
+            sid              : g_sid,
             competition_flag : $("#id_competition_flag").val()
         });
     }

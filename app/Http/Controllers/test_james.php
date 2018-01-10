@@ -837,18 +837,6 @@ class test_james extends Controller
         }
     }
 
-    public function ceshi(){
-
-        $limit_time = strtotime(date('Y-m-1'));
-
-        dd(date('Y-m-d',$limit_time+6*86400));
-        dd($limit_time);
-        $a = " https://fms.ipinyou.com/5/17/9E/0A/F001Nl1Q1NRQ000dMKdg.jpg";
-
-        $filesize=filesize('/home/james/admin_yb1v1/public/wximg/13818837473_2.png');
-        dd($filesize);
-    }
-
 
 
     // {
@@ -859,11 +847,6 @@ class test_james extends Controller
     //         "media_id":"MEDIA_ID"
     //             }
     // }
-
-    public function get(){
-        $parent_wx_openid = $this->t_parent_info->getParentNum();
-        dd($parent_wx_openid);
-    }
 
     public function wx_news(){ // 使用客服接口发送消息
 
@@ -1649,7 +1632,7 @@ class test_james extends Controller
         $file_link = $this->get_in_str_val('f');
 
         $a =  $this->get_pdf_download_url($file_link);
-        
+
         dd($a);
         $config=\App\Helper\Config::get_config("qiniu");
         $bucket_info=$config["private_url"]['url'];
@@ -1699,13 +1682,47 @@ class test_james extends Controller
     }
 
     public function t_ss(){
-        $list = $this->t_resource_file->get_list_tmp();
+        $ret_info = $this->t_teacher_info->get_teacher_bank_info_tmp($isbank, 5000);
+        dd($ret_info);
+        $file_id = $this->get_in_int_val('fid',-1);
+        $list = $this->t_resource_file->get_list_tmp($file_id);
 
         foreach($list as $v){
-            
+            $linkArr = explode(',', $v['filelinks']);
+            $filePoster = $linkArr[0];
+
+            $this->t_resource_file->field_update_list($v['file_id'], [
+                "file_poster" => $filePoster
+            ]);
         }
+
+        return ;
     }
 
+
+    public function check_function (){
+
+        // $oneMinuteStart = strtotime($this->get_in_str_val('s'));
+        $oneMinuteStart = 1515490140;
+
+        $oneMinuteEnd   = $oneMinuteStart+120;
+        $lessonEndList  = $this->t_lesson_info_b3->getLessonEndList($oneMinuteStart,$oneMinuteEnd);
+
+        dd($lessonEndList);
+
+
+        dd(number_format(1.5000,2));
+        exit;
+        $limit_time = strtotime(date('Y-m-1'));
+        $six_time   = $limit_time + 5*86400;
+
+        dd($six_time);
+        $now = time();
+        $oneMinuteStart = $now;
+        $oneMinuteEnd   = $oneMinuteStart+60;
+        $lessonEndList  = $this->t_lesson_info_b3->getLessonEndList($oneMinuteStart,$oneMinuteEnd);
+        dd($lessonEndList);
+    }
 
 
 
