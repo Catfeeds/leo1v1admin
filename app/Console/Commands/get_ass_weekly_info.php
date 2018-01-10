@@ -39,6 +39,7 @@ class get_ass_weekly_info extends Command
     {
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();       
+        dd(111);
 
         $time = time()-86400;
         $date_week = \App\Helper\Utils::get_week_range($time,1);
