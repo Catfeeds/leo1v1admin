@@ -2098,32 +2098,109 @@ class user_manage_new extends Controller
     }
 
     public function power_group_edit_new() {
-        $group_list = $this->t_authority_group->get_auth_groups();
-        $default_groupid = 0;
-        if (count($group_list)>0) {
-            $default_groupid= $group_list[0]["groupid"];
-        }
-        $groupid  = $this->get_in_int_val("groupid",$default_groupid);
-        $show_flag= $this->get_in_int_val("show_flag", -1);
-        $list=[];
-        $user_list=[];
-        $user_list=$this->t_manager_info->get_power_group_user_list($groupid);
-        $power_map=$this->t_authority_group->get_auth_group_map($groupid);
-        $list=$this->get_menu_list_new($power_map );
-        $admin_id = $this->get_account_id();
-        if ($show_flag!=2) { //只用户
-            $ret_info=\App\Helper\Utils::list_to_page_info($list);
+        //角色id
+        $role_groupid  = $this->get_in_int_val("role_groupid",1);
+
+        //选择权限组id
+        $groupid  = $this->get_in_int_val("groupid",0);
+
+        //该角色对应的权限组id
+        $group_list = $this->t_authority_group->get_groupid_by_role($role_groupid);
+
+        //所有的权限组id
+        $group_list_all = $this->t_authority_group->get_auth_groups_all();
+
+        //当前操作用户的id
+        $adminid = $this->get_account_id();
+
+        //当前用户的角色组id
+        $cur_role_groupid = $this->t_manager_info->get_role_groupid($adminid);
+
+        //旧的 当前用户所拥有的权限组集合
+        $permissions = $this->t_manager_info->get_permission($adminid);
+
+        //新的 当前用户所拥有的权限组集合
+        $cur_group_list = $this->t_authority_group->get_groupid_by_role($cur_role_groupid);
+
+        //当前账户
+        $account = $this->get_account();
+
+        if( in_array($account,['jim','顾培根','孙瞿'])){
+            //超级权限
+
         }else{
-            $ret_info=\App\Helper\Utils::list_to_page_info([]);
+            
         }
 
+        //dd($account);
+
+        $list=[];
+        $user_list=[];
+        $ret_info=\App\Helper\Utils::list_to_page_info([]);
+
+        if( count($group_list) > 0 ){
+            if( $groupid == 0 ){
+                $groupid = $group_list[0]["groupid"];
+            }
+
+            $user_list=$this->t_manager_info->get_power_group_user_list($groupid);
+            $power_map=$this->t_authority_group->get_auth_group_map($groupid);
+            $list=$this->get_menu_list_new($power_map );
+            $admin_id = $this->get_account_id();
+
+            $ret_info=\App\Helper\Utils::list_to_page_info($list);
+            // if ($show_flag!=2) { //只用户
+            //     $ret_info=\App\Helper\Utils::list_to_page_info($list);
+            // }else{
+            //     $ret_info=\App\Helper\Utils::list_to_page_info([]);
+            // }
+
+        }
+        // $group_list = $this->t_authority_group->get_auth_groups();
+        // $default_groupid = 0;
+        // if (count($group_list)>0) {
+        //     $default_groupid= $group_list[0]["groupid"];
+        // }
+       
+        // $groupid  = $this->get_in_int_val("groupid",$default_groupid);
+        // $show_flag= $this->get_in_int_val("show_flag", -1);
+
+
         return $this->Pageview(__METHOD__,$ret_info,[
+            "_publish_version" => 201801101838,
             "group_list"=>$group_list,
             "user_list"=>$user_list,
             "list"=>$list,
             "groupid" => $groupid
         ]);
 
+    }
+
+    public function get_group_list_by_role_groupid(){
+        $role_groupid  = $this->get_in_int_val("role_groupid");
+        $list = [];
+        if($role_groupid){
+            //该角色对应的权限组id
+            $group_list = $this->t_authority_group->get_groupid_by_role($role_groupid);
+            $groupid_arr = [];
+            if( count($group_list) > 0 ){
+                $groupid_arr = array_column($group_list, 'groupid');
+            }
+            $list    = $this->t_authority_group->get_auth_groups_all();
+            if($groupid_arr){
+                foreach ($list as &$item) {
+                    $item["has_power"] = in_array($item['groupid'],$groupid_arr)?1:0;
+                }
+
+            }else{
+                foreach ($list as &$item) {
+                    $item["has_power"] = 0;
+                }
+
+            }          
+ 
+        }
+        return $this->output_succ(["data"=> $list]);
     }
 
     public function power_group_edit() {

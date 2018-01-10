@@ -239,8 +239,9 @@ function zTreeOnClick(event, treeId, treeNode) {
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-		groupid:	$('#id_groupid').val(),
-		show_flag:	$('#id_show_flag').val()
+		    groupid:	$('#id_groupid').val(),
+        role_groupid:	$('#id_role_groupid').val(),
+		    //show_flag:	$('#id_show_flag').val()
     });
 }
 $(function(){
@@ -256,10 +257,11 @@ $(function(){
             treeObj.updateNode(nodes[i]); 
         }
     }
-
-	$('#id_groupid').val(g_args.groupid);
-	$('#id_show_flag').val(g_args.show_flag);
-
+   
+    Enum_map.append_option_list("account_role", $("#id_role_groupid"),true,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,1001,1002]);
+    $('#id_role_groupid').val(g_args.role_groupid);
+	  $('#id_groupid').val(g_args.groupid);
+	  //$('#id_show_flag').val(g_args.show_flag);
 
 	  $('.opt-change').set_input_change_event(load_data);
 
@@ -325,6 +327,213 @@ $(function(){
             treeObj.showNodes(nodes);
             treeObj.expandAll(true);
         }
+    });
+
+    $(".id_edit_power_group").on("click",function(){
+
+        var edit_type = $(this).attr("edit");
+
+        var id_edit_role_groupid =$("<select/>");
+        Enum_map.append_option_list("account_role",id_edit_role_groupid,true,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,1001,1002]);
+
+        var id_exits_power =$("<input id='id_exits_power' style='width:80%'/>");
+        //获取已有权限
+        var exits_power_id = '';
+        var exits_power_name = '';
+
+        if( $('#id_groupid option').length > 0 ){
+            $('#id_groupid option').each(function(){
+                exits_power_name += $(this).text() + ",";
+                exits_power_id += $(this).val() + ',';
+            });
+            exits_power_name = exits_power_name.substring(0, exits_power_name.length-1);
+            exits_power_id = exits_power_id.substring(0, exits_power_id.length-1);
+
+            id_exits_power =$("<input id='id_exits_power' value='"+exits_power_name+"' power='"+exits_power_id+"' />"); 
+        }
+            
+        var id_add_power =$("<input/>");
+
+        var id_user_add =$("<input id='user_add'/>");
+
+        if(edit_type == 1){
+            //添加
+            var edit_title = "*添加权限组";
+        }else{
+            //编辑
+            var edit_title = "编辑权限组";
+            var power_name = $('#id_groupid:selected').text();
+            var power_id = $('#id_groupid').val();
+            id_add_power =$("<input value='"+power_name+"' power='"+power_id+"'  />"); 
+        }
+
+        var arr=[
+            ["*角色", id_edit_role_groupid ],
+            ["*其它权限", id_exits_power ],
+            [edit_title, id_add_power ],
+            ["添加用户", id_user_add ],
+        ];
+
+        $.show_key_value_table(edit_title, arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action : function(dialog) {
+
+                var exits_power = id_exits_power.attr('power');
+                var edit_power_name = id_add_power.val();
+                var edit_power_id = id_add_power.attr("power");
+
+                if( exits_power == ''){
+                    BootstrapDialog.alert("请为角色添加权限！");
+                    return false;
+                }
+
+                if( edit_power_name == '' && edit_type == 1){
+                    BootstrapDialog.alert("请添加权限组名称！");
+                    return false;
+                }
+
+                var data = {
+                    "edit_type":edit_type,
+                    "role_groupid" : id_edit_role_groupid.val(),
+                    'exits_power':exits_power,
+                    'edit_power_name': edit_power_name,
+                    'edit_power_id' : edit_power_id,
+                    'user_id':$('#user_add').attr("user_id"),
+                }
+
+                $.ajax({
+                    type     :"post",
+                    url      :"/user_power/edit_role_groupid",
+                    dataType :"json",
+                    data     :data,
+                    success : function(result){
+                        BootstrapDialog.alert(result['info']);
+                        window.location.reload();
+                    }
+                });
+            }
+        },function(){
+            $('#user_add').admin_select_dlg_ajax({
+                "opt_type" : "select", // or "list"
+                "url"      : "/user_manage/get_user_list",
+                //其他参数
+                "args_ex" : {
+                    //type  :  "teacher"
+                },
+
+                select_primary_field   : "id",   //要拿出来的值
+                select_display         : "nick",
+                select_no_select_value : 0,
+                select_no_select_title : "[未设置]",
+
+                //字段列表
+                'field_list' :[
+                    {
+                    title:"userid",
+                    width :50,
+                    field_name:"id"
+                },{
+                    title:"性别",
+                    render:function(val,item) {
+                        return item.gender;
+                    }
+                },{
+                    title:"昵称",
+                    //width :50,
+                    render:function(val,item) {
+                        return item.nick;
+                    }
+                },{
+                    title:"电话",
+                    field_name:"phone"
+                }
+
+                ] ,
+                //查询列表
+                filter_list:[
+                    [
+                    {
+                        size_class: "col-md-4" ,
+                        title :"性别",
+                        type  : "select" ,
+                        'arg_name' :  "gender"  ,
+                        select_option_list: [ {
+                            value : -1 ,
+                            text :  "全部" 
+                        },{
+                            value :  1 ,
+                            text :  "男" 
+                        },{
+                            value :  2 ,
+                            text :  "女" 
+                        }]
+                    },{
+                        size_class : "col-md-8" ,
+                        title      : "姓名/电话",
+                        'arg_name' : "nick_phone"  ,
+                        type       : "input" 
+                    }
+
+                ] 
+                ],
+                "auto_close"       : true,
+                //选择
+                "onChange"         : function(require_id,row_data){
+                    console.log(row_data);
+                    $('#user_add').attr({"user_id":row_data.id});
+                },
+                //加载数据后，其它的设置
+                "onLoadData"       : null
+
+            });
+
+            $('#id_exits_power').click(function(){
+                                
+                $.do_ajax("/user_manage_new/get_group_list_by_role_groupid",{
+                    "role_groupid" : id_edit_role_groupid.val()
+                },function(response){
+                    var data_list   = [];
+                    var select_list = [];
+                    var all_list = [];
+                    $.each( response.data,function(){
+                        data_list.push([this["groupid"], this["group_name"]  ]);
+                        all_list[this["groupid"]] = this["group_name"];
+                        if (this["has_power"]) {
+                            select_list.push ([this["groupid"], this["group_name"]  ]) ;
+                        }
+                    });
+                    
+                    $(this).admin_select_dlg({
+                        header_list     : [ "id","名称" ],
+                        data_list       : data_list,
+                        multi_selection : true,
+                        select_list     : select_list,
+                        onChange        : function( select_list,dlg) {                            
+                            if(select_list.length > 0 ){
+                                var exits_power_name = '';
+                                var exits_power_id = '';
+                                for( var x in select_list ){
+                                    exits_power_name += all_list[select_list[x]] +',';
+                                    exits_power_id += select_list[x]+',';
+                                }
+                                exits_power_name = exits_power_name.substring(0, exits_power_name.length-1);
+                                exits_power_id = exits_power_id.substring(0, exits_power_id.length-1);
+                                $('#id_exits_power').val(exits_power_name);
+                                $('#id_exits_power').attr({"power":exits_power_id});
+           
+                            }else{
+                                $('#id_exits_power').val('');
+                                $('#id_exits_power').attr({"power":''});
+                            }
+                        }
+                    });
+                }) ;
+            });
+
+
+        } ,false,900)
+
     });
 
     $("#id_del_group").on("click",function(){ // 删除当前角色

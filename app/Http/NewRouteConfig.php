@@ -699,7 +699,9 @@ class NewRouteConfig {
         "/user_power/save_desc_power"                          =>true,
         "/user_power/get_input_define"                          =>true,
         "/user_power/save_input_define"                          =>true,
-
+        "/user_power/edit_role_groupid"                       =>true,
+        "/user_power/dele_role_groupid"                       =>true,
+        "/user_power/add_user"                       =>true,
     ];
 
     static $dev_url_map = [

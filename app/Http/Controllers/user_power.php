@@ -196,4 +196,20 @@ class user_power extends Controller
         }
     }
 
+    public function edit_role_groupid(){
+        $role_groupid  = $this->get_in_int_val('role_groupid');
+        $edit_type  = $this->get_in_int_val('edit_type');
+        $exits_power       = $this->get_in_str_val('exits_power');
+        $edit_power_name       = $this->get_in_str_val('edit_power_name');
+        $edit_power_id  = $this->get_in_str_val('edit_power_id');
+
+    }
+
+    public function add_user(){
+        
+    }
+
+    public function dele_role_groupid(){
+        
+    }
 }

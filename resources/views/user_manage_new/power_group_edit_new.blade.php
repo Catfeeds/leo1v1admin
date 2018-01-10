@@ -23,9 +23,16 @@
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <section class="content">
         <div class="row">
-            <div class="col-xs-6 col-md-3">
+            <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
-                    <span class="input-group-addon">角色</span>
+                    <span class="input-group-addon">角色组</span>
+                    <select class="opt-change form-control " id="id_role_groupid"></select>
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">权限组</span>
                     <select class="opt-change form-control " id="id_groupid">
                         @foreach  ($group_list as $var)
                             <option value="{{$var["groupid"]}}"> {{$var["group_name"]}} </option>
@@ -34,39 +41,43 @@
                 </div>
             </div>
 
-            <div class="col-xs-6 col-md-2">
+            <!-- <div class="col-xs-6 col-md-2">
+                 <div class="input-group ">
+                 <span class="input-group-addon">显示</span>
+                 <select class="opt-change form-control " id="id_show_flag">
+                 <option value="-1" >全部 </option>
+                 <option value="1" >仅权限</option>
+                 <option value="2" >仅用户</option>
+                 </select>
+                 </div>
+                 </div> -->
+
+            <div class="col-xs-1 col-md-1">
                 <div class="input-group ">
-                    <span class="input-group-addon">显示</span>
-                    <select class="opt-change form-control " id="id_show_flag">
-                        <option value="-1" >全部 </option>
-                        <option value="1" >仅权限</option>
-                        <option value="2" >仅用户</option>
-                    </select>
+                    <button edit="1" class="id_edit_power_group btn fa fa-plus btn-primary">添加权限组</button>
                 </div>
             </div>
-            <div class="col-xs-1 col-md-2">
+            <div class="col-xs-1 col-md-1">
                 <div class="input-group ">
-                    <button id="id_del_group" class="btn fa fa-minus  btn-warning" title="删除当前角色"></button>
-                    <button id="id_edit_group" class="btn fa fa-edit btn-warning" title="修改当前角色名"></button>
+                    <button edit="2" class="id_edit_power_group btn fa fa-edit btn-warning">修改权限组</button>
                 </div>
             </div>
-            <div class="col-xs-1 col-md-2">
+
+            <div class="col-xs-1 col-md-1">
                 <div class="input-group ">
-                    <button id="id_add_group" class="btn fa fa-plus btn-primary" title="新增角色"></button>
+                    <button id="id_del_power_group" class="btn fa fa-minus  btn-danger"">删除权限组</button>
                 </div>
             </div>
 
             <div class="col-xs-1 col-md-2">
-
-                <div class="input-group ">
-                    <button class="btn fa fa-plus btn-primary" id="id_add_user">添加用户</button>
-                </div>
-            </div>
-
-            <div class="col-xs-1 col-md-2">
-
                 <div class="input-group ">
                     <button class="btn  btn-primary" id="id_reload_power">更新在线用户权限</button>
+                </div>
+            </div>
+
+            <div class="col-xs-1 col-md-2">
+                <div class="input-group ">
+                    <button class="btn fa fa-plus btn-primary" id="id_add_user">添加用户</button>
                 </div>
             </div>
 
