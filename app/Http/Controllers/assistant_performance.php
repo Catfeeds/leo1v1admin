@@ -107,7 +107,7 @@ class assistant_performance extends Controller
       2018年1月开始第二版本
     */
     public function performance_info_show(){
-        return $this->performance_info();
+        return $this->performance_info_second();
     }
 
     /*
@@ -528,16 +528,16 @@ class assistant_performance extends Controller
         $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target");
         
 
-        // //销售月拆解
-        // $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
-        // $first_week = $start_info["sdate"];
-        // $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
-        // if($end_info["edate"] <= $end_time){
-        //     $last_week =  $end_info["sdate"];
-        // }else{
-        //     $last_week =  $end_info["sdate"]-7*86400;
-        // }
-        // $n = ($last_week-$first_week)/(7*86400)+1;
+        //销售月拆解
+        $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
+        $first_week = $start_info["sdate"];
+        $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
+        if($end_info["edate"] <= $end_time){
+            $last_week =  $end_info["sdate"];
+        }else{
+            $last_week =  $end_info["sdate"]-7*86400;
+        }
+        $n = ($last_week-$first_week)/(7*86400)+1;
 
         // //每周助教在册学生数量获取
         // $registered_student_num=[];
@@ -741,6 +741,8 @@ class assistant_performance extends Controller
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ass_month),[
             "start"=>date("Y-m-d H:i",$start_time),
             "end"=>date("Y-m-d H:i",$end_time),
+            "week_start"=>date("Y-m-d",$first_week),
+            "week_end"=>date("Y-m-d",$last_week+7*86400),
         ]);
 
         //dd($ass_month);

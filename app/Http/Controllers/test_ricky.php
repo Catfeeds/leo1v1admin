@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Mail ;
 
 require_once  app_path("Libs/Pingpp/init.php");
 
-class test extends Controller
+class test_ricky extends Controller
 {
     var $check_login_flag =true;
 
@@ -38,6 +38,23 @@ class test extends Controller
         return $this->pageView(__METHOD__, $ret_info,[
             "message" =>  "cur usrid:".$userid,
         ]);
+    }
+
+    public function get_test_lesson_count() {
+        $start_time = strtotime("2018-1-1");
+        $end_time = strtotime('2018-1-9');
+        $count = $this->t_lesson_info_b3->get_test_lesson_count($start_time, $end_time);
+        foreach($count as $item) {
+            var_dump($item);
+            $order = $this->t_order_info->get_not_order($item['userid']);
+            var_dump($order);
+            if ($order) {
+                echo "有值";
+            } else {
+                echo "没值";
+            }
+
+        }
     }
 
 }

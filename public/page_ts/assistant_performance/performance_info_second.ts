@@ -25,6 +25,45 @@ $(function(){
         }
     });
 
+    $(".seller_week_stu_num_info").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var adminid = opt_data.adminid;
+        var title = "每周在册学生详情";
+        var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>时间(周)</td><td>学生数</td><td>学生名单</td></tr></table></div>");
+
+        $.do_ajax('/ajax_deal2/get_ass_performance_seller_week_stu_info',{
+            "adminid" : adminid,
+            "start_time":g_args.start_time
+        },function(resp) {
+            var userid_list = resp.data;
+            console.log(userid_list);
+            $.each(userid_list,function(i,item){
+                html_node.find("table").append("<tr><td>"+item["time"]+"</td><td>"+item["num"]+"</td><td>"+item["name_list"]+"</td></tr>");
+            });
+        });
+
+        var dlg=BootstrapDialog.show({
+            title:title, 
+            message :  html_node   ,
+            closable: true, 
+            buttons:[{
+                label: '返回',
+                cssClass: 'btn',
+                action: function(dialog) {
+                    dialog.close();
+
+                }
+            }],
+            onshown:function(){
+                
+            }
+
+        });
+
+        dlg.getModalDialog().css("width","1024px");
+
+    });
+
 
 	$('.opt-change').set_input_change_event(load_data);
 });

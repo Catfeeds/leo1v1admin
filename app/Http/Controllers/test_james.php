@@ -1726,7 +1726,7 @@ class test_james extends Controller
 
     public function getSellerNum(){
         $s = $this->get_in_str_val('s');
-        $ret = $this->t_admin_group_name->get_group_seller_num_test(1,$s);
+        $ret = $this->t_admin_group_name->getGroupSellerNum(1,$s);
         dd($ret);
     }
 
@@ -1735,6 +1735,25 @@ class test_james extends Controller
         $g = $this->get_in_str_val('g');
         $ret = $this->t_admin_group_name->get_group_seller_num($s,$g);
         dd($ret);
+    }
+
+    public function doTest(){
+        $test = [
+            0 => [
+                "group_name" => "咨询一部",
+                "seller_num" => "31"
+            ],
+            2 => [
+                "group_name" => "咨询二部",
+                "seller_num" => "333"
+            ],
+            3 => [
+                "group_name" => "咨询三部",
+                "seller_num" => "378"
+            ]
+        ];
+
+        dd(json_encode($test));
     }
 
 
