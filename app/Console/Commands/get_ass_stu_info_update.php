@@ -41,6 +41,7 @@ class get_ass_stu_info_update extends Command
         $task=new \App\Console\Tasks\TaskController();
 
         $start_time = strtotime("2017-12-01");
+        $end_time = strtotime("2018-01-01");
         //销售月拆解
         $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
         $first_week = $start_info["sdate"];
