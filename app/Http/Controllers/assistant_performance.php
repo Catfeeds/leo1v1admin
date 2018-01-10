@@ -546,7 +546,7 @@ class assistant_performance extends Controller
             $week_edate = $week+7*86400;
             $week_info = $this->t_ass_weekly_info->get_all_info($week);
             foreach($week_info as $val){
-                @$registered_student_num[$k] +=@$week_info[$val["adminid"]]["registered_student_num"];
+                @$registered_student_num[$val["adminid"]] +=@$week_info[$val["adminid"]]["registered_student_num"];
             } 
         }
         dd($registered_student_num);
