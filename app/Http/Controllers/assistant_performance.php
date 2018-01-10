@@ -100,6 +100,19 @@ class assistant_performance extends Controller
 
     }
 
+
+    /*
+      助教薪资版本
+      2017年11-12月使用第一版本
+      2018年1月开始第二版本
+    */
+    public function performance_info_show(){
+        return $this->performance_info();
+    }
+
+    /*
+      助教薪资第一版本
+     */
     public function performance_info(){
               
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
