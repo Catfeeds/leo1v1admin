@@ -23,6 +23,17 @@ class test_jack  extends Controller
         // //  $pdf_file_url=\App\Helper\Common::gen_order_pdf_empty();
 
         // dd($pdf_file_url);
+        $time=strtotime("2017-12-01");
+        $list = $this->t_month_ass_student_info->get_ass_month_info($time);
+        foreach($list as &$val){
+            $val["month"] = $val["month"]-100;
+            unset($val["assistantid"]);
+            $this->t_month_ass_student_info->row_insert($val);
+        }
+        $time=strtotime("2017-12-01")-100;
+        $list = $this->t_month_ass_student_info->get_ass_month_info($time);
+        dd($list);
+
         $registered_userid_list = $this->t_student_info->get_read_student_ass_info(-2);//在册学员名单
         $time=strtotime("2017-11-27");
         for($i=0;$i<=6;$i++){
