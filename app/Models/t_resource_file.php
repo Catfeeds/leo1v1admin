@@ -203,14 +203,17 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
     public function getH5PosterInfo(){
         $where_arr = [
             "f.status=0",
-            // "f.file_use_type=0",
+            "f.file_use_type=0",
             "f.file_type='pdf'",
-            "f.filelinks=''"
+            "f.filelinks=''",
+            "r.resource_type=3"
         ];
 
         $sql = $this->gen_sql_new("  select file_id, file_type, file_link from %s f "
+                                  ." left join %s r on r.resource_id=f.resource_id"
                                   ." where %s limit 5"
                                   ,self::DB_TABLE_NAME
+                                  ,t_resource::DB_TABLE_NAME
                                   ,$where_arr
         );
 

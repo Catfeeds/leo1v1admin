@@ -71,7 +71,10 @@
                                  
                                  {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >                               
+                                <a class="fa-user opt-user " title="个人信息" ></a>
+
                                 <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
+                                <a class="opt-deduct-detail " title="扣分详情" >扣分详情</a>
                                 
                             </div>
                         </td>

@@ -599,6 +599,23 @@ class assistant_performance extends Controller
                 }
             }
         }
+
+        $first_lesson_stu_list = $list["first_lesson_stu_list"];
+        if($first_lesson_stu_list){
+            $first_lesson_stu_arr = json_decode($first_lesson_stu_list,true);
+            foreach($first_lesson_stu_arr as $val){
+                $userid = $val["userid"];
+                if(!isset($ret_info[$userid])){
+                    $ret_info[$userid]=[
+                        "userid" =>$userid,
+                        "type_str"=>"第一次课学员",
+                        "type_flag"=>4
+                    ];
+
+                }
+
+            }
+        }
         foreach($ret_info as &$item){
             $item["stu_nick"]= $this->cache_get_student_nick($item["userid"]);
         }
