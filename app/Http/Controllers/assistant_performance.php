@@ -554,7 +554,6 @@ class assistant_performance extends Controller
         $adminid = $this->get_in_int_val("adminid",324);
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
-        dd($ass_month);
         $list = @$ass_month[$adminid];        
         $ret_info=[];
 
@@ -598,6 +597,23 @@ class assistant_performance extends Controller
                     ];
 
                 }
+            }
+        }
+
+        $first_lesson_stu_list = $list["first_lesson_stu_list"];
+        if($first_lesson_stu_list){
+            $first_lesson_stu_arr = json_decode($first_lesson_stu_list,true);
+            foreach($first_lesson_stu_arr as $val){
+                $userid = $val["userid"];
+                if(!isset($ret_info[$userid])){
+                    $ret_info[$userid]=[
+                        "userid" =>$userid,
+                        "type_str"=>"第一次课学员",
+                        "type_flag"=>4
+                    ];
+
+                }
+
             }
         }
         foreach($ret_info as &$item){
