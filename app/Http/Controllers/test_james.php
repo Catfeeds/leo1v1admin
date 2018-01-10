@@ -1730,6 +1730,13 @@ class test_james extends Controller
         dd($ret);
     }
 
+    public function checkSellerNum(){
+        $s = $this->get_in_str_val('s');
+        $g = $this->get_in_str_val('g');
+        $ret = $this->t_admin_group_name->get_group_seller_num($s,$g);
+        dd($ret);
+    }
+
 
 
 
