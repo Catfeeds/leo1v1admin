@@ -40,31 +40,31 @@ class get_ass_stu_info_update extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
 
-        $start_time = strtotime("2017-12-01");
-        $end_time = strtotime("2018-01-01");
-        //销售月拆解
-        $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
-        $first_week = $start_info["sdate"];
-        $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
-        if($end_info["edate"] <= $end_time){
-            $last_week =  $end_info["sdate"];
-        }else{
-            $last_week =  $end_info["sdate"]-7*86400;
-        }
-        $n = ($last_week-$first_week)/(7*86400)+1;
+        // $start_time = strtotime("2017-12-01");
+        // $end_time = strtotime("2018-01-01");
+        // //销售月拆解
+        // $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
+        // $first_week = $start_info["sdate"];
+        // $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
+        // if($end_info["edate"] <= $end_time){
+        //     $last_week =  $end_info["sdate"];
+        // }else{
+        //     $last_week =  $end_info["sdate"]-7*86400;
+        // }
+        // $n = ($last_week-$first_week)/(7*86400)+1;
 
-        //每周课时/学生数
-        $lesson_count_list=[];
-        $list=[];
-        for($i=0;$i<$n;$i++){
-            $week = $first_week+$i*7*86400;
-            $week_edate = $week+7*86400;
-            $lesson_count_list = $task->t_manager_info->get_assistant_lesson_count_info($week,$week_edate);
-            foreach($lesson_count_list as $val){
-                @$list[$val["uid"]] += $val["lesson_count"];
-            }
-        }
-        dd($list);
+        // //每周课时/学生数
+        // $lesson_count_list=[];
+        // $list=[];
+        // for($i=0;$i<$n;$i++){
+        //     $week = $first_week+$i*7*86400;
+        //     $week_edate = $week+7*86400;
+        //     $lesson_count_list = $task->t_manager_info->get_assistant_lesson_count_info($week,$week_edate);
+        //     foreach($lesson_count_list as $val){
+        //         @$list[$val["uid"]] += $val["lesson_count"];
+        //     }
+        // }
+        // dd($list);
        
 
 
