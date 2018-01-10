@@ -29,6 +29,15 @@ $(function(){
     $('#id_adminid').val(g_args.adminid);
     $.admin_select_user($('#id_adminid'),"admin", load_data,false,{"main_type":1});
 
+    //点击进入个人主页
+    $('.opt-user').on('click',function(){
+        var opt_data=$(this).get_opt_data();
+        window.open(
+            '/stu_manage?sid='+ opt_data.userid +"&return_url="+ encodeURIComponent(window.location.href)
+        );
+    });
+
+
     $("#id_get_data").on("click",function(){
         var row_list=$("#id_tbody tr");
         var do_index=0;
