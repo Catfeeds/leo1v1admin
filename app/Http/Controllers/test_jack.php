@@ -18,9 +18,30 @@ class test_jack  extends Controller
         $start_time = strtotime("2017-12-01");
         $end_time = strtotime("2018-01-01");
         $ass_order_info = $this->t_order_info->get_assistant_performance_order_info($start_time,$end_time);
-        dd($ass_order_info);
+        $renew_list=$new_list=[];
+        foreach($ass_order_info as $val){
+            $contract_type = $val["contract_type"];
+            $orderid = $val["orderid"];
+            $userid = $val["userid"];
+            $price = $val["price"];
+            $uid = $val["uid"];
+            $real_refund = $val["real_refund"];
+            if($contract_type==0){
+                $new_list[$orderid]["uid"] = $uid;
+                $new_list[$orderid]["userid"] = $userid;
+                $new_list[$orderid]["price"] = $price;
+                $new_list[$orderid]["orderid"] = $orderid;
+                @$new_list[$orderid]["real_refund"] += $real_refund;
+            }elseif($contract_type==3){
+                $renew_list[$orderid]["uid"] = $uid;
+                $renew_list[$orderid]["userid"] = $userid;
+                $renew_list[$orderid]["price"] = $price;
+                $renew_list[$orderid]["orderid"] = $orderid;
+                @$renew_list[$orderid]["real_refund"] += $real_refund;
+            }
+        }
 
-        //续费金额 分期按80%计算,按新方法获取
+        dd([$new_list,$renew_list]);    //续费金额 分期按80%计算,按新方法获取
         $ass_renw_money = $this->t_manager_info->get_ass_renw_money_new($start_time,$end_time);
 
         //cc签单助教转介绍数据

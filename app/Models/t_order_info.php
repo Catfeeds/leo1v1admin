@@ -4721,7 +4721,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ];
 
         $sql =$this->gen_sql_new("select  if(o.contract_type=3001,3,o.contract_type) contract_type,".
-                                 " o.price,rf.real_refund,m.uid,o.sys_operator,s.userid ".
+                                 " o.price,rf.real_refund,m.uid,o.sys_operator,s.userid,o.orderid ".
                                  " from  %s o ".
                                  " left join %s m on o.sys_operator  = m.account".
                                  " left join %s s on s.userid=o.userid".
