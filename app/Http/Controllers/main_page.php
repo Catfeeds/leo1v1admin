@@ -86,8 +86,6 @@ class main_page extends Controller
 
                 $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['formal_info'];//
 
-
-
                 if($ret_info['new_order_num']>0){ //平均单笔
                     $ret_info['aver_count'] = $ret_info['new_money']/$ret_info['new_order_num'];
                 }else{
@@ -406,7 +404,7 @@ class main_page extends Controller
             $month_money = isset($item['month_money'])?$item['month_money']:0;
             $item['finish_per'] = $month_money>0?$all_price/$month_money:0;
             $item['finish_per'] = round($item['finish_per']*100,1).'%';
-            if(!in_array($this->get_account(),['班洁','tom']) && $key>4){
+            if(!in_array($this->get_account(),['班洁','tom','leowang','童宇周','王洪艳','陶建华','jim']) && $key>4){
                 $item["all_price"] = "***";
                 $item["finish_per"] = "加油";
             }

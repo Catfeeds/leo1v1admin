@@ -56,11 +56,13 @@ class tom_do_once extends Command
      */
     public function handle()
     {
-        $ret = $this->task->t_seller_student_new->get_all_list($start_time=1512057600,$end_time=1514736000);
+        $ret = $this->task->t_seller_student_new->get_all_list($start_time=1514736000,$end_time=1515513600);
+        dd($ret);
         foreach($ret as $item){
             $userid = $item['userid'];
             $phone = $item['phone'];
             $last_contact_cc = $item['last_contact_cc'];
+            $this->task->t_lesson_info_b3->get_test_succ_count($start_time, $end_time);
             if($last_contact_cc==0){
                 $last_call = $this->task->t_tq_call_info->get_last_call_by_phone($phone);
                 $adminid = isset($last_call['adminid'])?$last_call['adminid']:0;

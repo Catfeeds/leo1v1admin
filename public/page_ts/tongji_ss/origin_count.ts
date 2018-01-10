@@ -19,7 +19,6 @@ function load_data(){
 
 $(function(){
 
-    $(".common-table").tbody_scroll_table(500);
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -157,6 +156,8 @@ $(function(){
     //$('.opt-change').set_input_change_event(load_data);
 
 
+
+    $(".common-table").table_head_static();
     $(".common-table").table_group_level_4_init();
 
     if ($.get_action_str()=="origin_count_bd") {

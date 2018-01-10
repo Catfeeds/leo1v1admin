@@ -351,7 +351,6 @@ class table_manage extends Controller
     }
     public function query()  {
         $this->check_and_switch_tongji_domain();
-        // $this->t_admin_group->switch_tongji_database();
 
         $db_name   = $this->get_in_str_val("db_name","db_weiyi");
         $sql       = trim($this->get_in_str_val("sql"));

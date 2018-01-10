@@ -657,7 +657,7 @@ class menu{
                 ["power_id"=>88, "name"=>"首页-new2.0",   "url"=>"/tongji2/ass_month_kpi_tongji_master" ],
                 ["power_id"=>82, "name"=>"首页-主管",   "url"=>"/main_page/assistant_main_leader_new" ],
                 ["power_id"=>87, "name"=>"首页-主管2.0",   "url"=>"/tongji2/ass_month_kpi_tongji" ],
-                ["power_id"=>20, "name"=>"助教薪资",   "url"=>"/assistant_performance/performance_info" ],
+                ["power_id"=>20, "name"=>"助教薪资",   "url"=>"/assistant_performance/performance_info_show" ],
                 ["power_id"=>83, "name"=>"周报-助长",   "url"=>"/tongji_ss/ass_weekly_info" ],
                 ["power_id"=>84, "name"=>"周报-主管",   "url"=>"/tongji_ss/ass_weekly_info_master" ],
                 ["power_id"=>57, "name"=>"月报-主管",   "url"=>"/tongji_ss/ass_month_info" ],

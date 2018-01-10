@@ -101,6 +101,13 @@ class save_seller_info extends Command
         $ret_info['new_department']    = $task->t_admin_group_name->get_group_seller_num($new_group, $start_time);// 新人营
         $ret_info['train_department']  = 0;// 培训中
 
+
+        # 修改存储销售各部门人数 2018-01-10 James
+        $sellerNumDataArr = $this->t_admin_group_name->getGroupSellerNum($start_time);
+        $ret_info['sellerNumData'] = json_encode($sellerNumDataArr);
+
+
+
         $ret_info['formal_num']    = $task->t_admin_group_name->get_entry_month_num($start_time,$end_time);// 入职完整月人数
         $ret_info['all_order_price'] = $task->t_admin_group_name->get_entry_total_price($start_time,$end_time);// 入职完整月人数签单总额
 

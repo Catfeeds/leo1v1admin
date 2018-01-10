@@ -13,19 +13,15 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	name	:any;
-	test_lesson_count	:any;
-	order_count	:any;
-	order_percent	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../tongji_ss; vi  ../tongji_ss/lesson_device_info.ts
+	 mkdir -p ../tongji_ex; vi  ../tongji_ex/seller_student_detail.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji_ss-lesson_device_info.d.ts" />
+/// <reference path="../g_args.d.ts/tongji_ex-seller_student_detail.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}

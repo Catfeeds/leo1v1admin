@@ -131,11 +131,34 @@ class pdfConversionH5 extends Command
                 $rmResourceCmd = "rm $zip_new_resource";
                 shell_exec($rmZipCmd);
                 shell_exec($rmResourceCmd);
-                $task->t_lesson_info_b3->field_update_list($item['lessonid'],[
-                    "zip_url" => $saveH5Upload
-                ]);
+
+                # 在161服务器端执行此段程序
+                // $task->t_lesson_info_b3->field_update_list($item['lessonid'],[
+                //     "zip_url" => $saveH5Upload
+                // ]);
+
+                # 在42服务器端执行此段程序
+                $this->updateTranResult($item['lessonid'],$saveH5Upload);
             }
         }
+    }
+
+    public function updateTranResult($lessonid,$saveH5Upload){
+
+        $url = "http://admin.leo1v1.com/common_new/updateTranResult";
+        $post_data = array(
+            "lessonid" => $lessonid,
+            "zip_url"  => $saveH5Upload
+        );
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch,CURLOPT_POST,1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return '';
+        $ret_arr = json_decode($output,true);
     }
 
 
