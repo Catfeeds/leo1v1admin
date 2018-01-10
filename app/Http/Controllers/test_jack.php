@@ -13,6 +13,21 @@ class test_jack  extends Controller
     use CacheNick;
     use TeaPower;
 
+    public function test_ass(){
+        //续费/新签合同数据
+        $start_time = strtotime("2017-12-01");
+        $end_time = strtotime("2018-01-01");
+        $ass_order_info = $this->t_order_info->get_assistant_performance_order_info($start_time,$end_time);
+        dd($ass_order_info);
+
+        //续费金额 分期按80%计算,按新方法获取
+        $ass_renw_money = $this->t_manager_info->get_ass_renw_money_new($start_time,$end_time);
+
+        //cc签单助教转介绍数据
+        $cc_tran_order = $this->t_manager_info->get_cc_tran_origin_order_info($start_time,$end_time);
+
+
+    }
     public function test_main(){
         // $pdf_file = "/home/ybai/no_order_show_parent_unique.pdf";
         // $qiniu_file_name=\App\Helper\Utils::qiniu_upload($pdf_file);

@@ -4708,5 +4708,34 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_assistant_performance_order_info($start_time,$end_time){
+        $where_arr=[
+            [  "o.order_time >= %u", $start_time, -1 ] ,
+            [  "o.order_time <= %u", $end_time, -1 ] , 
+            "m.account_role = 1 ",
+            "o.price >0",
+            "o.contract_type in (0,3,3001)",
+            "o.contract_status>0",
+            "s.is_test_user=0"
+        ];
+
+        $sql =$this->gen_sql_new("select  if(o.contract_type=3001,3,o.contract_type) contract_type,".
+                                 " o.price,rf.real_refund,m.uid,o.sys_operator,s.userid ".
+                                 " from  %s o ".
+                                 " left join %s m on o.sys_operator  = m.account".
+                                 " left join %s s on s.userid=o.userid".
+                                 " left join %s rf on o.orderid = rf.orderid".
+                                 " where %s ",
+                                 self::DB_TABLE_NAME,
+                                 t_manager_info::DB_TABLE_NAME,
+                                 t_student_info::DB_TABLE_NAME,
+                                 t_order_refund::DB_TABLE_NAME,
+                                 $where_arr
+        );
+
+        return $this->main_get_list($sql);
+ 
+    }
 }
 
