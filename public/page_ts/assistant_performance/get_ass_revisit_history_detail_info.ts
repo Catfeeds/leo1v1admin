@@ -82,7 +82,7 @@ $(function(){
 
 
         console.log(deduct_list);
-        $.each( deduct_listn(i,item){
+        $.each( deduct_list,function(i,item){
             html_node.find("table").append("<tr><td>"+item["deduct_type"]+"</td><td>"+item["subject"]+"</td><td>"+item["time"]+"</td></tr>");
         });
 
