@@ -49,17 +49,16 @@ class test_sam extends Command
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
+        
 
+        /*
         $ret_info = $task->t_student_score_info->get_grade_by_info_b();
-
         foreach ($ret_info as $key => &$value) {
             # code...
             $value['grade']   = E\Egrade::get_desc($value['grade']);
             $value['phone_location'] = \App\Helper\Utils::phone_location_to_province($value['phone_location']);
         }
-
         $result = array();  
-   
         foreach($ret_info as $val){  
             $key = $val['grade'].'_'.$val['phone_location'];  
             if(!isset($result[$key])){  
@@ -76,6 +75,8 @@ class test_sam extends Command
         dd($ret_file_name);
 
         dd($ret);
+        */
+
         /*
         $ret_info1 = $task->t_student_score_info->get_total_student_b1();
         $ret_info2 = $task->t_student_score_info->get_total_student_b2();
@@ -87,7 +88,7 @@ class test_sam extends Command
         */
         
 
-        /*
+        
         $time = [
             ['start_time' => 1506787200,'end_time' => 1509465600], //10
             ['start_time' => 1509465600,'end_time' => 1512057600], //11
@@ -123,16 +124,13 @@ class test_sam extends Command
                 }
                 
             }
-            dd($res);
-            print_r(array_values($res));
-
-            $file_name = '10';
+            $file_name = 'sam_subject_grade_phone_location';
             $arr_title = ['科目',"年级","省份","数量"];
-            $arr_data  = ['userid','origin_userid','is_money'];
-            $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
+            $arr_data  = ['subject','grade','phone_location','num'];
+            $ret_file_name = \App\Helper\Utils::download_txt($file_name,$res,$arr_title,$arr_data);
             dd($ret_file_name);
         }
-        */
+        
         
     }
 }
