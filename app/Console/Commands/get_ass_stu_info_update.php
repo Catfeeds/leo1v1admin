@@ -41,6 +41,7 @@ class get_ass_stu_info_update extends Command
         $task=new \App\Console\Tasks\TaskController();
 
         $start_time = strtotime("2017-12-01");
+        $end_time = strtotime("2018-01-01");
         //销售月拆解
         $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
         $first_week = $start_info["sdate"];
@@ -58,9 +59,9 @@ class get_ass_stu_info_update extends Command
         for($i=0;$i<$n;$i++){
             $week = $first_week+$i*7*86400;
             $week_edate = $week+7*86400;
-            $lesson_count_list[] = $task->t_manager_info->get_assistant_lesson_count_info($week,$week_edate);
+            $lesson_count_list = $task->t_manager_info->get_assistant_lesson_count_info($week,$week_edate);
             foreach($lesson_count_list as $val){
-                @$list[$val["lesson_count"]] += $val["lesson_count"];
+                @$list[$val["uid"]] += $val["lesson_count"];
             }
         }
         dd($list);
