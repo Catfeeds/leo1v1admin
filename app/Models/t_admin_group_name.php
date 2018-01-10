@@ -493,7 +493,7 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
 
     # 临时测试
     public function get_group_seller_num_test($group_name, $start_time){
-        $sql = $this->gen_sql_new("  select count(u.adminid) as seller_num from %s n"
+        $sql = $this->gen_sql_new("  select  mgn.group_name, count(u.adminid) as seller_num from %s n"
                                   ." left join %s u on u.groupid=n.groupid "
                                   ." left join %s mg on mg.groupid=n.up_groupid"
                                   ." left join %s mgn on mgn.groupid=mg.up_groupid"
