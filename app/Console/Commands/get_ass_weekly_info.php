@@ -96,8 +96,8 @@ class get_ass_weekly_info extends Command
 
             $item["read_student_list"]  = @$userid_list[$k];
             $item["registered_student_list"]  = @$registered_userid_list[$k];
-            if($item["registered_userid_list"]){
-                $registered_userid_arr = json_decode($item["registered_userid_list"],true);
+            if($item["registered_student_list"]){
+                $registered_userid_arr = json_decode($item["registered_student_list"],true);
                 $item["registered_student_num"] = count($registered_userid_arr);
             }else{
                 $item["registered_student_num"]=0;
