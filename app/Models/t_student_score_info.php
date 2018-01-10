@@ -258,4 +258,18 @@ where is_test_user=0  and contract_status in  (1,2,3) and o.price>0   and s.grad
                                 ,$where_arr);
         return $this->main_get_list($sql);
     }
+
+
+    public function get_info_by_month_b3($start_time,$end_time){
+
+        $sql = "select s.userid, s.nick, s.phone_location , t.subject, t.grade , k.teacherid,k.nick as teacher_name, k.grade_start, k.grade_end, k.phone_location as teacher_phone_location,n.require_admin_type  from t_lesson_info t
+left join t_student_info s on s.userid = t.userid
+left join t_teacher_info k on k.teacherid = t.teacherid
+left join t_order_info o on s.userid = o.userid 
+left join t_test_lesson_subject_sub_list m on m.lessonid = t.lessonid
+left join t_test_lesson_subject_require mm on mm.require_id  = m.require_id 
+left join t_test_lesson_subject n on n.test_lesson_subject_id  = mm.test_lesson_subject_id 
+where lesson_start > $start_time and lesson_start < $end_time and lesson_type = 2 and contract_type  in (0,3) and price > 0 and contract_status in (1,2,3) and order_time > $start_time";
+        return $this->main_get_list($sql);
+    }
 }
