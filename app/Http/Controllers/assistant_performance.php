@@ -571,28 +571,25 @@ class assistant_performance extends Controller
                      
 
             /*课时消耗达成率*/
-            // $registered_student_list = @$last_ass_month[$k]["registered_student_list"];
-            // $registered_student_list = @$item["registered_student_list"];//先以10月份数据代替
-            // if($registered_student_list){
-            //     $registered_student_arr = json_decode($registered_student_list,true);
-            //     $last_stu_num = count($registered_student_arr);//月初在册人员数
-            //     $last_lesson_total = $this->t_week_regular_course->get_lesson_count_all($registered_student_arr);//月初周总课时消耗数
-            //     $estimate_month_lesson_count =$n*$last_lesson_total/$last_stu_num;
-            // }else{
-            //     $registered_student_arr=[];      
-            //     $estimate_month_lesson_count =100;
-            // }
+            $registered_student_list = @$last_ass_month[$k]["registered_student_list"];
+            if($registered_student_list){
+                $registered_student_arr = json_decode($registered_student_list,true);
+                $last_stu_num = count($registered_student_arr);//月初在册人员数
+                $last_lesson_total = $this->t_week_regular_course->get_lesson_count_all($registered_student_arr);//月初周总课时消耗数
+                $estimate_month_lesson_count =$n*$last_lesson_total/$last_stu_num;  //预估月课时消耗总量
+            }else{
+                $registered_student_arr=[];      
+                $estimate_month_lesson_count =100;
+            }
 
-            // //得到单位学员平均课时数完成率
-            // $seller_lesson_count =$seller_stu_num=0;
-            // foreach($lesson_count_list as $p_item){
-            //     $seller_lesson_count += @$p_item[$k]["lesson_count"]; 
-            //     $seller_stu_num += @$p_item[$k]["user_count"]; 
-            // }
-            // $seller_stu_num = $seller_stu_num/$n;
-            $seller_stu_num = $item["seller_week_stu_num"];
+            //平均学员数(销售周)
+            $seller_stu_num = @$registered_student_num[$k]/$n;
+
+
+            //得到单位学员
+            //$seller_stu_num = $item["seller_week_stu_num"];
             $seller_lesson_count = $item["seller_month_lesson_count"];
-            $estimate_month_lesson_count = $item["estimate_month_lesson_count"];
+            // $estimate_month_lesson_count = $item["estimate_month_lesson_count"];
             if(empty($seller_stu_num)){
                 $lesson_count_finish_per=0;
             }else{
@@ -600,13 +597,13 @@ class assistant_performance extends Controller
             }
 
             //算出kpi中课时消耗达成率的情况
-            // if($lesson_count_finish_per>=70){
-            //     $kpi_lesson_count_finish_per = 0.4;
-            // }else{
-            //     $kpi_lesson_count_finish_per=0;
-            // }
+            if($lesson_count_finish_per>=70){
+                $kpi_lesson_count_finish_per = 0.4;
+            }else{
+                $kpi_lesson_count_finish_per=0;
+            }
 
-            // $item["kpi_lesson_count_finish_per"]=$kpi_lesson_count_finish_per;
+            $item["kpi_lesson_count_finish_per"]=$kpi_lesson_count_finish_per;
 
             /*课程消耗奖金*/
             if($lesson_count_finish_per>=120){
@@ -741,7 +738,7 @@ class assistant_performance extends Controller
             $item["all_reword"] =  $item["revisit_reword"]+$item["kpi_lesson_count_finish_reword"]+$item["kk_reword"]+$item["stop_reword"]+$item["end_no_renw_reword"]+ $item["lesson_count_finish_reword"]+$item["renw_reword"]+ $item["cc_tran_reword"];
             
         }
-        // dd($ass_month);
+        dd($ass_month);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ass_month),[
             "start"=>date("Y-m-d H:i",$start_time),
             "end"=>date("Y-m-d H:i",$end_time),
