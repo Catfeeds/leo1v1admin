@@ -40,8 +40,36 @@ class test_jack  extends Controller
                 @$renew_list[$orderid]["real_refund"] += $real_refund;
             }
         }
+        $ass_renew_info = $ass_new_info=[];
+        foreach($renew_list as $val){
+            $orderid = $val["orderid"];
+            $userid = $val["userid"];
+            $price = $val["price"];
+            $uid = $val["uid"];
+            $real_refund = $val["real_refund"];
+            if(!isset($ass_renew_info[$uid]["user_list"][$userid])){
+                $ass_renew_info[$uid]["user_list"][$userid]=$userid;
+                @$ass_renew_info[$uid]["num"] +=1;
+            }
+            @$ass_renew_info[$uid]["money"] += $price-$real_refund;
 
-        dd([$new_list,$renew_list]);    //续费金额 分期按80%计算,按新方法获取
+        }
+        foreach($new_list as $val){
+            $orderid = $val["orderid"];
+            $userid = $val["userid"];
+            $price = $val["price"];
+            $uid = $val["uid"];
+            $real_refund = $val["real_refund"];
+            if(!isset($ass_new_info[$uid]["user_list"][$userid])){
+                $ass_new_info[$uid]["user_list"][$userid]=$userid;
+                @$ass_new_info[$uid]["num"] +=1;
+            }
+            @$ass_new_info[$uid]["money"] += $price-$real_refund;
+
+        }
+
+
+        dd([$ass_new_info,$ass_renew_info]);    //续费金额 分期按80%计算,按新方法获取
         $ass_renw_money = $this->t_manager_info->get_ass_renw_money_new($start_time,$end_time);
 
         //cc签单助教转介绍数据
