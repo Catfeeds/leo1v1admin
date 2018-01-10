@@ -398,7 +398,7 @@ jQuery.fn.extend({
 
     tbody_scroll_table:function( height  )  {
         if(!$.check_in_phone() ) {
-            $(".common-table").table_head_static();
+            $(this).table_head_static();
         }
     },
 
