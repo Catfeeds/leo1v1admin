@@ -59,7 +59,7 @@ class get_ass_stu_info_update extends Command
         for($i=0;$i<$n;$i++){
             $week = $first_week+$i*7*86400;
             $week_edate = $week+7*86400;
-            $lesson_count_list[] = $task->t_manager_info->get_assistant_lesson_count_info($week,$week_edate);
+            $lesson_count_list = $task->t_manager_info->get_assistant_lesson_count_info($week,$week_edate);
             foreach($lesson_count_list as $val){
                 @$list[$val["uid"]] += $val["lesson_count"];
             }
