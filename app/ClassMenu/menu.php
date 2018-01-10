@@ -30,10 +30,10 @@ class menu{
                 //     ["power_id"=>1, "name"=>"全部订单",   "url"=>"/class_stu_manage/ba"],
                 //     ["power_id"=>2, "name"=>"订单审核",   "url"=>"/class_stu_manage/bb"],
                 // ]],
-                // ["power_id"=>5, "name"=>"课程管理",   "list"=>[
-                //     ["power_id"=>1, "name"=>"全部课程",   "url"=>"/class_stu_manage/ca"],
-                //     ["power_id"=>2, "name"=>"老师时间",   "url"=>"/class_stu_manage/cb"],
-                // ]],
+                ["power_id"=>5, "name"=>"小班课-课程管理",   "list"=>[
+                    ["power_id"=>1, "name"=>"全部课程",   "url"=>"/course/index"],
+                    // ["power_id"=>2, "name"=>"老师时间",   "url"=>"/class_stu_manage/cb"],
+                ]],
                 // ["power_id"=>6, "name"=>"用户管理",   "list"=>[
                 //     ["power_id"=>1, "name"=>"权限管理",   "url"=>"/class_stu_manage/da"],
                 //     ["power_id"=>2, "name"=>"登录管理",   "url"=>"/class_stu_manage/db"],

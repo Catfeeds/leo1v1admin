@@ -1,0 +1,35 @@
+<section class="content ">
+
+  <div id="id_header_query_info" > </div>
+
+  <hr/>
+  <div  > test :{{message}} </div>
+  <table class=" common-table " >
+    <thead>
+                <tr>
+                    <td>日期</td>
+                    <td>开始</td>
+                    <td>结束</td>
+                    <td>间隔</td>
+                    <td>异常</td>
+                    <td>是否请假</td>
+                    <td> 操作  </td>
+                </tr>
+    </thead>
+    <tbody>
+
+      <tr v-for="(item, index) in table_data" >
+                        <td>{{item.title}} </td>
+                        <td>{{item.start_logtime}} </td>
+                        <td>{{item.end_logtime}} </td>
+                        <td>{{item.work_time_str}} </td>
+                        <td><font color="red"> {{item.error_flag_str}}  </font></td>
+                        <td>{{item.error_str}}</td>
+        <td >
+          <div v-bind:data-index="index" >
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>

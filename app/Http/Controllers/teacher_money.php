@@ -841,7 +841,9 @@ class teacher_money extends Controller
     public function show_teacher_bank_info_human() { // 人事绩效 - 老师银行卡信息
         $isbank = $this->get_in_int_val("is_bank", 1);
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_teacher_info->get_teacher_bank_info($isbank, $page_info);
+        $teacherid = $this->get_in_int_val("teacherid", -1);
+        $ret_info = $this->t_teacher_info->get_teacher_bank_info($isbank, $teacherid, $page_info);
+        $acc = $this->get_account();
 
         foreach($ret_info['list'] as $key => &$item) {
             $ret_info['list'][$key]['bind_bankcard_time_str'] = '';
@@ -852,7 +854,9 @@ class teacher_money extends Controller
             $item["phone"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone']);
             $item["bank_phone"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['bank_phone']);
         }
-        return $this->pageView(__METHOD__,$ret_info);
+        return $this->pageView(__METHOD__,$ret_info, [
+            'acc' => $acc
+        ]);
     }
 
 

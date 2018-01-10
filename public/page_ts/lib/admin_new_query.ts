@@ -154,8 +154,8 @@
         var load_data_flag = parseInt( window.localStorage.getItem( flag_key ));
         var list_type_key = "query_list_type_"+ window.location.pathname;
         var list_type = parseInt( window.localStorage.getItem( list_type_key));
-      if (!list_type) {
-        list_type=0;
+        if (!(list_type >=0) ) {
+            list_type=2;
       }
 
 
@@ -621,7 +621,7 @@
         this.$ele=  $(
             '<div class="'+me.options.length_css +'">'
                 +'<div class="input-group ">'
-                + title_str 
+                + title_str
                 +'<input class="form-control" placeholder="'+me.options.placeholder  +'" type="text">'
                 + btn_str
                 +'</div>'

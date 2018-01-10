@@ -463,7 +463,7 @@ class tongji extends Controller
         $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,$adminid,100000 );
         $phone=$this->t_manager_info->field_get_value($adminid, 'phone');
         $userid=$this->t_company_wx_users->get_userid_for_adminid($phone);
-        
+
         $info=$this->t_company_wx_approval->get_info_for_userid($userid, $start_time, $end_time);
         $len = count($info);
         foreach($info as $key => $item) {
@@ -475,10 +475,10 @@ class tongji extends Controller
                     $info[$len]['end_time'] = $item['end_time'];
                     $len ++;
                 }
- 
+
             }
         }
-        
+
 
         foreach ($ret_info["list"] as $item ) {
             $logtime=$item["logtime"];
@@ -520,6 +520,14 @@ class tongji extends Controller
                 if ($d_item["error_flag"]) {
                     $d_item["error_flag_str"] ="是";
                 }
+            }
+            if (!isset($d_item["work_time"]) )  {
+                $d_item["work_time"]="";
+                $d_item["work_time_str"]="";
+                $d_item["start_logtime"]="";
+                $d_item["error_flag_str"]="";
+                $d_item["error_flag"]="";
+                $d_item["error_str"]="";
             }
         }
 

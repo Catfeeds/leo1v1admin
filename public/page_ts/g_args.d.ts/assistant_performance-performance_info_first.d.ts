@@ -4,7 +4,6 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	adminid:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -14,22 +13,15 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	title	:any;
-	work_time	:any;
-	work_time_str	:any;
-	start_logtime	:any;
-	error_flag_str	:any;
-	error_flag	:any;
-	error_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../tongji; vi  ../tongji/admin_card_date_log_list.ts
+	 mkdir -p ../assistant_performance; vi  ../assistant_performance/performance_info_first.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji-admin_card_date_log_list.d.ts" />
+/// <reference path="../g_args.d.ts/assistant_performance-performance_info_first.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
@@ -39,8 +31,7 @@ function load_data(){
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val(),
-		adminid:	$('#id_adminid').val()
+		end_time:	$('#id_end_time').val()
 		});
 }
 $(function(){
@@ -55,14 +46,6 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
-	$('#id_adminid').admin_select_user_new({
-		"user_type"    : "account",
-		"select_value" : g_args.adminid,
-		"onChange"     : load_data,
-		"th_input_id"  : "th_adminid",
-		"only_show_in_th_input"     : false,
-		"can_select_all_flag"     : true
-	});
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -77,12 +60,4 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">adminid</span>
-                <input class="opt-change form-control" id="id_adminid" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["adminid title", "adminid", "th_adminid" ]])!!}
 */

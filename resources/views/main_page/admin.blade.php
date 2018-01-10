@@ -1,4 +1,4 @@
-@extends('layouts.app_new2')
+@extends('layouts.app')
 @section('content')
     <style>
      .center-title {

@@ -1682,9 +1682,7 @@ class test_james extends Controller
     }
 
     public function t_ss(){
-        $ret_info = $this->t_teacher_info->get_teacher_bank_info_tmp($isbank, 5000);
-        dd($ret_info);
-        $file_id = $this->get_in_int_val('fid',-1);
+        $file_id = $this->get_in_int_val('f',-1);
         $list = $this->t_resource_file->get_list_tmp($file_id);
 
         foreach($list as $v){
@@ -1701,6 +1699,16 @@ class test_james extends Controller
 
 
     public function check_function (){
+
+        // $oneMinuteStart = strtotime($this->get_in_str_val('s'));
+        $oneMinuteStart = 1515490140;
+
+        $oneMinuteEnd   = $oneMinuteStart+120;
+        $lessonEndList  = $this->t_lesson_info_b3->getLessonEndList($oneMinuteStart,$oneMinuteEnd);
+
+        dd($lessonEndList);
+
+
         dd(number_format(1.5000,2));
         exit;
         $limit_time = strtotime(date('Y-m-1'));
