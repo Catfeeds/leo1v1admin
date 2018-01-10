@@ -216,10 +216,10 @@ class get_ass_stu_info_update extends Command
                 "seller_week_stu_num"         =>$seller_stu_num,
                 "performance_cc_tran_num"     =>$performance_cc_tran_num,
                 "performance_cc_tran_money"   =>$performance_cc_tran_money,
-                "performance_cc_renew_num"    =>$performance_cc_renew_num,
-                "performance_cc_renew_money"  =>$performance_cc_renew_money,
-                "performance_cc_new_num"      =>$performance_cc_new_num,
-                "performance_cc_new_money"    =>$performance_cc_new_money,
+                "performance_cr_renew_num"    =>$performance_cr_renew_num,
+                "performance_cr_renew_money"  =>$performance_cr_renew_money,
+                "performance_cr_new_num"      =>$performance_cr_new_num,
+                "performance_cr_new_money"    =>$performance_cr_new_money,
             ]);
 
  
