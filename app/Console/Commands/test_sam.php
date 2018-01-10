@@ -131,7 +131,7 @@ class test_sam extends Command
             //$ret_file_name = \App\Helper\Utils::download_txt($file_name,$res,$arr_title,$arr_data);
         }
         */
-
+        /*
         $time = [
             ['start_time' => 1506787200,'end_time' => 1509465600], //10
             ['start_time' => 1509465600,'end_time' => 1512057600], //11
@@ -154,6 +154,38 @@ class test_sam extends Command
             $file_name = "sam-".$month;
             $arr_title = ['老师姓名',"年级段","省份"];
             $arr_data  = ['teacher','grade_range','phone_location'];
+            $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
+        }
+        */
+
+        $time = [
+            ['start_time' => 1506787200,'end_time' => 1509465600], //10
+            ['start_time' => 1509465600,'end_time' => 1512057600], //11
+            ['start_time' => 1512057600,'end_time' => 1514736000], //12
+        ];
+        foreach ($time as $key => $value) {
+            $start_time = $value['start_time'];
+            $end_time   = $value['end_time'];
+            $ret_info = $task->t_student_score_info->get_info_by_month_b3($start_time,$end_time);
+            foreach ($ret_info as $kkey => &$vvalue) {
+                $vvalue['subject']= E\Esubject::get_desc($vvalue['subject']);
+                $vvalue['grade']  = E\Egrade::get_desc($vvalue['grade']);
+                $vvalue['phone_location'] = \App\Helper\Utils::phone_location_to_province($vvalue['phone_location']);
+
+                $vvalue['origin'] = E\Eaccount_role::get_desc($vvalue['require_admin_type']);
+
+
+                $vvalue['grade_start'] = E\Egrade_range::get_desc($vvalue['grade_start']);
+                $vvalue['grade_end']   = E\Egrade_range::get_desc($vvalue['grade_end']);
+                $vvalue['grade_range'] = $vvalue['grade_start'].'~'.$vvalue['grade_end']; 
+                $vvalue['teacher_phone_location'] = \App\Helper\Utils::phone_location_to_province($vvalue['teacher_phone_location']);
+            }
+            //dd($ret_info);
+            //var_dump(date("Y-m-d",$start_time), date("Y-m-d",$end_time));
+            $month = date("Y-m",$start_time);
+            $file_name = "sam123-".$month;
+            $arr_title = ['学生姓名',"学科","年级","省份","来源","老师姓名","年级段","老师省份"];
+            $arr_data  = ['nick','grade','subject','phone_location','origin','teacher_name',"grade_range","teacher_phone_location"];
             $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
         }
         
