@@ -179,37 +179,12 @@ class pdfConversionH5 extends Command
                 }
                 # 替换 节点内容
 
-                $domain_jq = strstr($nodeContent,'jquery-1.8.1.min.js');
-                \App\Helper\Utils::logger('nodeContent_test: '.$nodeContent." domain: ".$domain." domain_jq: ".$domain_jq);
+                // $domain_jq = strstr($nodeContent,'jquery-1.8.1.min.js');
+                // \App\Helper\Utils::logger('nodeContent_test: '.$nodeContent." domain: ".$domain." domain_jq: ".$domain_jq);
 
-                if($domain_jq)
-                {
-                    # jq文件复制到index同级目录
-                    $jsLink[] = 'jquery-1.8.1.min.js';
-                    // $jsLink[] = 'bridge.js';
-
-                    # 替换DOM节点 内容
-                //     $node_js->nodeValue = 'if (!window.jQuery){
-                //       var script = document.createElement("script");
-                //       var bridge = document.createElement("script");
-                //       script.src = "jquery-1.8.1.min.js";
-                //       bridge.src = "bridge.js";
-                //       window.onload=function(){document.body.appendChild(script);
-                //                     setTimeout(function(){
-                //                       document.body.appendChild(bridge);
-                //                      },100);}
-                //      }else{
-                //       var bridge = document.createElement("script");
-                //       bridge.src = "bridge.js";
-                //       window.onload=function(){document.body.appendChild(bridge)};}';
+                // if($domain_jq)
+                // {
                 // }
-
-
-                $node_js->nodeValue = 'if (!window.jQuery){
-                      var script = document.createElement("script");
-                      script.src = "jquery-1.8.1.min.js";
-                      window.onload=function(){document.body.appendChild(script);}';
-            }
 
 
             }
@@ -269,31 +244,18 @@ class pdfConversionH5 extends Command
         $headList = $xpath->query("//head");
         foreach ($headList as $node_head) {
             $root_js = $dom->createElement('script','');
+            $root_js_b = $dom->createElement('script','');
             $node_head->appendChild($root_js);
-            $root_js->setAttribute('type', 'text/javascript');
-            $root_js->setAttribute('src', 'bridge.js');
+            $node_head->appendChild($root_js_b);
+            $root_js_b->setAttribute('type', 'text/javascript');
+            $root_js_b->setAttribute('src', 'bridge.js');
 
-            // src="wxpt.js" type="text/javascript"
-//             $root->nodeValue = "
-// function gotoNextStep() {
-//     execNext()
-// }
-// function gotoPreviousStep() {
-//     ExecGoBack()
-// }
-// function gotoStep(slideIndex, stepIndex, trigger, isBack) {
-//     syncExec(slideIndex, stepIndex, trigger, isBack)
-// }
-// $(document).ready(function () {
-//     window.onRegistered && window.onRegistered(window._control.length, window._control[0].animations && window._control[0].animations.length)
-// })
-// function onRegistered(slidesCount, firstStepCount){
-//   client && client.onRegistered(slidesCount, firstStepCount)
-// }
-// function onStepChanged(slideIndex, stepIndex, trigger, isBack){
-//   client && client.onStepChanged(slideIndex, stepIndex, trigger, isBack)
-// }
-// ";
+            $root_js->setAttribute('type', 'text/javascript');
+            $root_js->setAttribute('src', 'jquery-1.8.1.min.js');
+
+            $jsLink[] = 'jquery-1.8.1.min.js';
+            $jsLink[] = 'bridge.js';
+
         }
 
 
