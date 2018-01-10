@@ -56,7 +56,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
                     }elseif($is_called_phone==0){//未拨通
                         $count_arr = $this->task->t_seller_student_new->field_get_value($userid,'cc_no_called_count,cc_no_called_count_new');
                         $no_count_new = $this->get_called_count($phone,0);
-                        if($no_count_new != $count_arr['cc_no_called_count_new'] && $count_new==0){
+                        if($no_count_new != $count_arr['cc_no_called_count_new'] && $count_new==0 && isset($count_arr['cc_no_called_count']) && isset($count_arr['cc_no_called_count_new'])){
                             $this->task->t_seller_student_new->field_update_list($userid,[
                                 'cc_no_called_count'=>$count_arr['cc_no_called_count']+1,
                                 'cc_no_called_count_new'=>$no_count_new,
