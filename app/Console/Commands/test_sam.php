@@ -59,14 +59,50 @@ class test_sam extends Command
         dd($ret_info1,$ret_info2,$ret_info3,$ret_info4,$ret_info5,$ret_info6);
         */
         
-        $ret_info = $task->t_student_score_info->get_info_1();
-        foreach ($ret_info as &$item) {
-            $item['is_money'] = $item['price'] > 0?"是":"否";
+        $time = [
+            ['start_time' => 1506787200,'end_time' => 1509465600], //10
+            ['start_time' => 1509465600,'end_time' => 1512057600], //11
+            ['start_time' => 1512057600,'end_time' => 1514736000], //12
+        ];
+        foreach ($time as $key => $value) {
+            $start_time = $value['start_time'];
+            $end_time   = $value['end_time'];
+            $ret_info = $task->t_student_score_info->get_info_by_month($start_time,$end_time);
+            foreach ($ret_info as $kkey => &$vvalue) {
+                $vvalue['subject'] = E\Esubject::get_desc($vvalue['subject']);
+                $vvalue['grade']   = E\Egrade::get_desc($vvalue['grade']);
+                $vvalue['phone_location'] = \App\Helper\Utils::phone_location_to_province($vvalue['phone_location']);
+            }
+            
+
+            $res = array();
+            foreach($ret_info as $item) {
+                $flag = false;
+                foreach ($res as $key => $value) {
+                    if($item['subject'] == $value['subject'] && $item['grade'] == $value['grade'] 
+                        && $item['phone_location'] == $value['phone_location']) {
+                        $flag = true;
+                        $value['num'] = $value['num'] + $item['num'];
+                        break;
+                    }
+                    else {
+                        $flag = false;
+                    }
+                }
+                if(!$flag){
+                    $res[] = $item;
+                }
+                
+            }
+            dd($res);
+            print_r(array_values($res));
+
+            $file_name = '10';
+            $arr_title = ['科目',"年级","省份","数量"];
+            $arr_data  = ['userid','origin_userid','is_money'];
+            $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
+            dd($ret_file_name);
         }
-        $file_name = 'samtext';
-        $arr_title = ['被介绍人ID',"介绍人ID","是否签单"];
-        $arr_data  = ['userid','origin_userid','is_money'];
-        $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
-        dd($ret_file_name);
+        
     }
 }
