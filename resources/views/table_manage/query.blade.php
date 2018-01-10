@@ -14,6 +14,7 @@
                         <option value="db_weiyi_admin">db_weiyi_admin</option>
                         <option value="db_tool">db_tool</option>
                         <option value="db_account">db_account</option>
+                        <option value="db_class">db_class</option>
 
                     </select>
 
