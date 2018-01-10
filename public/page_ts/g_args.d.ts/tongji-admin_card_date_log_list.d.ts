@@ -15,6 +15,12 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	title	:any;
+	work_time	:any;
+	work_time_str	:any;
+	start_logtime	:any;
+	error_flag_str	:any;
+	error_flag	:any;
+	error_str	:any;
 }
 
 /*
