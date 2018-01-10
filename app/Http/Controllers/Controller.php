@@ -124,7 +124,7 @@ class Controller extends ControllerEx
                 if ( $server_name== "admin.leo1v1.com" ) {
                     header('Location: http://admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
                 }else{
-                    header('Location: http://p.admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
+                    header('Location: http://p-admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
                 }
                 exit;
             }
