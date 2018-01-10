@@ -742,7 +742,7 @@ class assistant_performance extends Controller
             "start"=>date("Y-m-d H:i",$start_time),
             "end"=>date("Y-m-d H:i",$end_time),
             "week_start"=>date("Y-m-d",$first_week),
-            "week_end"=>date("Y-m-d",$last_week+7*86400),
+            "week_end"=>date("Y-m-d",$last_week+7*86400-100),
         ]);
 
         //dd($ass_month);
