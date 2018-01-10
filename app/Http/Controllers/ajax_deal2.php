@@ -3022,7 +3022,7 @@ class ajax_deal2 extends Controller
             }
  
         }
-        return $this->output_succ(["revisit_value"=>$revisit_value]);
+        return $this->output_succ(["revisit_value"=>$revisit_value,"deduct_list"=>$deduct_list]);
 
 
     }
