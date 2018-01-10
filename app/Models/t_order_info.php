@@ -4744,7 +4744,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr=[
             [ "o.order_time >= %u", $start_time, -1 ] ,
             [ "o.order_time <= %u", $end_time, -1 ] ,
-            "o.contract_status in >0" ,
+            "o.contract_status  >0" ,
             "m.account_role = 1 ",
             "o.price >0",
             "mm.account_role=2",
@@ -4755,7 +4755,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s m on s.origin_assistantid = m.uid"
                                   ." left join %s mm on o.sys_operator = mm.account"
                                   ." left join %s rf on o.orderid = rf.orderid"
-                                  ." where %s group by m.uid",
+                                  ." where %s ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
