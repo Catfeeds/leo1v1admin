@@ -469,6 +469,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $no_count_new = $this->t_tq_call_info->item_insert();
+        dd($no_count_new);
         if((in_array($this->get_account(),['Tina','tom']))){
             dd('a');
         }

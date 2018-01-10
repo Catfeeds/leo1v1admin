@@ -18,39 +18,6 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             if ($admin_info){
                 $adminid= $admin_info["uid"];
                 $admin_role= $admin_info["account_role"];
-                //update t_seller_student_new.cc_no_called_count
-                if($admin_role == E\Eaccount_role::V_2){
-                    $userid = $this->task->t_phone_to_user->get_userid($phone);
-                    if($userid>0){
-                        if($is_called_phone==1){//拨通
-                            $count = $this->task->t_seller_student_new->field_get_value($userid,'cc_called_count');
-                            $this->task->t_seller_student_new->field_update_list($userid,[
-                                'cc_called_count'=>$count+1,
-                                'cc_no_called_count'=>0,
-                                'last_revisit_time'=>$start_time,
-                                'last_contact_cc'=>$adminid,
-                            ]);
-                        }elseif($is_called_phone==0){//未拨通
-                            $count = $this->task->t_seller_student_new->field_get_value($userid,'cc_no_called_count');
-                            $count_new = $this->task->t_seller_student_new->field_get_value($userid,'cc_no_called_count_new');
-                            $this->task->t_seller_student_new->field_update_list($userid,[
-                                'cc_no_called_count'=>$count+1,
-                                'cc_no_called_count_new'=>$count_new+1,
-                                'last_revisit_time'=>$start_time,
-                                'last_contact_cc'=>$adminid,
-                            ]);
-                        }
-                    }
-                }
-                //update t_seller_student_new.tmk_last_revisit_time
-                if($admin_role == E\Eaccount_role::V_7){
-                    $userid = $this->task->t_phone_to_user->get_userid($phone);
-                    if($userid>0){
-                        $this->task->t_seller_student_new->field_update_list($userid,[
-                            'tmk_last_revisit_time'=>$start_time,
-                        ]);
-                    }
-                }
             }
         }
         $sql=$this->gen_sql_new(
@@ -70,7 +37,44 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             $admin_role,
             $obj_start_time
         );
-        return $this->main_insert($sql);
+        $ret = $this->main_insert($sql);
+        if($ret == 1){
+            $userid = $this->task->t_phone_to_user->get_userid($phone);
+            if($admin_role == E\Eaccount_role::V_2){
+                if($userid>0){
+                    $count_new = $this->get_called_count($phone,1);
+                    if($is_called_phone==1){//拨通
+                        $count = $this->task->t_seller_student_new->field_get_value($userid,'cc_called_count');
+                        if($count_new != $count){
+                            $this->task->t_seller_student_new->field_update_list($userid,[
+                                'cc_called_count'=>$count_new,
+                                'cc_no_called_count'=>0,
+                                'last_revisit_time'=>$start_time,
+                                'last_contact_cc'=>$adminid,
+                            ]);
+                        }
+                    }elseif($is_called_phone==0){//未拨通
+                        $count_arr = $this->task->t_seller_student_new->field_get_value($userid,'cc_no_called_count,cc_no_called_count_new');
+                        $no_count_new = $this->get_called_count($phone,0);
+                        if($no_count_new != $count_arr['cc_no_called_count_new'] && $count_new==0){
+                            $this->task->t_seller_student_new->field_update_list($userid,[
+                                'cc_no_called_count'=>$count_arr['cc_no_called_count']+1,
+                                'cc_no_called_count_new'=>$no_count_new,
+                                'last_revisit_time'=>$start_time,
+                                'last_contact_cc'=>$adminid,
+                            ]);
+                        }
+                    }
+                }
+            }elseif($admin_role == E\Eaccount_role::V_7){
+                if($userid>0){
+                    $this->task->t_seller_student_new->field_update_list($userid,[
+                        'tmk_last_revisit_time'=>$start_time,
+                    ]);
+                }
+            }
+        }
+        return $ret;
     }
 
     public function get_call_phone_list($page_num, $start_time,$end_time,$uid, $is_called_phone ,$phone,$seller_student_status ,$user_info,$userid) {
@@ -772,5 +776,41 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
             $where_arr
         );
         return $this->main_get_row($sql);
+    }
+
+    public function get_called_count($phone,$called_flag){
+        $where_arr=[];
+        $this->where_arr_add_int_field($where_arr, 'is_called_phone', $called_flag);
+        $this->where_arr_add_str_field($where_arr,'phone',$phone);
+        $sql=$this->gen_sql_new(
+            "select count(*) "
+            ."  from %s "
+            ." where  %s ",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+    public function item_insert(){
+        $sql=$this->gen_sql_new(
+            " insert ignore into %s "
+            ." (id, uid, phone, start_time, end_time, duration, is_called_phone, record_url,adminid, admin_role, obj_start_time) "
+            ." values( %u,%u,'%s',%u,%u,%u,%u,'%s',%u,%u,%u)",
+            self::DB_TABLE_NAME,
+            $id=1222,
+            $uid=1,
+            $phone='155',
+            $start_time=123,
+            $end_time=123,
+            $duration=123,
+            $is_called_phone=1,
+            $record_url='www',
+            $adminid=99,
+            $admin_role=2,
+            $obj_start_time=123
+        );
+        $this->main_insert($sql);
+        $ret = $this->get_last_insertid();
+        dd($ret);
     }
 }
