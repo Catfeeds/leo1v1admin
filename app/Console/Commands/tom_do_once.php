@@ -104,11 +104,9 @@ class tom_do_once extends Command
                 if($cc_no_called_count>0 && $called_count>0){
                     $arr['cc_no_called_count'] = 0;
                 }
-                dd($cc_called_count,$cc_no_called_count,$cc_no_called_count_new,$arr);
                 if(count($arr)>0){
-                    dd($phone,$cc_called_count,$cc_no_called_count,$cc_no_called_count_new,$called_count,$no_called_count,$arr);
+                    dd($called_count,$no_called_count,$item,$arr);
                     $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
-                    dd($ret,$phone,$cc_called_count,$cc_no_called_count,$called_count,$no_called_count);
                 }
             }
             $start = strtotime('+1 month',$start);
