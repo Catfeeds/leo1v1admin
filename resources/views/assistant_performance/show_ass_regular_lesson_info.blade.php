@@ -57,8 +57,10 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["userid"]}} </td>
-                        <td>{{@$var["stu_nick"]}} </td>
-                        <td>{{@$var["regular_total"]/100}} </td> 
+                        <td>{{@$var["stu_nick"]}} </td>                        
+
+                        <td> <a href="/stu_manage/regular_course_stu?sid={{ @$var["userid"] }}" target="_blank" >{{@$var["regular_total"]/100}} </a></td> 
+                        
                        
 
                         <td>

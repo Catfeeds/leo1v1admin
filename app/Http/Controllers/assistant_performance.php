@@ -901,7 +901,19 @@ class assistant_performance extends Controller
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);        
         $list = @$ass_month[$adminid];
         $registered_student_list = @$list["registered_student_list"];
-        $all=0;
+
+        $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
+        $first_week = $start_info["sdate"];
+        $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
+        if($end_info["edate"] <= $end_time){
+            $last_week =  $end_info["sdate"];
+        }else{
+            $last_week =  $end_info["sdate"]-7*86400;
+        }
+        $n = ($last_week-$first_week)/(7*86400)+1;
+
+        $all=$num=0;
+
         if($registered_student_list){
             $registered_student_arr = json_decode($registered_student_list,true);
             $ass_userid="";
@@ -913,7 +925,9 @@ class assistant_performance extends Controller
             foreach($ret_info as &$item){
                 $item["stu_nick"]= $this->cache_get_student_nick($item["userid"]);
                 $all+=$item["regular_total"];
+                $num++;
             }
+            $all=round($all/$num*$n);
             
         }else{
             $ret_info=[];
