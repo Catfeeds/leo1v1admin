@@ -80,8 +80,8 @@ class tom_do_once extends Command
         $min   = $this->task->t_seller_student_new->get_min_add_time();
         $max   = $this->task->t_seller_student_new->get_max_add_time();
         $min = 1509465600;
-        // $max = 1512057600;
-        $max = 1510675200;
+        $max = 1512057600;
+        // $max = 1510675200;
         $date1 = explode('-',date('y-m-d',$min));
         $date2 = explode('-',date('y-m-d',$max));
         $count = abs($date1[0] - $date2[0]) * 12 + abs($date1[1] - $date2[1]);
@@ -116,6 +116,7 @@ class tom_do_once extends Command
                 }
                 if($cc_no_called_count>0 && $called_count>0){
                     $arr['cc_no_called_count'] = 0;
+                    echo $userid.':'.$cc_no_called_count."=>".$arr['cc_no_called_count'].','.$called_count.'/'.$no_called_count."\n";
                 }
                 // if($cc_first_called_cc == 0){
                 //     $arr['first_called_cc'] = $first_called_cc;
@@ -123,10 +124,9 @@ class tom_do_once extends Command
                 // if($cc_last_called_cc == 0){
                 //     $arr['last_contact_cc'] = $last_called_cc;
                 // }
-                if(count($arr)>0){
-                    echo $userid.':'.$cc_no_called_count."=>".$arr['cc_no_called_count'].','.$called_count.'/'.$no_called_count."\n";
-                    $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
-                }
+                // if(count($arr)>0){
+                //     $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
+                // }
             }
             $start = strtotime('+1 month',$start);
         }
