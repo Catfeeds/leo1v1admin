@@ -52,7 +52,7 @@ class test_ricky extends Controller
         foreach($count as $item) {
             $order = $this->t_order_info->get_not_order($item['userid']);
             if (!$order) {
-                echo $item['userid']."<br/>";
+                echo $item['userid']." ".$item['nick']."<br/>";
             }
 
         }
