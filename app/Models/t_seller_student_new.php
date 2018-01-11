@@ -2645,11 +2645,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function get_all_list($start_time,$end_time){
         $where_arr = [];
-        $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,'add_time',$start_time,$end_time);
         $sql = $this->gen_sql_new(
-            " select n.userid,n.phone,n.last_contact_cc "
-            ." from %s n"
-            ." where %s order by n.userid "
+            " select * "
+            ." from %s "
+            ." where %s order by userid "
             ,self::DB_TABLE_NAME
             ,$where_arr
         );
@@ -3398,12 +3398,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list_by_page($sql,$page_num,$page_count);
     }
 
-    public function get_item_list(){
+    public function get_item_list($start_time,$end_time,$page_info){
         $where_arr = [];
-        $this->where_arr_add_time_range($where_arr, 'n.add_time', $start_time, $end_time);
+        $this->where_arr_add_time_range($where_arr, 'ss.add_time', $start_time, $end_time);
         $sql=$this->gen_sql_new(
-            " select aa.nickname,seller_resource_type ,first_call_time,first_contact_time,"
-            ." first_revisit_time,last_revisit_time,tmk_assign_time,last_contact_time,"
+            " select k.key0,seller_resource_type ,first_call_time,first_contact_time,test_lesson_count,"
+            ." first_revisit_time,last_revisit_time,tmk_assign_time,last_contact_time,last_contact_cc,"
             ." competition_call_adminid, competition_call_time,sys_invaild_flag,wx_invaild_flag,"
             ." return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status,"
             ." add_time,  global_tq_called_flag, seller_student_status,wx_invaild_flag, s.userid,s.nick,"
@@ -3417,18 +3417,16 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." left join %s ss on  ss.userid = t.userid "
             ." left join %s s on ss.userid=s.userid "
             ." left join %s m on  ss.admin_revisiterid =m.uid "
-            ." left join %s a on  a.userid =ss.userid "
-            ." left join %s aa on  aa.id =a.parentid "
-            ." where %s ss.add_time desc "
+            ." left join %s k on  k.value =s.origin "
+            ." where %s order by ss.add_time desc "
             , t_test_lesson_subject::DB_TABLE_NAME
             , self::DB_TABLE_NAME
             , t_student_info::DB_TABLE_NAME
             , t_manager_info::DB_TABLE_NAME
-            , t_agent::DB_TABLE_NAME
-            , t_agent::DB_TABLE_NAME
+            , t_origin_key::DB_TABLE_NAME
             ,$where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_num,$page_count);
+        return $this->main_get_list_by_page($sql,$page_info);
     }
 
 }

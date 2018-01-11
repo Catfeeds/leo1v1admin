@@ -3054,10 +3054,11 @@ class ajax_deal2 extends Controller
                 $detail_list = $list["registered_student_list"];
                 if($detail_list){
                     $arr = json_decode($detail_list,true);
+                    $str="";
                     foreach($arr as $v){
                         @$str .= $this->cache_get_student_nick($v).",";
-                        $str = trim(@$str,",");
                     }
+                    $str = trim(@$str,",");
 
                 }else{
                     $str="";

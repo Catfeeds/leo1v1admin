@@ -1545,11 +1545,11 @@ class test_boby extends Controller {
     }
 
     /**
-     *七牛云文件批量移动
+     *七牛云文件批量移动-重命名
      *2018-1-5
      */
     public function qiniu_test(){
-        return 1;
+        // return 1;
         $qiniu         = \app\helper\config::get_config("qiniu");
         $private_bucket = $qiniu["private_url"]['bucket'];
         $auth = new \Qiniu\Auth(
@@ -1566,12 +1566,15 @@ class test_boby extends Controller {
         }
         $keyPairs = array();
         foreach ($keys as $key) {
-            $keyPairs[$key] = "/teacher-doc/".$key;
+            // $keyPairs[$key] = "/teacher-doc/".$key;
+            $keyPairs[$key] = substr( $key, 13);
         }
 
         $srcBucket = 'teacher-doc';
         $destBucket = $qiniu["private_url"]['bucket'];
-        $ops = $bucketManager->buildBatchCopy($srcBucket, $keyPairs, $destBucket, true);
+        // $ops = $bucketManager->buildBatchCopy($srcBucket, $keyPairs, $destBucket, true);
+        //把resource_id 1108-1119
+        $ops = $bucketManager->buildBatchCopy($destBucket, $keyPairs, $srcBucket, true);
         list($ret, $err) = $bucketManager->batch($ops);
         $succ = 0;
         $er = 0;
@@ -1607,13 +1610,15 @@ class test_boby extends Controller {
     /**
      *批量修改file_link
      *2018-1-5
+     *2018-1-11 改回去
      */
     public function upload_file_link(){
         return 1;
         $list = $this->t_resource_file->get_all_file_title();
         $this->t_resource_file->start_transaction();
         foreach($list as $v){
-            $link = '/teacher-doc/'.$v['file_link'];
+            // $link = '/teacher-doc/'.$v['file_link'];
+            $link = substr( $v['file_link'], 13);
             $ret = $this->t_resource_file->field_update_list($v['file_id'], ['file_link' => $link]);
             if(!$ret) {
                 $this->t_resource_file->rollback();
@@ -1621,5 +1626,6 @@ class test_boby extends Controller {
             }
         }
         $this->t_resource_file->commit();
+        echo 'ok';
     }
 }

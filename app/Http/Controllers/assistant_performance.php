@@ -893,6 +893,62 @@ class assistant_performance extends Controller
 
     }
 
+    //助教每月在册学员常规课时展示
+    public function show_ass_regular_lesson_info(){
+        $adminid = $this->get_in_int_val("adminid",324);
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $last_month = strtotime("-1 months",$start_time);
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);        
+        $list = @$ass_month[$adminid];
+        $registered_student_list = @$list["registered_student_list"];
+
+        $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
+        $first_week = $start_info["sdate"];
+        $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
+        if($end_info["edate"] <= $end_time){
+            $last_week =  $end_info["sdate"];
+        }else{
+            $last_week =  $end_info["sdate"]-7*86400;
+        }
+        $n = ($last_week-$first_week)/(7*86400)+1;
+
+        $all=$num=0;
+
+        if($registered_student_list){
+            $registered_student_arr = json_decode($registered_student_list,true);
+           
+            $ass_userid="";
+            foreach($registered_student_arr as $val){
+                $ass_userid .=$val.",";
+            }
+            $ass_userid = "(".trim($ass_userid,",").")";
+            $ret_info = $this->t_week_regular_course->get_stu_count_total_new($ass_userid);
+            foreach($ret_info as &$item){
+                $item["stu_nick"]= $this->cache_get_student_nick($item["userid"]);
+                $all+=$item["regular_total"];
+            }
+            foreach($registered_student_arr as $val){
+                if(!isset($ret_info[$val])){
+                    $ret_info[$val]=[
+                        "userid"  =>$val,
+                        "regular_total"=>0,
+                        "stu_nick"  =>$this->cache_get_student_nick($val)
+                    ];
+                }
+            }
+            $num = count($registered_student_arr);
+            $all=round($all/$num*$n);
+            
+            
+        }else{
+            $ret_info=[];
+        }
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),[
+            "total"  => $all
+        ]);
+ 
+    }
+
 
 
 }

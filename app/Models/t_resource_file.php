@@ -230,7 +230,9 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
     }
 
     public function get_all_file_title(){
-        $sql = $this->gen_sql_new(" select file_link,file_id from %s where file_id<1108"
+        //把resource_id 1108-1119
+
+        $sql = $this->gen_sql_new(" select file_link,file_id from %s where file_id>1107 and file_id < 1120"
                                   ,self::DB_TABLE_NAME
         );
 
