@@ -4773,8 +4773,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function get_last_orderid_by_userid($userid){
         $where_arr=[
-            "o.contract_status>0",
-            "o.price>0",
+            "contract_status>0",
+            "price>0",
             'contract_type = 0',
         ];
         $sql = $this->gen_sql_new(
