@@ -45,9 +45,9 @@
                     <td>转正日期</td>
                     <td>离职日期</td>
                     <td>绩效(回访) </td>
-                    <td>平均学员数 </td>
-                    <td>销售月总课时 </td>
-                    <td>预估月课时消耗总量 </td>
+                    <td style="display:none;">平均学员数 </td>
+                    <td style="display:none;">销售月总课时 </td>
+                    <td style="display:none;">预估月课时消耗总量 </td>
                     <td>绩效(课程消耗) </td>
                     <td>绩效(扩课) </td>
                     <td>绩效(停课) </td>
