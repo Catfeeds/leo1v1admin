@@ -14,6 +14,23 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $json_data=file_get_contents( "http://10.31.92.162/account/login?phone=13817759346&role=1&passwd=befe7ecb6a1aab4ad80332b34ef782d8"  );
+        dd($json_data);
+
+        $registered_student_arr=[1,2,3,4];
+        $read_student_arr =[2,3];
+        $registered_student_arr = array_diff($registered_student_arr, $read_student_arr);//获得去除在读学员的数组
+        dd($registered_student_arr);
+        $phone = "136212987151";
+        //短信黑名单(不发送)
+        $sms_phone_refund_list=["13621298715"];
+
+        if ($phone && !in_array($phone,$sms_phone_refund_list)) {
+            dd(111);
+        }else{
+            dd(222);
+        }
+
         //续费/新签合同数据
         $start_time = strtotime("2017-12-01");
         $end_time = strtotime("2018-01-01");

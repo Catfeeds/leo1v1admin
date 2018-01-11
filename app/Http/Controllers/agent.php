@@ -469,9 +469,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $cmd= new \App\Console\Commands\sync_tianrun;
-        $count=$cmd->load_data(1515567600,1515574800);
-        dd($count);
+        dd('a');
     }
 
     //处理等级头像

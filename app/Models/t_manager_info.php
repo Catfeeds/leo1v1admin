@@ -400,6 +400,15 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $ret_list;
     }
 
+    public function get_power_group_user_list_sec($role_groupid)
+    {
+        $sql = $this->gen_sql_new("select uid, account, name,permission from %s where  del_flag = 0 and role_groupid = %u"
+                                  ,self::DB_TABLE_NAME,$role_groupid
+        );
+        $list=$this->main_get_list($sql);
+        return $list;
+    }
+
     public function opt_group($uid,$opt_type, $groupid) {
         $arr=$this->get_show_manage_info($uid);
         $permission=$arr["permission"];

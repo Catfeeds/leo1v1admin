@@ -43,16 +43,22 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             if($admin_role == E\Eaccount_role::V_2){
                 if($userid>0){
                     $count_new = $this->get_called_count($phone,1);
+                    $count_new = 1;
                     if($is_called_phone==1){//拨通
+                        $arr = [];
                         $count = $this->task->t_seller_student_new->field_get_value($userid,'cc_called_count');
+                        $first_called_cc = $this->task->t_seller_student_new->field_get_value($userid,'first_called_cc');
+                        if($first_called_cc == 0){
+                            $arr['first_called_cc'] = $adminid;
+                        }
                         if($count_new != $count){
-                            $this->task->t_seller_student_new->field_update_list($userid,[
-                                'cc_called_count'=>$count_new,
-                                'cc_no_called_count'=>0,
-                                'last_revisit_time'=>$start_time,
-                                'last_contact_cc'=>$adminid,
-                            ]);
-                            dd('xx');
+                            $arr['cc_called_count'] = $count_new;
+                            $arr['cc_no_called_count'] = 0;
+                            $arr['last_revisit_time'] = $start_time;
+                            $arr['last_contact_cc'] = $adminid;
+                        }
+                        if(count($arr)>0){
+                            $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
                         }
                     }elseif($is_called_phone==0){//未拨通
                         $cc_no_called_count_new = $this->task->t_seller_student_new->field_get_value($userid,'cc_no_called_count_new');
@@ -792,26 +798,22 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
         );
         return $this->main_get_value($sql);
     }
-    public function item_insert(){
+
+    public function get_first_called_cc($phone,$desc='asc'){
+        $where_arr=[
+            'adminid>0',
+        ];
+        $this->where_arr_add_int_field($where_arr, 'is_called_phone',1);
+        $this->where_arr_add_str_field($where_arr,'phone',$phone);
         $sql=$this->gen_sql_new(
-            " insert ignore into %s "
-            ." (id, uid, phone, start_time, end_time, duration, is_called_phone, record_url,adminid, admin_role, obj_start_time) "
-            ." values( %u,%u,'%s',%u,%u,%u,%u,'%s',%u,%u,%u)",
+            "select adminid "
+            ." from %s "
+            ." where  %s order by start_time %s limit 1",
             self::DB_TABLE_NAME,
-            $id=1222,
-            $uid=1,
-            $phone='155',
-            $start_time=123,
-            $end_time=123,
-            $duration=123,
-            $is_called_phone=1,
-            $record_url='www',
-            $adminid=99,
-            $admin_role=2,
-            $obj_start_time=123
+            $where_arr,
+            $desc
         );
-        $this->main_insert($sql);
-        $ret = $this->get_last_insertid();
-        dd($ret);
+        return $this->main_get_value($sql);
     }
+    
 }

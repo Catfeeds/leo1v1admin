@@ -48,13 +48,14 @@ class pdfConversionH5 extends Command
         $pwd   = 'bbcffc83539bd9069b755e1d359bc70a';// md5(021130)
         $task=new \App\Console\Tasks\TaskController();
 
-        // $handoutArray = $task->t_resource_file->getResourceList();
+        $handoutArray = $this->getNeedTranLessonUid();
 
         // 小班课测试PPT 1bef90ebf32aa93ba0c43433eefb9848  470981
         $handoutArray = [
             [
                 // "uuid"     => '1bef90ebf32aa93ba0c43433eefb9848',
-                "uuid"     => 'd4b206b3716cb449c073e7f8430e9128',
+                // "uuid"     => 'd4b206b3716cb449c073e7f8430e9128',
+                "uuid"     => 'd4f5cfee85e361446695be3202ceff65', //demo
                 // "uuid"     => '45e5c6e1981f5f9b76e0835a1a551140',
                 "lessonid" => 470981
                 //"lessonid" => 470981
@@ -111,8 +112,8 @@ class pdfConversionH5 extends Command
             # 重新打包压缩
             $work_path= public_path('ppt');
             $del_zip = $work_path."/".$uuid.".zip";
-            $zip_new_resource = public_path('ppt')."/".$uuid."_leo34.zip";
-            $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo34.zip * ";
+            $zip_new_resource = public_path('ppt')."/".$uuid."_leo123.zip";
+            $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo123.zip * ";
             \App\Helper\Utils::exec_cmd($zipCmd);
 
             # 使用七牛上传  七牛 资源域名 https://ybprodpub.leo1v1.com/
@@ -144,7 +145,6 @@ class pdfConversionH5 extends Command
     }
 
     public function updateTranResult($lessonid,$saveH5Upload){
-
         $url = "http://admin.leo1v1.com/common_new/updateTranResult";
         $post_data = array(
             "lessonid" => $lessonid,
@@ -157,9 +157,23 @@ class pdfConversionH5 extends Command
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
         $output = curl_exec($ch);
         curl_close($ch);
-        return '';
         $ret_arr = json_decode($output,true);
     }
+
+    public function getNeedTranLessonUid(){
+        $url = "http://admin.leo1v1.com/common_new/getNeedTranLessonUid";
+        $post_data = [];
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch,CURLOPT_POST,1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $ret_arr = json_decode($output,true);
+        return $ret_arr;
+    }
+
 
 
     public function dealHtml($indexFilePath, $doneFilePath){
