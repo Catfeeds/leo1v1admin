@@ -916,6 +916,7 @@ class assistant_performance extends Controller
 
         if($registered_student_list){
             $registered_student_arr = json_decode($registered_student_list,true);
+           
             $ass_userid="";
             foreach($registered_student_arr as $val){
                 $ass_userid .=$val.",";
@@ -925,9 +926,19 @@ class assistant_performance extends Controller
             foreach($ret_info as &$item){
                 $item["stu_nick"]= $this->cache_get_student_nick($item["userid"]);
                 $all+=$item["regular_total"];
-                $num++;
             }
+            foreach($registered_student_arr as $val){
+                if(!isset($ret_info[$val])){
+                    $ret_info[$val]=[
+                        "userid"  =>$val,
+                        "regular_total"=>0,
+                        "stu_nick"  =>$this->cache_get_student_nick($val)
+                    ];
+                }
+            }
+            $num = count($registered_student_arr);
             $all=round($all/$num*$n);
+            
             
         }else{
             $ret_info=[];

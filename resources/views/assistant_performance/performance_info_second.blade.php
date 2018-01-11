@@ -85,7 +85,11 @@
                                 {{@$var["seller_month_lesson_count"]/100}}
                             </a>
                         </td>
-                        <td>{{@$var["estimate_month_lesson_count"]}}</td> 
+                        <td>
+                            <a href="/assistant_performance/show_ass_regular_lesson_info?adminid={{ $var["adminid"] }}&date_type_config=undefined&date_type=null&opt_date_type=3&start_time={{ $start }}&end_time={{ $end }}" target="_blank" >
+                                {{@$var["estimate_month_lesson_count"]/100}}
+                            </a>
+                        </td>
                         <td>{{@$var["kpi_lesson_count_finish_reword"]}}</td> 
                         <td>{{@$var["kk_reword"]}}</td> 
                         <td>{{@$var["stop_reword"]}}</td> 
