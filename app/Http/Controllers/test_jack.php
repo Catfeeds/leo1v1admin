@@ -14,6 +14,16 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $phone = "136212987151";
+        //短信黑名单(不发送)
+        $sms_phone_refund_list=["13621298715"];
+
+        if ($phone && !in_array($phone,$sms_phone_refund_list)) {
+            dd(111);
+        }else{
+            dd(222);
+        }
+
         //续费/新签合同数据
         $start_time = strtotime("2017-12-01");
         $end_time = strtotime("2018-01-01");
