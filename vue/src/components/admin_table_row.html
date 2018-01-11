@@ -1,0 +1,13 @@
+<tr >
+  <td class="remove-for-not-xs" style="display: none;">
+    <a class="  fa  fa-cog   " style="font-size:25px" href="javascript:;" @click="show_as_list($event )" > </a>
+  </td>
+  <slot > </slot>
+  <td class="remove-for-xs"  >
+    <div>
+      <a href="javascript:;" class="btn  fa fa-cog td-info " title="竖向显示" @click="show_as_list($event)"></a>
+
+      <slot name="a"> </slot>
+    </div>
+  </td>
+</tr>
