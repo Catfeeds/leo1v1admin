@@ -111,7 +111,7 @@ class tom_do_once extends Command
                 // if($cc_no_called_count_new != $no_called_count){
                 //     $arr['cc_no_called_count_new'] = $no_called_count;
                 // }
-                if($cc_no_called_count=0 && $called_count=0 && $no_called_count>0){
+                if($cc_no_called_count==0 && $called_count==0 && $no_called_count>0){
                     $arr['cc_no_called_count'] = $no_called_count;
                 }
                 if($cc_no_called_count>0 && $called_count>0){
