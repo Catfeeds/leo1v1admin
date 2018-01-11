@@ -2118,13 +2118,11 @@ class user_manage_new extends Controller
         }else{
             $groupid = 0;
         }
-        //dd($groupid);
-        //当前账户
+   
         $account = $this->get_account();
 
         if( in_array($account,['jim','顾培根','孙瞿'])){
             //超级权限
-
         }
 
         $list=[];

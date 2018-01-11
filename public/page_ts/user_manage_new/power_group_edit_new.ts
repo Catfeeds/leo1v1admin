@@ -259,14 +259,13 @@ $(function(){
         }
     }
 
-    $('.fa-download').next().remove();
-    $('.fa-download').remove();
+    $('.power_title').siblings().remove();
 
     Enum_map.append_option_list("account_role", $("#id_role_groupid"),true);
     $('#id_role_groupid').val(g_args.role_groupid);
 	  $('#id_groupid').val($("#groupid").val());
 	  //$('#id_show_flag').val(g_args.show_flag);
-    console.log(g_args);
+    //console.log(g_args);
 
 	  $('.opt-change').set_input_change_event(load_data);
 

@@ -161,12 +161,6 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
         return $this->main_get_list($sql);
     }
 
-    public function updateStatusByUuid($uuid,$status){
-        $sql = $this->gen_sql_new("  update %s set uuid_status=$status where  uuid='$uuid'"
-                                  ,self::DB_TABLE_NAME
-        );
-        return $this->main_update($sql);
-    }
 
     public function getResourceList(){
         $where_arr = [
