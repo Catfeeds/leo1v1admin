@@ -124,7 +124,9 @@ class tom_do_once extends Command
                     $arr['last_contact_cc'] = $last_called_cc;
                 }
                 if(count($arr)>0){
-                    echo $userid.':'.$cc_no_called_count."=>".$arr['cc_no_called_count'].','.$called_count.'/'.$no_called_count."\n";
+                    if(isset($arr['cc_no_called_count'])){
+                        echo $userid.':'.$cc_no_called_count."=>".$arr['cc_no_called_count'].','.$called_count.'/'.$no_called_count."\n";
+                    }
                     $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
                 }
             }
