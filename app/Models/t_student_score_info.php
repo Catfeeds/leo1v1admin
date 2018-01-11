@@ -283,4 +283,9 @@ where lesson_start > $start_time and lesson_start < $end_time and lesson_type = 
         $sql = "select province ,city from db_weiyi.t_phone_info where id = $phone ";
         return $this->main_get_row($sql);
     }
+
+    public function get_grade_by_info_1(){
+      $sql = "select grade, phone_province,phone_city, count(*) as num from db_weiyi.t_student_info where grade in (101,102,103) and is_test_user = 0 group by grade,phone_city";
+      return $this->main_get_list($sql);
+    }
 }
