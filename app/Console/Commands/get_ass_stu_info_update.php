@@ -1221,5 +1221,7 @@ class get_ass_stu_info_update extends Command
     }
 
     //回访绩效分值计算
-    public function 
+    public function get_ass_revisit_reword_value(){
+        
+    } 
 }
