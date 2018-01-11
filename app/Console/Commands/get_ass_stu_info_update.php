@@ -42,115 +42,12 @@ class get_ass_stu_info_update extends Command
 
         $start_time = strtotime("2017-12-01");
         $end_time = strtotime("2018-01-01");
-        list($performance_cr_new_list,$performance_cr_renew_list,$performance_cc_tran_list)= $this->get_ass_order_list_performance($start_time,$end_time);
-        dd([$performance_cr_new_list,$performance_cr_renew_list,$performance_cc_tran_list]);
-        
-        // $ass_order_info = $task->t_order_info->get_assistant_performance_order_info($start_time,$end_time);
-        // $renew_list=$new_list=[];
-        // foreach($ass_order_info as $val){
-        //     $contract_type = $val["contract_type"];
-        //     $orderid = $val["orderid"];
-        //     $userid = $val["userid"];
-        //     $price = $val["price"];
-        //     $uid = $val["uid"];
-        //     $real_refund = $val["real_refund"];
-        //     if($contract_type==0){
-        //         $new_list[$orderid]["uid"] = $uid;
-        //         $new_list[$orderid]["userid"] = $userid;
-        //         $new_list[$orderid]["price"] = $price;
-        //         $new_list[$orderid]["orderid"] = $orderid;
-        //         @$new_list[$orderid]["real_refund"] += $real_refund;
-        //     }elseif($contract_type==3){
-        //         $renew_list[$orderid]["uid"] = $uid;
-        //         $renew_list[$orderid]["userid"] = $userid;
-        //         $renew_list[$orderid]["price"] = $price;
-        //         $renew_list[$orderid]["orderid"] = $orderid;
-        //         @$renew_list[$orderid]["real_refund"] += $real_refund;
-        //     }
-        // }
-        // $ass_renew_info = $ass_new_info=[];
-        // foreach($renew_list as $val){
-        //     $orderid = $val["orderid"];
-        //     $userid = $val["userid"];
-        //     $price = $val["price"];
-        //     $uid = $val["uid"];
-        //     $real_refund = $val["real_refund"];
-        //     if(!isset($ass_renew_info[$uid]["user_list"][$userid])){
-        //         $ass_renew_info[$uid]["user_list"][$userid]=$userid;
-        //         @$ass_renew_info[$uid]["num"] +=1;
-        //     }
-        //     @$ass_renew_info[$uid]["money"] += $price-$real_refund;
+        list($performance_cr_new_list,$performance_cr_renew_list,$performance_cc_tran_list)= $this->get_ass_order_list_performance($start_time,$end_time);//新版薪资 助教续费新签合同/销售转介绍合同 金额/个数计算
+        list($first_week,$last_week,$n) = $task->get_seller_week_info($start_time, $end_time);//销售月拆解       
+        $registered_student_num=$this->get_register_student_list($first_week,$n);//销售月助教在册学生总数获取
+        $seller_month_lesson_count = $task->t_manager_info->get_assistant_lesson_count_info($first_week,$last_week+7*86400);//销售月总课时
 
-        // }
-        // foreach($new_list as $val){
-        //     $orderid = $val["orderid"];
-        //     $userid = $val["userid"];
-        //     $price = $val["price"];
-        //     $uid = $val["uid"];
-        //     $real_refund = $val["real_refund"];
-        //     if(!isset($ass_new_info[$uid]["user_list"][$userid])){
-        //         $ass_new_info[$uid]["user_list"][$userid]=$userid;
-        //         @$ass_new_info[$uid]["num"] +=1;
-        //     }
-        //     @$ass_new_info[$uid]["money"] += $price-$real_refund;
-
-        // }
-
-
-        // //获取销售转介绍合同信息
-        // $cc_order_list = $task->t_order_info->get_seller_tran_order_info($start_time,$end_time);
-        // $new_tran_list=[];
-        // foreach($cc_order_list as $val){
-        //     $orderid = $val["orderid"];
-        //     $userid = $val["userid"];
-        //     $price = $val["price"];
-        //     $uid = $val["uid"];
-        //     $real_refund = $val["real_refund"];
-        //     $new_tran_list[$orderid]["uid"] = $uid;
-        //     $new_tran_list[$orderid]["userid"] = $userid;
-        //     $new_tran_list[$orderid]["price"] = $price;
-        //     $new_tran_list[$orderid]["orderid"] = $orderid;
-        //     @$new_tran_list[$orderid]["real_refund"] += $real_refund;
-            
-        // }
-        // $ass_tran_info =[];
-        // foreach($new_tran_list as $val){
-        //     $orderid = $val["orderid"];
-        //     $userid = $val["userid"];
-        //     $price = $val["price"];
-        //     $uid = $val["uid"];
-        //     $real_refund = $val["real_refund"];
-        //     if(!isset($ass_tran_info[$uid]["user_list"][$userid])){
-        //         $ass_tran_info[$uid]["user_list"][$userid]=$userid;
-        //         @$ass_tran_info[$uid]["num"] +=1;
-        //     }
-        //     @$ass_tran_info[$uid]["money"] += $price-$real_refund;
-
-        // }
-
-        
-        // //销售月拆解
-        // $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
-        // $first_week = $start_info["sdate"];
-        // $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
-        // if($end_info["edate"] <= $end_time){
-        //     $last_week =  $end_info["sdate"];
-        // }else{
-        //     $last_week =  $end_info["sdate"]-7*86400;
-        // }
-        // $n = ($last_week-$first_week)/(7*86400)+1;
-
-        // //每周助教在册学生数量获取
-        // $registered_student_num=[];
-        // for($i=0;$i<$n;$i++){
-        //     $week = $first_week+$i*7*86400;
-        //     $week_edate = $week+7*86400;
-        //     $week_info = $task->t_ass_weekly_info->get_all_info($week);
-        //     foreach($week_info as $val){
-        //         @$registered_student_num[$val["adminid"]] +=@$week_info[$val["adminid"]]["registered_student_num"];
-        //     } 
-        // }
-
+       
         // $ret = $task->t_month_ass_student_info->get_ass_month_info($start_time);
         // $last_month = strtotime("-1 month",$start_time);
         // $last_ass_month = $task->t_month_ass_student_info->get_ass_month_info($last_month);
@@ -1178,6 +1075,7 @@ class get_ass_stu_info_update extends Command
         // dd($ass_list);
     }
 
+    //新版薪资 助教续费新签合同/销售转介绍合同 金额/个数计算
     public function get_ass_order_list_performance($start_time,$end_time){
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
@@ -1267,4 +1165,61 @@ class get_ass_stu_info_update extends Command
         return [$ass_new_info,$ass_renew_info,$ass_tran_info];
 
     }
+
+    //每周助教在册学生数量获取
+    public function get_register_student_list($first_week,$n){
+        /**  @var   $task \App\Console\Tasks\TaskController */
+        $task=new \App\Console\Tasks\TaskController();
+        $registered_student_num=[];
+        for($i=0;$i<$n;$i++){
+            $week = $first_week+$i*7*86400;
+            $week_edate = $week+7*86400;
+            $week_info = $task->t_ass_weekly_info->get_all_info($week);
+            foreach($week_info as $val){
+                @$registered_student_num[$val["adminid"]] +=@$week_info[$val["adminid"]]["registered_student_num"];
+            } 
+        }
+        return $registered_student_num;
+
+    }
+
+    //助教销售月课时消耗相关数据获取
+    public function get_seller_month_lesson_count_use_info($registered_student_list,$seller_stu_num,$n,$seller_lesson_count){
+        /**  @var   $task \App\Console\Tasks\TaskController */
+        $task=new \App\Console\Tasks\TaskController();
+
+        //平均学员数(销售月) $seller_stu_num
+        //销售月周数 $n
+        //销售月课耗 $seller_lesson_count
+
+        /*课时消耗达成率*/
+        if($registered_student_list){
+            $registered_student_arr = json_decode($registered_student_list,true);
+            $last_stu_num = count($registered_student_arr);//月初在册人员数
+            $last_lesson_total = $task->t_week_regular_course->get_lesson_count_all($registered_student_arr);//月初周总课时消耗数
+            $estimate_month_lesson_count =$n*$last_lesson_total/$last_stu_num;  //预估月课时消耗总量
+        }else{
+            $registered_student_arr=[];      
+            $estimate_month_lesson_count =100;
+        }
+       
+        if(empty($seller_stu_num)){
+            $lesson_count_finish_per=0;
+        }else{
+            $lesson_count_finish_per= round($seller_lesson_count/$seller_stu_num/$estimate_month_lesson_count*100,2);
+        }
+
+        //算出kpi中课时消耗达成率的情况
+        if($lesson_count_finish_per>=70){
+            $kpi_lesson_count_finish_per = 0.4;
+        }else{
+            $kpi_lesson_count_finish_per=0;
+        }
+      
+        return array($kpi_lesson_count_finish_per,$estimate_month_lesson_count);
+ 
+    }
+
+    //回访绩效分值计算
+    public function 
 }
