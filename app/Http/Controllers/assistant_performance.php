@@ -932,7 +932,7 @@ class assistant_performance extends Controller
                     $ret_info[$val]=[
                         "userid"  =>$val,
                         "regular_total"=>0,
-                        "stu_nick"  =>$this->cache_get_student_nick($val);
+                        "stu_nick"  =>$this->cache_get_student_nick($val)
                     ];
                 }
             }
