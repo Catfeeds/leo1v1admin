@@ -277,4 +277,10 @@ where lesson_start > $start_time and lesson_start < $end_time and lesson_type = 
         $sql = "select userid, phone from db_weiyi.t_student_info where is_test_user = 0 order by userid asc";
         return $this->main_get_list($sql);
     }
+
+
+    public function get_province_info($phone){
+        $sql = "select province ,city from db_weiyi.t_phone_info where id = $phone ";
+        return $this->main_get_row($sql);
+    }
 }
