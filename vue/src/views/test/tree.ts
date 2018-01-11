@@ -6,7 +6,7 @@ import {self_RowData, self_Args } from "../page.d.ts/test-get_user_list"
 // @Component 修饰符注明了此类为一个 Vue 组件
 @Component({
   // 所有的组件选项都可以放在这里
-  template:  require("./get_user_list.html" ),
+  template:  require("./tree.html" ),
 })
 
 export default class extends vtable {
@@ -25,16 +25,6 @@ export default class extends vtable {
     console.log("init_query");
     var me =this;
 
-    $.admin_date_select ({
-      'join_header'  : $header_query_info,
-      'title' : "时间",
-      'date_type' : this.get_args().date_type,
-      'opt_date_type' : this.get_args().opt_date_type,
-      'start_time'    : this.get_args().start_time,
-      'end_time'      : this.get_args().end_time,
-      date_type_config : JSON.parse(this.get_args().date_type_config),
-      as_header_query :true,
-    });
 
     var action=  this.get_action_str();
 
@@ -97,11 +87,13 @@ export default class extends vtable {
     });
 
   }
-  doOpt(  e  : MouseEvent ,opt_data: self_RowData  ) {
+  doOpt(e  : MouseEvent ) {
+    var opt_data = this.get_opt_data(e.target);
     BootstrapDialog.alert(JSON.stringify(opt_data));
   };
 
-  opt_edit(e:MouseEvent ,opt_data: self_RowData) {
+  do_edit(e:MouseEvent) {
+    var opt_data = this.get_opt_data(e.target);
     var $nick= $("<input/>");
     $nick.val( opt_data.nick );
     var arr=[
@@ -122,4 +114,15 @@ export default class extends vtable {
   js_xx_loaded ( e  ) {
 
   }
+
+
+
+  base_init_ex (){
+    $("#id-example-advanced").table_head_static(400);
+    $("#id-example-advanced").treetable({
+      expandable: true,
+      clickableNodeNames: true,
+    });
+  }
+
 }

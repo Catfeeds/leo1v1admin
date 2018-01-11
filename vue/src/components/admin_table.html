@@ -3,14 +3,19 @@
     <thead>
       <tr >
         <td class="remove-for-not-xs" style="display: none;"> </td>
-        <td v-for="field_info in table_config.field_list"
+        <slot name="th"></slot>
+
+        <td v-for="field_info in real_table_config.field_list"
           v-if="check_show(field_info)"
           v-bind:data-field_name="field_info.order_field_name"
         >
+
           <span v-html="field_info.title"> </span>
           <a v-if="field_info.order_field_name" class="fa td-sort-item "
 
-            v-bind:class="get_sort_class(field_info)" href="javascript:;"> </a>  </td>
+            v-bind:class="get_sort_class(field_info)" href="javascript:;"> </a>
+        </td>
+
         <td class="remove-for-xs" >操作
           <div  style="float:right ">
           <a href="javascript:; "  class="fa fa-list" title=" 列显示配置" @click="config_field_list($event)"  ></a>
@@ -25,16 +30,17 @@
         <td class="remove-for-not-xs" style="display: none;">
           <a class="  fa  fa-cog   " style="font-size:25px" href="javascript:;" @click="show_as_list($event, item,index)" > </a>
         </td>
-        <td v-for="field_info in table_config.field_list "
+        <td v-for="field_info in real_table_config.field_list "
           v-if="check_show(field_info)"
           v-html="field_render(item,  field_info,index)"></td>
         <td class="remove-for-xs"  >
           <div>
             <a href="javascript:;" class="btn  fa fa-cog td-info " title="竖向显示" @click="show_as_list($event, item,index)"></a>
-            <a v-for="opt_info in table_config.row_opt_list " v-if="check_need_power(opt_info.need_power)"  class="fa btn " v-bind:class="[opt_info.face_icon]"  @click="opt_info.on_click($event,item)" v-bind:title="opt_info.title"  > {{opt_info.text}} </a>
+            <a v-for="opt_info in real_table_config.row_opt_list " v-if="check_need_power(opt_info.need_power)"  class="fa btn " v-bind:class="[opt_info.face_icon]"  @click="opt_info.on_click($event,item)" v-bind:title="opt_info.title"  > {{opt_info.text}} </a>
           </div>
         </td>
       </tr>
+      <slot ></slot>
     </tbody>
   </table>
 </div>
