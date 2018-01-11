@@ -2357,8 +2357,7 @@ function multi_upload_file(new_flag,is_multi,is_auto_start,btn_id, is_public_buc
                     this.origin_file_name=file.name;
                     var file_name=$.md5(file.name) +time +'.' + match[1];
                     //tpad1001231
-                    //tpad1001336 2018-1-11 去掉/teacher-doc/　手机端调用出现问题
-                    // file_name = '/teacher-doc/'+file_name;
+                    file_name = '/teacher-doc/'+file_name;
                     console.log('gen file_name:'+file_name);
                     return file_name;
 
