@@ -90,14 +90,13 @@ class tom_do_once extends Command
                 $cc_called_count = $item['cc_called_count'];
                 $cc_no_called_count = $item['cc_no_called_count'];
                 $cc_no_called_count_new = $item['cc_no_called_count_new'];
-                dd($item);
                 $called_count = $this->task->t_tq_call_info->get_called_count($phone,1);
                 $no_called_count = $this->task->t_tq_call_info->get_called_count($phone,0);
                 if($cc_called_count != $called_count){
                     $arr['cc_called_count'] = $cc_called_count;
                 }
                 if($cc_no_called_count_new != $no_called_count){
-                    $arr['cc_no_called_count_new'] = $cc_called_count;
+                    $arr['cc_no_called_count_new'] = $no_called_count;
                 }
                 if($cc_no_called_count=0 && $called_count=0 && $no_called_count>0){
                     $arr['cc_no_called_count'] = $no_called_count;
@@ -105,6 +104,7 @@ class tom_do_once extends Command
                 if($cc_no_called_count>0 && $called_count>0){
                     $arr['cc_no_called_count'] = 0;
                 }
+                dd($cc_called_count,$cc_no_called_count,$cc_no_called_count_new,$arr);
                 if(count($arr)>0){
                     dd($phone,$cc_called_count,$cc_no_called_count,$cc_no_called_count_new,$called_count,$no_called_count,$arr);
                     $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
