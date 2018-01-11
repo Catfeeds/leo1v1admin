@@ -18,15 +18,34 @@ import { timingSafeEqual } from 'crypto';
   props : {
     table_data : {
       type     : Array,
-      required : true
+      required : false,
+      "default" :  function(){
+        return [];
+      },
     },
+
+    auto_show: {//表配置
+      type     : Boolean,
+      required : true,
+      "default" :  function(){
+        return true ;
+      } ,
+    },
+
     table_config : {//表配置
       type     : Object,
-      required : true
+      required : false,
+      "default" :  function(){
+        return {} ;
+
+      } ,
     },
 
   },
   computed : {
+    real_table_config:function() {
+      return this.$props.auto_show? this.$props.table_config: {};
+    }
   },
   mounted : function(){
   },
@@ -109,6 +128,7 @@ export default class admin_table extends Vue {
       return false;
 
   }
+
   field_render( item, field_info ) {
     var field_name= field_info["field_name"];
     var field_value="";
