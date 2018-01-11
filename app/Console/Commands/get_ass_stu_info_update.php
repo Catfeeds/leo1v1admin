@@ -524,13 +524,27 @@ class get_ass_stu_info_update extends Command
                 
             }
 
-            $item["performance_cc_tran_num"] = @$performance_cc_tran_list[$k]["num"];
-            $item["performance_cc_tran_money"] = @$performance_cc_tran_list[$k]["money"];
-            $item["performance_cr_renew_num"] = @$performance_cr_renew_list[$k]["num"];
-            $item["performance_cr_renew_money"] = @$performance_cr_renew_list[$k]["money"];
-            $item["performance_cr_new_num"] = @$performance_cr_new_list[$k]["num"];
-            $item["performance_cr_new_money"] = @$performance_cr_new_list[$k]["money"];
+            foreach($ass_month as $k=>$tt){
+               
+                $performance_cc_tran_num = @$performance_cc_tran_list[$k]["num"];
+                $performance_cc_tran_money= @$performance_cc_tran_list[$k]["money"];
+                $performance_cr_renew_num = @$performance_cr_renew_list[$k]["num"];
+                $performance_cr_renew_money = @$performance_cr_renew_list[$k]["money"];
+                $performance_cr_new_num = @$performance_cr_new_list[$k]["num"];
+                $performance_cr_new_money = @$performance_cr_new_list[$k]["money"];
+ 
+                $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,[
+                    "performance_cc_tran_num"  =>$performance_cc_tran_num,
+                    "performance_cc_tran_money"=>$performance_cc_tran_money,
+                    "performance_cr_renew_num" =>$performance_cr_renew_num,
+                    "performance_cr_renew_money" =>$performance_cr_renew_money,
+                    "performance_cr_new_num"    =>$performance_cr_new_num,
+                    "performance_cr_new_money" =>$performance_cr_new_money,
+                ]);
+ 
+            }
 
+           
 
                         
             
