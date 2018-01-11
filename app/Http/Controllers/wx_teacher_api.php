@@ -1066,7 +1066,7 @@ class wx_teacher_api extends Controller
 
         // 数据待确认
 
-        if($ret_info['teacherid'] == 357372 || $ret_info['teacherid'] == 489187 || $ret_info['teacherid'] == 434433){//文彬 测试
+        // if($ret_info['teacherid'] == 357372 || $ret_info['teacherid'] == 489187 || $ret_info['teacherid'] == 434433){//文彬 测试
             $checkHasHandout = $this->t_lesson_info->get_tea_cw_url($lessonid);
             $resource_id_arr = $this->t_resource->getResourceId($ret_info['subject'],$ret_info['grade']);
             $resource_id_str = '';
@@ -1084,9 +1084,9 @@ class wx_teacher_api extends Controller
             }else{
                 $ret_info['handout_flag'] = 0;
             }
-        }else{
-            $ret_info['handout_flag'] = 0; //无讲义
-        }
+        // }else{
+        //     $ret_info['handout_flag'] = 0; //无讲义
+        // }
 
         return $this->output_succ(["data"=>$ret_info]);
     }

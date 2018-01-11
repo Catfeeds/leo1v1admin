@@ -209,6 +209,7 @@ class test_sam extends Command
         dd("finish");                                                                        
 
         */  
+        /*
         $ret_info = $task->t_student_score_info->get_all_student_phone_and_id();
 
         foreach ($ret_info as $key => $value) {
@@ -227,7 +228,19 @@ class test_sam extends Command
                 "phone_province" =>$province,
                 "phone_city" =>$city,
             ]);
-            echo "$userid .fin\n";
+            echo "$userid $province  $city.fin\n";
         }   
+        */
+
+        $ret_info = $task->t_student_score_info->get_grade_by_info_1();
+        foreach ($ret_info as $key => &$value) {
+            $value['grade']   = E\Egrade::get_desc($value['grade']);
+            $value['address'] = $value['phone_city'];
+        }
+        $file_name = 'sam_1';
+        $arr_title = ['年级',"城市","数量"];
+        $arr_data  = ['grade','phone_city','num'];
+        $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
+        dd($ret_file_name);
     }     
 }
