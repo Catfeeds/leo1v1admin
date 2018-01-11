@@ -108,6 +108,12 @@ class t_authority_group extends \App\Models\Zgen\z_t_authority_group
         return $this->main_get_list($sql);
     }
 
+    public function get_all_list_order_by_role(){
+        $sql=$this->gen_sql_new("select * from %s where del_flag = 0  order by role_groupid asc ", self::DB_TABLE_NAME );
+        return $this->main_get_list($sql);
+
+    }
+
     public function get_auth_groups_all()
 	{
 		$sql = sprintf("select group_name,groupid"
