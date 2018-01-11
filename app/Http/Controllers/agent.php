@@ -469,6 +469,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $a = \App\Helper\Common::get_set_boolean_color_str(2);
+        dd($a);
         // $cmd= new \App\Console\Commands\tom_do_once();
         // $count=$cmd->handle();
 
