@@ -54,7 +54,8 @@ class pdfConversionH5 extends Command
         $handoutArray = [
             [
                 // "uuid"     => '1bef90ebf32aa93ba0c43433eefb9848',
-                "uuid"     => 'd4b206b3716cb449c073e7f8430e9128',
+                // "uuid"     => 'd4b206b3716cb449c073e7f8430e9128',
+                "uuid"     => 'd4f5cfee85e361446695be3202ceff65', //demo
                 // "uuid"     => '45e5c6e1981f5f9b76e0835a1a551140',
                 "lessonid" => 470981
                 //"lessonid" => 470981
@@ -111,8 +112,8 @@ class pdfConversionH5 extends Command
             # 重新打包压缩
             $work_path= public_path('ppt');
             $del_zip = $work_path."/".$uuid.".zip";
-            $zip_new_resource = public_path('ppt')."/".$uuid."_leo34.zip";
-            $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo34.zip * ";
+            $zip_new_resource = public_path('ppt')."/".$uuid."_leo123.zip";
+            $zipCmd  = " cd ".$work_path."/".$uuid.";  zip -r ../".$uuid."_leo123.zip * ";
             \App\Helper\Utils::exec_cmd($zipCmd);
 
             # 使用七牛上传  七牛 资源域名 https://ybprodpub.leo1v1.com/

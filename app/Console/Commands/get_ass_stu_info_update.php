@@ -40,37 +40,11 @@ class get_ass_stu_info_update extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
 
-        // $start_time = strtotime("2017-12-01");
-        // $end_time = strtotime("2018-01-01");
-        // //销售月拆解
-        // $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
-        // $first_week = $start_info["sdate"];
-        // $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
-        // if($end_info["edate"] <= $end_time){
-        //     $last_week =  $end_info["sdate"];
-        // }else{
-        //     $last_week =  $end_info["sdate"]-7*86400;
-        // }
-        // $n = ($last_week-$first_week)/(7*86400)+1;
-
-        // //每周课时/学生数
-        // $lesson_count_list=[];
-        // $list=[];
-        // for($i=0;$i<$n;$i++){
-        //     $week = $first_week+$i*7*86400;
-        //     $week_edate = $week+7*86400;
-        //     $lesson_count_list = $task->t_manager_info->get_assistant_lesson_count_info($week,$week_edate);
-        //     foreach($lesson_count_list as $val){
-        //         @$list[$val["uid"]] += $val["lesson_count"];
-        //     }
-        // }
-        // dd($list);
-       
-
-
-
-
-        // $end_time = strtotime("2018-01-01");
+        $start_time = strtotime("2017-12-01");
+        $end_time = strtotime("2018-01-01");
+        list($performance_cr_new_list,$performance_cr_renew_list,$performance_cc_tran_list)= $this->get_ass_order_list_performance($start_time,$end_time);
+        dd([$performance_cr_new_list,$performance_cr_renew_list,$performance_cc_tran_list]);
+        
         // $ass_order_info = $task->t_order_info->get_assistant_performance_order_info($start_time,$end_time);
         // $renew_list=$new_list=[];
         // foreach($ass_order_info as $val){
@@ -1202,5 +1176,95 @@ class get_ass_stu_info_update extends Command
         }
             // }
         // dd($ass_list);
+    }
+
+    public function get_ass_order_list_performance($start_time,$end_time){
+        /**  @var   $task \App\Console\Tasks\TaskController */
+        $task=new \App\Console\Tasks\TaskController();
+        $ass_order_info = $task->t_order_info->get_assistant_performance_order_info($start_time,$end_time);
+        $renew_list=$new_list=[];
+        foreach($ass_order_info as $val){
+            $contract_type = $val["contract_type"];
+            $orderid = $val["orderid"];
+            $userid = $val["userid"];
+            $price = $val["price"];
+            $uid = $val["uid"];
+            $real_refund = $val["real_refund"];
+            if($contract_type==0){
+                $new_list[$orderid]["uid"] = $uid;
+                $new_list[$orderid]["userid"] = $userid;
+                $new_list[$orderid]["price"] = $price;
+                $new_list[$orderid]["orderid"] = $orderid;
+                @$new_list[$orderid]["real_refund"] += $real_refund;
+            }elseif($contract_type==3){
+                $renew_list[$orderid]["uid"] = $uid;
+                $renew_list[$orderid]["userid"] = $userid;
+                $renew_list[$orderid]["price"] = $price;
+                $renew_list[$orderid]["orderid"] = $orderid;
+                @$renew_list[$orderid]["real_refund"] += $real_refund;
+            }
+        }
+        $ass_renew_info = $ass_new_info=[];
+        foreach($renew_list as $val){
+            $orderid = $val["orderid"];
+            $userid = $val["userid"];
+            $price = $val["price"];
+            $uid = $val["uid"];
+            $real_refund = $val["real_refund"];
+            if(!isset($ass_renew_info[$uid]["user_list"][$userid])){
+                $ass_renew_info[$uid]["user_list"][$userid]=$userid;
+                @$ass_renew_info[$uid]["num"] +=1;
+            }
+            @$ass_renew_info[$uid]["money"] += $price-$real_refund;
+
+        }
+        foreach($new_list as $val){
+            $orderid = $val["orderid"];
+            $userid = $val["userid"];
+            $price = $val["price"];
+            $uid = $val["uid"];
+            $real_refund = $val["real_refund"];
+            if(!isset($ass_new_info[$uid]["user_list"][$userid])){
+                $ass_new_info[$uid]["user_list"][$userid]=$userid;
+                @$ass_new_info[$uid]["num"] +=1;
+            }
+            @$ass_new_info[$uid]["money"] += $price-$real_refund;
+
+        }
+
+
+        //获取销售转介绍合同信息
+        $cc_order_list = $task->t_order_info->get_seller_tran_order_info($start_time,$end_time);
+        $new_tran_list=[];
+        foreach($cc_order_list as $val){
+            $orderid = $val["orderid"];
+            $userid = $val["userid"];
+            $price = $val["price"];
+            $uid = $val["uid"];
+            $real_refund = $val["real_refund"];
+            $new_tran_list[$orderid]["uid"] = $uid;
+            $new_tran_list[$orderid]["userid"] = $userid;
+            $new_tran_list[$orderid]["price"] = $price;
+            $new_tran_list[$orderid]["orderid"] = $orderid;
+            @$new_tran_list[$orderid]["real_refund"] += $real_refund;
+            
+        }
+        $ass_tran_info =[];
+        foreach($new_tran_list as $val){
+            $orderid = $val["orderid"];
+            $userid = $val["userid"];
+            $price = $val["price"];
+            $uid = $val["uid"];
+            $real_refund = $val["real_refund"];
+            if(!isset($ass_tran_info[$uid]["user_list"][$userid])){
+                $ass_tran_info[$uid]["user_list"][$userid]=$userid;
+                @$ass_tran_info[$uid]["num"] +=1;
+            }
+            @$ass_tran_info[$uid]["money"] += $price-$real_refund;
+
+        }
+
+        return [$ass_new_info,$ass_renew_info,$ass_tran_info];
+
     }
 }
