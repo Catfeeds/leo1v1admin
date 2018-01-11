@@ -1919,8 +1919,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
     public function updateTranResult(){
+        return 1;
         $lessonid = $this->get_in_int_val('lessonid');
         $zip_url  = $this->get_in_str_val('zip_url');
+        
         $this->t_lesson_info_b3->field_update_list($lessonid,[
             "zip_url" => $zip_url
         ]);
