@@ -4777,6 +4777,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "price>0",
             'contract_type = 0',
         ];
+        $this->where_arr_add_int_field($where_arr, 'userid', $userid);
         $sql = $this->gen_sql_new(
             "select orderid "
             ." from %s "
