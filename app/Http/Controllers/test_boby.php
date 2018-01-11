@@ -1611,7 +1611,7 @@ class test_boby extends Controller {
      *2018-1-11 改回去
      */
     public function upload_file_link(){
-        // return 1;
+        return 1;
         $list = $this->t_resource_file->get_all_file_title();
         $this->t_resource_file->start_transaction();
         foreach($list as $v){
