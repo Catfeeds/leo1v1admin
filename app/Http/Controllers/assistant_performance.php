@@ -916,10 +916,7 @@ class assistant_performance extends Controller
 
         if($registered_student_list){
             $registered_student_arr = json_decode($registered_student_list,true);
-            $last_lesson_total = $this->t_week_regular_course->get_lesson_count_all($registered_student_arr);//月初周总课时消耗数
-            echo $last_lesson_total."<br>";
-            echo count($registered_student_arr)."<br>";
-
+           
             $ass_userid="";
             foreach($registered_student_arr as $val){
                 $ass_userid .=$val.",";
@@ -929,13 +926,10 @@ class assistant_performance extends Controller
             foreach($ret_info as &$item){
                 $item["stu_nick"]= $this->cache_get_student_nick($item["userid"]);
                 $all+=$item["regular_total"];
-                $num++;
             }
-            echo $all."<br>";
-            echo $num."<br>";
-            echo $n;
-            exit;
+            $num = count($registered_student_arr);
             $all=round($all/$num*$n);
+            
             
         }else{
             $ret_info=[];
