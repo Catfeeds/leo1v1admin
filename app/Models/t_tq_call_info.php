@@ -815,5 +815,24 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
         );
         return $this->main_get_value($sql);
     }
-    
+
+    public function get_first_get_cc($phone,$desc='asc'){
+        $where_arr=[
+            'adminid>0',
+            'end_time>0',
+            'obj_start_time>0',
+            '(end_time-obj_start_time)>=60',
+        ];
+        $this->where_arr_add_int_field($where_arr, 'is_called_phone',1);
+        $this->where_arr_add_str_field($where_arr,'phone',$phone);
+        $sql=$this->gen_sql_new(
+            "select adminid "
+            ." from %s "
+            ." where  %s order by start_time %s limit 1",
+            self::DB_TABLE_NAME,
+            $where_arr,
+            $desc
+        );
+        return $this->main_get_value($sql);
+    }
 }
