@@ -93,10 +93,10 @@ class tom_do_once extends Command
                 $called_count = $this->task->t_tq_call_info->get_called_count($phone,1);
                 $no_called_count = $this->task->t_tq_call_info->get_called_count($phone,0);
                 if($cc_called_count != $called_count){
-                    $arr['cc_called_count'] = $cc_called_count;
+                    $arr['cc_called_count'] = $called_count;
                 }
                 if($cc_no_called_count_new != $no_called_count){
-                    $arr['cc_no_called_count_new'] = $cc_called_count;
+                    $arr['cc_no_called_count_new'] = $no_called_count;
                 }
                 if($cc_no_called_count=0 && $called_count=0 && $no_called_count>0){
                     $arr['cc_no_called_count'] = $no_called_count;
@@ -106,7 +106,7 @@ class tom_do_once extends Command
                 }
                 if(count($arr)>0){
                     $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
-                    dd($ret,$phone,$cc_called_count,$cc_no_called_count,$called_count,$no_called_count);
+                    dd($ret,$called_count,$no_called_count,$item,$arr);
                 }
             }
             $start = strtotime('+1 month',$start);
