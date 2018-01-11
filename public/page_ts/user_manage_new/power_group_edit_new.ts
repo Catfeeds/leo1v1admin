@@ -385,7 +385,7 @@ $(function(){
                     'edit_power_id' : edit_power_id,
                     'user_id':$('#user_add').attr("user_id"),
                 }
-
+         
                 $.ajax({
                     type     :"post",
                     url      :"/user_power/edit_role_groupid",
@@ -400,7 +400,8 @@ $(function(){
         },function(){
             $.admin_select_user($("#user_add"), "admin",function(val){
                 $('#user_add').attr({"user_id":val});  
-            });           
+            });
+       
         } ,false,800)
 
     });
