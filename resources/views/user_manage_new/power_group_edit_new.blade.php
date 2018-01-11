@@ -65,19 +65,13 @@
 
             <div class="col-xs-1 col-md-1">
                 <div class="input-group ">
-                    <button id="id_del_power_group" class="btn fa fa-minus  btn-danger"">删除权限组</button>
+                    <button id="id_del_group" class="btn fa fa-minus  btn-danger"">删除权限组</button>
                 </div>
             </div>
 
             <div class="col-xs-1 col-md-2">
                 <div class="input-group ">
                     <button class="btn  btn-primary" id="id_reload_power">更新在线用户权限</button>
-                </div>
-            </div>
-
-            <div class="col-xs-1 col-md-2">
-                <div class="input-group ">
-                    <button class="btn fa fa-plus btn-primary" id="id_add_user">添加用户</button>
                 </div>
             </div>
 
@@ -101,25 +95,37 @@
             </div>
 
             <div class="col-xs-6 col-md-4">
-                <table   class="common-table"   >
+                <table  class="common-table">
                     <thead>
+                        <tr>
+                            <td colspan="4">
+                                <div style="margin: 5px auto;text-align: center;font-size: 16px;">权限组用户</span>                              
+                                    <div class="input-group" style="position: absolute;right: 30px;top: 15px;">
+                                    <button class="btn fa fa-plus btn-primary" id="id_add_user">添加用户</button>
+                                </div>                  
+
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>       
                         <tr>
                             <td >id</td>
                             <td >账户</td>
+                            <td >真实姓名</td>
                             <td >操作</td>
                         </tr>
-                    </thead>
-                    <tbody>
+
                         @foreach ($user_list as $var)
-                    <tr>
+                            <tr>
                                 <td >{{$var["uid"]}} </td>
                                 <td >{{$var["account"]}} </td>
+                                <td >{{$var["name"]}} </td>
                                 <td >
-                                    <div data-uid="{{$var["uid"]}}">
-                                        <a class="fa-trash-o  opt-del-account  " title="删除" ></a>
+                                    <div data-uid="{{$var['uid']}}" data-name="{{$var["name"]}}" data-account="{{$var["account"]}}">
+                                        <a class="fa-trash-o  opt-del-account" title="删除" ></a>
                                     </div>
                                 </td>
-                    </tr>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>

@@ -685,7 +685,7 @@ class NewRouteConfig {
         "/channel_manage/set_teacher_ref_type"           => true,
         "/channel_manage/zs_origin_list_new"             => true,
         
-        "/question_new_api/get_agent_id"        =>true,
+        "/question_new_api/get_agent_id"                 =>true,
         "/question_new_api/get_grade_and_subject"        =>true,
         "/question_new_api/get_textbook_subject"         =>true,
         "/question_new_api/get_textbook_knowledge"       =>true,
@@ -695,13 +695,15 @@ class NewRouteConfig {
         "/question_new_api/save_answers"                 =>true,
         "/question_new_api/get_recommend"                =>true,
 
-        "/user_power/get_desc_power"                          =>true,
-        "/user_power/save_desc_power"                          =>true,
-        "/user_power/get_input_define"                          =>true,
-        "/user_power/save_input_define"                          =>true,
-        "/user_power/edit_role_groupid"                       =>true,
-        "/user_power/dele_role_groupid"                       =>true,
-        "/user_power/add_user"                       =>true,
+        "/user_power/get_desc_power"                     =>true,
+        "/user_power/save_desc_power"                    =>true,
+        "/user_power/get_input_define"                   =>true,
+        "/user_power/save_input_define"                  =>true,
+        "/user_power/edit_role_groupid"                  =>true,
+        "/user_power/dele_role_groupid"                  =>true,
+        "/user_power/add_user"                           =>true,
+        "/user_power/set_group_power"                    =>true,
+        "/user_power/dele_role_user"                     =>true
     ];
 
     static $dev_url_map = [

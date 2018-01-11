@@ -124,6 +124,16 @@ class t_authority_group extends \App\Models\Zgen\z_t_authority_group
                                   self::DB_TABLE_NAME,$role_groupid);
         return $this->main_get_list($sql);
     }
+
+    public function dele_by_id($role_groupid,$groupid){
+        if( $role_groupid && $groupid ){
+            $sql=$this->gen_sql("delete from %s where role_groupid = %s and groupid = %s and role_groupid != 0"
+                                ,self::DB_TABLE_NAME,$role_groupid,$groupid);
+
+            return $this->main_update($sql);
+        }
+    }
+
 }
 
 

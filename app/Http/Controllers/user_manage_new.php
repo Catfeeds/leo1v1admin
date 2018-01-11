@@ -2106,68 +2106,41 @@ class user_manage_new extends Controller
 
         //该角色对应的权限组id
         $group_list = $this->t_authority_group->get_groupid_by_role($role_groupid);
-
-        //所有的权限组id
-        $group_list_all = $this->t_authority_group->get_auth_groups_all();
-
-        //当前操作用户的id
-        $adminid = $this->get_account_id();
-
-        //当前用户的角色组id
-        $cur_role_groupid = $this->t_manager_info->get_role_groupid($adminid);
-
-        //旧的 当前用户所拥有的权限组集合
-        $permissions = $this->t_manager_info->get_permission($adminid);
-
-        //新的 当前用户所拥有的权限组集合
-        $cur_group_list = $this->t_authority_group->get_groupid_by_role($cur_role_groupid);
-
+        
+        if(count($group_list)>0){
+            $groupid_arr = array_column($group_list, 'groupid');
+            if( $groupid == 0 ){
+                $groupid = $groupid_arr[0];
+            }
+            if( $groupid > 0 && !in_array($groupid,$groupid_arr) ){
+                $groupid = $groupid_arr[0];
+            }
+        }else{
+            $groupid = 0;
+        }
+        //dd($groupid);
         //当前账户
         $account = $this->get_account();
 
         if( in_array($account,['jim','顾培根','孙瞿'])){
             //超级权限
 
-        }else{
-            
         }
-
-        //dd($account);
 
         $list=[];
         $user_list=[];
         $ret_info=\App\Helper\Utils::list_to_page_info([]);
 
-        if( count($group_list) > 0 ){
-            if( $groupid == 0 ){
-                $groupid = $group_list[0]["groupid"];
-            }
-
-            $user_list=$this->t_manager_info->get_power_group_user_list($groupid);
+        if( $groupid > 0 ){  
+            $user_list=$this->t_manager_info->get_power_group_user_list_sec($role_groupid,$groupid);
             $power_map=$this->t_authority_group->get_auth_group_map($groupid);
             $list=$this->get_menu_list_new($power_map );
-            $admin_id = $this->get_account_id();
-
+      
             $ret_info=\App\Helper\Utils::list_to_page_info($list);
-            // if ($show_flag!=2) { //只用户
-            //     $ret_info=\App\Helper\Utils::list_to_page_info($list);
-            // }else{
-            //     $ret_info=\App\Helper\Utils::list_to_page_info([]);
-            // }
 
         }
-        // $group_list = $this->t_authority_group->get_auth_groups();
-        // $default_groupid = 0;
-        // if (count($group_list)>0) {
-        //     $default_groupid= $group_list[0]["groupid"];
-        // }
-       
-        // $groupid  = $this->get_in_int_val("groupid",$default_groupid);
-        // $show_flag= $this->get_in_int_val("show_flag", -1);
-
-
         return $this->Pageview(__METHOD__,$ret_info,[
-            "_publish_version" => 201801101838,
+            "_publish_version" => 201801111150,
             "group_list"=>$group_list,
             "user_list"=>$user_list,
             "list"=>$list,
