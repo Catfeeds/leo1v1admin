@@ -137,9 +137,9 @@ class tom_do_once extends Command
                 if($cc_test_lesson_flag == 0 && $first_test_lessonid>0){
                     $arr['test_lesson_flag'] = $first_test_lessonid;
                 }
-                if($cc_orderid == 0 && $orderid>0){
+                // if($cc_orderid == 0 && $orderid>0){
                     $arr['orderid'] = $orderid;
-                }
+                // }
                 if(count($arr)>0){
                     if(isset($arr['first_get_cc'])){
                         echo $userid.':'.$cc_first_get_cc."=>".$first_get_cc."\n";
