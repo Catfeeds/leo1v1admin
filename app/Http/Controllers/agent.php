@@ -469,12 +469,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        // $cmd= new \App\Console\Commands\tom_do_once();
-        // $count=$cmd->handle();
-
-        $cmd= new \App\Console\Commands\sync_tianrun();
-        $count=$cmd->load_data($start_time=1515582000, $end_time=1515585600);
-        dd($count);
+        dd('a');
     }
 
     //处理等级头像

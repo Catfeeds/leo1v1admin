@@ -62,7 +62,7 @@ class t_authority_group extends \App\Models\Zgen\z_t_authority_group
 
 	public function get_auth_group_map($groupid)
 	{
-		$sql = $this->gen_sql("select   group_authority from %s where groupid= %u",
+		$sql = $this->gen_sql("select group_authority from %s where groupid= %u",
 					   self::DB_TABLE_NAME, $groupid );
 		$power_str=$this->main_get_value($sql);
         $arr=explode(",",$power_str);
@@ -106,6 +106,38 @@ class t_authority_group extends \App\Models\Zgen\z_t_authority_group
     {
         $sql=$this->gen_sql_new("select * from %s  order by group_name asc ", self::DB_TABLE_NAME );
         return $this->main_get_list($sql);
+    }
+
+    public function get_all_list_order_by_role(){
+        $sql=$this->gen_sql_new("select * from %s where del_flag = 0  order by role_groupid asc ", self::DB_TABLE_NAME );
+        return $this->main_get_list($sql);
+
+    }
+
+    public function get_auth_groups_all()
+	{
+		$sql = sprintf("select group_name,groupid"
+                       ." from %s"
+                       ." where del_flag = 0 and role_groupid = 0"
+                       ." order by group_name asc"
+                       ,self::DB_TABLE_NAME
+        );
+		return $this->main_get_list($sql);
+	}
+
+    public function get_groupid_by_role($role_groupid){
+        $sql = $this->gen_sql_new("select group_name,groupid from %s where del_flag = 0 and role_groupid = %u order by groupid asc",
+                                  self::DB_TABLE_NAME,$role_groupid);
+        return $this->main_get_list($sql);
+    }
+
+    public function dele_by_id($role_groupid,$groupid){
+        if( $role_groupid && $groupid ){
+            $sql=$this->gen_sql("delete from %s where role_groupid = %s and groupid = %s and role_groupid != 0"
+                                ,self::DB_TABLE_NAME,$role_groupid,$groupid);
+
+            return $this->main_update($sql);
+        }
     }
 
 }
