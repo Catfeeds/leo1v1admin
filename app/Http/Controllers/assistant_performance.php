@@ -927,6 +927,15 @@ class assistant_performance extends Controller
                 $item["stu_nick"]= $this->cache_get_student_nick($item["userid"]);
                 $all+=$item["regular_total"];
             }
+            foreach($registered_student_arr as $val){
+                if(!isset($ret_info[$val])){
+                    $ret_info[$val]=[
+                        "userid"  =>$val,
+                        "regular_total"=>0,
+                        "stu_nick"  =>$this->cache_get_student_nick($val);
+                    ];
+                }
+            }
             $num = count($registered_student_arr);
             $all=round($all/$num*$n);
             
