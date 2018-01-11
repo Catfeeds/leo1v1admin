@@ -55,9 +55,8 @@ class tom_do_once extends Command
      * @return mixed
      */
     public function handle()
-    {
+    {/*
         $ret = $this->task->t_seller_student_new->get_all_list($start_time=1514736000,$end_time=1515513600);
-        dd($ret);
         foreach($ret as $item){
             $userid = $item['userid'];
             $phone = $item['phone'];
@@ -71,6 +70,46 @@ class tom_do_once extends Command
                     echo $userid.':'.$last_contact_cc."=>".$adminid."\n";
                 }
             }
+        }
+     */
+        $min   = $this->task->t_seller_student_new->get_min_add_time();
+        $max   = $this->task->t_seller_student_new->get_max_add_time();
+        $date1 = explode('-',date('y-m-d',$min));
+        $date2 = explode('-',date('y-m-d',$max));
+        $count = abs($date1[0] - $date2[0]) * 12 + abs($date1[1] - $date2[1]);
+        $start = strtotime(date('y-m-1',$min));
+        $end   = strtotime(date('y-m-1',$max));
+        for($i=1;$i<=$count+1;$i++){
+            $start_time = $start;
+            $end_time = strtotime('+1 month',$start);
+            $ret = $this->task->t_seller_student_new->get_all_list($start_time,$end_time);
+            foreach($ret as $item){
+                $arr = [];
+                $userid = $item['userid'];
+                $phone = $item['phone'];
+                $cc_called_count = $item['cc_called_count'];
+                $cc_no_called_count = $item['cc_no_called_count'];
+                $cc_no_called_count_new = $item['cc_no_called_count_new'];
+                $called_count = $this->task->t_tq_call_info->get_called_count($phone,1);
+                $no_called_count = $this->task->t_tq_call_info->get_called_count($phone,0);
+                if($cc_called_count != $called_count){
+                    $arr['cc_called_count'] = $cc_called_count;
+                }
+                if($cc_no_called_count_new != $no_called_count){
+                    $arr['cc_no_called_count_new'] = $cc_called_count;
+                }
+                if($cc_no_called_count=0 && $called_count=0 && $no_called_count>0){
+                    $arr['cc_no_called_count'] = $no_called_count;
+                }
+                if($cc_no_called_count>0 && $called_count>0){
+                    $arr['cc_no_called_count'] = 0;
+                }
+                if(count($arr)>0){
+                    $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
+                    dd($ret,$phone,$cc_called_count,$cc_no_called_count,$called_count,$no_called_count);
+                }
+            }
+            $start = strtotime('+1 month',$start);
         }
     }
 
