@@ -161,7 +161,6 @@ class tongji_ex extends Controller
     public function seller_student_detail(){
         $this->check_and_switch_tongji_domain();
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
-        list($start_time,$end_time) = [1483200000,1506787200];
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_seller_student_new->get_item_list($start_time,$end_time,$page_info);
         foreach($ret_info['list'] as &$item){
