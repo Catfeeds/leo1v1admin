@@ -79,8 +79,8 @@ class tom_do_once extends Command
     public function update_cc_no_called_count(){
         $min   = $this->task->t_seller_student_new->get_min_add_time();
         $max   = $this->task->t_seller_student_new->get_max_add_time();
-        $min = 1509465600;
-        $max = 1512057600;
+        $min = 1512057600;
+        $max = 1514736000;
         // $max = 1510675200;
         $date1 = explode('-',date('y-m-d',$min));
         $date2 = explode('-',date('y-m-d',$max));
