@@ -80,7 +80,8 @@ class tom_do_once extends Command
         $min   = $this->task->t_seller_student_new->get_min_add_time();
         $max   = $this->task->t_seller_student_new->get_max_add_time();
         $min = 1509465600;
-        $max = 1512057600;
+        // $max = 1512057600;
+        $max = 1510675200;
         $date1 = explode('-',date('y-m-d',$min));
         $date2 = explode('-',date('y-m-d',$max));
         $count = abs($date1[0] - $date2[0]) * 12 + abs($date1[1] - $date2[1]);
