@@ -55,7 +55,8 @@ class tom_do_once extends Command
      * @return mixed
      */
     public function handle()
-    {/*
+    {
+        /*
         $ret = $this->task->t_seller_student_new->get_all_list($start_time=1514736000,$end_time=1515513600);
         foreach($ret as $item){
             $userid = $item['userid'];
@@ -71,7 +72,11 @@ class tom_do_once extends Command
                 }
             }
         }
-     */
+        */
+        // $this->update_cc_no_called_count();
+    }
+
+    public function update_cc_no_called_count(){
         $min   = $this->task->t_seller_student_new->get_min_add_time();
         $max   = $this->task->t_seller_student_new->get_max_add_time();
         $date1 = explode('-',date('y-m-d',$min));
@@ -106,7 +111,6 @@ class tom_do_once extends Command
                 }
                 if(count($arr)>0){
                     $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
-                    dd($ret,$called_count,$no_called_count,$item,$arr);
                 }
             }
             $start = strtotime('+1 month',$start);
