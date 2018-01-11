@@ -3,7 +3,7 @@
     <link href="/ztree/zTreeStyle.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="/ztree/jquery.ztree.all.min.js"></script>
     <script type="text/javascript" src="/ztree/jquery.ztree.exhide.min.js"></script>
-     <script type="text/javascript" src="/page_js/lib/select_dlg.js?v={{@$_publish_version}}"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg.js?v={{@$_publish_version}}"></script>
     <script type="text/javascript">
      var zNodes = <?php echo json_encode($list)?>;
 	  </script>

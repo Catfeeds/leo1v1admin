@@ -911,7 +911,6 @@ class user_deal extends Controller
             "system"
         );
 
-
         $contract_type = $order_item["contract_type"];
         $lesson_total  = $order_item["lesson_total"];
         $price         = $order_item["price"]/100;
@@ -960,7 +959,7 @@ class user_deal extends Controller
             }
             $sys_operator=$this->t_order_info->get_sys_operator($orderid);
             $this->t_student_info->noti_ass_order($userid,$sys_operator,false);
-
+            $this->t_seller_student_new->field_update_list($userid, ['orderid'=>$orderid]);
         }
 
         return $this->output_succ();

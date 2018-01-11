@@ -191,6 +191,8 @@ interface JQuery {
     //<script type="text/javascript" src="/page_js/lib/select_dlg.js?v={{@$_publish_version}}"></script>
     admin_select_dlg(conf:Object):void;
 
+    admin_select_dlg_ajax_more(conf:Object):void;
+
     admin_header_query (config ): any;
 
     select_date_range(conf:Object):void;
