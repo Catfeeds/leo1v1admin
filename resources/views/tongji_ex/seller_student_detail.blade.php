@@ -2,7 +2,6 @@
 @section('content')
 
     <section class="content ">
-        
         <div>
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-5"  data-title="时间段">

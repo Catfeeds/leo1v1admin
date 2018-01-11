@@ -32,14 +32,12 @@ $(function(){
 
 
 
-
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji_ex-seller_student_detail.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
-		order_by_str : g_args.order_by_str,
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
