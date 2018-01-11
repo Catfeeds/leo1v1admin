@@ -190,7 +190,7 @@ class test_sam extends Command
             $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
         }
         */
-
+        /*
         $phone_arr = [];
         $file_name = "a";
         if(\App\Helper\Utils::check_env_is_local()){
@@ -208,17 +208,26 @@ class test_sam extends Command
         }
         dd("finish");                                                                        
 
-
+        */  
         $ret_info = $task->t_student_score_info->get_all_student_phone_and_id();
 
         foreach ($ret_info as $key => $value) {
             $userid = $value['userid'];
-            $phone  = $value['phone'];
+            $phone  = intval(trim($value['phone']));
             $num = substr($phone, 0,7);
-        }
-        
-    }
-
-
-        
+            $ret = $task->t_student_score_info->get_province_info($num);
+            if($ret){
+                $province = $ret['province'];
+                $city     = $ret['city'];
+            }else{
+                $province = "其它";
+                $city     = "其它";
+            }
+            $task->t_student_info->field_update_list($userid,[
+                "phone_province" =>$province,
+                "phone_city" =>$city,
+            ]);
+            echo "$userid .fin\n";
+        }   
+    }     
 }
