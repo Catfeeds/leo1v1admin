@@ -65,6 +65,8 @@ class main_page extends Controller
         list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],2 );
         $opt_date_type = $this->get_in_int_val("opt_date_type",2);
         $history_data = $this->get_in_int_val('history_data');
+        $nowTime = time();
+        $sellerNumArr = [];
 
         if($opt_date_type == 2){
             $start_time = $start_time+86400;
@@ -76,7 +78,6 @@ class main_page extends Controller
 
 
         if($history_data){ // 0:是历史数据 1:否历史数据
-
             if($ret_info){
                 // $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
 
@@ -85,8 +86,6 @@ class main_page extends Controller
                 }
 
                 $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['formal_info'];//
-
-
 
                 if($ret_info['new_order_num']>0){ //平均单笔
                     $ret_info['aver_count'] = $ret_info['new_money']/$ret_info['new_order_num'];
@@ -108,10 +107,25 @@ class main_page extends Controller
                 }
 
 
-                $ret_info['seller_num'] = $ret_info['one_department']+$ret_info['two_department']+$ret_info['three_department']+$ret_info['new_department']+$ret_info['train_department'];// 咨询一部+咨询二部+咨询三部+新人营
+
+                # 咨询各部人数修改
+                # 2018-1-9 之后
+                if($nowTime>1516032000){
+                    $sellerNumArr = json_decode($ret_info['sellerNumData'],true);
+                    $sellerNum = 0;
+                    foreach($sellerNumArr as $sellerNumItem){
+                        $sellerNum+=$sellerNumItem['seller_num'];
+                    }
+                    $ret_info['seller_num'] = $sellerNum;
+                }else{
+                    # 2018-1-9 以前
+                    $ret_info['seller_num'] = $ret_info['one_department']+$ret_info['two_department']+$ret_info['three_department']+$ret_info['new_department']+$ret_info['train_department']+$ret_info['five_department'];// 咨询一部+咨询二部+咨询三部+新人营
+                }
+
+
+
 
                 // 金额转化率占比
-
                 if($ret_info['new_money']>0){
                     $ret_info['referral_money_rate'] = $ret_info['referral_money']/$ret_info['new_money']*100;
                     $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['new_money']*100;
@@ -223,10 +237,22 @@ class main_page extends Controller
                 }
 
 
-                $ret_info['seller_num'] = $ret_info['one_department']+$ret_info['two_department']+$ret_info['three_department']+$ret_info['new_department']+$ret_info['train_department'];// 咨询一部+咨询二部+咨询三部+新人营
+                # 咨询各部人数修改
+                # 2018-1-9 之后
+                if($nowTime>1516032000){
+                    $sellerNumArr = json_decode($ret_info['sellerNumData'],true);
+                    $sellerNum = 0;
+                    foreach($sellerNumArr as $sellerNumItem){
+                        $sellerNum+=$sellerNumItem['seller_num'];
+                    }
+                    $ret_info['seller_num'] = $sellerNum;
+                }else{
+                    # 2018-1-9 之前
+                    $ret_info['seller_num'] = $ret_info['one_department']+$ret_info['two_department']+$ret_info['three_department']+$ret_info['new_department']+$ret_info['train_department']+$ret_info['five_department'];// 咨询一部+咨询二部+咨询三部+新人营
+                }
+
 
                 // 金额转化率占比
-
                 if($ret_info['new_money']>0){
                     $ret_info['referral_money_rate'] = $ret_info['referral_money']/$ret_info['new_money']*100;
                     $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['new_money']*100;
@@ -316,8 +342,16 @@ class main_page extends Controller
             $ret_info_arr['list'] = [];
         }
 
+        # 咨询各部门人数获取方式变更标示 2018-1-10 James
+        $isTranFlag = 0;
+        if($nowTime>1516032000){
+            $isTranFlag = 1;
+        }
+
         return $this->pageView(__METHOD__, $ret_info_arr,[
-            "ret_info" => $ret_info_arr['list']
+            "ret_info"   => $ret_info_arr['list'],
+            "isTranFlag" => $isTranFlag,
+            "sellerNumArr" => $sellerNumArr
         ]);
     }
 
@@ -406,7 +440,7 @@ class main_page extends Controller
             $month_money = isset($item['month_money'])?$item['month_money']:0;
             $item['finish_per'] = $month_money>0?$all_price/$month_money:0;
             $item['finish_per'] = round($item['finish_per']*100,1).'%';
-            if(!in_array($this->get_account(),['班洁','tom']) && $key>4){
+            if(!in_array($this->get_account(),['班洁','tom','leowang','童宇周','王洪艳','陶建华','jim']) && $key>4){
                 $item["all_price"] = "***";
                 $item["finish_per"] = "加油";
             }

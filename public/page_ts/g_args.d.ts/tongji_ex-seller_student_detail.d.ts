@@ -4,7 +4,6 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	history_data:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -19,10 +18,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../main_page; vi  ../main_page/get_seller_total_info.ts
+	 mkdir -p ../tongji_ex; vi  ../tongji_ex/seller_student_detail.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/main_page-get_seller_total_info.d.ts" />
+/// <reference path="../g_args.d.ts/tongji_ex-seller_student_detail.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
@@ -32,8 +31,7 @@ function load_data(){
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val(),
-		history_data:	$('#id_history_data').val()
+		end_time:	$('#id_end_time').val()
 		});
 }
 $(function(){
@@ -48,7 +46,6 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
-	$('#id_history_data').val(g_args.history_data);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -63,12 +60,4 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">history_data</span>
-                <input class="opt-change form-control" id="id_history_data" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["history_data title", "history_data", "th_history_data" ]])!!}
 */

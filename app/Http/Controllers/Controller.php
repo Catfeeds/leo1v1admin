@@ -120,7 +120,7 @@ class Controller extends ControllerEx
         if ( \App\Helper\Utils::check_env_is_release() ){
             $server_name= $_SERVER["SERVER_NAME"];
             if (!($server_name == "admin-tongji.leo1v1.com" || $server_name == "p.admin-tongji.leo1v1.com"   )){
-                if (isset($_GET["callback"])) {
+                if (!isset($_GET["callback"])) {
                     if ( $server_name== "admin.leo1v1.com" ) {
                         header('Location: http://admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
                     }else{
