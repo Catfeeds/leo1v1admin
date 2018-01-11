@@ -1738,22 +1738,11 @@ class test_james extends Controller
     }
 
     public function doTest(){
-        $test = [
-            0 => [
-                "group_name" => "咨询一部",
-                "seller_num" => "31"
-            ],
-            2 => [
-                "group_name" => "咨询二部",
-                "seller_num" => "333"
-            ],
-            3 => [
-                "group_name" => "咨询三部",
-                "seller_num" => "378"
-            ]
-        ];
-
-        dd(json_encode($test));
+        $pdf_url = $this->get_in_str_val('p');
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+        $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdf_url);
+        dd($pdf_file_path);
     }
 
 

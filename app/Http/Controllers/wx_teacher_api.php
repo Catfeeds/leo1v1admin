@@ -1066,7 +1066,7 @@ class wx_teacher_api extends Controller
 
         // 数据待确认
 
-        if($ret_info['teacherid'] == 357372 || $ret_info['teacherid'] == 489187 || $ret_info['teacherid'] == 434433){//文彬 测试
+        // if($ret_info['teacherid'] == 357372 || $ret_info['teacherid'] == 489187 || $ret_info['teacherid'] == 434433){//文彬 测试
             $checkHasHandout = $this->t_lesson_info->get_tea_cw_url($lessonid);
             $resource_id_arr = $this->t_resource->getResourceId($ret_info['subject'],$ret_info['grade']);
             $resource_id_str = '';
@@ -1084,9 +1084,9 @@ class wx_teacher_api extends Controller
             }else{
                 $ret_info['handout_flag'] = 0;
             }
-        }else{
-            $ret_info['handout_flag'] = 0; //无讲义
-        }
+        // }else{
+        //     $ret_info['handout_flag'] = 0; //无讲义
+        // }
 
         return $this->output_succ(["data"=>$ret_info]);
     }
@@ -1420,7 +1420,8 @@ class wx_teacher_api extends Controller
 
 
     /**
-     * ppt => h5
+     * @需求 ppt => h5
+     * @使用 此接口为微演示服务商调用, 返回ppt转化状态
      */
     public function getConversionStatus(){
         $uuid = $this->get_in_str_val('uuid');
@@ -1431,9 +1432,7 @@ class wx_teacher_api extends Controller
             $status = 1;
         }
 
-        \App\Helper\Utils::logger("wx_james_pdf_h5: $uuid status: $status");
-
-        $this->t_resource_file->updateStatusByUuid($uuid,$status);
+        $this->t_lesson_info_b3->updateStatusByUuid($uuid,$status);
         return $this->output_succ();
     }
 

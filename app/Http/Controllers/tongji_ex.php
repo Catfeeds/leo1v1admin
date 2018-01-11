@@ -161,7 +161,6 @@ class tongji_ex extends Controller
     public function seller_student_detail(){
         // $this->check_and_switch_tongji_domain();
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
-        list($start_time,$end_time)=[1483200000,1514736000];
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_seller_student_new->get_item_list($start_time,$end_time,$page_info);
         foreach($ret_info['list'] as &$item){
@@ -170,14 +169,15 @@ class tongji_ex extends Controller
             E\Etq_called_flag::set_item_value_str($item,"global_tq_called_flag");
             $cc_adminid = $item['admin_revisiterid']>0?$item['admin_revisiterid']:$item['competition_call_adminid'];
             $item['cc_nick'] = $this->cache_get_account_nick($cc_adminid);
-            // $item['first_called_cc_nick'] = ;
-            // $item['first_get_cc_nick'] = ;
+            // $item['first_called_cc_nick'] = $item['first_called_cc'];
+            // $item['first_get_cc_nick'] = ['first_get_cc'];
             // $item['test_lesson_flag'] = \App\Helper\Common::get_set_boolean_color_str($item['test_lesson_flag']);
             $item["suc_test_flag"] = \App\Helper\Common::get_set_boolean_color_str($item["test_lesson_count"]>0?1:0);
             // $item['order_flag'] = \App\Helper\Common::get_set_boolean_color_str($item["orderid"]>0?1:0);
+            // $item['price'] = $item['price']/100;
         }
         dd($ret_info);
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
+        return $this->pageView(__METHOD__,$ret_info);
     }
 
 }

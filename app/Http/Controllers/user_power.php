@@ -215,6 +215,7 @@ class user_power extends Controller
             //编辑权限组
             $this->t_authority_group->field_update_list($edit_power_id,[
                 "group_name"  => $edit_power_name,
+                "role_groupid"  => $role_groupid
             ]);
  
         }
