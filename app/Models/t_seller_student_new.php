@@ -3424,7 +3424,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." first_tmk_set_valid_admind,first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,"
             ." first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,first_admin_revisiterid_time,"
             ." first_seller_status,cur_adminid_call_count as call_count,ss.auto_allot_adminid,first_called_cc,"
-            ." first_get_cc,test_lesson_flag,orderid,price "
+            ." first_get_cc,test_lesson_flag,ss.orderid,price "
             ." from %s t "
             ." left join %s ss on  ss.userid = t.userid "
             ." left join %s s on ss.userid=s.userid "
@@ -3437,7 +3437,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             , t_student_info::DB_TABLE_NAME
             , t_manager_info::DB_TABLE_NAME
             , t_origin_key::DB_TABLE_NAME
-            , t_origin_key::DB_TABLE_NAME
+            , t_order_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);
