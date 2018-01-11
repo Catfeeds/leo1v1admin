@@ -295,7 +295,7 @@ class send_wx_msg_common_lesson extends Command
                 ];
 
                 $urlLessonEnd = "";
-                $wx->send_template_msg("orwGAs_IqKFcTuZcU1xwuEtV3Kek",$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);//james
+                //$wx->send_template_msg("orwGAs_IqKFcTuZcU1xwuEtV3Kek",$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);//james
             }
         }else{
             $this->to_waring('常规课结束 想家长发送信息 数量: '.count($lessonEndList));

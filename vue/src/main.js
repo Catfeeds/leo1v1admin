@@ -8,7 +8,15 @@ import store from './store'
 //import '@/icons' // icon
 import '@/permission' // 权限
 import admin_table from "./components/admin_table"
+import admin_table_row from "./components/admin_table_row"
+import admin_a from "./components/admin_a"
+import admin_table_th from "./components/admin_table_th"
+import admin_table_td from "./components/admin_table_td"
 Vue.component('admin-table' ,admin_table );
+Vue.component('admin-table-row' ,admin_table_row );
+Vue.component('admin-table-th' ,admin_table_th );
+Vue.component('admin-table-td' ,admin_table_td );
+Vue.component('admin-a' ,admin_a );
 
 Vue.component('admin-remote-script', {
 

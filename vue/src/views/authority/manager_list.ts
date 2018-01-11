@@ -1008,4 +1008,7 @@ export default class extends vtable {
         // alert('wel');
   }
 
+  opt_test(e:MouseEvent,opt_data: self_RowData) {
+    BootstrapDialog.alert(JSON.stringify(opt_data) );
+  }
 }
