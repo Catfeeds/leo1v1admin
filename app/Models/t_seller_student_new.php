@@ -2645,11 +2645,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function get_all_list($start_time,$end_time){
         $where_arr = [];
-        $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,'add_time',$start_time,$end_time);
         $sql = $this->gen_sql_new(
-            " select n.userid,n.phone,n.last_contact_cc "
-            ." from %s n"
-            ." where %s order by n.userid "
+            " select * "
+            ." from %s "
+            ." where %s order by userid "
             ,self::DB_TABLE_NAME
             ,$where_arr
         );
