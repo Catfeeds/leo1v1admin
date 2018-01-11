@@ -118,6 +118,7 @@ class tom_do_once extends Command
                     $arr['cc_no_called_count'] = 0;
                 }
                 if($userid == 413082){
+                    echo $userid.':'.$cc_no_called_count."\n";
                     echo $userid.':'.$cc_no_called_count."=>".$called_count.'/'.$no_called_count."\n";
                 }
                 // if($cc_first_called_cc == 0){
