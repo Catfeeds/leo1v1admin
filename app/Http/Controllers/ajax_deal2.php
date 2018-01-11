@@ -3027,4 +3027,57 @@ class ajax_deal2 extends Controller
 
     }
 
+    public function get_ass_performance_seller_week_stu_info(){
+        $adminid = $this->get_in_int_val("adminid");
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime("+1 months",$start_time);
+        //销售月拆解
+        $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
+        $first_week = $start_info["sdate"];
+        $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
+        if($end_info["edate"] <= $end_time){
+            $last_week =  $end_info["sdate"];
+        }else{
+            $last_week =  $end_info["sdate"]-7*86400;
+        }
+        $n = ($last_week-$first_week)/(7*86400)+1;
+
+        //每周助教在册学生数量获取
+        $data=[];
+        for($i=0;$i<$n;$i++){
+            $week = $first_week+$i*7*86400;
+            $week_edate = $week+7*86400;
+            $week_info = $this->t_ass_weekly_info->get_all_info($week);
+            $list = @$week_info[$adminid];
+            if($list){
+                $num = $list["registered_student_num"];
+                $detail_list = $list["registered_student_list"];
+                if($detail_list){
+                    $arr = json_decode($detail_list,true);
+                    $str="";
+                    foreach($arr as $v){
+                        @$str .= $this->cache_get_student_nick($v).",";
+                    }
+                    $str = trim(@$str,",");
+
+                }else{
+                    $str="";
+                }
+            }else{
+                $num=0;
+                $str="";
+            }
+            $data[]=[
+                "time"      => date("Y.m.d", $week)."-".date("Y.m.d", $week_edate-100),
+                "num"       => $num,
+                "name_list" =>$str
+            ];
+            
+        }
+        return $this->output_succ(["data"=>$data]);
+
+
+ 
+    }
+
 }

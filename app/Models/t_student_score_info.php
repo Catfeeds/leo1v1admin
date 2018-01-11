@@ -272,4 +272,9 @@ left join t_test_lesson_subject n on n.test_lesson_subject_id  = mm.test_lesson_
 where lesson_start > $start_time and lesson_start < $end_time and lesson_type = 2 and contract_type  in (0,3) and price > 0 and contract_status in (1,2,3) and order_time > $start_time";
         return $this->main_get_list($sql);
     }
+
+    public function get_all_student_phone_and_id(){
+        $sql = "select userid, phone from db_weiyi.t_student_info where is_test_user = 0 order by userid asc";
+        return $this->main_get_list($sql);
+    }
 }

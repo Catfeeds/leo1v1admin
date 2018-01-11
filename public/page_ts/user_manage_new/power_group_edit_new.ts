@@ -206,7 +206,8 @@ function zTreeOnClick(event, treeId, treeNode) {
             var data_list   = [];
             var select_list = [];
             $.each( response.data,function(){
-                data_list.push([this["groupid"], this["group_name"]  ]);
+                //console.log(response.data);
+                data_list.push([this["groupid"], this["role_groupid_str"] ,this["group_name"]  ]);
                 if (this["has_power"]) {
                     select_list.push (this["groupid"]) ;
                 }
@@ -214,7 +215,7 @@ function zTreeOnClick(event, treeId, treeNode) {
             
 
             $(this).admin_select_dlg({
-                header_list     : [ "id","名称" ],
+                header_list     : [ "id","所属角色","名称" ],
                 data_list       : data_list,
                 multi_selection : true,
                 select_list     : select_list,
@@ -239,8 +240,9 @@ function zTreeOnClick(event, treeId, treeNode) {
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-		groupid:	$('#id_groupid').val(),
-		show_flag:	$('#id_show_flag').val()
+		    groupid:	$('#id_groupid').val(),
+        role_groupid:	$('#id_role_groupid').val(),
+		    //show_flag:	$('#id_show_flag').val()
     });
 }
 $(function(){
@@ -257,29 +259,37 @@ $(function(){
         }
     }
 
-	$('#id_groupid').val(g_args.groupid);
-	$('#id_show_flag').val(g_args.show_flag);
+    $('.fa-download').next().remove();
+    $('.fa-download').remove();
 
+    Enum_map.append_option_list("account_role", $("#id_role_groupid"),true);
+    $('#id_role_groupid').val(g_args.role_groupid);
+	  $('#id_groupid').val($("#groupid").val());
+	  //$('#id_show_flag').val(g_args.show_flag);
+    console.log(g_args);
 
 	  $('.opt-change').set_input_change_event(load_data);
 
     $("#id_add_user").on("click",function(){ // 添加用户
         $.admin_select_user($("#id_add_user"), "admin",function(val){
-            $.do_ajax("/user_manage_new/opt_accont_group",{
-                "uid" : val ,
-                "groupid" : g_args.groupid ,
-                "opt_type" :"add"
+            $.do_ajax("/user_power/add_user",{
+                "user_id" : val,
+                "role_groupid" : $('#id_role_groupid').val(),
             });
 
         });
     });
 
     $(".opt-del-account").on("click",function(){ // 删除账户
-        $.do_ajax("/user_manage_new/opt_accont_group",{
-            "uid" : $(this).get_opt_data("uid"),
-            "groupid" : g_args.groupid ,
-            "opt_type" :"del"
-        });
+
+        var title = "你确实删除账户为： " + $(this).get_opt_data("account") + "姓名为：" + $(this).get_opt_data("name");
+        var data =  {
+            "uid" : $(this).get_opt_data("uid")
+        };
+        console.log(data);
+        BootstrapDialog.confirm(title,function(ret){
+            $.do_ajax("/user_power/dele_role_user",data);
+        })
     });
 
     $("#id_show_power").on("click",function(){ // 显示有权限部分
@@ -327,40 +337,120 @@ $(function(){
         }
     });
 
+    $(".id_edit_power_group").on("click",function(){
+
+        var edit_type = $(this).attr("edit");
+
+        var id_edit_role_groupid =$("<select/>");
+        Enum_map.append_option_list("account_role",id_edit_role_groupid,true,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,1001,1002]);
+        id_edit_role_groupid.val($("#id_role_groupid").val());
+
+        var id_add_power =$("<input/>");
+
+        var id_user_add =$("<input id='user_add'/>");
+
+        if(edit_type == 1){
+            //添加
+            var edit_title = "*添加权限组";
+        }else{
+            //编辑
+            var edit_title = "编辑权限组";
+            var power_name = $('#id_groupid option:selected').text();
+            var power_id = $('#id_groupid').val();
+            id_add_power =$("<input value='"+power_name+"' power='"+power_id+"' />"); 
+        }
+
+        var arr=[
+            ["*角色", id_edit_role_groupid ],
+            [edit_title, id_add_power ],
+            ["添加用户", id_user_add ],
+        ];
+
+        $.show_key_value_table(edit_title, arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action : function(dialog) {
+
+                var edit_power_name = id_add_power.val();
+                var edit_power_id = id_add_power.attr("power");
+
+                if( edit_power_name == '' && edit_type == 1){
+                    BootstrapDialog.alert("请添加权限组名称！");
+                    return false;
+                }
+
+                var data = {
+                    "edit_type":edit_type,
+                    "role_groupid" : id_edit_role_groupid.val(),               
+                    'edit_power_name': edit_power_name,
+                    'edit_power_id' : edit_power_id,
+                    'user_id':$('#user_add').attr("user_id"),
+                }
+
+                $.ajax({
+                    type     :"post",
+                    url      :"/user_power/edit_role_groupid",
+                    dataType :"json",
+                    data     :data,
+                    success : function(result){
+                        BootstrapDialog.alert(result['info']);
+                        window.location.reload();
+                    }
+                });
+            }
+        },function(){
+            $.admin_select_user($("#user_add"), "admin",function(val){
+                $('#user_add').attr({"user_id":val});  
+            });           
+        } ,false,800)
+
+    });
+
     $("#id_del_group").on("click",function(){ // 删除当前角色
-        BootstrapDialog.confirm("要删除当前角色?!",function(ret){
+        var title = "要删除当前角色:"+ $('#id_role_groupid option:selected').text() +" 权限组:" + $('#id_groupid option:selected').text() + "?";
+        var role_groupid = $('#id_role_groupid').val();
+        var groupid = $('#id_groupid').val();
+        if( groupid == '' || groupid == undefined){
+            BootstrapDialog.alert("当前角色没有权限组，所有无法删除！");
+            return false;
+        }
+
+        BootstrapDialog.confirm(title,function(ret){
             if (ret){
-                $.do_ajax( "/user_manage_new/power_group_del",{
-                    groupid: g_args.groupid
-                });
-            }
-        });
-      //
-    });
-    $("#id_add_group").on("click",function(){ // 新增角色
-        BootstrapDialog.confirm("要新增角色?!",function(ret){
-            if (ret){
-                $.do_ajax( "/user_manage_new/power_group_add",{
+                $.do_ajax( "/user_power/dele_role_groupid",{
+                    groupid: groupid,
+                    role_groupid : role_groupid,      
+                },function(){
+                    window.location = "/user_manage_new/power_group_edit_new";
                 });
             }
         });
     });
 
-    $("#id_edit_group").on("click",function(){ // 修改角色名
-        var v=$("#id_groupid").find("option:selected").text();
+    // $("#id_add_group").on("click",function(){ // 新增角色
+    //     BootstrapDialog.confirm("要新增角色?!",function(ret){
+    //         if (ret){
+    //             $.do_ajax( "/user_manage_new/power_group_add",{
+    //             });
+    //         }
+    //     });
+    // });
 
-        $.show_input("修改角色名",  v, function(val){
-            val=$.trim(val);
-            if (!val) {
-                alert("名称不能为空");
-            }else{
-                $.do_ajax( "/user_manage_new/power_group_set_name",{
-                    "groupid" : g_args.groupid,
-                    "group_name" : val
-                });
-            }
-        });
-    });
+    // $("#id_edit_group").on("click",function(){ // 修改角色名
+    //     var v=$("#id_groupid").find("option:selected").text();
+
+    //     $.show_input("修改角色名",  v, function(val){
+    //         val=$.trim(val);
+    //         if (!val) {
+    //             alert("名称不能为空");
+    //         }else{
+    //             $.do_ajax( "/user_manage_new/power_group_set_name",{
+    //                 "groupid" : g_args.groupid,
+    //                 "group_name" : val
+    //             });
+    //         }
+    //     });
+    // });
 
     $("#id_reload_power").on("click",function(){ // 更新在线用户权限
         var opt_data=$(this).get_opt_data();
@@ -383,11 +473,10 @@ $(function(){
             power_list = power_list.substr(0, power_list.length-1);
         }
 
-        $.do_ajax("/user_manage_new/set_group_power", {
-            "groupid" :g_args.groupid,
+        $.do_ajax("/user_power/set_group_power", {
+            "groupid" : $('#id_groupid').val(),
+            "role_groupid" : $("#id_role_groupid").val(),
             "power_list_str" : power_list
-        },function(){
-            $.do_ajax("/user_deal/reload_account_power",{});
         });
 
     });

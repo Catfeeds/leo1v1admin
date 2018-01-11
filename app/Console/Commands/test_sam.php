@@ -158,6 +158,7 @@ class test_sam extends Command
         }
         */
 
+        /*
         $time = [
             ['start_time' => 1506787200,'end_time' => 1509465600], //10
             ['start_time' => 1509465600,'end_time' => 1512057600], //11
@@ -188,6 +189,36 @@ class test_sam extends Command
             $arr_data  = ['nick','grade','subject','phone_location','origin','teacher_name',"grade_range","teacher_phone_location"];
             $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
         }
+        */
+
+        $phone_arr = [];
+        $file_name = "a";
+        if(\App\Helper\Utils::check_env_is_local()){
+            $path = "/home/sam/".$file_name.".txt";
+        }else{
+            $path = "/home/ybai/".$file_name.".txt";
+        }
+        $fp = fopen($path,"r");
+        while(!feof($fp)){
+            //$content = fread($handle, 8080);
+            $buffer  = fgets($fp, 4096);
+            $buffer  = trim($buffer);
+            $ret = $task->t_phone_info->main_insert($buffer);
+            print($ret)+'<br/>';
+        }
+        dd("finish");                                                                        
+
+
+        $ret_info = $task->t_student_score_info->get_all_student_phone_and_id();
+
+        foreach ($ret_info as $key => $value) {
+            $userid = $value['userid'];
+            $phone  = $value['phone'];
+            $num = substr($phone, 0,7);
+        }
         
     }
+
+
+        
 }
