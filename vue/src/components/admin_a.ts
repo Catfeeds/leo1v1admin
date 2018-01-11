@@ -16,10 +16,6 @@ import { strictEqual } from 'assert';
     };
   },
   props : {
-    opt_info:{
-      type     : Object,
-      required : true,
-    },
 
     title: {
       type : String,
@@ -29,7 +25,7 @@ import { strictEqual } from 'assert';
       required : false,
     },
     "class_list" : {
-      type     : Array,
+      type     : [Array, String],
       required : false,
       "default" :function ()  {
         return [];
@@ -58,6 +54,14 @@ import { strictEqual } from 'assert';
 
 
   computed : {
+    real_class_list: function() {
+      var class_item= this.$props["class_list"];
+      if ($.isArray(class_item )) {
+        return class_item;
+      }else{
+        return  class_item.split(/ /);
+      }
+    }
   },
   mounted : function(){
   },
