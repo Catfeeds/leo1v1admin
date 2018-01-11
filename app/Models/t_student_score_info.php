@@ -288,4 +288,9 @@ where lesson_start > $start_time and lesson_start < $end_time and lesson_type = 
       $sql = "select grade, phone_province,phone_city, count(*) as num from db_weiyi.t_student_info where grade in (101,102,103) and is_test_user = 0 group by grade,phone_city";
       return $this->main_get_list($sql);
     }
+
+    public function get_b1(){
+       $sql = "select s.grade,t.seller_student_status , count(*) as num from db_weiyi.t_student_info s left join db_weiyi.t_test_lesson_subject t on s.userid = t.userid where s.is_test_user = 0  and s.grade in (101,102,103)  group by s.grade, t.seller_student_status";
+       return $this->main_get_list($sql);
+    }
 }
