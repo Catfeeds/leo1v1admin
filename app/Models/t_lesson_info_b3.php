@@ -1760,7 +1760,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_del_flag=0",
             "s.is_test_user=0",
             "p.wx_openid != ''",
-            "l.confirm_flag<2"
+            "l.confirm_flag<2",
+            "l.lesson_cancel_time_type=0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$lesson_start,$lesson_end);

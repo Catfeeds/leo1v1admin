@@ -115,10 +115,17 @@
                                 <thead>
                                     <tr>
                                         <td class="panel-red">CC总人数</td>
-                                        <td class="panel-red">咨询一部</td>
-                                        <td class="panel-red">咨询二部</td>
-                                        <td class="panel-red">咨询三部</td>
-                                        <td class="panel-red">新人营</td>
+                                        @if($isTranFlag>0)
+                                            @foreach($sellerNumArr as $sellerItem)
+                                                <td> {{@$sellerItem['group_name']}}  </td>
+                                            @endforeach
+                                        @else
+                                            <td class="panel-red">咨询一部</td>
+                                            <td class="panel-red">咨询二部</td>
+                                            <td class="panel-red">咨询三部</td>
+                                            <td class="panel-red">咨询五部</td>
+                                            <td class="panel-red">新人营</td>
+                                        @endif
                                         <td class="panel-red">培训中</td>
                                         <td>转介绍金额占比</td>
                                         <td>高中金额占比</td>
@@ -129,10 +136,17 @@
                                 <tbody id="id_lesson_count_list">
                                     <tr>
                                         <td> {{@$ret_info['seller_num']}} </td>
-                                        <td> {{@$ret_info['one_department']}}  </td>
-                                        <td> {{@$ret_info['two_department']}} </td>
-                                        <td> {{@$ret_info['three_department']}} </td>
-                                        <td> {{@$ret_info['new_department']}} </td>
+                                        @if($isTranFlag>0)
+                                            @foreach($sellerNumArr as $sellerItem)
+                                                <td> {{@$sellerItem['seller_num']}}  </td>
+                                            @endforeach
+                                        @else
+                                            <td> {{@$ret_info['one_department']}}  </td>
+                                            <td> {{@$ret_info['two_department']}} </td>
+                                            <td> {{@$ret_info['three_department']}} </td>
+                                            <td> {{@$ret_info['five_department']}} </td>
+                                            <td> {{@$ret_info['new_department']}} </td>
+                                        @endif
                                         <td> {{@$ret_info['train_department']}}</td>
                                         <td> {{@number_format($ret_info['referral_money_rate'],2)}}% </td>
                                         <td> {{@number_format($ret_info['high_school_money_rate'],2)}}% </td>
