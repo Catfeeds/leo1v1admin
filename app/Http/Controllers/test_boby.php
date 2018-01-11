@@ -1567,12 +1567,14 @@ class test_boby extends Controller {
         $keyPairs = array();
         foreach ($keys as $key) {
             // $keyPairs[$key] = "/teacher-doc/".$key;
-            $keyPairs[$key] = $key; 
+            $keyPairs[$key] = substr( $key, 13);
         }
 
         $srcBucket = 'teacher-doc';
         $destBucket = $qiniu["private_url"]['bucket'];
-        $ops = $bucketManager->buildBatchCopy($srcBucket, $keyPairs, $destBucket, true);
+        // $ops = $bucketManager->buildBatchCopy($srcBucket, $keyPairs, $destBucket, true);
+        //把resource_id 1108-1119
+        $ops = $bucketManager->buildBatchCopy($destBucket, $keyPairs, $srcBucket, true);
         list($ret, $err) = $bucketManager->batch($ops);
         $succ = 0;
         $er = 0;
