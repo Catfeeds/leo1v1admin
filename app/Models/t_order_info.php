@@ -4770,5 +4770,21 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_last_orderid_by_userid($userid){
+        $where_arr=[
+            "o.contract_status>0",
+            "o.price>0",
+            'contract_type = 0',
+        ];
+        $sql = $this->gen_sql_new(
+            "select orderid "
+            ." from %s "
+            ." where %s order by order_time desc limit 1 ",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
 
