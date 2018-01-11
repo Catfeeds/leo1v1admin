@@ -90,6 +90,7 @@ class tom_do_once extends Command
                 $cc_called_count = $item['cc_called_count'];
                 $cc_no_called_count = $item['cc_no_called_count'];
                 $cc_no_called_count_new = $item['cc_no_called_count_new'];
+                dd($item['cc_no_called_count'],$item);
                 $called_count = $this->task->t_tq_call_info->get_called_count($phone,1);
                 $no_called_count = $this->task->t_tq_call_info->get_called_count($phone,0);
                 if($cc_called_count != $called_count){
