@@ -53,15 +53,6 @@ class test_ricky extends Controller
         curl_setopt($ch,CURLOPT_POST,1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
         $output = curl_exec($ch);
-        if(curl_exec($ch) === false)
-        {
-            echo 'Curl error: ' . curl_error($ch);
-        }
-        else
-        {
-            echo '操作完成没有任何错误';
-        }
-
         curl_close($ch);
         dd($output);
 
@@ -73,6 +64,7 @@ class test_ricky extends Controller
     public function get_test_lesson_count() {
         $start_time = strtotime("2018-1-1");
         $end_time = strtotime('2018-1-9');
+        echo "测试";
         $count = $this->t_lesson_info_b3->get_test_lesson_count($start_time, $end_time);
         //$info = [];
         //$i = 0;

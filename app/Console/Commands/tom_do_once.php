@@ -55,7 +55,8 @@ class tom_do_once extends Command
      * @return mixed
      */
     public function handle()
-    {/*
+    {
+        /*
         $ret = $this->task->t_seller_student_new->get_all_list($start_time=1514736000,$end_time=1515513600);
         foreach($ret as $item){
             $userid = $item['userid'];
@@ -71,9 +72,15 @@ class tom_do_once extends Command
                 }
             }
         }
-     */
+        */
+        $this->update_cc_no_called_count();
+    }
+
+    public function update_cc_no_called_count(){
         $min   = $this->task->t_seller_student_new->get_min_add_time();
         $max   = $this->task->t_seller_student_new->get_max_add_time();
+        $min = 1509465600;
+        $max = 1512057600;
         $date1 = explode('-',date('y-m-d',$min));
         $date2 = explode('-',date('y-m-d',$max));
         $count = abs($date1[0] - $date2[0]) * 12 + abs($date1[1] - $date2[1]);
@@ -90,24 +97,37 @@ class tom_do_once extends Command
                 $cc_called_count = $item['cc_called_count'];
                 $cc_no_called_count = $item['cc_no_called_count'];
                 $cc_no_called_count_new = $item['cc_no_called_count_new'];
+                $cc_first_called_cc = $item['first_called_cc'];
+                $cc_last_called_cc = $item['last_contact_cc'];
+
                 $called_count = $this->task->t_tq_call_info->get_called_count($phone,1);
                 $no_called_count = $this->task->t_tq_call_info->get_called_count($phone,0);
-                if($cc_called_count != $called_count){
-                    $arr['cc_called_count'] = $called_count;
-                }
-                if($cc_no_called_count_new != $no_called_count){
-                    $arr['cc_no_called_count_new'] = $no_called_count;
-                }
-                if($cc_no_called_count=0 && $called_count=0 && $no_called_count>0){
-                    $arr['cc_no_called_count'] = $no_called_count;
-                }
-                if($cc_no_called_count>0 && $called_count>0){
-                    $arr['cc_no_called_count'] = 0;
-                }
-                if(count($arr)>0){
-                    $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
-                    dd($ret,$called_count,$no_called_count,$item,$arr);
-                }
+                $first_called_cc = $this->task->t_tq_call_info->get_first_called_cc($phone);
+                $last_called_cc = $this->task->t_tq_call_info->get_first_called_cc($phone,$desc='desc');
+                echo $userid.':'.$cc_no_called_count."=>".$called_count.'/'.$no_called_count."\n";
+                // if($cc_called_count != $called_count){
+                //     $arr['cc_called_count'] = $called_count;
+                // }
+                // if($cc_no_called_count_new != $no_called_count){
+                //     $arr['cc_no_called_count_new'] = $no_called_count;
+                // }
+                // if($cc_no_called_count=0 && $called_count=0 && $no_called_count>0){
+                //     $arr['cc_no_called_count'] = $no_called_count;
+                //     echo $userid.':'.$cc_no_called_count."=>".$no_called_count."\n";
+                // }
+                // if($cc_no_called_count>0 && $called_count>0){
+                //     $arr['cc_no_called_count'] = 0;
+                //     echo $userid.':'.$cc_no_called_count."=>".$no_called_count."\n";
+                // }
+                // if($cc_first_called_cc == 0){
+                //     $arr['first_called_cc'] = $first_called_cc;
+                // }
+                // if($cc_last_called_cc == 0){
+                //     $arr['last_contact_cc'] = $last_called_cc;
+                // }
+                // if(count($arr)>0){
+                //     $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
+                // }
             }
             $start = strtotime('+1 month',$start);
         }
