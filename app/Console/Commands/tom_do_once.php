@@ -105,6 +105,7 @@ class tom_do_once extends Command
                     $arr['cc_no_called_count'] = 0;
                 }
                 if(count($arr)>0){
+                    dd($arr);
                     $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
                     dd($ret,$phone,$cc_called_count,$cc_no_called_count,$called_count,$no_called_count);
                 }
