@@ -85,24 +85,23 @@ class save_seller_info_by_week extends Command
         }
 
 
-
-        // 计算电销人数
-        $first_group  = '咨询一部';
-        $second_group = '咨询二部';
-        $third_group  = '咨询三部';
-        $new_group    = '新人营';
-        $ret_info['one_department']    = $task->t_admin_group_name->get_group_seller_num($first_group,$start_time);// 咨询一部
-        $ret_info['two_department']    = $task->t_admin_group_name->get_group_seller_num($second_group, $start_time);// 咨询二部
-        $ret_info['three_department']  = $task->t_admin_group_name->get_group_seller_num($third_group, $start_time);// 咨询三部
-        $ret_info['new_department']    = $task->t_admin_group_name->get_group_seller_num($new_group, $start_time);// 新人营
-        $ret_info['train_department']  = 0;// 培训中
-
-        # 修改存储销售各部门人数 2018-01-10 James
-        $sellerNumDataArr = $this->t_admin_group_name->getGroupSellerNum($start_time);
-        $ret_info['sellerNumData'] = json_encode($sellerNumDataArr);
-
-
-
+        $flagTime = strtotime('2018-1-15');
+        if($nowTime>$flagTime){
+            # 修改存储销售各部门人数 2018-01-10 James
+            $sellerNumDataArr = $this->t_admin_group_name->getGroupSellerNum($start_time);
+            $ret_info['sellerNumData'] = json_encode($sellerNumDataArr);
+        }else{
+            // 计算电销人数
+            $first_group  = '咨询一部';
+            $second_group = '咨询二部';
+            $third_group  = '咨询三部';
+            $new_group    = '新人营';
+            $ret_info['one_department']    = $task->t_admin_group_name->get_group_seller_num($first_group,$start_time);// 咨询一部
+            $ret_info['two_department']    = $task->t_admin_group_name->get_group_seller_num($second_group, $start_time);// 咨询二部
+            $ret_info['three_department']  = $task->t_admin_group_name->get_group_seller_num($third_group, $start_time);// 咨询三部
+            $ret_info['new_department']    = $task->t_admin_group_name->get_group_seller_num($new_group, $start_time);// 新人营
+            $ret_info['train_department']  = 0;// 培训中
+        }
 
         $ret_info['formal_num']    = $task->t_admin_group_name->get_entry_month_num($start_time,$end_time);// 入职完整月人数
         // $job_info = $task->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
