@@ -19,6 +19,7 @@
          margin: 2px;
      }
      .ztree li span.button.add { margin-left: 2px;margin-right: -1px;background-position: -144px 0;vertical-align: top;}
+     .power_title{ margin: 5px auto;text-align: center;font-size: 16px; }
     </style>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <section class="content">
@@ -99,7 +100,7 @@
                     <thead>
                         <tr>
                             <td colspan="4">
-                                <div style="margin: 5px auto;text-align: center;font-size: 16px;">权限组用户</span>                              
+                                <div class="power_title">权限组用户</span>                              
                                     <div class="input-group" style="position: absolute;right: 30px;top: 15px;">
                                     <button class="btn fa fa-plus btn-primary" id="id_add_user">添加用户</button>
                                 </div>                  
