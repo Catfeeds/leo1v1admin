@@ -1613,13 +1613,16 @@ class test_boby extends Controller {
      *2018-1-11 改回去
      */
     public function upload_file_link(){
-        return 1;
+        // return 1;
         $list = $this->t_resource_file->get_all_file_title();
         $this->t_resource_file->start_transaction();
         foreach($list as $v){
             // $link = '/teacher-doc/'.$v['file_link'];
             $link = substr( $v['file_link'], 13);
+
+            echo '<table border=1><tr><td>',$v['file_id'],'</td><td>', $v['file_link'], '</td><td>',$link,'</td></tr>';
             $ret = $this->t_resource_file->field_update_list($v['file_id'], ['file_link' => $link]);
+            // dd(2);
             if(!$ret) {
                 $this->t_resource_file->rollback();
                 dd('失败');

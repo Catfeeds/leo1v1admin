@@ -2894,10 +2894,10 @@ class teacher_info extends Controller
             if($this_tea == $teacherid && $file_id == 0){//是老师自己上传的文件
                 $file_link = $this->t_teacher_resource->get_file_link($tea_res_id);
 
-                // $store=new \App\FileStore\file_store_tea();
-                // $auth=$store->get_auth();
-                // $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $file_link );
-                $authUrl = $this->gen_download_url($file_link);
+                $store=new \App\FileStore\file_store_tea();
+                $auth=$store->get_auth();
+                $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$file_link );
+                // $authUrl = $this->gen_download_url($file_link);
                 return $this->output_succ(["url" => $authUrl]);
             }
         } else {//预览理优资料
@@ -2915,10 +2915,10 @@ class teacher_info extends Controller
             ]);
             $this->t_resource_file->add_num('visit_num', $tea_res_id);
 
-            // $store=new \App\FileStore\file_store_tea();
-            // $auth=$store->get_auth();
-            // $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $file_link );
-            $authUrl = $this->gen_download_url($file_link);
+            $store=new \App\FileStore\file_store_tea();
+            $auth=$store->get_auth();
+            $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$file_link );
+            // $authUrl = $this->gen_download_url($file_link);
             return $this->output_succ(["url" => $authUrl]);
         }
 
