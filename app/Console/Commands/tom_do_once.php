@@ -101,36 +101,54 @@ class tom_do_once extends Command
                 $cc_no_called_count_new = $item['cc_no_called_count_new'];
                 $cc_first_called_cc = $item['first_called_cc'];
                 $cc_last_called_cc = $item['last_contact_cc'];
+                $cc_first_get_cc = $item['first_get_cc'];
+                $cc_test_lesson_flag = $item['test_lesson_flag'];
+                $cc_orderid = $item['orderid'];
 
-                // $called_count = $this->task->t_tq_call_info->get_called_count($phone,1);
-                // $no_called_count = $this->task->t_tq_call_info->get_called_count($phone,0);
-                // $first_called_cc = $this->task->t_tq_call_info->get_first_called_cc($phone);
-                // $last_called_cc = $this->task->t_tq_call_info->get_first_called_cc($phone,$desc='desc');
+                $called_count = $this->task->t_tq_call_info->get_called_count($phone,1);
+                $no_called_count = $this->task->t_tq_call_info->get_called_count($phone,0);
+                $first_called_cc = $this->task->t_tq_call_info->get_first_called_cc($phone);
+                $last_called_cc = $this->task->t_tq_call_info->get_first_called_cc($phone,$desc='desc');
+                $first_get_cc = $this->task->t_tq_call_info->get_first_get_cc($phone,$desc='asc');
+                $first_test_lessonid = $this->task->t_lesson_info_b2->get_first_test_lesson($userid);
+                $orderid = $this->task->t_order_info->get_last_orderid_by_userid($userid);
 
-                // if($cc_called_count != $called_count){
-                //     $arr['cc_called_count'] = $called_count;
-                // }
-                // if($cc_no_called_count_new != $no_called_count){
-                //     $arr['cc_no_called_count_new'] = $no_called_count;
-                // }
-                // if($cc_no_called_count==0 && $called_count==0 && $no_called_count>0){
-                //     $arr['cc_no_called_count'] = $no_called_count;
-                // }
-                // if($cc_no_called_count>0 && $called_count>0){
-                //     $arr['cc_no_called_count'] = 0;
-                // }
-                // if($cc_first_called_cc == 0){
-                //     $arr['first_called_cc'] = $first_called_cc;
-                // }
-                // if($cc_last_called_cc == 0){
-                //     $arr['last_contact_cc'] = $last_called_cc;
-                // }
-
-
-
+                if($cc_called_count != $called_count){
+                    $arr['cc_called_count'] = $called_count;
+                }
+                if($cc_no_called_count_new != $no_called_count){
+                    $arr['cc_no_called_count_new'] = $no_called_count;
+                }
+                if($cc_no_called_count==0 && $called_count==0 && $no_called_count>0){
+                    $arr['cc_no_called_count'] = $no_called_count;
+                }
+                if($cc_no_called_count>0 && $called_count>0){
+                    $arr['cc_no_called_count'] = 0;
+                }
+                if($cc_first_called_cc == 0){
+                    $arr['first_called_cc'] = $first_called_cc;
+                }
+                if($cc_last_called_cc == 0){
+                    $arr['last_contact_cc'] = $last_called_cc;
+                }
+                if($cc_first_get_cc == 0 && $first_get_cc>0){
+                    $arr['first_get_cc'] = $first_get_cc;
+                }
+                if($cc_test_lesson_flag == 0 && $first_test_lessonid>0){
+                    $arr['test_lesson_flag'] = $first_test_lessonid;
+                }
+                if($cc_orderid == 0 && $orderid>0){
+                    $arr['orderid'] = $orderid;
+                }
                 if(count($arr)>0){
-                    if(isset($arr['cc_no_called_count'])){
-                        echo $userid.':'.$cc_no_called_count."=>".$arr['cc_no_called_count'].','.$called_count.'/'.$no_called_count."\n";
+                    if(isset($arr['first_get_cc'])){
+                        echo $userid.':'.$cc_first_get_cc."=>".$first_get_cc."\n";
+                    }
+                    if(isset($arr['test_lesson_flag'])){
+                        echo $userid.':'.$cc_test_lesson_flag."=>".$first_test_lessonid."\n";
+                    }
+                    if(isset($arr['orderid'])){
+                        echo $userid.':'.$cc_orderid."=>".$orderid."\n";
                     }
                     $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
                 }
