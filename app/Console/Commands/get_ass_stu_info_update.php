@@ -1179,6 +1179,8 @@ class get_ass_stu_info_update extends Command
     }
 
     public function get_ass_order_list_performance($start_time,$end_time){
+        /**  @var   $task \App\Console\Tasks\TaskController */
+        $task=new \App\Console\Tasks\TaskController();
         $ass_order_info = $task->t_order_info->get_assistant_performance_order_info($start_time,$end_time);
         $renew_list=$new_list=[];
         foreach($ass_order_info as $val){
