@@ -2626,7 +2626,6 @@ class Utils  {
     }
 
     /**
-<<<<<<< HEAD
      * 检测课程确认时间
      * 针对课程的修改,在该课程次月6日凌晨0点之后无法修改该课程的信息(确认课时,修改课程时间,修改课时)
      * @param int time 检测的时间
@@ -2642,7 +2641,7 @@ class Utils  {
         }
     }
 
-=======
+    /**
      * author   : sam
      * function : phone_location => "省份"
      */
@@ -2665,5 +2664,4 @@ class Utils  {
         }
         return $location;
     }
->>>>>>> af24c53cf04e3fdb67b48138e4e67434d9734991
 };
