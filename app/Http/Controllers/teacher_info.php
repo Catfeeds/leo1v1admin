@@ -2641,7 +2641,8 @@ class teacher_info extends Controller
             'tea_sub'       => json_encode( $tea_sub),
             'tea_gra'       => json_encode($tea_gra),
             'book'          => json_encode($book_arr),
-            'type_list' => json_encode([1,2,3,4,5,6])
+            'type_list' => json_encode($type_list)
+            // 'type_list' => json_encode([1,2,3,4,5,6])
         ]);
     }
 
