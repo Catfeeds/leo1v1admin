@@ -4204,7 +4204,9 @@ class user_deal extends Controller
         $arr["last_group_all_price"] = $last_group_all_price/100;
 
         $no_update_seller_level_flag = $this->t_manager_info->field_get_value($adminid,'no_update_seller_level_flag');
-        if($no_update_seller_level_flag == 1){
+        $master_groupid = $this->t_group_name_month->get_groupid_by_adminid($adminid, $start_time_this);
+        // if($no_update_seller_level_flag == 1){
+        if($master_groupid>0){
             $arr['base_salary'] = 6500;
             $arr['sup_salary'] = 0;
             switch(true){

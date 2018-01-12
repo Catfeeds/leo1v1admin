@@ -4810,10 +4810,12 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ."  sum(if((order_time > 1514736000 and contract_status = 3),1,0)) as one_month_refund_num"
             ." from %s o "
             ." left join %s s on s.userid = o.userid "
+            ." left join %s m on m.create_time"
             ." where %s "
-            ."group by sys_operator order by order_time desc",
+            ."group by sys_operator order by m.create_time desc",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
             $where_arr);
         return $this->main_get_list($sql,function($item){
             return $item['sys_operator'];
