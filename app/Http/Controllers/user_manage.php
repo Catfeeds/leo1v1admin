@@ -3278,7 +3278,7 @@ class user_manage extends Controller
                 $ret[$key]['three_month_refund_num'] = $value['three_month_refund_num'];
                 $ret[$key]['one_month_refund_num'] = $value['one_month_refund_num'];
 
-                if($ret[$key]['apply_num'] == ''){
+                if(!isset($ret[$key]['apply_num']) ||$ret[$key]['apply_num'] == '' ){
                    $ret[$key]['apply_num'] = 0; 
                 }
             }else{
