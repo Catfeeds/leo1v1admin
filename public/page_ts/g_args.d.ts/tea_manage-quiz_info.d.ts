@@ -28,11 +28,12 @@ tofile:
 /// <reference path="../g_args.d.ts/tea_manage-quiz_info.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		is_part_time:	$('#id_is_part_time').val(),
 		tea_nick:	$('#id_tea_nick').val()
-    });
+		});
 }
 $(function(){
 
@@ -55,6 +56,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_is_part_time" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["is_part_time title", "is_part_time", "th_is_part_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -62,4 +64,6 @@ $(function(){
                 <input class="opt-change form-control" id="id_tea_nick" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["tea_nick title", "tea_nick", "th_tea_nick" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 */
