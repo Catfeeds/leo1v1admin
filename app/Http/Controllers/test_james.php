@@ -210,8 +210,7 @@ class test_james extends Controller
         $pdf_url = $this->get_in_str_val('url');
 
         $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdf_url);
-        return $pdf_file_path;
-
+        header("Location: $pdf_file_path ");
     }
 
 
