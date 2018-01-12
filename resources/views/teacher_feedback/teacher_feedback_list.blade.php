@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
     <script>
-     var assistantid = {{$assistantid}};
-     var accept_adminid= {{$accept_adminid}};
+     var assistantid    = {{$assistantid}};
+     var accept_adminid = {{$accept_adminid}};
     </script>
     <script type="text/javascript" src="/page_js/select_user.js"></script>
     <section class="content ">
@@ -21,10 +21,6 @@
                     <div class="input-group ">
                         <span class="input-group-addon">反馈状态</span>
                         <select class="opt-change form-control" id="id_status" >
-                            <option value="-1">[全部]</option>
-                            <option value="0">未审核</option>
-                            <option value="1">已通过</option>
-                            <option value="2">未通过</option>
                         </select>
                     </div>
                 </div>
@@ -36,7 +32,7 @@
                         </select>
                     </div>
                 </div>
-                @if(in_array($acc,["adrian"]))
+                @if(in_array($account,["adrian"]))
                     <div class="col-xs-6 col-md-2">
                         <div class="input-group ">
                             <span class="input-group-addon">删除标识</span>
@@ -105,11 +101,13 @@
                             <div
                                 {!! \App\Helper\Utils::gen_jquery_data($var)  !!}
                             >
-                                @if($var['del_flag']==0)
-                                    <a class="opt-edit" title="审核">审核</a>
+                                @if($var['del_flag']==0 )
+                                    @if($var['status']!=4)
+                                        <a class="opt-edit" title="审核">审核</a>
+                                    @endif
                                     <a class="opt-log-list" title="登录日志">登陆日志</a>
                                     <a class="opt-lesson_info">课堂详情</a>
-                                    @if(in_array($acc,["adrian","jim","sunny","孙瞿","郭东"]))
+                                    @if(in_array($account,["adrian","jim","sunny","孙瞿","郭东"]))
                                         <a class="opt-change_type" title="更改反馈类型">改</a>
                                         <a class="opt-full_lesson" title="本月所有课程">全</a>
                                         <a class="opt-trial_reward" title="老师的额外奖励">奖</a>
@@ -120,7 +118,7 @@
                                         <a class="opt-reset_lesson_money" title="重置课程金额">重置课金额</a>
                                     @endif
                                 @endif
-                                @if(in_array($acc,["adrian","jim"]))
+                                @if(in_array($account,["adrian","jim"]))
                                     <a class="fa-trash-o opt-delete" title="删除本条记录"></a>
                                 @endif
                             </div>

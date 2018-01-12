@@ -1544,13 +1544,16 @@ lesson_type in (0,1) "
         $sql = $this->gen_sql_new("select l.lessonid,l.userid,l.teacherid,l.assistantid,l.lesson_start,l.lesson_num,l.stu_attend, "
                                   ." l.lesson_end,l.lesson_count,l.teacher_score,l.teacher_comment,l.teacher_effect, "
                                   ." l.teacher_quality,l.teacher_interact,l.stu_performance,l.subject,l.lesson_type,"
-                                  ." l.stu_score,l.stu_comment,l.stu_attitude,l.stu_attention,"
+                                  ." l.stu_score,l.stu_comment,l.stu_attitude,l.stu_attention,l.teacher_type,"
+                                  ." l.teacher_type as lesson_teacher_type,t.teacher_type,"
                                   ." l.stu_ability,l.stu_stability,l.confirm_flag,c.reset_lesson_count_flag "
                                   ." from %s l"
                                   ." left join %s c on l.courseid = c.courseid"
+                                  ." left join %s t on l.teacherid= t.teacherid"
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,t_course_order::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
@@ -2384,11 +2387,9 @@ lesson_type in (0,1) "
         return $this->main_get_list($sql);
     }
     public function get_succ_test_lesson_count($userid) {
-
-        $sql=$this->gen_sql_new(
-            "select count(1) from %s where userid=%u and lesson_del_flag=0 ",
-            self::DB_TABLE_NAME,
-            $userid
+        $sql = $this->gen_sql_new("select count(1) from %s where userid=%u and lesson_del_flag=0 ",
+                                  self::DB_TABLE_NAME,
+                                  $userid
         );
         return $this->main_get_value($sql);
     }

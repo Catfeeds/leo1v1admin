@@ -1010,8 +1010,8 @@ abstract class NewModel
     public function lesson_start_sql($start_time,$end_time,$alias='',$merge_arr=[]){
         $alias = $this->get_table_alias($alias);
         $where_arr = [
-            [$alias."lesson_start>%u",$start_time],
-            [$alias."lesson_start<%u",$end_time],
+            [$alias."lesson_start>%u",$start_time,0],
+            [$alias."lesson_start<%u",$end_time,0],
         ];
         return array_merge($where_arr,$merge_arr);
     }

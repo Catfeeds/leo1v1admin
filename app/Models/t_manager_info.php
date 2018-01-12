@@ -2381,4 +2381,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
         return $this->main_get_list($sql);
     }
+
+    public function get_account_role_by_name($name){
+        $where_arr = [
+            "name = '$name'",
+        ];
+        $sql = $this->gen_sql_new("select account_role from db_weiyi_admin.t_manager_info where  %s",$where_arr);
+        return $this->main_get_value($sql);
+    }
 }

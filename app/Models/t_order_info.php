@@ -2831,7 +2831,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "is_test_user=0",
             "contract_status >0 ",
             "tmk_adminid >0 ",
-            "o.order_time>n.tmk_assign_time"
+            "o.order_time>n.tmk_assign_time "
         ];
 
         $end_time = $end_time+86400;
@@ -2841,17 +2841,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
 
         $sql = $this->gen_sql_new(
-            "select tmk_adminid as check_value, price/100 as order_money, orderid,order_time, s.nick,o.sys_operator,n.tmk_assign_time "
-            ." from   %s  o  "
-            ." left join %s m  on o.sys_operator=m.account "
-            ." left join %s s  on o.userid=s.userid "
-            ." left join %s n  on o.userid=n.userid "
+            " select tmk_adminid as check_value, price/100 as order_money,o.orderid,order_time,"
+            ." s.nick,o.sys_operator,n.tmk_assign_time "
+            ." from %s o  "
+            ." left join %s m on o.sys_operator=m.account "
+            ." left join %s s on o.userid=s.userid "
+            ." left join %s n on o.userid=n.userid "
             ." where %s ",
             self::DB_TABLE_NAME ,
             t_manager_info::DB_TABLE_NAME ,
             t_student_info::DB_TABLE_NAME,
             t_seller_student_new::DB_TABLE_NAME,
-            $where_arr );
+            $where_arr
+        );
         return $this->main_get_list_by_page($sql,$page_num,30);
     }
 
@@ -4809,7 +4811,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." from %s o "
             ." left join %s s on s.userid = o.userid "
             ." where %s "
-            ."group by sys_operator order by order_time desc ",
+            ."group by sys_operator order by order_time desc",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             $where_arr);

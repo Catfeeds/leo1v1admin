@@ -222,7 +222,7 @@
                 </div>
                 <!-- /.box (chat box) -->
                 <!-- Chat box -->
-                @if ($my_info['tags_flag'] != 0 )
+                @if ($my_info['tags_flag'] == 'no_open' )
                     <div class="box box-info-ly">
                         <div class="box-header">
                             <h3 class="box-title color-blue">教师风格</h3>

@@ -99,6 +99,9 @@
                                         <td>扩科数量</td>
                                         <td>转介绍人数</td>
                                         <td>转介绍金额</td>
+                                        @if($account=="sherry")
+                                            <td>续费目标(旧版)</td>
+                                        @endif
                                         <td>人效</td>
                                     </tr>
                                 </thead>
@@ -120,7 +123,11 @@
                                             <td>{{@$var["kk_succ"]}} </td>
                                             <td>{{@$var["tran_num"]}} </td>
                                             <td>{{@$var["cc_tran_money"]}} </td>
+                                            @if($account=="sherry")
+                                                <td>{{@$var["renw_target_old"]}}</td>
+                                            @endif
                                             <td>{{@$var["people_per"]}}</td>
+
 
                                         </tr>
                                     @endforeach

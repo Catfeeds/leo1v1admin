@@ -288,8 +288,6 @@ $(function(){
         }
     });
 
-
-
     $(".opt-confirm").on("click",function(){
         var opt_data=$(this).get_opt_data();
         console.log(opt_data.require_id);

@@ -48,12 +48,11 @@ class teacher_feedback extends Controller
             $start_time,$end_time,$teacherid,$assistantid,$accept_adminid,$lessonid,$status,$feedback_type,$page_num,
             $opt_date_type,$del_flag
         );
-        foreach($list['list'] as &$tea_val){
+        foreach($list['list'] as $tea_key => &$tea_val){
             E\Efeedback_type::set_item_value_str($tea_val);
             E\Echeck_status::set_item_value_str($tea_val,"status");
             E\Egrade::set_item_value_str($tea_val,"grade");
             $tea_val['level_str'] = \App\Helper\Utils::get_teacher_letter_level($tea_val['teacher_money_type'],$tea_val['level']);
-            // E\Elevel::set_item_value_str($tea_val,"level");
             E\Eteacher_money_type::set_item_value_str($tea_val,"teacher_money_type");
             \App\Helper\Utils::unixtime2date_for_item($tea_val,"add_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($tea_val,"check_time","_str");
@@ -72,7 +71,6 @@ class teacher_feedback extends Controller
         }
 
         return $this->pageView(__METHOD__,$list,[
-            "acc"            => $acc,
             "assistantid"    => $assistantid,
             "accept_adminid" => $accept_adminid,
         ]);
@@ -121,6 +119,7 @@ class teacher_feedback extends Controller
         if($id==0){
             return $this->output_err("不存在该反馈记录!请刷新重试!");
         }
+
         $remark_str = "";
         if($check_status == 1){
             if(in_array($feedback_type,[201,202,203,204])){

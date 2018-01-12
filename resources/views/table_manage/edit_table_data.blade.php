@@ -21,36 +21,29 @@
                 <input id="id_id2"/>
             </div>
         </div>
-
-
         <div class="col-xs-6 col-md-3" ">
             <div class="input-group ">
                 <a class ="btn btn-primary" id="id_del"> 删除该数据</a>
             </div>
         </div>
-
-
-
     </div>
-    <hr/> 
-
-    <table   class=" common-table "   >
+    <hr/>
+    <table class="common-table">
         <thead>
             <tr>
-                <td  >Comment</td>
+                <td >Comment</td>
                 <td style="width:100px;" >字段</td>
-                <td  >值</td>
+                <td >值</td>
                 <td style="min-width:100px">操作</td>
             </tr>
         </thead>
         <tbody>
-            @foreach ($table_data_list as $var)
+            @foreach($table_data_list as $var)
                 <tr>
-                    <td> {{$var["comment"]}} </td> 
-                    <td> {{$var["k"]}} </td> 
-                    <td> {{$var["v"]}} </td> 
-                    <td  >
-
+                    <td> {{$var["comment"]}} </td>
+                    <td> {{$var["k"]}} </td>
+                    <td> {{$var["v"]}} </td>
+                    <td>
                         <div
                             data-field="{{$var["k"]}}"
                             data-value="{{$var["v"]}}"

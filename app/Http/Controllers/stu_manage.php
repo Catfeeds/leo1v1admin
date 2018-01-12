@@ -711,10 +711,10 @@ class stu_manage extends Controller
         $teacherid = $this->get_in_int_val('teacherid',-1);
         $userid    = $this->sid;
 
-        $date=\App\Helper\Utils::get_week_range(time(NULL),1);
-        $stat_time=$date["sdate"];
+        $date = \App\Helper\Utils::get_week_range(time(NULL),1);
+        $stat_time = $date["sdate"];
 
-        $ret_info=\App\Helper\Utils::list_to_page_info([]);
+        $ret_info = \App\Helper\Utils::list_to_page_info([]);
         return $this->pageView(__METHOD__, $ret_info,["userid"=>$userid]);
     }
 

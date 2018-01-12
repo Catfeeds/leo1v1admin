@@ -12,6 +12,8 @@ class ss_deal extends Controller
 {
     use CacheNick;
     use TeaPower;
+    use LessonPower;
+
     public function get_in_test_lesson_subject_id($default_value=0) {
         return $this->get_in_int_val("test_lesson_subject_id",$default_value);
     }
@@ -2988,7 +2990,9 @@ class ss_deal extends Controller
         return $this->output_succ(["data"=>$stu_info]);
     }
 
-
+    /**
+     * 试听排课处的确认课时
+     */
     public function confirm_test_lesson() {
         $require_id   = $this->get_in_require_id();
         $success_flag = $this->get_in_str_val("success_flag");
@@ -3203,14 +3207,20 @@ class ss_deal extends Controller
     }
 
     /**
-     * 试听课确认课时
+     * 试听课课时确认
      */
     public function confirm_test_lesson_ass() {
-        $lessonid     = $this->get_in_lessonid();
-        $success_flag = $this->get_in_str_val("success_flag");
-        $fail_reason  = $this->get_in_str_val("fail_reason");
+        $lessonid                 = $this->get_in_lessonid();
+        $success_flag             = $this->get_in_str_val("success_flag");
+        $fail_reason              = $this->get_in_str_val("fail_reason");
         $test_lesson_fail_flag    = $this->get_in_str_val("test_lesson_fail_flag");
         $fail_greater_4_hour_flag = $this->get_in_str_val("fail_greater_4_hour_flag");
+
+        $check_flag  = $this->check_lesson_confirm_time_by_lessonid($lessonid);
+        if($check_flag !== true){
+            return $check_flag;
+        }
+
         if ($success_flag==1 || $success_flag==0 ) {
             $fail_reason="";
             $test_lesson_fail_flag=0;
@@ -3218,8 +3228,8 @@ class ss_deal extends Controller
         }
 
         $this->t_test_lesson_subject_sub_list->field_update_list($lessonid,[
-            "confirm_adminid"  =>  $this->get_account_id(),
-            "confirm_time"  =>  time(NULL),
+            "confirm_adminid"          => $this->get_account_id(),
+            "confirm_time"             => time(NULL),
             "success_flag"             => $success_flag,
             "fail_reason"              => $fail_reason,
             "test_lesson_fail_flag"    => $test_lesson_fail_flag,
