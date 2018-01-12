@@ -71,7 +71,6 @@
                     <td > {{$var["confirm_reason"]}} </td>
                     <td  >
                         <div {!!  \App\Helper\Utils::gen_jquery_data($var )  !!} class="opt-div">
-                            <a class="start_edit_lesson_time">按空闲时段排课</a>
                             <a class="change_time">自定义时间排课</a>
                             <a class="opt_change_lesson_count"> 修改课时数</a>
                             <a class="cancel_lesson  fa-trash-o" title="取消课程"></a>

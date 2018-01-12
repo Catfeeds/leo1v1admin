@@ -260,44 +260,25 @@ class test_code extends Controller
         return $result;
     }
 
+    public function test_feedback(){
+        $lessonid = 63275;
+        $stu_performance = $this->t_lesson_info->get_stu_performance($lessonid);
 
-
-    public function get_order_data(){
-        $start_time = strtotime("2017-1-1");
-        $end_time   = strtotime("2017-12-1");
-
-        $date = [];
-        $order_list = $this->t_order_info->get_order_list_for_tongji($start_time, $end_time);
-        echo "下单时间|合同类型|合同状态|下单人|下单人角色类型|学生助教|是否有退费";
-        echo $this->br;
-        foreach($order_list as $o_val){
-            $month_key = date("Y-m",$o_val['order_time']);
-            $order_time = \App\Helper\Utils::unixtime2date($o_val['order_time']);
-            E\Econtract_type::set_item_value_str($o_val);
-            E\Econtract_status::set_item_value_str($o_val);
-            E\Eaccount_role::set_item_value_str($o_val);
-            $date[$month_key][] = $o_val;
-            E\Eboolean::set_item_value_str($o_val,"has_refund");
-            echo $month_key."|".$o_val['contract_type_str']."|".$o_val['contract_status_str']."|"
-                            .$o_val['sys_operator']."|".$o_val['account_role_str']."|"
-                            .$o_val['ass_nick']."|".$o_val['has_refund_str'];
-            echo $this->br;
+        if($stu_performance!=''){
+            $stu_performance = json_decode($stu_performance,true);
+            $stu_comment = "";
+            if(is_array($stu_performance['stu_comment'])){
+                foreach($stu_performance['stu_comment'] as $stu_val){
+                    if(isset($stu_val['stu_tip']) && isset($stu_val['stu_info'])){
+                        $stu_comment .=$stu_val['stu_tip'].$stu_val['stu_info'].";";
+                    }
+                }
+                $stu_comment = trim($stu_comment,";");
+            }else{
+                $stu_comment = $stu_performance['stu_comment'];
+            }
+            dd($stu_comment);
         }
     }
-
-    public function test_sms(){
-        $phone = $this->get_b_txt();
-
-        // $phone = $this->get_in_int_val("phone","18790256265");
-
-        $type = 34775122;
-        $data = [
-            "time" => "2018年1月1日"
-        ];
-        \App\Helper\Utils::sms_common($phone, $type, $data);
-    }
-
-
-
 
 }

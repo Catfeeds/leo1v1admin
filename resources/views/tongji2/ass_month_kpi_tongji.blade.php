@@ -123,10 +123,10 @@
                                             <td>{{@$var["kk_succ"]}} </td>
                                             <td>{{@$var["tran_num"]}} </td>
                                             <td>{{@$var["cc_tran_money"]}} </td>
-                                            <td>{{@$var["people_per"]}}</td>
                                             @if($account=="sherry")
                                                 <td>{{@$var["renw_target_old"]}}</td>
                                             @endif
+                                            <td>{{@$var["people_per"]}}</td>
 
 
                                         </tr>

@@ -30,6 +30,7 @@ $(function(){
 
     Enum_map.append_option_list("feedback_type",$("#id_feedback_type"));
     Enum_map.append_option_list("boolean",$("#id_del_flag"));
+    Enum_map.append_option_list("feedback_status",$("#id_status"));
 
     $('#id_del_flag').val(g_args.del_flag);
     $('#id_teacherid').val(g_args.teacherid);

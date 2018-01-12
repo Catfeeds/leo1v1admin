@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TChangeManageInfo extends Migration
+class TTqCallInfoAddCauseClientNumber extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,11 @@ class TChangeManageInfo extends Migration
      */
     public function up()
     {
-        Schema::table('db_weiyi_admin.t_manager_info', function( Blueprint $table)
+        //
+        Schema::table('db_weiyi_admin.t_tq_call_info', function( Blueprint $table)
         {
-            $table->dropColumn('role_groupid');
-            $table->dropColumn('group_str');
+            t_field($table->integer("cause"),"呼叫结果");
+            t_field($table->string("client_number"),"呼出座机号");
         });
     }
 
@@ -26,6 +27,6 @@ class TChangeManageInfo extends Migration
      */
     public function down()
     {
-
+        //
     }
 }

@@ -59,8 +59,8 @@ $(function(){
              +font_color("\"常规课上奥数课标识\"")+"需要在学生的课程包列表的"
              +font_color("\"课程包信息\"")+"处找到并修改"],
             ["2","课程所在的次月"
-             +font_color("5号")+"之后无法修改课程的课时数; 如:一节2018年1月1日当天任何时间的课程,在2018年2月5日0点之后无法修改"],
-            ["3","取消课时请使用课程管理下的"
+             +font_color("6号0点")+"之后无法修改课程的课时数; 如:一节2018年1月任何时间的课程,在2018年2月6日0点之后无法修改"],
+            ["3","课时确认请使用课程管理下的"
              +font_color("\"课时确认\"")+"功能"],
             ["课时数"  ,$lesson_count  ]
         ];
@@ -109,18 +109,17 @@ $(function(){
                             cssClass: 'btn-warning',
                             action: function(dialog) {
                                 dialog.close();
-		                        $.ajax({
-                                    url: '/user_deal/set_lesson_time',
-                                    type: 'POST',
+		                            $.ajax({
+                                    url  : '/user_deal/set_lesson_time',
+                                    type : 'POST',
                                     data : {
-				                        'sid'          : g_sid, 
-				                        'lessonid'     : lessonid,
-				                        'lesson_start' : v_start,
-				                        'lesson_end'   : v_end
-				                    },
+				                                'sid'          : g_sid, 
+				                                'lessonid'     : lessonid,
+				                                'lesson_start' : v_start,
+				                                'lesson_end'   : v_end
+				                            },
                                     dataType: 'json',
                                     success: function(data) {
-
                                         if (data['ret'] != 0) {
                                             alert(data['info']);
                                         }else{

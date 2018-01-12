@@ -932,6 +932,7 @@ class tongji2 extends Controller
 
         $last_month  = strtotime(date('Y-m-01',$start_time-100));
         $ass_last_month    = $this->t_month_ass_student_info->get_ass_month_info($last_month,-1,1);
+        dd($ass_last_month);
         /* $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
 
         $new_info = $this->t_student_info->get_ass_new_stu_first_revisit_info($start_time,$end_time);
