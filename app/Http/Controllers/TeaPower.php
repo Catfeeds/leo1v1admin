@@ -4877,12 +4877,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $check_num[$month_key]['late_num']   = $late_num;
     }
 
-<<<<<<< HEAD
-
-
-
-
-=======
     /*销售月数据*/
     public function get_seller_week_info($start_time,$end_time){
         //销售月拆解
@@ -4898,6 +4892,5 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return array($first_week,$last_week,$n);
 
     }
->>>>>>> af24c53cf04e3fdb67b48138e4e67434d9734991
 
 }
