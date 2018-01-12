@@ -272,6 +272,8 @@ class test_sam extends Command
                 $value['max_time'] = 3;
             }elseif($time < 2592000){
                 $value['max_time'] = 4;
+            }else{
+                $value['max_time'] = -1;
             }
         }
         foreach ($ret_info as $key => $value) {
