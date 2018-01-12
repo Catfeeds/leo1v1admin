@@ -176,6 +176,8 @@ class get_ass_stu_info_update extends Command
         $seller_month_lesson_count = $task->t_manager_info->get_assistant_lesson_count_info($first_week,$last_week+7*86400);//销售月总课时
         $first_subject_list = $this->get_ass_stu_first_lesson_subject_info($start_time,$end_time);//生成助教学生第一次课信息(按科目)
 
+        list($first_week_next,$last_week_next,$n_next) = $task->get_seller_week_info($end_time, strtotime("+1 months",$end_time));//销售月拆解     
+        $seller_month_lesson_count_next = $task->t_manager_info->get_assistant_lesson_count_info($first_week_next,$last_week_next+7*86400);//销售月总课时
 
         foreach($ass_list as $k=>$item){
             if(!isset($item["warning_student"])){
@@ -252,125 +254,81 @@ class get_ass_stu_info_update extends Command
             }else{
                 $item["first_lesson_stu_list"]="";
             }               
-            $read_student_list = $item["read_student_list"]?json_decode($item["read_student_list"],true):[];
-            $registered_student_list = $item["registered_student_list"]?json_decode($item["registered_student_list"],true):[];
+            $read_student_list = $item["userid_list"];
+            $registered_student_list = $item["registered_student_list"];
 
-            $item["revisit_reword_per"] = $this->get_ass_revisit_reword_value($item["account"],$k,$start_time,$end_time,$first_lesson_stu_list,$read_student_list,$registered_student_list);
+            $item["revisit_reword_per"] = $this->get_ass_revisit_reword_value($item["account"],$k,$start_time,$end_time,$item["first_lesson_stu_list"],$read_student_list,$registered_student_list);//回访绩效比例
+            $item["seller_week_stu_num"] = round(@$registered_student_num[$k]/$n,1);//销售月周平均学生数
+            $item["seller_month_lesson_count"] = @$seller_month_lesson_count[$k];//销售月总课时
+            $registered_student_list_last = @$ass_last_month[$k]["registered_student_list"];
+            list($item["kpi_lesson_count_finish_per"],$item["estimate_month_lesson_count"])= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$item["seller_week_stu_num"],$n,$item["seller_month_lesson_count"]);
+            $item["performance_cc_tran_num"] = @$performance_cc_tran_list[$k]["num"];
+            $item["performance_cc_tran_money"] = @$performance_cc_tran_list[$k]["money"];
+            $item["performance_cr_renew_num"] = @$performance_cr_renew_list[$k]["num"];
+            $item["performance_cr_renew_money"] = @$performance_cr_renew_list[$k]["money"];
+            $item["performance_cr_new_num"] = @$performance_cr_new_list[$k]["num"];
+            $item["performance_cr_new_money"] = @$performance_cr_new_list[$k]["money"];
 
+            $update_arr =  [
+                "first_lesson_stu_list" =>$item["first_lesson_stu_list"],
+                "revisit_reword_per"    =>$item["revisit_reword_per"]*100,
+                "seller_week_stu_num"   =>$item["seller_week_stu_num"],
+                "seller_month_lesson_count"=>$item["seller_month_lesson_count"],
+                "kpi_lesson_count_finish_per"=>$item["kpi_lesson_count_finish_per"]*100,
+                "estimate_month_lesson_count" =>$item["estimate_month_lesson_count"],//临时更新一次(月初生成)
+                "performance_cc_tran_num"  =>$item["performance_cc_tran_num"],
+                "performance_cc_tran_money"=>$item["performance_cc_tran_money"],
+                "performance_cr_renew_num" =>$item["performance_cr_renew_num"],
+                "performance_cr_renew_money" =>$item["performance_cr_renew_money"],
+                "performance_cr_new_num" =>$item["performance_cr_new_num"],
+                "performance_cr_new_money" =>$item["performance_cr_new_money"],
+                "read_student"          =>$item["read_student"],
+                "stop_student"          =>$item["stop_student"],
+                "all_student"           =>$item["all_student"],
+                "month_stop_student"    =>$item["month_stop_student"],
+                "warning_student"       =>$item["warning_student"],
+                "lesson_total"          =>$item["lesson_total"],
+                "lesson_ratio"          =>$item["lesson_ratio"],
+                "renw_price"            =>$item["renw_price"],
+                "renw_student"          =>$item["renw_student"],
+                "tran_price"            =>$item["tran_price"],
+                "kk_num"                =>$item["kk_num"],
+                "userid_list"           =>$item["userid_list"],
+                "refund_student"        =>$item["refund_student"],
+                "new_refund_money"      =>$item["new_refund_money"],
+                "renw_refund_money"     =>$item["renw_refund_money"],
+                "lesson_total_old"      =>$item["lesson_total_old"],
+                "read_student_new"      =>$item["read_student_new"],
+                "all_student_new"       =>$item["all_student_new"],
 
-            // $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,[
-            //     "revisit_reword_per"          =>$revisit_reword_per*100,
-            //     "kpi_lesson_count_finish_per" =>$kpi_lesson_count_finish_per*100,
-            //     "estimate_month_lesson_count" =>$estimate_month_lesson_count,
-            //     "seller_month_lesson_count"   =>$seller_lesson_count,
-            //     "seller_week_stu_num"         =>$seller_stu_num,
-            //     "first_lesson_stu_list"       => $first_lesson_stu_list
-            // ]);
+                "lesson_money"          =>$item["lesson_money"],
+                "new_student"           =>$item["new_student"],
+                "new_lesson_count"      =>$item["new_lesson_count"],
+                "end_stu_num"           =>$item["end_stu_num"],
+                "lesson_student"        =>$item["lesson_student"],
+                "revisit_target"        =>$item["revisit_target"],
+                "revisit_real"          => $item["revisit_real"],
+                "first_revisit_num"     => $item["first_revisit_num"],
+                "un_first_revisit_num"  => $item["un_first_revisit_num"],
+                "refund_score"          => $item["refund_score"],
+                "lesson_price_avg"      => $item["lesson_price_avg"],
+                "student_finsh"         =>$item["student_finish"],
+                "tran_num"              =>$item["tran_num"],
+                "cc_tran_num"           =>$item["cc_tran_num"],
+                "cc_tran_money"           =>$item["cc_tran_money"],
 
-
-            //     $performance_cc_tran_num = @$ass_tran_info[$k]["num"];
-            //     $performance_cc_tran_money = @$ass_tran_info[$k]["money"];
-            //     $performance_cr_renew_num  = @$ass_renew_info[$k]["num"];
-            //     $performance_cr_renew_money  = @$ass_renew_info[$k]["money"];
-            //     $performance_cr_new_num  = @$ass_new_info[$k]["num"];
-            //     $performance_cr_new_money  = @$ass_new_info[$k]["money"];
-
-
-
-
-
-
+                "stop_student_list"       =>$item["stop_student_list"],
+                "registered_student_list" =>$item["registered_student_list"],
+                "all_ass_stu_num"         =>$item["all_ass_stu_num"],
+                "ass_refund_money"        => $refund_money,
+            ];
             $adminid_exist = $task->t_month_ass_student_info->get_ass_month_info($start_time,$k,1);
             if($adminid_exist){
-
-                $update_arr =  [
-                    "read_student"          =>$item["read_student"],
-                    "stop_student"          =>$item["stop_student"],
-                    "all_student"           =>$item["all_student"],
-                    "month_stop_student"    =>$item["month_stop_student"],
-                    "warning_student"       =>$item["warning_student"],
-                    "lesson_total"          =>$item["lesson_total"],
-                    "lesson_ratio"          =>$item["lesson_ratio"],
-                    "renw_price"            =>$item["renw_price"],
-                    "renw_student"          =>$item["renw_student"],
-                    "tran_price"            =>$item["tran_price"],
-                    "kk_num"                =>$item["kk_num"],
-                    "userid_list"           =>$item["userid_list"],
-                    "refund_student"        =>$item["refund_student"],
-                    "new_refund_money"      =>$item["new_refund_money"],
-                    "renw_refund_money"     =>$item["renw_refund_money"],
-                    "lesson_total_old"      =>$item["lesson_total_old"],
-                    "read_student_new"      =>$item["read_student_new"],
-                    "all_student_new"       =>$item["all_student_new"],
-
-                    "lesson_money"          =>$item["lesson_money"],
-                    "new_student"           =>$item["new_student"],
-                    "new_lesson_count"      =>$item["new_lesson_count"],
-                    "end_stu_num"           =>$item["end_stu_num"],
-                    "lesson_student"        =>$item["lesson_student"],
-                    "revisit_target"        =>$item["revisit_target"],
-                    "revisit_real"          => $item["revisit_real"],
-                    "first_revisit_num"     => $item["first_revisit_num"],
-                    "un_first_revisit_num"  => $item["un_first_revisit_num"],
-                    "refund_score"          => $item["refund_score"],
-                    "lesson_price_avg"      => $item["lesson_price_avg"],
-                    "student_finsh"         =>$item["student_finish"],
-                    "tran_num"              =>$item["tran_num"],
-                    "cc_tran_num"           =>$item["cc_tran_num"],
-                    "cc_tran_money"           =>$item["cc_tran_money"],
-
-                    "stop_student_list"       =>$item["stop_student_list"],
-                    "registered_student_list" =>$item["registered_student_list"],
-                    "all_ass_stu_num"         =>$item["all_ass_stu_num"],
-                    "ass_refund_money"        => $refund_money,
-                ];
                 $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,$update_arr);
             }else{
-                $task->t_month_ass_student_info->row_insert([
-                    "adminid"               =>$k,
-                    "month"                 =>$start_time,
-                    "read_student"          =>$item["read_student"],
-                    "stop_student"          =>$item["stop_student"],
-                    "all_student"           =>$item["all_student"],
-                    "month_stop_student"    =>$item["month_stop_student"],
-                    "warning_student"       =>$item["warning_student"],
-                    "lesson_total"          =>$item["lesson_total"],
-                    "lesson_ratio"          =>$item["lesson_ratio"],
-                    "renw_price"            =>$item["renw_price"],
-                    "renw_student"          =>$item["renw_student"],
-                    "tran_price"            =>$item["tran_price"],
-                    "kk_num"                =>$item["kk_num"],
-                    "userid_list"           =>$item["userid_list"],
-                    "refund_student"        =>$item["refund_student"],
-                    "new_refund_money"      =>$item["new_refund_money"],
-                    "renw_refund_money"     =>$item["renw_refund_money"],
-                    "lesson_total_old"      =>$item["lesson_total_old"],
-                    "kpi_type"              =>1,
-                    "read_student_new"      =>$item["read_student_new"],
-                    "all_student_new"       =>$item["all_student_new"],
-
-                    "lesson_money"          =>$item["lesson_money"],
-                    "new_student"           =>$item["new_student"],
-                    "new_lesson_count"      =>$item["new_lesson_count"],
-                    "end_stu_num"           =>$item["end_stu_num"],
-                    "lesson_student"        =>$item["lesson_student"],
-                    "revisit_target"        =>$item["revisit_target"],
-                    "revisit_real"          => $item["revisit_real"],
-                    "first_revisit_num"     => $item["first_revisit_num"],
-                    "un_first_revisit_num"  => $item["un_first_revisit_num"],
-                    "refund_score"          => $item["refund_score"],
-                    "lesson_price_avg"      => $item["lesson_price_avg"],
-                    "student_finsh"         =>$item["student_finish"],
-                    "tran_num"              =>$item["tran_num"],
-                    "cc_tran_num"           =>$item["cc_tran_num"],
-                    "cc_tran_money"         =>$item["cc_tran_money"],
-
-                    "stop_student_list"       =>$item["stop_student_list"],
-                    "registered_student_list" =>$item["registered_student_list"],
-                    "all_ass_stu_num"         =>$item["all_ass_stu_num"],
-                    "ass_refund_money"        => $refund_money,
-                ]);
-
+                $update_arr["adminid"] =$k;
+                $update_arr["month"]   =$start_time;
+                $task->t_month_ass_student_info->row_insert($update_arr);
             }
 
             if(date("d",time())=="01"){
@@ -445,25 +403,18 @@ class get_ass_stu_info_update extends Command
 
 
                 //获取该月有几周
-                $start_info       = \App\Helper\Utils::get_week_range($month,1 );
-                $first_week = $start_info["sdate"];
                 $next_month = strtotime("+1 months",$month);
-                $end_info = \App\Helper\Utils::get_week_range($next_month,1 );
-                if($end_info["edate"] <= $next_month){
-                    $last_week =  $end_info["sdate"];
-                }else{
-                    $last_week =  $end_info["sdate"]-7*86400;
-                }
-                $number = ($last_week-$first_week)/(7*86400)+1;
+                list($first_week,$last_week, $number) = $task->get_seller_week_info($month,$next_month);//销售月拆解                 
 
 
                 //月初周总课时消耗数
-                $read_student_list = @$item["userid_list"];//改为在读人数
-                // $registered_student_list = @$item["registered_student_list"];//先以10月份数据代替
-                if( $read_student_list){
-                    $read_student_arr = json_decode( $read_student_list,true);
-                    $last_stu_num = count($read_student_arr);//月初在读人员数
-                    $last_lesson_total = $task->t_week_regular_course->get_lesson_count_all($read_student_arr);//月初周总课时消耗数
+                $registered_student_list=[];
+                if($item["registered_student_list"]){
+                    $registered_student_list = json_decode($item["registered_student_list"],true);
+                }
+                if(!empty($registered_student_list)){
+                    $last_stu_num = count($registered_student_list);//月初在读人员数
+                    $last_lesson_total = $task->t_week_regular_course->get_lesson_count_all($registered_student_list);//月初周总课时消耗数
                     $estimate_month_lesson_count =$number*$last_lesson_total/$last_stu_num;
                 }else{
                     $read_student_arr=[];      
@@ -489,9 +440,6 @@ class get_ass_stu_info_update extends Command
                     ]);
 
                 }
-
-                               
-                
             }             
         }
 
@@ -530,8 +478,9 @@ class get_ass_stu_info_update extends Command
         }
 
         //每月1日,2日执行 回访以及销售月课时计算
-        if(date("d",time())=="01" || date("d",time())=="02"){
-            $start_time = strtotime(date("Y-m-01",time()-3*86400));        
+        if(date("d",time()) <=10){
+            $last_m = strtotime("-1 months",time());
+            $start_time = strtotime(date("Y-m-01",$last_m));        
             $end_time = strtotime("+1 months",$start_time);        
 
 
@@ -540,289 +489,65 @@ class get_ass_stu_info_update extends Command
             $ass_month= $task->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
             $last_ass_month= $task->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
 
-            //生成助教学生第一次课信息
-            $regular_lesson_list = $task->t_lesson_info_b3->get_stu_first_lesson_time_by_subject(-1,$start_time,$end_time);
-            $arr_first=[];
-            foreach($regular_lesson_list as $vvoo){
-                $arr_first[$vvoo["uid"]][]=$vvoo;
-            }           
-            // dd( $regular_lesson_list);
+            list($performance_cr_new_list,$performance_cr_renew_list,$performance_cc_tran_list)= $this->get_ass_order_list_performance($start_time,$end_time);//新版薪资 助教续费新签合同/销售转介绍合同 金额/个数计算
+            list($first_week,$last_week,$n) = $task->get_seller_week_info($start_time, $end_time);//销售月拆解       
+          
+            if(date("d",time())=="01" || date("d",time())=="02"){
+                $registered_student_num=$this->get_register_student_list($first_week,$n);//销售月助教在册学生总数获取
+                $seller_month_lesson_count = $task->t_manager_info->get_assistant_lesson_count_info($first_week,$last_week+7*86400);//销售月总课时
+                $first_subject_list = $this->get_ass_stu_first_lesson_subject_info($start_time,$end_time);//生成助教学生第一次课信息(按科目)
 
-        
-
-            // //销售月拆解
-            $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
-            $first_week = $start_info["sdate"];
-            $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
-            if($end_info["edate"] <= $end_time){
-                $last_week =  $end_info["sdate"];
-            }else{
-                $last_week =  $end_info["sdate"]-7*86400;
+                foreach($ass_month as $k=>$tt){
+                    $first_lesson_stu_arr = @$first_subject_list[$k]?$first_subject_list[$k]:[];//生成助教学生第一次课信息(按科目)
+                    $first_lesson_stu_list="";
+                    if($first_lesson_stu_arr){
+                        $first_lesson_stu_list = json_encode($first_lesson_stu_arr);
+                    }               
+                    $read_student_list = $tt["userid_list"];
+                    $registered_student_list = $tt["registered_student_list"];
+                    $revisit_reword_per = $this->get_ass_revisit_reword_value($tt["account"],$k,$start_time,$end_time,$first_lesson_stu_arr,$read_student_list,$registered_student_list);//回访绩效比例
+                    $seller_week_stu_num = round(@$registered_student_num[$k]/$n,1);//销售月周平均学生数
+                    $seller_month_lesson_count = @$seller_month_lesson_count[$k];//销售月总课时
+                    $registered_student_list_last = @$last_ass_month[$k]["registered_student_list"];
+                    list($kpi_lesson_count_finish_per,$estimate_month_lesson_count)= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$seller_week_stu_num,$n,$seller_month_lesson_count);
+                   
+                    $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,[
+                        "revisit_reword_per"          =>$revisit_reword_per*100,
+                        "kpi_lesson_count_finish_per" =>$kpi_lesson_count_finish_per*100,
+                        "seller_month_lesson_count"   =>$seller_month_lesson_count,
+                        "seller_week_stu_num"         =>$seller_week_stu_num,
+                        "first_lesson_stu_list"       => $first_lesson_stu_list
+                    ]);
+ 
+                }
+               
+                
             }
-            $n = ($last_week-$first_week)/(7*86400)+1;
 
-            //每周课时/学生数
-            $lesson_count_list=[];
-            for($i=0;$i<$n;$i++){
-                $week = $first_week+$i*7*86400;
-                $week_edate = $week+7*86400;
-                $lesson_count_list[] = $task->t_manager_info->get_assistant_lesson_count_info($week,$week_edate);
+            foreach($ass_month as $k=>$tt){
+               
+                $performance_cc_tran_num = @$performance_cc_tran_list[$k]["num"];
+                $performance_cc_tran_money= @$performance_cc_tran_list[$k]["money"];
+                $performance_cr_renew_num = @$performance_cr_renew_list[$k]["num"];
+                $performance_cr_renew_money = @$performance_cr_renew_list[$k]["money"];
+                $performance_cr_new_num = @$performance_cr_new_list[$k]["num"];
+                $performance_cr_new_money = @$performance_cr_new_list[$k]["money"];
+ 
+                $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,[
+                    "performance_cc_tran_num"  =>$performance_cc_tran_num,
+                    "performance_cc_tran_money"=>$performance_cc_tran_money,
+                    "performance_cr_renew_num" =>$performance_cr_renew_num,
+                    "performance_cr_renew_money" =>$performance_cr_renew_money,
+                    "performance_cr_new_num"    =>$performance_cr_new_num,
+                    "performance_cr_new_money" =>$performance_cr_new_money,
+                ]);
+ 
             }
 
-            foreach($ass_month as $k=>$item){
-                $first_lesson_stu_arr =@$arr_first[$k];
-                $first_lesson_stu_list="";
-                if($first_lesson_stu_arr){
-                    $first_lesson_stu_list = json_encode($first_lesson_stu_arr);
-                }               
-
-                /*回访*/
-                $revisit_reword_per = 0.2;
-
-                //先看第一课回访信息
-                if($first_lesson_stu_list){                                    
-                    $first_lesson_stu_arr = json_decode($first_lesson_stu_list,true);
-                    foreach($first_lesson_stu_arr as $val){
-                        $first_userid = $val["userid"];
-                        $lesson_start = $val["lesson_start"];
-                        $revisit_end = $lesson_start+86400;
-                            
-                        $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($first_userid,$lesson_start,$revisit_end,$item["account"],5);
-                        if($revisit_num <=0){
-                            $revisit_reword_per -=0.05;
-                        }
-                        if($revisit_reword_per <=0){
-                            break;
-                        }
-
-                        
-                    }
-                }
-
-                //当前在读学员
-                $read_student_list = $item["userid_list"];
-                if($read_student_list && $revisit_reword_per >0){
-                    $read_student_arr = json_decode($read_student_list,true);
-                    foreach($read_student_arr as $val){
-                        //先检查是否是本月才开始上课的(获取各科目常规课最早上课时间)
-                        $first_regular_lesson_time = $task->t_lesson_info_b3->get_stu_first_regular_lesson_time($val);
-                        $assign_time = $task->t_student_info->get_ass_assign_time($val);                        
-
-                        if($first_regular_lesson_time>0 && $first_regular_lesson_time<$month_half){
-                            if($assign_time < $month_half){
-                                $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$item["account"],-2);
-                                if($revisit_num <2){
-                                    $revisit_reword_per -=0.05;
-                                }
-                            }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
-                                $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$item["account"],-2);
-                                if($revisit_num <1){
-                                    $revisit_reword_per -=0.05;
-                                }
-
-                            }
-                        }elseif($first_regular_lesson_time>0 && $first_regular_lesson_time>=$month_half &&  $first_regular_lesson_time<=$end_time){                       
-                            $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$item["account"],-2);
-                            if($revisit_num <1){
-                                $revisit_reword_per -=0.05;
-                            }
-
-                        }
-                        if($revisit_reword_per <=0){
-                            break;
-                        }
-
-                        // //先检查是否是本月才开始上课的(获取各科目常规课最早上课时间)
-                        // $regular_lesson_list = $task->t_lesson_info_b3->get_stu_first_lesson_time_by_subject($val);
-                        // $assign_time = $task->t_student_info->get_ass_assign_time($val);
-                        // $first_lesson_time = @$regular_lesson_list[0]["lesson_start"];
-                        // foreach($regular_lesson_list as $t_item){
-                        //     if($t_item["lesson_start"]>=$start_time && $t_item["lesson_start"]<=$end_time && $t_item["lesson_start"]>$assign_time){
-                        //         $revisit_end = $t_item["lesson_start"]+86400;
-                            
-                        //         $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$t_item["lesson_start"],$revisit_end,$item["account"],5);
-                        //         if($revisit_num <=0){
-                        //             $revisit_reword_per -=0.05;
-                        //         }
-
-                            
-                        //     }
-                        //     if($t_item["lesson_start"]<$first_lesson_time){
-                        //         $first_lesson_time = $t_item["lesson_start"];
-                        //     }
-
-                        //     if($revisit_reword_per <=0){
-                        //         break;
-                        //     }
-                        // }
-                        // if($revisit_reword_per <=0){
-                        //     break;
-                        // }
-
-                        // if($first_lesson_time>0 && $first_lesson_time<$month_half){
-                        //     if($assign_time < $month_half){
-                        //         $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$item["account"],-2);
-                        //         if($revisit_num <2){
-                        //             $revisit_reword_per -=0.05;
-                        //         }
-                        //     }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
-                        //         $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$item["account"],-2);
-                        //         if($revisit_num <1){
-                        //             $revisit_reword_per -=0.05;
-                        //         }
-
-                        //     }
-                        // }elseif($first_lesson_time>0 && $first_lesson_time>=$month_half &&  $first_lesson_time<=$end_time){                       
-                        //     $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$item["account"],-2);
-                        //     if($revisit_num <1){
-                        //         $revisit_reword_per -=0.05;
-                        //     }
-
-                        // }
-                        // if($revisit_reword_per <=0){
-                        //     break;
-                        // }
-
-
-
-                    
-                    }
-                }
-                if($revisit_reword_per >0){
-                    //检查本月带过的历史学生 
-                    $history_list = $task->t_ass_stu_change_list->get_ass_history_list($k,$start_time,$end_time);
-                       
-                    foreach($history_list as $val){
-                        $add_time = $val["add_time"];
-                        if($add_time<$month_half){
-                            $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$month_half,$item["account"],-2);
-                            if($revisit_num <1){
-                                $revisit_reword_per -=0.05;
-                            }
-
-                        }else{
-                            $assign_time = $val["assign_ass_time"];
-                            if($assign_time <$month_half){
-                                $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$item["account"],-2);
-                                if($revisit_num <2){
-                                    $revisit_reword_per -=0.05;
-                                }
-
-                            }else{
-                                $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$month_half,$end_time,$item["account"],-2);
-                                if($revisit_num <1){
-                                    $revisit_reword_per -=0.05;
-                                }
-
-                            }
-                        }
-                        if($revisit_reword_per <=0){
-                            break;
-                        }
-
-            
-                    }
-
-                }
-
-                if($revisit_reword_per>0){
-                    //检查停课学生回访状态
-                    $stop_student_list = $item["stop_student_list"];
-                    if($stop_student_list){
-                        $stop_student_arr = json_decode($stop_student_list,true);
-                        foreach($stop_student_arr as $val){
-                            //先检查是否是本月才开始上课的(获取各科目常规课最早上课时间)
-                            $first_regular_lesson_time = $task->t_lesson_info_b3->get_stu_first_regular_lesson_time($val);
-                            $assign_time = $task->t_student_info->get_ass_assign_time($val);                        
-
-                            if($first_regular_lesson_time>0 && $first_regular_lesson_time<$month_half){
-                                if($assign_time < $month_half){
-                                    $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$item["account"],-2);
-                                    if($revisit_num <2){
-                                        $revisit_reword_per -=0.05;
-                                    }
-                                }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
-                                    $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$item["account"],-2);
-                                    if($revisit_num <1){
-                                        $revisit_reword_per -=0.05;
-                                    }
-
-                                }
-                            }elseif($first_regular_lesson_time>0 && $first_regular_lesson_time>=$month_half &&  $first_regular_lesson_time<=$end_time){                       
-                                $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$item["account"],-2);
-                                if($revisit_num <1){
-                                    $revisit_reword_per -=0.05;
-                                }
-
-                            }
-                            if($revisit_reword_per <=0){
-                                break;
-                            }
-
-
-
-                    
-                        }
-                    }
-
-                }
-                if($revisit_reword_per <0){
-                    $revisit_reword_per=0;
-                }
-                $item["revisit_reword_per"] = $revisit_reword_per;
            
 
-                //课时消耗达成率
-                $read_student_list = @$last_ass_month[$k]["userid_list"];//改为在读人数
-                // $registered_student_list = @$item["registered_student_list"];//先以10月份数据代替
-                $estimate_month_lesson_count = @$item["estimate_month_lesson_count"];
-                if(empty($estimate_month_lesson_count)){
-                    
-                    if( $read_student_list){
-                        $read_student_arr = json_decode( $read_student_list,true);
-                        $last_stu_num = count($read_student_arr);//月初在读人员数
-                        $last_lesson_total = $task->t_week_regular_course->get_lesson_count_all($read_student_arr);//月初周总课时消耗数
-                        $estimate_month_lesson_count =$n*$last_lesson_total/$last_stu_num;
-                    }else{
-                        $read_student_arr=[];      
-                        $estimate_month_lesson_count =100;
-                    }
-                }
-
-                //得到单位学员平均课时数完成率
-                $seller_lesson_count =$seller_stu_num=0;
-                foreach($lesson_count_list as $p_item){
-                    $seller_lesson_count += @$p_item[$k]["lesson_count"]; 
-                    $seller_stu_num += @$p_item[$k]["user_count"]; 
-                }
-                $seller_stu_num = $seller_stu_num/$n;
-                // $seller_stu_num = $item["seller_week_stu_num"];
-                // $seller_lesson_count = $item["seller_month_lesson_count"];
-                // $estimate_month_lesson_count = $item["estimate_month_lesson_count"];
-                if(empty($seller_stu_num)){
-                    $lesson_count_finish_per=0;
-                }else{
-                    $lesson_count_finish_per= round($seller_lesson_count/$seller_stu_num/$estimate_month_lesson_count*100,2);
-                }
-
-                //算出kpi中课时消耗达成率的情况
-                if($lesson_count_finish_per>=70){
-                    $kpi_lesson_count_finish_per = 0.4;
-                }else{
-                    $kpi_lesson_count_finish_per=0;
-                }
-
-                $item["kpi_lesson_count_finish_per"]=$kpi_lesson_count_finish_per;
-                $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,[
-                    "revisit_reword_per"          =>$revisit_reword_per*100,
-                    "kpi_lesson_count_finish_per" =>$kpi_lesson_count_finish_per*100,
-                    "estimate_month_lesson_count" =>$estimate_month_lesson_count,
-                    "seller_month_lesson_count"   =>$seller_lesson_count,
-                    "seller_week_stu_num"         =>$seller_stu_num,
-                    "first_lesson_stu_list"       => $first_lesson_stu_list
-                ]);
+                        
             
-            }
         }
 
 

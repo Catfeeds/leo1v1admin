@@ -4505,7 +4505,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $reference_price = 60;
             }elseif($teacherid == 149697){ //明日之星 50元/个
                 $reference_price = 50;
-            }elseif($type == 1 && ($teacherid == 176348 || (in_array($teacher_info['teacher_type'], [21,22]) && in_array($teacher_ref_type, [1,2])))) { //田克平 廖老师工作室 王老师工作室 推荐机构老师 80 元/个
+            } //154035 李志强 161755 王宇廷 147700 吴文东 134533 唐建军 176348 田克平 廖老师工作室 王老师工作室 推荐机构老师 80 元/个
+            elseif($type == 1 && ((in_array($teacherid, [176348, 154035, 161755, 147700, 134533])) || (in_array($teacher_info['teacher_type'], [21,22]) && in_array($teacher_ref_type, [1,2])))) { 
                 $reference_price = 80;
             } else {
                 //$reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type) + 1;

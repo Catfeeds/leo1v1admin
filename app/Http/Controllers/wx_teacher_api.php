@@ -1190,7 +1190,8 @@ class wx_teacher_api extends Controller
             "stu_cw_file_id"  => $stuFileId,
             "tea_cw_pic"      => $filelinks,
             "tea_cw_status"   => 1,
-            "stu_cw_status"   => 1
+            "stu_cw_status"   => 1,
+            "tea_cw_upload_time" => time()
         ]);
 
         $courseid = $this->t_lesson_info->get_courseid($lessonid);
