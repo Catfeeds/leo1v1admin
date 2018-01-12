@@ -227,10 +227,10 @@ export default class vtable extends Vue {
     $.do_ajax(path, query_args, function (resp) {
       if (resp.ret == 0) {
         console.log("ajax out",resp);
-        me.$data.table_data = resp.list;
         me.$data.html_power_list =resp.html_power_list;
         me.$data.table_config.html_power_list =resp.html_power_list;
         me.$data.table_config.order_by_str = resp.g_args.order_by_str;
+        me.$data.table_data = resp.list;
 
         //附加数据
         $.each(resp ,function(k,v){

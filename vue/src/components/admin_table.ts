@@ -50,17 +50,16 @@ export default class admin_table extends Vue {
 
   table_field_show_config:Object;
   auto_gen_field_list:Array<any>;
-  on_mounted() {
-
+  reset_auto_gen_field_list() {
     var me=this;
     me.auto_gen_field_list=[];
-
     if (! this.$props.table_config.field_list ) {
       $.each( me.$children,function(i, child_item){
         var field_info={};
         if (child_item.$options["_componentTag"]=="admin-table-th"){
           var title=$.trim(child_item.$slots["default"]["0"]["text"]);
           field_info["title"]=title;
+          console.log( child_item["real_field_info"] );
           if (me.check_power_show( child_item["real_field_info"])) {
             field_info["power_show_flag"]=true;
             if (child_item.$el.tagName=="TD") {
@@ -76,7 +75,9 @@ export default class admin_table extends Vue {
       });
       console.log(me.auto_gen_field_list);
     }
-
+  }
+  on_mounted() {
+    this.reset_auto_gen_field_list();
   }
 
   on_created (){
@@ -193,6 +194,7 @@ export default class admin_table extends Vue {
   check_power_show (field_info):boolean{
     var show_flag=true;
     if (field_info.need_power){
+      console.log("html_power_list:"+ field_info.need_power, this.$props.table_config.html_power_list );
       show_flag= this.$props.table_config.html_power_list&& this.$props.table_config.html_power_list[field_info.need_power];
     }
     return show_flag;
@@ -336,6 +338,7 @@ export default class admin_table extends Vue {
   }
   reset_row() {
     var me=this;
+    me.reset_auto_gen_field_list();
     $.each( me.$children, function(i, child_item){
       if (child_item.$options["_componentTag"]=="admin-table-row")  {
         var td_list=child_item.$children.filter(function(value){
