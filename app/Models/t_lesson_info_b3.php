@@ -2932,5 +2932,16 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_update($sql);
     }
+    public function get_tea_info($lessonid){
+        $sql = $this->gen_sql_new("  select tea_cw_pic, tp.create_time from %s l"
+                                  ." left join %s tp on tp.lessonid=l.lessonid"
+                                  ." where l.lessonid=$lessonid order by create_time desc limit 1"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_pdf_to_png_info::DB_TABLE_NAME
+        );
+
+        return $this->main_get_row($sql);
+    }
+
 
 }

@@ -443,7 +443,8 @@ class agent extends Controller
     }
 
     public function test_new(){
-        dd('a');
+        $groupid = $this->t_group_name_month->get_groupid_by_adminid($adminid=1203, $start_time_this=1512057600);
+        dd($groupid);
     }
 
     //处理等级头像

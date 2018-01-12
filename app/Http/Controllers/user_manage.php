@@ -3244,24 +3244,16 @@ class user_manage extends Controller
         list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],3 );
         $sys_operator = $this->get_in_str_val("sys_operator","");
         $account_role = $this->get_in_int_val("account_role",-1);
+        $page_num     = $this->get_in_page_num();
         $end_date     = date("Y-m-d H:i:s",$end_time);
         $one_year     = strtotime("$end_date -1 year"); 
         $half_year    = strtotime("$end_date -6 month");
         $three_month  = strtotime("$end_date -3 month");
 
+        $ret          = $this->t_order_refund->get_sys_operator_apply_info($start_time,$end_time);
         $ret_info     = $this->t_order_info->get_sys_operator_refund_info($one_year,$half_year,$three_month,$start_time,$end_time);
 
-        $ret = $this->t_order_refund->get_sys_operator_apply_info($start_time,$end_time);
-
-
-        foreach ($ret_info  as $key => &$value) {
-            if(isset($ret[$key])){
-                $value['apply_num'] = $ret[$key]['num'];
-            }else{
-                $value['apply_num'] = 0;
-            }
-            $value['type'] = $this->t_manager_info->get_account_role_by_name($value['sys_operator']);
-        }
+        
 
         foreach ($ret as $key => $value) {
             if(!isset($ret_info[$key])){
@@ -3272,7 +3264,6 @@ class user_manage extends Controller
                 $ret_info[$key]['half_year_num'] = 0;
                 $ret_info[$key]['three_month_num'] = 0;
                 $ret_info[$key]['one_month_num'] = 0;
-
                 $ret_info[$key]['one_year_refund_num'] = 0;
                 $ret_info[$key]['half_year_refund_num'] = 0;
                 $ret_info[$key]['three_month_refund_num'] = 0;
@@ -3280,9 +3271,31 @@ class user_manage extends Controller
             }
         }
 
+        foreach ($ret_info  as $key => &$value) {
+            if(isset($ret[$key])){
+                $value['apply_num'] = $ret[$key]['num'];
+            }else{
+                $ret[$key] = $value;
+                $ret[$key]['apply_num'] = 0;
+            }
+            $value['type'] = $this->t_manager_info->get_account_role_by_name($value['sys_operator']);
+        }
+
+        
+
+        //deal
+        foreach ($ret_info as $key => &$value) {
+            $value['type_str'] = E\Eaccount_role::get_desc($value['type']);
+            $value['one_year_per'] = $value['one_year_num'] > 0? round($value['one_year_refund_num']/$value['one_year_num'],2) : 0;
+            $value['half_year_per'] = $value['half_year_num'] > 0? round($value['half_year_refund_num']/$value['half_year_num'],2) : 0;
+            $value['three_month_per'] = $value['three_month_num'] > 0? round($value['three_month_refund_num']/$value['three_month_num'],2) : 0;
+            $value['one_month_per'] = $value['one_month_num'] > 0? round($value['one_month_refund_num']/$value['one_month_num'],2) : 0;
+
+        }
+
         dd($ret_info);
         
-        return $this->pageView(__METHOD__, null);
+        return $this->pageView(__METHOD__, $ret_info);
     }
 
     /**

@@ -2276,4 +2276,25 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
     }
 
+    public function check_change_flag(){
+        $lessonid = $this->get_in_int_val('lessonid');
+        $check_info = $this->t_lesson_info_b3->get_tea_info($lessonid);
+        $list = [];
+
+
+        if($check_info['tea_cw_pic']){
+            $pic_num = explode(',',$check_info['tea_cw_pic']);
+            $list['tea_cw_pic'] = ' 已平铺 页数:'.count($pic_num);
+        }else{
+            $list['tea_cw_pic'] = ' 无';
+        }
+
+        if($check_info['create_time']){
+            $list['create_time'] = date('Y-m-d H:i:s',$check_info['create_time']);
+        }else{
+            $list['create_time'] = ' 无';
+        }
+
+        return $this->output_succ(['data'=>$list]);
+    }
 }
