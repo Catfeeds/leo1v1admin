@@ -580,10 +580,11 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
             " o.contract_status IN (1,2,3) ",
             " s.is_test_user = 0 "
         ];
-        $sql = $this->gen_sql_new("select sys_operator, count(*) as apply_num "
+        $sql = $this->gen_sql_new("select sys_operator,m.account_role as type, count(*) as apply_num "
                                 ." from %s  r "
                                 ." left join %s o on o.orderid = r.orderid "
                                 ." left join %s s on o.userid = s.userid "
+                                ." left join %s m on o.sys_operator = m.name "
                                 ." where %s "
                                 ." group by sys_operator order by max(apply_time) desc "
                                 ,self::DB_TABLE_NAME
