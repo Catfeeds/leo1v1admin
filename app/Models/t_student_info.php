@@ -2828,6 +2828,15 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
+    public function get_all_lesson_left($userid_list){
+        $where_arr=[];
+        $where_arr[] = $this->where_get_in_str("userid",$userid_list,true);
+        $sql =$this->gen_sql_new("select sum(lesson_count_left) from %s where %s",self::DB_TABLE_NAME,$where_arr);
+
+        return $this->main_get_value($sql);
+
+    }
+
     public function get_no_type_student_score($page_info,$assistantid,$page_num,$start_time,$end_time){
         $where_arr=[
           ['o.assistantid=%d', $assistantid, -1],
