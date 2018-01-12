@@ -3267,6 +3267,10 @@ class user_manage extends Controller
         }
 
         foreach ($ret_info as $key => $value) {
+
+            if($key == "袁兴运" || $key == "吴峰"){
+                var_dump($value);
+            }
             if(isset($ret[$key])){//添加
                 $ret[$key]['one_year_num'] = $value['one_year_num'];
                 $ret[$key]['half_year_num'] = $value['half_year_num'];
