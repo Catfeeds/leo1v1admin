@@ -14,7 +14,7 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
-        $json_data=file_get_contents( "http://10.31.92.162/account/login?phone=13817759346&role=1&passwd=befe7ecb6a1aab4ad80332b34ef782d8"  );
+        $json_data=file_get_contents( "http://10.31.92.162/account/add_small_class_order_info"  );
         dd($json_data);
 
         $registered_student_arr=[1,2,3,4];
