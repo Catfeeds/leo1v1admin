@@ -260,7 +260,7 @@ class test_sam extends Command
         $ret_info = $task->t_student_score_info->get_b4();
         $ret = [];
         foreach ($ret_info as $key => &$value) {
-            $arr['grade']   = E\Egrade::get_desc($value['grade']);
+            $value['grade']   = E\Egrade::get_desc($value['grade']);
             $time = time() - $value['max_time'];
             if($time > 31535000){
                 $value['max_time'] = 0;
@@ -274,7 +274,6 @@ class test_sam extends Command
                 $value['max_time'] = 4;
             }
         }
-
         foreach ($ret_info as $key => $value) {
             $ret[$value['grade']][$value['max_time']] = isset($ret[$value['grade']][$value['max_time']]) ? $ret[$value['grade']][$value['max_time']] + 1 : 1;
         }
