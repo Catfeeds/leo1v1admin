@@ -3413,7 +3413,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr = [];
         $this->where_arr_add_time_range($where_arr, 'ss.add_time', $start_time, $end_time);
         $sql=$this->gen_sql_new(
-            " select k.key0,seller_resource_type ,first_call_time,first_contact_time,test_lesson_count,"
+            " select seller_resource_type ,first_call_time,first_contact_time,test_lesson_count,"
             ." first_revisit_time,last_revisit_time,tmk_assign_time,last_contact_time,last_contact_cc,"
             ." competition_call_adminid, competition_call_time,sys_invaild_flag,wx_invaild_flag,"
             ." return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status,"
@@ -3429,14 +3429,14 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." left join %s ss on  ss.userid = t.userid "
             ." left join %s s on ss.userid=s.userid "
             ." left join %s m on  ss.admin_revisiterid =m.uid "
-            ." left join %s k on  k.value =s.origin "
+            // ." left join %s k on  k.value =s.origin "
             ." left join %s o on  o.orderid =ss.orderid "
             ." where %s order by ss.add_time desc "
             , t_test_lesson_subject::DB_TABLE_NAME
             , self::DB_TABLE_NAME
             , t_student_info::DB_TABLE_NAME
             , t_manager_info::DB_TABLE_NAME
-            , t_origin_key::DB_TABLE_NAME
+            // , t_origin_key::DB_TABLE_NAME
             , t_order_info::DB_TABLE_NAME
             ,$where_arr
         );
