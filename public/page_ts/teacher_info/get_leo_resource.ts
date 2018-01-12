@@ -35,7 +35,7 @@ function load_data(){
 
 }
 $(function(){
-    console.log(type_list);
+    // console.log(type_list);
     $('#id_resource_type').val(g_args.resource_type);
     $('#id_subject').val(g_args.subject);
     $('#id_grade').val(g_args.grade);
@@ -110,6 +110,7 @@ $(function(){
 
     }
     Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,type_list);
+    // Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6]);
     Enum_map.append_option_list("subject", $("#id_subject"),true, tea_sub);
     Enum_map.append_option_list("grade", $("#id_grade"),true, tea_gra);
     if(tag_one == 'region_version'){
