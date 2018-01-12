@@ -4800,7 +4800,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             " o.contract_status  in (1,2,3) "
         ];
 
-        $sql = $this->gen_sql_new("select sys_operator,count(*) as one_year_num ,"
+        $sql = $this->gen_sql_new("select sys_operator,m.uid,count(*) as one_year_num ,"
             ."  sum(if(order_time > $half_year , 1,0)) as half_year_num, "
             ."  sum(if(order_time > $three_month , 1,0)) as three_month_num,"
             ."  sum(if(order_time > $start_time , 1,0)) as one_month_num, "

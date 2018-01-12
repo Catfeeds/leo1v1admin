@@ -3250,9 +3250,10 @@ class user_manage extends Controller
         $half_year    = strtotime("$end_date -6 month");
         $three_month  = strtotime("$end_date -3 month");
 
+        $ret          = $this->t_order_refund->get_sys_operator_apply_info($start_time,$end_time);
         $ret_info     = $this->t_order_info->get_sys_operator_refund_info($one_year,$half_year,$three_month,$start_time,$end_time);
 
-        $ret = $this->t_order_refund->get_sys_operator_apply_info($start_time,$end_time);
+        
 
         foreach ($ret as $key => $value) {
             if(!isset($ret_info[$key])){

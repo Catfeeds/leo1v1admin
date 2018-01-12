@@ -585,7 +585,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                 ." left join %s o on o.orderid = r.orderid "
                                 ." left join %s s on o.userid = s.userid "
                                 ." where %s "
-                                ." group by sys_operator order by apply_time desc "
+                                ." group by sys_operator order by max(apply_time) desc "
                                 ,self::DB_TABLE_NAME
                                 ,t_order_info::DB_TABLE_NAME
                                 ,t_student_info::DB_TABLE_NAME
