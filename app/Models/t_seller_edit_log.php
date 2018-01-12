@@ -250,8 +250,8 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
             " select e.new,m1.account give_nick,m2.account get_nick,e.create_time "
             ." from %s e "
             ." left join %s n on n.userid=e.new "
-            ." left join %s m1 on m1.uid=e.uid "
-            ." left join %s m2 on m2.uid=e.adminid "
+            ." left join %s m1 on m1.uid=e.adminid "
+            ." left join %s m2 on m2.uid=e.uid "
             ." where %s order by e.create_time "
             ,self::DB_TABLE_NAME
             ,t_seller_student_new::DB_TABLE_NAME

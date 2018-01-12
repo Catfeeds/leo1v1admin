@@ -2360,7 +2360,7 @@ class user_deal extends Controller
         $main_type=$this->get_in_int_val("main_type");
         $month = strtotime($this->get_in_str_val("start_time"));
 
-        $db_groupid=$this->t_group_user_month->get_groupid_by_adminid($main_type,$adminid,$month);
+        $db_groupid=$this->t_group_user_month->get_groupid_by_adminid(-1,$adminid,$month);
         if ($db_groupid ) {
             $group_name=$this->t_group_name_month->get_group_name($db_groupid,$month);
             return $this->output_err("此人已在".date('Y-m',$month)."月[$group_name]中,不能添加");
@@ -4204,7 +4204,9 @@ class user_deal extends Controller
         $arr["last_group_all_price"] = $last_group_all_price/100;
 
         $no_update_seller_level_flag = $this->t_manager_info->field_get_value($adminid,'no_update_seller_level_flag');
-        if($no_update_seller_level_flag == 1){
+        $master_groupid = $this->t_group_name_month->get_groupid_by_adminid($adminid, $start_time_this);
+        // if($no_update_seller_level_flag == 1){
+        if($master_groupid>0){
             $arr['base_salary'] = 6500;
             $arr['sup_salary'] = 0;
             switch(true){
