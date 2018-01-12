@@ -17,7 +17,7 @@ class test_control extends Controller
                 if (substr( $file,0,4) != "test" ) {
                     $className=substr($file, 0, -4 ) ;
 
-                    if (! in_array( $className,["CacheNick","ViewDeal","InputDeal","TeaPower"] ) ) {
+                    if (! in_array( $className,["CacheNick","ViewDeal","InputDeal","TeaPower","LessonPower"] ) ) {
                         $str="\\App\\Http\\Controllers\\".  $className;
                         $str::getRouter() ;
                     }

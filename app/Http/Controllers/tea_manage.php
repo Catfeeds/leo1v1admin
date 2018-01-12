@@ -176,15 +176,14 @@ class tea_manage extends Controller
 
     public function lesson_list()
     {
-        // $this->check_and_switch_tongji_domain();
-        $this->switch_tongji_database();
+        $this->switch_tongji_database();	
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             = $this->get_in_order_by_str([],"lesson_start asc",[
                 "grade" => "s.grade",
             ]);
         $page_info= $this->get_in_page_info();
 
-        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,null,1);
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,1);
 
         $acc         = $this->get_account();
         $adminid     = $this->get_account_id();

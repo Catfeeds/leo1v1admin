@@ -1145,14 +1145,14 @@ class tea_manage_new extends Controller
             $subject_arr = E\Esubject::$desc_map;
             $grade_arr   = E\Egrade::$desc_map;
 
-            //时间 科目 年级 任课老师 手机号 适合学生 课题 内容介绍
+            //0时间 1科目 2年级 3任课老师 4手机号 5适合学生 6课题 7内容介绍
             foreach($arr as $key=>$val){
                 if($key!=0 && count($val)==8){
                     $lesson_start  = strtotime($val[0]);
                     $subject       = $val[1];
                     $grade         = $val[2];
                     $tea_name      = $val[3];
-                    $phone         = $val[4];
+                    $phone         = (string)$val[4];
                     $suit_student  = $val[5];
                     $title         = $val[6];
                     $package_intro = $val[7];
@@ -1187,7 +1187,7 @@ class tea_manage_new extends Controller
                                 $teacherid,$title,$grade,$subject,E\Econtract_type::V_1001,$packageid,1
                             );
                             $lessonid  = $this->t_lesson_info->add_open_lesson(
-                                $teacherid,$courseid,$lesson_start,$lesson_end,$subject,$grade,E\Econtract_type::V_1001
+                                $teacherid,$courseid,$lesson_start,$lesson_end,$subject,$grade
                             );
                         }
                     }

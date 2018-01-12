@@ -95,4 +95,18 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
         return $this->main_get_value($sql);
     }
 
+    public function get_delay_feedback_list($start_time,$end_time){
+        $where_arr = [
+            "status=0"
+        ];
+        $where_arr = $this->lesson_start_sql($start_time,$end_time,"l");
+
+        $sql = $this->gen_sql_new("select id,l.lessonid,l.lesson_start,l.lesson_end"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
