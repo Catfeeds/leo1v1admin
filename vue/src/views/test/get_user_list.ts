@@ -13,7 +13,7 @@ export default class extends vtable {
 
   data_ex() {
     return {
-      "message"          : "xx",
+      "message" : "xx",
     }
   }
 
@@ -37,6 +37,22 @@ export default class extends vtable {
     });
 
     var action=  this.get_action_str();
+
+
+    $.admin_enum_select( {
+      "join_header"  : $header_query_info,
+      "enum_type" : null,
+      "field_name" : "test_select",
+      "option_map" : {
+        1: "xx",
+        2:"kkk 2 ",
+        3:"nnn3  ",
+      },
+      "title" : "自定义列表",
+      "select_value" :this.get_args().test_select,
+
+    }) ;
+
 
     $.admin_enum_select({
       'join_header'       : $header_query_info,
@@ -68,13 +84,13 @@ export default class extends vtable {
       "select_value" : this.get_args().userid,
     });
     $.admin_query_input({
-      'join_header'  : $header_query_info,
-      "field_name"  :"query_text",
-      "title"  :  "学生" ,
-      "placeholder" : "回车查询",
-      "length_css" : "col-xs-12 col-md-3",
-      "select_value" : this.get_args().query_text,
-      "as_header_query" :true,
+      'join_header'     : $header_query_info,
+      "field_name"      : "query_text",
+      "title"           : "学生" ,
+      "placeholder"     : "回车查询",
+      "length_css"      : "col-xs-12 col-md-3",
+      "select_value"    : this.get_args().query_text,
+      "as_header_query" : true,
     });
 
 
@@ -90,20 +106,17 @@ export default class extends vtable {
     });
 
 
-
     $.admin_query_common({
       'join_header'  : $header_query_info,
       "jquery_body" :  jquery_body,
     });
 
   }
-  doOpt(e  : MouseEvent ) {
-    var opt_data = this.get_opt_data(e.target);
+  doOpt(  e  : MouseEvent ,opt_data: self_RowData  ) {
     BootstrapDialog.alert(JSON.stringify(opt_data));
   };
 
-  do_edit(e:MouseEvent) {
-    var opt_data = this.get_opt_data(e.target);
+  opt_edit(e:MouseEvent ,opt_data: self_RowData) {
     var $nick= $("<input/>");
     $nick.val( opt_data.nick );
     var arr=[
@@ -123,5 +136,8 @@ export default class extends vtable {
   }
   js_xx_loaded ( e  ) {
 
+  }
+  gen_test_field (row_data: self_RowData ) {
+    return "KKKK "  +  row_data.realname;
   }
 }

@@ -80,7 +80,10 @@ class NoticeTomorrowLessonToParent extends Command
                 "course_name" => $course_name,
             ];
 
-            if ($phone) {
+            //短信黑名单(不发送)
+            $sms_phone_refund_list=["13621298715","13661763881"];
+
+            if ($phone && !in_array($phone,$sms_phone_refund_list)) {
                 try {
                     \App\Helper\Utils::sms_common($phone,$sms_id,$arr,0,$sign_name);
                 }catch(\Exception $e){

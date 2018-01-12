@@ -3724,6 +3724,24 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_row($sql);
     }
 
+    public function get_first_test_lesson($userid){
+        $where_arr=[
+            ['l.lesson_type = %u ',2],
+            ['l.lesson_del_flag = %u ',0],
+            ['l.userid = %u',$userid],
+            'l.confirm_flag in (0,1) ',
+        ];
+
+        $sql= $this->gen_sql_new(
+            " select l.lessonid "
+            . " from %s l "
+            . " where %s order by l.lesson_start limit 1 ",
+            t_lesson_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
     public function get_last_succ_test_lesson($userid){
         $where_arr=[
             ['l.lesson_type = %u ',2],

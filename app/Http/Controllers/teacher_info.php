@@ -618,12 +618,18 @@ class teacher_info extends Controller
             $work_status = 1;
             $issue_time  = $old_issue_time==0?$now:$old_issue_time;
         }
+
+        $origin_id =0;
+        if($tea_cw_origin!=0){
+            $origin_id =1;
+        }
         //转换pdf,可以平铺
         if($tea_cw_url!=false){
             $this->t_pdf_to_png_info->row_insert([
                 'lessonid'    => $lessonid,
                 'pdf_url'     => $tea_cw_url,
-                'create_time' => time()
+                'create_time' => time(),
+                "origin_id"   => $origin_id,
             ]);
         }
 
@@ -658,11 +664,11 @@ class teacher_info extends Controller
             ]);
         }
 
-        if($tea_cw_pic_flag==1 && $old_tea_cw_url!=$tea_cw_url){
-            $admin_url = \App\Helper\Config::get_monitor_new_url();
-            $post_url  = $admin_url."/common_new/notify_gen_lesson_teacher_pdf_pic?lessonid=".$lessonid;
-            $this->send_curl_post($post_url);
-        }
+        // if($tea_cw_pic_flag==1 && $old_tea_cw_url!=$tea_cw_url){
+        //     $admin_url = \App\Helper\Config::get_monitor_new_url();
+        //     $post_url  = $admin_url."/common_new/notify_gen_lesson_teacher_pdf_pic?lessonid=".$lessonid;
+        //     $this->send_curl_post($post_url);
+        // }
 
         return $this->output_succ();
     }
@@ -2599,23 +2605,43 @@ class teacher_info extends Controller
             }
         }
 
+        // dd($tea_info);
+        $sub_str = '-1';
+        $gra_str = '-1';
+        foreach($tea_info as $v){
+            $sub_str .= ','.$v['subject'];
+            foreach($v['grade'] as $g){
+                $gra_str .= ','.$g;
+            }
+        }
+        //获取所有有文件的对老师开放的资源类型
+        // $res_type_list = $this->t_resource->get_resource_type_for_tea($sub_str, $gra_str);
+        // // $res_type_list = $this->t_resource->get_resource_type_for_tea('1,2,3,4,5,6', '101,102,103,104,105,106');
+        // $type_list = [];
+        // foreach($res_type_list as $item){
+        //     $type_list[] =intval( $item['resource_type']);
+        // }
+
+
         if($is_js != 0){
             // return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
             return $this->output_ajax_table($ret_info,[
                 'tag_info' => $tag_arr,
                 'tea_sub' => join( $tea_sub, ','),
                 'tea_gra' => join($tea_gra, ','),
-                'book' => join($book_arr, ',')
+                'book' => join($book_arr, ','),
+                // 'type_list' => join($type_list, ',')
             ]);
 
         }
 
         // dd($tea_info);
         return $this->pageView( __METHOD__,$ret_info,[
-            'tag_info' => $tag_arr,
-            'tea_sub' => json_encode( $tea_sub),
-            'tea_gra' => json_encode($tea_gra),
-            'book' => json_encode($book_arr)
+            'tag_info'      => $tag_arr,
+            'tea_sub'       => json_encode( $tea_sub),
+            'tea_gra'       => json_encode($tea_gra),
+            'book'          => json_encode($book_arr),
+            'type_list' => json_encode([1,2,3,4,5,6])
         ]);
     }
 
@@ -2895,10 +2921,10 @@ class teacher_info extends Controller
             if($this_tea == $teacherid && $file_id == 0){//是老师自己上传的文件
                 $file_link = $this->t_teacher_resource->get_file_link($tea_res_id);
 
-                // $store=new \App\FileStore\file_store_tea();
-                // $auth=$store->get_auth();
-                // $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $file_link );
-                $authUrl = $this->gen_download_url($file_link);
+                $store=new \App\FileStore\file_store_tea();
+                $auth=$store->get_auth();
+                $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$file_link );
+                // $authUrl = $this->gen_download_url($file_link);
                 return $this->output_succ(["url" => $authUrl]);
             }
         } else {//预览理优资料
@@ -2916,10 +2942,10 @@ class teacher_info extends Controller
             ]);
             $this->t_resource_file->add_num('visit_num', $tea_res_id);
 
-            // $store=new \App\FileStore\file_store_tea();
-            // $auth=$store->get_auth();
-            // $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/". $file_link );
-            $authUrl = $this->gen_download_url($file_link);
+            $store=new \App\FileStore\file_store_tea();
+            $auth=$store->get_auth();
+            $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$file_link );
+            // $authUrl = $this->gen_download_url($file_link);
             return $this->output_succ(["url" => $authUrl]);
         }
 
@@ -3081,8 +3107,8 @@ class teacher_info extends Controller
             $data = [];
             $data[0]['subject'] = $info['subject'];
             $data[0]['grade'] = array_values($grade_1);
-            $data[1]['subject'] = $info['second_subject'];
-            $data[1]['grade'] = array_values($grade_2);
+            // $data[1]['subject'] = $info['second_subject'];
+            // $data[1]['grade'] = array_values($grade_2);
             return $data;
         }
         return false;

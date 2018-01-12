@@ -911,7 +911,6 @@ class user_deal extends Controller
             "system"
         );
 
-
         $contract_type = $order_item["contract_type"];
         $lesson_total  = $order_item["lesson_total"];
         $price         = $order_item["price"]/100;
@@ -960,7 +959,7 @@ class user_deal extends Controller
             }
             $sys_operator=$this->t_order_info->get_sys_operator($orderid);
             $this->t_student_info->noti_ass_order($userid,$sys_operator,false);
-
+            $this->t_seller_student_new->field_update_list($userid, ['orderid'=>$orderid]);
         }
 
         return $this->output_succ();
@@ -6168,5 +6167,17 @@ class user_deal extends Controller
         if($imgList['activityImgUrl']){ $imgList['activityImgUrl'] = $domain."/".$imgList['activityImgUrl'];}
         if($imgList['followImgUrl']){ $imgList['followImgUrl'] = $domain."/".$imgList['followImgUrl'];}
         return $this->output_succ(['data'=>$imgList]);
+    }
+
+    public function set_stu_test_paper_download(){
+        $lessonid = $this->get_in_int_val("lessonid");
+        $test_lesson_subject_id= $this->get_in_int_val("test_lesson_subject_id");
+
+        $this->t_seller_student_info->change_download_time($lessonid);
+        $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
+            "tea_download_paper_time" => time(NULL),
+        ]);
+
+        return $this->output_succ();
     }
 }

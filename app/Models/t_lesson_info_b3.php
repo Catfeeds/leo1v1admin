@@ -1760,7 +1760,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_del_flag=0",
             "s.is_test_user=0",
             "p.wx_openid != ''",
-            "l.confirm_flag<2"
+            "l.confirm_flag<2",
+            "l.lesson_cancel_time_type=0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$lesson_start,$lesson_end);
@@ -2584,7 +2585,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $this->where_arr_teacherid($where_arr,"l.teacherid", $qz_tea_arr ,$flag);
-       
+
         $sql=$this->gen_sql_new("select  sum(if( l.lesson_type in (0,1,3),1,0)) all_reg_num, sum(if(l.confirm_flag < 2 and l.lesson_type in (0,1,3),1,0)) reg_num, sum(if(deduct_come_late=1 and l.lesson_type in (0,1,3),1,0)) late_num, sum(if(lesson_cancel_reason_type=21 and l.lesson_type in (0,1,3),1,0)) kk_num,sum(if(lesson_cancel_reason_type=2 and l.lesson_type in (0,1,3),1,0)) change_num,sum(if(lesson_cancel_reason_type=12 and l.lesson_type in (0,1,3),1,0)) leave_num, sum(if(l.lesson_type=2 ,1,0)) all_test_num, sum(if(l.lesson_type=2 and tss.success_flag<2,1,0)) test_num,sum(if(l.lesson_type=2 and tss.test_lesson_fail_flag=109,1,0)) test_kk_num, sum(if(l.lesson_type=2 and tss.test_lesson_fail_flag=113,1,0)) test_person_num,sum(if(deduct_come_late=1 and l.lesson_type =2 and tss.success_flag<2,1,0)) test_late_num,sum(if(deduct_come_late=1 and l.lesson_type in (0,1,3) and l.confirm_flag < 2 ,1,0)) invalid_late_num,sum(if((lesson_cancel_reason_type=2 or lesson_cancel_reason_type=1)  and l.lesson_type in (0,1,3),1,0)) all_change_num,sum(if(lesson_cancel_reason_type=1 and l.lesson_type in (0,1,3),1,0)) stu_change_num,sum(if(lesson_cancel_reason_type=11 and l.lesson_type in (0,1,3),1,0)) stu_leave_num,sum(if((lesson_cancel_reason_type=12 or lesson_cancel_reason_type=11) and l.lesson_type in (0,1,3),1,0)) all_leave_num,sum(if(lesson_cancel_reason_type=12 and l.lesson_type in (0,1,3),l.lesson_count,0)) tea_leave_count,sum(if(lesson_cancel_reason_type=11 and l.lesson_type in (0,1,3),l.lesson_count,0)) stu_leave_count,  l.teacherid "
                                 ." from %s l "
                                 ." left join %s t on t.teacherid = l.teacherid"
@@ -2746,11 +2747,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
 
 
-    public function getPPtlinkList(){
-        $sql = $this->gen_sql_new("");
-
-        return $this->main_get_list($sql);
-    }
     //@desn:获取总课程及评价课程次数
     //@param $start_time 开始时间 $end_time 结束时间
     public function get_lesson_evaluation_data($start_time,$end_time){
@@ -2871,28 +2867,70 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    public function get_test_lesson_count($start_time, $end_time) {
+        $where_arr = [
+            ["l.lesson_start>=%u", $start_time, 0],
+            ["l.lesson_start<%u", $end_time, 0],
+            "l.lesson_type=2",
+            "l.confirm_flag!=2",
+            "l.lesson_del_flag=0",
+            "s.is_test_user=0"
+        ];
+        // select l.userid from t_lesson_info l left join t_student_info s on l.userid=s.userid where s.is_test_user =0 and l.lesson_start >= unix_timestamp('2018-1-1') and l.lesson_type=2 and l.confirm_flag!=2
+        $sql = $this->gen_sql_new("select l.userid,s.nick from %s l "
+                                  ." left join %s s on l.userid=s.userid "
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql, function($item) {
+            return $item['userid'];
+        });
+    }
+
+    public function getNeedTranLessonUid(){
+        $where_arr = [
+            "l.lesson_del_flag=0",
+            "l.tea_cw_type=1",
+            "l.lesson_cancel_time_type=0",
+            "zip_url=''",
+            "l.ppt_status=1",
+            "l.uuid!=''"
+        ];
+
+        $sql = $this->gen_sql_new("  select uuid, lessonid from %s l "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    public function getTeaUploadPPTLink(){
+        $where_arr = [
+            "l.lesson_del_flag=0",
+            "l.tea_cw_type=1",
+            "l.lesson_cancel_time_type=0",
+            "l.zip_url=''",
+            "l.tea_cw_url!=''"
+        ];
+
+        $sql = $this->gen_sql_new("  select tea_cw_url as file_link, lessonid from %s l "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    public function updateStatusByUuid($uuid,$status){
+        $sql = $this->gen_sql_new("  update %s set ppt_status=$status where uuid='$uuid'"
+                                  ,self::DB_TABLE_NAME
+        );
+        return $this->main_update($sql);
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

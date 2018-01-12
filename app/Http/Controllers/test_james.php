@@ -14,24 +14,30 @@ use  App\Jobs\send_wx_notic_for_software;
 use  App\Jobs\send_wx_notic_to_tea;
 use  App\Jobs\wxPicSendToParent;
 
-// use LaneWeChat\Core\Media;
 
-// use LaneWeChat\Core\AccessToken;
 
-use LaneWeChat\Core\ResponsePassive;
 
 use Illuminate\Http\Request;
 
-// use LaneWeChat\Core\WeChatOAuth;
-use Teacher\Core\WeChatOAuth;
+# 家长端微信
+use LaneWeChat\Core\WeChatOAuth;
+use LaneWeChat\Core\AccessToken;
+use LaneWeChat\Core\ResponsePassive;
+use LaneWeChat\Core\Media;
+use LaneWeChat\Core\UserManage;
 
-use Teacher\Core\UserManage;
 
-use Teacher\Core\TemplateMessage;
 
-use Teacher\Core\Media;
+# 老师微信端
+// use Teacher\Core\WeChatOAuth;
 
-use Teacher\Core\AccessToken;
+// use Teacher\Core\UserManage;
+
+// use Teacher\Core\TemplateMessage;
+
+// use Teacher\Core\Media;
+
+// use Teacher\Core\AccessToken;
 
 
 
@@ -46,8 +52,8 @@ use Qiniu\Storage\BucketManager;
 
 
 
-// include(app_path("Libs/LaneWeChat/lanewechat.php"));
-include(app_path("Wx/Teacher/lanewechat_teacher.php"));
+include(app_path("Libs/LaneWeChat/lanewechat.php"));
+// include(app_path("Wx/Teacher/lanewechat_teacher.php"));
 
 
 
@@ -196,6 +202,15 @@ class test_james extends Controller
 
         $base_url=$auth->privateDownloadUrl($file_url );
         return $base_url;
+    }
+
+    public function getFileUrlTea(){
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+        $pdf_url = $this->get_in_str_val('url');
+
+        $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdf_url);
+        header("Location: $pdf_file_path ");
     }
 
 
@@ -1682,9 +1697,7 @@ class test_james extends Controller
     }
 
     public function t_ss(){
-        $ret_info = $this->t_teacher_info->get_teacher_bank_info_tmp($isbank, 5000);
-        dd($ret_info);
-        $file_id = $this->get_in_int_val('fid',-1);
+        $file_id = $this->get_in_int_val('f',-1);
         $list = $this->t_resource_file->get_list_tmp($file_id);
 
         foreach($list as $v){
@@ -1722,9 +1735,30 @@ class test_james extends Controller
         $oneMinuteEnd   = $oneMinuteStart+60;
         $lessonEndList  = $this->t_lesson_info_b3->getLessonEndList($oneMinuteStart,$oneMinuteEnd);
         dd($lessonEndList);
+        //ceshi
     }
 
 
+    public function getSellerNum(){
+        $s = $this->get_in_str_val('s');
+        $ret = $this->t_admin_group_name->getGroupSellerNum(1,$s);
+        dd($ret);
+    }
+
+    public function checkSellerNum(){
+        $s = $this->get_in_str_val('s');
+        $g = $this->get_in_str_val('g');
+        $ret = $this->t_admin_group_name->get_group_seller_num($s,$g);
+        dd($ret);
+    }
+
+    public function doTest(){
+        $pdf_url = $this->get_in_str_val('p');
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+        $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdf_url);
+        dd($pdf_file_path);
+    }
 
 
 

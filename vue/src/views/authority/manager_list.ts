@@ -236,6 +236,7 @@ export default class extends vtable {
       "allway_show_flag" :true,
       "select_value" : this.get_args().user_info,
     });
+
     $.admin_enum_select({
       'join_header'  : $header_query_info,
       "enum_type"    : "boolean",
@@ -1007,4 +1008,7 @@ export default class extends vtable {
         // alert('wel');
   }
 
+  opt_test(e:MouseEvent,opt_data: self_RowData) {
+    BootstrapDialog.alert(JSON.stringify(opt_data) );
+  }
 }

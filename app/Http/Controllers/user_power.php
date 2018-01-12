@@ -196,4 +196,91 @@ class user_power extends Controller
         }
     }
 
+    public function edit_role_groupid(){
+        $role_groupid          = $this->get_in_int_val('role_groupid');
+        $edit_type             = $this->get_in_int_val('edit_type');
+        $edit_power_name       = $this->get_in_str_val('edit_power_name');
+        $edit_power_id         = $this->get_in_str_val('edit_power_id');
+        $user_id               = $this->get_in_int_val('user_id');
+
+        if( $edit_type == 1){
+            //添加权限组
+            $this->t_authority_group->row_insert([
+                "group_name"  => $edit_power_name,
+                "role_groupid" => $role_groupid,
+                "create_time"  => time(NULL)
+            ]);
+            $edit_power_id = $this->t_authority_group->get_last_insertid();
+        }else{
+            //编辑权限组
+            $this->t_authority_group->field_update_list($edit_power_id,[
+                "group_name"  => $edit_power_name,
+                "role_groupid"  => $role_groupid
+            ]);
+ 
+        }
+
+        if($user_id){
+            //添加用户
+            $this->t_manager_info->field_update_list($user_id,['role_groupid'=>$role_groupid]);
+            /**
+             * @ 产品部加 数据更改日志
+             */
+            $this->t_user_log->row_insert([
+                "add_time" => time(),
+                "adminid"  => $this->get_account_id(),
+                "msg"      => "权限管理页面,添加用户修改记录: [用户id:$user_id,角色:$role_groupid]",
+                "user_log_type" => 4, //权限页面添加用户记录
+            ]);
+
+        }
+
+        return $this->output_succ();
+    }
+
+    public function add_user(){
+        $user_id      = $this->get_in_int_val("user_id") ;
+        $role_groupid  = $this->get_in_int_val("role_groupid") ;
+
+        $this->t_manager_info->field_update_list($user_id,['role_groupid'=>$role_groupid]);
+
+        /**
+         * @ 产品部加 数据更改日志
+         */
+        $this->t_user_log->row_insert([
+            "add_time" => time(),
+            "adminid"  => $this->get_account_id(),
+            "msg"      => "权限管理页面,添加用户修改记录: [用户id:$user_id,角色:$role_groupid]",
+            "user_log_type" => 4, //权限页面添加用户记录
+        ]);
+
+        return $this->output_succ();
+    }
+    //删除权限组
+    public function dele_role_groupid(){
+        $role_groupid  = $this->get_in_int_val('role_groupid');
+        $groupid  = $this->get_in_int_val('groupid');
+        $deleNum = $this->t_authority_group->dele_by_id($role_groupid, $groupid);
+        if($deleNum){
+            return $this->output_succ();
+        }else{
+            return $this->output_err();
+        }
+    }
+
+    public function set_group_power(){
+        $role_groupid         = $this->get_in_int_val('role_groupid');
+        $groupid              = $this->get_in_int_val('groupid');
+        $power_list_str       = $this->get_in_str_val('power_list_str');
+        $this->t_authority_group->field_update_list($groupid,[
+            "group_authority"  => $power_list_str,
+        ]);
+        return $this->output_succ();
+    }
+
+    public function dele_role_user(){
+        $uid                  = $this->get_in_int_val("uid");
+        $this->t_manager_info->field_update_list($uid,['role_groupid'=>0]);
+        return $this->output_succ();
+    }
 }

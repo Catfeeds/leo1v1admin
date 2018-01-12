@@ -177,7 +177,11 @@ class tea_manage extends Controller
     public function lesson_list()
     {
         // $this->check_and_switch_tongji_domain();
+<<<<<<< HEAD
         $this->switch_tongji_database();	
+=======
+        $this->switch_tongji_database();
+>>>>>>> af24c53cf04e3fdb67b48138e4e67434d9734991
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             = $this->get_in_order_by_str([],"lesson_start asc",[
                 "grade" => "s.grade",
@@ -927,6 +931,16 @@ class tea_manage extends Controller
 
         return outputjson_success();
     }
+
+    public function send_curl_post($url){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_exec($ch);
+        curl_close($ch);
+    }
+
 
     public function get_stu_performance_new(){
         $lessonid=$this->get_in_int_val('lessonid',0);

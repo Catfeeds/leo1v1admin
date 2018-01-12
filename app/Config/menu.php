@@ -313,6 +313,7 @@ class menu{
                 ["power_id"=>1, "name"=>"首页",  "url"=>"/main_page2/market" ],
                 ["power_id"=>88, "name"=>"周报月报",  "url"=>"/report/week_of_monthly_report" ],
                 ["power_id"=>8, "name"=>"渠道-统计", "list"=>[
+                    ["power_id"=>3, "name"=>"渠道统计-明细", "url"=>"/tongji_ex/seller_student_detail"],
                     ["power_id"=>56, "name"=>"渠道统计-new", "url"=>"/tongji_ss/channel_statistics"],
                     ["power_id"=>2, "name"=>"渠道统计 总体", "url"=>"/tongji_ss/origin_count"],
                     ["power_id"=>99, "name"=>"渠道统计-即时", "url"=>"/tongji_ss/origin_count_simple"],
@@ -365,6 +366,8 @@ class menu{
                 ]],
                 ["power_id"=>5, "name"=>"质检-退费处理", "list"=>[
                     ["power_id"=>7, "name"=>"退费管理",   "url"=>"/user_manage/refund_list"],
+                    ["power_id"=>1, "name"=>"退费统计-下单人",   "url"=>"/user_manage/refund_tongji_sys_operator"],
+                    ["power_id"=>2, "name"=>"退费统计-助教",   "url"=>"/user_manage/refund_tongji_cr"],
                     ["power_id"=>9, "name"=>"退费汇总",   "url"=>"/user_manage/refund_duty_analysis"],
                     ["power_id"=>8, "name"=>"退费原因分析",   "url"=>"/user_manage/refund_analysis"],
                     ["power_id"=>30, "name"=>"退费原因编辑",   "url"=>"/order_refund_confirm_config/refund_info"],
@@ -657,7 +660,7 @@ class menu{
                 ["power_id"=>88, "name"=>"首页-new2.0",   "url"=>"/tongji2/ass_month_kpi_tongji_master" ],
                 ["power_id"=>82, "name"=>"首页-主管",   "url"=>"/main_page/assistant_main_leader_new" ],
                 ["power_id"=>87, "name"=>"首页-主管2.0",   "url"=>"/tongji2/ass_month_kpi_tongji" ],
-                ["power_id"=>20, "name"=>"助教薪资",   "url"=>"/assistant_performance/performance_info" ],
+                ["power_id"=>20, "name"=>"助教薪资",   "url"=>"/assistant_performance/performance_info_show" ],
                 ["power_id"=>83, "name"=>"周报-助长",   "url"=>"/tongji_ss/ass_weekly_info" ],
                 ["power_id"=>84, "name"=>"周报-主管",   "url"=>"/tongji_ss/ass_weekly_info_master" ],
                 ["power_id"=>57, "name"=>"月报-主管",   "url"=>"/tongji_ss/ass_month_info" ],

@@ -488,9 +488,7 @@
                             >
                                 <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
-                                @if($account_role==12 || in_array($account,['tom','jim']))
-                                    <a title="试听申请new" class="  fa-chevron-up opt-edit-new_new_two"></a>
-                                @endif
+                                <a title="试听申请new" class="  fa-chevron-up opt-edit-new_new_two"></a>
                                 <a title="录入回访信息" class="  fa-edit opt-edit-new_new"></a>
                                 <a title="手机拨打&录入回访信息" class=" fa-phone  opt-telphone   "></a>
                                 <a title="试听申请" class="fa fa-headphones opt-post-test-lesson "></a>

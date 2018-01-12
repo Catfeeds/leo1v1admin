@@ -64,13 +64,13 @@ class h5GetPoster extends Command
     {
         //
         $this->task=new \App\Console\Tasks\TaskController();
-        // $store=new \App\FileStore\file_store_tea();
-        // $auth=$store->get_auth();
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
 
-        $auth = new \Qiniu\Auth(
-            \App\Helper\Config::get_qiniu_access_key(),
-            \App\Helper\Config::get_qiniu_secret_key()
-        );
+        // $auth = new \Qiniu\Auth(
+        //     \App\Helper\Config::get_qiniu_access_key(),
+        //     \App\Helper\Config::get_qiniu_secret_key()
+        // );
 
 
 
@@ -84,11 +84,13 @@ class h5GetPoster extends Command
             ]);
 
             # 此下载域名需要 已更换 boby
-            $config=\App\Helper\Config::get_config("qiniu");
-            $bucket_info=$config["private_url"]['url'];
+            // $config=\App\Helper\Config::get_config("qiniu");
+            // $bucket_info=$config["private_url"]['url'];
 
-            $pdf_file_path = $auth->privateDownloadUrl($bucket_info.'/'.$pdf_url );
-            $pdf_url = str_replace('/','x',$pdf_url);
+            // $pdf_file_path = $auth->privateDownloadUrl($bucket_info.'/'.$pdf_url );
+            $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdf_url);
+
+
             $savePathFile = public_path('wximg').'/'.$pdf_url;
             if($pdf_url){
                 \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);

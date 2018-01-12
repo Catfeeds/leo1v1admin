@@ -34,6 +34,30 @@ interface JQueryStatic {
 
     show_key_value_table (title:string,arr:Array<Array<any>> ,btn_config?:Object,onshownfunc?: ()=>void, close_flag?:boolean ,width? ):void;
 
+
+    /*
+    $.admin_enum_select( {
+        "join_header"  : $header_query_info,
+        "enum_type" : null,
+        "field_name" : "contract_type",
+        "option_map" : {
+            1: "xx",
+            2:"kkk 2 ",
+            3:"nnn3  ",
+        },
+        "title" : "合同类型",
+        "select_value" :g_args.contract_type,
+    }) ;
+
+    $.admin_enum_select( {
+        "join_header"  : $header_query_info,
+        "enum_type" : "subject",
+        "title" : "科目",
+        "select_value" :g_args.subject,
+        "id_list" :[1,2,3,4,5,6],
+    }) ;
+
+    */
     admin_enum_select (options):any;
     admin_query_input ( options):any;
     admin_date_select ( options):any;
@@ -121,6 +145,8 @@ interface RowData {
 interface JQuery {
     get_opt_data(text: string): any;
 
+    table_head_static(height? ):any;
+
     table_group_level_4_init(show_flag?):void;
     table_admin_level_4_init(show_flag?):void;
     get_opt_data(): RowData;
@@ -164,6 +190,8 @@ interface JQuery {
 
     //<script type="text/javascript" src="/page_js/lib/select_dlg.js?v={{@$_publish_version}}"></script>
     admin_select_dlg(conf:Object):void;
+
+    admin_select_dlg_ajax_more(conf:Object):void;
 
     admin_header_query (config ): any;
 

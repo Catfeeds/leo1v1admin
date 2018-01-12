@@ -2497,14 +2497,14 @@ class Utils  {
             3 => [
                 101 => ['字母','自然拼读','词汇'],
                 102 => ['音标','词汇','口语'],
-                103 => ['听力','词汇','语法'],
-                104 => ['听力','词汇','语法'],
+                103 => ['写作','词汇','语法'],
+                104 => ['写作','词汇','语法'],
                 105 => ['词汇','语法','阅读'],
                 106 => ['词汇','语法','阅读'],
-                201 => ['听力','语法','阅读'],
+                201 => ['写作','语法','阅读'],
                 202 => ['语法','阅读','写作'],
                 203 => ['语法','阅读','写作'],
-                301 => ['听力','语法','词汇'],
+                301 => ['写作','语法','词汇'],
                 302 => ['语法','阅读','写作'],
                 303 => ['语法','阅读','写作'],
             ],
@@ -2576,7 +2576,6 @@ class Utils  {
         }
 
         return $ret;
-
     }
 
     /**
@@ -2627,6 +2626,7 @@ class Utils  {
     }
 
     /**
+<<<<<<< HEAD
      * 检测课程确认时间
      * 针对课程的修改,在该课程次月6日凌晨0点之后无法修改该课程的信息(确认课时,修改课程时间,修改课时)
      * @param int time 检测的时间
@@ -2642,4 +2642,28 @@ class Utils  {
         }
     }
 
+=======
+     * author   : sam
+     * function : phone_location => "省份"
+     */
+    static public function phone_location_to_province($phone_location){
+        if(strpos($phone_location, "黑龙江") || strpos($phone_location, "内蒙古") ){
+            $location = substr($phone_location,0,strlen($phone_location)-9);
+        }else if($phone_location == '重庆U友' || $phone_location == '江苏U友'
+            || $phone_location == '北京U友'  || $phone_location == '辽宁U友'
+            || $phone_location == '安徽U友'   || $phone_location == '湖北U友'
+            || $phone_location =='陕西U友'){
+            $location = substr($phone_location,0,6);
+        }else if( $phone_location == "鹏博士" || $phone_location == ''
+               || $phone_location == '免商店充值卡' || $phone_location == '中麦通信'
+               || $phone_location == "全国其它 " || $phone_location == '话机通信'
+               || $phone_location == '阿里通信'  || $phone_location == '小米移动'
+               || $phone_location == '普泰移动'  || $phone_location == '话机通信'){
+            $location = "其它";
+        }else{
+            $location = substr($phone_location,0,strlen($phone_location)-6);
+        }
+        return $location;
+    }
+>>>>>>> af24c53cf04e3fdb67b48138e4e67434d9734991
 };

@@ -1,0 +1,9 @@
+
+<td
+  v-if="check_show()"
+  v-bind:data-field_name="field_info.order_field_name"
+>
+  <span v-html="field_info.title" v-if="field_info.title" ></span><span><slot></slot></span>
+  <a v-if="field_info.order_field_name" class="fa td-sort-item "
+    v-bind:class="get_sort_class()" href="javascript:;"> </a>
+</td>

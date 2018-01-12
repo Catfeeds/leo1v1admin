@@ -1,5 +1,35 @@
 jQuery.fn.extend({
 
+
+    table_head_static:  function(height ) {
+        if($.check_in_phone() ) {
+            return;
+        }
+
+        var p_div=$('<div  style="  overflow: auto;  margin: 20px 10px; "><div>');
+        height= height? height: 500;
+        p_div.css({
+            "height" : ""+ height +"px"
+        });
+
+        var $table=$(this);
+        $table.before(p_div);
+        p_div.append($table);
+
+        $table.find("thead td").css ( {
+            "background-color":  "rgb(236, 240, 245)",
+        });
+
+
+        p_div.on('scroll',function(e){
+            var item=e.target;
+            var scrollTop = item.scrollTop;
+            console.log(e.target);
+            $(item).find('thead').css( {
+                "transform" : 'translateY(' + scrollTop + 'px)',
+            });
+        })
+    },
     table_admin_level_5_init:function(show_flag) {
 
         var $table=$(this);
@@ -370,61 +400,7 @@ jQuery.fn.extend({
 
 
     tbody_scroll_table:function( height  )  {
-        if(!$.check_in_phone() ) {
-            var $table=$(this);
-            $table.addClass("tbody-scroll-table");
-            if (!height) {
-                height= $(window).height() - $table.offset().top  - $table.find("thead").height()  ;
-            }
-            if (height<500) {
-                height=500;
-            }
-            $table.find("tbody").css({
-                height: ""+height+"px"
-            });
-
-            setTimeout(  function(){
-                // Change the selector if needed
-                var $bodyCells = $table.find('tbody tr:first').children(),
-                    colWidth;
-
-                // Get the tbody columns width array
-                colWidth = $bodyCells.map(function() {
-                    //return $(this).attr("style").split('width:')[1];
-                    var width=$(this).width();
-                    //$(this).width(width);
-                    return width;
-                }).get();
-
-
-                // Set the width of thead columns
-                $table.find('thead tr').children().each(function(i, v) {
-                    $(v).width(colWidth[i]);
-                });
-
-            },500 );
-
-            setTimeout(  function(){
-                // Change the selector if needed
-                var $bodyCells = $table.find('tbody tr:first').children(),
-                    colWidth;
-
-                // Get the tbody columns width array
-                colWidth = $bodyCells.map(function() {
-                    //return $(this).attr("style").split('width:')[1];
-                    var width=$(this).width();
-                    $(this).width(width);
-                    return width;
-                }).get();
-
-
-                // Set the width of thead columns
-                $table.find('thead tr').children().each(function(i, v) {
-                    $(v).width(colWidth[i]);
-                });
-
-            },4000 );
-        }
+            $(this).table_head_static();
     },
 
     key_value_table_show:function(  show_flag ) {

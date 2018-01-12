@@ -98,8 +98,8 @@ class seller_order_money_201712  extends  seller_order_money_base
 
             // $money= ($all_price * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_price *  $group_money_add_percent_val    ;
             // $desc= "($all_price * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_price *  $group_money_add_percent_val  "  ;
-            $money= ($stage_money * $percent_value + $no_stage_money * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_stage_price *  $group_money_add_percent_val + $group_all_no_stage_price * $group_money_add_percent_val  ;
-            $desc ="($stage_money * $percent_value + $no_stage_money * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_stage_price *  $group_money_add_percent_val + $group_all_no_stage_price * $group_money_add_percent_val  ";
+        $money= ($all_price * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_price *  $group_money_add_percent_val;
+        $desc ="($all_price * $percent_value - $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_price *  $group_money_add_percent_val";
         // }
 
         $ret_arr["money"] =$money;

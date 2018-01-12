@@ -1176,7 +1176,7 @@ class tongji_ss extends Controller
                     if (!isset($arr[$k])) {
                         $arr[$k]=0;
                     }
-                    $arr[$k]+=$v;
+                    $arr[$k]= $arr[$k]+intval($v);
                 }
             }
 
@@ -4594,23 +4594,17 @@ class tongji_ss extends Controller
 
     }
     public function tongji_ass_leader_kpi(){
-        $admind = $this->get_account_id();
-        $this->t_admin_group_name->switch_tongji_database();
-        /*  $ass_leader_arr = $this->t_admin_group_name->get_leader_list(1);
-        if($admind !=74 && $admind !=349 && $admind !=99 && $admind !=684 && !in_array($admind,$ass_leader_arr)){
-            return $this->error_view(
-                [
-                    "本页面只有助教主管才可以看!"
-                ]
-            );
-
-            }*/
-
-        /* $this->t_manager_info->switch_tongji_database();
-        $this->t_month_ass_student_info->switch_tongji_database();
-        $this->t_revisit_info->switch_tongji_database();
-        $this->t_student_info->switch_tongji_database();*/
+        $admind = $this->get_account_id();    
         list($start_time,$end_time) = $this->get_in_date_range( 0,0,0,[],3);
+        $ret_info = $this->t_month_ass_student_info->get_ass_month_info($start_time,-1,3);
+        foreach($ret_info as $k=>&$val){
+            $val["account"] = $this->t_manager_info->get_account($k);
+        }
+        return $this->pageView(__METHOD__ ,null, [
+            "ret_info" => $ret_info
+        ]);
+
+
         $last_month = strtotime(date("Y-m-01",$start_time-100));
         $month_middle = $start_time+15*86400;
         $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1);
@@ -4640,15 +4634,13 @@ class tongji_ss extends Controller
             @$ass_list[$key]["num"] = $num;
 
         }
-        $this->t_test_lesson_subject->switch_tongji_database();
-        $kk_suc            = $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time);
-        foreach($kk_suc as $kk=>$vv){
-            @$ass_list[$kk]["kk_suc"] = $vv["lesson_count"];
-            /*$master_adminid_ass = $this->t_admin_group_user->get_master_adminid_by_adminid($kk);
-            @$ret_info[$master_adminid_ass]["kk_suc"] +=$vv["lesson_count"];
-            @$ret_info[$master_adminid_ass]["kk_person"] ++;*/
+        // foreach($kk_suc as $kk=>$vv){
+        //     @$ass_list[$kk]["kk_suc"] = $vv["lesson_count"];
+        //     /*$master_adminid_ass = $this->t_admin_group_user->get_master_adminid_by_adminid($kk);
+        //     @$ret_info[$master_adminid_ass]["kk_suc"] +=$vv["lesson_count"];
+        //     @$ret_info[$master_adminid_ass]["kk_person"] ++;*/
 
-        }
+        // }
 
         $trans_info = $this->t_student_info->get_trans_stu_info_new($start_time,$end_time);
         foreach($trans_info as $kk=>$vv){

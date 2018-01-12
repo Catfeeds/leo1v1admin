@@ -4505,7 +4505,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $reference_price = 60;
             }elseif($teacherid == 149697){ //明日之星 50元/个
                 $reference_price = 50;
-            }elseif($type == 1 && ($teacherid == 176348 || (in_array($teacher_info['teacher_type'], [21,22]) && in_array($teacher_ref_type, [1,2])))) { //田克平 廖老师工作室 王老师工作室 推荐机构老师 80 元/个
+            } //154035 李志强 161755 王宇廷 147700 吴文东 134533 唐建军 176348 田克平 廖老师工作室 王老师工作室 推荐机构老师 80 元/个
+            elseif($type == 1 && ((in_array($teacherid, [176348, 154035, 161755, 147700, 134533])) || (in_array($teacher_info['teacher_type'], [21,22]) && in_array($teacher_ref_type, [1,2])))) { 
                 $reference_price = 80;
             } else {
                 //$reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type) + 1;
@@ -4876,9 +4877,27 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $check_num[$month_key]['late_num']   = $late_num;
     }
 
+<<<<<<< HEAD
 
 
 
 
+=======
+    /*销售月数据*/
+    public function get_seller_week_info($start_time,$end_time){
+        //销售月拆解
+        $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
+        $first_week = $start_info["sdate"];//第一周开始时间
+        $end_info = \App\Helper\Utils::get_week_range($end_time,1 );
+        if($end_info["edate"] <= $end_time){
+            $last_week =  $end_info["sdate"];//最后一周开始时间
+        }else{
+            $last_week =  $end_info["sdate"]-7*86400;
+        }
+        $n = ($last_week-$first_week)/(7*86400)+1;//周数
+        return array($first_week,$last_week,$n);
+
+    }
+>>>>>>> af24c53cf04e3fdb67b48138e4e67434d9734991
 
 }

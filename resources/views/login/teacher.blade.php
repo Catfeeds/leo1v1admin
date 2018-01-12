@@ -123,6 +123,11 @@
              text-align:center;
              color:#999;
          }
+         @media screen and (max-width:380px){
+         .footer-btm{
+             padding-top: 10px;
+         }
+         }
          .bl-left{
              display:inline-block;
              width:20%;
@@ -306,7 +311,7 @@
                                 </tr>
                                 <tr>
                                     <td>当前版本:</td>
-                                    <td>4.1.0</td>
+                                    <td>4.4.0</td>
                                 </tr>
                             </table>
                             <table class="table ipad hide">

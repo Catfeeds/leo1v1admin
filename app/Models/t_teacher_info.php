@@ -4520,7 +4520,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_info_to_teacher($lessonid){
-        $sql = $this->gen_sql_new("  select t.wx_openid, subject, l.lesson_start, l.lesson_end, s.nick as stu_nick, t.nick as tea_nick from %s t "
+        $sql = $this->gen_sql_new("  select t.wx_openid, l.subject, l.lesson_start, l.lesson_end, s.nick as stu_nick, t.nick as tea_nick from %s t "
                                   ." left join %s l on l.teacherid=t.teacherid"
                                   ." left join %s s on s.userid=l.userid"
                                   ." where l.lessonid=%d"
@@ -4628,7 +4628,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         });
     }
 
-    public function get_teacher_bank_info($is_bank, $page_info) {
+    public function get_teacher_bank_info($is_bank, $teacherid, $page_info) {
         $where_arr = ['is_test_user=0'];
         if ($is_bank == 1) {
             array_push($where_arr, "bankcard != '' ");
@@ -4636,10 +4636,14 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         if ($is_bank == 2) {
             array_push($where_arr, "bankcard = '' ");
         }
+        if ($teacherid != -1) {
+            array_push($where_arr, "teacherid = $teacherid ");
+        }
         $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.subject,t.phone,t.bank_account,t.bankcard,t.bank_type,t.bank_province,t.bank_city,t.bank_address,t.bank_phone,t.idcard,t.bind_bankcard_time from %s t where %s",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
+        
         return $this->main_get_list_by_page($sql, $page_info);
     }
 

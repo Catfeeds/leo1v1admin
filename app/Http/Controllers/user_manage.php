@@ -3235,8 +3235,33 @@ class user_manage extends Controller
     }
 
 
+    /**
+     * author   : sam
+     * function : 退费统计-下单人
+     */
+    public function refund_tongji_sys_operator(){
+        $this->check_and_switch_tongji_domain();
+        list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],3 );
+        $sys_operator = $this->get_in_str_val("sys_operator","");
+        $account_role = $this->get_in_int_val("account_role",-1);
+        $end_date     = date("Y-m-d H:i:s",$end_time);
+        $one_year     = strtotime("$end_date -1 year"); 
+        $half_year    = strtotime("$end_date -6 month");
+        $three_month  = strtotime("$end_date -3 month");
 
+        $ret_info     = $this->t_order_info->get_sys_operator_refund_info($one_year,$half_year,$three_month,$start_time,$end_time);
 
+        dd($ret_info);
+        return $this->pageView(__METHOD__, null);
+    }
+
+    /**
+     * author   : sam
+     * function : 退费统计-助教
+     */
+    public function refund_tongji_cr(){
+        dd(2);
+    }
 
 
 

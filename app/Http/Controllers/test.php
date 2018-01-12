@@ -20,7 +20,10 @@ class test extends Controller
     }
 
     public function test1() {
-        return $this->output_succ();
+            return $this->output_succ();
+    }
+    public function tree() {
+        return $this->pageOutJson(__METHOD__);
     }
 
     public function get_user_list(){
@@ -36,6 +39,7 @@ class test extends Controller
         $grade=$this->get_in_el_grade();
         $gender=$this->get_in_el_gender();
         $query_text=$this->get_in_query_text();
+        $this->get_in_int_val("test_select",-1);
 
         $ret_info=$this->t_student_info->get_test_list($page_info, $order_by_str,  $grade );
 
@@ -450,6 +454,9 @@ class test extends Controller
         $ret_info=$this->t_manager_info->get_list_test($page_info,$nick_phone);
         return $this->pageView( __METHOD__,$ret_info);
 
+    }
+    public function ff() {
+        dd($_SERVER);
     }
 
 

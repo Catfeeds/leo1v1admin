@@ -219,4 +219,105 @@ where is_test_user=0  and contract_status in  (1,2,3) and o.price>0   and s.grad
         $sql = "select origin_assistantid, s.userid, s.origin_userid,o.price , o.orderid from db_weiyi.t_student_info s  left join db_weiyi.t_order_info o on (o.userid = s.userid and o.contract_status>0 and  o.contract_type =0 )   left join db_weiyi.t_seller_student_new n on s.userid = n.userid where origin_assistantid>0 and n.add_time>=1510675200 and n.add_time<1514736000   ";
         return $this->main_get_list($sql);
     }
+
+    public function get_info_by_month($start_time,$end_time){
+        $where_arr = [
+          ["t.lesson_start > %s",$start_time,-1],
+          ["t.lesson_start < %s",$end_time,-1],
+          "t.lesson_type=2"
+        ];
+
+        $sql = $this->gen_sql_new("SELECT s.phone_location, t.grade, t.subject,count(*) as num"
+                                ." from %s t"
+                                ." left join %s s on  s.userid = t.userid"
+                                ." where %s group by t.subject, t.grade,s.phone_location"
+                                ,t_lesson_info::DB_TABLE_NAME
+                                ,t_student_info::DB_TABLE_NAME
+                                ,$where_arr);
+        return $this->main_get_list($sql);
+    }
+
+    public function get_grade_by_info_b(){
+      $sql = "select grade, phone_location , count(*) as num from db_weiyi.t_student_info where grade in (101,102,103) and is_test_user = 0 group by grade,phone_location";
+      return $this->main_get_list($sql);
+    }
+
+    public function get_info_by_month_b2($start_time,$end_time){
+        $where_arr = [
+          ["t.lesson_start > %s",$start_time,-1],
+          ["t.lesson_start < %s",$end_time,-1],
+          "t.lesson_type=2"
+        ];
+
+        $sql = $this->gen_sql_new("SELECT  m.teacherid ,m.phone_location,m.grade_start, m.grade_end"
+                                ." from %s t"
+                                ." left join %s m on  m.teacherid = t.teacherid "
+                                ." where %s  group by m.teacherid"
+                                ,t_lesson_info::DB_TABLE_NAME
+                                ,t_teacher_info::DB_TABLE_NAME
+                                ,$where_arr);
+        return $this->main_get_list($sql);
+    }
+
+
+    public function get_info_by_month_b3($start_time,$end_time){
+
+        $sql = "select s.userid, s.nick, s.phone_location , t.subject, t.grade , k.teacherid,k.nick as teacher_name, k.grade_start, k.grade_end, k.phone_location as teacher_phone_location,n.require_admin_type  from t_lesson_info t
+left join t_student_info s on s.userid = t.userid
+left join t_teacher_info k on k.teacherid = t.teacherid
+left join t_order_info o on s.userid = o.userid 
+left join t_test_lesson_subject_sub_list m on m.lessonid = t.lessonid
+left join t_test_lesson_subject_require mm on mm.require_id  = m.require_id 
+left join t_test_lesson_subject n on n.test_lesson_subject_id  = mm.test_lesson_subject_id 
+where lesson_start > $start_time and lesson_start < $end_time and lesson_type = 2 and contract_type  in (0,3) and price > 0 and contract_status in (1,2,3) and order_time > $start_time";
+        return $this->main_get_list($sql);
+    }
+
+    public function get_all_student_phone_and_id(){
+        $sql = "select userid, phone from db_weiyi.t_student_info where is_test_user = 0 order by userid asc";
+        return $this->main_get_list($sql);
+    }
+
+
+    public function get_province_info($phone){
+        $sql = "select province ,city from db_weiyi.t_phone_info where id = $phone ";
+        return $this->main_get_row($sql);
+    }
+
+    public function get_grade_by_info_1(){
+      $sql = "select grade, phone_province,phone_city, count(*) as num from db_weiyi.t_student_info where grade in (101,102,103) and is_test_user = 0 group by grade,phone_city";
+      return $this->main_get_list($sql);
+    }
+
+    public function get_b1(){
+       $sql = "select s.grade,t.seller_student_status , count(*) as num from db_weiyi.t_student_info s left join db_weiyi.t_test_lesson_subject t on s.userid = t.userid where s.is_test_user = 0  and s.grade in (101,102,103)  group by s.grade, t.seller_student_status";
+       return $this->main_get_list($sql);
+    }
+
+    public function get_b2(){
+       $sql = "select s.grade,t.seller_student_sub_status  , count(*) as num from db_weiyi.t_student_info s left join db_weiyi.t_test_lesson_subject t on s.userid = t.userid where s.is_test_user = 0  and s.grade in (101,102,103)  group by s.grade, t.seller_student_sub_status ";
+       return $this->main_get_list($sql);
+    }
+
+    public function get_b3(){
+       $sql = "select s.grade ,k.test_lesson_order_fail_flag , count(*) as num
+from db_weiyi.t_student_info s 
+left join db_weiyi.t_test_lesson_subject t on s.userid = t.userid
+left join db_weiyi.t_test_lesson_subject_require k on k.test_lesson_subject_id  = t.test_lesson_subject_id 
+where s.is_test_user = 0  and s.grade in (101,102,103) group by s.grade ,k.test_lesson_order_fail_flag ";
+       return $this->main_get_list($sql);
+    }
+
+
+    public function get_b4(){
+       /*$sql = "select userid, max(start_time)
+from db_weiyi.t_student_info s
+left join  db_weiyi_admin.t_tq_call_info q on q.phone = s.phone
+where is_called_phone = 1 and s.is_test_user = 0 group by s.phone ";*/
+        $sql = "select s.grade, max_time 
+from (select phone,max(start_time) as max_time from db_weiyi_admin.t_tq_call_info where  is_called_phone = 1  GROUP BY phone ) k
+ left join db_weiyi.t_student_info s on s.phone = k.phone
+where s.is_test_user = 0 and s.grade in (101,102,103)";
+       return $this->main_get_list($sql);
+    }
 }

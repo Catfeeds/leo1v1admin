@@ -253,6 +253,9 @@ class NewRouteConfig {
         "/user_manage/tongji_check"                             => true,
         "/user_manage/ass_no_test_lesson_kk_list"               => true,
         "/user_manage/stu_all_teacher_all"                      => true,
+        
+        "/user_manage/refund_tongji_sys_operator"               => true,
+        "/user_manage/refund_tongji_cr"                         => true,
 
         "/authority/get_account_role"                 => true,
         "/authority/set_account_role"                 => true,
@@ -478,12 +481,13 @@ class NewRouteConfig {
         "/seller_student2/get_current_commom_activity"  => true,
         "/seller_student2/update_current_commom_activity"  => true,
 
-        "/test_bacon/get_power"  => true,
-        "/test_bacon/download_power"  => true,
-        "/test_bacon/test_lang"  => true,
-        "/appoint/index2"                  => true,
-        "/appoint/get_package_simple_info" => true,
-        "/appoint/get_package_pic"         => true,
+        "/test_bacon/get_power"              => true,
+        "/test_bacon/download_power"         => true,
+        "/test_bacon/test_lang"              => true,
+        "/test_bacon/test_ajax_more"         => true,
+        "/appoint/index2"                    => true,
+        "/appoint/get_package_simple_info"   => true,
+        "/appoint/get_package_pic"           => true,
 
         "/news_info/news_ad_info"            => true,
         "/news_info/add_user_message"        => true,
@@ -685,7 +689,7 @@ class NewRouteConfig {
         "/channel_manage/set_teacher_ref_type"           => true,
         "/channel_manage/zs_origin_list_new"             => true,
         
-        "/question_new_api/get_agent_id"        =>true,
+        "/question_new_api/get_agent_id"                 =>true,
         "/question_new_api/get_grade_and_subject"        =>true,
         "/question_new_api/get_textbook_subject"         =>true,
         "/question_new_api/get_textbook_knowledge"       =>true,
@@ -695,11 +699,15 @@ class NewRouteConfig {
         "/question_new_api/save_answers"                 =>true,
         "/question_new_api/get_recommend"                =>true,
 
-        "/user_power/get_desc_power"                          =>true,
-        "/user_power/save_desc_power"                          =>true,
-        "/user_power/get_input_define"                          =>true,
-        "/user_power/save_input_define"                          =>true,
-
+        "/user_power/get_desc_power"                     =>true,
+        "/user_power/save_desc_power"                    =>true,
+        "/user_power/get_input_define"                   =>true,
+        "/user_power/save_input_define"                  =>true,
+        "/user_power/edit_role_groupid"                  =>true,
+        "/user_power/dele_role_groupid"                  =>true,
+        "/user_power/add_user"                           =>true,
+        "/user_power/set_group_power"                    =>true,
+        "/user_power/dele_role_user"                     =>true
     ];
 
     static $dev_url_map = [

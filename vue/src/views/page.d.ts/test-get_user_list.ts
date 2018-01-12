@@ -11,6 +11,7 @@ interface self_Args {
 	grade:	string;//枚举列表: \App\Enums\Egrade
  	gender:	string;//枚举列表: \App\Enums\Egender
  	query_text:	string;
+	test_select:	number;
 
 }
 interface self_RowData {
@@ -131,6 +132,14 @@ export default class extends vtable {
 		"length_css" : "col-xs-12 col-md-3", 
 		"title"        :  "query_text",
 		"select_value" : this.get_args().query_text,
+	});
+	$.admin_query_input({
+		'join_header'  : $header_query_info,
+		"field_name"    : "test_select" ,
+		"length_css" : "col-xs-6 col-md-2", 
+		"show_title_flag":true, 
+		"title"        :  "test_select",
+		"select_value" : this.get_args().test_select,
 	});
 
   }

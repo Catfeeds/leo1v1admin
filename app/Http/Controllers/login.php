@@ -315,7 +315,6 @@ class login extends Controller
         $stu_menu_html = $this->gen_menu( $arr,$stu_menu,201,2);
         $tea_menu_html = $this->gen_menu( $arr,$tea_menu,202,2);
 
-
         $_SESSION['menu_html']     = $menu_html;
         $_SESSION['stu_menu_html'] = $stu_menu_html;
         $_SESSION['tea_menu_html'] = $tea_menu_html;

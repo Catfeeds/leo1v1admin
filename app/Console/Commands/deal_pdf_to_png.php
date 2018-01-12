@@ -77,7 +77,7 @@ class deal_pdf_to_png extends cmd_base
             ]);
 
             if($item['origin_id'] == 1){
-                $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$item['file_link'] );
+                $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdf_url);
             }else{
                 $pdf_file_path = $this->get_pdf_download_url($pdf_url);
             }

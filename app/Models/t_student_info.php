@@ -2174,7 +2174,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "s.origin_assistantid>0",
             "b.operator_note like '%%转介绍%%'",
             "m.account_role=1",
-            "m.del_flag=0"
+            // "m.del_flag=0"
         ];
         $this->where_arr_add_time_range($where_arr,"b.revisit_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(distinct b.phone) num,m.uid"
@@ -2196,7 +2196,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     public function get_un_revisit_stu_info($start_time,$end_time){
         $where_arr=[
             "m.account_role=1",
-            "m.del_flag=0"
+            // "m.del_flag=0"
         ];
         $this->where_arr_add_time_range($where_arr,"master_assign_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(distinct s.userid) un_revisit_num,m.uid"
@@ -3284,4 +3284,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                 $where_arr);
         return $this->main_get_list($sql);
     }
+
+    
 }

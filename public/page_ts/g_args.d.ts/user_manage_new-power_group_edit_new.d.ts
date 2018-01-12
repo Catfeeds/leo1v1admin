@@ -1,6 +1,6 @@
 interface GargsStatic {
+	role_groupid:	number;
 	groupid:	number;
-	show_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -32,15 +32,15 @@ function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
-		groupid:	$('#id_groupid').val(),
-		show_flag:	$('#id_show_flag').val()
+		role_groupid:	$('#id_role_groupid').val(),
+		groupid:	$('#id_groupid').val()
 		});
 }
 $(function(){
 
 
+	$('#id_role_groupid').val(g_args.role_groupid);
 	$('#id_groupid').val(g_args.groupid);
-	$('#id_show_flag').val(g_args.show_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -53,17 +53,17 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
+                <span class="input-group-addon">role_groupid</span>
+                <input class="opt-change form-control" id="id_role_groupid" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["role_groupid title", "role_groupid", "th_role_groupid" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
                 <span class="input-group-addon">groupid</span>
                 <input class="opt-change form-control" id="id_groupid" />
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["groupid title", "groupid", "th_groupid" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">show_flag</span>
-                <input class="opt-change form-control" id="id_show_flag" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["show_flag title", "show_flag", "th_show_flag" ]])!!}
 */
