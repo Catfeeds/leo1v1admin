@@ -35,6 +35,7 @@ function load_data(){
 
 }
 $(function(){
+    console.log(type_list);
     $('#id_resource_type').val(g_args.resource_type);
     $('#id_subject').val(g_args.subject);
     $('#id_grade').val(g_args.grade);
@@ -66,7 +67,7 @@ $(function(){
                             obj.after('<p style="color:red;">请先选择科目、年级!</p>');
                         }
                     } else {
-                        var tag_str = '';
+                        var tag_str = '<option value="-1">全部</option>';
                         $.each($(tag_info),function(i, val){
                             tag_str = tag_str + '<option value='+i+'>'+val+'</option>';
                         });
@@ -108,7 +109,7 @@ $(function(){
         $(obj).append(pro);
 
     }
-    Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6]);
+    Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,type_list);
     Enum_map.append_option_list("subject", $("#id_subject"),true, tea_sub);
     Enum_map.append_option_list("grade", $("#id_grade"),true, tea_gra);
     if(tag_one == 'region_version'){
