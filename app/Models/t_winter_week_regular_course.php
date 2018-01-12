@@ -97,24 +97,7 @@ class t_winter_week_regular_course extends \App\Models\Zgen\z_t_winter_week_regu
             return $item['userid'];
         });
     }
-    public function get_lesson_info($teacherid,$userid){
-        if($teacherid ==-1 && $userid == -1){
-            $where_arr = "teacherid =".$teacherid;
-        }else{
-            $where_arr=[
-                ['teacherid = %s',$teacherid,-1],
-                ['userid = %s',$userid,-1]
-            ];
-        }
-
-        $sql = $this->gen_sql_new("select * from %s where %s",
-                                  self::DB_TABLE_NAME,
-                                  $where_arr
-        );
-        return $this->main_get_list($sql,function($item){
-            return $item["start_time"];
-        });
-    }
+   
 
     public function get_lesson_info_new($userid){
         if($userid == "()"){
