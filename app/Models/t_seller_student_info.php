@@ -1317,6 +1317,13 @@ class t_seller_student_info extends \App\Models\Zgen\z_t_seller_student_info
         return $this->main_get_list($sql);
     }
 
-    
+    public function change_download_time($lessonid){
+        $sql = $this->gen_sql_new("update %s set tea_download_paper_time=%u where st_arrange_lessonid=%u"
+                                  ,self::DB_TABLE_NAME
+                                  ,time()
+                                  ,$lessonid
+        );
+        return $this->main_get_list($sql);
+    }
 
 }
