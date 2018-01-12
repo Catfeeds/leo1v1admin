@@ -190,6 +190,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             $now - 86400*3, $now+3600*5 , $now );
         return $this->main_get_list($sql);
     }
+
     public function get_teacher_lesson_info(  $teacherid, $start_time,$end_time ) {
         $sql=$this->gen_sql("select userid,lessonid,lesson_start,lesson_end,userid,lesson_type from %s "
                             ." where teacherid=%u "
@@ -197,6 +198,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                             ." and lesson_start<=%s "
                             ." and lesson_status<=2 "
                             ." and confirm_flag<2"
+                            ." and lesson_del_flag=0"
                             ." order by lesson_start asc ",
                             self::DB_TABLE_NAME,
                             $teacherid, $start_time,$end_time );

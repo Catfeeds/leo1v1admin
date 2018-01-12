@@ -1182,8 +1182,6 @@ $(function(){
         $success_flag.on("change",update_show_status);
         $fail_greater_4_hour_flag.on("change",update_show_status);
 
-
-
         $.show_key_value_table("课程确认", arr, {
             label    : '提交',
             cssClass : 'btn-danger',
@@ -1194,6 +1192,12 @@ $(function(){
                     "fail_reason"              : $fail_reason.val(),
                     "test_lesson_fail_flag"    : $test_lesson_fail_flag.val(),
                     "fail_greater_4_hour_flag" : $fail_greater_4_hour_flag.val(),
+                },function(result){
+                    if(result.ret==0){
+                        load_data();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
                 });
             }
         },function(){
@@ -1295,6 +1299,12 @@ $(function(){
                     "teacherid"                                 : opt_data.teacherid,
                     "userid"                                    : opt_data.stu_id,
                     "phone"                                     : opt_data.stu_phone
+                },function(result){
+                    if(result.ret==0){
+                        load_data();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
                 });
             }
         },function(){

@@ -2625,4 +2625,21 @@ class Utils  {
         fclose($fp);
         return $path;
     }
+
+    /**
+     * 检测课程确认时间
+     * 针对课程的修改,在该课程次月6日凌晨0点之后无法修改该课程的信息(确认课时,修改课程时间,修改课时)
+     * @param int time 检测的时间
+     * @return boolean
+     */
+    static public function check_lesson_confirm_time($time){
+        $check_time = strtotime("+1 month",strtotime(date("Y-m-06",$time)));
+        $now_time   = time();
+        if($now_time>$check_time){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
 };

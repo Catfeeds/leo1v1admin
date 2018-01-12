@@ -27,7 +27,6 @@ class Controller extends ControllerEx
     use ViewDeal;
     use InputDeal;
 
-
     function __construct()  {
         if ($this->check_login_flag ) {
             $this->check_login();

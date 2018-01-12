@@ -44,34 +44,30 @@ $(function(){
                                 opt_date  ) ;  
         var month_flag=check_month()?1:0;
         //alert(DateFormat(timestamp, "yyyy-MM-dd" ));  
-        $.do_ajax(
-            '/teacher_info/get_lesson_time_js',
-            {
-             'timestamp':  timestamp,
-             'type'     : month_flag 
-            },
-            function(data){
-                if (data['ret'] == 0) {
-                    var teach_source = [];
+        $.do_ajax('/teacher_info/get_lesson_time_js',{
+            'timestamp': timestamp,
+            'type'     : month_flag 
+        },function(data){
+            if (data['ret'] == 0) {
+                var teach_source = [];
 
-                    $.each(data["lesson_list"],function( i,item)  {
-                        var teach_data   = new Object();
-                        teach_data["start"]= item.lesson_start * 1000;
-                        teach_data["end"]= item.lesson_end * 1000;
+                $.each(data["lesson_list"],function( i,item)  {
+                    var teach_data = new Object();
+                    teach_data["start"]= item.lesson_start * 1000;
+                    teach_data["end"]= item.lesson_end * 1000;
 
-                        teach_data["title"]= month_flag? item.month_title:item.week_title;
-                        teach_data["color"]= '#FC4848';
+                    teach_data["title"]= month_flag? item.month_title:item.week_title;
+                    teach_data["color"]= '#FC4848';
 
-                        teach_data["use_flag"]= true;
-                        teach_data["lessonid"]= item.lessonid;
-                        teach_source.push(teach_data);
-                    });
+                    teach_data["use_flag"]= true;
+                    teach_data["lessonid"]= item.lessonid;
+                    teach_source.push(teach_data);
+                });
 
-                    html_node.fullCalendar( 'removeEvents' );
-                    html_node.fullCalendar( 'addEventSource', teach_source);
-                }
-
-            });
+                html_node.fullCalendar( 'removeEvents' );
+                html_node.fullCalendar( 'addEventSource', teach_source);
+            }
+        });
     }
 
     var schedule_time = new Date().getTime()/1000; //now
