@@ -243,6 +243,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         $where_arr = [
             'type = 3',
             'n.return_publish_count = 0',
+            'm2.account_role = 2',
         ];
         $this->where_arr_add_time_range($where_arr,'e.create_time',$start_time,$end_time);
         $sql = $this->gen_sql_new (
