@@ -47,13 +47,13 @@
                     <td >基本工资 </td>
                     <td >保密津贴 </td>
                     <td >绩效工资 </td>
-                    <td >分期金额 </td>
-                    <td >非分期金额 </td>
+                    <td style="display:none;">分期金额 </td>
+                    <td style="display:none;">非分期金额 </td>
                     <td style="display:none;">一天内签约金额 </td>
                     <td >团队上月签约金额</td>
                     <td >团队签约金额</td>
-                    <td >团队签约分期金额</td>
-                    <td >团队签约非分期金额</td>
+                    <td style="display:none;">团队签约分期金额</td>
+                    <td style="display:none;">团队签约非分期金额</td>
                     <td >团队签约目标</td>
                     <td >特殊申请金额</td>
 
