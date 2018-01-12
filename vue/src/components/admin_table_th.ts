@@ -19,7 +19,13 @@ import Component from 'vue-class-component'
       type: [Function, String ],
       require: false,
     },
-
+    default_display:{
+      type: Boolean,
+      require: false,
+      "default" : function(){
+        return undefined;
+      }
+    },
     order_field_name: {
       type:  String ,
       require: false,
@@ -42,6 +48,10 @@ import Component from 'vue-class-component'
       if (this.$props.order_field_name ) {
         field_info.order_field_name= this.$props.order_field_name;
       }
+
+      if (this.$props.default_display !== undefined ) {
+        field_info.default_display= this.$props.default_display;
+      }
       return field_info ;
     }
   },
@@ -62,6 +72,9 @@ export default class admin_table_th extends Vue {
   }
   get_sort_class( ){
     return this.$parent["get_sort_class"]( this["real_field_info"] );
+  }
+  get_title() {
+
   }
 
 }

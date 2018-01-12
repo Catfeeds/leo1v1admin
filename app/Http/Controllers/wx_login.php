@@ -72,7 +72,7 @@ class wx_login extends Controller
                 }else{
 
                     \App\Helper\Utils::logger("wx_openid_no_find" );
-                    $message="这是你第一次登录，请到公司前台 绑定你的账号，需要告诉管理员你的微信姓名［".$user_info["nickname"]."］ 和你的后台账号 . " ;
+                    $message="这是你第一次登录，请 人事部 何洁 绑定你的账号，需要告诉管理员你的微信姓名［".$user_info["nickname"]."］ 和你的后台账号 . " ;
                 }
                 return $this->pageView(__METHOD__,[],[
                     "message"=> $message,
