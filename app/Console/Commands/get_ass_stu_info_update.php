@@ -73,13 +73,13 @@ class get_ass_stu_info_update extends Command
             @$ass_list[$key]["num"] = $num;
 
         }
-        foreach($kk_suc as $kk=>$vv){
-            @$ass_list[$kk]["kk_suc"] = $vv["lesson_count"];
-            /*$master_adminid_ass = $this->t_admin_group_user->get_master_adminid_by_adminid($kk);
-            @$ret_info[$master_adminid_ass]["kk_suc"] +=$vv["lesson_count"];
-            @$ret_info[$master_adminid_ass]["kk_person"] ++;*/
+        // foreach($kk_suc as $kk=>$vv){
+        //     @$ass_list[$kk]["kk_suc"] = $vv["lesson_count"];
+        //     /*$master_adminid_ass = $this->t_admin_group_user->get_master_adminid_by_adminid($kk);
+        //     @$ret_info[$master_adminid_ass]["kk_suc"] +=$vv["lesson_count"];
+        //     @$ret_info[$master_adminid_ass]["kk_person"] ++;*/
 
-        }
+        // }
 
         $trans_info = $task->t_student_info->get_trans_stu_info_new($start_time,$end_time);
         foreach($trans_info as $kk=>$vv){
@@ -122,13 +122,13 @@ class get_ass_stu_info_update extends Command
             if(!empty($master_adminid_ass)){
                 @$ret_info[$master_adminid_ass]["revisit_num"] +=@$ss["revisit_num"];
                 @$ret_info[$master_adminid_ass]["revisit_do"] +=@$ss["num"];
-                @$ret_info[$master_adminid_ass]["kk_suc"] +=$ss["kk_suc"];
-                @$ret_info[$master_adminid_ass]["trans_num"] +=$ss["trans_num"];
-                @$ret_info[$master_adminid_ass]["un_revisit_num"] +=$ss["un_revisit_num"];
+                @$ret_info[$master_adminid_ass]["kk_suc"] +=(@$ss["kk_num"]+@$ss["hand_kk_num"]);
+                @$ret_info[$master_adminid_ass]["trans_num"] +=@$ss["trans_num"];
+                @$ret_info[$master_adminid_ass]["un_revisit_num"] +=@$ss["un_revisit_num"];
                 @$ret_info[$master_adminid_ass]["person"] ++;
 
-                @$ret_info[$master_adminid_ass]["refunded_num"] += $ss["refunded_num"];
-                @$ret_info[$master_adminid_ass]["reading_num"] += $ss["reading_num"];
+                @$ret_info[$master_adminid_ass]["refunded_num"] += @$ss["refunded_num"];
+                @$ret_info[$master_adminid_ass]["reading_num"] += @$ss["reading_num"];
             }
         }
 
@@ -162,7 +162,7 @@ class get_ass_stu_info_update extends Command
             }
 
 
-            $val["kk_suc_avg"] = round($val["kk_suc"]/$val["person"],1);
+            $val["kk_suc_avg"] = round(@$val["kk_suc"]/$val["person"],1);
             $val["kk_score"] = $val["kk_suc_avg"]*2.5;
             $val["trans_num_avg"] = round($val["trans_num"]/$val["person"],1);
             $val["trans_score"] = $val["trans_num_avg"]*5;
