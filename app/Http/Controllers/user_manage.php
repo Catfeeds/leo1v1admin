@@ -3282,7 +3282,7 @@ class user_manage extends Controller
                 $ret[$key] = $value;
                 $ret[$key]['apply_num'] = 0;
                 if($key == "吴峰"){
-                    dd($value);
+                    dd($ret);
                 }
             }
         }
