@@ -12,7 +12,7 @@
     <admin-table-th slot="th"  >姓名</admin-table-th>
     <admin-table-th slot="th"  need_power="grade" >电话</admin-table-th>
     <admin-table-th slot="th" order_field_name="grade"  >年级</admin-table-th>
-    <admin-table-th slot="th"  >testv</admin-table-th>
+    <admin-table-th slot="th"  >KKT</admin-table-th>
 
 
     <admin-table-row v-for="(item,index) in table_data "  :key="index" :row_data="item"  :index="index"  >
@@ -24,7 +24,7 @@
       </admin-table-td>
       <admin-table-td  >  {{item.grade_str}}
       </admin-table-td>
-      <admin-table-td   >  xxx </admin-table-td>
+      <admin-table-td   v-html="gen_test_field(item)" > </admin-table-td>
 
       <admin-a  slot="a"   class_list="fa-plus  other-class"   title="xss"   :click="doOpt"  ></admin-a>
       <admin-a  slot="a"   class_list="fa-edit  "   title="修改"   :click="opt_edit"  ></admin-a>
