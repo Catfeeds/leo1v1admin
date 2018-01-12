@@ -348,6 +348,7 @@ class teacher_info extends Controller
     {
         $teacherid   = $this->get_login_teacher();
         $ret_info=\App\Helper\Utils::list_to_page_info([]);
+
         return $this->pageView(__METHOD__, $ret_info);
     }
     public function normal_course()

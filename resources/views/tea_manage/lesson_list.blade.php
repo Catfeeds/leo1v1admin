@@ -341,11 +341,9 @@
                                 <a class="btn fa fa-qrcode  opt-qr-pad-at-time "
                                    data-type="leoedu://meeting.leoedu.com/meeting="
                                    title="pad实时课程二维码" ></a>
-
                                 <a class="btn fa fa-qrcode  opt-qr-pad-at-time-new "
                                    data-type="leoedu://meeting.leoedu.com/meeting="
                                    title="pad实时课程二维码——新版" ></a>
-
                                 <a class="btn fa fa-qrcode  opt-qr-pad "
                                    data-type="leoedu://video.leoedu.com/video="
                                    title="视频播放二维码" > </a>

@@ -937,7 +937,7 @@ END;
         }
 
         if (!$ret_info) {
-            $ret_info=\App\Helper\Utils::list_to_page_info([]);
+            $ret_info = \App\Helper\Utils::list_to_page_info([]);
         }
 
         if (isset($this->last_in_values["page_num"]) && $this->last_in_values["page_num"]==0xFFFFFFFF+2) {

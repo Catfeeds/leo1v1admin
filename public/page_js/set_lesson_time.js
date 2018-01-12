@@ -22,7 +22,7 @@
 
                 data = data.data;
                 if (!(data.teacherid >0) ) {
-                    alert("先设置老师");
+                    BootstrapDialog.alert("先设置老师");
                     return;
                 }
                 var now=new Date();
@@ -30,18 +30,21 @@
 
                 var check_end =  parseInt(data.lesson_end)+3600 ;
                 if ( data.lesson_end >0 && now> check_end  ) {
-                    alert("时间结束超过1个小时,不能设置");
+                    BootstrapDialog.alert("时间结束超过1个小时,不能设置");
                     return;
                 }
 
                 var id_start_time=$("<input/> ");
                 var id_end_time=$("<input/> ");
+                if ( data.lesson_status  != 0 ) {
+                    BootstrapDialog.alert("课程状态不是未开始，无法修改");
+                    return false;
 
-                if ( data.lesson_status  > 0 ) {
-                    id_start_time.css("readonly", "readonly");
-                    id_start_time.on("click",function(){
-                        alert("课次已开始，不能修改开始时间");
-                    });
+                    // id_start_time.css("readonly", "readonly");
+                    // id_start_time.on("click",function(){
+                    //     BootstrapDialog.alert("课程状态不是未开始，无法修改");
+                    //     return false;
+                    // });
                 }else{
                   //时间插件
                   id_start_time.datetimepicker({
@@ -102,7 +105,7 @@
                                     if (ret.ret != 0) {
                                         BootstrapDialog.alert(ret.info ) ;
                                     }else{
-                                        alert("设置成功") ;
+                                        BootstrapDialog.alert("设置成功") ;
                                         window.location.reload();
                                     }
 
@@ -111,13 +114,13 @@
                         };
 
                         if ( $.strtotime( id_start_time.val() )< timestamp-60  ) {
-                            alert("开始时间比现在还小,不行!");
+                            BootstrapDialog.alert("开始时间比现在还小,不行!");
                             return ;
 
                         }
 
                         if ( $.strtotime( id_start_time.val().substr(0,11)+  (id_end_time.val())) < timestamp-60  ) {
-                            alert("结束时间比现在还小,不行!");
+                            BootstrapDialog.alert("结束时间比现在还小,不行!");
                             return ;
 
                         }

@@ -166,9 +166,7 @@ trait  InputDeal {
     }
 
     public function get_in_client_ip() {
-
         //return Illuminate\Http\Request::ip();
-
         if ( \App\Helper\Utils::check_env_is_testing() ) {
             return "192.168.0.5";
         }

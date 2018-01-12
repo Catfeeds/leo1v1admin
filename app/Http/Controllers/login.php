@@ -521,7 +521,6 @@ class login extends Controller
         return $this->output_succ();
     }
 
-
     public function teacher() {
         global $_SESSION;
         $download = $this->get_in_str_val('download',-1);

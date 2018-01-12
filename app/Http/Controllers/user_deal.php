@@ -14,6 +14,7 @@ class user_deal extends Controller
 {
     use CacheNick;
     use TeaPower;
+    use LessonPower;
 
     public function get_lesson_list()  {
         $userid=$this->get_in_userid(-1);
@@ -33,11 +34,9 @@ class user_deal extends Controller
         $lessonid     = $this->get_in_int_val('lessonid',-1);
         $server_type  = $this->get_in_int_val('server_type',-1);
         $userid       = $this->get_in_int_val('userid',-1);
-
     }
 
     public function add_contract_for_lesson_account(){
-
         $studentid = $this->get_in_studentid();
         $money=$this->get_in_int_val("money")*100;
         $lesson_count= $this->get_in_str_val("lesson_count",0);
@@ -52,7 +51,6 @@ class user_deal extends Controller
             return outputjson_error("金额不对") ;
         }
 
-
         $ret_auth = $this->t_manager_info ->check_permission($this->get_account(),
                                                           E\Epower::V_ADD_CONTRACT);
         if(!$ret_auth) {
@@ -64,13 +62,9 @@ class user_deal extends Controller
             return outputjson_error(" lesson_account_id 不对") ;
         }
 
-
-
         srand(microtime(true) * 1000);
         $time_str = $studentid+rand(1,1000000000)%142857;
         $contractid = 'E'.date('Ymd',time()).$time_str;
-
-
 
         $insert_ret=$this->t_order_info->row_insert([
             \App\Models\t_order_info::C_contractid => $contractid,
@@ -100,13 +94,9 @@ class user_deal extends Controller
             }
         }
 
-        // $this->t_lesson_info->del_if_no_start($lessonid);
-        // $this->t_lesson_info->field_update_list($lessonid,[
-        //    "lesson_del_flag" =>1
-        // ]);
         $lesson_status = $this->t_lesson_info->get_lesson_status($lessonid);
-        if($lesson_status!=0){
-            return $this->output_err("课程已结束，无法删除！");
+        if($lesson_status!=E\Elesson_status::V_0){
+            return $this->output_err("课程状态不是未开始，无法删除！");
         }
         $ret = $this->t_lesson_info_b2->cancel_lesson_no_start($lessonid);
         return $this->output_ret($ret);
@@ -266,6 +256,9 @@ class user_deal extends Controller
         return outputjson_success();
     }
 
+    /**
+     * 课程管理中的课时确认
+     */
     public function lesson_set_confirm() {
         $lessonid       = $this->get_in_lessonid();
         $confirm_flag   = $this->get_in_int_val("confirm_flag");
@@ -285,6 +278,11 @@ class user_deal extends Controller
         $lesson_info  = $this->t_lesson_info->get_all_lesson_info($lessonid);
         $lesson_start = $lesson_info['lesson_start'];
         $lesson_type  = $lesson_info['lesson_type'];
+        $check_flag = $this->check_lesson_confirm_time_by_lessonid($lessonid);
+        if($check_flag !== true){
+            return $check_flag;
+        }
+
         if ($lesson_start<strtotime($lesson_confirm_start_time)) {
             return $this->output_err("上课时间太早了, 早于[$lesson_confirm_start_time]");
         }
@@ -662,10 +660,14 @@ class user_deal extends Controller
             return $this->output_err( "时间不对: $lesson_start>$lesson_end");
         }
 
-        $teacherid    = $this->t_lesson_info->get_teacherid($lessonid);
-        $userid       = $this->t_lesson_info->get_userid($lessonid);
-        $lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start,$lesson_end);
+        $teacherid     = $this->t_lesson_info->get_teacherid($lessonid);
+        $userid        = $this->t_lesson_info->get_userid($lessonid);
+        $lesson_status = $this->t_lesson_info->get_lesson_status($lessonid);
+        $lesson_count  = \App\Helper\Utils::get_lesson_count($lesson_start,$lesson_end);
 
+        if($lesson_status!=E\Elesson_status::V_0){
+            return $this->output_err("课程不是未开始状态,无非更改课程时间!");
+        }
         //百度分期用户首月排课限制
         /*  $period_limit = $this->check_is_period_first_month($userid,$lesson_count);
             if($period_limit){
@@ -690,7 +692,7 @@ class user_deal extends Controller
             }
         }
 
-        $check=$this->research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count/100,$lesson_start,$lesson_type);
+        $check = $this->research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count/100,$lesson_start,$lesson_type);
         if($check){
             return $check;
         }
@@ -743,7 +745,7 @@ class user_deal extends Controller
         }
 
         $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
-        $ret=true;
+        $ret = true;
         if($lesson_type<1000 && $reset_lesson_count){
             $ret = $this->t_lesson_info->check_lesson_count_for_change($lessonid,$lesson_count);
         }
@@ -758,8 +760,6 @@ class user_deal extends Controller
                 ]);
             }
             $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
-
-
 
             // 发送微信提醒send_template_msg($teacherid,$template_id,$data,
             $url              = "";

@@ -152,6 +152,7 @@ interface RowData {
 	grab_flag	:any;
 	rebut_info	:any;
 	rebut_flag	:any;
+	p_wx_openid	:any;
 	id	:any;
 	lesson_time	:any;
 	use_new_flag	:any;
@@ -200,6 +201,7 @@ interface RowData {
 	is_require_change	:any;
 	is_accept_adminid	:any;
 	phone_ex	:any;
+	p_wx_openid_str	:any;
 }
 
 /*
