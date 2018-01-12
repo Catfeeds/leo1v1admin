@@ -123,6 +123,11 @@
              text-align:center;
              color:#999;
          }
+         @media screen and (max-width:380px){
+         .footer-btm{
+             padding-top: 10px;
+         }
+         }
          .bl-left{
              display:inline-block;
              width:20%;

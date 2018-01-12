@@ -133,7 +133,6 @@ $(function(){
         $("#id_tag_three").append('<option value="-1">全部</option>');
     }
 
-
     $('#id_use_type').val(g_args.use_type);
     $('#id_resource_type').val(g_args.resource_type);
     $('#id_subject').val(g_args.subject);
