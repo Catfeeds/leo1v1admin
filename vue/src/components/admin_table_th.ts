@@ -20,7 +20,7 @@ import Component from 'vue-class-component'
       require: false,
     },
     default_display:{
-      type: Boolean,
+      type: [Boolean, String ],
       require: false,
       "default" : function(){
         return undefined;

@@ -96,7 +96,13 @@ export default class admin_a extends Vue {
   }
 
   do_click( $event : MouseEvent ) {
-    this.$props.click( $event, this.$parent.$props.row_data);
+    var vue_row:any=this;
+    do {
+      vue_row=vue_row.$parent;
+      console.log(vue_row );
+    }while( vue_row && !(vue_row.$props.row_data) );
+
+    this.$props.click( $event, vue_row.$props.row_data);
   }
 
 }
