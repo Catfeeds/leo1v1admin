@@ -2,5 +2,29 @@
   <div id="id_header_query_info" > </div>
 
   <hr/>
-  <admin-table :table_data="table_data" :table_config="table_config"   />
+
+
+  <admin-table :table_data="table_data" :table_config="table_config"  >
+
+  </admin-table>
+
+  <!--
+  <admin-table :table_config="table_config" :auto_show="false"  >
+    <admin-table-th slot="admin-th" :order_field_name="'ll'"  > xx 33kk </admin-table-th>
+    <admin-table-th slot="admin-th" > FF</admin-table-th>
+
+    <admin-table-row v-for="(item,index) in table_data "  :key="index" :row_data="item"  :index="index"  >
+
+      <admin-table-td  v-html="index" >  {{item.account }} </admin-table-td>
+
+
+      <admin-a  slot="a"  v-for="(opt_info,opt_index ) in table_config.row_opt_list " :key="opt_index"  :opt_info="opt_info"  :class_list="[opt_info.face_icon,'sss'  ]"  :click="opt_info.on_click" :title="opt_info.title"    >
+        {{opt_info.text}} </admin-a>
+
+    </admin-table-row>
+
+    <admin-table-row slot="admin-table-row"><td> kkk </td> </admin-table-row>
+  </admin-table>
+  -->
+
 </section>

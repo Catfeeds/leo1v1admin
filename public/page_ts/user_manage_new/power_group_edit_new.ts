@@ -206,7 +206,8 @@ function zTreeOnClick(event, treeId, treeNode) {
             var data_list   = [];
             var select_list = [];
             $.each( response.data,function(){
-                data_list.push([this["groupid"], this["group_name"]  ]);
+                //console.log(response.data);
+                data_list.push([this["groupid"], this["role_groupid_str"] ,this["group_name"]  ]);
                 if (this["has_power"]) {
                     select_list.push (this["groupid"]) ;
                 }
@@ -214,7 +215,7 @@ function zTreeOnClick(event, treeId, treeNode) {
             
 
             $(this).admin_select_dlg({
-                header_list     : [ "id","名称" ],
+                header_list     : [ "id","所属角色","名称" ],
                 data_list       : data_list,
                 multi_selection : true,
                 select_list     : select_list,
@@ -258,14 +259,13 @@ $(function(){
         }
     }
 
-    $('.fa-download').next().remove();
-    $('.fa-download').remove();
+    $('.power_title').siblings().remove();
 
-    Enum_map.append_option_list("account_role", $("#id_role_groupid"),true,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,1001,1002]);
+    Enum_map.append_option_list("account_role", $("#id_role_groupid"),true);
     $('#id_role_groupid').val(g_args.role_groupid);
 	  $('#id_groupid').val($("#groupid").val());
 	  //$('#id_show_flag').val(g_args.show_flag);
-    console.log(g_args);
+    //console.log(g_args);
 
 	  $('.opt-change').set_input_change_event(load_data);
 
@@ -385,7 +385,7 @@ $(function(){
                     'edit_power_id' : edit_power_id,
                     'user_id':$('#user_add').attr("user_id"),
                 }
-
+         
                 $.ajax({
                     type     :"post",
                     url      :"/user_power/edit_role_groupid",
@@ -400,7 +400,8 @@ $(function(){
         },function(){
             $.admin_select_user($("#user_add"), "admin",function(val){
                 $('#user_add').attr({"user_id":val});  
-            });           
+            });
+       
         } ,false,800)
 
     });

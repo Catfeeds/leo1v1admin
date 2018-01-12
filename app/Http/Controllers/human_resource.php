@@ -4078,7 +4078,7 @@ class human_resource extends Controller
 
 
     public function get_assign_jw_adminid_list(){
-        $this->switch_tongji_database();
+        $this->check_and_switch_tongji_domain();
         $page_num = $this->get_in_page_num();
         $teacherid              = $this->get_in_int_val('teacherid',-1);
         $jw_adminid             = $this->get_in_int_val('jw_adminid',-1);

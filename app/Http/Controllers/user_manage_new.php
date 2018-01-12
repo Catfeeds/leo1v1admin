@@ -2118,13 +2118,11 @@ class user_manage_new extends Controller
         }else{
             $groupid = 0;
         }
-        //dd($groupid);
-        //当前账户
+   
         $account = $this->get_account();
 
         if( in_array($account,['jim','顾培根','孙瞿'])){
             //超级权限
-
         }
 
         $list=[];
@@ -2936,13 +2934,16 @@ class user_manage_new extends Controller
     public function get_group_list_by_powerid()
     {
         $powerid = $this->get_in_int_val("powerid");
-        $list    = $this->t_authority_group->get_all_list();
+        $list    = $this->t_authority_group->get_all_list_order_by_role();
         foreach ($list as &$item) {
             $p_list=preg_split("/,/", $item["group_authority"] );
             unset( $item["group_authority"]);
             unset( $item["2"]);
+            E\Eaccount_role::set_item_value_str($item, "role_groupid");
             $item["has_power"] = in_array($powerid,$p_list)?1:0;
+
         }
+     
         return $this->output_succ(["data"=> $list]);
     }
 

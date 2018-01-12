@@ -272,4 +272,39 @@ left join t_test_lesson_subject n on n.test_lesson_subject_id  = mm.test_lesson_
 where lesson_start > $start_time and lesson_start < $end_time and lesson_type = 2 and contract_type  in (0,3) and price > 0 and contract_status in (1,2,3) and order_time > $start_time";
         return $this->main_get_list($sql);
     }
+
+    public function get_all_student_phone_and_id(){
+        $sql = "select userid, phone from db_weiyi.t_student_info where is_test_user = 0 order by userid asc";
+        return $this->main_get_list($sql);
+    }
+
+
+    public function get_province_info($phone){
+        $sql = "select province ,city from db_weiyi.t_phone_info where id = $phone ";
+        return $this->main_get_row($sql);
+    }
+
+    public function get_grade_by_info_1(){
+      $sql = "select grade, phone_province,phone_city, count(*) as num from db_weiyi.t_student_info where grade in (101,102,103) and is_test_user = 0 group by grade,phone_city";
+      return $this->main_get_list($sql);
+    }
+
+    public function get_b1(){
+       $sql = "select s.grade,t.seller_student_status , count(*) as num from db_weiyi.t_student_info s left join db_weiyi.t_test_lesson_subject t on s.userid = t.userid where s.is_test_user = 0  and s.grade in (101,102,103)  group by s.grade, t.seller_student_status";
+       return $this->main_get_list($sql);
+    }
+
+    public function get_b2(){
+       $sql = "select s.grade,t.seller_student_sub_status  , count(*) as num from db_weiyi.t_student_info s left join db_weiyi.t_test_lesson_subject t on s.userid = t.userid where s.is_test_user = 0  and s.grade in (101,102,103)  group by s.grade, t.seller_student_sub_status ";
+       return $this->main_get_list($sql);
+    }
+
+    public function get_b3(){
+       $sql = "select s.grade ,k.test_lesson_order_fail_flag , count(*) as num
+from db_weiyi.t_student_info s 
+left join db_weiyi.t_test_lesson_subject t on s.userid = t.userid
+left join db_weiyi.t_test_lesson_subject_require k on k.test_lesson_subject_id  = t.test_lesson_subject_id 
+where s.is_test_user = 0  and s.grade in (101,102,103) group by s.grade ,k.test_lesson_order_fail_flag ";
+       return $this->main_get_list($sql);
+    }
 }

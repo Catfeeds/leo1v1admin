@@ -3284,4 +3284,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                 $where_arr);
         return $this->main_get_list($sql);
     }
+
+    
 }

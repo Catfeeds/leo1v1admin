@@ -1152,6 +1152,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 $set_arr["tmk_set_seller_adminid"]=$opt_adminid;
             }
             $this->t_test_lesson_subject->set_seller_require_adminid( $userid_list, $opt_adminid );
+
         }else if ( $opt_type ==1){ //分配主管
             $set_arr=[
                 "admin_assignerid"  => $self_adminid,
@@ -1715,7 +1716,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $userid=$this->get_userid_by_phone($phone);
         $admin_info=$this->t_manager_info->get_info_by_tquin($tquin,"uid");
         if($userid && $admin_info)  {
-            $item=$this->field_get_list($userid,"tq_called_flag,global_tq_called_flag,admin_revisiterid, competition_call_adminid,  seller_resource_type ,last_contact_time,first_contact_time ,called_time, first_call_time,tmk_student_status ,competition_call_time,cc_called_count,cc_no_called_count,last_revisit_time ");
+            $item=$this->field_get_list($userid,"tq_called_flag,global_tq_called_flag,admin_revisiterid, competition_call_adminid,  seller_resource_type ,last_contact_time,first_contact_time ,called_time, first_call_time,tmk_student_status ,competition_call_time,cc_called_count,cc_no_called_count,last_revisit_time,first_get_cc ");
             $set_arr=[];
             if ($item["tq_called_flag"]<$tq_called_flag) {
                 $set_arr["tq_called_flag"]=$tq_called_flag;
@@ -1775,6 +1776,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                         "system"
                     );
 
+                    if($item['first_get_cc'] == 0){
+                        $this->field_update_list($userid, ['first_get_cc'=>$competition_call_adminid]);
+                    }
                 }else{
                     $this->t_manager_info->send_wx_todo_msg_by_adminid($competition_call_adminid,"sys",
                                                                        "已到达抢例子上限","已到达抢例子上限");
@@ -2176,7 +2180,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
 
     public function reset_sys_invaild_flag($userid){
-        $item_arr = $this->field_get_list($userid,"called_time,first_contact_time,add_time,competition_call_time, sys_invaild_flag,call_admin_count,phone,seller_resource_type,global_tq_called_flag,test_lesson_count,last_succ_test_lessonid");
+        $item_arr = $this->field_get_list($userid,"called_time,first_contact_time,add_time,competition_call_time, sys_invaild_flag,call_admin_count,phone,seller_resource_type,global_tq_called_flag,test_lesson_count,last_succ_test_lessonid,test_lesson_flag");
         $invalid_flag = false;
         $add_time = $item_arr["add_time"];
         //连续3个人处理过了
@@ -2217,6 +2221,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $succ_count = $succ_test_info['count'];
         if($item_arr['test_lesson_count'] != $succ_count){
             $this->field_update_list($userid,['test_lesson_count'=>$succ_count]);
+        }
+        //第一节试听课
+        if($item_arr['test_lesson_flag'] == 0){
+            $first_test_lessonid = $this->task->t_lesson_info_b2->get_first_test_lesson($userid);
+            if($first_test_lessonid > 0){
+                $this->field_update_list($userid,['test_lesson_flag'=>$first_test_lessonid]);
+            }
         }
         //最后一次试听成功lessonid
         $last_succ_test_lessonid = $this->task->t_lesson_info_b2->get_last_succ_test_lesson($userid);
@@ -3412,18 +3423,21 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." s.origin_userid,t.subject,s.grade,ss.user_desc,ss.has_pad,t.require_adminid ,tmk_student_status,"
             ." first_tmk_set_valid_admind,first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,"
             ." first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,first_admin_revisiterid_time,"
-            ." first_seller_status,cur_adminid_call_count as call_count ,ss.auto_allot_adminid "
+            ." first_seller_status,cur_adminid_call_count as call_count,ss.auto_allot_adminid,first_called_cc,"
+            ." first_get_cc,test_lesson_flag,ss.orderid,price "
             ." from %s t "
             ." left join %s ss on  ss.userid = t.userid "
             ." left join %s s on ss.userid=s.userid "
             ." left join %s m on  ss.admin_revisiterid =m.uid "
             ." left join %s k on  k.value =s.origin "
+            ." left join %s o on  o.orderid =ss.orderid "
             ." where %s order by ss.add_time desc "
             , t_test_lesson_subject::DB_TABLE_NAME
             , self::DB_TABLE_NAME
             , t_student_info::DB_TABLE_NAME
             , t_manager_info::DB_TABLE_NAME
             , t_origin_key::DB_TABLE_NAME
+            , t_order_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);

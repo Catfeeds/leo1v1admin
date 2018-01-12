@@ -158,6 +158,7 @@ class test_sam extends Command
         }
         */
 
+        /*
         $time = [
             ['start_time' => 1506787200,'end_time' => 1509465600], //10
             ['start_time' => 1509465600,'end_time' => 1512057600], //11
@@ -188,6 +189,70 @@ class test_sam extends Command
             $arr_data  = ['nick','grade','subject','phone_location','origin','teacher_name',"grade_range","teacher_phone_location"];
             $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
         }
-        
-    }
+        */
+        /*
+        $phone_arr = [];
+        $file_name = "a";
+        if(\App\Helper\Utils::check_env_is_local()){
+            $path = "/home/sam/".$file_name.".txt";
+        }else{
+            $path = "/home/ybai/".$file_name.".txt";
+        }
+        $fp = fopen($path,"r");
+        while(!feof($fp)){
+            //$content = fread($handle, 8080);
+            $buffer  = fgets($fp, 4096);
+            $buffer  = trim($buffer);
+            $ret = $task->t_phone_info->main_insert($buffer);
+            print($ret)+'<br/>';
+        }
+        dd("finish");                                                                        
+
+        */  
+        /*
+        $ret_info = $task->t_student_score_info->get_all_student_phone_and_id();
+
+        foreach ($ret_info as $key => $value) {
+            $userid = $value['userid'];
+            $phone  = intval(trim($value['phone']));
+            $num = substr($phone, 0,7);
+            $ret = $task->t_student_score_info->get_province_info($num);
+            if($ret){
+                $province = $ret['province'];
+                $city     = $ret['city'];
+            }else{
+                $province = "其它";
+                $city     = "其它";
+            }
+            $task->t_student_info->field_update_list($userid,[
+                "phone_province" =>$province,
+                "phone_city" =>$city,
+            ]);
+            echo "$userid $province  $city.fin\n";
+        }   
+        */
+        /*
+        $ret_info = $task->t_student_score_info->get_grade_by_info_1();
+        foreach ($ret_info as $key => &$value) {
+            $value['grade']   = E\Egrade::get_desc($value['grade']);
+            $value['address'] = $value['phone_city'];
+        }
+        $file_name = 'sam_1';
+        $arr_title = ['年级',"城市","数量"];
+        $arr_data  = ['grade','phone_city','num'];
+        $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
+        dd($ret_file_name);
+        */
+
+        $ret_info = $task->t_student_score_info->get_b3();
+        foreach ($ret_info as $key => &$value) {
+            $value['grade']   = E\Egrade::get_desc($value['grade']);
+            //$value['seller_student_status'] = E\Eseller_student_status::get_desc($value['seller_student_status']);
+            $value['test_lesson_order_fail_flag'] = E\Etest_lesson_order_fail_flag::get_desc($value['test_lesson_order_fail_flag']);
+        }
+        $file_name = 'sam_2_3';
+        $arr_title = ['年级',"分类","数量"];
+        $arr_data  = ['grade','test_lesson_order_fail_flag','num'];
+        $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
+    }     
 }

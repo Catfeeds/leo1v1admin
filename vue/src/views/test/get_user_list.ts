@@ -97,13 +97,11 @@ export default class extends vtable {
     });
 
   }
-  doOpt(e  : MouseEvent ) {
-    var opt_data = this.get_opt_data(e.target);
+  doOpt(  e  : MouseEvent ,opt_data: self_RowData  ) {
     BootstrapDialog.alert(JSON.stringify(opt_data));
   };
 
-  do_edit(e:MouseEvent) {
-    var opt_data = this.get_opt_data(e.target);
+  opt_edit(e:MouseEvent ,opt_data: self_RowData) {
     var $nick= $("<input/>");
     $nick.val( opt_data.nick );
     var arr=[
