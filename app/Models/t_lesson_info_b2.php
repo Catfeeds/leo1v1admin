@@ -197,6 +197,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                             ." and lesson_start<=%s "
                             ." and lesson_status<=2 "
                             ." and confirm_flag<2"
+                            ." and lesson_del_flag=0"
                             ." order by lesson_start asc ",
                             self::DB_TABLE_NAME,
                             $teacherid, $start_time,$end_time );
