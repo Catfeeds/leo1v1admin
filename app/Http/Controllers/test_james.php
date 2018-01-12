@@ -52,8 +52,8 @@ use Qiniu\Storage\BucketManager;
 
 
 
-// include(app_path("Libs/LaneWeChat/lanewechat.php"));
-include(app_path("Wx/Teacher/lanewechat_teacher.php"));
+include(app_path("Libs/LaneWeChat/lanewechat.php"));
+// include(app_path("Wx/Teacher/lanewechat_teacher.php"));
 
 
 
