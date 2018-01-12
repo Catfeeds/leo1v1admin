@@ -3265,7 +3265,7 @@ class user_manage extends Controller
             $value['three_month_refund_num'] = 0;
             $value['one_month_refund_num'] = 0;
         }
-
+        dd($ret);
         foreach ($ret_info as $key => $value) {
 
             if($key == "袁兴运" || $key == "吴峰"){
