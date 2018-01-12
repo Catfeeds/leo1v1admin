@@ -4,7 +4,6 @@
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
         $.reload_self_page ( {
-        order_by_str : g_args.order_by_str,
         date_type_config:    $('#id_date_type_config').val(),
         date_type:    $('#id_date_type').val(),
         opt_date_type:    $('#id_opt_date_type').val(),
@@ -23,7 +22,8 @@ $(function(){
         date_type_config : JSON.parse( g_args.date_type_config),
         onQuery :function() {
             load_data();
-        });
+        }
+    });
 
 
     $('.opt-change').set_input_change_event(load_data);

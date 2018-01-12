@@ -3,6 +3,10 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Support\Facades\Redis;
+/**
+ * 
+ * @use Controller
+ */
 trait  CacheNick {
 
 
@@ -15,6 +19,7 @@ trait  CacheNick {
            "account"   => ["db_weiyi_admin.t_manager_info", "uid","account" ],
            "seller"    => ["db_weiyi.t_seller_info", "sellerid","nick" ],
            "parent"    => ["db_weiyi.t_parent_info", "parentid","nick" ],
+           "origin"    => ["db_weiyi.t_origin_key", "origin","key0" ],
         ];
 
     }
@@ -44,7 +49,9 @@ trait  CacheNick {
         $id_str      = $config_item[1];
         $name_str    = $config_item[2];
 
-        $sql     = sprintf("select $name_str as name from $table_name where $id_str=%d",$id);
+        $sql     = sprintf("select $name_str as name from $table_name where $id_str='%s'",
+                           $this->t_student_info->ensql( $id)
+        );
         $ret_row = $this->t_student_info->main_get_row($sql);
         if ($ret_row) {
             $nick = $ret_row["name"];
@@ -57,6 +64,11 @@ trait  CacheNick {
 
     public function cache_get_teacher_nick( $id ) {
         return $this->cache_get_map_str("teacher",$id);
+    }
+
+
+    public function cache_get_origin_key0 ( $id ) {
+        return $this->cache_get_map_str("origin",$id);
     }
 
     public function cache_get_assistant_nick( $id ) {
@@ -92,6 +104,10 @@ trait  CacheNick {
 
     public function cache_get_seller_nick( $id ) {
         return $this->cache_get_map_str("seller",$id);
+    }
+
+    public function cache_set_item_origin_key0( &$item,$field_name="origin",$nick_field_name="key0" ) {
+        $item[$nick_field_name] = $this->cache_get_teacher_nick($item[$field_name]);
     }
 
     public function cache_set_item_teacher_nick( &$item,$field_name="teacherid",$nick_field_name="teacher_nick" ) {

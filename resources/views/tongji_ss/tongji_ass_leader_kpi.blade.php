@@ -106,27 +106,53 @@
                                 <tbody id="id_per_count_list">
                                     @foreach ( $ret_info as $key=> $var )
                                         <tr>
+                                            <!-- <td class="panel-yellow">{{@$var["account"]}} </td>
+                                                 
+                                                 <td class="panel-gray">{{@$var["revisit_num"]}} </td>
+                                                 <td class="panel-gray">{{@$var["revisit_do"]}} </td>
+                                                 <td class="panel-gray">{{@$var["revisit_per"]}} </td>
+                                                 <td class="panel-gray">{{@$var["revisit_score"]}} </td>
+                                                 <td class="panel-piggy">{{@$var["refunded_num"]}} </td>
+                                                 <td class="panel-piggy">{{@$var["reading_num"]}} </td>
+                                                 <td class="panel-piggy">{{@$var["refund_per"]}}% </td>
+                                                 <td class="panel-piggy">{{@$var["refund_score"]}} </td>
+                                                 <td class="panel-white ">{{@$var["kk_suc_avg"]}} </td>
+                                                 <td class="panel-white ">{{@$var["kk_score"]}} </td>
+                                                 <td class="panel-blue ">{{@$var["trans_num_avg"]}} </td>
+                                                 <td class="panel-blue ">{{@$var["trans_score"]}} </td>
+                                                 <td class="panel-green "> </td>
+                                                 <td class="panel-green "></td>
+                                                 <td class="un_revisit panel-orange" data-adminid="{{$key}}">
+                                                 <a href="javascript:;" >{{@$var["un_revisit_num"]}} </a>
+                                                 </td>
+
+                                                 <td class="panel-orange ">{{@$var["un_revisit_score"]}} </td>
+                                                 <td class="panel-red ">{{@$var["total_score"]}} </td>
+                                            -->
+                                           
+
                                             <td class="panel-yellow">{{@$var["account"]}} </td>
-                                            <td class="panel-gray">{{@$var["revisit_num"]}} </td>
-                                            <td class="panel-gray">{{@$var["revisit_do"]}} </td>
-                                            <td class="panel-gray">{{@$var["revisit_per"]}} </td>
-                                            <td class="panel-gray">{{@$var["revisit_score"]}} </td>
-                                            <td class="panel-piggy">{{@$var["refunded_num"]}} </td>
-                                            <td class="panel-piggy">{{@$var["reading_num"]}} </td>
-                                            <td class="panel-piggy">{{@$var["refund_per"]}}% </td>
-                                            <td class="panel-piggy">{{@$var["refund_score"]}} </td>
-                                            <td class="panel-white ">{{@$var["kk_suc_avg"]}} </td>
-                                            <td class="panel-white ">{{@$var["kk_score"]}} </td>
-                                            <td class="panel-blue ">{{@$var["trans_num_avg"]}} </td>
-                                            <td class="panel-blue ">{{@$var["trans_score"]}} </td>
+                                            <td class="panel-gray">{{@$var["revisit_reword_per"]}} </td>
+                                            <td class="panel-gray">{{@$var["seller_week_stu_num"]}} </td>
+                                            <td class="panel-gray">{{@$var["first_lesson_stu_list"]}} </td>
+                                            <td class="panel-gray">{{@$var["seller_month_lesson_count"]/100}} </td>
+                                            <td class="panel-piggy">{{@$var["kpi_lesson_count_finish_per"]}} </td>
+                                            <td class="panel-piggy">{{@$var["estimate_month_lesson_count"]}} </td>
+                                            <td class="panel-piggy">{{@$var["performance_cc_tran_num"]}} </td>
+                                            <td class="panel-piggy">{{@$var["performance_cc_tran_money"]/100}} </td>
+                                            <td class="panel-white ">{{@$var["performance_cr_renew_num"]}} </td>
+                                            <td class="panel-white ">{{@$var["performance_cr_renew_money"]/100}} </td>
+                                            <td class="panel-blue ">{{@$var["stop_student"]}} </td>
+                                            <td class="panel-blue ">{{@$var["all_student"]/100}} </td>
                                             <td class="panel-green "> </td>
                                             <td class="panel-green "></td>
                                             <td class="un_revisit panel-orange" data-adminid="{{$key}}">
-                                                <a href="javascript:;" >{{@$var["un_revisit_num"]}} </a>
+                                                <a href="javascript:;" >{{@$var["performance_cr_new_num"]}} </a>
                                             </td>
 
-                                            <td class="panel-orange ">{{@$var["un_revisit_score"]}} </td>
-                                            <td class="panel-red ">{{@$var["total_score"]}} </td>
+                                            <td class="panel-orange ">{{@$var["performance_cr_new_money"]/100}} </td>
+                                            <td class="panel-red ">{{@$var["read_student"]/100}} </td>
+
 
                                         </tr>
                                     @endforeach

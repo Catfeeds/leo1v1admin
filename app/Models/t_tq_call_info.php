@@ -42,36 +42,25 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             $userid = $this->task->t_phone_to_user->get_userid($phone);
             if($admin_role == E\Eaccount_role::V_2){
                 if($userid>0){
-                    $count_new = $this->get_called_count($phone,1);
-                    $count_new = 1;
-                    if($is_called_phone==1){//拨通
-                        $arr = [];
-                        $count = $this->task->t_seller_student_new->field_get_value($userid,'cc_called_count');
-                        $first_called_cc = $this->task->t_seller_student_new->field_get_value($userid,'first_called_cc');
-                        if($first_called_cc == 0){
+                    $arr = [];
+                    $row = $this->task->t_seller_student_new->field_get_list($userid,'cc_called_count,last_contact_cc,first_called_cc,cc_no_called_count,cc_no_called_count_new');
+                    if($is_called_phone==0){
+                        if($row['cc_no_called_count']>0){
+                            $arr['cc_no_called_count'] = $row['cc_no_called_count']+1;
+                        }
+                        $arr['cc_no_called_count_new'] = $row['cc_no_called_count_new']+1;
+                    }elseif($is_called_phone==1){//拨通
+                        $arr['cc_called_count'] = $row['cc_called_count']+1;
+                        if($row['first_called_cc'] == 0){
                             $arr['first_called_cc'] = $adminid;
                         }
-                        if($count_new != $count){
-                            $arr['cc_called_count'] = $count_new;
-                            $arr['cc_no_called_count'] = 0;
-                            $arr['last_revisit_time'] = $start_time;
-                            $arr['last_contact_cc'] = $adminid;
-                        }
-                        if(count($arr)>0){
-                            $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
-                        }
-                    }elseif($is_called_phone==0){//未拨通
-                        $cc_no_called_count_new = $this->task->t_seller_student_new->field_get_value($userid,'cc_no_called_count_new');
-                        $no_count_new = $this->get_called_count($phone,0);
-                        if(($no_count_new != $cc_no_called_count_new) && $count_new==0){
-                            $this->task->t_seller_student_new->field_update_list($userid,[
-                                'cc_no_called_count'=>$no_count_new,
-                                'cc_no_called_count_new'=>$no_count_new,
-                                'last_revisit_time'=>$start_time,
-                                'last_contact_cc'=>$adminid,
-                            ]);
-                        }
+                        $arr['cc_no_called_count'] = 0;
                     }
+                    if($row['last_contact_cc'] != $adminid){
+                        $arr['last_contact_cc'] = $adminid;
+                    }
+                    $arr['last_revisit_time'] = $start_time;
+                    $this->task->t_seller_student_new->field_update_list($userid,$arr);
                 }
             }elseif($admin_role == E\Eaccount_role::V_7){
                 if($userid>0){
@@ -787,6 +776,7 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
 
     public function get_called_count($phone,$called_flag){
         $where_arr=[];
+        $this->where_arr_add_int_field($where_arr,'admin_role',2);
         $this->where_arr_add_int_field($where_arr, 'is_called_phone', $called_flag);
         $this->where_arr_add_str_field($where_arr,'phone',$phone);
         $sql=$this->gen_sql_new(
@@ -803,6 +793,7 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
         $where_arr=[
             'adminid>0',
         ];
+        $this->where_arr_add_int_field($where_arr,'admin_role',2);
         $this->where_arr_add_int_field($where_arr, 'is_called_phone',1);
         $this->where_arr_add_str_field($where_arr,'phone',$phone);
         $sql=$this->gen_sql_new(
@@ -823,6 +814,7 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
             'obj_start_time>0',
             '(end_time-obj_start_time)>=60',
         ];
+        $this->where_arr_add_int_field($where_arr,'admin_role',2);
         $this->where_arr_add_int_field($where_arr, 'is_called_phone',1);
         $this->where_arr_add_str_field($where_arr,'phone',$phone);
         $sql=$this->gen_sql_new(
