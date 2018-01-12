@@ -3298,7 +3298,7 @@ class user_manage extends Controller
             $value['three_month_per'] = $value['three_month_num'] > 0? round(100*$value['three_month_refund_num']/$value['three_month_num'],2) : 0;
             $value['one_month_per'] = $value['one_month_num'] > 0? round(100*$value['one_month_refund_num']/$value['one_month_num'],2) : 0;
         }
-
+        dd($ret);
         $ret_arr = \App\Helper\Utils::array_to_page($page_num,$ret);
         return $this->Pageview(__METHOD__,$ret_arr);
     }
