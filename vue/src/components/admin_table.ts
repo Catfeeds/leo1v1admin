@@ -24,13 +24,6 @@ import { timingSafeEqual } from 'crypto';
       },
     },
 
-    auto_show: {//表配置
-      type     : Boolean,
-      required : true,
-      "default" :  function(){
-        return true ;
-      } ,
-    },
 
     table_config : {//表配置
       type     : Object,
@@ -44,7 +37,7 @@ import { timingSafeEqual } from 'crypto';
   },
   computed : {
     real_table_config:function() {
-      return this.$props.auto_show? this.$props.table_config: {};
+      return this.$props.table_data.length>0 ? this.$props.table_config: {};
     }
   },
   mounted : function(){
@@ -230,20 +223,34 @@ export default class admin_table extends Vue {
   }
 
   config_field_list(e :MouseEvent ){
+    console.log(e );
     var arr :Array<any>= [];
     var me=this;
-    $.each(this.$props.table_config.field_list, function (i, field_info) {
-      if(me.check_power_show(field_info) ){
-        var $input = $("<input type=\"checkbox\"/>");
-        var title= field_info .title;
-        if (me.check_config_show(field_info)){
-          $input.attr("checked", "checked");
+    if (this.$props.table_config.field_list ) {
+      $.each(this.$props.table_config.field_list, function (i, field_info) {
+        if(me.check_power_show(field_info) ){
+          var $input = $("<input type=\"checkbox\"/>");
+          var title= field_info .title;
+          if (me.check_config_show(field_info)){
+            $input.attr("checked", "checked");
+          }
+          $input.data("index", title);
+          arr.push([title, $input]);
         }
-        $input.data("index", title);
-        arr.push([title, $input]);
-      }
+      });
+    }else {
+      $.each( me.$children,function(i, child_item){
+        if (child_item.$options["_componentTag"]=="admin-table-th"){
+          console.log(child_item );
+          var title= $.trim($(child_item.$el).text());
+          if (me.check_power_show( child_item["real_field_info"])) {
+            console.log(title);
+          }
+        }
+      });
 
-    });
+    }
+
     var table_key = $.get_table_key("field_list");
     $.show_key_value_table("列显示配置", arr, [{
       label: '默认',
