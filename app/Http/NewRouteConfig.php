@@ -123,6 +123,7 @@ class NewRouteConfig {
         "/login/teacher"                          => true,
         "/login/agent"                          => true,
         "/lesson_manage/get_lesson_info"          => true,
+        "/common/check_change_flag" => true,
         "/common/send_papers_email"  => true,
         "/common/add_trial_train_lesson_by_admin" => true,
         "/common/del_qiniu_img"                   => true,
