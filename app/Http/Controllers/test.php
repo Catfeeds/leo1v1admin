@@ -39,6 +39,7 @@ class test extends Controller
         $grade=$this->get_in_el_grade();
         $gender=$this->get_in_el_gender();
         $query_text=$this->get_in_query_text();
+        $this->get_in_int_val("test_select",-1);
 
         $ret_info=$this->t_student_info->get_test_list($page_info, $order_by_str,  $grade );
 

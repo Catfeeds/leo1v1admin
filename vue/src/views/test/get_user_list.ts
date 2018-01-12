@@ -38,6 +38,22 @@ export default class extends vtable {
 
     var action=  this.get_action_str();
 
+
+    $.admin_enum_select( {
+        "join_header"  : $header_query_info,
+        "enum_type" : null,
+        "field_name" : "test_select",
+        "option_map" : {
+            1: "xx",
+            2:"kkk 2 ",
+            3:"nnn3  ",
+        },
+        "title" : "自定义列表",
+      "select_value" :this.get_args().test_select,
+
+    }) ;
+
+
     $.admin_enum_select({
       'join_header'       : $header_query_info,
       "enum_type"         : "grade",

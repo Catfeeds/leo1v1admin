@@ -39,6 +39,29 @@ interface JQueryStatic {
 
     show_key_value_table (title:string,arr:Array<Array<any>> ,btn_config?:Object,onshownfunc?: ()=>void, close_flag?:boolean ,width? ):void;
 
+
+    /*
+    $.admin_enum_select( {
+        "join_header"  : $header_query_info,
+        "enum_type" : null,
+        "field_name" : "contract_type",
+        "option_map" : {
+            1: "xx",
+            2:"kkk 2 ",
+            3:"nnn3  ",
+        },
+        "title" : "合同类型",
+        "select_value" :g_args.contract_type,
+    }) ;
+
+    $.admin_enum_select( {
+        "join_header"  : $header_query_info,
+        "enum_type" : "subject",
+        "title" : "科目",
+        "select_value" :g_args.subject,
+        "id_list" :[1,2,3,4,5,6],
+    }) ;
+    */
     admin_enum_select  (options):any;
 
     /*

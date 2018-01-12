@@ -121,7 +121,10 @@ class Controller extends ControllerEx
             $server_name= $_SERVER["SERVER_NAME"];
             if (!($server_name == "admin-tongji.leo1v1.com" || $server_name == "p.admin-tongji.leo1v1.com"   )){
                 if (!isset($_GET["callback"])) {
+                    \App\Helper\Utils::logger("CHECK FOR $server_name");
                     if ( $server_name== "admin.leo1v1.com" ) {
+                        \App\Helper\Utils::logger(" DO admin.leo1v1.com ");
+
                         header('Location: http://admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
                     }else{
                         header('Location: http://p.admin-tongji.leo1v1.com/'. $_SERVER["REQUEST_URI"]  );
