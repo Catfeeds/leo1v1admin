@@ -571,4 +571,28 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_value($sql);
     }
 
+    public function get_sys_operator_apply_info($start_time,$end_time){
+        $where_arr = [
+            [" apply_time > %s",$start_time,-1],
+            [" order_time < %s",$end_time,-1],
+            " r.contract_type  != 1 ",
+            " o.price > 0  ",
+            " o.contract_status IN (1,2,3) ",
+            " s.is_test_user = 0 "
+        ];
+        $sql = $this->gen_sql_new("select sys_operator, count(*) as num "
+                                ." from %s  r "
+                                ." left join %s o on o.orderid = r.orderid "
+                                ." left join %s s on o.userid = s.userid "
+                                ." where %s "
+                                ." group by sys_operator "
+                                ,self::DB_TABLE_NAME
+                                ,t_order_info::DB_TABLE_NAME
+                                ,t_student_info::DB_TABLE_NAME
+                                ,$where_arr);
+        return $this->main_get_list($sql,function($item){
+            return $item['sys_operator'];
+        });
+    }
+
 }
