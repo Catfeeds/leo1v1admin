@@ -6168,4 +6168,16 @@ class user_deal extends Controller
         if($imgList['followImgUrl']){ $imgList['followImgUrl'] = $domain."/".$imgList['followImgUrl'];}
         return $this->output_succ(['data'=>$imgList]);
     }
+
+    public function set_stu_test_paper_download(){
+        $lessonid = $this->get_in_int_val("lessonid");
+        $test_lesson_subject_id= $this->get_in_int_val("test_lesson_subject_id");
+
+        $this->t_seller_student_info->change_download_time($lessonid);
+        $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
+            "tea_download_paper_time" => time(NULL),
+        ]);
+
+        return $this->output_succ();
+    }
 }
