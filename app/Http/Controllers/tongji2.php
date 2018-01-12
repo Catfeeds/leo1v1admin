@@ -1055,12 +1055,12 @@ class tongji2 extends Controller
             $val["kpi"] = round($val["kpi"],2);
 
 
-            $ass_master_adminid = $this->t_admin_group_user->get_master_adminid_group_info($k);
-            $val["group_name"] = $ass_master_adminid["group_name"];//组别
+            $ass_master_adminid = $val["master_adminid"];
+            $val["group_name"] = $val["group_name"];//组别
             if($account_id==-1){
 
             }else{
-                if($ass_master_adminid["master_adminid"] != $account_id){
+                if($ass_master_adminid != $account_id){
                     unset($ass_list[$k]);
                 }
 
