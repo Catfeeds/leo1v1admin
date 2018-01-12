@@ -188,10 +188,19 @@ class get_ass_stu_info_update extends Command
                 "performance_cr_renew_money" =>$val["kk_score"]*100,//扩课得分
                 "performance_cr_new_num" =>$val["un_revisit_num"],//24小时未回访
                 "performance_cr_new_money" =>$val["un_revisit_score"]*100,//未回访得分
-                "read_student"          =>$val["total_score"],             
+                "read_student"          =>$val["total_score"]*100,
+                "stop_student"          =>$val["trans_num_avg"],
+                "all_student"           =>$item["trans_score"]*100,
             ];
            
-            $task->t_month_ass_student_info->row_insert($update_arr);
+            $adminid_exist = $task->t_month_ass_student_info->get_ass_month_info($start_time,$k,3);
+            if($adminid_exist){
+                $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,3,$update_arr);
+            }else{
+                $task->t_month_ass_student_info->row_insert($update_arr);
+            }
+
+            //   $task->t_month_ass_student_info->row_insert($update_arr);
             
 
         }
