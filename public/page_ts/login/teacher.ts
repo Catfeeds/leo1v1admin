@@ -116,8 +116,8 @@ $('.download span').on('click', function() {
 });
 
 $('.download-pc-url').click( function () {
-    var window_url="http://leowww.oss-cn-shanghai.aliyuncs.com/LeoeduTeacher/%E7%90%86%E4%BC%981%E5%AF%B91%20-%20%E8%80%81%E5%B8%88%E7%AB%AF%20Setup%204.1.0.exe";
-    var mac_url="http://leowww.oss-cn-shanghai.aliyuncs.com/LeoeduTeacher/LeoeduTeacher-4.1.0.dmg";
+    var window_url="http://leowww.oss-cn-shanghai.aliyuncs.com/LeoeduTeacher/%E7%90%86%E4%BC%981%E5%AF%B91%20-%20%E8%80%81%E5%B8%88%E7%AB%AF%20Setup%204.4.0.exe";
+    var mac_url="http://leowww.oss-cn-shanghai.aliyuncs.com/LeoeduTeacher/LeoeduTeacher-4.4.0.dmg";
     if(navigator.platform.indexOf('mac') > -1 || navigator.platform.indexOf('Mac') > -1){
         window.location.href = mac_url;
     }else{
