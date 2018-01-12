@@ -10,6 +10,7 @@
      var tag_four = '{{$tag_info['tag_four']['menu']}}';
      var tea_sub = {!! @$tea_sub!!} ;
      var tea_gra = {!! @$tea_gra !!};
+     var type_list = {!! @$type_list !!};
      var book = {{@$book}};
     </script>
     <section class="content li-section">

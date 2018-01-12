@@ -293,7 +293,7 @@
                                     <table class="table table-bordered">
                                         <tr>
                                             <th class="text-cen bg-lblue" style="width:20%">ID</th>
-                                            <td id="teacherid">56123</td>
+                                            <td id="teacherid">{{@$my_info['teacherid']}}</td>
                                             <th class="text-cen bg-lblue" style="width:20%">姓名</th>
                                             <td id="teacher-name"> {!! $my_info['nick'] !!} </td>
                                         </tr>
