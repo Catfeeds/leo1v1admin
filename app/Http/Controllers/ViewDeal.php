@@ -944,12 +944,14 @@ END;
             $this->out_xls($ret_info);
             exit;
         }
+
         $data=$this->getPageData($ret_info,$ex_js_args,$showPages);
         if (count($data_ex)>0 )  {
             $data=array_merge($data,$data_ex) ;
         }
-        $data["html_power_list"] = $this->html_power_list;
 
+
+        $data["html_power_list"] = $this->html_power_list;
         return $this->view($method,$data);
     }
 

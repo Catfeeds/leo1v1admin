@@ -67,8 +67,9 @@
                     </tr>
                 @endforeach
             </tbody>
+            @include("layouts.page")
         </table>
-        @include("layouts.page")
+        
     </section>
     
 @endsection
