@@ -3279,6 +3279,9 @@ class user_manage extends Controller
                 $ret[$key]['three_month_refund_num'] = $value['three_month_refund_num'];
                 $ret[$key]['one_month_refund_num'] = $value['one_month_refund_num'];
             }else{
+                if($key == "吴峰"){
+                    dd($value);
+                }
                 $ret[$key] = $value;
                 $ret[$key]['apply_num'] = 0;
             }
@@ -3286,7 +3289,13 @@ class user_manage extends Controller
 
         //deal
         foreach ($ret as $key => &$value) {
-            $value['type_str'] = @E\Eaccount_role::get_desc($value['type']);
+            if($value['type'] == 1){
+                $value['type_str'] = "助教";
+            }elseif($value['type'] == 2){
+                $value['type_str'] = "销售";
+            }else{
+                $value['type_str'] = "其他";
+            }
             $value['one_year_per'] = $value['one_year_num'] > 0? round(100*$value['one_year_refund_num']/$value['one_year_num'],2) : 0;
             $value['half_year_per'] = $value['half_year_num'] > 0? round(100*$value['half_year_refund_num']/$value['half_year_num'],2) : 0;
             $value['three_month_per'] = $value['three_month_num'] > 0? round(100*$value['three_month_refund_num']/$value['three_month_num'],2) : 0;
