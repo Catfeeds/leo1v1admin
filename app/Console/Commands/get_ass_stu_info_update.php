@@ -190,7 +190,7 @@ class get_ass_stu_info_update extends Command
                 "performance_cr_new_money" =>$val["un_revisit_score"]*100,//未回访得分
                 "read_student"          =>$val["total_score"]*100,
                 "stop_student"          =>$val["trans_num_avg"],
-                "all_student"           =>$item["trans_score"]*100,
+                "all_student"           =>$val["trans_score"]*100,
             ];
            
             $adminid_exist = $task->t_month_ass_student_info->get_ass_month_info($start_time,$k,3);

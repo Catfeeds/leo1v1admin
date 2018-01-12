@@ -142,8 +142,8 @@
                                             <td class="panel-piggy">{{@$var["performance_cc_tran_money"]/100}} </td>
                                             <td class="panel-white ">{{@$var["performance_cr_renew_num"]}} </td>
                                             <td class="panel-white ">{{@$var["performance_cr_renew_money"]/100}} </td>
-                                            <td class="panel-blue ">{{@$var["performance_cr_new_num"]}} </td>
-                                            <td class="panel-blue ">{{@$var["performance_cr_new_money"]/100}} </td>
+                                            <td class="panel-blue ">{{@$var["stop_student"]}} </td>
+                                            <td class="panel-blue ">{{@$var["all_student"]/100}} </td>
                                             <td class="panel-green "> </td>
                                             <td class="panel-green "></td>
                                             <td class="un_revisit panel-orange" data-adminid="{{$key}}">
