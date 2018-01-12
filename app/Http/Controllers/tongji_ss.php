@@ -4625,13 +4625,13 @@ class tongji_ss extends Controller
             @$ass_list[$key]["num"] = $num;
 
         }
-        foreach($kk_suc as $kk=>$vv){
-            @$ass_list[$kk]["kk_suc"] = $vv["lesson_count"];
-            /*$master_adminid_ass = $this->t_admin_group_user->get_master_adminid_by_adminid($kk);
-            @$ret_info[$master_adminid_ass]["kk_suc"] +=$vv["lesson_count"];
-            @$ret_info[$master_adminid_ass]["kk_person"] ++;*/
+        // foreach($kk_suc as $kk=>$vv){
+        //     @$ass_list[$kk]["kk_suc"] = $vv["lesson_count"];
+        //     /*$master_adminid_ass = $this->t_admin_group_user->get_master_adminid_by_adminid($kk);
+        //     @$ret_info[$master_adminid_ass]["kk_suc"] +=$vv["lesson_count"];
+        //     @$ret_info[$master_adminid_ass]["kk_person"] ++;*/
 
-        }
+        // }
 
         $trans_info = $this->t_student_info->get_trans_stu_info_new($start_time,$end_time);
         foreach($trans_info as $kk=>$vv){
