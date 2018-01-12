@@ -2636,6 +2636,7 @@ class teacher_info extends Controller
         }
 
         // dd($tea_info);
+        dd($ret_info);
         return $this->pageView( __METHOD__,$ret_info,[
             'tag_info'      => $tag_arr,
             'tea_sub'       => json_encode( $tea_sub),
