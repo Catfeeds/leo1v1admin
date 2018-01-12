@@ -418,34 +418,9 @@ class agent extends Controller
 
     public function check(){
         $this->check_and_switch_tongji_domain();
-        $start_time = strtotime($this->get_in_str_val('start_time','2017-11-01'));
-        $end_time = strtotime($this->get_in_str_val('end_time','2017-12-01'));
-        list($adminid_list,$ret,$ret_info)=[[314,508,1157,1072,945,916,487,962,1077,834],[],[]];
-        $manager_list = $this->t_manager_info->get_item_list($adminid_list);
-        foreach($manager_list as $item){
-            $ret_info[$item['adminid']]['account'] = $item['account'];
-        }
-        $phone_list = $this->t_tq_call_info->get_item_by_adminid($adminid_list,$start_time,$end_time);
-        foreach($adminid_list as $info){
-            $adminid = $info;
-            foreach($phone_list as $item){
-                if($item['adminid'] == $adminid){
-                    $ret[$adminid][] = $item;
-                }
-            }
-        }
-        foreach($ret as $adminid=>$item){
-            $ret_info[$adminid]['called_count'] = count(array_unique(array_column($item,'phone')));
-        }
-        $seller_list = $this->t_seller_student_new->get_item_by_adminid($adminid_list,$start_time,$end_time);
-        foreach($seller_list as $item){
-            $ret_info[$item['adminid']]['seller_count'] = $item['count'];
-        }
-        $test_list = $this->t_test_lesson_subject_require->get_item_count($start_time,$end_time,$adminid_list);
-        foreach($test_list as $item){
-            $ret_info[$item['admin_revisiterid']]['test_count'] = $item['test_lesson_count'];
-            $ret_info[$item['admin_revisiterid']]['suc_count'] = $item['succ_all_count'];
-        }
+        $start_time = strtotime($this->get_in_str_val('start_time','2017-12-01'));
+        $end_time = strtotime($this->get_in_str_val('end_time','2018-01-01'));
+        $this->t_seller_student_new->get_all_list($start_time, $end_time);
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>'.date('Y-m',$start_time).'月</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
