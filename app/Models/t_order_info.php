@@ -4787,5 +4787,36 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_value($sql);
     }
+
+
+    public function get_sys_operator_refund_info($one_year,$half_year,$three_month,$start_time,$end_time){
+        $where_arr = [
+            " price > 0 ",
+            [" order_time > %s",$one_year,-1],
+            [" order_time < %s",$end_time,-1],
+            " s.is_test_user = 0 ",
+            " o.contract_status  in (1,2,3) "
+        ];
+
+        $sql = $this->gen_sql_new("select sys_operator,count(*) as one_year_num ,"
+            ."  sum(if(order_time > $half_year , 1,0)) as half_year_num, "
+            ."  sum(if(order_time > $three_month , 1,0)) as three_month_num,"
+            ."  sum(if(order_time > $start_time , 1,0)) as one_month_num, "
+            ."  sum(if (contract_status = 3, 1,0)) as one_year_refund_num, "
+            ."  sum(if((order_time > 1501516800 and contract_status = 3),1,0)) as half_year_refund_num,"
+            ."  sum(if((order_time > 1509465600 and contract_status =  3),1,0)) as three_month_refund_num,"
+            ."  sum(if((order_time > 1514736000 and contract_status = 3),1,0)) as one_month_refund_num"
+            ." from %s o "
+            ." left join %s s on s.userid = o.userid "
+            ." where %s "
+            ."group by sys_operator order by order_time desc ",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr);
+        return $this->main_get_list($sql,function($item){
+            return $item['sys_operator'];
+        });
+
+    }
 }
 
