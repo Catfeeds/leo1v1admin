@@ -121,7 +121,7 @@ class user_manage extends Controller
             $item["cache_nick"]        = $this->cache_get_student_nick($item["userid"]) ;
             \App\Helper\Utils::unixtime2date_for_item($item,"reg_time");
         }
-
+        //dd($ret_info);
         return $this->Pageview(__METHOD__,$ret_info);
     }
 
@@ -3253,6 +3253,18 @@ class user_manage extends Controller
         $ret          = $this->t_order_refund->get_sys_operator_apply_info($start_time,$end_time);
         $ret_info     = $this->t_order_info->get_sys_operator_refund_info($one_year,$half_year,$three_month,$start_time,$end_time);
 
+        foreach ($ret as $key => &$value) {
+            $value['one_year_num'] = 0;
+            $value['half_year_num'] = 0;
+            $value['three_month_num'] = 0;
+            $value['one_month_num'] = 0;
+
+            $value['one_year_refund_num'] = 0;
+            $value['half_year_refund_num'] = 0;
+            $value['three_month_refund_num'] = 0;
+            $value['one_month_refund_num'] = 0;
+        }
+
         foreach ($ret_info as $key => $value) {
             if(isset($ret[$key])){//添加
                 $ret[$key]['sys_operator'] = $value['sys_operator'];
@@ -3272,55 +3284,18 @@ class user_manage extends Controller
                 $ret[$key]['type'] = $this->t_manager_info->get_account_role_by_name($key);
             }
         }
-        
-
-        /*
-        foreach ($ret_info  as $key => &$value) {
-            if(isset($ret[$key])){
-                $value['apply_num'] = $ret[$key]['num'];
-            }else{
-                $ret[$key] = $value;
-                $ret[$key]['apply_num'] = 0;
-            }
-            $value['type'] = $this->t_manager_info->get_account_role_by_name($value['sys_operator']);
-        }
-
-        foreach ($ret as $key => $value) {
-            if(!isset($ret_info[$key])){
-                $ret_info[$key]['type'] = $this->t_manager_info->get_account_role_by_name($value['sys_operator']);
-                $ret_info[$key]['sys_operator'] = $value['sys_operator'];
-                $ret_info[$key]['apply_num']    = $value['apply_num'];
-                $ret_info[$key]['one_year_num'] = 0;
-                $ret_info[$key]['half_year_num'] = 0;
-                $ret_info[$key]['three_month_num'] = 0;
-                $ret_info[$key]['one_month_num'] = 0;
-                $ret_info[$key]['one_year_refund_num'] = 0;
-                $ret_info[$key]['half_year_refund_num'] = 0;
-                $ret_info[$key]['three_month_refund_num'] = 0;
-                $ret_info[$key]['one_month_refund_num'] = 0;
-            }else{
-
-            }
-        }
-        */
-
-        
-
-        
-
+        dd($ret);
         //deal
         foreach ($ret as $key => &$value) {
             $value['type_str'] = E\Eaccount_role::get_desc($value['type']);
-            $value['one_year_per'] = $value['one_year_num'] > 0? round($value['one_year_refund_num']/$value['one_year_num'],2) : 0;
-            $value['half_year_per'] = $value['half_year_num'] > 0? round($value['half_year_refund_num']/$value['half_year_num'],2) : 0;
-            $value['three_month_per'] = $value['three_month_num'] > 0? round($value['three_month_refund_num']/$value['three_month_num'],2) : 0;
-            $value['one_month_per'] = $value['one_month_num'] > 0? round($value['one_month_refund_num']/$value['one_month_num'],2) : 0;
-
+            $value['one_year_per'] = $value['one_year_num'] > 0? round(100*$value['one_year_refund_num']/$value['one_year_num'],2) : 0;
+            $value['half_year_per'] = $value['half_year_num'] > 0? round(100*$value['half_year_refund_num']/$value['half_year_num'],2) : 0;
+            $value['three_month_per'] = $value['three_month_num'] > 0? round(100*$value['three_month_refund_num']/$value['three_month_num'],2) : 0;
+            $value['one_month_per'] = $value['one_month_num'] > 0? round(100*$value['one_month_refund_num']/$value['one_month_num'],2) : 0;
         }
 
-        dd($ret);
-        
-        return $this->pageView(__METHOD__, $ret_info);
+        $ret_arr = \App\Helper\Utils::array_to_page($page_num,$ret);
+        return $this->pageView(__METHOD__, $ret_arr);
     }
 
     /**
