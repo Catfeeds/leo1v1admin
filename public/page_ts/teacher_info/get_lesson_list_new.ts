@@ -318,6 +318,11 @@ $(function(){
             var id_point2             = $("<input/>");
             var id_pdf_question_count = $("<input/>");
             var id_tea_cw_pic         = $("<select class='hide'/>");
+
+
+            var id_change = $("<input disabled='disabled' />");
+            var id_change_time = $("<input disabled='disabled' />");
+
             // id_teacher.append("是否启用批量平铺功能");
             id_teacher.append(id_tea_cw_pic);
 
@@ -339,7 +344,9 @@ $(function(){
                 ["知识点2",  id_point2],
                 ["----","上传课堂讲义"],
                 ["授课课件"+red_tip, id_teacher],
-            ];
+                ["授课课件平铺状态", id_change],
+                ["授课课件上传时间", id_change_time],
+           ];
 
             $.each(id_teacher_list,function(i,item){
                 if(!(lesson_type>=1000 && lesson_type <2000) || lesson_type==1100){
@@ -509,6 +516,16 @@ $(function(){
                         }
                     }
                 }
+
+                $.do_ajax("/common/check_change_flag",{
+                    lessonid : opt_data.lessonid,
+                },function(ret){
+                    var data = ret.data;
+                    var change_time_str = data.create_time;
+                    id_change.val(data.tea_cw_pic);
+                    id_change_time.val(change_time_str);
+                });
+
 
             },false,900);
         });
