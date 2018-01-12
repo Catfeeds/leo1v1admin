@@ -13,7 +13,7 @@ export default class extends vtable {
 
   data_ex() {
     return {
-      "message"          : "xx",
+      "message" : "xx",
     }
   }
 
@@ -40,15 +40,15 @@ export default class extends vtable {
 
 
     $.admin_enum_select( {
-        "join_header"  : $header_query_info,
-        "enum_type" : null,
-        "field_name" : "test_select",
-        "option_map" : {
-            1: "xx",
-            2:"kkk 2 ",
-            3:"nnn3  ",
-        },
-        "title" : "自定义列表",
+      "join_header"  : $header_query_info,
+      "enum_type" : null,
+      "field_name" : "test_select",
+      "option_map" : {
+        1: "xx",
+        2:"kkk 2 ",
+        3:"nnn3  ",
+      },
+      "title" : "自定义列表",
       "select_value" :this.get_args().test_select,
 
     }) ;
@@ -84,13 +84,13 @@ export default class extends vtable {
       "select_value" : this.get_args().userid,
     });
     $.admin_query_input({
-      'join_header'  : $header_query_info,
-      "field_name"  :"query_text",
-      "title"  :  "学生" ,
-      "placeholder" : "回车查询",
-      "length_css" : "col-xs-12 col-md-3",
-      "select_value" : this.get_args().query_text,
-      "as_header_query" :true,
+      'join_header'     : $header_query_info,
+      "field_name"      : "query_text",
+      "title"           : "学生" ,
+      "placeholder"     : "回车查询",
+      "length_css"      : "col-xs-12 col-md-3",
+      "select_value"    : this.get_args().query_text,
+      "as_header_query" : true,
     });
 
 
@@ -104,7 +104,6 @@ export default class extends vtable {
     jquery_body.find(".do-test").on( "click" ,function(e) {
       BootstrapDialog.alert(" test 2");
     });
-
 
 
     $.admin_query_common({

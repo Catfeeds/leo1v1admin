@@ -160,7 +160,7 @@ class tongji_ex extends Controller
 
     public function seller_student_detail(){
         // $this->check_and_switch_tongji_domain();
-        list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        list($start_time,$end_time)=$this->get_in_date_range_week(0);
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_seller_student_new->get_item_list($start_time,$end_time,$page_info);
         foreach($ret_info['list'] as &$item){
@@ -171,6 +171,7 @@ class tongji_ex extends Controller
             $item['cc_nick'] = $this->cache_get_account_nick($cc_adminid);
             $item['first_called_cc'] = $this->cache_get_account_nick($item['first_called_cc']);
             $item['first_get_cc'] = $this->cache_get_account_nick($item['first_get_cc']);
+            $item['key0'] = $this->cache_get_origin_key0($item['origin']);
             $item['test_lesson_flag'] = \App\Helper\Common::get_set_boolean_color_str($item['test_lesson_flag']>0?1:2);
             $item["suc_test_flag"] = \App\Helper\Common::get_set_boolean_color_str($item["test_lesson_count"]>0?1:2);
             $item['order_flag'] = \App\Helper\Common::get_set_boolean_color_str($item["orderid"]>0?1:2);

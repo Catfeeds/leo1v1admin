@@ -32,6 +32,9 @@ export default class vtable extends Vue {
     return {};
   }
 
+  do_created() {
+    this.load_data();
+  };
 
   last_page_url:any;
   $header_query_info:any;
