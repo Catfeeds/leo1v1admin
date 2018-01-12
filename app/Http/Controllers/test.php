@@ -455,6 +455,9 @@ class test extends Controller
         return $this->pageView( __METHOD__,$ret_info);
 
     }
+    public function ff() {
+        dd($_SERVER);
+    }
 
 
 }
