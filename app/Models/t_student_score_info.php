@@ -288,4 +288,23 @@ where lesson_start > $start_time and lesson_start < $end_time and lesson_type = 
       $sql = "select grade, phone_province,phone_city, count(*) as num from db_weiyi.t_student_info where grade in (101,102,103) and is_test_user = 0 group by grade,phone_city";
       return $this->main_get_list($sql);
     }
+
+    public function get_b1(){
+       $sql = "select s.grade,t.seller_student_status , count(*) as num from db_weiyi.t_student_info s left join db_weiyi.t_test_lesson_subject t on s.userid = t.userid where s.is_test_user = 0  and s.grade in (101,102,103)  group by s.grade, t.seller_student_status";
+       return $this->main_get_list($sql);
+    }
+
+    public function get_b2(){
+       $sql = "select s.grade,t.seller_student_sub_status  , count(*) as num from db_weiyi.t_student_info s left join db_weiyi.t_test_lesson_subject t on s.userid = t.userid where s.is_test_user = 0  and s.grade in (101,102,103)  group by s.grade, t.seller_student_sub_status ";
+       return $this->main_get_list($sql);
+    }
+
+    public function get_b3(){
+       $sql = "select s.grade ,k.test_lesson_order_fail_flag , count(*) as num
+from db_weiyi.t_student_info s 
+left join db_weiyi.t_test_lesson_subject t on s.userid = t.userid
+left join db_weiyi.t_test_lesson_subject_require k on k.test_lesson_subject_id  = t.test_lesson_subject_id 
+where s.is_test_user = 0  and s.grade in (101,102,103) group by s.grade ,k.test_lesson_order_fail_flag ";
+       return $this->main_get_list($sql);
+    }
 }

@@ -81,7 +81,7 @@ class NoticeTomorrowLessonToParent extends Command
             ];
 
             //短信黑名单(不发送)
-            $sms_phone_refund_list=["13621298715"];
+            $sms_phone_refund_list=["13621298715","13661763881"];
 
             if ($phone && !in_array($phone,$sms_phone_refund_list)) {
                 try {
