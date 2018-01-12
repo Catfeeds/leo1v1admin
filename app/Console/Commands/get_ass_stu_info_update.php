@@ -120,7 +120,7 @@ class get_ass_stu_info_update extends Command
 
         //dd($un_revisit_info);
         foreach($ass_list as $aa=>$ss){
-            $master_adminid_ass = $task->t_admin_group_user->get_master_adminid_by_adminid($aa,1);
+            $master_adminid_ass = $task->t_group_user_month->get_master_adminid_by_adminid($aa,1);
             if(!empty($master_adminid_ass)){
                 @$ret_info[$master_adminid_ass]["revisit_num"] +=@$ss["revisit_num"];
                 @$ret_info[$master_adminid_ass]["revisit_do"] +=@$ss["num"];
