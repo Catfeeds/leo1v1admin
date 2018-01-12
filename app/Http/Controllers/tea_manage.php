@@ -920,13 +920,23 @@ class tea_manage extends Controller
             return outputjson_error('设置失败!');
         }
 
-        if(\App\Helper\Utils::check_env_is_release()){
-            $post_url = "http://admin.leo1v1.com/common_new/send_wx_to_par?lessonid=$lessonid";
-            $this->send_curl_post($post_url);
-        }
+        // if(\App\Helper\Utils::check_env_is_release()){
+        //     $post_url = "http://admin.leo1v1.com/common_new/send_wx_to_par?lessonid=$lessonid";
+        //     $this->send_curl_post($post_url);
+        // }
 
         return outputjson_success();
     }
+
+    public function send_curl_post($url){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_exec($ch);
+        curl_close($ch);
+    }
+
 
     public function get_stu_performance_new(){
         $lessonid=$this->get_in_int_val('lessonid',0);

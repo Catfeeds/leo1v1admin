@@ -253,6 +253,9 @@ class NewRouteConfig {
         "/user_manage/tongji_check"                             => true,
         "/user_manage/ass_no_test_lesson_kk_list"               => true,
         "/user_manage/stu_all_teacher_all"                      => true,
+        
+        "/user_manage/refund_tongji_sys_operator"               => true,
+        "/user_manage/refund_tongji_cr"                         => true,
 
         "/authority/get_account_role"                 => true,
         "/authority/set_account_role"                 => true,

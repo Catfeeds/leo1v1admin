@@ -534,16 +534,22 @@ $(function(){
 
             var ret_func = function(ret){
                  if(ret.ret == 0){
-                    $('.look-pdf').show();
-                     $('.look-pdf-son').mousedown(function(e){
-                         if(e.which == 3){
-                             return false;
-                         }
-                     });
-                     PDFObject.embed(ret.url, ".look-pdf-son");
-                     $('.look-pdf-son').css({'width':'120%','height':'120%','margin':'-10%'});
 
-                } else {
+                     if(is_tea_flag>0){
+
+                         $('.look-pdf').show();
+                         $('.look-pdf-son').mousedown(function(e){
+                             if(e.which == 3){
+                                 return false;
+                             }
+                         });
+                         PDFObject.embed(ret.url, ".look-pdf-son");
+                         $('.look-pdf-son').css({'width':'120%','height':'120%','margin':'-10%'});
+                     } else {
+                         $.wopen(ret.url);
+                     }
+
+                 } else {
                     BootstrapDialog.alert(ret.info);
                 }
             }
@@ -735,6 +741,11 @@ $(function(){
                                 $('.leo-tag_two select').empty();
                                 Enum_map.append_option_list("resource_free",$('.leo-tag_two select'));
                                 Enum_map.append_option_list("resource_diff_level",$('.leo-tag_three select'));
+                            }
+                            if($(this).val() == 3){
+                                var leo_sub = $('.leo-subject select').val();
+                                var leo_gra = $('.leo-grade select').val();
+                                get_sub_grade_tag(leo_sub, leo_gra,$('.leo-tag_four select') );
                             }
                             $('.leo-subject,.leo-grade select').change(function(){
                                 if($('.leo-resource_type select').val() == 3){
