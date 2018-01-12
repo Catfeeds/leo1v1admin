@@ -121,7 +121,6 @@ class user_manage extends Controller
             $item["cache_nick"]        = $this->cache_get_student_nick($item["userid"]) ;
             \App\Helper\Utils::unixtime2date_for_item($item,"reg_time");
         }
-        //dd($ret_info);
         return $this->Pageview(__METHOD__,$ret_info);
     }
 
@@ -168,6 +167,8 @@ class user_manage extends Controller
             E\Egrade::set_item_value_str($item);
             $item["duration"]= \App\Helper\Common::get_time_format($item["duration"]);
         }
+
+
         return $this->Pageview(__METHOD__,$ret_info);
     }
 
@@ -3293,7 +3294,7 @@ class user_manage extends Controller
         }
 
         $ret_arr = \App\Helper\Utils::array_to_page($page_num,$ret);
-        return $this->pageView(__METHOD__, $ret_arr);
+        return $this->Pageview(__METHOD__,$ret_arr);
     }
 
     /**
