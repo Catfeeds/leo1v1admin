@@ -2265,13 +2265,18 @@ class tongji_ss extends Controller
         $regular_stu_list =$this->t_lesson_info->get_regular_stu_num_by_teacher($date["sdate"],$date["edate"],$teacherid);
         $grade_arr = [];
         $subject_arr=[];
+        $stu_list=[];
         foreach($regular_stu_list as &$item){
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
             @$grade_arr[$item["grade_str"]]++;
             @$subject_arr[$item["subject_str"]]++;
+            if(!isset($stu_list[$item["userid"]])){
+                $stu_list[$item["userid"]] =$item["userid"];
+            }
         }
-        return  $this->output_succ( [ "data" =>$regular_stu_list,"grade"=>$grade_arr,"subject"=>$subject_arr] );
+        $lesson_left =$this->t_student_info->get_all_lesson_left($stu_list);
+        return  $this->output_succ( [ "data" =>$regular_stu_list,"grade"=>$grade_arr,"subject"=>$subject_arr,"lesson_left"=>$lesson_left] );
 
     }
 
