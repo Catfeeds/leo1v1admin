@@ -307,4 +307,17 @@ left join db_weiyi.t_test_lesson_subject_require k on k.test_lesson_subject_id  
 where s.is_test_user = 0  and s.grade in (101,102,103) group by s.grade ,k.test_lesson_order_fail_flag ";
        return $this->main_get_list($sql);
     }
+
+
+    public function get_b4(){
+       /*$sql = "select userid, max(start_time)
+from db_weiyi.t_student_info s
+left join  db_weiyi_admin.t_tq_call_info q on q.phone = s.phone
+where is_called_phone = 1 and s.is_test_user = 0 group by s.phone ";*/
+        $sql = "select s.grade, max_time 
+from (select phone,max(start_time) as max_time from db_weiyi_admin.t_tq_call_info where  is_called_phone = 1  GROUP BY phone ) k
+ left join db_weiyi.t_student_info s on s.phone = k.phone
+where s.is_test_user = 0 and s.grade in (101,102,103)";
+       return $this->main_get_list($sql);
+    }
 }

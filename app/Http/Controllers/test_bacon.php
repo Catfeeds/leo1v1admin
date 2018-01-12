@@ -181,4 +181,8 @@ class test_bacon extends Controller
         dd($output);
 
     }
+
+    public function test_ajax_more(){
+        return $this->Pageview(__METHOD__); 
+    }
 }
