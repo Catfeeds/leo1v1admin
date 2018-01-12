@@ -6,7 +6,10 @@ function load_data(){
     if ( window["g_load_data_flag"]) {return;}
 
     if( $('#id_resource_type').val() == 6 && book != []) {
-        $('#id_tag_one').val('-1');
+        $('#id_tag_one').val(-1);
+    }
+    if( $('#id_resource_type').val() != 3 ) {
+        $('#id_tag_four').val(-1);
     }
 
     if(global_mark==0){
@@ -45,7 +48,7 @@ $(function(){
     $('#id_tag_four').val(g_args.tag_four);
 
     //获取学科化标签
-    var get_sub_grade_tag = function(subject,grade,obj,opt_type){
+    var get_sub_grade_tag = function(subject,grade,obj,opt_type,sel_val){
         obj.empty();
         $.ajax({
             type     : "post",
@@ -72,6 +75,7 @@ $(function(){
                             tag_str = tag_str + '<option value='+i+'>'+val+'</option>';
                         });
                         obj.append(tag_str);
+                        obj.val(sel_val);
                     }
                 } else {
                     alert(result.info);
@@ -141,7 +145,7 @@ $(function(){
 
 
     if($('#id_resource_type').val() == 3){
-        get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(), $('#id_tag_four'), 1);
+        get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(), $('#id_tag_four'), 1, g_args.tag_four);
     } else if($('#id_resource_type').val() == 6) {
         get_province($('#id_tag_two'));
     } else {
@@ -150,7 +154,6 @@ $(function(){
 
     $('#id_tag_two').val(g_args.tag_two);
     $('#id_tag_three').val(g_args.tag_three);
-    $('#id_tag_four').val(g_args.tag_four);
     $('#id_file_title').val(g_args.file_title);
 
     var city_num = $('#id_tag_two').val();
