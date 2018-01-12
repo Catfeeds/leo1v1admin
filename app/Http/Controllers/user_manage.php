@@ -3258,7 +3258,7 @@ class user_manage extends Controller
             $value['half_year_num'] = 0;
             $value['three_month_num'] = 0;
             $value['one_month_num'] = 0;
-            
+
             $value['one_year_refund_num'] = 0;
             $value['half_year_refund_num'] = 0;
             $value['three_month_refund_num'] = 0;
@@ -3284,7 +3284,7 @@ class user_manage extends Controller
                 $ret[$key]['type'] = $this->t_manager_info->get_account_role_by_name($key);
             }
         }
-
+        dd($ret);
         //deal
         foreach ($ret as $key => &$value) {
             $value['type_str'] = E\Eaccount_role::get_desc($value['type']);
