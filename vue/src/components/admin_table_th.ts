@@ -20,7 +20,7 @@ import Component from 'vue-class-component'
       require: false,
     },
     default_display:{
-      type: Boolean,
+      type: [Boolean, String ],
       require: false,
       "default" : function(){
         return undefined;
@@ -50,7 +50,11 @@ import Component from 'vue-class-component'
       }
 
       if (this.$props.default_display !== undefined ) {
-        field_info.default_display= this.$props.default_display;
+        if ( !this.$props.default_display || this.$props.default_display ==="false") {
+          field_info.default_display= false;
+        }else{
+          field_info.default_display= true;
+        }
       }
       return field_info ;
     }
@@ -67,8 +71,11 @@ export default class admin_table_th extends Vue {
 
   }
 
+
   check_show( ) {
-    return this.$parent["check_show"]( this["real_field_info"]);
+    var field_info =   this["real_field_info"];
+    var title=$.trim( this.$slots["default"]["0"]["text"]);
+    return this.$parent["check_show"](field_info,title);
   }
   get_sort_class( ){
     return this.$parent["get_sort_class"]( this["real_field_info"] );

@@ -10,7 +10,7 @@ import Component from 'vue-class-component'
 
   data : function () {
     return {
-
+      display_flag  : false,
     };
   },
   props : {
