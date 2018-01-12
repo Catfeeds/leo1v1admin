@@ -4811,7 +4811,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." from %s o "
             ." left join %s s on s.userid = o.userid "
             ." where %s "
-            ."group by sys_operator order by order_time desc ",
+            ."group by sys_operator order by order_time desc",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             $where_arr);

@@ -385,7 +385,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     public function get_power_group_user_list($groupid)
     {
-        $sql = $this->gen_sql("select uid, account, permission from %s where  del_flag = 0"
+        $sql = $this->gen_sql("select uid, account,name, permission from %s where  del_flag = 0"
                               ,self::DB_TABLE_NAME
         );
         $list=$this->main_get_list($sql);
@@ -397,16 +397,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                 $ret_list[]=$item;
             }
         }
-        return $ret_list;
-    }
 
-    public function get_power_group_user_list_sec($role_groupid)
-    {
-        $sql = $this->gen_sql_new("select uid, account, name,permission from %s where  del_flag = 0 and role_groupid = %u"
-                                  ,self::DB_TABLE_NAME,$role_groupid
-        );
-        $list=$this->main_get_list($sql);
-        return $list;
+        return $ret_list;
     }
 
     public function opt_group($uid,$opt_type, $groupid) {
@@ -2388,5 +2380,13 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         );
 
         return $this->main_get_list($sql);
+    }
+
+    public function get_account_role_by_name($name){
+        $where_arr = [
+            "name = '$name'",
+        ];
+        $sql = $this->gen_sql_new("select account_role from db_weiyi_admin.t_manager_info where  %s",$where_arr);
+        return $this->main_get_value($sql);
     }
 }

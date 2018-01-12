@@ -269,13 +269,22 @@ $(function(){
 
 	  $('.opt-change').set_input_change_event(load_data);
 
+
+
     $("#id_add_user").on("click",function(){ // 添加用户
         $.admin_select_user($("#id_add_user"), "admin",function(val){
             $.do_ajax("/user_power/add_user",{
                 "user_id" : val,
                 "role_groupid" : $('#id_role_groupid').val(),
-            });
-
+                "groupid" : $("#id_groupid").val(),
+            },function(response){
+                if(response.ret == -1){
+                    BootstrapDialog.alert(response.info);
+                    return false;
+                }else{
+                    window.location.reload();
+                }
+            })
         });
     });
 
@@ -283,11 +292,15 @@ $(function(){
 
         var title = "你确实删除账户为： " + $(this).get_opt_data("account") + "姓名为：" + $(this).get_opt_data("name");
         var data =  {
-            "uid" : $(this).get_opt_data("uid")
+            "uid" : $(this).get_opt_data("uid"),
+            "role_groupid" : $('#id_role_groupid').val(),
+            "groupid" : $("#id_groupid").val(),
         };
         console.log(data);
         BootstrapDialog.confirm(title,function(ret){
-            $.do_ajax("/user_power/dele_role_user",data);
+            if(ret){
+                $.do_ajax("/user_power/dele_role_user",data);
+            }
         })
     });
 

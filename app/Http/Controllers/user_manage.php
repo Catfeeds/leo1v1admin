@@ -3260,8 +3260,28 @@ class user_manage extends Controller
             }else{
                 $value['apply_num'] = 0;
             }
+            $value['type'] = $this->t_manager_info->get_account_role_by_name($value['sys_operator']);
         }
+
+        foreach ($ret as $key => $value) {
+            if(!isset($ret_info[$key])){
+                $ret_info[$key]['type'] = $this->t_manager_info->get_account_role_by_name($value['sys_operator']);
+                $ret_info[$key]['sys_operator'] = $value['sys_operator'];
+                $ret_info[$key]['apply_num']    = $value['apply_num'];
+                $ret_info[$key]['one_year_num'] = 0;
+                $ret_info[$key]['half_year_num'] = 0;
+                $ret_info[$key]['three_month_num'] = 0;
+                $ret_info[$key]['one_month_num'] = 0;
+
+                $ret_info[$key]['one_year_refund_num'] = 0;
+                $ret_info[$key]['half_year_refund_num'] = 0;
+                $ret_info[$key]['three_month_refund_num'] = 0;
+                $ret_info[$key]['one_month_refund_num'] = 0;
+            }
+        }
+
         dd($ret_info);
+        
         return $this->pageView(__METHOD__, null);
     }
 
