@@ -7,7 +7,7 @@ import { timingSafeEqual } from 'crypto';
   // 所有的组件选项都可以放在这里
   template : require("./admin_table.html" ),
   created  : function () {
-    this["on_created"](1);
+    this["on_created"]();
   },
 
   data : function () {
@@ -49,7 +49,32 @@ import { timingSafeEqual } from 'crypto';
 export default class admin_table extends Vue {
 
   table_field_show_config:Object;
+  auto_gen_field_list:Array<any>;
+
   on_created (){
+
+    var me=this;
+
+    if (! this.$props.table_config.field_list ) {
+      console.log("===========================================");
+      console.log(me.$children );
+      $.each( me.$children,function(i, child_item){
+        var field_info={};
+        if (child_item.$options["_componentTag"]=="admin-table-th"){
+          console.log("KKKKK",child_item );
+          var title= $.trim($(child_item.$slots["default"]).text());
+          if (me.check_power_show( child_item["real_field_info"])) {
+            console.log(title);
+          }else{
+          }
+        }
+      });
+
+    }
+
+
+
+
     var table_key = $.get_table_key("field_list");
     this.table_field_show_config={};
     if (!$.check_in_phone()) {
@@ -64,7 +89,6 @@ export default class admin_table extends Vue {
       catch ($e) {
       }
 
-      var me=this;
       if (config && cur - config["log_time"] < 3600) {
         me.table_field_show_config =config;
       }
