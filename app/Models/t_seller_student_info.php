@@ -1323,7 +1323,7 @@ class t_seller_student_info extends \App\Models\Zgen\z_t_seller_student_info
                                   ,time()
                                   ,$lessonid
         );
-        return $this->main_get_list($sql);
+        return $this->main_update($sql);
     }
 
 }

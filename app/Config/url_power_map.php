@@ -261,6 +261,8 @@ class url_power_map {
 			'/seller_student_new/tmk_assign_sub_adminid_list'	=>1071506,
 			'/seller_student_new2/tmk_student_list2'	=>1071505,
 			'/user_manage/refund_list'	=>1070507,
+			'/user_manage/refund_tongji_sys_operator'	=>1070501,
+			'/user_manage/refund_tongji_cr'	=>1070502,
 			'/user_manage/refund_duty_analysis'	=>1070509,
 			'/user_manage/refund_analysis'	=>1070508,
 			'/order_refund_confirm_config/refund_info'	=>1070530,
