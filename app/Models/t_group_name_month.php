@@ -80,11 +80,11 @@ class t_group_name_month extends \App\Models\Zgen\z_t_group_name_month
         $this->where_arr_add_int_field($where_arr, 'month', $month);
         $sql=$this->gen_sql_new(" select groupid "
                                 ." from %s "
-                                ." where %s " ,
+                                ." where %s limit 1 " ,
                                 self::DB_TABLE_NAME,
                                 $where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_value($sql);
     }
 
 }
