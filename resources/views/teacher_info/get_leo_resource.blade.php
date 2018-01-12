@@ -97,7 +97,7 @@
                         <td>{{@$var["file_size"]}}</td>
                         <td>{{@$var["use_num"]}} </td>
                         <td>
-                            @if($var['tea_res_id'] == 0)
+                            @if(@$var['tea_res_id'] == 0)
                                 <a class="collect opt-get btn color-red" data-file_id="{{@$var['file_id']}}">未收藏</a>
                             @else
                                 <a class="collect btn color-blue" data-id="{{@$var['tea_res_id']}}" data-file_id="{{@$var['file_id']}}">已收藏</a>
