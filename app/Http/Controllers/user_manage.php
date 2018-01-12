@@ -3253,6 +3253,18 @@ class user_manage extends Controller
         $ret          = $this->t_order_refund->get_sys_operator_apply_info($start_time,$end_time);
         $ret_info     = $this->t_order_info->get_sys_operator_refund_info($one_year,$half_year,$three_month,$start_time,$end_time);
 
+        foreach ($ret as $key => &$value) {
+            $value['one_year_num'] = 0;
+            $value['half_year_num'] = 0;
+            $value['three_month_num'] = 0;
+            $value['one_month_num'] = 0;
+            
+            $value['one_year_refund_num'] = 0;
+            $value['half_year_refund_num'] = 0;
+            $value['three_month_refund_num'] = 0;
+            $value['one_month_refund_num'] = 0;
+        }
+
         foreach ($ret_info as $key => $value) {
             if(isset($ret[$key])){//添加
                 $ret[$key]['sys_operator'] = $value['sys_operator'];
