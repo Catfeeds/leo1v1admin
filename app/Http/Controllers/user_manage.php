@@ -3282,10 +3282,10 @@ class user_manage extends Controller
                 $ret[$key]['apply_num'] = 0;
             }
         }
-        dd($ret);
+
         //deal
         foreach ($ret as $key => &$value) {
-            $value['type_str'] = E\Eaccount_role::get_desc($value['type']);
+            $value['type_str'] = @E\Eaccount_role::get_desc($value['type']);
             $value['one_year_per'] = $value['one_year_num'] > 0? round(100*$value['one_year_refund_num']/$value['one_year_num'],2) : 0;
             $value['half_year_per'] = $value['half_year_num'] > 0? round(100*$value['half_year_refund_num']/$value['half_year_num'],2) : 0;
             $value['three_month_per'] = $value['three_month_num'] > 0? round(100*$value['three_month_refund_num']/$value['three_month_num'],2) : 0;

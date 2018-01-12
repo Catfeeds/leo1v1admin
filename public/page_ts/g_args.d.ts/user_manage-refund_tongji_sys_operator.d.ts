@@ -19,6 +19,7 @@ declare var g_adminid: any;
 interface RowData {
 	sys_operator	:any;
 	uid	:any;
+	type	:any;
 	one_year_num	:any;
 	half_year_num	:any;
 	three_month_num	:any;
@@ -28,7 +29,6 @@ interface RowData {
 	three_month_refund_num	:any;
 	one_month_refund_num	:any;
 	apply_num	:any;
-	type	:any;
 	type_str	:any;
 	one_year_per	:any;
 	half_year_per	:any;
