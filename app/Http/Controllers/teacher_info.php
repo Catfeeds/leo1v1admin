@@ -663,11 +663,11 @@ class teacher_info extends Controller
             ]);
         }
 
-        if($tea_cw_pic_flag==1 && $old_tea_cw_url!=$tea_cw_url){
-            $admin_url = \App\Helper\Config::get_monitor_new_url();
-            $post_url  = $admin_url."/common_new/notify_gen_lesson_teacher_pdf_pic?lessonid=".$lessonid;
-            $this->send_curl_post($post_url);
-        }
+        // if($tea_cw_pic_flag==1 && $old_tea_cw_url!=$tea_cw_url){
+        //     $admin_url = \App\Helper\Config::get_monitor_new_url();
+        //     $post_url  = $admin_url."/common_new/notify_gen_lesson_teacher_pdf_pic?lessonid=".$lessonid;
+        //     $this->send_curl_post($post_url);
+        // }
 
         return $this->output_succ();
     }
