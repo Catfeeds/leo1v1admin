@@ -47,9 +47,9 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["sys_operator"]}} </td>
+                        <td>{{@$var["type_str"]}} </td>
+                        <td>{{@$var["one_year_per"]}} </td>
                         <td>{{@$var[""]}} </td>
                         <td>{{@$var[""]}} </td>
 
