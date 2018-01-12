@@ -2613,13 +2613,14 @@ class teacher_info extends Controller
                 $gra_str .= ','.$g;
             }
         }
+
         //获取所有有文件的对老师开放的资源类型
-        // $res_type_list = $this->t_resource->get_resource_type_for_tea($sub_str, $gra_str);
-        // // $res_type_list = $this->t_resource->get_resource_type_for_tea('1,2,3,4,5,6', '101,102,103,104,105,106');
-        // $type_list = [];
-        // foreach($res_type_list as $item){
-        //     $type_list[] =intval( $item['resource_type']);
-        // }
+        $res_type_list = $this->t_resource->get_resource_type_for_tea($sub_str, $gra_str);
+        // $res_type_list = $this->t_resource->get_resource_type_for_tea('1,2,3,4,5,6', '101,102,103,104,105,106');
+        $type_list = [];
+        foreach($res_type_list as $item){
+            $type_list[] =intval( $item['resource_type']);
+        }
 
 
         if($is_js != 0){
@@ -2635,12 +2636,14 @@ class teacher_info extends Controller
         }
 
         // dd($tea_info);
+        dd($ret_info);
         return $this->pageView( __METHOD__,$ret_info,[
             'tag_info'      => $tag_arr,
             'tea_sub'       => json_encode( $tea_sub),
             'tea_gra'       => json_encode($tea_gra),
             'book'          => json_encode($book_arr),
-            'type_list' => json_encode([1,2,3,4,5,6])
+            'type_list' => json_encode($type_list)
+            // 'type_list' => json_encode([1,2,3,4,5,6])
         ]);
     }
 
