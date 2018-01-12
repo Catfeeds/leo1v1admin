@@ -3256,7 +3256,6 @@ class user_manage extends Controller
         foreach ($ret_info as $key => $value) {
             if(isset($ret[$key])){//添加
                 $ret[$key]['sys_operator'] = $value['sys_operator'];
-                $ret[$key]['apply_num']    = $value['apply_num'];
                 $ret[$key]['type']         = $this->t_manager_info->get_account_role_by_name($key);
                 $ret[$key]['one_year_num'] = $value['one_year_num'];
                 $ret[$key]['half_year_num'] = $value['half_year_num'];
