@@ -84,8 +84,13 @@ class t_month_ass_student_info extends \App\Models\Zgen\z_t_month_ass_student_in
             ["ma.month=%u",$month,-1],
             ["ma.kpi_type=%u",$kpi_type,-1],
             "ma.adminid not in (396,1084,1237,1194,1173,1231)",
-            "(m.del_flag=0 or (m.del_flag=1 and leave_member_time>$end_time))"
+            "(m.del_flag=0 or (m.del_flag=1 and leave_member_time>$month))"
         ];
+        $month_ten = strtotime(date("Y-m-05",time()));
+        $month_now = strtotime(date("Y-m-01",time()));
+        if($month_now<=$month || ($month_now==$end_time && $month_ten>time())){
+         
+
         $sql = $this->gen_sql_new("select ma.*,n.master_adminid,m.name,m.account,a.assistantid "
                                   .",m.account_role,m.del_flag,m.create_time,m.leave_member_time"
                                   ." ,m.become_full_member_time,m.become_member_time,n.group_name,"
@@ -101,6 +106,26 @@ class t_month_ass_student_info extends \App\Models\Zgen\z_t_month_ass_student_in
                                   t_admin_group_name::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
                                   $where_arr);
+        }else{
+            $sql = $this->gen_sql_new("select ma.*,n.master_adminid,m.name,m.account,a.assistantid "
+                                      .",m.account_role,m.del_flag,m.create_time,m.leave_member_time"
+                                      ." ,m.become_full_member_time,m.become_member_time,n.group_name,"
+                                      ." n.main_type "
+                                      ." from %s ma left join %s m on ma.adminid=m.uid"
+                                      ." left join %s u on ma.adminid = u.adminid and u.month=%u"
+                                      ." left join %s n on u.groupid = n.groupid and n.month=%u"
+                                      ." left join %s a on m.phone = a.phone"
+                                      ." where %s group by ma.adminid ",
+                                      self::DB_TABLE_NAME,
+                                      t_manager_info::DB_TABLE_NAME,
+                                      t_group_user_month::DB_TABLE_NAME,
+                                      $month,
+                                      t_group_name_month::DB_TABLE_NAME,
+                                      $month,
+                                      t_assistant_info::DB_TABLE_NAME,
+                                      $where_arr);
+
+        }
         return $this->main_get_list($sql,function($item){
             return $item["adminid"];
         });

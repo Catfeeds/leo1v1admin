@@ -366,6 +366,8 @@ class menu{
                 ]],
                 ["power_id"=>5, "name"=>"质检-退费处理", "list"=>[
                     ["power_id"=>7, "name"=>"退费管理",   "url"=>"/user_manage/refund_list"],
+                    ["power_id"=>1, "name"=>"退费统计-下单人",   "url"=>"/user_manage/refund_tongji_sys_operator"],
+                    ["power_id"=>2, "name"=>"退费统计-助教",   "url"=>"/user_manage/refund_tongji_cr"],
                     ["power_id"=>9, "name"=>"退费汇总",   "url"=>"/user_manage/refund_duty_analysis"],
                     ["power_id"=>8, "name"=>"退费原因分析",   "url"=>"/user_manage/refund_analysis"],
                     ["power_id"=>30, "name"=>"退费原因编辑",   "url"=>"/order_refund_confirm_config/refund_info"],
