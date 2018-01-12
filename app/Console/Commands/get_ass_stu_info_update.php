@@ -44,7 +44,9 @@ class get_ass_stu_info_update extends Command
         $end_time = strtotime("2018-01-01");
         $last_month = strtotime(date("Y-m-01",$start_time-100));
         $month_middle = $start_time+15*86400;
-        $ass_list = $task->t_manager_info->get_adminid_list_by_account_role_new(1,$start_time,1);
+        // $ass_list = $task->t_manager_info->get_adminid_list_by_account_role_new(1,$start_time,1);
+        $ass_month= $task->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
+
 
         // $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1);
         // dd($ass_list);
