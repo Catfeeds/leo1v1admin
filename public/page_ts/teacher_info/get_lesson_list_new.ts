@@ -117,7 +117,7 @@ $(function(){
                     if($(tag_info).length == 0) {
                         obj.append('<option value="-1">全部</option>');
                     } else {
-                        var tag_str = '';
+                        var tag_str = '<option value="-1">全部</option>';
                         $.each($(tag_info),function(i, val){
                             tag_str = tag_str + '<option value='+i+'>'+val+'</option>';
                         });
@@ -662,12 +662,12 @@ $(function(){
                     type  : "select" ,
                     'arg_name' :  "tag_two"  ,
                 },{
-                    title:"学科化标签",
+                    title:"难度类型",
                     size_class: "col-md-3 leo-tag_three",
                     type  : "select" ,
                     'arg_name' :  "tag_three"  ,
                 },{
-                    title:"难度类型",
+                    title:"学科化标签",
                     size_class: "col-md-3 leo-tag_four",
                     type  : "select" ,
                     'arg_name' :  "tag_four"  ,
@@ -734,13 +734,13 @@ $(function(){
                                 $('.leo-tag_two').nextAll().show();
                                 $('.leo-tag_two select').empty();
                                 Enum_map.append_option_list("resource_free",$('.leo-tag_two select'));
-                                Enum_map.append_option_list("resource_diff_level",$('.leo-tag_four select'));
+                                Enum_map.append_option_list("resource_diff_level",$('.leo-tag_three select'));
                             }
                             $('.leo-subject,.leo-grade select').change(function(){
                                 if($('.leo-resource_type select').val() == 3){
                                     var leo_sub = $('.leo-subject select').val();
                                     var leo_gra = $('.leo-grade select').val();
-                                    get_sub_grade_tag(leo_sub, leo_gra,$('.leo-tag_three select') );
+                                    get_sub_grade_tag(leo_sub, leo_gra,$('.leo-tag_four select') );
                                 }
                             });
 
