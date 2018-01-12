@@ -359,6 +359,7 @@ class NewRouteConfig {
         "/tea_manage/course_plan_stu"              => true,
         "/tea_manage/course_plan_stu_ass"          => true,
         "/tea_manage/course_plan_stu_summer"       => true,
+        "/tea_manage/course_plan_stu_winter"       => true,
         "/tea_manage/course_plan_psychological"    => true,
         "/tea_manage/course_set_new"               => true,
         "/tea_manage/get_course_list"              => true,
