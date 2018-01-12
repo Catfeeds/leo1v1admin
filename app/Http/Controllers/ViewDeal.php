@@ -952,6 +952,7 @@ END;
 
 
         $data["html_power_list"] = $this->html_power_list;
+
         return $this->view($method,$data);
     }
 
