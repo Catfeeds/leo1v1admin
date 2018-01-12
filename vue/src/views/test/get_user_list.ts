@@ -137,4 +137,7 @@ export default class extends vtable {
   js_xx_loaded ( e  ) {
 
   }
+  gen_test_field (row_data: self_RowData ) {
+    return "KKKK "  +  row_data.realname;
+  }
 }

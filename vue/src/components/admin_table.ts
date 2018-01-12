@@ -41,37 +41,48 @@ import { timingSafeEqual } from 'crypto';
     }
   },
   mounted : function(){
+    this["on_mounted"]();
   },
 })
-
 
 
 export default class admin_table extends Vue {
 
   table_field_show_config:Object;
   auto_gen_field_list:Array<any>;
+  reset_auto_gen_field_list() {
+    var me=this;
+    me.auto_gen_field_list=[];
+    if (! this.$props.table_config.field_list ) {
+      $.each( me.$children,function(i, child_item){
+        var field_info={};
+        if (child_item.$options["_componentTag"]=="admin-table-th"){
+          var title=$.trim(child_item.$slots["default"]["0"]["text"]);
+          field_info["title"]=title;
+          console.log( child_item["real_field_info"] );
+          if (me.check_power_show( child_item["real_field_info"])) {
+            field_info["power_show_flag"]=true;
+            if (child_item.$el.tagName=="TD") {
+              field_info["display_flag"]=true;
+            }else{
+              field_info["display_flag"]=false;
+            }
+          }else{
+            field_info["power_show_flag"]=false;
+          }
+          me.auto_gen_field_list.push( field_info );
+        }
+      });
+      console.log(me.auto_gen_field_list);
+    }
+  }
+  on_mounted() {
+    this.reset_auto_gen_field_list();
+  }
 
   on_created (){
 
     var me=this;
-
-    if (! this.$props.table_config.field_list ) {
-      console.log("===========================================");
-      console.log(me.$children );
-      $.each( me.$children,function(i, child_item){
-        var field_info={};
-        if (child_item.$options["_componentTag"]=="admin-table-th"){
-          console.log("KKKKK",child_item );
-          var title= $.trim($(child_item.$slots["default"]).text());
-          if (me.check_power_show( child_item["real_field_info"])) {
-            console.log(title);
-          }else{
-          }
-        }
-      });
-
-    }
-
 
 
 
@@ -183,12 +194,13 @@ export default class admin_table extends Vue {
   check_power_show (field_info):boolean{
     var show_flag=true;
     if (field_info.need_power){
+      console.log("html_power_list:"+ field_info.need_power, this.$props.table_config.html_power_list );
       show_flag= this.$props.table_config.html_power_list&& this.$props.table_config.html_power_list[field_info.need_power];
     }
     return show_flag;
   }
-  check_show(field_info) {
-    return this.check_power_show(field_info) && this.check_config_show(field_info);
+  check_show(field_info,title="") {
+    return this.check_power_show(field_info) && this.check_config_show(field_info,title);
   }
   get_html_power_list() {
     if (this.$props.table_config.html_power_list) {
@@ -212,12 +224,15 @@ export default class admin_table extends Vue {
   }
 
   //隐藏
-  check_config_show(field_info):boolean{
+  check_config_show(field_info,title=""):boolean{
     //check 配置
+    if (!title) {
+      title=field_info.title;
+    }
     var field_list=this.table_field_show_config["field_list"];
-    var config_value= field_list && field_list[field_info.title];
+    var config_value= field_list && field_list[title];
     if ( config_value === undefined || config_value===null ) {
-      if (field_info.default_display===false) {
+      if (field_info.default_display===false    ) {
         return false;
       }else{
         return true;
@@ -263,16 +278,17 @@ export default class admin_table extends Vue {
         }
       });
     }else {
-      $.each( me.$children,function(i, child_item){
-        if (child_item.$options["_componentTag"]=="admin-table-th"){
-          console.log(child_item );
-          var title= $.trim($(child_item.$el).text());
-          if (me.check_power_show( child_item["real_field_info"])) {
-            console.log(title);
+      $.each( me.auto_gen_field_list, function(i ,field_info ){
+        if (field_info["power_show_flag"]) {
+          var $input = $("<input type=\"checkbox\"/>");
+          var title= field_info .title;
+          if ( field_info["display_flag"]){
+            $input.attr("checked", "checked");
           }
+          $input.data("index", title);
+          arr.push([title, $input]);
         }
       });
-
     }
 
     var table_key = $.get_table_key("field_list");
@@ -287,6 +303,7 @@ export default class admin_table extends Vue {
         });
         //alert(" XXXXX set table_key clean 1 ");
         window.localStorage.setItem(table_key, "");
+        window.location.reload();
       }
     }, {
       label: '确认',
@@ -318,5 +335,19 @@ export default class admin_table extends Vue {
       }
     }]);
 
+  }
+  reset_row() {
+    var me=this;
+    me.reset_auto_gen_field_list();
+    $.each( me.$children, function(i, child_item){
+      if (child_item.$options["_componentTag"]=="admin-table-row")  {
+        var td_list=child_item.$children.filter(function(value){
+          return value.$options["_componentTag"]=="admin-table-td";
+        });
+        $.each( td_list , function(td_index, child_td){
+          child_td.$data.display_flag=me.auto_gen_field_list[td_index].display_flag;
+        });
+      }
+    });
   }
 }

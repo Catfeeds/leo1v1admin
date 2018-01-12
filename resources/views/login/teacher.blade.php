@@ -306,7 +306,7 @@
                                 </tr>
                                 <tr>
                                     <td>当前版本:</td>
-                                    <td>4.1.0</td>
+                                    <td>4.4.0</td>
                                 </tr>
                             </table>
                             <table class="table ipad hide">
