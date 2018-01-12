@@ -420,24 +420,23 @@ class agent extends Controller
         $this->check_and_switch_tongji_domain();
         $start_time = strtotime($this->get_in_str_val('start_time','2017-12-01'));
         $end_time = strtotime($this->get_in_str_val('end_time','2018-01-01'));
-        $this->t_seller_student_new->get_all_list($start_time, $end_time);
+        $ret = $this->t_seller_edit_log->get_seller_give_list($start_time,$end_time);
+
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>'.date('Y-m',$start_time).'月</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>销售</th><th>拨打数</th><th>认领数</th><th>邀约数</th><th>试听成功数</th>';
+        echo '<th>userid</th><th>分配人</th><th>被分配人</th><th>分配时间</th>';
         echo '</tr>';
-        foreach($ret_info as $item){
-            $item['account'] = isset($item['account'])?$item['account']:'';
-            $item['called_count'] = isset($item['called_count'])?$item['called_count']:0;
-            $item['seller_count'] = isset($item['seller_count'])?$item['seller_count']:0;
-            $item['test_count'] = isset($item['test_count'])?$item['test_count']:0;
-            $item['suc_count'] = isset($item['suc_count'])?$item['suc_count']:0;
+        foreach($ret as $item){
+            $userid = isset($item['new'])?$item['new']:'';
+            $give_nick = isset($item['give_nick'])?$item['give_nick']:'';
+            $get_nick = isset($item['get_nick'])?$item['get_nick']:'';
+            $create_time = $item['create_time'];
             echo '<tr>';
-            echo '<td>'.$item['account'].'</td>';
-            echo '<td>'.$item['called_count'].'</td>';
-            echo '<td>'.$item['seller_count'].'</td>';
-            echo '<td>'.$item['test_count'].'</td>';
-            echo '<td>'.$item['suc_count'].'</td>';
+            echo '<td>'.$userid.'</td>';
+            echo '<td>'.$give_nick.'</td>';
+            echo '<td>'.$get_nick.'</td>';
+            echo '<td>'.date('Y-m-d H:i:s',$create_time).'</td>';
             echo '</tr>';
         }
         echo '</table>';
