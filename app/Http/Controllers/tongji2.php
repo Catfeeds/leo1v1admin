@@ -994,6 +994,8 @@ class tongji2 extends Controller
             if($start_time >= strtotime("2017-11-01")){
                 $val["renw_target"] = @$target_info["renew_target"]/100;
             }
+            $val["renw_target_old"]  = @$ass_last_month[$k]["warning_student"]*0.8*7000;
+
             // $val["renw_price"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["renw_price"]/100:0;
             $val["renw_price"] = isset($ass_month[$k])?$ass_month[$k]["renw_price"]/100:0;
             $val["renw_per"] = !empty( $val["renw_target"])?round($val["renw_price"]/$val["renw_target"]*100,2):0;
@@ -1081,6 +1083,7 @@ class tongji2 extends Controller
             @$ass_group[$master_adminid_ass]["lesson_total"]      += $va["lesson_total"];
             @$ass_group[$master_adminid_ass]["lesson_money"]     += $va["lesson_money"];
             @$ass_group[$master_adminid_ass]["renw_target"]           += $va["renw_target"];
+            @$ass_group[$master_adminid_ass]["renw_target_old"]           += $va["renw_target_old"];
             @$ass_group[$master_adminid_ass]["renw_price"]       += $va["renw_price"];
             @$ass_group[$master_adminid_ass]["kk_succ"]       += $va["kk_succ"];
             @$ass_group[$master_adminid_ass]["tran_price"]       += $va["tran_price"];
