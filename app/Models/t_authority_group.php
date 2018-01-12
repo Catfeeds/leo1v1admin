@@ -126,7 +126,7 @@ class t_authority_group extends \App\Models\Zgen\z_t_authority_group
 	}
 
     public function get_groupid_by_role($role_groupid){
-        $sql = $this->gen_sql_new("select group_name,groupid from %s where del_flag = 0 and role_groupid = %u order by groupid asc",
+        $sql = $this->gen_sql_new("select group_name,groupid from %s where del_flag = 0 and role_groupid = %u order by group_name asc",
                                   self::DB_TABLE_NAME,$role_groupid);
         return $this->main_get_list($sql);
     }

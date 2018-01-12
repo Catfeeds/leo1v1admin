@@ -8,7 +8,7 @@
   <div> test :{{message}} </div>
 
   <admin-table :table_config="table_config"  >
-    <admin-table-th slot="th" :default_display="false"  >userid</admin-table-th>
+    <admin-table-th slot="th" default_display="false"   >userid</admin-table-th>
     <admin-table-th slot="th"  >姓名</admin-table-th>
     <admin-table-th slot="th"  >电话</admin-table-th>
     <admin-table-th slot="th" order_field_name="grade"  need_power="grade" >年级</admin-table-th>
@@ -17,10 +17,13 @@
 
     <admin-table-row v-for="(item,index) in table_data "  :key="index" :row_data="item"  :index="index"  >
 
-      <admin-table-td  :default_display="false"  >  {{item.userid }} </admin-table-td>
+      <admin-table-td   >  {{item.userid }} </admin-table-td>
       <admin-table-td   >  {{item.nick}} </admin-table-td>
-      <admin-table-td   >  {{item.phone}} </admin-table-td>
-      <admin-table-td need_power="grade"   >  {{item.grade_str}} </admin-table-td>
+      <admin-table-td   >  {{item.phone}}
+        <admin-a class_list="fa-plus  other-class"   title="xss"   :click="doOpt"  ></admin-a>
+      </admin-table-td>
+      <admin-table-td  >  {{item.grade_str}}
+      </admin-table-td>
       <admin-table-td   >  xxx </admin-table-td>
 
       <admin-a  slot="a"   class_list="fa-plus  other-class"   title="xss"   :click="doOpt"  ></admin-a>
