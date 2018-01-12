@@ -3279,11 +3279,11 @@ class user_manage extends Controller
                 $ret[$key]['three_month_refund_num'] = $value['three_month_refund_num'];
                 $ret[$key]['one_month_refund_num'] = $value['one_month_refund_num'];
             }else{
+                $ret[$key] = $value;
+                $ret[$key]['apply_num'] = 0;
                 if($key == "吴峰"){
                     dd($value);
                 }
-                $ret[$key] = $value;
-                $ret[$key]['apply_num'] = 0;
             }
         }
 
