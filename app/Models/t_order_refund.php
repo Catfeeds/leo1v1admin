@@ -590,6 +590,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                 ,self::DB_TABLE_NAME
                                 ,t_order_info::DB_TABLE_NAME
                                 ,t_student_info::DB_TABLE_NAME
+                                ,t_manager_info::DB_TABLE_NAME
                                 ,$where_arr);
         return $this->main_get_list($sql,function($item){
             return $item['sys_operator'];
