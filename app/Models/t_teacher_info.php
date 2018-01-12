@@ -4520,7 +4520,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_info_to_teacher($lessonid){
-        $sql = $this->gen_sql_new("  select t.wx_openid, subject, l.lesson_start, l.lesson_end, s.nick as stu_nick, t.nick as tea_nick from %s t "
+        $sql = $this->gen_sql_new("  select t.wx_openid, l.subject, l.lesson_start, l.lesson_end, s.nick as stu_nick, t.nick as tea_nick from %s t "
                                   ." left join %s l on l.teacherid=t.teacherid"
                                   ." left join %s s on s.userid=l.userid"
                                   ." where l.lessonid=%d"
