@@ -2360,7 +2360,7 @@ class user_deal extends Controller
         $main_type=$this->get_in_int_val("main_type");
         $month = strtotime($this->get_in_str_val("start_time"));
 
-        $db_groupid=$this->t_group_user_month->get_groupid_by_adminid($main_type,$adminid,$month);
+        $db_groupid=$this->t_group_user_month->get_groupid_by_adminid(-1,$adminid,$month);
         if ($db_groupid ) {
             $group_name=$this->t_group_name_month->get_group_name($db_groupid,$month);
             return $this->output_err("此人已在".date('Y-m',$month)."月[$group_name]中,不能添加");
