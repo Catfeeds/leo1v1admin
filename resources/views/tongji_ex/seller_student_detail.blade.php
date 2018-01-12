@@ -2,7 +2,6 @@
 @section('content')
 
     <section class="content ">
-        
         <div>
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-5"  data-title="时间段">
@@ -43,7 +42,7 @@
                         <td>{{@$var["userid"]}} </td>
                         <td>{{@$var["add_time"]}} </td>
                         <td>{{@$var["key0"]}} </td>
-                        <td>{{@$var["seller_student_status_str"]}} </td>
+                        <td>{!! @$var["seller_student_status_str"] !!}</td>
                         <td>{{@$var["global_tq_called_flag_str"]}} </td>
                         <td>{{@$var["cc_nick"]}} </td>
                         <td>{{@$var["first_called_cc"]}} </td>
