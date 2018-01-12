@@ -45,6 +45,7 @@ class add_new_tea_entry extends Command
         $task->t_teacher_info->field_update_list(469110, [
             'bank_type' => '中国工商银行'
         ]);
+        exit;
 
         
         // 明日之星
