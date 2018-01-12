@@ -5726,7 +5726,7 @@ lesson_type in (0,1) "
     }
 
     public function get_regular_stu_num_by_teacher($start,$end,$teacherid){
-        $sql=$this->gen_sql_new("select distinct l.userid,s.nick,l.grade,l.subject from %s l join %s s on l.userid = s.userid where lesson_type=0 and confirm_flag in(0,1) and lesson_start >= %u and lesson_start <=%u and l.teacherid = %u",
+        $sql=$this->gen_sql_new("select distinct l.userid,s.nick,l.grade,l.subject,s.lesson_count_left from %s l join %s s on l.userid = s.userid where lesson_type=0 and confirm_flag in(0,1) and lesson_start >= %u and lesson_start <=%u and l.teacherid = %u",
                                 self::DB_TABLE_NAME,
                                 t_student_info::DB_TABLE_NAME,
                                 $start,$end,$teacherid);
