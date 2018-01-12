@@ -707,7 +707,8 @@ class NewRouteConfig {
         "/user_power/dele_role_groupid"                  =>true,
         "/user_power/add_user"                           =>true,
         "/user_power/set_group_power"                    =>true,
-        "/user_power/dele_role_user"                     =>true
+        "/user_power/dele_role_user"                     =>true,
+        "/user_power/get_permission_list"                     =>true
     ];
 
     static $dev_url_map = [

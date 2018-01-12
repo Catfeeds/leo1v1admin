@@ -221,8 +221,7 @@ class user_power extends Controller
         }
 
         if($user_id){
-            //添加用户
-            $this->t_manager_info->field_update_list($user_id,['role_groupid'=>$role_groupid]);
+            $this->add_user_power($role_groupid,$edit_power_id,$user_id);
             /**
              * @ 产品部加 数据更改日志
              */
@@ -241,8 +240,36 @@ class user_power extends Controller
     public function add_user(){
         $user_id      = $this->get_in_int_val("user_id") ;
         $role_groupid  = $this->get_in_int_val("role_groupid") ;
+        $groupid     = $this->get_in_int_val("groupid");
+        
+        $info = $this->add_user_power($role_groupid,$groupid,$user_id);
+        if($info[0] == 1){
+            return $this->output_succ();
+        }else{
+            return $this->output_err($info[1]);
+        }
 
-        $this->t_manager_info->field_update_list($user_id,['role_groupid'=>$role_groupid]);
+    }
+
+    private function add_user_power($role_groupid,$groupid,$user_id){
+        $have_permit = $this->t_manager_info->get_permission($user_id);
+        $have_role = $this->t_manager_info->get_account_role($user_id);
+
+        if( $have_role == $role_groupid && $have_permit){
+            $group_arr = explode(',',$have_permit);
+            if(in_array($groupid,$group_arr)){
+                return [0,"该用户存在该权限,所以不能添加！"];
+            }
+
+            $have_permit .= ','.$groupid;
+        }else{
+            if($have_permit){
+                $have_permit .= ','.$groupid;
+            }else{
+                $have_permit = $groupid;
+            }
+        }
+        $this->t_manager_info->field_update_list($user_id,['account_role'=>$role_groupid,'permission'=>$have_permit]);
 
         /**
          * @ 产品部加 数据更改日志
@@ -254,8 +281,9 @@ class user_power extends Controller
             "user_log_type" => 4, //权限页面添加用户记录
         ]);
 
-        return $this->output_succ();
+        return [1];
     }
+
     //删除权限组
     public function dele_role_groupid(){
         $role_groupid  = $this->get_in_int_val('role_groupid');
@@ -280,7 +308,69 @@ class user_power extends Controller
 
     public function dele_role_user(){
         $uid                  = $this->get_in_int_val("uid");
-        $this->t_manager_info->field_update_list($uid,['role_groupid'=>0]);
+        $role_groupid  = $this->get_in_int_val('role_groupid');
+        $groupid  = $this->get_in_int_val('groupid');
+
+        $have_permit = $this->t_manager_info->get_permission($uid);
+        $have_role = $this->t_manager_info->get_account_role($uid);
+        //echo $have_permit;
+        if($have_permit){
+            $group_arr = explode(',',$have_permit);
+            $new_permit = '';
+            foreach($group_arr as $k => $v){
+                if( $v != $groupid ){
+                    $new_permit .= $v.',';
+                }
+            }
+            $new_permit = substr($new_permit, 0,-1);
+            $this->t_manager_info->field_update_list($uid,['permission'=>$new_permit]);
+        }
+
         return $this->output_succ();
     }
+
+    //用户管理获取该角色对应的权限
+    public function get_permission_list(){
+        $permission = $this->get_in_str_val('permission');
+        $account_role = $this->get_in_str_val('account_role');
+        $list    = $this->t_authority_group->get_groupid_by_role($account_role);
+        if($list && !empty($permission)){
+            $permission = trim($permission,",");
+
+            //该用户拥有的权限
+            $arr = explode(",",$permission);
+
+            //该角色的所有权限组id
+            $role_permit = array_column($list,'groupid');
+
+            foreach( $list as &$item){
+                $item["has_power"] = 0;
+                if( in_array($item['groupid'],$arr)){
+                    $item["has_power"] = 1;
+                }
+            }
+
+            //不属于该角色的权限组id
+            $not_belog_role = array_diff($arr,$role_permit);
+
+            if($not_belog_role){
+                $idstr= "(";
+                foreach($not_belog_role as $var){
+                    $idstr .= $var.',';
+                }
+                $idstr = substr($idstr,0,-1).')';
+                //dd($idstr);
+                $more_group = $this->t_authority_group->get_groups_by_id_str($idstr);
+                if($more_group){
+                    foreach($more_group as &$v){
+                        $v["has_power"] = 1;
+                    }
+                }
+                $list = array_merge($list,$more_group);
+            }
+        }
+     
+        return $this->output_succ(["data"=> $list]);
+    }
+
 }
