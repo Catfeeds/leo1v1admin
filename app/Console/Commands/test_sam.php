@@ -244,6 +244,7 @@ class test_sam extends Command
         dd($ret_file_name);
         */
 
+        /*
         $ret_info = $task->t_student_score_info->get_b3();
         foreach ($ret_info as $key => &$value) {
             $value['grade']   = E\Egrade::get_desc($value['grade']);
@@ -254,5 +255,41 @@ class test_sam extends Command
         $arr_title = ['年级',"分类","数量"];
         $arr_data  = ['grade','test_lesson_order_fail_flag','num'];
         $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
+        */
+
+        $ret_info = $task->t_student_score_info->get_b4();
+        $ret = [];
+        foreach ($ret_info as $key => &$value) {
+            $arr['grade']   = E\Egrade::get_desc($value['grade']);
+            $time = time() - $value['max_time'];
+            if($time > 31535000){
+                $value['max_time'] = 0;
+            }elseif($time > 15552000){
+                $value['max_time'] = 1;
+            }elseif($time > 7776000){
+                $value['max_time'] = 2;
+            }elseif($time > 2592000 && $time < 5184000){
+                $value['max_time'] = 3;
+            }elseif($time < 2592000){
+                $value['max_time'] = 4;
+            }
+        }
+
+        foreach ($ret_info as $key => $value) {
+            $ret[$value['grade']][$value['max_time']] = isset($ret[$value['grade']][$value['max_time']]) ? $ret[$value['grade']][$value['max_time']] + 1 : 1;
+        }
+
+        dd($ret);
+        $file_name = 'sam_3';
+        $arr_title = ['年级',"分类","数量"];
+        $arr_data  = ['grade','1','num'];
+        $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
+        /*
+    select s.userid, q.is_called_phone
+from db_weiyi.t_student_info s
+left join db_weiyi_admin.t_tq_call_info q on s.phone =q.phone 
+where s.is_test_user = 0 and q.is_called_phone =1 
+
+        */
     }     
 }
