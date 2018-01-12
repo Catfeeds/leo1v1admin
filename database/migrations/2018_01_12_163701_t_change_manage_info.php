@@ -12,7 +12,6 @@ class TChangeManageInfo extends Migration
      */
     public function up()
     {
-        
         Schema::table('db_weiyi_admin.t_manager_info', function( Blueprint $table)
         {
             $table->dropColumn('role_groupid');
