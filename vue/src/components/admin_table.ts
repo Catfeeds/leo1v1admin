@@ -7,7 +7,7 @@ import { timingSafeEqual } from 'crypto';
   // 所有的组件选项都可以放在这里
   template : require("./admin_table.html" ),
   created  : function () {
-    this["on_created"](1);
+    this["on_created"]();
   },
 
   data : function () {
@@ -24,13 +24,6 @@ import { timingSafeEqual } from 'crypto';
       },
     },
 
-    auto_show: {//表配置
-      type     : Boolean,
-      required : true,
-      "default" :  function(){
-        return true ;
-      } ,
-    },
 
     table_config : {//表配置
       type     : Object,
@@ -44,19 +37,54 @@ import { timingSafeEqual } from 'crypto';
   },
   computed : {
     real_table_config:function() {
-      return this.$props.auto_show? this.$props.table_config: {};
+      return this.$props.table_data.length>0 ? this.$props.table_config: {};
     }
   },
   mounted : function(){
+    this["on_mounted"]();
   },
 })
-
 
 
 export default class admin_table extends Vue {
 
   table_field_show_config:Object;
+  auto_gen_field_list:Array<any>;
+  on_mounted() {
+
+    var me=this;
+    me.auto_gen_field_list=[];
+
+    if (! this.$props.table_config.field_list ) {
+      $.each( me.$children,function(i, child_item){
+        var field_info={};
+        if (child_item.$options["_componentTag"]=="admin-table-th"){
+          var title=$.trim(child_item.$slots["default"]["0"]["text"]);
+          field_info["title"]=title;
+          if (me.check_power_show( child_item["real_field_info"])) {
+            field_info["power_show_flag"]=true;
+            if (child_item.$el.tagName=="TD") {
+              field_info["display_flag"]=true;
+            }else{
+              field_info["display_flag"]=false;
+            }
+          }else{
+            field_info["power_show_flag"]=false;
+          }
+          me.auto_gen_field_list.push( field_info );
+        }
+      });
+      console.log(me.auto_gen_field_list);
+    }
+
+  }
+
   on_created (){
+
+    var me=this;
+
+
+
     var table_key = $.get_table_key("field_list");
     this.table_field_show_config={};
     if (!$.check_in_phone()) {
@@ -71,7 +99,6 @@ export default class admin_table extends Vue {
       catch ($e) {
       }
 
-      var me=this;
       if (config && cur - config["log_time"] < 3600) {
         me.table_field_show_config =config;
       }
@@ -170,8 +197,8 @@ export default class admin_table extends Vue {
     }
     return show_flag;
   }
-  check_show(field_info) {
-    return this.check_power_show(field_info) && this.check_config_show(field_info);
+  check_show(field_info,title="") {
+    return this.check_power_show(field_info) && this.check_config_show(field_info,title);
   }
   get_html_power_list() {
     if (this.$props.table_config.html_power_list) {
@@ -195,12 +222,15 @@ export default class admin_table extends Vue {
   }
 
   //隐藏
-  check_config_show(field_info):boolean{
+  check_config_show(field_info,title=""):boolean{
     //check 配置
+    if (!title) {
+      title=field_info.title;
+    }
     var field_list=this.table_field_show_config["field_list"];
-    var config_value= field_list && field_list[field_info.title];
+    var config_value= field_list && field_list[title];
     if ( config_value === undefined || config_value===null ) {
-      if (field_info.default_display===false) {
+      if (field_info.default_display===false    ) {
         return false;
       }else{
         return true;
@@ -230,20 +260,35 @@ export default class admin_table extends Vue {
   }
 
   config_field_list(e :MouseEvent ){
+    console.log(e );
     var arr :Array<any>= [];
     var me=this;
-    $.each(this.$props.table_config.field_list, function (i, field_info) {
-      if(me.check_power_show(field_info) ){
-        var $input = $("<input type=\"checkbox\"/>");
-        var title= field_info .title;
-        if (me.check_config_show(field_info)){
-          $input.attr("checked", "checked");
+    if (this.$props.table_config.field_list ) {
+      $.each(this.$props.table_config.field_list, function (i, field_info) {
+        if(me.check_power_show(field_info) ){
+          var $input = $("<input type=\"checkbox\"/>");
+          var title= field_info .title;
+          if (me.check_config_show(field_info)){
+            $input.attr("checked", "checked");
+          }
+          $input.data("index", title);
+          arr.push([title, $input]);
         }
-        $input.data("index", title);
-        arr.push([title, $input]);
-      }
+      });
+    }else {
+      $.each( me.auto_gen_field_list, function(i ,field_info ){
+        if (field_info["power_show_flag"]) {
+          var $input = $("<input type=\"checkbox\"/>");
+          var title= field_info .title;
+          if ( field_info["display_flag"]){
+            $input.attr("checked", "checked");
+          }
+          $input.data("index", title);
+          arr.push([title, $input]);
+        }
+      });
+    }
 
-    });
     var table_key = $.get_table_key("field_list");
     $.show_key_value_table("列显示配置", arr, [{
       label: '默认',
@@ -256,6 +301,7 @@ export default class admin_table extends Vue {
         });
         //alert(" XXXXX set table_key clean 1 ");
         window.localStorage.setItem(table_key, "");
+        window.location.reload();
       }
     }, {
       label: '确认',
@@ -287,5 +333,18 @@ export default class admin_table extends Vue {
       }
     }]);
 
+  }
+  reset_row() {
+    var me=this;
+    $.each( me.$children, function(i, child_item){
+      if (child_item.$options["_componentTag"]=="admin-table-row")  {
+        var td_list=child_item.$children.filter(function(value){
+          return value.$options["_componentTag"]=="admin-table-td";
+        });
+        $.each( td_list , function(td_index, child_td){
+          child_td.$data.display_flag=me.auto_gen_field_list[td_index].display_flag;
+        });
+      }
+    });
   }
 }

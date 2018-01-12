@@ -32,6 +32,9 @@ export default class vtable extends Vue {
     return {};
   }
 
+  do_created() {
+    this.load_data();
+  };
 
   last_page_url:any;
   $header_query_info:any;
@@ -477,58 +480,15 @@ export default class vtable extends Vue {
     });
   };
   table_row_init () {
-    var $table_list = $(".common-table");
-    var me = this;
-    $.each($table_list, function (table_i, item) {
-      var path_list = window.location.pathname.split("/");
-      var table_key = path_list[1] + "-" + path_list[2] + "-" + table_i;
-      var $table = $(item);
-      var reset_table = function () {
-        var $row_list = $table.find("tbody >tr  ");
-        var $th = $table.find("thead >tr");
-        //处理disable
-        var display_none_list : Array<any> = [];
-        var not_for_xs_list : Array<any>  = [];
-        var $th_td_list = $th.find("td");
-        var set_reset_filed_flag = false;
-        $.each($th_td_list, function (i, item) {
-          var $item = $(item);
-          if ($item.css("display") == "none") {
-            display_none_list.push(i);
-          }
-          if ($item.hasClass("remove-for-xs")) {
-            not_for_xs_list.push(i);
-          }
-        });
-        //for
-        $.each($row_list, function (i, item) {
-          var $item = $(item);
-          var td_list = $item.find("td");
-          if ($item.find(".start-opt-mobile").length > 0) {
-            return;
-          }
-          $item.prepend($('<td class="remove-for-not-xs"  > <a class="  fa  fa-cog  start-opt-mobile " style="font-size:25px"  href="javascript:;"  > </a> </td>'));
-          $.each(display_none_list, function (i, display_none_id) {
-            $(td_list[display_none_id - 1]).css("display", "none");
-          });
-          $.each(not_for_xs_list, function (i, id) {
-            $(td_list[id]).addClass("remove-for-xs");
-          });
-          var $td_last = $(td_list[td_list.length - 1]);
-          $td_last.addClass("remove-for-xs");
-          $td_last.find("a").addClass("btn fa");
-          $td_last.find(">div").prepend('<a href="javascript:;" class="btn  fa fa-cog td-info" title="竖向显示" ></a>');
-        });
-        if (!$.check_in_phone()) {
-          $table.find(".remove-for-not-xs").hide();
-          //TODO
-        }
-        else {
-          $table.find(".remove-for-xs").hide();
-        }
-      };
-      reset_table();
+    var me =this;
+    var admin_table :any = undefined;
+    $.each(me.$children, function( i ,value ){
+      if (value.$options["_componentTag"]=="admin-table")  {
+        admin_table= value;
+        admin_table.reset_row();
+      }
     });
+
     me.row_init();
   }
 }

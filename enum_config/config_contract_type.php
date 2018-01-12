@@ -10,5 +10,6 @@ return array(
 	array(1100,"","培训课程" ),
 	array(2001,"","公开答疑" ),
 	array(3001,"small_class","小班课" ),
+	array(3002,"small_class_2018","小班课2018" ),
 	array(4001,"copy_open_class","机器人课程" ),
 );
