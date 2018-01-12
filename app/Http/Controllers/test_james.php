@@ -204,6 +204,16 @@ class test_james extends Controller
         return $base_url;
     }
 
+    public function getFileUrlTea(){
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+        $pdf_url = $this->get_in_str_val('url');
+
+        $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdf_url);
+        return $pdf_file_path;
+
+    }
+
 
 
     public function get_pdf_url(){
