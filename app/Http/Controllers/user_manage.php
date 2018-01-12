@@ -3281,9 +3281,6 @@ class user_manage extends Controller
             }else{
                 $ret[$key] = $value;
                 $ret[$key]['apply_num'] = 0;
-                if($key == "吴峰"){
-                    dd($ret[$key]);
-                }
             }
         }
 
