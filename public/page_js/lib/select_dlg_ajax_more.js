@@ -3,7 +3,11 @@
     var Cselect_dlg_ajax = function(ele, opt) {
         this.$element = ele;
         this.element_is_input = $(ele).is("input");
-        console.log(ele);
+        //当用户关掉弹出层重新勾选时，保留选择过的数据
+        this.haveChecked = new Array();
+        //页面初始化的内容
+
+        //console.log(ele);
         if( this.element_is_input ) {
             //原来的不显示，显示display
             this.$show_input = $(this.$element[0].outerHTML);
@@ -11,10 +15,10 @@
             this.$show_input.attr("id","");
             this.$show_input.css("cursor","inherit");
             this.$show_input.insertAfter(this.$element);
-            console.log( this.$show_input);
+            //console.log( this.$show_input);
             this.$element.hide();
-        }
 
+        }
 
         this.defaults = {
             "opt_type" : "select", // or "list"
@@ -121,13 +125,13 @@
                         $input=$(input_str );
                         $input.val(item.value );
                         $input.on("change",function(){
-                            me.reload_data(1);
+                            me.reload_data(1,null,'search');
                         });
                     }else{ //input
                         $input= $('<input/>');
                         $input.on ("keypress", function( e){
                             if (e.keyCode==13){
-                                me.reload_data(1);
+                                me.reload_data(1,null,'search');
                             }
                         });
                     }
@@ -267,7 +271,7 @@
             ];
        
             if ( me.options.select_btn_config) {
-                console.log(me.options.select_btn_config);
+                //console.log(me.options.select_btn_config);
                 var add_count=0;
                 $(me.options.select_btn_config).each(function(i,item){
                     btns.push ({
@@ -306,66 +310,40 @@
 
 
             if (me.options.opt_type=="select") {
-                console.log(me.options);
+                //console.log(me.options);
                 btns.push ({
                     label: '选择',
                     cssClass: 'btn-warning',
                     action: function(dialog) {
-                        var $tbody=me.$body.find("#id_body");
-                        var row_data_str=$tbody.find("tr.warning").data("row_data");
+                     
                         var $lru_tbody=me.$lru_body.find("#id_lru_body");
-                        var lru_row_data_str= $lru_tbody.find("tr.warning").data("row_data");
-                        var is_from_lru_list_flag= !!lru_row_data_str;
+                        var row_data_arr = new Array();
+                        $.each($lru_tbody.find("tr"),function(i,item){                   
+                            row_data_arr.push($(this).data('row_data'));
+                        })
 
-                        row_data_str= row_data_str ||  lru_row_data_str;
-                        //console.log(row_data_str);
-                        if (row_data_str) {
-                            var row_data=JSON.parse(row_data_str);
-                            var value=row_data[me.options.select_primary_field];
-                            if (!value) {// lru
-                                value=row_data["id"];
+                        me.haveChecked = row_data_arr;
+
+                        if (row_data_arr) {
+                            var value = '';
+                            var show = '';
+                            for(var x in row_data_arr){
+                                var row_data=JSON.parse(row_data_arr[x]);
+                                show += ( row_data[me.options.select_display] || row_data["name"] ) + ',';
+                                value += ( row_data[me.options.select_primary_field] || row_data["id"] ) + ',';                              
                             }
-                            var check_data= {lru_flag: me.options.lru_flag?1:0 };
-                            check_data[ me.options.select_primary_field ] =  value;
-                            check_data=$.extend({},me.options.args_ex,check_data);
-                            console.log(check_data);
-                            $.do_ajax(me.options.url, check_data,  function(result){
-                                var ret_list = result.data.list;
-                                var row_data = ret_list[0];
-                                console.log(row_data);
-                                if (row_data) {
-                                    me.$element.val(value);
-                                    if (me.element_is_input ) {
-                                        me.$show_input.val(
-                                            row_data[me.options.select_display] || row_data["name"]);
-                                    }
+                            show = show.substring(0, show.length-1);
+                            value = value.substring(0, value.length-1);
+    
+                            me.$element.val(value);
+                            if (me.element_is_input ) {
+                                me.$show_input.val(show);
+                            }
 
-                                    if (value >0 ) {
-                                        var item_desc="";
-                                        if(!is_from_lru_list_flag ){
-                                            item_desc=row_data[me.options.select_display];
-                                        }else{
-                                            if ( me.options.lru_item_desc) {
-                                                item_desc= me.options.lru_item_desc (row_data);
-                                            }else if (  me.options.select_display ){
-                                                item_desc=row_data[me.options.select_display];
-                                            }
-                                        }
-                                        $.do_ajax( me.options.url,{
-                                            "type" : me.options.args_ex.type,
-                                            "lru_id"   : value,
-                                            "lru_id_name" :  item_desc
-                                        },function(){});
-                                    }
-
-                                    if (me.options.onChange ){
-                                        me.options.onChange( value ,row_data,dialog);
-                                    }
-                                }else{
-                                    alert("无效数据");
-                                }
-                            });
-
+                            if (me.options.onChange ){
+                                me.options.onChange( value ,row_data_arr,dialog);
+                            }
+                       
                         }else{
                             if (me.element_is_input ) {
                                 me.$element.val(me.options.select_no_select_value);
@@ -422,8 +400,40 @@
             me.dlg=dlg;
             //加载数据
             me.reload_data(1);
-        },reload_data:function(page_num,url){
+        },reload_data:function(page_num,url,type){
             var me=this;
+            var $lru_tbody=me.$lru_body.find("#id_lru_body");
+            var $tbody=me.$body.find("#id_body");
+
+            //点击lru_body的tr移除
+            var remove_opt = function(){
+                $(this).remove();
+                var cancelChecked = $(this).html();
+                $.each($tbody.find("tr"),function(i,item){                   
+                    if($(this).html() == cancelChecked){
+                        $(this).removeClass("warning");
+                    }
+                })
+            }
+
+            //点击body中的tr
+            var select_opt = function(){
+                if ( $(this).hasClass("warning") ){
+                    $(this).removeClass("warning");
+                    var checked = $(this).html();
+                    $.each($lru_tbody.find("tr"),function(i,item){                   
+                        if($(this).html() == checked){
+                            $(this).remove();
+                        }
+                    })
+                }else{
+                    $(this).addClass("warning");
+                    var $copy = $(this).clone(true);
+                    $lru_tbody.append($copy).addClass("warning");
+                    $copy.on("click", remove_opt );
+                }
+            };
+
             var data = {lru_flag: me.options.lru_flag?1:0 };
             if (!url){
                 url     = me.options.url  ;
@@ -435,7 +445,33 @@
                 data=$.extend({},me.options.args_ex,data);
             }
 
+            if( page_num == 1 && type != 'search'){
+                //当页面初始化的时候将已经选择过的条目重新放入id_lru_body中
+                if(me.haveChecked){
+                    //console.log(me.haveChecked);                   
+                    $.each( me.haveChecked,function (i,item){
+                        var $tr_item=$("<tr />");
+                        $tr_item.data( "row_data",item);
+                        item = JSON.parse(item);
+                        $.each( me.options.field_list,function (f_i,f_item){
+                            var $td_item=$("<td/>");
+                            var filed = '';
+                            if ( f_item.render) {
+                                $td_item.append( f_item.render( item[ f_item.field_name] ,item ));
+                            }else{
+                                $td_item.append( item[ f_item.field_name] );
+                            }
 
+                            $tr_item.append($td_item );
+                        })
+                        $tr_item.addClass('warning');
+                        $tr_item.on("click", remove_opt );
+                        $lru_tbody.append( $tr_item);
+                    });
+                    
+                }
+            }
+           
             $.do_ajax(url, data, function(result){
                 if (result.ret!=0) {
                     alert(result.info);
@@ -444,9 +480,8 @@
                 var ret_list      = result.data.list;
                 var ret_page_info = result.data.page_info;
 
-                var $lru_tbody=me.$lru_body.find("#id_lru_body");
-                var $tbody=me.$body.find("#id_body");
                 $tbody.html("");
+
                 $.each( ret_list, function(i,item){
                     var $tr_item=$("<tr />");
                     $tr_item.data( "row_data", JSON.stringify( item  ));
@@ -458,36 +493,24 @@
                         }else{
                             $td_item.append( item[ f_item.field_name] );
                         }
+                       
                         $tr_item.append($td_item );
+
+                        $.each($lru_tbody.find("tr"),function(i,item){                   
+                            if($(this).html() == $tr_item.html()){
+                                $tr_item.addClass("warning");
+                            }
+                        })
+
                     });
                     $tbody.append( $tr_item);
                 });
 
                 var html_str = get_page_node(ret_page_info ,function(url ){
-                    me.reload_data(null,url);
+                    me.reload_data(null,url,'page');
                 });
+
                 me.$body.find("#id_page_info").html(html_str);
-
-                var remove_opt = function(){
-                    console.log($(this));
-                    $(this).remove();
-                }
-
-                var select_opt = function(){
-                    if ( $(this).hasClass("warning") ){
-                        //$lru_tbody.find("tr").removeClass("warning");
-                        //$tbody.find("tr").removeClass("warning");
-                        $(this).removeClass("warning");
-
-                    }else{
-                        // $lru_tbody.find("tr").removeClass("warning");
-                        // $tbody.find("tr").removeClass("warning");
-                        $(this).addClass("warning");
-                        var $copy = $(this).clone(true);
-                        $lru_tbody.append($copy).addClass("warning");
-                        $copy.on("click", remove_opt );
-                    }
-                };
 
                 $tbody.find("tr").on("click", select_opt );
 
