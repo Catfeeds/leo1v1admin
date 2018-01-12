@@ -428,7 +428,7 @@ class agent extends Controller
         echo '<th>userid</th><th>分配人</th><th>被分配人</th><th>分配时间</th>';
         echo '</tr>';
         foreach($ret as $item){
-            $userid = isset($item['userid'])?$item['userid']:'';
+            $userid = isset($item['new'])?$item['new']:'';
             $give_nick = isset($item['give_nick'])?$item['give_nick']:'';
             $get_nick = isset($item['get_nick'])?$item['get_nick']:'';
             $create_time = $item['create_time'];
