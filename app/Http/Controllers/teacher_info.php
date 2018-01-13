@@ -3128,8 +3128,8 @@ class teacher_info extends Controller
             $data = [];
             $data[0]['subject'] = $info['subject'];
             $data[0]['grade'] = array_values($grade_1);
-            // $data[1]['subject'] = $info['second_subject'];
-            // $data[1]['grade'] = array_values($grade_2);
+            $data[1]['subject'] = $info['second_subject'];
+            $data[1]['grade'] = array_values($grade_2);
             return $data;
         }
         return false;
