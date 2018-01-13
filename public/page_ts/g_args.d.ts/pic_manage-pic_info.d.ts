@@ -37,6 +37,7 @@ interface RowData {
 	time_type_str	:any;
 	usage_type_str	:any;
 	active_status	:any;
+	min_date	:any;
 }
 
 /*

@@ -4348,6 +4348,7 @@ class user_deal extends Controller
         if($manager_info["del_flag"] == 1 && $manager_info["leave_member_time"]<$end_time_new){
             $arr['cur_del_flag_str'] = '是';
         }
+        $arr['fail_all_count'] = $res[$adminid]['fail_all_count'];
         $arr['test_lesson_count'] = $res[$adminid]['test_lesson_count'];
         //月末定级
         $start_time_this = $start_time;

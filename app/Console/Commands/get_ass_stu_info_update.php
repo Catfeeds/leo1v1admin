@@ -40,8 +40,8 @@ class get_ass_stu_info_update extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
 
-        // $start_time = strtotime("2017-12-01");
-        // $end_time = strtotime("2018-01-01");
+
+
         // $last_month = strtotime(date("Y-m-01",$start_time-100));
         // $month_middle = $start_time+15*86400;
         // // $ass_list = $task->t_manager_info->get_adminid_list_by_account_role_new(1,$start_time,1);

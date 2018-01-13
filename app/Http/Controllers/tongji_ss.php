@@ -4046,7 +4046,7 @@ class tongji_ss extends Controller
         $start_time = strtotime($this->get_in_str_val("start_time"));
         $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
         $adminid = $this->get_in_int_val("adminid",-1);
-        $data= $this->t_test_lesson_subject->get_ass_kk_tongji_info_detail($start_time,$end_time,$adminid);
+        $data= $this->t_test_lesson_subject->get_ass_kk_tongji_info_detail_new($start_time,$end_time,$adminid);
         foreach($data as &$item){
             E\Esubject::set_item_value_str($item,"subject");
             $item["time"] = date("Y-m-d H:i:s",$item["lesson_start"]);

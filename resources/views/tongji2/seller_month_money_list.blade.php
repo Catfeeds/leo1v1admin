@@ -40,6 +40,7 @@
                         第四周试听成功数
                         ({{$four_week}})
                     </td>
+                    <td>上课取消数</td>
                     <td>上课数</td>
                     <td>取消率</td>
                     <td>绩效对应系数<br/>(取消率<=18%(40%)+周试听成功>=12节(15%))</td>
@@ -96,6 +97,7 @@
                         <td class="suc_second_week"></td>
                         <td class="suc_third_week"></td>
                         <td class="suc_fourth_week"></td>
+                        <td class="fail_all_count"></td>
                         <td class="test_lesson_count"></td>
                         <td class="lesson_per"></td>
                         <td class="kpi"></td>
