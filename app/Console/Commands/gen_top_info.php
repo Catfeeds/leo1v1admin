@@ -126,7 +126,6 @@ class gen_top_info extends Command
 
         $tongji_type= E\Etongji_type::V_SELLER_MONTH_FAIL_LESSON_PERCENT;
         $test_lesson_list=$this->task->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
-        // $test_lesson_list = $this->$task->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time_new,$end_time_new,$grade_list=[-1] , $origin_ex="",$adminid,$adminid_list);
         $test_lesson_fail_per = $test_lesson_list["list"];
         $test_lesson_all_count= [] ;
         $test_lesson_fail_count= [] ;
