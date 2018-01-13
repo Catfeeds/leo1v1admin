@@ -2162,7 +2162,9 @@ class user_manage_new extends Controller
             if($permission){
                 $per_str = "(";
                 foreach($permission as $per){
-                    $per_str .= $per.',';
+                    if(!empty($per)){
+                        $per_str .= $per.',';
+                    }
                 }
                 $per_str = substr($per_str,0,-1).')';
                 $permission_names = $this->t_authority_group->get_groups_by_idstr($per_str);
