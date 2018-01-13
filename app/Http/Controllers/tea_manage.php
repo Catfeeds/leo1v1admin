@@ -3282,5 +3282,52 @@ class tea_manage extends Controller
     public function auto_rank_lesson(){
         return 1;
     }
+    //@desn:手动添加公开课
+    public function open_class_add(){
+        $lesson_start = $this->get_in_int_val('lesson_start','-1');
+         $lesson_start  = strtotime($val[0]);
+         $subject       = $val[1];
+         $grade         = $val[2];
+         $tea_name      = $val[3];
+         $phone         = (string)$val[4];
+         $suit_student  = $val[5];
+         $title         = $val[6];
+         $package_intro = $val[7];
+
+         if(!$lesson_start){
+             continue;
+         }else{
+             $subject = array_search($subject,$subject_arr);
+             $grade   = array_search($grade,$grade_arr);
+
+             $check_phone=\App\Helper\Utils::check_phone($phone);
+             if($check_phone){
+                 $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+             }else{
+                 $teacherid = $this->t_teacher_info->get_teacherid_by_name($tea_name);
+             }
+             if(!$teacherid){
+                 \App\Helper\Utils::logger("add open course 老师不存在".$tea_name);
+                 continue;
+             }
+
+             $lesson_end = $lesson_start+3600;
+             $ret = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
+
+             if($ret){
+                 \App\Helper\Utils::logger("有现存的老师课程冲突".$ret["lessonid"]."老师id".$teacherid);
+             }else{
+                 $packageid = $this->t_appointment_info->add_appoint(
+                     $title,E\Econtract_type::V_1001,$package_intro,$suit_student,$subject,$grade
+                 );
+                 $courseid  = $this->t_course_order->add_open_course(
+                     $teacherid,$title,$grade,$subject,E\Econtract_type::V_1001,$packageid,1
+                 );
+                 $lessonid  = $this->t_lesson_info->add_open_lesson(
+                     $teacherid,$courseid,$lesson_start,$lesson_end,$subject,$grade
+                 );
+             }
+         }
+    }
 
 }
