@@ -47,10 +47,12 @@ $(function(){
                     "start_time" : g_args.start_time,
                     "end_time"   : g_args.end_time,
                 },function(data){
+                    $tr.find(".cur_del_flag_str").text(data["cur_del_flag_str"]);
                     $tr.find(".suc_first_week").text(data["suc_first_week"]);
                     $tr.find(".suc_second_week").text(data["suc_second_week"]);
                     $tr.find(".suc_third_week").text(data["suc_third_week"]);
                     $tr.find(".suc_fourth_week").text(data["suc_fourth_week"]);
+                    $tr.find(".test_lesson_count").text(data["test_lesson_count"]);
                     $tr.find(".lesson_per").text(data["lesson_per"]);
                     $tr.find(".kpi").text(data["kpi"]);
                     $tr.find(".last_all_price").text(data["last_all_price"]);
