@@ -612,7 +612,7 @@ $(function(){
                 $('.opt-my-res,.opt-leo-res').attr('upload_id', obj.attr('id'));
             }
         }
-        var book_info = [],tea_sub_info = [], tea_gra_info = [], res_type_list = [];
+        var ret_data = {},book_info = [],tea_sub_info = [], tea_gra_info = [], res_type_list = [];
         var dlg_tr = {};
         var get_res = function(ajax_url,opt_type,btn_type,dir_id){
             $("<div></div>").tea_select_res_ajax({
@@ -697,32 +697,33 @@ $(function(){
                 "onChange"         : null,
                 //加载数据后，其它的设置
                 "onLoadData"       : function(dlg, ret){
-                    console.log(ret);
-                    dlg_tr = ret.crumbs;
+                    ret_data = ret;
+                },"onshown" : function(dlg,ret){
+                    dlg_tr = ret_data.crumbs;
                     // if(ret.book!=undefined){
-                        var book_arr = ret.book.split(',');
+                        var book_arr = ret_data.book.split(',');
                         $.each($(book_arr),function(i,val){
                             book_info.push(parseInt(val));
                         });
                     // }
                     // if(ret.tea_sub!=undefined){
-                        var tea_sub_arr = ret.tea_sub.split(',');
+                        var tea_sub_arr = ret_data.tea_sub.split(',');
                         $.each($(tea_sub_arr),function(i,val){
                             tea_sub_info.push(parseInt(val));
                         });
                     // }
                     // if(ret.tea_gra!=undefined){
-                        var tea_gra_arr = ret.tea_gra.split(',');
+                        var tea_gra_arr = ret_data.tea_gra.split(',');
                         $.each($(tea_gra_arr),function(i,val){
                             tea_gra_info.push(parseInt(val));
                         });
                     // }
                     // if(ret.type_list!=undefined){
-                        var res_type_arr = ret.type_list.split(',');
+                        var res_type_arr = ret_data.type_list.split(',');
                         $.each($(res_type_arr),function(i,val){
                             res_type_list.push(parseInt(val));
                         });
-                },"onshown" : function(dlg){
+
                     if(opt_type == 'my'){
                         $('.my-mark').empty();
                         var cru_str = '<div class="col-xs-12">';
