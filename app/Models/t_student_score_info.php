@@ -249,7 +249,7 @@ where is_test_user=0  and contract_status in  (1,2,3) and o.price>0   and s.grad
           "t.lesson_type=2"
         ];
 
-        $sql = $this->gen_sql_new("SELECT  m.teacherid ,m.phone_location,m.grade_start, m.grade_end"
+        $sql = $this->gen_sql_new("SELECT  m.teacherid ,m.phone_location,m.grade_start, m.grade_end,m.subject,m.second_subject"
                                 ." from %s t"
                                 ." left join %s m on  m.teacherid = t.teacherid "
                                 ." where %s  group by m.teacherid"
