@@ -202,22 +202,29 @@ class user_power extends Controller
         $edit_power_name       = $this->get_in_str_val('edit_power_name');
         $edit_power_id         = $this->get_in_str_val('edit_power_id');
         $user_id               = $this->get_in_int_val('user_id');
+        $is_copy_power         = $this->get_in_int_val('is_copy_power'); //是否复制其他权限组
+        $copy_groupid          = $this->get_in_int_val('copy_groupid');  //所要复制权限组的id
+
+        $data = [
+            "group_name"  => $edit_power_name,
+            "role_groupid" => $role_groupid,
+        ];
+
+        if($is_copy_power){
+            $authority = $this->t_authority_group->get_group_authority($copy_groupid);
+            if($authority){
+                $data['group_authority'] = $authority;
+            }
+        }
 
         if( $edit_type == 1){
             //添加权限组
-            $this->t_authority_group->row_insert([
-                "group_name"  => $edit_power_name,
-                "role_groupid" => $role_groupid,
-                "create_time"  => time(NULL)
-            ]);
+            $data["create_time"] = time(NULL);
+            $this->t_authority_group->row_insert($data);
             $edit_power_id = $this->t_authority_group->get_last_insertid();
         }else{
             //编辑权限组
-            $this->t_authority_group->field_update_list($edit_power_id,[
-                "group_name"  => $edit_power_name,
-                "role_groupid"  => $role_groupid
-            ]);
- 
+            $this->t_authority_group->field_update_list($edit_power_id,$data);
         }
 
         if($user_id){
@@ -405,21 +412,27 @@ class user_power extends Controller
     public function get_permission_list(){
         $permission = $this->get_in_str_val('permission');
         $account_role = $this->get_in_str_val('account_role');
+
+        //该角色下的权限
         $list    = $this->t_authority_group->get_groupid_by_role($account_role);
-        if($list && !empty($permission)){
+
+        //通用权限
+        $common_list = $this->t_authority_group->get_groupid_by_role('1003');
+
+        $list = array_merge($common_list,$list);
+
+        $role_permit = array_column($list, 'groupid');
+
+        if($list){
             $permission = trim($permission,",");
 
             //该用户拥有的权限
             $arr = explode(",",$permission);
 
-            //该角色的所有权限组id
-            $role_permit = array_column($list,'groupid');
-
             foreach( $list as &$item){
-                $item["has_power"] = 0;
-                if( in_array($item['groupid'],$arr)){
-                    $item["has_power"] = 1;
-                }
+                $item["has_power"] = in_array($item['groupid'],$arr) ? 1 : 0;
+                $item["account_role_str"] = E\Eaccount_role::get_desc($item["role_groupid"]);
+                $item["forbid"] = 0;
             }
 
             //不属于该角色的权限组id
@@ -434,14 +447,16 @@ class user_power extends Controller
                 //dd($idstr);
                 $more_group = $this->t_authority_group->get_groups_by_id_str($idstr);
                 if($more_group){
-                    foreach($more_group as &$v){
-                        $v["has_power"] = 1;
-                    }
+                    foreach( $more_group as &$v){
+                        $v["has_power"] = 1;            
+                        $v["account_role_str"] = E\Eaccount_role::get_desc($v["role_groupid"]);
+                        $v["forbid"] = 1;                   
+                    }                   
                 }
                 $list = array_merge($list,$more_group);
             }
         }
-     
+        //dd($list);
         return $this->output_succ(["data"=> $list]);
     }
 

@@ -79,10 +79,7 @@ class authority extends Controller
         }else{
             $adminid_right=[];
         }
-
-
-
-
+        
         $seller_level      = $this->get_in_el_seller_level();
         if (!$cardid) {
             $cardid = -1;
@@ -212,26 +209,18 @@ class authority extends Controller
     public function get_permission_list(){
         $permission = $this->get_in_str_val('permission');
         $list    = $this->t_authority_group->get_all_list();
-        $res = [];
-        foreach($list as $val){
-            $res[] = $val['group_name'];
-
-        }
+        $arr = [];
         if(!empty($permission)){
             $permission = trim($permission,",");
             $arr = explode(",",$permission);
-            foreach ($arr as $k) {
-                if( in_array($k,$res)){
-                    foreach($list as &$item){
-                        if($k == $item['group_name']){
-                            $item["has_power"] = in_array($k,$res)?1:0;
-                        }
-                    }
-
-                }
-
-            }
         }
+        //print_r($arr);
+        foreach($list as &$item){
+            $item["account_role_str"] = E\Eaccount_role::get_desc($item['role_groupid']);               
+            $item["has_power"] = in_array($item['groupid'],$arr)?1:0;                
+        }
+        
+        //dd($list);
         return $this->output_succ(["data"=> $list]);
     }
     public function set_permission(){

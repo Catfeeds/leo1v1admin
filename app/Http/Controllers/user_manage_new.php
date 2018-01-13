@@ -1283,7 +1283,6 @@ class user_manage_new extends Controller
         return $info;
     }
 
-
     public function get_tea_admin_menu_list($power_map)  {
         $start          = 1000000;
         $tea_admin_menu = \App\Helper\Config::get_tea_admin_menu();
@@ -2101,11 +2100,8 @@ class user_manage_new extends Controller
         //角色id
         $role_groupid  = $this->get_in_int_val("role_groupid",1);
 
-        //选择权限组id
-        $groupid  = $this->get_in_int_val("groupid",0);
-
-        //该角色对应的权限组id
-        $group_list = $this->t_authority_group->get_groupid_by_role($role_groupid);
+        //通用权限
+        $group_common = $this->t_authority_group->get_groupid_by_role("1003");
 
         //所有权限组
         $group_list_all = $this->t_authority_group->get_auth_groups_all();
@@ -2118,25 +2114,17 @@ class user_manage_new extends Controller
                 }
                 $group_all[$role_id][] = $group;
             }
-        }
-        //dd($group_all);
-        if(count($group_list)>0){
-            $groupid_arr = array_column($group_list, 'groupid');
-            if( $groupid == 0 ){
-                $groupid = $groupid_arr[0];
+            foreach($group_all as $role=>$var){
+                if($role != 0 && $role != 1003){
+                    $group_all[$role] = array_merge($group_common,$var);
+                }
             }
-            if( $groupid > 0 && !in_array($groupid,$groupid_arr) ){
-                $groupid = $groupid_arr[0];
-            }
-        }else{
-            $groupid = 0;
         }
-   
-        $account = $this->get_account();
-
-        // if( in_array($account,['jim','顾培根','孙瞿'])){
-        //     //超级权限
-        // }
+     
+        $default_groupid = $group_all[$role_groupid][0]['groupid'];
+             
+        //选择权限组id
+        $groupid  = $this->get_in_int_val("groupid",$default_groupid);
 
         $list=[];
         $user_list=[];
@@ -2151,8 +2139,7 @@ class user_manage_new extends Controller
 
         }
         return $this->Pageview(__METHOD__,$ret_info,[
-            "_publish_version" => 201801113150,
-            "group_list"=>$group_list,
+            "_publish_version" => 201801114150,
             "group_all" => $group_all,
             "user_list"=>$user_list,
             "list"=>$list,

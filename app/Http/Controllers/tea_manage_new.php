@@ -1148,6 +1148,7 @@ class tea_manage_new extends Controller
             //0时间 1科目 2年级 3任课老师 4手机号 5适合学生 6课题 7内容介绍
             foreach($arr as $key=>$val){
                 if($key!=0 && count($val)==8){
+                    //开始添加公开课
                     $lesson_start  = strtotime($val[0]);
                     $subject       = $val[1];
                     $grade         = $val[2];
@@ -1192,6 +1193,9 @@ class tea_manage_new extends Controller
                         }
                     }
                 }
+                //公开课添加结束
+
+
             }
         }
     }
