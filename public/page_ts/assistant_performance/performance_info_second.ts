@@ -116,6 +116,10 @@ $(function(){
         download_show();
     }
 
+    var screen_height=window.screen.availHeight;        
+
+    $(".common-table").parent().css({"overflow":"auto"});
+
 
 
 	$('.opt-change').set_input_change_event(load_data);
