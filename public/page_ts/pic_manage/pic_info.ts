@@ -74,7 +74,7 @@ $(function(){
 
         html_node.find(".share_s").hide();
         if (opt_type=="update") {
-            min_date = '<?php echo $min_date; ?>';
+            min_date = item.min_date;
 
             pic_url=item.img_url;
             pic_img="<img width=100 src=\""+pic_url+"\" />";
@@ -111,7 +111,6 @@ $(function(){
             html_node.find(".add_jump_type").val(item.jump_type);
             html_node.find(".add_start_date").val(item.start_time);
             html_node.find(".add_end_date").val(item.end_time);
-            console.log(item.start_time + ' : ' + min_date);
             var start = Date.parse(new Date(item.start_time));
             var current = Date.parse(new Date(min_date));
             if (start < current) {
