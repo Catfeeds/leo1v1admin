@@ -2261,7 +2261,8 @@ class tongji_ss extends Controller
     public function get_teacher_stu_info_new(){
         $teacherid = $this->get_in_int_val('teacherid');
         $date=\App\Helper\Utils::get_month_range(time(),1);
-        $this->t_lesson_info->switch_tongji_database();
+        $date["sdate"] = time()-86400;
+        $date["edate"] = time();
         $regular_stu_list =$this->t_lesson_info->get_regular_stu_num_by_teacher($date["sdate"],$date["edate"],$teacherid);
         $grade_arr = [];
         $subject_arr=[];
@@ -4045,12 +4046,13 @@ class tongji_ss extends Controller
         $start_time = strtotime($this->get_in_str_val("start_time"));
         $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
         $adminid = $this->get_in_int_val("adminid",-1);
-        $this->t_test_lesson_subject->switch_tongji_database();
         $data= $this->t_test_lesson_subject->get_ass_kk_tongji_info_detail($start_time,$end_time,$adminid);
         foreach($data as &$item){
             E\Esubject::set_item_value_str($item,"subject");
             $item["time"] = date("Y-m-d H:i:s",$item["lesson_start"]);
         }
+        $ass_info = $this->t_month_ass_student_info->get_ass_month_info($start_time);
+
         return  $this->output_succ( [ "data" =>$data] );
 
     }
