@@ -1021,9 +1021,21 @@ class assistant_performance extends Controller
 
         $all_money = @$ass_renew_info["money"]+@$ass_new_info["money"];
 
+        foreach($ass_order_info as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item, 'order_time','_str'); 
+            \App\Helper\Utils::unixtime2date_for_item($item, 'apply_time','_str'); 
+            $item["stu_nick"]= $this->cache_get_student_nick($item["userid"]);
+        }
+
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ass_order_info),[
+            "all_money"  => $all_money,
+            "renew_list" => $ass_renew_info,
+            "new_list" => $ass_new_info
+        ]);
 
 
-        dd([$ass_new_info,$ass_renew_info,$all_money]);
+
+        //dd([$ass_new_info,$ass_renew_info,$all_money]);
 
 
     }
