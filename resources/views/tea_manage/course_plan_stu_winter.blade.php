@@ -94,8 +94,8 @@
                         <td>{{@$var["user_nick"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
                         <td class="regular_total">
-                            @if($account=="jack")
-                                <a class="regular-info" herf="/tea_manage/winter_regular_course?userid={{ $var["userid"] }}" >{{@$var["regular_total"]/100}}</a>
+                            @if($account=="jack" || $account=="jim")
+                                <a class="regular-info" href="/human_resource/winter_regular_course?userid={{ $var["userid"] }}" target="_blank" >{{@$var["regular_total"]/100}}</a>
                             @else
                                 {{@$var["regular_total"]/100}}
                             @endif
