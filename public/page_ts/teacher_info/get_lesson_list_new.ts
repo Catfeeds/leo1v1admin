@@ -549,7 +549,7 @@ $(function(){
             var ret_func = function(ret){
                  if(ret.ret == 0){
 
-                     if(is_tea_flag>0){
+                     // if(is_tea_flag>0){
 
                          $('.look-pdf').show();
                          $('.look-pdf-son').mousedown(function(e){
@@ -559,9 +559,9 @@ $(function(){
                          });
                          PDFObject.embed(ret.url, ".look-pdf-son");
                          $('.look-pdf-son').css({'width':'120%','height':'120%','margin':'-10%'});
-                     } else {
-                         $.wopen(ret.url);
-                     }
+                     // } else {
+                     //     $.wopen(ret.url);
+                     // }
 
                  } else {
                     BootstrapDialog.alert(ret.info);
