@@ -105,7 +105,11 @@
                             </a>
                         </td>
                         <td>{{@$var["stop_reword"]}}</td> 
-                        <td>{{@$var["end_stu_num"]}}</td> 
+                        <td>
+                            <a href="/user_manage_new/get_two_weeks_old_stu_seller?test_user=-1&originid=-1&grade=-1&user_name=&phone=undefined&assistantid={{  $var["assistantid"] }}&student_type=-1&order_type=-1&seller_adminid=-1&seller_groupid_ex=&start_time={{ $start }}&end_time={{ $end }}" target="_blank" >
+                                {{@$var["end_stu_num"]}}
+                            </a>
+                        </td>
                         <td>{{@$var["end_no_renw_reword"]}}</td> 
                         <td>{{@$var["lesson_count_finish_reword"]}}</td> 
                         <td>{{@$var["renw_target"]/100}}</td> 
