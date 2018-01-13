@@ -59,9 +59,11 @@ export default class extends vtable {
       "enum_type"         : "grade",
       "field_name"        : "grade",
       "title"             : "年级",
-      "need_power"        :  "input_grade",
+      "need_power"        :  function(html_power_list ){
+        return !(html_power_list.grade);
+      } ,
       "select_value"      : this.get_args().grade,
-      "multi_select_flag" : true,
+      "multi_select_flag" : false,
       "btn_id_config"     : {},
     });
 
