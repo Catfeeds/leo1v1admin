@@ -61,9 +61,9 @@ class send_wx_teacher_for_bankcard extends Job implements ShouldQueue
                     "keyword3" => date('Y-m-d H:i:s'),
                     "keyword4" => '感谢老师的理解与配合'
                 ];
-                // \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxPmwXgLmkCTdoJGhSY1FTlc",$template_id,$data,'');
                 \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id,$data,'');
             }
+            // \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxPmwXgLmkCTdoJGhSY1FTlc",$template_id,$data,'');
         }
 
 
