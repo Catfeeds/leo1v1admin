@@ -724,6 +724,7 @@ $(function(){
                             res_type_list.push(parseInt(val));
                         });
                     }
+                    $('.leo-resource_type select,.leo-subject select,.leo-grade select,.leo-tag_one select').empty();
                         Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,res_type_list);
                         Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
                         Enum_map.append_option_list("grade",$('.leo-grade select'), true, tea_gra_info);
