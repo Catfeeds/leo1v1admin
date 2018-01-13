@@ -4,6 +4,7 @@
     <script type="text/javascript" src="/ztree/jquery.ztree.all.min.js"></script>
     <script type="text/javascript" src="/ztree/jquery.ztree.exhide.min.js"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg.js?v={{@$_publish_version}}"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax_more.js?v={{@$_publish_version}}"></script>
     <script type="text/javascript">
      var zNodes = <?php echo json_encode($list)?>;
 	  </script>
@@ -19,7 +20,8 @@
          margin: 2px;
      }
      .ztree li span.button.add { margin-left: 2px;margin-right: -1px;background-position: -144px 0;vertical-align: top;}
-     .power_title{ margin: 5px auto;text-align: center;font-size: 16px; }
+     .power_title{ margin: 5px auto;font-size: 16px; }
+     .fa-plus{ margin-left:10px}
     </style>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <section class="content">
@@ -99,17 +101,21 @@
                 <table  class="common-table">
                     <thead>
                         <tr>
-                            <td colspan="4">
-                                <div class="power_title">权限组用户</span>                              
+                            <td colspan="5">
+                                <div class="power_title">
+                                    <span style="margin-left:20%">权限组用户</span>                            
                                     <div class="input-group" style="position: absolute;right: 30px;top: 15px;">
-                                    <button class="btn fa fa-plus btn-primary" id="id_add_user">添加用户</button>
-                                </div>                  
-
+                                        <button class="btn fa fa-plus btn-primary" id="id_add_user">添加用户</button>
+                                        <button class="btn fa fa-plus btn-primary" id="batch_add_user">批量添加</button>
+                                        <button class="btn fa fa-plus btn-danger" id="batch_dele_user">批量删除</button>
+                                    </div>                  
+                                </div>
                             </td>
                         </tr>
                     </thead>
                     <tbody>       
                         <tr>
+                            <td ></td>
                             <td >id</td>
                             <td >账户</td>
                             <td >真实姓名</td>
@@ -117,7 +123,8 @@
                         </tr>
 
                         @foreach ($user_list as $var)
-                            <tr>
+                            <tr class="user_row">
+                                <td><input type="checkbox" class="dele_uid_str"></td>
                                 <td >{{$var["uid"]}} </td>
                                 <td >{{$var["account"]}} </td>
                                 <td >{{$var["name"]}} </td>
@@ -134,7 +141,17 @@
             </div>
         </div>
 
-
+        <div class="group_all hide">
+            @if($group_all)
+                @foreach($group_all as $role => $group)
+                    <select id="role_{{$role}}">
+                        @foreach($group as $var)
+                            <option value="{{$var['groupid']}}">{{$var['group_name']}}</option>
+                        @endforeach
+                    </select>
+                @endforeach
+            @endif
+        </div>
     </section>
 
     <script type="text/javascript" src="/page_js/select_course.js"></script>

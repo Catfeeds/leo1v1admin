@@ -47,6 +47,7 @@ $(function(){
                 select_display         : "nick",
                 select_no_select_value : 0,
                 select_no_select_title : "[未设置]",
+                select_have_id_arr : [60024,60029,60080],
 
                 //字段列表
                 'field_list' :[

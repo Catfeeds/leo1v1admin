@@ -5,8 +5,8 @@
         this.element_is_input = $(ele).is("input");
         //当用户关掉弹出层重新勾选时，保留选择过的数据
         this.haveChecked = new Array();
-        //页面初始化的内容
-
+        //判断页面初始化
+        this.select_init = 1;
         //console.log(ele);
         if( this.element_is_input ) {
             //原来的不显示，显示display
@@ -37,7 +37,7 @@
             select_display       : "nick",
             select_no_select_value  :  -1  , // 没有选择是，设置的值
             select_no_select_title  :  "[全部]"  , // "未设置"
-
+            select_have_id_arr : new Array(),          
             //字段列表
             'field_list' :[
                 {
@@ -182,6 +182,7 @@
                            '            </table>' + 
                            '</div>'
                           );
+        
         },
         show_display:function( ) {
             var me =this;
@@ -433,8 +434,14 @@
                     $copy.on("click", remove_opt );
                 }
             };
+           
 
-            var data = {lru_flag: me.options.lru_flag?1:0 };
+            if( me.select_init == 1 && me.options.select_have_id_arr.length>0 ){
+                var data = {lru_flag: me.options.lru_flag?1:0,id_arr:me.options.select_have_id_arr };
+            }else{
+                var data = {lru_flag: me.options.lru_flag?1:0 };
+            }
+
             if (!url){
                 url     = me.options.url  ;
                 var $args=me.$body.find(".filter-arg");
@@ -473,6 +480,7 @@
             }
            
             $.do_ajax(url, data, function(result){
+                me.select_init = 0;
                 if (result.ret!=0) {
                     alert(result.info);
                     return;
