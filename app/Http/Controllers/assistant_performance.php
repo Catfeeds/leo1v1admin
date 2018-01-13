@@ -1024,6 +1024,7 @@ class assistant_performance extends Controller
         foreach($ass_order_info as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item, 'order_time','_str'); 
             \App\Helper\Utils::unixtime2date_for_item($item, 'apply_time','_str'); 
+            \App\Helper\Utils::unixtime2date_for_item($item, 'pay_time','_str'); 
             $item["stu_nick"]= $this->cache_get_student_nick($item["userid"]);
         }
 

@@ -94,7 +94,7 @@
                         <td>{{@$var["user_nick"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
                         <td class="regular_total">
-                            <a class="regular-info" href="javascript:;" >{{@$var["regular_total"]/100}}</a>
+                            <a class="regular-info"  >{{@$var["regular_total"]/100}}</a>
                         </td>
                         <td>
                             <a class="opt-info" href="javascript:;" >{{@$var["lesson_total"]/100}}</a>

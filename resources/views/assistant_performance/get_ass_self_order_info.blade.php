@@ -67,6 +67,7 @@
                     <td>学生名字 </td>
                     <td>orderid</td>
                     <td>下单时间 </td>                  
+                    <td>付款时间 </td>                  
                     <td>合同金额 </td>                  
                     <td>退费申请时间 </td>                  
                     <td>退费金额 </td>                  
@@ -80,6 +81,7 @@
                         <td>{{@$var["stu_nick"]}} </td>                        
                         <td>{{@$var["orderid"]}} </td>                        
                         <td>{{@$var["order_time_str"]}} </td>                        
+                        <td>{{@$var["pay_time_str"]}} </td>                        
                         <td>{{@$var["price"]/100}} </td>                        
                         <td>{{@$var["apply_time_str"]}} </td>                        
                         <td>{{@$var["real_refund"]}} </td>                        
