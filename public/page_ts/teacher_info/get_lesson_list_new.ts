@@ -733,7 +733,7 @@ $(function(){
                         });
                     }
                     if(isNaN(sel_val[1])){
-                        sel_val[1] = tea_sub[0];
+                        sel_val[1] = tea_sub_info[0];
                     }
 
                    if(ret.tea_gra!=undefined){
@@ -743,7 +743,7 @@ $(function(){
                         });
                     }
                        if(isNaN(sel_val[2])){
-                        sel_val[2] = tea_gra[0];
+                        sel_val[2] = tea_gra_info[0];
                     }
 
                    if(ret.book!=undefined){
@@ -752,7 +752,7 @@ $(function(){
                             book_info.push(parseInt(val));
                         });
                     }
-                       if(isNaN(sel_val[3] )){
+                    if(isNaN(sel_val[3] )){
                         sel_val[3] = book_info[0];
                     }
 
