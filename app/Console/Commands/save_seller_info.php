@@ -102,10 +102,12 @@ class save_seller_info extends Command
             $first_group  = '咨询一部';
             $second_group = '咨询二部';
             $third_group  = '咨询三部';
+            $five_group   = '咨询五部';
             $new_group    = '新人营';
             $ret_info['one_department']    = $task->t_admin_group_name->get_group_seller_num($first_group,$start_time);// 咨询一部
             $ret_info['two_department']    = $task->t_admin_group_name->get_group_seller_num($second_group, $start_time);// 咨询二部
             $ret_info['three_department']  = $task->t_admin_group_name->get_group_seller_num($third_group, $start_time);// 咨询三部
+            $ret_info['five_department']   = $task->t_admin_group_name->get_group_seller_num($five_group, $start_time);// 咨询五部
             $ret_info['new_department']    = $task->t_admin_group_name->get_group_seller_num($new_group, $start_time);// 新人营
             $ret_info['train_department']  = 0;// 培训中
         }
