@@ -74,7 +74,8 @@ class tom_do_once extends Command
         }
         */
 
-        $month=$this->option('month');
+        // $month=$this->option('month');
+        $month = '2018-01-13';
         if ($month) {
             $start_time=strtotime( date("Y-m-01", strtotime( $month)) );
             $end_time= strtotime("+1 month",  $start_time );

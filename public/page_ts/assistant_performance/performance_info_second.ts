@@ -64,7 +64,7 @@ $(function(){
     });
 
     $(".opt_kk_suc").on("click",function(){
-        var uid= $(this).data("adminid");
+        var uid= $(this).data("uid");
         if(uid > 0){
             var title = "扩课成功学生详情";
             var html_node= $("<div  id=\"div_table\"><div class=\"col-md-12\" id=\"div_no_lesson\"><div class=\"col-md-4\">未试听扩课:</div></div><br><div class=\"col-md-12\" id=\"div_lesson\"><div class=\"col-md-4\">试听扩课:</div></div><br><div class=\"col-md-12\" id=\"div_all\"><div class=\"col-md-4\">总计:</div></div><br><table   class=\"table table-bordered \"><tr><td>userid</td><td>学生</td><td>科目</td><td>老师</td><td>第一次常规课时间</td><tr></table></div>");
@@ -75,6 +75,10 @@ $(function(){
                 "end_time"   : g_args.end_time
             },function(resp) {
                 var userid_list = resp.data;
+                html_node.find("#div_no_lesson").append("<div class=\"col-md-4\">"+resp.hand_kk_num+"</div>");
+                html_node.find("#div_lesson").append("<div class=\"col-md-4\">"+resp.kk_num+"</div>");
+                html_node.find("#div_all").append("<div class=\"col-md-4\">"+resp.kk_all+"</div>");
+
                 $.each(userid_list,function(i,item){
                     var userid = item["userid"];
                     var nick     = item["nick"]
