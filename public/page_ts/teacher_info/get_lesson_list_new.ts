@@ -722,9 +722,7 @@ $(function(){
                         $.each($(res_type_arr),function(i,val){
                             res_type_list.push(parseInt(val));
                         });
-                    // }
-                },
-                "onshown"          : function(dlg){
+                },"onshown" : function(dlg){
                     if(opt_type == 'my'){
                         $('.my-mark').empty();
                         var cru_str = '<div class="col-xs-12">';
@@ -1281,8 +1279,8 @@ $(function(){
 
     var click_or_change_other = function(name,on_type,html){
         if(on_type==1){
-            html.find("[name="+name+"]:last").parent().on("click",function(){
-                if($(this).hasClass("checked")){
+            html.find("[name="+name+"]:last").on("click",function(){
+                if($(this).is(":checked")){
                     html.find("#"+name+"_more").show();
                 }else{
                     html.find("#"+name+"_more").hide();

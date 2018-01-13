@@ -177,9 +177,9 @@
                             <input name="stu_advantages" type="checkbox" value="表达能力强"/>表达能力强<br/>
                             <input name="stu_advantages" type="checkbox" value="思路清晰"/>思路清晰<br/>
                             <input name="stu_advantages" type="checkbox" value="自信十足"/>自信十足<br/>
-                            <!-- <input name="stu_advantages" type="checkbox" value="其他"/>其他<br/> -->
+                            <input name="stu_advantages" type="checkbox" value="其他"/>其他<br/>
                         </div>
-                        <!-- <input type="text" id="stu_advantages_more" class="form-control" style="display:none"/> -->
+                        <input type="text" id="stu_advantages_more" class="form-control" style="display:none"/>
                     </td>
                 </tr>
                 <tr>
@@ -190,9 +190,9 @@
                             <input name="stu_disadvantages" type="checkbox" value="知识系统化学习"/>知识系统化学习<br/>
                             <input name="stu_disadvantages" type="checkbox" value="语言表达能力的提高"/>语言表达能力的提高<br/>
                             <input name="stu_disadvantages" type="checkbox" value="举一反三的能力"/>举一反三的能力<br/>
-                            <!-- <input name="stu_disadvantages" type="checkbox" value="其他"/>其他<br/> -->
+                            <input name="stu_disadvantages" type="checkbox" value="其他"/>其他<br/>
                         </div>
-                        <!-- <input type="text" id="stu_disadvantages_more" class="form-control" style="display:none"/> -->
+                        <input type="text" id="stu_disadvantages_more" class="form-control" style="display:none"/>
                     </td>
                 </tr>
                 <tr>
