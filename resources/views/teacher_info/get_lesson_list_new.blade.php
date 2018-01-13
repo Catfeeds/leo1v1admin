@@ -8,7 +8,10 @@
 <script type="text/javascript" src="/js/jquery.md5.js"></script>
 <script type="text/javascript" src="/page_js/lib/select_resource_ajax.js"></script>
 <script type="text/javascript" src="/js/pdfobject.js"></script>
+<script>
+ var is_full_time = {{$is_full_time}};
 
+</script>
 <style>
  textarea{
      resize:both;
@@ -27,11 +30,9 @@
  }
 </style>
 <section class="content li-section">
-
     <div class="row">
-
         <div class="col-xs-12 col-md-4">
-            <div class="input-group "  >
+            <div class="input-group">
                 <span >日期</span>
                 <input type="text" id="id_start_date" class="opt-change form-control input-group-addon  "/>
                 <span >-</span>

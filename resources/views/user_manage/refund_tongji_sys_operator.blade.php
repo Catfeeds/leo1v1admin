@@ -49,11 +49,19 @@
                     <tr>
                         <td>{{@$var["sys_operator"]}} </td>
                         <td>{{@$var["type_str"]}} </td>
-                        <td>{{@$var["one_year_per"]}}% </td>
-                        <td>{{@$var["half_year_per"]}}% </td>
-                        <td>{{@$var["three_month_per"]}}% </td>
+                        <td>{{@$var["one_year_per"]}}% 
+                            ( {{@$var['one_year_refund_num']}} /{{@$var['one_year_num']}}  )
+                        </td>
+                        <td>{{@$var["half_year_per"]}}% 
+                            ( {{@$var['half_year_refund_num']}} /{{@$var['half_year_num']}}  )
+                        </td>
+                        <td>{{@$var["three_month_per"]}}% 
+                            ( {{@$var['three_month_refund_num']}} /{{@$var['three_month_num']}}  )
+                        </td>
 
-                        <td>{{@$var["one_month_per"]}}% </td>
+                        <td>{{@$var["one_month_per"]}}% 
+                            ( {{@$var['one_month_refund_num']}} /{{@$var['one_month_num']}}  )
+                        </td>
                         <td>{{@$var["one_month_num"]}} </td>
                         <td>{{@$var["one_month_refund_num"]}} </td>
                         <td>{{@$var["apply_num"]}} </td>
@@ -67,6 +75,7 @@
                     </tr>
                 @endforeach
             </tbody>
+
         </table>
         @include("layouts.page")
     </section>

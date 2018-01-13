@@ -431,6 +431,19 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_row($sql);
     }
 
+    public function get_stu_performance_for_seller_by_lessonid($lessonid){
+        $sql = $this->gen_sql("select stu_lesson_content,stu_lesson_status,stu_study_status,stu_advantages,"
+                              ." stu_disadvantages,stu_lesson_plan,stu_teaching_direction,stu_advice"
+                              ." from %s t"
+                              ." left join %s l on l.require_id = t.require_id"
+                              ." where l.lessonid=%u"
+                              ,self::DB_TABLE_NAME
+                              ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                              ,$lessonid
+        );
+        return $this->main_get_row($sql);
+    }
+
     public function get_plan_course_info($start_time,$end_time){
         $where_arr=[
             ["require_time >= %u",$start_time,-1],

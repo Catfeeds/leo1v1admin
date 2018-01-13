@@ -102,11 +102,17 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
         $where_arr = $this->lesson_start_sql($start_time,$end_time,"l");
 
         $sql = $this->gen_sql_new("select id,l.lessonid,l.lesson_start,l.lesson_end"
-                                  ." from %s "
+                                  ." from %s tf"
+                                  ." left join %s l on tf.lessonid=l.lessonid"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
     }
+
+
+
+
 }

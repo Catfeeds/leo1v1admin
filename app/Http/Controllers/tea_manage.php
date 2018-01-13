@@ -2787,7 +2787,18 @@ class tea_manage extends Controller
         return $this->output_succ();
     }
 
-     public function set_stu_performance_for_seller(){
+    public function get_stu_performance_for_seller(){
+        $lessonid=$this->get_in_int_val("lessonid");
+
+        $stu_info=$this->t_test_lesson_subject_require->get_stu_performance_for_seller_by_lessonid($lessonid);
+        if(empty($stu_info)){
+            $stu_info=$this->t_seller_student_info->get_stu_performance_for_seller($lessonid);
+        }
+
+        return outputjson_success(array("data"=>$stu_info));
+    }
+
+    public function set_stu_performance_for_seller(){
         $lessonid               = $this->get_in_int_val("lessonid");
         $stu_lesson_content     = $this->get_in_str_val("stu_lesson_content");
         $stu_lesson_status      = $this->get_in_str_val("stu_lesson_status");
@@ -3271,4 +3282,5 @@ class tea_manage extends Controller
     public function auto_rank_lesson(){
         return 1;
     }
+
 }

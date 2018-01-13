@@ -102,8 +102,6 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
                 break;
             //文本
             case 'text':
-                \App\Helper\Utils::logger('text11');
-
                 $data = self::text($request);
                 break;
             //图像
@@ -175,6 +173,13 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
 
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
 
+        /**
+         * @ 此处用户发送消息, 存取到数据库
+         * @ 后台页面展示 客户姓名,昵称,消息内容,发送时间,是否可以收到回复信息
+         * @ 
+         * @
+         * @
+         */
 
 
 

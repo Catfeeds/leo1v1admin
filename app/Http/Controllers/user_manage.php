@@ -121,7 +121,6 @@ class user_manage extends Controller
             $item["cache_nick"]        = $this->cache_get_student_nick($item["userid"]) ;
             \App\Helper\Utils::unixtime2date_for_item($item,"reg_time");
         }
-        //dd($ret_info);
         return $this->Pageview(__METHOD__,$ret_info);
     }
 
@@ -168,6 +167,8 @@ class user_manage extends Controller
             E\Egrade::set_item_value_str($item);
             $item["duration"]= \App\Helper\Common::get_time_format($item["duration"]);
         }
+
+
         return $this->Pageview(__METHOD__,$ret_info);
     }
 
@@ -3264,11 +3265,12 @@ class user_manage extends Controller
             $value['three_month_refund_num'] = 0;
             $value['one_month_refund_num'] = 0;
         }
-
         foreach ($ret_info as $key => $value) {
+
+            if($key == "袁兴运" || $key == "吴峰"){
+                var_dump($value);
+            }
             if(isset($ret[$key])){//添加
-                $ret[$key]['sys_operator'] = $value['sys_operator'];
-                $ret[$key]['type']         = $this->t_manager_info->get_account_role_by_name($key);
                 $ret[$key]['one_year_num'] = $value['one_year_num'];
                 $ret[$key]['half_year_num'] = $value['half_year_num'];
                 $ret[$key]['three_month_num'] = $value['three_month_num'];
@@ -3278,24 +3280,33 @@ class user_manage extends Controller
                 $ret[$key]['half_year_refund_num'] = $value['half_year_refund_num'];
                 $ret[$key]['three_month_refund_num'] = $value['three_month_refund_num'];
                 $ret[$key]['one_month_refund_num'] = $value['one_month_refund_num'];
+
+                if(!isset($ret[$key]['apply_num']) ||$ret[$key]['apply_num'] == '' ){
+                   $ret[$key]['apply_num'] = 0; 
+                }
             }else{
                 $ret[$key] = $value;
                 $ret[$key]['apply_num'] = 0;
-                $ret[$key]['type'] = $this->t_manager_info->get_account_role_by_name($key);
             }
         }
-        dd($ret);
+
         //deal
         foreach ($ret as $key => &$value) {
-            $value['type_str'] = E\Eaccount_role::get_desc($value['type']);
+            if($value['type'] == 1){
+                $value['type_str'] = "助教";
+            }elseif($value['type'] == 2){
+                $value['type_str'] = "销售";
+            }else{
+                $value['type_str'] = "其他";
+            }
             $value['one_year_per'] = $value['one_year_num'] > 0? round(100*$value['one_year_refund_num']/$value['one_year_num'],2) : 0;
             $value['half_year_per'] = $value['half_year_num'] > 0? round(100*$value['half_year_refund_num']/$value['half_year_num'],2) : 0;
             $value['three_month_per'] = $value['three_month_num'] > 0? round(100*$value['three_month_refund_num']/$value['three_month_num'],2) : 0;
             $value['one_month_per'] = $value['one_month_num'] > 0? round(100*$value['one_month_refund_num']/$value['one_month_num'],2) : 0;
         }
-
+        dd($ret);
         $ret_arr = \App\Helper\Utils::array_to_page($page_num,$ret);
-        return $this->pageView(__METHOD__, $ret_arr);
+        return $this->Pageview(__METHOD__,$ret_arr);
     }
 
     /**
