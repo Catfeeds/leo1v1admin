@@ -2528,6 +2528,8 @@ class teacher_info extends Controller
             if($is_js){
                 return $this->output_err("暂未开放，敬请期待！");
             } else {
+                // return $this->pageView( __METHOD__,[],['no_pawer' => 1]);
+
                 return $this->error_view([
                     "暂未开放，敬请期待！"
                 ]);
@@ -3138,7 +3140,7 @@ class teacher_info extends Controller
     public function check_teacher_type(){
         $teacherid  = $this->get_login_teacher();
         $tea_info  = $this->t_teacher_info->get_teacher_info($teacherid);
-        if( ($tea_info['teacher_money_type']=0 && $tea_info['teacher_type=3']) || ($tea_info['teacher_money_type']=7) ){
+        if( ($tea_info['teacher_money_type']==0 && $tea_info['teacher_type']==3) || ($tea_info['teacher_money_type']==7) ){
             return 1;
         }
         return 0;
