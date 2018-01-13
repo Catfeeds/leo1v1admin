@@ -40,8 +40,18 @@ class get_ass_stu_info_update extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
 
-        // $start_time = strtotime("2017-12-01");
-        // $end_time = strtotime("2018-01-01");
+        $start_time = strtotime("2017-12-01");
+        $end_time = strtotime("2018-01-01");
+        $kk_suc= $task->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time);
+        $ass_month = $task->t_month_ass_student_info->get_ass_month_info($start_time);
+        foreach($ass_month as $k=>$val){
+            $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,[
+                "kk_num"  =>@$kk_suc[$k]["lesson_count"]
+            ]);
+        }
+        dd($kk_suc);
+
+
         // $last_month = strtotime(date("Y-m-01",$start_time-100));
         // $month_middle = $start_time+15*86400;
         // // $ass_list = $task->t_manager_info->get_adminid_list_by_account_role_new(1,$start_time,1);
