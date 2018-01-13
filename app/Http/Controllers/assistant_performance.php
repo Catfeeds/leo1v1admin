@@ -590,6 +590,9 @@ class assistant_performance extends Controller
             $seller_stu_num = $item["seller_week_stu_num"];
             $seller_lesson_count = $item["seller_month_lesson_count"];
             $estimate_month_lesson_count = $item["estimate_month_lesson_count"];
+            if(empty($estimate_month_lesson_count)){
+                $estimate_month_lesson_count=100;
+            }
             if(empty($seller_stu_num)){
                 $lesson_count_finish_per=0;
             }else{
