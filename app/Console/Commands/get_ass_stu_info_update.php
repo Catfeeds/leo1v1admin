@@ -294,7 +294,6 @@ class get_ass_stu_info_update extends Command
         $new_info          = $task->t_student_info->get_new_assign_stu_info($start_time,$end_time);
         $end_stu_info_new  = $task->t_student_info->get_end_class_stu_info($start_time,$end_time);
         $lesson_info       = $task->t_lesson_info_b2->get_ass_stu_lesson_list($start_time,$end_time);
-        dd($lesson_info);
 
 
         //主管2数据
