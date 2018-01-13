@@ -698,8 +698,9 @@ $(function(){
                 //加载数据后，其它的设置
                 "onLoadData"       : function(dlg, ret){
                     ret_data = ret;
-                },"onshown" : function(dlg,ret){
+                },"onshown" : function(dlg){
                     dlg_tr = ret_data.crumbs;
+                    console.log(ret_data)
                     if(ret_data.book!=undefined){
                         var book_arr = ret_data.book.split(',');
                         $.each($(book_arr),function(i,val){
