@@ -343,6 +343,7 @@ class get_ass_stu_info_update extends Command
         list($first_week,$last_week,$n) = $task->get_seller_week_info($start_time, $end_time);//销售月拆解       
         $registered_student_num=$this->get_register_student_list($first_week,$n);//销售月助教在册学生总数获取
         $seller_month_lesson_count = $task->t_manager_info->get_assistant_lesson_count_info($first_week,$last_week+7*86400);//销售月总课时
+        dd([$registered_student_num,$seller_month_lesson_count]);
         $first_subject_list = $this->get_ass_stu_first_lesson_subject_info($start_time,$end_time);//生成助教学生第一次课信息(按科目)
 
         list($first_week_next,$last_week_next,$n_next) = $task->get_seller_week_info($end_time, strtotime("+1 months",$end_time));//销售月拆解     
@@ -444,7 +445,7 @@ class get_ass_stu_info_update extends Command
                 "seller_week_stu_num"   =>$item["seller_week_stu_num"],
                 "seller_month_lesson_count"=>$item["seller_month_lesson_count"],
                 "kpi_lesson_count_finish_per"=>$item["kpi_lesson_count_finish_per"]*100,
-                "estimate_month_lesson_count" =>$item["estimate_month_lesson_count"],//临时更新一次(月初生成)
+                //  "estimate_month_lesson_count" =>$item["estimate_month_lesson_count"],//临时更新一次(月初生成)
                 "performance_cc_tran_num"  =>$item["performance_cc_tran_num"],
                 "performance_cc_tran_money"=>$item["performance_cc_tran_money"],
                 "performance_cr_renew_num" =>$item["performance_cr_renew_num"],
