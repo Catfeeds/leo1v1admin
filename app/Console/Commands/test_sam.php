@@ -88,7 +88,7 @@ class test_sam extends Command
         */
         
 
-        /*
+        
         $time = [
             ['start_time' => 1506787200,'end_time' => 1509465600], //10
             ['start_time' => 1509465600,'end_time' => 1512057600], //11
@@ -128,9 +128,9 @@ class test_sam extends Command
             $file_name = $month.'sam_subject_grade_phone_location';
             $arr_title = ['科目',"年级","省份","数量"];
             $arr_data  = ['subject','grade','phone_location','num'];
-            //$ret_file_name = \App\Helper\Utils::download_txt($file_name,$res,$arr_title,$arr_data);
+            $ret_file_name = \App\Helper\Utils::download_txt($file_name,$res,$arr_title,$arr_data);
         }
-        */
+        exit;
         /*
         $time = [
             ['start_time' => 1506787200,'end_time' => 1509465600], //10
