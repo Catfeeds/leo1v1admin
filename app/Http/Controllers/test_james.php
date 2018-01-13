@@ -1646,9 +1646,9 @@ class test_james extends Controller
         // $auth=$store->get_auth();
         $file_link = $this->get_in_str_val('f');
 
-        $a =  $this->get_pdf_download_url($file_link);
+        // $a =  $this->get_pdf_download_url($file_link);
 
-        dd($a);
+        // dd($a);
         $config=\App\Helper\Config::get_config("qiniu");
         $bucket_info=$config["private_url"]['url'];
 
