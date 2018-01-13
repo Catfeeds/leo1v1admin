@@ -110,8 +110,9 @@
                         <td class="status">{{@$var["is_done_str"]}}</td>
                         <td>
                             <div class="row-data"
-                                {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
+                                <a class="fa fa-list course_plan" title="按课程包排课"> </a>
 
                             </div>
                         </td>
