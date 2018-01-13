@@ -217,11 +217,7 @@ class get_ass_stu_info_update extends Command
         //更新助教信息
         $start_time = strtotime(date("Y-m-01",time()-86400));
         $end_time = strtotime(date("Y-m-01",$start_time+40*86400));
-        list($first_week,$last_week,$n) = $task->get_seller_week_info($start_time, $end_time);//销售月拆解       
-        $registered_student_num=$this->get_register_student_list($first_week,$n);//销售月助教在册学生总数获取
-        $seller_month_lesson_count = $task->t_manager_info->get_assistant_lesson_count_info($first_week,$last_week+7*86400);//销售月总课时
-        dd($registered_student_num);
-
+       
         //$start_time = strtotime(date("2017-08-01"));
         // $end_time = strtotime(date("2017-09-01"));
 
@@ -348,7 +344,6 @@ class get_ass_stu_info_update extends Command
         list($first_week,$last_week,$n) = $task->get_seller_week_info($start_time, $end_time);//销售月拆解       
         $registered_student_num=$this->get_register_student_list($first_week,$n);//销售月助教在册学生总数获取
         $seller_month_lesson_count = $task->t_manager_info->get_assistant_lesson_count_info($first_week,$last_week+7*86400);//销售月总课时
-        dd([$registered_student_num,$seller_month_lesson_count]);
         $first_subject_list = $this->get_ass_stu_first_lesson_subject_info($start_time,$end_time);//生成助教学生第一次课信息(按科目)
 
         list($first_week_next,$last_week_next,$n_next) = $task->get_seller_week_info($end_time, strtotime("+1 months",$end_time));//销售月拆解     
@@ -436,7 +431,7 @@ class get_ass_stu_info_update extends Command
             $item["seller_week_stu_num"] = round(@$registered_student_num[$k]/$n,1);//销售月周平均学生数
             $item["seller_month_lesson_count"] = @$seller_month_lesson_count[$k]["lesson_count"];//销售月总课时
             $registered_student_list_last = @$ass_last_month[$k]["registered_student_list"];
-            list($item["kpi_lesson_count_finish_per"],$item["estimate_month_lesson_count"])= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$item["seller_week_stu_num"],$n,$item["seller_month_lesson_count"]);
+            list($item["kpi_lesson_count_finish_per"],$estimate_month_lesson_count)= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$item["seller_week_stu_num"],$n,$item["seller_month_lesson_count"]);
             $item["performance_cc_tran_num"] = @$performance_cc_tran_list[$k]["num"];
             $item["performance_cc_tran_money"] = @$performance_cc_tran_list[$k]["money"];
             $item["performance_cr_renew_num"] = @$performance_cr_renew_list[$k]["num"];
@@ -444,13 +439,22 @@ class get_ass_stu_info_update extends Command
             $item["performance_cr_new_num"] = @$performance_cr_new_list[$k]["num"];
             $item["performance_cr_new_money"] = @$performance_cr_new_list[$k]["money"];
 
+            //月初预估课时数据补充
+            if($item["estimate_month_lesson_count"]==0){
+                if($registered_student_list_last){
+                    $item["estimate_month_lesson_count"]= $estimate_month_lesson_count;
+                }else{
+                    $item["estimate_month_lesson_count"]=100;
+                }
+            }
+
             $update_arr =  [
                 "first_lesson_stu_list" =>$item["first_lesson_stu_list"],
                 "revisit_reword_per"    =>$item["revisit_reword_per"]*100,
                 "seller_week_stu_num"   =>$item["seller_week_stu_num"],
                 "seller_month_lesson_count"=>$item["seller_month_lesson_count"],
                 "kpi_lesson_count_finish_per"=>$item["kpi_lesson_count_finish_per"]*100,
-                //  "estimate_month_lesson_count" =>$item["estimate_month_lesson_count"],//临时更新一次(月初生成)
+                "estimate_month_lesson_count" =>$item["estimate_month_lesson_count"],//临时更新一次(月初生成)
                 "performance_cc_tran_num"  =>$item["performance_cc_tran_num"],
                 "performance_cc_tran_money"=>$item["performance_cc_tran_money"],
                 "performance_cr_renew_num" =>$item["performance_cr_renew_num"],
@@ -503,6 +507,7 @@ class get_ass_stu_info_update extends Command
             }else{
                 $update_arr["adminid"] =$k;
                 $update_arr["month"]   =$start_time;
+                $update_arr["kpi_type"]   =1;
                 $task->t_month_ass_student_info->row_insert($update_arr);
             }
 

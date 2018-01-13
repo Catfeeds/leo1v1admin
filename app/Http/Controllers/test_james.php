@@ -1753,6 +1753,10 @@ class test_james extends Controller
     }
 
     public function doTest(){
+        $unbound_list = $this->t_teacher_info->get_unbound_teacher_list();
+        dd($unbound_list);
+        $onlineTime = strtotime('2018-01-17');
+        dd($onlineTime);
         $pdf_url = $this->get_in_str_val('p');
         $store=new \App\FileStore\file_store_tea();
         $auth=$store->get_auth();

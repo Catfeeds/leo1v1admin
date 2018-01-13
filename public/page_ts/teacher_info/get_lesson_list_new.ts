@@ -549,7 +549,7 @@ $(function(){
             var ret_func = function(ret){
                  if(ret.ret == 0){
 
-                     if(is_tea_flag>0){
+                     // if(is_tea_flag>0){
 
                          $('.look-pdf').show();
                          $('.look-pdf-son').mousedown(function(e){
@@ -559,9 +559,9 @@ $(function(){
                          });
                          PDFObject.embed(ret.url, ".look-pdf-son");
                          $('.look-pdf-son').css({'width':'120%','height':'120%','margin':'-10%'});
-                     } else {
-                         $.wopen(ret.url);
-                     }
+                     // } else {
+                     //     $.wopen(ret.url);
+                     // }
 
                  } else {
                     BootstrapDialog.alert(ret.info);
@@ -697,33 +697,40 @@ $(function(){
                 "onChange"         : null,
                 //加载数据后，其它的设置
                 "onLoadData"       : function(dlg, ret){
-                    ret_data = ret;
-                },"onshown" : function(dlg,ret){
-                    dlg_tr = ret_data.crumbs;
-                    if(ret_data.book!=undefined){
-                        var book_arr = ret_data.book.split(',');
+                    console.log(ret);
+                    dlg_tr = ret.crumbs;
+                    console.log(ret_data)
+                    if(ret.book!=undefined){
+                        var book_arr = ret.book.split(',');
                         $.each($(book_arr),function(i,val){
                             book_info.push(parseInt(val));
                         });
                     }
-                    if(ret_data.tea_sub!=undefined){
-                        var tea_sub_arr = ret_data.tea_sub.split(',');
+                    if(ret.tea_sub!=undefined){
+                        var tea_sub_arr = ret.tea_sub.split(',');
                         $.each($(tea_sub_arr),function(i,val){
                             tea_sub_info.push(parseInt(val));
                         });
                     }
-                    if(ret_data.tea_gra!=undefined){
-                        var tea_gra_arr = ret_data.tea_gra.split(',');
+                    if(ret.tea_gra!=undefined){
+                        var tea_gra_arr = ret.tea_gra.split(',');
                         $.each($(tea_gra_arr),function(i,val){
                             tea_gra_info.push(parseInt(val));
                         });
                     }
-                    if(ret_data.type_list!=undefined){
-                        var res_type_arr = ret_data.type_list.split(',');
+                    if(ret.type_list!=undefined){
+                        var res_type_arr = ret.type_list.split(',');
                         $.each($(res_type_arr),function(i,val){
                             res_type_list.push(parseInt(val));
                         });
                     }
+                    $('.leo-resource_type select,.leo-subject select,.leo-grade select,.leo-tag_one select').empty();
+                        Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,res_type_list);
+                        Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
+                        Enum_map.append_option_list("grade",$('.leo-grade select'), true, tea_gra_info);
+                        Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
+
+                },"onshown" : function(dlg){
 
                     if(opt_type == 'my'){
                         $('.my-mark').empty();
@@ -747,10 +754,9 @@ $(function(){
                             });
                         });
                     } else {
-                        Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,res_type_list);
-                        Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
-                        Enum_map.append_option_list("grade",$('.leo-grade select'), true, tea_gra_info);
-                        Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
+                        // Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,res_type_list);
+                        // Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
+                        // Enum_map.append_option_list("grade",$('.leo-grade select'), true, tea_gra_info);
                         Enum_map.append_option_list("resource_season",$('.leo-tag_two select'));
                         $('.leo-tag_two').nextAll().hide();
                         $('.leo-resource_type select').change(function(){

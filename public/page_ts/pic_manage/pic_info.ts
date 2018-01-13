@@ -110,6 +110,11 @@ $(function(){
             html_node.find(".add_jump_type").val(item.jump_type);
             html_node.find(".add_start_date").val(item.start_time);
             html_node.find(".add_end_date").val(item.end_time);
+            var start = Date.parse(new Date(item.start_time));
+            var current = Date.parse(new Date(min_date));
+            if (start < current) {
+                min_date = 0;
+            }
         }
 
         var title = "";
