@@ -615,7 +615,7 @@ $(function(){
                 $('.opt-my-res,.opt-leo-res').attr('upload_id', obj.attr('id'));
             }
         }
-        var book_info = [],tea_sub_info = [], tea_gra_info = [];
+        var book_info = [],tea_sub_info = [], tea_gra_info = [], res_type_list = [];
         var dlg_tr = {};
         var get_res = function(ajax_url,opt_type,btn_type,dir_id){
             $("<div></div>").tea_select_res_ajax({
@@ -713,7 +713,11 @@ $(function(){
                     $.each($(tea_gra_arr),function(i,val){
                         tea_gra_info.push(parseInt(val));
                     });
-                    dlg_tr = ret.crumbs;
+                    var res_type_arr = ret.type_list.split(',');
+                    $.each($(res_type_arr),function(i,val){
+                        res_type_list.push(parseInt(val));
+                    });
+                   dlg_tr = ret.crumbs;
                 },
                 "onshown"          : function(dlg){
                     if(opt_type == 'my'){
@@ -738,7 +742,7 @@ $(function(){
                             });
                         });
                     } else {
-                        Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,[1,2,3]);
+                        Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,res_type_list);
                         Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
                         Enum_map.append_option_list("grade",$('.leo-grade select'), true, tea_gra_info);
                         Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
@@ -905,10 +909,14 @@ $(function(){
 
         $('.opt-leo-res,.opt-my-res').unbind('click');
         $('.opt-leo-res').on('click',function(){
-            if($(this).hasClass('unbind')){
-                get_res('/teacher_info/get_leo_resource', 'leo_one',$(this).attr('upload_id'));
-            }else {
-                get_res('/teacher_info/get_leo_resource', 'leo');
+            if(is_full_time ==1){
+                if($(this).hasClass('unbind')){
+                    get_res('/teacher_info/get_leo_resource', 'leo_one',$(this).attr('upload_id'));
+                }else {
+                    get_res('/teacher_info/get_leo_resource', 'leo');
+                }
+            } else {
+                BootstrapDialog.alert("暂未开放，敬请期待!");
             }
         });
 

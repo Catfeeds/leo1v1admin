@@ -8,6 +8,10 @@
 <script type="text/javascript" src="/js/jquery.md5.js"></script>
 <script type="text/javascript" src="/page_js/lib/select_resource_ajax.js"></script>
 <script type="text/javascript" src="/js/pdfobject.js"></script>
+<script>
+ var is_full_time = {{$is_full_time}};
+
+</script>
 
 <style>
  textarea{

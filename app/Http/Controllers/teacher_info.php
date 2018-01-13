@@ -154,8 +154,13 @@ class teacher_info extends Controller
             }
         }
         $student_list = $this->t_lesson_info->get_student_list($teacherid,$start_time,$end_time);
+
+        //检测老师是不是全职
+        $is_full_time = $this->check_teacher_type();
+
         return $this->pageView(__METHOD__,$ret_info,[
-            "student_list" => $student_list
+            "student_list" => $student_list,
+            "is_full_time" => $is_full_time
         ]);
     }
 
@@ -2514,6 +2519,20 @@ class teacher_info extends Controller
     }
 
     public function get_leo_resource(){
+        //兼容js调用
+        $is_js = $this->get_in_int_val('is_js', 0);
+
+        //检测老师是不是全职
+        $is_full_time = $this->check_teacher_type();
+        if($is_full_time == 0){
+            if($is_js){
+                return $this->output_err("暂未开放，敬请期待！");
+            } else {
+                return $this->error_view([
+                    "暂未开放，敬请期待！"
+                ]);
+            }
+        }
         //获取老师科目年级段
         $tea_info = $this->get_rule_range();
 
@@ -2561,12 +2580,14 @@ class teacher_info extends Controller
         // $file_title    = $this->get_in_str_val('file_title', '');
         $page_info     = $this->get_in_page_info();
 
-        //兼容js调用
-        $is_js = $this->get_in_int_val('is_js', 0);
-
         if($is_js){//只有三种可以用
             $resource_type = $resource_type<1?1:$resource_type;
             $resource_type = $resource_type>3?3:$resource_type;
+            foreach($type_list as $k=>$v){
+                if( $v>3 ){
+                    unset($type_list[$k]);
+                }
+            }
         }else{
             $resource_type = $resource_type<1?1:$resource_type;
             $resource_type = $resource_type>6?6:$resource_type;
@@ -3114,5 +3135,13 @@ class teacher_info extends Controller
         return false;
     }
 
+    public function check_teacher_type(){
+        $teacherid  = $this->get_login_teacher();
+        $tea_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+        if( ($tea_info['teacher_money_type']=0 && $tea_info['teacher_type=3']) || ($tea_info['teacher_money_type']=7) ){
+            return 1;
+        }
+        return 0;
+    }
 
 }
