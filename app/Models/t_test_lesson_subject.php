@@ -682,7 +682,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
                                   ." and ll.userid = l.userid "
                                   ." and ll.subject = l.subject "
                                   ." and ll.lesson_start= "
-                                  ." (select min(lesson_start) from %s where teacherid =l.teacherid and userid=l.userid and subject = l.subject and lesson_type in (0,3) and lesson_status =2 and confirm_flag in (0,1)) and ll.lesson_start>= %u and ll.lesson_start < %u) "
+                                  ." (select min(lesson_start) from %s where teacherid =l.teacherid and userid=l.userid and subject = l.subject and lesson_type in (0,3) and lesson_status =2 and confirm_flag in (0,1) and lesson_del_flag=0) and ll.lesson_start>= %u and ll.lesson_start < %u) "
                                   ." left join %s s on t.userid= s.userid"
                                   ." left join %s tt on l.teacherid = tt.teacherid"
                                   ." left join %s a on s.assistantid = a.assistantid"
