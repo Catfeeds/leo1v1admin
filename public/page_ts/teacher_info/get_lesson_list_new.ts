@@ -174,7 +174,6 @@ $(function(){
                     $.custom_upload_file_process(
                         btn_id, 0,
                         function(up, info, file, lesson_info) {
-                            // console.log(info)
                             var res = $.parseJSON(info);
                             if(res.key!=''){
                                 set_url_fun(res.key);
@@ -200,7 +199,6 @@ $(function(){
                 }
             }
         }
-        //console.log(id_item);
         return id_item;
     };
 
@@ -244,7 +242,6 @@ $(function(){
         $.do_ajax("/common/get_bucket_info",{
             is_public : 0
         },function(ret){
-            // console.log(opt_data)
             var id_student = gen_upload_item(
                 btn_student_upload_id,stu_status,
                 "l_stu_"+opt_data.lessonid,
@@ -700,7 +697,6 @@ $(function(){
                 "onChange"         : null,
                 //加载数据后，其它的设置
                 "onLoadData"       : function(dlg, ret){
-                    console.log(ret);
                     var book_arr = ret.book.split(',');
                     $.each($(book_arr),function(i,val){
                         book_info.push(parseInt(val));
@@ -935,8 +931,6 @@ $(function(){
     }
 
     var check_lesson_info = function(obj,value,par_flag){
-        console.log(obj)
-        console.log(value)
         var str = $.trim(obj.val());
         if(par_flag==1){
             var obj_name    = obj.parent().parent().parent().siblings().text();
@@ -967,7 +961,7 @@ $(function(){
         var opt_data    = $(this).get_opt_data();
         var lessonid    = opt_data.lessonid;
         var lesson_type = opt_data.lesson_type;
-        var tea_comment = opt_data.tea_comment_str;
+        var tea_comment = opt_data.tea_comment;
         if(lesson_type!=2 && !(opt_data.lesson_type==1100 && opt_data.train_type==4)){
             set_stu_performance(lessonid);
         }else{
@@ -980,9 +974,9 @@ $(function(){
         var $homework_situation = $("<select></select>");
         var $content_grasp      = $("<select></select>");
         var $lesson_interact    = $("<select></select>");
-        var $point_note_list    = $("<textarea/> ");
-        var $point_note_list2   = $("<textarea/> ");
-        var $stu_comment        = $("<textarea/> ");
+        var $point_note_list    = $("<textarea/>");
+        var $point_note_list2   = $("<textarea/>");
+        var $stu_comment        = $("<textarea/>");
         var point_name          = '';
         var point_name2         = '';
         var point_stu_desc      = '';
@@ -997,7 +991,6 @@ $(function(){
             "lessonid":lessonid
         },function(result){
             if(result.total_judgement){
-                console.table(result)
                 $total_judgement.val(result.total_judgement);
                 $homework_situation.val(result.homework_situation);
                 $content_grasp.val(result.content_grasp);
@@ -1144,7 +1137,7 @@ $(function(){
                     var stu_lesson_plan        = get_value("stu_lesson_plan",3,html_node,"其他");
                     var stu_teaching_direction = get_value("stu_teaching_direction",3,html_node,"课外知识");
                     var stu_advice             = html_node.find("#stu_advice").val();
-                    console.log(stu_advantages);
+
                     if(stu_lesson_content=='' || stu_advantages=='' || stu_disadvantages=='' ||
                        stu_lesson_plan=='' || stu_teaching_direction=='' || stu_advice==''){
                         BootstrapDialog.alert("请确认所有输入框是否有输入内容!");
@@ -1180,9 +1173,13 @@ $(function(){
         var value = '';
         if(on_type==1){
             html.find("[name='"+name+"']").each(function(){
-                if($(this).is("checked")){
+                if($(this).is(":checked")){
                     if($(this).val() != check_value){
-                        value += $(this).val()+",";
+                        if(value==""){
+                            value += $(this).val();
+                        }else{
+                            value += ","+$(this).val();
+                        }
                     }else{
                         var other_value = html.find("#"+name+"_more").val();
                         if(other_value != ''){
@@ -1211,19 +1208,19 @@ $(function(){
         return value;
     };
 
-
     var get_checkbox = function(arr,name,html){
         if(arr instanceof String){
             var num=0;
             html.find("[name='"+name+"']").each(function(){
                 if(arr==$(this).val()){
-                    $(this).parent().addClass("checked");
+                    $(this).attr("checked","checked");
                 }else{
                     num++;
                 }
             });
             if(num>=4){
-                html.find("[name='"+name+"']:last").parent().addClass("checked");
+                // html.find("[name='"+name+"']:last").parent().addClass("checked");
+                html.find("[name='"+name+"']:last").attr("checked","checked");
                 html.find("#"+name+"_more").show();
                 html.find("#"+name+"_more").val(arr);
             }
@@ -1233,13 +1230,13 @@ $(function(){
                 var num=0;
                 html.find("[name='"+name+"']").each(function(){
                     if(v==$(this).val()){
-                        $(this).parent().addClass("checked");
+                        $(this).attr("checked","checked");
                     }else{
                         num++;
                     }
                 });
                 if(k==length-1 && num>4){
-                    html.find("[name='"+name+"']:last").parent("div").addClass("checked");
+                    html.find("[name='"+name+"']:last").attr("checked","checked");
                     html.find("#"+name+"_more").show();
                     html.find("#"+name+"_more").val(v);
                 }

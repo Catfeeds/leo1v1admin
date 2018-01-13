@@ -335,6 +335,7 @@ class NewRouteConfig {
         "/tea_manage/update_tea_money"             => true,
         "/tea_manage/get_lesson_name_and_intro"    => true,
         "/tea_manage/set_lesson_info"              => true,
+        "/tea_manage/get_stu_performance_for_seller"=> true,
         "/tea_manage/set_stu_performance_for_seller"=> true,
         "/tea_manage/set_course_name"              => true,
         "/tea_manage/lesson_list"                  => true,

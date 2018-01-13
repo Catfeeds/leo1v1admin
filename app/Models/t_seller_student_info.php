@@ -1143,22 +1143,22 @@ class t_seller_student_info extends \App\Models\Zgen\z_t_seller_student_info
     }
 
     public function get_stu_performance_for_seller($lessonid){
-        $sql=$this->gen_sql("select stu_lesson_content,stu_lesson_status,stu_study_status,stu_advantages,"
-                            ." stu_disadvantages,stu_lesson_plan,stu_teaching_direction,stu_advice"
-                            ." from %s "
-                            ." where st_arrange_lessonid=%u"
-                            //." and status=10"
-                            ,self::DB_TABLE_NAME
-                            ,$lessonid
+        $sql = $this->gen_sql("select stu_lesson_content,stu_lesson_status,stu_study_status,stu_advantages,"
+                              ." stu_disadvantages,stu_lesson_plan,stu_teaching_direction,stu_advice"
+                              ." from %s "
+                              ." where st_arrange_lessonid=%u"
+                              //." and status=10"
+                              ,self::DB_TABLE_NAME
+                              ,$lessonid
         );
         return $this->main_get_row($sql);
     }
 
     public function set_no_connect_for_sync_tq ( $phone ) {
-        $sql=$this->gen_sql_new("update %s set status=2  "
-                                ." where status=0 and  phone like '%s%%' ",
-                                self::DB_TABLE_NAME,
-                                $phone );
+        $sql = $this->gen_sql_new("update %s set status=2  "
+                                  ." where status=0 and  phone like '%s%%' ",
+                                  self::DB_TABLE_NAME,
+                                  $phone );
         return $this->main_update($sql);
     }
 
