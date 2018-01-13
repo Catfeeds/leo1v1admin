@@ -697,6 +697,7 @@ $(function(){
                 "onChange"         : null,
                 //加载数据后，其它的设置
                 "onLoadData"       : function(dlg, ret){
+                    console.log(ret);
                     ret_data = ret;
                 },"onshown" : function(dlg){
                     dlg_tr = ret_data.crumbs;
