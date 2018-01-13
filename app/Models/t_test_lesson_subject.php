@@ -713,7 +713,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             ["ll.lesson_time<=%u",$end_time,0],
         ];
 
-        $sql = $this->gen_sql_new("select distinct l.userid,l.teacherid,l.subject,ll.lesson_start,"
+        $sql = $this->gen_sql_new("select distinct l.userid,l.teacherid,l.subject,ll.lesson_time lesson_start,"
                                   ."s.nick,tt.realname,s.assistantid ,a.nick ass_nick "
                                   ." from %s tss  join %s tr on tss.require_id =tr.require_id"
                                   ." join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id"
@@ -722,7 +722,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
                                   ." left join %s s on t.userid= s.userid"
                                   ." left join %s tt on l.teacherid = tt.teacherid"
                                   ." left join %s a on s.assistantid = a.assistantid"
-                                  ." where %s order by ll.lesson_start desc",
+                                  ." where %s order by ll.lesson_time desc",
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   self::DB_TABLE_NAME,

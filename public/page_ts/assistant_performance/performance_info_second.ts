@@ -67,7 +67,7 @@ $(function(){
         var uid= $(this).data("uid");
         if(uid > 0){
             var title = "扩课成功学生详情";
-            var html_node= $("<div  id=\"div_table\"><div class=\"col-md-12\" id=\"div_no_lesson\"><div class=\"col-md-4\">未试听扩课:</div></div><br><div class=\"col-md-12\" id=\"div_lesson\"><div class=\"col-md-4\">试听扩课:</div></div><br><div class=\"col-md-12\" id=\"div_all\"><div class=\"col-md-4\">总计:</div></div><br><table   class=\"table table-bordered \"><tr><td>userid</td><td>学生</td><td>科目</td><td>老师</td><td>第一次常规课时间</td><tr></table></div>");
+            var html_node= $("<div  id=\"div_table\"><div class=\"col-md-12\" id=\"div_no_lesson\"><div class=\"col-md-4\">未试听扩课:</div></div><br><div class=\"col-md-12\" id=\"div_lesson\"><div class=\"col-md-4\">试听扩课:</div></div><br><div class=\"col-md-12\" id=\"div_all\"><div class=\"col-md-4\">总计:</div></div><br><br><br><table   class=\"table table-bordered \">  <caption align=\"center\">试听扩课详情<tr><td>userid</td><td>学生</td><td>科目</td><td>老师</td><td>第一次常规课时间</td><tr></table></div>");
 
             $.do_ajax('/tongji_ss/get_ass_stu_kk_suc_info',{
                 "adminid"  : uid,
