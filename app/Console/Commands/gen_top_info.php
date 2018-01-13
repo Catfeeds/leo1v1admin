@@ -129,6 +129,12 @@ class gen_top_info extends Command
         $test_lesson_fail_per = $test_lesson_list["list"];
         $test_lesson_all_count= [] ;
         $test_lesson_fail_count= [] ;
+
+        foreach($test_lesson_fail_per as $item){
+            if($item['admin_revisiterid'] == 1298){
+                echo $item['test_lesson_count']."\n";
+            }
+        }
         foreach($test_lesson_fail_per as &$item){
             $adminid=$item["admin_revisiterid"];
             $item["adminid"] = $adminid ;
