@@ -1283,7 +1283,6 @@ class user_manage_new extends Controller
         return $info;
     }
 
-
     public function get_tea_admin_menu_list($power_map)  {
         $start          = 1000000;
         $tea_admin_menu = \App\Helper\Config::get_tea_admin_menu();
