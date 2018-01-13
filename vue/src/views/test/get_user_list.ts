@@ -59,6 +59,7 @@ export default class extends vtable {
       "enum_type"         : "grade",
       "field_name"        : "grade",
       "title"             : "年级",
+      "need_power"        :  "input_grade",
       "select_value"      : this.get_args().grade,
       "multi_select_flag" : true,
       "btn_id_config"     : {},
@@ -76,6 +77,56 @@ export default class extends vtable {
     });
 
 
+
+    $.admin_ajax_select_dlg_ajax({
+      'join_header'  : $header_query_info,
+      "field_name"    : "xmpp_server_id" ,
+      "title"        :  "xmpp_server_id ",
+      "length_css" :" col-md-3  ",
+      "select_value" : this.get_args().xmpp_server_id,
+
+
+
+      "opt_type" :  "select", // or "list"
+      "url"          : "/user_deal/get_xmpp_server_list_js",
+      select_primary_field   : "server_name",
+      select_display         : "server_name",
+      select_no_select_value : "",
+      //select_no_select_title : "[全部]",
+      select_no_select_title : "xmpp服务器",
+      "th_input_id"  : null,
+
+      //其他参数
+      "args_ex" : {
+      },
+      //字段列表
+      'field_list' :[
+        {
+        title:"ip",
+        render:function(val,item) {return item.ip;}
+      },{
+        title:"权重",
+        render:function(val,item) {return item.weights ;}
+      },{
+        title:"名称",
+        render:function(val,item) {return item.server_name;}
+      },{
+
+        title:"说明",
+        render:function(val,item) {return item.server_desc;}
+      }
+      ] ,
+      filter_list: [],
+
+      "auto_close"       : true,
+      //选择
+      "onChange"         : function(v) {
+        $("id_xmpp_server_name").val(v);
+        load_data();
+      },
+      //加载数据后，其它的设置
+      "onLoadData"       : null,
+    });
     $.admin_ajax_select_user({
       'join_header'  : $header_query_info,
       "user_type"    : "student",

@@ -78,6 +78,60 @@ interface JQueryStatic {
         };
     */
     admin_query_input  ( options):any;
+
+    /*
+            "join_header" : null,
+            "field_name"  :null,
+            "title"  :  "",
+            "length_css" : "col-xs-6 col-md-2",
+            "as_header_query" : false ,
+
+            "select_value" :null,
+            "can_select_all_flag"     : true,
+
+
+            "opt_type" :  "select", // or "list"
+            "url"          : "/user_deal/get_xmpp_server_list_js",
+            select_primary_field   : "server_name",
+            select_display         : "server_name",
+            select_no_select_value : "",
+            //select_no_select_title : "[全部]",
+            select_no_select_title : "xmpp服务器",
+            "th_input_id"  : null,
+
+            //其他参数
+            "args_ex" : {
+            },
+            //字段列表
+            'field_list' :[
+                {
+                title:"ip",
+                render:function(val,item) {return item.ip;}
+            },{
+                title:"权重",
+                render:function(val,item) {return item.weights ;}
+            },{
+                title:"名称",
+                render:function(val,item) {return item.server_name;}
+            },{
+
+                title:"说明",
+                render:function(val,item) {return item.server_desc;}
+            }
+            ] ,
+            filter_list: [],
+
+            "auto_close"       : true,
+            //选择
+            "onChange"         : function(v) {
+                $("id_xmpp_server_name").val(v);
+                load_data();
+            },
+            //加载数据后，其它的设置
+            "onLoadData"       : null,
+    */
+    admin_ajax_select_dlg_ajax ( options):any;
+
     admin_query_common ( options):any;
     admin_date_select  ( options):any;
     admin_ajax_select_user ( options):any;
@@ -136,7 +190,7 @@ interface JQueryStatic {
     fiter_obj_field( obj:Object,field_name_list:Array<string> ): any ;
     custom_show_pdf(file_url ,get_abs_url?):void ;
 
-
+  plot(selector,  data_list, config );
 
     /*
       <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>

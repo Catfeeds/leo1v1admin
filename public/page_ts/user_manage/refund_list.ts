@@ -242,12 +242,18 @@ $(function(){
                     should_refund   = $id_should_refund.val()*100;
                     real_refund     = $id_real_refund.val()*100;
                     pay_account     = $id_pay_account.val();
-                    pay_account_admin     = $id_pay_account_admin.val();
+                    pay_account_admin = $id_pay_account_admin.val();
                     var refund_info = $id_refund_info.val();
                     if(refund_info==''){
                         BootstrapDialog.alert("请填写退费原因!");
                         return false;
                     }
+
+                    if(pay_account_admin==''){
+                        BootstrapDialog.alert("支付账号持有人!");
+                        return false;
+                    }
+
 
                     $.do_ajax("/user_manage/set_refund_order", {
                         "userid"            : data.userid,
