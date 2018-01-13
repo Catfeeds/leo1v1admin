@@ -2116,7 +2116,9 @@ class user_manage_new extends Controller
                 $group_all[$role_id][] = $group;
             }
             foreach($group_all as $role=>$var){
-                $group_all[$role] = array_merge($var,$group_common);
+                if($role != 0 && $role != 1003){
+                    $group_all[$role] = array_merge($group_common,$var);
+                }
             }
         }
      
@@ -2124,12 +2126,6 @@ class user_manage_new extends Controller
              
         //选择权限组id
         $groupid  = $this->get_in_int_val("groupid",$default_groupid);
-
-        // $account = $this->get_account();
-
-        // if( in_array($account,['jim','顾培根','孙瞿'])){
-        //     //超级权限
-        // }
 
         $list=[];
         $user_list=[];

@@ -111,5 +111,53 @@ $(function(){
 
     })
 
+
+
+    $('#test_forbid').click(function(){
+        var permission =  "55,59,69";
+        var role = 1;
+        var uid = 218;
+        $.do_ajax("/user_power/get_permission_list",{
+            "permission" : permission,
+            "account_role":role
+        },function(response){
+            var data_list   = [];
+            var select_list = [];
+            var forbid_arr = [];
+            var permit = "";
+            var forbid = "";
+            $.each( response.data,function(){
+                data_list.push([this["groupid"],this["account_role_str"], this["group_name"]]);
+                
+                if (this["has_power"]) {
+                    select_list.push (this["groupid"]) ;
+                };
+                if( this['forbid'] == 1 ){
+                    forbid_arr.push (this["groupid"]) ;                    
+                }
+                if( permit == '' && this['forbid'] == 0 ){                    
+                    permit = this["account_role_str"];                                            
+                }
+            });
+            var forbid_title = "该用户属角色:"+permit+",只有该角色下的权限可以添加或者移除,其他角色下的权限只有超级管理员可以编辑";
+            //console.log(forbid_arr);
+            $(this).admin_select_dlg_forbid({
+                header_list     : [ "id","角色","名称" ],
+                data_list       : data_list,
+                multi_selection : true,
+                select_list     : select_list,
+                forbid_arr      : forbid_arr,
+                forbid_title    : forbid_title,
+                onChange        : function( select_list,dlg) {
+                    $.do_ajax("/authority/set_permission",{
+                        "uid": uid,
+                        "groupid_list":JSON.stringify(select_list),
+                        "old_permission": permission,
+                    });
+                }
+            });
+        }) ;
+ 
+    })
 });
     

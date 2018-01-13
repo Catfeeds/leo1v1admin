@@ -336,8 +336,8 @@ $(function(){
                     data     :data,
                     success : function(result){                        
                         BootstrapDialog.alert(result['info']);
-                        if(result.ret = -1){
-                            //window.location.reload();
+                        if(result.ret == 0){
+                            window.location.reload();
                         }                 
                     }
                 });

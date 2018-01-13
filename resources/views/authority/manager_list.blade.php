@@ -8,6 +8,7 @@
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg.js?v={{@$_publish_version}}"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_forbid.js?v={{@$_publish_version}}"></script>
     <script type="text/javascript" src="/page_js/select_course.js"></script>
     <script type="text/javascript" src="/page_js/select_user.js"></script>
     <script type="text/javascript" >
@@ -181,9 +182,11 @@
                                     <a href="javascript:;" title="设置角色" class="fa fa-venus-double set-account-role"></a>
                                     <a href="javascript:;" title="绑定微信账号" class="fa fa-link opt_set_openid"></a>
                                     <a href="javascript:;" title="更改员工状态" class="fa fa-trash-o  opt-del"></a>
-                                    @if(in_array($account,['何洁','孙瞿',"jim"]))
-                                        <a href="javascript:;" title="更改权限组" class="fa fa-hand-o-up opt-power"></a>
+                                    @if(in_array($account,['孙瞿',"jim","顾培根"]))
+                                        <a href="javascript:;" title="超级更改权限组" class="fa fa-hand-o-up opt-power"></a>
                                     @endif
+                                    <a href="javascript:;" title="一般更改权限组" class="fa fa-hand-o-up opt-power2"></a>
+
                                     <a href="javascript:;" title="用此账号登录" class="opt-login">登录</a>
                                     <a href="javascript:;" title="修改账号"
                                        class="fa fa-gears opt-change-account"> </a>

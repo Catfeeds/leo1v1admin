@@ -104,7 +104,7 @@ class t_authority_group extends \App\Models\Zgen\z_t_authority_group
 
     public function get_all_list()
     {
-        $sql=$this->gen_sql_new("select * from %s  order by group_name asc ", self::DB_TABLE_NAME );
+        $sql=$this->gen_sql_new("select * from %s  order by role_groupid asc,group_name asc", self::DB_TABLE_NAME );
         return $this->main_get_list($sql);
     }
 
@@ -126,7 +126,7 @@ class t_authority_group extends \App\Models\Zgen\z_t_authority_group
 	}
 
     public function get_groupid_by_role($role_groupid){
-        $sql = $this->gen_sql_new("select group_name,groupid from %s where del_flag = 0 and role_groupid = %u order by group_name asc",
+        $sql = $this->gen_sql_new("select group_name,groupid,role_groupid from %s where del_flag = 0 and role_groupid = %u order by group_name asc",
                                   self::DB_TABLE_NAME,$role_groupid);
         return $this->main_get_list($sql);
     }
@@ -142,7 +142,7 @@ class t_authority_group extends \App\Models\Zgen\z_t_authority_group
 
     public function get_groups_by_id_str($idstr)
 	{
-		$sql = $this->gen_sql_new("select group_name, groupid, group_authority from %s where del_flag = 0 and groupid in %s order by group_name asc",
+		$sql = $this->gen_sql_new("select group_name, groupid, group_authority,role_groupid from %s where del_flag = 0 and groupid in %s order by group_name asc",
                            self::DB_TABLE_NAME,$idstr);
 		return $this->main_get_list($sql);
 	}
