@@ -217,6 +217,11 @@ class get_ass_stu_info_update extends Command
         //更新助教信息
         $start_time = strtotime(date("Y-m-01",time()-86400));
         $end_time = strtotime(date("Y-m-01",$start_time+40*86400));
+        list($first_week,$last_week,$n) = $task->get_seller_week_info($start_time, $end_time);//销售月拆解       
+        $registered_student_num=$this->get_register_student_list($first_week,$n);//销售月助教在册学生总数获取
+        $seller_month_lesson_count = $task->t_manager_info->get_assistant_lesson_count_info($first_week,$last_week+7*86400);//销售月总课时
+        dd([$registered_student_num,$seller_month_lesson_count]);
+
         //$start_time = strtotime(date("2017-08-01"));
         // $end_time = strtotime(date("2017-09-01"));
 
