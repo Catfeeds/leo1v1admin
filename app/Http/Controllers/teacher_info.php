@@ -2528,6 +2528,8 @@ class teacher_info extends Controller
             if($is_js){
                 return $this->output_err("暂未开放，敬请期待！");
             } else {
+                // return $this->pageView( __METHOD__,[],['no_pawer' => 1]);
+
                 return $this->error_view([
                     "暂未开放，敬请期待！"
                 ]);
