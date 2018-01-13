@@ -79,8 +79,6 @@ class tom_do_once extends Command
         if ($month) {
             $start_time=strtotime( date("Y-m-01", strtotime( $month)) );
             $end_time= strtotime("+1 month",  $start_time );
-            echo "do $start_time, $end_time \n";
-
         }else{
             $now=time(NULL);
             $start_time=strtotime( date("Y-m-01",$now));
@@ -161,12 +159,17 @@ class tom_do_once extends Command
             }else{
                 $item['value']=0;
             }
-            if($adminid == 1298){
-                echo $item['test_lesson_count'].'/'.$item['fail_all_count'];
-            }
-            // $test_lesson_all_count[]= [ "adminid" =>$adminid , "value"=> $item['test_lesson_count']  ] ;
-            // $test_lesson_fail_count[]= [ "adminid" =>$adminid , "value"=> $item['fail_all_count']  ] ;
+            $test_lesson_all_count[]= [ "adminid" =>$adminid , "value"=> $item['test_lesson_count']  ] ;
+            $test_lesson_fail_count[]= [ "adminid" =>$adminid , "value"=> $item['fail_all_count']  ] ;
         }
+        foreach ($test_lesson_all_count as $index => $item) {
+            if($item["adminid"] == 1298){
+                echo $item["value"];
+            }
+        }
+        $this->task->t_tongji_seller_top_info->update_list(
+            E\Etongji_type::V_SELLER_MONTH_ALL_LESSON_COUNT,
+            $group_start_time,$test_lesson_all_count);
 
 
         // $this->update_cc_no_called_count();
