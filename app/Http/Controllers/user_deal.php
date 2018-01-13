@@ -4344,9 +4344,9 @@ class user_deal extends Controller
         $arr['test_lesson_count'] = $res[$adminid]['test_lesson_count'];
         $arr['lesson_per'] = $res[$adminid]['lesson_per_desc'].'='.$res[$adminid]['lesson_per'];
         $arr['kpi'] = $res[$adminid]['kpi'];
-        $arr['cur_del_flag'] = '否';
+        $arr['cur_del_flag_str'] = '否';
         if($manager_info["del_flag"] == 1 && $manager_info["leave_member_time"]<$end_time_new){
-            $arr['cur_del_flag'] = '是';
+            $arr['cur_del_flag_str'] = '是';
         }
         $arr['test_lesson_count'] = $res[$adminid]['test_lesson_count'];
         //月末定级
