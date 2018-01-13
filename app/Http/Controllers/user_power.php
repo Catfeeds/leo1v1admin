@@ -412,21 +412,27 @@ class user_power extends Controller
     public function get_permission_list(){
         $permission = $this->get_in_str_val('permission');
         $account_role = $this->get_in_str_val('account_role');
+
+        //该角色下的权限
         $list    = $this->t_authority_group->get_groupid_by_role($account_role);
-        if($list && !empty($permission)){
+
+        //通用权限
+        $common_list = $this->t_authority_group->get_groupid_by_role('1003');
+
+        $list = array_merge($common_list,$list);
+
+        $role_permit = array_column($list, 'groupid');
+
+        if($list){
             $permission = trim($permission,",");
 
             //该用户拥有的权限
             $arr = explode(",",$permission);
 
-            //该角色的所有权限组id
-            $role_permit = array_column($list,'groupid');
-
             foreach( $list as &$item){
-                $item["has_power"] = 0;
-                if( in_array($item['groupid'],$arr)){
-                    $item["has_power"] = 1;
-                }
+                $item["has_power"] = in_array($item['groupid'],$arr) ? 1 : 0;
+                $item["account_role_str"] = E\Eaccount_role::get_desc($item["role_groupid"]);
+                $item["forbid"] = 0;
             }
 
             //不属于该角色的权限组id
@@ -441,14 +447,16 @@ class user_power extends Controller
                 //dd($idstr);
                 $more_group = $this->t_authority_group->get_groups_by_id_str($idstr);
                 if($more_group){
-                    foreach($more_group as &$v){
-                        $v["has_power"] = 1;
-                    }
+                    foreach( $more_group as &$v){
+                        $v["has_power"] = 1;            
+                        $v["account_role_str"] = E\Eaccount_role::get_desc($v["role_groupid"]);
+                        $v["forbid"] = 1;                   
+                    }                   
                 }
                 $list = array_merge($list,$more_group);
             }
         }
-     
+        //dd($list);
         return $this->output_succ(["data"=> $list]);
     }
 
