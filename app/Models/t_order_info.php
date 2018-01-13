@@ -4756,7 +4756,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
     //助教合同详情信息(薪资版本)  销售转介绍
-    public function get_seller_tran_order_info($start_time,$end_time){
+    public function get_seller_tran_order_info($start_time,$end_time,$adminid=-1){
         $where_arr=[
             [ "o.order_time >= %u", $start_time, -1 ] ,
             [ "o.order_time <= %u", $end_time, -1 ] ,
@@ -4764,10 +4764,12 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "m.account_role = 1 ",
             "o.price >0",
             "mm.account_role=2",
-            "s.is_test_user=0"
+            "s.is_test_user=0",
+            ["s.origin_assistantid=%u",$adminid,-1]
         ];
         $refund_end_time = $end_time+9*86400;
         $sql = $this->gen_sql_new("select o.price,rf.real_refund,m.uid,o.sys_operator,s.userid,o.orderid "
+                                  ." o.pay_time,rf.apply_time,o.order_time "
                                   ." from %s o left join %s s on s.userid=o.userid "
                                   ." left join %s m on s.origin_assistantid = m.uid"
                                   ." left join %s mm on o.sys_operator = mm.account"

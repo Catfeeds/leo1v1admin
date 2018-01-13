@@ -125,7 +125,7 @@
                              </td>
                         -->
                         
-                        <td>{{@$var["cc_tran_price_reword"]}}</td> 
+                        <td>{{@$var["cc_tran_price_reword"]/100}}</td> 
                         <td>{{@$var["cc_tran_reword"]}}</td> 
                         <td>{{@$var["all_reword"]}}</td> 
 
