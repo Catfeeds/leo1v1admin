@@ -729,6 +729,11 @@ $(function(){
                         Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
                         Enum_map.append_option_list("grade",$('.leo-grade select'), true, tea_gra_info);
                         Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
+                    if(sel_val.length>0){
+                        $('.leo-resource_type select,.leo-subject select,.leo-grade select,.leo-tag_one select').each(function(i){
+                            $(this).val(sel_val[i]);
+                        });
+                    }
 
                 },"onshown" : function(dlg){
 
@@ -757,9 +762,11 @@ $(function(){
                         // Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,res_type_list);
                         // Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
                         // Enum_map.append_option_list("grade",$('.leo-grade select'), true, tea_gra_info);
+                        // Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
                         Enum_map.append_option_list("resource_season",$('.leo-tag_two select'));
                         $('.leo-tag_two').nextAll().hide();
                         $('.leo-resource_type select').change(function(){
+                            get_sel_val_arr();
                             if($(this).val() < 3){
                                 $('.leo-tag_two span').text('春暑秋寒');
                                 $('.leo-tag_two select').empty();
@@ -785,6 +792,7 @@ $(function(){
                                     var leo_gra = $('.leo-grade select').val();
                                     get_sub_grade_tag(leo_sub, leo_gra,$('.leo-tag_four select') );
                                 }
+                                get_sel_val_arr();
                             });
 
                         });
@@ -1439,6 +1447,14 @@ $(function(){
 
     });
 
+    var sel_val = [];
+
+    var get_sel_val_arr = function(){
+        sel_val = [];
+        $('.leo-resource_type select,.leo-subject select,.leo-grade select,.leo-tag_one select').each(function(){
+            sel_val.push( parseInt( $(this).val() ) );
+        });
+    }
 
 
 
