@@ -35,6 +35,7 @@ class pic_manage extends Controller
                     $item['active_status'] = '已结束';
                 }
             }
+            $item['min_date'] = $min_date;
         }
 
         return $this->pageView(__METHOD__,$ret_info,['min_date' => $min_date],[
@@ -49,6 +50,7 @@ class pic_manage extends Controller
         $ret_info = $this->t_pic_manage_info->field_get_list($id,'*');
         $ret_info['start_time'] = date("Y-m-d",$ret_info['start_time']);
         $ret_info['end_time']   = date("Y-m-d",$ret_info['end_time']);
+        $ret_info['min_date'] = date('Y-m-d', strtotime('1day'));
 
         return outputjson_success(array('ret_info' => $ret_info));
     }

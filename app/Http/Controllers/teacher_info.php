@@ -3139,7 +3139,10 @@ class teacher_info extends Controller
 
     public function check_teacher_type(){
         $teacherid  = $this->get_login_teacher();
-        $tea_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+        $tea_info  = $this->t_teacher_info->check_teacher_power($teacherid);
+        if($tea_info['account_role'] == 4){
+            return 1;
+        }
         if( ($tea_info['teacher_money_type']==0 && $tea_info['teacher_type']==3) || ($tea_info['teacher_money_type']==7) ){
             return 1;
         }

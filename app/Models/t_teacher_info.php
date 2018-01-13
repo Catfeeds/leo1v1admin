@@ -4941,5 +4941,18 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
+    public function check_teacher_power($teacherid){
+        $sql = $this->gen_sql_new(
+            "select teacher_money_type, teacher_type ,m.account_role"
+            ." from %s t "
+            ." left join  %s m on m.phone=t.phone "
+            ." where teacherid=%u"
+            ,self::DB_TABLE_NAME
+            ,t_manager_info::DB_TABLE_NAME
+            ,$teacherid
+        );
+        return $this->main_get_row($sql);
+    }
+
 
 } 

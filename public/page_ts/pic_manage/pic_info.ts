@@ -74,6 +74,7 @@ $(function(){
 
         html_node.find(".share_s").hide();
         if (opt_type=="update") {
+            min_date = item.min_date;
 
             pic_url=item.img_url;
             pic_img="<img width=100 src=\""+pic_url+"\" />";
