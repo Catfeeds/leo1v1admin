@@ -45,9 +45,6 @@ class gen_top_info extends Command
      */
     public function handle()
     {
-
-
-
         $month=$this->option('month');
         if ($month) {
             $start_time=strtotime( date("Y-m-01", strtotime( $month)) );

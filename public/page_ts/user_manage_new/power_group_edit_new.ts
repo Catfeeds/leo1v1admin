@@ -239,11 +239,10 @@ function zTreeOnClick(event, treeId, treeNode) {
 }
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
-		    groupid:	$('#id_groupid').val(),
-        role_groupid:	$('#id_role_groupid').val(),
-		    //show_flag:	$('#id_show_flag').val()
-    });
+    // $.reload_self_page ( {
+		//     groupid:	$('#id_groupid').val(),
+    //     role_groupid:	$('#id_role_groupid').val(),		   
+    // });
 }
 $(function(){
 
@@ -263,11 +262,15 @@ $(function(){
 
     Enum_map.append_option_list("account_role", $("#id_role_groupid"),true);
     $('#id_role_groupid').val(g_args.role_groupid);
-	  $('#id_groupid').val($("#groupid").val());
-	  //$('#id_show_flag').val(g_args.show_flag);
-    //console.log(g_args);
 
-	  $('.opt-change').set_input_change_event(load_data);
+    get_search_group(g_args.role_groupid);
+    $('#id_groupid').val(g_args.groupid);
+
+    $("#search_this").on('click',function(){
+        var role_groupid = $('#id_role_groupid').val();
+        var groupid = $("#id_groupid").val();
+        window.location = "/user_manage_new/power_group_edit_new?groupid="+groupid+"&role_groupid="+role_groupid;
+    })
 
     // 添加用户
     $("#id_add_user").on("click",function(){ 
@@ -303,7 +306,7 @@ $(function(){
         id_add_power.html($group);
         id_add_power.val(cur_power);
 
-        var id_user_add =$("<input id='user_add'/>");
+        var id_user_add =$("<input id='user_add' style='width:80%'/>");
 
         var arr=[
             ["角色", id_add_role_groupid ],
@@ -522,10 +525,20 @@ $(function(){
         var edit_type = $(this).attr("edit");
 
         var id_edit_role_groupid =$("<select/>");
-        Enum_map.append_option_list("account_role",id_edit_role_groupid,true,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,1001,1002]);
+        Enum_map.append_option_list("account_role",id_edit_role_groupid,true);
         id_edit_role_groupid.val($("#id_role_groupid").val());
 
         var id_add_power =$("<input/>");
+
+        var is_copy_power = $("<select >");
+        Enum_map.append_option_list("boolean",is_copy_power,true,[1,0]);
+
+        var id_copy_role_groupid = $("<select onchange='get_copy_group(this.options[this.options.selectedIndex].value)'/>");
+        Enum_map.append_option_list("account_role",id_copy_role_groupid,true);
+
+        var id_copy_power =$("<select id='copy_power_group' style='margin-left:10px'/>");
+        var $group = $.trim($("#role_"+id_copy_role_groupid.val()).clone().html());
+        id_copy_power.html($group);
 
         var id_user_add =$("<input id='user_add'/>");
 
@@ -543,6 +556,8 @@ $(function(){
         var arr=[
             ["*角色", id_edit_role_groupid ],
             [edit_title, id_add_power ],
+            ['是否复制权限',is_copy_power],
+            ['所要复制权限',[id_copy_role_groupid,id_copy_power]],
             ["添加用户", id_user_add ],
         ];
 
@@ -565,6 +580,8 @@ $(function(){
                     'edit_power_name': edit_power_name,
                     'edit_power_id' : edit_power_id,
                     'user_id':$('#user_add').attr("user_id"),
+                    'is_copy_power':is_copy_power.val(),
+                    'copy_groupid':id_copy_power.val()
                 }
          
                 $.ajax({
@@ -638,9 +655,19 @@ $(function(){
 
     });
 });
+function get_search_group(val){
+    //alert(val);
+    var $group = $.trim($("#role_"+val).clone().html());
+    $("#id_groupid").html($group);
+}
 
 function get_role_group(val){
     //alert(val);
     var $group = $.trim($("#role_"+val).clone().html());
     $("#power_group").html($group);
+}
+
+function get_copy_group(val){
+    var $group = $.trim($("#role_"+val).clone().html());
+    $("#copy_power_group").html($group);
 }

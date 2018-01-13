@@ -2,6 +2,14 @@
 /// <reference path="../g_args.d.ts/teacher_info-get_lesson_list_new.d.ts" />
 $(function(){
 
+    var sel_val = [];
+    var get_sel_val = function(){
+        sel_val = [];
+        $('.leo-resource_type select,.leo-subject select,.leo-grade select,.leo-tag_one select').each(function(){
+            sel_val.push( parseInt( $(this).val() ) );
+        });
+    }
+
     $('#id_start_date').val(g_args.start_date);
     $('#id_end_date').val(g_args.end_date);
     $('#id_lesson_type').val(g_args.lesson_type);
@@ -549,7 +557,7 @@ $(function(){
             var ret_func = function(ret){
                  if(ret.ret == 0){
 
-                     if(is_tea_flag>0){
+                     // if(is_tea_flag>0){
 
                          $('.look-pdf').show();
                          $('.look-pdf-son').mousedown(function(e){
@@ -559,9 +567,9 @@ $(function(){
                          });
                          PDFObject.embed(ret.url, ".look-pdf-son");
                          $('.look-pdf-son').css({'width':'120%','height':'120%','margin':'-10%'});
-                     } else {
-                         $.wopen(ret.url);
-                     }
+                     // } else {
+                     //     $.wopen(ret.url);
+                     // }
 
                  } else {
                     BootstrapDialog.alert(ret.info);
@@ -697,37 +705,75 @@ $(function(){
                 "onChange"         : null,
                 //加载数据后，其它的设置
                 "onLoadData"       : function(dlg, ret){
+                    book_info     = [];
+                    tea_sub_info  = [];
+                    tea_gra_info  = [];
+                    res_type_list = [];
+                    get_sel_val();
+
+                    console.log(sel_val);
                     console.log(ret);
-                    ret_data = ret;
-                },"onshown" : function(dlg){
-                    dlg_tr = ret_data.crumbs;
-                    console.log(ret_data)
-                    if(ret_data.book!=undefined){
-                        var book_arr = ret_data.book.split(',');
-                        $.each($(book_arr),function(i,val){
-                            book_info.push(parseInt(val));
-                        });
-                    }
-                    if(ret_data.tea_sub!=undefined){
-                        var tea_sub_arr = ret_data.tea_sub.split(',');
-                        $.each($(tea_sub_arr),function(i,val){
-                            tea_sub_info.push(parseInt(val));
-                        });
-                    }
-                    if(ret_data.tea_gra!=undefined){
-                        var tea_gra_arr = ret_data.tea_gra.split(',');
-                        $.each($(tea_gra_arr),function(i,val){
-                            tea_gra_info.push(parseInt(val));
-                        });
-                    }
-                    if(ret_data.type_list!=undefined){
-                        var res_type_arr = ret_data.type_list.split(',');
+
+                    dlg_tr = ret.crumbs;
+
+                    if(ret.type_list!=undefined){
+                        var res_type_arr = ret.type_list.split(',');
                         $.each($(res_type_arr),function(i,val){
                             res_type_list.push(parseInt(val));
                         });
                     }
+                    if( isNaN(sel_val[0]) ){
+                        sel_val[0] = res_type_list[0];
+                    }
 
-                    console.log(res_type_list, tea_sub_info,tea_gra_info);
+                    if(ret.tea_sub!=undefined){
+                        var tea_sub_arr = ret.tea_sub.split(',');
+                        $.each($(tea_sub_arr),function(i,val){
+                            tea_sub_info.push(parseInt(val));
+                        });
+                    }
+                    if(isNaN(sel_val[1])){
+                        sel_val[1] = tea_sub_info[0];
+                    }
+
+                   if(ret.tea_gra!=undefined){
+                        var tea_gra_arr = ret.tea_gra.split(',');
+                        $.each($(tea_gra_arr),function(i,val){
+                            tea_gra_info.push(parseInt(val));
+                        });
+                    }
+                       if(isNaN(sel_val[2])){
+                        sel_val[2] = tea_gra_info[0];
+                    }
+
+                   if(ret.book!=undefined){
+                        var book_arr = ret.book.split(',');
+                        $.each($(book_arr),function(i,val){
+                            book_info.push(parseInt(val));
+                        });
+                    }
+                    if(isNaN(sel_val[3] )){
+                        sel_val[3] = book_info[0];
+                    }
+
+                    console.log(tea_gra_info);
+                    console.log(1);
+                    $('.leo-resource_type select,.leo-subject select,.leo-grade select,.leo-tag_one select').empty();
+
+                    console.log(2);
+                    Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,res_type_list);
+                    Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
+                    Enum_map.append_option_list("grade",$('.leo-grade select'), true, tea_gra_info);
+                    Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
+                    console.log(3);
+                    console.log(tea_gra_info);
+
+                    $('.leo-resource_type select,.leo-subject select,.leo-grade select,.leo-tag_one select').each(function(i){
+                        $(this).val( sel_val[i] );
+                    });
+
+                },"onshown" : function(dlg){
+
                     if(opt_type == 'my'){
                         $('.my-mark').empty();
                         var cru_str = '<div class="col-xs-12">';
@@ -750,10 +796,10 @@ $(function(){
                             });
                         });
                     } else {
-                        Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,res_type_list);
-                        Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
-                        Enum_map.append_option_list("grade",$('.leo-grade select'), true, tea_gra_info);
-                        Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
+                        // Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,res_type_list);
+                        // Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
+                        // Enum_map.append_option_list("grade",$('.leo-grade select'), true, tea_gra_info);
+                        // Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
                         Enum_map.append_option_list("resource_season",$('.leo-tag_two select'));
                         $('.leo-tag_two').nextAll().hide();
                         $('.leo-resource_type select').change(function(){
@@ -1435,8 +1481,6 @@ $(function(){
         });
 
     });
-
-
 
 
     $('body').on('click', function(){

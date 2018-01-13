@@ -111,8 +111,6 @@ $(function(){
     });
 
     $("#id_show_fail_lesson_list").on("click",function(){
-
-
         $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "list", // or "list"
             "url"      : "/ajax_deal/tongji_fail_lesson_list_js",

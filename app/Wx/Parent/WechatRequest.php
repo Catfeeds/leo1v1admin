@@ -176,7 +176,7 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
         /**
          * @ 此处用户发送消息, 存取到数据库
          * @ 后台页面展示 客户姓名,昵称,消息内容,发送时间,是否可以收到回复信息
-         * @ 
+         * @ 后台人员 可以在后台页面上进行回复老师信息
          * @
          * @
          */
