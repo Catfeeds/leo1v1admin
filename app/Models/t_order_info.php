@@ -4733,10 +4733,12 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         }elseif($contract_type==3){
             $where_arr[]="o.contract_type in (3,3001)";
         }
+        $refund_end_time = $end_time+9*86400;
+        $where_arr[] = ["rf.apply_time<=%u",$refund_end_time,0];
 
         $sql =$this->gen_sql_new("select  if(o.contract_type=3001,3,o.contract_type) contract_type,".
                                  " o.price,rf.real_refund,m.uid,o.sys_operator,s.userid,o.orderid, ".
-                                 " o.pay_time ".
+                                 " o.pay_time,rf.apply_time ".
                                  " from  %s o ".
                                  " left join %s m on o.sys_operator  = m.account".
                                  " left join %s s on s.userid=o.userid".
