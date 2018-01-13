@@ -396,8 +396,7 @@ $(function(){
 
     });
 
-    // =====================
-
+    //超级更改权限组
     $(".opt-power").on("click",function(){
         var opt_data=$(this).get_opt_data();
 
@@ -411,7 +410,7 @@ $(function(){
         }
         var show_all_flag=($.get_action_str()=="manager_list");
 
-        var permission  = opt_data["permission"];
+        var permission  = opt_data["old_permission"];
         $.do_ajax("/authority/get_permission_list",{
             "permission" : permission
         },function(response){
@@ -419,7 +418,7 @@ $(function(){
             var select_list = [];
             $.each( response.data,function(){
                 if (  show_all_flag || $.inArray(  parseInt( this["groupid"]),  show_list) != -1 ) {
-                    data_list.push([this["groupid"], this["group_name"]  ]);
+                    data_list.push([this["groupid"],this["account_role_str"], this["group_name"]  ]);
                 }
 
                 if (this["has_power"]) {
@@ -429,7 +428,7 @@ $(function(){
             });
 
             $(this).admin_select_dlg({
-                header_list     : [ "id","名称" ],
+                header_list     : [ "id","角色","名称" ],
                 data_list       : data_list,
                 multi_selection : true,
                 select_list     : select_list,
@@ -442,12 +441,9 @@ $(function(){
                 }
             });
         }) ;
-
-
-
     });
 
-
+    //一般更改权限组
     $(".opt-power2").on("click",function(){
         var opt_data=$(this).get_opt_data();
 
@@ -465,30 +461,40 @@ $(function(){
         },function(response){
             var data_list   = [];
             var select_list = [];
+            var forbid_arr = [];
+            var permit = "";
+            var forbid = "";
             $.each( response.data,function(){
-                if (  show_all_flag || $.inArray(  parseInt( this["groupid"]),  show_list) != -1 ) {
-                    data_list.push([this["groupid"], this["group_name"]  ]);
-                }
-
+                data_list.push([this["groupid"],this["account_role_str"], this["group_name"]]);
+                
                 if (this["has_power"]) {
                     select_list.push (this["groupid"]) ;
+                };
+                if( this['forbid'] == 1 ){
+                    forbid_arr.push (this["groupid"]) ;                    
                 }
-
+                if( this['forbid'] == 0 ){                    
+                    permit = this["account_role_str"];                                            
+                }
             });
-
-            $(this).admin_select_dlg({
-                header_list     : [ "id","名称" ],
+            var forbid_title = "该用户属角色:"+permit+",只有该角色下的权限和通用权限可以添加或者移除,其他角色下的权限只有超级管理员可以编辑";
+            //console.log(forbid_arr);
+            $(this).admin_select_dlg_forbid({
+                header_list     : [ "id","角色","名称" ],
                 data_list       : data_list,
                 multi_selection : true,
                 select_list     : select_list,
+                forbid_arr      : forbid_arr,
+                forbid_title    : forbid_title,
                 onChange        : function( select_list,dlg) {
                     $.do_ajax("/authority/set_permission",{
                         "uid": uid,
                         "groupid_list":JSON.stringify(select_list),
-                        "old_permission": opt_data.old_permission,
+                        "old_permission": permission,
                     });
                 }
             });
+
         }) ;
     });
 
