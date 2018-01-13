@@ -703,6 +703,40 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         return $this->main_get_list($sql);
     }
 
+    public function get_ass_kk_tongji_info_detail_new($start_time,$end_time,$adminid){
+        $where_arr=[
+            "t.ass_test_lesson_type =1",
+            " l.teacherid >0",
+            " l.userid >0",
+            ["tr.cur_require_adminid=%u",$adminid,-1],
+            ["ll.lesson_time>=%u",$start_time,0],
+            ["ll.lesson_time<=%u",$end_time,0],
+        ];
+
+        $sql = $this->gen_sql_new("select distinct l.userid,l.teacherid,l.subject,ll.lesson_start,"
+                                  ."s.nick,tt.realname,s.assistantid ,a.nick ass_nick "
+                                  ." from %s tss  join %s tr on tss.require_id =tr.require_id"
+                                  ." join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id"
+                                  ."  join %s l on tss.lessonid = l.lessonid"
+                                  ." join %s ll on ll.teacherid = l.teacherid and ll.userid=l.userid and ll.lesson_subject =l.subject and ll.type=18"
+                                  ." left join %s s on t.userid= s.userid"
+                                  ." left join %s tt on l.teacherid = tt.teacherid"
+                                  ." left join %s a on s.assistantid = a.assistantid"
+                                  ." where %s order by ll.lesson_start desc",
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
     public function get_except_contract_num($account_id){
         $where_arr=[
             ["require_adminid=%u",$account_id,-1],

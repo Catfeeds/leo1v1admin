@@ -75,9 +75,9 @@ $(function(){
                 "end_time"   : g_args.end_time
             },function(resp) {
                 var userid_list = resp.data;
-                html_node.find("#div_no_lesson").append("<div class=\"col-md-4\">"+resp.hand_kk_num+"</div>");
-                html_node.find("#div_lesson").append("<div class=\"col-md-4\">"+resp.kk_num+"</div>");
-                html_node.find("#div_all").append("<div class=\"col-md-4\">"+resp.kk_all+"</div>");
+                html_node.find("#div_no_lesson").append("<div class=\"col-md-4\">"+resp.list.hand_kk_num+"</div>");
+                html_node.find("#div_lesson").append("<div class=\"col-md-4\">"+resp.list.kk_num+"</div>");
+                html_node.find("#div_all").append("<div class=\"col-md-4\">"+resp.list.kk_all+"</div>");
 
                 $.each(userid_list,function(i,item){
                     var userid = item["userid"];
