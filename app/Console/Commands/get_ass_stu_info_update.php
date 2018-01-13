@@ -246,7 +246,6 @@ class get_ass_stu_info_update extends Command
 
       
         $ass_list = $task->t_manager_info->get_adminid_list_by_account_role_new(1,$start_time,0);
-        dd($ass_list);
 
         $warning_list = $task->t_student_info->get_warning_stu_list();
         
@@ -295,6 +294,7 @@ class get_ass_stu_info_update extends Command
         $new_info          = $task->t_student_info->get_new_assign_stu_info($start_time,$end_time);
         $end_stu_info_new  = $task->t_student_info->get_end_class_stu_info($start_time,$end_time);
         $lesson_info       = $task->t_lesson_info_b2->get_ass_stu_lesson_list($start_time,$end_time);
+        dd($lesson_info);
 
 
         //主管2数据
