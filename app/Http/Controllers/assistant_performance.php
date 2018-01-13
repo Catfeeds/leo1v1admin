@@ -959,6 +959,17 @@ class assistant_performance extends Controller
  
     }
 
+    //助教新签/续费合同详情(包含退费,下个月10前付款)
+    public function get_ass_self_order_info(){
+        $adminid = $this->get_in_int_val("adminid",324);
+        $contract_type = $this->get_in_int_val("contract_type",-1);
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $ass_order_info = $this->t_order_info->get_assistant_performance_order_info($start_time,$end_time,$adminid,$contract_type);
+        dd($ass_order_info);
+
+
+    }
+
 
 
 }

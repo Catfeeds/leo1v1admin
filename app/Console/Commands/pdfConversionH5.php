@@ -128,7 +128,8 @@ class pdfConversionH5 extends Command
 
             # 压缩包上传七牛
             if(file_exists($zip_new_resource)){
-                $saveH5Upload =  \App\Helper\Utils::qiniu_upload($zip_new_resource);
+                // $saveH5Upload =  \App\Helper\Utils::qiniu_upload($zip_new_resource);//[public]
+                $saveH5Upload =  \App\Helper\Utils::qiniu_upload_private($zip_new_resource);
                 $this->deldir($work_path."/".$uuid);
                 $rmZipCmd = "rm $del_zip"; // 删除解压包
                 $rmResourceCmd = "rm $zip_new_resource";
