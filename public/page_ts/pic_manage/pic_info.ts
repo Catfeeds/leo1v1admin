@@ -110,6 +110,7 @@ $(function(){
             html_node.find(".add_jump_type").val(item.jump_type);
             html_node.find(".add_start_date").val(item.start_time);
             html_node.find(".add_end_date").val(item.end_time);
+            min_date = 0;
         }
 
         var title = "";
