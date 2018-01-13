@@ -303,7 +303,7 @@ $(function(){
         id_add_power.html($group);
         id_add_power.val(cur_power);
 
-        var id_user_add =$("<input id='user_add'/>");
+        var id_user_add =$("<input id='user_add' style='width:80%'/>");
 
         var arr=[
             ["角色", id_add_role_groupid ],
@@ -527,6 +527,16 @@ $(function(){
 
         var id_add_power =$("<input/>");
 
+        var is_copy_power = $("<select >");
+        Enum_map.append_option_list("boolean",is_copy_power,true,[1,0]);
+
+        var id_copy_role_groupid = $("<select onchange='get_copy_group(this.options[this.options.selectedIndex].value)'/>");
+        Enum_map.append_option_list("account_role",id_copy_role_groupid,true);
+
+        var id_copy_power =$("<select id='copy_power_group' style='margin-left:10px'/>");
+        var $group = $.trim($("#role_"+id_copy_role_groupid.val()).clone().html());
+        id_copy_power.html($group);
+
         var id_user_add =$("<input id='user_add'/>");
 
         if(edit_type == 1){
@@ -543,6 +553,8 @@ $(function(){
         var arr=[
             ["*角色", id_edit_role_groupid ],
             [edit_title, id_add_power ],
+            ['是否复制权限',is_copy_power],
+            ['所要复制权限',[id_copy_role_groupid,id_copy_power]],
             ["添加用户", id_user_add ],
         ];
 
@@ -565,6 +577,8 @@ $(function(){
                     'edit_power_name': edit_power_name,
                     'edit_power_id' : edit_power_id,
                     'user_id':$('#user_add').attr("user_id"),
+                    'is_copy_power':is_copy_power.val(),
+                    'copy_groupid':id_copy_power.val()
                 }
          
                 $.ajax({
@@ -643,4 +657,9 @@ function get_role_group(val){
     //alert(val);
     var $group = $.trim($("#role_"+val).clone().html());
     $("#power_group").html($group);
+}
+
+function get_copy_group(val){
+    var $group = $.trim($("#role_"+val).clone().html());
+    $("#copy_power_group").html($group);
 }
