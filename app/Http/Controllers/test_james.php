@@ -874,7 +874,7 @@ class test_james extends Controller
 
         // dd($parent_list);
 
-        dispatch( new \App\Jobs\wxPicSendToParent(''));
+        // dispatch( new \App\Jobs\wxPicSendToParent(''));
 
 
 

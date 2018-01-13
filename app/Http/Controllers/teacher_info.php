@@ -154,8 +154,13 @@ class teacher_info extends Controller
             }
         }
         $student_list = $this->t_lesson_info->get_student_list($teacherid,$start_time,$end_time);
+
+        //检测老师是不是全职
+        $is_full_time = $this->check_teacher_type();
+
         return $this->pageView(__METHOD__,$ret_info,[
-            "student_list" => $student_list
+            "student_list" => $student_list,
+            "is_full_time" => $is_full_time
         ]);
     }
 
@@ -2514,11 +2519,44 @@ class teacher_info extends Controller
     }
 
     public function get_leo_resource(){
+        //兼容js调用
+        $is_js = $this->get_in_int_val('is_js', 0);
+
+        //检测老师是不是全职
+        $is_full_time = $this->check_teacher_type();
+        if($is_full_time == 0){
+            if($is_js){
+                return $this->output_err("暂未开放，敬请期待！");
+            } else {
+                // return $this->pageView( __METHOD__,[],['no_pawer' => 1]);
+
+                return $this->error_view([
+                    "暂未开放，敬请期待！"
+                ]);
+            }
+        }
         //获取老师科目年级段
         $tea_info = $this->get_rule_range();
 
+        $sub_str = '-1';
+        $gra_str = '-1';
+        foreach($tea_info as $v){
+            $sub_str .= ','.$v['subject'];
+            foreach($v['grade'] as $g){
+                $gra_str .= ','.$g;
+            }
+        }
+
+        //获取所有有文件的对老师开放的资源类型
+        $res_type_list = $this->t_resource->get_resource_type_for_tea($sub_str, $gra_str);
+        $type_list = [];
+        foreach($res_type_list as $v){
+            $type_list[] =intval( $v['resource_type']);
+        }
+
+
         // dd($tea_info);
-        $resource_type = $this->get_in_int_val('resource_type', 1);
+        $resource_type = $this->get_in_int_val('resource_type', @$type_list[0]);
         $subject       = $this->get_in_int_val('subject', @$tea_info[0]['subject']);
         $flag    = 0;
         $tea_gra = [];
@@ -2544,12 +2582,14 @@ class teacher_info extends Controller
         // $file_title    = $this->get_in_str_val('file_title', '');
         $page_info     = $this->get_in_page_info();
 
-        //兼容js调用
-        $is_js = $this->get_in_int_val('is_js', 0);
-
         if($is_js){//只有三种可以用
             $resource_type = $resource_type<1?1:$resource_type;
             $resource_type = $resource_type>3?3:$resource_type;
+            foreach($type_list as $k=>$v){
+                if( $v>3 ){
+                    unset($type_list[$k]);
+                }
+            }
         }else{
             $resource_type = $resource_type<1?1:$resource_type;
             $resource_type = $resource_type>6?6:$resource_type;
@@ -2605,42 +2645,26 @@ class teacher_info extends Controller
         }
 
         // dd($tea_info);
-        $sub_str = '-1';
-        $gra_str = '-1';
-        foreach($tea_info as $v){
-            $sub_str .= ','.$v['subject'];
-            foreach($v['grade'] as $g){
-                $gra_str .= ','.$g;
-            }
-        }
-        //获取所有有文件的对老师开放的资源类型
-        // $res_type_list = $this->t_resource->get_resource_type_for_tea($sub_str, $gra_str);
-        // // $res_type_list = $this->t_resource->get_resource_type_for_tea('1,2,3,4,5,6', '101,102,103,104,105,106');
-        // $type_list = [];
-        // foreach($res_type_list as $item){
-        //     $type_list[] =intval( $item['resource_type']);
-        // }
-
 
         if($is_js != 0){
             // return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
             return $this->output_ajax_table($ret_info,[
-                'tag_info' => $tag_arr,
-                'tea_sub' => join( $tea_sub, ','),
-                'tea_gra' => join($tea_gra, ','),
-                'book' => join($book_arr, ','),
-                // 'type_list' => join($type_list, ',')
+                'tag_info'  => $tag_arr,
+                'tea_sub'   => join( $tea_sub, ','),
+                'tea_gra'   => join($tea_gra, ','),
+                'book'      => join($book_arr, ','),
+                'type_list' => join($type_list, ',')
             ]);
 
         }
 
         // dd($tea_info);
         return $this->pageView( __METHOD__,$ret_info,[
-            'tag_info'      => $tag_arr,
-            'tea_sub'       => json_encode( $tea_sub),
-            'tea_gra'       => json_encode($tea_gra),
-            'book'          => json_encode($book_arr),
-            'type_list' => json_encode([1,2,3,4,5,6])
+            'tag_info'  => $tag_arr,
+            'tea_sub'   => json_encode( $tea_sub),
+            'tea_gra'   => json_encode($tea_gra),
+            'book'      => json_encode($book_arr),
+            'type_list' => json_encode($type_list)
         ]);
     }
 
@@ -3106,12 +3130,20 @@ class teacher_info extends Controller
             $data = [];
             $data[0]['subject'] = $info['subject'];
             $data[0]['grade'] = array_values($grade_1);
-            // $data[1]['subject'] = $info['second_subject'];
-            // $data[1]['grade'] = array_values($grade_2);
+            $data[1]['subject'] = $info['second_subject'];
+            $data[1]['grade'] = array_values($grade_2);
             return $data;
         }
         return false;
     }
 
+    public function check_teacher_type(){
+        $teacherid  = $this->get_login_teacher();
+        $tea_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+        if( ($tea_info['teacher_money_type']==0 && $tea_info['teacher_type']==3) || ($tea_info['teacher_money_type']==7) ){
+            return 1;
+        }
+        return 0;
+    }
 
 }

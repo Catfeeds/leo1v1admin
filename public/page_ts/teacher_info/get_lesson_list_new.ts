@@ -174,7 +174,6 @@ $(function(){
                     $.custom_upload_file_process(
                         btn_id, 0,
                         function(up, info, file, lesson_info) {
-                            // console.log(info)
                             var res = $.parseJSON(info);
                             if(res.key!=''){
                                 set_url_fun(res.key);
@@ -200,7 +199,6 @@ $(function(){
                 }
             }
         }
-        //console.log(id_item);
         return id_item;
     };
 
@@ -244,7 +242,6 @@ $(function(){
         $.do_ajax("/common/get_bucket_info",{
             is_public : 0
         },function(ret){
-            // console.log(opt_data)
             var id_student = gen_upload_item(
                 btn_student_upload_id,stu_status,
                 "l_stu_"+opt_data.lessonid,
@@ -318,6 +315,11 @@ $(function(){
             var id_point2             = $("<input/>");
             var id_pdf_question_count = $("<input/>");
             var id_tea_cw_pic         = $("<select class='hide'/>");
+
+
+            var id_change = $("<input disabled='disabled' />");
+            var id_change_time = $("<input disabled='disabled' />");
+
             // id_teacher.append("是否启用批量平铺功能");
             id_teacher.append(id_tea_cw_pic);
 
@@ -339,7 +341,9 @@ $(function(){
                 ["知识点2",  id_point2],
                 ["----","上传课堂讲义"],
                 ["授课课件"+red_tip, id_teacher],
-            ];
+                ["授课课件平铺状态", id_change],
+                ["授课课件上传时间", id_change_time],
+           ];
 
             $.each(id_teacher_list,function(i,item){
                 if(!(lesson_type>=1000 && lesson_type <2000) || lesson_type==1100){
@@ -510,6 +514,16 @@ $(function(){
                     }
                 }
 
+                $.do_ajax("/common/check_change_flag",{
+                    lessonid : opt_data.lessonid,
+                },function(ret){
+                    var data = ret.data;
+                    var change_time_str = data.create_time;
+                    id_change.val(data.tea_cw_pic);
+                    id_change_time.val(change_time_str);
+                });
+
+
             },false,900);
         });
 
@@ -598,7 +612,7 @@ $(function(){
                 $('.opt-my-res,.opt-leo-res').attr('upload_id', obj.attr('id'));
             }
         }
-        var book_info = [],tea_sub_info = [], tea_gra_info = [];
+        var ret_data = {},book_info = [],tea_sub_info = [], tea_gra_info = [], res_type_list = [];
         var dlg_tr = {};
         var get_res = function(ajax_url,opt_type,btn_type,dir_id){
             $("<div></div>").tea_select_res_ajax({
@@ -683,22 +697,35 @@ $(function(){
                 "onChange"         : null,
                 //加载数据后，其它的设置
                 "onLoadData"       : function(dlg, ret){
-                    console.log(ret);
-                    var book_arr = ret.book.split(',');
-                    $.each($(book_arr),function(i,val){
-                        book_info.push(parseInt(val));
-                    });
-                    var tea_sub_arr = ret.tea_sub.split(',');
-                    $.each($(tea_sub_arr),function(i,val){
-                        tea_sub_info.push(parseInt(val));
-                    });
-                    var tea_gra_arr = ret.tea_gra.split(',');
-                    $.each($(tea_gra_arr),function(i,val){
-                        tea_gra_info.push(parseInt(val));
-                    });
-                    dlg_tr = ret.crumbs;
-                },
-                "onshown"          : function(dlg){
+                    ret_data = ret;
+                },"onshown" : function(dlg,ret){
+                    dlg_tr = ret_data.crumbs;
+                    if(ret_data.book!=undefined){
+                        var book_arr = ret_data.book.split(',');
+                        $.each($(book_arr),function(i,val){
+                            book_info.push(parseInt(val));
+                        });
+                    }
+                    if(ret_data.tea_sub!=undefined){
+                        var tea_sub_arr = ret_data.tea_sub.split(',');
+                        $.each($(tea_sub_arr),function(i,val){
+                            tea_sub_info.push(parseInt(val));
+                        });
+                    }
+                    if(ret_data.tea_gra!=undefined){
+                        var tea_gra_arr = ret_data.tea_gra.split(',');
+                        $.each($(tea_gra_arr),function(i,val){
+                            tea_gra_info.push(parseInt(val));
+                        });
+                    }
+                    if(ret_data.type_list!=undefined){
+                        var res_type_arr = ret_data.type_list.split(',');
+                        $.each($(res_type_arr),function(i,val){
+                            res_type_list.push(parseInt(val));
+                        });
+                    }
+
+                    console.log(res_type_list, tea_sub_info,tea_gra_info);
                     if(opt_type == 'my'){
                         $('.my-mark').empty();
                         var cru_str = '<div class="col-xs-12">';
@@ -721,7 +748,7 @@ $(function(){
                             });
                         });
                     } else {
-                        Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,[1,2,3]);
+                        Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,res_type_list);
                         Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
                         Enum_map.append_option_list("grade",$('.leo-grade select'), true, tea_gra_info);
                         Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
@@ -888,10 +915,14 @@ $(function(){
 
         $('.opt-leo-res,.opt-my-res').unbind('click');
         $('.opt-leo-res').on('click',function(){
-            if($(this).hasClass('unbind')){
-                get_res('/teacher_info/get_leo_resource', 'leo_one',$(this).attr('upload_id'));
-            }else {
-                get_res('/teacher_info/get_leo_resource', 'leo');
+            if(is_full_time ==1){
+                if($(this).hasClass('unbind')){
+                    get_res('/teacher_info/get_leo_resource', 'leo_one',$(this).attr('upload_id'));
+                }else {
+                    get_res('/teacher_info/get_leo_resource', 'leo');
+                }
+            } else {
+                BootstrapDialog.alert("暂未开放，敬请期待!");
             }
         });
 
@@ -918,8 +949,6 @@ $(function(){
     }
 
     var check_lesson_info = function(obj,value,par_flag){
-        console.log(obj)
-        console.log(value)
         var str = $.trim(obj.val());
         if(par_flag==1){
             var obj_name    = obj.parent().parent().parent().siblings().text();
@@ -948,10 +977,9 @@ $(function(){
 
     $(".opt-get_stu_performance").on("click",function(){
         var opt_data    = $(this).get_opt_data();
-        //console.log(opt_data);
         var lessonid    = opt_data.lessonid;
         var lesson_type = opt_data.lesson_type;
-        var tea_comment = opt_data.tea_comment_str;
+        var tea_comment = opt_data.tea_comment;
         if(lesson_type!=2 && !(opt_data.lesson_type==1100 && opt_data.train_type==4)){
             set_stu_performance(lessonid);
         }else{
@@ -959,14 +987,14 @@ $(function(){
         }
     });
 
-    var set_stu_performance=function(lessonid){
+    var set_stu_performance = function(lessonid){
         var $total_judgement    = $("<select></select>");
         var $homework_situation = $("<select></select>");
         var $content_grasp      = $("<select></select>");
         var $lesson_interact    = $("<select></select>");
-        var $point_note_list    = $("<textarea/> ");
-        var $point_note_list2   = $("<textarea/> ");
-        var $stu_comment        = $("<textarea/> ");
+        var $point_note_list    = $("<textarea/>");
+        var $point_note_list2   = $("<textarea/>");
+        var $stu_comment        = $("<textarea/>");
         var point_name          = '';
         var point_name2         = '';
         var point_stu_desc      = '';
@@ -981,7 +1009,6 @@ $(function(){
             "lessonid":lessonid
         },function(result){
             if(result.total_judgement){
-                console.table(result)
                 $total_judgement.val(result.total_judgement);
                 $homework_situation.val(result.homework_situation);
                 $content_grasp.val(result.content_grasp);
@@ -1117,9 +1144,9 @@ $(function(){
                     dialog.close();
                 }
             },{
-                label:'确定',
-                cssClass:'btn-primary',
-                action:function(dialog){
+                label    : '确定',
+                cssClass : 'btn-primary',
+                action   : function(dialog){
                     var stu_lesson_content     = get_value("stu_lesson_content",2,html_node,"未顺利完成");
                     var stu_lesson_status      = html_node.find("#stu_lesson_status").val();
                     var stu_study_status       = html_node.find("#stu_study_status").val();
@@ -1128,6 +1155,7 @@ $(function(){
                     var stu_lesson_plan        = get_value("stu_lesson_plan",3,html_node,"其他");
                     var stu_teaching_direction = get_value("stu_teaching_direction",3,html_node,"课外知识");
                     var stu_advice             = html_node.find("#stu_advice").val();
+
                     if(stu_lesson_content=='' || stu_advantages=='' || stu_disadvantages=='' ||
                        stu_lesson_plan=='' || stu_teaching_direction=='' || stu_advice==''){
                         BootstrapDialog.alert("请确认所有输入框是否有输入内容!");
@@ -1163,9 +1191,13 @@ $(function(){
         var value = '';
         if(on_type==1){
             html.find("[name='"+name+"']").each(function(){
-                if($(this).parent().hasClass("checked")){
+                if($(this).is(":checked")){
                     if($(this).val() != check_value){
-                        value+=$(this).val()+",";
+                        if(value==""){
+                            value += $(this).val();
+                        }else{
+                            value += ","+$(this).val();
+                        }
                     }else{
                         var other_value = html.find("#"+name+"_more").val();
                         if(other_value != ''){
@@ -1199,13 +1231,14 @@ $(function(){
             var num=0;
             html.find("[name='"+name+"']").each(function(){
                 if(arr==$(this).val()){
-                    $(this).parent().addClass("checked");
+                    $(this).attr("checked","checked");
                 }else{
                     num++;
                 }
             });
             if(num>=4){
-                html.find("[name='"+name+"']:last").parent().addClass("checked");
+                // html.find("[name='"+name+"']:last").parent().addClass("checked");
+                html.find("[name='"+name+"']:last").attr("checked","checked");
                 html.find("#"+name+"_more").show();
                 html.find("#"+name+"_more").val(arr);
             }
@@ -1215,13 +1248,13 @@ $(function(){
                 var num=0;
                 html.find("[name='"+name+"']").each(function(){
                     if(v==$(this).val()){
-                        $(this).parent().addClass("checked");
+                        $(this).attr("checked","checked");
                     }else{
                         num++;
                     }
                 });
                 if(k==length-1 && num>4){
-                    html.find("[name='"+name+"']:last").parent("div").addClass("checked");
+                    html.find("[name='"+name+"']:last").attr("checked","checked");
                     html.find("#"+name+"_more").show();
                     html.find("#"+name+"_more").val(v);
                 }
@@ -1249,8 +1282,8 @@ $(function(){
 
     var click_or_change_other = function(name,on_type,html){
         if(on_type==1){
-            html.find("[name="+name+"]:last").parent().on("click",function(){
-                if($(this).hasClass("checked")){
+            html.find("[name="+name+"]:last").on("click",function(){
+                if($(this).is(":checked")){
                     html.find("#"+name+"_more").show();
                 }else{
                     html.find("#"+name+"_more").hide();

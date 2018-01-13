@@ -166,7 +166,7 @@ $(function(){
         var teacherid = $(this).data("teacherid");
         if(teacherid > 0){
             var title = "学生详情";
-            var html_node = $("<div id=\"div_table\"><div class=\"col-md-12\" id=\"div_grade\"><div class=\"col-md-2\">年级统计:</div></div><br><div class=\"col-md-12\" id=\"div_subject\"><div class=\"col-md-2\">科目统计:</div></div><br><br><br><table   class=\"table table-bordered \"><tr><td>id</td><td>名字</td><td>年级</td><td>科目</td><tr></table></div>");
+            var html_node = $("<div id=\"div_table\"><div class=\"col-md-12\" id=\"div_grade\"><div class=\"col-md-2\">年级统计:</div></div><br><div class=\"col-md-12\" id=\"div_subject\"><div class=\"col-md-2\">科目统计:</div></div><br><br><div class=\"col-md-12\" id=\"div_lesson_left\"><div class=\"col-md-2\">剩余课时:<span id=\"lesson_left_num\"></span></div></div><br><br><br><table   class=\"table table-bordered \"><tr><td>id</td><td>名字</td><td>年级</td><td>科目</td><td>剩余课时</td><tr></table></div>");
             
             $.do_ajax('/tongji_ss/get_teacher_stu_info_new',{
                 "teacherid" : teacherid
@@ -181,6 +181,7 @@ $(function(){
                 for(var i in subject_count){
                     html_node.find("#div_subject").append("<div class=\"col-md-1\">"+i+":"+subject_count[i]+"</div>");
                 }
+                html_node.find("#div_lesson_left").find("#lesson_left_num").text(resp.lesson_left/100);
 
                 /*html_node.prepend("<div class=\"col-md-12\"><div class=\"col-md-2\">年级统计:</div><div class=\"col-md-3\">小学:"+grade_count.primary+"</div><div class=\"col-md-3\">初中:"+grade_count.junior+"</div><div class=\"col-md-3\">高中:"+grade_count.senior+"</div></div><br><br><br>");*/
                 
@@ -189,7 +190,7 @@ $(function(){
                     var name = item["nick"];
                     var subject = item["subject_str"];
                     var grade = item["grade_str"];
-                    html_node.find("table").append("<tr><td>"+userid+"</td><td>"+name+"</td><td>"+grade+"</td><td>"+subject+"</td></tr>");
+                    html_node.find("table").append("<tr><td>"+userid+"</td><td>"+name+"</td><td>"+grade+"</td><td>"+subject+"</td><td>"+item["lesson_count_left"]/100+"</td></tr>");
                 });
             });
 

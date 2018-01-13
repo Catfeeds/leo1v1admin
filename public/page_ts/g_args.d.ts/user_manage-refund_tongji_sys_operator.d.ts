@@ -6,6 +6,8 @@ interface GargsStatic {
 	end_time:	string;
 	sys_operator:	string;
 	account_role:	number;
+	page_num:	number;
+	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -15,6 +17,23 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	sys_operator	:any;
+	uid	:any;
+	type	:any;
+	one_year_num	:any;
+	half_year_num	:any;
+	three_month_num	:any;
+	one_month_num	:any;
+	one_year_refund_num	:any;
+	half_year_refund_num	:any;
+	three_month_refund_num	:any;
+	one_month_refund_num	:any;
+	apply_num	:any;
+	type_str	:any;
+	one_year_per	:any;
+	half_year_per	:any;
+	three_month_per	:any;
+	one_month_per	:any;
 }
 
 /*
@@ -82,4 +101,6 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["account_role title", "account_role", "th_account_role" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

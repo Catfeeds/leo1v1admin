@@ -2664,4 +2664,63 @@ class Utils  {
         }
         return $location;
     }
+
+    /**
+     * author   : sam
+     * function : 手动分页
+     */
+    /*
+        $page_num 如下
+        array:2 [▼
+            "page_num" => 6     //第几页,从1开始
+            "page_count" => 10  //每页
+        ]
+
+        return_info 如下:
+        "total_num" => "2226"
+        "per_page_count" => 10
+        "page_info" => array:3 [▼
+            "total_num" => "2226"
+            "per_page_count" => 10
+            "page_num" => 6
+        ]
+        "list" => array:10 [▼
+            0 => array:34 [▶]
+            1 => array:34 [▶]
+            2 => array:34 [▶]
+            3 => array:34 [▶]
+            4 => array:34 [▶]
+            5 => array:34 [▶]
+            6 => array:34 [▶]
+            7 => array:34 [▶]
+            8 => array:34 [▶]
+            9 => & array:34 [▶]
+        ]
+    */
+    static public function array_to_page($page_num,$ret){
+        $arr['total_num'] = 0;
+        $arr['per_page_count'] = $page_num['page_count'];
+        $arr['page_info']['total_num'] = 0;
+        $arr['page_info']['per_page_count'] = $page_num['page_count'];
+        $arr['page_info']['page_num'] = $page_num['page_num'];
+
+        $num = 0 ;
+        $start_num = ($page_num['page_num'] - 1) * $page_num['page_count'];
+        $end_num   = ($page_num['page_num'] ) * $page_num['page_count'];
+        foreach ($ret as $key => $value) {
+            
+            if($num == $start_num){
+                $i = 0;
+            }
+            if($num >= $start_num && $num < $end_num){
+                $arr['list'][$i] = $value;
+                ++$i;
+            }
+            ++$num;
+        }
+
+        $arr['total_num'] = $num;
+        $arr['page_info']['total_num'] = $num;
+        return $arr;
+    }
 };
