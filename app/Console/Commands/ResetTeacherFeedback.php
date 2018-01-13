@@ -42,7 +42,7 @@ class ResetTeacherFeedback extends cmd_base
         $feedback_list = $this->task->t_teacher_feedback_list->get_delay_feedback_list(0,$end_time);
 
         foreach($feedback_list as $val){
-            
+
         }
     }
 
