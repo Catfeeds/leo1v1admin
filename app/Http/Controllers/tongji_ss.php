@@ -2262,7 +2262,7 @@ class tongji_ss extends Controller
         $teacherid = $this->get_in_int_val('teacherid');
         $date=\App\Helper\Utils::get_month_range(time(),1);
         $date["sdate"] = time()-30*86400;
-        $date["edate"] = time();
+        //  $date["edate"] = time();
         $regular_stu_list =$this->t_lesson_info->get_regular_stu_num_by_teacher($date["sdate"],$date["edate"],$teacherid);
         $grade_arr = [];
         $subject_arr=[];
