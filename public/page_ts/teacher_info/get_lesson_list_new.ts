@@ -697,21 +697,6 @@ $(function(){
                 "onChange"         : null,
                 //加载数据后，其它的设置
                 "onLoadData"       : function(dlg, ret){
-<<<<<<< HEAD
-                    var book_arr = ret.book.split(',');
-                    $.each($(book_arr),function(i,val){
-                        book_info.push(parseInt(val));
-                    });
-                    var tea_sub_arr = ret.tea_sub.split(',');
-                    $.each($(tea_sub_arr),function(i,val){
-                        tea_sub_info.push(parseInt(val));
-                    });
-                    var tea_gra_arr = ret.tea_gra.split(',');
-                    $.each($(tea_gra_arr),function(i,val){
-                        tea_gra_info.push(parseInt(val));
-                    });
-                    dlg_tr = ret.crumbs;
-=======
                     console.log(ret);
                     if(ret.book!=undefined){
                         var book_arr = ret.book.split(',');
@@ -738,7 +723,6 @@ $(function(){
                         });
                     }
                    dlg_tr = ret.crumbs;
->>>>>>> c043f265bb47d323a73cde9bbe7cd2a75ce74f6b
                 },
                 "onshown"          : function(dlg){
                     if(opt_type == 'my'){
