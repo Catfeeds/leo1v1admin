@@ -22,7 +22,8 @@
                     <td>成员 </td>
                     <td>入职时间 </td>
                     <td>离职时间 </td>
-                    <td>是否离职 </td>
+                    <td style="display:none;">是否离职 </td>
+                    <td >是否当月离职 </td>
                     <td>
                         第一周试听成功数
                         ({{$first_week}})
@@ -39,6 +40,7 @@
                         第四周试听成功数
                         ({{$four_week}})
                     </td>
+                    <td>上课数</td>
                     <td>取消率</td>
                     <td>绩效对应系数<br/>(取消率<=18%(40%)+周试听成功>=12节(15%))</td>
                     <td >签约总金额 </td>
@@ -89,10 +91,12 @@
                         <td >{{@$var["become_member_time"]}}</td>
                         <td >{{@$var["leave_member_time"]}}</td>
                         <td>{!! @$var["del_flag_str"] !!}</td>
+                        <td class="cur_del_flag_str"></td>
                         <td class="suc_first_week"></td>
                         <td class="suc_second_week"></td>
                         <td class="suc_third_week"></td>
                         <td class="suc_fourth_week"></td>
+                        <td class="test_lesson_count"></td>
                         <td class="lesson_per"></td>
                         <td class="kpi"></td>
                         <td class="all_price" ></td>
