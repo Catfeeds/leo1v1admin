@@ -121,7 +121,6 @@ class user_manage extends Controller
             $item["cache_nick"]        = $this->cache_get_student_nick($item["userid"]) ;
             \App\Helper\Utils::unixtime2date_for_item($item,"reg_time");
         }
-
         return $this->Pageview(__METHOD__,$ret_info);
     }
 
@@ -168,6 +167,8 @@ class user_manage extends Controller
             E\Egrade::set_item_value_str($item);
             $item["duration"]= \App\Helper\Common::get_time_format($item["duration"]);
         }
+
+
         return $this->Pageview(__METHOD__,$ret_info);
     }
 
@@ -3244,15 +3245,69 @@ class user_manage extends Controller
         list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],3 );
         $sys_operator = $this->get_in_str_val("sys_operator","");
         $account_role = $this->get_in_int_val("account_role",-1);
+        $page_num     = $this->get_in_page_num();
         $end_date     = date("Y-m-d H:i:s",$end_time);
         $one_year     = strtotime("$end_date -1 year"); 
         $half_year    = strtotime("$end_date -6 month");
         $three_month  = strtotime("$end_date -3 month");
 
+        $ret          = $this->t_order_refund->get_sys_operator_apply_info($start_time,$end_time);
         $ret_info     = $this->t_order_info->get_sys_operator_refund_info($one_year,$half_year,$three_month,$start_time,$end_time);
 
-        dd($ret_info);
-        return $this->pageView(__METHOD__, null);
+        foreach ($ret as $key => &$value) {
+            $value['one_year_num'] = 0;
+            $value['half_year_num'] = 0;
+            $value['three_month_num'] = 0;
+            $value['one_month_num'] = 0;
+
+            $value['one_year_refund_num'] = 0;
+            $value['half_year_refund_num'] = 0;
+            $value['three_month_refund_num'] = 0;
+            $value['one_month_refund_num'] = 0;
+        }
+        dd($ret);
+        foreach ($ret_info as $key => $value) {
+
+            if($key == "袁兴运" || $key == "吴峰"){
+                var_dump($value);
+            }
+            if(isset($ret[$key])){//添加
+                $ret[$key]['one_year_num'] = $value['one_year_num'];
+                $ret[$key]['half_year_num'] = $value['half_year_num'];
+                $ret[$key]['three_month_num'] = $value['three_month_num'];
+                $ret[$key]['one_month_num'] = $value['one_month_num'];
+
+                $ret[$key]['one_year_refund_num'] = $value['one_year_refund_num'];
+                $ret[$key]['half_year_refund_num'] = $value['half_year_refund_num'];
+                $ret[$key]['three_month_refund_num'] = $value['three_month_refund_num'];
+                $ret[$key]['one_month_refund_num'] = $value['one_month_refund_num'];
+
+                if(!isset($ret[$key]['apply_num']) ||$ret[$key]['apply_num'] == '' ){
+                   $ret[$key]['apply_num'] = 0; 
+                }
+            }else{
+                $ret[$key] = $value;
+                $ret[$key]['apply_num'] = 0;
+            }
+        }
+
+        //deal
+        foreach ($ret as $key => &$value) {
+            if($value['type'] == 1){
+                $value['type_str'] = "助教";
+            }elseif($value['type'] == 2){
+                $value['type_str'] = "销售";
+            }else{
+                $value['type_str'] = "其他";
+            }
+            $value['one_year_per'] = $value['one_year_num'] > 0? round(100*$value['one_year_refund_num']/$value['one_year_num'],2) : 0;
+            $value['half_year_per'] = $value['half_year_num'] > 0? round(100*$value['half_year_refund_num']/$value['half_year_num'],2) : 0;
+            $value['three_month_per'] = $value['three_month_num'] > 0? round(100*$value['three_month_refund_num']/$value['three_month_num'],2) : 0;
+            $value['one_month_per'] = $value['one_month_num'] > 0? round(100*$value['one_month_refund_num']/$value['one_month_num'],2) : 0;
+        }
+        dd($ret);
+        $ret_arr = \App\Helper\Utils::array_to_page($page_num,$ret);
+        return $this->Pageview(__METHOD__,$ret_arr);
     }
 
     /**

@@ -2360,7 +2360,7 @@ class user_deal extends Controller
         $main_type=$this->get_in_int_val("main_type");
         $month = strtotime($this->get_in_str_val("start_time"));
 
-        $db_groupid=$this->t_group_user_month->get_groupid_by_adminid($main_type,$adminid,$month);
+        $db_groupid=$this->t_group_user_month->get_groupid_by_adminid(-1,$adminid,$month);
         if ($db_groupid ) {
             $group_name=$this->t_group_name_month->get_group_name($db_groupid,$month);
             return $this->output_err("此人已在".date('Y-m',$month)."月[$group_name]中,不能添加");
@@ -3096,7 +3096,7 @@ class user_deal extends Controller
         }
         $lesson_start_time = $this->get_in_str_val('lesson_start');
         if(!empty($lesson_start_time)){
-            $lesson_start_time = json_decode($lesson_start_time);
+            $lesson_start_time = json_decode($lesson_start_time,true);
         }else{
             $lesson_start_time = [];
         }
@@ -3253,6 +3253,183 @@ class user_deal extends Controller
             return json_encode($data);
         }
     }
+
+    public function regular_lesson_plan_count_winter(){
+        $userid           = $this->get_in_int_val('userid');
+        $old_lesson_total = $this->get_in_str_val('old_lesson_total');
+        $start_time       = $this->get_in_str_val('start_time');
+        $end_time         = $this->get_in_str_val('end_time');
+        $start_time_done  = strtotime($start_time." 00:00:00");
+        $end_time_done    = strtotime($end_time." 23:59:59");
+
+        $st_time = strtotime($start_time);
+        $en_time = strtotime($end_time);
+        if($end_time_done < time(NULL)){
+            return $this->output_err("该周课程已结束!");
+        }
+        if($st_time < time(NULL) && $en_time > time(NULL)){
+            $st_time = time(NULL);
+        }
+        $lesson_start_time = $this->get_in_str_val('lesson_start');
+        if(!empty($lesson_start_time)){
+            $lesson_start_time = json_decode($lesson_start_time,true);
+        }else{
+            $lesson_start_time = [];
+        }
+        $arr_week = [1=>"一",2=>"二",3=>"三",4=>"四",5=>"五",6=>"六",7=>"日"];
+        $ret = $this->t_winter_week_regular_course->get_lesson_info(-1,$userid);
+        if($ret){
+            foreach ($ret as $item){
+                $teacherid        = $item['teacherid'];
+                $lesson_count     = $item['lesson_count'];
+                $competition_flag = $item['competition_flag'];
+                $start            = $item['start_time'];
+                $week_time        = explode("-",$start);
+                $week             = $week_time[0];
+                $weeker           = $arr_week[$week];
+                $start            = $week_time[1];
+                $end              = $item['end_time'];
+                $list = $this->t_course_order->get_courseid_by_stu_tea($userid,$teacherid,$competition_flag);
+                $arr  = [];
+                $regular_start = strtotime(date('Y-m-d',(strtotime($start_time)+($week-1)*86400))." ".$start);
+                if($regular_start >= $st_time && !in_array($regular_start,$lesson_start_time)){
+                    if(!$list){
+                        $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+                        return outputJson(array('ret' => -1, 'info' => "没有周".$weeker." $start"."-"."$end"."对应老师的课程包",'data'=>$data));
+                    }else{
+                        foreach($list as $val){
+                            $lesson_use = $this->t_lesson_info->get_lesson_count_all_without_lessonid($val['courseid'],"");
+                            $assigned_lesson_count= $this->t_course_order->get_assigned_lesson_count($val['courseid']);
+                            if($val['course_type']==0 || $val['course_type']==3){
+                                if($assigned_lesson_count >= $lesson_use + $lesson_count){
+                                    $arr[] = $val['courseid'];
+                                }
+                            }
+                        }
+                        if(empty($arr)){
+                            $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+                            return outputJson(array('ret' => -1, 'info' => "周".$weeker." $start"."-"."$end"."课时数不足,请确认!",'data'=>$data));
+                        }else{
+                            $courseid = $arr[0];
+                            $item     = $this->t_course_order->field_get_list($courseid,"*");
+                            if($item['subject'] <=0){
+                                return outputJson(array('ret' => -1, 'info' => "有课程包未设置科目,请确认!"));
+                            }
+
+                            if($item['lesson_grade_type']==0){
+                                $grade = $this->t_student_info->get_grade($item["userid"]);
+                            }else{
+                                $grade = $item['grade'];
+                            }
+
+                            $teacher_info = $this->t_teacher_info->field_get_list($item["teacherid"],"teacher_money_type,level");
+                            $default_lesson_count=0;
+
+                            $lesson_start = strtotime(date('Y-m-d',(strtotime($start_time)+($week-1)*86400))." ".$start);
+                            $lesson_end = strtotime(date('Y-m-d',(strtotime($start_time)+($week-1)*86400))." ".$end);
+
+                            //使用新方法排课
+                            $acc= $this->get_account();
+                            if(!in_array($acc,["jim"])){
+                                $ret1 = $this->add_regular_lesson($courseid,$lesson_start,$lesson_end,$lesson_count);
+                                if(is_numeric($ret1) ){
+                                    // return $this->output_succ(["lessonid" => $ret ]);
+                                    // return $this->output_succ();
+                                    /* $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+                                       if($old_lesson_total >= $data){
+                                       return outputJson(array('ret' => -1, 'info' => "无课可排"));
+                                       }else{
+                                       return json_encode($data);
+                                       }*/
+
+                                }else{
+                                    return $ret1;
+                                }
+                            }else{
+                                $lessonid=$this->t_lesson_info->add_lesson(
+                                    $item["courseid"],0,
+                                    $item["userid"],
+                                    0,
+                                    $item["course_type"],
+                                    $item["teacherid"],
+                                    $item["assistantid"],
+                                    0,0,
+                                    $grade,
+                                    $item["subject"],
+                                    $default_lesson_count,
+                                    $teacher_info["teacher_money_type"],
+                                    $teacher_info["level"],
+                                    $item["competition_flag"],
+                                    2,
+                                    $item['week_comment_num']
+                                );
+
+                                if ($lessonid) {
+                                    $this->t_homework_info->add(
+                                        $item["courseid"],
+                                        0,
+                                        $item["userid"],
+                                        $lessonid,
+                                        $item["grade"],
+                                        $item["subject"]);
+                                }
+
+                                $this->t_lesson_info->reset_lesson_list($courseid);
+
+                                //$lesson_start = strtotime(date('Y-m-d',(strtotime($start_time)+($week-1)*86400))." ".$start);
+                                // $lesson_end = strtotime(date('Y-m-d',(strtotime($start_time)+($week-1)*86400))." ".$end);
+                                $check =  $this->research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count/100,$lesson_start,0);
+                                $ret_row1 = $this->t_lesson_info->check_student_time_free($userid,$lessonid,$lesson_start,$lesson_end);
+                                if($ret_row1) {
+                                    $error_lessonid=$ret_row1["lessonid"];
+                                    $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+                                    return outputJson(array('ret' => -1, 'info' =>  "<div>有现存的学生课程与周".$weeker." $start"."-"."$end"."的课冲突！<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>查看[lessonid=$error_lessonid]<a/><div>",'data'=>$data));
+                                }
+
+                                $ret_row2=$this->t_lesson_info->check_teacher_time_free($teacherid,$lessonid,$lesson_start,$lesson_end);
+                                if($ret_row2) {
+                                    $error_lessonid=$ret_row2["lessonid"];
+                                    $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+                                    return outputJson(array('ret' => -1, 'info' =>" <div>有现存的老师课程与周".$weeker." $start"."-"."$end"."的课冲突！<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>查看[lessonid=$error_lessonid]<a/><div>",'data'=>$data));
+                                }
+
+                                if($check){
+                                    return $check;
+                                }
+
+                                $ret1 = $this->t_lesson_info->check_lesson_count_for_change($lessonid,$lesson_count);
+
+                                if ($ret1) {
+                                    $this->t_lesson_info->field_update_list($lessonid,[
+                                        "lesson_count" => $lesson_count,
+                                        "operate_time" => time(),
+                                        "sys_operator" => $this->get_account()
+                                    ]);
+                                    $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
+                                }else{
+                                    $str= $lesson_count/100;
+                                    return $this->output_err("课时不足,需要课时数:$str");
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
+
+        }else{
+            return $this->output_err("常规课表为空!");
+        }
+
+        $data = $this->t_lesson_info->get_lesson_info_ass_all($start_time_done,$end_time_done,$userid);
+        if($old_lesson_total >= $data){
+            return outputJson(array('ret' => -1, 'info' => "无课可排"));
+        }else{
+            return json_encode($data);
+        }
+    }
+
 
 
     public function get_question_info_by_noteid(){
@@ -4204,7 +4381,9 @@ class user_deal extends Controller
         $arr["last_group_all_price"] = $last_group_all_price/100;
 
         $no_update_seller_level_flag = $this->t_manager_info->field_get_value($adminid,'no_update_seller_level_flag');
-        if($no_update_seller_level_flag == 1){
+        $master_groupid = $this->t_group_name_month->get_groupid_by_adminid($adminid, $start_time_this);
+        // if($no_update_seller_level_flag == 1){
+        if($master_groupid>0){
             $arr['base_salary'] = 6500;
             $arr['sup_salary'] = 0;
             switch(true){

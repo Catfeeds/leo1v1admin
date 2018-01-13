@@ -1315,6 +1315,164 @@ class tea_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function course_plan_stu_winter(){
+        $adminid =$this->get_account_id();
+        $acc= $this->get_account();
+        $assistantid = $this->t_assistant_info->get_assistantid($this->get_account());
+        if($assistantid <= 0 ){
+            $assistantid = 1;
+        }
+        if($adminid==349 || $acc=="jim"){
+            $assistantid=-1;
+        }
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],2);
+        $is_done      = $this->get_in_int_val('is_done',-1);
+        $assistantid  = $this->get_in_int_val('assistantid',$assistantid);
+        $userid       = $this->get_in_int_val('userid',-1);
+        $student_type = $this->get_in_int_val("student_type",0);
+        if($assistantid <= 0 && $userid <= 0){
+            $assistantid = 1;
+        }
+
+        $list = $this->t_student_info->get_stu_ass_all($assistantid,$userid,$student_type);
+        $ass_userid = "";
+        foreach($list['list'] as $val){
+            $ass_userid .= $val['userid'].",";
+        }
+        $ass_userid      = "(".rtrim($ass_userid,",").")";
+        $ret_lesson_info = $this->t_lesson_info->get_lesson_info_ass_all_new($start_time,$end_time,$ass_userid);
+        $lesson_userid   = "";
+        foreach($ret_lesson_info as $val){
+            $lesson_userid .= $val['userid'].",";
+        }
+
+        $lesson_userid    = "(".rtrim($lesson_userid,",").")";
+        $lesson_time_info = $this->t_lesson_info->get_lesson_info_time_new($start_time,$end_time,$lesson_userid);
+        $plan_lessonid    = "";
+        foreach($lesson_time_info as $val){
+            $plan_lessonid .= $val['lessonid'].",";
+        }
+
+        $plan_lessonid = "(".rtrim($plan_lessonid,",").")";
+        $ret_check_stu = $this->t_summer_week_regular_course->check_is_clash_stu_new($lesson_userid,$plan_lessonid,$start_time);
+        $arr_check = [];
+        $arr_lesson_count = [];
+        $arr_lesson_count_all = [];
+        $arr_lesson_count_diff = [];
+        foreach($ret_check_stu['all'] as $item){
+            $arr_check[$item['userid']] = $item['userid'];
+            if(!isset($arr_lesson_count[ $item['userid']])){
+                $arr_lesson_count[ $item['userid']]=0;
+            }
+            $arr_lesson_count[ $item['userid']]+=$item['lesson_count'];
+        }
+        foreach($ret_lesson_info as $key=>&$val){
+            if(!in_array($key,$arr_check)){
+                $val['is_clash'] = 1;
+            }
+            $arr_lesson_start = [];
+            foreach ($ret_check_stu['all'] as $item){
+                if($item['userid'] == $key){
+                    $arr_lesson_start[] = $item['lesson_start'];
+                }
+            }
+            if(!empty($arr_lesson_start)){
+                $val['lesson_start'] = json_encode($arr_lesson_start);
+            }
+            foreach ($ret_check_stu['clash'] as $item){
+                if($item['userid'] == $key){
+                    $val['is_col'] = 1;
+                }
+            }
+            $ret_lesson_info[$key]['count_diff'] = $val['lesson_total']-@$arr_lesson_count[$key];
+        }
+
+        $res_regular_info = $this->t_summer_week_regular_course->get_stu_count_total_new($ass_userid);
+        $regular_userid = "";
+        foreach($res_regular_info as $v){
+            $regular_userid .= $v['userid'].",";
+        }
+        $regular_userid = "(".rtrim($regular_userid,",").")";
+        $regular_lesson_info =$this->t_summer_week_regular_course->get_lesson_info_new($regular_userid);
+        $regular_count_all = $plan_count_all = 0;
+        foreach ($list['list'] as &$item){
+            E\Egrade::set_item_value_str($item);
+            if(isset($ret_lesson_info[$item['userid']])){
+                $item['lesson_total'] = $ret_lesson_info[$item['userid']]['lesson_total'];
+                if(isset($ret_lesson_info[$item['userid']]['is_col'])){
+                    $item['is_col'] = $ret_lesson_info[$item['userid']]['is_col'];
+                }
+                if(isset($ret_lesson_info[$item['userid']]['is_clsah'])){
+                    $item['is_clash'] = $ret_lesson_info[$item['userid']]['is_clsah'];
+                }
+                if(isset($ret_lesson_info[$item['userid']]['lesson_start'])){
+                    $item['lesson_start'] = $ret_lesson_info[$item['userid']]['lesson_start'];
+                }
+            }else{
+                $item['lesson_total'] = 0;
+            }
+            if(isset($ret_lesson_info[$item['userid']])  && $ret_lesson_info[$item['userid']]['count_diff']>0){
+                $item['is_clash'] = 1;
+            }
+            if(!isset($item['is_clash'])){
+                $item['is_clash'] = 0;
+            }
+            if(!isset($item['is_col'])){
+                $item['is_col'] = 0;
+            }
+            E\Eboolean::set_item_value_str($item,"is_clash");
+            E\Eboolean::set_item_value_str($item,"is_col");
+            if(isset($res_regular_info[$item['userid']])){
+                $item['regular_total'] = $res_regular_info[$item['userid']]['regular_total'];
+                if( $item['lesson_total'] == $item['regular_total'] && $item['is_clash'] == 0){
+                    $item['is_done'] = 1;
+                    $item['is_done_str'] = "已完成排课";
+                    $item['is_con']=1;
+                }else{
+                    $item['is_con']=0;
+                    if($item['regular_total'] == @$arr_lesson_count[$item['userid']]){
+                        $item['is_done'] = 1;
+                        $item['is_done_str'] = "已完成排课";
+                    }else{
+                        $item['is_done'] = 0;
+                        $item['is_done_str'] = "未完成排课";
+                    }
+                }
+            }else{
+                $item['regular_total'] = 0;
+                $item['is_done'] = 0;
+                $item['is_done_str'] = "常规课表为空!";
+                if($item['lesson_total'] == 0){
+                    $item['is_con']=1;
+                }else{
+                    $item['is_con']=0;
+                }
+
+            }
+            E\Eboolean::set_item_value_str($item,"is_con");
+            $regular_count_all += $item['regular_total'];
+            $plan_count_all += $item['lesson_total'];
+        }
+
+        if($is_done == 0){
+            foreach($list['list'] as $key=>$value){
+                if($value['is_done']==1){
+                    unset($list['list'][$key]);
+                }
+            }
+        }elseif($is_done ==1){
+            foreach($list['list'] as $key=>$value){
+                if($value['is_done']== 0){
+                    unset($list['list'][$key]);
+                }
+            }
+        }
+
+        return $this->pageView(__METHOD__,$list,["regular_count_all"=>$regular_count_all,"plan_count_all"=>$plan_count_all]);
+
+
+    }
+
     public function course_plan_stu_summer(){
         $adminid =$this->get_account_id();
         $acc= $this->get_account();

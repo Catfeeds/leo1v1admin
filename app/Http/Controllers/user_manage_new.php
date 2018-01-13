@@ -2121,16 +2121,16 @@ class user_manage_new extends Controller
    
         $account = $this->get_account();
 
-        if( in_array($account,['jim','顾培根','孙瞿'])){
-            //超级权限
-        }
+        // if( in_array($account,['jim','顾培根','孙瞿'])){
+        //     //超级权限
+        // }
 
         $list=[];
         $user_list=[];
         $ret_info=\App\Helper\Utils::list_to_page_info([]);
 
         if( $groupid > 0 ){  
-            $user_list=$this->t_manager_info->get_power_group_user_list_sec($role_groupid,$groupid);
+            $user_list=$this->t_manager_info->get_power_group_user_list($groupid);
             $power_map=$this->t_authority_group->get_auth_group_map($groupid);
             $list=$this->get_menu_list_new($power_map );
       

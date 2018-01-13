@@ -448,6 +448,49 @@ $(function(){
     });
 
 
+    $(".opt-power2").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+
+        var uid= opt_data.uid;
+        var show_list=[];
+        if ($.get_action_str()=="manager_list_for_seller" ) {
+            show_list=[57	, 38	, 74	, 77, 80	,];
+        }
+        var show_all_flag=($.get_action_str()=="manager_list");
+
+        var permission  = opt_data["old_permission"];
+        $.do_ajax("/user_power/get_permission_list",{
+            "permission" : permission,
+            "account_role":opt_data['account_role']
+        },function(response){
+            var data_list   = [];
+            var select_list = [];
+            $.each( response.data,function(){
+                if (  show_all_flag || $.inArray(  parseInt( this["groupid"]),  show_list) != -1 ) {
+                    data_list.push([this["groupid"], this["group_name"]  ]);
+                }
+
+                if (this["has_power"]) {
+                    select_list.push (this["groupid"]) ;
+                }
+
+            });
+
+            $(this).admin_select_dlg({
+                header_list     : [ "id","名称" ],
+                data_list       : data_list,
+                multi_selection : true,
+                select_list     : select_list,
+                onChange        : function( select_list,dlg) {
+                    $.do_ajax("/authority/set_permission",{
+                        "uid": uid,
+                        "groupid_list":JSON.stringify(select_list),
+                        "old_permission": opt_data.old_permission,
+                    });
+                }
+            });
+        }) ;
+    });
 
     $(".opt_set_openid").on("click",function(){
         var opt_data=$(this).get_opt_data();

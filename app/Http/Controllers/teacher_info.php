@@ -348,7 +348,6 @@ class teacher_info extends Controller
     {
         $teacherid   = $this->get_login_teacher();
         $ret_info=\App\Helper\Utils::list_to_page_info([]);
-
         return $this->pageView(__METHOD__, $ret_info);
     }
     public function normal_course()
@@ -2518,8 +2517,25 @@ class teacher_info extends Controller
         //获取老师科目年级段
         $tea_info = $this->get_rule_range();
 
+        $sub_str = '-1';
+        $gra_str = '-1';
+        foreach($tea_info as $v){
+            $sub_str .= ','.$v['subject'];
+            foreach($v['grade'] as $g){
+                $gra_str .= ','.$g;
+            }
+        }
+
+        //获取所有有文件的对老师开放的资源类型
+        $res_type_list = $this->t_resource->get_resource_type_for_tea($sub_str, $gra_str);
+        $type_list = [];
+        foreach($res_type_list as $v){
+            $type_list[] =intval( $v['resource_type']);
+        }
+
+
         // dd($tea_info);
-        $resource_type = $this->get_in_int_val('resource_type', 1);
+        $resource_type = $this->get_in_int_val('resource_type', @$type_list[0]);
         $subject       = $this->get_in_int_val('subject', @$tea_info[0]['subject']);
         $flag    = 0;
         $tea_gra = [];
@@ -2606,42 +2622,26 @@ class teacher_info extends Controller
         }
 
         // dd($tea_info);
-        $sub_str = '-1';
-        $gra_str = '-1';
-        foreach($tea_info as $v){
-            $sub_str .= ','.$v['subject'];
-            foreach($v['grade'] as $g){
-                $gra_str .= ','.$g;
-            }
-        }
-        //获取所有有文件的对老师开放的资源类型
-        // $res_type_list = $this->t_resource->get_resource_type_for_tea($sub_str, $gra_str);
-        // // $res_type_list = $this->t_resource->get_resource_type_for_tea('1,2,3,4,5,6', '101,102,103,104,105,106');
-        // $type_list = [];
-        // foreach($res_type_list as $item){
-        //     $type_list[] =intval( $item['resource_type']);
-        // }
-
 
         if($is_js != 0){
             // return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
             return $this->output_ajax_table($ret_info,[
-                'tag_info' => $tag_arr,
-                'tea_sub' => join( $tea_sub, ','),
-                'tea_gra' => join($tea_gra, ','),
-                'book' => join($book_arr, ','),
-                // 'type_list' => join($type_list, ',')
+                'tag_info'  => $tag_arr,
+                'tea_sub'   => join( $tea_sub, ','),
+                'tea_gra'   => join($tea_gra, ','),
+                'book'      => join($book_arr, ','),
+                'type_list' => join($type_list, ',')
             ]);
 
         }
 
         // dd($tea_info);
         return $this->pageView( __METHOD__,$ret_info,[
-            'tag_info'      => $tag_arr,
-            'tea_sub'       => json_encode( $tea_sub),
-            'tea_gra'       => json_encode($tea_gra),
-            'book'          => json_encode($book_arr),
-            'type_list' => json_encode([1,2,3,4,5,6])
+            'tag_info'  => $tag_arr,
+            'tea_sub'   => json_encode( $tea_sub),
+            'tea_gra'   => json_encode($tea_gra),
+            'book'      => json_encode($book_arr),
+            'type_list' => json_encode($type_list)
         ]);
     }
 
@@ -3101,8 +3101,8 @@ class teacher_info extends Controller
             // dd($info);
             $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
             $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade($info['second_grade_start'], $info['second_grade_end']);
-            $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade(1, 2);
-            $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade(4, 4);
+            // $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade(1, 2);
+            // $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade(4, 4);
 
             $data = [];
             $data[0]['subject'] = $info['subject'];

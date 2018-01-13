@@ -123,6 +123,7 @@ class NewRouteConfig {
         "/login/teacher"                          => true,
         "/login/agent"                          => true,
         "/lesson_manage/get_lesson_info"          => true,
+        "/common/check_change_flag" => true,
         "/common/send_papers_email"  => true,
         "/common/add_trial_train_lesson_by_admin" => true,
         "/common/del_qiniu_img"                   => true,
@@ -358,6 +359,7 @@ class NewRouteConfig {
         "/tea_manage/course_plan_stu"              => true,
         "/tea_manage/course_plan_stu_ass"          => true,
         "/tea_manage/course_plan_stu_summer"       => true,
+        "/tea_manage/course_plan_stu_winter"       => true,
         "/tea_manage/course_plan_psychological"    => true,
         "/tea_manage/course_set_new"               => true,
         "/tea_manage/get_course_list"              => true,
@@ -707,7 +709,8 @@ class NewRouteConfig {
         "/user_power/dele_role_groupid"                  =>true,
         "/user_power/add_user"                           =>true,
         "/user_power/set_group_power"                    =>true,
-        "/user_power/dele_role_user"                     =>true
+        "/user_power/dele_role_user"                     =>true,
+        "/user_power/get_permission_list"                     =>true
     ];
 
     static $dev_url_map = [
