@@ -95,10 +95,12 @@ class save_seller_info_by_week extends Command
             $first_group  = '咨询一部';
             $second_group = '咨询二部';
             $third_group  = '咨询三部';
+            $five_group   = '咨询五部';
             $new_group    = '新人营';
             $ret_info['one_department']    = $task->t_admin_group_name->get_group_seller_num($first_group,$start_time);// 咨询一部
             $ret_info['two_department']    = $task->t_admin_group_name->get_group_seller_num($second_group, $start_time);// 咨询二部
             $ret_info['three_department']  = $task->t_admin_group_name->get_group_seller_num($third_group, $start_time);// 咨询三部
+            $ret_info['five_department']   = $task->t_admin_group_name->get_group_seller_num($five_group, $start_time);// 咨询五部
             $ret_info['new_department']    = $task->t_admin_group_name->get_group_seller_num($new_group, $start_time);// 新人营
             $ret_info['train_department']  = 0;// 培训中
         }
@@ -162,7 +164,6 @@ class save_seller_info_by_week extends Command
 
 
         // 更新漏斗型数据
-
         $task->t_seller_tongji_for_month->update_funnel_date($start_time, $ret_info['seller_invit_month'], $ret_info['has_tq_succ_invit_month'], $ret_info['seller_plan_invit_month'], $ret_info['seller_test_succ_month'], $ret_info['order_trans_month'], $ret_info['order_sign_month'], $ret_info['has_tq_succ_sign_month'], $ret_info['has_called_stu'], $ret_info['seller_schedule_num_month'],$ret_info['seller_schedule_num_has_done_month'] );
 
 

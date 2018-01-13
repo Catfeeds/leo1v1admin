@@ -565,6 +565,14 @@ class assistant_performance extends Controller
             $item["del_flag_str"] = $item["del_flag"]?"离职":"在职";
             E\Eaccount_role::set_item_value_str($item);
 
+            $registered_student_list = @$last_ass_month[$k]["registered_student_list"];
+            if($registered_student_list){
+                $registered_student_arr = json_decode($registered_student_list,true);
+                $last_registered_num = count($registered_student_arr);//月初在册人员数
+            }else{
+                $last_registered_num=0;
+            }
+
 
             /*回访*/
             $revisit_reword_per = 0.2;
@@ -632,7 +640,7 @@ class assistant_performance extends Controller
             }
             $item["renw_target"] =  $renw_target;
             // $renw_price = $item["renw_price"]+$item["tran_price"]-$item["ass_refund_money"];
-            $renw_price = $item["renw_price"]+$item["tran_price"];
+            $renw_price = $item["performance_cr_renew_money"]+$item["performance_cr_new_money"];
             $renw_per = $renw_target>0?( $renw_price/$renw_target*100):0;
             $renw_reword = 0;
             if($renw_per>=120){
@@ -653,17 +661,17 @@ class assistant_performance extends Controller
 
             /*转介绍奖金*/
             //转介绍个数
-            $cc_tran_num = $item["cc_tran_num"]+$item["tran_num"]+$item["hand_tran_num"];
+            $cc_tran_num = $item["performance_cc_tran_num"]+$item["performance_cr_new_num"]+$item["hand_tran_num"];
             $cc_tran_num_reword=0;
             if($cc_tran_num>5){
-                $cc_tran_num_reword = $cc_tran_num*50000;
+                $cc_tran_num_reword = ($cc_tran_num-5)*50000+130000;
             }elseif($cc_tran_num>=3){
-                $cc_tran_num_reword = $cc_tran_num*30000;
+                $cc_tran_num_reword = ($cc_tran_num-2)*30000+40000;
             }else{
                 $cc_tran_num_reword = $cc_tran_num*20000;
             }
             //转介绍金额提成
-            $cc_tran_price_reword = $item["cc_tran_money"]*0.02;
+            $cc_tran_price_reword = $item["performance_cc_tran_money"]*0.02;
 
             $cc_tran_reword = $cc_tran_num_reword+$cc_tran_price_reword;
             $item["cc_tran_reword"] = $cc_tran_reword;
@@ -685,7 +693,7 @@ class assistant_performance extends Controller
 
             //扩课
             $kk_num = $item["kk_num"]+$item["hand_kk_num"];
-            $kk_per = $item["read_student"]>0?($kk_num/$item["read_student"]):0;
+            $kk_per = $last_registered_num>0?($kk_num/$last_registered_num):0;
             if($kk_per>=0.06){
                 $kk_reword_per = 0.2;
             }else{
@@ -699,7 +707,7 @@ class assistant_performance extends Controller
                 $all_stop_num =  @$test_month[$k]["stop_student"];
 
             }else{
-                $all_stu_num = $item["all_ass_stu_num"];//所有学员
+                $all_stu_num = $last_registered_num;//月初在册学员
                 $all_stop_num = $item["stop_student"];//停课学员               
             }
 
@@ -716,12 +724,8 @@ class assistant_performance extends Controller
             $item["stop_reword_per"]=$stop_reword_per;
 
             //结课未续费
-            if($start_time <strtotime("2017-11-01")){
-                $end_no_renw_num = $item["end_stu_num"];//先以10月份当月结课学生数代替 
-            }else{
-                $end_no_renw_num = $item["end_no_renw_num"]; 
-            }
-            $end_no_renw_per = $all_stu_num>0?($end_no_renw_num/$all_stu_num):0;
+            $end_no_renw_num = $item["end_stu_num"];//月结课学员 
+            $end_no_renw_per = $last_registered_num>0?($end_no_renw_num/$last_registered_num):0;
             if($end_no_renw_per <=0.08){
                 $end_no_renw_reword_per = 0.05;
             }else{

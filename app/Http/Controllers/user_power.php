@@ -202,22 +202,29 @@ class user_power extends Controller
         $edit_power_name       = $this->get_in_str_val('edit_power_name');
         $edit_power_id         = $this->get_in_str_val('edit_power_id');
         $user_id               = $this->get_in_int_val('user_id');
+        $is_copy_power         = $this->get_in_int_val('is_copy_power'); //是否复制其他权限组
+        $copy_groupid          = $this->get_in_int_val('copy_groupid');  //所要复制权限组的id
+
+        $data = [
+            "group_name"  => $edit_power_name,
+            "role_groupid" => $role_groupid,
+        ];
+
+        if($is_copy_power){
+            $authority = $this->t_authority_group->get_group_authority($copy_groupid);
+            if($authority){
+                $data['group_authority'] = $authority;
+            }
+        }
 
         if( $edit_type == 1){
             //添加权限组
-            $this->t_authority_group->row_insert([
-                "group_name"  => $edit_power_name,
-                "role_groupid" => $role_groupid,
-                "create_time"  => time(NULL)
-            ]);
+            $data["create_time"] = time(NULL);
+            $this->t_authority_group->row_insert($data);
             $edit_power_id = $this->t_authority_group->get_last_insertid();
         }else{
             //编辑权限组
-            $this->t_authority_group->field_update_list($edit_power_id,[
-                "group_name"  => $edit_power_name,
-                "role_groupid"  => $role_groupid
-            ]);
- 
+            $this->t_authority_group->field_update_list($edit_power_id,$data);
         }
 
         if($user_id){

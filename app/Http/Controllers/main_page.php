@@ -110,7 +110,8 @@ class main_page extends Controller
 
                 # 咨询各部人数修改
                 # 2018-1-9 之后
-                if($nowTime>1516032000){
+                $onlineTime = strtotime('2018-01-17');
+                if($nowTime>$onlineTime){
                     $sellerNumArr = json_decode($ret_info['sellerNumData'],true);
                     $sellerNum = 0;
                     foreach($sellerNumArr as $sellerNumItem){
@@ -239,7 +240,8 @@ class main_page extends Controller
 
                 # 咨询各部人数修改
                 # 2018-1-9 之后
-                if($nowTime>1516032000){
+                $onlineTime = strtotime('2018-01-17');
+                if($nowTime>$onlineTime){
                     $sellerNumArr = json_decode($ret_info['sellerNumData'],true);
                     $sellerNum = 0;
                     foreach($sellerNumArr as $sellerNumItem){
@@ -344,7 +346,8 @@ class main_page extends Controller
 
         # 咨询各部门人数获取方式变更标示 2018-1-10 James
         $isTranFlag = 0;
-        if($nowTime>1516032000){
+        $onlineTime = strtotime('2018-01-17');
+        if($nowTime>$onlineTime){
             $isTranFlag = 1;
         }
 
