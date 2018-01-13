@@ -150,7 +150,23 @@ $(function(){
 
     });
 
-    $("#id_assistantid").parent().parent().hide();
+    $(".opt-info").on("click",function(){
+        var start = g_args.start_time;
+        var end = g_args.end_time;
+        var opt_data=$(this).parent().parent().find(".row-data").get_self_opt_data();
+        var userid = opt_data.userid;
+        $.wopen("course_plan?date_type=null&opt_date_type=2&start_time="+start+"&end_time="+end+"&studentid="+userid+"&plan_course=");
+        
+    });
+
+
+    if(g_args.ass_account_role==12){
+        
+    }else{
+        
+    
+        $("#id_assistantid").parent().parent().hide();
+    }
 
     var init_noit_btn=function( id_name, title) {
         var btn=$('#'+id_name);

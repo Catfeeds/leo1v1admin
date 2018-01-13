@@ -147,9 +147,9 @@ class test_sam extends Command
                 $vvalue['grade_end']   = E\Egrade_range::get_desc($vvalue['grade_end']);
                 $vvalue['grade_range'] = $vvalue['grade_start'].'~'.$vvalue['grade_end']; 
                 $vvalue['phone_location'] = \App\Helper\Utils::phone_location_to_province($vvalue['phone_location']);
-                echo $task->cache_get_teacher_nick($vvalue["teacherid"]).' '.$vvalue['grade_start'].'~'.$vvalue['grade_end'].' '.$vvalue['phone_location'].' '.E\Egrade_range::get_desc($vvalue['subject']).' '.E\Egrade_range::get_desc('second_subject').PHP_EOL;
+                echo $task->cache_get_teacher_nick($vvalue["teacherid"]).' '.$vvalue['grade_start'].'~'.$vvalue['grade_end'].' '.$vvalue['phone_location'].' '.E\Esubject::get_desc($vvalue['subject']).' '.E\Esubject::get_desc($vvalue['second_subject']).PHP_EOL;
             }
-            exit;
+            
             //dd($ret_info);
             //var_dump(date("Y-m-d",$start_time), date("Y-m-d",$end_time));
             // $month = date("Y-m",$start_time);
@@ -158,6 +158,7 @@ class test_sam extends Command
             // $arr_data  = ['teacher','grade_range','phone_location'];
             // $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
         }
+        exit;
 
         /*
         $time = [

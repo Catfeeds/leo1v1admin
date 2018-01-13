@@ -1322,7 +1322,8 @@ class tea_manage extends Controller
         if($assistantid <= 0 ){
             $assistantid = 1;
         }
-        if($adminid==349 || $acc=="jim"){
+        $account_role = $this->get_account_role();
+        if($adminid==349 || $acc=="jim" || $account_role==12){
             $assistantid=-1;
         }
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],2);
@@ -1468,6 +1469,7 @@ class tea_manage extends Controller
             }
         }
 
+        $this->set_filed_for_js("ass_account_role",$account_role);
         return $this->pageView(__METHOD__,$list,["regular_count_all"=>$regular_count_all,"plan_count_all"=>$plan_count_all]);
 
 
