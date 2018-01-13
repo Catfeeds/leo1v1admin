@@ -147,7 +147,7 @@ class test_sam extends Command
                 $vvalue['grade_end']   = E\Egrade_range::get_desc($vvalue['grade_end']);
                 $vvalue['grade_range'] = $vvalue['grade_start'].'~'.$vvalue['grade_end']; 
                 $vvalue['phone_location'] = \App\Helper\Utils::phone_location_to_province($vvalue['phone_location']);
-                echo $task->cache_get_teacher_nick($vvalue["teacherid"]).' '.$vvalue['grade_start'].'~'.$vvalue['grade_end'].' '.$vvalue['phone_location'].' '.E\Egrade_range::get_desc($vvalue['subject']).' '.E\Egrade_range::get_desc('second_subject').PHP_EOL;
+                echo $task->cache_get_teacher_nick($vvalue["teacherid"]).' '.$vvalue['grade_start'].'~'.$vvalue['grade_end'].' '.$vvalue['phone_location'].' '.E\Esubject_range::get_desc($vvalue['subject']).' '.E\Esubject_range::get_desc('second_subject').PHP_EOL;
             }
             exit;
             //dd($ret_info);
