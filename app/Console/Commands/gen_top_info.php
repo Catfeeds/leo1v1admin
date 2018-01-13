@@ -148,6 +148,11 @@ class gen_top_info extends Command
         $this->task->t_tongji_seller_top_info->update_list(
             E\Etongji_type::V_SELLER_MONTH_FAIL_LESSON_COUNT
             ,$group_start_time,$test_lesson_fail_count);
+        foreach($test_lesson_all_count as $itme){
+            if($item['adminid'] == 1298){
+                echo $item['value'];
+            }
+        }
         $this->task->t_tongji_seller_top_info->update_list(
             E\Etongji_type::V_SELLER_MONTH_ALL_LESSON_COUNT,
             $group_start_time,$test_lesson_all_count);
