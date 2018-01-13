@@ -46,7 +46,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
                     $arr = [];
                     $row = $this->task->t_seller_student_new->field_get_list($userid,'cc_called_count,last_contact_cc,first_called_cc,cc_no_called_count,cc_no_called_count_new');
                     if($is_called_phone==0){
-                        if($row['cc_no_called_count']>0){
+                        if($row['cc_called_count']==0){
                             $arr['cc_no_called_count'] = $row['cc_no_called_count']+1;
                         }
                         $arr['cc_no_called_count_new'] = $row['cc_no_called_count_new']+1;
