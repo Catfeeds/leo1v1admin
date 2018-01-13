@@ -965,6 +965,7 @@ class assistant_performance extends Controller
         $contract_type = $this->get_in_int_val("contract_type",-1);
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $ass_order_info = $this->t_order_info->get_assistant_performance_order_info($start_time,$end_time,$adminid,$contract_type);
+
         dd($ass_order_info);
 
 
