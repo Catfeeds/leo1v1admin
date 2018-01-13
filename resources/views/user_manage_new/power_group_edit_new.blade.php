@@ -22,6 +22,8 @@
      .ztree li span.button.add { margin-left: 2px;margin-right: -1px;background-position: -144px 0;vertical-align: top;}
      .power_title{ margin: 5px auto;font-size: 16px; }
      .fa-plus{ margin-left:10px}
+     .btn_new{position: absolute;right: 30px;top: 15px;}
+     .btn_new button{margin-right:10px}
     </style>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <section class="content">
@@ -29,18 +31,20 @@
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">角色组</span>
-                    <select class="opt-change form-control " id="id_role_groupid"></select>
+                    <select class="opt-change form-control " id="id_role_groupid" onchange='get_search_group(this.options[this.options.selectedIndex].value)'></select>
                 </div>
             </div>
 
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">权限组</span>
-                    <select class="opt-change form-control " id="id_groupid">
-                        @foreach  ($group_list as $var)
-                            <option value="{{$var["groupid"]}}"> {{$var["group_name"]}} </option>
-                        @endforeach
-                    </select>
+                    <select class="opt-change form-control " id="id_groupid"></select>
+                </div>
+            </div>
+
+            <div class="col-xs-1 col-md-1">
+                <div class="input-group ">
+                    <button class="btn btn-info" id="search_this">搜索</button>
                 </div>
             </div>
 
@@ -57,18 +61,18 @@
 
             <div class="col-xs-1 col-md-1">
                 <div class="input-group ">
-                    <button edit="1" class="id_edit_power_group btn fa fa-plus btn-primary">添加权限组</button>
+                    <button edit="1" class="id_edit_power_group btn btn-primary">添加权限组</button>
                 </div>
             </div>
             <div class="col-xs-1 col-md-1">
                 <div class="input-group ">
-                    <button edit="2" class="id_edit_power_group btn fa fa-edit btn-warning">修改权限组</button>
+                    <button edit="2" class="id_edit_power_group btn btn-warning">修改权限组</button>
                 </div>
             </div>
 
             <div class="col-xs-1 col-md-1">
                 <div class="input-group ">
-                    <button id="id_del_group" class="btn fa fa-minus  btn-danger"">删除权限组</button>
+                    <button id="id_del_group" class="btn btn-danger"">删除权限组</button>
                 </div>
             </div>
 
@@ -84,7 +88,6 @@
         <div class="row">
             <div class="col-xs-6 col-md-4">
                 <div class="row">
-                    <input type="hidden" value="{{$groupid}}" id="groupid" />
                     <div class="col-xs-6 col-md-10" style="padding:20px;">
                         <div>权限 <a href="javascript:;" id="id_show_all_power"> 显示全部 </a> <a href="javascript:;" id="id_show_power"> 显示有权限部分 </a> --------- </div>
                         <div class="zTreeDemoBackground">
@@ -103,11 +106,11 @@
                         <tr>
                             <td colspan="5">
                                 <div class="power_title">
-                                    <span style="margin-left:20%">权限组用户</span>                            
-                                    <div class="input-group" style="position: absolute;right: 30px;top: 15px;">
-                                        <button class="btn fa fa-plus btn-primary" id="id_add_user">添加用户</button>
-                                        <button class="btn fa fa-plus btn-primary" id="batch_add_user">批量添加</button>
-                                        <button class="btn fa fa-plus btn-danger" id="batch_dele_user">批量删除</button>
+                                    <span style="margin-left:20px">权限组用户</span>                            
+                                    <div class="input-group btn_new">
+                                        <button class="btn fa btn-primary" id="id_add_user">添加用户</button>
+                                        <button class="btn fa btn-primary" id="batch_add_user">批量添加</button>
+                                        <button class="btn fa btn-danger" id="batch_dele_user">批量删除</button>
                                     </div>                  
                                 </div>
                             </td>
