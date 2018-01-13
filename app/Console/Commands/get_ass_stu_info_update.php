@@ -246,6 +246,7 @@ class get_ass_stu_info_update extends Command
 
       
         $ass_list = $task->t_manager_info->get_adminid_list_by_account_role_new(1,$start_time,0);
+        dd($ass_list);
 
         $warning_list = $task->t_student_info->get_warning_stu_list();
         
