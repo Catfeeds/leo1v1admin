@@ -137,9 +137,6 @@ class gen_top_info extends Command
             }else{
                 $item['value']=0;
             }
-            if($adminid == 1298){
-                \App\Helper\Utils::logger('item_count:'.$item['test_lesson_count'].',item_fail_count:'.$item['fail_all_count']);
-            }
             $test_lesson_all_count[]= [ "adminid" =>$adminid , "value"=> $item['test_lesson_count']  ] ;
             $test_lesson_fail_count[]= [ "adminid" =>$adminid , "value"=> $item['fail_all_count']  ] ;
         }

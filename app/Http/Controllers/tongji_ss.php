@@ -2261,7 +2261,7 @@ class tongji_ss extends Controller
     public function get_teacher_stu_info_new(){
         $teacherid = $this->get_in_int_val('teacherid');
         $date=\App\Helper\Utils::get_month_range(time(),1);
-        $date["sdate"] = time()-86400;
+        $date["sdate"] = time()-30*86400;
         $date["edate"] = time();
         $regular_stu_list =$this->t_lesson_info->get_regular_stu_num_by_teacher($date["sdate"],$date["edate"],$teacherid);
         $grade_arr = [];
@@ -4052,8 +4052,11 @@ class tongji_ss extends Controller
             $item["time"] = date("Y-m-d H:i:s",$item["lesson_start"]);
         }
         $ass_info = $this->t_month_ass_student_info->get_ass_month_info($start_time);
+        $list=@$ass_info[$adminid];
+        $list["kk_all"] =$list["kk_num"]+$list["hand_kk_num"];
 
-        return  $this->output_succ( [ "data" =>$data] );
+
+        return  $this->output_succ( [ "data" =>$data,"list"=>$list] );
 
     }
 
