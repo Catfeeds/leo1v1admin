@@ -34,6 +34,7 @@ class Kernel extends ConsoleKernel
         Commands\send_wx_msg_common_lesson::class,
         Commands\test_command::class,
         Commands\ResetStudentLessonCount::class,
+        Commands\ResetTeacherFeedback::class,
         Commands\SetLessonStuAttend::class,
         Commands\update_month_student_count::class,
         Commands\get_teacher_student_first_subject_list::class,       

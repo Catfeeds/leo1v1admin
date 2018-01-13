@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class ResetTeacherFeedback extends Command
+class ResetTeacherFeedback extends cmd_base
 {
     /**
      * The name and signature of the console command.
@@ -39,7 +39,13 @@ class ResetTeacherFeedback extends Command
     {
         $date = date("Y-m-01",time());
         $end_time = strtotime ($date);
-        $feedback_list = $this->t_teacher_feedback_list->get_delay_feedback_list(0,$end_time);
+        $feedback_list = $this->task->t_teacher_feedback_list->get_delay_feedback_list(0,$end_time);
 
+        foreach($feedback_list as $val){
+            
+        }
     }
+
+
+
 }
