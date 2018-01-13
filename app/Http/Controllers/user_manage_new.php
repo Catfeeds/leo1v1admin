@@ -2106,7 +2106,20 @@ class user_manage_new extends Controller
 
         //该角色对应的权限组id
         $group_list = $this->t_authority_group->get_groupid_by_role($role_groupid);
-        
+
+        //所有权限组
+        $group_list_all = $this->t_authority_group->get_auth_groups_all();
+        $group_all = [];
+        if($group_list_all){
+            $role_id = 0;
+            foreach($group_list_all as $group){
+                if($group['role_groupid'] != $role_id){
+                    $role_id = $group['role_groupid'];
+                }
+                $group_all[$role_id][] = $group;
+            }
+        }
+        //dd($group_all);
         if(count($group_list)>0){
             $groupid_arr = array_column($group_list, 'groupid');
             if( $groupid == 0 ){
@@ -2138,40 +2151,14 @@ class user_manage_new extends Controller
 
         }
         return $this->Pageview(__METHOD__,$ret_info,[
-            "_publish_version" => 201801111150,
+            "_publish_version" => 201801113150,
             "group_list"=>$group_list,
+            "group_all" => $group_all,
             "user_list"=>$user_list,
             "list"=>$list,
             "groupid" => $groupid
         ]);
 
-    }
-
-    public function get_group_list_by_role_groupid(){
-        $role_groupid  = $this->get_in_int_val("role_groupid");
-        $list = [];
-        if($role_groupid){
-            //该角色对应的权限组id
-            $group_list = $this->t_authority_group->get_groupid_by_role($role_groupid);
-            $groupid_arr = [];
-            if( count($group_list) > 0 ){
-                $groupid_arr = array_column($group_list, 'groupid');
-            }
-            $list    = $this->t_authority_group->get_auth_groups_all();
-            if($groupid_arr){
-                foreach ($list as &$item) {
-                    $item["has_power"] = in_array($item['groupid'],$groupid_arr)?1:0;
-                }
-
-            }else{
-                foreach ($list as &$item) {
-                    $item["has_power"] = 0;
-                }
-
-            }          
- 
-        }
-        return $this->output_succ(["data"=> $list]);
     }
 
     public function power_group_edit() {

@@ -116,10 +116,10 @@ class t_authority_group extends \App\Models\Zgen\z_t_authority_group
 
     public function get_auth_groups_all()
 	{
-		$sql = sprintf("select group_name,groupid"
+		$sql = sprintf("select group_name,groupid,role_groupid"
                        ." from %s"
-                       ." where del_flag = 0 and role_groupid = 0"
-                       ." order by group_name asc"
+                       ." where del_flag = 0"
+                       ." order by role_groupid asc,group_name asc"
                        ,self::DB_TABLE_NAME
         );
 		return $this->main_get_list($sql);

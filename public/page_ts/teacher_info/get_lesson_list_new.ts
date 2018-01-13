@@ -725,6 +725,7 @@ $(function(){
                         });
                     }
 
+                    console.log(res_type_list, tea_sub_info,tea_gra_info);
                     if(opt_type == 'my'){
                         $('.my-mark').empty();
                         var cru_str = '<div class="col-xs-12">';
