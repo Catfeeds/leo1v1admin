@@ -462,9 +462,8 @@ class agent extends Controller
         $start_time = $start_time = strtotime("2018-01-01");
         $end_time = strtotime("2018-02-01");
         $adminid = 1298;
-        $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time ,$grade_list=[-1] , $origin_ex="",$adminid,$adminid_list=[]);
-        $test_lesson_list_new = $this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid,$adminid_list=[]);
-        dd($test_lesson_list,$test_lesson_list_new);
+        $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
+        dd($test_lesson_list);
     }
 
     //处理等级头像
