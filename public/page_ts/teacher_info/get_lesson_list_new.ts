@@ -722,7 +722,7 @@ $(function(){
                             res_type_list.push(parseInt(val));
                         });
                     }
-                    if(sel_val[0] == NaN){
+                    if( isNaN(sel_val[0]) ){
                         sel_val[0] = res_type_list[0];
                     }
 
@@ -732,8 +732,8 @@ $(function(){
                             tea_sub_info.push(parseInt(val));
                         });
                     }
-                    if(sel_val[1] == NaN){
-                        sel_val[1] = tea_sub[0];
+                    if(isNaN(sel_val[1])){
+                        sel_val[1] = tea_sub_info[0];
                     }
 
                    if(ret.tea_gra!=undefined){
@@ -742,8 +742,8 @@ $(function(){
                             tea_gra_info.push(parseInt(val));
                         });
                     }
-                    if(sel_val[2] == NaN){
-                        sel_val[2] = tea_gra[0];
+                       if(isNaN(sel_val[2])){
+                        sel_val[2] = tea_gra_info[0];
                     }
 
                    if(ret.book!=undefined){
@@ -752,7 +752,7 @@ $(function(){
                             book_info.push(parseInt(val));
                         });
                     }
-                     if(sel_val[3] == NaN){
+                    if(isNaN(sel_val[3] )){
                         sel_val[3] = book_info[0];
                     }
 
