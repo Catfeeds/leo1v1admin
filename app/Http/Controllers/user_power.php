@@ -251,7 +251,34 @@ class user_power extends Controller
 
     }
 
-    private function add_user_power($role_groupid,$groupid,$user_id){
+    public function batch_add_user(){
+        $uid_str      = $this->get_in_str_val("uid_str") ;
+        $role_groupid  = $this->get_in_int_val("role_groupid") ;
+        $groupid     = $this->get_in_int_val("groupid");
+        $change_role     = $this->get_in_int_val("change_role");
+
+        if(!empty($uid_str)){
+            $uid_arr = explode(',',$uid_str);
+            $all_num = count($uid_arr);
+            $succ_num = 0;
+            $fail_num = 0;
+            foreach($uid_arr as $uid){
+                $info = $this->add_user_power($role_groupid,$groupid,$uid,$change_role);
+                if($info[0] == 1){
+                    $succ_num += 1;
+                }else{
+                    $fail_num += 1;
+                }
+            }
+            $info = "为该权限添加用户总数：".$all_num." 其中成功：".$succ_num."，失败：".$fail_num;         
+            return $this->output_succ($info);
+
+        }else{
+            return $this->output_succ("请为权限添加用户");
+        }
+    }
+    
+    private function add_user_power($role_groupid,$groupid,$user_id,$change_role = 0){
         $have_permit = $this->t_manager_info->get_permission($user_id);
         $have_role = $this->t_manager_info->get_account_role($user_id);
 
@@ -269,7 +296,12 @@ class user_power extends Controller
                 $have_permit = $groupid;
             }
         }
-        $this->t_manager_info->field_update_list($user_id,['account_role'=>$role_groupid,'permission'=>$have_permit]);
+
+        if( $change_role == 0){
+            $this->t_manager_info->field_update_list($user_id,['account_role'=>$role_groupid,'permission'=>$have_permit]);
+        }else{
+            $this->t_manager_info->field_update_list($user_id,['permission'=>$have_permit]);
+        }
 
         /**
          * @ 产品部加 数据更改日志
@@ -306,11 +338,36 @@ class user_power extends Controller
         return $this->output_succ();
     }
 
+    //批量删除用户
+    public function batch_dele_user(){
+        $dele_uid_str      = $this->get_in_str_val("dele_uid_str") ;
+        $role_groupid  = $this->get_in_int_val("role_groupid") ;
+        $groupid     = $this->get_in_int_val("groupid");
+        if(!empty($dele_uid_str)){
+            $uid_arr = explode(',', $dele_uid_str);
+            if(!is_array($uid_arr) || count($uid_arr) == 0 ){
+                return $this->output_succ();
+            }
+            $succ_num_dele = 0;
+            foreach($uid_arr as $uid){
+                $this->dele_user_power($uid,$groupid);
+            }
+        }
+        return $this->output_succ();
+    }
+
+    //删除用户
     public function dele_role_user(){
         $uid                  = $this->get_in_int_val("uid");
         $role_groupid  = $this->get_in_int_val('role_groupid');
         $groupid  = $this->get_in_int_val('groupid');
 
+        $this->dele_user_power($uid,$groupid);
+
+        return $this->output_succ();
+    }
+
+    private function dele_user_power($uid,$groupid){
         $have_permit = $this->t_manager_info->get_permission($uid);
         $have_role = $this->t_manager_info->get_account_role($uid);
         //echo $have_permit;
@@ -326,7 +383,22 @@ class user_power extends Controller
             $this->t_manager_info->field_update_list($uid,['permission'=>$new_permit]);
         }
 
-        return $this->output_succ();
+    }
+
+    //获取所有后台管理员
+    public function get_user_list(){
+        $name_phone = $this->get_in_str_val('name_phone');
+        $gender = $this->get_in_int_val('gender');
+        $page_num  = $this->get_in_page_num();
+
+        $ret_list = $this->t_manager_info->get_user_list_sec($gender,$name_phone,$page_num);
+        if($ret_list['list']){
+            foreach($ret_list['list'] as &$var){
+                $var['account_role_str'] = E\Eaccount_role::get_desc($var['account_role']);
+            }
+        }
+        //dd($ret_list);
+        return $this->output_ajax_table($ret_list, [ "lru_list" => [] ]);
     }
 
     //用户管理获取该角色对应的权限
