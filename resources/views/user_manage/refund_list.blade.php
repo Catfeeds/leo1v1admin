@@ -83,6 +83,7 @@
                         <td >是否开有发票</td>
                         <td >发票</td>
                         <td >支付账号</td>
+                        <td >帐号持有人</td>
                         <td >退费理由</td>
                         <td >挽单结果</td>
                         <td >申请时间</td>
@@ -193,6 +194,7 @@
                             <td >{{$var["need_receipt_str"]}}</td>
                             <td >{{$var["invoice"]}}</td>
                             <td >{{$var["pay_account"]}}</td>
+                            <td >{{$var["pay_account_admin"]}}</td>
                             <td >{{mb_substr($var["refund_info"],0,50 )}}...</td>
                             <td >{{mb_substr($var["save_info"],0,50 )}}...</td>
 

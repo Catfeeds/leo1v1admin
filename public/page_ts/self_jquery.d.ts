@@ -62,7 +62,62 @@ interface JQueryStatic {
     admin_query_input ( options):any;
     admin_date_select ( options):any;
     admin_ajax_select_user ( options):any;
+
+
+    /*
+            "join_header" : null,
+            "field_name"  :null,
+            "title"  :  "",
+            "length_css" : "col-xs-6 col-md-2",
+            "as_header_query" : false ,
+
+            "select_value" :null,
+            "can_select_all_flag"     : true,
+
+
+            "opt_type" :  "select", // or "list"
+            "url"          : "/user_deal/get_xmpp_server_list_js",
+            select_primary_field   : "server_name",
+            select_display         : "server_name",
+            select_no_select_value : "",
+            //select_no_select_title : "[全部]",
+            select_no_select_title : "xmpp服务器",
+            "th_input_id"  : null,
+
+            //其他参数
+            "args_ex" : {
+            },
+            //字段列表
+            'field_list' :[
+                {
+                title:"ip",
+                render:function(val,item) {return item.ip;}
+            },{
+                title:"权重",
+                render:function(val,item) {return item.weights ;}
+            },{
+                title:"名称",
+                render:function(val,item) {return item.server_name;}
+            },{
+
+                title:"说明",
+                render:function(val,item) {return item.server_desc;}
+            }
+            ] ,
+            filter_list: [],
+
+            "auto_close"       : true,
+            //选择
+            "onChange"         : function(v) {
+                $("id_xmpp_server_name").val(v);
+                load_data();
+            },
+            //加载数据后，其它的设置
+            "onLoadData"       : null,
+    */
+    admin_ajax_select_dlg_ajax ( options):any;
     admin_query_common(options):any;
+
 
     //<script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     /*
@@ -100,7 +155,7 @@ interface JQueryStatic {
     */
     show_input( title:string,  value:any, ok_func: (v:any)=>void ,$input?:JQuery  ):void;
     md5(str):string;
-
+    get_table_key(fix):string;
     base64:any;
 
     check_in_phone():boolean;

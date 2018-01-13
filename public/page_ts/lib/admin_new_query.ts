@@ -134,20 +134,34 @@
         var me=this;
         this.defaults = {
             "list_type" : null,
-            "html_hide_list": {},
+            "html_power_list": {},
+            "item_count" : 10,
+            "show_all_item_limit_item_count":4,
         };
 
-      me.need_show_field_index_list=[];
-      $.each($ele.find(".select-menu-list .select"),function(){
-        me.need_show_field_index_list.push( $(this).data("index"));
-      });
+        this.options = $.extend({}, this.defaults, opt);
 
-      me.select_all_flag= $ele.find(".query-meum-select-all").data("select_all_flag");
+        me.need_show_field_index_list=[];
+        $.each($ele.find(".select-menu-list .select"),function(){
+            me.need_show_field_index_list.push( $(this).data("index"));
+        });
+
+        me.default_show_all_flag=false;
+        var  query_item_count =window.localStorage.getItem( $.get_table_key("query_item_count" ) );
+        if (query_item_count) {
+            me.options.item_count= query_item_count;
+        }
+        if (me.options.item_count  < me.options.show_all_item_limit_item_count ) {
+            me.default_show_all_flag=true;
+        }
+
+
+
+        me.select_all_flag= $ele.find(".query-meum-select-all").data("select_all_flag");
 
 
 
         this.query_item_list=[];
-        this.options = $.extend({}, this.defaults, opt);
 
         this.menu_item_select_css="select";
         var flag_key = "query_flag_"+ window.location.pathname;
@@ -156,7 +170,7 @@
         var list_type = parseInt( window.localStorage.getItem( list_type_key));
         if (!(list_type >=0) ) {
             list_type=2;
-      }
+        }
 
 
         this.options.list_type = list_type;
@@ -171,7 +185,7 @@
         this.load_data_flag= load_data_flag;
         var query_but_str="";
         if (this.load_data_flag ) { // 不是立即
-           query_but_str= '            <button type="button" style="margin-top: 5px; margin-right: 8pt;" class="btn btn-primary btn-flat  do-query ">查询</button>'
+            query_but_str= '            <button type="button" style="margin-top: 5px; margin-right: 8pt;" class="btn btn-primary btn-flat  do-query ">查询</button>'
         }
 
         var base_html=
@@ -179,7 +193,7 @@
             +'</div>  '
 
             +'<div class="row used-query-list " >'
-            +'    <div class="col-xs-2 col-md-2 "  >'
+            +'    <div class="col-xs-2 col-md-2 query-list-select-item "  >'
             +'        <div class="btn-group" style=" width: 120px; float:left;">'
             +'            <button type="button" class="btn btn-default query-meum-select-all">全部条件</button>'
             +'            <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">'
@@ -197,11 +211,14 @@
         this.$ele=$ele;
         this.$ele.html( base_html );
         this.$ele.addClass("header-query-info");
+        if ( me.default_show_all_flag ) {
+            this.$ele.find(".query-list-select-item") .hide();
+        }
 
         var $menu_list       = this.$ele.find(".select-menu-list");
         var $query_list      = this.$ele.find(".query-list");
         var $used_query_list = this.$ele.find(".used-query-list");
-      var select_query_all = this.$ele.find(".query-meum-select-all") ;
+        var select_query_all = this.$ele.find(".query-meum-select-all") ;
 
 
         var show_menu_btn_deal=function( $btn ) {
@@ -274,9 +291,9 @@
             return false;
         });
 
-      if (me.select_all_flag ) { //原来的情况
-        select_query_all.click();
-      }
+        if (me.select_all_flag ) { //原来的情况
+            select_query_all.click();
+        }
 
     };
 
@@ -305,15 +322,26 @@
 
         add :function( item ) {
             var me    = this;
-            var check_field_name="input_"+item.options.field_name;
-            //console.log("check_field_name:"+check_field_name );
-            //console.log( this.options.html_hide_list );
-            if (this.options.html_hide_list[ check_field_name ]) {
-                return ;
+            //check power
+            var need_power= item.options.need_power;
+            var check_power_flag=true;
+            if (need_power) {
+                if ($.isFunction(need_power ) ) {
+                    check_power_flag= need_power( this.options.html_power_list );
+                }else{
+                    check_power_flag = $.inArray ( need_power, this.options.html_power_list ) !== -1;
+                }
+            }
+
+            if (!check_power_flag ) {
+                return;
             }
 
             var index = this.query_item_list.length;
             this.query_item_list.push(item);
+            window.localStorage.setItem( $.get_table_key("query_item_count"), index+1 );
+
+
             var $menu_list       = this.$ele.find(".select-menu-list");
             var $query_list      = this.$ele.find(".query-list");
             var $used_query_list = this.$ele.find(".used-query-list");
@@ -329,9 +357,13 @@
                 show_flag =1;
             }
 
-          if ($.inArray( index, me.need_show_field_index_list  ) !== -1 ) {
-            show_flag =1;
-          }
+            if ($.inArray( index, me.need_show_field_index_list  ) !== -1 ) {
+                show_flag =1;
+            }
+            //
+            if ( me.default_show_all_flag  ) {
+                show_flag =1;
+            }
 
             var as_header_query =  item.get_as_header_query?  item.get_as_header_query():false;
             var class_str="";
@@ -1020,3 +1052,163 @@
 
 })(jQuery, window, document);
 
+
+
+(function($, window, document,undefined) {
+
+    var Cadmin_ajax_select_ajax = function(opt) {
+
+        var me =this;
+        this.defaults = {
+            "join_header" : null,
+            "field_name"  :null,
+            "title"  :  "",
+            "length_css" : "col-xs-6 col-md-2",
+            "as_header_query" : false ,
+
+            "select_value" :null,
+            "can_select_all_flag"     : true,
+
+
+            "opt_type" :  "select", // or "list"
+            "url"          : "/user_deal/get_xmpp_server_list_js",
+            select_primary_field   : "server_name",
+            select_display         : "server_name",
+            select_no_select_value : "",
+            //select_no_select_title : "[全部]",
+            select_no_select_title : "xmpp服务器",
+            "th_input_id"  : null,
+
+            //其他参数
+            "args_ex" : {
+            },
+            //字段列表
+            'field_list' :[
+                {
+                title:"ip",
+                render:function(val,item) {return item.ip;}
+            },{
+                title:"权重",
+                render:function(val,item) {return item.weights ;}
+            },{
+                title:"名称",
+                render:function(val,item) {return item.server_name;}
+            },{
+
+                title:"说明",
+                render:function(val,item) {return item.server_desc;}
+            }
+            ] ,
+            filter_list: [],
+
+            "auto_close"       : true,
+            //选择
+            "onChange"         : function(v) {
+                $("id_xmpp_server_name").val(v);
+                load_data();
+            },
+            //加载数据后，其它的设置
+            "onLoadData"       : null,
+
+        };
+
+        this.options = $.extend({}, this.defaults, opt);
+        this.menu_item_select_css="select";
+        this.title= this.options.title;
+        this.select_value= this.options.select_value;
+        me.header_query = this.options.join_header;
+
+        me.list_type =  me.header_query .list_type;
+        this.field_name= this.options.field_name;
+
+        this.options.onChange=function() {
+            me.header_query.query();
+        };
+
+        var title_str="";
+        if (this.list_type==0) {
+            title_str= '<span style="display:table-cell;">'+ this.title +'    </span>';
+        }
+
+
+        this.$ele=  $(
+            '<div class="'+me.options.length_css +'">'
+                +'<div class="input-group ">'
+                + title_str
+                +'<input class="form-control"  type="text">'
+                +'</div>'
+                +'</div>'
+        );
+
+        if ( this.list_type ==1 && !this.options.as_header_query ){
+            this.$ele.css( {
+                "padding-left": "0px"
+            });
+        }
+
+
+        this.$input=this.$ele.find("input");
+        this.$input.val(this.options.select_value);
+
+        this.$input.on("keypress",function(e){
+            if(e.which==13) {
+                me.header_query.query();
+            }
+        } );
+      this.options["onChange"]=function() {
+        me.header_query.query();
+      };
+      this.$input.admin_select_dlg_ajax( this.options );
+
+      //加入到列表
+      this.header_query.add(this);
+
+    };
+
+    //定义方法
+    Cadmin_ajax_select_ajax.prototype = {
+        get_title :function() {
+            return this.title ;
+        },
+        //是否作为头部查询
+        get_as_header_query:function() {
+            return this.options.as_header_query;
+        },
+
+        set_query_arg_clean(){
+            return   ;
+        },
+
+        get_show_flag:function() {
+            return this.$input.val() != -1;
+        },
+
+        get_query_args:function () {
+            var val=this.$input.val() ;
+            if (val ==-1 ) {
+                return null;
+            }else{
+                var field_name= this.field_name;
+                var ret={};
+                ret[field_name ]= val;
+                return  ret;
+            }
+        },
+
+        get_query_info:function(){
+            return null;
+        },
+
+        get_query_obj:function( ) {
+            return this.$ele;
+        }
+
+    };
+
+
+    //在插件中使用对象
+    $.admin_ajax_select_dlg_ajax  = function(options) {
+       return new  Cadmin_ajax_select_ajax (  options);
+    };
+
+})(jQuery, window, document);

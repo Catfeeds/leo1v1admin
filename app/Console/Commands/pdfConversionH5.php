@@ -120,7 +120,7 @@ class pdfConversionH5 extends Command
             # http://7tszue.com2.z0.glb.qiniucdn.com [private 域名]
             $qiniu     = \App\Helper\Config::get_config("qiniu");
             // $bucket    = $qiniu['public']['bucket']; //[public]
-            $bucket    = $qiniu['private_url']['bucket']; // [private_url]
+            // $bucket    = $qiniu['private_url']['bucket']; // [private_url]
             $accessKey = $qiniu['access_key'];
             $secretKey = $qiniu['secret_key'];
             # 构建鉴权对象

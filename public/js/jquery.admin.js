@@ -1455,6 +1455,11 @@ jQuery.extend({
         }
     },
 
+    get_table_key:function (fix) {
+        var path_list = window.location.path.split("/");
+        return "" + fix + "-" + path_list[1] + "-" + path_list[2].split("?")[0];
+    },
+
     do_ajax: function( url,data, success_func, jsonp_flag ){
 
         function ajax_default_deal_func(result){

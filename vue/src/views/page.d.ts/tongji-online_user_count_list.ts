@@ -1,43 +1,28 @@
 interface self_Args {
-	page_num:	number;
-	page_count:	number;
-	order_by_str:	string;
-	xmpp_server_id:	string;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	userid:	number;
-	grade:	string;//枚举列表: \App\Enums\Egrade
- 	gender:	string;//枚举列表: \App\Enums\Egender
- 	query_text:	string;
-	test_select:	number;
+	week_flag:	number;//枚举: App\Enums\Eboolean
 
 }
 interface self_RowData {
-	userid	:any;
-	nick	:any;
-	realname	:any;
-	phone	:any;
-	grade	:any;
-	grade_str	:any;
-	testv	:any;
 
 }
 export  {self_RowData , self_Args  }
 /*
 tofile:
-	 mkdir -p ../test; vi  ../test/get_user_list.ts
+	 mkdir -p ../tongji; vi  ../tongji/online_user_count_list.ts
 
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import vtable from "../../components/vtable"
-import {self_RowData, self_Args } from "../page.d.ts/test-get_user_list"
+import {self_RowData, self_Args } from "../page.d.ts/tongji-online_user_count_list"
 // @Component 修饰符注明了此类为一个 Vue 组件.
 @Component({
   // 所有的组件选项都可以放在这里.
-  template:  require("./get_user_list.html" ),
+  template:  require("./online_user_count_list.html" ),
 })
 export default class extends vtable {
 
@@ -99,57 +84,15 @@ export default class extends vtable {
 		as_header_query :true,
 		});
 
-	$.admin_query_input({
-		'join_header'  : $header_query_info,
-		"field_name"    : "xmpp_server_id" ,
-		"placeholder" : "回车查询", 
-		"length_css" : "col-xs-12 col-md-3", 
-		"title"        :  "xmpp_server_id",
-		"select_value" : this.get_args().xmpp_server_id,
-	});
-	$.admin_ajax_select_user({
-		'join_header'  : $header_query_info,
-		"user_type"    : "student",
-		"field_name"    : "userid",
-		"title"        :  "userid",
-		"select_value" : this.get_args().userid,
-	});
 	$.admin_enum_select({
 		'join_header'  : $header_query_info,
-"enum_type"    : "grade",
-"field_name" : "grade",
-"title" : "grade",
-"select_value" : this.get_args().grade,
-		"multi_select_flag"     : true,
+		"enum_type"    : "boolean",
+		"field_name" : "week_flag",
+"title" : "week_flag",
+		"multi_select_flag"     : false ,
 		"btn_id_config"     : {},
 	});
 
-	$.admin_enum_select({
-		'join_header'  : $header_query_info,
-"enum_type"    : "gender",
-"field_name" : "gender",
-"title" : "gender",
-"select_value" : this.get_args().gender,
-		"multi_select_flag"     : true,
-		"btn_id_config"     : {},
-	});
-
-	$.admin_query_input({
-		'join_header'  : $header_query_info,
-		"field_name"    : "query_text" ,
-		"placeholder" : "回车查询", 
-		"length_css" : "col-xs-12 col-md-3", 
-		"title"        :  "query_text",
-		"select_value" : this.get_args().query_text,
-	});
-	$.admin_query_input({
-		'join_header'  : $header_query_info,
-		"field_name"    : "test_select" ,
-		"length_css" : "col-xs-6 col-md-2", 
-		"show_title_flag":true, 
-		"title"        :  "test_select",
-		"select_value" : this.get_args().test_select,
-	});
 
   }
 }

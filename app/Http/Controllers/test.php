@@ -33,6 +33,7 @@ class test extends Controller
         list($order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             =$this->get_in_order_by_str([],"userid desc");
 
+        $xmpp_server_id=$this->get_in_str_val("xmpp_server_id");
         #输入参数
         list($start_time, $end_time)=$this->get_in_date_range_day(0);
         $userid=$this->get_in_userid(-1);
