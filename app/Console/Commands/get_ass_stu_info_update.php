@@ -431,13 +431,22 @@ class get_ass_stu_info_update extends Command
             $item["seller_week_stu_num"] = round(@$registered_student_num[$k]/$n,1);//销售月周平均学生数
             $item["seller_month_lesson_count"] = @$seller_month_lesson_count[$k]["lesson_count"];//销售月总课时
             $registered_student_list_last = @$ass_last_month[$k]["registered_student_list"];
-            list($item["kpi_lesson_count_finish_per"],$item["estimate_month_lesson_count"])= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$item["seller_week_stu_num"],$n,$item["seller_month_lesson_count"]);
+            list($item["kpi_lesson_count_finish_per"],$estimate_month_lesson_count)= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$item["seller_week_stu_num"],$n,$item["seller_month_lesson_count"]);
             $item["performance_cc_tran_num"] = @$performance_cc_tran_list[$k]["num"];
             $item["performance_cc_tran_money"] = @$performance_cc_tran_list[$k]["money"];
             $item["performance_cr_renew_num"] = @$performance_cr_renew_list[$k]["num"];
             $item["performance_cr_renew_money"] = @$performance_cr_renew_list[$k]["money"];
             $item["performance_cr_new_num"] = @$performance_cr_new_list[$k]["num"];
             $item["performance_cr_new_money"] = @$performance_cr_new_list[$k]["money"];
+
+            //月初预估课时数据补充
+            if($item["estimate_month_lesson_count"]==0){
+                if($registered_student_list_last){
+                    $item["estimate_month_lesson_count"]= $estimate_month_lesson_count;
+                }else{
+                    $item["estimate_month_lesson_count"]=100;
+                }
+            }
 
             $update_arr =  [
                 "first_lesson_stu_list" =>$item["first_lesson_stu_list"],
@@ -615,7 +624,6 @@ class get_ass_stu_info_update extends Command
             }             
         }
 
-        dd(111);
         if(date("d",time())=="01"){
             $warning_stu_list=[];
             foreach($warning_list as $ss){                   
