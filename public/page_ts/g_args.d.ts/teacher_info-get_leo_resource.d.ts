@@ -1,4 +1,5 @@
 interface GargsStatic {
+	is_js:	number;
 	resource_type:	number;
 	subject:	number;
 	grade:	number;
@@ -8,7 +9,6 @@ interface GargsStatic {
 	tag_four:	number;
 	page_num:	number;
 	page_count:	number;
-	is_js:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -18,35 +18,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	resource_id	:any;
-	resource_type	:any;
-	file_title	:any;
-	file_size	:any;
-	file_type	:any;
-	create_time	:any;
-	file_id	:any;
-	visitor_id	:any;
-	subject	:any;
-	grade	:any;
-	tag_one	:any;
-	tag_two	:any;
-	tag_three	:any;
-	tag_four	:any;
-	file_link	:any;
-	file_use_type	:any;
-	use_num	:any;
-	tea_res_id	:any;
-	file_use_type_str	:any;
-	tag_one_name	:any;
-	tag_two_name	:any;
-	tag_three_name	:any;
-	tag_four_name	:any;
-	subject_str	:any;
-	grade_str	:any;
-	resource_type_str	:any;
-	use_type_str	:any;
-	tag_one_str	:any;
-	tag_two_str	:any;
 }
 
 /*
@@ -61,19 +32,20 @@ function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
+		is_js:	$('#id_is_js').val(),
 		resource_type:	$('#id_resource_type').val(),
 		subject:	$('#id_subject').val(),
 		grade:	$('#id_grade').val(),
 		tag_one:	$('#id_tag_one').val(),
 		tag_two:	$('#id_tag_two').val(),
 		tag_three:	$('#id_tag_three').val(),
-		tag_four:	$('#id_tag_four').val(),
-		is_js:	$('#id_is_js').val()
+		tag_four:	$('#id_tag_four').val()
 		});
 }
 $(function(){
 
 
+	$('#id_is_js').val(g_args.is_js);
 	$('#id_resource_type').val(g_args.resource_type);
 	$('#id_subject').val(g_args.subject);
 	$('#id_grade').val(g_args.grade);
@@ -81,7 +53,6 @@ $(function(){
 	$('#id_tag_two').val(g_args.tag_two);
 	$('#id_tag_three').val(g_args.tag_three);
 	$('#id_tag_four').val(g_args.tag_four);
-	$('#id_is_js').val(g_args.is_js);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -91,6 +62,14 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">is_js</span>
+                <input class="opt-change form-control" id="id_is_js" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["is_js title", "is_js", "th_is_js" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -149,12 +128,4 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["tag_four title", "tag_four", "th_tag_four" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">is_js</span>
-                <input class="opt-change form-control" id="id_is_js" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["is_js title", "is_js", "th_is_js" ]])!!}
 */

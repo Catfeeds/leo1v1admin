@@ -615,7 +615,7 @@ $(function(){
                 $('.opt-my-res,.opt-leo-res').attr('upload_id', obj.attr('id'));
             }
         }
-        var book_info = [],tea_sub_info = [], tea_gra_info = [];
+        var book_info = [],tea_sub_info = [], tea_gra_info = [], res_type_list = [];
         var dlg_tr = {};
         var get_res = function(ajax_url,opt_type,btn_type,dir_id){
             $("<div></div>").tea_select_res_ajax({
@@ -713,7 +713,11 @@ $(function(){
                     $.each($(tea_gra_arr),function(i,val){
                         tea_gra_info.push(parseInt(val));
                     });
-                    dlg_tr = ret.crumbs;
+                    var res_type_arr = ret.type_list.split(',');
+                    $.each($(res_type_arr),function(i,val){
+                        res_type_list.push(parseInt(val));
+                    });
+                   dlg_tr = ret.crumbs;
                 },
                 "onshown"          : function(dlg){
                     if(opt_type == 'my'){
@@ -738,7 +742,7 @@ $(function(){
                             });
                         });
                     } else {
-                        Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,[1,2,3]);
+                        Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,res_type_list);
                         Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
                         Enum_map.append_option_list("grade",$('.leo-grade select'), true, tea_gra_info);
                         Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
@@ -905,10 +909,14 @@ $(function(){
 
         $('.opt-leo-res,.opt-my-res').unbind('click');
         $('.opt-leo-res').on('click',function(){
-            if($(this).hasClass('unbind')){
-                get_res('/teacher_info/get_leo_resource', 'leo_one',$(this).attr('upload_id'));
-            }else {
-                get_res('/teacher_info/get_leo_resource', 'leo');
+            if(is_full_time ==1){
+                if($(this).hasClass('unbind')){
+                    get_res('/teacher_info/get_leo_resource', 'leo_one',$(this).attr('upload_id'));
+                }else {
+                    get_res('/teacher_info/get_leo_resource', 'leo');
+                }
+            } else {
+                BootstrapDialog.alert("暂未开放，敬请期待!");
             }
         });
 
@@ -965,7 +973,6 @@ $(function(){
 
     $(".opt-get_stu_performance").on("click",function(){
         var opt_data    = $(this).get_opt_data();
-        //console.log(opt_data);
         var lessonid    = opt_data.lessonid;
         var lesson_type = opt_data.lesson_type;
         var tea_comment = opt_data.tea_comment_str;
@@ -976,7 +983,7 @@ $(function(){
         }
     });
 
-    var set_stu_performance=function(lessonid){
+    var set_stu_performance = function(lessonid){
         var $total_judgement    = $("<select></select>");
         var $homework_situation = $("<select></select>");
         var $content_grasp      = $("<select></select>");
@@ -1134,9 +1141,9 @@ $(function(){
                     dialog.close();
                 }
             },{
-                label:'确定',
-                cssClass:'btn-primary',
-                action:function(dialog){
+                label    : '确定',
+                cssClass : 'btn-primary',
+                action   : function(dialog){
                     var stu_lesson_content     = get_value("stu_lesson_content",2,html_node,"未顺利完成");
                     var stu_lesson_status      = html_node.find("#stu_lesson_status").val();
                     var stu_study_status       = html_node.find("#stu_study_status").val();
@@ -1145,6 +1152,7 @@ $(function(){
                     var stu_lesson_plan        = get_value("stu_lesson_plan",3,html_node,"其他");
                     var stu_teaching_direction = get_value("stu_teaching_direction",3,html_node,"课外知识");
                     var stu_advice             = html_node.find("#stu_advice").val();
+                    console.log(stu_advantages);
                     if(stu_lesson_content=='' || stu_advantages=='' || stu_disadvantages=='' ||
                        stu_lesson_plan=='' || stu_teaching_direction=='' || stu_advice==''){
                         BootstrapDialog.alert("请确认所有输入框是否有输入内容!");
@@ -1180,9 +1188,9 @@ $(function(){
         var value = '';
         if(on_type==1){
             html.find("[name='"+name+"']").each(function(){
-                if($(this).parent().hasClass("checked")){
+                if($(this).is("checked")){
                     if($(this).val() != check_value){
-                        value+=$(this).val()+",";
+                        value += $(this).val()+",";
                     }else{
                         var other_value = html.find("#"+name+"_more").val();
                         if(other_value != ''){
@@ -1210,6 +1218,7 @@ $(function(){
         }
         return value;
     };
+
 
     var get_checkbox = function(arr,name,html){
         if(arr instanceof String){
