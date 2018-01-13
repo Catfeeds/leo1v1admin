@@ -716,30 +716,46 @@ $(function(){
 
                     dlg_tr = ret.crumbs;
 
-                    if(ret.book!=undefined){
-                        var book_arr = ret.book.split(',');
-                        $.each($(book_arr),function(i,val){
-                            book_info.push(parseInt(val));
-                        });
-                    }
-                    if(ret.tea_sub!=undefined){
-                        var tea_sub_arr = ret.tea_sub.split(',');
-                        $.each($(tea_sub_arr),function(i,val){
-                            tea_sub_info.push(parseInt(val));
-                        });
-                    }
-                    if(ret.tea_gra!=undefined){
-                        var tea_gra_arr = ret.tea_gra.split(',');
-                        $.each($(tea_gra_arr),function(i,val){
-                            tea_gra_info.push(parseInt(val));
-                        });
-                    }
                     if(ret.type_list!=undefined){
                         var res_type_arr = ret.type_list.split(',');
                         $.each($(res_type_arr),function(i,val){
                             res_type_list.push(parseInt(val));
                         });
                     }
+                    if(sel_val[0] == NaN){
+                        sel_val[0] = res_type_list[0];
+                    }
+
+                    if(ret.tea_sub!=undefined){
+                        var tea_sub_arr = ret.tea_sub.split(',');
+                        $.each($(tea_sub_arr),function(i,val){
+                            tea_sub_info.push(parseInt(val));
+                        });
+                    }
+                    if(sel_val[1] == NaN){
+                        sel_val[1] = tea_sub[0];
+                    }
+
+                   if(ret.tea_gra!=undefined){
+                        var tea_gra_arr = ret.tea_gra.split(',');
+                        $.each($(tea_gra_arr),function(i,val){
+                            tea_gra_info.push(parseInt(val));
+                        });
+                    }
+                    if(sel_val[2] == NaN){
+                        sel_val[2] = tea_gra[0];
+                    }
+
+                   if(ret.book!=undefined){
+                        var book_arr = ret.book.split(',');
+                        $.each($(book_arr),function(i,val){
+                            book_info.push(parseInt(val));
+                        });
+                    }
+                     if(sel_val[3] == NaN){
+                        sel_val[3] = book_info[0];
+                    }
+
                     console.log(tea_gra_info);
                     console.log(1);
                     $('.leo-resource_type select,.leo-subject select,.leo-grade select,.leo-tag_one select').empty();
