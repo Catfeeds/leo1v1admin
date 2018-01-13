@@ -572,6 +572,7 @@ class assistant_performance extends Controller
             }else{
                 $last_registered_num=0;
             }
+            $item["last_registered_num"] = $last_registered_num;
 
 
             /*回访*/
@@ -675,6 +676,7 @@ class assistant_performance extends Controller
 
             $cc_tran_reword = $cc_tran_num_reword+$cc_tran_price_reword;
             $item["cc_tran_reword"] = $cc_tran_reword;
+            $item["cc_tran_price_reword"] = $cc_tran_price_reword;
 
             $item["cc_tran_num"] = $cc_tran_num;
 
@@ -699,6 +701,7 @@ class assistant_performance extends Controller
             }else{
                 $kk_reword_per = 0;
             }
+            $item["kk_all"]        = $kk_num;
             $item["kk_reword_per"] = $kk_reword_per;
 
             //停课

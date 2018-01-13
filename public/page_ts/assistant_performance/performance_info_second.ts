@@ -63,6 +63,51 @@ $(function(){
 
     });
 
+    $(".opt_kk_suc").on("click",function(){
+        var uid= $(this).data("adminid");
+        if(uid > 0){
+            var title = "扩课成功学生详情";
+            var html_node= $("<div  id=\"div_table\"><div class=\"col-md-12\" id=\"div_no_lesson\"><div class=\"col-md-4\">未试听扩课:</div></div><br><div class=\"col-md-12\" id=\"div_lesson\"><div class=\"col-md-4\">试听扩课:</div></div><br><div class=\"col-md-12\" id=\"div_all\"><div class=\"col-md-4\">总计:</div></div><br><table   class=\"table table-bordered \"><tr><td>userid</td><td>学生</td><td>科目</td><td>老师</td><td>第一次常规课时间</td><tr></table></div>");
+
+            $.do_ajax('/tongji_ss/get_ass_stu_kk_suc_info',{
+                "adminid"  : uid,
+                "start_time" : g_args.start_time,
+                "end_time"   : g_args.end_time
+            },function(resp) {
+                var userid_list = resp.data;
+                $.each(userid_list,function(i,item){
+                    var userid = item["userid"];
+                    var nick     = item["nick"]
+                    var time     = item["time"];
+                    var subject  = item["subject_str"];
+                    var realname    = item["realname"];
+                    html_node.find("table").append("<tr><td>"+userid+"</td><td>"+nick+"</td><td>"+subject+"</td><td>"+realname+"</td><td>"+time+"</td></tr>");
+                });
+            });
+
+            var dlg=BootstrapDialog.show({
+                title:title, 
+                message :  html_node   ,
+                closable: true, 
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+                    
+                }
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+        }
+
+    });
+
+
     if(g_account=="sherry" ){
         download_show();
     }
