@@ -45,9 +45,6 @@ class gen_top_info extends Command
      */
     public function handle()
     {
-
-
-
         $month=$this->option('month');
         if ($month) {
             $start_time=strtotime( date("Y-m-01", strtotime( $month)) );
@@ -139,6 +136,9 @@ class gen_top_info extends Command
                 $item['value'] = round($item['fail_all_count']/$item['test_lesson_count'],2)*100;
             }else{
                 $item['value']=0;
+            }
+            if($adminid == 1298){
+                \App\Helper\Utils::logger('item_count:'.$item['test_lesson_count'].',item_fail_count:'.$item['fail_all_count']);
             }
             $test_lesson_all_count[]= [ "adminid" =>$adminid , "value"=> $item['test_lesson_count']  ] ;
             $test_lesson_fail_count[]= [ "adminid" =>$adminid , "value"=> $item['fail_all_count']  ] ;

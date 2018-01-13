@@ -697,9 +697,14 @@ $(function(){
                 "onChange"         : null,
                 //加载数据后，其它的设置
                 "onLoadData"       : function(dlg, ret){
+                    book_info     = [];
+                    tea_sub_info  = [];
+                    tea_gra_info  = [];
+                    res_type_list = [];
+
                     console.log(ret);
                     dlg_tr = ret.crumbs;
-                    console.log(ret_data)
+
                     if(ret.book!=undefined){
                         var book_arr = ret.book.split(',');
                         $.each($(book_arr),function(i,val){
@@ -724,10 +729,11 @@ $(function(){
                             res_type_list.push(parseInt(val));
                         });
                     }
+                    $('.leo-resource_type select,.leo-subject select,.leo-grade select,.leo-tag_one select').empty();
                         Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,res_type_list);
                         Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
                         Enum_map.append_option_list("grade",$('.leo-grade select'), true, tea_gra_info);
-
+                        Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
 
                 },"onshown" : function(dlg){
 
@@ -756,7 +762,7 @@ $(function(){
                         // Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,res_type_list);
                         // Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
                         // Enum_map.append_option_list("grade",$('.leo-grade select'), true, tea_gra_info);
-                        Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
+                        // Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
                         Enum_map.append_option_list("resource_season",$('.leo-tag_two select'));
                         $('.leo-tag_two').nextAll().hide();
                         $('.leo-resource_type select').change(function(){
@@ -1438,8 +1444,6 @@ $(function(){
         });
 
     });
-
-
 
 
     $('body').on('click', function(){
