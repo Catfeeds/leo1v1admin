@@ -459,11 +459,15 @@ class agent extends Controller
         // $data_list= @$ret["msg"]["data"];
         // // dd($data_list);
         // dd(array_unique(array_column($data_list, 'endReason')));
-        $start_time = $start_time = strtotime("2018-01-01");
-        $end_time = strtotime("2018-02-01");
-        $adminid = 1298;
-        $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
-        dd($test_lesson_list);
+        $full_count = 10;
+        $test_lesson_count = 394;
+        $succ_all_count = 356;
+        $person_count = 2;
+        $test_per = ($full_count>0 && round(394/8,2)>=50.00)?10:0;//平均课数
+        $fail_per = ($test_lesson_count>0 && round(38/394,4)*100<=18.00)?10:0;//取消率
+        $order_per = ($succ_all_count>0 && round(53/356,4)*100>=10.00)?40:0;//转化率
+        $leave_per = ($person_count>0 && round(2/10,4)*100<=20.00)?40:0;//离职率
+        dd($test_per,$fail_per,$order_per,$leave_per,(round(38/394,2)<=18.00),round(53/356,4)*100,(round(53/356,4)*100>=10.00));
     }
 
     //处理等级头像
