@@ -948,7 +948,6 @@ $(function(){
 
     $(".opt-get_stu_performance").on("click",function(){
         var opt_data    = $(this).get_opt_data();
-        //console.log(opt_data);
         var lessonid    = opt_data.lessonid;
         var lesson_type = opt_data.lesson_type;
         var tea_comment = opt_data.tea_comment_str;
@@ -959,7 +958,7 @@ $(function(){
         }
     });
 
-    var set_stu_performance=function(lessonid){
+    var set_stu_performance = function(lessonid){
         var $total_judgement    = $("<select></select>");
         var $homework_situation = $("<select></select>");
         var $content_grasp      = $("<select></select>");
@@ -1117,9 +1116,9 @@ $(function(){
                     dialog.close();
                 }
             },{
-                label:'确定',
-                cssClass:'btn-primary',
-                action:function(dialog){
+                label    : '确定',
+                cssClass : 'btn-primary',
+                action   : function(dialog){
                     var stu_lesson_content     = get_value("stu_lesson_content",2,html_node,"未顺利完成");
                     var stu_lesson_status      = html_node.find("#stu_lesson_status").val();
                     var stu_study_status       = html_node.find("#stu_study_status").val();
@@ -1128,6 +1127,7 @@ $(function(){
                     var stu_lesson_plan        = get_value("stu_lesson_plan",3,html_node,"其他");
                     var stu_teaching_direction = get_value("stu_teaching_direction",3,html_node,"课外知识");
                     var stu_advice             = html_node.find("#stu_advice").val();
+                    console.log(stu_advantages);
                     if(stu_lesson_content=='' || stu_advantages=='' || stu_disadvantages=='' ||
                        stu_lesson_plan=='' || stu_teaching_direction=='' || stu_advice==''){
                         BootstrapDialog.alert("请确认所有输入框是否有输入内容!");
@@ -1163,9 +1163,9 @@ $(function(){
         var value = '';
         if(on_type==1){
             html.find("[name='"+name+"']").each(function(){
-                if($(this).parent().hasClass("checked")){
+                if($(this).is("checked")){
                     if($(this).val() != check_value){
-                        value+=$(this).val()+",";
+                        value += $(this).val()+",";
                     }else{
                         var other_value = html.find("#"+name+"_more").val();
                         if(other_value != ''){
@@ -1193,6 +1193,7 @@ $(function(){
         }
         return value;
     };
+
 
     var get_checkbox = function(arr,name,html){
         if(arr instanceof String){
