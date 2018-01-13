@@ -445,7 +445,7 @@ class get_ass_stu_info_update extends Command
                 "seller_week_stu_num"   =>$item["seller_week_stu_num"],
                 "seller_month_lesson_count"=>$item["seller_month_lesson_count"],
                 "kpi_lesson_count_finish_per"=>$item["kpi_lesson_count_finish_per"]*100,
-                //  "estimate_month_lesson_count" =>$item["estimate_month_lesson_count"],//临时更新一次(月初生成)
+                "estimate_month_lesson_count" =>$item["estimate_month_lesson_count"],//临时更新一次(月初生成)
                 "performance_cc_tran_num"  =>$item["performance_cc_tran_num"],
                 "performance_cc_tran_money"=>$item["performance_cc_tran_money"],
                 "performance_cr_renew_num" =>$item["performance_cr_renew_num"],
