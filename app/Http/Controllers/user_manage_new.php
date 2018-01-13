@@ -2131,21 +2131,57 @@ class user_manage_new extends Controller
         $ret_info=\App\Helper\Utils::list_to_page_info([]);
 
         if( $groupid > 0 ){  
-            $user_list=$this->t_manager_info->get_power_group_user_list($groupid);
-            $power_map=$this->t_authority_group->get_auth_group_map($groupid);
+            $user_list = $this->t_manager_info->get_power_group_user_list($groupid);
+            $user_list = $this->get_user_permission($user_list);
+            $power_map = $this->t_authority_group->get_auth_group_map($groupid);
             $list=$this->get_menu_list_new($power_map );
       
             $ret_info=\App\Helper\Utils::list_to_page_info($list);
 
         }
         return $this->Pageview(__METHOD__,$ret_info,[
-            "_publish_version" => 201801114150,
+            "_publish_version" => 201801118150,
             "group_all" => $group_all,
             "user_list"=>$user_list,
             "list"=>$list,
             "groupid" => $groupid
         ]);
 
+    }
+
+    private function get_user_permission($user_list){
+        if($user_list){
+            $permission = [];
+            foreach($user_list as &$user){
+                $user['permit_arr'] = explode(',',$user['permission']);
+                $user['permit_name'] = "";
+                $permission = array_merge($permission,$user['permit_arr']);
+            }
+            $permission = array_unique($permission);
+            $per_name = [];
+            if($permission){
+                $per_str = "(";
+                foreach($permission as $per){
+                    $per_str .= $per.',';
+                }
+                $per_str = substr($per_str,0,-1).')';
+                $permission_names = $this->t_authority_group->get_groups_by_idstr($per_str);
+                $per_name = array_column($permission_names, 'group_name', 'groupid');
+                foreach($user_list as &$user){
+                    $permit_name = '';
+                    if($user['permit_arr']){
+                        foreach( $user['permit_arr'] as $gid){
+                            $permit_str = array_key_exists($gid, $per_name) ? trim(@$per_name[$gid])."," : "";
+                            $permit_name .= $permit_str;
+                        }
+                        $permit_name = substr($permit_name,0,-1);
+                    }
+                    $user['permit_name'] = $permit_name;
+                }
+
+            }
+        }
+        return $user_list;
     }
 
     public function power_group_edit() {
