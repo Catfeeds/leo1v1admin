@@ -698,31 +698,31 @@ $(function(){
                 //加载数据后，其它的设置
                 "onLoadData"       : function(dlg, ret){
                     console.log(ret);
-                    if(ret.book!=undefined){
+                    dlg_tr = ret.crumbs;
+                    // if(ret.book!=undefined){
                         var book_arr = ret.book.split(',');
                         $.each($(book_arr),function(i,val){
                             book_info.push(parseInt(val));
                         });
-                    }
-                    if(ret.tea_sub!=undefined){
+                    // }
+                    // if(ret.tea_sub!=undefined){
                         var tea_sub_arr = ret.tea_sub.split(',');
                         $.each($(tea_sub_arr),function(i,val){
                             tea_sub_info.push(parseInt(val));
                         });
-                    }
-                    if(ret.tea_gra!=undefined){
+                    // }
+                    // if(ret.tea_gra!=undefined){
                         var tea_gra_arr = ret.tea_gra.split(',');
                         $.each($(tea_gra_arr),function(i,val){
                             tea_gra_info.push(parseInt(val));
                         });
-                    }
-                    if(ret.type_list!=undefined){
+                    // }
+                    // if(ret.type_list!=undefined){
                         var res_type_arr = ret.type_list.split(',');
                         $.each($(res_type_arr),function(i,val){
                             res_type_list.push(parseInt(val));
                         });
-                    }
-                   dlg_tr = ret.crumbs;
+                    // }
                 },
                 "onshown"          : function(dlg){
                     if(opt_type == 'my'){
