@@ -6,7 +6,7 @@ import Component from 'vue-class-component'
 @Component({
   // 所有的组件选项都可以放在这里
   created: function () {
-    this["load_data"]();
+    this["do_created"]();
   },
   mounted: function () {
     this["base_init"]();
@@ -28,13 +28,63 @@ import Component from 'vue-class-component'
 })
 export default class vtable extends Vue {
 
+  loading_selector=".vue-table";
   data_ex(){
     return {};
   }
 
-  do_created() {
-    this.load_data();
+  do_created_ex( call_func ){
+
+
+    call_func();
+  }
+
+
+  do_created( ) {
+    var me=this;
+
+
+    this.do_created_ex ( function(){
+      me.load_data();
+    } )
   };
+  loadScript(url, callback){
+    var script = document.createElement ("script")
+    script.type = "text/javascript";
+    if (script["readyState"]){ //IE
+      script["onreadystatechange"]= function(){
+        if (script["readyState"]== "loaded" || script["readyState"]== "complete"){
+          script["onreadystatechange"]= null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function(){
+        callback();
+      };
+    }
+    script.src = url;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }
+
+  load_admin_js_list( js_list, callback) {
+    var me=this;
+    var domain= window["admin_api"];
+    var cur_index=0;
+    var $header=$(".main-header");
+    var do_funcion=function (  ){
+      if (cur_index>=js_list.length ) {
+        callback();
+      }
+     var js_file= domain + js_list[cur_index];
+
+      me.loadScript( js_file , function(){
+        cur_index++;
+        do_funcion();
+      } );
+    }
+    do_funcion();
+  }
 
   last_page_url:any;
   $header_query_info:any;
@@ -72,12 +122,12 @@ export default class vtable extends Vue {
 
   base_init () {
     var me = this;
+    $(this.loading_selector).parent().addClass("box");
     window["vue_load_data"] = function () {
       me.load_data();
     };
     this.table_base_init();
     this.base_init_ex();
-
   };
   //
   query_init ( $header_query_info ) {
@@ -212,18 +262,22 @@ export default class vtable extends Vue {
       }
     });
   };
+  do_load_data_end () {
+  }
+  start_loading() {
+  }
   load_data () {
     var query_args = this["$route"].query;
     var path = this["$route"].path;
     var me = this;
-    var $table_p = $(".common-table").parent();
+    var $table_p = $(".common-table, .vue-table").parent();
     if (me.last_page_url != path  ) { //
       me.$data.table_data=[];
       $table_p.find(".pages").remove();
     }
     me.last_page_url= path;
     console.log("do:ajax ", path );
-    $table_p.append(' <div class="overlay"> <i class="fa fa-refresh fa-spin"></i> </div> <!-- end loading --> </div> ');
+    $(me.loading_selector).parent().append(' <div class="overlay"> <i class="fa fa-refresh fa-spin"></i> </div> <!-- end loading --> </div> ');
     $.do_ajax(path, query_args, function (resp) {
       if (resp.ret == 0) {
         console.log("ajax out",resp);
@@ -240,7 +294,7 @@ export default class vtable extends Vue {
         });
 
         window["g_args"] = resp.g_args;
-        $table_p.find(".overlay").remove();
+        $(me.loading_selector).parent().find(".overlay").remove();
 
         me.$nextTick(function () {
           me.query_init(  me.get_query_header_init() );
@@ -249,6 +303,7 @@ export default class vtable extends Vue {
           if (resp.g_args.order_by_str) {
             me.reset_sort_info(resp.g_args.order_by_str);
           }
+          me.do_load_data_end();
         });
       }
       else {
@@ -285,199 +340,7 @@ export default class vtable extends Vue {
     return this.$data.table_data[$obj.parent().data("index")];
   };
   table_base_init () {
-    var me = this;
-    var $table_list = $(".common-table");
-    $table_list.addClass("table");
-    $table_list.addClass("table-bordered");
-    $table_list.addClass("table-striped");
-    var $div = $("<div class=\"table-responsive box \"/>");
-    $table_list.before($div);
-    $div.append($table_list);
 
-
-    $table_list.on("click", ".remove-for-not-xs .start-opt-mobile", function (e) {
-      $(e.currentTarget).closest("tr").find("td > div .td-info ").click();
-    });
-    var thead_tr = $table_list.find("thead >tr");
-    thead_tr.prepend('<td class="remove-for-not-xs" > </td>');
-    $.each(thead_tr, function (table_i, th_item) {
-      if ($(th_item).parent().hasClass("table-clean-flag")) {
-        return;
-      }
-      var path_list = window.location.pathname.split("/");
-      var table_key = $.get_table_key("field_list");
-      var opt_td = $(th_item).find("td:last");
-      if (!opt_td.css("min-width")) {
-        opt_td.css("min-width", "80px");
-      }
-      opt_td.addClass("remove-for-xs");
-      var config_item = $(" <a href=\"javascript:; \" style=\"color:red;\" title=\" 列显示配置\"   >列</a>");
-      config_item.on("click", function (e) {
-        var $table = $(e.currentTarget).closest("table");
-        var $th = $table.find("thead >tr");
-        var $th_td_list = $th.find(">td");
-        var arr :Array<any>= [];
-        $.each($th_td_list, function (i, item) {
-          if (!(i == 0 || i == $th_td_list.length - 1)) {
-            var $item = $(item);
-            var title = $item.data("title");
-            if (!title) {
-              title = $.trim($item.text());
-            }
-            var display = $item.css("display");
-            var $input = $("<input type=\"checkbox\"/>");
-            if (display == "none") {
-              //$input.attr("checked",0) ;
-            }
-            else {
-              $input.attr("checked", "checked");
-            }
-            $input.data("index", title);
-            arr.push([title, $input]);
-          }
-        });
-        $.show_key_value_table("列显示配置", arr, [{
-          label: '默认',
-          cssClass: 'btn-primary',
-          action: function (dialog) {
-            $.do_ajax("/page_common/opt_table_field_list", {
-              "opt_type": "set",
-              "table_key": table_key,
-              "data": ""
-            });
-            //alert(" XXXXX set table_key clean 1 ");
-            window.localStorage.setItem(table_key, "");
-          }
-        }, {
-          label: '确认',
-          cssClass: 'btn-warning',
-          action: function (dialog) {
-            var config_map = {};
-            $.each(arr, function (i, item) {
-              var $input = item[1];
-              var index = $input.data("index");
-              var value = $input.prop("checked");
-              config_map[index] = value;
-            });
-            $.do_ajax("/page_common/opt_table_field_list", {
-              "opt_type": "set",
-              "table_key": table_key,
-              "data": JSON.stringify(config_map)
-            }, function () {
-              $.do_ajax("/page_common/opt_table_field_list", {
-                "opt_type": "get",
-                "table_key": table_key
-              }, function (resp) {
-                var cur = (new Date()).getTime() / 1000;
-                resp.log_time = cur;
-                //alert("XXXX SET :"+ JSON.stringify(resp)  );
-                window.localStorage.setItem(table_key, JSON.stringify(resp));
-                window.location.reload();
-              });
-            });
-          }
-        }]);
-      });
-      opt_td.append(config_item);
-    });
-    thead_tr = $table_list.find("thead >tr");
-    //处理是否显示
-    var reset_table_th_show = function (config) {
-      if (config && config.field_list) {
-        thead_tr.find("td").each(function (i, item) {
-          var $th = $(item);
-          var title = $th.data("title");
-          if (!title) {
-            title = $.trim($th.text());
-          }
-          if (config.field_list[title] === false) {
-            $th.hide();
-          }
-        });
-      }
-    };
-    var table_key = $.get_table_key("field_list");
-    if (!$.check_in_phone()) {
-      var val = window.localStorage.getItem(table_key);
-      var cur = (new Date()).getTime() / 1000;
-      var config = null;
-      try {
-        if (val) {
-          config = JSON.parse(val);
-        }
-      }
-      catch ($e) {
-      }
-      if (config && cur - config["log_time"] < 3600) {
-        reset_table_th_show(config);
-      }
-      else {
-        $.do_ajax("/page_common/opt_table_field_list", {
-          "opt_type": "get",
-          "table_key": table_key
-        }, function (resp) {
-          reset_table_th_show(config);
-          resp.log_time = cur;
-          window.localStorage.setItem(table_key, JSON.stringify(resp));
-        });
-      }
-    }
-    $("table").on("click", ".td-sort-item", function (e) {
-      var order_by_str = "";
-      var $this = $(e.currentTarget);
-      var field_name = $.trim($this.parent().data("field_name"));
-      if ($this.hasClass("fa-sort-down")) {
-        order_by_str = field_name + " " + "asc";
-      }
-      else {
-        order_by_str = field_name + " " + "desc";
-      }
-      window["g_args"].order_by_str = order_by_str;
-      me.$header_query_info.query();
-      return false;
-    });
-    $table_list.on("click", ".td-info", function (e) {
-      var th_row = $(e.currentTarget).closest("table").find("thead td");
-      var data_row = $(e.currentTarget).closest("tr").find("td");
-      var arr :Array<any> = [];
-      th_row.each(function (index, element) {
-        if (index != 0 && index != th_row.length - 1) {
-          arr.push([$(element).text(), $(data_row[index]).text().replace(/,/g, ", ")]);
-        }
-        if (index == th_row.length - 1) {
-          var a_list = $(data_row).find(">div >a");
-          var opt_arr : Array<any> = [];
-          var $show_inter_data = $("<a class=\"btn fa inter-data\" href=\"javascript:;\"  >inter data</a>");
-          if (!$(e.currentTarget).hasClass("table-clean-flag")) {
-            opt_arr.push(["操作", $show_inter_data]);
-          }
-          $show_inter_data.on("click", function () {
-            var opt_div = $(data_row[data_row.length - 1]).find(">div");
-            var opt_data = opt_div.data();
-            var opt_data_arr  :Array<any>= [];
-            $.each(opt_data, function (i, item) {
-              opt_data_arr.push([i, item]);
-            });
-            $.show_key_value_table("内部数据", opt_data_arr);
-          });
-          $.each(a_list, function (a_i, a_item) {
-            var new_item = $(a_item).clone();
-            if (!new_item.hasClass("td-info")
-                && new_item.css("display") != "none") {
-              new_item.append(" " + new_item.attr("title"));
-              new_item.on("click", function () {
-                $(a_item)[0].click();
-              });
-              opt_arr.push(["操作",
-                            new_item]);
-            }
-          });
-          arr = opt_arr.concat(arr);
-        }
-      });
-      $.show_key_value_table("详细信息", arr);
-      return false;
-    });
   };
   table_row_init () {
     var me =this;

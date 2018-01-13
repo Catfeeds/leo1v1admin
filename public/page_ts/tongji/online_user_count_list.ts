@@ -87,8 +87,8 @@ $(function(){
 
         });
 
-
       var plot=$.plot("#"+id_name, plot_data_list.reverse() , {
+
         series: {
           lines: {
             show: true
@@ -120,7 +120,7 @@ $(function(){
           bottom: 2,
           left: 2
         }
-            
+
         }
             ,shadowSize:0
 
