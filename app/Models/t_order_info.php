@@ -4734,7 +4734,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $where_arr[]="o.contract_type in (3,3001)";
         }
         $refund_end_time = $end_time+9*86400;
-        $where_arr[] = ["rf.apply_time<=%u",$refund_end_time,0];
 
         $sql =$this->gen_sql_new("select  if(o.contract_type=3001,3,o.contract_type) contract_type,".
                                  " o.price,rf.real_refund,m.uid,o.sys_operator,s.userid,o.orderid, ".
@@ -4742,12 +4741,13 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                  " from  %s o ".
                                  " left join %s m on o.sys_operator  = m.account".
                                  " left join %s s on s.userid=o.userid".
-                                 " left join %s rf on o.orderid = rf.orderid".
+                                 " left join %s rf on o.orderid = rf.orderid and rf.apply_time<=%u".
                                  " where %s ",
                                  self::DB_TABLE_NAME,
                                  t_manager_info::DB_TABLE_NAME,
                                  t_student_info::DB_TABLE_NAME,
                                  t_order_refund::DB_TABLE_NAME,
+                                 $refund_end_time,
                                  $where_arr
         );
 
@@ -4766,17 +4766,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "mm.account_role=2",
             "s.is_test_user=0"
         ];
+        $refund_end_time = $end_time+9*86400;
         $sql = $this->gen_sql_new("select o.price,rf.real_refund,m.uid,o.sys_operator,s.userid,o.orderid "
                                   ." from %s o left join %s s on s.userid=o.userid "
                                   ." left join %s m on s.origin_assistantid = m.uid"
                                   ." left join %s mm on o.sys_operator = mm.account"
-                                  ." left join %s rf on o.orderid = rf.orderid"
+                                  ." left join %s rf on o.orderid = rf.orderid and rf.apply_time<=%u"
                                   ." where %s ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_order_refund::DB_TABLE_NAME,
+                                  $refund_end_time,
                                   $where_arr
         );
         return $this->main_get_list($sql);
