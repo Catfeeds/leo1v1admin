@@ -965,7 +965,65 @@ class assistant_performance extends Controller
         $contract_type = $this->get_in_int_val("contract_type",-1);
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $ass_order_info = $this->t_order_info->get_assistant_performance_order_info($start_time,$end_time,$adminid,$contract_type);
-        dd($ass_order_info);
+        $new_list= $renew_list=[];
+        foreach($ass_order_info as $val){
+            $contract_type = $val["contract_type"];
+            $orderid = $val["orderid"];
+            $userid = $val["userid"];
+            $price = $val["price"];
+            $uid = $val["uid"];
+            $real_refund = $val["real_refund"];
+            if($contract_type==0){
+                $new_list[$orderid]["uid"] = $uid;
+                $new_list[$orderid]["userid"] = $userid;
+                $new_list[$orderid]["price"] = $price;
+                $new_list[$orderid]["orderid"] = $orderid;
+                @$new_list[$orderid]["real_refund"] += $real_refund;
+            }elseif($contract_type==3){
+                $renew_list[$orderid]["uid"] = $uid;
+                $renew_list[$orderid]["userid"] = $userid;
+                $renew_list[$orderid]["price"] = $price;
+                $renew_list[$orderid]["orderid"] = $orderid;
+                @$renew_list[$orderid]["real_refund"] += $real_refund;
+            }
+        }
+        $ass_renew_info = $ass_new_info=[];
+        foreach($renew_list as $val){
+            $orderid = $val["orderid"];
+            $userid = $val["userid"];
+            $price = $val["price"];
+            $uid = $val["uid"];
+            $real_refund = $val["real_refund"];
+            if(!isset($ass_renew_info["user_list"][$userid])){
+                $ass_renew_info["user_list"][$userid]=$userid;
+                @$ass_renew_info["num"] +=1;
+            }
+            @$ass_renew_info["money"] += $price-$real_refund;
+            @$ass_renew_info["refund_money"] += $real_refund;
+            @$ass_renew_info["order_money"] += $price;
+
+        }
+        foreach($new_list as $val){
+            $orderid = $val["orderid"];
+            $userid = $val["userid"];
+            $price = $val["price"];
+            $uid = $val["uid"];
+            $real_refund = $val["real_refund"];
+            if(!isset($ass_new_info["user_list"][$userid])){
+                $ass_new_info["user_list"][$userid]=$userid;
+                @$ass_new_info["num"] +=1;
+            }
+            @$ass_new_info["money"] += $price-$real_refund;
+            @$ass_new_info["refund_money"] += $real_refund;
+            @$ass_new_info["order_money"] += $price;
+
+        }
+
+        $all_money = @$ass_renew_info["money"]+@$ass_new_info["money"];
+
+
+
+        dd([$ass_new_info,$ass_renew_info,$all_money]);
 
 
     }
