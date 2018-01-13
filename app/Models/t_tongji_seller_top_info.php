@@ -71,7 +71,7 @@ class t_tongji_seller_top_info extends \App\Models\Zgen\z_t_tongji_seller_top_in
     public function update_list($tongji_type,$logtime, $list ) {
         $this->del($tongji_type,$logtime);
         foreach ($list as $index => $item) {
-            if($item["adminid"] == 1298){
+            if($item["adminid"] == 1298 && $tongji_type==11){
                 echo $item['value'];
             }
             $this->add($tongji_type,$logtime,$item["adminid"], $item["value"] , $index+1);
