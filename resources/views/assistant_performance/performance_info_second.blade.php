@@ -99,7 +99,11 @@
                         <td>{{@$var["kpi_lesson_count_finish_reword"]}}</td> 
                         <td class="opt_kk_suc" data-uid='{{@$var["adminid"]}}'> <a href="javascript:;" >{{@$var["kk_all"]}}</a></td>
                         <td>{{@$var["kk_reword"]}}</td> 
-                        <td>{{@$var["stop_student"]}}</td> 
+                        <td>
+                            <a href="/user_manage/ass_archive?order_by_str=ass_assign_time desc&assistantid={{  $var["assistantid"] }}&grade=-1&student_type=2&user_name=&revisit_flag=-1&warning_stu=-1" target="_blank" >
+                                {{@$var["stop_student"]}}
+                            </a>
+                        </td>
                         <td>{{@$var["stop_reword"]}}</td> 
                         <td>{{@$var["end_stu_num"]}}</td> 
                         <td>{{@$var["end_no_renw_reword"]}}</td> 
