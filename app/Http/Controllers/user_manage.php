@@ -3288,7 +3288,7 @@ class user_manage extends Controller
                 }
             }else{//add
 
-                $ret[$key]['sys_operator'] = $value[];
+                $ret[$key]['sys_operator'] = $value;
                 $ret[$key]['apply_num'] = 0;
             }
         }
