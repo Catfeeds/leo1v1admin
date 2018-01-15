@@ -11,6 +11,7 @@ class teacher_simulate extends Controller
     use CacheNick;
     use TeaPower;
 
+    var $check_login_flag = false;
     var $level_simulate_count_key = "level_simulate_count";
     var $all_money_count_key      = "all_money_count";
     var $has_month_key            = "has_month";
@@ -549,7 +550,8 @@ class teacher_simulate extends Controller
 
             //拉取上个月的课时信息
             $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$teacherid);
-            $lesson_list = $this->t_lesson_info->get_lesson_list_for_simulate_wages($teacherid,$start,$end,-1,$show_type);
+            //拉取课程的模拟工资
+            $lesson_list = $this->t_lesson_info_b3->get_lesson_list_for_simulate_wages($teacherid,$start,$end,-1,$show_type);
             if(!empty($lesson_list)){
                 foreach($lesson_list as $key => &$val){
                     $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;

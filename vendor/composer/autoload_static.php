@@ -1106,6 +1106,8 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TTeacherSalaryListAlterUnique' => __DIR__ . '/../..' . '/database/migrations/2017_11_07_181343_t_teacher_salary_list_alter_unique.php',
         'TTeacherSalaryListDrop' => __DIR__ . '/../..' . '/database/migrations/2017_11_01_103117_t_teacher_salary_list_drop.php',
         'TTeacherSimulateSalary' => __DIR__ . '/../..' . '/database/migrations/2018_01_14_212243_t_teacher_simulate_salary.php',
+        'TTeacherSimulateSalaryAddPrimaryId' => __DIR__ . '/../..' . '/database/migrations/2018_01_15_123403_t_teacher_simulate_salary_add_primary_id.php',
+        'TTeacherSimulateSimualteSalaryAlterId' => __DIR__ . '/../..' . '/database/migrations/2018_01_15_122900_t_teacher_simulate_simualte_salary_alter_id.php',
         'TTeachingCoreDataAddFulltimeTeacherData' => __DIR__ . '/../..' . '/database/migrations/2017_12_22_192604_t_teaching_core_data_add_fulltime_teacher_data.php',
         'TTeachingCoreDataAddFulltimeTeacherInfo' => __DIR__ . '/../..' . '/database/migrations/2017_12_22_190259_t_teaching_core_data_add_fulltime_teacher_info.php',
         'TTeachingCoreDataAddSetCountGreenTopPer' => __DIR__ . '/../..' . '/database/migrations/2017_11_01_141350_t_teaching_core_data_add_set_count_green_top_per.php',
