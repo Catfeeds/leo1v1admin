@@ -763,6 +763,9 @@ class teacher_money extends Controller
         return $this->output_succ();
     }
 
+    /**
+     * 获取老师工资
+     */
     public function get_teacher_salary($teacherid,$start_time,$end_time){
         $salary_info = $this->get_teacher_lesson_money_list($teacherid,$start_time,$end_time);
         return $salary_info[0];
