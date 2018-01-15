@@ -1684,7 +1684,6 @@ class user_manage_new extends Controller
         }
 
         $this->set_filed_for_js("main_type_flag",$main_type_flag);
-        dd($list);
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list),["monthtime_flag"=>$monthtime_flag]);
     }
 
