@@ -47,8 +47,8 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td class="detail_info" data-userid="{{@$var['uid']}}">
-                        <a>{!! @$var["sys_operator"] !!}</a></td>
+                        <td >
+                        <a class="detail_info" data-userid="{{@$var['uid']}}">{!! @$var["sys_operator"] !!}</a></td>
                         <td>{{@$var["type_str"]}} </td>
                         <td>
                             {{@$var["one_year_per"]}}
@@ -61,21 +61,21 @@
                             ( {{@$var['three_month_refund_num']}} /{{@$var['three_month_num']}}  )
                         </td>
 
-                        <td class="one_month" data-id="{{@$var['uid']}}">
+                        <td >
                             @if($var['one_month_per'] == 0)
                                 {{@$var["one_month_per"]}}
                             @else
-                                <a>{{@$var["one_month_per"]}}</a> 
+                                <a class="one_month" data-id="{{@$var['uid']}}">{{@$var["one_month_per"]}}</a> 
                             @endif
                             ( {{@$var['one_month_refund_num']}} /{{@$var['one_month_num']}}  )
                         </td>
                         <td>{{@$var["one_month_num"]}} </td>
                         <td>{{@$var["one_month_refund_num"]}} </td>
-                        <td class="apply_num" data-sys="{{@$var['sys_operator']}}" >
+                        <td  >
                             @if($var['apply_num'] == 0)
                                 {{@$var["apply_num"]}}
                             @else
-                                <a href="javascript:;" > {{@$var["apply_num"]}}</a>
+                                <a class="apply_num" data-sys="{{@$var['sys_operator']}}" > {{@$var["apply_num"]}}</a>
                             @endif
                         </td>
 
