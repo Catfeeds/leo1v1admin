@@ -65,6 +65,28 @@ class test_james extends Controller
     use CacheNick;
 
     var $check_login_flag = false;
+
+    # 文件目录
+    # 此处为 工具区 [勿删] 10000
+    # 此处为 测试区        20000
+    # 此处为 临时文件区    30000
+    # 此处为 功能区实现区  40000
+    # 此处为 代码预研区    50000
+    #
+    #
+
+
+    # 工具区
+    /**
+     * @ 1.获取老师讲义[pdf]文件在七牛上的路径 [编号]
+     * @ 2.手动转化老师讲义转png文件
+     * @ 1.获取老师讲义[pdf]文件在七牛上的路径
+     * @ 1.获取老师讲义[pdf]文件在七牛上的路径
+     * @
+     * @
+     * @
+     */
+
     public function get_msg_num() {
         $a= new \App\Jobs\send_error_mail(1,33,33);
         $a->task->t_agent->get_agent_count_by_id(1);
@@ -326,8 +348,7 @@ class test_james extends Controller
 
 
     public function get_num(){
-
-        $no    = rand(1,10000);
+        $no = rand(1,10000);
         $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/check_identity_for_book" );
         $appid = 'wx636f1058abca1bc1';
 
@@ -351,39 +372,6 @@ class test_james extends Controller
 
     }
 
-    public function ss(){
-
-        $wx = new \App\Helper\Wx();
-        // 向家长发送推送
-        $parent_wx_openid    = "orwGAs_IqKFcTuZcU1xwuEtV3Kek";
-        $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
-        $data_parent = [
-            'first' => '“呼朋唤友”活动来袭',
-            'keyword1' =>'呼朋唤友',
-            'keyword2' => "邀请好友一起上课，万元礼品等你来",
-            'keyword3' => '12月12日至12月31日',
-            'remark'   => ""
-        ];
-        $url_parent = "http://mp.weixin.qq.com/s/zo69t-AYbhnxUxFFdAx5mg";
-
-        foreach($parent_wx_openid as $item ){
-            $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
-        }
-    }
-
-    public function has_called(){
-        $this->switch_tongji_database();
-        $start_time = $this->get_in_int_val('s');
-        $end_time = $this->get_in_int_val('e');
-
-        // $order_info_total = $this->t_order_info->get_referral_income($start_time, $end_time);// 总收入
-        $order_info_total = $this->t_order_info->get_new_order_money($start_time, $end_time);// 总收入
-
-        // get_new_order_money
-        // $ret_info['has_called'] = $this->t_tq_call_info->get_has_called_stu_num($start_time, $end_time); // 已拨打例子
-
-        dd($order_info_total);
-    }
 
     public function installNew(){ // 新建表单
         // Schema::dropIfExists('db_weiyi.t_activity_usually');
@@ -470,13 +458,7 @@ class test_james extends Controller
         ];
 
         $url_leo = 'http://admin.leo1v1.com/test_james/jilu?test=1';
-
-        urldecode();
-
         $wx->send_template_msg($openid, $parent_template_id, $data_leo, $url_leo);
-
-
-
     }
 
 
@@ -533,82 +515,6 @@ class test_james extends Controller
     }
 
 
-    public function get_win_rate($stu_type,$parentid){ // 获取中奖概率
-        $rate   = mt_rand(1,10000);
-        $today  = time();
-        $eleven = strtotime('2017-11-11');
-        $prize_type = 0; // 奖品类型
-
-        /**
-           array(1,"","书包" ),
-           array(2,"","10元折扣券" ),
-           array(3,"","50元折扣券" ),
-           array(4,"","100元折扣券" ),
-           array(5,"","300元折扣券" ),
-           array(6,"","500元折扣券" ),
-           array(7,"","免费3次正式课" ),
-           array(8,"","试听课" ),
-        **/
-
-        if($stu_type == 1){ // 新用户
-            if($today < $eleven){
-                if($rate>1000 && $rate<=2000){ // 书包 10
-                    $prize_type=1;
-                }elseif($rate>2000 && $rate<=3000){ // 50元折扣券  10
-                    $prize_type=3;
-                }elseif($rate>3000 && $rate<=3375){ // 100元折扣券 3.75
-                    $prize_type=4;
-                }elseif($rate>4000 && $rate<=4125){ // 300元折扣券 1.25
-                    $prize_type=5;
-                }elseif($rate>5000 && $rate<=5013){ // 3次免费课程 0.13
-                    $prize_type=7;
-                }
-            }else{
-                if($rate>1000 && $rate<=2500){ // 书包 12.5
-                    $prize_type=1;
-                }elseif($rate>3000 && $rate<=4250){ // 50元折扣券  12.5
-                    $prize_type=3;
-                }elseif($rate>100 && $rate<=725){ // 100元折扣券 6.25
-                    $prize_type=4;
-                }elseif($rate>5000 && $rate<=5250){ // 300元折扣券 2.5
-                    $prize_type=5;
-                }elseif($rate>6000 && $rate<=6013){ // 500元折扣券 0.13
-                    $prize_type=6;
-                }elseif($rate>7000 && $rate<=7025){ // 3次免费课程 0.25
-                    $prize_type=7;
-                }
-            }
-        }elseif($stu_type==2){ //老用户
-            if($today < $eleven){
-                if($rate>100 && $rate<=150){ // 书包 0.5
-                    $prize_type=1;
-                }elseif($rate>500 && $rate<=1000){ // 50元折扣券  5
-                    $prize_type=3;
-                }elseif($rate>1000 && $rate<=1100){ // 100元折扣券 1
-                    $prize_type=4;
-                }elseif($rate>1500 && $rate<=1530){ // 300元折扣券 0.3
-                    $prize_type=5;
-                }elseif($rate>5000 && $rate<=5010){ // 3次免费课程 0.1
-                    $prize_type=7;
-                }
-            }else{
-                if($rate>100 && $rate<=200){ // 书包 10
-                    $prize_type=1;
-                }elseif($rate>500 && $rate<=1000){ // 50元折扣券  5
-                    $prize_type=3;
-                }elseif($rate>1000 && $rate<=1100){ // 100元折扣券 1
-                    $prize_type=4;
-                }elseif($rate>5000 && $rate<=5030){ // 300元折扣券 0.3
-                    $prize_type=5;
-                }elseif($rate>6000 && $rate<=6010){ // 500元折扣券 0.10
-                    $prize_type=6;
-                }elseif($rate>7000 && $rate<=7020){ // 3次免费课程 0.2
-                    $prize_type=7;
-                }
-            }
-        }
-        return $prize_type;
-    }
 
 
 
@@ -874,7 +780,7 @@ class test_james extends Controller
 
         // dd($parent_list);
 
-        dispatch( new \App\Jobs\wxPicSendToParent(''));
+        // dispatch( new \App\Jobs\wxPicSendToParent(''));
 
 
 
@@ -1646,9 +1552,9 @@ class test_james extends Controller
         // $auth=$store->get_auth();
         $file_link = $this->get_in_str_val('f');
 
-        $a =  $this->get_pdf_download_url($file_link);
+        // $a =  $this->get_pdf_download_url($file_link);
 
-        dd($a);
+        // dd($a);
         $config=\App\Helper\Config::get_config("qiniu");
         $bucket_info=$config["private_url"]['url'];
 
@@ -1753,6 +1659,10 @@ class test_james extends Controller
     }
 
     public function doTest(){
+        $unbound_list = $this->t_teacher_info->get_unbound_teacher_list();
+        dd($unbound_list);
+        $onlineTime = strtotime('2018-01-17');
+        dd($onlineTime);
         $pdf_url = $this->get_in_str_val('p');
         $store=new \App\FileStore\file_store_tea();
         $auth=$store->get_auth();
@@ -1761,6 +1671,19 @@ class test_james extends Controller
     }
 
 
+    # 此处为工具区 [勿删]
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
 
 
 }

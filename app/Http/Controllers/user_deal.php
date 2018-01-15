@@ -4333,7 +4333,7 @@ class user_deal extends Controller
         $res[$adminid]['lesson_kpi'] = $lesson_per<=18?40:0;
         $kpi = $res[$adminid]['lesson_kpi']+$res[$adminid]['suc_lesson_count_rate_all'];
         $res[$adminid]['kpi'] = ($kpi && $res[$adminid]['test_lesson_count']>0)>0?$kpi."%":0;
-        $manager_info = $this->t_manager_info->field_get_list($adminid,'become_member_time,del_flag');
+        $manager_info = $this->t_manager_info->field_get_list($adminid,'become_member_time,del_flag,leave_member_time');
         if($manager_info["become_member_time"]>0 && ($end_time-$manager_info["become_member_time"])<3600*24*60 && $manager_info["del_flag"]==0){
             $item['kpi'] = "100%";
         }
@@ -4341,8 +4341,15 @@ class user_deal extends Controller
         $arr['suc_second_week'] = $res[$adminid]['suc_lesson_count_two'];
         $arr['suc_third_week'] = $res[$adminid]['suc_lesson_count_three'];
         $arr['suc_fourth_week'] = $res[$adminid]['suc_lesson_count_four'];
+        $arr['test_lesson_count'] = $res[$adminid]['test_lesson_count'];
         $arr['lesson_per'] = $res[$adminid]['lesson_per_desc'].'='.$res[$adminid]['lesson_per'];
         $arr['kpi'] = $res[$adminid]['kpi'];
+        $arr['cur_del_flag_str'] = '否';
+        if($manager_info["del_flag"] == 1 && $manager_info["leave_member_time"]<$end_time_new){
+            $arr['cur_del_flag_str'] = '是';
+        }
+        $arr['fail_all_count'] = $res[$adminid]['fail_all_count'];
+        $arr['test_lesson_count'] = $res[$adminid]['test_lesson_count'];
         //月末定级
         $start_time_this = $start_time;
         $ret_time = $this->t_month_def_type->get_all_list();

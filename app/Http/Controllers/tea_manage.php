@@ -1322,7 +1322,8 @@ class tea_manage extends Controller
         if($assistantid <= 0 ){
             $assistantid = 1;
         }
-        if($adminid==349 || $acc=="jim"){
+        $account_role = $this->get_account_role();
+        if($adminid==349 || $acc=="jim" || $account_role==12){
             $assistantid=-1;
         }
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],2);
@@ -1468,6 +1469,7 @@ class tea_manage extends Controller
             }
         }
 
+        $this->set_filed_for_js("ass_account_role",$account_role);
         return $this->pageView(__METHOD__,$list,["regular_count_all"=>$regular_count_all,"plan_count_all"=>$plan_count_all]);
 
 
@@ -2787,7 +2789,18 @@ class tea_manage extends Controller
         return $this->output_succ();
     }
 
-     public function set_stu_performance_for_seller(){
+    public function get_stu_performance_for_seller(){
+        $lessonid=$this->get_in_int_val("lessonid");
+
+        $stu_info=$this->t_test_lesson_subject_require->get_stu_performance_for_seller_by_lessonid($lessonid);
+        if(empty($stu_info)){
+            $stu_info=$this->t_seller_student_info->get_stu_performance_for_seller($lessonid);
+        }
+
+        return outputjson_success(array("data"=>$stu_info));
+    }
+
+    public function set_stu_performance_for_seller(){
         $lessonid               = $this->get_in_int_val("lessonid");
         $stu_lesson_content     = $this->get_in_str_val("stu_lesson_content");
         $stu_lesson_status      = $this->get_in_str_val("stu_lesson_status");
@@ -3271,4 +3284,5 @@ class tea_manage extends Controller
     public function auto_rank_lesson(){
         return 1;
     }
+
 }

@@ -2,6 +2,7 @@ interface self_Args {
 	page_num:	number;
 	page_count:	number;
 	order_by_str:	string;
+	xmpp_server_id:	string;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -98,6 +99,14 @@ export default class extends vtable {
 		as_header_query :true,
 		});
 
+	$.admin_query_input({
+		'join_header'  : $header_query_info,
+		"field_name"    : "xmpp_server_id" ,
+		"placeholder" : "回车查询", 
+		"length_css" : "col-xs-12 col-md-3", 
+		"title"        :  "xmpp_server_id",
+		"select_value" : this.get_args().xmpp_server_id,
+	});
 	$.admin_ajax_select_user({
 		'join_header'  : $header_query_info,
 		"user_type"    : "student",

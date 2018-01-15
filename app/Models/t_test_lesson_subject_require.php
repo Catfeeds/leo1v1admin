@@ -431,6 +431,19 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_row($sql);
     }
 
+    public function get_stu_performance_for_seller_by_lessonid($lessonid){
+        $sql = $this->gen_sql("select stu_lesson_content,stu_lesson_status,stu_study_status,stu_advantages,"
+                              ." stu_disadvantages,stu_lesson_plan,stu_teaching_direction,stu_advice"
+                              ." from %s t"
+                              ." left join %s l on l.require_id = t.require_id"
+                              ." where l.lessonid=%u"
+                              ,self::DB_TABLE_NAME
+                              ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                              ,$lessonid
+        );
+        return $this->main_get_row($sql);
+    }
+
     public function get_plan_course_info($start_time,$end_time){
         $where_arr=[
             ["require_time >= %u",$start_time,-1],
@@ -913,14 +926,15 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
     }
 
 
-    public function tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time,$grade_list=[-1] , $origin_ex="" ) {
+    public function tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time,$grade_list=[-1] , $origin_ex="") {
         $where_arr=[
             "accept_flag=1",
             "require_admin_type=2",
             "is_test_user=0",
+            "lesson_del_flag=0",
         ];
-        // $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
-        $this->where_arr_add_time_range($where_arr,"set_lesson_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        // $this->where_arr_add_time_range($where_arr,"set_lesson_time",$start_time,$end_time);
         $where_arr[]=$this->where_get_in_str_query("s.grade",$grade_list);
 
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
@@ -950,7 +964,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             $where_arr);
 
         return $this->main_get_list_as_page($sql);
-
     }
 
     public function tongji_test_lesson_group_by_admin_revisiterid_new_five($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid ) {

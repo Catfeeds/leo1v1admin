@@ -40,8 +40,8 @@ class get_ass_stu_info_update extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
 
-        // $start_time = strtotime("2017-12-01");
-        // $end_time = strtotime("2018-01-01");
+
+
         // $last_month = strtotime(date("Y-m-01",$start_time-100));
         // $month_middle = $start_time+15*86400;
         // // $ass_list = $task->t_manager_info->get_adminid_list_by_account_role_new(1,$start_time,1);
@@ -217,6 +217,7 @@ class get_ass_stu_info_update extends Command
         //更新助教信息
         $start_time = strtotime(date("Y-m-01",time()-86400));
         $end_time = strtotime(date("Y-m-01",$start_time+40*86400));
+       
         //$start_time = strtotime(date("2017-08-01"));
         // $end_time = strtotime(date("2017-09-01"));
 
@@ -428,15 +429,24 @@ class get_ass_stu_info_update extends Command
 
             $item["revisit_reword_per"] = $this->get_ass_revisit_reword_value($item["account"],$k,$start_time,$end_time,$item["first_lesson_stu_list"],$read_student_list,$registered_student_list);//回访绩效比例
             $item["seller_week_stu_num"] = round(@$registered_student_num[$k]/$n,1);//销售月周平均学生数
-            $item["seller_month_lesson_count"] = @$seller_month_lesson_count[$k];//销售月总课时
+            $item["seller_month_lesson_count"] = @$seller_month_lesson_count[$k]["lesson_count"];//销售月总课时
             $registered_student_list_last = @$ass_last_month[$k]["registered_student_list"];
-            list($item["kpi_lesson_count_finish_per"],$item["estimate_month_lesson_count"])= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$item["seller_week_stu_num"],$n,$item["seller_month_lesson_count"]);
+            list($item["kpi_lesson_count_finish_per"],$estimate_month_lesson_count)= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$item["seller_week_stu_num"],$n,$item["seller_month_lesson_count"]);
             $item["performance_cc_tran_num"] = @$performance_cc_tran_list[$k]["num"];
             $item["performance_cc_tran_money"] = @$performance_cc_tran_list[$k]["money"];
             $item["performance_cr_renew_num"] = @$performance_cr_renew_list[$k]["num"];
             $item["performance_cr_renew_money"] = @$performance_cr_renew_list[$k]["money"];
             $item["performance_cr_new_num"] = @$performance_cr_new_list[$k]["num"];
             $item["performance_cr_new_money"] = @$performance_cr_new_list[$k]["money"];
+
+            //月初预估课时数据补充
+            if($item["estimate_month_lesson_count"]==0){
+                if($registered_student_list_last){
+                    $item["estimate_month_lesson_count"]= $estimate_month_lesson_count;
+                }else{
+                    $item["estimate_month_lesson_count"]=100;
+                }
+            }
 
             $update_arr =  [
                 "first_lesson_stu_list" =>$item["first_lesson_stu_list"],
@@ -497,6 +507,7 @@ class get_ass_stu_info_update extends Command
             }else{
                 $update_arr["adminid"] =$k;
                 $update_arr["month"]   =$start_time;
+                $update_arr["kpi_type"]   =1;
                 $task->t_month_ass_student_info->row_insert($update_arr);
             }
 
@@ -677,7 +688,7 @@ class get_ass_stu_info_update extends Command
                     $registered_student_list = $tt["registered_student_list"];
                     $revisit_reword_per = $this->get_ass_revisit_reword_value($tt["account"],$k,$start_time,$end_time,$first_lesson_stu_arr,$read_student_list,$registered_student_list);//回访绩效比例
                     $seller_week_stu_num = round(@$registered_student_num[$k]/$n,1);//销售月周平均学生数
-                    $seller_month_lesson_count = @$seller_month_lesson_count[$k];//销售月总课时
+                    $seller_month_lesson_count = @$seller_month_lesson_count[$k]["lesson_count"];//销售月总课时
                     $registered_student_list_last = @$last_ass_month[$k]["registered_student_list"];
                     list($kpi_lesson_count_finish_per,$estimate_month_lesson_count)= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$seller_week_stu_num,$n,$seller_month_lesson_count);
                    

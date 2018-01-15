@@ -12,7 +12,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         parent::__construct();
     }
 
-    public function add($id, $uid, $phone, $start_time, $end_time, $duration, $is_called_phone,$record_url ,$adminid=0, $admin_role=0,  $obj_start_time=0) {
+    public function add($id, $uid, $phone, $start_time, $end_time, $duration, $is_called_phone,$record_url ,$adminid=0, $admin_role=0,  $obj_start_time=0,$client_number='') {
         if ($adminid==0) {
             $admin_info=$this->task->t_manager_info->get_user_info_for_tq($uid);
             if ($admin_info){
@@ -22,8 +22,8 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         }
         $sql=$this->gen_sql_new(
             " insert ignore into %s "
-            ." (id, uid, phone, start_time, end_time, duration, is_called_phone, record_url,adminid, admin_role, obj_start_time) "
-            ." values( %u,%u,'%s',%u,%u,%u,%u,'%s',%u,%u,%u)",
+            ." (id, uid, phone, start_time, end_time, duration, is_called_phone, record_url,adminid, admin_role, obj_start_time,client_number) "
+            ." values( %u,%u,'%s',%u,%u,%u,%u,'%s',%u,%u,%u,%u)",
             self::DB_TABLE_NAME,
             $id,
             $uid,
@@ -35,7 +35,8 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             $record_url,
             $adminid,
             $admin_role,
-            $obj_start_time
+            $obj_start_time,
+            $client_number
         );
         $ret = $this->main_insert($sql);
         if($ret == 1){
@@ -45,7 +46,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
                     $arr = [];
                     $row = $this->task->t_seller_student_new->field_get_list($userid,'cc_called_count,last_contact_cc,first_called_cc,cc_no_called_count,cc_no_called_count_new');
                     if($is_called_phone==0){
-                        if($row['cc_no_called_count']>0){
+                        if($row['cc_called_count']==0){
                             $arr['cc_no_called_count'] = $row['cc_no_called_count']+1;
                         }
                         $arr['cc_no_called_count_new'] = $row['cc_no_called_count_new']+1;

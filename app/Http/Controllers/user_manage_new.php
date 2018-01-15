@@ -1283,7 +1283,6 @@ class user_manage_new extends Controller
         return $info;
     }
 
-
     public function get_tea_admin_menu_list($power_map)  {
         $start          = 1000000;
         $tea_admin_menu = \App\Helper\Config::get_tea_admin_menu();
@@ -2101,45 +2100,48 @@ class user_manage_new extends Controller
         //角色id
         $role_groupid  = $this->get_in_int_val("role_groupid",1);
 
-        //选择权限组id
-        $groupid  = $this->get_in_int_val("groupid",0);
+        //通用权限
+        $group_common = $this->t_authority_group->get_groupid_by_role("1003");
 
-        //该角色对应的权限组id
-        $group_list = $this->t_authority_group->get_groupid_by_role($role_groupid);
-        
-        if(count($group_list)>0){
-            $groupid_arr = array_column($group_list, 'groupid');
-            if( $groupid == 0 ){
-                $groupid = $groupid_arr[0];
+        //所有权限组
+        $group_list_all = $this->t_authority_group->get_auth_groups_all();
+        $group_all = [];
+        if($group_list_all){
+            $role_id = 0;
+            foreach($group_list_all as $group){
+                if($group['role_groupid'] != $role_id){
+                    $role_id = $group['role_groupid'];
+                }
+                $group_all[$role_id][] = $group;
             }
-            if( $groupid > 0 && !in_array($groupid,$groupid_arr) ){
-                $groupid = $groupid_arr[0];
+            foreach($group_all as $role=>$var){
+                if($role != 0 && $role != 1003){
+                    $group_all[$role] = array_merge($group_common,$var);
+                }
             }
-        }else{
-            $groupid = 0;
         }
-   
-        $account = $this->get_account();
-
-        // if( in_array($account,['jim','顾培根','孙瞿'])){
-        //     //超级权限
-        // }
+     
+        $default_groupid = $group_all[$role_groupid][0]['groupid'];
+             
+        //选择权限组id
+        $groupid  = $this->get_in_int_val("groupid",$default_groupid);
 
         $list=[];
         $user_list=[];
         $ret_info=\App\Helper\Utils::list_to_page_info([]);
 
         if( $groupid > 0 ){  
-            $user_list=$this->t_manager_info->get_power_group_user_list($groupid);
-            $power_map=$this->t_authority_group->get_auth_group_map($groupid);
+            $user_list = $this->t_manager_info->get_power_group_user_list($groupid);
+            $user_list = $this->get_user_permission($user_list);
+            $power_map = $this->t_authority_group->get_auth_group_map($groupid);
             $list=$this->get_menu_list_new($power_map );
       
             $ret_info=\App\Helper\Utils::list_to_page_info($list);
 
         }
         return $this->Pageview(__METHOD__,$ret_info,[
-            "_publish_version" => 201801111150,
-            "group_list"=>$group_list,
+            "_publish_version" => 201801118150,
+            "group_all" => $group_all,
             "user_list"=>$user_list,
             "list"=>$list,
             "groupid" => $groupid
@@ -2147,31 +2149,41 @@ class user_manage_new extends Controller
 
     }
 
-    public function get_group_list_by_role_groupid(){
-        $role_groupid  = $this->get_in_int_val("role_groupid");
-        $list = [];
-        if($role_groupid){
-            //该角色对应的权限组id
-            $group_list = $this->t_authority_group->get_groupid_by_role($role_groupid);
-            $groupid_arr = [];
-            if( count($group_list) > 0 ){
-                $groupid_arr = array_column($group_list, 'groupid');
+    private function get_user_permission($user_list){
+        if($user_list){
+            $permission = [];
+            foreach($user_list as &$user){
+                $user['permit_arr'] = explode(',',$user['permission']);
+                $user['permit_name'] = "";
+                $permission = array_merge($permission,$user['permit_arr']);
             }
-            $list    = $this->t_authority_group->get_auth_groups_all();
-            if($groupid_arr){
-                foreach ($list as &$item) {
-                    $item["has_power"] = in_array($item['groupid'],$groupid_arr)?1:0;
+            $permission = array_unique($permission);
+            $per_name = [];
+            if($permission){
+                $per_str = "(";
+                foreach($permission as $per){
+                    if(!empty($per)){
+                        $per_str .= $per.',';
+                    }
+                }
+                $per_str = substr($per_str,0,-1).')';
+                $permission_names = $this->t_authority_group->get_groups_by_idstr($per_str);
+                $per_name = array_column($permission_names, 'group_name', 'groupid');
+                foreach($user_list as &$user){
+                    $permit_name = '';
+                    if($user['permit_arr']){
+                        foreach( $user['permit_arr'] as $gid){
+                            $permit_str = array_key_exists($gid, $per_name) ? trim(@$per_name[$gid])."," : "";
+                            $permit_name .= $permit_str;
+                        }
+                        $permit_name = substr($permit_name,0,-1);
+                    }
+                    $user['permit_name'] = $permit_name;
                 }
 
-            }else{
-                foreach ($list as &$item) {
-                    $item["has_power"] = 0;
-                }
-
-            }          
- 
+            }
         }
-        return $this->output_succ(["data"=> $list]);
+        return $user_list;
     }
 
     public function power_group_edit() {

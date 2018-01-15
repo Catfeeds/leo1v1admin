@@ -335,6 +335,7 @@ class NewRouteConfig {
         "/tea_manage/update_tea_money"             => true,
         "/tea_manage/get_lesson_name_and_intro"    => true,
         "/tea_manage/set_lesson_info"              => true,
+        "/tea_manage/get_stu_performance_for_seller"=> true,
         "/tea_manage/set_stu_performance_for_seller"=> true,
         "/tea_manage/set_course_name"              => true,
         "/tea_manage/lesson_list"                  => true,
@@ -710,7 +711,10 @@ class NewRouteConfig {
         "/user_power/add_user"                           =>true,
         "/user_power/set_group_power"                    =>true,
         "/user_power/dele_role_user"                     =>true,
-        "/user_power/get_permission_list"                     =>true
+        "/user_power/get_permission_list"                =>true,
+        "/user_power/batch_add_user"                     =>true,
+        "/user_power/get_user_list"                      =>true,
+        "/user_power/batch_dele_user"                    =>true 
     ];
 
     static $dev_url_map = [
