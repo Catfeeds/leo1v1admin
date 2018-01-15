@@ -3494,6 +3494,7 @@ class user_manage_new extends Controller
         foreach($money_list as $val){
             $lesson_price += $val['lesson_money'];
         }
+        $lesson_price = round($lesson_price,2);
         return $this->output_succ(['lesson_price'=>$lesson_price]);
     }
 

@@ -76,7 +76,7 @@
                                      {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                                 >
                                     <a class="fa fa-list opt-show" title="明细"></a>
-                                    <a class="fa fa-edit opt-edit" title="修改工资发放"></a>
+                                    <!-- <a class="fa fa-edit opt-edit" title="修改工资发放"></a> -->
                                 </div>
                             </td>
                         </tr>
