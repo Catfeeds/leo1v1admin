@@ -35,16 +35,22 @@ $(function(){
 
     $(".apply_num").on("click",function(){
         var sys_operator = $(this).data("sys");
+         var opt_date_type = $('#id_opt_date_type').val();
+         var start_time    = $('#id_start_time').val();
+         var end_time      = $('#id_end_time').val();
         window.open(
-             '/user_manage/refund_list?is_test_user=0&has_money=1&sys_operator='+sys_operator
+             '/user_manage/refund_list?is_test_user=0&has_money=1&sys_operator='+sys_operator + "&opt_date_type=" + opt_date_type + "&start_time=" + start_time + "&end_time=" + end_time
          );
     });
 
     $(".one_month").on("click",function(){
          var opt_data=$(this).get_opt_data();
          var adminid = $(this).data("id");
+         var opt_date_type = $('#id_opt_date_type').val();
+         var start_time    = $('#id_start_time').val();
+         var end_time      = $('#id_end_time').val();
          window.open(
-             '/user_manage/contract_list?adminid='+ adminid + "&contract_status=3&has_money=1"
+             '/user_manage/contract_list?adminid='+ adminid + "&contract_status=3&has_money=1" + "&opt_date_type=" + opt_date_type + "&start_time=" + start_time + "&end_time=" + end_time
          );
     });
 
