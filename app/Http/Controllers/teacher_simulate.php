@@ -521,7 +521,6 @@ class teacher_simulate extends Controller
         }
 
         $teacher_reward = ($this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,0))/100;
-        dd($teacher_reward);
         $all_price += $teacher_reward;
 
         $ret_list = \App\Helper\Utils::list_to_page_info($list);

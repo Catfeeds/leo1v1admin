@@ -124,7 +124,7 @@ $(function(){
     $(".teacher_reward_list").on("click",function(){
         var teacherid  = g_args.teacherid;
         var start_time = g_args.start_time;
-        var url = "/user_manage_new/teacher_trial_reward_list?teacherid="+teacherid+"&start_time="+start_time;
+        var url = "/user_manage_new/teacher_trial_reward_list?opt_date_type=3&teacherid="+teacherid+"&start_time="+start_time;
 
         window.open(url,"_blank");
     });
