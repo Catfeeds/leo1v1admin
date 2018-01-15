@@ -3288,12 +3288,13 @@ class user_manage extends Controller
                 }
             }else{//add
 
-                $ret[$key]['sys_operator'] = $value;
+                $ret[$key] = $value;
                 $ret[$key]['apply_num'] = 0;
             }
         }
 
         //deal
+        dd($ret);
         foreach ($ret as $key => &$value) {
             if($value['type'] == 1){
                 $value['type_str'] = "助教";
