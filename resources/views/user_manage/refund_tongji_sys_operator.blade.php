@@ -47,24 +47,33 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{!! @$var["sys_operator"] !!} </td>
+                        <td class="detail_info" data-userid="{{@$var['uid']}}">
+                        <a>{!! @$var["sys_operator"] !!}</a></td>
                         <td>{{@$var["type_str"]}} </td>
-                        <td>{{@$var["one_year_per"]}}% 
+                        <td>
+                            {{@$var["one_year_per"]}}
                             ( {{@$var['one_year_refund_num']}} /{{@$var['one_year_num']}}  )
                         </td>
-                        <td>{{@$var["half_year_per"]}}% 
+                        <td>{{@$var["half_year_per"]}}
                             ( {{@$var['half_year_refund_num']}} /{{@$var['half_year_num']}}  )
                         </td>
-                        <td>{{@$var["three_month_per"]}}% 
+                        <td>{{@$var["three_month_per"]}}
                             ( {{@$var['three_month_refund_num']}} /{{@$var['three_month_num']}}  )
                         </td>
 
-                        <td>{{@$var["one_month_per"]}}% 
+                        <td class="one_month" data-id="{{@$var['uid']}}">
+                            @if($var['one_month_per'] != 0)
+                                {{@$var["one_month_per"]}}
+                            @else
+                                <a>{{@$var["one_month_per"]}}</a> 
+                            @endif
                             ( {{@$var['one_month_refund_num']}} /{{@$var['one_month_num']}}  )
                         </td>
                         <td>{{@$var["one_month_num"]}} </td>
                         <td>{{@$var["one_month_refund_num"]}} </td>
-                        <td>{{@$var["apply_num"]}} </td>
+                        <td class="apply_num" data-adminid="{{@$var['uid']}}" >
+                            <a href="javascript:;" > {{@$var["apply_num"]}}</a>
+                        </td>
 
                         <td>
                             <div
