@@ -3254,16 +3254,16 @@ class user_manage extends Controller
         $ret          = $this->t_order_refund->get_sys_operator_apply_info($start_time,$end_time);
         $ret_info     = $this->t_order_info->get_sys_operator_refund_info($one_year,$half_year,$three_month,$start_time,$end_time);
 
-        foreach ($ret as $key => &$value) {
-            $value['one_year_num'] = 0;
-            $value['half_year_num'] = 0;
-            $value['three_month_num'] = 0;
-            $value['one_month_num'] = 0;
+        foreach ($ret as $key => &$val) {
+            $val['one_year_num'] = 0;
+            $val['half_year_num'] = 0;
+            $val['three_month_num'] = 0;
+            $val['one_month_num'] = 0;
 
-            $value['one_year_refund_num'] = 0;
-            $value['half_year_refund_num'] = 0;
-            $value['three_month_refund_num'] = 0;
-            $value['one_month_refund_num'] = 0;
+            $val['one_year_refund_num'] = 0;
+            $val['half_year_refund_num'] = 0;
+            $val['three_month_refund_num'] = 0;
+            $val['one_month_refund_num'] = 0;
         }
 
         foreach ($ret_info as $key => $value) {
@@ -3298,11 +3298,7 @@ class user_manage extends Controller
                 $ret[$key]['one_month_refund_num'] = $value['one_month_refund_num'];
                 $ret[$key]['apply_num'] = 0;
             }
-            dd($ret);
         }
-
-        //deal
-        dd($ret);
         foreach ($ret as $key => &$value) {
             if($value['type'] == 1){
                 $value['type_str'] = "助教";
