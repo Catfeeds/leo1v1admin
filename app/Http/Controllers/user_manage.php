@@ -3267,13 +3267,8 @@ class user_manage extends Controller
         }
 
         foreach ($ret_info as $key => $value) {
-            if($key == "袁兴运" || $key == "qichenchong"){
-            }
-
             if(array_key_exists($key,$ret)){//添加
-                if($key == "qichenchong"){
-                    echo "333<br/>";
-                }
+
                 $ret[$key]['one_year_num'] = $value['one_year_num'];
                 $ret[$key]['half_year_num'] = $value['half_year_num'];
                 $ret[$key]['three_month_num'] = $value['three_month_num'];
@@ -3288,16 +3283,8 @@ class user_manage extends Controller
                    $ret[$key]['apply_num'] = 0; 
                 }
             }else{//add
-                if($key == "qichenchong"){
-                    echo "222<br/>";
-                    print_r($ret['袁兴运']);
-                    $ret[$key]['uid'] = $value['uid'];
-
-                    dd($ret['袁兴运'],@$ret[$key],$ret[$key],$value);
-                }
+                $ret[$key] = [];
                 $ret[$key]['uid'] = $value['uid'];
-
-                //dd($ret[$key],$value);
                 $ret[$key]['type'] = $value['type'];
                 $ret[$key]['sys_operator'] = $value['sys_operator'];
                 $ret[$key]['one_year_num'] = $value['one_year_num'];
