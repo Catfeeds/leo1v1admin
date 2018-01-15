@@ -3283,7 +3283,16 @@ class user_manage extends Controller
                    $ret[$key]['apply_num'] = 0; 
                 }
             }else{//add
-                $ret[$key] = $value;
+                $ret[$key]['sys_operator'] = $value['sys_operator'];
+                $ret[$key]['one_year_num'] = $value['one_year_num'];
+                $ret[$key]['half_year_num'] = $value['half_year_num'];
+                $ret[$key]['three_month_num'] = $value['three_month_num'];
+                $ret[$key]['one_month_num'] = $value['one_month_num'];
+
+                $ret[$key]['one_year_refund_num'] = $value['one_year_refund_num'];
+                $ret[$key]['half_year_refund_num'] = $value['half_year_refund_num'];
+                $ret[$key]['three_month_refund_num'] = $value['three_month_refund_num'];
+                $ret[$key]['one_month_refund_num'] = $value['one_month_refund_num'];
                 $ret[$key]['apply_num'] = 0;
             }
         }
