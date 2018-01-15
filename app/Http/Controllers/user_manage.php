@@ -3293,7 +3293,7 @@ class user_manage extends Controller
                     echo "222<br/>";
                     $ret[$key]['uid'] = $value['uid'];
 
-                    dd(@$ret[$key],$ret[$key],$value);
+                    dd($ret['袁兴运'],@$ret[$key],$ret[$key],$value);
                 }
                 $ret[$key]['uid'] = $value['uid'];
 
