@@ -590,13 +590,13 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         }elseif($account_role == 2){
             $where_arr[] = "m.account_role=2"; 
         }elseif($account_role == 3){
-            $where_arr[] = "m.account_role not in (1,2)";
+            $where_arr[] = "( m.account_role != 1 and m.account_role != 2)";
         }
         $sql = $this->gen_sql_new("select sys_operator,m.uid,m.account_role as type, count(*) as apply_num "
                                 ." from %s  r "
                                 ." left join %s o on o.orderid = r.orderid "
                                 ." left join %s s on o.userid = s.userid "
-                                ." left join %s m on o.sys_operator = m.name "
+                                ." left join %s m on o.sys_operator = m.account "
                                 ." where %s "
                                 ." group by sys_operator order by max(apply_time) desc "
                                 ,self::DB_TABLE_NAME
