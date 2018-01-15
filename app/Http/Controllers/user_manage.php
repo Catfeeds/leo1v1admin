@@ -3268,10 +3268,6 @@ class user_manage extends Controller
 
 
         foreach ($ret_info as $key => $value) {
-            if($key == "袁兴运" || $key == "qichenchong"){
-                @var_dump($ret_info[$key]);
-                @var_dump($ret[$key]);
-            }
             if(isset($ret[$key])){//添加
                 $ret[$key]['one_year_num'] = $value['one_year_num'];
                 $ret[$key]['half_year_num'] = $value['half_year_num'];
@@ -3287,11 +3283,6 @@ class user_manage extends Controller
                    $ret[$key]['apply_num'] = 0; 
                 }
             }else{//add
-                if($key == "qichenchong"){
-                    @var_dump($ret_info[$key]);
-                    echo 2;
-                    @var_dump($ret[$key]);
-                }
                 $ret[$key] = $value;
                 $ret[$key]['apply_num'] = 0;
             }
