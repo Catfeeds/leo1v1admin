@@ -3291,9 +3291,13 @@ class user_manage extends Controller
             }else{//add
                 if($key == "qichenchong"){
                     echo "222<br/>";
-                    dd($ret[$key]);
+                    $ret[$key]['uid'] = $value['uid'];
+
+                    dd(@$ret[$key],$ret[$key],$value);
                 }
                 $ret[$key]['uid'] = $value['uid'];
+
+                //dd($ret[$key],$value);
                 $ret[$key]['type'] = $value['type'];
                 $ret[$key]['sys_operator'] = $value['sys_operator'];
                 $ret[$key]['one_year_num'] = $value['one_year_num'];
