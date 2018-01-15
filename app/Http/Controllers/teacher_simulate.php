@@ -520,7 +520,7 @@ class teacher_simulate extends Controller
             }
         }
 
-        $teacher_reward = $this->get_teacher_reward_money_list($teacherid,$start,$end);
+        $teacher_reward = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,0);
 
         $ret_list = \App\Helper\Utils::list_to_page_info($list);
         return $this->Pageview(__METHOD__,$ret_list,[
