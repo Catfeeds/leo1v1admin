@@ -2954,9 +2954,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["s.userid=%u",$studentid,-1],
         ];
         if($type=='current'){
-            $where_arr[]="lesson_status=2";
+            $where_arr[] = "lesson_status=2";
         }
-        $teacher_money_type_str = " l.teacher_money_type=m.teacher_money_type";
+        $teacher_money_type_str = "l.teacher_money_type=m.teacher_money_type";
 
         $sql = $this->gen_sql_new("select l.lessonid,l.lesson_type,l.userid,l.grade,l.lesson_start,l.lesson_end,deduct_come_late,"
                                   ." deduct_check_homework,deduct_change_class,deduct_rate_student,deduct_upload_cw,l.subject,"
@@ -2996,4 +2996,5 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_list($sql);
     }
+
 }

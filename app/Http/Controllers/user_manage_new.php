@@ -343,7 +343,7 @@ class user_manage_new extends Controller
         );
 
         //拉取上个月的课时信息
-        $last_month_info = $this->get_last_lesson_count_info($start_time,$end_time,$teacherid);
+        $last_month_info          = $this->get_last_lesson_count_info($start_time,$end_time,$teacherid);
         $last_all_lesson_count    = $last_month_info['all_lesson_count'];
         $last_normal_lesson_count = $last_month_info['all_normal_count'];
 

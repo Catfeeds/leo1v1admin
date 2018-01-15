@@ -232,6 +232,7 @@ class menu{
                 ]],
                 ["power_id"=>11, "name"=>"模拟工资", "list"=>[
                     ["power_id"=>1, "name"=>"模拟工资-总体","url"=>"/teacher_simulate/teacher_simulate_salary_list"],
+                    ["power_id"=>2, "name"=>"模拟工资-明细","url"=>"/teacher_simulate/tea_simulate_wages_info"],
                 ]],
                 ["power_id"=>4, "name"=>"助教档案",   "url"=>"/human_resource/assistant_info2"],
                 ["power_id"=>5, "name"=>"助教档案-new",   "url"=>"/human_resource/assistant_info_new"],
