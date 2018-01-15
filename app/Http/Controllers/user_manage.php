@@ -3287,7 +3287,11 @@ class user_manage extends Controller
                    $ret[$key]['apply_num'] = 0; 
                 }
             }else{//add
-
+                if($key == "qichenchong"){
+                    @var_dump($ret_info[$key]);
+                    echo 2;
+                    @var_dump($ret[$key]);
+                }
                 $ret[$key] = $value;
                 $ret[$key]['apply_num'] = 0;
             }
