@@ -41,12 +41,8 @@
         <div class="row">
             <div class="col-xs-6 col-md-6">
                 <div class="input-group ">
-                    <span class="input-group-addon">荣誉奖:{{@$teacher_honor}}</span>
-                    <span class="input-group-addon">签单奖:{{@$teacher_trial}}</span>
-                    <span class="input-group-addon">90分钟补偿:{{@$teacher_compensate}}</span>
-                    <span class="input-group-addon">工资补偿:{{@$teacher_compensate_price}}</span>
-                    <span class="input-group-addon">推荐补偿:{{@$teacher_reference}}</span>
-                    <span class="input-group-addon">模拟试听:{{@$teacher_train}}</span>
+                    <span class="input-group-addon">总工资:{{@$all_price}}</span>
+                    <span class="input-group-addon">额外奖金:{{@$teacher_reward}}</span>
                     <span class="input-group-addon">常规课时:{{@$lesson_count['normal_total']/100}}</span>
                     <span class="input-group-addon">试听课时:{{@$lesson_count['trial_total']/100}}</span>
                 </div>
@@ -60,7 +56,7 @@
                         <td >学生</td>
                         <td >课时消耗分组</td>
                         <td >课程类型</td>
-                        <td >金额</td>
+                        <td >总金额</td>
                         <td >课时数</td>
                         <td >课时基础价格</td>
                         <td >课时奖金</td>

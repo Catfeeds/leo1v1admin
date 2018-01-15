@@ -17,6 +17,7 @@ class teacher_simulate extends Controller
         $this->teacher_money = \App\Helper\Config::get_config("teacher_money");
     }
 
+    //模拟总体工资
     public function teacher_simulate_salary_list(){
         $acc = $this->get_account();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,E\Eopt_date_type::V_3);
@@ -299,12 +300,6 @@ class teacher_simulate extends Controller
         }
 
         $teacher_type             = $this->t_teacher_info->get_teacher_type($teacherid);
-        $teacher_honor            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,1);
-        $teacher_trial            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,2);
-        $teacher_compensate       = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,3);
-        $teacher_compensate_price = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,4);
-        $teacher_reference        = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
-        $teacher_train            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,5);
         $old_list                 = $this->t_lesson_info_b3->get_lesson_list_for_simulate_wages(
             $teacherid,$start_time,$end_time,$studentid,$show_type
         );
@@ -348,6 +343,7 @@ class teacher_simulate extends Controller
             "trial_total"  => 0,
             "normal_total" => 0,
         ];
+        $all_price = 0;
         $check_init_map_item($data_map,"","");
         foreach ($old_list as $row_id => &$item) {
             $studentid    = $item["userid"];
@@ -431,6 +427,7 @@ class teacher_simulate extends Controller
                     }
                 }
             }
+            $all_price += $item['price'];
 
             $item['lesson_reward'] = $item['pre_reward']*$lesson_count/100;
             $item['tea_level'] = \App\Helper\Utils::get_teacher_letter_level($item['teacher_money_type'],$item['level']);
@@ -523,16 +520,14 @@ class teacher_simulate extends Controller
             }
         }
 
+        $teacher_reward = $this->get_teacher_reward_money_list($teacherid,$start,$end);
+
         $ret_list = \App\Helper\Utils::list_to_page_info($list);
         return $this->Pageview(__METHOD__,$ret_list,[
-            "teacherid"                => $teacherid,
-            "teacher_honor"            => $teacher_honor/100,
-            "teacher_trial"            => $teacher_trial/100,
-            "teacher_compensate"       => $teacher_compensate/100,
-            "teacher_compensate_price" => $teacher_compensate_price/100,
-            "teacher_reference"        => $teacher_reference/100,
-            "teacher_train"            => $teacher_train/100,
-            "lesson_count"             => $lesson_total_arr,
+            "teacherid"      => $teacherid,
+            "lesson_count"   => $lesson_total_arr,
+            "teacher_reward" => $teacher_reward,
+            "all_price"      => $all_price,
         ]);
     }
 
