@@ -3266,14 +3266,13 @@ class user_manage extends Controller
             $value['one_month_refund_num'] = 0;
         }
 
-        dd($ret,$ret_info);
         foreach ($ret_info as $key => $value) {
             if($key == "袁兴运" || $key == "qichenchong"){
-
             }
-            if(isset($ret[$key])){//添加
+
+            if(array_key_exists($key,$ret)){//添加
                 if($key == "qichenchong"){
-                    echo "222<br/>";
+                    echo "333<br/>";
                 }
                 $ret[$key]['one_year_num'] = $value['one_year_num'];
                 $ret[$key]['half_year_num'] = $value['half_year_num'];
