@@ -8,7 +8,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         parent::__construct();
     }
 
-    public function get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,$is_test_user,$refund_userid,$require_adminid_list=[],$sys_operator){
+    public function get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,$is_test_user,$refund_userid,$require_adminid_list=[],$sys_operator,$has_money){
         $where_arr = [
             ["refund_status=%u",$refund_type,-1],
             ["r.userid=%u",$userid,-1],
@@ -17,6 +17,11 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         if ($sys_operator !=""){
             $where_arr[]=sprintf( "(sys_operator like '%%%s%%'  )",
                                     $this->ensql($sys_operator));
+        }
+        if ($has_money ==0) {
+           $where_arr[]="o.price=0" ;
+        }else if ($has_money ==1) {
+            $where_arr[]="o.price>0" ;
         }
         $this->where_arr_add_int_field($where_arr,"refund_userid",$refund_userid);
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);

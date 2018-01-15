@@ -12,6 +12,7 @@ function load_data(){
         end_time:   $('#id_end_time').val(),
         sys_operator      : $("#id_sys_operator").val(),
         account_role      : $("#id_account_role").val(),
+        
         });
 }
 $(function(){
@@ -31,10 +32,11 @@ $(function(){
 
     $("#id_account_role").val(g_args.account_role);
     $("#id_sys_operator").val(g_args.sys_operator);
+
     $(".apply_num").on("click",function(){
         var sys_operator = $(this).data("sys");
         window.open(
-             '/user_manage/refund_list?is_test_user=0&sys_operator='+sys_operator
+             '/user_manage/refund_list?is_test_user=0&has_money=1&sys_operator='+sys_operator
          );
     });
 

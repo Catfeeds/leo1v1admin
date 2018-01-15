@@ -1342,6 +1342,7 @@ class user_manage extends Controller
         $page_num      = $this->get_in_page_num();
         $refund_userid = $this->get_in_int_val("refund_userid", -1);
         $qc_flag       = $this->get_in_int_val("qc_flag", 1);
+        $has_money         = $this->get_in_int_val("has_money",-1);
         $sys_operator  = trim($this->get_in_str_val("sys_operator",""));
 
         $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
@@ -1349,7 +1350,7 @@ class user_manage extends Controller
         $adminid_right        = $this->get_seller_adminid_and_right();
         $acc                  = $this->get_account();
 
-        $ret_info = $this->t_order_refund->get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,$is_test_user,$refund_userid,$require_adminid_list,$sys_operator);
+        $ret_info = $this->t_order_refund->get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,$is_test_user,$refund_userid,$require_adminid_list,$sys_operator,$has_money);
         $refund_info = [];
         foreach($ret_info['list'] as &$item){
             $item['deal_nick'] = $this->cache_get_account_nick($item['qc_adminid']);
