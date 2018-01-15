@@ -3283,6 +3283,8 @@ class user_manage extends Controller
                    $ret[$key]['apply_num'] = 0; 
                 }
             }else{//add
+                $ret[$key]['uid'] = $value['uid'];
+                $ret[$key]['type'] = $value['type'];
                 $ret[$key]['sys_operator'] = $value['sys_operator'];
                 $ret[$key]['one_year_num'] = $value['one_year_num'];
                 $ret[$key]['half_year_num'] = $value['half_year_num'];
