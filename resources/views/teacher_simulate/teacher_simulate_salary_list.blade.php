@@ -53,16 +53,6 @@
                         <td width="100px">老师id</td>
                         <td width="100px">姓名</td>
                         <td style="display:none">老师类型</td>
-                        <td >手机号</td>
-                        <td >科目</td>
-                        <td style="display:none">持卡人</td>
-                        <td style="display:none">身份证</td>
-                        <td style="display:none">银行卡</td>
-                        <td style="display:none">银行类型</td>
-                        <td style="display:none">开户行</td>
-                        <td >开户省</td>
-                        <td >开户市</td>
-                        <td style="display:none">预留手机</td>
                         <td>总工资</td>
                         <td style="display:none">添加时间</td>
                         <td style="display:none">工资发放时间时间</td>
@@ -78,16 +68,6 @@
                                 {{$var['teacher_money_type_str']}}<br>
                                 {{$var['teacher_type_str']}}<br>
                             </td>
-                            <td>{{$var['phone']}}</td>
-                            <td>{{$var['subject_str']}}</td>
-                            <td>{{$var['bank_account']}}</td>
-                            <td>身份证:{{$var['idcard']}}</td>
-                            <td>银行卡:{{$var['bankcard']}}</td>
-                            <td>{{$var['bank_type']}}</td>
-                            <td>{{$var['bank_address']}}</td>
-                            <td>{{$var['bank_province']}}</td>
-                            <td>{{$var['bank_city']}}</td>
-                            <td>预留手机:{{$var['bank_phone']}}</td>
                             <td>{{$var['money']}}</td>
                             <td>{{$var['add_time']}}</td>
                             <td>{{$var['pay_time']}}</td>
