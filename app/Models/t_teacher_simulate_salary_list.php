@@ -67,6 +67,7 @@ class t_teacher_simulate_salary_list extends \App\Models\Zgen\z_t_teacher_simula
         return $this->main_update($sql);
     }
 
+
 }
 
 

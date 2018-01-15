@@ -1,5 +1,5 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/teacher_money-teacher_salary_list.d.ts" />
+/// <reference path="../g_args.d.ts/teacher_simulate-teacher_simulate_salary_list.d.ts" />
 
 $(function(){
     function load_data(){
