@@ -32,16 +32,15 @@ $(function(){
     $("#id_account_role").val(g_args.account_role);
     $("#id_sys_operator").val(g_args.sys_operator);
     $(".apply_num").on("click",function(){
-         var opt_data=$(this).get_opt_data();
-         window.open(
-             '/user_manage/refund_list?sid='+ opt_data.userid
+        var sys_operator = $(this).data("sys");
+        window.open(
+             '/user_manage/refund_list?is_test_user=0&sys_operator='+sys_operator
          );
     });
 
     $(".one_month").on("click",function(){
          var opt_data=$(this).get_opt_data();
          var adminid = $(this).data("id");
-         alert(adminid);
          window.open(
              '/user_manage/contract_list?adminid='+ adminid + "&contract_status=3&has_money=1"
          );

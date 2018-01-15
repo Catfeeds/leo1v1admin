@@ -71,8 +71,12 @@
                         </td>
                         <td>{{@$var["one_month_num"]}} </td>
                         <td>{{@$var["one_month_refund_num"]}} </td>
-                        <td class="apply_num" data-adminid="{{@$var['uid']}}" >
-                            <a href="javascript:;" > {{@$var["apply_num"]}}</a>
+                        <td class="apply_num" data-sys="{{@$var['sys_operator']}}" >
+                            @if($var['apply_num'] == 0)
+                                {{@$var["apply_num"]}}
+                            @else
+                                <a href="javascript:;" > {{@$var["apply_num"]}}</a>
+                            @endif
                         </td>
 
                         <td>

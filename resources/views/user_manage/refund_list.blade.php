@@ -57,12 +57,17 @@
                     </select>
                 </div>
             </div>
-
+            <div class="col-xs-6 col-md-2" data-always_hide="1">
+                <div class="input-group ">
+                    <input id="id_sys_operator"  class="opt-change" placeholder="下单人,回车搜索" />
+                </div>
+            </div>
             <div class="col-xs-12 col-md-2">
                 <div class="input-group ">
                     <button class="btn btn-primary" id="id_add_refund">合同退费</button>
                 </div>
             </div>
+             
         </div>
         <hr />
         <div class="body">
