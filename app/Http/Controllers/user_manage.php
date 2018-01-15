@@ -3244,6 +3244,20 @@ class user_manage extends Controller
     public function refund_tongji_sys_operator(){
         $this->check_and_switch_tongji_domain();
         list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],3 );
+        $sum_field_list=[
+            "one_year_per",
+            "half_year_per",
+            "three_month_per",
+            "one_month_per",
+            "one_month_num",
+            "one_month_refund_num",
+            "apply_num",
+        ];
+        $order_field_arr=  $sum_field_list ;
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str($order_field_arr ,"");
+
+
         $sys_operator = trim($this->get_in_str_val("sys_operator",""));
         $account_role = $this->get_in_int_val("account_role",-1);
         $page_num     = $this->get_in_page_num();
@@ -3314,6 +3328,9 @@ class user_manage extends Controller
             }
         }
         //dd($ret_arr);
+        if (!$order_in_db_flag) {
+            \App\Helper\Utils::order_list( $ret_arr["list"], $order_field_name, $order_type );
+        }
         return $this->Pageview(__METHOD__,$ret_arr);
     }
 

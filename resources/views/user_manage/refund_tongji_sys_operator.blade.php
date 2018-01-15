@@ -33,14 +33,16 @@
                 <tr>
                     <td>下单人</td>
                     <td>类型</td>
-                    <td>近1年退费率</td>
-                    <td>近6月退费率</td>
-                    <td>近3月退费率</td>
 
-                    <td>当月退费率</td>
-                    <td>当月签约量</td>
-                    <td>当月退费量</td>
-                    <td>当月退费申请量</td>
+                     {!!\App\Helper\Utils::th_order_gen([
+                        ["近1年退费率","one_year_per" ],
+                        ["近6月退费率","half_year_per" ],
+                        ["近3月退费率","three_month_per" ],
+                        ["当月退费率","one_month_per"],
+                        ["当月签约量","one_month_num"],
+                        ["当月退费量","one_month_refund_num"],
+                        ["当月退费申请量","apply_num"],
+                       ])  !!}
                     <td> 操作  </td>
                 </tr>
             </thead>
