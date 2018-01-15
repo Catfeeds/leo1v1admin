@@ -3266,9 +3266,15 @@ class user_manage extends Controller
             $value['one_month_refund_num'] = 0;
         }
 
-        dd($ret);
+
         foreach ($ret_info as $key => $value) {
+            if($key == "袁兴运" || $key == "qichenchong"){
+
+            }
             if(isset($ret[$key])){//添加
+                if($key == "qichenchong"){
+                    echo "222<br/>";
+                }
                 $ret[$key]['one_year_num'] = $value['one_year_num'];
                 $ret[$key]['half_year_num'] = $value['half_year_num'];
                 $ret[$key]['three_month_num'] = $value['three_month_num'];
@@ -3283,6 +3289,10 @@ class user_manage extends Controller
                    $ret[$key]['apply_num'] = 0; 
                 }
             }else{//add
+                if($key == "qichenchong"){
+                    echo "222<br/>";
+                    dd($ret[$key]);
+                }
                 $ret[$key]['uid'] = $value['uid'];
                 $ret[$key]['type'] = $value['type'];
                 $ret[$key]['sys_operator'] = $value['sys_operator'];
