@@ -332,12 +332,6 @@ class user_manage_new extends Controller
         }
 
         $teacher_type             = $this->t_teacher_info->get_teacher_type($teacherid);
-        $teacher_honor            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,1);
-        $teacher_trial            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,2);
-        $teacher_compensate       = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,3);
-        $teacher_compensate_price = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,4);
-        $teacher_reference        = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
-        $teacher_train            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,5);
         $old_list                 = $this->t_lesson_info->get_lesson_list_for_wages(
             $teacherid,$start_time,$end_time,$studentid,$show_type
         );
@@ -381,6 +375,7 @@ class user_manage_new extends Controller
             "trial_total"  => 0,
             "normal_total" => 0,
         ];
+        $all_price = 0;
         $check_init_map_item($data_map,"","");
         foreach ($old_list as $row_id => &$item) {
             $studentid    = $item["userid"];
@@ -580,6 +575,12 @@ class user_manage_new extends Controller
         }
 
         $teacher_type             = $this->t_teacher_info->get_teacher_type($teacherid);
+        $teacher_honor            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,1);
+        $teacher_trial            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,2);
+        $teacher_compensate       = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,3);
+        $teacher_compensate_price = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,4);
+        $teacher_reference        = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
+        $teacher_train            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,5);
         $old_list                 = $this->t_lesson_info->get_lesson_list_for_wages(
             $teacherid,$start_time,$end_time,$studentid,$show_type);
 
@@ -622,7 +623,6 @@ class user_manage_new extends Controller
             "trial_total"  => 0,
             "normal_total" => 0,
         ];
-        $all_price = 0;
         $check_init_map_item($data_map,"","");
         foreach ($old_list as $row_id => &$item) {
             $studentid    = $item["userid"];
