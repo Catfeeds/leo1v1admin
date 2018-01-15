@@ -31,8 +31,6 @@ $(function(){
 	  $('#id_studentid').val(g_args.studentid);
 	  $('#id_show_type').val(g_args.show_type);
 	  $('.opt-change').set_input_change_event(load_data);
-    $('#id_teacherid').val(g_args.teacherid);
-    $('#id_studentid').val(g_args.studentid);
 
     var link_css = {
         color  : "#3c8dbc",
@@ -105,14 +103,6 @@ $(function(){
     $.admin_select_user( $("#id_teacherid"), "teacher",  load_data, true) ;
     $.admin_select_user( $("#id_studentid"), "student",  load_data, false) ;
 
-    $("#id_reset_already_lesson_count").on("click",function(){
-        $.do_ajax("/user_deal/reset_already_lesson_count",{
-            "teacherid"  : $("#id_teacherid").val(),
-            "start_time" : $("#id_start_time").val(),
-            "end_time"   : $("#id_end_time").val()
-        });
-    });
-
     $(".opt-div").each(function() {
         var $this=$(this) ;
         if (!$this.data("lessonid")) {
@@ -121,14 +111,23 @@ $(function(){
     });
 
     $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
+        'date_type'      : g_args.date_type,
+        'opt_date_type'  : g_args.opt_date_type,
+        'start_time'     : g_args.start_time,
+        'end_time'       : g_args.end_time,
         date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
+        onQuery          : function() {
             load_data();
         }
     });
+
+    $(".teacher_reward_list").on("click",function(){
+        var teacherid  = g_args.teacherid;
+        var start_time = g_args.start_time;
+        var url = "/user_manage_new/teacher_trial_reward_list?teacherid="+teacherid+"&start_time="+start_time;
+
+        window.open(url,"_blank");
+    });
+
 
 });
