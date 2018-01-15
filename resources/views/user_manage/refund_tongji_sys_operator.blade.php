@@ -53,23 +53,18 @@
                         <a class="detail_info" data-userid="{{@$var['uid']}}">{!! @$var["sys_operator"] !!}</a></td>
                         <td>{{@$var["type_str"]}} </td>
                         <td>
-                            {{@$var["one_year_per"]}}@if($var["one_year_per"] > 0)%
-                            @endif
+                            {{@$var["one_year_per"]}}@if($var["one_year_per"] >0)%@endif
                             ( {{@$var['one_year_refund_num']}} /{{@$var['one_year_num']}}  )
                         </td>
-                        <td>{{@$var["half_year_per"]}}@if($var["one_year_per"] > 0)%
-                            @endif
+                        <td>{{@$var["half_year_per"]}}@if($var["half_year_per"] > 0)%@endif
                             ( {{@$var['half_year_refund_num']}} /{{@$var['half_year_num']}}  )
                         </td>
-                        <td>{{@$var["three_month_per"]}}@if(@$var["one_year_per"] > 0)%
-                            @endif
+                        <td>{{@$var["three_month_per"]}}@if(@$var["three_month_per"] > 0)%@endif
                             ( {{@$var['three_month_refund_num']}} /{{@$var['three_month_num']}}  )
                         </td>
-
                         <td >
                             @if($var['one_month_per'] == 0)
-                                {{@$var["one_month_per"]}}@if(@$var["one_year_per"] > 0)%
-                                @endif
+                                {{@$var["one_month_per"]}}@if(@$var["one_month_per"]> 0)%@endif
                             @else
                                 <a class="one_month" data-id="{{@$var['uid']}}">{{@$var["one_month_per"]}}</a> 
                             @endif
