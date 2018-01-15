@@ -12,6 +12,11 @@ class teacher_simulate extends Controller
     use TeaPower;
     var $check_login_flag = false;
 
+    function __construct( )  {
+        parent::__construct();
+        $this->teacher_money = \App\Helper\Config::get_config("teacher_money");
+    }
+
     public function teacher_simulate_salary_list(){
         $acc = $this->get_account();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,E\Eopt_date_type::V_3);
