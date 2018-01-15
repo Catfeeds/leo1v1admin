@@ -4804,15 +4804,25 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
 
-    public function get_sys_operator_refund_info($one_year,$half_year,$three_month,$start_time,$end_time){
+    public function get_sys_operator_refund_info($one_year,$half_year,$three_month,$start_time,$end_time,$sys_operator,$account_role){
         $where_arr = [
             " price > 0 ",
             [" order_time > %s",$one_year,-1],
             [" order_time < %s",$end_time,-1],
             " s.is_test_user = 0 ",
-            " o.contract_status  in (1,2,3) "
+            " o.contract_status  in (1,2,3) ",
         ];
-
+        if ($sys_operator !=""){
+            $where_arr[]=sprintf( "(sys_operator like '%%%s%%'  )",
+                                    $this->ensql($sys_operator));
+        }
+        if($account_role == 1){
+            $where_arr[] = "m.account_role=1"; 
+        }elseif($account_role == 2){
+            $where_arr[] = "m.account_role=2"; 
+        }elseif($account_role == 3){
+            $where_arr[] = "m.account_role not in (1,2)";
+        }
         $sql = $this->gen_sql_new("select sys_operator,m.uid,m.account_role as type,count(*) as one_year_num ,"
             ."  sum(if(order_time > $half_year , 1,0)) as half_year_num, "
             ."  sum(if(order_time > $three_month , 1,0)) as three_month_num,"

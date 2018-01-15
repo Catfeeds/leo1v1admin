@@ -3243,7 +3243,7 @@ class user_manage extends Controller
     public function refund_tongji_sys_operator(){
         $this->check_and_switch_tongji_domain();
         list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],3 );
-        $sys_operator = $this->get_in_str_val("sys_operator","");
+        $sys_operator = trim($this->get_in_str_val("sys_operator",""));
         $account_role = $this->get_in_int_val("account_role",-1);
         $page_num     = $this->get_in_page_num();
         $end_date     = date("Y-m-d H:i:s",$end_time);
@@ -3251,9 +3251,8 @@ class user_manage extends Controller
         $half_year    = strtotime("$end_date -6 month");
         $three_month  = strtotime("$end_date -3 month");
 
-        $ret          = $this->t_order_refund->get_sys_operator_apply_info($start_time,$end_time);
-        $ret_info     = $this->t_order_info->get_sys_operator_refund_info($one_year,$half_year,$three_month,$start_time,$end_time);
-
+        $ret          = $this->t_order_refund->get_sys_operator_apply_info($start_time,$end_time,$sys_operator,$account_role);
+        $ret_info     = $this->t_order_info->get_sys_operator_refund_info($one_year,$half_year,$three_month,$start_time,$end_time,$sys_operator,$account_role);
         foreach ($ret as $key => &$val) {
             $val['one_year_num'] = 0;
             $val['half_year_num'] = 0;
@@ -3265,20 +3264,16 @@ class user_manage extends Controller
             $val['three_month_refund_num'] = 0;
             $val['one_month_refund_num'] = 0;
         }
-
         foreach ($ret_info as $key => $value) {
             if(array_key_exists($key,$ret)){//添加
-
                 $ret[$key]['one_year_num'] = $value['one_year_num'];
                 $ret[$key]['half_year_num'] = $value['half_year_num'];
                 $ret[$key]['three_month_num'] = $value['three_month_num'];
                 $ret[$key]['one_month_num'] = $value['one_month_num'];
-
                 $ret[$key]['one_year_refund_num'] = $value['one_year_refund_num'];
                 $ret[$key]['half_year_refund_num'] = $value['half_year_refund_num'];
                 $ret[$key]['three_month_refund_num'] = $value['three_month_refund_num'];
                 $ret[$key]['one_month_refund_num'] = $value['one_month_refund_num'];
-
                 if(!isset($ret[$key]['apply_num']) ||$ret[$key]['apply_num'] == '' ){
                    $ret[$key]['apply_num'] = 0; 
                 }
@@ -3291,7 +3286,6 @@ class user_manage extends Controller
                 $ret[$key]['half_year_num'] = $value['half_year_num'];
                 $ret[$key]['three_month_num'] = $value['three_month_num'];
                 $ret[$key]['one_month_num'] = $value['one_month_num'];
-
                 $ret[$key]['one_year_refund_num'] = $value['one_year_refund_num'];
                 $ret[$key]['half_year_refund_num'] = $value['half_year_refund_num'];
                 $ret[$key]['three_month_refund_num'] = $value['three_month_refund_num'];

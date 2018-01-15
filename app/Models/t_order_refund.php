@@ -571,15 +571,27 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_value($sql);
     }
 
-    public function get_sys_operator_apply_info($start_time,$end_time){
+    public function get_sys_operator_apply_info($start_time,$end_time,$sys_operator,$account_role){
         $where_arr = [
             [" apply_time > %s",$start_time,-1],
             [" apply_time < %s",$end_time,-1],
             " r.contract_type  != 1 ",
             " o.price > 0  ",
             " o.contract_status IN (1,2,3) ",
-            " s.is_test_user = 0 "
+            " s.is_test_user = 0 ",
+
         ];
+        if ($sys_operator !=""){
+            $where_arr[]=sprintf( "(sys_operator like '%%%s%%'  )",
+                                    $this->ensql($sys_operator));
+        }
+        if($account_role == 1){
+            $where_arr[] = "m.account_role=1"; 
+        }elseif($account_role == 2){
+            $where_arr[] = "m.account_role=2"; 
+        }elseif($account_role == 3){
+            $where_arr[] = "m.account_role not in (1,2)";
+        }
         $sql = $this->gen_sql_new("select sys_operator,m.uid,m.account_role as type, count(*) as apply_num "
                                 ." from %s  r "
                                 ." left join %s o on o.orderid = r.orderid "

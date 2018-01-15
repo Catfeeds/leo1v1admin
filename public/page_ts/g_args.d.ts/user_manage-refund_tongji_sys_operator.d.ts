@@ -17,9 +17,9 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	sys_operator	:any;
 	uid	:any;
 	type	:any;
+	sys_operator	:any;
 	one_year_num	:any;
 	half_year_num	:any;
 	three_month_num	:any;
