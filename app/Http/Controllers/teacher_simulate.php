@@ -684,21 +684,21 @@ class teacher_simulate extends Controller
                     continue;
                 }
 
-                echo "teacherid: $teacherid ,level_simulate: $level_simulate";
-                echo "<br>";
-
                 $check_flag = $this->t_teacher_info->get_teacher_info($teacherid);
                 if(empty($check_flag)){
-                    // echo "teacherid:".$teacherid."该老师 $nick 不存在";
-                    // echo "<br>";
+                    echo "teacherid: $teacherid 该老师 $nick 不存在";
+                    echo "<br>";
                     continue;
                 }
 
-                // if($level_simulate!=$check_flag['level_simulate']){
-                //     $this->t_teacher_info->field_update_list($teacherid, [
-                //         "level_simulate"=>$level_simulate
-                //     ]);
-                // }
+                echo "teacherid: $teacherid ,level_simulate: $level_simulate old_level_simulate: ".$check_flag['level_simulate'];
+                if($level_simulate!=$check_flag['level_simulate']){
+                    echo " update ";
+                    $this->t_teacher_info->field_update_list($teacherid, [
+                        "level_simulate" => $level_simulate
+                    ]);
+                }
+                echo "<br>";
 
             }
         }
