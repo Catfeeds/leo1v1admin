@@ -3307,6 +3307,12 @@ class user_manage extends Controller
             $value['one_month_per'] = $value['one_month_num'] > 0? round(100*$value['one_month_refund_num']/$value['one_month_num'],2) : 0;
         }
         $ret_arr = \App\Helper\Utils::array_to_page($page_num,$ret);
+        if($sys_operator != ''){
+            foreach($ret_arr['list'] as $key => &$item){
+                $item['sys_operator'] = str_replace($sys_operator,"<font color=red>$sys_operator</font>",$item['sys_operator']);
+            }
+        }
+        //dd($ret_arr);
         return $this->Pageview(__METHOD__,$ret_arr);
     }
 

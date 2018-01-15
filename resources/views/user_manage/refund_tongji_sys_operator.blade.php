@@ -47,7 +47,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["sys_operator"]}} </td>
+                        <td>{!! @$var["sys_operator"] !!} </td>
                         <td>{{@$var["type_str"]}} </td>
                         <td>{{@$var["one_year_per"]}}% 
                             ( {{@$var['one_year_refund_num']}} /{{@$var['one_year_num']}}  )
