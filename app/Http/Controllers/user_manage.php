@@ -3311,6 +3311,7 @@ class user_manage extends Controller
                 $ret[$key]['one_month_refund_num'] = $value['one_month_refund_num'];
                 $ret[$key]['apply_num'] = 0;
             }
+            dd($ret);
         }
 
         //deal
