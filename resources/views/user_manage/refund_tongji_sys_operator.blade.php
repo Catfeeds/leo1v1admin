@@ -62,7 +62,7 @@
                         </td>
 
                         <td class="one_month" data-id="{{@$var['uid']}}">
-                            @if($var['one_month_per'] != 0)
+                            @if($var['one_month_per'] == 0)
                                 {{@$var["one_month_per"]}}
                             @else
                                 <a>{{@$var["one_month_per"]}}</a> 
