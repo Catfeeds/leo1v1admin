@@ -471,11 +471,16 @@ class teacher_money extends Controller
         $add_date   = $this->get_in_str_val("add_time",date("Y-m-d",time()));
         $acc        = $this->get_account();
 
-        $add_time   = strtotime($add_date);
         if(in_array($type,[E\Ereward_type::V_1,E\Ereward_type::V_4])){
             if(!in_array($acc,["adrian","jim","sunny"])){
                 return $this->output_err("此用户没有添加奖励权限！");
             }
+        }
+
+        $add_time   = strtotime($add_date);
+        $check_flag = \App\Helper\Utils::check_teacher_salary_time($add_time);
+        if(!$check_flag){
+            return $this->output_err("不能添加工资至上月工资!");
         }
 
         $update_arr = [

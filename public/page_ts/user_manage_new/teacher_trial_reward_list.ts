@@ -136,11 +136,19 @@ $(function(){
             ["年级",id_grade],
             ["---","伯乐奖不用填写金额"],
             ["金额",id_money],
-            ["金额信息",id_money_info],
+            ["奖励信息",id_money_info],
             ["添加时间",id_add_time],
         ];
 
-        Enum_map.append_option_list("reward_type",id_type,true);
+        /**
+         * 去掉园丁奖和春晖奖的类型显示
+         * 该两种类型均为系统添加，非研发人员无法添加
+         */
+        if(g_account_role!=12){
+            Enum_map.append_option_list_by_not_id("reward_type",id_type,true,[1,7]);
+        }else{
+            Enum_map.append_option_list("reward_type",id_type,true);
+        }
         Enum_map.append_option_list("grade",id_grade,true,[0,100,200,300]);
 
         $.show_key_value_table("添加奖励",arr,{
@@ -175,6 +183,15 @@ $(function(){
                     id_teacher_type.text(result.type);
                 });
             });
+
+            id_type.on("change",function(){
+                var reward_type = $(this).val();
+                if(reward_type==1 || reward_type==7){
+                    BootstrapDialog.alert("人工添加园丁奖或春晖奖会影响微信老师帮荣誉榜内的显示信息，请谨慎添加！");
+                }
+            });
+
+
         });
     });
 
