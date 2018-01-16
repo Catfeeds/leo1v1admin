@@ -13,6 +13,7 @@ interface GargsStatic {
 	qc_flag:	number;
 	has_money:	number;
 	sys_operator:	string;
+	assistant_nick:	string;
 	seller_groupid_ex:	string;
 }
 declare module "g_args" {
@@ -49,6 +50,7 @@ function load_data(){
 		qc_flag:	$('#id_qc_flag').val(),
 		has_money:	$('#id_has_money').val(),
 		sys_operator:	$('#id_sys_operator').val(),
+		assistant_nick:	$('#id_assistant_nick').val(),
 		seller_groupid_ex:	$('#id_seller_groupid_ex').val()
 		});
 }
@@ -78,6 +80,7 @@ $(function(){
 	$('#id_qc_flag').val(g_args.qc_flag);
 	$('#id_has_money').val(g_args.has_money);
 	$('#id_sys_operator').val(g_args.sys_operator);
+	$('#id_assistant_nick').val(g_args.assistant_nick);
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 
 
@@ -151,6 +154,14 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["sys_operator title", "sys_operator", "th_sys_operator" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">assistant_nick</span>
+                <input class="opt-change form-control" id="id_assistant_nick" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["assistant_nick title", "assistant_nick", "th_assistant_nick" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

@@ -62,6 +62,12 @@
                     <input id="id_sys_operator"  class="opt-change" placeholder="下单人,回车搜索" />
                 </div>
             </div>
+
+            <div class="col-xs-6 col-md-2" data-always_hide="1">
+                <div class="input-group ">
+                    <input id="id_assistant_nick"  class="opt-change" placeholder="助教,回车搜索" />
+                </div>
+            </div>
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">是否有金额</span>

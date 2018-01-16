@@ -20,8 +20,8 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>下单人</td>
-                    <td>类型</td>
+                    <td>助教</td>
+                    <td>属性</td>
 
                      {!!\App\Helper\Utils::th_order_gen([
                         ["近1年退费率","one_year_per" ],
@@ -39,8 +39,9 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td >
-                        <a class="detail_info" data-userid="{{@$var['uid']}}">{!! @$var["sys_operator"] !!}</a></td>
-                        <td>{{@$var["type_str"]}} </td>
+                        <a class="detail_info" data-userid="{{@$var['assistantid']}}" data-group_name="{{@$var['group_name']}}" data-name="{{@$var['name']}}">{!! @$var["nick"] !!}</a>
+                        ({{@$var['assistantid']}})</td>
+                        <td>{{@$var["group"]}} </td>
                         <td>
                             {{@$var["one_year_per"]}}@if($var["one_year_per"] >0)%@endif
                             ( {{@$var['one_year_refund_num']}} /{{@$var['one_year_num']}}  )
@@ -55,7 +56,7 @@
                             @if($var['one_month_per'] == 0)
                                 {{@$var["one_month_per"]}}@if(@$var["one_month_per"]> 0)%@endif
                             @else
-                                <a class="one_month" data-id="{{@$var['uid']}}">{{@$var["one_month_per"]}}</a> 
+                                <a class="one_month" data-id="{{@$var['assistantid']}}">{{@$var["one_month_per"]}}</a> 
                             @endif
                             ( {{@$var['one_month_refund_num']}} /{{@$var['one_month_num']}}  )
                         </td>
@@ -65,7 +66,7 @@
                             @if($var['apply_num'] == 0)
                                 {{@$var["apply_num"]}}
                             @else
-                                <a class="apply_num" data-sys="{{@$var['sys_operator']}}" > {{@$var["apply_num"]}}</a>
+                                <a class="apply_num" data-nick="{{@$var['nick']}}" > {{@$var["apply_num"]}}</a>
                             @endif
                         </td>
 
