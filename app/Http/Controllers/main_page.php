@@ -66,6 +66,7 @@ class main_page extends Controller
         $opt_date_type = $this->get_in_int_val("opt_date_type",2);
         $history_data = $this->get_in_int_val('history_data');
         $nowTime = time();
+        $onlineTime = strtotime('2018-01-15');
         $sellerNumArr = [];
 
         if($opt_date_type == 2){
@@ -110,8 +111,7 @@ class main_page extends Controller
 
                 # 咨询各部人数修改
                 # 2018-1-9 之后
-                $onlineTime = strtotime('2018-09-16');
-                if($nowTime>$onlineTime){
+                if($start_time>$onlineTime){
                     $sellerNumArr = json_decode($ret_info['sellerNumData'],true);
                     $sellerNum = 0;
                     foreach($sellerNumArr as $sellerNumItem){
@@ -239,9 +239,7 @@ class main_page extends Controller
 
 
                 # 咨询各部人数修改
-                # 2018-1-9 之后
-                $onlineTime = strtotime('2018-09-15');
-                if($nowTime>$onlineTime){
+                if($start_time>$onlineTime){
                     $sellerNumArr = json_decode($ret_info['sellerNumData'],true);
                     $sellerNum = 0;
                     foreach($sellerNumArr as $sellerNumItem){
@@ -346,9 +344,8 @@ class main_page extends Controller
 
         # 咨询各部门人数获取方式变更标示 2018-1-10 James
         $isTranFlag = 0;
-        $onlineTime = strtotime('2018-01-17');
-        if($nowTime>$onlineTime){
-            $isTranFlag = 0;
+        if($start_time>$onlineTime){
+            $isTranFlag = 1;
         }
 
         return $this->pageView(__METHOD__, $ret_info_arr,[
