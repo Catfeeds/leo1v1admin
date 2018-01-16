@@ -883,22 +883,16 @@ class tongji extends Controller
         $week_flag=$this->get_in_int_val("week_flag", 1, E\Eboolean::class );
         $time_list=$this->t_online_count_log->get_list($start_time,$end_time);
         //dd($time_list);
-        $time_list=\App\Helper\Common::gen_day_time_list($time_list,$start_time,$end_time,'logtime', "online_count" );
+        $time_list=\App\Helper\Common::gen_echarts_time_data($time_list,'logtime', "online_count" );
+
         $need_deal_count_list=$this->t_tongji_log->get_list(
             E\Etongji_log_type::V_SYS_NEED_GEN_LESSON_VIDEO_COUNT, $start_time,$end_time);
-        $need_deal_count_list=\App\Helper\Common::gen_day_time_list( $need_deal_count_list,$start_time,$end_time);
+        $need_deal_count_list=\App\Helper\Common::gen_echarts_time_data($need_deal_count_list);
 
-        $def_time_list=[];
-        for($i=0; $i<288;$i++ ) {
-            $def_time_list[$i]=0;
-        }
 
-        $date_count=1;
-        for($i=0;$i<$date_count;$i++) {
-            $opt_time=$start_time-$i*86400;
-            $date_time_list=$this->t_lesson_info->get_lesson_time_list($start_time ,$end_time);
-            $def_time_list=\App\Helper\Utils::get_online_line($def_time_list, $date_time_list );
-        }
+        $opt_time=$start_time;
+        $date_time_list=$this->t_lesson_info->get_lesson_time_list($start_time ,$end_time);
+        $def_time_list=\App\Helper\Utils::gen_echarts_online_line($date_time_list, $start_time );
 
         return $this->pageView(__METHOD__,null,[
             "data_ex_list" =>[

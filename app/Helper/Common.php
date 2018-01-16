@@ -1799,6 +1799,17 @@ class Common {
         }
     }
 
+
+    static public function gen_echarts_time_data($data_list, $field_time="logtime", $field_value="value" ) {
+        $time_list = [];
+        foreach  ( $data_list  as $item  ) {
+            $time_list  [] =  [
+                "value" => [ date("Y-m-d H:i:s" ,$item["logtime"]), $item["value"]   ]
+            ];
+        }
+        return $time_list;
+    }
+
     static public function gen_day_time_list($time_list,$start_time,$end_time, $field_time="logtime", $field_value="value" ) {
         if (count($time_list) != 1440 ) {
             $t=$start_time;
