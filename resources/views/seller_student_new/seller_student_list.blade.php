@@ -321,12 +321,15 @@
                                      {{$var["phone"]}}
                                  @else
                                      {{$var["phone_hide"]}}
+                                     @if($var['origin']=='学校-180112')
+                                         <font color="red">{{$var["origin"]}}</font>
+                                     @endif
                                  @endif
                              </div>
                          </td>
                          <td  class="td-phone">
                              <div class="phone-data">
-                                 @if($var['origin'] == '优学优享' || $var['origin'] == '知识库' || $var['origin'] == 'jingqi-0805' || $var['origin']=='美团—1230')
+                                 @if($var['origin'] == '优学优享' || $var['origin'] == '知识库' || $var['origin'] == 'jingqi-0805' || $var['origin']=='美团—1230' || $var['origin']=='学校-180112')
                                      <font color="red">{{$var["origin"]}}/{{$var["nickname"]}}</font>
                                  @endif
                              </div>
@@ -1292,7 +1295,7 @@
 
                     <div class='col-xs-12 col-md-2' style="">
                         <div class='input-group' style='width:128px;'>
-                            <input type="text" class=" form-control "  id="id_class_rank_new_two"  placeholder='班级排名/班级人数' />
+                            <input type="text" class=" form-control "  id="id_class_rank_new_two"  placeholder='' />
                         </div>
                     </div>
                     <!-- <div class='col-xs-3 col-md-1' style=''>
@@ -1322,7 +1325,7 @@
                         </div>
                         <div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'>
                             <div class='input-group' style='width:90px;'>
-                                <input type='text' class='form-control' id='id_main_subject_score_one_new_two' name='subject_score_one_new_two' placeholder='分数/满分' />
+                                <input type='text' class='form-control' id='id_main_subject_score_one_new_two' name='subject_score_one_new_two' placeholder='' />
                             </div>
                         </div>
                         <!-- <div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'>
