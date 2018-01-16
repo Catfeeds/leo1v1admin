@@ -321,12 +321,15 @@
                                      {{$var["phone"]}}
                                  @else
                                      {{$var["phone_hide"]}}
+                                     @if($var['origin']=='学校-180112')
+                                         <font color="red">{{$var["origin"]}}</font>
+                                     @endif
                                  @endif
                              </div>
                          </td>
                          <td  class="td-phone">
                              <div class="phone-data">
-                                 @if($var['origin'] == '优学优享' || $var['origin'] == '知识库' || $var['origin'] == 'jingqi-0805' || $var['origin']=='美团—1230')
+                                 @if($var['origin'] == '优学优享' || $var['origin'] == '知识库' || $var['origin'] == 'jingqi-0805' || $var['origin']=='美团—1230' || $var['origin']=='学校-180112')
                                      <font color="red">{{$var["origin"]}}/{{$var["nickname"]}}</font>
                                  @endif
                              </div>
