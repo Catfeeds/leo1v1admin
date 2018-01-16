@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\test_ricky::class,
         Commands\SendSmsByPhone::class,
         Commands\h5GetPoster::class,
         Commands\uploadPdfChange::class,
