@@ -35,6 +35,7 @@ return array(
     ["db_weiyi","t_agent_cash_money_freeze","id"],
     ["db_weiyi","t_agent_group_member_result","id"],
     ["db_weiyi","t_teacher_salary_list","id"],
+    ["db_weiyi","t_teacher_simulate_salary_list","id"],
     ["db_weiyi_admin","t_web_page_info","web_page_id"],
     ["db_weiyi_admin","t_web_page_trace_log","id"],
     ["db_weiyi","t_luck_draw_yxyx_for_ruffian","id"],

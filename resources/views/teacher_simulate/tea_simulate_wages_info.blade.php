@@ -6,7 +6,7 @@
 <script type="text/javascript" src="/js/wb-reply/audio.js"></script>
 <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
 <script>
- var teacherid={{@$teacherid}}
+ var teacherid = {{@$teacherid}}
 </script>
     <section class="content">
         <div class="row">
@@ -63,7 +63,7 @@
                         <td >学生</td>
                         <td >课时消耗分组</td>
                         <td >课程类型</td>
-                        <td >金额</td>
+                        <td >总金额</td>
                         <td >课时数</td>
                         <td >课时基础价格</td>
                         <td >课时奖金</td>
@@ -106,10 +106,6 @@
                                 <div class="opt-div"
                                      {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                                 >
-                                    <a class="opt-goto-lesson">课程</a>
-                                    <a class="fa-video-camera opt-play" title="回放"></a>
-                                    <a class="opt-add_reward" title="添加奖励">奖</a>
-                                    <a class="opt-reset_lesson" title="重置等级">重置</a>
                                 </div>
                             </td>
                         </tr>

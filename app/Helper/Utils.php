@@ -2743,6 +2743,9 @@ class Utils  {
         $num = 0 ;
         $start_num = ($page_num['page_num'] - 1) * $page_num['page_count'];
         $end_num   = ($page_num['page_num'] ) * $page_num['page_count'];
+        if($ret == null){
+            $arr['list'] = [];
+        }
         foreach ($ret as $key => $value) {
             
             if($num == $start_num){

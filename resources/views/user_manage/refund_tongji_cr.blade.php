@@ -11,18 +11,7 @@
                 </div>
                 <div class="col-xs-6 col-md-2" data-always_hide="1">
                     <div class="input-group ">
-                        <input id="id_sys_operator"  class="opt-change" placeholder="下单人,回车搜索" />
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">下单人类型</span>
-                        <select class="opt-change form-control" id="id_account_role">
-                            <option value="-1" >全部</option>
-                            <option value="1" >助教</option>
-                            <option value="2" >销售</option>
-                            <option value="3" >其他</option>
-                        </select>
+                        <input id="id_name"  class="opt-change" placeholder="下单人,回车搜索" />
                     </div>
                 </div>
             </div>

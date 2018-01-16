@@ -2412,4 +2412,11 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list($sql);
     }
 
+    public function get_detail_info($uid){
+        $where_arr = [
+            ['uid=%s',$uid,-1]
+        ];
+        $sql = $this->gen_sql_new("select gender,account_role,account,age from db_weiyi_admin.t_manager_info where %s ",$where_arr);
+        return $this->main_get_row($sql);
+    }
 }
