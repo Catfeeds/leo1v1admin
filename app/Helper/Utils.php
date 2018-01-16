@@ -743,6 +743,28 @@ class Utils  {
         }
     }
 
+    static public function gen_echarts_online_line($time_list,$date_time ) {
+        $ret_list=[];
+        $date_end=$date_time+86400;
+        for( $logtime= $date_time;$logtime < $date_end; $logtime+=300) {
+            $ret_list  [ $logtime] =  [
+                "value" => [ date("Y-m-d H:i:s", $logtime), 0  ]
+            ];
+        }
+
+        foreach ($time_list as $item) {
+            $start_time = $item["lesson_start"]- $item["lesson_start"]%300;
+            $end_time   = $item["lesson_end"]+300;
+            for( $logtime= $start_time;$logtime <$end_time; $logtime+=300) {
+                if (isset ( $ret_list  [ $logtime] ) ) {
+                    $ret_list  [ $logtime][1] ++;
+                }
+            }
+        }
+
+        return array_values( $ret_list);
+    }
+
     static public function get_online_line($time_list,$list) {
         foreach ($list as $item) {
             $start_time = $item["lesson_start"];
@@ -2747,7 +2769,7 @@ class Utils  {
             $arr['list'] = [];
         }
         foreach ($ret as $key => $value) {
-            
+
             if($num == $start_num){
                 $i = 0;
             }

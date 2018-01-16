@@ -21,7 +21,7 @@ class t_tongji_log extends \App\Models\Zgen\z_t_tongji_log
         ];
         $this->where_arr_add_time_range($where_arr,"logtime",$start_time,$end_time);
         $sql=$this->gen_sql_new(
-            "select logtime,value from %s where %s order by logtime asc "
+            "select  logtime,value from %s where %s order by logtime asc "
             ,self::DB_TABLE_NAME,$where_arr );
 
 

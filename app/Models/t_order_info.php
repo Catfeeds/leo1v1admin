@@ -4828,9 +4828,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ."  sum(if(order_time > $three_month , 1,0)) as three_month_num,"
             ."  sum(if(order_time > $start_time , 1,0)) as one_month_num, "
             ."  sum(if (contract_status = 3, 1,0)) as one_year_refund_num, "
-            ."  sum(if((order_time > 1501516800 and contract_status = 3),1,0)) as half_year_refund_num,"
-            ."  sum(if((order_time > 1509465600 and contract_status =  3),1,0)) as three_month_refund_num,"
-            ."  sum(if((order_time > 1514736000 and contract_status = 3),1,0)) as one_month_refund_num"
+            ."  sum(if((order_time > $half_year and contract_status = 3),1,0)) as half_year_refund_num,"
+            ."  sum(if((order_time > $three_month and contract_status =  3),1,0)) as three_month_refund_num,"
+            ."  sum(if((order_time > $start_time and contract_status = 3),1,0)) as one_month_refund_num"
             ." from %s o "
             ." left join %s s on s.userid = o.userid "
             ." left join %s m on  m.account = sys_operator"
@@ -4859,19 +4859,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $where_arr[]=sprintf( "(a.nick like '%%%s%%'  )",
                                     $this->ensql($nick));
         }
-        $sql = $this->gen_sql_new("select s.assistantid,a.nick,count(*) as one_year_num ,"
+        $sql = $this->gen_sql_new("select s.assistantid,a.nick,count(*) as one_year_num, "
             ."  sum(if(order_time > $half_year , 1,0)) as half_year_num, "
-            ."  sum(if(order_time > $three_month , 1,0)) as three_month_num,"
+            ."  sum(if(order_time > $three_month , 1,0)) as three_month_num, "
             ."  sum(if(order_time > $start_time , 1,0)) as one_month_num, "
-            ."  sum(if (contract_status = 3, 1,0)) as one_year_refund_num, "
-            ."  sum(if((order_time > 1501516800 and contract_status = 3),1,0)) as half_year_refund_num,"
-            ."  sum(if((order_time > 1509465600 and contract_status =  3),1,0)) as three_month_refund_num,"
-            ."  sum(if((order_time > 1514736000 and contract_status = 3),1,0)) as one_month_refund_num"
-            ." from %s o "
-            ." left join %s s on s.userid = o.userid "
-            ." left join %s a on a.assistantid = s.assistantid "
-            ." where %s "
-            ."group by s.assistantid order by a.last_modified_time desc",
+            ."  sum(if(contract_status = 3, 1,0)) as one_year_refund_num, "
+            ."  sum(if((order_time > $half_year and contract_status = 3),1,0)) as half_year_refund_num,"
+            ."  sum(if((order_time > $three_month and contract_status =  3),1,0)) as three_month_refund_num,"
+            ."  sum(if((order_time > $start_time and contract_status = 3),1,0)) as one_month_refund_num"
+            ."  from %s o "
+            ."  left join %s s on s.userid = o.userid "
+            ."  left join %s a on a.assistantid = s.assistantid "
+            ."  where %s "
+            ."  group by s.assistantid order by a.last_modified_time desc",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_assistant_info::DB_TABLE_NAME,

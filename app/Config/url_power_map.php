@@ -326,6 +326,8 @@ class url_power_map {
 			'/news_info/stu_detail_message_list'	=>1091000,
 			'/user_manage_new/product_info'	=>1093500,
 			'/product_tag/tag_list'	=>1094700,
+			'/tea_manage_new/approved_data'	=>1094600,
+			'/tea_manage_new/approved_data_new'	=>1094800,
 			'/tongji2/market_extension'	=>1091934,
 			'/pic_manage/pic_info'	=>1091904,
 			'/aliyun_oss/upload_list'	=>1091936,
