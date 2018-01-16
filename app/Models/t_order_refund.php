@@ -618,4 +618,36 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         });
     }
 
+    public function get_cr_apply_info($start_time,$end_time,$nick){
+        $where_arr = [
+            [" apply_time > %s",$start_time,-1],
+            [" apply_time < %s",$end_time,-1],
+            " r.contract_type  != 1 ",
+            " o.price > 0  ",
+            " o.contract_status IN (1,2,3) ",
+            " s.is_test_user = 0 ",
+
+        ];
+        
+        if ($nick !=""){
+            $where_arr[]=sprintf( "(a.nick like '%%%s%%'  )",
+                                    $this->ensql($nick));
+        }
+        $sql = $this->gen_sql_new("select s.assistantid,a.nick, count(*) as apply_num "
+                                ." from %s  r "
+                                ." left join %s o on o.orderid = r.orderid "
+                                ." left join %s s on o.userid = s.userid "
+                                ." left join %s a on a.assistantid = s.assistantid"
+                                ." where %s "
+                                ." group by s.assistantid order by max(apply_time) desc "
+                                ,self::DB_TABLE_NAME
+                                ,t_order_info::DB_TABLE_NAME
+                                ,t_student_info::DB_TABLE_NAME
+                                ,t_assistant_info::DB_TABLE_NAME
+                                ,$where_arr);
+        return $this->main_get_list($sql,function($item){
+            return $item['assistantid'];
+        });
+    }
+
 }
