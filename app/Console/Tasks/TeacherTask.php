@@ -39,7 +39,12 @@ class TeacherTask extends TaskController
         $tea_nick = $lesson_info['tea_nick'];
 
         $grade_str       = E\Egrade::get_desc($lesson_info['grade']);
-        $subject_str     = E\Esubject::get_desc($lesson_info['subject']);
+        if(@$lesson_info['subject']){
+            $subject_str  = E\Esubject::get_desc($lesson_info['subject']);
+        }else{
+            $subject_str  = "";
+        }
+
         $lesson_count    = $lesson_info['lesson_count'];
         $lesson_type_str = $lesson_info['lesson_type']==2?"试听课":"1对1";
         $lesson_time     = date("m-d H:i",$lesson_info['lesson_start'])."-".date("H:i",$lesson_info['lesson_end']);
