@@ -2430,4 +2430,26 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $sql = $this->gen_sql_new("select gender,account_role,account,age from db_weiyi_admin.t_manager_info where %s ",$where_arr);
         return $this->main_get_row($sql);
     }
+
+    public function get_group_info_detail($assistantid){
+        $where_arr = [
+            ["assistantid=%s",$assistantid,-1]
+        ];
+
+
+        $sql = $this->gen_sql_new("select kk.group_name , gg.group_name as name "
+                                 ." from %s a "
+                                 ." left join %s m on a.phone = m.phone "
+                                 ." left join %s g on m.uid = g.adminid "
+                                 ." left join %s gg on g.groupid = gg.groupid "
+                                 ." left join %s kk on gg.up_groupid = kk.groupid "
+                                 ." where %s "
+                                 ,t_assistant_info::DB_TABLE_NAME
+                                 ,t_manager_info::DB_TABLE_NAME
+                                 ,t_admin_group_user::DB_TABLE_NAME
+                                 ,t_admin_group_name::DB_TABLE_NAME
+                                 ,t_admin_main_group_name::DB_TABLE_NAME
+                                 ,$where_arr);
+        return $this->main_get_row($sql);
+    }
 }

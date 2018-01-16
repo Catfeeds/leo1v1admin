@@ -105,6 +105,8 @@ class company_wx extends Controller
     }
 
     public function get_approve() { // 获取审批数据
+        dd('只用于测试');
+
         $config = Config::get_config("company_wx");
         if (!$config) {
             exit('没有配置');
