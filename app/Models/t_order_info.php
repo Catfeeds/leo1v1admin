@@ -4755,6 +4755,37 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
  
     }
 
+    //临时方法(获取每个合同的金额,分期以80%计算)
+    public function get_ass_self_order_period_money($start_time,$end_time){
+        $where_arr=[
+            [  "o.order_time >= %u", $start_time, -1 ] ,
+            [  "o.order_time <= %u", $end_time, -1 ] , 
+            "m.account_role = 1 ",
+            "o.price >0",
+            "o.contract_type in (0,3,3001)",
+            "o.contract_status>0",
+            "s.is_test_user=0",
+        ];
+
+        $sql =$this->gen_sql_new("select sum(if(c.child_order_type=2,c.price*0.8,c.price)) reset_money,o.price,o.orderid ".
+                                 " from  %s o ".
+                                 " left join %s m on o.sys_operator  = m.account".
+                                 " left join %s s on s.userid=o.userid".
+                                 " left join %s c on o.orderid=c.parent_orderid and c.price>0".
+                                 " where %s group o.orderid",
+                                 self::DB_TABLE_NAME,
+                                 t_manager_info::DB_TABLE_NAME,
+                                 t_student_info::DB_TABLE_NAME,
+                                 t_child_order_info::DB_TABLE_NAME,
+                                 $where_arr
+        );
+
+        return $this->main_get_list($sql,function($item){
+            return $item["orderid"];
+        });
+
+    }
+
     //助教合同详情信息(薪资版本)  销售转介绍
     public function get_seller_tran_order_info($start_time,$end_time,$adminid=-1){
         $where_arr=[
