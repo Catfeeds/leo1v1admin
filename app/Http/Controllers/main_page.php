@@ -348,7 +348,7 @@ class main_page extends Controller
         $isTranFlag = 0;
         $onlineTime = strtotime('2018-01-17');
         if($nowTime>$onlineTime){
-            $isTranFlag = 1;
+            $isTranFlag = 0;
         }
 
         return $this->pageView(__METHOD__, $ret_info_arr,[
