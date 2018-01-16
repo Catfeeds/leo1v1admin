@@ -31,7 +31,6 @@ class test_jack  extends Controller
         //     dd(222);
         // }
         $ret_info = $this->t_month_ass_student_info->get_ass_month_info(1512057500);
-        dd($ret_info);
 
         //续费/新签合同数据
         $start_time = strtotime("2017-12-01");
@@ -109,6 +108,9 @@ class test_jack  extends Controller
             ]);
 
         }
+        $ret_info = $this->t_month_ass_student_info->get_ass_month_info(1512057500);
+        dd($ret_info);
+
 
 
 
