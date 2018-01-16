@@ -39,7 +39,8 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td >
-                        <a class="detail_info" data-userid="{{@$var['assistantid']}}" data-group_name="{{@$var['group_name']}}" data-name="{{@$var['name']}}">{!! @$var["nick"] !!}</a></td>
+                        <a class="detail_info" data-userid="{{@$var['assistantid']}}" data-group_name="{{@$var['group_name']}}" data-name="{{@$var['name']}}">{!! @$var["nick"] !!}</a>
+                        ({{@$var['assistantid']}})</td>
                         <td>{{@$var["group"]}} </td>
                         <td>
                             {{@$var["one_year_per"]}}@if($var["one_year_per"] >0)%@endif
