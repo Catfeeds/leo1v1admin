@@ -443,6 +443,12 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $now=time(NULL);
+        $start_time = 1516087680;
+        $end_time = 1516088580;
+        $cmd= new \App\Console\Commands\sync_tq();
+        $count=$cmd->load_data($start_time,$end_time,$phone='');
+        dd($count);
         $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
         $post_arr=[
             "enterpriseId" => 3005131  ,
