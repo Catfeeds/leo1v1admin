@@ -1077,7 +1077,6 @@ class assistant_performance extends Controller
 
 
         }
-        dd($ass_tran_info);
 
         foreach($cc_order_list as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item, 'order_time','_str'); 
