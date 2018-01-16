@@ -36,7 +36,7 @@ class test_jack  extends Controller
         $start_time = strtotime("2017-12-01");
         $end_time = strtotime("2018-01-01");
         $ass_order_info = $this->t_order_info->get_assistant_performance_order_info($start_time,$end_time);
-        $order_money_list = $this->get_ass_self_order_period_money($start_time,$end_time);
+        $order_money_list = $this->t_order_info->get_ass_self_order_period_money($start_time,$end_time);
         dd($ret_info,$order_money_list);
         $renew_list=$new_list=[];
         foreach($ass_order_info as $val){
