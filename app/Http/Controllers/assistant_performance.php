@@ -748,7 +748,12 @@ class assistant_performance extends Controller
             $item["cc_tran_reword"] = $item["cc_tran_reword"]/100;
             $item["all_reword"] =  $item["revisit_reword"]+$item["kpi_lesson_count_finish_reword"]+$item["kk_reword"]+$item["stop_reword"]+$item["end_no_renw_reword"]+ $item["lesson_count_finish_reword"]+$item["renw_reword"]+ $item["cc_tran_reword"];
 
-            $item["old_ewnew_money"] = @$old_twl_info[$k]["performance_cr_renew_money"]+@$old_twl_info[$k]["performance_cr_new_money"];
+            if($start_time==strtotime("2017-12-01")){            
+                $item["old_ewnew_money"] = @$old_twl_info[$k]["performance_cr_renew_money"]+@$old_twl_info[$k]["performance_cr_new_money"];
+                $item["old_ewnew_money"] =$item["old_ewnew_money"]/100;
+            }else{
+                $item["old_ewnew_money"]="暂无数据";  
+            }
             
         }
 
