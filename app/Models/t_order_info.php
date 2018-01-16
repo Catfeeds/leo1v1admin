@@ -4768,7 +4768,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ["s.origin_assistantid=%u",$adminid,-1]
         ];
         $refund_end_time = $end_time+9*86400;
-        $sql = $this->gen_sql_new("select o.price,rf.real_refund,m.uid,o.sys_operator,s.userid,o.orderid "
+        $sql = $this->gen_sql_new("select o.price,rf.real_refund,m.uid,o.sys_operator,s.userid,o.orderid, "
                                   ." o.pay_time,rf.apply_time,o.order_time "
                                   ." from %s o left join %s s on s.userid=o.userid "
                                   ." left join %s m on s.origin_assistantid = m.uid"
