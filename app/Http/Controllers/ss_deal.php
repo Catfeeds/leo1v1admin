@@ -7870,9 +7870,19 @@ class ss_deal extends Controller
 
     public function get_admin_info_by_id(){
         $uid = $this->get_in_int_val("adminid",-1);
-        $ret = $this->t_manager_info->get_detail_info($uid);
-        $ret['gender'] = E\Egender::get_desc($ret['gender']);
-        $ret['account_role'] = E\Eaccount_role::get_desc($ret['account_role']);
+        $type = $this->get_in_int_val("type",-1);
+        if($type == 1){
+            $ret = $this->t_assistant_info->get_assistant_detail_info_b2($uid);
+            $ret['gender'] = E\Egender::get_desc($ret['gender']);
+            $birth_year           = substr((string)$ret['birth'], 0, 4);
+            $ret['age']    = (int)date('Y', time()) - (int)$birth_year;
+            $ret['account_role'] = E\Eaccount_role::get_desc(1);
+        }else{
+            $ret = $this->t_manager_info->get_detail_info($uid);
+            $ret['gender'] = E\Egender::get_desc($ret['gender']);
+            $ret['account_role'] = E\Eaccount_role::get_desc($ret['account_role']); 
+        }
+        
         return $this->output_succ(["data" => $ret ]);
     }
 
@@ -7880,6 +7890,8 @@ class ss_deal extends Controller
         $assistantid = $this->get_in_int_val("assistantid",-1);
         $ret = $this->t_assistant_info->get_assistant_detail_info($assistantid);
         $ret['gender'] = E\Egender::get_desc($ret['gender']);
+        $birth_year           = substr((string)$ret['birth'], 0, 4);
+        $ret['age']    = (int)date('Y', time()) - (int)$birth_year;
         return $this->output_succ(["data" => $ret ]);
     }
 

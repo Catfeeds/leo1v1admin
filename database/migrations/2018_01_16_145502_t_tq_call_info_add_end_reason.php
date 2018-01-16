@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TAssistantInfoAddAge extends Migration
+class TTqCallInfoAddEndReason extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class TAssistantInfoAddAge extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_assistant_info', function( Blueprint $table)
+        Schema::table('db_weiyi_admin.t_tq_call_info', function( Blueprint $table)
         {
-            t_field($table->integer("age"),"年龄");
+            t_field($table->integer("end_reason"),"0销售挂机,1客户挂机");
         });
     }
 
