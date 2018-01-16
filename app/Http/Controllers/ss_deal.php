@@ -7880,6 +7880,8 @@ class ss_deal extends Controller
         $assistantid = $this->get_in_int_val("assistantid",-1);
         $ret = $this->t_assistant_info->get_assistant_detail_info($assistantid);
         $ret['gender'] = E\Egender::get_desc($ret['gender']);
+        $birth_year           = substr((string)$ret['birth'], 0, 4);
+        $ret['age']    = (int)date('Y', time()) - (int)$birth_year;
         return $this->output_succ(["data" => $ret ]);
     }
 

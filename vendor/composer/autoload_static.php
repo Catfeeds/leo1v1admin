@@ -946,6 +946,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TAssStuChangeListAddOldAssAdminid' => __DIR__ . '/../..' . '/database/migrations/2017_11_10_110244_t_ass_stu_change_list_add_old_ass_adminid.php',
         'TAssWeeklyInfoAddReadStudentList' => __DIR__ . '/../..' . '/database/migrations/2017_11_08_132904_t_ass_weekly_info_add_read_student_list.php',
         'TAssWeeklyInfoAddRegisteredStudentList' => __DIR__ . '/../..' . '/database/migrations/2018_01_09_183115_t_ass_weekly_info_add_registered_student_list.php',
+        'TAssistantInfoAddAge' => __DIR__ . '/../..' . '/database/migrations/2018_01_16_112210_t_assistant_info_add_age.php',
         'TChangeAuthorityGroup' => __DIR__ . '/../..' . '/database/migrations/2018_01_10_150701_t_change_authority_group.php',
         'TChangeOrderActivityConfig' => __DIR__ . '/../..' . '/database/migrations/2017_12_28_144901_t_change_order_activity_config.php',
         'TChildOrderInfoAddParentName' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_180712_t_child_order_info_add_parent_name.php',
