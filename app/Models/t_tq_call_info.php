@@ -12,7 +12,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         parent::__construct();
     }
 
-    public function add($id, $uid, $phone, $start_time, $end_time, $duration, $is_called_phone,$record_url ,$adminid=0, $admin_role=0,  $obj_start_time=0,$client_number='') {
+    public function add($id, $uid, $phone, $start_time, $end_time, $duration, $is_called_phone,$record_url ,$adminid=0, $admin_role=0,  $obj_start_time=0,$sipCause=0,$client_number='',$endReason=0) {
         if ($adminid==0) {
             $admin_info=$this->task->t_manager_info->get_user_info_for_tq($uid);
             if ($admin_info){
@@ -22,8 +22,8 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         }
         $sql=$this->gen_sql_new(
             " insert ignore into %s "
-            ." (id, uid, phone, start_time, end_time, duration, is_called_phone, record_url,adminid, admin_role, obj_start_time,client_number) "
-            ." values( %u,%u,'%s',%u,%u,%u,%u,'%s',%u,%u,%u,%u)",
+            ." (id, uid, phone, start_time, end_time, duration, is_called_phone, record_url,adminid, admin_role, obj_start_time,sipCause,client_number,endReason) "
+            ." values( %u,%u,'%s',%u,%u,%u,%u,'%s',%u,%u,%u,%u,'%s',%u)",
             self::DB_TABLE_NAME,
             $id,
             $uid,
@@ -36,7 +36,9 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             $adminid,
             $admin_role,
             $obj_start_time,
-            $client_number
+            $sipCause,
+            $client_number,
+            $endReason
         );
         $ret = $this->main_insert($sql);
         if($ret == 1){
@@ -863,7 +865,7 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
             ['start_time>=%u', $start_time, 0],
             ['start_time<%u', $end_time, 0]
         ];
-        $sql = $this->gen_sql_new("select count(phone) from %s where %s order by phone",
+        $sql = $this->gen_sql_new("select count(distinct phone) from %s where %s",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );

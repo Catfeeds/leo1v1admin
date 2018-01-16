@@ -71,7 +71,7 @@ class NoticeAssForFirstLesson extends Command
                 ];
                 $url = "";
                 WxSendMsg::send_ass_for_first($item['wx_openid'], $data, $url);
-                WxSendMsg::send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url); //james
+                // WxSendMsg::send_ass_for_first("orwGAs_IqKFcTuZcU1xwuEtV3Kek", $data, $url); //james
             }
         }
     }

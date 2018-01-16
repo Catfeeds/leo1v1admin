@@ -470,7 +470,7 @@ class TeacherTask extends TaskController
             if($val['teacher_type']==3){
                 $val['info'] = "老师您好，本次课程已经结束。";
             }else{
-                $val['info'] = "老师您好，本次课程已经结束，您本次课的基本工资为".$lesson_base."元，如有问题请及时到老师帮【个人中心】-【我的收入】中添加申诉说明。本月课程申诉通道将于下月6号24：00关闭，过期不予处理。";
+                $val['info'] = "老师您好，本次课程已结束，您本次课的基本工资为".$lesson_base."元，如有疑问请及时到老师帮【个人中心】-【我的收入】中添加申诉说明。本月课程申诉通道将于下月6号24：00关闭，过期不予处理。";
 
                 // $val['info'] = "老师您好，本次课程已经结束，您本次课的基本工资为".$lesson_base."元，如有问题请及时到老师帮【个人中心】-【我的收入】中添加申诉说明或点击'详情'申诉。本月课程申诉通道将于下月5号24：00关闭，给您带来不便,敬请谅解。";
 
@@ -480,7 +480,7 @@ class TeacherTask extends TaskController
             if($openid){
                 if($openid == 'oJ_4fxLM1Du5377MqcZooq1wP1d4'){ // 文彬 测试
                     $url = 'http://wx-teacher-web.leo1v1.com/wage_details.html';
-                    $val['info'] = "老师您好，本次课程已经结束，您本次课的基本工资为".$lesson_base."元，如有问题请及时到老师帮【个人中心】-【我的收入】中添加申诉说明或点击'详情'申诉。本月课程申诉通道将于下月5号24：00关闭，给您带来不便,敬请谅解。";
+                    $val['info'] = "老师您好，本次课程已结束，您本次课的基本工资为".$lesson_base."元，如有疑问请及时到老师帮【个人中心】-【我的收入】中添加申诉说明或点击'详情'申诉。本月课程申诉通道将于下月5号24：00关闭，给您带来不便,敬请谅解。";
 
                     $this->teacher_wx_data($openid,$val,$type,$url);
                 }else{

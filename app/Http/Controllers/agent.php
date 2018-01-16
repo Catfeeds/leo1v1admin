@@ -457,8 +457,8 @@ class agent extends Controller
         $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
         $ret=json_decode($return_content, true  );
         $data_list= @$ret["msg"]["data"];
-        // // dd($data_list);
-        dd(array_unique(array_column($data_list, 'endReason')));
+        // dd($data_list);
+        dd(array_unique(array_column($data_list, 'sipCause')));
         $rank_arr              = explode('/', '4/10');
         
         dd($rank_arr,$class_rank,$class_num);

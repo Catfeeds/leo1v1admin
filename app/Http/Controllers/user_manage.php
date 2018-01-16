@@ -3314,10 +3314,13 @@ class user_manage extends Controller
             }else{
                 $value['type_str'] = "其他";
             }
-            $value['one_year_per'] = ($value['one_year_num'] > 0 && $value['one_year_refund_num'] > 0) ? round(100*$value['one_year_refund_num']/$value['one_year_num'],2) : 0;
-            $value['half_year_per'] = ( $value['half_year_num'] > 0 && $value['half_year_refund_num']) ? round(100*$value['half_year_refund_num']/$value['half_year_num'],2) : 0;
-            $value['three_month_per'] = ( $value['three_month_num'] > 0 && $value['three_month_refund_num']) ? round(100*$value['three_month_refund_num']/$value['three_month_num'],2): 0;
-            $value['one_month_per'] = ($value['one_month_num'] > 0 && $value['one_month_refund_num'])? round(100*$value['one_month_refund_num']/$value['one_month_num'],2) : 0;
+            $value['one_year_per'] = ($value['one_year_num'] > 0 && $value['one_year_refund_num'] > 0) ?  number_format(round(100*$value['one_year_refund_num']/$value['one_year_num'],2),2) : 0;
+            $value['half_year_per'] = ( $value['half_year_num'] > 0 && $value['half_year_refund_num']) ? number_format(round(100*$value['half_year_refund_num']/$value['half_year_num'],2),2) : 0;
+            $value['three_month_per'] = ( $value['three_month_num'] > 0 && $value['three_month_refund_num']) ? number_format(round(100*$value['three_month_refund_num']/$value['three_month_num'],2),2): 0;
+            $value['one_month_per'] = ($value['one_month_num'] > 0 && $value['one_month_refund_num'])? number_format(round(100*$value['one_month_refund_num']/$value['one_month_num'],2),2) : 0;
+        }
+        if (!$order_in_db_flag) {
+            \App\Helper\Utils::order_list( $ret, $order_field_name, $order_type );
         }
         $ret_arr = \App\Helper\Utils::array_to_page($page_num,$ret);
         if($sys_operator != ''){
@@ -3326,9 +3329,7 @@ class user_manage extends Controller
             }
         }
         //dd($ret_arr);
-        if (!$order_in_db_flag) {
-            \App\Helper\Utils::order_list( $ret_arr["list"], $order_field_name, $order_type );
-        }
+        
         return $this->Pageview(__METHOD__,$ret_arr);
     }
 
@@ -3427,13 +3428,15 @@ class user_manage extends Controller
             $value['group'] = ($ret_tmp['group_name'] != '' && $ret_tmp['name'] != '')? $ret_tmp['group_name'].$ret_tmp['name']:"无";
             $value['group_name'] = $ret_tmp['group_name'];
             $value['name']       = $ret_tmp['name'];
-            $value['one_year_per'] = ($value['one_year_num'] > 0 && $value['one_year_refund_num'] > 0) ? round(100*$value['one_year_refund_num']/$value['one_year_num'],2) : 0;
-            $value['half_year_per'] = ( $value['half_year_num'] > 0 && $value['half_year_refund_num']) ? round(100*$value['half_year_refund_num']/$value['half_year_num'],2) : 0;
-            $value['three_month_per'] = ( $value['three_month_num'] > 0 && $value['three_month_refund_num']) ? round(100*$value['three_month_refund_num']/$value['three_month_num'],2): 0;
-            $value['one_month_per'] = ($value['one_month_num'] > 0 && $value['one_month_refund_num'])? round(100*$value['one_month_refund_num']/$value['one_month_num'],2) : 0;
+            $value['one_year_per'] = ($value['one_year_num'] > 0 && $value['one_year_refund_num'] > 0) ?  number_format(round(100*$value['one_year_refund_num']/$value['one_year_num'],2),2) : 0;
+            $value['half_year_per'] = ( $value['half_year_num'] > 0 && $value['half_year_refund_num']) ? number_format(round(100*$value['half_year_refund_num']/$value['half_year_num'],2),2) : 0;
+            $value['three_month_per'] = ( $value['three_month_num'] > 0 && $value['three_month_refund_num']) ? number_format(round(100*$value['three_month_refund_num']/$value['three_month_num'],2),2): 0;
+            $value['one_month_per'] = ($value['one_month_num'] > 0 && $value['one_month_refund_num'])? number_format(round(100*$value['one_month_refund_num']/$value['one_month_num'],2),2) : 0;
         }
 
-
+        if (!$order_in_db_flag) {
+            \App\Helper\Utils::order_list( $ret, $order_field_name, $order_type );
+        }
         $ret_arr = \App\Helper\Utils::array_to_page($page_num,$ret);
         if($nick != ''){
             foreach($ret_arr['list'] as $key => &$item){
@@ -3441,9 +3444,7 @@ class user_manage extends Controller
             }
         }
         //dd($ret_arr);
-        if (!$order_in_db_flag) {
-            \App\Helper\Utils::order_list( $ret_arr["list"], $order_field_name, $order_type );
-        }
+        
         return $this->Pageview(__METHOD__,$ret_arr);
 
 

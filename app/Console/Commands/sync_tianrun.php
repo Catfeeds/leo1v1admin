@@ -122,7 +122,9 @@ class sync_tianrun extends cmd_base
             $totalDuration = $item['totalDuration'];
             $totalDuration = strtotime("1970-01-01 $totalDuration")+28800;
             $cdr_end_time = $cdr_answer_time + $totalDuration;
-            $client_number = $item['sipCause'];
+            $sipCause = $item['sipCause'];
+            $client_number = $item['clientNumber'];
+            $endReason = $item['endReason']=='是'?1:0;
             $this->task->t_tq_call_info->add(
                 $id,
                 $cdr_bridged_cno,
@@ -135,7 +137,9 @@ class sync_tianrun extends cmd_base
                 0,
                 0,
                 $obj_start_time,
-                $client_number
+                $sipCause,
+                $client_number,
+                $endReason
             );
             $called_flag = ($duration>60)?2:1;
             $this->task->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno);

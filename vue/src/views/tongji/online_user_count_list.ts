@@ -185,19 +185,19 @@ export default class extends vtable {
       });
     */
   }
+
   show_line() {
+
     var myChart = echarts.init(document.getElementById('id_pic_user_count_2'));
 
-    var data = [
-      {name:'2016/12/18 3:37', value:['2016/12/18 3:37', 0.9]},
-      {name:'2016/12/18 6:37', value:['2016/12/18 6:37', 0.8]},
-      {name:'2016/12/18 6:38', value:['2016/12/18 6:38', 0.8]},
-      {name:'2016/12/18 16:18', value:['2016/12/18 16:18', 0.60]},
-      {name:'2016/12/18 19:18', value:['2016/12/18 19:18', 0.90]}
-    ];
+
+    var real_data= this.$data.data_ex_list.time_list[0];
+    var def_data= this.$data.data_ex_list.time_list[1];
+    var need_deal_count_data = this.$data.data_ex_list.time_list[2];
+
     var anchor = [
-      {name:'2016/12/18 00:00:00', value:['2016/12/18 00:00:00', 0]},
-      {name:'2016/12/18 23:59:00', value:['2016/12/18 23:59:00', 0]}
+      { value:[this.get_args().start_time , 0]},
+      { value:[ this.get_args().end_time , 0]}
     ];
 
     var option = {
@@ -207,35 +207,38 @@ export default class extends vtable {
       grid: {
         left: '10px',
         right: '30px',
+        buttom: '10px',
         y:"20px",
         containLabel: true,
 
       },
       /*
-      grid:{
+        grid:{
         "show" :true,
-         x: '7%', y: '7%', width: '38%', height: '38%'
-      },
+        x: '7%', y: '7%', width: '38%', height: '38%'
+        },
       */
       tooltip: {
         trigger: 'axis',
-        formatter: function (params) {
+        /*
+          formatter: function (params) {
           params = params[0];
           var date = new Date(params.name);
           return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
-        },
+          },
+        */
         axisPointer: {
           animation: false
         }
       },
       legend: {
-        data:['模拟数据'],
+        data:['实际课数', '预期课数',"课后视频未处理"],
         x: 'left'
       },
       xAxis: {
         type: 'time',
         splitLine: {
-          show: false
+          show: true
         },
         //gridIndex: 0
       },
@@ -247,13 +250,28 @@ export default class extends vtable {
         }
       },
       series: [{
-        name: '模拟数据',
+
+        name: '实际课数',
         type: 'line',
         showSymbol: false,
         hoverAnimation: false,
-        data: data
-      },
-               {
+        data: real_data
+
+      },{ //
+        name: '预期课数',
+        type: 'line',
+        showSymbol: false,
+        hoverAnimation: false,
+        data: def_data
+
+      },{ //
+        name: '课后视频未处理',
+        type: 'line',
+        showSymbol: false,
+        hoverAnimation: false,
+        data: need_deal_count_data
+
+      },{ //用于隐藏
         name:'.anchor',
         type:'line',
         showSymbol:false,
