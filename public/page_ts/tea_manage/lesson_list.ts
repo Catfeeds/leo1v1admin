@@ -1155,17 +1155,19 @@ $(function(){
         $fail_greater_4_hour_flag .val(opt_data.fail_greater_4_hour_flag);
 
         var arr=[
-            ["学生", opt_data["nick"]  ],
-            ["老师", opt_data["realname"]],
-            ["上课时间", opt_data["lesson_start_str"]   ],
+            ["确认时间限制","课程所在的次月"
+             +font_color("6号0点")+"之后无法修改课程的课时数; 如:一节2018年1月任何时间的课程,在2018年2月6日0点之后无法修改"],
+            ["学生", opt_data.stu_nick],
+            ["老师", opt_data.tea_nick],
+            ["上课时间", opt_data.lesson_time],
             ["是否成功",  $success_flag ],
             ["是否离上课4个小时以前(不付老师工资)", $fail_greater_4_hour_flag],
             ["失败类型", $test_lesson_fail_flag],
             ["失败原因", $fail_reason],
         ];
 
-        var update_show_status =function ()  {
-            var show_flag =  $success_flag.val()==2 ;
+        var update_show_status = function(){
+            var show_flag = $success_flag.val()==2 ;
             $fail_greater_4_hour_flag.key_value_table_show( show_flag);
             $test_lesson_fail_flag.key_value_table_show( show_flag);
             $fail_reason.key_value_table_show( show_flag);
@@ -1222,6 +1224,8 @@ $(function(){
         Enum_map.append_option_list( "lesson_cancel_time_type", $lesson_cancel_time_type,true);
 
         var arr = [
+            ["确认时间限制","课程所在的次月"
+             +font_color("6号0点")+"之后无法修改课程的课时数; 如:一节2018年1月任何时间的课程,在2018年2月6日0点之后无法修改"],
             ["上课完成",$confirm_flag] ,
             ["无效类型",$lesson_cancel_reason_type] ,
             ["课堂确认情况",$lesson_cancel_time_type] ,
