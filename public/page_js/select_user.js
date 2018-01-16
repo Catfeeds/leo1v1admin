@@ -215,7 +215,6 @@
 
     //在插件中使用对象
     $.fn.admin_select_user = function(options) {
-        alert('aaa');
         //创建的实体
         var select_user = new Cselect_user(this, options);
         //调用其方法
