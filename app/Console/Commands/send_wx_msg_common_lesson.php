@@ -295,7 +295,7 @@ class send_wx_msg_common_lesson extends Command
                 ];
 
                 $urlLessonEnd = "";
-                $wx->send_template_msg($itemLessonEnd['wx_openid'],$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);
+                // $wx->send_template_msg($itemLessonEnd['wx_openid'],$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);
                 $wx->send_template_msg("orwGAs_IqKFcTuZcU1xwuEtV3Kek",$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);//james
             }
         }else{
