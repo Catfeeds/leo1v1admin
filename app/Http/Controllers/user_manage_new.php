@@ -2127,6 +2127,8 @@ class user_manage_new extends Controller
         if( $groupid > 0 ){  
             $user_list = $this->t_manager_info->get_power_group_user_list($groupid);
             $user_list = $this->get_user_permission($user_list);
+            // $user_list = $this->t_manager_info->get_power_group_user_list_sec($groupid);
+            // dd($user_list);
             $power_map = $this->t_authority_group->get_auth_group_map($groupid);
             $list=$this->get_menu_list_new($power_map );
       

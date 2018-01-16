@@ -347,11 +347,6 @@ class ss_deal extends Controller
 
         //新增加信息
         $ret["class_rank"]    = $ss_item["class_rank"];
-        $ret["class_num"]    = $ss_item["class_num"];
-        $ret['class_rank'] = $ss_item["class_rank"].'/'.$ss_item["class_num"];
-        if(!$ss_item["class_rank"] && !$ss_item["class_num"]){
-            $ret['class_rank'] = '';
-        }
         $ret["grade_rank"]    = $ss_item["grade_rank"];
         $ret["academic_goal"]    = $ss_item["academic_goal"];
         $ret["test_stress"]    = $ss_item["test_stress"];
@@ -388,7 +383,6 @@ class ss_deal extends Controller
         $ret["subject_tag"] = json_decode($tt_item['subject_tag']);
         $ret["phone_location"] = mb_substr($student["phone_location"],0,2);
         $ret["teacher_type"]   = $tt_item["teacher_type"];
-        // dd($ret["subject_tag"]);
 
         return $this->output_succ(["data" => $ret ]);
     }
