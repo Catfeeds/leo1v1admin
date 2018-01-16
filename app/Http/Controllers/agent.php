@@ -443,20 +443,23 @@ class agent extends Controller
     }
 
     public function test_new(){
+        // $start_time = 1504195200;
+        // $end_time = 1484582400;
         $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
         $post_arr=[
             "enterpriseId" => 3005131  ,
             "userName" => "admin" ,
             "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
             "seed" => "seed1",
-            "startTime" => '2018-01-16 15:28:08',
-            "endTime" => '2018-01-16 15:50:10',
+            "startTime" => '2018-01-06 00:00:00',
+            "endTime" => '2018-01-06 01:00:00',
         ];
         $post_arr["start"]  = 0;
         $post_arr["limit"]  = 1000;
         $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
         $ret=json_decode($return_content, true  );
         $data_list = @$ret["msg"]["data"];
+        dd($data_list);
         foreach($data_list as $item){
             $cdr_bridged_cno= $item["cno"];
             $uniqueId= $item["uniqueId"];
