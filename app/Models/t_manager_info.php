@@ -401,6 +401,17 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $ret_list;
     }
 
+    public function get_power_group_user_list_sec($groupid){
+        $sql = $this->gen_sql("select user.uid, user.account,user.name, user.permission,GROUP_CONCAT(auth.group_name) as permit_name from %s user
+                              left join %s power on user.uid = power.uid
+                              left join %s auth on power.gid = auth.groupid where user.del_flag = 0 and power.gid = %u group by user.uid",
+                              self::DB_TABLE_NAME,
+                              t_user_power_group::DB_TABLE_NAME,
+                              t_authority_group::DB_TABLE_NAME,
+                              $groupid);
+        return $this->main_get_list($sql);
+    }
+
     public function opt_group($uid,$opt_type, $groupid) {
         $arr=$this->get_show_manage_info($uid);
         $permission=$arr["permission"];
@@ -2417,6 +2428,28 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             ['uid=%s',$uid,-1]
         ];
         $sql = $this->gen_sql_new("select gender,account_role,account,age from db_weiyi_admin.t_manager_info where %s ",$where_arr);
+        return $this->main_get_row($sql);
+    }
+
+    public function get_group_info_detail($assistantid){
+        $where_arr = [
+            ["assistantid=%s",$assistantid,-1]
+        ];
+
+
+        $sql = $this->gen_sql_new("select kk.group_name , gg.group_name as name "
+                                 ." from %s a "
+                                 ." left join %s m on a.phone = m.phone "
+                                 ." left join %s g on m.uid = g.adminid "
+                                 ." left join %s gg on g.groupid = gg.groupid "
+                                 ." left join %s kk on gg.up_groupid = kk.groupid "
+                                 ." where %s "
+                                 ,t_assistant_info::DB_TABLE_NAME
+                                 ,t_manager_info::DB_TABLE_NAME
+                                 ,t_admin_group_user::DB_TABLE_NAME
+                                 ,t_admin_group_name::DB_TABLE_NAME
+                                 ,t_admin_main_group_name::DB_TABLE_NAME
+                                 ,$where_arr);
         return $this->main_get_row($sql);
     }
 }

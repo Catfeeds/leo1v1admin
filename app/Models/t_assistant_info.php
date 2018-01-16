@@ -325,4 +325,14 @@ class t_assistant_info extends \App\Models\Zgen\z_t_assistant_info
         );
         return $this->main_update( $sql  );
     }
+
+    public function get_assistant_detail_info($assistantid){
+       $where_arr = [
+            ['assistantid=%s',$assistantid,-1]
+        ];
+        $sql = $this->gen_sql_new("select assistantid, gender,nick,birth from %s where %s ",
+          self::DB_TABLE_NAME,
+          $where_arr);
+        return $this->main_get_row($sql);
+    }
 }
