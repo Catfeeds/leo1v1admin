@@ -552,11 +552,20 @@ $(function(){
             ["面试评价",$record_info]
         ];
         $record_info.val(opt_data.record_info);
-        $.do_ajax('/ajax_deal2/reset_train_lesson_record_info',{
-            "id":id,
-            "record_info":$record_info.val()
+        $.show_key_value_table("修改试听评价", arr,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax('/ajax_deal2/reset_train_lesson_record_info',{
+                    "id":id,
+                    "record_info":$record_info.val()
+                });
+ 
+            }
         });
+                
 
+       
 
     });
 
