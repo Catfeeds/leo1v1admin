@@ -1294,7 +1294,7 @@
                     </div>
 
                     <div class='col-xs-12 col-md-2' style="">
-                        <div class='input-group' style='width:128px;'>
+                        <div class='input-group' style='width:118px;'>
                             <input type="text" class=" form-control "  id="id_class_rank_new_two"  placeholder='' />
                         </div>
                     </div>
@@ -1323,7 +1323,7 @@
                                 </select> 
                             </div>
                         </div>
-                        <div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'>
+                        <div class='col-xs-3 col-md-1' style='margin:0 0 0 3.0%'>
                             <div class='input-group' style='width:90px;'>
                                 <input type='text' class='form-control' id='id_main_subject_score_one_new_two' name='subject_score_one_new_two' placeholder='' />
                             </div>
@@ -1338,7 +1338,7 @@
                              <input type='text' class='form-control' id='id_main_subject_score_two_new_two' name='subject_score_two_new_two' placeholder='满分' />
                              </div>
                              </div> -->
-                        <div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 2% 0 0%;cursor: pointer;' >
+                        <div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 2.5% 0 0%;cursor: pointer;' >
                             <i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i>
                         </div>
                     </div>
