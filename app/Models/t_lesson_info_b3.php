@@ -2660,12 +2660,12 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_teacher_data($start_time,$end_time){
         $where_arr = [
             "ti.trial_lecture_is_pass=1",
-            "ti.is_test_user=0",
+            // "ti.is_test_user=0",
             "li.lesson_del_flag=0",
             // "l.lesson_type in (0,1,3)",
             "li.lesson_status=2",
             // 'l.lesson_user_online_status=1',
-            "ti.teacher_money_type = 6",
+            // "ti.teacher_money_type = 6",
         ];
         $this->where_arr_add_time_range($where_arr, "li.lesson_start", $start_time, $end_time);
         $sql = $this->gen_sql_new(
@@ -2694,6 +2694,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ,t_order_refund::DB_TABLE_NAME
             ,$where_arr
         );
+        echo $sql;
         return $this->main_get_list($sql);
 
         $where_arr = [
