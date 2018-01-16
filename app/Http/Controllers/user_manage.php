@@ -3264,7 +3264,7 @@ class user_manage extends Controller
 
         $ret          = $this->t_order_refund->get_sys_operator_apply_info($start_time,$end_time,$sys_operator,$account_role);
         $ret_info     = $this->t_order_info->get_sys_operator_refund_info($one_year,$half_year,$three_month,$start_time,$end_time,$sys_operator,$account_role);
-        
+
         foreach ($ret as $key => &$val) {
             $val['one_year_num'] = 0;
             $val['half_year_num'] = 0;
@@ -3336,7 +3336,36 @@ class user_manage extends Controller
      * function : 退费统计-助教
      */
     public function refund_tongji_cr(){
-        dd(2);
+        $this->check_and_switch_tongji_domain();
+        list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],3 );
+        $sum_field_list=[
+            "one_year_per",
+            "half_year_per",
+            "three_month_per",
+            "one_month_per",
+            "one_month_num",
+            "one_month_refund_num",
+            "apply_num",
+        ];
+        $order_field_arr=  $sum_field_list ;
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str($order_field_arr ,"");
+        $nick = trim($this->get_in_str_val("name",""));
+        $page_num     = $this->get_in_page_num();
+        $end_date     = date("Y-m-d H:i:s",$end_time);
+        $start_time = $start_time > 1451577600 ? $start_time:1451577600;
+        $one_year     = strtotime("$end_date -1 year") > 1451577600 ? strtotime("$end_date -1 year") :  1451577600; 
+        $half_year    = strtotime("$end_date -6 month") > 1451577600 ? strtotime("$end_date -6 month") :1451577600;
+        $three_month  = strtotime("$end_date -3 month") > 1451577600 ? strtotime("$end_date -3 month") : 1451577600;
+
+        $ret          = $this->t_order_refund->get_cr_apply_info($start_time,$end_time,$nick);
+        $ret_info     = $this->t_order_info->get_cr_refund_info($one_year,$half_year,$three_month,$start_time,$end_time,$nick);
+
+
+        dd($ret,$ret_info);
+
+
+
     }
 
 

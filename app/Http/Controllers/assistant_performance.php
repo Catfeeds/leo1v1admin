@@ -1067,13 +1067,28 @@ class assistant_performance extends Controller
             $price = $val["price"];
             $uid = $val["uid"];
             $real_refund = $val["real_refund"];
-            if(!isset($ass_tran_info[$uid]["user_list"][$userid])){
-                $ass_tran_info[$uid]["user_list"][$userid]=$userid;
-                @$ass_tran_info[$uid]["num"] +=1;
+            if(!isset($ass_tran_info["user_list"][$userid])){
+                $ass_tran_info["user_list"][$userid]=$userid;
+                @$ass_tran_info["num"] +=1;
             }
-            @$ass_tran_info[$uid]["money"] += $price-$real_refund;
+            @$ass_tran_info["money"] += $price-$real_refund;
+            @$ass_tran_info_info["refund_money"] += $real_refund;
+            @$ass_tran_info["order_money"] += $price;
+
 
         }
+
+        foreach($cc_order_list as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item, 'order_time','_str'); 
+            \App\Helper\Utils::unixtime2date_for_item($item, 'apply_time','_str'); 
+            \App\Helper\Utils::unixtime2date_for_item($item, 'pay_time','_str'); 
+            $item["stu_nick"]= $this->cache_get_student_nick($item["userid"]);
+        }
+
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($cc_order_list),[
+            "ass_tran_info"  => @$ass_tran_info,
+        ]);
+
 
 
     }

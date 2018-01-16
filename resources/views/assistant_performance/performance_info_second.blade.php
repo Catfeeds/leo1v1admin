@@ -119,13 +119,13 @@
                             </a>
                             
                         <td>{{@$var["renw_reword"]}}</td> 
-                        <td>{{@$var["cc_tran_num"]}}</td>
-                        <!-- <td >
-                             <a href="  /assistant_performance/get_assistant_origin_order_losson_info_all/?date_type_config=undefined&date_type=2&opt_date_type=3&start_time={{ $start }}&end_time={{ $end }}&assistantid={{ $var["assistantid"] }}&studentid=-1&sys_operator=&teacherid=-1&adminid=-1&origin_userid=-1&sys_operator_type=-1" target="_blank" >{{@$var["cc_tran_num"]}}</a>                         
-                             </td>
-                        -->
+                        <td>{{@$var["cc_tran_num"]}}</td>                        
                         
-                        <td>{{@$var["cc_tran_price_reword"]/100}}</td> 
+                        <td>
+                            <a href="/assistant_performance/get_seller_tran_order_info?adminid={{ $var["adminid"] }}&date_type_config=undefined&date_type=null&opt_date_type=3&start_time={{ $start }}&end_time={{ $end }}" target="_blank" >
+                                {{@$var["cc_tran_price_reword"]/100}}
+                            </a>
+                        </td>
                         <td>{{@$var["cc_tran_reword"]}}</td> 
                         <td>{{@$var["all_reword"]}}</td> 
 
