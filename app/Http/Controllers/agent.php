@@ -443,31 +443,25 @@ class agent extends Controller
     }
 
     public function test_new(){
-        // $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
-        // $post_arr=[
-        //     "enterpriseId" => 3005131  ,
-        //     "userName" => "admin" ,
-        //     "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
-        //     "seed" => "seed1",
-        //     "startTime" => '2018-01-11 19:00:00',
-        //     "endTime" => '2018-01-12 22:30:00',
-        // ];
-        // $post_arr["start"]  = 0;
-        // $post_arr["limit"]  = 1000;
-        // $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
-        // $ret=json_decode($return_content, true  );
-        // $data_list= @$ret["msg"]["data"];
+        $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
+        $post_arr=[
+            "enterpriseId" => 3005131  ,
+            "userName" => "admin" ,
+            "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
+            "seed" => "seed1",
+            "startTime" => '2018-01-11 19:00:00',
+            "endTime" => '2018-01-12 22:30:00',
+        ];
+        $post_arr["start"]  = 0;
+        $post_arr["limit"]  = 1000;
+        $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
+        $ret=json_decode($return_content, true  );
+        $data_list= @$ret["msg"]["data"];
         // // dd($data_list);
-        // dd(array_unique(array_column($data_list, 'endReason')));
-        $full_count = 10;
-        $test_lesson_count = 394;
-        $succ_all_count = 356;
-        $person_count = 2;
-        $test_per = ($full_count>0 && round(394/8,2)>=50.00)?10:0;//平均课数
-        $fail_per = ($test_lesson_count>0 && round(38/394,4)*100<=18.00)?10:0;//取消率
-        $order_per = ($succ_all_count>0 && round(53/356,4)*100>=10.00)?40:0;//转化率
-        $leave_per = ($person_count>0 && round(2/10,4)*100<=20.00)?40:0;//离职率
-        dd($test_per,$fail_per,$order_per,$leave_per,(round(38/394,2)<=18.00),round(53/356,4)*100,(round(53/356,4)*100>=10.00));
+        dd(array_unique(array_column($data_list, 'endReason')));
+        $rank_arr              = explode('/', '4/10');
+        
+        dd($rank_arr,$class_rank,$class_num);
     }
 
     //处理等级头像

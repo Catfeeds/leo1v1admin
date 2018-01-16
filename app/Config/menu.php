@@ -459,8 +459,9 @@ class menu{
                 ["power_id"=>10, "name"=>"用户消息列表",   "url"=>"/news_info/stu_detail_message_list"],
                 ["power_id"=>35, "name"=>"产品问题记录文档",   "url"=>"/user_manage_new/product_info"],
                 //["power_id"=>36, "name"=>"软件版本控制",   "url"=>"/aliyun_oss/upload_list"],
-                ["power_id"=>37, "name"=>"老师晋升参考数据",   "url"=>"/tea_manage_new/approved_data_new"],
                 ["power_id"=>47, "name"=>"标签库",   "url"=>"/product_tag/tag_list"],
+                ["power_id"=>46, "name"=>"老师稳定性参考数据",   "url"=>"/tea_manage_new/approved_data"],
+                ["power_id"=>48, "name"=>"老师稳定性参考数据-new",   "url"=>"/tea_manage_new/approved_data_new"],
                 ["power_id"=>19, "name"=>"配置功能", "list"=>[
                     ["power_id"=>34, "name"=>"推广活动",   "url"=>"/tongji2/market_extension"],
                     ["power_id"=>4, "name"=>"图片管理",   "url"=>"/pic_manage/pic_info"],
@@ -867,7 +868,7 @@ class menu{
                 ["power_id"=>27, "name"=>"老师推荐申请",   "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info_yy"],
                 ["power_id"=>10, "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint_tea"],
                 ["power_id"=>11, "name"=>"微信推送",   "url"=>"/user_manage_new/wx_monitor_new_yy"],
-                ["power_id"=>30, "name"=>"教师预警","url"=>"/teacher_warn/tea_warn_list"]
+                ["power_id"=>30, "name"=>"教师预警","url"=>"/teacher_warn/tea_warn_list"],
             ]],
 
 

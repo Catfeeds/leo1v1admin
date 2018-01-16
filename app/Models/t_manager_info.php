@@ -401,6 +401,17 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $ret_list;
     }
 
+    public function get_power_group_user_list_sec($groupid){
+        $sql = $this->gen_sql("select user.uid, user.account,user.name, user.permission,GROUP_CONCAT(auth.group_name) as permit_name from %s user
+                              left join %s power on user.uid = power.uid
+                              left join %s auth on power.gid = auth.groupid where user.del_flag = 0 and power.gid = %u group by user.uid",
+                              self::DB_TABLE_NAME,
+                              t_user_power_group::DB_TABLE_NAME,
+                              t_authority_group::DB_TABLE_NAME,
+                              $groupid);
+        return $this->main_get_list($sql);
+    }
+
     public function opt_group($uid,$opt_type, $groupid) {
         $arr=$this->get_show_manage_info($uid);
         $permission=$arr["permission"];
@@ -2405,6 +2416,11 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         ];
         $sql = $this->gen_sql_new("select account_role from db_weiyi_admin.t_manager_info where  %s",$where_arr);
         return $this->main_get_value($sql);
+    }
+
+    public function get_all_users(){
+        $sql = $this->gen_sql_new("select account_role,uid,permission,phone from %s where del_flag = 0",self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
     }
 
     public function get_detail_info($uid){

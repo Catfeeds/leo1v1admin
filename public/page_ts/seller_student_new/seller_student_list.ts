@@ -41,7 +41,7 @@ function load_data(){
 }
 
 function add_subject_score(obj){
-    $(obj).parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'>科目：</span><select name='subject_score_new_two' class='form-control' style='width:70px'></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:45px;'><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0.1% 0 -5%'><div class='input-group' style='width:50px;'><input type='text' class='form-control'  name='subject_score_two_new_two' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:1% 0 0 0%;cursor: pointer;padding:0 0 0 0;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
+    $(obj).parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'>科目：</span><select name='subject_score_new_two' class='form-control' style='width:70px'></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 2.8%'><div class='input-group' style='width:90px;'><input type='text' class='form-control' name='subject_score_one_new_two' placeholder='分数/满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 2% 0 -0.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:1% 2% 0 -1.5%;cursor: pointer;padding:0 0 0 0;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
     var id_subject_score = $(obj).parent().parent().parent().find("select[name='subject_score_new_two']").last();
     var id_grade = $(obj).parent().parent().parent().parent().parent().parent().parent().find('#id_stu_grade_new_two').val();
     if(id_grade==101 || id_grade==102 || id_grade==103 || id_grade==104 || id_grade==105 || id_grade==106){
@@ -2555,7 +2555,6 @@ function init_edit() {
 
             var id_main_subject = html_node.find("#id_main_subject_new_two");
             var id_main_subject_score_one = html_node.find("#id_main_subject_score_one_new_two");
-            var id_main_subject_score_two = html_node.find("#id_main_subject_score_two_new_two");
             var id_subject_score     = html_node.find("select[name='subject_score_new_two']");
 
             var id_test_stress = html_node.find("#id_test_stress_new_two");
@@ -3225,12 +3224,10 @@ function init_edit() {
             $.each(data.subject_score.split(','),function(index,value){
                 if(value !== ''){
                     var arr = value.split(':');
-                    var arr_new = arr[1].split('/');
                     if(arr[0] == id_subject.find("option:selected").text()){
-                        html_node.find("#id_main_subject_score_one_new_two").val(arr_new[0]);
-                        html_node.find("#id_main_subject_score_two_new_two").val(arr_new[1]);
+                        html_node.find("#id_main_subject_score_one_new_two").val(arr[1]);
                     }else{
-                        html_node.find("#id_main_subject_score_two_new_two").parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'>科目：</span><select name='subject_score_new_two' id='subject_score_"+index+"' class='form-control' style='width:70px'><option>"+arr[0]+"</option></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 3.5%'><div class='input-group' style='width:45px;'><input type='text' class='form-control' value='"+arr_new[0]+"' name='subject_score_one_new_two' placeholder='分数' /></div></div><div class='col-xs-3 col-md-1' style='margin:0 0.1% 0 -5%'><div class='input-group' style='width:50px;'><input type='text' class='form-control' name='subject_score_two_new_two' value='"+arr_new[1]+"' placeholder='满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 0 0 -3.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:1% 0 0 0%;cursor: pointer;padding:0 0 0 0;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
+                        html_node.find("#id_main_subject_score_one_new_two").parent().parent().parent().append("<div class='subject_score'><div class='col-xs-12 col-md-1' ><div class='input-group'><span class='input-group-addon' style='height:34px;'>科目：</span><select name='subject_score_new_two' id='subject_score_"+index+"' class='form-control' style='width:70px'><option>"+arr[0]+"</option></select> </div></div><div class='col-xs-3 col-md-1' style='margin:0 0 0 2.8%'><div class='input-group' style='width:90px;'><input type='text' class='form-control' value='"+arr[1]+"' name='subject_score_one_new_two' placeholder='分数/满分' /></div></div><div class='col-xs-3 col-md-1' style='width:8px;margin:0.5% 2% 0 -0.5%;cursor: pointer;' ><i class='fa fa-plus' onclick='add_subject_score(this)' title='添加科目'></i></div><div class='col-xs-3 col-md-1' style='width:8px;margin:1% 2% 0 -1.5%;cursor: pointer;padding:0 0 0 0;' ><i class='fa fa-minus' onclick='del_subject_score(this)' title='删除科目'></i></div></div>");
                     }
                 }
             });
@@ -3241,7 +3238,7 @@ function init_edit() {
             id_editionid.val(data.editionid);
             id_next_revisit_time.val(data.next_revisit_time);
             html_node.find("#id_class_rank_new_two").val(data.class_rank);
-            html_node.find("#id_class_num_new_two").val(data.class_num);
+            // html_node.find("#id_class_num_new_two").val(data.class_num);
             html_node.find("#id_grade_rank_new_two").val(data.grade_rank);
             html_node.find("#id_recent_results_new_two").val(data.recent_results);
             html_node.find("#id_advice_flag_new_two").val(data.advice_flag);
@@ -3345,7 +3342,6 @@ function init_edit() {
                         });
                 id_main_subject.val(id_subject.val());
                 id_main_subject_score_one.val('');
-                id_main_subject_score_two.val('');
             });
             $.each(data.subject_tag,function(index,value){
                 if(value == ''){
@@ -3509,10 +3505,9 @@ function init_edit() {
                         $(".subject_score ").each(function(){
                             var subject_score = $(this).children("div").children("div").children("select[name='subject_score_new_two']").find("option:selected").text();
                             var subject_score_one = $(this).children("div").children("div").children("input[name='subject_score_one_new_two']").val();
-                            var subject_score_two = $(this).children("div").children("div").children("input[name='subject_score_two_new_two']").val();
                             if(subject_score == ''){
                             }else{
-                                subject_str += subject_score+':'+subject_score_one+'/'+subject_score_two+',';
+                                subject_str += subject_score+':'+subject_score_one+',';
                             }
                         });
                         var add_tag = '';
@@ -3545,7 +3540,6 @@ function init_edit() {
                             region: region,
                             address       : id_address.val(),
                             class_rank: html_node.find("#id_class_rank_new_two").val(),
-                            class_num: html_node.find("#id_class_num_new_two").val(),
                             grade_rank: html_node.find("#id_grade_rank_new_two").val(),
                             subject_score: subject_str,
                             test_stress: html_node.find("#id_test_stress_new_two").val(),
@@ -3615,10 +3609,10 @@ function init_edit() {
                         $(".subject_score ").each(function(){
                             var subject_score = $(this).children("div").children("div").children("select[name='subject_score_new_two']").find("option:selected").text();
                             var subject_score_one = $(this).children("div").children("div").children("input[name='subject_score_one_new_two']").val();
-                            var subject_score_two = $(this).children("div").children("div").children("input[name='subject_score_two_new_two']").val();
+                            // var subject_score_two = $(this).children("div").children("div").children("input[name='subject_score_two_new_two']").val();
                             if(subject_score == ''){
                             }else{
-                                subject_str += subject_score+':'+subject_score_one+'/'+subject_score_two+',';
+                                subject_str += subject_score+':'+subject_score_one+',';
                             }
                         });
                         var add_tag = '';
@@ -3700,60 +3694,67 @@ function init_edit() {
                         //     html_node.find("#id_stu_addr_new_two").parent().attr('style','');
                         // }
                         var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数
-                        if(html_node.find("#id_class_rank_new_two").val() == '' || html_node.find("#id_class_num_new_two").val() == ''){
-                            html_node.find("#id_class_rank_new_two").attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            if(r.test(html_node.find("#id_class_rank_new_two").val())){
-                                html_node.find("#id_class_rank_new_two").attr('style','');
-                            }else{
-                                alert('请输入正整数!');
-                                html_node.find("#id_class_rank_new_two").attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                return false;
-                            }
-                            if(r.test(html_node.find("#id_class_num_new_two").val())){
-                                html_node.find("#id_class_num_new_two").attr('style','');
-                            }else{
-                                alert('请输入正整数!');
-                                html_node.find("#id_class_num_new_two").attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                return false;
-                            }
-                        }
-                        if(html_node.find("#id_main_subject_new_two").val() == '' || html_node.find("#id_main_subject_score_one_new_two").val() == '' || html_node.find("#id_main_subject_score_two_new_two").val() == ''){
-                            html_node.find("#id_main_subject_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            var check = true;
-                            html_node.find("#id_main_subject_new_two").parent().attr('style','');
-                            $("input[name='subject_score_one_new_two'],input[name='subject_score_two_new_two']").each(function(){
-                                var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数
-                                if($(this).val() !== ''){
-                                    if(r.test($(this).val())){
-                                        $(this).attr('style','');
-                                    }else{
-                                        $(this).attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                                        check = false;
-                                        return false;
-                                    }
-                                }
-                            });
-                            if(!check){
-                                alert('请输入正整数!');
-                                return false;
-                            }
-                        }
-                        // if(html_node.find("#id_test_stress_new_two").val() <= 0){
-                        //     html_node.find("#id_test_stress_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        // if(html_node.find("#id_class_rank_new_two").val() == '' || html_node.find("#id_class_num_new_two").val() == ''){
+                        //     html_node.find("#id_class_rank_new_two").attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                         //     return false;
                         // }else{
-                        //     html_node.find("#id_test_stress_new_two").parent().attr('style','');
+                        //     if(r.test(html_node.find("#id_class_rank_new_two").val())){
+                        //         html_node.find("#id_class_rank_new_two").attr('style','');
+                        //     }else{
+                        //         alert('请输入正整数!');
+                        //         html_node.find("#id_class_rank_new_two").attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        //         return false;
+                        //     }
+                        //     if(r.test(html_node.find("#id_class_num_new_two").val())){
+                        //         html_node.find("#id_class_num_new_two").attr('style','');
+                        //     }else{
+                        //         alert('请输入正整数!');
+                        //         html_node.find("#id_class_num_new_two").attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        //         return false;
+                        //     }
                         // }
-                        // if(html_node.find("#id_entrance_school_type_new_two").val() <= 0){
-                        //     html_node.find("#id_entrance_school_type_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+
+                        // if(html_node.find("#id_main_subject_new_two").val() == '' || html_node.find("#id_main_subject_score_one_new_two").val() == '' || html_node.find("#id_main_subject_score_two_new_two").val() == ''){
+                        //     html_node.find("#id_main_subject_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                         //     return false;
                         // }else{
-                        //     html_node.find("#id_entrance_school_type_new_two").parent().attr('style','');
+                        //     var check = true;
+                        //     html_node.find("#id_main_subject_new_two").parent().attr('style','');
+                        //     $("input[name='subject_score_one_new_two'],input[name='subject_score_two_new_two']").each(function(){
+                        //         var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数
+                        //         if($(this).val() !== ''){
+                        //             if(r.test($(this).val())){
+                        //                 $(this).attr('style','');
+                        //             }else{
+                        //                 $(this).attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        //                 check = false;
+                        //                 return false;
+                        //             }
+                        //         }
+                        //     });
+                        //     if(!check){
+                        //         alert('请输入正整数!');
+                        //         return false;
+                        //     }
                         // }
+                        if(html_node.find("#id_main_subject_score_one_new_two").val() == ''){
+                            html_node.find("#id_main_subject_score_one_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        }else{
+                            html_node.find("#id_main_subject_score_one_new_two").parent().attr('style','');
+                        }
+                        if(html_node.find("#id_test_stress_new_two").val() <= 0){
+                            html_node.find("#id_test_stress_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                            return false;
+                        }else{
+                            html_node.find("#id_test_stress_new_two").parent().attr('style','');
+                        }
+                        if(html_node.find("#id_entrance_school_type_new_two").val() <= 0){
+                            html_node.find("#id_entrance_school_type_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                            return false;
+                        }else{
+                            html_node.find("#id_entrance_school_type_new_two").parent().attr('style','');
+                        }
+
                         if(html_node.find("#id_cultivation_new_two").val() == ''){
                             html_node.find("#id_cultivation_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
@@ -3876,7 +3877,7 @@ function init_edit() {
                             region: region,
                             address       : id_address.val(),
                             class_rank: html_node.find("#id_class_rank_new_two").val(),
-                            class_num: html_node.find("#id_class_num_new_two").val(),
+                            // class_num: html_node.find("#id_class_num_new_two").val(),
                             grade_rank: html_node.find("#id_grade_rank_new_two").val(),
                             subject_score: subject_str,
                             test_stress: html_node.find("#id_test_stress_new_two").val(),

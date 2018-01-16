@@ -441,7 +441,9 @@ class user_power extends Controller
             if($not_belog_role){
                 $idstr= "(";
                 foreach($not_belog_role as $var){
-                    $idstr .= $var.',';
+                    if(!empty($var)){
+                        $idstr .= $var.',';
+                    }
                 }
                 $idstr = substr($idstr,0,-1).')';
                 //dd($idstr);

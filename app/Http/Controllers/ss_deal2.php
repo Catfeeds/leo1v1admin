@@ -1190,8 +1190,8 @@ class ss_deal2 extends Controller
         $area                  = $this->get_in_str_val("area");//县市
         $region                = $this->get_in_str_val("region");//省
         $address               = $this->get_in_str_val("address");//详细地址
-        $class_rank            = $this->get_in_str_val("class_rank");//班级排名
-        $class_num             = $this->get_in_int_val("class_num");//班级人数
+        $class_rank            = $this->get_in_str_val("class_rank",'');//班级排名
+        $class_num             = $this->get_in_int_val("class_num",0);//班级人数
         $grade_rank            = $this->get_in_str_val("grade_rank");//年级排名
         $subject_score         = $this->get_in_str_val('subject_score');//学科分数
         $subject_score_arr     = array_filter(explode(',',$subject_score));
