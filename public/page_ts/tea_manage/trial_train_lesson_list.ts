@@ -543,6 +543,23 @@ $(function(){
 
     });
 
+    $(".opt-reset-interview-assess").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id= opt_data.id;
+        console.log(id);
+        var $record_info = $("<textarea />");
+        var arr=[
+            ["面试评价",$record_info]
+        ];
+        $record_info.val(opt_data.record_info);
+        $.do_ajax('/ajax_deal2/reset_train_lesson_record_info',{
+            "id":id,
+            "record_info":$record_info.val()
+        });
+
+
+    });
+
 
     if (window.location.pathname=="/tea_manage/trial_train_lesson_list_zs" || window.location.pathname=="/tea_manage/trial_train_lesson_list_zs/") {
         $(".show_flag").children().hide();
