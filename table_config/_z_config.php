@@ -112,6 +112,7 @@ return array(
     ["db_weiyi","t_rule_info", "rule_id"],
     ["db_weiyi","t_rule_detail_info", "detail_id"],
     ["db_weiyi","t_process_info", "process_id"],
+    ["db_weiyi","jobs", "id"],
 
     ["db_weiyi_admin","t_user_report","id"],
     ["db_weiyi_admin","t_kaoqin_machine","machine_id"],

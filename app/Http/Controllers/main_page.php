@@ -47,6 +47,7 @@ class main_page extends Controller
 
         $sys_info=[
             ["当前IP", $this->get_in_client_ip() ],
+            ["job count:" ,$this->t_jobs->get_all_count() ],
             ["课时审查时间节点",\App\Helper\Config::get_lesson_confirm_start_time()],
         ];
 
