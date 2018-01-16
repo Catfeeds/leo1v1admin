@@ -17,7 +17,7 @@ trait LessonPower{
      */
     public function check_lesson_confirm_time_by_lessonid($lessonid){
         $lesson_start = $this->t_lesson_info->get_lesson_start($lessonid);
-        $check_flag   = \App\Helper\Utils::check_lesson_confirm_time($lesson_start);
+        $check_flag   = \App\Helper\Utils::check_teacher_salary_time($lesson_start);
         if(!$check_flag){
             return $this->output_err("超出确认时间,无法确认课时!");
         }else{

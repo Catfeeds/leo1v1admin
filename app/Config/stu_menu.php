@@ -4,7 +4,7 @@ class stu_menu{
     static  public  function get_config()  {
         return [
             [ "power_id"=>1, "name"=>"学员信息", "icon" => "fa-dashboard", "url"=> "/stu_manage/index?sid={sid}"],
-            [ "power_id"=>20, "name"=>"家长信息", "icon" => "fa-dashboard", "url"=> "/stu_manage/parent_list?sid={sid}"],
+            // [ "power_id"=>20, "name"=>"家长信息", "icon" => "fa-dashboard", "url"=> "/stu_manage/parent_list?sid={sid}"],
             [ "power_id"=>3, "name"=>"个人课表-查看", "icon" => "fa-dashboard", "url"=> "/stu_manage/lesson_plan?sid={sid}"],
             [ "power_id"=>4, "name"=>"个人课表-排课", "icon" => "fa-dashboard", "url"=> "/stu_manage/lesson_plan_edit?sid={sid}"],
             [ "power_id"=>62, "name"=>"个人常规课表", "icon" => "fa-dashboard", "url"=> "/stu_manage/regular_course_stu?sid={sid}"],

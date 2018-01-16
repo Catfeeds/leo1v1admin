@@ -4772,7 +4772,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                  " left join %s m on o.sys_operator  = m.account".
                                  " left join %s s on s.userid=o.userid".
                                  " left join %s c on o.orderid=c.parent_orderid and c.price>0".
-                                 " where %s group o.orderid",
+                                 " where %s group by o.orderid",
                                  self::DB_TABLE_NAME,
                                  t_manager_info::DB_TABLE_NAME,
                                  t_student_info::DB_TABLE_NAME,
