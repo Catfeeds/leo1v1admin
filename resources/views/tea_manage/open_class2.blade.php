@@ -12,8 +12,6 @@
 <script type="text/javascript" src="/js/jquery.md5.js"></script>
 <script type="text/javascript" src="/js/svg.js"></script>
 <script type="text/javascript" src="/js/wb-reply/audio.js"></script>
-<script type="text/javascript" src="/page_js/select_user.js"></script>
-<script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <section class="content">
         <div class="row">
             <div class="col-xs-6 col-md-1">
