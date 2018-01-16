@@ -78,42 +78,174 @@ class test_james extends Controller
 
     # 工具区
     /**
-     * @ 1.获取老师讲义[pdf]文件在七牛上的路径 [编号]
-     * @ 2.手动转化老师讲义转png文件
-     * @ 1.获取老师讲义[pdf]文件在七牛上的路径
-     * @ 1.获取老师讲义[pdf]文件在七牛上的路径
+     * @ 1.获取老师讲义[pdf]文件在七牛上的路径 [编号:10001 ]
+     * @ 2.获取标签系统讲义链接 [编号:10002]
+     * @ 3.手动转化老师讲义转png文件 [编号:10003]
+     * @ 4.发送邮件 [编号:10004]
+     * @ 5.获取组员信息 [编号:10005]
      * @
      * @
      * @
      */
 
+    // 编号:10001
+    public function get_file_url()
+    {
+        $file_url = $this->get_in_str_val('url');
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+
+        $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
+
+        $base_url=$auth->privateDownloadUrl($file_url );
+        return $base_url;
+    }
+
+    // 编号:10002
+    public function getFileUrlTea(){
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+        $pdf_url = $this->get_in_str_val('url');
+
+        $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdf_url);
+        header("Location: $pdf_file_path ");
+    }
+
+    // 编号:10003
+    public function get_pdf_url(){
+        $pdf_url   = $this->get_in_str_val('pdf_url');
+        $lessonid  = $this->get_in_int_val('lessonid');
+        $pdf_file_path = $this->gen_download_url($pdf_url);
+
+        $pdf_url = str_replace('/','_',$pdf_url);
+        $savePathFile = public_path('wximg').'/'.$pdf_url;
+
+        if($pdf_url){
+            \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
+            $path = public_path().'/wximg';
+
+            @chmod($savePathFile, 0777);
+            $imgs_url_list = @$this->pdf2png($savePathFile,$path,$lessonid);
+
+            $file_name_origi = array();
+            foreach($imgs_url_list as $item){
+                $file_name_origi[] = @$this->put_img_to_alibaba($item);
+            }
+
+            $file_name_origi_str = implode(',',$file_name_origi);
+            $ret = $this->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
+
+            foreach($imgs_url_list as $item_orgi){
+                @unlink($item_orgi);
+            }
+            @unlink($savePathFile);
+        }
+    }
+
+
+    private function gen_download_url($file_url)
+    {
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+
+        $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
+
+        $base_url=$auth->privateDownloadUrl($file_url );
+        return $base_url;
+    }
+
+    public function pdf2png($pdf,$path, $lessonid){
+
+        if(!extension_loaded('imagick')){
+            return false;
+        }
+        if(!$pdf){
+            return false;
+        }
+        $IM =new \imagick();
+        $IM->setResolution(100,100);
+        $IM->setCompressionQuality(100);
+
+        $is_exit = file_exists($pdf);
+
+        if($is_exit){
+            @$IM->readImage($pdf);
+            foreach($IM as $key => $Var){
+                @$Var->setImageFormat('png');
+                $Filename = $path."/l_t_pdf_".$lessonid."_".$key.".png" ;
+                if($Var->writeImage($Filename)==true){
+                    $Return[]= $Filename;
+                }
+            }
+            return $Return;
+        }else{
+            return [];
+        }
+
+    }
+
+
+    public function put_img_to_alibaba($target){
+        try {
+            $config=\App\Helper\Config::get_config("ali_oss");
+            $file_name=basename($target);
+
+            $ossClient = new OssClient(
+                $config["oss_access_id"],
+                $config["oss_access_key"],
+                $config["oss_endpoint"], false);
+
+
+            $bucket=$config["public"]["bucket"];
+            $ossClient->uploadFile($bucket, $file_name, $target  );
+
+            \App\Helper\Utils::logger('shangchun55'. $config["public"]["url"]."/".$file_name);
+
+            return $config["public"]["url"]."/".$file_name;
+
+        } catch (OssException $e) {
+            \App\Helper\Utils::logger( "init OssClient fail");
+            return "" ;
+        }
+
+    }
+
+    // 编号:10004
     public function get_msg_num() {
         $a= new \App\Jobs\send_error_mail(1,33,33);
         $a->task->t_agent->get_agent_count_by_id(1);
-
     }
 
-
-
-    public function assistant_info_new2(){
-        $today      = date('Y-m-d',time(null));
-        $today      = '20170626';
-        $start_time = strtotime($today.'00:00:00');
-        $end_time   = $start_time+24*3600;
-        $userid=-1;
-        $lesson_arr = [];
-        $phone = '456';
-        $lesson_arr = $this->t_agent->get_agent_info_row_by_phone($phone);
-    }
-
-
-    public function test1() {
+    // 编号:10005
+    public function getGroupList() {
         $account_id = $this->get_in_int_val('id');
         $ass_list = $this->t_admin_group_name->get_group_admin_list($account_id);
         $ass_list = array_column($ass_list,'adminid');
         $ass_list_str = implode(',',$ass_list);
         dd($ass_list_str);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function ttt(){// 更新扩课信息
         $require_id = $this->get_in_int_val('rid');
@@ -211,139 +343,7 @@ class test_james extends Controller
 
     //以下代码勿删
 
-    public function get_file_url()
-    {
-        $file_url = $this->get_in_str_val('url');
-        // 构建鉴权对象
-        $auth = new \Qiniu\Auth(
-            \App\Helper\Config::get_qiniu_access_key(),
-            \App\Helper\Config::get_qiniu_secret_key()
-        );
 
-        $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
-
-        $base_url=$auth->privateDownloadUrl($file_url );
-        return $base_url;
-    }
-
-    public function getFileUrlTea(){
-        $store=new \App\FileStore\file_store_tea();
-        $auth=$store->get_auth();
-        $pdf_url = $this->get_in_str_val('url');
-
-        $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdf_url);
-        header("Location: $pdf_file_path ");
-    }
-
-
-
-    public function get_pdf_url(){
-        $pdf_url   = $this->get_in_str_val('pdf_url');
-        $lessonid  = $this->get_in_int_val('lessonid');
-        $pdf_file_path = $this->gen_download_url($pdf_url);
-
-        // dd($pdf_file_path);
-        // $pdf_url = ltrim($pdf_url,'/');
-        $pdf_url = str_replace('/','_',$pdf_url);
-        $savePathFile = public_path('wximg').'/'.$pdf_url;
-
-        if($pdf_url){
-            \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
-            $path = public_path().'/wximg';
-
-            @chmod($savePathFile, 0777);
-            $imgs_url_list = @$this->pdf2png($savePathFile,$path,$lessonid);
-
-            // dd($imgs_url_list);
-            $file_name_origi = array();
-            foreach($imgs_url_list as $item){
-                $file_name_origi[] = @$this->put_img_to_alibaba($item);
-            }
-
-            $file_name_origi_str = implode(',',$file_name_origi);
-            $ret = $this->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
-
-            foreach($imgs_url_list as $item_orgi){
-                @unlink($item_orgi);
-            }
-            @unlink($savePathFile);
-        }
-    }
-
-
-    private function gen_download_url($file_url)
-    {
-        // 构建鉴权对象
-        $auth = new \Qiniu\Auth(
-            \App\Helper\Config::get_qiniu_access_key(),
-            \App\Helper\Config::get_qiniu_secret_key()
-        );
-
-        $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
-
-        $base_url=$auth->privateDownloadUrl($file_url );
-        return $base_url;
-    }
-
-    //
-    public function pdf2png($pdf,$path, $lessonid){
-
-        if(!extension_loaded('imagick')){
-            return false;
-        }
-        if(!$pdf){
-            return false;
-        }
-        $IM =new \imagick();
-        $IM->setResolution(100,100);
-        $IM->setCompressionQuality(100);
-
-        $is_exit = file_exists($pdf);
-
-        if($is_exit){
-            @$IM->readImage($pdf);
-            foreach($IM as $key => $Var){
-                @$Var->setImageFormat('png');
-                $Filename = $path."/l_t_pdf_".$lessonid."_".$key.".png" ;
-                if($Var->writeImage($Filename)==true){
-                    $Return[]= $Filename;
-                }
-            }
-            return $Return;
-        }else{
-            return [];
-        }
-
-    }
-
-
-    public function put_img_to_alibaba($target){
-        try {
-            $config=\App\Helper\Config::get_config("ali_oss");
-            $file_name=basename($target);
-
-            $ossClient = new OssClient(
-                $config["oss_access_id"],
-                $config["oss_access_key"],
-                $config["oss_endpoint"], false);
-
-
-            $bucket=$config["public"]["bucket"];
-            $ossClient->uploadFile($bucket, $file_name, $target  );
-
-            \App\Helper\Utils::logger('shangchun55'. $config["public"]["url"]."/".$file_name);
-
-            return $config["public"]["url"]."/".$file_name;
-
-        } catch (OssException $e) {
-            \App\Helper\Utils::logger( "init OssClient fail");
-            return "" ;
-        }
-
-    }
-
-
-    //以上代码勿删
 
 
 
@@ -1669,21 +1669,5 @@ class test_james extends Controller
         $pdf_file_path = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$pdf_url);
         dd($pdf_file_path);
     }
-
-
-    # 此处为工具区 [勿删]
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-
 
 }

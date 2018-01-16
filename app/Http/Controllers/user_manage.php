@@ -952,9 +952,6 @@ class user_manage extends Controller
         return outputjson_success();
     }
 
-    /**
-     * 
-     */
     public function get_user_list()
     {
         $type        = $this->get_in_str_val("type","teacher");

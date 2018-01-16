@@ -3866,14 +3866,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function get_cr_to_cc_order_num($start_time,$end_time){
         $where_arr = [
-            "contract_status <> 0 ",
-            "price > 0",
+            "o.contract_status <> 0 ",
+            "o.price > 0",
             "m.account_role = 2 ",
             "n.account_role = 1",
-            [' order_time > %u',$start_time,-1],
-            [' order_time < %u',$end_time,-1]
+            [' o.order_time > %u',$start_time,-1],
+            [' o.order_time < %u',$end_time,-1]
         ];
-        $sql = $this->gen_sql_new("select sum(price) as total_price, count(orderid) as total_num"
+        $sql = $this->gen_sql_new("select sum(o.price) as total_price, count(o.orderid) as total_num"
                                   ." from %s o  "
                                   ." left join %s m ON o.sys_operator = m.account "
                                   ." left join %s s ON o.userid = s.userid  "
@@ -4768,7 +4768,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ["s.origin_assistantid=%u",$adminid,-1]
         ];
         $refund_end_time = $end_time+9*86400;
-        $sql = $this->gen_sql_new("select o.price,rf.real_refund,m.uid,o.sys_operator,s.userid,o.orderid "
+        $sql = $this->gen_sql_new("select o.price,rf.real_refund,m.uid,o.sys_operator,s.userid,o.orderid, "
                                   ." o.pay_time,rf.apply_time,o.order_time "
                                   ." from %s o left join %s s on s.userid=o.userid "
                                   ." left join %s m on s.origin_assistantid = m.uid"
