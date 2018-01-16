@@ -1,5 +1,5 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/teacher_money-teacher_salary_list.d.ts" />
+/// <reference path="../g_args.d.ts/teacher_simulate-teacher_simulate_salary_list.d.ts" />
 
 $(function(){
     function load_data(){
@@ -16,7 +16,7 @@ $(function(){
     });
     }
 
-        $('#id_date_range').select_date_range({
+    $('#id_date_range').select_date_range({
         'date_type'      : g_args.date_type,
         'opt_date_type'  : g_args.opt_date_type,
         'start_time'     : g_args.start_time,
@@ -27,15 +27,10 @@ $(function(){
         }
     });
 
-
-
-    //Enum_map.append_option_list("teacher_type",$("#id_teacher_type"));
     $("#id_teacher").val(g_args.teacher);
     $("#id_teacher_type").val(g_args.teacher_type);
 
     $.admin_select_user($("#id_teacher"),"teacher",load_data);
-    //$('#id_teacherid').val(g_args.teacherid);
-    //$.admin_select_user($('#id_teacherid'),'teacher',load_data);
 
 	  $('.opt-change').set_input_change_event(load_data);
 
@@ -44,7 +39,7 @@ $(function(){
         var data=$(this).get_opt_data();
         var teacherid=data.teacherid;
         var start_time=data.add_time;
-        window.open("/user_manage_new/tea_wages_info?teacherid="+teacherid+"&start_time="+start_time+"&opt_date_type=3");
+        window.open("/teacher_simulate/tea_simulate_wages_info?teacherid="+teacherid+"&start_time="+start_time+"&opt_date_type=3");
     })
 
     $("#id_get_lesson_price").on("click",function(){
@@ -60,28 +55,6 @@ $(function(){
 
     });
 
-    $('.opt-edit').on('click', function() {
-        var opt_data = $(this).get_opt_data();
-        var s_input  = $('<input type=text name=pay_time value="'+ opt_data.pay_time +'">');
-        var arr      = [
-            ['工资结算开始时间', s_input]
-        ] ;
-
-        initPicker(s_input);
-
-        $.show_key_value_table("修改", arr ,{
-            label    : '确认',
-            cssClass : 'btn-warning',
-            action   : function(dialog) {
-                var $pay_time = $('input[name="pay_time"]').val();
-                $.do_ajax("/teacher_money/update_pay_time",{
-                    "id"       : opt_data.id,
-                    "pay_time" : $pay_time,
-                });
-            }
-        });
-    });
-
     if(g_account_role===13 || g_account=="adrian" || g_account=="jim"){
         $(".show_lesson_price").show();
     }else{
@@ -91,20 +64,5 @@ $(function(){
     if(g_adminid==780 || g_adminid==895){
         download_show();
     }
-
-    function initPicker(obj){
-        obj.datetimepicker({
-            lang       : 'ch',
-            datepicker : true,
-            timepicker : false,
-            format     : 'Y-m-d',
-            step       : 30,
-            onChangeDateTime :function(){
-                $(this).hide();
-            }
-        });
-    }
-
-
 
 });

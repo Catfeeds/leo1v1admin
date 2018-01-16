@@ -4,11 +4,9 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	order_by_str:	string;
-	sys_operator:	string;
-	account_role:	number;
-	page_num:	number;
-	page_count:	number;
+	teacher:	number;
+	teacher_type:	number;
+	teacherid:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -18,32 +16,15 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	uid	:any;
-	type	:any;
-	sys_operator	:any;
-	one_year_num	:any;
-	half_year_num	:any;
-	three_month_num	:any;
-	one_month_num	:any;
-	one_year_refund_num	:any;
-	half_year_refund_num	:any;
-	three_month_refund_num	:any;
-	one_month_refund_num	:any;
-	apply_num	:any;
-	type_str	:any;
-	one_year_per	:any;
-	half_year_per	:any;
-	three_month_per	:any;
-	one_month_per	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../user_manage; vi  ../user_manage/refund_tongji_sys_operator.ts
+	 mkdir -p ../teacher_simulate; vi  ../teacher_simulate/teacher_simulate_salary_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/user_manage-refund_tongji_sys_operator.d.ts" />
+/// <reference path="../g_args.d.ts/teacher_simulate-teacher_simulate_salary_list.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
@@ -54,9 +35,9 @@ function load_data(){
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
-		order_by_str:	$('#id_order_by_str').val(),
-		sys_operator:	$('#id_sys_operator').val(),
-		account_role:	$('#id_account_role').val()
+		teacher:	$('#id_teacher').val(),
+		teacher_type:	$('#id_teacher_type').val(),
+		teacherid:	$('#id_teacherid').val()
 		});
 }
 $(function(){
@@ -71,9 +52,16 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
-	$('#id_order_by_str').val(g_args.order_by_str);
-	$('#id_sys_operator').val(g_args.sys_operator);
-	$('#id_account_role').val(g_args.account_role);
+	$('#id_teacher').val(g_args.teacher);
+	$('#id_teacher_type').val(g_args.teacher_type);
+	$('#id_teacherid').admin_select_user_new({
+		"user_type"    : "teacher",
+		"select_value" : g_args.teacherid,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_teacherid",
+		"only_show_in_th_input"     : false,
+		"can_select_all_flag"     : true
+	});
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -91,27 +79,25 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">order_by_str</span>
-                <input class="opt-change form-control" id="id_order_by_str" />
+                <span class="input-group-addon">teacher</span>
+                <input class="opt-change form-control" id="id_teacher" />
             </div>
         </div>
-{!!\App\Helper\Utils::th_order_gen([["order_by_str title", "order_by_str", "th_order_by_str" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["teacher title", "teacher", "th_teacher" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">sys_operator</span>
-                <input class="opt-change form-control" id="id_sys_operator" />
+                <span class="input-group-addon">teacher_type</span>
+                <input class="opt-change form-control" id="id_teacher_type" />
             </div>
         </div>
-{!!\App\Helper\Utils::th_order_gen([["sys_operator title", "sys_operator", "th_sys_operator" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["teacher_type title", "teacher_type", "th_teacher_type" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">account_role</span>
-                <input class="opt-change form-control" id="id_account_role" />
+                <span class="input-group-addon">teacherid</span>
+                <input class="opt-change form-control" id="id_teacherid" />
             </div>
         </div>
-{!!\App\Helper\Utils::th_order_gen([["account_role title", "account_role", "th_account_role" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["teacherid title", "teacherid", "th_teacherid" ]])!!}
 */

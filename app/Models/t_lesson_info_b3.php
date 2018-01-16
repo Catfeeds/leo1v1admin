@@ -2943,5 +2943,58 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_row($sql);
     }
 
+    /**
+     * 老师模拟工资相关的课程
+     */
+    public function get_lesson_list_for_simulate_wages($teacherid,$start,$end,$studentid=-1,$type='current'){
+        $where_arr = [
+            ["l.teacherid=%u",$teacherid,-1],
+            ["lesson_start>%u",$start,0],
+            ["lesson_start<%u",$end,0],
+            ["s.userid=%u",$studentid,-1],
+        ];
+        if($type=='current'){
+            $where_arr[] = "lesson_status=2";
+        }
+        $teacher_money_type_str = "l.teacher_money_type=m.teacher_money_type";
+
+        $sql = $this->gen_sql_new("select l.lessonid,l.lesson_type,l.userid,l.grade,l.lesson_start,l.lesson_end,deduct_come_late,"
+                                  ." deduct_check_homework,deduct_change_class,deduct_rate_student,deduct_upload_cw,l.subject,"
+                                  ." l.confirm_flag,l.lesson_full_num,if(s.realname!='',s.realname,s.nick) as stu_nick,"
+                                  ." already_lesson_count,l.lesson_count,sum(o.price) as lesson_price,"
+                                  ." lesson_cancel_time_type,lesson_cancel_reason_type,t.teacher_type,"
+                                  ." m.money,m.type,m.level,m.teacher_money_type,"
+                                  ." tl.test_lesson_fail_flag,tl.fail_greater_4_hour_flag,"
+                                  ." l.competition_flag"
+                                  ." from %s l "
+                                  ." left join %s tl on l.lessonid=tl.lessonid "
+                                  ." left join %s s on l.userid=s.userid "
+                                  ." left join %s o on l.lessonid=o.lessonid "
+                                  ." left join %s t on l.teacherid=t.teacherid "
+                                  ." left join %s m on t.level_simulate=m.level "
+                                  ." and m.grade=(case when "
+                                  ." l.competition_flag=1 then if(l.grade<200,203,303) "
+                                  ." else l.grade"
+                                  ." end )"
+                                  ." and %s "
+                                  ." where %s "
+                                  ." and (confirm_flag!=2 or deduct_change_class>0) "
+                                  ." and lesson_type<1000 "
+                                  ." and lesson_del_flag=0 "
+                                  ." and (tl.test_lesson_fail_flag<100 or tl.test_lesson_fail_flag is null"
+                                  ." or (tl.test_lesson_fail_flag in (101,102) and tl.fail_greater_4_hour_flag=0))"
+                                  ." group by l.lessonid "
+                                  ." order by l.lesson_start asc "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_order_lesson_list::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_teacher_money_type::DB_TABLE_NAME
+                                  ,$teacher_money_type_str
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }

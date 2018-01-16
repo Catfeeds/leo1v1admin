@@ -14,8 +14,6 @@ class teacher_money extends Controller
 
     var $check_login_flag = false;
     var $teacher_money;
-    // var $late_num   = 0;
-    // var $change_num = 0;
 
     public function __construct(){
         parent::__construct();
@@ -763,6 +761,9 @@ class teacher_money extends Controller
         return $this->output_succ();
     }
 
+    /**
+     * 获取老师工资
+     */
     public function get_teacher_salary($teacherid,$start_time,$end_time){
         $salary_info = $this->get_teacher_lesson_money_list($teacherid,$start_time,$end_time);
         return $salary_info[0];
@@ -771,14 +772,8 @@ class teacher_money extends Controller
     public function teacher_salary_list(){
         $acc = $this->get_account();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,E\Eopt_date_type::V_3);
-        //$reference = $this->get_in_int_val("reference",-1);
         $teacher = $this->get_in_int_val('teacher',-1);
         $teacher_type = $this->get_in_int_val("teacher_type",-1);
-        // if($reference>0){
-        //     $reference_phone = $this->t_teacher_info->get_phone($reference);
-        // }else{
-        //     $reference_phone = "";
-        // }
         $teacherid = $this->get_in_int_val('teacherid',-1);
 
         $ret_info = $this->t_teacher_salary_list->get_salary_list($start_time,$end_time,$teacher_type,$teacher);
@@ -803,7 +798,8 @@ class teacher_money extends Controller
             E\Eteacher_money_type::set_item_value_str($t_val);
         }
         $all_money_tax = $all_money*0.98;
-        $this->set_filed_for_js("g_adminid",$this->get_account_id());
+
+        // $this->set_filed_for_js("g_adminid",$this->get_account_id());
         return $this->pageView(__METHOD__,$ret_info,[
             "all_money"     => $all_money,
             "all_money_tax" => $all_money_tax,
