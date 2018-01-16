@@ -44,6 +44,8 @@ class save_seller_info_by_week extends Command
         $start_time = strtotime($this->option('s'));
         $end_time   = strtotime($this->option('e'));
 
+        $nowTime = time();
+
         if($start_time == null && $end_time == null ){
             $end_time   = strtotime(date('Y-m-d 0:0:0'));
             $start_time = $end_time-7*86400;
