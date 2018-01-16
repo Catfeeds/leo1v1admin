@@ -295,7 +295,7 @@ return array(
     ["db_weiyi_admin","t_order_student_month_list","month","origin"] ,
     ["db_weiyi_admin","t_url_desc_power","id"] ,
     ["db_weiyi_admin","t_url_input_define","id"] ,
-
+    ["db_weiyi_admin","t_user_power_group","id"] ,
 
     ["db_account","t_phone_to_user","phone"] ,
     ["db_account","t_user_info","userid"] ,
