@@ -60,6 +60,7 @@
                     <td>续费目标 </td>
                     <td>续费业绩 </td>
                     <td>续费提成奖金 </td>
+                    <td>续费业绩(打8折) </td>
                     <td>转介绍数量 </td>
                     <td>转介绍提成 </td>
                     <td>转介绍奖金</td>
@@ -119,6 +120,7 @@
                             </a>
                             
                         <td>{{@$var["renw_reword"]}}</td> 
+                        <td>{{@$var["old_ewnew_money"]}}</td> 
                         <td class="cc_tran_num" data-leader_num='{{@$var["hand_tran_num"]}}' data-new_num='{{@$var["performance_cr_new_num"]}}' data-tran_num='{{@$var["performance_cc_tran_num"]}}' data-uid='{{@$var["adminid"]}}'><a href="javascript:;" >{{@$var["cc_tran_num"]}}</a></td>                        
                         
                         <td>

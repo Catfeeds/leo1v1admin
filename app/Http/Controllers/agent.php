@@ -449,18 +449,25 @@ class agent extends Controller
             "userName" => "admin" ,
             "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
             "seed" => "seed1",
-            "startTime" => '2018-01-11 19:00:00',
-            "endTime" => '2018-01-12 22:30:00',
+            "startTime" => '2018-01-11 00:00:00',
+            "endTime" => '2018-01-11 16:00:00',
         ];
         $post_arr["start"]  = 0;
         $post_arr["limit"]  = 1000;
         $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
         $ret=json_decode($return_content, true  );
-        $data_list= @$ret["msg"]["data"];
-        // // dd($data_list);
-        dd(array_unique(array_column($data_list, 'endReason')));
+        $data_list = @$ret["msg"]["data"];
+        foreach($data_list as $item){
+            $cdr_bridged_cno= $item["cno"];
+            $uniqueId= $item["uniqueId"];
+            $cdr_answer_time = intval( preg_split("/\-/", $uniqueId)[1]);
+            $id= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
+            $ret = $this->t_tq_call_info->field_get_list($id, '*');
+            dd($ret);
+        }
+        dd($data_list);
+        dd(array_unique(array_column($data_list, 'sipCause')));
         $rank_arr              = explode('/', '4/10');
-        
         dd($rank_arr,$class_rank,$class_num);
     }
 

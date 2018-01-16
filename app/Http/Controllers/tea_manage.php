@@ -176,7 +176,7 @@ class tea_manage extends Controller
 
     public function lesson_list()
     {
-        $this->switch_tongji_database();	
+        $this->switch_tongji_database();
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             = $this->get_in_order_by_str([],"lesson_start asc",[
                 "grade" => "s.grade",

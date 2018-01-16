@@ -1804,7 +1804,7 @@ class Common {
         $time_list = [];
         foreach  ( $data_list  as $item  ) {
             $time_list  [] =  [
-                "value" => [ date("Y-m-d H:i:s" ,$item["logtime"]), $item["value"]   ]
+                "value" => [ date("Y-m-d H:i:s" ,$item[ $field_time ]), $item[$field_value]   ]
             ];
         }
         return $time_list;
