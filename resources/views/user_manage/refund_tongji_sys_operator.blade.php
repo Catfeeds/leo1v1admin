@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
-
+<style type="text/css">
+    a:hover{ color:red; }
+</style>
     <section class="content ">
         
         <div>
@@ -50,7 +52,8 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td >
-                        <a class="detail_info" data-userid="{{@$var['uid']}}" data-account_role="{{@$var['type']}}">{!! @$var["sys_operator"] !!}</a></td>
+                        <a class="detail_info" data-userid="{{@$var['uid']}}" data-account_role="{{@$var['type']}}">
+                        {!! @$var["sys_operator"] !!}</a></td>
                         <td>{{@$var["type_str"]}} </td>
                         <td>
                             {{@$var["one_year_per"]}}@if($var["one_year_per"] >0)%@endif
