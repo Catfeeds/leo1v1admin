@@ -297,7 +297,6 @@ class send_wx_msg_common_lesson extends Command
                 $urlLessonEnd = "";
                 if($itemLessonEnd['wx_openid'] == 'orwGAszZI_oaYSXVfb_Va6BlhtW0'){
                     $wx->send_template_msg("orwGAszZI_oaYSXVfb_Va6BlhtW0",$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);//james
-
                 }
             }
         }else{

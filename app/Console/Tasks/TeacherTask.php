@@ -475,6 +475,7 @@ class TeacherTask extends TaskController
                 );
             }
 
+            // 全职老师和兼职老师一样 [待处理]
             if($val['teacher_type']==3){
                 $val['info'] = "老师您好，本次课程已经结束。";
             }else{
