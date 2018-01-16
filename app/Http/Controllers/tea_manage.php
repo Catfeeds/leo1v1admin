@@ -1355,7 +1355,7 @@ class tea_manage extends Controller
         }
 
         $plan_lessonid = "(".rtrim($plan_lessonid,",").")";
-        $ret_check_stu = $this->t_summer_week_regular_course->check_is_clash_stu_new($lesson_userid,$plan_lessonid,$start_time);
+        $ret_check_stu = $this->t_winter_week_regular_course->check_is_clash_stu_new($lesson_userid,$plan_lessonid,$start_time);
         $arr_check = [];
         $arr_lesson_count = [];
         $arr_lesson_count_all = [];
@@ -1388,13 +1388,13 @@ class tea_manage extends Controller
             $ret_lesson_info[$key]['count_diff'] = $val['lesson_total']-@$arr_lesson_count[$key];
         }
 
-        $res_regular_info = $this->t_summer_week_regular_course->get_stu_count_total_new($ass_userid);
+        $res_regular_info = $this->t_winter_week_regular_course->get_stu_count_total_new($ass_userid);
         $regular_userid = "";
         foreach($res_regular_info as $v){
             $regular_userid .= $v['userid'].",";
         }
         $regular_userid = "(".rtrim($regular_userid,",").")";
-        $regular_lesson_info =$this->t_summer_week_regular_course->get_lesson_info_new($regular_userid);
+        $regular_lesson_info =$this->t_winter_week_regular_course->get_lesson_info_new($regular_userid);
         $regular_count_all = $plan_count_all = 0;
         foreach ($list['list'] as &$item){
             E\Egrade::set_item_value_str($item);
@@ -3284,5 +3284,4 @@ class tea_manage extends Controller
     public function auto_rank_lesson(){
         return 1;
     }
-
 }

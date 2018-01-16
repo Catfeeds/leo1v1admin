@@ -272,16 +272,65 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "system"
             );
             $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
+        }elseif($origin == '学校-180112'){
+            $tong_count = 0;
+            $tao_count = 0;
+            $count = $this->get_xuexiao_count_by_adminid();
+            foreach($count as $item){
+                if($item['adminid'] == 1221){
+                    $tong_count += 1;
+                }else{
+                    $tao_count += 1;
+                }
+            }
+            if($tong_count>$tao_count){
+                $adminid = 1200;
+                $account = '陶建华';
+            }else{
+                $adminid = 1221;
+                $account = '王洪艳';
+            }
+            $this->field_update_list($userid,[
+                "admin_assignerid"  => 0,
+                "sub_assign_adminid_1"  => $adminid,
+                "sub_assign_time_1"  => time(),
+                "admin_revisiterid"  => $adminid,
+                "admin_assign_time"  => time(),
+            ]);
+            $this->task->t_book_revisit->add_book_revisit(
+                $phone,
+                "操作者: 系统 状态: 分配给总监 [ $account ] ",
+                "system"
+            );
+            $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
         }
+
 
         return $userid;
     }
 
     public function get_meituan_count_by_adminid(){
         $where_arr=[
-            "s.origin = '美团-1230'",
+            "s.origin = '美团—1230'",
         ];
         $this->where_arr_add_int_or_idlist($where_arr,'n.sub_assign_adminid_1',[416,1200]);
+        $sql=$this->gen_sql_new(
+            "select n.userid,n.sub_assign_adminid_1 adminid "
+            ." from %s n "
+            ." left join %s s on s.userid = n.userid "
+            ." where %s "
+            , self::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_xuexiao_count_by_adminid(){
+        $where_arr=[
+            "s.origin = '学校-180112'",
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr,'n.sub_assign_adminid_1',[1221,1200]);
         $sql=$this->gen_sql_new(
             "select n.userid,n.sub_assign_adminid_1 adminid "
             ." from %s n "

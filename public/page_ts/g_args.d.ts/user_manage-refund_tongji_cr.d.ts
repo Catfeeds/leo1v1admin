@@ -4,9 +4,10 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	order_by_str:	string;
+	name:	string;
 	page_num:	number;
 	page_count:	number;
-	teacherid:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -16,41 +17,33 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	id	:any;
-	teacherid	:any;
-	stu_num	:any;
-	total_lesson_num	:any;
-	cc_order_num	:any;
-	cc_lesson_num	:any;
-	cr_order_num	:any;
-	cr_lesson_num	:any;
-	violation_num	:any;
-	test_lesson_count	:any;
-	regular_lesson_count	:any;
-	no_notes_count	:any;
-	test_lesson_later_count	:any;
-	regular_lesson_later_count	:any;
-	no_evaluation_count	:any;
-	turn_class_count	:any;
-	ask_for_leavel_count	:any;
-	test_lesson_truancy_count	:any;
-	regular_lesson_truancy_count	:any;
-	turn_teacher_count	:any;
-	stu_refund	:any;
-	all_test_lesson_count	:any;
-	all_regular_lesson_count	:any;
-	cc_rate	:any;
-	cr_rate	:any;
-	tea_nick	:any;
+	nick	:any;
+	assistantid	:any;
+	one_year_num	:any;
+	half_year_num	:any;
+	three_month_num	:any;
+	one_month_num	:any;
+	one_year_refund_num	:any;
+	half_year_refund_num	:any;
+	three_month_refund_num	:any;
+	one_month_refund_num	:any;
+	apply_num	:any;
+	group	:any;
+	group_name	:any;
+	name	:any;
+	one_year_per	:any;
+	half_year_per	:any;
+	three_month_per	:any;
+	one_month_per	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../tea_manage_new; vi  ../tea_manage_new/approved_data_new.ts
+	 mkdir -p ../user_manage; vi  ../user_manage/refund_tongji_cr.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tea_manage_new-approved_data_new.d.ts" />
+/// <reference path="../g_args.d.ts/user_manage-refund_tongji_cr.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
@@ -61,7 +54,8 @@ function load_data(){
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
-		teacherid:	$('#id_teacherid').val()
+		order_by_str:	$('#id_order_by_str').val(),
+		name:	$('#id_name').val()
 		});
 }
 $(function(){
@@ -76,14 +70,8 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
-	$('#id_teacherid').admin_select_user_new({
-		"user_type"    : "teacher",
-		"select_value" : g_args.teacherid,
-		"onChange"     : load_data,
-		"th_input_id"  : "th_teacherid",
-		"only_show_in_th_input"     : false,
-		"can_select_all_flag"     : true
-	});
+	$('#id_order_by_str').val(g_args.order_by_str);
+	$('#id_name').val(g_args.name);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -98,14 +86,22 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
-{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">teacherid</span>
-                <input class="opt-change form-control" id="id_teacherid" />
+                <span class="input-group-addon">order_by_str</span>
+                <input class="opt-change form-control" id="id_order_by_str" />
             </div>
         </div>
-{!!\App\Helper\Utils::th_order_gen([["teacherid title", "teacherid", "th_teacherid" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["order_by_str title", "order_by_str", "th_order_by_str" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">name</span>
+                <input class="opt-change form-control" id="id_name" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["name title", "name", "th_name" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

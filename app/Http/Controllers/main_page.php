@@ -47,6 +47,7 @@ class main_page extends Controller
 
         $sys_info=[
             ["当前IP", $this->get_in_client_ip() ],
+            ["job count:" ,$this->t_jobs->get_all_count() ],
             ["课时审查时间节点",\App\Helper\Config::get_lesson_confirm_start_time()],
         ];
 
@@ -110,7 +111,7 @@ class main_page extends Controller
 
                 # 咨询各部人数修改
                 # 2018-1-9 之后
-                $onlineTime = strtotime('2018-01-17');
+                $onlineTime = strtotime('2018-09-16');
                 if($nowTime>$onlineTime){
                     $sellerNumArr = json_decode($ret_info['sellerNumData'],true);
                     $sellerNum = 0;
@@ -240,7 +241,7 @@ class main_page extends Controller
 
                 # 咨询各部人数修改
                 # 2018-1-9 之后
-                $onlineTime = strtotime('2018-01-17');
+                $onlineTime = strtotime('2018-09-15');
                 if($nowTime>$onlineTime){
                     $sellerNumArr = json_decode($ret_info['sellerNumData'],true);
                     $sellerNum = 0;
@@ -348,7 +349,7 @@ class main_page extends Controller
         $isTranFlag = 0;
         $onlineTime = strtotime('2018-01-17');
         if($nowTime>$onlineTime){
-            $isTranFlag = 1;
+            $isTranFlag = 0;
         }
 
         return $this->pageView(__METHOD__, $ret_info_arr,[

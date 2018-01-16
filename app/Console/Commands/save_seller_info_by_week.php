@@ -90,7 +90,7 @@ class save_seller_info_by_week extends Command
         $flagTime = strtotime('2018-1-15');
         if($nowTime>$flagTime){
             # 修改存储销售各部门人数 2018-01-10 James
-            $sellerNumDataArr = $this->t_admin_group_name->getGroupSellerNum($start_time);
+            $sellerNumDataArr = $task->t_admin_group_name->getGroupSellerNum($start_time);
             $ret_info['sellerNumData'] = json_encode($sellerNumDataArr);
         }else{
             // 计算电销人数

@@ -112,6 +112,7 @@ return array(
     ["db_weiyi","t_rule_info", "rule_id"],
     ["db_weiyi","t_rule_detail_info", "detail_id"],
     ["db_weiyi","t_process_info", "process_id"],
+    ["db_weiyi","jobs", "id"],
 
     ["db_weiyi_admin","t_user_report","id"],
     ["db_weiyi_admin","t_kaoqin_machine","machine_id"],
@@ -296,7 +297,7 @@ return array(
     ["db_weiyi_admin","t_order_student_month_list","month","origin"] ,
     ["db_weiyi_admin","t_url_desc_power","id"] ,
     ["db_weiyi_admin","t_url_input_define","id"] ,
-
+    ["db_weiyi_admin","t_user_power_group","id"] ,
 
     ["db_account","t_phone_to_user","phone"] ,
     ["db_account","t_user_info","userid"] ,

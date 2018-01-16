@@ -14,6 +14,7 @@ export default class extends vtable {
   get_args() :self_Args  {return  this.get_args_base();}
   do_created_ex(call_func) {
     this.load_admin_js_list([
+      "/js/echarts.min.js",
       "/js/flot/jquery.flot.min.js",
       "/js/flot/jquery.flot.categories.js",
       "/js/flot/jquery.flot.time.js",
@@ -22,6 +23,7 @@ export default class extends vtable {
   //
   do_load_data_end () {
     this.show_plot();
+    this.show_line();
   }
 
   data_ex() {
@@ -40,14 +42,14 @@ export default class extends vtable {
     console.log("init_query");
     var me =this;
     $.admin_date_select ({
-    'join_header'  : $header_query_info,
-    'title' : "时间",
-    'date_type' : this.get_args().date_type,
-    'opt_date_type' : this.get_args().opt_date_type,
-    'start_time'    : this.get_args().start_time,
-    'end_time'      : this.get_args().end_time,
-    date_type_config : JSON.parse(this.get_args().date_type_config),
-    as_header_query :true,
+      'join_header'  : $header_query_info,
+      'title' : "时间",
+      'date_type' : this.get_args().date_type,
+      'opt_date_type' : this.get_args().opt_date_type,
+      'start_time'    : this.get_args().start_time,
+      'end_time'      : this.get_args().end_time,
+      date_type_config : JSON.parse(this.get_args().date_type_config),
+      as_header_query :true,
     });
   }
 
@@ -65,18 +67,18 @@ export default class extends vtable {
     console.log( "KKKKKKK LLLLL " );
 
     $.each( this.$data.data_ex_list.time_list,function(j,item_list){
-        //(i*300)*1000+86400-3600*8
-        online_count_list[j]=[];
-        $.each(item_list ,function(i, item){
-            if (j==0) {
-                online_count_list[j].push([i*60000, item["online_count"] ]);
-            }else if(j==2){
-                online_count_list[j].push([i*60000, item["value"] ]);
-            }else{
-                online_count_list[j].push([i*300000, item ]);
-            }
-        } )
-    });
+      //(i*300)*1000+86400-3600*8
+      online_count_list[j]=[];
+      $.each(item_list ,function(i, item){
+        if (j==0) {
+          online_count_list[j].push([i*60000, item["online_count"] ]);
+        }else if(j==2){
+          online_count_list[j].push([i*60000, item["value"] ]);
+        }else{
+          online_count_list[j].push([i*300000, item ]);
+        }
+      } )
+        });
 
 
     $.each( online_count_list , function(i,item_list)   {
@@ -182,5 +184,84 @@ export default class extends vtable {
       }
       });
     */
+  }
+  show_line() {
+    var myChart = echarts.init(document.getElementById('id_pic_user_count_2'));
+
+    var data = [
+      {name:'2016/12/18 3:37', value:['2016/12/18 3:37', 0.9]},
+      {name:'2016/12/18 6:37', value:['2016/12/18 6:37', 0.8]},
+      {name:'2016/12/18 6:38', value:['2016/12/18 6:38', 0.8]},
+      {name:'2016/12/18 16:18', value:['2016/12/18 16:18', 0.60]},
+      {name:'2016/12/18 19:18', value:['2016/12/18 19:18', 0.90]}
+    ];
+    var anchor = [
+      {name:'2016/12/18 00:00:00', value:['2016/12/18 00:00:00', 0]},
+      {name:'2016/12/18 23:59:00', value:['2016/12/18 23:59:00', 0]}
+    ];
+
+    var option = {
+      title: {
+        text: ''
+      },
+      grid: {
+        left: '10px',
+        right: '30px',
+        y:"20px",
+        containLabel: true,
+
+      },
+      /*
+      grid:{
+        "show" :true,
+         x: '7%', y: '7%', width: '38%', height: '38%'
+      },
+      */
+      tooltip: {
+        trigger: 'axis',
+        formatter: function (params) {
+          params = params[0];
+          var date = new Date(params.name);
+          return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+        },
+        axisPointer: {
+          animation: false
+        }
+      },
+      legend: {
+        data:['模拟数据'],
+        x: 'left'
+      },
+      xAxis: {
+        type: 'time',
+        splitLine: {
+          show: false
+        },
+        //gridIndex: 0
+      },
+      yAxis: {
+        type: 'value',
+        boundaryGap: [0, '100%'],
+        splitLine: {
+          show: true
+        }
+      },
+      series: [{
+        name: '模拟数据',
+        type: 'line',
+        showSymbol: false,
+        hoverAnimation: false,
+        data: data
+      },
+               {
+        name:'.anchor',
+        type:'line',
+        showSymbol:false,
+        data:anchor,
+        itemStyle:{normal:{opacity:0}},
+        lineStyle:{normal:{opacity:0}}
+      }]
+    };
+    myChart.setOption(option);
   }
 }
