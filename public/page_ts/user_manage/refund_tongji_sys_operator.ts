@@ -56,8 +56,10 @@ $(function(){
 
     $(".detail_info").on("click",function(){
         var adminid = $(this).data("userid");
+        var type    = $(this).data("account_role");
         $.do_ajax("/ss_deal/get_admin_info_by_id", {
             "adminid" : adminid,
+            "type"    : type,
         }, function (ret) {
             if(ret != 0){
                 var gender = ret.data.gender;
