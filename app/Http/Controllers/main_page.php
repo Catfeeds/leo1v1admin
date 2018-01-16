@@ -110,7 +110,7 @@ class main_page extends Controller
 
                 # 咨询各部人数修改
                 # 2018-1-9 之后
-                $onlineTime = strtotime('2018-01-15');
+                $onlineTime = strtotime('2018-09-16');
                 if($nowTime>$onlineTime){
                     $sellerNumArr = json_decode($ret_info['sellerNumData'],true);
                     $sellerNum = 0;
@@ -240,7 +240,7 @@ class main_page extends Controller
 
                 # 咨询各部人数修改
                 # 2018-1-9 之后
-                $onlineTime = strtotime('2018-01-15');
+                $onlineTime = strtotime('2018-09-15');
                 if($nowTime>$onlineTime){
                     $sellerNumArr = json_decode($ret_info['sellerNumData'],true);
                     $sellerNum = 0;
