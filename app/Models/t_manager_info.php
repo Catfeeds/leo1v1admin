@@ -2407,6 +2407,11 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
     }
 
+    public function get_all_users(){
+        $sql = $this->gen_sql_new("select account_role,uid,permission,phone from %s where del_flag = 0",self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
+
     public function get_detail_info($uid){
         $where_arr = [
             ['uid=%s',$uid,-1]

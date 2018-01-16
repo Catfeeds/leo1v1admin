@@ -75,7 +75,7 @@ class teaching_menu{
                         [ "name"=>"微信推送",   "url"=>"/user_manage_new/wx_monitor_new_yy"],
                         ["name"=>"老师晋升参考数据",   "url"=>"/tea_manage_new/approved_data"],
                         ["name"=>"教师预警","url"=>"/teacher_warn/tea_warn_list"],
-                        ["name"=>"老师晋升参考数据",   "url"=>"/tea_manage_new/approved_data_new"]
+                        ["name"=>"老师稳定性参考数据",   "url"=>"/tea_manage_new/approved_data_new"]
                     ]],
 
 
