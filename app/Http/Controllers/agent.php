@@ -443,13 +443,6 @@ class agent extends Controller
     }
 
     public function test_new(){
-        // $now=time(NULL);
-        // $start_time = 1516087680;
-        // $end_time = 1516088580;
-        // $cmd= new \App\Console\Commands\sync_tq();
-        // $cmd= new \App\Console\Commands\sync_tianrun();
-        // $count=$cmd->load_data($start_time,$end_time);
-        // dd($count);
         $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
         $post_arr=[
             "enterpriseId" => 3005131  ,
@@ -473,6 +466,7 @@ class agent extends Controller
             $client_number = $item['clientNumber'];
             $endReason = $item['endReason']=='是'?1:0;
             $ret = $this->t_tq_call_info->field_get_list($id, '*');
+            $arr = [];
             if($ret['cause'] != $sipCause){
                 $arr['cause'] = $sipCause;
             }
@@ -484,9 +478,6 @@ class agent extends Controller
             }
             if(count($arr)>0){
                 $this->t_tq_call_info->field_update_list($id, $arr);
-            }
-            if($item['customerNumber'] == '13887223088'){
-                dd($ret,$item);
             }
         }
         dd($data_list);
