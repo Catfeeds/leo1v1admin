@@ -171,6 +171,18 @@ $(function(){
                 })
             }
         },function(){
+            var check_reward_type = function(reward_type){
+                if(reward_type==1 || reward_type==7){
+                    BootstrapDialog.alert("人工添加园丁奖或春晖奖会影响微信老师帮荣誉榜内的显示信息，请谨慎添加！");
+                }
+            }
+
+            check_reward_type(id_type.val());
+            id_type.on("change",function(){
+                var reward_type = $(this).val();
+                check_reward_type(reward_type);
+            });
+
 	          id_add_time.datetimepicker({
 		            lang       : 'ch',
 		            timepicker : true,
@@ -184,14 +196,6 @@ $(function(){
                 });
             });
 
-            id_type.on("change",function(){
-                var reward_type = $(this).val();
-                if(reward_type==1 || reward_type==7){
-                    BootstrapDialog.alert("人工添加园丁奖或春晖奖会影响微信老师帮荣誉榜内的显示信息，请谨慎添加！");
-                }
-            });
-
-
         });
     });
 
@@ -202,4 +206,5 @@ $(function(){
             'teacherid':teacherid
         });
     });
+
 });
