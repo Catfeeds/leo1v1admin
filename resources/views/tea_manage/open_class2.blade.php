@@ -37,7 +37,7 @@
             <div class="col-xs-6 col-md-2">
             <div class="input-group ">
                 <span >老师</span>
-                <input id="id_search_teacher" class="opt-change"/> 
+                <input id="id_search_teacher" class="opt-change">
             </div>
         </div>
         <div class="col-xs-6 col-md-2">
