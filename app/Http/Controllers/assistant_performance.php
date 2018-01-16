@@ -748,6 +748,8 @@ class assistant_performance extends Controller
             $item["all_reword"] =  $item["revisit_reword"]+$item["kpi_lesson_count_finish_reword"]+$item["kk_reword"]+$item["stop_reword"]+$item["end_no_renw_reword"]+ $item["lesson_count_finish_reword"]+$item["renw_reword"]+ $item["cc_tran_reword"];
             
         }
+
+
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ass_month),[
             "start"=>date("Y-m-d H:i",$start_time),
             "end"=>date("Y-m-d H:i",$end_time),

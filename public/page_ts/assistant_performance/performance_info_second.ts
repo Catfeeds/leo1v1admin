@@ -111,6 +111,38 @@ $(function(){
 
     });
 
+    $(".cc_tran_num").on("click",function(){
+        var title = "转介绍个数详情";
+        var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \">  <tr><td>类型</td><td>个数</td><td>操作</td><tr></table></div>");
+        var leader_num = $(this).data("leader_num");
+        html_node.find("table").append("<tr><td>主管手动确认</td><td>"+leader_num+"</td><td></td></tr>");
+        var new_num = $(this).data("new_num");
+        html_node.find("table").append("<tr><td>新签合同(合同类型为新签)</td><td>"+new_num+"</td><td> <a href=\"/assistant_performance/get_seller_tran_order_info?adminid={{ $var[\"adminid\"] }}&date_type_config=undefined&date_type=null&opt_date_type=3&start_time="+g_args.start_time+"&end_time="+g_args.end_time+"&contract_type=0 \" target=\"_blank\" >详情</a></td></tr>");
+        var tran_num = $(this).data("tran_num");
+        html_node.find("table").append("<tr><td>销售签单</td><td>"+tran_num+"</td><td><a href=\"/assistant_performance/get_seller_tran_order_info?adminid={{ $var[\"adminid\"] }}&date_type_config=undefined&date_type=null&opt_date_type=3&start_time="+g_args.start_time+"&end_time="+g_args.end_time+" \" target=\"_blank\" >详情</a></td></tr>");
+
+
+        var dlg=BootstrapDialog.show({
+            title:title, 
+            message :  html_node   ,
+            closable: true, 
+            buttons:[{
+                label: '返回',
+                cssClass: 'btn',
+                action: function(dialog) {
+                    dialog.close();
+
+                }
+            }],
+            onshown:function(){
+                
+            }
+        });
+
+        dlg.getModalDialog().css("width","1024px");
+
+    });
+
 
     if(g_account=="sherry" ){
         download_show();

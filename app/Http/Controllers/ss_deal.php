@@ -348,6 +348,10 @@ class ss_deal extends Controller
         //新增加信息
         $ret["class_rank"]    = $ss_item["class_rank"];
         $ret["class_num"]    = $ss_item["class_num"];
+        $ret['class_rank'] = $ss_item["class_rank"].'/'.$ss_item["class_num"];
+        if(!$ss_item["class_rank"] && !$ss_item["class_num"]){
+            $ret['class_rank'] = '';
+        }
         $ret["grade_rank"]    = $ss_item["grade_rank"];
         $ret["academic_goal"]    = $ss_item["academic_goal"];
         $ret["test_stress"]    = $ss_item["test_stress"];
