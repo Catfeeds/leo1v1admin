@@ -313,9 +313,9 @@ class lesson extends TeaWxController
                 $item['is_forbid'] = "1";
             }
             # 非测试人员 文彬,华华 不可见
-            if($teacherid!=357372 && $teacherid!=308481 ){
-                $item['is_forbid'] = "0";
-            }
+            // if($teacherid!=357372 && $teacherid!=308481 ){
+            //     $item['is_forbid'] = "0";
+            // }
         }
 
 
