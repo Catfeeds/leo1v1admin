@@ -64,7 +64,7 @@ export default class extends vtable {
     var def_data= this.$data.data_ex_list.time_list[1];
     var need_deal_count_data = this.$data.data_ex_list.time_list[2];
 
-    var end_time=$.DateFormat(new Date(  this.get_args().start_time  ).getTime()/1000 + 86400 -3600*8, "yyyy-MM-dd hh:mm"   );
+    var end_time=$.DateFormat(new Date(  this.get_args().start_time  ).getTime()/1000 + 86400-60 -3600*8, "yyyy-MM-dd hh:mm"   );
     //一
     var anchor = [
       { value:[this.get_args().start_time , 0]},
@@ -108,6 +108,7 @@ export default class extends vtable {
       },
       xAxis: {
         type: 'time',
+        splitNumber: 12,
         splitLine: {
           show: true
         },

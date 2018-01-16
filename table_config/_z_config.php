@@ -113,6 +113,9 @@ return array(
     ["db_weiyi","t_rule_detail_info", "detail_id"],
     ["db_weiyi","t_process_info", "process_id"],
     ["db_weiyi","jobs", "id"],
+    ["db_weiyi_admin","t_log_event_type", "event_type_id"],
+    ["db_weiyi_admin","t_log_event_log", "id"],
+
 
     ["db_weiyi_admin","t_user_report","id"],
     ["db_weiyi_admin","t_kaoqin_machine","machine_id"],
@@ -326,6 +329,6 @@ return array(
     ["db_question_new","t_textbook_knowledge","id"],
     ["db_question_new","t_question_type","id"],
     ["db_question_new","t_student_answer","id"],
-    ["db_question_new","t_question_option","id"], 
+    ["db_question_new","t_question_option","id"],
 
 );
