@@ -115,9 +115,12 @@ export default class extends vtable {
       },
       yAxis: {
         type: 'value',
-        boundaryGap: [0, '100%'],
+        boundaryGap: [0, 0],
         splitLine: {
           show: true
+        },
+        max: function(value) {
+          return Math.floor( value.max *1.2) ;
         }
       },
       series: [{
@@ -126,8 +129,7 @@ export default class extends vtable {
         showSymbol: false,
         hoverAnimation: false,
         data: def_data,
-        lineStyle:{normal:{width:1, color:"yellow"} }
-
+        lineStyle:{normal:{width:1 } }
 
       },{ //
         name: '实际课数',
@@ -135,7 +137,7 @@ export default class extends vtable {
         showSymbol: false,
         hoverAnimation: false,
         data: real_data,
-        lineStyle:{normal:{width:2, color:"red"} }
+        lineStyle:{normal:{width:2 } }
 
       },{ //
         name: '课后视频未处理',
