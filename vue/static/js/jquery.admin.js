@@ -1952,7 +1952,7 @@ jQuery.extend({
     },
 
     DateFormat : function ( unixtime, fmt) {
-        var date_v=new Date(unixtime*1000);
+        var date_v=new Date(unixtime*1000 );
         var o = {
             "M+": date_v.getMonth() + 1, //月份
             "d+": date_v.getDate(), //日

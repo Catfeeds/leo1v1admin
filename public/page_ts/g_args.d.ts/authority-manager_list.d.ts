@@ -5,8 +5,8 @@ interface GargsStatic {
 	adminid:	number;
 	uid:	number;
 	user_info:	string;
-	has_question_user:	string;//枚举列表: \App\Enums\Eboolean
- 	del_flag:	string;//枚举列表: \App\Enums\Eboolean
+	has_question_user:	number;//枚举: \App\Enums\Eboolean
+	del_flag:	string;//枚举列表: \App\Enums\Eboolean
  	page_num:	number;
 	page_count:	number;
 	account_role:	string;//枚举列表: \App\Enums\Eaccount_role
@@ -120,8 +120,8 @@ $(function(){
 		"enum_type"    : "boolean",
 		"field_name" : "has_question_user",
 		"select_value" : g_args.has_question_user,
-		"multi_select_flag"     : true,
 		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
 		"th_input_id"  : "th_has_question_user",
 		"only_show_in_th_input"     : false,
 		"btn_id_config"     : {},
@@ -249,8 +249,9 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">has_question_user</span>
-                <input class="opt-change form-control" id="id_has_question_user" />
+                <span class="input-group-addon">boolean</span>
+                <select class="opt-change form-control" id="id_has_question_user" >
+                </select>
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["has_question_user title", "has_question_user", "th_has_question_user" ]])!!}

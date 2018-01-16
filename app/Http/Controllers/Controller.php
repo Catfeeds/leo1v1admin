@@ -212,7 +212,7 @@ class Controller extends ControllerEx
                     exit;
 
                 }else{
-                    header('Location: /?to_url='.  $_SERVER["REQUEST_URI"]  );
+                    header('Location: /?to_url='. urlencode(  $_SERVER["REQUEST_URI"] ) );
                     exit;
                 }
             }else{

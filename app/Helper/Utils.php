@@ -743,6 +743,28 @@ class Utils  {
         }
     }
 
+    static public function gen_echarts_online_line($time_list,$date_time ) {
+        $ret_list=[];
+        $date_end=$date_time+86400;
+        for( $logtime= $date_time;$logtime < $date_end; $logtime+=300) {
+            $ret_list  [ $logtime] =  [
+                "value" => [ date("Y-m-d H:i:s", $logtime), 0  ]
+            ];
+        }
+
+        foreach ($time_list as $item) {
+            $start_time = $item["lesson_start"]- $item["lesson_start"]%300;
+            $end_time   = $item["lesson_end"]+300;
+            for( $logtime= $start_time;$logtime <$end_time; $logtime+=300) {
+                if (isset ( $ret_list  [ $logtime] ) ) {
+                    $ret_list  [ $logtime]["value"][1] ++;
+                }
+            }
+        }
+
+        return array_values( $ret_list);
+    }
+
     static public function get_online_line($time_list,$list) {
         foreach ($list as $item) {
             $start_time = $item["lesson_start"];
@@ -2662,12 +2684,12 @@ class Utils  {
     }
 
     /**
-     * 检测课程确认时间
-     * 针对课程的修改,在该课程次月6日凌晨0点之后无法修改该课程的信息(确认课时,修改课程时间,修改课时)
+     * 检测老师工资核算时间
+     * 涉及到老师工资信息的添加，更改，删除，需要检测其操作时间
      * @param int time 检测的时间
      * @return boolean
      */
-    static public function check_lesson_confirm_time($time){
+    static public function check_teacher_salary_time($time){
         $check_time = strtotime("+1 month",strtotime(date("Y-m-06",$time)));
         $now_time   = time();
         if($now_time>$check_time){
@@ -2747,7 +2769,7 @@ class Utils  {
             $arr['list'] = [];
         }
         foreach ($ret as $key => $value) {
-            
+
             if($num == $start_num){
                 $i = 0;
             }

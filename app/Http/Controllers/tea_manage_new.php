@@ -1372,6 +1372,9 @@ class tea_manage_new extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    /**
+     * 添加面试试讲
+     */
     public function add_train_lesson_new(){
         $phone            = $this->get_in_str_val("phone");
         $tea_nick         = $this->get_in_str_val("tea_nick");
@@ -1381,6 +1384,7 @@ class tea_manage_new extends Controller
         $record_teacherid = $this->get_in_int_val("record_teacherid");
         $id               = $this->get_in_int_val("id");
         $acc              = $this->get_account();
+
         if(empty($subject) || empty($lesson_start) || empty($record_teacherid)){
             return $this->output_err("请填写完整");
         }

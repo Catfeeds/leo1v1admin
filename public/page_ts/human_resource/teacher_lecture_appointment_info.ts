@@ -760,214 +760,211 @@ $(function(){
     });
 
     $(".opt-1v1-lesson-set-new").on("click",function(){
-        var opt_data          = $(this).get_opt_data();
-        var id_subject        = $("<select/>");
-        var id_grade          = $("<select/>");
+        BootstrapDialog.alert("面试试讲暂时关闭！");
+        return ;
+       //  var opt_data          = $(this).get_opt_data();
+       //  var id_subject        = $("<select/>");
+       //  var id_grade          = $("<select/>");
 
-        Enum_map.append_option_list("subject",id_subject,true);
-        Enum_map.append_option_list("grade", id_grade,true,[100,200,300]);
-        id_subject.val(opt_data.subject_ex);
-        id_grade.val(opt_data.grade_ex);
+       //  Enum_map.append_option_list("subject",id_subject,true);
+       //  Enum_map.append_option_list("grade", id_grade,true,[100,200,300]);
+       //  id_subject.val(opt_data.subject_ex);
+       //  id_grade.val(opt_data.grade_ex);
 
-        var arr = [
-            ["科目",  id_subject ]  ,
-            ["年级 ", id_grade]  ,
-        ];
+       //  var arr = [
+       //      ["科目",  id_subject ]  ,
+       //      ["年级 ", id_grade]  ,
+       //  ];
 
-        $.show_key_value_table("选择科目年级", arr ,[{
-            label    : '确认',
-            cssClass : 'btn-warning',
-            action   : function(dialog) {
-                var subject = id_subject.val();
-                //alert(subject);
-                var grade = id_grade.val();
-                if(subject >5){
-                    alert("小学科不能按此方式排课");
-                    return;
-                }
-                var title = "空闲时间选择";
-                var html_node = $("<table class=\"table table-bordered table-striped\" id=\"cal_week\"><tr id=\"th_list_1\"><th width=\"120px\">时段</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr><tbody id=\"id_time_body_1\" > <tr data-timeid=\"09:00\"><td>09:00-09:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"09:30\"><td>09:30-10:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr> <tr data-timeid=\"10:00\"><td>10:00-10:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"10:30\"><td>10:30:11:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:00\"><td>11:00-11:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:30\"><td>11:30-12:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"12:00\"><td>12:00-12:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"12:30\"><td>12:30-13:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"13:00\"><td>13:00-13:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"13:30\"><td>13:30-14:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"14:00\"><td>14:00-14:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"14:30\"><td>14:30-15:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"15:00\"><td>15:00-15:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"15:30\"><td>15:30-16:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"16:00\"><td>16:00-16:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"16:30\"><td>16:30-17:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"17:00\"><td>17:00-17:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"17:30\"><td>17:30-18:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"18:00\"><td>18:00-18:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"18:30\"><td>18:30-19:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr></tbody></table>");
+       //  $.show_key_value_table("选择科目年级", arr ,[{
+       //      label    : '确认',
+       //      cssClass : 'btn-warning',
+       //      action   : function(dialog) {
+       //          var subject = id_subject.val();
+       //          //alert(subject);
+       //          var grade = id_grade.val();
+       //          if(subject >5){
+       //              alert("小学科不能按此方式排课");
+       //              return;
+       //          }
+       //          var title = "空闲时间选择";
+       //          var html_node = $("<table class=\"table table-bordered table-striped\" id=\"cal_week\"><tr id=\"th_list_1\"><th width=\"120px\">时段</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr><tbody id=\"id_time_body_1\" > <tr data-timeid=\"09:00\"><td>09:00-09:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"09:30\"><td>09:30-10:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr> <tr data-timeid=\"10:00\"><td>10:00-10:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"10:30\"><td>10:30:11:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:00\"><td>11:00-11:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:30\"><td>11:30-12:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"12:00\"><td>12:00-12:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"12:30\"><td>12:30-13:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"13:00\"><td>13:00-13:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"13:30\"><td>13:30-14:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"14:00\"><td>14:00-14:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"14:30\"><td>14:30-15:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"15:00\"><td>15:00-15:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"15:30\"><td>15:30-16:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"16:00\"><td>16:00-16:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"16:30\"><td>16:30-17:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"17:00\"><td>17:00-17:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"17:30\"><td>17:30-18:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"18:00\"><td>18:00-18:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"18:30\"><td>18:30-19:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr></tbody></table>");
 
-                $.do_ajax('/user_deal/get_teacher_no_free_list',{
-                    "subject" : subject,
-                    "grade"   : grade
-                },function(resp) {
-                    var userid_list   = resp.data;
-                    var next_day = g_args.next_day;
-                   // alert(next_day);
-                   // console.log(userid_list);
-                    var tb = html_node.find("#id_time_body_1").find("tr");
-                    var th = html_node.find("#th_list_1");
-                    var now_date = new Date(); //时间对象
-                    var now_time = now_date.getTime();
+       //          $.do_ajax('/user_deal/get_teacher_no_free_list',{
+       //              "subject" : subject,
+       //              "grade"   : grade
+       //          },function(resp) {
+       //              var userid_list   = resp.data;
+       //              var next_day = g_args.next_day;
+       //             // alert(next_day);
+       //             // console.log(userid_list);
+       //              var tb = html_node.find("#id_time_body_1").find("tr");
+       //              var th = html_node.find("#th_list_1");
+       //              var now_date = new Date(); //时间对象
+       //              var now_time = now_date.getTime();
 
-                    th.each(function(){
-                        var $this=$(this);
-                        $this.find("th").each(function(i,item){
-                            if (i!=0) {
-                                var $th=$(item);
-                                var tmp_date1=$.DateFormat(next_day+(i-2)*86400,"MM-dd" );
-                                $th.text(tmp_date1);
-                            }
-                            //console.log(i);
-                        });
-                    });
-                   // console.log(tb);
+       //              th.each(function(){
+       //                  var $this=$(this);
+       //                  $this.find("th").each(function(i,item){
+       //                      if (i!=0) {
+       //                          var $th=$(item);
+       //                          var tmp_date1=$.DateFormat(next_day+(i-2)*86400,"MM-dd" );
+       //                          $th.text(tmp_date1);
+       //                      }
+       //                      //console.log(i);
+       //                  });
+       //              });
+       //             // console.log(tb);
 
-                    $.each(userid_list,function(u,it){
-                        //console.log(u);
-                        console.log(it);
-                        tb.each(function() {
-                            var $this=$(this);
-                            var timeid=$this.data("timeid");
-                            $this.find("td").each(function(i,item){
-                                if (i!=0) {//过滤１
-                                    var tmp_date=$.DateFormat(next_day+(i-2)*86400,"yyyy-MM-dd" );
+       //              $.each(userid_list,function(u,it){
+       //                  //console.log(u);
+       //                  console.log(it);
+       //                  tb.each(function() {
+       //                      var $this=$(this);
+       //                      var timeid=$this.data("timeid");
+       //                      $this.find("td").each(function(i,item){
+       //                          if (i!=0) {//过滤１
+       //                              var tmp_date=$.DateFormat(next_day+(i-2)*86400,"yyyy-MM-dd" );
 
-                                    var $td=$(item);
-                                    var tmt = tmp_date+" "+timeid;
-                                    var oldTime = (new Date(tmt)).getTime();
-                                  //  console.log(tmt);
-                                    if(tmt == it || now_time>=oldTime){
-                                        $td.addClass("select_free_time");
-                                    }
-                                }
-                            });
-                        });
+       //                              var $td=$(item);
+       //                              var tmt = tmp_date+" "+timeid;
+       //                              var oldTime = (new Date(tmt)).getTime();
+       //                            //  console.log(tmt);
+       //                              if(tmt == it || now_time>=oldTime){
+       //                                  $td.addClass("select_free_time");
+       //                              }
+       //                          }
+       //                      });
+       //                  });
 
-                    });
+       //              });
 
-                    tb.each(function() {
-                        var $this=$(this);
-                        var timeid=$this.data("timeid");
-                        $this.find("td").each(function(i,item){
-                            if (i!=0) {//过滤１
-                                var tmp_date=$.DateFormat(next_day+(i-2)*86400,"yyyy-MM-dd" );
+       //              tb.each(function() {
+       //                  var $this=$(this);
+       //                  var timeid=$this.data("timeid");
+       //                  $this.find("td").each(function(i,item){
+       //                      if (i!=0) {//过滤１
+       //                          var tmp_date=$.DateFormat(next_day+(i-2)*86400,"yyyy-MM-dd" );
 
-                                var $td=$(item);
-                                var tmt = tmp_date+" "+timeid;
-                                $td.on("click",function(){
-                                    if ($td.hasClass("select_free_time")) {
-                                        alert("不能排课!");
-                                        return;
-                                    }else{
-                                        BootstrapDialog.show({
-                                          title   : "排课",
-                                          message : "确认排课么？",
-                                          buttons : [{
-                                            label  : "返回",
-                                            action : function(dialog) {
-                                              dialog.close();
-                                            }
-                                          }, {
-                                            label    : "确认",
-                                            cssClass : "btn-warning",
-                                            action   : function(dialog) {
-                                                    $.do_ajax("/tea_manage_new/set_train_lesson_new",{
-                                                        "subject":subject,
-                                                        "grade"   :grade,
-                                                        "id" :    opt_data.id,
-                                                        "phone"            : opt_data.phone,
-                                                        "tea_nick"         : opt_data.name,
-                                                        "day"    :tmp_date,
-                                                        "time": tmt
-                                                    },function(result){
-                                                        if(result.ret==0){
-                                                            window.location.reload();
-                                                        }else{
-                                                            BootstrapDialog.alert(result.info);
-                                                        }
-                                                    })
-                                            }
-                                          }]
-                                        });
+       //                          var $td=$(item);
+       //                          var tmt = tmp_date+" "+timeid;
+       //                          $td.on("click",function(){
+       //                              if ($td.hasClass("select_free_time")) {
+       //                                  alert("不能排课!");
+       //                                  return;
+       //                              }else{
+       //                                  BootstrapDialog.show({
+       //                                    title   : "排课",
+       //                                    message : "确认排课么？",
+       //                                    buttons : [{
+       //                                      label  : "返回",
+       //                                      action : function(dialog) {
+       //                                        dialog.close();
+       //                                      }
+       //                                    }, {
+       //                                      label    : "确认",
+       //                                      cssClass : "btn-warning",
+       //                                      action   : function(dialog) {
+       //                                              $.do_ajax("/tea_manage_new/set_train_lesson_new",{
+       //                                                  "subject":subject,
+       //                                                  "grade"   :grade,
+       //                                                  "id" :    opt_data.id,
+       //                                                  "phone"            : opt_data.phone,
+       //                                                  "tea_nick"         : opt_data.name,
+       //                                                  "day"    :tmp_date,
+       //                                                  "time": tmt
+       //                                              },function(result){
+       //                                                  if(result.ret==0){
+       //                                                      window.location.reload();
+       //                                                  }else{
+       //                                                      BootstrapDialog.alert(result.info);
+       //                                                  }
+       //                                              })
+       //                                      }
+       //                                    }]
+       //                                  });
+       //                              }
+       //                          });
+       //                      }
+       //                  });
+       //              });
+       //          });
 
-                                    }
+       //          var dlg=BootstrapDialog.show({
+       //              title:title,
+       //              message :  html_node   ,
+       //              closable: true,
+       //              buttons:[{
+       //                  label: '返回',
+       //                  cssClass: 'btn',
+       //                  action: function(dialog) {
+       //                      dialog.close();
 
-                                });
-                            }
-                        });
-                    });
+       //                  }
+       //              }],
+       //              onshown:function(){
 
-                });
+       //              }
 
+       //          });
 
-
-                var dlg=BootstrapDialog.show({
-                    title:title,
-                    message :  html_node   ,
-                    closable: true,
-                    buttons:[{
-                        label: '返回',
-                        cssClass: 'btn',
-                        action: function(dialog) {
-                            dialog.close();
-
-                        }
-                    }],
-                    onshown:function(){
-
-                    }
-
-                });
-
-                dlg.getModalDialog().css("width","1024px");
+       //          dlg.getModalDialog().css("width","1024px");
 
 
-            }
-        }]);
+       //      }
+       //  }]);
 
-       /* var teacherid = $(this).data("teacherid");
-        if(teacherid > 0){
-            var title = "学生详情";
-            var html_node = $("<div id=\"div_table\"><div class=\"col-md-12\" id=\"div_grade\"><div class=\"col-md-2\">年级统计:</div></div><br><div class=\"col-md-12\" id=\"div_subject\"><div class=\"col-md-2\">科目统计:</div></div><br><br><br><table   class=\"table table-bordered \"><tr><td>id</td><td>名字</td><td>年级</td><td>科目</td><tr></table></div>");
+       // /* var teacherid = $(this).data("teacherid");
+       //  if(teacherid > 0){
+       //      var title = "学生详情";
+       //      var html_node = $("<div id=\"div_table\"><div class=\"col-md-12\" id=\"div_grade\"><div class=\"col-md-2\">年级统计:</div></div><br><div class=\"col-md-12\" id=\"div_subject\"><div class=\"col-md-2\">科目统计:</div></div><br><br><br><table   class=\"table table-bordered \"><tr><td>id</td><td>名字</td><td>年级</td><td>科目</td><tr></table></div>");
 
-            $.do_ajax('/tongji_ss/get_teacher_stu_info_new',{
-                "teacherid" : teacherid
-            },function(resp) {
-                var userid_list   = resp.data;
-                // console.log(userid_list);
-                var grade_count   = resp.grade;
-                var subject_count = resp.subject;
-                for(var i in grade_count){
-                    html_node.find("#div_grade").append("<div class=\"col-md-1\">"+i+":"+grade_count[i]+"</div>");
-                }
-                for(var i in subject_count){
-                    html_node.find("#div_subject").append("<div class=\"col-md-1\">"+i+":"+subject_count[i]+"</div>");
-                }*/
+       //      $.do_ajax('/tongji_ss/get_teacher_stu_info_new',{
+       //          "teacherid" : teacherid
+       //      },function(resp) {
+       //          var userid_list   = resp.data;
+       //          // console.log(userid_list);
+       //          var grade_count   = resp.grade;
+       //          var subject_count = resp.subject;
+       //          for(var i in grade_count){
+       //              html_node.find("#div_grade").append("<div class=\"col-md-1\">"+i+":"+grade_count[i]+"</div>");
+       //          }
+       //          for(var i in subject_count){
+       //              html_node.find("#div_subject").append("<div class=\"col-md-1\">"+i+":"+subject_count[i]+"</div>");
+       //          }*/
 
-                /*html_node.prepend("<div class=\"col-md-12\"><div class=\"col-md-2\">年级统计:</div><div class=\"col-md-3\">小学:"+grade_count.primary+"</div><div class=\"col-md-3\">初中:"+grade_count.junior+"</div><div class=\"col-md-3\">高中:"+grade_count.senior+"</div></div><br><br><br>");*/
+       //          /*html_node.prepend("<div class=\"col-md-12\"><div class=\"col-md-2\">年级统计:</div><div class=\"col-md-3\">小学:"+grade_count.primary+"</div><div class=\"col-md-3\">初中:"+grade_count.junior+"</div><div class=\"col-md-3\">高中:"+grade_count.senior+"</div></div><br><br><br>");*/
 
-                /*$.each(userid_list,function(i,item){
-                    var userid = item["userid"];
-                    var name = item["nick"];
-                    var subject = item["subject_str"];
-                    var grade = item["grade_str"];
-                    html_node.find("table").append("<tr><td>"+userid+"</td><td>"+name+"</td><td>"+grade+"</td><td>"+subject+"</td></tr>");
-                });
-            });
+       //          /*$.each(userid_list,function(i,item){
+       //              var userid = item["userid"];
+       //              var name = item["nick"];
+       //              var subject = item["subject_str"];
+       //              var grade = item["grade_str"];
+       //              html_node.find("table").append("<tr><td>"+userid+"</td><td>"+name+"</td><td>"+grade+"</td><td>"+subject+"</td></tr>");
+       //          });
+       //      });
 
-            var dlg=BootstrapDialog.show({
-                title:title,
-                message :  html_node   ,
-                closable: true,
-                buttons:[{
-                    label: '返回',
-                    cssClass: 'btn',
-                    action: function(dialog) {
-                        dialog.close();
+       //      var dlg=BootstrapDialog.show({
+       //          title:title,
+       //          message :  html_node   ,
+       //          closable: true,
+       //          buttons:[{
+       //              label: '返回',
+       //              cssClass: 'btn',
+       //              action: function(dialog) {
+       //                  dialog.close();
 
-                    }
-                }],
-                onshown:function(){
+       //              }
+       //          }],
+       //          onshown:function(){
 
-                }
+       //          }
 
-            });
+       //      });
 
-            dlg.getModalDialog().css("width","1024px");
+       //      dlg.getModalDialog().css("width","1024px");
 
-        }*/
+       //  }*/
 
     });
 
@@ -1105,44 +1102,49 @@ $(function(){
         var id_grade          = $("<select/>");
         var id_record_teacher = $("<input/>");
         var id_start_time     = $("<input/>");
+        var full_time         = opt_data.full_time;
 
-        id_start_time.datetimepicker( {
-            lang       : 'ch',
-            timepicker : true,
-            format     : "Y-m-d H:i",
-            onChangeDateTime :function(){
-            }
-        });
+        if(full_time == 0){
+            BootstrapDialog.alert("面试试讲暂时关闭！");
+        }else{
+            id_start_time.datetimepicker( {
+                lang       : 'ch',
+                timepicker : true,
+                format     : "Y-m-d H:i",
+                onChangeDateTime :function(){
+                }
+            });
 
-        Enum_map.append_option_list("subject",id_subject,true);
-        Enum_map.append_option_list("grade", id_grade,true,[100,200,300]);
-        id_subject.val(opt_data.subject_ex);
-        id_grade.val(opt_data.grade_ex);
+            Enum_map.append_option_list("subject",id_subject,true);
+            Enum_map.append_option_list("grade", id_grade,true,[100,200,300]);
+            id_subject.val(opt_data.subject_ex);
+            id_grade.val(opt_data.grade_ex);
 
-        var arr = [
-            ["审核老师",  id_record_teacher ]  ,
-            ["科目",  id_subject ]  ,
-            ["年级 ", id_grade]  ,
-            ["上课时间",id_start_time],
-        ];
+            var arr = [
+                ["审核老师",id_record_teacher],
+                ["科目",id_subject],
+                ["年级",id_grade],
+                ["上课时间",id_start_time],
+            ];
 
-        $.show_key_value_table("排课", arr ,[{
-            label    : '确认',
-            cssClass : 'btn-warning',
-            action   : function(dialog) {
-                $.do_ajax("/tea_manage_new/add_train_lesson_new",{
-                    "phone"            : opt_data.phone,
-                    "lesson_start"     : id_start_time.val(),
-                    "subject"          : id_subject.val(),
-                    "grade"            : id_grade.val(),
-                    "record_teacherid" : id_record_teacher.val(),
-                    "tea_nick"         : opt_data.name,
-                    "id"               : opt_data.id
-                });
-            }
-        }],function(){
-            $.admin_select_user( id_record_teacher, "research_teacher");
-        });
+            $.show_key_value_table("排课", arr ,[{
+                label    : '确认',
+                cssClass : 'btn-warning',
+                action   : function(dialog) {
+                    $.do_ajax("/tea_manage_new/add_train_lesson_new",{
+                        "phone"            : opt_data.phone,
+                        "lesson_start"     : id_start_time.val(),
+                        "subject"          : id_subject.val(),
+                        "grade"            : id_grade.val(),
+                        "record_teacherid" : id_record_teacher.val(),
+                        "tea_nick"         : opt_data.name,
+                        "id"               : opt_data.id
+                    });
+                }
+            }],function(){
+                $.admin_select_user( id_record_teacher, "research_teacher");
+            });
+        }
     });
 
 
