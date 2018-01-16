@@ -1014,6 +1014,92 @@ $(function(){
 	    });
     });
 
+    //@desn:手动添加公开课
+    $('#id_add_open_class').on('click',function(){
+        var id_lesson_start = $('<input/>');
+        var id_lesson_end = $('<input/>');
+        var id_subject = $("<select/>" );
+        var id_grade = $("<select/>" );
+        var id_tea_name = $('<input/>');
+        var id_tea_phone = $('<input/>');
+        var id_suit_student = $('<input/>');
+        var id_title = $('<input/>');
+        var id_package_intro = $('<textarea/>');
+        Enum_map.append_option_list("grade", id_grade,true);
+        Enum_map.append_option_list("subject", id_subject,true);
+        id_lesson_start.datetimepicker({
+            lang: "zh",
+            format:'Y-m-d H:i:s',
+            datepicker:true,
+            timepicker:true
+        });
+        id_lesson_start.blur(function(){
+            console.log(id_lesson_start.val());
+            var lesson_start =id_lesson_start.val();
+            var lesson_start_str =  new Date(lesson_start); 
+            var year = lesson_start_str.getFullYear();
+            var month = lesson_start_str.getMonth()+1;
+            var day = lesson_start_str.getDate();
+            var hour = lesson_start_str.getHours()+1;
+            var minute = lesson_start_str.getMinutes();
+            var second = lesson_start_str.getSeconds();
+            var lesson_end = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
+
+            console.log(lesson_end);
+            id_lesson_end.val( lesson_end );
+        })
+
+        id_lesson_end.datetimepicker({
+            lang: "zh",
+            format:'Y-m-d H:i:s',
+            datepicker:true,
+            timepicker:true
+        });
+
+
+        var arr = [
+            ['开始时间',id_lesson_start],
+            ['结束时间',id_lesson_end],
+            ['科目',id_subject],
+            ['年级',id_grade],
+            ['老师名称',id_tea_name],
+            ['老师电话',id_tea_phone],
+            ['适合学生',id_suit_student],
+            ['课题',id_title],
+            ['内容介绍',id_package_intro]
+        ];
+        $.show_key_value_table("添加公开课", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action : function(dialog) {
+                $.ajax({
+                    url: '/tea_manage_new/open_class_add',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'lesson_start':id_lesson_start.val(),
+                        'lesson_end':id_lesson_end.val(),
+                        'subject':id_subject.val(),
+                        'grade':id_grade.val(),
+                        'tea_name':id_tea_name.val(),
+                        'tea_phone':id_tea_phone.val(),
+                        'suit_student':id_suit_student.val(),
+                        'title':id_title.val(),
+                        'package_intro':id_package_intro.val()
+			              },
+                    success: function(data){
+                        if(!data.ret){
+                            window.location.reload();
+                        }else{
+                            BootstrapDialog.alert(data.info);
+                        }
+                    }
+                });
+            }
+        });
+
+    }); 
+
     $("#id_add_many_lesson").on("click",function(){
         var id_courseid     = $("<input/>");
         var id_lesson_start = $("<input/>");

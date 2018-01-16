@@ -57,7 +57,8 @@
                 <a id="id_add_lesson" class="btn btn-warning"><li class="fa fa-plus">课次</li> </a>
                 <a id="id_add_open_course" class="btn btn-warning"><li class="fa fa-plus">课程</li></a>
                 <a id="id_add_robot_lesson" class="btn btn-warning"><li class="fa fa-plus">机器人</li></a>
-                <a id="id_add_lesson_by_excel" class="btn btn-warning"><li class="fa fa-plus">xls一键添加</li></a>
+                <a style="display:none;" id="id_add_lesson_by_excel" class="btn btn-warning"><li class="fa fa-plus">xls一键添加</li></a>
+                <a id="id_add_open_class" class="btn btn-warning"><li class="fa fa-plus">添加公开课</li></a>
             </div>
         </div>
     </div>
