@@ -526,7 +526,8 @@ class assistant_performance extends Controller
         $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
         
         $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target");
-        
+
+        $old_twl_info = $this->t_month_ass_student_info->get_ass_month_info(1512057500);//12月份旧版数据        
 
         //销售月拆解
         $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
@@ -746,6 +747,8 @@ class assistant_performance extends Controller
             $item["renw_reword"] = $item["renw_reword"]/100;
             $item["cc_tran_reword"] = $item["cc_tran_reword"]/100;
             $item["all_reword"] =  $item["revisit_reword"]+$item["kpi_lesson_count_finish_reword"]+$item["kk_reword"]+$item["stop_reword"]+$item["end_no_renw_reword"]+ $item["lesson_count_finish_reword"]+$item["renw_reword"]+ $item["cc_tran_reword"];
+
+            $item["old_ewnew_money"] = @$old_twl_info[$k]["performance_cr_renew_money"]+@$old_twl_info[$k]["performance_cr_new_money"];
             
         }
 
