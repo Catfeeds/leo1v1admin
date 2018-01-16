@@ -443,46 +443,58 @@ class agent extends Controller
     }
 
     public function test_new(){
-        // $start_time = 1504195200;
-        // $end_time = 1484582400;
-        $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
-        $post_arr=[
-            "enterpriseId" => 3005131  ,
-            "userName" => "admin" ,
-            "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
-            "seed" => "seed1",
-            "startTime" => '2018-01-06 00:00:00',
-            "endTime" => '2018-01-06 01:00:00',
-        ];
-        $post_arr["start"]  = 0;
-        $post_arr["limit"]  = 1000;
-        $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
-        $ret=json_decode($return_content, true  );
-        $data_list = @$ret["msg"]["data"];
-        dd($data_list);
-        foreach($data_list as $item){
-            $cdr_bridged_cno= $item["cno"];
-            $uniqueId= $item["uniqueId"];
-            $cdr_answer_time = intval( preg_split("/\-/", $uniqueId)[1]);
-            $id= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
-            $sipCause = $item['sipCause'];
-            $client_number = $item['clientNumber'];
-            $endReason = $item['endReason']=='是'?1:0;
-            $ret = $this->t_tq_call_info->field_get_list($id, '*');
-            $arr = [];
-            if($ret['cause'] != $sipCause){
-                $arr['cause'] = $sipCause;
-            }
-            if($ret['client_number'] != $client_number){
-                $arr['client_number'] = $client_number;
-            }
-            if($ret['end_reason'] != $endReason){
-                $arr['end_reason'] = $endReason;
-            }
-            if(count($arr)>0){
-                $this->t_tq_call_info->field_update_list($id, $arr);
+        $start_time = 1514649600;
+        $end_time = 1517414400;
+        $count = ($end_time-$start_time)/(3600*24);
+        $count = 17;
+        for ($i=1; $i<=$count; $i++)
+        {
+            $start_time = $start_time+3600*24;
+            for ($j=8; $j<=24; $j++)
+            {
+                $start_time_new = $start_time+3600*$j;
+                $end_time_new = $start_time_new+3600;
+
+                $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
+                $post_arr=[
+                    "enterpriseId" => 3005131  ,
+                    "userName" => "admin" ,
+                    "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
+                    "seed" => "seed1",
+                    "startTime" => '2018-01-06 00:00:00',
+                    "endTime" => '2018-01-06 01:00:00',
+                ];
+                $post_arr["start"]  = 0;
+                $post_arr["limit"]  = 1000;
+                $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
+                $ret=json_decode($return_content, true  );
+                $data_list = @$ret["msg"]["data"];
+                foreach($data_list as $item){
+                    $cdr_bridged_cno= $item["cno"];
+                    $uniqueId= $item["uniqueId"];
+                    $cdr_answer_time = intval( preg_split("/\-/", $uniqueId)[1]);
+                    $id= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
+                    $sipCause = $item['sipCause'];
+                    $client_number = $item['clientNumber'];
+                    $endReason = $item['endReason']=='是'?1:0;
+                    $ret = $this->t_tq_call_info->field_get_list($id, '*');
+                    $arr = [];
+                    if($ret['cause'] != $sipCause){
+                        $arr['cause'] = $sipCause;
+                    }
+                    if($ret['client_number'] != $client_number){
+                        $arr['client_number'] = $client_number;
+                    }
+                    if($ret['end_reason'] != $endReason){
+                        $arr['end_reason'] = $endReason;
+                    }
+                    if(count($arr)>0){
+                        $ret = $this->t_tq_call_info->field_update_list($id, $arr);
+                    }
+                }
             }
         }
+        
         dd($data_list);
         dd(array_unique(array_column($data_list, 'sipCause')));
         $rank_arr              = explode('/', '4/10');
