@@ -1097,50 +1097,54 @@ $(function(){
     });
 
     $(".opt-plan-train_lesson").on("click",function(){
-        BootstrapDialog.alert("面试试讲暂时关闭！");
-        // var opt_data          = $(this).get_opt_data();
-        // var id_subject        = $("<select/>");
-        // var id_grade          = $("<select/>");
-        // var id_record_teacher = $("<input/>");
-        // var id_start_time     = $("<input/>");
+        var opt_data          = $(this).get_opt_data();
+        var id_subject        = $("<select/>");
+        var id_grade          = $("<select/>");
+        var id_record_teacher = $("<input/>");
+        var id_start_time     = $("<input/>");
+        var full_time         = opt_data.full_time;
 
-        // id_start_time.datetimepicker( {
-        //     lang       : 'ch',
-        //     timepicker : true,
-        //     format     : "Y-m-d H:i",
-        //     onChangeDateTime :function(){
-        //     }
-        // });
+        if(full_time == 0){
+            BootstrapDialog.alert("面试试讲暂时关闭！");
+        }else{
+            id_start_time.datetimepicker( {
+                lang       : 'ch',
+                timepicker : true,
+                format     : "Y-m-d H:i",
+                onChangeDateTime :function(){
+                }
+            });
 
-        // Enum_map.append_option_list("subject",id_subject,true);
-        // Enum_map.append_option_list("grade", id_grade,true,[100,200,300]);
-        // id_subject.val(opt_data.subject_ex);
-        // id_grade.val(opt_data.grade_ex);
+            Enum_map.append_option_list("subject",id_subject,true);
+            Enum_map.append_option_list("grade", id_grade,true,[100,200,300]);
+            id_subject.val(opt_data.subject_ex);
+            id_grade.val(opt_data.grade_ex);
 
-        // var arr = [
-        //     ["审核老师",id_record_teacher],
-        //     ["科目",id_subject],
-        //     ["年级",id_grade],
-        //     ["上课时间",id_start_time],
-        // ];
+            var arr = [
+                ["审核老师",id_record_teacher],
+                ["科目",id_subject],
+                ["年级",id_grade],
+                ["上课时间",id_start_time],
+            ];
 
-        // $.show_key_value_table("排课", arr ,[{
-        //     label    : '确认',
-        //     cssClass : 'btn-warning',
-        //     action   : function(dialog) {
-                $.do_ajax("/tea_manage_new/add_train_lesson_new",{
-        //             "phone"            : opt_data.phone,
-        //             "lesson_start"     : id_start_time.val(),
-        //             "subject"          : id_subject.val(),
-        //             "grade"            : id_grade.val(),
-        //             "record_teacherid" : id_record_teacher.val(),
-        //             "tea_nick"         : opt_data.name,
-        //             "id"               : opt_data.id
-        //         });
-        //     }
-        // }],function(){
-        //     $.admin_select_user( id_record_teacher, "research_teacher");
-        // });
+            $.show_key_value_table("排课", arr ,[{
+                label    : '确认',
+                cssClass : 'btn-warning',
+                action   : function(dialog) {
+                    $.do_ajax("/tea_manage_new/add_train_lesson_new",{
+                        "phone"            : opt_data.phone,
+                        "lesson_start"     : id_start_time.val(),
+                        "subject"          : id_subject.val(),
+                        "grade"            : id_grade.val(),
+                        "record_teacherid" : id_record_teacher.val(),
+                        "tea_nick"         : opt_data.name,
+                        "id"               : opt_data.id
+                    });
+                }
+            }],function(){
+                $.admin_select_user( id_record_teacher, "research_teacher");
+            });
+        }
     });
 
 

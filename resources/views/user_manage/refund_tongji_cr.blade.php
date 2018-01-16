@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
-
+<style type="text/css">
+    a:hover{ color:red; }
+</style>
     <section class="content ">
         
         <div>

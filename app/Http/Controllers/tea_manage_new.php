@@ -1385,8 +1385,6 @@ class tea_manage_new extends Controller
         $id               = $this->get_in_int_val("id");
         $acc              = $this->get_account();
 
-        return $this->output_err("面试试讲暂时关闭");
-
         if(empty($subject) || empty($lesson_start) || empty($record_teacherid)){
             return $this->output_err("请填写完整");
         }
