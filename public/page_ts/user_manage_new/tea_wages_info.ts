@@ -197,13 +197,4 @@ $(function(){
         });
     });
 
-    $(".teacher_reward_list").on("click",function(){
-        var teacherid  = g_args.teacherid;
-        var start_time = g_args.start_time;
-        var end_time   = g_args.end_time;
-        var url = "/user_manage_new/teacher_trial_reward_list?opt_date_type=3&teacherid="+teacherid
-            +"&start_time="+start_time+"&end_time="+end_time;
-
-        window.open(url,"_blank");
-    });
 });

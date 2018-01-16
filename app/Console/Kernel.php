@@ -170,7 +170,6 @@ class Kernel extends ConsoleKernel
         Commands\NoticeTeacher::class,
         Commands\NoticeStudent::class,
         Commands\SetTeacherMoney::class,
-        Commands\SetTeacherSimulateMoney::class,
         Commands\reset_lesson_info_real_begin_time::class,
         Commands\ytx_sync::class,
         Commands\ytx_sync_wav::class,

@@ -10,19 +10,17 @@ $(function(){
             refund_type       : $("#id_refund_type").val(),
             userid            : $("#id_userid").val(),
             is_test_user      : $("#id_is_test_user").val(),
-		    qc_flag:	$('#id_qc_flag').val(),
-            seller_groupid_ex :	$('#id_seller_groupid_ex').val(),
-            sys_operator      : $("#id_sys_operator").val(),
-            has_money         : $("#id_has_money").val(),
+		        qc_flag:	$('#id_qc_flag').val(),
+            seller_groupid_ex :	$('#id_seller_groupid_ex').val()
         });
     }
 
 
     $('.opt-change').set_input_change_event(load_data);
     $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
-    $("#id_sys_operator").val(g_args.sys_operator);
+
     $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right);
-    $("#id_has_money").val(g_args.has_money);
+
     Enum_map.append_option_list( "test_user", $("#id_is_test_user"));
     $("#id_is_test_user").val(g_args.is_test_user);
     $("#id_userid").val(g_args.userid);

@@ -3284,4 +3284,5 @@ class tea_manage extends Controller
     public function auto_rank_lesson(){
         return 1;
     }
+
 }

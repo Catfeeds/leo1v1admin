@@ -62,7 +62,7 @@ class authority extends Controller
         $adminid               = $this->get_in_adminid(-1);
         $uid                   = $this->get_in_int_val('uid',0);
         $user_info             = trim($this->get_in_str_val("user_info"));
-        $has_question_user     = $this->get_in_el_boolean(0, 'has_question_user');
+        $has_question_user     = $this->get_in_e_boolean(0, 'has_question_user');
         $del_flag              = $this->get_in_el_boolean(0,'del_flag');
         $page_info             = $this->get_in_page_info();
         $account_role          = $this->get_in_el_account_role();

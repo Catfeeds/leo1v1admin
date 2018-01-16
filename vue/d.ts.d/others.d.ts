@@ -18,6 +18,7 @@ declare var  g_enum_map : any;
 declare var  g_sid: any;
 declare var  g_account_role: any;
 declare var  g_account: any;
+declare var  echarts :any;
 declare var  g_power_list: any;
 declare var  g_data_ex_list:any;
 declare var  audiojs : any;

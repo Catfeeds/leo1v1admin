@@ -8,7 +8,6 @@ interface GargsStatic {
 	assistantid:	number;
 	userid:	number;
 	student_type:	number;
-	ass_account_role:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -54,8 +53,7 @@ function load_data(){
 		is_done:	$('#id_is_done').val(),
 		assistantid:	$('#id_assistantid').val(),
 		userid:	$('#id_userid').val(),
-		student_type:	$('#id_student_type').val(),
-		ass_account_role:	$('#id_ass_account_role').val()
+		student_type:	$('#id_student_type').val()
 		});
 }
 $(function(){
@@ -88,7 +86,6 @@ $(function(){
 		"can_select_all_flag"     : true
 	});
 	$('#id_student_type').val(g_args.student_type);
-	$('#id_ass_account_role').val(g_args.ass_account_role);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -135,12 +132,4 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["student_type title", "student_type", "th_student_type" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">ass_account_role</span>
-                <input class="opt-change form-control" id="id_ass_account_role" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["ass_account_role title", "ass_account_role", "th_ass_account_role" ]])!!}
 */

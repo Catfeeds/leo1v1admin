@@ -293,6 +293,4 @@ class test_code extends Controller
         \App\Helper\Utils::sms_common($phone, $type, $data);
     }
 
-
-
 }

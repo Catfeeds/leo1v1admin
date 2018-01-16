@@ -332,12 +332,18 @@ class user_manage_new extends Controller
         }
 
         $teacher_type             = $this->t_teacher_info->get_teacher_type($teacherid);
+        $teacher_honor            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,1);
+        $teacher_trial            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,2);
+        $teacher_compensate       = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,3);
+        $teacher_compensate_price = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,4);
+        $teacher_reference        = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
+        $teacher_train            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,5);
         $old_list                 = $this->t_lesson_info->get_lesson_list_for_wages(
             $teacherid,$start_time,$end_time,$studentid,$show_type
         );
 
         //拉取上个月的课时信息
-        $last_month_info          = $this->get_last_lesson_count_info($start_time,$end_time,$teacherid);
+        $last_month_info = $this->get_last_lesson_count_info($start_time,$end_time,$teacherid);
         $last_all_lesson_count    = $last_month_info['all_lesson_count'];
         $last_normal_lesson_count = $last_month_info['all_normal_count'];
 
@@ -375,7 +381,6 @@ class user_manage_new extends Controller
             "trial_total"  => 0,
             "normal_total" => 0,
         ];
-        $all_price = 0;
         $check_init_map_item($data_map,"","");
         foreach ($old_list as $row_id => &$item) {
             $studentid    = $item["userid"];
@@ -459,7 +464,6 @@ class user_manage_new extends Controller
                     }
                 }
             }
-            $all_price += $item['price'];
 
             $item['lesson_reward'] = $item['pre_reward']*$lesson_count/100;
             $item['tea_level'] = \App\Helper\Utils::get_teacher_letter_level($item['teacher_money_type'],$item['level']);
@@ -552,14 +556,16 @@ class user_manage_new extends Controller
             }
         }
 
-        $teacher_reward = ($this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,0))/100;
-        $all_price += $teacher_reward;
         $ret_list = \App\Helper\Utils::list_to_page_info($list);
         return $this->Pageview(__METHOD__,$ret_list,[
-            "teacherid"      => $teacherid,
-            "lesson_count"   => $lesson_total_arr,
-            "teacher_reward" => $teacher_reward,
-            "all_price"      => $all_price,
+            "teacherid"                => $teacherid,
+            "teacher_honor"            => $teacher_honor/100,
+            "teacher_trial"            => $teacher_trial/100,
+            "teacher_compensate"       => $teacher_compensate/100,
+            "teacher_compensate_price" => $teacher_compensate_price/100,
+            "teacher_reference"        => $teacher_reference/100,
+            "teacher_train"            => $teacher_train/100,
+            "lesson_count"             => $lesson_total_arr,
         ]);
     }
 
@@ -580,7 +586,6 @@ class user_manage_new extends Controller
         $teacher_compensate       = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,3);
         $teacher_compensate_price = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,4);
         $teacher_reference        = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
-        $teacher_train            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,5);
         $old_list                 = $this->t_lesson_info->get_lesson_list_for_wages(
             $teacherid,$start_time,$end_time,$studentid,$show_type);
 
@@ -1679,6 +1684,7 @@ class user_manage_new extends Controller
         }
 
         $this->set_filed_for_js("main_type_flag",$main_type_flag);
+
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list),["monthtime_flag"=>$monthtime_flag]);
     }
 
@@ -2125,59 +2131,21 @@ class user_manage_new extends Controller
         $ret_info=\App\Helper\Utils::list_to_page_info([]);
 
         if( $groupid > 0 ){  
-            $user_list = $this->t_manager_info->get_power_group_user_list($groupid);
-            $user_list = $this->get_user_permission($user_list);
-            $power_map = $this->t_authority_group->get_auth_group_map($groupid);
+            $user_list=$this->t_manager_info->get_power_group_user_list($groupid);
+            $power_map=$this->t_authority_group->get_auth_group_map($groupid);
             $list=$this->get_menu_list_new($power_map );
       
             $ret_info=\App\Helper\Utils::list_to_page_info($list);
 
         }
         return $this->Pageview(__METHOD__,$ret_info,[
-            "_publish_version" => 201801118150,
+            "_publish_version" => 201801114150,
             "group_all" => $group_all,
             "user_list"=>$user_list,
             "list"=>$list,
             "groupid" => $groupid
         ]);
 
-    }
-
-    private function get_user_permission($user_list){
-        if($user_list){
-            $permission = [];
-            foreach($user_list as &$user){
-                $user['permit_arr'] = explode(',',$user['permission']);
-                $user['permit_name'] = "";
-                $permission = array_merge($permission,$user['permit_arr']);
-            }
-            $permission = array_unique($permission);
-            $per_name = [];
-            if($permission){
-                $per_str = "(";
-                foreach($permission as $per){
-                    if(!empty($per)){
-                        $per_str .= $per.',';
-                    }
-                }
-                $per_str = substr($per_str,0,-1).')';
-                $permission_names = $this->t_authority_group->get_groups_by_idstr($per_str);
-                $per_name = array_column($permission_names, 'group_name', 'groupid');
-                foreach($user_list as &$user){
-                    $permit_name = '';
-                    if($user['permit_arr']){
-                        foreach( $user['permit_arr'] as $gid){
-                            $permit_str = array_key_exists($gid, $per_name) ? trim(@$per_name[$gid])."," : "";
-                            $permit_name .= $permit_str;
-                        }
-                        $permit_name = substr($permit_name,0,-1);
-                    }
-                    $user['permit_name'] = $permit_name;
-                }
-
-            }
-        }
-        return $user_list;
     }
 
     public function power_group_edit() {
@@ -3494,7 +3462,6 @@ class user_manage_new extends Controller
         foreach($money_list as $val){
             $lesson_price += $val['lesson_money'];
         }
-        $lesson_price = round($lesson_price,2);
         return $this->output_succ(['lesson_price'=>$lesson_price]);
     }
 

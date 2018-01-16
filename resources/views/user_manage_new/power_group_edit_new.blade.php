@@ -100,11 +100,11 @@
                 </div>
             </div>
 
-            <div class="col-xs-6 col-md-7">
+            <div class="col-xs-6 col-md-4">
                 <table  class="common-table">
                     <thead>
                         <tr>
-                            <td colspan="6">
+                            <td colspan="5">
                                 <div class="power_title">
                                     <span style="margin-left:20px">权限组用户</span>                            
                                     <div class="input-group btn_new">
@@ -122,7 +122,6 @@
                             <td >id</td>
                             <td >账户</td>
                             <td >真实姓名</td>
-                            <td width="50%">已存在权限</td>
                             <td >操作</td>
                         </tr>
 
@@ -132,7 +131,6 @@
                                 <td >{{$var["uid"]}} </td>
                                 <td >{{$var["account"]}} </td>
                                 <td >{{$var["name"]}} </td>
-                                <td width="50%">{{@$var["permit_name"]}}</td>
                                 <td >
                                     <div data-uid="{{$var['uid']}}" data-name="{{$var["name"]}}" data-account="{{$var["account"]}}">
                                         <a class="fa-trash-o  opt-del-account" title="删除" ></a>

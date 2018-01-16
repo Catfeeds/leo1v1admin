@@ -223,7 +223,6 @@ class get_ass_stu_info_update extends Command
 
         $last_month = strtotime(date('Y-m-01',$start_time-100));
         $ass_last_month = $task->t_month_ass_student_info->get_ass_month_info($last_month);
-        $ass_current_month = $task->t_month_ass_student_info->get_ass_month_info($start_time);
       
         $lesson_count_list_old=[];       
 
@@ -441,8 +440,7 @@ class get_ass_stu_info_update extends Command
             $item["performance_cr_new_money"] = @$performance_cr_new_list[$k]["money"];
 
             //月初预估课时数据补充
-            $item["estimate_month_lesson_count"] = @$ass_current_month[$k]["estimate_month_lesson_count"];
-            if(empty($item["estimate_month_lesson_count"])){
+            if($item["estimate_month_lesson_count"]==0){
                 if($registered_student_list_last){
                     $item["estimate_month_lesson_count"]= $estimate_month_lesson_count;
                 }else{

@@ -4,7 +4,6 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	order_by_str:	string;
 	sys_operator:	string;
 	account_role:	number;
 	page_num:	number;
@@ -18,9 +17,9 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	sys_operator	:any;
 	uid	:any;
 	type	:any;
-	sys_operator	:any;
 	one_year_num	:any;
 	half_year_num	:any;
 	three_month_num	:any;
@@ -54,7 +53,6 @@ function load_data(){
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
 		end_time:	$('#id_end_time').val(),
-		order_by_str:	$('#id_order_by_str').val(),
 		sys_operator:	$('#id_sys_operator').val(),
 		account_role:	$('#id_account_role').val()
 		});
@@ -71,7 +69,6 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
-	$('#id_order_by_str').val(g_args.order_by_str);
 	$('#id_sys_operator').val(g_args.sys_operator);
 	$('#id_account_role').val(g_args.account_role);
 
@@ -88,14 +85,6 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">order_by_str</span>
-                <input class="opt-change form-control" id="id_order_by_str" />
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["order_by_str title", "order_by_str", "th_order_by_str" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

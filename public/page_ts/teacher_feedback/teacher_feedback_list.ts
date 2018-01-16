@@ -126,8 +126,7 @@ $(function(){
                             "feedback_type" : feedback_type,
                             "check_time"    : check_time,
                         },
-                    success : function(result){
-                        console.log(result);
+                        success : function(result){
                             if(result.ret<0){
                                 BootstrapDialog.alert(result.info);
                             }else{

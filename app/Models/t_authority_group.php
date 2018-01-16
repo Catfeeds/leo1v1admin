@@ -147,13 +147,6 @@ class t_authority_group extends \App\Models\Zgen\z_t_authority_group
 		return $this->main_get_list($sql);
 	}
 
-    public function get_groups_by_idstr($idstr)
-	{
-		$sql = $this->gen_sql_new("select group_name, groupid,role_groupid from %s where  del_flag = 0 and groupid in %s order by group_name asc",
-                                  self::DB_TABLE_NAME,$idstr);
-		return $this->main_get_list($sql);
-	}
-
 }
 
 

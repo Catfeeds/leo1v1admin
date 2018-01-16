@@ -16,6 +16,7 @@ require_once( app_path() ."/Helper/functions.php"  );
 /**
  * @property  \App\Models\t_lesson_info_b2       $t_lesson_info_b2
  * @property  \App\Models\t_lesson_info_b3       $t_lesson_info_b3
+ * @property  \App\Models\t_jobs       $t_jobs
  */
 class Controller extends ControllerEx
 {
