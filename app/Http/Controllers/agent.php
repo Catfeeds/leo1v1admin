@@ -443,22 +443,22 @@ class agent extends Controller
     }
 
     public function test_new(){
-        // $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
-        // $post_arr=[
-        //     "enterpriseId" => 3005131  ,
-        //     "userName" => "admin" ,
-        //     "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
-        //     "seed" => "seed1",
-        //     "startTime" => '2018-01-11 19:00:00',
-        //     "endTime" => '2018-01-12 22:30:00',
-        // ];
-        // $post_arr["start"]  = 0;
-        // $post_arr["limit"]  = 1000;
-        // $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
-        // $ret=json_decode($return_content, true  );
-        // $data_list= @$ret["msg"]["data"];
+        $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
+        $post_arr=[
+            "enterpriseId" => 3005131  ,
+            "userName" => "admin" ,
+            "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
+            "seed" => "seed1",
+            "startTime" => '2018-01-11 19:00:00',
+            "endTime" => '2018-01-12 22:30:00',
+        ];
+        $post_arr["start"]  = 0;
+        $post_arr["limit"]  = 1000;
+        $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
+        $ret=json_decode($return_content, true  );
+        $data_list= @$ret["msg"]["data"];
         // // dd($data_list);
-        // dd(array_unique(array_column($data_list, 'endReason')));
+        dd(array_unique(array_column($data_list, 'endReason')));
         $rank_arr              = explode('/', '4/10');
         
         dd($rank_arr,$class_rank,$class_num);

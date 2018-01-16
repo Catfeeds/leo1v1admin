@@ -347,11 +347,6 @@ class ss_deal extends Controller
 
         //新增加信息
         $ret["class_rank"]    = $ss_item["class_rank"];
-        $ret["class_num"]    = $ss_item["class_num"];
-        $ret['class_rank'] = $ss_item["class_rank"].'/'.$ss_item["class_num"];
-        if(!$ss_item["class_rank"] && !$ss_item["class_num"]){
-            $ret['class_rank'] = '';
-        }
         $ret["grade_rank"]    = $ss_item["grade_rank"];
         $ret["academic_goal"]    = $ss_item["academic_goal"];
         $ret["test_stress"]    = $ss_item["test_stress"];
@@ -388,7 +383,6 @@ class ss_deal extends Controller
         $ret["subject_tag"] = json_decode($tt_item['subject_tag']);
         $ret["phone_location"] = mb_substr($student["phone_location"],0,2);
         $ret["teacher_type"]   = $tt_item["teacher_type"];
-        // dd($ret["subject_tag"]);
 
         return $this->output_succ(["data" => $ret ]);
     }
@@ -7879,6 +7873,13 @@ class ss_deal extends Controller
         $ret = $this->t_manager_info->get_detail_info($uid);
         $ret['gender'] = E\Egender::get_desc($ret['gender']);
         $ret['account_role'] = E\Eaccount_role::get_desc($ret['account_role']);
+        return $this->output_succ(["data" => $ret ]);
+    }
+
+    public function get_assistant_info_by_id(){
+        $assistantid = $this->get_in_int_val("assistantid",-1);
+        $ret = $this->t_assistant_info->get_assistant_detail_info($assistantid);
+        $ret['gender'] = E\Egender::get_desc($ret['gender']);
         return $this->output_succ(["data" => $ret ]);
     }
 

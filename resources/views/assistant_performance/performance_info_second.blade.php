@@ -119,7 +119,7 @@
                             </a>
                             
                         <td>{{@$var["renw_reword"]}}</td> 
-                        <td>{{@$var["cc_tran_num"]}}</td>                        
+                        <td class="cc_tran_num" data-leader_num='{{@$var["hand_tran_num"]}}' data-new_num='{{@$var["performance_cr_new_num "]}}' data-tran_num='{{@$var["performance_cc_tran_num"]}}'><a href="javascript:;" >{{@$var["cc_tran_num"]}}</a></td>                        
                         
                         <td>
                             <a href="/assistant_performance/get_seller_tran_order_info?adminid={{ $var["adminid"] }}&date_type_config=undefined&date_type=null&opt_date_type=3&start_time={{ $start }}&end_time={{ $end }}" target="_blank" >
