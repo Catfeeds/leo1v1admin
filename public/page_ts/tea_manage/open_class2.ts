@@ -1034,7 +1034,6 @@ $(function(){
             timepicker:true
         });
         id_lesson_start.blur(function(){
-            console.log(id_lesson_start.val());
             var lesson_start =id_lesson_start.val();
             var lesson_start_str =  new Date(lesson_start); 
             var year = lesson_start_str.getFullYear();
@@ -1044,8 +1043,6 @@ $(function(){
             var minute = lesson_start_str.getMinutes();
             var second = lesson_start_str.getSeconds();
             var lesson_end = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
-
-            console.log(lesson_end);
             id_lesson_end.val( lesson_end );
         })
 

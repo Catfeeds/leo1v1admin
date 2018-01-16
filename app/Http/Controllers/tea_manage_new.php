@@ -1131,7 +1131,9 @@ class tea_manage_new extends Controller
 
     //@desn:手动添加公开课
     public function open_class_add(){
-        list($lesson_start,$lesson_end) = $this->get_in_date_range(0,0,0,null,1);
+        $lesson_start = strtotime($this->get_in_str_val('lesson_start'));
+        $lesson_end = strtotime($this->get_in_str_val('lesson_end'));
+        \App\Helper\Utils::logger("lesson_start:$lesson_start");
         $subject = $this->get_in_el_subject();
         $grade = $this->get_in_grade();
         $tea_name = $this->get_in_str_val('teacher_name');
@@ -1141,19 +1143,6 @@ class tea_manage_new extends Controller
         $package_intro = $this->get_in_str_val('package_intro');
         $subject_arr = E\Esubject::$desc_map;
         $grade_arr   = E\Egrade::$desc_map;
-
-        // $lesson_start  = strtotime($val[0]);
-        // $subject       = $val[1];
-        // $grade         = $val[2];
-        // $tea_name      = $val[3];
-        // $phone         = (string)$val[4];
-        // $suit_student  = $val[5];
-        // $title         = $val[6];
-        // $package_intro = $val[7];
-
-        // if(!$lesson_start){
-        //     continue;
-        // }else{
         if(!$lesson_start)
             return $this->output_err('课程开始时间为必填项!');
         $subject = array_search($subject,$subject_arr);
@@ -1187,7 +1176,6 @@ class tea_manage_new extends Controller
             );
             return $this->output_succ();
         }
-        // }
     }
 
 
