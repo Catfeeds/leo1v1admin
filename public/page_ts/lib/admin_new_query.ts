@@ -51,6 +51,7 @@
             } );
 
             var multi_select_str="";
+            console.log( this.title, "this.multi_select_flag :"+  this.multi_select_flag  );
             if ( this.multi_select_flag ){
                 multi_select_str= '        <li class="  divider"  />'
                     +'        <li  style="text-align:center;" >'
@@ -329,7 +330,7 @@
                 if ($.isFunction(need_power ) ) {
                     check_power_flag= need_power( this.options.html_power_list );
                 }else{
-                    check_power_flag = $.inArray ( need_power, this.options.html_power_list ) !== -1;
+                    check_power_flag = this.options.html_power_list[need_power] ;
                 }
             }
 
@@ -539,10 +540,11 @@
                 }
             });
 
-           var select_obj= $html_obj.admin_multiselect({
+            var select_obj= $html_obj.admin_multiselect({
                 title : me.title,
                 select_value : me.select_value,
                 data_list    : data_list,
+                multi_select_flag  :  me.options.multi_select_flag,
                 on_change : function ( ) {
                     me.header_query.query();
                 }

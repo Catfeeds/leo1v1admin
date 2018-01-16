@@ -1021,12 +1021,78 @@ class assistant_performance extends Controller
 
         $all_money = @$ass_renew_info["money"]+@$ass_new_info["money"];
 
+        foreach($ass_order_info as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item, 'order_time','_str'); 
+            \App\Helper\Utils::unixtime2date_for_item($item, 'apply_time','_str'); 
+            \App\Helper\Utils::unixtime2date_for_item($item, 'pay_time','_str'); 
+            $item["stu_nick"]= $this->cache_get_student_nick($item["userid"]);
+        }
+
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ass_order_info),[
+            "all_money"  => $all_money,
+            "renew_list" => $ass_renew_info,
+            "new_list" => $ass_new_info
+        ]);
 
 
-        dd([$ass_new_info,$ass_renew_info,$all_money]);
+
+        //dd([$ass_new_info,$ass_renew_info,$all_money]);
 
 
     }
+
+    //销售转介绍合同详情(包含退费,下个月10前付款)
+    public function get_seller_tran_order_info(){
+        $adminid = $this->get_in_int_val("adminid",324);
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $cc_order_list = $this->t_order_info->get_seller_tran_order_info($start_time,$end_time,$adminid);
+        $new_tran_list=[];
+        foreach($cc_order_list as $val){
+            $orderid = $val["orderid"];
+            $userid = $val["userid"];
+            $price = $val["price"];
+            $uid = $val["uid"];
+            $real_refund = $val["real_refund"];
+            $new_tran_list[$orderid]["uid"] = $uid;
+            $new_tran_list[$orderid]["userid"] = $userid;
+            $new_tran_list[$orderid]["price"] = $price;
+            $new_tran_list[$orderid]["orderid"] = $orderid;
+            @$new_tran_list[$orderid]["real_refund"] += $real_refund;
+            
+        }
+        $ass_tran_info =[];
+        foreach($new_tran_list as $val){
+            $orderid = $val["orderid"];
+            $userid = $val["userid"];
+            $price = $val["price"];
+            $uid = $val["uid"];
+            $real_refund = $val["real_refund"];
+            if(!isset($ass_tran_info["user_list"][$userid])){
+                $ass_tran_info["user_list"][$userid]=$userid;
+                @$ass_tran_info["num"] +=1;
+            }
+            @$ass_tran_info["money"] += $price-$real_refund;
+            @$ass_tran_info_info["refund_money"] += $real_refund;
+            @$ass_tran_info["order_money"] += $price;
+
+
+        }
+
+        foreach($cc_order_list as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item, 'order_time','_str'); 
+            \App\Helper\Utils::unixtime2date_for_item($item, 'apply_time','_str'); 
+            \App\Helper\Utils::unixtime2date_for_item($item, 'pay_time','_str'); 
+            $item["stu_nick"]= $this->cache_get_student_nick($item["userid"]);
+        }
+
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($cc_order_list),[
+            "ass_tran_info"  => @$ass_tran_info,
+        ]);
+
+
+
+    }
+
 
 
 

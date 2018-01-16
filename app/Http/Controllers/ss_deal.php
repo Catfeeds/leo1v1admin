@@ -7874,4 +7874,12 @@ class ss_deal extends Controller
         return $this->output_succ();
     }
 
+    public function get_admin_info_by_id(){
+        $uid = $this->get_in_int_val("adminid",-1);
+        $ret = $this->t_manager_info->get_detail_info($uid);
+        $ret['gender'] = E\Egender::get_desc($ret['gender']);
+        $ret['account_role'] = E\Eaccount_role::get_desc($ret['account_role']);
+        return $this->output_succ(["data" => $ret ]);
+    }
+
 }

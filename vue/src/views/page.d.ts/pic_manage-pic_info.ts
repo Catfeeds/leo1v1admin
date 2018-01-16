@@ -31,6 +31,7 @@ interface self_RowData {
 	time_type_str	:any;
 	usage_type_str	:any;
 	active_status	:any;
+	min_date	:any;
 
 }
 export  {self_RowData , self_Args  }

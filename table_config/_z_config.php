@@ -35,6 +35,7 @@ return array(
     ["db_weiyi","t_agent_cash_money_freeze","id"],
     ["db_weiyi","t_agent_group_member_result","id"],
     ["db_weiyi","t_teacher_salary_list","id"],
+    ["db_weiyi","t_teacher_simulate_salary_list","id"],
     ["db_weiyi_admin","t_web_page_info","web_page_id"],
     ["db_weiyi_admin","t_web_page_trace_log","id"],
     ["db_weiyi","t_luck_draw_yxyx_for_ruffian","id"],
@@ -295,7 +296,7 @@ return array(
     ["db_weiyi_admin","t_order_student_month_list","month","origin"] ,
     ["db_weiyi_admin","t_url_desc_power","id"] ,
     ["db_weiyi_admin","t_url_input_define","id"] ,
-
+    ["db_weiyi_admin","t_user_power_group","id"] ,
 
     ["db_account","t_phone_to_user","phone"] ,
     ["db_account","t_user_info","userid"] ,

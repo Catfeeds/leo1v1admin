@@ -185,4 +185,37 @@ class test_bacon extends Controller
     public function test_ajax_more(){
         return $this->Pageview(__METHOD__); 
     }
+
+    //
+    public function import_power(){
+        set_time_limit(3600); 
+        $user_power = $this->t_manager_info->get_all_users();
+        //dd($user_power);
+        $all = count($user_power);
+        if($user_power){
+            foreach( $user_power as $user){
+                $per_arr = $user['permission'] != '' ? explode(',',$user['permission']) : [];
+                //print_r($per_arr);
+                foreach($per_arr as $per){
+                    if($per != ''){
+                        $data = [
+                            'uid' => $user['uid'],
+                            'gid' => $per
+                        ];
+                        if(!$this->t_user_power_group->is_user_power_exit($user['uid'],$per)){
+                            $this->t_user_power_group->row_insert($data);
+                            echo "<font style='color:red'>".$user['uid']." 权限：".$per." 刚刚添加完毕"."</font>";
+                            echo "<br/>";
+                        }else{
+                            echo $user['uid']." 权限：".$per." 已添加";
+                            echo "<br/>";
+                        }
+                       
+                    }
+
+                }
+              
+            }
+        }
+    }
 }

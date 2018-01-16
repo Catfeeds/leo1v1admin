@@ -88,7 +88,7 @@ $(function(){
         $(".show_lesson_price").hide();
     }
 
-    if(g_args.g_adminid==780 || g_args.g_adminid==895){
+    if(g_adminid==780 || g_adminid==895){
         download_show();
     }
 
