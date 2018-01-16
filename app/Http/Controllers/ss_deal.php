@@ -7876,4 +7876,11 @@ class ss_deal extends Controller
         return $this->output_succ(["data" => $ret ]);
     }
 
+    public function get_assistant_info_by_id(){
+        $assistantid = $this->get_in_int_val("assistantid",-1);
+        $ret = $this->t_assistant_info->get_assistant_detail_info($assistantid);
+        $ret['gender'] = E\Egender::get_desc($ret['gender']);
+        return $this->output_succ(["data" => $ret ]);
+    }
+
 }

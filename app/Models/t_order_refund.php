@@ -8,7 +8,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         parent::__construct();
     }
 
-    public function get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,$is_test_user,$refund_userid,$require_adminid_list=[],$sys_operator,$has_money){
+    public function get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,$is_test_user,$refund_userid,$require_adminid_list=[],$sys_operator,$has_money,$assistant_nick){
         $where_arr = [
             ["refund_status=%u",$refund_type,-1],
             ["r.userid=%u",$userid,-1],
@@ -17,6 +17,10 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         if ($sys_operator !=""){
             $where_arr[]=sprintf( "(sys_operator like '%%%s%%'  )",
                                     $this->ensql($sys_operator));
+        }
+        if ($assistant_nick !=""){
+            $where_arr[]=sprintf( "(a.nick like '%%%s%%'  )",
+                                    $this->ensql($assistant_nick));
         }
         if ($has_money ==0) {
            $where_arr[]="o.price=0" ;
@@ -38,6 +42,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
             ." left join %s o on o.orderid=r.orderid"
             ." left join %s f on (f.flow_type=%u and r.orderid=f.from_key_int and r.apply_time = f.from_key2_int) "
             ." left join %s co on (co.parent_orderid = r.orderid and co.child_order_type = 2)"
+            ." left join %s a on s.assistantid = a.assistantid "
             ." where %s"
             ." order by $opt_date_str desc"
             ,self::DB_TABLE_NAME //r
@@ -46,6 +51,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
             ,t_flow::DB_TABLE_NAME
             ,E\Eflow_type::V_ASS_ORDER_REFUND
             ,t_child_order_info::DB_TABLE_NAME
+            ,t_assistant_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10);
