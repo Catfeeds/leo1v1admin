@@ -443,21 +443,21 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $now=time(NULL);
-        $start_time = 1516087680;
-        $end_time = 1516088580;
+        // $now=time(NULL);
+        // $start_time = 1516087680;
+        // $end_time = 1516088580;
         // $cmd= new \App\Console\Commands\sync_tq();
-        $cmd= new \App\Console\Commands\sync_tianrun();
-        $count=$cmd->load_data($start_time,$end_time);
-        dd($count);
+        // $cmd= new \App\Console\Commands\sync_tianrun();
+        // $count=$cmd->load_data($start_time,$end_time);
+        // dd($count);
         $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
         $post_arr=[
             "enterpriseId" => 3005131  ,
             "userName" => "admin" ,
             "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
             "seed" => "seed1",
-            "startTime" => '2018-01-11 00:00:00',
-            "endTime" => '2018-01-11 16:00:00',
+            "startTime" => '2018-01-16 15:28:08',
+            "endTime" => '2018-01-16 15:50:10',
         ];
         $post_arr["start"]  = 0;
         $post_arr["limit"]  = 1000;
@@ -469,8 +469,25 @@ class agent extends Controller
             $uniqueId= $item["uniqueId"];
             $cdr_answer_time = intval( preg_split("/\-/", $uniqueId)[1]);
             $id= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
+            $sipCause = $item['sipCause'];
+            $client_number = $item['clientNumber'];
+            $endReason = $item['endReason']=='是'?1:0;
             $ret = $this->t_tq_call_info->field_get_list($id, '*');
-            dd($ret);
+            if($ret['cause'] != $sipCause){
+                $arr['cause'] = $sipCause;
+            }
+            if($ret['client_number'] != $client_number){
+                $arr['client_number'] = $client_number;
+            }
+            if($ret['end_reason'] != $endReason){
+                $arr['end_reason'] = $endReason;
+            }
+            if(count($arr)>0){
+                $this->t_tq_call_info->field_update_list($id, $arr);
+            }
+            if($item['customerNumber'] == '13887223088'){
+                dd($ret,$item);
+            }
         }
         dd($data_list);
         dd(array_unique(array_column($data_list, 'sipCause')));
