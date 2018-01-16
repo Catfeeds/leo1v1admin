@@ -75,8 +75,10 @@ export default class vtable extends Vue {
     var do_funcion=function (  ){
       if (cur_index>=js_list.length ) {
         callback();
+        return ;
       }
      var js_file= domain + js_list[cur_index];
+      console.log("do load js:"+ js_file );
 
       me.loadScript( js_file , function(){
         cur_index++;
