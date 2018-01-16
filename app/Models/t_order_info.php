@@ -3866,14 +3866,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function get_cr_to_cc_order_num($start_time,$end_time){
         $where_arr = [
-            "contract_status <> 0 ",
-            "price > 0",
+            "o.contract_status <> 0 ",
+            "o.price > 0",
             "m.account_role = 2 ",
             "n.account_role = 1",
-            [' order_time > %u',$start_time,-1],
-            [' order_time < %u',$end_time,-1]
+            [' o.order_time > %u',$start_time,-1],
+            [' o.order_time < %u',$end_time,-1]
         ];
-        $sql = $this->gen_sql_new("select sum(price) as total_price, count(orderid) as total_num"
+        $sql = $this->gen_sql_new("select sum(o.price) as total_price, count(o.orderid) as total_num"
                                   ." from %s o  "
                                   ." left join %s m ON o.sys_operator = m.account "
                                   ." left join %s s ON o.userid = s.userid  "
@@ -4717,7 +4717,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
     //助教合同详情信息(薪资版本) 助教自签
-    public function get_assistant_performance_order_info($start_time,$end_time){
+    public function get_assistant_performance_order_info($start_time,$end_time,$adminid=-1,$contract_type=-1){
         $where_arr=[
             [  "o.order_time >= %u", $start_time, -1 ] ,
             [  "o.order_time <= %u", $end_time, -1 ] , 
@@ -4725,20 +4725,29 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "o.price >0",
             "o.contract_type in (0,3,3001)",
             "o.contract_status>0",
-            "s.is_test_user=0"
+            "s.is_test_user=0",
+            ["m.uid=%u",$adminid,-1]
         ];
+        if($contract_type==0){
+            $where_arr[]="o.contract_type =0";
+        }elseif($contract_type==3){
+            $where_arr[]="o.contract_type in (3,3001)";
+        }
+        $refund_end_time = $end_time+9*86400;
 
         $sql =$this->gen_sql_new("select  if(o.contract_type=3001,3,o.contract_type) contract_type,".
-                                 " o.price,rf.real_refund,m.uid,o.sys_operator,s.userid,o.orderid ".
+                                 " o.price,rf.real_refund,m.uid,o.sys_operator,s.userid,o.orderid, ".
+                                 " o.pay_time,rf.apply_time,o.order_time ".
                                  " from  %s o ".
                                  " left join %s m on o.sys_operator  = m.account".
                                  " left join %s s on s.userid=o.userid".
-                                 " left join %s rf on o.orderid = rf.orderid".
+                                 " left join %s rf on o.orderid = rf.orderid and rf.apply_time<=%u".
                                  " where %s ",
                                  self::DB_TABLE_NAME,
                                  t_manager_info::DB_TABLE_NAME,
                                  t_student_info::DB_TABLE_NAME,
                                  t_order_refund::DB_TABLE_NAME,
+                                 $refund_end_time,
                                  $where_arr
         );
 
@@ -4747,7 +4756,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
     //助教合同详情信息(薪资版本)  销售转介绍
-    public function get_seller_tran_order_info($start_time,$end_time){
+    public function get_seller_tran_order_info($start_time,$end_time,$adminid=-1){
         $where_arr=[
             [ "o.order_time >= %u", $start_time, -1 ] ,
             [ "o.order_time <= %u", $end_time, -1 ] ,
@@ -4755,19 +4764,23 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "m.account_role = 1 ",
             "o.price >0",
             "mm.account_role=2",
-            "s.is_test_user=0"
+            "s.is_test_user=0",
+            ["s.origin_assistantid=%u",$adminid,-1]
         ];
+        $refund_end_time = $end_time+9*86400;
         $sql = $this->gen_sql_new("select o.price,rf.real_refund,m.uid,o.sys_operator,s.userid,o.orderid "
+                                  ." o.pay_time,rf.apply_time,o.order_time "
                                   ." from %s o left join %s s on s.userid=o.userid "
                                   ." left join %s m on s.origin_assistantid = m.uid"
                                   ." left join %s mm on o.sys_operator = mm.account"
-                                  ." left join %s rf on o.orderid = rf.orderid"
+                                  ." left join %s rf on o.orderid = rf.orderid and rf.apply_time<=%u"
                                   ." where %s ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_order_refund::DB_TABLE_NAME,
+                                  $refund_end_time,
                                   $where_arr
         );
         return $this->main_get_list($sql);
@@ -4791,15 +4804,25 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
 
-    public function get_sys_operator_refund_info($one_year,$half_year,$three_month,$start_time,$end_time){
+    public function get_sys_operator_refund_info($one_year,$half_year,$three_month,$start_time,$end_time,$sys_operator,$account_role){
         $where_arr = [
             " price > 0 ",
             [" order_time > %s",$one_year,-1],
             [" order_time < %s",$end_time,-1],
             " s.is_test_user = 0 ",
-            " o.contract_status  in (1,2,3) "
+            " o.contract_status  in (1,2,3) ",
         ];
-
+        if ($sys_operator !=""){
+            $where_arr[]=sprintf( "(sys_operator like '%%%s%%'  )",
+                                    $this->ensql($sys_operator));
+        }
+        if($account_role == 1){
+            $where_arr[] = "m.account_role=1"; 
+        }elseif($account_role == 2){
+            $where_arr[] = "m.account_role=2"; 
+        }elseif($account_role == 3){
+            $where_arr[] = "( m.account_role != 1 and  m.account_role != 2)";
+        }
         $sql = $this->gen_sql_new("select sys_operator,m.uid,m.account_role as type,count(*) as one_year_num ,"
             ."  sum(if(order_time > $half_year , 1,0)) as half_year_num, "
             ."  sum(if(order_time > $three_month , 1,0)) as three_month_num,"
@@ -4810,7 +4833,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ."  sum(if((order_time > 1514736000 and contract_status = 3),1,0)) as one_month_refund_num"
             ." from %s o "
             ." left join %s s on s.userid = o.userid "
-            ." left join %s m on  m.name = sys_operator"
+            ." left join %s m on  m.account = sys_operator"
             ." where %s "
             ."group by sys_operator order by m.create_time desc",
             self::DB_TABLE_NAME,

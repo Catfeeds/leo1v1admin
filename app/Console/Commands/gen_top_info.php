@@ -129,6 +129,12 @@ class gen_top_info extends Command
         $test_lesson_fail_per = $test_lesson_list["list"];
         $test_lesson_all_count= [] ;
         $test_lesson_fail_count= [] ;
+
+        foreach($test_lesson_fail_per as $item){
+            if($item['admin_revisiterid'] == 1298){
+                echo $item['test_lesson_count']."\n";
+            }
+        }
         foreach($test_lesson_fail_per as &$item){
             $adminid=$item["admin_revisiterid"];
             $item["adminid"] = $adminid ;
@@ -137,8 +143,16 @@ class gen_top_info extends Command
             }else{
                 $item['value']=0;
             }
+            if($adminid == 1298){
+                echo $item['test_lesson_count']."\n";
+            }
             $test_lesson_all_count[]= [ "adminid" =>$adminid , "value"=> $item['test_lesson_count']  ] ;
             $test_lesson_fail_count[]= [ "adminid" =>$adminid , "value"=> $item['fail_all_count']  ] ;
+        }
+        foreach($test_lesson_all_count as $item){
+            if($item['adminid'] == 1298){
+                echo $item['value']."\n";
+            }
         }
         \App\Helper\Utils::order_list($test_lesson_fail_per,"value",1);
         \App\Helper\Utils::order_list($test_lesson_fail_count,"value",1);
@@ -148,6 +162,11 @@ class gen_top_info extends Command
         $this->task->t_tongji_seller_top_info->update_list(
             E\Etongji_type::V_SELLER_MONTH_FAIL_LESSON_COUNT
             ,$group_start_time,$test_lesson_fail_count);
+        foreach($test_lesson_all_count as $item){
+            if($item['adminid'] == 1298){
+                echo $item['value']."\n";
+            }
+        }
         $this->task->t_tongji_seller_top_info->update_list(
             E\Etongji_type::V_SELLER_MONTH_ALL_LESSON_COUNT,
             $group_start_time,$test_lesson_all_count);

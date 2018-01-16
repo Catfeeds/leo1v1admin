@@ -94,7 +94,12 @@
                         <td>{{@$var["user_nick"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
                         <td class="regular_total">
-                            <a class="regular-info" href="javascript:;" >{{@$var["regular_total"]/100}}</a>
+                            @if($account=="jack" || $account=="jim")
+                                <a class="regular-info" href="/human_resource/winter_regular_course?userid={{ $var["userid"] }}" target="_blank" >{{@$var["regular_total"]/100}}</a>
+                            @else
+                                {{@$var["regular_total"]/100}}
+                            @endif
+
                         </td>
                         <td>
                             <a class="opt-info" href="javascript:;" >{{@$var["lesson_total"]/100}}</a>
@@ -105,10 +110,9 @@
                         <td class="status">{{@$var["is_done_str"]}}</td>
                         <td>
                             <div class="row-data"
-                                {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>
-                                <a class=" fa-bars btn fa plan_regular_course" title="按常规课程排课"> </a>
 
                             </div>
                         </td>

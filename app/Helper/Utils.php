@@ -810,6 +810,42 @@ class Utils  {
         }
     }
 
+
+    /**
+     * 上传到私有盘
+     */
+    static public function qiniu_upload_private($file){
+        $qiniu     = \App\Helper\Config::get_config("qiniu");
+
+        $bucket    = $qiniu['private_url']['bucket'];
+        $accessKey = $qiniu['access_key'];
+        $secretKey = $qiniu['secret_key'];
+
+        // 构建鉴权对象
+        $auth = new \Qiniu\Auth ($accessKey, $secretKey);
+
+        // 上传到七牛后保存的文件名
+        $key = basename($file);
+
+        // 生成上传 Token
+        $token = $auth->uploadToken($bucket,$key);
+
+        // 初始化 UploadManager 对象并进行文件的上传。
+        $uploadMgr = new \Qiniu\Storage\UploadManager ();
+
+        // 调用 UploadManager 的 putFile 方法进行文件的上传。
+        list($ret, $err) = $uploadMgr->putFile($token, $key, $file);
+        if ($err !== null) {
+            return false;
+        } else {
+            return  $ret["key"];
+        }
+    }
+
+
+
+
+
     /**
      * 删除七牛文件
      * @param file    需要删除的文件名
@@ -2707,6 +2743,9 @@ class Utils  {
         $num = 0 ;
         $start_num = ($page_num['page_num'] - 1) * $page_num['page_count'];
         $end_num   = ($page_num['page_num'] ) * $page_num['page_count'];
+        if($ret == null){
+            $arr['list'] = [];
+        }
         foreach ($ret as $key => $value) {
             
             if($num == $start_num){

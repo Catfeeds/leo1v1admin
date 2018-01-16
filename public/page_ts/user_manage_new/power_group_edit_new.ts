@@ -336,8 +336,8 @@ $(function(){
                     data     :data,
                     success : function(result){                        
                         BootstrapDialog.alert(result['info']);
-                        if(result.ret = -1){
-                            //window.location.reload();
+                        if(result.ret == 0){
+                            window.location.reload();
                         }                 
                     }
                 });
@@ -375,10 +375,6 @@ $(function(){
                 },{
                     title:"角色",
                     field_name:"account_role_str"
-                },{
-                    title:"已有权限",
-                    width:80,
-                    field_name:"permission"
                 },{
                     title:"电话",
                     field_name:"phone"

@@ -2317,13 +2317,14 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             $where_arr[] = ["gender=%s", $gender, -1];
         }
         if(!empty($name_phone)){
-            $where_arr[] = sprintf( "name like '%s%%' or phone = %s ",
-                                    $this->ensql($name_phone),
-                                    $this->ensql($name_phone));
+            if(!is_numeric($name_phone)){
+                $where_arr[] = sprintf( "name like '%s%%' ",$this->ensql($name_phone));
+            }else{
+                $where_arr[] = sprintf( "phone = %s ",$this->ensql($name_phone));
+            }    
         }
 
-        //dd($where_str);
-        $sql = $this->gen_sql_new(" select uid as id,account,name,phone,gender,permission,account_role from %s where %s",
+        $sql = $this->gen_sql_new(" select uid as id,account,name,phone,gender,permission,account_role from %s where %s order by uid desc",
                                   self::DB_TABLE_NAME,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10);
@@ -2404,5 +2405,13 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         ];
         $sql = $this->gen_sql_new("select account_role from db_weiyi_admin.t_manager_info where  %s",$where_arr);
         return $this->main_get_value($sql);
+    }
+
+    public function get_detail_info($uid){
+        $where_arr = [
+            ['uid=%s',$uid,-1]
+        ];
+        $sql = $this->gen_sql_new("select gender,account_role,account,age from db_weiyi_admin.t_manager_info where %s ",$where_arr);
+        return $this->main_get_row($sql);
     }
 }

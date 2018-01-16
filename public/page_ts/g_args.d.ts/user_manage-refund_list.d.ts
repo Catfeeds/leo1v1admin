@@ -11,6 +11,8 @@ interface GargsStatic {
 	page_count:	number;
 	refund_userid:	number;
 	qc_flag:	number;
+	has_money:	number;
+	sys_operator:	string;
 	seller_groupid_ex:	string;
 }
 declare module "g_args" {
@@ -45,6 +47,8 @@ function load_data(){
 		is_test_user:	$('#id_is_test_user').val(),
 		refund_userid:	$('#id_refund_userid').val(),
 		qc_flag:	$('#id_qc_flag').val(),
+		has_money:	$('#id_has_money').val(),
+		sys_operator:	$('#id_sys_operator').val(),
 		seller_groupid_ex:	$('#id_seller_groupid_ex').val()
 		});
 }
@@ -72,6 +76,8 @@ $(function(){
 	$('#id_is_test_user').val(g_args.is_test_user);
 	$('#id_refund_userid').val(g_args.refund_userid);
 	$('#id_qc_flag').val(g_args.qc_flag);
+	$('#id_has_money').val(g_args.has_money);
+	$('#id_sys_operator').val(g_args.sys_operator);
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 
 
@@ -129,6 +135,22 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["qc_flag title", "qc_flag", "th_qc_flag" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">has_money</span>
+                <input class="opt-change form-control" id="id_has_money" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["has_money title", "has_money", "th_has_money" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">sys_operator</span>
+                <input class="opt-change form-control" id="id_sys_operator" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["sys_operator title", "sys_operator", "th_sys_operator" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
