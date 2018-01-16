@@ -863,7 +863,7 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
             ['start_time>=%u', $start_time, 0],
             ['start_time<%u', $end_time, 0]
         ];
-        $sql = $this->gen_sql_new("select count(phone) from %s where %s group by phone",
+        $sql = $this->gen_sql_new("select count(distinct phone) from %s where %s",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
