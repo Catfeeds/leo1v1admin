@@ -101,10 +101,10 @@ class test_jack  extends Controller
             $performance_cr_new_num  = @$ass_new_info[$k]["num"];
             $performance_cr_new_money  = @$ass_new_info[$k]["money"];
             $this->t_month_ass_student_info->get_field_update_arr($k,1512057500,1,[               
-                "performance_cr_renew_num"    =>$performance_cc_renew_num,
-                "performance_cr_renew_money"  =>$performance_cc_renew_money,
-                "performance_cr_new_num"      =>$performance_cc_new_num,
-                "performance_cr_new_money"    =>$performance_cc_new_money,
+                "performance_cr_renew_num"    =>$performance_cr_renew_num,
+                "performance_cr_renew_money"  =>$performance_cr_renew_money,
+                "performance_cr_new_num"      =>$performance_cr_new_num,
+                "performance_cr_new_money"    =>$performance_cr_new_money,
             ]);
 
         }
