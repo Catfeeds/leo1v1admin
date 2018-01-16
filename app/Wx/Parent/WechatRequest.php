@@ -169,6 +169,15 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
 
         }elseif($request['content'] == '知识库'){
             $content = "http://wx-parent.leo1v1.com/wx_parent/zhishiku";
+        }elseif($request['content'] == '转发'){
+            $userOpenid = $request['fromusername'];
+            $t_manager_info = new App\Models\t_manager_info;
+            $checkIsRole = $t_manager_info->checkIsRole($userOpenid);
+            if($checkIsRole == 1){
+                $content = "http://wx-parent.leo1v1.com";
+            }else{
+                $content = '';
+            }
         }
 
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
