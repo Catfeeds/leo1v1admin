@@ -67,7 +67,7 @@ class main_page extends Controller
         $opt_date_type = $this->get_in_int_val("opt_date_type",2);
         $history_data = $this->get_in_int_val('history_data');
         $nowTime = time();
-        $onlineTime = strtotime('2018-01-15');
+        $onlineTime = strtotime('2018-01-8');
         $sellerNumArr = [];
 
         if($opt_date_type == 2){
