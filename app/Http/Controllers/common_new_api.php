@@ -6,6 +6,9 @@ use \App\Enums as E;
 
 
 class common_new_api extends Controller{
+
+    var $check_login_flag = false;
+    //日志事件
     public function event_log(){
         //http://self.admin.leo1v1.com/common_new_api/event_log?project=origin&sub_project=tttt&event_name=start
         $project= trim( $this->get_in_str_val("project"));
@@ -19,7 +22,6 @@ class common_new_api extends Controller{
             "event_type_id" => $event_type_id,
             "value"         => 1,
         ]);
-
         return $this->output_succ();
 
     }
