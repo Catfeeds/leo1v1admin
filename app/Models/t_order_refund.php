@@ -8,12 +8,21 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         parent::__construct();
     }
 
-    public function get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,$is_test_user,$refund_userid,$require_adminid_list=[]){
+    public function get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,$is_test_user,$refund_userid,$require_adminid_list=[],$sys_operator,$has_money){
         $where_arr = [
             ["refund_status=%u",$refund_type,-1],
             ["r.userid=%u",$userid,-1],
             ["(s.is_test_user=%u or s.is_test_user is null )",$is_test_user,-1],
         ];
+        if ($sys_operator !=""){
+            $where_arr[]=sprintf( "(sys_operator like '%%%s%%'  )",
+                                    $this->ensql($sys_operator));
+        }
+        if ($has_money ==0) {
+           $where_arr[]="o.price=0" ;
+        }else if ($has_money ==1) {
+            $where_arr[]="o.price>0" ;
+        }
         $this->where_arr_add_int_field($where_arr,"refund_userid",$refund_userid);
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         $this->where_arr_adminid_in_list($where_arr,"refund_userid", $require_adminid_list );
@@ -571,20 +580,32 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_value($sql);
     }
 
-    public function get_sys_operator_apply_info($start_time,$end_time){
+    public function get_sys_operator_apply_info($start_time,$end_time,$sys_operator,$account_role){
         $where_arr = [
             [" apply_time > %s",$start_time,-1],
             [" apply_time < %s",$end_time,-1],
             " r.contract_type  != 1 ",
             " o.price > 0  ",
             " o.contract_status IN (1,2,3) ",
-            " s.is_test_user = 0 "
+            " s.is_test_user = 0 ",
+
         ];
+        if ($sys_operator !=""){
+            $where_arr[]=sprintf( "(sys_operator like '%%%s%%'  )",
+                                    $this->ensql($sys_operator));
+        }
+        if($account_role == 1){
+            $where_arr[] = "m.account_role=1"; 
+        }elseif($account_role == 2){
+            $where_arr[] = "m.account_role=2"; 
+        }elseif($account_role == 3){
+            $where_arr[] = "( m.account_role != 1 and m.account_role != 2)";
+        }
         $sql = $this->gen_sql_new("select sys_operator,m.uid,m.account_role as type, count(*) as apply_num "
                                 ." from %s  r "
                                 ." left join %s o on o.orderid = r.orderid "
                                 ." left join %s s on o.userid = s.userid "
-                                ." left join %s m on o.sys_operator = m.name "
+                                ." left join %s m on o.sys_operator = m.account "
                                 ." where %s "
                                 ." group by sys_operator order by max(apply_time) desc "
                                 ,self::DB_TABLE_NAME
@@ -594,6 +615,38 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                 ,$where_arr);
         return $this->main_get_list($sql,function($item){
             return $item['sys_operator'];
+        });
+    }
+
+    public function get_cr_apply_info($start_time,$end_time,$nick){
+        $where_arr = [
+            [" apply_time > %s",$start_time,-1],
+            [" apply_time < %s",$end_time,-1],
+            " r.contract_type  != 1 ",
+            " o.price > 0  ",
+            " o.contract_status IN (1,2,3) ",
+            " s.is_test_user = 0 ",
+
+        ];
+        
+        if ($nick !=""){
+            $where_arr[]=sprintf( "(a.nick like '%%%s%%'  )",
+                                    $this->ensql($nick));
+        }
+        $sql = $this->gen_sql_new("select s.assistantid,a.nick, count(*) as apply_num "
+                                ." from %s  r "
+                                ." left join %s o on o.orderid = r.orderid "
+                                ." left join %s s on o.userid = s.userid "
+                                ." left join %s a on a.assistantid = s.assistantid"
+                                ." where %s "
+                                ." group by s.assistantid order by max(apply_time) desc "
+                                ,self::DB_TABLE_NAME
+                                ,t_order_info::DB_TABLE_NAME
+                                ,t_student_info::DB_TABLE_NAME
+                                ,t_assistant_info::DB_TABLE_NAME
+                                ,$where_arr);
+        return $this->main_get_list($sql,function($item){
+            return $item['assistantid'];
         });
     }
 

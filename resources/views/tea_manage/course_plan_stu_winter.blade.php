@@ -94,8 +94,8 @@
                         <td>{{@$var["user_nick"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
                         <td class="regular_total">
-                            @if($account_role==12)
-                                <a class="regular-info" herf="/tea_manage/winter_regular_course?userid={{ $var["userid"] }}" >{{@$var["regular_total"]/100}}</a>
+                            @if($account=="jack" || $account=="jim")
+                                <a class="regular-info" href="/human_resource/winter_regular_course?userid={{ $var["userid"] }}" target="_blank" >{{@$var["regular_total"]/100}}</a>
                             @else
                                 {{@$var["regular_total"]/100}}
                             @endif
@@ -110,8 +110,9 @@
                         <td class="status">{{@$var["is_done_str"]}}</td>
                         <td>
                             <div class="row-data"
-                                {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
+                                <a class="fa fa-list course_plan" title="按课程包排课"> </a>
 
                             </div>
                         </td>

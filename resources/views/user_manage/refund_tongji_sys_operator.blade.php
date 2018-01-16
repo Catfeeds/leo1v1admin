@@ -33,38 +33,52 @@
                 <tr>
                     <td>下单人</td>
                     <td>类型</td>
-                    <td>近1年退费率</td>
-                    <td>近6月退费率</td>
-                    <td>近3月退费率</td>
 
-                    <td>当月退费率</td>
-                    <td>当月签约量</td>
-                    <td>当月退费量</td>
-                    <td>当月退费申请量</td>
+                     {!!\App\Helper\Utils::th_order_gen([
+                        ["近1年退费率","one_year_per" ],
+                        ["近6月退费率","half_year_per" ],
+                        ["近3月退费率","three_month_per" ],
+                        ["当月退费率","one_month_per"],
+                        ["当月签约量","one_month_num"],
+                        ["当月退费量","one_month_refund_num"],
+                        ["当月退费申请量","apply_num"],
+                       ])  !!}
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["sys_operator"]}} </td>
+                        <td >
+                        <a class="detail_info" data-userid="{{@$var['uid']}}">{!! @$var["sys_operator"] !!}</a></td>
                         <td>{{@$var["type_str"]}} </td>
-                        <td>{{@$var["one_year_per"]}}% 
+                        <td>
+                            {{@$var["one_year_per"]}}@if($var["one_year_per"] >0)%@endif
                             ( {{@$var['one_year_refund_num']}} /{{@$var['one_year_num']}}  )
                         </td>
-                        <td>{{@$var["half_year_per"]}}% 
+                        <td>{{@$var["half_year_per"]}}@if($var["half_year_per"] > 0)%@endif
                             ( {{@$var['half_year_refund_num']}} /{{@$var['half_year_num']}}  )
                         </td>
-                        <td>{{@$var["three_month_per"]}}% 
+                        <td>{{@$var["three_month_per"]}}@if(@$var["three_month_per"] > 0)%@endif
                             ( {{@$var['three_month_refund_num']}} /{{@$var['three_month_num']}}  )
                         </td>
-
-                        <td>{{@$var["one_month_per"]}}% 
+                        <td >
+                            @if($var['one_month_per'] == 0)
+                                {{@$var["one_month_per"]}}@if(@$var["one_month_per"]> 0)%@endif
+                            @else
+                                <a class="one_month" data-id="{{@$var['uid']}}">{{@$var["one_month_per"]}}</a> 
+                            @endif
                             ( {{@$var['one_month_refund_num']}} /{{@$var['one_month_num']}}  )
                         </td>
                         <td>{{@$var["one_month_num"]}} </td>
                         <td>{{@$var["one_month_refund_num"]}} </td>
-                        <td>{{@$var["apply_num"]}} </td>
+                        <td  >
+                            @if($var['apply_num'] == 0)
+                                {{@$var["apply_num"]}}
+                            @else
+                                <a class="apply_num" data-sys="{{@$var['sys_operator']}}" > {{@$var["apply_num"]}}</a>
+                            @endif
+                        </td>
 
                         <td>
                             <div

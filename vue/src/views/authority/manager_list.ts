@@ -243,7 +243,7 @@ export default class extends vtable {
       "field_name" : "has_question_user",
       "title" : "题库用户",
       "select_value" : this.get_args().has_question_user,
-      "multi_select_flag"     : false,
+      "multi_select_flag"     : true,
       "btn_id_config"     : {},
     });
 

@@ -952,9 +952,6 @@ class user_manage extends Controller
         return outputjson_success();
     }
 
-    /**
-     * 
-     */
     public function get_user_list()
     {
         $type        = $this->get_in_str_val("type","teacher");
@@ -1341,15 +1338,16 @@ class user_manage extends Controller
         $is_test_user  = $this->get_in_int_val('is_test_user',0);
         $page_num      = $this->get_in_page_num();
         $refund_userid = $this->get_in_int_val("refund_userid", -1);
-        $qc_flag = $this->get_in_int_val("qc_flag", 1);
+        $qc_flag       = $this->get_in_int_val("qc_flag", 1);
+        $has_money         = $this->get_in_int_val("has_money",-1);
+        $sys_operator  = trim($this->get_in_str_val("sys_operator",""));
 
         $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $adminid_right        = $this->get_seller_adminid_and_right();
         $acc                  = $this->get_account();
 
-        $ret_info = $this->t_order_refund->get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,
-                                                                 $is_test_user,$refund_userid,$require_adminid_list);
+        $ret_info = $this->t_order_refund->get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,$is_test_user,$refund_userid,$require_adminid_list,$sys_operator,$has_money);
         $refund_info = [];
         foreach($ret_info['list'] as &$item){
             $item['deal_nick'] = $this->cache_get_account_nick($item['qc_adminid']);
@@ -3243,54 +3241,70 @@ class user_manage extends Controller
     public function refund_tongji_sys_operator(){
         $this->check_and_switch_tongji_domain();
         list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],3 );
-        $sys_operator = $this->get_in_str_val("sys_operator","");
+        $sum_field_list=[
+            "one_year_per",
+            "half_year_per",
+            "three_month_per",
+            "one_month_per",
+            "one_month_num",
+            "one_month_refund_num",
+            "apply_num",
+        ];
+        $order_field_arr=  $sum_field_list ;
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str($order_field_arr ,"");
+        $sys_operator = trim($this->get_in_str_val("sys_operator",""));
         $account_role = $this->get_in_int_val("account_role",-1);
         $page_num     = $this->get_in_page_num();
         $end_date     = date("Y-m-d H:i:s",$end_time);
-        $one_year     = strtotime("$end_date -1 year"); 
-        $half_year    = strtotime("$end_date -6 month");
-        $three_month  = strtotime("$end_date -3 month");
+        $start_time = $start_time > 1451577600 ? $start_time:1451577600;
+        $one_year     = strtotime("$end_date -1 year") > 1451577600 ? strtotime("$end_date -1 year") :  1451577600; 
+        $half_year    = strtotime("$end_date -6 month") > 1451577600 ? strtotime("$end_date -6 month") :1451577600;
+        $three_month  = strtotime("$end_date -3 month") > 1451577600 ? strtotime("$end_date -3 month") : 1451577600;
 
-        $ret          = $this->t_order_refund->get_sys_operator_apply_info($start_time,$end_time);
-        $ret_info     = $this->t_order_info->get_sys_operator_refund_info($one_year,$half_year,$three_month,$start_time,$end_time);
+        $ret          = $this->t_order_refund->get_sys_operator_apply_info($start_time,$end_time,$sys_operator,$account_role);
+        $ret_info     = $this->t_order_info->get_sys_operator_refund_info($one_year,$half_year,$three_month,$start_time,$end_time,$sys_operator,$account_role);
 
-        foreach ($ret as $key => &$value) {
-            $value['one_year_num'] = 0;
-            $value['half_year_num'] = 0;
-            $value['three_month_num'] = 0;
-            $value['one_month_num'] = 0;
+        foreach ($ret as $key => &$val) {
+            $val['one_year_num'] = 0;
+            $val['half_year_num'] = 0;
+            $val['three_month_num'] = 0;
+            $val['one_month_num'] = 0;
 
-            $value['one_year_refund_num'] = 0;
-            $value['half_year_refund_num'] = 0;
-            $value['three_month_refund_num'] = 0;
-            $value['one_month_refund_num'] = 0;
+            $val['one_year_refund_num'] = 0;
+            $val['half_year_refund_num'] = 0;
+            $val['three_month_refund_num'] = 0;
+            $val['one_month_refund_num'] = 0;
         }
         foreach ($ret_info as $key => $value) {
-
-            if($key == "袁兴运" || $key == "吴峰"){
-                var_dump($value);
-            }
-            if(isset($ret[$key])){//添加
+            if(array_key_exists($key,$ret)){//添加
                 $ret[$key]['one_year_num'] = $value['one_year_num'];
                 $ret[$key]['half_year_num'] = $value['half_year_num'];
                 $ret[$key]['three_month_num'] = $value['three_month_num'];
                 $ret[$key]['one_month_num'] = $value['one_month_num'];
-
                 $ret[$key]['one_year_refund_num'] = $value['one_year_refund_num'];
                 $ret[$key]['half_year_refund_num'] = $value['half_year_refund_num'];
                 $ret[$key]['three_month_refund_num'] = $value['three_month_refund_num'];
                 $ret[$key]['one_month_refund_num'] = $value['one_month_refund_num'];
-
                 if(!isset($ret[$key]['apply_num']) ||$ret[$key]['apply_num'] == '' ){
                    $ret[$key]['apply_num'] = 0; 
                 }
-            }else{
-                $ret[$key] = $value;
+            }else{//add
+                $ret[$key] = [];
+                $ret[$key]['uid'] = $value['uid'];
+                $ret[$key]['type'] = $value['type'];
+                $ret[$key]['sys_operator'] = $value['sys_operator'];
+                $ret[$key]['one_year_num'] = $value['one_year_num'];
+                $ret[$key]['half_year_num'] = $value['half_year_num'];
+                $ret[$key]['three_month_num'] = $value['three_month_num'];
+                $ret[$key]['one_month_num'] = $value['one_month_num'];
+                $ret[$key]['one_year_refund_num'] = $value['one_year_refund_num'];
+                $ret[$key]['half_year_refund_num'] = $value['half_year_refund_num'];
+                $ret[$key]['three_month_refund_num'] = $value['three_month_refund_num'];
+                $ret[$key]['one_month_refund_num'] = $value['one_month_refund_num'];
                 $ret[$key]['apply_num'] = 0;
             }
         }
-
-        //deal
         foreach ($ret as $key => &$value) {
             if($value['type'] == 1){
                 $value['type_str'] = "助教";
@@ -3299,13 +3313,21 @@ class user_manage extends Controller
             }else{
                 $value['type_str'] = "其他";
             }
-            $value['one_year_per'] = $value['one_year_num'] > 0? round(100*$value['one_year_refund_num']/$value['one_year_num'],2) : 0;
-            $value['half_year_per'] = $value['half_year_num'] > 0? round(100*$value['half_year_refund_num']/$value['half_year_num'],2) : 0;
-            $value['three_month_per'] = $value['three_month_num'] > 0? round(100*$value['three_month_refund_num']/$value['three_month_num'],2) : 0;
-            $value['one_month_per'] = $value['one_month_num'] > 0? round(100*$value['one_month_refund_num']/$value['one_month_num'],2) : 0;
+            $value['one_year_per'] = ($value['one_year_num'] > 0 && $value['one_year_refund_num'] > 0) ? round(100*$value['one_year_refund_num']/$value['one_year_num'],2) : 0;
+            $value['half_year_per'] = ( $value['half_year_num'] > 0 && $value['half_year_refund_num']) ? round(100*$value['half_year_refund_num']/$value['half_year_num'],2) : 0;
+            $value['three_month_per'] = ( $value['three_month_num'] > 0 && $value['three_month_refund_num']) ? round(100*$value['three_month_refund_num']/$value['three_month_num'],2): 0;
+            $value['one_month_per'] = ($value['one_month_num'] > 0 && $value['one_month_refund_num'])? round(100*$value['one_month_refund_num']/$value['one_month_num'],2) : 0;
         }
-        dd($ret);
         $ret_arr = \App\Helper\Utils::array_to_page($page_num,$ret);
+        if($sys_operator != ''){
+            foreach($ret_arr['list'] as $key => &$item){
+                $item['sys_operator'] = str_replace($sys_operator,"<font color=red>$sys_operator</font>",$item['sys_operator']);
+            }
+        }
+        //dd($ret_arr);
+        if (!$order_in_db_flag) {
+            \App\Helper\Utils::order_list( $ret_arr["list"], $order_field_name, $order_type );
+        }
         return $this->Pageview(__METHOD__,$ret_arr);
     }
 
@@ -3314,7 +3336,36 @@ class user_manage extends Controller
      * function : 退费统计-助教
      */
     public function refund_tongji_cr(){
-        dd(2);
+        $this->check_and_switch_tongji_domain();
+        list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],3 );
+        $sum_field_list=[
+            "one_year_per",
+            "half_year_per",
+            "three_month_per",
+            "one_month_per",
+            "one_month_num",
+            "one_month_refund_num",
+            "apply_num",
+        ];
+        $order_field_arr=  $sum_field_list ;
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str($order_field_arr ,"");
+        $nick = trim($this->get_in_str_val("name",""));
+        $page_num     = $this->get_in_page_num();
+        $end_date     = date("Y-m-d H:i:s",$end_time);
+        $start_time = $start_time > 1451577600 ? $start_time:1451577600;
+        $one_year     = strtotime("$end_date -1 year") > 1451577600 ? strtotime("$end_date -1 year") :  1451577600; 
+        $half_year    = strtotime("$end_date -6 month") > 1451577600 ? strtotime("$end_date -6 month") :1451577600;
+        $three_month  = strtotime("$end_date -3 month") > 1451577600 ? strtotime("$end_date -3 month") : 1451577600;
+
+        $ret          = $this->t_order_refund->get_cr_apply_info($start_time,$end_time,$nick);
+        $ret_info     = $this->t_order_info->get_cr_refund_info($one_year,$half_year,$three_month,$start_time,$end_time,$nick);
+
+
+        dd($ret,$ret_info);
+
+
+
     }
 
 
