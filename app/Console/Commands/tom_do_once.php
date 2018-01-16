@@ -184,8 +184,8 @@ class tom_do_once extends Command
                     "userName" => "admin" ,
                     "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
                     "seed" => "seed1",
-                    "startTime" => '2018-01-06 00:00:00',
-                    "endTime" => '2018-01-06 01:00:00',
+                    "startTime" => date('Y-m-d H:i:s',$start_time_new),
+                    "endTime" => date('Y-m-d H:i:s',$end_time_new),
                 ];
                 $post_arr["start"]  = 0;
                 $post_arr["limit"]  = 1000;
