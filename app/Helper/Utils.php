@@ -757,7 +757,7 @@ class Utils  {
             $end_time   = $item["lesson_end"]+300;
             for( $logtime= $start_time;$logtime <$end_time; $logtime+=300) {
                 if (isset ( $ret_list  [ $logtime] ) ) {
-                    $ret_list  [ $logtime][1] ++;
+                    $ret_list  [ $logtime]["value"][1] ++;
                 }
             }
         }
