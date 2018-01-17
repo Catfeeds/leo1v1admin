@@ -1499,9 +1499,14 @@ class stu_manage extends Controller
             }
             $pre_rate = $cw_num==0?0:round($pre_num/$cw_num*100,2);
             return $this->pageView(__METHOD__,$ret_info,[
-                "pre_rate"=>$pre_rate
+                "pre_rate"=>$pre_rate,
+                "subject_list"=>$subject_arr,
+                "grade_list"=>$grade_arr,
             ]);
         }elseif($current_id==2){
+            $ret_info = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade);
+            dd($ret_info);
+
             
         }elseif($current_id==3){
             

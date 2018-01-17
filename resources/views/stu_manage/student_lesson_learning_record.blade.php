@@ -1,5 +1,10 @@
 @extends('layouts.stu_header')
 @section('content')
+    <script type="text/javascript" >
+     var g_subject_list= <?php  echo json_encode(@$subject_list); ?> ;
+     var g_grade_list= <?php  echo json_encode(@$grade_list); ?> ;
+    </script>
+
     <section class="content ">
         <div >
             <img src="https://ybprodpub.leo1v1.com/a3062c52cafb042250b3dddd2f5317b11516177228556.png"  alt="汇总"  id="id_show_all"  style="float:right;margin-right:-10px" title="汇总"  />
