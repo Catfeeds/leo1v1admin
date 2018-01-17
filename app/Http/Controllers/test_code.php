@@ -293,45 +293,71 @@ class test_code extends Controller
         \App\Helper\Utils::sms_common($phone, $type, $data);
     }
 
-    public function add_lesson_all_money(){
-        $month = $this->get_in_str_val("month","2017-1");
-        $month_time = strtotime($month);
-        $month_arr  = \App\Helper\Utils::get_month_range($month_time,true);
+    public function show_lesson_all_money(){
+        $month      = $this->get_in_int_val("month",1);
+        $month_str  = "2017-".$month;
+        $month_time = strtotime($month_str);
+        $month_time = \App\Helper\Utils::get_month_range($month_time,true);
 
-        $lesson_list = $this->t_lesson_info_b3->get_lesson_list_for_all_money($month_arr['sdate'],$month_arr['edate']);
-        foreach($lesson_list as $val){
-            $data = [];
-            $lessonid           = $val['lessonid'];
-            $teacherid          = $val['teacherid'];
-            $lesson_type        = $val['lesson_type'];
-            $userid             = $val['userid'];
-            $confirm_flag       = $val['confirm_flag'];
-            $teacher_money_type = $val['teacher_money_type'];
+        $list = $this->t_lesson_all_money_list->get_lesson_all_money_list($month_time['sdate'],$month_time['edate']);
+        echo "用户id|学生|科目|年级|课程类型|课时不对|课程表课时|课时|付费课时|赠送课时|课时收入|老师课时费|老师课时奖励|是否为全职老师|课程确认|课程扣款";
+        $show_list = [];
+        foreach($list as $val){
+            $lessonid     = $val['lessonid'];
+            $lesson_count = $val['lesson_count'];
+            //课时收入
+            $val['lesson_price'] = $lesson_count*$val['per_price'];
+            //赠送课时
+            $val['free_lesson_count']   = 0;
+            //付费课时
+            $val['normal_lesson_count'] = 0;
 
-            $teacher_type = $val['l_teacher_type']==0?$val['t_teacher_type']:$val['l_teacher_type'];
-            $orderid      = $val['orderid']>0?$val['orderid']:0;
-            $per_price    = $val['per_price']>0?$val['per_price']:0;
-            $lesson_count = $val['ol_lesson_count']>0?$val['ol_lesson_count']:$val['l_lesson_count'];
+            if($val['per_price']==0){
+                $val['free_lesson_count'] = $lesson_count;
+            }else{
+                $val['normal_lesson_count'] = $lesson_count;
+            }
 
-            $data = [
-                "lessonid"           => $lessonid,
-                "orderid"            => $orderid,
-                "userid"             => $userid,
-                "teacherid"          => $teacherid,
-                "lesson_type"        => $lesson_type,
-                "lesson_count"       => $lesson_count,
-                "per_price"          => $per_price,
-                "confirm_flag"       => $confirm_flag,
-                "teacher_type"       => $teacher_type,
-                "teacher_money_type" => $teacher_money_type,
-                "add_time"           => $month_time,
-            ];
-
-            if(!empty($data)){
-                $this->t_lesson_all_money_list->row_insert($data);
+            if(isset($show_list[$lessonid])){
+                $show_list[$lessonid]['free_lesson_count']   += $val['free_lesson_count'];
+                $show_list[$lessonid]['normal_lesson_count'] += $val['normal_lesson_count'];
+                $show_list[$lessonid]['lesson_price']        += $val['lesson_price'];
+            }else{
+                $show_list[$lessonid]=$val;
             }
         }
-        echo "succ";
+
+        foreach($show_list as $s_val){
+            $stu_nick     = $s_val['stu_nick'];
+            $subject      = E\Esubject::get_desc($s_val['subject']);
+            $grade        = E\Esubject::get_desc($s_val['grade']);
+            $lesson_type  = E\Econtract_type::get_desc($s_val['lesson_type']);
+            $lesson_count = $s_val['free_lesson_count']+$s_val['normal_lesson_count'];
+            $l_lesson_count = $s_val['l_lesson_count'];
+            if($lesson_count!=$l_lesson_count){
+                $error_lesson_count=1;
+            }else{
+                $error_lesson_count=0;
+            }
+            $lesson_price               = $s_val['lesson_price'];
+            $teacher_base_money         = $s_val['teacher_base_money'];
+            $teacher_lesson_count_money = $s_val['teacher_lesson_count_money'];
+            $teacher_money_type         = $s_val['teacher_money_type'];
+            $teacher_type               = $s_val['teacher_type'];
+            $teacherid                  = $s_val['teacherid'];
+            $check_is_full = \App\Helper\Utils::check_teacher_is_full($teacher_money_type, $teacher_type, $teacherid);
+            $confirm_flag = $s_val['confirm_flag'];
+
+            echo $userid."|".$stu_nick."|".$subject."|".$grade."|".$lesson_type."|".$error_lesson_count."|".$l_lesson_count
+                        ."|".$lesson_count."|".$s_val['normal_lesson_count']."|".$s_val['free_lesson_count']."|".$lesson_price
+                        ."|".$teacher_base_money."|".$teacher_lesson_count_money."|".$check_is_full."|".$confirm_flag
+                        ."|".$s_val['teacher_lesson_cost'];
+            echo "<br>";
+        }
     }
+
+
+
+
 
 }
