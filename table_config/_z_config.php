@@ -257,6 +257,7 @@ return array(
     ["db_weiyi","t_student_subject_list","userid","subject"] ,
     ["db_weiyi","t_period_repay_list","orderid","period"] ,
     ["db_weiyi","t_version_control","id"] ,
+    ["db_weiyi","t_sub_grade_book_tag","id"] ,
 
 
     ["db_weiyi_admin","t_upload_info","postid"] ,

@@ -80,7 +80,8 @@ class resource extends Controller
         $sub_grade_info = $this->get_rule_range();
 
         //获取所有开放的教材版本
-        $book = $this->t_resource_agree_info->get_all_resource_type();
+        //$book = $this->t_resource_agree_info->get_all_resource_type();
+        $book = $this->t_resource_agree_info->get_all_resource_type($resource_type, $subject, $grade);
         $book_arr = [];
         foreach($book as $v) {
             if( $v['tag_one'] != 0 ){
@@ -90,6 +91,7 @@ class resource extends Controller
 
         // dd($sub_grade_info);
         return $this->pageView( __METHOD__,$ret_info,[
+            '_publish_version'    => 201801161519,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -113,6 +115,149 @@ class resource extends Controller
 
         return $this->output_succ(['book' => $book_arr]);
     }
+
+    //根据科目、年级、教材获取学科标签
+    public function get_sub_grade_book_tag(){
+        $subject       = $this->get_in_int_val('subject');
+        $grade         = $this->get_in_int_val('grade');
+        $textbook      = trim($this->get_in_str_val('textbook'));
+        
+    }
+
+    //学科化标签
+    public function sub_grade_book_tag(){
+        $subject       = $this->get_in_int_val('subject',1);
+        $grade         = $this->get_in_int_val('grade',201);
+        $bookid      = $this->get_in_int_val('bookid',4);
+        $page_num        = $this->get_in_page_num();
+
+        $book = $this->t_resource_agree_info->get_all_resource_type(-1, $subject, $grade);
+
+        if(!$book){
+            $book = [3,4,12,15,16,29,50000];
+        }
+
+        $ret_info = $this->t_sub_grade_book_tag->get_list($subject,$grade,$bookid,$page_num);
+        if($ret_info){
+            foreach($ret_info['list'] as &$var){
+                $var['subject_str'] = E\Esubject::get_desc($var['subject']);
+                $var['grade_str'] = E\Egrade::get_desc($var['grade']);
+                $var['book_str'] = E\Eregion_version::get_desc($var['bookid']);
+            }
+        }
+        return $this->pageView( __METHOD__,$ret_info,[
+            '_publish_version'    => 201801161519,
+            'book'          => json_encode($book),
+        ]);
+    }
+
+    public function get_book_by_grade_sub(){
+        $subject       = $this->get_in_int_val('subject',1);
+        $grade         = $this->get_in_int_val('grade',201);
+        $book = $this->t_resource_agree_info->get_all_resource_type(-1, $subject, $grade);
+
+        if(!$book){
+            $book = [3,4,12,15,16,29,50000];
+        }
+
+        return $this->output_succ(['book' => $book]);
+    }
+
+    public function batch_add_sub_grade_tag(){
+        $subject       = $this->get_in_int_val('subject');
+        $grade         = $this->get_in_int_val('grade');
+        $bookid        = $this->get_in_int_val('bookid');
+
+        $tag_arr       = $this->get_in_str_val('tag_arr');
+   
+        $data = [
+            'subject'  => $subject,
+            'grade'    => $grade,
+            'bookid'   => $bookid,
+            'tag'      => ''
+        ];
+        $i = 0;
+        $all = count($tag_arr);
+        if( is_array($tag_arr) || count($tag_str) > 0){
+            foreach($tag_arr as $tag){
+                if(!empty($tag)){
+                    $data['tag'] = trim($tag);
+                    $info = $this->add_each_sub_tag($data);
+                    $info == 1 ? $i += 1 : '';
+                }
+            }
+        }
+        return $this->output_succ('总共添加条数：'.$all.' 添加成功条数：'.$i);
+    }
+
+    public function add_sub_grade_tag(){
+        $subject       = $this->get_in_int_val('subject');
+        $grade         = $this->get_in_int_val('grade');
+        $bookid         = $this->get_in_int_val('bookid');
+        $tag         = trim($this->get_in_str_val('tag'));
+
+        $data = [
+            'subject'  => $subject,
+            'grade'    => $grade,
+            'bookid'   => $bookid,
+            'tag'      => $tag
+        ];
+
+        $info = $this->add_each_sub_tag($data);
+        return $this->output_succ('添加成功');
+    }
+
+    public function edit_sub_grade_tag(){
+        $id       = $this->get_in_int_val('id');
+        $subject       = $this->get_in_int_val('subject');
+        $grade         = $this->get_in_int_val('grade');
+        $bookid         = $this->get_in_int_val('bookid');
+        $tag         = trim($this->get_in_str_val('tag'));
+
+        $data = [
+            'subject'  => $subject,
+            'grade'    => $grade,
+            'bookid'   => $bookid,
+            'tag'      => $tag
+        ];
+
+        if(!$this->t_sub_grade_book_tag->is_can_edit_tag($id,$data)){
+            $this->t_sub_grade_book_tag->field_update_list($id,$data);
+            return $this->output_succ('编辑成功');
+        }else{
+            return $this->output_succ('编辑失败');
+        };
+    }
+
+    public function batch_dele_sub_grade_tag(){
+        $id_str = $this->get_in_str_val('id_str');
+        if($id_str){
+            $id_str = "(".$id_str.")";
+            $this->t_sub_grade_book_tag->batch_dele_tag($id_str);
+        }
+        return $this->output_succ('删除成功');
+    }
+
+    public function dele_sub_grade_tag(){
+        $id = $this->get_in_int_val('id');
+        $this->t_sub_grade_book_tag->dele_tag($id);
+        return $this->output_succ('删除成功');
+    }
+
+    //添加单条学科化标签
+    private function add_each_sub_tag($data){
+        
+        if(!$this->t_sub_grade_book_tag->is_can_add_tag($data)){
+            if($this->t_sub_grade_book_tag->row_insert($data)){
+                return 1;
+            }else{
+                return 2;
+            };
+        }else{
+            return 0;
+        }
+    }
+
 
     public function get_rule_range(){
 
