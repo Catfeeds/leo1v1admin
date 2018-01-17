@@ -32,7 +32,7 @@ class t_log_event_log extends \App\Models\Zgen\z_t_log_event_log
         $where_arr=[];
 
         $this->where_arr_add_int_or_idlist($where_arr,"event_type_id" , $event_type_id);
-        $this->where_arr_add_time_range($where_arr, "logtime", $start_time, $end_time);
+        //$this->where_arr_add_time_range($where_arr, "logtime", $start_time, $end_time);
         $sql=$this->gen_sql(
             "select *  "
             ." from  %s "
