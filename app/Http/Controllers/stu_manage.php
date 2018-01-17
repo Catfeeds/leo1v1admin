@@ -1440,6 +1440,37 @@ class stu_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+
+    public function student_lesson_learning_record(){
+        $userid       = $this->sid;
+        #分页信息
+        $page_info= $this->get_in_page_info();
+        #排序信息
+        list($order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str([],"adminid desc");
+
+        #输入参数 
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $subject = $this->get_in_subject();
+        $grade = $this->get_in_int_val("grade",-1);
+        $current_id = $this->get_in_int_val("current_id",1);
+        if($current_id==1){
+            $ret_info = $this->t_lesson_info_b3->get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade); 
+            dd($ret_info);
+        }elseif($current_id==2){
+            
+        }elseif($current_id==3){
+            
+        }elseif($current_id==4){
+            
+        }elseif($current_id==5){
+            
+        }
+
+        return $this->pageView(__METHOD__);
+
+    }
+
     
 }
 
