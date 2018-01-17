@@ -173,6 +173,7 @@ $(function(){
         $("#id_grade").val(-1);
         window["g_load_data_flag"] = 0;
         load_data();
+        
     });
 
     $("#id_subject_show").on("click",function(){
@@ -185,6 +186,9 @@ $(function(){
     $(".show_cw_content").on("click",function(){
         var url = $(this).data("url");
         $.wopen(url); 
+    });
+    $("#id_show_all").on("click",function(){
+        alert(111);
     });
 
 

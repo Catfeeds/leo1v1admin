@@ -1,7 +1,10 @@
 @extends('layouts.stu_header')
 @section('content')
     <section class="content ">
-        <table border="1" bordercolor="#d5d5d5" cellspacing="0" width="100%" height="30px" style="border-collapse:collapse;margin-top:20px"  class="stu_tab04" >
+        <div >
+            <img src="https://ybprodpub.leo1v1.com/a3062c52cafb042250b3dddd2f5317b11516177228556.png"  alt="汇总"  id="id_show_all"  style="float:right;margin-right:-10px" title="汇总"  />
+        </div>
+        <table border="1" bordercolor="#d5d5d5" cellspacing="0" width="100%" height="30px" style="border-collapse:collapse;margin-top:30px"  class="stu_tab04" >
             <tr align="center">
                 <td class="current" width="20%" data-id="1"><a href="javascript:;" style="color:#000" >课前预习</a></td>
                 <td width="20%" data-id="2"><a href="javascript:;" style="color:#000" >课堂情况</a></td>
