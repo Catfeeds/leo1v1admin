@@ -585,14 +585,10 @@
                 this.select_value = this.select_obj.get_select_value();
             }
 
-            if (this.select_value[0]==-1 ) {
-                return null;
-            }else{
-                var field_name= this.field_name;
-                var ret={};
-                ret[field_name ]=this.select_value.join(",");
-                return  ret;
-            }
+            var ret={};
+            var field_name= this.field_name;
+            ret[field_name ]=this.select_value.join(",");
+            return  ret;
         },
         get_query_info:function() {
             var me= this;
@@ -723,14 +719,10 @@
 
         get_query_args:function () {
 
-            if (this.select_value=="" ) {
-                return null;
-            }else{
-                var field_name= this.field_name;
-                var ret={};
-                ret[field_name ]=this.$input.val() ;
-                return  ret;
-            }
+            var ret={};
+            var field_name= this.field_name;
+            ret[field_name ]=this.$input.val() ;
+
         },
         get_query_info:function() {
             var me= this;
@@ -952,14 +944,10 @@
 
         get_query_args:function () {
             var val=this.$input.val() ;
-            if (val ==-1 ) {
-                return null;
-            }else{
-                var field_name= this.field_name;
-                var ret={};
-                ret[field_name ]= val;
-                return  ret;
-            }
+            var field_name= this.field_name;
+            var ret={};
+            ret[field_name ]= val;
+            return  ret;
         },
 
         get_query_info:function(){
@@ -1187,14 +1175,10 @@
 
         get_query_args:function () {
             var val=this.$input.val() ;
-            if (val ==-1 ) {
-                return null;
-            }else{
-                var field_name= this.field_name;
-                var ret={};
-                ret[field_name ]= val;
-                return  ret;
-            }
+            var field_name= this.field_name;
+            var ret={};
+            ret[field_name ]= val;
+            return  ret;
         },
 
         get_query_info:function(){
@@ -1211,6 +1195,232 @@
     //在插件中使用对象
     $.admin_ajax_select_dlg_ajax  = function(options) {
        return new  Cadmin_ajax_select_ajax (  options);
+    };
+
+})(jQuery, window, document);
+
+
+
+(function($, window, document,undefined) {
+
+    var Cgroup = function(opt) {
+
+        var me =this;
+        this.defaults = {
+            "join_header" : null,
+            "field_name"  :null,
+            "title"  :  "",
+            "length_css" : "col-xs-6 col-md-2",
+            "as_header_query" : false ,
+            "select_value" :null,
+        };
+
+        this.options = $.extend({}, this.defaults, opt);
+        this.menu_item_select_css="select";
+        this.title= this.options.title;
+        this.select_value= this.options.select_value;
+        me.header_query = this.options.join_header;
+
+        me.list_type =  me.header_query .list_type;
+        this.field_name= this.options.field_name;
+
+        this.options.onChange=function() {
+            me.header_query.query();
+        };
+
+        var title_str="";
+        if (this.list_type==0) {
+            title_str= '<span style="display:table-cell;">'+ this.title +'    </span>';
+        }
+
+
+        this.$ele=  $(
+            '<div class="'+me.options.length_css +'">'
+                +'<div class="input-group ">'
+                + title_str
+                +'<input class="form-control"  type="text">'
+                +'</div>'
+                +'</div>'
+        );
+
+        if ( this.list_type ==1 && !this.options.as_header_query ){
+            this.$ele.css( {
+                "padding-left": "0px"
+            });
+        }
+
+
+        this.$input=this.$ele.find("input");
+        this.$input.val(this.options.select_value);
+
+        this.$input.on("keypress",function(e){
+            if(e.which==13) {
+                me.header_query.query();
+            }
+        } );
+        this.$input.init_seller_groupid_ex(null, function(){
+            me.header_query.query();
+        });
+
+      //加入到列表
+      this.header_query.add(this);
+
+    };
+
+    //定义方法
+    Cgroup.prototype = {
+        get_title :function() {
+            return this.title ;
+        },
+        //是否作为头部查询
+        get_as_header_query:function() {
+            return this.options.as_header_query;
+        },
+
+        set_query_arg_clean(){
+            return   ;
+        },
+
+        get_show_flag:function() {
+            return this.$input.val() != -1;
+        },
+
+        get_query_args:function () {
+            var val=this.$input.val() ;
+            var field_name= this.field_name;
+            var ret={};
+            ret[field_name ]= val;
+            return  ret;
+        },
+
+        get_query_info:function(){
+            return null;
+        },
+
+        get_query_obj:function( ) {
+            return this.$ele;
+        }
+
+    };
+
+
+    //在插件中使用对象
+    $.admin_query_admin_group = function(options) {
+       return new  Cgroup(  options);
+    };
+
+})(jQuery, window, document);
+
+
+
+
+(function($, window, document,undefined) {
+
+    var Corigin = function(opt) {
+
+        var me =this;
+        this.defaults = {
+            "join_header" : null,
+            "field_name"  :null,
+            "title"  :  "",
+            "length_css" : "col-xs-6 col-md-2",
+            "as_header_query" : false ,
+            "select_value" :null,
+        };
+
+        this.options = $.extend({}, this.defaults, opt);
+        this.menu_item_select_css="select";
+        this.title= this.options.title;
+        this.select_value= this.options.select_value;
+        me.header_query = this.options.join_header;
+
+        me.list_type =  me.header_query .list_type;
+        this.field_name= this.options.field_name;
+
+        this.options.onChange=function() {
+            me.header_query.query();
+        };
+
+        var title_str="";
+        if (this.list_type==0) {
+            title_str= '<span style="display:table-cell;">'+ this.title +'    </span>';
+        }
+
+
+        this.$ele=  $(
+            '<div class="'+me.options.length_css +'">'
+                +'<div class="input-group ">'
+                + title_str
+                +'<input class="form-control"  type="text">'
+                +'</div>'
+                +'</div>'
+        );
+
+        if ( this.list_type ==1 && !this.options.as_header_query ){
+            this.$ele.css( {
+                "padding-left": "0px"
+            });
+        }
+
+
+        this.$input=this.$ele.find("input");
+        this.$input.val(this.options.select_value);
+
+        this.$input.on("keypress",function(e){
+            if(e.which==13) {
+                me.header_query.query();
+            }
+        } );
+
+        this.$input.init_origin_ex(function(){
+            me.header_query.query();
+        });
+
+      //加入到列表
+      this.header_query.add(this);
+
+    };
+
+    //定义方法
+    Corigin.prototype = {
+        get_title :function() {
+            return this.title ;
+        },
+        //是否作为头部查询
+        get_as_header_query:function() {
+            return this.options.as_header_query;
+        },
+
+        set_query_arg_clean(){
+            return   ;
+        },
+
+        get_show_flag:function() {
+            return this.$input.val() != -1;
+        },
+
+        get_query_args:function () {
+            var val=this.$input.val() ;
+            var field_name= this.field_name;
+            var ret={};
+            ret[field_name ]= val;
+            return  ret;
+        },
+
+        get_query_info:function(){
+            return null;
+        },
+
+        get_query_obj:function( ) {
+            return this.$ele;
+        }
+
+    };
+
+
+    //在插件中使用对象
+    $.admin_query_origin = function(options) {
+       return new  Corigin(  options);
     };
 
 })(jQuery, window, document);

@@ -60,6 +60,8 @@ interface JQueryStatic {
     */
     admin_enum_select (options):any;
     admin_query_input ( options):any;
+    admin_query_origin ( options):any;
+    admin_query_admin_group ( options):any;
     admin_date_select ( options):any;
     admin_ajax_select_user ( options):any;
 

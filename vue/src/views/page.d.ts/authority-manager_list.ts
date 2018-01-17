@@ -5,8 +5,8 @@ interface self_Args {
 	adminid:	number;
 	uid:	number;
 	user_info:	string;
-	has_question_user:	string;//枚举列表: \App\Enums\Eboolean
- 	del_flag:	string;//枚举列表: \App\Enums\Eboolean
+	has_question_user:	number;//枚举: \App\Enums\Eboolean
+	del_flag:	string;//枚举列表: \App\Enums\Eboolean
  	page_num:	number;
 	page_count:	number;
 	account_role:	string;//枚举列表: \App\Enums\Eaccount_role
@@ -176,11 +176,10 @@ export default class extends vtable {
 	});
 	$.admin_enum_select({
 		'join_header'  : $header_query_info,
-"enum_type"    : "boolean",
-"field_name" : "has_question_user",
+		"enum_type"    : "boolean",
+		"field_name" : "has_question_user",
 "title" : "has_question_user",
-"select_value" : this.get_args().has_question_user,
-		"multi_select_flag"     : true,
+		"multi_select_flag"     : false ,
 		"btn_id_config"     : {},
 	});
 
