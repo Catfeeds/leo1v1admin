@@ -410,11 +410,12 @@ class test_code extends Controller
             \App\Helper\Utils::check_isset_data($money_detail["teacher_lesson_count_money"],$teacher_lesson_count_money);
         }
 
-        $jianzhi_reward = $this->t_teacher_money_list->get_reward_total($month_time['sdate'],$month_time['edate'],0,0,0);
-        $full_reward = $this->t_teacher_money_list->get_reward_total($month_time['sdate'],$month_time['edate'],0,0,1);
+        $jianzhi_reward = ($this->t_teacher_money_list->get_reward_total($month_time['sdate'],$month_time['edate'],0,0,0))/100;
+        $full_reward = ($this->t_teacher_money_list->get_reward_total($month_time['sdate'],$month_time['edate'],0,0,1))/100;
         echo "<br>";
         echo "兼职课耗收入|兼职付费课耗数|兼职赠送课耗|兼职老师成本-课时费收入|兼职1对1课时收入|兼职试听课收入|兼职课时奖励|兼职额外奖励";
         echo "|全职课耗收入|全职付费课耗数|全职赠送课耗|全职老师成本-课时费收入|全职1对1课时收入|全职试听课收入|全职课时奖励|全职额外奖励";
+        echo "<br>";
         echo $money_total[0]['lesson_price']."|".$money_total[0]['normal_lesson_count']."|".$money_total[0]['free_lesson_count']
                                             ."|".$money_total[0]['teacher_all_money']."|".$money_total[0]['teacher_normal_money']
                                             ."|".$money_total[0]['teacher_trial_money']."|".$money_total[0]['teacher_lesson_count_money']
@@ -422,7 +423,7 @@ class test_code extends Controller
         echo $money_total[1]['lesson_price']."|".$money_total[1]['normal_lesson_count']."|".$money_total[1]['free_lesson_count']
                                             ."|".$money_total[1]['teacher_all_money']."|".$money_total[1]['teacher_normal_money']
                                             ."|".$money_total[1]['teacher_trial_money']."|".$money_total[1]['teacher_lesson_count_money']
-                                            ."|".$jianzhi_reward;
+                                            ."|".$full_reward;
         echo "<br>";
     }
 
