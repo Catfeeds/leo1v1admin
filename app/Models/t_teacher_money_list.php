@@ -374,9 +374,11 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
                                   ." from %s tm "
                                   ." left join %s t on tm.teacherid=t.teacherid"
                                   ." where %s"
+                                  ." and %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
+                                  ,$full_sql
         );
         return $this->main_get_value($sql);
     }
