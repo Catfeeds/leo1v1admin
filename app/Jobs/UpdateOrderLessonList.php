@@ -36,7 +36,6 @@ class UpdateOrderLessonList extends Job implements ShouldQueue
         $t_lesson_info       = new \App\Models\t_lesson_info();
         $t_order_lesson_list = new \App\Models\t_order_lesson_list();
 
-
         \App\Helper\Utils::logger("UpdateOrderLessonList start");
         $stu_list = $t_order_info->get_pay_user($this->competition_flag);
         foreach($stu_list as $v){
@@ -91,7 +90,7 @@ class UpdateOrderLessonList extends Job implements ShouldQueue
                         "contract_status" => $contract_status,
                     ]);
                 }
-                $old_contract_status= $t_order_info->get_contract_status($val['orderid']);
+                $old_contract_status = $t_order_info->get_contract_status($val['orderid']);
 
                 if($lesson_left>0){
                     for(;$i<=$length-1;$i++){
@@ -143,5 +142,8 @@ class UpdateOrderLessonList extends Job implements ShouldQueue
         }
         \App\Helper\Utils::logger("job UpdateOrderLessonList end");
     }
+
+
+
 
 }

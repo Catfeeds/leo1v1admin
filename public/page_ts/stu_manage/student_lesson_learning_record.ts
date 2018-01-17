@@ -32,8 +32,8 @@ $(function(){
         }
     });
 
-    Enum_map.append_option_list("subject",$("#id_subject"));
-    Enum_map.append_option_list("grade",$("#id_grade"));
+    Enum_map.append_option_list("subject",$("#id_subject"),false,window["g_subject_list"]);
+    Enum_map.append_option_list("grade",$("#id_grade"),false,window["g_grade_list"]);
 
 	  $('#id_grade').val(g_args.grade);
 	  $('#id_subject').val(g_args.subject);
@@ -113,6 +113,15 @@ $(function(){
     }else{
         $("#id_add_stu_score").parent().hide();
     }
+    $(".preview_table_flag,.lesson_table_flag").each(function(){
+        var class_id =$(this).data("class_id");
+        if(current_id==class_id){
+            $(this).show();
+        }else{
+            $(this).hide(); 
+        }
+    });
+   
 
 
 
@@ -173,6 +182,7 @@ $(function(){
         $("#id_grade").val(-1);
         window["g_load_data_flag"] = 0;
         load_data();
+        
     });
 
     $("#id_subject_show").on("click",function(){
@@ -186,6 +196,14 @@ $(function(){
         var url = $(this).data("url");
         $.wopen(url); 
     });
+    $("#id_show_all").on("click",function(){
+        alert(111);
+    });
+    $(".show_lesson_detail").on("click",function(){
+        var lessonid = $(this).data("lessonid");
+        alert(lessonid);
+    });
+
 
 
 

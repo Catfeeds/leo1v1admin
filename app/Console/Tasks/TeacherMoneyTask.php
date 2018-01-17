@@ -132,7 +132,7 @@ class TeacherMoneyTask extends TaskController
      * @param int type
      * @param int timestamp 需重置的老师工资的时段
      */
-    public function set_teacher_salary_list($type,$timestamp=0){
+    public function set_teacher_salary_list($timestamp=0){
         if($timestamp==0){
             $timestamp = time();
         }
@@ -192,6 +192,25 @@ class TeacherMoneyTask extends TaskController
                     $t_val['teacherid'],$start_time,$lesson_money,$is_negative,$pay_time
                 );
             }
+        }
+    }
+
+    /**
+     * 更新收入支出中的老师收入
+     */
+    public function set_lesson_all_money($timestamp){
+        if($timestamp==0){
+            $timestamp = time();
+        }
+
+        $teacher_money = new \App\Http\Controllers\teacher_money();
+        $month_range   = \App\Helper\Utils::get_month_range($timestamp,true);
+        $start_time    = $month_range['sdate'];
+        $end_time      = $month_range['edate'];
+
+        $tea_list = $this->t_teacher_info->get_need_set_teacher_salary_list($start_time,$end_time);
+        foreach($tea_list as $tea_val){
+            $teacher_money->set_lesson_all_money($tea_val['teacherid'],$start_time,$end_time);
         }
     }
 

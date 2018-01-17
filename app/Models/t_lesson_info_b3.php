@@ -2975,6 +2975,32 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    /**
+     * 更新课程收入至收入支出统计表
+     */
+    public function get_lesson_list_for_all_money($start_time,$end_time){
+        $where_arr = [
+            "l.lesson_type<1000",
+            "t.is_test_user=0"
+        ];
+        $where_arr = $this->lesson_start_sql($start_time, $end_time,"l",$where_arr);
+        $sql = $this->gen_sql_new("select l.lessonid,ol.orderid,l.userid,l.teacherid,l.lesson_type,l.lesson_count as l_lesson_count,"
+                                  ." ol.lesson_count as ol_lesson_count,ol.per_price,"
+                                  ." l.confirm_flag,l.teacher_type as l_teacher_type,l.teacher_money_type,"
+                                  ." t.teacher_type as t_teacher_type"
+                                  ." from %s l"
+                                  ." left join %s ol on l.lessonid=ol.lessonid"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." where %s"
+                                  ." and not exists (select 1 from %s la where la.lessonid=l.lessonid)"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_order_lesson_list::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,t_lesson_all_money_list::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
 
     //课前预习
     public function get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$cw_status,$preview_status,$page_flag=1){
@@ -3009,7 +3035,47 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         }elseif($page_flag==2){
             return $this->main_get_list($sql); 
         }
+    }
 
+    //课堂情况
+    public function get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$page_flag=1){
+        $where_arr = [
+            ["l.lesson_start>=%u",$start_time,0],
+            ["l.lesson_start<%u",$end_time,0],
+            ["l.userid=%u",$userid,-1],
+            ["l.subject=%u",$subject,-1],
+            ["l.grade=%u",$grade,-1],
+            "l.lesson_del_flag=0",
+            // "l.confirm_flag<2",
+            "l.lesson_type in (0,1,3)"
+        ];
+
+        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
+                                  ."l.grade,l.teacherid,l.lessonid,t.realname,"
+                                  ." l.lesson_num,l.tea_attend,l.stu_attend,"
+                                  ." l.confirm_flag,l.lesson_cancel_reason_type ,"
+                                  ."sum(if(l.userid=op.userid and op.opt_type=1,1,0)) stu_login_num, "
+                                  ."sum(if(l.teacherid=op.userid and op.opt_type=1,1,0)) tea_login_num, "
+                                  ."sum(if(s.parentid=op.userid and op.opt_type=1,1,0)) parent_login_num "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." left join %s op on l.lessonid = op.lessonid"
+                                  ." where %s group by l.lessonid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_lesson_opt_log::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+
+        if($page_flag==1){
+            return $this->main_get_list_by_page($sql,$page_info); 
+        }elseif($page_flag==2){
+            return $this->main_get_list($sql); 
+        }
+
+ 
     }
 
 }
