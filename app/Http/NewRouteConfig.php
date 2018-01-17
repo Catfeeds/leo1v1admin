@@ -437,6 +437,7 @@ class NewRouteConfig {
         "/stu_manage/one_three_grade_student"  => true,
         "/stu_manage/score_list1"              => true,
         "/stu_manage/student_data_list"        => true,
+        "/stu_manage/student_lesson_learning_record"=> true,
 
         "/question_new/question_list"              => true,
         "/question_new/knowledge_list"              => true,

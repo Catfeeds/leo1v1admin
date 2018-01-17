@@ -103,4 +103,7 @@ class report extends Controller
         $data_arr['pn_order_money'] = $pn_order_money;
         return $data_arr;
     }
+    public function  event_log_list(){
+
+    }
 }

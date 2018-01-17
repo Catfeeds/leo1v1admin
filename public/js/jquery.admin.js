@@ -1744,8 +1744,8 @@ jQuery.extend({
 
 
     admin_select_user :function ( $element, type, call_func, is_not_query_flag, args_ex, th_input_id ) {
+var select_no_select_value = -1;
 
-        var select_no_select_value = -1;
         var select_no_select_title = "[全部]"  ;
         if (is_not_query_flag)  {
             select_no_select_value = 0;
@@ -1914,7 +1914,7 @@ jQuery.extend({
             ];
 
         }
-        if ( window.location.href.indexOf('class') > 0){
+        if ( window.location.hostname.indexOf('class') > 0){
             var length = window.location.href.indexOf('class');
             var url = window.location.href;
             var first_url = url.substring(0,length);
