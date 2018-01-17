@@ -2696,29 +2696,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         echo $sql;
         return $this->main_get_list($sql);
-
-        $where_arr = [
-            'ti.trial_lecture_is_pass=1',
-            'ti.is_test_user=0',
-            'li.lesson_del_flag=0',
-            'li.lesson_status=2',
-            'ti.teacher_money_type=6'
-        ];
-        $sql = $this->gen_sql_new(
-            'select li.lesson_count,li.teacherid,t.nick as t_nick,li.lessonid,li.userid,'.
-            'li.lesson_type,li.deduct_upload_cw,li.deduct_come_late,li.deduct_rate_student,'.
-            'li.deduct_change_class,li.lesson_cancel_reason_type,li.subject,li.confirm_flag,'.
-            'li.lesson_user_online_status '.
-            'from %s li '.
-            'left join %s ti on li.teacherid = ti.teacherid '.
-            'where %s',
-            self::DB_TABLE_NAME,
-            t_teacher_info::DB_TABLE_NAME,
-            $where_arr
-        );
-
-        return $this->main_get_list($sql);
-
     }
     //@desn:获取所有的不重复的subject userid课程信息
     //@param:$start_time 开始时间

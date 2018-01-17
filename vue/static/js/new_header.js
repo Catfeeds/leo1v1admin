@@ -126,12 +126,17 @@ $(function(){
 
 
   $("#id_self_menu_add").on("click",function(){
-    var title= $(".global-menu-select-item").text();
-    var url=   window.location.href.substr( window.location.origin.length);
+    var title= $(".treeview-menu .active").text();
+    var url=   window.location.href;
     $.do_ajax("/self_manage/self_menu_add",{
       "title" : title,
       "url" : url,
+    },function(){
+      $.do_ajax("/user_deal/reload_account_power",{},function(){
+        $.reload();
+      });
     });
+
   });
 
 
@@ -232,7 +237,9 @@ $(function(){
   });
 
   $("#id_public_user_reset_power").on("click",function(){
-    $.do_ajax("/user_deal/reload_account_power");
+    $.do_ajax("/user_deal/reload_account_power",function(){
+      $.reload();
+    });
   });
 
   //logout

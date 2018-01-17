@@ -2452,4 +2452,16 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                  ,$where_arr);
         return $this->main_get_row($sql);
     }
+
+    public function checkIsRole($userOpenid){
+        $where_arr = [
+            "m.account_role in (1,2)",
+            "m.wx_openid='$userOpenid'"
+        ];
+        $sql = $this->gen_sql_new("  select 1 from %s m where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }

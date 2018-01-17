@@ -130,7 +130,7 @@ class test_sam extends Command
         //     $arr_data  = ['subject','grade','phone_location','num'];
         //     //$ret_file_name = \App\Helper\Utils::download_txt($file_name,$res,$arr_title,$arr_data);
         // }
-        
+        /*
         $time = [
             ['start_time' => 1506787200,'end_time' => 1509465600], //10
             ['start_time' => 1509465600,'end_time' => 1512057600], //11
@@ -159,7 +159,7 @@ class test_sam extends Command
             // $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
         }
         exit;
-
+        */
         /*
         $time = [
             ['start_time' => 1506787200,'end_time' => 1509465600], //10
@@ -211,7 +211,7 @@ class test_sam extends Command
         dd("finish");                                                                        
 
         */  
-        /*
+        
         $ret_info = $task->t_student_score_info->get_all_student_phone_and_id();
 
         foreach ($ret_info as $key => $value) {
@@ -232,7 +232,7 @@ class test_sam extends Command
             ]);
             echo "$userid $province  $city.fin\n";
         }   
-        */
+        
         /*
         $ret_info = $task->t_student_score_info->get_grade_by_info_1();
         foreach ($ret_info as $key => &$value) {
@@ -258,7 +258,7 @@ class test_sam extends Command
         $arr_data  = ['grade','test_lesson_order_fail_flag','num'];
         $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
         */
-
+        /*
         $ret_info = $task->t_student_score_info->get_b4();
         $ret = [];
         foreach ($ret_info as $key => &$value) {
@@ -287,6 +287,7 @@ class test_sam extends Command
         $arr_title = ['年级',"分类","数量"];
         $arr_data  = ['grade','1','num'];
         $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
+        */
         /*
     select s.userid, q.is_called_phone
 from db_weiyi.t_student_info s

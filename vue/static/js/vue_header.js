@@ -23,7 +23,7 @@ $( function () {
     var check_url= window.location.toString().split("?" )[0];
     var obj=$menu.find("li>a[href=\""+ check_url +"\"]");
 
-    $.do_select_menu(obj);
+    $.do_select_menu($(obj[0]));
 
     $menu.find("li>a[href*=\"http\"]").on("click",function(e) {
       $.do_select_menu ($(e.currentTarget));

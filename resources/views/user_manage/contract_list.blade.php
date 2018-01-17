@@ -177,16 +177,16 @@
                     <td style="display:none">orderid</td>
                     <td class="td-origin" >渠道</td>
 
-                    {!!\App\Helper\Utils::th_order_gen([["学生", "", "th_studentid" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["学生", "", "" ]])!!}
                     <td style="display:none;" >家长姓名</td>
                     <td style="display:none;" >地区</td>
                     <td style="display:none;" >1v1详细分类</td>
                     <td style="display:none;">是否新增 </td>
                     <td >试听课时间</td>
-                    {!!\App\Helper\Utils::th_order_gen([["年级", "grade", "th_grade" ]])!!}
-                    {!!\App\Helper\Utils::th_order_gen([["科目", "", "th_subject" ]])!!}
-                    {!!\App\Helper\Utils::th_order_gen([["合同状态", "contract_status", "th_contract_status" ]])!!}
-                    {!!\App\Helper\Utils::th_order_gen([["合同类型", "contract_type", "th_contract_type" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["年级", "grade", "" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["科目", "", "" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["合同状态", "contract_status", "" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["合同类型", "contract_type", "" ]])!!}
                     <td style="display:none;">生效日期</td>
                     <td style="display:none;">下单日期</td>
                     <td >总课时</td>
@@ -198,7 +198,7 @@
                     <td >实付/原始单价</td>
                     <td style="display:none;" >优惠原因</td>
                     <td style="display:none;" >包类型</td>
-                    {!!\App\Helper\Utils::th_order_gen([["下单人", "", "th_adminid" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["下单人", "", "" ]])!!}
                     <td style="display:none;">淘宝订单号</td>
                     <td style="display:none;">courseid</td>
                     <td style="display:none;">助教</td>
@@ -207,7 +207,7 @@
                     <td >TMK负责人</td>
                     <td >试听课老师</td>
                     <td >财务说明</td>
-                    {!!\App\Helper\Utils::th_order_gen([["特殊折扣申请状态", "", "th_spec_flag" ]])!!}
+                    {!!\App\Helper\Utils::th_order_gen([["特殊折扣申请状态", "", "" ]])!!}
                     <td >发放礼拜时间</td>
                     <td >个人总课时</td>
                     <td >是否分期</td>

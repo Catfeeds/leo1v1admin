@@ -64,7 +64,7 @@ export default class extends vtable {
     var def_data= this.$data.data_ex_list.time_list[1];
     var need_deal_count_data = this.$data.data_ex_list.time_list[2];
 
-    var end_time=$.DateFormat(new Date(  this.get_args().start_time  ).getTime()/1000 + 86400, "yyyy-MM-dd hh:mm"   );
+    var end_time=$.DateFormat(new Date(  this.get_args().start_time  ).getTime()/1000 + 86400-60 -3600*8, "yyyy-MM-dd hh:mm"   );
     //一
     var anchor = [
       { value:[this.get_args().start_time , 0]},
@@ -108,6 +108,7 @@ export default class extends vtable {
       },
       xAxis: {
         type: 'time',
+        splitNumber: 12,
         splitLine: {
           show: true
         },
@@ -115,9 +116,12 @@ export default class extends vtable {
       },
       yAxis: {
         type: 'value',
-        boundaryGap: [0, '100%'],
+        boundaryGap: [0, 0],
         splitLine: {
           show: true
+        },
+        max: function(value) {
+          return Math.floor( value.max *1.2) ;
         }
       },
       series: [{
@@ -126,8 +130,7 @@ export default class extends vtable {
         showSymbol: false,
         hoverAnimation: false,
         data: def_data,
-        lineStyle:{normal:{width:1, color:"yellow"} }
-
+        lineStyle:{normal:{width:1 } }
 
       },{ //
         name: '实际课数',
@@ -135,7 +138,7 @@ export default class extends vtable {
         showSymbol: false,
         hoverAnimation: false,
         data: real_data,
-        lineStyle:{normal:{width:2, color:"red"} }
+        lineStyle:{normal:{width:2 } }
 
       },{ //
         name: '课后视频未处理',

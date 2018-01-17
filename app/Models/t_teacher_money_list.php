@@ -352,6 +352,6 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_value($sql);
     }
 }
