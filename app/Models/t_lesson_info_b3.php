@@ -2977,7 +2977,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
 
     //课前预习
-    public function get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade){
+    public function get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$page_flag=1){
         $where_arr = [
             ["l.lesson_start>=%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
@@ -2998,7 +2998,11 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_info);
+        if($page_flag==1){
+            return $this->main_get_list_by_page($sql,$page_info); 
+        }elseif($page_info==2){
+            return $this->main_get_list($sql); 
+        }
 
     }
 

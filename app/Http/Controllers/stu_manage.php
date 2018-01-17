@@ -1459,13 +1459,41 @@ class stu_manage extends Controller
         $domain = config('admin')['qiniu']['public']['url'];
         if($current_id==1){
             $ret_info = $this->t_lesson_info_b3->get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade);
+            $list = $this->t_lesson_info_b3->get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
             foreach($ret_info["list"] as &$item){
                 E\Egrade::set_item_value_str($item); 
                 E\Esubject::set_item_value_str($item);
                 \App\Helper\Utils::unixtime2date_range($item);
                 $item["cw_url"] = \App\Helper\Utils::gen_download_url($item["tea_cw_url"]);
+                if(empty($item["tea_cw_upload_time"]) || $item["tea_cw_upload_time"]>$item["lesson_start"]){
+                    $item["cw_status_str"]="未上传";
+                    $item["preview_status_str"]="—";
+                }else{
+                    $item["cw_status_str"]="已上传";
+                    E\Eboolean::set_item_value_str($item,"preview_status"); 
+                }
+                
             }
-            dd($ret_info);
+            $cw_num=$pre_num=0;
+            foreach($list as $val){
+                if(!isset($val["subject"])){
+                    $subject_arr[$val["subject"]]=$val["subject"];
+                }
+                if(!isset($val["grade"])){
+                    $subject_arr[$val["grade"]]=$val["grade"];
+                }
+                if(empty($val["tea_cw_upload_time"]) || $val["tea_cw_upload_time"]>$val["lesson_start"]){
+                }else{
+                    $cw_num++;
+                    if($val["preview_status"]>0){
+                        $pre_num++;
+                    }
+                }
+
+
+            }
+            $pre_rate = $cw_num==0?0:round($pre_rate/$cw_num*100,2);
+            dd([$ret_info,$pre_rate]);
         }elseif($current_id==2){
             
         }elseif($current_id==3){
