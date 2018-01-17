@@ -293,15 +293,45 @@ class test_code extends Controller
         \App\Helper\Utils::sms_common($phone, $type, $data);
     }
 
-    public function get_lesson_list_for_price(){
+    public function add_lesson_all_money(){
         $month = $this->get_in_str_val("month","2017-1");
         $month_time = strtotime($month);
         $month_arr  = \App\Helper\Utils::get_month_range($month_time,true);
 
         $lesson_list = $this->t_lesson_info_b3->get_lesson_list_for_all_money($month_arr['sdate'],$month_arr['edate']);
+        foreach($lesson_list as $val){
+            $data = [];
+            $lessonid           = $val['lessonid'];
+            $teacherid          = $val['teacherid'];
+            $lesson_type        = $val['lesson_type'];
+            $userid             = $val['userid'];
+            $confirm_flag       = $val['confirm_flag'];
+            $teacher_money_type = $val['teacher_money_type'];
 
+            $teacher_type = $val['l_teacher_type']==0?$val['t_teacher_type']:$val['l_teacher_type'];
+            $orderid      = $val['orderid']>0?$val['orderid']:0;
+            $per_price    = $val['per_price']>0?$val['per_price']:0;
+            $lesson_count = $val['ol_lesson_count']>0?$val['ol_lesson_count']:$val['l_lesson_count'];
 
+            $data = [
+                "lessonid"           => $lessonid,
+                "orderid"            => $orderid,
+                "userid"             => $userid,
+                "teacherid"          => $teacherid,
+                "lesson_type"        => $lesson_type,
+                "lesson_count"       => $lesson_count,
+                "per_price"          => $per_price,
+                "confirm_flag"       => $confirm_flag,
+                "teacher_type"       => $teacher_type,
+                "teacher_money_type" => $teacher_money_type,
+                "add_time"           => $month_time,
+            ];
 
+            if(!empty($data)){
+                $this->t_lesson_all_money_list->row_insert($data);
+            }
+        }
+        echo "succ";
     }
 
 }

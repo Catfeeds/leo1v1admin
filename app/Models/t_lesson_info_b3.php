@@ -2983,18 +2983,19 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = $this->lesson_start_sql($start_time, $end_time,"l",$where_arr);
         $sql = $this->gen_sql_new("select l.lessonid,ol.orderid,l.userid,l.teacherid,l.lesson_type,l.lesson_count as l_lesson_count,"
                                   ." ol.lesson_count as ol_lesson_count,ol.per_price,"
-                                  ." l.confirm_flag,l.teacher_type,l.teacher_money_type,t.teacher_type"
+                                  ." l.confirm_flag,l.teacher_type as l_teacher_type,l.teacher_money_type,"
+                                  ." t.teacher_type as t_teacher_type"
                                   ." from %s l"
                                   ." left join %s ol on l.lessonid=ol.lessonid"
                                   ." left join %s t on l.teacherid=t.teacherid"
                                   ." where %s"
-                                  ." and not exists (select 1 from %s la)"
+                                  ." and not exists (select 1 from %s la where la.lessonid=l.lessonid)"
                                   ,self::DB_TABLE_NAME
                                   ,t_order_lesson_list::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
+                                  ,t_lesson_all_money_list::DB_TABLE_NAME
         );
-        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 
