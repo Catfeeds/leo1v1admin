@@ -4896,8 +4896,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * 更新收入支出列表的老师收入
      */
     public function set_teacher_all_lesson_money_list($teacherid,$start_time,$end_time){
+        $teacher_type      = $this->t_teacher_info->get_teacher_type($teacherid);
         $last_lesson_count = $this->get_last_lesson_count_info($start_time,$end_time,$teacherid);
-        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
+        $lesson_list       = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
         if(!empty($lesson_list)){
             foreach($lesson_list as $key => &$val){
                 $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
