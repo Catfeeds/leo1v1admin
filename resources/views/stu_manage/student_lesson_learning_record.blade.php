@@ -36,11 +36,21 @@
             <div class="col-xs-6 col-md-2" style="display:none;">
                 <button class="btn btn-warning" id="id_add_stu_score" >添加考试成绩</button>
             </div>
+            <div class="col-xs-6 col-md-12" >
+                <button class="btn" id="id_subject_show" ></button>
+                <button class="btn" id="id_grade_show" ></button>
+            </div>
+            
 
 
 
         </div>
         <hr/>
+        <div class="row">
+            <div class="col-xs-6 col-md-12 col-md-offset-11">
+                <button class="btn btn-warning" id="id_pre_rate" style="margin-left:-7px">预习率:{{ $pre_rate }}%</button>
+            </div>
+        </div>
         <table class="common-table">
             <thead>
                 <tr>

@@ -1493,7 +1493,9 @@ class stu_manage extends Controller
 
             }
             $pre_rate = $cw_num==0?0:round($pre_num/$cw_num*100,2);
-            dd([$ret_info,$pre_rate]);
+            return $this->pageView(__METHOD__,$ret_info,[
+                "pre_rate"=>$pre_rate
+            ]);
         }elseif($current_id==2){
             
         }elseif($current_id==3){
