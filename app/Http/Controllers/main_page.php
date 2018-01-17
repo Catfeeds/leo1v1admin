@@ -1530,7 +1530,8 @@ class main_page extends Controller
     public function zs_teacher(){
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
 
-        $this->switch_tongji_database();
+        //$this->switch_tongji_database();
+        $this->check_and_switch_tongji_domain();
         $res_subject = $this->t_teacher_lecture_info->get_lecture_info_by_subject_new($start_time,$end_time);
         $video_succ_subject = $this->t_teacher_lecture_info->get_lecture_info_by_subject_new($start_time,$end_time,1);
         $one_subject = $this->t_teacher_record_list->get_all_interview_count_by_subject($start_time,$end_time,-1);

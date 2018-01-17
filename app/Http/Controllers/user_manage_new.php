@@ -2127,8 +2127,9 @@ class user_manage_new extends Controller
         if( $groupid > 0 ){  
             $user_list = $this->t_manager_info->get_power_group_user_list($groupid);
             $user_list = $this->get_user_permission($user_list);
-            // $user_list = $this->t_manager_info->get_power_group_user_list_sec($groupid);
-            // dd($user_list);
+
+            //$user_list = $this->get_user_powers($groupid);
+         
             $power_map = $this->t_authority_group->get_auth_group_map($groupid);
             $list=$this->get_menu_list_new($power_map );
       
@@ -2156,27 +2157,29 @@ class user_manage_new extends Controller
             $permission = array_unique($permission);
             $per_name = [];
             if($permission){
-                $per_str = "(";
+                $per_str = "";
                 foreach($permission as $per){
-                    if(!empty($per)){
+                    if($per != ''){
                         $per_str .= $per.',';
                     }
                 }
-                $per_str = substr($per_str,0,-1).')';
-                $permission_names = $this->t_authority_group->get_groups_by_idstr($per_str);
-                $per_name = array_column($permission_names, 'group_name', 'groupid');
-                foreach($user_list as &$user){
-                    $permit_name = '';
-                    if($user['permit_arr']){
-                        foreach( $user['permit_arr'] as $gid){
-                            $permit_str = array_key_exists($gid, $per_name) ? trim(@$per_name[$gid])."," : "";
-                            $permit_name .= $permit_str;
+                if( $per_str != ''){
+                    $per_str = "(".substr($per_str,0,-1).')';
+                    $permission_names = $this->t_authority_group->get_groups_by_idstr($per_str);
+                    $per_name = array_column($permission_names, 'group_name', 'groupid');
+                    foreach($user_list as &$user){
+                        $permit_name = '';
+                        if($user['permit_arr']){
+                            foreach( $user['permit_arr'] as $gid){
+                                $permit_str = array_key_exists($gid, $per_name) ? trim(@$per_name[$gid])."," : "";
+                                $permit_name .= $permit_str;
+                            }
+                            $permit_name = substr($permit_name,0,-1);
                         }
-                        $permit_name = substr($permit_name,0,-1);
+                        $user['permit_name'] = $permit_name;
                     }
-                    $user['permit_name'] = $permit_name;
-                }
 
+                }
             }
         }
         return $user_list;
@@ -2360,10 +2363,6 @@ class user_manage_new extends Controller
         return $ret;
         // return $this->output_succ(["data"=> $ret]);
     }
-
-
-
-
 
     public function opt_accont_group() {
         $uid      = $this->get_in_int_val("uid") ;
@@ -3863,8 +3862,7 @@ class user_manage_new extends Controller
 
     public function ass_warning_stu_info_new(){
         $account_id = $this->get_account_id();
-        $adminid = $this->get_ass_leader_account_id($account_id);
-        //  $account_id = 297;
+        $adminid    = $this->get_ass_leader_account_id($account_id);
         $main_type = 1;
         $is_master = $this->t_admin_main_group_name->check_is_master($main_type,$account_id);
         if($is_master>0 || in_array($account_id,[349,188,74]) ){
@@ -4087,10 +4085,17 @@ class user_manage_new extends Controller
         return $this->output_succ();
     }
 
+    //删除老师额外奖金记录
     public function delete_teacher_reward(){
         $id = $this->get_in_int_val("id");
 
-        $ret=$this->t_teacher_money_list->row_delete($id);
+        $add_time   = $this->t_teacher_money_list->get_add_time($id);
+        $check_flag = \App\Helper\Utils::check_teacher_salary_time($add_time);
+        if(!$check_flag){
+            return $this->output_err("超出时间，无法删除! \n 只能删除本月数据！");
+        }
+
+        $ret = $this->t_teacher_money_list->row_delete($id);
         if(!$ret){
             return $this->output_err("删除失败！请重试！");
         }
