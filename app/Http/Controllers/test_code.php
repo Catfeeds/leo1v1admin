@@ -335,7 +335,11 @@ class test_code extends Controller
             $userid      = $s_val['userid'];
             $subject     = E\Esubject::get_desc($s_val['subject']);
             $grade       = E\Egrade::get_desc($s_val['grade']);
-            $lesson_type = E\Econtract_type::get_desc($s_val['lesson_type']);
+            if($lesson_type==2){
+                $lesson_type_str = "试听";
+            }else{
+                $lesson_type_str = "常规";
+            }
             $lesson_count = ($s_val['free_lesson_count']+$s_val['normal_lesson_count'])/100;
             $l_lesson_count = $s_val['l_lesson_count']/100;
             if($lesson_count!=$l_lesson_count){
@@ -362,7 +366,7 @@ class test_code extends Controller
                 $error_lesson_count_str = "课时错误";
             }
 
-            echo $lessonid."|".$userid."|".$stu_nick."|".$subject."|".$grade."|".$lesson_type
+            echo $lessonid."|".$userid."|".$stu_nick."|".$subject."|".$grade."|".$lesson_type_str
                           ."|".$error_lesson_count_str."|".$l_lesson_count
                           ."|".$lesson_count."|".$normal_lesson_count."|".$free_lesson_count."|".$lesson_price
                           ."|".$teacher_base_money."|".$teacher_lesson_count_money."|".$check_is_full."|".$confirm_flag_str
