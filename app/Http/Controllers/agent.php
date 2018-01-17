@@ -421,7 +421,6 @@ class agent extends Controller
         $start_time = 1514736000;
         $end_time = 1517414400;
         $ret = $this->t_tq_call_info->get_item_list($start_time,$end_time);
-        $ret_called = $this->t_tq_call_info->get_item_called($start_time,$end_time);
         $ret_cause = $this->t_tq_call_info->get_item_cause($start_time,$end_time);
         $cause_arr = array_unique(array_column($ret_cause,'cause'));
         $ret_end = $this->t_tq_call_info->get_item_end($start_time,$end_time);
