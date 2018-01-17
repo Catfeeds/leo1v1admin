@@ -864,4 +864,12 @@ class teacher_money extends Controller
     public function update_bole_reward($teacherid, $re_teacherid) {
         $this->add_reference_price($teacherid, $re_teacherid, false);
     }
+
+    /**
+     * Command:SetTeacherMoney  --type=5
+     */
+    public function set_lesson_all_money($teacherid,$start_time,$end_time){
+        $this->set_teacher_all_lesson_money_list($teacherid, $start_time, $end_time);
+    }
+
 }
