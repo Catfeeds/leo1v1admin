@@ -3294,5 +3294,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
-    
+    public function get_grade_info($phone) {
+        $sql = $this->gen_sql_new("select userid,grade from %s where phone='$phone'", self::DB_TABLE_NAME);
+        return $this->main_get_row($sql);
+    }
 }

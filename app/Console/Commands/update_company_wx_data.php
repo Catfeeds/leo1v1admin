@@ -149,6 +149,10 @@ class update_company_wx_data extends Command
                     //if (isset($item['value'])) $items[$val['title']] = $val['value'];
                     $common['type'] = 3;
                 }
+                if ($item['spname'] == '学生年级修改') {
+                    if ($val["title"] == "备注") $common['reason'] = $val['value'];
+                    $common['type'] = 13;
+                }
                 if (isset($val['value'])) $items[$val['title']] = $val['value'];
             }
             if ($items) $common['item'] = json_encode($items);
