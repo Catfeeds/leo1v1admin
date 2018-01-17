@@ -41,7 +41,7 @@ class t_log_event_log extends \App\Models\Zgen\z_t_log_event_log
             self::DB_TABLE_NAME,
             $where_arr);
 
-        return $this->main_get_list_by_page($sql,$page_num);
+        return $this->main_get_list_by_page($sql,$page_info);
     }
 
 
