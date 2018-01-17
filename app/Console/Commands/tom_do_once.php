@@ -166,8 +166,8 @@ class tom_do_once extends Command
     }
 
     public function update_tq_call_info(){
-        $start_time = strtotime('2017-11-30');
-        $end_time = strtotime('2017-12-31');
+        $start_time = strtotime('2017-10-31');
+        $end_time = strtotime('2017-11-30');
         $count = ($end_time-$start_time)/(3600*24);
         for ($i=1; $i<=$count; $i++)
         {
@@ -191,7 +191,7 @@ class tom_do_once extends Command
                 $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
                 $ret=json_decode($return_content, true  );
                 $data_list = @$ret["msg"]["data"];
-                if(count($data_list)>0){
+                if(is_array($data_list)){
                     foreach($data_list as $item){
                         $cdr_bridged_cno= $item["cno"];
                         $uniqueId= $item["uniqueId"];
