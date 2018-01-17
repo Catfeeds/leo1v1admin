@@ -3000,7 +3000,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         if($page_flag==1){
             return $this->main_get_list_by_page($sql,$page_info); 
-        }elseif($page_info==2){
+        }elseif($page_flag==2){
             return $this->main_get_list($sql); 
         }
 
