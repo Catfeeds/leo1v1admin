@@ -191,28 +191,30 @@ class tom_do_once extends Command
                 $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
                 $ret=json_decode($return_content, true  );
                 $data_list = @$ret["msg"]["data"];
-                foreach($data_list as $item){
-                    $cdr_bridged_cno= $item["cno"];
-                    $uniqueId= $item["uniqueId"];
-                    $cdr_answer_time = intval( preg_split("/\-/", $uniqueId)[1]);
-                    $id= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
-                    $sipCause = $item['sipCause'];
-                    $client_number = $item['clientNumber'];
-                    $endReason = $item['endReason']=='是'?1:0;
-                    $ret = $this->task->t_tq_call_info->field_get_list($id, '*');
-                    $arr = [];
-                    if($ret['cause'] != $sipCause){
-                        $arr['cause'] = $sipCause;
-                    }
-                    if($ret['client_number'] != $client_number){
-                        $arr['client_number'] = $client_number;
-                    }
-                    if($ret['end_reason'] != $endReason){
-                        $arr['end_reason'] = $endReason;
-                    }
-                    if(count($arr)>0){
-                        $ret = $this->task->t_tq_call_info->field_update_list($id, $arr);
-                        echo $id.':'.$ret."\n";
+                if(count($data_list)>0){
+                    foreach($data_list as $item){
+                        $cdr_bridged_cno= $item["cno"];
+                        $uniqueId= $item["uniqueId"];
+                        $cdr_answer_time = intval( preg_split("/\-/", $uniqueId)[1]);
+                        $id= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
+                        $sipCause = $item['sipCause'];
+                        $client_number = $item['clientNumber'];
+                        $endReason = $item['endReason']=='是'?1:0;
+                        $ret = $this->task->t_tq_call_info->field_get_list($id, '*');
+                        $arr = [];
+                        if($ret['cause'] != $sipCause){
+                            $arr['cause'] = $sipCause;
+                        }
+                        if($ret['client_number'] != $client_number){
+                            $arr['client_number'] = $client_number;
+                        }
+                        if($ret['end_reason'] != $endReason){
+                            $arr['end_reason'] = $endReason;
+                        }
+                        if(count($arr)>0){
+                            $ret = $this->task->t_tq_call_info->field_update_list($id, $arr);
+                            echo $id.':'.$ret."\n";
+                        }
                     }
                 }
             }

@@ -429,7 +429,7 @@ class agent extends Controller
         echo '<tr bgcolor="#dddddd">';
         echo '<th>通话记录</th><th>tq通话记录</th><th>天润通话记录</th><th>天润客户挂断</th><th>天润销售挂断</th>';
         foreach($cause_arr as $item){
-            echo '<th>天润cause='.$item.'通话记录</th>';
+            echo '<th>'.E\Ecause::get_desc($item).'</th>';
         }
         echo '</tr>';
         echo '<tr>';
@@ -447,8 +447,8 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $start_time = strtotime('2017-11-30');
-        $end_time = strtotime('2017-12-31');
+        $start_time = strtotime('2017-10-31');
+        $end_time = strtotime('2017-11-30');
         $count = ($end_time-$start_time)/(3600*24);
         for ($i=1; $i<=$count; $i++)
         {
