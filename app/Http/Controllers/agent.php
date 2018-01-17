@@ -424,7 +424,6 @@ class agent extends Controller
         $count = isset($ret[0]['count'])?$ret[0]['count']:0;
         $tq_count = isset($ret[0]['tq_count'])?$ret[0]['tq_count']:0;
         $tian_count = isset($ret[0]['tian_count'])?$ret[0]['tian_count']:0;
-        dd($count,$tq_count,$tian_count,$ret);
         $ret_cause = $this->t_tq_call_info->get_item_cause($start_time,$end_time);
         $cause_arr = array_unique(array_column($ret_cause,'cause'));
         echo '<table border="1" width="600" align="center">';
