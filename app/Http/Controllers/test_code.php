@@ -305,9 +305,9 @@ class test_code extends Controller
         $show_list = [];
         foreach($list as $val){
             $lessonid     = $val['lessonid'];
-            $lesson_count = $val['lesson_count']/100;
+            $lesson_count = $val['lesson_count'];
             //课时收入
-            $val['lesson_price'] = $lesson_count*$val['per_price'];
+            $val['lesson_price'] = $lesson_count*$val['per_price']/10000;
             //赠送课时
             $val['free_lesson_count']   = 0;
             //付费课时
@@ -333,7 +333,7 @@ class test_code extends Controller
             $stu_nick    = $s_val['stu_nick'];
             $userid      = $s_val['userid'];
             $subject     = E\Esubject::get_desc($s_val['subject']);
-            $grade       = E\Esubject::get_desc($s_val['grade']);
+            $grade       = E\Egrade::get_desc($s_val['grade']);
             $lesson_type = E\Econtract_type::get_desc($s_val['lesson_type']);
             $lesson_count = ($s_val['free_lesson_count']+$s_val['normal_lesson_count'])/100;
             $l_lesson_count = $s_val['l_lesson_count']/100;
@@ -353,6 +353,7 @@ class test_code extends Controller
             $teacherid                  = $s_val['teacherid'];
             $check_is_full = \App\Helper\Utils::check_teacher_is_full($teacher_money_type, $teacher_type, $teacherid);
             $confirm_flag = $s_val['confirm_flag'];
+            $confirm_flag_str = E\Econfirm_flag::get_desc($confirm_flag);
             $check_is_full = $check_is_full?1:0;
 
             echo $userid."|".$stu_nick."|".$subject."|".$grade."|".$lesson_type."|".$error_lesson_count."|".$l_lesson_count
