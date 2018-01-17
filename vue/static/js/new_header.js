@@ -127,7 +127,7 @@ $(function(){
 
   $("#id_self_menu_add").on("click",function(){
     var title= $(".treeview-menu .active").text();
-    var url=   window.location.href;
+    var url=   window.location.href.split("?")[0];
     $.do_ajax("/self_manage/self_menu_add",{
       "title" : title,
       "url" : url,

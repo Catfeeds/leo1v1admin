@@ -3049,29 +3049,50 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             // "l.confirm_flag<2",
             "l.lesson_type in (0,1,3)"
         ];
-
-        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
-                                  ."l.grade,l.teacherid,l.lessonid,t.realname,"
-                                  ." l.lesson_num,l.tea_attend,l.stu_attend,"
-                                  ." l.confirm_flag,l.lesson_cancel_reason_type ,"
-                                  ."sum(if(l.userid=op.userid and op.opt_type=1,1,0)) stu_login_num, "
-                                  ."sum(if(l.teacherid=op.userid and op.opt_type=1,1,0)) tea_login_num, "
-                                  ."sum(if(s.parentid=op.userid and op.opt_type=1,1,0)) parent_login_num "
-                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
-                                  ." left join %s s on l.userid = s.userid"
-                                  ." left join %s op on l.lessonid = op.lessonid"
-                                  ." where %s group by l.lessonid",
-                                  self::DB_TABLE_NAME,
-                                  t_teacher_info::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,
-                                  t_lesson_opt_log::DB_TABLE_NAME,
-                                  $where_arr
-        );
-
-
+       
         if($page_flag==1){
+            $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
+                                      ."l.grade,l.teacherid,l.lessonid,t.realname,"
+                                      ." l.lesson_num,l.tea_attend,l.stu_attend,"
+                                      ." l.confirm_flag,l.lesson_cancel_reason_type ,"
+                                      ."sum(if(l.userid=op.userid and op.opt_type=1,1,0)) stu_login_num, "
+                                      ."sum(if(l.teacherid=op.userid and op.opt_type=1,1,0)) tea_login_num, "
+                                      ."sum(if(s.parentid=op.userid and op.opt_type=1,1,0)) parent_login_num "
+                                      ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                      ." left join %s s on l.userid = s.userid"
+                                      ." left join %s op on l.lessonid = op.lessonid"
+                                      ." where %s group by l.lessonid",
+                                      self::DB_TABLE_NAME,
+                                      t_teacher_info::DB_TABLE_NAME,
+                                      t_student_info::DB_TABLE_NAME,
+                                      t_lesson_opt_log::DB_TABLE_NAME,
+                                      $where_arr
+            );
+
             return $this->main_get_list_by_page($sql,$page_info); 
         }elseif($page_flag==2){
+            $sql = $this->gen_sql_new("select l.subject,l.grade,l.teacherid,l.lessonid,"
+                                      ."min(op.opt_time) stu_login_time,"
+                                      ."min(opp.opt_time) stu_logout_time,"
+                                      ."min(opo.opt_time) tea_login_time,"
+                                      ."min(oop.opt_time) tea_logout_time "
+                                      ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                      ." left join %s s on l.userid = s.userid"
+                                      ." left join %s op on l.lessonid = op.lessonid and op.opt_type=1 and l.userid = op.userid"
+                                      ." left join %s opp on l.lessonid = opp.lessonid and opp.opt_type=2 and l.userid = opp.userid"
+                                      ." left join %s opo on l.lessonid = opo.lessonid and opo.opt_type=1 and l.teacherid = opo.userid"
+                                      ." left join %s oop on l.lessonid = oop.lessonid and oop.opt_type=2 and l.teacherid = opo.userid"
+                                      ." where %s group by l.lessonid",
+                                      self::DB_TABLE_NAME,
+                                      t_teacher_info::DB_TABLE_NAME,
+                                      t_student_info::DB_TABLE_NAME,
+                                      t_lesson_opt_log::DB_TABLE_NAME,
+                                      t_lesson_opt_log::DB_TABLE_NAME,
+                                      t_lesson_opt_log::DB_TABLE_NAME,
+                                      t_lesson_opt_log::DB_TABLE_NAME,
+                                      $where_arr
+            );
+
             return $this->main_get_list($sql); 
         }
 

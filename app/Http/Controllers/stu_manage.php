@@ -1505,7 +1505,9 @@ class stu_manage extends Controller
             ]);
         }elseif($current_id==2){
             $ret_info = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade);
-            dd($ret_info);
+            $list = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
+
+            dd($list);
 
             
         }elseif($current_id==3){
