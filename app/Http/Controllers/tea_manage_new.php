@@ -1136,8 +1136,9 @@ class tea_manage_new extends Controller
         \App\Helper\Utils::logger("lesson_start:$lesson_start");
         $subject = $this->get_in_el_subject();
         $grade = $this->get_in_grade();
-        $tea_name = $this->get_in_str_val('teacher_name');
-        $phone = $this->get_in_str_val('teacher_phone');
+        $teacherid = $this->get_in_int_val('tea_name');
+        // $tea_name = $this->get_in_str_val('teacher_name');
+        // $phone = $this->get_in_str_val('teacher_phone');
         $suit_student = $this->get_in_str_val('suit_student');
         $title = $this->get_in_str_val('title');
         $package_intro = $this->get_in_str_val('package_intro');
@@ -1148,14 +1149,14 @@ class tea_manage_new extends Controller
         $subject = array_search($subject,$subject_arr);
         $grade   = array_search($grade,$grade_arr);
 
-        $check_phone=\App\Helper\Utils::check_phone($phone);
-        if($check_phone){
-            $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
-        }else{
-            $teacherid = $this->t_teacher_info->get_teacherid_by_name($tea_name);
-        }
+        // $check_phone=\App\Helper\Utils::check_phone($phone);
+        // if($check_phone){
+        //     $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        // }else{
+        //     $teacherid = $this->t_teacher_info->get_teacherid_by_name($tea_name);
+        // }
         if(!$teacherid){
-            \App\Helper\Utils::logger("add open course 老师不存在".$tea_name);
+            \App\Helper\Utils::logger("add open course 老师不存在".$teacherid);
             return $this->output_err('该老师不存在!');
         }
 
