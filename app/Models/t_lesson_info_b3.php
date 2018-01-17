@@ -3072,6 +3072,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             return $this->main_get_list_by_page($sql,$page_info); 
         }elseif($page_flag==2){
             $sql = $this->gen_sql_new("select l.subject,l.grade,l.teacherid,l.lessonid,"
+                                      ." l.confirm_flag,l.lesson_cancel_reason_type ,"
                                       ."min(op.opt_time) stu_login_time,"
                                       ."min(opp.opt_time) stu_logout_time,"
                                       ."min(opo.opt_time) tea_login_time,"
@@ -3093,7 +3094,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                       $where_arr
             );
 
-            return $this->main_get_list($sql); 
+            return $this->main_get_list($sql,function($item){
+                return $item["lessonid"];
+            }); 
         }
 
  

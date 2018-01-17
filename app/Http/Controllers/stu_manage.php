@@ -1506,8 +1506,30 @@ class stu_manage extends Controller
         }elseif($current_id==2){
             $ret_info = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade);
             $list = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
+            foreach($ret_info["list"] as &$item){
+                E\Egrade::set_item_value_str($item); 
+                E\Esubject::set_item_value_str($item);
+                \App\Helper\Utils::unixtime2date_range($item);               
+                
+            }
 
-            dd($list);
+            foreach($list as $val){
+                if(!isset($val["subject"])){
+                    $subject_arr[$val["subject"]]=$val["subject"];
+                }
+                if(!isset($val["grade"])){
+                    $subject_arr[$val["grade"]]=$val["grade"];
+                }
+
+
+            }
+
+
+            return $this->pageView(__METHOD__,$ret_info,[
+                "attend_rate"=>@$attend_rate,
+                "subject_list"=>$subject_arr,
+                "grade_list"=>$grade_arr,
+            ]);
 
             
         }elseif($current_id==3){
