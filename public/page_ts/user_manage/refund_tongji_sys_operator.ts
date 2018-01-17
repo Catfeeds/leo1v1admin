@@ -86,11 +86,7 @@ $(function(){
                     ["类型", id_account_role],
                 ];
 
-                $.show_key_value_table("下单人信息", arr, {
-                    cssClass :  'btn-waring',
-                    action   :   function(dialog){
-                    }
-                });
+                $.show_key_value_table("下单人信息", arr);
 
 
             }

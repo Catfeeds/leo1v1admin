@@ -12,6 +12,8 @@ function load_data(){
 		    end_time:	$('#id_end_time').val(),
 		    subject:	$('#id_subject').val(),
 		    grade:	$('#id_grade').val(),
+	      cw_status:	$('#id_cw_status').val(),
+		    preview_status:	$('#id_preview_status').val(),
 		    current_id:	$(".current").data("id")
 		});
 
@@ -35,6 +37,9 @@ $(function(){
 
 	  $('#id_grade').val(g_args.grade);
 	  $('#id_subject').val(g_args.subject);
+    $('#id_cw_status').val(g_args.cw_status);
+	  $('#id_preview_status').val(g_args.preview_status);
+
     $("#id_search").on("click",function(){
         window["g_load_data_flag"] = 0;
         load_data();
@@ -108,6 +113,15 @@ $(function(){
     }else{
         $("#id_add_stu_score").parent().hide();
     }
+    $(".preview_table_flag,.lesson_table_flag").each(function(){
+        var class_id =$(this).data("class_id");
+        if(current_id==class_id){
+            $(this).show();
+        }else{
+            $(this).hide(); 
+        }
+    });
+   
 
 
 
@@ -118,6 +132,10 @@ $(function(){
         "color":"white",
     });
    
+    $("#id_cw_status,#id_preview_status").change(function(){
+        window["g_load_data_flag"] = 0;
+        load_data();
+    });
    
     $('.opt-change').set_input_change_event(load_data);
     $('#id_grade').change(function(){
@@ -164,6 +182,7 @@ $(function(){
         $("#id_grade").val(-1);
         window["g_load_data_flag"] = 0;
         load_data();
+        
     });
 
     $("#id_subject_show").on("click",function(){
@@ -172,6 +191,19 @@ $(function(){
         window["g_load_data_flag"] = 0;
         load_data();
     });
+
+    $(".show_cw_content").on("click",function(){
+        var url = $(this).data("url");
+        $.wopen(url); 
+    });
+    $("#id_show_all").on("click",function(){
+        alert(111);
+    });
+    $(".show_lesson_detail").on("click",function(){
+        var lessonid = $(this).data("lessonid");
+        alert(lessonid);
+    });
+
 
 
 

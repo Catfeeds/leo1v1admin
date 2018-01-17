@@ -4643,7 +4643,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
-        
+
         return $this->main_get_list_by_page($sql, $page_info);
     }
 
@@ -4844,7 +4844,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         // $sql = $this->gen_sql_new(
         //     'select subject_grade,sum(guest_number) as guest_number,'.
         //     'ceil(sum(class_consumption)) class_consumption from ('.
-        //     "select  (CASE 
+        //     "select  (CASE
         //               WHEN li.subject = 1 and li.grade <= 106
         //               THEN '小学语文'
         //               WHEN li.subject = 1 and li.grade <= 203 and li.grade >= 200
@@ -4954,6 +4954,19 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
     }
 
+    public function cheackIsFullTime($teacherid){
+        $where_arr = [
+            "t.teacherid=$teacherid",
+            "(teacher_money_type=0 or teacher_money_type=7) and t.teacher_type=3"
+        ];
+        $sql = $this->gen_sql_new("  select 1 from %s t"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
 
 
-} 
+}

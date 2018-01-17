@@ -12,7 +12,7 @@
             
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <bttton id="id_add" class="btn btn-primary">添加</button>
+                <bttton id="id_add" class="btn btn-primary">拉取数据</button>
             </div>
         </div>
         </div>
@@ -49,8 +49,12 @@
                 <td>{{$item['notify_name']}}</td>
                 <td>{{$item['sp_status_str']}}</td>
                 <td>{{$item['apply_time_str']}}</td>
-                <td>
+                <td data_id="{{$item['id']}}">
                     <a class="btn  fa fa-cog td-info" title="竖向显示"></a>
+                    @if ($item['flag'])
+                        <a class="btn fa fa-edit opt-edit" title="更新修改"></a>
+                    @endif
+                    <a class="btn fa opt-detail" title="详细信息">详情</a>
                 </td>
             </tr>
             @endforeach

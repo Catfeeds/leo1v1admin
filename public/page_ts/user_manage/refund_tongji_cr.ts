@@ -86,11 +86,7 @@ $(function(){
                     ["校区", id_group_name],
                     ["小组", id_name]
                 ];
-                $.show_key_value_table("助教信息", arr, {
-                    cssClass :  'btn-waring',
-                    action   :   function(dialog){
-                    }
-                });
+                $.show_key_value_table("助教信息", arr);
             }
         });
     });
