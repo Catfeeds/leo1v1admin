@@ -110,7 +110,6 @@
                     <td>销售负责人</td>
                     <td>
                         {{$user_info["admin_revisiter_nick"] }}
-
                         @if ($user_info["admin_revisiterid"] ==0 )
                             <font color="red"> 还不是你的!! </font>
                         @endif

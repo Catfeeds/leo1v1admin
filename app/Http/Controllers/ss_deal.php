@@ -3554,7 +3554,7 @@ class ss_deal extends Controller
                 if(!$this->t_seller_student_new->check_admin_add($adminid,$get_count,$max_day_count )){
                     return $this->output_err("目前你持有的例子数[$get_count]>=最高上限[$max_day_count]");
                 }
-                if (!$this->t_seller_new_count->check_and_add_new_count($adminid,"获取新例子"))  {
+                if (!$this->t_seller_new_count->check_and_add_new_count($adminid,"获取新例子",$userid))  {
                     return $this->output_err("今天的配额,已经用完了");
                 }
             }
