@@ -132,7 +132,7 @@ class TeacherMoneyTask extends TaskController
      * @param int type
      * @param int timestamp 需重置的老师工资的时段
      */
-    public function set_teacher_salary_list($type,$timestamp=0){
+    public function set_teacher_salary_list($timestamp=0){
         if($timestamp==0){
             $timestamp = time();
         }

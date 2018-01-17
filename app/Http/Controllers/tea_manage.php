@@ -2811,47 +2811,111 @@ class tea_manage extends Controller
         $stu_teaching_direction = $this->get_in_str_val("stu_teaching_direction");
         $stu_advice             = $this->get_in_str_val("stu_advice");
 
-        $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
-        if(!empty($require_id)){
-            $ret_info = $this->t_test_lesson_subject_require->field_update_list(
-                [["require_id=%u",$require_id]],
-                [
-                    "stu_lesson_content"     => $stu_lesson_content,
-                    "stu_lesson_status"      => $stu_lesson_status,
-                    "stu_study_status"       => $stu_study_status,
-                    "stu_advantages"         => $stu_advantages,
-                    "stu_disadvantages"      => $stu_disadvantages,
-                    "stu_lesson_plan"        => $stu_lesson_plan,
-                    "stu_teaching_direction" => $stu_teaching_direction,
-                    "stu_advice"             => $stu_advice,
-                ]
-            );
-        }else{
-            $ret_info = $this->t_seller_student_info->field_update_list(
-                [["st_arrange_lessonid=%u",$lessonid]],
-                [
-                    "stu_lesson_content"     => $stu_lesson_content,
-                    "stu_lesson_status"      => $stu_lesson_status,
-                    "stu_study_status"       => $stu_study_status,
-                    "stu_advantages"         => $stu_advantages,
-                    "stu_disadvantages"      => $stu_disadvantages,
-                    "stu_lesson_plan"        => $stu_lesson_plan,
-                    "stu_teaching_direction" => $stu_teaching_direction,
-                    "stu_advice"             => $stu_advice,
-                ]
-            );
-        }
+        $lesson_type= $this->t_lesson_info->get_lesson_type($lessonid);
+        if($lesson_type==2){
+            $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+            if(!empty($require_id)){
+                $ret_info = $this->t_test_lesson_subject_require->field_update_list(
+                    [["require_id=%u",$require_id]],
+                    [
+                        "stu_lesson_content"     => $stu_lesson_content,
+                        "stu_lesson_status"      => $stu_lesson_status,
+                        "stu_study_status"       => $stu_study_status,
+                        "stu_advantages"         => $stu_advantages,
+                        "stu_disadvantages"      => $stu_disadvantages,
+                        "stu_lesson_plan"        => $stu_lesson_plan,
+                        "stu_teaching_direction" => $stu_teaching_direction,
+                        "stu_advice"             => $stu_advice,
+                    ]
+                );
+            }else{
+                $ret_info = $this->t_seller_student_info->field_update_list(
+                    [["st_arrange_lessonid=%u",$lessonid]],
+                    [
+                        "stu_lesson_content"     => $stu_lesson_content,
+                        "stu_lesson_status"      => $stu_lesson_status,
+                        "stu_study_status"       => $stu_study_status,
+                        "stu_advantages"         => $stu_advantages,
+                        "stu_disadvantages"      => $stu_disadvantages,
+                        "stu_lesson_plan"        => $stu_lesson_plan,
+                        "stu_teaching_direction" => $stu_teaching_direction,
+                        "stu_advice"             => $stu_advice,
+                    ]
+                );
+            }
 
 
-        if(!$ret_info){
-            return outputjson_error("评价失败,请稍后再试");
+            if(!$ret_info){
+                return outputjson_error("评价失败,请稍后再试");
+            }else{
+                $this->t_lesson_info->field_update_list($lessonid,[
+                    'ass_comment_audit' => 3,
+                    'tea_rate_time'     => time(),
+                ]);
+                return outputjson_success();
+            }
         }else{
+            $arr =  [
+                "stu_lesson_content"     => $stu_lesson_content,
+                "stu_lesson_status"      => $stu_lesson_status,
+                "stu_study_status"       => $stu_study_status,
+                "stu_advantages"         => $stu_advantages,
+                "stu_disadvantages"      => $stu_disadvantages,
+                "stu_lesson_plan"        => $stu_lesson_plan,
+                "stu_teaching_direction" => $stu_teaching_direction,
+                "stu_advice"             => $stu_advice,
+            ];
+            $stu_comment = json_encode($arr);
+
             $this->t_lesson_info->field_update_list($lessonid,[
                 'ass_comment_audit' => 3,
                 'tea_rate_time'     => time(),
+                'stu_comment'       => $stu_comment
             ]);
             return outputjson_success();
         }
+
+        // $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+        // if(!empty($require_id)){
+        //     $ret_info = $this->t_test_lesson_subject_require->field_update_list(
+        //         [["require_id=%u",$require_id]],
+        //         [
+        //             "stu_lesson_content"     => $stu_lesson_content,
+        //             "stu_lesson_status"      => $stu_lesson_status,
+        //             "stu_study_status"       => $stu_study_status,
+        //             "stu_advantages"         => $stu_advantages,
+        //             "stu_disadvantages"      => $stu_disadvantages,
+        //             "stu_lesson_plan"        => $stu_lesson_plan,
+        //             "stu_teaching_direction" => $stu_teaching_direction,
+        //             "stu_advice"             => $stu_advice,
+        //         ]
+        //     );
+        // }else{
+        //     $ret_info = $this->t_seller_student_info->field_update_list(
+        //         [["st_arrange_lessonid=%u",$lessonid]],
+        //         [
+        //             "stu_lesson_content"     => $stu_lesson_content,
+        //             "stu_lesson_status"      => $stu_lesson_status,
+        //             "stu_study_status"       => $stu_study_status,
+        //             "stu_advantages"         => $stu_advantages,
+        //             "stu_disadvantages"      => $stu_disadvantages,
+        //             "stu_lesson_plan"        => $stu_lesson_plan,
+        //             "stu_teaching_direction" => $stu_teaching_direction,
+        //             "stu_advice"             => $stu_advice,
+        //         ]
+        //     );
+        // }
+
+
+        // if(!$ret_info){
+        //     return outputjson_error("评价失败,请稍后再试");
+        // }else{
+        //     $this->t_lesson_info->field_update_list($lessonid,[
+        //         'ass_comment_audit' => 3,
+        //         'tea_rate_time'     => time(),
+        //     ]);
+        //     return outputjson_success();
+        // }
     }
 
     public function set_train_lecture_status_b1(){

@@ -58,7 +58,7 @@ class SetTeacherMoney extends cmd_base
         }elseif($type==2 || $type==3){
             $task->set_teacher_trial_success_reward($type,$day);
         }elseif($type==4){
-            $task->set_teacher_salary_list($type,$date);
+            $task->set_teacher_salary_list($date);
         }elseif($type==5){
             $task->set_lesson_all_money($date);
         }
