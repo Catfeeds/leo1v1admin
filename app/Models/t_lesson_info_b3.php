@@ -3050,18 +3050,22 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
                                   ."l.grade,l.teacherid,l.lessonid,t.realname,"
                                   ." l.lesson_num,l.tea_attend,l.stu_attend,"
-                                  ." if(l.userid=op.userid,min(op.opt_time )) stu_attent_new,"
-                                  ." if(l.teacherid=op.userid,min(op.opt_time )) tea_attent_new,"
+                                  ." min(opo.opt_time ) stu_attent_new,"
+                                  ." min(opp.opt_time ) tea_attent_new,"
                                   ."count(if(l.userid=op.userid and op.opt_type=1,1,0)) stu_login_num, "
                                   ."count(if(l.teacherid=op.userid and op.opt_type=1,1,0)) tea_login_num, "
                                   ."count(if(s.parentid=op.userid and op.opt_type=1,1,0)) parent_login_num "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s s on l.userid = s.userid"
                                   ." left join %s op on l.lessonid = op.lessonid"
+                                  ." left join %s opo on l.lessonid = opo.lessonid and opo.userid = l.userid"
+                                  ." left join %s opp on l.lessonid = opp.lessonid and opp.userid = l.teacherid"
                                   ." where %s group by l.lessonid",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_lesson_opt_log::DB_TABLE_NAME,
+                                  t_lesson_opt_log::DB_TABLE_NAME,
                                   t_lesson_opt_log::DB_TABLE_NAME,
                                   $where_arr
         );
