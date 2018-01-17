@@ -658,6 +658,7 @@ return array(
     'TGrabLessonLinkVisitOperationAddVisitidIndex' => $baseDir . '/database/migrations/2017_10_11_094505_t_grab_lesson_link_visit_operation_add_visitid_index.php',
     'THomeworkInfoAddIssueOrigin' => $baseDir . '/database/migrations/2017_12_19_184104_t_homework_info_add_issue_origin.php',
     'TInterviewRemindAddCreateTime' => $baseDir . '/database/migrations/2017_10_21_094948_t_interview_remind_add_create_time.php',
+    'TLessonAllMoneyAddLessonCost' => $baseDir . '/database/migrations/2018_01_17_181006_t_lesson_all_money_add_lesson_cost.php',
     'TLessonAllMoneyList' => $baseDir . '/database/migrations/2018_01_17_142437_t_lesson_all_money_list.php',
     'TLessonInfoAdd' => $baseDir . '/database/migrations/2017_12_20_180451_t_lesson_info_add.php',
     'TLessonInfoAddColum' => $baseDir . '/database/migrations/2017_12_08_105733_t_lesson_info_add_colum.php',

@@ -61,11 +61,13 @@ class UpdateOrderLessonList extends cmd_base
             }
         }elseif($type==2){
             $this->set_lesson_all_money($date);
+        }elseif($type==3){
+
         }
     }
 
     /**
-     * 更新月份内所有的
+     * 更新月份内所有的课程收入
      */
     public function set_lesson_all_money($time){
         $month_arr = \App\Helper\Utils::get_month_range($time, true);
