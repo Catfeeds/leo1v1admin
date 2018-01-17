@@ -47,8 +47,8 @@
         </div>
         <hr/>
         <div class="row">
-            <div class="col-xs-6 col-md-12 col-md-offset-11">
-                <button class="btn btn-warning" id="id_pre_rate" style="margin-left:-7px">预习率:{{ $pre_rate }}%</button>
+            <div class="col-xs-6 col-md-12 ">
+                <button class="btn btn-warning btn-flat" id="id_pre_rate" style="float:right">预习率:{{ @$pre_rate }}%</button>
             </div>
         </div>
         <table class="common-table">
