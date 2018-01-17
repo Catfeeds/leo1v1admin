@@ -56,6 +56,7 @@ class sync_tianrun extends cmd_base
 
         }while ( count($ret["msg" ]["data"]) == $limit_count );
     }
+
     public function do_record ($item) {
         /*
           [uniqueId] => 10.10.61.69-1502416848.11782
@@ -144,8 +145,6 @@ class sync_tianrun extends cmd_base
             $called_flag = ($duration>60)?2:1;
             $this->task->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno);
         }
-        /*
-        */
 
     }
 
@@ -156,7 +155,6 @@ class sync_tianrun extends cmd_base
      */
     public function do_handle()
     {
-
         $day=$this->option('day');
         if ($day===null) {
             $now=time(NULL);
@@ -168,6 +166,5 @@ class sync_tianrun extends cmd_base
         }
 
         $this->load_data($start_time,$end_time);
-        //
     }
 }
