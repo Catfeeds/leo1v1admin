@@ -96,7 +96,7 @@ class UpdateOrderLessonList extends cmd_base
                 "confirm_flag"       => $confirm_flag,
                 "teacher_type"       => $teacher_type,
                 "teacher_money_type" => $teacher_money_type,
-                "add_time"           => $month_time,
+                "add_time"           => $time,
             ];
 
             if(!empty($data)){
