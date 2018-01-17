@@ -293,6 +293,15 @@ class test_code extends Controller
         \App\Helper\Utils::sms_common($phone, $type, $data);
     }
 
+    public function get_lesson_list_for_price(){
+        $month = $this->get_in_str_val("month","2017-1");
+        $month_time = strtotime($month);
+        $month_arr  = \App\Helper\Utils::get_month_range($month_time,true);
 
+        $lesson_list = $this->t_lesson_info_b3->get_lesson_list_for_all_money($month_arr['sdate'],$month_arr['edate']);
+
+
+
+    }
 
 }

@@ -13,7 +13,7 @@ class UpdateSetLessonFullNum extends Command
 
     /**
      * The console command description.
-     *
+     * 全勤奖已于2017年3月1日0时0分停止运行
      * @var string
      */
     protected $description = '每天晚上更新全勤奖的课次';
@@ -35,6 +35,9 @@ class UpdateSetLessonFullNum extends Command
      */
     public function handle()
     {
+        //全勤奖已于2017年3月1日0时0分停止运行
+        return false;
+
         $month = $this->option('month');
         if($month==null){
             $month="0";
