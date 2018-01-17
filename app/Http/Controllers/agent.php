@@ -447,6 +447,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $test_lesson_subject_id = $this->t_test_lesson_subject->get_test_lesson_subject_id($userid=504927);
+        dd($test_lesson_subject_id);
         $start_time = 1514649600;
         $end_time = 1517414400;
         $count = ($end_time-$start_time)/(3600*24);
