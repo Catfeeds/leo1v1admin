@@ -191,7 +191,7 @@ class tom_do_once extends Command
                 $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
                 $ret=json_decode($return_content, true  );
                 $data_list = @$ret["msg"]["data"];
-                if(count($data_list)>0){
+                if(is_array($data_list)){
                     foreach($data_list as $item){
                         $cdr_bridged_cno= $item["cno"];
                         $uniqueId= $item["uniqueId"];
