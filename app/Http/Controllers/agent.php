@@ -421,23 +421,23 @@ class agent extends Controller
         $start_time = 1514736000;
         $end_time = 1517414400;
         $ret = $this->t_tq_call_info->get_item_list($start_time,$end_time);
-        $count = isset($ret[0]['count'])?$ret[0]['count']:0;
-        $tq_count = isset($ret[0]['tq_count'])?$ret[0]['tq_count']:0;
-        $tian_count = isset($ret[0]['tian_count'])?$ret[0]['tian_count']:0;
         $ret_cause = $this->t_tq_call_info->get_item_cause($start_time,$end_time);
         $cause_arr = array_unique(array_column($ret_cause,'cause'));
+        $ret_end = $this->t_tq_call_info->get_item_end($start_time,$end_time);
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>'.date('Y-m',$start_time).'月</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>通话记录</th><th>tq通话记录</th><th>天润通话记录</th>';
+        echo '<th>通话记录</th><th>tq通话记录</th><th>天润通话记录</th><th>天润客户挂断</th><th>天润销售挂断</th>';
         foreach($cause_arr as $item){
             echo '<th>天润cause='.$item.'通话记录</th>';
         }
         echo '</tr>';
         echo '<tr>';
-        echo '<td>'.$count.'</td>';
-        echo '<td>'.$tq_count.'</td>';
-        echo '<td>'.$tian_count.'</td>';
+        echo '<td>'.(isset($ret[0]['count'])?$ret[0]['count']:0).'</td>';
+        echo '<td>'.(isset($ret[0]['tq_count'])?$ret[0]['tq_count']:0).'</td>';
+        echo '<td>'.(isset($ret[0]['tian_count'])?$ret[0]['tian_count']:0).'</td>';
+        echo '<td>'.(isset($ret_end[0]['end'])?$ret_end[0]['end']:0).'</td>';
+        echo '<td>'.(isset($ret_end[0]['cc_end'])?$ret_end[0]['cc_end']:0).'</td>';
         foreach($cause_arr as $item){
             $count = $this->t_tq_call_info->get_item_count($start_time,$end_time,$item);
             echo '<td>'.$count.'</td>';
