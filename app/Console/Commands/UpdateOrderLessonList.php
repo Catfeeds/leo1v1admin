@@ -100,6 +100,8 @@ class UpdateOrderLessonList extends cmd_base
             ];
 
             if(!empty($data)){
+                echo $lessonid;
+                echo PHP_EOL;
                 $this->task->t_lesson_all_money_list->row_insert($data);
             }
         }
