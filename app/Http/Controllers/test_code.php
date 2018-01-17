@@ -299,6 +299,15 @@ class test_code extends Controller
         $month_str  = "2017-".$month;
         $month_time = strtotime($month_str);
         $month_time = \App\Helper\Utils::get_month_range($month_time,true);
+
+
+        $jianzhi_reward = ($this->t_teacher_money_list->get_reward_total($month_time['sdate'],$month_time['edate'],0,0,0))/100;
+        $full_reward = ($this->t_teacher_money_list->get_reward_total($month_time['sdate'],$month_time['edate'],0,0,1))/100;
+        echo $jianzhi_reward;
+        echo "<br>";
+        echo $full_reward;
+        echo "<br>";
+        exit;
         $list = $this->t_lesson_all_money_list->get_lesson_all_money_list($month_time['sdate'],$month_time['edate'],$lessonid);
 
         echo "课程id|用户id|学生|科目|年级|课程类型|课时不对|课程表课时|课时|付费课时|赠送课时|课时收入|老师课时费|老师课时奖励|是否为全职老师|课程确认|课程扣款";
