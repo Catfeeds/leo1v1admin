@@ -33,10 +33,10 @@ class t_log_event_type extends \App\Models\Zgen\z_t_log_event_type
 
     public function get_event_type_id_list ( $project, $sub_project ){
         $sql= $this->gen_sql_new(
-            "select event_type_id from %s "
+            "select event_type_id" . " from %s "
             . " where project='%s' and sub_project='%s'  ",
             self::DB_TABLE_NAME,
-            $project, $sub_project, $event_name
+            $project, $sub_project
         );
         return $this->main_get_list($sql);
     }
