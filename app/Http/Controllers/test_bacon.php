@@ -204,7 +204,7 @@ class test_bacon extends Controller
                         ];
                         if(!$this->t_user_power_group->is_user_power_exit($user['uid'],$per)){
                             $this->t_user_power_group->row_insert($data);
-                            echo "<font style='color:red'>".$user['uid']." 权限：".$per." 刚刚添加完毕"."</font>";
+                            echo "<font style='color:red'>".$user['uid']." 权限：".$per." 添加完毕"."</font>";
                             echo "<br/>";
                         }else{
                             echo $user['uid']." 权限：".$per." 已添加";

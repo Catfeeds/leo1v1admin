@@ -20,4 +20,13 @@ class t_user_power_group extends \App\Models\Zgen\z_t_user_power_group
         return $ret;
     }
 
+    public function get_users($gid){
+        $sql=$this->gen_sql_new(
+            "select * from %s where gid =%u" ,
+            self::DB_TABLE_NAME,
+            $gid
+        );
+        return $this->main_get_row($sql);
+
+    }
 }
