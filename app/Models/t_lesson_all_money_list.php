@@ -25,11 +25,12 @@ class t_lesson_all_money_list extends \App\Models\Zgen\z_t_lesson_all_money_list
         return $this->main_update($sql);
     }
 
-    public function get_lesson_all_money_list($start_time,$end_time){
+    public function get_lesson_all_money_list($start_time,$end_time,$lessonid){
         $where_arr=[
             "s.is_test_user=0",
             ["la.add_time>=%u",$start_time,0],
             ["la.add_time<%u",$end_time,0],
+            ["la.lessonid=%u",$lessonid,0],
         ];
 
         $sql = $this->gen_sql_new("select la.lessonid,la.teacherid,la.userid,s.nick as stu_nick,s.phone as stu_phone,"

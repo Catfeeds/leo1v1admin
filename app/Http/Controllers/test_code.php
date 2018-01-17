@@ -294,12 +294,12 @@ class test_code extends Controller
     }
 
     public function show_lesson_all_money(){
+        $lessonid   = $this->get_in_int_val("lessonid");
         $month      = $this->get_in_int_val("month",1);
         $month_str  = "2017-".$month;
         $month_time = strtotime($month_str);
         $month_time = \App\Helper\Utils::get_month_range($month_time,true);
-
-        $list = $this->t_lesson_all_money_list->get_lesson_all_money_list($month_time['sdate'],$month_time['edate']);
+        $list = $this->t_lesson_all_money_list->get_lesson_all_money_list($month_time['sdate'],$month_time['edate'],$lessonid);
         echo "课程id|用户id|学生|科目|年级|课程类型|课时不对|课程表课时|课时|付费课时|赠送课时|课时收入|老师课时费|老师课时奖励|是否为全职老师|课程确认|课程扣款";
         echo "<br>";
         $show_list = [];
