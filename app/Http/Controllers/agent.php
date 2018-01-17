@@ -418,27 +418,28 @@ class agent extends Controller
 
     public function check(){
         $this->check_and_switch_tongji_domain();
-        $start_time = strtotime($this->get_in_str_val('start_time','2017-12-01'));
-        $end_time = strtotime($this->get_in_str_val('end_time','2018-01-01'));
-        $ret = $this->t_seller_edit_log->get_seller_give_list($start_time,$end_time);
-
+        $start_time = 1514736000;
+        $end_time = 1517414400;
+        $ret = $this->t_tq_call_info->get_item_list($start_time,$end_time);
+        $ret_cause = $this->t_tq_call_info->get_item_cause($start_time,$end_time);
+        $cause_arr = array_unique(array_column($ret_cause,'cause'));
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>'.date('Y-m',$start_time).'月</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>userid</th><th>分配人</th><th>被分配人</th><th>分配时间</th>';
-        echo '</tr>';
-        foreach($ret as $item){
-            $userid = isset($item['new'])?$item['new']:'';
-            $give_nick = isset($item['give_nick'])?$item['give_nick']:'';
-            $get_nick = isset($item['get_nick'])?$item['get_nick']:'';
-            $create_time = $item['create_time'];
-            echo '<tr>';
-            echo '<td>'.$userid.'</td>';
-            echo '<td>'.$give_nick.'</td>';
-            echo '<td>'.$get_nick.'</td>';
-            echo '<td>'.date('Y-m-d H:i:s',$create_time).'</td>';
-            echo '</tr>';
+        echo '<th>通话记录</th><th>tq通话记录</th><th>天润通话记录</th>';
+        foreach($cause_arr as $item){
+            echo '<th>天润cause='.$item.'通话记录</th>';
         }
+        echo '</tr>';
+        echo '<tr>';
+        echo '<td>'.(isset($ret['count'])?$ret['count']:0).'</td>';
+        echo '<td>'.(isset($ret['tq_count'])?$ret['tq_count']:0).'</td>';
+        echo '<td>'.(isset($ret['tian_count'])?$ret['tian_count']:0).'</td>';
+        foreach($cause_arr as $item){
+            $count = $this->t_tq_call_info->get_item_count($start_time,$end_time,$item);
+            echo '<td>'.$count.'</td>';
+        }
+        echo '</tr>';
         echo '</table>';
     }
 
