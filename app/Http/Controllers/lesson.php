@@ -312,10 +312,10 @@ class lesson extends TeaWxController
             if(($lesson_end<$limit_time) && ($six_time<$now)){
                 $item['is_forbid'] = "1";
             }
-            # 非测试人员 文彬,华华 不可见
-            if($teacherid!=357372 && $teacherid!=308481 ){
-                $item['is_forbid'] = "0";
-            }
+            // # 非测试人员 文彬,华华 不可见
+            // if($teacherid!=357372 && $teacherid!=308481 ){
+            //     $item['is_forbid'] = "0";
+            // }
         }
 
 
