@@ -743,7 +743,6 @@ class seller_student_new extends Controller
             $key="DEAL_NEW_USER_$adminid";
             $old_userid=\App\Helper\Common::redis_get($key)*1;
             $old_row_data= $this->t_seller_student_new->field_get_list($old_userid,"competition_call_time, competition_call_adminid, admin_revisiterid ,tq_called_flag ");
-
             if (
                 $old_row_data["tq_called_flag"] ==0 &&
                 $old_row_data["admin_revisiterid"] !=$adminid
@@ -1736,7 +1735,7 @@ class seller_student_new extends Controller
             return $ret;
         }
         //近1小时内有拨通过
-        if($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子")){
+        if($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子",$userid)){
             $account = $this->t_manager_info->get_account( $competition_call_adminid );
             $this->t_seller_student_new->set_admin_info(0, [$userid], $competition_call_adminid,0);
             $ret_update = $this->t_book_revisit->add_book_revisit(
