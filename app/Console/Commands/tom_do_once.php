@@ -166,8 +166,8 @@ class tom_do_once extends Command
     }
 
     public function update_tq_call_info(){
-        $start_time = strtotime('2017-11-30');
-        $end_time = strtotime('2017-12-31');
+        $start_time = strtotime('2017-10-31');
+        $end_time = strtotime('2017-11-30');
         $count = ($end_time-$start_time)/(3600*24);
         for ($i=1; $i<=$count; $i++)
         {
