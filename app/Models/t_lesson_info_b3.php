@@ -2998,4 +2998,27 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    public function get_lesson_list_for_all_money($start_time,$end_time){
+        $where_arr = [
+            "l.lesson_type<1000",
+            "t.is_test_user=0"
+        ];
+        $where_arr = $this->lesson_start_sql($start_time, $end_time,"l",$where_arr);
+        $sql = $this->gen_sql_new("select l.lessonid,ol.orderid,l.userid,l.teacherid,l.lesson_type,l.lesson_count as l_lesson_count,"
+                                  ." ol.lesson_count as ol_lesson_count,ol.per_price,"
+                                  ." l.confirm_flag,l.teacher_type,l.teacher_money_type,t.teacher_type"
+                                  ." from %s l"
+                                  ." left join %s ol on l.lessonid=ol.lessonid"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." where %s"
+                                  ." and not exists (select 1 from %s la)"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_order_lesson_list::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        echo $sql;exit;
+        return $this->main_get_list($sql);
+    }
+
 }

@@ -3863,8 +3863,7 @@ class user_manage_new extends Controller
 
     public function ass_warning_stu_info_new(){
         $account_id = $this->get_account_id();
-        $adminid = $this->get_ass_leader_account_id($account_id);
-        //  $account_id = 297;
+        $adminid    = $this->get_ass_leader_account_id($account_id);
         $main_type = 1;
         $is_master = $this->t_admin_main_group_name->check_is_master($main_type,$account_id);
         if($is_master>0 || in_array($account_id,[349,188,74]) ){
@@ -4087,10 +4086,17 @@ class user_manage_new extends Controller
         return $this->output_succ();
     }
 
+    //删除老师额外奖金记录
     public function delete_teacher_reward(){
         $id = $this->get_in_int_val("id");
 
-        $ret=$this->t_teacher_money_list->row_delete($id);
+        $add_time   = $this->t_teacher_money_list->get_add_time($id);
+        $check_flag = \App\Helper\Utils::check_teacher_salary_time($add_time);
+        if(!$check_flag){
+            return $this->output_err("超出时间，无法删除! \n 只能删除本月数据！");
+        }
+
+        $ret = $this->t_teacher_money_list->row_delete($id);
         if(!$ret){
             return $this->output_err("删除失败！请重试！");
         }

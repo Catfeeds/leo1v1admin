@@ -2232,7 +2232,6 @@ lesson_type in (0,1) "
     }
 
     /**
-     * @author adrian
      * 此方法供 UpdateOrderLessonList 命令来刷课时收入使用
      * 请勿随意更改
      * @param int userid 学生id
@@ -2240,6 +2239,7 @@ lesson_type in (0,1) "
      * @param int start_time  开始时间
      * @param int end_time    结束时间
      * @param int lesson_status 课程状态
+     * @author adrian
      */
     public function get_user_lesson_list($userid,$competition=-1,$start_time=0,$end_time=0,$lesson_status=2){
         $where_str = [

@@ -32,7 +32,12 @@ class SetTeacherMoney extends cmd_base
 
     /**
      * Execute the console command.
-     * @param int type 1 每周二更新老师园丁奖  2,3 每天更新老师的试听签单奖励 4 更新老师工资列表
+     * @param int type
+     * 1 每周二更新老师园丁奖
+     * 2 每天更新兼职老师的试听签单奖励
+     * 3 每天更新全职老师的试听签单奖励
+     * 4 更新老师工资列表
+     * 5 设置课程的所有薪资信息
      * @param int day  老师签单奖更新的时间周期
      * @param int date 老师工资更新的时间戳
      * @return mixed
