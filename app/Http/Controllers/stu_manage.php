@@ -1451,7 +1451,7 @@ class stu_manage extends Controller
 
         #输入参数 
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        $subject = $this->get_in_subject();
+        $subject = $this->get_in_int_val("subject",-1);
         $grade = $this->get_in_int_val("grade",-1);
         $current_id = $this->get_in_int_val("current_id",1);
         $subject_arr=[];

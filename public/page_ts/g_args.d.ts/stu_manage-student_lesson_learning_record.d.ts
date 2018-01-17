@@ -8,7 +8,7 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	subject:	number;//枚举: App\Enums\Esubject
+	subject:	number;
 	grade:	number;
 	current_id:	number;
 }
@@ -60,16 +60,7 @@ $(function(){
 		});
 	$('#id_sid').val(g_args.sid);
 	$('#id_order_by_str').val(g_args.order_by_str);
-	$('#id_subject').admin_set_select_field({
-		"enum_type"    : "subject",
-		"field_name" : "subject",
-		"select_value" : g_args.subject,
-		"onChange"     : load_data,
-		"multi_select_flag"     : false ,
-		"th_input_id"  : "th_subject",
-		"only_show_in_th_input"     : false,
-		"btn_id_config"     : {},
-	});
+	$('#id_subject').val(g_args.subject);
 	$('#id_grade').val(g_args.grade);
 	$('#id_current_id').val(g_args.current_id);
 
@@ -107,9 +98,8 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">科目</span>
-                <select class="opt-change form-control" id="id_subject" >
-                </select>
+                <span class="input-group-addon">subject</span>
+                <input class="opt-change form-control" id="id_subject" />
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["subject title", "subject", "th_subject" ]])!!}
