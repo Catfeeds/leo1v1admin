@@ -27,8 +27,9 @@ tofile:
 /// <reference path="../g_args.d.ts/tongji_ss-teacher_first_test_lesson_week.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -37,21 +38,20 @@ function load_data(){
 		subject:	$('#id_subject').val(),
 		record_flag:	$('#id_record_flag').val(),
 		record_adminid:	$('#id_record_adminid').val()
-    });
+		});
 }
 $(function(){
 
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
+	$('#id_date_range').select_date_range({
+		'date_type' : g_args.date_type,
+		'opt_date_type' : g_args.opt_date_type,
+		'start_time'    : g_args.start_time,
+		'end_time'      : g_args.end_time,
+		date_type_config : JSON.parse( g_args.date_type_config),
+		onQuery :function() {
+			load_data();
+		});
 	$('#id_subject').val(g_args.subject);
 	$('#id_record_flag').val(g_args.record_flag);
 	$('#id_record_adminid').val(g_args.record_adminid);
@@ -64,6 +64,11 @@ $(function(){
 
 */
 /* HTML ...
+{!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -71,6 +76,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_subject" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["subject title", "subject", "th_subject" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -78,6 +84,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_record_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["record_flag title", "record_flag", "th_record_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -85,4 +92,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_record_adminid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["record_adminid title", "record_adminid", "th_record_adminid" ]])!!}
 */
