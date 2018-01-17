@@ -2127,8 +2127,9 @@ class user_manage_new extends Controller
         if( $groupid > 0 ){  
             $user_list = $this->t_manager_info->get_power_group_user_list($groupid);
             $user_list = $this->get_user_permission($user_list);
-            // $user_list = $this->t_manager_info->get_power_group_user_list_sec($groupid);
-            // dd($user_list);
+
+            //$user_list = $this->get_user_powers($groupid);
+         
             $power_map = $this->t_authority_group->get_auth_group_map($groupid);
             $list=$this->get_menu_list_new($power_map );
       
@@ -2156,27 +2157,29 @@ class user_manage_new extends Controller
             $permission = array_unique($permission);
             $per_name = [];
             if($permission){
-                $per_str = "(";
+                $per_str = "";
                 foreach($permission as $per){
-                    if(!empty($per)){
+                    if($per != ''){
                         $per_str .= $per.',';
                     }
                 }
-                $per_str = substr($per_str,0,-1).')';
-                $permission_names = $this->t_authority_group->get_groups_by_idstr($per_str);
-                $per_name = array_column($permission_names, 'group_name', 'groupid');
-                foreach($user_list as &$user){
-                    $permit_name = '';
-                    if($user['permit_arr']){
-                        foreach( $user['permit_arr'] as $gid){
-                            $permit_str = array_key_exists($gid, $per_name) ? trim(@$per_name[$gid])."," : "";
-                            $permit_name .= $permit_str;
+                if( $per_str != ''){
+                    $per_str = "(".substr($per_str,0,-1).')';
+                    $permission_names = $this->t_authority_group->get_groups_by_idstr($per_str);
+                    $per_name = array_column($permission_names, 'group_name', 'groupid');
+                    foreach($user_list as &$user){
+                        $permit_name = '';
+                        if($user['permit_arr']){
+                            foreach( $user['permit_arr'] as $gid){
+                                $permit_str = array_key_exists($gid, $per_name) ? trim(@$per_name[$gid])."," : "";
+                                $permit_name .= $permit_str;
+                            }
+                            $permit_name = substr($permit_name,0,-1);
                         }
-                        $permit_name = substr($permit_name,0,-1);
+                        $user['permit_name'] = $permit_name;
                     }
-                    $user['permit_name'] = $permit_name;
-                }
 
+                }
             }
         }
         return $user_list;
@@ -2360,10 +2363,6 @@ class user_manage_new extends Controller
         return $ret;
         // return $this->output_succ(["data"=> $ret]);
     }
-
-
-
-
 
     public function opt_accont_group() {
         $uid      = $this->get_in_int_val("uid") ;

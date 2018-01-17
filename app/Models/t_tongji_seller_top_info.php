@@ -68,6 +68,7 @@ class t_tongji_seller_top_info extends \App\Models\Zgen\z_t_tongji_seller_top_in
         ]);
 
     }
+
     public function update_list($tongji_type,$logtime, $list ) {
         $this->del($tongji_type,$logtime);
         foreach ($list as $index => $item) {
@@ -77,6 +78,7 @@ class t_tongji_seller_top_info extends \App\Models\Zgen\z_t_tongji_seller_top_in
             $this->add($tongji_type,$logtime,$item["adminid"], $item["value"] , $index+1);
         }
     }
+
     public function get_list($page_num,$tongji_type,$logtime ) {
         $sql=$this->gen_sql_new("select  *  from  %s where tongji_type=%u and logtime=%u order by top_index  asc",
                                 self::DB_TABLE_NAME,

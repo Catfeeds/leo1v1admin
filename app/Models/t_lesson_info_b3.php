@@ -2696,29 +2696,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         echo $sql;
         return $this->main_get_list($sql);
-
-        $where_arr = [
-            'ti.trial_lecture_is_pass=1',
-            'ti.is_test_user=0',
-            'li.lesson_del_flag=0',
-            'li.lesson_status=2',
-            'ti.teacher_money_type=6'
-        ];
-        $sql = $this->gen_sql_new(
-            'select li.lesson_count,li.teacherid,t.nick as t_nick,li.lessonid,li.userid,'.
-            'li.lesson_type,li.deduct_upload_cw,li.deduct_come_late,li.deduct_rate_student,'.
-            'li.deduct_change_class,li.lesson_cancel_reason_type,li.subject,li.confirm_flag,'.
-            'li.lesson_user_online_status '.
-            'from %s li '.
-            'left join %s ti on li.teacherid = ti.teacherid '.
-            'where %s',
-            self::DB_TABLE_NAME,
-            t_teacher_info::DB_TABLE_NAME,
-            $where_arr
-        );
-
-        return $this->main_get_list($sql);
-
     }
     //@desn:获取所有的不重复的subject userid课程信息
     //@param:$start_time 开始时间
@@ -3019,6 +2996,41 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         echo $sql;exit;
         return $this->main_get_list($sql);
+    }
+
+    //课前预习
+    public function get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$cw_status,$preview_status,$page_flag=1){
+        $where_arr = [
+            ["l.lesson_start>=%u",$start_time,0],
+            ["l.lesson_start<%u",$end_time,0],
+            ["l.userid=%u",$userid,-1],
+            ["l.subject=%u",$subject,-1],
+            ["l.grade=%u",$grade,-1],
+            ["l.preview_status=%u",$preview_status,-1],
+            "l.lesson_del_flag=0",
+            // "l.confirm_flag<2",
+            "l.lesson_type in (0,1,3)"
+        ];
+        if($cw_status==0){
+            $where_arr[]="(l.tea_cw_upload_time=0 or l.tea_cw_upload_time>=l.lesson_start)";
+        }else{
+            $where_arr[]="l.tea_cw_upload_time>0 and l.tea_cw_upload_time<l.lesson_start";
+        }
+        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
+                                  ."l.grade,l.teacherid,l.lessonid,t.realname,"
+                                  ." l.lesson_num,l.tea_cw_upload_time ,l.tea_cw_url , "
+                                  ."l.preview_status,l.cw_status "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        if($page_flag==1){
+            return $this->main_get_list_by_page($sql,$page_info); 
+        }elseif($page_flag==2){
+            return $this->main_get_list($sql); 
+        }
     }
 
 }
