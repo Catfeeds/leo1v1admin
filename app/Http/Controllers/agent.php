@@ -421,6 +421,9 @@ class agent extends Controller
         $start_time = 1514736000;
         $end_time = 1517414400;
         $ret = $this->t_tq_call_info->get_item_list($start_time,$end_time);
+        $count = isset($ret['count'])?$ret['count']:0;
+        $tq_count = isset($ret['tq_count'])?$ret['tq_count']:0;
+        $tian_count = isset($ret['tian_count'])?$ret['tian_count']:0;
         $ret_cause = $this->t_tq_call_info->get_item_cause($start_time,$end_time);
         $cause_arr = array_unique(array_column($ret_cause,'cause'));
         echo '<table border="1" width="600" align="center">';
@@ -432,9 +435,9 @@ class agent extends Controller
         }
         echo '</tr>';
         echo '<tr>';
-        echo '<td>'.(isset($ret['count'])?$ret['count']:0).'</td>';
-        echo '<td>'.(isset($ret['tq_count'])?$ret['tq_count']:0).'</td>';
-        echo '<td>'.(isset($ret['tian_count'])?$ret['tian_count']:0).'</td>';
+        echo '<td>'.$count.'</td>';
+        echo '<td>'.$tq_count.'</td>';
+        echo '<td>'.$tian_count.'</td>';
         foreach($cause_arr as $item){
             $count = $this->t_tq_call_info->get_item_count($start_time,$end_time,$item);
             echo '<td>'.$count.'</td>';
