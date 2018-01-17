@@ -32,7 +32,7 @@ class t_lesson_all_money_list extends \App\Models\Zgen\z_t_lesson_all_money_list
             ["la.add_time<%u",$end_time,0],
         ];
 
-        $sql = $this->gen_sql_new("select la.teacherid,la.userid,s.nick as stu_nick,s.phone as stu_phone,"
+        $sql = $this->gen_sql_new("select la.lessonid,la.teacherid,la.userid,s.nick as stu_nick,s.phone as stu_phone,"
                                   ." l.subject,l.grade,la.lesson_type,"
                                   ." la.lesson_count,la.per_price,la.confirm_flag,la.teacher_type,la.teacher_money_type,"
                                   ." la.teacher_base_money,la.teacher_lesson_count_money,la.teacher_lesson_cost,"

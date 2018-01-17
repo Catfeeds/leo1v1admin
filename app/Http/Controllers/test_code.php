@@ -301,6 +301,7 @@ class test_code extends Controller
 
         $list = $this->t_lesson_all_money_list->get_lesson_all_money_list($month_time['sdate'],$month_time['edate']);
         echo "用户id|学生|科目|年级|课程类型|课时不对|课程表课时|课时|付费课时|赠送课时|课时收入|老师课时费|老师课时奖励|是否为全职老师|课程确认|课程扣款";
+        echo "<br>";
         $show_list = [];
         foreach($list as $val){
             $lessonid     = $val['lessonid'];
@@ -327,21 +328,26 @@ class test_code extends Controller
             }
         }
 
+        $money_total=[];
         foreach($show_list as $s_val){
-            $stu_nick     = $s_val['stu_nick'];
-            $subject      = E\Esubject::get_desc($s_val['subject']);
-            $grade        = E\Esubject::get_desc($s_val['grade']);
-            $lesson_type  = E\Econtract_type::get_desc($s_val['lesson_type']);
-            $lesson_count = $s_val['free_lesson_count']+$s_val['normal_lesson_count'];
-            $l_lesson_count = $s_val['l_lesson_count'];
+            $stu_nick    = $s_val['stu_nick'];
+            $userid      = $s_val['userid'];
+            $subject     = E\Esubject::get_desc($s_val['subject']);
+            $grade       = E\Esubject::get_desc($s_val['grade']);
+            $lesson_type = E\Econtract_type::get_desc($s_val['lesson_type']);
+            $lesson_count = ($s_val['free_lesson_count']+$s_val['normal_lesson_count'])/100;
+            $l_lesson_count = $s_val['l_lesson_count']/100;
             if($lesson_count!=$l_lesson_count){
                 $error_lesson_count=1;
             }else{
                 $error_lesson_count=0;
             }
-            $lesson_price               = $s_val['lesson_price'];
-            $teacher_base_money         = $s_val['teacher_base_money'];
-            $teacher_lesson_count_money = $s_val['teacher_lesson_count_money'];
+            $normal_lesson_count        = $s_val['normal_lesson_count']/100;
+            $free_lesson_count          = $s_val['free_lesson_count']/100;
+            $lesson_price               = $s_val['lesson_price']/100;
+            $teacher_base_money         = $s_val['teacher_base_money']/100;
+            $teacher_lesson_count_money = $s_val['teacher_lesson_count_money']/100;
+            $teacher_lesson_cost        = $s_val['teacher_lesson_cost']/100;
             $teacher_money_type         = $s_val['teacher_money_type'];
             $teacher_type               = $s_val['teacher_type'];
             $teacherid                  = $s_val['teacherid'];
@@ -349,11 +355,39 @@ class test_code extends Controller
             $confirm_flag = $s_val['confirm_flag'];
 
             echo $userid."|".$stu_nick."|".$subject."|".$grade."|".$lesson_type."|".$error_lesson_count."|".$l_lesson_count
-                        ."|".$lesson_count."|".$s_val['normal_lesson_count']."|".$s_val['free_lesson_count']."|".$lesson_price
+                        ."|".$lesson_count."|".$normal_lesson_count."|".$free_lesson_count."|".$lesson_price
                         ."|".$teacher_base_money."|".$teacher_lesson_count_money."|".$check_is_full."|".$confirm_flag
-                        ."|".$s_val['teacher_lesson_cost'];
+                        ."|".$teacher_lesson_cost;
             echo "<br>";
+
+
+
+            if($teacher_lesson_cost>=100){
+                $teacher_base_money = 0;
+                $teacher_lesson_count_money= 0;
+            }elseif($confirm_flag!=2){
+            }else{
+                $teacher_base_money = 0;
+                $teacher_lesson_count_money= 0;
+                $teacher_lesson_cost = 0;
+            }
+            $teacher_all_money = $teacher_base_money+$teacher_lesson_count_money-$teacher_lesson_cost;
+
+            $money_detail = &$money_total[$check_is_full];
+            \App\Helper\Utils::check_isset_data($money_detail["teacher_trial_money"],0,0);
+            \App\Helper\Utils::check_isset_data($money_detail["teacher_normal_money"],0,0);
+            \App\Helper\Utils::check_isset_data($money_detail["lesson_price"],$lesson_price);
+            \App\Helper\Utils::check_isset_data($money_detail["normal_lesson_count"],$normal_lesson_count);
+            \App\Helper\Utils::check_isset_data($money_detail["free_lesson_count"],$free_lesson_count);
+            \App\Helper\Utils::check_isset_data($money_detail["teacher_all_money"],$teacher_all_money);
+            if($lesson_type==2){
+                \App\Helper\Utils::check_isset_data($money_detail["teacher_trial_money"],$teacher_base_money);
+            }else{
+                \App\Helper\Utils::check_isset_data($money_detail["teacher_normal_money"],$teacher_base_money);
+            }
+            \App\Helper\Utils::check_isset_data($money_detail["teacher_lesson_count_money"],$teacher_lesson_count_money);
         }
+
     }
 
 
