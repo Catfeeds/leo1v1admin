@@ -1463,7 +1463,7 @@ class stu_manage extends Controller
                 E\Egrade::set_item_value_str($item); 
                 E\Esubject::set_item_value_str($item);
                 \App\Helper\Utils::unixtime2date_range($item);
-                $item["cw_url"] = $domain."/".$item["tea_cw_url"];
+                $item["cw_url"] = \App\Helper\Utils::gen_download_url($item["tea_cw_url"]);
             }
             dd($ret_info);
         }elseif($current_id==2){
