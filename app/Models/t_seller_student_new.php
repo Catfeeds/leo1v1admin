@@ -267,7 +267,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "admin_assign_time"  => time(),
             ]);
             $test_lesson_subject_id = $this->t_test_lesson_subject->get_test_lesson_subject_id($userid);
-            $this->task->t_test_lesson_subject->field_update_list($test_lesson_subject_id, ["require_adminid"=>$admin_revisiterid]);
+            $this->task->t_test_lesson_subject->field_update_list($test_lesson_subject_id, ["require_adminid"=>$adminid]);
             $this->task->t_book_revisit->add_book_revisit(
                 $phone,
                 "操作者: 系统 状态: 分配给总监 [ $account ] ",
@@ -300,7 +300,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "admin_assign_time"  => time(),
             ]);
             $test_lesson_subject_id = $this->t_test_lesson_subject->get_test_lesson_subject_id($userid);
-            $this->task->t_test_lesson_subject->field_update_list($test_lesson_subject_id, ["require_adminid"=>$admin_revisiterid]);
+            $this->task->t_test_lesson_subject->field_update_list($test_lesson_subject_id, ["require_adminid"=>$adminid]);
 
             $this->task->t_book_revisit->add_book_revisit(
                 $phone,
