@@ -11,7 +11,7 @@ $(function(){
             teacherid           :	$('#id_teacherid').val() ,
             run_flag            :	$('#id_run_flag').val(),
             assistantid         :	$('#id_assistantid').val(),
-            test_seller_id      : $("#id_test_seller_id").val(),
+            test_seller_id      :   $("#id_test_seller_id").val(),
         });
     }
 
