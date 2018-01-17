@@ -185,7 +185,6 @@
             <!-- AdminLTE for demo purposes -->
             <script src="/js/jquery.admin.js?{{@$_publish_version}}" type="text/javascript"></script>
             <script src="/page_js/enum_map.js?{{@$_publish_version}}" type="text/javascript"></script>
-            <script src="/page_js/new_header.js?{{@$_publish_version}}" type="text/javascript"></script>
             <script type="text/javascript" src="/page_ts/{{$_ctr}}/{{$_act}}.js?{{@$_publish_version}}"></script>
             <!-- 全局变量  -->
 
@@ -207,6 +206,13 @@
 
                 @yield('content')
             </aside>
+            <script type="text/javascript">
+             if(g_account=="jack" || g_account=="jim" || g_account=="adrian"||g_account=="abner" || g_account=="michelle" ){
+                 download_show();
+                 $(".page-opt-show-all-xls").show();
+             }
+            </script>
+
         </div>
     </body>
 </html>
