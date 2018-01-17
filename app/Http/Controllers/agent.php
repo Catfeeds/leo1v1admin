@@ -429,7 +429,7 @@ class agent extends Controller
         echo '<tr bgcolor="#dddddd">';
         echo '<th>通话记录</th><th>tq通话记录</th><th>天润通话记录</th><th>天润客户挂断</th><th>天润销售挂断</th>';
         foreach($cause_arr as $item){
-            echo '<th>天润cause='.$item.'通话记录</th>';
+            echo '<th>'.E\Ecause::get_desc($item).'通话记录</th>';
         }
         echo '</tr>';
         echo '<tr>';
