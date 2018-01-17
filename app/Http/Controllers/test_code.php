@@ -300,7 +300,7 @@ class test_code extends Controller
         $month_time = \App\Helper\Utils::get_month_range($month_time,true);
 
         $list = $this->t_lesson_all_money_list->get_lesson_all_money_list($month_time['sdate'],$month_time['edate']);
-        echo "用户id|学生|科目|年级|课程类型|课时不对|课程表课时|课时|付费课时|赠送课时|课时收入|老师课时费|老师课时奖励|是否为全职老师|课程确认|课程扣款";
+        echo "课程id|用户id|学生|科目|年级|课程类型|课时不对|课程表课时|课时|付费课时|赠送课时|课时收入|老师课时费|老师课时奖励|是否为全职老师|课程确认|课程扣款";
         echo "<br>";
         $show_list = [];
         foreach($list as $val){
@@ -331,6 +331,7 @@ class test_code extends Controller
         $money_total=[];
         foreach($show_list as $s_val){
             $stu_nick    = $s_val['stu_nick'];
+            $lessonid    = $s_val['lessonid'];
             $userid      = $s_val['userid'];
             $subject     = E\Esubject::get_desc($s_val['subject']);
             $grade       = E\Egrade::get_desc($s_val['grade']);
@@ -344,7 +345,7 @@ class test_code extends Controller
             }
             $normal_lesson_count        = $s_val['normal_lesson_count']/100;
             $free_lesson_count          = $s_val['free_lesson_count']/100;
-            $lesson_price               = $s_val['lesson_price']/100;
+            $lesson_price               = $s_val['lesson_price'];
             $teacher_base_money         = $s_val['teacher_base_money']/100;
             $teacher_lesson_count_money = $s_val['teacher_lesson_count_money']/100;
             $teacher_lesson_cost        = $s_val['teacher_lesson_cost']/100;
@@ -355,14 +356,18 @@ class test_code extends Controller
             $confirm_flag = $s_val['confirm_flag'];
             $confirm_flag_str = E\Econfirm_flag::get_desc($confirm_flag);
             $check_is_full = $check_is_full?1:0;
+            if($error_lesson_count==0){
+                $error_lesson_count_str = "课时正确";
+            }else{
+                $error_lesson_count_str = "课时错误";
+            }
 
-            echo $userid."|".$stu_nick."|".$subject."|".$grade."|".$lesson_type."|".$error_lesson_count."|".$l_lesson_count
-                        ."|".$lesson_count."|".$normal_lesson_count."|".$free_lesson_count."|".$lesson_price
-                        ."|".$teacher_base_money."|".$teacher_lesson_count_money."|".$check_is_full."|".$confirm_flag
-                        ."|".$teacher_lesson_cost;
+            echo $lessonid."|".$userid."|".$stu_nick."|".$subject."|".$grade."|".$lesson_type
+                          ."|".$error_lesson_count_str."|".$l_lesson_count
+                          ."|".$lesson_count."|".$normal_lesson_count."|".$free_lesson_count."|".$lesson_price
+                          ."|".$teacher_base_money."|".$teacher_lesson_count_money."|".$check_is_full."|".$confirm_flag_str
+                          ."|".$teacher_lesson_cost;
             echo "<br>";
-
-
 
             if($teacher_lesson_cost>=100){
                 $teacher_base_money = 0;
