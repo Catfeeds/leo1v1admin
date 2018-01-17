@@ -37,8 +37,8 @@
                 <button class="btn btn-warning" id="id_add_stu_score" >添加考试成绩</button>
             </div>
             <div class="col-xs-6 col-md-12" >
-                <button class="btn" id="id_subject_show" ></button>
-                <button class="btn" id="id_grade_show" ></button>
+                <button class="btn " id="id_grade_show" ></button>
+                <button class="btn " id="id_subject_show" ></button>
             </div>
             
 
@@ -54,12 +54,26 @@
         <table class="common-table">
             <thead>
                 <tr>
+                    <td>序号</td>
+                    <td>时间</td>
+                    <td>年级</td>
+                    <td>科目</td>
+                    <td>讲义上传</td>
+                    <td>老师</td>
+                    <td>预习情况</td>
                     <td>操作</td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($table_data_list as $var)
                     <tr>
+                        <td>{{@$var["lesson_num"] }}</td>
+                        <td>{{@$var["lesson_time"] }}</td>
+                        <td>{{@$var["grade_str"] }}</td>
+                        <td>{{@$var["subject_str"] }}</td>
+                        <td>{{@$var["cw_status_str"] }}</td>
+                        <td>{{@$var["realname"] }}</td>
+                        <td>{{@$var["preview_status_str"] }}</td>
                         <td>
                             <div
 

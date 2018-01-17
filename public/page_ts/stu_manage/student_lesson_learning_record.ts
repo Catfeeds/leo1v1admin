@@ -120,4 +120,60 @@ $(function(){
    
    
     $('.opt-change').set_input_change_event(load_data);
+    $('#id_grade').change(function(){
+        var grade=$(this).val();
+        var vv = $(this).find("option:selected").text();
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        if(grade==-1){
+            $("#id_grade_show").hide();
+        }else{
+            $("#id_grade_show").html(htm);
+            $("#id_grade_show").show();
+        }
+    });
+    $('#id_subject').change(function(){
+        var subject=$(this).val();
+        var vv = $(this).find("option:selected").text();
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        if(subject==-1){
+            $("#id_subject_show").hide();
+        }else{
+            $("#id_subject_show").html(htm);
+            $("#id_subject_show").show();
+        }
+    });
+    if(g_args.grade==-1){
+        $("#id_grade_show").hide();
+    }else{
+        var vv = $("#id_grade").find("option:selected").text();
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        $("#id_grade_show").html(htm);
+        $("#id_grade_show").show();
+    }
+    if(g_args.subject==-1){
+        $("#id_subject_show").hide();
+    }else{
+        var vv = $("#id_subject").find("option:selected").text();
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        $("#id_subject_show").html(htm);
+        $("#id_subject_show").show();
+    }
+
+    $("#id_grade_show").on("click",function(){
+        $(this).hide();
+        $("#id_grade").val(-1);
+        window["g_load_data_flag"] = 0;
+        load_data();
+    });
+
+    $("#id_subject_show").on("click",function(){
+        $(this).hide();
+        $("#id_subject").val(-1);
+        window["g_load_data_flag"] = 0;
+        load_data();
+    });
+
+
+
+
 });
