@@ -353,6 +353,7 @@ class test_code extends Controller
             $teacherid                  = $s_val['teacherid'];
             $check_is_full = \App\Helper\Utils::check_teacher_is_full($teacher_money_type, $teacher_type, $teacherid);
             $confirm_flag = $s_val['confirm_flag'];
+            $check_is_full = $check_is_full?1:0;
 
             echo $userid."|".$stu_nick."|".$subject."|".$grade."|".$lesson_type."|".$error_lesson_count."|".$l_lesson_count
                         ."|".$lesson_count."|".$normal_lesson_count."|".$free_lesson_count."|".$lesson_price
