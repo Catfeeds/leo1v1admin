@@ -1023,9 +1023,9 @@ $(function(){
         var id_suit_student = $('<input/>');
         var id_title = $('<input/>');
         var id_package_intro = $('<textarea/>');
-        id_tea_name.on('click',function(){
-            $.admin_select_user($('#tea_name'),"teacher");
-        })
+        // id_tea_name.on('click',function(){
+        //     $.admin_select_user($('#tea_name'),"teacher");
+        // })
 
         Enum_map.append_option_list("grade", id_grade,true);
         Enum_map.append_option_list("subject", id_subject,true);
@@ -1037,15 +1037,17 @@ $(function(){
         });
         id_lesson_start.blur(function(){
             var lesson_start =id_lesson_start.val();
-            var lesson_start_str =  new Date(lesson_start);
-            var year = lesson_start_str.getFullYear();
-            var month = lesson_start_str.getMonth()+1;
-            var day = lesson_start_str.getDate();
-            var hour = lesson_start_str.getHours()+1;
-            var minute = lesson_start_str.getMinutes();
-            var second = lesson_start_str.getSeconds();
-            var lesson_end = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
-            id_lesson_end.val( lesson_end );
+            if(lesson_start != ''){
+                var lesson_start_str =  new Date(lesson_start);
+                var year = lesson_start_str.getFullYear();
+                var month = lesson_start_str.getMonth()+1;
+                var day = lesson_start_str.getDate();
+                var hour = lesson_start_str.getHours()+1;
+                var minute = lesson_start_str.getMinutes();
+                var second = lesson_start_str.getSeconds();
+                var lesson_end = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
+                id_lesson_end.val( lesson_end );
+            }
         })
 
         id_lesson_end.datetimepicker({
@@ -1054,7 +1056,6 @@ $(function(){
             datepicker:true,
             timepicker:true
         });
-
 
         var arr = [
             ['开始时间',id_lesson_start],
@@ -1070,6 +1071,35 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action : function(dialog) {
+                if(!id_lesson_start.val()){
+                    alert('课程开始时间为必填项!');
+                    return false;
+                }
+                if(id_subject.val() <= 0){
+                    alert('请选择科目!');
+                    return false;
+                }
+                if(id_grade.val() <= 0){
+                    alert('请选择年级!');
+                    return false;
+                }
+                if(!id_tea_name.val()){
+                    alert('请选择老师！')
+                    return false;
+                }
+                if(id_suit_student.val() == ''){
+                    alert('请填写适合学生！')
+                    return false;
+                }
+                if(id_title.val() == ''){
+                    alert('请填写课题！')
+                    return false;
+                }
+                if(id_package_intro.val() == ''){
+                    alert('请填写内容介绍！')
+                    return false;
+                }
+
                 $.ajax({
                     url: '/tea_manage_new/open_class_add',
                     type: 'POST',
@@ -1093,8 +1123,9 @@ $(function(){
                     }
                 });
             }
-        });
-
+        },function(){
+            $.admin_select_user($('#tea_name'),"teacher");
+        })
     });
 
     $("#id_add_many_lesson").on("click",function(){

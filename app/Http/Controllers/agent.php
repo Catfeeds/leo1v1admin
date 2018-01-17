@@ -418,35 +418,97 @@ class agent extends Controller
 
     public function check(){
         $this->check_and_switch_tongji_domain();
-        $start_time = strtotime($this->get_in_str_val('start_time','2017-12-01'));
-        $end_time = strtotime($this->get_in_str_val('end_time','2018-01-01'));
-        $ret = $this->t_seller_edit_log->get_seller_give_list($start_time,$end_time);
-
+        $start_time = 1514736000;
+        $end_time = 1517414400;
+        $ret = $this->t_tq_call_info->get_item_list($start_time,$end_time);
+        $ret_cause = $this->t_tq_call_info->get_item_cause($start_time,$end_time);
+        $cause_arr = array_unique(array_column($ret_cause,'cause'));
+        $ret_end = $this->t_tq_call_info->get_item_end($start_time,$end_time);
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>'.date('Y-m',$start_time).'月</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>userid</th><th>分配人</th><th>被分配人</th><th>分配时间</th>';
-        echo '</tr>';
-        foreach($ret as $item){
-            $userid = isset($item['new'])?$item['new']:'';
-            $give_nick = isset($item['give_nick'])?$item['give_nick']:'';
-            $get_nick = isset($item['get_nick'])?$item['get_nick']:'';
-            $create_time = $item['create_time'];
-            echo '<tr>';
-            echo '<td>'.$userid.'</td>';
-            echo '<td>'.$give_nick.'</td>';
-            echo '<td>'.$get_nick.'</td>';
-            echo '<td>'.date('Y-m-d H:i:s',$create_time).'</td>';
-            echo '</tr>';
+        echo '<th>tq&天润</th><th>tq&天润接通</th><th>tq&天润未接通</th><th>tq</th><th>天润</th><th>天润客户挂断</th><th>天润销售挂断</th><th>天润接通</th><th>天润接通客户挂断</th><th>天润接通<60s客户挂断</th><th>天润接通>=60s客户挂断</th><th>天润接通销售挂断</th><th>天润接通<60s销售挂断</th><th>天润接通>=60s销售挂断</th><th>天润未接通</th>';
+        foreach($cause_arr as $item){
+            echo '<th>天润'.E\Ecause::get_desc($item).'</th>';
         }
+        echo '</tr>';
+        echo '<tr>';
+        echo '<td>'.(isset($ret[0]['count'])?$ret[0]['count']:0).'</td>';
+        echo '<td>'.(isset($ret[0]['called_count'])?$ret[0]['called_count']:0).'</td>';
+        echo '<td>'.(isset($ret[0]['no_called_count'])?$ret[0]['no_called_count']:0).'</td>';
+        echo '<td>'.(isset($ret[0]['tq_count'])?$ret[0]['tq_count']:0).'</td>';
+        echo '<td>'.(isset($ret[0]['tian_count'])?$ret[0]['tian_count']:0).'</td>';
+        echo '<td>'.(isset($ret_end[0]['end'])?$ret_end[0]['end']:0).'</td>';
+        echo '<td>'.(isset($ret_end[0]['cc_end'])?$ret_end[0]['cc_end']:0).'</td>';
+        echo '<td>'.(isset($ret[0]['tian_called_count'])?$ret[0]['tian_called_count']:0).'</td>';
+        echo '<td>'.(isset($ret[0]['tian_called_c'])?$ret[0]['tian_called_c']:0).'</td>';
+        echo '<td>'.(isset($ret[0]['tian_called_c_a'])?$ret[0]['tian_called_c_a']:0).'</td>';
+        echo '<td>'.(isset($ret[0]['tian_called_c_b'])?$ret[0]['tian_called_c_b']:0).'</td>';
+        echo '<td>'.(isset($ret[0]['tian_called_cc'])?$ret[0]['tian_called_cc']:0).'</td>';
+        echo '<td>'.(isset($ret[0]['tian_called_cc_a'])?$ret[0]['tian_called_cc_a']:0).'</td>';
+        echo '<td>'.(isset($ret[0]['tian_called_cc_b'])?$ret[0]['tian_called_cc_b']:0).'</td>';
+        echo '<td>'.(isset($ret[0]['tian_no_called_count'])?$ret[0]['tian_no_called_count']:0).'</td>';
+        foreach($cause_arr as $item){
+            $count = $this->t_tq_call_info->get_item_count($start_time,$end_time,$item);
+            echo '<td>'.$count.'</td>';
+        }
+        echo '</tr>';
         echo '</table>';
     }
 
     public function test_new(){
-        $start_time = 1514649600;
-        $end_time = 1517414400;
+        $time_arr = [
+            [
+                'start_time'=>strtotime('2017-09-30'),
+                'end_time'=>strtotime('2017-10-31')
+            ],[
+                'start_time'=>strtotime('2017-08-31'),
+                'end_time'=>strtotime('2017-09-30')
+            ],[
+                'start_time'=>strtotime('2017-07-31'),
+                'end_time'=>strtotime('2017-08-31')
+            ],[
+                'start_time'=>strtotime('2017-06-30'),
+                'end_time'=>strtotime('2017-07-31')
+            ],[
+                'start_time'=>strtotime('2017-05-31'),
+                'end_time'=>strtotime('2017-06-30')
+            ],[
+                'start_time'=>strtotime('2017-04-30'),
+                'end_time'=>strtotime('2017-05-31')
+            ],[
+                'start_time'=>strtotime('2017-03-31'),
+                'end_time'=>strtotime('2017-04-30')
+            ],[
+                'start_time'=>strtotime('2017-02-28'),
+                'end_time'=>strtotime('2017-03-31')
+            ],[
+                'start_time'=>strtotime('2017-01-31'),
+                'end_time'=>strtotime('2017-02-28')
+            ],[
+                'start_time'=>strtotime('2016-12-31'),
+                'end_time'=>strtotime('2017-01-31')
+            ],[
+                'start_time'=>strtotime('2016-11-30'),
+                'end_time'=>strtotime('2016-12-31')
+            ],[
+                'start_time'=>strtotime('2016-10-31'),
+                'end_time'=>strtotime('2016-11-30')
+            ],[
+                'start_time'=>strtotime('2016-09-30'),
+                'end_time'=>strtotime('2016-10-31')
+            ],[
+                'start_time'=>strtotime('2016-08-31'),
+                'end_time'=>strtotime('2016-09-30')
+            ],
+        ];
+        // dd($time_arr);
+        
+        // $start_time = strtotime('2016-06-30');
+        // $end_time = strtotime('2016-07-31');
+        $start_time = strtotime('2016-07-31');
+        $end_time = strtotime('2016-08-31');
         $count = ($end_time-$start_time)/(3600*24);
-        $count = 17;
         for ($i=1; $i<=$count; $i++)
         {
             $start_time = $start_time+3600*24;
@@ -454,51 +516,9 @@ class agent extends Controller
             {
                 $start_time_new = $start_time+3600*$j;
                 $end_time_new = $start_time_new+3600;
-
-                $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
-                $post_arr=[
-                    "enterpriseId" => 3005131  ,
-                    "userName" => "admin" ,
-                    "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
-                    "seed" => "seed1",
-                    "startTime" => '2018-01-06 00:00:00',
-                    "endTime" => '2018-01-06 01:00:00',
-                ];
-                $post_arr["start"]  = 0;
-                $post_arr["limit"]  = 1000;
-                $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
-                $ret=json_decode($return_content, true  );
-                $data_list = @$ret["msg"]["data"];
-                foreach($data_list as $item){
-                    $cdr_bridged_cno= $item["cno"];
-                    $uniqueId= $item["uniqueId"];
-                    $cdr_answer_time = intval( preg_split("/\-/", $uniqueId)[1]);
-                    $id= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
-                    $sipCause = $item['sipCause'];
-                    $client_number = $item['clientNumber'];
-                    $endReason = $item['endReason']=='是'?1:0;
-                    $ret = $this->t_tq_call_info->field_get_list($id, '*');
-                    $arr = [];
-                    if($ret['cause'] != $sipCause){
-                        $arr['cause'] = $sipCause;
-                    }
-                    if($ret['client_number'] != $client_number){
-                        $arr['client_number'] = $client_number;
-                    }
-                    if($ret['end_reason'] != $endReason){
-                        $arr['end_reason'] = $endReason;
-                    }
-                    if(count($arr)>0){
-                        $ret = $this->t_tq_call_info->field_update_list($id, $arr);
-                    }
-                }
+                echo date('Y-m-d H:i:s',$start_time_new).'~'.date('Y-m-d H:i:s',$end_time_new)."\n";
             }
         }
-        
-        dd($data_list);
-        dd(array_unique(array_column($data_list, 'sipCause')));
-        $rank_arr              = explode('/', '4/10');
-        dd($rank_arr,$class_rank,$class_num);
     }
 
     //处理等级头像
