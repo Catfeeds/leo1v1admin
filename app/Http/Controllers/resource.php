@@ -120,7 +120,7 @@ class resource extends Controller
     public function get_sub_grade_book_tag(){
         $subject       = $this->get_in_int_val('subject');
         $grade         = $this->get_in_int_val('grade');
-        $textbook      = trim($this->get_in_str_val('textbook'));
+        $bookid        = $this->get_in_int_val('bookid');
         
     }
 
