@@ -335,6 +335,7 @@ class test_code extends Controller
             $userid      = $s_val['userid'];
             $subject     = E\Esubject::get_desc($s_val['subject']);
             $grade       = E\Egrade::get_desc($s_val['grade']);
+            $lesson_type = $s_val['lesson_type'];
             if($lesson_type==2){
                 $lesson_type_str = "试听";
             }else{
