@@ -2977,7 +2977,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
 
     //课前预习
-    public function get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade){
+    public function get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$page_flag=1){
         $where_arr = [
             ["l.lesson_start>=%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
@@ -2991,14 +2991,18 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
                                   ."l.grade,l.teacherid,l.lessonid,t.realname,"
                                   ." l.lesson_num,l.tea_cw_upload_time ,l.tea_cw_url , "
-                                  ."l.preview_status "
+                                  ."l.preview_status,l.cw_status "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." where %s ",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_info);
+        if($page_flag==1){
+            return $this->main_get_list_by_page($sql,$page_info); 
+        }elseif($page_flag==2){
+            return $this->main_get_list($sql); 
+        }
 
     }
 
