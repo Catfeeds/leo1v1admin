@@ -882,7 +882,7 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
             self::DB_TABLE_NAME,
             $where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
     }
 
     public function get_item_cause($start_time,$end_time){
