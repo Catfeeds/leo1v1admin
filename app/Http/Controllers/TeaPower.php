@@ -4923,8 +4923,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $teacher_lesson_count_money = $val['lesson_reward']*100;
                 $teacher_lesson_cost        = $val['lesson_cost']*100;
 
-                echo $lessonid;
-                echo PHP_EOL;
 
                 $this->t_lesson_all_money_list->update_lesson_all_money_info(
                     $lessonid,$teacher_base_money,$teacher_lesson_count_money,$teacher_lesson_cost
