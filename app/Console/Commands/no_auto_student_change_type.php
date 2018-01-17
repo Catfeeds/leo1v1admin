@@ -42,20 +42,20 @@ class no_auto_student_change_type extends Command
         $task = new \App\Console\Tasks\TaskController ();
 
         //临时
-        $start_time = strtotime("2017-12-01");
-        $end_time = strtotime("2017-12-14");
-        $teacher_list_ex = $task->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
-        $teacher_arr_ex = $task->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
-        foreach($teacher_arr_ex as $k=>$val){
-            if(!isset($teacher_list_ex[$k])){
-                $teacher_list_ex[$k]=$k;
-            }
-        }
+        // $start_time = strtotime("2017-12-01");
+        // $end_time = strtotime("2017-12-14");
+        // $teacher_list_ex = $task->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
+        // $teacher_arr_ex = $task->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
+        // foreach($teacher_arr_ex as $k=>$val){
+        //     if(!isset($teacher_list_ex[$k])){
+        //         $teacher_list_ex[$k]=$k;
+        //     }
+        // }
 
-        $all_tea_ex = count($teacher_list_ex);
-        $train_all = $task->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list_ex,-1);
-        $train_succ = $task->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list_ex,1);
-        dd([$train_all,$train_succ]);
+        // $all_tea_ex = count($teacher_list_ex);
+        // $train_all = $task->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list_ex,-1);
+        // $train_succ = $task->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list_ex,1);
+        // dd([$train_all,$train_succ]);
 
         $time = strtotime(date("Y-m-d",time()));        
         $user_stop = $task->t_student_info->get_no_auto_stop_stu_list($time);

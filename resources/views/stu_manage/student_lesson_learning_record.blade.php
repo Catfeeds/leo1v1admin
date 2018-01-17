@@ -53,25 +53,49 @@
         </div>
         <table class="common-table">
             <thead>
-                <tr>
-                    <td>序号</td>
+                <tr >
+                    <td >序号</td>
                     <td>时间</td>
                     <td>年级</td>
                     <td>科目</td>
-                    <td>讲义上传</td>
+                    <td width="100px">
+                        讲义上传
+                        <select id="id_cw_status">
+                            <option value="-1">全部</option>
+                            <option value="1">已上传</option>
+                            <option value="0">未上传</option>
+                        </select>
+                    </td>
+
+                    </td>
                     <td>老师</td>
-                    <td>预习情况</td>
+                    <td width="100px">
+                        预习情况
+                        <select id="id_preview_status">
+                            <option value="-1">全部</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </td>
                     <td>操作</td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($table_data_list as $var)
                     <tr>
-                        <td>{{@$var["lesson_num"] }}</td>
+                        <td class="show_lesson_detail" data-lessonid="{{ $var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
                         <td>{{@$var["lesson_time"] }}</td>
                         <td>{{@$var["grade_str"] }}</td>
                         <td>{{@$var["subject_str"] }}</td>
-                        <td>{{@$var["cw_status_str"] }}</td>
+                        <td>
+                            @if(empty(@$var["cw_status_flag"]))
+                                {{@$var["cw_status_str"] }}
+                            @else
+                                <a class="show_cw_content" href="javascript:;" data-url="{{ $var["cw_url"] }}">
+                                    {{@$var["cw_status_str"] }}
+                                </a>
+                            @endif
+                        </td>
                         <td>{{@$var["realname"] }}</td>
                         <td>{{@$var["preview_status_str"] }}</td>
                         <td>
@@ -79,8 +103,6 @@
 
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa fa-list-alt opt-hand-over btn" title="新建交接单"></a>
-                                <a class="btn fa fa-th-list opt-hand-over_info" title="交接单详情"></a>
                             </div>
                         </td>
                     </tr>
