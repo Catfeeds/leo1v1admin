@@ -2975,4 +2975,31 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+
+    //课前预习
+    public function get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade){
+        $where_arr = [
+            ["l.lesson_start>=%u",$start_time,0],
+            ["l.lesson_start<%u",$end_time,0],
+            ["l.userid=%u",$userid,-1],
+            ["l.subject=%u",$subject,-1],
+            ["l.grade=%u",$grade,-1],
+            "l.lesson_del_flag=0",
+            // "l.confirm_flag<2",
+            "l.lesson_type in (0,1,3)"
+        ];
+        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
+                                  ."l.grade,l.teacherid,l.lessonid,t.realname,"
+                                  ." l.lesson_num,l.tea_cw_upload_time ,l.tea_cw_url , "
+                                  ."l.preview_status "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+
+    }
+
 }

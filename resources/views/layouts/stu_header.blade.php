@@ -60,6 +60,11 @@
         {!!  @$js_values_str !!}
 
 
+       
+        <link href="/css/new_header.css" rel="stylesheet" type="text/css" />
+
+
+
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -135,10 +140,66 @@
                 <!-- /.sidebar -->
             </aside>
 
+                        <!-- jQuery 3 -->
+            <script src="/AdminLTE-2.4.0-rc/bower_components/jquery/dist/jquery.min.js"></script>
+            <!-- jQuery UI 1.11.4 -->
+            <script src="/AdminLTE-2.4.0-rc/bower_components/jquery-ui/jquery-ui.min.js"></script>
+            <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+            <script>
+             $.widget.bridge('uibutton', $.ui.button);
+            </script>
+
+            <script src="/AdminLTE-2.4.0-rc/plugins/input-mask/jquery.inputmask.js"></script>
+            <script src="/AdminLTE-2.4.0-rc/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+            <script src="/AdminLTE-2.4.0-rc/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+            <!-- Bootstrap 3.3.7 -->
+            <script src="/AdminLTE-2.4.0-rc/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+            <script src="/js/bootstrap3-dialog/js/bootstrap-dialog.js" type="text/javascript"></script>
+
+            <!-- Morris.js charts -->
+            <script src="/AdminLTE-2.4.0-rc/bower_components/raphael/raphael.min.js"></script>
+            <script src="/AdminLTE-2.4.0-rc/bower_components/morris.js/morris.min.js"></script>
+            <!-- Sparkline -->
+            <script src="/AdminLTE-2.4.0-rc/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+            <!-- jvectormap -->
+            <script src="/AdminLTE-2.4.0-rc/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+            <script src="/AdminLTE-2.4.0-rc/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+            <!-- jQuery Knob Chart -->
+            <script src="/AdminLTE-2.4.0-rc/bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
+            <!-- daterangepicker -->
+            <script src="/AdminLTE-2.4.0-rc/bower_components/moment/min/moment.min.js"></script>
+            <script src="/AdminLTE-2.4.0-rc/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+            <!-- datepicker -->
+            <script src="/AdminLTE-2.4.0-rc/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+            <!-- Bootstrap WYSIHTML5 -->
+            <script src="/AdminLTE-2.4.0-rc/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+            <!-- Slimscroll -->
+            <script src="/AdminLTE-2.4.0-rc/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+            <!-- FastClick -->
+            <script src="/AdminLTE-2.4.0-rc/bower_components/fastclick/lib/fastclick.js"></script>
+            <!-- AdminLTE App -->
+            <script src="/AdminLTE-2.4.0-rc/dist/js/adminlte.js"></script>
+            <script src="/AdminLTE-2.4.0-rc/plugins/iCheck/icheck.js"></script>
+            <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+            <!-- AdminLTE for demo purposes -->
+            <script src="/js/jquery.admin.js?{{@$_publish_version}}" type="text/javascript"></script>
+            <script src="/page_js/enum_map.js?{{@$_publish_version}}" type="text/javascript"></script>
+            <script src="/page_js/new_header.js?{{@$_publish_version}}" type="text/javascript"></script>
+            <script type="text/javascript" src="/page_ts/{{$_ctr}}/{{$_act}}.js?{{@$_publish_version}}"></script>
+            <!-- 全局变量  -->
+
+
             <script type="text/javascript" >
              var g_account="<?=$_account?>";
 
             </script>
+            <script type="text/javascript" src="/js/jquery.datetimepicker.js"></script>
+            <script type="text/javascript" src="/page_js/lib/select_date_range.js?{{@$_publish_version}}"></script>
+            <script src="/page_js/lib/select_dlg_ajax.js?{{@$_publish_version}}" type="text/javascript"></script>
+            <script type="text/javascript" src="/page_js/lib/select_dlg.js"></script>
+            <script src="/page_ts/lib/admin_set_select_field.js?{{@$_publish_version}}" type="text/javascript"></script>
+
 
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
