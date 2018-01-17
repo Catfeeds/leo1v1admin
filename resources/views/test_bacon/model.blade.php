@@ -15,25 +15,23 @@ function GetQueryString(name)
      if(r!=null)return  unescape(r[2]); return null;
 }
 
-$(document).ready(function(){
-  var file = GetQueryString("file");
-  $("#file").val(file);	
-  var arr = new Array();	
-  $("a span").each(function(){
-	  var level = $(this).parents('li').length;
-	  var obj = {'level':level,'name':$(this).text()};
-	  //console.log(obj);
-          arr.push(obj);
-  })
-  var data = JSON.stringify(arr);
-  $("#data").val(data);
-  $('.download').submit(function(e){
-	alert("Submitted");
-  });	
-  console.log(data);
-
-
-});
+ $(document).ready(function(){
+     var file = GetQueryString("file");
+     $("#file").val(file);	
+     var arr = new Array();	
+     $("a span").each(function(){
+	       var level = $(this).parents('li').length;
+	       var obj = {'level':level,'name':$(this).text()};
+	       //console.log(obj);
+         arr.push(obj);
+     })
+     var data = JSON.stringify(arr);
+     $("#data").val(data);
+     $('.download').submit(function(e){
+	       alert("Submitted");
+     });	
+     console.log(data);
+ });
 </script>
 <form method="post" enctype="multipart/form-data">
 <input id="data" name="data" value="" type="hidden">
