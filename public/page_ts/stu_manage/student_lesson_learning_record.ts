@@ -4,7 +4,7 @@ function load_data(){
 	  if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		    order_by_str : g_args.order_by_str,
-		    sid:	$('#id_sid').val(),
+		    sid:	g_args.sid,
 		    date_type_config:	$('#id_date_type_config').val(),
 		    date_type:	$('#id_date_type').val(),
 		    opt_date_type:	$('#id_opt_date_type').val(),
@@ -12,6 +12,8 @@ function load_data(){
 		    end_time:	$('#id_end_time').val(),
 		    subject:	$('#id_subject').val(),
 		    grade:	$('#id_grade').val(),
+	      cw_status:	$('#id_cw_status').val(),
+		    preview_status:	$('#id_preview_status').val(),
 		    current_id:	$(".current").data("id")
 		});
 
@@ -30,11 +32,14 @@ $(function(){
         }
     });
 
-    Enum_map.append_option_list("subject",$("#id_subject"));
-    Enum_map.append_option_list("grade",$("#id_grade"));
+    Enum_map.append_option_list("subject",$("#id_subject"),false,window["g_subject_list"]);
+    Enum_map.append_option_list("grade",$("#id_grade"),false,window["g_grade_list"]);
 
 	  $('#id_grade').val(g_args.grade);
 	  $('#id_subject').val(g_args.subject);
+    $('#id_cw_status').val(g_args.cw_status);
+	  $('#id_preview_status').val(g_args.preview_status);
+
     $("#id_search").on("click",function(){
         window["g_load_data_flag"] = 0;
         load_data();
@@ -108,6 +113,15 @@ $(function(){
     }else{
         $("#id_add_stu_score").parent().hide();
     }
+    $(".preview_table_flag,.lesson_table_flag").each(function(){
+        var class_id =$(this).data("class_id");
+        if(current_id==class_id){
+            $(this).show();
+        }else{
+            $(this).hide(); 
+        }
+    });
+   
 
 
 
@@ -118,6 +132,80 @@ $(function(){
         "color":"white",
     });
    
+    $("#id_cw_status,#id_preview_status").change(function(){
+        window["g_load_data_flag"] = 0;
+        load_data();
+    });
    
     $('.opt-change').set_input_change_event(load_data);
+    $('#id_grade').change(function(){
+        var grade=$(this).val();
+        var vv = $(this).find("option:selected").text();
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        if(grade==-1){
+            $("#id_grade_show").hide();
+        }else{
+            $("#id_grade_show").html(htm);
+            $("#id_grade_show").show();
+        }
+    });
+    $('#id_subject').change(function(){
+        var subject=$(this).val();
+        var vv = $(this).find("option:selected").text();
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        if(subject==-1){
+            $("#id_subject_show").hide();
+        }else{
+            $("#id_subject_show").html(htm);
+            $("#id_subject_show").show();
+        }
+    });
+    if(g_args.grade==-1){
+        $("#id_grade_show").hide();
+    }else{
+        var vv = $("#id_grade").find("option:selected").text();
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        $("#id_grade_show").html(htm);
+        $("#id_grade_show").show();
+    }
+    if(g_args.subject==-1){
+        $("#id_subject_show").hide();
+    }else{
+        var vv = $("#id_subject").find("option:selected").text();
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        $("#id_subject_show").html(htm);
+        $("#id_subject_show").show();
+    }
+
+    $("#id_grade_show").on("click",function(){
+        $(this).hide();
+        $("#id_grade").val(-1);
+        window["g_load_data_flag"] = 0;
+        load_data();
+        
+    });
+
+    $("#id_subject_show").on("click",function(){
+        $(this).hide();
+        $("#id_subject").val(-1);
+        window["g_load_data_flag"] = 0;
+        load_data();
+    });
+
+    $(".show_cw_content").on("click",function(){
+        var url = $(this).data("url");
+        $.wopen(url); 
+    });
+    $("#id_show_all").on("click",function(){
+        alert(111);
+    });
+    $(".show_lesson_detail").on("click",function(){
+        var lessonid = $(this).data("lessonid");
+        alert(lessonid);
+    });
+
+
+
+
+
 });

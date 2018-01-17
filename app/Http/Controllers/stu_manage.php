@@ -1443,6 +1443,7 @@ class stu_manage extends Controller
 
     public function student_lesson_learning_record(){
         $userid       = $this->sid;
+        $userid = $this->get_in_int_val("sid");
         #分页信息
         $page_info= $this->get_in_page_info();
         #排序信息
@@ -1450,26 +1451,30 @@ class stu_manage extends Controller
             =$this->get_in_order_by_str([],"adminid desc");
 
         #输入参数 
-        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        $subject = $this->get_in_subject();
+        list($start_time,$end_time)=$this->get_in_date_range(-7,0,1);
+        $subject = $this->get_in_int_val("subject",-1);
         $grade = $this->get_in_int_val("grade",-1);
         $current_id = $this->get_in_int_val("current_id",1);
+        $cw_status = $this->get_in_int_val("cw_status",-1);
+        $preview_status = $this->get_in_int_val("preview_status",-1);
         $subject_arr=[];
         $grade_arr=[];
         $domain = config('admin')['qiniu']['public']['url'];
         if($current_id==1){
-            $ret_info = $this->t_lesson_info_b3->get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade);
-            $list = $this->t_lesson_info_b3->get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
+            $ret_info = $this->t_lesson_info_b3->get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$cw_status,$preview_status);
+            $list = $this->t_lesson_info_b3->get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$cw_status,$preview_status,2);
             foreach($ret_info["list"] as &$item){
                 E\Egrade::set_item_value_str($item); 
                 E\Esubject::set_item_value_str($item);
                 \App\Helper\Utils::unixtime2date_range($item);
                 $item["cw_url"] = \App\Helper\Utils::gen_download_url($item["tea_cw_url"]);
-                if(empty($item["tea_cw_upload_time"]) || $item["tea_cw_upload_time"]>$item["lesson_start"]){
+                if(empty($item["tea_cw_upload_time"]) || $item["tea_cw_upload_time"]>=$item["lesson_start"]){
                     $item["cw_status_str"]="未上传";
+                    $item["cw_status_flag"]=0;
                     $item["preview_status_str"]="—";
                 }else{
                     $item["cw_status_str"]="已上传";
+                    $item["cw_status_flag"]=1;
                     E\Eboolean::set_item_value_str($item,"preview_status"); 
                 }
                 
@@ -1494,9 +1499,38 @@ class stu_manage extends Controller
             }
             $pre_rate = $cw_num==0?0:round($pre_num/$cw_num*100,2);
             return $this->pageView(__METHOD__,$ret_info,[
-                "pre_rate"=>$pre_rate
+                "pre_rate"=>$pre_rate,
+                "subject_list"=>$subject_arr,
+                "grade_list"=>$grade_arr,
             ]);
         }elseif($current_id==2){
+            $ret_info = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade);
+            $list = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
+            foreach($ret_info["list"] as &$item){
+                E\Egrade::set_item_value_str($item); 
+                E\Esubject::set_item_value_str($item);
+                \App\Helper\Utils::unixtime2date_range($item);               
+                
+            }
+
+            foreach($list as $val){
+                if(!isset($val["subject"])){
+                    $subject_arr[$val["subject"]]=$val["subject"];
+                }
+                if(!isset($val["grade"])){
+                    $subject_arr[$val["grade"]]=$val["grade"];
+                }
+
+
+            }
+
+
+            return $this->pageView(__METHOD__,$ret_info,[
+                "attend_rate"=>@$attend_rate,
+                "subject_list"=>$subject_arr,
+                "grade_list"=>$grade_arr,
+            ]);
+
             
         }elseif($current_id==3){
             

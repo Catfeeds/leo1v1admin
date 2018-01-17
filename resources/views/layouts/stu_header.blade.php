@@ -37,8 +37,8 @@
         <!-- jQuery 2.0.2 -->
         <script src="/js/jquery-2.1.4.js" type="text/javascript"></script>
         <script src="/js/jquery.query.js" type="text/javascript"></script>
-        <script src="/page_js/new_header.js?{{@$_publish_version}}" type="text/javascript"></script>
         <script src="/js/jquery.admin.js?{{@$_publish_version}}" type="text/javascript"></script>
+        <script src="/page_js/new_header.js?{{@$_publish_version}}" type="text/javascript"></script>
         <script src="/page_js/enum_map.js?{{@$_publish_version}}" type="text/javascript"></script>
         <!-- jQuery UI 1.10.3 -->
         <script src="/js/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
@@ -140,8 +140,7 @@
                 <!-- /.sidebar -->
             </aside>
 
-                        <!-- jQuery 3 -->
-            <script src="/AdminLTE-2.4.0-rc/bower_components/jquery/dist/jquery.min.js"></script>
+            <!-- jQuery 3 -->
             <!-- jQuery UI 1.11.4 -->
             <script src="/AdminLTE-2.4.0-rc/bower_components/jquery-ui/jquery-ui.min.js"></script>
             <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -183,10 +182,6 @@
             <script src="/AdminLTE-2.4.0-rc/plugins/iCheck/icheck.js"></script>
             <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
             <!-- AdminLTE for demo purposes -->
-            <script src="/js/jquery.admin.js?{{@$_publish_version}}" type="text/javascript"></script>
-            <script src="/page_js/enum_map.js?{{@$_publish_version}}" type="text/javascript"></script>
-            <script src="/page_js/new_header.js?{{@$_publish_version}}" type="text/javascript"></script>
-            <script type="text/javascript" src="/page_ts/{{$_ctr}}/{{$_act}}.js?{{@$_publish_version}}"></script>
             <!-- 全局变量  -->
 
 
@@ -207,6 +202,13 @@
 
                 @yield('content')
             </aside>
+            <script type="text/javascript">
+             if(g_account=="jack" || g_account=="jim" || g_account=="adrian"||g_account=="abner" || g_account=="michelle" ){
+                 download_show();
+                 $(".page-opt-show-all-xls").show();
+             }
+            </script>
+
         </div>
     </body>
 </html>

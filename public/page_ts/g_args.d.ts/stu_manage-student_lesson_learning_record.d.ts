@@ -8,9 +8,11 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	subject:	number;//枚举: App\Enums\Esubject
+	subject:	number;
 	grade:	number;
 	current_id:	number;
+	cw_status:	number;
+	preview_status:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -20,6 +22,24 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	lesson_start	:any;
+	lesson_end	:any;
+	subject	:any;
+	grade	:any;
+	teacherid	:any;
+	lessonid	:any;
+	realname	:any;
+	lesson_num	:any;
+	tea_cw_upload_time	:any;
+	tea_cw_url	:any;
+	preview_status	:any;
+	cw_status	:any;
+	grade_str	:any;
+	subject_str	:any;
+	lesson_time	:any;
+	cw_url	:any;
+	cw_status_str	:any;
+	preview_status_str	:any;
 }
 
 /*
@@ -43,7 +63,9 @@ function load_data(){
 		end_time:	$('#id_end_time').val(),
 		subject:	$('#id_subject').val(),
 		grade:	$('#id_grade').val(),
-		current_id:	$('#id_current_id').val()
+		current_id:	$('#id_current_id').val(),
+		cw_status:	$('#id_cw_status').val(),
+		preview_status:	$('#id_preview_status').val()
 		});
 }
 $(function(){
@@ -60,18 +82,11 @@ $(function(){
 		});
 	$('#id_sid').val(g_args.sid);
 	$('#id_order_by_str').val(g_args.order_by_str);
-	$('#id_subject').admin_set_select_field({
-		"enum_type"    : "subject",
-		"field_name" : "subject",
-		"select_value" : g_args.subject,
-		"onChange"     : load_data,
-		"multi_select_flag"     : false ,
-		"th_input_id"  : "th_subject",
-		"only_show_in_th_input"     : false,
-		"btn_id_config"     : {},
-	});
+	$('#id_subject').val(g_args.subject);
 	$('#id_grade').val(g_args.grade);
 	$('#id_current_id').val(g_args.current_id);
+	$('#id_cw_status').val(g_args.cw_status);
+	$('#id_preview_status').val(g_args.preview_status);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -107,9 +122,8 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">科目</span>
-                <select class="opt-change form-control" id="id_subject" >
-                </select>
+                <span class="input-group-addon">subject</span>
+                <input class="opt-change form-control" id="id_subject" />
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["subject title", "subject", "th_subject" ]])!!}
@@ -129,4 +143,20 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["current_id title", "current_id", "th_current_id" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">cw_status</span>
+                <input class="opt-change form-control" id="id_cw_status" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["cw_status title", "cw_status", "th_cw_status" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">preview_status</span>
+                <input class="opt-change form-control" id="id_preview_status" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["preview_status title", "preview_status", "th_preview_status" ]])!!}
 */

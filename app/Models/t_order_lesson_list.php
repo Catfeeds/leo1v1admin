@@ -94,25 +94,21 @@ class t_order_lesson_list extends \App\Models\Zgen\z_t_order_lesson_list
     }
 
     public function get_last_lessonid($subject,$userid,$grade,$lesson_start){
-        $sql = $this->gen_sql_new("  select l.teacherid from %s l  "
-                                  ." where l.lesson_type in (0,1,3) and l.subject=$subject and l.userid=$userid  and l.lesson_start>$lesson_start order by l.lesson_start asc limit 1 "
+        $where_arr = [
+            "lesson_type in (0,1,3)",
+            ["l.subject=%u",$subject,-1],
+            ["l.userid=%u",$userid,-1],
+            ["l.lesson_start>%u",$lesson_start,-1],
+        ];
+        $sql = $this->gen_sql_new("  select l.teacherid "
+                                  ." from %s l  "
+                                  ." where %s "
+                                  ." order by l.lesson_start asc limit 1 "
                                   ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
         );
-
         return $this->main_get_value($sql);
     }
-
-
-
-    // public function get_last_lessonid($orderid){
-    //     $sql = $this->gen_sql_new("  select ol.lessonid from %s ol left join %s l on l.lessonid=ol.lessonid where l.lesson_del_flag=0 and ol.orderid=%s order by lessonid asc limit 1 "
-    //                               ,self::DB_TABLE_NAME
-    //                               ,t_lesson_info::DB_TABLE_NAME
-    //                               ,$orderid
-    //     );
-
-    //     return $this->main_get_value($sql);
-    // }
 
 
 
