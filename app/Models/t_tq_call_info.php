@@ -881,7 +881,11 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
             ." sum(if(is_called_phone=0 and uid<10000,1,0)) tian_no_called_count,"
             ." sum(if(is_called_phone=1 and uid<10000,1,0)) tian_called_count,"
             ." sum(if(is_called_phone=1 and uid<10000 and end_reason=1,1,0)) tian_called_c,"
-            ." sum(if(is_called_phone=1 and uid<10000 and end_reason=0,1,0)) tian_called_cc "
+            ." sum(if(is_called_phone=1 and uid<10000 and end_reason=1 and (end_time-obj_start_time)<60,1,0)) tian_called_c_a,"
+            ." sum(if(is_called_phone=1 and uid<10000 and end_reason=1 and (end_time-obj_start_time)>=60,1,0)) tian_called_c_b,"
+            ." sum(if(is_called_phone=1 and uid<10000 and end_reason=0,1,0)) tian_called_cc, "
+            ." sum(if(is_called_phone=1 and uid<10000 and end_reason=0 and (end_time-obj_start_time)<60,1,0)) tian_called_cc_a, "
+            ." sum(if(is_called_phone=1 and uid<10000 and end_reason=0 and (end_time-obj_start_time)>=60,1,0)) tian_called_cc_b "
             ." from %s "
             ." where %s",
             self::DB_TABLE_NAME,
