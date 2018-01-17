@@ -1670,4 +1670,22 @@ class test_james extends Controller
         dd($pdf_file_path);
     }
 
+    public function uploadTo(){
+        $zip_new_resource = $this->get_in_str_val('l');
+        $file_link =  \App\Helper\Utils::qiniu_upload_private($zip_new_resource);
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+
+
+        $config=\App\Helper\Config::get_config("qiniu");
+        $bucket_info=$config["private_url"]['url'];
+
+        $pdf_file_path = $auth->privateDownloadUrl($bucket_info.$file_link );
+
+        dd($pdf_file_path);
+
+    }
+
 }
