@@ -13,6 +13,7 @@ class t_log_event_log extends \App\Models\Zgen\z_t_log_event_log
         $sql=$this->gen_sql_new(
             "select e.sub_project, "
             . "  sum( e.event_name =\"start\") as start_count ,  "
+            . "   count( distinct ip) as ip_count ,  "
             . "  sum( e.event_name =\"succ\") as succ_count,  "
             . "  sum( e.event_name =\"fail\") as fail_count  "
             ." from  %s el "
