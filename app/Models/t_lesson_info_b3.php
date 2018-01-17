@@ -2975,6 +2975,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    /**
+     * 更新课程收入至收入支出统计表
+     */
     public function get_lesson_list_for_all_money($start_time,$end_time){
         $where_arr = [
             "l.lesson_type<1000",

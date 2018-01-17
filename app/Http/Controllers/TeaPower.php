@@ -4897,7 +4897,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      */
     public function set_teacher_all_lesson_money_list($teacherid,$start_time,$end_time){
         $last_lesson_count = $this->get_last_lesson_count_info($start_time,$end_time,$teacherid);
-        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time,-1);
+        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
         if(!empty($lesson_list)){
             foreach($lesson_list as $key => &$val){
                 $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
@@ -4917,10 +4917,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
                 $this->get_lesson_cost_info($val,$check_num);
 
-                $lessonid                   = $val['lessonid'];
+                $lessonid   = $val['lessonid'];
                 $teacher_base_money         = $val['lesson_base'];
                 $teacher_lesson_count_money = $val['lesson_reward'];
                 $teacher_lesson_cost        = $val['lesson_cost'];
+
+                echo $lessonid;
+                echo PHP_EOL;
 
                 $this->t_lesson_all_money_list->update_lesson_all_money_info(
                     $lessonid,$teacher_base_money,$teacher_lesson_count_money,$teacher_lesson_cost
