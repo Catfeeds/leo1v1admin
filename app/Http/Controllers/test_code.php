@@ -305,7 +305,7 @@ class test_code extends Controller
         $show_list = [];
         foreach($list as $val){
             $lessonid     = $val['lessonid'];
-            $lesson_count = $val['lesson_count'];
+            $lesson_count = $val['lesson_count']/100;
             //课时收入
             $val['lesson_price'] = $lesson_count*$val['per_price'];
             //赠送课时
