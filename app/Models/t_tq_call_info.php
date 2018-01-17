@@ -900,6 +900,21 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
         return $this->main_get_list($sql);
     }
 
+    public function get_item_end($start_time,$end_time){
+        $where_arr = [
+            'uid<10000',
+        ];
+        $this->where_arr_add_time_range($where_arr, 'start_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select sum(if(end_reason=1,1,0)) end,sum(if(end_reason=0,1,0)) cc_end "
+            ." from %s "
+            ." where %s",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_item_count($start_time,$end_time,$cause){
         $where_arr = [
             'uid<10000',
