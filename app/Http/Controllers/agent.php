@@ -453,8 +453,57 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $start_time = strtotime('2017-10-31');
-        $end_time = strtotime('2017-11-30');
+        $time_arr = [
+            [
+                'start_time'=>strtotime('2017-09-30'),
+                'end_time'=>strtotime('2017-10-31')
+            ],[
+                'start_time'=>strtotime('2017-08-31'),
+                'end_time'=>strtotime('2017-09-30')
+            ],[
+                'start_time'=>strtotime('2017-07-31'),
+                'end_time'=>strtotime('2017-08-31')
+            ],[
+                'start_time'=>strtotime('2017-06-30'),
+                'end_time'=>strtotime('2017-07-31')
+            ],[
+                'start_time'=>strtotime('2017-05-31'),
+                'end_time'=>strtotime('2017-06-30')
+            ],[
+                'start_time'=>strtotime('2017-04-30'),
+                'end_time'=>strtotime('2017-05-31')
+            ],[
+                'start_time'=>strtotime('2017-03-31'),
+                'end_time'=>strtotime('2017-04-30')
+            ],[
+                'start_time'=>strtotime('2017-02-28'),
+                'end_time'=>strtotime('2017-03-31')
+            ],[
+                'start_time'=>strtotime('2017-01-31'),
+                'end_time'=>strtotime('2017-02-28')
+            ],[
+                'start_time'=>strtotime('2016-12-31'),
+                'end_time'=>strtotime('2017-01-31')
+            ],[
+                'start_time'=>strtotime('2016-11-30'),
+                'end_time'=>strtotime('2016-12-31')
+            ],[
+                'start_time'=>strtotime('2016-10-31'),
+                'end_time'=>strtotime('2016-11-30')
+            ],[
+                'start_time'=>strtotime('2016-09-30'),
+                'end_time'=>strtotime('2016-10-31')
+            ],[
+                'start_time'=>strtotime('2016-08-31'),
+                'end_time'=>strtotime('2016-09-30')
+            ],
+        ];
+        // dd($time_arr);
+        
+        // $start_time = strtotime('2016-06-30');
+        // $end_time = strtotime('2016-07-31');
+        $start_time = strtotime('2016-07-31');
+        $end_time = strtotime('2016-08-31');
         $count = ($end_time-$start_time)/(3600*24);
         for ($i=1; $i<=$count; $i++)
         {
