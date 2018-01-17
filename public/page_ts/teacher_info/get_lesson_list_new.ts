@@ -1036,7 +1036,7 @@ $(function(){
         }else{
             set_stu_performance_for_seller(lessonid,tea_comment);
         }
-        
+
     });
 
     var set_stu_performance = function(lessonid){
@@ -1232,6 +1232,7 @@ $(function(){
                         BootstrapDialog.alert(result.info);
                         if(result.ret==0){
                             dialog.close();
+                            window.location.reload();
                         }
                     });
                 }
