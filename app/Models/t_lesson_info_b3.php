@@ -2991,7 +2991,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
                                   ."l.grade,l.teacherid,l.lessonid,t.realname,"
                                   ." l.lesson_num,l.tea_cw_upload_time ,l.tea_cw_url , "
-                                  ."l.preview_status "
+                                  ."l.preview_status,l.cw_status "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." where %s ",
                                   self::DB_TABLE_NAME,

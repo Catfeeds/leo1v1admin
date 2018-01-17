@@ -1454,8 +1454,17 @@ class stu_manage extends Controller
         $subject = $this->get_in_subject();
         $grade = $this->get_in_int_val("grade",-1);
         $current_id = $this->get_in_int_val("current_id",1);
+        $subject_arr=[];
+        $grade_arr=[];
+        $domain = config('admin')['qiniu']['public']['url'];
         if($current_id==1){
-            $ret_info = $this->t_lesson_info_b3->get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade); 
+            $ret_info = $this->t_lesson_info_b3->get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade);
+            foreach($ret_info["list"] as &$item){
+                E\Egrade::set_item_value_str($item); 
+                E\Esubject::set_item_value_str($item);
+                \App\Helper\Utils::unixtime2date_range($item);
+                $item["cw_url"] = $domain."/".$item["tea_cw_url"];
+            }
             dd($ret_info);
         }elseif($current_id==2){
             
