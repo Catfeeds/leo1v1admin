@@ -322,7 +322,7 @@
                                  @else
                                      {{$var["phone_hide"]}}
                                      @if($var['origin']=='学校-180112')
-                                         <font color="red">'学校渠道'</font>
+                                         <font color="red">学校渠道</font>
                                      @endif
                                  @endif
                              </div>
