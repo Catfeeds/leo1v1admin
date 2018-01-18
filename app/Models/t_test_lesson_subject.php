@@ -1366,4 +1366,26 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         );
         return $this->main_get_row($sql);
     }
+    //@desn:获取所有例子量及通话时间小于60的数量
+    public function get_example_call_result($start_time,$end_time){
+        $where_arr = [
+            'tls.require_admin_type=2',
+            'si.is_test_user = 0'
+        ];
+        $this->where_arr_add_time_range($where_arr, 'ssn.add_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select ssn.userid,tci.duration,tci.end_reason,tci.is_called_phone,@status:=1 '.
+            'from %s tls '.
+            'left join %s ssn using(userid) '.
+            'left join %s si using(userid) '.
+            'left join %s tci on ssn.phone = tci.phone '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_tq_call_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

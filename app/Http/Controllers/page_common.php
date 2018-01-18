@@ -64,18 +64,18 @@ class page_common extends Controller
         }
     }
 
+    /**
+     * 将下载记录存取到数据库中
+     * 产品部需求
+     */
     public function upload_xls_data() {
-        /**
-         *@ 将下载记录存取到数据库中
-         *@ 产品部需求
-        */
         $xls_data = $this->get_in_str_val("xls_data");
         $xls_arr  = json_decode($xls_data,true);
         $this->t_user_log->row_insert([
-            "add_time" => time(),
-            "adminid"  => $this->get_account_id(),
-            "msg"      => "下载记录,下载数量:".count($xls_arr),
-            "user_log_type" => 1, //下载记录
+            "add_time"      => time(),
+            "adminid"       => $this->get_account_id(),
+            "msg"           => "下载记录,下载数量:".count($xls_arr),
+            "user_log_type" => E\Euser_log_type::V_1, 
         ]);
 
         session([

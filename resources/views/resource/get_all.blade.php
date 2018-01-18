@@ -119,13 +119,17 @@
                         <a href="javascript:;" id="id_select_all" title="全选">全</a>
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
                     </td>
-                    <td style="width:40%">文件名</td>
-                    <td style="width:15%">修改日期</td>
-                    <td style="width:5%">操作人</td>
-                    <td style="width:7%">文件格式</td>
-                    <td style="width:15%">文件信息</td>
-                    <td style="width:7%">文件大小</td>
-                    <td style="width:7%">是否使用</td>
+                    <td>文件名</td>
+                    <td>修改日期</td>
+                    <td>操作人</td>
+                    <td>文件格式</td>
+                    <td>文件信息</td>
+                    <td>文件大小</td>
+                    <td>科目</td>
+                    <td>年级</td>
+                    <td>教材</td>
+                    <td>学科化标签</td>
+                    <td>是否使用</td>
                 </tr>
             </thead>
             <tbody>
@@ -140,6 +144,10 @@
                         <td>{{@$var["file_type"]}} </td>
                         <td>{{@$var["file_use_type_str"]}} </td>
                         <td>{{@$var["file_size"]}}M </td>
+                        <td>{{@$var["subject_str"]}} </td>
+                        <td>{{@$var["grade_str"]}} </td>
+                        <td>{{@$var["book"]}} </td>
+                        <td>{{@$var["tag_four_str"]}} </td>
                         <td>是</td>
                     </tr>
                 @endforeach

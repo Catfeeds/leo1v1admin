@@ -87,6 +87,9 @@
                             >
                                 <a class="fa-edit opt-set" title="编辑"> </a>
                                 <a class="fa fa-times opt-del" title="删除"> </a>
+                                <a class="fa fa-times fa-long-arrow-up" title="上移排序"> </a>
+                                <a class="fa fa-times fa-long-arrow-down" title="下移排序"> </a>
+
                             </div>
                         </td>
                     </tr>

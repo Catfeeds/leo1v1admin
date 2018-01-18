@@ -70,9 +70,10 @@ class resource extends Controller
                 $tag_arr['tag_three']['menu'] => 'tag_three',
                 $tag_arr['tag_four']['menu'] => 'tag_four',
             ]);
-            if($item['tag_four'] != -1) {
-                $item['tag_four_str'] = \App\Helper\Utils::get_sub_grade_tag($item['subject'],$item['grade'])[ $item['tag_four'] ];
-            }
+            $item['book'] = E\Eregion_version::get_desc($item['tag_one']);
+            // if($item['tag_four'] != -1) {
+            //     $item['tag_four_str'] = \App\Helper\Utils::get_sub_grade_tag($item['subject'],$item['grade'])[ $item['tag_four'] ];
+            // }
 
         }
 
@@ -91,7 +92,7 @@ class resource extends Controller
 
         // dd($sub_grade_info);
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801161519,
+            '_publish_version'    => 201801161319,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -106,22 +107,32 @@ class resource extends Controller
         $grade         = $this->get_in_int_val('grade');
 
         $book = $this->t_resource_agree_info->get_all_resource_type($resource_type, $subject, $grade);
-        $book_arr = [];
-        foreach($book as $v) {
-            if( $v['tag_one'] != 0 ){
-                array_push($book_arr, intval($v['tag_one']) );
+        $book_arr = [50000];
+        if($book){
+            foreach($book as $v) {
+                if( $v['tag_one'] != 0 && $v['tag_one'] != 50000){
+                    array_push($book_arr, intval($v['tag_one']) );
+                }
             }
+        }else{
+            $book_arr = [50000,4,12,16,29];
         }
+   
 
         return $this->output_succ(['book' => $book_arr]);
     }
 
     //根据科目、年级、教材获取学科标签
     public function get_sub_grade_book_tag(){
-        $subject       = $this->get_in_int_val('subject');
-        $grade         = $this->get_in_int_val('grade');
+        $subject       = $this->get_in_int_val('subject',-1);
+        $grade         = $this->get_in_int_val('grade',-1);
         $bookid        = $this->get_in_int_val('bookid');
-        
+        if(!empty($bookid)){
+            $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($subject,$grade,$bookid);
+        }
+
+        return $this->output_succ(['tag' => $data]);
+
     }
 
     //学科化标签
@@ -130,14 +141,20 @@ class resource extends Controller
         $grade         = $this->get_in_int_val('grade',201);
         $bookid      = $this->get_in_int_val('bookid',4);
         $page_num        = $this->get_in_page_num();
-
+        $page_count      = $this->get_in_int_val('page_count',20);
         $book = $this->t_resource_agree_info->get_all_resource_type(-1, $subject, $grade);
-
+        $book_arr = [];
         if(!$book){
-            $book = [3,4,12,15,16,29,50000];
+            $book_arr = [3,4,12,15,16,29,50000];
+        }else{
+            $book_arr = array_column($book, 'tag_one');
+            $book_arr = array_unique($book_arr);
+            foreach( $book_arr as $k=>&$v){
+                $book_arr[$k] = (int)$v;
+            }
         }
 
-        $ret_info = $this->t_sub_grade_book_tag->get_list($subject,$grade,$bookid,$page_num);
+        $ret_info = $this->t_sub_grade_book_tag->get_list($subject,$grade,$bookid,$page_num,$page_count);
         if($ret_info){
             foreach($ret_info['list'] as &$var){
                 $var['subject_str'] = E\Esubject::get_desc($var['subject']);
@@ -146,8 +163,8 @@ class resource extends Controller
             }
         }
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801161519,
-            'book'          => json_encode($book),
+            '_publish_version'    => 201801181119,
+            'book'          => json_encode($book_arr),
         ]);
     }
 
@@ -258,6 +275,18 @@ class resource extends Controller
         }
     }
 
+    //调整顺序
+    public function order_sub_grade_tag(){
+        $up_tag = $this->get_in_str_val('up_tag');
+        $down_tag = $this->get_in_str_val('down_tag');
+        $up_id = $this->get_in_int_val('up_id');
+        $down_id = $this->get_in_int_val('down_id');
+        if(!empty($up_tag) && !empty($down_tag) && $up_id && $down_id){
+            $this->t_sub_grade_book_tag->field_update_list($up_id,["tag"=>$down_tag]);
+            $this->t_sub_grade_book_tag->field_update_list($down_id,["tag"=>$up_tag]);
+        }
+        return $this->output_succ('排序成功');
+    }
 
     public function get_rule_range(){
 

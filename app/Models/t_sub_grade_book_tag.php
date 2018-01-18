@@ -8,18 +8,18 @@ class t_sub_grade_book_tag extends \App\Models\Zgen\z_t_sub_grade_book_tag
 		parent::__construct();
 	}
 
-    public function get_list($subject,$grade,$bookid,$page_num){
+    public function get_list($subject,$grade,$bookid,$page_num,$page_count){
         $where_arr = [
             ["subject = %u",$subject,-1],
             ["grade = %u",$grade,-1],
             ["bookid = %u",$bookid,-1],
             ["del_flag = %s",0]
         ];
-        $sql = $this->gen_sql_new(" select * from %s  where %s order by id desc"
+        $sql = $this->gen_sql_new(" select * from %s  where %s order by subject asc,grade asc,bookid asc,id asc"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_num,20);
+        return $this->main_get_list_by_page($sql,$page_num,$page_count);
     }
 
     public function is_can_add_tag($data){
@@ -77,6 +77,33 @@ class t_sub_grade_book_tag extends \App\Models\Zgen\z_t_sub_grade_book_tag
         }
     }
 
+    public function get_id($subject,$grade,$tag){
+        $where_arr = [
+            ["subject = %u",(float)$subject],
+            ["grade = %u",(float)$grade],
+            ["bookid = %u",50000],
+            ["tag = '%s'",$tag],
+        ];
+        $sql = $this->gen_sql_new(" select id from %s  where %s order by id desc"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+    public function get_tag_by_sub_grade($subject,$grade,$bookid=50000){
+        $where_arr = [
+            ["subject = %u",(float)$subject],
+            ["grade = %u",(float)$grade],
+            ["bookid = %u",$bookid],
+        ];
+        $sql = $this->gen_sql_new(" select id,tag from %s  where %s order by id desc"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
 }
 
 
