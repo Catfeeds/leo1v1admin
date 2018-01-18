@@ -34,10 +34,13 @@ $(function(){
 
     var get_arr_from_obj = function(objj){
         var arr = []
+        console.log(objj);
         for (var i in objj) {
+            console.log(i);
             arr.push(objj[i]); //属性
             //arr.push(object[i]); //值
         }
+        console.log(arr);
         return arr;
     };
     var subject_list_arr =get_arr_from_obj(window["g_subject_list"]);

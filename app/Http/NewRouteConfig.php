@@ -725,7 +725,9 @@ class NewRouteConfig {
         "/resource/dele_sub_grade_tag"                   =>true,
         "/resource/batch_dele_sub_grade_tag"             =>true,
         "/resource/edit_sub_grade_tag"                   =>true,
-        "/resource/order_sub_grade_tag"                  =>true
+        "/resource/order_sub_grade_tag"                  =>true,
+        "/test_bacon/luru_tag"                           =>true,
+        "/test_bacon/modify_resource"                    =>true
     ];
 
     static $dev_url_map = [
