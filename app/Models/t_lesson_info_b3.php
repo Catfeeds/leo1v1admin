@@ -3135,7 +3135,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
                                   ."l.grade,l.teacherid,l.lessonid,t.realname,l.userid,"
                                   ." l.lesson_num,l.teacher_effect,l.teacher_quality,"
-                                  ." l.stu_score,l.teacher_interact,l.stu_stability "
+                                  ." l.stu_score,l.teacher_interact,l.stu_stability, "
+                                  ." l.teacher_comment,l.stu_comment,l.stu_performance"
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." where %s order by l.lesson_start",
                                   self::DB_TABLE_NAME,
