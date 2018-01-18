@@ -389,6 +389,12 @@ $(function(){
                 }
             });
 
+            $('.tag_one').change(function(){
+                if( $('.resource').val() == 1 || $('.resource').val() == 3){
+                    get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
+                }
+            });
+
             if( $('.resource').val() == 2 ){
                 $('#id_other_file,#id_ff_file').parent().parent().hide();
                 get_book();
