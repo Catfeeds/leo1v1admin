@@ -32,18 +32,19 @@ $(function(){
         }
     });
 
-    Enum_map.append_option_list("subject",$("#id_subject"),false,get_arr_from_obj(window["g_subject_list"]));
-    Enum_map.append_option_list("grade",$("#id_grade"),false,get_arr_from_obj(window["g_grade_list"]));
-    console.log(get_arr_from_obj(window["g_subject_list"]));
-    console.log(get_arr_from_obj(window["g_grade_list"]));
-    var get_arr_from_obj =function(obj){
+    var get_arr_from_obj = function(objj){
         var arr = []
-        for (var i in obj) {
-            arr.push(obj[i]); //属性
+        for (var i in objj) {
+            arr.push(objj[i]); //属性
             //arr.push(object[i]); //值
         }
         return arr;
     };
+    var subject_list_arr =get_arr_from_obj(window["g_subject_list"]);
+    var grade_list_arr =get_arr_from_obj(window["g_grade_list"]);
+    Enum_map.append_option_list("subject",$("#id_subject"),false,subject_list_arr);
+    Enum_map.append_option_list("grade",$("#id_grade"),false,grade_list_arr);
+
 
 	  $('#id_grade').val(g_args.grade);
 	  $('#id_subject').val(g_args.subject);
