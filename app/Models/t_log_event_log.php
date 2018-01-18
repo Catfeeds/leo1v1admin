@@ -28,13 +28,15 @@ class t_log_event_log extends \App\Models\Zgen\z_t_log_event_log
     /**
      *
      */
-    public function get_list($page_info, $order_by_str, $event_type_id,$start_time, $end_time  )
+    public function get_list($page_info, $order_by_str, $event_type_id,$start_time, $end_time,$ip  )
     {
-        $where_arr=[];
+        $where_arr=[
+            [ "ip=%u",$ip ]
+        ];
 
         $this->where_arr_add_int_or_idlist($where_arr,"event_type_id" , $event_type_id);
         //$this->where_arr_add_time_range($where_arr, "logtime", $start_time, $end_time);
-        $sql=$this->gen_sql(
+        $sql=$this->gen_sql_new(
             "select *  "
             ." from  %s "
             ." where  %s "
@@ -65,7 +67,7 @@ class t_log_event_log extends \App\Models\Zgen\z_t_log_event_log
         $where_arr=[];
 
         $this->where_arr_add_int_or_idlist($where_arr,"event_type_id" , $event_type_id);
-        $sql=$this->gen_sql(
+        $sql=$this->gen_sql_new(
             "select event_type_id, count(*)  as count, count(distinct ip) ip_count  "
             ." from  %s "
             ." where  %s  group by event_type_id",
