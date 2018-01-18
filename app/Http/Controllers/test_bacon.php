@@ -251,9 +251,9 @@ class test_bacon extends Controller
                 $old_tag = @$old_tag_arr[$var['tag_four']];
                 //print_r($old_tag_arr);
                 $new_tag_id = $this->t_sub_grade_book_tag->get_id($var['subject'],$var['grade'],$old_tag);
-                if($new_tag_id){
+                if($new_tag_id && !empty(@$new_tag_id['id'])){
                     //print_r($new_tag_id);
-                    $up_data = ['tag_four'=>$new_tag_id];
+                    $up_data = ['tag_four'=>$new_tag_id['id']];
                     $this->t_resource->field_update_list($var['resource_id'],$up_data);
                 }
             }
