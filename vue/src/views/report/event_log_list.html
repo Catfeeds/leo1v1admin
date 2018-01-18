@@ -1,0 +1,22 @@
+<section class="content ">
+
+  <div id="id_header_query_info" > </div>
+  <hr/>
+
+  <admin-table :table_config="table_config"  >
+
+    <admin-table-th slot="th"   >时间</admin-table-th>
+    <admin-table-th slot="th"  >事件 </admin-table-th>
+    <admin-table-th slot="th"   >ip </admin-table-th>
+    <admin-table-th slot="th"  >value </admin-table-th>
+
+    <admin-table-row v-for="(item,index) in table_data "  :key="index" :row_data="item"  :index="index"  >
+      <admin-table-td   >  {{item.logtime}} </admin-table-td>
+      <admin-table-td   >  {{item.event_name}} </admin-table-td>
+      <admin-table-td  >  {{item.ip }} </admin-table-td>
+      <admin-table-td  >  {{item.value}} </admin-table-td>
+    </admin-table-row>
+
+  </admin-table>
+
+</section>
