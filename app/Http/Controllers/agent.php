@@ -457,6 +457,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $seller_list = $this->t_manager_info->get_item_seller_list();
+        dd($seller_list);
         $start_time = strtotime(date('Y-m-d'));
         $end_time = strtotime(date('Y-m-d',strtotime('+1 day')));
         dd($start_time,$end_time);
