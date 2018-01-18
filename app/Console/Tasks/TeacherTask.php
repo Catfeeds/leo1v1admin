@@ -495,15 +495,6 @@ class TeacherTask extends TaskController
                 "wx_tea_price_flag" => $wx_tea_price_flag
             ]);
 
-            /**
-             // 全职老师和兼职老师一样 [待处理]
-             // if($val['teacher_type']==3){
-             //     $val['info'] = "老师您好，本次课程已经结束。";
-             // }else{
-             //     $val['info'] = "老师您好，本次课程已结束，您本次课的基本工资为".$lesson_base."元，如有疑问请及时到老师帮【个人中心】-【我的收入】中添加申诉说明。本月课程申诉通道将于下月6号24：00关闭，过期不予处理。";
-             // }
-
-             */
         }
     }
 
