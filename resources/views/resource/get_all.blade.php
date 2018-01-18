@@ -138,8 +138,13 @@
                     <td>文件大小</td>
                     <td>科目</td>
                     <td>年级</td>
+                    @if($resource_type < 6)
                     <td>教材</td>
+                    @endif
+
+                    @if( $resource_type == 1 || $resource_type == 3 )
                     <td>学科化标签</td>
+                    @endif
                     <td>是否使用</td>
                 </tr>
             </thead>
@@ -157,8 +162,12 @@
                         <td>{{@$var["file_size"]}}M </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
+                        @if( $resource_type < 6)
                         <td>{{@$var["book"]}} </td>
+                        @endif
+                        @if( $resource_type == 1 || $resource_type == 3)
                         <td>{{@$var["tag_four_str"]}} </td>
+                        @endif
                         <td>是</td>
                     </tr>
                 @endforeach
