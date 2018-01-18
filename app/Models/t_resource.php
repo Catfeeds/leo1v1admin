@@ -169,6 +169,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
                                   ,self::DB_TABLE_NAME
                                   ,t_resource_file::DB_TABLE_NAME
                                   ,t_resource_agree_info::DB_TABLE_NAME
+                                  ,t_sub_grade_book_tag::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
