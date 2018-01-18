@@ -40,8 +40,11 @@ class get_teacher_student_first_subject_list extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
 
         $task = new \App\Console\Tasks\TaskController ();
-        $end_time = strtotime(date("Y-m-d",time()));
-        $start_time = strtotime("-1 days",$end_time);
+        // $end_time = strtotime(date("Y-m-d",time()));
+        // $start_time = strtotime("-1 days",$end_time);
+        $end_time = time();
+        $start_time = strtotime("2017-12-01");
+
         $i=0;
         $list  = $task->t_lesson_info_b3->get_teacher_student_first_subject_info($start_time,$end_time);
         foreach($list as $val){
