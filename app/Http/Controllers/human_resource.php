@@ -1564,7 +1564,7 @@ class human_resource extends Controller
         $is_master_flag = $this->t_admin_group_name->check_is_master(8,$adminid);
         //判断是否是招师
         $is_zs_flag = (($this->t_admin_group_user->get_main_type($adminid))==8)?1:0;
-        if($is_zs_flag==1 && $is_master_flag !=1){
+        if($is_zs_flag==1 && $is_master_flag !=1 && $adminid!=790){
             $accept_adminid = $adminid;
             $id_train_through_new=0;
         }else{
