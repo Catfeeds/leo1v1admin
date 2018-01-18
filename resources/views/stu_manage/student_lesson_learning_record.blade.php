@@ -76,7 +76,6 @@
                         </select>
                     </td>
 
-                    </td>
                     <td>老师</td>
                     <td width="100px">
                         预习情况
@@ -125,26 +124,19 @@
                     <td>时间</td>
                     <td>年级</td>
                     <td>科目</td>
-                    <td width="100px">
-                        讲义上传
-                        <select id="id_cw_status">
-                            <option value="-1">全部</option>
-                            <option value="1">已上传</option>
-                            <option value="0">未上传</option>
-                        </select>
-                    </td>
-
-                </td>
-                <td>老师</td>
-                <td width="100px">
-                    预习情况
-                    <select id="id_preview_status">
-                        <option value="-1">全部</option>
-                        <option value="1">是</option>
-                        <option value="0">否</option>
-                    </select>
-                </td>
-                <td>操作</td>
+                    <td>学生考勤</td>
+                    <td>老师考勤</td>
+                    <td>学生登录</td>
+                    <td>老师登录</td>
+                    <td>家长登录</td>
+                    <td>学生画笔</td>
+                    <td>老师画笔</td>
+                    <td>学生发言</td>
+                    <td>老师画笔</td>
+                    <td>获赞</td>
+                  
+                    <td>老师</td>
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -154,17 +146,17 @@
                         <td>{{@$var["lesson_time"] }}</td>
                         <td>{{@$var["grade_str"] }}</td>
                         <td>{{@$var["subject_str"] }}</td>
-                        <td>
-                            @if(empty(@$var["cw_status_flag"]))
-                                {{@$var["cw_status_str"] }}
-                            @else
-                                <a class="show_cw_content" href="javascript:;" data-url="{{ $var["cw_url"] }}">
-                                    {{@$var["cw_status_str"] }}
-                                </a>
-                            @endif
-                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>{{@$var["stu_login_num"] }}</td>
+                        <td>{{@$var["tea_login_num"] }}</td>
+                        <td>{{@$var["parent_login_num"] }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{@$var["stu_praise"] }}</td>
                         <td>{{@$var["realname"] }}</td>
-                        <td>{{@$var["preview_status_str"] }}</td>
                         <td>
                             <div
 
