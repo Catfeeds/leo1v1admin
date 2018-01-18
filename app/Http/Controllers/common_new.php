@@ -55,10 +55,10 @@ class common_new extends Controller
             "xls_data"=>json_decode($xls_data,true),
         ]);
         return outputjson_success();
-
     }
+
     public function download_xls ()  {
-        $xls_data= session("xls_data" );
+        $xls_data = session("xls_data" );
 
         if(!is_array($xls_data)) {
             return $this->output_err("download error");
