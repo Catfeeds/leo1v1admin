@@ -132,15 +132,12 @@ class resource extends Controller
         $page_num        = $this->get_in_page_num();
 
         $book = $this->t_resource_agree_info->get_all_resource_type(-1, $subject, $grade);
-
+        $book_arr = [];
         if(!$book){
             $book_arr = [3,4,12,15,16,29,50000];
         }else{
-            foreach($book as $v) {
-                if( $v['tag_one'] != 0 ){
-                    array_push($book_arr, intval($v['tag_one']) );
-                }
-            }
+            $book_arr = array_column($book, 'tag_one');
+            $book_arr = array_unique($book_arr);
         }
 
         $ret_info = $this->t_sub_grade_book_tag->get_list($subject,$grade,$bookid,$page_num);
