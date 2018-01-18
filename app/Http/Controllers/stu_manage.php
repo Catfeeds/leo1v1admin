@@ -1451,7 +1451,7 @@ class stu_manage extends Controller
             =$this->get_in_order_by_str([],"adminid desc");
 
         #输入参数
-        list($start_time,$end_time)=$this->get_in_date_range(-7,0,1);
+        list($start_time,$end_time)=$this->get_in_date_range(-8,-1,1);
         $subject = $this->get_in_int_val("subject",-1);
         $grade = $this->get_in_int_val("grade",-1);
         $current_id = $this->get_in_int_val("current_id",1);
@@ -1534,7 +1534,14 @@ class stu_manage extends Controller
                 E\Esubject::set_item_value_str($item);
                 \App\Helper\Utils::unixtime2date_range($item);
                 $item["lesson_num"] = @$all_lesson[$item["lessonid"]];
-                if($item["confirm_flag"]>=2){
+                if($item["lesson_status"]>=2){
+                    $item["tea_login_num"] = "—";
+                    $item["stu_login_num"] = "—";
+                    $item["parent_login_num"] = "—";
+                    $item["stu_praise"] = "—";
+                    $item["tea_attend_str"] = "—";
+                    $item["stu_attend_str"] = "—";
+                }elseif($item["confirm_flag"]>=2){
                     $item["tea_login_num"] = "—";
                     $item["stu_login_num"] = "—";
                     $item["parent_login_num"] = "—";

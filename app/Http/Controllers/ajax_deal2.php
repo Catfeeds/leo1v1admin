@@ -3114,7 +3114,7 @@ class ajax_deal2 extends Controller
             }elseif($item["opt_type"]==2){
                 $item["opt_type_str"]="登出";
             }
-            \App\Helper\Utils::unixtime2date_for_item($item,"opt_time","_str","Y-m-d H:i");
+            \App\Helper\Utils::unixtime2date_for_item($item,"opt_time","_str");
         }
         return $this->output_succ(["data"=>$data]);
 

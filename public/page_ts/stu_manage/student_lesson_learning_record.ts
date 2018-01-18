@@ -207,7 +207,7 @@ $(function(){
          var lessonid = $(this).data("lessonid");
          var userid = $(this).data("userid");
          var role = $(this).data("role");
-        var title = "登录详情";
+        var title = "登录日志";
         var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>角色</td><td>进出</td><td>时间</td></tr></table></div>");
 
         $.do_ajax('/ajax_deal2/get_lesson_opt_detail_info',{
