@@ -937,6 +937,8 @@ $(function(){
         $('#id_tag_one').val(-1);
         $('#id_tag_two').val(-1);
         $('#id_tag_three').val(-1);
+        $('#id_tag_four').val(-1);
+        $('#id_tag_five').val(-1);
     });
     var color_id = 0,color_res = 0,color_flag = 0;
     $('.common-table tr').each(function(i){
