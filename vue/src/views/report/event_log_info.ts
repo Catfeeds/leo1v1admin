@@ -41,6 +41,15 @@ export default class extends vtable {
           title:"次数",
           field_name:"count"
 
+        },{
+          title:"操作",
+          render: function(v,item) {
+            var $div= $("<a href=\"javascript:;\"> 详细 </a>");
+            $div.on("click",function(){
+              $.wopen("/#/report/event_log_list?event_type_id="+ event_type_id + "&ip=" + item.ip , false,  true  );
+            });
+            return  $div;
+          }
         }] ,
         //查询列表
         filter_list:[

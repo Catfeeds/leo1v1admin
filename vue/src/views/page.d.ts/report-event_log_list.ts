@@ -2,6 +2,8 @@ interface self_Args {
 	page_num:	number;
 	page_count:	number;
 	order_by_str:	string;
+	ip:	string;
+	event_type_id:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -93,6 +95,22 @@ export default class extends vtable {
 		as_header_query :true,
 		});
 
+	$.admin_query_input({
+		'join_header'  : $header_query_info,
+		"field_name"    : "ip" ,
+		"placeholder" : "回车查询", 
+		"length_css" : "col-xs-12 col-md-3", 
+		"title"        :  "ip",
+		"select_value" : this.get_args().ip,
+	});
+	$.admin_query_input({
+		'join_header'  : $header_query_info,
+		"field_name"    : "event_type_id" ,
+		"length_css" : "col-xs-6 col-md-2", 
+		"show_title_flag":true, 
+		"title"        :  "event_type_id",
+		"select_value" : this.get_args().event_type_id,
+	});
 	$.admin_query_input({
 		'join_header'  : $header_query_info,
 		"field_name"    : "sub_project" ,
