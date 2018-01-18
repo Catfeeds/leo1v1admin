@@ -57,7 +57,7 @@
         <div class="row">
             <div class="col-xs-6 col-md-12 ">
                 <button class="btn btn-warning btn-flat preview_table_flag" id="id_pre_rate" style="float:right" data-class_id="1">预习率:{{ @$pre_rate }}%</button>
-                <button class="btn btn-warning btn-flat lesson_table_flag" id="id_rate" style="float:right" data-class_id="2">预率:{{ @$pre_rate }}%</button>
+                <button class="btn btn-warning btn-flat lesson_table_flag" id="id_attend_rate" style="float:right" data-class_id="2">正常出勤率:{{ @$attend_rate }}%</button>
             </div>
         </div>
         <table class="common-table preview_table_flag" data-class_id="1">
