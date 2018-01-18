@@ -818,6 +818,23 @@ class human_resource extends Controller
         if($adminid==486 || $adminid==478 ){
             $tea_subject= "";
         }
+        $jw_permission_list=[
+            723=>3,
+            1329=>3,
+            1324=>2,
+            1328=>2,
+            1238=>1,
+            513=>1,
+            436=>"-1",
+            478=>"-1"
+        ];
+        if(isset($jw_permission_list[$adminid])){
+            $tea_subject="";
+            $per_subject=$jw_permission_list[$adminid];
+        }else{
+            $per_subject=-1;
+        }
+
 
         $account_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
         $date_week    = \App\Helper\Utils::get_week_range($time,1);
@@ -833,7 +850,7 @@ class human_resource extends Controller
             $week_liveness,$interview_score,$second_interview_score,$teacherid_arr,$seller_flag,
             $qz_flag,$teacher_type,$lesson_hold_flag_adminid,$is_quit,$set_leave_flag,$fulltime_flag,$seller_hold_flag,
             $teacher_ref_type,$have_wx,$grade_plan,$subject_plan,$fulltime_teacher_type,$month_stu_num,
-            $record_score_num,$identity,$plan_level,$teacher_textbook
+            $record_score_num,$identity,$plan_level,$teacher_textbook,$per_subject
         );
 
         $tea_list = [];

@@ -505,7 +505,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                                 $fulltime_flag=-1,$seller_hold_flag=-1,$teacher_ref_type=-1,$have_wx=-1,
                                                 $grade_plan=-1,$subject_plan=-1,$fulltime_teacher_type=-1,$month_stu_num=-1,
                                                 $record_score_num=-1,$identity=-1,$plan_level=-1,
-                                                $teacher_textbook=-1
+                                                $teacher_textbook=-1,$per_subject=-1
     ){
         $where_arr = array(
             array( "t.teacherid=%u", $teacherid, -1 ),
@@ -515,6 +515,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array( "t.need_test_lesson_flag=%u ", $need_test_lesson_flag, -1 ),
             array( "t.gender=%u ", $gender, -1 ),
             array( "t.subject=%u ", $subject, -1 ),
+            array( "t.subject=%u ", $per_subject, -1 ),
             array( "t.second_subject=%u ", $second_subject, -1 ),
             array( "t.is_test_user=%u ", $is_test_user, -1 ),
             array( "t.is_freeze=%u ", $is_freeze, -1 ),
