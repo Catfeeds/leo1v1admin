@@ -4954,7 +4954,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
     }
 
-    public function cheackIsFullTime($teacherid){
+    public function checkIsFullTime($teacherid){
         $where_arr = [
             "t.teacherid=$teacherid",
             "(teacher_money_type=0 or teacher_money_type=7) and t.teacher_type=3"

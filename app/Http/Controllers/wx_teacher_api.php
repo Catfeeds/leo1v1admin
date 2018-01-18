@@ -1037,7 +1037,7 @@ class wx_teacher_api extends Controller
         $ret_info  = $this->t_test_lesson_subject->get_test_require_info($lessonid);
         $ret_info['teacherid'] = $this->t_lesson_info->get_teacherid($lessonid);
 
-        $checkIsFullTime = $this->t_teacher_info->cheackIsFullTime($ret_info['teacherid']);
+        $checkIsFullTime = $this->t_teacher_info->checkIsFullTime($ret_info['teacherid']);
 
         if($ret_info['lesson_del_flag']==1){
             $ret_info['status'] = 2;
@@ -1065,7 +1065,7 @@ class wx_teacher_api extends Controller
         $ret_info['subject_tag'] = $subject_tag_arr['学科化标签']?$subject_tag_arr['学科化标签']:$default_tag;
 
         // 数据待确认
-        // if($cheackIsFullTime == 1){// 全职老师可以看
+        if($checkIsFullTime == 1){// 全职老师可以看
             $checkHasHandout = $this->t_lesson_info->get_tea_cw_url($lessonid);
             $resource_id_arr = $this->t_resource->getResourceId($ret_info['subject'],$ret_info['grade']);
             $resource_id_str = '';
@@ -1083,9 +1083,9 @@ class wx_teacher_api extends Controller
             }else{
                 $ret_info['handout_flag'] = 0;
             }
-        // }else{
-        //     $ret_info['handout_flag'] = 0; //无讲义
-        // }
+        }else{
+            $ret_info['handout_flag'] = 0; //无讲义
+        }
 
         return $this->output_succ(["data"=>$ret_info]);
     }

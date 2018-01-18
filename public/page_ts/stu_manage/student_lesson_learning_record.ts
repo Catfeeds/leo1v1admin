@@ -32,8 +32,19 @@ $(function(){
         }
     });
 
-    Enum_map.append_option_list("subject",$("#id_subject"),false,window["g_subject_list"]);
-    Enum_map.append_option_list("grade",$("#id_grade"),false,window["g_grade_list"]);
+    var get_arr_from_obj = function(objj){
+        var arr = []
+        for (var i in objj) {
+            arr.push(objj[i]); //属性
+            //arr.push(object[i]); //值
+        }
+        return arr;
+    };
+    var subject_list_arr =get_arr_from_obj(window["g_subject_list"]);
+    var grade_list_arr =get_arr_from_obj(window["g_grade_list"]);
+    Enum_map.append_option_list("subject",$("#id_subject"),false,subject_list_arr);
+    Enum_map.append_option_list("grade",$("#id_grade"),false,grade_list_arr);
+
 
 	  $('#id_grade').val(g_args.grade);
 	  $('#id_subject').val(g_args.subject);
@@ -202,6 +213,45 @@ $(function(){
     $(".show_lesson_detail").on("click",function(){
         var lessonid = $(this).data("lessonid");
         alert(lessonid);
+    });
+    $(".show_login_info").on("click",function(){
+         var lessonid = $(this).data("lessonid");
+         var userid = $(this).data("userid");
+         var role = $(this).data("role");
+        var title = "登录日志";
+        var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>角色</td><td>进出</td><td>时间</td></tr></table></div>");
+
+        $.do_ajax('/ajax_deal2/get_lesson_opt_detail_info',{
+            "lessonid" : lessonid,
+            "userid"   : userid
+        },function(resp) {
+            var list = resp.data;
+            $.each(list,function(i,item){              
+                html_node.find("table").append("<tr><td>"+role+"</td><td>"+item["opt_type_str"]+"</td><td>"+item["opt_time_str"]+"</td></tr>");
+            });
+        });
+
+        var dlg=BootstrapDialog.show({
+            title:title, 
+            message :  html_node   ,
+            closable: true, 
+            buttons:[{
+                label: '返回',
+                cssClass: 'btn',
+                action: function(dialog) {
+                    dialog.close();
+
+                }
+            }],
+            onshown:function(){
+                
+            }
+
+        });
+
+        dlg.getModalDialog().css("width","600px");
+
+
     });
 
 

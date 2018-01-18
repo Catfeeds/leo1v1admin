@@ -1688,4 +1688,36 @@ class test_james extends Controller
 
     }
 
+
+    public function getTeaUploadPPTLink(){
+        $url = "http://p.admin.leo1v1.com/common_new/getTeaUploadPPTLink";
+        $post_data = [];
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch,CURLOPT_POST,1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $ret_arr = json_decode($output,true);
+        return $ret_arr;
+    }
+
+    public function updateLessonUUid($lessonid,$uuid){
+        $url = "http://admin.leo1v1.com/common_new/updateLessonUUid";
+        $post_data = [
+            "lessonid" => $lessonid,
+            "uuid"     => $uuid
+        ];
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch,CURLOPT_POST,1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $ret_arr = json_decode($output,true);
+        return $ret_arr;
+    }
+
 }

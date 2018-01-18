@@ -132,9 +132,15 @@ class resource extends Controller
         $page_num        = $this->get_in_page_num();
 
         $book = $this->t_resource_agree_info->get_all_resource_type(-1, $subject, $grade);
-
+        $book_arr = [];
         if(!$book){
-            $book = [3,4,12,15,16,29,50000];
+            $book_arr = [3,4,12,15,16,29,50000];
+        }else{
+            $book_arr = array_column($book, 'tag_one');
+            $book_arr = array_unique($book_arr);
+            foreach( $book_arr as $k=>&$v){
+                $book_arr[$k] = (int)$v;
+            }
         }
 
         $ret_info = $this->t_sub_grade_book_tag->get_list($subject,$grade,$bookid,$page_num);
@@ -146,8 +152,8 @@ class resource extends Controller
             }
         }
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801161519,
-            'book'          => json_encode($book),
+            '_publish_version'    => 201801181519,
+            'book'          => json_encode($book_arr),
         ]);
     }
 
@@ -258,6 +264,18 @@ class resource extends Controller
         }
     }
 
+    //调整顺序
+    public function order_sub_grade_tag(){
+        $up_tag = $this->get_in_str_val('up_tag');
+        $down_tag = $this->get_in_str_val('down_tag');
+        $up_id = $this->get_in_int_val('up_id');
+        $down_id = $this->get_in_int_val('down_id');
+        if(!empty($up_tag) && !empty($down_tag) && $up_id && $down_id){
+            $this->t_sub_grade_book_tag->field_update_list($up_id,["tag"=>$down_tag]);
+            $this->t_sub_grade_book_tag->field_update_list($down_id,["tag"=>$up_tag]);
+        }
+        return $this->output_succ('排序成功');
+    }
 
     public function get_rule_range(){
 

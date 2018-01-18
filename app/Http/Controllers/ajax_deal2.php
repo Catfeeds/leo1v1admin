@@ -3104,4 +3104,20 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
+    public function get_lesson_opt_detail_info(){
+        $lessonid = $this->get_in_int_val("lessonid");
+        $userid = $this->get_in_int_val("userid");
+        $data = $this->t_lesson_opt_log->get_stu_log($lessonid,$userid);
+        foreach($data as &$item){
+            if($item["opt_type"]==1){
+                $item["opt_type_str"]="登录";
+            }elseif($item["opt_type"]==2){
+                $item["opt_type_str"]="登出";
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item,"opt_time","_str");
+        }
+        return $this->output_succ(["data"=>$data]);
+
+    }
+
 }

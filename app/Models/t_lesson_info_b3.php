@@ -3021,11 +3021,11 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[]="l.tea_cw_upload_time>0 and l.tea_cw_upload_time<l.lesson_start";
         }
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
-                                  ."l.grade,l.teacherid,l.lessonid,t.realname,"
+                                  ."l.grade,l.teacherid,l.lessonid,t.realname,l.userid,"
                                   ." l.lesson_num,l.tea_cw_upload_time ,l.tea_cw_url , "
                                   ."l.preview_status,l.cw_status "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
-                                  ." where %s ",
+                                  ." where %s order by l.lesson_start",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
@@ -3051,17 +3051,17 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         ];
        
         if($page_flag==1){
-            $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
-                                      ."l.grade,l.teacherid,l.lessonid,t.realname,"
+            $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,l.userid,"
+                                      ."l.grade,l.teacherid,l.lessonid,t.realname,s.parentid,"
                                       ." l.lesson_num,l.tea_attend,l.stu_attend,l.stu_praise,"
-                                      ." l.confirm_flag,l.lesson_cancel_reason_type ,"
+                                      ." l.confirm_flag,l.lesson_cancel_reason_type ,l.lesson_status,"
                                       ."sum(if(l.userid=op.userid and op.opt_type=1,1,0)) stu_login_num, "
                                       ."sum(if(l.teacherid=op.userid and op.opt_type=1,1,0)) tea_login_num, "
                                       ."sum(if(s.parentid=op.userid and op.opt_type=1,1,0)) parent_login_num "
                                       ." from %s l left join %s t on l.teacherid = t.teacherid"
                                       ." left join %s s on l.userid = s.userid"
                                       ." left join %s op on l.lessonid = op.lessonid"
-                                      ." where %s group by l.lessonid",
+                                      ." where %s group by l.lessonid order by l.lesson_start",
                                       self::DB_TABLE_NAME,
                                       t_teacher_info::DB_TABLE_NAME,
                                       t_student_info::DB_TABLE_NAME,
@@ -3073,10 +3073,11 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         }elseif($page_flag==2){
             $sql = $this->gen_sql_new("select l.subject,l.grade,l.teacherid,l.lessonid,"
                                       ." l.confirm_flag,l.lesson_cancel_reason_type ,"
+                                      ." l.lesson_start,l.lesson_end,l.lesson_status,"
                                       ."min(op.opt_time) stu_login_time,"
-                                      ."min(opp.opt_time) stu_logout_time,"
+                                      ."max(opp.opt_time) stu_logout_time,"
                                       ."min(opo.opt_time) tea_login_time,"
-                                      ."min(oop.opt_time) tea_logout_time "
+                                      ."max(oop.opt_time) tea_logout_time "
                                       ." from %s l left join %s t on l.teacherid = t.teacherid"
                                       ." left join %s s on l.userid = s.userid"
                                       ." left join %s op on l.lessonid = op.lessonid and op.opt_type=1 and l.userid = op.userid"

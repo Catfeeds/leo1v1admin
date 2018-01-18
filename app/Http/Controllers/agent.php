@@ -457,68 +457,23 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $time_arr = [
-            [
-                'start_time'=>strtotime('2017-09-30'),
-                'end_time'=>strtotime('2017-10-31')
-            ],[
-                'start_time'=>strtotime('2017-08-31'),
-                'end_time'=>strtotime('2017-09-30')
-            ],[
-                'start_time'=>strtotime('2017-07-31'),
-                'end_time'=>strtotime('2017-08-31')
-            ],[
-                'start_time'=>strtotime('2017-06-30'),
-                'end_time'=>strtotime('2017-07-31')
-            ],[
-                'start_time'=>strtotime('2017-05-31'),
-                'end_time'=>strtotime('2017-06-30')
-            ],[
-                'start_time'=>strtotime('2017-04-30'),
-                'end_time'=>strtotime('2017-05-31')
-            ],[
-                'start_time'=>strtotime('2017-03-31'),
-                'end_time'=>strtotime('2017-04-30')
-            ],[
-                'start_time'=>strtotime('2017-02-28'),
-                'end_time'=>strtotime('2017-03-31')
-            ],[
-                'start_time'=>strtotime('2017-01-31'),
-                'end_time'=>strtotime('2017-02-28')
-            ],[
-                'start_time'=>strtotime('2016-12-31'),
-                'end_time'=>strtotime('2017-01-31')
-            ],[
-                'start_time'=>strtotime('2016-11-30'),
-                'end_time'=>strtotime('2016-12-31')
-            ],[
-                'start_time'=>strtotime('2016-10-31'),
-                'end_time'=>strtotime('2016-11-30')
-            ],[
-                'start_time'=>strtotime('2016-09-30'),
-                'end_time'=>strtotime('2016-10-31')
-            ],[
-                'start_time'=>strtotime('2016-08-31'),
-                'end_time'=>strtotime('2016-09-30')
-            ],
-        ];
-        // dd($time_arr);
-        
-        // $start_time = strtotime('2016-06-30');
-        // $end_time = strtotime('2016-07-31');
-        $start_time = strtotime('2016-07-31');
-        $end_time = strtotime('2016-08-31');
-        $count = ($end_time-$start_time)/(3600*24);
-        for ($i=1; $i<=$count; $i++)
-        {
-            $start_time = $start_time+3600*24;
-            for ($j=8; $j<=24; $j++)
-            {
-                $start_time_new = $start_time+3600*$j;
-                $end_time_new = $start_time_new+3600;
-                echo date('Y-m-d H:i:s',$start_time_new).'~'.date('Y-m-d H:i:s',$end_time_new)."\n";
+        list($start_time,$end_time) = [strtotime(date('Y-m-d',strtotime("-10 day"))),strtotime(date('Y-m-d'))];
+        $ret = $this->t_seller_new_count_get_detail->get_daily_userid($start_time,$end_time);
+        $userid_list = array_unique(array_column($ret, 'userid'));
+        list($call_count,$called_count) = [0,0];
+        foreach($userid_list as $item){
+            foreach($ret as $info){
+                if($info['userid'] == $item){
+                    if($info['cc_no_called_count_new']+$info['cc_called_count']>0){
+                        $call_count += 1;
+                    }
+                    if($info['cc_called_count']>0){
+                        $called_count += 1;
+                    }
+                }
             }
         }
+        dd($call_count,$called_count);
     }
 
     //处理等级头像

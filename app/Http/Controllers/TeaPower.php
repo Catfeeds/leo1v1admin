@@ -69,8 +69,13 @@ trait TeaPower {
 
                         $lesson_end = $lesson_count*2400+$lesson_start;
                         $end_h = date("H",$lesson_end);
-                        if($h <18 && $end_h>=9 ){
-                            return $this->output_err("教研老师周二至周五9点至18点不能排课");
+                        if($day==3 && $teacherid==428558 && $h>=16){
+                            
+                        }else{
+                            if($h <18 && $end_h>=9 ){
+                                return $this->output_err("教研老师周二至周五9点至18点不能排课");
+                            }
+ 
                         }
                     }
 
