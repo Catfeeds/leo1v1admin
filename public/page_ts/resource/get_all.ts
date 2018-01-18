@@ -52,6 +52,7 @@ $(function(){
                     obj.empty();
                     obj.next().remove();
                     var tag_info = result.tag;
+             
                     if($(tag_info).length == 0) {
                         if(opt_type == 1){
                             obj.append('<option value="-1">全部</option>');
@@ -64,8 +65,9 @@ $(function(){
                         }else{
                             var tag_str = '';
                         }
-                        $.each($(tag_info),function(i, val){
-                            tag_str = tag_str + '<option value='+i+'>'+val+'</option>';
+       
+                        $.each($(tag_info),function(i,item){                        
+                            tag_str = tag_str + '<option value='+item.id+'>'+item.tag+'</option>';
                         });
                         obj.append(tag_str);
                     }

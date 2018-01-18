@@ -3120,4 +3120,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     }
 
+    public function get_lesson_performance_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade,$page_flag=1){
+        
+    }
+
 }

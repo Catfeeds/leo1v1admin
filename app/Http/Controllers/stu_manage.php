@@ -1595,9 +1595,31 @@ class stu_manage extends Controller
                 if(!isset($grade_arr[$val["grade"]])){
                     $grade_arr[$val["grade"]]=$val["grade"];
                 }
+                if($val["lesson_status"]>=2){
+                    if($val["confirm_flag"]>=2){                      
+                        if(!in_array($val["lesson_cancel_reason_type"],[2,12,21,22,23])){
+                            $normal_all++;
+                        }
+                    }else{
+                        $stu_login_time = @$list[$val["lessonid"]]["stu_login_time"]; 
+                        $stu_logout_time = @$list[$val["lessonid"]]["stu_logout_time"]; 
+                        $tea_login_time = @$list[$val["lessonid"]]["tea_login_time"]; 
+                        $tea_logout_time = @$list[$val["lessonid"]]["tea_logout_time"];
+                        $lesson_start = ($val["lesson_start"]+59);
+                        $lesson_end = $val["lesson_end"];
+                        if($stu_login_time<=$lesson_start && $stu_logout_time>=$lesson_end){
+                            $normal_num++;
+                        }
+                        $normal_all++;
+
+                    }
+
+                }
 
 
             }
+            $attend_rate = $normal_num==0?0:round($normal_num/$normal_all*100,2);
+
 
 
             return $this->pageView(__METHOD__,$ret_info,[
@@ -1608,6 +1630,8 @@ class stu_manage extends Controller
 
 
         }elseif($current_id==3){
+            $ret_info = $this->t_lesson_info_b3->get_lesson_performance_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade);
+
 
         }elseif($current_id==4){
 

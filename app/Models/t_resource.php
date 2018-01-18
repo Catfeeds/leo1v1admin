@@ -36,17 +36,19 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         }
 
         $sql = $this->gen_sql_new(
-            "select r.resource_id,resource_type,file_title,file_size,file_type,use_type,v.create_time,v.visitor_id,f.ex_num,"
-            ." file_hash,subject,grade,tag_one,tag_two,tag_three,tag_four,use_type,file_link,f.file_id,file_use_type"
+            "select r.resource_id,resource_type,file_title,file_size,file_type,use_type,v.create_time,v.visitor_id,f.ex_num,f.file_hash,"
+            ." r.subject,r.grade,r.tag_one,r.tag_two,r.tag_three,r.tag_four,t.tag as tag_four_str,r.use_type,f.file_link,f.file_id,f.file_use_type"
             ." from %s r"
             ." left join %s f on f.resource_id=r.resource_id"
             ." left join %s v on v.file_id=f.file_id and v.visitor_type=0 "
+            ." left join %s t on t.id=r.tag_four"
             ." where %s"
             ." and not exists ( select 1 from %s where file_id=v.file_id and v.create_time<create_time and visitor_type=0) "
             ." order by r.resource_id desc,f.file_use_type"
             ,self::DB_TABLE_NAME
             ,t_resource_file::DB_TABLE_NAME
             ,t_resource_file_visit_info::DB_TABLE_NAME
+            ,t_sub_grade_book_tag::DB_TABLE_NAME
             ,$where_arr
             ,t_resource_file_visit_info::DB_TABLE_NAME
         );
