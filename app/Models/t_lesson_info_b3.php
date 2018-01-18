@@ -3025,7 +3025,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ." l.lesson_num,l.tea_cw_upload_time ,l.tea_cw_url , "
                                   ."l.preview_status,l.cw_status "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
-                                  ." where %s ",
+                                  ." where %s order by l.lesson_start",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
@@ -3061,7 +3061,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                       ." from %s l left join %s t on l.teacherid = t.teacherid"
                                       ." left join %s s on l.userid = s.userid"
                                       ." left join %s op on l.lessonid = op.lessonid"
-                                      ." where %s group by l.lessonid",
+                                      ." where %s group by l.lessonid order by l.lesson_start",
                                       self::DB_TABLE_NAME,
                                       t_teacher_info::DB_TABLE_NAME,
                                       t_student_info::DB_TABLE_NAME,
