@@ -146,8 +146,8 @@
                         <td>{{@$var["lesson_time"] }}</td>
                         <td>{{@$var["grade_str"] }}</td>
                         <td>{{@$var["subject_str"] }}</td>
-                        <td></td>
-                        <td></td>
+                        <td>{{@$var["stu_attend_str"] }}</td>
+                        <td>{{@$var["tea_attend_str"] }}</td>
                         <td>
                             <a class="show_login_info" href="javascript:;" data-lessonid="{{ @$var["lessonid"] }}" data-userid="{{ @$var["userid"] }}" data-role="学生">
                                 {{@$var["stu_login_num"] }}
