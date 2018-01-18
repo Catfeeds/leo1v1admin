@@ -106,9 +106,20 @@ class report extends Controller
     public function event_log_info() {
         list($start_time,$end_time)= $this->get_in_date_range_month(0);
         $ret_info=$this->t_log_event_log->tongji_start_succ_fail($start_time, $end_time);
-
         return $this->pageOutJson(__METHOD__, $ret_info);
     }
+
+    public function event_log_sub_project_event_info_js() {
+        $sub_project=trim($this->get_in_str_val("sub_project"));
+        $event_type_id_list=$this->t_log_event_type->get_event_type_id_list ("origin", $sub_project) ;
+        $ret_info=$this->t_log_event_log->get_event_type_id_info($event_type_id_list);
+
+        foreach ($ret_info["list"] as &$item) {
+            $item["event_name"] = $this->t_log_event_type->get_event_name($item["event_type_id"]);
+        }
+        return $this->output_ajax_table($ret_info);
+    }
+
     public function event_log_list()
     {
 
