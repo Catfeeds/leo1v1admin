@@ -46,8 +46,7 @@ class get_teacher_student_first_subject_list extends Command
         $start_time = strtotime("2017-12-01");
 
         $i=0;
-        $list  = $task->t_lesson_info_b3->get_teacher_student_first_subject_info($start_time,$end_time,385950);
-        dd($list);
+        $list  = $task->t_lesson_info_b3->get_teacher_student_first_subject_info($start_time,$end_time);
         foreach($list as $val){
             $id = $val["id"];
             if($id>0){
