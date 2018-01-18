@@ -3073,6 +3073,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         }elseif($page_flag==2){
             $sql = $this->gen_sql_new("select l.subject,l.grade,l.teacherid,l.lessonid,"
                                       ." l.confirm_flag,l.lesson_cancel_reason_type ,"
+                                      ." l.lesson_start,l.lesson_end,l.lesson_status,"
                                       ."min(op.opt_time) stu_login_time,"
                                       ."max(opp.opt_time) stu_logout_time,"
                                       ."min(opo.opt_time) tea_login_time,"

@@ -34,6 +34,8 @@ $(function(){
 
     Enum_map.append_option_list("subject",$("#id_subject"),false,window["g_subject_list"]);
     Enum_map.append_option_list("grade",$("#id_grade"),false,window["g_grade_list"]);
+    console.log(window["g_subject_list"]);
+    console.log(window["g_grade_list"]);
 
 	  $('#id_grade').val(g_args.grade);
 	  $('#id_subject').val(g_args.subject);

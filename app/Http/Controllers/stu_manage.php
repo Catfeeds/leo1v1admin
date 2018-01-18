@@ -1491,8 +1491,8 @@ class stu_manage extends Controller
                 if(!isset($subject_arr[$val["subject"]])){
                     $subject_arr[$val["subject"]]=$val["subject"];
                 }
-                    if(!isset($subject_arr[$val["grade"]])){
-                    $subject_arr[$val["grade"]]=$val["grade"];
+                if(!isset($grade_arr[$val["grade"]])){
+                    $grade_arr[$val["grade"]]=$val["grade"];
                 }
                 if(empty($val["tea_cw_upload_time"]) || $val["tea_cw_upload_time"]>$val["lesson_start"]){
                 }else{
@@ -1587,12 +1587,13 @@ class stu_manage extends Controller
 
             }
 
+            $normal_num=$normal_all=0;
             foreach($list as $val){
-                if(isset( $subject_arr[$val["subject"]])){
+                if(!isset( $subject_arr[$val["subject"]])){
                     $subject_arr[$val["subject"]]=$val["subject"];
                 }
-                if(!isset($subject_arr[$val["grade"]])){
-                    $subject_arr[$val["grade"]]=$val["grade"];
+                if(!isset($grade_arr[$val["grade"]])){
+                    $grade_arr[$val["grade"]]=$val["grade"];
                 }
 
 
