@@ -125,6 +125,9 @@
                     <td>文件格式</td>
                     <td>文件信息</td>
                     <td>文件大小</td>
+                    <td>科目</td>
+                    <td>年级</td>
+                    <td>教材</td>
                     <td>学科化标签</td>
                     <td>是否使用</td>
                 </tr>
@@ -141,6 +144,9 @@
                         <td>{{@$var["file_type"]}} </td>
                         <td>{{@$var["file_use_type_str"]}} </td>
                         <td>{{@$var["file_size"]}}M </td>
+                        <td>{{@$var["subject_str"]}} </td>
+                        <td>{{@$var["grade_str"]}} </td>
+                        <td>{{@$var["book"]}} </td>
                         <td>{{@$var["tag_four_str"]}} </td>
                         <td>是</td>
                     </tr>

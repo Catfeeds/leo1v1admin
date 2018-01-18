@@ -254,7 +254,7 @@ class test_bacon extends Controller
                 if($new_tag_id && !empty(@$new_tag_id['id'])){
                     //print_r($new_tag_id);
                     $up_data = ['tag_four'=>$new_tag_id['id']];
-                    $this->t_resource->field_update_list($var['resource_id'],$up_data);
+                    //$this->t_resource->field_update_list($var['resource_id'],$up_data);
                 }
             }
         }
