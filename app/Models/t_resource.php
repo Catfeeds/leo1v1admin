@@ -143,6 +143,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ,t_resource_agree_info::DB_TABLE_NAME
             ,$where_arr
         );
+        //dd($sql);
         return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
@@ -172,6 +173,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
                                   ,t_sub_grade_book_tag::DB_TABLE_NAME
                                   ,$where_arr
         );
+        //dd($sql);
         return $this->main_get_list($sql);
     }
 
@@ -204,6 +206,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ,t_sub_grade_book_tag::DB_TABLE_NAME
             ,$where_arr
         );
+        //dd($sql);
         return $this->main_get_list($sql);
     }
 

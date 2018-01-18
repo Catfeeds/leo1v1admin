@@ -136,16 +136,28 @@ class report extends Controller
 
         $page_info = $this->get_in_page_info();
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
-            = $this->get_in_order_by_str([],"logtime asc",[
+            = $this->get_in_order_by_str([],"logtime desc",[
             ]);
+
+        $ip=$this->get_in_str_val("ip");
+        if ($ip=="") {
+            $ip=-1;
+        }else{
+            $ip=ip2long($ip);
+        }
+        $event_type_id=$this->get_in_int_val("event_type_id", -1);
 
         list($start_time,$end_time)= $this->get_in_date_range_month(0);
 
         $sub_project=trim($this->get_in_str_val("sub_project"));
-        //
-        $event_type_id_list=$this->t_log_event_type->get_event_type_id_list ("origin", $sub_project) ;
 
-        $ret_info=$this->t_log_event_log->get_list( $page_info, $order_by_str, $event_type_id_list , $start_time, $end_time  );
+        if ($sub_project) {
+            $event_type_id_list=$this->t_log_event_type->get_event_type_id_list ("origin", $sub_project) ;
+        }else{
+            $event_type_id_list=[ $event_type_id];
+        }
+
+        $ret_info=$this->t_log_event_log->get_list( $page_info, $order_by_str, $event_type_id_list , $start_time, $end_time ,$ip );
         foreach ($ret_info["list"] as &$item) {
             $item["ip"]= long2ip($item["ip"]);
             $item["event_name"] = $this->t_log_event_type->get_event_name($item["event_type_id"]);
