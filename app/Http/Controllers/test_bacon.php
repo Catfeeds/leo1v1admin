@@ -252,9 +252,9 @@ class test_bacon extends Controller
                 //print_r($old_tag_arr);
                 $new_tag_id = $this->t_sub_grade_book_tag->get_id($var['subject'],$var['grade'],$old_tag);
                 if($new_tag_id){
-                    print_r($new_tag_id);
-                    $data = ['tag_four'=>$new_tag_id];
-                    //$this->t_resource->field_update_list($var['resource_id'],$data);
+                    //print_r($new_tag_id);
+                    $up_data = ['tag_four'=>$new_tag_id];
+                    $this->t_resource->field_update_list($var['resource_id'],$up_data);
                 }
             }
         }
