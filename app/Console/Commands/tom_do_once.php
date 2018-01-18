@@ -75,7 +75,8 @@ class tom_do_once extends Command
         */
 
         // $this->update_cc_no_called_count();
-        $this->update_tq_call_info();
+        // $this->update_tq_call_info();
+        $this->give_seller_new_count();
     }
 
     /**
@@ -271,6 +272,19 @@ class tom_do_once extends Command
                     }
                 }
             }
+        }
+    }
+
+    public function give_seller_new_count(){
+        $start_time = strtotime(date('Y-m-d'));
+        $end_time = strtotime(date('Y-m-d',strtotime('+1 day')));
+        $seller_list = $this->task->t_manager_info->get_item_seller_list();
+        foreach($seller_list as $item){
+            $account = $item['account'];
+            $adminid = $item['uid'];
+            // $this->task->t_seller_new_count->add($start_time,$end_time,E\Eseller_new_count_type::V_1,$count=5,$adminid,$value_ex=0);
+            $ret = 1;
+            echo $account.':'.$ret."\n";
         }
     }
 
