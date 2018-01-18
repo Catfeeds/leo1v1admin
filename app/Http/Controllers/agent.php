@@ -458,7 +458,7 @@ class agent extends Controller
 
     public function test_new(){
         // list($start_time,$end_time) = [strtotime(date('Y-m-d',strtotime("-10 day"))),strtotime(date('Y-m-d'))];
-        list($start_time,$end_time) = [1516118400,1516168800];
+        list($start_time,$end_time) = [1516118400,1516167300];
         $ret = $this->t_seller_new_count_get_detail->get_daily_userid($start_time,$end_time);
         $userid_list = array_unique(array_column($ret, 'userid'));
         list($call_count,$called_count) = [0,0];
@@ -474,7 +474,7 @@ class agent extends Controller
                 }
             }
         }
-        dd($call_count,$called_count);
+        dd($ret,$call_count,$called_count);
     }
 
     //处理等级头像
