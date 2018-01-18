@@ -95,6 +95,13 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2 {{@$tag_info['tag_five']['hide']}} ">
+                    <div class="input-group ">
+                        <span class="input-group-addon">{{@$tag_info['tag_five']['name']}}</span>
+                        <select class="form-control opt-change" id="id_tag_five"> </select>
+                    </div>
+                </div>
+
             </div>
             <div class="row">
                 <div class="col-xs-2 col-md-1 ">
@@ -131,8 +138,13 @@
                     <td>文件大小</td>
                     <td>科目</td>
                     <td>年级</td>
+                    @if($resource_type < 6)
                     <td>教材</td>
+                    @endif
+
+                    @if( $resource_type == 1 || $resource_type == 3 )
                     <td>学科化标签</td>
+                    @endif
                     <td>是否使用</td>
                 </tr>
             </thead>
@@ -150,8 +162,12 @@
                         <td>{{@$var["file_size"]}}M </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
+                        @if( $resource_type < 6)
                         <td>{{@$var["book"]}} </td>
+                        @endif
+                        @if( $resource_type == 1 || $resource_type == 3)
                         <td>{{@$var["tag_four_str"]}} </td>
+                        @endif
                         <td>是</td>
                     </tr>
                 @endforeach

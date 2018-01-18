@@ -26,6 +26,7 @@ class resource extends Controller
         $tag_two       = $this->get_in_int_val('tag_two', -1);
         $tag_three     = $this->get_in_int_val('tag_three', -1);
         $tag_four      = $this->get_in_int_val('tag_four', -1);
+        $tag_five      = $this->get_in_int_val('tag_five', -1);
         $file_title    = trim( $this->get_in_str_val('file_title', '') );
         $page_info     = $this->get_in_page_info();
 
@@ -99,6 +100,7 @@ class resource extends Controller
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
             'book'          => json_encode($book_arr),
+            'resource_type' => $resource_type,
         ]);
     }
 
@@ -577,6 +579,7 @@ class resource extends Controller
         $tag_two       = $this->get_in_int_val('tag_two',0);
         $tag_three     = $this->get_in_int_val('tag_three',0);
         $tag_four      = $this->get_in_int_val('tag_four',0);
+        $tag_five      = $this->get_in_int_val('tag_five',0);
         $add_num       = $this->get_in_int_val('add_num');
 
         $adminid = $this->get_account_id();
@@ -592,6 +595,7 @@ class resource extends Controller
                 'tag_two'       => $tag_two,
                 'tag_three'     => $tag_three,
                 'tag_four'      => $tag_four,
+                'tag_five'      => $tag_five,
                 'adminid'       => $adminid,
                 'create_time'   => $time,
             ]);

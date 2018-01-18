@@ -307,7 +307,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "操作者: 系统 状态: 分配给总监 [ $account ] ",
                 "system"
             );
-            // $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
+            $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
             $this->task->t_manager_info->send_wx_todo_msg('alan',"来自:系统","分配给你[$origin]例子:".$phone);
         }
 
@@ -666,6 +666,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr=[
                 ["ss.userid=%u",$userid, -1],
             ];
+            if(count($admin_revisiterid_list)>0){
+                $this->where_arr_add_int_or_idlist($where_arr, "ss.admin_revisiterid", $admin_revisiterid_list);
+            }
             if ( $sub_assign_adminid_2 >0 ) { //
                 $this->where_arr_add__2_setid_field($where_arr,"ss.sub_assign_adminid_2", $sub_assign_adminid_2);
             }
