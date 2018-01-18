@@ -349,7 +349,7 @@ class user_power extends Controller
         $this->t_user_log->row_insert([
             "add_time" => time(),
             "adminid"  => $this->get_account_id(),
-            "msg"      => "权限管理页面,权限修改记录:$power_list_str 角色组role_groupid: $role_groupid, 权限组groupid:$groupid",
+            "msg"      => " 角色组role_groupid: $role_groupid, 权限组groupid:$groupid, 权限管理页面,权限修改记录:$power_list_str",
             "user_log_type" =>  E\Euser_log_type::V_4, //权限页面修改记录
         ]);
 
