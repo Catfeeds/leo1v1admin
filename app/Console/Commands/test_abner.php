@@ -124,27 +124,27 @@ class test_abner extends cmd_base
         foreach($example_call_result as $item){
             if(!@$shut_identity_arr[$item['userid']] && in_array($item['status'], [2,4]) && @$shut_arr[$item['userid']])
                 $call_arr['cc_shut_count'] ++;
-            elseif(!@$shut_identity_arr[$item['userid']] && in_array($item['status'], [2,4]) && !@$shut_arr[$item['userid']])
+            if(!@$shut_identity_arr[$item['userid']] && in_array($item['status'], [2,4]) && !@$shut_arr[$item['userid']])
                 $call_arr['user_shut_count'] ++;
 
             $shut_identity_arr[$item['userid']] = true;
 
             if(!@$shut_30_identity_arr[$item['userid']] && $item['status'] == 2 && @$shut_30_arr[$item['userid']])
-                $call_arr['cc_shut_count'] ++;
+                $call_arr['less_30_cc_shut'] ++;
             elseif(!@$shut_30_identity_arr[$item['userid']] && $item['status'] == 2 && !@$shut_30_arr[$item['userid']])
-                $call_arr['user_shut_count'] ++;
+                $call_arr['less_30_user_shut'] ++;
 
             $shut_30_identity_arr[$item['userid']] = true;
 
         }
 
         if($call_arr['no_call_succ'] != 0){
-            $call_arr['cc_shut_rate'] = ($call_arr['cc_shut_count']/$call_arr['no_call_succ']*100).'%';
-            $call_arr['user_shut_rate'] = ($call_arr['user_shut_count']/$call_arr['no_call_succ']*100).'%';
+            $call_arr['cc_shut_rate'] = number_format(($call_arr['cc_shut_count']/$call_arr['no_call_succ']*100),2).'%';
+            $call_arr['user_shut_rate'] = number_format(($call_arr['user_shut_count']/$call_arr['no_call_succ']*100),2).'%';
         }
         if($call_arr['less_30_count'] != 0){
-            $call_arr['less_30_cc_shut_rate'] = ($call_arr['less_30_cc_shut']/$call_arr['less_30_count']*100).'%';
-            $call_arr['less_30_user_shut_rate'] = ($call_arr['less_30_user_shut']/$call_arr['less_30_count']*100).'%';
+            $call_arr['less_30_cc_shut_rate'] = number_format(($call_arr['less_30_cc_shut']/$call_arr['less_30_count']*100),2).'%';
+            $call_arr['less_30_user_shut_rate'] = number_format(($call_arr['less_30_user_shut']/$call_arr['less_30_count']*100),2).'%';
         }
 
         $path = '/var/www/admin.yb1v1.com/10.txt';
@@ -167,7 +167,7 @@ class test_abner extends cmd_base
         fwrite($fp, '   ');
         fwrite($fp, @$call_arr['less_30_count']);//1
         fwrite($fp, '   ');
-        fwrite($fp, @$call_arr['less_30_cc_count']);//1
+        fwrite($fp, @$call_arr['less_30_cc_shut']);//1
         fwrite($fp, '   ');
         fwrite($fp, @$call_arr['less_30_user_shut']);//1
         fwrite($fp, '   ');

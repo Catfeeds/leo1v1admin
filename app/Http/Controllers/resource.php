@@ -26,6 +26,7 @@ class resource extends Controller
         $tag_two       = $this->get_in_int_val('tag_two', -1);
         $tag_three     = $this->get_in_int_val('tag_three', -1);
         $tag_four      = $this->get_in_int_val('tag_four', -1);
+        $tag_five      = $this->get_in_int_val('tag_five', -1);
         $file_title    = trim( $this->get_in_str_val('file_title', '') );
         $page_info     = $this->get_in_page_info();
 
@@ -59,6 +60,7 @@ class resource extends Controller
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
             $item['tag_three_name'] = $tag_arr['tag_three']['name'];
             $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
+            $item['tag_five_name'] = @$tag_arr['tag_five']['name'];
             // dd($item);
             E\Egrade::set_item_field_list($item, [
                 "subject",
@@ -69,6 +71,7 @@ class resource extends Controller
                 $tag_arr['tag_two']['menu'] => 'tag_two',
                 $tag_arr['tag_three']['menu'] => 'tag_three',
                 $tag_arr['tag_four']['menu'] => 'tag_four',
+                $tag_arr['tag_five']['menu'] => 'tag_five',
             ]);
             $item['book'] = E\Eregion_version::get_desc($item['tag_one']);
             // if($item['tag_four'] != -1) {
@@ -92,7 +95,7 @@ class resource extends Controller
 
         // dd($sub_grade_info);
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801161319,
+            '_publish_version'    => 201801161449,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -575,6 +578,7 @@ class resource extends Controller
         $tag_two       = $this->get_in_int_val('tag_two',0);
         $tag_three     = $this->get_in_int_val('tag_three',0);
         $tag_four      = $this->get_in_int_val('tag_four',0);
+        $tag_five      = $this->get_in_int_val('tag_five',0);
         $add_num       = $this->get_in_int_val('add_num');
 
         $adminid = $this->get_account_id();
@@ -590,6 +594,7 @@ class resource extends Controller
                 'tag_two'       => $tag_two,
                 'tag_three'     => $tag_three,
                 'tag_four'      => $tag_four,
+                'tag_five'      => $tag_five,
                 'adminid'       => $adminid,
                 'create_time'   => $time,
             ]);

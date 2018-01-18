@@ -37,7 +37,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
 
         $sql = $this->gen_sql_new(
             "select f.file_title,f.file_size,f.file_type,f.ex_num,f.file_hash,f.file_link,f.file_id,f.file_use_type,"
-            ." r.use_type,r.resource_id,r.resource_type,r.subject,r.grade,r.tag_one,r.tag_two,r.tag_three,r.tag_four,"
+            ." r.use_type,r.resource_id,r.resource_type,r.subject,r.grade,r.tag_one,r.tag_two,r.tag_three,r.tag_four,r.tag_five,"
             ." t.tag as tag_four_str,v.create_time,v.visitor_id"
             ." from %s r"
             ." left join %s f on f.resource_id=r.resource_id"
@@ -154,14 +154,16 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             "r.resource_type=3", // 标准试听课
             "r.is_del=0",
             "ra.is_ban=0",
-            "f.status=0"
+            "f.status=0",
+            "sg.del_flag=0"
         ];
 
         $sql = $this->gen_sql_new("  select r.resource_id from %s r "
                                   ." left join %s f on f.resource_id=r.resource_id"
                                   ." left join %s ra on "
                                   ." ra.resource_type=r.resource_type and ra.subject=r.subject and ra.grade=r.grade and ra.tag_one=r.tag_one and"
-                                  ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three and ra.tag_four=r.tag_four "
+                                  ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three  "
+                                  ." left join %s sg on sg.id=ra.tag_four"
 
                                   ." where %s group by r.resource_id "
                                   ,self::DB_TABLE_NAME

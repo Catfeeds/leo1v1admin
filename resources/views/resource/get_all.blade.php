@@ -15,10 +15,14 @@
      var tag_two = '{{@$tag_info['tag_two']['menu']}}';
      var tag_three = '{{@$tag_info['tag_three']['menu']}}';
      var tag_four = '{{@$tag_info['tag_four']['menu']}}';
+     var tag_five = '{{@$tag_info['tag_five']['menu']}}';
+
      var tag_one_name = '{{@$tag_info['tag_one']['name']}}';
      var tag_two_name = '{{@$tag_info['tag_two']['name']}}';
      var tag_three_name = '{{@$tag_info['tag_three']['name']}}';
      var tag_four_name = '{{@$tag_info['tag_four']['name']}}';
+     var tag_five_name = '{{@$tag_info['tag_five']['name']}}';
+
      var my_subject = {{@$subject}};
      var my_grade = {{@$grade}};
      var book = {{@$book}};
@@ -88,6 +92,13 @@
                     <div class="input-group ">
                         <span class="input-group-addon">{{@$tag_info['tag_four']['name']}}</span>
                         <select class="form-control opt-change" id="id_tag_four"> </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2 {{@$tag_info['tag_five']['hide']}} ">
+                    <div class="input-group ">
+                        <span class="input-group-addon">{{@$tag_info['tag_five']['name']}}</span>
+                        <select class="form-control opt-change" id="id_tag_five"> </select>
                     </div>
                 </div>
 
