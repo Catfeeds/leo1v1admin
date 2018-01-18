@@ -1534,7 +1534,7 @@ class stu_manage extends Controller
                 E\Esubject::set_item_value_str($item);
                 \App\Helper\Utils::unixtime2date_range($item);
                 $item["lesson_num"] = @$all_lesson[$item["lessonid"]];
-                if($item["lesson_status"]>=2){
+                if($item["lesson_status"]<2){
                     $item["tea_login_num"] = "—";
                     $item["stu_login_num"] = "—";
                     $item["parent_login_num"] = "—";
