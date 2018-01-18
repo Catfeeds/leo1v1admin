@@ -1562,7 +1562,7 @@ class stu_manage extends Controller
                     $stu_logout_time = @$list[$item["lessonid"]]["stu_logout_time"]; 
                     $tea_login_time = @$list[$item["lessonid"]]["tea_login_time"]; 
                     $tea_logout_time = @$list[$item["lessonid"]]["tea_logout_time"];
-                    $lesson_start = $item["lesson_start"];
+                    $lesson_start = ($item["lesson_start"]+59);
                     $lesson_end = $item["lesson_end"];
                     if($stu_login_time>$lesson_start && $stu_logout_time<$lesson_end){
                         $item["stu_attend_str"]="迟到且早退";
