@@ -148,6 +148,12 @@ $(function(){
         $("#id_tag_three").append('<option value="-1">全部</option>');
     }
 
+    if(tag_five != ''){
+        Enum_map.append_option_list(tag_five, $("#id_tag_five"));
+    } else {
+        $("#id_tag_five").append('<option value="-1">全部</option>');
+    }
+
     $('#id_subject').val(g_args.subject);
     $('#id_grade').val(g_args.grade);
     $('#id_tag_one').val(g_args.tag_one);
