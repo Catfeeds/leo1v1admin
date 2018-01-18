@@ -1510,23 +1510,7 @@ class stu_manage extends Controller
                 "subject_list"=>$subject_arr,
                 "grade_list"=>$grade_arr,
             ]);
-        }elseif($current_id==2){
-            $tt=[
-                array(0,"","未设置"),
-                array(1,"","调课-家长调课"),
-                array(2,"","调课-老师调课"),
-                array(3,"","调课-设备原因"),
-                array(4,"","调课-网络原因"),
-                array(11,"","请假-学生请假"),
-                array(12,"","请假-老师请假"),
-                array(13,"","请假-设备原因"),
-                array(14,"","请假-网络原因"),
-                array(20,"","学生旷课"),
-                array(21,"","老师旷课"),
-                array(22,"","教学事故"),
-                array(23,"","老师迟到"),
-            ];
-
+        }elseif($current_id==2){          
             $ret_info = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade);
             $list = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
             foreach($ret_info["list"] as &$item){
@@ -1631,6 +1615,32 @@ class stu_manage extends Controller
 
         }elseif($current_id==3){
             $ret_info = $this->t_lesson_info_b3->get_lesson_performance_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade);
+            $list = $this->t_lesson_info_b3->get_lesson_performance_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
+            foreach($ret_info["list"] as &$item){
+                E\Egrade::set_item_value_str($item);
+                E\Esubject::set_item_value_str($item);
+                \App\Helper\Utils::unixtime2date_range($item);             
+                $item["lesson_num"] = @$all_lesson[$item["lessonid"]];
+
+            }
+            $cw_num=$pre_num=0;
+            foreach($list as $val){
+                if(!isset($subject_arr[$val["subject"]])){
+                    $subject_arr[$val["subject"]]=$val["subject"];
+                }
+                if(!isset($grade_arr[$val["grade"]])){
+                    $grade_arr[$val["grade"]]=$val["grade"];
+                }               
+
+
+            }
+            $pre_rate = $cw_num==0?0:round($pre_num/$cw_num*100,2);
+            return $this->pageView(__METHOD__,$ret_info,[
+                "pre_rate"=>$pre_rate,
+                "subject_list"=>$subject_arr,
+                "grade_list"=>$grade_arr,
+            ]);
+
             dd($ret_info);
 
 
