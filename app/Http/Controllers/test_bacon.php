@@ -234,7 +234,7 @@ class test_bacon extends Controller
                         "bookid" =>50000,
                         "del_flag"=>0
                     ];
-                    $this->t_sub_grade_book_tag->row_insert($insertData);
+                    //$this->t_sub_grade_book_tag->row_insert($insertData);
                     //print_r($insertData);
                 }
             }
@@ -249,7 +249,7 @@ class test_bacon extends Controller
             foreach($data as $var){
                 $old_tag_arr = \App\Helper\Utils::get_sub_grade_tag($var['subject'],$var['grade']);
                 $old_tag = @$old_tag_arr[$var['tag_four']];
-                print_r($old_tag_arr);
+                //print_r($old_tag_arr);
                 $new_tag_id = $this->t_sub_grade_book_tag->get_id($var['subject'],$var['grade'],$old_tag);
                 if($new_tag_id){
                     print_r($new_tag_id);

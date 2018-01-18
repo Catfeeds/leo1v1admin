@@ -156,7 +156,7 @@ class resource extends Controller
             }
         }
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801181519,
+            '_publish_version'    => 201801181119,
             'book'          => json_encode($book_arr),
         ]);
     }
