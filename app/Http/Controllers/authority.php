@@ -240,7 +240,7 @@ class authority extends Controller
             "userid"   => $uid, //被修改人
             "adminid"  => $this->get_account_id(),
             "msg"      => "用户管理页面,权限修改记录:$permission",
-            "user_log_type" => E\Euser_log_type::V3, //用户页面修改记录
+            "user_log_type" => E\Euser_log_type::V_3, //用户页面修改记录
         ]);
 
 
