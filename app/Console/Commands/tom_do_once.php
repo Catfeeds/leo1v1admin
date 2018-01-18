@@ -283,9 +283,9 @@ class tom_do_once extends Command
             $adminid = $item['uid'];
             $account = $item['account'];
             $new_count_id = $this->task->t_seller_new_count->get_item_day_row($adminid,$start_time,$end_time);
-            // if($new_count_id == 0){
-            //     $this->task->t_seller_new_count->add($start_time,$end_time,E\Eseller_new_count_type::V_1,$count=5,$adminid,$value_ex=0);
-            // }
+            if($new_count_id == 0){
+                $this->task->t_seller_new_count->add($start_time,$end_time,E\Eseller_new_count_type::V_1,$count=5,$adminid,$value_ex=0);
+            }
             $ret = 1;
             echo $account.':'.$new_count_id.'=>'.$ret."\n";
         }
