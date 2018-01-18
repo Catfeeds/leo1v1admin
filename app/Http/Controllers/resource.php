@@ -73,13 +73,14 @@ class resource extends Controller
                 $tag_arr['tag_four']['menu'] => 'tag_four',
                 $tag_arr['tag_five']['menu'] => 'tag_five',
             ]);
-            $item['book'] = E\Eregion_version::get_desc($item['tag_one']);
+            $item['tag_one_str'] = E\Eregion_version::get_desc($item['tag_one']);
+            $item['tag_five_str'] = E\Eresource_volume::get_desc($item['tag_five']);
             // if($item['tag_four'] != -1) {
             //     $item['tag_four_str'] = \App\Helper\Utils::get_sub_grade_tag($item['subject'],$item['grade'])[ $item['tag_four'] ];
             // }
 
         }
-
+        //dd($ret_info['list']);
         //查询老师负责的科目,年级
         $sub_grade_info = $this->get_rule_range();
 
@@ -420,7 +421,7 @@ class resource extends Controller
         }
 
         $data = $this->t_resource_agree_info->get_next_info($select,@$arr[0],@$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],$is_end);
-
+        //dd($data);
         $tag_arr = \App\Helper\Utils::get_tag_arr();
         //对应枚举类
         $menu = '';
