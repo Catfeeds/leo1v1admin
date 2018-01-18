@@ -277,7 +277,7 @@ class tom_do_once extends Command
 
     public function give_seller_new_count(){
         $start_time = strtotime(date('Y-m-d'));
-        $end_time = strtotime(date('Y-m-d',strtotime('+1 day')));
+        $end_time = strtotime(date('Y-m-d',strtotime('+1 day')))-1;
         $seller_list = $this->task->t_manager_info->get_item_seller_list();
         foreach($seller_list as $item){
             $adminid = $item['uid'];
