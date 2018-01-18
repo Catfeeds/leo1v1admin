@@ -4493,9 +4493,7 @@ class ss_deal extends Controller
                 $this->t_seller_student_new->field_update_list($userid,[
                     "seller_resource_type"=>E\Eseller_resource_type::V_0,
                 ]);
-
                 // $this->t_manager_info->send_wx_todo_msg( "李子璇","来自:$account" , "TMK 有效:$phone"  );
-
             }
         }
         $this->t_student_info->field_update_list($userid,[
