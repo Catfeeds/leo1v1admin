@@ -4211,6 +4211,23 @@ class human_resource extends Controller
         if($adminid==486 || $adminid==478){
             $tea_subject = "";
         }
+
+        $jw_permission_list=[
+            723=>3,
+            1329=>3,
+            1324=>2,
+            1328=>2,
+            1238=>1,
+            513=>1,
+            436=>"-1",
+            478=>"-1"
+        ];
+        if(isset($jw_permission_list[$adminid])){
+            $tea_subject="";
+            $per_subject=$jw_permission_list[$adminid];
+        }else{
+            $per_subject=-1;
+        }
         if(!empty($free_time)){
             $teacherid_arr = $this->get_free_teacherid_arr_new($free_time);
             $arr       = explode(",",$free_time);
@@ -4232,7 +4249,8 @@ class human_resource extends Controller
             $teacherid,$is_freeze,$page_num,$is_test_user,$gender,
             $grade_part_ex,$subject,$second_subject,$address,$limit_plan_lesson_type,
             $lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,$lstart,
-            $lend,$teacherid_arr,$through_start,$through_end,$sleep_teacher_flag,$advance_list
+            $lend,$teacherid_arr,$through_start,$through_end,$sleep_teacher_flag,
+            $advance_list, $per_subject
         );
 
         foreach($ret_info['list'] as  &$item){
