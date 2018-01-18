@@ -434,7 +434,7 @@ class agent extends Controller
             echo '<td>'.$item['last_contact_cc'].'</td>';
             echo '<td>'.date('Y-m-d H:i:s',$item['last_revisit_time']).'</td>';
             echo '<td>'.$item['account'].'</td>';
-            echo '<td>'.$item['seller_resource_type']==1?'是':'否'.'</td>';
+            echo '<td>'.($item['seller_resource_type']==1?'是':'否').'</td>';
             echo '</tr>';
         }
         echo '</table>';
