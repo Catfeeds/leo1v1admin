@@ -115,7 +115,7 @@ class resource extends Controller
                 }
             }
         }else{
-            $book_arr = [3,4,12,15,16,29,50000];
+            $book_arr = [50000,4,12,16,29];
         }
    
 
