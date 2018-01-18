@@ -17,6 +17,15 @@ class t_resource_agree_info extends \App\Models\Zgen\z_t_resource_agree_info
         return $this->main_get_list($sql);
     }
 
+    public function get_agree_resource_num($num){
+        $sql = $this->gen_sql_new(
+            "select agree_id,resource_type,subject,grade,tag_one,tag_two,tag_three,tag_four,is_ban from %s"
+            ." order by resource_type,subject,grade,tag_one,tag_two,tag_three,tag_four limit %u,2000"
+            , self::DB_TABLE_NAME,$num
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function update_ban(
         $resource_type,$subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four, $adminid, $time, $is_ban, $ban_level
     ){
