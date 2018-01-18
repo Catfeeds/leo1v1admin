@@ -15,7 +15,7 @@ class t_sub_grade_book_tag extends \App\Models\Zgen\z_t_sub_grade_book_tag
             ["bookid = %u",$bookid,-1],
             ["del_flag = %s",0]
         ];
-        $sql = $this->gen_sql_new(" select * from %s  where %s order by id desc"
+        $sql = $this->gen_sql_new(" select * from %s  where %s order by subject asc,grade asc,bookid asc,id asc"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
