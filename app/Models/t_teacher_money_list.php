@@ -364,9 +364,9 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
             "t.is_test_user=0"
         ];
         if($is_full==1){
-            $full_sql = "(teacher_type=3 and teacher_money_type=0) or teacher_money_type=7";
+            $full_sql = "((teacher_type=3 and teacher_money_type=0) or teacher_money_type=7)";
         }elseif($is_full==0){
-            $full_sql = "(teacher_type!=3 or teacher_money_type!=0) and teacher_money_type!=7";
+            $full_sql = "((teacher_type!=3 or teacher_money_type!=0) and teacher_money_type!=7)";
         }else{
             $full_sql = "true";
         }
