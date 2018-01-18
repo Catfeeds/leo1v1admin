@@ -1614,7 +1614,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "train_through_new=1",
             "is_test_user=0"
         ];
-        $sql = $this->gen_sql_new("select teacherid,subject from %s where %s ",self::DB_TABLE_NAME,$where_arr);
+        $sql = $this->gen_sql_new("select teacherid,subject,grade_end,grade_start from %s where %s ",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
     }
 
