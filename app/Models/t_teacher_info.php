@@ -4957,7 +4957,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function checkIsFullTime($teacherid){
         $where_arr = [
             "t.teacherid=$teacherid",
-            "(teacher_money_type=0 and teacher_type =3) or t.teacher_money_type=7"
+            "(teacher_money_type=0 or teacher_money_type=7) and t.teacher_type=3"
         ];
         $sql = $this->gen_sql_new("  select 1 from %s t"
                                   ." where %s"

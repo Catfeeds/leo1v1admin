@@ -1931,14 +1931,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     # 42服务器端请求此接口 获取数据
     public function getNeedTranLessonUid(){
         $ret_info = $this->t_lesson_info_b3->getNeedTranLessonUid();
-        return $this->output_succ($ret_info);
+        return $this->output_succ(['data'=>$ret_info]);
     }
 
     # 42服务器获取老师上传ppt文件
     public function getTeaUploadPPTLink(){
-        // $ret_info = $this->t_lesson_info_b3->getTeaUploadPPTLink();
-        $ret_info = ['12'];
-        return $this->output_succ($ret_info);
+        $ret_info = $this->t_lesson_info_b3->getTeaUploadPPTLink();
+        // $ret_info = ['12'];
+        return $this->output_succ(['data'=>$ret_info]);
     }
 
     # 42服务器更新 lesson_info uuid
