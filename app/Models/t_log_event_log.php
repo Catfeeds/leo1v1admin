@@ -31,7 +31,7 @@ class t_log_event_log extends \App\Models\Zgen\z_t_log_event_log
     public function get_list($page_info, $order_by_str, $event_type_id,$start_time, $end_time,$ip  )
     {
         $where_arr=[
-            [ "ip=%u",$ip ]
+            [ "ip=%u",$ip, -1 ]
         ];
 
         $this->where_arr_add_int_or_idlist($where_arr,"event_type_id" , $event_type_id);
