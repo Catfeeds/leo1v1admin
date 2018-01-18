@@ -418,45 +418,31 @@ class agent extends Controller
 
     public function check(){
         $this->check_and_switch_tongji_domain();
-        $start_time = 1514736000;
-        $end_time = 1517414400;
-        $ret = $this->t_tq_call_info->get_item_list($start_time,$end_time);
-        $ret_cause = $this->t_tq_call_info->get_item_cause($start_time,$end_time);
-        $cause_arr = array_unique(array_column($ret_cause,'cause'));
-        $ret_end = $this->t_tq_call_info->get_item_end($start_time,$end_time);
+        $ret = $this->t_seller_student_new->get_item_list();
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>'.date('Y-m',$start_time).'月</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>tq&天润</th><th>tq&天润接通</th><th>tq&天润未接通</th><th>tq</th><th>天润</th><th>天润客户挂断</th><th>天润销售挂断</th><th>天润接通</th><th>天润接通客户挂断</th><th>天润接通<60s客户挂断</th><th>天润接通>=60s客户挂断</th><th>天润接通销售挂断</th><th>天润接通<60s销售挂断</th><th>天润接通>=60s销售挂断</th><th>天润未接通</th>';
-        foreach($cause_arr as $item){
-            echo '<th>天润'.E\Ecause::get_desc($item).'</th>';
-        }
+        echo '<th>号码</th><th>TMK状态</th><th>来源</th><th>例子首次进入时间</th><th>拨打人数</th><th>最后拨打人</th><th>最后一次回访时间</th><th>当前cc</th><th>是否在公海</th>';
         echo '</tr>';
-        echo '<tr>';
-        echo '<td>'.(isset($ret[0]['count'])?$ret[0]['count']:0).'</td>';
-        echo '<td>'.(isset($ret[0]['called_count'])?$ret[0]['called_count']:0).'</td>';
-        echo '<td>'.(isset($ret[0]['no_called_count'])?$ret[0]['no_called_count']:0).'</td>';
-        echo '<td>'.(isset($ret[0]['tq_count'])?$ret[0]['tq_count']:0).'</td>';
-        echo '<td>'.(isset($ret[0]['tian_count'])?$ret[0]['tian_count']:0).'</td>';
-        echo '<td>'.(isset($ret_end[0]['end'])?$ret_end[0]['end']:0).'</td>';
-        echo '<td>'.(isset($ret_end[0]['cc_end'])?$ret_end[0]['cc_end']:0).'</td>';
-        echo '<td>'.(isset($ret[0]['tian_called_count'])?$ret[0]['tian_called_count']:0).'</td>';
-        echo '<td>'.(isset($ret[0]['tian_called_c'])?$ret[0]['tian_called_c']:0).'</td>';
-        echo '<td>'.(isset($ret[0]['tian_called_c_a'])?$ret[0]['tian_called_c_a']:0).'</td>';
-        echo '<td>'.(isset($ret[0]['tian_called_c_b'])?$ret[0]['tian_called_c_b']:0).'</td>';
-        echo '<td>'.(isset($ret[0]['tian_called_cc'])?$ret[0]['tian_called_cc']:0).'</td>';
-        echo '<td>'.(isset($ret[0]['tian_called_cc_a'])?$ret[0]['tian_called_cc_a']:0).'</td>';
-        echo '<td>'.(isset($ret[0]['tian_called_cc_b'])?$ret[0]['tian_called_cc_b']:0).'</td>';
-        echo '<td>'.(isset($ret[0]['tian_no_called_count'])?$ret[0]['tian_no_called_count']:0).'</td>';
-        foreach($cause_arr as $item){
-            $count = $this->t_tq_call_info->get_item_count($start_time,$end_time,$item);
-            echo '<td>'.$count.'</td>';
+        foreach($ret as $item){
+            echo '<tr>';
+            echo '<td>'.$item['phone'].'</td>';
+            echo '<td>'.E\Etmk_student_status::get_desc($item['tmk_student_status']).'</td>';
+            echo '<td>'.$item['origin'].'</td>';
+            echo '<td>'.date('Y-m-d H:i:s',$item['add_time']).'</td>';
+            echo '<td>'.$item['call_admin_count'].'</td>';
+            echo '<td>'.$item['last_contact_cc'].'</td>';
+            echo '<td>'.date('Y-m-d H:i:s',$item['last_revisit_time']).'</td>';
+            echo '<td>'.$item['account'].'</td>';
+            echo '<td>'.$item['seller_resource_type']==1?'是':'否'.'</td>';
+            echo '</tr>';
         }
-        echo '</tr>';
         echo '</table>';
     }
 
     public function test_new(){
+        $ret_log = $this->task->t_seller_get_new_log->get_row_by_adminid_userid($adminid=99,$userid=123456);
+        dd($ret_log);
         $ret = $this->t_seller_get_new_log->row_insert([
             'adminid'=>$adminid=99,
             'userid'=>$userid=123456,

@@ -799,17 +799,13 @@ $(function(){
         },function(resp){
             var data = resp.data;
             var title = "调整工作状态";
-            var html_node= $("<div  id=\"div_table\"><div style=\"float:right\"><button class=\"btn btn-warning\" id=\"add_subject\"></button></div><table   class=\"table table-bordered \"><tr><td>招师</td><td>状态</td><td>操作</td></tr></table></div>");
+            var html_node= $("<div  id=\"div_table\"><div style=\"float:right\"><button class=\"btn btn-warning\" id=\"add_subject\"></button></div><table   class=\"table table-bordered \"><tr><td>用户</td><td>年级</td><td>科目</td><td>操作</td></tr></table></div>");
 
 
             $.each(data,function(i,item){
                 html_node.find("table").append("<tr><td>"+item.account+"</td><td class=\"status_str\">"+item.admin_work_status_str+"</td><td class=\"edit_work_status\" data-uid=\""+item.uid+"\" data-status=\""+item.admin_work_status+"\"><a href=\"javascript:;\">调整</a></td></tr>");
             });
             html_node.find(".edit_work_status").on("click",function(){
-                if(g_args.tea_adminid !=967 && g_args.tea_adminid !=448 && g_args.tea_adminid !=349 && g_args.tea_adminid != 72 && g_args.tea_adminid != 492){
-                    alert("没有权限操作!");
-                    return;
-                }
                 var m = $(this);
                 var uid = $(this).data("uid");
                 var status = $(this).data("status");
