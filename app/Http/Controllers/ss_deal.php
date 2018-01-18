@@ -3836,7 +3836,7 @@ class ss_deal extends Controller
         $phone = $this->t_phone_to_user->get_phone($userid);
         $ret_phone = $this->t_tq_call_info->get_row_by_phone($phone);
         if($ret_phone){
-            $this->output_err('有通话记录,不能删除!');
+            return $this->output_err('有通话记录,不能删除!');
         }
 
         $this->t_test_lesson_subject->row_delete($test_lesson_subject_id);
