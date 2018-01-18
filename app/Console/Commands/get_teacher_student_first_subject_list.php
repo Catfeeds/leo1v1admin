@@ -40,10 +40,10 @@ class get_teacher_student_first_subject_list extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
 
         $task = new \App\Console\Tasks\TaskController ();
-        // $end_time = strtotime(date("Y-m-d",time()));
-        // $start_time = strtotime("-1 days",$end_time);
-        $end_time = time();
-        $start_time = strtotime("2017-12-01");
+        $end_time = strtotime(date("Y-m-d",time()));
+        $start_time = strtotime("-1 days",$end_time);
+        // $end_time = time();
+        // $start_time = strtotime("2017-12-01");
 
         $i=0;
         $list  = $task->t_lesson_info_b3->get_teacher_student_first_subject_info($start_time,$end_time);
@@ -75,12 +75,12 @@ class get_teacher_student_first_subject_list extends Command
         }
 
 
-        if($end_time==strtotime("2018-01-07")){
+        if($end_time==strtotime("2018-01-19")){
         
             $time = strtotime("2016-12-01");
             // $end_time = strtotime("2018-01-06");
             $i=0;
-            for($j=1;$j<=10;$j++){
+            for($j=1;$j<=11;$j++){
                 $start_time = strtotime("+$j months",$time);
                 $end_time = strtotime("+1 months",$start_time);
                 $list  = $task->t_lesson_info_b3->get_teacher_student_first_subject_info($start_time,$end_time);
