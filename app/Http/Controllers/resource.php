@@ -106,9 +106,9 @@ class resource extends Controller
         $grade         = $this->get_in_int_val('grade');
 
         $book = $this->t_resource_agree_info->get_all_resource_type($resource_type, $subject, $grade);
-        $book_arr = [];
+        $book_arr = [50000];
         foreach($book as $v) {
-            if( $v['tag_one'] != 0 ){
+            if( $v['tag_one'] != 0 && $v['tag_one'] != 50000){
                 array_push($book_arr, intval($v['tag_one']) );
             }
         }
@@ -121,9 +121,7 @@ class resource extends Controller
         $subject       = $this->get_in_int_val('subject',-1);
         $grade         = $this->get_in_int_val('grade',-1);
         $bookid        = $this->get_in_int_val('bookid');
-        if(empty($bookid)){
-            $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($subject,$grade);
-        }else{
+        if(!empty($bookid)){
             $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($subject,$grade,$bookid);
         }
 
