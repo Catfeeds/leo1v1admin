@@ -420,7 +420,7 @@ class agent extends Controller
         $this->check_and_switch_tongji_domain();
         $ret = $this->t_seller_student_new->get_item_list();
         echo '<table border="1" width="600" align="center">';
-        echo '<caption><h1>'.date('Y-m',$start_time).'月</h1></caption>';
+        echo '<caption><h1>tmk标记待定状态例子</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
         echo '<th>号码</th><th>TMK状态</th><th>来源</th><th>例子首次进入时间</th><th>拨打人数</th><th>最后拨打人</th><th>最后一次回访时间</th><th>当前cc</th><th>是否在公海</th>';
         echo '</tr>';
