@@ -342,5 +342,24 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
         });
     }
 
-    
+    public function get_item_day_row($adminid,$start_time,$end_time){
+        $where_arr=[
+            'seller_new_count_type=1',
+            "start_time=$start_time",
+            "end_time=$end_time",
+            'count=5',
+            'value_ex=0',
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr,"adminid",$adminid);
+
+        $sql=$this->gen_sql_new(
+            "select new_count_id "
+            ."from %s n "
+            ." where %s  "
+            ,self::DB_TABLE_NAME ,
+            $where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
 }

@@ -280,11 +280,14 @@ class tom_do_once extends Command
         $end_time = strtotime(date('Y-m-d',strtotime('+1 day')));
         $seller_list = $this->task->t_manager_info->get_item_seller_list();
         foreach($seller_list as $item){
-            $account = $item['account'];
             $adminid = $item['uid'];
-            // $this->task->t_seller_new_count->add($start_time,$end_time,E\Eseller_new_count_type::V_1,$count=5,$adminid,$value_ex=0);
+            $account = $item['account'];
+            $new_count_id = $this->task->t_seller_new_count->get_item_day_row($adminid,$start_time,$end_time);
+            // if($new_count_id == 0){
+            //     $this->task->t_seller_new_count->add($start_time,$end_time,E\Eseller_new_count_type::V_1,$count=5,$adminid,$value_ex=0);
+            // }
             $ret = 1;
-            echo $account.':'.$ret."\n";
+            echo $account.':'.$new_count_id.'=>'.$ret."\n";
         }
     }
 
