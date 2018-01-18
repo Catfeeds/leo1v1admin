@@ -20,7 +20,7 @@ class t_resource_agree_info extends \App\Models\Zgen\z_t_resource_agree_info
     public function get_agree_resource_num($num){
         $sql = $this->gen_sql_new(
             "select agree_id,resource_type,subject,grade,tag_one,tag_two,tag_three,tag_four,is_ban from %s"
-            ." order by resource_type,subject,grade,tag_one,tag_two,tag_three,tag_four limit %u,2000"
+            ." order by resource_type,subject,grade,tag_one,tag_two,tag_three,tag_four where tag_four != 0 limit %u,2000"
             , self::DB_TABLE_NAME,$num
         );
         return $this->main_get_list($sql);
