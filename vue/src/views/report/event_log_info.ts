@@ -23,6 +23,32 @@ export default class extends vtable {
 
   opt_show_desc ( e:MouseEvent, opt_data: self_RowData ){
 
+    var show_ip_desc=function( event_type_id ) {
+      $("<div></div>").admin_select_dlg_ajax({
+        "opt_type" : "list", // or "list"
+        "url"      : "/report/event_log_ip_info_js",
+        //其他参数
+        "args_ex" : {
+          "event_type_id": event_type_id
+        },
+
+        //字段列表
+        'field_list' :[
+          {
+          title:"ip",
+          field_name:"ip"
+        },{
+          title:"次数",
+          field_name:"count"
+
+        }] ,
+        //查询列表
+        filter_list:[
+        ],
+        "auto_close" : true,
+      });
+
+    };
         $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "list", // or "list"
             "url"      : "/report/event_log_sub_project_event_info_js",
@@ -34,6 +60,9 @@ export default class extends vtable {
             //字段列表
             'field_list' :[
                 {
+                    title:"事件id",
+                    field_name:"event_type_id"
+                },{
                     title:"事件名",
                     field_name:"event_name"
                 },{
@@ -42,6 +71,16 @@ export default class extends vtable {
                 },{
                     title:"ip独立个数",
                     field_name:"ip_count"
+
+                },{
+                  title:"操作",
+                  render: function(v,item) {
+                    var $div= $("<a href=\"javascript:;\"> ip分析 </a>");
+                    $div.on("click",function(){
+                      show_ip_desc( item.event_type_id );
+                    });
+                    return  $div;
+                  }
                 }
             ] ,
             //查询列表
