@@ -247,7 +247,7 @@ class ss_deal extends Controller
         foreach ( $userid_list as $userid ) {
             $origin = $this->t_student_info->field_get_value($userid, 'origin');
             if($origin == '学校-180112'){
-                $this->output_err('学校渠道不能分配!');
+                return $this->output_err('学校渠道不能分配!');
             }
             $this->t_seller_student_new->set_admin_info_new(
                $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account, $assign_time);
