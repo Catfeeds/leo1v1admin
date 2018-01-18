@@ -59,6 +59,7 @@ class resource extends Controller
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
             $item['tag_three_name'] = $tag_arr['tag_three']['name'];
             $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
+            $item['tag_five_name'] = @$tag_arr['tag_five']['name'];
             // dd($item);
             E\Egrade::set_item_field_list($item, [
                 "subject",
@@ -69,6 +70,7 @@ class resource extends Controller
                 $tag_arr['tag_two']['menu'] => 'tag_two',
                 $tag_arr['tag_three']['menu'] => 'tag_three',
                 $tag_arr['tag_four']['menu'] => 'tag_four',
+                $tag_arr['tag_five']['menu'] => 'tag_five',
             ]);
             $item['book'] = E\Eregion_version::get_desc($item['tag_one']);
             // if($item['tag_four'] != -1) {
@@ -92,7 +94,7 @@ class resource extends Controller
 
         // dd($sub_grade_info);
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801161319,
+            '_publish_version'    => 201801161449,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
