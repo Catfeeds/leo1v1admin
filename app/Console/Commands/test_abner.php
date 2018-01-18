@@ -83,11 +83,11 @@ class test_abner extends cmd_base
 
         //遍历第二遍[将同一用户的状态调一致]
         foreach($example_call_result as &$item){
-            if($is_connect_arr[$item['userid']])
+            if(@$is_connect_arr[$item['userid']])
                 $item['status'] = 2; //status 为1的都为真正未接通
-            if($call_succ_arr[$item['userid']])
+            if(@$call_succ_arr[$item['userid']])
                 $item['status'] = 3; //status 为2的都为通话时长小于30s
-            if($more_30_arr[$item['userid']])
+            if(@$more_30_arr[$item['userid']])
                 $item['status'] = 4; //status 为4的都为通话时长30-60s
         }
 
