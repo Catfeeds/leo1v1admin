@@ -1374,7 +1374,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         ];
         $this->where_arr_add_time_range($where_arr, 'ssn.add_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
-            'select ssn.userid,tci.duration,tci.end_reason,tci.is_called_phone,@status:=1 as status'.
+            'select ssn.userid,tci.duration,tci.end_reason,tci.is_called_phone,@status:=1 as status '.
             'from %s tls '.
             'left join %s ssn using(userid) '.
             'left join %s si using(userid) '.
