@@ -199,5 +199,12 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         return $this->main_get_list($sql);
     }
 
+    public function get_resource_type_all(){
+
+        $sql = $this->gen_sql_new(
+            "select * from %s",self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
 
 }

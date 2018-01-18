@@ -36,7 +36,7 @@ $(function(){
     })
 
     //获取学科化标签
-    var get_sub_grade_tag = function(subject,grade,obj,opt_type,textbook){
+    var get_sub_grade_tag = function(subject,grade,booid,obj,opt_type){
         obj.empty();
         $.ajax({
             type     : "post",
@@ -45,7 +45,7 @@ $(function(){
             data : {
                 'subject' : subject,
                 'grade'   : grade,
-                'textbook':textbook
+                'bookid':booid
             } ,
             success : function(result){
                 if(result.ret == 0){
@@ -151,7 +151,7 @@ $(function(){
     $('#id_tag_one').val(g_args.tag_one);
 
     if($('#id_resource_type').val() == 3 || $('#id_resource_type').val() == 1 ){
-        get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(), $('#id_tag_four'), 1);
+        get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(),$('#id_tag_one').val(),$('#id_tag_four'), 1);
     } else if($('#id_resource_type').val() == 6) {
         get_province($('#id_tag_two'));
     } else {
@@ -383,7 +383,7 @@ $(function(){
                     get_book();
                 }
                 if( $('.resource').val() == 1 || $('.resource').val() == 3){
-                    get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_four'));
+                    get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
                 }
             });
 
@@ -397,7 +397,7 @@ $(function(){
 
                 $('#id_other_file,#id_ff_file').parent().parent().hide();
                 get_book();
-                get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_four'));
+                get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
 
             }else if($('.resource').val() < 6){ //4,5
                 $('#id_les_file,#id_other_file,#id_tea_file,#id_stu_file').parent().parent().hide();
@@ -454,7 +454,7 @@ $(function(){
             $('.tag_two').parent().prev().text('春署秋寒');
             $('.tag_three').parent().parent().hide();
 
-            get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_four'));
+            get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
             $('.tag_four').parent().prev().text('学科化标签');
             $('.tag_four').parent().parent().show();
 
@@ -467,7 +467,7 @@ $(function(){
             Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
             Enum_map.append_option_list("resource_free",$('.tag_two'),true);
             Enum_map.append_option_list("resource_diff_level",$('.tag_three'),true);
-            get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_four'));
+            get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
             $('.tag_one').parent().prev().text('教材版本');
             $('.tag_two').parent().prev().text('试听类型');
             $('.tag_three').parent().prev().text('难度类型');

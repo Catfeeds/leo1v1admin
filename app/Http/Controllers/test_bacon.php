@@ -218,4 +218,46 @@ class test_bacon extends Controller
             }
         }
     }
+
+    public function luru_tag(){
+        set_time_limit(3600);
+        $data = \App\Helper\Utils::get_sub_grade_tag(-1,-1,true);
+        foreach($data as $sub=>$item){
+          
+            foreach($item as $grade=>$var){
+               
+                foreach($var as $v){
+                    $insertData = [
+                        "subject"=>$sub,
+                        "grade"  =>$grade,
+                        "tag"    =>$v,
+                        "bookid" =>50000,
+                        "del_flag"=>0
+                    ];
+                    //$this->t_sub_grade_book_tag->row_insert($insertData);
+                    //print_r($insertData);
+                }
+            }
+        }
+        dd($data);
+    }
+
+    public function modify_resource(){
+        set_time_limit(3600);
+        $data = $this->t_resource->get_resource_type_all();
+        if($data){
+            foreach($data as $var){
+                $old_tag_arr = \App\Helper\Utils::get_sub_grade_tag($var['subject'],$var['grade']);
+                $old_tag = @$old_tag_arr[$var['tag_four']];
+                //print_r($old_tag_arr);
+                $new_tag_id = $this->t_sub_grade_book_tag->get_id($var['subject'],$var['grade'],$old_tag);
+                if($new_tag_id){
+                    print_r($new_tag_id);
+                    $data = ['tag_four'=>$new_tag_id];
+                    //$this->t_resource->field_update_list($var['resource_id'],$data);
+                }
+            }
+        }
+        dd($data);
+    }
 }

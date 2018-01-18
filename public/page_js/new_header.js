@@ -2968,7 +2968,7 @@ function download_show(){
             $.do_ajax ( "/page_common/upload_xls_data",{
                 xls_data :  JSON.stringify(list_data )
             },function(data){
-                window.location.href= "/common_new/download_xls";
+                // window.location.href= "/common_new/download_xls";
             });
         };
 

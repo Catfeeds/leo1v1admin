@@ -118,10 +118,14 @@ class resource extends Controller
 
     //根据科目、年级、教材获取学科标签
     public function get_sub_grade_book_tag(){
-        $subject       = $this->get_in_int_val('subject');
-        $grade         = $this->get_in_int_val('grade');
+        $subject       = $this->get_in_int_val('subject',-1);
+        $grade         = $this->get_in_int_val('grade',-1);
         $bookid        = $this->get_in_int_val('bookid');
         
+
+        $data = \App\Helper\Utils::get_sub_grade_tag($subject,$grade);
+        return $this->output_succ(['tag' => $data]);
+
     }
 
     //学科化标签
@@ -152,7 +156,7 @@ class resource extends Controller
             }
         }
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801181519,
+            '_publish_version'    => 201801181119,
             'book'          => json_encode($book_arr),
         ]);
     }

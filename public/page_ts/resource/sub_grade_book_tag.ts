@@ -4,7 +4,7 @@
 $(function(){
     Enum_map.append_option_list("subject", $("#id_subject"),false,[1,2,3,4,5,6,7,8,9,10,11]);
     Enum_map.append_option_list("grade", $("#id_grade"),false,[101,102,103,104,105,106,201,202,203,301,302,303]);
-    Enum_map.append_option_list("region_version", $("#id_book"),true,book);
+    Enum_map.append_option_list("region_version", $("#id_book"),false,book);
 
     $("#id_subject").val(g_args.subject);
     $("#id_grade").val(g_args.grade);
