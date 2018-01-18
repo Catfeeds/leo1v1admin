@@ -148,9 +148,21 @@
                         <td>{{@$var["subject_str"] }}</td>
                         <td></td>
                         <td></td>
-                        <td>{{@$var["stu_login_num"] }}</td>
-                        <td>{{@$var["tea_login_num"] }}</td>
-                        <td>{{@$var["parent_login_num"] }}</td>
+                        <td>
+                            <a class="show_login_info" href="javascript:;" data-lessonid="{{ @$var["lessonid"] }}" data-userid="{{ @$var["userid"] }}" data-role="学生">
+                                {{@$var["stu_login_num"] }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="show_login_info" href="javascript:;" data-lessonid="{{ @$var["lessonid"] }}" data-userid="{{ @$var["teacherid"] }}" data-role="老师">
+                                {{@$var["tea_login_num"] }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="show_login_info" href="javascript:;" data-lessonid="{{ @$var["lessonid"] }}" data-userid="{{ @$var["parentid"] }}" data-role="家长">
+                                {{@$var["parent_login_num"] }}
+                            </a>
+                        </td>
                         <td></td>
                         <td></td>
                         <td></td>

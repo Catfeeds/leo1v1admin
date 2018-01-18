@@ -3052,7 +3052,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
        
         if($page_flag==1){
             $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
-                                      ."l.grade,l.teacherid,l.lessonid,t.realname,"
+                                      ."l.grade,l.teacherid,l.lessonid,t.realname,s.parentid,"
                                       ." l.lesson_num,l.tea_attend,l.stu_attend,l.stu_praise,"
                                       ." l.confirm_flag,l.lesson_cancel_reason_type ,"
                                       ."sum(if(l.userid=op.userid and op.opt_type=1,1,0)) stu_login_num, "
