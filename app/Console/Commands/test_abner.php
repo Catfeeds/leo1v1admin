@@ -64,7 +64,7 @@ class test_abner extends cmd_base
         $example_call_result = $this->task->t_test_lesson_subject->get_example_call_result($begin_time,$end_time);
         foreach($example_call_result as &$item){
             //总数量
-            if(!$user_arr[$item['userid']]){
+            if(!@$user_arr[$item['userid']]){
                 $call_arr['all_example_count'] ++;
                 $user_arr[$item['userid']] = true;
             }
@@ -96,12 +96,12 @@ class test_abner extends cmd_base
         $shut_30_arr = [];
         //遍历第三遍[计算60 30 总数]
         foreach($example_call_result as $item){
-            if(!$no_connect_arr[$item['userid']] && $item['status'] == 1){
+            if(!@$no_connect_arr[$item['userid']] && $item['status'] == 1){
                 $call_arr['no_connect_count'] ++;
                 $no_connect_arr[$item['userid']] = true;
             }
 
-            if(!$count_arr[$item['userid']] && in_array($item['status'], [2,4])){
+            if(!@$count_arr[$item['userid']] && in_array($item['status'], [2,4])){
                 $call_arr['no_call_succ'] ++;
                 $count_arr[$item['userid']] = true;
             }
@@ -109,7 +109,7 @@ class test_abner extends cmd_base
             if(in_array($item['status'], [2,4]) && $item['end_reason'] == 0)
                 $shut_arr[$item['userid']] = true;
 
-            if(!$count_30_arr[$item['userid']] && $item['status'] == 2){
+            if(!@$count_30_arr[$item['userid']] && $item['status'] == 2){
                 $call_arr['less_30_count'] ++;
                 $count_30_arr[$item['userid']] = true;
             }
@@ -122,16 +122,16 @@ class test_abner extends cmd_base
         $shut_30_identity_arr = [];
         //遍历第四遍[计算挂断者]
         foreach($example_call_result as $item){
-            if(!$shut_identity_arr[$item['userid']] && in_array($item['status'], [2,4]) && $shut_arr[$item['userid']])
+            if(!@$shut_identity_arr[$item['userid']] && in_array($item['status'], [2,4]) && @$shut_arr[$item['userid']])
                 $call_arr['cc_shut_count'] ++;
-            elseif(!$shut_identity_arr[$item['userid']] && in_array($item['status'], [2,4]) && !$shut_arr[$item['userid']])
+            elseif(!@$shut_identity_arr[$item['userid']] && in_array($item['status'], [2,4]) && !@$shut_arr[$item['userid']])
                 $call_arr['user_shut_count'] ++;
 
             $shut_identity_arr[$item['userid']] = true;
 
-            if(!$shut_30_identity_arr[$item['userid']] && $item['status'] == 2 && $shut_30_arr[$item['userid']])
+            if(!@$shut_30_identity_arr[$item['userid']] && $item['status'] == 2 && @$shut_30_arr[$item['userid']])
                 $call_arr['cc_shut_count'] ++;
-            elseif(!$shut_30_identity_arr[$item['userid']] && $item['status'] == 2 && !$shut_30_arr[$item['userid']])
+            elseif(!@$shut_30_identity_arr[$item['userid']] && $item['status'] == 2 && !@$shut_30_arr[$item['userid']])
                 $call_arr['user_shut_count'] ++;
 
             $shut_30_identity_arr[$item['userid']] = true;
