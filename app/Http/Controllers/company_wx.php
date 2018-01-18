@@ -134,8 +134,7 @@ class company_wx extends Controller
         curl_close($ch);
         $output = json_decode($output, true);
 
-        //dd($output);
-        var_dump($output);
+        dd($output);
 
         $info = $output['data'];
         foreach($info as $item) {
@@ -168,7 +167,6 @@ class company_wx extends Controller
                 $common['type'] = 1;
             }
             $leave = json_decode($item['comm']['apply_data'], true);
-            var_dump($leave);
             $items = '';
             foreach ($leave as $val) {
 
