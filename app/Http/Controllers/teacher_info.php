@@ -2542,6 +2542,7 @@ class teacher_info extends Controller
         //     ['subject'=>1,
         //      'grade' => [201,202,203]],
         // ];
+
         $sub_str = '-1';
         $gra_str = '-1';
         foreach($tea_info as $v){

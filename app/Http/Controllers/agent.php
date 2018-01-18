@@ -457,11 +457,12 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $seller_list = $this->t_manager_info->get_item_seller_list();
-        dd($seller_list);
-        $start_time = strtotime(date('Y-m-d'));
-        $end_time = strtotime(date('Y-m-d',strtotime('+1 day')));
-        dd($start_time,$end_time);
+        $ret = $this->t_seller_get_new_log->row_insert([
+            'adminid'=>$adminid=99,
+            'userid'=>$userid=123456,
+            'create_time'=>time(),
+        ]);
+        dd($ret);
         list($start_time,$end_time) = [strtotime(date('Y-m-d',strtotime("-10 day"))),strtotime(date('Y-m-d'))];
         $ret = $this->t_seller_new_count_get_detail->get_daily_userid($start_time,$end_time);
         $userid_list = array_unique(array_column($ret, 'userid'));

@@ -87,15 +87,18 @@ class resource extends Controller
         //$book = $this->t_resource_agree_info->get_all_resource_type();
         $book = $this->t_resource_agree_info->get_all_resource_type($resource_type, $subject, $grade);
         $book_arr = [];
-        foreach($book as $v) {
-            if( $v['tag_one'] != 0 ){
-                array_push($book_arr, intval($v['tag_one']) );
+        if($book){
+            foreach($book as $v) {
+                if( $v['tag_one'] != 0 ){
+                    array_push($book_arr, intval($v['tag_one']) );
+                }
             }
+        }else{
+            $book_arr = [50000,4,12,16,29];
         }
-
         // dd($sub_grade_info);
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801161449,
+            '_publish_version'    => 201801161749,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
