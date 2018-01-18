@@ -37,7 +37,7 @@ function load_data(){
             if (res.data) {
                 var data = res.data;
                 var arr = [];
-                console.log(res.data);
+                
                 for (var item in data) {
                     // if (item == 'spname') item = '审批名';
                     // if (item == 'apply_name') item = '申请人';
@@ -62,10 +62,11 @@ function load_data(){
         }, function(res) {
             if (res.data) {
                 var data = res.data;
-                var arr = [];
+                var arr = ['-', '提示内容'];
                 for (var item in data) {
                     arr.push([item, data[item]]);
                 }
+                // stu_manage
                 $.show_key_value_table("更新修改", arr ,{
                     label    : '确认',
                     cssClass : 'btn-warning',
