@@ -1,0 +1,27 @@
+<section class="content ">
+
+  <div id="id_header_query_info" > </div>
+  <hr/>
+
+  <admin-table :table_config="table_config"  >
+
+    <admin-table-th slot="th"   >渠道</admin-table-th>
+    <admin-table-th slot="th"  > 页面打开数</admin-table-th>
+    <admin-table-th slot="th"  > 独立ip数</admin-table-th>
+    <admin-table-th slot="th"   >例子数(预估)</admin-table-th>
+    <admin-table-th slot="th"  >系统出错数</admin-table-th>
+
+
+    <admin-table-row v-for="(item,index) in table_data "  :key="index" :row_data="item"  :index="index"  >
+      <admin-table-td   >  {{item.sub_project }} </admin-table-td>
+      <admin-table-td   >  {{item.start_count }} </admin-table-td>
+      <admin-table-td   >  {{item.ip_count }} </admin-table-td>
+      <admin-table-td  >  {{item.succ_count }} </admin-table-td>
+      <admin-table-td  >  {{item.fail_count}} </admin-table-td>
+      <admin-a  slot="a"   class_list="fa-list  "   title="xss"   :click="opt_show_list"  ></admin-a>
+      <admin-a  slot="a"   class_list="fa-info  "   title="xss"   :click="opt_show_desc"  ></admin-a>
+    </admin-table-row>
+
+  </admin-table>
+
+</section>
