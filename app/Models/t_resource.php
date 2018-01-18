@@ -192,7 +192,8 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ." left join %s tr on tr.file_id=f.file_id and tr.is_del=0 "
             ." left join %s ra on "
             ." ra.resource_type=r.resource_type and ra.subject=r.subject and ra.grade=r.grade and ra.tag_one=r.tag_one and"
-            ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three and ra.tag_four=r.tag_four "
+            ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three  "
+            ." left join %s sg on sg.id=ra.tag_four"
             ." where %s"
             ." group by r.resource_type "
             ." order by r.resource_type"
@@ -200,6 +201,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ,t_resource_file::DB_TABLE_NAME
             ,t_teacher_resource::DB_TABLE_NAME
             ,t_resource_agree_info::DB_TABLE_NAME
+            ,t_sub_grade_book_tag::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);

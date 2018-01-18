@@ -100,6 +100,7 @@ class resource extends Controller
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
             'book'          => json_encode($book_arr),
+            'resource_type' => $resource_type,
         ]);
     }
 
