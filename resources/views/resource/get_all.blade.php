@@ -99,6 +99,10 @@
                 <div class="col-xs-2 col-md-1 ">
                     <button class="btn btn-warning opt-del">删除</button>
                 </div>
+                <div class="col-xs-2 col-md-2 ">
+                    <button class="btn btn-primary opt-sub-tag">添加学科化标签</button>
+                </div>
+
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <input class="opt-change form-control" id="id_file_title" placeholder="输入文件名称搜索" />

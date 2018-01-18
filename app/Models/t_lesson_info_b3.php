@@ -3102,4 +3102,21 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
  
     }
 
+    public function get_student_all_lesson_info($userid,$start_time,$end_time){
+        $where_arr = [
+            ["lesson_start>=%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            ["userid=%u",$userid,-1],         
+            "lesson_del_flag=0",
+            // "l.confirm_flag<2",
+            "lesson_type in (0,1,3)"
+        ];
+        $sql = $this->gen_sql_new("select lessonid,lesson_start from %s where %s order by lesson_start",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql); 
+
+    }
+
 }
