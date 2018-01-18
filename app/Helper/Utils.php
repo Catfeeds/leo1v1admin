@@ -2650,7 +2650,6 @@ class Utils  {
             $path = "/home/ybai/".$file_name.".txt";
         }
         $fp = fopen($path,"w+");
-
         //add title
         /*
         foreach($arr_title as $key => $value){
@@ -2663,7 +2662,6 @@ class Utils  {
                 fwrite($fp, ',');
         }
         fwrite($fp, "\n");
-
         //add foreach data
         foreach ($ret_info as $key => $value) {
             /*
@@ -2768,7 +2766,6 @@ class Utils  {
             $arr['list'] = [];
         }
         foreach ($ret as $key => $value) {
-
             if($num == $start_num){
                 $i = 0;
             }
@@ -2778,7 +2775,6 @@ class Utils  {
             }
             ++$num;
         }
-
         $arr['total_num'] = $num;
         $arr['page_info']['total_num'] = $num;
         return $arr;
