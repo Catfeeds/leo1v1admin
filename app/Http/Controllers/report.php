@@ -136,7 +136,7 @@ class report extends Controller
 
         $page_info = $this->get_in_page_info();
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
-            = $this->get_in_order_by_str([],"logtime asc",[
+            = $this->get_in_order_by_str([],"logtime desc",[
             ]);
 
         $ip=$this->get_in_str_val("ip");
