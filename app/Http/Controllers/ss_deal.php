@@ -245,6 +245,10 @@ class ss_deal extends Controller
         $this->t_manager_info->send_wx_todo_msg( $opt_account ,"来自:".$account, "分配给你". count($userid_list)."个例子"  );
 
         foreach ( $userid_list as $userid ) {
+            $origin = $this->t_student_info->field_get_value($userid, 'origin');
+            if($origin == '学校-180112'){
+                return $this->output_err('学校渠道不能分配!');
+            }
             $this->t_seller_student_new->set_admin_info_new(
                $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account, $assign_time);
             $origin_assistantid= $this->t_student_info->get_origin_assistantid($userid);
@@ -3828,7 +3832,12 @@ class ss_deal extends Controller
     public function del_seller_student() {
         $test_lesson_subject_id = $this->get_in_test_lesson_subject_id();
         $userid                 = $this->t_test_lesson_subject->get_userid($test_lesson_subject_id);
-
+        //删除限制
+        $phone = $this->t_phone_to_user->get_phone($userid);
+        $ret_phone = $this->t_tq_call_info->get_row_by_phone($phone);
+        if($ret_phone){
+            return $this->output_err('有通话记录,不能删除!');
+        }
 
         $this->t_test_lesson_subject->row_delete($test_lesson_subject_id);
         $this->t_seller_student_origin->del_by_userid($userid);

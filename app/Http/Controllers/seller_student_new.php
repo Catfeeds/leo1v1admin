@@ -739,6 +739,8 @@ class seller_student_new extends Controller
         $ret_info= $this->t_seller_student_new->get_new_list($page_num, $now-30*3*86400 ,$now, $grade, $has_pad, $subject,$origin,$phone,$adminid ,$t_flag );
         $userid=@ $ret_info["list"][0]["userid"];
         if ($userid) {
+            //抢新log
+
             $lesson_call_end = [];
             $key="DEAL_NEW_USER_$adminid";
             $old_userid=\App\Helper\Common::redis_get($key)*1;
@@ -1501,12 +1503,6 @@ class seller_student_new extends Controller
         $now=time(NULL);
         $cur_hm=date("H",$now)*60+date("i",$now);
         $cur_week=date("w",$now);
-        // if (in_array( $cur_week*1,[6,0] ) ) {//周六,周日00:00~11:00
-        //     $limit_arr=array( [0,11*60] );
-        // }else{//周一~周五00:00~10:00,14:00~15:00
-        //     $limit_arr=array( [0, 10*60 ], [14*60, 15*60] );
-        //     //$limit_arr=array( [0, 10*60 ] );
-        // }
         if (in_array( $cur_week*1,[6,0])) {//周六,周日00:00~11:00
             $limit_arr=array( [0,11*60] );
         }elseif(in_array( $cur_week*1,[1,3,4,5] )){//周一,周三,周四,周五 0:00-13:30

@@ -1182,11 +1182,10 @@ class Utils  {
      */
     static public function check_teacher_is_full($teacher_money_type,$teacher_type,$teacherid){
         $is_full = false;
-        if(
-            ($teacher_money_type==E\Eteacher_money_type::V_0
-             && $teacher_type==E\Eteacher_type::V_3
-             && !in_array($teacherid,[51094,99504,97313])
-            ) || $teacher_money_type==E\Eteacher_money_type::V_7
+        if(($teacher_money_type==E\Eteacher_money_type::V_0
+            && $teacher_type==E\Eteacher_type::V_3
+            && !in_array($teacherid,[51094,99504,97313]))
+           || $teacher_money_type==E\Eteacher_money_type::V_7
         ){
             $is_full = true;
         }
@@ -2483,7 +2482,7 @@ class Utils  {
             1 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '春暑秋寒','menu' => 'resource_season','hide' => ''],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_four' => ['name' => '学科化标签','menu' => '','hide' => '']],
             2 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '春暑秋寒','menu' => 'resource_season','hide' => ''],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
@@ -2555,14 +2554,14 @@ class Utils  {
             3 => [
                 101 => ['字母','自然拼读','词汇'],
                 102 => ['音标','词汇','口语'],
-                103 => ['写作','词汇','语法'],
-                104 => ['写作','词汇','语法'],
+                103 => ['写作','听力'],
+                104 => ['写作','听力'],
                 105 => ['词汇','语法','阅读'],
                 106 => ['词汇','语法','阅读'],
                 201 => ['写作','语法','阅读'],
                 202 => ['语法','阅读','写作'],
                 203 => ['语法','阅读','写作'],
-                301 => ['写作','语法','词汇'],
+                301 => ['写作','听力'],
                 302 => ['语法','阅读','写作'],
                 303 => ['语法','阅读','写作'],
             ],

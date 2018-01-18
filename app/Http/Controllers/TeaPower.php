@@ -69,8 +69,13 @@ trait TeaPower {
 
                         $lesson_end = $lesson_count*2400+$lesson_start;
                         $end_h = date("H",$lesson_end);
-                        if($h <18 && $end_h>=9 ){
-                            return $this->output_err("教研老师周二至周五9点至18点不能排课");
+                        if($day==3 && $teacherid==428558 && $h>=16){
+                            
+                        }else{
+                            if($h <18 && $end_h>=9 ){
+                                return $this->output_err("教研老师周二至周五9点至18点不能排课");
+                            }
+ 
                         }
                     }
 
@@ -4923,8 +4928,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $teacher_lesson_count_money = $val['lesson_reward']*100;
                 $teacher_lesson_cost        = $val['lesson_cost']*100;
 
-                echo $lessonid;
-                echo PHP_EOL;
 
                 $this->t_lesson_all_money_list->update_lesson_all_money_info(
                     $lessonid,$teacher_base_money,$teacher_lesson_count_money,$teacher_lesson_cost

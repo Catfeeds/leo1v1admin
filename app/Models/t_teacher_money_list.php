@@ -354,4 +354,32 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_reward_total($start,$end,$type,$teacherid,$is_full){
+        $where_arr = [
+            ["add_time>=%u",$start,0],
+            ["add_time<%u",$end,0],
+            ["tm.teacherid=%u",$teacherid,0],
+            ["type=%u",$type,0],
+            "t.is_test_user=0"
+        ];
+        if($is_full==1){
+            $full_sql = "((teacher_type=3 and teacher_money_type=0) or teacher_money_type=7)";
+        }elseif($is_full==0){
+            $full_sql = "((teacher_type!=3 or teacher_money_type!=0) and teacher_money_type!=7)";
+        }else{
+            $full_sql = "true";
+        }
+        $sql = $this->gen_sql_new("select sum(tm.money) as money"
+                                  ." from %s tm "
+                                  ." left join %s t on tm.teacherid=t.teacherid"
+                                  ." where %s"
+                                  ." and %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,$full_sql
+        );
+        return $this->main_get_value($sql);
+    }
 }
