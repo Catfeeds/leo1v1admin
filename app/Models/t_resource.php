@@ -16,6 +16,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ['r.resource_type=%u', $resource_type, -1],
             ['r.subject=%u', $subject, -1],
             ['r.grade=%u', $grade, -1],
+            ['r.tag_one=%u', $tag_one, -1],
             ['r.tag_two=%u', $tag_two, -1],
             ['r.tag_three=%u', $tag_three, -1],
             ['r.tag_four=%u', $tag_four, -1],

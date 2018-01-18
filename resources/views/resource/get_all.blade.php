@@ -147,7 +147,7 @@
                     @endif
 
                     @if($resource_type < 7 && $resource_type > 3)
-                        <td>教材</td>
+                        <td>上下册</td>
                     @endif
 
                     <td>是否使用</td>
