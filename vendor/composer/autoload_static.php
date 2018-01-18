@@ -1041,6 +1041,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TRuffianActivityModify' => __DIR__ . '/../..' . '/database/migrations/2017_10_27_102628_t_ruffian_activity_modify.php',
         'TSellerEditLogAddNewCreateTimeIndex' => __DIR__ . '/../..' . '/database/migrations/2017_10_18_105153_t_seller_edit_log_add_new_create_time_index.php',
         'TSellerGetNewLog' => __DIR__ . '/../..' . '/database/migrations/2018_01_18_110632_t_seller_get_new_log.php',
+        'TSellerGetNewLogAddIndexNew' => __DIR__ . '/../..' . '/database/migrations/2018_01_18_114632_t_seller_get_new_log_add_index_new.php',
         'TSellerLevelGoal' => __DIR__ . '/../..' . '/database/migrations/2017_10_09_163301_t_seller_level_goal.php',
         'TSellerLevelGoalAddLevelIcon' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_112220_t_seller_level_goal_add_level_icon.php',
         'TSellerLevelGoalAddNum' => __DIR__ . '/../..' . '/database/migrations/2017_10_10_163653_t_seller_level_goal_add_num.php',

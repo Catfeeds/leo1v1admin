@@ -727,6 +727,7 @@ return array(
     'TRuffianActivityModify' => $baseDir . '/database/migrations/2017_10_27_102628_t_ruffian_activity_modify.php',
     'TSellerEditLogAddNewCreateTimeIndex' => $baseDir . '/database/migrations/2017_10_18_105153_t_seller_edit_log_add_new_create_time_index.php',
     'TSellerGetNewLog' => $baseDir . '/database/migrations/2018_01_18_110632_t_seller_get_new_log.php',
+    'TSellerGetNewLogAddIndexNew' => $baseDir . '/database/migrations/2018_01_18_114632_t_seller_get_new_log_add_index_new.php',
     'TSellerLevelGoal' => $baseDir . '/database/migrations/2017_10_09_163301_t_seller_level_goal.php',
     'TSellerLevelGoalAddLevelIcon' => $baseDir . '/database/migrations/2017_10_11_112220_t_seller_level_goal_add_level_icon.php',
     'TSellerLevelGoalAddNum' => $baseDir . '/database/migrations/2017_10_10_163653_t_seller_level_goal_add_num.php',

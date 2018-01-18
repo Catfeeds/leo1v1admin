@@ -134,7 +134,7 @@ class resource extends Controller
         $grade         = $this->get_in_int_val('grade',201);
         $bookid      = $this->get_in_int_val('bookid',4);
         $page_num        = $this->get_in_page_num();
-
+        $page_count      = $this->get_in_int_val('page_count',20);
         $book = $this->t_resource_agree_info->get_all_resource_type(-1, $subject, $grade);
         $book_arr = [];
         if(!$book){
@@ -147,7 +147,7 @@ class resource extends Controller
             }
         }
 
-        $ret_info = $this->t_sub_grade_book_tag->get_list($subject,$grade,$bookid,$page_num);
+        $ret_info = $this->t_sub_grade_book_tag->get_list($subject,$grade,$bookid,$page_num,$page_count);
         if($ret_info){
             foreach($ret_info['list'] as &$var){
                 $var['subject_str'] = E\Esubject::get_desc($var['subject']);
