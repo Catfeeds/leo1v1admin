@@ -233,6 +233,81 @@ $(function(){
         })
  
     })
+
+    $('.fa-long-arrow-up').on('click',function(){
+
+        var opt_data = $(this).get_opt_data(); 
+        var $pre_item = $(this).parents('tr').prev().find('.fa-long-arrow-up');
+        var pre_data = $pre_item.get_opt_data();
+        //console.log($pre_item);
+        if($pre_item.length < 1){
+            BootstrapDialog.alert("本条目是本页面第一条,可以显示更多的页面条数来上移排序操作");
+            return false;
+        }
+        if( opt_data.grade != pre_data.grade){
+            BootstrapDialog.alert("排序的两个条目必须是相同年级");
+            return false;
+        }
+        if( opt_data.subject != pre_data.subject){
+            BootstrapDialog.alert("排序的两个条目必须是相同科目");
+            return false;
+        }
+        if( opt_data.bookid != pre_data.bookid){
+            BootstrapDialog.alert("排序的两个条目必须是相同的教材版本");
+            return false;
+        }
+
+        var data = {
+            'up_id':pre_data.id,
+            'up_tag':pre_data.tag,
+            'down_id':opt_data.id,
+            'down_tag':opt_data.tag
+        };
+        BootstrapDialog.confirm("你确认将本条标签上移",function(ret){
+            if(ret){
+                $.do_ajax("/resource/order_sub_grade_tag",data);
+            }
+        })
+        
+    })
+
+    $('.fa-long-arrow-down').on('click',function(){
+        var opt_data = $(this).get_opt_data(); 
+        var $next_item = $(this).parents('tr').next().find('.fa-long-arrow-up');
+        var next_data = $next_item.get_opt_data();
+        //console.log($pre_item);
+        if($next_item.length < 1){
+            BootstrapDialog.alert("本条目是本页面最后一条,可以显示更多的页面条数来下移排序操作");
+            return false;
+        }
+        if( opt_data.grade != next_data.grade){
+            BootstrapDialog.alert("排序的两个条目必须是相同年级");
+            return false;
+        }
+        if( opt_data.subject != next_data.subject){
+            BootstrapDialog.alert("排序的两个条目必须是相同科目");
+            return false;
+        }
+        if( opt_data.bookid != next_data.bookid){
+            BootstrapDialog.alert("排序的两个条目必须是相同的教材版本");
+            return false;
+        }
+
+        var data = {
+            'up_id':opt_data.id,
+            'up_tag':opt_data.tag,
+            'down_id':next_data.id,
+            'down_tag':next_data.tag
+        };
+
+        BootstrapDialog.confirm("你确认将本条标签往下移",function(ret){
+            if(ret){
+                $.do_ajax("/resource/order_sub_grade_tag",data);
+            }
+        })
+
+    })
+
 });
     
 function load_data(){
