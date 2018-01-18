@@ -3021,7 +3021,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[]="l.tea_cw_upload_time>0 and l.tea_cw_upload_time<l.lesson_start";
         }
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
-                                  ."l.grade,l.teacherid,l.lessonid,t.realname,"
+                                  ."l.grade,l.teacherid,l.lessonid,t.realname,l.userid,"
                                   ." l.lesson_num,l.tea_cw_upload_time ,l.tea_cw_url , "
                                   ."l.preview_status,l.cw_status "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
@@ -3051,7 +3051,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         ];
        
         if($page_flag==1){
-            $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
+            $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,l.userid,"
                                       ."l.grade,l.teacherid,l.lessonid,t.realname,s.parentid,"
                                       ." l.lesson_num,l.tea_attend,l.stu_attend,l.stu_praise,"
                                       ." l.confirm_flag,l.lesson_cancel_reason_type ,"

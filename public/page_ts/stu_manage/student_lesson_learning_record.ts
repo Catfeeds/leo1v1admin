@@ -216,7 +216,7 @@ $(function(){
         },function(resp) {
             var list = resp.data;
             $.each(list,function(i,item){              
-                html_node.find("table").append("<tr><td>"+role+"</td><td>"+item["opt_type"]+"</td><td>"+item["opt_time_str"]+"</td></tr>");
+                html_node.find("table").append("<tr><td>"+role+"</td><td>"+item["opt_type_str"]+"</td><td>"+item["opt_time_str"]+"</td></tr>");
             });
         });
 
