@@ -3330,6 +3330,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ["a.assistantid = %u" , $assistantid, -1],
             ["m.uid = %u" , $order_adminid, -1],
             ["s.origin_userid = %u" , $origin_userid, -1],
+            ["s.userid = %u" , $userid, -1],
             ["m.account_role = %u" , $sys_operator_type, -1],
             "m2.account_role=1",
             "s.origin_userid>0",

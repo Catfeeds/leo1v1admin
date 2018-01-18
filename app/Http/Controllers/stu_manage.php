@@ -1630,6 +1630,8 @@ class stu_manage extends Controller
 
 
         }elseif($current_id==3){
+            $ret_info = $this->t_lesson_info_b3->get_lesson_performance_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade);
+
 
         }elseif($current_id==4){
 
