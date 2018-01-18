@@ -254,10 +254,32 @@ class test_bacon extends Controller
                 if($new_tag_id && !empty(@$new_tag_id['id'])){
                     //print_r($new_tag_id);
                     $up_data = ['tag_four'=>$new_tag_id['id']];
-                    $this->t_resource->field_update_list($var['resource_id'],$up_data);
+                    //$this->t_resource->field_update_list($var['resource_id'],$up_data);
                 }
             }
         }
         dd($data);
     }
+
+    public function modify_res_agree_info(){
+        set_time_limit(3600);
+        echo 1;
+        //$data = $this->t_resource->get_resource_type_all();
+        $data = $this->t_resource_agree_info->get_agree_resource();
+        if($data){
+            foreach($data as $var){
+                $old_tag_arr = \App\Helper\Utils::get_sub_grade_tag($var['subject'],$var['grade']);
+                $old_tag = @$old_tag_arr[$var['tag_four']];
+                //print_r($old_tag_arr);
+                $new_tag_id = $this->t_sub_grade_book_tag->get_id($var['subject'],$var['grade'],$old_tag);
+                if($new_tag_id && !empty(@$new_tag_id['id'])){
+                    //print_r($new_tag_id);
+                    $up_data = ['tag_four'=>$new_tag_id['id']];
+                    $this->t_resource_agree_info->field_update_list($var['agree_id'],$up_data);
+                }
+            }
+        }
+        dd($data);
+    }
+
 }

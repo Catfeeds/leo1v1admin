@@ -15,10 +15,14 @@
      var tag_two = '{{@$tag_info['tag_two']['menu']}}';
      var tag_three = '{{@$tag_info['tag_three']['menu']}}';
      var tag_four = '{{@$tag_info['tag_four']['menu']}}';
+     var tag_five = '{{@$tag_info['tag_five']['menu']}}';
+
      var tag_one_name = '{{@$tag_info['tag_one']['name']}}';
      var tag_two_name = '{{@$tag_info['tag_two']['name']}}';
      var tag_three_name = '{{@$tag_info['tag_three']['name']}}';
      var tag_four_name = '{{@$tag_info['tag_four']['name']}}';
+     var tag_five_name = '{{@$tag_info['tag_five']['name']}}';
+
      var my_subject = {{@$subject}};
      var my_grade = {{@$grade}};
      var book = {{@$book}};
@@ -91,6 +95,13 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2 {{@$tag_info['tag_five']['hide']}} ">
+                    <div class="input-group ">
+                        <span class="input-group-addon">{{@$tag_info['tag_five']['name']}}</span>
+                        <select class="form-control opt-change" id="id_tag_five"> </select>
+                    </div>
+                </div>
+
             </div>
             <div class="row">
                 <div class="col-xs-2 col-md-1 ">
@@ -125,7 +136,15 @@
                     <td>文件格式</td>
                     <td>文件信息</td>
                     <td>文件大小</td>
+                    <td>科目</td>
+                    <td>年级</td>
+                    @if($resource_type < 6)
+                    <td>教材</td>
+                    @endif
+
+                    @if( $resource_type == 1 || $resource_type == 3 )
                     <td>学科化标签</td>
+                    @endif
                     <td>是否使用</td>
                 </tr>
             </thead>
@@ -141,7 +160,14 @@
                         <td>{{@$var["file_type"]}} </td>
                         <td>{{@$var["file_use_type_str"]}} </td>
                         <td>{{@$var["file_size"]}}M </td>
+                        <td>{{@$var["subject_str"]}} </td>
+                        <td>{{@$var["grade_str"]}} </td>
+                        @if( $resource_type < 6)
+                        <td>{{@$var["book"]}} </td>
+                        @endif
+                        @if( $resource_type == 1 || $resource_type == 3)
                         <td>{{@$var["tag_four_str"]}} </td>
+                        @endif
                         <td>是</td>
                     </tr>
                 @endforeach

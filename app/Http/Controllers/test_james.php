@@ -1720,4 +1720,16 @@ class test_james extends Controller
         return $ret_arr;
     }
 
+    public function jiang(){
+        $lessonid = $this->get_in_int_val('l');
+        $subject = $this->get_in_int_val('s');
+        $grade = $this->get_in_int_val('g');
+        $resource_id_arr = $this->t_resource->getResourceId($subject,$grade);
+
+        $hasResourceId = $this->t_lesson_info_b3->getResourceId($lessonid);
+        echo $hasResourceId;
+        dd($resource_id_arr);
+
+    }
+
 }

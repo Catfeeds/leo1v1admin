@@ -2535,9 +2535,13 @@ class teacher_info extends Controller
                 ]);
             }
         }
-        //获取老师科目年级段
+        
         $tea_info = $this->get_rule_range();
 
+        // $tea_info = [
+        //     ['subject'=>1,
+        //      'grade' => [201,202,203]],
+        // ];
         $sub_str = '-1';
         $gra_str = '-1';
         foreach($tea_info as $v){
@@ -2579,6 +2583,7 @@ class teacher_info extends Controller
         $tag_two       = $this->get_in_int_val('tag_two', -1);
         $tag_three     = $this->get_in_int_val('tag_three', -1);
         $tag_four      = $this->get_in_int_val('tag_four', -1);
+        $tag_five      = $this->get_in_int_val('tag_five', -1);
         // $file_title    = $this->get_in_str_val('file_title', '');
         $page_info     = $this->get_in_page_info();
 
@@ -2598,7 +2603,7 @@ class teacher_info extends Controller
 
         //禁用，删除，老师段则不在显示
         $ret_info = $this->t_resource->get_all_for_tea(
-             $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$page_info
+            $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$page_info
         );
 
         $tag_arr = \App\Helper\Utils::get_tag_arr($resource_type);

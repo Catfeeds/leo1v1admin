@@ -71,7 +71,8 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
             "rf.status=0",
             'r.is_del=0',
             'ra.is_ban=0',
-            "rf.file_use_type=0"//授课课件,
+            "rf.file_use_type=0",//授课课件,
+            "sg.del_flag=0"
         ];
 
 
@@ -84,11 +85,13 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
                                   ." left join %s r on r.resource_id=rf.resource_id"
                                   ." left join %s ra on "
                                   ." ra.resource_type=r.resource_type and ra.subject=r.subject and ra.grade=r.grade and ra.tag_one=r.tag_one and"
-                                  ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three and ra.tag_four=r.tag_four "
+                                  ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three "
+                                  ." left join %s sg on sg.id=ra.tag_four"
                                   ." where %s group by rf.file_id"
                                   ,self::DB_TABLE_NAME
                                   ,t_resource::DB_TABLE_NAME
                                   ,t_resource_agree_info::DB_TABLE_NAME
+                                  ,t_sub_grade_book_tag::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
@@ -102,7 +105,8 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
             "rf.status=0",
             'r.is_del=0',
             'ra.is_ban=0',
-            "rf.file_use_type=0"//授课课件
+            "rf.file_use_type=0",//授课课件
+            "sg.del_flag=0"
         ];
 
         $sql = $this->gen_sql_new("  select rf.file_title, rf.file_id, rf.file_type, rf.file_link, rf.file_poster, r.tag_three from %s rf "
@@ -110,10 +114,12 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
                                   ." left join %s ra on "
                                   ." ra.resource_type=r.resource_type and ra.subject=r.subject and ra.grade=r.grade and ra.tag_one=r.tag_one and"
                                   ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three and ra.tag_four=r.tag_four "
+                                  ." left join %s sg on sg.id=ra.tag_four"
                                   ." where %s group by file_id"
                                   ,self::DB_TABLE_NAME
                                   ,t_resource::DB_TABLE_NAME
                                   ,t_resource_agree_info::DB_TABLE_NAME
+                                  ,t_sub_grade_book_tag::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);

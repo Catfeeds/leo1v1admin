@@ -12,32 +12,33 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         $use_type, $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four, $file_title, $page_info, $is_del = 0
     ){
         $where_arr = [
-            ['use_type=%u', $use_type, -1],
-            ['resource_type=%u', $resource_type, -1],
-            ['subject=%u', $subject, -1],
-            ['grade=%u', $grade, -1],
-            ['tag_two=%u', $tag_two, -1],
-            ['tag_three=%u', $tag_three, -1],
-            ['tag_four=%u', $tag_four, -1],
+            ['r.use_type=%u', $use_type, -1],
+            ['r.resource_type=%u', $resource_type, -1],
+            ['r.subject=%u', $subject, -1],
+            ['r.grade=%u', $grade, -1],
+            ['r.tag_two=%u', $tag_two, -1],
+            ['r.tag_three=%u', $tag_three, -1],
+            ['r.tag_four=%u', $tag_four, -1],
             ['is_del=%u', $is_del, -1],
             ['status=%u', $is_del, -1],
         ];
         if( in_array($resource_type, [1,2,3,4,5,9]) ){
             //添加通用版50000
             if($tag_one != -1){
-                $where_arr[] = " tag_one in ($tag_one, 50000) ";
+                $where_arr[] = " r.tag_one in ($tag_one, 50000) ";
             }
         } else {
-            $where_arr[] = ['tag_one=%u', $tag_one, -1];
+            $where_arr[] = ['r.tag_one=%u', $tag_one, -1];
         }
 
         if($file_title != ''){
-            $where_arr[] = ["file_title like '%s%%'", $this->ensql( $file_title), ""];
+            $where_arr[] = ["f.file_title like '%s%%'", $this->ensql( $file_title), ""];
         }
 
         $sql = $this->gen_sql_new(
-            "select r.resource_id,resource_type,file_title,file_size,file_type,use_type,v.create_time,v.visitor_id,f.ex_num,f.file_hash,"
-            ." r.subject,r.grade,r.tag_one,r.tag_two,r.tag_three,r.tag_four,t.tag as tag_four_str,r.use_type,f.file_link,f.file_id,f.file_use_type"
+            "select f.file_title,f.file_size,f.file_type,f.ex_num,f.file_hash,f.file_link,f.file_id,f.file_use_type,"
+            ." r.use_type,r.resource_id,r.resource_type,r.subject,r.grade,r.tag_one,r.tag_two,r.tag_three,r.tag_four,r.tag_five,"
+            ." t.tag as tag_four_str,v.create_time,v.visitor_id"
             ." from %s r"
             ." left join %s f on f.resource_id=r.resource_id"
             ." left join %s v on v.file_id=f.file_id and v.visitor_type=0 "
@@ -142,6 +143,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ,t_resource_agree_info::DB_TABLE_NAME
             ,$where_arr
         );
+        //dd($sql);
         return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
@@ -153,21 +155,25 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             "r.resource_type=3", // 标准试听课
             "r.is_del=0",
             "ra.is_ban=0",
-            "f.status=0"
+            "f.status=0",
+            "sg.del_flag=0"
         ];
 
         $sql = $this->gen_sql_new("  select r.resource_id from %s r "
                                   ." left join %s f on f.resource_id=r.resource_id"
                                   ." left join %s ra on "
                                   ." ra.resource_type=r.resource_type and ra.subject=r.subject and ra.grade=r.grade and ra.tag_one=r.tag_one and"
-                                  ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three and ra.tag_four=r.tag_four "
+                                  ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three  "
+                                  ." left join %s sg on sg.id=ra.tag_four"
 
                                   ." where %s group by r.resource_id "
                                   ,self::DB_TABLE_NAME
                                   ,t_resource_file::DB_TABLE_NAME
                                   ,t_resource_agree_info::DB_TABLE_NAME
+                                  ,t_sub_grade_book_tag::DB_TABLE_NAME
                                   ,$where_arr
         );
+
         return $this->main_get_list($sql);
     }
 
@@ -188,7 +194,8 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ." left join %s tr on tr.file_id=f.file_id and tr.is_del=0 "
             ." left join %s ra on "
             ." ra.resource_type=r.resource_type and ra.subject=r.subject and ra.grade=r.grade and ra.tag_one=r.tag_one and"
-            ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three and ra.tag_four=r.tag_four "
+            ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three  "
+            ." left join %s sg on sg.id=ra.tag_four"
             ." where %s"
             ." group by r.resource_type "
             ." order by r.resource_type"
@@ -196,8 +203,10 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ,t_resource_file::DB_TABLE_NAME
             ,t_teacher_resource::DB_TABLE_NAME
             ,t_resource_agree_info::DB_TABLE_NAME
+            ,t_sub_grade_book_tag::DB_TABLE_NAME
             ,$where_arr
         );
+        //dd($sql);
         return $this->main_get_list($sql);
     }
 

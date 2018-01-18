@@ -112,7 +112,7 @@ $(function(){
 
 
 
-  if(window.location.host=="admin.leo1v1.com"){
+  if(window.location.host=="admin.leo1v1.com" || window.location.host=="admin-vue.leo1v1.com" ){
     $("#id_version_switch").text("切换到冒烟版本");
     $("#id_version_switch").on("click",function(){
       window.location.href=window.location.href.replace("//admin", "//p.admin");

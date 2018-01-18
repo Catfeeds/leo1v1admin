@@ -457,12 +457,11 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret_phone = $this->t_tq_call_info->get_row_by_phone($phone='13901460939');
-        if($ret_phone){
-            $this->output_err('有通话记录,不能删除!');
-            dd($ret_phone);
-        }
-        dd('a');
+        $seller_list = $this->t_manager_info->get_item_seller_list();
+        dd($seller_list);
+        $start_time = strtotime(date('Y-m-d'));
+        $end_time = strtotime(date('Y-m-d',strtotime('+1 day')));
+        dd($start_time,$end_time);
         list($start_time,$end_time) = [strtotime(date('Y-m-d',strtotime("-10 day"))),strtotime(date('Y-m-d'))];
         $ret = $this->t_seller_new_count_get_detail->get_daily_userid($start_time,$end_time);
         $userid_list = array_unique(array_column($ret, 'userid'));

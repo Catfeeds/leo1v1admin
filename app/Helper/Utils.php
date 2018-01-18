@@ -2482,35 +2482,43 @@ class Utils  {
             1 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '春暑秋寒','menu' => 'resource_season','hide' => ''],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_four' => ['name' => '学科化标签','menu' => '','hide' => '']],
+                  'tag_four' => ['name' => '学科化标签','menu' => '','hide' => ''],
+                  'tag_five' => ['name' => '','menu' => '','hide' => 'hide']],
             2 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '春暑秋寒','menu' => 'resource_season','hide' => ''],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_five' => ['name' => '','menu' => '','hide' => 'hide']],
             3 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '试听类型','menu' => 'resource_free','hide' => ''],
                   'tag_three' => ['name' => '难度类型','menu' => 'resource_diff_level','hide' => ''],
-                  'tag_four' => ['name' => '学科化标签','menu' => '','hide' => '']],
+                  'tag_four' => ['name' => '学科化标签','menu' => '','hide' => ''],
+                  'tag_five' => ['name' => '','menu' => '','hide' => 'hide']],
             4 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '','menu' => '','hide' => 'hide'],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_five' => ['name' => '上下册','menu' => 'resource_volume','hide' => '']],
             5 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '','menu' => '','hide' => 'hide'],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_five' => ['name' => '上下册','menu' => 'resource_volume','hide' => '']],
             6 => ['tag_one' => ['name' => '年份','menu' => 'resource_year','hide' => ''],
                   'tag_two' => ['name' => '省份','menu' => '','hide' => ''],
                   'tag_three' => ['name' => '城市','menu' => '','hide' => ''],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_five' => ['name' => '上下册','menu' => 'resource_volume','hide' => '']],
             7 => ['tag_one' => ['name' => '一级知识点','menu' => '','hide' => ''],
                   'tag_two' => ['name' => '二级知识点','menu' => '','hide' => ''],
                   'tag_three' => ['name' => '三级知识点','menu' => '','hide' => ''],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_five' => ['name' => '','menu' => '','hide' => 'hide']],
             9 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '培训资料','menu' => 'resource_train','hide' => ''],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_five' => ['name' => '','menu' => '','hide' => 'hide']],
         ];
 
         if($resource_type == 0){
@@ -2650,7 +2658,6 @@ class Utils  {
             $path = "/home/ybai/".$file_name.".txt";
         }
         $fp = fopen($path,"w+");
-
         //add title
         /*
         foreach($arr_title as $key => $value){
@@ -2663,7 +2670,6 @@ class Utils  {
                 fwrite($fp, ',');
         }
         fwrite($fp, "\n");
-
         //add foreach data
         foreach ($ret_info as $key => $value) {
             /*
@@ -2768,7 +2774,6 @@ class Utils  {
             $arr['list'] = [];
         }
         foreach ($ret as $key => $value) {
-
             if($num == $start_num){
                 $i = 0;
             }
@@ -2778,7 +2783,6 @@ class Utils  {
             }
             ++$num;
         }
-
         $arr['total_num'] = $num;
         $arr['page_info']['total_num'] = $num;
         return $arr;

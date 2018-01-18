@@ -1078,13 +1078,21 @@ class wx_teacher_api extends Controller
             $hasResourceId = $this->t_lesson_info_b3->getResourceId($lessonid);
             if($hasResourceId>0){
                 $ret_info['handout_flag'] = 1;
+                \App\Helper\Utils::logger("james_checkHasHandout: $hasResourceId");
+
             }elseif(!empty($resource_id_arr) && !$checkHasHandout){
                     $ret_info['handout_flag'] = 1;
+                \App\Helper\Utils::logger("james_hasResourceId: $hasResourceId");
+
             }else{
                 $ret_info['handout_flag'] = 0;
+                \App\Helper\Utils::logger("james_jrhgjgh:fjdjf");
+
             }
         }else{
             $ret_info['handout_flag'] = 0; //无讲义
+            \App\Helper\Utils::logger("james_nojiangyi:no jianyi");
+
         }
 
         return $this->output_succ(["data"=>$ret_info]);
