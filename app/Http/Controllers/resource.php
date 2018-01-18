@@ -70,9 +70,9 @@ class resource extends Controller
                 $tag_arr['tag_three']['menu'] => 'tag_three',
                 $tag_arr['tag_four']['menu'] => 'tag_four',
             ]);
-            if($item['tag_four'] != -1) {
-                $item['tag_four_str'] = \App\Helper\Utils::get_sub_grade_tag($item['subject'],$item['grade'])[ $item['tag_four'] ];
-            }
+            // if($item['tag_four'] != -1) {
+            //     $item['tag_four_str'] = \App\Helper\Utils::get_sub_grade_tag($item['subject'],$item['grade'])[ $item['tag_four'] ];
+            // }
 
         }
 
@@ -121,9 +121,12 @@ class resource extends Controller
         $subject       = $this->get_in_int_val('subject',-1);
         $grade         = $this->get_in_int_val('grade',-1);
         $bookid        = $this->get_in_int_val('bookid');
-        
+        if(empty($bookid)){
+            $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($subject,$grade);
+        }else{
+            $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($subject,$grade,$bookid);
+        }
 
-        $data = \App\Helper\Utils::get_sub_grade_tag($subject,$grade);
         return $this->output_succ(['tag' => $data]);
 
     }
