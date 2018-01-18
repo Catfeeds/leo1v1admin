@@ -1460,6 +1460,12 @@ class stu_manage extends Controller
         $subject_arr=[];
         $grade_arr=[];
         $domain = config('admin')['qiniu']['public']['url'];
+        //获取该学生所有的课(未删除)
+        $all_lesson_list = $this->t_lesson_info_b3->get_student_all_lesson_info($useri,0,0);
+        $all_lesson=[];
+        foreach($all_lesson_list as $k=>$val){
+            $all_lesson[$val["lessonid"]] = $k+1;
+        }
         if($current_id==1){
             $ret_info = $this->t_lesson_info_b3->get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$cw_status,$preview_status);
             $list = $this->t_lesson_info_b3->get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$cw_status,$preview_status,2);
@@ -1477,6 +1483,7 @@ class stu_manage extends Controller
                     $item["cw_status_flag"]=1;
                     E\Eboolean::set_item_value_str($item,"preview_status");
                 }
+                $item["lesson_num"] = @$all_lesson[$item["lessonid"]];
 
             }
             $cw_num=$pre_num=0;
@@ -1510,6 +1517,7 @@ class stu_manage extends Controller
                 E\Egrade::set_item_value_str($item);
                 E\Esubject::set_item_value_str($item);
                 \App\Helper\Utils::unixtime2date_range($item);
+                $item["lesson_num"] = @$all_lesson[$item["lessonid"]];
 
             }
 
