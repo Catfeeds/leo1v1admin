@@ -793,6 +793,79 @@ $(function(){
         });
     }
 
+    $("#id_set_jw_subject").on("click",function(){
+        $.do_ajax( "/ajax_deal2/get_jw_subject_permission_list",{
+
+        },function(resp){
+            var data = resp.data;
+            var title = "调整工作状态";
+            var html_node= $("<div  id=\"div_table\"><div style=\"float:right\"><button class=\"btn btn-warning\" id=\"add_subject\"></button></div><table   class=\"table table-bordered \"><tr><td>用户</td><td>年级</td><td>科目</td><td>操作</td></tr></table></div>");
+
+
+            $.each(data,function(i,item){
+                html_node.find("table").append("<tr><td>"+item.account+"</td><td class=\"status_str\">"+item.admin_work_status_str+"</td><td class=\"edit_work_status\" data-uid=\""+item.uid+"\" data-status=\""+item.admin_work_status+"\"><a href=\"javascript:;\">调整</a></td></tr>");
+            });
+            html_node.find(".edit_work_status").on("click",function(){
+                var m = $(this);
+                var uid = $(this).data("uid");
+                var status = $(this).data("status");
+                var id_status = $("<select><option value=\"0\">休息</option><option value=\"1\">工作</option></select>");
+                id_status.val(status);
+                var arr =[
+                    ["状态",id_status]
+                ];
+                $.show_key_value_table("修改状态", arr ,{
+                    label    : '确认',
+                    cssClass : 'btn-warning',
+                    action   : function(dialog) {
+                        $.do_ajax( '/ajax_deal2/set_admin_work_status',{
+                            "adminid":uid,
+                            "status":id_status.val()
+                        },function(){
+                            var status_str="工作";
+                            if(id_status.val() ==0){
+                                status_str="休息";
+                            }
+                            m.parent().find(".status_str").text(status_str);
+                            dialog.close();
+                        });
+                    }
+                });
+
+
+            });
+
+
+            var dlg=BootstrapDialog.show({
+                title:title,
+                message :  html_node   ,
+                closable: false,
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+            var close_btn=$('<div class="bootstrap-dialog-close-button" style="display: block;"><button class="close">×</button></div>');
+            dlg.getModalDialog().find(".bootstrap-dialog-header").append( close_btn);
+            close_btn.on("click",function(){
+                dlg.close();
+            } );
+
+        });
+
+    });
+
+
 
 
 

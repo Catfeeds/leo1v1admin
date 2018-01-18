@@ -20,6 +20,40 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	file_title	:any;
+	file_size	:any;
+	file_type	:any;
+	ex_num	:any;
+	file_hash	:any;
+	file_link	:any;
+	file_id	:any;
+	file_use_type	:any;
+	use_type	:any;
+	resource_id	:any;
+	resource_type	:any;
+	subject	:any;
+	grade	:any;
+	tag_one	:any;
+	tag_two	:any;
+	tag_three	:any;
+	tag_four	:any;
+	tag_five	:any;
+	tag_four_str	:any;
+	create_time	:any;
+	visitor_id	:any;
+	file_use_type_str	:any;
+	nick	:any;
+	tag_one_name	:any;
+	tag_two_name	:any;
+	tag_three_name	:any;
+	tag_four_name	:any;
+	tag_five_name	:any;
+	subject_str	:any;
+	grade_str	:any;
+	resource_type_str	:any;
+	use_type_str	:any;
+	tag_one_str	:any;
+	tag_five_str	:any;
 }
 
 /*
