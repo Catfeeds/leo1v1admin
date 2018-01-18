@@ -578,6 +578,7 @@ class resource extends Controller
         $tag_two       = $this->get_in_int_val('tag_two',0);
         $tag_three     = $this->get_in_int_val('tag_three',0);
         $tag_four      = $this->get_in_int_val('tag_four',0);
+        $tag_five      = $this->get_in_int_val('tag_five',0);
         $add_num       = $this->get_in_int_val('add_num');
 
         $adminid = $this->get_account_id();
@@ -593,6 +594,7 @@ class resource extends Controller
                 'tag_two'       => $tag_two,
                 'tag_three'     => $tag_three,
                 'tag_four'      => $tag_four,
+                'tag_five'      => $tag_five,
                 'adminid'       => $adminid,
                 'create_time'   => $time,
             ]);
