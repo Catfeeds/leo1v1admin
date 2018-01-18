@@ -204,7 +204,7 @@ class test_bacon extends Controller
                         ];
                         if(!$this->t_user_power_group->is_user_power_exit($user['uid'],$per)){
                             $this->t_user_power_group->row_insert($data);
-                            echo "<font style='color:red'>".$user['uid']." 权限：".$per." 刚刚添加完毕"."</font>";
+                            echo "<font style='color:red'>".$user['uid']." 权限：".$per." 添加完毕"."</font>";
                             echo "<br/>";
                         }else{
                             echo $user['uid']." 权限：".$per." 已添加";
@@ -218,4 +218,74 @@ class test_bacon extends Controller
             }
         }
     }
+
+    public function luru_tag(){
+        set_time_limit(3600);
+        $data = \App\Helper\Utils::get_sub_grade_tag(-1,-1,true);
+        foreach($data as $sub=>$item){
+          
+            foreach($item as $grade=>$var){
+               
+                foreach($var as $v){
+                    $insertData = [
+                        "subject"=>$sub,
+                        "grade"  =>$grade,
+                        "tag"    =>$v,
+                        "bookid" =>50000,
+                        "del_flag"=>0
+                    ];
+                    //$this->t_sub_grade_book_tag->row_insert($insertData);
+                    //print_r($insertData);
+                }
+            }
+        }
+        dd($data);
+    }
+
+    public function modify_resource(){
+        set_time_limit(3600);
+        $data = $this->t_resource->get_resource_type_all();
+        if($data){
+            foreach($data as $var){
+                $old_tag_arr = \App\Helper\Utils::get_sub_grade_tag($var['subject'],$var['grade']);
+                $old_tag = @$old_tag_arr[$var['tag_four']];
+                //print_r($old_tag_arr);
+                $new_tag_id = $this->t_sub_grade_book_tag->get_id($var['subject'],$var['grade'],$old_tag);
+                if($new_tag_id && !empty(@$new_tag_id['id'])){
+                    //print_r($new_tag_id);
+                    $up_data = ['tag_four'=>$new_tag_id['id']];
+                    //$this->t_resource->field_update_list($var['resource_id'],$up_data);
+                }
+            }
+        }
+        dd($data);
+    }
+
+    public function modify_res_agree_info(){
+        set_time_limit(36000);
+        $num = $this->get_in_str_val('num');
+        $num = 2000*$num + 1;
+        //$data = $this->t_resource->get_resource_type_all();
+        $data = $this->t_resource_agree_info->get_agree_resource_num($num);
+        if($data){
+            foreach($data as $var){
+                if( ( $var['tag_four'] < 5 && $var['subject'] != 5 ) || ( $var['tag_four'] < 7 && $var['subject'] == 5 )){
+                    $old_tag_arr = \App\Helper\Utils::get_sub_grade_tag($var['subject'],$var['grade']);
+                    $old_tag = @$old_tag_arr[$var['tag_four']];
+                    //print_r($old_tag_arr);
+                    $new_tag_id = $this->t_sub_grade_book_tag->get_id($var['subject'],$var['grade'],$old_tag);
+                    if($new_tag_id && !empty(@$new_tag_id['id'])){
+                        //print_r($new_tag_id);
+                        $up_data = ['tag_four'=>$new_tag_id['id']];
+                        $this->t_resource_agree_info->field_update_list($var['agree_id'],$up_data);
+                    }
+
+                }
+            }
+            dd($num);
+        }else{
+            dd('完事'.$num);
+        }
+    }
+
 }

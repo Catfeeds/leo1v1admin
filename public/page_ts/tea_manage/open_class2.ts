@@ -10,7 +10,7 @@ $(function(){
         'opt_date_type'  : g_args.opt_date_type,
         'start_time'     : g_args.start_time,
         'end_time'       : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config), 
+        date_type_config : JSON.parse( g_args.date_type_config),
         onQuery :function() {
             //load_data();
         }
@@ -18,8 +18,8 @@ $(function(){
 
     function get_unix_time(dateStr)
     {
-        var newstr = dateStr.replace(/-/g,'/'); 
-        var date =  new Date(newstr); 
+        var newstr = dateStr.replace(/-/g,'/');
+        var date =  new Date(newstr);
         var time_str = date.getTime().toString();
         return Number(time_str)/1000;
     }
@@ -37,21 +37,20 @@ $(function(){
         });
     };
 
-    $("#id_lesson_status").val(g_lesson_status);
-    $("#id_search_teacher").val(g_teacherid);
-    $("#id_search_lesson_type").val(g_lesson_type);
+    $("#id_lesson_status").val(g_args.lesson_status );
+    $("#id_search_teacher").val(g_args.teacherid);
+    $("#id_search_lesson_type").val(g_args.lesson_type );
 
-    
+
     $("#id_query").on("click",function(){
         load_data();
     });
 
 
-    
-    $.admin_select_user($("#id_search_teacher"),"teacher",function(){
-        //load_data();
-    });
-    
+    $.admin_select_user($('#id_search_teacher'),
+        "teacher" );
+
+
     $("#id_lesson_status").on("change", function(){
         //load_data();
     });
@@ -68,7 +67,7 @@ $(function(){
         var id_lesson_intro  = $("<textarea/>");
         var id_start_time    = $("<input/>");
         var id_end_time      = $("<input/>");
-        var id_difftime      = $("<input/>"); 
+        var id_difftime      = $("<input/>");
         var cache_difftime   = 0;
         var grade            = 0;
         var subject          = 0;
@@ -82,7 +81,7 @@ $(function(){
                 dataType : 'json',
                 data     : {
                     'lessonid' : row_data.lessonid
-			    },
+          },
                 success : function(data) {
                     console.log(data);
                     id_teacherid.data('teacherid',data);
@@ -90,7 +89,7 @@ $(function(){
                 }
             });
         };
-        
+
         var on_change_course = function( value ,row_data) {
             var difftime = row_data.course_end-row_data.course_start;
             cache_difftime=difftime;
@@ -100,14 +99,14 @@ $(function(){
             }else{
                 id_from_lessonid.parent().parent().hide();
             }
-                        
+
             $.ajax({
                 url: '/tea_manage/get_open_course_simple_info',
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    'courseid': row_data.courseid 
-			    },
+                    'courseid': row_data.courseid
+          },
                 success: function(data) {
                     console.log(data);
                     grade   = data.info.lesson_info.grade;
@@ -118,27 +117,27 @@ $(function(){
                 }
             });
         };
-        
-	    //时间插件
-	    id_start_time.datetimepicker({
-		    datepicker:true,
-		    timepicker:true,
-		    format:'Y-m-d H:i',
-		    step:30 ,
+
+      //时间插件
+      id_start_time.datetimepicker({
+        datepicker:true,
+        timepicker:true,
+        format:'Y-m-d H:i',
+        step:30 ,
             onChangeDateTime:  function() {
                 var start_date = id_start_time.val();
                 var end_time = Number(get_unix_time(start_date))+Number(cache_difftime);
                 id_end_time.val(
-                    DateFormat(end_time, "hh:mm")
+                    $.DateFormat(end_time, "hh:mm")
                 );
             }
-	    });
-	    id_end_time.datetimepicker({
-		    datepicker:false,
-		    timepicker:true,
-		    format:'H:i',
-		    step:30
-	    });
+      });
+      id_end_time.datetimepicker({
+        datepicker:false,
+        timepicker:true,
+        format:'H:i',
+        step:30
+      });
 
         var arr = [
             [ "课程",  id_courseid] ,
@@ -168,13 +167,13 @@ $(function(){
                         'lessonid'      : id_lesson_num.data("lessonid"),
                         'date'          : s_date,
                         'start'         : s_time,
-                        'end'           : end_date, 
-                        'from_lessonid' : from_lessonid, 
-                        'teacherid'     : id_teacherid.data("teacherid"), 
+                        'end'           : end_date,
+                        'from_lessonid' : from_lessonid,
+                        'teacherid'     : id_teacherid.data("teacherid"),
                         'lesson_intro'  : id_lesson_intro.val(),
                         'grade'         : grade,
                         'subject'       : subject
-			        },
+              },
                     success: function(data) {
                         if(!data.ret){
                             window.location.reload();
@@ -185,14 +184,14 @@ $(function(){
                 });
             }
         });
-        
+
         id_from_lessonid.admin_select_dlg_ajax({
             "opt_type" : "select", // or "list"
             "url"      : "/tea_manage/get_open_from_list_for_js",
             select_primary_field   : "lessonid",
             select_display         : "course_name",
-            select_no_select_value : 0, 
-            select_no_select_title : "[未设置]"  , 
+            select_no_select_value : 0,
+            select_no_select_title : "[未设置]"  ,
             'field_list' :[
                 {
                     title:"lessonid",
@@ -214,27 +213,27 @@ $(function(){
                         'arg_name' : "course_type"  ,
                         select_option_list : [ {
                             value : -1 ,
-                            text  : "全部" 
+                            text  : "全部"
                         },{
                             value : 1001 ,
-                            text :  "普通公开课(A)" 
+                            text :  "普通公开课(A)"
                         },{
                             value : 1002 ,
-                            text :  "普通公开课(B)" 
+                            text :  "普通公开课(B)"
                         },{
                             value : 1003 ,
-                            text  : "高级公开课" 
+                            text  : "高级公开课"
                         },{
                             value : 3001 ,
-                            text  : "小班课" 
+                            text  : "小班课"
                         }]
                     },{
                         size_class : "col-md-8" ,
                         title      : "课程名",
                         'arg_name' : "search_str"  ,
-                        type       : "input" 
+                        type       : "input"
                     }
-                ] 
+                ]
             ],
             "auto_close" : true,
             "onChange"   : on_change_lesson,
@@ -247,7 +246,7 @@ $(function(){
             "url"      : "/tea_manage/get_open_course_list_for_js",
             select_primary_field   : "courseid",
             select_display         : "course_name",
-            select_no_select_value : 0  , // 没有选择是，设置的值 
+            select_no_select_value : 0  , // 没有选择是，设置的值
             select_no_select_title : "[未设置]"  , // "未设置"
 
             //字段列表
@@ -279,27 +278,27 @@ $(function(){
 
                         select_option_list: [ {
                             value : -1 ,
-                            text :  "全部" 
+                            text :  "全部"
                         },{
                             value :  1001 ,
-                            text :  "普通公开课(A)" 
+                            text :  "普通公开课(A)"
                         },{
                             value :  1002 ,
-                            text :  "普通公开课(B)" 
+                            text :  "普通公开课(B)"
                         },{
                             value :  1003 ,
-                            text :  "高级公开课" 
+                            text :  "高级公开课"
                         },{
                             value :  4001,
-                            text :  "机器人课程" 
+                            text :  "机器人课程"
                         }]
                     },{
                         size_class: "col-md-8" ,
                         title :"课程名",
                         'arg_name' :  "search_str"  ,
-                        type  : "input" 
+                        type  : "input"
                     }
-                ] 
+                ]
             ],
             "auto_close"       : true,
             "onChange"         : on_change_course,
@@ -335,13 +334,13 @@ $(function(){
             action : function(dialog) {
                 var course_name   = $.trim(id_name.val());
                 var enter_type    = id_enter_type.val();
-                var contract_type = id_lesson_type.val(); 
+                var contract_type = id_lesson_type.val();
                 var teacherid     = id_tea_list.val();
                 var lesson_total  = id_lesson_total.val();
                 var stu_total     = id_stu_total.val();
-                var subject       = id_subject_type.val(); 
-                var grade         = id_grade_type.val(); 
-                var packageid     = id_package.val(); 
+                var subject       = id_subject_type.val();
+                var grade         = id_grade_type.val();
+                var packageid     = id_package.val();
 
                 if(course_name == "" || typeof enter_type == "undefined" || typeof contract_type == "undefined"
                    || lesson_total == "" || stu_total=="")
@@ -353,7 +352,7 @@ $(function(){
                     alert("请输入全部信息");
                     return;
                 }
-                
+
                 $.ajax({
                     url: '/tea_manage/add_open_course',
                     type: 'POST',
@@ -364,11 +363,11 @@ $(function(){
                         'contract_type' : contract_type,
                         'teacherid'     : teacherid,
                         'lesson_total'  : lesson_total,
-                        'stu_total'     : stu_total, 
+                        'stu_total'     : stu_total,
                         'grade'         : grade,
                         'packageid'     : packageid,
                         'subject'       : subject
-			        },
+              },
                     success: function(data){
                         if(data.ret != -1){
                             window.location.reload();
@@ -377,7 +376,7 @@ $(function(){
                 });
             }
         });
-         
+
         id_lesson_type.on("change",function(){
             var lesson_type = (id_lesson_type.val());
             if(lesson_type == "4001"){
@@ -400,9 +399,9 @@ $(function(){
 
             select_primary_field : "packageid",
             select_display       : "package_name",   //选好的显示类别
-            select_no_select_value  :  0  , // 没有选择是，设置的值 
+            select_no_select_value  :  0  , // 没有选择是，设置的值
             select_no_select_title  :  "[未设置]"  , // "未设置"
-            
+
             //字段列表
             'field_list' :[
                 {
@@ -432,34 +431,34 @@ $(function(){
 
                         select_option_list: [ {
                             value : -1 ,
-                            text :  "全部" 
+                            text :  "全部"
                         },{
                             value :  1 ,
-                            text :  "1V1试听课" 
+                            text :  "1V1试听课"
                         },{
                             value :  2 ,
-                            text :  "1V1定制课" 
+                            text :  "1V1定制课"
                         },{
                             value :  3 ,
                             text :  "1V1自选课"
                         },{
                             value :  1001,
-                            text :  "普通公开课" 
+                            text :  "普通公开课"
                         },{
                             value :  2001,
-                            text :  "普通答疑课" 
+                            text :  "普通答疑课"
                         },{
                             value :  3001,
-                            text :  "普通小班课" 
+                            text :  "普通小班课"
                         }]
                     },{
                         size_class: "col-md-8" ,
                         title :"课程包名称/科目",
                         'arg_name' :  "search_str"  ,
-                        type  : "input" 
+                        type  : "input"
                     }
 
-                ] 
+                ]
             ],
 
             "auto_close"       : true,
@@ -473,7 +472,7 @@ $(function(){
     $("#id_change_teacher").on("click", function(){
         var teacherid = $("input[name='public_teacher']:checked").val();
         if(typeof(teacherid)=="undefined"){
-            show_message("提示","请选择老师");
+            BootstrapDialog.alert("请选择老师");
             return;
         }
         $.ajax({
@@ -483,7 +482,7 @@ $(function(){
             data: {
                 'courseid'  : $(this).data("courseid"),
                 'teacherid' : teacherid
-			},
+      },
             success: function(data) {
                 if(data.ret != -1){
                     window.location.reload();
@@ -491,19 +490,19 @@ $(function(){
             }
         });
     });
-    
 
-     
+
+
     $(".opt-del").on("click", function(){
-        var lessonid=$(this).parent().data("lessonid"); 
-        show_message("删除公开课","要删除吗?!" , function(dialog){
+        var lessonid=$(this).parent().data("lessonid");
+        window["show_message"]("删除公开课","要删除吗?!" , function(dialog){
             $.ajax({
                 url: '/tea_manage/delete_open_lesson',
                 type: 'POST',
                 dataType: 'json',
                 data: {
                     'lessonid':  lessonid
-			    },
+          },
                 success: function(data) {
                     if(data.ret == -1){
                         alert(data.info);
@@ -514,11 +513,11 @@ $(function(){
             });
         });
     });
-    
-    
-    
+
+
+
     $(".opt-stu-list").on("click",function(){
-        var lessonid=$(this).parent().data("lessonid"); 
+        var lessonid=$(this).parent().data("lessonid");
 
         var html_node       = $.obj_copy_node("#id_user_list" );
         var id_query_user   = html_node.find("#id_query_user");
@@ -542,7 +541,7 @@ $(function(){
                 data: {
                     'role'  : role,
                     'phone' : phone
-			    },
+          },
                 success: function(data) {
                     if(data['ret'] != 0){
                         id_user_name.html(data['info']);
@@ -554,11 +553,11 @@ $(function(){
                 }
             });
         });
-        
+
         id_add_user.on("click",function(){
             var userid=$(this).data("userid");
             if (!(userid>0)){
-                show_message("","还没有查询到用户" );
+                alert("还没有查询到用户" );
                 return;
             }
             opt_user_list( lessonid ,"add", userid );
@@ -577,7 +576,7 @@ $(function(){
                     }
                 }
             ]
-        }); 
+        });
 
         var opt_user_list= function( lessonid, opt_type, userid){
             $.ajax({
@@ -587,11 +586,11 @@ $(function(){
                 data: {
                     'lessonid' : lessonid ,
                     'opt_type' : opt_type ,
-                    'userid' :userid 
-			    },
+                    'userid' :userid
+          },
                 success: function(data) {
                     if (data.ret!=0){
-                        show_message("提示", data.info);
+                        alert( data.info);
                         return;
                     }else{
                         var html_str="";
@@ -609,7 +608,7 @@ $(function(){
                 }
             });
         };
-        opt_user_list(lessonid );
+        opt_user_list(lessonid,null,null );
     });
 
     function init_upload(type){
@@ -622,70 +621,70 @@ $(function(){
             var par_id = id+'_par';
             This.parent().attr('id', par_id);
             var uploader = Qiniu.uploader({
-		        runtimes: 'html5, flash, html4',
-		        browse_button: id , //choose files id
-		        uptoken_url: '/upload/private_token',
-		        domain: g_qiniu_domain,
-		        container: par_id,
-		        drop_element: par_id,
-		        max_file_size: '30mb',
-		        dragdrop: true,
-				flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
-		        chunk_size: '4mb',
-		        unique_names: false,
-		        save_key: false,
-		        auto_start: true,
-		        init: {
-			        'FilesAdded': function(up, files) {
-				        plupload.each(files, function(file) {
+            runtimes: 'html5, flash, html4',
+            browse_button: id , //choose files id
+            uptoken_url: '/upload/private_token',
+            domain: window["g_qiniu_domain"],
+            container: par_id,
+            drop_element: par_id,
+            max_file_size: '30mb',
+            dragdrop: true,
+        flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
+            chunk_size: '4mb',
+            unique_names: false,
+            save_key: false,
+            auto_start: true,
+            init: {
+              'FilesAdded': function(up, files) {
+                plupload.each(files, function(file) {
                             var tmp = item.button;
                             console.log('waiting...');
                         });
-			        },
-			        'BeforeUpload': function(up, file) {
-				        console.log('before uplaod the file');
-                        
-				        if (!check_type(file.type)) {
-					        alert('请上传PDF文件');
-					        return false;
+              },
+              'BeforeUpload': function(up, file) {
+                console.log('before uplaod the file');
+
+                if (!check_type(file.type)) {
+                  alert('请上传PDF文件');
+                  return false;
                         }
-			        },
-			        'UploadProgress': function(up,file) {
-				        console.log('upload progress');
-			        },
-			        'UploadComplete': function() {
-				        console.log('success');
-			        },
-			        'FileUploaded' : function(up, file, info) {
-				        console.log('Things below are from FileUploaded');
+              },
+              'UploadProgress': function(up,file) {
+                console.log('upload progress');
+              },
+              'UploadComplete': function() {
+                console.log('success');
+              },
+              'FileUploaded' : function(up, file, info) {
+                console.log('Things below are from FileUploaded');
                         setComplete(up, info, file, id);
-			        },
-			        'Error': function(up, err, errTip) {
-				        console.log('Things below are from Error');
-				        console.log(up);
-				        console.log(err);
-				        console.log(errTip);
-			        },
-			        'Key': function(up, file) {
-				        var key = "";
-				        //generate the key
+              },
+              'Error': function(up, err, errTip) {
+                console.log('Things below are from Error');
+                console.log(up);
+                console.log(err);
+                console.log(errTip);
+              },
+              'Key': function(up, file) {
+                var key = "";
+                //generate the key
                         var time = (new Date()).valueOf();
-				        return $.md5(file.name) +time+'.pdf';
-			        }
-		        }
-	        });
+                return $.md5(file.name) +time+'.pdf';
+              }
+            }
+          });
         });
     };
 
-    init_upload();
+    init_upload(null);
     var setComplete = function(up, info, file, id) {
-        
+
         var upload_succ = true;
-	    var fileTargetID = file.id;
+      var fileTargetID = file.id;
         var res = $.parseJSON(info);
         var url;
         if (res.url) {
-    	    
+
         } else {
             var domain = up.getOption('domain');
             url = domain + encodeURI(res.key);
@@ -693,80 +692,80 @@ $(function(){
             console.log('MILLIONS else Test: ' + info);
             var urlkey    = res.key;
             $.ajax({
-            	url: '/tea_manage/upload_open_cw',
-            	type: 'POST',
-            	data: {'urlkey': urlkey, 'id':id},
-		    	dataType: 'json',
-		    	success: function(data) {
-		    		if (data['ret'] == 0) {
+              url: '/tea_manage/upload_open_cw',
+              type: 'POST',
+              data: {'urlkey': urlkey, 'id':id},
+          dataType: 'json',
+          success: function(data) {
+            if (data['ret'] == 0) {
                         alert("上传成功");
                         //reload
                         window.location.reload();
-		    		} else {
+            } else {
                         alert(data['info']);
-		    		}
-		    	}
-            }); 
+            }
+          }
+            });
         }
     };
 
 
     function check_type(file_type)
     {
-	    return file_type == 'application/pdf' ? true : false;
+      return file_type == 'application/pdf' ? true : false;
     }
 
 
     function get_file_size(file_size)
     {
-	    if (file_size > 1024 && file_size < 1024 * 1024) {
-		    size = (file_size / 1024).toFixed(2);
-		    return size + ' KB';
-	    } else if (file_size > 1024 * 1024) {
-		    size = ((file_size / 1024) / 1024).toFixed(2);
-		    return size + ' MB';
-	    } else {
-		    return file_size;
-	    }
+      if (file_size > 1024 && file_size < 1024 * 1024) {
+        var size = (file_size / 1024).toFixed(2);
+        return ""+ size + ' KB';
+      } else if (file_size > 1024 * 1024) {
+        size = ((file_size / 1024) / 1024).toFixed(2);
+        return size + ' MB';
+      } else {
+        return file_size;
+      }
     }
 
     function get_time()
     {
-	    var myDate = new Date();
+      var myDate = new Date();
 
-	    var year   = myDate.getFullYear();
-	    var month  = myDate.getMonth();
-	    var day    = myDate.getDate();
-	    var hour   = myDate.getHours();
-	    var mimute = myDate.getMinutes();
+      var year   = myDate.getFullYear();
+      var month  = myDate.getMonth();
+      var day    = myDate.getDate();
+      var hour   = myDate.getHours();
+      var mimute = myDate.getMinutes();
 
-	    return year + '-' + month + '-' + day +
-		    ' ' + hour + ':' + mimute;
+      return year + '-' + month + '-' + day +
+        ' ' + hour + ':' + mimute;
     }
-    
-	$(".opt-download").on('click',function(){
-		var file_url = $(this).parent().data("url");
+
+  $(".opt-download").on('click',function(){
+    var file_url = $(this).parent().data("url");
         if(file_url == ""){
             alert("课件尚未上传!");
             return;
         }
-		if(file_url != ""){
-			$.ajax({
-				type     :"post",
-				url      :"/upload/get_download_url/",
-				dataType :"json",
-				data     :{"file_url":file_url},
-				success  : function(result){
-					if(result.ret == 0){
-						window.open(result.download_url); 
-					}
-				}
-			});
-		}
-	});
+    if(file_url != ""){
+      $.ajax({
+        type     :"post",
+        url      :"/upload/get_download_url/",
+        dataType :"json",
+        data     :{"file_url":file_url},
+        success  : function(result){
+          if(result.ret == 0){
+            window.open(result.download_url);
+          }
+        }
+      });
+    }
+  });
 
     $('.opt-from-lessonid').on('click', function() {
-        
+
         var courseid = $(this).parent().data('courseid');
 
         var id_from_lessonid = $("<input >");
@@ -789,7 +788,7 @@ $(function(){
                         alert("成功") ;
                         window.location.reload();
                     }
-			        dialog.close();
+              dialog.close();
                 });
             }
         });
@@ -809,7 +808,7 @@ $(function(){
                 var can_set = id_can_set.val();
                 if (! (can_set >0) ) {
                     alert("请设置是否由权限设置机械课程");
-                    return; 
+                    return;
                 }
                 $.ajax({
                     url: '/tea_manage/can_set_from_lessonid',
@@ -818,7 +817,7 @@ $(function(){
                     data: {
                         'lessonid':  lessonid,
                         'can_set' :  can_set
-			        },
+              },
                     success: function(data) {
                         if(data.ret != -1){
                             window.location.reload();
@@ -827,7 +826,7 @@ $(function(){
                 });
             }
         });
-        
+
     });
 
     $.each($(".btn-group"),function(i,item){
@@ -848,7 +847,7 @@ $(function(){
         $item.admin_set_lesson_time({lessonid :lessonid});
     });
 
-    
+
     $(".opt-set-course_name").on("click",function(){
         var courseid        = $(this).get_opt_data("courseid");
         var lessonid        = $(this).get_opt_data("lessonid");
@@ -866,11 +865,11 @@ $(function(){
             if(lesson_intro[1]){
                 id_lesson_intro2.val(lesson_intro[1]);
             }
-            
+
             var arr = [
-                [ "课程名称",  id_course_name], 
-                [ "知识点1",  id_lesson_intro1], 
-                [ "知识点2",  id_lesson_intro2] 
+                [ "课程名称",  id_course_name],
+                [ "知识点1",  id_lesson_intro1],
+                [ "知识点2",  id_lesson_intro2]
             ];
 
             $.show_key_value_table("修改课程名称", arr ,{
@@ -942,7 +941,7 @@ $(function(){
                         'from_lessonid' : id_from_lessonid.val(),
                         'lesson_start'  : id_lesson_start.val(),
                         'lesson_num'    : id_lesson_num.val()
-			        },success: function(data) {
+              },success: function(data) {
                         if(!data.ret){
                             window.location.reload();
                         }else{
@@ -954,12 +953,12 @@ $(function(){
         });
 
         id_from_lessonid.admin_select_dlg_ajax({
-            "opt_type" : "select", 
+            "opt_type" : "select",
             "url"      : "/tea_manage/get_open_from_list_for_js",
             select_primary_field   : "lessonid",
             select_display         : "course_name",
-            select_no_select_value : 0, 
-            select_no_select_title : "[未设置]", 
+            select_no_select_value : 0,
+            select_no_select_title : "[未设置]",
             'field_list'           : [{
                     title:"lessonid",
                     width :50,
@@ -979,39 +978,39 @@ $(function(){
                     'arg_name' : "course_type"  ,
                     select_option_list : [ {
                         value : -1 ,
-                        text  : "全部" 
+                        text  : "全部"
                     },{
                         value : 1001 ,
-                        text :  "普通公开课(A)" 
+                        text :  "普通公开课(A)"
                     },{
                         value : 1002 ,
-                        text :  "普通公开课(B)" 
+                        text :  "普通公开课(B)"
                     },{
                         value : 1003 ,
-                        text  : "高级公开课" 
+                        text  : "高级公开课"
                     },{
                         value : 3001 ,
-                        text  : "小班课" 
+                        text  : "小班课"
                     }]
                 },{
                     size_class : "col-md-8" ,
                     title      : "课程名",
                     'arg_name' : "search_str"  ,
-                    type       : "input" 
-                }] 
+                    type       : "input"
+                }]
             ],
             "auto_close" : true,
             "onLoadData" : null
         });
 
 
-	    //时间插件
-	    id_lesson_start.datetimepicker({
-		    datepicker : true,
-		    timepicker : true,
-		    format     : 'Y-m-d H:i',
-		    step       : 30 
-	    });
+      //时间插件
+      id_lesson_start.datetimepicker({
+        datepicker : true,
+        timepicker : true,
+        format     : 'Y-m-d H:i',
+        step       : 30
+      });
     });
 
     //@desn:手动添加公开课
@@ -1020,11 +1019,14 @@ $(function(){
         var id_lesson_end = $('<input/>');
         var id_subject = $("<select/>" );
         var id_grade = $("<select/>" );
-        var id_tea_name = $('<input/>');
-        var id_tea_phone = $('<input/>');
+        var id_tea_name = $("<input id='tea_name' />");
         var id_suit_student = $('<input/>');
         var id_title = $('<input/>');
         var id_package_intro = $('<textarea/>');
+        // id_tea_name.on('click',function(){
+        //     $.admin_select_user($('#tea_name'),"teacher");
+        // })
+
         Enum_map.append_option_list("grade", id_grade,true);
         Enum_map.append_option_list("subject", id_subject,true);
         id_lesson_start.datetimepicker({
@@ -1035,15 +1037,17 @@ $(function(){
         });
         id_lesson_start.blur(function(){
             var lesson_start =id_lesson_start.val();
-            var lesson_start_str =  new Date(lesson_start); 
-            var year = lesson_start_str.getFullYear();
-            var month = lesson_start_str.getMonth()+1;
-            var day = lesson_start_str.getDate();
-            var hour = lesson_start_str.getHours()+1;
-            var minute = lesson_start_str.getMinutes();
-            var second = lesson_start_str.getSeconds();
-            var lesson_end = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
-            id_lesson_end.val( lesson_end );
+            if(lesson_start != ''){
+                var lesson_start_str =  new Date(lesson_start);
+                var year = lesson_start_str.getFullYear();
+                var month = lesson_start_str.getMonth()+1;
+                var day = lesson_start_str.getDate();
+                var hour = lesson_start_str.getHours()+1;
+                var minute = lesson_start_str.getMinutes();
+                var second = lesson_start_str.getSeconds();
+                var lesson_end = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
+                id_lesson_end.val( lesson_end );
+            }
         })
 
         id_lesson_end.datetimepicker({
@@ -1053,14 +1057,12 @@ $(function(){
             timepicker:true
         });
 
-
         var arr = [
             ['开始时间',id_lesson_start],
             ['结束时间',id_lesson_end],
             ['科目',id_subject],
             ['年级',id_grade],
             ['老师名称',id_tea_name],
-            ['老师电话',id_tea_phone],
             ['适合学生',id_suit_student],
             ['课题',id_title],
             ['内容介绍',id_package_intro]
@@ -1069,6 +1071,35 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action : function(dialog) {
+                if(!id_lesson_start.val()){
+                    alert('课程开始时间为必填项!');
+                    return false;
+                }
+                if(id_subject.val() <= 0){
+                    alert('请选择科目!');
+                    return false;
+                }
+                if(id_grade.val() <= 0){
+                    alert('请选择年级!');
+                    return false;
+                }
+                if(!id_tea_name.val()){
+                    alert('请选择老师！')
+                    return false;
+                }
+                if(id_suit_student.val() == ''){
+                    alert('请填写适合学生！')
+                    return false;
+                }
+                if(id_title.val() == ''){
+                    alert('请填写课题！')
+                    return false;
+                }
+                if(id_package_intro.val() == ''){
+                    alert('请填写内容介绍！')
+                    return false;
+                }
+
                 $.ajax({
                     url: '/tea_manage_new/open_class_add',
                     type: 'POST',
@@ -1079,11 +1110,10 @@ $(function(){
                         'subject':id_subject.val(),
                         'grade':id_grade.val(),
                         'tea_name':id_tea_name.val(),
-                        'tea_phone':id_tea_phone.val(),
                         'suit_student':id_suit_student.val(),
                         'title':id_title.val(),
                         'package_intro':id_package_intro.val()
-			              },
+                    },
                     success: function(data){
                         if(!data.ret){
                             window.location.reload();
@@ -1093,9 +1123,10 @@ $(function(){
                     }
                 });
             }
-        });
-
-    }); 
+        },function(){
+            $.admin_select_user($('#tea_name'),"teacher");
+        })
+    });
 
     $("#id_add_many_lesson").on("click",function(){
         var id_courseid     = $("<input/>");
@@ -1108,7 +1139,7 @@ $(function(){
             ["结束时间",id_lesson_end],
             ["排课周期",id_date],
         ];
-        Enum_map.append_checkbox_list("week",id_date,"week_day",[1,2,3,4,5,6,7]);
+        window["Enum_map"].append_checkbox_list("week",id_date,"week_day",[1,2,3,4,5,6,7]);
 
         $.show_key_value_table("添加多堂公开课",arr,{
             label    : '确认',
@@ -1119,7 +1150,7 @@ $(function(){
                     type: 'POST',
                     dataType: 'json',
                     data : {
-			        },success: function(data) {
+              },success: function(data) {
                         if(!data.ret){
                             window.location.reload();
                         }else{
@@ -1135,8 +1166,8 @@ $(function(){
             "url"      : "/tea_manage/get_open_from_list_for_js",
             select_primary_field   : "lessonid",
             select_display         : "course_name",
-            select_no_select_value : 0, 
-            select_no_select_title : "[未设置]"  , 
+            select_no_select_value : 0,
+            select_no_select_title : "[未设置]"  ,
             'field_list' :[
                 {
                     title:"lessonid",
@@ -1158,48 +1189,48 @@ $(function(){
                         'arg_name' : "course_type"  ,
                         select_option_list : [ {
                             value : -1 ,
-                            text  : "全部" 
+                            text  : "全部"
                         },{
                             value : 1001 ,
-                            text :  "普通公开课(A)" 
+                            text :  "普通公开课(A)"
                         },{
                             value : 1002 ,
-                            text :  "普通公开课(B)" 
+                            text :  "普通公开课(B)"
                         },{
                             value : 1003 ,
-                            text  : "高级公开课" 
+                            text  : "高级公开课"
                         },{
                             value : 3001 ,
-                            text  : "小班课" 
+                            text  : "小班课"
                         }]
                     },{
                         size_class : "col-md-8" ,
                         title      : "课程名",
                         'arg_name' : "search_str"  ,
-                        type       : "input" 
+                        type       : "input"
                     }
-                ] 
+                ]
             ],
             "auto_close" : true,
             "onLoadData" : null
         });
 
 
-	    //时间插件
-	    id_lesson_start.datetimepicker({
-		    datepicker : true,
-		    timepicker : true,
-		    format     : 'Y-m-d H:i',
-		    step       : 30 
-	    });
-	    id_lesson_end.datetimepicker({
+      //时间插件
+      id_lesson_start.datetimepicker({
+        datepicker : true,
+        timepicker : true,
+        format     : 'Y-m-d H:i',
+        step       : 30
+      });
+      id_lesson_end.datetimepicker({
             minTime    : "7:00",
             maxTime    : "23:00",
-		    datepicker : true,
-		    timepicker : true,
-		    format     : 'H:i',
-		    step       : 30 
-	    });
+        datepicker : true,
+        timepicker : true,
+        format     : 'H:i',
+        step       : 30
+      });
     });
 
     //实例化一个plupload上传对象

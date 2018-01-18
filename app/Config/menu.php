@@ -35,7 +35,7 @@ class menu{
             ["power_id"=>41, "name"=>"运维管理",  "list"=> [
                 ["power_id"=>83, "name"=>"系统状态",   "url"=>"/main_page/admin"],
                 ["power_id"=>80, "name"=>"在线预计课数", "url"=>"/tongji/online_def_user_count_list"],
-                ["power_id"=>81, "name"=>"在线课数", "url"=>"/tongji/online_user_count_list"],
+                ["power_id"=>81, "name"=>"在线课数", "url"=>"/tongji/online_user_count_list", "domain_type" =>100],
                 ["power_id"=>1, "name"=>"xmpp在线课数", "url"=>"/tongji/online_user_count_xmpp_list"],
                 ["power_id"=>8, "name"=>"声音记录管理",   "url"=>"/user_manage_new/record_audio_server_list"],
                 ["power_id"=>71, "name"=>"xmpp记录管理",   "url"=>"/admin_manage/xmpp_server_list"],
@@ -312,6 +312,7 @@ class menu{
                 ["power_id"=>88, "name"=>"周报月报",  "url"=>"/report/week_of_monthly_report" ],
                 ["power_id"=>8, "name"=>"渠道-统计", "list"=>[
                     ["power_id"=>3, "name"=>"渠道统计-明细", "url"=>"/tongji_ex/seller_student_detail"],
+                    ["power_id"=>28, "name"=>"渠道页面-访问", "url"=>"/report/event_log_info", "domain_type" =>100 ],
                     ["power_id"=>56, "name"=>"渠道统计-new", "url"=>"/tongji_ss/channel_statistics"],
                     ["power_id"=>2, "name"=>"渠道统计 总体", "url"=>"/tongji_ss/origin_count"],
                     ["power_id"=>99, "name"=>"渠道统计-即时", "url"=>"/tongji_ss/origin_count_simple"],

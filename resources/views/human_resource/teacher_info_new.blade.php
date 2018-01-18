@@ -124,6 +124,12 @@
                         <button class="btn btn-primary" id="id_add_other_teacher">新增招师代理</button>
                     </div>
                 @endif
+                @if(in_array($acc,["jack","jim"]))
+                    <div class="col-md-1 col-xs-6 "  >
+                        <button class="btn btn-warning" id="id_set_jw_subject">设置教务学科权限</button>
+                    </div>
+                @endif
+
             </div>
         </div>
         <hr/>

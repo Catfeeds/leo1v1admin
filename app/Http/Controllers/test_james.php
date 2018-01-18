@@ -1670,4 +1670,66 @@ class test_james extends Controller
         dd($pdf_file_path);
     }
 
+    public function uploadTo(){
+        $zip_new_resource = $this->get_in_str_val('l');
+        $file_link =  \App\Helper\Utils::qiniu_upload_private($zip_new_resource);
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+
+
+        $config=\App\Helper\Config::get_config("qiniu");
+        $bucket_info=$config["private_url"]['url'];
+
+        $pdf_file_path = $auth->privateDownloadUrl($bucket_info.$file_link );
+
+        dd($pdf_file_path);
+
+    }
+
+
+    public function getTeaUploadPPTLink(){
+        $url = "http://p.admin.leo1v1.com/common_new/getTeaUploadPPTLink";
+        $post_data = [];
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch,CURLOPT_POST,1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $ret_arr = json_decode($output,true);
+        return $ret_arr;
+    }
+
+    public function updateLessonUUid($lessonid,$uuid){
+        $url = "http://admin.leo1v1.com/common_new/updateLessonUUid";
+        $post_data = [
+            "lessonid" => $lessonid,
+            "uuid"     => $uuid
+        ];
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch,CURLOPT_POST,1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $ret_arr = json_decode($output,true);
+        return $ret_arr;
+    }
+
+    public function jiang(){
+        $lessonid = $this->get_in_int_val('l');
+        $subject = $this->get_in_int_val('s');
+        $grade = $this->get_in_int_val('g');
+        $resource_id_arr = $this->t_resource->getResourceId($subject,$grade);
+
+        $hasResourceId = $this->t_lesson_info_b3->getResourceId($lessonid);
+        echo $hasResourceId;
+        dd($resource_id_arr);
+
+    }
+
 }

@@ -77,6 +77,7 @@
              border:1px solid #ccc;
              border-radius:5px;
              padding:0 20px;
+             width: 320px;
          }
          .login-top{
              color:#0bceff;
@@ -190,7 +191,7 @@
              color:#fff;
          }
          .middle{
-             min-height:400px;
+             min-height:500px;
          }
          .band-wx{
              position:absolute;
@@ -229,7 +230,7 @@
         <div class="middle">
             <!-- login-start -->
             <div class="row mid-con" id="login">
-                <div class="col-md-3 col-md-offset-7 col-xs-8 col-xs-offset-2">
+                <div class="col-xs-8 col-xs-offset-2 col-md-3 col-md-offset-7 ">
                     <div class="login">
                         <div class="login-top">
                             <h3>老师登录</h3>

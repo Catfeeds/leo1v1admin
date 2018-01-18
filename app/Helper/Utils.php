@@ -743,6 +743,28 @@ class Utils  {
         }
     }
 
+    static public function gen_echarts_online_line($time_list,$date_time ) {
+        $ret_list=[];
+        $date_end=$date_time+86400;
+        for( $logtime= $date_time;$logtime < $date_end; $logtime+=300) {
+            $ret_list  [ $logtime] =  [
+                "value" => [ date("Y-m-d H:i:s", $logtime), 0  ]
+            ];
+        }
+
+        foreach ($time_list as $item) {
+            $start_time = $item["lesson_start"]- $item["lesson_start"]%300;
+            $end_time   = $item["lesson_end"]+300;
+            for( $logtime= $start_time;$logtime <$end_time; $logtime+=300) {
+                if (isset ( $ret_list  [ $logtime] ) ) {
+                    $ret_list  [ $logtime]["value"][1] ++;
+                }
+            }
+        }
+
+        return array_values( $ret_list);
+    }
+
     static public function get_online_line($time_list,$list) {
         foreach ($list as $item) {
             $start_time = $item["lesson_start"];
@@ -1160,11 +1182,10 @@ class Utils  {
      */
     static public function check_teacher_is_full($teacher_money_type,$teacher_type,$teacherid){
         $is_full = false;
-        if(
-            ($teacher_money_type==E\Eteacher_money_type::V_0
-             && $teacher_type==E\Eteacher_type::V_3
-             && !in_array($teacherid,[51094,99504,97313])
-            ) || $teacher_money_type==E\Eteacher_money_type::V_7
+        if(($teacher_money_type==E\Eteacher_money_type::V_0
+            && $teacher_type==E\Eteacher_type::V_3
+            && !in_array($teacherid,[51094,99504,97313]))
+           || $teacher_money_type==E\Eteacher_money_type::V_7
         ){
             $is_full = true;
         }
@@ -2461,35 +2482,43 @@ class Utils  {
             1 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '春暑秋寒','menu' => 'resource_season','hide' => ''],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_four' => ['name' => '学科化标签','menu' => '','hide' => ''],
+                  'tag_five' => ['name' => '','menu' => '','hide' => 'hide']],
             2 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '春暑秋寒','menu' => 'resource_season','hide' => ''],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_five' => ['name' => '','menu' => '','hide' => 'hide']],
             3 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '试听类型','menu' => 'resource_free','hide' => ''],
                   'tag_three' => ['name' => '难度类型','menu' => 'resource_diff_level','hide' => ''],
-                  'tag_four' => ['name' => '学科化标签','menu' => '','hide' => '']],
+                  'tag_four' => ['name' => '学科化标签','menu' => '','hide' => ''],
+                  'tag_five' => ['name' => '','menu' => '','hide' => 'hide']],
             4 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '','menu' => '','hide' => 'hide'],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_five' => ['name' => '上下册','menu' => 'resource_volume','hide' => '']],
             5 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '','menu' => '','hide' => 'hide'],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_five' => ['name' => '上下册','menu' => 'resource_volume','hide' => '']],
             6 => ['tag_one' => ['name' => '年份','menu' => 'resource_year','hide' => ''],
                   'tag_two' => ['name' => '省份','menu' => '','hide' => ''],
                   'tag_three' => ['name' => '城市','menu' => '','hide' => ''],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_five' => ['name' => '上下册','menu' => 'resource_volume','hide' => '']],
             7 => ['tag_one' => ['name' => '一级知识点','menu' => '','hide' => ''],
                   'tag_two' => ['name' => '二级知识点','menu' => '','hide' => ''],
                   'tag_three' => ['name' => '三级知识点','menu' => '','hide' => ''],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_five' => ['name' => '','menu' => '','hide' => 'hide']],
             9 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '培训资料','menu' => 'resource_train','hide' => ''],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_five' => ['name' => '','menu' => '','hide' => 'hide']],
         ];
 
         if($resource_type == 0){
@@ -2533,14 +2562,14 @@ class Utils  {
             3 => [
                 101 => ['字母','自然拼读','词汇'],
                 102 => ['音标','词汇','口语'],
-                103 => ['写作','词汇','语法'],
-                104 => ['写作','词汇','语法'],
+                103 => ['写作','听力'],
+                104 => ['写作','听力'],
                 105 => ['词汇','语法','阅读'],
                 106 => ['词汇','语法','阅读'],
                 201 => ['写作','语法','阅读'],
                 202 => ['语法','阅读','写作'],
                 203 => ['语法','阅读','写作'],
-                301 => ['写作','语法','词汇'],
+                301 => ['写作','听力'],
                 302 => ['语法','阅读','写作'],
                 303 => ['语法','阅读','写作'],
             ],
@@ -2629,7 +2658,6 @@ class Utils  {
             $path = "/home/ybai/".$file_name.".txt";
         }
         $fp = fopen($path,"w+");
-
         //add title
         /*
         foreach($arr_title as $key => $value){
@@ -2642,7 +2670,6 @@ class Utils  {
                 fwrite($fp, ',');
         }
         fwrite($fp, "\n");
-
         //add foreach data
         foreach ($ret_info as $key => $value) {
             /*
@@ -2662,12 +2689,12 @@ class Utils  {
     }
 
     /**
-     * 检测课程确认时间
-     * 针对课程的修改,在该课程次月6日凌晨0点之后无法修改该课程的信息(确认课时,修改课程时间,修改课时)
+     * 检测老师工资核算时间
+     * 涉及到老师工资信息的添加，更改，删除，需要检测其操作时间
      * @param int time 检测的时间
      * @return boolean
      */
-    static public function check_lesson_confirm_time($time){
+    static public function check_teacher_salary_time($time){
         $check_time = strtotime("+1 month",strtotime(date("Y-m-06",$time)));
         $now_time   = time();
         if($now_time>$check_time){
@@ -2747,7 +2774,6 @@ class Utils  {
             $arr['list'] = [];
         }
         foreach ($ret as $key => $value) {
-            
             if($num == $start_num){
                 $i = 0;
             }
@@ -2757,7 +2783,6 @@ class Utils  {
             }
             ++$num;
         }
-
         $arr['total_num'] = $num;
         $arr['page_info']['total_num'] = $num;
         return $arr;

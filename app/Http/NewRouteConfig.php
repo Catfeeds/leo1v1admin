@@ -437,6 +437,7 @@ class NewRouteConfig {
         "/stu_manage/one_three_grade_student"  => true,
         "/stu_manage/score_list1"              => true,
         "/stu_manage/student_data_list"        => true,
+        "/stu_manage/student_lesson_learning_record"=> true,
 
         "/question_new/question_list"              => true,
         "/question_new/knowledge_list"              => true,
@@ -715,7 +716,19 @@ class NewRouteConfig {
         "/user_power/get_permission_list"                =>true,
         "/user_power/batch_add_user"                     =>true,
         "/user_power/get_user_list"                      =>true,
-        "/user_power/batch_dele_user"                    =>true 
+        "/user_power/batch_dele_user"                    =>true,
+        "/resource/get_sub_grade_book_tag"               =>true, 
+        "/resource/sub_grade_book_tag"                   =>true, 
+        "/resource/get_book_by_grade_sub"                =>true,
+        "/resource/batch_add_sub_grade_tag"              =>true,
+        "/resource/add_sub_grade_tag"                    =>true,
+        "/resource/dele_sub_grade_tag"                   =>true,
+        "/resource/batch_dele_sub_grade_tag"             =>true,
+        "/resource/edit_sub_grade_tag"                   =>true,
+        "/resource/order_sub_grade_tag"                  =>true,
+        "/test_bacon/modify_res_agree_info"                =>true,
+        "/test_bacon/luru_tag"                           =>true,
+        "/test_bacon/modify_resource"                    =>true
     ];
 
     static $dev_url_map = [

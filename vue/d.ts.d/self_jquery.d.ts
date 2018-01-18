@@ -64,6 +64,38 @@ interface JQueryStatic {
     */
     admin_enum_select  (options):any;
 
+
+
+
+  /*
+    $.admin_query_admin_group({
+      'join_header'     : $header_query_info,
+      "field_name"      : "query_text",
+      "title"           : "成员" ,
+      "placeholder"     : "回车查询",
+      "length_css"      : "col-xs-12 col-md-3",
+      "select_value"    : this.get_args().query_text,
+      "as_header_query" : true,
+    });
+    */
+    admin_query_admin_group( options):any;
+
+    /*
+
+  /*
+    $.admin_query_origin({
+      'join_header'     : $header_query_info,
+      "field_name"      : "query_text",
+      "title"           : "学生" ,
+      "placeholder"     : "回车查询",
+      "length_css"      : "col-xs-12 col-md-3",
+      "select_value"    : this.get_args().query_text,
+      "as_header_query" : true,
+    });
+    */
+    admin_query_origin  ( options):any;
+
+    /*
     /*
         this.defaults = {
             "join_header" : null,

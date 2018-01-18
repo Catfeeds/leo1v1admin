@@ -156,7 +156,7 @@ class update_teacher_approve_to_data extends Command
             $cr_lesson_num = $task->t_order_info->get_cc_lesson_num($start_time, $end_time, $teacherid, '1');
             // $violation_info = $task->t_lesson_info_b3->get_violation_num($start_time, $end_time, $teacherid);
             // $violation_num = array_sum($violation_info);
-            $violation_num = $item['no_notes_count']+$item['test_lesson_later_count']+$item['regular_lesson_later_count']+$item['no_evaluation_count']+$item['turn_class_count']+$item['ask_for_leavel_count']+$item['test_lesson_truancy_count']+$item['test_lesson_truancy_count'];
+            $violation_num = $item['no_notes_count']+$item['test_lesson_later_count']+$item['regular_lesson_later_count']+$item['no_evaluation_count']+$item['turn_class_count']+$item['ask_for_leavel_count']+$item['test_lesson_truancy_count']+$item['regular_lesson_truancy_count']+$item['stu_refund']+@$teacher_violation_arr[$teacherid]['turn_teacher_count'];
             $test_lesson_count = $item['test_lesson_count'];
             $regular_lesson_count = $item['regular_lesson_count'];
             $no_notes_count =$item['no_notes_count'];
@@ -193,6 +193,7 @@ class update_teacher_approve_to_data extends Command
                     'test_lesson_truancy_count' => $test_lesson_truancy_count,
                     'regular_lesson_truancy_count' => $regular_lesson_truancy_count,
                     'stu_refund' => $stu_refund,
+                    'turn_teacher_count' => @$teacher_violation_arr[$teacherid]['turn_teacher_count'],
                     'all_test_lesson_count' => $all_test_lesson_count,
                     'all_regular_lesson_count' => $all_regular_lesson_count
                 ]);
@@ -217,6 +218,7 @@ class update_teacher_approve_to_data extends Command
                     'test_lesson_truancy_count' => $test_lesson_truancy_count,
                     'regular_lesson_truancy_count' => $regular_lesson_truancy_count,
                     'stu_refund' => $stu_refund,
+                    'turn_teacher_count' => @$teacher_violation_arr[$teacherid]['turn_teacher_count'],
                     'all_test_lesson_count' => $all_test_lesson_count,
                     'all_regular_lesson_count' => $all_regular_lesson_count,
                     'add_time' => $start_time

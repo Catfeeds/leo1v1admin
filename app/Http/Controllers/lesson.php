@@ -307,15 +307,15 @@ class lesson extends TeaWxController
         $now = time();
 
         foreach($ret_arr['data'] as &$item){
-            $item['is_forbid'] = 0;
+            $item['is_forbid'] = "0";
             $lesson_end = $this->t_lesson_info->get_lesson_end($item['lessonid']);
             if(($lesson_end<$limit_time) && ($six_time<$now)){
-                $item['is_forbid'] = 1;
+                $item['is_forbid'] = "1";
             }
-            # 非测试人员 文彬,华华 不可见
-            if($teacherid!=357372 && $teacherid!=308481 ){
-                $item['is_forbid'] = 0;
-            }
+            // # 非测试人员 文彬,华华 不可见
+            // if($teacherid!=357372 && $teacherid!=308481 ){
+            //     $item['is_forbid'] = "0";
+            // }
         }
 
 

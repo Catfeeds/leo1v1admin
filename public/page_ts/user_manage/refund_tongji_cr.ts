@@ -53,6 +53,9 @@ $(function(){
 
     $(".detail_info").on("click",function(){
         var assistantid = $(this).data("userid");
+        if(assistantid <= 0){
+        	return ;
+        }
         group_name = $(this).data("group_name");
         name = $(this).data("name");
         $.do_ajax("/ss_deal/get_assistant_info_by_id", {
@@ -83,11 +86,7 @@ $(function(){
                     ["校区", id_group_name],
                     ["小组", id_name]
                 ];
-                $.show_key_value_table("助教信息", arr, {
-                    cssClass :  'btn-waring',
-                    action   :   function(dialog){
-                    }
-                });
+                $.show_key_value_table("助教信息", arr);
             }
         });
     });

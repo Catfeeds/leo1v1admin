@@ -22,7 +22,6 @@ export default class extends vtable {
   }
   //
   do_load_data_end () {
-    this.show_plot();
     this.show_line();
   }
 
@@ -54,150 +53,22 @@ export default class extends vtable {
   }
 
   js_loaded() {
-    this.show_plot();
   }
 
-  show_plot( ) {
-    var me =this;
-    var id_name="id_pic_user_count";
-    var plot_data_list :Array<any>=[];
-    var start_time=$.strtotime( this.get_args().start_time);
 
-    var online_count_list: Array<any>=[];
-    console.log( "KKKKKKK LLLLL " );
-
-    $.each( this.$data.data_ex_list.time_list,function(j,item_list){
-      //(i*300)*1000+86400-3600*8
-      online_count_list[j]=[];
-      $.each(item_list ,function(i, item){
-        if (j==0) {
-          online_count_list[j].push([i*60000, item["online_count"] ]);
-        }else if(j==2){
-          online_count_list[j].push([i*60000, item["value"] ]);
-        }else{
-          online_count_list[j].push([i*300000, item ]);
-        }
-      } )
-        });
-
-
-    $.each( online_count_list , function(i,item_list)   {
-
-      //var date=$.DateFormat( start_time-i*86400, "MM-dd" );
-      if (i==0) {
-        plot_data_list.push({
-          data: online_count_list[0],
-          lines: { show: true,
-                   lineWidth: 2},
-          label: "实际",
-
-          color: "red",
-        });
-      }else if (i==1 ){
-        plot_data_list.push({
-          data: online_count_list[i],
-          lines: { show: true,
-                   lineWidth:1
-                 },
-          label: "预期",
-        });
-      }else{
-        plot_data_list.push({
-          data: online_count_list[i],
-          lines: { show: true,
-                   lineWidth:1
-                 },
-          label: "课后视频未处理",
-        });
-      }
-
-    });
-
-    var plot=$.plot("#"+id_name, plot_data_list.reverse() , {
-      series: {
-        lines: {
-          show: true
-        },
-
-        points: {
-          show: false
-        }
-
-      }, yaxes: [{
-        min: 0
-      }], xaxis: {
-        mode: "time",
-        timeformat: "%H:%M",
-        minTickSize: [1, "hour"]
-      },
-      legend: {
-        show: true ,
-        position:"nw"
-      },
-
-      grid: {
-        hoverable: true,
-        clickable: true,
-        backgroundColor: { colors: [ "#fff", "#eee" ] },
-        borderWidth: {
-          top: 1,
-          right: 1,
-          bottom: 2,
-          left: 2
-        }
-
-      }
-      ,shadowSize:0
-
-    });
-
-    $("<div id='tooltip'></div>").css({
-      position: "absolute",
-      display: "none",
-      border: "1px solid #fdd",
-      padding: "2px",
-      "background-color": "#fee",
-      opacity: 0.80
-    }).appendTo("body");
-
-    $("#"+id_name).bind("plothover", function (event, pos, item) {
-      if (item) {
-        var data_item=item.series.data[item.dataIndex];
-
-
-        var title_funcion=function( date_item) {
-          return "时间:"+ item.series.label+" "+ $.DateFormat( (data_item[0]) /1000+57600 ,"hh:mm")  + "<br/>课数:"+ data_item[1];
-        }
-        $("#tooltip").html( title_funcion(data_item) ).css({top: item.pageY+5, left: item.pageX+5})
-          .fadeIn(200);
-      } else {
-        $("#tooltip").hide();
-      }
-    });
-
-
-    /*
-      $("#id"+id_name).bind("plotclick", function (event, pos, item) {
-      if (item) {
-      $("#clickdata").text(" - click point " + item.dataIndex + " in " + item.series.label);
-      plot.highlight(item.series, item.datapoint);
-      }
-      });
-    */
-  }
   show_line() {
-    var myChart = echarts.init(document.getElementById('id_pic_user_count_2'));
 
-    var data = [
-      {name:'2016/12/18 3:37', value:['2016/12/18 3:37', 0.9]},
-      {name:'2016/12/18 6:37', value:['2016/12/18 6:37', 0.8]},
-      {name:'2016/12/18 6:38', value:['2016/12/18 6:38', 0.8]},
-      {name:'2016/12/18 16:18', value:['2016/12/18 16:18', 0.60]},
-      {name:'2016/12/18 19:18', value:['2016/12/18 19:18', 0.90]}
-    ];
+    var myChart = echarts.init(document.getElementById('id_pic_user_count'));
+
+    var real_data= this.$data.data_ex_list.time_list[0];
+    var def_data= this.$data.data_ex_list.time_list[1];
+    var need_deal_count_data = this.$data.data_ex_list.time_list[2];
+
+    var end_time=$.DateFormat(new Date(  this.get_args().start_time  ).getTime()/1000 + 86400-60 -3600*8, "yyyy-MM-dd hh:mm"   );
+    //一
     var anchor = [
-      {name:'2016/12/18 00:00:00', value:['2016/12/18 00:00:00', 0]},
-      {name:'2016/12/18 23:59:00', value:['2016/12/18 23:59:00', 0]}
+      { value:[this.get_args().start_time , 0]},
+      { value:[ end_time , 0]}
     ];
 
     var option = {
@@ -207,53 +78,76 @@ export default class extends vtable {
       grid: {
         left: '10px',
         right: '30px',
+        buttom: '10px',
         y:"20px",
         containLabel: true,
 
       },
       /*
-      grid:{
+        grid:{
         "show" :true,
-         x: '7%', y: '7%', width: '38%', height: '38%'
-      },
+        x: '7%', y: '7%', width: '38%', height: '38%'
+        },
       */
       tooltip: {
         trigger: 'axis',
-        formatter: function (params) {
+        /*
+          formatter: function (params) {
           params = params[0];
           var date = new Date(params.name);
           return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
-        },
+          },
+        */
         axisPointer: {
           animation: false
         }
       },
       legend: {
-        data:['模拟数据'],
+        data:['实际课数', '预期课数',"课后视频未处理"],
         x: 'left'
       },
       xAxis: {
         type: 'time',
+        splitNumber: 12,
         splitLine: {
-          show: false
+          show: true
         },
         //gridIndex: 0
       },
       yAxis: {
         type: 'value',
-        boundaryGap: [0, '100%'],
+        boundaryGap: [0, 0],
         splitLine: {
           show: true
+        },
+        max: function(value) {
+          return Math.floor( value.max *1.2) ;
         }
       },
       series: [{
-        name: '模拟数据',
+        name: '预期课数',
         type: 'line',
         showSymbol: false,
         hoverAnimation: false,
-        data: data
-      },
-               {
+        data: def_data,
+        lineStyle:{normal:{width:1 } }
+
+      },{ //
+        name: '实际课数',
+        type: 'line',
+        showSymbol: false,
+        hoverAnimation: false,
+        data: real_data,
+        lineStyle:{normal:{width:2 } }
+
+      },{ //
+        name: '课后视频未处理',
+        type: 'line',
+        showSymbol: false,
+        hoverAnimation: false,
+        data: need_deal_count_data
+
+      },{ //用于隐藏
         name:'.anchor',
         type:'line',
         showSymbol:false,

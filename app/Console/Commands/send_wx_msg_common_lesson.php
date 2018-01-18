@@ -288,17 +288,15 @@ class send_wx_msg_common_lesson extends Command
                 $lesson_str  = date("Y-m-d H:i",$itemLessonEnd['lesson_start'])." ~ ".date("H:i",$itemLessonEnd['lesson_end']);
                 $templateIdLessonEnd = "IyYFpK8WkMGDMqMABls0WdZyC0-jV6xz4PFYO0eja9Q";
                 $dataLessonEnd = [
-                    "first"    => "家长您好, ".$itemLessonEnd['stu_nick']."同学已完成".number_format($itemLessonEnd['lesson_count'],2)."课时,请知晓。如有疑问,请联系班主任",
+                    "first"    => "家长您好, ".$itemLessonEnd['stu_nick']."同学已完成".number_format($itemLessonEnd['lesson_count'],2)."课时,请知晓。\n如有疑问,请联系班主任",
                     "keyword1" => $subject_str,
                     "keyword2" => $lesson_str,
                     "remark"   => "联系电话: ".$itemLessonEnd['ass_nick']." ".$itemLessonEnd['ass_phone']
                 ];
 
                 $urlLessonEnd = "";
-                if($itemLessonEnd['wx_openid'] == 'orwGAszZI_oaYSXVfb_Va6BlhtW0'){
-                    $wx->send_template_msg("orwGAszZI_oaYSXVfb_Va6BlhtW0",$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);//james
-
-                }
+                $wx->send_template_msg($itemLessonEnd['wx_openid'],$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);
+                // $wx->send_template_msg("orwGAs_IqKFcTuZcU1xwuEtV3Kek",$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);//james
             }
         }else{
             $this->to_waring('常规课结束 想家长发送信息 数量: '.count($lessonEndList));

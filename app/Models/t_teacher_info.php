@@ -260,13 +260,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_detail_list_new(
         $teacherid,$is_freeze,$page_num,$is_test_user,$gender,$grade_part_ex,$subject,$second_subject,
         $address,$limit_plan_lesson_type,$lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,
-        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_flag=-1,$advance_list=[]
+        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_flag=-1,$advance_list=[],
+        $per_subject=-1
     ){
         $where_arr = array(
             // array( "teacherid=%u", $teacherid, -1 ),
             array( "t.gender=%u ", $gender, -1 ),
             array( "t.grade_part_ex=%u ", $grade_part_ex, -1 ),
             array( "t.subject=%u ", $subject, -1 ),
+            array( "t.subject=%u ", $per_subject, -1 ),
             array( "t.second_subject=%u ", $second_subject, -1 ),
             array( "t.is_test_user=%u ", $is_test_user, -1 ),
             array( "t.is_freeze=%u ", $is_freeze, -1 ),
@@ -4643,7 +4645,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
-        
+
         return $this->main_get_list_by_page($sql, $page_info);
     }
 
@@ -4844,7 +4846,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         // $sql = $this->gen_sql_new(
         //     'select subject_grade,sum(guest_number) as guest_number,'.
         //     'ceil(sum(class_consumption)) class_consumption from ('.
-        //     "select  (CASE 
+        //     "select  (CASE
         //               WHEN li.subject = 1 and li.grade <= 106
         //               THEN '小学语文'
         //               WHEN li.subject = 1 and li.grade <= 203 and li.grade >= 200
@@ -4954,6 +4956,19 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
     }
 
+    public function checkIsFullTime($teacherid){
+        $where_arr = [
+            "t.teacherid=$teacherid",
+            "((teacher_money_type=0 and teacher_type=3) or t.teacher_money_type=7)"
+        ];
+        $sql = $this->gen_sql_new("  select 1 from %s t"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
 
 
-} 
+}

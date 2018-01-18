@@ -739,11 +739,17 @@ class seller_student_new extends Controller
         $ret_info= $this->t_seller_student_new->get_new_list($page_num, $now-30*3*86400 ,$now, $grade, $has_pad, $subject,$origin,$phone,$adminid ,$t_flag );
         $userid=@ $ret_info["list"][0]["userid"];
         if ($userid) {
+            //抢新log
+            $this->t_seller_get_new_log->row_insert([
+                'adminid'=>$adminid,
+                'userid'=>$userid,
+                'create_time'=>time(),
+            ]);
+
             $lesson_call_end = [];
             $key="DEAL_NEW_USER_$adminid";
             $old_userid=\App\Helper\Common::redis_get($key)*1;
             $old_row_data= $this->t_seller_student_new->field_get_list($old_userid,"competition_call_time, competition_call_adminid, admin_revisiterid ,tq_called_flag ");
-
             if (
                 $old_row_data["tq_called_flag"] ==0 &&
                 $old_row_data["admin_revisiterid"] !=$adminid
@@ -1502,12 +1508,6 @@ class seller_student_new extends Controller
         $now=time(NULL);
         $cur_hm=date("H",$now)*60+date("i",$now);
         $cur_week=date("w",$now);
-        // if (in_array( $cur_week*1,[6,0] ) ) {//周六,周日00:00~11:00
-        //     $limit_arr=array( [0,11*60] );
-        // }else{//周一~周五00:00~10:00,14:00~15:00
-        //     $limit_arr=array( [0, 10*60 ], [14*60, 15*60] );
-        //     //$limit_arr=array( [0, 10*60 ] );
-        // }
         if (in_array( $cur_week*1,[6,0])) {//周六,周日00:00~11:00
             $limit_arr=array( [0,11*60] );
         }elseif(in_array( $cur_week*1,[1,3,4,5] )){//周一,周三,周四,周五 0:00-13:30
@@ -1736,7 +1736,7 @@ class seller_student_new extends Controller
             return $ret;
         }
         //近1小时内有拨通过
-        if($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子")){
+        if($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子",$userid)){
             $account = $this->t_manager_info->get_account( $competition_call_adminid );
             $this->t_seller_student_new->set_admin_info(0, [$userid], $competition_call_adminid,0);
             $ret_update = $this->t_book_revisit->add_book_revisit(

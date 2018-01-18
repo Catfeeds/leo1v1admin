@@ -266,6 +266,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "admin_revisiterid"  => $adminid,
                 "admin_assign_time"  => time(),
             ]);
+            $test_lesson_subject_id = $this->t_test_lesson_subject->get_test_lesson_subject_id($userid);
+            $this->task->t_test_lesson_subject->field_update_list($test_lesson_subject_id, ["require_adminid"=>$adminid]);
             $this->task->t_book_revisit->add_book_revisit(
                 $phone,
                 "操作者: 系统 状态: 分配给总监 [ $account ] ",
@@ -297,6 +299,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "admin_revisiterid"  => $adminid,
                 "admin_assign_time"  => time(),
             ]);
+            $test_lesson_subject_id = $this->t_test_lesson_subject->get_test_lesson_subject_id($userid);
+            $this->task->t_test_lesson_subject->field_update_list($test_lesson_subject_id, ["require_adminid"=>$adminid]);
+
             $this->task->t_book_revisit->add_book_revisit(
                 $phone,
                 "操作者: 系统 状态: 分配给总监 [ $account ] ",
@@ -304,7 +309,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             );
             $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
         }
-
 
         return $userid;
     }
@@ -661,6 +665,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr=[
                 ["ss.userid=%u",$userid, -1],
             ];
+            if(count($admin_revisiterid_list)>0){
+                $this->where_arr_add_int_or_idlist($where_arr, "ss.admin_revisiterid", $admin_revisiterid_list);
+            }
             if ( $sub_assign_adminid_2 >0 ) { //
                 $this->where_arr_add__2_setid_field($where_arr,"ss.sub_assign_adminid_2", $sub_assign_adminid_2);
             }
@@ -3325,6 +3332,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ["a.assistantid = %u" , $assistantid, -1],
             ["m.uid = %u" , $order_adminid, -1],
             ["s.origin_userid = %u" , $origin_userid, -1],
+            ["s.userid = %u" , $userid, -1],
             ["m.account_role = %u" , $sys_operator_type, -1],
             "m2.account_role=1",
             "s.origin_userid>0",
@@ -3458,36 +3466,22 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list_by_page($sql,$page_num,$page_count);
     }
 
-    public function get_item_list($start_time,$end_time,$page_info){
-        $where_arr = [];
-        $this->where_arr_add_time_range($where_arr, 'ss.add_time', $start_time, $end_time);
+    public function get_item_list(){
+        $where_arr = [
+            'tmk_student_status=1',
+        ];
         $sql=$this->gen_sql_new(
-            " select seller_resource_type ,first_call_time,first_contact_time,test_lesson_count,"
-            ." first_revisit_time,last_revisit_time,tmk_assign_time,last_contact_time,last_contact_cc,"
-            ." competition_call_adminid, competition_call_time,sys_invaild_flag,wx_invaild_flag,"
-            ." return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status,"
-            ." add_time,  global_tq_called_flag, seller_student_status,wx_invaild_flag, s.userid,s.nick,"
-            ." s.origin, s.origin_level,ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,"
-            ." ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2,s.origin_assistantid,"
-            ." s.origin_userid,t.subject,s.grade,ss.user_desc,ss.has_pad,t.require_adminid ,tmk_student_status,"
-            ." first_tmk_set_valid_admind,first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,"
-            ." first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,first_admin_revisiterid_time,"
-            ." first_seller_status,cur_adminid_call_count as call_count,ss.auto_allot_adminid,first_called_cc,"
-            ." first_get_cc,test_lesson_flag,ss.orderid,price "
-            ." from %s t "
-            ." left join %s ss on  ss.userid = t.userid "
-            ." left join %s s on ss.userid=s.userid "
-            ." left join %s m on  ss.admin_revisiterid =m.uid "
-            ." left join %s o on  o.orderid =ss.orderid "
-            ." where %s order by ss.add_time desc "
-            , t_test_lesson_subject::DB_TABLE_NAME
+            " select n.*,s.origin,m.account "
+            ." from %s n "
+            ." left join %s s on s.userid=n.userid "
+            ." left join %s m on m.uid=n.admin_revisiterid "
+            ." where %s order by n.add_time desc "
             , self::DB_TABLE_NAME
             , t_student_info::DB_TABLE_NAME
             , t_manager_info::DB_TABLE_NAME
-            , t_order_info::DB_TABLE_NAME
             ,$where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_info);
+        return $this->main_get_list($sql);
     }
 
 }

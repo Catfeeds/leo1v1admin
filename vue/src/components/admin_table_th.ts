@@ -71,6 +71,18 @@ export default class admin_table_th extends Vue {
 
   }
 
+  do_sort() {
+    var order_by_str = "";
+    var $this = $(this);
+    var field_info =   this["real_field_info"];
+    var field_name =  field_info .order_field_name ;
+    if (this.get_sort_class()== "fa-sort-down") {
+      order_by_str = field_name + " " + "asc";
+    } else {
+      order_by_str = field_name + " " + "desc";
+    }
+    this.$parent.$parent["reload_page_by_page_info"](null, null, order_by_str );
+  }
 
   check_show( ) {
     var field_info =   this["real_field_info"];

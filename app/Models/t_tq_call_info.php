@@ -12,7 +12,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         parent::__construct();
     }
 
-    public function add($id, $uid, $phone, $start_time, $end_time, $duration, $is_called_phone,$record_url ,$adminid=0, $admin_role=0,  $obj_start_time=0,$client_number='') {
+    public function add($id, $uid, $phone, $start_time, $end_time, $duration, $is_called_phone,$record_url ,$adminid=0, $admin_role=0,  $obj_start_time=0,$sipCause=0,$client_number='',$endReason=0) {
         if ($adminid==0) {
             $admin_info=$this->task->t_manager_info->get_user_info_for_tq($uid);
             if ($admin_info){
@@ -22,8 +22,8 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         }
         $sql=$this->gen_sql_new(
             " insert ignore into %s "
-            ." (id, uid, phone, start_time, end_time, duration, is_called_phone, record_url,adminid, admin_role, obj_start_time,client_number) "
-            ." values( %u,%u,'%s',%u,%u,%u,%u,'%s',%u,%u,%u,%u)",
+            ." (id, uid, phone, start_time, end_time, duration, is_called_phone, record_url,adminid, admin_role, obj_start_time,cause,client_number,end_reason) "
+            ." values( %u,%u,'%s',%u,%u,%u,%u,'%s',%u,%u,%u,%u,'%s',%u)",
             self::DB_TABLE_NAME,
             $id,
             $uid,
@@ -36,7 +36,9 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             $adminid,
             $admin_role,
             $obj_start_time,
-            $client_number
+            $sipCause,
+            $client_number,
+            $endReason
         );
         $ret = $this->main_insert($sql);
         if($ret == 1){
@@ -62,6 +64,20 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
                     }
                     $arr['last_revisit_time'] = $start_time;
                     $this->task->t_seller_student_new->field_update_list($userid,$arr);
+
+                    //抢新log
+                    $ret_log = $this->task->t_seller_get_new_log->get_row_by_adminid_userid($adminid,$userid);
+                    if($ret_log){
+                        $arr_log = [];
+                        if($is_called_phone==0){
+                            $arr_log['no_called_count'] = $ret_log['no_called_count']+1;
+                        }elseif($is_called_phone==1){
+                            $arr_log['called_count'] = $ret_log['called_count']+1;
+                        }
+                        if(count($arr_log)>0){
+                            $this->task->t_seller_get_new_log->field_update_list($ret_log['id'], $arr_log);
+                        }
+                    }
                 }
             }elseif($admin_role == E\Eaccount_role::V_7){
                 if($userid>0){
@@ -863,9 +879,77 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
             ['start_time>=%u', $start_time, 0],
             ['start_time<%u', $end_time, 0]
         ];
-        $sql = $this->gen_sql_new("select count(phone) from %s where %s order by phone",
+        $sql = $this->gen_sql_new("select count(distinct phone) from %s where %s",
                                   self::DB_TABLE_NAME,
                                   $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_item_list($start_time,$end_time){
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr, 'start_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select count(*) count,sum(if(uid>10000,1,0)) tq_count,sum(if(uid<10000,1,0)) tian_count,"
+            ." sum(if(is_called_phone=0,1,0)) no_called_count,sum(if(is_called_phone=1,1,0)) called_count,"
+            ." sum(if(is_called_phone=0 and uid<10000,1,0)) tian_no_called_count,"
+            ." sum(if(is_called_phone=1 and uid<10000,1,0)) tian_called_count,"
+            ." sum(if(is_called_phone=1 and uid<10000 and end_reason=1,1,0)) tian_called_c,"
+            ." sum(if(is_called_phone=1 and uid<10000 and end_reason=1 and (end_time-obj_start_time)<60,1,0)) tian_called_c_a,"
+            ." sum(if(is_called_phone=1 and uid<10000 and end_reason=1 and (end_time-obj_start_time)>=60,1,0)) tian_called_c_b,"
+            ." sum(if(is_called_phone=1 and uid<10000 and end_reason=0,1,0)) tian_called_cc, "
+            ." sum(if(is_called_phone=1 and uid<10000 and end_reason=0 and (end_time-obj_start_time)<60,1,0)) tian_called_cc_a, "
+            ." sum(if(is_called_phone=1 and uid<10000 and end_reason=0 and (end_time-obj_start_time)>=60,1,0)) tian_called_cc_b "
+            ." from %s "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_item_cause($start_time,$end_time){
+        $where_arr = [
+            'uid<10000',
+        ];
+        $this->where_arr_add_time_range($where_arr, 'start_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select cause "
+            ." from %s "
+            ." where %s",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_item_end($start_time,$end_time){
+        $where_arr = [
+            'uid<10000',
+        ];
+        $this->where_arr_add_time_range($where_arr, 'start_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select sum(if(end_reason=1,1,0)) end,sum(if(end_reason=0,1,0)) cc_end "
+            ." from %s "
+            ." where %s",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_item_count($start_time,$end_time,$cause){
+        $where_arr = [
+            'uid<10000',
+            ['cause=%u',$cause,-1],
+        ];
+        $this->where_arr_add_time_range($where_arr, 'start_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select count(*) count "
+            ." from %s "
+            ." where %s",
+            self::DB_TABLE_NAME,
+            $where_arr
         );
         return $this->main_get_value($sql);
     }

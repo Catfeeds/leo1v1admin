@@ -226,7 +226,7 @@ export default class vtable extends Vue {
       }
     });
   };
-  reload_page_by_page_info  (page_num?, page_count?) {
+  reload_page_by_page_info  (page_num?, page_count?, order_by_str?) {
     var query_args = this["$route"].query;
     if (page_num) {
       query_args["page_num"] = page_num;
@@ -234,35 +234,12 @@ export default class vtable extends Vue {
     if (page_count) {
       query_args["page_count"] = page_count;
     }
+    if (order_by_str) {
+      query_args["order_by_str"] = order_by_str;
+    }
     //TODO: 不知道为什么, 这样调用才行
     $.reload_self_page({});
     $.reload_self_page(query_args);
-  };
-  reset_sort_info = function (order_by_str) {
-    var tmp_arr = order_by_str.split(/ /);
-    var order_field_name = tmp_arr[0];
-    var order_flag = tmp_arr[1];
-    var $th_list = $(".common-table").find("thead >tr>td");
-    $th_list.find(".td-sort-item").remove();
-    $.each($th_list, function (i, item) {
-      console.log( item);
-      var field_name = $(item).data("field_name");
-      if (field_name) {
-        var $sort_item = $('<a href="javascript:;" class=" fa  td-sort-item " ></a>');
-        if (field_name == order_field_name) {
-          if (order_flag == "asc") {
-            $sort_item.addClass("fa-sort-up");
-          }
-          else {
-            $sort_item.addClass("fa-sort-down");
-          }
-        }
-        else {
-          $sort_item.addClass("fa-sort");
-        }
-        $(item).append($sort_item);
-      }
-    });
   };
   do_load_data_end () {
   }
@@ -302,9 +279,6 @@ export default class vtable extends Vue {
           me.query_init(  me.get_query_header_init() );
           me.table_row_init();
           me.page_info_init(resp.page_info);
-          if (resp.g_args.order_by_str) {
-            me.reset_sort_info(resp.g_args.order_by_str);
-          }
           me.do_load_data_end();
         });
       }

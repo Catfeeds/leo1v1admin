@@ -1028,11 +1028,15 @@ $(function(){
         var lessonid    = opt_data.lessonid;
         var lesson_type = opt_data.lesson_type;
         var tea_comment = opt_data.tea_comment;
-        if(lesson_type!=2 || (opt_data.lesson_type==1100 && opt_data.train_type==4)){
+
+        if(opt_data.lesson_type==1100 && opt_data.train_type==4){
+            set_stu_performance_for_seller(lessonid,tea_comment);
+        }else if(lesson_type!=2 ){
             set_stu_performance(lessonid);
         }else{
             set_stu_performance_for_seller(lessonid,tea_comment);
         }
+
     });
 
     var set_stu_performance = function(lessonid){
@@ -1228,6 +1232,7 @@ $(function(){
                         BootstrapDialog.alert(result.info);
                         if(result.ret==0){
                             dialog.close();
+                            window.location.reload();
                         }
                     });
                 }

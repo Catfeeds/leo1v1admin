@@ -112,7 +112,10 @@ $(function(){
 
 
 
-  if(window.location.host=="admin.leo1v1.com"){
+  if(window.location.host=="admin.leo1v1.com"
+     || window.location.host=="admin-vue.leo1v1.com"
+     || window.location.host=="admin-tongji.leo1v1.com"
+    ){
     $("#id_version_switch").text("切换到冒烟版本");
     $("#id_version_switch").on("click",function(){
       window.location.href=window.location.href.replace("//admin", "//p.admin");
@@ -126,12 +129,17 @@ $(function(){
 
 
   $("#id_self_menu_add").on("click",function(){
-    var title= $(".global-menu-select-item").text();
-    var url=   window.location.href.substr( window.location.origin.length);
+    var title= $(".treeview-menu .active").text();
+    var url=   window.location.href.split("?")[0];
     $.do_ajax("/self_manage/self_menu_add",{
       "title" : title,
       "url" : url,
+    },function(){
+      $.do_ajax("/user_deal/reload_account_power",{},function(){
+        $.reload();
+      });
     });
+
   });
 
 
@@ -232,7 +240,9 @@ $(function(){
   });
 
   $("#id_public_user_reset_power").on("click",function(){
-    $.do_ajax("/user_deal/reload_account_power");
+    $.do_ajax("/user_deal/reload_account_power",function(){
+      $.reload();
+    });
   });
 
   //logout

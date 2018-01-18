@@ -147,6 +147,24 @@ export default class extends vtable {
     });
 
 
+    $.admin_query_admin_group ({
+      'join_header'     : $header_query_info,
+      "field_name"      : "group_admin_ex",
+      "title"           : "成员" ,
+      "length_css"      : "col-xs-12 col-md-3",
+      "select_value"    : this.get_args().group_admin_ex,
+    });
+
+
+    $.admin_query_origin({
+      'join_header'     : $header_query_info,
+      "field_name"      : "origin_ex",
+      "title"           : "渠道" ,
+      "length_css"      : "col-xs-12 col-md-3",
+      "select_value"    : this.get_args().origin_ex,
+    });
+
+
     //JQuery 写法
     var jquery_body = $("<div> <button class=\"btn btn-primary do-add\">增加</button> <a href=\"javascript:;\"class=\"btn btn-warning  do-test \">xx</a> </div>");
 

@@ -97,7 +97,7 @@ class uploadPdfChange extends Command
         $output = curl_exec($ch);
         curl_close($ch);
         $ret_arr = json_decode($output,true);
-        return $ret_arr;
+        return $ret_arr['data'];
     }
 
     public function updateLessonUUid($lessonid,$uuid){
@@ -127,9 +127,7 @@ class uploadPdfChange extends Command
             \App\Helper\Config::get_qiniu_access_key(),
             \App\Helper\Config::get_qiniu_secret_key()
         );
-
         $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
-
         $base_url=$auth->privateDownloadUrl($file_url );
         return $base_url;
     }

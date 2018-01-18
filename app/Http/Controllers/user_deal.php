@@ -107,18 +107,12 @@ class user_deal extends Controller
      */
     public function lesson_change_lesson_count()
     {
-        $lessonid = $this->get_in_int_val('lessonid',-1);
+        $lessonid     = $this->get_in_int_val('lessonid',-1);
         $lesson_count = $this->get_in_int_val('lesson_count',0);
 
-        $now = time();
-        $check_time = strtotime("2018-1-6");
-        if($now>$check_time){
-            $ret = $this->update_lesson_count_2018_1_6($lessonid,$lesson_count);
-            return $ret;
-        }else{
-            $ret = $this->update_lesson_count($lessonid,$lesson_count);
-            return $this->output_ret($ret);
-        }
+        $ret = $this->update_lesson_count_2018_1_6($lessonid,$lesson_count);
+
+        return $ret;
     }
 
     /**
@@ -143,48 +137,6 @@ class user_deal extends Controller
         return $ret;
     }
 
-    /**
-     * 1.每月5号之后,助教无法修改课程的课时数;    如:一节2018年1月1日当天任何时间的课程,在2018年1月5日0点之后无法修改
-     * 2.助教无法修改 常规课上奥数课 之外的课程;  注:"常规课上奥数课标识"需要在学生的课程包列表的"课程包信息"处找到并修改
-     * @param int lessonid
-     * @param int lesson_count
-     * @return boolean
-     * @author adrian
-     */
-    public function update_lesson_count_2018_1_6($lessonid,$lesson_count){
-        $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
-        $course_info = $this->t_course_order->get_course_info($lesson_info['courseid']);
-
-        $lesson_start = $lesson_info['lesson_start'];
-        $lesson_end   = $lesson_info['lesson_end'];
-        $check_time   = strtotime("+1 month",strtotime(date("Y-m-05",$lesson_start)));
-        $now          = time();
-
-        $error_info   = "";
-        if(!$course_info['reset_lesson_count_flag']){
-            $error_info = "此课程无法修改课时!";
-            if($course_info['subject']==E\Esubject::V_2){
-                $error_info .= "如需修改,请在课程包列表设置'常规课上奥数课标识'为'是'";
-            }
-        }elseif($check_time<$now){
-            $error_info = "课程设置超时,无法更改!请通过组长审批更改!"
-                 ."\n<font color='red'>下次请在本节课的下个月5号前更改!</font>";
-        }else{
-            $check_lesson_count = \App\Helper\Utils::get_lesson_count($lesson_start, $lesson_end);
-            if($lesson_count<$check_lesson_count){
-                $error_info = "修改后的课时不能小于".$check_lesson_count/100;
-            }
-        }
-
-        if($error_info!=""){
-            return $this->output_err($error_info);
-        }else{
-            $ret = $this->t_lesson_info->field_update_list($lessonid, [
-                "lesson_count" => $lesson_count
-            ]);
-            return $this->output_ret($ret);
-        }
-    }
 
     public function lesson_add_lesson() {
         $courseid = $this->get_in_courseid();

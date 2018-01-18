@@ -438,24 +438,29 @@ class user_power extends Controller
             //不属于该角色的权限组id
             $not_belog_role = array_diff($arr,$role_permit);
 
-            if($not_belog_role){
-                $idstr= "(";
+            if($not_belog_role && count($not_belog_role) > 0){
+                
+                $idstr= "";
                 foreach($not_belog_role as $var){
-                    if(!empty($var)){
+                    if($var = ''){
                         $idstr .= $var.',';
                     }
                 }
-                $idstr = substr($idstr,0,-1).')';
-                //dd($idstr);
-                $more_group = $this->t_authority_group->get_groups_by_id_str($idstr);
-                if($more_group){
-                    foreach( $more_group as &$v){
-                        $v["has_power"] = 1;            
-                        $v["account_role_str"] = E\Eaccount_role::get_desc($v["role_groupid"]);
-                        $v["forbid"] = 1;                   
-                    }                   
+                if($idstr != ''){
+                    $idstr = '('.substr($idstr,0,-1).')';
+                
+                    //dd($idstr);
+                    $more_group = $this->t_authority_group->get_groups_by_id_str($idstr);
+                    if($more_group){
+                        foreach( $more_group as &$v){
+                            $v["has_power"] = 1;            
+                            $v["account_role_str"] = E\Eaccount_role::get_desc($v["role_groupid"]);
+                            $v["forbid"] = 1;                   
+                        }                   
+                    }
+                    $list = array_merge($list,$more_group);
+
                 }
-                $list = array_merge($list,$more_group);
             }
         }
         //dd($list);

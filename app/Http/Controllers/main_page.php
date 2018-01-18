@@ -67,6 +67,7 @@ class main_page extends Controller
         $opt_date_type = $this->get_in_int_val("opt_date_type",2);
         $history_data = $this->get_in_int_val('history_data');
         $nowTime = time();
+        $onlineTime = strtotime('2018-01-8');
         $sellerNumArr = [];
 
         if($opt_date_type == 2){
@@ -111,8 +112,7 @@ class main_page extends Controller
 
                 # 咨询各部人数修改
                 # 2018-1-9 之后
-                $onlineTime = strtotime('2018-09-16');
-                if($nowTime>$onlineTime){
+                if($start_time>$onlineTime){
                     $sellerNumArr = json_decode($ret_info['sellerNumData'],true);
                     $sellerNum = 0;
                     foreach($sellerNumArr as $sellerNumItem){
@@ -240,9 +240,7 @@ class main_page extends Controller
 
 
                 # 咨询各部人数修改
-                # 2018-1-9 之后
-                $onlineTime = strtotime('2018-09-15');
-                if($nowTime>$onlineTime){
+                if($start_time>$onlineTime){
                     $sellerNumArr = json_decode($ret_info['sellerNumData'],true);
                     $sellerNum = 0;
                     foreach($sellerNumArr as $sellerNumItem){
@@ -347,9 +345,8 @@ class main_page extends Controller
 
         # 咨询各部门人数获取方式变更标示 2018-1-10 James
         $isTranFlag = 0;
-        $onlineTime = strtotime('2018-01-17');
-        if($nowTime>$onlineTime){
-            $isTranFlag = 0;
+        if($start_time>$onlineTime){
+            $isTranFlag = 1;
         }
 
         return $this->pageView(__METHOD__, $ret_info_arr,[
@@ -1533,7 +1530,8 @@ class main_page extends Controller
     public function zs_teacher(){
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
 
-        $this->switch_tongji_database();
+        //$this->switch_tongji_database();
+        $this->check_and_switch_tongji_domain();
         $res_subject = $this->t_teacher_lecture_info->get_lecture_info_by_subject_new($start_time,$end_time);
         $video_succ_subject = $this->t_teacher_lecture_info->get_lecture_info_by_subject_new($start_time,$end_time,1);
         $one_subject = $this->t_teacher_record_list->get_all_interview_count_by_subject($start_time,$end_time,-1);

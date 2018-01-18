@@ -245,6 +245,10 @@ class ss_deal extends Controller
         $this->t_manager_info->send_wx_todo_msg( $opt_account ,"来自:".$account, "分配给你". count($userid_list)."个例子"  );
 
         foreach ( $userid_list as $userid ) {
+            $origin = $this->t_student_info->field_get_value($userid, 'origin');
+            if($origin == '学校-180112'){
+                return $this->output_err('学校渠道不能分配!');
+            }
             $this->t_seller_student_new->set_admin_info_new(
                $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account, $assign_time);
             $origin_assistantid= $this->t_student_info->get_origin_assistantid($userid);
@@ -3554,7 +3558,7 @@ class ss_deal extends Controller
                 if(!$this->t_seller_student_new->check_admin_add($adminid,$get_count,$max_day_count )){
                     return $this->output_err("目前你持有的例子数[$get_count]>=最高上限[$max_day_count]");
                 }
-                if (!$this->t_seller_new_count->check_and_add_new_count($adminid,"获取新例子"))  {
+                if (!$this->t_seller_new_count->check_and_add_new_count($adminid,"获取新例子",$userid))  {
                     return $this->output_err("今天的配额,已经用完了");
                 }
             }
@@ -3828,7 +3832,12 @@ class ss_deal extends Controller
     public function del_seller_student() {
         $test_lesson_subject_id = $this->get_in_test_lesson_subject_id();
         $userid                 = $this->t_test_lesson_subject->get_userid($test_lesson_subject_id);
-
+        //删除限制
+        $phone = $this->t_phone_to_user->get_phone($userid);
+        $ret_phone = $this->t_tq_call_info->get_row_by_phone($phone);
+        if($ret_phone){
+            return $this->output_err('有通话记录,不能删除!');
+        }
 
         $this->t_test_lesson_subject->row_delete($test_lesson_subject_id);
         $this->t_seller_student_origin->del_by_userid($userid);
@@ -4484,9 +4493,7 @@ class ss_deal extends Controller
                 $this->t_seller_student_new->field_update_list($userid,[
                     "seller_resource_type"=>E\Eseller_resource_type::V_0,
                 ]);
-
                 // $this->t_manager_info->send_wx_todo_msg( "李子璇","来自:$account" , "TMK 有效:$phone"  );
-
             }
         }
         $this->t_student_info->field_update_list($userid,[
@@ -7870,9 +7877,19 @@ class ss_deal extends Controller
 
     public function get_admin_info_by_id(){
         $uid = $this->get_in_int_val("adminid",-1);
-        $ret = $this->t_manager_info->get_detail_info($uid);
-        $ret['gender'] = E\Egender::get_desc($ret['gender']);
-        $ret['account_role'] = E\Eaccount_role::get_desc($ret['account_role']);
+        $type = $this->get_in_int_val("type",-1);
+        if($type == 1){
+            $ret = $this->t_assistant_info->get_assistant_detail_info_b2($uid);
+            $ret['gender'] = E\Egender::get_desc($ret['gender']);
+            $birth_year           = substr((string)$ret['birth'], 0, 4);
+            $ret['age']    = (int)date('Y', time()) - (int)$birth_year;
+            $ret['account_role'] = E\Eaccount_role::get_desc(1);
+        }else{
+            $ret = $this->t_manager_info->get_detail_info($uid);
+            $ret['gender'] = E\Egender::get_desc($ret['gender']);
+            $ret['account_role'] = E\Eaccount_role::get_desc($ret['account_role']); 
+        }
+        
         return $this->output_succ(["data" => $ret ]);
     }
 
