@@ -120,6 +120,17 @@ class report extends Controller
         return $this->output_ajax_table($ret_info);
     }
 
+    public function event_log_ip_info_js() {
+        $page_info = $this->get_in_page_info();
+        $event_type_id= $this->get_in_int_val("event_type_id");
+        $ret_info=$this->t_log_event_log->get_event_type_id_ip_list( $page_info, $event_type_id );
+
+        foreach ($ret_info["list"] as &$item) {
+            $item["ip"]= long2ip($item["ip"]);
+        }
+        return $this->output_ajax_table($ret_info);
+    }
+
     public function event_log_list()
     {
 

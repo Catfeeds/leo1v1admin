@@ -14,13 +14,14 @@ class common_new_api extends Controller{
         $project= trim(trim( $this->get_in_str_val("project")), "=");  //
         $sub_project= trim( $this->get_in_str_val("sub_project"));
         $event_name = trim( $this->get_in_str_val("event_name"));
+        $value= $this->get_in_int_val("value") ;
         $event_type_id=$this->t_log_event_type->get_event_type_id_with_check( $project, $sub_project, $event_name);
 
         $this->t_log_event_log->row_insert([
             "logtime"       => time(NULL),
             "ip"            => ip2long( $this->get_in_client_ip()),
             "event_type_id" => $event_type_id,
-            "value"         => 1,
+            "value"         => $value,
         ]);
         return $this->output_succ();
 

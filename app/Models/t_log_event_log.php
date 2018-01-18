@@ -47,6 +47,19 @@ class t_log_event_log extends \App\Models\Zgen\z_t_log_event_log
 
 
 
+    public function  get_event_type_id_ip_list($page_info,  $event_type_id ) {
+        $where_arr=[];
+        $this->where_arr_add_int_or_idlist($where_arr,"event_type_id" , $event_type_id);
+        $sql=$this->gen_sql_new(
+            "select  ip, count(*) count  "
+            ." from  %s "
+            ." where  %s group by ip  order by  count(*) desc ",
+            self::DB_TABLE_NAME,
+            $where_arr);
+
+        return $this->main_get_list_by_page($sql,$page_info,10, true);
+    }
+
     public function get_event_type_id_info( $event_type_id )
     {
         $where_arr=[];
