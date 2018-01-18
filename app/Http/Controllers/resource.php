@@ -138,6 +138,9 @@ class resource extends Controller
         }else{
             $book_arr = array_column($book, 'tag_one');
             $book_arr = array_unique($book_arr);
+            foreach( $book_arr as $k=>&$v){
+                $book_arr[$k] = (int)$v;
+            }
         }
 
         $ret_info = $this->t_sub_grade_book_tag->get_list($subject,$grade,$bookid,$page_num);
