@@ -3832,7 +3832,12 @@ class ss_deal extends Controller
     public function del_seller_student() {
         $test_lesson_subject_id = $this->get_in_test_lesson_subject_id();
         $userid                 = $this->t_test_lesson_subject->get_userid($test_lesson_subject_id);
-
+        //删除限制
+        $phone = $this->t_phone_to_user->get_phone($userid);
+        $ret_phone = $this->t_tq_call_info->get_row_by_phone($phone);
+        if($ret_phone){
+            $this->output_err('有通话记录,不能删除!');
+        }
 
         $this->t_test_lesson_subject->row_delete($test_lesson_subject_id);
         $this->t_seller_student_origin->del_by_userid($userid);
