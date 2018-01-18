@@ -226,6 +226,7 @@ class url_power_map {
 			'/main_page2/market'	=>1070100,
 			'/report/week_of_monthly_report'	=>1078800,
 			'/tongji_ex/seller_student_detail'	=>1070803,
+			'/report/event_log_info'	=>1070828,
 			'/tongji_ss/channel_statistics'	=>1070856,
 			'/tongji_ss/origin_count'	=>1070802,
 			'/tongji_ss/origin_count_simple'	=>1070899,

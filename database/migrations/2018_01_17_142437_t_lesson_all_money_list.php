@@ -44,7 +44,6 @@ class TLessonAllMoneyList extends Migration
      */
     public function down()
     {
-        //
-        Schema::drop('db_weiyi.t_lesson_all_money_list');
+
     }
 }

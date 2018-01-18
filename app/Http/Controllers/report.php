@@ -103,7 +103,34 @@ class report extends Controller
         $data_arr['pn_order_money'] = $pn_order_money;
         return $data_arr;
     }
-    public function  event_log_list(){
+    public function event_log_info() {
+        list($start_time,$end_time)= $this->get_in_date_range_month(0);
+        $ret_info=$this->t_log_event_log->tongji_start_succ_fail($start_time, $end_time);
+
+        return $this->pageOutJson(__METHOD__, $ret_info);
+    }
+    public function event_log_list()
+    {
+
+        $page_info = $this->get_in_page_info();
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            = $this->get_in_order_by_str([],"logtime asc",[
+            ]);
+
+        list($start_time,$end_time)= $this->get_in_date_range_month(0);
+
+        $sub_project=trim($this->get_in_str_val("sub_project"));
+        //
+        $event_type_id_list=$this->t_log_event_type->get_event_type_id_list ("origin", $sub_project) ;
+
+        $ret_info=$this->t_log_event_log->get_list( $page_info, $order_by_str, $event_type_id_list , $start_time, $end_time  );
+        foreach ($ret_info["list"] as &$item) {
+            $item["ip"]= long2ip($item["ip"]);
+            $item["event_name"] = $this->t_log_event_type->get_event_name($item["event_type_id"]);
+            \App\Helper\Utils::unixtime2date_for_item($item, "logtime");
+        }
+        return $this->pageOutJson(__METHOD__, $ret_info);
 
     }
+
 }

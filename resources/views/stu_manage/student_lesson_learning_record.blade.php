@@ -1,5 +1,10 @@
 @extends('layouts.stu_header')
 @section('content')
+    <script type="text/javascript" >
+     var g_subject_list= <?php  echo json_encode(@$subject_list); ?> ;
+     var g_grade_list= <?php  echo json_encode(@$grade_list); ?> ;
+    </script>
+
     <section class="content ">
         <div >
             <img src="https://ybprodpub.leo1v1.com/a3062c52cafb042250b3dddd2f5317b11516177228556.png"  alt="汇总"  id="id_show_all"  style="float:right;margin-right:-10px" title="汇总"  />
@@ -71,7 +76,6 @@
                         </select>
                     </td>
 
-                    </td>
                     <td>老师</td>
                     <td width="100px">
                         预习情况
@@ -120,26 +124,19 @@
                     <td>时间</td>
                     <td>年级</td>
                     <td>科目</td>
-                    <td width="100px">
-                        讲义上传
-                        <select id="id_cw_status">
-                            <option value="-1">全部</option>
-                            <option value="1">已上传</option>
-                            <option value="0">未上传</option>
-                        </select>
-                    </td>
-
-                </td>
-                <td>老师</td>
-                <td width="100px">
-                    预习情况
-                    <select id="id_preview_status">
-                        <option value="-1">全部</option>
-                        <option value="1">是</option>
-                        <option value="0">否</option>
-                    </select>
-                </td>
-                <td>操作</td>
+                    <td>学生考勤</td>
+                    <td>老师考勤</td>
+                    <td>学生登录</td>
+                    <td>老师登录</td>
+                    <td>家长登录</td>
+                    <td>学生画笔</td>
+                    <td>老师画笔</td>
+                    <td>学生发言</td>
+                    <td>老师画笔</td>
+                    <td>获赞</td>
+                  
+                    <td>老师</td>
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -149,17 +146,29 @@
                         <td>{{@$var["lesson_time"] }}</td>
                         <td>{{@$var["grade_str"] }}</td>
                         <td>{{@$var["subject_str"] }}</td>
+                        <td></td>
+                        <td></td>
                         <td>
-                            @if(empty(@$var["cw_status_flag"]))
-                                {{@$var["cw_status_str"] }}
-                            @else
-                                <a class="show_cw_content" href="javascript:;" data-url="{{ $var["cw_url"] }}">
-                                    {{@$var["cw_status_str"] }}
-                                </a>
-                            @endif
+                            <a class="show_login_info" href="javascript:;" data-lessonid="{{ @$var["lessonid"] }}" data-userid="{{ @$var["userid"] }}" data-role="学生">
+                                {{@$var["stu_login_num"] }}
+                            </a>
                         </td>
+                        <td>
+                            <a class="show_login_info" href="javascript:;" data-lessonid="{{ @$var["lessonid"] }}" data-userid="{{ @$var["teacherid"] }}" data-role="老师">
+                                {{@$var["tea_login_num"] }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="show_login_info" href="javascript:;" data-lessonid="{{ @$var["lessonid"] }}" data-userid="{{ @$var["parentid"] }}" data-role="家长">
+                                {{@$var["parent_login_num"] }}
+                            </a>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{@$var["stu_praise"] }}</td>
                         <td>{{@$var["realname"] }}</td>
-                        <td>{{@$var["preview_status_str"] }}</td>
                         <td>
                             <div
 

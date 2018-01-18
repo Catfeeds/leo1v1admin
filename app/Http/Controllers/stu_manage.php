@@ -1114,7 +1114,7 @@ class stu_manage extends Controller
                     $item="";
                 }
             }
-            
+
         }
 
         $this->set_filed_for_js("gg_acc",$this->get_account());
@@ -1126,7 +1126,7 @@ class stu_manage extends Controller
         return $this->pageView(__METHOD__,null,
                                [
                                    "init_data"=> $row,
-                                   "show_post_flag"=> $show_post_flag,                                  
+                                   "show_post_flag"=> $show_post_flag,
                                ]
         );
     }
@@ -1450,7 +1450,7 @@ class stu_manage extends Controller
         list($order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             =$this->get_in_order_by_str([],"adminid desc");
 
-        #输入参数 
+        #输入参数
         list($start_time,$end_time)=$this->get_in_date_range(-7,0,1);
         $subject = $this->get_in_int_val("subject",-1);
         $grade = $this->get_in_int_val("grade",-1);
@@ -1460,11 +1460,17 @@ class stu_manage extends Controller
         $subject_arr=[];
         $grade_arr=[];
         $domain = config('admin')['qiniu']['public']['url'];
+        //获取该学生所有的课(未删除)
+        $all_lesson_list = $this->t_lesson_info_b3->get_student_all_lesson_info($userid,0,0);
+        $all_lesson=[];
+        foreach($all_lesson_list as $k=>$val){
+            $all_lesson[$val["lessonid"]] = $k+1;
+        }
         if($current_id==1){
             $ret_info = $this->t_lesson_info_b3->get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$cw_status,$preview_status);
             $list = $this->t_lesson_info_b3->get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$cw_status,$preview_status,2);
             foreach($ret_info["list"] as &$item){
-                E\Egrade::set_item_value_str($item); 
+                E\Egrade::set_item_value_str($item);
                 E\Esubject::set_item_value_str($item);
                 \App\Helper\Utils::unixtime2date_range($item);
                 $item["cw_url"] = \App\Helper\Utils::gen_download_url($item["tea_cw_url"]);
@@ -1475,16 +1481,17 @@ class stu_manage extends Controller
                 }else{
                     $item["cw_status_str"]="已上传";
                     $item["cw_status_flag"]=1;
-                    E\Eboolean::set_item_value_str($item,"preview_status"); 
+                    E\Eboolean::set_item_value_str($item,"preview_status");
                 }
-                
+                $item["lesson_num"] = @$all_lesson[$item["lessonid"]];
+
             }
             $cw_num=$pre_num=0;
             foreach($list as $val){
-                if(!isset($val["subject"])){
+                if(!isset($subject_arr[$val["subject"]])){
                     $subject_arr[$val["subject"]]=$val["subject"];
                 }
-                if(!isset($val["grade"])){
+                    if(!isset($subject_arr[$val["grade"]])){
                     $subject_arr[$val["grade"]]=$val["grade"];
                 }
                 if(empty($val["tea_cw_upload_time"]) || $val["tea_cw_upload_time"]>$val["lesson_start"]){
@@ -1499,24 +1506,51 @@ class stu_manage extends Controller
             }
             $pre_rate = $cw_num==0?0:round($pre_num/$cw_num*100,2);
             return $this->pageView(__METHOD__,$ret_info,[
-                "pre_rate"=>$pre_rate
+                "pre_rate"=>$pre_rate,
+                "subject_list"=>$subject_arr,
+                "grade_list"=>$grade_arr,
             ]);
         }elseif($current_id==2){
-            
+            $ret_info = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade);
+            $list = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
+            foreach($ret_info["list"] as &$item){
+                E\Egrade::set_item_value_str($item);
+                E\Esubject::set_item_value_str($item);
+                \App\Helper\Utils::unixtime2date_range($item);
+                $item["lesson_num"] = @$all_lesson[$item["lessonid"]];
+
+            }
+
+            foreach($list as $val){
+                if(isset( $subject_arr[$val["subject"]])){
+                    $subject_arr[$val["subject"]]=$val["subject"];
+                }
+                if(!isset($subject_arr[$val["grade"]])){
+                    $subject_arr[$val["grade"]]=$val["grade"];
+                }
+
+
+            }
+
+
+            return $this->pageView(__METHOD__,$ret_info,[
+                "attend_rate"=>@$attend_rate,
+                "subject_list"=>$subject_arr,
+                "grade_list"=>$grade_arr,
+            ]);
+
+
         }elseif($current_id==3){
-            
+
         }elseif($current_id==4){
-            
+
         }elseif($current_id==5){
-            
+
         }
 
         return $this->pageView(__METHOD__);
 
     }
 
-    
+
 }
-
-
-

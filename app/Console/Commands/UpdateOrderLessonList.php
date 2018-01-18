@@ -34,7 +34,7 @@ class UpdateOrderLessonList extends cmd_base
      * @param int day 更新的天数
      * @param int type
      * 1 更新有效的1v1正式课的收入
-     * 2 更新所有没有课时收入的课程
+     * 2 更新月份内所有的课程收入
      * @param int date 时间戳
      * @return mixed
      */
@@ -65,7 +65,7 @@ class UpdateOrderLessonList extends cmd_base
     }
 
     /**
-     * 更新月份内所有的
+     * 更新月份内所有的课程收入
      */
     public function set_lesson_all_money($time){
         $month_arr = \App\Helper\Utils::get_month_range($time, true);
