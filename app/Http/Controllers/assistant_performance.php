@@ -708,7 +708,7 @@ class assistant_performance extends Controller
             }
             $item["kk_all"]        = $kk_num;
             $item["kk_reword_per"] = $kk_reword_per;
-            $kk_per_old = $last_registered_num>0?($kk_num_old/$last_registered_num):0;
+            $kk_per_old = $last_registered_num>0?( $item["kk_num_old"]/$last_registered_num):0;
             if($kk_per_old>=0.06){
                 $kk_reword_per_old = 0.2;
             }else{
