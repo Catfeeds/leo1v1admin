@@ -3195,7 +3195,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
     public function get_call_end_time_by_adminid($adminid){
-        $time = time();
+        $time = time()-24*3600;
         $where_arr = [
             ' l.tea_attend <> 0 ',
             ' l.stu_attend <> 0 ',
