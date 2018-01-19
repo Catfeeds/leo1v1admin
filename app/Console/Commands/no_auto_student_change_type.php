@@ -40,6 +40,11 @@ class no_auto_student_change_type extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
 
         $task = new \App\Console\Tasks\TaskController ();
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2018-01-01");
+        $ret_info = $task->t_teacher_lecture_appointment_info->get_tongji_data($start_time,$end_time);
+        dd($ret_info);
+
 
         //临时
         // $start_time = strtotime("2017-12-01");

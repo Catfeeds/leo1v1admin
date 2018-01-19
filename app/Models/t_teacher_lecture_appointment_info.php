@@ -432,7 +432,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         }else{
         }
 
-        $time_begin = strtotime(date("2017-01-05")); // 
+        $time_begin = strtotime(date("2017-01-05")); //
         $time_str = "l.confirm_time>$time_begin";
 
 
@@ -479,7 +479,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         );
         return $this->main_get_list($sql);
     }
-    
+
     public function get_teacher_appoinment_interview_pass_info($start_time,$end_time){
         $where_arr=[
             "al.name not like '%%不要审核%%' and  al.name not like '%%gavan%%' and al.name not like '%%阿蓝%%'"
@@ -524,7 +524,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_list($sql);
     }
 
-   
+
 
 
     public function get_train_through_tea($time){
@@ -542,7 +542,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             // $time_str = "l.confirm_time>=$time";
         }
 
-        $time_begin = strtotime(date("2017-01-05")); // 
+        $time_begin = strtotime(date("2017-01-05")); //
         $time_str = "l.confirm_time>$time_begin";
 
 
@@ -579,7 +579,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             // $time_str = "l.confirm_time>=$time";
         }
 
-        $time_begin = strtotime(date("2017-01-05")); // 
+        $time_begin = strtotime(date("2017-01-05")); //
         $time_str = "l.confirm_time>$time_begin";
 
 
@@ -853,7 +853,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
     public function get_id_list_by_adminid($accept_adminid,$lecture_revisit_type=-1){
         $where_arr=[];
         if($lecture_revisit_type==1){
-            $where_arr[]="lecture_revisit_type not in (4,8)"; 
+            $where_arr[]="lecture_revisit_type not in (4,8)";
         }
         $sql = $this->gen_sql_new("select id,answer_begin_time,accept_adminid,lecture_revisit_type"
                                   ." from %s where accept_adminid=%u and %s",
@@ -1321,7 +1321,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         });
     }
 
-    public function get_money_list($start_time, $end_time, $reference) { 
+    public function get_money_list($start_time, $end_time, $reference) {
         //select teacherid,name from t_teacher_info t left join t_teacher_lecture_appointment_info ta on t.phone=ta.phone where ta.reference ='15366667766' and t.train_through_new_time  > 0 and train_through_new_time >= unix_timestamp('2017-11-1') and unix_timestamp('2017-12-1')
         $where_arr = [
             "ta.reference='$reference' ",
@@ -1385,5 +1385,37 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ,$status_str
         );
         return $this->main_get_list_by_page($sql,$page_num,10,true);
+    }
+
+    public function get_tongji_data($start_time,$end_time){
+        $where_arr = [
+            ["ta.answer_begin_time>=%u", $start_time, -1 ],
+            ["ta.answer_begin_time<=%u", $end_time, -1 ],
+            "ta.accept_adminid>0"
+        ];
+        $sql = $this->gen_sql_new("select ta.accept_adminid,m.name,"
+                                  ." sum(if(ta.lecture_revisit_type>1,1,0)) phone_count,"
+                                  ." sum(if(l.add_time>0 or ll.lesson_start>0,1,0)) interview_num,"
+                                  ." sum(if(t.trial_lecture_is_pass=1,1,0)) pass_num,"
+                                  ." sum(if(t.train_through_new=1,1,0)) memeber_num"
+                                  ." from %s ta left join %s l on ta.phone = l.phone and not exists(select 1 from %s where add_time<l.add_time)"
+                                  ." left join %s t on ta.phone = t.phone"
+                                  ." left join %s ll on ll.userid = t.teacherid and ll.lesson_start>0 and ll.lesson_status>1 and ll.lesson_del_flag=0 and ll.train_type=5 and not exists (select 1 from %s where userid = ll.userid and lesson_start>0 and lesson_status>1 and lesson_del_flag=0 and train_type=4 and lesson_start<ll.lesson_start)"
+                                  ." left join %s m on ta.accept_adminid = m.uid"
+                                  ." where %s group by m.name ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql, function($item) {
+            return $item['name'];
+        });
+
+
     }
 }
