@@ -1645,7 +1645,6 @@ class stu_manage extends Controller
 
 
             }
-            dd($ret_info);
             $cw_num=$pre_num=0;
             foreach($list as $val){
                 if(!isset($subject_arr[$val["subject"]])){
