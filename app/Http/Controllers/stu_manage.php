@@ -1451,7 +1451,12 @@ class stu_manage extends Controller
             =$this->get_in_order_by_str([],"adminid desc");
 
         #输入参数
-        list($start_time,$end_time)=$this->get_in_date_range(-8,-1,1);
+        //  list($start_time,$end_time)=$this->get_in_date_range(-8,-1,1);
+        $start_date = $this->get_in_str_val('start_date');
+        $end_date   = $this->get_in_str_val('end_date');
+        $start_time = $start_date?strtotime($start_date):0;
+        $end_time   = $end_date?(strtotime($end_date)+86400):0;
+
         $subject = $this->get_in_int_val("subject",-1);
         $grade = $this->get_in_int_val("grade",-1);
         $current_id = $this->get_in_int_val("current_id",1);
@@ -1702,6 +1707,7 @@ class stu_manage extends Controller
 
 
         }elseif($current_id==4){
+            $ret_info = $this->t_lesson_info_b3->get_lesson_homework_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade);
 
         }elseif($current_id==5){
 
