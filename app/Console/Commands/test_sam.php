@@ -295,7 +295,7 @@ left join db_weiyi_admin.t_tq_call_info q on s.phone =q.phone
 where s.is_test_user = 0 and q.is_called_phone =1 
 
         */
-        /*
+        
         $time = [
             ['start_time' => 1506787200,'end_time' => 1509465600], //10
             ['start_time' => 1509465600,'end_time' => 1512057600], //11
@@ -306,11 +306,10 @@ where s.is_test_user = 0 and q.is_called_phone =1
         foreach ($time as $key => $value) {
             $start_time = $value['start_time'];
             $end_time   = $value['end_time'];
-            $ret = $task->t_student_score_info->get_xx($start_time,$end_time){
-
-            }
+            $ret = $task->t_student_score_info->get_xx($start_time,$end_time);
+            echo date("Y-m",$start_time)."-".$ret['total']."- ".$ret['one_total'].'- '.$ret['two_total'].'- '.$ret['three_total']."\n";
         }
-        */
+        
 
 
         /*
@@ -342,12 +341,15 @@ where s.is_test_user = 0 and q.is_called_phone =1
         $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
 
         */
+        /*
         $ret_info = $task->t_student_score_info->get_all_infoxxx2();
         $file_name = 'sam_0119-2';
         $arr_title = ['ID',"省份","城市"];
         $arr_data  = ['nick','phone_province','phone_city'];
         $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
         dd($ret_file_name);
+
+        */
         
     }     
 }

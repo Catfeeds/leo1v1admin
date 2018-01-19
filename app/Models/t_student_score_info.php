@@ -337,4 +337,12 @@ where s.is_test_user = 0 and s.grade in (101,102,103)";
       $sql = "select t.nick, t.phone_province, t.phone_city from db_weiyi.t_lesson_info l left join db_weiyi.t_teacher_info t on l.teacherid = t.teacherid left join db_weiyi.t_student_info s on s.userid = l.userid where lesson_start > 1512057600 and lesson_type in (0,1,3 ) and t.is_test_user = 0 group by l.userid";
        return $this->main_get_list($sql);
     }
+
+    public function get_xx($start_time,$end_time){
+       $sql = "select count(*) as total , sum( if(l.grade = 101, 1, 0)) as one_total, sum( if(l.grade = 102, 1, 0)) as two_total, sum( if(l.grade = 103, 1, 0)) as three_total  from t_lesson_info   l
+left join t_student_info s on s.userid = l.userid
+where lesson_start > $start_time and lesson_start < $end_time and lesson_type = 2 and s.is_test_user = 0 and lesson_user_online_status = 1 ";
+
+      return $this->main_get_row($sql);
+    }
 }
