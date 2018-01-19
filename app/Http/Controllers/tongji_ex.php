@@ -164,6 +164,7 @@ class tongji_ex extends Controller
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_seller_student_new->get_master_detail_list($start_time,$end_time,$page_info);
         foreach($ret_info['list'] as &$item){
+            E\Eorigin_level::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
             E\Eseller_student_status::set_item_value_color_str($item);
             E\Etq_called_flag::set_item_value_str($item,"global_tq_called_flag");
