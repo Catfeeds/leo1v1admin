@@ -50,9 +50,12 @@ class jw_teacher_test_lesson_assign_auto extends Command
                 if($subject==2){
                     if($grade>=100 && $grade<200){
                         $accept_adminid = 1324;
-                    }elseif($grade>=200 && $grade<400){
+                    }elseif($grade>=200 && $grade<300){
                         $accept_adminid = 1328;
+                    }elseif($grade>=300 && $grade<400){
+                        $accept_adminid = 513;
                     }
+
                     // $jw_list=[1328,1324];
                               
                     // $num_all = count($jw_list);

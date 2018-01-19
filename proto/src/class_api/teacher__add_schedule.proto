@@ -7,10 +7,10 @@ import "class_api/common.proto";
 
 
 message in  {
-  	int32 id = 1; //t_teacher_free_time主键
-  	int32 day_of_week = 2; //星期几
-  	string begin_time = 3; //0800代表上午８：００
-  	string end_time = 4; //0800代表上午８：００
+  	int32 ids = 1; //老师id列表
+  	int32 datetime = 2; //2017-12-11 08:00:00~08:40:00,2017-12-15 20:00:00~21:45:00 开始一周的时间
+  	int32 nums = 3; //一共上几节课
+  	int32 course_type = 4; //课程类型
 
 }
 
