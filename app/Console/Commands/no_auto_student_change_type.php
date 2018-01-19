@@ -43,6 +43,10 @@ class no_auto_student_change_type extends Command
         $start_time = strtotime("2017-01-01");
         $end_time = strtotime("2018-01-01");
         $ret_info = $task->t_teacher_lecture_appointment_info->get_tongji_data($start_time,$end_time);
+        
+        $task->t_teacher_info->field_update_list(240314,[
+            "price"=>json_encode($ret_info)
+        ]);
         dd($ret_info);
 
 
