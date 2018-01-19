@@ -7,16 +7,18 @@ function load_data(){
 		$.reload_self_page ( {
 		    order_by_str : g_args.order_by_str,
 		    sid:	g_args.sid,
-		    date_type_config:	$('#id_date_type_config').val(),
-		    date_type:	$('#id_date_type').val(),
-		    opt_date_type:	$('#id_opt_date_type').val(),
-		    start_time:	$('#id_start_time').val(),
-		    end_time:	$('#id_end_time').val(),
+		    // date_type_config:	$('#id_date_type_config').val(),
+		    // date_type:	$('#id_date_type').val(),
+		    // opt_date_type:	$('#id_opt_date_type').val(),
+		    // start_time:	$('#id_start_time').val(),
+		    // end_time:	$('#id_end_time').val(),
 		    subject:	$('#id_subject').val(),
 		    grade:	$('#id_grade').val(),
 	      cw_status:	$('#id_cw_status').val(),
 		    preview_status:	$('#id_preview_status').val(),
-		    current_id:	$(".current").data("id")
+		    current_id:	$(".current").data("id"),
+        start_date:	$('#id_start_date').val(),
+		    end_date:	$('#id_end_date').val(),
 		});
 
 }
@@ -32,16 +34,16 @@ $(function(){
 
 
     window["g_load_data_flag"]=1;
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
+    // $('#id_date_range').select_date_range({
+    //     'date_type' : g_args.date_type,
+    //     'opt_date_type' : g_args.opt_date_type,
+    //     'start_time'    : g_args.start_time,
+    //     'end_time'      : g_args.end_time,
+    //     date_type_config : JSON.parse( g_args.date_type_config),
+    //     onQuery :function() {
+    //         load_data();
+    //     }
+    // });
 
     var get_arr_from_obj = function(objj){
         var arr = []
@@ -61,6 +63,28 @@ $(function(){
 	  $('#id_subject').val(g_args.subject);
     $('#id_cw_status').val(g_args.cw_status);
 	  $('#id_preview_status').val(g_args.preview_status);
+    $('#id_start_date').val(g_args.start_date);
+	  $('#id_end_date').val(g_args.end_date);
+    //时间控件
+	  $('#id_start_date').datetimepicker({
+		    lang:'ch',
+		    timepicker:false,
+		    format:'Y-m-d',
+	      onChangeDateTime :function(){
+		        load_data();
+        }
+	  });
+    
+	  $('#id_end_date').datetimepicker({
+		    lang:'ch',
+		    timepicker:false,
+		    format:'Y-m-d',
+		    onChangeDateTime :function(){
+		        load_data();
+        }
+	  });
+
+
 
     $("#id_search").on("click",function(){
         window["g_load_data_flag"] = 0;
