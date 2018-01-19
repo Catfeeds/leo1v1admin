@@ -31,10 +31,6 @@ function load_data(){
 }
 $(function(){
 
-    $(".opt-sub-tag").click(function(){
-        window.open("/resource/sub_grade_book_tag");
-    })
-
     //获取学科化标签
     var get_sub_grade_tag = function(subject,grade,booid,obj,opt_type){
         obj.empty();
@@ -977,5 +973,21 @@ $(function(){
         }
     });
     $('.opt-change').set_input_change_event(load_data);
+
+    $(".opt-sub-tag").click(function(){
+        var subject = $('#id_subject').val();
+        var grade = $('#id_grade').val();
+        var bookid = $('#id_tag_one').val();
+        var resource_type = $('#id_resource_type').val();
+        if( resource_type != 1){
+            //标准试听课
+            var season_id = -1;
+        }else{
+            //1对1精品课程
+            var season_id = parseInt($('#id_tag_two').val());
+        }
+        window.open("/resource/sub_grade_book_tag?subject="+subject+"&grade="+grade+
+                    "&bookid="+bookid+"&resource_type="+resource_type+"&season_id="+season_id);
+    })
 
 });

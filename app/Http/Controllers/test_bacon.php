@@ -277,7 +277,7 @@ class test_bacon extends Controller
                     if($new_tag_id && !empty(@$new_tag_id['id'])){
                         //print_r($new_tag_id);
                         $up_data = ['tag_four'=>$new_tag_id['id']];
-                        $this->t_resource_agree_info->field_update_list($var['agree_id'],$up_data);
+                        //$this->t_resource_agree_info->field_update_list($var['agree_id'],$up_data);
                     }
 
                 }
@@ -288,4 +288,27 @@ class test_bacon extends Controller
         }
     }
 
+    public function change_tag(){
+        set_time_limit(36000);
+        $biao_tag = $this->t_sub_grade_book_tag->get_biaozun(50000,1);
+        if($biao_tag){
+            $data = ['resource_type'=>3];
+            foreach( $biao_tag as $var){
+                if($var['resource_type'] != 3){
+                    $this->t_sub_grade_book_tag->field_update_list($var['id'],$data);
+                }
+            }
+        }
+
+        $jin_tag = $this->t_sub_grade_book_tag->get_biaozun(50000,0);
+        if($jin_tag){
+            $data2 = ['resource_type'=>1,'season_id'=>4];
+            foreach( $jin_tag as $item){
+                if($item['resource_type'] != 1 || $item['season_id'] != 4){
+                    $this->t_sub_grade_book_tag->field_update_list($item['id'],$data2);
+                }
+            }
+        }
+        dd($jin_tag);
+    }
 }
