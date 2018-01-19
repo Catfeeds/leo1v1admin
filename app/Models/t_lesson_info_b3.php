@@ -2752,16 +2752,16 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_type in (0,1,3)",
             "l.confirm_flag <2",
             "l.lesson_del_flag=0",
-            // "l.lesson_start>0",
-            //  "l.lesson_status>1",
+            "l.lesson_start>0",
+             "l.lesson_status>1",
             ["l.teacherid=%u",$teacherid,-1]
         ];
         $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start_time, $end_time);
         $sql = $this->gen_sql_new("select l.teacherid,l.subject,l.userid,l.lesson_start,tr.id,l.lessonid "
                                   ." from %s l left join %s s on l.userid = s.userid"
                                   ." left join %s t on l.teacherid = t.teacherid"
-                                  ." left join %s tr on l.teacherid = tr.teacherid and l.userid=tr.userid and l.subject = tr.lesson_subject and tr.type=20"
-                                  ." where %s and not exists (select 1 from %s where subject = l.subject and teacherid=l.teacherid and userid = l.userid and lesson_type in (0,1,3) and confirm_flag <2 and lesson_del_flag=0 and lesson_start<l.lesson_start )",
+                                  ." left join %s tr on l.teacherid = tr.teacherid and l.userid=tr.userid and l.subject = tr.lesson_subject and tr.type=18"
+                                  ." where %s and not exists (select 1 from %s where subject = l.subject and teacherid=l.teacherid and userid = l.userid and lesson_type in (0,1,3) and confirm_flag <2 and lesson_del_flag=0 and lesson_start<l.lesson_start and lesson_status>1 and lesson_start>0 )",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,

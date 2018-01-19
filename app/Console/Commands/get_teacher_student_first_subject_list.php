@@ -40,41 +40,39 @@ class get_teacher_student_first_subject_list extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
 
         $task = new \App\Console\Tasks\TaskController ();
-        // $end_time = strtotime(date("Y-m-d",time()));
-        // $start_time = strtotime("-1 days",$end_time);
-        $end_time = time();
-        $start_time = strtotime("2017-12-01");
+        $end_time = strtotime(date("Y-m-d",time()));
+        $start_time = strtotime("-1 days",$end_time);
+        // $end_time = time();
+        // $start_time = strtotime("2017-12-01");
 
         $i=0;
         $list  = $task->t_lesson_info_b3->get_teacher_student_first_subject_info($start_time,$end_time);
-        print_r($list);
         foreach($list as $val){
             $id = $val["id"];
-            // if($id>0){
-            //     $info =$task->t_teacher_record_list->get_record_info($id);
-            //     $lessonid =$task->t_teacher_record_list->get_train_lessonid($id);
-            //     $info .= "lessonid".$lessonid." change to".$val["lessonid"].",时间:".time().";";
-            //     $task->t_teacher_record_list->field_update_list($id,[
-            //         "lesson_time" => $val["lesson_start"],
-            //         "record_info" => $info,
-            //         "train_lessonid"=>$val["lessonid"]
-            //     ]);
+            if($id>0){
+                $info =$task->t_teacher_record_list->get_record_info($id);
+                $lessonid =$task->t_teacher_record_list->get_train_lessonid($id);
+                $info .= "lessonid".$lessonid." change to".$val["lessonid"].",时间:".time().";";
+                $task->t_teacher_record_list->field_update_list($id,[
+                    "lesson_time" => $val["lesson_start"],
+                    "record_info" => $info,
+                    "train_lessonid"=>$val["lessonid"]
+                ]);
 
-            // }else{
-            $add_time = time()+$i;
-            $task->t_teacher_record_list->row_insert([
-                "teacherid"      => $val["teacherid"],
-                "userid"         => $val["userid"],
-                "lesson_subject" => $val["subject"],
-                "lesson_time"    => $val["lesson_start"],
-                "train_lessonid" => $val["lessonid"],
-                "add_time"       => $add_time,
-                "type"           => 20
-            ]);
-            $i++;
-            // }
+            }else{
+                $add_time = time()+$i;
+                $task->t_teacher_record_list->row_insert([
+                    "teacherid"      => $val["teacherid"],
+                    "userid"         => $val["userid"],
+                    "lesson_subject" => $val["subject"],
+                    "lesson_time"    => $val["lesson_start"],
+                    "train_lessonid" => $val["lessonid"],
+                    "add_time"       => $add_time,
+                    "type"           => 18
+                ]);
+                $i++;
+            }
         }
-        dd(111);
 
 
         if($end_time==strtotime("2018-01-19")){
