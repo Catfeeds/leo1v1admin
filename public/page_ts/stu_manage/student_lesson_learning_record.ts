@@ -1,5 +1,7 @@
 ///<reference path="../common.d.ts" />
 ///<reference path="../g_args.d.ts/stu_manage-student_lesson_learning_record.d.ts" />
+var Cwhiteboard=null;
+var notify_cur_playpostion =null;
 function load_data(){
 	  if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
@@ -20,6 +22,14 @@ function load_data(){
 }
 
 $(function(){
+
+    //audiojs 时间回调, 每秒3-4次
+    //$(".tea_cw_url[data-v = 0], .stu_cw_url[data-v=0],.homework_url[data-v=0]" ) .parent().addClass("danger");
+    //=======================================================
+    notify_cur_playpostion = function (cur_play_time){
+        Cwhiteboard.play_next( cur_play_time );
+    };
+
     window["g_load_data_flag"]=1;
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -252,6 +262,86 @@ $(function(){
         dlg.getModalDialog().css("width","600px");
 
 
+    });
+
+    $(".show_stu_score_detail").on("click",function(){
+        var effect = $(this).data("effect"); 
+        var quality = $(this).data("quality"); 
+        var interact = $(this).data("interact"); 
+        var stability = $(this).data("stability");
+        var title = "打分详情";
+        var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>得分</td></tr><tr><td>上课效果</td><td>"+effect+"</td></tr><tr><td>课件质量</td><td>"+quality+"</td></tr><tr><td>课堂互动</td><td>"+interact+"</td></tr><tr><td>系统稳定性</td><td>"+stability+"</td></tr></table></div>");     
+
+        var dlg=BootstrapDialog.show({
+            title:title, 
+            message :  html_node   ,
+            closable: true, 
+            buttons:[{
+                label: '返回',
+                cssClass: 'btn',
+                action: function(dialog) {
+                    dialog.close();
+
+                }
+            }],
+            onshown:function(){
+                
+            }
+
+        });
+
+        dlg.getModalDialog().css("width","400px");
+
+
+    });
+
+    $(".show_lesson_video").on("click",function(){
+        var lessonid = $(this).data("lessonid");
+        
+        $.ajax({
+            type     : "post",
+            url      : "/tea_manage/get_lesson_reply",
+            dataType : "json",
+            data     : {"lessonid":opt_data.lessonid},
+            success  : function(result){
+                if(result.ret == 0){
+                    console.log("http://admin.leo1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                                +"&audio="+encodeURIComponent(result.audio_url)
+                                +"&start="+result.real_begin_time);
+                    if ( false && !$.check_in_phone() ) {
+
+                        // console.log("http://admin.leo1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                        //             +"&audio="+encodeURIComponent(result.audio_url)
+                        //             +"&start="+result.real_begin_time);
+                        window.open("http://admin.leo1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                                    +"&audio="+encodeURIComponent(result.audio_url)
+                                    +"&start="+result.real_begin_time,"_blank");
+                    }else{
+
+                        var w = $.check_in_phone()?329 : 558;
+                        var h = w/4*3;
+                        var html_node = $("<div style=\"text-align:center;\"> "
+                                          +"<div id=\"drawing_list\" style=\"width:100%\">"
+                                          +"</div><audio preload=\"none\"></audio></div>"
+                                         );
+                        BootstrapDialog.show({
+                            title    : '课程回放:lessonid:'+opt_data.lessonid+", 学生:" + result.stu_nick,
+                            message  : html_node,
+                            closable : true,
+                            onhide   : function(dialogRef){
+                            }
+                        });
+                        Cwhiteboard = get_new_whiteboard(html_node.find("#drawing_list"));
+                        Cwhiteboard.loadData(w,h,result.real_begin_time,result.draw_url,result.audio_url,html_node);
+                    }
+                }else{
+                    BootstrapDialog.alert(result.info);
+                }
+            }
+        });
+            
+      
+        
     });
 
 

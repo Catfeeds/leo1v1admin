@@ -1643,10 +1643,18 @@ class stu_manage extends Controller
                     $item['stu_point_performance'].=PHP_EOL."总体评价:".$str;
                 }
                 $item['stu_intro']="";
+                if(empty($item["stu_comment"])){
+                    $item["stu_comment"]="—";
+                }
+                if(empty($item["stu_score"])){
+                    $item["stu_score"]="—";
+                }
+
+
 
 
             }
-            $cw_num=$pre_num=0;
+            $tea_comment=$all_num=0;
             foreach($list as $val){
                 if(!isset($subject_arr[$val["subject"]])){
                     $subject_arr[$val["subject"]]=$val["subject"];
@@ -1654,17 +1662,41 @@ class stu_manage extends Controller
                 if(!isset($grade_arr[$val["grade"]])){
                     $grade_arr[$val["grade"]]=$val["grade"];
                 }               
+                if($val["confirm_flag"]<2){
+                    $all_num++;
+                    $stu_intro   = json_decode($val['stu_performance'],true);
+                    $stu_point_performance='';
+                    if(isset($stu_intro['point_note_list']) && is_array($stu_intro['point_note_list'])){
+                        foreach(@$stu_intro['point_note_list'] as $val){
+                            $stu_point_performance .=$val['point_name'].":".$val['point_stu_desc']."。";
+                        }
+                    }
+                    if(isset($stu_intro['stu_comment']) && $stu_intro['stu_comment']!=''){
+                        if(is_array($stu_intro['stu_comment'])){
+                            $str = json_encode($stu_intro['stu_comment']);
+                            $str = $this->get_test_lesson_comment_str($str);
+                        }else{
+                            $str = $stu_intro['stu_comment'];
+                        }
+                        //   $str = $this->get_test_lesson_comment_str($str);
+                        $stu_point_performance .=PHP_EOL."总体评价:".$str;
+                    }
+                    $comment = trim($stu_point_performance,"\"");
+                    if(!empty($comment)){
+                        $tea_comment++;
+                    }
+
+
+                }
 
 
             }
-            $pre_rate = $cw_num==0?0:round($pre_num/$cw_num*100,2);
+            $record_rate = $all_num==0?0:round($tea_comment/$all_num*100,2);
             return $this->pageView(__METHOD__,$ret_info,[
-                "pre_rate"=>$pre_rate,
+                "record_rate"=>$record_rate,
                 "subject_list"=>$subject_arr,
                 "grade_list"=>$grade_arr,
             ]);
-
-            dd($ret_info);
 
 
 
