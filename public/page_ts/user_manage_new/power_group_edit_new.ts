@@ -239,10 +239,10 @@ function zTreeOnClick(event, treeId, treeNode) {
 }
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
-    // $.reload_self_page ( {
-		//     groupid:	$('#id_groupid').val(),
-    //     role_groupid:	$('#id_role_groupid').val(),		   
-    // });
+    $.reload_self_page ( {
+		    groupid:	$('#id_groupid').val(),
+        role_groupid:	$('#id_role_groupid').val(),		   
+    });
 }
 $(function(){
 
@@ -650,6 +650,9 @@ $(function(){
         });
 
     });
+
+    $('.opt-change').set_input_change_event(load_data);
+
 });
 function get_search_group(val){
     //alert(val);
