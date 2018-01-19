@@ -26,6 +26,7 @@ return array(
     ['db_weiyi','t_activity_quota_detail','id'],
     ['db_weiyi','t_product_feedback_list','id'],
     ['db_weiyi_admin','t_company_wx_auth','id'],
+    ['db_weiyi_admin','t_power_back','log_date', "groupid"],
     ['db_weiyi_admin','t_company_wx_role','id'],
     ['db_weiyi_admin',"t_company_wx_users","id"],
     ["db_weiyi_admin","t_company_wx_department","id"],
