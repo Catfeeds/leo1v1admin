@@ -552,8 +552,8 @@ $(function(){
         var arr=[
             ["*角色", id_edit_role_groupid ],
             [edit_title, id_add_power ],
-            ['是否复制权限',is_copy_power],
-            ['所要复制权限',[id_copy_role_groupid,id_copy_power]],
+            // ['是否复制权限',is_copy_power],
+            // ['所要复制权限',[id_copy_role_groupid,id_copy_power]],
             ["添加用户", id_user_add ],
         ];
 
@@ -576,8 +576,8 @@ $(function(){
                     'edit_power_name': edit_power_name,
                     'edit_power_id' : edit_power_id,
                     'user_id':$('#user_add').attr("user_id"),
-                    'is_copy_power':is_copy_power.val(),
-                    'copy_groupid':id_copy_power.val()
+                    // 'is_copy_power':is_copy_power.val(),
+                    // 'copy_groupid':id_copy_power.val()
                 }
          
                 $.ajax({
