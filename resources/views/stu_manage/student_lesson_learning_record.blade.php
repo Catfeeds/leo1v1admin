@@ -69,6 +69,7 @@
                 <button class="btn btn-warning" id="id_add_stu_score" >添加考试成绩</button>
             </div>
             <div class="col-xs-6 col-md-12" >
+                <button class="btn " id="id_date_show" ></button>
                 <button class="btn " id="id_grade_show" ></button>
                 <button class="btn " id="id_subject_show" ></button>
             </div>

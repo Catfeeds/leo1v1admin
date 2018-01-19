@@ -26,6 +26,7 @@ interface RowData {
 	teacherid	:any;
 	lessonid	:any;
 	realname	:any;
+	userid	:any;
 	lesson_num	:any;
 	tea_cw_upload_time	:any;
 	tea_cw_url	:any;
@@ -36,6 +37,7 @@ interface RowData {
 	lesson_time	:any;
 	cw_url	:any;
 	cw_status_str	:any;
+	cw_status_flag	:any;
 	preview_status_str	:any;
 }
 
