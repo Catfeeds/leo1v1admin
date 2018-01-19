@@ -278,6 +278,11 @@ where lesson_start > $start_time and lesson_start < $end_time and lesson_type = 
         return $this->main_get_list($sql);
     }
 
+    public function get_all_teacher_phone_and_id(){
+        $sql = "select teacherid, phone from db_weiyi.t_teacher_info where is_test_user = 0 order by teacherid asc";
+        return $this->main_get_list($sql);
+    }
+
 
     public function get_province_info($phone){
         $sql = "select province ,city from db_weiyi.t_phone_info where id = $phone ";

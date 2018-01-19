@@ -314,10 +314,9 @@ where s.is_test_user = 0 and q.is_called_phone =1
 
 
 
-        $ret_info = $task->t_student_score_info->get_all_student_phone_and_id();
-
+        $ret_info = $task->t_student_score_info->get_all_teacher_phone_and_id();
         foreach ($ret_info as $key => $value) {
-            $userid = $value['userid'];
+            $userid = $value['teacherid'];
             $phone  = intval(trim($value['phone']));
             $num = substr($phone, 0,7);
             $ret = $task->t_student_score_info->get_province_info($num);
@@ -328,7 +327,7 @@ where s.is_test_user = 0 and q.is_called_phone =1
                 $province = "其它";
                 $city     = "其它";
             }
-            $task->t_student_info->field_update_list($userid,[
+            $task->t_teacher_info->field_update_list($userid,[
                 "phone_province" =>$province,
                 "phone_city" =>$city,
             ]);
