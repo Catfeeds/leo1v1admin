@@ -267,7 +267,6 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
             ['l.type = %u',E\Eseller_edit_log_type::V_3],
             'm.account_role=2',
             'm2.account_role=2',
-            'l.adminid<>l.uid',
             's.is_test_user=0',
         ];
         $this->where_arr_add_time_range($where_arr,'l.create_time',$start_time,$end_time);
