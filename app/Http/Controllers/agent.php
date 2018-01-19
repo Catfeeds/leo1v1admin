@@ -422,7 +422,7 @@ class agent extends Controller
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>tmk标记待定状态例子</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>号码</th><th>TMK状态</th><th>来源</th><th>例子首次进入时间</th><th>拨打人数</th><th>最后拨打人</th><th>最后一次回访时间</th><th>当前cc</th><th>是否在公海</th>';
+        echo '<th>号码</th><th>TMK状态</th><th>来源</th><th>例子首次进入时间</th><th>拨打人数</th><th>最后拨打人</th><th>最后一次回访时间</th><th>当前cc</th><th>是否出现在公海</th>';
         echo '</tr>';
         foreach($ret as $item){
             echo '<tr>';
@@ -431,10 +431,10 @@ class agent extends Controller
             echo '<td>'.$item['origin'].'</td>';
             echo '<td>'.date('Y-m-d H:i:s',$item['add_time']).'</td>';
             echo '<td>'.$item['call_admin_count'].'</td>';
-            echo '<td>'.$item['last_contact_cc'].'</td>';
+            echo '<td>'.$this->cache_get_account_nick($item['last_contact_cc']).'</td>';
             echo '<td>'.date('Y-m-d H:i:s',$item['last_revisit_time']).'</td>';
-            echo '<td>'.$item['account'].'</td>';
-            echo '<td>'.(($item['seller_resource_type']==1 && $item['admin_revisiterid']==0)?'是':'否').'</td>';
+            echo '<td>'.$this->cache_get_account_nick($item['admin_revisiterid']).'</td>';
+            echo '<td>'.(($item['seller_resource_type']==1 && $item['admin_revisiterid']==0 && $item['global_seller_student_status']!=50 && $item['lesson_count_all']==0 && $item['sys_invaild_flag']==0 && ($item['hand_free_count']+$item['auto_free_count'])<5)?'是':'否').'</td>';
             echo '</tr>';
         }
         echo '</table>';

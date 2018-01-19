@@ -191,6 +191,7 @@ class tongji_ex extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"first_revisit_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"first_contact_time");
+            $item['price'] = $item['price']/100;
         }
         return $this->pageView(__METHOD__, $ret_info);
     }
