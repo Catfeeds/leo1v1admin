@@ -145,9 +145,12 @@ class resource extends Controller
 
     //学科化标签
     public function sub_grade_book_tag(){
-        $subject       = $this->get_in_int_val('subject',1);
-        $grade         = $this->get_in_int_val('grade',201);
-        $bookid      = $this->get_in_int_val('bookid',4);
+        $subject       = $this->get_in_int_val('subject',-1);
+        $grade         = $this->get_in_int_val('grade',-1);
+        $bookid        = $this->get_in_int_val('bookid',-1);
+        $season_id     = $this->get_in_int_val('season_id',-1);
+        $resource_type      = $this->get_in_int_val('resource_type',-1);
+
         $page_num        = $this->get_in_page_num();
         $page_count      = $this->get_in_int_val('page_count',20);
         $book = $this->t_resource_agree_info->get_all_resource_type(-1, $subject, $grade);
@@ -162,17 +165,21 @@ class resource extends Controller
             }
         }
 
-        $ret_info = $this->t_sub_grade_book_tag->get_list($subject,$grade,$bookid,$page_num,$page_count);
+        $ret_info = $this->t_sub_grade_book_tag->get_list($subject,$grade,$bookid,$resource_type,$season_id,$page_num,$page_count);
         if($ret_info){
             foreach($ret_info['list'] as &$var){
                 $var['subject_str'] = E\Esubject::get_desc($var['subject']);
                 $var['grade_str'] = E\Egrade::get_desc($var['grade']);
                 $var['book_str'] = E\Eregion_version::get_desc($var['bookid']);
+                $var['resource_str'] = E\Eresource_type::get_desc($var['resource_type']);
+                $var['season_str'] = E\Eresource_season::get_desc($var['season_id']);
             }
         }
+        //dd($ret_info['list'] );
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801181119,
+            '_publish_version'    => 201801191339,
             'book'          => json_encode($book_arr),
+            'resource_type' => $resource_type
         ]);
     }
 
@@ -192,13 +199,19 @@ class resource extends Controller
         $subject       = $this->get_in_int_val('subject');
         $grade         = $this->get_in_int_val('grade');
         $bookid        = $this->get_in_int_val('bookid');
-
+        $season_id     = $this->get_in_int_val('season_id');
+        $resource_type      = $this->get_in_int_val('resource_type');
+        if($resource_type != 1){
+            $season_id = 0;
+        }
         $tag_arr       = $this->get_in_str_val('tag_arr');
    
         $data = [
             'subject'  => $subject,
             'grade'    => $grade,
             'bookid'   => $bookid,
+            'resource_type' => $resource_type,
+            'season_id' => $season_id,
             'tag'      => ''
         ];
         $i = 0;
@@ -219,12 +232,19 @@ class resource extends Controller
         $subject       = $this->get_in_int_val('subject');
         $grade         = $this->get_in_int_val('grade');
         $bookid         = $this->get_in_int_val('bookid');
+        $season_id     = $this->get_in_int_val('season_id',-1);
+        $resource_type      = $this->get_in_int_val('resource_type',-1);
+        if($resource_type != 1){
+            $season_id = 0;
+        }
         $tag         = trim($this->get_in_str_val('tag'));
 
         $data = [
             'subject'  => $subject,
             'grade'    => $grade,
             'bookid'   => $bookid,
+            'resource_type' => $resource_type,
+            'season_id' => $season_id,
             'tag'      => $tag
         ];
 
@@ -237,12 +257,19 @@ class resource extends Controller
         $subject       = $this->get_in_int_val('subject');
         $grade         = $this->get_in_int_val('grade');
         $bookid         = $this->get_in_int_val('bookid');
+        $season_id     = $this->get_in_int_val('season_id',-1);
+        $resource_type      = $this->get_in_int_val('resource_type',-1);
+        if($resource_type != 1){
+            $season_id = 0;
+        }
         $tag         = trim($this->get_in_str_val('tag'));
 
         $data = [
             'subject'  => $subject,
             'grade'    => $grade,
             'bookid'   => $bookid,
+            'resource_type' => $resource_type,
+            'season_id' => $season_id,
             'tag'      => $tag
         ];
 

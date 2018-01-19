@@ -3105,6 +3105,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
  
     }
 
+    //所有课信息
     public function get_student_all_lesson_info($userid,$start_time,$end_time){
         $where_arr = [
             ["lesson_start>=%u",$start_time,0],
@@ -3122,6 +3123,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     }
 
+    //课堂评价
     public function get_lesson_performance_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade,$page_flag=1){
         $where_arr = [
             ["l.lesson_start>=%u",$start_time,0],
@@ -3152,5 +3154,38 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         }
  
     }
+
+    //作业信息
+    public function get_lesson_homework_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade,$page_flag=1){
+        $where_arr = [
+            ["l.lesson_start>=%u",$start_time,0],
+            ["l.lesson_start<%u",$end_time,0],
+            ["l.userid=%u",$userid,-1],
+            ["l.subject=%u",$subject,-1],
+            ["l.grade=%u",$grade,-1],
+            "l.lesson_del_flag=0",
+            // "l.confirm_flag<2",
+            "l.lesson_type in (0,1,3)"
+        ];
+
+        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,l.confirm_flag,"
+                                  ."l.grade,l.teacherid,l.lessonid,t.realname,l.userid,"
+                                  ." l.lesson_num,l.teacher_effect,l.teacher_quality,"
+                                  ." l.stu_score,l.teacher_interact,l.stu_stability, "
+                                  ." l.teacher_comment,l.stu_comment,l.stu_performance"
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s order by l.lesson_start",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        if($page_flag==1){
+            return $this->main_get_list_by_page($sql,$page_info); 
+        }elseif($page_flag==2){
+            return $this->main_get_list($sql); 
+        }
+ 
+    }
+
 
 }

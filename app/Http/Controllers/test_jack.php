@@ -14,6 +14,12 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2018-01-01");
+        // $tt = $this->t_teacher_info->get_prize(240314);
+        // dd(json_decode($tt,true));
+        $ret_info = $this->t_teacher_lecture_appointment_info->get_tongji_data($start_time,$end_time);
+        dd($ret_info);
         // $json_data=file_get_contents( "http://10.31.92.162/account/add_small_class_order_info"  );
         // dd($json_data);
 
