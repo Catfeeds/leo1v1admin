@@ -265,6 +265,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
     public function get_seller_distribution_list($start_time,$end_time,$page_info){
         $where_arr = [
             ['l.type = %u',E\Eseller_edit_log_type::V_3],
+            'm.account_role=2',
             'm2.account_role=2',
             's.is_test_user=0',
         ];
