@@ -45,7 +45,7 @@ class no_auto_student_change_type extends Command
         $ret_info = $task->t_teacher_lecture_appointment_info->get_tongji_data($start_time,$end_time);
         
         $task->t_teacher_info->field_update_list(240314,[
-            "price"=>json_encode($ret_info)
+            "prize"=>json_encode($ret_info)
         ]);
         dd($ret_info);
 
