@@ -5494,6 +5494,7 @@ class user_manage_new extends Controller
     public function product_info(){
         $page_num  = $this->get_in_page_num();
         $deal_flag = $this->get_in_int_val('deal_flag',-1);
+        $lesson_problem = $this->get_in_int_val('lesson_problem',-1);
         $feedback_adminid = $this->get_in_int_val('feedback_adminid',-1);
         list($start_time,$end_time,$opt_date_type) = $this->get_in_date_range(date("Y-m-01"),0,1,[
             1 => array("pf.create_time","录入时间"),
@@ -5514,6 +5515,7 @@ class user_manage_new extends Controller
             }else{
                 $item['deal_flag_str'] = E\Eboolean::get_color_desc($item['deal_flag']);
             }
+            $item['lesson_problem_str'] = E\Elesson_problem::get_desc($item['lesson_problem']);
         }
 
         return $this->Pageview(__METHOD__,$ret_list,[]);

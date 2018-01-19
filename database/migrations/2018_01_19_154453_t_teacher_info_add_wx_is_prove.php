@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TLessonInfoAddIndex extends Migration
+class TTeacherInfoAddWxIsProve extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class TLessonInfoAddIndex extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_lesson_info', function( Blueprint $table)
-        {
-            $table->index('uuid');
+        Schema::table('db_weiyi.t_teacher_info', function (Blueprint $table){
+            t_field($table->string("wx_name",64),"微信联系方式");
         });
-
     }
 
     /**

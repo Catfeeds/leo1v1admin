@@ -74,9 +74,11 @@ class tom_do_once extends Command
         }
         */
 
-        $this->update_cc_no_called_count();
+        // $this->update_cc_no_called_count();
         // $this->update_tq_call_info();
         // $this->give_seller_new_count();
+        // $this->update_seller_edit_log();
+        $this->update_distribution_count();
     }
 
     /**
@@ -94,81 +96,91 @@ class tom_do_once extends Command
         for($i=1;$i<=$count+1;$i++){
             $start_time = $start;
             $end_time = strtotime('+1 month',$start);
-            $ret = $this->task->t_seller_student_new->get_all_list($start_time,$end_time);
+            // $ret = $this->task->t_seller_student_new->get_all_list($start_time,$end_time);
+            // foreach($ret as $item){
+            //     $arr = [];
+            //     $userid = $item['userid'];
+            //     $phone = $item['phone'];
+            //     $cc_called_count = $item['cc_called_count'];
+            //     $cc_no_called_count = $item['cc_no_called_count'];
+            //     $cc_no_called_count_new = $item['cc_no_called_count_new'];
+            //     $cc_first_called_cc = $item['first_called_cc'];
+            //     $cc_first_revisit_time = $item['first_revisit_time'];//刷
+            //     $cc_last_revisit_time = $item['last_revisit_time'];//刷
+            //     $cc_first_contact_time = $item['first_contact_time'];//刷
+            //     $cc_last_contact_time = $item['last_contact_time'];//刷
+            //     $cc_last_called_cc = $item['last_contact_cc'];//刷
+            //     $cc_first_get_cc = $item['first_get_cc'];
+            //     $cc_test_lesson_flag = $item['test_lesson_flag'];
+            //     $cc_orderid = $item['orderid'];
+
+            //     $called_count = $this->task->t_tq_call_info->get_called_count($phone,1);
+            //     $no_called_count = $this->task->t_tq_call_info->get_called_count($phone,0);
+
+            //     $first_called_cc = $this->task->t_tq_call_info->get_first_called_cc($phone);
+            //     $first_revisit_time = $this->task->t_tq_call_info->get_first_revisit_time($phone);
+            //     $last_revisit_time = $this->task->t_tq_call_info->get_first_revisit_time($phone,$desc='desc');
+            //     $first_contact_time = $this->task->t_tq_call_info->get_first_revisit_time($phone,$desc='asc',$called_flag=1);
+            //     $last_contact_time = $this->task->t_tq_call_info->get_first_revisit_time($phone,$desc='desc',$called_flag=1);
+            //     $last_called_cc = $this->task->t_tq_call_info->get_first_called_cc($phone,$desc='desc');
+            //     $first_get_cc = $this->task->t_tq_call_info->get_first_get_cc($phone,$desc='asc');
+            //     $first_test_lessonid = $this->task->t_lesson_info_b2->get_first_test_lesson($userid);
+            //     $orderid = $this->task->t_order_info->get_last_orderid_by_userid($userid);
+
+            //     if($cc_called_count != $called_count){
+            //         $arr['cc_called_count'] = $called_count;
+            //     }
+            //     if($cc_no_called_count_new != $no_called_count){
+            //         $arr['cc_no_called_count_new'] = $no_called_count;
+            //     }
+            //     if($cc_no_called_count==0 && $called_count==0 && $no_called_count>0){
+            //         $arr['cc_no_called_count'] = $no_called_count;
+            //     }
+            //     if($cc_no_called_count>0 && $called_count>0){
+            //         $arr['cc_no_called_count'] = 0;
+            //     }
+            //     if($cc_first_called_cc == 0){
+            //         $arr['first_called_cc'] = $first_called_cc;
+            //     }
+            //     if($cc_last_called_cc == 0){
+            //         $arr['last_contact_cc'] = $last_called_cc;
+            //     }
+            //     if($first_get_cc>0){
+            //         $arr['first_get_cc'] = $first_get_cc;
+            //     }
+            //     if($cc_test_lesson_flag == 0 && $first_test_lessonid>0){
+            //         $arr['test_lesson_flag'] = $first_test_lessonid;
+            //     }
+            //     if($cc_orderid == 0 && $orderid>0){
+            //         $arr['orderid'] = $orderid;
+            //     }
+            //     $arr['first_revisit_time'] = $first_revisit_time;
+            //     $arr['last_revisit_time'] = $last_revisit_time;
+            //     $arr['first_contact_time'] = $first_contact_time;
+            //     $arr['last_contact_time'] = $last_contact_time;
+            //     if(count($arr)>0){
+            //         if(isset($arr['first_get_cc'])){
+            //             echo $userid.':'.$cc_first_get_cc."=>".$first_get_cc."\n";
+            //         }
+            //         if(isset($arr['test_lesson_flag'])){
+            //             echo $userid.':'.$cc_test_lesson_flag."=>".$first_test_lessonid."\n";
+            //         }
+            //         if(isset($arr['orderid'])){
+            //             echo $userid.':'.$cc_orderid."=>".$orderid."\n";
+            //         }
+            //         $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
+            //     }
+            // }
+
+            $ret = $this->task->t_seller_student_new->get_all_list($start_time, $end_time);
             foreach($ret as $item){
-                $arr = [];
-                $userid = $item['userid'];
-                $phone = $item['phone'];
-                $cc_called_count = $item['cc_called_count'];
-                $cc_no_called_count = $item['cc_no_called_count'];
-                $cc_no_called_count_new = $item['cc_no_called_count_new'];
-                $cc_first_called_cc = $item['first_called_cc'];
-                $cc_first_revisit_time = $item['first_revisit_time'];//刷
-                $cc_last_revisit_time = $item['last_revisit_time'];//刷
-                $cc_first_contact_time = $item['first_contact_time'];//刷
-                $cc_last_contact_time = $item['last_contact_time'];//刷
-                $cc_last_called_cc = $item['last_contact_cc'];//刷
-                $cc_first_get_cc = $item['first_get_cc'];
-                $cc_test_lesson_flag = $item['test_lesson_flag'];
-                $cc_orderid = $item['orderid'];
-
-                $called_count = $this->task->t_tq_call_info->get_called_count($phone,1);
-                $no_called_count = $this->task->t_tq_call_info->get_called_count($phone,0);
-
-                $first_called_cc = $this->task->t_tq_call_info->get_first_called_cc($phone);
-                $first_revisit_time = $this->task->t_tq_call_info->get_first_revisit_time($phone);
-                $last_revisit_time = $this->task->t_tq_call_info->get_first_revisit_time($phone,$desc='desc');
-                $first_contact_time = $this->task->t_tq_call_info->get_first_revisit_time($phone,$desc='asc',$called_flag=1);
-                $last_contact_time = $this->task->t_tq_call_info->get_first_revisit_time($phone,$desc='desc',$called_flag=1);
-                $last_called_cc = $this->task->t_tq_call_info->get_first_called_cc($phone,$desc='desc');
-                $first_get_cc = $this->task->t_tq_call_info->get_first_get_cc($phone,$desc='asc');
-                $first_test_lessonid = $this->task->t_lesson_info_b2->get_first_test_lesson($userid);
-                $orderid = $this->task->t_order_info->get_last_orderid_by_userid($userid);
-
-                if($cc_called_count != $called_count){
-                    $arr['cc_called_count'] = $called_count;
-                }
-                if($cc_no_called_count_new != $no_called_count){
-                    $arr['cc_no_called_count_new'] = $no_called_count;
-                }
-                if($cc_no_called_count==0 && $called_count==0 && $no_called_count>0){
-                    $arr['cc_no_called_count'] = $no_called_count;
-                }
-                if($cc_no_called_count>0 && $called_count>0){
-                    $arr['cc_no_called_count'] = 0;
-                }
-                if($cc_first_called_cc == 0){
-                    $arr['first_called_cc'] = $first_called_cc;
-                }
-                if($cc_last_called_cc == 0){
-                    $arr['last_contact_cc'] = $last_called_cc;
-                }
-                if($first_get_cc>0){
-                    $arr['first_get_cc'] = $first_get_cc;
-                }
-                if($cc_test_lesson_flag == 0 && $first_test_lessonid>0){
-                    $arr['test_lesson_flag'] = $first_test_lessonid;
-                }
-                if($cc_orderid == 0 && $orderid>0){
-                    $arr['orderid'] = $orderid;
-                }
-                $arr['first_revisit_time'] = $first_revisit_time;
-                $arr['last_revisit_time'] = $last_revisit_time;
-                $arr['first_contact_time'] = $first_contact_time;
-                $arr['last_contact_time'] = $last_contact_time;
-                if(count($arr)>0){
-                    if(isset($arr['first_get_cc'])){
-                        echo $userid.':'.$cc_first_get_cc."=>".$first_get_cc."\n";
-                    }
-                    if(isset($arr['test_lesson_flag'])){
-                        echo $userid.':'.$cc_test_lesson_flag."=>".$first_test_lessonid."\n";
-                    }
-                    if(isset($arr['orderid'])){
-                        echo $userid.':'.$cc_orderid."=>".$orderid."\n";
-                    }
-                    $ret = $this->task->t_seller_student_new->field_update_list($userid,$arr);
+                $distribution_count = $this->task->t_seller_edit_log->get_item_count($item['userid']);
+                if($item['distribution_count'] != $distribution_count){
+                    $this->task->t_seller_student_new->field_update_list($item['userid'], ['distribution_count'=>$distribution_count]);
+                    echo $item['userid'].':'.$item['distribution_count'].'=>'.$distribution_count."\n";
                 }
             }
+
             $start = strtotime('+1 month',$start);
         }
     }
@@ -295,6 +307,41 @@ class tom_do_once extends Command
             }
             $ret = 1;
             echo $account.':'.$new_count_id.'=>'.$ret."\n";
+        }
+    }
+
+    public function update_seller_edit_log(){
+        $ret = $this->task->t_seller_edit_log->get_item_list();
+        foreach($ret as $item){
+            $id = $item['id'];
+            $adminid = $item['adminid'];
+            $phone = $item['phone'];
+            $start_time = $item['create_time'];
+            $end_time = time();
+            $first_revisit_time = $this->task->t_tq_call_info->get_item_row($adminid,$phone,$call_flag=-1,$start_time,$end_time);
+            $first_contact_time = $this->task->t_tq_call_info->get_item_row($adminid,$phone,$call_flag=1,$start_time,$end_time);
+            $arr = [];
+            if($first_revisit_time != $item['first_revisit_time']){
+                $arr['first_revisit_time'] = $first_revisit_time;
+            }
+            if($first_contact_time != $item['first_contact_time']){
+                $arr['first_contact_time'] = $first_contact_time;
+            }
+            if(count($arr)>0){
+                $this->task->t_seller_edit_log->field_update_list($id, $arr);
+                echo $id.':'.$first_revisit_time.'=>'.$first_contact_time."\n";
+            }
+        }
+    }
+
+    public function update_distribution_count(){
+        $ret = $this->task->t_seller_student_new->get_all_list($start_time=1460476800, $end_time=time());
+        foreach($ret as $item){
+            $distribution_count = $this->task->t_seller_edit_log->get_item_count($item['userid']);
+            if($item['distribution_count'] != $distribution_count){
+                $this->task->t_seller_student_new->field_update_list($item['userid'], ['distribution_count'=>$distribution_count]);
+                echo $item['userid'].':'.$item['distribution_count'].'=>'.$distribution_count."\n";
+            }
         }
     }
 

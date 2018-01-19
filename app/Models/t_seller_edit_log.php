@@ -293,4 +293,54 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         );
         return $this->main_get_list_by_page($sql, $page_info);
     }
+
+    public function get_row_by_adminid_new($adminid,$userid){
+        $where_arr = [];
+        $this->where_arr_add_int_field($where_arr, 'type', 3);
+        $this->where_arr_add_int_field($where_arr, 'adminid', $adminid);
+        $this->where_arr_add_str_field($where_arr, 'new', $userid);
+        $sql = $this->gen_sql_new(
+            " select * "
+            ." from %s "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+    public function get_item_list(){
+        $where_arr = [
+            ['type=%u',E\Eseller_edit_log_type::V_3],
+        ];
+        $sql = $this->gen_sql_new (
+            " select l.*,n.phone "
+            ." from %s l "
+            ." left join %s n on n.userid=l.new "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,t_seller_student_new::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    public function get_item_count($userid){
+        $where_arr = [
+            ['l.type=%u',E\Eseller_edit_log_type::V_3],
+            'm.account_role=2',
+        ];
+        $this->where_arr_add_str_field($where_arr, 'new', $userid);
+        $sql = $this->gen_sql_new (
+            " select count(l.id) "
+            ." from %s l "
+            ." left join %s m on m.uid=l.uid "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,t_manager_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
