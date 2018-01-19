@@ -320,4 +320,8 @@ from (select phone,max(start_time) as max_time from db_weiyi_admin.t_tq_call_inf
 where s.is_test_user = 0 and s.grade in (101,102,103)";
        return $this->main_get_list($sql);
     }
+
+    public function get_xx(){
+      dd(2);
+    }
 }

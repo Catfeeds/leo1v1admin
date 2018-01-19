@@ -211,7 +211,7 @@ class test_sam extends Command
         dd("finish");                                                                        
 
         */  
-        
+        /*
         $ret_info = $task->t_student_score_info->get_all_student_phone_and_id();
 
         foreach ($ret_info as $key => $value) {
@@ -232,7 +232,7 @@ class test_sam extends Command
             ]);
             echo "$userid $province  $city.fin\n";
         }   
-        
+        */
         /*
         $ret_info = $task->t_student_score_info->get_grade_by_info_1();
         foreach ($ret_info as $key => &$value) {
@@ -295,6 +295,45 @@ left join db_weiyi_admin.t_tq_call_info q on s.phone =q.phone
 where s.is_test_user = 0 and q.is_called_phone =1 
 
         */
+        /*
+        $time = [
+            ['start_time' => 1506787200,'end_time' => 1509465600], //10
+            ['start_time' => 1509465600,'end_time' => 1512057600], //11
+            ['start_time' => 1512057600,'end_time' => 1514736000], //12
+            ['start_time' => 1514736000,'end_time' => 1517414400], //1
+        ];
 
+        foreach ($time as $key => $value) {
+            $start_time = $value['start_time'];
+            $end_time   = $value['end_time'];
+            $ret = $task->t_student_score_info->get_xx($start_time,$end_time){
+
+            }
+        }
+        */
+
+
+
+        $ret_info = $task->t_student_score_info->get_all_student_phone_and_id();
+
+        foreach ($ret_info as $key => $value) {
+            $userid = $value['userid'];
+            $phone  = intval(trim($value['phone']));
+            $num = substr($phone, 0,7);
+            $ret = $task->t_student_score_info->get_province_info($num);
+            if($ret){
+                $province = $ret['province'];
+                $city     = $ret['city'];
+            }else{
+                $province = "其它";
+                $city     = "其它";
+            }
+            $task->t_student_info->field_update_list($userid,[
+                "phone_province" =>$province,
+                "phone_city" =>$city,
+            ]);
+            echo "$userid $province  $city.fin\n";
+        }   
+        
     }     
 }
