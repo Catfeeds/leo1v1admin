@@ -50,14 +50,14 @@ $(function(){
             success : function(result){
                 if(result.ret == 0){
                     obj.empty();
-                    obj.next().remove();
+                    obj.parent().find('span.tag_warn').remove();
                     var tag_info = result.tag;
              
                     if($(tag_info).length == 0) {
                         if(opt_type == 1){
                             obj.append('<option value="-1">全部</option>');
                         } else {
-                            obj.after('<p style="color:red;">请先选择科目、年级!</p>');
+                            obj.after('<span class="tag_warn" style="color:red;margin-left:8px">暂时未添加标签!</span>');
                         }
                     } else {
                         if(opt_type == 1){
@@ -65,7 +65,7 @@ $(function(){
                         }else{
                             var tag_str = '';
                         }
-       
+                        
                         $.each($(tag_info),function(i,item){                        
                             tag_str = tag_str + '<option value='+item.id+'>'+item.tag+'</option>';
                         });
@@ -249,6 +249,8 @@ $(function(){
         id_subject.val(g_args.subject);
         id_grade.val(g_args.grade);
 
+        var id_tag_four_search = $("<button class=\"btn btn-primary\" id=\"id_search_tag\" style=\"margin-left:10px\">搜索</button>");
+
         var arr= [
             ["角色", id_use_type],
             ["资源类型", id_resource_type],
@@ -257,7 +259,7 @@ $(function(){
             [tag_one_name, id_tag_one],
             [tag_two_name, id_tag_two],
             [tag_three_name, id_tag_three],
-            [tag_four_name, id_tag_four],
+            [tag_four_name, [ id_tag_four,id_tag_four_search]],
             [tag_five_name, id_tag_five],
             ["上传文件", id_other_file],
             ["上传文件", id_ff_file],
@@ -395,16 +397,16 @@ $(function(){
                 if( $('.resource').val() <6 || $('.resource').val() ==9){
                     get_book();
                 }
-                if( $('.resource').val() == 1 || $('.resource').val() == 3){
-                    get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
-                }
+                // if( $('.resource').val() == 1 || $('.resource').val() == 3){
+                //     get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
+                // }
             });
 
-            $('.tag_one').change(function(){
-                if( $('.resource').val() == 1 || $('.resource').val() == 3){
-                    get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
-                }
-            });
+            // $('.tag_one').change(function(){
+            //     if( $('.resource').val() == 1 || $('.resource').val() == 3){
+            //         get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
+            //     }
+            // });
 
             if( $('.resource').val() == 2 ){
                 $('#id_other_file,#id_ff_file').parent().parent().hide();
@@ -416,8 +418,7 @@ $(function(){
 
                 $('#id_other_file,#id_ff_file').parent().parent().hide();
                 get_book();
-                //get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
-                get_sub_grade_tag($('#id_subject').val(),$('#id_grade').val(),$('#id_tag_one option:eq(1)').val(),$('.tag_four'));
+                //get_sub_grade_tag(1,101,5,$('.tag_four'));
             }else if($('.resource').val() < 6){ //4,5
                 $('#id_les_file,#id_other_file,#id_tea_file,#id_stu_file').parent().parent().hide();
                 get_book();
@@ -448,7 +449,31 @@ $(function(){
             //仅对resource_type = 4,5
             get_qiniu(new_flag,false,false,'id_ff_file',0, 'ff_file', 'pdf,PDF');
 
-        },false,600);
+            $('#id_search_tag').click(function(){
+                var grade = $('.grade').val();
+                var subject = $('.subject').val();
+                var bookid = $('.tag_one').val();
+                var resource = $('.resource').val();
+                var tag_two = $('.tag_two').val();
+                var obj = $('.tag_four');
+                if( grade == null){
+                    obj.after('<span class="tag_warn" style="color:red;margin-left:8px">请先选择年级!</span>');
+                    return false;
+                }
+                if( subject == null){
+                    obj.after('<span class="tag_warn" style="color:red;margin-left:8px">请先选择科目!</span>');
+                    return false;
+                }
+                if( bookid == null){
+                    obj.after('<span class="tag_warn" style="color:red;margin-left:8px">请先选择教材!</span>');
+                    return false;
+                }
+                get_sub_grade_tag(subject,grade,bookid,obj);
+                console.log(grade);
+                console.log(subject);
+                console.log(bookid);
+            })
+        },false,700);
     };
 
     var change_tag = function(val){
@@ -473,7 +498,7 @@ $(function(){
             $('.tag_two').parent().prev().text('春署秋寒');
             $('.tag_three').parent().parent().hide();
             $('.tag_five').parent().parent().hide();
-            get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
+            //get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
             $('.tag_four').parent().prev().text('学科化标签');
             $('.tag_four').parent().parent().show();
 
@@ -486,7 +511,7 @@ $(function(){
             Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
             Enum_map.append_option_list("resource_free",$('.tag_two'),true);
             Enum_map.append_option_list("resource_diff_level",$('.tag_three'),true);
-            get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
+            //get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
             $('.tag_one').parent().prev().text('教材版本');
             $('.tag_two').parent().prev().text('试听类型');
             $('.tag_three').parent().prev().text('难度类型');
