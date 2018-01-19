@@ -278,6 +278,11 @@ where lesson_start > $start_time and lesson_start < $end_time and lesson_type = 
         return $this->main_get_list($sql);
     }
 
+    public function get_all_teacher_phone_and_id(){
+        $sql = "select teacherid, phone from db_weiyi.t_teacher_info where is_test_user = 0 order by teacherid asc";
+        return $this->main_get_list($sql);
+    }
+
 
     public function get_province_info($phone){
         $sql = "select province ,city from db_weiyi.t_phone_info where id = $phone ";
@@ -319,5 +324,9 @@ from (select phone,max(start_time) as max_time from db_weiyi_admin.t_tq_call_inf
  left join db_weiyi.t_student_info s on s.phone = k.phone
 where s.is_test_user = 0 and s.grade in (101,102,103)";
        return $this->main_get_list($sql);
+    }
+
+    public function get_xx(){
+      dd(2);
     }
 }

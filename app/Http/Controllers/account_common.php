@@ -218,7 +218,7 @@ class account_common extends Controller
             
  
         }
-        return $this->output_succ();
+        return $this->output_succ(["userid"=>$userid]);
  
     }
 

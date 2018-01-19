@@ -3483,16 +3483,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             'tmk_student_status=1',
         ];
         $sql=$this->gen_sql_new(
-            " select n.*,s.origin,m.account,m2.account last_contact_account,s.lesson_count_all"
+            " select n.*,s.origin,s.lesson_count_all"
             ." from %s n "
             ." left join %s s on s.userid=n.userid "
-            ." left join %s m on m.uid=n.admin_revisiterid "
-            ." left join %s m2 on m.uid=n.last_contact_cc "
             ." where %s order by n.add_time desc "
             , self::DB_TABLE_NAME
             , t_student_info::DB_TABLE_NAME
-            , t_manager_info::DB_TABLE_NAME
-            , t_manager_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);

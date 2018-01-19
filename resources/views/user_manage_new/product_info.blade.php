@@ -29,6 +29,15 @@
                 </div>
             </div>
 
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">问题类型</span>
+                    <select class="opt-change form-control " id="id_lesson_problem" >
+                    </select>
+                </div>
+            </div>
+
+
         </div>
         <hr/>
         <table   class="common-table"   >
@@ -38,6 +47,7 @@
                     <td>问题收集人</td>
                     <td>问题录入时间</td>
                     <td>问题描述</td>
+                    <td>问题类型</td>
                     <td>课程链接</td>
                     <td>原因</td>
                     <td>解决方案</td>
@@ -59,6 +69,7 @@
                         <td >{{@$var["record_nick"]}}</td>
                         <td >{{@$var["create_time"]}}</td>
                         <td >{{@$var["describe_msg"]}}</td>
+                        <td ></td>
                         <td >
                             <a target="_blank" href="{{$var['lesson_url']}}">课程链接</a>
                         </td>
