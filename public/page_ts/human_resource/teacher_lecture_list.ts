@@ -361,7 +361,7 @@ $(function(){
                     return false;
                 }
 
-                if(acc==account  || account_role=="10" || account_role=="11"  || account_role=="12" || account_role=="8" ){
+                if(acc==account  || account_role=="10" || account_role=="11"  || account_role=="12" || (account_role=="8" && acc!="ivy" )){
                     if($.check_in_phone()){
                         var w = $.check_in_phone()?329:558;
                         var h = w/4*3;
