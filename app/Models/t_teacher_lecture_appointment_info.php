@@ -1400,7 +1400,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." sum(if(t.train_through_new=1,1,0)) memeber_num"
                                   ." from %s ta left join %s l on ta.phone = l.phone and not exists(select 1 from %s where add_time<l.add_time)"
                                   ." left join %s t on ta.phone = t.phone"
-                                  ." left join %s ll on ll.userid = t.teacherid and ll.lesson_start>0 and ll.lesson_status>1 and ll.lesson_del_flag=0 and ll.train_type=5 and not exists (select 1 from %s where userid = ll.userid and lesson_start>0 and lesson_status>1 and lesson_del_flag=0 and train_type=4 and lesson_start<ll.lesson_start)"
+                                  ." left join %s ll on ll.userid = t.teacherid and ll.lesson_start>0 and ll.lesson_status>1 and ll.lesson_del_flag=0 and ll.train_type=5 and not exists (select 1 from %s where userid = ll.userid and lesson_start>0 and lesson_status>1 and lesson_del_flag=0 and train_type=5 and lesson_start<ll.lesson_start)"
                                   ." left join %s m on ta.accept_adminid = m.uid"
                                   ." where %s group by m.name ",
                                   self::DB_TABLE_NAME,
