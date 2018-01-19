@@ -1123,6 +1123,9 @@ class stu_manage extends Controller
             $show_post_flag=1;
         }
 
+        # 因为系统权限问题 临时全部开放[James -2018-01-19]
+        $show_post_flag=1;
+
         return $this->pageView(__METHOD__,null,
                                [
                                    "init_data"=> $row,
@@ -1708,6 +1711,8 @@ class stu_manage extends Controller
 
         }elseif($current_id==4){
             $ret_info = $this->t_lesson_info_b3->get_lesson_homework_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade);
+            $list = $this->t_lesson_info_b3->get_lesson_homework_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
+
 
         }elseif($current_id==5){
 

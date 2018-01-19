@@ -74,10 +74,15 @@ class resource extends Controller
                 $tag_arr['tag_five']['menu'] => 'tag_five',
             ]);
             $item['tag_one_str'] = E\Eregion_version::get_desc($item['tag_one']);
-            $item['tag_five_str'] = E\Eresource_volume::get_desc($item['tag_five']);
-            // if($item['tag_four'] != -1) {
-            //     $item['tag_four_str'] = \App\Helper\Utils::get_sub_grade_tag($item['subject'],$item['grade'])[ $item['tag_four'] ];
-            // }
+
+            if( $item['resource_type'] == 1 ){
+                $item['tag_five_str'] = E\Eresource_diff_level::get_desc($item['tag_five']);
+            }else{
+                $item['tag_five_str'] = E\Eresource_volume::get_desc($item['tag_five']);
+            }
+            if($item['resource_type'] == 3 ) {
+                $item['tag_three_str'] = E\Eresource_diff_level::get_desc($item['tag_three']);
+            }
 
         }
         //dd($ret_info['list']);
@@ -135,8 +140,10 @@ class resource extends Controller
         $subject       = $this->get_in_int_val('subject',-1);
         $grade         = $this->get_in_int_val('grade',-1);
         $bookid        = $this->get_in_int_val('bookid');
+        $resource_type        = $this->get_in_int_val('resource_type');
+        $season_id        = $this->get_in_int_val('season_id');
         if(!empty($bookid)){
-            $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($subject,$grade,$bookid);
+            $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($subject,$grade,$bookid,$resource_type,$season_id);
         }
 
         return $this->output_succ(['tag' => $data]);

@@ -59,7 +59,7 @@ $(function(){
 	  $('#id_start_date').datetimepicker({
 		    lang:'ch',
 		    timepicker:false,
-		    format:'Y.m.d',
+		    format:'Y-m-d',
 	      onChangeDateTime :function(){
 		       load_data();
         }
@@ -68,7 +68,7 @@ $(function(){
 	  $('#id_end_date').datetimepicker({
 		    lang:'ch',
 		    timepicker:false,
-		    format:'Y.m.d',
+		    format:'Y-m-d',
 		    onChangeDateTime :function(){
 		       load_data();
         }
@@ -199,7 +199,7 @@ $(function(){
     $('#id_start_date,#id_end_date').change(function(){
         var start=$("#id_start_date").val();
         var end=$("#id_end_date").val();
-        var vv = start+"-"+end;
+        var vv = start+"~"+end;
         var htm = "<label class=\"fa fa-times\"></label>"+vv;
         if(start=="" && end==""){
             $("#id_date_show").hide();
@@ -230,7 +230,7 @@ $(function(){
     if(g_args.start_date=="" && g_args.end_date==""){
         $("#id_date_show").hide();
     }else{
-        var vv = $("#id_start_date").val()+"-"+$("#id_end_date").val();
+        var vv = $("#id_start_date").val()+"~"+$("#id_end_date").val();
         var htm = "<label class=\"fa fa-times\"></label>"+vv;
         $("#id_date_show").html(htm);
         $("#id_date_show").show();

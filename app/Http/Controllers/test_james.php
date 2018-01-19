@@ -407,9 +407,20 @@ class test_james extends Controller
 
     # 二维码生成
     public function getQrCode(){
+        $power_list = json_decode(session("power_list"),true);
+
+        dd($power_list);
+        $text         = "http://$www_url/market-invite/index.html?p_phone=".$phone."&type=2";
+        $qr_url       = "/tmp/".$phone.".png";
+        $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
+        \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
+
+        exit;
+
         $qr_url = public_path('wximg').'/test_james.png';
         $qr_code_url = "http://www.leo1v1.com/market/index.html?%E6%9C%8D%E5%8A%A1%E5%8F%B7%E2%80%94%E8%8F%9C%E5%8D%95%E6%A0%8F=";
         $a = \App\Helper\Utils::get_qr_code_png($qr_code_url,$qr_url,5,4,3);
+        echo $qr_url;
         dd($a);
     }
 
