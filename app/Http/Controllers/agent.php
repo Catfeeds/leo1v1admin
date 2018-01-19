@@ -431,9 +431,9 @@ class agent extends Controller
             echo '<td>'.$item['origin'].'</td>';
             echo '<td>'.date('Y-m-d H:i:s',$item['add_time']).'</td>';
             echo '<td>'.$item['call_admin_count'].'</td>';
-            echo '<td>'.$item['last_contact_account'].'</td>';
+            echo '<td>'.$this->cache_get_account_nick($item['last_contact_cc']).'</td>';
             echo '<td>'.date('Y-m-d H:i:s',$item['last_revisit_time']).'</td>';
-            echo '<td>'.$item['account'].'</td>';
+            echo '<td>'.$this->cache_get_account_nick($item['admin_revisiterid']).'</td>';
             echo '<td>'.(($item['seller_resource_type']==1 && $item['admin_revisiterid']==0 && $item['global_seller_student_status']!=50 && $item['lesson_count_all']==0 && $item['sys_invaild_flag']==0 && ($item['hand_free_count']+$item['auto_free_count'])<5)?'是':'否').'</td>';
             echo '</tr>';
         }
