@@ -1664,24 +1664,24 @@ class stu_manage extends Controller
                 }               
                 if($val["confirm_flag"]<2){
                     $all_num++;
-                    $val['stu_intro']   = json_decode($val['stu_performance'],true);
-                    $val['stu_point_performance']='';
-                    if(isset($val['stu_intro']['point_note_list']) && is_array($val['stu_intro']['point_note_list'])){
-                        foreach(@$val['stu_intro']['point_note_list'] as $val){
-                            $val['stu_point_performance'].=$val['point_name'].":".$val['point_stu_desc']."。";
+                    $stu_intro   = json_decode($val['stu_performance'],true);
+                    $stu_point_performance='';
+                    if(isset($stu_intro['point_note_list']) && is_array($stu_intro['point_note_list'])){
+                        foreach(@$stu_intro['point_note_list'] as $val){
+                            $stu_point_performance .=$val['point_name'].":".$val['point_stu_desc']."。";
                         }
                     }
-                    if(isset($val['stu_intro']['stu_comment']) && $val['stu_intro']['stu_comment']!=''){
-                        if(is_array($val['stu_intro']['stu_comment'])){
-                            $str = json_encode($val['stu_intro']['stu_comment']);
+                    if(isset($stu_intro['stu_comment']) && $stu_intro['stu_comment']!=''){
+                        if(is_array($stu_intro['stu_comment'])){
+                            $str = json_encode($stu_intro['stu_comment']);
                             $str = $this->get_test_lesson_comment_str($str);
                         }else{
-                            $str = $val['stu_intro']['stu_comment'];
+                            $str = $stu_intro['stu_comment'];
                         }
                         //   $str = $this->get_test_lesson_comment_str($str);
-                        $val['stu_point_performance'].=PHP_EOL."总体评价:".$str;
+                        $stu_point_performance .=PHP_EOL."总体评价:".$str;
                     }
-                    $comment = trim($val['stu_point_performance'],"\"");
+                    $comment = trim($stu_point_performance,"\"");
                     if(!empty($comment)){
                         $tea_comment++;
                     }
