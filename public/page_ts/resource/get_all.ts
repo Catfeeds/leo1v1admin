@@ -70,6 +70,9 @@ $(function(){
                             tag_str = tag_str + '<option value='+item.id+'>'+item.tag+'</option>';
                         });
                         obj.append(tag_str);
+                        if(opt_type == 1){
+                            obj.val(g_args.tag_four);
+                        }
                     }
                 } else {
                     alert(result.info);
@@ -129,12 +132,6 @@ $(function(){
         Enum_map.append_option_list(tag_one, $("#id_tag_one"), );
     }else{
         $("#id_tag_one").append('<option value="-1">全部</option>');
-    }
-
-    //测试
-    if($("#id_tag_one").children().length < 2){
-        var text_book = '<option value="1">人教版</option><option value="2">苏教版</option><option value="3">沪教版</option><option value="4">浙教版</option>';
-        $("#id_tag_one").append(text_book);
     }
 
     if(tag_two != ''){
@@ -362,6 +359,7 @@ $(function(){
                     $(this).parent().parent().hide();
                 }
             });
+
             $('.use').change(function(){
                 $('.resource').empty();
                 Enum_map.append_option_list("resource_type",id_resource_type,true,use_res[$(this).val()]);
@@ -418,8 +416,8 @@ $(function(){
 
                 $('#id_other_file,#id_ff_file').parent().parent().hide();
                 get_book();
-                get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
-
+                //get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
+                get_sub_grade_tag($('#id_subject').val(),$('#id_grade').val(),$('#id_tag_one option:eq(1)').val(),$('.tag_four'));
             }else if($('.resource').val() < 6){ //4,5
                 $('#id_les_file,#id_other_file,#id_tea_file,#id_stu_file').parent().parent().hide();
                 get_book();
@@ -937,6 +935,8 @@ $(function(){
         $('#id_tag_one').val(-1);
         $('#id_tag_two').val(-1);
         $('#id_tag_three').val(-1);
+        $('#id_tag_four').val(-1);
+        $('#id_tag_five').val(-1);
     });
     var color_id = 0,color_res = 0,color_flag = 0;
     $('.common-table tr').each(function(i){

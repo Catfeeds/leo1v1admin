@@ -97,7 +97,7 @@ class uploadPdfChange extends Command
         $output = curl_exec($ch);
         curl_close($ch);
         $ret_arr = json_decode($output,true);
-        return $ret_arr;
+        return $ret_arr['data'];
     }
 
     public function updateLessonUUid($lessonid,$uuid){

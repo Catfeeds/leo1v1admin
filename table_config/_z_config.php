@@ -131,6 +131,7 @@ return array(
 
     ["db_weiyi_admin","t_admin_card_log","logtime","cardid"],
     ["db_weiyi_admin","t_id_opt_log","id"],
+    ["db_weiyi_admin","t_seller_get_new_log","id"],
     ["db_weiyi_admin","t_seller_new_count","new_count_id"],
     ["db_weiyi_admin","t_seller_new_count_get_detail","id"],
     ["db_weiyi_admin","t_online_count_log","logtime"],
@@ -237,6 +238,7 @@ return array(
     ["db_weiyi","t_teacher_advance_list", "start_time","teacherid"],
     ["db_weiyi","t_teaching_core_data", "time","type"],
     ["db_weiyi","t_phone_info","id"],
+    ["db_weiyi","t_subject_grade_config", "adminid","type"],
 
     ["db_weiyi","t_origin_key", "value"],
     ["db_weiyi","t_wx_openid_bind","openid","role"] ,

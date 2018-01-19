@@ -1510,23 +1510,7 @@ class stu_manage extends Controller
                 "subject_list"=>$subject_arr,
                 "grade_list"=>$grade_arr,
             ]);
-        }elseif($current_id==2){
-            $tt=[
-                array(0,"","未设置"),
-                array(1,"","调课-家长调课"),
-                array(2,"","调课-老师调课"),
-                array(3,"","调课-设备原因"),
-                array(4,"","调课-网络原因"),
-                array(11,"","请假-学生请假"),
-                array(12,"","请假-老师请假"),
-                array(13,"","请假-设备原因"),
-                array(14,"","请假-网络原因"),
-                array(20,"","学生旷课"),
-                array(21,"","老师旷课"),
-                array(22,"","教学事故"),
-                array(23,"","老师迟到"),
-            ];
-
+        }elseif($current_id==2){          
             $ret_info = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade);
             $list = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
             foreach($ret_info["list"] as &$item){
@@ -1541,48 +1525,53 @@ class stu_manage extends Controller
                     $item["stu_praise"] = "—";
                     $item["tea_attend_str"] = "—";
                     $item["stu_attend_str"] = "—";
-                }elseif($item["confirm_flag"]>=2){
-                    $item["tea_login_num"] = "—";
-                    $item["stu_login_num"] = "—";
-                    $item["parent_login_num"] = "—";
-                    $item["stu_praise"] = "—";
+                }else{
 
-                    if(in_array($item["lesson_cancel_reason_type"],[2,12,21,22,23])){
+                    if(in_array($item["lesson_cancel_reason_type"],[2,12,21]) && $item["confirm_flag"]>=2){
                         $item["tea_attend_str"] = E\Elesson_cancel_reason_type::get_desc($item["lesson_cancel_reason_type"]);
                         $item["stu_attend_str"] = "—";
-                    }elseif(in_array($item["lesson_cancel_reason_type"],[1,11])){
+                        $item["tea_login_num"] = "—";
+                        $item["stu_login_num"] = "—";
+                        $item["parent_login_num"] = "—";
+                        $item["stu_praise"] = "—";
+
+                    }elseif(in_array($item["lesson_cancel_reason_type"],[1,11,20]) && $item["confirm_flag"]>=2){
                         $item["stu_attend_str"] = E\Elesson_cancel_reason_type::get_desc($item["lesson_cancel_reason_type"]);
                         $item["tea_attend_str"] = "—";
+                        $item["tea_login_num"] = "—";
+                        $item["stu_login_num"] = "—";
+                        $item["parent_login_num"] = "—";
+                        $item["stu_praise"] = "—";
+
 
                     }else{
-                        $item["stu_attend_str"] = $item["tea_attend_str"] =E\Elesson_cancel_reason_type::get_desc($item["lesson_cancel_reason_type"]);
-                    }
-                }else{
-                    $stu_login_time = @$list[$item["lessonid"]]["stu_login_time"]; 
-                    $stu_logout_time = @$list[$item["lessonid"]]["stu_logout_time"]; 
-                    $tea_login_time = @$list[$item["lessonid"]]["tea_login_time"]; 
-                    $tea_logout_time = @$list[$item["lessonid"]]["tea_logout_time"];
-                    $lesson_start = ($item["lesson_start"]+59);
-                    $lesson_end = $item["lesson_end"];
-                    if($stu_login_time>$lesson_start && $stu_logout_time<$lesson_end){
-                        $item["stu_attend_str"]="迟到且早退";
-                    }elseif($stu_login_time>$lesson_start){
-                        $item["stu_attend_str"]="迟到";
-                    }elseif($stu_logout_time<$lesson_end){
-                        $item["stu_attend_str"]="早退";
-                    }else{
-                        $item["stu_attend_str"]="正常";
-                    }
-                    if($tea_login_time>$lesson_start && $tea_logout_time<$lesson_end){
-                        $item["tea_attend_str"]="迟到且早退";
-                    }elseif($tea_login_time>$lesson_start){
-                        $item["tea_attend_str"]="迟到";
-                    }elseif($tea_logout_time<$lesson_end){
-                        $item["tea_attend_str"]="早退";
-                    }else{
-                        $item["tea_attend_str"]="正常";
-                    }
+                        // $item["stu_attend_str"] = $item["tea_attend_str"] =E\Elesson_cancel_reason_type::get_desc($item["lesson_cancel_reason_type"]);
+                        $stu_login_time = @$list[$item["lessonid"]]["stu_login_time"]; 
+                        $stu_logout_time = @$list[$item["lessonid"]]["stu_logout_time"]; 
+                        $tea_login_time = @$list[$item["lessonid"]]["tea_login_time"]; 
+                        $tea_logout_time = @$list[$item["lessonid"]]["tea_logout_time"];
+                        $lesson_start = ($item["lesson_start"]+59);
+                        $lesson_end = $item["lesson_end"];
+                        if($stu_login_time>$lesson_start && $stu_logout_time<$lesson_end){
+                            $item["stu_attend_str"]="迟到且早退";
+                        }elseif($stu_login_time>$lesson_start){
+                            $item["stu_attend_str"]="迟到";
+                        }elseif($stu_logout_time<$lesson_end){
+                            $item["stu_attend_str"]="早退";
+                        }else{
+                            $item["stu_attend_str"]="正常";
+                        }
+                        if($tea_login_time>$lesson_start && $tea_logout_time<$lesson_end){
+                            $item["tea_attend_str"]="迟到且早退";
+                        }elseif($tea_login_time>$lesson_start){
+                            $item["tea_attend_str"]="迟到";
+                        }elseif($tea_logout_time<$lesson_end){
+                            $item["tea_attend_str"]="早退";
+                        }else{
+                            $item["tea_attend_str"]="正常";
+                        }
 
+                    }
                 }
 
             }
@@ -1596,11 +1585,7 @@ class stu_manage extends Controller
                     $grade_arr[$val["grade"]]=$val["grade"];
                 }
                 if($val["lesson_status"]>=2){
-                    if($val["confirm_flag"]>=2){                      
-                        if(!in_array($val["lesson_cancel_reason_type"],[2,12,21,22,23])){
-                            $normal_all++;
-                        }
-                    }else{
+                    if(!($val["confirm_flag"]>=2 && in_array($val["lesson_cancel_reason_type"],[2,12,21]))){
                         $stu_login_time = @$list[$val["lessonid"]]["stu_login_time"]; 
                         $stu_logout_time = @$list[$val["lessonid"]]["stu_logout_time"]; 
                         $tea_login_time = @$list[$val["lessonid"]]["tea_login_time"]; 
@@ -1631,6 +1616,53 @@ class stu_manage extends Controller
 
         }elseif($current_id==3){
             $ret_info = $this->t_lesson_info_b3->get_lesson_performance_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade);
+            $list = $this->t_lesson_info_b3->get_lesson_performance_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
+            foreach($ret_info["list"] as &$item){
+                E\Egrade::set_item_value_str($item);
+                E\Esubject::set_item_value_str($item);
+                \App\Helper\Utils::unixtime2date_range($item);             
+                $item["lesson_num"] = @$all_lesson[$item["lessonid"]];
+
+                         
+                $item['stu_intro']   = json_decode($item['stu_performance'],true);
+                $item['stu_point_performance']='';
+                if(isset($item['stu_intro']['point_note_list']) && is_array($item['stu_intro']['point_note_list'])){
+                    foreach(@$item['stu_intro']['point_note_list'] as $val){
+                        $item['stu_point_performance'].=$val['point_name'].":".$val['point_stu_desc']."。";
+                    }
+                }
+                $item["stu_comment"] = $this->get_test_lesson_comment_str($item["stu_comment"],1);
+                if(isset($item['stu_intro']['stu_comment']) && $item['stu_intro']['stu_comment']!=''){
+                    if(is_array($item['stu_intro']['stu_comment'])){
+                        $str = json_encode($item['stu_intro']['stu_comment']);
+                        $str = $this->get_test_lesson_comment_str($str);
+                    }else{
+                        $str = $item['stu_intro']['stu_comment'];
+                    }
+                    //   $str = $this->get_test_lesson_comment_str($str);
+                    $item['stu_point_performance'].=PHP_EOL."总体评价:".$str;
+                }
+
+
+            }
+            $cw_num=$pre_num=0;
+            foreach($list as $val){
+                if(!isset($subject_arr[$val["subject"]])){
+                    $subject_arr[$val["subject"]]=$val["subject"];
+                }
+                if(!isset($grade_arr[$val["grade"]])){
+                    $grade_arr[$val["grade"]]=$val["grade"];
+                }               
+
+
+            }
+            $pre_rate = $cw_num==0?0:round($pre_num/$cw_num*100,2);
+            return $this->pageView(__METHOD__,$ret_info,[
+                "pre_rate"=>$pre_rate,
+                "subject_list"=>$subject_arr,
+                "grade_list"=>$grade_arr,
+            ]);
+
             dd($ret_info);
 
 
