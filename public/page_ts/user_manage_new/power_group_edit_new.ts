@@ -471,48 +471,43 @@ $(function(){
         })
     })
 
+    var treeObj = $.fn.zTree.getZTreeObj('treeDemo');
+    var allNodes = {};
+    var showPart = 1; //默认显示部分根节点
     $("#id_show_power").on("click",function(){ // 显示有权限部分
-        var treeObj = $.fn.zTree.getZTreeObj('treeDemo');
-        var nodes = treeObj.getCheckedNodes(false);
-        //alert(nodes.length);
-        for (var i = 0; i < nodes.length; i ++) {
-            if (nodes[i].isParent) {
-                var child = nodes[i].children;
-                var flag = true;
-                for (var j = 0; j < child.length; j ++) {
-                    if (child[j].checked == true) {
-                        flag = false;
-                        break;
-                    }
-                    if (child[j].isParent && child[j].checked == false) {
-                        var three = child[j].children;
-                        for(var k = 0; k < three.length; k ++) {
-                            if (three[k].checked == true) {
-                                flag = false;
-                                break;
-                            }
-                        }
-                    }
+        var allNodes = treeObj.getNodesByFilter(function (node) { return ( node.level == 0)});
+        //console.log(allNodes);
+        if(showPart == 1){
+            showPart = 2;
+            $(this).text('显示所有根节点');
+            for (var i = 0; i < allNodes.length; i ++) {
+                var obj = $("#treeDemo_"+allNodes[i].id+"_check");
+                var className = obj.attr('class');
+                if( className.indexOf("checkbox_true_full") < 0 && className.indexOf("checkbox_false_part") < 0){
+                    treeObj.hideNode(allNodes[i]);
                 }
-                if (flag == true) {
-                    treeObj.hideNode(nodes[i]);
-                }
-            } else {
-                treeObj.hideNode(nodes[i]);
             }
+        }else{
+            showPart = 1;
+            $(this).text('显示有权限根节点');
+            for (var i = 0; i < allNodes.length; i ++) {
+                treeObj.showNode(allNodes[i]);
+            } 
         }
     });
 
+    var showWhole = 1;
     $("#id_show_all_power").on("click",function(){ // 显示所有权限
-        var treeObj = $.fn.zTree.getZTreeObj('treeDemo');
         //var nodes = treeObj.getNodesByParam("isHidden", true);
-        var nodes = treeObj.getNodes();
-        if (nodes[0].open == true) {
-            //treeObj.hideNodes(nodes);
-            treeObj.expandAll(false);
-        } else {
-            treeObj.showNodes(nodes);
+        if (showWhole == 1) {
+            showWhole = 2;
+            $(this).text('隐藏所有节点');
             treeObj.expandAll(true);
+        } else {
+            showWhole = 1;
+            $(this).text('显示所有节点');
+            treeObj.expandAll(false);
+
         }
     });
 

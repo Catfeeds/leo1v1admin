@@ -5515,6 +5515,7 @@ class user_manage_new extends Controller
             }else{
                 $item['deal_flag_str'] = E\Eboolean::get_color_desc($item['deal_flag']);
             }
+            $item['lesson_problem_str'] = E\Elesson_problem::get_desc($item['lesson_problem']);
         }
 
         return $this->Pageview(__METHOD__,$ret_list,[]);

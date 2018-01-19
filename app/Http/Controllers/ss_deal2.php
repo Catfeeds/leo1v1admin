@@ -1096,6 +1096,11 @@ class ss_deal2 extends Controller
         $remark     = $this->get_in_str_val('remark');
         $record_adminid = $this->get_account_id();
 
+        $lesson_problem = $this->get_in_int_val('lesson_problem');
+        $img_url   = $this->get_in_str_val('img_url');
+        $video_url = $this->get_in_str_val('video_url');
+        $zip_url   = $this->get_in_str_val('zip_url');
+
         $ret = $this->t_product_feedback_list->row_insert([
             "feedback_adminid" => $feedback_adminid,
             "record_adminid"   => $record_adminid,
@@ -1107,7 +1112,11 @@ class ss_deal2 extends Controller
             "teacher_id"   => $teacher_id,
             "deal_flag"    => $deal_flag,
             "remark"       => $remark,
-            "create_time"  => time()
+            "create_time"  => time(),
+            "lesson_problem" => $lesson_problem,
+            "img_url"      => $img_url,
+            "video_url"    => $video_url,
+            "zip_url"      => $zip_url
         ]);
 
         return $this->output_succ();
@@ -1146,6 +1155,11 @@ class ss_deal2 extends Controller
         $remark     = $this->get_in_str_val('remark');
         $record_adminid = $this->get_account_id();
         $feedback_adminid = $this->get_in_int_val('feedback_id');
+        $lesson_problem = $this->get_in_int_val('lesson_problem');
+        $img_url   = $this->get_in_str_val('img_url');
+        $video_url = $this->get_in_str_val('video_url');
+        $zip_url   = $this->get_in_str_val('zip_url');
+
 
         $ret = $this->t_product_feedback_list->field_update_list($id,[
             "feedback_adminid" => $feedback_adminid,
@@ -1158,7 +1172,11 @@ class ss_deal2 extends Controller
             "teacher_id"   => $teacher_id,
             "deal_flag"    => $deal_flag,
             "remark"       => $remark,
-            "create_time"  => time()
+            // "create_time"  => time(),
+            "lesson_problem" => $lesson_problem,
+            "img_url"      => $img_url,
+            "video_url"    => $video_url,
+            "zip_url"      => $zip_url
         ]);
 
         return $this->output_succ();

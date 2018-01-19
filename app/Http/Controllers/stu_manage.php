@@ -1737,7 +1737,7 @@ class stu_manage extends Controller
                     if($item["work_status"]>=3){
                         $item["check_flag"]="是";   
                     }else{
-                        $item["commit_flag"]="否";
+                        $item["check_flag"]="否";
                     }
 
 
@@ -1753,14 +1753,7 @@ class stu_manage extends Controller
                 if(!isset($grade_arr[$val["grade"]])){
                     $grade_arr[$val["grade"]]=$val["grade"];
                 }
-                if(empty($val["tea_cw_upload_time"]) || $val["tea_cw_upload_time"]>$val["lesson_start"]){
-                }else{
-                    $cw_num++;
-                    if($val["preview_status"]>0){
-                        $pre_num++;
-                    }
-                }
-
+                
 
             }
             $pre_rate = $cw_num==0?0:round($pre_num/$cw_num*100,2);

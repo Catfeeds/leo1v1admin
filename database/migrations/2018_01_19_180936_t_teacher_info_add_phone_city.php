@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TTeacherInfoAddWxIsProve extends Migration
+class TTeacherInfoAddPhoneCity extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class TTeacherInfoAddWxIsProve extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_teacher_info', function (Blueprint $table){
-            t_field($table->string("wx_name",64),"微信联系方式");
+        Schema::table('db_weiyi.t_teacher_info', function( Blueprint $table)
+        {
+            t_field($table->string("phone_province",32),"省份");
+            t_field($table->string("phone_city",64),"城市");
         });
     }
 

@@ -39,7 +39,7 @@ class resource extends Controller
             $resource_type = 8;
         }
         $ret_info = $this->t_resource->get_all(
-            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info
+            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$file_title, $page_info
         );
         $r_mark = 0;
         $index  = 1;

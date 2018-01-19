@@ -695,6 +695,7 @@ class assistant_performance extends Controller
             // $item["refund_reword_per"]=$refund_reword_per;
 
             //扩课
+            $item["kk_num_old"] = @$old_twl_info[$k]["read_student"]+$item["hand_kk_num"];
             $kk_num = $item["kk_num"]+$item["hand_kk_num"];
             $kk_per = $last_registered_num>0?($kk_num/$last_registered_num):0;
             if($kk_per>=0.06){
