@@ -38,7 +38,6 @@
         <script src="/js/jquery-2.1.4.js" type="text/javascript"></script>
         <script src="/js/jquery.query.js" type="text/javascript"></script>
         <script src="/js/jquery.admin.js?{{@$_publish_version}}" type="text/javascript"></script>
-        <script src="/page_js/new_header.js?{{@$_publish_version}}" type="text/javascript"></script>
         <script src="/page_js/enum_map.js?{{@$_publish_version}}" type="text/javascript"></script>
         <!-- jQuery UI 1.10.3 -->
         <script src="/js/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
@@ -189,6 +188,7 @@
              var g_account="<?=$_account?>";
 
             </script>
+            <script src="/page_js/new_header.js?{{@$_publish_version}}" type="text/javascript"></script>
             <script type="text/javascript" src="/js/jquery.datetimepicker.js"></script>
             <script type="text/javascript" src="/page_js/lib/select_date_range.js?{{@$_publish_version}}"></script>
             <script src="/page_js/lib/select_dlg_ajax.js?{{@$_publish_version}}" type="text/javascript"></script>

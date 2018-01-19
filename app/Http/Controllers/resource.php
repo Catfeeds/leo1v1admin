@@ -95,7 +95,7 @@ class resource extends Controller
                 }
             }
         }else{
-            $book_arr = [50000,4,12,16,29];
+            $book_arr = [4,12,16,29,50000];
         }
         // dd($sub_grade_info);
         return $this->pageView( __METHOD__,$ret_info,[
@@ -123,7 +123,7 @@ class resource extends Controller
                 }
             }
         }else{
-            $book_arr = [50000,4,12,16,29];
+            $book_arr = [4,12,16,29,50000];
         }
    
 

@@ -2660,7 +2660,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_teacher_data($start_time,$end_time){
         $where_arr = [
             "ti.trial_lecture_is_pass=1",
-            // "ti.is_test_user=0",
+            "ti.is_test_user=0",
             "li.lesson_del_flag=0",
             // "l.lesson_type in (0,1,3)",
             "li.lesson_status=2",
@@ -2694,7 +2694,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ,t_order_refund::DB_TABLE_NAME
             ,$where_arr
         );
-        echo $sql;
         return $this->main_get_list($sql);
     }
     //@desn:获取所有的不重复的subject userid课程信息
@@ -2750,20 +2749,23 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_row($sql);
     }
 
-    public function get_teacher_student_first_subject_info($start_time,$end_time){
+    public function get_teacher_student_first_subject_info($start_time,$end_time,$teacherid=-1){
         $where_arr=[
             "s.is_test_user=0",
             "t.is_test_user=0",
             "l.lesson_type in (0,1,3)",
             "l.confirm_flag <2",
-            "l.lesson_del_flag=0"
+            "l.lesson_del_flag=0",
+            "l.lesson_start>0",
+            "l.lesson_status>1",
+            ["l.teacherid=%u",$teacherid,-1]
         ];
         $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start_time, $end_time);
         $sql = $this->gen_sql_new("select l.teacherid,l.subject,l.userid,l.lesson_start,tr.id,l.lessonid "
                                   ." from %s l left join %s s on l.userid = s.userid"
                                   ." left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s tr on l.teacherid = tr.teacherid and l.userid=tr.userid and l.subject = tr.lesson_subject and tr.type=18"
-                                  ." where %s and not exists (select 1 from %s where subject = l.subject and teacherid=l.teacherid and userid = l.userid and lesson_type in (0,1,3) and confirm_flag <2 and lesson_del_flag=0 and lesson_start<l.lesson_start)",
+                                  ." where %s and not exists (select 1 from %s where subject = l.subject and teacherid=l.teacherid and userid = l.userid and lesson_type in (0,1,3) and confirm_flag <2 and lesson_del_flag=0 and lesson_start<l.lesson_start and lesson_start>0 and lesson_status>1)",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
@@ -3132,7 +3134,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_type in (0,1,3)"
         ];
 
-        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
+        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,l.confirm_flag,"
                                   ."l.grade,l.teacherid,l.lessonid,t.realname,l.userid,"
                                   ." l.lesson_num,l.teacher_effect,l.teacher_quality,"
                                   ." l.stu_score,l.teacher_interact,l.stu_stability, "
