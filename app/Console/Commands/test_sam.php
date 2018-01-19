@@ -306,7 +306,8 @@ where s.is_test_user = 0 and q.is_called_phone =1
         foreach ($time as $key => $value) {
             $start_time = $value['start_time'];
             $end_time   = $value['end_time'];
-            $ret = $task->t_student_score_info->get_xx($start_time,$end_time);
+            //$ret = $task->t_student_score_info->get_xx($start_time,$end_time);
+            $ret = $task->t_student_score_info->get_yy($start_time,$end_time);
             echo date("Y-m",$start_time)."-".$ret['total']."- ".$ret['one_total'].'- '.$ret['two_total'].'- '.$ret['three_total']."\n";
         }
         
