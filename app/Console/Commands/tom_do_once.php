@@ -74,9 +74,11 @@ class tom_do_once extends Command
         }
         */
 
-        $this->update_cc_no_called_count();
+        // $this->update_cc_no_called_count();
         // $this->update_tq_call_info();
         // $this->give_seller_new_count();
+        $this->update_seller_edit_log();
+        // $this->update_distribution_count();
     }
 
     /**
@@ -295,6 +297,38 @@ class tom_do_once extends Command
             }
             $ret = 1;
             echo $account.':'.$new_count_id.'=>'.$ret."\n";
+        }
+    }
+
+    public function update_seller_edit_log(){
+        $ret = $this->task->t_seller_edit_log->get_item_list();
+        foreach($ret as $item){
+            $adminid = $item['adminid'];
+            $phone = $item['phone'];
+            $start_time = $item['create_time'];
+            $end_time = time();
+            $first_revisit_time = $this->task->t_tq_call_info->get_item_row($adminid,$phone,$call_flag=-1,$start_time,$end_time);
+            $first_contact_time = $this->task->t_tq_call_info->get_item_row($adminid,$phone,$call_flag=1,$start_time,$end_time);
+            $arr = [];
+            if($first_revisit_time != $item['first_revisit_time']){
+                $arr['first_revisit_time'] = $first_revisit_time;
+            }
+            if($first_contact_time != $item['first_contact_time']){
+                $arr['first_contact_time'] = $first_contact_time;
+            }
+            if(count($arr)>0){
+                $this->task->t_seller_edit_log->field_get_list($id, $arr);
+            }
+        }
+    }
+
+    public function update_distribution_count(){
+        $ret = $this->task->t_seller_student_new->get_all_list($start_time=1460476800, $end_time=time());
+        foreach($ret as $item){
+            $distribution_count = $this->task->t_seller_edit_log->get_item_count($item['userid']);
+            if($item['distribution_count'] != $distribution_count){
+                $this->task->t_seller_student_new->field_update_list($item['userid'], ['distribution_count'=>$distribution_count]);
+            }
         }
     }
 
