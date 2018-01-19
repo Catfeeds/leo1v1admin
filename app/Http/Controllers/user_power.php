@@ -210,12 +210,12 @@ class user_power extends Controller
             "role_groupid" => $role_groupid,
         ];
 
-        if($is_copy_power){
-            $authority = $this->t_authority_group->get_group_authority($copy_groupid);
-            if($authority){
-                $data['group_authority'] = $authority;
-            }
-        }
+        // if($is_copy_power){
+        //     $authority = $this->t_authority_group->get_group_authority($copy_groupid);
+        //     if($authority){
+        //         $data['group_authority'] = $authority;
+        //     }
+        // }
 
         if( $edit_type == 1){
             //添加权限组
@@ -262,7 +262,7 @@ class user_power extends Controller
         $uid_str      = $this->get_in_str_val("uid_str") ;
         $role_groupid  = $this->get_in_int_val("role_groupid") ;
         $groupid     = $this->get_in_int_val("groupid");
-        $change_role     = $this->get_in_int_val("change_role");
+        $change_role     = $this->get_in_int_val("change_role",0);
 
         if(!empty($uid_str)){
             $uid_arr = explode(',',$uid_str);

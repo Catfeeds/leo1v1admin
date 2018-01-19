@@ -177,7 +177,7 @@ class resource extends Controller
         }
         //dd($ret_info['list'] );
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801181119,
+            '_publish_version'    => 201801191339,
             'book'          => json_encode($book_arr),
             'resource_type' => $resource_type
         ]);

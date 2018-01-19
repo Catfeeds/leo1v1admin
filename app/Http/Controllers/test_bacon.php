@@ -295,7 +295,7 @@ class test_bacon extends Controller
             $data = ['resource_type'=>3];
             foreach( $biao_tag as $var){
                 if($var['resource_type'] != 3){
-                    $this->t_sub_grade_book_tag->field_update_list($var['id'],$data);
+                    //$this->t_sub_grade_book_tag->field_update_list($var['id'],$data);
                 }
             }
         }
@@ -305,7 +305,7 @@ class test_bacon extends Controller
             $data2 = ['resource_type'=>1,'season_id'=>4];
             foreach( $jin_tag as $item){
                 if($item['resource_type'] != 1 || $item['season_id'] != 4){
-                    $this->t_sub_grade_book_tag->field_update_list($item['id'],$data2);
+                    //$this->t_sub_grade_book_tag->field_update_list($item['id'],$data2);
                 }
             }
         }

@@ -184,11 +184,11 @@ $(function(){
 
         var id_resource_type = $("<select id='check_resource_type'  onchange='is_show_season(this.options[this.options.selectedIndex].value)'/>");
         Enum_map.append_option_list("resource_type",id_resource_type,true);
-        id_resource_type.val(g_args.resource_type);
+        id_resource_type.val(opt_data.resource_type);
 
         var id_season = $("<select id='check_season'/>");
         Enum_map.append_option_list("resource_season",id_season,true);
-        id_season.val(g_args.season_id);
+        id_season.val(opt_data.season_id);
 
         var id_tag = $('<input style="width:80%" />');
         id_tag.val(opt_data.tag);
