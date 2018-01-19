@@ -1123,6 +1123,9 @@ class stu_manage extends Controller
             $show_post_flag=1;
         }
 
+        # 因为系统权限问题 临时全部开放[James -2018-01-19]
+        $show_post_flag=1;
+
         return $this->pageView(__METHOD__,null,
                                [
                                    "init_data"=> $row,
