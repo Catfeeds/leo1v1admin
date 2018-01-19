@@ -709,10 +709,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   // ." t.limit_week_lesson_num-sum(tss.lessonid >0)) left_num,"
                                   ." t.idcard,t.bankcard,t.bank_address,t.bank_account,t.bank_phone,t.bank_type, "
                                   ." t.bank_province,t.bank_city,t.teacher_tags,t.is_quit,t.part_remarks,tr.record_score "
-                                  .",t.free_time "
+                                  .",t.free_time,ta.id label_id,ta.tag_info "
                                   ." from %s t"
                                   ." left join %s m on t.phone = m.phone"
                                   ." left join %s tr on tr.teacherid = t.teacherid and tr.type=1 and tr.lesson_style=1"
+                                  ." left join %s ta on t.teacherid = ta.teacherid and ta.label_origin=1000 "
                                   // ." left join %s l on (t.teacherid = l.teacherid"
                                   //." and l.lesson_type=2 and l.lesson_del_flag =0 and l.lesson_start >= %u and l.lesson_end < %u)"
                                   // ." left join %s tss on (l.lessonid= tss.lessonid and tss.success_flag in(0,1))"
@@ -721,12 +722,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,t_teacher_record_list::DB_TABLE_NAME
+                                  ,t_teacher_label::DB_TABLE_NAME
                                   // ,t_lesson_info::DB_TABLE_NAME
                                   // ,$lstart
                                   //  ,$lend
                                   // ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
                                   ,$where_arr
         );
+      
+
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
