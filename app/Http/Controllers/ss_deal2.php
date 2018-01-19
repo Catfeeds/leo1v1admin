@@ -1096,6 +1096,8 @@ class ss_deal2 extends Controller
         $remark     = $this->get_in_str_val('remark');
         $record_adminid = $this->get_account_id();
 
+        $lesson_problem = $this->get_in_int_val('lesson_problem');
+
         $ret = $this->t_product_feedback_list->row_insert([
             "feedback_adminid" => $feedback_adminid,
             "record_adminid"   => $record_adminid,

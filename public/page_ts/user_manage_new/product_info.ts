@@ -10,7 +10,8 @@ function load_data(){
         date_type:	$('#id_date_type').val(),
         opt_date_type:	$('#id_opt_date_type').val(),
         start_time:	$('#id_start_time').val(),
-        end_time:	$('#id_end_time').val()
+        end_time:	$('#id_end_time').val(),
+		    lesson_problem:	$('#id_lesson_problem').val(),
     });
 }
 $(function(){
@@ -29,9 +30,11 @@ $(function(){
 
 
     Enum_map.append_option_list( "boolean", $("#id_deal_flag"));
+    Enum_map.append_option_list( "lesson_problem", $("#id_lesson_problem"));
 
     $('#id_deal_flag').val(g_args.deal_flag);
     $('#id_feedback_adminid').val(g_args.feedback_adminid);
+	  $('#id_lesson_problem').val(g_args.lesson_problem);
 
     $.admin_select_user($("#id_feedback_adminid"),"admin", load_data);
 
@@ -40,17 +43,22 @@ $(function(){
         var $feedback_id = $("<input/>");
         var $describe    = $("<textarea>");
         var $lesson_url  = $("<input/>");
+        var $lesson_problem = $("<select/>");
         var $reason      = $("<textarea>");
         var $solution    = $("<textarea>");
         var $student     = $("<input/>");
         var $teacher     = $("<input/>");
         var $deal_flag   = $('<select><option value="-1">未设置</option><option value="0">否</option><option value="1">是</option> </select>');
         var $remark      = $("<textarea/>");
+
+        Enum_map.append_option_list("lesson_problem", $lesson_problem, true);
+
         var arr = [
             ["反馈人",$feedback_id],
             ["问题描述",$describe],
             ["上课链接",$lesson_url],
             ["原因",$reason],
+            ["问题类型",$lesson_problem],
             ["解决方案",$solution],
             ["学生",$student],
             ["老师",$teacher],
