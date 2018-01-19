@@ -330,6 +330,7 @@ class tom_do_once extends Command
             $distribution_count = $this->task->t_seller_edit_log->get_item_count($item['userid']);
             if($item['distribution_count'] != $distribution_count){
                 $this->task->t_seller_student_new->field_update_list($item['userid'], ['distribution_count'=>$distribution_count]);
+                echo $item['userid'].':'.$item['distribution_count'].'=>'.$distribution_count."\n";
             }
         }
     }
