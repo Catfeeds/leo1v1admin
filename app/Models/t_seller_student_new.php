@@ -1777,29 +1777,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             if ($item["tq_called_flag"]<$tq_called_flag) {
                 $set_arr["tq_called_flag"]=$tq_called_flag;
             }
-
             if ($item["global_tq_called_flag"]<$tq_called_flag) {
                 $set_arr["global_tq_called_flag"]=$tq_called_flag;
             }
-
-
-            if ($item["first_call_time"] == 0) {
-                $set_arr["first_call_time"]=$call_time;
-            }
-            $set_arr["last_revisit_time"]=$call_time;
-
-
-            if ($tq_called_flag ==2) {
-                if ($item["first_contact_time"] == 0) {
-                    $set_arr["first_contact_time"]=$call_time;
-                }
-
-                if ($item["last_contact_time"] < $call_time) {
-                    $set_arr["last_contact_time"]=$call_time;
-                }
-                $set_arr["called_time"]=$call_time;
-            }
-
             if (count($set_arr) >0 ) {
                 $this->field_update_list($userid,$set_arr);
             }
@@ -3503,14 +3483,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             'tmk_student_status=1',
         ];
         $sql=$this->gen_sql_new(
-            " select n.*,s.origin,m.account "
+            " select n.*,s.origin,s.lesson_count_all"
             ." from %s n "
             ." left join %s s on s.userid=n.userid "
-            ." left join %s m on m.uid=n.admin_revisiterid "
             ." where %s order by n.add_time desc "
             , self::DB_TABLE_NAME
             , t_student_info::DB_TABLE_NAME
-            , t_manager_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);

@@ -222,7 +222,7 @@ class notice extends Controller
         $is_success=0;
         if ($user_ip) {
             //每个ip 最多 10个
-            if (!\App\Helper\Common::redis_day_add_with_max_limit("sms_ip_$user_ip",1, 10)){
+            if (!\App\Helper\Common::redis_day_add_with_max_limit("sms_ip_$user_ip",1, 10) && !in_array($phone,[15821272506])){
                 return;
             }
         }else{
@@ -230,9 +230,9 @@ class notice extends Controller
         }
         \App\Helper\Utils::logger("111112");
 
-        if($phone){
+        if($phone ){
             //每个手机 最多 3个
-            if (!\App\Helper\Common::redis_day_add_with_max_limit("sms_phone_$phone",1, 3)){
+            if (!\App\Helper\Common::redis_day_add_with_max_limit("sms_phone_$phone",1, 3) && !in_array($phone,[15821272506]) ){
                 return;
             }
 

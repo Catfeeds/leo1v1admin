@@ -2137,7 +2137,7 @@ class user_manage_new extends Controller
 
         }
         return $this->Pageview(__METHOD__,$ret_info,[
-            "_publish_version" => 201801118150,
+            "_publish_version" => 201801119150,
             "group_all" => $group_all,
             "user_list"=>$user_list,
             "list"=>$list,

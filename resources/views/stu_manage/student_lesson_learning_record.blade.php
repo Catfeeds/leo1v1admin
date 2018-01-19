@@ -35,9 +35,19 @@
 
         <div class="row" style="margin-top:10px">
             <div class="col-xs-12 col-md-4">
-                <div  id="id_date_range" >
+                <div class="input-group ">
+                    <span >时间:</span>
+                    <input type="text" id="id_start_date" class="opt-change"/>
+                    <span >-</span>
+                    <input type="text" id="id_end_date" class="opt-change"/>
                 </div>
             </div>
+
+            <!--             <div class="col-xs-12 col-md-4">
+                 <div  id="id_date_range" >
+                 </div>
+                 </div>
+            -->
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">年级</span>
@@ -59,6 +69,7 @@
                 <button class="btn btn-warning" id="id_add_stu_score" >添加考试成绩</button>
             </div>
             <div class="col-xs-6 col-md-12" >
+                <button class="btn " id="id_date_show" ></button>
                 <button class="btn " id="id_grade_show" ></button>
                 <button class="btn " id="id_subject_show" ></button>
             </div>
