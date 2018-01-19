@@ -844,7 +844,7 @@ $(function(){
          $("#id_fulltime_teacher_type").parent().parent().hide();
     }
 
-    if ( window.location.pathname=="/human_resource/index_new_jw" || window.location.pathname=="/human_resource/index_new_jw/") {
+    if ( window.location.pathname=="/human_resource/index_new_jw" || window.location.pathname=="/human_resource/index_new_jw/" || acc=="jack") {
         $(".opt-set-teacher-label").show();
     }else{
         $(".opt-set-teacher-label").hide();
