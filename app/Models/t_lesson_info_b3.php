@@ -3015,7 +3015,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         ];
         if($cw_status==0){
             $where_arr[]="(l.tea_cw_upload_time=0 or l.tea_cw_upload_time>=l.lesson_start)";
-        }else{
+        }elseif($cw_status==1){
             $where_arr[]="l.tea_cw_upload_time>0 and l.tea_cw_upload_time<l.lesson_start";
         }
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
