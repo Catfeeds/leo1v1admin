@@ -268,6 +268,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
             'm.account_role=2',
             'm2.account_role=2',
             's.is_test_user=0',
+            'l.adminid<>l.uid',
         ];
         $this->where_arr_add_time_range($where_arr,'l.create_time',$start_time,$end_time);
         $sql = $this->gen_sql_new(
@@ -280,7 +281,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
             ." left join %s s on s.userid=n.userid "
             ." left join %s o on o.orderid=n.orderid "
             ." left join %s m on m.uid=l.adminid "
-            ." left join %s m2 on m.uid=l.uid "
+            ." left join %s m2 on m2.uid=l.uid "
             ." where %s "
             ,self::DB_TABLE_NAME
             ,t_seller_student_new::DB_TABLE_NAME
