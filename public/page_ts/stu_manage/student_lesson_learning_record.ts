@@ -1,7 +1,5 @@
 ///<reference path="../common.d.ts" />
 ///<reference path="../g_args.d.ts/stu_manage-student_lesson_learning_record.d.ts" />
-var Cwhiteboard=null;
-var notify_cur_playpostion =null;
 function load_data(){
 	  if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
@@ -24,14 +22,6 @@ function load_data(){
 }
 
 $(function(){
-
-    //audiojs 时间回调, 每秒3-4次
-    //$(".tea_cw_url[data-v = 0], .stu_cw_url[data-v=0],.homework_url[data-v=0]" ) .parent().addClass("danger");
-    //=======================================================
-    notify_cur_playpostion = function (cur_play_time){
-        Cwhiteboard.play_next( cur_play_time );
-    };
-
 
     window["g_load_data_flag"]=1;
     // $('#id_date_range').select_date_range({
@@ -69,18 +59,18 @@ $(function(){
 	  $('#id_start_date').datetimepicker({
 		    lang:'ch',
 		    timepicker:false,
-		    format:'Y-m-d',
+		    format:'Y.m.d',
 	      onChangeDateTime :function(){
-		        load_data();
+		       load_data();
         }
 	  });
     
 	  $('#id_end_date').datetimepicker({
 		    lang:'ch',
 		    timepicker:false,
-		    format:'Y-m-d',
+		    format:'Y.m.d',
 		    onChangeDateTime :function(){
-		        load_data();
+		       load_data();
         }
 	  });
 
@@ -206,6 +196,21 @@ $(function(){
             $("#id_subject_show").show();
         }
     });
+    $('#id_start_date,#id_end_date').change(function(){
+        var start=$("#id_start_date").val();
+        var end=$("#id_end_date").val();
+        var vv = start+"-"+end;
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        if(start=="" && end==""){
+            $("#id_date_show").hide();
+        }else{            
+            $("#id_date_show").html(htm);
+            $("#id_date_show").show();
+        }
+
+
+    });
+
     if(g_args.grade==-1){
         $("#id_grade_show").hide();
     }else{
@@ -222,6 +227,23 @@ $(function(){
         $("#id_subject_show").html(htm);
         $("#id_subject_show").show();
     }
+    if(g_args.start_date=="" && g_args.end_date==""){
+        $("#id_date_show").hide();
+    }else{
+        var vv = $("#id_start_date").val()+"-"+$("#id_end_date").val();
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        $("#id_date_show").html(htm);
+        $("#id_date_show").show();
+    }
+    if(g_args.subject==-1){
+        $("#id_subject_show").hide();
+    }else{
+        var vv = $("#id_subject").find("option:selected").text();
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        $("#id_subject_show").html(htm);
+        $("#id_subject_show").show();
+    }
+
 
     $("#id_grade_show").on("click",function(){
         $(this).hide();
@@ -237,6 +259,14 @@ $(function(){
         window["g_load_data_flag"] = 0;
         load_data();
     });
+    $("#id_date_show").on("click",function(){
+        $(this).hide();
+        $("#id_start_date").val("");
+        $("#id_end_date").val("");
+        window["g_load_data_flag"] = 0;
+        load_data();
+    });
+
 
     $(".show_cw_content").on("click",function(){
         var url = $(this).data("url");
