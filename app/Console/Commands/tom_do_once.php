@@ -318,7 +318,7 @@ class tom_do_once extends Command
                 $arr['first_contact_time'] = $first_contact_time;
             }
             if(count($arr)>0){
-                $this->task->t_seller_edit_log->field_get_list($id, $arr);
+                $this->task->t_seller_edit_log->field_update_list($id, $arr);
                 echo $id.':'.$first_revisit_time.'=>'.$first_contact_time."\n";
             }
         }
