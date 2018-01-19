@@ -14,7 +14,7 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
-        \App\Helper\Net::send_sms_taobao($phone,$reg_ip, 10671029,[
+        \App\Helper\Net::send_sms_taobao(13817759346,0, 10671029,[
             "code"  => 1,
             "index" => 2,
         ],1);
