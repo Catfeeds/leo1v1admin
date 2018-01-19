@@ -278,6 +278,11 @@ where lesson_start > $start_time and lesson_start < $end_time and lesson_type = 
         return $this->main_get_list($sql);
     }
 
+    public function get_all_teacher_phone_and_id(){
+        $sql = "select teacherid, phone from db_weiyi.t_teacher_info where is_test_user = 0 order by teacherid asc";
+        return $this->main_get_list($sql);
+    }
+
 
     public function get_province_info($phone){
         $sql = "select province ,city from db_weiyi.t_phone_info where id = $phone ";
@@ -318,6 +323,18 @@ where is_called_phone = 1 and s.is_test_user = 0 group by s.phone ";*/
 from (select phone,max(start_time) as max_time from db_weiyi_admin.t_tq_call_info where  is_called_phone = 1  GROUP BY phone ) k
  left join db_weiyi.t_student_info s on s.phone = k.phone
 where s.is_test_user = 0 and s.grade in (101,102,103)";
+       return $this->main_get_list($sql);
+    }
+
+
+
+    public function get_all_infoxxx (){
+      $sql = "select s.nick, s.phone_province, s.phone_city from db_weiyi.t_lesson_info l left join db_weiyi.t_teacher_info t on l.teacherid = t.teacherid left join db_weiyi.t_student_info s on s.userid = l.userid where lesson_start > 1512057600 and lesson_type in (0,1,3 ) and t.is_test_user = 0 group by l.userid";
+       return $this->main_get_list($sql);
+    }
+
+    public function get_all_infoxxx2 (){
+      $sql = "select t.nick, t.phone_province, t.phone_city from db_weiyi.t_lesson_info l left join db_weiyi.t_teacher_info t on l.teacherid = t.teacherid left join db_weiyi.t_student_info s on s.userid = l.userid where lesson_start > 1512057600 and lesson_type in (0,1,3 ) and t.is_test_user = 0 group by l.userid";
        return $this->main_get_list($sql);
     }
 }

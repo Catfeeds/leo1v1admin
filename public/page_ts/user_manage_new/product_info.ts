@@ -58,6 +58,7 @@ $(function(){
             ["问题描述",$describe],
             ["上课链接",$lesson_url],
             ["原因",$reason],
+            ["问题类型",$lesson_problem],
             ["解决方案",$solution],
             ["学生",$student],
             ["老师",$teacher],

@@ -444,12 +444,14 @@ class agent extends Controller
         $now = time();
         $start_time = $now-3*3600;
         $end_time = $now;
+        $start_time = 1516345200;
+        $end_time = 1516345800;
         $start_date = \App\Helper\Utils::unixtime2date($start_time ,"Y-m-d H:i:s");
         $end_date   = \App\Helper\Utils::unixtime2date($end_time,"Y-m-d H:i:s");
         $cmd= new \App\Console\Commands\sync_tq();
         $count=$cmd->load_data($start_date,$end_date,$phone='');
-        $cmd= new \App\Console\Commands\sync_tianrun();
-        $count=$cmd->load_data($start_time,$end_time);
+        // $cmd= new \App\Console\Commands\sync_tianrun();
+        // $count=$cmd->load_data($start_time,$end_time);
         dd($count);
         $last_revisit_time = $this->t_tq_call_info->get_first_revisit_time($phone='15251318621',$desc='desc');
         dd($last_revisit_time);
