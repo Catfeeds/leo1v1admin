@@ -329,7 +329,7 @@ where s.is_test_user = 0 and s.grade in (101,102,103)";
 
 
     public function get_all_infoxxx (){
-      $sql = "select l.userid, s.phone_province, s.phone_city from db_weiyi.t_lesson_info l left join db_weiyi.t_teacher_info t on l.teacherid = t.teacherid left join db_weiyi.t_student_info s on s.userid = l.userid where lesson_start > 1512057600 and lesson_type in (0,1,3 ) group by l.userid";
+      $sql = "select l.userid, s.phone_province, s.phone_city from db_weiyi.t_lesson_info l left join db_weiyi.t_teacher_info t on l.teacherid = t.teacherid left join db_weiyi.t_student_info s on s.userid = l.userid where lesson_start > 1512057600 and lesson_type in (0,1,3 ) and s.is_test_user = 0 group by l.userid";
        return $this->main_get_list($sql);
     }
 }
