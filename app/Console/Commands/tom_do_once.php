@@ -74,7 +74,7 @@ class tom_do_once extends Command
         }
         */
 
-        // $this->update_cc_no_called_count();
+        $this->update_cc_no_called_count();
         // $this->update_tq_call_info();
         // $this->give_seller_new_count();
     }
@@ -103,18 +103,23 @@ class tom_do_once extends Command
                 $cc_no_called_count = $item['cc_no_called_count'];
                 $cc_no_called_count_new = $item['cc_no_called_count_new'];
                 $cc_first_called_cc = $item['first_called_cc'];
-                $cc_first_revisit_time = $item['first_revisit_time'];
-                $cc_last_contact_time = $item['last_contact_time'];
-                $cc_last_called_cc = $item['last_contact_cc'];
+                $cc_first_revisit_time = $item['first_revisit_time'];//刷
+                $cc_last_revisit_time = $item['last_revisit_time'];//刷
+                $cc_first_contact_time = $item['first_contact_time'];//刷
+                $cc_last_contact_time = $item['last_contact_time'];//刷
+                $cc_last_called_cc = $item['last_contact_cc'];//刷
                 $cc_first_get_cc = $item['first_get_cc'];
                 $cc_test_lesson_flag = $item['test_lesson_flag'];
                 $cc_orderid = $item['orderid'];
 
                 $called_count = $this->task->t_tq_call_info->get_called_count($phone,1);
                 $no_called_count = $this->task->t_tq_call_info->get_called_count($phone,0);
-                $first_revisit_time = $this->task->t_tq_call_info->get_first_revisit_time($phone);
-                $last_contact_time = $this->task->t_tq_call_info->get_first_revisit_time($phone,$desc='desc');
+
                 $first_called_cc = $this->task->t_tq_call_info->get_first_called_cc($phone);
+                $first_revisit_time = $this->task->t_tq_call_info->get_first_revisit_time($phone);
+                $last_revisit_time = $this->task->t_tq_call_info->get_first_revisit_time($phone,$desc='desc');
+                $first_contact_time = $this->task->t_tq_call_info->get_first_revisit_time($phone,$desc='asc',$called_flag=1);
+                $last_contact_time = $this->task->t_tq_call_info->get_first_revisit_time($phone,$desc='desc',$called_flag=1);
                 $last_called_cc = $this->task->t_tq_call_info->get_first_called_cc($phone,$desc='desc');
                 $first_get_cc = $this->task->t_tq_call_info->get_first_get_cc($phone,$desc='asc');
                 $first_test_lessonid = $this->task->t_lesson_info_b2->get_first_test_lesson($userid);
@@ -147,8 +152,10 @@ class tom_do_once extends Command
                 if($cc_orderid == 0 && $orderid>0){
                     $arr['orderid'] = $orderid;
                 }
-                $arr['first_revisit_time'] = $cc_first_revisit_time;
-                $arr['last_contact_time'] = $cc_last_contact_time;
+                $arr['first_revisit_time'] = $first_revisit_time;
+                $arr['last_revisit_time'] = $last_revisit_time;
+                $arr['first_contact_time'] = $first_contact_time;
+                $arr['last_contact_time'] = $last_contact_time;
                 if(count($arr)>0){
                     if(isset($arr['first_get_cc'])){
                         echo $userid.':'.$cc_first_get_cc."=>".$first_get_cc."\n";

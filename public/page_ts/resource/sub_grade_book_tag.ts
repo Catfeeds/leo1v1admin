@@ -5,11 +5,15 @@ $(function(){
     Enum_map.append_option_list("subject", $("#id_subject"),false,[1,2,3,4,5,6,7,8,9,10,11]);
     Enum_map.append_option_list("grade", $("#id_grade"),false,[101,102,103,104,105,106,201,202,203,301,302,303]);
     Enum_map.append_option_list("region_version", $("#id_book"),false,book);
-
+    Enum_map.append_option_list("resource_type", $("#id_resource_type"));
+    if(resource_type == 1 ){
+        Enum_map.append_option_list("resource_season", $("#id_season_id"));
+        $("#id_season_id").val(g_args.season_id);
+    }
     $("#id_subject").val(g_args.subject);
     $("#id_grade").val(g_args.grade);
     $("#id_book").val(g_args.bookid);
-
+    $("#id_resource_type").val(g_args.resource_type);
     // $("#id_book option").each(function(){
     //     if($(this).text() == g_args.textbook){
     //         console.log($(this).val());
@@ -32,15 +36,19 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action : function(dialog) {
+                //checkPut.apply(this,arguments);
                 var tag = id_tag.val();
                 if(!tag){
                     BootstrapDialog.alert("学科化标签必填");
                     return false;
                 }
+
                 var data = {
                     'grade':$("#check_grade").val(),
                     'subject':$("#check_subject").val(),
                     'bookid':$("#check_book").val(),
+                    'resource_type':$("#check_resource_type").val(),
+                    'season_id':$("#check_season").val(),
                     'tag':tag,
                 }
 
@@ -56,7 +64,12 @@ $(function(){
                     }
                 });
             }
-        },null,false,800)
+        },function(){
+            if( g_args.resource_type != 1 ){
+                $("#check_season").val(0);
+                $("#check_season").parents('tr').hide();
+            }
+        },false,800)
 
     })
 
@@ -90,6 +103,7 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action : function(dialog) {
+                //checkPut();
                 var tag_arr = [
                     id_tag_1.val(),id_tag_2.val(),id_tag_3.val(),id_tag_4.val(),id_tag_5.val(),
                     id_tag_6.val(),id_tag_7.val(),id_tag_8.val(),id_tag_9.val(),id_tag_10.val(),
@@ -108,6 +122,8 @@ $(function(){
                     'grade':$("#check_grade").val(),
                     'subject':$("#check_subject").val(),
                     'bookid':$("#check_book").val(),
+                    'resource_type':$("#check_resource_type").val(),
+                    'season_id':$("#check_season").val(),
                     'tag_arr':tag_arr,
                 }
                 //console.log(tag_arr);
@@ -123,7 +139,13 @@ $(function(){
                     }
                 });
             }
-        },null,false,800)
+        },function(){
+            if( g_args.resource_type != 1 ){
+                $("#check_season").val(0);
+                $("#check_season").parents('tr').hide();
+            }
+
+        },false,800)
 
     })
 
@@ -160,6 +182,14 @@ $(function(){
         id_textbook.html($('#id_book').clone().html());
         id_textbook.val(opt_data.bookid);
 
+        var id_resource_type = $("<select id='check_resource_type'  onchange='is_show_season(this.options[this.options.selectedIndex].value)'/>");
+        Enum_map.append_option_list("resource_type",id_resource_type,true);
+        id_resource_type.val(g_args.resource_type);
+
+        var id_season = $("<select id='check_season'/>");
+        Enum_map.append_option_list("resource_season",id_season,true);
+        id_season.val(g_args.season_id);
+
         var id_tag = $('<input style="width:80%" />');
         id_tag.val(opt_data.tag);
 
@@ -167,6 +197,8 @@ $(function(){
             ["科目", id_subject ],
             ["年级", id_grade ],
             ["教材版本", id_textbook ],
+            ["资源类型", id_resource_type ],
+            ["春暑秋寒", id_season ],
             ["学科化标签",id_tag],
         ]
 
@@ -174,6 +206,7 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action : function(dialog) {
+                //checkPut();
                 var tag = id_tag.val();
                 if(!tag){
                     BootstrapDialog.alert("学科化标签必填");
@@ -184,6 +217,8 @@ $(function(){
                     'grade':$("#check_grade").val(),
                     'subject':$("#check_subject").val(),
                     'bookid':$("#check_book").val(),
+                    'resource_type':$("#check_resource_type").val(),
+                    'season_id':$("#check_season").val(),
                     'tag':tag,
                 }
 
@@ -199,10 +234,15 @@ $(function(){
                     }
                 });
             }
-        },null,false,800)
+        },function(){
 
+            if( opt_data.resource_type != 1 ){
+                $("#check_season").val(0);
+                $("#check_season").parents('tr').hide();
+            }
+
+        },false,800)
         
-
     })
 
     $("#batach_dele").on('click',function(){
@@ -312,31 +352,64 @@ $(function(){
     
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+    var season_id =  $('#id_season_id').val()
+    if( season_id == null ){
+        season_id = -1;
+    }
+    var data = {
         subject: $('#id_subject').val(),
         grade:        $('#id_grade').val(),
         bookid:        $('#id_book').val(),
-    });
+        resource_type :$("#id_resource_type").val(),
+        season_id : season_id
+    };
+  
+    $.reload_self_page (data);
 }
 
 function get_public_arr(){
 
     var id_subject = $("<select id='check_subject'/>");
     Enum_map.append_option_list("subject",id_subject,true,[1,2,3,4,5,6,7,8,9,10,11]);
-    id_subject.val(g_args.subject);
 
     var id_grade = $("<select id='check_grade' onchange='get_book(this.options[this.options.selectedIndex].value)'/>");
     Enum_map.append_option_list("grade",id_grade,true,[101,102,103,104,105,106,201,202,203,301,302,303]);
-    id_grade.val(g_args.grade);
 
     var id_textbook = $("<select id='check_book'/>");
     id_textbook.html($('#id_book').clone().html());
     id_textbook.val(g_args.bookid);
 
+    var id_resource_type = $("<select id='check_resource_type'  onchange='is_show_season(this.options[this.options.selectedIndex].value)'/>");
+    Enum_map.append_option_list("resource_type",id_resource_type,true);
+
+    var id_season = $("<select id='check_season'/>");
+    Enum_map.append_option_list("resource_season",id_season,true);
+    id_season.val(g_args.season_id);
+
+    if( g_args.subject < 1){
+        id_subject.val(1);
+    }else{
+        id_subject.val(g_args.subject);
+    }
+
+    if( g_args.grade < 1){
+        id_grade.val(101);
+    }else{
+        id_grade.val(g_args.subject);
+    }
+
+    if( g_args.resource_type < 1){
+        id_resource_type.val(1);
+    }else{
+        id_resource_type.val(g_args.resource_type);
+    }
+
     var arr =  [
         ["科目", id_subject ],
         ["年级", id_grade ],
         ["教材版本", id_textbook ],
+        ["资源类型", id_resource_type ],
+        ["春暑秋寒", id_season ],
     ]
 
     return arr;
@@ -369,5 +442,50 @@ function get_book(val){
             }
         }
     });
+
+}
+
+function is_show_season(val){
+    if( val != 1 ){
+        $("#check_season").val(0);
+        $("#check_season").parents('tr').hide();
+    }else{
+        $("#check_season").val(1);
+        $("#check_season").parents('tr').show();
+    }
+}
+
+//检查必填
+function checkPut(){
+    var subject = $("#check_subject").val();
+    var grade = $("#check_grade").val();
+    var book = $("#check_book").val();
+    var resource_type = $("#check_resource_type").val();
+    var season = $("#check_season").val();
+
+    if( subject == '' || subject == -1){
+        BootstrapDialog.alert("科目必选");
+        return false;
+    }
+
+    if( grade == '' || grade == -1){
+        BootstrapDialog.alert("年级必选");
+        return false;
+    }
+
+    if( book == '' || book == -1){
+        BootstrapDialog.alert("教材必选");
+        return false;
+    }
+
+    if( resource_type == '' || resource_type == -1 ){
+        BootstrapDialog.alert("资源类型必选");
+        return false;
+    }
+
+    if( resource_type == 1 &&　season == ''){
+        BootstrapDialog.alert("春暑秋寒必选");
+        return false;
+    }
 
 }

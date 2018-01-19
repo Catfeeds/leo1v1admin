@@ -441,6 +441,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $last_revisit_time = $this->t_tq_call_info->get_first_revisit_time($phone='15251318621',$desc='desc');
+        dd($last_revisit_time);
         $ret_log = $this->task->t_seller_get_new_log->get_row_by_adminid_userid($adminid=99,$userid=123456);
         dd($ret_log);
         $ret = $this->t_seller_get_new_log->row_insert([
