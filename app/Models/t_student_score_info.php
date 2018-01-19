@@ -353,4 +353,13 @@ where reg_time >  $start_time and reg_time < $end_time and is_test_user = 0";
 
       return $this->main_get_row($sql);
     }
+    public function get_zz($start_time,$end_time){
+       $sql = "select count(*) as total , sum( if(o.grade = 101, 1, 0)) as one_total, sum( if(o.grade = 102, 1, 0)) as two_total, sum( if(o.grade = 103, 1, 0)) as three_total  
+from t_order_info o 
+left join t_student_info s on s.userid = o.userid
+where order_time >  $start_time and order_time < $end_time and contract_type  = 0 and s.is_test_user = 0";
+
+      return $this->main_get_row($sql);
+    }
+
 }
