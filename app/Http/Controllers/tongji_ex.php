@@ -181,4 +181,10 @@ class tongji_ex extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function seller_student_distribution(){
+        $this->check_and_switch_tongji_domain();
+        $ret_info = $this->t_seller_edit_log->get_seller_distribution_list($start_time,$end_time,$page_info);
+
+    }
+
 }

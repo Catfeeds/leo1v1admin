@@ -261,4 +261,28 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_seller_distribution_list($start_time,$end_time,$page_info){
+        $where_arr = [
+            ['l.type = %u',E\Eseller_edit_log_type::V_3],
+            'm.account_role=2',
+            's.is_test_user=0',
+        ];
+        $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
+        $sql = $this->gen_sql_new(
+            " select l.*,"
+            ."  "
+            ." o.price "
+            ." from %s l "
+            ." left join %s n on n.userid=l.new "
+            ." left join %s o on o.orderid=ss.orderid "
+            ." left join %s m on m.uid=l.adminid "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,t_seller_student_new::DB_TABLE_NAME
+            ,t_order_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
 }
