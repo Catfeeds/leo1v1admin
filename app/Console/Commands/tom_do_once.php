@@ -77,8 +77,8 @@ class tom_do_once extends Command
         // $this->update_cc_no_called_count();
         // $this->update_tq_call_info();
         // $this->give_seller_new_count();
-        $this->update_seller_edit_log();
-        // $this->update_distribution_count();
+        // $this->update_seller_edit_log();
+        $this->update_distribution_count();
     }
 
     /**
@@ -330,6 +330,7 @@ class tom_do_once extends Command
             $distribution_count = $this->task->t_seller_edit_log->get_item_count($item['userid']);
             if($item['distribution_count'] != $distribution_count){
                 $this->task->t_seller_student_new->field_update_list($item['userid'], ['distribution_count'=>$distribution_count]);
+                echo $item['userid'].':'.$item['distribution_count'].'=>'.$distribution_count."\n";
             }
         }
     }
