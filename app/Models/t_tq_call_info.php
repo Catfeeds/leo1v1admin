@@ -83,6 +83,24 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
                             $this->task->t_seller_get_new_log->field_update_list($ret_log['id'], $arr_log);
                         }
                     }
+
+                    //分配log
+                    $ret_edit_log = $this->task->t_seller_edit_log->get_row_by_adminid_new($adminid,$userid);
+                    if($ret_edit_log){
+                        $arr_edit_log = [];
+                        if($is_called_phone==0){
+                            if($ret_edit_log['first_revisit_time'] == 0){
+                                $arr_edit_log['first_revisit_time'] = $start_time;
+                            }
+                        }elseif($is_called_phone==1){
+                            if($ret_edit_log['first_contact_time'] == 0){
+                                $arr_edit_log['first_contact_time'] = $start_time;
+                            }
+                        }
+                        if(count($arr_edit_log)>0){
+                            $this->task->t_seller_edit_log->field_update_list($ret_edit_log['id'], $arr_edit_log);
+                        }
+                    }
                 }
             }elseif($admin_role == E\Eaccount_role::V_7){
                 if($userid>0){
@@ -956,6 +974,23 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
             ." where %s",
             self::DB_TABLE_NAME,
             $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_item_row($adminid,$phone,$call_flag=-1,$start_time,$end_time){
+        $where_arr = [
+            ['is_called_phone=%u',$call_flag,-1],
+        ];
+        $this->where_arr_add_int_field($where_arr, "adminid" ,$adminid);
+        $this->where_arr_add_str_field($where_arr, "phone" ,$phone);
+        $this->where_arr_add_time_range($where_arr, 'start_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select start_time ".
+            " from %s ".
+            " where %s order by start_time asc "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
         );
         return $this->main_get_value($sql);
     }
