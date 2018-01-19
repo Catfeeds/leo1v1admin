@@ -104,7 +104,8 @@ class report extends Controller
         return $data_arr;
     }
     public function event_log_info() {
-        list($start_time,$end_time)= $this->get_in_date_range_month(0);
+        list($start_time,$end_time)= $this->get_in_date_range(-3, 0);
+        $this->check_and_switch_tongji_domain();
         $ret_info=$this->t_log_event_log->tongji_start_succ_fail($start_time, $end_time);
         return $this->pageOutJson(__METHOD__, $ret_info);
     }
