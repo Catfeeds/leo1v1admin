@@ -37,6 +37,20 @@ class test_abner extends cmd_base
      */
     public function handle()
     {
+        //获取第四季度有常规课的学生
+    }
+    //@desn:更新优学优享用户头像
+    private function update_yxyx_head(){
+        $data = $this->get_wx_user_info($wx_openid='oAJiDwEId4b1lA6WV1wbRS83WXvo');
+        print_r($data);
+        $status = $this->task->t_agent->field_updte_list($id=1316, [
+            'headimgurl' => $data['headimgurl']
+        ]);
+        echo $status;
+        echo 'ok';
+    }
+    //@desn:1月例子未接通分析
+    private function call_fail_analysis(){
         $begin_time = strtotime(date('2018-01-01'));
         $end_time = strtotime('+ 1 month',$begin_time);
         $call_arr = [
@@ -177,20 +191,6 @@ class test_abner extends cmd_base
         fwrite($fp, "\n");
         fclose($fp);
         echo 'ok!';
-
-
-        //更新优学优享用户头像  --begin--
-        // $data = $this->get_wx_user_info($wx_openid='oAJiDwEId4b1lA6WV1wbRS83WXvo');
-        // print_r($data);
-        // $status = $this->task->t_agent->field_updte_list($id=1316, [
-        //     'headimgurl' => $data['headimgurl']
-        // ]);
-        // echo $status;
-        // echo 'ok';
-        //更新优学优享用户头像  --begin--
-
-        // $this->get_teacher_case();
-        // $this->get_today_headline
     }
     //@desn:获取课程评价情况
     private function get_class_evaluation(){

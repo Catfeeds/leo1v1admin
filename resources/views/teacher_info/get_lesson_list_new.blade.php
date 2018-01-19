@@ -103,7 +103,7 @@
                             电话：{{@$var["ass_phone"]}}<br/>
                         @endif
                         @if(@$var['lesson_type']==2 && @$var['cc_account']!="")
-                            教务老师：{{@$var["cc_account"]}}<br/>
+                            咨询：{{@$var["cc_account"]}}<br/>
                             电话：{{@$var["cc_phone"]}}
                         @endif
                     </td>

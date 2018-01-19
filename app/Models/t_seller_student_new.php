@@ -3466,7 +3466,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list_by_page($sql,$page_num,$page_count);
     }
 
-    public function get_item_list($start_time,$end_time,$page_info){
+    public function get_master_detail_list($start_time,$end_time,$page_info){
         $where_arr = [];
         $this->where_arr_add_time_range($where_arr, 'ss.add_time', $start_time, $end_time);
         $sql=$this->gen_sql_new(
@@ -3481,7 +3481,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." first_tmk_set_valid_admind,first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,"
             ." first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,first_admin_revisiterid_time,"
             ." first_seller_status,cur_adminid_call_count as call_count,ss.auto_allot_adminid,first_called_cc,"
-            ." first_get_cc,test_lesson_flag,ss.orderid,price "
+            ." first_get_cc,test_lesson_flag,ss.orderid,price,s.origin_level "
             ." from %s t "
             ." left join %s ss on  ss.userid = t.userid "
             ." left join %s s on ss.userid=s.userid "
@@ -3496,6 +3496,24 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+    public function get_item_list(){
+        $where_arr = [
+            'tmk_student_status=1',
+        ];
+        $sql=$this->gen_sql_new(
+            " select n.*,s.origin,m.account "
+            ." from %s n "
+            ." left join %s s on s.userid=n.userid "
+            ." left join %s m on m.uid=n.admin_revisiterid "
+            ." where %s order by n.add_time desc "
+            , self::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
+            , t_manager_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
 }

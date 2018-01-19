@@ -43,7 +43,14 @@ class teacher_assign_jw_teacher_auto extends Command
         $list = $task->t_teacher_info->get_train_through_teacher_list($time);
         foreach($list as $item){
             $subject = $item["subject"];
-            if($subject<4){
+            $garde_end = $item["grade_end"];
+            if($subject==1 &&  $garde_end>=3){
+                $assign_jw_adminid= 513;
+            }elseif($subject==2 &&  $garde_end>=5){
+                $assign_jw_adminid= 513;
+            }elseif($subject==2 &&  $garde_end>=3){
+                $assign_jw_adminid= 1328;
+            }elseif($subject<4){
                 if($subject==1){
                     $jw_list=[1238,513];
                 }elseif($subject==2){
