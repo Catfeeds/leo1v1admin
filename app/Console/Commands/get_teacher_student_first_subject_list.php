@@ -40,13 +40,14 @@ class get_teacher_student_first_subject_list extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
 
         $task = new \App\Console\Tasks\TaskController ();
-        $end_time = strtotime(date("Y-m-d",time()));
-        $start_time = strtotime("-1 days",$end_time);
+        // $end_time = strtotime(date("Y-m-d",time()));
+        // $start_time = strtotime("-1 days",$end_time);
         $end_time = time();
         $start_time = strtotime("2017-12-01");
 
         $i=0;
         $list  = $task->t_lesson_info_b3->get_teacher_student_first_subject_info($start_time,$end_time);
+        print_r($list);
         foreach($list as $val){
             $id = $val["id"];
             // if($id>0){
@@ -60,17 +61,17 @@ class get_teacher_student_first_subject_list extends Command
             //     ]);
 
             // }else{
-                $add_time = time()+$i;
-                $task->t_teacher_record_list->row_insert([
-                    "teacherid"      => $val["teacherid"],
-                    "userid"         => $val["userid"],
-                    "lesson_subject" => $val["subject"],
-                    "lesson_time"    => $val["lesson_start"],
-                    "train_lessonid" => $val["lessonid"],
-                    "add_time"       => $add_time,
-                    "type"           => 18
-                ]);
-                $i++;
+            $add_time = time()+$i;
+            $task->t_teacher_record_list->row_insert([
+                "teacherid"      => $val["teacherid"],
+                "userid"         => $val["userid"],
+                "lesson_subject" => $val["subject"],
+                "lesson_time"    => $val["lesson_start"],
+                "train_lessonid" => $val["lessonid"],
+                "add_time"       => $add_time,
+                "type"           => 20
+            ]);
+            $i++;
             // }
         }
         dd(111);
