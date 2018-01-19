@@ -3166,13 +3166,14 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,l.confirm_flag,"
                                   ."l.grade,l.teacherid,l.lessonid,t.realname,l.userid,"
-                                  ." l.lesson_num,l.teacher_effect,l.teacher_quality,"
-                                  ." l.stu_score,l.teacher_interact,l.stu_stability, "
-                                  ." l.teacher_comment,l.stu_comment,l.stu_performance"
+                                  ." l.lesson_num,h.issue_time ,h.issue_url ,h.finish_time,h.finish_url ,"
+                                  ." h.work_status ,h.score,h.check_url"
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s h on l.lessonid = h.lessonid"
                                   ." where %s order by l.lesson_start",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_homework_info::DB_TABLE_NAME,
                                   $where_arr
         );
         if($page_flag==1){
