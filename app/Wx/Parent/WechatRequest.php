@@ -174,7 +174,7 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
             $t_manager_info = new \App\Models\t_manager_info;
             $checkIsRole = $t_manager_info->checkIsRole($userOpenid);
             if($checkIsRole == 1){
-                $content = "http://wx-parent.leo1v1.com";
+                $content = "http://wx-parent.leo1v1.com"; // 待定
             }else{
                 $content = '';
             }
