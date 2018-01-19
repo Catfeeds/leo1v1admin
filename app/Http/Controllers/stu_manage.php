@@ -1712,6 +1712,64 @@ class stu_manage extends Controller
         }elseif($current_id==4){
             $ret_info = $this->t_lesson_info_b3->get_lesson_homework_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade);
             $list = $this->t_lesson_info_b3->get_lesson_homework_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
+            foreach($ret_info["list"] as &$item){
+                E\Egrade::set_item_value_str($item);
+                E\Esubject::set_item_value_str($item);
+                \App\Helper\Utils::unixtime2date_range($item);
+                $item["issue_url_str"] = \App\Helper\Utils::gen_download_url($item["issue_url"]);
+                $item["finish_url_str"] = \App\Helper\Utils::gen_download_url($item["finish_url"]);
+                $item["check_url_str"] = \App\Helper\Utils::gen_download_url($item["check_url"]);
+                if(empty($item["issue_url"])){
+                    $item["issue_url_str"]="";
+                    $item["finish_url_str"]="";
+                    $item["check_url_str"]="";
+                    $item["issue_flag"]="未上传";
+                    $item["download_flag"]= $item["commit_flag"]= $item["commit_flag"]="—";
+                   
+                }else{
+                    $item["issue_flag"]="已上传";
+                    $item["download_flag"]="—";                   
+                    if($item["work_status"]>=2){
+                        $item["commit_flag"]="已提交";
+                    }else{
+                        $item["commit_flag"]="未提交";
+                    }
+                    if($item["work_status"]>=3){
+                        $item["check_flag"]="是";   
+                    }else{
+                        $item["commit_flag"]="否";
+                    }
+
+
+                }
+                $item["lesson_num"] = @$all_lesson[$item["lessonid"]];
+
+            }
+            $cw_num=$pre_num=0;
+            foreach($list as $val){
+                if(!isset($subject_arr[$val["subject"]])){
+                    $subject_arr[$val["subject"]]=$val["subject"];
+                }
+                if(!isset($grade_arr[$val["grade"]])){
+                    $grade_arr[$val["grade"]]=$val["grade"];
+                }
+                if(empty($val["tea_cw_upload_time"]) || $val["tea_cw_upload_time"]>$val["lesson_start"]){
+                }else{
+                    $cw_num++;
+                    if($val["preview_status"]>0){
+                        $pre_num++;
+                    }
+                }
+
+
+            }
+            $pre_rate = $cw_num==0?0:round($pre_num/$cw_num*100,2);
+            return $this->pageView(__METHOD__,$ret_info,[
+                "pre_rate"=>$pre_rate,
+                "subject_list"=>$subject_arr,
+                "grade_list"=>$grade_arr,
+            ]);
+
 
 
         }elseif($current_id==5){
