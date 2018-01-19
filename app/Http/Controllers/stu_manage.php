@@ -1642,10 +1642,10 @@ class stu_manage extends Controller
                     //   $str = $this->get_test_lesson_comment_str($str);
                     $item['stu_point_performance'].=PHP_EOL."总体评价:".$str;
                 }
+                $item['stu_intro']="";
 
 
             }
-            dd($ret_info);
             $cw_num=$pre_num=0;
             foreach($list as $val){
                 if(!isset($subject_arr[$val["subject"]])){
