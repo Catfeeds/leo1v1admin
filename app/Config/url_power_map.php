@@ -225,7 +225,6 @@ class url_power_map {
 			'/table_manage/dev_info'	=>1060804,
 			'/main_page2/market'	=>1070100,
 			'/report/week_of_monthly_report'	=>1078800,
-			'/tongji_ex/seller_student_distribution'	=>1070859,
 			'/tongji_ex/seller_student_detail'	=>1070803,
 			'/report/event_log_info'	=>1070828,
 			'/tongji_ss/channel_statistics'	=>1070856,
