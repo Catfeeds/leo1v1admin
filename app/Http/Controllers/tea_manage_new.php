@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Input;
 use \App\Enums as E;
 use App\Helper\Utils;
 use Illuminate\Support\Facades\Cookie ;
+use App\Http\Controllers\Controller;
+
 
 class tea_manage_new extends Controller
 {
@@ -1127,6 +1129,57 @@ class tea_manage_new extends Controller
         return $this->output_succ();
     }
 
+    //@desn:手动添加公开课
+    public function open_class_add(){
+        $lesson_start = strtotime($this->get_in_str_val('lesson_start'));
+        $lesson_end = strtotime($this->get_in_str_val('lesson_end'));
+        $subject = $this->get_in_int_val('subject');
+        \App\Helper\Utils::logger("subject $subject");
+        $grade = $this->get_in_int_val('grade');
+        $teacherid = $this->get_in_int_val('tea_name');
+        // $tea_name = $this->get_in_str_val('teacher_name');
+        // $phone = $this->get_in_str_val('teacher_phone');
+        $suit_student = $this->get_in_str_val('suit_student');
+        $title = $this->get_in_str_val('title');
+        $package_intro = $this->get_in_str_val('package_intro');
+        // $subject_arr = E\Esubject::$desc_map;
+        // $grade_arr   = E\Egrade::$desc_map;
+        if(!$lesson_start)
+            return $this->output_err('课程开始时间为必填项!');
+        // $subject = array_search($subject,$subject_arr);
+        // $grade   = array_search($grade,$grade_arr);
+
+        // $check_phone=\App\Helper\Utils::check_phone($phone);
+        // if($check_phone){
+        //     $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        // }else{
+        //     $teacherid = $this->t_teacher_info->get_teacherid_by_name($tea_name);
+        // }
+        if(!$teacherid){
+            \App\Helper\Utils::logger("add open course 老师不存在".$teacherid);
+            return $this->output_err('该老师不存在!');
+        }
+
+        $ret = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
+
+        if($ret){
+            return $this->output_err("与现存的老师课程冲突".$ret["lessonid"]."老师id".$teacherid);
+            \App\Helper\Utils::logger("与现存的老师课程冲突".$ret["lessonid"]."老师id".$teacherid);
+        }else{
+            $packageid = $this->t_appointment_info->add_appoint(
+                $title,E\Econtract_type::V_1001,$package_intro,$suit_student,$subject,$grade
+            );
+            $courseid  = $this->t_course_order->add_open_course(
+                $teacherid,$title,$grade,$subject,E\Econtract_type::V_1001,$packageid,1
+            );
+            $lessonid  = $this->t_lesson_info->add_open_lesson(
+                $teacherid,$courseid,$lesson_start,$lesson_end,$subject,$grade
+            );
+            return $this->output_succ();
+        }
+    }
+
+
     public function add_open_class_by_xls(){
         \App\Helper\Utils::logger("begin create open class");
         $file = Input::file('file');
@@ -1320,6 +1373,9 @@ class tea_manage_new extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    /**
+     * 添加面试试讲
+     */
     public function add_train_lesson_new(){
         $phone            = $this->get_in_str_val("phone");
         $tea_nick         = $this->get_in_str_val("tea_nick");
@@ -1329,6 +1385,7 @@ class tea_manage_new extends Controller
         $record_teacherid = $this->get_in_int_val("record_teacherid");
         $id               = $this->get_in_int_val("id");
         $acc              = $this->get_account();
+
         if(empty($subject) || empty($lesson_start) || empty($record_teacherid)){
             return $this->output_err("请填写完整");
         }

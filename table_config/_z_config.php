@@ -26,6 +26,7 @@ return array(
     ['db_weiyi','t_activity_quota_detail','id'],
     ['db_weiyi','t_product_feedback_list','id'],
     ['db_weiyi_admin','t_company_wx_auth','id'],
+    ['db_weiyi_admin','t_power_back','log_date', "groupid"],
     ['db_weiyi_admin','t_company_wx_role','id'],
     ['db_weiyi_admin',"t_company_wx_users","id"],
     ["db_weiyi_admin","t_company_wx_department","id"],
@@ -112,6 +113,10 @@ return array(
     ["db_weiyi","t_rule_info", "rule_id"],
     ["db_weiyi","t_rule_detail_info", "detail_id"],
     ["db_weiyi","t_process_info", "process_id"],
+    ["db_weiyi","jobs", "id"],
+    ["db_weiyi_admin","t_log_event_type", "event_type_id"],
+    ["db_weiyi_admin","t_log_event_log", "id"],
+
 
     ["db_weiyi_admin","t_user_report","id"],
     ["db_weiyi_admin","t_kaoqin_machine","machine_id"],
@@ -127,6 +132,7 @@ return array(
 
     ["db_weiyi_admin","t_admin_card_log","logtime","cardid"],
     ["db_weiyi_admin","t_id_opt_log","id"],
+    ["db_weiyi_admin","t_seller_get_new_log","id"],
     ["db_weiyi_admin","t_seller_new_count","new_count_id"],
     ["db_weiyi_admin","t_seller_new_count_get_detail","id"],
     ["db_weiyi_admin","t_online_count_log","logtime"],
@@ -148,7 +154,9 @@ return array(
     ["db_weiyi","t_student_init_info","userid"] ,
     ["db_weiyi","t_gift_consign","exchangeid"] ,
     ["db_weiyi","t_gift_info","giftid"] ,
+    ["db_weiyi","t_lesson_all_money_list","lessonid","orderid"] ,
     ["db_weiyi","t_lesson_info","lessonid"] ,
+    ["db_weiyi","t_lesson_info_operate_log","id"] ,
     ["db_weiyi","t_homework_info","lessonid"] ,
     ["db_weiyi","t_course_order","courseid"] ,
     ["db_weiyi","t_order_course_list","courseid"] ,
@@ -231,6 +239,7 @@ return array(
     ["db_weiyi","t_teacher_advance_list", "start_time","teacherid"],
     ["db_weiyi","t_teaching_core_data", "time","type"],
     ["db_weiyi","t_phone_info","id"],
+    ["db_weiyi","t_subject_grade_config", "adminid","type"],
 
     ["db_weiyi","t_origin_key", "value"],
     ["db_weiyi","t_wx_openid_bind","openid","role"] ,
@@ -253,6 +262,7 @@ return array(
     ["db_weiyi","t_student_subject_list","userid","subject"] ,
     ["db_weiyi","t_period_repay_list","orderid","period"] ,
     ["db_weiyi","t_version_control","id"] ,
+    ["db_weiyi","t_sub_grade_book_tag","id"] ,
 
 
     ["db_weiyi_admin","t_upload_info","postid"] ,
@@ -296,7 +306,7 @@ return array(
     ["db_weiyi_admin","t_order_student_month_list","month","origin"] ,
     ["db_weiyi_admin","t_url_desc_power","id"] ,
     ["db_weiyi_admin","t_url_input_define","id"] ,
-
+    ["db_weiyi_admin","t_user_power_group","id"] ,
 
     ["db_account","t_phone_to_user","phone"] ,
     ["db_account","t_user_info","userid"] ,
@@ -325,6 +335,6 @@ return array(
     ["db_question_new","t_textbook_knowledge","id"],
     ["db_question_new","t_question_type","id"],
     ["db_question_new","t_student_answer","id"],
-    ["db_question_new","t_question_option","id"], 
+    ["db_question_new","t_question_option","id"],
 
 );

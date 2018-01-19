@@ -39,7 +39,7 @@ class no_auto_student_change_type extends Command
     {
         /**  @var   $task \App\Console\Tasks\TaskController */
 
-        $task = new \App\Console\Tasks\TaskController ();
+        $task = new \App\Console\Tasks\TaskController ();      
 
         $time = strtotime(date("Y-m-d",time()));        
         $user_stop = $task->t_student_info->get_no_auto_stop_stu_list($time);

@@ -38,6 +38,23 @@ class t_seller_new_count_get_detail extends \App\Models\Zgen\z_t_seller_new_coun
         return $this->main_get_value($sql);
     }
 
+    public function get_daily_userid($start_time,$end_time){
+        $where_arr = [
+            'd.userid>0',
+        ];
+        $this->where_arr_add_time_range($where_arr, 'd.get_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select d.userid,n.cc_called_count,n.cc_no_called_count_new "
+            ." from %s d "
+            ." left join %s n on n.userid=d.userid "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }
 
 

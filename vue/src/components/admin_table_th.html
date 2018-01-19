@@ -5,5 +5,5 @@
 >
   <span v-html="field_info.title" v-if="field_info.title" ></span><span><slot></slot></span>
   <a v-if="field_info.order_field_name" class="fa td-sort-item "
-    v-bind:class="get_sort_class()" href="javascript:;"> </a>
+    v-bind:class="get_sort_class()" href="javascript:;" @click="do_sort"> </a>
 </td>

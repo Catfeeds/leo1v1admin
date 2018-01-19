@@ -62,7 +62,7 @@ class authority extends Controller
         $adminid               = $this->get_in_adminid(-1);
         $uid                   = $this->get_in_int_val('uid',0);
         $user_info             = trim($this->get_in_str_val("user_info"));
-        $has_question_user     = $this->get_in_el_boolean(0, 'has_question_user');
+        $has_question_user     = $this->get_in_e_boolean(0, 'has_question_user');
         $del_flag              = $this->get_in_el_boolean(0,'del_flag');
         $page_info             = $this->get_in_page_info();
         $account_role          = $this->get_in_el_account_role();
@@ -79,7 +79,7 @@ class authority extends Controller
         }else{
             $adminid_right=[];
         }
-        
+
         $seller_level      = $this->get_in_el_seller_level();
         if (!$cardid) {
             $cardid = -1;
@@ -216,10 +216,10 @@ class authority extends Controller
         }
         //print_r($arr);
         foreach($list as &$item){
-            $item["account_role_str"] = E\Eaccount_role::get_desc($item['role_groupid']);               
-            $item["has_power"] = in_array($item['groupid'],$arr)?1:0;                
+            $item["account_role_str"] = E\Eaccount_role::get_desc($item['role_groupid']);
+            $item["has_power"] = in_array($item['groupid'],$arr)?1:0;
         }
-        
+
         //dd($list);
         return $this->output_succ(["data"=> $list]);
     }
@@ -240,7 +240,7 @@ class authority extends Controller
             "userid"   => $uid, //被修改人
             "adminid"  => $this->get_account_id(),
             "msg"      => "用户管理页面,权限修改记录:$permission",
-            "user_log_type" => 3, //用户页面修改记录
+            "user_log_type" => E\Euser_log_type::V_3, //用户页面修改记录
         ]);
 
 

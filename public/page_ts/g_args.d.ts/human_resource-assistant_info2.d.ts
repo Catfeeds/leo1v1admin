@@ -38,13 +38,14 @@ tofile:
 /// <reference path="../g_args.d.ts/human_resource-assistant_info2.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		is_part_time:	$('#id_is_part_time').val(),
 		ass_nick:	$('#id_ass_nick').val(),
 		phone:	$('#id_phone').val(),
 		score:	$('#id_score').val()
-    });
+		});
 }
 $(function(){
 
@@ -69,6 +70,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_is_part_time" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["is_part_time title", "is_part_time", "th_is_part_time" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -76,6 +78,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_ass_nick" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["ass_nick title", "ass_nick", "th_ass_nick" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -83,6 +86,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_phone" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["phone title", "phone", "th_phone" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -90,4 +94,6 @@ $(function(){
                 <input class="opt-change form-control" id="id_score" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["score title", "score", "th_score" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 */

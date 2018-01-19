@@ -120,7 +120,7 @@ class update_company_wx_data extends Command
                     "reason" => $lea['reason']
                 ];
                 $common = array_merge($common, $leave);
-                $common['type'] = 1;
+                $common['type'] = E\Eapproval_type::V_1;
             }
             $leave = json_decode($item['comm']['apply_data'], true);
             $items = '';
@@ -136,18 +136,22 @@ class update_company_wx_data extends Command
                     if ($val['title'] == '开始时间') $common['start_time'] = ($val['value'] / 1000);
                     if ($val['title'] == '结束时间') $common['end_time'] = ($val['value'] / 1000);
                     if ($val['title'] == '事由') $common['reason'] = $val['value'];
-                    $common['type'] = 1;
+                    $common['type'] = E\Eapproval_type::V_1;
                 }
                 if ($item['spname'] == '拉取数据审批') {
                     if ($val['title'] == '数据类型') $common['reason'] = $val['value'];
                     //if ($val['title'] == '需要时间') $common['start_time'] = $val['value'];
-                    $common['type'] = 4;
+                    $common['type'] = E\Eapproval_type::V_4;
                 }
                 if ($item['spname'] == '费用申请') {
                     if ($val['title'] == '费用类型') $common['reason'] = $val['value'];
                     if ($val['title'] == '费用金额') $common['sums'] = $val['value'];
                     //if (isset($item['value'])) $items[$val['title']] = $val['value'];
-                    $common['type'] = 3;
+                    $common['type'] = E\Eapproval_type::V_3;
+                }
+                if ($item['spname'] == '学生年级修改') {
+                    if ($val["title"] == "备注") $common['reason'] = $val['value'];
+                    $common['type'] = E\Eapproval_type::V_13;
                 }
                 if (isset($val['value'])) $items[$val['title']] = $val['value'];
             }

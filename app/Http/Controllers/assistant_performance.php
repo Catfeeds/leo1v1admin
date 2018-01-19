@@ -526,7 +526,8 @@ class assistant_performance extends Controller
         $last_ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($last_month);
         
         $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target");
-        
+
+        $old_twl_info = $this->t_month_ass_student_info->get_ass_month_info(1512057500);//12月份旧版数据        
 
         //销售月拆解
         $start_info       = \App\Helper\Utils::get_week_range($start_time,1 );
@@ -746,8 +747,17 @@ class assistant_performance extends Controller
             $item["renw_reword"] = $item["renw_reword"]/100;
             $item["cc_tran_reword"] = $item["cc_tran_reword"]/100;
             $item["all_reword"] =  $item["revisit_reword"]+$item["kpi_lesson_count_finish_reword"]+$item["kk_reword"]+$item["stop_reword"]+$item["end_no_renw_reword"]+ $item["lesson_count_finish_reword"]+$item["renw_reword"]+ $item["cc_tran_reword"];
+
+            if($start_time==strtotime("2017-12-01")){            
+                $item["old_ewnew_money"] = @$old_twl_info[$k]["performance_cr_renew_money"]+@$old_twl_info[$k]["performance_cr_new_money"];
+                $item["old_ewnew_money"] =$item["old_ewnew_money"]/100;
+            }else{
+                $item["old_ewnew_money"]="暂无数据";  
+            }
             
         }
+
+
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ass_month),[
             "start"=>date("Y-m-d H:i",$start_time),
             "end"=>date("Y-m-d H:i",$end_time),
@@ -1067,13 +1077,28 @@ class assistant_performance extends Controller
             $price = $val["price"];
             $uid = $val["uid"];
             $real_refund = $val["real_refund"];
-            if(!isset($ass_tran_info[$uid]["user_list"][$userid])){
-                $ass_tran_info[$uid]["user_list"][$userid]=$userid;
-                @$ass_tran_info[$uid]["num"] +=1;
+            if(!isset($ass_tran_info["user_list"][$userid])){
+                $ass_tran_info["user_list"][$userid]=$userid;
+                @$ass_tran_info["num"] +=1;
             }
-            @$ass_tran_info[$uid]["money"] += $price-$real_refund;
+            @$ass_tran_info["money"] += $price-$real_refund;
+            @$ass_tran_info_info["refund_money"] += $real_refund;
+            @$ass_tran_info["order_money"] += $price;
+
 
         }
+
+        foreach($cc_order_list as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item, 'order_time','_str'); 
+            \App\Helper\Utils::unixtime2date_for_item($item, 'apply_time','_str'); 
+            \App\Helper\Utils::unixtime2date_for_item($item, 'pay_time','_str'); 
+            $item["stu_nick"]= $this->cache_get_student_nick($item["userid"]);
+        }
+
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($cc_order_list),[
+            "ass_tran_info"  => @$ass_tran_info,
+        ]);
+
 
 
     }

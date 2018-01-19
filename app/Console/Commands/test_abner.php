@@ -37,6 +37,163 @@ class test_abner extends cmd_base
      */
     public function handle()
     {
+        //获取第四季度有常规课的学生
+    }
+    //@desn:更新优学优享用户头像
+    private function update_yxyx_head(){
+        $data = $this->get_wx_user_info($wx_openid='oAJiDwEId4b1lA6WV1wbRS83WXvo');
+        print_r($data);
+        $status = $this->task->t_agent->field_updte_list($id=1316, [
+            'headimgurl' => $data['headimgurl']
+        ]);
+        echo $status;
+        echo 'ok';
+    }
+    //@desn:1月例子未接通分析
+    private function call_fail_analysis(){
+        $begin_time = strtotime(date('2018-01-01'));
+        $end_time = strtotime('+ 1 month',$begin_time);
+        $call_arr = [
+            'all_example_count' => 0,
+            'no_connect_count' => 0,
+            'no_call_succ' => 0,
+            'cc_shut_count' => 0,
+            'user_shut_count' => 0,
+            'cc_shut_rate' => 0,
+            'user_shut_rate' => 0,
+            'less_30_count' => 0,
+            'less_30_cc_shut' => 0,
+            'less_30_user_shut' => 0,
+            'less_30_cc_shut_rate' => 0,
+            'less_30_user_shut_rate' => 0
+        ];
+        $user_arr = [];
+        $is_connect_arr = [];
+        $call_succ_arr= [];
+        $more_30_arr = [];
+        $count_arr = [];
+        $count_30_arr = [];
+
+        //获取全部进入的例子量，和未接通的例子
+        $example_call_result = $this->task->t_test_lesson_subject->get_example_call_result($begin_time,$end_time);
+        foreach($example_call_result as &$item){
+            //总数量
+            if(!@$user_arr[$item['userid']]){
+                $call_arr['all_example_count'] ++;
+                $user_arr[$item['userid']] = true;
+            }
+            //已接通 [status 为1的都为真正未接通的]
+            if($item['is_called_phone'] == 1)
+                $is_connect_arr[$item['userid']]=true;
+            //接通并且通话时长大于60s
+            if($item['duration'] >= 60)
+                $call_succ_arr[$item['userid']]=true;
+            //通话时长大于30s
+            if($item['duration'] >= 30 && $item['duration'] < 60)
+                $more_30_arr[$item['userid']]=true;
+
+        }
+
+
+        //遍历第二遍[将同一用户的状态调一致]
+        foreach($example_call_result as &$item){
+            if(@$is_connect_arr[$item['userid']])
+                $item['status'] = 2; //status 为1的都为真正未接通
+            if(@$call_succ_arr[$item['userid']])
+                $item['status'] = 3; //status 为2的都为通话时长小于30s
+            if(@$more_30_arr[$item['userid']])
+                $item['status'] = 4; //status 为4的都为通话时长30-60s
+        }
+
+        $no_connect_arr = [];
+        $shut_arr = [];
+        $shut_30_arr = [];
+        //遍历第三遍[计算60 30 总数]
+        foreach($example_call_result as $item){
+            if(!@$no_connect_arr[$item['userid']] && $item['status'] == 1){
+                $call_arr['no_connect_count'] ++;
+                $no_connect_arr[$item['userid']] = true;
+            }
+
+            if(!@$count_arr[$item['userid']] && in_array($item['status'], [2,4])){
+                $call_arr['no_call_succ'] ++;
+                $count_arr[$item['userid']] = true;
+            }
+
+            if(in_array($item['status'], [2,4]) && $item['end_reason'] == 0)
+                $shut_arr[$item['userid']] = true;
+
+            if(!@$count_30_arr[$item['userid']] && $item['status'] == 2){
+                $call_arr['less_30_count'] ++;
+                $count_30_arr[$item['userid']] = true;
+            }
+
+            if($item['status'] == 2 && $item['end_reason'] == 0)
+                $shut_30_arr[$item['userid']] = true;
+        }
+
+        $shut_identity_arr = [];
+        $shut_30_identity_arr = [];
+        //遍历第四遍[计算挂断者]
+        foreach($example_call_result as $item){
+            if(!@$shut_identity_arr[$item['userid']] && in_array($item['status'], [2,4]) && @$shut_arr[$item['userid']])
+                $call_arr['cc_shut_count'] ++;
+            if(!@$shut_identity_arr[$item['userid']] && in_array($item['status'], [2,4]) && !@$shut_arr[$item['userid']])
+                $call_arr['user_shut_count'] ++;
+
+            $shut_identity_arr[$item['userid']] = true;
+
+            if(!@$shut_30_identity_arr[$item['userid']] && $item['status'] == 2 && @$shut_30_arr[$item['userid']])
+                $call_arr['less_30_cc_shut'] ++;
+            elseif(!@$shut_30_identity_arr[$item['userid']] && $item['status'] == 2 && !@$shut_30_arr[$item['userid']])
+                $call_arr['less_30_user_shut'] ++;
+
+            $shut_30_identity_arr[$item['userid']] = true;
+
+        }
+
+        if($call_arr['no_call_succ'] != 0){
+            $call_arr['cc_shut_rate'] = number_format(($call_arr['cc_shut_count']/$call_arr['no_call_succ']*100),2).'%';
+            $call_arr['user_shut_rate'] = number_format(($call_arr['user_shut_count']/$call_arr['no_call_succ']*100),2).'%';
+        }
+        if($call_arr['less_30_count'] != 0){
+            $call_arr['less_30_cc_shut_rate'] = number_format(($call_arr['less_30_cc_shut']/$call_arr['less_30_count']*100),2).'%';
+            $call_arr['less_30_user_shut_rate'] = number_format(($call_arr['less_30_user_shut']/$call_arr['less_30_count']*100),2).'%';
+        }
+
+        $path = '/var/www/admin.yb1v1.com/10.txt';
+        $fp = fopen($path,"a+");
+        fwrite($fp, '1月例子未接通分析');//1
+        fwrite($fp, '   ');
+        fwrite($fp, @$call_arr['all_example_count']);//1
+        fwrite($fp, '   ');
+        fwrite($fp, @$call_arr['no_connect_count']);//1
+        fwrite($fp, '   ');
+        fwrite($fp, @$call_arr['no_call_succ']);//1
+        fwrite($fp, '   ');
+        fwrite($fp, @$call_arr['cc_shut_count']);//1
+        fwrite($fp, '   ');
+        fwrite($fp, @$call_arr['user_shut_count']);//1
+        fwrite($fp, '   ');
+        fwrite($fp, @$call_arr['cc_shut_rate']);//1
+        fwrite($fp, '   ');
+        fwrite($fp, @$call_arr['user_shut_rate']);//1
+        fwrite($fp, '   ');
+        fwrite($fp, @$call_arr['less_30_count']);//1
+        fwrite($fp, '   ');
+        fwrite($fp, @$call_arr['less_30_cc_shut']);//1
+        fwrite($fp, '   ');
+        fwrite($fp, @$call_arr['less_30_user_shut']);//1
+        fwrite($fp, '   ');
+        fwrite($fp, @$call_arr['less_30_cc_shut_rate']);//1
+        fwrite($fp, '   ');
+        fwrite($fp, @$call_arr['less_30_user_shut_rate']);//1
+        fwrite($fp, "\n");
+        fclose($fp);
+        echo 'ok!';
+    }
+    //@desn:获取课程评价情况
+    private function get_class_evaluation(){
         $begin_time = strtotime(date('2017-08-01'));
         $end_time = strtotime('+ 1 month',$begin_time);
         $lesson_evaluation_data = $this->task->t_lesson_info_b3->get_lesson_evaluation_data($begin_time,$end_time);
@@ -54,20 +211,6 @@ class test_abner extends cmd_base
         fwrite($fp, "\n");
         fclose($fp);
         echo 'ok!';
-
-
-        //更新优学优享用户头像  --begin--
-        // $data = $this->get_wx_user_info($wx_openid='oAJiDwEId4b1lA6WV1wbRS83WXvo');
-        // print_r($data);
-        // $status = $this->task->t_agent->field_updte_list($id=1316, [
-        //     'headimgurl' => $data['headimgurl']
-        // ]);
-        // echo $status;
-        // echo 'ok';
-        //更新优学优享用户头像  --begin--
-
-        // $this->get_teacher_case();
-        // $this->get_today_headline
     }
 
     //@desn:获取老师违规数据明细

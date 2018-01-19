@@ -1261,7 +1261,7 @@ class user_manage_new extends Controller
                     }
                     $info[] = $item2;
                 }
-                
+
             }
             $info[] = $item;
         }
@@ -2114,9 +2114,9 @@ class user_manage_new extends Controller
                 }
             }
         }
-     
+
         $default_groupid = $group_all[$role_groupid][0]['groupid'];
-             
+
         //选择权限组id
         $groupid  = $this->get_in_int_val("groupid",$default_groupid);
 
@@ -2124,17 +2124,20 @@ class user_manage_new extends Controller
         $user_list=[];
         $ret_info=\App\Helper\Utils::list_to_page_info([]);
 
-        if( $groupid > 0 ){  
+        if( $groupid > 0 ){
             $user_list = $this->t_manager_info->get_power_group_user_list($groupid);
             $user_list = $this->get_user_permission($user_list);
+
+            //$user_list = $this->get_user_powers($groupid);
+
             $power_map = $this->t_authority_group->get_auth_group_map($groupid);
             $list=$this->get_menu_list_new($power_map );
-      
+
             $ret_info=\App\Helper\Utils::list_to_page_info($list);
 
         }
         return $this->Pageview(__METHOD__,$ret_info,[
-            "_publish_version" => 201801118150,
+            "_publish_version" => 201801119150,
             "group_all" => $group_all,
             "user_list"=>$user_list,
             "list"=>$list,
@@ -2154,27 +2157,29 @@ class user_manage_new extends Controller
             $permission = array_unique($permission);
             $per_name = [];
             if($permission){
-                $per_str = "(";
+                $per_str = "";
                 foreach($permission as $per){
-                    if(!empty($per)){
+                    if($per != ''){
                         $per_str .= $per.',';
                     }
                 }
-                $per_str = substr($per_str,0,-1).')';
-                $permission_names = $this->t_authority_group->get_groups_by_idstr($per_str);
-                $per_name = array_column($permission_names, 'group_name', 'groupid');
-                foreach($user_list as &$user){
-                    $permit_name = '';
-                    if($user['permit_arr']){
-                        foreach( $user['permit_arr'] as $gid){
-                            $permit_str = array_key_exists($gid, $per_name) ? trim(@$per_name[$gid])."," : "";
-                            $permit_name .= $permit_str;
+                if( $per_str != ''){
+                    $per_str = "(".substr($per_str,0,-1).')';
+                    $permission_names = $this->t_authority_group->get_groups_by_idstr($per_str);
+                    $per_name = array_column($permission_names, 'group_name', 'groupid');
+                    foreach($user_list as &$user){
+                        $permit_name = '';
+                        if($user['permit_arr']){
+                            foreach( $user['permit_arr'] as $gid){
+                                $permit_str = array_key_exists($gid, $per_name) ? trim(@$per_name[$gid])."," : "";
+                                $permit_name .= $permit_str;
+                            }
+                            $permit_name = substr($permit_name,0,-1);
                         }
-                        $permit_name = substr($permit_name,0,-1);
+                        $user['permit_name'] = $permit_name;
                     }
-                    $user['permit_name'] = $permit_name;
-                }
 
+                }
             }
         }
         return $user_list;
@@ -2359,10 +2364,6 @@ class user_manage_new extends Controller
         // return $this->output_succ(["data"=> $ret]);
     }
 
-
-
-
-
     public function opt_accont_group() {
         $uid      = $this->get_in_int_val("uid") ;
         $groupid  = $this->get_in_int_val("groupid") ;
@@ -2376,7 +2377,7 @@ class user_manage_new extends Controller
             "add_time" => time(),
             "adminid"  => $this->get_account_id(),
             "msg"      => "权限管理页面,添加用户修改记录: [用户id:$uid,组别:$groupid]",
-            "user_log_type" => 4, //权限页面添加用户记录
+            "user_log_type" => E\Euser_log_type::V_4, //权限页面添加用户记录
         ]);
 
 
@@ -2397,8 +2398,8 @@ class user_manage_new extends Controller
         $this->t_user_log->row_insert([
             "add_time" => time(),
             "adminid"  => $this->get_account_id(),
-            "msg"      => "权限管理页面,权限修改记录:$power_list_str",
-            "user_log_type" => 2, //权限页面修改记录
+            "msg"      => "权限管理页面,权限修改记录:$power_list_str  权限组groupid:$groupid",
+            "user_log_type" => E\Euser_log_type::V_2, //权限页面修改记录
         ]);
 
         return $this->output_succ();
@@ -2949,7 +2950,7 @@ class user_manage_new extends Controller
             $item["has_power"] = in_array($powerid,$p_list)?1:0;
 
         }
-     
+
         return $this->output_succ(["data"=> $list]);
     }
 
@@ -2965,7 +2966,7 @@ class user_manage_new extends Controller
             $item["has_power"] = in_array($powerid,$p_list)?1:0;
         }
         $ret['list'] = $list;
-        return $this->output_ajax_table($ret); 
+        return $this->output_ajax_table($ret);
     }
 
     public function set_power_with_groupid_list() {
@@ -3861,8 +3862,7 @@ class user_manage_new extends Controller
 
     public function ass_warning_stu_info_new(){
         $account_id = $this->get_account_id();
-        $adminid = $this->get_ass_leader_account_id($account_id);
-        //  $account_id = 297;
+        $adminid    = $this->get_ass_leader_account_id($account_id);
         $main_type = 1;
         $is_master = $this->t_admin_main_group_name->check_is_master($main_type,$account_id);
         if($is_master>0 || in_array($account_id,[349,188,74]) ){
@@ -4085,10 +4085,17 @@ class user_manage_new extends Controller
         return $this->output_succ();
     }
 
+    //删除老师额外奖金记录
     public function delete_teacher_reward(){
         $id = $this->get_in_int_val("id");
 
-        $ret=$this->t_teacher_money_list->row_delete($id);
+        $add_time   = $this->t_teacher_money_list->get_add_time($id);
+        $check_flag = \App\Helper\Utils::check_teacher_salary_time($add_time);
+        if(!$check_flag){
+            return $this->output_err("超出时间，无法删除! \n 只能删除本月数据！");
+        }
+
+        $ret = $this->t_teacher_money_list->row_delete($id);
         if(!$ret){
             return $this->output_err("删除失败！请重试！");
         }
@@ -4461,7 +4468,7 @@ class user_manage_new extends Controller
             $attendance_time_str= date("Y-m-d",$v["attendance_time"]);
             @$extra_arr[$v["adminid"]] .=$attendance_time_str."<br>" ;
         }
-        
+
         foreach($ret_info["list"] as &$item){
 
             //本月加班时间
@@ -4522,16 +4529,16 @@ class user_manage_new extends Controller
                             $item["result"]="早退";
                         }
 
-                        
-                       
- 
+
+
+
                     }
                 }
 
- 
+
             }
 
-                       
+
         }
         return $this->Pageview(__METHOD__,$ret_info,[
             "acc"   =>session("acc")

@@ -293,6 +293,151 @@ class test_code extends Controller
         \App\Helper\Utils::sms_common($phone, $type, $data);
     }
 
+    public function show_lesson_all_money(){
+        $lessonid   = $this->get_in_int_val("lessonid");
+        $month      = $this->get_in_int_val("month",1);
+        $month_str  = "2017-".$month;
+        $month_time = strtotime($month_str);
+        $month_time = \App\Helper\Utils::get_month_range($month_time,true);
+
+
+        $jianzhi_reward = ($this->t_teacher_money_list->get_reward_total($month_time['sdate'],$month_time['edate'],0,0,0))/100;
+        $full_reward = ($this->t_teacher_money_list->get_reward_total($month_time['sdate'],$month_time['edate'],0,0,1))/100;
+        echo $jianzhi_reward;
+        echo "<br>";
+        echo $full_reward;
+        echo "<br>";
+        exit;
+        $list = $this->t_lesson_all_money_list->get_lesson_all_money_list($month_time['sdate'],$month_time['edate'],$lessonid);
+
+        echo "课程id|用户id|学生|科目|年级|课程类型|课时不对|课程表课时|课时|付费课时|赠送课时|课时收入|老师课时费|老师课时奖励|是否为全职老师|课程确认|课程扣款";
+        echo "<br>";
+        $show_list = [];
+        foreach($list as $val){
+            $lessonid     = $val['lessonid'];
+            $lesson_count = $val['lesson_count'];
+            //课时收入
+            $val['lesson_price'] = $lesson_count*$val['per_price']/10000;
+            //赠送课时
+            $val['free_lesson_count']   = 0;
+            //付费课时
+            $val['normal_lesson_count'] = 0;
+
+            if($val['per_price']==0){
+                $val['free_lesson_count'] = $lesson_count;
+            }else{
+                $val['normal_lesson_count'] = $lesson_count;
+            }
+
+            if(isset($show_list[$lessonid])){
+                $show_list[$lessonid]['free_lesson_count']   += $val['free_lesson_count'];
+                $show_list[$lessonid]['normal_lesson_count'] += $val['normal_lesson_count'];
+                $show_list[$lessonid]['lesson_price']        += $val['lesson_price'];
+            }else{
+                $show_list[$lessonid]=$val;
+            }
+        }
+
+        $money_total=[];
+        foreach($show_list as $s_val){
+            $stu_nick    = $s_val['stu_nick'];
+            $lessonid    = $s_val['lessonid'];
+            $userid      = $s_val['userid'];
+            $subject     = E\Esubject::get_desc($s_val['subject']);
+            $grade       = E\Egrade::get_desc($s_val['grade']);
+            $lesson_type = $s_val['lesson_type'];
+            if($lesson_type==2){
+                $lesson_type_str = "试听";
+            }else{
+                $lesson_type_str = "常规";
+            }
+            $lesson_count = ($s_val['free_lesson_count']+$s_val['normal_lesson_count'])/100;
+            $l_lesson_count = $s_val['l_lesson_count']/100;
+            if($lesson_count!=$l_lesson_count){
+                $error_lesson_count=1;
+            }else{
+                $error_lesson_count=0;
+            }
+            $normal_lesson_count        = $s_val['normal_lesson_count']/100;
+            $free_lesson_count          = $s_val['free_lesson_count']/100;
+            $lesson_price               = $s_val['lesson_price'];
+            $teacher_base_money         = $s_val['teacher_base_money']/100;
+            $teacher_lesson_count_money = $s_val['teacher_lesson_count_money']/100;
+            $teacher_lesson_cost        = $s_val['teacher_lesson_cost']/100;
+            $teacher_money_type         = $s_val['teacher_money_type'];
+            $teacher_type               = $s_val['teacher_type'];
+            $teacherid                  = $s_val['teacherid'];
+            $check_is_full = \App\Helper\Utils::check_teacher_is_full($teacher_money_type, $teacher_type, $teacherid);
+            $confirm_flag = $s_val['confirm_flag'];
+            $confirm_flag_str = E\Econfirm_flag::get_desc($confirm_flag);
+            $check_is_full = $check_is_full?1:0;
+            if($error_lesson_count==0){
+                $error_lesson_count_str = "课时正确";
+            }else{
+                $error_lesson_count_str = "课时错误";
+            }
+
+            echo $lessonid."|".$userid."|".$stu_nick."|".$subject."|".$grade."|".$lesson_type_str
+                          ."|".$error_lesson_count_str."|".$l_lesson_count
+                          ."|".$lesson_count."|".$normal_lesson_count."|".$free_lesson_count."|".$lesson_price
+                          ."|".$teacher_base_money."|".$teacher_lesson_count_money."|".$check_is_full."|".$confirm_flag_str
+                          ."|".$teacher_lesson_cost;
+            echo "<br>";
+
+            if($teacher_lesson_cost>=100){
+                $teacher_base_money = 0;
+                $teacher_lesson_count_money= 0;
+            }elseif($confirm_flag!=2){
+            }else{
+                $teacher_base_money = 0;
+                $teacher_lesson_count_money= 0;
+                $teacher_lesson_cost = 0;
+            }
+            $teacher_all_money = $teacher_base_money+$teacher_lesson_count_money-$teacher_lesson_cost;
+
+            $money_detail = &$money_total[$check_is_full];
+            //课耗收入
+            \App\Helper\Utils::check_isset_data($money_detail["lesson_price"],$lesson_price);
+            //付费课耗数
+            \App\Helper\Utils::check_isset_data($money_detail["normal_lesson_count"],$normal_lesson_count);
+            //赠送课耗数
+            \App\Helper\Utils::check_isset_data($money_detail["free_lesson_count"],$free_lesson_count);
+            //老师课时费收入
+            \App\Helper\Utils::check_isset_data($money_detail["teacher_all_money"],$teacher_all_money);
+            //课时费收入
+            \App\Helper\Utils::check_isset_data($money_detail["teacher_normal_money"],0,0);
+            //试听收入
+            \App\Helper\Utils::check_isset_data($money_detail["teacher_trial_money"],0,0);
+            if($lesson_type==2){
+                //老师试听课收入
+                \App\Helper\Utils::check_isset_data($money_detail["teacher_trial_money"],$teacher_base_money);
+            }else{
+                //老师1对1课时费收入
+                \App\Helper\Utils::check_isset_data($money_detail["teacher_normal_money"],$teacher_base_money);
+            }
+            //老师课时奖励
+            \App\Helper\Utils::check_isset_data($money_detail["teacher_lesson_count_money"],$teacher_lesson_count_money);
+        }
+
+        $jianzhi_reward = ($this->t_teacher_money_list->get_reward_total($month_time['sdate'],$month_time['edate'],0,0,0))/100;
+        $full_reward = ($this->t_teacher_money_list->get_reward_total($month_time['sdate'],$month_time['edate'],0,0,1))/100;
+        echo "<br>";
+        echo "兼职课耗收入|兼职付费课耗数|兼职赠送课耗|兼职老师成本-课时费收入|兼职1对1课时收入|兼职试听课收入|兼职课时奖励|兼职额外奖励";
+        echo "|全职课耗收入|全职付费课耗数|全职赠送课耗|全职老师成本-课时费收入|全职1对1课时收入|全职试听课收入|全职课时奖励|全职额外奖励";
+        echo "<br>";
+        echo $money_total[0]['lesson_price']."|".$money_total[0]['normal_lesson_count']."|".$money_total[0]['free_lesson_count']
+                                            ."|".$money_total[0]['teacher_all_money']."|".$money_total[0]['teacher_normal_money']
+                                            ."|".$money_total[0]['teacher_trial_money']."|".$money_total[0]['teacher_lesson_count_money']
+                                            ."|".$jianzhi_reward."|";
+        echo $money_total[1]['lesson_price']."|".$money_total[1]['normal_lesson_count']."|".$money_total[1]['free_lesson_count']
+                                            ."|".$money_total[1]['teacher_all_money']."|".$money_total[1]['teacher_normal_money']
+                                            ."|".$money_total[1]['teacher_trial_money']."|".$money_total[1]['teacher_lesson_count_money']
+                                            ."|".$full_reward;
+        echo "<br>";
+    }
+
+
+
 
 
 }

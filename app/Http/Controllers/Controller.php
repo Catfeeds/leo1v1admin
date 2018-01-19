@@ -16,6 +16,7 @@ require_once( app_path() ."/Helper/functions.php"  );
 /**
  * @property  \App\Models\t_lesson_info_b2       $t_lesson_info_b2
  * @property  \App\Models\t_lesson_info_b3       $t_lesson_info_b3
+ * @property  \App\Models\t_jobs       $t_jobs
  */
 class Controller extends ControllerEx
 {
@@ -211,7 +212,7 @@ class Controller extends ControllerEx
                     exit;
 
                 }else{
-                    header('Location: /?to_url='.  $_SERVER["REQUEST_URI"]  );
+                    header('Location: /?to_url='. urlencode(  $_SERVER["REQUEST_URI"] ) );
                     exit;
                 }
             }else{

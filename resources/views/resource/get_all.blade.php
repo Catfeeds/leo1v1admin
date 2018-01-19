@@ -15,10 +15,14 @@
      var tag_two = '{{@$tag_info['tag_two']['menu']}}';
      var tag_three = '{{@$tag_info['tag_three']['menu']}}';
      var tag_four = '{{@$tag_info['tag_four']['menu']}}';
+     var tag_five = '{{@$tag_info['tag_five']['menu']}}';
+
      var tag_one_name = '{{@$tag_info['tag_one']['name']}}';
      var tag_two_name = '{{@$tag_info['tag_two']['name']}}';
      var tag_three_name = '{{@$tag_info['tag_three']['name']}}';
      var tag_four_name = '{{@$tag_info['tag_four']['name']}}';
+     var tag_five_name = '{{@$tag_info['tag_five']['name']}}';
+
      var my_subject = {{@$subject}};
      var my_grade = {{@$grade}};
      var book = {{@$book}};
@@ -91,6 +95,13 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2 {{@$tag_info['tag_five']['hide']}} ">
+                    <div class="input-group ">
+                        <span class="input-group-addon">{{@$tag_info['tag_five']['name']}}</span>
+                        <select class="form-control opt-change" id="id_tag_five"> </select>
+                    </div>
+                </div>
+
             </div>
             <div class="row">
                 <div class="col-xs-2 col-md-1 ">
@@ -99,6 +110,10 @@
                 <div class="col-xs-2 col-md-1 ">
                     <button class="btn btn-warning opt-del">删除</button>
                 </div>
+                <div class="col-xs-2 col-md-2 ">
+                    <button class="btn btn-primary opt-sub-tag">添加学科化标签</button>
+                </div>
+
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <input class="opt-change form-control" id="id_file_title" placeholder="输入文件名称搜索" />
@@ -115,13 +130,28 @@
                         <a href="javascript:;" id="id_select_all" title="全选">全</a>
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
                     </td>
-                    <td style="width:40%">文件名</td>
-                    <td style="width:15%">修改日期</td>
-                    <td style="width:5%">操作人</td>
-                    <td style="width:7%">文件格式</td>
-                    <td style="width:15%">文件信息</td>
-                    <td style="width:7%">文件大小</td>
-                    <td style="width:7%">是否使用</td>
+                    <td>文件名</td>
+                    <td>修改日期</td>
+                    <td>操作人</td>
+                    <td>文件格式</td>
+                    <td>文件信息</td>
+                    <td>文件大小</td>
+                    <td>科目</td>
+                    <td>年级</td>
+                    @if($resource_type < 6)
+                    <td>教材</td>
+                    @endif
+
+                    @if( $resource_type == 1 || $resource_type == 3 )
+                        <td>学科化标签</td>
+                        <td>难度类型</td>
+                    @endif
+
+                    @if($resource_type < 7 && $resource_type > 3)
+                        <td>上下册</td>
+                    @endif
+
+                    <td>是否使用</td>
                 </tr>
             </thead>
             <tbody>
@@ -136,6 +166,24 @@
                         <td>{{@$var["file_type"]}} </td>
                         <td>{{@$var["file_use_type_str"]}} </td>
                         <td>{{@$var["file_size"]}}M </td>
+                        <td>{{@$var["subject_str"]}} </td>
+                        <td>{{@$var["grade_str"]}} </td>
+                        @if( $resource_type < 6)
+                            <td>{{@$var["tag_one_str"]}} </td>
+                        @endif
+                        @if( $resource_type == 1 || $resource_type == 3)
+                            <td>{{@$var["tag_four_str"]}} </td>
+                            @if( $resource_type == 1)
+                                <td>{{@$var["tag_five_str"]}} </td>
+                            @else
+                                <td>{{@$var["tag_three_str"]}} </td>
+                            @endif
+                        @endif
+
+                        @if($resource_type < 7 && $resource_type > 3)
+                            <td>{{@$var["tag_five_str"]}}</td>
+                        @endif
+
                         <td>是</td>
                     </tr>
                 @endforeach

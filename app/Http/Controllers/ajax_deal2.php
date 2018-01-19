@@ -3080,4 +3080,44 @@ class ajax_deal2 extends Controller
  
     }
 
+    public function reset_train_lesson_record_info(){
+        $id = $this->get_in_int_val("id");
+        $record_info = $this->get_in_str_val("record_info");
+        $old_record_info = $this->t_teacher_record_list->get_record_info($id);
+        $old_free_time = $this->t_teacher_record_list->get_free_time($id);
+        $old_arr = json_decode($old_free_time,true);
+
+        $old_arr[]=[
+            "old_record_info" =>$old_record_info,
+            "new_record_info" =>$record_info,
+            "change_time"     =>time(),
+            "acc"             =>$this->get_account()
+        ];
+        $str = json_encode($old_arr);
+        $this->t_teacher_record_list->field_update_list($id,[
+            "record_info"  =>$record_info,
+            "free_time"    =>$str
+        ]);
+
+        
+
+        return $this->output_succ();
+    }
+
+    public function get_lesson_opt_detail_info(){
+        $lessonid = $this->get_in_int_val("lessonid");
+        $userid = $this->get_in_int_val("userid");
+        $data = $this->t_lesson_opt_log->get_stu_log($lessonid,$userid);
+        foreach($data as &$item){
+            if($item["opt_type"]==1){
+                $item["opt_type_str"]="登录";
+            }elseif($item["opt_type"]==2){
+                $item["opt_type_str"]="登出";
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item,"opt_time","_str");
+        }
+        return $this->output_succ(["data"=>$data]);
+
+    }
+
 }

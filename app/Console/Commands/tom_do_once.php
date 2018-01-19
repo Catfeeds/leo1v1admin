@@ -74,105 +74,9 @@ class tom_do_once extends Command
         }
         */
 
-        // $month=$this->option('month');
-        $month = '2018-01-13';
-        if ($month) {
-            $start_time=strtotime( date("Y-m-01", strtotime( $month)) );
-            $end_time= strtotime("+1 month",  $start_time );
-        }else{
-            $now=time(NULL);
-            $start_time=strtotime( date("Y-m-01",$now));
-            $end_time=$now;
-        }
-		$group_start_time=$start_time;
-		if( $start_time  ==  strtotime("2017-10-01")  ) {
-			$start_time  = strtotime("2017-10-03");
-		}
-		if( $start_time  ==  strtotime("2017-09-01")  ) {
-			$end_time = strtotime("2017-10-03");
-		}
-
-        $this->task->t_order_info->switch_tongji_database();
-        $this->task->t_test_lesson_subject_require->switch_tongji_database();
-
-        //
-        $tongji_type= E\Etongji_type::V_SELLER_MONTH_REQUIRE_COUNT;
-        $list= $this->task->t_test_lesson_subject_require->tongji_require_count($start_time,$end_time);
-
-        //
-        $tongji_type= E\Etongji_type::V_SELLER_MONTH_SUCC_TEST_LESSON_COUNT;
-        $test_lesson_succ_list=$this->task->t_test_lesson_subject_require->tongji_test_lesson_succ_count($start_time,$end_time);
-
-        //
-        $tongji_type= E\Etongji_type::V_SELLER_MONTH_ORDER_COUNT;
-        $order_count_list= $this->task->t_order_info->tongji_seller_order_count($start_time,$end_time);
-
-        //
-        $tongji_type= E\Etongji_type::V_SELLER_MONTH_ORDER_PERCENT;
-
-        $order_count_map=[];
-        foreach ($order_count_list as $item) {
-            $order_count_map[$item["adminid"]]=$item["value"];
-        }
-
-
-        $order_percent_list=[];
-        foreach( $test_lesson_succ_list as $item ) {
-            $adminid=$item["adminid"];
-            if ($item["value"]  >=10 ) {
-                $order_percent_list[]=[
-                    "adminid" =>$adminid,
-                    "value" => ((@$order_count_map[$adminid])/$item["value"]) *100,
-                ];
-            }
-        }
-        \App\Helper\Utils::order_list($order_percent_list,"value",false);
-        $tongji_type= E\Etongji_type::V_SELLER_MONTH_ORDER_MONEY;
-        $order_money_list=[];
-        foreach($order_count_list as $item) {
-            $adminid=$item["adminid"];
-            $order_money_list[]=[
-                "adminid" =>$adminid,
-                "value" => $item["money"] ,
-            ];
-        }
-        \App\Helper\Utils::order_list($order_money_list,"value",false);
-        /*$tongji_type= E\Etongji_type::V_SELLER_MONTH_ASSIGN_COUNT;
-        $assign_count_list = $this->task->t_seller_student_new->tongji_assign_count_list($start_time,$end_time);
-        $this->task->t_tongji_seller_top_info->update_list($tongji_type,$group_start_time,$assign_count_list);
-        $tongji_type= E\Etongji_type::V_SELLER_MONTH_LESSON_PLAN;
-        $lesson_count_list = $this->task->t_test_lesson_subject_sub_list->tongji_lesson_count_list($start_time,$end_time);
-        $this->task->t_tongji_seller_top_info->update_list($tongji_type,$group_start_time,$lesson_count_list);*/
-        $tongji_type= E\Etongji_type::V_SELLER_MONTH_ORDER_PERSON_COUNT;
-        $order_person_count_list= $this->task->t_order_info->tongji_seller_order_person_count($start_time,$end_time);
-
-        $tongji_type= E\Etongji_type::V_SELLER_MONTH_FAIL_LESSON_PERCENT;
-        $test_lesson_list=$this->task->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
-        $test_lesson_fail_per = $test_lesson_list["list"];
-        $test_lesson_all_count= [] ;
-        $test_lesson_fail_count= [] ;
-        foreach($test_lesson_fail_per as &$item){
-            $adminid=$item["admin_revisiterid"];
-            $item["adminid"] = $adminid ;
-            if($item['test_lesson_count'] != 0){
-                $item['value'] = round($item['fail_all_count']/$item['test_lesson_count'],2)*100;
-            }else{
-                $item['value']=0;
-            }
-            $test_lesson_all_count[]= [ "adminid" =>$adminid , "value"=> $item['test_lesson_count']  ] ;
-            $test_lesson_fail_count[]= [ "adminid" =>$adminid , "value"=> $item['fail_all_count']  ] ;
-        }
-        foreach ($test_lesson_all_count as $index => $item) {
-            if($item["adminid"] == 1298){
-                echo $item["value"];
-            }
-        }
-        $this->task->t_tongji_seller_top_info->update_list(
-            E\Etongji_type::V_SELLER_MONTH_ALL_LESSON_COUNT,
-            $group_start_time,$test_lesson_all_count);
-
-
-        // $this->update_cc_no_called_count();
+        $this->update_cc_no_called_count();
+        // $this->update_tq_call_info();
+        // $this->give_seller_new_count();
     }
 
     /**
@@ -199,18 +103,23 @@ class tom_do_once extends Command
                 $cc_no_called_count = $item['cc_no_called_count'];
                 $cc_no_called_count_new = $item['cc_no_called_count_new'];
                 $cc_first_called_cc = $item['first_called_cc'];
-                $cc_first_revisit_time = $item['first_revisit_time'];
-                $cc_last_contact_time = $item['last_contact_time'];
-                $cc_last_called_cc = $item['last_contact_cc'];
+                $cc_first_revisit_time = $item['first_revisit_time'];//刷
+                $cc_last_revisit_time = $item['last_revisit_time'];//刷
+                $cc_first_contact_time = $item['first_contact_time'];//刷
+                $cc_last_contact_time = $item['last_contact_time'];//刷
+                $cc_last_called_cc = $item['last_contact_cc'];//刷
                 $cc_first_get_cc = $item['first_get_cc'];
                 $cc_test_lesson_flag = $item['test_lesson_flag'];
                 $cc_orderid = $item['orderid'];
 
                 $called_count = $this->task->t_tq_call_info->get_called_count($phone,1);
                 $no_called_count = $this->task->t_tq_call_info->get_called_count($phone,0);
-                $first_revisit_time = $this->task->t_tq_call_info->get_first_revisit_time($phone);
-                $last_contact_time = $this->task->t_tq_call_info->get_first_revisit_time($phone,$desc='desc');
+
                 $first_called_cc = $this->task->t_tq_call_info->get_first_called_cc($phone);
+                $first_revisit_time = $this->task->t_tq_call_info->get_first_revisit_time($phone);
+                $last_revisit_time = $this->task->t_tq_call_info->get_first_revisit_time($phone,$desc='desc');
+                $first_contact_time = $this->task->t_tq_call_info->get_first_revisit_time($phone,$desc='asc',$called_flag=1);
+                $last_contact_time = $this->task->t_tq_call_info->get_first_revisit_time($phone,$desc='desc',$called_flag=1);
                 $last_called_cc = $this->task->t_tq_call_info->get_first_called_cc($phone,$desc='desc');
                 $first_get_cc = $this->task->t_tq_call_info->get_first_get_cc($phone,$desc='asc');
                 $first_test_lessonid = $this->task->t_lesson_info_b2->get_first_test_lesson($userid);
@@ -243,8 +152,10 @@ class tom_do_once extends Command
                 if($cc_orderid == 0 && $orderid>0){
                     $arr['orderid'] = $orderid;
                 }
-                $arr['first_revisit_time'] = $cc_first_revisit_time;
-                $arr['last_contact_time'] = $cc_last_contact_time;
+                $arr['first_revisit_time'] = $first_revisit_time;
+                $arr['last_revisit_time'] = $last_revisit_time;
+                $arr['first_contact_time'] = $first_contact_time;
+                $arr['last_contact_time'] = $last_contact_time;
                 if(count($arr)>0){
                     if(isset($arr['first_get_cc'])){
                         echo $userid.':'.$cc_first_get_cc."=>".$first_get_cc."\n";
@@ -259,6 +170,131 @@ class tom_do_once extends Command
                 }
             }
             $start = strtotime('+1 month',$start);
+        }
+    }
+
+    public function update_tq_call_info(){
+        $time_arr = [
+            [
+                'start_time'=>strtotime('2017-09-30'),
+                'end_time'=>strtotime('2017-10-31')
+            ],[
+                'start_time'=>strtotime('2017-08-31'),
+                'end_time'=>strtotime('2017-09-30')
+            ],[
+                'start_time'=>strtotime('2017-07-31'),
+                'end_time'=>strtotime('2017-08-31')
+            ],[
+                'start_time'=>strtotime('2017-06-30'),
+                'end_time'=>strtotime('2017-07-31')
+            ],[
+                'start_time'=>strtotime('2017-05-31'),
+                'end_time'=>strtotime('2017-06-30')
+            ],[
+                'start_time'=>strtotime('2017-04-30'),
+                'end_time'=>strtotime('2017-05-31')
+            ],[
+                'start_time'=>strtotime('2017-03-31'),
+                'end_time'=>strtotime('2017-04-30')
+            ],[
+                'start_time'=>strtotime('2017-02-28'),
+                'end_time'=>strtotime('2017-03-31')
+            ],[
+                'start_time'=>strtotime('2017-01-31'),
+                'end_time'=>strtotime('2017-02-28')
+            ],[
+                'start_time'=>strtotime('2016-12-31'),
+                'end_time'=>strtotime('2017-01-31')
+            ],[
+                'start_time'=>strtotime('2016-11-30'),
+                'end_time'=>strtotime('2016-12-31')
+            ],[
+                'start_time'=>strtotime('2016-10-31'),
+                'end_time'=>strtotime('2016-11-30')
+            ],[
+                'start_time'=>strtotime('2016-09-30'),
+                'end_time'=>strtotime('2016-10-31')
+            ],[
+                'start_time'=>strtotime('2016-08-31'),
+                'end_time'=>strtotime('2016-09-30')
+            ],[
+                'start_time'=>strtotime('2016-07-31'),
+                'end_time'=>strtotime('2016-08-31')
+            ],[
+                'start_time'=>strtotime('2016-06-30'),
+                'end_time'=>strtotime('2016-07-31')
+            ],
+        ];
+        foreach($time_arr as $item){
+            $start_time = $item['start_time'];
+            $end_time = $item['end_time'];
+            $count = ($end_time-$start_time)/(3600*24);
+            for ($i=1; $i<=$count; $i++)
+            {
+                $start_time = $start_time+3600*24;
+                for ($j=8; $j<=24; $j++)
+                {
+                    $start_time_new = $start_time+3600*$j;
+                    $end_time_new = $start_time_new+3600;
+
+                    $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
+                    $post_arr=[
+                        "enterpriseId" => 3005131  ,
+                        "userName" => "admin" ,
+                        "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
+                        "seed" => "seed1",
+                        "startTime" => date('Y-m-d H:i:s',$start_time_new),
+                        "endTime" => date('Y-m-d H:i:s',$end_time_new),
+                    ];
+                    $post_arr["start"]  = 0;
+                    $post_arr["limit"]  = 1000;
+                    $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
+                    $ret=json_decode($return_content, true  );
+                    $data_list = @$ret["msg"]["data"];
+                    if(is_array($data_list)){
+                        foreach($data_list as $item){
+                            $cdr_bridged_cno= $item["cno"];
+                            $uniqueId= $item["uniqueId"];
+                            $cdr_answer_time = intval( preg_split("/\-/", $uniqueId)[1]);
+                            $id= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
+                            $sipCause = $item['sipCause'];
+                            $client_number = $item['clientNumber'];
+                            $endReason = $item['endReason']=='是'?1:0;
+                            $ret = $this->task->t_tq_call_info->field_get_list($id, '*');
+                            $arr = [];
+                            if($ret['cause'] != $sipCause){
+                                $arr['cause'] = $sipCause;
+                            }
+                            if($ret['client_number'] != $client_number){
+                                $arr['client_number'] = $client_number;
+                            }
+                            if($ret['end_reason'] != $endReason){
+                                $arr['end_reason'] = $endReason;
+                            }
+                            if(count($arr)>0){
+                                $ret = $this->task->t_tq_call_info->field_update_list($id, $arr);
+                                echo $id.':'.$ret."\n";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function give_seller_new_count(){
+        $start_time = strtotime(date('Y-m-d'));
+        $end_time = strtotime(date('Y-m-d',strtotime('+1 day')))-1;
+        $seller_list = $this->task->t_manager_info->get_item_seller_list();
+        foreach($seller_list as $item){
+            $adminid = $item['uid'];
+            $account = $item['account'];
+            $new_count_id = $this->task->t_seller_new_count->get_item_day_row($adminid,$start_time,$end_time);
+            if($new_count_id == 0){
+                $this->task->t_seller_new_count->add($start_time,$end_time,E\Eseller_new_count_type::V_1,$count=5,$adminid,$value_ex=0);
+            }
+            $ret = 1;
+            echo $account.':'.$new_count_id.'=>'.$ret."\n";
         }
     }
 

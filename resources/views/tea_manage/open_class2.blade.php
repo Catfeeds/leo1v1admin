@@ -12,8 +12,6 @@
 <script type="text/javascript" src="/js/jquery.md5.js"></script>
 <script type="text/javascript" src="/js/svg.js"></script>
 <script type="text/javascript" src="/js/wb-reply/audio.js"></script>
-<script type="text/javascript" src="/page_js/select_user.js"></script>
-<script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <section class="content">
         <div class="row">
             <div class="col-xs-6 col-md-1">
@@ -37,7 +35,7 @@
             <div class="col-xs-6 col-md-2">
             <div class="input-group ">
                 <span >老师</span>
-                <input id="id_search_teacher" class="opt-change"/> 
+                <input id="id_search_teacher" class="opt-change">
             </div>
         </div>
         <div class="col-xs-6 col-md-2">
@@ -57,7 +55,8 @@
                 <a id="id_add_lesson" class="btn btn-warning"><li class="fa fa-plus">课次</li> </a>
                 <a id="id_add_open_course" class="btn btn-warning"><li class="fa fa-plus">课程</li></a>
                 <a id="id_add_robot_lesson" class="btn btn-warning"><li class="fa fa-plus">机器人</li></a>
-                <a id="id_add_lesson_by_excel" class="btn btn-warning"><li class="fa fa-plus">xls一键添加</li></a>
+                <a style="display:none;" id="id_add_lesson_by_excel" class="btn btn-warning"><li class="fa fa-plus">xls一键添加</li></a>
+                <a id="id_add_open_class" class="btn btn-warning"><li class="fa fa-plus">添加公开课</li></a>
             </div>
         </div>
     </div>

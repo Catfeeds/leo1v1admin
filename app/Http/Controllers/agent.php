@@ -418,56 +418,56 @@ class agent extends Controller
 
     public function check(){
         $this->check_and_switch_tongji_domain();
-        $start_time = strtotime($this->get_in_str_val('start_time','2017-12-01'));
-        $end_time = strtotime($this->get_in_str_val('end_time','2018-01-01'));
-        $ret = $this->t_seller_edit_log->get_seller_give_list($start_time,$end_time);
-
+        $ret = $this->t_seller_student_new->get_item_list();
         echo '<table border="1" width="600" align="center">';
-        echo '<caption><h1>'.date('Y-m',$start_time).'月</h1></caption>';
+        echo '<caption><h1>tmk标记待定状态例子</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>userid</th><th>分配人</th><th>被分配人</th><th>分配时间</th>';
+        echo '<th>号码</th><th>TMK状态</th><th>来源</th><th>例子首次进入时间</th><th>拨打人数</th><th>最后拨打人</th><th>最后一次回访时间</th><th>当前cc</th><th>是否出现在公海</th>';
         echo '</tr>';
         foreach($ret as $item){
-            $userid = isset($item['new'])?$item['new']:'';
-            $give_nick = isset($item['give_nick'])?$item['give_nick']:'';
-            $get_nick = isset($item['get_nick'])?$item['get_nick']:'';
-            $create_time = $item['create_time'];
             echo '<tr>';
-            echo '<td>'.$userid.'</td>';
-            echo '<td>'.$give_nick.'</td>';
-            echo '<td>'.$get_nick.'</td>';
-            echo '<td>'.date('Y-m-d H:i:s',$create_time).'</td>';
+            echo '<td>'.$item['phone'].'</td>';
+            echo '<td>'.E\Etmk_student_status::get_desc($item['tmk_student_status']).'</td>';
+            echo '<td>'.$item['origin'].'</td>';
+            echo '<td>'.date('Y-m-d H:i:s',$item['add_time']).'</td>';
+            echo '<td>'.$item['call_admin_count'].'</td>';
+            echo '<td>'.$this->cache_get_account_nick($item['last_contact_cc']).'</td>';
+            echo '<td>'.date('Y-m-d H:i:s',$item['last_revisit_time']).'</td>';
+            echo '<td>'.$this->cache_get_account_nick($item['admin_revisiterid']).'</td>';
+            echo '<td>'.(($item['seller_resource_type']==1 && $item['admin_revisiterid']==0 && $item['global_seller_student_status']!=50 && $item['lesson_count_all']==0 && $item['sys_invaild_flag']==0 && ($item['hand_free_count']+$item['auto_free_count'])<5)?'是':'否').'</td>';
             echo '</tr>';
         }
         echo '</table>';
     }
 
     public function test_new(){
-        // $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
-        // $post_arr=[
-        //     "enterpriseId" => 3005131  ,
-        //     "userName" => "admin" ,
-        //     "pwd" =>md5(md5("leoAa123456" )."seed1")  ,
-        //     "seed" => "seed1",
-        //     "startTime" => '2018-01-11 19:00:00',
-        //     "endTime" => '2018-01-12 22:30:00',
-        // ];
-        // $post_arr["start"]  = 0;
-        // $post_arr["limit"]  = 1000;
-        // $return_content= \App\Helper\Net::send_post_data($url, $post_arr );
-        // $ret=json_decode($return_content, true  );
-        // $data_list= @$ret["msg"]["data"];
-        // // dd($data_list);
-        // dd(array_unique(array_column($data_list, 'endReason')));
-        $full_count = 10;
-        $test_lesson_count = 394;
-        $succ_all_count = 356;
-        $person_count = 2;
-        $test_per = ($full_count>0 && round(394/8,2)>=50.00)?10:0;//平均课数
-        $fail_per = ($test_lesson_count>0 && round(38/394,4)*100<=18.00)?10:0;//取消率
-        $order_per = ($succ_all_count>0 && round(53/356,4)*100>=10.00)?40:0;//转化率
-        $leave_per = ($person_count>0 && round(2/10,4)*100<=20.00)?40:0;//离职率
-        dd($test_per,$fail_per,$order_per,$leave_per,(round(38/394,2)<=18.00),round(53/356,4)*100,(round(53/356,4)*100>=10.00));
+        $last_revisit_time = $this->t_tq_call_info->get_first_revisit_time($phone='15251318621',$desc='desc');
+        dd($last_revisit_time);
+        $ret_log = $this->task->t_seller_get_new_log->get_row_by_adminid_userid($adminid=99,$userid=123456);
+        dd($ret_log);
+        $ret = $this->t_seller_get_new_log->row_insert([
+            'adminid'=>$adminid=99,
+            'userid'=>$userid=123456,
+            'create_time'=>time(),
+        ]);
+        dd($ret);
+        list($start_time,$end_time) = [strtotime(date('Y-m-d',strtotime("-10 day"))),strtotime(date('Y-m-d'))];
+        $ret = $this->t_seller_new_count_get_detail->get_daily_userid($start_time,$end_time);
+        $userid_list = array_unique(array_column($ret, 'userid'));
+        list($call_count,$called_count) = [0,0];
+        foreach($userid_list as $item){
+            foreach($ret as $info){
+                if($info['userid'] == $item){
+                    if($info['cc_no_called_count_new']+$info['cc_called_count']>0){
+                        $call_count += 1;
+                    }
+                    if($info['cc_called_count']>0){
+                        $called_count += 1;
+                    }
+                }
+            }
+        }
+        dd($call_count,$called_count);
     }
 
     //处理等级头像

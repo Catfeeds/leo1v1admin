@@ -13,6 +13,7 @@ interface GargsStatic {
 	qc_flag:	number;
 	has_money:	number;
 	sys_operator:	string;
+	assistant_nick:	string;
 	seller_groupid_ex:	string;
 }
 declare module "g_args" {
@@ -23,6 +24,129 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	pay_account_admin	:any;
+	qc_adminid	:any;
+	qc_deal_time	:any;
+	assistantid	:any;
+	subject	:any;
+	teacher_id	:any;
+	qc_contact_status	:any;
+	qc_advances_status	:any;
+	qc_voluntarily_status	:any;
+	userid	:any;
+	phone	:any;
+	discount_price	:any;
+	orderid	:any;
+	contract_type	:any;
+	lesson_total	:any;
+	flow_status	:any;
+	flow_status_time	:any;
+	flowid	:any;
+	should_refund	:any;
+	price	:any;
+	invoice	:any;
+	order_time	:any;
+	sys_operator	:any;
+	pay_account	:any;
+	real_refund	:any;
+	refund_status	:any;
+	apply_time	:any;
+	refund_userid	:any;
+	contractid	:any;
+	save_info	:any;
+	refund_info	:any;
+	file_url	:any;
+	grade	:any;
+	need_receipt	:any;
+	is_staged_flag	:any;
+	deal_nick	:any;
+	ass_nick	:any;
+	tea_nick	:any;
+	subject_str	:any;
+	is_staged_flag_str	:any;
+	user_nick	:any;
+	refund_user	:any;
+	apply_time_str	:any;
+	refund_status_str	:any;
+	flow_status_str	:any;
+	contract_type_str	:any;
+	need_receipt_str	:any;
+	grade_str	:any;
+	qc_advances_status_str	:any;
+	qc_contact_status_str	:any;
+	qc_voluntarily_status_str	:any;
+	order_time_str	:any;
+	is_pass	:any;
+	qc_other_reason	:any;
+	qc_analysia	:any;
+	qc_reply	:any;
+	duty	:any;
+	duty_str	:any;
+	max_time_str	:any;
+	min_time_str	:any;
+	助教部一级原因	:any;
+	助教部二级原因	:any;
+	助教部三级原因	:any;
+	助教部reason	:any;
+	助教部dep_score	:any;
+	助教部扣分值	:any;
+	助教部责任值	:any;
+	教务部一级原因	:any;
+	教务部二级原因	:any;
+	教务部三级原因	:any;
+	教务部reason	:any;
+	教务部dep_score	:any;
+	教务部扣分值	:any;
+	教务部责任值	:any;
+	老师管理一级原因	:any;
+	老师管理二级原因	:any;
+	老师管理三级原因	:any;
+	老师管理reason	:any;
+	老师管理dep_score	:any;
+	老师管理扣分值	:any;
+	老师管理责任值	:any;
+	教学部一级原因	:any;
+	教学部二级原因	:any;
+	教学部三级原因	:any;
+	教学部reason	:any;
+	教学部dep_score	:any;
+	教学部扣分值	:any;
+	教学部责任值	:any;
+	产品问题一级原因	:any;
+	产品问题二级原因	:any;
+	产品问题三级原因	:any;
+	产品问题reason	:any;
+	产品问题dep_score	:any;
+	产品问题扣分值	:any;
+	产品问题责任值	:any;
+	咨询部一级原因	:any;
+	咨询部二级原因	:any;
+	咨询部三级原因	:any;
+	咨询部reason	:any;
+	咨询部dep_score	:any;
+	咨询部扣分值	:any;
+	咨询部责任值	:any;
+	客户情况变化一级原因	:any;
+	客户情况变化二级原因	:any;
+	客户情况变化三级原因	:any;
+	客户情况变化reason	:any;
+	客户情况变化dep_score	:any;
+	客户情况变化扣分值	:any;
+	客户情况变化责任值	:any;
+	老师一级原因	:any;
+	老师二级原因	:any;
+	老师三级原因	:any;
+	老师reason	:any;
+	老师dep_score	:any;
+	老师扣分值	:any;
+	老师责任值	:any;
+	科目一级原因	:any;
+	科目二级原因	:any;
+	科目三级原因	:any;
+	科目reason	:any;
+	科目dep_score	:any;
+	科目扣分值	:any;
+	科目责任值	:any;
 }
 
 /*
@@ -49,6 +173,7 @@ function load_data(){
 		qc_flag:	$('#id_qc_flag').val(),
 		has_money:	$('#id_has_money').val(),
 		sys_operator:	$('#id_sys_operator').val(),
+		assistant_nick:	$('#id_assistant_nick').val(),
 		seller_groupid_ex:	$('#id_seller_groupid_ex').val()
 		});
 }
@@ -78,6 +203,7 @@ $(function(){
 	$('#id_qc_flag').val(g_args.qc_flag);
 	$('#id_has_money').val(g_args.has_money);
 	$('#id_sys_operator').val(g_args.sys_operator);
+	$('#id_assistant_nick').val(g_args.assistant_nick);
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 
 
@@ -151,6 +277,14 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["sys_operator title", "sys_operator", "th_sys_operator" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">assistant_nick</span>
+                <input class="opt-change form-control" id="id_assistant_nick" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["assistant_nick title", "assistant_nick", "th_assistant_nick" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

@@ -23,8 +23,67 @@ function load_data(){
         }
     });
 
+	  $('.opt-change').set_input_change_event(load_data);
 
+    $('#id_add').on('click', function() {
+        $.do_ajax("/company_wx/pull_approve_data", {});
+    });
 
+    $('.opt-detail').on('click', function () {
+        var id = $(this).parent().attr('data_id');
+        $.do_ajax("/company_wx/get_approve_detail",{
+            "id" : id,
+        }, function(res) {
+            if (res.data) {
+                var data = res.data;
+                var arr = [];
+                
+                for (var item in data) {
+                    // if (item == 'spname') item = '审批名';
+                    // if (item == 'apply_name') item = '申请人';
+                    // if (item == 'apply_time') item = '申请时间';
+                    // if (item == 'reason') item = '申请原因';
+                    arr.push([item, data[item]]);
+                }
+                $.show_key_value_table("审批详情", arr ,{
+                });
 
-	$('.opt-change').set_input_change_event(load_data);
+            } else {
+                alert('没有数据');
+            }
+        });
+
+    });
+
+    $('.opt-edit').on('click', function () {
+        var id = $(this).parent().attr('data_id');
+        $.do_ajax("/company_wx/get_approve_detail",{
+            "id" : id,
+        }, function(res) {
+            if (res.data) {
+                var data = res.data;
+                var arr = ['-', '提示内容'];
+                for (var item in data) {
+                    arr.push([item, data[item]]);
+                }
+                // stu_manage
+                $.show_key_value_table("更新修改", arr ,{
+                    label    : '确认',
+                    cssClass : 'btn-warning',
+                    action   : function(dialog) {
+                        $.do_ajax("/company_wx/update_approval",{
+                            "id"    : id,
+                            "type"  : data.type
+                        });
+                    }
+
+                });
+
+            } else {
+                alert('没有数据');
+            }
+        });
+
+    });
+
 });

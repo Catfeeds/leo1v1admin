@@ -42,12 +42,12 @@
                 </div>
             </div>
 
-            <div class="col-xs-1 col-md-1">
-                <div class="input-group ">
-                    <button class="btn btn-info" id="search_this">搜索</button>
-                </div>
-            </div>
-
+            <!-- <div class="col-xs-1 col-md-1">
+                 <div class="input-group ">
+                 <button class="btn btn-info" id="search_this">搜索</button>
+                 </div>
+                 </div>
+            -->
             <!-- <div class="col-xs-6 col-md-2">
                  <div class="input-group ">
                  <span class="input-group-addon">显示</span>

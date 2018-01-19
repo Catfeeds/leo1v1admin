@@ -1010,8 +1010,6 @@ class wx_teacher_api extends Controller
         ];
 
         $url_leo = '';
-
-
         foreach($wx_openid_arr as $item_openid ){
             $wx->send_template_msg($item_openid, $parent_template_id, $data_leo, $url_leo);
         }
@@ -1039,6 +1037,8 @@ class wx_teacher_api extends Controller
         $ret_info  = $this->t_test_lesson_subject->get_test_require_info($lessonid);
         $ret_info['teacherid'] = $this->t_lesson_info->get_teacherid($lessonid);
 
+        $checkIsFullTime = $this->t_teacher_info->checkIsFullTime($ret_info['teacherid']);
+
         if($ret_info['lesson_del_flag']==1){
             $ret_info['status'] = 2;
         }
@@ -1065,8 +1065,7 @@ class wx_teacher_api extends Controller
         $ret_info['subject_tag'] = $subject_tag_arr['学科化标签']?$subject_tag_arr['学科化标签']:$default_tag;
 
         // 数据待确认
-
-        // if($ret_info['teacherid'] == 357372 || $ret_info['teacherid'] == 489187 || $ret_info['teacherid'] == 434433){//文彬 测试
+        if($checkIsFullTime == 1){// 全职老师可以看
             $checkHasHandout = $this->t_lesson_info->get_tea_cw_url($lessonid);
             $resource_id_arr = $this->t_resource->getResourceId($ret_info['subject'],$ret_info['grade']);
             $resource_id_str = '';
@@ -1079,14 +1078,22 @@ class wx_teacher_api extends Controller
             $hasResourceId = $this->t_lesson_info_b3->getResourceId($lessonid);
             if($hasResourceId>0){
                 $ret_info['handout_flag'] = 1;
+                \App\Helper\Utils::logger("james_checkHasHandout: $hasResourceId");
+
             }elseif(!empty($resource_id_arr) && !$checkHasHandout){
                     $ret_info['handout_flag'] = 1;
+                \App\Helper\Utils::logger("james_hasResourceId: $hasResourceId");
+
             }else{
                 $ret_info['handout_flag'] = 0;
+                \App\Helper\Utils::logger("james_jrhgjgh:fjdjf");
+
             }
-        // }else{
-        //     $ret_info['handout_flag'] = 0; //无讲义
-        // }
+        }else{
+            $ret_info['handout_flag'] = 0; //无讲义
+            \App\Helper\Utils::logger("james_nojiangyi:no jianyi");
+
+        }
 
         return $this->output_succ(["data"=>$ret_info]);
     }
@@ -1393,7 +1400,7 @@ class wx_teacher_api extends Controller
         $teacher_info = $this->t_teacher_info->get_test_teacher_info($lessonid);
         $teacher_info['tea_gender_str'] = E\Egender::get_desc($teacher_info['tea_gender']);
         $teacher_info['identity_str'] = E\Eidentity::get_desc($teacher_info['identity']);
-        $tag_arr = array_keys(json_decode($teacher_info['teacher_tags'],true));
+        $tag_arr = @array_keys(json_decode($teacher_info['teacher_tags'],true));
 
         $arr_text= explode(",",@$teacher_info["teacher_textbook"]);
         $tea_info['textbook'] = '';

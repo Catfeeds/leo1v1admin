@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <script type="text/javascript" > 
+    <script type="text/javascript" >
      var acc= "{{$acc}}";
      var account_role= "{{$account_role}}";
      var g_adminid= "{{$adminid}}";
@@ -122,7 +122,7 @@
             </div>
         </div>
         <hr/>
-        <table class="common-table"> 
+        <table class="common-table">
             <thead>
                 <tr>
                     <td display="none">num</td>
@@ -206,11 +206,11 @@
                                         <a class="opt-set_test">测试数据切换</a>
                                     @endif
                                     @if($var["account"]!="" || in_array($acc,["adrian","jack","jim","林文彬"]) || $account_role==12)
-                                        @if($account_role != 8) 
+                                        @if($account_role != 8)
                                             <!-- 蔡老师要求　招师不可见 -->
                                             <a class="opt-update_lecture_status" title="更改状态">更改状态</a>
                                         @endif
-                                        @if(($var['status']!=2 || in_array($acc,["adrian","alan","jack","jim","林文彬","孙瞿"]) || $account_role==12) && $account_role !=8)
+                                        @if((($var['status']!=2 || in_array($acc,["adrian","alan","jack","jim","林文彬","孙瞿"]) || $account_role==12) && $account_role !=8 ) || ($var['status']!=2 && $acc=="ivy") )
                                             <!-- 蔡老师要求 招师不可见   -->
                                             <a class="opt-edit-pass" title="审核">审核 </a>
                                             <a class="opt-edit-no-pass" title="淘汰重审判定">不通过 </a>

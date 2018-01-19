@@ -39,6 +39,12 @@ class TeacherTask extends TaskController
         $tea_nick = $lesson_info['tea_nick'];
 
         $grade_str       = E\Egrade::get_desc($lesson_info['grade']);
+        if(@$lesson_info['subject']){
+            $subject_str  = E\Esubject::get_desc($lesson_info['subject']);
+        }else{
+            $subject_str  = "";
+        }
+
         $lesson_count    = $lesson_info['lesson_count'];
         $lesson_type_str = $lesson_info['lesson_type']==2?"试听课":"1对1";
         $lesson_time     = date("m-d H:i",$lesson_info['lesson_start'])."-".date("H:i",$lesson_info['lesson_end']);
@@ -122,10 +128,17 @@ class TeacherTask extends TaskController
         }
 
         $data['first']  = $lesson_info['info'];
-        $data['remark'] = "上课学生:".$stu_nick
-                        ."\n年级:".$grade_str
-                        ."\n课时数:".($lesson_count/100)."课时"
-                        .$str_ex;
+        if($type==7){
+            $data['remark'] = "上课学生:".$stu_nick
+                ."\n年级:".$grade_str
+                ."\n科目:".$subject_str
+                .$str_ex;
+        }else{
+            $data['remark'] = "上课学生:".$stu_nick
+                ."\n年级:".$grade_str
+                ."\n课时数:".($lesson_count/100)."课时"
+                .$str_ex;
+        }
 
         \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
     }
@@ -467,19 +480,13 @@ class TeacherTask extends TaskController
                 );
             }
 
-            if($val['teacher_type']==3){
-                $val['info'] = "老师您好，本次课程已经结束。";
-            }else{
-                $val['info'] = "老师您好，本次课程已经结束，您本次课的基本工资为".$lesson_base."元，如有问题请及时到老师帮【个人中心】-【我的收入】中添加申诉说明。本月课程申诉通道将于下月6号24：00关闭，过期不予处理。";
-
-                // $val['info'] = "老师您好，本次课程已经结束，您本次课的基本工资为".$lesson_base."元，如有问题请及时到老师帮【个人中心】-【我的收入】中添加申诉说明或点击'详情'申诉。本月课程申诉通道将于下月5号24：00关闭，给您带来不便,敬请谅解。";
-
-            }
+            $url = 'http://wx-teacher-web.leo1v1.com/wage_details.html';
+            $val['info'] = "老师您好，本次课程已结束，您本次课的基本工资为".$lesson_base."元，如有疑问请及时到老师帮【个人中心】-【我的收入】中添加申诉说明或点击'详情'申诉。本月课程申诉通道将于下月5号24:00关闭，给您带来不便,敬请谅解。";
 
             $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
             if($openid){
-                // $this->teacher_wx_data("oJ_4fxPmwXgLmkCTdoJGhSY1FTlc",$val,$type);// 测试 james
-                $this->teacher_wx_data($openid,$val,$type);
+                // $this->teacher_wx_data("oJ_4fxPmwXgLmkCTdoJGhSY1FTlc",$val,$type,$url);// 测试 james
+                $this->teacher_wx_data($openid,$val,$type,$url);
                 $wx_tea_price_flag=1;
             }else{
                 $wx_tea_price_flag=2;
@@ -487,6 +494,7 @@ class TeacherTask extends TaskController
             $this->t_lesson_info->field_update_list($val['lessonid'],[
                 "wx_tea_price_flag" => $wx_tea_price_flag
             ]);
+
         }
     }
 

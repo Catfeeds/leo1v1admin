@@ -89,8 +89,12 @@ class login extends Controller
             }
 
         }else{
-            @$check_powerid = $url_power_map[$node["url"]] ;
-            if (isset( $url_power_map[$node["url"]]) && isset($power_map[$check_powerid ])) {
+            $url_split_arr = preg_split( "/\//", $node["url"]) ;
+            $check_url="/". @$url_split_arr[count($url_split_arr)-2] . "/". @$url_split_arr[count($url_split_arr)-1] ;
+
+            @$check_powerid = $url_power_map[ $check_url] ;
+            //\App\Helper\Utils::logger(" check_url: $check_url, ". $node["url"]  );
+            if (isset( $url_power_map[ $check_url ]) && isset($power_map[$check_powerid ])) {
                 //不再显示
                 unset($power_map[$check_powerid ]);
 
@@ -99,7 +103,11 @@ class login extends Controller
                     $icon="fa-circle-o";
                 }
 
-                $url_base= \App\Helper\Config::get_admin_domain_url( $this->get_menu_node_admin_domain_type($node, $admin_domain_type) );
+                if ( substr($node["url"], 0, 4) =="http"  ) {
+                    $url_base= "";
+                }else{
+                    $url_base= \App\Helper\Config::get_admin_domain_url( $this->get_menu_node_admin_domain_type($node, $admin_domain_type) );
+                }
                 return '<li> <a href="'.$url_base.$node["url"].'"><i class="fa '.$icon.'"></i><span>'.
                                        $node["name"].'</span></a></li>';
             }else{
@@ -117,7 +125,6 @@ class login extends Controller
 
 
     function  gen_one_item ($node,$power_fix,$level,$power_map,$admin_domain_type) {
-        \App\Helper\Utils::logger("do:".$node["name"]);
 
         $power_id= $power_fix*100+$node["power_id"];
         if (isset($node["list"])) {
@@ -285,6 +292,7 @@ class login extends Controller
         //收藏列表
         $self_menu_config=$this->t_admin_self_menu->get_menu_config($uid);
 
+
         $tmp_arr=$arr;
         $tmp_url_power_map= $url_power_map ;
         $menu_html.=$this->gen_account_role_menu( $self_menu_config , $tmp_arr,  $tmp_url_power_map ,false );
@@ -419,7 +427,6 @@ class login extends Controller
         $sess['nick'] = $tea_item["nick"] ;
         $sess['face'] = $tea_item["face"] ;
         $sess['role'] = E\Erole::V_TEACHER;
-
         session($sess);
         return $this->output_succ();
     }

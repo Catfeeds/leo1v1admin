@@ -32,6 +32,8 @@ class test extends Controller
         #排序信息
         list($order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             =$this->get_in_order_by_str([],"userid desc");
+        $origin_ex=$this->get_in_str_val("origin_ex");
+        $group_admin_ex= $this->get_in_str_val("group_admin_ex");
 
         $xmpp_server_id=$this->get_in_str_val("xmpp_server_id");
         #输入参数

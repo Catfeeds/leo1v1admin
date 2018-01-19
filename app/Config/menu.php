@@ -35,7 +35,7 @@ class menu{
             ["power_id"=>41, "name"=>"运维管理",  "list"=> [
                 ["power_id"=>83, "name"=>"系统状态",   "url"=>"/main_page/admin"],
                 ["power_id"=>80, "name"=>"在线预计课数", "url"=>"/tongji/online_def_user_count_list"],
-                ["power_id"=>81, "name"=>"在线课数", "url"=>"/tongji/online_user_count_list"],
+                ["power_id"=>81, "name"=>"在线课数", "url"=>"/tongji/online_user_count_list", "domain_type" =>100],
                 ["power_id"=>1, "name"=>"xmpp在线课数", "url"=>"/tongji/online_user_count_xmpp_list"],
                 ["power_id"=>8, "name"=>"声音记录管理",   "url"=>"/user_manage_new/record_audio_server_list"],
                 ["power_id"=>71, "name"=>"xmpp记录管理",   "url"=>"/admin_manage/xmpp_server_list"],
@@ -311,7 +311,9 @@ class menu{
                 ["power_id"=>1, "name"=>"首页",  "url"=>"/main_page2/market" ],
                 ["power_id"=>88, "name"=>"周报月报",  "url"=>"/report/week_of_monthly_report" ],
                 ["power_id"=>8, "name"=>"渠道-统计", "list"=>[
+                    // ["power_id"=>59, "name"=>"例子分配明细", "url"=>"/tongji_ex/seller_student_distribution"],
                     ["power_id"=>3, "name"=>"渠道统计-明细", "url"=>"/tongji_ex/seller_student_detail"],
+                    ["power_id"=>28, "name"=>"渠道页面-访问", "url"=>"/report/event_log_info", "domain_type" =>100 ],
                     ["power_id"=>56, "name"=>"渠道统计-new", "url"=>"/tongji_ss/channel_statistics"],
                     ["power_id"=>2, "name"=>"渠道统计 总体", "url"=>"/tongji_ss/origin_count"],
                     ["power_id"=>99, "name"=>"渠道统计-即时", "url"=>"/tongji_ss/origin_count_simple"],
@@ -459,8 +461,9 @@ class menu{
                 ["power_id"=>10, "name"=>"用户消息列表",   "url"=>"/news_info/stu_detail_message_list"],
                 ["power_id"=>35, "name"=>"产品问题记录文档",   "url"=>"/user_manage_new/product_info"],
                 //["power_id"=>36, "name"=>"软件版本控制",   "url"=>"/aliyun_oss/upload_list"],
-                ["power_id"=>37, "name"=>"老师晋升参考数据",   "url"=>"/tea_manage_new/approved_data_new"],
                 ["power_id"=>47, "name"=>"标签库",   "url"=>"/product_tag/tag_list"],
+                ["power_id"=>46, "name"=>"老师稳定性参考数据",   "url"=>"/tea_manage_new/approved_data"],
+                ["power_id"=>48, "name"=>"老师稳定性参考数据-new",   "url"=>"/tea_manage_new/approved_data_new"],
                 ["power_id"=>19, "name"=>"配置功能", "list"=>[
                     ["power_id"=>34, "name"=>"推广活动",   "url"=>"/tongji2/market_extension"],
                     ["power_id"=>4, "name"=>"图片管理",   "url"=>"/pic_manage/pic_info"],
@@ -867,7 +870,7 @@ class menu{
                 ["power_id"=>27, "name"=>"老师推荐申请",   "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info_yy"],
                 ["power_id"=>10, "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint_tea"],
                 ["power_id"=>11, "name"=>"微信推送",   "url"=>"/user_manage_new/wx_monitor_new_yy"],
-                ["power_id"=>30, "name"=>"教师预警","url"=>"/teacher_warn/tea_warn_list"]
+                ["power_id"=>30, "name"=>"教师预警","url"=>"/teacher_warn/tea_warn_list"],
             ]],
 
 

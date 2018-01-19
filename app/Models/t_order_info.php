@@ -4755,6 +4755,37 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
  
     }
 
+    //临时方法(获取每个合同的金额,分期以80%计算)
+    public function get_ass_self_order_period_money($start_time,$end_time){
+        $where_arr=[
+            [  "o.order_time >= %u", $start_time, -1 ] ,
+            [  "o.order_time <= %u", $end_time, -1 ] , 
+            "m.account_role = 1 ",
+            "o.price >0",
+            "o.contract_type in (0,3,3001)",
+            "o.contract_status>0",
+            "s.is_test_user=0",
+        ];
+
+        $sql =$this->gen_sql_new("select sum(if(c.child_order_type=2,c.price*0.8,c.price)) reset_money,o.price,o.orderid ".
+                                 " from  %s o ".
+                                 " left join %s m on o.sys_operator  = m.account".
+                                 " left join %s s on s.userid=o.userid".
+                                 " left join %s c on o.orderid=c.parent_orderid and c.price>0".
+                                 " where %s group by o.orderid",
+                                 self::DB_TABLE_NAME,
+                                 t_manager_info::DB_TABLE_NAME,
+                                 t_student_info::DB_TABLE_NAME,
+                                 t_child_order_info::DB_TABLE_NAME,
+                                 $where_arr
+        );
+
+        return $this->main_get_list($sql,function($item){
+            return $item["orderid"];
+        });
+
+    }
+
     //助教合同详情信息(薪资版本)  销售转介绍
     public function get_seller_tran_order_info($start_time,$end_time,$adminid=-1){
         $where_arr=[
@@ -4828,9 +4859,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ."  sum(if(order_time > $three_month , 1,0)) as three_month_num,"
             ."  sum(if(order_time > $start_time , 1,0)) as one_month_num, "
             ."  sum(if (contract_status = 3, 1,0)) as one_year_refund_num, "
-            ."  sum(if((order_time > 1501516800 and contract_status = 3),1,0)) as half_year_refund_num,"
-            ."  sum(if((order_time > 1509465600 and contract_status =  3),1,0)) as three_month_refund_num,"
-            ."  sum(if((order_time > 1514736000 and contract_status = 3),1,0)) as one_month_refund_num"
+            ."  sum(if((order_time > $half_year and contract_status = 3),1,0)) as half_year_refund_num,"
+            ."  sum(if((order_time > $three_month and contract_status =  3),1,0)) as three_month_refund_num,"
+            ."  sum(if((order_time > $start_time and contract_status = 3),1,0)) as one_month_refund_num"
             ." from %s o "
             ." left join %s s on s.userid = o.userid "
             ." left join %s m on  m.account = sys_operator"
@@ -4842,6 +4873,42 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $where_arr);
         return $this->main_get_list($sql,function($item){
             return $item['sys_operator'];
+        });
+
+    }
+
+    public function get_cr_refund_info($one_year,$half_year,$three_month,$start_time,$end_time,$nick){
+        $where_arr = [
+            " price > 0 ",
+            [" order_time > %s",$one_year,-1],
+            [" order_time < %s",$end_time,-1],
+            " s.is_test_user = 0 ",
+            " o.contract_status  in (1,2,3) ",
+        ];
+        
+        if ($nick !=""){
+            $where_arr[]=sprintf( "(a.nick like '%%%s%%'  )",
+                                    $this->ensql($nick));
+        }
+        $sql = $this->gen_sql_new("select s.assistantid,a.nick,count(*) as one_year_num, "
+            ."  sum(if(order_time > $half_year , 1,0)) as half_year_num, "
+            ."  sum(if(order_time > $three_month , 1,0)) as three_month_num, "
+            ."  sum(if(order_time > $start_time , 1,0)) as one_month_num, "
+            ."  sum(if(contract_status = 3, 1,0)) as one_year_refund_num, "
+            ."  sum(if((order_time > $half_year and contract_status = 3),1,0)) as half_year_refund_num,"
+            ."  sum(if((order_time > $three_month and contract_status =  3),1,0)) as three_month_refund_num,"
+            ."  sum(if((order_time > $start_time and contract_status = 3),1,0)) as one_month_refund_num"
+            ."  from %s o "
+            ."  left join %s s on s.userid = o.userid "
+            ."  left join %s a on a.assistantid = s.assistantid "
+            ."  where %s "
+            ."  group by s.assistantid order by a.last_modified_time desc",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_assistant_info::DB_TABLE_NAME,
+            $where_arr);
+        return $this->main_get_list($sql,function($item){
+            return $item['assistantid'];
         });
 
     }

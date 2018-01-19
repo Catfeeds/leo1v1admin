@@ -14,27 +14,35 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
-        $json_data=file_get_contents( "http://10.31.92.162/account/add_small_class_order_info"  );
-        dd($json_data);
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2018-01-01");
+        // $tt = $this->t_teacher_info->get_prize(240314);
+        // dd(json_decode($tt,true));
+        $ret_info = $this->t_teacher_lecture_appointment_info->get_tongji_data($start_time,$end_time);
+        dd($ret_info);
+        // $json_data=file_get_contents( "http://10.31.92.162/account/add_small_class_order_info"  );
+        // dd($json_data);
 
-        $registered_student_arr=[1,2,3,4];
-        $read_student_arr =[2,3];
-        $registered_student_arr = array_diff($registered_student_arr, $read_student_arr);//获得去除在读学员的数组
-        dd($registered_student_arr);
-        $phone = "136212987151";
-        //短信黑名单(不发送)
-        $sms_phone_refund_list=["13621298715"];
+        // $registered_student_arr=[1,2,3,4];
+        // $read_student_arr =[2,3];
+        // $registered_student_arr = array_diff($registered_student_arr, $read_student_arr);//获得去除在读学员的数组
+        // dd($registered_student_arr);
+        // $phone = "136212987151";
+        // //短信黑名单(不发送)
+        // $sms_phone_refund_list=["13621298715"];
 
-        if ($phone && !in_array($phone,$sms_phone_refund_list)) {
-            dd(111);
-        }else{
-            dd(222);
-        }
+        // if ($phone && !in_array($phone,$sms_phone_refund_list)) {
+        //     dd(111);
+        // }else{
+        //     dd(222);
+        // }
+        $ret_info = $this->t_month_ass_student_info->get_ass_month_info(1512057500);
 
         //续费/新签合同数据
         $start_time = strtotime("2017-12-01");
         $end_time = strtotime("2018-01-01");
         $ass_order_info = $this->t_order_info->get_assistant_performance_order_info($start_time,$end_time);
+        $order_money_list = $this->t_order_info->get_ass_self_order_period_money($start_time,$end_time);
         $renew_list=$new_list=[];
         foreach($ass_order_info as $val){
             $contract_type = $val["contract_type"];
@@ -61,9 +69,12 @@ class test_jack  extends Controller
         foreach($renew_list as $val){
             $orderid = $val["orderid"];
             $userid = $val["userid"];
-            $price = $val["price"];
             $uid = $val["uid"];
             $real_refund = $val["real_refund"];
+            $price = @$order_money_list[$orderid]["reset_money"];
+            if(!$price){
+                $price = $val["price"]; 
+            }
             if(!isset($ass_renew_info[$uid]["user_list"][$userid])){
                 $ass_renew_info[$uid]["user_list"][$userid]=$userid;
                 @$ass_renew_info[$uid]["num"] +=1;
@@ -74,9 +85,14 @@ class test_jack  extends Controller
         foreach($new_list as $val){
             $orderid = $val["orderid"];
             $userid = $val["userid"];
-            $price = $val["price"];
+            // $price = $val["price"];
             $uid = $val["uid"];
             $real_refund = $val["real_refund"];
+            $price = @$order_money_list[$orderid]["reset_money"];
+            if(!$price){
+                $price = $val["price"]; 
+            }
+
             if(!isset($ass_new_info[$uid]["user_list"][$userid])){
                 $ass_new_info[$uid]["user_list"][$userid]=$userid;
                 @$ass_new_info[$uid]["num"] +=1;
@@ -84,6 +100,24 @@ class test_jack  extends Controller
             @$ass_new_info[$uid]["money"] += $price-$real_refund;
 
         }
+
+        foreach($ret_info as $k=>$val){
+            $performance_cr_renew_num  = @$ass_renew_info[$k]["num"];
+            $performance_cr_renew_money  = @$ass_renew_info[$k]["money"];
+            $performance_cr_new_num  = @$ass_new_info[$k]["num"];
+            $performance_cr_new_money  = @$ass_new_info[$k]["money"];
+            $this->t_month_ass_student_info->get_field_update_arr($k,1512057500,1,[               
+                "performance_cr_renew_num"    =>$performance_cr_renew_num,
+                "performance_cr_renew_money"  =>$performance_cr_renew_money,
+                "performance_cr_new_num"      =>$performance_cr_new_num,
+                "performance_cr_new_money"    =>$performance_cr_new_money,
+            ]);
+
+        }
+        $ret_info = $this->t_month_ass_student_info->get_ass_month_info(1512057500);
+        dd($ret_info);
+
+
 
 
         //获取销售转介绍合同信息
