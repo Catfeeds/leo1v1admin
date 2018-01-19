@@ -2660,7 +2660,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_teacher_data($start_time,$end_time){
         $where_arr = [
             "ti.trial_lecture_is_pass=1",
-            // "ti.is_test_user=0",
+            "ti.is_test_user=0",
             "li.lesson_del_flag=0",
             // "l.lesson_type in (0,1,3)",
             "li.lesson_status=2",
@@ -2694,7 +2694,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ,t_order_refund::DB_TABLE_NAME
             ,$where_arr
         );
-        echo $sql;
         return $this->main_get_list($sql);
     }
     //@desn:获取所有的不重复的subject userid课程信息
