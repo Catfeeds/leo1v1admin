@@ -77,8 +77,8 @@ class tom_do_once extends Command
         // $this->update_cc_no_called_count();
         // $this->update_tq_call_info();
         // $this->give_seller_new_count();
-        $this->update_seller_edit_log();
-        // $this->update_distribution_count();
+        // $this->update_seller_edit_log();
+        $this->update_distribution_count();
     }
 
     /**
