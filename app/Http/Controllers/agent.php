@@ -441,6 +441,12 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $ret = $this->t_seller_edit_log->get_item_count($userid=99);
+        dd($ret);
+        $first_revisit_time = $this->t_tq_call_info->get_item_row($adminid=99,$phone='15251318621',$call_flag=1,$start_time=1516345800,$end_time=1516353000);
+        dd($first_revisit_time);
+        $id = $this->t_seller_edit_log->get_row_by_adminid_new($adminid=123,$userid=123);
+        dd($id);
         $now = time();
         $start_time = $now-3*3600;
         $end_time = $now;

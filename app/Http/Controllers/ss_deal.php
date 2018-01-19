@@ -263,11 +263,17 @@ class ss_deal extends Controller
             //分配日志
             $this->t_seller_edit_log->row_insert([
                 'adminid'=>$this->get_account_id(),//分配人
-                'uid'=>$opt_adminid,//组员
+                'uid'=>$opt_adminid,//被分配人
                 'new'=>$userid,//例子
                 'type'=>E\Eseller_edit_log_type::V_3,
                 'create_time'=>time(NULL),
             ]);
+            //分配次数
+            $opt_account_role = $this->t_manager_info->get_account_role($opt_adminid);
+            if($opt_account_role == E\Eaccount_role::V_2){
+                $distribution_count = $this->t_seller_student_new->field_get_value($userid, 'distribution_count');
+                $this->t_seller_student_new->field_update_list($userid, ['distribution_count'=>$distribution_count+1]);
+            }
         }
 
         return $this->output_succ();
