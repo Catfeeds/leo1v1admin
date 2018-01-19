@@ -1022,17 +1022,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_user_online_status = 1",
             "l.lesson_type = 2",
             "l.lesson_del_flag = 0",
-            // "tll.test_lesson_fail_flag=0",
-            // "tll.fail_greater_4_hour_flag=0",
             "ts.require_admin_type =2",
             "tlr.accept_flag=1",
         ];
 
-        // $this->where_arr_add_time_range($where_arr,"tlr.require_time",$start_time,$end_time);
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("  select count(tll.lessonid) from %s l "
-        // $sql = $this->gen_sql_new("  select tll.lessonid from %s l "
                                   ." left join %s tll on tll.lessonid=l.lessonid "
                                   ." left join %s tlr on tlr.require_id=tll.require_id"
                                   ." left join %s ts on ts.test_lesson_subject_id=tlr.test_lesson_subject_id"
@@ -3019,7 +3015,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         ];
         if($cw_status==0){
             $where_arr[]="(l.tea_cw_upload_time=0 or l.tea_cw_upload_time>=l.lesson_start)";
-        }else{
+        }elseif($cw_status==1){
             $where_arr[]="l.tea_cw_upload_time>0 and l.tea_cw_upload_time<l.lesson_start";
         }
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"

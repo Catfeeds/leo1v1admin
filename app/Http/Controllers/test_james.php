@@ -409,7 +409,9 @@ class test_james extends Controller
     public function getQrCode(){
         $qr_url = public_path('wximg').'/test_james.png';
         $qr_code_url = "http://www.leo1v1.com/market/index.html?%E6%9C%8D%E5%8A%A1%E5%8F%B7%E2%80%94%E8%8F%9C%E5%8D%95%E6%A0%8F=";
-        \App\Helper\Utils::get_qr_code_png($qr_code_url,$qr_url,5,4,3);
+        $a = \App\Helper\Utils::get_qr_code_png($qr_code_url,$qr_url,5,4,3);
+        echo $qr_url;
+        dd($a);
     }
 
 
