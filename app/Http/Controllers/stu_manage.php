@@ -1711,6 +1711,8 @@ class stu_manage extends Controller
 
         }elseif($current_id==4){
             $ret_info = $this->t_lesson_info_b3->get_lesson_homework_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade);
+            $list = $this->t_lesson_info_b3->get_lesson_homework_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade,2);
+
 
         }elseif($current_id==5){
 
