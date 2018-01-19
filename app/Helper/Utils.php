@@ -2483,7 +2483,7 @@ class Utils  {
                   'tag_two' => ['name' => '春暑秋寒','menu' => 'resource_season','hide' => ''],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
                   'tag_four' => ['name' => '学科化标签','menu' => '','hide' => ''],
-                  'tag_five' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_five' => ['name' => '难度类型','menu' => 'resource_diff_level','hide' => '']],
             2 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '春暑秋寒','menu' => 'resource_season','hide' => ''],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
