@@ -818,6 +818,23 @@ class human_resource extends Controller
         if($adminid==486 || $adminid==478 ){
             $tea_subject= "";
         }
+        $jw_permission_list=[
+            723=>3,
+            1329=>3,
+            1324=>2,
+            1328=>2,
+            1238=>1,
+            513=>1,
+            436=>"-1",
+            478=>"-1"
+        ];
+        if(isset($jw_permission_list[$adminid])){
+            $tea_subject="";
+            $per_subject=$jw_permission_list[$adminid];
+        }else{
+            $per_subject=-1;
+        }
+
 
         $account_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
         $date_week    = \App\Helper\Utils::get_week_range($time,1);
@@ -833,7 +850,7 @@ class human_resource extends Controller
             $week_liveness,$interview_score,$second_interview_score,$teacherid_arr,$seller_flag,
             $qz_flag,$teacher_type,$lesson_hold_flag_adminid,$is_quit,$set_leave_flag,$fulltime_flag,$seller_hold_flag,
             $teacher_ref_type,$have_wx,$grade_plan,$subject_plan,$fulltime_teacher_type,$month_stu_num,
-            $record_score_num,$identity,$plan_level,$teacher_textbook
+            $record_score_num,$identity,$plan_level,$teacher_textbook,$per_subject
         );
 
         $tea_list = [];
@@ -1537,7 +1554,7 @@ class human_resource extends Controller
             $tea_subject="(6)";
         }elseif($adminid==770){
             $tea_subject="(4,6)";
-        }elseif($adminid==895){
+        }elseif($adminid==895 || $adminid==790){
             $tea_subject="(7,8,9)";
         }elseif($adminid==793){
             $tea_subject="(5,10)";
@@ -1564,7 +1581,7 @@ class human_resource extends Controller
         $is_master_flag = $this->t_admin_group_name->check_is_master(8,$adminid);
         //判断是否是招师
         $is_zs_flag = (($this->t_admin_group_user->get_main_type($adminid))==8)?1:0;
-        if($is_zs_flag==1 && $is_master_flag !=1){
+        if($is_zs_flag==1 && $is_master_flag !=1 && $adminid!=790){
             $accept_adminid = $adminid;
             $id_train_through_new=0;
         }else{
@@ -4211,6 +4228,23 @@ class human_resource extends Controller
         if($adminid==486 || $adminid==478){
             $tea_subject = "";
         }
+
+        $jw_permission_list=[
+            723=>3,
+            1329=>3,
+            1324=>2,
+            1328=>2,
+            1238=>1,
+            513=>1,
+            436=>"-1",
+            478=>"-1"
+        ];
+        if(isset($jw_permission_list[$adminid])){
+            $tea_subject="";
+            $per_subject=$jw_permission_list[$adminid];
+        }else{
+            $per_subject=-1;
+        }
         if(!empty($free_time)){
             $teacherid_arr = $this->get_free_teacherid_arr_new($free_time);
             $arr       = explode(",",$free_time);
@@ -4232,7 +4266,8 @@ class human_resource extends Controller
             $teacherid,$is_freeze,$page_num,$is_test_user,$gender,
             $grade_part_ex,$subject,$second_subject,$address,$limit_plan_lesson_type,
             $lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,$lstart,
-            $lend,$teacherid_arr,$through_start,$through_end,$sleep_teacher_flag,$advance_list
+            $lend,$teacherid_arr,$through_start,$through_end,$sleep_teacher_flag,
+            $advance_list, $per_subject
         );
 
         foreach($ret_info['list'] as  &$item){

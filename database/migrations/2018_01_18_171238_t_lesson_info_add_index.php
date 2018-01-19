@@ -15,7 +15,6 @@ class TLessonInfoAddIndex extends Migration
         //
         Schema::table('db_weiyi.t_lesson_info', function( Blueprint $table)
         {
-            $table->index('zip_url');
             $table->index('uuid');
         });
 

@@ -58,6 +58,9 @@
             <div class="col-xs-6 col-md-12 ">
                 <button class="btn btn-warning btn-flat preview_table_flag" id="id_pre_rate" style="float:right" data-class_id="1">预习率:{{ @$pre_rate }}%</button>
                 <button class="btn btn-warning btn-flat lesson_table_flag" id="id_attend_rate" style="float:right" data-class_id="2">正常出勤率:{{ @$attend_rate }}%</button>
+                <button class="btn btn-warning btn-flat performance_table_flag" id="id_record_rate" style="float:right" data-class_id="3">反馈率:{{ @$record_rate }}%</button>
+
+                
             </div>
         </div>
         <table class="common-table preview_table_flag" data-class_id="1">
@@ -180,6 +183,47 @@
                 @endforeach
             </tbody>
         </table>
+
+        <table class="common-table performance_table_flag" data-class_id="3">
+            <thead>
+                <tr >
+                    <td >序号</td>
+                    <td>时间</td>
+                    <td>年级</td>
+                    <td>科目</td>
+                    <td>学生打分</td>
+                    <td>学生评价</td>
+                    <td>老师评价</td>
+                    <td>老师</td>
+                    <td>回放</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($table_data_list as $var)
+                    <tr>
+                        <td class="show_lesson_detail" data-lessonid="{{ $var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
+                        <td>{{@$var["lesson_time"] }}</td>
+                        <td>{{@$var["grade_str"] }}</td>
+                        <td>{{@$var["subject_str"] }}</td>
+                        <td >{{@$var["stu_score"]}}</td>
+                        <td >{{@$var["stu_comment"]}}</td>
+                        <td >{{@$var["stu_point_performance"]}}</td>
+                      
+                        <td>{{@$var["realname"] }}</td>
+                        <td><a class="btn show_lesson_video" href="javascript:;" data-lessonid="{{ @$var["lessonid"] }}">课程回访</a></td>
+                        <td>
+                            <div
+
+                                {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                            >
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
 
         @include("layouts.page")
     </section>
