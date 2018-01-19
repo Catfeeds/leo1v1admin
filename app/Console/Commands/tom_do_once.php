@@ -303,6 +303,7 @@ class tom_do_once extends Command
     public function update_seller_edit_log(){
         $ret = $this->task->t_seller_edit_log->get_item_list();
         foreach($ret as $item){
+            $id = $item['id'];
             $adminid = $item['adminid'];
             $phone = $item['phone'];
             $start_time = $item['create_time'];
@@ -318,6 +319,7 @@ class tom_do_once extends Command
             }
             if(count($arr)>0){
                 $this->task->t_seller_edit_log->field_get_list($id, $arr);
+                echo $id.':'.$first_revisit_time.'=>'.$first_contact_time."\n";
             }
         }
     }
