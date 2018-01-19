@@ -3481,7 +3481,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." first_tmk_set_valid_admind,first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,"
             ." first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,first_admin_revisiterid_time,"
             ." first_seller_status,cur_adminid_call_count as call_count,ss.auto_allot_adminid,first_called_cc,"
-            ." first_get_cc,test_lesson_flag,ss.orderid,price "
+            ." first_get_cc,test_lesson_flag,ss.orderid,price,s.origin_level "
             ." from %s t "
             ." left join %s ss on  ss.userid = t.userid "
             ." left join %s s on ss.userid=s.userid "
