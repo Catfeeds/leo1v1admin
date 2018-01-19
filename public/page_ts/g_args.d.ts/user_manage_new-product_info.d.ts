@@ -18,6 +18,10 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	zip_url	:any;
+	video_url	:any;
+	img_url	:any;
+	lesson_problem	:any;
 	id	:any;
 	deal_flag	:any;
 	feedback_adminid	:any;
@@ -41,6 +45,7 @@ interface RowData {
 	feedback_nick	:any;
 	record_nick	:any;
 	deal_flag_str	:any;
+	lesson_problem_str	:any;
 }
 
 /*

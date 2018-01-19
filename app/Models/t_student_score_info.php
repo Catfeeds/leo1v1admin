@@ -345,4 +345,12 @@ where lesson_start > $start_time and lesson_start < $end_time and lesson_type = 
 
       return $this->main_get_row($sql);
     }
+
+    public function get_yy($start_time,$end_time){
+       $sql = "select count(*) as total , sum( if(grade = 101, 1, 0)) as one_total, sum( if(grade = 102, 1, 0)) as two_total, sum( if(grade = 103, 1, 0)) as three_total  
+from t_student_info 
+where reg_time >  $start_time and reg_time < $end_time and is_test_user = 0";
+
+      return $this->main_get_row($sql);
+    }
 }
