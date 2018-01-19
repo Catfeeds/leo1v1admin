@@ -391,9 +391,15 @@ class test_james extends Controller
 
         Schema::create('db_tool.t_personality_poster', function(Blueprint $table) {
             t_comment($table,"市场部个性海报");
-            t_field($table->integer("tea_cw_type"), "老师上传讲义的类型 0:pdf 1:ppt");
-            t_field($table->string("uuid"), "老师PPT讲义的uuid");
-            t_field($table->integer("ppt_status"), "ppt转化状态 0:未处理 1:已成功 2:失败");
+            t_field($table->increments("id"), "");
+            t_field($table->integer("uid"), "分享人id");
+            t_field($table->integer("stu_id"), "学生id");
+            t_field($table->tinyInteger("type"), "时间类型 0:家长点击 1:制作海报次数");
+            t_field($table->string("media_id",100), "照片mediaId");
+            t_field($table->string("phone",100), "家长号码");
+            t_field($table->string("bgImgUrl"), "背景图片链接");
+            t_field($table->string("qr_code_url"), "二维码链接");
+
         });
 
 
