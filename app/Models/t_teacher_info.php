@@ -4762,7 +4762,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
         );
-
+        //dd($sql);
         return $this->main_get_row($sql);
     }
 

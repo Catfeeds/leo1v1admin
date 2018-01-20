@@ -683,6 +683,19 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         return $list;
     }
 
-
+    public function get_all_info($start_time, $end_time) {
+        $where_arr = [
+            ["o.pay_time>=%u", $start_time, 0],
+            ["o.pay_time<%u", $end_time, 0],
+            "r.is_warning_flag in (1,2) "
+        ];
+        $sql = $this->gen_sql_new("select userid,is_warning_flag from %s r"
+                                  ." left join %s o on r.userid=o.userid "
+                                  ," where %s order by desc"
+                                  , self::DB_TABLE_NAME
+                                  , t_order_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
 
 }
