@@ -58,7 +58,7 @@ seller_api.php:        $phone=$this->t_seller_student_new->field_get_value($user
 seller_api.php:        $rr = $this->t_seller_student_new->set_no_hold_free($account_id);
 seller_student_new2.php:        $ret_info=$this->t_seller_student_new->get_tmk_student_list (
 seller_student_new2.php:        $ret_info=$this->t_seller_student_new->get_no_call_to_free_list($page_num,$page_count,$admin_revisiterid, $global_tq_called_flag,  $seller_student_status  );
-seller_student_new2.php:        $seller_student_new_list = $this->t_seller_student_new->get_distribution_count($start_time,$end_time,$origin_ex);
+seller_student_new2.php:        $seller_student_new_list = $this->t_seller_student_new->get_dis_count($start_time,$end_time,$origin_ex);
 seller_student_new2.php:            $ret_info = $this->t_seller_student_new->get_distribution_list($uid,$hand_get_adminid,$start_time,$end_time,$origin_ex,$page_info,$user_name);
 seller_student_new2.php:        $list=$this->t_seller_student_new->get_first_admin_info( $start_time, $end_time );
 seller_student_new.php:        $this->t_seller_student_new->switch_tongji_database();
