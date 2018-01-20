@@ -294,7 +294,7 @@ class resource extends Controller
         $grade         = $this->get_in_int_val('grade');
         $bookid         = $this->get_in_int_val('bookid');
         $season_id     = $this->get_in_int_val('season_id',-1);
-        $resource_type      = $this->get_in_int_val('resource_type',-1);
+        $resource_type      = $this->get_in_int_val('resource_type',1);
         if($resource_type != 1){
             $season_id = 0;
         }
