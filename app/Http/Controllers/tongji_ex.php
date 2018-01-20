@@ -266,7 +266,7 @@ class tongji_ex extends Controller
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>12月重复进入例子</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>编号</th><th>号码</th><th>渠道</th><th>进入时间</th><th>重复进入次数</th><th>试听情况</th><th>签单</th>';
+        echo '<th>编号</th><th>号码</th><th>渠道</th><th>进入时间</th><th>重复进入次数</th><th>试听情况</th><th>签单</th><th>签单时间</th>';
         echo '</tr>';
         foreach($ret_info as $userid=>$item){
             $num++;
@@ -291,6 +291,7 @@ class tongji_ex extends Controller
             }
             echo '</td>';
             echo '<td>'.$item['price'].'</td>';
+            echo '<td>'.$item['order_time'].'</td>';
             echo '</tr>';
         }
         echo '</table>';
