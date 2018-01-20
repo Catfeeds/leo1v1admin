@@ -11,7 +11,7 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
     public function get_info_by_teacher_money_type($start_time,$teacher_money_type){
         $where_arr=[
             ["start_time = %u",$start_time,0],
-            ["t.teacher_money_type=%u",$teacher_money_type,-1],           
+            ["teacher_money_type=%u",$teacher_money_type,-1],           
         ];
         $sql = $this->gen_sql_new("select * from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
