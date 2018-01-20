@@ -51,6 +51,7 @@
                     <td style="display:none;">预估月课时消耗总量 </td>
                     <td>绩效(课程消耗) </td>
                     <td style="display:none;">扩课数量(old)</td>
+                    <td>绩效(扩课old) </td>
                     <td style="display:none;">扩课数量</td>
                     <td>绩效(扩课) </td>
                     <td style="display:none;">停课数量</td>
@@ -99,7 +100,8 @@
                             </a>
                         </td>
                         <td>{{@$var["kpi_lesson_count_finish_reword"]}}</td> 
-                        <td>{{@$var["kk_num_old"]}}</td> 
+                        <td>{{@$var["kk_num_old"]}}</td>
+                        <td>{{@$var["kk_reword_old"]}}</td>
                         <td class="opt_kk_suc" data-uid='{{@$var["adminid"]}}'> <a href="javascript:;" >{{@$var["kk_all"]}}</a></td>
                         <td>{{@$var["kk_reword"]}}</td> 
                         <td>
