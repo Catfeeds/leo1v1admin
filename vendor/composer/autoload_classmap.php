@@ -674,7 +674,6 @@ return array(
     'TLessonInfoAddOperateTimeIndex' => $baseDir . '/database/migrations/2017_10_21_122844_t_lesson_info_add_operate_time_index.php',
     'TLessonInfoAddTeaCwOrigin' => $baseDir . '/database/migrations/2017_12_19_182608_t_lesson_info_add_tea_cw_origin.php',
     'TLessonInfoAddTeacherType' => $baseDir . '/database/migrations/2017_12_16_164143_t_lesson_info_add_teacher_type.php',
-    'TLessonInfoOperateLogAddOperateUrl' => $baseDir . '/database/migrations/2018_01_18_194046_t_lesson_info_operate_log_add_operate_url.php',
     'TLessonInfoResetZipUrl' => $baseDir . '/database/migrations/2017_12_29_120318_t_lesson_info_reset_zip_url.php',
     'TLessonOperateLog' => $baseDir . '/database/migrations/2018_01_17_105610_t_lesson_operate_log.php',
     'TLessonResetZipUrl' => $baseDir . '/database/migrations/2017_12_29_124430_t_lesson_reset_zip_url.php',
