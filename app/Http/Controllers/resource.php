@@ -393,11 +393,6 @@ class resource extends Controller
 
         //教研老师只能看他所教的科目和年级
         $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
-        // $info = [
-        //     'subject'     => 2,
-        //     'grade_start' => 1,
-        //     'grade_end'   => 2,
-        // ];
         if($info && $role == 4){
             $grade_arr = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
             $grade = [];
