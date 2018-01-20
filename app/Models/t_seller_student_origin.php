@@ -689,16 +689,19 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
             " select o.*,"
             ." n.phone,n.orderid,"
             ." l.lessonid,l.lesson_type,l.lesson_start,l.lesson_end,l.lesson_del_flag,"
-            ." l.confirm_flag,l.lesson_user_online_status,l.sys_operator,"
+            ." l.confirm_flag,l.lesson_user_online_status,"
+            ." tr.cur_require_adminid adminid, "
             ." o1.order_time,o1.price "
             ." from %s o "
             ." left join %s n on n.userid=o.userid "
-            ." left join %s l on l.userid=o.userid "
+            ." join %s l on l.userid=o.userid and l.lesson_type=2 "
+            ." join %s tr on tr.current_lessonid=l.lessonid "
             ." left join %s o1 on o1.orderid=n.orderid "
             ." where %s order by o.add_time "
-            ,t_seller_student_origin::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
             ,t_seller_student_new::DB_TABLE_NAME
             ,t_lesson_info::DB_TABLE_NAME
+            ,t_test_lesson_subject_requiret::DB_TABLE_NAME
             ,t_order_info::DB_TABLE_NAME
             ,$where_arr
         );

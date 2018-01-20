@@ -234,13 +234,13 @@ class tongji_ex extends Controller
             $order_time = $info['order_time']>0?date('Y-m-d H:i:s',$info['order_time']):'';
             $price = $info['price']>0?$info['price']/100:'';
             $lessonid = $info['lessonid'];
-            $lesson_type = $info['lesson_type'];
             $lesson_start = $info['lesson_start'];
             $lesson_end = $info['lesson_end'];
             $lesson_del_flag = $info['lesson_del_flag'];
-            $confirm_flag = $info['confirm_flag'];
+            $confirm_flag = $info['adminid']>0?$this->cache_get_account_nick($info['adminid']):'';
             $lesson_user_online_status = $info['lesson_user_online_status'];
             $sys_operator = $info['sys_operator'];
+
             $ret_info[$userid]['phone'] = isset($ret_info[$userid]['phone'])?$ret_info[$userid]['phone']:$info['phone'];
             $ret_info[$userid]['origin'] = isset($ret_info[$userid]['origin'])?$ret_info[$userid]['origin']:$info['origin'];
             $ret_info[$userid]['add_time'] = isset($ret_info[$userid]['add_time'])?$ret_info[$userid]['add_time']:date('Y-m-d H:i:s',$info['add_time']);
@@ -250,7 +250,7 @@ class tongji_ex extends Controller
             $ret_info[$userid]['price'] = isset($ret_info[$userid]['price'])?$ret_info[$userid]['price']:$price;
 
             $ret_info[$userid]['lessonid'] = [];
-            if($lessonid>0 && $lesson_type==2){
+            if($lessonid>0){
                 $ret_info[$userid]['lessonid'][$lessonid] = [
                     'lesson_start'=>$lesson_start,
                     'lesson_end'=>$lesson_end,
