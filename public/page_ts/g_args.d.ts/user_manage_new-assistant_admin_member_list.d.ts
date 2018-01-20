@@ -4,6 +4,8 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	rate_target:	number;
+	renew_target:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -43,7 +45,9 @@ function load_data(){
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val()
+		end_time:	$('#id_end_time').val(),
+		rate_target:	$('#id_rate_target').val(),
+		renew_target:	$('#id_renew_target').val()
 		});
 }
 $(function(){
@@ -58,6 +62,8 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
+	$('#id_rate_target').val(g_args.rate_target);
+	$('#id_renew_target').val(g_args.renew_target);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -72,4 +78,20 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">rate_target</span>
+                <input class="opt-change form-control" id="id_rate_target" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["rate_target title", "rate_target", "th_rate_target" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">renew_target</span>
+                <input class="opt-change form-control" id="id_renew_target" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["renew_target title", "renew_target", "th_renew_target" ]])!!}
 */
