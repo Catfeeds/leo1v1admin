@@ -13,12 +13,15 @@ $(function(){
 	  $('.opt-change').set_input_change_event(load_data);
 
     $(".cancel_lesson").on("click",function(){
-        var data          = $(this).get_opt_data();
-        var lessonid      = data.lessonid;
-        var lesson_status = data.lesson_status;
+        var data            = $(this).get_opt_data();
+        var lessonid        = data.lessonid;
+        var lesson_status   = data.lesson_status;
+        var lesson_del_flag = data.lesson_del_flag;
 
         if(lesson_status!=0){
             BootstrapDialog.alert("课程状态不对,只能取消"+font_color("未开始")+"的课程!");
+        }else if(lesson_del_flag!=0){
+            BootstrapDialog.alert("本节课已经取消，不用重复取消!");
         }else{
             BootstrapDialog.show({
                 title    : '取消',
@@ -139,7 +142,9 @@ $(function(){
 
     $.each($(".change_time"),function(i,item){
         $(item).admin_set_lesson_time({
-            "lessonid" : $(item).get_opt_data("lessonid")
+            "lessonid" : $(item).get_opt_data("lessonid"),
+            "func"     : function(){
+            }
         });
     });
 

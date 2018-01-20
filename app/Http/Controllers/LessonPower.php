@@ -61,7 +61,6 @@ trait LessonPower{
         }
     }
 
-
     /**
      * 添加课程操作信息
      * @param int lessonid 课程id
@@ -73,14 +72,27 @@ trait LessonPower{
     public function add_lesson_operate_info($lessonid,$operate_column,$operate_before,$operate_after){
         $uid          = $this->get_account_id();
         $operate_time = time();
+        if(isset($_SERVER['HTTP_REFERER'])){
+            $operate_referer = substr($_SERVER['HTTP_REFERER'],0,1000);
+        }else{
+            $operate_referer = "非浏览器操作";
+        }
+        if(isset($_SERVER['REQUEST_URI'])){
+            $operate_request = substr($_SERVER['REQUEST_URI'],0,1000);
+        }else{
+            $operate_request = "没有请求地址";
+        }
         $ret = $this->t_lesson_info_operate_log->row_insert([
-            "lessonid"       => $lessonid,
-            "operate_column" => $operate_column,
-            "operate_before" => $operate_before,
-            "operate_after"  => $operate_after,
-            "uid"            => $uid,
-            "operate_time"   => $operate_time,
+            "lessonid"        => $lessonid,
+            "operate_column"  => $operate_column,
+            "operate_before"  => $operate_before,
+            "operate_after"   => $operate_after,
+            "operate_time"    => $operate_time,
+            "operate_referer" => $operate_referer,
+            "operate_request" => $operate_request,
+            "uid"             => $uid,
         ]);
+
         if($ret){
             return true;
         }else{
@@ -100,12 +112,75 @@ trait LessonPower{
         $operate_before = json_encode(["lesson_count" => $old_lesson_count]);
         $operate_after  = json_encode(["lesson_count" => $new_lesson_count]);
         $ret = $this->add_lesson_operate_info($lessonid,$operate_column,$operate_before,$operate_after);
-        if($ret){
-            return $this->output_succ();
-        }else{
-            return $this->output_err("添加修改课时记录失败！");
-        }
+        return $this->output_err($ret,"添加修改课时记录失败！");
     }
 
+    /**
+     * 添加删除课程的操作信息
+     * @param int lessonid 课程id
+     * @param int old_del_flag 修改前删除标识
+     * @param int new_del_flag 修改后删除标识
+     * @return string
+     */
+    public function add_cancel_lesson_operate_info($lessonid,$old_lesson_del_flag=0,$new_lesson_del_flag=1){
+        $operate_column = "lesson_del_flag";
+        $operate_before = json_encode(["lesson_del_flag" => $old_lesson_del_flag]);
+        $operate_after  = json_encode(["lesson_del_flag" => $new_lesson_del_flag]);
+        $ret = $this->add_lesson_operate_info($lessonid,$operate_column,$operate_before,$operate_after);
+        return $this->output_ret($ret,"取消课程记录添加失败！");
+    }
+
+    /**
+     * 添加修改课程时间的操作信息
+     * @param int lessonid 课程id
+     * @param int old_lesson_start 修改前课程开始时间
+     * @param int new_lesson_start 修改后课程开始时间
+     * @param int old_lesson_end   修改前课程结束时间
+     * @param int new_lesson_end   修改后课程结束时间
+     * @return string
+     */
+    public function add_lesson_time_operate_info($lessonid,$old_lesson_start,$new_lesson_start,$old_lesson_end,$new_lesson_end){
+        $operate_column = "lesson_start,lesson_end";
+        $operate_before = json_encode([
+            "lesson_start" => $old_lesson_start,
+            "lesson_end"   => $old_lesson_end,
+        ]);
+        $operate_after  = json_encode([
+            "lesson_start" => $new_lesson_start,
+            "lesson_end"   => $new_lesson_end,
+        ]);
+        $ret = $this->add_lesson_operate_info($lessonid,$operate_column,$operate_before,$operate_after);
+        return $this->output_ret($ret,"设置课程时间记录添加失败！");
+    }
+
+    /**
+     * 添加修改课程状态的操作信息
+     * @param int lessonid 课程id
+     * @param int old_lesson_status 修改前课程状态
+     * @param int new_lesson_status 修改后课程状态
+     * @return string
+     */
+    public function add_lesson_status_operate_info($lessonid,$old_lesson_status,$new_lesson_status){
+        $operate_column = "lesson_status";
+        $operate_before = json_encode(["lesson_status" => $old_lesson_status]);
+        $operate_after  = json_encode(["lesson_status" => $new_lesson_status]);
+        $ret = $this->add_lesson_operate_info($lessonid,$operate_column,$operate_before,$operate_after);
+        return $this->output_ret($ret,"修改课程状态记录添加失败！");
+    }
+
+    /**
+     * 添加修改课时确认的操作信息
+     * @param int lessonid 课程id
+     * @param int old_confirm_flag 修改前课时确认状态
+     * @param int new_confirm_flag 修改后课时确认状态
+     * @return string
+     */
+    public function add_lesson_confirm_flag_operate_info($lessonid,$old_confirm_flag,$new_confirm_flag){
+        $operate_column = "confirm_flag";
+        $operate_before = json_encode(["confirm_flag" => $old_confirm_flag]);
+        $operate_after  = json_encode(["confirm_flag" => $new_confirm_flag]);
+        $ret = $this->add_lesson_operate_info($lessonid,$operate_column,$operate_before,$operate_after);
+        return $this->output_ret($ret,"修改课时确认状态记录添加失败！");
+    }
 
 }

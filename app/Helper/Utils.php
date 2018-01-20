@@ -364,7 +364,7 @@ class Utils  {
      * @return array
      */
     static function get_day_range( $timestamp){
-        $ret=array();
+        $ret = array();
         $ret['sdate'] = strtotime( date('Y-m-d ', $timestamp));
         $ret['edate'] =  $ret['sdate'] + 86400;
         return $ret;
