@@ -15,9 +15,9 @@
                 "lessonid":me.options.lessonid
             },function(data){
                 var lesson_count = data.lesson_count;
-                var lesson_type = data.data.lesson_type;
-                if(lesson_type ==2 ) {
-                    lesson_count =100;
+                var lesson_type  = data.data.lesson_type;
+                if( lesson_type == 2 ){
+                    lesson_count = 100;
                 }
 
                 data = data.data;
@@ -28,16 +28,16 @@
                 var now=new Date();
                 now=now.getTime()/1000;
 
-                var check_end =  parseInt(data.lesson_end)+3600 ;
-                if ( data.lesson_end >0 && now> check_end  ) {
-                    BootstrapDialog.alert("时间结束超过1个小时,不能设置");
-                    return;
-                }
+                // var check_end =  parseInt(data.lesson_end)+3600 ;
+                // if ( data.lesson_end >0 && now> check_end  ) {
+                //     BootstrapDialog.alert("时间结束超过1个小时,不能设置");
+                //     return;
+                // }
 
                 var id_start_time = $("<input/> ");
                 var id_end_time   = $("<input/> ");
                 if ( data.lesson_status  != 0 ) {
-                    BootstrapDialog.alert("课程状态不是未开始，无法修改");
+                    BootstrapDialog.alert("课程状态不是未开始，无法修改!");
                     return false;
 
                     // id_start_time.css("readonly", "readonly");

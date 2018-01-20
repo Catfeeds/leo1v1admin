@@ -42,7 +42,11 @@ trait LessonPower{
         $check_time   = strtotime("+1 month",strtotime(date("Y-m-05",$lesson_start)));
         $now          = time();
 
-        $error_info   = "";
+        $error_info = "";
+        $check_lesson_count = $this->t_lesson_info->check_lesson_count_for_change($lessonid, $lesson_count);
+        if (!$check_lesson_count){
+            $error_info = "课时数太大，无法修改！\n请确认该课时包的分配课时是否充足！";
+        }
         if($lesson_count==0){
             $error_info = "课时不能为0，若要取消课时，请在课程管理中取消！";
         }

@@ -133,28 +133,30 @@ class user_deal extends Controller
      * 修改课时,无法修改课时审查时间节点之前的课时  /config/admin.php  中的  lesson_confirm_start_time 时间
      * 2018年01月06日18:18:24之后不适用此接口
      */
-    public function update_lesson_count($lessonid,$lesson_count){
-        $lesson_confirm_start_time=\App\Helper\Config::get_lesson_confirm_start_time();
+    // public function update_lesson_count($lessonid,$lesson_count){
+    //     $lesson_confirm_start_time=\App\Helper\Config::get_lesson_confirm_start_time();
 
-        $lesson_start = $this->t_lesson_info->get_lesson_start($lessonid);
-        if ($lesson_start<strtotime( $lesson_confirm_start_time) ) {
-            return $this->output_err("上课时间太早了, 早于[$lesson_confirm_start_time] ");
-        };
+    //     $lesson_start = $this->t_lesson_info->get_lesson_start($lessonid);
+    //     if ($lesson_start<strtotime( $lesson_confirm_start_time) ) {
+    //         return $this->output_err("上课时间太早了, 早于[$lesson_confirm_start_time] ");
+    //     };
 
-        $ret = $this->t_lesson_info->check_lesson_count_for_change($lessonid, $lesson_count);
-        if (!$ret){
-            return $this->output_err("课时数太大了");
-        }
-        $ret = $this->t_lesson_info->field_update_list($lessonid,[
-            "lesson_count" => $lesson_count,
-        ]);
-        return $ret;
-    }
+    //     $ret = $this->t_lesson_info->check_lesson_count_for_change($lessonid, $lesson_count);
+    //     if (!$ret){
+    //         return $this->output_err("课时数太大了");
+    //     }
+    //     $ret = $this->t_lesson_info->field_update_list($lessonid,[
+    //         "lesson_count" => $lesson_count,
+    //     ]);
+    //     return $ret;
+    // }
 
-
+    /**
+     * 课程包添加课程
+     */
     public function lesson_add_lesson() {
         $courseid = $this->get_in_courseid();
-        $acc = $this->get_account();
+        $acc      = $this->get_account();
         if(!in_array($acc,["jim"])){
             $ret = $this->add_regular_lesson($courseid,0,0);
             if(is_numeric($ret) ){

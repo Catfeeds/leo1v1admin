@@ -87,8 +87,6 @@ class resource extends Controller
 
         }
         //dd($ret_info['list']);
-        //查询老师负责的科目,年级
-        $sub_grade_info = $this->get_rule_range();
 
         //获取所有开放的教材版本
         //$book = $this->t_resource_agree_info->get_all_resource_type();
@@ -103,14 +101,42 @@ class resource extends Controller
         }else{
             $book_arr = [4,12,16,29,50000];
         }
-        // dd($sub_grade_info);
+        $sub_grade_info = $this->get_rule_range();
+        $is_teacher = 0;
+        if($this->get_account_role() == 4){
+            $is_teacher = 1;
+            if( $subject > 0 && !in_array($subject,$sub_grade_info['subject'])){
+                $err_mg = "你不是教当前科目的教研老师，没有权限查看当前科目";
+                return $this->view_with_header_info ( "common.resource_no_power", [],[
+                    "_ctr"          => "xx",
+                    "_act"          => "xx",
+                    "js_values_str" => "",
+                    'err_mg' => $err_mg
+                ] );
+
+            }
+
+            if( $grade > 0 && !in_array($grade,$sub_grade_info['grade'])){
+                $err_mg = "你不是教当前年级段的教研老师，没有权限查看当前年级";
+                return $this->view_with_header_info ( "common.resource_no_power", [],[
+                    "_ctr"          => "xx",
+                    "_act"          => "xx",
+                    "js_values_str" => "",
+                    'err_mg' => $err_mg
+                ] );
+
+            }
+
+        }
+
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180116171849,
+            '_publish_version'    => 20180116171949,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
             'book'          => json_encode($book_arr),
             'resource_type' => $resource_type,
+            'is_teacher'   => $is_teacher,
         ]);
     }
 
@@ -336,36 +362,54 @@ class resource extends Controller
     public function get_rule_range(){
 
         $adminid  = $this->get_account_id();
+        $role = $this->get_account_role();
 
-        //判断是不是总监
-        $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
-        if ($is_master == false) {
-            $data = [
-                'subject' => [1,2,3,4,5,6,7,8,9,10],
-                'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
-            ];
-            return $data;
-        }
-
-        //判断是不是主管
-        $is_zhuguan = $this->t_admin_main_group_name->is_master($adminid);
-        if ($is_zhuguan) {
-            $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
-            $data = [
-                'subject' => $info['subject'],
-                'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
-            ];
-
-            return $data;
-        }
-
-
-        $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
         $data = [
-            'subject' => $info['subject'],
-            'grade'   => \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']),
+            'subject' => [1,2,3,4,5,6,7,8,9,10],
+            'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
         ];
 
+        //判断是不是总监
+        // $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
+        // if ($is_master) {
+        //     $data = [
+        //         'subject' => [1,2,3,4,5,6,7,8,9,10],
+        //         'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
+        //     ];
+        //     return $data;
+        // }
+
+        //判断是不是主管
+        // $is_zhuguan = $this->t_admin_main_group_name->is_master($adminid);
+        // if ($is_zhuguan) {
+        //     $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
+        //     $data = [
+        //         'subject' => $info['subject'],
+        //         'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
+        //     ];
+
+        //     return $data;
+        // }
+
+        //教研老师只能看他所教的科目和年级
+        $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
+        // $info = [
+        //     'subject'     => 2,
+        //     'grade_start' => 1,
+        //     'grade_end'   => 2,
+        // ];
+        if($info && $role == 4){
+            $grade_arr = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
+            $grade = [];
+            $data = [
+                'subject' => [(int)$info['subject']],
+            ];
+            
+            foreach( $grade_arr as $var ){
+                $grade[] = (int)$var;
+            }
+            $data['grade'] = $grade;
+        }
         return $data;
     }
 
