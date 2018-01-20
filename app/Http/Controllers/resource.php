@@ -103,8 +103,8 @@ class resource extends Controller
         }
         $sub_grade_info = $this->get_rule_range();
         $is_teacher = 0;
-        if($this->get_account_role() == 4){
-            $is_teacher = 1;
+        if($this->get_account_role() == 2004){
+            $is_teacher = 0;
             if( $subject > 0 && !in_array($subject,$sub_grade_info['subject'])){
                 $err_mg = "你不是教当前科目的教研老师，没有权限查看当前科目";
                 return $this->view_with_header_info ( "common.resource_no_power", [],[
@@ -392,19 +392,19 @@ class resource extends Controller
         // }
 
         //教研老师只能看他所教的科目和年级
-        $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
-        if($info && $role == 4){
-            $grade_arr = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
-            $grade = [];
-            $data = [
-                'subject' => [(int)$info['subject']],
-            ];
+        // $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
+        // if($info && $role == 4){
+        //     $grade_arr = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
+        //     $grade = [];
+        //     $data = [
+        //         'subject' => [(int)$info['subject']],
+        //     ];
             
-            foreach( $grade_arr as $var ){
-                $grade[] = (int)$var;
-            }
-            $data['grade'] = $grade;
-        }
+        //     foreach( $grade_arr as $var ){
+        //         $grade[] = (int)$var;
+        //     }
+        //     $data['grade'] = $grade;
+        // }
         return $data;
     }
 
