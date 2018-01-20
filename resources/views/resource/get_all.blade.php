@@ -26,6 +26,7 @@
      var my_subject = {{@$subject}};
      var my_grade = {{@$grade}};
      var book = {{@$book}};
+     var is_teacher = {{@$is_teacher}};
     </script>
     <section class="content">
 

@@ -147,6 +147,8 @@ $(function(){
             var $feedback_id = $("<input/>");
             var $describe    = $("<textarea>");
             var $lesson_url  = $("<input />");
+
+
             var $reason      = $("<textarea>");
             var $solution    = $("<textarea>");
             var $student     = $("<input/>");
