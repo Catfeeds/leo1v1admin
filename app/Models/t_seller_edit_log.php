@@ -329,7 +329,6 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
     public function get_item_count($userid){
         $where_arr = [
             ['l.type=%u',E\Eseller_edit_log_type::V_3],
-            'm.account_role=2',
         ];
         $this->where_arr_add_str_field($where_arr, 'new', $userid);
         $sql = $this->gen_sql_new (
