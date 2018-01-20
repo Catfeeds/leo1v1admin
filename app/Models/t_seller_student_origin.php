@@ -27,11 +27,13 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         if($ret_row){
             return false;
         }else{
+            $is_exist_count = $this->get_is_exist_count($userid,$min=1460537365,time());
             $this->row_insert([
                 'userid'   => $userid,
                 'origin'   => $origin,
                 'add_time' => time(NULL),
                 'subject'  => $subject,
+                'is_exist_count'  => $is_exist_count,
             ]);
             return true;
         }
@@ -689,6 +691,20 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
             ,$where_arr
         );
         return $this->main_get_list($sql);
+    }
+
+    public function get_is_exist_count($userid,$start_time,$end_time){
+        $where_arr = [];
+        $this->where_arr_add_int_field($where_arr, 'userid', $userid);
+        $this->where_arr_add_time_range($where_arr, 'add_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select count(*) count "
+            ." from %s "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
     }
 
     public function get_item_count($userid,$start_time,$end_time){
