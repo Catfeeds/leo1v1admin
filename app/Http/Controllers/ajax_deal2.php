@@ -2855,6 +2855,10 @@ class ajax_deal2 extends Controller
         $revisit_value=0;
         $deduct_list=[];
 
+        //检查本月是否上过课
+        $month_lesson_flag = $this->t_lesson_info_b3->check_have_lesson_stu($userid,$start_time,$end_time);
+
+
         //先计算是否第一次课学员
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
         $list = @$ass_month[$adminid];        
@@ -2948,13 +2952,27 @@ class ajax_deal2 extends Controller
                     $assign_time = $val["assign_ass_time"];
                     if($assign_time <$month_half){
                         $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$item["account"],-2);
-                        if($revisit_num <2){
-                            $revisit_value +=1;
-                            $deduct_list[]=[
-                                "deduct_type"=>"常规回访扣分",
-                                "subject"    => "",
-                                "time"       => "",                            
-                            ];
+                        if($month_lesson_flag==1){
+                          
+                            if($revisit_num <2){
+                                $revisit_value +=1;
+                                $deduct_list[]=[
+                                    "deduct_type"=>"常规回访扣分",
+                                    "subject"    => "",
+                                    "time"       => "",                            
+                                ];
+
+                            }
+                        }else{
+                            if($revisit_num <1){
+                                $revisit_value +=1;
+                                $deduct_list[]=[
+                                    "deduct_type"=>"常规回访扣分",
+                                    "subject"    => "",
+                                    "time"       => "",                            
+                                ];
+
+                            }
 
                         }
 
@@ -2985,16 +3003,30 @@ class ajax_deal2 extends Controller
             if($first_regular_lesson_time>0 && $first_regular_lesson_time<$month_half){
                 if($assign_time < $month_half){
                     $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$start_time,$end_time,$account,-2);
-                    if($revisit_num <2){
-                        $revisit_value +=1;
-                        $deduct_list[]=[
-                            "deduct_type"=>"常规回访扣分",
-                            "subject"    => "",
-                            "time"       => "",                            
-                        ];
+                    if($type_flag==1 && $month_lesson_flag==1){
+                      
+                        if($revisit_num <2){
+                            $revisit_value +=1;
+                            $deduct_list[]=[
+                                "deduct_type"=>"常规回访扣分",
+                                "subject"    => "",
+                                "time"       => "",                            
+                            ];
+
+                        }
+                    }else{
+                        if($revisit_num <1){
+                            $revisit_value +=1;
+                            $deduct_list[]=[
+                                "deduct_type"=>"常规回访扣分",
+                                "subject"    => "",
+                                "time"       => "",                            
+                            ];
+
+                        }
 
                     }
-                }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
+                }elseif($assign_time>=$month_half && $assign_time <$end_time){
                     $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$month_half,$end_time,$account,-2);
                     if($revisit_num <1){
                         $revisit_value +=1;
