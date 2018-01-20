@@ -354,7 +354,6 @@ class tom_do_once extends Command
             $start_time = $start;
             $end_time = strtotime('+1 month',$start);
             $ret = $this->task->t_seller_student_origin->get_all_list($start_time,$end_time);
-            echo date('Y-m-d H:i:s',$start_time).'=>'.date('Y-m-d H:i:s',$end_time)."\n";
             foreach($ret as $item){
                 $arr = [];
                 $userid = $item['userid'];
