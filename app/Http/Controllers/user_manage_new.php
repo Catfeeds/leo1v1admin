@@ -2115,7 +2115,10 @@ class user_manage_new extends Controller
             }
         }
 
-        $default_groupid = $group_all[$role_groupid][0]['groupid'];
+        $default_groupid = $group_common[0]['groupid'];
+        if($group_all && array_key_exists($role_groupid, $group_all)){
+            $default_groupid = $group_all[$role_groupid][0]['groupid'];
+        }
 
         //选择权限组id
         $groupid  = $this->get_in_int_val("groupid",$default_groupid);
