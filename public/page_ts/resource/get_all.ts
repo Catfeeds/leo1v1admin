@@ -50,6 +50,7 @@ $(function(){
                 if(result.ret == 0){
                     obj.empty();
                     obj.parent().find('span.tag_warn').remove();
+                    //console.log(result);
                     var tag_info = result.tag;
              
                     if($(tag_info).length == 0) {
@@ -155,7 +156,7 @@ $(function(){
     $('#id_tag_one').val(g_args.tag_one);
 
     if($('#id_resource_type').val() == 3 || $('#id_resource_type').val() == 1 ){
-        get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(),$('#id_tag_one').val(),$('#id_resource_type').val(),0,$('#id_tag_four'), 1);
+        get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(),$('#id_tag_one').val(),$('#id_resource_type').val(),-1,$('#id_tag_four'), 1);
     } else if($('#id_resource_type').val() == 6) {
         get_province($('#id_tag_two'));
     } else {

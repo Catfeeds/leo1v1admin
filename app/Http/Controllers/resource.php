@@ -44,6 +44,7 @@ class resource extends Controller
         $r_mark = 0;
         $index  = 1;
         $tag_arr = \App\Helper\Utils::get_tag_arr( $resource_type );
+
         foreach($ret_info['list'] as &$item){
             if($r_mark == $item['resource_id']){
                 $index++;
@@ -104,7 +105,7 @@ class resource extends Controller
         }
         // dd($sub_grade_info);
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801161749,
+            '_publish_version'    => 20180116171849,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -141,9 +142,11 @@ class resource extends Controller
         $grade         = $this->get_in_int_val('grade',-1);
         $bookid        = $this->get_in_int_val('bookid');
         $resource_type        = $this->get_in_int_val('resource_type');
-        $season_id        = $this->get_in_int_val('season_id');
+        $season_id        = $this->get_in_int_val('season_id',-1);
+        $data = [];
         if(!empty($bookid)){
             $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($subject,$grade,$bookid,$resource_type,$season_id);
+            //dd($data);
         }
 
         return $this->output_succ(['tag' => $data]);

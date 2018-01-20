@@ -91,6 +91,7 @@ $(function(){
 
         });
     });
+
     // $(".opt-set-server ").on("click",function(){
     //     var opt_data=$(this).get_opt_data();
     //     var $server=$ ("<select >  <option value=\"h_01\">杭州</option> <option value=\"q_01\">青岛</option>   <option value=\"b_01\">北京</option> "
@@ -117,39 +118,40 @@ $(function(){
     Enum_map.append_option_list( "lesson_status", $('#id_lesson_status'));
     Enum_map.append_option_list( "boolean", $('#id_lesson_del_flag'));
     Enum_map.append_option_list( "fulltime_teacher_type", $('#id_fulltime_teacher_type'),false,[1,2]);
-    $(".opt-change-price").on("click",function(){
-        var lessonid     = $(this).parent().data("lessonid");
-        var tea_money    = $(this).parent().data("teacher_price");
 
-        var price = $("<input/> ");
-        var arr = [
-            ["修改老师金额(元)", price],
-        ];
-        price.val(tea_money);
-        $.show_key_value_table("修改老师金额", arr ,{
-            label: '确认',
-            cssClass: 'btn-warning',
-            action: function(dialog) {
-                $.ajax({
-                    url: '/tea_manage/update_tea_money',
-                    type: 'POST',
-                    dataType: 'json',
-                    data : {
-                        'lessonid'  : lessonid,
-                        'tea_money' : (price.val())*100
-                    },
-                    success: function(data) {
-                        if(data.ret==0){
-                            window.location.reload();
-                        }else{
-                            BootstrapDialog.alert(data.info);
-                        }
-                    }
-                });
-            }
-        });
+    // $(".opt-change-price").on("click",function(){
+    //     var lessonid     = $(this).parent().data("lessonid");
+    //     var tea_money    = $(this).parent().data("teacher_price");
 
-    });
+    //     var price = $("<input/> ");
+    //     var arr = [
+    //         ["修改老师金额(元)", price],
+    //     ];
+    //     price.val(tea_money);
+    //     $.show_key_value_table("修改老师金额", arr ,{
+    //         label: '确认',
+    //         cssClass: 'btn-warning',
+    //         action: function(dialog) {
+    //             $.ajax({
+    //                 url: '/tea_manage/update_tea_money',
+    //                 type: 'POST',
+    //                 dataType: 'json',
+    //                 data : {
+    //                     'lessonid'  : lessonid,
+    //                     'tea_money' : (price.val())*100
+    //                 },
+    //                 success: function(data) {
+    //                     if(data.ret==0){
+    //                         window.location.reload();
+    //                     }else{
+    //                         BootstrapDialog.alert(data.info);
+    //                     }
+    //                 }
+    //             });
+    //         }
+    //     });
+
+    // });
 
     Enum_map.append_option_list("set_boolean",$("#id_lesson_user_online_status"));
 
@@ -1104,7 +1106,7 @@ $(function(){
 
     $("#id_studentid").val(g_args.studentid);
     $("#id_seller_adminid").val(g_args.seller_adminid);
-  $('#id_lesson_del_flag').val(g_args.lesson_del_flag);
+    $('#id_lesson_del_flag').val(g_args.lesson_del_flag);
 
 
     $.admin_select_user( $("#id_studentid"), "student", load_data);
@@ -1523,13 +1525,14 @@ $(function(){
             }
         });
     });
-    $(".opt-set_teacher_comment").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        var id_teacher_comment=$("<textarea/>");
-        var id_teacher_effect=$("<div/>");
-        var id_teacher_quality=$("<div/>");
-        var id_teacher_interact=$("<div/>");
-        var id_stu_stability=$("<div/>");
+
+    $(".opt-show_teacher_comment").on("click",function(){
+        var opt_data            = $(this).get_opt_data();
+        var id_teacher_comment  = $("<div/>");
+        var id_teacher_effect   = $("<div/>");
+        var id_teacher_quality  = $("<div/>");
+        var id_teacher_interact = $("<div/>");
+        var id_stu_stability    = $("<div/>");
 
         id_teacher_comment.val(opt_data.teacher_comment);
         id_teacher_effect.val(opt_data.teacher_effect);
@@ -1544,8 +1547,7 @@ $(function(){
             ["课堂互动", id_teacher_interact],
             ["学生端系统稳定性", id_stu_stability],
         ];
-        $.show_key_value_table("新增老师", arr );
-
+        $.show_key_value_table("查看老师评价", arr );
     });
 
     if (window.location.pathname =="/tea_manage/lesson_list_seller" ) {
@@ -1555,7 +1557,6 @@ $(function(){
             $("#id_teacherid").parent().parent().hide();
         }
         $(".opt-confirm").hide();
-
     }
 
     if (window.location.pathname =="/tea_manage/lesson_list_seller" ||  window.location.pathname =="/tea_manage/lesson_list_seller/" || window.location.pathname =="/tea_manage/lesson_list_ass" || window.location.pathname =="/tea_manage/lesson_list_ass/") {
@@ -1633,8 +1634,6 @@ $(function(){
             label    : "确认",
             cssClass : "btn-warning",
             action   : function(dialog) {
-                console.log(id_email.val());
-
                 $.do_ajax("/tea_manage/send_email_with_lessonid",{
                     "lessonid"  : lessonid,
                     "stu_email" : id_email.val(),
@@ -1678,9 +1677,9 @@ $(function(){
                           opt_data.stu_nick +"-"+ opt_data.tea_nick +"-" +opt_data.lesson_time,
                           "",function(val){
                               $.do_ajax("/user_deal/flow_add_flow",{
-                                  "from_key_int":  from_key_int ,
-                                  'reason'  :val,
-                                  'flow_type' : flow_type
+                                  "from_key_int" : from_key_int ,
+                                  'reason'       : val,
+                                  'flow_type'    : flow_type
                               });
                           }, $input  );
 
@@ -2190,15 +2189,12 @@ $(function(){
                         'lesson_start' : id_modify_time_start.val(),
                         'lesson_end'   : id_modify_time_end.val()
                     },function(result){
-                        alert(result.info);
                         load_data();
                     });
                 }
             },function(){
             });
-        }
-       );
-
+        });
     });
 
     $(".opt-first-lesson-record").on("click",function(){
