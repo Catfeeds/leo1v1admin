@@ -37,7 +37,7 @@ class t_product_feedback_list extends \App\Models\Zgen\z_t_product_feedback_list
             ["pf.id=%d",$id,-1],
         ];
 
-        $sql = $this->gen_sql_new("  select pf.zip_url, pf.video_url, pf.img_url, pf.lesson_problem, pf.id, pf.deal_flag, pf.feedback_adminid, pf.record_adminid, pf.describe_msg, pf.lesson_url, pf.reason,"
+        $sql = $this->gen_sql_new("  select pf.lesson_problem_desc, pf.zip_url, pf.video_url, pf.img_url, pf.lesson_problem, pf.id, pf.deal_flag, pf.feedback_adminid, pf.record_adminid, pf.describe_msg, pf.lesson_url, pf.reason,"
                                   ." pf.solution, pf.remark, pf.deal_flag, pf.create_time, s.nick as stu_nick, s.phone stu_phone, "
                                   ." s.user_agent as stu_agent,s.userid as sid, t.teacherid as tid, t.nick tea_nick, t.phone tea_phone, t.user_agent tea_agent"
                                   ." from %s pf"
