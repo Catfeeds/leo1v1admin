@@ -3071,7 +3071,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function get_distribution_count_new($start_time,$end_time,$origin_ex){
+    public function get_dis_count($start_time,$end_time,$origin_ex){
         $where_arr = [
             'n.admin_revisiterid>0',
             'n.admin_revisiterid<>n.admin_assignerid',
