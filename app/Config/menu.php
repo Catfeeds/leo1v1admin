@@ -311,6 +311,7 @@ class menu{
                 ["power_id"=>1, "name"=>"首页",  "url"=>"/main_page2/market" ],
                 ["power_id"=>88, "name"=>"周报月报",  "url"=>"/report/week_of_monthly_report" ],
                 ["power_id"=>8, "name"=>"渠道-统计", "list"=>[
+                    // ["power_id"=>59, "name"=>"例子分配明细", "url"=>"/tongji_ex/seller_student_distribution"],
                     ["power_id"=>3, "name"=>"渠道统计-明细", "url"=>"/tongji_ex/seller_student_detail"],
                     ["power_id"=>28, "name"=>"渠道页面-访问", "url"=>"/report/event_log_info", "domain_type" =>100 ],
                     ["power_id"=>56, "name"=>"渠道统计-new", "url"=>"/tongji_ss/channel_statistics"],

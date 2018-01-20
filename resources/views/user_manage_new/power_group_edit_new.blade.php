@@ -35,19 +35,19 @@
                 </div>
             </div>
 
-            <div class="col-xs-6 col-md-2">
+            <div class="col-xs-6 col-md-3">
                 <div class="input-group ">
                     <span class="input-group-addon">权限组</span>
                     <select class="opt-change form-control " id="id_groupid"></select>
                 </div>
             </div>
 
-            <div class="col-xs-1 col-md-1">
-                <div class="input-group ">
-                    <button class="btn btn-info" id="search_this">搜索</button>
-                </div>
-            </div>
-
+            <!-- <div class="col-xs-1 col-md-1">
+                 <div class="input-group ">
+                 <button class="btn btn-info" id="search_this">搜索</button>
+                 </div>
+                 </div>
+            -->
             <!-- <div class="col-xs-6 col-md-2">
                  <div class="input-group ">
                  <span class="input-group-addon">显示</span>
@@ -59,25 +59,14 @@
                  </div>
                  </div> -->
 
-            <div class="col-xs-1 col-md-1">
+            <div class="col-xs-6 col-md-6">
                 <div class="input-group ">
-                    <button edit="1" class="id_edit_power_group btn btn-primary">添加权限组</button>
-                </div>
-            </div>
-            <div class="col-xs-1 col-md-1">
-                <div class="input-group ">
-                    <button edit="2" class="id_edit_power_group btn btn-warning">修改权限组</button>
-                </div>
-            </div>
+                    <button edit="1" class="id_edit_power_group btn btn-primary" style="margin-right:8px">添加权限组</button>
 
-            <div class="col-xs-1 col-md-1">
-                <div class="input-group ">
-                    <button id="id_del_group" class="btn btn-danger"">删除权限组</button>
-                </div>
-            </div>
+                    <button edit="2" class="id_edit_power_group btn btn-warning" style="margin-right:8px">修改权限组</button>
 
-            <div class="col-xs-1 col-md-2">
-                <div class="input-group ">
+                    <button id="id_del_group" class="btn btn-danger" style="margin-right:8px">删除权限组</button>
+
                     <button class="btn  btn-primary" id="id_reload_power">更新在线用户权限</button>
                 </div>
             </div>
@@ -89,7 +78,11 @@
             <div class="col-xs-6 col-md-4">
                 <div class="row">
                     <div class="col-xs-6 col-md-10" style="padding:20px;">
-                        <div>权限 <a href="javascript:;" id="id_show_all_power"> 显示全部 </a> <a href="javascript:;" id="id_show_power"> 显示有权限部分 </a> --------- </div>
+                        <div>
+                            <a href="javascript:;" id="id_show_all_power"> 显示所有节点 </a>
+                            <a href="javascript:;" id="id_show_power"> 显示有权限根节点 </a> ---------
+                        </div>
+
                         <div class="zTreeDemoBackground">
 		                        <ul id="treeDemo" class="ztree"></ul>
                         </div>

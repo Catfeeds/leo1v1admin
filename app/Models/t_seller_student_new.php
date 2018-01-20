@@ -308,7 +308,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "system"
             );
             $this->task->t_manager_info->send_wx_todo_msg($account,"来自:系统","分配给你[$origin]例子:".$phone);
-            $this->task->t_manager_info->send_wx_todo_msg('alan',"来自:系统","分配给你[$origin]例子:".$phone);
         }
 
         return $userid;
@@ -666,6 +665,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr=[
                 ["ss.userid=%u",$userid, -1],
             ];
+            if(count($admin_revisiterid_list)>0){
+                $this->where_arr_add_int_or_idlist($where_arr, "ss.admin_revisiterid", $admin_revisiterid_list);
+            }
             if ( $sub_assign_adminid_2 >0 ) { //
                 $this->where_arr_add__2_setid_field($where_arr,"ss.sub_assign_adminid_2", $sub_assign_adminid_2);
             }
@@ -1775,29 +1777,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             if ($item["tq_called_flag"]<$tq_called_flag) {
                 $set_arr["tq_called_flag"]=$tq_called_flag;
             }
-
             if ($item["global_tq_called_flag"]<$tq_called_flag) {
                 $set_arr["global_tq_called_flag"]=$tq_called_flag;
             }
-
-
-            if ($item["first_call_time"] == 0) {
-                $set_arr["first_call_time"]=$call_time;
-            }
-            $set_arr["last_revisit_time"]=$call_time;
-
-
-            if ($tq_called_flag ==2) {
-                if ($item["first_contact_time"] == 0) {
-                    $set_arr["first_contact_time"]=$call_time;
-                }
-
-                if ($item["last_contact_time"] < $call_time) {
-                    $set_arr["last_contact_time"]=$call_time;
-                }
-                $set_arr["called_time"]=$call_time;
-            }
-
             if (count($set_arr) >0 ) {
                 $this->field_update_list($userid,$set_arr);
             }
@@ -3464,7 +3446,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list_by_page($sql,$page_num,$page_count);
     }
 
-    public function get_item_list($start_time,$end_time,$page_info){
+    public function get_master_detail_list($start_time,$end_time,$page_info){
         $where_arr = [];
         $this->where_arr_add_time_range($where_arr, 'ss.add_time', $start_time, $end_time);
         $sql=$this->gen_sql_new(
@@ -3479,7 +3461,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." first_tmk_set_valid_admind,first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,"
             ." first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,first_admin_revisiterid_time,"
             ." first_seller_status,cur_adminid_call_count as call_count,ss.auto_allot_adminid,first_called_cc,"
-            ." first_get_cc,test_lesson_flag,ss.orderid,price "
+            ." first_get_cc,test_lesson_flag,ss.orderid,price,s.origin_level "
             ." from %s t "
             ." left join %s ss on  ss.userid = t.userid "
             ." left join %s s on ss.userid=s.userid "
@@ -3494,6 +3476,22 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+    public function get_item_list(){
+        $where_arr = [
+            'tmk_student_status=1',
+        ];
+        $sql=$this->gen_sql_new(
+            " select n.*,s.origin,s.lesson_count_all"
+            ." from %s n "
+            ." left join %s s on s.userid=n.userid "
+            ." where %s order by n.add_time desc "
+            , self::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
 }

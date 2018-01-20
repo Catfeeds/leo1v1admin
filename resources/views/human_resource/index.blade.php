@@ -537,6 +537,11 @@
                                 @if(in_array($acc, ['jim', 'ricky', '宫卫彬']) && $var['full_flag'])
                                     <a class=" opt-full-to-part">全职转兼职</a>
                                 @endif
+                                @if(@$var["label_id"]==0)
+                                    <a class="opt-set-teacher-label" title="设置标签<">设置标签</a>
+                                @elseif(@$var["label_id"]>0)
+                                    <a class="opt-set-teacher-label" title="修改标签<">修改标签</a>
+                                @endif
                             </div>
                         </td>
                     </tr>

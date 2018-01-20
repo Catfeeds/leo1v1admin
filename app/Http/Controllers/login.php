@@ -427,7 +427,6 @@ class login extends Controller
         $sess['nick'] = $tea_item["nick"] ;
         $sess['face'] = $tea_item["face"] ;
         $sess['role'] = E\Erole::V_TEACHER;
-
         session($sess);
         return $this->output_succ();
     }

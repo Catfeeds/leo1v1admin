@@ -22,7 +22,7 @@
                  </div>
                  </div> -->
             <div class="row">
-                <div class="col-xs-6 col-md-2">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                     <div class="input-group ">
                         <span class="input-group-addon">资源类型</span>
                         <select class="form-control opt-change" id="id_resource_type"> </select>
@@ -30,42 +30,42 @@
                 </div>
 
 
-                <div class="col-xs-6 col-md-2">
+                <div class="col-xs-6 col-sm-3 col-md-2 col-lg-2">
                     <div class="input-group ">
                         <span class="input-group-addon">科目</span>
                         <select class="form-control opt-change" id="id_subject"> </select>
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2">
+                <div class="col-xs-6 col-sm-3 col-md-2 col-lg-2">
                     <div class="input-group ">
                         <span class="input-group-addon">年级</span>
                         <select class="form-control opt-change" id="id_grade"> </select>
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2 {{$tag_info['tag_one']['hide']}}">
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 {{$tag_info['tag_one']['hide']}}">
                     <div class="input-group ">
                         <span class="input-group-addon">{{$tag_info['tag_one']['name']}}</span>
                         <select class="form-control opt-change" id="id_tag_one"> </select>
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2 {{$tag_info['tag_two']['hide']}} ">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-2 {{$tag_info['tag_two']['hide']}} ">
                     <div class="input-group ">
                         <span class="input-group-addon">{{$tag_info['tag_two']['name']}}</span>
                         <select class="form-control opt-change" id="id_tag_two"> </select>
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2 {{$tag_info['tag_three']['hide']}} ">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-2 {{$tag_info['tag_three']['hide']}} ">
                     <div class="input-group ">
                         <span class="input-group-addon">{{$tag_info['tag_three']['name']}}</span>
                         <select class="form-control opt-change" id="id_tag_three"> </select>
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2 {{$tag_info['tag_four']['hide']}} ">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 {{$tag_info['tag_four']['hide']}} ">
                     <div class="input-group ">
                         <span class="input-group-addon">{{$tag_info['tag_four']['name']}}</span>
                         <select class="form-control opt-change" id="id_tag_four"> </select>

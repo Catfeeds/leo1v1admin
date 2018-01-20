@@ -35,3 +35,4 @@
 	recover_class_time_str	:any;
 	lesson_start_str	:any;
 	textbook	:any;
+	phone_ex	:any;

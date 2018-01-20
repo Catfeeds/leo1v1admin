@@ -39,11 +39,12 @@ class resource extends Controller
             $resource_type = 8;
         }
         $ret_info = $this->t_resource->get_all(
-            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info
+            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$file_title, $page_info
         );
         $r_mark = 0;
         $index  = 1;
         $tag_arr = \App\Helper\Utils::get_tag_arr( $resource_type );
+
         foreach($ret_info['list'] as &$item){
             if($r_mark == $item['resource_id']){
                 $index++;
@@ -73,13 +74,19 @@ class resource extends Controller
                 $tag_arr['tag_four']['menu'] => 'tag_four',
                 $tag_arr['tag_five']['menu'] => 'tag_five',
             ]);
-            $item['book'] = E\Eregion_version::get_desc($item['tag_one']);
-            // if($item['tag_four'] != -1) {
-            //     $item['tag_four_str'] = \App\Helper\Utils::get_sub_grade_tag($item['subject'],$item['grade'])[ $item['tag_four'] ];
-            // }
+            $item['tag_one_str'] = E\Eregion_version::get_desc($item['tag_one']);
+
+            if( $item['resource_type'] == 1 ){
+                $item['tag_five_str'] = E\Eresource_diff_level::get_desc($item['tag_five']);
+            }else{
+                $item['tag_five_str'] = E\Eresource_volume::get_desc($item['tag_five']);
+            }
+            if($item['resource_type'] == 3 ) {
+                $item['tag_three_str'] = E\Eresource_diff_level::get_desc($item['tag_three']);
+            }
 
         }
-
+        //dd($ret_info['list']);
         //查询老师负责的科目,年级
         $sub_grade_info = $this->get_rule_range();
 
@@ -87,15 +94,18 @@ class resource extends Controller
         //$book = $this->t_resource_agree_info->get_all_resource_type();
         $book = $this->t_resource_agree_info->get_all_resource_type($resource_type, $subject, $grade);
         $book_arr = [];
-        foreach($book as $v) {
-            if( $v['tag_one'] != 0 ){
-                array_push($book_arr, intval($v['tag_one']) );
+        if($book){
+            foreach($book as $v) {
+                if( $v['tag_one'] != 0 ){
+                    array_push($book_arr, intval($v['tag_one']) );
+                }
             }
+        }else{
+            $book_arr = [4,12,16,29,50000];
         }
-
         // dd($sub_grade_info);
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801161449,
+            '_publish_version'    => 20180116171849,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -119,7 +129,7 @@ class resource extends Controller
                 }
             }
         }else{
-            $book_arr = [50000,4,12,16,29];
+            $book_arr = [4,12,16,29,50000];
         }
    
 
@@ -131,8 +141,12 @@ class resource extends Controller
         $subject       = $this->get_in_int_val('subject',-1);
         $grade         = $this->get_in_int_val('grade',-1);
         $bookid        = $this->get_in_int_val('bookid');
+        $resource_type        = $this->get_in_int_val('resource_type');
+        $season_id        = $this->get_in_int_val('season_id',-1);
+        $data = [];
         if(!empty($bookid)){
-            $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($subject,$grade,$bookid);
+            $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($subject,$grade,$bookid,$resource_type,$season_id);
+            //dd($data);
         }
 
         return $this->output_succ(['tag' => $data]);
@@ -141,9 +155,12 @@ class resource extends Controller
 
     //学科化标签
     public function sub_grade_book_tag(){
-        $subject       = $this->get_in_int_val('subject',1);
-        $grade         = $this->get_in_int_val('grade',201);
-        $bookid      = $this->get_in_int_val('bookid',4);
+        $subject       = $this->get_in_int_val('subject',-1);
+        $grade         = $this->get_in_int_val('grade',-1);
+        $bookid        = $this->get_in_int_val('bookid',-1);
+        $season_id     = $this->get_in_int_val('season_id',-1);
+        $resource_type      = $this->get_in_int_val('resource_type',-1);
+
         $page_num        = $this->get_in_page_num();
         $page_count      = $this->get_in_int_val('page_count',20);
         $book = $this->t_resource_agree_info->get_all_resource_type(-1, $subject, $grade);
@@ -158,17 +175,21 @@ class resource extends Controller
             }
         }
 
-        $ret_info = $this->t_sub_grade_book_tag->get_list($subject,$grade,$bookid,$page_num,$page_count);
+        $ret_info = $this->t_sub_grade_book_tag->get_list($subject,$grade,$bookid,$resource_type,$season_id,$page_num,$page_count);
         if($ret_info){
             foreach($ret_info['list'] as &$var){
                 $var['subject_str'] = E\Esubject::get_desc($var['subject']);
                 $var['grade_str'] = E\Egrade::get_desc($var['grade']);
                 $var['book_str'] = E\Eregion_version::get_desc($var['bookid']);
+                $var['resource_str'] = E\Eresource_type::get_desc($var['resource_type']);
+                $var['season_str'] = E\Eresource_season::get_desc($var['season_id']);
             }
         }
+        //dd($ret_info['list'] );
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801181119,
+            '_publish_version'    => 201801191339,
             'book'          => json_encode($book_arr),
+            'resource_type' => $resource_type
         ]);
     }
 
@@ -188,13 +209,19 @@ class resource extends Controller
         $subject       = $this->get_in_int_val('subject');
         $grade         = $this->get_in_int_val('grade');
         $bookid        = $this->get_in_int_val('bookid');
-
+        $season_id     = $this->get_in_int_val('season_id');
+        $resource_type      = $this->get_in_int_val('resource_type');
+        if($resource_type != 1){
+            $season_id = 0;
+        }
         $tag_arr       = $this->get_in_str_val('tag_arr');
    
         $data = [
             'subject'  => $subject,
             'grade'    => $grade,
             'bookid'   => $bookid,
+            'resource_type' => $resource_type,
+            'season_id' => $season_id,
             'tag'      => ''
         ];
         $i = 0;
@@ -215,12 +242,19 @@ class resource extends Controller
         $subject       = $this->get_in_int_val('subject');
         $grade         = $this->get_in_int_val('grade');
         $bookid         = $this->get_in_int_val('bookid');
+        $season_id     = $this->get_in_int_val('season_id',-1);
+        $resource_type      = $this->get_in_int_val('resource_type',-1);
+        if($resource_type != 1){
+            $season_id = 0;
+        }
         $tag         = trim($this->get_in_str_val('tag'));
 
         $data = [
             'subject'  => $subject,
             'grade'    => $grade,
             'bookid'   => $bookid,
+            'resource_type' => $resource_type,
+            'season_id' => $season_id,
             'tag'      => $tag
         ];
 
@@ -233,12 +267,19 @@ class resource extends Controller
         $subject       = $this->get_in_int_val('subject');
         $grade         = $this->get_in_int_val('grade');
         $bookid         = $this->get_in_int_val('bookid');
+        $season_id     = $this->get_in_int_val('season_id',-1);
+        $resource_type      = $this->get_in_int_val('resource_type',-1);
+        if($resource_type != 1){
+            $season_id = 0;
+        }
         $tag         = trim($this->get_in_str_val('tag'));
 
         $data = [
             'subject'  => $subject,
             'grade'    => $grade,
             'bookid'   => $bookid,
+            'resource_type' => $resource_type,
+            'season_id' => $season_id,
             'tag'      => $tag
         ];
 
@@ -417,7 +458,7 @@ class resource extends Controller
         }
 
         $data = $this->t_resource_agree_info->get_next_info($select,@$arr[0],@$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],$is_end);
-
+        //dd($data);
         $tag_arr = \App\Helper\Utils::get_tag_arr();
         //对应枚举类
         $menu = '';

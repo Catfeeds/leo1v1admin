@@ -9,16 +9,18 @@ class t_resource extends \App\Models\Zgen\z_t_resource
     }
 
     public function get_all(
-        $use_type, $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four, $file_title, $page_info, $is_del = 0
+        $use_type, $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five, $file_title, $page_info, $is_del = 0
     ){
         $where_arr = [
             ['r.use_type=%u', $use_type, -1],
             ['r.resource_type=%u', $resource_type, -1],
             ['r.subject=%u', $subject, -1],
             ['r.grade=%u', $grade, -1],
+            ['r.tag_one=%u', $tag_one, -1],
             ['r.tag_two=%u', $tag_two, -1],
             ['r.tag_three=%u', $tag_three, -1],
             ['r.tag_four=%u', $tag_four, -1],
+            ['r.tag_five=%u', $tag_five, -1],
             ['is_del=%u', $is_del, -1],
             ['status=%u', $is_del, -1],
         ];
@@ -143,6 +145,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ,t_resource_agree_info::DB_TABLE_NAME
             ,$where_arr
         );
+        //dd($sql);
         return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
@@ -172,6 +175,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
                                   ,t_sub_grade_book_tag::DB_TABLE_NAME
                                   ,$where_arr
         );
+        //dd($sql);
         return $this->main_get_list($sql);
     }
 
@@ -204,6 +208,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ,t_sub_grade_book_tag::DB_TABLE_NAME
             ,$where_arr
         );
+        //dd($sql);
         return $this->main_get_list($sql);
     }
 

@@ -143,8 +143,14 @@
                     @endif
 
                     @if( $resource_type == 1 || $resource_type == 3 )
-                    <td>学科化标签</td>
+                        <td>学科化标签</td>
+                        <td>难度类型</td>
                     @endif
+
+                    @if($resource_type < 7 && $resource_type > 3)
+                        <td>上下册</td>
+                    @endif
+
                     <td>是否使用</td>
                 </tr>
             </thead>
@@ -163,11 +169,21 @@
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
                         @if( $resource_type < 6)
-                        <td>{{@$var["book"]}} </td>
+                            <td>{{@$var["tag_one_str"]}} </td>
                         @endif
                         @if( $resource_type == 1 || $resource_type == 3)
-                        <td>{{@$var["tag_four_str"]}} </td>
+                            <td>{{@$var["tag_four_str"]}} </td>
+                            @if( $resource_type == 1)
+                                <td>{{@$var["tag_five_str"]}} </td>
+                            @else
+                                <td>{{@$var["tag_three_str"]}} </td>
+                            @endif
                         @endif
+
+                        @if($resource_type < 7 && $resource_type > 3)
+                            <td>{{@$var["tag_five_str"]}}</td>
+                        @endif
+
                         <td>是</td>
                     </tr>
                 @endforeach

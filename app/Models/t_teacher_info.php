@@ -260,13 +260,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_detail_list_new(
         $teacherid,$is_freeze,$page_num,$is_test_user,$gender,$grade_part_ex,$subject,$second_subject,
         $address,$limit_plan_lesson_type,$lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,
-        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_flag=-1,$advance_list=[]
+        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0,$sleep_flag=-1,$advance_list=[],
+        $per_subject=-1
     ){
         $where_arr = array(
             // array( "teacherid=%u", $teacherid, -1 ),
             array( "t.gender=%u ", $gender, -1 ),
             array( "t.grade_part_ex=%u ", $grade_part_ex, -1 ),
             array( "t.subject=%u ", $subject, -1 ),
+            array( "t.subject=%u ", $per_subject, -1 ),
             array( "t.second_subject=%u ", $second_subject, -1 ),
             array( "t.is_test_user=%u ", $is_test_user, -1 ),
             array( "t.is_freeze=%u ", $is_freeze, -1 ),
@@ -503,7 +505,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                                 $fulltime_flag=-1,$seller_hold_flag=-1,$teacher_ref_type=-1,$have_wx=-1,
                                                 $grade_plan=-1,$subject_plan=-1,$fulltime_teacher_type=-1,$month_stu_num=-1,
                                                 $record_score_num=-1,$identity=-1,$plan_level=-1,
-                                                $teacher_textbook=-1
+                                                $teacher_textbook=-1,$per_subject=-1
     ){
         $where_arr = array(
             array( "t.teacherid=%u", $teacherid, -1 ),
@@ -513,6 +515,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array( "t.need_test_lesson_flag=%u ", $need_test_lesson_flag, -1 ),
             array( "t.gender=%u ", $gender, -1 ),
             array( "t.subject=%u ", $subject, -1 ),
+            array( "t.subject=%u ", $per_subject, -1 ),
             array( "t.second_subject=%u ", $second_subject, -1 ),
             array( "t.is_test_user=%u ", $is_test_user, -1 ),
             array( "t.is_freeze=%u ", $is_freeze, -1 ),
@@ -706,10 +709,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   // ." t.limit_week_lesson_num-sum(tss.lessonid >0)) left_num,"
                                   ." t.idcard,t.bankcard,t.bank_address,t.bank_account,t.bank_phone,t.bank_type, "
                                   ." t.bank_province,t.bank_city,t.teacher_tags,t.is_quit,t.part_remarks,tr.record_score "
-                                  .",t.free_time "
+                                  .",t.free_time,ta.id label_id,ta.tag_info "
                                   ." from %s t"
                                   ." left join %s m on t.phone = m.phone"
                                   ." left join %s tr on tr.teacherid = t.teacherid and tr.type=1 and tr.lesson_style=1"
+                                  ." left join %s ta on t.teacherid = ta.teacherid and ta.label_origin=1000 "
                                   // ." left join %s l on (t.teacherid = l.teacherid"
                                   //." and l.lesson_type=2 and l.lesson_del_flag =0 and l.lesson_start >= %u and l.lesson_end < %u)"
                                   // ." left join %s tss on (l.lessonid= tss.lessonid and tss.success_flag in(0,1))"
@@ -718,12 +722,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,t_teacher_record_list::DB_TABLE_NAME
+                                  ,t_teacher_label::DB_TABLE_NAME
                                   // ,t_lesson_info::DB_TABLE_NAME
                                   // ,$lstart
                                   //  ,$lend
                                   // ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
                                   ,$where_arr
         );
+      
+
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
@@ -897,7 +904,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.confirm_flag!=2",
         ];
         $sql = $this->gen_sql_new(
-            "select t.teacherid,t.subject,t.teacher_money_type,t.nick,t.phone,t.email,t.prove,t.seniority,"
+            "select t.teacherid,t.subject,t.teacher_money_type,t.nick,t.phone,t.email,t.prove,t.seniority,t.achievement,t.wx_name,t.is_prove, t.qq_info, "
             ." t.teacher_type,t.teacher_ref_type,t.identity,t.grade_start,t.grade_end,t.address,"
             ." t.realname,t.work_year,t.teacher_textbook,t.dialect_notes,t.level,t.face,"
             ." t.gender,t.birth,t.grade_part_ex,t.bankcard,t.bank_province,t.bank_city,"
@@ -1611,7 +1618,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "train_through_new=1",
             "is_test_user=0"
         ];
-        $sql = $this->gen_sql_new("select teacherid,subject from %s where %s ",self::DB_TABLE_NAME,$where_arr);
+        $sql = $this->gen_sql_new("select teacherid,subject,grade_end,grade_start from %s where %s ",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
     }
 

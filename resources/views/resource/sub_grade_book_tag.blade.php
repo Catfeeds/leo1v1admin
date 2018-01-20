@@ -2,6 +2,7 @@
 @section('content')
     <script>
      var book = {{@$book}};
+     var resource_type = {{@$resource_type}};
     </script>
 
     <section class="content">
@@ -31,29 +32,37 @@
                 </div>
             </div>
 
+            <div class="col-xs-2 col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon">资源类型</span>
+                    <select class="opt-change form-control" id="id_resource_type">
+                    </select>
+                </div>
+            </div>
 
+   
+            <div class="col-xs-2 col-md-2 @if($resource_type != 1) hide @endif">
+                <div class="input-group">
+                    <span class="input-group-addon">春暑秋寒</span>
+                    <select class="opt-change form-control" id="id_season_id">
+                    </select>
+                </div>
+            </div>
+            
             <!-- <div class="col-xs-1 col-md-1">
                  <div class="input-group">
                  <button id="search" type="button" class="btn btn-primary">搜索</button>
                  </div>
                  </div>
             -->
-            <div class="col-xs-1 col-md-1">
+            <div class="col-xs-4 col-md-4">
                 <div class="input-group">
-                    <button id="tag_add" type="button" class="btn btn-info">添加</button>
-                </div>
-            </div>
-
-            <div class="col-xs-1 col-md-1">
-                <div class="input-group">
-                    <button  id="batach_add" type="button" class="btn btn-info">批量添加</button>
-                </div>
-            </div>
-
-            <div class="col-xs-1 col-md-1">
-                <div class="input-group">
+                    <button id="tag_add" type="button" style="margin-right:10px" class="btn btn-info">添加</button>        
+                    <button  id="batach_add" type="button" style="margin-right:10px" class="btn btn-info">批量添加</button>
                     <button  id="batach_dele" type="button" class="btn btn-danger">批量删除</button>
+
                 </div>
+
             </div>
 
         </div>
@@ -68,6 +77,10 @@
                     <td >科目</td>
                     <td >年级</td>
                     <td >教材</td>
+                    <td >资源类型</td>
+                    @if($resource_type == 1)
+                        <td >春暑秋寒</td>
+                    @endif
                     <td >学科化标签</td>
                     <td >操作</td>
                 </tr>
@@ -80,6 +93,10 @@
                         <td >{{$var["subject_str"]}}</td>
                         <td >{{$var["grade_str"]}}</td>
                         <td >{{$var["book_str"]}}</td>
+                        <td >{{$var["resource_str"]}}</td>
+                        @if($resource_type == 1)
+                            <td >{{$var["season_str"]}}</td>
+                        @endif
                         <td >{{$var["tag"]}}</td>
                         <td >
                             <div 

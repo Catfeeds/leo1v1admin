@@ -1229,10 +1229,11 @@ $(function(){
                         "stu_teaching_direction" : stu_teaching_direction,
                         "stu_advice"             : stu_advice
                     },function(result){
-                        BootstrapDialog.alert(result.info);
                         if(result.ret==0){
-                            dialog.close();
-                            window.location.reload();
+                           BootstrapDialog.alert("评价成功！");
+                            setTimeout(function(){
+                                window.location.reload();
+                            },2000);
                         }
                     });
                 }

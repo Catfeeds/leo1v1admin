@@ -1937,7 +1937,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     # 42服务器获取老师上传ppt文件
     public function getTeaUploadPPTLink(){
         $ret_info = $this->t_lesson_info_b3->getTeaUploadPPTLink();
-        // $ret_info = ['12'];
         return $this->output_succ(['data'=>$ret_info]);
     }
 

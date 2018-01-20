@@ -171,12 +171,10 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
             $content = "http://wx-parent.leo1v1.com/wx_parent/zhishiku";
         }elseif($request['content'] == '转发'){
             $userOpenid = $request['fromusername'];
-            $t_manager_info = new App\Models\t_manager_info;
+            $t_manager_info = new \App\Models\t_manager_info;
             $checkIsRole = $t_manager_info->checkIsRole($userOpenid);
             if($checkIsRole == 1){
-                $content = "http://wx-parent.leo1v1.com";
-            }else{
-                $content = '';
+                $content = "http://wx-parent.leo1v1.com"; // 待定
             }
         }
 

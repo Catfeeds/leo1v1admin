@@ -1261,7 +1261,7 @@ class user_manage_new extends Controller
                     }
                     $info[] = $item2;
                 }
-                
+
             }
             $info[] = $item;
         }
@@ -2114,9 +2114,9 @@ class user_manage_new extends Controller
                 }
             }
         }
-     
+
         $default_groupid = $group_all[$role_groupid][0]['groupid'];
-             
+
         //选择权限组id
         $groupid  = $this->get_in_int_val("groupid",$default_groupid);
 
@@ -2124,20 +2124,20 @@ class user_manage_new extends Controller
         $user_list=[];
         $ret_info=\App\Helper\Utils::list_to_page_info([]);
 
-        if( $groupid > 0 ){  
+        if( $groupid > 0 ){
             $user_list = $this->t_manager_info->get_power_group_user_list($groupid);
             $user_list = $this->get_user_permission($user_list);
 
             //$user_list = $this->get_user_powers($groupid);
-         
+
             $power_map = $this->t_authority_group->get_auth_group_map($groupid);
             $list=$this->get_menu_list_new($power_map );
-      
+
             $ret_info=\App\Helper\Utils::list_to_page_info($list);
 
         }
         return $this->Pageview(__METHOD__,$ret_info,[
-            "_publish_version" => 201801118150,
+            "_publish_version" => 201801119150,
             "group_all" => $group_all,
             "user_list"=>$user_list,
             "list"=>$list,
@@ -2377,7 +2377,7 @@ class user_manage_new extends Controller
             "add_time" => time(),
             "adminid"  => $this->get_account_id(),
             "msg"      => "权限管理页面,添加用户修改记录: [用户id:$uid,组别:$groupid]",
-            "user_log_type" => 4, //权限页面添加用户记录
+            "user_log_type" => E\Euser_log_type::V_4, //权限页面添加用户记录
         ]);
 
 
@@ -2398,8 +2398,8 @@ class user_manage_new extends Controller
         $this->t_user_log->row_insert([
             "add_time" => time(),
             "adminid"  => $this->get_account_id(),
-            "msg"      => "权限管理页面,权限修改记录:$power_list_str",
-            "user_log_type" => 2, //权限页面修改记录
+            "msg"      => "权限管理页面,权限修改记录:$power_list_str  权限组groupid:$groupid",
+            "user_log_type" => E\Euser_log_type::V_2, //权限页面修改记录
         ]);
 
         return $this->output_succ();
@@ -2950,7 +2950,7 @@ class user_manage_new extends Controller
             $item["has_power"] = in_array($powerid,$p_list)?1:0;
 
         }
-     
+
         return $this->output_succ(["data"=> $list]);
     }
 
@@ -2966,7 +2966,7 @@ class user_manage_new extends Controller
             $item["has_power"] = in_array($powerid,$p_list)?1:0;
         }
         $ret['list'] = $list;
-        return $this->output_ajax_table($ret); 
+        return $this->output_ajax_table($ret);
     }
 
     public function set_power_with_groupid_list() {
@@ -4468,7 +4468,7 @@ class user_manage_new extends Controller
             $attendance_time_str= date("Y-m-d",$v["attendance_time"]);
             @$extra_arr[$v["adminid"]] .=$attendance_time_str."<br>" ;
         }
-        
+
         foreach($ret_info["list"] as &$item){
 
             //本月加班时间
@@ -4529,16 +4529,16 @@ class user_manage_new extends Controller
                             $item["result"]="早退";
                         }
 
-                        
-                       
- 
+
+
+
                     }
                 }
 
- 
+
             }
 
-                       
+
         }
         return $this->Pageview(__METHOD__,$ret_info,[
             "acc"   =>session("acc")
@@ -5494,6 +5494,7 @@ class user_manage_new extends Controller
     public function product_info(){
         $page_num  = $this->get_in_page_num();
         $deal_flag = $this->get_in_int_val('deal_flag',-1);
+        $lesson_problem = $this->get_in_int_val('lesson_problem',-1);
         $feedback_adminid = $this->get_in_int_val('feedback_adminid',-1);
         list($start_time,$end_time,$opt_date_type) = $this->get_in_date_range(date("Y-m-01"),0,1,[
             1 => array("pf.create_time","录入时间"),
@@ -5514,6 +5515,7 @@ class user_manage_new extends Controller
             }else{
                 $item['deal_flag_str'] = E\Eboolean::get_color_desc($item['deal_flag']);
             }
+            $item['lesson_problem_str'] = E\Elesson_problem::get_desc($item['lesson_problem']);
         }
 
         return $this->Pageview(__METHOD__,$ret_list,[]);

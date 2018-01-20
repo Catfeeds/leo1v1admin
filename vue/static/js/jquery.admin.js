@@ -1611,7 +1611,7 @@ jQuery.extend({
 
             }else if ( result.ret==1101) {
               //
-              $.do_ajax( result.jump_url+old_url,  url,data, success_func, jsonp_flag );
+              $.do_ajax( result.jump_url+old_url,  data, success_func, jsonp_flag );
             }else{
               BootstrapDialog.alert(result['info']);
             }
