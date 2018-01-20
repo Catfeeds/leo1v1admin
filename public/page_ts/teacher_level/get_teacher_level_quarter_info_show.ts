@@ -155,11 +155,12 @@ $(function(){
 
 
     });
-    $("#id_add_info").on("click",function(){
+    $("#id_update_all_info").on("click",function(){
         BootstrapDialog.confirm("确定刷新数据吗？", function(val){
             if (val) {
-                $.do_ajax( '/teacher_level/update_teacher_advance_info_new', {
-                    "teacher_money_type": g_args.teacher_money_type
+                $.do_ajax( '/teacher_level/update_teacher_advance_info_all', {
+                    "teacher_money_type": 6,
+                    'start_time' :    g_args.start_time,
                 });
             }
         });
