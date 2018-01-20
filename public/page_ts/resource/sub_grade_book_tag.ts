@@ -230,7 +230,7 @@ $(function(){
                     success : function(res){
                         console.log(res);
                         //BootstrapDialog.alert(res.msg);
-                        window.location.reload();
+                        //window.location.reload();
                     }
                 });
             }
