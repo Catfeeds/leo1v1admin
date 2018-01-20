@@ -917,7 +917,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function get_1v1_user_list($lessonid_list){
-        $sql = $this->gen_sql("select lessonid,lesson_start,lesson_end,s.phone,s.userid,l.lesson_type"
+        $sql = $this->gen_sql("select lessonid,lesson_start,lesson_end,s.phone,s.userid,l.lesson_type,s.nick "
                               ." from %s l,%s s"
                               ." where lessonid in (%s) "
                               ." and l.userid = s.userid"
@@ -930,7 +930,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function get_open_user_list($lessonid_list){
-        $sql = $this->gen_sql("select l.lessonid,lesson_start,lesson_end,s.phone,s.userid,l.lesson_type"
+        $sql = $this->gen_sql("select l.lessonid,lesson_start,lesson_end,s.phone,s.userid,l.lesson_type,s.nick "
                               ." from %s l,%s s"
                               ." left join %s as o on  o.userid=s.userid"
                               ." where l.lessonid in (%s) and o.lessonid = l.lessonid"
@@ -944,7 +944,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function get_small_user_list($lessonid_list){
-        $sql = $this->gen_sql("select l.lessonid,lesson_start,lesson_end,s.phone,s.userid, l.lesson_type"
+        $sql = $this->gen_sql("select l.lessonid,lesson_start,lesson_end,s.phone,s.userid, l.lesson_type,s.nick "
                               ." from %s l,%s s"
                               ." left join %s as o on  o.userid          = s.userid"
                               ." where l.lessonid in (%s) and o.lessonid = l.lessonid"

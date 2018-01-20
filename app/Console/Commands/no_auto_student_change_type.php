@@ -48,16 +48,17 @@ class no_auto_student_change_type extends Command
         $end_time = strtotime("+3 months",$start_time);
         $ret_info = $task->t_teacher_advance_list->get_info_by_teacher_money_type($start_time,$teacher_money_type);
 
-        $tea_arr=[];
-        foreach($ret_info as $val){
-            $tea_arr[]=$val["teacherid"];
-        }
+        // $tea_arr=[];
+        // foreach($ret_info as $val){
+        //     $tea_arr[]=$val["teacherid"];
+        // }
 
         // $test_person_num        = $task->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
         // $kk_test_person_num     = $task->t_lesson_info->get_kk_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
         // $change_test_person_num = $task->t_lesson_info->get_change_teacher_test_person_num_list(
         //     $start_time,$end_time,-1,-1,$tea_arr);
         // $teacher_record_score = $task->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr);
+        print_r($ret_info);
         foreach($ret_info as &$item){
             $teacherid = $item["teacherid"];
             $item["level"]=$item["real_level"];
@@ -86,6 +87,8 @@ class no_auto_student_change_type extends Command
             $item["total_score"] =$item["lesson_count_score"]+$item["record_final_score"]+$order_score+ $item["stu_num_score"];//总得分
           
             $item["hand_flag"]=0;          
+            list($item["reach_flag"],$item["withhold_money"])=$task->get_tea_reach_withhold_list($item["level"],$item["total_score"]);
+
             $exists = $task->t_teacher_advance_list->field_get_list_2($start_time,$teacherid,"teacherid");
             if(!$exists){
                 $task->t_teacher_advance_list->row_insert([
@@ -113,33 +116,37 @@ class no_auto_student_change_type extends Command
                 ]);
 
             }else{
-                // $task->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
-                //     "level_before"=>$item["level"],
-                //     "lesson_count"=>$item["lesson_count"]*100,
-                //     "lesson_count_score"=>$item["lesson_count_score"],
-                //     "cc_test_num"=>$item["cc_test_num"],
-                //     "cc_order_num" =>$item["cc_order_num"],
-                //     "cc_order_per" =>$item["cc_order_per"],
-                //     "cc_order_score" =>$item["cc_order_score"],
-                //     "other_test_num"=>$item["other_test_num"],
-                //     "other_order_num" =>$item["other_order_num"],
-                //     "other_order_per" =>$item["other_order_per"],
-                //     "other_order_score" =>$item["other_order_score"],
-                //     "record_final_score"=>$item["record_final_score"],
-                //     "record_score_avg" =>$item["record_score_avg"],
-                //     "record_num"     =>$item["record_num"],
-                //     "is_refund"      =>$item["is_refund"],
-                //     "total_score"    =>$item["total_score"],
-                //     "teacher_money_type"=>$item["teacher_money_type"],
-                //     "stu_num"        =>$item["stu_num"],
-                //     "stu_num_score"  =>$item["stu_num_score"]
-                // ]);
+                $task->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+                    "level_before"=>$item["level"],
+                    // "lesson_count"=>$item["lesson_count"]*100,
+                    "lesson_count_score"=>$item["lesson_count_score"],
+                    // "cc_test_num"=>$item["cc_test_num"],
+                    // "cc_order_num" =>$item["cc_order_num"],
+                    // "cc_order_per" =>$item["cc_order_per"],
+                    "cc_order_score" =>$item["cc_order_score"],
+                    // "other_test_num"=>$item["other_test_num"],
+                    // "other_order_num" =>$item["other_order_num"],
+                    // "other_order_per" =>$item["other_order_per"],
+                    "other_order_score" =>$item["other_order_score"],
+                    "record_final_score"=>$item["record_final_score"],
+                    // "record_score_avg" =>$item["record_score_avg"],
+                    // "record_num"     =>$item["record_num"],
+                    // "is_refund"      =>$item["is_refund"],
+                    "total_score"    =>$item["total_score"],
+                    // "teacher_money_type"=>$item["teacher_money_type"],
+                    // "stu_num"        =>$item["stu_num"],
+                    "stu_num_score"  =>$item["stu_num_score"],
+                    "reach_flag"     =>$item["reach_flag"],
+                    "withhold_money" =>$item["withhold_money"]*100
+                ]);
+                echo 111;
 
             }
 
         }
 
-        $ret_info = $task->t_teacher_advance_list->get_info_by_teacher_money_type($start_time,$teacher_money_type);
+        // $ret_info = $task->t_teacher_advance_list->get_info_by_teacher_money_type($start_time,$teacher_money_type);
+        dd(4444);
         dd($ret_info);
 
          

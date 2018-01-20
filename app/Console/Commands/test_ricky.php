@@ -58,17 +58,29 @@ class test_ricky extends Command
         // }
 
         // 拉取2017年下单学员的预警数据
-        $start_time = strtotime("2017-1-1");
-        $end_time = strtotime("2018-1-1");
-        $info = $task->t_revisit_info->get_all_info($start_time, $end_time);
-        $stu = $task->t_student_info->get_test_user();
-        $stus = [];
-        foreach($stu as $val) {
-            array_push($stus, $val["userid"]);
+        // $start_time = strtotime("2017-1-1");
+        // $end_time = strtotime("2018-1-1");
+        // $info = $task->t_revisit_info->get_all_info($start_time, $end_time);
+        // $stu = $task->t_student_info->get_test_user();
+        // $stus = [];
+        // foreach($stu as $val) {
+        //     array_push($stus, $val["userid"]);
+        // }
+        // foreach($info as $item) {
+        //     if (in_array($item["userid"], $stus)) continue;
+        //     echo $item["userid"]." ".E\Eis_warning_flag::get_desc($item["is_warning_flag"]).PHP_EOL;
+        // }
+        //$user = exec("who | cut -d' ' -f1");
+        $filename = "/tmp/userid.log";
+        $info = file_get_contents($filename);
+        $info = explode("\n", $info);
+        foreach ($info as $key => $item) {
+            if ($key % 1000 == 0) sleep(5);
+            $userid = str_replace(',', '', $item);
+            $count = $task->t_lesson_info_b3->get_subject_count($userid);
+            echo $userid." ".$count.PHP_EOL;
         }
-        foreach($info as $item) {
-            if (in_array($item["userid"], $stus)) continue;
-            echo $item["userid"]." ".E\Eis_warning_flag::get_desc($item["is_warning_flag"]).PHP_EOL;
-        }
+        //$info = implode(" ", $info);
+        //dd(trim($info));
     }
 }

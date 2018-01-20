@@ -1680,8 +1680,10 @@ class teacher_level extends Controller
     public function update_teacher_advance_info_all(){
         $start_time = $this->get_in_int_val("start_time");
         $teacher_money_type = $this->get_in_int_val("teacher_money_type");
+        $start_time =strtotime("2017-10-01");
         $end_time = strtotime("+3 months",$start_time);
         $ret_info = $this->t_teacher_advance_list->get_info_by_teacher_money_type($start_time,$teacher_money_type);
+        dd($ret_info);
 
         $tea_arr=[];
         foreach($ret_info as $val){
@@ -1774,7 +1776,6 @@ class teacher_level extends Controller
 
         }
 
-        dd($ret_info);
 
     }
 

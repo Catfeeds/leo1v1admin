@@ -1140,6 +1140,21 @@ class ss_deal2 extends Controller
         $ret_list['record_nick']   = $this->cache_get_account_nick($ret_list['record_adminid']);
         $ret_list['deal_flag_str'] = E\Eboolean::get_color_desc($ret_list['deal_flag']);
 
+        // 返回完整下载链接
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+
+        $config=\App\Helper\Config::get_config("qiniu");
+        $bucket_info=$config["private_url"]['url'];
+
+        $pdf_file_path = $auth->privateDownloadUrl($bucket_info.'/'.$file_link );
+
+        dd($pdf_file_path);
+
+        $ret_list['img_str'] = '';
+
         return $this->output_succ(["data"=>$ret_list]);
     }
 

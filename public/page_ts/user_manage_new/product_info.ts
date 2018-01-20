@@ -50,9 +50,9 @@ $(function(){
         var $teacher     = $("<input/>");
         var $deal_flag   = $('<select><option value="-1">未设置</option><option value="0">否</option><option value="1">是</option> </select>');
         var $remark      = $("<textarea/>");
-        var $id_img_url = $("<div><input class=\"change_reason_url\" id=\"id_img_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_img\" href=\"javascript:;\">上传</a></span></div>");
-        var $id_video_url = $("<div><input class=\"change_reason_url\" id=\"id_video_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_video\" href=\"javascript:;\">上传</a></span></div>");
-        var $id_zip_url = $("<div><input class=\"change_reason_url\" id=\"id_zip_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_zip\" href=\"javascript:;\">上传</a></span></div>");
+        var $id_img_url = $("<div><input class=\"change_reason_url\" id=\"id_img_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_img\" href=\"javascript:;\">上传</a> </span></div>");
+        var $id_video_url = $("<div><input class=\"change_reason_url\" id=\"id_video_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_video\" href=\"javascript:;\">上传</a>  </span></div>");
+        var $id_zip_url = $("<div><input class=\"change_reason_url\" id=\"id_zip_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_zip\" href=\"javascript:;\">上传</a> </span></div>");
 
         Enum_map.append_option_list("lesson_problem", $lesson_problem, true);
 
@@ -156,9 +156,11 @@ $(function(){
             var $lesson_problem = $("<select/>");
             var $deal_flag   = $('<select><option value="-1">未设置</option><option value="0">否</option><option value="1">是</option> </select>');
             var $remark      = $("<textarea/>");
-            var $id_img_url = $("<div><input class=\"change_reason_url\" id=\"id_img_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_img\" href=\"javascript:;\">上传</a></span></div>");
-            var $id_video_url = $("<div><input class=\"change_reason_url\" id=\"id_video_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_video\" href=\"javascript:;\">上传</a></span></div>");
-            var $id_zip_url = $("<div><input class=\"change_reason_url\" id=\"id_zip_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_zip\" href=\"javascript:;\">上传</a></span></div>");
+
+            var $id_img_url = $("<div><input class=\"change_reason_url\" id=\"id_img_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_img\" style=\"dispaly:none\" href=\"javascript:;\">上传</a> <a  id=\"id_download_lesson_img\" style=\"display:none\" href=\"javascript:;\">下载</a></span></div>");
+            var $id_video_url = $("<div><input class=\"change_reason_url\" id=\"id_video_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_video\"  href=\"javascript:;\">上传</a>  <a  id=\"id_download_lesson_video\" style=\"display:none\" href=\"javascript:;\">下载</a></span></div>");
+            var $id_zip_url = $("<div><input class=\"change_reason_url\" id=\"id_zip_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_zip\"  href=\"javascript:;\">上传</a>  <a  id=\"id_download_lesson_zip\" style=\"display:none\" href=\"javascript:;\">下载</a></span></div>");
+
 
             Enum_map.append_option_list("lesson_problem", $lesson_problem, true);
 
@@ -220,6 +222,9 @@ $(function(){
                 $('#id_video_url').val(data.video_url);
                 $lesson_problem.val(data.lesson_problem);
 
+                if(data.zip_url){ $('#id_download_lesson_zip').css('display','table-cell')}
+                if(data.video_url){ $('#id_download_lesson_video').css('display','table-cell')}
+                if(data.img_url){ $('#id_download_lesson_img').css('display','table-cell')}
 
                 $.admin_select_user($feedback_id,"admin");
                 $.admin_select_user($student,"student");
@@ -231,9 +236,6 @@ $(function(){
                 $student.next().css('width','20%');
                 $teacher.next().css('width','20%');
                 $deal_flag.css('width','20%');
-                // $('#id_img_url').css('width','83%');
-                // $('#id_video_url').css('width','83%');
-                // $('#id_zip_url').css('width','83%');
 
                 $.custom_upload_file('id_upload_lesson_img',true,function (up, info, file) {
                     var res = $.parseJSON(info);
