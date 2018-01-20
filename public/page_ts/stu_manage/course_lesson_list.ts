@@ -151,15 +151,12 @@ $(function(){
     $("#id_add_lesson").on("click",function(){
         // BootstrapDialog.alert("开发中");
         // return false;
-
         // var id_lesson_start = $("<input>");
         // var id_lesson_end = $("<input>");
-
         // var arr = [
         //     ["开始时间",id_lesson_start],
         //     ["结束时间",id_lesson_end]
         // ];
-
         // $.show_key_value_table("排课",arr,{
         //     label    : "确认",
         //     cssClass : "btn-warning",
@@ -177,6 +174,7 @@ $(function(){
         //         });
         //     }
         // });
+
         if (g_args.courseid>0) {
             $.do_ajax("/user_deal/lesson_add_lesson",{
                 courseid : g_args.courseid
@@ -192,7 +190,7 @@ $(function(){
                 $item.click();
             });
         }else{
-            alert( "还没有课程" );
+            BootstrapDialog.alert("没有课程包！请先创建课程包后再添加课程！");
         }
     });
 

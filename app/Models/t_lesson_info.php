@@ -1406,6 +1406,9 @@ lesson_type in (0,1) "
         $this->field_update_list($lessonid,$set_field_arr);
     }
 
+    /**
+     * 检测更改的课时
+     */
     public function check_lesson_count_for_change( $lessonid,$lesson_count) {
         $courseid = $this->get_courseid($lessonid);
 
