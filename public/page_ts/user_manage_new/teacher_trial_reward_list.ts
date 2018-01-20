@@ -71,8 +71,7 @@ $(function(){
                     "money_info"   : id_money_info.val(),
                     "money"        : id_money.val()*100,
                     "add_time"     : id_add_time.val(),
-                    "add_time_old" : data.add_time_str,
-                    "teacherid" : id_teacherid.val(),
+                    "teacherid"    : id_teacherid.val(),
                 },function(result){
                     if(result.ret==0){
                         window.location.reload();

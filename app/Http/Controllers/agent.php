@@ -442,7 +442,30 @@ class agent extends Controller
 
     public function test_new(){
         $ret = $this->t_seller_student_origin->get_item_list();
-        dd($ret);
+        $ret_info = [];
+        foreach($ret as $info){
+            $userid = $info['userid'];
+            $ret_info[$userid]['phone'] = isset($ret_info[$userid]['phone'])?$ret_info[$userid]['phone']:$info['phone'];
+            $ret_info[$userid]['origin'] = isset($ret_info[$userid]['origin'])?$ret_info[$userid]['origin'].','.$info['origin']:$info['origin'];
+            $ret_info[$userid]['add_time'] = isset($ret_info[$userid]['add_time'])?$ret_info[$userid]['add_time']:date('Y-m-d H:i:s',$info['add_time']);
+            $ret_info[$userid]['is_exist'] = isset($ret_info[$userid]['is_exist'])?'是':'否';
+        }
+
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h1>12月进入例子渠道</h1></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>号码</th><th>渠道</th><th>进入日期</th><th>是否重复</th>';
+        echo '</tr>';
+        foreach($ret_info as $item){
+            echo '<tr>';
+            echo '<td>'.$item['phone'].'</td>';
+            echo '<td>'.$item['origin'].'</td>';
+            echo '<td>'.$item['add_time'].'</td>';
+            echo '<td>'.$item['is_exist'].'</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
+
     }
 
     //处理等级头像

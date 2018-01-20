@@ -4081,15 +4081,16 @@ class user_manage_new extends Controller
     }
 
     public function update_teacher_money_list_info(){
-        $id = $this->get_in_int_val("id");
-        $type = $this->get_in_int_val("type");
-        $money_info = $this->get_in_str_val("money_info");
-        $money = $this->get_in_str_val("money");
-        $add_time = $this->get_in_str_val("add_time");
-        $add_time_old = strtotime($this->get_in_str_val("add_time_old"));
-        $teacherid = $this->get_in_int_val("teacherid");
-        $account = $this->get_account();
+        $id           = $this->get_in_int_val("id");
+        $type         = $this->get_in_int_val("type");
+        $money_info   = $this->get_in_str_val("money_info");
+        $money        = $this->get_in_str_val("money");
+        $add_time     = $this->get_in_str_val("add_time");
+        $teacherid    = $this->get_in_int_val("teacherid");
+        $account      = $this->get_account();
 
+        // $add_time_old = strtotime($this->get_in_str_val("add_time_old"));
+        $add_time_old = $this->t_teacher_money_list->get_add_time($id);
         $update_arr = [
             "type"       => $type,
             "money_info" => $money_info,
@@ -4105,9 +4106,16 @@ class user_manage_new extends Controller
             }
             $update_arr["add_time"] = $add_time;
         }
+        $check_old_time_flag = \App\Helper\Utils::check_teacher_salary_time($add_time_old);
+        if(!$check_old_time_flag){
+            return $this->output_err("无法修改，本条额外奖金已经结算！");
+        }
+        $check_time_flag = \App\Helper\Utils::check_teacher_salary_time($add_time);
+        if(!$check_time_flag){
+            return $this->output_err("无法更改，不能设置到已经结算工资的月份中！");
+        }
 
         $ret = $this->t_teacher_money_list->field_update_list($id,$update_arr);
-
         return $this->output_succ();
     }
 

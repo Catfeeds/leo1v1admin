@@ -630,7 +630,7 @@ class user_deal extends Controller
         $reset_lesson_count = $this->get_in_str_val('reset_lesson_count',1);
 
         if ($start) {
-            $lesson_start = strtotime( $start);
+            $lesson_start = strtotime($start);
             $date         = date('Y-m-d', strtotime($start));
             $lesson_end   = strtotime($date . " " . $end);
         }else{
@@ -647,51 +647,56 @@ class user_deal extends Controller
         $lesson_status = $this->t_lesson_info->get_lesson_status($lessonid);
         $lesson_count  = \App\Helper\Utils::get_lesson_count($lesson_start,$lesson_end);
 
-        if($lesson_status!=E\Elesson_status::V_0){
-            return $this->output_err("课程不是未开始状态,无非更改课程时间!");
-        }
         //百度分期用户首月排课限制
-        /*  $period_limit = $this->check_is_period_first_month($userid,$lesson_count);
-            if($period_limit){
-            return $period_limit;
-            }*/
+        // $period_limit = $this->check_is_period_first_month($userid,$lesson_count);
+        //   if($period_limit){
+        //   return $period_limit;
+        //   }
 
         //逾期预警/逾期停课学员不能排课
-        $student_type = $this->t_student_info->get_type($userid);
-        if($student_type>4){
-            //return $this->output_err("百度分期逾期学员不能排课!");
-        }
+        // $student_type = $this->t_student_info->get_type($userid);
+        // if($student_type>4){
+        //return $this->output_err("百度分期逾期学员不能排课!");
+        // }
 
         $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
         $lesson_type = $lesson_info['lesson_type'];
-        if($lesson_type==E\Econtract_type::V_2){
-            $old_date   = date("Y-m-d",$lesson_info['lesson_start']);
-            $start_date = date("Y-m-d",$lesson_start);
-            $end_date   = date("Y-m-d",$lesson_end);
-
-            if($old_date!=$start_date || $old_date!=$end_date){
-                return $this->output_err("只能修改到课程原始时间内");
-            }
-        }
 
         $check = $this->research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count/100,$lesson_start,$lesson_type);
         if($check){
             return $check;
         }
 
-        if ($reset_lesson_count && $lesson_type==E\Econtract_type::V_2) {
-            if(!$this->check_power(E\Epower::V_ADD_TEST_LESSON)) {
-                return $this->output_err("没有权限排试听课");
+        if ($lesson_type==E\Econtract_type::V_2) {
+            if($reset_lesson_count){
+                if(!$this->check_power(E\Epower::V_ADD_TEST_LESSON)) {
+                    return $this->output_err("没有权限操作试听课");
+                }
+                $db_lesson_start = $this->t_lesson_info->get_lesson_start($lessonid);
+                if ($db_lesson_start) {
+                    return $this->output_err("试听课不能修改时间,只能删除,重新排新课,再设置时间");
+                }
             }
-            $db_lesson_start=$this->t_lesson_info->get_lesson_start($lessonid);
-            if ($db_lesson_start) {
-                return $this->output_err("试听课不能修改时间,只能删除,重新排新课,再设置时间");
+
+            $old_date   = date("Y-m-d",$lesson_info['lesson_start']);
+            $start_date = date("Y-m-d",$lesson_start);
+            $end_date   = date("Y-m-d",$lesson_end);
+
+            if($old_date!=$start_date || $old_date!=$end_date){
+                return $this->output_err("只能修改在 $old_date 内");
+            }
+            if($lesson_status==E\Elesson_status::V_2){
+                return $this->output_err("课程已结束,无法更改课程时间!");
             }
         }else{
-            $userid = $this->t_lesson_info->get_userid($lessonid);
+            $userid       = $this->t_lesson_info->get_userid($lessonid);
             $is_test_user = $this->t_student_info->get_is_test_user($userid);
 
             if(in_array($lesson_type,[0,1,3]) && $is_test_user==0){
+                if($lesson_status!=E\Elesson_status::V_0){
+                    return $this->output_err("课程不是未开始状态,无法更改课程时间!");
+                }
+
                 $account_role = $this->get_account_role();
                 if($account_role != E\Eaccount_role::V_1 && $account_role != E\Eaccount_role::V_12){
                     return $this->output_err("只有助教可以更改常规课时间！");
@@ -705,7 +710,7 @@ class user_deal extends Controller
                 $userid,$lessonid,$lesson_start,$lesson_end
             );
             if($ret_row) {
-                $error_lessonid=$ret_row["lessonid"];
+                $error_lessonid = $ret_row["lessonid"];
                 return $this->output_err(
                     "<div>有现存的<div color=\"red\">学生</div>课程与该课程时间冲突！"
                     ."<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>"
@@ -714,10 +719,10 @@ class user_deal extends Controller
             }
         }
 
-        $ret_row=$this->t_lesson_info->check_teacher_time_free(
+        $ret_row = $this->t_lesson_info->check_teacher_time_free(
             $teacherid,$lessonid,$lesson_start,$lesson_end);
         if($ret_row) {
-            $error_lessonid=$ret_row["lessonid"];
+            $error_lessonid = $ret_row["lessonid"];
             return $this->output_err(
                 "<div>有现存的<div color=\"red\">老师</div>课程与该课程时间冲突！"
                 ."<a href='/teacher_info_admin/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>"
@@ -790,10 +795,10 @@ class user_deal extends Controller
                     $ass_oponid = $this->t_manager_info->get_wx_openid($adminid_ass);
                     $nick = $this->t_student_info->get_nick($userid);
                     $data_msg = [
-                        "first"     => "上课时间调整通知",
-                        "keyword1"  => "上课时间调整",
-                        "keyword2"  => "学生".$nick."从 $old_lesson_start 至 $old_lesson_end 的课程 已调整为 $lesson_start 至 $lesson_end",
-                        "remark"     => " 修改人: $operation_name 联系电话: $operation_phone"
+                        "first"    => "上课时间调整通知",
+                        "keyword1" => "上课时间调整",
+                        "keyword2" => "学生".$nick."从 $old_lesson_start 至 $old_lesson_end 的课程 已调整为 $lesson_start 至 $lesson_end",
+                        "remark" => " 修改人: $operation_name 联系电话: $operation_phone"
                     ];
 
                     $wx->send_template_msg($ass_oponid,$template_id,$data_msg ,$url);
@@ -815,7 +820,6 @@ class user_deal extends Controller
                     "$lessonid :从 $old_lesson_start 至 $old_lesson_end 的课程 已调整为 $lesson_start 至 $lesson_end 修改人: $operation_name 联系电话: $operation_phone",
                     "system"
                 );
-
             }
 
             return $this->output_succ();

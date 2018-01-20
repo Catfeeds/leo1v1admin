@@ -28,8 +28,14 @@ trait TeaPower {
         $week_lesson_count   = $this->t_teacher_info->get_week_lesson_count($teacherid);
         $week_left = $saturday_lesson_num-$lesson_count_ex;
         $h         = date("H",$lesson_start);
+
         $tea_arr   = [107884,53289,78733,59896,55161,164508,190394,176999,240348,211290];
-        $day_arr   = ["2017-04-02","2017-04-03","2017-04-04","2017-05-01","2017-05-29","2017-05-30","2017-05-28","2017-10-01","2017-10-02","2017-10-03","2017-10-04","2017-10-05","2017-10-06","2017-10-07","2017-10-08"];
+        $day_arr   = [
+            "2017-04-02","2017-04-03","2017-04-04","2017-05-01","2017-05-29","2017-05-30","2017-05-28",
+            "2017-10-01","2017-10-02","2017-10-03","2017-10-04","2017-10-05","2017-10-06","2017-10-07",
+            "2017-10-08"
+        ];
+
         $lesson_start_date = date("Y-m-d",$lesson_start);
         if($account_role ==4 && !in_array($lesson_start_date,$day_arr)){
             $create_time = $this->t_manager_info->get_create_time($admin_info["uid"]);
@@ -70,12 +76,10 @@ trait TeaPower {
                         $lesson_end = $lesson_count*2400+$lesson_start;
                         $end_h = date("H",$lesson_end);
                         if($day==3 && $teacherid==428558 && $h>=16){
-                            
                         }else{
                             if($h <18 && $end_h>=9 ){
                                 return $this->output_err("教研老师周二至周五9点至18点不能排课");
                             }
- 
                         }
                     }
 
@@ -87,9 +91,8 @@ trait TeaPower {
                         "教研老师每周只能带8课时,该老师该周已有".$lesson_count_week."课时!"
                     );
                 }
-
             }
-        }elseif($account_role==5 && !in_array($teacherid,$tea_arr)){
+        }elseif($account_role==E\Eaccount_role::V_5 && !in_array($teacherid,$tea_arr)){
             $create_time = $this->t_teacher_info->field_get_value($teacherid,"train_through_new_time");
             if(!empty($lesson_start)){
                 if(($create_time+14*86400)>$lesson_start){
@@ -101,7 +104,7 @@ trait TeaPower {
                         $teacherid,$date_week["sdate"],$date_week["edate"]
                     );
                     $limit_type = $this->t_teacher_info->get_limit_plan_lesson_type($teacherid);
-                    if($limit_type !=0 && $limit_type<=$test_lesson_num){
+                    if($limit_type != E\Elimit_plan_lesson_type::V_0 && $limit_type<=$test_lesson_num){
                         return $this->output_err("该全职老师新入职两周内一周限课".$limit_type."节,当前已排".$test_lesson_num."节");
                     }
                 }
@@ -3939,8 +3942,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             //return $this->output_err("百度分期逾期学员不能排课!");
         }
 
-
-
         if (!$item["teacherid"]) {
            return $this->output_err("还没设置老师");
         }
@@ -3950,17 +3951,12 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
         }
 
-
-
         if($old_lessonid){
-
-
         }else{
             $check = $this->research_fulltime_teacher_lesson_plan_limit($item["teacherid"],$item["userid"]);
             if($check){
                 return $check;
             }
-
         }
 
         if($item['lesson_grade_type']==0){
