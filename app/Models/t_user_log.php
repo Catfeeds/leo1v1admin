@@ -40,6 +40,37 @@ class t_user_log extends \App\Models\Zgen\z_t_user_log
         ]);
     }
 
+    /**
+     * 添加后台用户的操作记录
+     */
+    public function add_user_log($userid,$msg,$user_log_type){
+        if(isset($_SERVER['HTTP_REFERER'])){
+            $operate_referer = substr($_SERVER['HTTP_REFERER'],0,1000);
+        }else{
+            $operate_referer = "非浏览器操作";
+        }
+        if(isset($_SERVER['REQUEST_URI'])){
+            $operate_request = substr($_SERVER['REQUEST_URI'],0,1000);
+        }else{
+            $operate_request = "没有请求地址";
+        }
+        $add_time  = time();
+        $ret = $this->row_insert([
+            'userid'          => $userid,
+            'adminid'         => session('adminid'),
+            'msg'             => $msg,
+            'user_log_type'   => $user_log_type,
+            'add_time'        => $add_time,
+            "operate_referer" => $operate_referer,
+            "operate_request" => $operate_request,
+        ]);
+        return $ret;
+    }
+
+    public function add_teacher_reward_log($teacherid){
+
+    }
+
 
 }
 

@@ -909,6 +909,8 @@ class get_ass_stu_info_update extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
         $ass_order_info = $task->t_order_info->get_assistant_performance_order_info($start_time,$end_time);
+
+        $ass_order_period_list = $task->t_order_info->get_ass_self_order_period_money($start_time,$end_time);//助教自签合同金额(分期80%计算)
         $renew_list=$new_list=[];
         foreach($ass_order_info as $val){
             $contract_type = $val["contract_type"];
@@ -935,7 +937,8 @@ class get_ass_stu_info_update extends Command
         foreach($renew_list as $val){
             $orderid = $val["orderid"];
             $userid = $val["userid"];
-            $price = $val["price"];
+            //  $price = $val["price"];
+            $price = @$ass_order_period_list[$orderid]["reset_money"];
             $uid = $val["uid"];
             $real_refund = $val["real_refund"];
             if(!isset($ass_renew_info[$uid]["user_list"][$userid])){
@@ -948,7 +951,8 @@ class get_ass_stu_info_update extends Command
         foreach($new_list as $val){
             $orderid = $val["orderid"];
             $userid = $val["userid"];
-            $price = $val["price"];
+            // $price = $val["price"];
+            $price = @$ass_order_period_list[$orderid]["reset_money"];
             $uid = $val["uid"];
             $real_refund = $val["real_refund"];
             if(!isset($ass_new_info[$uid]["user_list"][$userid])){
@@ -962,6 +966,8 @@ class get_ass_stu_info_update extends Command
 
         //获取销售转介绍合同信息
         $cc_order_list = $task->t_order_info->get_seller_tran_order_info($start_time,$end_time);
+        $cc_order_period_list = $task->t_order_info->get_seller_tran_order_period_money($start_time,$end_time);//CC转介绍合同金额(分期80%计算)
+
         $new_tran_list=[];
         foreach($cc_order_list as $val){
             $orderid = $val["orderid"];
@@ -980,7 +986,8 @@ class get_ass_stu_info_update extends Command
         foreach($new_tran_list as $val){
             $orderid = $val["orderid"];
             $userid = $val["userid"];
-            $price = $val["price"];
+            // $price = $val["price"];
+            $price = @$cc_order_period_list[$orderid]["reset_money"];
             $uid = $val["uid"];
             $real_refund = $val["real_refund"];
             if(!isset($ass_tran_info[$uid]["user_list"][$userid])){

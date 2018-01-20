@@ -20,37 +20,19 @@ $(function(){
 
         var id_level_after = $("<select/>");
 
-        Enum_map.append_option_list_v2s("new_level", id_level_after, true );
+        Enum_map.append_option_list_v2s("new_level", id_level_after, true,[2,3,4,11] );
         var arr=[
+            ["总得分", opt_data.total_score],
             ["目标等级",id_level_after]
         ];
         $.show_key_value_table("晋升申请", arr ,{
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
-                $.do_ajax( '/teacher_level/set_teacher_advance_require', {
+                $.do_ajax( '/teacher_level/set_teacher_advance_require_2018', {
                     'teacherid' : teacherid,
-                    'start_time' :g_args.quarter_start,
-                    'level_before':opt_data.level,
+                    'start_time' :g_args.start_time,
                     'level_after':id_level_after.val(),
-                    'lesson_count':opt_data.lesson_count*100,
-                    'lesson_count_score':opt_data.lesson_count_score,
-                    'cc_test_num':opt_data.cc_test_num,
-                    'cc_order_num':opt_data.cc_order_num,
-                    'cc_order_per':opt_data.cc_order_per,
-                    'cc_order_score':opt_data.cc_order_score,
-                    'other_test_num':opt_data.other_test_num,
-                    'other_order_num':opt_data.other_order_num,
-                    'other_order_per':opt_data.other_order_per,
-                    'other_order_score':opt_data.other_order_score,
-                    'record_num':opt_data.record_num,
-                    'record_score_avg':opt_data.record_score_avg,
-                    'record_final_score':opt_data.record_final_score,
-                    'is_refund'  :opt_data.is_refund ,
-                    'total_score':opt_data.total_score,
-                    'hand_flag':opt_data.hand_flag,
-                    "golden_flag":0,
-                    "teacher_money_type":teacher_money_type
                 });
             }
         });

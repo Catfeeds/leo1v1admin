@@ -2173,7 +2173,8 @@ trait TeaPower {
         for($i=2;$i<=$star_num;$i++){
             $star_html.=$show_star;
         }
-        $date_begin = date("m月d日0时",time());
+        // $date_begin = date("m月d日0时",time());
+        $date_begin = date("m月1日0时",time());
         $date       = date("Y年m月d日",time());
 
         if($level_str=="中级教师" || $level_str =="二星级教师"){
