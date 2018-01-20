@@ -2115,7 +2115,10 @@ class user_manage_new extends Controller
             }
         }
 
-        $default_groupid = $group_all[$role_groupid][0]['groupid'];
+        $default_groupid = $group_common[0]['groupid'];
+        if($group_all && array_key_exists($role_groupid, $group_all)){
+            $default_groupid = $group_all[$role_groupid][0]['groupid'];
+        }
 
         //选择权限组id
         $groupid  = $this->get_in_int_val("groupid",$default_groupid);
@@ -2186,6 +2189,14 @@ class user_manage_new extends Controller
     }
 
     public function power_group_edit() {
+        $err_mg = "旧的权限已经关闭，请前往新的页面";
+        return $this->view_with_header_info ( "common.resource_no_power", [],[
+            "_ctr"          => "xx",
+            "_act"          => "xx",
+            "js_values_str" => "",
+            'err_mg' => $err_mg
+        ] );
+
         $group_list = $this->t_authority_group->get_auth_groups();
         $default_groupid = 0;
         if (count($group_list)>0) {
@@ -2982,7 +2993,7 @@ class user_manage_new extends Controller
             }
             $groupid      = $item["groupid"];
             ;
-            $new_has_flag = in_array($groupid,$groupid_list );
+            $new_has_flag = power_group_editin_array($groupid,$groupid_list );
             if ($old_has_flag !=$new_has_flag) {
                 if ($new_has_flag ) {
                     $p_list[]=$powerid ;
@@ -3796,7 +3807,7 @@ class user_manage_new extends Controller
             "lesson_left"     => $order_info['lesson_left'],
             "contract_status" => 1,
         ]);
-
+        
         if($ret>0){
             $ret = $this->t_order_refund->row_delete_2($orderid,$apply_time);
             if($ret>0){

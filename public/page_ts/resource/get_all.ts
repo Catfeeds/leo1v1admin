@@ -152,8 +152,16 @@ $(function(){
     if(is_teacher == 1){
         Enum_map.append_option_list("subject", $("#id_subject"),true, my_subject);
         Enum_map.append_option_list("grade", $("#id_grade"),true, my_grade);
-        $("#id_subject").val(my_subject[0]);
-        $("#id_grade").val(my_grade[0]);
+        if( g_args.subject == -1 || g_args.subject == ''){
+            $("#id_subject").val(my_subject[0]);
+        }else{
+            $('#id_subject').val(g_args.subject);
+        }
+        if( g_args.grade == -1 || g_args.grade == ''){
+            $("#id_grade").val(my_grade[0]);
+        }else{
+            $("#id_grade").val(g_args.grade);
+        }
     }else{
         Enum_map.append_option_list("subject", $("#id_subject"),false, my_subject);
         Enum_map.append_option_list("grade", $("#id_grade"),false, my_grade);
