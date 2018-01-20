@@ -104,18 +104,15 @@
                         <td>
                             @if(empty($var["require_time"]))
                                 状态:未申请
-                            @elseif(empty($var["accept_time"]))
-                                状态:已申请,未审核<br>
+                            @elseif(empty($var["advance_first_trial_time"]) && empty($var["accept_time"]))
+                                状态:待审批<br>
                                 目标等级:{{@$var["level_after_str"]}}<br>
-                                时间:{{$var["require_time_str"]}}
+                            @elseif(!empty($var["advance_first_trial_time"]) && empty($var["accept_time"]))
+                                状态:审批中<br>
+                                目标等级:{{@$var["level_after_str"]}}<br>
                             @else
-                                状态:已审核<br>
+                                状态:已审批<br>
                                 目标等级:{{@$var["level_after_str"]}}<br>
-                                结果:{{$var["accept_flag_str"]}}<br>
-                                @if($var["accept_flag"]==2)
-                                    理由:{{$var["accept_info"]}}<br>
-                                @endif
-                                时间:{{$var["accept_time_str"]}}
                             @endif
                         </td>
                         <td>

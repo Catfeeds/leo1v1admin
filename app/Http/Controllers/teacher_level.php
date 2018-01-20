@@ -1670,6 +1670,19 @@ class teacher_level extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    //晋升申请(2018年1月新版)
+    public function set_teacher_advance_require_2018(){
+        $start_time   = $this->get_in_int_val("start_time");
+        $teacherid    = $this->get_in_int_val("teacherid");
+        $level_after  = $this->get_in_int_val("level_after");
+        $this->t_teacher_advance_list->field_update_list($start_time,$teacherid,[
+            "level_after"     => $level_after,
+            "require_time"    => time(),
+            "require_adminid" => $this->get_account_id()
+        ]);
+        return $this->output_succ();
+
+    }
 
     //新版刷新数据
     public function update_teacher_advance_info_all(){
