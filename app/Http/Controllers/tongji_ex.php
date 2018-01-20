@@ -238,6 +238,7 @@ class tongji_ex extends Controller
             $lesson_type = $info['lesson_type'];
             $lesson_start = $info['lesson_start'];
             $lesson_end = $info['lesson_end'];
+            $lesson_del_flag = $info['lesson_del_flag'];
             $confirm_flag = $info['confirm_flag'];
             $lesson_user_online_status = $info['lesson_user_online_status'];
             $sys_operator = $info['sys_operator'];
