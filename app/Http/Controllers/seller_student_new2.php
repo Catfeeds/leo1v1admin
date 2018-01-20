@@ -866,7 +866,7 @@ class seller_student_new2 extends Controller
             $end_time = time();
         }
         $res = [];
-        $seller_student_new_list = $this->t_seller_student_new->get_distribution_count($start_time,$end_time,$origin_ex);
+        $seller_student_new_list = $this->t_seller_student_new->get_dis_count($start_time,$end_time,$origin_ex);
         foreach($seller_student_new_list as $item){
             $adminid = $item['adminid'];
             $res[$adminid]['auto_get_count'] = $item['auto_get_count'];
@@ -884,7 +884,7 @@ class seller_student_new2 extends Controller
             $adminid = $item['adminid'];
             $res[$adminid]['get_free_count'] = $item['get_free_count'];
         }
-        $seller_distribution_list = $this->t_seller_edit_log->get_distribution_count($start_time,$end_time,$origin_ex);//分配
+        $seller_distribution_list = $this->t_seller_edit_log->get_dis_count($start_time,$end_time,$origin_ex);//分配
         foreach($seller_distribution_list as $item){
             $adminid = $item['adminid'];
             $res[$adminid]['global_tq_called_flag'] = $item['global_tq_called_flag'];
