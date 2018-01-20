@@ -34,12 +34,18 @@ $(function(){
         }
         var id_lesson_target=$("<input/>");
         var id_renew_target=$("<input/>");
+        var id_group_renew_target=$("<input/>");
+        var id_all_renew_target=$("<input/>");
         id_lesson_target.val(g_args.rate_target);
         var arr=[
             ["目标系数", id_lesson_target],          
-            ["目标续费值", id_renew_target],          
+            ["个人目标续费值", id_renew_target],          
+            ["团队目标续费值", id_group_renew_target],          
+            ["总体目标续费值", id_renew_target],          
         ];
         id_renew_target.val(g_args.renew_target);
+        id_group_renew_target.val(g_args.group_renew_target);
+        id_all_renew_target.val(g_args.all_renew_target);
         $.show_key_value_table("编辑", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
@@ -47,7 +53,9 @@ $(function(){
                 $.do_ajax( '/user_deal/set_ass_month_target',{
                     "month" : g_args.start_time,
                     "lesson_target" : id_lesson_target.val(),
-                    "renew_target"  : id_renew_target.val()*100
+                    "renew_target"  : id_renew_target.val()*100,
+                    "group_renew_target"  : id_group_renew_target.val()*100,
+                    "all_renew_target"  : id_all_renew_target.val()*100
                 });
                 
             }
