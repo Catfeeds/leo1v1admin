@@ -334,8 +334,8 @@
                                 <a class="btn fa fa-video-camera opt-play" title="回放"></a>
                                 <a class="btn fa fa-download opt-download" title="下载"></a>
                                 <a class="btn fa fa-upload opt-upload" title="上传"></a>
-                                <a class="btn fa fa-star opt-score-star" title="修改分数"></a>
-                                <a class="btn fa fa-list-alt opt-small-class-or-open" title="小班课/公开课"></a>
+                                <!-- <a class="btn fa fa-star opt-score-star" title="修改分数"></a> -->
+                                <!-- <a class="btn fa fa-list-alt opt-small-class-or-open" title="小班课/公开课"></a> -->
                                 <a class="btn fa fa-link opt-out-link" title="对外视频发布链接"></a>
                                 <a class="btn fa fa-edit opt-edit-lesson-upload-time" title="生成视频配置"></a>
                                 <a class="btn fa fa-qrcode  opt-qr-pad-at-time "
@@ -352,15 +352,14 @@
                                    title="视频播放二维码——新版" > </a>
                                 @if($var['lesson_type']==2)
                                     <a class="btn fa fa-gavel opt-confirm-test" title="确认课时"></a>
-                                @else
+                                @elseif($var['lesson_type']<1000)
                                     <a class="btn fa fa-gavel opt-confirm" title="确认课时"></a>
                                 @endif
-                                <a class="btn fa fa-money opt-change-price" title="修改老师金额"></a>
-                                <a class="btn fa fa-th-list opt-set_lesson_info" title="修改课堂信息"></a>
-                                <a class="btn fa fa-th-list opt-set_teacher_comment" title="学生评价"></a>
-                                <a class="btn fa fa-retweet opt-user-video-info" title="课堂视频回放信息"></a>
+                                <!-- <a class="btn fa fa-th-list opt-set_lesson_info" title="修改课堂信息"></a> -->
+                                <a class="btn fa fa-th-list opt-show_teacher_comment" title="查看老师评价"></a>
+                                <!-- <a class="btn fa fa-retweet opt-user-video-info" title="课堂视频回放信息"></a> -->
                                 <a class="opt-enable_video" title="切换课堂视频开启状态">视</a>
-                                <a class="opt-send_email" title="发送邮件">邮</a>
+                                <a class="opt-send_email" title="发送讲义作业到指定邮件">邮</a>
                                 <a class="opt-require_set_confirm_flag_4" title="申请老师付工资，学生不扣课时" >申</a>
                                 <a class="opt-require_lesson_success" title="申请课程成功" >申</a>
                                     <a class="opt-seller-ass-record-new" title="教学质量反馈" >馈</a>
@@ -368,11 +367,8 @@
                                 @if($var['lesson_type']==2)
                                     <a class="btn opt-show_stu_request" title="查看学生试听需求">需</a>
                                 @endif
-                                @if($acc=="adrian")
-                                    <a class="opt-add_reward" title="添加奖励">奖</a>
-                                @endif
                                 <a class="fa fa-list-alt opt-manage-all" title="课程管理信息汇总" ></a>
-                                <a class="fa opt-modify-lesson-time" title="处理调课申请" >调课</a>
+                                <!-- <a class="fa opt-modify-lesson-time" title="处理调课申请" >调课</a> -->
                                 <a class="fa-sitemap opt-set-server " title="xmpp" ></a>
                                 @if(in_array($account_role,[9,12]))
                                     <a class="opt-first-lesson-record-new" >质监反馈-new</a>

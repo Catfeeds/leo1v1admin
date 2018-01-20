@@ -45,7 +45,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             array( "uid=%d", $id, -1 ),
         );
         if ($nick_phone!=""){
-            $where_arr[]=sprintf( "(account like '%s%%' or name like '%s%%'  )",
+            $where_arr[]=sprintf( "(account like '%s%%' or name like '%s%%' or phone like '%s%%'  )",
+                                  $this->ensql($nick_phone),
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone));
         }

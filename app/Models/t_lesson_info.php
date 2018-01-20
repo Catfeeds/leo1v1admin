@@ -826,18 +826,20 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                        ." l.userid,s.phone,l.teacherid, l.assistantid,t.realname as teacher_nick,"
                        ." has_quiz, lesson_start, lesson_end, lesson_intro, l.lesson_status,l.lesson_count ,confirm_flag, "
                        ." l.confirm_adminid,l.confirm_time,l.confirm_reason, l.level ,l.teacher_money_type, "
-                       ." l.lesson_cancel_reason_type,l.lesson_cancel_reason_next_lesson_time  "
+                       ." l.lesson_cancel_reason_type,l.lesson_cancel_reason_next_lesson_time,l.lesson_del_flag "
                        ." from %s l "
                        ." left join %s s on l.userid = s.userid "
                        ." left join %s t on l.teacherid= t.teacherid"
                        ." where l.userid = %u "
                        ." and courseid=%u "
-                       ." and %s and from_type=0 and l.lesson_del_flag=0 order by courseid,lesson_num  "
+                       ." and %s and from_type=0 and l.lesson_del_flag=0 order by courseid,lesson_num "
                        ,self::DB_TABLE_NAME
                        ,t_student_info::DB_TABLE_NAME
                        ,t_teacher_info::DB_TABLE_NAME
                        ,$userid
-                       , $courseid, $lesson_status_str  );
+                       ,$courseid
+                       ,$lesson_status_str
+        );
         return $this->main_get_list_by_page($sql, $page_num, $page_size);
     }
 
@@ -1404,6 +1406,9 @@ lesson_type in (0,1) "
         $this->field_update_list($lessonid,$set_field_arr);
     }
 
+    /**
+     * 检测更改的课时
+     */
     public function check_lesson_count_for_change( $lessonid,$lesson_count) {
         $courseid = $this->get_courseid($lessonid);
 
@@ -1487,7 +1492,6 @@ lesson_type in (0,1) "
         );
         return $this->main_get_row($sql);
     }
-
 
     public function check_teacher_time_free($teacherid,$cur_lessonid, $lesson_start,$lesson_end){
         $sql=$this->gen_sql("select l.lessonid,lesson_start,lesson_end "
@@ -3085,7 +3089,8 @@ lesson_type in (0,1) "
         $sql = $this->gen_sql_new("select lessonid,teacherid,assistantid,userid,lesson_type,lesson_start,lesson_end,lesson_count,"
                                   ." teacher_money_type,level,already_lesson_count,tea_attend,stu_attend,tea_rate_time,courseid,"
                                   ." lesson_full_num,tea_cw_upload_time,stu_cw_upload_time,real_begin_time,real_end_time,"
-                                  ." lesson_name,subject,grade,lesson_status,lesson_del_flag,lesson_sub_type,train_type,competition_flag"
+                                  ." lesson_name,subject,grade,lesson_status,lesson_del_flag,lesson_sub_type,train_type,"
+                                  ." competition_flag,lesson_del_flag,confirm_flag,operate_time"
                                   ." from %s"
                                   ." where lessonid=%u"
                                   ,self::DB_TABLE_NAME

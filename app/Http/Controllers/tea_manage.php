@@ -2268,6 +2268,9 @@ class tea_manage extends Controller
         return $this->output_succ();
     }
 
+    /**
+     * 发送课后讲义
+     */
     public function send_email_with_lessonid(){
         $lessonid   = $this->get_in_int_val("lessonid");
         $send_email = $this->get_in_str_val("stu_email");

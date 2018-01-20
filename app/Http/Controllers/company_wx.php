@@ -104,20 +104,29 @@ class company_wx extends Controller
         }
     }
 
-   public  function get_openid() { // 通过用户userid来获取用户openid
+    public  function get_openid() { // openid与userid互转
         $config = Config::get_config("company_wx");
         if (!$config) {
             exit('没有配置');
         }
-        $userid = 'ShenYiJing';
+
+        $type = 1; // 通过用户userid来获取用户openid
+        $type = 2; // 通过用户openid来获取用户userid
+        $userid = "CaoPeng";
+        $openid = "orwGAs6R4UremX_fhr24MvStIxJc";
+        $openid = "ocupr077yrT3vk4-DtWcHzPcOz_c";
 
         $config = Config::get_config("company_wx");
         $url = $config['url'].'/cgi-bin/gettoken?corpid='.$config['CorpID'].'&corpsecret='.$config['Secret2'];
         $token = $this->get_company_wx_data($url, 'access_token'); // 获取tocken
 
-
-        $url = $config['url'].'/cgi-bin/user/convert_to_openid?access_token='.$token;
-        $post_data = json_encode(["userid" => $userid]);
+        if ($type == 1) {
+            $url = $config['url'].'/cgi-bin/user/convert_to_openid?access_token='.$token;
+            $post_data = json_encode(["userid" => $userid]);
+        } else {
+            $url = $config['url'].'/cgi-bin/user/convert_to_userid?access_token='.$token;
+            $post_data = json_encode(["openid" => $openid]);
+        }
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -129,7 +138,6 @@ class company_wx extends Controller
 
         dd($output);
         $openid = $output["openid"];
-
     }
 
     public function get_approve() { // 获取审批数据

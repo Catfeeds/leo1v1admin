@@ -13,12 +13,15 @@ $(function(){
 	  $('.opt-change').set_input_change_event(load_data);
 
     $(".cancel_lesson").on("click",function(){
-        var data          = $(this).get_opt_data();
-        var lessonid      = data.lessonid;
-        var lesson_status = data.lesson_status;
+        var data            = $(this).get_opt_data();
+        var lessonid        = data.lessonid;
+        var lesson_status   = data.lesson_status;
+        var lesson_del_flag = data.lesson_del_flag;
 
         if(lesson_status!=0){
             BootstrapDialog.alert("课程状态不对,只能取消"+font_color("未开始")+"的课程!");
+        }else if(lesson_del_flag!=0){
+            BootstrapDialog.alert("本节课已经取消，不用重复取消!");
         }else{
             BootstrapDialog.show({
                 title    : '取消',
@@ -139,22 +142,21 @@ $(function(){
 
     $.each($(".change_time"),function(i,item){
         $(item).admin_set_lesson_time({
-            "lessonid" : $(item).get_opt_data("lessonid")
+            "lessonid" : $(item).get_opt_data("lessonid"),
+            "func"     : function(){
+            }
         });
     });
 
     $("#id_add_lesson").on("click",function(){
         // BootstrapDialog.alert("开发中");
         // return false;
-
         // var id_lesson_start = $("<input>");
         // var id_lesson_end = $("<input>");
-
         // var arr = [
         //     ["开始时间",id_lesson_start],
         //     ["结束时间",id_lesson_end]
         // ];
-
         // $.show_key_value_table("排课",arr,{
         //     label    : "确认",
         //     cssClass : "btn-warning",
@@ -172,6 +174,7 @@ $(function(){
         //         });
         //     }
         // });
+
         if (g_args.courseid>0) {
             $.do_ajax("/user_deal/lesson_add_lesson",{
                 courseid : g_args.courseid
@@ -187,7 +190,7 @@ $(function(){
                 $item.click();
             });
         }else{
-            alert( "还没有课程" );
+            BootstrapDialog.alert("没有课程包！请先创建课程包后再添加课程！");
         }
     });
 

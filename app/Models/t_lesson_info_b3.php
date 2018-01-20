@@ -3001,7 +3001,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
     //课前预习
-    public function get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$cw_status,$preview_status,$page_flag=1){
+    public function get_pre_class_preview_info(
+        $page_info,$userid,$start_time,$end_time,$subject,$grade,$cw_status,$preview_status,$page_flag=1
+    ){
         $where_arr = [
             ["l.lesson_start>=%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
@@ -3029,13 +3031,12 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   $where_arr
         );
         if($page_flag==1){
-            return $this->main_get_list_by_page($sql,$page_info); 
+            return $this->main_get_list_by_page($sql,$page_info);
         }elseif($page_flag==2){
-            return $this->main_get_list($sql); 
+            return $this->main_get_list($sql);
         }
     }
 
-    //课堂情况
     public function get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$page_flag=1){
         $where_arr = [
             ["l.lesson_start>=%u",$start_time,0],
@@ -3044,10 +3045,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.subject=%u",$subject,-1],
             ["l.grade=%u",$grade,-1],
             "l.lesson_del_flag=0",
-            // "l.confirm_flag<2",
             "l.lesson_type in (0,1,3)"
         ];
-       
+
         if($page_flag==1){
             $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,l.userid,"
                                       ."l.grade,l.teacherid,l.lessonid,t.realname,s.parentid,"
@@ -3181,7 +3181,29 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         }elseif($page_flag==2){
             return $this->main_get_list($sql); 
         }
- 
+    }
+
+    /**
+     * 将一节课程的课程课件信息拷贝至另一节课中
+     * 此功能多用于课时确认中的调课选项
+     */
+    public function copy_lesson_cw_to_new_lesson($lessonid,$copy_lessonid){
+        $where_arr = [
+            ["l1.lessonid=%u",$lessonid,0],
+            ["l2.lessonid=%u",$copy_lessonid,0],
+        ];
+        $sql = $this->gen_sql_new("update %s l1,%s l2 set "
+                                  ." l2.stu_cw_upload_time=l1.stu_cw_upload_time,l2.stu_cw_status=l1.stu_cw_status,"
+                                  ." l2.stu_cw_url=l1.stu_cw_url,l2.tea_cw_name=l1.tea_cw_name,"
+                                  ." l2.tea_cw_upload_time=l1.tea_cw_upload_time,"
+                                  ." l2.tea_cw_status=l1.tea_cw_status,l2.lesson_quiz=l1.lesson_quiz,"
+                                  ." l2.lesson_quiz_status=l1.lesson_quiz_status,l2.tea_more_cw_url=l1.tea_more_cw_url"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_update($sql);
     }
 
 

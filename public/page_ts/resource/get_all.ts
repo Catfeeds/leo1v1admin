@@ -50,6 +50,7 @@ $(function(){
                 if(result.ret == 0){
                     obj.empty();
                     obj.parent().find('span.tag_warn').remove();
+                    //console.log(result);
                     var tag_info = result.tag;
              
                     if($(tag_info).length == 0) {
@@ -122,8 +123,6 @@ $(function(){
         Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[8]);
         $('#id_resource_type').val(8);
     }
-    Enum_map.append_option_list("subject", $("#id_subject"),false, my_subject);
-    Enum_map.append_option_list("grade", $("#id_grade"),false, my_grade);
 
     if(tag_one == 'region_version'){
         Enum_map.append_option_list(tag_one, $("#id_tag_one"), false, book);
@@ -150,12 +149,30 @@ $(function(){
         $("#id_tag_five").append('<option value="-1">全部</option>');
     }
 
-    $('#id_subject').val(g_args.subject);
-    $('#id_grade').val(g_args.grade);
+    if(is_teacher == 1){
+        Enum_map.append_option_list("subject", $("#id_subject"),true, my_subject);
+        Enum_map.append_option_list("grade", $("#id_grade"),true, my_grade);
+        if( g_args.subject == -1 || g_args.subject == ''){
+            $("#id_subject").val(my_subject[0]);
+        }else{
+            $('#id_subject').val(g_args.subject);
+        }
+        if( g_args.grade == -1 || g_args.grade == ''){
+            $("#id_grade").val(my_grade[0]);
+        }else{
+            $("#id_grade").val(g_args.grade);
+        }
+    }else{
+        Enum_map.append_option_list("subject", $("#id_subject"),false, my_subject);
+        Enum_map.append_option_list("grade", $("#id_grade"),false, my_grade);
+        $('#id_subject').val(g_args.subject);
+        $('#id_grade').val(g_args.grade);
+    }
+
     $('#id_tag_one').val(g_args.tag_one);
 
     if($('#id_resource_type').val() == 3 || $('#id_resource_type').val() == 1 ){
-        get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(),$('#id_tag_one').val(),$('#id_resource_type').val(),0,$('#id_tag_four'), 1);
+        get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(),$('#id_tag_one').val(),$('#id_resource_type').val(),-1,$('#id_tag_four'), 1);
     } else if($('#id_resource_type').val() == 6) {
         get_province($('#id_tag_two'));
     } else {

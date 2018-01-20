@@ -23,7 +23,7 @@
         </div>
         <div class="col-xs-6 col-md-1">
             <div class="input-group ">
-                <a class="btn btn-primary" id="id_add_lesson">增加课次</a>
+                <a class="btn btn-primary" id="id_add_lesson">增加课程</a>
             </div>
         </div>
     </div>
@@ -31,10 +31,10 @@
     <table class="common-table ">
         <thead>
             <tr>
-                <td >lessonid</td>
+                <td >课程id</td>
                 <td >老师</td>
-                <td >工资分类</td>
-                <td >等级</td>
+                <td style="display:none;">工资分类</td>
+                <td style="display:none;">等级</td>
                 <td >年级</td>
                 <td >科目</td>
                 <td >状态</td>
@@ -72,9 +72,9 @@
                     <td  >
                         <div {!!  \App\Helper\Utils::gen_jquery_data($var )  !!} class="opt-div">
                             <a class="change_time">自定义时间排课</a>
-                            <a class="opt_change_lesson_count"> 修改课时数</a>
+                            <a class="opt_change_lesson_count"> 修改课时</a>
                             <a class="cancel_lesson  fa-trash-o" title="取消课程"></a>
-                            <a href="/seller_student/test_lesson_list?st_arrange_lessonid={{$var["lessonid"]}}">试听信息</a>
+                            <!-- <a href="/seller_student/test_lesson_list?st_arrange_lessonid={{$var["lessonid"]}}">试听信息</a> -->
                         </div>
                     </td>
                 </tr>
