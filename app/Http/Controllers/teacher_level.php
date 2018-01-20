@@ -12,7 +12,6 @@ class teacher_level extends Controller
     use CacheNick;
     use TeaPower;
 
-    
     public function get_teacher_level_quarter_info(){
         $this->switch_tongji_database();
         $sum_field_list = [
@@ -31,8 +30,7 @@ class teacher_level extends Controller
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $page_info = $this->get_in_page_info();
 
-
-         $start_time = strtotime("2017-10-01");
+        $start_time = strtotime("2017-10-01");
         $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,-1,-1,-1,0);
         foreach($ret_info["list"] as &$item){
             //$item["level"]=$item["level_before"];
@@ -42,14 +40,11 @@ class teacher_level extends Controller
                 // E\Enew_level::set_item_value_str($item,"level_after");
                 $item["level_str"] = E\Enew_level::get_simple_desc($item["level"]);
                 $item["level_after_str"] = E\Enew_level::get_simple_desc($item["level_after"]);
-
-
             }else{
                 //  E\Elevel::set_item_value_str($item,"level_before");
                 // E\Elevel::set_item_value_str($item,"level_after");
                 $item["level_str"] = E\Elevel::get_simple_desc($item["level"]);
                 $item["level_after_str"] = E\Elevel::get_simple_desc($item["level_after"]);
-
             }
             \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($item,"require_time","_str");
