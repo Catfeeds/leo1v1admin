@@ -422,7 +422,7 @@ class agent extends Controller
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>tmk标记待定状态例子</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>号码</th><th>TMK状态</th><th>来源</th><th>例子首次进入时间</th><th>拨打人数</th><th>最后拨打人</th><th>最后一次回访时间</th><th>当前cc</th><th>是否在公海</th>';
+        echo '<th>号码</th><th>TMK状态</th><th>来源</th><th>例子首次进入时间</th><th>拨打人数</th><th>最后拨打人</th><th>最后一次回访时间</th><th>当前cc</th><th>是否出现在公海</th>';
         echo '</tr>';
         foreach($ret as $item){
             echo '<tr>';
@@ -431,41 +431,18 @@ class agent extends Controller
             echo '<td>'.$item['origin'].'</td>';
             echo '<td>'.date('Y-m-d H:i:s',$item['add_time']).'</td>';
             echo '<td>'.$item['call_admin_count'].'</td>';
-            echo '<td>'.$item['last_contact_cc'].'</td>';
+            echo '<td>'.$this->cache_get_account_nick($item['last_contact_cc']).'</td>';
             echo '<td>'.date('Y-m-d H:i:s',$item['last_revisit_time']).'</td>';
-            echo '<td>'.$item['account'].'</td>';
-            echo '<td>'.($item['seller_resource_type']==1?'是':'否').'</td>';
+            echo '<td>'.$this->cache_get_account_nick($item['admin_revisiterid']).'</td>';
+            echo '<td>'.(($item['seller_resource_type']==1 && $item['admin_revisiterid']==0 && $item['global_seller_student_status']!=50 && $item['lesson_count_all']==0 && $item['sys_invaild_flag']==0 && ($item['hand_free_count']+$item['auto_free_count'])<5)?'是':'否').'</td>';
             echo '</tr>';
         }
         echo '</table>';
     }
 
     public function test_new(){
-        $ret_log = $this->task->t_seller_get_new_log->get_row_by_adminid_userid($adminid=99,$userid=123456);
-        dd($ret_log);
-        $ret = $this->t_seller_get_new_log->row_insert([
-            'adminid'=>$adminid=99,
-            'userid'=>$userid=123456,
-            'create_time'=>time(),
-        ]);
+        $ret = $this->t_seller_student_origin->get_item_list();
         dd($ret);
-        list($start_time,$end_time) = [strtotime(date('Y-m-d',strtotime("-10 day"))),strtotime(date('Y-m-d'))];
-        $ret = $this->t_seller_new_count_get_detail->get_daily_userid($start_time,$end_time);
-        $userid_list = array_unique(array_column($ret, 'userid'));
-        list($call_count,$called_count) = [0,0];
-        foreach($userid_list as $item){
-            foreach($ret as $info){
-                if($info['userid'] == $item){
-                    if($info['cc_no_called_count_new']+$info['cc_called_count']>0){
-                        $call_count += 1;
-                    }
-                    if($info['cc_called_count']>0){
-                        $called_count += 1;
-                    }
-                }
-            }
-        }
-        dd($call_count,$called_count);
     }
 
     //处理等级头像

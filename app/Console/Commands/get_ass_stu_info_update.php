@@ -42,10 +42,11 @@ class get_ass_stu_info_update extends Command
         // $start_time =strtotime("2017-12-01");
         // $end_time =strtotime("2018-01-01");
         // $kk_suc= $task->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time);
-        // $list = $task->t_month_ass_student_info->get_ass_month_info($start_time);
+        // $time = $start_time-100;
+        // $list = $task->t_month_ass_student_info->get_ass_month_info($time);
         // foreach($list as $k=>$val){
-        //     $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,[
-        //         "kk_num" =>@$kk_suc[$k]["lesson_count"]
+        //     $task->t_month_ass_student_info->get_field_update_arr($k,$time,1,[
+        //         "read_student" =>@$kk_suc[$k]["lesson_count"]
         //     ]);
         // }
         // dd($kk_suc);

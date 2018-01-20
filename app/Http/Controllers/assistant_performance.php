@@ -695,6 +695,10 @@ class assistant_performance extends Controller
             // $item["refund_reword_per"]=$refund_reword_per;
 
             //扩课
+            $item["kk_num_old"] = @$old_twl_info[$k]["read_student"]+$item["hand_kk_num"];
+            if($k==948){
+                $item["kk_num_old"]=3;
+            }
             $kk_num = $item["kk_num"]+$item["hand_kk_num"];
             $kk_per = $last_registered_num>0?($kk_num/$last_registered_num):0;
             if($kk_per>=0.06){
@@ -704,6 +708,15 @@ class assistant_performance extends Controller
             }
             $item["kk_all"]        = $kk_num;
             $item["kk_reword_per"] = $kk_reword_per;
+            $kk_per_old = $last_registered_num>0?( $item["kk_num_old"]/$last_registered_num):0;
+            if($kk_per_old>=0.06){
+                $kk_reword_per_old = 0.2;
+            }else{
+                $kk_reword_per_old = 0;
+            }
+            $item["kk_reword_per_old"] = $kk_reword_per_old;
+            $item["kk_reword_old"] = $item["kk_reword_per_old"]*1500;
+
 
             //停课
             if($start_time <strtotime("2017-11-01")){

@@ -278,8 +278,8 @@ $(function(){
 
     $.each($(".opt-change-time"), function (i, item) {
         $(item).admin_set_lesson_time({
-            "lessonid": $(item).get_opt_data("lessonid"),
-            "reset_lesson_count":0
+            "lessonid" : $(item).get_opt_data("lessonid"),
+            // "reset_lesson_count" : 0
         });
     });
 

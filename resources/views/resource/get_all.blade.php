@@ -26,6 +26,7 @@
      var my_subject = {{@$subject}};
      var my_grade = {{@$grade}};
      var book = {{@$book}};
+     var is_teacher = {{@$is_teacher}};
     </script>
     <section class="content">
 
@@ -144,6 +145,7 @@
 
                     @if( $resource_type == 1 || $resource_type == 3 )
                         <td>学科化标签</td>
+                        <td>难度类型</td>
                     @endif
 
                     @if($resource_type < 7 && $resource_type > 3)
@@ -172,6 +174,11 @@
                         @endif
                         @if( $resource_type == 1 || $resource_type == 3)
                             <td>{{@$var["tag_four_str"]}} </td>
+                            @if( $resource_type == 1)
+                                <td>{{@$var["tag_five_str"]}} </td>
+                            @else
+                                <td>{{@$var["tag_three_str"]}} </td>
+                            @endif
                         @endif
 
                         @if($resource_type < 7 && $resource_type > 3)

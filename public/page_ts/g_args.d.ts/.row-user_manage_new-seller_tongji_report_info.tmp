@@ -1,3 +1,4 @@
+	test_lesson_count_for_month	:any;
 	main_type	:any;
 	first_group_name	:any;
 	up_group_name	:any;

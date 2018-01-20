@@ -121,20 +121,20 @@
 			              <td><input class="add_end_date" type="text"/></td>
                 </tr>
 
-            <!-- <tr class="icon_s class_icon_s">
-			           <td style="text-align:right; width:30%;">年级</td>
-			           <td>
-                 <select class="add_pic_grade">
-                 </select>
-                 </td>
-		             </tr>
-                 <tr class="icon_s class_icon_s">
-			           <td style="text-align:right; width:30%;">科目</td>
-			           <td>
-                 <select class="add_pic_subject">
-                 </select>
-                 </td>
-		             </tr> -->
+                <tr class="icon_s class_icon_s">
+			              <td style="text-align:right; width:30%;">年级</td>
+			              <td>
+                        <select class="add_pic_grade">
+                        </select>
+                    </td>
+		            </tr>
+                <tr class="icon_s class_icon_s">
+			              <td style="text-align:right; width:30%;">科目</td>
+			              <td>
+                        <select class="add_pic_subject">
+                        </select>
+                    </td>
+		            </tr>
                 <tr>
 			        <td style="text-align:right; width:150px;">图片上传</td>
 			        <td>

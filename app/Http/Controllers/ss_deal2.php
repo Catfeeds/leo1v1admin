@@ -1096,6 +1096,11 @@ class ss_deal2 extends Controller
         $remark     = $this->get_in_str_val('remark');
         $record_adminid = $this->get_account_id();
 
+        $lesson_problem = $this->get_in_int_val('lesson_problem');
+        $img_url   = $this->get_in_str_val('img_url');
+        $video_url = $this->get_in_str_val('video_url');
+        $zip_url   = $this->get_in_str_val('zip_url');
+
         $ret = $this->t_product_feedback_list->row_insert([
             "feedback_adminid" => $feedback_adminid,
             "record_adminid"   => $record_adminid,
@@ -1107,7 +1112,11 @@ class ss_deal2 extends Controller
             "teacher_id"   => $teacher_id,
             "deal_flag"    => $deal_flag,
             "remark"       => $remark,
-            "create_time"  => time()
+            "create_time"  => time(),
+            "lesson_problem" => $lesson_problem,
+            "img_url"      => $img_url,
+            "video_url"    => $video_url,
+            "zip_url"      => $zip_url
         ]);
 
         return $this->output_succ();
@@ -1131,6 +1140,21 @@ class ss_deal2 extends Controller
         $ret_list['record_nick']   = $this->cache_get_account_nick($ret_list['record_adminid']);
         $ret_list['deal_flag_str'] = E\Eboolean::get_color_desc($ret_list['deal_flag']);
 
+        // 返回完整下载链接
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+
+        $config=\App\Helper\Config::get_config("qiniu");
+        $bucket_info=$config["private_url"]['url'];
+
+        $pdf_file_path = $auth->privateDownloadUrl($bucket_info.'/'.$file_link );
+
+        dd($pdf_file_path);
+
+        $ret_list['img_str'] = '';
+
         return $this->output_succ(["data"=>$ret_list]);
     }
 
@@ -1146,6 +1170,11 @@ class ss_deal2 extends Controller
         $remark     = $this->get_in_str_val('remark');
         $record_adminid = $this->get_account_id();
         $feedback_adminid = $this->get_in_int_val('feedback_id');
+        $lesson_problem = $this->get_in_int_val('lesson_problem');
+        $img_url   = $this->get_in_str_val('img_url');
+        $video_url = $this->get_in_str_val('video_url');
+        $zip_url   = $this->get_in_str_val('zip_url');
+
 
         $ret = $this->t_product_feedback_list->field_update_list($id,[
             "feedback_adminid" => $feedback_adminid,
@@ -1158,7 +1187,11 @@ class ss_deal2 extends Controller
             "teacher_id"   => $teacher_id,
             "deal_flag"    => $deal_flag,
             "remark"       => $remark,
-            "create_time"  => time()
+            // "create_time"  => time(),
+            "lesson_problem" => $lesson_problem,
+            "img_url"      => $img_url,
+            "video_url"    => $video_url,
+            "zip_url"      => $zip_url
         ]);
 
         return $this->output_succ();

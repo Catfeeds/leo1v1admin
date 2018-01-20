@@ -7,10 +7,10 @@ var setting = {
         addHoverDom: addHoverDom,
         removeHoverDom: removeHoverDom,
     },
-    check: {  
+    check: {
         enable: true,
-        chkStyle: "checkbox",  
-        chkboxType: { "Y": "ps", "N": "ps" }  
+        chkStyle: "checkbox",
+        chkboxType: { "Y": "ps", "N": "ps" }
     },
     edit: {
         enable: true,
@@ -36,7 +36,7 @@ function beforeEditName(treeId, treeNode) {
     var powerid  = treeNode.page_id;
     var groupid = $("#groupid").val();
     //console.log(url);
-    if (powerid != 0) {      
+    if (powerid != 0) {
         var data = {
             "url" : url,
             "group_id" : groupid,
@@ -56,7 +56,7 @@ function beforeEditName(treeId, treeNode) {
                     this.default_value == true ? select_list.push (this.field_name) : '';
                 }
             });
-            
+
 
             $(this).admin_select_dlg({
                 header_list     : [ "field_name","描述" ],
@@ -77,7 +77,7 @@ function beforeEditName(treeId, treeNode) {
         });
 
     }
-   
+
     return false;
 }
 
@@ -107,7 +107,7 @@ function addHoverDom(treeId, treeNode) {
                 //console.log(res);
                 var arr = new Array();
                 if( res.status = 200 ){
-                   
+
                     for(var x in res.data){
                         arr[x] = new Array();
                         var field_name = res.data[x].field_name;
@@ -123,7 +123,7 @@ function addHoverDom(treeId, treeNode) {
                             Enum_map.append_option_list(res.data[x].enum_class, id_select,true);
                             field_val != undefined ? id_select.val(field_val) : '';
                             arr[x].push(id_select);
-                            
+
                         }else if( res.data[x].value_type == "function" ){
                             Enum_map.append_option_list("function_power", id_select,true);
                             field_val != undefined ? id_select.val(field_val) : '';
@@ -134,7 +134,7 @@ function addHoverDom(treeId, treeNode) {
                             arr[x].push(id_textarea);
 
                         }
-                                             
+
                     }
 
                     $.show_key_value_table("编辑权限", arr ,{
@@ -174,7 +174,7 @@ function addHoverDom(treeId, treeNode) {
 
         return false;
     });
-    
+
 };
 
 function removeHoverDom(treeId, treeNode){
@@ -212,7 +212,7 @@ function zTreeOnClick(event, treeId, treeNode) {
                     select_list.push (this["groupid"]) ;
                 }
             });
-            
+
 
             $(this).admin_select_dlg({
                 header_list     : [ "id","所属角色","名称" ],
@@ -239,14 +239,14 @@ function zTreeOnClick(event, treeId, treeNode) {
 }
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
-    // $.reload_self_page ( {
-		//     groupid:	$('#id_groupid').val(),
-    //     role_groupid:	$('#id_role_groupid').val(),		   
-    // });
+    $.reload_self_page ( {
+        groupid:	$('#id_groupid').val(),
+        role_groupid:	$('#id_role_groupid').val(),
+    });
 }
 $(function(){
 
-    $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+    $.fn.zTree.init($("#treeDemo"), setting, window["zNodes"]);
 
     // 处理全选
     var treeObj = $.fn.zTree.getZTreeObj('treeDemo');
@@ -254,7 +254,7 @@ $(function(){
     for(var i = 0; i < nodes.length; i ++) {
         if (nodes[i].name == '服务管理') {
             nodes[i].checked = true;
-            treeObj.updateNode(nodes[i]); 
+            treeObj.updateNode(nodes[i]);
         }
     }
 
@@ -269,11 +269,11 @@ $(function(){
     $("#search_this").on('click',function(){
         var role_groupid = $('#id_role_groupid').val();
         var groupid = $("#id_groupid").val();
-        window.location = "/user_manage_new/power_group_edit_new?groupid="+groupid+"&role_groupid="+role_groupid;
+        window.location.href = "/user_manage_new/power_group_edit_new?groupid="+groupid+"&role_groupid="+role_groupid;
     })
 
     // 添加用户
-    $("#id_add_user").on("click",function(){ 
+    $("#id_add_user").on("click",function(){
         $.admin_select_user($("#id_add_user"), "admin",function(val){
             $.do_ajax("/user_power/add_user",{
                 "user_id" : val,
@@ -324,21 +324,21 @@ $(function(){
 
                 var data = {
                     "change_role":id_change_role.val(),
-                    "role_groupid" : id_add_role_groupid.val(),               
+                    "role_groupid" : id_add_role_groupid.val(),
                     'groupid': id_add_power.val(),
                     'uid_str' : id_user_add.attr("uid_str"),
                 }
-         
+
                 $.ajax({
                     type     :"post",
                     url      :"/user_power/batch_add_user",
                     dataType :"json",
                     data     :data,
-                    success : function(result){                        
+                    success : function(result){
                         BootstrapDialog.alert(result['info']);
                         if(result.ret == 0){
                             window.location.reload();
-                        }                 
+                        }
                     }
                 });
             }
@@ -390,22 +390,22 @@ $(function(){
                         'arg_name' :  "gender"  ,
                         select_option_list: [ {
                             value : -1 ,
-                            text :  "全部" 
+                            text :  "全部"
                         },{
                             value :  1 ,
-                            text :  "男" 
+                            text :  "男"
                         },{
                             value :  2 ,
-                            text :  "女" 
+                            text :  "女"
                         }]
                     },{
                         size_class : "col-md-8" ,
                         title      : "姓名/电话",
                         'arg_name' : "name_phone"  ,
-                        type       : "input" 
+                        type       : "input"
                     }
 
-                ] 
+                ]
                 ],
                 "auto_close"       : true,
                 //选择
@@ -418,7 +418,7 @@ $(function(){
 
             });
 
-       
+
         } ,false,800)
 
     });
@@ -471,48 +471,43 @@ $(function(){
         })
     })
 
+    var treeObj = $.fn.zTree.getZTreeObj('treeDemo');
+    var allNodes = {};
+    var showPart = 1; //默认显示部分根节点
     $("#id_show_power").on("click",function(){ // 显示有权限部分
-        var treeObj = $.fn.zTree.getZTreeObj('treeDemo');
-        var nodes = treeObj.getCheckedNodes(false);
-        //alert(nodes.length);
-        for (var i = 0; i < nodes.length; i ++) {
-            if (nodes[i].isParent) {
-                var child = nodes[i].children;
-                var flag = true;
-                for (var j = 0; j < child.length; j ++) {
-                    if (child[j].checked == true) {
-                        flag = false;
-                        break;
-                    }
-                    if (child[j].isParent && child[j].checked == false) {
-                        var three = child[j].children;
-                        for(var k = 0; k < three.length; k ++) {
-                            if (three[k].checked == true) {
-                                flag = false;
-                                break;
-                            }
-                        }
-                    }
+        var allNodes = treeObj.getNodesByFilter(function (node) { return ( node.level == 0)});
+        //console.log(allNodes);
+        if(showPart == 1){
+            showPart = 2;
+            $(this).text('显示所有根节点');
+            for (var i = 0; i < allNodes.length; i ++) {
+                var obj = $("#treeDemo_"+allNodes[i].id+"_check");
+                var className = obj.attr('class');
+                if( className.indexOf("checkbox_true_full") < 0 && className.indexOf("checkbox_false_part") < 0){
+                    treeObj.hideNode(allNodes[i]);
                 }
-                if (flag == true) {
-                    treeObj.hideNode(nodes[i]);
-                }
-            } else {
-                treeObj.hideNode(nodes[i]);
-            }        
+            }
+        }else{
+            showPart = 1;
+            $(this).text('显示有权限根节点');
+            for (var i = 0; i < allNodes.length; i ++) {
+                treeObj.showNode(allNodes[i]);
+            } 
         }
     });
 
+    var showWhole = 1;
     $("#id_show_all_power").on("click",function(){ // 显示所有权限
-        var treeObj = $.fn.zTree.getZTreeObj('treeDemo');
         //var nodes = treeObj.getNodesByParam("isHidden", true);
-        var nodes = treeObj.getNodes();
-        if (nodes[0].open == true) {
-            //treeObj.hideNodes(nodes);
-            treeObj.expandAll(false);
-        } else {
-            treeObj.showNodes(nodes);
+        if (showWhole == 1) {
+            showWhole = 2;
+            $(this).text('隐藏所有节点');
             treeObj.expandAll(true);
+        } else {
+            showWhole = 1;
+            $(this).text('显示所有节点');
+            treeObj.expandAll(false);
+
         }
     });
 
@@ -546,14 +541,14 @@ $(function(){
             var edit_title = "编辑权限组";
             var power_name = $('#id_groupid option:selected').text();
             var power_id = $('#id_groupid').val();
-            id_add_power =$("<input value='"+power_name+"' power='"+power_id+"' />"); 
+            id_add_power =$("<input value='"+power_name+"' power='"+power_id+"' />");
         }
 
         var arr=[
             ["*角色", id_edit_role_groupid ],
             [edit_title, id_add_power ],
-            ['是否复制权限',is_copy_power],
-            ['所要复制权限',[id_copy_role_groupid,id_copy_power]],
+            // ['是否复制权限',is_copy_power],
+            // ['所要复制权限',[id_copy_role_groupid,id_copy_power]],
             ["添加用户", id_user_add ],
         ];
 
@@ -572,14 +567,14 @@ $(function(){
 
                 var data = {
                     "edit_type":edit_type,
-                    "role_groupid" : id_edit_role_groupid.val(),               
+                    "role_groupid" : id_edit_role_groupid.val(),
                     'edit_power_name': edit_power_name,
                     'edit_power_id' : edit_power_id,
                     'user_id':$('#user_add').attr("user_id"),
-                    'is_copy_power':is_copy_power.val(),
-                    'copy_groupid':id_copy_power.val()
+                    // 'is_copy_power':is_copy_power.val(),
+                    // 'copy_groupid':id_copy_power.val()
                 }
-         
+
                 $.ajax({
                     type     :"post",
                     url      :"/user_power/edit_role_groupid",
@@ -593,9 +588,9 @@ $(function(){
             }
         },function(){
             $.admin_select_user($("#user_add"), "admin",function(val){
-                $('#user_add').attr({"user_id":val});  
+                $('#user_add').attr({"user_id":val});
             });
-       
+
         } ,false,800)
 
     });
@@ -613,9 +608,9 @@ $(function(){
             if (ret){
                 $.do_ajax( "/user_power/dele_role_groupid",{
                     groupid: groupid,
-                    role_groupid : role_groupid,      
+                    role_groupid : role_groupid,
                 },function(){
-                    window.location = "/user_manage_new/power_group_edit_new";
+                    window.location.href = "/user_manage_new/power_group_edit_new";
                 });
             }
         });
@@ -650,6 +645,9 @@ $(function(){
         });
 
     });
+
+    $('.opt-change').set_input_change_event(load_data);
+
 });
 function get_search_group(val){
     //alert(val);

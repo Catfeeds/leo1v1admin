@@ -93,5 +93,28 @@ class t_homework_info extends \App\Models\Zgen\z_t_homework_info
         return $this->main_update($sql);
     }
 
-
+    /**
+     * 将一节课程的作业信息拷贝至另一节课中
+     * 此功能多用于课时确认中的调课选项
+     */
+    public function copy_lesson_homework_to_new_lesson($lessonid,$copy_lessonid){
+        $where_arr = [
+            ["h1.lessonid=%u",$lessonid,0],
+            ["h2.lessonid=%u",$copy_lessonid,0],
+        ];
+        $sql = $this->gen_sql_new("update %s h1,%s h2 set "
+                                  ." h2.work_status=h1.work_status,h2.score=h1.score,"
+                                  ." h2.issue_time=h1.issue_time,h2.issue_url=h1.issue_url,"
+                                  ." h2.finish_time=h1.finish_time,h2.finish_url=h1.finish_url,"
+                                  ." h2.check_time=h1.check_time,h2.check_url=h1.check_url,"
+                                  ." h2.check_time=h1.check_time,h2.check_url=h1.check_url,"
+                                  ." h2.tea_research_time=h1.tea_research_time,h2.tea_research_url=h1.tea_research_url,"
+                                  ." h2.ass_research_time=h1.ass_research_time,h2.ass_research_url=h1.ass_research_url,"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_update($sql);
+    }
 }

@@ -26,17 +26,14 @@ function load_data(){
         tag_two       :	$('#id_tag_two').val(),
         tag_three     :	$('#id_tag_three').val(),
         tag_four      :	$('#id_tag_four').val(),
+        tag_five      :	$('#id_tag_five').val(),
         file_title    :	$('#id_file_title').val()
     });
 }
 $(function(){
 
-    $(".opt-sub-tag").click(function(){
-        window.open("/resource/sub_grade_book_tag");
-    })
-
     //获取学科化标签
-    var get_sub_grade_tag = function(subject,grade,booid,obj,opt_type){
+    var get_sub_grade_tag = function(subject,grade,booid,resource_type,season_id,obj,opt_type){
         obj.empty();
         $.ajax({
             type     : "post",
@@ -45,19 +42,22 @@ $(function(){
             data : {
                 'subject' : subject,
                 'grade'   : grade,
-                'bookid':booid
+                'bookid'  : booid,
+                'resource_type' : resource_type,
+                'season_id'  : season_id
             } ,
             success : function(result){
                 if(result.ret == 0){
                     obj.empty();
-                    obj.next().remove();
+                    obj.parent().find('span.tag_warn').remove();
+                    //console.log(result);
                     var tag_info = result.tag;
              
                     if($(tag_info).length == 0) {
                         if(opt_type == 1){
                             obj.append('<option value="-1">全部</option>');
                         } else {
-                            obj.after('<p style="color:red;">请先选择科目、年级!</p>');
+                            obj.after('<span class="tag_warn" style="color:red;margin-left:8px">暂时未添加标签!</span>');
                         }
                     } else {
                         if(opt_type == 1){
@@ -65,7 +65,7 @@ $(function(){
                         }else{
                             var tag_str = '';
                         }
-       
+                        
                         $.each($(tag_info),function(i,item){                        
                             tag_str = tag_str + '<option value='+item.id+'>'+item.tag+'</option>';
                         });
@@ -123,8 +123,6 @@ $(function(){
         Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[8]);
         $('#id_resource_type').val(8);
     }
-    Enum_map.append_option_list("subject", $("#id_subject"),false, my_subject);
-    Enum_map.append_option_list("grade", $("#id_grade"),false, my_grade);
 
     if(tag_one == 'region_version'){
         Enum_map.append_option_list(tag_one, $("#id_tag_one"), false, book);
@@ -151,12 +149,30 @@ $(function(){
         $("#id_tag_five").append('<option value="-1">全部</option>');
     }
 
-    $('#id_subject').val(g_args.subject);
-    $('#id_grade').val(g_args.grade);
+    if(is_teacher == 1){
+        Enum_map.append_option_list("subject", $("#id_subject"),true, my_subject);
+        Enum_map.append_option_list("grade", $("#id_grade"),true, my_grade);
+        if( g_args.subject == -1 || g_args.subject == ''){
+            $("#id_subject").val(my_subject[0]);
+        }else{
+            $('#id_subject').val(g_args.subject);
+        }
+        if( g_args.grade == -1 || g_args.grade == ''){
+            $("#id_grade").val(my_grade[0]);
+        }else{
+            $("#id_grade").val(g_args.grade);
+        }
+    }else{
+        Enum_map.append_option_list("subject", $("#id_subject"),false, my_subject);
+        Enum_map.append_option_list("grade", $("#id_grade"),false, my_grade);
+        $('#id_subject').val(g_args.subject);
+        $('#id_grade').val(g_args.grade);
+    }
+
     $('#id_tag_one').val(g_args.tag_one);
 
     if($('#id_resource_type').val() == 3 || $('#id_resource_type').val() == 1 ){
-        get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(),$('#id_tag_one').val(),$('#id_tag_four'), 1);
+        get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(),$('#id_tag_one').val(),$('#id_resource_type').val(),-1,$('#id_tag_four'), 1);
     } else if($('#id_resource_type').val() == 6) {
         get_province($('#id_tag_two'));
     } else {
@@ -170,6 +186,7 @@ $(function(){
     }
     $('#id_tag_three').val(g_args.tag_three);
     $('#id_tag_four').val(g_args.tag_four);
+    $('#id_tag_five').val(g_args.tag_five);
     $('#id_file_title').val(g_args.file_title);
 
     $("#id_select_all").on("click",function(){
@@ -232,22 +249,36 @@ $(function(){
 
         if(tag_two != ''){
             Enum_map.append_option_list(tag_two,id_tag_two,true);
+            if( g_args.tag_two > 0){
+                id_tag_two.val(g_args.tag_two);
+            }
         }
         if(tag_three != ''){
             Enum_map.append_option_list(tag_three,id_tag_three,true);
+            if( g_args.tag_three > 0 ){
+                id_tag_three.val(g_args.tag_three);
+            }
         }
         if(tag_four != ''){
             Enum_map.append_option_list(tag_four,id_tag_four,true);
+            if( g_args.tag_four > 0 ){
+                id_tag_four.val(g_args.tag_four);
+            }
         }
 
         if(tag_five != ''){
             Enum_map.append_option_list(tag_five,id_tag_five,true);
+            if( g_args.tag_five > 0){
+                id_tag_five.val(g_args.tag_five);
+            }
         }
 
         id_use_type.val(g_args.use_type);
         id_resource_type.val(g_args.resource_type);
         id_subject.val(g_args.subject);
         id_grade.val(g_args.grade);
+
+        var id_tag_four_search = $("<button class=\"btn btn-primary\" id=\"id_search_tag\" style=\"margin-left:10px\">搜索</button>");
 
         var arr= [
             ["角色", id_use_type],
@@ -257,7 +288,7 @@ $(function(){
             [tag_one_name, id_tag_one],
             [tag_two_name, id_tag_two],
             [tag_three_name, id_tag_three],
-            [tag_four_name, id_tag_four],
+            [tag_four_name, [ id_tag_four,id_tag_four_search]],
             [tag_five_name, id_tag_five],
             ["上传文件", id_other_file],
             ["上传文件", id_ff_file],
@@ -393,34 +424,34 @@ $(function(){
             //根据类型科目年级筛选教材
             $('.resource,.subject,.grade').change(function(){
                 if( $('.resource').val() <6 || $('.resource').val() ==9){
-                    get_book();
+                    get_book(0);
                 }
-                if( $('.resource').val() == 1 || $('.resource').val() == 3){
-                    get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
-                }
+                // if( $('.resource').val() == 1 || $('.resource').val() == 3){
+                //     get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
+                // }
             });
 
-            $('.tag_one').change(function(){
-                if( $('.resource').val() == 1 || $('.resource').val() == 3){
-                    get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
-                }
-            });
+            // $('.tag_one').change(function(){
+            //     if( $('.resource').val() == 1 || $('.resource').val() == 3){
+            //         get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
+            //     }
+            // });
 
             if( $('.resource').val() == 2 ){
                 $('#id_other_file,#id_ff_file').parent().parent().hide();
-                get_book();
+                get_book(g_args.tag_one);
             } else if ($('.resource').val() ==3 || $('.resource').val() == 1){
 
                 $('.subject').empty();
                 Enum_map.append_option_list("subject",$('.subject'),true,[1,2,3,4,5]);
-
+                if( g_args.subject < 6 && g_args.subject > 0){
+                    id_subject.val(g_args.subject);
+                }
                 $('#id_other_file,#id_ff_file').parent().parent().hide();
-                get_book();
-                //get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
-                get_sub_grade_tag($('#id_subject').val(),$('#id_grade').val(),$('#id_tag_one option:eq(1)').val(),$('.tag_four'));
+                get_book(g_args.tag_one);
             }else if($('.resource').val() < 6){ //4,5
                 $('#id_les_file,#id_other_file,#id_tea_file,#id_stu_file').parent().parent().hide();
-                get_book();
+                get_book(g_args.tag_one);
             }else if($('.resource').val() == 6){
                 $('#id_les_file,#id_other_file,#id_ff_file').parent().parent().hide();
                 get_province($('.tag_two'), true);
@@ -432,9 +463,10 @@ $(function(){
             } else {
                 $('#id_les_file,#id_tea_file,#id_stu_file,#id_ex_file,#id_ff_file').parent().parent().hide();
                 if($('.resource').val()==9){
-                    get_book();
+                    get_book(g_args.tag_one);
                 }
             }
+
             //其他版本
             get_qiniu(new_flag,true,false,'id_other_file',0, 'other_file', 'pdf,PDF');
             //课件版
@@ -448,7 +480,39 @@ $(function(){
             //仅对resource_type = 4,5
             get_qiniu(new_flag,false,false,'id_ff_file',0, 'ff_file', 'pdf,PDF');
 
-        },false,600);
+            $('#id_search_tag').click(function(){
+                var grade = $('.grade').val();
+                var subject = $('.subject').val();
+                var bookid = $('.tag_one').val();
+                var resource = $('.resource').val();
+                var season_id = $('.tag_two').val();
+                var obj = $('.tag_four');
+                if( grade == null){
+                    obj.after('<span class="tag_warn" style="color:red;margin-left:8px">请先选择年级!</span>');
+                    return false;
+                }
+                if( subject == null){
+                    obj.after('<span class="tag_warn" style="color:red;margin-left:8px">请先选择科目!</span>');
+                    return false;
+                }
+                if( bookid == null){
+                    obj.after('<span class="tag_warn" style="color:red;margin-left:8px">请先选择教材!</span>');
+                    return false;
+                }
+                if( resource == null ){
+                    obj.after('<span class="tag_warn" style="color:red;margin-left:8px">请先选择资源类型!</span>');
+                    return false;
+                }
+                if( resource != 1 ){
+                    season_id = 0;
+                }
+
+                get_sub_grade_tag(subject,grade,bookid,resource,season_id,obj);
+                console.log(grade);
+                console.log(subject);
+                console.log(bookid);
+            })
+        },false,700);
     };
 
     var change_tag = function(val){
@@ -468,14 +532,17 @@ $(function(){
         }else if( val == 1 ){
             Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
             Enum_map.append_option_list("resource_season",$('.tag_two'),true);
+            Enum_map.append_option_list("resource_diff_level",$('.tag_five'),true);
 
             $('.tag_one').parent().prev().text('教材版本');
             $('.tag_two').parent().prev().text('春署秋寒');
             $('.tag_three').parent().parent().hide();
             $('.tag_five').parent().parent().hide();
-            get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
+            //get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
             $('.tag_four').parent().prev().text('学科化标签');
             $('.tag_four').parent().parent().show();
+            $('.tag_five').parent().prev().text('难度类型');
+            $('.tag_five').parent().parent().show();
 
             $('#id_other_file,#id_ff_file').parent().parent().hide();
             $('#id_les_file,#id_tea_file,#id_stu_file,#id_ex_file').parent().parent().show();
@@ -486,7 +553,7 @@ $(function(){
             Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
             Enum_map.append_option_list("resource_free",$('.tag_two'),true);
             Enum_map.append_option_list("resource_diff_level",$('.tag_three'),true);
-            get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
+            //get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
             $('.tag_one').parent().prev().text('教材版本');
             $('.tag_two').parent().prev().text('试听类型');
             $('.tag_three').parent().prev().text('难度类型');
@@ -564,7 +631,7 @@ $(function(){
         }
     };
 
-    var get_book = function(){
+    var get_book = function(bookid){
 
         var resource_type = $('.resource').val();
         var subject = $('.subject').val();
@@ -587,7 +654,13 @@ $(function(){
                     if(agree_book.length == 0) {
                         $('.tag_one').after('<p style="color:red;">该资源类型、科目、年级下暂无开放的教材版本!</p>');
                     } else {
+                        //console.log(bookid);
                         Enum_map.append_option_list("region_version",$('.tag_one'),true,agree_book);
+                        if(bookid != 0){
+                            $('.tag_one').val(bookid);
+                        }else{
+                            $('.tag_one').val(agree_book[0]);
+                        }
                     }
                 } else {
                     alert(result.info);
@@ -741,7 +814,7 @@ $(function(){
                 });
 
             }
-        },'',false,600);
+        },null,false,600);
     };
 
     var re_upload = function(resource_id,file_id, file_use_type, ex_num){
@@ -952,5 +1025,21 @@ $(function(){
         }
     });
     $('.opt-change').set_input_change_event(load_data);
+
+    $(".opt-sub-tag").click(function(){
+        var subject = $('#id_subject').val();
+        var grade = $('#id_grade').val();
+        var bookid = $('#id_tag_one').val();
+        var resource_type = $('#id_resource_type').val();
+        if( resource_type != 1){
+            //标准试听课
+            var season_id = -1;
+        }else{
+            //1对1精品课程
+            var season_id = parseInt($('#id_tag_two').val());
+        }
+        window.open("/resource/sub_grade_book_tag?subject="+subject+"&grade="+grade+
+                    "&bookid="+bookid+"&resource_type="+resource_type+"&season_id="+season_id);
+    })
 
 });

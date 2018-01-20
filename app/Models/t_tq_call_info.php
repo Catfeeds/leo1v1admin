@@ -46,21 +46,26 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             if($admin_role == E\Eaccount_role::V_2){
                 if($userid>0){
                     $arr = [];
-                    $row = $this->task->t_seller_student_new->field_get_list($userid,'cc_called_count,last_contact_cc,first_called_cc,cc_no_called_count,cc_no_called_count_new');
+                    $row = $this->task->t_seller_student_new->field_get_list($userid,'cc_called_count,last_contact_cc,first_called_cc,cc_no_called_count,cc_no_called_count_new,first_revisit_time,first_contact_time');
                     if($is_called_phone==0){
                         if($row['cc_called_count']==0){
                             $arr['cc_no_called_count'] = $row['cc_no_called_count']+1;
                         }
                         $arr['cc_no_called_count_new'] = $row['cc_no_called_count_new']+1;
-                    }elseif($is_called_phone==1){//拨通
+                    }elseif($is_called_phone==1){
                         $arr['cc_called_count'] = $row['cc_called_count']+1;
+                        $arr['cc_no_called_count'] = 0;
                         if($row['first_called_cc'] == 0){
                             $arr['first_called_cc'] = $adminid;
                         }
-                        $arr['cc_no_called_count'] = 0;
-                    }
-                    if($row['last_contact_cc'] != $adminid){
+                        if($row["first_contact_time"] == 0) {
+                            $arr["first_contact_time"]=$start_time;
+                        }
                         $arr['last_contact_cc'] = $adminid;
+                        $arr["last_contact_time"] = $start_time;
+                    }
+                    if($row["first_revisit_time"] == 0){
+                        $arr["first_revisit_time"]=$start_time;
                     }
                     $arr['last_revisit_time'] = $start_time;
                     $this->task->t_seller_student_new->field_update_list($userid,$arr);
@@ -76,6 +81,24 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
                         }
                         if(count($arr_log)>0){
                             $this->task->t_seller_get_new_log->field_update_list($ret_log['id'], $arr_log);
+                        }
+                    }
+
+                    //分配log
+                    $ret_edit_log = $this->task->t_seller_edit_log->get_row_by_adminid_new($adminid,$userid);
+                    if($ret_edit_log){
+                        $arr_edit_log = [];
+                        if($is_called_phone==0){
+                            if($ret_edit_log['first_revisit_time'] == 0){
+                                $arr_edit_log['first_revisit_time'] = $start_time;
+                            }
+                        }elseif($is_called_phone==1){
+                            if($ret_edit_log['first_contact_time'] == 0){
+                                $arr_edit_log['first_contact_time'] = $start_time;
+                            }
+                        }
+                        if(count($arr_edit_log)>0){
+                            $this->task->t_seller_edit_log->field_update_list($ret_edit_log['id'], $arr_edit_log);
                         }
                     }
                 }
@@ -806,9 +829,10 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
         return $this->main_get_value($sql);
     }
 
-    public function get_first_revisit_time($phone,$desc='asc'){
+    public function get_first_revisit_time($phone,$desc='asc',$called_flag=-1){
         $where_arr=[
             'adminid>0',
+            ['is_called_phone=%u',$called_flag,-1],
         ];
         $this->where_arr_add_int_field($where_arr,'admin_role',2);
         $this->where_arr_add_str_field($where_arr,'phone',$phone);
@@ -950,6 +974,23 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
             ." where %s",
             self::DB_TABLE_NAME,
             $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_item_row($adminid,$phone,$call_flag=-1,$start_time,$end_time){
+        $where_arr = [
+            ['is_called_phone=%u',$call_flag,-1],
+        ];
+        $this->where_arr_add_int_field($where_arr, "adminid" ,$adminid);
+        $this->where_arr_add_str_field($where_arr, "phone" ,$phone);
+        $this->where_arr_add_time_range($where_arr, 'start_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select start_time ".
+            " from %s ".
+            " where %s order by start_time asc "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
         );
         return $this->main_get_value($sql);
     }

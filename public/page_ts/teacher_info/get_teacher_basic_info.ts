@@ -102,7 +102,6 @@ $(function(){
             +' <option>交通银行</option>'
             +' <option>招商银行</option>'
             +' <option>中国银行</option> </select>';
-
         var id_nick          = $("<span style=\"line-height:33px;\"/>");
         var id_gender        = $('<select class="form-control"/>');
         var id_work_year     = $("<input type='number' min='1'/>");
@@ -118,11 +117,16 @@ $(function(){
         var id_birth         =$("<input/> ");
         var id_dialect_notes = $("<input/>");
         var id_education     = $('<select class="form-control"/>');
-        var id_hobby         = $("<input/>");
+        //var id_hobby         = $("<input/>");
+        //var id_major         = $("<input/>");
+        //var id_speciality    = $("<input/>");
+        var id_qq_info       = $("<input/>");
+        var id_wx_name       = $("<input/>");
+        var id_is_prove      = $('<select class="form-control"/>');
         var id_idcard        = $("<input/>");
-        var id_major         = $("<input/>");
         var id_school        = $("<input/>");
-        var id_speciality    = $("<input/>");
+        var id_teacher_textbook        = $("<input >");
+        var id_achievement   = $("<textarea  placeholder='您可以输入：1、您获得的奖励荣誉；2、您的教学经验；3、您的教育特色与教学理念；4、您的优秀学生案例' />");
 
         var tea_name = $('#teacher-name').text();
 
@@ -147,17 +151,25 @@ $(function(){
         id_bankcard.val(able_edit.bankcard);
         id_birth.val(able_edit.birth);
         id_dialect_notes.val(able_edit.dialect_notes);
-        id_hobby.val(able_edit.hobby);
+        id_qq_info.val(able_edit.qq_info);
+        id_wx_name.val(able_edit.wx_name);
+        id_is_prove.val(able_edit.is_prove);
+        id_achievement.val(able_edit.achievement);
         id_idcard.val(able_edit.idcard);
-        id_major.val(able_edit.major);
+        
         id_school.val(able_edit.school);
-        id_speciality.val(able_edit.speciality);
+        //id_speciality.val(able_edit.speciality);
+        //id_major.val(able_edit.major);
+        //id_hobby.val(able_edit.hobby);
 
+        id_teacher_textbook.val(able_edit.teacher_textbook_str);
         Enum_map.append_option_list("gender",id_gender,true);
         id_gender.val(able_edit.gender);
 
         Enum_map.append_option_list("education",id_education,true);
+        Enum_map.append_option_list("boolean",id_is_prove,true);
         id_education.val(able_edit.education);
+        id_achievement.val(able_edit.achievement);
         var required = '<span style="color:ff3451;">* </span>';
         if (title_type == 'user-info') {
             var modal_title = '可编辑信息';
@@ -168,14 +180,20 @@ $(function(){
                 [required+"生日：", id_birth],
                 ["merge","教学信息"],
                 [required+"教龄：",     id_work_year],
+                [required+"教材版本:", id_teacher_textbook],
                 ["方言备注：", id_dialect_notes],
                 [required+"所在地：",   id_address],
                 ["merge",  "教育背景"],
                 [required+"毕业院校：", id_school],
                 [required+"最高学历：", id_education],
-                ["专业：",     id_major],
-                ["兴趣爱好：", id_hobby],
-                ["个人特长：", id_speciality],
+                //["专业：",     id_major],
+                //["兴趣爱好：", id_hobby],
+                //["个人特长：", id_speciality],
+                ["QQ", id_qq_info],
+                ["微信",id_wx_name],
+                [required+"有无教师资格证",id_is_prove],
+                ["merge",  "教学成果"],
+                ["merge", id_achievement],
             ];
         } else {
             var modal_title = '银行卡信息';
@@ -191,6 +209,44 @@ $(function(){
             ];
         }
 
+        id_teacher_textbook.on("click",function(){
+            var textbook = able_edit.teacher_textbook;
+            console.log(textbook+"111");
+            $.do_ajax("/user_deal/get_teacher_textbook",{
+                "textbook" : textbook
+            },function(response){
+                var data_list   = [];
+                var select_list = [];
+                $.each( response.data,function(){
+                    data_list.push([this["num"], this["textbook"]  ]);
+                    if (this["has_textbook"]) {
+                        select_list.push (this["num"]) ;
+                    }
+                });
+                console.log(data_list);
+                var screen_height=window.screen.availHeight-300;        
+                $(this).admin_select_dlg({
+                    header_list     : [ "id","教材版本" ],
+                    data_list       : data_list,
+                    multi_selection : true,
+                    select_list     : select_list,
+                    div_style       : {"height":screen_height,"overflow":"auto"},
+                    onChange        : function( select_list,dlg) {
+                        $.do_ajax("/user_deal/get_teacher_textbook_str", {
+                            "teacher_textbook"               : JSON.stringify(select_list),
+                        },function(respdata){
+                            console.log(respdata);
+                            id_teacher_textbook.val(respdata.textbook);
+                            //id_teacher_textbook.data("textbook_str",respdata.textbook_value);
+                            able_edit.teacher_textbook = respdata.textbook_value;
+                            dlg.close();
+                        });
+                    }
+                },function(){
+                    console.log(header_list);
+                });
+            });
+        });
         $.tea_show_key_value_table(modal_title, arr,{
             label    : '确认',
             cssClass : 'btn-info col-xs-2 margin-lr-20',
@@ -208,6 +264,8 @@ $(function(){
                         BootstrapDialog.alert('毕业院校不能为空!');
                     } else if ( !id_education.val() ) {
                         BootstrapDialog.alert('最高学历不能为空');
+                    } else if ( !able_edit.teacher_textbook ) {
+                        BootstrapDialog.alert('教材版本不能为空');
                     } else {
                         $.ajax({
                             type     : "post",
@@ -221,9 +279,14 @@ $(function(){
                                 'address'       : id_address.val(),
                                 'school'        : id_school.val(),
                                 'education'     : id_education.val(),
-                                'major'         : id_major.val(),
-                                'hobby'         : id_hobby.val(),
-                                'speciality'    : id_speciality.val(),
+                                //'major'         : id_major.val(),
+                                //'hobby'         : id_hobby.val(),
+                                //'speciality'    : id_speciality.val(),
+                                "qq_info"       : id_qq_info.val(),
+                                "wx_name"       : id_wx_name.val(),
+                                "is_prove"      : id_is_prove.val(),
+                                "achievement"   : id_achievement.val(),
+                                'teacher_textbook' : able_edit.teacher_textbook,
                             } ,
                             success : function(result){
                                 if(result.ret==0){

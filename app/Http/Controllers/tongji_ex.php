@@ -162,8 +162,9 @@ class tongji_ex extends Controller
         $this->check_and_switch_tongji_domain();
         list($start_time,$end_time)=$this->get_in_date_range_day(0);
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_seller_student_new->get_item_list($start_time,$end_time,$page_info);
+        $ret_info = $this->t_seller_student_new->get_master_detail_list($start_time,$end_time,$page_info);
         foreach($ret_info['list'] as &$item){
+            E\Eorigin_level::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
             E\Eseller_student_status::set_item_value_color_str($item);
             E\Etq_called_flag::set_item_value_str($item,"global_tq_called_flag");
@@ -178,6 +179,21 @@ class tongji_ex extends Controller
             $item['price'] = $item['price']/100;
         }
         return $this->pageView(__METHOD__,$ret_info);
+    }
+
+    public function seller_student_distribution(){
+        $this->check_and_switch_tongji_domain();
+        list($start_time,$end_time)=$this->get_in_date_range_day(0);
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_seller_edit_log->get_seller_distribution_list($start_time,$end_time,$page_info);
+        foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"first_revisit_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"first_contact_time");
+            $item['price'] = $item['price']/100;
+        }
+        return $this->pageView(__METHOD__, $ret_info);
     }
 
 }

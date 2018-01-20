@@ -1518,3 +1518,6 @@ PHP Fatal error:  method_exists(): The script tried to execute a method or acces
 
 2018-01-01 23:12:47 (1.23 MB/s) - 已保存 “/tmp/yxyx_wx__headimg.jpg” [140115/140115])
 
+2018-01-19 14:17:54uid: 193添加成功 添加权限:42
+2018-01-19 14:17:54 加载权限结束
+[2018-01-19 14:17:54] Processed: App\Jobs\update_company_wx_data

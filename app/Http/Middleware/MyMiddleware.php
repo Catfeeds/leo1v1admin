@@ -74,7 +74,7 @@ class MyMiddleware
             \App\Helper\Utils::logger( session("power_list"));
             if (isset( $in_arr["callback"])) {
 
-                return new \Illuminate\Http\Response( outputjson_error( 1001,array("info"=>"没有权限!")));
+                return  outputjson_error( 1001,array("info"=>"没有权限!"));
 
             }else{
                 $ret_str=\App\Http\Controllers\Controller::view_with_header_info(
@@ -118,7 +118,8 @@ class MyMiddleware
                 if (!\App\Helper\Utils::check_env_is_test() ) {
                     $in_arr=$request->input();
                     if (isset($in_arr["callback"])) {
-                        echo  outputjson_error(1005,"没有权限!");
+                        $resp=outputjson_error(1005,"没有权限!");
+                        echo $resp->send();
                         exit;
                     }else{
                         header("Location: /?to_url=". urlencode(@$_SERVER['REQUEST_URI'] )   );
