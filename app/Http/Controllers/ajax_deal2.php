@@ -3189,7 +3189,7 @@ class ajax_deal2 extends Controller
         }
         $teacherid = $this->t_teacher_record_list->get_teacherid($id);
         $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
-        $teacher_info['wx_openid']= "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+        // $teacher_info['wx_openid']= "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
         if($teacher_info['wx_openid']!=""){
             /**
              * 模板ID : 9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ
@@ -3206,9 +3206,9 @@ class ajax_deal2 extends Controller
             $data['keyword2'] = $keyword2;
             $data['keyword3'] = date("Y-m-d H:i:s");
             $data['remark'] = "请重新提交模拟试听时间，理优教育致力于打造高水平的教学服务团队，期待您能通过下次模拟试听，加油！";
-            $url = "http://admin.leo1v1.com/common/teacher_record_detail_info?id=".$id;
-            // \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
-            \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxLZ3twmoTAadSSXDGsKFNk8",$template_id,$data,$url);
+            $url = "";
+            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
+            //\App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxLZ3twmoTAadSSXDGsKFNk8",$template_id,$data,$url);
         }
         $ret = $this->add_trial_train_lesson($teacher_info,1,2);
 
