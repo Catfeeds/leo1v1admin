@@ -1677,7 +1677,7 @@ class teacher_level extends Controller
         $start_time   = $this->get_in_int_val("start_time");
         $teacherid    = $this->get_in_int_val("teacherid");
         $level_after  = $this->get_in_int_val("level_after");
-        $this->t_teacher_advance_list->field_update_list($start_time,$teacherid,[
+        $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
             "level_after"     => $level_after,
             "require_time"    => time(),
             "require_adminid" => $this->get_account_id()
