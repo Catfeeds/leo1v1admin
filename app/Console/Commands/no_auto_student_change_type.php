@@ -48,16 +48,17 @@ class no_auto_student_change_type extends Command
         $end_time = strtotime("+3 months",$start_time);
         $ret_info = $task->t_teacher_advance_list->get_info_by_teacher_money_type($start_time,$teacher_money_type);
 
-        $tea_arr=[];
-        foreach($ret_info as $val){
-            $tea_arr[]=$val["teacherid"];
-        }
+        // $tea_arr=[];
+        // foreach($ret_info as $val){
+        //     $tea_arr[]=$val["teacherid"];
+        // }
 
         // $test_person_num        = $task->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
         // $kk_test_person_num     = $task->t_lesson_info->get_kk_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
         // $change_test_person_num = $task->t_lesson_info->get_change_teacher_test_person_num_list(
         //     $start_time,$end_time,-1,-1,$tea_arr);
         // $teacher_record_score = $task->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr);
+        print_r($ret_info);
         foreach($ret_info as &$item){
             $teacherid = $item["teacherid"];
             $item["level"]=$item["real_level"];
@@ -86,6 +87,8 @@ class no_auto_student_change_type extends Command
             $item["total_score"] =$item["lesson_count_score"]+$item["record_final_score"]+$order_score+ $item["stu_num_score"];//总得分
           
             $item["hand_flag"]=0;          
+            list($item["reach_flag"],$item["withhold_money"])=$task->get_tea_reach_withhold_list($item["level"],$item["total_score"]);
+
             $exists = $task->t_teacher_advance_list->field_get_list_2($start_time,$teacherid,"teacherid");
             if(!$exists){
                 $task->t_teacher_advance_list->row_insert([
@@ -132,14 +135,18 @@ class no_auto_student_change_type extends Command
                     "total_score"    =>$item["total_score"],
                     // "teacher_money_type"=>$item["teacher_money_type"],
                     // "stu_num"        =>$item["stu_num"],
-                    "stu_num_score"  =>$item["stu_num_score"]
+                    "stu_num_score"  =>$item["stu_num_score"],
+                    "reach_flag"     =>$item["reach_flag"],
+                    "withhold_money" =>$item["withhold_money"]*100
                 ]);
+                echo 111;
 
             }
 
         }
 
-        $ret_info = $task->t_teacher_advance_list->get_info_by_teacher_money_type($start_time,$teacher_money_type);
+        // $ret_info = $task->t_teacher_advance_list->get_info_by_teacher_money_type($start_time,$teacher_money_type);
+        dd(4444);
         dd($ret_info);
 
          
