@@ -4101,7 +4101,7 @@ class user_manage_new extends Controller
 
         if($add_time!=""){
             $add_time = strtotime($add_time);
-            if($add_time!=$add_time_old && !in_array($account,['adrian','sunny'])){
+            if($add_time!=$add_time_old && !in_array($account,['adrian','sunny','jim'])){
                 return $this->output_err("你没有权限更改时间！");
             }
             $update_arr["add_time"] = $add_time;
