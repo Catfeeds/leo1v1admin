@@ -273,7 +273,7 @@ class tongji_ex extends Controller
             echo '<td>'.$num.'</td>';
             echo '<td>'.$item['phone'].'</td>';
             echo '<td>'.$item['origin'].'</td>';
-            echo '<td>'.date('Y-m-d H:i:s',$item['add_time']).'</td>';
+            echo '<td>'.$item['add_time'].'</td>';
             echo '<td>'.$item['is_exist_count'].'</td>';
             echo '<td>';
             if(count($item['lessonid'])>0){
