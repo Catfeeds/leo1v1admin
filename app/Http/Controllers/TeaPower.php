@@ -4939,4 +4939,70 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
 
+
+    //新版老师晋升课耗,试听得分/常规学生数,教学质量得分
+    public function get_advance_score_by_num($num,$type){
+        //$type 1,课耗得分;2,cc 试听;3,cr 试听;4,常规学生数;5,教学质量得分
+        $score=0;
+        if($type==1){
+            $score=0;
+            if($num<10){
+                $score=20;
+            }elseif($num <20){
+                $score=21;
+            }elseif($num<190){
+                $score = floor($num/10-0.5)+20;
+            }elseif($num<200){
+                $score=39;
+            }else{
+                $score=40;
+            }
+
+        }elseif($type ==2){
+            $score = $num;
+        }elseif($type==3){
+            $score = $num*0.5;
+        }elseif($type==4){
+            $score = $num>=20?10:($num*0.5);
+        }elseif($type==5){
+            $score = floor($num*0.4);
+            if($score>=40){
+                $score=40;
+            }
+        }
+        return $score;
+    }
+
+    //新版晋升达标/扣款判断
+    public function get_tea_reach_withhold_list($level,$score){
+        $reach_flag=1;
+        $withhold_money=0;
+        if($level==1){
+            
+        }elseif($level==2){
+            if($score<65){
+                $reach_flag=0;
+                $withhold_money=50;
+            }
+        }elseif($level==3){
+            if($score<75){
+                $reach_flag=0;
+                $withhold_money=100;
+            }
+
+        }elseif($level==4){
+            if($score<80){
+                $reach_flag=0;
+                $withhold_money=150;
+            }
+
+        }elseif($level==11){
+            
+        }
+        return [$reach_flag,$withhold_money];
+    }
+
+    
+
+
 }
