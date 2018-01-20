@@ -2189,13 +2189,20 @@ class user_manage_new extends Controller
     }
 
     public function power_group_edit() {
-        $err_mg = "旧的权限已经关闭，请前往新的页面";
-        return $this->view_with_header_info ( "common.resource_no_power", [],[
-            "_ctr"          => "xx",
-            "_act"          => "xx",
-            "js_values_str" => "",
-            'err_mg' => $err_mg
-        ] );
+        // $err_mg = "旧的权限已经关闭，请前往新的页面";
+        // return $this->view_with_header_info ( "common.resource_no_power", [],[
+        //     "_ctr"          => "xx",
+        //     "_act"          => "xx",
+        //     "js_values_str" => "",
+        //     'err_mg' => $err_mg
+        // ] );
+                
+        $this->t_user_log->row_insert([
+            "add_time" => time(),
+            "adminid"  => $this->get_account_id(),
+            "msg"      => "旧的页面权限管理:登录",
+            "user_log_type" => 5, //权限页面添加用户记录
+        ]);
 
         $group_list = $this->t_authority_group->get_auth_groups();
         $default_groupid = 0;
@@ -2982,31 +2989,39 @@ class user_manage_new extends Controller
 
     public function set_power_with_groupid_list() {
         $powerid      = $this->get_in_int_val("powerid");
-        $groupid_list = \App\Helper\Utils::json_decode_as_int_array( $this->get_in_str_val("groupid_list"));
+        $groupid_str  = $this->get_in_str_val("groupid_list");
+        $groupid_list = \App\Helper\Utils::json_decode_as_int_array( $groupid_str );
         $list         = $this->t_authority_group->get_all_list();
-        foreach ($list as &$item) {
-            $p_list       = preg_split("/,/", $item["group_authority"] );
-            $find_indx = array_search($powerid,$p_list);
-            $old_has_flag=true;
-            if ($find_indx===false){
-                $old_has_flag=false;
-            }
-            $groupid      = $item["groupid"];
-            ;
-            $new_has_flag = power_group_editin_array($groupid,$groupid_list );
-            if ($old_has_flag !=$new_has_flag) {
-                if ($new_has_flag ) {
-                    $p_list[]=$powerid ;
-                }else{
-                    unset($p_list[$find_indx]);
-                }
-                $group_authority=join(",",$p_list);
-                $this->t_authority_group->field_update_list($groupid,[
-                    "group_authority" => $group_authority
-                ]);
-            }
 
-        }
+        // foreach ($list as &$item) {
+        //     $p_list       = preg_split("/,/", $item["group_authority"] );
+        //     $find_indx = array_search($powerid,$p_list);
+        //     $old_has_flag=true;
+        //     if ($find_indx===false){
+        //         $old_has_flag=false;
+        //     }
+        //     $groupid      = $item["groupid"];
+        //     ;
+        //     $new_has_flag = power_group_editin_array($groupid,$groupid_list );
+        //     if ($old_has_flag !=$new_has_flag) {
+        //         if ($new_has_flag ) {
+        //             $p_list[]=$powerid ;
+        //         }else{
+        //             unset($p_list[$find_indx]);
+        //         }
+        //         $group_authority=join(",",$p_list);
+        //         $this->t_authority_group->field_update_list($groupid,[
+        //             "group_authority" => $group_authority
+        //         ]);
+        //     }
+
+        // }
+        $this->t_user_log->row_insert([
+            "add_time" => time(),
+            "adminid"  => $this->get_account_id(),
+            "msg"      => "旧的页面权限管理配置: [权限id:$powerid,权限列表:$groupid_str]",
+            "user_log_type" => 5, //权限页面添加用户记录
+        ]);
 
         return $this->output_succ();
     }
