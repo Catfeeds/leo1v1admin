@@ -4126,6 +4126,7 @@ class user_manage_new extends Controller
         }
 
         $ret = $this->t_teacher_money_list->field_update_list($id,$update_arr);
+
         return $this->output_succ();
     }
 
