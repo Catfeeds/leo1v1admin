@@ -46,7 +46,6 @@ class NoticeTomorrowLessonToParent extends Command
 
         $ret_id   = $task->t_lesson_info->get_today_lesson_list($start_time,$end_time);
         $ret_list = $this->get_student_info($ret_id);
-        dd($ret_list);
 
         foreach( $ret_list as $item ) {
             $phone        = $item["phone"];
@@ -56,7 +55,7 @@ class NoticeTomorrowLessonToParent extends Command
             $userid       = $item["userid"];
             $date_str     = date('m月d日 H:i', $lesson_start)."-".date('H:i', $lesson_end);
             $lesson_type  = $item["lesson_type"];
-            $nick         = $task->cache_get_student_nick($userid);
+            $nick         = $item["nick"];
 
             if ($lesson_type==2){
                 $course_name="试听课";
