@@ -701,7 +701,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
             ,self::DB_TABLE_NAME
             ,t_seller_student_new::DB_TABLE_NAME
             ,t_lesson_info::DB_TABLE_NAME
-            ,t_test_lesson_subject_requiret::DB_TABLE_NAME
+            ,t_test_lesson_subject_require::DB_TABLE_NAME
             ,t_order_info::DB_TABLE_NAME
             ,$where_arr
         );
