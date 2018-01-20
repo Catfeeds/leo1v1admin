@@ -101,7 +101,7 @@ class resource extends Controller
         }else{
             $book_arr = [4,12,16,29,50000];
         }
-
+        $sub_grade_info = $this->get_rule_range();
         $is_teacher = 0;
         if($this->get_account_role() == 4){
             $is_teacher = 1;
