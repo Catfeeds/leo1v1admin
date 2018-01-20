@@ -71,29 +71,29 @@ $(function(){
         if ($("#id_chinese").iCheckValue() ) {
             plot_data_list.push(
                 {
-                    data: subject_chinese,
-                    lines: { show: true
-                             , lineWidth: 2},
-                    label: "语文"
-                });
+                data: subject_chinese,
+                lines: { show: true
+                         , lineWidth: 2},
+                label: "语文"
+            });
         }
         if ($("#id_math").iCheckValue() ) {
             plot_data_list.push(
                 {
-                    data: subject_math,
-                    lines: { show: true
-                             , lineWidth: 2},
-                    label: "数学"
-                });
+                data: subject_math,
+                lines: { show: true
+                         , lineWidth: 2},
+                label: "数学"
+            });
         }
         if ($("#id_english").iCheckValue() ) {
             plot_data_list.push(
                 {
-                    data: subject_english,
-                    lines: { show: true
-                             , lineWidth: 2},
-                    label: "英语"
-                });
+                data: subject_english,
+                lines: { show: true
+                         , lineWidth: 2},
+                label: "英语"
+            });
         }
         var plot=$.plot("#"+id_name, plot_data_list , {
             series: {
@@ -144,10 +144,9 @@ $(function(){
             opacity: 0.80
         }).appendTo("body");
 
-        $("#"+id_name).bind("plothover", function (event, pos, item) {
+        $("#"+id_name).bind("plothover", function(event, pos, item) {
             if (item) {
                 var data_item=item.series.data[item.dataIndex];
-
                 var title_funcion=function( date_item) {
                     return "日期:"+data_item[0]+ "<br/>"+ item.series.label +":"+data_item[1]+ "<br/>";
                 }
@@ -157,8 +156,6 @@ $(function(){
                 $("#tooltip").hide();
             }
         });
-
-
     }
     show_plot();
 

@@ -67,8 +67,10 @@ class t_user_log extends \App\Models\Zgen\z_t_user_log
         return $ret;
     }
 
-    public function add_teacher_reward_log($teacherid){
-
+    public function add_teacher_reward_log($teacherid,$msg){
+        $msg = "修改老师额外金额";
+        $ret = $this->add_user_log($teacherid,$msg,E\Euser_log_type::V_200);
+        return $ret;
     }
 
 
