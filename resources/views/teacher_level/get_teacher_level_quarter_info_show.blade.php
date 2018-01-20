@@ -20,10 +20,10 @@
 
 
 
-                @if($account=="jack")
+                @if($account=="jack" || $account=="jim" )
                     <div class="col-xs-6 col-md-2">
                         <button class="btn btn-primary" id="id_add_teacher"> 新增晋升老师 </button>
-                        <button class="btn btn-primary" id="id_add_info"> 刷新数据 </button>
+                        <button class="btn btn-primary" id="id_update_all_info"> 刷新数据 </button>
                     </div>
                 @endif
                
@@ -61,8 +61,8 @@
                         ["总得分","total_score" ],
                        ])  !!}
                     <td>是否达标</td>
-                    <td width="150">扣款申请</td>
-                    <td width="150">晋升申请</td>
+                    <td width="130">扣款申请</td>
+                    <td width="130">晋升申请</td>
 
                     <td> 操作  </td>
                 </tr>
