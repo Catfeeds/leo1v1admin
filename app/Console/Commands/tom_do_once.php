@@ -86,7 +86,8 @@ class tom_do_once extends Command
         $date1 = explode('-',date('y-m-d',$min));
         $date2 = explode('-',date('y-m-d',$max));
         $count = abs($date1[0] - $date2[0]) * 12 + abs($date1[1] - $date2[1]);
-        $start = strtotime(date('y-m-1',$min));
+        // $start = strtotime(date('y-m-1',$min));
+        $start = 1498838400;
         $end   = strtotime(date('y-m-1',$max));
         for($i=1;$i<=$count+1;$i++){
             $start_time = $start;
@@ -333,11 +334,10 @@ class tom_do_once extends Command
         $ret = $this->task->t_seller_student_new->get_all_list($start_time, $end_time);
         foreach($ret as $item){
             $distribution_count = $this->task->t_seller_edit_log->get_item_count($item['userid']);
-            echo $item['userid'].':'.$distribution_count."\n";
-            // if($item['distribution_count'] != $distribution_count){
-            //     $this->task->t_seller_student_new->field_update_list($item['userid'], ['distribution_count'=>$distribution_count]);
-            //     echo $item['userid'].':'.$item['distribution_count'].'=>'.$distribution_count."\n";
-            // }
+            if($item['distribution_count'] != $distribution_count){
+                $this->task->t_seller_student_new->field_update_list($item['userid'], ['distribution_count'=>$distribution_count]);
+                echo $item['userid'].':'.$item['distribution_count'].'=>'.$distribution_count."\n";
+            }
         }
     }
 
