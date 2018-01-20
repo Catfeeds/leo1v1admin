@@ -382,4 +382,18 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_reward_info_by_id($id){
+        $where_arr = [
+            ["id=%u",$id,0]
+        ];
+        $sql = $this->gen_sql_new("select teacherid,type,money_info,money,add_time,acc"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
 }
