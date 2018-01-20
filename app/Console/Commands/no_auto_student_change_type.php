@@ -39,7 +39,15 @@ class no_auto_student_change_type extends Command
     {
         /**  @var   $task \App\Console\Tasks\TaskController */
 
-        $task = new \App\Console\Tasks\TaskController ();      
+        $task = new \App\Console\Tasks\TaskController ();
+        //临时
+        $page_info = $task->get_in_page_info();
+        $start_time = strtotime("2017-10-01");
+        $teacher_money_type = 6;
+        $ret_info = $task->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,-1,-1,-1,-1,0);
+        dd($ret_info);
+  
+        
 
         $time = strtotime(date("Y-m-d",time()));        
         $user_stop = $task->t_student_info->get_no_auto_stop_stu_list($time);
