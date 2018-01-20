@@ -441,6 +441,34 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $count = $this->t_seller_student_origin->get_item_count($userid,$min,$add_time);
+        dd($count);
+        $min   = $this->t_seller_student_new->get_min_add_time();
+        $max   = $this->t_seller_student_new->get_max_add_time();
+        $date1 = explode('-',date('y-m-d',$min));
+        $date2 = explode('-',date('y-m-d',$max));
+        $count = abs($date1[0] - $date2[0]) * 12 + abs($date1[1] - $date2[1]);
+        $start = strtotime(date('y-m-1',$min));
+        $end   = strtotime(date('y-m-1',$max));
+        for($i=1;$i<=$count+1;$i++){
+            $start_time = $start;
+            $end_time = strtotime('+1 month',$start);
+            $ret = $this->t_seller_student_origin->get_all_list($start_time,$end_time);
+            foreach($ret as $item){
+                $arr = [];
+                $userid = $item['userid'];
+                $origin = $item['origin'];
+                $add_time = $item['add_time'];
+                $count = $this->t_seller_student_origin->get_item_count($userid,$min,$add_time);
+                if($count>0){
+                    $this->task->t_seller_student_origin->field_update_list_2($userid, $origin, ['is_exist_count'=>$count]);
+                    echo $userid.':'.$origin.'=>'.$count."\n";
+                }
+            }
+            $start = strtotime('+1 month',$start);
+        }
+
+
         $ret = $this->t_seller_student_origin->get_item_list();
         $ret_info = [];
         foreach($ret as $info){

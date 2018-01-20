@@ -127,7 +127,7 @@ $(function(){
     if(tag_one == 'region_version'){
         Enum_map.append_option_list(tag_one, $("#id_tag_one"), false, book);
     } else if(tag_one != ''){
-        Enum_map.append_option_list(tag_one, $("#id_tag_one"), );
+        Enum_map.append_option_list(tag_one, $("#id_tag_one"));
     }else{
         $("#id_tag_one").append('<option value="-1">全部</option>');
     }

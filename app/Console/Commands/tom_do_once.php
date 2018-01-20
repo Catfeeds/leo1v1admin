@@ -74,10 +74,11 @@ class tom_do_once extends Command
         }
         */
 
-        $this->update_cc_call();
+        // $this->update_cc_call();
         // $this->update_tq_call_info();
         // $this->give_seller_new_count();
         // $this->update_seller_edit_log();
+        $this->update_seller_student_origin();
     }
 
     public function update_cc_call(){
@@ -338,6 +339,33 @@ class tom_do_once extends Command
                 $this->task->t_seller_student_new->field_update_list($item['userid'], ['distribution_count'=>$distribution_count]);
                 echo $item['userid'].':'.$item['distribution_count'].'=>'.$distribution_count."\n";
             }
+        }
+    }
+
+    public function update_seller_student_origin(){
+        $min   = $this->task->t_seller_student_new->get_min_add_time();
+        $max   = $this->task->t_seller_student_new->get_max_add_time();
+        $date1 = explode('-',date('y-m-d',$min));
+        $date2 = explode('-',date('y-m-d',$max));
+        $count = abs($date1[0] - $date2[0]) * 12 + abs($date1[1] - $date2[1]);
+        $start = strtotime(date('y-m-1',$min));
+        $end   = strtotime(date('y-m-1',$max));
+        for($i=1;$i<=$count+1;$i++){
+            $start_time = $start;
+            $end_time = strtotime('+1 month',$start);
+            $ret = $this->task->t_seller_student_origin->get_all_list($start_time,$end_time);
+            foreach($ret as $item){
+                $arr = [];
+                $userid = $item['userid'];
+                $origin = $item['origin'];
+                $add_time = $item['add_time'];
+                $is_exist_count = $this->task->t_seller_student_origin->get_item_count($userid,$min,$add_time);
+                if($is_exist_count>0){
+                    $this->task->t_seller_student_origin->field_update_list_2($userid, $origin, ['is_exist_count'=>$is_exist_count]);
+                    echo $userid.':'.$origin.'=>'.$is_exist_count."\n";
+                }
+            }
+            $start = strtotime('+1 month',$start);
         }
     }
 

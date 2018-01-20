@@ -2150,11 +2150,11 @@ trait TeaPower {
 
         $star_num=0;
         if($level_str=="中级教师" ){
-            $level_eng="Intermediate Teacher";
-            $star_num=2;
+            $level_eng = "Intermediate Teacher";
+            $star_num  = 2;
         }elseif($level_str=="高级教师"){
-            $level_eng="Senior Teacher";
-            $star_num=3;
+            $level_eng = "Senior Teacher";
+            $star_num  = 3;
         }elseif($level_str=="金牌教师"){
             $level_eng="Golden Teacher";
             $star_num=4;
@@ -2173,7 +2173,8 @@ trait TeaPower {
         for($i=2;$i<=$star_num;$i++){
             $star_html.=$show_star;
         }
-        $date_begin = date("m月d日0时",time());
+        // $date_begin = date("m月d日0时",time());
+        $date_begin = date("m月1日0时",time());
         $date       = date("Y年m月d日",time());
 
         if($level_str=="中级教师" || $level_str =="二星级教师"){
@@ -2183,13 +2184,21 @@ trait TeaPower {
                             </div>";
             $group_html = $this->get_new_qq_group_html($info['grade_start'],$info['grade_part_ex'],$info['subject']);
         }else{
+            // 旧版说辞 start
+            // 鉴于您在上一季度的教学过程中，工作态度认真负责，教学方法灵活高效，并在学生和家长群体中赢得了广泛好评，
+            // 达到晋升考核标准（
+            // <span class='color_red'>课时量</span>、
+            // <span class='color_red'>转化率</span>和
+            // <span class='color_red'>教学质量</span>
+            // 三个考核维度的评分俱皆达标），且无一起有效教学事故类退费或投诉。
+            // 旧版说辞 end
+
             $header_html = "<div class='t2em'>
-                        鉴于您在上一季度的教学过程中，工作态度认真负责，教学方法灵活高效，并在学生和家长群体中赢得了广泛好评，
-                        达到晋升考核标准（
+                        亲爱的老师，鉴于您在上一季度的教学过程中，认真负责、不断进取，在
                         <span class='color_red'>课时量</span>、
-                        <span class='color_red'>转化率</span>和
+                        <span class='color_red'>学生数</span>和
                         <span class='color_red'>教学质量</span>
-                        三个考核维度的评分俱皆达标），且无一起有效教学事故类退费或投诉。
+                        三个方面皆达到晋升要求，本次成功晋升，成为更高级别的老师！
                     </div>";
             $group_html = "";
         }

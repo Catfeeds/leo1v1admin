@@ -40,6 +40,8 @@ class test_abner extends cmd_base
     {
         $start_time = strtotime(date('2017-10-01'));
         $end_time = strtotime(date('2018-01-01'));
+        $count_one = 0;
+        $count_two = 0;
         //获取第四季度有常规课的学生
         $q4_reading_stu = $this->task->t_lesson_info_b3->get_q4_reading_stu($start_time,$end_time);
         //获取首冲相关信息
@@ -104,8 +106,8 @@ class test_abner extends cmd_base
 
             }else{
                 $item['is_expand'] = 'N';
-                $item['expand_first_year'] = null;
-                $item['expand_first_month'] = null;
+                $item['expand_first_year'] = '空';
+                $item['expand_first_month'] = '空';
             }
 
             //处理信息
@@ -125,6 +127,17 @@ class test_abner extends cmd_base
                 $item['grade_sort'] = '初中';
             elseif($item['grade']<=303)
                 $item['grade_sort'] = '高中';
+
+            if(empty($item['phone_province']))
+                $item['phone_province']='空';
+
+            if(empty($item['renewal_class_pag']))
+                $item['renewal_class_pag'] = 0;
+
+            if(empty($item['nick']))
+                $item['nick'] = '空';
+
+            echo 'count_one:'.$count_one++.'ok'."\n";
         }
 
         $path = '/var/www/admin.yb1v1.com/10.txt';
@@ -178,7 +191,7 @@ class test_abner extends cmd_base
         foreach($q4_reading_stu as $item){
             fwrite($fp, @$item['userid']);//ID
             fwrite($fp, '   ');
-            fwrite($fp, @$item['realname']);//姓名
+            fwrite($fp, @$item['nick']);//姓名
             fwrite($fp, '   ');
             fwrite($fp, @$item['sex']);//性别
             fwrite($fp, '   ');
@@ -222,6 +235,8 @@ class test_abner extends cmd_base
             fwrite($fp, '   ');
             fwrite($fp, @$item['public_class_count']);//公开课次数
             fwrite($fp, "\n");
+
+            echo 'count_two:'.$count_two++.'ok'."\n";
         }
         fclose($fp);
         echo 'ok!';

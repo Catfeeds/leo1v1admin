@@ -3160,12 +3160,12 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         ];
         $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $start_time, $end_time);
         $sql = $this->gen_sql_new(
-            'select distinct li.userid,si.realname,si.grade,si.gender,si.phone,si.editionid,'.
+            'select li.userid,si.nick,si.grade,si.gender,si.phone,si.editionid,'.
             'si.phone_province '.
             'from %s li '.
             'left join %s si using(userid) '.
             'left join %s f on f.flow_type=2003 and li.lessonid= f.from_key_int '.
-            'where %s',
+            'where %s group by li.userid',
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_flow::DB_TABLE_NAME,
