@@ -30,6 +30,8 @@ class t_sub_grade_book_tag extends \App\Models\Zgen\z_t_sub_grade_book_tag
             ["subject = %u",$data['subject']],
             ["grade = %u",$data['grade']],
             ["bookid = %u",$data['bookid']],
+            ["resource_type = %u",$data['resource_type']],
+            ["season_id = %u",$data['season_id']],
             ["tag = '%s'",$data['tag']],
             ["del_flag = %s",0]
         ];

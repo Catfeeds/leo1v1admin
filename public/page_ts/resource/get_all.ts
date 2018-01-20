@@ -290,12 +290,12 @@ $(function(){
             [tag_three_name, id_tag_three],
             [tag_four_name, [ id_tag_four,id_tag_four_search]],
             [tag_five_name, id_tag_five],
-            ["上传文件", id_other_file],
-            ["上传文件", id_ff_file],
-            ["课件版", id_les_file],
-            ["老师版", id_tea_file],
-            ["学生版", id_stu_file],
-            ["额外的讲义", id_ex_file],
+            ["上传文件(pdf)", id_other_file],
+            ["上传文件(pdf)", id_ff_file],
+            ["课件版(pdf)", id_les_file],
+            ["老师版(pdf)", id_tea_file],
+            ["学生版(pdf)", id_stu_file],
+            ["额外的讲义(pdf,mp3,mp4)", id_ex_file],
         ];
 
         $.show_key_value_table('新建', arr,{
