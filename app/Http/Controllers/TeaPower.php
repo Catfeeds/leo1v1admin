@@ -4955,7 +4955,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }elseif($num <20){
                 $score=21;
             }elseif($num<190){
-                $score = ceil($num/10-0.5)+20;
+                $score = round($num/10-0.5)+20;
             }elseif($num<200){
                 $score=39;
             }else{

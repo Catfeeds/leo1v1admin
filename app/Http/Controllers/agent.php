@@ -441,6 +441,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $count = $this->t_seller_student_origin->get_item_count($userid=99,$min=1509465600,$add_time=1512057600);
+        dd($count);
         $ret = $this->t_seller_student_origin->get_item_list();
         $ret_info = [];
         foreach($ret as $info){

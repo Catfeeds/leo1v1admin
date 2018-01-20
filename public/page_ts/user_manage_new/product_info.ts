@@ -162,7 +162,7 @@ $(function(){
             var $feedback_id = $("<input/>");
             var $describe    = $("<textarea>");
             var $lesson_url  = $("<input />");
-
+            var $lesson_problem_desc = $("<textarea>");
 
             var $reason      = $("<textarea>");
             var $solution    = $("<textarea>");
@@ -176,6 +176,14 @@ $(function(){
             var $id_video_url = $("<div><input class=\"change_reason_url\" id=\"id_video_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_video\"  href=\"javascript:;\">上传</a>  <a  id=\"id_download_lesson_video\" style=\"display:none\" href=\"javascript:;\">下载</a></span></div>");
             var $id_zip_url = $("<div><input class=\"change_reason_url\" id=\"id_zip_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_zip\"  href=\"javascript:;\">上传</a>  <a  id=\"id_download_lesson_zip\" style=\"display:none\" href=\"javascript:;\">下载</a></span></div>");
 
+            $lesson_problem.on('change',function(){
+                if($lesson_problem.val()==9){
+                    $lesson_problem_desc.parent().parent().css('display','table-row');
+                }else{
+                    $lesson_problem_desc.parent().parent().css('display','none');
+                    $lesson_problem_desc.val('');
+                }
+            });
 
             Enum_map.append_option_list("lesson_problem", $lesson_problem, true);
 
@@ -188,6 +196,7 @@ $(function(){
                 ["上课链接",$lesson_url],
                 ["原因",$reason],
                 ["问题类型",$lesson_problem],
+                ["其他原因描述",$lesson_problem_desc],
                 ["解决方案",$solution],
                 ["学生",$student],
                 ["老师",$teacher],
@@ -215,6 +224,7 @@ $(function(){
                         "video_url"   : $("#id_video_url").val(),
                         "zip_url"     : $("#id_zip_url").val(),
                         "lesson_problem" : $lesson_problem.val(),
+                        "lesson_problem_desc" : $lesson_problem_desc.val(),
                     },function(result){
                         BootstrapDialog.alert(result.info);
                         dialog.close();
@@ -236,6 +246,13 @@ $(function(){
                 $('#id_img_url').val(data.img_url);
                 $('#id_video_url').val(data.video_url);
                 $lesson_problem.val(data.lesson_problem);
+
+                if(data.lesson_problem == 9){
+                    $lesson_problem_desc.parent().parent().css('display','table-row');
+                    $lesson_problem_desc.val(data.lesson_problem);
+                }else{
+                    $lesson_problem_desc.parent().parent().css('display','none');
+                }
 
                 if(data.zip_url){
                     $('#id_download_lesson_zip').css('display','table-cell');
