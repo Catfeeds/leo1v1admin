@@ -40,13 +40,13 @@ class NoticeTomorrowLessonToParent extends Command
     {
         $task = new \App\Console\Tasks\TaskController();
         $ret  = \App\Helper\Utils::get_day_range(time(NULL)+86400);
-        //  $ret  = \App\Helper\Utils::get_day_range(time(NULL)+6*86400);
 
         $start_time = $ret["sdate"];
         $end_time   = $ret["edate"];
 
         $ret_id   = $task->t_lesson_info->get_today_lesson_list($start_time,$end_time);
         $ret_list = $this->get_student_info($ret_id);
+        dd($ret_list);
 
         foreach( $ret_list as $item ) {
             $phone        = $item["phone"];
