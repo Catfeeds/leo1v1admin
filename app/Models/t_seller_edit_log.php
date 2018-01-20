@@ -272,8 +272,8 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         ];
         $this->where_arr_add_time_range($where_arr,'l.create_time',$start_time,$end_time);
         $sql = $this->gen_sql_new(
-            " select l.create_time,"
-            ." n.first_revisit_time,n.first_contact_time,n.add_time,n.userid,"
+            " select l.create_time,l.first_revisit_time,l.first_contact_time,"
+            ." n.add_time,n.userid,"
             ." o.price,"
             ." m.account give_account,m2.account get_account "
             ." from %s l "
