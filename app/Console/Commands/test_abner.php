@@ -222,8 +222,8 @@ class test_abner extends cmd_base
             fwrite($fp, '   ');
             fwrite($fp, @$item['public_class_count']);//公开课次数
             fwrite($fp, "\n");
-            fclose($fp);
         }
+        fclose($fp);
         echo 'ok!';
 
     }

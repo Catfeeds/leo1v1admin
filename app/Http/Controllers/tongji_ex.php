@@ -196,4 +196,65 @@ class tongji_ex extends Controller
         return $this->pageView(__METHOD__, $ret_info);
     }
 
+    public function market_seller_student(){
+        $ret = $this->t_seller_student_origin->get_item_list();
+        $ret_info = [];
+        foreach($ret as $info){
+            $userid = $info['userid'];
+            $ret_info[$userid]['phone'] = isset($ret_info[$userid]['phone'])?$ret_info[$userid]['phone']:$info['phone'];
+            $ret_info[$userid]['origin'] = isset($ret_info[$userid]['origin'])?$ret_info[$userid]['origin'].','.$info['origin']:$info['origin'];
+            $ret_info[$userid]['add_time'] = isset($ret_info[$userid]['add_time'])?$ret_info[$userid]['add_time']:date('Y-m-d H:i:s',$info['add_time']);
+            $ret_info[$userid]['is_exist'] = isset($ret_info[$userid]['is_exist'])?'是':'否';
+        }
+        $num = 0;
+
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h1>12月进入例子渠道</h1></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>编号</th><th>号码</th><th>渠道</th><th>进入日期</th><th>是否重复</th>';
+        echo '</tr>';
+        foreach($ret_info as $item){
+            $num++;
+            echo '<tr>';
+            echo '<td>'.$num.'</td>';
+            echo '<td>'.$item['phone'].'</td>';
+            echo '<td>'.$item['phone'].'</td>';
+            echo '<td>'.$item['origin'].'</td>';
+            echo '<td>'.$item['add_time'].'</td>';
+            echo '<td>'.$item['is_exist'].'</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
+    }
+
+    public function market_seller_student_repeat(){
+        $ret = $this->t_seller_student_origin->get_item_list();
+        $ret_info = [];
+        foreach($ret as $info){
+            $userid = $info['userid'];
+            $ret_info[$userid]['phone'] = isset($ret_info[$userid]['phone'])?$ret_info[$userid]['phone']:$info['phone'];
+            $ret_info[$userid]['origin'] = isset($ret_info[$userid]['origin'])?$ret_info[$userid]['origin'].','.$info['origin']:$info['origin'];
+            $ret_info[$userid]['add_time'] = isset($ret_info[$userid]['add_time'])?$ret_info[$userid]['add_time']:date('Y-m-d H:i:s',$info['add_time']);
+            $ret_info[$userid]['is_exist'] = isset($ret_info[$userid]['is_exist'])?'是':'否';
+        }
+        $num = 0;
+
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h1>12月进入例子渠道</h1></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>编号</th><th>号码</th><th>重复进入次数</th><th>是否试听成功</th><th>试听成功次数</th><th>试听失败次数</th><th>试听邀请cc</th>';
+        echo '</tr>';
+        foreach($ret_info as $item){
+            $num++;
+            echo '<tr>';
+            echo '<td>'.$num.'</td>';
+            echo '<td>'.$item['phone'].'</td>';
+            echo '<td>'.$item['phone'].'</td>';
+            echo '<td>'.$item['origin'].'</td>';
+            echo '<td>'.$item['add_time'].'</td>';
+            echo '<td>'.$item['is_exist'].'</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
+    }
 }
