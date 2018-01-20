@@ -1670,7 +1670,6 @@ class teacher_level extends Controller
             E\Eboolean::set_item_value_str($item,"reach_flag");
 
         }
-        dd($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info);
     }
