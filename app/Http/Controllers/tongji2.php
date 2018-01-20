@@ -1103,7 +1103,9 @@ class tongji2 extends Controller
                 $tt["student_online_per"] = 0;
             }
             $tt["lesson_do_per"] = !empty( $tt["student_online"])?round($tt["lesson_total"]/$tt["student_online"]/$lesson_target*100,2):0;
-            $tt["renw_target"] = @$target_info["group_renew_target"]/100;
+            if($start_time>=strtotime("2018-01-01")){
+                $tt["renw_target"] = @$target_info["group_renew_target"]/100; 
+            }
             $tt["renw_per"] = !empty( $tt["renw_target"])?round($tt["renw_price"]/$tt["renw_target"]*100,2):0;
             if($tt["student_online"]){
                 $tt["people_per"] = round(($tt["lesson_money"]+$tt["renw_price"]+$tt["tran_price"])/$tt["student_online"],2);
