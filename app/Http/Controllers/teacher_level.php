@@ -1623,12 +1623,13 @@ class teacher_level extends Controller
         $quarter_start = $this->get_in_int_val("quarter_start");
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",6);
         $teacherid = $this->get_in_int_val("teacherid",-1);
+        $is_test_user = $this->get_in_int_val("is_test_user",-1);
         $page_info = $this->get_in_page_info();
 
 
         $teacher_money_type=6;
         $start_time = strtotime("2017-10-01");
-        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,-1,-1,-1,0);
+        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,-1,-1,$is_test_user,0);
         foreach($ret_info["list"] as &$item){
             //$item["level"]=$item["level_before"];
             $item["level"]=$item["real_level"];
