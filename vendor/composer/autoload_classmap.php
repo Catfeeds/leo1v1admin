@@ -637,10 +637,7 @@ return array(
     'TChangeAuthorityGroup' => $baseDir . '/database/migrations/2018_01_10_150701_t_change_authority_group.php',
     'TChangeOrderActivityConfig' => $baseDir . '/database/migrations/2017_12_28_144901_t_change_order_activity_config.php',
     'TChangeResource' => $baseDir . '/database/migrations/2018_01_18_1449632_t_change_resource.php',
-<<<<<<< HEAD
-=======
     'TChangeSubGradeBookTag' => $baseDir . '/database/migrations/2018_01_19_102532_t_change_sub_grade_book_tag.php',
->>>>>>> 93a3ebbfc592b186cf2a0f4075cc1acbeeb2101b
     'TChildOrderInfoAddParentName' => $baseDir . '/database/migrations/2017_10_12_180712_t_child_order_info_add_parent_name.php',
     'TCourseOrderAddFlag' => $baseDir . '/database/migrations/2017_11_29_175027_t_course_order_add_flag.php',
     'TCourseOrderAddFlagDefault' => $baseDir . '/database/migrations/2017_11_29_175531_t_course_order_add_flag_default.php',
@@ -674,7 +671,6 @@ return array(
     'TLessonInfoAddOperateTimeIndex' => $baseDir . '/database/migrations/2017_10_21_122844_t_lesson_info_add_operate_time_index.php',
     'TLessonInfoAddTeaCwOrigin' => $baseDir . '/database/migrations/2017_12_19_182608_t_lesson_info_add_tea_cw_origin.php',
     'TLessonInfoAddTeacherType' => $baseDir . '/database/migrations/2017_12_16_164143_t_lesson_info_add_teacher_type.php',
-    'TLessonInfoOperateLogAddOperateUrl' => $baseDir . '/database/migrations/2018_01_18_194046_t_lesson_info_operate_log_add_operate_url.php',
     'TLessonInfoResetZipUrl' => $baseDir . '/database/migrations/2017_12_29_120318_t_lesson_info_reset_zip_url.php',
     'TLessonOperateLog' => $baseDir . '/database/migrations/2018_01_17_105610_t_lesson_operate_log.php',
     'TLessonResetZipUrl' => $baseDir . '/database/migrations/2017_12_29_124430_t_lesson_reset_zip_url.php',
@@ -734,12 +730,8 @@ return array(
     'TRuffianActivityAddItem' => $baseDir . '/database/migrations/2017_11_03_154835_t_ruffian_activity_add_item.php',
     'TRuffianActivityAddStuType' => $baseDir . '/database/migrations/2017_10_28_152520_t_ruffian_activity_add_stu_type.php',
     'TRuffianActivityDropAddTime' => $baseDir . '/database/migrations/2017_10_28_151005_t_ruffian_activity_drop_add_time.php',
-<<<<<<< HEAD
-    'TRuffianActivityModify' => $baseDir . '/database/migrations/2017_11_03_155743_t_ruffian_activity_modify.php',
-=======
     'TRuffianActivityModify' => $baseDir . '/database/migrations/2017_10_27_102628_t_ruffian_activity_modify.php',
     'TSellerEditLogAddFirstRevisitTime' => $baseDir . '/database/migrations/2018_01_19_165523_t_seller_edit_log_add_first_revisit_time.php',
->>>>>>> 93a3ebbfc592b186cf2a0f4075cc1acbeeb2101b
     'TSellerEditLogAddNewCreateTimeIndex' => $baseDir . '/database/migrations/2017_10_18_105153_t_seller_edit_log_add_new_create_time_index.php',
     'TSellerGetNewLog' => $baseDir . '/database/migrations/2018_01_18_110632_t_seller_get_new_log.php',
     'TSellerGetNewLogAddIndexNew' => $baseDir . '/database/migrations/2018_01_18_114632_t_seller_get_new_log_add_index_new.php',
