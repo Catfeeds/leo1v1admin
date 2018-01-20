@@ -218,7 +218,6 @@ class tongji_ex extends Controller
             echo '<tr>';
             echo '<td>'.$num.'</td>';
             echo '<td>'.$item['phone'].'</td>';
-            echo '<td>'.$item['phone'].'</td>';
             echo '<td>'.$item['origin'].'</td>';
             echo '<td>'.$item['add_time'].'</td>';
             echo '<td>'.$item['is_exist'].'</td>';
