@@ -23,7 +23,7 @@
         </div>
         <div class="col-xs-6 col-md-1">
             <div class="input-group ">
-                <a class="btn btn-primary" id="id_add_lesson">增加课次</a>
+                <a class="btn btn-primary" id="id_add_lesson">增加课程</a>
             </div>
         </div>
     </div>
@@ -31,7 +31,7 @@
     <table class="common-table ">
         <thead>
             <tr>
-                <td >lessonid</td>
+                <td >课程id</td>
                 <td >老师</td>
                 <td style="display:none;">工资分类</td>
                 <td style="display:none;">等级</td>

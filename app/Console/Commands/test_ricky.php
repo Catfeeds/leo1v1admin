@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+use \App\Enums as E;
+
 class test_ricky extends Command
 {
     /**
@@ -57,10 +59,10 @@ class test_ricky extends Command
 
         // 拉取2017年下单学员的预警数据
         $start_time = strtotime("2017-1-1");
-        $end_time = strtotime("2017-3-1");
+        $end_time = strtotime("2018-1-1");
         $info = $task->t_revisit_info->get_all_info($start_time, $end_time);
         foreach($info as $item) {
-            echo $item["userid"]." ".$item["is_warning_flag"]."   ";
+            echo $item["userid"]." ".E\Eis_warning_flag::get_desc($item["is_warning_flag"]);
         }
     }
 }
