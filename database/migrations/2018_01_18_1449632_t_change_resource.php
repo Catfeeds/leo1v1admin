@@ -26,5 +26,8 @@ class TChangeResource extends Migration
     public function down()
     {
         //
+        Schema::table('db_weiyi.t_resource', function (Blueprint $table){
+            $table->dropColumn("tag_five");
+        }); 
     }
 }
