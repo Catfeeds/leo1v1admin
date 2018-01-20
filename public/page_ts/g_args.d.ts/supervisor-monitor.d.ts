@@ -34,6 +34,8 @@ interface RowData {
 	current_server	:any;
 	server_type	:any;
 	xmpp_server_name	:any;
+	stu_agent	:any;
+	tea_agent	:any;
 	index	:any;
 	region	:any;
 	ip	:any;
