@@ -119,7 +119,7 @@ class table_manage extends Controller
         );
         $table_list = $table->main_get_list($sql);
         foreach($table_list as &$t_item){
-            $table_comment=@hex2bin($t_item["TABLE_COMMENT"]);
+            $table_comment = @hex2bin($t_item["TABLE_COMMENT"]);
             if ($table_comment) {
                 $t_item["TABLE_COMMENT"]=$table_comment;
             }
@@ -143,7 +143,7 @@ class table_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info,[
             "table_list"       => $table_list,
             "create_table_str" => $create_table_str,
-        ] );
+        ]);
     }
 
     public function change_table_comment() {

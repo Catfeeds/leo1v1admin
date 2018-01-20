@@ -3148,7 +3148,141 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         }elseif($page_flag==2){
             return $this->main_get_list($sql); 
         }
- 
+    }
+    //@desn:获取第四季度在读学生信息
+    //@param:$start_time $end_time 开始时间 结束时间
+    public function get_q4_reading_stu($start_time,$end_time){
+        $where_arr = [
+            'si.is_test_user = 0',
+            'li.lesson_del_flag=0',
+            'li.lesson_type in (0,1,3)',
+            'li.lesson_user_online_status in (0,1) or f.flow_status = 2'
+        ];
+        $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select distinct li.userid,si.realname,si.grade,si.gender,si.phone,si.editionid,'.
+            'si.phone_province '.
+            'from %s li '.
+            'left join %s si using(userid) '.
+            'left join %s f on f.flow_type=2003 and li.lessonid= f.from_key_int '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql, function($item){
+            return $item['userid'];
+        });
+    }
+    //@desn:获取已消耗课耗
+    //@param:$userid 用户id
+    //@param:$end_time 结束时间
+    public function get_use_class_pag($userid,$end_time){
+        $where_arr = [
+            'li.lesson_del_flag=0',
+            'li.lesson_type in (0,1,3)',
+            'li.lesson_start < '.$end_time,
+            'li.lesson_user_online_status in (0,1) or f.flow_status = 2'
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'li.userid', $userid);
+        $sql = $this->gen_sql_new(
+            'select sum(li.lesson_count) use_class_pag '.
+            'from %s li '.
+            'left join %s f on f.flow_type=2003 and li.lessonid= f.from_key_int '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+    //@desn:获取第四季度课程信息
+    //@param:$userid 用户id
+    //@param:$start_time $end_time 开始时间  结束时间
+    public function get_q4_class_info($userid,$start_time,$end_time){
+        $where_arr = [
+            'li.lesson_del_flag=0',
+            'li.lesson_type in (0,1,3)',
+            'li.lesson_user_online_status in (0,1) or f.flow_status = 2'
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'li.userid', $userid);
+        $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select count(distinct subject) q4_subject_count,sum(lesson_count) q4_lesson_count,'.
+            'count(*) q4_class_count,min(li.lesson_start) lesson_start,max(li.lesson_start) lesson_end '.
+            'from %s li '.
+            'left join %s f on f.flow_type=2003 and li.lessonid= f.from_key_int '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+    //@desn:获取小班课 公开课信息
+    //@param:$start_time $end_time 开始时间 结束时间
+    //@param:$userid 用户id
+    public function get_lesson_type_info($userid,$start_time,$end_time){
+        $where_arr = [
+            'li.lesson_del_flag=0',
+            'li.lesson_type in (0,1,3)',
+            'li.lesson_user_online_status in (0,1) or f.flow_status = 2'
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'li.userid', $userid);
+        $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select sum(lesson_type in(1001,1002,1003)) public_class_count,'.
+            'sum(lesson_type in(3001,3002)) small_class_count '.
+            'from %s li '.
+            'left join %s f on f.flow_type=2003 and li.lessonid= f.from_key_int '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+    //@desn:获取在读科目数
+    //@param:$userid 用户id
+    //@param:$start_time,$end_time  开始时间 结束时间
+    public function get_expand_subject_count($userid,$start_time,$end_time){
+        $where_arr = [
+            'li.lesson_del_flag=0',
+            'li.lesson_type in (0,1,3)',
+            'li.lesson_user_online_status in (0,1) or f.flow_status = 2'
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'li.userid', $userid);
+        $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select count(distinct subject) expand_subject_count '.
+            'from %s li '.
+            'left join %s f on f.flow_type=2003 and li.lessonid= f.from_key_int '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+    //@desn:获取扩科时间
+    //@param:$userid 用户id
+    public function get_first_expand_time($userid){
+        $where_arr = [
+            'li.lesson_del_flag=0',
+            'li.lesson_type in (0,1,3)',
+            'li.lesson_user_online_status in (0,1) or f.flow_status = 2'
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'li.userid', $userid);
+        $sql = $this->gen_sql_new(
+            'select li.lesson_start from %s li '.
+            'left join %s f on f.flow_type=2003 and li.lessonid= f.from_key_int '.
+            'where %s group by li.subject order by li.lesson_start limit 2',
+            self::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
     //作业信息
