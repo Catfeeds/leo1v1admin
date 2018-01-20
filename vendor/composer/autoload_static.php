@@ -985,7 +985,6 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TLessonInfoAddOperateTimeIndex' => __DIR__ . '/../..' . '/database/migrations/2017_10_21_122844_t_lesson_info_add_operate_time_index.php',
         'TLessonInfoAddTeaCwOrigin' => __DIR__ . '/../..' . '/database/migrations/2017_12_19_182608_t_lesson_info_add_tea_cw_origin.php',
         'TLessonInfoAddTeacherType' => __DIR__ . '/../..' . '/database/migrations/2017_12_16_164143_t_lesson_info_add_teacher_type.php',
-        'TLessonInfoOperateLogAddOperateUrl' => __DIR__ . '/../..' . '/database/migrations/2018_01_18_194046_t_lesson_info_operate_log_add_operate_url.php',
         'TLessonInfoResetZipUrl' => __DIR__ . '/../..' . '/database/migrations/2017_12_29_120318_t_lesson_info_reset_zip_url.php',
         'TLessonOperateLog' => __DIR__ . '/../..' . '/database/migrations/2018_01_17_105610_t_lesson_operate_log.php',
         'TLessonResetZipUrl' => __DIR__ . '/../..' . '/database/migrations/2017_12_29_124430_t_lesson_reset_zip_url.php',
