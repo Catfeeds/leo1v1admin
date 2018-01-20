@@ -2196,6 +2196,13 @@ class user_manage_new extends Controller
         //     "js_values_str" => "",
         //     'err_mg' => $err_mg
         // ] );
+                
+        $this->t_user_log->row_insert([
+            "add_time" => time(),
+            "adminid"  => $this->get_account_id(),
+            "msg"      => "旧的页面权限管理:登录",
+            "user_log_type" => 5, //权限页面添加用户记录
+        ]);
 
         $group_list = $this->t_authority_group->get_auth_groups();
         $default_groupid = 0;
@@ -3012,8 +3019,8 @@ class user_manage_new extends Controller
         $this->t_user_log->row_insert([
             "add_time" => time(),
             "adminid"  => $this->get_account_id(),
-            "msg"      => "权限管理页面,修改旧的权限页面: [权限id:$powerid,权限列表:$groupid_str]",
-            "user_log_type" => 4, //权限页面添加用户记录
+            "msg"      => "旧的页面权限管理配置: [权限id:$powerid,权限列表:$groupid_str]",
+            "user_log_type" => 5, //权限页面添加用户记录
         ]);
 
         return $this->output_succ();
