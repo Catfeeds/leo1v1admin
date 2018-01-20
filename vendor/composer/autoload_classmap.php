@@ -637,10 +637,7 @@ return array(
     'TChangeAuthorityGroup' => $baseDir . '/database/migrations/2018_01_10_150701_t_change_authority_group.php',
     'TChangeOrderActivityConfig' => $baseDir . '/database/migrations/2017_12_28_144901_t_change_order_activity_config.php',
     'TChangeResource' => $baseDir . '/database/migrations/2018_01_18_1449632_t_change_resource.php',
-<<<<<<< HEAD
-=======
     'TChangeSubGradeBookTag' => $baseDir . '/database/migrations/2018_01_19_102532_t_change_sub_grade_book_tag.php',
->>>>>>> 93a3ebbfc592b186cf2a0f4075cc1acbeeb2101b
     'TChildOrderInfoAddParentName' => $baseDir . '/database/migrations/2017_10_12_180712_t_child_order_info_add_parent_name.php',
     'TCourseOrderAddFlag' => $baseDir . '/database/migrations/2017_11_29_175027_t_course_order_add_flag.php',
     'TCourseOrderAddFlagDefault' => $baseDir . '/database/migrations/2017_11_29_175531_t_course_order_add_flag_default.php',
