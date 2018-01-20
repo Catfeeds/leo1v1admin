@@ -45,6 +45,10 @@ class no_auto_student_change_type extends Command
         $start_time = strtotime("2017-10-01");
         $teacher_money_type = 6;
         $ret_info = $task->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,-1,-1,-1,-1,0);
+        foreach($ret_info["list"] as &$val){
+            $val["start_time"] =  $val["start_time"]-100;
+            $task->t_teacher_advance_list->row_insert($val);
+        }
         dd($ret_info);
   
         
