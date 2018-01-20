@@ -977,7 +977,7 @@ class tongji2 extends Controller
         if(empty($lesson_target)){
             $lesson_target= 14.0;
         }
-        $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target");
+        $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target,group_renew_target,all_renew_target");
         foreach($ass_list as $k=>&$val){
             /*$val["userid_list_first"] = isset($userid_list_first[$k])?$userid_list_first[$k]:[];
             $val["userid_list_first_target"] = count($val["userid_list_first"]);
@@ -1103,6 +1103,7 @@ class tongji2 extends Controller
                 $tt["student_online_per"] = 0;
             }
             $tt["lesson_do_per"] = !empty( $tt["student_online"])?round($tt["lesson_total"]/$tt["student_online"]/$lesson_target*100,2):0;
+            $tt["renw_target"] = @$target_info["group_renew_target"]/100;
             $tt["renw_per"] = !empty( $tt["renw_target"])?round($tt["renw_price"]/$tt["renw_target"]*100,2):0;
             if($tt["student_online"]){
                 $tt["people_per"] = round(($tt["lesson_money"]+$tt["renw_price"]+$tt["tran_price"])/$tt["student_online"],2);
