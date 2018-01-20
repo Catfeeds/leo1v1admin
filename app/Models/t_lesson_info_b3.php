@@ -3287,7 +3287,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             t_flow::DB_TABLE_NAME,
             $where_arr
         );
-        dd($sql);
         return $this->main_get_list($sql);
     }
 
