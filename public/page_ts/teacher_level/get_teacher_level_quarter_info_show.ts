@@ -20,15 +20,16 @@ $(function(){
 
         var id_level_after = $("<select/>");
 
-        Enum_map.append_option_list_v2s("new_level", id_level_after, true );
+        Enum_map.append_option_list_v2s("new_level", id_level_after, true,[2,3,4,11] );
         var arr=[
+            ["总得分", opt_data.total_score],
             ["目标等级",id_level_after]
         ];
         $.show_key_value_table("晋升申请", arr ,{
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
-                $.do_ajax( '/teacher_level/set_teacher_advance_require', {
+                $.do_ajax( '/teacher_level/set_teacher_advance_require_2018', {
                     'teacherid' : teacherid,
                     'start_time' :g_args.quarter_start,
                     'level_before':opt_data.level,
