@@ -248,8 +248,6 @@ class tongji_ex extends Controller
             $ret_info[$userid]['orderid'] = isset($ret_info[$userid]['orderid'])?$ret_info[$userid]['orderid']:$info['orderid'];
             $ret_info[$userid]['order_time'] = isset($ret_info[$userid]['order_time'])?$ret_info[$userid]['order_time']:$order_time;
             $ret_info[$userid]['price'] = isset($ret_info[$userid]['price'])?$ret_info[$userid]['price']:$price;
-
-            $ret_info[$userid]['lessonid'] = [];
             if($lessonid>0){
                 $ret_info[$userid]['lessonid'][$lessonid] = [
                     'lesson_start'=>$lesson_start,
@@ -277,7 +275,7 @@ class tongji_ex extends Controller
             echo '<td>'.$item['add_time'].'</td>';
             echo '<td>'.$item['is_exist_count'].'</td>';
             echo '<td>';
-            if(count($item['lessonid'])>0){
+            if(isset($item['lessonid'])){
                 foreach($item['lessonid'] as $lessonid=>$info){
                     echo 'lessonid:'.$lessonid.',';
                     echo '试听时间:'.date('Y-m-d H:i:s',$info['lesson_start']).',';
