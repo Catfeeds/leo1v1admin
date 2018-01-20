@@ -70,13 +70,17 @@ class test_ricky extends Command
         //     if (in_array($item["userid"], $stus)) continue;
         //     echo $item["userid"]." ".E\Eis_warning_flag::get_desc($item["is_warning_flag"]).PHP_EOL;
         // }
-        $user = exec("who | cut -d' ' -f1");
-        echo $user;
-        $filename = "/home/".$user."/peng/2.log";
-        dd($filename);
+        //$user = exec("who | cut -d' ' -f1");
+        $filename = "/tmp/userid.log";
         $info = file_get_contents($filename);
         $info = explode("\n", $info);
-        $info = implode(" ", $info);
+        foreach ($info as $key => $item) {
+            if ($key % 1000 == 0) sleep(5);
+            $userid = str_replace(',', '', $item);
+            $count = $task->t_lesson_info_b3->get_subject_count($userid);
+            echo $userid." ".$count.PHP_EOL;
+        }
+        //$info = implode(" ", $info);
         //dd(trim($info));
     }
 }
