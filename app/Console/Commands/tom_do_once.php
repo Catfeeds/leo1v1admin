@@ -359,11 +359,12 @@ class tom_do_once extends Command
                 $userid = $item['userid'];
                 $origin = $item['origin'];
                 $add_time = $item['add_time'];
-                $count = $this->task->t_seller_student_origin->get_item_count($userid,$min,$add_time);
-                if($count>0){
-                    $this->task->t_seller_student_origin->field_update_list_2($userid, $origin, ['is_exist_count'=>$count]);
-                    echo $userid.':'.$origin.'=>'.$count."\n";
-                }
+                echo $userid.':'.$origin.'=>'.$count."\n";
+                // $count = $this->task->t_seller_student_origin->get_item_count($userid,$min,$add_time);
+                // if($count>0){
+                //     $this->task->t_seller_student_origin->field_update_list_2($userid, $origin, ['is_exist_count'=>$count]);
+                //     echo $userid.':'.$origin.'=>'.$count."\n";
+                // }
             }
             $start = strtotime('+1 month',$start);
         }
