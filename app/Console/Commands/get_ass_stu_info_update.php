@@ -1086,11 +1086,22 @@ class get_ass_stu_info_update extends Command
                 $first_regular_lesson_time = $task->t_lesson_info_b3->get_stu_first_regular_lesson_time($val);
                 $assign_time = $task->t_student_info->get_ass_assign_time($val);                        
 
+                //检查本月是否上过课
+                $month_lesson_flag = $task->t_lesson_info_b3->check_have_lesson_stu($val,$start_time,$end_time);
+
                 if($first_regular_lesson_time>0 && $first_regular_lesson_time<$month_half){
                     if($assign_time < $month_half){
                         $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$account,-2);
-                        if($revisit_num <2){
-                            $revisit_reword_per -=0.05;
+                        if($month_lesson_flag==1){
+                            if($revisit_num <2){
+                                $revisit_reword_per -=0.05;
+                            }
+ 
+                        }else{
+                            if($revisit_num <1){
+                                $revisit_reword_per -=0.05;
+                            }
+
                         }
                     }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
                         $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$account,-2);
@@ -1116,6 +1127,9 @@ class get_ass_stu_info_update extends Command
             $history_list = $task->t_ass_stu_change_list->get_ass_history_list($adminid,$start_time,$end_time);
                        
             foreach($history_list as $val){
+                //检查本月是否上过课
+                $month_lesson_flag = $task->t_lesson_info_b3->check_have_lesson_stu($val["userid"],$start_time,$end_time);
+
                 $add_time = $val["add_time"];
                 if($add_time<$month_half){
                     $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$month_half,$account,-2);
@@ -1127,9 +1141,17 @@ class get_ass_stu_info_update extends Command
                     $assign_time = $val["assign_ass_time"];
                     if($assign_time <$month_half){
                         $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$account,-2);
-                        if($revisit_num <2){
-                            $revisit_reword_per -=0.05;
-                        }
+                        if($month_lesson_flag==1){
+                            if($revisit_num <2){
+                                $revisit_reword_per -=0.05;
+                            }
+ 
+                        }else{
+                            if($revisit_num <1){
+                                $revisit_reword_per -=0.05;
+                            }
+
+                        }                      
 
                     }else{
                         $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$month_half,$end_time,$account,-2);
@@ -1161,12 +1183,14 @@ class get_ass_stu_info_update extends Command
                 $first_regular_lesson_time = $task->t_lesson_info_b3->get_stu_first_regular_lesson_time($val);
                 $assign_time = $task->t_student_info->get_ass_assign_time($val);                        
 
+
                 if($first_regular_lesson_time>0 && $first_regular_lesson_time<$month_half){
                     if($assign_time < $month_half){
                         $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$account,-2);
-                        if($revisit_num <2){
+                        if($revisit_num <1){
                             $revisit_reword_per -=0.05;
-                        }
+                        }                                   
+
                     }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
                         $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$account,-2);
                         if($revisit_num <1){

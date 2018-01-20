@@ -441,6 +441,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $count = $this->t_seller_student_origin->get_item_count($userid=99,$min=1509465600,$add_time=1512057600);
+        dd($count);
         $ret = $this->t_seller_student_origin->get_item_list();
         $ret_info = [];
         foreach($ret as $info){
@@ -450,14 +452,18 @@ class agent extends Controller
             $ret_info[$userid]['add_time'] = isset($ret_info[$userid]['add_time'])?$ret_info[$userid]['add_time']:date('Y-m-d H:i:s',$info['add_time']);
             $ret_info[$userid]['is_exist'] = isset($ret_info[$userid]['is_exist'])?'是':'否';
         }
+        $num = 0;
 
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>12月进入例子渠道</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>号码</th><th>渠道</th><th>进入日期</th><th>是否重复</th>';
+        echo '<th>编号</th><th>号码</th><th>渠道</th><th>进入日期</th><th>是否重复</th>';
         echo '</tr>';
         foreach($ret_info as $item){
+            $num++;
             echo '<tr>';
+            echo '<td>'.$num.'</td>';
+            echo '<td>'.$item['phone'].'</td>';
             echo '<td>'.$item['phone'].'</td>';
             echo '<td>'.$item['origin'].'</td>';
             echo '<td>'.$item['add_time'].'</td>';

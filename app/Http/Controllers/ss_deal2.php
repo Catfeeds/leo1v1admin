@@ -1094,6 +1094,7 @@ class ss_deal2 extends Controller
         $teacher_id = $this->get_in_str_val('teacher_id');
         $deal_flag  = $this->get_in_int_val('deal_flag');
         $remark     = $this->get_in_str_val('remark');
+        $lesson_problem_desc = $this->get_in_str_val('lesson_problem_desc');
         $record_adminid = $this->get_account_id();
 
         $lesson_problem = $this->get_in_int_val('lesson_problem');
@@ -1116,7 +1117,8 @@ class ss_deal2 extends Controller
             "lesson_problem" => $lesson_problem,
             "img_url"      => $img_url,
             "video_url"    => $video_url,
-            "zip_url"      => $zip_url
+            "zip_url"      => $zip_url,
+            "lesson_problem_desc" => $lesson_problem_desc
         ]);
 
         return $this->output_succ();
@@ -1141,19 +1143,12 @@ class ss_deal2 extends Controller
         $ret_list['deal_flag_str'] = E\Eboolean::get_color_desc($ret_list['deal_flag']);
 
         // 返回完整下载链接
-        $auth = new \Qiniu\Auth(
-            \App\Helper\Config::get_qiniu_access_key(),
-            \App\Helper\Config::get_qiniu_secret_key()
-        );
-
         $config=\App\Helper\Config::get_config("qiniu");
-        $bucket_info=$config["private_url"]['url'];
+        $qiniu=$config["public"]['url'].'/';
+        $ret_list['img_str'] = $qiniu.$ret_list['img_url'];
+        $ret_list['video_str'] = $qiniu.$ret_list['video_url'];
+        $ret_list['zip_str']   = $qiniu.$ret_list['zip_url'];
 
-        $pdf_file_path = $auth->privateDownloadUrl($bucket_info.'/'.$file_link );
-
-        dd($pdf_file_path);
-
-        $ret_list['img_str'] = '';
 
         return $this->output_succ(["data"=>$ret_list]);
     }

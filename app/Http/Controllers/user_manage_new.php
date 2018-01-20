@@ -1760,23 +1760,33 @@ class user_manage_new extends Controller
             $up_master_adminid=0;
         }
 
-        $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target");
+        $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target,group_renew_target,all_renew_target");
         $ret_info = $this->t_manager_info->get_assistant_month_target_info($start_time,$up_master_adminid,$account_id);
         $ret_info['list']=\App\Helper\Common::gen_admin_member_data($ret_info['list']);
         foreach( $ret_info["list"] as &$item ) {
             E\Emain_type::set_item_value_str($item);
-            if($item["level"] != "l-4"){
-                $item["lesson_target"]="";
-                $item["renew_target"]="";
-            }else{
+            if($item["level"] == "l-4"){
                 $item["lesson_target"]=@$target_info["rate_target"];
                 $item["renew_target"]=@$target_info["renew_target"]/100;
+            }elseif($item["level"] == "l-3"){
+                $item["lesson_target"]=@$target_info["rate_target"];
+                $item["renew_target"]=@$target_info["group_renew_target"]/100;
+
+            }elseif($item["level"] == "l-1"){
+                $item["lesson_target"]=@$target_info["rate_target"];
+                $item["renew_target"]=@$target_info["all_renew_target"]/100;
+            }else{
+                $item["lesson_target"]="";
+                $item["renew_target"]="";
+
             }
 
         }
 
         $this->set_filed_for_js("rate_target",@$target_info["rate_target"]);
         $this->set_filed_for_js("renew_target",@$target_info["renew_target"]/100);
+        $this->set_filed_for_js("group_renew_target",@$target_info["group_renew_target"]/100);
+        $this->set_filed_for_js("all_renew_target",@$target_info["all_renew_target"]/100);
 
 
         return $this->pageView(__METHOD__, $ret_info);
@@ -4101,7 +4111,7 @@ class user_manage_new extends Controller
 
         if($add_time!=""){
             $add_time = strtotime($add_time);
-            if($add_time!=$add_time_old && !in_array($account,['adrian','sunny'])){
+            if($add_time!=$add_time_old && !in_array($account,['adrian','sunny','jim'])){
                 return $this->output_err("你没有权限更改时间！");
             }
             $update_arr["add_time"] = $add_time;
@@ -4116,6 +4126,7 @@ class user_manage_new extends Controller
         }
 
         $ret = $this->t_teacher_money_list->field_update_list($id,$update_arr);
+
         return $this->output_succ();
     }
 

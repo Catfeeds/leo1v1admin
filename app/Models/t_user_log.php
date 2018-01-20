@@ -21,7 +21,7 @@ class t_user_log extends \App\Models\Zgen\z_t_user_log
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
-    public function add_data($msg,$userid='') {
+    public function add_data($msg,$userid=0) {
         return $this->row_insert([
             'userid'   => $userid,
             'adminid'  => session('adminid'),
@@ -30,13 +30,13 @@ class t_user_log extends \App\Models\Zgen\z_t_user_log
         ]);
     }
 
-    public function add_data_new($msg,$userid='',$type=0) {
+    public function add_data_new($msg,$userid=0,$type=0) {
         return $this->row_insert([
-            'userid' => $userid,
-            'adminid' => session('adminid'),
-            'msg' => $msg,
+            'userid'        => $userid,
+            'adminid'       => session('adminid'),
+            'msg'           => $msg,
             'user_log_type' => $type,
-            'add_time' => time()
+            'add_time'      => time()
         ]);
     }
 
