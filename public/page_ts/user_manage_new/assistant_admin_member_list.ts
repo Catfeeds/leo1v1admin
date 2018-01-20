@@ -41,7 +41,7 @@ $(function(){
             ["目标系数", id_lesson_target],          
             ["个人目标续费值", id_renew_target],          
             ["团队目标续费值", id_group_renew_target],          
-            ["总体目标续费值", id_renew_target],          
+            ["总体目标续费值", id_all_renew_target],          
         ];
         id_renew_target.val(g_args.renew_target);
         id_group_renew_target.val(g_args.group_renew_target);
