@@ -680,6 +680,31 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         return $this->main_get_list($sql);
     }
 
+    public function get_item_exist_list(){
+        $where_arr = [
+            'is_exist_count>0',
+        ];
+        $this->where_arr_add_time_range($where_arr, 'o.add_time', $start_time=1512057600, $end_time=1514736000);
+        $sql = $this->gen_sql_new(
+            " select o.*,"
+            ." n.phone,n.orderid,"
+            ." l.lessonid,l.lesson_type,l.lesson_start,l.lesson_end,l.lesson_del_flag,"
+            ." l.confirm_flag,l.lesson_user_online_status,l.sys_operator,"
+            ." o1.order_time,o1.price "
+            ." from %s o "
+            ." left join %s n on n.userid=o.userid "
+            ." left join %s l on l.userid=o.userid "
+            ." left join %s o1 on o1.orderid=n.orderid "
+            ." where %s order by o.add_time "
+            ,t_seller_student_origin::DB_TABLE_NAME
+            ,t_seller_student_new::DB_TABLE_NAME
+            ,t_lesson_info::DB_TABLE_NAME
+            ,t_order_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_all_list($start_time,$end_time){
         $where_arr = [];
         $this->where_arr_add_time_range($where_arr, 'add_time', $start_time, $end_time);
