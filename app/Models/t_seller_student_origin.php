@@ -670,7 +670,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
             ." n.phone "
             ." from %s o "
             ." left join %s n on n.userid=o.userid "
-            ." where %s "
+            ." where %s order by o.add_time "
             ,t_seller_student_origin::DB_TABLE_NAME
             ,t_seller_student_new::DB_TABLE_NAME
             ,$where_arr
