@@ -249,7 +249,14 @@
                @elseif ( $cur_page==10002 )
 
                @else
+               @endif
+            </div>
+        </div>
+        <div class="row">
+               @if ( $cur_page==10001 )
+               @elseif ( $cur_page==10002 )
 
+               @else
                    <div class=" col-xs-12 col-md-12" >
 
                        <div class="input-group">
@@ -266,10 +273,10 @@
                        </div>
                    </div>
 
-
                @endif
-            </div>
+
         </div>
+
         <hr/>
         <table class="common-table">
             <thead>

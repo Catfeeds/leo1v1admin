@@ -595,7 +595,6 @@ class seller_student_new extends Controller
 
     public function seller_student_list( )
     {
-        $this->switch_tongji_database();
         $cur_page       = $this->get_in_int_val("cur_page");
         $page_hide_list = $this->get_page_hide_list($cur_page);
         $account        = $this->get_account();
