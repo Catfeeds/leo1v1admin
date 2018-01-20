@@ -1594,9 +1594,9 @@ Enum_map = {
         $select.append(html_str);
     },
     append_option_list_v2s : function (group_name, $select , not_add_all_option, id_list ){
-        //console.log(group_name);
-        var desc_map=g_enum_map[group_name]["v2s_map"];
-
+        console.log(group_name);
+        var desc_map=g_enum_map[group_name]["simple_desc_map"];
+        console.log(group_name[group_name]);
         var html_str="";
         if (!not_add_all_option  ){
             html_str += "<option value=\"-1\">[全部]</option>";

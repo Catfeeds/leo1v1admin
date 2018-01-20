@@ -1623,12 +1623,14 @@ class teacher_level extends Controller
         $quarter_start = $this->get_in_int_val("quarter_start");
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",6);
         $teacherid = $this->get_in_int_val("teacherid",-1);
+        $is_test_user = $this->get_in_int_val("is_test_user",0);
+        $show_all = $this->get_in_int_val("show_all",0);
         $page_info = $this->get_in_page_info();
 
 
         $teacher_money_type=6;
         $start_time = strtotime("2017-10-01");
-        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,-1,-1,-1,0);
+        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,-1,-1,$is_test_user,0,$show_all);
         foreach($ret_info["list"] as &$item){
             //$item["level"]=$item["level_before"];
             $item["level"]=$item["real_level"];
@@ -1670,6 +1672,19 @@ class teacher_level extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    //晋升申请(2018年1月新版)
+    public function set_teacher_advance_require_2018(){
+        $start_time   = $this->get_in_int_val("start_time");
+        $teacherid    = $this->get_in_int_val("teacherid");
+        $level_after  = $this->get_in_int_val("level_after");
+        $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+            "level_after"     => $level_after,
+            "require_time"    => time(),
+            "require_adminid" => $this->get_account_id()
+        ]);
+        return $this->output_succ();
+
+    }
 
     //新版刷新数据
     public function update_teacher_advance_info_all(){

@@ -988,7 +988,7 @@ $(function(){
 
     $(".opt-teacher-pdf-back").on("click", function( ){
         var opt_data = $(this).get_opt_data();
-        upload_info(opt_data,true);
+        upload_info(opt_data,false);
     });
 
 

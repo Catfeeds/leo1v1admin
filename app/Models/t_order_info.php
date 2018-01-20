@@ -4786,6 +4786,37 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     }
 
+    //转介绍分期金额80%计算
+    public function get_seller_tran_order_period_money($start_time,$end_time){
+        $where_arr=[
+            [ "o.order_time >= %u", $start_time, -1 ] ,
+            [ "o.order_time <= %u", $end_time, -1 ] ,
+            "o.contract_status  >0" ,
+            "m.account_role = 1 ",
+            "o.price >0",
+            "mm.account_role=2",
+            "s.is_test_user=0",
+        ];
+        $sql = $this->gen_sql_new("select sum(if(c.child_order_type=2,c.price*0.8,c.price)) reset_money,o.price,o.orderid "
+                                  ." from %s o left join %s s on s.userid=o.userid "
+                                  ." left join %s m on s.origin_assistantid = m.uid"
+                                  ." left join %s mm on o.sys_operator = mm.account"
+                                  ." left join %s c on o.orderid=c.parent_orderid and c.price>0"
+                                  ." where %s group by o.orderid",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_child_order_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["orderid"];
+        });       
+
+    }
+
+
     //助教合同详情信息(薪资版本)  销售转介绍
     public function get_seller_tran_order_info($start_time,$end_time,$adminid=-1){
         $where_arr=[
@@ -4919,7 +4950,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             'price > 0',
             'contract_status > 0',
-            'contract_type = 0',
+            'contract_type not in (1,2)',
             'order_time < '.$end_time
         ];
         $this->where_arr_add_int_or_idlist($where_arr, 'userid', $userid);
@@ -4958,7 +4989,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             'price > 0',
             'contract_status > 0',
-            'contract_type = 0',
+            'contract_type not in (1,2)',
             'order_time < '.$end_time
         ];
         $this->where_arr_add_int_or_idlist($where_arr, 'userid', $userid);

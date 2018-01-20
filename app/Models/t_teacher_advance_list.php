@@ -20,15 +20,18 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
         return $this->main_get_list($sql);
 
     }
-    public function get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag=-1,$is_test_user=-1,$require_flag=1){
+    public function get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag=-1,$is_test_user=-1,$require_flag=1,$show_all=0){
         $where_arr=[
             ["start_time = %u",$start_time,0],
             ["t.teacher_money_type=%u",$teacher_money_type,-1],
             ["a.teacherid = %u",$teacherid,-1],
             ["a.accept_flag = %u",$accept_flag,-1],
             ["t.is_test_user = %u",$is_test_user,-1],
-            "m.account_role not in (4,9) or m.account_role is null"
+            //  "m.account_role not in (4,9) or m.account_role is null"
         ];
+        if($show_all==0){
+            $where_arr[]="m.account_role not in (4,9) or m.account_role is null";
+        }
         if($fulltime_flag==0){
             $where_arr[] = "(m.account_role <> 5 or m.account_role is null)"; 
         }elseif($fulltime_flag==1){
