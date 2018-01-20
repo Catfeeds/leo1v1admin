@@ -266,7 +266,7 @@ class tongji_ex extends Controller
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>12月重复进入例子</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>编号</th><th>号码</th><th>渠道</th><th>进入时间</th><th>第几次重复进入</th><th>试听情况</th><th>是否签单</th>';
+        echo '<th>编号</th><th>号码</th><th>渠道</th><th>进入时间</th><th>重复进入次数</th><th>试听情况</th><th>签单</th>';
         echo '</tr>';
         foreach($ret_info as $userid=>$item){
             $num++;
@@ -278,19 +278,19 @@ class tongji_ex extends Controller
             echo '<td>'.$item['is_exist_count'].'</td>';
             echo '<td>';
             if(count($item['lessonid'])>0){
-                foreach($item['lessonid'] as $info){
+                foreach($item['lessonid'] as $lessonid=>$info){
+                    echo 'lessonid:'.$lessonid.',';
                     echo '试听时间:'.date('Y-m-d H:i:s',$info['lesson_start']).',';
-                    // echo '-'.date('Y-m-d H:i:s',$info['lesson_end']);
-                    echo '是否取消:'.$info['lesson_del_flag']==1?'是':'否'.',';
-                    echo '是否成功:'.($info['confirm_flag']<2 && $info['lesson_user_online_status']==1 && $info['lesson_del_flag']==0)?'是':'否'.',';
-                    echo '申请cc:'.$info['sys_operator'];
+                    echo '是否取消:'.($info['lesson_del_flag']==1?'是':'否').',';
+                    echo '是否成功:'.(($info['confirm_flag']<2 && $info['lesson_user_online_status']==1 && $info['lesson_del_flag']==0)?'是':'否').',';
+                    echo '试听申请cc:'.$info['sys_operator'];
                     echo "\n";
                 }
             }else{
                 echo '无试听';
             }
             echo '</td>';
-            echo '<td>'.$item['orderid']>0?'是':'否'.'</td>';
+            echo '<td>'.$item['price'].'</td>';
             echo '</tr>';
         }
         echo '</table>';
