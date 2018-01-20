@@ -4912,5 +4912,62 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         });
 
     }
+    //@desn:获取用户首冲先关信息
+    //@param:$userid 用户id
+    //@param:$end_time 结束时间
+    public function get_first_flush_info($userid,$end_time){
+        $where_arr = [
+            'price > 0',
+            'contract_status > 0',
+            'contract_type = 0',
+            'order_time < '.$end_time
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'userid', $userid);
+        $sql = $this->gen_sql_new(
+            'select order_time first_flush_time,lesson_total*default_lesson_count first_flush_class_pag '.
+            'from %s where %s order by orderid asc limit 1',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+    //@desn:获取用户续费信息
+    //@param:$userid 用户id
+    public function get_renewal_info($userid,$start_time,$end_time){
+        $where_arr = [
+            'price > 0',
+            'contract_status > 0',
+            'contract_type = 3',
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'userid', $userid);
+        $this->where_arr_add_time_range($where_arr, 'order_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select count(*) renewal_count,sum(lesson_total) renewal_class_pag,'.
+            'sum(if((order_time >= 1509465600 and order_time < 1483200000),1,0)) q4_renewal '.
+            'from %s '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+    //@desn:获取用户总课时数
+    //@param:$userid 用户id
+    //@param:$end_time 结束时间
+    public function get_all_class_pag($userid,$end_time){
+        $where_arr = [
+            'price > 0',
+            'contract_status > 0',
+            'contract_type = 0',
+            'order_time < '.$end_time
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'userid', $userid);
+        $sql=$this->gen_sql_new(
+            'select sum(lesson_total*default_lesson_count) all_class_pag from %s where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
 
