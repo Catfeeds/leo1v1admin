@@ -13,6 +13,7 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	test_lesson_count_for_month	:any;
 	main_type	:any;
 	first_group_name	:any;
 	up_group_name	:any;
