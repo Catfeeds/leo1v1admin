@@ -237,9 +237,9 @@ class tongji_ex extends Controller
             $lesson_start = $info['lesson_start'];
             $lesson_end = $info['lesson_end'];
             $lesson_del_flag = $info['lesson_del_flag'];
-            $confirm_flag = $info['adminid']>0?$this->cache_get_account_nick($info['adminid']):'';
+            $confirm_flag = $info['confirm_flag'];
             $lesson_user_online_status = $info['lesson_user_online_status'];
-            $sys_operator = $info['sys_operator'];
+            $sys_operator = $info['adminid']>0?$this->cache_get_account_nick($info['adminid']):'';
 
             $ret_info[$userid]['phone'] = isset($ret_info[$userid]['phone'])?$ret_info[$userid]['phone']:$info['phone'];
             $ret_info[$userid]['origin'] = isset($ret_info[$userid]['origin'])?$ret_info[$userid]['origin']:$info['origin'];
