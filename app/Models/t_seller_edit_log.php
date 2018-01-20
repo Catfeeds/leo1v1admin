@@ -68,7 +68,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         return $this->main_get_list($sql);
     }
 
-    public function get_distribution_count($start_time,$end_time,$origin_ex){
+    public function get_dis_count($start_time,$end_time,$origin_ex){
         $where_arr = [
             's.is_test_user=0',
         ];

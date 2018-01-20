@@ -926,12 +926,13 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
     }
 
 
-    public function tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time,$grade_list=[-1] , $origin_ex="") {
+    public function tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid=-1) {
         $where_arr=[
             "accept_flag=1",
             "require_admin_type=2",
             "is_test_user=0",
             "lesson_del_flag=0",
+            ["t.require_adminid = %u",$adminid,-1],
         ];
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         // $this->where_arr_add_time_range($where_arr,"set_lesson_time",$start_time,$end_time);
@@ -955,12 +956,12 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." where %s "
             ." group by  cur_require_adminid "
             ,
-            self::DB_TABLE_NAME,
-            t_lesson_info::DB_TABLE_NAME,
-            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
-            t_test_lesson_subject::DB_TABLE_NAME,
-            t_student_info::DB_TABLE_NAME,
-            t_flow::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,//tr
+            t_lesson_info::DB_TABLE_NAME,//l
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,//tss
+            t_test_lesson_subject::DB_TABLE_NAME,//t
+            t_student_info::DB_TABLE_NAME,//s
+            t_flow::DB_TABLE_NAME,//f
             $where_arr);
 
         return $this->main_get_list_as_page($sql);

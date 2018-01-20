@@ -3071,7 +3071,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function get_distribution_count($start_time,$end_time,$origin_ex){
+    public function get_dis_count($start_time,$end_time,$origin_ex){
         $where_arr = [
             'n.admin_revisiterid>0',
             'n.admin_revisiterid<>n.admin_assignerid',
@@ -3305,7 +3305,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
 
     //助教转介绍例子
-    public function get_assistant_origin_order_losson_list_all($start_time,$end_time,$opt_date_str, $userid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid ,$sys_operator_type=1){               
+    public function get_assistant_origin_order_losson_list_all($start_time,$end_time,$opt_date_str, $userid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid ,$sys_operator_type=1){
         $where_arr=[
             ["o.sys_operator like '%%%s%%'" , $sys_operator, ""],
             ["l.teacherid=%u" , $teacherid, -1],
@@ -3348,7 +3348,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
 
-    
+
 
     // @desn:获取微信运营信息
     // @param:$start_time 开始时间

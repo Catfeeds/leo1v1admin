@@ -441,51 +441,8 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret = $this->t_seller_edit_log->get_item_count($userid=99);
+        $ret = $this->t_seller_student_origin->get_item_list();
         dd($ret);
-        $first_revisit_time = $this->t_tq_call_info->get_item_row($adminid=99,$phone='15251318621',$call_flag=1,$start_time=1516345800,$end_time=1516353000);
-        dd($first_revisit_time);
-        $id = $this->t_seller_edit_log->get_row_by_adminid_new($adminid=123,$userid=123);
-        dd($id);
-        $now = time();
-        $start_time = $now-3*3600;
-        $end_time = $now;
-        $start_time = 1516345200;
-        $end_time = 1516345800;
-        $start_date = \App\Helper\Utils::unixtime2date($start_time ,"Y-m-d H:i:s");
-        $end_date   = \App\Helper\Utils::unixtime2date($end_time,"Y-m-d H:i:s");
-        $cmd= new \App\Console\Commands\sync_tq();
-        $count=$cmd->load_data($start_date,$end_date,$phone='');
-        // $cmd= new \App\Console\Commands\sync_tianrun();
-        // $count=$cmd->load_data($start_time,$end_time);
-        dd($count);
-        $last_revisit_time = $this->t_tq_call_info->get_first_revisit_time($phone='15251318621',$desc='desc');
-        dd($last_revisit_time);
-        $ret_log = $this->task->t_seller_get_new_log->get_row_by_adminid_userid($adminid=99,$userid=123456);
-        dd($ret_log);
-        $ret = $this->t_seller_get_new_log->row_insert([
-            'adminid'=>$adminid=99,
-            'userid'=>$userid=123456,
-            'create_time'=>time(),
-        ]);
-        dd($ret);
-        list($start_time,$end_time) = [strtotime(date('Y-m-d',strtotime("-10 day"))),strtotime(date('Y-m-d'))];
-        $ret = $this->t_seller_new_count_get_detail->get_daily_userid($start_time,$end_time);
-        $userid_list = array_unique(array_column($ret, 'userid'));
-        list($call_count,$called_count) = [0,0];
-        foreach($userid_list as $item){
-            foreach($ret as $info){
-                if($info['userid'] == $item){
-                    if($info['cc_no_called_count_new']+$info['cc_called_count']>0){
-                        $call_count += 1;
-                    }
-                    if($info['cc_called_count']>0){
-                        $called_count += 1;
-                    }
-                }
-            }
-        }
-        dd($call_count,$called_count);
     }
 
     //处理等级头像

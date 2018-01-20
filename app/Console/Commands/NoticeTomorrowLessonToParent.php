@@ -40,7 +40,6 @@ class NoticeTomorrowLessonToParent extends Command
     {
         $task = new \App\Console\Tasks\TaskController();
         $ret  = \App\Helper\Utils::get_day_range(time(NULL)+86400);
-        //  $ret  = \App\Helper\Utils::get_day_range(time(NULL)+6*86400);
 
         $start_time = $ret["sdate"];
         $end_time   = $ret["edate"];
@@ -56,7 +55,7 @@ class NoticeTomorrowLessonToParent extends Command
             $userid       = $item["userid"];
             $date_str     = date('m月d日 H:i', $lesson_start)."-".date('H:i', $lesson_end);
             $lesson_type  = $item["lesson_type"];
-            $nick         = $task->cache_get_student_nick($userid);
+            $nick         = $item["nick"];
 
             if ($lesson_type==2){
                 $course_name="试听课";
