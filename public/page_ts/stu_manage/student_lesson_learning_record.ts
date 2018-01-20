@@ -5,32 +5,35 @@ function load_data(){
 		$.reload_self_page ( {
 		    order_by_str : g_args.order_by_str,
 		    sid:	g_args.sid,
-		    date_type_config:	$('#id_date_type_config').val(),
-		    date_type:	$('#id_date_type').val(),
-		    opt_date_type:	$('#id_opt_date_type').val(),
-		    start_time:	$('#id_start_time').val(),
-		    end_time:	$('#id_end_time').val(),
+		    // date_type_config:	$('#id_date_type_config').val(),
+		    // date_type:	$('#id_date_type').val(),
+		    // opt_date_type:	$('#id_opt_date_type').val(),
+		    // start_time:	$('#id_start_time').val(),
+		    // end_time:	$('#id_end_time').val(),
 		    subject:	$('#id_subject').val(),
 		    grade:	$('#id_grade').val(),
 	      cw_status:	$('#id_cw_status').val(),
 		    preview_status:	$('#id_preview_status').val(),
-		    current_id:	$(".current").data("id")
+		    current_id:	$(".current").data("id"),
+        start_date:	$('#id_start_date').val(),
+		    end_date:	$('#id_end_date').val(),
 		});
 
 }
 
 $(function(){
+
     window["g_load_data_flag"]=1;
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
+    // $('#id_date_range').select_date_range({
+    //     'date_type' : g_args.date_type,
+    //     'opt_date_type' : g_args.opt_date_type,
+    //     'start_time'    : g_args.start_time,
+    //     'end_time'      : g_args.end_time,
+    //     date_type_config : JSON.parse( g_args.date_type_config),
+    //     onQuery :function() {
+    //         load_data();
+    //     }
+    // });
 
     var get_arr_from_obj = function(objj){
         var arr = []
@@ -50,6 +53,28 @@ $(function(){
 	  $('#id_subject').val(g_args.subject);
     $('#id_cw_status').val(g_args.cw_status);
 	  $('#id_preview_status').val(g_args.preview_status);
+    $('#id_start_date').val(g_args.start_date);
+	  $('#id_end_date').val(g_args.end_date);
+    //时间控件
+	  $('#id_start_date').datetimepicker({
+		    lang:'ch',
+		    timepicker:false,
+		    format:'Y-m-d',
+	      onChangeDateTime :function(){
+		       load_data();
+        }
+	  });
+    
+	  $('#id_end_date').datetimepicker({
+		    lang:'ch',
+		    timepicker:false,
+		    format:'Y-m-d',
+		    onChangeDateTime :function(){
+		       load_data();
+        }
+	  });
+
+
 
     $("#id_search").on("click",function(){
         window["g_load_data_flag"] = 0;
@@ -171,6 +196,21 @@ $(function(){
             $("#id_subject_show").show();
         }
     });
+    $('#id_start_date,#id_end_date').change(function(){
+        var start=$("#id_start_date").val();
+        var end=$("#id_end_date").val();
+        var vv = start+"~"+end;
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        if(start=="" && end==""){
+            $("#id_date_show").hide();
+        }else{            
+            $("#id_date_show").html(htm);
+            $("#id_date_show").show();
+        }
+
+
+    });
+
     if(g_args.grade==-1){
         $("#id_grade_show").hide();
     }else{
@@ -187,6 +227,23 @@ $(function(){
         $("#id_subject_show").html(htm);
         $("#id_subject_show").show();
     }
+    if(g_args.start_date=="" && g_args.end_date==""){
+        $("#id_date_show").hide();
+    }else{
+        var vv = $("#id_start_date").val()+"~"+$("#id_end_date").val();
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        $("#id_date_show").html(htm);
+        $("#id_date_show").show();
+    }
+    if(g_args.subject==-1){
+        $("#id_subject_show").hide();
+    }else{
+        var vv = $("#id_subject").find("option:selected").text();
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        $("#id_subject_show").html(htm);
+        $("#id_subject_show").show();
+    }
+
 
     $("#id_grade_show").on("click",function(){
         $(this).hide();
@@ -202,6 +259,14 @@ $(function(){
         window["g_load_data_flag"] = 0;
         load_data();
     });
+    $("#id_date_show").on("click",function(){
+        $(this).hide();
+        $("#id_start_date").val("");
+        $("#id_end_date").val("");
+        window["g_load_data_flag"] = 0;
+        load_data();
+    });
+
 
     $(".show_cw_content").on("click",function(){
         var url = $(this).data("url");
@@ -252,6 +317,49 @@ $(function(){
         dlg.getModalDialog().css("width","600px");
 
 
+    });
+
+    $(".show_stu_score_detail").on("click",function(){
+        var effect = $(this).data("effect"); 
+        var quality = $(this).data("quality"); 
+        var interact = $(this).data("interact"); 
+        var stability = $(this).data("stability");
+        var title = "打分详情";
+        var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>得分</td></tr><tr><td>上课效果</td><td>"+effect+"</td></tr><tr><td>课件质量</td><td>"+quality+"</td></tr><tr><td>课堂互动</td><td>"+interact+"</td></tr><tr><td>系统稳定性</td><td>"+stability+"</td></tr></table></div>");     
+
+        var dlg=BootstrapDialog.show({
+            title:title, 
+            message :  html_node   ,
+            closable: true, 
+            buttons:[{
+                label: '返回',
+                cssClass: 'btn',
+                action: function(dialog) {
+                    dialog.close();
+
+                }
+            }],
+            onshown:function(){
+                
+            }
+
+        });
+
+        dlg.getModalDialog().css("width","400px");
+
+
+    });
+
+    $(".show_lesson_video").on("click",function(){
+        var lessonid = $(this).data("lessonid");
+        $.do_ajax( "/common/encode_text",{
+            "text" : lessonid
+        }, function(ret){
+            // BootstrapDialog.alert("对外链接 : http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text  );
+            $.wopen("http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text);
+        });
+     
+                         
     });
 
 

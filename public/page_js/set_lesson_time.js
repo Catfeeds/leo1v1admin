@@ -34,8 +34,8 @@
                     return;
                 }
 
-                var id_start_time=$("<input/> ");
-                var id_end_time=$("<input/> ");
+                var id_start_time = $("<input/> ");
+                var id_end_time   = $("<input/> ");
                 if ( data.lesson_status  != 0 ) {
                     BootstrapDialog.alert("课程状态不是未开始，无法修改");
                     return false;
@@ -46,101 +46,94 @@
                     //     return false;
                     // });
                 }else{
-                  //时间插件
-                  id_start_time.datetimepicker({
-                    lang       : 'ch',
-                    datepicker : true,
-                    timepicker : true,
-                    format     : 'Y-m-d H:i',
-                    step       : 30,
-                      onChangeDateTime :function(){
+                    id_start_time.datetimepicker({
+                        lang       : 'ch',
+                        datepicker : true,
+                        timepicker : true,
+                        format     : 'Y-m-d H:i',
+                        step       : 30,
+                        onChangeDateTime :function(){
                             var tt = '';
                             if(lesson_count == 100){
-                                 tt = 2400;
+                                tt = 2400;
                             }else if(lesson_count == 200){
-                                 tt = 5400;
+                                tt = 5400;
                             }else{
-                                 tt = 7200;
+                                tt = 7200;
                             }
 
                             var end_time= parseInt(strtotime(id_start_time.val() )) + tt;
                             id_end_time.val(DateFormat(end_time,"hh:mm"));
                         }
-                  });
-                }
+                    });
 
-              id_end_time.datetimepicker({
-                lang       : 'ch',
-                datepicker : false,
-                timepicker : true,
-                format     : 'H:i',
-                step       : 30
-              });
+                    id_end_time.datetimepicker({
+                        lang       : 'ch',
+                        datepicker : false,
+                        timepicker : true,
+                        format     : 'H:i',
+                        step       : 30
+                    });
 
-                if (data.lesson_start>0) {
-                    id_start_time.val(DateFormat (data.lesson_start , "yyyy-MM-dd hh:mm"));
-                    id_end_time.val(DateFormat (data.lesson_end, "hh:mm"));
-                }
+                    if (data.lesson_start>0) {
+                        id_start_time.val(DateFormat (data.lesson_start , "yyyy-MM-dd hh:mm"));
+                        id_end_time.val(DateFormat (data.lesson_end, "hh:mm"));
+                    }
 
-                var arr = [
-                    [ "课程id",data.lessonid] ,
-                    [ "课次",data.lesson_num] ,
-                    [ "开始时间",id_start_time] ,
-                    [ "结束时间",id_end_time]
-                ];
-                show_key_value_table("修改课程时间1", arr ,{
-                    label    : '确认',
-                    cssClass : 'btn-warning',
-                    action   : function(dialog) {
-                        var timestamp = (new Date()).valueOf()/1000;
-                        var deal_func = function() {
-                            $.do_ajax(
-                                '/user_deal/set_lesson_time',
-                                {
+                    var arr = [
+                        ["----","修改课程时间会修改课程的<font color='red'>课时数</font>,请谨慎修改"],
+                        [ "课程id",data.lessonid] ,
+                        [ "课次",data.lesson_num] ,
+                        [ "开始时间",id_start_time] ,
+                        [ "结束时间",id_end_time]
+                    ];
+                    show_key_value_table("修改课程时间", arr ,{
+                        label    : '确认',
+                        cssClass : 'btn-warning',
+                        action   : function(dialog) {
+                            var timestamp = (new Date()).valueOf()/1000;
+                            var deal_func = function() {
+                                BootstrapDialog.alert("正在修改，请稍后...");
+                                $.do_ajax('/user_deal/set_lesson_time',{
                                     'reset_lesson_count' : me.options.reset_lesson_count,
-                                    'lessonid':  data.lessonid,
-                                    'start':  id_start_time.val(),
-                                    'end':   id_end_time.val()
-                                },function( ret){
+                                    'lessonid'           : data.lessonid,
+                                    'start'              : id_start_time.val(),
+                                    'end'                : id_end_time.val()
+                                },function(ret){
                                     if (ret.ret != 0) {
-                                        BootstrapDialog.alert(ret.info ) ;
+                                        BootstrapDialog.alert(ret.info) ;
                                     }else{
                                         BootstrapDialog.alert("设置成功") ;
                                         window.location.reload();
                                     }
+                                });
+                            };
 
-                                }
-                            );
-                        };
-
-                        if ( $.strtotime( id_start_time.val() )< timestamp-60  ) {
-                            BootstrapDialog.alert("开始时间比现在还小,不行!");
-                            return ;
-
-                        }
-
-                        if ( $.strtotime( id_start_time.val().substr(0,11)+  (id_end_time.val())) < timestamp-60  ) {
-                            BootstrapDialog.alert("结束时间比现在还小,不行!");
-                            return ;
-
-                        }
-
-                        if( $.strtotime( (id_start_time.val())) < timestamp + 86400  ){
-                            if (confirm  ("该时间离当前很近,:" + id_start_time.val() +".是吗？"  )) {
-                                deal_func();
-                            }else{
+                            if ( $.strtotime( id_start_time.val() )< timestamp-60  ) {
+                                BootstrapDialog.alert("开始时间不能比现在还小!");
                                 return ;
                             }
-                        }else{
-                            deal_func();
-                        }
 
-                    }
-                });
+                            if ( $.strtotime( id_start_time.val().substr(0,11)+  (id_end_time.val())) < timestamp-60  ) {
+                                BootstrapDialog.alert("结束时间不能比现在还小!");
+                                return ;
+                            }
+
+                            if( $.strtotime( (id_start_time.val()))<timestamp+86400){
+                                if (confirm("该时间离当前很近,:"+id_start_time.val()+".是吗？")) {
+                                    deal_func();
+                                }else{
+                                    return ;
+                                }
+                            }else{
+                                deal_func();
+                            }
+                        }
+                    });
+                }
             });
         });
     };
-
 
     //定义方法
     Cset_lesson_time.prototype = {

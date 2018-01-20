@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TLessonInfoAddIndex extends Migration
+class TChangeSubGradeBookTag extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class TLessonInfoAddIndex extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_lesson_info', function( Blueprint $table)
-        {
-            $table->index('uuid');
-        });
-
+        Schema::table('db_weiyi.t_sub_grade_book_tag', function (Blueprint $table){
+            t_field($table->integer("resource_type"),"资源类型");
+            t_field($table->integer("season_id"),"课程类型");
+        }); 
     }
 
     /**

@@ -199,7 +199,7 @@ class user_power extends Controller
     public function edit_role_groupid(){
         $role_groupid          = $this->get_in_int_val('role_groupid');
         $edit_type             = $this->get_in_int_val('edit_type');
-        $edit_power_name       = $this->get_in_str_val('edit_power_name');
+        $edit_power_name       = trim($this->get_in_str_val('edit_power_name'));
         $edit_power_id         = $this->get_in_str_val('edit_power_id');
         $user_id               = $this->get_in_int_val('user_id');
         $is_copy_power         = $this->get_in_int_val('is_copy_power'); //是否复制其他权限组
@@ -210,32 +210,39 @@ class user_power extends Controller
             "role_groupid" => $role_groupid,
         ];
 
-        if($is_copy_power){
-            $authority = $this->t_authority_group->get_group_authority($copy_groupid);
-            if($authority){
-                $data['group_authority'] = $authority;
-            }
-        }
-
+        // if($is_copy_power){
+        //     $authority = $this->t_authority_group->get_group_authority($copy_groupid);
+        //     if($authority){
+        //         $data['group_authority'] = $authority;
+        //     }
+        // }
+        $edit = 0;
         if( $edit_type == 1){
             //添加权限组
             $data["create_time"] = time(NULL);
-            $this->t_authority_group->row_insert($data);
+            $edit = $this->t_authority_group->row_insert($data);
             $edit_power_id = $this->t_authority_group->get_last_insertid();
         }else{
             //编辑权限组
-            $this->t_authority_group->field_update_list($edit_power_id,$data);
+            $edit = $this->t_authority_group->field_update_list($edit_power_id,$data);
+        }
+
+        $role_name = E\Eaccount_role::get_desc($role_groupid);
+        if($edit > 0){
+            $this->t_user_log->row_insert([
+                "add_time" => time(),
+                "adminid"  => $this->get_account_id(),
+                "msg"      => "权限管理页面,权限名修改记录: [权限id:$edit_power_id,权限名:$edit_power_name,角色:$role_name]",
+                "user_log_type" => 4, //权限页面添加用户记录
+            ]);
         }
 
         if($user_id){
             $this->add_user_power($role_groupid,$edit_power_id,$user_id);
-            /**
-             * @ 产品部加 数据更改日志
-             */
             $this->t_user_log->row_insert([
                 "add_time" => time(),
                 "adminid"  => $this->get_account_id(),
-                "msg"      => "权限管理页面,添加用户修改记录: [用户id:$user_id,角色:$role_groupid]",
+                "msg"      => "权限管理页面,添加用户修改记录: [用户id:$user_id,权限id:$edit_power_id,权限名:$edit_power_name,角色:$role_name]",
                 "user_log_type" => 4, //权限页面添加用户记录
             ]);
 
@@ -248,9 +255,17 @@ class user_power extends Controller
         $user_id      = $this->get_in_int_val("user_id") ;
         $role_groupid  = $this->get_in_int_val("role_groupid") ;
         $groupid     = $this->get_in_int_val("groupid");
-
         $info = $this->add_user_power($role_groupid,$groupid,$user_id);
+
+        $role_name = E\Eaccount_role::get_desc($role_groupid);
         if($info[0] == 1){
+            $this->t_user_log->row_insert([
+                "add_time" => time(),
+                "adminid"  => $this->get_account_id(),
+                "msg"      => "权限管理页面,添加用户记录: [用户id:$user_id,权限id:$groupid,角色:$role_name]",
+                "user_log_type" => 4, //权限页面添加用户记录
+            ]);
+
             return $this->output_succ();
         }else{
             return $this->output_err($info[1]);
@@ -262,8 +277,9 @@ class user_power extends Controller
         $uid_str      = $this->get_in_str_val("uid_str") ;
         $role_groupid  = $this->get_in_int_val("role_groupid") ;
         $groupid     = $this->get_in_int_val("groupid");
-        $change_role     = $this->get_in_int_val("change_role");
+        $change_role     = $this->get_in_int_val("change_role",0);
 
+        $role_name = E\Eaccount_role::get_desc($role_groupid);
         if(!empty($uid_str)){
             $uid_arr = explode(',',$uid_str);
             $all_num = count($uid_arr);
@@ -278,6 +294,14 @@ class user_power extends Controller
                 }
             }
             $info = "为该权限添加用户总数：".$all_num." 其中成功：".$succ_num."，失败：".$fail_num;
+
+            $this->t_user_log->row_insert([
+                "add_time" => time(),
+                "adminid"  => $this->get_account_id(),
+                "msg"      => "权限管理页面,添加用户记录: [用户id:$uid_str,角色:$role_name,权限:$groupid]".$info,
+                "user_log_type" => 4, //权限页面添加用户记录
+            ]);
+
             return $this->output_succ($info);
 
         }else{
@@ -310,16 +334,6 @@ class user_power extends Controller
             $this->t_manager_info->field_update_list($user_id,['permission'=>$have_permit]);
         }
 
-        /**
-         * @ 产品部加 数据更改日志
-         */
-        $this->t_user_log->row_insert([
-            "add_time" => time(),
-            "adminid"  => $this->get_account_id(),
-            "msg"      => "权限管理页面,添加用户修改记录: [用户id:$user_id,角色:$role_groupid]",
-            "user_log_type" => 4, //权限页面添加用户记录
-        ]);
-
         return [1];
     }
 
@@ -327,32 +341,41 @@ class user_power extends Controller
     public function dele_role_groupid(){
         $role_groupid  = $this->get_in_int_val('role_groupid');
         $groupid  = $this->get_in_int_val('groupid');
+        $role_name = E\Eaccount_role::get_desc($role_groupid);
         $deleNum = $this->t_authority_group->dele_by_id($role_groupid, $groupid);
         if($deleNum){
+
+            $this->t_user_log->row_insert([
+                "add_time" => time(),
+                "adminid"  => $this->get_account_id(),
+                "msg"      => "权限管理页面,删除权限组id记录: [删除的权限组id:$groupid,角色:$role_name]",
+                "user_log_type" => 4, //权限页面添加用户记录
+            ]);
+
             return $this->output_succ();
         }else{
             return $this->output_err();
         }
     }
 
+    //编辑权限
     public function set_group_power(){
         $role_groupid         = $this->get_in_int_val('role_groupid');
         $groupid              = $this->get_in_int_val('groupid');
         $power_list_str       = $this->get_in_str_val('power_list_str');
-        $this->t_authority_group->field_update_list($groupid,[
+        $num = $this->t_authority_group->field_update_list($groupid,[
             "group_authority"  => $power_list_str,
         ]);
 
-        /**
-         * @ 产品部加 数据更改日志
-         */
-        $this->t_user_log->row_insert([
-            "add_time" => time(),
-            "adminid"  => $this->get_account_id(),
-            "msg"      => " 角色组role_groupid: $role_groupid, 权限组groupid:$groupid, 权限管理页面,权限修改记录:$power_list_str",
-            "user_log_type" =>  E\Euser_log_type::V_4, //权限页面修改记录
-        ]);
-
+        $role_name = E\Eaccount_role::get_desc($role_groupid);
+        if( $num > 0){            
+            $this->t_user_log->row_insert([
+                "add_time" => time(),
+                "adminid"  => $this->get_account_id(),
+                "msg"      => " 角色: $role_name, 权限id:$groupid, 权限管理页面,权限修改记录:$power_list_str",
+                "user_log_type" =>  E\Euser_log_type::V_4, //权限页面修改记录
+            ]);
+        }
         return $this->output_succ();
     }
 
@@ -370,6 +393,15 @@ class user_power extends Controller
             foreach($uid_arr as $uid){
                 $this->dele_user_power($uid,$groupid);
             }
+
+            //批量删除用户
+            $this->t_user_log->row_insert([
+                "add_time" => time(),
+                "adminid"  => $this->get_account_id(),
+                "msg"      => "批量删除用户权限, 用户id:$uid, 所要删除的权限组id:$groupid",
+                "user_log_type" =>  E\Euser_log_type::V_4, //权限页面修改记录
+            ]);
+
         }
         return $this->output_succ();
     }
@@ -381,6 +413,13 @@ class user_power extends Controller
         $groupid  = $this->get_in_int_val('groupid');
 
         $this->dele_user_power($uid,$groupid);
+
+        $this->t_user_log->row_insert([
+            "add_time" => time(),
+            "adminid"  => $this->get_account_id(),
+            "msg"      => "删除用户权限, 用户id:$uid, 所要删除的权限组id:$groupid",
+            "user_log_type" =>  E\Euser_log_type::V_4, //权限页面修改记录
+        ]);
 
         return $this->output_succ();
     }

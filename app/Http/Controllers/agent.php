@@ -422,7 +422,7 @@ class agent extends Controller
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>tmk标记待定状态例子</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>号码</th><th>TMK状态</th><th>来源</th><th>例子首次进入时间</th><th>拨打人数</th><th>最后拨打人</th><th>最后一次回访时间</th><th>当前cc</th><th>是否在公海</th>';
+        echo '<th>号码</th><th>TMK状态</th><th>来源</th><th>例子首次进入时间</th><th>拨打人数</th><th>最后拨打人</th><th>最后一次回访时间</th><th>当前cc</th><th>是否出现在公海</th>';
         echo '</tr>';
         foreach($ret as $item){
             echo '<tr>';
@@ -431,16 +431,36 @@ class agent extends Controller
             echo '<td>'.$item['origin'].'</td>';
             echo '<td>'.date('Y-m-d H:i:s',$item['add_time']).'</td>';
             echo '<td>'.$item['call_admin_count'].'</td>';
-            echo '<td>'.$item['last_contact_cc'].'</td>';
+            echo '<td>'.$this->cache_get_account_nick($item['last_contact_cc']).'</td>';
             echo '<td>'.date('Y-m-d H:i:s',$item['last_revisit_time']).'</td>';
-            echo '<td>'.$item['account'].'</td>';
-            echo '<td>'.($item['seller_resource_type']==1?'是':'否').'</td>';
+            echo '<td>'.$this->cache_get_account_nick($item['admin_revisiterid']).'</td>';
+            echo '<td>'.(($item['seller_resource_type']==1 && $item['admin_revisiterid']==0 && $item['global_seller_student_status']!=50 && $item['lesson_count_all']==0 && $item['sys_invaild_flag']==0 && ($item['hand_free_count']+$item['auto_free_count'])<5)?'是':'否').'</td>';
             echo '</tr>';
         }
         echo '</table>';
     }
 
     public function test_new(){
+        $ret = $this->t_seller_edit_log->get_item_count($userid=99);
+        dd($ret);
+        $first_revisit_time = $this->t_tq_call_info->get_item_row($adminid=99,$phone='15251318621',$call_flag=1,$start_time=1516345800,$end_time=1516353000);
+        dd($first_revisit_time);
+        $id = $this->t_seller_edit_log->get_row_by_adminid_new($adminid=123,$userid=123);
+        dd($id);
+        $now = time();
+        $start_time = $now-3*3600;
+        $end_time = $now;
+        $start_time = 1516345200;
+        $end_time = 1516345800;
+        $start_date = \App\Helper\Utils::unixtime2date($start_time ,"Y-m-d H:i:s");
+        $end_date   = \App\Helper\Utils::unixtime2date($end_time,"Y-m-d H:i:s");
+        $cmd= new \App\Console\Commands\sync_tq();
+        $count=$cmd->load_data($start_date,$end_date,$phone='');
+        // $cmd= new \App\Console\Commands\sync_tianrun();
+        // $count=$cmd->load_data($start_time,$end_time);
+        dd($count);
+        $last_revisit_time = $this->t_tq_call_info->get_first_revisit_time($phone='15251318621',$desc='desc');
+        dd($last_revisit_time);
         $ret_log = $this->task->t_seller_get_new_log->get_row_by_adminid_userid($adminid=99,$userid=123456);
         dd($ret_log);
         $ret = $this->t_seller_get_new_log->row_insert([

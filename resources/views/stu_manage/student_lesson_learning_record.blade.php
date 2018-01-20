@@ -1,5 +1,19 @@
 @extends('layouts.stu_header')
 @section('content')
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
+    <script type="text/javascript" src="/js/jquery.base64.js"></script>
+    <script type="text/javascript" src="/page_js/select_user.js"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+    <script type="text/javascript" src="/js/svg.js"></script>
+    <script type="text/javascript" src="/js/wb-reply/audio.js"></script>
+    <script type="text/javascript" src="/page_js/lib/flow.js"></script>
+
+    <link href="/css/jquery-ui-1.8.custom.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" >
      var g_subject_list= <?php  echo json_encode(@$subject_list); ?> ;
      var g_grade_list= <?php  echo json_encode(@$grade_list); ?> ;
@@ -21,20 +35,30 @@
 
         <div class="row" style="margin-top:10px">
             <div class="col-xs-12 col-md-4">
-                <div  id="id_date_range" >
+                <div class="input-group ">
+                    <span >时间:</span>
+                    <input type="text" id="id_start_date" class="opt-change"/>
+                    <span >-</span>
+                    <input type="text" id="id_end_date" class="opt-change"/>
                 </div>
             </div>
+
+            <!--             <div class="col-xs-12 col-md-4">
+                 <div  id="id_date_range" >
+                 </div>
+                 </div>
+            -->
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">年级</span>
-                    <select id="id_grade" class="opt-change">                      
+                    <select id="id_grade" class="opt-change">
                     </select>
                 </div>
             </div>
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">科目</span>
-                    <select id="id_subject" class="opt-change">                      
+                    <select id="id_subject" class="opt-change">
                     </select>
                 </div>
             </div>
@@ -45,10 +69,11 @@
                 <button class="btn btn-warning" id="id_add_stu_score" >添加考试成绩</button>
             </div>
             <div class="col-xs-6 col-md-12" >
+                <button class="btn " id="id_date_show" ></button>
                 <button class="btn " id="id_grade_show" ></button>
                 <button class="btn " id="id_subject_show" ></button>
             </div>
-            
+
 
 
 
@@ -60,7 +85,7 @@
                 <button class="btn btn-warning btn-flat lesson_table_flag" id="id_attend_rate" style="float:right" data-class_id="2">正常出勤率:{{ @$attend_rate }}%</button>
                 <button class="btn btn-warning btn-flat performance_table_flag" id="id_record_rate" style="float:right" data-class_id="3">反馈率:{{ @$record_rate }}%</button>
 
-                
+
             </div>
         </div>
         <table class="common-table preview_table_flag" data-class_id="1">
@@ -137,7 +162,7 @@
                     <td>学生发言</td>
                     <td>老师画笔</td>
                     <td>获赞</td>
-                  
+
                     <td>老师</td>
                     <td>操作</td>
                 </tr>
@@ -206,12 +231,12 @@
                         <td>{{@$var["lesson_time"] }}</td>
                         <td>{{@$var["grade_str"] }}</td>
                         <td>{{@$var["subject_str"] }}</td>
-                        <td >{{@$var["stu_score"]}}</td>
+                        <td ><a class="btn show_stu_score_detail" href="javascript:;" data-lessonid="{{ @$var["lessonid"] }}" data-effect="{{ @$var["teacher_effect"] }}" data-quality="{{ @$var["teacher_quality"] }}" data-interact="{{ @$var["teacher_interact"] }}" data-stability="{{ @$var["stu_stability"] }}">{{@$var["stu_score"]}}</a></td>
                         <td >{{@$var["stu_comment"]}}</td>
                         <td >{{@$var["stu_point_performance"]}}</td>
-                      
+
                         <td>{{@$var["realname"] }}</td>
-                        <td><a class="btn show_lesson_video" href="javascript:;" data-lessonid="{{ @$var["lessonid"] }}">课程回访</a></td>
+                        <td><a class="btn show_lesson_video" href="javascript:;" data-lessonid="{{ @$var["lessonid"] }}">课程回放</a></td>
                         <td>
                             <div
 
