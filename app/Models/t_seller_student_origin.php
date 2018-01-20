@@ -664,13 +664,15 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
 
     public function get_item_list(){
         $where_arr = [];
-        $this->where_arr_add_time_range($where_arr, 'add_time', $start_time=1512057600, $end_time=1514736000);
+        $this->where_arr_add_time_range($where_arr, 'o.add_time', $start_time=1512057600, $end_time=1514736000);
         $sql = $this->gen_sql_new(
-            " select userid,count(add_time) count "
-            ." from %s "
+            " select o.*, "
+            ." n.phone "
+            ." from %s o "
+            ." left join %s n on n.userid=o.userid "
             ." where %s "
-            ." group by userid"
             ,t_seller_student_origin::DB_TABLE_NAME
+            ,t_seller_student_new::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);
