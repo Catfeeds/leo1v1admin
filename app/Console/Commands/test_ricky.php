@@ -58,17 +58,25 @@ class test_ricky extends Command
         // }
 
         // 拉取2017年下单学员的预警数据
-        $start_time = strtotime("2017-1-1");
-        $end_time = strtotime("2018-1-1");
-        $info = $task->t_revisit_info->get_all_info($start_time, $end_time);
-        $stu = $task->t_student_info->get_test_user();
-        $stus = [];
-        foreach($stu as $val) {
-            array_push($stus, $val["userid"]);
-        }
-        foreach($info as $item) {
-            if (in_array($item["userid"], $stus)) continue;
-            echo $item["userid"]." ".E\Eis_warning_flag::get_desc($item["is_warning_flag"]).PHP_EOL;
-        }
+        // $start_time = strtotime("2017-1-1");
+        // $end_time = strtotime("2018-1-1");
+        // $info = $task->t_revisit_info->get_all_info($start_time, $end_time);
+        // $stu = $task->t_student_info->get_test_user();
+        // $stus = [];
+        // foreach($stu as $val) {
+        //     array_push($stus, $val["userid"]);
+        // }
+        // foreach($info as $item) {
+        //     if (in_array($item["userid"], $stus)) continue;
+        //     echo $item["userid"]." ".E\Eis_warning_flag::get_desc($item["is_warning_flag"]).PHP_EOL;
+        // }
+        $user = exec("who | cut -d' ' -f1");
+        echo $user;
+        $filename = "/home/".$user."/peng/2.log";
+        dd($filename);
+        $info = file_get_contents($filename);
+        $info = explode("\n", $info);
+        $info = implode(" ", $info);
+        //dd(trim($info));
     }
 }
