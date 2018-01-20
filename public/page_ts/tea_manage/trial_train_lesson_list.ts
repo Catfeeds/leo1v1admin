@@ -761,6 +761,51 @@ $(function(){
 
     });
 
+    $(".opt-edit-no-pass").on("click",function(){
+        var data     = $(this).get_opt_data();
+        var id       = $(this).get_opt_data("id");
+        
+        
+        var id_re_submit=$("<label><input name=\"re_submit\" type=\"checkbox\" value=\"1\" />授课环境不佳</label> <label><input name=\"re_submit\" type=\"checkbox\" value=\"2\" />授课内容错误 </label><label><input name=\"re_submit\" type=\"checkbox\" value=\"7\" />无自我介绍(英语科目) </label><label><input name=\"re_submit\" type=\"checkbox\" value=\"12\" />没有声音</label><label><input name=\"re_submit\" type=\"checkbox\" value=\"13\" />旷课</label><label><input name=\"re_submit\" type=\"checkbox\" value=\"100\" />其他</label> ");
+        var id_lecture_out=$("<label><input name=\"lecture_out\" type=\"checkbox\" value=\"3\" />语速过慢/过快 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"4\" />语调沉闷 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"5\" />节奏拖沓 </label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"6\" />枯燥乏味 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"8\" />解题错误</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"9\" />普通话发音不标准</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"10\" />英文发音不标准</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"100\" />其他</label>");
+        var id_reason_all = $("<textarea/>");
+
+        var arr = [
+            ["可重审",id_re_submit],
+           // ["未通过",id_lecture_out],
+            ["原因/建议",id_reason_all]
+        ];
+
+        $.show_key_value_table("重审淘汰判断",arr,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                var re_submit_list=[];
+                id_re_submit.find("input:checkbox[name='re_submit']:checked").each(function(i) {
+                    re_submit_list.push($(this).val());
+                });
+                var lecture_out_list=[];
+                id_lecture_out.find("input:checkbox[name='lecture_out']:checked").each(function(i) {
+                    lecture_out_list.push($(this).val());
+                });
+
+                if(id_reason_all.val()=="" || (re_submit_list.length==0 && lecture_out_list.length==0)){
+                    BootstrapDialog.alert("请填写完整");
+                    return;
+                }
+                
+                $.do_ajax("/ajax_deal2/set_no_pass_train_info",{
+                    "id" : id,
+                    "re_submit_list": JSON.stringify(re_submit_list),
+                    "lecture_out_list":"",
+                    "reason" : id_reason_all.val()
+                });
+            }
+        });
+        
+    });
+
+
 
     $('.opt-change').set_input_change_event(load_data);
 });

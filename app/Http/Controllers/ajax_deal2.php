@@ -3152,4 +3152,68 @@ class ajax_deal2 extends Controller
 
     }
 
+    //模拟试听重审不通过判断
+    public function set_no_pass_train_info(){
+        $id = $this->get_in_int_val("id");
+        $re_submit_list = $this->get_in_str_val("re_submit_list");
+        $lecture_out_list = $this->get_in_str_val("lecture_out_list");
+        $reason = trim($this->get_in_str_val("reason"));
+        $re_submit_arr = !empty($re_submit_list)?json_decode($re_submit_list,true):[];
+        $lecture_out_arr=!empty($lecture_out_list)?json_decode($lecture_out_list,true):[];
+        $retrial_arr = array_merge($re_submit_arr,$lecture_out_arr);
+        $retrial_info = json_encode($retrial_arr);
+        $account = $this->get_account();
+        $acc= $this->t_teacher_record_list->get_acc($id);
+        $account = $this->get_account();
+        if($acc != $account && $acc !=""){
+            return $this->output_err("您没有权限审核,审核人为".$acc);
+        }
+
+        if(!empty($lecture_out_arr)){
+            $status=2;
+        }else{
+            $status=3;
+        }
+        $this->t_teacher_record_list->field_update_list($id,[
+            "record_info" =>$reason,
+            "add_time"    =>time(),
+            "free_time"   => $retrial_info, //临时存储
+            "trial_train_status"=> $status,
+            "acc"  =>$account
+        ]);
+        if( $status==2){
+                    
+            $keyword2 = "未通过";
+        }else{
+            $keyword2 = "可重审";
+        }
+        $teacherid = $this->t_teacher_record_list->get_teacherid($id);
+        $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+        // $teacher_info['wx_openid']= "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+        if($teacher_info['wx_openid']!=""){
+            /**
+             * 模板ID : 9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ
+             * 标题   : 评估结果通知
+             * {{first.DATA}}
+             * 评估内容：{{keyword1.DATA}}
+             * 评估结果：{{keyword2.DATA}}
+             * 时间：{{keyword3.DATA}}
+             * {{remark.DATA}}
+             */
+            $template_id      = "9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ";
+            $data['first']    = "老师您好，很抱歉您没有通过模拟试听，希望您再接再厉。";
+            $data['keyword1'] = $reason;
+            $data['keyword2'] = $keyword2;
+            $data['keyword3'] = date("Y-m-d H:i:s");
+            $data['remark'] = "请重新提交模拟试听时间，理优教育致力于打造高水平的教学服务团队，期待您能通过下次模拟试听，加油！";
+            $url = "";
+            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
+            //\App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxLZ3twmoTAadSSXDGsKFNk8",$template_id,$data,$url);
+        }
+        $ret = $this->add_trial_train_lesson($teacher_info,1,2);
+
+        return $this->output_succ();
+    }
+
+
 }
