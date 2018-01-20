@@ -61,8 +61,8 @@
                         ["总得分","total_score" ],
                        ])  !!}
                     <td>是否达标</td>
-                    <td>扣款申请</td>
-                    <td>晋升申请</td>
+                    <td width="150">扣款申请</td>
+                    <td width="150">晋升申请</td>
 
                     <td> 操作  </td>
                 </tr>
@@ -94,10 +94,10 @@
                         <td>{{@$var["reach_flag_str"]}} </td>
                         <td>
                             @if(@$var["reach_flag"]==1)
-                                0<br>
+                                0<br><br>
                                 无
                             @else
-                                -{{ @$var["withhold_money"] }}元/月<br>
+                                -{{ @$var["withhold_money"] }}元/月<br><br>
                                 待审批
                             @endif
                         </td>
