@@ -123,8 +123,6 @@ $(function(){
         Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[8]);
         $('#id_resource_type').val(8);
     }
-    Enum_map.append_option_list("subject", $("#id_subject"),false, my_subject);
-    Enum_map.append_option_list("grade", $("#id_grade"),false, my_grade);
 
     if(tag_one == 'region_version'){
         Enum_map.append_option_list(tag_one, $("#id_tag_one"), false, book);
@@ -151,8 +149,18 @@ $(function(){
         $("#id_tag_five").append('<option value="-1">全部</option>');
     }
 
-    $('#id_subject').val(g_args.subject);
-    $('#id_grade').val(g_args.grade);
+    if(is_teacher == 1){
+        Enum_map.append_option_list("subject", $("#id_subject"),true, my_subject);
+        Enum_map.append_option_list("grade", $("#id_grade"),true, my_grade);
+        $("#id_subject").val(my_subject[0]);
+        $("#id_grade").val(my_grade[0]);
+    }else{
+        Enum_map.append_option_list("subject", $("#id_subject"),false, my_subject);
+        Enum_map.append_option_list("grade", $("#id_grade"),false, my_grade);
+        $('#id_subject').val(g_args.subject);
+        $('#id_grade').val(g_args.grade);
+    }
+
     $('#id_tag_one').val(g_args.tag_one);
 
     if($('#id_resource_type').val() == 3 || $('#id_resource_type').val() == 1 ){
