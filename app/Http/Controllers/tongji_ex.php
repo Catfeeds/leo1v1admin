@@ -197,6 +197,7 @@ class tongji_ex extends Controller
     }
 
     public function market_seller_student(){
+        $this->check_and_switch_tongji_domain();
         $ret = $this->t_seller_student_origin->get_item_list();
         $ret_info = [];
         foreach($ret as $info){
@@ -227,6 +228,7 @@ class tongji_ex extends Controller
     }
 
     public function market_seller_student_repeat(){
+        $this->check_and_switch_tongji_domain();
         $ret = $this->t_seller_student_origin->get_item_exist_list();
         $ret_info = [];
         foreach($ret as $info){
