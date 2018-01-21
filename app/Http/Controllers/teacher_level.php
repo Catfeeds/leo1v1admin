@@ -1755,6 +1755,10 @@ class teacher_level extends Controller
 
                 $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=".$teacherid;
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+                if($teacherid==240314){
+                    \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxGZQHlRENGlUeA7Tn1nSeII",$template_id,$data,$url);                   
+                }
+                
             }
 
             // 邮件推送 暂时不推
