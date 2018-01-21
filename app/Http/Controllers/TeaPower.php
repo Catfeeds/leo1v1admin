@@ -2198,7 +2198,7 @@ trait TeaPower {
                         <span class='color_red'>课时量</span>、
                         <span class='color_red'>学生数</span>和
                         <span class='color_red'>教学质量</span>
-                        三个方面皆达到晋升要求，本次成功晋升，成为更高级别的老师！
+                        三个方面皆达到晋升标准。
                     </div>";
             $group_html = "";
         }
@@ -2638,10 +2638,7 @@ trait TeaPower {
 
         $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
         if(isset($reference_info['teacherid']) && !empty($reference_info['teacherid'])){
-            //各类渠道合作的平台总代理，助理不发伯乐奖
-            if(!in_array($reference_info['teacher_type'],[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
-                $this->add_reference_price($reference_info['teacherid'],$teacherid);
-            }
+            $this->add_reference_price($reference_info['teacherid'],$teacherid);
         }
     }
 
@@ -4487,10 +4484,15 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * @param boolean notice_flag 是否需要推送提醒
      */
     public function add_reference_price($teacherid,$recommended_teacherid,$notice_flag=true){
+        //各类渠道合作的平台总代理，助理不发伯乐奖
+        if(!in_array($reference_info['teacher_type'],[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
+            return '';
+        }
         // 关掉15333268257 和  李桂荣两位老师11月后的伯乐奖
         if ($teacherid == 420745 || $teacherid == 437138) {
             return '';
         }
+
         $check_is_exists = $this->t_teacher_money_list->check_is_exists($recommended_teacherid,E\Erecord_type::V_6);
         if(!$check_is_exists){
             $teacher_info     = $this->t_teacher_info->get_teacher_info($teacherid);
