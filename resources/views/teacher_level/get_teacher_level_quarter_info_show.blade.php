@@ -125,6 +125,7 @@
                                     <a class="opt-advance-require_deal" title="晋升审批">晋升审批</a>
                                 @endif
                                 @if($var["reach_flag"]==0)
+                                    <a class="opt-advance-withhold_require" title="扣款申请">扣款申请</a>
                                     <a class="opt-advance-withhold_deal" title="扣款审批">扣款审批</a>
                                 @endif
                                 @if($account=="jack")

@@ -38,6 +38,25 @@ $(function(){
         });
     });
 
+    $(".opt-advance-withhold-require").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var teacherid = opt_data.teacherid;
+        var arr=[
+            ["扣款额", opt_data.withhold_money+"元/月"],
+        ];
+        $.show_key_value_table("扣款申请", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax( '/teacher_level/set_teacher_advance_withhold_require_2018', {
+                    'teacherid' : teacherid,
+                    'start_time' :g_args.start_time
+                });
+            }
+        });
+    });
+
+
     $(".opt-update-level-after").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var teacherid = opt_data.teacherid;

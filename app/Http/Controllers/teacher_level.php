@@ -1686,6 +1686,19 @@ class teacher_level extends Controller
 
     }
 
+    //扣款申请
+    public function set_teacher_advance_withhold_require_2018(){
+        $start_time   = $this->get_in_int_val("start_time");
+        $teacherid    = $this->get_in_int_val("teacherid");
+        $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+            "withhold_require_time"    => time(),
+            "withhold_require_adminid" => $this->get_account_id()
+        ]);
+        return $this->output_succ();
+
+    }
+
+
     //新版刷新数据
     public function update_teacher_advance_info_all(){
         $start_time = $this->get_in_int_val("start_time");
