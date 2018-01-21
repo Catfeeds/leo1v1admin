@@ -72,6 +72,7 @@ interface RowData {
 	accept_time_str	:any;
 	require_time_str	:any;
 	accept_flag_str	:any;
+	withhold_final_trial_flag_str	:any;
 	reach_flag_str	:any;
 }
 

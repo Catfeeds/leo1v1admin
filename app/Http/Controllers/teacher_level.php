@@ -1654,6 +1654,7 @@ class teacher_level extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"require_time","_str");
 
             E\Eaccept_flag::set_item_value_str($item);
+            E\Eaccept_flag::set_item_value_str($item,"withhold_final_trial_flag");
             $item["lesson_count"] = $item["lesson_count"]/100;
             $item["lesson_count_score"] = $this->get_advance_score_by_num( $item["lesson_count"],1);//课耗得分
             $item["record_final_score"]= $this->get_advance_score_by_num( $item["record_score_avg"],5);//教学质量得分
@@ -1770,6 +1771,23 @@ class teacher_level extends Controller
                 "advance_wx_flag"=> 1
             ]);
 
+ 
+        }
+        return $this->output_succ();
+    }
+
+    //扣款审批
+    public function set_teacher_withhold_require_master_2018(){
+        $start_time   = $this->get_in_int_val("start_time");
+        $teacherid    = $this->get_in_int_val("teacherid");
+        $withhold_final_trial_flag  = $this->get_in_int_val("withhold_final_trial_flag");
+        $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+            "withhold_final_trial_flag"     => $withhold_final_trial_flag,
+            "withhold_final_trial_time"    => time(),
+            "withhold_final_trial_adminid" => $this->get_account_id()
+        ]);
+
+        if($withhold_final_trial_flag==1){          
  
         }
         return $this->output_succ();

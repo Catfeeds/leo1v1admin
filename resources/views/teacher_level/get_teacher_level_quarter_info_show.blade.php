@@ -124,8 +124,10 @@
                                 -{{ @$var["withhold_money"] }}元/月<br><br>
                                 @if(empty($var["withhold_require_time"]))
                                     未申请
-                                @else
+                                @elseif(empty($var["withhold_final_trial_flag"]))
                                     待审批
+                                @else
+                                    已审批({{ $var["withhold_final_trial_flag_str"] }})
                                 @endif
                             @endif
                         </td>
@@ -140,6 +142,7 @@
                                 目标等级:{{@$var["level_after_str"]}}<br>
                             @else
                                 状态:已审批<br>
+                                审批结果:{{ @$var["accept_flag_str"] }}<br>
                                 目标等级:{{@$var["level_after_str"]}}<br>
                             @endif
                         </td>
@@ -151,14 +154,14 @@
                                     @if(empty($var["require_time"]))
                                         <a class="opt-advance-require" title="晋升申请">晋升申请</a>
                                     @else
-                                        <a class="opt-advance-require_deal" title="晋升审批">晋升审批</a>
+                                        <a class="opt-advance-require-deal" title="晋升审批">晋升审批</a>
                                     @endif
                                 @endif
-                                @if($var["reach_flag"]==0)
+                                @if($var["reach_flag"]==0 && empty($var["withhold_final_trial_flag"]))
                                     @if(empty($var["withhold_require_time"]))
                                         <a class="opt-advance-withhold-require" title="扣款申请">扣款申请</a>
                                     @else
-                                        <a class="opt-advance-withhold_deal" title="扣款审批">扣款审批</a>
+                                        <a class="opt-advance-withhold-deal" title="扣款审批">扣款审批</a>
                                     @endif
 
                                 @endif

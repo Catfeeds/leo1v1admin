@@ -43,7 +43,7 @@ $(function(){
         });
     });
 
-    $(".opt-advance-require_deal").on("click",function(){
+    $(".opt-advance-require-deal").on("click",function(){
         if(g_account !="jack" && g_account!= "jim" && g_account != "ted"){
             BootstrapDialog.alert("没有权限!!!");
         }
@@ -94,6 +94,40 @@ $(function(){
             }
         });
     });
+
+    $(".opt-advance-withhold-deal").on("click",function(){
+        if(g_account !="jack" && g_account!= "jim" && g_account != "ted"){
+            BootstrapDialog.alert("没有权限!!!");
+        }
+
+        var opt_data = $(this).get_opt_data();
+        var teacherid = opt_data.teacherid;
+        var teacher_money_type = opt_data.teacher_money_type;
+
+        var id_withhold_final_trial_flag = $("<select/>");
+        
+
+        Enum_map.append_option_list("accept_flag", id_withhold_final_trial_flag, true,[1,2] );
+        var arr=[
+            ["当前等级", opt_data.level_str],
+            ["总得分", opt_data.total_score],
+            ["扣款申请", opt_data.withhold_money+"元/月"],
+            ["审批结果",id_withhold_final_trial_flag]
+        ];
+        $.show_key_value_table("扣款审批", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax( '/teacher_level/set_teacher_withhold_require_master_2018', {
+                    'teacherid' : teacherid,
+                    'start_time' :g_args.start_time,
+                    'withhold_final_trial_flag':id_withhold_final_trial_flag.val(),                    
+                });
+            }
+        });
+
+    });
+
 
 
     $(".opt-update-level-after").on("click",function(){
