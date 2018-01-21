@@ -197,6 +197,7 @@ class tongji_ex extends Controller
     }
 
     public function market_seller_student(){
+        $this->check_and_switch_tongji_domain();
         $ret = $this->t_seller_student_origin->get_item_list();
         $ret_info = [];
         foreach($ret as $info){
@@ -227,6 +228,7 @@ class tongji_ex extends Controller
     }
 
     public function market_seller_student_repeat(){
+        $this->check_and_switch_tongji_domain();
         $ret = $this->t_seller_student_origin->get_item_exist_list();
         $ret_info = [];
         foreach($ret as $info){
@@ -234,13 +236,13 @@ class tongji_ex extends Controller
             $order_time = $info['order_time']>0?date('Y-m-d H:i:s',$info['order_time']):'';
             $price = $info['price']>0?$info['price']/100:'';
             $lessonid = $info['lessonid'];
-            $lesson_type = $info['lesson_type'];
             $lesson_start = $info['lesson_start'];
             $lesson_end = $info['lesson_end'];
             $lesson_del_flag = $info['lesson_del_flag'];
             $confirm_flag = $info['confirm_flag'];
             $lesson_user_online_status = $info['lesson_user_online_status'];
-            $sys_operator = $info['sys_operator'];
+            $sys_operator = $info['adminid']>0?$this->cache_get_account_nick($info['adminid']):'';
+
             $ret_info[$userid]['phone'] = isset($ret_info[$userid]['phone'])?$ret_info[$userid]['phone']:$info['phone'];
             $ret_info[$userid]['origin'] = isset($ret_info[$userid]['origin'])?$ret_info[$userid]['origin']:$info['origin'];
             $ret_info[$userid]['add_time'] = isset($ret_info[$userid]['add_time'])?$ret_info[$userid]['add_time']:date('Y-m-d H:i:s',$info['add_time']);
@@ -248,9 +250,7 @@ class tongji_ex extends Controller
             $ret_info[$userid]['orderid'] = isset($ret_info[$userid]['orderid'])?$ret_info[$userid]['orderid']:$info['orderid'];
             $ret_info[$userid]['order_time'] = isset($ret_info[$userid]['order_time'])?$ret_info[$userid]['order_time']:$order_time;
             $ret_info[$userid]['price'] = isset($ret_info[$userid]['price'])?$ret_info[$userid]['price']:$price;
-
-            $ret_info[$userid]['lessonid'] = [];
-            if($lessonid>0 && $lesson_type==2){
+            if($lessonid>0){
                 $ret_info[$userid]['lessonid'][$lessonid] = [
                     'lesson_start'=>$lesson_start,
                     'lesson_end'=>$lesson_end,
@@ -266,7 +266,7 @@ class tongji_ex extends Controller
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>12月重复进入例子</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>编号</th><th>号码</th><th>渠道</th><th>进入时间</th><th>重复进入次数</th><th>试听情况</th><th>签单</th>';
+        echo '<th>编号</th><th>号码</th><th>渠道</th><th>进入时间</th><th>重复进入次数</th><th>试听情况</th><th>签单</th><th>签单时间</th>';
         echo '</tr>';
         foreach($ret_info as $userid=>$item){
             $num++;
@@ -277,7 +277,7 @@ class tongji_ex extends Controller
             echo '<td>'.$item['add_time'].'</td>';
             echo '<td>'.$item['is_exist_count'].'</td>';
             echo '<td>';
-            if(count($item['lessonid'])>0){
+            if(isset($item['lessonid'])){
                 foreach($item['lessonid'] as $lessonid=>$info){
                     echo 'lessonid:'.$lessonid.',';
                     echo '试听时间:'.date('Y-m-d H:i:s',$info['lesson_start']).',';
@@ -291,6 +291,7 @@ class tongji_ex extends Controller
             }
             echo '</td>';
             echo '<td>'.$item['price'].'</td>';
+            echo '<td>'.$item['order_time'].'</td>';
             echo '</tr>';
         }
         echo '</table>';
