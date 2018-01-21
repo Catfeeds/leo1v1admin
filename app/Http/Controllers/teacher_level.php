@@ -1710,7 +1710,8 @@ class teacher_level extends Controller
         $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
             "accept_flag"     => $accept_flag,
             "accept_time"    => time(),
-            "accept_adminid" => $this->get_account_id()
+            "accept_adminid" => $this->get_account_id(),
+            "advance_wx_flag"=> 1
         ]);
 
         if($accept_flag==1){
