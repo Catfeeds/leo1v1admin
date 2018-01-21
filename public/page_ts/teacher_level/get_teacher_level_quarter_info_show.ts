@@ -63,6 +63,14 @@ $(function(){
 
     });
 
+    //晋升申请审批(单个老师)
+    $(".opt-advance-require_deal").on("click",function(){
+        if(g_account !="jack" && g_account!= "jim" && g_account!="江敏" && g_account != "ted"){
+            BootstrapDialog.alert("没有权限!!!");
+        } 
+    });   
+
+
     $(".opt-edit").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var teacherid = opt_data.teacherid;
