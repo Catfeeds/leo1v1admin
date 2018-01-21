@@ -1700,6 +1700,76 @@ class teacher_level extends Controller
 
     }
 
+    //晋升处理(邮件/微信推送)
+    public function set_teacher_advance_require_master_2018(){
+        $start_time   = $this->get_in_int_val("start_time");
+        $teacherid    = $this->get_in_int_val("teacherid");
+        $accept_flag  = $this->get_in_int_val("accept_flag");
+        $old_level  = $this->get_in_int_val("old_level");
+        $level_after  = $this->get_in_int_val("level_after");
+        $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+            "accept_flag"     => $accept_flag,
+            "accept_time"    => time(),
+            "accept_adminid" => $this->get_account_id()
+        ]);
+
+        if($accept_flag==1){
+            $this->t_teacher_info->field_update_list($teacherid,["level"=>$level_after]);
+            $info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,teacher_type,nick,realname,wx_openid");
+            $info["level"] = $level_after;
+            $info["old_level"] = $old_level;
+
+            $level_degree    = \App\Helper\Utils::get_teacher_level_str($info);
+
+            $score = $this->t_teacher_advance_list->get_total_score($start_time,$teacherid);
+
+            //已排課程工資等級更改
+            $level_start = strtotime(date("Y-m-01",time()));
+            $teacher_money_type = $info["teacher_money_type"];
+            $this->t_lesson_info->set_teacher_level_info_from_now($teacherid,$teacher_money_type,$level_after,$level_start);
+
+            //微信通知老师
+            /**
+             * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
+             * 标题课程 : 等级升级通知
+             * {{first.DATA}}
+             * 用户昵称：{{keyword1.DATA}}
+             * 最新等级：{{keyword2.DATA}}
+             * 生效时间：{{keyword3.DATA}}
+             * {{remark.DATA}}
+             */
+            $wx_openid = $info["wx_openid"];
+            $realname = $info["realname"];
+            // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+            if($wx_openid){
+                $data=[];
+                $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
+                $data['first']    = "恭喜".$realname."老师,您已经成功晋级到了".$level_degree;
+                $data['keyword1'] = $realname;
+                $data['keyword2'] = $level_degree;
+                $data['keyword3'] = date("Y-m-01 00:00",time());
+                /* $data['remark']   = "晋升分数:".$score
+                   ."\n请您继续加油,理优期待与你一起共同进步,提供高品质教学服务";*/
+                $data['remark']   = "希望老师在今后的教学中继续努力,再创佳绩";
+
+                $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=".$teacherid;
+                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+            }
+
+            // 邮件推送 暂时不推
+            $html  = $this->teacher_level_up_html($info);
+            $email = $this->t_teacher_info->get_email($teacherid);
+            // $email = "jack@leoedu.com";
+            if($email){
+                dispatch( new \App\Jobs\SendEmailNew(
+                    $email,"【理优1对1】老师晋升通知",$html
+                ));
+            }
+ 
+        }
+        return $this->output_succ();
+    }
+
 
     //新版刷新数据
     public function update_teacher_advance_info_all(){

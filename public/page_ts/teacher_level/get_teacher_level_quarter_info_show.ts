@@ -4,7 +4,7 @@ function load_data(){
     $.reload_self_page ( {
         order_by_str: g_args.order_by_str,
         advance_require_flag:	$('#id_advance_require_flag').val(),
-		    withhold_require_flag:	$('#id_withhold_require_flag').val(),
+            withhold_require_flag:	$('#id_withhold_require_flag').val(),
         teacherid:	$('#id_teacherid').val()
     });
 }
@@ -13,7 +13,7 @@ $(function(){
 
 
     $('#id_advance_require_flag').val(g_args.advance_require_flag);
-	  $('#id_withhold_require_flag').val(g_args.withhold_require_flag);
+      $('#id_withhold_require_flag').val(g_args.withhold_require_flag);
 
     $('#id_teacherid').val(g_args.teacherid);
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
@@ -41,6 +41,36 @@ $(function(){
                 });
             }
         });
+    });
+
+    $(".opt-advance-require_deal").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var teacherid = opt_data.teacherid;
+        var teacher_money_type = opt_data.teacher_money_type;
+
+        var id_accept_flag = $("<select/>");
+
+        Enum_map.append_option_list("accept_flag", id_accept_flag, true,[1,2] );
+        var arr=[
+            ["总得分", opt_data.total_score],
+            ["申请晋升",opt_data.level_after_str],
+            ["审批结果",id_accept_flag]
+        ];
+        $.show_key_value_table("晋升审批", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax( '/teacher_level/set_teacher_advance_require_master_2018', {
+                    'teacherid' : teacherid,
+                    'start_time' :g_args.start_time,
+                    'accept_flag':id_accept_flag.val(),
+                    'old_level':opt_data.level,
+                    'level_after':opt_data.level_after,
+
+                });
+            }
+        });
+
     });
 
     $(".opt-advance-withhold-require").on("click",function(){
@@ -91,8 +121,8 @@ $(function(){
     $(".opt-advance-require_deal").on("click",function(){
         if(g_account !="jack" && g_account!= "jim" && g_account!="江敏" && g_account != "ted"){
             BootstrapDialog.alert("没有权限!!!");
-        } 
-    });   
+        }
+    });
 
 
     $(".opt-edit").on("click",function(){
