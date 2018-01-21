@@ -1761,7 +1761,7 @@ class teacher_level extends Controller
                 
             }
 
-            // 邮件推送 暂时不推
+            // 邮件推送
             $html  = $this->teacher_level_up_html($info);
             $email = $this->t_teacher_info->get_email($teacherid);
             // $email = "jack@leoedu.com";

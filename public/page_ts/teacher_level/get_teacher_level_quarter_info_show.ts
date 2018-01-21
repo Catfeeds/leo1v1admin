@@ -18,6 +18,42 @@ $(function(){
     $('#id_teacherid').val(g_args.teacherid);
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
 
+    $("#id_select_all").on("click", function() {
+        $(".opt-select-item").iCheck("check");
+    });
+
+    $("#id_withhold_agree").on("click",function(){
+        BootstrapDialog.alert("开发中!!!");
+        return;
+        if(g_account !="jack" && g_account!= "jim" && g_account != "ted"){
+            BootstrapDialog.alert("没有权限!!!");
+        }
+
+        alert(111); 
+    });
+    $("#id_advance_agree").on("click",function(){
+        BootstrapDialog.alert("开发中!!!");
+        return;
+        if(g_account !="jack" && g_account!= "jim" && g_account != "ted"){
+            BootstrapDialog.alert("没有权限!!!");
+        }
+
+        alert(111);  
+    });
+
+
+    $("#id_select_other").on("click", function() {
+        $(".opt-select-item").each(function() {
+            var $item = $(this);
+            if ($item.iCheckValue()) {
+                $item.iCheck("uncheck");
+            } else {
+                $item.iCheck("check");
+            }
+        });
+    });
+
+
     $(".opt-advance-require").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var teacherid = opt_data.teacherid;
@@ -46,6 +82,7 @@ $(function(){
     $(".opt-advance-require-deal").on("click",function(){
         if(g_account !="jack" && g_account!= "jim" && g_account != "ted"){
             BootstrapDialog.alert("没有权限!!!");
+            return;
         }
 
         var opt_data = $(this).get_opt_data();
@@ -98,6 +135,7 @@ $(function(){
     $(".opt-advance-withhold-deal").on("click",function(){
         if(g_account !="jack" && g_account!= "jim" && g_account != "ted"){
             BootstrapDialog.alert("没有权限!!!");
+            return;
         }
 
         var opt_data = $(this).get_opt_data();
