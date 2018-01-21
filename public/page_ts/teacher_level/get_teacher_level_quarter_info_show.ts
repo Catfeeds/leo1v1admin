@@ -3,12 +3,17 @@
 function load_data(){
     $.reload_self_page ( {
         order_by_str: g_args.order_by_str,
+        advance_require_flag:	$('#id_advance_require_flag').val(),
+		    withhold_require_flag:	$('#id_withhold_require_flag').val(),
         teacherid:	$('#id_teacherid').val()
     });
 }
 
 $(function(){
 
+
+    $('#id_advance_require_flag').val(g_args.advance_require_flag);
+	  $('#id_withhold_require_flag').val(g_args.withhold_require_flag);
 
     $('#id_teacherid').val(g_args.teacherid);
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);

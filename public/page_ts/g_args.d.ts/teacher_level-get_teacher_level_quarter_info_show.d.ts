@@ -5,6 +5,8 @@ interface GargsStatic {
 	teacherid:	number;
 	is_test_user:	number;
 	show_all:	number;
+	advance_require_flag:	number;
+	withhold_require_flag:	number;
 	page_num:	number;
 	page_count:	number;
 	start_time:	number;
@@ -37,6 +39,8 @@ function load_data(){
 		teacherid:	$('#id_teacherid').val(),
 		is_test_user:	$('#id_is_test_user').val(),
 		show_all:	$('#id_show_all').val(),
+		advance_require_flag:	$('#id_advance_require_flag').val(),
+		withhold_require_flag:	$('#id_withhold_require_flag').val(),
 		start_time:	$('#id_start_time').val()
 		});
 }
@@ -56,6 +60,8 @@ $(function(){
 	});
 	$('#id_is_test_user').val(g_args.is_test_user);
 	$('#id_show_all').val(g_args.show_all);
+	$('#id_advance_require_flag').val(g_args.advance_require_flag);
+	$('#id_withhold_require_flag').val(g_args.withhold_require_flag);
 	$('#id_start_time').val(g_args.start_time);
 
 
@@ -114,6 +120,22 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["show_all title", "show_all", "th_show_all" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">advance_require_flag</span>
+                <input class="opt-change form-control" id="id_advance_require_flag" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["advance_require_flag title", "advance_require_flag", "th_advance_require_flag" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">withhold_require_flag</span>
+                <input class="opt-change form-control" id="id_withhold_require_flag" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["withhold_require_flag title", "withhold_require_flag", "th_withhold_require_flag" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 

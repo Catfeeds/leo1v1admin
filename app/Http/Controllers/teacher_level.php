@@ -1625,12 +1625,14 @@ class teacher_level extends Controller
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $is_test_user = $this->get_in_int_val("is_test_user",0);
         $show_all = $this->get_in_int_val("show_all",0);
+        $advance_require_flag = $this->get_in_int_val("advance_require_flag",-1);
+        $withhold_require_flag = $this->get_in_int_val("withhold_require_flag",-1);
         $page_info = $this->get_in_page_info();
 
 
         $teacher_money_type=6;
         $start_time = strtotime("2017-10-01");
-        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,-1,-1,$is_test_user,0,$show_all);
+        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,-1,-1,$is_test_user,$advance_require_flag,$show_all,$withhold_require_flag);
         foreach($ret_info["list"] as &$item){
             //$item["level"]=$item["level_before"];
             $item["level"]=$item["real_level"];
