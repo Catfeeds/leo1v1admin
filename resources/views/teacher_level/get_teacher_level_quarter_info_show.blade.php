@@ -147,10 +147,12 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                @if(empty($var["require_time"]))
-                                    <a class="opt-advance-require" title="晋升申请">晋升申请</a>
-                                @else
-                                    <a class="opt-advance-require_deal" title="晋升审批">晋升审批</a>
+                                @if(empty($var["accept_time"])
+                                    @if(empty($var["require_time"]))
+                                        <a class="opt-advance-require" title="晋升申请">晋升申请</a>
+                                    @else
+                                        <a class="opt-advance-require_deal" title="晋升审批">晋升审批</a>
+                                    @endif
                                 @endif
                                 @if($var["reach_flag"]==0)
                                     @if(empty($var["withhold_require_time"]))

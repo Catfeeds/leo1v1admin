@@ -2275,7 +2275,7 @@ trait TeaPower {
                     尊敬的<span class='tea_name size18'>".$name."</span>老师，您好！
                         ".$header_html."
                     <div class='t2em'>
-                        故公司经研究决定：将您晋升为
+                        经公司研究决定：将您晋升为
                         <span class='tea_level'>".$level_str."</span>。
                         此晋升将于".$date_begin."起即行生效。
                     </div>
