@@ -1079,7 +1079,6 @@ class Utils  {
         return $reward;
     }
 
-
     /**
      * @param identity 推荐的老师身份
      * @param num 已推荐的老师数量

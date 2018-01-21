@@ -2194,9 +2194,9 @@ trait TeaPower {
             // 旧版说辞 end
 
             $header_html = "<div class='t2em'>
-                        亲爱的老师，鉴于您在上一季度的教学过程中，认真负责、不断进取，在
+                        鉴于您在上一季度的教学过程中，认真负责，积极进取，获得学生家长一致好评，在
                         <span class='color_red'>课时量</span>、
-                        <span class='color_red'>学生数</span>和
+                        <span class='color_red'>学生数</span>、
                         <span class='color_red'>教学质量</span>
                         三个方面皆达到晋升标准。
                     </div>";
@@ -2994,27 +2994,27 @@ trait TeaPower {
     //     return $check_flag;
     // }
 
-    /**
-     * 获取老师的高校生/在校老师的推荐数量
-     * @param phone 推荐人手机号
-     * @param identity 被推荐人身份
-     */
-    public function get_teacher_reference_price($phone,$identity){
-        $reference_type = \App\Config\teacher_rule::check_reference_type($identity);
-        $check_flag     = $this->check_is_special_reference($phone);
-        if($check_flag){
-            $begin_time = 0;
-        }else{
-            $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
-            $begin_time = strtotime($begin_date);
-        }
+    // /**
+    //  * 获取老师的高校生/在校老师的推荐数量
+    //  * @param phone 推荐人手机号
+    //  * @param identity 被推荐人身份
+    //  */
+    // public function get_teacher_reference_price($phone,$identity){
+    //     $reference_type = \App\Config\teacher_rule::check_reference_type($identity);
+    //     $check_flag     = $this->check_is_special_reference($phone);
+    //     if($check_flag){
+    //         $begin_time = 0;
+    //     }else{
+    //         $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
+    //         $begin_time = strtotime($begin_date);
+    //     }
 
-        $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
-            $phone,$reference_type,$begin_time
-        );
-        $ref_price = \App\Helper\Utils::get_reference_money($identity,$ref_num);
-        return $ref_price;
-    }
+    //     $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
+    //         $phone,$reference_type,$begin_time
+    //     );
+    //     $ref_price = \App\Helper\Utils::get_reference_money($identity,$ref_num);
+    //     return $ref_price;
+    // }
 
     /**
      * 获取老师上月累计课时
