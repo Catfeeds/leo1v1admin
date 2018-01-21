@@ -1710,8 +1710,7 @@ class teacher_level extends Controller
         $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
             "accept_flag"     => $accept_flag,
             "accept_time"    => time(),
-            "accept_adminid" => $this->get_account_id(),
-            "advance_wx_flag"=> 1
+            "accept_adminid" => $this->get_account_id()
         ]);
 
         if($accept_flag==1){
@@ -1766,6 +1765,11 @@ class teacher_level extends Controller
                     $email,"【理优1对1】老师晋升通知",$html
                 ));
             }
+
+            $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[              
+                "advance_wx_flag"=> 1
+            ]);
+
  
         }
         return $this->output_succ();
