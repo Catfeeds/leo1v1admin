@@ -110,7 +110,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ['r.tag_four=%u', $tag_four, -1],
             'r.is_del=0',
             'f.status=0',
-            'ra.is_ban=0',
+           // 'ra.is_ban!=0',
         ];
 
         //老师只开放了１－６
@@ -145,7 +145,6 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ,t_resource_agree_info::DB_TABLE_NAME
             ,$where_arr
         );
-        //dd($sql);
         return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
