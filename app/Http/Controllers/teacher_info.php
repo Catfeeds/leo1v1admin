@@ -2674,7 +2674,6 @@ class teacher_info extends Controller
                 $tag_arr['tag_four']['menu'] => 'tag_four',
             ]);
         }
-        dd($ret_info);
         $book_arr = [];
         if($resource_type != 6){
             //获取所有开放的教材版本
