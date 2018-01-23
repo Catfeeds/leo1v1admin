@@ -296,4 +296,37 @@ class tongji_ex extends Controller
         }
         echo '</table>';
     }
+
+    public function market_january_seller_student(){
+        $this->check_and_switch_tongji_domain();
+        list($start_time,$end_time) = [strtotime('2018-01-01'),strtotime('2018-02-01')];
+        $ret = $this->t_tq_call_info->get_item_january_list($start_time,$end_time);
+        dd($ret);
+        $ret_info = [];
+        foreach($ret as $info){
+            $userid = $info['userid'];
+            $ret_info[$userid]['phone'] = isset($ret_info[$userid]['phone'])?$ret_info[$userid]['phone']:$info['phone'];
+            $ret_info[$userid]['origin'] = isset($ret_info[$userid]['origin'])?$ret_info[$userid]['origin'].','.$info['origin']:$info['origin'];
+            $ret_info[$userid]['add_time'] = isset($ret_info[$userid]['add_time'])?$ret_info[$userid]['add_time']:date('Y-m-d H:i:s',$info['add_time']);
+            $ret_info[$userid]['is_exist'] = isset($ret_info[$userid]['is_exist'])?$ret_info[$userid]['is_exist']:($info['is_exist_count']>0?'是':'否');
+        }
+        $num = 0;
+
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h1>12月进入例子渠道</h1></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>编号</th><th>号码</th><th>渠道</th><th>进入日期</th><th>是否重复</th>';
+        echo '</tr>';
+        foreach($ret_info as $item){
+            $num++;
+            echo '<tr>';
+            echo '<td>'.$num.'</td>';
+            echo '<td>'.$item['phone'].'</td>';
+            echo '<td>'.$item['origin'].'</td>';
+            echo '<td>'.$item['add_time'].'</td>';
+            echo '<td>'.$item['is_exist'].'</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
+    }
 }
