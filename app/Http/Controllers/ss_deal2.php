@@ -1085,13 +1085,13 @@ class ss_deal2 extends Controller
     }
 
     public function add_product_info(){
-        $feedback_nick = $this->get_in_int_val('feedback_nick');
+        $feedback_nick = $this->get_in_str_val('feedback_nick');
         $describe   = $this->get_in_str_val('describe');
         $lesson_url = $this->get_in_str_val('lesson_url');
         $reason     = $this->get_in_str_val('reason');
         $solution   = $this->get_in_str_val('solution');
-        $student_id = $this->get_in_str_val('student_id');
-        $teacher_id = $this->get_in_str_val('teacher_id');
+        $student_id = $this->get_in_str_val('student_id',-1);
+        $teacher_id = $this->get_in_str_val('teacher_id',-1);
         $deal_flag  = $this->get_in_int_val('deal_flag');
         $remark     = $this->get_in_str_val('remark');
         $lesson_problem_desc = $this->get_in_str_val('lesson_problem_desc');
@@ -1158,8 +1158,8 @@ class ss_deal2 extends Controller
         $lesson_url = $this->get_in_str_val('lesson_url');
         $reason     = $this->get_in_str_val('reason');
         $solution   = $this->get_in_str_val('solution');
-        $student_id = $this->get_in_str_val('student_id');
-        $teacher_id = $this->get_in_str_val('teacher_id');
+        $student_id = $this->get_in_str_val('student_id',-1);
+        $teacher_id = $this->get_in_str_val('teacher_id',-1);
         $deal_flag  = $this->get_in_int_val('deal_flag');
         $remark     = $this->get_in_str_val('remark');
         $record_adminid = $this->get_account_id();

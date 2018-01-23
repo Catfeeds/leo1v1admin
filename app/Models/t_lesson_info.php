@@ -1610,6 +1610,7 @@ lesson_type in (0,1) "
         }
         return $this->main_get_list_by_page($sql,$page_num,5000,true);
     }
+
     public function get_student_single_subject($start_time,$end_time,$teacherid,$subject,$studentid){
         $where_arr=[
             ["l.subject= %u",$subject, -1  ],

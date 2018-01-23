@@ -297,12 +297,14 @@ $(function(){
                 $.admin_select_user($student,"student");
                 $.admin_select_user($teacher,"teacher");
 
-                $lesson_problem.css('width','90%');
                 $lesson_url.css('width','90%');
                 $feedback_id.next().css('width','20%');
                 $student.next().css('width','20%');
                 $teacher.next().css('width','20%');
-                $deal_flag.css('width','20%');
+                $deal_flag.css('width','40%');
+                $lesson_problem.css('width','40%');
+                $feedback_id.css('width','40%');
+
 
                 $.custom_upload_file('id_upload_lesson_img',true,function (up, info, file) {
                     var res = $.parseJSON(info);
