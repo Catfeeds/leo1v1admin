@@ -3030,7 +3030,7 @@ class user_manage_new extends Controller
             "add_time" => time(),
             "adminid"  => $this->get_account_id(),
             "msg"      => "旧的页面权限管理配置: [权限id:$powerid,权限列表:$groupid_str]",
-            "user_log_type" => 5, //权限页面添加用户记录
+            "user_log_type" => E\Euser_log_type::V_2, //权限页面添加用户记录
         ]);
 
         return $this->output_succ();
