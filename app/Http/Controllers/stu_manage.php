@@ -1777,7 +1777,7 @@ class stu_manage extends Controller
                 
 
             }
-            $score_avg = $check_num==0?"—":($score_avg/$check_num);
+            $score_avg = $check_num==0?"—":($score_total/$check_num);
             if($score_avg>=86){
                 $score_final = "A";
             }elseif($score_avg>=75){
