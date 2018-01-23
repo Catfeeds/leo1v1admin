@@ -374,6 +374,7 @@ class tongji_ex extends Controller
                 }
             }
         }
+        dd($ret_info);
         $ret_two = $this->t_seller_student_new->get_item_january_detail_list($start_time=1515513600,$end_time=1516377600);
         foreach($ret_two as $item){
             $userid = $item['userid'];
