@@ -299,32 +299,60 @@ class tongji_ex extends Controller
 
     public function market_january_seller_student(){
         $this->check_and_switch_tongji_domain();
-        list($start_time,$end_time) = [strtotime('2018-01-01'),strtotime('2018-02-01')];
-        $ret = $this->t_tq_call_info->get_item_january_list($start_time,$end_time);
-        dd($ret);
+        list($start_time,$end_time,$end_cc_60,$end_c_60,$end_cc_40,$end_c_40) = [strtotime('2018-01-01'),strtotime('2018-02-01'),0,0,0,0];
+        $count = $this->t_seller_student_new->get_item_january_count($start_time,$end_time);
+        $called_count = $this->t_seller_student_new->get_item_january_called_count($start_time,$end_time);
+        $no_called_count = $this->t_seller_student_new->get_item_january_no_called_count($start_time,$end_time);
+        $ret = $this->t_seller_student_new->get_item_january_list($start_time,$end_time);
         $ret_info = [];
         foreach($ret as $info){
             $userid = $info['userid'];
-            $ret_info[$userid]['phone'] = isset($ret_info[$userid]['phone'])?$ret_info[$userid]['phone']:$info['phone'];
-            $ret_info[$userid]['origin'] = isset($ret_info[$userid]['origin'])?$ret_info[$userid]['origin'].','.$info['origin']:$info['origin'];
-            $ret_info[$userid]['add_time'] = isset($ret_info[$userid]['add_time'])?$ret_info[$userid]['add_time']:date('Y-m-d H:i:s',$info['add_time']);
-            $ret_info[$userid]['is_exist'] = isset($ret_info[$userid]['is_exist'])?$ret_info[$userid]['is_exist']:($info['is_exist_count']>0?'是':'否');
+            $duration = $info['duration'];
+            $end_reason = $info['end_reason'];
+            if($duration>0 &&  $duration<40){
+                if($end_reason == 0){
+                    $ret_info[$userid]['end_40'] = isset($ret_info[$userid]['end_40'])?$ret_info[$userid]['end_40']:0;
+                }elseif($end_reason == 1){
+                    $ret_info[$userid]['end_40'] = isset($ret_info[$userid]['end_40'])?$ret_info[$userid]['end_40']:1;
+                }
+            }
+            if($duration>0 &&  $duration<60){
+                if($end_reason == 0){
+                    $ret_info[$userid]['end_60'] = isset($ret_info[$userid]['end_60'])?$ret_info[$userid]['end_60']:0;
+                }elseif($end_reason == 1){
+                    $ret_info[$userid]['end_60'] = isset($ret_info[$userid]['end_60'])?$ret_info[$userid]['end_60']:1;
+                }
+            }
         }
-        $num = 0;
+        foreach($ret_info as $item){
+            if($item['end_40'] == 0){
+                $end_cc_40 += 1;
+            }elseif($item['end_40'] == 1){
+                $end_c_40 += 1;
+            }elseif($item['end_60'] == 0){
+                $end_cc_60 += 1;
+            }elseif($item['end_60'] == 1){
+                $end_c_60 += 1;
+            }
+        }
 
         echo '<table border="1" width="600" align="center">';
-        echo '<caption><h1>12月进入例子渠道</h1></caption>';
+        echo '<caption><h1>1月进入例子</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>编号</th><th>号码</th><th>渠道</th><th>进入日期</th><th>是否重复</th>';
+        echo '<th>进入例子量</th><th>拨通量</th><th>拨通40s内客户挂机量</th><th>拨通40s内销售挂机量</th><th>拨通60s内客户挂机量</th><th>拨通60s内销售挂机量</th><th>未拨通例子量</th>';
         echo '</tr>';
         foreach($ret_info as $item){
             $num++;
             echo '<tr>';
-            echo '<td>'.$num.'</td>';
-            echo '<td>'.$item['phone'].'</td>';
-            echo '<td>'.$item['origin'].'</td>';
-            echo '<td>'.$item['add_time'].'</td>';
-            echo '<td>'.$item['is_exist'].'</td>';
+            echo '<td>'.$count.'</td>';
+            echo '<td>'.$called_count.'</td>';
+            echo '<td>'.$end_count.'</td>';
+            echo '<td>'.$end_cc_40.'</td>';
+            echo '<td>'.$end_c_40.'</td>';
+            echo '<td>'.$end_cc_60.'</td>';
+            echo '<td>'.$end_c_60.'</td>';
+            echo '<td>'.$called_count.'</td>';
+            echo '<td>'.$no_called_count.'</td>';
             echo '</tr>';
         }
         echo '</table>';

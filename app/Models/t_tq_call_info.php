@@ -932,18 +932,7 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
         return $this->main_get_list($sql);
     }
 
-    public function get_item_january_list($start_time,$end_time){
-        $where_arr = [];
-        $this->where_arr_add_time_range($where_arr, 'start_time', $start_time, $end_time);
-        $sql = $this->gen_sql_new(
-            " select * "
-            ." from %s "
-            ." where %s ",
-            self::DB_TABLE_NAME,
-            $where_arr
-        );
-        return $this->main_get_list($sql);
-    }
+    
 
     public function get_item_cause($start_time,$end_time){
         $where_arr = [
