@@ -1388,4 +1388,26 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         );
         return $this->main_get_list($sql);
     }
+    //@desn:获取今日头条10月份进入例子
+    //@param:$start_time $end_time 开始时间  结束时间
+    public function get_channel_info($start_time,$end_time){
+        $where_arr = [
+            'ss.seller_resource_type = 0',
+            's.origin_level IN (0,1,2,3,4)',
+        ];
+        $this->where_arr_add_time_range($where_arr, 'ss.add_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select ss.phone from %s t '.
+            'left join %s ss on ss.userid = t.userid '.
+            'left join %s s on ss.userid = s.userid '.
+            'left join %s ok on ok.value = s.origin '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_origin_key::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

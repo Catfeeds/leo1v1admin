@@ -39,6 +39,23 @@ class test_abner extends cmd_base
     public function handle()
     {
         $start_time = strtotime(date('2017-10-01'));
+        $end_time = strtotime(date('2017-11-01'));
+        $channel_info = $this->task->t_test_lesson_subject->get_channel_info($start_time,$end_time);
+        $path = '/var/www/admin.yb1v1.com/10.txt';
+        $fp = fopen($path,"a+");
+        fwrite($fp, '10月份数据!');
+        fwrite($fp, "\n");
+        foreach($channel_info as $item){
+            fwrite($fp, $item['phone']);
+            fwrite($fp, "\n");
+        }
+        fclose($fp);
+        echo 'ok!';
+
+    }
+    //@desn:获取用户Q4数据
+    private function get_q4_data(){
+        $start_time = strtotime(date('2017-10-01'));
         $end_time = strtotime(date('2018-01-01'));
         $count_one = 0;
         $count_two = 0;
