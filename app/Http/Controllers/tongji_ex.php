@@ -347,16 +347,13 @@ class tongji_ex extends Controller
         echo '<th>进入例子量</th><th>拨通量</th><th>拨通40s内客户挂机量</th><th>拨通40s内销售挂机量</th><th>拨通60s内客户挂机量</th><th>拨通60s内销售挂机量</th><th>未拨通例子量</th>';
         echo '</tr>';
         foreach($ret_info as $item){
-            $num++;
             echo '<tr>';
             echo '<td>'.$count.'</td>';
             echo '<td>'.$called_count.'</td>';
-            echo '<td>'.$end_count.'</td>';
             echo '<td>'.$end_cc_40.'</td>';
             echo '<td>'.$end_c_40.'</td>';
             echo '<td>'.$end_cc_60.'</td>';
             echo '<td>'.$end_c_60.'</td>';
-            echo '<td>'.$called_count.'</td>';
             echo '<td>'.$no_called_count.'</td>';
             echo '</tr>';
         }
