@@ -360,7 +360,7 @@ class tongji_ex extends Controller
 
     public function market_january_student_detail(){
         $this->check_and_switch_tongji_domain();
-        list($ret_info,$num) = [[],0];
+        list($ret_info,$userid_arr,$num) = [[],[],0];
         $ret_one = $this->t_seller_student_new->get_item_january_detail_list($start_time=1514736000,$end_time=1515513600);
         foreach($ret_one as $item){
             $userid = $item['userid'];
@@ -374,7 +374,6 @@ class tongji_ex extends Controller
                 }
             }
         }
-        dd($ret_info);
         $ret_two = $this->t_seller_student_new->get_item_january_detail_list($start_time=1515513600,$end_time=1516377600);
         foreach($ret_two as $item){
             $userid = $item['userid'];
@@ -389,6 +388,7 @@ class tongji_ex extends Controller
                 }
             }
         }
+        dd($ret_info);
         $ret_three = $this->t_seller_student_new->get_item_january_detail_list($start_time=1516377600,$end_time=1517414400);
         foreach($ret_three as $item){
             if($item['start_time']>0){
