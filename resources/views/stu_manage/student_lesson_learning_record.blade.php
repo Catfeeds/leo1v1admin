@@ -285,6 +285,7 @@
                                 </a>
                             @endif
                         </td>
+                        <td>{{@$var["score"] }}</td>
                         <td>{{@$var["download_flag"] }}</td>
                         <td>
                             @if(@$var["work_status"]>=2)
