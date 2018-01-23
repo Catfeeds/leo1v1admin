@@ -93,14 +93,13 @@ $(function(){
                 if(!$feedback_id.val()){ alert('请填写反馈人姓名!'); return; }
                 if($lesson_problem.val()==0){ alert('请选择问题种类!'); return; }
                 if($deal_flag.val()==-1){ alert('请选择解决状态!'); return; }
-
                 if(!$lesson_problem_desc.val() && $lesson_problem.val() == 8){ alert('请选择填写问题种类描述!'); return; }
-
                 if($deal_flag.val()==0 && !$lesson_url.val()){alert('请填写上课链接!'); return;}
                 if($deal_flag.val()==1){
                     if(!$reason.val()){alert('请填写原因!');return;}
                     if(!$solution.val()){alert('请填写解决方案!');return;}
                 }
+                if(!$describe.val()){ alert('请填写问题描述!'); return; }
 
                 $.do_ajax("/ss_deal2/add_product_info",{
                     "feedback_id" : $feedback_id.val(),
@@ -227,6 +226,7 @@ $(function(){
                     if(!$feedback_id.val()){ alert('请填写反馈人姓名!'); return; }
                     if($lesson_problem.val()==0){ alert('请选择问题种类!'); return; }
                     if($deal_flag.val()==-1){ alert('请选择解决状态!'); return; }
+                    if(!$describe.val()){ alert('请填写问题描述!'); return; }
                     if(!$lesson_problem_desc.val() && $lesson_problem.val() == 8){ alert('请选择填写问题种类描述!'); return; }
 
                     if($deal_flag.val()==0 && !$lesson_url.val()){alert('请填写上课链接!'); return;}
