@@ -441,6 +441,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $main_groupid = $this->t_admin_main_group_name->get_groupid_by_adminid($adminid=1178);
+        dd($main_groupid);
         $count = $this->t_seller_student_origin->get_item_count($userid,$min,$add_time);
         dd($count);
         $min   = $this->t_seller_student_new->get_min_add_time();
