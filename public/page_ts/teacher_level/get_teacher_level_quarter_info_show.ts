@@ -300,5 +300,43 @@ $(function(){
 
     });
 
+    $(".opt-edit-test").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var teacherid = opt_data.teacherid;
+        var id_lesson_count           = $("<input/>");
+        var id_cc_order_num           = $("<input/>");
+        var id_cr_order_num           = $("<input/>");
+        var id_stu_num                = $("<input/>");
+        var id_record_avg_score       = $("<input/>");
+        var arr=[
+            ["课耗平均", id_lesson_count],
+            ["签单数(CC)", id_cc_order_num],
+            ["签单数(CR)", id_cr_order_num],
+            ["常规学生数", id_stu_num],
+            ["反馈平均分数", id_record_avg_score],
+        ];
+        id_lesson_count.val(opt_data.lesson_count);
+        id_cc_order_num.val(opt_data.cc_order_num);
+        id_cr_order_num.val(opt_data.other_order_num);
+        id_stu_num.val(opt_data.stu_num);
+        id_record_avg_score.val(opt_data.record_score_avg);
+        $.show_key_value_table("编辑", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax( '/ajax_deal2/update_advance_data_for_test', {
+                    'teacherid' : teacherid,
+                    'start_time' :g_args.start_time,
+                    'lesson_count' :id_lesson_count.val()*100,
+                    'cc_order_num' :id_cc_order_num.val(),
+                    'cr_order_num' :id_cr_order_num.val(),
+                    'stu_num' :id_stu_num.val(),
+                    'record_avg_score' :id_record_avg_score.val(),
+                });
+            }
+        });
+
+    });
+
   $('.opt-change').set_input_change_event(load_data);
 });
