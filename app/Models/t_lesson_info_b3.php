@@ -3399,7 +3399,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $this->where_arr_add_time_range($where_arr, 'olu.join_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
             'select count(*) from %s li '.
-            'left join %s olu using(courseid) '.
+            'left join %s olu using(lessonid) '.
             'where %s',
             self::DB_TABLE_NAME,
             t_open_lesson_user::DB_TABLE_NAME,
