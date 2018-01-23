@@ -3112,7 +3112,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "lesson_del_flag=0",
             // "l.confirm_flag<2",
             "lesson_type in (0,1,3)",
-            "l.lesson_start>0"
+            "lesson_start>0"
         ];
         $sql = $this->gen_sql_new("select lessonid,lesson_start from %s where %s order by lesson_start",
                                   self::DB_TABLE_NAME,
