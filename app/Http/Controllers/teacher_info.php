@@ -2560,7 +2560,6 @@ class teacher_info extends Controller
     public function get_leo_resource(){
         //兼容js调用
         $is_js = $this->get_in_int_val('is_js', 0);
-
         //检测老师是不是全职
         $is_full_time = $this->check_teacher_type();
         if($is_full_time == 0){
@@ -2568,15 +2567,13 @@ class teacher_info extends Controller
                 return $this->output_err("暂未开放，敬请期待！");
             } else {
                 // return $this->pageView( __METHOD__,[],['no_pawer' => 1]);
-
                 return $this->error_view([
                     "暂未开放，敬请期待！"
                 ]);
             }
         }
-        
-        $tea_info = $this->get_rule_range();
 
+        $tea_info = $this->get_rule_range();
         // $tea_info = [
         //     ['subject'=>1,
         //      'grade' => [201,202,203]],
@@ -2597,6 +2594,7 @@ class teacher_info extends Controller
         foreach($res_type_list as $v){
             $type_list[] =intval( $v['resource_type']);
         }
+
 
 
         // dd($tea_info);
@@ -2676,7 +2674,6 @@ class teacher_info extends Controller
                 $tag_arr['tag_four']['menu'] => 'tag_four',
             ]);
         }
-
         $book_arr = [];
         if($resource_type != 6){
             //获取所有开放的教材版本
