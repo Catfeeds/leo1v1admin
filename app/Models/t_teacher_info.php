@@ -4906,7 +4906,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["ta.reference='%s'",$phone,'']
         ];
 
-        if($reference_type == E\Ereference_type::V_1){
+        if($reference_type == 1){
             array_push($where_arr, 't.identity in (5,6)');
         }else{
             array_push($where_arr, 't.identity in (0,7,8)');
