@@ -1755,7 +1755,7 @@ class stu_manage extends Controller
                     $grade_arr[$val["grade"]]=$val["grade"];
                 }
                 if(!empty($val["issue_url"])){
-                    $upload_nu++;
+                    $upload_num++;
                     if($val["work_status"]>=2){
                         $commit_num++;
                     }
