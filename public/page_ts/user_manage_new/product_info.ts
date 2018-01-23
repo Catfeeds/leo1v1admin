@@ -102,7 +102,7 @@ $(function(){
                 if(!$describe.val()){ alert('请填写问题描述!'); return; }
 
                 $.do_ajax("/ss_deal2/add_product_info",{
-                    "feedback_id" : $feedback_id.val(),
+                    "feedback_nick" : $feedback_id.val(),
                     "describe"    : $describe.val(),
                     "lesson_url"  : $lesson_url.val(),
                     "reason"      : $reason.val(),
