@@ -149,7 +149,7 @@ $(function(){
     }else{
         $("#id_add_stu_score").parent().hide();
     }
-    $(".preview_table_flag,.lesson_table_flag,.performance_table_flag").each(function(){
+    $(".preview_table_flag,.lesson_table_flag,.performance_table_flag,.homework_table_flag").each(function(){
         var class_id =$(this).data("class_id");
         if(current_id==class_id){
             $(this).show();
@@ -268,7 +268,7 @@ $(function(){
     });
 
 
-    $(".show_cw_content").on("click",function(){
+    $(".show_cw_content,.show_issue_content").on("click",function(){
         var url = $(this).data("url");
         $.wopen(url); 
     });
