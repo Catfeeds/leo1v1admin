@@ -10,6 +10,7 @@
     <script type="text/javascript" src="/js/jquery.contextify.js"></script>
     <script type="text/javascript" src="/js/area/distpicker.data.js"></script>
 	  <script type="text/javascript" src="/js/area/distpicker.js"></script>
+    <script type="text/javascript" src="/js/pdfobject.js"></script>
     <script>
      var tag_one = '{{@$tag_info['tag_one']['menu']}}';
      var tag_two = '{{@$tag_info['tag_two']['menu']}}';
@@ -152,7 +153,7 @@
                         <td>上下册</td>
                     @endif
 
-                    <td>是否使用</td>
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -185,7 +186,9 @@
                             <td>{{@$var["tag_five_str"]}}</td>
                         @endif
 
-                        <td>是</td>
+                        <td>
+                            <a class="opt-look btn color-blue"  title="预览">预览</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

@@ -103,8 +103,8 @@ class resource extends Controller
         }
         $sub_grade_info = $this->get_rule_range();
         $is_teacher = 0;
-        if($this->get_account_role() == 2004){
-            $is_teacher = 0;
+        if($this->get_account_role() == 4){
+            $is_teacher = 1;
             if( $subject > 0 && !in_array($subject,$sub_grade_info['subject'])){
                 $err_mg = "你不是教当前科目的教研老师，没有权限查看当前科目";
                 return $this->view_with_header_info ( "common.resource_no_power", [],[
@@ -392,19 +392,21 @@ class resource extends Controller
         // }
 
         //教研老师只能看他所教的科目和年级
-        // $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
-        // if($info && $role == 4){
-        //     $grade_arr = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
-        //     $grade = [];
-        //     $data = [
-        //         'subject' => [(int)$info['subject']],
-        //     ];
+        $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
+        if( $info && $role == 4){
+            if( $info['grade_start'] > 0 && $info['grade_end'] > 0 && $info['subject'] > 0 ){                          
+                $grade_arr = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
+                $grade = [];
+                $data = [
+                    'subject' => [(int)$info['subject']],
+                ];
             
-        //     foreach( $grade_arr as $var ){
-        //         $grade[] = (int)$var;
-        //     }
-        //     $data['grade'] = $grade;
-        // }
+                foreach( $grade_arr as $var ){
+                    $grade[] = (int)$var;
+                }
+                $data['grade'] = $grade;
+            }
+        }
         return $data;
     }
 
@@ -876,6 +878,51 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,['tag_info' => $tag_arr]);
+    }
+
+    //预览
+    public function tea_look_resource() {
+        $tea_res_id = $this->get_in_int_val("tea_res_id");
+        $tea_flag = $this->get_in_int_val("tea_flag",1);
+        if($tea_res_id <=0){
+            return $this->output_err('信息有误，操作失败！');
+        }
+        $teacherid = $this->get_login_teacher();
+        if($tea_flag == 1){//下载自己的文件
+            $this_tea = $this->t_teacher_resource->get_teacherid($tea_res_id);
+            $file_id = $this->t_teacher_resource->get_file_id($tea_res_id);
+            if($this_tea == $teacherid && $file_id == 0){//是老师自己上传的文件
+                $file_link = $this->t_teacher_resource->get_file_link($tea_res_id);
+
+                $store=new \App\FileStore\file_store_tea();
+                $auth=$store->get_auth();
+                $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$file_link );
+                // $authUrl = $this->gen_download_url($file_link);
+                return $this->output_succ(["url" => $authUrl]);
+            }
+        } else {//预览理优资料
+            $file_link = $this->t_resource_file->get_file_link($tea_res_id);
+            if(!$file_link){
+                return $this->output_err('信息有误，预览失败！');
+            }
+            //添加浏览记录
+            $this->t_resource_file_visit_info->row_insert([
+                'file_id'      => $tea_res_id,
+                'visitor_type' => 1,
+                'visitor_id'   => $teacherid,
+                'create_time'  => time(),
+                'ip'           => $_SERVER["REMOTE_ADDR"],
+            ]);
+            $this->t_resource_file->add_num('visit_num', $tea_res_id);
+
+            $store=new \App\FileStore\file_store_tea();
+            $auth=$store->get_auth();
+            $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$file_link );
+            // $authUrl = $this->gen_download_url($file_link);
+            return $this->output_succ(["url" => $authUrl]);
+        }
+
+        return $this->output_err('信息有误，下载失败！');
     }
 
 }
