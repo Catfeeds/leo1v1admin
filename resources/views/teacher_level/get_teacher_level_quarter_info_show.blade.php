@@ -12,11 +12,35 @@
                         <input type="text" value=""  class="opt-change"  id="id_teacherid"  placeholder="" />
                     </div>
                 </div>
-                <div class="col-xs-6 col-md-10">
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">晋升申请</span>
+                        <select class="opt-change form-control " id="id_advance_require_flag" >
+                            <option value="-1">全部</option>
+                            <option value="1">已申请</option>
+                            <option value="2">未申请</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">扣款申请</span>
+                        <select class="opt-change form-control " id="id_withhold_require_flag" >
+                            <option value="-1">全部</option>
+                            <option value="1">已申请</option>
+                            <option value="2">未申请</option>
+                        </select>
+                    </div>
+                </div>               
+                <div class="col-xs-6 col-md-6">
                     <button class="btn btn-primary" id="id_withhold_agree" style="float:right" > 一键同意扣款 </button>
                     <button class="btn btn-primary" id="id_advance_agree" style="float:right;margin-right:15px">一键同意晋升 </button>
                     <button class="btn btn-primary" id="id_edit-rule" style="float:right;margin-right:15px"> 修改晋升规则</button>
                 </div>
+
+               
+
+
 
 
 
@@ -98,7 +122,13 @@
                                 无
                             @else
                                 -{{ @$var["withhold_money"] }}元/月<br><br>
-                                待审批
+                                @if(empty($var["withhold_require_time"]))
+                                    未申请
+                                @elseif(empty($var["withhold_final_trial_flag"]))
+                                    待审批
+                                @else
+                                    已审批({{ $var["withhold_final_trial_flag_str"] }})
+                                @endif
                             @endif
                         </td>
                         <td>
@@ -112,6 +142,7 @@
                                 目标等级:{{@$var["level_after_str"]}}<br>
                             @else
                                 状态:已审批<br>
+                                审批结果:{{ @$var["accept_flag_str"] }}<br>
                                 目标等级:{{@$var["level_after_str"]}}<br>
                             @endif
                         </td>
@@ -119,13 +150,20 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                @if(empty($var["require_time"]))
-                                    <a class="opt-advance-require" title="晋升申请">晋升申请</a>
-                                @else
-                                    <a class="opt-advance-require_deal" title="晋升审批">晋升审批</a>
+                                @if(empty($var["accept_time"]))
+                                    @if(empty($var["require_time"]))
+                                        <a class="opt-advance-require" title="晋升申请">晋升申请</a>
+                                    @else
+                                        <a class="opt-advance-require-deal" title="晋升审批">晋升审批</a>
+                                    @endif
                                 @endif
-                                @if($var["reach_flag"]==0)
-                                    <a class="opt-advance-withhold_deal" title="扣款审批">扣款审批</a>
+                                @if($var["reach_flag"]==0 && empty($var["withhold_final_trial_flag"]))
+                                    @if(empty($var["withhold_require_time"]))
+                                        <a class="opt-advance-withhold-require" title="扣款申请">扣款申请</a>
+                                    @else
+                                        <a class="opt-advance-withhold-deal" title="扣款审批">扣款审批</a>
+                                    @endif
+
                                 @endif
                                 @if($account=="jack")
                                     @if($var["hand_flag"]==1)

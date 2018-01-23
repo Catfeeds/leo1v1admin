@@ -365,10 +365,11 @@
                                             <td> {!! $my_info['qq_info'] !!} </td>
                                         </tr>
                                         <tr>
-                                            <th class="text-cen bg-lblue" >微信</th>
-                                            <td> {!! $my_info['wx_name'] !!} </td>
+                                           
                                             <th class="text-cen bg-lblue" >有无教师资格证</th>
                                             <td> {!! $my_info['is_prove_str'] !!} </td>
+                                            <th class="text-cen bg-lblue" >微信</th>
+                                            <td> {!! $my_info['wx_name'] !!} </td>
                                         </tr>
                                     </table>
                                     <p class="color-9">教学成果</p>

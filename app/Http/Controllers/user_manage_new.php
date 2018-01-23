@@ -5566,7 +5566,7 @@ class user_manage_new extends Controller
             $item['stu_agent_simple'] = get_machine_info_from_user_agent($item["stu_agent"] );
             $item['tea_agent_simple'] = get_machine_info_from_user_agent($item["tea_agent"] );
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            $item['feedback_nick'] = $this->cache_get_account_nick($item['feedback_adminid']);
+            // $item['feedback_nick'] = $this->cache_get_account_nick($item['feedback_adminid']);
             $item['record_nick']   = $this->cache_get_account_nick($item['record_adminid']);
             $item["tea_phone"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["tea_phone"]);
             $item["stu_phone"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["stu_phone"]);

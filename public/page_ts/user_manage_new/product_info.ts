@@ -68,21 +68,21 @@ $(function(){
             }
         });
 
-
+        var tag = "<font color='red'>*</font>";
         var arr = [
-            ["反馈人",$feedback_id],
-            ["问题描述",$describe],
+            [tag+" 反馈人",$feedback_id],
+            [tag+" 问题种类",$lesson_problem],
+            [tag+" 其他原因描述",$lesson_problem_desc],
+            [tag+" 是否解决",$deal_flag],
+            [tag+" 问题描述",$describe],
+            ["上课链接",$lesson_url],
+            ["原因",$reason],
+            ["解决方案",$solution],
             ["问题原因[图片]",$id_img_url],
             ["问题原因[视频|音频]",$id_video_url],
             ["问题原因[压缩包]",$id_zip_url],
-            ["上课链接",$lesson_url],
-            ["原因",$reason],
-            ["问题类型",$lesson_problem],
-            ["其他原因描述",$lesson_problem_desc],
-            ["解决方案",$solution],
             ["学生",$student],
             ["老师",$teacher],
-            ["解决状态",$deal_flag],
             ["备注",$remark],
         ];
 
@@ -90,6 +90,17 @@ $(function(){
             label    : "确认",
             cssClass : "btn-warning",
             action   : function(dialog) {
+                // 检测文本填写信息
+                if(!$feedback_id.val()){ alert('请填写反馈人姓名!'); return; }
+                if($lesson_problem.val()==0){ alert('请选择问题种类!'); return; }
+                if($deal_flag.val()==-1){ alert('请选择解决状态!'); return; }
+                if(!$lesson_problem_desc.val()){ alert('请选择填写问题描述!'); return; }
+                if($deal_flag.val()==0 && !$lesson_url.val()){alert('请填写上课链接!'); return;}
+                if($deal_flag.val()==1){
+                    if(!$reason.val()){alert('请填写原因!');return;}
+                    if(!$solution.val()){alert('请填写解决方案!');return;}
+                }
+
                 $.do_ajax("/ss_deal2/add_product_info",{
                     "feedback_id" : $feedback_id.val(),
                     "describe"    : $describe.val(),
@@ -113,15 +124,16 @@ $(function(){
             }
         },function(){
             $lesson_problem_desc.parent().parent().css('display','none');
-            $.admin_select_user($feedback_id,"admin");
             $.admin_select_user($student,"student");
             $.admin_select_user($teacher,"teacher");
 
             $lesson_url.css('width','90%');
-            $feedback_id.next().css('width','20%');
             $student.next().css('width','20%');
             $teacher.next().css('width','20%');
-            $deal_flag.css('width','20%');
+            $deal_flag.css('width','40%');
+            $lesson_problem.css('width','40%');
+            $feedback_id.css('width','40%');
+
 
             $.custom_upload_file('id_upload_lesson_img',true,function (up, info, file) {
                 var res = $.parseJSON(info);
@@ -268,7 +280,6 @@ $(function(){
                     $('#id_download_lesson_img').attr('href',data.img_str);
                 }
 
-                $.admin_select_user($feedback_id,"admin");
                 $.admin_select_user($student,"student");
                 $.admin_select_user($teacher,"teacher");
 

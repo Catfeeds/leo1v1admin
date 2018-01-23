@@ -3365,5 +3365,47 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
 
     }
+    //@desn:获取上小班课次数
+    //@param:$userid 用户id
+    //@param:$start_time $end_time 开始时间 结束时间
+    public function get_small_class_count($userid,$start_time,$end_time){
+        $where_arr = [
+            'li.lesson_del_flag=0',
+            'li.lesson_type in (3001,3002)',
+            'li.lesson_status = 2'
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'scu.userid', $userid);
+        $this->where_arr_add_time_range($where_arr, 'scu.join_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select count(*) from %s li '.
+            'left join %s scu using(courseid) '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_small_class_user::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+    //@desn:获取上公开课次数
+    //@param:$userid 用户id
+    //@param:$start_time $end_time 开始时间 结束时间
+    public function get_public_class_count($key,$start_time,$end_time){
+        $where_arr = [
+            'li.lesson_del_flag=0',
+            'li.lesson_type in (1001,1002,1003)',
+            'li.lesson_status = 2'
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'olu.userid', $userid);
+        $this->where_arr_add_time_range($where_arr, 'olu.join_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select count(*) from %s li '.
+            'left join %s olu using(courseid) '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_open_lesson_user::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 
 }

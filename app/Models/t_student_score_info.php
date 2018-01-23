@@ -358,7 +358,6 @@ where reg_time >  $start_time and reg_time < $end_time and is_test_user = 0";
 from t_order_info o 
 left join t_student_info s on s.userid = o.userid
 where order_time >  $start_time and order_time < $end_time and contract_type  = 0 and s.is_test_user = 0 and contract_status in (1,2,3) and price > 0";
-
       return $this->main_get_row($sql);
     }
 
