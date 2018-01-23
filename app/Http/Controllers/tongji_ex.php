@@ -362,6 +362,8 @@ class tongji_ex extends Controller
         $this->check_and_switch_tongji_domain();
         list($start_time,$end_time,$num) = [strtotime('2018-01-01'),strtotime('2018-02-01'),0];
         $ret = $this->t_seller_student_new->get_item_january_detail_list($start_time,$end_time);
+        $userid_arr = array_unique(array_column($ret, 'userid'));
+        dd($userid_arr);
         $ret_info = [];
         foreach($ret as $item){
             $userid = $item['userid'];
