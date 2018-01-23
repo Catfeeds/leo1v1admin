@@ -3013,7 +3013,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.preview_status=%u",$preview_status,-1],
             "l.lesson_del_flag=0",
             // "l.confirm_flag<2",
-            "l.lesson_type in (0,1,3)"
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_start>0"
         ];
         if($cw_status==0){
             $where_arr[]="(l.tea_cw_upload_time=0 or l.tea_cw_upload_time>=l.lesson_start)";
@@ -3045,7 +3046,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.subject=%u",$subject,-1],
             ["l.grade=%u",$grade,-1],
             "l.lesson_del_flag=0",
-            "l.lesson_type in (0,1,3)"
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_start>0"
         ];
 
         if($page_flag==1){
@@ -3109,7 +3111,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["userid=%u",$userid,-1],         
             "lesson_del_flag=0",
             // "l.confirm_flag<2",
-            "lesson_type in (0,1,3)"
+            "lesson_type in (0,1,3)",
+            "lesson_start>0"
         ];
         $sql = $this->gen_sql_new("select lessonid,lesson_start from %s where %s order by lesson_start",
                                   self::DB_TABLE_NAME,
@@ -3129,7 +3132,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.grade=%u",$grade,-1],
             "l.lesson_del_flag=0",
             // "l.confirm_flag<2",
-            "l.lesson_type in (0,1,3)"
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_start>0"
         ];
 
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,l.confirm_flag,"
@@ -3301,7 +3305,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.grade=%u",$grade,-1],
             "l.lesson_del_flag=0",
             // "l.confirm_flag<2",
-            "l.lesson_type in (0,1,3)"
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_start>0"
         ];
 
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,l.confirm_flag,"
