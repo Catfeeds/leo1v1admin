@@ -3223,13 +3223,16 @@ class ajax_deal2 extends Controller
         $cc_order_num  = $this->get_in_int_val("cc_order_num");
         $cr_order_num  = $this->get_in_int_val("cr_order_num");
         $record_avg_score  = $this->get_in_str_val("record_avg_score");
+        $level  = $this->get_in_int_val("level");
         $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
             "lesson_count"     => $lesson_count ,
             "cc_order_num"     => $cc_order_num,
             "other_order_num"  => $cr_order_num,
             "stu_num"          => $stu_num,
-            "record_score_avg" => $record_avg_score
+            "record_score_avg" => $record_avg_score,
+            "level_before"            => $level
         ]);
+        $this->t_teacher_info->field_update_list($teacherid,["level"=>$level]);
         return $this->output_succ();
  
     }
