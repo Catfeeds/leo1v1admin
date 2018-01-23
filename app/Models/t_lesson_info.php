@@ -4034,7 +4034,7 @@ lesson_type in (0,1) "
         }
 
         $this->where_arr_teacherid($where_arr,"l.teacherid", $teacherid_list,$check_flag);
-        $sql = $this->gen_sql_new("select count(distinct l.userid,l.subject,l.teacherid) person_num,count(l.lessonid) lesson_num"
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.subject,l.teacherid) person_num,count(distinct l.lessonid) lesson_num"
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid = l.lessonid"
@@ -4055,7 +4055,7 @@ lesson_type in (0,1) "
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_row($sql);
     }
 
     public function get_teacher_test_person_num_list_old( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid_list=[]){
