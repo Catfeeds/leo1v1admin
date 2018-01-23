@@ -297,7 +297,7 @@ $(function(){
             ["老师版(pdf,最大15m)", id_tea_file],
             ["学生版(pdf,最大15m)", id_stu_file],
             ["额外的讲义(pdf,mp3,mp4,最大15m)", id_ex_file],
-            ["培训讲义或视频(pdf,mp3,mp4,最大15m)", id_video_file],
+            ["培训讲义或视频(pdf,mp3,mp4,最大100m)", id_video_file],
         ];
 
         $.show_key_value_table('新建', arr,{
