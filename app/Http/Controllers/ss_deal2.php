@@ -1085,7 +1085,7 @@ class ss_deal2 extends Controller
     }
 
     public function add_product_info(){
-        $feedback_adminid = $this->get_in_int_val('feedback_id');
+        $feedback_nick = $this->get_in_int_val('feedback_nick');
         $describe   = $this->get_in_str_val('describe');
         $lesson_url = $this->get_in_str_val('lesson_url');
         $reason     = $this->get_in_str_val('reason');
@@ -1103,7 +1103,7 @@ class ss_deal2 extends Controller
         $zip_url   = $this->get_in_str_val('zip_url');
 
         $ret = $this->t_product_feedback_list->row_insert([
-            "feedback_adminid" => $feedback_adminid,
+            "feedback_nick" => $feedback_nick,
             "record_adminid"   => $record_adminid,
             "describe_msg"     => $describe,
             "lesson_url"   => $lesson_url,
@@ -1138,7 +1138,6 @@ class ss_deal2 extends Controller
         $ret_list['stu_agent_simple'] = get_machine_info_from_user_agent($ret_list["stu_agent"] );
         $ret_list['tea_agent_simple'] = get_machine_info_from_user_agent($ret_list["tea_agent"] );
         \App\Helper\Utils::unixtime2date_for_item($ret_list,"create_time");
-        $ret_list['feedback_nick'] = $this->cache_get_account_nick($ret_list['feedback_adminid']);
         $ret_list['record_nick']   = $this->cache_get_account_nick($ret_list['record_adminid']);
         $ret_list['deal_flag_str'] = E\Eboolean::get_color_desc($ret_list['deal_flag']);
 
@@ -1164,15 +1163,16 @@ class ss_deal2 extends Controller
         $deal_flag  = $this->get_in_int_val('deal_flag');
         $remark     = $this->get_in_str_val('remark');
         $record_adminid = $this->get_account_id();
-        $feedback_adminid = $this->get_in_int_val('feedback_id');
+        $feedback_nick = $this->get_in_str_val('feedback_nick');
         $lesson_problem = $this->get_in_int_val('lesson_problem');
         $img_url   = $this->get_in_str_val('img_url');
         $video_url = $this->get_in_str_val('video_url');
         $zip_url   = $this->get_in_str_val('zip_url');
+        $lesson_problem_desc = $this->get_in_str_val('lesson_problem_desc');
 
 
         $ret = $this->t_product_feedback_list->field_update_list($id,[
-            "feedback_adminid" => $feedback_adminid,
+            "feedback_nick" => $feedback_nick,
             "record_adminid"   => $record_adminid,
             "describe_msg"     => $describe,
             "lesson_url"   => $lesson_url,
@@ -1182,11 +1182,11 @@ class ss_deal2 extends Controller
             "teacher_id"   => $teacher_id,
             "deal_flag"    => $deal_flag,
             "remark"       => $remark,
-            // "create_time"  => time(),
             "lesson_problem" => $lesson_problem,
             "img_url"      => $img_url,
             "video_url"    => $video_url,
-            "zip_url"      => $zip_url
+            "zip_url"      => $zip_url,
+            "lesson_problem_desc" => $lesson_problem_desc
         ]);
 
         return $this->output_succ();
