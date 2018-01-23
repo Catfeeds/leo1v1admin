@@ -130,7 +130,7 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180116171449,
+            '_publish_version'    => 20180123171449,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -883,46 +883,17 @@ class resource extends Controller
     //预览
     public function tea_look_resource() {
         $tea_res_id = $this->get_in_int_val("tea_res_id");
-        $tea_flag = $this->get_in_int_val("tea_flag",1);
-        if($tea_res_id <=0){
-            return $this->output_err('信息有误，操作失败！');
-        }
-        $teacherid = $this->get_login_teacher();
-        if($tea_flag == 1){//下载自己的文件
-            $this_tea = $this->t_teacher_resource->get_teacherid($tea_res_id);
-            $file_id = $this->t_teacher_resource->get_file_id($tea_res_id);
-            if($this_tea == $teacherid && $file_id == 0){//是老师自己上传的文件
-                $file_link = $this->t_teacher_resource->get_file_link($tea_res_id);
-
-                $store=new \App\FileStore\file_store_tea();
-                $auth=$store->get_auth();
-                $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$file_link );
-                // $authUrl = $this->gen_download_url($file_link);
-                return $this->output_succ(["url" => $authUrl]);
-            }
-        } else {//预览理优资料
-            $file_link = $this->t_resource_file->get_file_link($tea_res_id);
-            if(!$file_link){
-                return $this->output_err('信息有误，预览失败！');
-            }
-            //添加浏览记录
-            $this->t_resource_file_visit_info->row_insert([
-                'file_id'      => $tea_res_id,
-                'visitor_type' => 1,
-                'visitor_id'   => $teacherid,
-                'create_time'  => time(),
-                'ip'           => $_SERVER["REMOTE_ADDR"],
-            ]);
-            $this->t_resource_file->add_num('visit_num', $tea_res_id);
-
-            $store=new \App\FileStore\file_store_tea();
-            $auth=$store->get_auth();
-            $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$file_link );
-            // $authUrl = $this->gen_download_url($file_link);
-            return $this->output_succ(["url" => $authUrl]);
+        //预览理优资料
+        $file_link = $this->t_resource_file->get_file_link($tea_res_id);
+        if(!$file_link){
+            return $this->output_err('信息有误，预览失败！');
         }
 
-        return $this->output_err('信息有误，下载失败！');
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+        $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$file_link );
+        return $this->output_succ(["url" => $authUrl]);
+        
     }
 
 }

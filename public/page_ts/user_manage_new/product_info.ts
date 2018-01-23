@@ -38,6 +38,7 @@ $(function(){
 
     $.admin_select_user($("#id_feedback_adminid"),"admin", load_data);
 
+    //http://p.admin.leo1v1.com/tongji2/subject_transfer ['统计图']
     $('#id_submit').on("click",function(){
         var data         = $(this).get_opt_data();
         var $feedback_id = $("<input/>");
@@ -99,9 +100,9 @@ $(function(){
                     "teacher_id"  : $teacher.val(),
                     "deal_flag"   : $deal_flag.val(),
                     "remark"      : $remark.val(),
-                    "img_url"     : $id_img_url.val(),
-                    "video_url"   : $id_video_url.val(),
-                    "zip_url"     : $id_zip_url.val(),
+                    "img_url"     : $('#id_img_url').val(),
+                    "video_url"   : $('#id_video_url').val(),
+                    "zip_url"     : $('#id_zip_url').val(),
                     "lesson_problem" : $lesson_problem.val(),
                     "lesson_problem_desc" : $lesson_problem_desc.val(),
                 },function(result){
@@ -249,7 +250,7 @@ $(function(){
 
                 if(data.lesson_problem == 9){
                     $lesson_problem_desc.parent().parent().css('display','table-row');
-                    $lesson_problem_desc.val(data.lesson_problem);
+                    $lesson_problem_desc.val(data.lesson_problem_desc);
                 }else{
                     $lesson_problem_desc.parent().parent().css('display','none');
                 }

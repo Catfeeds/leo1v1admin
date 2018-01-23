@@ -141,7 +141,7 @@
                     <td>科目</td>
                     <td>年级</td>
                     @if($resource_type < 6)
-                    <td>教材</td>
+                        <td>教材</td>
                     @endif
 
                     @if( $resource_type == 1 || $resource_type == 3 )
@@ -187,7 +187,7 @@
                         @endif
 
                         <td>
-                            <a class="opt-look btn color-blue"  title="预览">预览</a>
+                            <a class="opt-look btn color-blue" data-file_id="{{$var["file_id"]}}"  title="预览">预览</a>
                         </td>
                     </tr>
                 @endforeach

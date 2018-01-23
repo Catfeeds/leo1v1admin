@@ -75,7 +75,6 @@ class t_resource_agree_info extends \App\Models\Zgen\z_t_resource_agree_info
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
-
         return $this->main_get_list($sql);
     }
 

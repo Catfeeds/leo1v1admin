@@ -14,6 +14,34 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        //微信通知老师
+        /**
+         * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
+         * 标题课程 : 等级升级通知
+         * {{first.DATA}}
+         * 用户昵称：{{keyword1.DATA}}
+         * 最新等级：{{keyword2.DATA}}
+         * 生效时间：{{keyword3.DATA}}
+         * {{remark.DATA}}
+         */
+        // $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
+        $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+        if($wx_openid){
+            $data=[];
+            $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
+            $data['first']    = "恭喜jack老师,您已经成功晋级到了三星级";
+            $data['keyword1'] = "jack";
+            $data['keyword2'] = "三星级";
+            $data['keyword3'] = date("Y-m-01 00:00",time());
+            /* $data['remark']   = "晋升分数:".$score
+               ."\n请您继续加油,理优期待与你一起共同进步,提供高品质教学服务";*/
+            $data['remark']   = "希望老师在今后的教学中继续努力,再创佳绩";
+
+            $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=13817759346";
+            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+        }
+        dd(111);
+
         \App\Helper\Net::send_sms_taobao(13817759346,111, 10671029,[
             "code"  => 1,
             "index" => 2,

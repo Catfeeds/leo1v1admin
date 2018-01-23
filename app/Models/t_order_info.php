@@ -4950,7 +4950,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             'price > 0',
             'contract_status > 0',
-            'contract_type = 0',
+            'contract_type not in (1,2)',
             'order_time < '.$end_time
         ];
         $this->where_arr_add_int_or_idlist($where_arr, 'userid', $userid);
@@ -4989,7 +4989,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             'price > 0',
             'contract_status > 0',
-            'contract_type = 0',
+            'contract_type not in (1,2)',
             'order_time < '.$end_time
         ];
         $this->where_arr_add_int_or_idlist($where_arr, 'userid', $userid);

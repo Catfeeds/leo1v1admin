@@ -122,9 +122,10 @@
                                 <a class="btn fa fa-qrcode  opt-qr-pad "
                                    data-type="leoedu://video.leoedu.com/video="
                                    title="视频播放二维码" > </a>
-                                @if($var["trial_train_status"] <3)
+                                @if($var["trial_train_status"] <4)
                                     @if(in_array($acc,["adrian","jim",$var['acc'],"jack","林文彬"]))
                                         <a class="opt-edit-new" title="更改状态">审核 </a>
+                                        <a class="opt-edit-no-pass" title="淘汰重审判定">不通过 </a>
                                     @endif
                                     @if(in_array($acc,["jack"]))
                                         <a class="opt-edit" title="更改状态">审核-old </a>

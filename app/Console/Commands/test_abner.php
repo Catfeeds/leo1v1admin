@@ -53,7 +53,7 @@ class test_abner extends cmd_base
             //获取续费相关信息
             $renewal_info = $this->task->t_order_info->get_renewal_info($key,$start_time,$end_time);
             $item['renewal_count'] = $renewal_info['renewal_count'];
-            $item['renewal_class_pag'] = $renewal_info['renewal_class_pag'];
+            $item['renewal_class_pag'] = $renewal_info['renewal_class_pag']/100;
             if($renewal_info['q4_renewal'] > 0)
                 $item['is_11_12_renewal'] = 'Y';
             else

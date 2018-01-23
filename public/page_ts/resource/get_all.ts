@@ -232,6 +232,7 @@ $(function(){
         var id_tea_file   = $("<button class=\"btn\" id=\"id_tea_file\">选择文件</button>");//老师
         var id_stu_file   = $("<button class=\"btn\" id=\"id_stu_file\">选择文件</button>");//学生
         var id_ex_file    = $("<button class=\"btn\" id=\"id_ex_file\">选择文件</button>");//额外的讲义
+        var id_video_file = $("<button class=\"btn\" id=\"id_video_file\">选择文件</button>");//培训视频
 
         //仅仅对resource_type=4,5时候使用
         var id_ff_file = $("<button class=\"btn\" id=\"id_ff_file\">选择文件</button>");
@@ -295,7 +296,8 @@ $(function(){
             ["课件版(pdf,最大15m)", id_les_file],
             ["老师版(pdf,最大15m)", id_tea_file],
             ["学生版(pdf,最大15m)", id_stu_file],
-            ["额外的讲义(pdf,mp3,mp4,最大100m)", id_ex_file],
+            ["额外的讲义(pdf,mp3,mp4,最大15m)", id_ex_file],
+            ["培训讲义或视频(pdf,mp3,mp4,最大15m)", id_video_file],
         ];
 
         $.show_key_value_table('新建', arr,{
@@ -345,7 +347,7 @@ $(function(){
                             $(this).remove();
                         });
 
-                        var file_num = $('.other_file').length;
+                        var file_num = $('.video_file').length;
                         if( file_num < 1){
                             alert('缺少上传文件!');
                             return false;
@@ -438,7 +440,7 @@ $(function(){
             // });
 
             if( $('.resource').val() == 2 ){
-                $('#id_other_file,#id_ff_file').parent().parent().hide();
+                $('#id_other_file,#id_ff_file,#id_video_file').parent().parent().hide();
                 get_book(g_args.tag_one);
             } else if ($('.resource').val() ==3 || $('.resource').val() == 1){
 
@@ -447,13 +449,13 @@ $(function(){
                 if( g_args.subject < 6 && g_args.subject > 0){
                     id_subject.val(g_args.subject);
                 }
-                $('#id_other_file,#id_ff_file').parent().parent().hide();
+                $('#id_other_file,#id_ff_file,#id_video_file').parent().parent().hide();
                 get_book(g_args.tag_one);
             }else if($('.resource').val() < 6){ //4,5
-                $('#id_les_file,#id_other_file,#id_tea_file,#id_stu_file').parent().parent().hide();
+                $('#id_les_file,#id_other_file,#id_tea_file,#id_stu_file,#id_video_file').parent().parent().hide();
                 get_book(g_args.tag_one);
             }else if($('.resource').val() == 6){
-                $('#id_les_file,#id_other_file,#id_ff_file').parent().parent().hide();
+                $('#id_les_file,#id_other_file,#id_ff_file,#id_video_file').parent().parent().hide();
                 get_province($('.tag_two'), true);
                 $('.tag_two').change(function(){
                     get_city($('.tag_three'), $(this).val(), true);
@@ -461,7 +463,7 @@ $(function(){
                 get_city($('.tag_three'), 110000, true);
 
             } else {
-                $('#id_les_file,#id_tea_file,#id_stu_file,#id_ex_file,#id_ff_file').parent().parent().hide();
+                $('#id_les_file,#id_tea_file,#id_stu_file,#id_ex_file,#id_ff_file,#id_other_file').parent().parent().hide();
                 if($('.resource').val()==9){
                     get_book(g_args.tag_one);
                 }
@@ -476,9 +478,11 @@ $(function(){
             //学生版
             get_qiniu(new_flag,false,false,'id_stu_file',2, 'stu_file', 'pdf,PDF','15m');
             //额外讲义
-            get_qiniu(new_flag,true,false,'id_ex_file',3, 'ex_file', 'pdf,PDF,mp3,mp4,MP3,MP4','100m');
+            get_qiniu(new_flag,true,false,'id_ex_file',3, 'ex_file', 'pdf,PDF,mp3,mp4,MP3,MP4','15m');
             //仅对resource_type = 4,5
             get_qiniu(new_flag,false,false,'id_ff_file',0, 'ff_file', 'pdf,PDF','15m');
+            //培训视频或者讲义
+            get_qiniu(new_flag,true,false,'id_video_file',0, 'video_file', 'pdf,PDF,mp3,mp4,MP3,MP4','100m');
 
             $('#id_search_tag').click(function(){
                 var grade = $('.grade').val();
@@ -516,7 +520,7 @@ $(function(){
     };
 
     var change_tag = function(val){
-        $('#id_other_file,#id_tea_file,#id_stu_file,#id_les_file,#id_ex_file,#id_ff_file').parent().parent().hide();
+        $('#id_other_file,#id_tea_file,#id_stu_file,#id_les_file,#id_ex_file,#id_ff_file,#id_video_file').parent().parent().hide();
         if(val == 2){//1v1
             Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
             Enum_map.append_option_list("resource_season",$('.tag_two'),true);
@@ -526,7 +530,7 @@ $(function(){
             $('.tag_three').parent().parent().hide();
             $('.tag_four').parent().parent().hide();
             $('.tag_five').parent().parent().hide();
-            $('#id_other_file,#id_ff_file').parent().parent().hide();
+            $('#id_other_file,#id_ff_file,#id_video_file').parent().parent().hide();
             $('#id_les_file,#id_tea_file,#id_stu_file,#id_ex_file').parent().parent().show();
 
         }else if( val == 1 ){
@@ -544,7 +548,7 @@ $(function(){
             $('.tag_five').parent().prev().text('难度类型');
             $('.tag_five').parent().parent().show();
 
-            $('#id_other_file,#id_ff_file').parent().parent().hide();
+            $('#id_other_file,#id_ff_file,#id_video_file').parent().parent().hide();
             $('#id_les_file,#id_tea_file,#id_stu_file,#id_ex_file').parent().parent().show();
 
         }else if(val == 3){
@@ -559,7 +563,7 @@ $(function(){
             $('.tag_three').parent().prev().text('难度类型');
             $('.tag_four').parent().prev().text('学科化标签');
             $('.tag_five').parent().parent().hide();
-            $('#id_other_file,#id_ff_file').parent().parent().hide();
+            $('#id_other_file,#id_ff_file,#id_video_file').parent().parent().hide();
             $('#id_les_file,#id_tea_file,#id_stu_file,#id_ex_file').parent().parent().show();
 
        } else if (val == 4 || val == 5) {
@@ -570,7 +574,7 @@ $(function(){
             $('.tag_five').parent().prev().text('上下册');
             $('.tag_five').parent().parent().show();
             $('#id_ff_file,#id_ex_file').parent().parent().show();
-            $('#id_other_file,#id_les_file,#id_tea_file,#id_stu_file').parent().parent().hide();
+            $('#id_other_file,#id_les_file,#id_tea_file,#id_stu_file,#id_video_file').parent().parent().hide();
 
         } else if (val == 6 ){
             Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
@@ -592,7 +596,7 @@ $(function(){
             $('.tag_five').parent().prev().text('上下册');
             $('.tag_five').parent().parent().show();
             $('#id_tea_file,#id_stu_file,#id_ex_file').parent().parent().show();
-            $('#id_les_file,#id_other_file,#id_ff_file').parent().parent().hide();
+            $('#id_les_file,#id_other_file,#id_ff_file,#id_video_file').parent().parent().hide();
         } else if (val == 7) {
             Enum_map.append_option_list("grade",$('.grade'),true,[100,200,300]);
             $('.tag_one').next().remove();
@@ -601,8 +605,9 @@ $(function(){
             $('.tag_three').parent().prev().text('三级知识点');
             $('.tag_four').parent().parent().hide();
             $('.tag_five').parent().parent().hide();
+
             $('#id_other_file').parent().parent().show();
-            $('#id_les_file,#id_tea_file,#id_stu_file,#id_ex_file,#id_ff_file').parent().parent().hide();
+            $('#id_les_file,#id_tea_file,#id_stu_file,#id_ex_file,#id_ff_file,#id_video_file').parent().parent().hide();
         } else if (val == 8) {
             $('.grade').parent().parent().hide();
             Enum_map.append_option_list("season",$('.tag_one'),true);
@@ -614,8 +619,9 @@ $(function(){
             $('.tag_three').parent().prev().text('城市');
             $('.tag_four').parent().parent().hide();
             $('.tag_five').parent().parent().hide();
+
             $('#id_other_file').parent().parent().show();
-            $('#id_les_file,#id_tea_file,#id_stu_file,#id_ex_file,#id_ff_file').parent().parent().hide();
+            $('#id_les_file,#id_tea_file,#id_stu_file,#id_ex_file,#id_ff_file,#id_video_file').parent().parent().hide();
 
         } else if (val == 9){
             Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
@@ -625,8 +631,9 @@ $(function(){
             $('.tag_two').parent().prev().text('培训资料');
             $('.tag_three,.tag_four').parent().parent().hide();
             $('.tag_five').parent().parent().hide();
-            $('#id_other_file').parent().parent().show();
-            $('#id_les_file,#id_tea_file,#id_stu_file,#id_ex_file,#id_ff_file').parent().parent().hide();
+
+            $('#id_video_file').parent().parent().show();
+            $('#id_les_file,#id_tea_file,#id_stu_file,#id_ex_file,#id_ff_file,#id_other_file').parent().parent().hide();
 
         }
     };
@@ -670,6 +677,27 @@ $(function(){
     }
 
     //预览讲义
+    $('.opt-look').click(function(){
+        var id = $(this).data('file_id');
+        console.log(id);
+        var newTab=window.open('about:blank');
+        do_ajax('/resource/tea_look_resource',{'tea_res_id':id,'tea_flag':0},function(ret){
+            console.log(ret);
+            if(ret.ret == 0){
+                $('.look-pdf').show();
+                $('.look-pdf-son').mousedown(function(e){
+                    if(e.which == 3){
+                        return false;
+                    }
+                });
+                console.log(ret.url);
+                newTab.location.href = ret.url;
+            } else {
+                BootstrapDialog.alert(ret.info);
+            }
+        });
+    })
+
     var opt_look = function(data_obj){
         var id = data_obj.data('file_id');
         var newTab=window.open('about:blank');

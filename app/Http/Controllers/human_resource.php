@@ -2862,7 +2862,7 @@ class human_resource extends Controller
                 $data['keyword2'] = $keyword2;
                 $data['keyword3'] = date("Y-m-d H:i:s");
                 $data['remark'] = "请重新提交模拟试听时间，理优教育致力于打造高水平的教学服务团队，期待您能通过下次模拟试听，加油！";
-                $url = "http://admin.leo1v1.com/common/teacher_record_detail_info?id=".$id;
+                $url = "";
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
             }
             $ret = $this->add_trial_train_lesson($teacher_info,1,2);

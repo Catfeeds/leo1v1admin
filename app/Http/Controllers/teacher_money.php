@@ -480,7 +480,7 @@ class teacher_money extends Controller
         $add_time   = strtotime($add_date);
         $check_flag = \App\Helper\Utils::check_teacher_salary_time($add_time);
         if(!$check_flag){
-            return $this->output_err("不能添加工资至上月工资!");
+            return $this->output_err("无法添加奖金到<font color='red'>已经结算工资</font>的月份!");
         }
 
         $update_arr = [
@@ -535,10 +535,14 @@ class teacher_money extends Controller
         }
 
         $ret = $this->t_teacher_money_list->row_insert($update_arr);
-        if(!$ret){
-            return $this->output_err("添加失败！请重试！");
+        if($ret){
+            $log_arr = [
+                "add_info" => $update_arr
+            ];
+            $msg = json_encode($log_arr);
+            $this->t_user_log->add_user_log($teacherid,$msg,E\Euser_log_type::V_200);
         }
-        return $this->output_succ();
+        return $this->output_ret($ret);
     }
 
     public function get_teacher_info_for_total_money($teacherid){
