@@ -371,4 +371,17 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
         return $this->main_get_list($sql);
     }
 
+    public function get_groupid_by_adminid($adminid){
+        $where_arr = [];
+        $this->where_arr_add_int_field($where_arr, 'master_adminid', $adminid);
+        $sql = $this->gen_sql_new(
+            " select groupid "
+            ." from %s "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
 }
