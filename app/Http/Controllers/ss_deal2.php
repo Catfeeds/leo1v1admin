@@ -1085,7 +1085,7 @@ class ss_deal2 extends Controller
     }
 
     public function add_product_info(){
-        $feedback_nick = $this->get_in_int_val('feedback_nick');
+        $feedback_nick = $this->get_in_str_val('feedback_nick');
         $describe   = $this->get_in_str_val('describe');
         $lesson_url = $this->get_in_str_val('lesson_url');
         $reason     = $this->get_in_str_val('reason');
