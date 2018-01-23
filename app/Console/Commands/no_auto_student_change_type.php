@@ -40,6 +40,21 @@ class no_auto_student_change_type extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
 
         $task = new \App\Console\Tasks\TaskController ();
+        $start_time = strtotime("2017-07-01");
+        $end_time = strtotime("2018-01-21");
+        $cc_list        = $task->t_lesson_info->get_teacher_test_person_num_by_all( $start_time,$end_time,-1,-1,[],2,false);
+        $cr_list        = $task->t_lesson_info->get_teacher_test_person_num_by_all( $start_time,$end_time,-1,-1,[],1,false);
+        $data=[];
+        $data["cc_lesson_num"] =  $cc_list["lesson_num"];
+        $data["cc_person_num"] =  $cc_list["person_num"];
+        $data["cc_order_num"] =  $cc_list["have_order"];
+        $data["cc_per"]  = round($data["cc_order_num"]/$data["cc_person_num"]*100,2);
+        $data["cr_lesson_num"] =  $cr_list["lesson_num"];
+        $data["cr_person_num"] =  $cr_list["person_num"];
+        $data["cr_order_num"] =  $cr_list["have_order"];
+        $data["cr_per"]  = round($data["cr_order_num"]/$data["cr_person_num"]*100,2);
+        dd($data);
+
 
         // // $start_time = $this->get_in_int_val("start_time");
         // // $teacher_money_type = $this->get_in_int_val("teacher_money_type");
