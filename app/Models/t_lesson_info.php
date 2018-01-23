@@ -8332,7 +8332,7 @@ lesson_type in (0,1) "
             ["lessonid=%u",$lessonid,0]
         ];
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.teacherid,l.teacher_money_type,"
-                                  ." money,type,l.already_lesson_count "
+                                  ." money,type,l.already_lesson_count,l.teacher_type "
                                   ." from %s l"
                                   ." left join %s m on l.teacher_money_type=m.teacher_money_type "
                                   ." and l.level=m.level "
