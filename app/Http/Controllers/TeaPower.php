@@ -4520,7 +4520,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }elseif($teacherid == 149697){ //明日之星 50元/个
                 $reference_price = 50;
             } //154035 李志强 161755 王宇廷 147700 吴文东 134533 唐建军 176348 田克平 廖老师工作室 王老师工作室 推荐机构老师 80 元/个
-            elseif($type == 1 && ((in_array($teacherid, [176348, 154035, 161755, 147700, 134533])) || (in_array($teacher_info['teacher_type'], [21,22]) && in_array($teacher_ref_type, [1,2])))) { 
+            elseif($type == 1 && ((in_array($teacherid, [176348, 154035, 161755, 147700, 134533])) || (in_array($teacher_info['teacher_type'], [21,22]) && in_array($teacher_ref_type, [1,2])))) {
                 $reference_price = 80;
             } else {
                 //$reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type) + 1;
@@ -4537,7 +4537,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 if ($type == 2 && $reference_price > 60) $reference_price = 60;
             }
 
-            $this->t_teacher_money_list->row_insert([
+            $ret = $this->t_teacher_money_list->row_insert([
                 "teacherid"  => $teacherid,
                 "money"      => $reference_price*100,
                 "money_info" => $recommended_teacherid,
@@ -4556,11 +4556,22 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                                      ."请及时绑定银行卡号，如未绑定将无法发放。";
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$wx_data);
             }
+        }else{
+            $ret = false;
         }
+        return $ret;
     }
 
+    /**
+     * 添加伯乐奖
+     * @param int teacherid 推荐人老师id
+     * @param int recommended_teacherid 被推荐老师id
+     * @param boolean notice_flag 是否需要推送提醒
+     */
     public function add_reference_price_2018_01_21($teacherid,$recommended_teacherid,$notice_flag=true){
-        $teacher_type = $reference_info['teacher_type'];
+        $teacher_info = $this->t_teacher_info->get_teahcer_info($teacherid);
+        $teacher_type = $teacher_info['teacher_type'];
+        $teacher_ref_type = $teacher_info['teacher_ref_type'];
         //各类渠道不发伯乐奖,
         //15333268257 和  李桂荣两位老师11月后不发伯乐奖
         if(in_array($teacher_type,[E\Eteacher_type::V_31]) || in_array($teacherid,[420745,437138])){
@@ -4569,42 +4580,46 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $notice_flag = false;
         }
 
-        $check_is_exists = $this->t_teacher_money_list->check_is_exists($recommended_teacherid,E\Erecord_type::V_6);
+        $check_is_exists = $this->t_teacher_money_list->check_reference_price($recommended_teacherid);
         if(!$check_is_exists){
-            $teacher_info     = $this->t_teacher_info->get_teacher_info($teacherid);
             $recommended_info = $this->t_teacher_info->get_teacher_info($recommended_teacherid);
-            $teacher_ref_type = $teacher_info['teacher_ref_type'];
+            $reference_type   = \App\Config\teacher_rule::check_reference_type($recommended_info['identity']);
 
-            $reference_type = \App\Config\teacher_rule::check_reference_type($recommended_info['identity']);
-
-            if ($teacherid == 274115) { // join中国 60元/个
+            $start_time      = strtotime("2017-7-1");
+            $reference_price = 0;
+            if ($teacherid == 274115) {//join中国 不论身份，一律60元/个 从2017年8月份开始
                 $reference_price = 60;
-            }elseif($teacherid == 149697){ //明日之星 50元/个
+            }elseif($teacherid == 149697){//明日之星 不论身份，一律50元/个  从2017年11月份开始
                 $reference_price = 50;
-            } //154035 李志强 161755 王宇廷 147700 吴文东 134533 唐建军 176348 田克平 廖老师工作室 王老师工作室 推荐机构老师 80 元/个
-            elseif($reference_type == 1 && ((in_array($teacherid, [176348, 154035, 161755, 147700, 134533])) || (in_array($teacher_info['teacher_type'], [21,22]) && in_array($teacher_ref_type, [1,2])))) { 
-                $reference_price = 80;
-            } else {
-                //$reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type) + 1;
-                $start_time = strtotime('2015-1-1');
-                $end_time = time();
-                if ($teacher_info['teacher_type'] == 21 && $teacher_info['teacher_type'] == 22) { // 工作室是从11月开始累如
+            }elseif($teacherid==226810){//赵海岗特殊规则不明确，需要确认
+            }elseif($teacherid == 149697){ //田克平 公校老师80元/个,在校学生按正常来算，统计所有邀请过的老师
+                if ($reference_type == E\Ereference_type::V_2) {
+                    $reference_price = 80;
+                }else{
+                    $start_time = 0;
+                }
+            }elseif(in_array($teacher_ref_type,[E\Eteacher_ref_type::V_1,E\Eteacher_ref_type::V_2])){
+                //廖老师，王菊香工作室公校老师80元/个，在校学生按正常来算，从2017年11月开始
+                if($reference_type==E\Ereference_type::V_2){
+                    $reference_price = 80;
+                }else{
                     $start_time = strtotime("2017-11-1");
                 }
-                $reference_num = $this->t_teacher_info->get_total_for_teacherid($start_time, $end_time, $teacher_info['phone'], $type);
-                if ($teacherid == 226810 && $type == 1) {
-                    $reference_num += 1;
-                }
+            }
+
+            if($reference_price==0){
+                $reference_num = $this->t_teacher_info->get_total_for_teacherid(
+                    $start_time,$end_time,$teacher_info['phone'],$reference_type
+                );
                 $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
-                if ($type == 2 && $reference_price > 60) $reference_price = 60;
             }
 
             $this->t_teacher_money_list->row_insert([
-                "teacherid"  => $teacherid,
-                "money"      => $reference_price*100,
-                "money_info" => $recommended_teacherid,
-                "add_time"   => time(),
-                "type"       => E\Ereward_type::V_6,
+                "teacherid"             => $teacherid,
+                "money"                 => $reference_price*100,
+                "money_info"            => $recommended_teacherid,
+                "add_time"              => time(),
+                "type"                  => E\Ereward_type::V_6,
                 "recommended_teacherid" => $recommended_teacherid,
             ]);
 
@@ -4618,7 +4633,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                                      ."请及时绑定银行卡号，如未绑定将无法发放。";
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$wx_data);
             }
+        }else{
+            $ret = false;
         }
+        return $ret;
     }
 
     //设置主合同是否分期

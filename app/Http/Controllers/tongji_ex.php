@@ -296,4 +296,65 @@ class tongji_ex extends Controller
         }
         echo '</table>';
     }
+
+    public function market_january_seller_student(){
+        $this->check_and_switch_tongji_domain();
+        list($start_time,$end_time,$end_cc_60,$end_c_60,$end_cc_40,$end_c_40) = [strtotime('2018-01-01'),strtotime('2018-02-01'),0,0,0,0];
+        $count = $this->t_seller_student_new->get_item_january_count($start_time,$end_time);
+        $called_count = $this->t_seller_student_new->get_item_january_called_count($start_time,$end_time);
+        $no_called_count = $this->t_seller_student_new->get_item_january_no_called_count($start_time,$end_time);
+        $ret = $this->t_seller_student_new->get_item_january_list($start_time,$end_time);
+        $ret_info = [];
+        foreach($ret as $info){
+            $userid = $info['userid'];
+            $duration = $info['duration'];
+            $end_reason = $info['end_reason'];
+            if($duration>0 &&  $duration<40){
+                if($end_reason == 0){
+                    $ret_info[$userid]['end_40'] = isset($ret_info[$userid]['end_40'])?$ret_info[$userid]['end_40']:0;
+                }elseif($end_reason == 1){
+                    $ret_info[$userid]['end_40'] = isset($ret_info[$userid]['end_40'])?$ret_info[$userid]['end_40']:1;
+                }
+            }
+            if($duration>0 &&  $duration<60){
+                if($end_reason == 0){
+                    $ret_info[$userid]['end_60'] = isset($ret_info[$userid]['end_60'])?$ret_info[$userid]['end_60']:0;
+                }elseif($end_reason == 1){
+                    $ret_info[$userid]['end_60'] = isset($ret_info[$userid]['end_60'])?$ret_info[$userid]['end_60']:1;
+                }
+            }
+        }
+        foreach($ret_info as $item){
+            if(isset($item['end_40'])){
+                if($item['end_40'] == 0){
+                    $end_cc_40 += 1;
+                }elseif($item['end_40'] == 1){
+                    $end_c_40 += 1;
+                }
+            }
+            if(isset($item['end_60'])){
+                if($item['end_60'] == 0){
+                    $end_cc_60 += 1;
+                }elseif($item['end_60'] == 1){
+                    $end_c_60 += 1;
+                }
+            }
+        }
+
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h1>1月进入例子</h1></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>进入例子量</th><th>拨通量</th><th>拨通40s内客户挂机量</th><th>拨通40s内销售挂机量</th><th>拨通60s内客户挂机量</th><th>拨通60s内销售挂机量</th><th>未拨通例子量</th>';
+        echo '</tr>';
+        echo '<tr>';
+        echo '<td>'.$count.'</td>';
+        echo '<td>'.$called_count.'</td>';
+        echo '<td>'.$end_cc_40.'</td>';
+        echo '<td>'.$end_c_40.'</td>';
+        echo '<td>'.$end_cc_60.'</td>';
+        echo '<td>'.$end_c_60.'</td>';
+        echo '<td>'.$no_called_count.'</td>';
+        echo '</tr>';
+        echo '</table>';
+    }
 }

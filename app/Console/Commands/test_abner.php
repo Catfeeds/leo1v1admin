@@ -86,12 +86,14 @@ class test_abner extends cmd_base
             $item['introduce_count'] = $introduce_count;
 
             //小班课 公开课相关数据
-            $lesson_type_info = $this->task->t_lesson_info_b3->get_lesson_type_info($key,$start_time,$end_time);
-            if($lesson_type_info['small_class_count'] > 0)
+            // $lesson_type_info = $this->task->t_lesson_info_b3->get_lesson_type_info($key,$start_time,$end_time);
+            $small_class_count = $this->task->t_lesson_info_b3->get_small_class_count($key,$start_time,$end_time);
+            $public_class_count = $this->task->t_lesson_info_b3->get_public_class_count($key,$start_time,$end_time);
+            if($small_class_count > 0)
                 $item['is_small_class'] = 'Y';
             else
                 $item['is_small_class'] = 'N';
-            $item['public_class_count'] = $lesson_type_info['public_class_count'];
+            $item['public_class_count'] = $public_class_count;
 
             //获取扩科信息
             $expand_subject_count = $this->task->t_lesson_info_b3->get_expand_subject_count($key,$start_time,$end_time);

@@ -49,7 +49,6 @@ class seller_student_new extends Controller
         if (!$this->check_in_has( "admin_revisiterid")) {
             $this->set_in_value("admin_revisiterid", 0);
         }
-
         return $this->assign_sub_adminid_list();
     }
     public function  tmk_assign_sub_adminid_list() {
@@ -170,7 +169,7 @@ class seller_student_new extends Controller
             array_unshift($son_adminid_arr,$this->get_account_id());
             $admin_revisiterid_list = array_unique($son_adminid_arr);
         }
-
+        $nick = '王彦奇';
         $ret_info = $this->t_seller_student_new->get_assign_list(
             $page_num,$page_count,$userid,$admin_revisiterid,$seller_student_status,
             $origin,$opt_date_str,$start_time,$end_time,$grade,
@@ -404,7 +403,6 @@ class seller_student_new extends Controller
                 $require_adminid_list_new = $intersect;
             }
         }
-
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
             $origin, $opt_date_str, $start_time, $end_time, $grade, $subject,

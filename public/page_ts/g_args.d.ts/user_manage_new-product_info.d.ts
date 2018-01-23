@@ -3,7 +3,7 @@ interface GargsStatic {
 	page_count:	number;
 	deal_flag:	number;
 	lesson_problem:	number;
-	feedback_adminid:	number;
+	feedback_nick:	string;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -24,7 +24,7 @@ interface RowData {
 	lesson_problem	:any;
 	id	:any;
 	deal_flag	:any;
-	feedback_adminid	:any;
+	feedback_nick	:any;
 	record_adminid	:any;
 	describe_msg	:any;
 	lesson_url	:any;
@@ -42,7 +42,6 @@ interface RowData {
 	tea_agent	:any;
 	stu_agent_simple	:any;
 	tea_agent_simple	:any;
-	feedback_nick	:any;
 	record_nick	:any;
 	deal_flag_str	:any;
 	lesson_problem_str	:any;
@@ -62,7 +61,7 @@ function load_data(){
 		order_by_str : g_args.order_by_str,
 		deal_flag:	$('#id_deal_flag').val(),
 		lesson_problem:	$('#id_lesson_problem').val(),
-		feedback_adminid:	$('#id_feedback_adminid').val(),
+		feedback_nick:	$('#id_feedback_nick').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -84,7 +83,7 @@ $(function(){
 		});
 	$('#id_deal_flag').val(g_args.deal_flag);
 	$('#id_lesson_problem').val(g_args.lesson_problem);
-	$('#id_feedback_adminid').val(g_args.feedback_adminid);
+	$('#id_feedback_nick').val(g_args.feedback_nick);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -115,11 +114,11 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">feedback_adminid</span>
-                <input class="opt-change form-control" id="id_feedback_adminid" />
+                <span class="input-group-addon">feedback_nick</span>
+                <input class="opt-change form-control" id="id_feedback_nick" />
             </div>
         </div>
-{!!\App\Helper\Utils::th_order_gen([["feedback_adminid title", "feedback_adminid", "th_feedback_adminid" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["feedback_nick title", "feedback_nick", "th_feedback_nick" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}

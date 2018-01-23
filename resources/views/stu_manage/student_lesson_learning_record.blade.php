@@ -84,6 +84,9 @@
                 <button class="btn btn-warning btn-flat preview_table_flag" id="id_pre_rate" style="float:right" data-class_id="1">预习率:{{ @$pre_rate }}%</button>
                 <button class="btn btn-warning btn-flat lesson_table_flag" id="id_attend_rate" style="float:right" data-class_id="2">正常出勤率:{{ @$attend_rate }}%</button>
                 <button class="btn btn-warning btn-flat performance_table_flag" id="id_record_rate" style="float:right" data-class_id="3">反馈率:{{ @$record_rate }}%</button>
+                <button class="btn btn-warning btn-flat homework_table_flag" id="id_score_final" style="float:right" data-class_id="4">平均成绩:{{ @$score_final }}</button>
+                <button class="btn btn-warning btn-flat homework_table_flag" id="id_complete_rate" style="float:right;margin-right:15px" data-class_id="4">作业完成率:{{ @$complete_rate }}%</button>
+
 
 
             </div>
@@ -248,6 +251,74 @@
                 @endforeach
             </tbody>
         </table>
+
+        <table class="common-table homework_table_flag" data-class_id="4">
+            <thead>
+                <tr >
+                    <td >序号</td>
+                    <td>时间</td>
+                    <td>年级</td>
+                    <td>科目</td>
+                    <td>布置作业</td>
+                    <td>下载作业</td>
+                    <td>提交情况</td>
+                    <td>是否批改</td>
+                    <td>成绩</td>
+                    <td>查看批改</td>
+                    <td>老师</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($table_data_list as $var)
+                    <tr>
+                        <td class="show_lesson_detail" data-lessonid="{{ $var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
+                        <td>{{@$var["lesson_time"] }}</td>
+                        <td>{{@$var["grade_str"] }}</td>
+                        <td>{{@$var["subject_str"] }}</td>
+                        <td>
+                            @if(empty(@$var["issue_url"]))
+                                {{@$var["issue_flag"] }}
+                            @else
+                                <a class="show_issue_content" href="javascript:;" data-url="{{ $var["issue_url_str"] }}">
+                                    {{@$var["issue_flag"] }}
+                                </a>
+                            @endif
+                        </td>
+                        <td>{{@$var["download_flag"] }}</td>
+                        <td>
+                            @if(@$var["work_status"]>=2)
+                                <a class="show_issue_content" href="javascript:;" data-url="{{ $var["finish_url_str"] }}">
+                                    {{@$var["commit_flag"] }}
+                                </a>
+                            @else
+                                {{@$var["commit_flag"] }}
+                            @endif
+                        </td>
+                        <td>
+                            @if(@$var["work_status"]>=3)
+                                <a class="show_issue_content" href="javascript:;" data-url="{{ $var["check_url_str"] }}">
+                                    {{@$var["check_flag"] }}
+                                </a>
+                            @else
+                                {{@$var["check_flag"] }}
+                            @endif
+                        </td>
+                        <td>{{@$var["stu_check_flag"] }}</td>
+                        <td>{{@$var["realname"] }}</td>
+                       
+                        <td>
+                            <div
+
+                                {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                            >
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
 
 
         @include("layouts.page")
