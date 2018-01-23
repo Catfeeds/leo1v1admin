@@ -2194,11 +2194,11 @@ trait TeaPower {
             // 旧版说辞 end
 
             $header_html = "<div class='t2em'>
-                        亲爱的老师，鉴于您在上一季度的教学过程中，认真负责、不断进取，在
+                        鉴于您在上一季度的教学过程中，认真负责，积极进取，获得学生家长一致好评，在
                         <span class='color_red'>课时量</span>、
-                        <span class='color_red'>学生数</span>和
+                        <span class='color_red'>学生数</span>、
                         <span class='color_red'>教学质量</span>
-                        三个方面皆达到晋升要求，本次成功晋升，成为更高级别的老师！
+                        三个方面皆达到晋升标准。
                     </div>";
             $group_html = "";
         }
@@ -2275,7 +2275,7 @@ trait TeaPower {
                     尊敬的<span class='tea_name size18'>".$name."</span>老师，您好！
                         ".$header_html."
                     <div class='t2em'>
-                        故公司经研究决定：将您晋升为
+                        经公司研究决定：将您晋升为
                         <span class='tea_level'>".$level_str."</span>。
                         此晋升将于".$date_begin."起即行生效。
                     </div>
@@ -2642,6 +2642,7 @@ trait TeaPower {
             if(!in_array($reference_info['teacher_type'],[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
                 $this->add_reference_price($reference_info['teacherid'],$teacherid);
             }
+
         }
     }
 
@@ -2997,27 +2998,27 @@ trait TeaPower {
     //     return $check_flag;
     // }
 
-    /**
-     * 获取老师的高校生/在校老师的推荐数量
-     * @param phone 推荐人手机号
-     * @param identity 被推荐人身份
-     */
-    public function get_teacher_reference_price($phone,$identity){
-        $reference_type = \App\Config\teacher_rule::check_reference_type($identity);
-        $check_flag     = $this->check_is_special_reference($phone);
-        if($check_flag){
-            $begin_time = 0;
-        }else{
-            $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
-            $begin_time = strtotime($begin_date);
-        }
+    // /**
+    //  * 获取老师的高校生/在校老师的推荐数量
+    //  * @param phone 推荐人手机号
+    //  * @param identity 被推荐人身份
+    //  */
+    // public function get_teacher_reference_price($phone,$identity){
+    //     $reference_type = \App\Config\teacher_rule::check_reference_type($identity);
+    //     $check_flag     = $this->check_is_special_reference($phone);
+    //     if($check_flag){
+    //         $begin_time = 0;
+    //     }else{
+    //         $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
+    //         $begin_time = strtotime($begin_date);
+    //     }
 
-        $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
-            $phone,$reference_type,$begin_time
-        );
-        $ref_price = \App\Helper\Utils::get_reference_money($identity,$ref_num);
-        return $ref_price;
-    }
+    //     $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
+    //         $phone,$reference_type,$begin_time
+    //     );
+    //     $ref_price = \App\Helper\Utils::get_reference_money($identity,$ref_num);
+    //     return $ref_price;
+    // }
 
     /**
      * 获取老师上月累计课时
@@ -4489,8 +4490,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     public function add_reference_price($teacherid,$recommended_teacherid,$notice_flag=true){
         // 关掉15333268257 和  李桂荣两位老师11月后的伯乐奖
         if ($teacherid == 420745 || $teacherid == 437138) {
-            return '';
+            return false;
         }
+
         $check_is_exists = $this->t_teacher_money_list->check_is_exists($recommended_teacherid,E\Erecord_type::V_6);
         if(!$check_is_exists){
             $teacher_info     = $this->t_teacher_info->get_teacher_info($teacherid);
@@ -4518,7 +4520,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }elseif($teacherid == 149697){ //明日之星 50元/个
                 $reference_price = 50;
             } //154035 李志强 161755 王宇廷 147700 吴文东 134533 唐建军 176348 田克平 廖老师工作室 王老师工作室 推荐机构老师 80 元/个
-            elseif($type == 1 && ((in_array($teacherid, [176348, 154035, 161755, 147700, 134533])) || (in_array($teacher_info['teacher_type'], [21,22]) && in_array($teacher_ref_type, [1,2])))) { 
+            elseif($type == 1 && ((in_array($teacherid, [176348, 154035, 161755, 147700, 134533])) || (in_array($teacher_info['teacher_type'], [21,22]) && in_array($teacher_ref_type, [1,2])))) {
                 $reference_price = 80;
             } else {
                 //$reference_num = $this->t_teacher_money_list->get_total_for_teacherid($teacherid, $type) + 1;
@@ -4535,7 +4537,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 if ($type == 2 && $reference_price > 60) $reference_price = 60;
             }
 
-            $this->t_teacher_money_list->row_insert([
+            $ret = $this->t_teacher_money_list->row_insert([
                 "teacherid"  => $teacherid,
                 "money"      => $reference_price*100,
                 "money_info" => $recommended_teacherid,
@@ -4554,7 +4556,87 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                                      ."请及时绑定银行卡号，如未绑定将无法发放。";
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$wx_data);
             }
+        }else{
+            $ret = false;
         }
+        return $ret;
+    }
+
+    /**
+     * 添加伯乐奖
+     * @param int teacherid 推荐人老师id
+     * @param int recommended_teacherid 被推荐老师id
+     * @param boolean notice_flag 是否需要推送提醒
+     */
+    public function add_reference_price_2018_01_21($teacherid,$recommended_teacherid,$notice_flag=true){
+        $teacher_info = $this->t_teacher_info->get_teahcer_info($teacherid);
+        $teacher_type = $teacher_info['teacher_type'];
+        $teacher_ref_type = $teacher_info['teacher_ref_type'];
+        //各类渠道不发伯乐奖,
+        //15333268257 和  李桂荣两位老师11月后不发伯乐奖
+        if(in_array($teacher_type,[E\Eteacher_type::V_31]) || in_array($teacherid,[420745,437138])){
+            return false;
+        }elseif(in_array($teacher_type,[E\Eteacher_type::V_21,E\Eteacher_type::V_22])){
+            $notice_flag = false;
+        }
+
+        $check_is_exists = $this->t_teacher_money_list->check_reference_price($recommended_teacherid);
+        if(!$check_is_exists){
+            $recommended_info = $this->t_teacher_info->get_teacher_info($recommended_teacherid);
+            $reference_type   = \App\Config\teacher_rule::check_reference_type($recommended_info['identity']);
+
+            $start_time      = strtotime("2017-7-1");
+            $reference_price = 0;
+            if ($teacherid == 274115) {//join中国 不论身份，一律60元/个 从2017年8月份开始
+                $reference_price = 60;
+            }elseif($teacherid == 149697){//明日之星 不论身份，一律50元/个  从2017年11月份开始
+                $reference_price = 50;
+            }elseif($teacherid==226810){//赵海岗特殊规则不明确，需要确认
+            }elseif($teacherid == 149697){ //田克平 公校老师80元/个,在校学生按正常来算，统计所有邀请过的老师
+                if ($reference_type == E\Ereference_type::V_2) {
+                    $reference_price = 80;
+                }else{
+                    $start_time = 0;
+                }
+            }elseif(in_array($teacher_ref_type,[E\Eteacher_ref_type::V_1,E\Eteacher_ref_type::V_2])){
+                //廖老师，王菊香工作室公校老师80元/个，在校学生按正常来算，从2017年11月开始
+                if($reference_type==E\Ereference_type::V_2){
+                    $reference_price = 80;
+                }else{
+                    $start_time = strtotime("2017-11-1");
+                }
+            }
+
+            if($reference_price==0){
+                $reference_num = $this->t_teacher_info->get_total_for_teacherid(
+                    $start_time,$end_time,$teacher_info['phone'],$reference_type
+                );
+                $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
+            }
+
+            $this->t_teacher_money_list->row_insert([
+                "teacherid"             => $teacherid,
+                "money"                 => $reference_price*100,
+                "money_info"            => $recommended_teacherid,
+                "add_time"              => time(),
+                "type"                  => E\Ereward_type::V_6,
+                "recommended_teacherid" => $recommended_teacherid,
+            ]);
+
+            if($notice_flag && $teacher_info['wx_openid']!=""){
+                $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
+                $wx_data["first"]    = $recommended_info['nick']."已成功入职";
+                $wx_data["keyword1"] = "已入职";
+                $wx_data["keyword2"] = "";
+                $wx_data["remark"]   = "您已获得".$reference_price."元伯乐奖，请在个人中心-我的收入中查看详情，"
+                                     ."伯乐奖将于每月10日结算（如遇节假日，会延后到之后的工作日），"
+                                     ."请及时绑定银行卡号，如未绑定将无法发放。";
+                \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$wx_data);
+            }
+        }else{
+            $ret = false;
+        }
+        return $ret;
     }
 
     //设置主合同是否分期

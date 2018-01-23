@@ -27,11 +27,13 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         if($ret_row){
             return false;
         }else{
+            $is_exist_count = $this->get_is_exist_count_check($userid,$min=1460537365,time());
             $this->row_insert([
                 'userid'   => $userid,
                 'origin'   => $origin,
                 'add_time' => time(NULL),
                 'subject'  => $subject,
+                'is_exist_count'  => $is_exist_count,
             ]);
             return true;
         }
@@ -678,6 +680,34 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         return $this->main_get_list($sql);
     }
 
+    public function get_item_exist_list(){
+        $where_arr = [
+            'is_exist_count>0',
+        ];
+        $this->where_arr_add_time_range($where_arr, 'o.add_time', $start_time=1512057600, $end_time=1514736000);
+        $sql = $this->gen_sql_new(
+            " select o.*,"
+            ." n.phone,n.orderid,"
+            ." l.lessonid,l.lesson_type,l.lesson_start,l.lesson_end,l.lesson_del_flag,"
+            ." l.confirm_flag,l.lesson_user_online_status,"
+            ." tr.cur_require_adminid adminid, "
+            ." o1.order_time,o1.price "
+            ." from %s o "
+            ." left join %s n on n.userid=o.userid "
+            ." join %s l on l.userid=o.userid and l.lesson_type=2 "
+            ." join %s tr on tr.current_lessonid=l.lessonid "
+            ." left join %s o1 on o1.orderid=n.orderid "
+            ." where %s order by o.add_time "
+            ,self::DB_TABLE_NAME
+            ,t_seller_student_new::DB_TABLE_NAME
+            ,t_lesson_info::DB_TABLE_NAME
+            ,t_test_lesson_subject_require::DB_TABLE_NAME
+            ,t_order_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_all_list($start_time,$end_time){
         $where_arr = [];
         $this->where_arr_add_time_range($where_arr, 'add_time', $start_time, $end_time);
@@ -689,6 +719,20 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
             ,$where_arr
         );
         return $this->main_get_list($sql);
+    }
+
+    public function get_is_exist_count_check($userid,$start_time,$end_time){
+        $where_arr = [];
+        $this->where_arr_add_int_field($where_arr, 'userid', $userid);
+        $this->where_arr_add_time_range($where_arr, 'add_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select count(*) count "
+            ." from %s "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
     }
 
     public function get_item_count($userid,$start_time,$end_time){

@@ -20,7 +20,7 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
         return $this->main_get_list($sql);
 
     }
-    public function get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag=-1,$is_test_user=-1,$require_flag=1,$show_all=0){
+    public function get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag=-1,$is_test_user=-1,$require_flag=1,$show_all=0,$withhold_require_flag=-1){
         $where_arr=[
             ["start_time = %u",$start_time,0],
             ["t.teacher_money_type=%u",$teacher_money_type,-1],
@@ -42,6 +42,12 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
         }elseif($require_flag==2){
             $where_arr[]= "a.require_time=0";
         }
+        if($withhold_require_flag==1){
+            $where_arr[]= "a.withhold_require_time>0";
+        }elseif($require_flag==2){
+            $where_arr[]= "a.withhold_require_time=0";
+        }
+
         /*elseif($fulltime_flag==2){           
             $where_arr[] = "m.account_role =5 and fulltime_teacher_type=2";
             }*/

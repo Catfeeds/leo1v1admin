@@ -130,7 +130,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
 
         $add_flag=$this->t_seller_student_origin->check_and_add($userid,$origin,$subject);
-
         if(!$add_flag) { //用户渠道增加失败
             if (!$this->t_test_lesson_subject->check_subject($userid,$subject) ){
                 $this->t_test_lesson_subject->row_insert([

@@ -24,7 +24,7 @@ interface RowData {
 	lesson_problem	:any;
 	id	:any;
 	deal_flag	:any;
-	feedback_adminid	:any;
+	feedback_nick	:any;
 	record_adminid	:any;
 	describe_msg	:any;
 	lesson_url	:any;
@@ -42,7 +42,6 @@ interface RowData {
 	tea_agent	:any;
 	stu_agent_simple	:any;
 	tea_agent_simple	:any;
-	feedback_nick	:any;
 	record_nick	:any;
 	deal_flag_str	:any;
 	lesson_problem_str	:any;

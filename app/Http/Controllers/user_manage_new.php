@@ -4100,7 +4100,8 @@ class user_manage_new extends Controller
         $account      = $this->get_account();
 
         // $add_time_old = strtotime($this->get_in_str_val("add_time_old"));
-        $add_time_old = $this->t_teacher_money_list->get_add_time($id);
+        $old_reward_info = $this->t_teacher_money_list->get_reward_info_by_id($id);
+        $add_time_old    = $old_reward_info['add_time'];
         $update_arr = [
             "type"       => $type,
             "money_info" => $money_info,
@@ -4127,10 +4128,15 @@ class user_manage_new extends Controller
 
         $ret = $this->t_teacher_money_list->field_update_list($id,$update_arr);
         if($ret){
-            
+            $log_arr = [
+                "old_data" => $old_reward_info,
+                "new_data" => $update_arr,
+            ];
+            $msg = json_encode($log_arr);
+            $this->t_user_log->add_user_log($teacherid,$msg,E\Euser_log_type::V_200);
         }
 
-        return $this->output_succ();
+        return $this->output_ret($ret);
     }
 
     //删除老师额外奖金记录
@@ -4142,12 +4148,18 @@ class user_manage_new extends Controller
         if(!$check_flag){
             return $this->output_err("超出时间，无法删除! \n 只能删除本月数据！");
         }
+        $old_reward_info = $this->t_teacher_money_list->get_reward_info_by_id($id);
 
         $ret = $this->t_teacher_money_list->row_delete($id);
-        if(!$ret){
-            return $this->output_err("删除失败！请重试！");
+        if($ret){
+            $log_arr = [
+                "delete_info" => $old_reward_info
+            ];
+            $msg = json_encode($log_arr);
+            $this->t_user_log->add_user_log($old_reward_info['teacherid'],$msg,E\Euser_log_type::V_200);
         }
-        return $this->output_succ();
+
+        return $this->output_ret($ret,"删除失败！请重试！");
     }
 
 
@@ -5554,7 +5566,7 @@ class user_manage_new extends Controller
             $item['stu_agent_simple'] = get_machine_info_from_user_agent($item["stu_agent"] );
             $item['tea_agent_simple'] = get_machine_info_from_user_agent($item["tea_agent"] );
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            $item['feedback_nick'] = $this->cache_get_account_nick($item['feedback_adminid']);
+            // $item['feedback_nick'] = $this->cache_get_account_nick($item['feedback_adminid']);
             $item['record_nick']   = $this->cache_get_account_nick($item['record_adminid']);
             $item["tea_phone"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["tea_phone"]);
             $item["stu_phone"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["stu_phone"]);
