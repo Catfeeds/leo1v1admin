@@ -325,14 +325,19 @@ class tongji_ex extends Controller
             }
         }
         foreach($ret_info as $item){
-            if($item['end_40'] == 0){
-                $end_cc_40 += 1;
-            }elseif($item['end_40'] == 1){
-                $end_c_40 += 1;
-            }elseif($item['end_60'] == 0){
-                $end_cc_60 += 1;
-            }elseif($item['end_60'] == 1){
-                $end_c_60 += 1;
+            if(isset($item['end_40'])){
+                if($item['end_40'] == 0){
+                    $end_cc_40 += 1;
+                }elseif($item['end_40'] == 1){
+                    $end_c_40 += 1;
+                }
+            }
+            if(isset($item['end_60'])){
+                if($item['end_60'] == 0){
+                    $end_cc_60 += 1;
+                }elseif($item['end_60'] == 1){
+                    $end_c_60 += 1;
+                }
             }
         }
 
