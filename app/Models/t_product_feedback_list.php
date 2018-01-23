@@ -11,12 +11,12 @@ class t_product_feedback_list extends \App\Models\Zgen\z_t_product_feedback_list
     public function get_product_list($deal_flag, $feedback_adminid, $start_time, $end_time, $page_num, $opt_date_type){
         $where_arr = [
             ["pf.deal_flag=%d",$deal_flag,-1],
-            ["pf.feedback_adminid=%d",$feedback_adminid,-1],
+            // ["pf.feedback_adminid=%d",$feedback_adminid,-1],
         ];
 
         $this->where_arr_add_time_range($where_arr, $opt_date_type, $start_time, $end_time);
 
-        $sql = $this->gen_sql_new("  select pf.zip_url, pf.video_url, pf.img_url, pf.lesson_problem, pf.id, pf.deal_flag, pf.feedback_adminid, pf.record_adminid, pf.describe_msg, pf.lesson_url, pf.reason,"
+        $sql = $this->gen_sql_new("  select pf.zip_url, pf.video_url, pf.img_url, pf.lesson_problem, pf.id, pf.deal_flag, pf.feedback_nick, pf.record_adminid, pf.describe_msg, pf.lesson_url, pf.reason,"
                                   ." pf.solution, pf.remark, pf.deal_flag, pf.create_time, s.nick as stu_nick, s.phone stu_phone, "
                                   ." s.user_agent as stu_agent,s.userid as sid, t.teacherid as tid, t.nick tea_nick, t.phone tea_phone, t.user_agent tea_agent"
                                   ." from %s pf"
