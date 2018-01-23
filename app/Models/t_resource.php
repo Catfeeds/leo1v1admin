@@ -207,7 +207,6 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ,t_sub_grade_book_tag::DB_TABLE_NAME
             ,$where_arr
         );
-        //dd($sql);
         return $this->main_get_list($sql);
     }
 
