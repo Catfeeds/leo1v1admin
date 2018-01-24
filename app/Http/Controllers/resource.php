@@ -546,7 +546,7 @@ class resource extends Controller
         $do_type  = $this->get_in_str_val('do_type','');
         // $arr      = explode('-', substr($info_str,5));
         $arr      = explode('-', $info_str);
-        $adminid  = $this->get_account_id()
+        $adminid  = $this->get_account_id();
         $time     = time();
         $ban_level = count($arr);
 
