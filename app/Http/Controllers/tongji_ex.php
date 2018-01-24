@@ -370,9 +370,15 @@ class tongji_ex extends Controller
                 'end_time'=>1515513600,
             ],[
                 'start_time'=>1515513600,
+                'end_time'=>1515772800,
+            ],[
+                'start_time'=>1515772800,
                 'end_time'=>1515945600,
             ],[
                 'start_time'=>1515945600,
+                'end_time'=>1516204800,
+            ],[
+                'start_time'=>1516204800,
                 'end_time'=>1516377600,
             ],[
                 'start_time'=>1516377600,
@@ -395,8 +401,6 @@ class tongji_ex extends Controller
                     }
                 }
             }
-            echo $start_time;
-            sleep(1);
         }
         dd($ret_info);
         echo '<table border="1" width="600" align="center">';
