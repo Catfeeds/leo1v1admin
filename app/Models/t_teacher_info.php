@@ -4671,7 +4671,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
      * @param int grade 年级
      * @param int lesson_start 试听需求的课程预约开始时间
      */
-    public function get_teacher_list_for_trial_lesson($lesson_start,$lesson_end,$subject){
+    public function get_teacher_list_for_trial_lesson($lesson_start,$lesson_end,$subject,$is_test){
         $day_range   = \App\Helper\Utils::get_day_range($lesson_start);
         $week_range  = \App\Helper\Utils::get_week_range($lesson_start);
         $month_range = \App\Helper\Utils::get_month_range($lesson_start);
@@ -4687,7 +4687,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $month_arr = $this->lesson_start_sql($month_range['sdate'],$month_range['edate'],'l',$lesson_type_arr);
 
         $subject_str = $this->gen_sql("(t.subject=%u or t.second_subject=%u)",$subject,$subject);
-        $teacher_arr = $this->teacher_common_sql("t",[$subject_str]);
+        $teacher_arr = $this->teacher_common_sql("t",[$subject_str],$is_test);
         $lesson_arr  = $this->lesson_start_common_sql($start_time,$end_time,"l",["l.lesson_type in (0,1,3)"]);
 
         $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,t.second_subject,t.second_grade_start,"
@@ -4717,9 +4717,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         });
     }
 
-    public function get_teacher_list_by_subject($subject){
+    public function get_teacher_list_by_subject($subject,$is_test){
         $subject_str = $this->gen_sql("(t.subject=%u or t.second_subject=%u)",$subject,$subject);
-        $teacher_arr = $this->teacher_common_sql("t",[$subject_str]);
+        $teacher_arr = $this->teacher_common_sql("t",[$subject_str],$is_test);
 
         $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,"
                                   ." t.second_subject,t.second_grade_start,t.teacher_type,"

@@ -131,6 +131,19 @@ class t_sub_grade_book_tag extends \App\Models\Zgen\z_t_sub_grade_book_tag
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_tag_by_id($id){
+        $where_arr = [
+            ["id = %u",(float)$id],
+        ];
+        $sql = $this->gen_sql_new(" select id,tag from %s  where %s order by id desc"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+
+    }
+
 }
 
 

@@ -8,12 +8,14 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-include( app_path("Wx/Yxyx/lanewechat_yxyx.php") );
-use Yxyx\Core\Media;
-use Yxyx\Core\AccessToken;
+include(app_path("Libs/LaneWeChat/lanewechat.php"));
+use LaneWeChat\Core\WeChatOAuth;
+use LaneWeChat\Core\AccessToken;
 use LaneWeChat\Core\ResponsePassive;
+use LaneWeChat\Core\Media;
+use LaneWeChat\Core\UserManage;
 
-
+# 市场部分享海报功能
 class marketActivityPoster extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
@@ -46,24 +48,19 @@ class marketActivityPoster extends Job implements ShouldQueue
     public function handle()
     {
         $t_agent = new \App\Models\t_agent();
-        $phone   = $this->agent['phone'];
-        $id      = $this->agent['id'];
-        $qr_url  = "/tmp/yxyx_wx_".$phone.".png";
-        $old_headimgurl = $this->agent['headimgurl'];
+        // $phone   = $this->agent['phone'];
+        // $id      = $this->agent['id'];
+        $qr_url  = "/tmp/market_wx_222.png";
 
 
         \App\Helper\Utils::get_qr_code_png($this->qr_code_url,$qr_url,5,4,3);
-        \App\Helper\Utils::logger("erweima_END");
-        \App\Helper\Utils::logger("get_wx_head_start");
-        \App\Helper\Utils::logger("yxyx_sss:".$this->wx_openid);
+        return $this->qr_code_url;
 
         //请求微信头像
-        $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
+        $wx_config    = \App\Helper\Config::get_config("wx");
         $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
         $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
         $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$this->wx_openid."&lang=zh_cn";
-
-        \App\Helper\Utils::logger("url info:". $url);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -75,12 +72,9 @@ class marketActivityPoster extends Job implements ShouldQueue
 
         //强制刷新token
         if ( !array_key_exists('headimgurl', $data) ){
-
             $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"],true);
             $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$this->wx_openid."&lang=zh_cn";
-
             \App\Helper\Utils::logger("url info:". $url);
-
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -88,7 +82,6 @@ class marketActivityPoster extends Job implements ShouldQueue
             $output = curl_exec($ch);
             curl_close($ch);
             $data = json_decode($output,true);
-
         }
 
         $headimgurl = $data['headimgurl'];
@@ -183,10 +176,6 @@ class marketActivityPoster extends Job implements ShouldQueue
         $cmd_rm = "rm /tmp/yxyx_wx_".$phone."*";
         \App\Helper\Utils::exec_cmd($cmd_rm);
 
-        //判断是否更换头像
-        if ( $old_headimgurl !== $headimgurl ){
-            $t_agent->field_update_list($id,['headimgurl' => $headimgurl]);
-        }
 
     }
 
