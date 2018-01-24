@@ -200,7 +200,7 @@ class ajax_deal3 extends Controller
             // "all_ass_stu_num"         =>$item["all_ass_stu_num"],
             // "ass_refund_money"        => $refund_money,
         ];
-        $task->t_month_ass_student_info->get_field_update_arr($adminid,$start_time,1,$update_arr);
+        $this->t_month_ass_student_info->get_field_update_arr($adminid,$start_time,1,$update_arr);
         return $this->output_succ();
           
 
