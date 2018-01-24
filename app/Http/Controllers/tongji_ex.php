@@ -379,22 +379,6 @@ class tongji_ex extends Controller
                 'end_time'=>1516809600,
             ]
         ];
-        $start_time = 1515513600;
-        $end_time = 1515945600;
-        $ret = $this->t_seller_student_new->get_item_january_detail_list($start_time,$end_time);
-        foreach($ret as $item){
-            $userid = $item['userid'];
-            if($item['start_time']>0){
-                if($item['is_called_phone'] == 0){
-                    $ret_info[$userid]['list'][] = $item;
-                }else{
-                    if($item['duration']<60){
-                        $ret_info[$userid]['list'][] = $item;
-                    }
-                }
-            }
-        }
-        dd($ret_info);
         foreach($time_arr as $item){
             $start_time = $item['start_time'];
             $end_time = $item['end_time'];
@@ -411,6 +395,8 @@ class tongji_ex extends Controller
                     }
                 }
             }
+            echo $start_time;
+            sleep(1);
         }
         dd($ret_info);
         echo '<table border="1" width="600" align="center">';
