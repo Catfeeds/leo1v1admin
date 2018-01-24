@@ -101,7 +101,6 @@ class ajax_deal3 extends Controller
     //重置助教薪资信息(测试版本)
     public function reset_assisatnt_performance_data(){
         $adminid    = $this->get_in_int_val("adminid");
-        $type    = $this->get_in_int_val("type");
         $start_time    = strtotime($this->get_in_str_val("start_time"));
         $end_time = strtotime("+1 months",$start_time);
         $last_month = strtotime(date('Y-m-01',$start_time-100));
@@ -532,6 +531,37 @@ class ajax_deal3 extends Controller
             $arr_first[$vvoo["uid"]][]=$vvoo;
         }
         return  $arr_first;
+
+    }
+
+
+
+    //编辑助教薪资数据(测试)
+    public function update_ass_performace_data(){
+        $adminid    = $this->get_in_int_val("adminid");
+        $start_time    = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime("+1 months",$start_time);
+        $last_month = strtotime(date('Y-m-01',$start_time-100));
+        $register_num = $this->get_in_int_val("register_num");
+        $seller_stu_num = $this->get_in_str_val("seller_stu_num");
+        $estimate_month_lesson_count = $this->get_in_str_val("estimate_month_lesson_count");
+        $this->t_month_ass_student_info->get_field_update_arr($adminid,$start_time,1,[
+            "seller_week_stu_num"  => $seller_stu_num,
+            "estimate_month_lesson_count"  =>$estimate_month_lesson_count*100
+        ]);
+        $adminid_exist = $this->t_month_ass_student_info->get_ass_month_info($last_month,$adminid,1);
+        if($adminid_exist){
+            $this->t_month_ass_student_info->get_field_update_arr($adminid,$last_month,1,[
+                "all_student" =>$register_num
+            ]);
+        }else{
+            $update_arr["adminid"] =$adminid;
+            $update_arr["month"]   =$last_month;
+            $update_arr["kpi_type"]   =1;
+            $update_arr["all_student"]   =$register_num;
+            $this->t_month_ass_student_info->row_insert($update_arr);
+        }
+        return $this->output_succ();
 
     }
 
