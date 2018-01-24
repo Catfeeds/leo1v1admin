@@ -405,6 +405,44 @@ class account_common extends Controller
         dd($check_verify_code);
  
     }
+
+    //小班课合同回调验证
+    public function get_small_class_order_callback(){
+        $ret=1;//测试时使用,默认已付款
+        $orderid = $this->get_in_int_val("orderid");
+        if(!$orderid){
+            return $this->output_err("无orderid!!");
+        }
+        $price = $this->t_order_info->get_price($orderid);
+        $pay_time = time();
+        $sign = md5( md5( $orderid.$price.$pay_time)."leoclass");
+        if($ret){
+            $url="";
+            if ( \App\Helper\Utils::check_env_is_local() ){
+                $url ="http://dev.api.class.leo1v1.com/"; 
+            }elseif(\App\Helper\Utils::check_env_is_test()){
+                $url ="http://test.api.class.leo1v1.com/"; 
+            }
+            $url .= "/order/call_back?contractid=".$orderid."&price=".$price."&pay_time=".$pay_time."&sign=".$sign;
+
+            $data=file_get_contents($url);                                                                                                                      
+            $list = json_decode($data,true);
+            if($list["ret"]==0 ){
+                //小班课更新成功
+                $this->t_order_info->field_update_list($orderid,[
+                    "contract_status" =>1,
+                    "pay_time"        =>time()
+                ]);
+                return $this->output_succ();
+            }else{
+                return $this->output_err("系统错误");
+            }
+
+            
+        }else{
+            return $this->output_err("系统错误");
+        }
+    }
    
    
 

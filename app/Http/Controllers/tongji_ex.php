@@ -360,7 +360,7 @@ class tongji_ex extends Controller
 
     public function market_january_student_detail(){
         $this->check_and_switch_tongji_domain();
-        list($ret_info,$userid_arr,$num,$start_time,$end_time) = [[],[],0,$this->get_in_int_val('start_time','2018-01-01'),$this->get_in_int_val('end_time','2018-01-05')];
+        list($ret_info,$userid_arr,$num,$start_time,$end_time) = [[],[],0,$this->get_in_str_val('start_time','2018-01-01'),$this->get_in_str_val('end_time','2018-01-05')];
         $start_time = strtotime($start_time);
         $end_time = strtotime($end_time);
         $ret = $this->t_seller_student_new->get_item_january_detail_list($start_time,$end_time);
@@ -369,7 +369,7 @@ class tongji_ex extends Controller
             if($item['start_time']>0){
                 if($item['is_called_phone'] == 0){
                     $ret_info[$userid]['list'][] = $item;
-                    $ret_info[$userid]['add_time'][] = $item['add_time'];
+                    $ret_info[$userid]['add_time'] = date('Y-m-d H:i:s',$item['add_time']);
                 }else{
                     if($item['duration']<60){
                         $ret_info[$userid]['list'][] = $item;
@@ -456,7 +456,7 @@ class tongji_ex extends Controller
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>1月'.date('d',$start_time).'日-'.date('d',$end_time).'日例子明细</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>编号</th><th>未拨通例子</th><th>拨打次数</th><th>未拨通次数</th><th>拨通次数</th><th>天润拨打次数</th><th>天润拨通次数</th><th>天润cc挂断次数</th><th>天润客户挂断次数</th><th>首次拨通cc</th><th>天润首次拨通挂断人</th><th>首次拨通通话时长</th><th>第二次拨通cc</th><th>天润第二次拨通挂断人</th><th>第二次拨通通话时长</th><th>例子进入时间</th>';
+        echo '<th>编号</th><th>未拨通例子</th><th>拨打次数</th><th>未拨通次数</th><th>拨通次数</th><th>天润拨打次数</th><th>天润拨通次数</th><th>天润cc挂断次数</th><th>天润客户挂断次数</th><th>首次拨通cc</th><th>天润首次拨通挂断人</th><th>首次拨通通话时长/s</th><th>第二次拨通cc</th><th>天润第二次拨通挂断人</th><th>第二次拨通通话时长/s</th><th>例子进入时间</th>';
         echo '</tr>';
         foreach($ret_info as $userid=>$item){
             echo '<tr>';
