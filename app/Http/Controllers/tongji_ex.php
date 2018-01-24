@@ -360,7 +360,7 @@ class tongji_ex extends Controller
 
     public function market_january_student_detail(){
         $this->check_and_switch_tongji_domain();
-        list($ret_info,$userid_arr,$num,$start_time,$end_time) = [[],[],0,1514736000,1517414400];
+        list($ret_info,$userid_arr,$num) = [[],[],0];
         $time_arr = [
             [
                 'start_time'=>1514736000,
@@ -388,9 +388,9 @@ class tongji_ex extends Controller
                 'end_time'=>1516809600,
             ]
         ];
-        foreach($time_arr as $item){
-            $start_time = $item['start_time'];
-            $end_time = $item['end_time'];
+        foreach($time_arr as $info){
+            $start_time = $info['start_time'];
+            $end_time = $info['end_time'];
             $ret = $this->t_seller_student_new->get_item_january_detail_list($start_time,$end_time);
             foreach($ret as $item){
                 $userid = $item['userid'];
