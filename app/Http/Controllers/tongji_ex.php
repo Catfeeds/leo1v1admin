@@ -373,7 +373,7 @@ class tongji_ex extends Controller
                 }else{
                     if($item['duration']<60){
                         $ret_info[$userid]['list'][] = $item;
-                        $ret_info[$userid]['add_time'][] = $item['add_time'];
+                        $ret_info[$userid]['add_time'][] = date('Y-m-d H:i:s',$item['add_time']);
                     }
                 }
             }
@@ -452,7 +452,6 @@ class tongji_ex extends Controller
             $item['end_second_called'] = $end_second_called;
             $item['tian_call_count'] = $tian_call_count;
             $item['tian_called_count'] = $tian_called_count;
-            $item['add_time'] = date('Y-m-d H:i:s',$item['add_time']);
         }
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>1月'.date('d',$start_time).'日-'.date('d',$end_time).'日例子明细</h1></caption>';
