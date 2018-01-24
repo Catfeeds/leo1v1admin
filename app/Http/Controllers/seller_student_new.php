@@ -91,6 +91,7 @@ class seller_student_new extends Controller
         $admin_main_groupid = $this->get_in_int_val("admin_main_groupid",-1);
         $self_groupid = $this->get_in_int_val("self_groupid",-1);
         $button_show_flag = $this->get_in_int_val('button_show_flag',1);
+        $seller_student_assign_type= $this->get_in_el_seller_student_assign_type();
 
         list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
             -30*6, 1, 0, [
@@ -147,7 +148,6 @@ class seller_student_new extends Controller
         }
         $this->switch_tongji_database();
 
-        $this->t_seller_student_new->switch_tongji_database();
 
         //主管查看下级例子
         $admin_revisiterid_list = [];
@@ -178,7 +178,8 @@ class seller_student_new extends Controller
             $tmk_student_status,$origin_level,$seller_student_sub_status, $order_by_str,$publish_flag,
             $admin_del_flag ,$account_role , $sys_invaild_flag ,$seller_level, $wx_invaild_flag,$do_filter,
             $first_seller_adminid ,$suc_test_count,$call_phone_count,$call_count,
-            $main_master_flag,$self_adminid, $origin_count,$admin_revisiterid_list
+            $main_master_flag,$self_adminid, $origin_count,$admin_revisiterid_list,
+            $seller_student_assign_type
         );
 
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
@@ -202,6 +203,7 @@ class seller_student_new extends Controller
             E\Eseller_resource_type::set_item_value_str($item);
             E\Eboolean::set_item_value_str($item,"sys_invaild_flag");
             E\Esubject::set_item_value_str($item);
+            E\Eseller_student_assign_type::set_item_value_str($item);
             E\Epad_type::set_item_value_str($item,"has_pad");
             E\Etq_called_flag::set_item_value_str($item,"global_tq_called_flag");
             E\Eorigin_level::set_item_value_str($item);

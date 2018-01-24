@@ -1,3 +1,4 @@
+	seller_student_assign_type	:any;
 	nickname	:any;
 	seller_resource_type	:any;
 	first_call_time	:any;
@@ -56,6 +57,7 @@
 	seller_resource_type_str	:any;
 	sys_invaild_flag_str	:any;
 	subject_str	:any;
+	seller_student_assign_type_str	:any;
 	has_pad_str	:any;
 	global_tq_called_flag_str	:any;
 	origin_level_str	:any;

@@ -528,7 +528,7 @@ $(function(){
                 select_userid_list.push( $item.data("userid") ) ;
             }
         } ) ;
-        if(select_userid_list == ''){
+        if( select_userid_list.length ==0 ){
             alert("请选择要回流的例子");
             return;
         }
@@ -773,11 +773,13 @@ $(function(){
         var opt_data               = $(this).get_opt_data();
         var $seller_student_status = $("<select></selelct>");
         var $wx_invaild_flag       = $("<select></selelct>");
+        var $seller_student_assign_type = $("<select></selelct>");
         //var res = JSON.stringify(opt_data);
         //alert(res);
 
         Enum_map.append_option_list("seller_student_status",$seller_student_status,true, need_list );
         Enum_map.append_option_list("boolean",$wx_invaild_flag,true, need_wx );
+        Enum_map.append_option_list("seller_student_assign_type",$seller_student_assign_type,true);
 
         var need_list=[];
         if (opt_data.seller_student_status==50) {
@@ -795,12 +797,14 @@ $(function(){
             need_wx=[ opt_data.wx_invaild_flag,50];
         }
 
-       $wx_invaild_flag.val(opt_data.wx_invaild_flag);
+        $wx_invaild_flag.val(opt_data.wx_invaild_flag);
+        $seller_student_assign_type.val(opt_data.seller_student_assign_type );
+
 
         var arr=[
             ["回访状态",  $seller_student_status],
             ["微信可见",  $wx_invaild_flag],
-
+            ["分配方式",   $seller_student_assign_type  ],
 
         ];
 
@@ -811,12 +815,12 @@ $(function(){
                 $.do_ajax("/ss_deal/set_seller_student_status",{
                     "test_lesson_subject_id" : opt_data.test_lesson_subject_id,
                     "seller_student_status" : $seller_student_status.val(),
-                    "wx_invaild_flag" : $wx_invaild_flag.val()
+                    "wx_invaild_flag" : $wx_invaild_flag.val(),
+                    "seller_student_assign_type" : $seller_student_assign_type.val(),
 
                 });
             }
         });
-
     });
 
 
@@ -882,6 +886,6 @@ $(function(){
         BootstrapDialog.alert(phone);
     });
     if(g_account=="wenbin"){
-        download_show();
+        window["download_show"]();
     }
 });

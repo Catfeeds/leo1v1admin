@@ -15,14 +15,8 @@
 <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
 <script src='/page_js/select_teacher_free_time.js?{{@$_publish_version}}'></script>
 <script src='/page_js/set_lesson_time.js?{{@$_publish_version}}'></script>
-<script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
-<script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
-<script type="text/javascript" src="/js/qiniu/ui.js"></script>
-<script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
-<script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
-<script type="text/javascript" src="/js/jquery.md5.js"></script>
 
-
+<!--
 <script type="text/javascript">
  var _KDA = _KDA || [];
  window._KDA = _KDA;
@@ -66,6 +60,7 @@
         onKDAReady();
     }
 </script>
+-->
 
 <style>
  .btn-app {
@@ -1327,7 +1322,7 @@
                             <div class='input-group'>
                                 <span class='input-group-addon' style='height:34px;'><font style='color:red'>*</font>&nbsp科目：</span>
                                 <select name='subject_score_new_two' id='id_main_subject_new_two' class='form-control' style='width:70px'>
-                                </select> 
+                                </select>
                             </div>
                         </div>
                         <div class='col-xs-3 col-md-1' style='margin:0 0 0 3.0%'>
