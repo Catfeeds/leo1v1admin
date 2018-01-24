@@ -8,6 +8,7 @@
      .font_color{color:#ff3451;}
     </style>
     <section class="content require_content" style="display:none">
+        <input type="hidden" id="id_userid" value="{{$userid}}">
         @if(!empty($require_info))
             <div align="center">
                 <h3>试听需求</h3>
