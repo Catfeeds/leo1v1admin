@@ -3485,6 +3485,16 @@ class ss_deal extends Controller
 
             \App\Helper\Utils::logger("add_require: $test_lesson_subject_id ret_flag: $ret_flag");
 
+            //确认是否第一次换老师
+            $check_teacher_num = $this->t_lesson_info_b3->get_user_subject_tea_num($userid,$subject);
+            if($check_teacher_num>1 && $ass_test_lesson_type ==2){
+                $now_teacherid =$this->t_lesson_info_b3->get_first_user_subject_tea($userid,$subject);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"非首次换老师","非首次换老师提醒","学生id:".$userid.",老师id:".$teacherid,"");
+                $this->t_manager_info->send_wx_todo_msg_by_adminid(72,"非首次换老师","非首次换老师提醒","学生id:".$userid.",老师id:".$teacherid,"");
+
+
+            }
+
             return $this->output_succ();
         }
     }
