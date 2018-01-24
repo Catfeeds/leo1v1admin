@@ -3493,7 +3493,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_start>0",
             "l.lesson_status>1"
         ];
-        $sql = $this->gen_sql_new("select teacherid from %s l where %s and not exist(select 1 from %s where userid = l.userid and teacherid = l.teacherid and  lesson_del_flag=0 and confirm_flag<2 and lesson_type in (0,1,3) and lesson_start>0 and lesson_status>1 and lesson_start >l.lesson_start)",
+        $sql = $this->gen_sql_new("select teacherid from %s l where %s and not exist(select 1 from %s where userid = l.userid and teacherid = l.teacherid and  lesson_del_flag=0 and confirm_flag<2 and lesson_type in (0,1,3) and lesson_start>0 and lesson_status>1 and lesson_start >l.lesson_start))",
                                   self::DB_TABLE_NAME,
                                   $where_arr,
                                   self::DB_TABLE_NAME
