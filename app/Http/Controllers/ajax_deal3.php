@@ -161,7 +161,7 @@ class ajax_deal3 extends Controller
             "performance_cr_new_num" =>@$performance_cr_new_list[$adminid]["performance_cr_new_num"],
             "performance_cr_new_money" =>@$performance_cr_new_list[$adminid]["performance_cr_new_money"],
             "read_student"          =>@$stu_info_all[$adminid]["read_count"],
-            // "stop_student"          =>$item["stop_student"],
+            "stop_student"          =>@$stu_info_all[$adminid]["stop_count"],
             // "all_student"           =>$item["all_student"],
             // "month_stop_student"    =>$item["month_stop_student"],
             // "warning_student"       =>$item["warning_student"],
