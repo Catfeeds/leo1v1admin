@@ -1468,15 +1468,21 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "n.sys_invaild_flag=0",
             "(n.hand_free_count+n.auto_free_count)<5",
             ["s.origin like '%s%%'", $this->ensql( $origin), ""],
-            ["s.nick like '%s%%'",$this->ensql($nick), ""],
-            ["n.phone like '%s%%'", $this->ensql( $phone), ""],
+            // ["s.nick like '%s%%'",$this->ensql($nick), ""],
+            // ["n.phone like '%s%%'", $this->ensql( $phone), ""],
             ['tr.test_lesson_order_fail_flag=%u',$test_lesson_fail_flag,-1],
             ['n.return_publish_count=%u',$return_publish_count,-1],
             ['n.cc_called_count=%u',$cc_called_count,-1],
             ['n.cc_no_called_count_new=%u',$cc_no_called_count_new,-1],
             ['n.call_admin_count=%u',$call_admin_count,-1],
         ];
-        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
+        if($nick!=''){
+            $where_arr[] = ["s.nick like '%s%%'",$this->ensql($nick), ""];
+        }elseif($phone!=''){
+            $where_arr[] = ["n.phone like '%s%%'", $this->ensql( $phone), ""];
+        }else{
+            $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time ,$end_time);
+        }
         if($opt_date_str == 'n.seller_add_time'){
             $opt_date_str = 'n.last_revisit_time';
         }
