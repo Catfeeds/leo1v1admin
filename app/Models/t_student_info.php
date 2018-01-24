@@ -2036,10 +2036,11 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
-    public function get_read_student_ass_info($stu_type=0){
+    public function get_read_student_ass_info($stu_type=0,$assistantid=-1){
         $where_arr=[
             "s.assistantid >0",
-            "m.account_role=1"
+            "m.account_role=1",
+            ["s.assistantid=%u",$assistantid,-1]
         ];
         if($stu_type==-2){
             $where_arr[]="s.type <>1";
@@ -2483,9 +2484,10 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
 
-    public function get_end_class_stu_info($start_time,$end_time){
+    public function get_end_class_stu_info($start_time,$end_time,$assistantid=-1){
         $where_arr=[
-            "s.type=1"
+            "s.type=1",
+            ["s.assistantid=%u",$assistantid,-1]
         ];
 
         $this->where_arr_add_time_range($where_arr,"s.last_lesson_time",$start_time,$end_time);

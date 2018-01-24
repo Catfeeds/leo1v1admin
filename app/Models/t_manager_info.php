@@ -936,20 +936,23 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     }
 
-    public function get_assistant_lesson_count_info($start_time,$end_time) {
+    public function get_assistant_lesson_count_info($start_time,$end_time,$assistantid=-1) {
 
+        $where_arr=[
+            ["l.assistantid=%u",$assistantid,-1]  
+        ];
         $sql=$this->gen_sql_new("select uid,sum(l.lesson_count) as lesson_count, count(distinct l.userid ) as user_count"
-                            ." from  %s m left join %s a on m.phone = a.phone"
-                            ." left join %s l on l.assistantid = a.assistantid"
-                            ." left join %s s on l.userid = s.userid"
-                            ." where s.is_test_user=0 and l.lesson_start >=%u and l.lesson_start<%u  and l.lesson_status =2 and l.confirm_flag in (0,1,3)  and l.lesson_type in (0,1,3)"
-                            . " and l.lesson_del_flag=0 and l.assistantid <> 59329 and m.account_role=1  and m.uid <>74  "
-                            ." group by m.uid  ",
-                            self::DB_TABLE_NAME,
-                            t_assistant_info::DB_TABLE_NAME,
-                            t_lesson_info::DB_TABLE_NAME,
-                            t_student_info::DB_TABLE_NAME, //
-                            $start_time,$end_time
+                                ." from  %s m left join %s a on m.phone = a.phone"
+                                ." left join %s l on l.assistantid = a.assistantid"
+                                ." left join %s s on l.userid = s.userid"
+                                ." where s.is_test_user=0 and l.lesson_start >=%u and l.lesson_start<%u  and l.lesson_status =2 and l.confirm_flag in (0,1,3)  and l.lesson_type in (0,1,3)"
+                                . " and l.lesson_del_flag=0 and l.assistantid <> 59329 and m.account_role=1  and m.uid <>74 and %s "
+                                ." group by m.uid  ",
+                                self::DB_TABLE_NAME,
+                                t_assistant_info::DB_TABLE_NAME,
+                                t_lesson_info::DB_TABLE_NAME,
+                                t_student_info::DB_TABLE_NAME, //
+                                $start_time,$end_time,$where_arr
         );
 
         return $this->main_get_list($sql,function($item){

@@ -1000,8 +1000,7 @@
                             <div class="input-group ">
                                 <span class="input-group-addon"> <font style="color:red">*</font>&nbsp性格特点：</span>
                                 <input type="text" class=" form-control "  id="id_character_type"  />
-                            </div>
-                        </div>
+                            </di                       </div>
                         <div class="col-xs-12 col-md-3  ">
                             <div class="input-group ">
                                 <span class="input-group-addon"><font style="color:red">*</font>&nbsp老师要求：</span>

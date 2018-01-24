@@ -23,6 +23,34 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	check_value	:any;
+	all_count	:any;
+	heavy_count	:any;
+	assigned_count	:any;
+	tmk_assigned_count	:any;
+	tq_called_count	:any;
+	tq_no_call_count	:any;
+	called_num	:any;
+	tq_call_succ_valid_count	:any;
+	tq_call_succ_invalid_count	:any;
+	tq_call_fail_count	:any;
+	tq_call_fail_invalid_count	:any;
+	have_intention_a_count	:any;
+	have_intention_b_count	:any;
+	have_intention_c_count	:any;
+	title	:any;
+	key0	:any;
+	key1	:any;
+	key2	:any;
+	key3	:any;
+	key4	:any;
+	key0_class	:any;
+	key1_class	:any;
+	key2_class	:any;
+	key3_class	:any;
+	key4_class	:any;
+	level	:any;
+	create_time	:any;
 }
 
 /*

@@ -22,6 +22,7 @@ use Teacher\Core\Media;
 
 use Teacher\Core\AccessToken;
 
+use App\Jobs\marketActivityPoster;
 
 include(app_path("Wx/Teacher/lanewechat_teacher.php"));
 
@@ -1599,6 +1600,20 @@ class wx_teacher_api extends Controller
         return $this->output_succ();
     }
 
+    # 分享海报
+    public function sharePoster(){
+        $pid = $this->get_in_int_val('pid');
+        $uid = $this->get_in_int_val('uid');
+        $par_openid = $this->get_in_str_val('par_openid');
+        $phone = $this->get_in_str_val('phone');
 
+        $this->t_poster_share_log->row_insert([
+            "poster_id"  => $pid,
+            "uid"        => $uid,
+            "par_openid" => $par_openid,
+            "phone"      => $phone
+        ]);
+        return $this->output_succ();
+    }
 
 }
