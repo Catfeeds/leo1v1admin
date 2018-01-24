@@ -151,7 +151,7 @@ class ajax_deal3 extends Controller
             "first_lesson_stu_list" =>$first_subject_list,
             "revisit_reword_per"    =>$revisit_reword_per*100,
             "seller_week_stu_num"   =>$seller_week_stu_num,
-            "seller_month_lesson_count"=>$item["seller_month_lesson_count"],
+            "seller_month_lesson_count"=>$seller_month_lesson_count,
             "kpi_lesson_count_finish_per"=>$kpi_lesson_count_finish_per*100,
             "estimate_month_lesson_count" =>$estimate_month_lesson_count,//临时更新一次(月初生成)
             "performance_cc_tran_num"  =>@$performance_cc_tran_list["performance_cc_tran_num"],

@@ -142,10 +142,6 @@
                             >
                                 @if(in_array($account,["jack","jim"]))
                                     <a class="opt-reset-data"> 重置学生数据</a>
-                                    <a class="opt-reset-revisit"> 重置回访信息</a>
-                                    <a class="opt-reset-kk"> 重置扩课信息</a>
-                                    <a class="opt-reset-order"> 重置合同信息</a>
-                                    <a class="opt-reset-lesson"> 重置课时信息</a>
                                 @endif
                                 
                             </div>
