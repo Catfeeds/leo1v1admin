@@ -38,6 +38,10 @@ class test_abner extends cmd_base
      */
     public function handle()
     {
+        $this->get_q4_data();
+    }
+    //@desn:获取今日头条例子及拨打详情
+    private function get_example_call_info(){
         $start_time = strtotime(date('2017-10-01'));
         $end_time = strtotime(date('2017-11-01'));
         $count = 0;
@@ -87,7 +91,6 @@ class test_abner extends cmd_base
         }
         fclose($fp);
         echo 'ok!';
-
     }
     //@desn:获取今日头条10月份进入例子
     private function get_channel_example(){
