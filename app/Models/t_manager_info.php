@@ -2459,7 +2459,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "m.account_role in (1,2)",
             "m.wx_openid='$userOpenid'"
         ];
-        $sql = $this->gen_sql_new("  select 1 from %s m where %s"
+        $sql = $this->gen_sql_new("  select uid from %s m where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );

@@ -2871,7 +2871,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function getNeedTranLessonUid(){
         $where_arr = [
             "l.lesson_del_flag=0",
-            "l.tea_cw_type=1",
+            "l.use_ppt=1",
             "l.lesson_cancel_time_type=0",
             "zip_url=''",
             "l.ppt_status=1",
@@ -2890,7 +2890,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function getTeaUploadPPTLink(){
         $where_arr = [
             "l.lesson_del_flag=0",
-            "l.tea_cw_type=1",
+            "l.use_ppt=1",
             "l.lesson_cancel_time_type=0",
             "l.zip_url=''",
             "l.tea_cw_url!=''"
@@ -3235,7 +3235,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             t_flow::DB_TABLE_NAME,
             $where_arr
         );
-        echo $sql."\n";
+        // echo $sql."\n";
         return $this->main_get_value($sql);
     }
     //@desn:获取第四季度课程信息

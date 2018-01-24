@@ -41,12 +41,14 @@ class update_rs_tea_money_type extends Command
         $info = $task->t_manager_info->get_rs_tea_info();
         if ($info) {
             foreach($info as $item) {
+                if (!$item["teacherid"]) continue;
                 if ($item["teacher_type"] != 4 || $item["teacher_money_type"] != 0) {
                     echo $item["teacherid"]." ";
-                    // $task->t_manager_info->field_update_list($uid, [
-                    //     "teacher_type" => 4,
-                    //     "teacher_money_type" => 0
-                    // ]);
+                    $task->t_teacher_info->field_update_list($item["teacherid"], [
+                        "teacher_type" => 4,
+                        "teacher_money_type" => 0
+                    ]);
+                    $task->t_user_log->add_data("脚本自动修改教研老师工资类型 修改前:老师id->".$item["teacherid"]."老师类型->".$item["teacher_type"]."老师工资类型->".$item["teacher_money_type"]);
                 }
             }
         }
