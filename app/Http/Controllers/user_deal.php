@@ -4426,6 +4426,7 @@ class user_deal extends Controller
         $arr['group_kpi'] = isset($group_kpi['group_kpi'])?$group_kpi['group_kpi']:'';
         $arr['group_kpi_desc'] = isset($group_kpi['group_kpi_desc'])?$group_kpi['group_kpi_desc']:'';
 
+        $arr['get_per_salary'] = $arr['group_kpi']>0?($arr['per_salary']*str_replace('%','',$arr['group_kpi'])/100):($arr['per_salary']*str_replace('%','',$arr['kpi'])/100);
         $arr['group_month_avg_lesson'] = isset($group_kpi['group_month_avg_lesson'])?$group_kpi['group_month_avg_lesson']:'';
         $arr['group_month_avg_lesson_per'] = isset($group_kpi['group_month_avg_lesson_per'])?$group_kpi['group_month_avg_lesson_per']:'';
         $arr['group_month_avg_order_per'] = isset($group_kpi['group_month_avg_order_per'])?$group_kpi['group_month_avg_order_per']:'';
