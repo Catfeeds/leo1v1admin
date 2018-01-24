@@ -3121,7 +3121,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ." l.preview_status,l.cw_status,l.confirm_flag,l.lesson_cancel_reason_type, "
                                   ." l.teacher_effect,l.teacher_quality,l.stu_score,l.teacher_interact,l.stu_stability, "
                                   ." l.teacher_comment,l.stu_comment,l.stu_performance,h.issue_time ,h.issue_url ,"
-                                  ." h.finish_time,h.finish_url ,h.work_status ,h.score,h.check_url,l.stu_praise "
+                                  ." h.finish_time,h.finish_url ,h.work_status ,h.score,h.check_url "
                                   ." from %s l left join %s h on l.lessonid = h.lessonid"
                                   ." where %s order by l.lesson_start",
                                   self::DB_TABLE_NAME,
@@ -3235,6 +3235,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             t_flow::DB_TABLE_NAME,
             $where_arr
         );
+        // echo $sql."\n";
         return $this->main_get_value($sql);
     }
     //@desn:获取第四季度课程信息
@@ -3447,4 +3448,22 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
+    public function get_lesson_list($userid){
+        $where_arr = [
+            'li.lesson_del_flag=0',
+            'li.lesson_type in (1001,1002,1003)',
+            'li.lesson_status = 2'
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'olu.userid', $userid);
+        $this->where_arr_add_time_range($where_arr, 'olu.join_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select count(*) from %s li '.
+            'left join %s olu using(lessonid) '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_open_lesson_user::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }

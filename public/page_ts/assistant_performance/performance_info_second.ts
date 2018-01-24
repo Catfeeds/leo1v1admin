@@ -43,6 +43,7 @@ $(function(){
 
        
     });
+   
 
     $(".seller_week_stu_num_info").on("click",function(){
         var adminid = $(this).data("adminid");

@@ -151,7 +151,7 @@ class ajax_deal3 extends Controller
             "first_lesson_stu_list" =>$first_subject_list,
             "revisit_reword_per"    =>$revisit_reword_per*100,
             "seller_week_stu_num"   =>$seller_week_stu_num,
-            "seller_month_lesson_count"=>$seller_month_lesson_count,
+            "seller_month_lesson_count"=>$item["seller_month_lesson_count"],
             "kpi_lesson_count_finish_per"=>$kpi_lesson_count_finish_per*100,
             "estimate_month_lesson_count" =>$estimate_month_lesson_count,//临时更新一次(月初生成)
             "performance_cc_tran_num"  =>@$performance_cc_tran_list["performance_cc_tran_num"],
@@ -161,7 +161,7 @@ class ajax_deal3 extends Controller
             "performance_cr_new_num" =>@$performance_cr_new_list[$adminid]["performance_cr_new_num"],
             "performance_cr_new_money" =>@$performance_cr_new_list[$adminid]["performance_cr_new_money"],
             "read_student"          =>@$stu_info_all[$adminid]["read_count"],
-            "stop_student"          =>@$stu_info_all[$adminid]["stop_count"],
+            // "stop_student"          =>$item["stop_student"],
             // "all_student"           =>$item["all_student"],
             // "month_stop_student"    =>$item["month_stop_student"],
             // "warning_student"       =>$item["warning_student"],
@@ -200,7 +200,7 @@ class ajax_deal3 extends Controller
             // "all_ass_stu_num"         =>$item["all_ass_stu_num"],
             // "ass_refund_money"        => $refund_money,
         ];
-        $this->t_month_ass_student_info->get_field_update_arr($adminid,$start_time,1,$update_arr);
+        $task->t_month_ass_student_info->get_field_update_arr($adminid,$start_time,1,$update_arr);
         return $this->output_succ();
           
 
