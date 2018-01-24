@@ -27,12 +27,21 @@ $(function(){
 
     $(".opt-reset-data").on("click",function(){
         //alert("开发中");
-        var opt_data = $(this).get_opt_data();
-        $.do_ajax('/ajax_deal3/reset_assisatnt_performance_data',{
-            "adminid" : opt_data.adminid,
-            "start_time":g_args.start_time
-        });
+        BootstrapDialog.confirm(
+            "确认?",
+            function(val) {
+                if  (val)  {
+                    var opt_data = $(this).get_opt_data();
+                    $.do_ajax('/ajax_deal3/reset_assisatnt_performance_data',{
+                        "adminid" : opt_data.adminid,
+                        "start_time":g_args.start_time
+                    });
+ 
+                }
+            }
+        );
 
+       
     });
 
     $(".seller_week_stu_num_info").on("click",function(){
