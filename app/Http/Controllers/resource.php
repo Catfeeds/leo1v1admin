@@ -84,7 +84,9 @@ class resource extends Controller
             if($item['resource_type'] == 3 ) {
                 $item['tag_three_str'] = E\Eresource_diff_level::get_desc($item['tag_three']);
             }
-
+            if($item['resource_type'] == 6){
+                $item['tag_four_str'] = E\Eregion_version::get_desc($item['tag_four']);
+            }
         }
         //dd($ret_info['list']);
 
@@ -130,7 +132,7 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180123171449,
+            '_publish_version'    => 20180124171449,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
