@@ -2505,7 +2505,7 @@ class Utils  {
             6 => ['tag_one' => ['name' => '年份','menu' => 'resource_year','hide' => ''],
                   'tag_two' => ['name' => '省份','menu' => '','hide' => ''],
                   'tag_three' => ['name' => '城市','menu' => '','hide' => ''],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_four' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_five' => ['name' => '上下册','menu' => 'resource_volume','hide' => '']],
             7 => ['tag_one' => ['name' => '一级知识点','menu' => '','hide' => ''],
                   'tag_two' => ['name' => '二级知识点','menu' => '','hide' => ''],

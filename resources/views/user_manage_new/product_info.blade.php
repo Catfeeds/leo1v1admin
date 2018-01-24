@@ -19,8 +19,8 @@
 
             <div class="col-xs-6 col-md-3">
                 <div class="input-group ">
-                    <span class="input-group-addon">反馈人</span>
-                    <input class="opt-change form-control" id="id_feedback_adminid"/>
+                    <input type="text" class=" form-control click_on put_name opt-change"  data-field="user_name" id="id_feedback_nick"  placeholder="反馈人姓名/ 回车查找" />
+
                 </div>
             </div>
 
@@ -32,11 +32,6 @@
                 </div>
             </div>
 
-            <div class="col-xs-6 col-md-3">
-                <div class="input-group ">
-                    <button type="button" class="btn btn-warning" id="id_submit">添加</button>
-                </div>
-            </div>
 
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
@@ -46,7 +41,11 @@
                 </div>
             </div>
 
-
+            <div class="col-xs-6 col-md-3">
+                <div class="input-group ">
+                    <button type="button" class="btn btn-warning" id="id_submit">添加</button>
+                </div>
+            </div>
         </div>
         <hr/>
         <table   class="common-table"   >

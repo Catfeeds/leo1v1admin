@@ -1610,6 +1610,7 @@ lesson_type in (0,1) "
         }
         return $this->main_get_list_by_page($sql,$page_num,5000,true);
     }
+
     public function get_student_single_subject($start_time,$end_time,$teacherid,$subject,$studentid){
         $where_arr=[
             ["l.subject= %u",$subject, -1  ],
@@ -3996,6 +3997,68 @@ lesson_type in (0,1) "
             return $item["teacherid"];
         });
     }
+
+    public function get_teacher_test_person_num_by_all( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid_list=[],$account_role=2,$check_flag=true){
+        $where_arr = [
+            ["lesson_start >= %u",$start_time,-1],
+            ["lesson_start < %u",$end_time,-1],
+            "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
+            "lesson_type = 2",
+            "lesson_del_flag = 0",
+            "l.lesson_status>1"
+            // "require_admin_type =2",
+            //"tq.origin not like '%%扩课%%' and tq.origin not like '%%换老师%%'",
+            //"m.account_role=2",
+            // "m.account_role=2 or tq.origin like '%%转介绍%%'",
+            // "m.del_flag=0"
+        ];
+        if($account_role==2){
+            $where_arr[] = "m.account_role=2 or tq.origin like '%%转介绍%%'";
+        }elseif($account_role==1){
+            $where_arr[] = "m.account_role=1 and tq.origin not like '%%转介绍%%'";
+        }
+        if($subject==20){
+            $where_arr[] = "l.subject in (4,5,6,7,8,9,10)";
+        }else{
+            $where_arr[] =  ["l.subject = %u",$subject,-1];
+        }
+        if($grade_part_ex==0){
+            $where_arr[] = "l.grade =0";
+        }else if($grade_part_ex==100){
+            $where_arr[] = "(l.grade >=100 and l.grade <200)";
+        }else if($grade_part_ex==200){
+            $where_arr[] = "(l.grade >=200 and l.grade <300)";
+        }else if($grade_part_ex==300){
+            $where_arr[] = "l.grade >=300";
+        }else{
+            $where_arr[] =  ["l.grade = %u",$grade_part_ex,-1];
+        }
+
+        $this->where_arr_teacherid($where_arr,"l.teacherid", $teacherid_list,$check_flag);
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.subject,l.teacherid) person_num,count(distinct l.lessonid) lesson_num"
+                                  ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
+                                  ." from %s l "
+                                  ." left join %s tss on tss.lessonid = l.lessonid"
+                                  ." left join %s tq on tq.require_id = tss.require_id"
+                                  ." left join %s ts on ts.test_lesson_subject_id =tq.test_lesson_subject_id "
+                                  ." left join %s c on "
+                                  ." (l.userid = c.userid "
+                                  ." and l.teacherid = c.teacherid "
+                                  ." and l.subject = c.subject "
+                                  ." and c.course_type=0 and c.courseid >0) "
+                                  ." left join %s m on tq.cur_require_adminid = m.uid"
+                                  ." where %s " ,
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
     public function get_teacher_test_person_num_list_old( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid_list=[]){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],

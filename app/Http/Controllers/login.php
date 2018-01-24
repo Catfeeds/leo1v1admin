@@ -432,14 +432,25 @@ class login extends Controller
     }
 
     public function login_other() {
-        if(!$this->check_account_in_arr(["jim","adrian","seven", "james","jack","michael","ted","夏宏东",'tom',"boby","sam","孙瞿","班洁","顾培根"]) ) {
+        if(!$this->check_account_in_arr(["jim","adrian","seven", "james","jack","michael","ted","夏宏东",'tom',"boby","sam","孙瞿","顾培根"]) ) {
             return $this->output_err("没权限");
         }
-
+        
         $login_adminid=$this->get_in_int_val("login_adminid");
         $ret_db = $this->t_admin_users->field_get_list($login_adminid,"*");
 
         $account=$ret_db["account"];
+
+        $operate_account = $this->get_account();
+        $operate_id = $this->get_account_id();
+
+        $this->t_user_log->row_insert([
+            "add_time" => time(),
+            "adminid"  => $this->get_account_id(),
+            "msg"      => "登录其它账号: [被登录的账号:$account,操作人账号:$operate_account,操作人id:$operate_id]",
+            "user_log_type" => E\Euser_log_type::V_5, //登录其他账户
+        ]);
+
         $_SESSION = array();
         Session::clear();
 

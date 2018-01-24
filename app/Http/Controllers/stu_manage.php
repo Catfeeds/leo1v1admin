@@ -1718,12 +1718,13 @@ class stu_manage extends Controller
                 $item["issue_url_str"] = \App\Helper\Utils::gen_download_url($item["issue_url"]);
                 $item["finish_url_str"] = \App\Helper\Utils::gen_download_url($item["finish_url"]);
                 $item["check_url_str"] = \App\Helper\Utils::gen_download_url($item["check_url"]);
+                $item["stu_check_flag"]="—";
                 if(empty($item["issue_url"])){
                     $item["issue_url_str"]="";
                     $item["finish_url_str"]="";
                     $item["check_url_str"]="";
                     $item["issue_flag"]="未上传";
-                    $item["download_flag"]= $item["commit_flag"]= $item["commit_flag"]="—";
+                    $item["download_flag"]= $item["commit_flag"]= $item["check_flag"]="—";
                    
                 }else{
                     $item["issue_flag"]="已上传";
@@ -1744,7 +1745,7 @@ class stu_manage extends Controller
                 $item["lesson_num"] = @$all_lesson[$item["lessonid"]];
 
             }
-            $cw_num=$pre_num=0;
+            $commit_num=$upload_num=$check_num=$score_total=0;
             foreach($list as $val){
                 if(!isset($subject_arr[$val["subject"]])){
                     $subject_arr[$val["subject"]]=$val["subject"];
@@ -1752,12 +1753,43 @@ class stu_manage extends Controller
                 if(!isset($grade_arr[$val["grade"]])){
                     $grade_arr[$val["grade"]]=$val["grade"];
                 }
+                if(!empty($val["issue_url"])){
+                    $upload_num++;
+                    if($val["work_status"]>=2){
+                        $commit_num++;
+                    }
+                }
+                if($val["work_status"]>=3){
+                    $check_num++;
+                    $score =$val["score"];
+                    if($score=="A"){
+                        $score_total +=90;
+                    }elseif($score=="B"){
+                        $score_total +=80;
+                    }elseif($score=="C"){
+                        $score_total +=70;
+                    }else{
+                        $score_total +=50;
+                    }
+
+                }
                 
 
             }
-            $pre_rate = $cw_num==0?0:round($pre_num/$cw_num*100,2);
+            $score_avg = $check_num==0?"—":($score_total/$check_num);
+            if($score_avg>=86){
+                $score_final = "A";
+            }elseif($score_avg>=75){
+                $score_final = "B";
+            }elseif($score_avg>=60){
+                $score_final = "C";
+            }else{
+                $score_final = "D";
+            }
+            $complete_rate = $upload_num==0?0:round($commit_num/$upload_num*100,2);
             return $this->pageView(__METHOD__,$ret_info,[
-                "pre_rate"=>$pre_rate,
+                "complete_rate"=>$complete_rate,
+                "score_final"  =>$score_final,
                 "subject_list"=>$subject_arr,
                 "grade_list"=>$grade_arr,
             ]);

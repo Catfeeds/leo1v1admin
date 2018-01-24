@@ -2937,7 +2937,7 @@ class ajax_deal2 extends Controller
             foreach($history_list as $val){
                 $add_time = $val["add_time"];
                 if($add_time<$month_half){
-                    $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$month_half,$item["account"],-2);
+                    $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$month_half,$account,-2);
                     if($revisit_num <1){
                         $revisit_value +=1;
                         $deduct_list[]=[
@@ -2951,7 +2951,7 @@ class ajax_deal2 extends Controller
                 }else{
                     $assign_time = $val["assign_ass_time"];
                     if($assign_time <$month_half){
-                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$item["account"],-2);
+                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$account,-2);
                         if($month_lesson_flag==1){
                           
                             if($revisit_num <2){
@@ -2977,7 +2977,7 @@ class ajax_deal2 extends Controller
                         }
 
                     }else{
-                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$month_half,$end_time,$item["account"],-2);
+                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$month_half,$end_time,$account,-2);
                         if($revisit_num <1){
                             $revisit_value +=1;
                             $deduct_list[]=[
@@ -3235,6 +3235,52 @@ class ajax_deal2 extends Controller
         $this->t_teacher_info->field_update_list($teacherid,["level"=>$level]);
         return $this->output_succ();
  
+    }
+
+    //获取学生所有的信息(个人信息,上课信息等)
+    public function get_student_deatil_lesson_info(){
+        $userid    = $this->get_in_int_val("userid");
+        $data= $this->t_student_info->field_get_list($userid,"face,nick,realname");
+        $first_lesson_time = $this->t_lesson_info_b3->get_stu_first_regular_lesson_time($userid);
+        if($first_lesson_time>0){
+            $study_day = ceil((time()-$first_lesson_time)/86400); 
+        }else{
+            $study_day=0;
+        }
+        $lesson_all = $this->t_lesson_info_b3->get_student_all_lesson_count_list($userid);
+        $hour = @$lesson_all["lesson_count"]/100*1.5;
+        $data["str1"] = "已经在理优学习了".$study_day."天，完成了".@$lesson_all["lesson_num"]."课次，".(@$lesson_all["lesson_count"]/100)."课时，总计学习了".$hour."小时";
+        $data["str2"] = "学习课".@$lesson_all["subject_num"]."门课，".@$lesson_all["tea_num"]."位老师为你服务";
+
+        $lesson_detail = $this->t_lesson_info_b3->get_student_all_lesson_info($userid,0,0);
+        $cw_num=$pre_num=$tea_commit=$leave_num=$absence_num=0;
+        foreach($lesson_detail as $val){
+           
+            if(empty($val["tea_cw_upload_time"]) || $val["tea_cw_upload_time"]>$val["lesson_start"]){
+            }else{
+                $cw_num++;
+                if($val["preview_status"]>0){
+                    $pre_num++;
+                }
+            }
+            if($val["stu_performance"]){
+                $tea_commit++;
+            }
+            if($val["lesson_cancel_reason_type"]==11){
+                $leave_num++;
+            }elseif($val["lesson_cancel_reason_type"]==20){
+                $absence_num++;
+            }
+
+
+
+        }
+        $pre_rate = $cw_num==0?0:round($pre_num/$cw_num*100,2);
+
+
+
+        
+        return $this->output_succ(["data"=>$data]);
     }
 
 

@@ -3030,7 +3030,7 @@ class user_manage_new extends Controller
             "add_time" => time(),
             "adminid"  => $this->get_account_id(),
             "msg"      => "旧的页面权限管理配置: [权限id:$powerid,权限列表:$groupid_str]",
-            "user_log_type" => 5, //权限页面添加用户记录
+            "user_log_type" => E\Euser_log_type::V_2, //权限页面添加用户记录
         ]);
 
         return $this->output_succ();
@@ -5555,18 +5555,17 @@ class user_manage_new extends Controller
         $page_num  = $this->get_in_page_num();
         $deal_flag = $this->get_in_int_val('deal_flag',-1);
         $lesson_problem = $this->get_in_int_val('lesson_problem',-1);
-        $feedback_adminid = $this->get_in_int_val('feedback_adminid',-1);
+        $feedback_nick = $this->get_in_str_val('feedback_nick',"");
         list($start_time,$end_time,$opt_date_type) = $this->get_in_date_range(date("Y-m-01"),0,1,[
             1 => array("pf.create_time","录入时间"),
         ],3);
 
-        $ret_list  = $this->t_product_feedback_list->get_product_list($deal_flag, $feedback_adminid, $start_time, $end_time, $page_num, $opt_date_type);
+        $ret_list  = $this->t_product_feedback_list->get_product_list($lesson_problem, $deal_flag, $feedback_nick, $start_time, $end_time, $page_num, $opt_date_type);
 
         foreach($ret_list['list'] as &$item){
             $item['stu_agent_simple'] = get_machine_info_from_user_agent($item["stu_agent"] );
             $item['tea_agent_simple'] = get_machine_info_from_user_agent($item["tea_agent"] );
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            // $item['feedback_nick'] = $this->cache_get_account_nick($item['feedback_adminid']);
             $item['record_nick']   = $this->cache_get_account_nick($item['record_adminid']);
             $item["tea_phone"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["tea_phone"]);
             $item["stu_phone"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["stu_phone"]);
@@ -5577,7 +5576,6 @@ class user_manage_new extends Controller
             }
             $item['lesson_problem_str'] = E\Elesson_problem::get_desc($item['lesson_problem']);
         }
-
         return $this->Pageview(__METHOD__,$ret_list,[]);
     }
 
