@@ -98,4 +98,12 @@ class ajax_deal3 extends Controller
     }
 
 
+    //重置助教薪资信息(测试版本)
+    public function reset_assisatnt_performance_data(){
+        $adminid    = $this->get_in_int_val("adminid");
+        $start_time    = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime("+1 months",$start_time);
+    }
+
+
 }
