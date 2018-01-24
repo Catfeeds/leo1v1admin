@@ -1443,6 +1443,7 @@ class seller_student_new2 extends Controller
         $userid = $this->get_in_str_val("userid",0);
 
         $is_test = $this->t_student_info->field_get_list($userid, "is_test_user");
+        dd($is_test);
 
         $require_info = $this->t_test_lesson_subject_require->get_require_list_by_requireid($require_id);
         if(!empty($require_info)){
