@@ -1442,7 +1442,8 @@ class seller_student_new2 extends Controller
         $refresh_flag  = $this->get_in_int_val("refresh_flag");
         $userid = $this->get_in_str_val("userid",0);
 
-        $is_test = $this->t_student_info->field_get_list($userid, "is_test_user");
+        $is_test_arr = $this->t_student_info->field_get_list($userid, "is_test_user");
+        $is_test = $is_test_arr['is_test_user'];
 
         $require_info = $this->t_test_lesson_subject_require->get_require_list_by_requireid($require_id);
         if(!empty($require_info)){

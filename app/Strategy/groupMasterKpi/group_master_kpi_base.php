@@ -124,6 +124,15 @@ class group_master_kpi_base {
         $kpi_desc = $test_per_desc.'+'.$fail_per_desc.'+'.$order_per_desc.'+'.$leave_per_desc;
         $arr['group_kpi'] = $kpi.'%';
         $arr['group_kpi_desc'] = $kpi_desc;
+
+        $group_month_avg_lesson = $full_count>0?round($test_lesson_count/$full_count,2):0;
+        $group_month_avg_lesson_per = $test_lesson_count>0?round($fail_all_count/$test_lesson_count,4):0;
+        $group_month_avg_order_per = $succ_all_count>0?round($all_new_contract/$succ_all_count,4):0;
+        $group_month_avg_leave_per = $person_count>0?round($leave_count/$person_count,4):0;
+        $arr['group_month_avg_lesson'] = $group_month_avg_lesson;
+        $arr['group_month_avg_lesson_per'] = $group_month_avg_lesson_per;
+        $arr['group_month_avg_order_per'] = $group_month_avg_order_per;
+        $arr['group_month_avg_leave_per'] = $group_month_avg_leave_per;
         return $arr;
     }
 
