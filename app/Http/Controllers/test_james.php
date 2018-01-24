@@ -388,18 +388,27 @@ class test_james extends Controller
         //     $table->index('userid');
         //     $table->index('add_time');
         // });
+        /**
+           1、记录CC/CR获取转发链接的次数、名单、家长点击次数，家长ID、制作海报次数，最终获得常规课人数，通过此海报注册试听课人数；
+
+           2、确保最终报名试听人员，进入开始分享链接CC/CR私库中；
+
+           3、位置：统计>个性海报转发记录
+         **/
 
         Schema::create('db_tool.t_personality_poster', function(Blueprint $table) {
             t_comment($table,"市场部个性海报");
             t_field($table->increments("id"), "");
             t_field($table->integer("uid"), "分享人id");
-            t_field($table->integer("stu_id"), "学生id");
-            t_field($table->tinyInteger("type"), "时间类型 0:家长点击 1:制作海报次数");
+            t_field($table->integer("parentId"), "家长id");
+            t_field($table->string("par_openid"), "家长openid");
+            t_field($table->string("phone",100), "学生号码");
+            t_field($table->integer("posterNum"), "制作海报次数");
+            t_field($table->integer("clickNum"), "家长点击次数");
+            t_field($table->integer("forwardNum"), "转发次数");
             t_field($table->string("media_id",100), "照片mediaId");
-            t_field($table->string("phone",100), "家长号码");
             t_field($table->string("bgImgUrl"), "背景图片链接");
             t_field($table->string("qr_code_url"), "二维码链接");
-
         });
     }
 

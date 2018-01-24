@@ -2937,7 +2937,7 @@ class ajax_deal2 extends Controller
             foreach($history_list as $val){
                 $add_time = $val["add_time"];
                 if($add_time<$month_half){
-                    $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$month_half,$item["account"],-2);
+                    $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$month_half,$account,-2);
                     if($revisit_num <1){
                         $revisit_value +=1;
                         $deduct_list[]=[
@@ -2951,7 +2951,7 @@ class ajax_deal2 extends Controller
                 }else{
                     $assign_time = $val["assign_ass_time"];
                     if($assign_time <$month_half){
-                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$item["account"],-2);
+                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$account,-2);
                         if($month_lesson_flag==1){
                           
                             if($revisit_num <2){
@@ -2977,7 +2977,7 @@ class ajax_deal2 extends Controller
                         }
 
                     }else{
-                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$month_half,$end_time,$item["account"],-2);
+                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$month_half,$end_time,$account,-2);
                         if($revisit_num <1){
                             $revisit_value +=1;
                             $deduct_list[]=[

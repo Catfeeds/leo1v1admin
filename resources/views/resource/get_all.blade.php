@@ -140,7 +140,7 @@
                     <td>文件大小</td>
                     <td>科目</td>
                     <td>年级</td>
-                    @if($resource_type < 6)
+                    @if($resource_type <= 6)
                         <td>教材</td>
                     @endif
 
@@ -173,6 +173,10 @@
                         @if( $resource_type < 6)
                             <td>{{@$var["tag_one_str"]}} </td>
                         @endif
+                        @if( $resource_type == 6)
+                            <td>{{@$var["tag_four_str"]}} </td>
+                        @endif
+
                         @if( $resource_type == 1 || $resource_type == 3)
                             <td>{{@$var["tag_four_str"]}} </td>
                             @if( $resource_type == 1)
