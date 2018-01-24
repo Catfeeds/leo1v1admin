@@ -22,7 +22,7 @@
                     讲义设计情况
                 </td>
                 <td>
-                    @if($ret_info["tea_process_design_score"] < 5)
+                    @if(@$ret_info["tea_process_design_score"] < 5)
                         <span >得分:<span style="color:#FF3451">{{@$ret_info["tea_process_design_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @else
                         <span >得分:<span style="color:#F6A623">{{@$ret_info["tea_process_design_score"]}}</span>/<span style="color:#333333">10</span></span>
@@ -34,7 +34,7 @@
                     语言表达能力
                 </td>
                 <td>
-                    @if($ret_info["language_performance_score"] < 5)
+                    @if(@$ret_info["language_performance_score"] < 5)
                         <span >得分:<span style="color:#FF3451">{{@$ret_info["language_performance_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @else
                         <span >得分:<span style="color:#F6A623">{{@$ret_info["language_performance_score"]}}</span>/<span style="color:#333333">10</span></span>
@@ -44,7 +44,7 @@
             <tr>
                 <td>专业知识技能</td>
                 <td>
-                    @if($ret_info["knw_point_score"] < 5)
+                    @if(@$ret_info["knw_point_score"] < 5)
                         <span >得分:<span style="color:#FF3451">{{@$ret_info["knw_point_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @else
                         <span >得分:<span style="color:#F6A623">{{@$ret_info["knw_point_score"]}}</span>/<span style="color:#333333">10</span></span>
@@ -56,7 +56,7 @@
                     教学节奏把握
                 </td>
                 <td>
-                    @if($ret_info["tea_rhythm_score"] < 5)
+                    @if(@$ret_info["tea_rhythm_score"] < 5)
                         <span >得分:<span style="color:#FF3451">{{@$ret_info["tea_rhythm_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @else
 
@@ -82,7 +82,7 @@
             <tr>
                 <td>板书情况</td>
                 <td>
-                    @if($ret_info["teacher_blackboard_writing_score"] < 5)
+                    @if(@$ret_info["teacher_blackboard_writing_score"] < 5)
                         <span >得分:<span style="color:#FF3451">{{@$ret_info["teacher_blackboard_writing_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @else
 
@@ -93,7 +93,7 @@
             <tr>
                 <td>软件操作</td>
                 <td>
-                    @if($ret_info["tea_operation_score"] < 5)
+                    @if(@$ret_info["tea_operation_score"] < 5)
                         <span >得分:<span style="color:#FF3451">{{@$ret_info["tea_operation_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @else
 
@@ -104,7 +104,7 @@
             <tr>
                 <td>授课环境</td>
                 <td>
-                    @if($ret_info["tea_environment_score"] < 3)
+                    @if(@$ret_info["tea_environment_score"] < 3)
                         <span >得分:<span style="color:#FF3451">{{@$ret_info["tea_environment_score"]}}</span>/<span style="color:#333333">5</span></span>
                     @else
 
@@ -115,7 +115,7 @@
             <tr>
                 <td>课后反馈</td>
                 <td>
-                    @if($ret_info["answer_question_cre_score"] < 5)
+                    @if(@$ret_info["answer_question_cre_score"] < 5)
                         <span >得分:<span style="color:#FF3451">{{@$ret_info["answer_question_cre_score"]}}</span>/<span style="color:#333333">10</span></span>
                     @else
 
@@ -127,7 +127,7 @@
             <tr>
                 <td>流程规范操作</td>
                 <td>
-                    @if($ret_info["class_abnormality_score"] < 8)
+                    @if(@$ret_info["class_abnormality_score"] < 8)
                         <span >得分:<span style="color:#FF3451">{{@$ret_info["class_abnormality_score"]}}</span>/<span style="color:#333333">15</span></span>
                     @else
 
