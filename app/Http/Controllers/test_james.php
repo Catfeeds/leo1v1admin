@@ -1779,8 +1779,9 @@ class test_james extends Controller
     }
 
     public function test_job(){
+        $type = '';
         $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=111&type=2";
-        $a = new \App\Jobs\marketActivityPoster('','',$qr_code_url,'','');
+        $a = new \App\Jobs\marketActivityPoster('','',$qr_code_url,'','',$type);
         $a->handle();
         // dispatch( new \App\Jobs\marketActivityPoster('','',$qr_code_url,'',''));
     }

@@ -211,7 +211,7 @@ class test_sam extends Command
         dd("finish");                                                                        
 
         */  
-        /*
+        
         $ret_info = $task->t_student_score_info->get_all_student_phone_and_id();
 
         foreach ($ret_info as $key => $value) {
@@ -232,7 +232,7 @@ class test_sam extends Command
             ]);
             echo "$userid $province  $city.fin\n";
         }   
-        */
+        
         /*
         $ret_info = $task->t_student_score_info->get_grade_by_info_1();
         foreach ($ret_info as $key => &$value) {
@@ -295,6 +295,7 @@ left join db_weiyi_admin.t_tq_call_info q on s.phone =q.phone
 where s.is_test_user = 0 and q.is_called_phone =1 
 
         */
+        /*
         
         $time = [
             ['start_time' => 1506787200,'end_time' => 1509465600], //10
@@ -311,9 +312,10 @@ where s.is_test_user = 0 and q.is_called_phone =1
             echo date("Y-m",$start_time)."-".$ret['total']."- ".$ret['one_total'].'- '.$ret['two_total'].'- '.$ret['three_total']."\n";
         }
         
-
+        */
 
         /*
+
         $ret_info = $task->t_student_score_info->get_all_teacher_phone_and_id();
         foreach ($ret_info as $key => $value) {
             $userid = $value['teacherid'];
