@@ -2595,8 +2595,6 @@ class teacher_info extends Controller
             $type_list[] =intval( $v['resource_type']);
         }
 
-
-
         // dd($tea_info);
         $resource_type = $this->get_in_int_val('resource_type', @$type_list[0]);
         $subject       = $this->get_in_int_val('subject', @$tea_info[0]['subject']);
@@ -2637,7 +2635,6 @@ class teacher_info extends Controller
             $resource_type = $resource_type<1?1:$resource_type;
             $resource_type = $resource_type>6?6:$resource_type;
         }
-
 
         //禁用，删除，老师段则不在显示
         $ret_info = $this->t_resource->get_all_for_tea(

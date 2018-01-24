@@ -4031,4 +4031,26 @@ ORDER BY require_time ASC";
         return $this->main_get_list($sql);
     }
 
+    public function get_lesson_list($adminid,$userid){
+        $where_arr=[
+            "accept_flag=1",
+            "l.lesson_del_flag=0",
+            "tss.call_end_time=0",
+        ];
+        $this->where_arr_add_int_field($where_arr, 'cur_require_adminid', $adminid);
+        $this->where_arr_add_int_field($where_arr, 'l.userid', $userid);
+
+        $sql=$this->gen_sql_new(
+            "select tss.lessonid "
+            ." from %s tr "
+            ." left join %s tss on tss.require_id=tr.require_id "
+            ." left join %s l on tss.lessonid=l.lessonid "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

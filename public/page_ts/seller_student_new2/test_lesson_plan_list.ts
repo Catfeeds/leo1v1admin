@@ -2841,6 +2841,8 @@ $(function(){
 
     $(".select-teacher-for-test-lesson").on("click",function(){
         var data = $(this).get_opt_data();
+        var userid = data.userid;
+        console.log(userid);
 
         if(data.jw_test_lesson_status == 2){
             BootstrapDialog.alert("请先解除挂载!");

@@ -140,6 +140,9 @@
                                  
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
+                                @if(in_array($account,["jack","jim"]))
+                                    <a class="opt-reset-data"> 重置数据</a>
+                                @endif
                                 
                             </div>
                         </td>

@@ -121,6 +121,8 @@ return array(
     ["db_weiyi_admin","t_user_report","id"],
     ["db_weiyi_admin","t_kaoqin_machine","machine_id"],
     ["db_weiyi_admin","t_kaoqin_machine_adminid","machine_id", "adminid"],
+    ["db_weiyi_admin","t_seller_student_system_assign_log","id" ],
+    ["db_weiyi_admin","t_seller_student_system_assign_count_log","logtime" ],
 
 
     ["db_weiyi","t_graduating_student_lesson_time_count","id"],
