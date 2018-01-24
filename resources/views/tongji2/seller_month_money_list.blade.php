@@ -72,8 +72,8 @@
                     <td >单月提成金额</td>
                     <td >季度提成金额</td>
                     <td >计算方式</td>
-                    <td ></td>
-                    <td ></td>
+                    <td >团队提成金额(主管)</td>
+                    <td >团队达标提成金额</td>
                     <td >团队实际上课数</td>
                     <td >团队试听取消率</td>
                     <td >团队试听转化率</td>
@@ -134,6 +134,12 @@
                         <td class="cur_month_money" ></td>
                         <td class="three_month_money" ></td>
                         <td class="desc" ></td>
+                        <td class="group_master_money" ></td>
+                        <td class="group_self_money" ></td>
+                        <td class="group_month_avg_lesson" ></td>
+                        <td class="group_month_avg_lesson_per" ></td>
+                        <td class="group_month_avg_order_per" ></td>
+                        <td class="group_month_avg_leave_per" ></td>
                         <td class="group_kpi" ></td>
                         <td class="group_kpi_desc" ></td>
                         <td>
