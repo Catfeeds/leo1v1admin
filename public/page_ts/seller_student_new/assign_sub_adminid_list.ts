@@ -775,7 +775,7 @@ $(function(){
         var $wx_invaild_flag       = $("<select></selelct>");
         var $seller_student_assign_type = $("<select></selelct>");
         //var res = JSON.stringify(opt_data);
-        //alert(res);
+        //alert(res),
 
         Enum_map.append_option_list("seller_student_status",$seller_student_status,true, need_list );
         Enum_map.append_option_list("boolean",$wx_invaild_flag,true, need_wx );
