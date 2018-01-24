@@ -360,63 +360,43 @@ class tongji_ex extends Controller
 
     public function market_january_student_detail(){
         $this->check_and_switch_tongji_domain();
-        list($ret_info,$userid_arr,$num) = [[],[],0];
-        $ret_one = $this->t_seller_student_new->get_item_january_detail_list($start_time=1514736000,$end_time=1515513600);
-        foreach($ret_one as $item){
-            $userid = $item['userid'];
-            if($item['start_time']>0){
-                if($item['is_called_phone'] == 0){
-                    $ret_info[$userid]['list'][] = $item;
-                }else{
-                    if($item['duration']<60){
-                        $ret_info[$userid]['list'][] = $item;
-                    }
-                }
-            }
-        }
-        $ret_two = $this->t_seller_student_new->get_item_january_detail_list($start_time=1515513600,$end_time=1515945600);
-        foreach($ret_two as $item){
-            $userid = $item['userid'];
-            if($item['start_time']>0){
-                if($item['is_called_phone'] == 0){
-                    $ret_info[$userid]['list'][] = $item;
-                }else{
-                    if($item['duration']<60){
-                        $ret_info[$userid]['list'][] = $item;
-                    }
-
-                }
-            }
-        }
-        $ret_three = $this->t_seller_student_new->get_item_january_detail_list($start_time=1515945600,$end_time=1516377600);
-        foreach($ret_two as $item){
-            $userid = $item['userid'];
-            if($item['start_time']>0){
-                if($item['is_called_phone'] == 0){
-                    $ret_info[$userid]['list'][] = $item;
-                }else{
-                    if($item['duration']<60){
-                        $ret_info[$userid]['list'][] = $item;
-                    }
-
-                }
-            }
-        }
-        $ret_four = $this->t_seller_student_new->get_item_january_detail_list($start_time=1516377600,$end_time=1517414400);
-        foreach($ret_three as $item){
-            if($item['start_time']>0){
+        list($ret_info,$userid_arr,$num,$start_time,$end_time) = [[],[],0,1514736000,1517414400];
+        $time_arr = [
+            [
+                'start_time'=>1514736000,
+                'end_time'=>1515081600,
+            ],[
+                'start_time'=>1515081600,
+                'end_time'=>1515513600,
+            ],[
+                'start_time'=>1515513600,
+                'end_time'=>1515945600,
+            ],[
+                'start_time'=>1515945600,
+                'end_time'=>1516377600,
+            ],[
+                'start_time'=>1516377600,
+                'end_time'=>1516809600,
+            ]
+        ];
+        foreach($time_arr as $item){
+            $start_time = $item['start_time'];
+            $end_time = $item['end_time'];
+            $ret = $this->t_seller_student_new->get_item_january_detail_list($start_time,$end_time);
+            foreach($ret as $item){
                 $userid = $item['userid'];
-                if($item['is_called_phone'] == 0){
-                    $ret_info[$userid]['list'][] = $item;
-                }else{
-                    if($item['duration']<60){
+                if($item['start_time']>0){
+                    if($item['is_called_phone'] == 0){
                         $ret_info[$userid]['list'][] = $item;
+                    }else{
+                        if($item['duration']<60){
+                            $ret_info[$userid]['list'][] = $item;
+                        }
                     }
-
                 }
             }
         }
-        dd($ret_one,$ret_two,$ret_three,$ret_four);
+        dd($ret_info);
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>1月未拨通例子明细</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
