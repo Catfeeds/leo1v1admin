@@ -20,9 +20,8 @@ class flow_ass_order_refund  extends flow_base{
         8=>[ 3 ,"linlin 财务复核" ],
 
         3=>[ [7,5] ,"echo 财务复核" ],
-        5=>[ 6 ," 助教  tina 复核 " ],
-        7=>[ 6 ," 销售 tina 复核 " ],
-
+        5=>[ 6 ," 助教主管 复核 " ],
+        7=>[ 6 ," 销售主管 复核 " ],
 
 
         6 =>[-1, " xixi复核 "  ],
@@ -143,7 +142,7 @@ class flow_ass_order_refund  extends flow_base{
         \App\Helper\Utils::logger(" GET_ACCOUNT_ROLE   $account_role");
         if ($account_role== E\Eaccount_role::V_1) {
             //助教
-            return [5,"班洁" ];
+            return [5,"louis" ];
         }else{
             //$flag=\App\Helper\Utils::check_env_is_release() ;
             return [7,"班洁" ];
