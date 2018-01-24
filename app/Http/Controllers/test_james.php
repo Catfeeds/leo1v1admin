@@ -416,7 +416,9 @@ class test_james extends Controller
             t_field($table->integer("parentId"), "家长id");
             t_field($table->string("par_openid"), "家长openid");
             t_field($table->string("phone",100), "学生号码");
-
+            $table->index('poster_id', 'pid');
+            $table->index('uid', 'uid');
+            $table->index('par_openid', 'par_openid');
         });
 
     }
