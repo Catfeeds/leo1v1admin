@@ -40,19 +40,189 @@ class no_auto_student_change_type extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
 
         $task = new \App\Console\Tasks\TaskController ();
-        $start_time = strtotime("2017-07-01");
-        $end_time = strtotime("2018-01-21");
-        $cc_list        = $task->t_lesson_info->get_teacher_test_person_num_by_all( $start_time,$end_time,-1,-1,[],2,false);
-        $cr_list        = $task->t_lesson_info->get_teacher_test_person_num_by_all( $start_time,$end_time,-1,-1,[],1,false);
-        $data=[];
-        $data["cc_lesson_num"] =  $cc_list["lesson_num"];
-        $data["cc_person_num"] =  $cc_list["person_num"];
-        $data["cc_order_num"] =  $cc_list["have_order"];
-        $data["cc_per"]  = round($data["cc_order_num"]/$data["cc_person_num"]*100,2);
-        $data["cr_lesson_num"] =  $cr_list["lesson_num"];
-        $data["cr_person_num"] =  $cr_list["person_num"];
-        $data["cr_order_num"] =  $cr_list["have_order"];
-        $data["cr_per"]  = round($data["cr_order_num"]/$data["cr_person_num"]*100,2);
+        $start_time = strtotime("2017-12-01");
+        $end_time = strtotime("2017-12-21");
+
+        $all_total = $system_total=$self_total=$no_call_total=0;
+        $ret_info = $task->t_manager_info->get_admin_work_status_info(8);
+
+        foreach($ret_info as $i=>$val){ // 傅文莉要求在首页不显示ta
+            if($val['uid'] == 967){
+                unset($ret_info[$i]);
+            }
+        }
+        if($end_time >= strtotime("2017-11-09")){
+            $ret_info[] =["uid"=>1250,"account"=>"招师其他","name"=>"招师其他","admin_work_status"=>0];
+        }
+        if($end_time <= strtotime("2018-01-01")){
+            $ret_info[] =["uid"=>513,"account"=>"徐月","name"=>"徐月","admin_work_status"=>0];
+        }
+
+        $zs_entry_list=$zs_video_list = $zs_one_list= $ret_info;
+
+        $list  = $task->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time);
+        $list1  = $task->t_teacher_lecture_appointment_info->tongji_no_call_count_by_accept_adminid();
+
+
+        $video_account = $task->t_teacher_lecture_info->get_lecture_info_by_zs_new($start_time,$end_time);
+        $video_account_real = $task->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time,-2);
+        $video_account_pass = $task->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time,1);
+        $one_account = $task->t_teacher_record_list->get_all_interview_count_by_zs($start_time,$end_time,-1);
+        $one_account_real = $task->t_teacher_record_list->get_all_interview_count_by_zs($start_time,$end_time,-2);
+        $one_account_pass = $task->t_teacher_record_list->get_all_interview_count_by_zs($start_time,$end_time,1);
+        foreach($ret_info as $k=>&$item){
+            $accept_adminid       = $item["uid"];
+            $item["all_count"] = @$list[$accept_adminid]["all_count"];
+            $item["no_call_count"] = @$list1[$accept_adminid]["no_call_count"];
+            $reference = $task->get_zs_reference($accept_adminid);
+            $item["self_count"] = $task->t_teacher_lecture_appointment_info->get_self_count($reference,$start_time,$end_time);
+            $item["system_count"] = $item["all_count"]-$item["self_count"];
+            $all_total   += $item["all_count"];
+            $no_call_total   += $item["no_call_count"];
+            $system_total   += $item["system_count"];
+            $self_total   += $item["self_count"];
+            $item["video_account"] = @$video_account[$accept_adminid]["all_count"];
+            $item["video_account_real"] = @$video_account_real[$accept_adminid]["all_count"];
+            $item["video_account_pass"] = @$video_account_pass[$accept_adminid]["all_count"];
+            $item["one_account"] = @$one_account[$accept_adminid]["all_count"];
+            $item["one_account_real"] = @$one_account_real[$accept_adminid]["all_count"];
+            $item["one_account_pass"] = @$one_account_pass[$accept_adminid]["all_count"];
+            $item["video_per"] = !empty( $item["video_account_real"] )?round( $item["video_account_pass"]/$item["video_account_real"]*100,2):0;
+            $item["one_per"] = !empty( $item["one_account_real"] )?round( $item["one_account_pass"]/$item["one_account_real"]*100,2):0;
+            $item["all_per"] = !empty( $item["one_account_real"]+$item["video_account_real"] )?round( ($item["one_account_pass"]+$item["video_account_pass"])/($item["one_account_real"]+$item["video_account_real"])*100,2):0;
+        }
+
+        \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
+        $data =[];
+
+        $video_all =  $task->t_teacher_lecture_info->get_lecture_info_by_all_new(
+            -1,$start_time,$end_time,-1,-1,-1,"");
+        $video_real =  $task->t_teacher_lecture_info->get_lecture_info_by_all(
+            -1,$start_time,$end_time,-1,-1,-1,"",-2);
+
+        $one_all = $task->t_teacher_record_list->get_train_teacher_interview_info_all(
+            -1,$start_time,$end_time,-1,-1,-1,"");
+        $one_real = $task->t_teacher_record_list->get_train_teacher_interview_info_all(
+            -1,$start_time,$end_time,-1,-1,-1,"",-2);
+        @$data["video_count"] =  $video_all["all_count"];
+        @$data["video_real"] =  $video_real["all_count"];
+        @$data["one_count"] = $one_all["all_count"];
+        @$data["one_real"] = $one_real["all_count"];
+
+
+
+        $teacher_list_ex = $task->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
+        @$data["video_succ"] = count($teacher_list_ex);
+        $teacher_arr_ex = $task->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
+        @$data["one_succ"] = count($teacher_arr_ex);
+        foreach($teacher_arr_ex as $k=>$val){
+            if(!isset($teacher_list_ex[$k])){
+                $teacher_list_ex[$k]=$k;
+            }
+        }
+
+        $data["all_succ"] = count($teacher_list_ex);
+
+        \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
+        $data["video_per"] = !empty($data["video_real"])?round($data["video_succ"]/$data["video_real"]*100,2):0;
+        $data["one_per"] = !empty($data["one_real"])?round($data["one_succ"]/$data["one_real"]*100,2):0;
+
+
+        $video_pass = $one_pass=[];
+        for($i=1;$i<=10;$i++){
+            $video_pass[$i] = $task->t_teacher_lecture_info->get_teacher_passed_num_by_subject_grade($start_time,$end_time,$i);
+            $one_pass[$i] = $task->t_teacher_record_list->get_teacher_passes_num_by_subject_grade($start_time,$end_time,$i);
+            // 入职人数
+            $entry_pass[$i] = $task->t_teacher_info->get_teacher_passes_num_by_subject_grade($start_time,$end_time,$i);
+        }
+        foreach($zs_video_list as &$ui){
+            $uid      = $ui["uid"];
+            $ui["xxyw"] = @$video_pass[1][$uid]["primary_num"];
+            $ui["czyw"] = @$video_pass[1][$uid]["middle_num"];
+            $ui["gzyw"] = @$video_pass[1][$uid]["senior_num"];
+            $ui["xxsx"] = @$video_pass[2][$uid]["primary_num"];
+            $ui["czsx"] = @$video_pass[2][$uid]["middle_num"];
+            $ui["gzsx"] = @$video_pass[2][$uid]["senior_num"];
+            $ui["xxyy"] = @$video_pass[3][$uid]["primary_num"];
+            $ui["czyy"] = @$video_pass[3][$uid]["middle_num"];
+            $ui["gzyy"] = @$video_pass[3][$uid]["senior_num"];
+            $ui["czhx"] = @$video_pass[4][$uid]["middle_num"];
+            $ui["gzhx"] = @$video_pass[4][$uid]["senior_num"];
+            $ui["czwl"] = @$video_pass[5][$uid]["middle_num"];
+            $ui["gzwl"] = @$video_pass[5][$uid]["senior_num"];
+            $ui["czsw"] = @$video_pass[6][$uid]["middle_num"];
+            $ui["gzsw"] = @$video_pass[6][$uid]["senior_num"];
+            $ui["kx"] = @$video_pass[10][$uid]["primary_num"]+@$video_pass[10][$uid]["middle_num"]+@$video_pass[10][$uid]["senior_num"];
+            $ui["other"] = @$video_pass[7][$uid]["primary_num"]+@$video_pass[7][$uid]["middle_num"]+@$video_pass[7][$uid]["senior_num"]+@$video_pass[8][$uid]["primary_num"]+@$video_pass[8][$uid]["middle_num"]+@$video_pass[8][$uid]["senior_num"]+@$video_pass[9][$uid]["primary_num"]+@$video_pass[9][$uid]["middle_num"]+@$video_pass[9][$uid]["senior_num"];
+
+        }
+
+        foreach($zs_one_list as &$uy){
+            $uid      = $uy["uid"];
+            $uy["xxyw"] = @$one_pass[1][$uid]["primary_num"];
+            $uy["czyw"] = @$one_pass[1][$uid]["middle_num"];
+            $uy["gzyw"] = @$one_pass[1][$uid]["senior_num"];
+            $uy["xxsx"] = @$one_pass[2][$uid]["primary_num"];
+            $uy["czsx"] = @$one_pass[2][$uid]["middle_num"];
+            $uy["gzsx"] = @$one_pass[2][$uid]["senior_num"];
+            $uy["xxyy"] = @$one_pass[3][$uid]["primary_num"];
+            $uy["czyy"] = @$one_pass[3][$uid]["middle_num"];
+            $uy["gzyy"] = @$one_pass[3][$uid]["senior_num"];
+            $uy["czhx"] = @$one_pass[4][$uid]["middle_num"];
+            $uy["gzhx"] = @$one_pass[4][$uid]["senior_num"];
+            $uy["czwl"] = @$one_pass[5][$uid]["middle_num"];
+            $uy["gzwl"] = @$one_pass[5][$uid]["senior_num"];
+            $uy["czsw"] = @$one_pass[6][$uid]["middle_num"];
+            $uy["gzsw"] = @$one_pass[6][$uid]["senior_num"];
+            $uy["kx"] = @$one_pass[10][$uid]["primary_num"]+@$one_pass[10][$uid]["middle_num"]+@$one_pass[10][$uid]["senior_num"];
+            $uy["other"] = @$one_pass[7][$uid]["primary_num"]+@$one_pass[7][$uid]["middle_num"]+@$one_pass[7][$uid]["senior_num"]+@$one_pass[8][$uid]["primary_num"]+@$one_pass[8][$uid]["middle_num"]+@$one_pass[8][$uid]["senior_num"]+@$one_pass[9][$uid]["primary_num"]+@$one_pass[9][$uid]["middle_num"]+@$one_pass[9][$uid]["senior_num"];
+
+        }
+
+        $entry_total = 0;
+        foreach($zs_entry_list as &$uy){
+            $uid      = $uy["uid"];
+            $uy["xxyw"] = @$entry_pass[1][$uid]["primary_num"];
+            $uy["czyw"] = @$entry_pass[1][$uid]["middle_num"];
+            $uy["gzyw"] = @$entry_pass[1][$uid]["senior_num"];
+            $uy["xxsx"] = @$entry_pass[2][$uid]["primary_num"];
+            $uy["czsx"] = @$entry_pass[2][$uid]["middle_num"];
+            $uy["gzsx"] = @$entry_pass[2][$uid]["senior_num"];
+            $uy["xxyy"] = @$entry_pass[3][$uid]["primary_num"];
+            $uy["czyy"] = @$entry_pass[3][$uid]["middle_num"];
+            $uy["gzyy"] = @$entry_pass[3][$uid]["senior_num"];
+            $uy["czhx"] = @$entry_pass[4][$uid]["middle_num"];
+            $uy["gzhx"] = @$entry_pass[4][$uid]["senior_num"];
+            $uy["czwl"] = @$entry_pass[5][$uid]["middle_num"];
+            $uy["gzwl"] = @$entry_pass[5][$uid]["senior_num"];
+            $uy["czsw"] = @$entry_pass[6][$uid]["middle_num"];
+            $uy["gzsw"] = @$entry_pass[6][$uid]["senior_num"];
+            $uy["kx"] = @$entry_pass[10][$uid]["primary_num"]+@$entry_pass[10][$uid]["middle_num"]+@$entry_pass[10][$uid]["senior_num"];
+            $uy["other"] = @$entry_pass[7][$uid]["primary_num"]+@$entry_pass[7][$uid]["middle_num"]+@$entry_pass[7][$uid]["senior_num"]+@$entry_pass[8][$uid]["primary_num"]+@$entry_pass[8][$uid]["middle_num"]+@$entry_pass[8][$uid]["senior_num"]+@$entry_pass[9][$uid]["primary_num"]+@$entry_pass[9][$uid]["middle_num"]+@$entry_pass[9][$uid]["senior_num"];
+            $entry_total += $uy['xxyw'] + $uy['czyw'] + $uy['gzyw'] + $uy['xxsx'] + $uy['czsx'] + $uy['gzsx'] + $uy['xxyy'] + $uy['czyy'] + $uy['gzyy'] + $uy['czhx'] + $uy['gzhx'] + $uy['czwl'] + $uy['gzwl'] + $uy['czsw'] + $uy['gzsw'] + $uy['kx'] + $uy['other'];
+        }
+
+        // print_r($zs_video_list);
+        //print_r($zs_one_list);
+        // dd($rrrr);
+
+
+
+        //$this->set_filed_for_js("acc_name",$this->get_account());
+
+        dd([
+            "ret_info"    => $ret_info,
+            "all_total"   => $all_total,
+            "no_call_total"   => $no_call_total,
+            "system_total"   => $system_total,
+            "self_total"   => $self_total,
+            "data"        =>$data,
+            // "zs_one_list" =>@$zs_one_list,
+            // "zs_video_list"=>@$zs_video_list,
+            // "zs_entry_list" => @$zs_entry_list,
+            "entry_total" => @$entry_total,
+        ]);
+
         dd($data);
 
 
