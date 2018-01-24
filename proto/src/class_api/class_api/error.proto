@@ -39,4 +39,9 @@ enum  enum_error {
 
   //系统错误(调用1v1接口返回非预期)
   ERR_SYSTEM = 3011;
+
+  //网络错误
+  ERR_NETWORK = 3012;
+
+
 };
