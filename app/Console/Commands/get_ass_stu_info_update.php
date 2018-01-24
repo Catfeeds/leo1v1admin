@@ -39,13 +39,14 @@ class get_ass_stu_info_update extends Command
     {
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
-        $time = strtotime("2017-12-01");    
-        $list = $task->t_month_ass_student_info->get_ass_month_info($time);
-        foreach($list as &$val){
-            $val["month"]=$val["month"]+100;
-            $task->t_month_ass_student_info->row_insert($val);
-        }
-        dd($list);
+        // $time = strtotime("2017-12-01");    
+        // $list = $task->t_month_ass_student_info->get_ass_month_info($time);
+        // foreach($list as &$val){
+        //     $val["month"]=$val["month"]+100;
+        //     unset($val["assistantid"]);
+        //     $task->t_month_ass_student_info->row_insert($val);
+        // }
+        // dd($list);
 
 
         //更新助教信息

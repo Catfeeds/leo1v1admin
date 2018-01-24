@@ -33,6 +33,7 @@ class menu{
                 ["power_id"=>5, "name"=>"小班课-课程管理",   "list"=>[
                     ["power_id"=>1, "name"=>"课程信息管理-new",   "url"=>"/course/index_admin"],
                     ["power_id"=>2, "name"=>"课程信息管理",   "url"=>"/course/index"],
+                    ["power_id"=>3, "name"=>"学生课程管理",   "url"=>"/course/student_course"],
                     // ["power_id"=>2, "name"=>"老师时间",   "url"=>"/class_stu_manage/cb"],
                 ]],
                 // ["power_id"=>6, "name"=>"用户管理",   "list"=>[
