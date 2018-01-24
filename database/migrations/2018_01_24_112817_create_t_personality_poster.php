@@ -17,7 +17,6 @@ class CreateTPersonalityPoster extends Migration
             t_comment($table,"市场部个性海报-统计表");
             t_field($table->increments("id"), "");
             t_field($table->integer("uid"), "分享人id");
-            t_field($table->integer("parentId"), "家长id");
             t_field($table->string("par_openid"), "家长openid");
             t_field($table->string("phone",100), "学生号码");
             t_field($table->integer("posterNum"), "制作海报次数");
