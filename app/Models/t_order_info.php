@@ -4987,7 +4987,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     //@param:$end_time 结束时间
     public function get_all_class_pag($userid,$end_time){
         $where_arr = [
-            'price > 0',
             'contract_status > 0',
             'contract_type <> 2',
             'order_time < '.$end_time
@@ -4998,7 +4997,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             self::DB_TABLE_NAME,
             $where_arr
         );
-        // echo $sql."\n";
         return $this->main_get_value($sql);
     }
 }
