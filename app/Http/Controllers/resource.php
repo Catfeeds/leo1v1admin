@@ -518,10 +518,10 @@ class resource extends Controller
 
                 \App\Helper\Utils::logger("教材学科层级num:$num,资源类型resource_type:".$arr[0]);
                 if( ( $arr[0] == 1 && $num == 5 ) || ( $arr[0] == 3 && $num == 6 )) {
-                    $data =  $this->t_sub_grade_book_tag->get_tag_by_id(@$item[ $select ]);
-                    \App\Helper\Utils::logger("教材学科化标签:".$data['tag']);
-                    if($data){                     
-                        $item['tag_four_str'] = $data['tag'];
+                    $tag =  $this->t_sub_grade_book_tag->get_tag_by_id(@$item[ $select ]);
+                    $item['tag_four_str'] = '';
+                    if($tag){                     
+                        $item['tag_four_str'] = $tag['tag'];
                     }   
 
                 }
