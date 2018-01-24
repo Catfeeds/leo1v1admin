@@ -93,6 +93,12 @@ $(function(){
                     $tr.find(".percent").text(data["percent"]);
                     $tr.find(".money").text(data["money"]);
                     $tr.find(".desc").text(data["desc"]);
+                    $tr.find(".group_master_money").text(data["group_master_money"]);
+                    $tr.find(".group_self_money").text(data["group_self_money"]);
+                    $tr.find(".group_month_avg_lesson").text(data["group_month_avg_lesson"]);
+                    $tr.find(".group_month_avg_lesson_per").text(data["group_month_avg_lesson_per"]);
+                    $tr.find(".group_month_avg_order_per").text(data["group_month_avg_order_per"]);
+                    $tr.find(".group_month_avg_leave_per").text(data["group_month_avg_leave_per"]);
                     $tr.find(".new_account_value").text(data["new_account_value"]);
                     do_index++;
                     do_one();

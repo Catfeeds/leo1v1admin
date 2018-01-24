@@ -72,12 +72,12 @@
                     <td >单月提成金额</td>
                     <td >季度提成金额</td>
                     <td >计算方式</td>
-                    <td ></td>
-                    <td ></td>
-                    <td >团队实际上课数</td>
-                    <td >团队试听取消率</td>
-                    <td >团队试听转化率</td>
-                    <td >团队人员离职率</td>
+                    <td style="display:none;">团队提成金额(主管)</td>
+                    <td style="display:none;">团队达标提成金额</td>
+                    <td style="display:none;">团队实际上课数</td>
+                    <td style="display:none;">团队试听取消率</td>
+                    <td style="display:none;">团队试听转化率</td>
+                    <td style="display:none;">团队人员离职率</td>
                     <td >主管kpi</td>
                     <td >主管kpi计算方式<br/>(实际上课数>=50(10%)+试听取消率<=18%(10%)+试听转化率>=10%(40%)+离职率<=20%(40%))</td>
                     <td> 操作  </td>
@@ -134,6 +134,12 @@
                         <td class="cur_month_money" ></td>
                         <td class="three_month_money" ></td>
                         <td class="desc" ></td>
+                        <td class="group_master_money" ></td>
+                        <td class="group_self_money" ></td>
+                        <td class="group_month_avg_lesson" ></td>
+                        <td class="group_month_avg_lesson_per" ></td>
+                        <td class="group_month_avg_order_per" ></td>
+                        <td class="group_month_avg_leave_per" ></td>
                         <td class="group_kpi" ></td>
                         <td class="group_kpi_desc" ></td>
                         <td>
