@@ -369,12 +369,13 @@ class tongji_ex extends Controller
             if($item['start_time']>0){
                 if($item['is_called_phone'] == 0){
                     $ret_info[$userid]['list'][] = $item;
+                    $ret_info[$userid]['add_time'] = date('Y-m-d H:i:s',$item['add_time']);
                 }else{
                     if($item['duration']<60){
                         $ret_info[$userid]['list'][] = $item;
+                        $ret_info[$userid]['add_time'] = date('Y-m-d H:i:s',$item['add_time']);
                     }
                 }
-                $ret_info[$userid]['add_time'] = date('Y-m-d H:i:s',$item['add_time']);
             }
         }
         foreach($ret_info as &$item){
