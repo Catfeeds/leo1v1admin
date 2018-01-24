@@ -490,18 +490,17 @@ class resource extends Controller
         $select = $sel_arr[$num];
         $is_end = 0;
         //判断是不是最后
-        if (in_array($arr[0], [1,2,9]) && $level == 4) {
+        if (in_array($arr[0], [2,9]) && $level == 4) {
             $is_end = 1;
         } else if ($arr[0] == 3 && $level == 6){
             $is_end = 1;
         } else if (in_array($arr[0], [4,5]) && $level == 3){
             $is_end = 1;
-        } else if (in_array($arr[0], [6,7]) && $level == 5){
+        } else if (in_array($arr[0], [1,6,7]) && $level == 5){
             $is_end = 1;
         }
 
         $data = $this->t_resource_agree_info->get_next_info($select,@$arr[0],@$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],$is_end);
-        //dd($data);
         $tag_arr = \App\Helper\Utils::get_tag_arr();
         //对应枚举类
         $menu = '';
@@ -515,17 +514,18 @@ class resource extends Controller
                     E\Egrade::set_item_field_list($item, [$menu]);
                 }
                 //只有resource_type=3的时候才会有num=6
-                if( $select == 1 || $select == 3) {
+                \App\Helper\Utils::logger("教材学科层级num:$num,资源类型resource_type:".$arr[0]);
+                if( ( $arr[0] == 1 && $num == 5 ) || ( $arr[0] == 3 && $num == 6 )) {
                     $sub_grade = \App\Helper\Utils::get_sub_grade_tag($arr[1], $arr[2]);
                     $data = [];
                     $item['tag_four_str'] = [];
-                    if( $select == 1){
-                        $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($arr[1], $arr[2],$arr[3],$select,$arr[4]);
+                    if( $arr[0] == 1){
+                        $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($arr[1], $arr[2],$arr[3],$arr[0],$arr[4]);
                     }
-                    if( $select == 3){
-                        $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($arr[1], $arr[2],$arr[3],$select,-1);
+                    if( $arr[0] == 3){
+                        $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($arr[1], $arr[2],$arr[3],$arr[0],-1);
                     }
-                    
+                    \App\Helper\Utils::logger("教材学科化标签:".json_encode($data));
                     if($data){
                         $item['tag_four_str'] = array_column($data,'tag');
                     }   

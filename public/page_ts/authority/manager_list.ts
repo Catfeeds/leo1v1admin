@@ -41,7 +41,7 @@ $(function(){
 
     $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 
-    $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right);
+    $("#id_seller_groupid_ex").init_seller_groupid_ex(window["g_adminid_right"]);
 
     Enum_map.append_option_list("boolean",$("#id_day_new_user_flag"));
     Enum_map.append_option_list("account_role", $('#id_account_role'));
@@ -309,11 +309,11 @@ $(function(){
         var $day_new_user_flag=$("<select/>");
         var $name=$("<input/>").val(opt_data.name);
         var $tquin=$("<input/>").val(opt_data.tquin);
-        var $cardid=$("<input/>").val(opt_data.cardid);
         var $wx_id=$("<input/>").val(opt_data.wx_id);
         var $up_adminid=$("<input/>").val(opt_data.up_adminid );
 
         var $call_phone_type =$("<select/>");
+        var $seller_student_assign_type=$("<select/>");
         var $main_department =$("<select/>");
         var $call_phone_passwd =$("<input/>").val(opt_data.call_phone_passwd );
         var $become_member_time =$('<input/>').val(opt_data.become_time);
@@ -329,9 +329,11 @@ $(function(){
         Enum_map.append_option_list("boolean", $no_update_seller_level_flag,true);
         Enum_map.append_option_list("call_phone_type", $call_phone_type ,true);
         Enum_map.append_option_list("main_department", $main_department ,true);
+        Enum_map.append_option_list("seller_student_assign_type", $seller_student_assign_type,true);
         $call_phone_type.val(opt_data.call_phone_type);
         $main_department.val(opt_data.main_department);
 
+        $seller_student_assign_type.val(opt_data.seller_student_assign_type );
         $account_role.val(opt_data.account_role);
         $seller_level.val(opt_data.seller_level);
         $day_new_user_flag.val(opt_data.day_new_user_flag);
@@ -346,7 +348,8 @@ $(function(){
             ["邮件",$email] ,
             ["角色",$account_role] ,
             ["每天新例子",$day_new_user_flag] ,
-            ["考勤卡id",$cardid] ,
+            ["例子分配规则",$seller_student_assign_type] ,
+
             //['入职时间',$become_member_time],
 
             ["-","-"],
@@ -372,8 +375,8 @@ $(function(){
                     'phone': $phone.val(),
                     'name': $name.val(),
                     'day_new_user_flag': $day_new_user_flag.val(),
-                    'cardid': $cardid.val(),
                     'account_role': $account_role.val(),
+                    "seller_student_assign_type" : $seller_student_assign_type.val(),
                     'tquin': $tquin.val(),
                     'email': $email.val(),
                     'old_seller_level': opt_data.seller_level,
@@ -466,15 +469,15 @@ $(function(){
             var forbid = "";
             $.each( response.data,function(){
                 data_list.push([this["groupid"],this["account_role_str"], this["group_name"]]);
-                
+
                 if (this["has_power"]) {
                     select_list.push (this["groupid"]) ;
                 };
                 if( this['forbid'] == 1 ){
-                    forbid_arr.push (this["groupid"]) ;                    
+                    forbid_arr.push (this["groupid"]) ;
                 }
-                if( this['forbid'] == 0 ){                    
-                    permit = this["account_role_str"];                                            
+                if( this['forbid'] == 0 ){
+                    permit = this["account_role_str"];
                 }
             });
             var forbid_title = "该用户属角色:"+permit+",只有该角色下的权限和通用权限可以添加或者移除,其他角色下的权限只有超级管理员可以编辑";
@@ -978,7 +981,7 @@ $(function(){
         uploader.start();
     });
     if(g_account=='龚隽'){
-        download_show();
+        window["download_show"]();
     }
 
 
