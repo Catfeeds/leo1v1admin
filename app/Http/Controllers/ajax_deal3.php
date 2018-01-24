@@ -101,6 +101,7 @@ class ajax_deal3 extends Controller
     //重置助教薪资信息(测试版本)
     public function reset_assisatnt_performance_data(){
         $adminid    = $this->get_in_int_val("adminid");
+        $type    = $this->get_in_int_val("type");
         $start_time    = strtotime($this->get_in_str_val("start_time"));
         $end_time = strtotime("+1 months",$start_time);
         $last_month = strtotime(date('Y-m-01',$start_time-100));
@@ -117,7 +118,7 @@ class ajax_deal3 extends Controller
         $registered_userid_list = $this->t_student_info->get_read_student_ass_info(-2,$assistantid);//在册学员名单
         $stop_userid_list = $this->t_student_info->get_read_student_ass_info(2,$assistantid);//停课学员名单
 
-        $first_subject_list = $this->get_ass_stu_first_lesson_subject_info($start_time,$end_time);
+        $first_subject_list = $this->get_ass_stu_first_lesson_subject_info($start_time,$end_time,$assistantid);
         $first_subject_list = json_encode(@$first_subject_list[$adminid]);
 
         $revisit_reword_per = $this->get_ass_revisit_reword_value($account,$adminid,$start_time,$end_time,$first_subject_list,@$userid_list[$adminid],@$registered_userid_list[$adminid]);
@@ -517,9 +518,9 @@ class ajax_deal3 extends Controller
     }
 
     //生成助教学生第一次课信息(按科目)
-    public function get_ass_stu_first_lesson_subject_info($start_time,$end_time){
+    public function get_ass_stu_first_lesson_subject_info($start_time,$end_time,$assistantid){
 
-        $regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_lesson_time_by_subject(-1,$start_time,$end_time);
+        $regular_lesson_list = $this->t_lesson_info_b3->get_stu_first_lesson_time_by_subject(-1,$start_time,$end_time,$assistantid);
         $arr_first=[];
         foreach($regular_lesson_list as $vvoo){
             $arr_first[$vvoo["uid"]][]=$vvoo;
