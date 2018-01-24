@@ -55,6 +55,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ,$where_arr
             ,t_resource_file_visit_info::DB_TABLE_NAME
         );
+        //dd($sql);
         return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
@@ -213,6 +214,48 @@ class t_resource extends \App\Models\Zgen\z_t_resource
 
         $sql = $this->gen_sql_new(
             "select * from %s",self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_next_tag($select, $resource_type,$subject, $grade, $tag_one, $tag_two, $tag_three,$is_end){
+        if(!empty($resource_type)){
+            $where_arr[] = ['r.resource_type=%u', $resource_type, -1];
+        }
+        if(!empty($subject)){
+            $where_arr[] = ['r.subject=%u', $subject, -1];
+        }
+        if(!empty($grade)){
+            $where_arr[] = ['r.grade=%u', $grade, -1];
+        }
+        if(!empty($tag_one)){
+            $where_arr[] = ['r.tag_one=%u', $tag_one, -1];
+        }
+        if(!empty($tag_two)){
+            $where_arr[] = ['r.tag_two=%u', $tag_two, -1];
+        }
+        if(!empty($tag_three)){
+            $where_arr[] = ['r.tag_three=%u', $tag_three, -1];
+        }
+
+        $where_arr[] =  ['is_del=%u', 0];
+        $where_arr[] =  ['status=%u', 0];
+
+        //$select = $is_end?$select.',is_ban':$select;
+
+
+        $sql = $this->gen_sql_new(
+            "select r.$select"
+            ." from %s r"
+            ." left join %s f on f.resource_id=r.resource_id"
+            ." left join %s v on v.file_id=f.file_id and v.visitor_type=0 "
+            ." where %s  and not exists ( select 1 from %s where file_id=v.file_id and v.create_time<create_time and visitor_type=0) "
+            ." group by $select"
+            ,self::DB_TABLE_NAME
+            ,t_resource_file::DB_TABLE_NAME
+            ,t_resource_file_visit_info::DB_TABLE_NAME
+            ,$where_arr
+            ,t_resource_file_visit_info::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
     }

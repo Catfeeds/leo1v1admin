@@ -203,6 +203,7 @@ $(function(){
         get_city($('#id_tag_four'), city_num);
     }
 
+    $('#id_tag_two').val(g_args.tag_two);
     $('#id_tag_four').val(g_args.tag_four);
     $('#id_tag_five').val(g_args.tag_five);
     $('#id_file_title').val(g_args.file_title);
