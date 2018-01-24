@@ -189,7 +189,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         ];
 
         $sql = $this->gen_sql_new(
-            "select r.resource_type "
+            "select distinct(  r.resource_type) "
             ." from %s r"
             ." left join %s f on f.resource_id=r.resource_id"
             ." left join %s tr on tr.file_id=f.file_id and tr.is_del=0 "
@@ -198,7 +198,6 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ." ra.tag_two=r.tag_two and ra.tag_three=r.tag_three  "
             ." left join %s sg on sg.id=ra.tag_four"
             ." where %s"
-            ." group by r.resource_type "
             ." order by r.resource_type"
             ,self::DB_TABLE_NAME
             ,t_resource_file::DB_TABLE_NAME

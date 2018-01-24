@@ -84,7 +84,9 @@ class resource extends Controller
             if($item['resource_type'] == 3 ) {
                 $item['tag_three_str'] = E\Eresource_diff_level::get_desc($item['tag_three']);
             }
-
+            if($item['resource_type'] == 6){
+                $item['tag_four_str'] = E\Eregion_version::get_desc($item['tag_four']);
+            }
         }
         //dd($ret_info['list']);
 
@@ -130,7 +132,7 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180123171449,
+            '_publish_version'    => 20180124171449,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -513,9 +515,20 @@ class resource extends Controller
                     E\Egrade::set_item_field_list($item, [$menu]);
                 }
                 //只有resource_type=3的时候才会有num=6
-                if($num==6) {
+                if( $select == 1 || $select == 3) {
                     $sub_grade = \App\Helper\Utils::get_sub_grade_tag($arr[1], $arr[2]);
-                    $item['tag_four_str'] = @$sub_grade[$item['tag_four']];
+                    $data = [];
+                    $item['tag_four_str'] = [];
+                    if( $select == 1){
+                        $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($arr[1], $arr[2],$arr[3],$select,$arr[4]);
+                    }
+                    if( $select == 3){
+                        $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($arr[1], $arr[2],$arr[3],$select,-1);
+                    }
+                    
+                    if($data){
+                        $item['tag_four_str'] = array_column($data,'tag');
+                    }   
 
                 }
             }

@@ -279,9 +279,9 @@ $(function(){
                             var type_arr = ['pdf','mp3','mp4'];
                         }
                     }
-                    if(lesson_type <= 2000){
-                        type_arr = ['mp3','mp4'];
-                    }
+                    //if(lesson_type <= 2000){
+                    //    type_arr = ['mp3','mp4'];
+                    //}
                     var item = gen_upload_item(
                         btn_teacher_upload_id+"_"+i,
                         !! tea_cw_url_list[i][0],
