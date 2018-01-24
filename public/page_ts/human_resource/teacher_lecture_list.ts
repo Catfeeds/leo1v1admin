@@ -361,7 +361,7 @@ $(function(){
                     return false;
                 }
 
-                if(acc==account  || account_role=="10" || account_role=="11"  || account_role=="12" || account_role=="8" ){
+                if(acc==account  || account_role=="10" || account_role=="11"  || account_role=="12" || (account_role=="8" && acc!="ivy" )){
                     if($.check_in_phone()){
                         var w = $.check_in_phone()?329:558;
                         var h = w/4*3;
@@ -1031,7 +1031,7 @@ $(function(){
                     ["<font style=\"color:red\">*</font>&nbsp原因或意见或建议",id_reason],
                     ["<font style=\"color:red\">*</font>&nbsp老师身份",id_identity],
                     ["工作年限",id_work_year],
-                    ["禁止年级",id_not_grade],
+                  //  ["禁止年级",id_not_grade],
                     ["<font style=\"color:red\">*</font>&nbsp教师相关标签",teacher_related_labels],
                     ["<font style=\"color:red\">*</font>&nbsp课堂相关标签",class_related_labels],
                     ["<font style=\"color:red\">*</font>&nbsp教学相关标签",teaching_related_labels]
@@ -1108,7 +1108,7 @@ $(function(){
                             "subject"                            : subject,
                             "grade"                              : data.grade,
                             "work_year"                          : id_work_year.val(),
-                            "not_grade"                          : not_grade,
+                            "not_grade"                          : "",
                            // "sshd_good"                          : JSON.stringify(sshd_good),
                             "style_character"                  : JSON.stringify(style_character),
                             "professional_ability"             : JSON.stringify(professional_ability),

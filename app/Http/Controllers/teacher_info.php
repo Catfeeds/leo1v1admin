@@ -160,7 +160,8 @@ class teacher_info extends Controller
 
         return $this->pageView(__METHOD__,$ret_info,[
             "student_list" => $student_list,
-            "is_full_time" => $is_full_time
+            "is_full_time" => $is_full_time,
+            "_publish_version" => "201712221556"
         ]);
     }
 
@@ -185,7 +186,9 @@ class teacher_info extends Controller
             }
         }
 
-        return $this->pageView(__METHOD__,$ret_info);
+        return $this->pageView(__METHOD__,$ret_info,[
+            "_publish_version" => "201712221556"
+        ]);
     }
 
     public function teacher_apply_add() {
@@ -1838,14 +1841,25 @@ class teacher_info extends Controller
         $authUrl = $auth->privateDownloadUrl("http://file-store.leo1v1.com/". $file_path );
         return $this->output_succ(["url" => $authUrl]);
     }
-
+    public function get_teacher_textbook($textbook_str){
+        $textbook_arr = explode(",",$textbook_str);
+        $textbook     = "";
+        foreach($textbook_arr as $val){
+            $textbook .= E\Eregion_version::get_desc($val).",";
+        }
+        $textbook = trim($textbook,',');
+        return $textbook;
+    }
     public function get_teacher_basic_info(){
         $teacherid = $this->get_login_teacher();
         $ret_info  = $this->t_teacher_info->get_teacher_info_to_teacher($teacherid);
 
         foreach ($ret_info['list'] as &$item) {
             E\Esubject::set_item_value_str($item);
-            E\Eregion_version::set_item_value_str($item,'teacher_textbook');
+            //dd($item['teacher_textbook']);
+            //E\Eregion_version::set_item_value_str($item,'teacher_textbook');
+            $item['teacher_textbook_str'] = $this->get_teacher_textbook($item['teacher_textbook']);
+            E\Eboolean::set_item_value_str($item,"is_prove");
             E\Eidentity::set_item_value_str($item);
             E\Eteacher_ref_type::set_item_value_str($item);
             E\Egender::set_item_value_str($item);
@@ -1867,28 +1881,40 @@ class teacher_info extends Controller
             $item['grade_str']        = $grade_str;
             $item['teacher_tags_arr'] = explode(',',$item['teacher_tags']);
             $item['tags_flag']        = count($item['teacher_tags_arr']);
+            
+            //添加able_edit
+            $msgarr = ['birth','gender','work_year','address','dialect_notes','school','education','qq_info', 'wx_name','is_prove_str','is_prove','teacher_textbook_str','teacher_textbook','achievement','wx_name','is_prove',
+                       'bank_account','idcard','bankcard','bank_address','bank_type', 'bank_phone','bank_province','bank_city'];
             //判断完整度
-            $msgarr = ['birth','gender','work_year','address','dialect_notes','school','education','major', 'hobby','speciality',
+            $msgarr_new = ['birth','gender','work_year','address','dialect_notes','school','education','qq_info', 'wx_name','is_prove','achievement','teacher_textbook',
                        'bank_account','idcard','bankcard','bank_address','bank_type', 'bank_phone','bank_province','bank_city'];
             $integrity = 0;
             $able_edit = [];
             foreach ($item as $key=> $val) {
                 if ( $val != "" || $val === '0') {
                     if ($key == 'jianli') {
-                        $integrity = $integrity + 46;
                     } else if (in_array($key,$msgarr)) {
-                        $integrity = $integrity + 3;
                         $item[$key.'_code'] = '<span>'.$val.'</span>';
                         $able_edit[$key] = $val;
                     }
-
                 } else {
                     if (in_array($key,$msgarr)) {
                         $item[$key.'_code'] = '<span class="color-9">未设置</span>';
                         $able_edit[$key] = $val;
                     }
                 }
+            }
 
+            foreach ($item as $key => $val) {
+                if ( $val != "" || $val === '0') {
+                    if ($key == 'jianli') {
+                        $integrity = $integrity + 40;
+                        //echo $key.'-'.$integrity.'<br/>';
+                    } else if (in_array($key,$msgarr_new)) {
+                        $integrity = $integrity + 3;
+                        //echo $key.'-'.$integrity.'<br/>';
+                    }
+                } 
             }
 
             $item['integrity'] = $integrity;
@@ -1899,7 +1925,7 @@ class teacher_info extends Controller
             }
             $item['normal_count'] = $item['normal_count']/100;
         }
-
+        //dd($ret_info,$show_flag,$able_edit);
         return $this->pageView(__METHOD__,$ret_info,[
             "my_info"   => $ret_info['list'][0],
             "show_flag" => $show_flag,
@@ -1919,6 +1945,11 @@ class teacher_info extends Controller
         $major         = trim( $this->get_in_str_val('major','') );
         $hobby         = trim( $this->get_in_str_val('hobby','') );
         $speciality    = trim( $this->get_in_str_val('speciality','') );
+        $teacher_textbook       = trim( $this->get_in_str_val("teacher_textbook"));
+        $qq_info       = trim( $this->get_in_str_val('qq_info','') );
+        $wx_name       = trim( $this->get_in_str_val('wx_name','') );
+        $is_prove      = $this->get_in_int_val('is_prove');
+        $achievement   = trim( $this->get_in_str_val('achievement','') );
         if(!$teacherid) {
             return $this->output_err('信息有误，请重新登录！');
         }
@@ -1940,6 +1971,9 @@ class teacher_info extends Controller
         if ($education == '') {
             return $this->output_err('最高学历不能为空！');
         }
+        if($teacher_textbook  == ''){
+            return $this->output_err('教材版本不能为空!！');
+        }
 
         $birth =  date( 'Ymd',strtotime($birth) );
 
@@ -1954,6 +1988,11 @@ class teacher_info extends Controller
             "major"         => $major,
             "hobby"         => $hobby,
             "speciality"    => $speciality,
+            "teacher_textbook"       => $teacher_textbook ,
+            "qq_info"       => $qq_info,
+            "wx_name"       => $wx_name,
+            "is_prove"      => $is_prove,
+            "achievement"   => $achievement,
         ]);
 
         return outputjson_success();
@@ -2521,7 +2560,6 @@ class teacher_info extends Controller
     public function get_leo_resource(){
         //兼容js调用
         $is_js = $this->get_in_int_val('is_js', 0);
-
         //检测老师是不是全职
         $is_full_time = $this->check_teacher_type();
         if($is_full_time == 0){
@@ -2529,15 +2567,13 @@ class teacher_info extends Controller
                 return $this->output_err("暂未开放，敬请期待！");
             } else {
                 // return $this->pageView( __METHOD__,[],['no_pawer' => 1]);
-
                 return $this->error_view([
                     "暂未开放，敬请期待！"
                 ]);
             }
         }
-        
-        $tea_info = $this->get_rule_range();
 
+        $tea_info = $this->get_rule_range();
         // $tea_info = [
         //     ['subject'=>1,
         //      'grade' => [201,202,203]],
@@ -2558,6 +2594,7 @@ class teacher_info extends Controller
         foreach($res_type_list as $v){
             $type_list[] =intval( $v['resource_type']);
         }
+
 
 
         // dd($tea_info);
@@ -2637,7 +2674,6 @@ class teacher_info extends Controller
                 $tag_arr['tag_four']['menu'] => 'tag_four',
             ]);
         }
-
         $book_arr = [];
         if($resource_type != 6){
             //获取所有开放的教材版本

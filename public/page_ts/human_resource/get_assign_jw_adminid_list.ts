@@ -45,21 +45,28 @@ $(function(){
     if(g_adminid != -1){
         $('#id_jw_adminid').parent().parent().hide();
     }
+
     $(".opt-return-back-new").on("click", function(){
         var opt_data = $(this).get_opt_data();
         var teacherid = opt_data.teacherid;
         //alert(teacherid);
+        var id_change_info  = $("<button id='change_info'>点击跳转修改档案</>");
         var id_revisit_note = $("<textarea />");             
         var id_class_will_type = $("<select />");             
         var id_class_will_sub_type = $("<select />");             
         var id_recover_class_time = $("<input />");           
         Enum_map.append_option_list( "class_will_type",id_class_will_type,true);
+        
+
         var arr = [
+            [ "修改档案",  id_change_info],
             [ "接课意愿",  id_class_will_type], 
             [ "接课意愿详情",  id_class_will_sub_type], 
             [ "恢复接课时间",  id_recover_class_time], 
             [ "回访信息",  id_revisit_note] 
         ];
+
+
         var show_field=function (jobj,show_flag) {
             if ( show_flag ) {
                 jobj.parent().parent().show();
@@ -127,6 +134,11 @@ $(function(){
                 });
             }
         },function(){
+            $('#change_info').on('click',function(){
+                 window.open(
+                     '/teacher_info_admin/index?teacherid='+ teacherid
+                 );
+            });
             reset_ui();
             id_recover_class_time.datetimepicker({
                 datepicker : true,

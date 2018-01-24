@@ -73,7 +73,6 @@ class Utils  {
     }
 
 
-
     static function get_lesson_server_type ( $lesson_type,$server_type )  {
         if($server_type ==0  ) { //default
             if ($lesson_type<1000) {
@@ -364,7 +363,7 @@ class Utils  {
      * @return array
      */
     static function get_day_range( $timestamp){
-        $ret=array();
+        $ret = array();
         $ret['sdate'] = strtotime( date('Y-m-d ', $timestamp));
         $ret['edate'] =  $ret['sdate'] + 86400;
         return $ret;
@@ -1078,7 +1077,6 @@ class Utils  {
         }
         return $reward;
     }
-
 
     /**
      * @param identity 推荐的老师身份
@@ -2483,7 +2481,7 @@ class Utils  {
                   'tag_two' => ['name' => '春暑秋寒','menu' => 'resource_season','hide' => ''],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
                   'tag_four' => ['name' => '学科化标签','menu' => '','hide' => ''],
-                  'tag_five' => ['name' => '','menu' => '','hide' => 'hide']],
+                  'tag_five' => ['name' => '难度类型','menu' => 'resource_diff_level','hide' => '']],
             2 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_two' => ['name' => '春暑秋寒','menu' => 'resource_season','hide' => ''],
                   'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
@@ -2507,7 +2505,7 @@ class Utils  {
             6 => ['tag_one' => ['name' => '年份','menu' => 'resource_year','hide' => ''],
                   'tag_two' => ['name' => '省份','menu' => '','hide' => ''],
                   'tag_three' => ['name' => '城市','menu' => '','hide' => ''],
-                  'tag_four' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_four' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
                   'tag_five' => ['name' => '上下册','menu' => 'resource_volume','hide' => '']],
             7 => ['tag_one' => ['name' => '一级知识点','menu' => '','hide' => ''],
                   'tag_two' => ['name' => '二级知识点','menu' => '','hide' => ''],

@@ -3298,4 +3298,25 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $sql = $this->gen_sql_new("select userid,grade from %s where phone='$phone'", self::DB_TABLE_NAME);
         return $this->main_get_row($sql);
     }
+    //@desn:获取转介绍数量
+    //@param:$userid 用户id
+    //@param:$start_time $end_time 开始时间 结束时间
+    public function get_introduce_count($userid,$start_time,$end_time){
+        $where_arr = [
+            'is_test_user = 0'
+        ];
+        $this->where_arr_add_time_range($where_arr, 'reg_time', $start_time, $end_time);
+        $this->where_arr_add_int_or_idlist($where_arr, 'origin_userid', $userid);
+        $sql = $this->gen_sql_new(
+            'select count(*) introduce_count from %s where %s',
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_test_user() {
+        $sql = $this->gen_sql_new("select userid from %s where is_test_user <> 0", self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
 }

@@ -30,7 +30,6 @@ class sync_tq extends cmd_base
         parent::__construct();
     }
     public function load_data($start_time, $end_time, $phone="" ) {
-
         $client     = new \SoapClient("http://webservice.sh.tq.cn/Servers/services/ServerNew?wsdl");
 
         $adminuin      = 9747409;

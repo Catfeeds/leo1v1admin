@@ -388,13 +388,47 @@ class test_james extends Controller
         //     $table->index('userid');
         //     $table->index('add_time');
         // });
+        /**
+           1、记录CC/CR获取转发链接的次数、名单、家长点击次数，家长ID、制作海报次数，最终获得常规课人数，通过此海报注册试听课人数；
 
-        Schema::table('db_weiyi.t_lesson_info', function(Blueprint $table) {
-            t_field($table->integer("tea_cw_type"), "老师上传讲义的类型 0:pdf 1:ppt");
-            t_field($table->string("uuid"), "老师PPT讲义的uuid");
-            t_field($table->integer("ppt_status"), "ppt转化状态 0:未处理 1:已成功 2:失败");
+           2、确保最终报名试听人员，进入开始分享链接CC/CR私库中；
+
+           3、位置：统计>个性海报转发记录
+         **/
+
+        Schema::create('db_tool.t_personality_poster', function(Blueprint $table) {
+            t_comment($table,"市场部个性海报");
+            t_field($table->increments("id"), "");
+            t_field($table->integer("uid"), "分享人id");
+            t_field($table->integer("parentId"), "家长id");
+            t_field($table->string("par_openid"), "家长openid");
+            t_field($table->string("phone",100), "学生号码");
+            t_field($table->integer("posterNum"), "制作海报次数");
+            t_field($table->integer("clickNum"), "家长点击次数");
+            t_field($table->integer("forwardNum"), "转发次数");
+            t_field($table->string("media_id",100), "照片mediaId");
+            t_field($table->string("bgImgUrl"), "背景图片链接");
+            t_field($table->string("qr_code_url"), "二维码链接");
         });
+    }
 
+    # 二维码生成
+    public function getQrCode(){
+        $power_list = json_decode(session("power_list"),true);
+
+        dd($power_list);
+        $text         = "http://$www_url/market-invite/index.html?p_phone=".$phone."&type=2";
+        $qr_url       = "/tmp/".$phone.".png";
+        $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
+        \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
+
+        exit;
+
+        $qr_url = public_path('wximg').'/test_james.png';
+        $qr_code_url = "http://www.leo1v1.com/market/index.html?%E6%9C%8D%E5%8A%A1%E5%8F%B7%E2%80%94%E8%8F%9C%E5%8D%95%E6%A0%8F=";
+        $a = \App\Helper\Utils::get_qr_code_png($qr_code_url,$qr_url,5,4,3);
+        echo $qr_url;
+        dd($a);
     }
 
 

@@ -695,6 +695,10 @@ class assistant_performance extends Controller
             // $item["refund_reword_per"]=$refund_reword_per;
 
             //扩课
+            $item["kk_num_old"] = @$old_twl_info[$k]["read_student"]+$item["hand_kk_num"];
+            if($k==948){
+                $item["kk_num_old"]=3;
+            }
             $kk_num = $item["kk_num"]+$item["hand_kk_num"];
             $kk_per = $last_registered_num>0?($kk_num/$last_registered_num):0;
             if($kk_per>=0.06){
@@ -704,6 +708,15 @@ class assistant_performance extends Controller
             }
             $item["kk_all"]        = $kk_num;
             $item["kk_reword_per"] = $kk_reword_per;
+            $kk_per_old = $last_registered_num>0?( $item["kk_num_old"]/$last_registered_num):0;
+            if($kk_per_old>=0.06){
+                $kk_reword_per_old = 0.2;
+            }else{
+                $kk_reword_per_old = 0;
+            }
+            $item["kk_reword_per_old"] = $kk_reword_per_old;
+            $item["kk_reword_old"] = $item["kk_reword_per_old"]*1500;
+
 
             //停课
             if($start_time <strtotime("2017-11-01")){
@@ -975,6 +988,8 @@ class assistant_performance extends Controller
         $contract_type = $this->get_in_int_val("contract_type",-1);
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $ass_order_info = $this->t_order_info->get_assistant_performance_order_info($start_time,$end_time,$adminid,$contract_type);
+        $ass_order_period_list = $this->t_order_info->get_ass_self_order_period_money($start_time,$end_time);//助教自签合同金额(分期80%计算)
+
         $new_list= $renew_list=[];
         foreach($ass_order_info as $val){
             $contract_type = $val["contract_type"];
@@ -1001,7 +1016,8 @@ class assistant_performance extends Controller
         foreach($renew_list as $val){
             $orderid = $val["orderid"];
             $userid = $val["userid"];
-            $price = $val["price"];
+            // $price = $val["price"];
+            $price = @$ass_order_period_list[$orderid]["reset_money"];
             $uid = $val["uid"];
             $real_refund = $val["real_refund"];
             if(!isset($ass_renew_info["user_list"][$userid])){
@@ -1016,7 +1032,8 @@ class assistant_performance extends Controller
         foreach($new_list as $val){
             $orderid = $val["orderid"];
             $userid = $val["userid"];
-            $price = $val["price"];
+            // $price = $val["price"];
+            $price = @$ass_order_period_list[$orderid]["reset_money"];
             $uid = $val["uid"];
             $real_refund = $val["real_refund"];
             if(!isset($ass_new_info["user_list"][$userid])){
@@ -1056,6 +1073,8 @@ class assistant_performance extends Controller
         $adminid = $this->get_in_int_val("adminid",324);
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $cc_order_list = $this->t_order_info->get_seller_tran_order_info($start_time,$end_time,$adminid);
+        $cc_order_period_list = $this->t_order_info->get_seller_tran_order_period_money($start_time,$end_time);//CC合同金额(分期80%计算)
+
         $new_tran_list=[];
         foreach($cc_order_list as $val){
             $orderid = $val["orderid"];
@@ -1074,7 +1093,8 @@ class assistant_performance extends Controller
         foreach($new_tran_list as $val){
             $orderid = $val["orderid"];
             $userid = $val["userid"];
-            $price = $val["price"];
+            // $price = $val["price"];
+            $price = @$cc_order_period_list[$orderid]["reset_money"];
             $uid = $val["uid"];
             $real_refund = $val["real_refund"];
             if(!isset($ass_tran_info["user_list"][$userid])){

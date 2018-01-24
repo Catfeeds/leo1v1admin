@@ -39,11 +39,12 @@ class resource extends Controller
             $resource_type = 8;
         }
         $ret_info = $this->t_resource->get_all(
-            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$file_title, $page_info
+            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$file_title, $page_info
         );
         $r_mark = 0;
         $index  = 1;
         $tag_arr = \App\Helper\Utils::get_tag_arr( $resource_type );
+
         foreach($ret_info['list'] as &$item){
             if($r_mark == $item['resource_id']){
                 $index++;
@@ -74,15 +75,20 @@ class resource extends Controller
                 $tag_arr['tag_five']['menu'] => 'tag_five',
             ]);
             $item['tag_one_str'] = E\Eregion_version::get_desc($item['tag_one']);
-            $item['tag_five_str'] = E\Eresource_volume::get_desc($item['tag_five']);
-            // if($item['tag_four'] != -1) {
-            //     $item['tag_four_str'] = \App\Helper\Utils::get_sub_grade_tag($item['subject'],$item['grade'])[ $item['tag_four'] ];
-            // }
 
+            if( $item['resource_type'] == 1 ){
+                $item['tag_five_str'] = E\Eresource_diff_level::get_desc($item['tag_five']);
+            }else{
+                $item['tag_five_str'] = E\Eresource_volume::get_desc($item['tag_five']);
+            }
+            if($item['resource_type'] == 3 ) {
+                $item['tag_three_str'] = E\Eresource_diff_level::get_desc($item['tag_three']);
+            }
+            if($item['resource_type'] == 6){
+                $item['tag_four_str'] = E\Eregion_version::get_desc($item['tag_four']);
+            }
         }
         //dd($ret_info['list']);
-        //查询老师负责的科目,年级
-        $sub_grade_info = $this->get_rule_range();
 
         //获取所有开放的教材版本
         //$book = $this->t_resource_agree_info->get_all_resource_type();
@@ -95,16 +101,44 @@ class resource extends Controller
                 }
             }
         }else{
-            $book_arr = [50000,4,12,16,29];
+            $book_arr = [4,12,16,29,50000];
         }
-        // dd($sub_grade_info);
+        $sub_grade_info = $this->get_rule_range();
+        $is_teacher = 0;
+        if($this->get_account_role() == 4){
+            $is_teacher = 1;
+            if( $subject > 0 && !in_array($subject,$sub_grade_info['subject'])){
+                $err_mg = "你不是教当前科目的教研老师，没有权限查看当前科目";
+                return $this->view_with_header_info ( "common.resource_no_power", [],[
+                    "_ctr"          => "xx",
+                    "_act"          => "xx",
+                    "js_values_str" => "",
+                    'err_mg' => $err_mg
+                ] );
+
+            }
+
+            if( $grade > 0 && !in_array($grade,$sub_grade_info['grade'])){
+                $err_mg = "你不是教当前年级段的教研老师，没有权限查看当前年级";
+                return $this->view_with_header_info ( "common.resource_no_power", [],[
+                    "_ctr"          => "xx",
+                    "_act"          => "xx",
+                    "js_values_str" => "",
+                    'err_mg' => $err_mg
+                ] );
+
+            }
+
+        }
+
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801161749,
+            '_publish_version'    => 20180124171449,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
             'book'          => json_encode($book_arr),
             'resource_type' => $resource_type,
+            'is_teacher'   => $is_teacher,
         ]);
     }
 
@@ -123,7 +157,7 @@ class resource extends Controller
                 }
             }
         }else{
-            $book_arr = [50000,4,12,16,29];
+            $book_arr = [4,12,16,29,50000];
         }
    
 
@@ -135,8 +169,12 @@ class resource extends Controller
         $subject       = $this->get_in_int_val('subject',-1);
         $grade         = $this->get_in_int_val('grade',-1);
         $bookid        = $this->get_in_int_val('bookid');
+        $resource_type        = $this->get_in_int_val('resource_type');
+        $season_id        = $this->get_in_int_val('season_id',-1);
+        $data = [];
         if(!empty($bookid)){
-            $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($subject,$grade,$bookid);
+            $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($subject,$grade,$bookid,$resource_type,$season_id);
+            //dd($data);
         }
 
         return $this->output_succ(['tag' => $data]);
@@ -145,9 +183,12 @@ class resource extends Controller
 
     //学科化标签
     public function sub_grade_book_tag(){
-        $subject       = $this->get_in_int_val('subject',1);
-        $grade         = $this->get_in_int_val('grade',201);
-        $bookid      = $this->get_in_int_val('bookid',4);
+        $subject       = $this->get_in_int_val('subject',-1);
+        $grade         = $this->get_in_int_val('grade',-1);
+        $bookid        = $this->get_in_int_val('bookid',-1);
+        $season_id     = $this->get_in_int_val('season_id',-1);
+        $resource_type      = $this->get_in_int_val('resource_type',-1);
+
         $page_num        = $this->get_in_page_num();
         $page_count      = $this->get_in_int_val('page_count',20);
         $book = $this->t_resource_agree_info->get_all_resource_type(-1, $subject, $grade);
@@ -162,17 +203,21 @@ class resource extends Controller
             }
         }
 
-        $ret_info = $this->t_sub_grade_book_tag->get_list($subject,$grade,$bookid,$page_num,$page_count);
+        $ret_info = $this->t_sub_grade_book_tag->get_list($subject,$grade,$bookid,$resource_type,$season_id,$page_num,$page_count);
         if($ret_info){
             foreach($ret_info['list'] as &$var){
                 $var['subject_str'] = E\Esubject::get_desc($var['subject']);
                 $var['grade_str'] = E\Egrade::get_desc($var['grade']);
                 $var['book_str'] = E\Eregion_version::get_desc($var['bookid']);
+                $var['resource_str'] = E\Eresource_type::get_desc($var['resource_type']);
+                $var['season_str'] = E\Eresource_season::get_desc($var['season_id']);
             }
         }
+        //dd($ret_info['list'] );
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801181119,
+            '_publish_version'    => 201801191339,
             'book'          => json_encode($book_arr),
+            'resource_type' => $resource_type
         ]);
     }
 
@@ -192,13 +237,19 @@ class resource extends Controller
         $subject       = $this->get_in_int_val('subject');
         $grade         = $this->get_in_int_val('grade');
         $bookid        = $this->get_in_int_val('bookid');
-
+        $season_id     = $this->get_in_int_val('season_id');
+        $resource_type      = $this->get_in_int_val('resource_type');
+        if($resource_type != 1){
+            $season_id = 0;
+        }
         $tag_arr       = $this->get_in_str_val('tag_arr');
    
         $data = [
             'subject'  => $subject,
             'grade'    => $grade,
             'bookid'   => $bookid,
+            'resource_type' => $resource_type,
+            'season_id' => $season_id,
             'tag'      => ''
         ];
         $i = 0;
@@ -219,12 +270,19 @@ class resource extends Controller
         $subject       = $this->get_in_int_val('subject');
         $grade         = $this->get_in_int_val('grade');
         $bookid         = $this->get_in_int_val('bookid');
+        $season_id     = $this->get_in_int_val('season_id',-1);
+        $resource_type      = $this->get_in_int_val('resource_type',-1);
+        if($resource_type != 1){
+            $season_id = 0;
+        }
         $tag         = trim($this->get_in_str_val('tag'));
 
         $data = [
             'subject'  => $subject,
             'grade'    => $grade,
             'bookid'   => $bookid,
+            'resource_type' => $resource_type,
+            'season_id' => $season_id,
             'tag'      => $tag
         ];
 
@@ -237,12 +295,19 @@ class resource extends Controller
         $subject       = $this->get_in_int_val('subject');
         $grade         = $this->get_in_int_val('grade');
         $bookid         = $this->get_in_int_val('bookid');
+        $season_id     = $this->get_in_int_val('season_id',-1);
+        $resource_type      = $this->get_in_int_val('resource_type',1);
+        if($resource_type != 1){
+            $season_id = 0;
+        }
         $tag         = trim($this->get_in_str_val('tag'));
 
         $data = [
             'subject'  => $subject,
             'grade'    => $grade,
             'bookid'   => $bookid,
+            'resource_type' => $resource_type,
+            'season_id' => $season_id,
             'tag'      => $tag
         ];
 
@@ -299,36 +364,51 @@ class resource extends Controller
     public function get_rule_range(){
 
         $adminid  = $this->get_account_id();
+        $role = $this->get_account_role();
 
-        //判断是不是总监
-        $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
-        if ($is_master == false) {
-            $data = [
-                'subject' => [1,2,3,4,5,6,7,8,9,10],
-                'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
-            ];
-            return $data;
-        }
-
-        //判断是不是主管
-        $is_zhuguan = $this->t_admin_main_group_name->is_master($adminid);
-        if ($is_zhuguan) {
-            $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
-            $data = [
-                'subject' => $info['subject'],
-                'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
-            ];
-
-            return $data;
-        }
-
-
-        $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
         $data = [
-            'subject' => $info['subject'],
-            'grade'   => \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']),
+            'subject' => [1,2,3,4,5,6,7,8,9,10],
+            'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
         ];
 
+        //判断是不是总监
+        // $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
+        // if ($is_master) {
+        //     $data = [
+        //         'subject' => [1,2,3,4,5,6,7,8,9,10],
+        //         'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
+        //     ];
+        //     return $data;
+        // }
+
+        //判断是不是主管
+        // $is_zhuguan = $this->t_admin_main_group_name->is_master($adminid);
+        // if ($is_zhuguan) {
+        //     $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
+        //     $data = [
+        //         'subject' => $info['subject'],
+        //         'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
+        //     ];
+
+        //     return $data;
+        // }
+
+        //教研老师只能看他所教的科目和年级
+        $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
+        if( $info && $role == 4){
+            if( $info['grade_start'] > 0 && $info['grade_end'] > 0 && $info['subject'] > 0 ){                          
+                $grade_arr = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
+                $grade = [];
+                $data = [
+                    'subject' => [(int)$info['subject']],
+                ];
+            
+                foreach( $grade_arr as $var ){
+                    $grade[] = (int)$var;
+                }
+                $data['grade'] = $grade;
+            }
+        }
         return $data;
     }
 
@@ -800,6 +880,22 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,['tag_info' => $tag_arr]);
+    }
+
+    //预览
+    public function tea_look_resource() {
+        $tea_res_id = $this->get_in_int_val("tea_res_id");
+        //预览理优资料
+        $file_link = $this->t_resource_file->get_file_link($tea_res_id);
+        if(!$file_link){
+            return $this->output_err('信息有误，预览失败！');
+        }
+
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+        $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$file_link );
+        return $this->output_succ(["url" => $authUrl]);
+        
     }
 
 }

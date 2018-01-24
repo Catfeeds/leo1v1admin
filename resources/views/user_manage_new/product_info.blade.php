@@ -1,5 +1,14 @@
 @extends('layouts.app_new2')
 @section('content')
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
+    <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax_test.js"></script>
+
     <section class="content">
         <div class="row  row-query-list" >
             <div class="col-xs-12 col-md-4"  data-title="时间段">
@@ -10,8 +19,8 @@
 
             <div class="col-xs-6 col-md-3">
                 <div class="input-group ">
-                    <span class="input-group-addon">反馈人</span>
-                    <input class="opt-change form-control" id="id_feedback_adminid"/>
+                    <input type="text" class=" form-control click_on put_name opt-change"  data-field="user_name" id="id_feedback_nick"  placeholder="反馈人姓名/ 回车查找" />
+
                 </div>
             </div>
 
@@ -23,12 +32,20 @@
                 </div>
             </div>
 
+
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">问题类型</span>
+                    <select class="opt-change form-control " id="id_lesson_problem" >
+                    </select>
+                </div>
+            </div>
+
             <div class="col-xs-6 col-md-3">
                 <div class="input-group ">
                     <button type="button" class="btn btn-warning" id="id_submit">添加</button>
                 </div>
             </div>
-
         </div>
         <hr/>
         <table   class="common-table"   >
@@ -38,6 +55,7 @@
                     <td>问题收集人</td>
                     <td>问题录入时间</td>
                     <td>问题描述</td>
+                    <td>问题类型</td>
                     <td>课程链接</td>
                     <td>原因</td>
                     <td>解决方案</td>
@@ -59,6 +77,7 @@
                         <td >{{@$var["record_nick"]}}</td>
                         <td >{{@$var["create_time"]}}</td>
                         <td >{{@$var["describe_msg"]}}</td>
+                        <td >{{@$var['lesson_problem_str']}}</td>
                         <td >
                             <a target="_blank" href="{{$var['lesson_url']}}">课程链接</a>
                         </td>

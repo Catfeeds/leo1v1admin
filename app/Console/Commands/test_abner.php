@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use \App\Enums as E;
 
 class test_abner extends cmd_base
 {
@@ -37,6 +38,296 @@ class test_abner extends cmd_base
      */
     public function handle()
     {
+        $this->get_q4_data();
+    }
+    //@desn:获取今日头条例子及拨打详情
+    private function get_example_call_info(){
+        $start_time = strtotime(date('2017-10-01'));
+        $end_time = strtotime(date('2017-11-01'));
+        $count = 0;
+        $channel_call_info = $this->task->t_test_lesson_subject->get_channel_call_info($start_time,$end_time);
+        $path = '/var/www/admin.yb1v1.com/10.txt';
+        $fp = fopen($path,"a+");
+        fwrite($fp, '10月份数据');
+        fwrite($fp, "\n");
+        fwrite($fp, '电话');  //电话
+        fwrite($fp, '  ');
+        fwrite($fp, '进入时间');  //进入时间
+        fwrite($fp, '  ');
+        fwrite($fp, 'cc联系间隔[h]');  //cc联系间隔[h]
+        fwrite($fp, '  ');
+        fwrite($fp, '用户省');  //用户省
+        fwrite($fp, '  ');
+        fwrite($fp, '用户市');  //用户所在市
+        fwrite($fp, '  ');
+        fwrite($fp, '接通率');  //接通率
+        fwrite($fp, "\n");
+        foreach($channel_call_info as $item){
+            //接通率
+            if($item['all_count'])
+                $con_rate = number_format(($item['con_count']/$item['all_count']*100),2).'%';
+            else
+                $con_rate = 0;
+            //cc联系间隔
+            if($item['sum_time']-$item['end_time'] > 0)
+                $con_interval = number_format((($item['sum_time']-$item['begin_time']) - ($item['sum_time']-$item['end_time']))/$item['all_count']/3600,2);
+            else
+                $con_interval = '联系1次或0次';
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+
+            fwrite($fp, $item['phone']);  //电话
+            fwrite($fp, '  ');
+            fwrite($fp, $item['add_time']);  //进入时间
+            fwrite($fp, '  ');
+            fwrite($fp, $con_interval);  //cc联系间隔[h]
+            fwrite($fp, '  ');
+            fwrite($fp, $item['phone_province']);  //用户省
+            fwrite($fp, '  ');
+            fwrite($fp, $item['phone_city']);  //用户所在市
+            fwrite($fp, '  ');
+            fwrite($fp, $con_rate);  //接通率
+            fwrite($fp, "\n");
+            echo $count++."ok!\n";
+        }
+        fclose($fp);
+        echo 'ok!';
+    }
+    //@desn:获取今日头条10月份进入例子
+    private function get_channel_example(){
+        $start_time = strtotime(date('2017-10-01'));
+        $end_time = strtotime(date('2017-11-01'));
+        $channel_info = $this->task->t_test_lesson_subject->get_channel_info($start_time,$end_time);
+        $path = '/var/www/admin.yb1v1.com/10.txt';
+        $fp = fopen($path,"a+");
+        fwrite($fp, '10月份数据!');
+        fwrite($fp, "\n");
+        foreach($channel_info as $item){
+            fwrite($fp, $item['phone']);
+            fwrite($fp, "\n");
+        }
+        fclose($fp);
+        echo 'ok!';
+    }
+    //@desn:获取用户Q4数据
+    private function get_q4_data(){
+        $start_time = strtotime(date('2017-10-01'));
+        $end_time = strtotime(date('2018-01-01'));
+        $count_one = 0;
+        $count_two = 0;
+        //获取第四季度有常规课的学生
+        $q4_reading_stu = $this->task->t_lesson_info_b3->get_q4_reading_stu($start_time,$end_time);
+        //获取首冲相关信息
+        foreach($q4_reading_stu as $key => &$item){
+            $first_flush_info = $this->task->t_order_info->get_first_flush_info($key,$end_time);
+            $item['first_flush_time'] = $first_flush_info['first_flush_time'];
+            $item['first_flush_class_pag'] = $first_flush_info['first_flush_class_pag']/100;
+
+            //获取续费相关信息
+            $renewal_info = $this->task->t_order_info->get_renewal_info($key,$start_time,$end_time);
+            $item['renewal_count'] = $renewal_info['renewal_count'];
+            $item['renewal_class_pag'] = $renewal_info['renewal_class_pag']/100;
+            if($renewal_info['q4_renewal'] > 0)
+                $item['is_11_12_renewal'] = 'Y';
+            else
+                $item['is_11_12_renewal'] = 'N';
+
+            //计算到第四季度末剩余课时数
+            //总课时数
+            $all_class_pag = $this->task->t_order_info->get_all_class_pag($key,$end_time);
+            //消耗课时数
+            $use_class_pag = $this->task->t_lesson_info_b3->get_use_class_pag($key,$end_time);
+            $item['left_class_pag'] = ($all_class_pag-$use_class_pag)/100;
+
+            //计算课耗相关数据
+            $q4_class_info = $this->task->t_lesson_info_b3->get_q4_class_info($key,$start_time,$end_time);
+            $item['q4_lesson_count'] = $q4_class_info['q4_lesson_count']/100;
+            $item['q4_class_count'] = $q4_class_info['q4_class_count'];
+            $q4_subject_count = $q4_class_info['q4_subject_count'];
+            $q4_class_month = ceil(($q4_class_info['lesson_end'] - $q4_class_info['lesson_start'])/(3600*24*30));
+            if($q4_class_month == 0)
+                $q4_class_month = 1;
+            $item['month_average_subject'] = number_format($q4_subject_count/$q4_class_month,2);
+
+
+            //转介绍相关数据
+            $introduce_count = $this->task->t_student_info->get_introduce_count($key,$start_time,$end_time);
+            if($introduce_count > 0)
+                $item['is_introduce'] = 'Y';
+            else
+                $item['is_introduce'] = 'N';
+            $item['introduce_count'] = $introduce_count;
+
+            //小班课 公开课相关数据
+            // $lesson_type_info = $this->task->t_lesson_info_b3->get_lesson_type_info($key,$start_time,$end_time);
+            $small_class_count = $this->task->t_lesson_info_b3->get_small_class_count($key,$start_time,$end_time);
+            $public_class_count = $this->task->t_lesson_info_b3->get_public_class_count($key,$start_time,$end_time);
+            if($small_class_count > 0)
+                $item['is_small_class'] = 'Y';
+            else
+                $item['is_small_class'] = 'N';
+            $item['public_class_count'] = $public_class_count;
+
+            //获取扩科信息
+            $expand_subject_count = $this->task->t_lesson_info_b3->get_expand_subject_count($key,$start_time,$end_time);
+            if($expand_subject_count > 1){
+                $item['is_expand'] = 'Y';
+                //首次扩科时间
+                $first_expand_list = $this->task->t_lesson_info_b3->get_first_expand_time($key);
+                $first_expand_arr = array_column($first_expand_list, 'lesson_start');
+                $first_expand_time = max($first_expand_arr);
+                $item['expand_first_year'] = date('Y',$first_expand_time);
+                $item['expand_first_month'] = date('m',$first_expand_time);
+
+            }else{
+                $item['is_expand'] = 'N';
+                $item['expand_first_year'] = '空';
+                $item['expand_first_month'] = '空';
+            }
+
+            //处理信息
+            if($item['gender'] == 0)
+                $item['sex'] = '保密';
+            elseif($item['gender'] == 1)
+                $item['sex'] = '男';
+            elseif($item['gender'] == 2)
+                $item['sex'] = '女';
+
+            E\Egrade::set_item_value_str($item);
+            E\Eregion_version::set_item_value_str($item,"editionid");
+            $item['first_flush_time'] = date('Y年m月',$item['first_flush_time']);
+            if($item['grade']<=106)
+                $item['grade_sort'] = '小学';
+            elseif($item['grade']<=203)
+                $item['grade_sort'] = '初中';
+            elseif($item['grade']<=303)
+                $item['grade_sort'] = '高中';
+
+            if(empty($item['phone_province']))
+                $item['phone_province']='空';
+
+            if(empty($item['renewal_class_pag']))
+                $item['renewal_class_pag'] = 0;
+
+            if(empty($item['nick']))
+                $item['nick'] = '空';
+
+            echo 'count_one:'.$count_one++.'ok'."\n";
+        }
+
+        $path = '/var/www/admin.yb1v1.com/10.txt';
+        $fp = fopen($path,"a+");
+        fwrite($fp, 'ID');//ID
+        fwrite($fp, '   ');
+        fwrite($fp, '姓名');//姓名
+        fwrite($fp, '   ');
+        fwrite($fp, '性别');//性别
+        fwrite($fp, '   ');
+        fwrite($fp, '年级');//年级
+        fwrite($fp, '   ');
+        fwrite($fp, '年级分类');//年级分类
+        fwrite($fp, '   ');
+        fwrite($fp, '城市');//城市
+        fwrite($fp, '   ');
+        fwrite($fp, '教材版本');//教材版本
+        fwrite($fp, '   ');
+        fwrite($fp, '首冲时间');//首冲时间
+        fwrite($fp, '   ');
+        fwrite($fp, '首冲课时包');//首冲课时包
+        fwrite($fp, '   ');
+        fwrite($fp, '累计续费次数');//累计续费次数
+        fwrite($fp, '   ');
+        fwrite($fp, '累计续费课时包');//累计续费课时包
+        fwrite($fp, '   ');
+        fwrite($fp, '剩余课时数');//剩余课时数
+        fwrite($fp, '   ');
+        fwrite($fp, '是否17年11&12月续费');//是否17年11&12月续费
+        fwrite($fp, '   ');
+        fwrite($fp, '单月平均在读门数');//单月平均在读门数
+        fwrite($fp, '   ');
+        fwrite($fp, 'Q4累计课耗数');//Q4累计课耗数
+        fwrite($fp, '   ');
+        fwrite($fp, 'Q4累计课次');//Q4累计课次
+        fwrite($fp, '   ');
+        fwrite($fp, '是否扩科');//是否扩科
+        fwrite($fp, '   ');
+        fwrite($fp, '扩科时间(年)');//扩科时间(年)
+        fwrite($fp, '   ');
+        fwrite($fp, '扩科时间(月)');//扩科时间(月)
+        fwrite($fp, '   ');
+        fwrite($fp, '是否转介绍');//是否转介绍
+        fwrite($fp, '   ');
+        fwrite($fp, '转介绍成功数');//转介绍成功数
+        fwrite($fp, '   ');
+        fwrite($fp, '是否小班课');//是否小班课
+        fwrite($fp, '   ');
+        fwrite($fp, '公开课次数');//公开课次数
+        fwrite($fp, "\n");
+        foreach($q4_reading_stu as $item){
+            fwrite($fp, @$item['userid']);//ID
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['nick']);//姓名
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['sex']);//性别
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['grade_str']);//年级
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['grade_sort']);//年级分类
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['phone_province']);//城市
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['editionid_str']);//教材版本
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['first_flush_time']);//首冲时间
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['first_flush_class_pag']);//首冲课时包
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['renewal_count']);//累计续费次数
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['renewal_class_pag']);//累计续费课时包
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['left_class_pag']);//剩余课时数
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['is_11_12_renewal']);//是否17年11&12月续费
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['month_average_subject']);//单月平均在读门数
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['q4_lesson_count']);//Q4累计课耗数
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['q4_class_count']);//Q4累计课次
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['is_expand']);//是否扩科
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['expand_first_year']);//扩科时间(年)
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['expand_first_month']);//扩科时间(月)
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['is_introduce']);//是否转介绍
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['introduce_count']);//转介绍成功数
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['is_small_class']);//是否小班课
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['public_class_count']);//公开课次数
+            fwrite($fp, "\n");
+
+            echo 'count_two:'.$count_two++.'ok'."\n";
+        }
+        fclose($fp);
+        echo 'ok!';
+
+    }
+    //@desn:更新优学优享用户头像
+    private function update_yxyx_head(){
+        $data = $this->get_wx_user_info($wx_openid='oAJiDwEId4b1lA6WV1wbRS83WXvo');
+        print_r($data);
+        $status = $this->task->t_agent->field_updte_list($id=1316, [
+            'headimgurl' => $data['headimgurl']
+        ]);
+        echo $status;
+        echo 'ok';
+    }
+    //@desn:1月例子未接通分析
+    private function call_fail_analysis(){
         $begin_time = strtotime(date('2018-01-01'));
         $end_time = strtotime('+ 1 month',$begin_time);
         $call_arr = [
@@ -177,20 +468,6 @@ class test_abner extends cmd_base
         fwrite($fp, "\n");
         fclose($fp);
         echo 'ok!';
-
-
-        //更新优学优享用户头像  --begin--
-        // $data = $this->get_wx_user_info($wx_openid='oAJiDwEId4b1lA6WV1wbRS83WXvo');
-        // print_r($data);
-        // $status = $this->task->t_agent->field_updte_list($id=1316, [
-        //     'headimgurl' => $data['headimgurl']
-        // ]);
-        // echo $status;
-        // echo 'ok';
-        //更新优学优享用户头像  --begin--
-
-        // $this->get_teacher_case();
-        // $this->get_today_headline
     }
     //@desn:获取课程评价情况
     private function get_class_evaluation(){

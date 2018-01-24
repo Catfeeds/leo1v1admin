@@ -331,8 +331,8 @@ class user_manage_new extends Controller
             return $this->Pageview(__METHOD__,$ret_list);
         }
 
-        $teacher_type             = $this->t_teacher_info->get_teacher_type($teacherid);
-        $old_list                 = $this->t_lesson_info->get_lesson_list_for_wages(
+        $teacher_type = $this->t_teacher_info->get_teacher_type($teacherid);
+        $old_list     = $this->t_lesson_info->get_lesson_list_for_wages(
             $teacherid,$start_time,$end_time,$studentid,$show_type
         );
 
@@ -1261,7 +1261,7 @@ class user_manage_new extends Controller
                     }
                     $info[] = $item2;
                 }
-                
+
             }
             $info[] = $item;
         }
@@ -1760,23 +1760,33 @@ class user_manage_new extends Controller
             $up_master_adminid=0;
         }
 
-        $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target");
+        $target_info = $this->t_ass_group_target->field_get_list($start_time,"rate_target,renew_target,group_renew_target,all_renew_target");
         $ret_info = $this->t_manager_info->get_assistant_month_target_info($start_time,$up_master_adminid,$account_id);
         $ret_info['list']=\App\Helper\Common::gen_admin_member_data($ret_info['list']);
         foreach( $ret_info["list"] as &$item ) {
             E\Emain_type::set_item_value_str($item);
-            if($item["level"] != "l-4"){
-                $item["lesson_target"]="";
-                $item["renew_target"]="";
-            }else{
+            if($item["level"] == "l-4"){
                 $item["lesson_target"]=@$target_info["rate_target"];
                 $item["renew_target"]=@$target_info["renew_target"]/100;
+            }elseif($item["level"] == "l-3"){
+                $item["lesson_target"]=@$target_info["rate_target"];
+                $item["renew_target"]=@$target_info["group_renew_target"]/100;
+
+            }elseif($item["level"] == "l-1"){
+                $item["lesson_target"]=@$target_info["rate_target"];
+                $item["renew_target"]=@$target_info["all_renew_target"]/100;
+            }else{
+                $item["lesson_target"]="";
+                $item["renew_target"]="";
+
             }
 
         }
 
         $this->set_filed_for_js("rate_target",@$target_info["rate_target"]);
         $this->set_filed_for_js("renew_target",@$target_info["renew_target"]/100);
+        $this->set_filed_for_js("group_renew_target",@$target_info["group_renew_target"]/100);
+        $this->set_filed_for_js("all_renew_target",@$target_info["all_renew_target"]/100);
 
 
         return $this->pageView(__METHOD__, $ret_info);
@@ -2114,9 +2124,12 @@ class user_manage_new extends Controller
                 }
             }
         }
-     
-        $default_groupid = $group_all[$role_groupid][0]['groupid'];
-             
+
+        $default_groupid = $group_common[0]['groupid'];
+        if($group_all && array_key_exists($role_groupid, $group_all)){
+            $default_groupid = $group_all[$role_groupid][0]['groupid'];
+        }
+
         //选择权限组id
         $groupid  = $this->get_in_int_val("groupid",$default_groupid);
 
@@ -2124,20 +2137,20 @@ class user_manage_new extends Controller
         $user_list=[];
         $ret_info=\App\Helper\Utils::list_to_page_info([]);
 
-        if( $groupid > 0 ){  
+        if( $groupid > 0 ){
             $user_list = $this->t_manager_info->get_power_group_user_list($groupid);
             $user_list = $this->get_user_permission($user_list);
 
             //$user_list = $this->get_user_powers($groupid);
-         
+
             $power_map = $this->t_authority_group->get_auth_group_map($groupid);
             $list=$this->get_menu_list_new($power_map );
-      
+
             $ret_info=\App\Helper\Utils::list_to_page_info($list);
 
         }
         return $this->Pageview(__METHOD__,$ret_info,[
-            "_publish_version" => 201801118150,
+            "_publish_version" => 201801119150,
             "group_all" => $group_all,
             "user_list"=>$user_list,
             "list"=>$list,
@@ -2186,6 +2199,21 @@ class user_manage_new extends Controller
     }
 
     public function power_group_edit() {
+        // $err_mg = "旧的权限已经关闭，请前往新的页面";
+        // return $this->view_with_header_info ( "common.resource_no_power", [],[
+        //     "_ctr"          => "xx",
+        //     "_act"          => "xx",
+        //     "js_values_str" => "",
+        //     'err_mg' => $err_mg
+        // ] );
+                
+        $this->t_user_log->row_insert([
+            "add_time" => time(),
+            "adminid"  => $this->get_account_id(),
+            "msg"      => "旧的页面权限管理:登录",
+            "user_log_type" => 5, //权限页面添加用户记录
+        ]);
+
         $group_list = $this->t_authority_group->get_auth_groups();
         $default_groupid = 0;
         if (count($group_list)>0) {
@@ -2377,7 +2405,7 @@ class user_manage_new extends Controller
             "add_time" => time(),
             "adminid"  => $this->get_account_id(),
             "msg"      => "权限管理页面,添加用户修改记录: [用户id:$uid,组别:$groupid]",
-            "user_log_type" => 4, //权限页面添加用户记录
+            "user_log_type" => E\Euser_log_type::V_4, //权限页面添加用户记录
         ]);
 
 
@@ -2398,8 +2426,8 @@ class user_manage_new extends Controller
         $this->t_user_log->row_insert([
             "add_time" => time(),
             "adminid"  => $this->get_account_id(),
-            "msg"      => "权限管理页面,权限修改记录:$power_list_str",
-            "user_log_type" => 2, //权限页面修改记录
+            "msg"      => "权限管理页面,权限修改记录:$power_list_str  权限组groupid:$groupid",
+            "user_log_type" => E\Euser_log_type::V_2, //权限页面修改记录
         ]);
 
         return $this->output_succ();
@@ -2950,7 +2978,7 @@ class user_manage_new extends Controller
             $item["has_power"] = in_array($powerid,$p_list)?1:0;
 
         }
-     
+
         return $this->output_succ(["data"=> $list]);
     }
 
@@ -2966,36 +2994,44 @@ class user_manage_new extends Controller
             $item["has_power"] = in_array($powerid,$p_list)?1:0;
         }
         $ret['list'] = $list;
-        return $this->output_ajax_table($ret); 
+        return $this->output_ajax_table($ret);
     }
 
     public function set_power_with_groupid_list() {
         $powerid      = $this->get_in_int_val("powerid");
-        $groupid_list = \App\Helper\Utils::json_decode_as_int_array( $this->get_in_str_val("groupid_list"));
+        $groupid_str  = $this->get_in_str_val("groupid_list");
+        $groupid_list = \App\Helper\Utils::json_decode_as_int_array( $groupid_str );
         $list         = $this->t_authority_group->get_all_list();
-        foreach ($list as &$item) {
-            $p_list       = preg_split("/,/", $item["group_authority"] );
-            $find_indx = array_search($powerid,$p_list);
-            $old_has_flag=true;
-            if ($find_indx===false){
-                $old_has_flag=false;
-            }
-            $groupid      = $item["groupid"];
-            ;
-            $new_has_flag = in_array($groupid,$groupid_list );
-            if ($old_has_flag !=$new_has_flag) {
-                if ($new_has_flag ) {
-                    $p_list[]=$powerid ;
-                }else{
-                    unset($p_list[$find_indx]);
-                }
-                $group_authority=join(",",$p_list);
-                $this->t_authority_group->field_update_list($groupid,[
-                    "group_authority" => $group_authority
-                ]);
-            }
 
-        }
+        // foreach ($list as &$item) {
+        //     $p_list       = preg_split("/,/", $item["group_authority"] );
+        //     $find_indx = array_search($powerid,$p_list);
+        //     $old_has_flag=true;
+        //     if ($find_indx===false){
+        //         $old_has_flag=false;
+        //     }
+        //     $groupid      = $item["groupid"];
+        //     ;
+        //     $new_has_flag = power_group_editin_array($groupid,$groupid_list );
+        //     if ($old_has_flag !=$new_has_flag) {
+        //         if ($new_has_flag ) {
+        //             $p_list[]=$powerid ;
+        //         }else{
+        //             unset($p_list[$find_indx]);
+        //         }
+        //         $group_authority=join(",",$p_list);
+        //         $this->t_authority_group->field_update_list($groupid,[
+        //             "group_authority" => $group_authority
+        //         ]);
+        //     }
+
+        // }
+        $this->t_user_log->row_insert([
+            "add_time" => time(),
+            "adminid"  => $this->get_account_id(),
+            "msg"      => "旧的页面权限管理配置: [权限id:$powerid,权限列表:$groupid_str]",
+            "user_log_type" => E\Euser_log_type::V_2, //权限页面添加用户记录
+        ]);
 
         return $this->output_succ();
     }
@@ -3796,7 +3832,7 @@ class user_manage_new extends Controller
             "lesson_left"     => $order_info['lesson_left'],
             "contract_status" => 1,
         ]);
-
+        
         if($ret>0){
             $ret = $this->t_order_refund->row_delete_2($orderid,$apply_time);
             if($ret>0){
@@ -4055,15 +4091,17 @@ class user_manage_new extends Controller
     }
 
     public function update_teacher_money_list_info(){
-        $id = $this->get_in_int_val("id");
-        $type = $this->get_in_int_val("type");
-        $money_info = $this->get_in_str_val("money_info");
-        $money = $this->get_in_str_val("money");
-        $add_time = $this->get_in_str_val("add_time");
-        $add_time_old = strtotime($this->get_in_str_val("add_time_old"));
-        $teacherid = $this->get_in_int_val("teacherid");
-        $account = $this->get_account();
+        $id           = $this->get_in_int_val("id");
+        $type         = $this->get_in_int_val("type");
+        $money_info   = $this->get_in_str_val("money_info");
+        $money        = $this->get_in_str_val("money");
+        $add_time     = $this->get_in_str_val("add_time");
+        $teacherid    = $this->get_in_int_val("teacherid");
+        $account      = $this->get_account();
 
+        // $add_time_old = strtotime($this->get_in_str_val("add_time_old"));
+        $old_reward_info = $this->t_teacher_money_list->get_reward_info_by_id($id);
+        $add_time_old    = $old_reward_info['add_time'];
         $update_arr = [
             "type"       => $type,
             "money_info" => $money_info,
@@ -4074,15 +4112,31 @@ class user_manage_new extends Controller
 
         if($add_time!=""){
             $add_time = strtotime($add_time);
-            if($add_time!=$add_time_old && !in_array($account,['adrian','sunny'])){
+            if($add_time!=$add_time_old && !in_array($account,['adrian','sunny','jim'])){
                 return $this->output_err("你没有权限更改时间！");
             }
             $update_arr["add_time"] = $add_time;
         }
+        $check_old_time_flag = \App\Helper\Utils::check_teacher_salary_time($add_time_old);
+        if(!$check_old_time_flag){
+            return $this->output_err("无法修改，本条额外奖金已经结算！");
+        }
+        $check_time_flag = \App\Helper\Utils::check_teacher_salary_time($add_time);
+        if(!$check_time_flag){
+            return $this->output_err("无法更改，不能设置到已经结算工资的月份中！");
+        }
 
         $ret = $this->t_teacher_money_list->field_update_list($id,$update_arr);
+        if($ret){
+            $log_arr = [
+                "old_data" => $old_reward_info,
+                "new_data" => $update_arr,
+            ];
+            $msg = json_encode($log_arr);
+            $this->t_user_log->add_user_log($teacherid,$msg,E\Euser_log_type::V_200);
+        }
 
-        return $this->output_succ();
+        return $this->output_ret($ret);
     }
 
     //删除老师额外奖金记录
@@ -4094,12 +4148,18 @@ class user_manage_new extends Controller
         if(!$check_flag){
             return $this->output_err("超出时间，无法删除! \n 只能删除本月数据！");
         }
+        $old_reward_info = $this->t_teacher_money_list->get_reward_info_by_id($id);
 
         $ret = $this->t_teacher_money_list->row_delete($id);
-        if(!$ret){
-            return $this->output_err("删除失败！请重试！");
+        if($ret){
+            $log_arr = [
+                "delete_info" => $old_reward_info
+            ];
+            $msg = json_encode($log_arr);
+            $this->t_user_log->add_user_log($old_reward_info['teacherid'],$msg,E\Euser_log_type::V_200);
         }
-        return $this->output_succ();
+
+        return $this->output_ret($ret,"删除失败！请重试！");
     }
 
 
@@ -4468,7 +4528,7 @@ class user_manage_new extends Controller
             $attendance_time_str= date("Y-m-d",$v["attendance_time"]);
             @$extra_arr[$v["adminid"]] .=$attendance_time_str."<br>" ;
         }
-        
+
         foreach($ret_info["list"] as &$item){
 
             //本月加班时间
@@ -4529,16 +4589,16 @@ class user_manage_new extends Controller
                             $item["result"]="早退";
                         }
 
-                        
-                       
- 
+
+
+
                     }
                 }
 
- 
+
             }
 
-                       
+
         }
         return $this->Pageview(__METHOD__,$ret_info,[
             "acc"   =>session("acc")
@@ -5494,18 +5554,18 @@ class user_manage_new extends Controller
     public function product_info(){
         $page_num  = $this->get_in_page_num();
         $deal_flag = $this->get_in_int_val('deal_flag',-1);
-        $feedback_adminid = $this->get_in_int_val('feedback_adminid',-1);
+        $lesson_problem = $this->get_in_int_val('lesson_problem',-1);
+        $feedback_nick = $this->get_in_str_val('feedback_nick',"");
         list($start_time,$end_time,$opt_date_type) = $this->get_in_date_range(date("Y-m-01"),0,1,[
             1 => array("pf.create_time","录入时间"),
         ],3);
 
-        $ret_list  = $this->t_product_feedback_list->get_product_list($deal_flag, $feedback_adminid, $start_time, $end_time, $page_num, $opt_date_type);
+        $ret_list  = $this->t_product_feedback_list->get_product_list($lesson_problem, $deal_flag, $feedback_nick, $start_time, $end_time, $page_num, $opt_date_type);
 
         foreach($ret_list['list'] as &$item){
             $item['stu_agent_simple'] = get_machine_info_from_user_agent($item["stu_agent"] );
             $item['tea_agent_simple'] = get_machine_info_from_user_agent($item["tea_agent"] );
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            $item['feedback_nick'] = $this->cache_get_account_nick($item['feedback_adminid']);
             $item['record_nick']   = $this->cache_get_account_nick($item['record_adminid']);
             $item["tea_phone"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["tea_phone"]);
             $item["stu_phone"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["stu_phone"]);
@@ -5514,8 +5574,8 @@ class user_manage_new extends Controller
             }else{
                 $item['deal_flag_str'] = E\Eboolean::get_color_desc($item['deal_flag']);
             }
+            $item['lesson_problem_str'] = E\Elesson_problem::get_desc($item['lesson_problem']);
         }
-
         return $this->Pageview(__METHOD__,$ret_list,[]);
     }
 

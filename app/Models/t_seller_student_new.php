@@ -130,7 +130,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
 
         $add_flag=$this->t_seller_student_origin->check_and_add($userid,$origin,$subject);
-
         if(!$add_flag) { //用户渠道增加失败
             if (!$this->t_test_lesson_subject->check_subject($userid,$subject) ){
                 $this->t_test_lesson_subject->row_insert([
@@ -437,7 +436,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr=[
                 ["ss.userid=%u",$userid, -1],
                 ["ss.phone like '%s%%'", $this->ensql($phone) , ""],
-                ["s.nick like '%%%s%%'",$this->ensql($nick), ""],
+                ["s.nick like '%s%%'",$this->ensql($nick), ""],
             ];
         } else if ( $current_require_id_flag != -1 ) {
             $this->where_arr_add_boolean_for_value($where_arr,"current_require_id",$current_require_id_flag,true);
@@ -1777,29 +1776,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             if ($item["tq_called_flag"]<$tq_called_flag) {
                 $set_arr["tq_called_flag"]=$tq_called_flag;
             }
-
             if ($item["global_tq_called_flag"]<$tq_called_flag) {
                 $set_arr["global_tq_called_flag"]=$tq_called_flag;
             }
-
-
-            if ($item["first_call_time"] == 0) {
-                $set_arr["first_call_time"]=$call_time;
-            }
-            $set_arr["last_revisit_time"]=$call_time;
-
-
-            if ($tq_called_flag ==2) {
-                if ($item["first_contact_time"] == 0) {
-                    $set_arr["first_contact_time"]=$call_time;
-                }
-
-                if ($item["last_contact_time"] < $call_time) {
-                    $set_arr["last_contact_time"]=$call_time;
-                }
-                $set_arr["called_time"]=$call_time;
-            }
-
             if (count($set_arr) >0 ) {
                 $this->field_update_list($userid,$set_arr);
             }
@@ -3091,7 +3070,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function get_distribution_count($start_time,$end_time,$origin_ex){
+    public function get_dis_count($start_time,$end_time,$origin_ex){
         $where_arr = [
             'n.admin_revisiterid>0',
             'n.admin_revisiterid<>n.admin_assignerid',
@@ -3325,7 +3304,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
 
     //助教转介绍例子
-    public function get_assistant_origin_order_losson_list_all($start_time,$end_time,$opt_date_str, $userid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid ,$sys_operator_type=1){               
+    public function get_assistant_origin_order_losson_list_all($start_time,$end_time,$opt_date_str, $userid, $page_info , $sys_operator , $teacherid, $origin_userid ,$order_adminid,$assistantid ,$sys_operator_type=1){
         $where_arr=[
             ["o.sys_operator like '%%%s%%'" , $sys_operator, ""],
             ["l.teacherid=%u" , $teacherid, -1],
@@ -3368,7 +3347,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
 
-    
+
 
     // @desn:获取微信运营信息
     // @param:$start_time 开始时间
@@ -3466,22 +3445,126 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list_by_page($sql,$page_num,$page_count);
     }
 
+    public function get_master_detail_list($start_time,$end_time,$page_info){
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr, 'ss.add_time', $start_time, $end_time);
+        $sql=$this->gen_sql_new(
+            " select seller_resource_type ,first_call_time,first_contact_time,test_lesson_count,"
+            ." first_revisit_time,last_revisit_time,tmk_assign_time,last_contact_time,last_contact_cc,"
+            ." competition_call_adminid, competition_call_time,sys_invaild_flag,wx_invaild_flag,"
+            ." return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status,"
+            ." add_time,  global_tq_called_flag, seller_student_status,wx_invaild_flag, s.userid,s.nick,"
+            ." s.origin, s.origin_level,ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,"
+            ." ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2,s.origin_assistantid,"
+            ." s.origin_userid,t.subject,s.grade,ss.user_desc,ss.has_pad,t.require_adminid ,tmk_student_status,"
+            ." first_tmk_set_valid_admind,first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,"
+            ." first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,first_admin_revisiterid_time,"
+            ." first_seller_status,cur_adminid_call_count as call_count,ss.auto_allot_adminid,first_called_cc,"
+            ." first_get_cc,test_lesson_flag,ss.orderid,price,s.origin_level "
+            ." from %s t "
+            ." left join %s ss on  ss.userid = t.userid "
+            ." left join %s s on ss.userid=s.userid "
+            ." left join %s m on  ss.admin_revisiterid =m.uid "
+            ." left join %s o on  o.orderid =ss.orderid "
+            ." where %s order by ss.add_time desc "
+            , t_test_lesson_subject::DB_TABLE_NAME
+            , self::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
+            , t_manager_info::DB_TABLE_NAME
+            , t_order_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
+
     public function get_item_list(){
         $where_arr = [
             'tmk_student_status=1',
         ];
         $sql=$this->gen_sql_new(
-            " select n.*,s.origin,m.account "
+            " select n.*,s.origin,s.lesson_count_all"
             ." from %s n "
             ." left join %s s on s.userid=n.userid "
-            ." left join %s m on m.uid=n.admin_revisiterid "
             ." where %s order by n.add_time desc "
             , self::DB_TABLE_NAME
             , t_student_info::DB_TABLE_NAME
-            , t_manager_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);
     }
 
+    public function get_item_january_count($start_time,$end_time){
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr, 'n.add_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select count(n.userid) count "
+            ." from %s n "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_item_january_called_count($start_time,$end_time){
+        $where_arr = [
+            'cc_called_count>0',
+        ];
+        $this->where_arr_add_time_range($where_arr, 'n.add_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select count(n.userid) count "
+            ." from %s n "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_item_january_no_called_count($start_time,$end_time){
+        $where_arr = [
+            'cc_called_count=0',
+        ];
+        $this->where_arr_add_time_range($where_arr, 'n.add_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select count(n.userid) count "
+            ." from %s n "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_item_january_list($start_time,$end_time){
+        $where_arr = [
+            'n.cc_called_count>0',
+        ];
+        $this->where_arr_add_time_range($where_arr, 'n.add_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select n.userid,t.* "
+            ." from %s n "
+            ." left join %s t on t.phone=n.phone and t.is_called_phone=1 and t.admin_role=2 "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            t_tq_call_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_item_january_detail_list($start_time,$end_time){
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr, 'n.add_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select n.userid,t.* "
+            ." from %s n "
+            ." left join %s t on t.phone=n.phone and t.admin_role=2 "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            t_tq_call_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

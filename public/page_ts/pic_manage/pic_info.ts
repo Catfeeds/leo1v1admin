@@ -20,8 +20,8 @@ $(function(){
     Enum_map.append_option_list("pic_type", $(".add_pic_type"),true);
     Enum_map.append_option_list("pic_jump_type", $(".add_jump_type"),true);
     Enum_map.append_option_list("click_status", $(".add_pic_click_status"),true);
-    Enum_map.append_option_list("grade_part_ex", $(".add_pic_grade"),true);
-    Enum_map.append_option_list("subject", $(".add_pic_subject"),true);
+    Enum_map.append_option_list("grade_part_ex", $(".add_pic_grade"),true,[0,1,2,3]);
+    Enum_map.append_option_list_by_not_id("subject", $(".add_pic_subject"),true,[11]);
 
     $(".pic_type").val(g_args.type);
     var set_select_option_list=function(){
@@ -103,8 +103,8 @@ $(function(){
                 html_node.find(".share_s").show();
             }
             html_node.find(".add_pic_order_by").val(item.order_by);
-            //html_node.find(".add_pic_grade").val(item.grade);
-            //html_node.find(".add_pic_subject").val(item.subject);
+            html_node.find(".add_pic_grade").val(item.grade);
+            html_node.find(".add_pic_subject").val(item.subject);
             //html_node.find(".add_title_share").val(item.title_share);
             //html_node.find(".add_info_share").val(item.info_share);
             html_node.find(".add_jump_url").val(item.jump_url);
@@ -253,8 +253,8 @@ $(function(){
                         if (opt_type=="update") {
 		                        var id =  item.id;
                         }
-                        //var grade        = html_node.find(".add_pic_grade").val();
-                        //var subject      = html_node.find(".add_pic_subject").val();
+                        var grade        = html_node.find(".add_pic_grade").val();
+                        var subject      = html_node.find(".add_pic_subject").val();
                         var name         = html_node.find(".add_pic_name").val();
                         var type         = html_node.find(".add_pic_type").val();
                         var usage_type   = html_node.find(".add_pic_usage_type").val();
@@ -292,10 +292,10 @@ $(function(){
                             alert('图片不存在');
                             return false;
                         }
-                        // if(usage_type==207){
-                            //grade   = html_node.find(".add_pic_grade").val();
-                            //subject = html_node.find(".add_pic_subject").val();
-                        // }
+                        if(usage_type==207 || usage_type==211){
+                            grade   = html_node.find(".add_pic_grade").val();
+                            subject = html_node.find(".add_pic_subject").val();
+                        }
                         $.ajax({
 			                      type     : "post",
 			                      url      : "/pic_manage/add_pic_info",
@@ -308,8 +308,8 @@ $(function(){
                                 ,"usage_type"   : usage_type
                                 ,"click_status" : click_status
                                 ,"order_by"     : order_by
-                                //,"subject"      : subject
-                                //,"grade"        : grade
+                                ,"subject"      : subject
+                                ,"grade"        : grade
                                 ,"pic_url"      : pic_url 
                                 //,"tag_url"      : tag_url 
                                 ,"jump_url"     : jump_url 

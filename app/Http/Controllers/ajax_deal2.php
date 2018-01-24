@@ -2855,6 +2855,10 @@ class ajax_deal2 extends Controller
         $revisit_value=0;
         $deduct_list=[];
 
+        //检查本月是否上过课
+        $month_lesson_flag = $this->t_lesson_info_b3->check_have_lesson_stu($userid,$start_time,$end_time);
+
+
         //先计算是否第一次课学员
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($start_time);
         $list = @$ass_month[$adminid];        
@@ -2933,7 +2937,7 @@ class ajax_deal2 extends Controller
             foreach($history_list as $val){
                 $add_time = $val["add_time"];
                 if($add_time<$month_half){
-                    $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$month_half,$item["account"],-2);
+                    $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$month_half,$account,-2);
                     if($revisit_num <1){
                         $revisit_value +=1;
                         $deduct_list[]=[
@@ -2947,19 +2951,33 @@ class ajax_deal2 extends Controller
                 }else{
                     $assign_time = $val["assign_ass_time"];
                     if($assign_time <$month_half){
-                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$item["account"],-2);
-                        if($revisit_num <2){
-                            $revisit_value +=1;
-                            $deduct_list[]=[
-                                "deduct_type"=>"常规回访扣分",
-                                "subject"    => "",
-                                "time"       => "",                            
-                            ];
+                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$account,-2);
+                        if($month_lesson_flag==1){
+                          
+                            if($revisit_num <2){
+                                $revisit_value +=1;
+                                $deduct_list[]=[
+                                    "deduct_type"=>"常规回访扣分",
+                                    "subject"    => "",
+                                    "time"       => "",                            
+                                ];
+
+                            }
+                        }else{
+                            if($revisit_num <1){
+                                $revisit_value +=1;
+                                $deduct_list[]=[
+                                    "deduct_type"=>"常规回访扣分",
+                                    "subject"    => "",
+                                    "time"       => "",                            
+                                ];
+
+                            }
 
                         }
 
                     }else{
-                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$month_half,$end_time,$item["account"],-2);
+                        $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$month_half,$end_time,$account,-2);
                         if($revisit_num <1){
                             $revisit_value +=1;
                             $deduct_list[]=[
@@ -2985,16 +3003,30 @@ class ajax_deal2 extends Controller
             if($first_regular_lesson_time>0 && $first_regular_lesson_time<$month_half){
                 if($assign_time < $month_half){
                     $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$start_time,$end_time,$account,-2);
-                    if($revisit_num <2){
-                        $revisit_value +=1;
-                        $deduct_list[]=[
-                            "deduct_type"=>"常规回访扣分",
-                            "subject"    => "",
-                            "time"       => "",                            
-                        ];
+                    if($type_flag==1 && $month_lesson_flag==1){
+                      
+                        if($revisit_num <2){
+                            $revisit_value +=1;
+                            $deduct_list[]=[
+                                "deduct_type"=>"常规回访扣分",
+                                "subject"    => "",
+                                "time"       => "",                            
+                            ];
+
+                        }
+                    }else{
+                        if($revisit_num <1){
+                            $revisit_value +=1;
+                            $deduct_list[]=[
+                                "deduct_type"=>"常规回访扣分",
+                                "subject"    => "",
+                                "time"       => "",                            
+                            ];
+
+                        }
 
                     }
-                }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
+                }elseif($assign_time>=$month_half && $assign_time <$end_time){
                     $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($userid,$month_half,$end_time,$account,-2);
                     if($revisit_num <1){
                         $revisit_value +=1;
@@ -3119,5 +3151,137 @@ class ajax_deal2 extends Controller
         return $this->output_succ(["data"=>$data]);
 
     }
+
+    //模拟试听重审不通过判断
+    public function set_no_pass_train_info(){
+        $id = $this->get_in_int_val("id");
+        $re_submit_list = $this->get_in_str_val("re_submit_list");
+        $lecture_out_list = $this->get_in_str_val("lecture_out_list");
+        $reason = trim($this->get_in_str_val("reason"));
+        $re_submit_arr = !empty($re_submit_list)?json_decode($re_submit_list,true):[];
+        $lecture_out_arr=!empty($lecture_out_list)?json_decode($lecture_out_list,true):[];
+        $retrial_arr = array_merge($re_submit_arr,$lecture_out_arr);
+        $retrial_info = json_encode($retrial_arr);
+        $account = $this->get_account();
+        $acc= $this->t_teacher_record_list->get_acc($id);
+        $account = $this->get_account();
+        if($acc != $account && $acc !=""){
+            return $this->output_err("您没有权限审核,审核人为".$acc);
+        }
+
+        if(!empty($lecture_out_arr)){
+            $status=2;
+        }else{
+            $status=3;
+        }
+        $this->t_teacher_record_list->field_update_list($id,[
+            "record_info" =>$reason,
+            "add_time"    =>time(),
+            "free_time"   => $retrial_info, //临时存储
+            "trial_train_status"=> $status,
+            "acc"  =>$account
+        ]);
+        if( $status==2){
+                    
+            $keyword2 = "未通过";
+        }else{
+            $keyword2 = "可重审";
+        }
+        $teacherid = $this->t_teacher_record_list->get_teacherid($id);
+        $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+        // $teacher_info['wx_openid']= "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+        if($teacher_info['wx_openid']!=""){
+            /**
+             * 模板ID : 9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ
+             * 标题   : 评估结果通知
+             * {{first.DATA}}
+             * 评估内容：{{keyword1.DATA}}
+             * 评估结果：{{keyword2.DATA}}
+             * 时间：{{keyword3.DATA}}
+             * {{remark.DATA}}
+             */
+            $template_id      = "9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ";
+            $data['first']    = "老师您好，很抱歉您没有通过模拟试听，希望您再接再厉。";
+            $data['keyword1'] = $reason;
+            $data['keyword2'] = $keyword2;
+            $data['keyword3'] = date("Y-m-d H:i:s");
+            $data['remark'] = "请重新提交模拟试听时间，理优教育致力于打造高水平的教学服务团队，期待您能通过下次模拟试听，加油！";
+            $url = "";
+            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
+            //\App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxLZ3twmoTAadSSXDGsKFNk8",$template_id,$data,$url);
+        }
+        $ret = $this->add_trial_train_lesson($teacher_info,1,2);
+
+        return $this->output_succ();
+    }
+
+    public function update_advance_data_for_test(){
+        $start_time   = $this->get_in_int_val("start_time");
+        $teacherid    = $this->get_in_int_val("teacherid");
+        $lesson_count  = $this->get_in_int_val("lesson_count");
+        $stu_num  = $this->get_in_int_val("stu_num");
+        $cc_order_num  = $this->get_in_int_val("cc_order_num");
+        $cr_order_num  = $this->get_in_int_val("cr_order_num");
+        $record_avg_score  = $this->get_in_str_val("record_avg_score");
+        $level  = $this->get_in_int_val("level");
+        $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+            "lesson_count"     => $lesson_count ,
+            "cc_order_num"     => $cc_order_num,
+            "other_order_num"  => $cr_order_num,
+            "stu_num"          => $stu_num,
+            "record_score_avg" => $record_avg_score,
+            "level_before"            => $level
+        ]);
+        $this->t_teacher_info->field_update_list($teacherid,["level"=>$level]);
+        return $this->output_succ();
+ 
+    }
+
+    //获取学生所有的信息(个人信息,上课信息等)
+    public function get_student_deatil_lesson_info(){
+        $userid    = $this->get_in_int_val("userid");
+        $data= $this->t_student_info->field_get_list($userid,"face,nick,realname");
+        $first_lesson_time = $this->t_lesson_info_b3->get_stu_first_regular_lesson_time($userid);
+        if($first_lesson_time>0){
+            $study_day = ceil((time()-$first_lesson_time)/86400); 
+        }else{
+            $study_day=0;
+        }
+        $lesson_all = $this->t_lesson_info_b3->get_student_all_lesson_count_list($userid);
+        $hour = @$lesson_all["lesson_count"]/100*1.5;
+        $data["str1"] = "已经在理优学习了".$study_day."天，完成了".@$lesson_all["lesson_num"]."课次，".(@$lesson_all["lesson_count"]/100)."课时，总计学习了".$hour."小时";
+        $data["str2"] = "学习课".@$lesson_all["subject_num"]."门课，".@$lesson_all["tea_num"]."位老师为你服务";
+
+        $lesson_detail = $this->t_lesson_info_b3->get_student_all_lesson_info($userid,0,0);
+        $cw_num=$pre_num=$tea_commit=$leave_num=$absence_num=0;
+        foreach($lesson_detail as $val){
+           
+            if(empty($val["tea_cw_upload_time"]) || $val["tea_cw_upload_time"]>$val["lesson_start"]){
+            }else{
+                $cw_num++;
+                if($val["preview_status"]>0){
+                    $pre_num++;
+                }
+            }
+            if($val["stu_performance"]){
+                $tea_commit++;
+            }
+            if($val["lesson_cancel_reason_type"]==11){
+                $leave_num++;
+            }elseif($val["lesson_cancel_reason_type"]==20){
+                $absence_num++;
+            }
+
+
+
+        }
+        $pre_rate = $cw_num==0?0:round($pre_num/$cw_num*100,2);
+
+
+
+        
+        return $this->output_succ(["data"=>$data]);
+    }
+
 
 }

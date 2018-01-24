@@ -505,7 +505,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                                 $fulltime_flag=-1,$seller_hold_flag=-1,$teacher_ref_type=-1,$have_wx=-1,
                                                 $grade_plan=-1,$subject_plan=-1,$fulltime_teacher_type=-1,$month_stu_num=-1,
                                                 $record_score_num=-1,$identity=-1,$plan_level=-1,
-                                                $teacher_textbook=-1
+                                                $teacher_textbook=-1,$per_subject=-1
     ){
         $where_arr = array(
             array( "t.teacherid=%u", $teacherid, -1 ),
@@ -515,6 +515,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array( "t.need_test_lesson_flag=%u ", $need_test_lesson_flag, -1 ),
             array( "t.gender=%u ", $gender, -1 ),
             array( "t.subject=%u ", $subject, -1 ),
+            array( "t.subject=%u ", $per_subject, -1 ),
             array( "t.second_subject=%u ", $second_subject, -1 ),
             array( "t.is_test_user=%u ", $is_test_user, -1 ),
             array( "t.is_freeze=%u ", $is_freeze, -1 ),
@@ -708,10 +709,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   // ." t.limit_week_lesson_num-sum(tss.lessonid >0)) left_num,"
                                   ." t.idcard,t.bankcard,t.bank_address,t.bank_account,t.bank_phone,t.bank_type, "
                                   ." t.bank_province,t.bank_city,t.teacher_tags,t.is_quit,t.part_remarks,tr.record_score "
-                                  .",t.free_time "
+                                  .",t.free_time,ta.id label_id,ta.tag_info "
                                   ." from %s t"
                                   ." left join %s m on t.phone = m.phone"
                                   ." left join %s tr on tr.teacherid = t.teacherid and tr.type=1 and tr.lesson_style=1"
+                                  ." left join %s ta on t.teacherid = ta.teacherid and ta.label_origin=1000 "
                                   // ." left join %s l on (t.teacherid = l.teacherid"
                                   //." and l.lesson_type=2 and l.lesson_del_flag =0 and l.lesson_start >= %u and l.lesson_end < %u)"
                                   // ." left join %s tss on (l.lessonid= tss.lessonid and tss.success_flag in(0,1))"
@@ -720,12 +722,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,t_teacher_record_list::DB_TABLE_NAME
+                                  ,t_teacher_label::DB_TABLE_NAME
                                   // ,t_lesson_info::DB_TABLE_NAME
                                   // ,$lstart
                                   //  ,$lend
                                   // ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
                                   ,$where_arr
         );
+      
+
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
@@ -899,7 +904,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.confirm_flag!=2",
         ];
         $sql = $this->gen_sql_new(
-            "select t.teacherid,t.subject,t.teacher_money_type,t.nick,t.phone,t.email,t.prove,t.seniority,"
+            "select t.teacherid,t.subject,t.teacher_money_type,t.nick,t.phone,t.email,t.prove,t.seniority,t.achievement,t.wx_name,t.is_prove, t.qq_info, "
             ." t.teacher_type,t.teacher_ref_type,t.identity,t.grade_start,t.grade_end,t.address,"
             ." t.realname,t.work_year,t.teacher_textbook,t.dialect_notes,t.level,t.face,"
             ." t.gender,t.birth,t.grade_part_ex,t.bankcard,t.bank_province,t.bank_city,"
@@ -1613,7 +1618,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "train_through_new=1",
             "is_test_user=0"
         ];
-        $sql = $this->gen_sql_new("select teacherid,subject from %s where %s ",self::DB_TABLE_NAME,$where_arr);
+        $sql = $this->gen_sql_new("select teacherid,subject,grade_end,grade_start from %s where %s ",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
     }
 
@@ -4757,7 +4762,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
         );
-
+        //dd($sql);
         return $this->main_get_row($sql);
     }
 
@@ -4891,23 +4896,29 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         // );
     }
 
-    public function get_total_for_teacherid($start_time, $end_time, $phone, $type) {
-        //select teacherid,name from t_teacher_info t left join t_teacher_lecture_appointment_info ta on t.phone=ta.phone where ta.reference ='15366667766' and t.train_through_new_time  > 0 and train_through_new_time >= unix_timestamp('2017-11-1') and unix_timestamp('2017-12-1')
+    /**
+     * 获取伯乐奖推荐个数
+     */
+    public function get_total_for_teacherid($start_time, $end_time, $phone, $reference_type) {
         $where_arr = [
             ['t.train_through_new_time>=%u', $start_time, 0],
             ['t.train_through_new_time<%u', $end_time, 0],
-            ['ta.reference=%s', $phone, 0]
+            ["ta.reference='%s'",$phone,'']
         ];
-        if ($type == 1) {
-            array_push($where_arr, 'identity in (5,6)');
-        } else {
-            array_push($where_arr, 'identity in (0,7,8)');
+
+        if($reference_type == 1){
+            array_push($where_arr, 't.identity in (5,6)');
+        }else{
+            array_push($where_arr, 't.identity in (0,7,8)');
         }
 
-        $sql = $this->gen_sql_new("select count(*) from %s t left join %s ta on t.phone=ta.phone where %s",
-                                  self::DB_TABLE_NAME,
-                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
-                                  $where_arr
+        $sql = $this->gen_sql_new("select count(1) "
+                                  ." from %s t "
+                                  ." left join %s ta on t.phone=ta.phone "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_value($sql);
     }

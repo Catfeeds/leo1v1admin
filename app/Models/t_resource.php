@@ -9,7 +9,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
     }
 
     public function get_all(
-        $use_type, $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four, $file_title, $page_info, $is_del = 0
+        $use_type, $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five, $file_title, $page_info, $is_del = 0
     ){
         $where_arr = [
             ['r.use_type=%u', $use_type, -1],
@@ -20,6 +20,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ['r.tag_two=%u', $tag_two, -1],
             ['r.tag_three=%u', $tag_three, -1],
             ['r.tag_four=%u', $tag_four, -1],
+            ['r.tag_five=%u', $tag_five, -1],
             ['is_del=%u', $is_del, -1],
             ['status=%u', $is_del, -1],
         ];
@@ -109,7 +110,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ['r.tag_four=%u', $tag_four, -1],
             'r.is_del=0',
             'f.status=0',
-            'ra.is_ban=0',
+           // 'ra.is_ban!=0',
         ];
 
         //老师只开放了１－６
@@ -144,7 +145,6 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ,t_resource_agree_info::DB_TABLE_NAME
             ,$where_arr
         );
-        //dd($sql);
         return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
@@ -207,7 +207,6 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ,t_sub_grade_book_tag::DB_TABLE_NAME
             ,$where_arr
         );
-        //dd($sql);
         return $this->main_get_list($sql);
     }
 

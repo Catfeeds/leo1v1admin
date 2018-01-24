@@ -826,18 +826,20 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                        ." l.userid,s.phone,l.teacherid, l.assistantid,t.realname as teacher_nick,"
                        ." has_quiz, lesson_start, lesson_end, lesson_intro, l.lesson_status,l.lesson_count ,confirm_flag, "
                        ." l.confirm_adminid,l.confirm_time,l.confirm_reason, l.level ,l.teacher_money_type, "
-                       ." l.lesson_cancel_reason_type,l.lesson_cancel_reason_next_lesson_time  "
+                       ." l.lesson_cancel_reason_type,l.lesson_cancel_reason_next_lesson_time,l.lesson_del_flag "
                        ." from %s l "
                        ." left join %s s on l.userid = s.userid "
                        ." left join %s t on l.teacherid= t.teacherid"
                        ." where l.userid = %u "
                        ." and courseid=%u "
-                       ." and %s and from_type=0 and l.lesson_del_flag=0 order by courseid,lesson_num  "
+                       ." and %s and from_type=0 and l.lesson_del_flag=0 order by courseid,lesson_num "
                        ,self::DB_TABLE_NAME
                        ,t_student_info::DB_TABLE_NAME
                        ,t_teacher_info::DB_TABLE_NAME
                        ,$userid
-                       , $courseid, $lesson_status_str  );
+                       ,$courseid
+                       ,$lesson_status_str
+        );
         return $this->main_get_list_by_page($sql, $page_num, $page_size);
     }
 
@@ -915,7 +917,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function get_1v1_user_list($lessonid_list){
-        $sql = $this->gen_sql("select lessonid,lesson_start,lesson_end,s.phone,s.userid,l.lesson_type"
+        $sql = $this->gen_sql("select lessonid,lesson_start,lesson_end,s.phone,s.userid,l.lesson_type,s.nick "
                               ." from %s l,%s s"
                               ." where lessonid in (%s) "
                               ." and l.userid = s.userid"
@@ -928,7 +930,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function get_open_user_list($lessonid_list){
-        $sql = $this->gen_sql("select l.lessonid,lesson_start,lesson_end,s.phone,s.userid,l.lesson_type"
+        $sql = $this->gen_sql("select l.lessonid,lesson_start,lesson_end,s.phone,s.userid,l.lesson_type,s.nick "
                               ." from %s l,%s s"
                               ." left join %s as o on  o.userid=s.userid"
                               ." where l.lessonid in (%s) and o.lessonid = l.lessonid"
@@ -942,7 +944,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function get_small_user_list($lessonid_list){
-        $sql = $this->gen_sql("select l.lessonid,lesson_start,lesson_end,s.phone,s.userid, l.lesson_type"
+        $sql = $this->gen_sql("select l.lessonid,lesson_start,lesson_end,s.phone,s.userid, l.lesson_type,s.nick "
                               ." from %s l,%s s"
                               ." left join %s as o on  o.userid          = s.userid"
                               ." where l.lessonid in (%s) and o.lessonid = l.lessonid"
@@ -1404,6 +1406,9 @@ lesson_type in (0,1) "
         $this->field_update_list($lessonid,$set_field_arr);
     }
 
+    /**
+     * 检测更改的课时
+     */
     public function check_lesson_count_for_change( $lessonid,$lesson_count) {
         $courseid = $this->get_courseid($lessonid);
 
@@ -1487,7 +1492,6 @@ lesson_type in (0,1) "
         );
         return $this->main_get_row($sql);
     }
-
 
     public function check_teacher_time_free($teacherid,$cur_lessonid, $lesson_start,$lesson_end){
         $sql=$this->gen_sql("select l.lessonid,lesson_start,lesson_end "
@@ -1606,6 +1610,7 @@ lesson_type in (0,1) "
         }
         return $this->main_get_list_by_page($sql,$page_num,5000,true);
     }
+
     public function get_student_single_subject($start_time,$end_time,$teacherid,$subject,$studentid){
         $where_arr=[
             ["l.subject= %u",$subject, -1  ],
@@ -3085,7 +3090,8 @@ lesson_type in (0,1) "
         $sql = $this->gen_sql_new("select lessonid,teacherid,assistantid,userid,lesson_type,lesson_start,lesson_end,lesson_count,"
                                   ." teacher_money_type,level,already_lesson_count,tea_attend,stu_attend,tea_rate_time,courseid,"
                                   ." lesson_full_num,tea_cw_upload_time,stu_cw_upload_time,real_begin_time,real_end_time,"
-                                  ." lesson_name,subject,grade,lesson_status,lesson_del_flag,lesson_sub_type,train_type,competition_flag"
+                                  ." lesson_name,subject,grade,lesson_status,lesson_del_flag,lesson_sub_type,train_type,"
+                                  ." competition_flag,lesson_del_flag,confirm_flag,operate_time,lesson_num"
                                   ." from %s"
                                   ." where lessonid=%u"
                                   ,self::DB_TABLE_NAME
@@ -3991,6 +3997,68 @@ lesson_type in (0,1) "
             return $item["teacherid"];
         });
     }
+
+    public function get_teacher_test_person_num_by_all( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid_list=[],$account_role=2,$check_flag=true){
+        $where_arr = [
+            ["lesson_start >= %u",$start_time,-1],
+            ["lesson_start < %u",$end_time,-1],
+            "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
+            "lesson_type = 2",
+            "lesson_del_flag = 0",
+            "l.lesson_status>1"
+            // "require_admin_type =2",
+            //"tq.origin not like '%%扩课%%' and tq.origin not like '%%换老师%%'",
+            //"m.account_role=2",
+            // "m.account_role=2 or tq.origin like '%%转介绍%%'",
+            // "m.del_flag=0"
+        ];
+        if($account_role==2){
+            $where_arr[] = "m.account_role=2 or tq.origin like '%%转介绍%%'";
+        }elseif($account_role==1){
+            $where_arr[] = "m.account_role=1 and tq.origin not like '%%转介绍%%'";
+        }
+        if($subject==20){
+            $where_arr[] = "l.subject in (4,5,6,7,8,9,10)";
+        }else{
+            $where_arr[] =  ["l.subject = %u",$subject,-1];
+        }
+        if($grade_part_ex==0){
+            $where_arr[] = "l.grade =0";
+        }else if($grade_part_ex==100){
+            $where_arr[] = "(l.grade >=100 and l.grade <200)";
+        }else if($grade_part_ex==200){
+            $where_arr[] = "(l.grade >=200 and l.grade <300)";
+        }else if($grade_part_ex==300){
+            $where_arr[] = "l.grade >=300";
+        }else{
+            $where_arr[] =  ["l.grade = %u",$grade_part_ex,-1];
+        }
+
+        $this->where_arr_teacherid($where_arr,"l.teacherid", $teacherid_list,$check_flag);
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.subject,l.teacherid) person_num,count(distinct l.lessonid) lesson_num"
+                                  ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
+                                  ." from %s l "
+                                  ." left join %s tss on tss.lessonid = l.lessonid"
+                                  ." left join %s tq on tq.require_id = tss.require_id"
+                                  ." left join %s ts on ts.test_lesson_subject_id =tq.test_lesson_subject_id "
+                                  ." left join %s c on "
+                                  ." (l.userid = c.userid "
+                                  ." and l.teacherid = c.teacherid "
+                                  ." and l.subject = c.subject "
+                                  ." and c.course_type=0 and c.courseid >0) "
+                                  ." left join %s m on tq.cur_require_adminid = m.uid"
+                                  ." where %s " ,
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
     public function get_teacher_test_person_num_list_old( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid_list=[]){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],
@@ -8327,7 +8395,7 @@ lesson_type in (0,1) "
             ["lessonid=%u",$lessonid,0]
         ];
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.teacherid,l.teacher_money_type,"
-                                  ." money,type,l.already_lesson_count "
+                                  ." money,type,l.already_lesson_count,l.teacher_type "
                                   ." from %s l"
                                   ." left join %s m on l.teacher_money_type=m.teacher_money_type "
                                   ." and l.level=m.level "

@@ -14,6 +14,63 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $start_time = strtotime("2017-07-01");
+        $end_time = strtotime("2018-01-21");
+        $cc_list        = $task->t_lesson_info->get_teacher_test_person_num_by_all( $start_time,$end_time,-1,-1,[],2,false);
+        $cr_list        = $task->t_lesson_info->get_teacher_test_person_num_by_all( $start_time,$end_time,-1,-1,[],1,false);
+        $data=[];
+        $data["cc_lesson_num"] =  $cc_list["lesson_num"];
+        $data["cc_person_num"] =  $cc_list["person_num"];
+        $data["cc_order_num"] =  $cc_list["have_order"];
+        $data["cc_per"]  = round($data["cc_order_num"]/$data["cc_person_num"]*100,2);
+        $data["cr_lesson_num"] =  $cr_list["lesson_num"];
+        $data["cr_person_num"] =  $cr_list["person_num"];
+        $data["cr_order_num"] =  $cr_list["have_order"];
+        $data["cr_per"]  = round($data["cr_order_num"]/$data["cr_person_num"]*100,2);
+        dd($data);
+
+
+        //微信通知老师
+        /**
+         * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
+         * 标题课程 : 等级升级通知
+         * {{first.DATA}}
+         * 用户昵称：{{keyword1.DATA}}
+         * 最新等级：{{keyword2.DATA}}
+         * 生效时间：{{keyword3.DATA}}
+         * {{remark.DATA}}
+         */
+        // $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
+        $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+        if($wx_openid){
+            $data=[];
+            $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
+            $data['first']    = "恭喜jack老师,您已经成功晋级到了三星级";
+            $data['keyword1'] = "jack";
+            $data['keyword2'] = "三星级";
+            $data['keyword3'] = date("Y-m-01 00:00",time());
+            /* $data['remark']   = "晋升分数:".$score
+               ."\n请您继续加油,理优期待与你一起共同进步,提供高品质教学服务";*/
+            $data['remark']   = "希望老师在今后的教学中继续努力,再创佳绩";
+
+            $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=13817759346";
+            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+        }
+        dd(111);
+
+        \App\Helper\Net::send_sms_taobao(13817759346,111, 10671029,[
+            "code"  => 1,
+            "index" => 2,
+        ],1);
+        dd(111);
+
+
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2018-01-01");
+        // $tt = $this->t_teacher_info->get_prize(240314);
+        // dd(json_decode($tt,true));
+        $ret_info = $this->t_teacher_lecture_appointment_info->get_tongji_data($start_time,$end_time);
+        dd($ret_info);
         // $json_data=file_get_contents( "http://10.31.92.162/account/add_small_class_order_info"  );
         // dd($json_data);
 

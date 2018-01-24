@@ -104,7 +104,6 @@ class teacher_trans extends Controller
 
             // 转职成功后 --- 微信推送
         }
-        
         return $this->output_succ();
     }
 

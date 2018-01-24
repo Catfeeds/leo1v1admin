@@ -10,6 +10,7 @@
     <script type="text/javascript" src="/js/jquery.contextify.js"></script>
     <script type="text/javascript" src="/js/area/distpicker.data.js"></script>
 	  <script type="text/javascript" src="/js/area/distpicker.js"></script>
+    <script type="text/javascript" src="/js/pdfobject.js"></script>
     <script>
      var tag_one = '{{@$tag_info['tag_one']['menu']}}';
      var tag_two = '{{@$tag_info['tag_two']['menu']}}';
@@ -26,6 +27,7 @@
      var my_subject = {{@$subject}};
      var my_grade = {{@$grade}};
      var book = {{@$book}};
+     var is_teacher = {{@$is_teacher}};
     </script>
     <section class="content">
 
@@ -138,19 +140,20 @@
                     <td>文件大小</td>
                     <td>科目</td>
                     <td>年级</td>
-                    @if($resource_type < 6)
-                    <td>教材</td>
+                    @if($resource_type <= 6)
+                        <td>教材</td>
                     @endif
 
                     @if( $resource_type == 1 || $resource_type == 3 )
                         <td>学科化标签</td>
+                        <td>难度类型</td>
                     @endif
 
                     @if($resource_type < 7 && $resource_type > 3)
                         <td>上下册</td>
                     @endif
 
-                    <td>是否使用</td>
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -170,15 +173,26 @@
                         @if( $resource_type < 6)
                             <td>{{@$var["tag_one_str"]}} </td>
                         @endif
+                        @if( $resource_type == 6)
+                            <td>{{@$var["tag_four_str"]}} </td>
+                        @endif
+
                         @if( $resource_type == 1 || $resource_type == 3)
                             <td>{{@$var["tag_four_str"]}} </td>
+                            @if( $resource_type == 1)
+                                <td>{{@$var["tag_five_str"]}} </td>
+                            @else
+                                <td>{{@$var["tag_three_str"]}} </td>
+                            @endif
                         @endif
 
                         @if($resource_type < 7 && $resource_type > 3)
                             <td>{{@$var["tag_five_str"]}}</td>
                         @endif
 
-                        <td>是</td>
+                        <td>
+                            <a class="opt-look btn color-blue" data-file_id="{{$var["file_id"]}}"  title="预览">预览</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

@@ -132,10 +132,11 @@ class Controller extends ControllerEx
 
                 }else{
                     if ( $server_name== "admin.leo1v1.com" ) {
-                        echo $this->output_err(1101, ["jump_url" =>  "http://admin-tongji.leo1v1.com/"]);
+                        $resp= $this->output_err(1101, ["jump_url" =>  "http://admin-tongji.leo1v1.com/"]);
                     }else{
-                        echo $this->output_err(1101, ["jump_url" =>  "http://p.admin-tongji.leo1v1.com/"]);
+                        $resp=$this->output_err(1101, ["jump_url" =>  "http://p.admin-tongji.leo1v1.com/"]);
                     }
+                    $resp->send();
                 }
 
                 exit;
@@ -401,6 +402,6 @@ class Controller extends ControllerEx
         }
     }
 
-
+    
 
 }

@@ -8,10 +8,16 @@
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
 
     <script type="text/javascript" src="/js/cropbox.js"></script>
+    <script type="text/javascript" src="/page_js/select_user.js"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg.js"></script>
+    <script type="text/javascript" src="/js/jquery.query.js"></script>
+    <script src="/page_js/enum_map.js" type="text/javascript"></script>
     <link rel="stylesheet" href="/css/face-upload-style.css" type="text/css" />
 
     <script>
      var able_edit  = <?php  echo json_encode($able_edit); ?> ;
+     var g_textbook_type= "{{@$able_edit["textbook_type"]}}";
     </script>
     <section class="content li-section">
         <div class="row">
@@ -355,14 +361,27 @@
                                         <tr>
                                             <th class="text-cen bg-lblue" >最高学历</th>
                                             <td> {{ $my_info['education_str'] }} </td>
-                                            <th class="text-cen bg-lblue" >专业</th>
-                                            <td> {!! $my_info['major_code'] !!} </td>
+                                            <th class="text-cen bg-lblue" >QQ</th>
+                                            <td> {!! $my_info['qq_info'] !!} </td>
                                         </tr>
                                         <tr>
-                                            <th class="text-cen bg-lblue" >兴趣爱好</th>
-                                            <td> {!! $my_info['hobby_code'] !!} </td>
-                                            <th class="text-cen bg-lblue" >个人特长</th>
-                                            <td> {!! $my_info['speciality_code'] !!} </td>
+                                           
+                                            <th class="text-cen bg-lblue" >有无教师资格证</th>
+                                            <td> {!! $my_info['is_prove_str'] !!} </td>
+                                            <th class="text-cen bg-lblue" >微信</th>
+                                            <td> {!! $my_info['wx_name'] !!} </td>
+                                        </tr>
+                                    </table>
+                                    <p class="color-9">教学成果</p>
+                                    <table class="table table-bordered" style="border-collapse: separate;">
+                                        <tr>
+                                            <td rowspan="4" style="text-align: left">
+                                            @if ($my_info['achievement'] == '')
+                                            您暂未填写教学成果，请及时更新，谢谢。
+                                            @else
+                                            {!! $my_info['achievement'] !!}
+                                            @endif
+                                            </td>
                                         </tr>
                                     </table>
                                 </div>

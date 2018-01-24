@@ -480,7 +480,7 @@ class teacher_money extends Controller
         $add_time   = strtotime($add_date);
         $check_flag = \App\Helper\Utils::check_teacher_salary_time($add_time);
         if(!$check_flag){
-            return $this->output_err("不能添加工资至上月工资!");
+            return $this->output_err("无法添加奖金到<font color='red'>已经结算工资</font>的月份!");
         }
 
         $update_arr = [
@@ -535,12 +535,113 @@ class teacher_money extends Controller
         }
 
         $ret = $this->t_teacher_money_list->row_insert($update_arr);
-        if(!$ret){
-            return $this->output_err("添加失败！请重试！");
+        if($ret){
+            $log_arr = [
+                "add_info" => $update_arr
+            ];
+            $msg = json_encode($log_arr);
+            $this->t_user_log->add_user_log($teacherid,$msg,E\Euser_log_type::V_200);
         }
-        return $this->output_succ();
+        return $this->output_ret($ret);
     }
 
+    /**
+     * 添加老师额外奖金
+     * @param type 1 荣誉榜奖金 2 试听课奖金 3 90分钟课程补偿 4 工资补偿
+     * @param teacherid 老师id
+     * @param money_info 获奖信息 1 为课时数 2,3均为lessonid信息 4 为补偿原因
+     * @param money 奖金金额
+     */
+    public function add_teacher_reward_2018_01_21(){
+        $type       = $this->get_in_int_val("type");
+        $grade      = $this->get_in_int_val("grade");
+        $teacherid  = $this->get_in_int_val("teacherid");
+        $money_info = $this->get_in_str_val("money_info");
+        $money      = $this->get_in_int_val("money");
+        $add_date   = $this->get_in_str_val("add_time",date("Y-m-d",time()));
+        $acc        = $this->get_account();
+
+        if(in_array($type,[E\Ereward_type::V_1,E\Ereward_type::V_4])){
+            if(!in_array($acc,["adrian","jim","sunny"])){
+                return $this->output_err("此用户没有添加奖励权限！");
+            }
+        }
+
+        $add_time   = strtotime($add_date);
+        $check_flag = \App\Helper\Utils::check_teacher_salary_time($add_time);
+        if(!$check_flag){
+            return $this->output_err("无法添加奖金到<font color='red'>已经结算工资</font>的月份!");
+        }
+
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $teacher_money_type = $teacher_info['teacher_money_type'];
+        $teacher_type = $teacher_info['teacher_type'];
+
+        $update_arr = [
+            "teacherid"  => $teacherid,
+            "type"       => $type,
+            "add_time"   => $add_time,
+            "money"      => $money,
+            "money_info" => $money_info,
+            "acc"        => $acc,
+        ];
+
+        if($type == E\Ereward_type::V_7){
+            $update_arr['grade'] = $grade;
+        }elseif($type != E\Ereward_type::V_1){
+            $check_flag = $this->t_teacher_money_list->check_is_exists($money_info,$type);
+            if($check_flag){
+                return $this->output_err("此类型奖励已存在!");
+            }
+            if($type==E\Ereward_type::V_2){ //签单奖
+                $check_full_teacher = \App\Helper\Utils::check_teacher_is_full($teacher_money_type, $teacher_type, $teacherid);
+                if(in_array($teacher_money_type,[E\Eteacher_money_type::V_4,E\teacher_money_type::V_5,E\Eteacher_money_type::V_6])
+                   && !$check_full_teacher){
+                    return $this->output_err("老师工资分类错误！");
+                }else{
+                    $update_arr['lessonid'] = $money_info;
+                }
+            }elseif($type==E\Ereward_type::V_3){ //90分钟课程补偿
+                $lesson_money_info = $this->t_lesson_info->get_lesson_money_info($money_info);
+                $add_time    = $lesson_money_info['lesson_start'];
+                $diff_time   = $lesson_money_info['lesson_end']-$add_time;
+                $check_time  = 90*60;
+                if($diff_time != $check_time){
+                    return $this->output_err("本节课不是90分钟，无法添加90分钟的课程补偿。");
+                }
+
+                $base_money = $lesson_money_info['money'];
+                $start      = strtotime(date("Y-m-01",$lesson_money_info['lesson_start']));
+                $end        = strtotime("+1 month",$start);
+                $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$lesson_money_info['teacherid']);
+                $reward_money      = $this->get_lesson_reward_money(
+                    $last_lesson_count,$lesson_money_info['already_lesson_count'],$lesson_money_info['teacher_money_type'],
+                    $lesson_money_info['teacher_type'],$lesson_money_info['type']
+                );
+
+                $money = ($base_money+$reward_money)*25;
+                $update_arr['money'] = $money;
+            }elseif($type==E\Ereward_type::V_4 && $money_info==""){ //工资补偿
+                return $this->output_err("请填写补偿原因！");
+            }
+        }
+
+        if($type == E\Ereward_type::V_6){
+            $ret = $this->add_reference_price($teacherid,$money_info,false);
+            $update_arr['recommended_teacherid'] = $money_info;
+        }else{
+            $ret = $this->t_teacher_money_list->row_insert($update_arr);
+        }
+        if($ret){
+            $log_arr = [
+                "add_info" => $update_arr
+            ];
+            $msg = json_encode($log_arr);
+            $this->t_user_log->add_user_log($teacherid,$msg,E\Euser_log_type::V_200);
+        }
+
+        return $this->output_ret($ret);
+    }
     public function get_teacher_info_for_total_money($teacherid){
         $info  = $this->t_teacher_info->get_teacher_info($teacherid);
         $level_str = \App\Helper\Utils::get_teacher_level_str($info);

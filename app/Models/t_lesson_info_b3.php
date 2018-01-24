@@ -1022,17 +1022,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_user_online_status = 1",
             "l.lesson_type = 2",
             "l.lesson_del_flag = 0",
-            // "tll.test_lesson_fail_flag=0",
-            // "tll.fail_greater_4_hour_flag=0",
             "ts.require_admin_type =2",
             "tlr.accept_flag=1",
         ];
 
-        // $this->where_arr_add_time_range($where_arr,"tlr.require_time",$start_time,$end_time);
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("  select count(tll.lessonid) from %s l "
-        // $sql = $this->gen_sql_new("  select tll.lessonid from %s l "
                                   ." left join %s tll on tll.lessonid=l.lessonid "
                                   ." left join %s tlr on tlr.require_id=tll.require_id"
                                   ." left join %s ts on ts.test_lesson_subject_id=tlr.test_lesson_subject_id"
@@ -2224,6 +2220,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_list($sql);
     }
+
+
+    //学生最早常规课时间
     public function get_stu_first_regular_lesson_time($userid){
         $where_arr=[
             "lesson_del_flag=0",
@@ -2660,7 +2659,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_teacher_data($start_time,$end_time){
         $where_arr = [
             "ti.trial_lecture_is_pass=1",
-            // "ti.is_test_user=0",
+            "ti.is_test_user=0",
             "li.lesson_del_flag=0",
             // "l.lesson_type in (0,1,3)",
             "li.lesson_status=2",
@@ -2694,7 +2693,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ,t_order_refund::DB_TABLE_NAME
             ,$where_arr
         );
-        echo $sql;
         return $this->main_get_list($sql);
     }
     //@desn:获取所有的不重复的subject userid课程信息
@@ -2750,20 +2748,23 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_row($sql);
     }
 
-    public function get_teacher_student_first_subject_info($start_time,$end_time){
+    public function get_teacher_student_first_subject_info($start_time,$end_time,$teacherid=-1){
         $where_arr=[
             "s.is_test_user=0",
             "t.is_test_user=0",
             "l.lesson_type in (0,1,3)",
             "l.confirm_flag <2",
-            "l.lesson_del_flag=0"
+            "l.lesson_del_flag=0",
+            "l.lesson_start>0",
+             "l.lesson_status>1",
+            ["l.teacherid=%u",$teacherid,-1]
         ];
         $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start_time, $end_time);
         $sql = $this->gen_sql_new("select l.teacherid,l.subject,l.userid,l.lesson_start,tr.id,l.lessonid "
                                   ." from %s l left join %s s on l.userid = s.userid"
                                   ." left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s tr on l.teacherid = tr.teacherid and l.userid=tr.userid and l.subject = tr.lesson_subject and tr.type=18"
-                                  ." where %s and not exists (select 1 from %s where subject = l.subject and teacherid=l.teacherid and userid = l.userid and lesson_type in (0,1,3) and confirm_flag <2 and lesson_del_flag=0 and lesson_start<l.lesson_start)",
+                                  ." where %s and not exists (select 1 from %s where subject = l.subject and teacherid=l.teacherid and userid = l.userid and lesson_type in (0,1,3) and confirm_flag <2 and lesson_del_flag=0 and lesson_start<l.lesson_start and lesson_status>1 and lesson_start>0 )",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
@@ -2870,7 +2871,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function getNeedTranLessonUid(){
         $where_arr = [
             "l.lesson_del_flag=0",
-            "l.tea_cw_type=1",
+            "l.use_ppt=1",
             "l.lesson_cancel_time_type=0",
             "zip_url=''",
             "l.ppt_status=1",
@@ -2889,7 +2890,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function getTeaUploadPPTLink(){
         $where_arr = [
             "l.lesson_del_flag=0",
-            "l.tea_cw_type=1",
+            "l.use_ppt=1",
             "l.lesson_cancel_time_type=0",
             "l.zip_url=''",
             "l.tea_cw_url!=''"
@@ -3003,7 +3004,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
     //课前预习
-    public function get_pre_class_preview_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$cw_status,$preview_status,$page_flag=1){
+    public function get_pre_class_preview_info(
+        $page_info,$userid,$start_time,$end_time,$subject,$grade,$cw_status,$preview_status,$page_flag=1
+    ){
         $where_arr = [
             ["l.lesson_start>=%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
@@ -3013,11 +3016,12 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.preview_status=%u",$preview_status,-1],
             "l.lesson_del_flag=0",
             // "l.confirm_flag<2",
-            "l.lesson_type in (0,1,3)"
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_start>0"
         ];
         if($cw_status==0){
             $where_arr[]="(l.tea_cw_upload_time=0 or l.tea_cw_upload_time>=l.lesson_start)";
-        }else{
+        }elseif($cw_status==1){
             $where_arr[]="l.tea_cw_upload_time>0 and l.tea_cw_upload_time<l.lesson_start";
         }
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
@@ -3031,13 +3035,12 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   $where_arr
         );
         if($page_flag==1){
-            return $this->main_get_list_by_page($sql,$page_info); 
+            return $this->main_get_list_by_page($sql,$page_info);
         }elseif($page_flag==2){
-            return $this->main_get_list($sql); 
+            return $this->main_get_list($sql);
         }
     }
 
-    //课堂情况
     public function get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$page_flag=1){
         $where_arr = [
             ["l.lesson_start>=%u",$start_time,0],
@@ -3046,10 +3049,10 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.subject=%u",$subject,-1],
             ["l.grade=%u",$grade,-1],
             "l.lesson_del_flag=0",
-            // "l.confirm_flag<2",
-            "l.lesson_type in (0,1,3)"
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_start>0"
         ];
-       
+
         if($page_flag==1){
             $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,l.userid,"
                                       ."l.grade,l.teacherid,l.lessonid,t.realname,s.parentid,"
@@ -3103,23 +3106,57 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
  
     }
 
+    //所有课信息
     public function get_student_all_lesson_info($userid,$start_time,$end_time){
         $where_arr = [
-            ["lesson_start>=%u",$start_time,0],
-            ["lesson_start<%u",$end_time,0],
-            ["userid=%u",$userid,-1],         
-            "lesson_del_flag=0",
+            ["l.lesson_start>=%u",$start_time,0],
+            ["l.lesson_start<%u",$end_time,0],
+            ["l.userid=%u",$userid,-1],         
+            "l.lesson_del_flag=0",
             // "l.confirm_flag<2",
-            "lesson_type in (0,1,3)"
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_start>0"
         ];
-        $sql = $this->gen_sql_new("select lessonid,lesson_start from %s where %s order by lesson_start",
+        $sql = $this->gen_sql_new("select l.lessonid,l.lesson_start,l.lesson_num,l.tea_cw_upload_time ,l.tea_cw_url,"
+                                  ." l.preview_status,l.cw_status,l.confirm_flag,l.lesson_cancel_reason_type, "
+                                  ." l.teacher_effect,l.teacher_quality,l.stu_score,l.teacher_interact,l.stu_stability, "
+                                  ." l.teacher_comment,l.stu_comment,l.stu_performance,h.issue_time ,h.issue_url ,"
+                                  ." h.finish_time,h.finish_url ,h.work_status ,h.score,h.check_url "
+                                  ." from %s l left join %s h on l.lessonid = h.lessonid"
+                                  ." where %s order by l.lesson_start",
                                   self::DB_TABLE_NAME,
+                                  t_homework_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql); 
 
     }
 
+    //统计学生上过的有效课的信息(几次课,几课时)
+    public function get_student_all_lesson_count_list($userid,$start_time=0,$end_time=0){
+        $where_arr = [
+            ["lesson_start>=%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            ["userid=%u",$userid,-1],         
+            "lesson_del_flag=0",
+            "confirm_flag<2",
+            "lesson_type in (0,1,3)",
+            "lesson_start>0",
+            "lesson_status>1"
+        ];
+        $sql = $this->gen_sql_new("select count(lessonid) lesson_num,"
+                                  ."sum(lesson_count) lesson_count, "
+                                  ." count(distinct subject) subject_num,"
+                                  ." count(distinct teacherid) tea_num "
+                                  ."from %s where %s ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql); 
+
+    }
+
+    //课堂评价
     public function get_lesson_performance_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade,$page_flag=1){
         $where_arr = [
             ["l.lesson_start>=%u",$start_time,0],
@@ -3129,10 +3166,11 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.grade=%u",$grade,-1],
             "l.lesson_del_flag=0",
             // "l.confirm_flag<2",
-            "l.lesson_type in (0,1,3)"
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_start>0"
         ];
 
-        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,"
+        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,l.confirm_flag,"
                                   ."l.grade,l.teacherid,l.lessonid,t.realname,l.userid,"
                                   ." l.lesson_num,l.teacher_effect,l.teacher_quality,"
                                   ." l.stu_score,l.teacher_interact,l.stu_stability, "
@@ -3148,7 +3186,266 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         }elseif($page_flag==2){
             return $this->main_get_list($sql); 
         }
- 
+    }
+    //@desn:获取第四季度在读学生信息
+    //@param:$start_time $end_time 开始时间 结束时间
+    public function get_q4_reading_stu($start_time,$end_time){
+        $where_arr = [
+            'si.is_test_user = 0',
+            'li.lesson_del_flag=0',
+            'li.lesson_type in (0,1,3)',
+            'li.lesson_status = 2',
+            'li.lesson_user_online_status in (0,1) or f.flow_status = 2'
+        ];
+        $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select li.userid,si.nick,si.grade,si.gender,si.phone,si.editionid,'.
+            'si.phone_province '.
+            'from %s li '.
+            'left join %s si using(userid) '.
+            'left join %s f on f.flow_type=2003 and li.lessonid= f.from_key_int '.
+            'where %s group by li.userid',
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql, function($item){
+            return $item['userid'];
+        });
+    }
+    //@desn:获取已消耗课耗
+    //@param:$userid 用户id
+    //@param:$end_time 结束时间
+    public function get_use_class_pag($userid,$end_time){
+        $where_arr = [
+            'li.lesson_del_flag=0',
+            'li.lesson_type in (0,1,3)',
+            'li.lesson_status = 2',
+            'li.lesson_start < '.$end_time,
+            'li.lesson_user_online_status in (0,1) or f.flow_status = 2'
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'li.userid', $userid);
+        $sql = $this->gen_sql_new(
+            'select sum(li.lesson_count) use_class_pag '.
+            'from %s li '.
+            'left join %s f on f.flow_type=2003 and li.lessonid= f.from_key_int '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            $where_arr
+        );
+        // echo $sql."\n";
+        return $this->main_get_value($sql);
+    }
+    //@desn:获取第四季度课程信息
+    //@param:$userid 用户id
+    //@param:$start_time $end_time 开始时间  结束时间
+    public function get_q4_class_info($userid,$start_time,$end_time){
+        $where_arr = [
+            'li.lesson_del_flag=0',
+            'li.lesson_type in (0,1,3)',
+            'li.lesson_status = 2',
+            'li.lesson_user_online_status in (0,1) or f.flow_status = 2'
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'li.userid', $userid);
+        $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select count(distinct subject) q4_subject_count,sum(lesson_count) q4_lesson_count,'.
+            'count(*) q4_class_count,min(li.lesson_start) lesson_start,max(li.lesson_start) lesson_end '.
+            'from %s li '.
+            'left join %s f on f.flow_type=2003 and li.lessonid= f.from_key_int '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+    //@desn:获取小班课 公开课信息
+    //@param:$start_time $end_time 开始时间 结束时间
+    //@param:$userid 用户id
+    public function get_lesson_type_info($userid,$start_time,$end_time){
+        $where_arr = [
+            'li.lesson_del_flag=0',
+            'li.lesson_status = 2',
+            'li.lesson_user_online_status in (0,1) or f.flow_status = 2'
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'li.userid', $userid);
+        $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select sum(lesson_type in(1001,1002,1003)) public_class_count,'.
+            'sum(lesson_type in(3001,3002)) small_class_count '.
+            'from %s li '.
+            'left join %s f on f.flow_type=2003 and li.lessonid= f.from_key_int '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+    //@desn:获取在读科目数
+    //@param:$userid 用户id
+    //@param:$start_time,$end_time  开始时间 结束时间
+    public function get_expand_subject_count($userid,$start_time,$end_time){
+        $where_arr = [
+            'li.lesson_del_flag=0',
+            'li.lesson_type in (0,1,3)',
+            'li.lesson_status = 2',
+            'li.lesson_user_online_status in (0,1) or f.flow_status = 2'
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'li.userid', $userid);
+        $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select count(distinct subject) expand_subject_count '.
+            'from %s li '.
+            'left join %s f on f.flow_type=2003 and li.lessonid= f.from_key_int '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+    //@desn:获取扩科时间
+    //@param:$userid 用户id
+    public function get_first_expand_time($userid){
+        $where_arr = [
+            'li.lesson_del_flag=0',
+            'li.lesson_type in (0,1,3)',
+            'li.lesson_status = 2',
+            'li.lesson_user_online_status in (0,1) or f.flow_status = 2'
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'li.userid', $userid);
+        $sql = $this->gen_sql_new(
+            'select li.lesson_start from %s li '.
+            'left join %s f on f.flow_type=2003 and li.lessonid= f.from_key_int '.
+            'where %s group by li.subject order by li.lesson_start limit 2',
+            self::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    //作业信息
+    public function get_lesson_homework_list_new($page_info,$userid,$start_time,$end_time,$subject,$grade,$page_flag=1){
+        $where_arr = [
+            ["l.lesson_start>=%u",$start_time,0],
+            ["l.lesson_start<%u",$end_time,0],
+            ["l.userid=%u",$userid,-1],
+            ["l.subject=%u",$subject,-1],
+            ["l.grade=%u",$grade,-1],
+            "l.lesson_del_flag=0",
+            // "l.confirm_flag<2",
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_start>0"
+        ];
+
+        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,l.confirm_flag,"
+                                  ."l.grade,l.teacherid,l.lessonid,t.realname,l.userid,"
+                                  ." l.lesson_num,h.issue_time ,h.issue_url ,h.finish_time,h.finish_url ,"
+                                  ." h.work_status ,h.score,h.check_url"
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s h on l.lessonid = h.lessonid"
+                                  ." where %s order by l.lesson_start",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_homework_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        if($page_flag==1){
+            return $this->main_get_list_by_page($sql,$page_info); 
+        }elseif($page_flag==2){
+            return $this->main_get_list($sql); 
+        }
+    }
+
+    /**
+     * 将一节课程的课程课件信息拷贝至另一节课中
+     * 此功能多用于课时确认中的调课选项
+     */
+    public function copy_lesson_cw_to_new_lesson($lessonid,$copy_lessonid){
+        $where_arr = [
+            ["l1.lessonid=%u",$lessonid,0],
+            ["l2.lessonid=%u",$copy_lessonid,0],
+        ];
+        $sql = $this->gen_sql_new("update %s l1,%s l2 set "
+                                  ." l2.stu_cw_upload_time=l1.stu_cw_upload_time,l2.stu_cw_status=l1.stu_cw_status,"
+                                  ." l2.stu_cw_url=l1.stu_cw_url,l2.tea_cw_name=l1.tea_cw_name,"
+                                  ." l2.tea_cw_upload_time=l1.tea_cw_upload_time,"
+                                  ." l2.tea_cw_status=l1.tea_cw_status,l2.lesson_quiz=l1.lesson_quiz,"
+                                  ." l2.lesson_quiz_status=l1.lesson_quiz_status,l2.tea_more_cw_url=l1.tea_more_cw_url"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_update($sql);
+    }
+
+    public function get_subject_count($userid) {
+        $sql = $this->gen_sql_new("select count(distinct subject) count,userid from t_lesson_info where lesson_type in (0,1,3) and userid = $userid ",self::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
+    }
+
+
+    //检查学生是否有有效课
+    public function check_have_lesson_stu($userid,$start_time,$end_time){
+        $where_arr = [
+            ["lesson_start>=%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            ["userid=%u",$userid,-1],          
+            "lesson_del_flag=0",
+            "confirm_flag<2",
+            "lesson_type in (0,1,3)"
+        ];
+        $sql = $this->gen_sql_new("select 1 from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+
+    }
+    //@desn:获取上小班课次数
+    //@param:$userid 用户id
+    //@param:$start_time $end_time 开始时间 结束时间
+    public function get_small_class_count($userid,$start_time,$end_time){
+        $where_arr = [
+            'li.lesson_del_flag=0',
+            'li.lesson_type in (3001,3002)',
+            'li.lesson_status = 2'
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'scu.userid', $userid);
+        $this->where_arr_add_time_range($where_arr, 'scu.join_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select count(*) from %s li '.
+            'left join %s scu using(courseid) '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_small_class_user::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+    //@desn:获取上公开课次数
+    //@param:$userid 用户id
+    //@param:$start_time $end_time 开始时间 结束时间
+    public function get_public_class_count($userid,$start_time,$end_time){
+        $where_arr = [
+            'li.lesson_del_flag=0',
+            'li.lesson_type in (1001,1002,1003)',
+            'li.lesson_status = 2'
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr, 'olu.userid', $userid);
+        $this->where_arr_add_time_range($where_arr, 'olu.join_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            'select count(*) from %s li '.
+            'left join %s olu using(lessonid) '.
+            'where %s',
+            self::DB_TABLE_NAME,
+            t_open_lesson_user::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
     }
 
 }

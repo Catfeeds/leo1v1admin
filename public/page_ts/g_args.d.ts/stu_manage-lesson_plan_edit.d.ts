@@ -21,6 +21,7 @@ interface RowData {
 	phone	:any;
 	teacherid	:any;
 	assistantid	:any;
+	teacher_nick	:any;
 	has_quiz	:any;
 	lesson_start	:any;
 	lesson_end	:any;
@@ -35,7 +36,7 @@ interface RowData {
 	teacher_money_type	:any;
 	lesson_cancel_reason_type	:any;
 	lesson_cancel_reason_next_lesson_time	:any;
-	teacher_nick	:any;
+	lesson_del_flag	:any;
 	lesson_start_str	:any;
 	lesson_end_str	:any;
 	lesson_status_str	:any;
@@ -57,12 +58,13 @@ tofile:
 /// <reference path="../g_args.d.ts/stu_manage-lesson_plan_edit.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		sid:	$('#id_sid').val(),
 		all_flag:	$('#id_all_flag').val(),
 		courseid:	$('#id_courseid').val()
-    });
+		});
 }
 $(function(){
 
@@ -86,6 +88,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_sid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["sid title", "sid", "th_sid" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -93,6 +96,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_all_flag" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["all_flag title", "all_flag", "th_all_flag" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -100,4 +104,5 @@ $(function(){
                 <input class="opt-change form-control" id="id_courseid" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["courseid title", "courseid", "th_courseid" ]])!!}
 */

@@ -30,8 +30,7 @@ class teacher_level extends Controller
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $page_info = $this->get_in_page_info();
 
-
-         $start_time = strtotime("2017-10-01");
+        $start_time = strtotime("2017-10-01");
         $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,-1,-1,-1,0);
         foreach($ret_info["list"] as &$item){
             //$item["level"]=$item["level_before"];
@@ -41,14 +40,11 @@ class teacher_level extends Controller
                 // E\Enew_level::set_item_value_str($item,"level_after");
                 $item["level_str"] = E\Enew_level::get_simple_desc($item["level"]);
                 $item["level_after_str"] = E\Enew_level::get_simple_desc($item["level_after"]);
-
-
             }else{
                 //  E\Elevel::set_item_value_str($item,"level_before");
                 // E\Elevel::set_item_value_str($item,"level_after");
                 $item["level_str"] = E\Elevel::get_simple_desc($item["level"]);
                 $item["level_after_str"] = E\Elevel::get_simple_desc($item["level_after"]);
-
             }
             \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($item,"require_time","_str");
@@ -1612,6 +1608,298 @@ class teacher_level extends Controller
         return $this->output_succ();
     }
 
+    public function get_teacher_level_quarter_info_show(){
+        $sum_field_list = [
+            "total_score"
+        ];
+        $order_field_arr = array_merge(["realname"],$sum_field_list);
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str($order_field_arr,"realname desc ");
+
+        $season     = ceil((date('n'))/3)-1;//上季度是第几季度
+        $start_time = strtotime(date('Y-m-d H:i:s',mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
+        $end_time   = strtotime(date('Y-m-d H:i:s',mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
+        $this->set_in_value("quarter_start",$start_time);
+        $quarter_start = $this->get_in_int_val("quarter_start");
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type",6);
+        $teacherid = $this->get_in_int_val("teacherid",-1);
+        $is_test_user = $this->get_in_int_val("is_test_user",0);
+        $show_all = $this->get_in_int_val("show_all",0);
+        $advance_require_flag = $this->get_in_int_val("advance_require_flag",-1);
+        $withhold_require_flag = $this->get_in_int_val("withhold_require_flag",-1);
+        $page_info = $this->get_in_page_info();
+
+
+        $teacher_money_type=6;
+        $start_time = strtotime("2017-10-01");
+        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,-1,-1,$is_test_user,$advance_require_flag,$show_all,$withhold_require_flag);
+        foreach($ret_info["list"] as &$item){
+            //$item["level"]=$item["level_before"];
+            $item["level"]=$item["real_level"];
+            if($teacher_money_type==6){
+                //  E\Enew_level::set_item_value_str($item,"level_before");
+                // E\Enew_level::set_item_value_str($item,"level_after");
+                $item["level_str"] = E\Enew_level::get_simple_desc($item["level"]);
+                $item["level_after_str"] = E\Enew_level::get_simple_desc($item["level_after"]);
+
+
+            }else{
+                //  E\Elevel::set_item_value_str($item,"level_before");
+                // E\Elevel::set_item_value_str($item,"level_after");
+                $item["level_str"] = E\Elevel::get_simple_desc($item["level"]);
+                $item["level_after_str"] = E\Elevel::get_simple_desc($item["level_after"]);
+
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item,"require_time","_str");
+
+            E\Eaccept_flag::set_item_value_str($item);
+            E\Eaccept_flag::set_item_value_str($item,"withhold_final_trial_flag");
+            $item["lesson_count"] = $item["lesson_count"]/100;
+            $item["lesson_count_score"] = $this->get_advance_score_by_num( $item["lesson_count"],1);//课耗得分
+            $item["record_final_score"]= $this->get_advance_score_by_num( $item["record_score_avg"],5);//教学质量得分
+            $item["cc_order_score"]= $this->get_advance_score_by_num( $item["cc_order_num"],2);//cc签单数得分
+            $item["other_order_score"]= $this->get_advance_score_by_num( $item["other_order_num"],3);//cr签单得分
+            $item["stu_num_score"]= $this->get_advance_score_by_num( $item["stu_num"],4);//常规学生签单得分
+            $order_score = $item["cc_order_score"]+ $item["other_order_score"];//签单总分
+            if($order_score>=10){
+                $order_score=10;
+            }
+            $item["total_score"] =$item["lesson_count_score"]+$item["record_final_score"]+$order_score+ $item["stu_num_score"];//总得分
+            list($item["reach_flag"],$item["withhold_money"])=$this->get_tea_reach_withhold_list($item["level"],$item["total_score"]);
+            E\Eboolean::set_item_value_str($item,"reach_flag");
+
+        }
+
+        $this->set_filed_for_js("start_time",$start_time);
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
+    //晋升申请(2018年1月新版)
+    public function set_teacher_advance_require_2018(){
+        $start_time   = $this->get_in_int_val("start_time");
+        $teacherid    = $this->get_in_int_val("teacherid");
+        $level_after  = $this->get_in_int_val("level_after");
+        $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+            "level_after"     => $level_after,
+            "require_time"    => time(),
+            "require_adminid" => $this->get_account_id()
+        ]);
+        return $this->output_succ();
+
+    }
+
+    //扣款申请
+    public function set_teacher_advance_withhold_require_2018(){
+        $start_time   = $this->get_in_int_val("start_time");
+        $teacherid    = $this->get_in_int_val("teacherid");
+        $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+            "withhold_require_time"    => time(),
+            "withhold_require_adminid" => $this->get_account_id()
+        ]);
+        return $this->output_succ();
+
+    }
+
+    //晋升处理(邮件/微信推送)
+    public function set_teacher_advance_require_master_2018(){
+        $start_time   = $this->get_in_int_val("start_time");
+        $teacherid    = $this->get_in_int_val("teacherid");
+        $accept_flag  = $this->get_in_int_val("accept_flag");
+        $old_level  = $this->get_in_int_val("old_level");
+        $level_after  = $this->get_in_int_val("level_after");
+        $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+            "accept_flag"     => $accept_flag,
+            "accept_time"    => time(),
+            "accept_adminid" => $this->get_account_id()
+        ]);
+
+        if($accept_flag==1){
+            $this->t_teacher_info->field_update_list($teacherid,["level"=>$level_after]);
+            $info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,teacher_type,nick,realname,wx_openid");
+            $info["level"] = $level_after;
+            $info["old_level"] = $old_level;
+
+            $level_degree    = \App\Helper\Utils::get_teacher_level_str($info);
+
+            $score = $this->t_teacher_advance_list->get_total_score($start_time,$teacherid);
+
+            //已排課程工資等級更改
+            $level_start = strtotime(date("Y-m-01",time()));
+            $teacher_money_type = $info["teacher_money_type"];
+            $this->t_lesson_info->set_teacher_level_info_from_now($teacherid,$teacher_money_type,$level_after,$level_start);
+
+            //微信通知老师
+            /**
+             * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
+             * 标题课程 : 等级升级通知
+             * {{first.DATA}}
+             * 用户昵称：{{keyword1.DATA}}
+             * 最新等级：{{keyword2.DATA}}
+             * 生效时间：{{keyword3.DATA}}
+             * {{remark.DATA}}
+             */
+            $wx_openid = $info["wx_openid"];
+            $realname = $info["realname"];
+            // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+            if($wx_openid){
+                $data=[];
+                $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
+                $data['first']    = "恭喜".$realname."老师,您已经成功晋级到了".$level_degree;
+                $data['keyword1'] = $realname;
+                $data['keyword2'] = $level_degree;
+                $data['keyword3'] = date("Y-m-01 00:00",time());
+                /* $data['remark']   = "晋升分数:".$score
+                   ."\n请您继续加油,理优期待与你一起共同进步,提供高品质教学服务";*/
+                $data['remark']   = "希望老师在今后的教学中继续努力,再创佳绩";
+
+                $url = "http://admin.leo1v1.com/common/show_level_up_html?teacherid=".$teacherid;
+                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+                if($teacherid==240314){
+                    \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxGZQHlRENGlUeA7Tn1nSeII",$template_id,$data,$url);                   
+                }
+                
+            }
+
+            // 邮件推送
+            $html  = $this->teacher_level_up_html($info);
+            $email = $this->t_teacher_info->get_email($teacherid);
+            // $email = "jack@leoedu.com";
+            if($email){
+                dispatch( new \App\Jobs\SendEmailNew(
+                    $email,"【理优1对1】老师晋升通知",$html
+                ));
+            }
+
+            $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[              
+                "advance_wx_flag"=> 1
+            ]);
+
+ 
+        }
+        return $this->output_succ();
+    }
+
+    //扣款审批
+    public function set_teacher_withhold_require_master_2018(){
+        $start_time   = $this->get_in_int_val("start_time");
+        $teacherid    = $this->get_in_int_val("teacherid");
+        $withhold_final_trial_flag  = $this->get_in_int_val("withhold_final_trial_flag");
+        $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+            "withhold_final_trial_flag"     => $withhold_final_trial_flag,
+            "withhold_final_trial_time"    => time(),
+            "withhold_final_trial_adminid" => $this->get_account_id()
+        ]);
+
+        if($withhold_final_trial_flag==1){          
+ 
+        }
+        return $this->output_succ();
+    }
+
+
+    //新版刷新数据
+    public function update_teacher_advance_info_all(){
+        $start_time = $this->get_in_int_val("start_time");
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type");
+        $start_time =strtotime("2017-10-01");
+        $end_time = strtotime("+3 months",$start_time);
+        $ret_info = $this->t_teacher_advance_list->get_info_by_teacher_money_type($start_time,$teacher_money_type);
+        dd($ret_info);
+
+        $tea_arr=[];
+        foreach($ret_info as $val){
+            $tea_arr[]=$val["teacherid"];
+        }
+
+        // $test_person_num        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
+        // $kk_test_person_num     = $this->t_lesson_info->get_kk_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
+        // $change_test_person_num = $this->t_lesson_info->get_change_teacher_test_person_num_list(
+        //     $start_time,$end_time,-1,-1,$tea_arr);
+        // $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr);
+        foreach($ret_info as &$item){
+            $teacherid = $item["teacherid"];
+            $item["level"]=$item["real_level"];
+            $item["lesson_count"] = $item["lesson_count"]/100;
+            $item["lesson_count_score"] = $this->get_advance_score_by_num( $item["lesson_count"],1);//课耗得分
+            $item["stu_num_score"]= $this->get_advance_score_by_num( $item["stu_num"],4);//常规学生签单得分
+           
+            // $item["cc_test_num"]    = isset($test_person_num[$teacherid])?$test_person_num[$teacherid]["person_num"]:0;
+            // $item["cc_order_num"]   = isset($test_person_num[$teacherid])?$test_person_num[$teacherid]["have_order"]:0;
+            $item["cc_order_score"]= $this->get_advance_score_by_num( $item["cc_order_num"],2);//cc签单数得分
+
+            // $item["other_test_num"] = (isset($kk_test_person_num[$teacherid])?$kk_test_person_num[$teacherid]["kk_num"]:0)+(isset($change_test_person_num[$teacherid])?$change_test_person_num[$teacherid]["change_num"]:0);
+            // $item["other_order_num"] = (isset($kk_test_person_num[$teacherid])?$kk_test_person_num[$teacherid]["kk_order"]:0)+(isset($change_test_person_num[$teacherid])?$change_test_person_num[$teacherid]["change_order"]:0);
+            $item["other_order_score"]= $this->get_advance_score_by_num( $item["other_order_num"],3);//cr签单得分
+
+          
+            // $item["record_num"] = isset($teacher_record_score[$teacherid])?$teacher_record_score[$teacherid]["num"]:0;
+            // $item["record_score"] = isset($teacher_record_score[$teacherid])?$teacher_record_score[$teacherid]["score"]:0;
+            // $item["record_score_avg"] = !empty($item["record_num"])?round($item["record_score"]/$item["record_num"],1):0;
+            $item["record_final_score"]= $this->get_advance_score_by_num( $item["record_score_avg"],5);//教学质量得分
+
+            $order_score = $item["cc_order_score"]+ $item["other_order_score"];//签单总分
+            if($order_score>=10){
+                $order_score=10;
+            }
+            $item["total_score"] =$item["lesson_count_score"]+$item["record_final_score"]+$order_score+ $item["stu_num_score"];//总得分
+          
+            $item["hand_flag"]=0;          
+            $exists = $this->t_teacher_advance_list->field_get_list_2($start_time,$teacherid,"teacherid");
+            if(!$exists){
+                $this->t_teacher_advance_list->row_insert([
+                    "start_time" =>$start_time,
+                    "teacherid"  =>$teacherid,
+                    "level_before"=>$item["level"],
+                    // "lesson_count"=>$item["lesson_count"]*100,
+                    "lesson_count_score"=>$item["lesson_count_score"],
+                    // "cc_test_num"=>$item["cc_test_num"],
+                    // "cc_order_num" =>$item["cc_order_num"],
+                    // "cc_order_per" =>$item["cc_order_per"],
+                    "cc_order_score" =>$item["cc_order_score"],
+                    // "other_test_num"=>$item["other_test_num"],
+                    // "other_order_num" =>$item["other_order_num"],
+                    // "other_order_per" =>$item["other_order_per"],
+                    "other_order_score" =>$item["other_order_score"],
+                    "record_final_score"=>$item["record_final_score"],
+                    // "record_score_avg" =>$item["record_score_avg"],
+                    // "record_num"     =>$item["record_num"],
+                    // "is_refund"      =>$item["is_refund"],
+                    "total_score"    =>$item["total_score"],
+                    // "teacher_money_type"=>$item["teacher_money_type"],
+                    // "stu_num"        =>$item["stu_num"],
+                    "stu_num_score"  =>$item["stu_num_score"]
+                ]);
+
+            }else{
+                // $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+                //     "level_before"=>$item["level"],
+                //     "lesson_count"=>$item["lesson_count"]*100,
+                //     "lesson_count_score"=>$item["lesson_count_score"],
+                //     "cc_test_num"=>$item["cc_test_num"],
+                //     "cc_order_num" =>$item["cc_order_num"],
+                //     "cc_order_per" =>$item["cc_order_per"],
+                //     "cc_order_score" =>$item["cc_order_score"],
+                //     "other_test_num"=>$item["other_test_num"],
+                //     "other_order_num" =>$item["other_order_num"],
+                //     "other_order_per" =>$item["other_order_per"],
+                //     "other_order_score" =>$item["other_order_score"],
+                //     "record_final_score"=>$item["record_final_score"],
+                //     "record_score_avg" =>$item["record_score_avg"],
+                //     "record_num"     =>$item["record_num"],
+                //     "is_refund"      =>$item["is_refund"],
+                //     "total_score"    =>$item["total_score"],
+                //     "teacher_money_type"=>$item["teacher_money_type"],
+                //     "stu_num"        =>$item["stu_num"],
+                //     "stu_num_score"  =>$item["stu_num_score"]
+                // ]);
+
+            }
+
+        }
+
+
+    }
 
 
 

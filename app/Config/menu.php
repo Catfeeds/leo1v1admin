@@ -311,6 +311,7 @@ class menu{
                 ["power_id"=>1, "name"=>"首页",  "url"=>"/main_page2/market" ],
                 ["power_id"=>88, "name"=>"周报月报",  "url"=>"/report/week_of_monthly_report" ],
                 ["power_id"=>8, "name"=>"渠道-统计", "list"=>[
+                    // ["power_id"=>59, "name"=>"例子分配明细", "url"=>"/tongji_ex/seller_student_distribution"],
                     ["power_id"=>3, "name"=>"渠道统计-明细", "url"=>"/tongji_ex/seller_student_detail"],
                     ["power_id"=>28, "name"=>"渠道页面-访问", "url"=>"/report/event_log_info", "domain_type" =>100 ],
                     ["power_id"=>56, "name"=>"渠道统计-new", "url"=>"/tongji_ss/channel_statistics"],
@@ -400,7 +401,6 @@ class menu{
                     ["power_id"=>7, "name"=>"用户下线",   "url"=>"/agent/agent_user_link"],
                     ["power_id"=>8, "name"=>"用户订单",   "url"=>"/agent/agent_order_list"],
                     ["power_id"=>12, "name"=>"优学帮列表",   "url"=>"/agent/agent_list_new"],
-                    ["power_id"=>89, "name"=>"销售个人未回访",   "url"=>"/seller_student_new/no_lesson_call_end_time_list"],
                 ]],
                 ["power_id"=>9, "name"=>"约课 课程包管理",   "url"=>"/appoint/index2"],
                 ["power_id"=>18, "name"=>"h5 活动页 ",   "url"=>"/admin_manage/web_page_info"],
@@ -458,7 +458,6 @@ class menu{
                 ["power_id"=>5, "name"=>"节日列表",   "url"=>"/festival/festival_list"],
                 ["power_id"=>7, "name"=>"系统消息",   "url"=>"/news_info/stu_message_list"],
                 ["power_id"=>10, "name"=>"用户消息列表",   "url"=>"/news_info/stu_detail_message_list"],
-                ["power_id"=>35, "name"=>"产品问题记录文档",   "url"=>"/user_manage_new/product_info"],
                 //["power_id"=>36, "name"=>"软件版本控制",   "url"=>"/aliyun_oss/upload_list"],
                 ["power_id"=>47, "name"=>"标签库",   "url"=>"/product_tag/tag_list"],
                 ["power_id"=>46, "name"=>"老师稳定性参考数据",   "url"=>"/tea_manage_new/approved_data"],
@@ -487,6 +486,7 @@ class menu{
                     ["power_id"=>35, "name"=>"销售个人业绩表",   "url"=>"/tongji/seller_personal_money"],
                     ["power_id"=>37, "name"=>"销售个人排行榜",   "url"=>"/tongji/seller_personal_rank"],
                     ["power_id"=>33, "name"=>"销售个效统计表",   "url"=>"/tongji/seller_time_income_list"],
+                    ["power_id"=>89, "name"=>"销售个人未回访",   "url"=>"/seller_student_new/no_lesson_call_end_time_list"],
                     ["power_id"=>3, "name"=>"销售时效统计",   "url"=>"/tongji/seller_time"],
                     ["power_id"=>36, "name"=>"销售-时报", "url"=>"/tongji/seller_call_rate"],
                     ["power_id"=>4, "name"=>"试听排课统计", "url"=>"/tongji/test_lesson_tongi"],
@@ -533,7 +533,6 @@ class menu{
                     ["power_id"=>11, "name"=>"科目统计-学生",   "url"=>"/user_manage/tongji_student_subject"],
                     ["power_id"=>12, "name"=>"课耗年级统计-学生",   "url"=>"/user_manage/tongji_grade_lesson_count"],
                     ["power_id"=>13, "name"=>"科目年级-学生",   "url"=>"/user_manage/tongji_student_grade_subject"],
-
                 ]],
                 ["power_id"=>2, "name"=>"消息统计", "list"=>[
                     ["power_id"=>1, "name"=>"短信日期统计",   "url"=>"/tongji/sms"],
@@ -751,6 +750,7 @@ class menu{
                 ["power_id"=>74, "name"=>"毕业班课时统计",   "url"=>"/user_manage/graduating_lesson_time"],
                 ["power_id"=>95, "name"=>"未录入成绩学生列表",   "url"=>"/user_manage/no_type_student_score"],
                 ["power_id"=>96, "name"=>"在读学员老师列表",   "url"=>"/user_manage/stu_all_teacher"],
+                ["power_id"=>97, "name"=>"产品问题记录-技术支持",   "url"=>"/user_manage_new/product_info"],
 
             ]],
 
@@ -858,7 +858,7 @@ class menu{
 
             ["power_id"=>36, "name"=>"角色-运营",  "list"=>[
                 ["power_id"=>45, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher_tea"],
-                ["power_id"=>1, "name"=>"兼职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info"],
+                ["power_id"=>1, "name"=>"兼职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_show"],
                 ["power_id"=>3, "name"=>"助教课时折损统计",   "url"=>"/tongji/test_lesson_ass_jy"],
                 ["power_id"=>4, "name"=>"兼职老师上课考勤",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher_jy"],
                 ["power_id"=>5, "name"=>"兼职老师更换申请",   "url"=>"/user_manage_new/get_ass_change_teacher_info"],

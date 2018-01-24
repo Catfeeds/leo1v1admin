@@ -8,13 +8,16 @@ class t_sub_grade_book_tag extends \App\Models\Zgen\z_t_sub_grade_book_tag
 		parent::__construct();
 	}
 
-    public function get_list($subject,$grade,$bookid,$page_num,$page_count){
+    public function get_list($subject,$grade,$bookid,$resource_type,$season_id,$page_num,$page_count){
         $where_arr = [
             ["subject = %u",$subject,-1],
             ["grade = %u",$grade,-1],
             ["bookid = %u",$bookid,-1],
+            ["resource_type = %u",$resource_type,-1],
+            ["season_id = %u",$season_id,-1],
             ["del_flag = %s",0]
         ];
+
         $sql = $this->gen_sql_new(" select * from %s  where %s order by subject asc,grade asc,bookid asc,id asc"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
@@ -27,6 +30,8 @@ class t_sub_grade_book_tag extends \App\Models\Zgen\z_t_sub_grade_book_tag
             ["subject = %u",$data['subject']],
             ["grade = %u",$data['grade']],
             ["bookid = %u",$data['bookid']],
+            ["resource_type = %u",$data['resource_type']],
+            ["season_id = %u",$data['season_id']],
             ["tag = '%s'",$data['tag']],
             ["del_flag = %s",0]
         ];
@@ -44,6 +49,8 @@ class t_sub_grade_book_tag extends \App\Models\Zgen\z_t_sub_grade_book_tag
             ["subject = %u",$data['subject']],
             ["grade = %u",$data['grade']],
             ["bookid = %u",$data['bookid']],
+            ["resource_type = %u",$data['resource_type']],
+            ["season_id = %u",$data['season_id']],
             ["tag = '%s'",$data['tag']],
             ["del_flag = %s",0]
         ];
@@ -91,11 +98,13 @@ class t_sub_grade_book_tag extends \App\Models\Zgen\z_t_sub_grade_book_tag
         return $this->main_get_row($sql);
     }
 
-    public function get_tag_by_sub_grade($subject,$grade,$bookid=50000){
+    public function get_tag_by_sub_grade($subject,$grade,$bookid=50000,$resource_type,$season_id){
         $where_arr = [
             ["subject = %u",(float)$subject],
             ["grade = %u",(float)$grade],
             ["bookid = %u",$bookid],
+            ["resource_type = %u",$resource_type],
+            ["season_id = %u",$season_id,-1],
         ];
         $sql = $this->gen_sql_new(" select id,tag from %s  where %s order by id desc"
                                   ,self::DB_TABLE_NAME
@@ -103,6 +112,24 @@ class t_sub_grade_book_tag extends \App\Models\Zgen\z_t_sub_grade_book_tag
         );
         return $this->main_get_list($sql);
 
+    }
+
+    public function get_biaozun($bookid,$biao){
+        if($biao == 1){
+            $where_arr = [
+                ["bookid = %u",50000 ],
+            ];
+        }else{
+            $where_arr = [
+                ["bookid != %u",50000 ],
+            ];
+        }
+
+        $sql = $this->gen_sql_new(" select * from %s  where %s order by id desc"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
     }
 }
 

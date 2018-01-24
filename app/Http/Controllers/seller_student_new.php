@@ -49,7 +49,6 @@ class seller_student_new extends Controller
         if (!$this->check_in_has( "admin_revisiterid")) {
             $this->set_in_value("admin_revisiterid", 0);
         }
-
         return $this->assign_sub_adminid_list();
     }
     public function  tmk_assign_sub_adminid_list() {
@@ -170,7 +169,7 @@ class seller_student_new extends Controller
             array_unshift($son_adminid_arr,$this->get_account_id());
             $admin_revisiterid_list = array_unique($son_adminid_arr);
         }
-
+        $nick = '王彦奇';
         $ret_info = $this->t_seller_student_new->get_assign_list(
             $page_num,$page_count,$userid,$admin_revisiterid,$seller_student_status,
             $origin,$opt_date_str,$start_time,$end_time,$grade,
@@ -404,7 +403,6 @@ class seller_student_new extends Controller
                 $require_adminid_list_new = $intersect;
             }
         }
-
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
             $origin, $opt_date_str, $start_time, $end_time, $grade, $subject,
@@ -595,7 +593,6 @@ class seller_student_new extends Controller
 
     public function seller_student_list( )
     {
-        $this->switch_tongji_database();
         $cur_page       = $this->get_in_int_val("cur_page");
         $page_hide_list = $this->get_page_hide_list($cur_page);
         $account        = $this->get_account();
@@ -1697,14 +1694,18 @@ class seller_student_new extends Controller
         }else{//本周取消率
             $start_time = $time-3600*24*($week-2);
             $end_time = time();
-            $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
-            foreach($ret_info as $item){
-                if($item['lesson_del_flag']){
-                    $count_del++;
-                }
-                $count++;
-            }
-            $del_rate = ($count?($count_del/$count):0)*100;
+            // $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
+            // foreach($ret_info as $item){
+            //     if($item['lesson_del_flag']){
+            //         $count_del++;
+            //     }
+            //     $count++;
+            // }
+            // $del_rate = ($count?($count_del/$count):0)*100;
+            $ret_info = $this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time,$grade_list=[-1] , $origin_ex="",$adminid);
+            $test_count = isset($ret_info['list'][0]['test_lesson_count'])?$ret_info['list'][0]['test_lesson_count']:0;
+            $fail_all_count = isset($ret_info['list'][0]['fail_all_count'])?$ret_info['list'][0]['fail_all_count']:0;
+            $del_rate = $test_count>0?round($fail_all_count/$test_count,2)*100:0;
             if($del_rate>20){
                 $ret['ret'] = 3;
             }else{

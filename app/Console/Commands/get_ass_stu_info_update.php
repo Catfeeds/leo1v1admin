@@ -39,6 +39,17 @@ class get_ass_stu_info_update extends Command
     {
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
+        // $start_time =strtotime("2017-12-01");
+        // $end_time =strtotime("2018-01-01");
+        // $kk_suc= $task->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time);
+        // $time = $start_time-100;
+        // $list = $task->t_month_ass_student_info->get_ass_month_info($time);
+        // foreach($list as $k=>$val){
+        //     $task->t_month_ass_student_info->get_field_update_arr($k,$time,1,[
+        //         "read_student" =>@$kk_suc[$k]["lesson_count"]
+        //     ]);
+        // }
+        // dd($kk_suc);
 
 
 
@@ -898,6 +909,8 @@ class get_ass_stu_info_update extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
         $ass_order_info = $task->t_order_info->get_assistant_performance_order_info($start_time,$end_time);
+
+        $ass_order_period_list = $task->t_order_info->get_ass_self_order_period_money($start_time,$end_time);//助教自签合同金额(分期80%计算)
         $renew_list=$new_list=[];
         foreach($ass_order_info as $val){
             $contract_type = $val["contract_type"];
@@ -924,7 +937,8 @@ class get_ass_stu_info_update extends Command
         foreach($renew_list as $val){
             $orderid = $val["orderid"];
             $userid = $val["userid"];
-            $price = $val["price"];
+            //  $price = $val["price"];
+            $price = @$ass_order_period_list[$orderid]["reset_money"];
             $uid = $val["uid"];
             $real_refund = $val["real_refund"];
             if(!isset($ass_renew_info[$uid]["user_list"][$userid])){
@@ -937,7 +951,8 @@ class get_ass_stu_info_update extends Command
         foreach($new_list as $val){
             $orderid = $val["orderid"];
             $userid = $val["userid"];
-            $price = $val["price"];
+            // $price = $val["price"];
+            $price = @$ass_order_period_list[$orderid]["reset_money"];
             $uid = $val["uid"];
             $real_refund = $val["real_refund"];
             if(!isset($ass_new_info[$uid]["user_list"][$userid])){
@@ -951,6 +966,8 @@ class get_ass_stu_info_update extends Command
 
         //获取销售转介绍合同信息
         $cc_order_list = $task->t_order_info->get_seller_tran_order_info($start_time,$end_time);
+        $cc_order_period_list = $task->t_order_info->get_seller_tran_order_period_money($start_time,$end_time);//CC转介绍合同金额(分期80%计算)
+
         $new_tran_list=[];
         foreach($cc_order_list as $val){
             $orderid = $val["orderid"];
@@ -969,7 +986,8 @@ class get_ass_stu_info_update extends Command
         foreach($new_tran_list as $val){
             $orderid = $val["orderid"];
             $userid = $val["userid"];
-            $price = $val["price"];
+            // $price = $val["price"];
+            $price = @$cc_order_period_list[$orderid]["reset_money"];
             $uid = $val["uid"];
             $real_refund = $val["real_refund"];
             if(!isset($ass_tran_info[$uid]["user_list"][$userid])){
@@ -1075,11 +1093,22 @@ class get_ass_stu_info_update extends Command
                 $first_regular_lesson_time = $task->t_lesson_info_b3->get_stu_first_regular_lesson_time($val);
                 $assign_time = $task->t_student_info->get_ass_assign_time($val);                        
 
+                //检查本月是否上过课
+                $month_lesson_flag = $task->t_lesson_info_b3->check_have_lesson_stu($val,$start_time,$end_time);
+
                 if($first_regular_lesson_time>0 && $first_regular_lesson_time<$month_half){
                     if($assign_time < $month_half){
                         $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$account,-2);
-                        if($revisit_num <2){
-                            $revisit_reword_per -=0.05;
+                        if($month_lesson_flag==1){
+                            if($revisit_num <2){
+                                $revisit_reword_per -=0.05;
+                            }
+ 
+                        }else{
+                            if($revisit_num <1){
+                                $revisit_reword_per -=0.05;
+                            }
+
                         }
                     }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
                         $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$account,-2);
@@ -1105,6 +1134,9 @@ class get_ass_stu_info_update extends Command
             $history_list = $task->t_ass_stu_change_list->get_ass_history_list($adminid,$start_time,$end_time);
                        
             foreach($history_list as $val){
+                //检查本月是否上过课
+                $month_lesson_flag = $task->t_lesson_info_b3->check_have_lesson_stu($val["userid"],$start_time,$end_time);
+
                 $add_time = $val["add_time"];
                 if($add_time<$month_half){
                     $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$month_half,$account,-2);
@@ -1116,9 +1148,17 @@ class get_ass_stu_info_update extends Command
                     $assign_time = $val["assign_ass_time"];
                     if($assign_time <$month_half){
                         $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$account,-2);
-                        if($revisit_num <2){
-                            $revisit_reword_per -=0.05;
-                        }
+                        if($month_lesson_flag==1){
+                            if($revisit_num <2){
+                                $revisit_reword_per -=0.05;
+                            }
+ 
+                        }else{
+                            if($revisit_num <1){
+                                $revisit_reword_per -=0.05;
+                            }
+
+                        }                      
 
                     }else{
                         $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$month_half,$end_time,$account,-2);
@@ -1150,12 +1190,14 @@ class get_ass_stu_info_update extends Command
                 $first_regular_lesson_time = $task->t_lesson_info_b3->get_stu_first_regular_lesson_time($val);
                 $assign_time = $task->t_student_info->get_ass_assign_time($val);                        
 
+
                 if($first_regular_lesson_time>0 && $first_regular_lesson_time<$month_half){
                     if($assign_time < $month_half){
                         $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$account,-2);
-                        if($revisit_num <2){
+                        if($revisit_num <1){
                             $revisit_reword_per -=0.05;
-                        }
+                        }                                   
+
                     }elseif($assign_time>=$month_half && $assign_time <$end_time){                            
                         $revisit_num = $task->t_revisit_info->get_ass_revisit_info_personal($val,$month_half,$end_time,$account,-2);
                         if($revisit_num <1){

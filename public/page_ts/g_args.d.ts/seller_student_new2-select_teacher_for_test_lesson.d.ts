@@ -4,6 +4,12 @@ interface GargsStatic {
 	teaching_tags:	string;
 	lesson_tags:	string;
 	refresh_flag:	number;
+	identity:	number;
+	gender:	number;
+	tea_age:	number;
+	teacher_type:	number;
+	region_version:	number;
+	teacher_info:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -31,7 +37,13 @@ function load_data(){
 		teacher_tags:	$('#id_teacher_tags').val(),
 		teaching_tags:	$('#id_teaching_tags').val(),
 		lesson_tags:	$('#id_lesson_tags').val(),
-		refresh_flag:	$('#id_refresh_flag').val()
+		refresh_flag:	$('#id_refresh_flag').val(),
+		identity:	$('#id_identity').val(),
+		gender:	$('#id_gender').val(),
+		tea_age:	$('#id_tea_age').val(),
+		teacher_type:	$('#id_teacher_type').val(),
+		region_version:	$('#id_region_version').val(),
+		teacher_info:	$('#id_teacher_info').val()
 		});
 }
 $(function(){
@@ -42,6 +54,12 @@ $(function(){
 	$('#id_teaching_tags').val(g_args.teaching_tags);
 	$('#id_lesson_tags').val(g_args.lesson_tags);
 	$('#id_refresh_flag').val(g_args.refresh_flag);
+	$('#id_identity').val(g_args.identity);
+	$('#id_gender').val(g_args.gender);
+	$('#id_tea_age').val(g_args.tea_age);
+	$('#id_teacher_type').val(g_args.teacher_type);
+	$('#id_region_version').val(g_args.region_version);
+	$('#id_teacher_info').val(g_args.teacher_info);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -91,4 +109,52 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["refresh_flag title", "refresh_flag", "th_refresh_flag" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">identity</span>
+                <input class="opt-change form-control" id="id_identity" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["identity title", "identity", "th_identity" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">gender</span>
+                <input class="opt-change form-control" id="id_gender" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["gender title", "gender", "th_gender" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">tea_age</span>
+                <input class="opt-change form-control" id="id_tea_age" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["tea_age title", "tea_age", "th_tea_age" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">teacher_type</span>
+                <input class="opt-change form-control" id="id_teacher_type" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["teacher_type title", "teacher_type", "th_teacher_type" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">region_version</span>
+                <input class="opt-change form-control" id="id_region_version" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["region_version title", "region_version", "th_region_version" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">teacher_info</span>
+                <input class="opt-change form-control" id="id_teacher_info" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["teacher_info title", "teacher_info", "th_teacher_info" ]])!!}
 */

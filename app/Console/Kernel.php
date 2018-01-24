@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\update_rs_tea_money_type::class,
         Commands\test_ricky::class,
         Commands\SendSmsByPhone::class,
         Commands\h5GetPoster::class,
@@ -38,13 +39,14 @@ class Kernel extends ConsoleKernel
         Commands\ResetTeacherFeedback::class,
         Commands\SetLessonStuAttend::class,
         Commands\update_month_student_count::class,
-        Commands\get_teacher_student_first_subject_list::class,       
+        Commands\get_teacher_student_first_subject_list::class,
         Commands\import_to_teacher_flow::class,
         Commands\add_new_tea_entry::class,
         Commands\send_interview_remind_for_wx::class,
         Commands\check_modify_lesson_time::class,
         Commands\save_seller_info_by_week::class,
         Commands\boby_todo::class,
+        Commands\power_back::class,
         Commands\update_teaching_core_data::class,
         Commands\save_seller_info::class,
         Commands\update_ass_call_count::class,

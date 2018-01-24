@@ -3,7 +3,7 @@
     <script type="text/javascript" >
      var acc = "{{$acc}}";
      var tea_right = "{{$tea_right}}";
-     var account_role = "{{$account_role}}";
+     var account_role = "{{$_account_role}}";
     </script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <link rel='stylesheet' href='/css/fullcalendar.css' />
@@ -536,6 +536,11 @@
                                 <a class=" opt-jianli div_show" >简历</a>
                                 @if(in_array($acc, ['jim', 'ricky', '宫卫彬']) && $var['full_flag'])
                                     <a class=" opt-full-to-part">全职转兼职</a>
+                                @endif
+                                @if(@$var["label_id"]==0)
+                                    <a class="opt-set-teacher-label" title="设置标签<">设置标签</a>
+                                @elseif(@$var["label_id"]>0)
+                                    <a class="opt-set-teacher-label" title="修改标签<">修改标签</a>
                                 @endif
                             </div>
                         </td>
