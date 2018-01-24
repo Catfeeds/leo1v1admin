@@ -508,9 +508,11 @@ class resource extends Controller
             } else {
                 if($arr[0] <6 || $arr[0] ==9 || ($arr[0]==6 && $num=3) ){
                     $menu = $tag_arr[ $arr[0] ][ $select ]['menu'];
-                    $item[$menu] = @$item[ $select ];
-                    //只有resource_type=3的时候才会有num=6
-                    E\Egrade::set_item_field_list($item, [$menu]);
+                    if($menu){
+                        $item[$menu] = @$item[ $select ];
+                        //只有resource_type=3的时候才会有num=6
+                        E\Egrade::set_item_field_list($item, [$menu]);
+                    }
                 }
                 \App\Helper\Utils::logger("教材遍历:".json_encode($item));
 
