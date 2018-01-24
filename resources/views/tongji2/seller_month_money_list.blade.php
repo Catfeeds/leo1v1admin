@@ -50,6 +50,7 @@
                     <td >基本工资 </td>
                     <td >保密津贴 </td>
                     <td >绩效工资 </td>
+                    <td style="display:none;">应得绩效工资 </td>
                     <td style="display:none;">分期金额 </td>
                     <td style="display:none;">非分期金额 </td>
                     <td style="display:none;">一天内签约金额 </td>
@@ -113,6 +114,7 @@
                         <td class="base_salary" ></td>
                         <td class="sup_salary" ></td>
                         <td class="per_salary" ></td>
+                        <td class="get_per_salary" ></td>
                         <td class="stage_money" ></td>
                         <td class="no_stage_money" ></td>
                         <td class="24_hour_all_price"></td>
