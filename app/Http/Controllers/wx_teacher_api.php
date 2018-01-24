@@ -1091,8 +1091,6 @@ class wx_teacher_api extends Controller
             }
         }else{
             $ret_info['handout_flag'] = 0; //无讲义
-            \App\Helper\Utils::logger("james_nojiangyi:no jianyi");
-
         }
 
         return $this->output_succ(["data"=>$ret_info]);
