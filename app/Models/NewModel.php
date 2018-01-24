@@ -1036,15 +1036,24 @@ abstract class NewModel
      * @param array merge_arr 待合并的sql数组
      * @return array
      */
-    public function teacher_common_sql($alias='',$merge_arr=[]){
+    public function teacher_common_sql($alias='',$merge_arr=[],$is_test){
         $alias = $this->get_table_alias($alias);
-        $where_arr = [
-            $alias."trial_lecture_is_pass=1",
-            $alias."train_through_new_time>0",
-            $alias."train_through_new=1",
-            $alias."wx_use_flag=1",
-            $alias."is_test_user=0",
-        ];
+        if ($is_test == 1) {
+            $where_arr = [
+                $alias."trial_lecture_is_pass=1",
+                $alias."train_through_new_time>0",
+                $alias."train_through_new=1",
+                $alias."wx_use_flag=1",
+            ];
+        } else {
+            $where_arr = [
+                $alias."trial_lecture_is_pass=1",
+                $alias."train_through_new_time>0",
+                $alias."train_through_new=1",
+                $alias."wx_use_flag=1",
+                $alias."is_test_user=0",
+            ];
+        }
         return array_merge($where_arr,$merge_arr);
     }
 

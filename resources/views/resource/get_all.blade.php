@@ -153,6 +153,12 @@
                         <td>上下册</td>
                     @endif
 
+                    @if($resource_type == 6)
+                        <td>年份</td>
+                        <td>省份</td>
+                        <td>城市</td>
+                    @endif
+
                     <td>操作</td>
                 </tr>
             </thead>
@@ -170,13 +176,10 @@
                         <td>{{@$var["file_size"]}}M </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
-                        @if( $resource_type < 6)
+                        @if( $resource_type <= 6)
                             <td>{{@$var["tag_one_str"]}} </td>
                         @endif
-                        @if( $resource_type == 6)
-                            <td>{{@$var["tag_four_str"]}} </td>
-                        @endif
-
+        
                         @if( $resource_type == 1 || $resource_type == 3)
                             <td>{{@$var["tag_four_str"]}} </td>
                             @if( $resource_type == 1)
@@ -188,6 +191,12 @@
 
                         @if($resource_type < 7 && $resource_type > 3)
                             <td>{{@$var["tag_five_str"]}}</td>
+                        @endif
+
+                        @if($resource_type == 6)
+                            <td>{{@$var["tag_two"]}}</td>
+                            <td class="province">{{@$var["tag_three"]}}</td>
+                            <td class="city">{{@$var["tag_four"]}}</td>
                         @endif
 
                         <td>

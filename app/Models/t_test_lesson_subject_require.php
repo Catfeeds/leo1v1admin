@@ -1063,7 +1063,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         $sql=$this->gen_sql_new(
             "select cur_require_adminid as admin_revisiterid, count(*) test_lesson_count,"
-            ."sum(lesson_user_online_status in (0,1) or f.flow_status = 2) succ_all_count,"
+            ."sum((lesson_user_online_status in (0,1) or f.flow_status = 2) and lesson_status = 2) succ_all_count,"
             ."sum(lesson_user_online_status =2 and (f.flow_status is null or f.flow_status <>2)) fail_all_count "
             ." from %s tr "
             ." join %s l on tr.current_lessonid=l.lessonid "
@@ -3933,6 +3933,8 @@ ORDER BY require_time ASC";
 
         $where_arr=[
             ["si.origin like '%%%s%%' ",$origin,''],
+            'si.is_test_user=0',
+            'li.lesson_del_flag=0'
         ];
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"si.origin");
         $where_arr[]= $ret_in_str;
@@ -3944,15 +3946,18 @@ ORDER BY require_time ASC";
         $sql = $this->gen_sql_new(
             'select '.$field_name.' as check_value,count(tlsr.require_id) as require_count,'.
             'count(tlsr.accept_flag = 1) test_lesson_count,'.
-            'sum(tlssl.success_flag in (0,1 )) as succ_test_lesson_count,'.
+            'sum(tlssl.success_flag in (0,1 ) and (li.lesson_user_online_status in (0,1) or f.flow_status = 2)'.
+            ' and li.lesson_status = 2) as succ_test_lesson_count,'.
             'count(distinct if(tlsr.accept_flag = 1,tls.userid,null)) as distinct_test_count,'.
-            'count(distinct if(tlssl.success_flag in (0,1 ),tls.userid,null)) as distinct_succ_count '.
+            'count(distinct if(tlssl.success_flag in (0,1 ) and (li.lesson_user_online_status in (0,1) or f.flow_status = 2)'.
+            ' and li.lesson_status = 2,tls.userid,null)) as distinct_succ_count '.
             'from %s tlsr '.
             'left join %s tls on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id '.
             'left join %s tlssl on tlssl.require_id = tlsr.require_id '.
             'left join %s li on tlsr.current_lessonid=li.lessonid '.
             'left join %s si on tls.userid=si.userid '.
             'left join %s ssn on tls.userid = ssn.userid '.
+            'left join %s f on f.flow_type=2003 and li.lessonid= f.from_key_int '.
             'where %s group by check_value',
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
@@ -3960,6 +3965,7 @@ ORDER BY require_time ASC";
             t_lesson_info::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_seller_student_new::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list($sql);

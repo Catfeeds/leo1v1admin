@@ -1440,6 +1440,9 @@ class seller_student_new2 extends Controller
         $teaching_tags = $this->get_in_str_val("teaching_tags");
         $lesson_tags   = $this->get_in_str_val("lesson_tags");
         $refresh_flag  = $this->get_in_int_val("refresh_flag");
+        $userid = $this->get_in_str_val("userid",0);
+
+        $is_test = $this->t_student_info->field_get_list($userid, "is_test_user");
 
         $require_info = $this->t_test_lesson_subject_require->get_require_list_by_requireid($require_id);
         if(!empty($require_info)){
@@ -1500,7 +1503,7 @@ class seller_student_new2 extends Controller
             $tea_list     = $this->get_teacher_list_for_test_lesson(
                 $redis_key,$lesson_start,$lesson_end,$require_info['grade'],$require_info['subject'],$refresh_flag
                 ,$identity,$gender,$tea_age,$require_info['subject_tag'],$teacher_tags,$lesson_tags,$teaching_tags,$teacher_type
-                ,$region_version,$teacher_info
+                ,$region_version,$teacher_info,$is_test
             );
         }else{
             $tea_list = [];
@@ -1553,13 +1556,13 @@ class seller_student_new2 extends Controller
      */
     public function get_teacher_list_for_test_lesson(
         $redis_key,$lesson_start,$lesson_end,$grade,$subject,$refresh_flag=false,$identity=-1,$gender=-1,$tea_age=-1,
-        $subject_tags='',$teacher_tags='',$lesson_tags='',$teaching_tags='',$teacher_type=-1,$region_version=0,$teacher_info=''
+        $subject_tags='',$teacher_tags='',$lesson_tags='',$teaching_tags='',$teacher_type=-1,$region_version=0,$teacher_info='',$is_test
     ){
         $grade_range_part = \App\Helper\Utils::change_grade_to_grade_range_part($grade);
         $ret_list  = \App\Helper\Common::redis_get_json($redis_key);
         if($ret_list === null || $refresh_flag){
-            $all_tea_list = $this->t_teacher_info->get_teacher_list_by_subject($subject);
-            $tea_list     = $this->t_teacher_info->get_teacher_list_for_trial_lesson($lesson_start,$lesson_end,$subject);
+            $all_tea_list = $this->t_teacher_info->get_teacher_list_by_subject($subject, $is_test);
+            $tea_list     = $this->t_teacher_info->get_teacher_list_for_trial_lesson($lesson_start,$lesson_end,$subject, $is_test);
             $tea_list     = array_merge($all_tea_list, $tea_list);
             \App\Helper\Common::redis_set_expire_value($redis_key,$tea_list,7200);
         }else{
