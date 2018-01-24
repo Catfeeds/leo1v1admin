@@ -25,6 +25,10 @@ $(function(){
         }
     });
 
+    $(".opt-reset-data").on("click",function(){
+        alert("开发中");
+    });
+
     $(".seller_week_stu_num_info").on("click",function(){
         var adminid = $(this).data("adminid");
         var title = "每周在册学生详情";

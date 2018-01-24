@@ -84,7 +84,9 @@ class resource extends Controller
             if($item['resource_type'] == 3 ) {
                 $item['tag_three_str'] = E\Eresource_diff_level::get_desc($item['tag_three']);
             }
-
+            if($item['resource_type'] == 6){
+                $item['tag_four_str'] = E\Eregion_version::get_desc($item['tag_four']);
+            }
         }
         //dd($ret_info['list']);
 
@@ -103,8 +105,8 @@ class resource extends Controller
         }
         $sub_grade_info = $this->get_rule_range();
         $is_teacher = 0;
-        if($this->get_account_role() == 2004){
-            $is_teacher = 0;
+        if($this->get_account_role() == 4){
+            $is_teacher = 1;
             if( $subject > 0 && !in_array($subject,$sub_grade_info['subject'])){
                 $err_mg = "你不是教当前科目的教研老师，没有权限查看当前科目";
                 return $this->view_with_header_info ( "common.resource_no_power", [],[
@@ -130,7 +132,7 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180116171449,
+            '_publish_version'    => 20180124171449,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -392,19 +394,21 @@ class resource extends Controller
         // }
 
         //教研老师只能看他所教的科目和年级
-        // $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
-        // if($info && $role == 4){
-        //     $grade_arr = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
-        //     $grade = [];
-        //     $data = [
-        //         'subject' => [(int)$info['subject']],
-        //     ];
+        $info = $this->t_teacher_info->get_subject_grade_by_adminid($adminid);
+        if( $info && $role == 4){
+            if( $info['grade_start'] > 0 && $info['grade_end'] > 0 && $info['subject'] > 0 ){                          
+                $grade_arr = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
+                $grade = [];
+                $data = [
+                    'subject' => [(int)$info['subject']],
+                ];
             
-        //     foreach( $grade_arr as $var ){
-        //         $grade[] = (int)$var;
-        //     }
-        //     $data['grade'] = $grade;
-        // }
+                foreach( $grade_arr as $var ){
+                    $grade[] = (int)$var;
+                }
+                $data['grade'] = $grade;
+            }
+        }
         return $data;
     }
 
@@ -486,18 +490,17 @@ class resource extends Controller
         $select = $sel_arr[$num];
         $is_end = 0;
         //判断是不是最后
-        if (in_array($arr[0], [1,2,9]) && $level == 4) {
+        if (in_array($arr[0], [2,9]) && $level == 4) {
             $is_end = 1;
         } else if ($arr[0] == 3 && $level == 6){
             $is_end = 1;
         } else if (in_array($arr[0], [4,5]) && $level == 3){
             $is_end = 1;
-        } else if (in_array($arr[0], [6,7]) && $level == 5){
+        } else if (in_array($arr[0], [1,6,7]) && $level == 5){
             $is_end = 1;
         }
 
         $data = $this->t_resource_agree_info->get_next_info($select,@$arr[0],@$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],$is_end);
-        //dd($data);
         $tag_arr = \App\Helper\Utils::get_tag_arr();
         //对应枚举类
         $menu = '';
@@ -511,9 +514,21 @@ class resource extends Controller
                     E\Egrade::set_item_field_list($item, [$menu]);
                 }
                 //只有resource_type=3的时候才会有num=6
-                if($num==6) {
+                \App\Helper\Utils::logger("教材学科层级num:$num,资源类型resource_type:".$arr[0]);
+                if( ( $arr[0] == 1 && $num == 5 ) || ( $arr[0] == 3 && $num == 6 )) {
                     $sub_grade = \App\Helper\Utils::get_sub_grade_tag($arr[1], $arr[2]);
-                    $item['tag_four_str'] = @$sub_grade[$item['tag_four']];
+                    $data = [];
+                    $item['tag_four_str'] = [];
+                    if( $arr[0] == 1){
+                        $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($arr[1], $arr[2],$arr[3],$arr[0],$arr[4]);
+                    }
+                    if( $arr[0] == 3){
+                        $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($arr[1], $arr[2],$arr[3],$arr[0],-1);
+                    }
+                    \App\Helper\Utils::logger("教材学科化标签:".json_encode($data));
+                    if($data){
+                        $item['tag_four_str'] = array_column($data,'tag');
+                    }   
 
                 }
             }
@@ -876,6 +891,22 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,['tag_info' => $tag_arr]);
+    }
+
+    //预览
+    public function tea_look_resource() {
+        $tea_res_id = $this->get_in_int_val("tea_res_id");
+        //预览理优资料
+        $file_link = $this->t_resource_file->get_file_link($tea_res_id);
+        if(!$file_link){
+            return $this->output_err('信息有误，预览失败！');
+        }
+
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+        $authUrl = $auth->privateDownloadUrl("http://teacher-doc.leo1v1.com/".$file_link );
+        return $this->output_succ(["url" => $authUrl]);
+        
     }
 
 }

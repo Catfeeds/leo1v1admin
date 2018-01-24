@@ -13,7 +13,7 @@
                 <th>年级</th>
                 <th>教材版本</th>
                 <th>春暑秋寒</th>
-                <th></th>
+                <th>学科化标签</th>
                 <th></th>
             </tr>
             <tr level="1" info_str="2" >

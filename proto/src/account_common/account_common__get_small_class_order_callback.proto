@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+//__CMD: 100x0008
+//__DESC: 小班课合同付款验证  http://api.account.leo1v1.com/account_common/get_small_class_order_callback
+//__TAGS: for app 
+
+
+message in  {
+  int32 orderid =1;//后台合同id  
+
+}
+
+message out {
+
+}

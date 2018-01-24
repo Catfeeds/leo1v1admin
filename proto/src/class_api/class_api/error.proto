@@ -36,4 +36,7 @@ enum  enum_error {
 
   //例子数已满，不能注册新例子
   STU_NUM_MAX = 3010;
+
+  //系统错误(调用1v1接口返回非预期)
+  ERR_SYSTEM = 3011;
 };

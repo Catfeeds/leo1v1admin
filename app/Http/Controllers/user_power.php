@@ -255,7 +255,7 @@ class user_power extends Controller
         $user_id      = $this->get_in_int_val("user_id") ;
         $role_groupid  = $this->get_in_int_val("role_groupid") ;
         $groupid     = $this->get_in_int_val("groupid");
-        $info = $this->add_user_power($role_groupid,$groupid,$user_id);
+        $info = $this->add_user_power($role_groupid,$groupid,$user_id,0);
 
         $role_name = E\Eaccount_role::get_desc($role_groupid);
         if($info[0] == 1){
@@ -328,7 +328,7 @@ class user_power extends Controller
             }
         }
 
-        if( $change_role == 0){
+        if( $change_role == 1 ){
             $this->t_manager_info->field_update_list($user_id,['account_role'=>$role_groupid,'permission'=>$have_permit]);
         }else{
             $this->t_manager_info->field_update_list($user_id,['permission'=>$have_permit]);

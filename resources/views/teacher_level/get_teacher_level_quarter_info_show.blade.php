@@ -177,6 +177,9 @@
                                     <a class="opt-edit" title="编辑">编辑</a>
                                 @endif
 
+                                @if(in_array($account,["林璐","jack","jim"]) && in_array($var["teacherid"],[50158,60030]))
+                                    <a class="opt-edit-test" title="编辑">编辑-test</a>
+                                @endif
                             </div>
                         </td>
                     </tr>

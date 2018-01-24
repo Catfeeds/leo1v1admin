@@ -2220,6 +2220,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_list($sql);
     }
+
+
+    //学生最早常规课时间
     public function get_stu_first_regular_lesson_time($userid){
         $where_arr=[
             "lesson_del_flag=0",
@@ -2868,7 +2871,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function getNeedTranLessonUid(){
         $where_arr = [
             "l.lesson_del_flag=0",
-            "l.tea_cw_type=1",
+            "l.use_ppt=1",
             "l.lesson_cancel_time_type=0",
             "zip_url=''",
             "l.ppt_status=1",
@@ -2887,7 +2890,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function getTeaUploadPPTLink(){
         $where_arr = [
             "l.lesson_del_flag=0",
-            "l.tea_cw_type=1",
+            "l.use_ppt=1",
             "l.lesson_cancel_time_type=0",
             "l.zip_url=''",
             "l.tea_cw_url!=''"
@@ -3013,7 +3016,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.preview_status=%u",$preview_status,-1],
             "l.lesson_del_flag=0",
             // "l.confirm_flag<2",
-            "l.lesson_type in (0,1,3)"
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_start>0"
         ];
         if($cw_status==0){
             $where_arr[]="(l.tea_cw_upload_time=0 or l.tea_cw_upload_time>=l.lesson_start)";
@@ -3045,7 +3049,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.subject=%u",$subject,-1],
             ["l.grade=%u",$grade,-1],
             "l.lesson_del_flag=0",
-            "l.lesson_type in (0,1,3)"
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_start>0"
         ];
 
         if($page_flag==1){
@@ -3104,18 +3109,50 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     //所有课信息
     public function get_student_all_lesson_info($userid,$start_time,$end_time){
         $where_arr = [
+            ["l.lesson_start>=%u",$start_time,0],
+            ["l.lesson_start<%u",$end_time,0],
+            ["l.userid=%u",$userid,-1],         
+            "l.lesson_del_flag=0",
+            // "l.confirm_flag<2",
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_start>0"
+        ];
+        $sql = $this->gen_sql_new("select l.lessonid,l.lesson_start,l.lesson_num,l.tea_cw_upload_time ,l.tea_cw_url,"
+                                  ." l.preview_status,l.cw_status,l.confirm_flag,l.lesson_cancel_reason_type, "
+                                  ." l.teacher_effect,l.teacher_quality,l.stu_score,l.teacher_interact,l.stu_stability, "
+                                  ." l.teacher_comment,l.stu_comment,l.stu_performance,h.issue_time ,h.issue_url ,"
+                                  ." h.finish_time,h.finish_url ,h.work_status ,h.score,h.check_url,l.stu_praise "
+                                  ." from %s l left join %s h on l.lessonid = h.lessonid"
+                                  ." where %s order by l.lesson_start",
+                                  self::DB_TABLE_NAME,
+                                  t_homework_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql); 
+
+    }
+
+    //统计学生上过的有效课的信息(几次课,几课时)
+    public function get_student_all_lesson_count_list($userid,$start_time=0,$end_time=0){
+        $where_arr = [
             ["lesson_start>=%u",$start_time,0],
             ["lesson_start<%u",$end_time,0],
             ["userid=%u",$userid,-1],         
             "lesson_del_flag=0",
-            // "l.confirm_flag<2",
-            "lesson_type in (0,1,3)"
+            "confirm_flag<2",
+            "lesson_type in (0,1,3)",
+            "lesson_start>0",
+            "lesson_status>1"
         ];
-        $sql = $this->gen_sql_new("select lessonid,lesson_start from %s where %s order by lesson_start",
+        $sql = $this->gen_sql_new("select count(lessonid) lesson_num,"
+                                  ."sum(lesson_count) lesson_count, "
+                                  ." count(distinct subject) subject_num,"
+                                  ." count(distinct teacherid) tea_num "
+                                  ."from %s where %s ",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list($sql); 
+        return $this->main_get_row($sql); 
 
     }
 
@@ -3129,7 +3166,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.grade=%u",$grade,-1],
             "l.lesson_del_flag=0",
             // "l.confirm_flag<2",
-            "l.lesson_type in (0,1,3)"
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_start>0"
         ];
 
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,l.confirm_flag,"
@@ -3300,7 +3338,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.grade=%u",$grade,-1],
             "l.lesson_del_flag=0",
             // "l.confirm_flag<2",
-            "l.lesson_type in (0,1,3)"
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_start>0"
         ];
 
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,l.confirm_flag,"
@@ -3389,7 +3428,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     //@desn:获取上公开课次数
     //@param:$userid 用户id
     //@param:$start_time $end_time 开始时间 结束时间
-    public function get_public_class_count($key,$start_time,$end_time){
+    public function get_public_class_count($userid,$start_time,$end_time){
         $where_arr = [
             'li.lesson_del_flag=0',
             'li.lesson_type in (1001,1002,1003)',
@@ -3399,7 +3438,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $this->where_arr_add_time_range($where_arr, 'olu.join_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
             'select count(*) from %s li '.
-            'left join %s olu using(courseid) '.
+            'left join %s olu using(lessonid) '.
             'where %s',
             self::DB_TABLE_NAME,
             t_open_lesson_user::DB_TABLE_NAME,

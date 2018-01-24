@@ -1096,7 +1096,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "g.main_type=2",
             // "g.master_adminid not in(364,416)",
         ];
-        $sql = $this->gen_sql_new("select g.group_img,g.groupid, group_name , sum(price) as all_price,count(*)as all_count,"
+        $sql = $this->gen_sql_new("select g.group_img,g.groupid,group_name,g.up_groupid,sum(price) all_price,count(*)as all_count,"
                                   ." if(gm.month_money,gm.month_money,0) month_money "
                                   ." from %s o "
                                   ." left join %s s on o.userid = s.userid "
@@ -4987,7 +4987,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     //@param:$end_time 结束时间
     public function get_all_class_pag($userid,$end_time){
         $where_arr = [
-            'price > 0',
             'contract_status > 0',
             'contract_type <> 2',
             'order_time < '.$end_time

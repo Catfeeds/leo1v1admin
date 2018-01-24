@@ -260,6 +260,7 @@ $(function(){
             var id_teacher_list      = [];
             var id_teacher_desc_list = [];
             for (var i=0;i<11;i++) {
+
                 var gen_item = function  ( i ) {
                     var id_teacher_desc = $("<div class=\"tea_cw_ex col-md-4\" >"
                                             +"<div class=\"input-group\">"
@@ -278,6 +279,9 @@ $(function(){
                             var type_arr = ['pdf','mp3','mp4'];
                         }
                     }
+                    //if(lesson_type <= 2000){
+                    //    type_arr = ['mp3','mp4'];
+                    //}
                     var item = gen_upload_item(
                         btn_teacher_upload_id+"_"+i,
                         !! tea_cw_url_list[i][0],
@@ -301,6 +305,8 @@ $(function(){
                 id_teacher_list.push(item);
             }
 
+
+            console.log(id_teacher_desc_list);
             var id_teacher=gen_upload_item(
                 btn_teacher_upload_id,
                 tea_status,
@@ -364,7 +370,7 @@ $(function(){
 
             if(!(lesson_type>=1000 && lesson_type <2000) || lesson_type==1100){
                 arr.push(["----","上传课堂作业"]);
-                arr.push(["作业PDF",id_issue]);
+                arr.push(["学生作业",id_issue]);
                 arr.push(["作业题目数",id_pdf_question_count]);
             }
 

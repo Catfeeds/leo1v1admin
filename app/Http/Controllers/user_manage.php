@@ -725,7 +725,6 @@ class user_manage extends Controller
             \App\Helper\Utils::hide_item_phone($item);
         }
 
-        $acc = $this->get_account();
         $this->set_filed_for_js("account_role_self",$this->get_account_role());
         $this->set_filed_for_js("acc",$this->get_account());
         $ass_master_flag = $this->check_ass_leader_flag($this->get_account_id());
@@ -737,10 +736,8 @@ class user_manage extends Controller
         $this->set_filed_for_js("show_download",$show_download);
 
         return $this->Pageview(__METHOD__,$ret_list,[
-            "account_role"                  => $this->get_account_role(),
             "all_lesson_count"              => $all_lesson_count,
             "all_promotion_spec_diff_money" => $all_promotion_spec_diff_money,
-            "acc"                           => $acc,
             "_publish_version"              => 201712021116,
         ]);
     }
