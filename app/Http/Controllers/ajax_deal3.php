@@ -107,7 +107,7 @@ class ajax_deal3 extends Controller
         $ass_last_month = $this->t_month_ass_student_info->get_ass_month_info($last_month);
         $ass_current_month = $this->t_month_ass_student_info->get_ass_month_info($start_time);
         $list = $ass_current_month[$adminid];
-        $account = $this->t_manager_info->get_account();
+        $account = $this->t_manager_info->get_account($adminid);
         $assistantid = $list["assistantid"];
         //回访信息修改
         //在读学员/在册学员/停课学员信息重置
