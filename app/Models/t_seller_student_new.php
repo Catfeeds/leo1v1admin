@@ -3557,7 +3557,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr = [];
         $this->where_arr_add_time_range($where_arr, 'n.add_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
-            " select n.userid,t.* "
+            " select n.userid,n.add_time,t.* "
             ." from %s n "
             ." left join %s t on t.phone=n.phone and t.admin_role=2 "
             ." where %s ",
