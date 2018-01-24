@@ -405,8 +405,8 @@ class tongji_ex extends Controller
                     }
                 }
             }
+            dd($ret_info);
         }
-        dd($ret_info);
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>1月未拨通例子明细</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
