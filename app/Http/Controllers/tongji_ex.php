@@ -377,16 +377,17 @@ class tongji_ex extends Controller
             ],[
                 'start_time'=>1515945600,
                 'end_time'=>1516204800,
-            ],[
-                'start_time'=>1516204800,
-                'end_time'=>1516291200,
-            ],[
-                'start_time'=>1516291200,
-                'end_time'=>1516377600,
-            ],[
-                'start_time'=>1516377600,
-                'end_time'=>1516809600,
             ]
+            // ,[
+            //     'start_time'=>1516204800,
+            //     'end_time'=>1516291200,
+            // ],[
+            //     'start_time'=>1516291200,
+            //     'end_time'=>1516377600,
+            // ],[
+            //     'start_time'=>1516377600,
+            //     'end_time'=>1516809600,
+            // ]
         ];
         foreach($time_arr as $info){
             $start_time = $info['start_time'];
@@ -405,7 +406,7 @@ class tongji_ex extends Controller
                 }
             }
         }
-        dd(count($ret_info));
+        dd($ret_info);
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>1月未拨通例子明细</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
