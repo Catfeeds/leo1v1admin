@@ -562,11 +562,12 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         return $this->main_get_value($sql);
     }
 
-    public function get_ass_kk_tongji_info($start_time,$end_time){
+    public function get_ass_kk_tongji_info($start_time,$end_time,$adminid=-1){
         $where_arr=[
             "t.ass_test_lesson_type =1",
             " l.teacherid >0",
             " l.userid >0",
+            ["tr.cur_require_adminid=%u",$adminid,-1]
             // "tr.origin not like '%%转介绍%%' "
         ];
         $this->where_arr_add_time_range($where_arr,"ll.lesson_time",$start_time,$end_time);
