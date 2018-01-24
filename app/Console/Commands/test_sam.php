@@ -295,6 +295,7 @@ left join db_weiyi_admin.t_tq_call_info q on s.phone =q.phone
 where s.is_test_user = 0 and q.is_called_phone =1 
 
         */
+        /*
         
         $time = [
             ['start_time' => 1506787200,'end_time' => 1509465600], //10
@@ -311,9 +312,10 @@ where s.is_test_user = 0 and q.is_called_phone =1
             echo date("Y-m",$start_time)."-".$ret['total']."- ".$ret['one_total'].'- '.$ret['two_total'].'- '.$ret['three_total']."\n";
         }
         
-
+        */
 
         /*
+
         $ret_info = $task->t_student_score_info->get_all_teacher_phone_and_id();
         foreach ($ret_info as $key => $value) {
             $userid = $value['teacherid'];
@@ -351,6 +353,38 @@ where s.is_test_user = 0 and q.is_called_phone =1
         dd($ret_file_name);
 
         */
+
+        $time = [
+            ['start_time' => 1509465600,'end_time' => 1512057600], //11
+            ['start_time' => 1512057600,'end_time' => 1514736000], //12
+            ['start_time' => 1514736000,'end_time' => 1517414400], //1
+        ];
+
+        foreach ($time as $key => $value) {
+            $start_time = $value['start_time'];
+            $end_time   = $value['end_time'];
+            //$ret = $task->t_student_score_info->get_xx($start_time,$end_time);
+            $ret      = $task->t_student_score_info->get_abcd($start_time,$end_time);
+            $ret_info = $task->t_student_score_info->get_ae($start_time,$end_time);
+            foreach(@$ret as $kkey => &$kvalue) {
+                $kvalue['test'] = 0;
+                foreach(@$ret_info as $vkey => $vvalue) {
+                    if($kvalue['phone_province'] == $vvalue['phone_province'] &&
+                       $kvalue['phone_city']     == $vvalue['phone_city']
+                    ){
+                        $kvalue['test'] = $vvalue['total'];
+                    }
+                }   
+            }
+            $month = date("Y-m",$start_time);
+            $file_name = 'sam_0124-'.$month;
+            $arr_title = ["省份","城市","1",""];
+            $arr_data  = ['phone_province','phone_city',"total","test"];
+
+            $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret,$arr_title,$arr_data);
+            
+            
+        }
         
     }     
 }
