@@ -441,6 +441,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        dd(100*str_replace('%','','90%'));
+
         $ret = $this->t_test_lesson_subject_sub_list->field_update_list($lessonid=62725, ['call_end_time'=>$start_time=123]);
         dd($ret);
         // $ret_lesson = $this->t_test_lesson_subject_require->get_lesson_list($adminid=99,$userid=99);
