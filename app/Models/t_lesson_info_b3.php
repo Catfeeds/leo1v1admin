@@ -3121,7 +3121,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ." l.preview_status,l.cw_status,l.confirm_flag,l.lesson_cancel_reason_type, "
                                   ." l.teacher_effect,l.teacher_quality,l.stu_score,l.teacher_interact,l.stu_stability, "
                                   ." l.teacher_comment,l.stu_comment,l.stu_performance,h.issue_time ,h.issue_url ,"
-                                  ." h.finish_time,h.finish_url ,h.work_status ,h.score,h.check_url "
+                                  ." h.finish_time,h.finish_url ,h.work_status ,h.score,h.check_url,l.stu_praise "
                                   ." from %s l left join %s h on l.lessonid = h.lessonid"
                                   ." where %s order by l.lesson_start",
                                   self::DB_TABLE_NAME,
@@ -3235,7 +3235,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             t_flow::DB_TABLE_NAME,
             $where_arr
         );
-        // echo $sql."\n";
         return $this->main_get_value($sql);
     }
     //@desn:获取第四季度课程信息

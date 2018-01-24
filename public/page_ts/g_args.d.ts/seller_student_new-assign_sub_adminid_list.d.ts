@@ -3,7 +3,8 @@ interface GargsStatic {
 	admin_main_groupid:	number;
 	self_groupid:	number;
 	button_show_flag:	number;
-	date_type_config:	string;
+	seller_student_assign_type:	string;//枚举列表: \App\Enums\Eseller_student_assign_type
+ 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
@@ -52,6 +53,7 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	seller_student_assign_type	:any;
 	nickname	:any;
 	seller_resource_type	:any;
 	first_call_time	:any;
@@ -110,6 +112,7 @@ interface RowData {
 	seller_resource_type_str	:any;
 	sys_invaild_flag_str	:any;
 	subject_str	:any;
+	seller_student_assign_type_str	:any;
 	has_pad_str	:any;
 	global_tq_called_flag_str	:any;
 	origin_level_str	:any;
@@ -143,6 +146,7 @@ function load_data(){
 		admin_main_groupid:	$('#id_admin_main_groupid').val(),
 		self_groupid:	$('#id_self_groupid').val(),
 		button_show_flag:	$('#id_button_show_flag').val(),
+		seller_student_assign_type:	$('#id_seller_student_assign_type').val(),
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
@@ -199,6 +203,16 @@ $(function(){
 	$('#id_admin_main_groupid').val(g_args.admin_main_groupid);
 	$('#id_self_groupid').val(g_args.self_groupid);
 	$('#id_button_show_flag').val(g_args.button_show_flag);
+	$('#id_seller_student_assign_type').admin_set_select_field({
+		"enum_type"    : "seller_student_assign_type",
+		"field_name" : "seller_student_assign_type",
+		"select_value" : g_args.seller_student_assign_type,
+		"multi_select_flag"     : true,
+		"onChange"     : load_data,
+		"th_input_id"  : "th_seller_student_assign_type",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 	$('#id_order_by_str').val(g_args.order_by_str);
 	$('#id_userid').admin_select_user_new({
 		"user_type"    : "student",
@@ -433,6 +447,14 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["button_show_flag title", "button_show_flag", "th_button_show_flag" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">seller_student_assign_type</span>
+                <input class="opt-change form-control" id="id_seller_student_assign_type" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["seller_student_assign_type title", "seller_student_assign_type", "th_seller_student_assign_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type_config title", "date_type_config", "th_date_type_config" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["date_type title", "date_type", "th_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
