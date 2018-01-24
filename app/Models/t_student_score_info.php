@@ -361,4 +361,17 @@ where order_time >  $start_time and order_time < $end_time and contract_type  = 
       return $this->main_get_row($sql);
     }
 
+    public function get_abcd($start_time,$end_time){
+       $sql = "select s.phone_province, s.phone_city, count(*) as total
+from t_student_info s where reg_time > $start_time and reg_time < $end_time and s.is_test_user = 0 and s.phone_province in ('浙江','广东','江苏') group by s.phone_province, s.phone_city";
+      return $this->main_get_row($sql);
+    }
+
+    public function get_ae($start_time,$end_time){
+       $sql = "select s.phone_province, s.phone_city, count(distinct(s.userid)) as total
+from t_student_info s left join t_order_info o on o.userid = s.userid where reg_time > $start_time and reg_time < $end_time and s.is_test_user = 0  and s.phone_province in ('浙江','广东','江苏') and o.price>0 and  o.contract_status in(1,2,3) group by s.phone_province, s.phone_city";
+      return $this->main_get_row($sql);
+    }
+
+
 }
