@@ -360,7 +360,7 @@ class tongji_ex extends Controller
 
     public function market_january_student_detail(){
         $this->check_and_switch_tongji_domain();
-        list($ret_info,$userid_arr,$num,$start_time,$end_time) = [[],[],0,$this->get_in_int_val('start_time','2018-01-01'),$this->get_in_int_val('end_time','2018-01-05')];
+        list($ret_info,$userid_arr,$num,$start_time,$end_time) = [[],[],0,$this->get_in_str_val('start_time','2018-01-01'),$this->get_in_str_val('end_time','2018-01-05')];
         $start_time = strtotime($start_time);
         $end_time = strtotime($end_time);
         $ret = $this->t_seller_student_new->get_item_january_detail_list($start_time,$end_time);
@@ -369,9 +369,11 @@ class tongji_ex extends Controller
             if($item['start_time']>0){
                 if($item['is_called_phone'] == 0){
                     $ret_info[$userid]['list'][] = $item;
+                    $ret_info[$userid]['add_time'] = date('Y-m-d H:i:s',$item['add_time']);
                 }else{
                     if($item['duration']<60){
                         $ret_info[$userid]['list'][] = $item;
+                        $ret_info[$userid]['add_time'] = date('Y-m-d H:i:s',$item['add_time']);
                     }
                 }
             }
@@ -390,22 +392,30 @@ class tongji_ex extends Controller
             $second_called_time=0;
             $end_second_called='';
             $second_called_time_long=0;
+            $tian_call_count = 0;
+            $tian_called_count = 0;
             foreach($item['list'] as $info){
+                if($info['uid']<10000){
+                    $tian_call_count++;
+                }
                 if($info['is_called_phone']==0){
                     $no_called_count++;
                 }elseif($info['is_called_phone']==1){
                     $called_count++;
+                    if($info['uid']<10000){
+                        $tian_called_count++;
+                    }
                 }
-                if($info['end_reason']==0){
+                if($info['end_reason']==0 && $info['uid']<10000){
                     $end_cc_count++;
-                }elseif($info['end_reason']==1){
+                }elseif($info['end_reason']==1  && $info['uid']<10000){
                     $end_c_count++;
                 }
                 if($first_called_time == 0){
                     if($info['is_called_phone']==1){
                         $first_called_time = $info['start_time'];
                         $first_called_cc = $this->cache_get_account_nick($info['adminid']);
-                        $end_first_called = $info['end_reason']==0?'销售':'客户';
+                        $end_first_called = $info['uid']<10000?($info['end_reason']==0?'销售':'客户'):'';
                         $first_called_time_long=$info['duration'];
                     }
                 }else{
@@ -413,7 +423,7 @@ class tongji_ex extends Controller
                         if($info['is_called_phone']==1){
                             $first_called_time = $info['start_time'];
                             $first_called_cc = $this->cache_get_account_nick($info['adminid']);
-                            $end_first_called = $info['end_reason']==0?'销售':'客户';
+                            $end_first_called = $info['uid']<10000?($info['end_reason']==0?'销售':'客户'):'';
                             $first_called_time_long=$info['duration'];
                         }
                     }
@@ -423,7 +433,7 @@ class tongji_ex extends Controller
                 foreach($item['list'] as $info){
                     if($info['start_time']>$first_called_time && $info['is_called_phone']==1){
                         $second_called_cc = $this->cache_get_account_nick($info['adminid']);
-                        $end_second_called = $info['end_reason']==0?'销售':'客户';
+                        $end_second_called = $info['uid']<10000?($info['end_reason']==0?'销售':'客户'):'';
                         $second_called_time_long=$info['duration'];
                         break;
                     }
@@ -440,11 +450,13 @@ class tongji_ex extends Controller
             $item['second_called_cc'] = $second_called_cc;
             $item['second_called_time_long'] = $second_called_time_long;
             $item['end_second_called'] = $end_second_called;
+            $item['tian_call_count'] = $tian_call_count;
+            $item['tian_called_count'] = $tian_called_count;
         }
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>1月'.date('d',$start_time).'日-'.date('d',$end_time).'日例子明细</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>编号</th><th>未拨通例子</th><th>拨打次数</th><th>未拨通次数</th><th>拨通次数</th><th>天润cc挂断次数</th><th>天润客户挂断次数</th><th>首次拨通cc</th><th>天润首次拨通挂断人</th><th>首次拨通通话时长</th><th>第二次拨通cc</th><th>天润第二次拨通挂断人</th><th>第二次拨通通话时长</th>';
+        echo '<th>编号</th><th>未拨通例子</th><th>拨打次数</th><th>未拨通次数</th><th>拨通次数</th><th>天润拨打次数</th><th>天润拨通次数</th><th>天润cc挂断次数</th><th>天润客户挂断次数</th><th>首次拨通cc</th><th>天润首次拨通挂断人</th><th>首次拨通通话时长/s</th><th>第二次拨通cc</th><th>天润第二次拨通挂断人</th><th>第二次拨通通话时长/s</th><th>例子进入时间</th>';
         echo '</tr>';
         foreach($ret_info as $userid=>$item){
             echo '<tr>';
@@ -453,6 +465,8 @@ class tongji_ex extends Controller
             echo '<td>'.$item['call_count'].'</td>';
             echo '<td>'.$item['no_called_count'].'</td>';
             echo '<td>'.$item['called_count'].'</td>';
+            echo '<td>'.$item['tian_call_count'].'</td>';
+            echo '<td>'.$item['tian_called_count'].'</td>';
             echo '<td>'.$item['end_cc_count'].'</td>';
             echo '<td>'.$item['end_c_count'].'</td>';
             echo '<td>'.$item['first_called_cc'].'</td>';
@@ -461,6 +475,7 @@ class tongji_ex extends Controller
             echo '<td>'.$item['second_called_cc'].'</td>';
             echo '<td>'.$item['end_second_called'].'</td>';
             echo '<td>'.$item['second_called_time_long'].'</td>';
+            echo '<td>'.$item['add_time'].'</td>';
             echo '</tr>';
         }
         echo '</table>';

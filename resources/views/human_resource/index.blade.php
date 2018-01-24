@@ -3,7 +3,7 @@
     <script type="text/javascript" >
      var acc = "{{$acc}}";
      var tea_right = "{{$tea_right}}";
-     var account_role = "{{$account_role}}";
+     var account_role = "{{$_account_role}}";
     </script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <link rel='stylesheet' href='/css/fullcalendar.css' />

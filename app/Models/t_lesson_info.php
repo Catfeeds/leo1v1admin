@@ -3091,7 +3091,7 @@ lesson_type in (0,1) "
                                   ." teacher_money_type,level,already_lesson_count,tea_attend,stu_attend,tea_rate_time,courseid,"
                                   ." lesson_full_num,tea_cw_upload_time,stu_cw_upload_time,real_begin_time,real_end_time,"
                                   ." lesson_name,subject,grade,lesson_status,lesson_del_flag,lesson_sub_type,train_type,"
-                                  ." competition_flag,lesson_del_flag,confirm_flag,operate_time"
+                                  ." competition_flag,lesson_del_flag,confirm_flag,operate_time,lesson_num"
                                   ." from %s"
                                   ." where lessonid=%u"
                                   ,self::DB_TABLE_NAME

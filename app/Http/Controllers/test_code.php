@@ -436,8 +436,36 @@ class test_code extends Controller
         echo "<br>";
     }
 
+    public function get_roomid(){
+        $lessonid    = 63280;
+        $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
+        $lesson_type = $lesson_info['lesson_type'];
+        $courseid    = $lesson_info['courseid'];
+        $lesson_num  = $lesson_info['lesson_num'];
+        $roomid      = \App\Helper\Utils::gen_roomid_name($lesson_type, $courseid, $lesson_num);
+        echo $roomid;
+        echo "<br>";
 
+        $ret = $this->getNeedBetween($roomid,"_","y");
+        echo $ret;
+        echo "<br>";
+        $ret = $this->getNeedBetween($roomid,"y","y");
+        echo $ret;
+        echo "<br>";
+    }
 
-
-
+    public function getNeedBetween($kw1,$mark1,$mark2){
+        $kw=$kw1;
+        $kw='123'.$kw.'123';
+        $st =stripos($kw,$mark1);
+        if($mark1==$mark2){
+            $ed = strripos($kw, $mark2);
+        }else{
+            $ed =stripos($kw,$mark2);
+        }
+        if(($st==false||$ed==false)||$st>=$ed)
+            return 0;
+        $kw=substr($kw,($st+1),($ed-$st-1));
+        return $kw;
+    }
 }

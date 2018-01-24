@@ -36,6 +36,7 @@ interface RowData {
 	teacher_money_type	:any;
 	lesson_cancel_reason_type	:any;
 	lesson_cancel_reason_next_lesson_time	:any;
+	lesson_del_flag	:any;
 	lesson_start_str	:any;
 	lesson_end_str	:any;
 	lesson_status_str	:any;
