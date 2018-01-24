@@ -4998,7 +4998,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             self::DB_TABLE_NAME,
             $where_arr
         );
-        echo $sql."\n";
+        // echo $sql."\n";
         return $this->main_get_value($sql);
     }
 }

@@ -376,19 +376,93 @@ class tongji_ex extends Controller
                 }
             }
         }
-        dd($ret_info);
+        foreach($ret_info as &$item){
+            $call_count = count($item['list']);
+            $no_called_count = 0;
+            $called_count=0;
+            $end_cc_count=0;
+            $end_c_count=0;
+            $first_called_cc='';
+            $first_called_time=0;
+            $end_first_called='';
+            $first_called_time_long=0;
+            $second_called_cc='';
+            $second_called_time=0;
+            $end_second_called='';
+            $second_called_time_long=0;
+            foreach($item['list'] as $info){
+                if($info['is_called_phone']==0){
+                    $no_called_count++;
+                }elseif($info['is_called_phone']==1){
+                    $called_count++;
+                }
+                if($info['end_reason']==0){
+                    $end_cc_count++;
+                }elseif($info['end_reason']==1){
+                    $end_c_count++;
+                }
+                if($first_called_time == 0){
+                    if($info['is_called_phone']==1){
+                        $first_called_time = $info['start_time'];
+                        $first_called_cc = $this->cache_get_account_nick($adminid);
+                        $end_first_called = $info['end_reason']==0?'销售':'客户';
+                        $first_called_time_long=$info['duration'];
+                    }
+                }else{
+                    if($info['start_time']<$first_called_time){
+                        if($info['is_called_phone']==1){
+                            $first_called_time = $info['start_time'];
+                            $first_called_cc = $this->cache_get_account_nick($adminid);
+                            $end_first_called = $info['end_reason']==0?'销售':'客户';
+                            $first_called_time_long=$info['duration'];
+                        }
+                    }
+                }
+            }
+            if($first_called_time>0 && count($item['list'])>1){
+                foreach($item['list'] as $info){
+                    if($info['start_time']>$first_called_time && $info['is_called_phone']==1){
+                        $second_called_cc = $this->cache_get_account_nick($adminid);
+                        $end_second_called = $info['end_reason']==0?'销售':'客户';
+                        $second_called_time_long=$info['duration'];
+                        break;
+                    }
+                }
+            }
+            $item['call_count'] = $call_count;
+            $item['no_called_count'] = $no_called_count;
+            $item['called_count'] = $called_count;
+            $item['end_cc_count'] = $end_cc_count;
+            $item['end_c_count'] = $end_c_count;
+            $item['first_called_cc'] = $first_called_cc;
+            $item['end_first_called'] = $end_first_called;
+            $item['first_called_time_long'] = $first_called_time_long;
+            $item['second_called_cc'] = $second_called_cc;
+            $item['second_called_time_long'] = $second_called_time_long;
+            $item['end_second_called'] = $end_second_called;
+        }
         echo '<table border="1" width="600" align="center">';
-        echo '<caption><h1>1月未拨通例子明细</h1></caption>';
+        echo '<caption><h1>1月'.date('d',$start_time).'日-'.date('d',$end_time).'日例子明细</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>编号</th><th>未拨通例子</th><th>拨打次数</th><th>未拨通次数</th><th>拨通次数</th><th>cc挂断次数</th><th>客户挂断次数</th><th>首次拨通cc</th><th>首次拨通挂断人</th><th>首次拨通通话时长</th><th>第二次拨通cc</th><th>第二次拨通挂断人</th><th>第二次拨通通话时长</th>';
+        echo '<th>编号</th><th>未拨通例子</th><th>拨打次数</th><th>未拨通次数</th><th>拨通次数</th><th>天润cc挂断次数</th><th>天润客户挂断次数</th><th>首次拨通cc</th><th>天润首次拨通挂断人</th><th>首次拨通通话时长</th><th>第二次拨通cc</th><th>天润第二次拨通挂断人</th><th>第二次拨通通话时长</th>';
         echo '</tr>';
-        foreach($ret_info as $item){
+        foreach($ret_info as $userid=>$item){
             echo '<tr>';
             echo '<td>'.$num++.'</td>';
-            echo '<td>'.$item['userid'].'</td>';
+            echo '<td>'.$userid.'</td>';
+            echo '<td>'.$item['call_count'].'</td>';
+            echo '<td>'.$item['no_called_count'].'</td>';
+            echo '<td>'.$item['called_count'].'</td>';
+            echo '<td>'.$item['end_cc_count'].'</td>';
+            echo '<td>'.$item['end_c_count'].'</td>';
+            echo '<td>'.$item['first_called_cc'].'</td>';
+            echo '<td>'.$item['end_first_called'].'</td>';
+            echo '<td>'.$item['first_called_time_long'].'</td>';
+            echo '<td>'.$item['second_called_cc'].'</td>';
+            echo '<td>'.$item['end_second_called'].'</td>';
+            echo '<td>'.$item['second_called_time_long'].'</td>';
             echo '</tr>';
         }
-
         echo '</table>';
     }
 }
