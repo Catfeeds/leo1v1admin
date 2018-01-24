@@ -1519,6 +1519,7 @@ class seller_student_new2 extends Controller
             "lesson_tags"   => $lesson_tags,
             "teaching_tags" => $teaching_tags,
             "require_info"  => $require_info,
+            "userid"        => $userid,
         ]);
     }
 

@@ -16,6 +16,7 @@ function load_data(){
 		    require_id    : g_args.require_id,
 		    refresh_flag  : refresh_flag,
 		    region_version: $('#id_region_version').val(),
+        userid        : $('#id_userid').val(),
     });
 }
 
@@ -42,6 +43,7 @@ $(function(){
     $("#id_teacherid").val();
     $('#id_region_version').val(g_args.region_version);
     $('#id_refresh_flag').val(g_args.refresh_flag);
+    $('#id_userid').val(g_args.userid);
 
     $('.opt-change').set_input_change_event(load_data);
     $("#id_lesson_time").datetimepicker();
