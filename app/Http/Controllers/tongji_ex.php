@@ -373,7 +373,7 @@ class tongji_ex extends Controller
                 }else{
                     if($item['duration']<60){
                         $ret_info[$userid]['list'][] = $item;
-                        $ret_info[$userid]['add_time'][] = date('Y-m-d H:i:s',$item['add_time']);
+                        $ret_info[$userid]['add_time'] = date('Y-m-d H:i:s',$item['add_time']);
                     }
                 }
             }
