@@ -11,7 +11,7 @@ class tongji_ex extends Controller
 {
     use  CacheNick;
     public function __construct() {
-		parent::__construct();
+        parent::__construct();
         $this->switch_tongji_database();
     }
 
@@ -136,16 +136,16 @@ class tongji_ex extends Controller
         ];
         $str ="";
         foreach($company_ip_list as $val){
-            $str  .="'".$val."',";           
+            $str  .="'".$val."',";
         }
         $ip_str = "(".trim($str,",").")";
         $ret_info = $this->t_user_login_log->get_pay_stu_ip_list($start_time,$end_time,$match_type,$ip_str);
-        
+
         $list=[];
         foreach($ret_info as $val){
             $k = $val["userid"]."-".$val["ip"];
-            @$list[$k]["userid"]=$val["userid"]; 
-            @$list[$k]["nick"]=$val["phone"]; 
+            @$list[$k]["userid"]=$val["userid"];
+            @$list[$k]["nick"]=$val["phone"];
             @$list[$k]["ip"]=$val["ip"];
             @$list[$k]["grade"]=$val["grade"];
             @$list[$k]["same_name_list"] .=$val["s2_phone"].",";
@@ -355,6 +355,69 @@ class tongji_ex extends Controller
         echo '<td>'.$end_c_60.'</td>';
         echo '<td>'.$no_called_count.'</td>';
         echo '</tr>';
+        echo '</table>';
+    }
+
+    public function market_january_student_detail(){
+        $this->check_and_switch_tongji_domain();
+        list($ret_info,$userid_arr,$num,$start_time,$end_time) = [[],[],0,1514736000,1517414400];
+        $time_arr = [
+            [
+                'start_time'=>1514736000,
+                'end_time'=>1515081600,
+            ],[
+                'start_time'=>1515081600,
+                'end_time'=>1515513600,
+            ],[
+                'start_time'=>1515513600,
+                'end_time'=>1515772800,
+            ],[
+                'start_time'=>1515772800,
+                'end_time'=>1515945600,
+            ],[
+                'start_time'=>1515945600,
+                'end_time'=>1516204800,
+            ],[
+                'start_time'=>1516204800,
+                'end_time'=>1516291200,
+            ],[
+                'start_time'=>1516291200,
+                'end_time'=>1516377600,
+            ],[
+                'start_time'=>1516377600,
+                'end_time'=>1516809600,
+            ]
+        ];
+        foreach($time_arr as $item){
+            $start_time = $item['start_time'];
+            $end_time = $item['end_time'];
+            $ret = $this->t_seller_student_new->get_item_january_detail_list($start_time,$end_time);
+            foreach($ret as $item){
+                $userid = $item['userid'];
+                if($item['start_time']>0){
+                    if($item['is_called_phone'] == 0){
+                        $ret_info[$userid]['list'][] = $item;
+                    }else{
+                        if($item['duration']<60){
+                            $ret_info[$userid]['list'][] = $item;
+                        }
+                    }
+                }
+            }
+        }
+        dd($ret_info);
+        echo '<table border="1" width="600" align="center">';
+        echo '<caption><h1>1月未拨通例子明细</h1></caption>';
+        echo '<tr bgcolor="#dddddd">';
+        echo '<th>编号</th><th>未拨通例子</th><th>拨打次数</th><th>未拨通次数</th><th>拨通次数</th><th>cc挂断次数</th><th>客户挂断次数</th><th>首次拨通cc</th><th>首次拨通挂断人</th><th>首次拨通通话时长</th><th>第二次拨通cc</th><th>第二次拨通挂断人</th><th>第二次拨通通话时长</th>';
+        echo '</tr>';
+        foreach($ret_info as $item){
+            echo '<tr>';
+            echo '<td>'.$num++.'</td>';
+            echo '<td>'.$item['userid'].'</td>';
+            echo '</tr>';
+        }
+
         echo '</table>';
     }
 }

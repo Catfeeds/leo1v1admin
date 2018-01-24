@@ -57,16 +57,6 @@ $(function(){
 
         Enum_map.append_option_list("lesson_problem", $lesson_problem, true);
 
-
-        $lesson_problem.on('change',function(){
-            if($lesson_problem.val()==8){
-                $lesson_problem_desc.parent().parent().css('display','table-row');
-            }else{
-                $lesson_problem_desc.parent().parent().css('display','none');
-                $lesson_problem_desc.val('');
-            }
-        });
-
         var tag = "<font color='red'>*</font>";
         var arr = [
             [tag+" 反馈人",$feedback_id],
@@ -85,6 +75,39 @@ $(function(){
             ["备注",$remark],
         ];
 
+        $lesson_problem.on('change',function(){
+            if($lesson_problem.val()==8){
+                $lesson_problem_desc.parent().parent().css('display','table-row');
+            }else{
+                $lesson_problem_desc.parent().parent().css('display','none');
+                $lesson_problem_desc.val('');
+            }
+        });
+
+        $deal_flag.on('change',function(){
+            if($deal_flag.val()==1){
+                $.each(arr,function(i,item){
+                    if(item[0]=='解决方案'){
+                        $solution.parent().prev().html("<font color='red'>*</font> 解决方案");
+                    }
+                    if(item[0]=='原因'){
+                        $reason.parent().prev().html("<font color='red'>*</font> 原因");
+                    }
+
+                });
+                $lesson_url.parent().prev().html("上课链接");
+            }else if($deal_flag.val()==0){
+                $.each(arr,function(i,item){
+                    if(item[0]=='上课链接'){
+                        $lesson_url.parent().prev().html("<font color='red'>*</font> 上课链接");
+                    }
+                });
+                $reason.parent().prev().html("原因");
+                $solution.parent().prev().html("解决方案");
+            }
+        });
+
+
         $.show_key_value_table("录入反馈信息",arr,{
             label    : "确认",
             cssClass : "btn-warning",
@@ -93,17 +116,16 @@ $(function(){
                 if(!$feedback_id.val()){ alert('请填写反馈人姓名!'); return; }
                 if($lesson_problem.val()==0){ alert('请选择问题种类!'); return; }
                 if($deal_flag.val()==-1){ alert('请选择解决状态!'); return; }
-
                 if(!$lesson_problem_desc.val() && $lesson_problem.val() == 8){ alert('请选择填写问题种类描述!'); return; }
-
                 if($deal_flag.val()==0 && !$lesson_url.val()){alert('请填写上课链接!'); return;}
                 if($deal_flag.val()==1){
                     if(!$reason.val()){alert('请填写原因!');return;}
                     if(!$solution.val()){alert('请填写解决方案!');return;}
                 }
+                if(!$describe.val()){ alert('请填写问题描述!'); return; }
 
                 $.do_ajax("/ss_deal2/add_product_info",{
-                    "feedback_id" : $feedback_id.val(),
+                    "feedback_nick" : $feedback_id.val(),
                     "describe"    : $describe.val(),
                     "lesson_url"  : $lesson_url.val(),
                     "reason"      : $reason.val(),
@@ -124,6 +146,9 @@ $(function(){
                 });
             }
         },function(){
+
+
+
             $lesson_problem_desc.parent().parent().css('display','none');
             $.admin_select_user($student,"student");
             $.admin_select_user($teacher,"teacher");
@@ -186,9 +211,9 @@ $(function(){
             var $deal_flag   = $('<select><option value="-1">未设置</option><option value="0">否</option><option value="1">是</option> </select>');
             var $remark      = $("<textarea/>");
 
-            var $id_img_url = $("<div><input class=\"change_reason_url\" id=\"id_img_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_img\" style=\"dispaly:none\" href=\"javascript:;\">上传</a> <a  id=\"id_download_lesson_img\" style=\"display:none\" href=\"javascript:;\">下载</a></span></div>");
-            var $id_video_url = $("<div><input class=\"change_reason_url\" id=\"id_video_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_video\"  href=\"javascript:;\">上传</a>  <a  id=\"id_download_lesson_video\" style=\"display:none\" href=\"javascript:;\">下载</a></span></div>");
-            var $id_zip_url = $("<div><input class=\"change_reason_url\" id=\"id_zip_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_zip\"  href=\"javascript:;\">上传</a>  <a  id=\"id_download_lesson_zip\" style=\"display:none\" href=\"javascript:;\">下载</a></span></div>");
+            var $id_img_url = $("<div><input class=\"change_reason_url\" id=\"id_img_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_img\" style=\"dispaly:none\" href=\"javascript:;\">上传</a> <a target='_blank' id=\"id_download_lesson_img\" style=\"display:none\" href=\"javascript:;\">下载</a></span></div>");
+            var $id_video_url = $("<div><input class=\"change_reason_url\" id=\"id_video_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_video\"  href=\"javascript:;\">上传</a>  <a target='_blank' id=\"id_download_lesson_video\" style=\"display:none\" href=\"javascript:;\">下载</a></span></div>");
+            var $id_zip_url = $("<div><input class=\"change_reason_url\" id=\"id_zip_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_lesson_zip\"  href=\"javascript:;\">上传</a>  <a target='_blank' id=\"id_download_lesson_zip\" style=\"display:none\" href=\"javascript:;\">下载</a></span></div>");
 
             $lesson_problem.on('change',function(){
                 if($lesson_problem.val()==8){
@@ -219,6 +244,32 @@ $(function(){
             ];
 
 
+
+            $deal_flag.on('change',function(){
+                if($deal_flag.val()==1){
+                    $.each(arr,function(i,item){
+                        if(item[0]=='解决方案'){
+                            $solution.parent().prev().html("<font color='red'>*</font> 解决方案");
+                        }
+                        if(item[0]=='原因'){
+                            $reason.parent().prev().html("<font color='red'>*</font> 原因");
+                        }
+
+                    });
+                    $lesson_url.parent().prev().html("上课链接");
+                }else if($deal_flag.val()==0){
+                    $.each(arr,function(i,item){
+                        if(item[0]=='上课链接'){
+                            $lesson_url.parent().prev().html("<font color='red'>*</font> 上课链接");
+                        }
+                    });
+                    $reason.parent().prev().html("原因");
+                    $solution.parent().prev().html("解决方案");
+                }
+            });
+
+
+
             $.show_key_value_table("录入反馈信息",arr,{
                 label    : "确认",
                 cssClass : "btn-warning",
@@ -227,6 +278,7 @@ $(function(){
                     if(!$feedback_id.val()){ alert('请填写反馈人姓名!'); return; }
                     if($lesson_problem.val()==0){ alert('请选择问题种类!'); return; }
                     if($deal_flag.val()==-1){ alert('请选择解决状态!'); return; }
+                    if(!$describe.val()){ alert('请填写问题描述!'); return; }
                     if(!$lesson_problem_desc.val() && $lesson_problem.val() == 8){ alert('请选择填写问题种类描述!'); return; }
 
                     if($deal_flag.val()==0 && !$lesson_url.val()){alert('请填写上课链接!'); return;}
@@ -297,12 +349,14 @@ $(function(){
                 $.admin_select_user($student,"student");
                 $.admin_select_user($teacher,"teacher");
 
-                $lesson_problem.css('width','90%');
                 $lesson_url.css('width','90%');
                 $feedback_id.next().css('width','20%');
                 $student.next().css('width','20%');
                 $teacher.next().css('width','20%');
-                $deal_flag.css('width','20%');
+                $deal_flag.css('width','40%');
+                $lesson_problem.css('width','40%');
+                $feedback_id.css('width','40%');
+
 
                 $.custom_upload_file('id_upload_lesson_img',true,function (up, info, file) {
                     var res = $.parseJSON(info);

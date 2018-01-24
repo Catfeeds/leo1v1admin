@@ -2480,4 +2480,17 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_rs_tea_info() {
+        // select account,name from db_weiyi_admin.t_manager_info where account_role = 4 and del_flag=0
+        //select t.teacher_type,t.teacher_money_type from db_weiyi_admin.t_manager_info m left join db_weiyi.t_teacher_info t on m.phone=t.phone where account_role = 4 and del_flag=0
+        $sql = $this->gen_sql_new("select t.teacherid,t.teacher_type,t.teacher_money_type from %s m "
+                                  ." left join %s t on m.phone=t.phone"
+                                  ." where account_role = 4 and del_flag = 0",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
+    }
 }
