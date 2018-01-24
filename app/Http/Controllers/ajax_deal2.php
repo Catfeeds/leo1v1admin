@@ -3253,7 +3253,7 @@ class ajax_deal2 extends Controller
         $data["str2"] = "学习课".@$lesson_all["subject_num"]."门课，".@$lesson_all["tea_num"]."位老师为你服务";
 
         $lesson_detail = $this->t_lesson_info_b3->get_student_all_lesson_info($userid,0,0);
-        $cw_num=$pre_num=$tea_commit=$leave_num=$absence_num=0;
+        $cw_num=$pre_num=$tea_commit=$leave_num=$absence_num=$commit_num=$a_num=$b_num=$c_num=$d_num=$score_total=$check_num=$stu_praise=0;
         foreach($lesson_detail as $val){
            
             if(empty($val["tea_cw_upload_time"]) || $val["tea_cw_upload_time"]>$val["lesson_start"]){
@@ -3272,10 +3272,47 @@ class ajax_deal2 extends Controller
                 $absence_num++;
             }
 
+            if($val["work_status"]>=2){
+                $commit_num++;
+            }
+           
+            if($val["work_status"]>=3){
+                $score =$val["score"];
+                $check_num++;
+                if($score=="A"){
+                    $score_total +=90;
+                    $a_num++;
+                }elseif($score=="B"){
+                    $score_total +=80;
+                    $b_num++;
+                }elseif($score=="C"){
+                    $score_total +=70;
+                    $c_num++;
+                }else{
+                    $score_total +=50;
+                    $d_num++;
+                }
 
+            }          
+            $stu_praise +=$val["stu_praise"];
 
         }
         $pre_rate = $cw_num==0?0:round($pre_num/$cw_num*100,2);
+        $score_avg = $check_num==0?"0":($score_total/$check_num);
+        if($score_avg>=86){
+            $score_final = "A";
+        }elseif($score_avg>=75){
+            $score_final = "B";
+        }elseif($score_avg>=60){
+            $score_final = "C";
+        }elseif($score_avg>0){
+            $score_final = "D";
+        }else{
+            $score_final = "无";
+        }
+        $data["str3"] = "预习了".$pre_num."次，预习率为".$pre_rate."%，请假了".$leave_num."次，旷课了".$absence_num."次，获赞". $stu_praise."个，得到老师评价".$tea_commit."次";
+        $data["str4"] = "提交了".$commit_num."次作业，获得成绩A".$a_num."次，B".$b_num."次，C".$c_num."次，D".$d_num."次，平均成绩为".$score_final;
+
 
 
 

@@ -280,7 +280,7 @@ $(function(){
         },function(resp) {
             var list = resp.data;
             var title = "成长轨迹";
-            var html_node= $("<div class=\"row\" ><div class=\"col-xs-6 col-md-12\" style=\"text-align:center;\" ><div class=\"header_img\"><img  style=\"border-radius:130px;width:120px; border: 3px solid #ccc;\"  src=\""+list.face+"\" /></div></div><div class=\"col-xs-6 col-md-12\" style=\"text-align:center;margin-top:10px\" ><div class=\"header_img\">"+list.realname+"</div></div><div class=\"col-xs-6 col-md-12\" style=\"margin-top:40px\" ><p>"+list.str1+"</p><p>"+list.str2+"</p></div<p>hahahahahahahha</p><p>hahahahahahahha</p></div>");
+            var html_node= $("<div class=\"row\" ><div class=\"col-xs-6 col-md-12\" style=\"text-align:center;\" ><div class=\"header_img\"><img  style=\"border-radius:130px;width:120px; border: 3px solid #ccc;\"  src=\""+list.face+"\" /></div></div><div class=\"col-xs-6 col-md-12\" style=\"text-align:center;margin-top:10px\" ><div class=\"header_img\">"+list.realname+"</div></div><div class=\"col-xs-6 col-md-12\" style=\"margin-top:40px\" ><p>"+list.str1+"</p><p>"+list.str2+"</p></div<p>"+list.str3+"</p><p>"+list.str4+"</p></div>");
 
             var dlg=BootstrapDialog.show({
                 title:title,
@@ -307,7 +307,45 @@ $(function(){
     });
     $(".show_lesson_detail").on("click",function(){
         var lessonid = $(this).data("lessonid");
-        alert(lessonid);
+        $.do_ajax('/ajax_deal3/get_student_lesson_info_by_lessonid',{
+            "lessonid"   : lessonid
+        },function(resp) {
+            var list = resp.data;
+            var title = "课程信息";
+            var html_node= $("<div class=\"row\" ><div class=\"col-xs-6 col-md-12\"  ><a class=\"btn btn-warning show_lesson_video\" href=\"javascript:;\" style=\"float:right\">课程回访</a></div><div class=\"col-xs-12 col-md-12  \"><span><font size=\"3\" color=\"black\">基本信息</font></span> </div><div class=\"col-xs-12 col-md-12  \" ><table style=\"margin-left:10px\" class=\"table table-bordered\"> <tr><td>序号</td><td></td><td>时间</td><td></td><td>年级</td><td>科目</td><td></td><td>老师</td><td></td></tr></table></div><div class=\"col-xs-12 col-md-12  \"><span><font size=\"3\" color=\"black\">预习</font></span> </div><div class=\"col-xs-12 col-md-12  \" ><div class=\"col-xs-12 col-md-6  \" ><table style=\"margin-left:10px\" class=\"table table-bordered\"> <tr><td>讲义上传</td><td></td><td>预习情况</td><td></td></tr></table></div></div></div>");
+            html_node.find(".show_lesson_video").on("click",function(){
+                $.do_ajax( "/common/encode_text",{
+                    "text" : lessonid
+                }, function(ret){
+                    // BootstrapDialog.alert("对外链接 : http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text  );
+                    $.wopen("http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text);
+                });
+ 
+            });
+
+            var dlg=BootstrapDialog.show({
+                title:title,
+                message :  html_node   ,
+                closable: true,
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1000px");
+
+        });
+
+        
     });
     $(".show_login_info").on("click",function(){
          var lessonid = $(this).data("lessonid");

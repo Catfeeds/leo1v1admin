@@ -331,8 +331,8 @@ class user_manage_new extends Controller
             return $this->Pageview(__METHOD__,$ret_list);
         }
 
-        $teacher_type             = $this->t_teacher_info->get_teacher_type($teacherid);
-        $old_list                 = $this->t_lesson_info->get_lesson_list_for_wages(
+        $teacher_type = $this->t_teacher_info->get_teacher_type($teacherid);
+        $old_list     = $this->t_lesson_info->get_lesson_list_for_wages(
             $teacherid,$start_time,$end_time,$studentid,$show_type
         );
 

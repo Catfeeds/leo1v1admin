@@ -176,6 +176,7 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
             if($RoleId > 1){
                 $content = "http://wx-parent.leo1v1.com"; // 待定
                 # 记录输入转发次数
+                
             }
         }
 
