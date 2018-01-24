@@ -61,12 +61,12 @@ class test_abner extends cmd_base
         foreach($channel_call_info as $item){
             //接通率
             if($item['all_count'])
-                $con_rate = ($item['con_count']/$item['all_count']*100).'%';
+                $con_rate = number_format(($item['con_count']/$item['all_count']*100),2).'%';
             else
                 $con_rate = 0;
             //cc联系间隔
             if($item['sum_time']-$item['end_time'] > 0)
-                $con_interval = (($item['sum_time']-$item['begin_time']) - ($item['sum_time']-$item['end_time']))/$item['all_count']/3600;
+                $con_interval = number_format((($item['sum_time']-$item['begin_time']) - ($item['sum_time']-$item['end_time']))/$item['all_count']/3600,2);
             else
                 $con_interval = '联系1次或0次';
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
