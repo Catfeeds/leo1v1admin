@@ -374,7 +374,7 @@ class tongji_ex extends Controller
                 }
             }
         }
-        $ret_two = $this->t_seller_student_new->get_item_january_detail_list($start_time=1515513600,$end_time=1516377600);
+        $ret_two = $this->t_seller_student_new->get_item_january_detail_list($start_time=1515513600,$end_time=1515945600);
         foreach($ret_two as $item){
             $userid = $item['userid'];
             if($item['start_time']>0){
@@ -388,8 +388,21 @@ class tongji_ex extends Controller
                 }
             }
         }
-        dd($ret_info);
-        $ret_three = $this->t_seller_student_new->get_item_january_detail_list($start_time=1516377600,$end_time=1517414400);
+        $ret_three = $this->t_seller_student_new->get_item_january_detail_list($start_time=1515945600,$end_time=1516377600);
+        foreach($ret_two as $item){
+            $userid = $item['userid'];
+            if($item['start_time']>0){
+                if($item['is_called_phone'] == 0){
+                    $ret_info[$userid]['list'][] = $item;
+                }else{
+                    if($item['duration']<60){
+                        $ret_info[$userid]['list'][] = $item;
+                    }
+
+                }
+            }
+        }
+        $ret_four = $this->t_seller_student_new->get_item_january_detail_list($start_time=1516377600,$end_time=1517414400);
         foreach($ret_three as $item){
             if($item['start_time']>0){
                 $userid = $item['userid'];
@@ -403,7 +416,7 @@ class tongji_ex extends Controller
                 }
             }
         }
-        dd($ret_info);
+        dd($ret_one,$ret_two,$ret_three,$ret_four);
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>1月未拨通例子明细</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
