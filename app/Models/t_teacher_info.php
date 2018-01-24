@@ -4687,7 +4687,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $month_arr = $this->lesson_start_sql($month_range['sdate'],$month_range['edate'],'l',$lesson_type_arr);
 
         $subject_str = $this->gen_sql("(t.subject=%u or t.second_subject=%u)",$subject,$subject);
-        $teacher_arr = $this->teacher_common_sql("t",[$subject_str],$is_test);
+        if ($is_test == 1) {
+            $teacher_arr = $this->teacher_common_test_sql("t", [$subject_str]);
+        } else {
+            $teacher_arr = $this->teacher_common_sql("t",[$subject_str]);
+        }
+
+        //$teacher_arr = $this->teacher_common_sql("t",[$subject_str],$is_test);
         $lesson_arr  = $this->lesson_start_common_sql($start_time,$end_time,"l",["l.lesson_type in (0,1,3)"]);
 
         $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,t.second_subject,t.second_grade_start,"
@@ -4712,6 +4718,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$lesson_arr
                                   ,$teacher_arr
         );
+        
         return $this->main_get_list($sql,function($item){
             return $item['teacherid']."_key";
         });
@@ -4719,7 +4726,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_teacher_list_by_subject($subject,$is_test){
         $subject_str = $this->gen_sql("(t.subject=%u or t.second_subject=%u)",$subject,$subject);
-        $teacher_arr = $this->teacher_common_sql("t",[$subject_str],$is_test);
+        if ($is_test == 1) {
+            $teacher_arr = $this->teacher_common_test_sql("t", [$subject_str]);
+        } else {
+            $teacher_arr = $this->teacher_common_sql("t",[$subject_str]);
+        }
+        //$teacher_arr = $this->teacher_common_sql("t",[$subject_str]);
 
         $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,"
                                   ." t.second_subject,t.second_grade_start,t.teacher_type,"
