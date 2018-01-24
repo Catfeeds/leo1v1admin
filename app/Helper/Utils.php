@@ -73,7 +73,6 @@ class Utils  {
     }
 
 
-
     static function get_lesson_server_type ( $lesson_type,$server_type )  {
         if($server_type ==0  ) { //default
             if ($lesson_type<1000) {

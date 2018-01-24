@@ -7,7 +7,7 @@
 <script src='/page_js/select_user.js'></script>
 <script src='/js/fullcalendar.js'></script>
 <script src='/js/lang-all.js'></script>
-@if($account_role!=2)
+@if($_account_role!=2)
 <section class="content">
     <div class="row">
         <div class="col-xs-12 col-md-5">
