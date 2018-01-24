@@ -220,7 +220,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $this->where_arr_adminid_in_list($where_arr,"t1.uid", $adminid_list );
 
 
-        $sql =$this->gen_sql_new("select t1.no_update_seller_level_flag,t1.create_time,leave_member_time,become_member_time,call_phone_type, call_phone_passwd, fingerprint1 ,ytx_phone,wx_id,up_adminid,day_new_user_flag, account_role,creater_adminid,t1.uid,t1.del_flag,t1.account,t1.seller_level, name,nickname, email, phone,password, permission,tquin,wx_openid ,cardid,become_full_member_flag,main_department,fulltime_teacher_type from %s t1  left join %s t2 on t1.uid=t2.id    left join %s t_wx on t1.wx_openid =t_wx.openid  where  %s  order by t1.uid desc",
+        $sql =$this->gen_sql_new("select t1.no_update_seller_level_flag,t1.create_time,leave_member_time,become_member_time,call_phone_type, call_phone_passwd, fingerprint1 ,ytx_phone,wx_id,up_adminid,day_new_user_flag, account_role,creater_adminid,t1.uid,t1.del_flag,t1.account,t1.seller_level, name,nickname, email, phone,password, permission,tquin,wx_openid ,cardid,become_full_member_flag,main_department,fulltime_teacher_type, seller_student_assign_type  from %s t1  left join %s t2 on t1.uid=t2.id    left join %s t_wx on t1.wx_openid =t_wx.openid  where  %s  order by t1.uid desc",
                                  self::DB_TABLE_NAME,
                                  t_admin_users::DB_TABLE_NAME,
                                  t_wx_user_info::DB_TABLE_NAME,
@@ -744,11 +744,17 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             ];*/
     }
 
-    public function get_seller_list() {
+    public function get_seller_list( $seller_student_assign_type=-1) {
+        $where_arr=[
+            ["seller_student_assign_type=%u", $seller_student_assign_type, -1],
+            "seller_level>0",
+            "del_flag=0",
+            "day_new_user_flag=1",
+        ];
         $sql=$this->gen_sql_new(
             "select uid,seller_level from %s " .
-            " where seller_level>0  and   day_new_user_flag=1  ",
-            self::DB_TABLE_NAME  );
+            " where   %s  order by  seller_level asc ",
+            self::DB_TABLE_NAME , $where_arr );
         return $this->main_get_list($sql);
     }
 

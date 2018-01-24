@@ -657,7 +657,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $tmk_adminid,$tmk_student_status,$origin_level ,$seller_student_sub_status
             , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,
             $seller_level,$wx_invaild_flag,$do_filter=-1, $first_seller_adminid=-1,$suc_test_count,
-            $call_phone_count=-1,$call_count,$main_master_flag=0,$self_adminid=-1, $origin_count =-1,$admin_revisiterid_list=[]
+            $call_phone_count=-1,$call_count,$main_master_flag=0,$self_adminid=-1, $origin_count =-1,$admin_revisiterid_list=[] ,
+            $seller_student_assign_type =  -1
     ) {
 
         if ($userid>0) {
@@ -697,6 +698,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $this->where_arr_add_int_or_idlist ($where_arr,"test_lesson_count",$suc_test_count);
             $this->where_arr_add_int_or_idlist ($where_arr,"origin_count",$origin_count);
             $this->where_arr_add_int_or_idlist ($where_arr,"cur_adminid_call_count",$call_count);
+            $this->where_arr_add_int_or_idlist ($where_arr,"seller_student_assign_type",$seller_student_assign_type);
             //wx
             $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
             if ($has_pad==-2) {
@@ -742,7 +744,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
 
         $sql=$this->gen_sql_new(
-            "select  aa.nickname,seller_resource_type ,first_call_time,first_contact_time,first_revisit_time,last_revisit_time,tmk_assign_time,last_contact_time, competition_call_adminid, competition_call_time,sys_invaild_flag,wx_invaild_flag, return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status, add_time,  global_tq_called_flag, seller_student_status,wx_invaild_flag, s.userid,s.nick, s.origin, s.origin_level,ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad,t.require_adminid ,tmk_student_status "
+            "select ss.seller_student_assign_type , aa.nickname,seller_resource_type ,first_call_time,first_contact_time,first_revisit_time,last_revisit_time,tmk_assign_time,last_contact_time, competition_call_adminid, competition_call_time,sys_invaild_flag,wx_invaild_flag, return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status, add_time,  global_tq_called_flag, seller_student_status,wx_invaild_flag, s.userid,s.nick, s.origin, s.origin_level,ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad,t.require_adminid ,tmk_student_status "
             . ",first_tmk_set_valid_admind,first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,first_admin_revisiterid_time,first_seller_status,cur_adminid_call_count as call_count ,ss.auto_allot_adminid "
             ." from %s t "
             ." left join %s ss on  ss.userid = t.userid "
@@ -1143,15 +1145,14 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     }
 
-    public function set_admin_id_ex ( $userid_list,  $opt_adminid, $opt_type) {
+    public function set_admin_id_ex ( $userid_list,  $opt_adminid, $opt_type ,$account="system") {
         if ( count($userid_list) ==0 ) {
             return false;
-      }
+        }
         $this->set_admin_info(
             $opt_type, $userid_list,  $opt_adminid,0 );
 
         $opt_account=$this->t_manager_info->get_account($opt_adminid);
-        $account="system";
 
         foreach ( $userid_list as $userid ) {
             $phone=$this->t_seller_student_new->get_phone($userid);
@@ -1291,6 +1292,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "lesson_count_all=0",
             "tmk_adminid=0",
             "origin_userid=0 ",
+            "seller_student_assign_type =0 ",
             "sys_invaild_flag=0",
             "competition_call_time<$check_time",
         ];
@@ -3489,6 +3491,21 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             , self::DB_TABLE_NAME
             , t_student_info::DB_TABLE_NAME
             ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+    public function  get_need_new_assign_list() {
+        $where_arr=[
+            "seller_student_assign_type=1", // 系统分配 
+            "seller_resource_type=0", // 新例子
+            "seller_adminid=0", // 未分配
+        ];
+        $sql= $this->gen_sql_new(
+            "select  userid, origin_level "
+            . " from %s"
+            . "  where  %s",
+            self::DB_TABLE_NAME,
+            $where_arr
         );
         return $this->main_get_list($sql);
     }

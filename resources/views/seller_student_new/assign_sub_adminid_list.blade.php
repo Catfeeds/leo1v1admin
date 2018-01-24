@@ -311,7 +311,7 @@
                     <button class="btn btn-primary" id="id_upload_xls"
                             @if($button_show_flag==0)
                             style="display:none;"
-                            @endif       
+                            @endif
                     > 上传xls </button>
                 </div>
 
@@ -427,6 +427,8 @@
                             @else
                                 转介绍: {{$var["origin_assistant_nick"]}} <br/>
                             @endif
+                            {{$var["seller_student_assign_type_str"]}}
+
                         </td>
                         <td>{{$var["last_call_time_space"]}}天 </td>
                         @if ($show_list_flag==0)

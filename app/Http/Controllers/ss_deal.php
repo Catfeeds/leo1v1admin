@@ -1229,6 +1229,7 @@ class ss_deal extends Controller
     public function  set_seller_student_status( ) {
         $test_lesson_subject_id= $this->get_in_test_lesson_subject_id();
         $seller_student_status= $this->get_in_e_seller_student_status();
+        $seller_student_assign_type= $this->get_in_e_seller_student_assign_type();
 
         $wx_invaild_flag= $this->get_in_int_val("wx_invaild_flag");
         $db_tt_item=$this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"*");
@@ -1244,10 +1245,11 @@ class ss_deal extends Controller
 
         //更新 wx_invaild_flag
         $arrwx = [];
-        $arrwx['wx_invaild_flag'] = $wx_invaild_flag;
         if ($db_seller_student_new["wx_invaild_flag"] != $wx_invaild_flag ) {
-            $this->t_seller_student_new->field_update_list( $db_seller_student_new["userid"],$arrwx);
+        $arrwx["wx_invaild_flag"] = $wx_invaild_flag;
         }
+        $arrwx["seller_student_assign_type"] = $seller_student_assign_type;
+        $this->t_seller_student_new->field_update_list( $db_seller_student_new["userid"],$arrwx);
 
 
         return $this->output_succ();
