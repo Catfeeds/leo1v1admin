@@ -1587,7 +1587,13 @@ class wx_teacher_api extends Controller
         return $this->output_succ($ret_info);
     }
 
+    # 理优海报转发
+    public function leoPosterForward(){
 
+    }
+
+    # 制作海报
+    # 获取随机图片
 
 
 }

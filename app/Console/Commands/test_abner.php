@@ -40,6 +40,59 @@ class test_abner extends cmd_base
     {
         $start_time = strtotime(date('2017-10-01'));
         $end_time = strtotime(date('2017-11-01'));
+        $count = 0;
+        $channel_call_info = $this->task->t_test_lesson_subject->get_channel_call_info($start_time,$end_time);
+        $path = '/var/www/admin.yb1v1.com/10.txt';
+        $fp = fopen($path,"a+");
+        fwrite($fp, '10月份数据');
+        fwrite($fp, "\n");
+        fwrite($fp, '电话');  //电话
+        fwrite($fp, '  ');
+        fwrite($fp, '进入时间');  //进入时间
+        fwrite($fp, '  ');
+        fwrite($fp, 'cc联系间隔[h]');  //cc联系间隔[h]
+        fwrite($fp, '  ');
+        fwrite($fp, '用户省');  //用户省
+        fwrite($fp, '  ');
+        fwrite($fp, '用户市');  //用户所在市
+        fwrite($fp, '  ');
+        fwrite($fp, '接通率');  //接通率
+        fwrite($fp, "\n");
+        foreach($channel_call_info as $item){
+            //接通率
+            if($item['all_count'])
+                $con_rate = number_format(($item['con_count']/$item['all_count']*100),2).'%';
+            else
+                $con_rate = 0;
+            //cc联系间隔
+            if($item['sum_time']-$item['end_time'] > 0)
+                $con_interval = number_format((($item['sum_time']-$item['begin_time']) - ($item['sum_time']-$item['end_time']))/$item['all_count']/3600,2);
+            else
+                $con_interval = '联系1次或0次';
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+
+            fwrite($fp, $item['phone']);  //电话
+            fwrite($fp, '  ');
+            fwrite($fp, $item['add_time']);  //进入时间
+            fwrite($fp, '  ');
+            fwrite($fp, $con_interval);  //cc联系间隔[h]
+            fwrite($fp, '  ');
+            fwrite($fp, $item['phone_province']);  //用户省
+            fwrite($fp, '  ');
+            fwrite($fp, $item['phone_city']);  //用户所在市
+            fwrite($fp, '  ');
+            fwrite($fp, $con_rate);  //接通率
+            fwrite($fp, "\n");
+            echo $count++."ok!\n";
+        }
+        fclose($fp);
+        echo 'ok!';
+
+    }
+    //@desn:获取今日头条10月份进入例子
+    private function get_channel_example(){
+        $start_time = strtotime(date('2017-10-01'));
+        $end_time = strtotime(date('2017-11-01'));
         $channel_info = $this->task->t_test_lesson_subject->get_channel_info($start_time,$end_time);
         $path = '/var/www/admin.yb1v1.com/10.txt';
         $fp = fopen($path,"a+");
@@ -51,7 +104,6 @@ class test_abner extends cmd_base
         }
         fclose($fp);
         echo 'ok!';
-
     }
     //@desn:获取用户Q4数据
     private function get_q4_data(){

@@ -360,47 +360,18 @@ class tongji_ex extends Controller
 
     public function market_january_student_detail(){
         $this->check_and_switch_tongji_domain();
-        list($ret_info,$userid_arr,$num,$start_time,$end_time) = [[],[],0,1514736000,1517414400];
-        $time_arr = [
-            [
-                'start_time'=>1514736000,
-                'end_time'=>1515081600,
-            ],[
-                'start_time'=>1515081600,
-                'end_time'=>1515513600,
-            ],[
-                'start_time'=>1515513600,
-                'end_time'=>1515772800,
-            ],[
-                'start_time'=>1515772800,
-                'end_time'=>1515945600,
-            ],[
-                'start_time'=>1515945600,
-                'end_time'=>1516204800,
-            ],[
-                'start_time'=>1516204800,
-                'end_time'=>1516291200,
-            ],[
-                'start_time'=>1516291200,
-                'end_time'=>1516377600,
-            ],[
-                'start_time'=>1516377600,
-                'end_time'=>1516809600,
-            ]
-        ];
-        foreach($time_arr as $item){
-            $start_time = $item['start_time'];
-            $end_time = $item['end_time'];
-            $ret = $this->t_seller_student_new->get_item_january_detail_list($start_time,$end_time);
-            foreach($ret as $item){
-                $userid = $item['userid'];
-                if($item['start_time']>0){
-                    if($item['is_called_phone'] == 0){
+        list($ret_info,$userid_arr,$num,$start_time,$end_time) = [[],[],0,$this->get_in_int_val('start_time','2018-01-01'),$this->get_in_int_val('end_time','2018-01-05')];
+        $start_time = strtotime($start_time);
+        $end_time = strtotime($end_time);
+        $ret = $this->t_seller_student_new->get_item_january_detail_list($start_time,$end_time);
+        foreach($ret as $item){
+            $userid = $item['userid'];
+            if($item['start_time']>0){
+                if($item['is_called_phone'] == 0){
+                    $ret_info[$userid]['list'][] = $item;
+                }else{
+                    if($item['duration']<60){
                         $ret_info[$userid]['list'][] = $item;
-                    }else{
-                        if($item['duration']<60){
-                            $ret_info[$userid]['list'][] = $item;
-                        }
                     }
                 }
             }

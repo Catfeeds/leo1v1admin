@@ -401,8 +401,6 @@ class test_james extends Controller
             t_field($table->string("qr_code_url"), "二维码链接");
 
         });
-
-
     }
 
     # 二维码生成
