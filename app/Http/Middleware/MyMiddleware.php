@@ -93,7 +93,7 @@ class MyMiddleware
 
         $in_end_time=time(NULL);
         $diff= $in_end_time- $in_start_time;
-        \App\Helper\Utils::logger("WORK_TIME:$diff URL:". $request->url());
+        \App\Helper\Utils::logger("account:$g_account:WORK_TIME:$diff:URL:". $request->url());
         \App\Models\NewDB::close_all_dbs();
         return $ret;
 

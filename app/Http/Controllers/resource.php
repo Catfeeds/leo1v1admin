@@ -84,9 +84,7 @@ class resource extends Controller
             if($item['resource_type'] == 3 ) {
                 $item['tag_three_str'] = E\Eresource_diff_level::get_desc($item['tag_three']);
             }
-            if($item['resource_type'] == 6){
-                $item['tag_four_str'] = E\Eregion_version::get_desc($item['tag_four']);
-            }
+         
         }
         //dd($ret_info['list']);
 
@@ -132,7 +130,7 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180124171449,
+            '_publish_version'    => 20180124141449,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -510,10 +508,12 @@ class resource extends Controller
             } else {
                 if($arr[0] <6 || $arr[0] ==9 || ($arr[0]==6 && $num=3) ){
                     $menu = $tag_arr[ $arr[0] ][ $select ]['menu'];
-                    $item[$menu] = $item[$select];
+                    $item[$menu] = @$item[ $select ];
+                    //只有resource_type=3的时候才会有num=6
                     E\Egrade::set_item_field_list($item, [$menu]);
                 }
-                //只有resource_type=3的时候才会有num=6
+                \App\Helper\Utils::logger("教材遍历:".json_encode($item));
+
                 \App\Helper\Utils::logger("教材学科层级num:$num,资源类型resource_type:".$arr[0]);
                 if( ( $arr[0] == 1 && $num == 5 ) || ( $arr[0] == 3 && $num == 6 )) {
                     $sub_grade = \App\Helper\Utils::get_sub_grade_tag($arr[1], $arr[2]);

@@ -108,7 +108,6 @@ $(function(){
         }
         $(obj).empty();
         $(obj).append(pro);
-
     }
 
     Enum_map.append_option_list("use_type", $("#id_use_type"),true,[1,2]);
@@ -143,12 +142,9 @@ $(function(){
         $("#id_tag_three").append('<option value="-1">全部</option>');
     }
 
-    if(tag_four != '' && g_args.resource_type == 6){
-        Enum_map.append_option_list(tag_four, $("#id_tag_four"), false, book);
-        if( g_args.tag_four == ''){
-            $("#id_tag_four").val(-1);
-        }
-    }else{
+    if(tag_four != ''){
+        Enum_map.append_option_list(tag_four, $("#id_tag_four"));
+    } else {
         $("#id_tag_four").append('<option value="-1">全部</option>');
     }
 
@@ -183,17 +179,30 @@ $(function(){
     if($('#id_resource_type').val() == 3 || $('#id_resource_type').val() == 1 ){
         get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(),$('#id_tag_one').val(),$('#id_resource_type').val(),-1,$('#id_tag_four'), 1);
     } else if($('#id_resource_type').val() == 6) {
-        get_province($('#id_tag_two'));
+        get_province($('#id_tag_three'));
+        if($('.right-menu').length>0){
+            $('.right-menu').each(function(){
+                var province_id = parseInt($(this).find('.province').text());
+                var province = ChineseDistricts['86'][province_id];
+                $(this).find('.province').text(province);
+
+                var city_id = parseInt($(this).find('.city').text());
+                var city = ChineseDistricts[province_id][city_id];
+                $(this).find('.city').text(city);
+
+            })
+        }
     } else {
         $("#id_tag_four").append('<option value="-1">全部</option>');
     }
-    $('#id_tag_two').val(g_args.tag_two);
 
-    var city_num = $('#id_tag_two').val();
-    if($('#id_resource_type').val() == 6 && city_num != -1){
-        get_city($('#id_tag_three'), city_num);
-    }
     $('#id_tag_three').val(g_args.tag_three);
+
+    var city_num = $('#id_tag_three').val();
+    if($('#id_resource_type').val() == 6 && city_num != -1){
+        get_city($('#id_tag_four'), city_num);
+    }
+
     $('#id_tag_four').val(g_args.tag_four);
     $('#id_tag_five').val(g_args.tag_five);
     $('#id_file_title').val(g_args.file_title);
@@ -469,13 +478,13 @@ $(function(){
                 get_book(g_args.tag_one,$('.tag_one'));
             }else if($('.resource').val() == 6){
                 $('#id_les_file,#id_other_file,#id_ff_file,#id_video_file').parent().parent().hide();
-                get_province($('.tag_two'), true);
-                $('.tag_two').change(function(){
-                    get_city($('.tag_three'), $(this).val(), true);
+                get_province($('.tag_three'), true);
+                $('.tag_three').change(function(){
+                    get_city($('.tag_four'), $(this).val(), true);
                 });
-                get_city($('.tag_three'), 110000, true);
+                get_city($('.tag_four'), 110000, true);
+                get_book(g_args.tag_one,$('.tag_one'));
                 $('#id_search_tag').hide();
-                get_book(g_args.tag_one,$('.tag_four'));
             } else {
                 $('#id_les_file,#id_tea_file,#id_stu_file,#id_ex_file,#id_ff_file,#id_other_file').parent().parent().hide();
                 if($('.resource').val()==9){
@@ -556,14 +565,13 @@ $(function(){
             $('.tag_five').parent().parent().hide();
             //get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
             $('.tag_four').parent().prev().text('学科化标签');
-            $('#id_search_tag').show();
             $('.tag_four').parent().parent().show();
             $('.tag_five').parent().prev().text('难度类型');
             $('.tag_five').parent().parent().show();
 
             $('#id_other_file,#id_ff_file,#id_video_file').parent().parent().hide();
             $('#id_les_file,#id_tea_file,#id_stu_file,#id_ex_file').parent().parent().show();
-
+            $('#id_search_tag').show();
         }else if(val == 3){
             $('.subject').empty();
             Enum_map.append_option_list("subject",$('.subject'),true,[1,2,3,4,5]);
@@ -575,11 +583,10 @@ $(function(){
             $('.tag_two').parent().prev().text('试听类型');
             $('.tag_three').parent().prev().text('难度类型');
             $('.tag_four').parent().prev().text('学科化标签');
-            $('#id_search_tag').show();
             $('.tag_five').parent().parent().hide();
             $('#id_other_file,#id_ff_file,#id_video_file').parent().parent().hide();
             $('#id_les_file,#id_tea_file,#id_stu_file,#id_ex_file').parent().parent().show();
-
+            $('#id_search_tag').show();
        } else if (val == 4 || val == 5) {
             Enum_map.append_option_list("grade",$('.grade'),true, my_grade);
             Enum_map.append_option_list("resource_volume",$('.tag_five'),true,tag_five);
@@ -592,19 +599,20 @@ $(function(){
 
         } else if (val == 6 ){
             Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
-            Enum_map.append_option_list("resource_year",$('.tag_one'),true);
+            Enum_map.append_option_list("resource_year",$('.tag_two'),true);
             Enum_map.append_option_list("resource_volume",$('.tag_five'),true,tag_five);
-            get_province($('.tag_two'), true);
-            $('.tag_two').change(function(){
-                get_city($('.tag_three'), $(this).val(), true);
+            get_province($('.tag_three'), true);
+            $('.tag_three').change(function(){
+                get_city($('.tag_four'), $(this).val(), true);
             });
-
+            get_city($('.tag_four'), 110000, true);
             $('.tag_three').append('<option value="-2">请先选择省份</option>');
 
             $('.tag_one').next().remove();
-            $('.tag_one').parent().prev().text('年份');
-            $('.tag_two').parent().prev().text('省份');
-            $('.tag_three').parent().prev().text('城市');
+            $('.tag_one').parent().prev().text('教材版本');
+            $('.tag_two').parent().prev().text('年份');
+            $('.tag_three').parent().prev().text('省份');
+            $('.tag_four').parent().prev().text('城市');
 
             Enum_map.append_option_list("grade",$('.grade'),true,my_grade);
             $('.tag_five').parent().prev().text('上下册');
@@ -612,11 +620,9 @@ $(function(){
             $('#id_tea_file,#id_stu_file,#id_ex_file').parent().parent().show();
             $('#id_les_file,#id_other_file,#id_ff_file,#id_video_file').parent().parent().hide();
 
+            get_book(g_args.tag_one,$('.tag_one'));
             $('#id_search_tag').hide();
-            $('.tag_four').next('.tag_warn').remove();
-            $('.tag_four').parent().prev().text('教材版本');
-            $('.tag_four').parent().parent().show();
-            get_book(g_args.tag_one,$('.tag_four'));
+            $('.tag_four').parent().find('.tag_warn').remove();
         } else if (val == 7) {
             Enum_map.append_option_list("grade",$('.grade'),true,[100,200,300]);
             $('.tag_one').next().remove();
