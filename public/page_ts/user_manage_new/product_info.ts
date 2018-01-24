@@ -244,6 +244,32 @@ $(function(){
             ];
 
 
+
+            $deal_flag.on('change',function(){
+                if($deal_flag.val()==1){
+                    $.each(arr,function(i,item){
+                        if(item[0]=='解决方案'){
+                            $solution.parent().prev().html("<font color='red'>*</font> 解决方案");
+                        }
+                        if(item[0]=='原因'){
+                            $reason.parent().prev().html("<font color='red'>*</font> 原因");
+                        }
+
+                    });
+                    $lesson_url.parent().prev().html("上课链接");
+                }else if($deal_flag.val()==0){
+                    $.each(arr,function(i,item){
+                        if(item[0]=='上课链接'){
+                            $lesson_url.parent().prev().html("<font color='red'>*</font> 上课链接");
+                        }
+                    });
+                    $reason.parent().prev().html("原因");
+                    $solution.parent().prev().html("解决方案");
+                }
+            });
+
+
+
             $.show_key_value_table("录入反馈信息",arr,{
                 label    : "确认",
                 cssClass : "btn-warning",
