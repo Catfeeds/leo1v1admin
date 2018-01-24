@@ -119,7 +119,13 @@ class ajax_deal3 extends Controller
         $stop_userid_list = $this->t_student_info->get_read_student_ass_info(2,$assistantid);//停课学员名单
 
         $first_subject_list = $this->get_ass_stu_first_lesson_subject_info($start_time,$end_time,$assistantid);
-        $first_subject_list = json_encode(@$first_subject_list[$adminid]);
+        if(isset($first_subject_list[$adminid]) && !empty($first_subject_list[$adminid])){
+            $first_subject_list = json_encode(@$first_subject_list[$adminid]); 
+        }else{
+            $first_subject_list="";
+        }
+        
+        
 
         $revisit_reword_per = $this->get_ass_revisit_reword_value($account,$adminid,$start_time,$end_time,$first_subject_list,@$userid_list[$adminid],@$registered_userid_list[$adminid]);
         $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time,$adminid);
