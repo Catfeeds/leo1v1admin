@@ -379,6 +379,9 @@ class tongji_ex extends Controller
                 'end_time'=>1516204800,
             ],[
                 'start_time'=>1516204800,
+                'end_time'=>1516291200,
+            ],[
+                'start_time'=>1516291200,
                 'end_time'=>1516377600,
             ],[
                 'start_time'=>1516377600,
