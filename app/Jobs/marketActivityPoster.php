@@ -52,6 +52,7 @@ class marketActivityPoster extends Job implements ShouldQueue
         // $id      = $this->agent['id'];
         $qr_url  = "/tmp/market_wx_222.png";
 
+        \App\Helper\Utils::logger("market_wx_222: ");
 
         \App\Helper\Utils::get_qr_code_png($this->qr_code_url,$qr_url,5,4,3);
         return $this->qr_code_url;
