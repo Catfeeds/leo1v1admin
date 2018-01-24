@@ -687,6 +687,7 @@ class url_power_map {
 			'/tea_manage/index'	=>3800201,
 			'/course/index_admin'	=>3800501,
 			'/course/index'	=>3800502,
+			'/course/student_course'	=>3800503,
 			'/stu_manage/index'	=>2010100,
 			'/stu_manage/lesson_plan'	=>2010300,
 			'/stu_manage/lesson_plan_edit'	=>2010400,

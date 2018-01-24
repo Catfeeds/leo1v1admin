@@ -508,10 +508,12 @@ class resource extends Controller
             } else {
                 if($arr[0] <6 || $arr[0] ==9 || ($arr[0]==6 && $num=3) ){
                     $menu = $tag_arr[ $arr[0] ][ $select ]['menu'];
-                    $item[$menu] = $item[$select];
+                    $item[$menu] = @$item[ $select ];
+                    //只有resource_type=3的时候才会有num=6
                     E\Egrade::set_item_field_list($item, [$menu]);
                 }
-                //只有resource_type=3的时候才会有num=6
+                \App\Helper\Utils::logger("教材遍历:".json_encode($item));
+
                 \App\Helper\Utils::logger("教材学科层级num:$num,资源类型resource_type:".$arr[0]);
                 if( ( $arr[0] == 1 && $num == 5 ) || ( $arr[0] == 3 && $num == 6 )) {
                     $sub_grade = \App\Helper\Utils::get_sub_grade_tag($arr[1], $arr[2]);
@@ -544,7 +546,7 @@ class resource extends Controller
         $do_type  = $this->get_in_str_val('do_type','');
         // $arr      = explode('-', substr($info_str,5));
         $arr      = explode('-', $info_str);
-        $adminid  = $this->get_account_id();
+        $adminid  = $this->get_account_id()
         $time     = time();
         $ban_level = count($arr);
 
