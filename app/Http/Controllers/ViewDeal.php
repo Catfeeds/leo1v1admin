@@ -761,11 +761,11 @@ END;
     static function view_with_header_info( $view , $data=[], $mergeData=[] ) {
         global $_SERVER;
         $data["_cur_http"] = "http://".@$_SERVER['HTTP_HOST'];
-        $data["_power_list"]= session("power_list");
-        $data["_account"]=  session("acc") ;
-        $data["_face_pic"]=  session("face_pic") ;
-        $data["_adminid"]=  session("adminid") ;
-        $data["_account_role"] =  session("account_role") ;
+        $data["_power_list"]   = session("power_list");
+        $data["_face_pic"]     = session("face_pic") ;
+        $data["_account"]      = session("acc") ;
+        $data["_adminid"]      = session("adminid") ;
+        $data["_account_role"] = session("account_role") ;
 
         $ctrl=@$mergeData["_ctr"] ;
 
@@ -774,8 +774,8 @@ END;
         }else if (  $ctrl == "teacher_info_admin"  ) {
             $data["_tea_menu_html"] = session("tea_menu_html") ;
         }else if (  $ctrl == "teacher_info"  ) { //老师后台
-            $data["_nick"] =  session("nick") ;
-            $data["_face"] =  session("face") ;
+            $data["_nick"] = session("nick");
+            $data["_face"] = session("face");
         }else if ($ctrl == 'agent_info'){
             $data["_nickname"] = session('nickname');
             $data["_headimgurl"] = session('headimgurl');
@@ -783,7 +783,7 @@ END;
             $data["_menu_html"] = session("menu_html") ;
         }
 
-        $data= array_merge( $data, static::$page_self_view_data );
+        $data = array_merge( $data, static::$page_self_view_data );
         return view( $view,$data,$mergeData )->render();
     }
 
@@ -949,7 +949,6 @@ END;
         if (count($data_ex)>0 )  {
             $data=array_merge($data,$data_ex) ;
         }
-
 
         $data["html_power_list"] = $this->html_power_list;
 

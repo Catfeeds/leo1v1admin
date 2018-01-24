@@ -16,23 +16,18 @@
                   <div  id="id_date_range" >
                   </div>
               </div>
-
               <div class="col-xs-6 col-md-2">
                   <div class="input-group ">
                       <span class="input-group-addon">订单号</span>
                       <input class="opt-change form-control" id="id_orderid" />
                   </div>
               </div>
-
               <div class="col-xs-6 col-md-2">
                   <div class="input-group ">
                       <span class="input-group-addon">下单人</span>
                       <input class="opt-change form-control" id="id_adminid" />
                   </div>
               </div>
-
-
-
               <div class="col-xs-6 col-md-2">
                   <div class="input-group ">
                       <span class="input-group-addon">类型</span>
@@ -280,7 +275,7 @@
                                 <a style="display:none;" class="fa-edit opt-change-state" title="更改付款状态"> </a>
                                 <a class="fa-trash-o opt-del" title="删除合同"> </a>
                                 <a class=" fa-unlock  opt-is-not-spec-flag " title="设置为正常订单,非特殊"> </a>
-                                @if(in_array($account_role,[12,13]))
+                                @if(in_array($_account_role,[12,13]))
                                     <a class="fa-clock-o opt-change-default_lesson_count" title="修改课时数"> </a>
                                     <a class="fa-cny opt-change-money" title="更改金额"> </a>
                                 @endif
@@ -294,7 +289,7 @@
                                 <a class="opt-mail-contrat" title="合同运单">运单</a>
                                 <a class="opt-merge_order" title="合并合同">合并</a>
                                 <a class="opt-price_desc fa-list" title="价格生成说明"></a>
-                                @if(in_array($acc,[$var["sys_operator"],"jim","jack"])  && $var["price"] >0)
+                                @if(in_array($_account,[$var["sys_operator"],"jim","jack"])  && $var["price"] >0)
                                     <a class="opt-order-partition" title="拆分合同">拆分</a>
                                     <a class="opt-update-parent-name" title="修改家长姓名">家</a>
                                 @endif

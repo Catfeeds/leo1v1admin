@@ -7,12 +7,10 @@ import "class_api/common.proto";
 
 
 message in  {
-  	int32  contractid= 1; //合同编号
-   	int32 price = 2; //付款金额
-   	string pay_time = 3; //付款时间
-   	int32 sign = 4; //签名
+  	int32  pid= 1; //package id
 }
 
 message out {
+	int32  oid = 1;//合同id
 }
 
