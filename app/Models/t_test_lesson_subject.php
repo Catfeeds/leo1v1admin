@@ -1400,7 +1400,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             'select ss.phone from %s t '.
             'left join %s ss on ss.userid = t.userid '.
             'left join %s s on ss.userid = s.userid '.
-            'left join %s ok on ok.value = s.origin '.
+            "left join %s ok on ok.value = s.origin and ok.key1 = '今日头条' ".
             'where %s',
             self::DB_TABLE_NAME,
             t_seller_student_new::DB_TABLE_NAME,
