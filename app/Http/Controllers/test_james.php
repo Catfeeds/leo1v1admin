@@ -400,9 +400,6 @@ class test_james extends Controller
             t_comment($table,"市场部个性海报");
             t_field($table->increments("id"), "");
             t_field($table->integer("uid"), "分享人id");
-            t_field($table->integer("parentId"), "家长id");
-            t_field($table->string("par_openid"), "家长openid");
-            t_field($table->string("phone",100), "学生号码");
             t_field($table->integer("posterNum"), "制作海报次数");
             t_field($table->integer("clickNum"), "家长点击次数");
             t_field($table->integer("forwardNum"), "转发次数");
@@ -410,6 +407,18 @@ class test_james extends Controller
             t_field($table->string("bgImgUrl"), "背景图片链接");
             t_field($table->string("qr_code_url"), "二维码链接");
         });
+
+
+        Schema::create('db_tool.t_poster_share_log', function(Blueprint $table) {
+            t_comment($table,"海报分享进入链接");
+            t_field($table->integer("poster_id"), "海报id");
+            t_field($table->integer("uid"), "分享人id");
+            t_field($table->integer("parentId"), "家长id");
+            t_field($table->string("par_openid"), "家长openid");
+            t_field($table->string("phone",100), "学生号码");
+
+        });
+
     }
 
     # 二维码生成

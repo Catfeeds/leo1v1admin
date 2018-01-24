@@ -432,7 +432,7 @@ class login extends Controller
     }
 
     public function login_other() {
-        if(!$this->check_account_in_arr(["jim","adrian","seven", "james","jack","michael","ted","夏宏东",'tom',"boby","sam","孙瞿","顾培根"]) ) {
+        if(!$this->check_account_in_arr(["jim","adrian","seven", "james","jack","michael","ted","夏宏东",'tom',"boby","sam","孙瞿","顾培根","alan"]) ) {
             return $this->output_err("没权限");
         }
         
