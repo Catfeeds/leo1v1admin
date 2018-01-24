@@ -404,7 +404,7 @@ class tongji_ex extends Controller
                 if($first_called_time == 0){
                     if($info['is_called_phone']==1){
                         $first_called_time = $info['start_time'];
-                        $first_called_cc = $this->cache_get_account_nick($adminid);
+                        $first_called_cc = $this->cache_get_account_nick($info['adminid']);
                         $end_first_called = $info['end_reason']==0?'销售':'客户';
                         $first_called_time_long=$info['duration'];
                     }
@@ -412,7 +412,7 @@ class tongji_ex extends Controller
                     if($info['start_time']<$first_called_time){
                         if($info['is_called_phone']==1){
                             $first_called_time = $info['start_time'];
-                            $first_called_cc = $this->cache_get_account_nick($adminid);
+                            $first_called_cc = $this->cache_get_account_nick($info['adminid']);
                             $end_first_called = $info['end_reason']==0?'销售':'客户';
                             $first_called_time_long=$info['duration'];
                         }
@@ -422,7 +422,7 @@ class tongji_ex extends Controller
             if($first_called_time>0 && count($item['list'])>1){
                 foreach($item['list'] as $info){
                     if($info['start_time']>$first_called_time && $info['is_called_phone']==1){
-                        $second_called_cc = $this->cache_get_account_nick($adminid);
+                        $second_called_cc = $this->cache_get_account_nick($info['adminid']);
                         $end_second_called = $info['end_reason']==0?'销售':'客户';
                         $second_called_time_long=$info['duration'];
                         break;
