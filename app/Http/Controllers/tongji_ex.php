@@ -455,7 +455,7 @@ class tongji_ex extends Controller
         echo '<table border="1" width="600" align="center">';
         echo '<caption><h1>1月'.date('d',$start_time).'日-'.date('d',$end_time).'日例子明细</h1></caption>';
         echo '<tr bgcolor="#dddddd">';
-        echo '<th>编号</th><th>未拨通例子</th><th>拨打次数</th><th>未拨通次数</th><th>拨通次数</th><th>天润拨打次数</th><th>天润拨通次数</th><th>天润cc挂断次数</th><th>天润客户挂断次数</th><th>首次拨通cc</th><th>天润首次拨通挂断人</th><th>首次拨通通话时长</th><th>第二次拨通cc</th><th>天润第二次拨通挂断人</th><th>第二次拨通通话时长</th><th>例子进入时间</th>';
+        echo '<th>编号</th><th>未拨通例子</th><th>拨打次数</th><th>未拨通次数</th><th>拨通次数</th><th>天润拨打次数</th><th>天润拨通次数</th><th>天润cc挂断次数</th><th>天润客户挂断次数</th><th>首次拨通cc</th><th>天润首次拨通挂断人</th><th>首次拨通通话时长/s</th><th>第二次拨通cc</th><th>天润第二次拨通挂断人</th><th>第二次拨通通话时长/s</th><th>例子进入时间</th>';
         echo '</tr>';
         foreach($ret_info as $userid=>$item){
             echo '<tr>';
