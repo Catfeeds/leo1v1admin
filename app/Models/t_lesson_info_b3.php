@@ -3194,7 +3194,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             'si.is_test_user = 0',
             'li.lesson_del_flag=0',
             'li.lesson_type in (0,1,3)',
-            // 'li.lesson_status = 2',
+            'li.lesson_status = 2',
             'li.lesson_user_online_status in (0,1) or f.flow_status = 2'
         ];
         $this->where_arr_add_time_range($where_arr, 'li.lesson_start', $start_time, $end_time);
