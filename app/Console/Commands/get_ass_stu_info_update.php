@@ -43,6 +43,7 @@ class get_ass_stu_info_update extends Command
         $list = $task->t_month_ass_student_info->get_ass_month_info($time);
         foreach($list as &$val){
             $val["month"]=$val["month"]+100;
+            unset($val["assistantid"]);
             $task->t_month_ass_student_info->row_insert($val);
         }
         dd($list);
