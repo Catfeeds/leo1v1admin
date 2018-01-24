@@ -405,6 +405,24 @@ class account_common extends Controller
         dd($check_verify_code);
  
     }
+
+    //小班课合同回调验证
+    public function get_small_class_order_callback(){
+        $ret=1;//测试时使用,默认已付款
+        $orderid = $this->get_in_int_val("orderid");
+        if(!$orderid){
+            return $this->output_err("无orderid!!");
+        }
+        
+        if($ret){
+            if ( \App\Helper\Utils::check_env_is_local() ){
+                echo 111;
+            }elseif(\App\Helper\Utils::check_env_is_test()){
+                echo 222;
+            }
+
+        }
+    }
    
    
 
