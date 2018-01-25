@@ -12,12 +12,17 @@
     <script type="text/javascript" src="/js/svg.js"></script>
     <script type="text/javascript" src="/js/wb-reply/audio.js"></script>
     <script type="text/javascript" src="/page_js/lib/flow.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.min.js"></script>
+	  <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.categories.js"></script>
 
     <link href="/css/jquery-ui-1.8.custom.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" >
      var g_subject_list= <?php  echo json_encode(@$subject_list); ?> ;
      var g_grade_list= <?php  echo json_encode(@$grade_list); ?> ;
+     var g_data_ex_list= <?php  echo json_encode(@$pic_data); ?> ;
     </script>
+  
+
 
     <section class="content ">
         <div >
@@ -55,6 +60,21 @@
                     </select>
                 </div>
             </div>
+            <div class="col-md-2 col-xs-0">
+                <div class="input-group ">
+                    <span>学期</span>
+                    <select class="opt-change" id="id_semester">
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2 col-xs-0">
+                <div class="input-group ">
+                    <span>考试类型</span>
+                    <select class="opt-change" id="id_stu_score_type">
+                    </select>
+                </div>
+            </div>
+
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">科目</span>
@@ -70,6 +90,8 @@
             </div>
             <div class="col-xs-6 col-md-12" >
                 <button class="btn " id="id_date_show" ></button>
+                <button class="btn " id="id_stu_score_type_show" ></button>
+                <button class="btn " id="id_semester_show" ></button>
                 <button class="btn " id="id_grade_show" ></button>
                 <button class="btn " id="id_subject_show" ></button>
             </div>
@@ -330,6 +352,8 @@
                     <td>学期</td>
                     <td>考试类型</td>
                     <td>科目</td>
+                    <td>成绩</td>
+                    <td>总分</td>
                     <td>班级排名</td>
                     <td>班级人数</td>
                     <td>年级排名</td>
@@ -348,6 +372,8 @@
                         <td>{{@$var["semester_str"]}} </td>
                         <td>{{@$var["stu_score_type_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
+                        <td>{{@$var["score"]/10}} </td>
+                        <td>{{@$var["total_score"]}} </td>
                        
                         <td>{{@$var["rank"]}} </td>
                         <td>{{@$var["rank_num"]}} </td>
@@ -375,7 +401,7 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="common-table score_table_flag score_pic" data-class_id="5">jhhahahah</div>
+        <div class="common-table score_table_flag score_pic" data-class_id="5" id="score_pic" ></div>
 
 
 
