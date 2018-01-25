@@ -8,6 +8,7 @@ interface GargsStatic {
 	subject:	number;
 	grade:	number;
 	current_id:	number;
+	current_table_id:	number;
 	cw_status:	number;
 	preview_status:	number;
 }
@@ -19,26 +20,40 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	lesson_start	:any;
-	lesson_end	:any;
-	subject	:any;
-	grade	:any;
-	teacherid	:any;
-	lessonid	:any;
-	realname	:any;
+	admin_type	:any;
 	userid	:any;
-	lesson_num	:any;
-	tea_cw_upload_time	:any;
-	tea_cw_url	:any;
-	preview_status	:any;
-	cw_status	:any;
+	create_time	:any;
+	create_adminid	:any;
+	subject	:any;
+	stu_score_type	:any;
+	stu_score_time	:any;
+	score	:any;
+	total_score	:any;
+	rank	:any;
+	semester	:any;
+	grade	:any;
+	grade_rank	:any;
+	status	:any;
+	month	:any;
+	rank_up	:any;
+	rank_down	:any;
+	realname	:any;
+	school	:any;
+	name	:any;
+	nick	:any;
+	file_url	:any;
+	paper_upload_time	:any;
+	num	:any;
+	semester_str	:any;
 	grade_str	:any;
 	subject_str	:any;
-	lesson_time	:any;
-	cw_url	:any;
-	cw_status_str	:any;
-	cw_status_flag	:any;
-	preview_status_str	:any;
+	stu_score_type_str	:any;
+	create_admin_nick	:any;
+	rank_num	:any;
+	grade_rank_num	:any;
+	file_url_str	:any;
+	paper_upload_time_str	:any;
+	file_upload_str	:any;
 }
 
 /*
@@ -60,6 +75,7 @@ function load_data(){
 		subject:	$('#id_subject').val(),
 		grade:	$('#id_grade').val(),
 		current_id:	$('#id_current_id').val(),
+		current_table_id:	$('#id_current_table_id').val(),
 		cw_status:	$('#id_cw_status').val(),
 		preview_status:	$('#id_preview_status').val()
 		});
@@ -74,6 +90,7 @@ $(function(){
 	$('#id_subject').val(g_args.subject);
 	$('#id_grade').val(g_args.grade);
 	$('#id_current_id').val(g_args.current_id);
+	$('#id_current_table_id').val(g_args.current_table_id);
 	$('#id_cw_status').val(g_args.cw_status);
 	$('#id_preview_status').val(g_args.preview_status);
 
@@ -143,6 +160,14 @@ $(function(){
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["current_id title", "current_id", "th_current_id" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">current_table_id</span>
+                <input class="opt-change form-control" id="id_current_table_id" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["current_table_id title", "current_table_id", "th_current_table_id" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
