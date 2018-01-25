@@ -41,15 +41,51 @@ class test_ricky extends Command
     {
         $task = new \App\Console\Tasks\TaskController();
 
+        // 拉取90分钟补偿数据
+        $month = [11];
+        $lesson = $task->t_teacher_feedback_list->get_lesson_list();
+        $order = $task->t_teacher_feedback_list->get_order_list();
+        foreach ($month as $item) {
+            $start_time = strtotime('2017-'.$item.'-1');
+            if ($item == 12) {
+                $end_time = strtotime('2018-1-1');
+            } else {
+                $end_time = strtotime('2017-'.($item + 1).'-1');
+            }
+            $info = $task->t_teacher_feedback_list->get_90_list($start_time, $end_time);
+            echo "长度 : ".count($info);
+            foreach($info as $item) {
+                echo $task->cache_get_teacher_nick($item["teacherid"])." ";
+                $index = $item["teacherid"]."-".$item["lessonid"];
+                if (isset($lesson[$index])) {
+                    $userid = $lesson[$index]["userid"];
+                    echo $task->cache_get_student_nick($userid)." ";
+                    echo $lessonid." ";
+                    echo $task->cache_get_assistant_nick($lesson[$index]["assistantid"])." ";
+                    echo $lesson[$index]['lesson_start'];
+                    if (isset($order[$userid])) {
+                        echo $order[$userid]["order_time"];
+                    } else {
+                        echo '没有对应的订单';
+                    }
+                } else {
+                    echo "调用成功";
+                }
+                echo PHP_EOL;
+            }
+        }
+
+        
+
         // $month = [11, 12];
         // foreach ($month as $item) {
         //     echo $item.'月';
-        //     $start_time = strtotime('2017-'.$item.'-1');
-        //     if ($item == 12) {
-        //         $end_time = strtotime('2018-1-1');
-        //     } else {
-        //         $end_time = strtotime('2017-'.($item + 1).'-1');
-        //     }
+            // $start_time = strtotime('2017-'.$item.'-1');
+            // if ($item == 12) {
+            //     $end_time = strtotime('2018-1-1');
+            // } else {
+            //     $end_time = strtotime('2017-'.($item + 1).'-1');
+            // }
         //     $call_count = $task->t_tq_call_info->get_count_called_phone($start_time, $end_time);
         //     echo '当前拨打总数'.$call_count;
         //     $stu_count = $task->t_tq_call_info->get_count_stu($start_time, $end_time);
@@ -70,17 +106,19 @@ class test_ricky extends Command
         //     if (in_array($item["userid"], $stus)) continue;
         //     echo $item["userid"]." ".E\Eis_warning_flag::get_desc($item["is_warning_flag"]).PHP_EOL;
         // }
-        //$user = exec("who | cut -d' ' -f1");
-        $filename = "/tmp/userid.log";
-        $info = file_get_contents($filename);
-        $info = explode("\n", $info);
-        foreach ($info as $key => $item) {
-            if ($key % 1000 == 0) sleep(5);
-            $userid = str_replace(',', '', $item);
-            $count = $task->t_lesson_info_b3->get_subject_count($userid);
-            echo $userid." ".$count.PHP_EOL;
-        }
+        // //$user = exec("who | cut -d' ' -f1");
+        // // $filename = "/tmp/userid.log";
+        // $info = file_get_contents($filename);
+        // $info = explode("\n", $info);
+        // foreach ($info as $key => $item) {
+        //     if ($key % 1000 == 0) sleep(5);
+        //     $userid = str_replace(',', '', $item);
+        //     $count = $task->t_lesson_info_b3->get_subject_count($userid);
+        //     echo $userid." ".$count.PHP_EOL;
+        // }
         //$info = implode(" ", $info);
         //dd(trim($info));
     }
+
+
 }
