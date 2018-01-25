@@ -455,7 +455,7 @@ class agent extends Controller
         }
         $rate_arr = array_column($ret, 'rate');
         $rate_avg = round(array_sum($rate_arr)/count($rate_arr),4)*100;
-        dd($ret,$rate_avg);
+        dd($ret,$rate_arr,array_sum($rate_arr),count($rate_arr),$rate_avg);
         // $threshold = ;
         // $end_time = ;
         // $start_time = $end_time-3600*24*10;
