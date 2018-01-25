@@ -58,14 +58,14 @@ class test_ricky extends Command
             }
             echo $item."月".PHP_EOL;
             $info = $task->t_teacher_feedback_list->get_90_list($start_time, $end_time);
-            foreach($info as $item) {
-                if (!($item["teacherid"] && $item["lessonid"])) continue;
-                echo $task->cache_get_teacher_nick($item["teacherid"]).",";
-                $lesson = $task->t_teacher_feedback_list->get_lesson_list($item["teacherid"], $item["lessonid"]);
+            foreach($info as $val) {
+                if (!($val["teacherid"] && $val["lessonid"])) continue;
+                echo $task->cache_get_teacher_nick($val["teacherid"]).",";
+                $lesson = $task->t_teacher_feedback_list->get_lesson_list($val["teacherid"], $val["lessonid"]);
                 
                 $userid = $lesson["userid"];
-                echo $task->cache_get_student_nick($lesson["userid"]).",";
-                echo $item["lessonid"].",";
+                echo $task->cache_get_student_nick($userid).",";
+                echo $val["lessonid"].",";
                 echo $task->cache_get_assistant_nick($lesson["assistantid"]).",";
                 echo date("Y-m-d H:i:s", $lesson["lesson_start"]).",";
                 $order = $task->t_teacher_feedback_list->get_order_list($userid);
