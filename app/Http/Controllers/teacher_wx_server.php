@@ -39,7 +39,7 @@ class  teacher_wx_server extends Controller
             array('id'=>'17', 'pid'=>'1', 'name'=>'代理须知', 'type'=>'view', 'code'=>'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_agent.html'),
             array('id'=>'5', 'pid'=>'1', 'name'=>'立即报名', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/tea?reference'),
             array('id'=>'7', 'pid'=>'2', 'name'=>'荣誉榜', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/honor_rank'),
-            array('id'=>'8', 'pid'=>'2', 'name'=>'上课时间', 'type'=>'view', 'code'=>"http://wx-teacher.leo1v1.com/wx_teacher_web/course_arrange"),
+            array('id'=>'8', 'pid'=>'2', 'name'=>'空闲时间', 'type'=>'view', 'code'=>"http://wx-teacher.leo1v1.com/wx_teacher_web/course_arrange"),
             array('id'=>'9', 'pid'=>'2', 'name'=>'课程评价', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/comment_list'),
             array('id'=>'10', 'pid'=>'2', 'name'=>'我的收入', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/wage_summary'),
             array('id'=>'11', 'pid'=>'3', 'name'=>'使用手册', 'type'=>'click', 'code'=>'manual'),
