@@ -58,7 +58,6 @@
             this.$element.hide();
         }
         this.show_nick( this.$element.val() );
-        //
     };
 
     //定义方法
@@ -67,15 +66,13 @@
             var me=this;
             //this.$element.hide();
             var type=this.options.type;
-            
 
             if( !this.options.show_select_flag  ) {
                 this.$show_input.on("click", function(){
                     me.show_select ();
                 });
             }
-        }
-        ,show_nick:function(id){
+        },show_nick:function(id){
             var me=this;
             if( !this.options.show_select_flag  ) {
                 me.$show_input.val("");
@@ -97,16 +94,14 @@
                         }});
                 }
             }
-        }
-        ,set_id:function(id,dlg){
+        },set_id:function(id,dlg){
             var me=this;
             me.$element.val(id);
             me.show_nick(id);
             if (me.options.onChange ){
                 me.options.onChange(id,dlg);
             }
-        }
-        ,show_select:function(){
+        },show_select:function(){
             var me=this;
             //事件
             var html_node     = $(me.select_html);
@@ -118,12 +113,12 @@
             me.$id_gender.on("change",function(){
                 me.reload_data( me.$id_gender.val() , me.$id_name_phone.val()  );
             });
-	        me.$id_name_phone.on ("keypress", function( e){
-		        if (e.keyCode==13){
+	          me.$id_name_phone.on ("keypress", function( e){
+		            if (e.keyCode==13){
                     me.reload_data( me.$id_gender.val() , me.$id_name_phone.val()  );
-		        }
-	        });
-            
+		            }
+	          });
+
             var dlg=BootstrapDialog.show({
                 title: '选择',
                 message : html_node,
@@ -146,10 +141,9 @@
                             //BootstrapDialog.alert("还没选择");
                             //return;
                         }
-                        
                         me.set_id(select_id,dialog);
                         if (me.options.auto_close) {
-			                dialog.close();
+			                      dialog.close();
                         };
 		            }
 	            }]
@@ -159,14 +153,13 @@
             });
             //加载数据
             me.reload_data(-1,"",1);
-        }
-        ,reload_data:function(gender,nick_phone ,page_num,url){
+        },reload_data:function(gender,nick_phone ,page_num,url){
             var me=this;
             var data=null;
 
             if (!url){
-			    url     = "/user_manage/get_user_list";
-                data={
+			          url  = "/user_manage/get_user_list";
+                data = {
                     "type"        : this.options.type 
                     ,"gender"     : gender
                     ,"nick_phone" : nick_phone 
@@ -174,12 +167,12 @@
                 };
             }
 
-		    $.ajax({
-			    type     : "post",
-			    url      : url,
-			    dataType : "json",
-			    data     : data,
-			    success  : function(result){
+		        $.ajax({
+			          type     : "post",
+			          url      : url,
+			          dataType : "json",
+			          data     : data,
+			          success  : function(result){
                     var ret_list      = result.data.list;
                     var ret_page_info = result.data.page_info;
                     var html_str      = "";
@@ -208,7 +201,7 @@
                             me.select_id=$(this).data("id");
                         }
                     });
-			    }
+			          }
             });
         }
     };
