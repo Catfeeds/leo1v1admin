@@ -55,7 +55,7 @@ class test_ricky extends Command
             $info = $task->t_teacher_feedback_list->get_90_list($start_time, $end_time);
             foreach($info as $item) {
                 if (!($item["teacherid"] && $item["lessonid"])) continue;
-                echo $task->cache_get_teacher_nick($item["teacherid"]).",".$item["lessonid"].PHP_EOL;
+                echo $task->cache_get_teacher_nick($item["teacherid"]).",";
                 $lesson = $task->t_teacher_feedback_list->get_lesson_list($item["teacherid"], $item["lessonid"]);
                 
                 $userid = $lesson["userid"];
