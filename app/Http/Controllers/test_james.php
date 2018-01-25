@@ -1780,4 +1780,9 @@ class test_james extends Controller
         $a->handle();
         // dispatch( new \App\Jobs\marketActivityPoster('','',$qr_code_url,'',''));
     }
+
+    public function getTea(){
+        $num = $this->t_teacher_info->getTeacherNumTrainThrough();
+        dd($num);
+    }
 }

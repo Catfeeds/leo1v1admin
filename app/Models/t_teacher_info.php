@@ -4993,5 +4993,19 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_value($sql);
     }
 
+    public function getTeacherNumTrainThrough(){
+        $where_arr = [
+            "train_through_new=1",
+            "quit_time=0",
+            "is_test_user=0",
+            "wx_openid!=''"
+        ];
+        $sql = $this->gen_sql_new("  select teacherid,wx_openid, nick,teacher_money_type,teacher_type from %s t"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }

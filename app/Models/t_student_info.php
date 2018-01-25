@@ -3331,8 +3331,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             'from %s ai '.
             'join %s si on ai.assistantid = si.assistantid '.
             'join %s mi on ai.phone = mi.phone '.
-            'join %s mgu on mgu.adminid = mi.uid '.
-            'join %s agn on agn.groupid = mgu.groupid '.
+            'left join %s mgu on mgu.adminid = mi.uid '.
+            'left join %s agn on agn.groupid = mgu.groupid '.
             'where %s',
             t_assistant_info::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
