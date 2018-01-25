@@ -46,7 +46,6 @@
                     <td>离职日期</td>
                     <td>绩效(回访) </td>
                     <td style="display:none;">月初在册人数 </td>
-                    <td style="display:none;">月初在册人数-other </td>
                     <td style="display:none;">平均学员数 </td>
                     <td style="display:none;">销售月总课时 </td>
                     <td style="display:none;">预估月课时消耗总量 </td>
@@ -65,6 +64,7 @@
                     <td>续费提成奖金 </td>
                     <td>续费业绩(打8折) </td>
                     <td>转介绍数量 </td>
+                    <td>转介绍金额 </td>
                     <td>转介绍提成 </td>
                     <td>转介绍奖金</td>
                     <td>总计</td>
@@ -89,7 +89,6 @@
                             
                         </td>
                         <td>{{@$var["last_registered_num"]}}</td> 
-                        <td>{{@$var["all_student_last"]}}</td> 
                         <td class="seller_week_stu_num_info" data-adminid="{{ $var["adminid"] }}"><a href="javascript:;" >{{@$var["seller_week_stu_num"]}}</a></td> 
                         <td>
                             <a href="/tea_manage/lesson_list?order_by_str=lesson_start%20asc&date_type=null&opt_date_type=0&start_time={{ $week_start }}&end_time={{ $week_end }}&lesson_status=-1&lesson_type=-2&confirm_flag=0%2C1&subject=-1&grade=-1&studentid=-1&teacherid=-1&lessonid=&assistantid={{  $var["assistantid"] }}&test_seller_id=-1&is_with_test_user=0&has_performance=-1&lesson_count=-1&lesson_del_flag=0&origin=&has_video_flag=-1&lesson_cancel_reason_type=-1&lesson_user_online_status=-1&fulltime_teacher_type=-1" target="_blank" >
@@ -129,6 +128,8 @@
                         <td>{{@$var["old_ewnew_money"]}}</td> 
                         <td class="cc_tran_num" data-leader_num='{{@$var["hand_tran_num"]}}' data-new_num='{{@$var["performance_cr_new_num"]}}' data-tran_num='{{@$var["performance_cc_tran_num"]}}' data-uid='{{@$var["adminid"]}}'><a href="javascript:;" >{{@$var["cc_tran_num"]}}</a></td>                        
                         
+                        <td>{{@$var["performance_cc_tran_money"]/100}}</td> 
+
                         <td>
                             <a href="/assistant_performance/get_seller_tran_order_info?adminid={{ $var["adminid"] }}&date_type_config=undefined&date_type=null&opt_date_type=3&start_time={{ $start }}&end_time={{ $end }}" target="_blank" >
                                 {{@$var["cc_tran_price_reword"]/100}}
@@ -144,6 +145,7 @@
                             >
                                 @if(in_array($account,["jack","jim"]))
                                     <a class="opt-reset-data"> 重置学生数据</a>
+                                    <a class="opt-edit"> 编辑</a>
                                 @endif
                                 
                             </div>

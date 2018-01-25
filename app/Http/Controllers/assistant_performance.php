@@ -575,6 +575,11 @@ class assistant_performance extends Controller
             }
             $item["last_registered_num"] = $last_registered_num;
             $item["all_student_last"] = @$last_ass_month[$k]["all_student"];
+            if(!empty($item["all_student_last"])){
+                $item["last_registered_num"] = $item["all_student_last"];
+            }else{
+                $item["last_registered_num"] =0;
+            }
 
 
             /*回访*/

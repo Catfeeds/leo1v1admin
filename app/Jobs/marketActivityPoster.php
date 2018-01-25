@@ -30,7 +30,8 @@ class marketActivityPoster extends Job implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($wx_openid,$bg_url,$qr_code_url,$request,$agent)
+    // public function __construct($wx_openid,$bg_url,$qr_code_url,$request,$agent,$type)
+    public function __construct($uid,$bg_url,$qr_code_url,$type)
     {
         parent::__construct();
         $this->wx_openid   = $wx_openid;
@@ -48,14 +49,9 @@ class marketActivityPoster extends Job implements ShouldQueue
     public function handle()
     {
         $t_agent = new \App\Models\t_agent();
-        // $phone   = $this->agent['phone'];
-        // $id      = $this->agent['id'];
         $qr_url  = "/tmp/market_wx_222.png";
 
-        \App\Helper\Utils::logger("market_wx_222: ");
-
         \App\Helper\Utils::get_qr_code_png($this->qr_code_url,$qr_url,5,4,3);
-        return $this->qr_code_url;
 
         //请求微信头像
         $wx_config    = \App\Helper\Config::get_config("wx");
@@ -87,12 +83,10 @@ class marketActivityPoster extends Job implements ShouldQueue
 
         $headimgurl = $data['headimgurl'];
         //下载头像，制作图片
-        \App\Helper\Utils::logger("make_img_start");
-
-
-        $datapath = "/tmp/yxyx_wx_".$phone."_headimg.jpg";
+        $datapath = "/tmp/market_wx_".$phone."_headimg.jpg";
         $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
         shell_exec($wgetshell);
+
 
         \App\Helper\Utils::logger("wx_headimgurl:". $headimgurl);
         $image_5 = @imagecreatefromjpeg($datapath);
@@ -107,7 +101,7 @@ class marketActivityPoster extends Job implements ShouldQueue
         imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
 
         $image_1 = @imagecreatefromjpeg($this->bg_url);
-        if(!$image_1) {
+        if(!$image_1){
             $image_1 = @imagecreatefrompng($this->bg_url);
         }
 
@@ -176,8 +170,6 @@ class marketActivityPoster extends Job implements ShouldQueue
 
         $cmd_rm = "rm /tmp/yxyx_wx_".$phone."*";
         \App\Helper\Utils::exec_cmd($cmd_rm);
-
-
     }
 
     public static function https_post($url,$data){
