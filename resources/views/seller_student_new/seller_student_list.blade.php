@@ -493,7 +493,7 @@
                             >
                                 <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
-                                <a title="试听申请new" class="fa-edit opt-edit-new_new_two"></a>
+                                <a title="试听申请new" class="fa-chevron-up opt-edit-new_new_two"></a>
                                 <a title="录入回访信息" style="display:none;" class="fa-edit opt-edit-new_new"></a>
                                 <a title="手机拨打&录入回访信息" class="fa-phone  opt-telphone   "></a>
                                 <a title="试听申请" style="display:none;" class="fa fa-headphones opt-post-test-lesson "></a>
