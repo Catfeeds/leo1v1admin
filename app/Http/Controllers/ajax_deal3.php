@@ -545,9 +545,25 @@ class ajax_deal3 extends Controller
         $register_num = $this->get_in_int_val("register_num");
         $seller_stu_num = $this->get_in_str_val("seller_stu_num");
         $estimate_month_lesson_count = $this->get_in_str_val("estimate_month_lesson_count");
+
+        $seller_month_lesson_count =  $this->get_in_str_val("seller_month_lesson_count");
+        $performance_cr_renew_money =  $this->get_in_str_val("performance_cr_renew_money");
+        $performance_cc_tran_money =  $this->get_in_str_val("performance_cc_tran_money");
+        $stop_student = $this->get_in_int_val("stop_student");
+        $kk_num       = $this->get_in_int_val("kk_num");
+        $end_stu_num = $this->get_in_int_val("end_stu_num");
+        $performance_cc_tran_num = $this->get_in_int_val("performance_cc_tran_num");
+
         $this->t_month_ass_student_info->get_field_update_arr($adminid,$start_time,1,[
-            "seller_week_stu_num"  => $seller_stu_num,
-            "estimate_month_lesson_count"  =>$estimate_month_lesson_count*100
+            "seller_week_stu_num"          => $seller_stu_num,
+            "estimate_month_lesson_count"  =>$estimate_month_lesson_count*100,
+            "seller_month_lesson_count"    =>$seller_month_lesson_count*100,
+            "performance_cr_renew_money"   =>$performance_cr_renew_money*100,
+            "performance_cc_tran_money"    =>$performance_cc_tran_money*100,
+            "stop_student"                 =>$stop_student,
+            "kk_num"                       =>$kk_num,
+            "end_stu_num"                  =>$end_stu_num,
+            "performance_cc_tran_num"      =>$performance_cc_tran_num,
         ]);
         $adminid_exist = $this->t_month_ass_student_info->get_ass_month_info($last_month,$adminid,1);
         if($adminid_exist){

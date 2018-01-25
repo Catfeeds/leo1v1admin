@@ -755,7 +755,13 @@ class assistant_performance extends Controller
                 $end_no_renw_reword_per = 0;
             }
             $item["end_no_renw_reword_per"]=$end_no_renw_reword_per;
-            
+
+            //临时处理
+            if($lesson_count_finish_per>=70){
+                $item["kpi_lesson_count_finish_per"]=40;
+            }else{
+                $item["kpi_lesson_count_finish_per"]=0;
+            }
 
             $item["revisit_reword"] = $item["revisit_reword_per"]*1500/100;
             $item["kpi_lesson_count_finish_reword"] = $item["kpi_lesson_count_finish_per"]*1500/100;

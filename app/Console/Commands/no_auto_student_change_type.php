@@ -41,7 +41,7 @@ class no_auto_student_change_type extends Command
 
         $task = new \App\Console\Tasks\TaskController ();
 
-        $time = strtotime(date("Y-m-d",time()))-86400;        
+        $time = strtotime(date("Y-m-d",time()));        
         $user_stop = $task->t_student_info->get_no_auto_stop_stu_list($time);
         foreach($user_stop as $item){
             $check_lesson = $task->t_lesson_info_b2->check_have_regular_lesson($time,time(),$item["userid"]);
