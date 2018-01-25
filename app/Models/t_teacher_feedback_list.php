@@ -114,11 +114,12 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
 
     public function get_90_list($start_time, $end_time) {
         $where_arr = [
-            ["add_time>=%u", $start_time, 0],
-            ["add_time<%u", $end_time, 0],
-            "type=3",
+            ["m.add_time>=%u", $start_time, 0],
+            ["m.add_time<%u", $end_time, 0],
+            "m.type=3",
         ];
-        $sql = $this->gen_sql_new("select teacherid,lessonid from %s where %s",
+        $sql = $this->gen_sql_new("select f.teacherid,f.lessonid from %s f left join %s m on f.teacherid=m.teacherid where %s",
+                                  self::DB_TABLE_NAME,
                                   t_teacher_money_list::DB_TABLE_NAME,
                                   $where_arr
         );
