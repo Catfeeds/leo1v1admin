@@ -458,7 +458,8 @@ class agent extends Controller
         foreach($ret as $start_time=>$item){
             $ret[$start_time]['rate_square'] = round(pow($item['rate']-$rate_avg,2),2);
         }
-        dd($ret,$rate_arr,array_sum($rate_arr),count($rate_arr),$rate_avg);
+        $rate_square = round(sqrt(array_sum(array_column($ret, 'rate_square'))/(count($ret)-1)),2);
+        dd($ret,$rate_square);
         // $threshold = ;
         // $end_time = ;
         // $start_time = $end_time-3600*24*10;
