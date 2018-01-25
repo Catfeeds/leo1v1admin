@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\SendMsgToTeaSetFreeTime::class,
         Commands\update_rs_tea_money_type::class,
         Commands\test_ricky::class,
         Commands\SendSmsByPhone::class,
