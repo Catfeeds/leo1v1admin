@@ -123,7 +123,9 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list($sql, function($item) {
+            return $item["teacherid"]."-".$item["lessonid"];
+        });
     }
 
     public function get_lesson_list($teacherid, $lessonid) {
