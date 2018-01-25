@@ -22,26 +22,23 @@ interface RowData {
 	lesson_start	:any;
 	lesson_end	:any;
 	subject	:any;
-	confirm_flag	:any;
 	grade	:any;
 	teacherid	:any;
 	lessonid	:any;
 	realname	:any;
 	userid	:any;
 	lesson_num	:any;
-	teacher_effect	:any;
-	teacher_quality	:any;
-	stu_score	:any;
-	teacher_interact	:any;
-	stu_stability	:any;
-	teacher_comment	:any;
-	stu_comment	:any;
-	stu_performance	:any;
+	tea_cw_upload_time	:any;
+	tea_cw_url	:any;
+	preview_status	:any;
+	cw_status	:any;
 	grade_str	:any;
 	subject_str	:any;
 	lesson_time	:any;
-	stu_intro	:any;
-	stu_point_performance	:any;
+	cw_url	:any;
+	cw_status_str	:any;
+	cw_status_flag	:any;
+	preview_status_str	:any;
 }
 
 /*

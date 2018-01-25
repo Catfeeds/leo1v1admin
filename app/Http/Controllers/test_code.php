@@ -436,36 +436,9 @@ class test_code extends Controller
         echo "<br>";
     }
 
-    public function get_roomid(){
-        $lessonid    = 63280;
-        $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
-        $lesson_type = $lesson_info['lesson_type'];
-        $courseid    = $lesson_info['courseid'];
-        $lesson_num  = $lesson_info['lesson_num'];
-        $roomid      = \App\Helper\Utils::gen_roomid_name($lesson_type, $courseid, $lesson_num);
-        echo $roomid;
-        echo "<br>";
-
-        $ret = $this->getNeedBetween($roomid,"_","y");
-        echo $ret;
-        echo "<br>";
-        $ret = $this->getNeedBetween($roomid,"y","y");
-        echo $ret;
-        echo "<br>";
+    public function get_env(){
+        // select s.userid,s.grade,group_concat(distinct(l.subject)) ,sum(o.price/(o.lesson_total*o.default_lesson_count)*o.lesson_left/100) as price_left from t_student_info s left join t_order_info o on s.userid=o.userid and lesson_left>0 left join t_lesson_info l on s.userid=l.userid and lesson_start>1506787200 and lesson_start<1514736000 and lesson_del_flag=0 and confirm_flag!=2 and lesson_type in (0,1,3)  where s.is_test_user=0 and contract_type in (0,3) and contract_status=1 group by s.userid having price_left>30000;
+        dd(getenv('APP_ENV'));
     }
 
-    public function getNeedBetween($kw1,$mark1,$mark2){
-        $kw=$kw1;
-        $kw='123'.$kw.'123';
-        $st =stripos($kw,$mark1);
-        if($mark1==$mark2){
-            $ed = strripos($kw, $mark2);
-        }else{
-            $ed =stripos($kw,$mark2);
-        }
-        if(($st==false||$ed==false)||$st>=$ed)
-            return 0;
-        $kw=substr($kw,($st+1),($ed-$st-1));
-        return $kw;
-    }
 }

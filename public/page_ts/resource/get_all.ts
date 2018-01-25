@@ -83,7 +83,7 @@ $(function(){
 
     var get_province = function(obj,is_true){
         if (is_true == true){
-            var pro = '';
+            var pro = '<option value="0">[全部]</option>';
         } else {
             var pro = '<option value="-1">[全部]</option>';
         }
@@ -97,7 +97,7 @@ $(function(){
 
     var get_city = function(obj,city_num, is_true){
          if (is_true == true){
-            var pro = '';
+            var pro = '<option value="0">[全部]</option>';
         } else {
             var pro = '<option value="-1">[全部]</option>';
         }
@@ -182,13 +182,22 @@ $(function(){
         get_province($('#id_tag_three'));
         if($('.right-menu').length>0){
             $('.right-menu').each(function(){
+              
                 var province_id = parseInt($(this).find('.province').text());
-                var province = ChineseDistricts['86'][province_id];
-                $(this).find('.province').text(province);
+                if( parseInt(province_id) != 0 ){
+                    var province = ChineseDistricts['86'][province_id];
+                    $(this).find('.province').text(province);
+                }else{
+                    $(this).find('.province').text('全部');
+                }
 
                 var city_id = parseInt($(this).find('.city').text());
-                var city = ChineseDistricts[province_id][city_id];
-                $(this).find('.city').text(city);
+                if( parseInt(city_id) != 0 ){
+                    var city = ChineseDistricts[province_id][city_id];
+                    $(this).find('.city').text(city);
+                }else{
+                    $(this).find('.city').text('全部');
+                }
 
             })
         }
@@ -203,6 +212,7 @@ $(function(){
         get_city($('#id_tag_four'), city_num);
     }
 
+    $('#id_tag_two').val(g_args.tag_two);
     $('#id_tag_four').val(g_args.tag_four);
     $('#id_tag_five').val(g_args.tag_five);
     $('#id_file_title').val(g_args.file_title);

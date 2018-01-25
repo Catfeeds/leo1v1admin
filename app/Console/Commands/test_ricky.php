@@ -43,8 +43,8 @@ class test_ricky extends Command
 
         // 拉取90分钟补偿数据
         $month = [11];
-        $lesson = $task->t_teacher_feedback_list->get_lesson_list();
-        $order = $task->t_teacher_feedback_list->get_order_list();
+        //$lesson = $task->t_teacher_feedback_list->get_lesson_list();
+        //$order = $task->t_teacher_feedback_list->get_order_list();
         foreach ($month as $item) {
             $start_time = strtotime('2017-'.$item.'-1');
             if ($item == 12) {
@@ -53,25 +53,20 @@ class test_ricky extends Command
                 $end_time = strtotime('2017-'.($item + 1).'-1');
             }
             $info = $task->t_teacher_feedback_list->get_90_list($start_time, $end_time);
-            echo "长度 : ".count($info);
+            //echo "长度 : ".count($info);
             foreach($info as $item) {
-                echo $task->cache_get_teacher_nick($item["teacherid"])." ";
-                $index = $item["teacherid"]."-".$item["lessonid"];
-                if (isset($lesson[$index])) {
-                    $userid = $lesson[$index]["userid"];
-                    echo $task->cache_get_student_nick($userid)." ";
-                    echo $lessonid." ";
-                    echo $task->cache_get_assistant_nick($lesson[$index]["assistantid"])." ";
-                    echo $lesson[$index]['lesson_start'];
-                    if (isset($order[$userid])) {
-                        echo $order[$userid]["order_time"];
-                    } else {
-                        echo '没有对应的订单';
-                    }
-                } else {
-                    echo "调用成功";
-                }
-                echo PHP_EOL;
+                if (!($item["teacherid"] && $item["lessonid"])) continue;
+                //var_dump($item);
+                echo $task->cache_get_teacher_nick($item["teacherid"]).",".PHP_EOL;
+                //$lesson = $task->t_teacher_feedback_list->get_lesson_list($item["teacherid"], $item["lessonid"]);
+                //var_dump($lesson);
+                // $userid = $lesson["userid"];
+                // echo $task->cache_get_student_nick($lesson["userid"]).",";
+                // echo $item["lessonid"].",";
+                // echo $task->cache_get_assistant_nick($lesson["assistantid"]).",";
+                // echo date("Y-m-d H:i:s", $lesson["lesson_start"]).",";
+                // $order = $task->t_teacher_feedback_list->get_order_list($userid);
+                // echo date("Y-m-d H:i:s", $order).PHP_EOL;
             }
         }
 

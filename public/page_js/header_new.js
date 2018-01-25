@@ -36,14 +36,13 @@ function table_init() {
                 cssClass: 'btn-primary',
                 action: function(dialog) {
                     $.do_ajax("/user_deal/opt_table_field_list",{
-                        "opt_type":"set",
-                        "table_key":table_key,
-                        "data":""
+                        "opt_type"  : "set",
+                        "table_key" : table_key,
+                        "data"      : ""
                     });
                     window.location.reload();
                 }
             },{
-
                 label: '确认',
                 cssClass: 'btn-warning',
                 action: function(dialog) {
