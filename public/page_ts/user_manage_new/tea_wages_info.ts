@@ -235,7 +235,7 @@ $(function(){
         }
         Enum_map.append_option_list_by_not_id("grade",id_grade,true,[0,100,200,300]);
         Enum_map.append_option_list("teacher_money_type",id_teacher_money_type,true,[0,6,7]);
-        Enum_map.append_option_list("teacher_type",id_teacher_type,true,[1,3,4,5,6]);
+        Enum_map.append_option_list("teacher_type",id_teacher_type,true);
         id_level.val(data.tea_level_num);
         id_grade.val(data.grade);
         id_teacher_money_type.val(data.teacher_money_type);
@@ -279,8 +279,11 @@ $(function(){
                 }else{
                     Enum_map.append_option_list("level",id_level,true);
                 }
+                if(teacher_money_type==data.teacher_money_type){
+                    id_level.val(data.tea_level_num);
+                }
             }
-            check_teacher_money_type();
+
             id_teacher_money_type.on("click",function(){
                 check_teacher_money_type();
             });
