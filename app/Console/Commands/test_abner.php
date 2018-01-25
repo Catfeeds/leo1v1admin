@@ -50,9 +50,11 @@ class test_abner extends cmd_base
         $fp = fopen($path,"a+");
         fwrite($fp, '10月份数据');
         fwrite($fp, "\n");
-        fwrite($fp, '电话');  //电话
+        fwrite($fp, 'userid');  //用户id
         fwrite($fp, '  ');
         fwrite($fp, '进入时间');  //进入时间
+        fwrite($fp, '  ');
+        fwrite($fp, '首次拨打时间');  //首次拨打时间
         fwrite($fp, '  ');
         fwrite($fp, 'cc联系间隔[h]');  //cc联系间隔[h]
         fwrite($fp, '  ');
@@ -74,10 +76,13 @@ class test_abner extends cmd_base
             else
                 $con_interval = '联系1次或0次';
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"begin_time");
 
-            fwrite($fp, $item['phone']);  //电话
+            fwrite($fp, $item['userid']);  //电话
             fwrite($fp, '  ');
             fwrite($fp, $item['add_time']);  //进入时间
+            fwrite($fp, '  ');
+            fwrite($fp, $item['begin_time']);  //首次拨打时间
             fwrite($fp, '  ');
             fwrite($fp, $con_interval);  //cc联系间隔[h]
             fwrite($fp, '  ');
@@ -112,35 +117,70 @@ class test_abner extends cmd_base
     private function get_q4_data(){
         $start_time = strtotime(date('2017-10-01'));
         $end_time = strtotime(date('2018-01-01'));
+        $november = strtotime(date('2017-11-01'));
+        $december = strtotime(date('2017-12-01'));
         $count_one = 0;
         $count_two = 0;
         //获取第四季度有常规课的学生
         $q4_reading_stu = $this->task->t_lesson_info_b3->get_q4_reading_stu($start_time,$end_time);
         //获取首冲相关信息
         foreach($q4_reading_stu as $key => &$item){
-            $first_flush_info = $this->task->t_order_info->get_first_flush_info($key,$end_time);
+            /*$first_flush_info = $this->task->t_order_info->get_first_flush_info($key,$end_time);
             $item['first_flush_time'] = $first_flush_info['first_flush_time'];
             $item['first_flush_class_pag'] = $first_flush_info['first_flush_class_pag']/100;
-
-            //获取续费相关信息
-            $renewal_info = $this->task->t_order_info->get_renewal_info($key,$start_time,$end_time);
-            $item['renewal_count'] = $renewal_info['renewal_count'];
-            $item['renewal_class_pag'] = $renewal_info['renewal_class_pag']/100;
-            if($renewal_info['q4_renewal'] > 0)
-                $item['is_11_12_renewal'] = 'Y';
-            else
-                $item['is_11_12_renewal'] = 'N';
 
             //计算到第四季度末剩余课时数
             //总课时数
             $all_class_pag = $this->task->t_order_info->get_all_class_pag($key,$end_time);
             //消耗课时数
             $use_class_pag = $this->task->t_lesson_info_b3->get_use_class_pag($key,$end_time);
-            $item['left_class_pag'] = ($all_class_pag-$use_class_pag)/100;
+            $item['left_class_pag'] = ($all_class_pag-$use_class_pag)/100;*/
+
+            //获取续费相关信息
+            $renewal_info = $this->task->t_order_info->get_renewal_info($key,$start_time,$end_time);
+            $item['renewal_count'] = $renewal_info['renewal_count'];
+            $item['renewal_class_pag'] = $renewal_info['renewal_class_pag']/100;
+            /*if($renewal_info['q4_renewal'] > 0)
+                $item['is_11_12_renewal'] = 'Y';
+            else
+                $item['is_11_12_renewal'] = 'N';*/
+
 
             //计算课耗相关数据
             $q4_class_info = $this->task->t_lesson_info_b3->get_q4_class_info($key,$start_time,$end_time);
-            $item['q4_lesson_count'] = $q4_class_info['q4_lesson_count']/100;
+            $subject_count = 0;
+            for($x=1;$x<=3;$x++){
+                if($x==1){
+                    $begin_time = $start_time;
+                    $the_end_time = $november;
+                }elseif($x==2){
+                    $begin_time = $november;
+                    $the_end_time = $december;
+                }elseif($x==3){
+                    $begin_time = $december;
+                    $the_end_time = $end_time;
+                }
+                $subject_count += $this->task->t_lesson_info_b3->get_month_subject_count($key,$begin_time,$the_end_time);
+            }
+            $read_month = 3;
+            $lesson_start_month = date('m',$q4_class_info['lesson_start']);
+            if($lesson_start_month == 11)
+                $read_month = 2;
+            elseif($lesson_start_month == 12)
+                $read_month = 1;
+            $item['month_average_subject'] = number_format($subject_count/$read_month,2);
+            //获取助教信息
+            $assistant_info = $this->task->t_student_info->get_assistant_info($key);
+            if(!empty($assistant_info['nick']))
+                $item['ass_name'] = $assistant_info['nick'];
+            else
+                $item['ass_name'] = '空';
+            if(!empty($assistant_info['group_name']))
+                $item['ass_group_name'] = $assistant_info['group_name'];
+            else
+                $item['ass_group_name'] = '空';
+
+            /*$item['q4_lesson_count'] = $q4_class_info['q4_lesson_count']/100;
             $item['q4_class_count'] = $q4_class_info['q4_class_count'];
             $q4_subject_count = $q4_class_info['q4_subject_count'];
             $q4_class_month = ceil(($q4_class_info['lesson_end'] - $q4_class_info['lesson_start'])/(3600*24*30));
@@ -184,6 +224,7 @@ class test_abner extends cmd_base
                 $item['expand_first_month'] = '空';
             }
 
+
             //处理信息
             if($item['gender'] == 0)
                 $item['sex'] = '保密';
@@ -209,7 +250,7 @@ class test_abner extends cmd_base
                 $item['renewal_class_pag'] = 0;
 
             if(empty($item['nick']))
-                $item['nick'] = '空';
+                $item['nick'] = '空';*/
 
             echo 'count_one:'.$count_one++.'ok'."\n";
         }
@@ -218,7 +259,7 @@ class test_abner extends cmd_base
         $fp = fopen($path,"a+");
         fwrite($fp, 'ID');//ID
         fwrite($fp, '   ');
-        fwrite($fp, '姓名');//姓名
+        /*fwrite($fp, '姓名');//姓名
         fwrite($fp, '   ');
         fwrite($fp, '性别');//性别
         fwrite($fp, '   ');
@@ -233,18 +274,22 @@ class test_abner extends cmd_base
         fwrite($fp, '首冲时间');//首冲时间
         fwrite($fp, '   ');
         fwrite($fp, '首冲课时包');//首冲课时包
-        fwrite($fp, '   ');
+        fwrite($fp, '   ');*/
         fwrite($fp, '累计续费次数');//累计续费次数
         fwrite($fp, '   ');
         fwrite($fp, '累计续费课时包');//累计续费课时包
         fwrite($fp, '   ');
-        fwrite($fp, '剩余课时数');//剩余课时数
+        /*fwrite($fp, '剩余课时数');//剩余课时数
         fwrite($fp, '   ');
         fwrite($fp, '是否17年11&12月续费');//是否17年11&12月续费
-        fwrite($fp, '   ');
+        fwrite($fp, '   ');*/
         fwrite($fp, '单月平均在读门数');//单月平均在读门数
         fwrite($fp, '   ');
-        fwrite($fp, 'Q4累计课耗数');//Q4累计课耗数
+        fwrite($fp, '助教名字');//助教名字
+        fwrite($fp, '   ');
+        fwrite($fp, '助教分组');//助教分组
+        fwrite($fp, "\n");
+        /*fwrite($fp, 'Q4累计课耗数');//Q4累计课耗数
         fwrite($fp, '   ');
         fwrite($fp, 'Q4累计课次');//Q4累计课次
         fwrite($fp, '   ');
@@ -261,11 +306,11 @@ class test_abner extends cmd_base
         fwrite($fp, '是否小班课');//是否小班课
         fwrite($fp, '   ');
         fwrite($fp, '公开课次数');//公开课次数
-        fwrite($fp, "\n");
+        fwrite($fp, "\n");*/
         foreach($q4_reading_stu as $item){
             fwrite($fp, @$item['userid']);//ID
             fwrite($fp, '   ');
-            fwrite($fp, @$item['nick']);//姓名
+            /*fwrite($fp, @$item['nick']);//姓名
             fwrite($fp, '   ');
             fwrite($fp, @$item['sex']);//性别
             fwrite($fp, '   ');
@@ -280,18 +325,22 @@ class test_abner extends cmd_base
             fwrite($fp, @$item['first_flush_time']);//首冲时间
             fwrite($fp, '   ');
             fwrite($fp, @$item['first_flush_class_pag']);//首冲课时包
-            fwrite($fp, '   ');
+            fwrite($fp, '   ');*/
             fwrite($fp, @$item['renewal_count']);//累计续费次数
             fwrite($fp, '   ');
             fwrite($fp, @$item['renewal_class_pag']);//累计续费课时包
             fwrite($fp, '   ');
-            fwrite($fp, @$item['left_class_pag']);//剩余课时数
+            /*fwrite($fp, @$item['left_class_pag']);//剩余课时数
             fwrite($fp, '   ');
             fwrite($fp, @$item['is_11_12_renewal']);//是否17年11&12月续费
-            fwrite($fp, '   ');
+            fwrite($fp, '   ');*/
             fwrite($fp, @$item['month_average_subject']);//单月平均在读门数
             fwrite($fp, '   ');
-            fwrite($fp, @$item['q4_lesson_count']);//Q4累计课耗数
+            fwrite($fp, @$item['ass_name']);//助教名字
+            fwrite($fp, '   ');
+            fwrite($fp, @$item['ass_group_name']);//助教分组
+            fwrite($fp, "\n");
+            /*fwrite($fp, @$item['q4_lesson_count']);//Q4累计课耗数
             fwrite($fp, '   ');
             fwrite($fp, @$item['q4_class_count']);//Q4累计课次
             fwrite($fp, '   ');
@@ -308,7 +357,7 @@ class test_abner extends cmd_base
             fwrite($fp, @$item['is_small_class']);//是否小班课
             fwrite($fp, '   ');
             fwrite($fp, @$item['public_class_count']);//公开课次数
-            fwrite($fp, "\n");
+            fwrite($fp, "\n");*/
 
             echo 'count_two:'.$count_two++.'ok'."\n";
         }

@@ -633,7 +633,7 @@ $(function(){
         $.do_ajax_t("/ss_deal/call_ytx_phone", {
             "phone": opt_data.phone
         } );
-        $(me).parent().find(".opt-edit-new_new").click();
+        $(me).parent().find(".opt-edit-new_new_two").click();
     });
 
 
@@ -3899,18 +3899,18 @@ function init_edit() {
                         }else{
                             html_node.find("#id_main_subject_score_one_new_two").parent().attr('style','');
                         }
-                        if(html_node.find("#id_test_stress_new_two").val() <= 0){
-                            html_node.find("#id_test_stress_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_test_stress_new_two").parent().attr('style','');
-                        }
-                        if(html_node.find("#id_entrance_school_type_new_two").val() <= 0){
-                            html_node.find("#id_entrance_school_type_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_entrance_school_type_new_two").parent().attr('style','');
-                        }
+                        // if(html_node.find("#id_test_stress_new_two").val() <= 0){
+                        //     html_node.find("#id_test_stress_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        //     return false;
+                        // }else{
+                        //     html_node.find("#id_test_stress_new_two").parent().attr('style','');
+                        // }
+                        // if(html_node.find("#id_entrance_school_type_new_two").val() <= 0){
+                        //     html_node.find("#id_entrance_school_type_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        //     return false;
+                        // }else{
+                        //     html_node.find("#id_entrance_school_type_new_two").parent().attr('style','');
+                        // }
 
                         if(html_node.find("#id_cultivation_new_two").val() == ''){
                             html_node.find("#id_cultivation_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
@@ -4073,6 +4073,15 @@ function init_edit() {
                             stu_test_ipad_flag:id_stu_test_ipad_flag.val(),
                             user_desc     : id_user_desc.val(),
                         },function(){
+                            if(!opt_data.parent_wx_openid && g_args.account_role != 12 && g_args.jack_flag !=349 && g_args.jack_flag !=99
+                               && g_args.jack_flag !=68 && g_args.jack_flag!=213 && g_args.jack_flag!=75 && g_args.jack_flag!=186
+                               && g_args.jack_flag!=944
+                              ){//研发,jack,alan,adrian,sam
+                                alert("家长未关注微信,不能提交试听课");
+                                $(opt_obj).parent().find(".opt-seller-qr-code").click();
+                                return false;
+                            }
+
                             var id_grade_select         = $("<select />");
                             var id_user_agent           = $("<div />");
                             var id_stu_test_ipad_flag   = $("<select/>");

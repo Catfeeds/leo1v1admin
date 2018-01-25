@@ -89,6 +89,7 @@
                   <div class="input-group ">
                       <span class="input-group-addon">当期还款状态</span>
                       <select class="opt-change form-control" id="id_repay_status">
+                          <option value="-2">逾期</option>
                       </select>
                   </div>
               </div>
@@ -123,6 +124,7 @@
                     <td  style="display:none;">分期付款订单号</td>                 
                     <td >下单人</td>                  
                     <td style="display:none;">助教</td>
+                    <td style="display:none;">当期还款时间</td>
                  
                     <td >个人总课时</td>
                     <td class="remove-for-xs">操作</td>
@@ -160,6 +162,7 @@
                        
                         <td >{{$var["sys_operator"]}}</td>
                         <td >{{$var["assistant_nick"]}}</td>
+                        <td >{{$var["paid_time_str"]}}</td>
                         <td >{{$var["lesson_count_all"]/100}}</td>
                         <td >
                             <div class="btn-group"

@@ -36,5 +36,51 @@ class lesson_manage extends Controller
         return $this->output_succ( ["data"=>$row_data,"lesson_count"=>$lesson_count]);
     }
 
+    /**
+     * 更改课程信息
+     * @param int lessonid
+     * @param int level
+     * @param int grade
+     * @param int teacher_type
+     * @param int lesson_count
+     */
+    public function change_lesson_info(){
+        if(\App\Helper\Utils::check_env_is_release()){
+            return $this->output_err("此功能只能在非正式环境使用！");
+        }
 
+        $lessonid           = $this->get_in_int_val("lessonid");
+        $level              = $this->get_in_int_val("level");
+        $grade              = $this->get_in_int_val("grade");
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type");
+        $teacher_type       = $this->get_in_int_val("teacher_type");
+        $lesson_count       = ($this->get_in_int_val("lesson_count"))*100;
+
+        $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
+        $update_arr = [];
+        \App\Helper\Utils::set_diff_value_for_update($update_arr,$lesson_info,"level",$level);
+        \App\Helper\Utils::set_diff_value_for_update($update_arr,$lesson_info,"grade",$grade);
+        \App\Helper\Utils::set_diff_value_for_update($update_arr,$lesson_info,"teacher_money_type",$teacher_money_type);
+        \App\Helper\Utils::set_diff_value_for_update($update_arr,$lesson_info,"teacher_type",$teacher_type);
+        \App\Helper\Utils::set_diff_value_for_update($update_arr,$lesson_info,"lesson_count",$lesson_count);
+
+        $ret = $this->t_lesson_info->field_update_list($lessonid, $update_arr);
+
+        return $this->output_ret($ret);
+    }
+
+    /**
+     * 获取课程的操作记录
+     * @param int lessonid 课程id
+     */
+    public function get_lesson_operate_info(){
+        $lessonid = $this->get_in_int_val("lessonid");
+
+        $ret_list = $this->t_lesson_info_operate_log->get_lesson_operate_info($lessonid);
+        foreach($ret_list as $val){
+            $val['operate_time_str'] = \App\Helper\Utils::unixtime2date($val['operate_time']);
+        }
+
+        return $this->output_succ($ret_list);
+    }
 }

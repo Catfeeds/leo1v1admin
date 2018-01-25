@@ -2755,16 +2755,16 @@ class user_manage extends Controller
             E\Esemester::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
             E\Estu_score_type::set_item_value_str($item);
-        if($ret_info['list'][$key]['total_score']){
-        $ret_info['list'][$key]['score'] = round(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
-        }
+            if($ret_info['list'][$key]['total_score']){
+                $ret_info['list'][$key]['score'] = round(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
+            }
 
 
-        if($item['admin_type'] == 1){
-            $item['create_admin_nick'] = "<font color=\blue\">家长/微信端</font>";
-        }elseif($item['admin_type'] == 0){
-            $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
-        }
+            if($item['admin_type'] == 1){
+                $item['create_admin_nick'] = "<font color=\blue\">家长/微信端</font>";
+            }elseif($item['admin_type'] == 0){
+                $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
+            }
 
 
 

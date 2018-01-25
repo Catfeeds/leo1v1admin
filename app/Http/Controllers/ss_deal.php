@@ -3485,6 +3485,16 @@ class ss_deal extends Controller
 
             \App\Helper\Utils::logger("add_require: $test_lesson_subject_id ret_flag: $ret_flag");
 
+            //确认是否第一次换老师
+            $check_teacher_num = $this->t_lesson_info_b3->get_user_subject_tea_num($userid,$subject);
+            if($check_teacher_num>1 && $ass_test_lesson_type ==2){
+                $now_teacherid =$this->t_lesson_info_b3->get_first_user_subject_tea($userid,$subject);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"非首次换老师","非首次换老师提醒","学生id:".$userid.",老师id:".$now_teacherid,"");
+                $this->t_manager_info->send_wx_todo_msg_by_adminid(72,"非首次换老师","非首次换老师提醒","学生id:".$userid.",老师id:".$now_teacherid,"");
+
+
+            }
+
             return $this->output_succ();
         }
     }
@@ -5173,7 +5183,7 @@ class ss_deal extends Controller
     public function delete_lecture_appointment(){
         $id = $this->get_in_int_val("id");
         $acc = $this->get_account();
-        if(!in_array($acc,["adrian","jack"])){
+        if(!in_array($acc,["adrian","jack","jim"])){
             return $this->output_err("你没有权限");
         }
 
@@ -5181,9 +5191,11 @@ class ss_deal extends Controller
         return $this->output_succ();
     }
 
+    /**
+     * 后台手动添加老师报名数据
+     */
     public function add_lecture_appointment_one(){
         $answer_begin_time    = strtotime($this->get_in_str_val("answer_begin_time"));
-        $answer_end_time      = strtotime($this->get_in_str_val("answer_end_time"));
         $name                 = $this->get_in_str_val("name");
         $phone                = $this->get_in_str_val("phone");
         $email                = $this->get_in_str_val("email");
@@ -5194,34 +5206,53 @@ class ss_deal extends Controller
         $teacher_type         = $this->get_in_int_val("teacher_type");
         $lecture_revisit_type = $this->get_in_int_val("lecture_revisit_type");
         $reference            = $this->get_in_str_val("reference");
+        $account_role         = $this->get_account_role();
         $acc                  = $this->get_account();
 
         if(empty($answer_begin_time) || empty($phone) || empty($name) || empty($teacher_type)){
              return $this->output_err("答题时间/手机号/名字不能为空");
         }
 
-
         $id = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);
         if($id>0){
              return $this->output_err("该手机号已存在");
         }
-        $this->t_teacher_lecture_appointment_info->row_insert([
-            "answer_begin_time"  =>$answer_begin_time,
-            "answer_end_time"    =>$answer_end_time,
-            "name"               =>$name,
-            "phone"              =>$phone,
-            "email"              =>$email,
-            "qq"                 =>$qq,
-            "subject_ex"         =>$subject_ex,
-            "grade_ex"           =>$grade_ex,
-            "school"             =>$school,
-            "teacher_type"       =>$teacher_type,
-            "reference"          =>$reference,
-            "accept_adminid"     =>$this->get_account_id(),
-            "accept_time"        =>time(),
-            "lecture_revisit_type" =>$lecture_revisit_type,
-            "hand_flag"          =>1
+
+        $check_phone = \App\Helper\Utils::check_phone($phone);
+        if(!$check_phone){
+            return $this->output_err("手机错误!");
+        }
+
+        if(\App\Helper\Utils::check_env_is_release() && $account_role!=E\Eaccount_role::V_12){
+            $check_email = \App\Helper\Utils::check_email($email);
+            if(!$check_email){
+                return $this->output_err("邮箱错误!");
+            }
+        }
+
+        $ret = $this->t_teacher_lecture_appointment_info->row_insert([
+            "answer_begin_time"    => $answer_begin_time,
+            "name"                 => $name,
+            "phone"                => $phone,
+            "email"                => $email,
+            "qq"                   => $qq,
+            "subject_ex"           => $subject_ex,
+            "grade_ex"             => $grade_ex,
+            "school"               => $school,
+            "teacher_type"         => $teacher_type,
+            "reference"            => $reference,
+            "accept_adminid"       => $this->get_account_id(),
+            "accept_time"          => time(),
+            "lecture_revisit_type" => $lecture_revisit_type,
+            "hand_flag"            => 1
         ]);
+        $teacher_info['tea_nick'] = $name;
+        $teacher_info['phone']    = $phone;
+        $teacher_info['identity'] = $teacher_type;
+        $teacher_info['acc']      = $acc;
+        $teacher_info['email']    = $email;
+        $teacher_info['school']   = $school;
+        $teacherid = $this->add_teacher_common($teacher_info);
 
         // 添加操作日志
         $this->t_user_log->add_data("新增预讲试约");
@@ -5856,14 +5887,12 @@ class ss_deal extends Controller
             if (@$ret_arr["res"]) {
                 //同步未拨通
                 $this->t_seller_student_new->sync_tq($phone,1,time(NULL));
-                $this->t_book_revisit->add_book_revisit($phone,
-                                                        "天润拨打出错:". $ret_arr["res"].  @$error_code_conf[$ret_arr["res"]] . ",设置为未拨通:". $this->get_account(), "system" );
+                $this->t_book_revisit->add_book_revisit(
+                    $phone,"天润拨打出错:".$ret_arr["res"].@$error_code_conf[$ret_arr["res"]].",设置为未拨通:".$this->get_account(),"system" );
                 return $this->output_err( "天润拨打出错:". $ret_arr["res"] . ":". @$error_code_conf[$ret_arr["res"]. ",请重新抢例子" ] );
             }else{
                 return $this->output_succ();
             }
-
-
         }else{
             if (!$ytx_phone) {
                 $ytx_phone= $admin_info["ytx_phone" ]? $admin_info["ytx_phone" ]: $admin_info["tquin" ]  ;

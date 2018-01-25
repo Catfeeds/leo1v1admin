@@ -573,7 +573,14 @@ class assistant_performance extends Controller
             }else{
                 $last_registered_num=0;
             }
-            $item["last_registered_num"] = $last_registered_num;
+            //  $item["last_registered_num"] = $last_registered_num;
+            $item["all_student_last"] = @$last_ass_month[$k]["all_student"];
+            if(!empty($item["all_student_last"])){
+                $item["last_registered_num"] = $item["all_student_last"];
+            }else{
+                $item["last_registered_num"] =0;
+            }
+            $last_registered_num =  $item["last_registered_num"];
 
 
             /*回访*/
@@ -749,7 +756,13 @@ class assistant_performance extends Controller
                 $end_no_renw_reword_per = 0;
             }
             $item["end_no_renw_reword_per"]=$end_no_renw_reword_per;
-            
+
+            //临时处理
+            if($lesson_count_finish_per>=70){
+                $item["kpi_lesson_count_finish_per"]=40;
+            }else{
+                $item["kpi_lesson_count_finish_per"]=0;
+            }
 
             $item["revisit_reword"] = $item["revisit_reword_per"]*1500/100;
             $item["kpi_lesson_count_finish_reword"] = $item["kpi_lesson_count_finish_per"]*1500/100;

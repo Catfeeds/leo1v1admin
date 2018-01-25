@@ -1,0 +1,17 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1023
+//__DESC: /student/stu_get_course_list 学生申请试听课接口
+//__TAGS: for_app,for_website
+
+
+message in  {
+  	int32  grade= 1; //年级
+  	int32  subject= 2; //科目
+}
+
+message out {
+  	string  data = 1;
+}
+

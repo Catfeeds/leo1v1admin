@@ -1047,4 +1047,79 @@ class wx_parent_gift extends Controller
         }
         return ;
     }
+
+        /**
+     * @ 市场部分享海报
+     * @ James
+     * @ 2018-01-24
+     */
+
+    # 报名页面
+    public function jumpSignUpLink(){
+        $p_appid     = \App\Helper\Config::get_wx_appid();
+        $p_appsecret = \App\Helper\Config::get_wx_appsecret();
+        $uid = $this->get_in_int_val('uid');
+
+        $wx= new \App\Helper\Wx($p_appid,$p_appsecret);
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/jumpSignPage?uid=".$uid );
+        $wx->goto_wx_login($redirect_url);
+    }
+
+    public function jumpSignPage(){
+        $p_appid     = \App\Helper\Config::get_wx_appid();
+        $p_appsecret = \App\Helper\Config::get_wx_appsecret();
+        $code = $this->get_in_str_val('code');
+        $wx   = new \App\Helper\Wx($p_appid,$p_appsecret);
+        $user_info = $wx->get_token_from_code($code);
+        $openid    = @$user_info["openid"];
+        $uid = $this->get_in_int_val('uid');
+        $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
+
+        header("Location: http://www.leo1v1.com/market/index.html");//链接待定
+        return ;
+    }
+
+
+    # 理优海报转发
+    public function leoPosterForward(){
+        $uid = $this->get_in_int_val('uid');
+        $this->t_personality_poster->updateForwardNum($uid);
+        return $this->output_succ();
+    }
+
+    # 制作海报
+    public function leoPosterNum(){
+        $uid = $this->get_in_int_val('uid');
+        $this->t_personality_poster->updatePosterNum($uid);
+        return $this->output_succ();
+    }
+
+    # 分享海报
+    public function sharePoster(){
+        $pid = $this->get_in_int_val('pid');
+        $uid = $this->get_in_int_val('uid');
+        $par_openid = $this->get_in_str_val('par_openid');
+        $phone = $this->get_in_str_val('phone');
+
+        $this->t_poster_share_log->row_insert([
+            "poster_id"  => $pid,
+            "uid"        => $uid,
+            "par_openid" => $par_openid,
+            "phone"      => $phone
+        ]);
+        return $this->output_succ();
+    }
+
+    # 生成海报
+    public function createPoster(){
+        $mediaId = $this->get_in_str_val('mediaId');
+        $bgType = $this->get_in_int_val('bgType');
+        $uid    = $this->get_in_int_val('uid');
+        $bg_url = E\Emarket_bg::get_desc($bgType);
+        $qr_code_url = "http://www.leo1v1.com/market/index.html?uid=$uid&poster=1";
+        $a = new \App\Jobs\marketActivityPoster($uid,$bg_url,$qr_code_url,$bgType,$mediaId);
+        $a->handle();
+    }
+
+    #
 }

@@ -4969,9 +4969,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             'price > 0',
             'contract_status > 0',
             'contract_type = 3',
+            'order_time < '.$end_time
         ];
         $this->where_arr_add_int_or_idlist($where_arr, 'userid', $userid);
-        $this->where_arr_add_time_range($where_arr, 'order_time', $start_time, $end_time);
+        // $this->where_arr_add_time_range($where_arr, 'order_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
             'select count(*) renewal_count,sum(lesson_total) renewal_class_pag,'.
             'sum(if((order_time >= 1509465600 and order_time < 1514736000),1,0)) q4_renewal '.
