@@ -727,6 +727,7 @@ class NewRouteConfig {
         "/resource/edit_sub_grade_tag"                   =>true,
         "/resource/order_sub_grade_tag"                  =>true,
         "/resource/tea_look_resource"                    =>true,
+        "/resource/get_next_tag"                         =>true,
         "/test_bacon/modify_res_agree_info"              =>true,
         "/test_bacon/luru_tag"                           =>true,
         "/test_bacon/modify_resource"                    =>true,
