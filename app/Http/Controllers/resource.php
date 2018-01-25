@@ -396,7 +396,7 @@ class resource extends Controller
                 ];
 
                 if($adminid == 793){
-                    array_push($data[subject],4);
+                    array_push($data['subject'],4);
                 }
 
                 foreach( $grade_arr as $var ){
