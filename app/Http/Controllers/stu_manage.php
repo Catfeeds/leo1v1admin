@@ -1797,7 +1797,43 @@ class stu_manage extends Controller
 
 
         }elseif($current_id==5){
+            $ret_info=$this->t_student_score_info->get_all_list($page_info,"",-1,-1,-1,-1,$userid);
+            foreach( $ret_info["list"] as $key => &$item ) {
 
+
+                $ret_info['list'][$key]['num'] = $key + 1;
+                \App\Helper\Utils::unixtime2date_for_item($item,"create_time","","Y/m/d");
+                \App\Helper\Utils::unixtime2date_for_item($item,"stu_score_time","","Y/m/d");
+                E\Esemester::set_item_value_str($item);
+                E\Egrade::set_item_value_str($item);
+                E\Esubject::set_item_value_str($item);
+                E\Estu_score_type::set_item_value_str($item);
+                if($ret_info['list'][$key]['total_score']){
+                    $ret_info['list'][$key]['score'] = round(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
+                }
+
+
+                if($item['admin_type'] == 1){
+                    $item['create_admin_nick'] = "<font color=\blue\">家长/微信端</font>";
+                }elseif($item['admin_type'] == 0){
+                    $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
+                }
+                $class_rank = explode("/",$item["rank"]);
+                $item["rank"] = $class_rank[0];
+                $item["rank_num"] = @$class_rank[1]?@$class_rank[1]:"--";
+                $grade_rank = explode("/",$item["grade_rank"]);
+                $item["grade_rank"] = $grade_rank[0];
+                $item["grade_num"] = @$grade_rank[1]?@$grade_rank[1]:"--";
+
+
+
+
+
+            }
+            return $this->pageView(__METHOD__,$ret_info);
+
+
+            
         }
 
         return $this->pageView(__METHOD__);

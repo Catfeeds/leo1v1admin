@@ -13,7 +13,7 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
                               $user_id);
         return $this->main_get_list_by_page($sql,$page_info);
     }
-    public function get_all_list($page_info,$username,$grade,$semester,$stu_score_type,$is_test_user  ){
+    public function get_all_list($page_info,$username,$grade,$semester,$stu_score_type,$is_test_user,$userid=-1  ){
         $where_arr = [
             // [" u.realname= '%s'",$username,''],
             [" u.nick= '%s'",$username,''],
@@ -21,6 +21,7 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
             [" s.semester = %d ",$semester,-1],
             [" s.stu_score_type = %d ",$stu_score_type,-1],
             [" u.is_test_user = %d ",$is_test_user,-1],
+            [" s.userid = %d ",$userid,-1],
             "s.status = 0",
         ];
         $sql = $this->gen_sql_new(" select s.admin_type, s.userid,s.create_time,s.create_adminid,s.subject,"
