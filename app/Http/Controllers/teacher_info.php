@@ -2562,7 +2562,18 @@ class teacher_info extends Controller
         $is_js = $this->get_in_int_val('is_js', 0);
         //检测老师是不是全职
         $is_full_time = $this->check_teacher_type();
-        if($is_full_time == 0){
+        //add is_test_teacher open 
+        $is_test_user = $this->check_is_test_teacher();
+
+        //
+        // $is_full_time = 1;
+        // $is_test_user = 0;
+        //dd($is_full_time ,$is_test_user);
+        //
+        if($is_test_user == 1 || $is_full_time == 1){
+
+        }
+        else if($is_full_time == 0 ){
             if($is_js){
                 return $this->output_err("暂未开放，敬请期待！");
             } else {
@@ -3186,6 +3197,13 @@ class teacher_info extends Controller
             return 1;
         }
         return 0;
+    }
+
+
+    public function check_is_test_teacher(){
+        $teacherid  = $this->get_login_teacher();
+        $is_test_user  = $this->t_teacher_info->get_is_test_user($teacherid);
+        return $is_test_user;
     }
 
 }

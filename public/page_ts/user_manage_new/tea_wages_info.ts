@@ -233,6 +233,7 @@ $(function(){
         }else{
             Enum_map.append_option_list("level",id_level,true);
         }
+
         Enum_map.append_option_list_by_not_id("grade",id_grade,true,[0,100,200,300]);
         Enum_map.append_option_list("teacher_money_type",id_teacher_money_type,true,[0,6,7]);
         Enum_map.append_option_list("teacher_type",id_teacher_type,true);
@@ -240,7 +241,7 @@ $(function(){
         id_grade.val(data.grade);
         id_teacher_money_type.val(data.teacher_money_type);
         id_teacher_type.val(data.teacher_type);
-        id_lesson_count.val(data.lesson_count);
+        id_lesson_count.val(data.lesson_count/100);
 
         var arr = [
             ["----","更改老师工资类型后，需要重新设置课程的等级"],

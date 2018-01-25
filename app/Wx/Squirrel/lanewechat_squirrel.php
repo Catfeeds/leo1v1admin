@@ -1,5 +1,5 @@
 <?php
-namespace App\Wx\Squirrel;
+namespace Squirrel;
 
 // session_start();
 //引入配置文件
