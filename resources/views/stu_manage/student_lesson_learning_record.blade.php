@@ -86,8 +86,8 @@
                 <button class="btn btn-warning btn-flat performance_table_flag" id="id_record_rate" style="float:right" data-class_id="3">反馈率:{{ @$record_rate }}%</button>
                 <button class="btn btn-warning btn-flat homework_table_flag" id="id_score_final" style="float:right" data-class_id="4">平均成绩:{{ @$score_final }}</button>
                 <button class="btn btn-warning btn-flat homework_table_flag" id="id_complete_rate" style="float:right;margin-right:15px" data-class_id="4">作业完成率:</button>
-                <button class="btn btn-warning btn-flat score_table_flag" id="id_score_pic" style="float:right" data-class_id="5">图</button>
-                <button class="btn btn-warning btn-flat score_table_flag" id="id_score_table" style="float:right" data-class_id="5">表</button>
+                <button class="btn btn-warning btn-flat score_table_flag score_table_flag_show" id="id_score_pic" style="float:right" data-class_id="5" data-table_id="1">图</button>
+                <button class="btn btn-warning btn-flat score_table_flag score_table_flag_show current_score" id="id_score_table" style="float:right" data-class_id="5" data-table_id="2">表</button>
 
 
 
@@ -323,7 +323,7 @@
             </tbody>
         </table>
 
-        <table     class="common-table score_table_flag" data-class_id="5" >
+        <table     class="common-table score_table_flag score_table" data-class_id="5" >
             <thead>
                 <tr>
                     <td>年级</td>
@@ -353,9 +353,17 @@
                         <td>{{@$var["rank_num"]}} </td>
                         <td>{{@$var["grade_rank"]}} </td>
                         <td>{{@$var["grade_rank_num"]}} </td>
-                        <td>{{@$var["school"]}} </td>
+                        <td>
+                            @if(@$var["file_url"])
+                                <a class="show_issue_content" href="javascript:;" data-url="{{ @$var["file_url"] }}">
+                                    {{@$var["file_upload_str"] }}
+                                </a>
+                            @else
+                                {{@$var["file_upload_str"] }}
+                            @endif
+                        </td>
                         <td>{!!@$var["create_admin_nick"]!!} </td>
-                        <td>{{@$var["school"]}} </td>
+                        <td>{{@$var["paper_upload_time_str"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
@@ -367,6 +375,7 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="common-table score_table_flag score_pic" data-class_id="5">jhhahahah</div>
 
 
 

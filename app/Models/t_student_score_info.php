@@ -27,7 +27,7 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
         $sql = $this->gen_sql_new(" select s.admin_type, s.userid,s.create_time,s.create_adminid,s.subject,"
                                   ."s.stu_score_type,s.stu_score_time,s.score,s.total_score,s.rank,s.semester,"
                                   ."s.total_score,s.grade,s.grade_rank,s.status,s.month,s.rank_up,s.rank_down, "
-                                  ."u.realname,u.school,m.name,u.nick "
+                                  ."u.realname,u.school,m.name,u.nick,s.file_url,s.paper_upload_time "
                                   ." from      %s s "
                                   ." left join %s u on s.userid         = u.userid "
                                   ." left join %s m on s.create_adminid = m.uid "

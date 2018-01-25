@@ -2640,7 +2640,12 @@ trait TeaPower {
         if(isset($reference_info['teacherid']) && !empty($reference_info['teacherid'])){
             //各类渠道合作的平台总代理，助理不发伯乐奖
             if(!in_array($reference_info['teacher_type'],[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
-                $this->add_reference_price($reference_info['teacherid'],$teacherid);
+
+                if(\App\Helper\Utils::check_env_is_release()){
+                    $this->add_reference_price($reference_info['teacherid'],$teacherid);
+                }else{
+                    $this->add_reference_price_2018_01_21($reference_info['teacherid'],$teacherid,false);
+                }
             }
 
         }
@@ -4569,8 +4574,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * @param boolean notice_flag 是否需要推送提醒
      */
     public function add_reference_price_2018_01_21($teacherid,$recommended_teacherid,$notice_flag=true){
-        $teacher_info = $this->t_teacher_info->get_teahcer_info($teacherid);
-        $teacher_type = $teacher_info['teacher_type'];
+        $teacher_info     = $this->t_teacher_info->get_teacher_info($teacherid);
+        $teacher_type     = $teacher_info['teacher_type'];
         $teacher_ref_type = $teacher_info['teacher_ref_type'];
         //各类渠道不发伯乐奖,
         //15333268257 和  李桂荣两位老师11月后不发伯乐奖
@@ -4587,12 +4592,15 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
             $start_time      = strtotime("2017-7-1");
             $reference_price = 0;
-            if ($teacherid == 274115) {//join中国 不论身份，一律60元/个 从2017年8月份开始
+            //特殊渠道规则明细
+            if ($teacherid == 274115) {
+                //join中国 不论身份，一律60元/个 从2017年8月份开始
                 $reference_price = 60;
-            }elseif($teacherid == 149697){//明日之星 不论身份，一律50元/个  从2017年11月份开始
+            }elseif($teacherid == 149697){
+                //明日之星 不论身份，一律50元/个  从2017年11月份开始
                 $reference_price = 50;
-            }elseif($teacherid==226810){//赵海岗特殊规则不明确，需要确认
-            }elseif($teacherid == 149697){ //田克平 公校老师80元/个,在校学生按正常来算，统计所有邀请过的老师
+            }elseif($teacherid == 149697){
+                //田克平 公校老师80元/个,在校学生按正常来算，统计所有邀请过的老师
                 if ($reference_type == E\Ereference_type::V_2) {
                     $reference_price = 80;
                 }else{
@@ -4607,14 +4615,16 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 }
             }
 
+            //普通渠道
             if($reference_price==0){
                 $reference_num = $this->t_teacher_info->get_total_for_teacherid(
-                    $start_time,$end_time,$teacher_info['phone'],$reference_type
+                    $start_time,time(),$teacher_info['phone'],$reference_type
                 );
                 $reference_price = \App\Helper\Utils::get_reference_money($recommended_info['identity'],$reference_num);
             }
 
-            $this->t_teacher_money_list->row_insert([
+            //添加伯乐奖
+            $ret = $this->t_teacher_money_list->row_insert([
                 "teacherid"             => $teacherid,
                 "money"                 => $reference_price*100,
                 "money_info"            => $recommended_teacherid,
@@ -4623,6 +4633,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 "recommended_teacherid" => $recommended_teacherid,
             ]);
 
+            //微信推送
             if($notice_flag && $teacher_info['wx_openid']!=""){
                 $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
                 $wx_data["first"]    = $recommended_info['nick']."已成功入职";

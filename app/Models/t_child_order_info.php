@@ -105,11 +105,18 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
             $month_start = strtotime(date("Y-m-01",$last_month));
             $due_date = $month_start+14*86400;
         }
-
+        $last_paid_time = $due_date+4*86400;
         if($repay_status !=-1){
-            $where_arr=[
-                ["pr.repay_status=%u",$repay_status,-1], 
-            ];
+            if($repay_status==-2){
+                $where_arr=[
+                    "pr.repay_status in (2,3)" ,
+                    "(pr.paid_time=0 or pr.paid_time>$last_paid_time)"
+                ];
+            }else{
+                $where_arr=[
+                    ["pr.repay_status=%u",$repay_status,-1], 
+                ]; 
+            }
         }
         
 
@@ -120,6 +127,7 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
                                   ." o.lesson_left,s.type,s.assistantid,s.ass_assign_time,s.lesson_count_all,"
                                   ." s.lesson_count_left,o.lesson_total,o.default_lesson_count,o.competition_flag, "
                                   ." s.phone,c.parent_orderid,if(c.parent_name='',p.nick,c.parent_name) parent_name,s.subject_ex,c.child_orderid "
+                                  .",pr.paid_time "
                                   ." from %s c left join %s o on c.parent_orderid=o.orderid"
                                   ." left join %s s on o.userid = s.userid"
                                   ." left join %s p on s.parentid = p.parentid"

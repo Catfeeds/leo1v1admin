@@ -403,6 +403,11 @@ class ajax_deal2 extends Controller
         }
 
         $score = $score*10;
+        if($file_url){
+            $paper_upload_time=time();
+        }else{
+            $paper_upload_time=0;
+        }
         $ret_info = $this->t_student_score_info->row_insert([
             "userid"                => $userid,
             "create_time"           => $create_time,
@@ -419,6 +424,7 @@ class ajax_deal2 extends Controller
             "grade_rank"            => $grade_rank,
             "rank_up"               => $rank_up,
             "rank_down"             => $rank_down,
+            "paper_upload_time"     => $paper_upload_time
         ],false,false,true);
         return $this->output_succ();
     }

@@ -43,6 +43,7 @@ class period_order extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, 'pay_time',"_str");
             \App\Helper\Utils::unixtime2date_for_item($item, 'ass_assign_time',"_str");
             \App\Helper\Utils::unixtime2date_for_item($item, 'order_pay_time',"_str");
+            \App\Helper\Utils::unixtime2date_for_item($item, 'paid_time',"_str");
             //\App\Helper\Utils::unixtime2date_for_item($item, 'lesson_start');          
             $this->cache_set_item_assistant_nick($item,"assistantid", "assistant_nick");           
             $item['lesson_total']         = $item['lesson_total']*$item['default_lesson_count']/100;

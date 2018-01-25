@@ -1462,6 +1462,7 @@ class stu_manage extends Controller
         $subject = $this->get_in_int_val("subject",-1);
         $grade = $this->get_in_int_val("grade",-1);
         $current_id = $this->get_in_int_val("current_id",1);
+        $current_table_id = $this->get_in_int_val("current_table_id",2);
         $cw_status = $this->get_in_int_val("cw_status",-1);
         $preview_status = $this->get_in_int_val("preview_status",-1);
         $subject_arr=[];
@@ -1823,7 +1824,20 @@ class stu_manage extends Controller
                 $item["rank_num"] = @$class_rank[1]?@$class_rank[1]:"--";
                 $grade_rank = explode("/",$item["grade_rank"]);
                 $item["grade_rank"] = $grade_rank[0];
-                $item["grade_num"] = @$grade_rank[1]?@$grade_rank[1]:"--";
+                $item["grade_rank_num"] = @$grade_rank[1]?@$grade_rank[1]:"--";
+                $item["file_url_str"] = \App\Helper\Utils::gen_download_url($item["file_url"]);
+                if(empty($item["paper_upload_time"])){
+                    $item["paper_upload_time"] =$item["create_time"];
+                }
+                \App\Helper\Utils::unixtime2date_for_item($item,"paper_upload_time","_str");
+                if($item["file_url"]){
+                    $item["file_upload_str"]="已上传";
+                }else{
+                    $item["file_upload_str"]="未上传";
+                    $item["paper_upload_time_str"]="无";
+                }
+                
+
 
 
 
