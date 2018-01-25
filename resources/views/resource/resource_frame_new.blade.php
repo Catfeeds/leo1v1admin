@@ -39,7 +39,7 @@
                 <th>科目</th>
                 <th>年级</th>
                 <th>教材版本</th>
-                <th></th>
+                <th>上下册</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -48,7 +48,7 @@
                 <th>科目</th>
                 <th>年级</th>
                 <th>教材版本</th>
-                <th></th>
+                <th>上下册</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -56,10 +56,10 @@
                 <th>试卷库</th>
                 <th>科目</th>
                 <th>年级</th>
+                <th>教材版本</th>
                 <th>年份</th>
                 <th>省份</th>
                 <th>城市</th>
-                <th></th>
             </tr>
             <tr level="1" info_str="7" >
                 <th>知识图谱</th>

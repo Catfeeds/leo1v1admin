@@ -42,7 +42,7 @@ class test_ricky extends Command
         $task = new \App\Console\Tasks\TaskController();
 
         // 拉取90分钟补偿数据
-        $month = [11];
+        $month = [8,9,10,11,12,1];
         //$lesson = $task->t_teacher_feedback_list->get_lesson_list();
         //$order = $task->t_teacher_feedback_list->get_order_list();
         foreach ($month as $item) {
@@ -52,13 +52,17 @@ class test_ricky extends Command
             } else {
                 $end_time = strtotime('2017-'.($item + 1).'-1');
             }
+            if ($item == 1) {
+                $start_time = strtotime("2018-1-1");
+                $end_time = strtotime("2018-2-1");
+            }
+            echo $item."月".PHP_EOL;
             $info = $task->t_teacher_feedback_list->get_90_list($start_time, $end_time);
-            //echo "长度 : ".count($info);
             foreach($info as $item) {
-                //var_dump($item);
+                if (!($item["teacherid"] && $item["lessonid"])) continue;
                 echo $task->cache_get_teacher_nick($item["teacherid"]).",";
                 $lesson = $task->t_teacher_feedback_list->get_lesson_list($item["teacherid"], $item["lessonid"]);
-                //var_dump($lesson);
+                
                 $userid = $lesson["userid"];
                 echo $task->cache_get_student_nick($lesson["userid"]).",";
                 echo $item["lessonid"].",";

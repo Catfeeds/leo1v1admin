@@ -20,25 +20,26 @@ class marketActivityPoster extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
-    var $wx_openid;
-    var $request;
+    var $uid;
     var $bg_url;
+    var $bgType;
     var $qr_code_url;
-    var $agent;
+    var $mediaId;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
     // public function __construct($wx_openid,$bg_url,$qr_code_url,$request,$agent,$type)
-    public function __construct($uid,$bg_url,$qr_code_url,$type)
+    public function __construct($uid,$bg_url,$qr_code_url,$bgType,$mediaId)
     {
         parent::__construct();
-        $this->wx_openid   = $wx_openid;
+        $this->uid         = $uid;
         $this->bg_url      = $bg_url;
-        $this->request     = $request;
+        $this->bgType      = $bgType;
         $this->qr_code_url = $qr_code_url;
-        $this->agent       = $agent;
+        $this->mediaId     = $mediaId;
     }
 
     /**
@@ -48,16 +49,17 @@ class marketActivityPoster extends Job implements ShouldQueue
      */
     public function handle()
     {
-        $t_agent = new \App\Models\t_agent();
-        $qr_url  = "/tmp/market_wx_222.png";
-
+        $t_manager_info = new \App\Models\t_manager_info();
+        # 获取报名链接二维码
+        $qr_url  = "/tmp/market_poster_wx_".$uid."png";
         \App\Helper\Utils::get_qr_code_png($this->qr_code_url,$qr_url,5,4,3);
 
-        //请求微信头像
+        # 请求微信头像
+        $wx_openid    = $t_manager_info->get_wx_openid($uid);
         $wx_config    = \App\Helper\Config::get_config("wx");
         $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
         $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
-        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$this->wx_openid."&lang=zh_cn";
+        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -70,8 +72,7 @@ class marketActivityPoster extends Job implements ShouldQueue
         //强制刷新token
         if ( !array_key_exists('headimgurl', $data) ){
             $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"],true);
-            $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$this->wx_openid."&lang=zh_cn";
-            \App\Helper\Utils::logger("url info:". $url);
+            $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -83,7 +84,7 @@ class marketActivityPoster extends Job implements ShouldQueue
 
         $headimgurl = $data['headimgurl'];
         //下载头像，制作图片
-        $datapath = "/tmp/market_wx_".$phone."_headimg.jpg";
+        $datapath = "/tmp/market_wx_".$uid."_headimg.jpg";
         $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
         shell_exec($wgetshell);
 
@@ -126,7 +127,7 @@ class marketActivityPoster extends Job implements ShouldQueue
             }
         }
 
-        $agent_qr_url = "/tmp/yxyx_wx_".$phone."_member.png";
+        $agent_qr_url = "/tmp/market_wx_".$uid."_member.png";
         imagepng($image_3,$agent_qr_url);
 
         imagedestroy($image_1);
@@ -153,7 +154,7 @@ class marketActivityPoster extends Job implements ShouldQueue
         $t_agent->set_add_type_2( $id );
 
         $txt_arr = [
-            'touser'   => $this->request['fromusername'] ,
+            'touser'   => $wx_openid,
             'msgtype'  => 'image',
             "image"=> [
                 "media_id" => "$mediaId"
@@ -162,7 +163,6 @@ class marketActivityPoster extends Job implements ShouldQueue
 
         $txt = self::ch_json_encode($txt_arr);
         $token = AccessToken::getAccessToken();
-        \App\Helper\Utils::logger("SENT_MSG $token");
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
         $txt_ret = self::https_post($url,$txt);
 
