@@ -3121,7 +3121,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ." l.preview_status,l.cw_status,l.confirm_flag,l.lesson_cancel_reason_type, "
                                   ." l.teacher_effect,l.teacher_quality,l.stu_score,l.teacher_interact,l.stu_stability, "
                                   ." l.teacher_comment,l.stu_comment,l.stu_performance,h.issue_time ,h.issue_url ,"
-                                  ." h.finish_time,h.finish_url ,h.work_status ,h.score,h.check_url "
+                                  ." h.finish_time,h.finish_url ,h.work_status ,h.score,h.check_url,l.stu_praise "
                                   ." from %s l left join %s h on l.lessonid = h.lessonid"
                                   ." where %s order by l.lesson_start",
                                   self::DB_TABLE_NAME,
@@ -3466,4 +3466,39 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_user_subject_tea_num($userid,$subject){
+        
+        $where_arr = [
+            ["userid=%u",$userid,-1],
+            ["subject=%u",$subject,-1],          
+            "lesson_del_flag=0",
+            "confirm_flag<2",
+            "lesson_type in (0,1,3)",
+            "lesson_start>0",
+            "lesson_status>1"
+        ];
+        $sql = $this->gen_sql_new("select count(distinct teacherid) num from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+    }
+
+    public function get_first_user_subject_tea($userid,$subject){
+        
+        $where_arr = [
+            ["l.userid=%u",$userid,-1],
+            ["l.subject=%u",$subject,-1],          
+            "l.lesson_del_flag=0",
+            "l.confirm_flag<2",
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_start>0",
+            "l.lesson_status>1"
+        ];
+        $sql = $this->gen_sql_new("select teacherid from %s l where %s and not exists (select 1 from %s where userid = l.userid and teacherid = l.teacherid and  lesson_del_flag=0 and confirm_flag<2 and lesson_type in (0,1,3) and lesson_start>0 and lesson_status>1 and lesson_start >l.lesson_start)",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr,
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_value($sql);
+    }
+
 }

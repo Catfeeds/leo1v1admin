@@ -206,4 +206,91 @@ $(function(){
 
         window.open(url,"_blank");
     });
+
+    $(".opt-show-log").on("click",function(){
+        var data = $(this).get_opt_data();
+
+        $.do_ajax("/lesson_manage/get_lesson_operate_info",{
+            "lessonid":data.lessonid
+        },function(result){
+            if(result.ret==0){
+                window.location.reload();
+            }else{
+                BootstrapDialog.alert(result.info);
+            }
+        })
+    });
+
+    $(".opt-update-log").on("click",function(){
+        var data                  = $(this).get_opt_data();
+        var id_level              = $("<select>");
+        var id_grade              = $("<select>");
+        var id_teacher_money_type = $("<select>");
+        var id_teacher_type       = $("<select>");
+        var id_lesson_count       = $("<input>");
+        if(data.teacher_money_type==6){
+            Enum_map.append_option_list("new_level",id_level,true);
+        }else{
+            Enum_map.append_option_list("level",id_level,true);
+        }
+        Enum_map.append_option_list_by_not_id("grade",id_grade,true,[0,100,200,300]);
+        Enum_map.append_option_list("teacher_money_type",id_teacher_money_type,true,[0,6,7]);
+        Enum_map.append_option_list("teacher_type",id_teacher_type,true);
+        id_level.val(data.tea_level_num);
+        id_grade.val(data.grade);
+        id_teacher_money_type.val(data.teacher_money_type);
+        id_teacher_type.val(data.teacher_type);
+        id_lesson_count.val(data.lesson_count);
+
+        var arr = [
+            ["----","更改老师工资类型后，需要重新设置课程的等级"],
+            ["课程上的老师工资类型",id_teacher_money_type],
+            ["课程等级",id_level],
+            ["课程上的老师类型",id_teacher_type],
+            ["课程年级",id_grade],
+            ["课程课时",id_lesson_count],
+        ];
+
+        $.show_key_value_table("修改课程信息",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/lesson_manage/change_lesson_info",{
+                    "lessonid"           : data.lessonid,
+                    "teacher_money_type" : id_teacher_money_type.val(),
+                    "level"              : id_level.val(),
+                    "teacher_type"       : id_teacher_type.val(),
+                    "grade"              : id_grade.val(),
+                    "lesson_count"       : id_lesson_count.val(),
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
+        },function(){
+            var check_teacher_money_type = function(){
+                var teacher_money_type = id_teacher_money_type.val();
+                id_level.empty();
+                if(teacher_money_type==6){
+                    Enum_map.append_option_list("new_level",id_level,true);
+                }else{
+                    Enum_map.append_option_list("level",id_level,true);
+                }
+                if(teacher_money_type==data.teacher_money_type){
+                    id_level.val(data.tea_level_num);
+                }
+            }
+
+            id_teacher_money_type.on("click",function(){
+                check_teacher_money_type();
+            });
+
+        });
+
+    });
+
+
 });

@@ -492,7 +492,7 @@ $(function(){
         $.do_ajax_t("/ss_deal/call_ytx_phone", {
             "phone": opt_data.phone
         } );
-        $(me).parent().find(".opt-edit-new_new").click();
+        $(me).parent().find(".opt-edit-new_new_two").click();
     });
 
 
@@ -3742,18 +3742,18 @@ function init_edit() {
                         }else{
                             html_node.find("#id_main_subject_score_one_new_two").parent().attr('style','');
                         }
-                        if(html_node.find("#id_test_stress_new_two").val() <= 0){
-                            html_node.find("#id_test_stress_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_test_stress_new_two").parent().attr('style','');
-                        }
-                        if(html_node.find("#id_entrance_school_type_new_two").val() <= 0){
-                            html_node.find("#id_entrance_school_type_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_entrance_school_type_new_two").parent().attr('style','');
-                        }
+                        // if(html_node.find("#id_test_stress_new_two").val() <= 0){
+                        //     html_node.find("#id_test_stress_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        //     return false;
+                        // }else{
+                        //     html_node.find("#id_test_stress_new_two").parent().attr('style','');
+                        // }
+                        // if(html_node.find("#id_entrance_school_type_new_two").val() <= 0){
+                        //     html_node.find("#id_entrance_school_type_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        //     return false;
+                        // }else{
+                        //     html_node.find("#id_entrance_school_type_new_two").parent().attr('style','');
+                        // }
 
                         if(html_node.find("#id_cultivation_new_two").val() == ''){
                             html_node.find("#id_cultivation_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');

@@ -462,6 +462,7 @@ class user_manage_new extends Controller
             $all_price += $item['price'];
 
             $item['lesson_reward'] = $item['pre_reward']*$lesson_count/100;
+            $item['tea_level_num'] = $item['level'];
             $item['tea_level'] = \App\Helper\Utils::get_teacher_letter_level($item['teacher_money_type'],$item['level']);
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
@@ -4162,7 +4163,6 @@ class user_manage_new extends Controller
         return $this->output_ret($ret,"删除失败！请重试！");
     }
 
-
     public function ass_revisit_warning_info_old(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
         $page_num             = $this->get_in_page_num();
@@ -4182,9 +4182,9 @@ class user_manage_new extends Controller
         $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid, $three);
 
         $warning_type_num = [
-            'warning_type_one' =>0,
-            'warning_type_two' =>0,
-            'warning_type_three' =>0,
+            'warning_type_one'   => 0,
+            'warning_type_two'   => 0,
+            'warning_type_three' => 0,
         ];
         foreach($warning_count as $item){
             \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);

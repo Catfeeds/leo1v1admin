@@ -370,10 +370,10 @@
                                 <a class="fa fa-list-alt opt-manage-all" title="课程管理信息汇总" ></a>
                                 <!-- <a class="fa opt-modify-lesson-time" title="处理调课申请" >调课</a> -->
                                 <a class="fa-sitemap opt-set-server " title="xmpp" ></a>
-                                @if(in_array($account_role,[9,12]))
+                                @if(in_array($_account_role,[9,12]))
                                     <a class="opt-first-lesson-record-new" >质监反馈-new</a>
                                 @endif
-                                @if(in_array($acc,["jack"]))
+                                @if(in_array($_account,["jack"]))
                                     <a class="opt-seller-ass-record" title="教学质量反馈" >馈-old</a>
                                     <a class="opt-first-lesson-record" >质监反馈-old</a>
                                 @endif
@@ -403,7 +403,6 @@
                         </div>
                     </div>
                 </div>
-
                 <hr/>
                 <table   class="table table-bordered "   >
                     <tr>  <th> 时间 <th>角色 <th>用户id <th>服务 <th> 进出 <th> ip </tr>

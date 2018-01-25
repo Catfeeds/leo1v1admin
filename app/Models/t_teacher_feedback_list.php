@@ -112,7 +112,32 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
         return $this->main_get_list($sql);
     }
 
+    public function get_90_list($start_time, $end_time) {
+        $where_arr = [
+            ["m.add_time>=%u", $start_time, 0],
+            ["m.add_time<%u", $end_time, 0],
+            "m.type=3",
+        ];
+        $sql = $this->gen_sql_new("select m.teacherid,f.lessonid from %s m left join %s f on f.teacherid=m.teacherid where %s group by lessonid",
+                                  t_teacher_money_list::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
+    public function get_lesson_list($teacherid, $lessonid) {
+        //$sql = $this->gen_sql_new("select userid,teacherid,lessonid,assistantid,lesson_start from %s where confirm_flag!=2 and lesson_type in (0,1,3) and lesson_count in (200, 225)", t_lesson_info::DB_TABLE_NAME);
+        $sql = $this->gen_sql_new("select userid,assistantid,lesson_start from %s where teacherid=$teacherid and lessonid=$lessonid",
+                                  t_lesson_info::DB_TABLE_NAME
+        );
 
+        return $this->main_get_row($sql);
+    }
+
+    public function get_order_list($userid) {
+        $sql = $this->gen_sql_new("select distinct order_time from %s where userid=userid order by order_time asc", t_order_info::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
+    }
 
 }
