@@ -441,6 +441,45 @@ class agent extends Controller
     }
 
     public function test_new(){
+        list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,strtotime(date('Y-m-d')),[],[]];
+        for($i=1;$i<=10;$i++){
+            $start_time = $time-3600*24*$i;
+            $end_time = $start_time+3600*24;
+            $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=1);
+            $count_call = count(array_unique(array_column($ret_call, 'userid')));
+            $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
+            $count_called = count(array_unique(array_column($ret_called, 'userid')));
+            $ret[$start_time]['call_count'] = $count_call;
+            $ret[$start_time]['called_count'] = $count_called;
+            $ret[$start_time]['rate'] = $count_call>0?(round($count_called/$count_call, 4)*100):0;
+        }
+        $rate_arr = array_column($ret, 'rate');
+        $rate_avg = round(array_sum($rate_arr)/count($rate_arr),4);
+        foreach($ret as $start_time=>$item){
+            $ret[$start_time]['rate_square'] = round(pow($item['rate']-$rate_avg,2),2);
+        }
+        dd($ret,$rate_arr,array_sum($rate_arr),count($rate_arr),$rate_avg);
+        // $threshold = ;
+        // $end_time = ;
+        // $start_time = $end_time-3600*24*10;
+        // $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=1);
+        // $count_call = count(array_unique(array_column($ret_call, 'userid')));
+        // $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
+        // $count_called = count(array_unique(array_column($ret_called, 'userid')));
+        dd($count_call,$count_called,$threshold);
+        if(!$ret_log){
+            dd('a');
+            $this->t_seller_get_new_log->row_insert([
+                'adminid'=>$adminid,
+                'userid'=>$userid,
+                'create_time'=>time(),
+            ]);
+        }
+        dd('b');
+        $order_list = $this->t_order_info->get_1v1_order_seller_month_money($sys_operator='季金玲',$start_time=1512057600,$end_time=1514736000);
+        dd($order_list);
+        dd($test_leeson_list);
+
         dd(100*str_replace('%','','90%'));
 
         $ret = $this->t_test_lesson_subject_sub_list->field_update_list($lessonid=62725, ['call_end_time'=>$start_time=123]);

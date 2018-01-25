@@ -436,36 +436,54 @@ class test_code extends Controller
         echo "<br>";
     }
 
-    public function get_roomid(){
-        $lessonid    = 63280;
-        $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
-        $lesson_type = $lesson_info['lesson_type'];
-        $courseid    = $lesson_info['courseid'];
-        $lesson_num  = $lesson_info['lesson_num'];
-        $roomid      = \App\Helper\Utils::gen_roomid_name($lesson_type, $courseid, $lesson_num);
-        echo $roomid;
-        echo "<br>";
+    public function get_grade(){
+        $arr = $this->get_b_txt();
+        $arr2 = $this->get_b_txt("c");
 
-        $ret = $this->getNeedBetween($roomid,"_","y");
-        echo $ret;
-        echo "<br>";
-        $ret = $this->getNeedBetween($roomid,"y","y");
-        echo $ret;
-        echo "<br>";
-    }
-
-    public function getNeedBetween($kw1,$mark1,$mark2){
-        $kw=$kw1;
-        $kw='123'.$kw.'123';
-        $st =stripos($kw,$mark1);
-        if($mark1==$mark2){
-            $ed = strripos($kw, $mark2);
-        }else{
-            $ed =stripos($kw,$mark2);
+        $user_all_info = [];
+        foreach($arr as $val){
+            if($val!=""){
+                $user_arr = explode("\t", $val);
+                $userid = $user_arr[0];
+                $subject_str = $user_arr[1];
+                $user_all_info[$userid]["userid"] = $userid;
+                $user_all_info[$userid]["subject"] = $subject_str;
+            }
         }
-        if(($st==false||$ed==false)||$st>=$ed)
-            return 0;
-        $kw=substr($kw,($st+1),($ed-$st-1));
-        return $kw;
+
+        foreach($arr2 as $val2){
+            if($val2!=""){
+                $user_all_arr                     = explode("\t", $val2);
+                $userid2                          = $user_all_arr[0];
+                $user_all_info[$userid2]['userid']  = $userid2;
+                $user_all_info[$userid2]['name']  = $user_all_arr[1];
+                $user_all_info[$userid2]['grade'] = $user_all_arr[2];
+                $user_all_info[$userid2]['price'] = $user_all_arr[3];
+            }
+        }
+
+        foreach($user_all_info as $val){
+            echo $val['userid'];
+            echo "|";
+            echo $val['name'];
+            echo "|";
+            echo $val['grade'];
+            echo "|";
+            echo $val['price'];
+            echo "|";
+            if(isset($val['subject'])){
+                $subject_arr = explode(",", $val['subject']);
+                foreach($subject_arr as $sub_key=> $sub_val){
+                    echo E\Esubject::get_desc($sub_val);
+                    if(($sub_key+1)!=count($subject_arr)){
+                        echo ",";
+                    }
+                }
+            }
+
+            echo "<br>";
+        }
+
     }
+
 }

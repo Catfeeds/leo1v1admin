@@ -206,4 +206,40 @@ $(function(){
         });
     });
 
+    $("#id_add_test_reference").on("click",function(){
+	      var id_teacherid = $("<input>");
+	      var id_recomm_teacherid = $("<input>");
+
+        var arr = [
+            ['推荐人',id_teacherid],
+            ['被推荐人',id_recomm_teacherid],
+        ];
+
+
+        $.show_key_value_table("添加测试伯乐奖",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/teacher_money/add_test_reference_reward",{
+                    "teacherid":id_teacherid.val(),
+                    "recomm_teacherid":id_recomm_teacherid.val(),
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+
+            }
+        },function(){
+            $.admin_select_user( id_teacherid, "teacher");
+            $.admin_select_user( id_recomm_teacherid, "teacher");
+        });
+
+
+    });
+
+
+
 });

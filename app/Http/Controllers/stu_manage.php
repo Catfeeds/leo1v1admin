@@ -1462,6 +1462,7 @@ class stu_manage extends Controller
         $subject = $this->get_in_int_val("subject",-1);
         $grade = $this->get_in_int_val("grade",-1);
         $current_id = $this->get_in_int_val("current_id",1);
+        $current_table_id = $this->get_in_int_val("current_table_id",2);
         $cw_status = $this->get_in_int_val("cw_status",-1);
         $preview_status = $this->get_in_int_val("preview_status",-1);
         $subject_arr=[];
@@ -1650,8 +1651,8 @@ class stu_manage extends Controller
                     $item['stu_point_performance'].=PHP_EOL."总体评价:".$str;
                 }
                 $item['stu_intro']="";
-                if(empty($item["stu_comment"])){
-                    $item["stu_comment"]="—";
+                if(empty($item["teacher_comment"])){
+                    $item["teacher_comment"]="—";
                 }
                 if(empty($item["stu_score"])){
                     $item["stu_score"]="—";
@@ -1797,7 +1798,56 @@ class stu_manage extends Controller
 
 
         }elseif($current_id==5){
+            $ret_info=$this->t_student_score_info->get_all_list($page_info,"",-1,-1,-1,-1,$userid);
+            foreach( $ret_info["list"] as $key => &$item ) {
 
+
+                $ret_info['list'][$key]['num'] = $key + 1;
+                \App\Helper\Utils::unixtime2date_for_item($item,"create_time","","Y/m/d");
+                \App\Helper\Utils::unixtime2date_for_item($item,"stu_score_time","","Y/m/d");
+                E\Esemester::set_item_value_str($item);
+                E\Egrade::set_item_value_str($item);
+                E\Esubject::set_item_value_str($item);
+                E\Estu_score_type::set_item_value_str($item);
+                if($ret_info['list'][$key]['total_score']){
+                    $ret_info['list'][$key]['score'] = round(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
+                }
+
+
+                if($item['admin_type'] == 1){
+                    $item['create_admin_nick'] = "<font color=\blue\">家长/微信端</font>";
+                }elseif($item['admin_type'] == 0){
+                    $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
+                }
+                $class_rank = explode("/",$item["rank"]);
+                $item["rank"] = $class_rank[0];
+                $item["rank_num"] = @$class_rank[1]?@$class_rank[1]:"--";
+                $grade_rank = explode("/",$item["grade_rank"]);
+                $item["grade_rank"] = $grade_rank[0];
+                $item["grade_rank_num"] = @$grade_rank[1]?@$grade_rank[1]:"--";
+                $item["file_url_str"] = \App\Helper\Utils::gen_download_url($item["file_url"]);
+                if(empty($item["paper_upload_time"])){
+                    $item["paper_upload_time"] =$item["create_time"];
+                }
+                \App\Helper\Utils::unixtime2date_for_item($item,"paper_upload_time","_str");
+                if($item["file_url"]){
+                    $item["file_upload_str"]="已上传";
+                }else{
+                    $item["file_upload_str"]="未上传";
+                    $item["paper_upload_time_str"]="无";
+                }
+                
+
+
+
+
+
+
+            }
+            return $this->pageView(__METHOD__,$ret_info);
+
+
+            
         }
 
         return $this->pageView(__METHOD__);

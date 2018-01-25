@@ -113,30 +113,45 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
     }
 
     public function get_90_list($start_time, $end_time) {
+        //select l.assistantid,l.lessonid,tm.add_time,tm.type,tm.teacherid,l.userid from db_weiyi.t_teacher_money_list tm  left join db_weiyi.t_lesson_info l on tm.money_info=l.lessonid  left join db_weiyi.t_teacher_info t on tm.teacherid=t.teacherid left join db_weiyi.t_teacher_info tr on tm.recommended_teacherid=tr.teacherid where add_time>=1514736000 and add_time<1517414400 and type=3  and true
         $where_arr = [
             ["add_time>=%u", $start_time, 0],
             ["add_time<%u", $end_time, 0],
             "type=3",
         ];
-        $sql = $this->gen_sql_new("select teacherid,lessonid from %s where %s",
+        $sql = $this->gen_sql_new("select l.assistantid,l.lessonid,tm.add_time,tm.type,tm.teacherid,l.userid from %s tm "
+                                  ."left join %s l on tm.money_info=l.lessonid "
+                                  ."left join %s t on tm.teacherid=t.teacherid "
+                                  ."left join %s tr on tm.recommended_teacherid=tr.teacherid where %s",
                                   t_teacher_money_list::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);
+        // $sql = $this->gen_sql_new("select m.teacherid,f.lessonid from %s m left join %s f on f.teacherid=m.teacherid where %s group by lessonid",
+        //                           t_teacher_money_list::DB_TABLE_NAME,
+        //                           self::DB_TABLE_NAME,
+        //                           $where_arr
+        // );
+        // return $this->main_get_list($sql, function($item) {
+        //     return $item["teacherid"]."-".$item["lessonid"];
+        // });
     }
 
-    public function get_lesson_list() {
-        $sql = $this->gen_sql_new("select userid,teacherid,lessonid,assistantid,lesson_start from %s where confirm_flag!=2 and lesson_type in (0,1,3) and lesson_count in (200, 225)", t_lesson_info::DB_TABLE_NAME);
-        return $this->main_get_list($sql, function($item) {
-            return $item["teacherid"]."-".$item["lessonid"];
-        });
+    public function get_lesson_list($teacherid, $lessonid) {
+        //$sql = $this->gen_sql_new("select userid,teacherid,lessonid,assistantid,lesson_start from %s where confirm_flag!=2 and lesson_type in (0,1,3) and lesson_count in (200, 225)", t_lesson_info::DB_TABLE_NAME);
+        $sql = $this->gen_sql_new("select userid,assistantid,lesson_start from %s where teacherid=$teacherid and lessonid=$lessonid",
+                                  t_lesson_info::DB_TABLE_NAME
+        );
+
+        return $this->main_get_row($sql);
     }
 
-    public function get_order_list() {
-        $sql = $this->gen_sql_new("select distinct userid,order_time from %s where contract_status <= 2", t_order_info::DB_TABLE_NAME);
-        return $this->main_get_list($sql, function ($item) {
-            return $item['userid'];
-        });
+    public function get_order_list($userid) {
+        $sql = $this->gen_sql_new("select distinct order_time from %s where userid=$userid order by order_time asc", t_order_info::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
     }
 
 }
