@@ -49,15 +49,18 @@ $(function(){
         var id_register_num = $("<input />");
         var id_seller_stu_num   = $("<input />");       
         var id_estimate_month_lesson_count   = $("<input />");       
-
+        var id_seller_lesson_count = $("<input />");    
         var arr = [
             ["月初在册人数",id_register_num],
             ["平均学生",id_seller_stu_num],
             ["月初预估课时",id_estimate_month_lesson_count],
+            ["销售月总课时数",id_seller_lesson_count],
         ];
         id_seller_stu_num.val(data.seller_week_stu_num);
         id_estimate_month_lesson_count.val(data.estimate_month_lesson_count/100);
         id_register_num.val(data.last_registered_num);
+        id_seller_lesson_count.val(data.seller_month_lesson_count/100);
+        
 
         $.show_key_value_table("编辑",arr,{
             label    : "确认",
@@ -69,6 +72,7 @@ $(function(){
                     "register_num" : id_register_num.val(),
                     "seller_stu_num"   : id_seller_stu_num.val(),
                     "estimate_month_lesson_count"   : id_estimate_month_lesson_count.val(),
+                    "seller_month_lesson_count"     : id_seller_lesson_count.val()
                 },function(result){
                     if(result.ret==0){
                         window.location.reload();
