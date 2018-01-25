@@ -13,7 +13,7 @@ class MarkerPosterReset extends Migration
     public function up()
     {
         //
-        Schema::dropIfExists('t_personality_poster');
+        // Schema::dropIfExists('t_personality_poster');
         // Schema::create('db_tool.t_personality_poster', function(Blueprint $table) {
         //     t_comment($table,"市场部个性海报");
         //     t_field($table->increments("id"), "");
@@ -22,7 +22,7 @@ class MarkerPosterReset extends Migration
         //     t_field($table->integer("stuNum"), "学生数量");
         // });
 
-        Schema::dropIfExists('t_poster_share_log');
+        // Schema::dropIfExists('t_poster_share_log');
         // Schema::create('db_tool.t_poster_share_log', function(Blueprint $table) {
         //     t_comment($table,"海报分享报名的学生链接");
         //     t_field($table->integer("poster_id"), "海报id");
