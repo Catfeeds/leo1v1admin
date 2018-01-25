@@ -738,16 +738,6 @@ class seller_student_new extends Controller
         $ret_info= $this->t_seller_student_new->get_new_list($page_num, $now-30*3*86400 ,$now, $grade, $has_pad, $subject,$origin,$phone,$adminid ,$t_flag );
         $userid=@ $ret_info["list"][0]["userid"];
         if ($userid) {
-            //抢新log
-            $ret_log = $this->t_seller_get_new_log->get_row_by_adminid_userid($adminid,$userid);
-            if(!$ret_log){
-                $this->t_seller_get_new_log->row_insert([
-                    'adminid'=>$adminid,
-                    'userid'=>$userid,
-                    'create_time'=>time(),
-                ]);
-            }
-
             $lesson_call_end = [];
             $key="DEAL_NEW_USER_$adminid";
             $old_userid=\App\Helper\Common::redis_get($key)*1;
@@ -803,8 +793,16 @@ class seller_student_new extends Controller
 
             \App\Helper\Common::redis_set($key, $userid );
 
+            //抢新log
+            $ret_log = $this->t_seller_get_new_log->get_row_by_adminid_userid($adminid,$userid);
+            if(!$ret_log){
+                $this->t_seller_get_new_log->row_insert([
+                    'adminid'=>$adminid,
+                    'userid'=>$userid,
+                    'create_time'=>time(),
+                ]);
+            }
             return $this->output_succ(["phone" => $row_data["phone"]] );
-
         }else{
             return $this->output_err("没有资源了");
 
