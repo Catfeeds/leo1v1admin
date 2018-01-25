@@ -277,13 +277,14 @@ class lesson extends TeaWxController
 
     public function get_salary_detail_list(){ // 协议编号:1015
 
-        $teacherid   = $this->get_teacherid();
+        // $teacherid   = $this->get_teacherid();
+        $teacherid   = $this->getTeacherid();
         $start_time  = $this->get_in_int_val("start");
         $end_time    = $this->get_in_int_val("end");
 
-        // if(!is_int($teacherid)){
-        //     return $this->output_err('登录已过期,请您从[个人中心]-[我的收入]中查看!');
-        // }
+        if(!$teacherid){
+            return $this->output_err('登录已过期,请您从[个人中心]-[我的收入]中查看!');
+        }
 
         $url = "http://admin.leo1v1.com/teacher_money/get_teacher_money_list";
         $post_data = array(
