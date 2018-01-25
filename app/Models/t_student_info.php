@@ -3321,4 +3321,26 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $sql = $this->gen_sql_new("select userid from %s where is_test_user <> 0", self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }
+    //@desn:获取用户助教信息
+    //@param:$userid 用户id
+    public function get_assistant_info($userid){
+        $where_arr = [];
+        $this->where_arr_add_int_or_idlist($where_arr, 'si.userid', $userid);
+        $sql = $this->gen_sql_new(
+            'select ai.nick,agn.group_name '.
+            'from %s ai '.
+            'join %s si on ai.assistantid = si.assistantid '.
+            'join %s mi on ai.phone = mi.phone '.
+            'join %s mgu on mgu.adminid = mi.uid '.
+            'join %s agn on agn.groupid = mgu.groupid '.
+            'where %s',
+            t_assistant_info::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_admin_group_user::DB_TABLE_NAME,
+            t_admin_group_name::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 }
