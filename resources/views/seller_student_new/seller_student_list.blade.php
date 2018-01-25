@@ -496,7 +496,7 @@
                                 <a title="试听申请new" class="fa-chevron-up opt-edit-new_new_two"></a>
                                 <a title="录入回访信息" style="display:none;" class="fa-edit opt-edit-new_new"></a>
                                 <a title="手机拨打&录入回访信息" class="fa-phone  opt-telphone   "></a>
-                                <a title="试听申请" style="display:none;" class="fa fa-headphones opt-post-test-lesson "></a>
+                                <a title="试听申请" style="" class="fa fa-headphones opt-post-test-lesson "></a>
                                 <a class="fa  opt-flow-node-list fa-facebook " title="不传试卷,审核进度"></a>
                                 <a title="试听申请未排-取消"  class="fa fa-undo opt-undo-test-lesson "></a>
                                 <a title="查看试听课老师反馈" class="fa fa-bookmark opt-get_stu_performance"></a>
