@@ -55,6 +55,7 @@ class test_ricky extends Command
             $info = $task->t_teacher_feedback_list->get_90_list($start_time, $end_time);
             //echo "长度 : ".count($info);
             foreach($info as $item) {
+                if (!($item["teacherid"] && $item["lessonid"])) continue;
                 //var_dump($item);
                 echo $task->cache_get_teacher_nick($item["teacherid"]).",".PHP_EOL;
                 //$lesson = $task->t_teacher_feedback_list->get_lesson_list($item["teacherid"], $item["lessonid"]);
