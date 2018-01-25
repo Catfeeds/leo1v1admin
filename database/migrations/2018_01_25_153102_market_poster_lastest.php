@@ -13,6 +13,7 @@ class MarketPosterLastest extends Migration
     public function up()
     {
         //
+        Schema::dropIfExists('db_tool.t_personality_poster');
         Schema::create('db_tool.t_personality_poster', function(Blueprint $table) {
             t_comment($table,"市场部个性海报");
             t_field($table->increments("id"), "");
