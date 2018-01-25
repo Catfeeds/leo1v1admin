@@ -1782,13 +1782,6 @@ class test_james extends Controller
     }
 
     public function getTea(){
-        $a = $this->get_teacherid();
-        // dd($a);
-        
-        if(!is_int($a)){
-            dd(1);
-        }
-        dd(2);
         $num = $this->t_teacher_info->getTeacherNumTrainThrough();
         dd($num);
     }

@@ -82,7 +82,6 @@ class SendMsgToNoticTeaSetFreeTime extends Job implements ShouldQueue
                 "teacher_type" => 1
             ]
 
-
         ];
 
         $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
