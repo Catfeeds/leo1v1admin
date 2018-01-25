@@ -48,6 +48,7 @@ class SendMsgToTeaSetFreeTime extends Job implements ShouldQueue
 
         $this->delete();
         $t_teacher_info = new  \App\Models\t_teacher_info();
+        $t_parent_send_mgs_log  = new \App\Models\t_parent_send_mgs_log();
 
         // $teacher_list = $t_teacher_info->getTeacherNumTrainThrough();
 
@@ -86,6 +87,11 @@ class SendMsgToTeaSetFreeTime extends Job implements ShouldQueue
                     $url = 'http://wx-teacher-web.leo1v1.com/course_arrange.html';
                 }
                 \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id,$data,$url);
+                $t_parent_send_mgs_log->row_insert([
+                    "parentid"     => $item['teacherid'],
+                    "create_time"  => time(),
+                    "is_send_flag" => 8 // 市场活动推送模板消息
+                ]);
             }
             // \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxPmwXgLmkCTdoJGhSY1FTlc",$template_id,$data,'');
         }

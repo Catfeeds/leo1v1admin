@@ -38,7 +38,7 @@ class SendMsgToTeaSetFreeTime extends Command
     public function handle()
     {
         //
-        $job = new \App\Jobs\send_wx_teacher_for_bankcard();
+        $job = new \App\Jobs\SendMsgToTeaSetFreeTime();
         dispatch($job);
     }
 }
