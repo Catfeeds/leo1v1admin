@@ -150,7 +150,7 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
     }
 
     public function get_order_list($userid) {
-        $sql = $this->gen_sql_new("select distinct order_time from %s where userid=userid order by order_time asc", t_order_info::DB_TABLE_NAME);
+        $sql = $this->gen_sql_new("select distinct order_time from %s where userid=$userid order by order_time asc", t_order_info::DB_TABLE_NAME);
         return $this->main_get_value($sql);
     }
 

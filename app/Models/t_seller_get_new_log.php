@@ -15,7 +15,7 @@ class t_seller_get_new_log extends \App\Models\Zgen\z_t_seller_get_new_log
         $sql = $this->gen_sql_new(
             "select id,called_count,no_called_count "
             ."from %s "
-            ."where %s "
+            ."where %s limit 1"
             ,self::DB_TABLE_NAME
             ,$where_arr
         );
