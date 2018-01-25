@@ -29,19 +29,24 @@ interface RowData {
 	realname	:any;
 	userid	:any;
 	lesson_num	:any;
-	teacher_effect	:any;
-	teacher_quality	:any;
-	stu_score	:any;
-	teacher_interact	:any;
-	stu_stability	:any;
-	teacher_comment	:any;
-	stu_comment	:any;
-	stu_performance	:any;
+	issue_time	:any;
+	issue_url	:any;
+	finish_time	:any;
+	finish_url	:any;
+	work_status	:any;
+	score	:any;
+	check_url	:any;
 	grade_str	:any;
 	subject_str	:any;
 	lesson_time	:any;
-	stu_intro	:any;
-	stu_point_performance	:any;
+	issue_url_str	:any;
+	finish_url_str	:any;
+	check_url_str	:any;
+	stu_check_flag	:any;
+	issue_flag	:any;
+	download_flag	:any;
+	commit_flag	:any;
+	check_flag	:any;
 }
 
 /*

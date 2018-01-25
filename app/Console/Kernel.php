@@ -185,6 +185,7 @@ class Kernel extends ConsoleKernel
         Commands\sync_tq::class,
         Commands\gen_top_info::class,
         Commands\set_xmpp_server::class,
+        Commands\phone_city::class,
 
         Commands\set_lesson_audio_record_server_at_time::class,
         Commands\set_every_month_student_score::class,

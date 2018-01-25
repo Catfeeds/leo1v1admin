@@ -488,17 +488,27 @@ class resource extends Controller
         $select = $sel_arr[$num];
         $is_end = 0;
         //判断是不是最后
-        if (in_array($arr[0], [2,9]) && $level == 4) {
+        if (in_array($arr[0], [2,4,5,9]) && $level == 4) {
             $is_end = 1;
         } else if ($arr[0] == 3 && $level == 6){
-            $is_end = 1;
-        } else if (in_array($arr[0], [4,5]) && $level == 3){
             $is_end = 1;
         } else if (in_array($arr[0], [1,6,7]) && $level == 5){
             $is_end = 1;
         }
 
-        $data = $this->t_resource_agree_info->get_next_info($select,@$arr[0],@$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],$is_end);
+        //$data = $this->t_resource_agree_info->get_next_info($select,@$arr[0],@$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],$is_end);
+        if( ( @$arr[0] == 1 && $level == 5 ) || ( $arr[0] == 3 && $level == 6 ) ){
+            //资源类型 1对1精品课 标准试听课
+            $select = 'tag_four';
+        }
+
+        if( ( @$arr[0] == 4 && $level == 4 ) || ( $arr[0] == 5 && $level == 4 ) ){
+            //资源类型 测评库 电子教材
+            $select = 'tag_five';
+        }
+
+        $data = $this->t_resource->get_next_tag($select,@$arr[0],@$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],$is_end);
+
         $tag_arr = \App\Helper\Utils::get_tag_arr();
         //对应枚举类
         $menu = '';
@@ -531,6 +541,194 @@ class resource extends Controller
         if($menu != ''){
             $select = $menu;
         }
+        return $this->output_succ(['data' => $data,'select' => $select, 'is_end' => $is_end]);
+    }
+
+    public function get_next_tag(){
+        $info_str = $this->get_in_str_val('info_str','');
+        $level = $this->get_in_int_val('level', 0);
+        //根据info_str判断查询几个字段
+        $arr = explode('-', $info_str);
+
+        //$arr对应信息
+        // 0=resource_type, 1=subject, 2=grade, 3=tag_one, 4=tag_two, 5=tag_three, 6=tag_four
+
+        $sel_arr = ['','subject','grade','tag_one','tag_two','tag_three','tag_four'];
+        $num = count($arr);
+        $select = $sel_arr[$num];
+        $is_end = 0;
+        //判断是不是最后
+        if (in_array($arr[0], [2,4,5,9]) && $level == 4) {
+            $is_end = 1;
+        } else if (in_array($arr[0], [3,6]) && $level == 6){
+            $is_end = 1;
+        } else if (in_array($arr[0], [1,7]) && $level == 5){
+            $is_end = 1;
+        }
+        $data = [];
+        if($select == 'subject'){
+            $sub = E\Esubject::$desc_map;
+            foreach($sub as $k => $var ){
+                if( $k != 0 ){
+                    $data[] = [
+                        'subject' => $k,
+                        'subject_str' => $var,
+                    ];
+                }
+            }
+        }
+
+        if( $select == 'grade' ){
+            $subject = $arr[1];
+            $s_g = [
+                1 => [101,102,103,104,105,106,201,202,203,301,302,303],
+                2 => [101,102,103,104,105,106,201,202,203,301,302,303],
+                3 => [101,102,103,104,105,106,201,202,203,301,302,303],
+                4 => [203,301,302,303],
+                5 => [202,203,301,302,303],
+                6 => [201,202,203,301,302,303],
+                7 => [201,202,203,301,302,303],
+                8 => [201,202,203,301,302,303],
+                9 => [201,202,203,301,302,303],
+                10 => [201,202,203,301,302,303],
+                11 => [201,202,203,301,302,303],
+            ];
+
+            $gra = $s_g[$subject]; 
+            foreach($gra as $var ){                
+                $data[] = [
+                    'grade' => $var,
+                    'grade_str' => E\Egrade::get_desc($var),
+                ];                
+            }
+        }
+
+        if( $select == 'tag_one' && $arr[0] != 7 ){
+            //教材
+            $book = $this->t_resource_agree_info->get_all_resource_type($arr[0], $arr[1], $arr[2]);
+            $book_arr = [50000];
+            if($book){
+                foreach($book as $v) {
+                    if( $v['tag_one'] != 0 && $v['tag_one']  != 50000){
+                        array_push($book_arr, intval($v['tag_one']) );
+                    }
+                }
+            }else{
+                $book_arr = [4,12,16,29,50000];
+            }
+            foreach($book_arr as $v){
+                $data[] = [
+                    'tag_one'   => (string)$v,
+                    'region_version' => (string)$v,
+                    'region_version_str' => E\Eregion_version::get_desc($v),
+                ];
+            }
+            $select = "region_version";
+        }
+
+        if( $select == 'tag_two' ){
+            if( in_array($arr[0], [1,2]) ){
+                $resource = E\Eresource_season::$desc_map;
+                foreach( $resource as $k => $v){
+                    $data[] = [
+                        'tag_two' => $arr[3],
+                        'resource_season' => $k,
+                        'resource_season_str' => $v
+                    ];
+                }
+                $select = "resource_season";
+            }
+            if( $arr[0] == 3 ){
+                $resource = E\Eresource_free::$desc_map;
+                foreach( $resource as $k => $v){
+                    $data[] = [
+                        'tag_two' => $arr[3],
+                        'resource_free' => $k,
+                        'resource_free_str' => $v
+                    ];
+                }
+                $select = "resource_free";
+            } 
+            if( in_array($arr[0], [4,5]) ){
+                $resource = E\Eresource_volume::$desc_map;
+                foreach( $resource as $k => $v){
+                    $data[] = [
+                        'tag_two' => $arr[3],
+                        'resource_volume' => $k,
+                        'resource_volume_str' => $v
+                    ];
+                }
+                $select = "resource_volume";
+
+            }
+            if( $arr[0] == 6 ){
+                $resource = E\Eresource_year::$desc_map;
+                foreach( $resource as $k => $v){
+                    $data[] = [
+                        'tag_two' => $arr[3],
+                        'resource_year' => $k,
+                        'resource_year_str' => $v
+                    ];
+                }
+                $select = "resource_year";
+
+            } 
+            if( $arr[0] == 9 ){
+                $resource = E\Eresource_train::$desc_map;
+                foreach( $resource as $k => $v){
+                    $data[] = [
+                        'tag_two' => $arr[3],
+                        'resource_train' => $k,
+                        'resource_train_str' => $v
+                    ];
+                }
+                $select = "resource_train";
+
+            } 
+
+        }
+
+        if( $select == 'tag_three' ){
+            if( $arr[0] == 1 ){              
+                $tag_arr = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($arr[1],$arr[2],$arr[3],$arr[0],$arr[4]);
+                //dd($tag_arr);
+                foreach($tag_arr as $v){
+                    $data[] = [
+                        'tag_four' => $v['id'],
+                        'tag_four_str' => $v['tag']
+                    ];
+                }
+                $select = 'tag_four';
+            }
+
+            if( $arr[0] == 3 ){
+                $resource = E\Eresource_diff_level::$desc_map;
+                foreach( $resource as $k => $v){
+                    $data[] = [
+                        'tag_two' => $arr[3],
+                        'resource_diff_level' => $k,
+                        'resource_diff_level_str' => $v
+                    ];
+                }
+                $select = "resource_diff_level";
+
+            }
+        }
+
+        if( $select == 'tag_four' ){
+            if( $arr[0] == 3 ){
+                $tag_arr = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($arr[1],$arr[2],$arr[3],$arr[0],-1);
+                //dd($tag_arr);
+                foreach($tag_arr as $v){
+                    $data[] = [
+                        'tag_four' => $v['id'],
+                        'tag_four_str' => $v['tag']
+                    ];
+                }
+                $select = 'tag_four';
+            }
+        }
+
         return $this->output_succ(['data' => $data,'select' => $select, 'is_end' => $is_end]);
     }
 
@@ -623,6 +821,84 @@ class resource extends Controller
                         'agree_adminid' => $adminid,
                         'agree_time'    => $time,
                     ]);
+                }
+            }
+        } else if($do_type === 'use'){//启用
+            $this->t_resource_agree_info->update_ban(
+                $arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6],$adminid,$time,0, $ban_level
+            );
+        } else if ($do_type === 'ban'){//禁用
+
+            $this->t_resource_agree_info->update_ban(
+                $arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6],$adminid,$time,1,$ban_level
+            );
+        } else if ($do_type === 'del'){//删除版本
+            //先查询该版本下是否有上传的文件
+            $ret = $this->t_resource->is_has_file($arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6]);
+            if($ret > 0){
+                return $this->output_err("该版本下有文件,无法删除!");
+            }
+            if(@$arr[0] > 0){
+                $ret = $this->t_resource_agree_info->del_agree($arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6]);
+            } else {
+                return $this->output_err("信息有误,删除失败!");
+            }
+        }
+
+        return $this->output_succ();
+
+    }
+
+    public function add_or_del_or_edit_new(){
+        $info_str = $this->get_in_str_val('info_str','');
+        $region   = $this->get_in_int_val('region','');
+        $do_type  = $this->get_in_str_val('do_type','');
+        $arr      = explode('-', $info_str);
+        $adminid  = $this->get_account_id();
+        $time     = time();
+        $ban_level = count($arr);
+
+        //暂时使用
+        $s_g = [
+            1 => [ [101,102,103,104,105,106] , [201,202,203], [301,302,303] ],
+            2 => [ [101,102,103,104,105,106] , [201,202,203], [301,302,303] ],
+            3 => [ [101,102,103,104,105,106] , [201,202,203], [301,302,303] ],
+            4 => [ [203], [301,302,303] ],
+            5 => [ [202,203], [301,302,303] ],
+            6 => [ [201,202,203], [301,302,303] ],
+            7 => [ [201,202,203], [301,302,303] ],
+            8 => [ [201,202,203], [301,302,303] ],
+            9 => [ [201,202,203], [301,302,303] ],
+            10 => [ [201,202,203], [301,302,303] ],
+            11 => [ [201,202,203], [301,302,303] ],
+        ];
+
+        $resource = [1,2,3,4,5,6,9];
+        $modify_grade = [];
+        if( in_array($arr[0],$resource) ) {
+            $grade = @$arr[2];
+            if($grade){                    
+                foreach( $s_g[ $arr[1] ] as $k => $g_arr){
+                    if(in_array($grade, $g_arr)){
+                        $modify_grade = $g_arr;
+                    }
+                }           
+            }
+        }
+
+        if($do_type === 'add'){//添加版本
+            if( in_array($arr[0],$resource) ) {
+                foreach( $resource as $r_type){                      
+                    foreach($modify_grade as $grade){
+                        $this->t_resource_agree_info->row_insert([
+                            'resource_type' => $r_type,
+                            'subject'       => $arr[1],
+                            'grade'         => $grade,
+                            'tag_one'       => $region,
+                            'agree_adminid' => $adminid,
+                            'agree_time'    => $time,
+                        ]);
+                    }
                 }
             }
         } else if($do_type === 'use'){//启用

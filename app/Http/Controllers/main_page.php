@@ -1253,7 +1253,7 @@ class main_page extends Controller
         $total_regular_first_num = 0;
         $total_regular_five_per = 0;
         $total_regular_five_num = 0;
-        $real_num = $suc_count = $train_first_all= $train_first_pass = $train_second_all = $test_first_all = $regular_first_all=$test_five_all=$regular_five_all=$lecture_inter_num=$one_inter_num=$lecture_succ=$one_succ=0;
+        $real_num = $suc_count = $train_first_all= $train_first_pass = $train_second_all=$train_second_pass = $test_first_all = $regular_first_all=$test_five_all=$regular_five_all=$lecture_inter_num=$one_inter_num=$lecture_succ=$one_succ=0;
         foreach($teacher_info as &$item){
             $item["real_num"] = isset($real_info["list"][$item["account"]])?$real_info["list"][$item["account"]]["all_count"]:0;
             $account = $item["account"];
@@ -1273,6 +1273,7 @@ class main_page extends Controller
             $item["train_first_all"] = isset($train_first[$account])?$train_first[$account]["all_num"]:0;
             $item["train_first_pass"] = isset($train_first[$account])?$train_first[$account]["pass_num"]:0;
             $item["train_second_all"] = isset($train_second[$account])?$train_second[$account]["all_num"]:0;
+            $item["train_second_pass"] = isset($train_second[$account])?$train_second[$account]["pass_num"]:0;
 
             $item["test_first"] = isset($test_first[$account])?$test_first[$account]["all_num"]:0;
             $item["test_first_per"] = isset($test_first_per[$account])?round($test_first_per[$account]["all_time"]/$test_first_per[$account]["all_num"]):0;
@@ -1367,6 +1368,7 @@ class main_page extends Controller
                 $train_first_all += $item["train_first_all"];
                 $train_first_pass += $item["train_first_pass"];
                 $train_second_all += $item["train_second_all"];
+                $train_second_pass += $item["train_second_pass"];
                 $test_first_all += $item["test_first"];
                 $test_five_all += $item["test_five"];
                 $regular_first_all += $item["regular_first"];
@@ -1504,6 +1506,7 @@ class main_page extends Controller
             $arr["train_first_all"] = $train_first_all;
             $arr["train_first_pass"] = $train_first_pass;
             $arr["train_second_all"] = $train_second_all;
+            $arr["train_second_pass"] = $train_second_pass;
             $arr["test_first"] = $test_first_all;
             $arr["test_five"] = $test_five_all;
             $arr["regular_first"] = $regular_first_all;
