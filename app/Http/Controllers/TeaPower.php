@@ -2652,6 +2652,27 @@ trait TeaPower {
     }
 
     /**
+     * 老师培训通过后的处理操作
+     * @param int teacherid
+     */
+    public function teacher_train_through_deal_2018_1_25($teacherid,$train_through_new_time=0){
+        if($train_through_new_time==0){
+            $train_through_new_time = time();
+        }
+        $ret = $this->t_teacher_info->field_update_list($teacherid,[
+            "train_through_new_time" => $train_through_new_time,
+        ]);
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $teacher_info['level'] = 0;
+        $this->send_offer_info($teacher_info);
+
+        $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
+        $check_time = strtotime("2017-7-1");
+        if(isset($reference_info['teacherid']) && !empty($reference_info['teacherid']) && $train_through_new_time>$check_time){
+            $this->add_reference_price_2018_01_21($reference_info['teacherid'],$teacherid,false);
+        }
+    }
+    /**
      * 发送入职邮件和入职微信推送
      * @param teacher_info 老师信息
      */
