@@ -154,7 +154,6 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
                                   ,$where_arr
                                   ,$has_sql
         );
-        echo $sql;
         return $this->main_get_list($sql);
     }
 

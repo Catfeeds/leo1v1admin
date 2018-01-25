@@ -122,7 +122,7 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
         $sql = $this->gen_sql_new("select l.assistantid,l.lessonid,tm.add_time,tm.type,tm.teacherid,l.userid from %s tm "
                                   ."left join %s l on tm.money_info=l.lessonid "
                                   ."left join %s t on tm.teacherid=t.teacherid "
-                                  ."left join %s tr on tr.recommended_teacherid=tr.teacherid where %s",
+                                  ."left join %s tr on tm.recommended_teacherid=tr.teacherid where %s",
                                   t_teacher_money_list::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
