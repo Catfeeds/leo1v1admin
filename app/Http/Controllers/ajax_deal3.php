@@ -42,7 +42,7 @@ class ajax_deal3 extends Controller
         //课堂登录情况
         $page_info = $this->get_in_page_info();
         $login_list = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,-1,0,0,-1,-1,1,$lessonid);
-        $login = @$login_list["list"][0][$lessonid];
+        $login = @$login_list["list"][0];
         $login_time = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,-1,0,0,-1,-1,2,$lessonid);
         $login_time = @$login_time[$lessonid];
 
@@ -99,9 +99,9 @@ class ajax_deal3 extends Controller
                 }else{
                     $list["tea_attend_str"]="正常";
                 }
-                $list["tea_login_num"] = @$login["tea_login_num"]?@$login["tea_login_num"]:0;
-                $list["stu_login_num"] = @$login["stu_login_num"]?@$login["stu_login_num"]:0;
-                $list["parent_login_num"] =@$login["parent_login_num"]?@$login["parent_login_num"]:0;
+                $list["tea_login_num"] = @$login["tea_login_num"];
+                $list["stu_login_num"] = @$login["stu_login_num"];
+                $list["parent_login_num"] =@$login["parent_login_num"];
 
 
             }
