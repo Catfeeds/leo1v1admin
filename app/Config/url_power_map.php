@@ -166,7 +166,6 @@ class url_power_map {
 			'/human_resource/get_lesson_full_list'	=>1040511,
 			'/human_resource/get_lesson_full_wage_old'	=>1040512,
 			'/user_manage_new/teacher_trial_reward_list'	=>1040513,
-			'/user_manage_new/teacher_ref_money_list'	=>1040514,
 			'/user_manage_new/teacher_details_money'	=>1040515,
 			'/teacher_money/grade_wages_list'	=>1040516,
 			'/teacher_money/teacher_salary_list'	=>1040517,

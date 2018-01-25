@@ -67,7 +67,6 @@ class SendMsgToTeaSetFreeTime extends Job implements ShouldQueue
                 "teacher_money_type" => 2,
                 "teacher_type" => 1
             ]
-
         ];
 
         $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
@@ -78,7 +77,7 @@ class SendMsgToTeaSetFreeTime extends Job implements ShouldQueue
                     "first"    => '您好，'.$item['nick'].'老师，为及时准确地为您安排合适试听课，请您尽快在公号内更新您本周&下周的空闲时间，谢谢',
                     "keyword1" => '设置空闲时间',
                     "keyword2" => '请及时更新您能上课的空闲时间',
-                    "keyword3" => date('Y-m-d H:i:s'),
+                    "keyword3" => date('Y-m-d'),
                 ];
 
                 # 兼职老师点击

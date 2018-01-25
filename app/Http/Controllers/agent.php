@@ -456,9 +456,15 @@ class agent extends Controller
         $rate_arr = array_column($ret, 'rate');
         $rate_avg = round(array_sum($rate_arr)/count($rate_arr),4);
         foreach($ret as $start_time=>$item){
-            $ret[$start_time]['rate_square'] = round(pow($item['rate']-$rate_avg,2),2);
+            $ret[$start_time]['dif_square'] = round(pow($item['rate']-$rate_avg,2),2);
         }
-        dd($ret,$rate_arr,array_sum($rate_arr),count($rate_arr),$rate_avg);
+        $pow_sqrt = round(sqrt(array_sum(array_column($ret, 'dif_square'))/(count($ret)-1)),2);
+
+        $count_call_all = array_sum(array_column($ret, 'call_count'));
+        $count_called_all = array_sum(array_column($ret, 'called_count'));
+        $threshold_max = $count_call_all>0?(round($count_called_all/$count_call_all,4)*100):0;
+        $threshold_min = $threshold_max-$pow_sqrt;
+        dd($ret,$rate_avg,$count_called_all,$count_call_all,$threshold_max,$pow_sqrt,$threshold_min);
         // $threshold = ;
         // $end_time = ;
         // $start_time = $end_time-3600*24*10;

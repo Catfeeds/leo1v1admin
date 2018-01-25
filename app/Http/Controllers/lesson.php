@@ -281,6 +281,10 @@ class lesson extends TeaWxController
         $start_time  = $this->get_in_int_val("start");
         $end_time    = $this->get_in_int_val("end");
 
+        if(!is_int($teacherid)){
+            return $this->output_err('登录已过期,请您从[个人中心]-[我的收入]中查看!');
+        }
+
         $url = "http://admin.leo1v1.com/teacher_money/get_teacher_money_list";
         $post_data = array(
             "teacherid" => $teacherid,
@@ -312,10 +316,6 @@ class lesson extends TeaWxController
             if(($lesson_end<$limit_time) && ($six_time<$now)){
                 $item['is_forbid'] = "1";
             }
-            // # 非测试人员 文彬,华华 不可见
-            // if($teacherid!=357372 && $teacherid!=308481 ){
-            //     $item['is_forbid'] = "0";
-            // }
         }
 
 
