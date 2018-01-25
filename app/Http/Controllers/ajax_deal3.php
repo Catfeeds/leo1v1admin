@@ -13,6 +13,60 @@ class ajax_deal3 extends Controller
     use CacheNick;
     use TeaPower;
 
+    public function get_new_seller_student_info() {
+        $work_start_time="";
+        $adminid= $this->get_account_id();
+        $userid_list= $this->get_in_int_list("userid_list");
+        $user_admin_assign_time_map= json_decode( $this->get_in_str_val("user_admin_assign_time_map"),true  );
+        $now=time(NULL);
+
+        if ( count($userid_list) ==0 ) {
+            return $this->output_succ([
+                "user_list"=>[]
+            ]);
+        }else{
+
+            $work_start_time=$this->t_admin_work_start_time->get_today_work_start_time($adminid);
+            if (!$work_start_time) {
+                return $this->output_err("出错,你还没有设置开始工作时间,请重新点击 新例子");
+            }
+
+            $user_list=$this->t_seller_student_system_assign_log->get_seller_student_assign_from_type_list($adminid, $userid_list);
+            foreach ($user_list as &$item) {
+                $userid=&$item["userid"];
+                $admin_assign_time=strtotime( $user_admin_assign_time_map[$userid] );
+                $check_time= max( $work_start_time, $admin_assign_time);
+                $show_left_time_flag=false;
+                if ($now- $check_time> 1*3600) { //超过3个小时
+                    $left_time=6*3600-( $now-$check_time);
+                    if ($left_time<0) {
+                        $left_time=0;
+                    }
+                    $hour=floor($left_time/3600);
+                    $min=floor(($left_time - $hour*3600)/60  );
+                    $time_str= sprintf("%02d:%02d:00",$hour , $min  );
+                    $show_left_time_flag=true;
+                    $item["left_time_str"]= $time_str;
+                }else{
+                }
+                $item["show_left_time_flag"]= $show_left_time_flag;
+
+            }
+            return $this->output_succ([
+                "user_list"       => $user_list,
+                "work_start_time" => $work_start_time ,
+            ]);
+
+        }
+
+    }
+
+    public function set_work_start_time() {
+        $adminid=$this->get_account_id();
+        $this->t_admin_work_start_time->add_work_start_time($adminid);
+        $this->output_succ();
+    }
+
     //获取一节课所有的信息
     public function get_student_lesson_info_by_lessonid(){
         $lessonid    = $this->get_in_int_val("lessonid");
@@ -134,7 +188,7 @@ class ajax_deal3 extends Controller
         $seller_month_lesson_count = @$seller_month_lesson_count[$adminid]["lesson_count"];//销售月总课时
         $registered_student_list_last = @$ass_last_month[$adminid]["registered_student_list"];
         list($kpi_lesson_count_finish_per,$estimate_month_lesson_count)= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$seller_week_stu_num,$n,$seller_month_lesson_count);
-       
+
 
         //月初预估课时数据补充
         if(empty($estimate_month_lesson_count)){
@@ -196,7 +250,7 @@ class ajax_deal3 extends Controller
         ];
         $task->t_month_ass_student_info->get_field_update_arr($adminid,$start_time,1,$update_arr);
         return $this->output_succ();
-          
+
 
     }
 

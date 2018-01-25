@@ -96,6 +96,7 @@ return array(
     ["db_weiyi","t_student_score_info","id"],
     ["db_weiyi","t_student_cc_to_cr","id"],
     ["db_weiyi_admin","t_todo","todoid"],
+    ["db_weiyi_admin","t_admin_work_start_time","id"],
     ["db_weiyi","t_complaint_info","complaint_id"],
     ["db_weiyi","t_complaint_assign_info","ass_id"],
     ["db_weiyi","t_complaint_deal_info","deal_id"],

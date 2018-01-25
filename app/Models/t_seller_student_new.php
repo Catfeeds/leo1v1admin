@@ -3494,21 +3494,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_list($sql);
     }
-    public function  get_need_new_assign_list() {
-        $where_arr=[
-            "seller_student_assign_type=1", // 系统分配 
-            "seller_resource_type=0", // 新例子
-            "seller_adminid=0", // 未分配
-        ];
-        $sql= $this->gen_sql_new(
-            "select  userid, origin_level "
-            . " from %s"
-            . "  where  %s",
-            self::DB_TABLE_NAME,
-            $where_arr
-        );
-        return $this->main_get_list($sql);
-    }
 
     public function get_item_january_count($start_time,$end_time){
         $where_arr = [];

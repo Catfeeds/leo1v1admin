@@ -17,49 +17,49 @@
 <script src='/page_js/set_lesson_time.js?{{@$_publish_version}}'></script>
 
 <!--
-<script type="text/javascript">
- var _KDA = _KDA || [];
- window._KDA = _KDA;
- (function(){
+     <script type="text/javascript">
+     var _KDA = _KDA || [];
+     window._KDA = _KDA;
+     (function(){
      var _dealProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
      var _sdkURL = _dealProtocol + "deal-admin.kuick.cn/sdk/v1/";
      _KDA.push(['SDK_URL', _dealProtocol + "deal-admin.kuick.cn/sdk/v1/"]);
      _KDA.push(['APP_KEY', '128994ec-ba97-4a28-9ecc-faa1b00eba33']);
      _KDA.push(['APP_SECRET', 'e1888aa6-f527-4477-ae9b-409fca29f44c']);
      (function() {
-         var dealAdmin = document.createElement('script');
-         dealAdmin.type='text/javascript';
-         dealAdmin.async = true;
-         dealAdmin.src = _sdkURL + 'kuickdealadmin-pc.min.js';
-         var s = document.getElementsByTagName('script')[0];
-         s.parentNode.insertBefore(dealAdmin, s);
+     var dealAdmin = document.createElement('script');
+     dealAdmin.type='text/javascript';
+     dealAdmin.async = true;
+     dealAdmin.src = _sdkURL + 'kuickdealadmin-pc.min.js';
+     var s = document.getElementsByTagName('script')[0];
+     s.parentNode.insertBefore(dealAdmin, s);
      })();
- })();
+     })();
 
-    function onKDAReady(){
-       // 客户下拉组件
-        KDAJsSdk.widget.createCustomerDropMenuWidget({
-          selector: ".kda-customer-widget",
-        });
-        $(function(){
-            var $title=$(".kda-customer-widget .KDA_customerDropMenuName "  );
-            $title.text("K");
-            $(".kda-customer-widget .KDA_customerDropMenuCon"  ).attr( "style" ,"width:30px;");
-        });
+     function onKDAReady(){
+     // 客户下拉组件
+     KDAJsSdk.widget.createCustomerDropMenuWidget({
+     selector: ".kda-customer-widget",
+     });
+     $(function(){
+     var $title=$(".kda-customer-widget .KDA_customerDropMenuName "  );
+     $title.text("K");
+     $(".kda-customer-widget .KDA_customerDropMenuCon"  ).attr( "style" ,"width:30px;");
+     });
 
-    }
+     }
 
-    if (typeof KDAJsSdk == "undefined"){
-        if(document.addEventListener){
-            document.addEventListener('KDAReady', onKDAReady, false);
-        } else if (document.attachEvent){
-            document.attachEvent('KDAReady', onKDAReady);
-            document.attachEvent('onKDAReady', onKDAReady);
-        }
-    } else {
-        onKDAReady();
-    }
-</script>
+     if (typeof KDAJsSdk == "undefined"){
+     if(document.addEventListener){
+     document.addEventListener('KDAReady', onKDAReady, false);
+     } else if (document.attachEvent){
+     document.attachEvent('KDAReady', onKDAReady);
+     document.attachEvent('onKDAReady', onKDAReady);
+     }
+     } else {
+     onKDAReady();
+     }
+     </script>
 -->
 
 <style>
@@ -75,6 +75,35 @@
      border: 1px solid #ddd;
      background-color: #f4f4f4;
      font-size: 12px;
+ }
+ .call-item .call-item-title {
+     background-color: #d2d6de;
+     font-size: 18px;
+     border-radius: 3px;
+     width: 25%;
+     display: inline-block;
+     text-align: center;
+ }
+
+
+
+ .call-item  {
+     margin-top: 10px;
+     padding-left: 20px;
+     padding-right: 10px;
+ }
+
+ .call-item .call-item-text {
+     background-color: #d2d6de;
+     border-radius: 3px;
+     font-size: 18px;
+     width: 70%;
+     display: inline-block;
+     text-align: center;
+ }
+
+ .call-item .phone {
+     background-color: #9CE3FF;
  }
 
 </style>
@@ -255,6 +284,7 @@
                    <div class=" col-xs-12 col-md-12" >
 
                        <div class="input-group">
+                           <button class="btn  " id="id_today_new_count" ></button>
                            <button class="btn  " id="id_new_no_called_count" ></button>
                            <button class="btn  " id="id_no_called_count" ></button>
                            <button class="btn  " id="id_next_revisit" ></button>
@@ -273,6 +303,80 @@
         </div>
 
         <hr/>
+        <div id="id_today_new_list" class="row">
+            <div class="col-md-3 col-xs-12" style="display:none;" >
+                <!-- DIRECT CHAT PRIMARY -->
+                <div class="box box-primary direct-chat direct-chat-primary">
+                    <!-- /.box-header -->
+                    <div class="box-body call-item">
+                        <div class="call-item">
+                            <div class="call-item-title phone " >
+                                电话
+                            </div>
+                            <div class="call-item-text phone  " >
+                                15601830297 <span style="color:red; " > (奖)</span>
+                            </div>
+                        </div>
+                        <div class="call-item">
+                            <span class="call-item-title" >
+                                地区
+                            </span>
+                            <span class="call-item-text " >
+                                上海联通
+                            </span>
+                        </div>
+
+
+                        <div class="call-item">
+                            <span class="call-item-title" >
+                                年级
+                            </span>
+                            <span class="call-item-text " >
+                                小学
+                            </span>
+                        </div>
+
+
+
+                        <div class="call-item">
+                            <span class="call-item-title" >
+                                科目
+                            </span>
+                            <span class="call-item-text " >
+                                数学
+                            </span>
+                        </div>
+                        <!-- Conversations are loaded here -->
+                        <div class="call-item">
+                            <span class="call-item-title" >
+                                设备
+                            </span>
+                            <span class="call-item-text " >
+                                iPad
+                            </span>
+                        </div>
+
+                        <!-- Conversations are loaded here -->
+                        <div class="call-item">
+                            <button class="  btn btn-warning  fa fa-edit fa-2x" style="width:25%" titie="edit" >
+                            </button>
+                            <button class="btn btn-warning  fa fa-phone fa-2x "  style="width:70%" > 拨打</button>
+                        </div>
+                        <!-- Contacts are loaded here -->
+                        <!-- /.direct-chat-pane -->
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+
+                    </div>
+                    <!-- /.box-footer-->
+                </div>
+                <!--/.direct-chat -->
+            </div>
+
+
+
+        </div>
         <table class="common-table">
             <thead>
                 <tr>
@@ -314,7 +418,7 @@
                     <td style="min-width:120px;" >操作</td>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
                     <tr>
                          <td  class="td-phone">

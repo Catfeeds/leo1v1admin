@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use \App\Enums as E;
 
-class seller_student_system_assign extends cmd_base
+class seller_student_system_free extends cmd_base
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = "command:seller_student_system_assign";
+    protected $signature = "command:seller_student_system_free";
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = "系统分配例子";
+    protected $description = "系统释放例子";
 
     public function get_admin_info() {
         list($start_time, $end_time)=$this->task->get_in_date_range_day(0);
