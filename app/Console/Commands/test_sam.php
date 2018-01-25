@@ -211,7 +211,6 @@ class test_sam extends Command
         dd("finish");                                                                        
 
         */  
-        /*
         $ret_info = $task->t_student_score_info->get_all_student_phone_and_id();
 
         foreach ($ret_info as $key => $value) {
@@ -232,7 +231,6 @@ class test_sam extends Command
             ]);
             echo "$userid $province  $city.fin\n";
         }   
-        */
         /*
         $ret_info = $task->t_student_score_info->get_grade_by_info_1();
         foreach ($ret_info as $key => &$value) {
@@ -352,7 +350,6 @@ where s.is_test_user = 0 and q.is_called_phone =1
         $ret_file_name = \App\Helper\Utils::download_txt($file_name,$ret_info,$arr_title,$arr_data);
         dd($ret_file_name);
 
-        */
 
         $time = [
             ['start_time' => 1509465600,'end_time' => 1512057600], //11
@@ -385,6 +382,6 @@ where s.is_test_user = 0 and q.is_called_phone =1
             
             
         }
-        
+        */ 
     }     
 }

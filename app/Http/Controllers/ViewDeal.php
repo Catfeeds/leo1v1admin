@@ -922,7 +922,6 @@ END;
         return $this->output_succ($data);
     }
 
-
     function pageView( $method ,$ret_info=null,$data_ex=array(),$ex_js_args=null,$showPages=10  ){
         global $_GET;
         if (isset($_GET["callback"])) {
@@ -945,12 +944,13 @@ END;
             exit;
         }
 
-        $data=$this->getPageData($ret_info,$ex_js_args,$showPages);
-        if (count($data_ex)>0 )  {
-            $data=array_merge($data,$data_ex) ;
+        $data = $this->getPageData($ret_info,$ex_js_args,$showPages);
+        if (count($data_ex)>0) {
+            $data = array_merge($data,$data_ex);
         }
 
         $data["html_power_list"] = $this->html_power_list;
+
 
         return $this->view($method,$data);
     }

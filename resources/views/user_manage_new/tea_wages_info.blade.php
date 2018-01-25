@@ -110,6 +110,10 @@
                                     <a class="fa-video-camera opt-play" title="回放"></a>
                                     <a class="opt-add_reward" title="添加奖励">奖</a>
                                     <a class="opt-reset_lesson" title="重置等级">重置</a>
+                                    @if(!\App\Helper\Utils::check_env_is_release())
+                                        <a class="opt-update-log" title="更改课程信息">更改课程信息</a>
+                                        <!-- <a class="opt-show-log" title="显示更改记录">修改记录</a> -->
+                                    @endif
                                 </div>
                             </td>
                         </tr>
