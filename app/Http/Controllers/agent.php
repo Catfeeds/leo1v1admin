@@ -441,13 +441,29 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $end_time = strtotime(date('Y-m-d'));
-        $start_time = $end_time-3600*24*10;
-        $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=1);
-        $count_call = count(array_unique(array_column($ret_call, 'userid')));
-        $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
-        $count_called = count(array_unique(array_column($ret_called, 'userid')));
-        dd($count_call,$count_called);
+        list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,strtotime(date('Y-m-d')),[],[]];
+        for($i=1;$i<=10;$i++){
+            $start_time = $time-3600*24*$i;
+            $end_time = $start_time+3600*24;
+            $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=1);
+            $count_call = count(array_unique(array_column($ret_call, 'userid')));
+            $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
+            $count_called = count(array_unique(array_column($ret_called, 'userid')));
+            $ret[$start_time]['call_count'] = $count_call;
+            $ret[$start_time]['called_count'] = $count_called;
+            $ret[$start_time]['rate'] = $count_call>0?(round($count_called/$count_call, 4)*100):0;
+        }
+        $rate_arr = array_column($ret, 'rate');
+        $rate_avg = round(array_sum($rate_arr)/count($rate_arr),4)*100;
+        dd($ret,$rate_avg);
+        // $threshold = ;
+        // $end_time = ;
+        // $start_time = $end_time-3600*24*10;
+        // $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=1);
+        // $count_call = count(array_unique(array_column($ret_call, 'userid')));
+        // $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
+        // $count_called = count(array_unique(array_column($ret_called, 'userid')));
+        dd($count_call,$count_called,$threshold);
         if(!$ret_log){
             dd('a');
             $this->t_seller_get_new_log->row_insert([
