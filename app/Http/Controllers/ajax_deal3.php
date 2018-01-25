@@ -99,13 +99,14 @@ class ajax_deal3 extends Controller
                 }else{
                     $list["tea_attend_str"]="正常";
                 }
-                $list["tea_login_num"] = @$login["tea_login_num"];
-                $list["stu_login_num"] = @$login["stu_login_num"];
-                $list["parent_login_num"] =@$login["parent_login_num"];
+                $list["tea_login_num"] = @$login["tea_login_num"]?@$login["tea_login_num"]:0;
+                $list["stu_login_num"] = @$login["stu_login_num"]?@$login["stu_login_num"]:0;
+                $list["parent_login_num"] =@$login["parent_login_num"]?@$login["parent_login_num"]:0;
 
 
             }
         }
+        
 
         $list['stu_intro']   = json_decode($list['stu_performance'],true);
         $list['stu_point_performance']='';
