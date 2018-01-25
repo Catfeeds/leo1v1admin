@@ -189,7 +189,7 @@ $(function(){
     var ajax_submit = function(info_str,do_type,id_book){
         $.ajax({
             type     : "post",
-            url      : "/resource/add_or_del_or_edit",
+            url      : "/resource/add_or_del_or_edit_new",
             dataType : "json",
             data : {
                 'info_str' : info_str,

@@ -312,7 +312,125 @@ $(function(){
         },function(resp) {
             var list = resp.data;
             var title = "课程信息";
-            var html_node= $("<div class=\"row\" ><div class=\"col-xs-6 col-md-12\"  ><a class=\"btn btn-warning show_lesson_video\" href=\"javascript:;\" style=\"float:right\">课程回访</a></div><div class=\"col-xs-12 col-md-12  \"><span><font size=\"3\" color=\"black\">基本信息</font></span> </div><div class=\"col-xs-12 col-md-12  \" ><table style=\"margin-left:10px\" class=\"table table-bordered\"> <tr><td>序号</td><td></td><td>时间</td><td></td><td>年级</td><td>科目</td><td></td><td>老师</td><td></td></tr></table></div><div class=\"col-xs-12 col-md-12  \"><span><font size=\"3\" color=\"black\">预习</font></span> </div><div class=\"col-xs-12 col-md-12  \" ><div class=\"col-xs-12 col-md-6  \" ><table style=\"margin-left:-5px\" class=\"table table-bordered\"> <tr><td>讲义上传</td><td></td><td>预习情况</td><td></td></tr></table></div></div><div class=\"col-xs-12 col-md-12  \"><span><font size=\"3\" color=\"black\">课堂情况</font></span> </div><div class=\"col-xs-12 col-md-12  \" ><table style=\"margin-left:10px\" class=\"table table-bordered\"> <tr><td>序号</td><td></td><td>时间</td><td></td><td>年级</td><td>科目</td><td></td><td>老师</td><td></td></tr></table></div></div>");
+            var html_node= $("<div class=\"row\" >"
+                             +"<div class=\"col-xs-6 col-md-12\"  >"
+                             +"<a class=\"btn btn-warning show_lesson_video\" href=\"javascript:;\" style=\"float:right\">课程回访</a>"
+                             +"</div><div class=\"col-xs-12 col-md-12  \">"
+                             +"<span><font size=\"3\" color=\"black\">基本信息</font></span> "
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<table style=\"margin-left:10px\" class=\"table table-bordered\"> "
+                             +"<tr>"+
+                             "<td>序号</td>"+
+                             "<td>"+list.lesson_num+"</td>"+
+                             "<td>时间</td>"
+                             +"<td>"+list.lesson_time+"</td>"
+                             +"<td>年级</td>"
+                             +"<td>"+list.grade_str+"</td>"
+                             +"<td>科目</td>"
+                             +"<td>"+list.subject_str+"</td>"
+                             +"<td>老师</td>"
+                             +"<td>"+list.realname+"</td>"
+                             +"</tr>"
+                             +"</table>"
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \">"
+                             +"<span><font size=\"3\" color=\"black\">预习</font></span> "
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"<table style=\"margin-left:-5px\" class=\"table table-bordered\">"
+                             +" <tr>"
+                             +"<td>讲义上传</td>"
+                             +"<td>"
+                             +"<a class=\"show_cw_content\" href=\"javascript:;\" data-url="+list.cw_url+" >"+list.cw_status_str+"</a>"
+                             +"</td>"
+                             +"<td>预习情况</td>"
+                             +"<td>"+list.preview_status_str+"</td>"
+                             +"</tr>"
+                             +"</table>"
+                             +"</div>"
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \">"
+                             +"<span><font size=\"3\" color=\"black\">课堂情况</font></span>"
+                             +" </div>"
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<table style=\"margin-left:10px\" class=\"table table-bordered\">"
+                             +" <tr>"
+                             +"<td>学生考勤</td>"
+                             +"<td>"+list.stu_attend_str+"</td>"
+                             +"<td>学生登录</td>"
+                             +"<td>"+list.stu_login_num+"</td>"
+                             +"<td>家长登录</td>"
+                             +"<td>"+list.parent_login_num+"</td>"
+                             +"<td>学生画笔</td>"
+                             +"<td></td>"
+                             +"<td>学生发言</td>"
+                             +"<td></td>"
+                             +"<td>获赞</td>"
+                             +"<td>"+list.stu_praise+"</td>"
+                             +"</tr>"
+                             +"<tr>"
+                             +"<td>老师考勤</td>"
+                             +"<td>"+list.tea_attend_str+"</td>"
+                             +"<td>老师登录</td>"
+                             +"<td>"+list.tea_login_num+"</td>"
+                             +"<td></td>"
+                             +"<td></td>"
+                             +"<td>老师画笔</td>"
+                             +"<td></td>"
+                             +"<td>老师发言</td>"
+                             +"<td></td>"
+                             +"<td></td>"
+                             +"<td></td>"
+                             +"</tr>"
+                             +"</table>"
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \">"
+                             +"<span><font size=\"3\" color=\"black\">课程评价</font></span> "
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<table style=\"margin-left:10px\" class=\"table table-bordered\">"
+                             +" <tr>"
+                             +"<td>学生打分</td>"
+                             +"<td>"
+                             +"<a class=\"show_score\" href=\"javascript:;\"  >"+list.stu_score+"</a>"
+                             +"</td>"
+                             +"<td>学生评价</td>"
+                             +"<td>"+list.teacher_comment+"</td>"
+                             +"<td>老师评价</td>"
+                             +"<td>"+list.stu_point_performance+"</td>"
+                             +"</tr>"
+                             +"</table>"
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \">"
+                             +"<span><font size=\"3\" color=\"black\">作业情况</font></span> "
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<table style=\"margin-left:10px\" class=\"table table-bordered\">"
+                             +" <tr>"
+                             +"<td>布置作业</td>"
+                             +"<td>"
+                             +"<a class=\"show_issue\" href=\"javascript:;\"   >"+list.issue_flag+"</a>"
+                             +"</td>"
+                             +"<td>下载作业</td>"
+                             +"<td>"+list.download_flag+"</td>"
+                             +"<td>提交情况</td>"
+                             +"<td>"
+                             +"<a class=\"show_commit\" href=\"javascript:;\"   >"+list.commit_flag+"</a>"
+                             +"</td>"
+                             +"<td>是否批改</td>"
+                             +"<td>"
+                             +"<a class=\"show_check\" href=\"javascript:;\"   >"+list.check_flag+"</a>"
+                             +"</td>"
+                             +"<td>成绩</td>"
+                             +"<td>"+list.score+"</td>"
+                             +"<td>查看批改</td>"
+                             +"<td>"+list.stu_check_flag+"</td>"
+                             +"</tr>"
+                             +"</table>"
+                             +"</div>"
+                             +"</div>");
             html_node.find(".show_lesson_video").on("click",function(){
                 $.do_ajax( "/common/encode_text",{
                     "text" : lessonid
@@ -322,6 +440,63 @@ $(function(){
                 });
  
             });
+            html_node.find(".show_cw_content").on("click",function(){
+                var url = $(this).data("url");
+                if(list.tea_cw_url){
+                    $.wopen(url); 
+                }
+                
+            });
+            html_node.find(".show_issue").on("click",function(){
+                if(list.issue_url){
+                    $.wopen(list.issue_url_str); 
+                }
+                
+            });
+            html_node.find(".show_commit").on("click",function(){
+                if(list.finish_url){
+                    $.wopen(list.finish_url_str); 
+                }
+                
+            });
+            html_node.find(".show_check").on("click",function(){
+                if(list.check_url){
+                    $.wopen(list.check_url_str); 
+                }
+                
+            });
+
+
+
+
+            html_node.find(".show_score").on("click",function(){
+                var title1 = "打分详情";
+                var html_node1= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>得分</td></tr><tr><td>上课效果</td><td>"+list.teacher_effect+"</td></tr><tr><td>课件质量</td><td>"+list.teacher_quality+"</td></tr><tr><td>课堂互动</td><td>"+list.teacher_interact+"</td></tr><tr><td>系统稳定性</td><td>"+list.stu_stability+"</td></tr></table></div>");
+
+                var dlg1=BootstrapDialog.show({
+                    title:title1,
+                    message :  html_node1   ,
+                    closable: true,
+                    buttons:[{
+                        label: '返回',
+                        cssClass: 'btn',
+                        action: function(dialog) {
+                            dialog.close();
+
+                        }
+                    }],
+                    onshown:function(){
+
+                    }
+
+                });
+
+                dlg1.getModalDialog().css("width","400px");
+ 
+                
+            });
+
+
 
             var dlg=BootstrapDialog.show({
                 title:title,

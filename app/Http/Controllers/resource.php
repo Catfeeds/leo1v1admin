@@ -849,6 +849,84 @@ class resource extends Controller
 
     }
 
+    public function add_or_del_or_edit_new(){
+        $info_str = $this->get_in_str_val('info_str','');
+        $region   = $this->get_in_int_val('region','');
+        $do_type  = $this->get_in_str_val('do_type','');
+        $arr      = explode('-', $info_str);
+        $adminid  = $this->get_account_id();
+        $time     = time();
+        $ban_level = count($arr);
+
+        //暂时使用
+        $s_g = [
+            1 => [ [101,102,103,104,105,106] , [201,202,203], [301,302,303] ],
+            2 => [ [101,102,103,104,105,106] , [201,202,203], [301,302,303] ],
+            3 => [ [101,102,103,104,105,106] , [201,202,203], [301,302,303] ],
+            4 => [ [203], [301,302,303] ],
+            5 => [ [202,203], [301,302,303] ],
+            6 => [ [201,202,203], [301,302,303] ],
+            7 => [ [201,202,203], [301,302,303] ],
+            8 => [ [201,202,203], [301,302,303] ],
+            9 => [ [201,202,203], [301,302,303] ],
+            10 => [ [201,202,203], [301,302,303] ],
+            11 => [ [201,202,203], [301,302,303] ],
+        ];
+
+        $resource = [1,2,3,4,5,6,9];
+        $modify_grade = [];
+        if( in_array($arr[0],$resource) ) {
+            $grade = @$arr[2];
+            if($grade){                    
+                foreach( $s_g[ $arr[1] ] as $k => $g_arr){
+                    if(in_array($grade, $g_arr)){
+                        $modify_grade = $g_arr;
+                    }
+                }           
+            }
+        }
+
+        if($do_type === 'add'){//添加版本
+            if( in_array($arr[0],$resource) ) {
+                foreach( $resource as $r_type){                      
+                    foreach($modify_grade as $grade){
+                        $this->t_resource_agree_info->row_insert([
+                            'resource_type' => $r_type,
+                            'subject'       => $arr[1],
+                            'grade'         => $grade,
+                            'tag_one'       => $region,
+                            'agree_adminid' => $adminid,
+                            'agree_time'    => $time,
+                        ]);
+                    }
+                }
+            }
+        } else if($do_type === 'use'){//启用
+            $this->t_resource_agree_info->update_ban(
+                $arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6],$adminid,$time,0, $ban_level
+            );
+        } else if ($do_type === 'ban'){//禁用
+
+            $this->t_resource_agree_info->update_ban(
+                $arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6],$adminid,$time,1,$ban_level
+            );
+        } else if ($do_type === 'del'){//删除版本
+            //先查询该版本下是否有上传的文件
+            $ret = $this->t_resource->is_has_file($arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6]);
+            if($ret > 0){
+                return $this->output_err("该版本下有文件,无法删除!");
+            }
+            if(@$arr[0] > 0){
+                $ret = $this->t_resource_agree_info->del_agree($arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6]);
+            } else {
+                return $this->output_err("信息有误,删除失败!");
+            }
+        }
+
+        return $this->output_succ();
+
+    }
+
     public function get_sub_grade_tag_js(){
         $subject = $this->get_in_int_val('subject', -1);
         $grade   = $this->get_in_int_val('grade', -1);

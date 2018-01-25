@@ -1650,8 +1650,8 @@ class stu_manage extends Controller
                     $item['stu_point_performance'].=PHP_EOL."总体评价:".$str;
                 }
                 $item['stu_intro']="";
-                if(empty($item["stu_comment"])){
-                    $item["stu_comment"]="—";
+                if(empty($item["teacher_comment"])){
+                    $item["teacher_comment"]="—";
                 }
                 if(empty($item["stu_score"])){
                     $item["stu_score"]="—";
