@@ -10,7 +10,7 @@ namespace App\Wx\Squirrel;
  * E-mail: lixuan868686@163.com
  * WebSite: http://www.lanecn.com
  */
-class Autoloadertec extends \LaneWeChat\Autoloader{
+class Autoloadersqu extends \LaneWeChat\Autoloader{
     const NAMESPACE_PREFIX_SQU = 'Squirrel\\';
     /**
      * 向PHP注册在自动载入函数
