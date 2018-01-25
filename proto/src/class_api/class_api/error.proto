@@ -43,5 +43,9 @@ enum  enum_error {
   //网络错误
   ERR_NETWORK = 3012;
 
+  //超过每月试听(申请,修改)操作次数
+  ERR_NO_APPLY_NUM = 3013;
+
+
 
 };

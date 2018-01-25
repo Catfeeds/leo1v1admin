@@ -1,0 +1,18 @@
+syntax = "proto3";
+import "class_api/common.proto";
+
+//__CMD: 1025
+//__DESC: /student/stu_apply_change_lesson 学生申请调课 接口
+//__TAGS: for_app,for_website
+
+
+message in  {
+  	int32  class_id= 1; //班级id
+  	string  apply_name= 2; //申请人姓名
+  	string  phone= 3; // 电话
+}
+
+message out {
+  	string  data = 1;
+}
+
