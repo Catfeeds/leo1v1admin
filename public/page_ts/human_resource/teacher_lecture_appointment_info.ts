@@ -1153,15 +1153,36 @@ $(function(){
 
     $(".opt-test-through").on("click",function(){
         var data = $(this).get_opt_data();
-	      $.do_ajax("/teacher_test_class/set_teacher_through",{
-            "phone":data.phone
-        },function(result){
-            if(result.ret==0){
-                window.location.reload();
-            }else{
-                BootstrapDialog.alert(result.info);
+        var id_train_through_new_time = $("<input>");
+        id_train_through_new_time.datetimepicker( {
+            lang             : 'ch',
+            timepicker       : true,
+            format           : "Y-m-d H:i",
+            onChangeDateTime : function(){
             }
-        })
+        });
+
+        var arr = [
+            ["通过时间",id_train_through_new_time]
+        ];
+        $.show_key_value_table("设置通过时间",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+	              $.do_ajax("/teacher_test_class/set_teacher_through",{
+                    "phone"                  : data.phone,
+                    "train_through_new_time" : id_train_through_new_time.val()
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                });
+
+            }
+        });
+
 
     });
 
