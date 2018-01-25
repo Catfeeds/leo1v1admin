@@ -14,7 +14,7 @@ $(function(){
     var get_next_info = function(obj){
         var info_str = obj.attr('info_str');
         var level = obj.attr('level');
-        do_ajax( "/resource/get_next_info_js",{
+        do_ajax( "/resource/get_next_tag",{
             'info_str' : info_str,
             'level'    : level,
         },function(ret){

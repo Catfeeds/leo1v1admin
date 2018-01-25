@@ -130,7 +130,7 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180124143449,
+            '_publish_version'    => 20180124141449,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -579,14 +579,27 @@ class resource extends Controller
         }
 
         if( $select == 'grade' ){
-            $gra = E\Egrade::$desc_map;
-            foreach($gra as $k => $var ){
-                if( !in_array($k, [0,100,200,300]) ){
-                    $data[] = [
-                        'grade' => $k,
-                        'grade_str' => $var,
-                    ];
-                }
+            $subject = $arr[1];
+            $s_g = [
+                1 => [101,102,103,104,105,106,201,202,203,301,302,303],
+                2 => [101,102,103,104,105,106,201,202,203,301,302,303],
+                3 => [101,102,103,104,105,106,201,202,203,301,302,303],
+                4 => [203,301,302,303],
+                5 => [202,203,301,302,303],
+                6 => [201,202,203,301,302,303],
+                7 => [201,202,203,301,302,303],
+                8 => [201,202,203,301,302,303],
+                9 => [201,202,203,301,302,303],
+                10 => [201,202,203,301,302,303],
+                11 => [201,202,203,301,302,303],
+            ];
+
+            $gra = $s_g[$subject]; 
+            foreach($gra as $var ){                
+                $data[] = [
+                    'grade' => $var,
+                    'grade_str' => E\Egrade::get_desc($var),
+                ];                
             }
         }
 
@@ -606,12 +619,114 @@ class resource extends Controller
             foreach($book_arr as $v){
                 $data[] = [
                     'tag_one'   => (string)$v,
-                    'ban_level' => '0',
                     'region_version' => (string)$v,
                     'region_version_str' => E\Eregion_version::get_desc($v),
                 ];
             }
             $select = "region_version";
+        }
+
+        if( $select == 'tag_two' ){
+            if( in_array($arr[0], [1,2]) ){
+                $resource = E\Eresource_season::$desc_map;
+                foreach( $resource as $k => $v){
+                    $data[] = [
+                        'tag_two' => $arr[3],
+                        'resource_season' => $k,
+                        'resource_season_str' => $v
+                    ];
+                }
+                $select = "resource_season";
+            }
+            if( $arr[0] == 3 ){
+                $resource = E\Eresource_free::$desc_map;
+                foreach( $resource as $k => $v){
+                    $data[] = [
+                        'tag_two' => $arr[3],
+                        'resource_free' => $k,
+                        'resource_free_str' => $v
+                    ];
+                }
+                $select = "resource_free";
+            } 
+            if( in_array($arr[0], [4,5]) ){
+                $resource = E\Eresource_volume::$desc_map;
+                foreach( $resource as $k => $v){
+                    $data[] = [
+                        'tag_two' => $arr[3],
+                        'resource_volume' => $k,
+                        'resource_volume_str' => $v
+                    ];
+                }
+                $select = "resource_volume";
+
+            }
+            if( $arr[0] == 6 ){
+                $resource = E\Eresource_year::$desc_map;
+                foreach( $resource as $k => $v){
+                    $data[] = [
+                        'tag_two' => $arr[3],
+                        'resource_year' => $k,
+                        'resource_year_str' => $v
+                    ];
+                }
+                $select = "resource_year";
+
+            } 
+            if( $arr[0] == 9 ){
+                $resource = E\Eresource_train::$desc_map;
+                foreach( $resource as $k => $v){
+                    $data[] = [
+                        'tag_two' => $arr[3],
+                        'resource_train' => $k,
+                        'resource_train_str' => $v
+                    ];
+                }
+                $select = "resource_train";
+
+            } 
+
+        }
+
+        if( $select == 'tag_three' ){
+            if( $arr[0] == 1 ){              
+                $tag_arr = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($arr[1],$arr[2],$arr[3],$arr[0],$arr[4]);
+                //dd($tag_arr);
+                foreach($tag_arr as $v){
+                    $data[] = [
+                        'tag_four' => $v['id'],
+                        'tag_four_str' => $v['tag']
+                    ];
+                }
+                $select = 'tag_four';
+            }
+
+            if( $arr[0] == 3 ){
+                $resource = E\Eresource_diff_level::$desc_map;
+                foreach( $resource as $k => $v){
+                    $data[] = [
+                        'tag_two' => $arr[3],
+                        'resource_diff_level' => $k,
+                        'resource_diff_level_str' => $v
+                    ];
+                }
+                $select = "resource_diff_level";
+
+            }
+        }
+
+        if( $select == 'tag_four' ){
+            if( $arr[0] == 3 ){
+                $tag_arr = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($arr[1],$arr[2],$arr[3],$arr[0],-1);
+                //dd($tag_arr);
+                foreach($tag_arr as $v){
+                    $data[] = [
+                        'tag_four' => $v['id'],
+                        'tag_four_str' => $v['tag']
+                    ];
+                }
+                $select = 'tag_four';
+            }
         }
 
         return $this->output_succ(['data' => $data,'select' => $select, 'is_end' => $is_end]);
