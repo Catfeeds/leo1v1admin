@@ -38,7 +38,7 @@ class test_abner extends cmd_base
      */
     public function handle()
     {
-        $this->get_q4_data();
+        $this->get_example_call_info();
     }
     //@desn:获取今日头条例子及拨打详情
     private function get_example_call_info(){
@@ -50,9 +50,11 @@ class test_abner extends cmd_base
         $fp = fopen($path,"a+");
         fwrite($fp, '10月份数据');
         fwrite($fp, "\n");
-        fwrite($fp, '电话');  //电话
+        fwrite($fp, 'userid');  //用户id
         fwrite($fp, '  ');
         fwrite($fp, '进入时间');  //进入时间
+        fwrite($fp, '  ');
+        fwrite($fp, '首次拨打时间');  //首次拨打时间
         fwrite($fp, '  ');
         fwrite($fp, 'cc联系间隔[h]');  //cc联系间隔[h]
         fwrite($fp, '  ');
@@ -74,10 +76,13 @@ class test_abner extends cmd_base
             else
                 $con_interval = '联系1次或0次';
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"begin_time");
 
-            fwrite($fp, $item['phone']);  //电话
+            fwrite($fp, $item['userid']);  //电话
             fwrite($fp, '  ');
             fwrite($fp, $item['add_time']);  //进入时间
+            fwrite($fp, '  ');
+            fwrite($fp, $item['begin_time']);  //首次拨打时间
             fwrite($fp, '  ');
             fwrite($fp, $con_interval);  //cc联系间隔[h]
             fwrite($fp, '  ');

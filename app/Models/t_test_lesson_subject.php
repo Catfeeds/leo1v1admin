@@ -1413,7 +1413,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         );
         return $this->main_get_list($sql);
     }
-    //@desn:获取今日头条10月份进入例子
+    //@desn:获取今日头条10月份进入例子拨打详情
     //@param:$start_time $end_time 开始时间  结束时间
     public function get_channel_call_info($start_time,$end_time){
         $where_arr = [
@@ -1424,7 +1424,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         ];
         $this->where_arr_add_time_range($where_arr, 'ss.add_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
-            'select ss.phone,ss.add_time,s.phone_province,s.phone_city,'.
+            'select ss.userid,ss.add_time,s.phone_province,s.phone_city,'.
             'sum(duration>60) con_count,sum(start_time) sum_time,'.
             'min(start_time) begin_time,max(start_time) end_time,count(tci.id) all_count '.
             'from %s t '.
