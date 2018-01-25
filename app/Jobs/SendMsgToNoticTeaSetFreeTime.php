@@ -50,7 +50,7 @@ class SendMsgToNoticTeaSetFreeTime extends Job implements ShouldQueue
         $t_teacher_info = new  \App\Models\t_teacher_info();
         $t_parent_send_mgs_log  = new \App\Models\t_parent_send_mgs_log();
 
-        // $teacher_list = $t_teacher_info->getTeacherNumTrainThrough();
+        $teacher_list = $t_teacher_info->getTeacherNumTrainThrough();
 
         $teacher_list = [
             [
@@ -95,11 +95,12 @@ class SendMsgToNoticTeaSetFreeTime extends Job implements ShouldQueue
                     "keyword2" => '请及时更新您能上课的空闲时间',
                     "keyword3" => date('Y-m-d H:i:s'),
                 ];
-
+                //点击“详情”，或者老师帮的“个人中心”-“空闲时间”哦
                 # 兼职老师点击
                 $url = '';
                 if(($item['teacher_money_type']==0 && $item['teacher_type'] ==3) || $item['teacher_money_type']==7 || $item['teacher_type'] == 4){
                     $url = 'http://wx-teacher-web.leo1v1.com/course_arrange.html';
+                    $data['remark'] = '点击 "详情"，或者老师帮的 "个人中心"-"空闲时间" 哦';
                 }
                 \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id,$data,$url);
                 $t_parent_send_mgs_log->row_insert([
