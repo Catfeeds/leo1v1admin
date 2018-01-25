@@ -27,11 +27,7 @@
         this.options     = $.extend({}, this.defaults, opt);
         //return val
         me.select_id=0;
-
-
-        //
     };
-
 
     //定义方法
     Cselect_dlg.prototype = {
@@ -45,15 +41,13 @@
         ,set_id:function(id,dlg){
             var me=this;
             if (me.options.onChange ){
-
                 me.options.onChange(id,dlg);
             }
-
         }
         ,show_select:function(){
             var me=this;
             //事件
-            var html_node     = $(me.select_html);
+            var html_node = $(me.select_html);
 
             var $tbody=html_node.find("#id_body");
             var $th_list=html_node.find("#id_th_list");
@@ -71,7 +65,7 @@
                     td_list_str+="<td>"+item+"</td>";
                 });
                 var class_str= "";
-                if (($.inArray(cur_id, me.options.select_list ) !==-1) || ($.inArray(parseInt(cur_id), me.options.select_list ) !==-1)  ) {
+                if (($.inArray(cur_id,me.options.select_list)!==-1) || ($.inArray(parseInt(cur_id),me.options.select_list)!==-1)){
                     class_str="warning";
                 }
 
@@ -155,7 +149,6 @@
             if(div_style != null || div_style != undefined ){
                 dlg.getModalDialog().find( ".bootstrap-dialog-message").css(div_style);
             }
-          
         }
     };
 

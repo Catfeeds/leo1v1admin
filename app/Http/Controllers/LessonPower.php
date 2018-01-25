@@ -187,4 +187,8 @@ trait LessonPower{
         return $this->output_ret($ret,"修改课时确认状态记录添加失败！");
     }
 
+    public function add_teacher_salary_operate_info(){
+
+    }
+
 }
