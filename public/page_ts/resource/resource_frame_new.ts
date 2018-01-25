@@ -10,7 +10,7 @@ function load_data(){
 
 $(function(){
 
-    var re_arr = [1,2,3,4,5,9];
+    var re_arr = [1,2,3,4,5,6,9];
     var get_next_info = function(obj){
         var info_str = obj.attr('info_str');
         var level = obj.attr('level');
@@ -71,12 +71,12 @@ $(function(){
             if(tr_level > ban_level && ban_level > 0){
                 alert('请先启用上一级！');
             } else {
-                ajax_submit(data_str,'use');
+                ajax_submit(data_str,'use',null,'');
             }
         },class:'menu_use'},
         {text: '禁用',onclick: function() {
             $('#contextify-menu').hide();
-            ajax_submit(data_str,'ban');
+            ajax_submit(data_str,'ban',null,'');
         },class:'menu_ban'},
         {text: '选择教材版本', onclick: function() {
             $('#contextify-menu').hide();
@@ -88,7 +88,7 @@ $(function(){
         },class:'menu_select hide'},
         {text: '删除', onclick: function() {
             $('#contextify-menu').hide();
-            ajax_submit(data_str,'del');
+            ajax_submit(data_str,'del',null,'');
         },class:'menu_del hide'},
     ],before:function(obj){
         data_str = $(obj).attr('info_str');
@@ -121,7 +121,7 @@ $(function(){
         var tr_str = '<tr level='+level+' info_str='+info_str+' key='+key+' is_end='+is_end+' is_ban='+is_ban+' ban_level='+ban_level+'>';
         var resource = parseInt( key );
         if( ($.inArray(resource, re_arr) > -1) && level == 3){
-            for(var i=0;i<7;i++){
+            for(var i=0;i<8;i++){
                 if( i==(level-1) ){
                     tr_str = tr_str+'<td>'+td_text+'</td>';
                 } else if(i==level){
@@ -131,7 +131,7 @@ $(function(){
                 }
             }
         } else {
-            for(var i=0;i<7;i++){
+            for(var i=0;i<8;i++){
                 if( i==(level-1) ){
                     tr_str = tr_str+'<td>'+td_text+'</td>';
                 } else {
@@ -166,7 +166,25 @@ $(function(){
         var id_book = $("<select />");
         Enum_map.append_option_list("region_version",id_book,true);
         // id_book.val(50000);
+        var id_resource = $("<input style='width:90%' id='id_resource_type' />");
+        var str = '';
+        var id_str = "";
+        var re_arr = [1,2,3,4,5,6,9];
+        var select_id_list = re_arr;
+        $('tr[level="1"]').each(function(){
+            var resource_id = parseInt($(this).attr('info_str'));
+            if( $.inArray( resource_id ,re_arr) >= 0 ){
+                str += $(this).children().first().text() + ",";
+                id_str += resource_id+",";
+            }
+        });
+        id_str != '' ? id_str = id_str.substring(0,id_str.length-1) : '' ;
+        str != '' ? str = str.substring(0,str.length-1) : '' ;
+
+        id_resource.val(str);
+        id_resource.attr({'resource':id_str});
         var arr= [
+            ["选择资源类型：", id_resource],
             ["添加教材版本：", id_book],
         ];
 
@@ -176,33 +194,71 @@ $(function(){
             action   : function() {
 
                 if(id_book.val() > 0){
-                    ajax_submit(info_str,do_type,id_book.val());
+                    ajax_submit(info_str,do_type,id_book.val(),id_resource.attr('resource'));
                 } else {
                     alert('请选择教材版本!');
                 }
 
             }
-        },function(){},600);
+        },function(){
+            $("#id_resource_type").on("click",function(){
+                $.do_ajax("/resource/get_resource_type",{},function(response){
+                    var data_list   = [];
+                    $.each( response.data.list,function(){
+                        data_list.push([this['resource_id'], this["resource_type"] ]);                                               
+                    });
+                    $(this).admin_select_dlg({
+                        header_list     : [ "id","名称" ],
+                        data_list       : data_list,
+                        multi_selection : true,
+                        select_list     : select_id_list,
+                        onChange        : function( select_list,dlg) {
+                            var str = '';
+                            var str_id = '';
+                            select_id_list = select_list
+                            $('#id_body .warning').each(function(){
+                                str += $(this).find('td:eq(1)').text() + ',';
+                                str_id += $(this).find('td:eq(0)').text() + ',';
+                            })
+
+                            str_id != '' ? str_id = str_id.substring(0,str_id.length-1) : '' ;
+                            str != '' ? str = str.substring(0,str.length-1) : '' ;
+
+                            id_resource.val(str);
+                            id_resource.attr({'resource':str_id});
+                        }
+                    });
+                }) ;
+
+            })
+ 
+        },false,800);
 
     };
 
-    var ajax_submit = function(info_str,do_type,id_book){
+    var ajax_submit = function(info_str,do_type,id_book,resource){
+        var data = {
+            'info_str':info_str,
+            'region'  :id_book,
+            'do_type' :do_type,
+            'resource':resource,
+        };
         $.ajax({
             type     : "post",
             url      : "/resource/add_or_del_or_edit_new",
             dataType : "json",
-            data : {
-                'info_str' : info_str,
-                'region'   : id_book,
-                'do_type'  : do_type,
-            } ,
+            data : data,
             success : function(result){
+                console.log(data);
                 if(result.ret == 0){
+                    if( result.status == 200 ){
+                        BootstrapDialog.alert("操作成功！");
+                        window.location.reload();                      
+                    }
 
-                    BootstrapDialog.alert("操作成功！");
-                    setTimeout(function(){
-                        window.location.reload();
-                    },1000);
+                    if( result.status == 201 ){
+                       $("tr[info_str='"+info_str+"']").remove(); 
+                    }
 
                 } else {
                     alert(result.info);

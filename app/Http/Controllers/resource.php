@@ -98,9 +98,8 @@ class resource extends Controller
                     array_push($book_arr, intval($v['tag_one']) );
                 }
             }
-        }else{
-            $book_arr = [4,12,16,29,50000];
         }
+
         $sub_grade_info = $this->get_rule_range();
         $is_teacher = 0;
         if($this->get_account_role() == 4){
@@ -147,18 +146,15 @@ class resource extends Controller
         $grade         = $this->get_in_int_val('grade');
 
         $book = $this->t_resource_agree_info->get_all_resource_type($resource_type, $subject, $grade);
-        $book_arr = [50000];
+        $book_arr = [];
         if($book){
             foreach($book as $v) {
                 if( $v['tag_one'] != 0 && $v['tag_one'] != 50000){
                     array_push($book_arr, intval($v['tag_one']) );
                 }
             }
-        }else{
-            $book_arr = [4,12,16,29,50000];
         }
    
-
         return $this->output_succ(['book' => $book_arr]);
     }
 
@@ -191,9 +187,7 @@ class resource extends Controller
         $page_count      = $this->get_in_int_val('page_count',20);
         $book = $this->t_resource_agree_info->get_all_resource_type(-1, $subject, $grade);
         $book_arr = [];
-        if(!$book){
-            $book_arr = [3,4,12,15,16,29,50000];
-        }else{
+        if($book){   
             $book_arr = array_column($book, 'tag_one');
             $book_arr = array_unique($book_arr);
             foreach( $book_arr as $k=>&$v){
@@ -224,9 +218,9 @@ class resource extends Controller
         $grade         = $this->get_in_int_val('grade',201);
         $book = $this->t_resource_agree_info->get_all_resource_type(-1, $subject, $grade);
 
-        if(!$book){
-            $book = [3,4,12,15,16,29,50000];
-        }
+        // if(!$book){
+        //     $book = [3,4,12,15,16,29,50000];
+        // }
 
         return $this->output_succ(['book' => $book]);
     }
@@ -400,10 +394,15 @@ class resource extends Controller
                 $data = [
                     'subject' => [(int)$info['subject']],
                 ];
-            
+
+                if($adminid == 793){
+                    array_push($data[subject],4);
+                }
+
                 foreach( $grade_arr as $var ){
                     $grade[] = (int)$var;
                 }
+
                 $data['grade'] = $grade;
             }
         }
@@ -560,11 +559,14 @@ class resource extends Controller
         //判断是不是最后
         if (in_array($arr[0], [2,4,5,9]) && $level == 4) {
             $is_end = 1;
-        } else if (in_array($arr[0], [3,6]) && $level == 6){
+        } else if ( in_array($arr[0], [1,7]) && $level == 5 ){
             $is_end = 1;
-        } else if (in_array($arr[0], [1,7]) && $level == 5){
+        } else if ( in_array($arr[0], [3]) && $level == 6 ){
+            $is_end = 1;
+        } else if ( in_array($arr[0], [6]) && $level == 7 ){
             $is_end = 1;
         }
+
         $data = [];
         if($select == 'subject'){
             $sub = E\Esubject::$desc_map;
@@ -606,15 +608,13 @@ class resource extends Controller
         if( $select == 'tag_one' && $arr[0] != 7 ){
             //教材
             $book = $this->t_resource_agree_info->get_all_resource_type($arr[0], $arr[1], $arr[2]);
-            $book_arr = [50000];
+            $book_arr = [];
             if($book){
                 foreach($book as $v) {
-                    if( $v['tag_one'] != 0 && $v['tag_one']  != 50000){
+                    if( $v['tag_one'] != 0 ){
                         array_push($book_arr, intval($v['tag_one']) );
                     }
                 }
-            }else{
-                $book_arr = [4,12,16,29,50000];
             }
             foreach($book_arr as $v){
                 $data[] = [
@@ -649,7 +649,7 @@ class resource extends Controller
                 }
                 $select = "resource_free";
             } 
-            if( in_array($arr[0], [4,5]) ){
+            if( in_array($arr[0], [4,5,6]) ){
                 $resource = E\Eresource_volume::$desc_map;
                 foreach( $resource as $k => $v){
                     $data[] = [
@@ -661,18 +661,7 @@ class resource extends Controller
                 $select = "resource_volume";
 
             }
-            if( $arr[0] == 6 ){
-                $resource = E\Eresource_year::$desc_map;
-                foreach( $resource as $k => $v){
-                    $data[] = [
-                        'tag_two' => $arr[3],
-                        'resource_year' => $k,
-                        'resource_year_str' => $v
-                    ];
-                }
-                $select = "resource_year";
-
-            } 
+   
             if( $arr[0] == 9 ){
                 $resource = E\Eresource_train::$desc_map;
                 foreach( $resource as $k => $v){
@@ -711,8 +700,21 @@ class resource extends Controller
                     ];
                 }
                 $select = "resource_diff_level";
-
             }
+
+            if( $arr[0] == 6 ){
+                $resource = E\Eresource_year::$desc_map;
+                foreach( $resource as $k => $v){
+                    $data[] = [
+                        'tag_two' => $arr[3],
+                        'resource_year' => $k,
+                        'resource_year_str' => $v
+                    ];
+                }
+                $select = "resource_year";
+
+            } 
+
         }
 
         if( $select == 'tag_four' ){
@@ -849,14 +851,32 @@ class resource extends Controller
 
     }
 
+    public function get_resource_type(){
+        $ret  = \App\Helper\Utils::list_to_page_info([]);
+        $data = [];
+        $re_book = [1,2,3,4,5,6,9];
+        foreach( $re_book as $v){
+            $data[] = [
+                'resource_id' => $v,
+                'resource_type' => E\Eresource_type::get_desc($v)
+            ];
+        }
+
+        $ret['list'] = $data;
+        return $this->output_ajax_table($ret);
+    }
+
     public function add_or_del_or_edit_new(){
         $info_str = $this->get_in_str_val('info_str','');
         $region   = $this->get_in_int_val('region','');
         $do_type  = $this->get_in_str_val('do_type','');
+        $resource = $this->get_in_str_val('resource','');
         $arr      = explode('-', $info_str);
         $adminid  = $this->get_account_id();
         $time     = time();
         $ban_level = count($arr);
+
+        $return = [ 'status'=>200 ];
 
         //暂时使用
         $s_g = [
@@ -873,7 +893,7 @@ class resource extends Controller
             11 => [ [201,202,203], [301,302,303] ],
         ];
 
-        $resource = [1,2,3,4,5,6,9];
+        $resource = explode(',', $resource);
         $modify_grade = [];
         if( in_array($arr[0],$resource) ) {
             $grade = @$arr[2];
@@ -918,12 +938,13 @@ class resource extends Controller
             }
             if(@$arr[0] > 0){
                 $ret = $this->t_resource_agree_info->del_agree($arr[0],$arr[1],@$arr[2],@$arr[3],@$arr[4],@$arr[5],@$arr[6]);
+                $return['status'] = 201;
             } else {
                 return $this->output_err("信息有误,删除失败!");
             }
         }
 
-        return $this->output_succ();
+        return $this->output_succ($return);
 
     }
 

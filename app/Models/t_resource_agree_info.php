@@ -69,7 +69,7 @@ class t_resource_agree_info extends \App\Models\Zgen\z_t_resource_agree_info
             ['resource_type=%u', $resource_type, -1],
             ['subject=%u', $subject, -1],
             ['grade=%u', $grade, -1],
-            'resource_type in (1,2,3,4,5,9)',
+            'resource_type in (1,2,3,4,5,6,9)',
         ];
         $sql = $this->gen_sql_new("select distinct tag_one from %s where %s "
                                   ,self::DB_TABLE_NAME
