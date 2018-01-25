@@ -53,21 +53,19 @@ class test_ricky extends Command
                 $end_time = strtotime('2017-'.($item + 1).'-1');
             }
             $info = $task->t_teacher_feedback_list->get_90_list($start_time, $end_time);
-            echo "长度 : ".count($info);
+            //echo "长度 : ".count($info);
             foreach($info as $item) {
-                var_dump($item);
+                //var_dump($item);
                 echo $task->cache_get_teacher_nick($item["teacherid"])." ";
                 $lesson = $task->t_teacher_feedback_list->get_lesson_list($item["teacherid"], $item["lessonid"]);
-                var_dump($lesson);
+                //var_dump($lesson);
                 $userid = $lesson["userid"];
                 echo $task->cache_get_student_nick($lesson["userid"])." ";
                 echo $item["lessonid"]." ";
                 echo $task->cache_get_assistant_nick($lesson["assistantid"])." ";
-                echo $lesson["lesson_start"];
+                echo date("Y-m-d H:i:s", $lesson["lesson_start"])." ";
                 $order = $task->t_teacher_feedback_list->get_order_list($userid);
-                echo "===============================".PHP_EOL;
-                var_dump($order);
-                       //echo $order["o"]PHP_EOL;
+                echo date("Y-m-d H:i:s", $order).PHP_EOL;
                 exit;
             }
         }
