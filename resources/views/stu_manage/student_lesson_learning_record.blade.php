@@ -124,7 +124,7 @@
             <tbody>
                 @foreach ($table_data_list as $var)
                     <tr>
-                        <td class="show_lesson_detail" data-lessonid="{{ $var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
+                        <td class="show_lesson_detail" data-lessonid="{{ @$var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
                         <td>{{@$var["lesson_time"] }}</td>
                         <td>{{@$var["grade_str"] }}</td>
                         <td>{{@$var["subject_str"] }}</td>
@@ -175,7 +175,7 @@
             <tbody>
                 @foreach ($table_data_list as $var)
                     <tr>
-                        <td class="show_lesson_detail" data-lessonid="{{ $var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
+                        <td class="show_lesson_detail" data-lessonid="{{ @$var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
                         <td>{{@$var["lesson_time"] }}</td>
                         <td>{{@$var["grade_str"] }}</td>
                         <td>{{@$var["subject_str"] }}</td>
@@ -233,7 +233,7 @@
             <tbody>
                 @foreach ($table_data_list as $var)
                     <tr>
-                        <td class="show_lesson_detail" data-lessonid="{{ $var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
+                        <td class="show_lesson_detail" data-lessonid="{{ @$var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
                         <td>{{@$var["lesson_time"] }}</td>
                         <td>{{@$var["grade_str"] }}</td>
                         <td>{{@$var["subject_str"] }}</td>
@@ -275,7 +275,7 @@
             <tbody>
                 @foreach ($table_data_list as $var)
                     <tr>
-                        <td class="show_lesson_detail" data-lessonid="{{ $var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
+                        <td class="show_lesson_detail" data-lessonid="{{ @$var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
                         <td>{{@$var["lesson_time"] }}</td>
                         <td>{{@$var["grade_str"] }}</td>
                         <td>{{@$var["subject_str"] }}</td>
@@ -283,7 +283,7 @@
                             @if(empty(@$var["issue_url"]))
                                 {{@$var["issue_flag"] }}
                             @else
-                                <a class="show_issue_content" href="javascript:;" data-url="{{ $var["issue_url_str"] }}">
+                                <a class="show_issue_content" href="javascript:;" data-url="{{ @$var["issue_url_str"] }}">
                                     {{@$var["issue_flag"] }}
                                 </a>
                             @endif
@@ -291,7 +291,7 @@
                         <td>{{@$var["download_flag"] }}</td>
                         <td>
                             @if(@$var["work_status"]>=2)
-                                <a class="show_issue_content" href="javascript:;" data-url="{{ $var["finish_url_str"] }}">
+                                <a class="show_issue_content" href="javascript:;" data-url="{{ @$var["finish_url_str"] }}">
                                     {{@$var["commit_flag"] }}
                                 </a>
                             @else
@@ -300,7 +300,7 @@
                         </td>
                         <td>
                             @if(@$var["work_status"]>=3)
-                                <a class="show_issue_content" href="javascript:;" data-url="{{ $var["check_url_str"] }}">
+                                <a class="show_issue_content" href="javascript:;" data-url="{{ @$var["check_url_str"] }}">
                                     {{@$var["check_flag"] }}
                                 </a>
                             @else
