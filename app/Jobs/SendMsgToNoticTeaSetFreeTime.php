@@ -66,7 +66,22 @@ class SendMsgToNoticTeaSetFreeTime extends Job implements ShouldQueue
                 "nick"      => "James",
                 "teacher_money_type" => 2,
                 "teacher_type" => 1
+            ],
+            [
+                "teacherid" => 225427,
+                "wx_openid" => 'oJ_4fxAN36kXG9EmI0ttGzjymXm0',
+                "nick"      => "侯勇",
+                "teacher_money_type" => 7,
+                "teacher_type" => 1
+            ],
+            [
+                "teacherid" => 225427,
+                "wx_openid" => 'oJ_4fxAN36kXG9EmI0ttGzjymXm0',
+                "nick"      => "侯勇",
+                "teacher_money_type" => 2,
+                "teacher_type" => 1
             ]
+
 
         ];
 
