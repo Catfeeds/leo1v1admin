@@ -416,27 +416,27 @@ class Utils  {
 
     //检测当前环境
     static function check_env_is_local(){
-        return \Illuminate\Support\Facades\App::environment( E\Eenv::S_LOCAL );
+        return \Illuminate\Support\Facades\App::environment(E\Eenv::S_LOCAL);
     }
 
-    static function   check_env_is_test(){
+    static function check_env_is_test(){
         return \Illuminate\Support\Facades\App::environment( E\Eenv::S_TEST );
     }
 
-    static function   check_env_is_testing(){
+    static function check_env_is_testing(){
         return \Illuminate\Support\Facades\App::environment( E\Eenv::S_TESTING );
     }
 
-    static function   check_env_is_release(){
+    static function check_env_is_release(){
         return \Illuminate\Support\Facades\App::environment( E\Eenv::S_RELEASE );
     }
     static function get_full_url($url) {
         $arr=explode("/", $url);
-        if (!isset($arr[0]) or  trim($arr[0])=="" )  {
+        if (!isset($arr[0]) or trim($arr[0])=="" ){
             $arr[0]="index";
         }
 
-        if (!isset($arr[1]) or  trim($arr[1])=="" )  {
+        if (!isset($arr[1]) or trim($arr[1])=="" )  {
             $arr[1]="index";
         }
         $url="/".$arr[0]."/".$arr[1];
@@ -1573,6 +1573,21 @@ class Utils  {
         }else{
             $set_value = !isset($check_data) || empty($check_data)?$default_value:$check_data;
         }
+    }
+
+    static public function set_diff_value_for_update(&$array,$check_array,$check_key,$check_value,$is_diff=true){
+        if(isset($check_array[$check_key])){
+            if($is_diff){
+                if($check_array[$check_key]!=$check_value){
+                    $array[$check_key] = $check_value;
+                }
+            }else{
+                if($check_array[$check_key]==$check_value){
+                    $array[$check_key] = $check_value;
+                }
+            }
+        }
+        return $array;
     }
 
     //计算百分比
