@@ -2,15 +2,15 @@
 @section('content')
 
     <script type="text/javascript" src="/page_js/select_user.js"></script>
- <script type="text/javascript" src="//g.alicdn.com/sj/aliphone-sdk/aliphone.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="//g.alicdn.com/sj/aliphone-sdk/aliphone.min.js" charset="utf-8"></script>
 
     <script type="text/javascript" src="/page_js/seller_student/common.js"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js?v={{@$_publish_version}}"></script>
     <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.min.js"></script>
 
-  <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.categories.js"></script>
-  <script language="javascript" type="text/javascript" src="/page_js/lib/select_date_range.js"></script>
-   
+    <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.categories.js"></script>
+    <script language="javascript" type="text/javascript" src="/page_js/lib/select_date_range.js"></script>
+    
     <section class="content">
         <div class="book_filter">
 
@@ -57,21 +57,21 @@
                         <td>总数</td>
 
                         <td>完成率</td>
-                       
+                        
 
                         <td> 操作  </td> </tr>
-                 </thead>
+                </thead>
                 <tbody>
                     @foreach ($table_data_list as $var)
 
                         <tr>
-                           
+                            
                             <td> {{@$var["name"]}}</td>
                             <td> {{@$var["lecture_inter_num"]}}/{{@$var["lecture_succ"]}}</td>
                             <td> {{@$var["one_inter_num"]}}/{{@$var["one_succ"]}}</td>
                             <td> {{@$var["real_num"]}}/{{@$var["suc_count"]}}</td>
                             <td> {{@$var["train_first_all"]}}/{{@$var["train_first_pass"]}}</td>
-                            <td> {{@$var["train_second_all"]}}</td>
+                            <td> {{@$var["train_second_all"]}}/{{@$var["train_second_pass"]}}</td>
                             <td> {{@$var["test_first"]}}</td>
                             <td> {{@$var["test_first_per_str"]}}</td>
 
@@ -84,11 +84,11 @@
                             <td> {{@$var["regular_five_per_str"]}}</td>
                             <td> {{@$var["all_num"]}}/ {{@$var["all_target_num"]}}</td>
                             <td> {{@$var["per"]}}%</td>
-                          
+                            
 
 
                             <td><div class=" row-data"
-                                    {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                                     {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                                 >
 
                             </div></td>
@@ -99,6 +99,6 @@
             @include("layouts.page")
         </div>
 
-    <script src="/js/qiniu/plupload/plupload.full.min.js"></script>
+        <script src="/js/qiniu/plupload/plupload.full.min.js"></script>
 
 @endsection
