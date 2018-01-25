@@ -441,8 +441,18 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret_arr=$this->t_order_info->get_seller_money_info($adminid=1267,$start_time=1512057600,$end_time=1514736000);
-        dd($ret_arr);
+        $ret_log = $this->t_seller_get_new_log->get_row_by_adminid_userid($adminid=1114,$userid=510822);
+        if(!$ret_log){
+            dd('a');
+            $this->t_seller_get_new_log->row_insert([
+                'adminid'=>$adminid,
+                'userid'=>$userid,
+                'create_time'=>time(),
+            ]);
+        }
+        dd('b');
+        $order_list = $this->t_order_info->get_1v1_order_seller_month_money($sys_operator='季金玲',$start_time=1512057600,$end_time=1514736000);
+        dd($order_list);
         dd($test_leeson_list);
 
         dd(100*str_replace('%','','90%'));
