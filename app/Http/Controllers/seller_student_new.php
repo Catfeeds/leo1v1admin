@@ -739,11 +739,14 @@ class seller_student_new extends Controller
         $userid=@ $ret_info["list"][0]["userid"];
         if ($userid) {
             //抢新log
-            $this->t_seller_get_new_log->row_insert([
-                'adminid'=>$adminid,
-                'userid'=>$userid,
-                'create_time'=>time(),
-            ]);
+            $ret_log = $this->t_seller_get_new_log->get_row_by_adminid_userid($adminid,$userid);
+            if(!$ret_log){
+                $this->t_seller_get_new_log->row_insert([
+                    'adminid'=>$adminid,
+                    'userid'=>$userid,
+                    'create_time'=>time(),
+                ]);
+            }
 
             $lesson_call_end = [];
             $key="DEAL_NEW_USER_$adminid";
