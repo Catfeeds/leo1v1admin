@@ -118,9 +118,9 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
             ["m.add_time<%u", $end_time, 0],
             "m.type=3",
         ];
-        $sql = $this->gen_sql_new("select f.teacherid,f.lessonid from %s f left join %s m on f.teacherid=m.teacherid where %s group by lessonid",
-                                  self::DB_TABLE_NAME,
+        $sql = $this->gen_sql_new("select m.teacherid,f.lessonid from %s m left join %s f on f.teacherid=m.teacherid where %s group by lessonid",
                                   t_teacher_money_list::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);
