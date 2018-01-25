@@ -322,7 +322,7 @@
                                 @if($var['status_str']=="无试讲")
                                     <a class="opt-set-teacher-info" title="老师信息">老师信息</a>
                                 @endif
-                                @if(!\App\Helper\Utils::check_env_is_release())
+                                @if(!\App\Helper\Utils::check_env_is_release() && $var['train_through_new_time']==0)
                                     <a class="opt-test-through" title="测试环境一键通过老师">一键通过</a>
                                 @endif
                             </div>

@@ -61,8 +61,11 @@ class teacher_test_class extends Controller
     public function set_teacher_through(){
         $phone = $this->get_in_str_val("phone");
 
-        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
-        $this->teacher_train_through_deal($teacherid);
+        $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
+        if($teacher_info['train_through_new_time']>0){
+            return $this->output_err("此老师已经通过,请勿重复点击");
+        }
+        $this->teacher_train_through_deal($teacher_info['teacherid']);
         return $this->output_succ();
     }
 
