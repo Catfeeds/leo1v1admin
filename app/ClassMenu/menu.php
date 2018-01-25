@@ -34,10 +34,11 @@ class menu{
                     ["power_id"=>1, "name"=>"课程信息管理-new",   "url"=>"/course/index_admin"],
                     ["power_id"=>2, "name"=>"课程信息管理",   "url"=>"/course/index"],
                     ["power_id"=>3, "name"=>"学生课程管理",   "url"=>"/course/student_course"],
+                    ["power_id"=>4, "name"=>"学生调课申请",   "url"=>"/stu_apply/index"],
                     // ["power_id"=>2, "name"=>"老师时间",   "url"=>"/class_stu_manage/cb"],
                 ]],
-                // ["power_id"=>6, "name"=>"用户管理",   "list"=>[
-                //     ["power_id"=>1, "name"=>"权限管理",   "url"=>"/class_stu_manage/da"],
+                ["power_id"=>6, "name"=>"小班课-活动管理",   "list"=>[
+                    ["power_id"=>1, "name"=>"套餐列表",   "url"=>"/package/index"],
                 //     ["power_id"=>2, "name"=>"登录管理",   "url"=>"/class_stu_manage/db"],
                 //     ["power_id"=>3, "name"=>"消息管理",   "url"=>"/class_stu_manage/dc"],
                 //     ["power_id"=>4, "name"=>"获赞管理",   "url"=>"/class_stu_manage/dd"],
@@ -45,7 +46,7 @@ class menu{
                 // ["power_id"=>7, "name"=>"业绩",   "list"=>[
                 //     ["power_id"=>1, "name"=>"业绩",   "url"=>"/class_stu_manage/ea"],
                 //     ["power_id"=>2, "name"=>"报表",   "url"=>"/class_stu_manage/eb"],
-                // ]],
+                ]],
 
             ]],
         ];

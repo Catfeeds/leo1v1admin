@@ -2652,6 +2652,26 @@ trait TeaPower {
     }
 
     /**
+     * 老师培训通过后的处理操作
+     * @param int teacherid
+     */
+    public function teacher_train_through_deal_2018_1_25($teacherid,$train_through_new_time=0){
+        if($train_through_new_time==0){
+            $train_through_new_time = time();
+        }
+        $ret = $this->t_teacher_info->field_update_list($teacherid,[
+            "train_through_new_time" => $train_through_new_time,
+        ]);
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $teacher_info['level'] = 0;
+        $this->send_offer_info($teacher_info);
+
+        $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
+        if(isset($reference_info['teacherid']) && !empty($reference_info['teacherid'])){
+            $this->add_reference_price_2018_01_21($reference_info['teacherid'],$teacherid,false);
+        }
+    }
+    /**
      * 发送入职邮件和入职微信推送
      * @param teacher_info 老师信息
      */
@@ -4585,36 +4605,43 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $notice_flag = false;
         }
 
-        $check_is_exists = $this->t_teacher_money_list->check_reference_price($recommended_teacherid);
-        if(!$check_is_exists){
-            $recommended_info = $this->t_teacher_info->get_teacher_info($recommended_teacherid);
-            $reference_type   = \App\Config\teacher_rule::check_reference_type($recommended_info['identity']);
+        //被推荐老师信息
+        $recommended_info = $this->t_teacher_info->get_teacher_info($recommended_teacherid);
+        $reference_type   = \App\Config\teacher_rule::check_reference_type($recommended_info['identity']);
 
-            $start_time      = strtotime("2017-7-1");
-            $reference_price = 0;
-            //特殊渠道规则明细
-            if ($teacherid == 274115) {
-                //join中国 不论身份，一律60元/个 从2017年8月份开始
-                $reference_price = 60;
-            }elseif($teacherid == 149697){
-                //明日之星 不论身份，一律50元/个  从2017年11月份开始
-                $reference_price = 50;
-            }elseif($teacherid == 149697){
-                //田克平 公校老师80元/个,在校学生按正常来算，统计所有邀请过的老师
-                if ($reference_type == E\Ereference_type::V_2) {
-                    $reference_price = 80;
-                }else{
-                    $start_time = 0;
-                }
-            }elseif(in_array($teacher_ref_type,[E\Eteacher_ref_type::V_1,E\Eteacher_ref_type::V_2])){
-                //廖老师，王菊香工作室公校老师80元/个，在校学生按正常来算，从2017年11月开始
-                if($reference_type==E\Ereference_type::V_2){
-                    $reference_price = 80;
-                }else{
-                    $start_time = strtotime("2017-11-1");
-                }
+        $start_time      = strtotime("2017-7-1");
+        $reference_price = 0;
+        //特殊渠道规则明细
+        if ($teacherid == 274115) {
+            //join中国 不论身份，一律60元/个 从2017年8月份开始
+            $reference_price = 60;
+        }elseif($teacherid == 149697){
+            //明日之星 不论身份，一律50元/个  从2017年11月份开始
+            $reference_price = 50;
+        }elseif($teacherid == 149697){
+            //田克平 公校老师80元/个,在校学生按正常来算，统计所有邀请过的老师
+            if ($reference_type == E\Ereference_type::V_2) {
+                $reference_price = 80;
+            }else{
+                $start_time = 0;
             }
+        }elseif(in_array($teacher_ref_type,[E\Eteacher_ref_type::V_1,E\Eteacher_ref_type::V_2])){
+            //廖老师，王菊香工作室公校老师80元/个，在校学生按正常来算，从2017年11月开始
+            if($reference_type==E\Ereference_type::V_2){
+                $reference_price = 80;
+            }else{
+                $start_time = strtotime("2017-11-1");
+            }
+        }
+        //判断老师的通过时间
+        if($recommended_info['train_through_new_time']>$start_time){
+            $check_time_flag = true;
+        }else{
+            $check_time_flag = false;
+        }
 
+        $check_is_exists = $this->t_teacher_money_list->check_reference_price($recommended_teacherid);
+        if(!$check_is_exists && $check_time_flag){
             //普通渠道
             if($reference_price==0){
                 $reference_num = $this->t_teacher_info->get_total_for_teacherid(
