@@ -124,6 +124,7 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
                                   ."left join %s t on tm.teacherid=t.teacherid "
                                   ."left join %s tr on tr.recommended_teacherid=tr.teacherid where %s",
                                   t_teacher_money_list::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
