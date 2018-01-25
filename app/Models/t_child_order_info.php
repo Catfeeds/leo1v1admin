@@ -110,7 +110,7 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
             if($repay_status==-2){
                 $where_arr=[
                     "pr.repay_status in (2,3)" ,
-                    "(pr.paid_time=0 or pr.paid_time>$last_paid_time"
+                    "(pr.paid_time=0 or pr.paid_time>$last_paid_time)"
                 ];
             }else{
                 $where_arr=[
