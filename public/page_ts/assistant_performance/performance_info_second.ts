@@ -27,13 +27,65 @@ $(function(){
 
     $(".opt-reset-data").on("click",function(){
         //alert("开发中");
-        var opt_data = $(this).get_opt_data();
-        $.do_ajax('/ajax_deal3/reset_assisatnt_performance_data',{
-            "adminid" : opt_data.adminid,
-            "start_time":g_args.start_time
+        BootstrapDialog.confirm(
+            "确认?",
+            function(val) {
+                if  (val)  {
+                    var opt_data = $(this).get_opt_data();
+                    $.do_ajax('/ajax_deal3/reset_assisatnt_performance_data',{
+                        "adminid" : opt_data.adminid,
+                        "start_time":g_args.start_time
+                    });
+ 
+                }
+            }
+        );
+
+       
+    });
+
+    $(".opt-edit").on("click",function(){
+        var data           = $(this).get_opt_data();
+        var id_register_num = $("<input />");
+        var id_seller_stu_num   = $("<input />");       
+        var id_estimate_month_lesson_count   = $("<input />");       
+        var id_seller_lesson_count = $("<input />");    
+        var arr = [
+            ["月初在册人数",id_register_num],
+            ["平均学生",id_seller_stu_num],
+            ["月初预估课时",id_estimate_month_lesson_count],
+            ["销售月总课时数",id_seller_lesson_count],
+        ];
+        id_seller_stu_num.val(data.seller_week_stu_num);
+        id_estimate_month_lesson_count.val(data.estimate_month_lesson_count/100);
+        id_register_num.val(data.last_registered_num);
+        id_seller_lesson_count.val(data.seller_month_lesson_count/100);
+        
+
+        $.show_key_value_table("编辑",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/ajax_deal3/update_ass_performace_data",{
+                    "adminid"   : data.adminid,
+                    "start_time":g_args.start_time,
+                    "register_num" : id_register_num.val(),
+                    "seller_stu_num"   : id_seller_stu_num.val(),
+                    "estimate_month_lesson_count"   : id_estimate_month_lesson_count.val(),
+                    "seller_month_lesson_count"     : id_seller_lesson_count.val()
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
         });
 
     });
+
+   
 
     $(".seller_week_stu_num_info").on("click",function(){
         var adminid = $(this).data("adminid");

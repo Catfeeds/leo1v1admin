@@ -64,6 +64,7 @@
                     <td>续费提成奖金 </td>
                     <td>续费业绩(打8折) </td>
                     <td>转介绍数量 </td>
+                    <td>转介绍金额 </td>
                     <td>转介绍提成 </td>
                     <td>转介绍奖金</td>
                     <td>总计</td>
@@ -127,6 +128,8 @@
                         <td>{{@$var["old_ewnew_money"]}}</td> 
                         <td class="cc_tran_num" data-leader_num='{{@$var["hand_tran_num"]}}' data-new_num='{{@$var["performance_cr_new_num"]}}' data-tran_num='{{@$var["performance_cc_tran_num"]}}' data-uid='{{@$var["adminid"]}}'><a href="javascript:;" >{{@$var["cc_tran_num"]}}</a></td>                        
                         
+                        <td>{{@$var["performance_cc_tran_money"]/100}}</td> 
+
                         <td>
                             <a href="/assistant_performance/get_seller_tran_order_info?adminid={{ $var["adminid"] }}&date_type_config=undefined&date_type=null&opt_date_type=3&start_time={{ $start }}&end_time={{ $end }}" target="_blank" >
                                 {{@$var["cc_tran_price_reword"]/100}}
@@ -141,7 +144,8 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 @if(in_array($account,["jack","jim"]))
-                                    <a class="opt-reset-data"> 重置数据</a>
+                                    <a class="opt-reset-data"> 重置学生数据</a>
+                                    <a class="opt-edit"> 编辑</a>
                                 @endif
                                 
                             </div>

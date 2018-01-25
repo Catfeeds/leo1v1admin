@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail ;
 use  App\Jobs\send_wx_notic_for_software;
 use  App\Jobs\send_wx_notic_to_tea;
 use  App\Jobs\wxPicSendToParent;
+use  App\Jobs\marketActivityPoster;
 
 
 
@@ -1777,4 +1778,11 @@ class test_james extends Controller
 
     }
 
+    public function test_job(){
+        $type = '';
+        $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=111&type=2";
+        $a = new \App\Jobs\marketActivityPoster('','',$qr_code_url,'','',$type);
+        $a->handle();
+        // dispatch( new \App\Jobs\marketActivityPoster('','',$qr_code_url,'',''));
+    }
 }

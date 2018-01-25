@@ -441,6 +441,14 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $ret_arr=$this->t_order_info->get_seller_money_info($adminid=1267,$start_time=1512057600,$end_time=1514736000);
+        dd($ret_arr);
+        dd($test_leeson_list);
+
+        dd(100*str_replace('%','','90%'));
+
+        $ret = $this->t_test_lesson_subject_sub_list->field_update_list($lessonid=62725, ['call_end_time'=>$start_time=123]);
+        dd($ret);
         // $ret_lesson = $this->t_test_lesson_subject_require->get_lesson_list($adminid=99,$userid=99);
         // foreach($ret_lesson as $item){
         //     $lessonid = $item['lessonid'];

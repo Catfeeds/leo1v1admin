@@ -23,6 +23,25 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	check_value	:any;
+	require_count	:any;
+	test_lesson_count	:any;
+	distinct_test_count	:any;
+	succ_test_lesson_count	:any;
+	distinct_succ_count	:any;
+	title	:any;
+	key0	:any;
+	key1	:any;
+	key2	:any;
+	key3	:any;
+	key4	:any;
+	key0_class	:any;
+	key1_class	:any;
+	key2_class	:any;
+	key3_class	:any;
+	key4_class	:any;
+	level	:any;
+	create_time	:any;
 }
 
 /*

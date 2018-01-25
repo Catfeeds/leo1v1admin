@@ -2841,6 +2841,8 @@ $(function(){
 
     $(".select-teacher-for-test-lesson").on("click",function(){
         var data = $(this).get_opt_data();
+        var userid = data.userid;
+        console.log(userid);
 
         if(data.jw_test_lesson_status == 2){
             BootstrapDialog.alert("请先解除挂载!");
@@ -2850,7 +2852,7 @@ $(function(){
             BootstrapDialog.alert('已确认课程，若更换试听课，请取消课程，重新排课；');
             return;
         }
-        var url = "/seller_student_new2/select_teacher_for_test_lesson?require_id="+data.require_id;
+        var url = "/seller_student_new2/select_teacher_for_test_lesson?require_id="+data.require_id+"&userid="+data.userid;
         window.open(url);
     });
 

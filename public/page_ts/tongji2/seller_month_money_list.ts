@@ -65,10 +65,10 @@ $(function(){
                     $tr.find(".base_salary").text(data["base_salary"]);
                     $tr.find(".sup_salary").text(data["sup_salary"]);
                     $tr.find(".per_salary").text(data["per_salary"]);
+                    $tr.find(".get_per_salary").text(data["get_per_salary"]);
                     $tr.find(".stage_money").text(data["stage_money"]);
                     $tr.find(".no_stage_money").text(data["no_stage_money"]);
                     $tr.find(".24_hour_all_price").text(data["24_hour_all_price"]);
-
 
                     $tr.find(".last_group_all_price").text(data["last_group_all_price"]);
                     $tr.find(".group_all_price").text(data["group_all_price"]);
@@ -77,22 +77,24 @@ $(function(){
                     $tr.find(".group_default_money").text(data["group_default_money"]);
                     $tr.find(".require_all_price").text(data["require_all_price"]);
 
-
                     $tr.find(".all_price_1").text(data["all_price_1"]);
                     $tr.find(".require_all_price_1").text(data["require_all_price_1"]);
                     $tr.find(".v24_hour_all_price_1").text(data["v24_hour_all_price_1"]);
                     $tr.find(".require_and_24_hour_price_1").text(data["require_and_24_hour_price_1"]);
                     $tr.find(".group_money_add_percent").text(data["group_money_add_percent"]);
 
-
                     $tr.find(".cur_month_money").text(data["cur_month_money"]);
                     $tr.find(".three_month_money").text(data["three_month_money"]);
-
-
 
                     $tr.find(".percent").text(data["percent"]);
                     $tr.find(".money").text(data["money"]);
                     $tr.find(".desc").text(data["desc"]);
+                    $tr.find(".group_master_money").text(data["group_master_money"]);
+                    $tr.find(".group_self_money").text(data["group_self_money"]);
+                    $tr.find(".group_month_avg_lesson").text(data["group_month_avg_lesson"]);
+                    $tr.find(".group_month_avg_lesson_per").text(data["group_month_avg_lesson_per"]);
+                    $tr.find(".group_month_avg_order_per").text(data["group_month_avg_order_per"]);
+                    $tr.find(".group_month_avg_leave_per").text(data["group_month_avg_leave_per"]);
                     $tr.find(".new_account_value").text(data["new_account_value"]);
                     do_index++;
                     do_one();
