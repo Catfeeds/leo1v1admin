@@ -53,20 +53,18 @@ class test_ricky extends Command
                 $end_time = strtotime('2017-'.($item + 1).'-1');
             }
             $info = $task->t_teacher_feedback_list->get_90_list($start_time, $end_time);
-            //echo "长度 : ".count($info);
             foreach($info as $item) {
                 if (!($item["teacherid"] && $item["lessonid"])) continue;
-                //var_dump($item);
                 echo $task->cache_get_teacher_nick($item["teacherid"]).",".$item["lessonid"].PHP_EOL;
-                //$lesson = $task->t_teacher_feedback_list->get_lesson_list($item["teacherid"], $item["lessonid"]);
-                //var_dump($lesson);
-                // $userid = $lesson["userid"];
-                // echo $task->cache_get_student_nick($lesson["userid"]).",";
-                // echo $item["lessonid"].",";
-                // echo $task->cache_get_assistant_nick($lesson["assistantid"]).",";
-                // echo date("Y-m-d H:i:s", $lesson["lesson_start"]).",";
-                // $order = $task->t_teacher_feedback_list->get_order_list($userid);
-                // echo date("Y-m-d H:i:s", $order).PHP_EOL;
+                $lesson = $task->t_teacher_feedback_list->get_lesson_list($item["teacherid"], $item["lessonid"]);
+                
+                $userid = $lesson["userid"];
+                echo $task->cache_get_student_nick($lesson["userid"]).",";
+                echo $item["lessonid"].",";
+                echo $task->cache_get_assistant_nick($lesson["assistantid"]).",";
+                echo date("Y-m-d H:i:s", $lesson["lesson_start"]).",";
+                $order = $task->t_teacher_feedback_list->get_order_list($userid);
+                echo date("Y-m-d H:i:s", $order).PHP_EOL;
             }
         }
 
