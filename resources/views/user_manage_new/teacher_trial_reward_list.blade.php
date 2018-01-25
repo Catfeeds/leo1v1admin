@@ -40,13 +40,6 @@
                         <button class="btn btn-primary" id="id_add_teacher_money">添加</button>
                     </div>
                 </div>
-                @if(!\App\Helper\Utils::check_env_is_release())
-                    <div class="col-xs-12 col-md-2">
-                        <div class="input-group ">
-                            <button class="btn btn-primary" id="id_add_test_reference">添加伯乐奖</button>
-                        </div>
-                    </div>
-                @endif
                 @if (isset($info['msg']))
                     <div class="col-xs-12 col-md-2">
                         <div class="input-group">

@@ -167,7 +167,7 @@
                                id="id_user_name" placeholder="姓名,手机号,QQ,科目,年级段,教材,院校,师资 回车查找"/>
                     </div>
                 </div>
-                <div class="col-md-1 col-xs-6">
+                <div class="col-md-2 col-xs-6">
                     <div>
                         <button class="btn btn-danger" id="id_add_teacher_lecture_appointment">新增试讲预约</button>
                     </div>
@@ -177,16 +177,23 @@
                         <button class="btn btn-primary" id="id_upload_xls"> 上传xls </button>
                     </div>
                 </div>
-                <div class="col-md-1 col-xs-6 "  >
+                <div class="col-md-2 col-xs-6 "  >
                     <div>
                         <button class="btn btn-warning" id="id_update_lecture_appointment_status">批量修改状态</button>
                     </div>
                 </div>
-                <div class="col-md-1 col-xs-6 "  >
+                <div class="col-md-2 col-xs-6 "  >
                     <div>
                         <button class="btn btn-warning" id="id_set_zs_work_status">设置招师工作状态</button>
                     </div>
                 </div>
+                @if(!\App\Helper\Utils::check_env_is_release())
+                    <div class="col-md-2 col-xs-6">
+                        <div>
+                            <button class="btn btn-danger" id="id_add_teacher_lecture_appointment_for_test">快速添加测试老师</button>
+                        </div>
+                    </div>
+                @endif
 
             </div>
         </div>
@@ -292,7 +299,7 @@
                         <td>
                             <div {!! \App\Helper\Utils::gen_jquery_data($var) !!} >
                                 <a title="手机拨打" class=" fa-phone  opt-telphone"></a>
-                                <a class="fa-edit opt-edit" title="编辑状态"></a>
+                                <!-- <a class="fa-edit opt-edit" title="编辑状态"></a> -->
                                 @if($show_full_time==1)
                                     <a class="opt-set-lecture-revisit-type" title="设置邀约状态" >邀约状态</a>
                                     <a class="opt-edit-full_time" title="全职老师审核">二面评价</a>
@@ -314,6 +321,9 @@
                                 <a class="opt-set-teacher-pass-type" title="修改入职状态">入</a>
                                 @if($var['status_str']=="无试讲")
                                     <a class="opt-set-teacher-info" title="老师信息">老师信息</a>
+                                @endif
+                                @if(!\App\Helper\Utils::check_env_is_release())
+                                    <a class="opt-test-through" title="测试环境一键通过老师">一键通过</a>
                                 @endif
                             </div>
                         </td>
