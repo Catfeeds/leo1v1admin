@@ -110,6 +110,7 @@ class NewRouteConfig {
         "/teacher_info/get_leo_resource"          => true,
         "/teacher_info/do_collect"                => true,
         "/lesson_manage/stu_status_count"         => true,
+        "/lesson_manage/change_lesson_info"       => true,
         "/admin_join/get_apply_info"              => true,
         "/supervisor/lesson_all_info"             => true,
         "/supervisor/monitor"                     => true,

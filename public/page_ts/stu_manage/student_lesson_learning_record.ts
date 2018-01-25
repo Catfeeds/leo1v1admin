@@ -149,7 +149,7 @@ $(function(){
     }else{
         $("#id_add_stu_score").parent().hide();
     }
-    $(".preview_table_flag,.lesson_table_flag,.performance_table_flag,.homework_table_flag").each(function(){
+    $(".preview_table_flag,.lesson_table_flag,.performance_table_flag,.homework_table_flag,.score_table_flag").each(function(){
         var class_id =$(this).data("class_id");
         if(current_id==class_id){
             $(this).show();
@@ -312,7 +312,125 @@ $(function(){
         },function(resp) {
             var list = resp.data;
             var title = "课程信息";
-            var html_node= $("<div class=\"row\" ><div class=\"col-xs-6 col-md-12\"  ><a class=\"btn btn-warning show_lesson_video\" href=\"javascript:;\" style=\"float:right\">课程回访</a></div><div class=\"col-xs-12 col-md-12  \"><span><font size=\"3\" color=\"black\">基本信息</font></span> </div><div class=\"col-xs-12 col-md-12  \" ><table style=\"margin-left:10px\" class=\"table table-bordered\"> <tr><td>序号</td><td></td><td>时间</td><td></td><td>年级</td><td>科目</td><td></td><td>老师</td><td></td></tr></table></div><div class=\"col-xs-12 col-md-12  \"><span><font size=\"3\" color=\"black\">预习</font></span> </div><div class=\"col-xs-12 col-md-12  \" ><div class=\"col-xs-12 col-md-6  \" ><table style=\"margin-left:-5px\" class=\"table table-bordered\"> <tr><td>讲义上传</td><td></td><td>预习情况</td><td></td></tr></table></div></div><div class=\"col-xs-12 col-md-12  \"><span><font size=\"3\" color=\"black\">课堂情况</font></span> </div><div class=\"col-xs-12 col-md-12  \" ><table style=\"margin-left:10px\" class=\"table table-bordered\"> <tr><td>序号</td><td></td><td>时间</td><td></td><td>年级</td><td>科目</td><td></td><td>老师</td><td></td></tr></table></div></div>");
+            var html_node= $("<div class=\"row\" >"
+                             +"<div class=\"col-xs-6 col-md-12\"  >"
+                             +"<a class=\"btn btn-warning show_lesson_video\" href=\"javascript:;\" style=\"float:right\">课程回访</a>"
+                             +"</div><div class=\"col-xs-12 col-md-12  \">"
+                             +"<span><font size=\"3\" color=\"black\">基本信息</font></span> "
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<table style=\"margin-left:10px\" class=\"table table-bordered\"> "
+                             +"<tr>"+
+                             "<td ><font size=\"2\" color=\"black\">序号</font></td>"+
+                             "<td>"+list.lesson_num+"</td>"+
+                             "<td><font size=\"2\" color=\"black\">时间</font></td>"
+                             +"<td>"+list.lesson_time+"</td>"
+                             +"<td><font size=\"2\" color=\"black\">年级</font></td>"
+                             +"<td>"+list.grade_str+"</td>"
+                             +"<td><font size=\"2\" color=\"black\">科目</font></td>"
+                             +"<td>"+list.subject_str+"</td>"
+                             +"<td><font size=\"2\" color=\"black\">老师</font></td>"
+                             +"<td>"+list.realname+"</td>"
+                             +"</tr>"
+                             +"</table>"
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \">"
+                             +"<span><font size=\"3\" color=\"black\">预习</font></span> "
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<div class=\"col-xs-12 col-md-6  \" >"
+                             +"<table style=\"margin-left:-5px\" class=\"table table-bordered\">"
+                             +" <tr>"
+                             +"<td><font size=\"2\" color=\"black\">讲义上传</font></td>"
+                             +"<td>"
+                             +"<a class=\"show_cw_content\" href=\"javascript:;\" data-url="+list.cw_url+" >"+list.cw_status_str+"</a>"
+                             +"</td>"
+                             +"<td><font size=\"2\" color=\"black\">预习情况</font></td>"
+                             +"<td>"+list.preview_status_str+"</td>"
+                             +"</tr>"
+                             +"</table>"
+                             +"</div>"
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \">"
+                             +"<span><font size=\"3\" color=\"black\">课堂情况</font></span>"
+                             +" </div>"
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<table style=\"margin-left:10px\" class=\"table table-bordered\">"
+                             +" <tr>"
+                             +"<td><font size=\"2\" color=\"black\">学生考勤</font></td>"
+                             +"<td>"+list.stu_attend_str+"</td>"
+                             +"<td><font size=\"2\" color=\"black\">学生登录</font></td>"
+                             +"<td>"+list.stu_login_num+"</td>"
+                             +"<td><font size=\"2\" color=\"black\">家长登录</font></td>"
+                             +"<td>"+list.parent_login_num+"</td>"
+                             +"<td><font size=\"2\" color=\"black\">学生画笔</font></td>"
+                             +"<td>"+list.stu_draw +"</td>"
+                             +"<td><font size=\"2\" color=\"black\">学生发言</font></td>"
+                             +"<td>"+list.stu_voice+"</td>"
+                             +"<td><font size=\"2\" color=\"black\">获赞</font></td>"
+                             +"<td>"+list.stu_praise+"</td>"
+                             +"</tr>"
+                             +"<tr>"
+                             +"<td><font size=\"2\" color=\"black\">老师考勤</font></td>"
+                             +"<td>"+list.tea_attend_str+"</td>"
+                             +"<td><font size=\"2\" color=\"black\">老师登录</font></td>"
+                             +"<td>"+list.tea_login_num+"</td>"
+                             +"<td></td>"
+                             +"<td></td>"
+                             +"<td><font size=\"2\" color=\"black\">老师画笔</font></td>"
+                             +"<td>"+list.tea_draw+"</td>"
+                             +"<td><font size=\"2\" color=\"black\">老师发言</font></td>"
+                             +"<td>"+list.tea_voice+"</td>"
+                             +"<td></td>"
+                             +"<td></td>"
+                             +"</tr>"
+                             +"</table>"
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \">"
+                             +"<span><font size=\"3\" color=\"black\">课程评价</font></span> "
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<table style=\"margin-left:10px\" class=\"table table-bordered\">"
+                             +" <tr>"
+                             +"<td><font size=\"2\" color=\"black\">学生打分</font></td>"
+                             +"<td>"
+                             +"<a class=\"show_score\" href=\"javascript:;\"  >"+list.stu_score+"</a>"
+                             +"</td>"
+                             +"<td><font size=\"2\" color=\"black\">学生评价</font></td>"
+                             +"<td>"+list.teacher_comment+"</td>"
+                             +"<td><font size=\"2\" color=\"black\">老师评价</font></td>"
+                             +"<td>"+list.stu_point_performance+"</td>"
+                             +"</tr>"
+                             +"</table>"
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \">"
+                             +"<span><font size=\"3\" color=\"black\">作业情况</font></span> "
+                             +"</div>"
+                             +"<div class=\"col-xs-12 col-md-12  \" >"
+                             +"<table style=\"margin-left:10px\" class=\"table table-bordered\">"
+                             +" <tr>"
+                             +"<td><font size=\"2\" color=\"black\">布置作业</font></td>"
+                             +"<td>"
+                             +"<a class=\"show_issue\" href=\"javascript:;\"   >"+list.issue_flag+"</a>"
+                             +"</td>"
+                             +"<td><font size=\"2\" color=\"black\">下载作业</font></td>"
+                             +"<td>"+list.download_flag+"</td>"
+                             +"<td><font size=\"2\" color=\"black\">提交情况</font></td>"
+                             +"<td>"
+                             +"<a class=\"show_commit\" href=\"javascript:;\"   >"+list.commit_flag+"</a>"
+                             +"</td>"
+                             +"<td><font size=\"2\" color=\"black\">是否批改</font></td>"
+                             +"<td>"
+                             +"<a class=\"show_check\" href=\"javascript:;\"   >"+list.check_flag+"</a>"
+                             +"</td>"
+                             +"<td><font size=\"2\" color=\"black\">成绩</font></td>"
+                             +"<td>"+list.score+"</td>"
+                             +"<td><font size=\"2\" color=\"black\">查看批改</font></td>"
+                             +"<td>"+list.stu_check_flag+"</td>"
+                             +"</tr>"
+                             +"</table>"
+                             +"</div>"
+                             +"</div>");
             html_node.find(".show_lesson_video").on("click",function(){
                 $.do_ajax( "/common/encode_text",{
                     "text" : lessonid
@@ -322,6 +440,63 @@ $(function(){
                 });
  
             });
+            html_node.find(".show_cw_content").on("click",function(){
+                var url = $(this).data("url");
+                if(list.tea_cw_url){
+                    $.wopen(url); 
+                }
+                
+            });
+            html_node.find(".show_issue").on("click",function(){
+                if(list.issue_url){
+                    $.wopen(list.issue_url_str); 
+                }
+                
+            });
+            html_node.find(".show_commit").on("click",function(){
+                if(list.finish_url){
+                    $.wopen(list.finish_url_str); 
+                }
+                
+            });
+            html_node.find(".show_check").on("click",function(){
+                if(list.check_url){
+                    $.wopen(list.check_url_str); 
+                }
+                
+            });
+
+
+
+
+            html_node.find(".show_score").on("click",function(){
+                var title1 = "打分详情";
+                var html_node1= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>得分</td></tr><tr><td>上课效果</td><td>"+list.teacher_effect+"</td></tr><tr><td>课件质量</td><td>"+list.teacher_quality+"</td></tr><tr><td>课堂互动</td><td>"+list.teacher_interact+"</td></tr><tr><td>系统稳定性</td><td>"+list.stu_stability+"</td></tr></table></div>");
+
+                var dlg1=BootstrapDialog.show({
+                    title:title1,
+                    message :  html_node1   ,
+                    closable: true,
+                    buttons:[{
+                        label: '返回',
+                        cssClass: 'btn',
+                        action: function(dialog) {
+                            dialog.close();
+
+                        }
+                    }],
+                    onshown:function(){
+
+                    }
+
+                });
+
+                dlg1.getModalDialog().css("width","400px");
+ 
+                
+            });
+
+
 
             var dlg=BootstrapDialog.show({
                 title:title,

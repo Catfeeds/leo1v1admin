@@ -396,30 +396,25 @@ class test_james extends Controller
 
            3、位置：统计>个性海报转发记录
          **/
-
+        Schema::dropIfExists('t_personality_poster');
         Schema::create('db_tool.t_personality_poster', function(Blueprint $table) {
             t_comment($table,"市场部个性海报");
             t_field($table->increments("id"), "");
             t_field($table->integer("uid"), "分享人id");
-            t_field($table->integer("posterNum"), "制作海报次数");
             t_field($table->integer("clickNum"), "家长点击次数");
-            t_field($table->integer("forwardNum"), "转发次数");
-            t_field($table->string("media_id",100), "照片mediaId");
-            t_field($table->string("bgImgUrl"), "背景图片链接");
-            t_field($table->string("qr_code_url"), "二维码链接");
+            t_field($table->integer("stuNum"), "学生数量");
         });
 
-
+        Schema::dropIfExists('t_poster_share_log');
         Schema::create('db_tool.t_poster_share_log', function(Blueprint $table) {
-            t_comment($table,"海报分享进入链接");
+            t_comment($table,"海报分享报名的学生链接");
             t_field($table->integer("poster_id"), "海报id");
             t_field($table->integer("uid"), "分享人id");
-            t_field($table->integer("parentId"), "家长id");
-            t_field($table->string("par_openid"), "家长openid");
             t_field($table->string("phone",100), "学生号码");
-            $table->index('poster_id', 'pid');
+            t_field($table->integer("studentid"), "学生id");
+            t_field($table->integer("add_time"), "添加时间");
             $table->index('uid', 'uid');
-            $table->index('par_openid', 'par_openid');
+            $table->index('phone', 'phone');
         });
 
     }
@@ -1784,5 +1779,10 @@ class test_james extends Controller
         $a = new \App\Jobs\marketActivityPoster('','',$qr_code_url,'','',$type);
         $a->handle();
         // dispatch( new \App\Jobs\marketActivityPoster('','',$qr_code_url,'',''));
+    }
+
+    public function getTea(){
+        $num = $this->t_teacher_info->getTeacherNumTrainThrough();
+        dd($num);
     }
 }

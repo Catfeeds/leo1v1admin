@@ -4993,6 +4993,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $teacher_type      = $this->t_teacher_info->get_teacher_type($teacherid);
         $last_lesson_count = $this->get_last_lesson_count_info($start_time,$end_time,$teacherid);
         $lesson_list       = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
+        $check_num         = [];
         if(!empty($lesson_list)){
             foreach($lesson_list as $key => &$val){
                 $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
@@ -5016,7 +5017,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $teacher_base_money         = $val['lesson_base']*100;
                 $teacher_lesson_count_money = $val['lesson_reward']*100;
                 $teacher_lesson_cost        = $val['lesson_cost']*100;
-
 
                 $this->t_lesson_all_money_list->update_lesson_all_money_info(
                     $lessonid,$teacher_base_money,$teacher_lesson_count_money,$teacher_lesson_cost

@@ -14,6 +14,12 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $lessonid = 2404;
+        $page_info = $this->get_in_page_info();
+        $login_list = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,-1,0,0,-1,-1,1,$lessonid);
+        $login = @$login_list["list"][0];
+        dd($login);
+
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2018-01-21");
         $cc_list        = $task->t_lesson_info->get_teacher_test_person_num_by_all( $start_time,$end_time,-1,-1,[],2,false);
