@@ -38,7 +38,7 @@ class SendMsgToTeaSetFreeTime extends Command
     public function handle()
     {
         //
-        $job = new \App\Jobs\SendMsgToTeaSetFreeTime();
+        $job = new \App\Jobs\SendMsgToNoticTeaSetFreeTime();
         dispatch($job);
     }
 }

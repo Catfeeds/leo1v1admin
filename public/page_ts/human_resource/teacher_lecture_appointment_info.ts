@@ -211,9 +211,6 @@ $(function(){
                 });
             }
         });
-
-
-
     });
 
     $(".opt-edit").on("click",function(){
@@ -263,7 +260,6 @@ $(function(){
 
     $("#id_add_teacher_lecture_appointment").on("click",function(){
         var id_answer_begin_time            = $("<input />");
-        var id_answer_end_time              = $("<input />");
         var id_name                         = $("<input />");
         var id_phone                        = $("<input />");
         var id_email                        = $("<input />");
@@ -277,12 +273,6 @@ $(function(){
         var id_self_introduction_experience = $("<textarea />");
         var id_lecture_revisit_type         = $("<select/>");
 
-        id_answer_end_time.datetimepicker({
-            datepicker:true,
-            timepicker:true,
-            format:'Y-m-d H:i:s',
-            step:1
-        });
         id_answer_begin_time.datetimepicker({
             datepicker:true,
             timepicker:true,
@@ -291,12 +281,11 @@ $(function(){
         });
 
         Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[0,1,2,3,4] );
-        Enum_map.append_option_list("subject", id_subject_ex, true );
+        Enum_map.append_option_list_by_not_id("subject", id_subject_ex, true,[11] );
         Enum_map.append_option_list("grade_part", id_grade_ex, true );
-        Enum_map.append_option_list("identity", id_teacher_type, true );
+        Enum_map.append_option_list("identity", id_teacher_type, true ,[0,5,6,7,8]);
         var arr=[
-            ["答题开始时间", id_answer_begin_time],
-            ["答题结束时间", id_answer_end_time],
+            ["报名时间", id_answer_begin_time],
             ["姓名", id_name],
             ["电话", id_phone],
             ["邮箱", id_email],
@@ -314,18 +303,17 @@ $(function(){
             cssClass : 'btn-warning',
             action   : function(dialog) {
                 $.do_ajax('/ss_deal/add_lecture_appointment_one',{
-                    "answer_begin_time"            : id_answer_begin_time.val(),
-                    "answer_end_time"              : id_answer_end_time.val(),
-                    "name"                         : id_name.val(),
-                    "phone"                        : id_phone.val(),
-                    "email"                        : id_email.val(),
-                    "qq"                           : id_qq.val(),
-                    "grade_ex"                     : id_grade_ex.val(),
-                    "subject_ex"                   : id_subject_ex.val(),
-                    "school"                       : id_school.val(),
-                    "teacher_type"                 : id_teacher_type.val(),
-                    "reference"                    : id_reference.val(),
-                    "lecture_revisit_type"         : id_lecture_revisit_type.val()
+                    "answer_begin_time"    : id_answer_begin_time.val(),
+                    "name"                 : id_name.val(),
+                    "phone"                : id_phone.val(),
+                    "email"                : id_email.val(),
+                    "qq"                   : id_qq.val(),
+                    "grade_ex"             : id_grade_ex.val(),
+                    "subject_ex"           : id_subject_ex.val(),
+                    "school"               : id_school.val(),
+                    "teacher_type"         : id_teacher_type.val(),
+                    "reference"            : id_reference.val(),
+                    "lecture_revisit_type" : id_lecture_revisit_type.val()
                 });
             }
         });
@@ -613,7 +601,6 @@ $(function(){
     });
 
     $(".opt-telphone").on("click",function(){
-        //
         var me=this;
         var opt_data= $(this).get_opt_data();
         var phone    = ""+ opt_data.phone;
@@ -627,7 +614,7 @@ $(function(){
         };
         $.do_ajax_t("/ss_deal/call_ytx_phone", {
             "phone": opt_data.phone
-        } );
+        });
 
     });
 
@@ -678,7 +665,6 @@ $(function(){
     $(".opt-edit-hand").on("click",function(){
         var opt_data           = $(this).get_opt_data();
         var id_answer_begin_time            = $("<input />");
-        var id_answer_end_time              = $("<input />");
         var id_name                         = $("<input />");
         var id_email                        = $("<input />");
         var id_qq                           = $("<input />");
@@ -692,12 +678,6 @@ $(function(){
         var id_self_introduction_experience = $("<textarea />");
         var id_lecture_revisit_type         = $("<select/>");
 
-        id_answer_end_time.datetimepicker({
-            datepicker:true,
-            timepicker:true,
-            format:'Y-m-d H:i:s',
-            step:1
-        });
         id_answer_begin_time.datetimepicker({
             datepicker:true,
             timepicker:true,
@@ -711,7 +691,6 @@ $(function(){
         Enum_map.append_option_list("identity", id_teacher_type, true );
         var arr=[
             ["答题开始时间", id_answer_begin_time],
-            ["答题结束时间", id_answer_end_time],
             ["姓名", id_name],
             ["邮箱", id_email],
             ["qq", id_qq],
@@ -724,7 +703,6 @@ $(function(){
             ["回访状态", id_lecture_revisit_type],
         ];
         id_answer_begin_time.val(opt_data.begin);
-        id_answer_end_time.val(opt_data.end);
         id_name.val(opt_data.name);
         id_email.val(opt_data.email);
         id_qq.val(opt_data.qq);
@@ -742,7 +720,6 @@ $(function(){
             action   : function(dialog) {
                 $.do_ajax('/ss_deal/update_lecture_appointment_info',{
                     "answer_begin_time"            : id_answer_begin_time.val(),
-                    "answer_end_time"              : id_answer_end_time.val(),
                     "name"                         : id_name.val(),
                     "email"                        : id_email.val(),
                     "qq"                           : id_qq.val(),
@@ -1139,8 +1116,53 @@ $(function(){
                 });
             }
         }],function(){
-            $.admin_select_user( id_record_teacher, "research_teacher");
+            $.admin_select_user(id_record_teacher,"research_teacher");
         });
+    });
+
+    $("#id_add_teacher_lecture_appointment_for_test").on("click",function(){
+        var id_teacher_type                 = $("<select />");
+        var id_reference                    = $("<input />");
+
+        var arr = [
+            ["老师身份",id_teacher_type],
+            ["推荐人",id_reference],
+        ];
+        Enum_map.append_option_list_by_not_id("identity",id_teacher_type,true,[0]);
+        $.show_key_value_table("添加测试报名数据",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/teacher_test_class/add_teacher_lecture_appointment_for_test",{
+                    "teacher_type" : id_teacher_type.val(),
+                    "reference"    : id_reference.val(),
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
+        },function(){
+            $.admin_select_user(id_reference,"teacher");
+        });
+
+
+    });
+
+    $(".opt-test-through").on("click",function(){
+        var data = $(this).get_opt_data();
+	      $.do_ajax("/teacher_test_class/set_teacher_through",{
+            "phone":data.phone
+        },function(result){
+            if(result.ret==0){
+                window.location.reload();
+            }else{
+                BootstrapDialog.alert(result.info);
+            }
+        })
+
     });
 
 

@@ -565,54 +565,6 @@ class user_manage_new extends Controller
         ]);
     }
 
-    // private function get_lesson_cost_info(&$val){
-    //     $lesson_all_cost = 0;
-    //     $lesson_info     = "";
-    //     $deduct_type = E\Elesson_deduct::$s2v_map;
-    //     $deduct_info = E\Elesson_deduct::$desc_map;
-    //     $month = 0;
-    //     $lesson_month = date("m",$val['lesson_start']);
-    //     if($month!=$lesson_month){
-    //         $month=$lesson_month;
-    //         $this->change_num=0;
-    //         $this->late_num=0;
-    //     }
-
-    //     if($val['confirm_flag']==2 && $val['deduct_change_class']>0){
-    //         if($val['lesson_cancel_reason_type']==21){
-    //             $lesson_all_cost = $this->teacher_money['lesson_miss_cost']/100;
-    //             $info            = "上课旷课!";
-    //         }elseif(($val['lesson_cancel_reason_type']==2 || $val['lesson_cancel_reason_type']==12)
-    //         && $val['lesson_cancel_time_type']==1){
-    //             if($this->change_num>=3){
-    //                 $lesson_all_cost = $this->teacher_money['lesson_cost']/100;
-    //                 $lesson_info     = "课前４小时内取消上课！";
-    //             }else{
-    //                 $this->change_num++;
-    //                 $lesson_info     = "本月第".$this->change_num."次换课";
-    //                 $lesson_all_cost = 0;
-    //             }
-    //         }
-    //     }else{
-    //         $lesson_cost = $this->teacher_money['lesson_cost']/100;
-    //         foreach($deduct_type as $key=>$item){
-    //             if($val['deduct_change_class']==0){
-    //                 if($val[$key]>0){
-    //                     if($key=="deduct_come_late" && $this->late_num<3){
-    //                         $this->late_num++;
-    //                     }else{
-    //                         $lesson_all_cost += $lesson_cost;
-    //                         $lesson_info.=$deduct_info[$item]."/";
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-
-    //     $val['lesson_cost']      = $lesson_all_cost;
-    //     $val['lesson_cost_info'] = $lesson_info;
-    // }
-
     public function ass_contract_list () {
         list($start_time, $end_time, $opt_date_str )= $this->get_in_date_range_month(0,0, [
             0 => array( "order_time", "合同创建时间"),
@@ -620,36 +572,31 @@ class user_manage_new extends Controller
             2 => array("master_assign_time","分配助教助长时间"),
         ]);
 
-        $contract_status   = -2;
-        $config_courseid   = -1;
-        $is_test_user      = 0;
-        $studentid         = $this->get_in_studentid(-1);
-        $check_money_flag  = $this->get_in_int_val("check_money_flag", -1);
-        $have_init  = $this->get_in_int_val("have_init", -1);
-        $have_master  = $this->get_in_int_val("have_master", -1);
-        $assistantid = $this->get_in_int_val("assistantid", -1);
-        $page_num          = $this->get_in_page_num();
-        $has_money         = -1;
-        $contract_type     = $this->get_in_int_val(  'contract_type', -2 );
-        $account           = $this->get_account();
-        $show_yueyue_flag  = false;
+        $contract_status  = -2;
+        $config_courseid  = -1;
+        $is_test_user     = 0;
+        $studentid        = $this->get_in_studentid(-1);
+        $check_money_flag = $this->get_in_int_val("check_money_flag", -1);
+        $have_init        = $this->get_in_int_val("have_init", -1);
+        $have_master      = $this->get_in_int_val("have_master", -1);
+        $assistantid      = $this->get_in_int_val("assistantid", -1);
+        $page_num         = $this->get_in_page_num();
+        $has_money        = -1;
+        $contract_type    = $this->get_in_int_val(  'contract_type', -2 );
+        $account          = $this->get_account();
+        $show_yueyue_flag = false;
         $sys_operator_uid = $this->get_in_int_val("sys_operator_uid", -1);
-        /*
-        if ($account =="yueyue") {
-            $show_yueyue_flag= true;
-        }
-        */
+
         $account_id = $this->get_account_id();
         $main_type = 1;
         $is_master = $this->t_admin_main_group_name->check_is_master($main_type,$account_id);
         if($is_master>0 || $account_id==349 || $account_id==74){
-            $up_master_adminid=-1;
+            $up_master_adminid = -1;
         }else{
-            $up_master_adminid=0;
+            $up_master_adminid = 0;
         }
-        //$up_master_adminid=-1;
 
-        $ret_list=$this->t_order_info->get_order_list($page_num,$start_time,$end_time,$contract_type,$contract_status,$studentid,$config_courseid,$is_test_user, $show_yueyue_flag, $has_money,$check_money_flag ,$assistantid,"",-1,"",-1,-1,-1,-1,-1,-1,$up_master_adminid,$account_id, [],  -1, $opt_date_str," t2.assistantid asc , order_time desc",$have_init,$have_master,$sys_operator_uid);
+        $ret_list = $this->t_order_info->get_order_list($page_num,$start_time,$end_time,$contract_type,$contract_status,$studentid,$config_courseid,$is_test_user, $show_yueyue_flag, $has_money,$check_money_flag ,$assistantid,"",-1,"",-1,-1,-1,-1,-1,-1,$up_master_adminid,$account_id, [],  -1, $opt_date_str," t2.assistantid asc , order_time desc",$have_init,$have_master,$sys_operator_uid);
 
         $money_all=0;
 
@@ -3235,11 +3182,11 @@ class user_manage_new extends Controller
                 }
 
                 $data['tea_num']              = $v['tea_num'];
-                $data['tea_num_percent']      = (round($v['tea_num']/$all_tea_num,4)*100).'%';
+                $data['tea_num_percent']      = $this->get_price_percent($v['tea_num'],$all_tea_num);
                 $data['lesson_num']           = $v['lesson_num'];
-                $data['lesson_num_percent']   = (round($v['lesson_num']/$all_lesson_num,4)*100).'%';
+                $data['lesson_num_percent']   = $this->get_price_percent($v['lesson_num'], $all_lesson_num);
                 $data['lesson_total']         = $v['lesson_total']/100;
-                $data['lesson_total_percent'] = (round($v['lesson_total']/$all_lesson_total,4)*100).'%';
+                $data['lesson_total_percent'] = $this->get_price_percent($v['lesson_total'], $all_lesson_total);
                 $data['cost']                 = isset($v['cost'])?$v['cost']:0;
                 $data['cost_percent']         = $this->get_price_percent($data['cost'],$all_cost);
                 $data['price']                = isset($v['price'])?$v['price']:0;
@@ -3771,9 +3718,9 @@ class user_manage_new extends Controller
                 $num = $this->t_teacher_money_list->get_total_for_teacherid(403459);
                 $info['tea_sum'] += $num;
             }
-            if ($teacherid == 226810) { //处理赵海岗
-                $info['tea_sum'] += 1;
-            }
+            // if ($teacherid == 226810) { //处理赵海岗
+            //     $info['tea_sum'] += 1;
+            // }
             $info['tea_reward'] = 40;
             if ($info['tea_sum'] > 10) $info['tea_reward'] = 50;
             if ($info['tea_sum'] > 20) $info['tea_reward'] = 70;
@@ -3781,7 +3728,7 @@ class user_manage_new extends Controller
             $info['total'] = $info['stu_sum'] + $info['tea_sum'];
         }
         return $this->Pageview(__METHOD__,$list, [
-            'info' => $info,
+            'info'      => $info,
             'teacherid' => $teacherid
         ]);
     }
@@ -5325,5 +5272,6 @@ class user_manage_new extends Controller
         }
         return $this->Pageview(__METHOD__,$ret_list,[]);
     }
+
 
 }
