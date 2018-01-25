@@ -44,14 +44,14 @@ function outputJson($array){
     }
 
     if( isset ($_GET['callback']) ) {
-        $content= htmlspecialchars($_GET['callback']) . '(' . $json_data . ')';
-        //return $content;
-        $response=\Illuminate\Support\Facades\Response::make ($content, 200 );
+        $content  = htmlspecialchars($_GET['callback']) . '(' . $json_data . ')';
+        $response = \Illuminate\Support\Facades\Response::make ($content, 200 );
         $response->header('Content-Type', "text/javascript");
         return $response;
     }else{
         $content= $json_data ;
         $response=\Illuminate\Support\Facades\Response::make ($content, 200 );
+        $response->header('Access-Control-Allow-Origin',"*");
         $response->header('Content-Type', "application/json");
         return $response;
     }

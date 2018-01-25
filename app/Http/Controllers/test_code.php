@@ -436,9 +436,54 @@ class test_code extends Controller
         echo "<br>";
     }
 
-    public function get_env(){
-        // select s.userid,s.grade,group_concat(distinct(l.subject)) ,sum(o.price/(o.lesson_total*o.default_lesson_count)*o.lesson_left/100) as price_left from t_student_info s left join t_order_info o on s.userid=o.userid and lesson_left>0 left join t_lesson_info l on s.userid=l.userid and lesson_start>1506787200 and lesson_start<1514736000 and lesson_del_flag=0 and confirm_flag!=2 and lesson_type in (0,1,3)  where s.is_test_user=0 and contract_type in (0,3) and contract_status=1 group by s.userid having price_left>30000;
-        dd(getenv('APP_ENV'));
+    public function get_grade(){
+        $arr = $this->get_b_txt();
+        $arr2 = $this->get_b_txt("c");
+
+        $user_all_info = [];
+        foreach($arr as $val){
+            if($val!=""){
+                $user_arr = explode("\t", $val);
+                $userid = $user_arr[0];
+                $subject_str = $user_arr[1];
+                $user_all_info[$userid]["userid"] = $userid;
+                $user_all_info[$userid]["subject"] = $subject_str;
+            }
+        }
+
+        foreach($arr2 as $val2){
+            if($val2!=""){
+                $user_all_arr                     = explode("\t", $val2);
+                $userid2                          = $user_all_arr[0];
+                $user_all_info[$userid2]['userid']  = $userid2;
+                $user_all_info[$userid2]['name']  = $user_all_arr[1];
+                $user_all_info[$userid2]['grade'] = $user_all_arr[2];
+                $user_all_info[$userid2]['price'] = $user_all_arr[3];
+            }
+        }
+
+        foreach($user_all_info as $val){
+            echo $val['userid'];
+            echo "|";
+            echo $val['name'];
+            echo "|";
+            echo $val['grade'];
+            echo "|";
+            echo $val['price'];
+            echo "|";
+            if(isset($val['subject'])){
+                $subject_arr = explode(",", $val['subject']);
+                foreach($subject_arr as $sub_key=> $sub_val){
+                    echo E\Esubject::get_desc($sub_val);
+                    if(($sub_key+1)!=count($subject_arr)){
+                        echo ",";
+                    }
+                }
+            }
+
+            echo "<br>";
+        }
+
     }
 
 }
