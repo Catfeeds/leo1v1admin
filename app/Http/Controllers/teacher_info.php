@@ -2566,8 +2566,8 @@ class teacher_info extends Controller
         $is_test_user = $this->check_is_test_teacher();
 
         //
-        $is_full_time = 1;
-        $is_test_user = 0;
+        // $is_full_time = 1;
+        // $is_test_user = 0;
         //dd($is_full_time ,$is_test_user);
         //
         if($is_test_user == 1 || $is_full_time == 1){
