@@ -63,7 +63,7 @@ class phone_city extends Command
                 "phone_province" =>$province,
                 "phone_city" =>$city,
             ]);
-            echo "$userid $province  $city.fin\n";
+            echo "student $userid $province  $city.fin\n";
         }
 
 
@@ -84,7 +84,7 @@ class phone_city extends Command
                 "phone_province" =>$province,
                 "phone_city" =>$city,
             ]);
-            echo "$userid $province  $city.fin\n";
+            echo "teacher $userid $province  $city.fin\n";
         }      
     }     
 }
