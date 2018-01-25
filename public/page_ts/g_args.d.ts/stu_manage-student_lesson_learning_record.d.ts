@@ -45,6 +45,7 @@ interface RowData {
 	nick	:any;
 	file_url	:any;
 	paper_upload_time	:any;
+	school_ex	:any;
 	num	:any;
 	semester_str	:any;
 	grade_str	:any;
@@ -54,8 +55,8 @@ interface RowData {
 	rank_num	:any;
 	grade_rank_num	:any;
 	file_url_str	:any;
-	paper_upload_time_str	:any;
 	file_upload_str	:any;
+	paper_upload_time_str	:any;
 }
 
 /*

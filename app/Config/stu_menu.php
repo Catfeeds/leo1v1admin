@@ -28,6 +28,7 @@ class stu_menu{
             [ "power_id"=>17, "name"=>"交接单-临时", "icon" => "fa-dashboard", "url"=> "/stu_manage/init_info_tmp?sid={sid}"],
             [ "power_id"=>18, "name"=>"成绩记录",  "url"=> "/stu_manage/score_list?sid={sid}"],
             [ "power_id"=>19, "name"=>"个人登录记录",  "url"=> "/stu_manage/user_login_list?sid={sid}"],
+            [ "power_id"=>20, "name"=>"学情记录",  "url"=> "/stu_manage/student_lesson_learning_record?sid={sid}"],
 
             [ "power_id"=>50,  "admin_domain_type"=> 1 ,  "name"=>"基本信息",  "url"=> "/class_stu_manage/index?sid={sid}"],
             [ "power_id"=>51,  "admin_domain_type"=> 1 ,  "name"=>"订单信息",  "url"=> "/class_stu_manage/index?sid={sid}"],

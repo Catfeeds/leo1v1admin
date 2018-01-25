@@ -711,6 +711,7 @@ $(function(){
         var id_grade_rank     = $("<input placeholder=\"输入年级排名 格式:2\" />");   //输入年级排名
         var id_grade_rank_num = $("<input placeholder=\"输入年级人数 格式:257\" />");   //输入年级人数
         var id_rank_num       = $("<input placeholder=\"输入班级人数 格式:26\" />");   //输入班级人数
+        var id_school_ex      = $("<input />");   
 
         var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\"> </a>   </div>");
         var $upload_btn  = $upload_div.find("button") ;
@@ -735,7 +736,9 @@ $(function(){
             ["班级人数",id_rank_num],
             ["年级排名",id_grade_rank],
             ["年级人数",id_grade_rank_num],
+            ["学校",id_school_ex],
         ];
+        id_school_ex.val(opt_data.school);
         
         arr.push(['学生试卷',$upload_div]);
         $.show_key_value_table("增加考试记录", arr, {
@@ -754,6 +757,8 @@ $(function(){
                     alert("请输入试卷总分");
                     return;
                 }
+               
+                
                 var rank="";
                 if(id_rank_num.val()>0){
                     rank = id_rank.val()+"/"+id_rank_num.val();
@@ -786,6 +791,7 @@ $(function(){
                     "grade"         : id_grade.val(),
                     "grade_rank"    : grade_rank,
                     "status"        : 0,
+                    "school_ex"     : id_school_ex.val()
 
                 });
             }

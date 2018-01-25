@@ -1445,7 +1445,7 @@ class stu_manage extends Controller
 
     public function student_lesson_learning_record(){
         $userid       = $this->sid;
-        $userid = $this->get_in_int_val("sid");
+        // $userid = $this->get_in_int_val("sid");
         #分页信息
         $page_info= $this->get_in_page_info();
         #排序信息
@@ -1804,6 +1804,10 @@ class stu_manage extends Controller
             $list = $this->t_student_score_info->get_all_list_no_page("",-1,$grade,$semester,$stu_score_type,$userid,$subject);
             foreach( $ret_info["list"] as $key => &$item ) {
 
+                if(empty($item["paper_upload_time"])){
+                    $item["paper_upload_time"] =$item["create_time"];
+                }
+
 
                 $ret_info['list'][$key]['num'] = $key + 1;
                 \App\Helper\Utils::unixtime2date_for_item($item,"create_time","","Y/m/d");
@@ -1829,12 +1833,9 @@ class stu_manage extends Controller
                 $item["grade_rank"] = $grade_rank[0];
                 $item["grade_rank_num"] = @$grade_rank[1]?@$grade_rank[1]:"--";
                 $item["file_url_str"] = \App\Helper\Utils::gen_download_url($item["file_url"]);
-                if(empty($item["paper_upload_time"])){
-                    $item["paper_upload_time"] =$item["create_time"];
-                }
-                \App\Helper\Utils::unixtime2date_for_item($item,"paper_upload_time","_str");
                 if($item["file_url"]){
                     $item["file_upload_str"]="已上传";
+                    \App\Helper\Utils::unixtime2date_for_item($item,"paper_upload_time","_str");
                 }else{
                     $item["file_upload_str"]="未上传";
                     $item["paper_upload_time_str"]="无";
