@@ -3041,13 +3041,14 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         }
     }
 
-    public function get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$page_flag=1){
+    public function get_classroom_situation_info($page_info,$userid,$start_time,$end_time,$subject,$grade,$page_flag=1,$lessonid=-1){
         $where_arr = [
             ["l.lesson_start>=%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
             ["l.userid=%u",$userid,-1],
             ["l.subject=%u",$subject,-1],
             ["l.grade=%u",$grade,-1],
+            ["l.lessonid=%u",$lessonid,-1],
             "l.lesson_del_flag=0",
             "l.lesson_type in (0,1,3)",
             "l.lesson_start>0"
@@ -3107,25 +3108,29 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
     //所有课信息
-    public function get_student_all_lesson_info($userid,$start_time,$end_time){
+    public function get_student_all_lesson_info($userid,$start_time,$end_time,$lessonid=-1){
         $where_arr = [
             ["l.lesson_start>=%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
             ["l.userid=%u",$userid,-1],         
+            ["l.lessonid=%u",$lessonid,-1],         
             "l.lesson_del_flag=0",
             // "l.confirm_flag<2",
             "l.lesson_type in (0,1,3)",
             "l.lesson_start>0"
         ];
-        $sql = $this->gen_sql_new("select l.lessonid,l.lesson_start,l.lesson_num,l.tea_cw_upload_time ,l.tea_cw_url,"
-                                  ." l.preview_status,l.cw_status,l.confirm_flag,l.lesson_cancel_reason_type, "
+        $sql = $this->gen_sql_new("select l.lessonid,l.lesson_start,l.lesson_end,l.lesson_num,l.tea_cw_upload_time ,l.tea_cw_url,"
+                                  ." l.preview_status,l.cw_status,l.confirm_flag,l.lesson_cancel_reason_type,l.userid, "
                                   ." l.teacher_effect,l.teacher_quality,l.stu_score,l.teacher_interact,l.stu_stability, "
                                   ." l.teacher_comment,l.stu_comment,l.stu_performance,h.issue_time ,h.issue_url ,"
-                                  ." h.finish_time,h.finish_url ,h.work_status ,h.score,h.check_url,l.stu_praise "
+                                  ." h.finish_time,h.finish_url ,h.work_status ,h.score,h.check_url,l.stu_praise ,"
+                                  ." l.subject,l.grade,t.realname,l.lesson_status "
                                   ." from %s l left join %s h on l.lessonid = h.lessonid"
+                                  ." left join %s t on l.teacherid = t.teacherid"
                                   ." where %s order by l.lesson_start",
                                   self::DB_TABLE_NAME,
                                   t_homework_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql); 

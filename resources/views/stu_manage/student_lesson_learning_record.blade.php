@@ -235,7 +235,7 @@
                         <td>{{@$var["grade_str"] }}</td>
                         <td>{{@$var["subject_str"] }}</td>
                         <td ><a class="btn show_stu_score_detail" href="javascript:;" data-lessonid="{{ @$var["lessonid"] }}" data-effect="{{ @$var["teacher_effect"] }}" data-quality="{{ @$var["teacher_quality"] }}" data-interact="{{ @$var["teacher_interact"] }}" data-stability="{{ @$var["stu_stability"] }}">{{@$var["stu_score"]}}</a></td>
-                        <td >{{@$var["stu_comment"]}}</td>
+                        <td >{{@$var["teacher_comment"]}}</td>
                         <td >{{@$var["stu_point_performance"]}}</td>
 
                         <td>{{@$var["realname"] }}</td>

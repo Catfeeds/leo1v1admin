@@ -1095,7 +1095,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             ["l.trial_train_num=%u",$trial_train_num,-1],
             ["l.subject=%u",$subject,-1],
             "tr.trial_train_status>0",
-            "tr.trial_train_status<3",
+            "(tr.trial_train_status<3 or tr.trial_train_status=4)",
             "t.is_test_user=0",
             "tr.acc <> 'system' "
         ];
@@ -1121,7 +1121,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             ["l.trial_train_num=%u",$trial_train_num,-1],
             ["l.subject=%u",$subject,-1],
             "tr.trial_train_status>0",
-            "tr.trial_train_status<3",
+            "(tr.trial_train_status<3 or tr.trial_train_status=4)",
             "t.is_test_user=0",
             "tr.acc <> 'system' "
         ];
