@@ -3343,4 +3343,21 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_row($sql);
     }
+
+
+    /**
+     *
+     *
+     */
+    public function get_all_student_phone_and_id($start_time,$end_time){
+        $sql = "select userid, phone from db_weiyi.t_student_info 
+        where is_test_user = 0 and reg_time > $start_time and reg_time < $end_time order by userid asc";
+        return $this->main_get_list($sql);
+    }
+
+    public function get_all_teacher_phone_and_id($start_time,$end_time){
+        $sql = "select teacherid, phone from db_weiyi.t_teacher_info 
+        where is_test_user = 0 and create_time > $start_time and create_time < $end_time order by teacherid asc";
+        return $this->main_get_list($sql);
+    }
 }

@@ -1112,11 +1112,14 @@ class wx_parent_gift extends Controller
 
     # 生成海报
     public function createPoster(){
+        $mediaId = $this->get_in_str_val('mediaId');
         $bgType = $this->get_in_int_val('bgType');
         $uid    = $this->get_in_int_val('uid');
-        $qr_code_url = "http://www.leo1v1.com/market-invite/index.html?p_phone=111&type=2";
-        $a = new \App\Jobs\marketActivityPoster($uid,$bg_url,$qr_code_url,$bgType);
+        $bg_url = E\Emarket_bg::get_desc($bgType);
+        $qr_code_url = "http://www.leo1v1.com/market/index.html?uid=$uid&poster=1";
+        $a = new \App\Jobs\marketActivityPoster($uid,$bg_url,$qr_code_url,$bgType,$mediaId);
         $a->handle();
     }
 
+    #
 }

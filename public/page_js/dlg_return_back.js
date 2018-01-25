@@ -96,12 +96,12 @@ $(function(){
                     if(userid){
                         var html                                  = "<tr><td>"+item.revisit_time +"</td><td>"+
                             item.revisit_type+"</td><td>"+item.revisit_path+"<td>"+ 
-                            item.sys_operator +"</td><td>"+item.revisit_person+"</td><td>"+
+                            item.sys_operator +"</td><td>"+item.revisit_person+"</td><td style='word-break:break-all;word-wrap:break-word; overflow:hidden;'>"+
                             item.operator_note+"</td><td><a class = \"opt_detail\" data-userid=\""+userid+"\" data-revisit_time=\""+revisit_time+"\">详情</a></td></tr>";
                     }else{
                         var html                                  = "<tr><td>"+item.revisit_time +"</td><td>"+
                             item.revisit_type+"</td><td>"+item.revisit_path+"<td>"+ 
-                            item.sys_operator +"</td><td>"+item.revisit_person+"</td><td>"+
+                            item.sys_operator +"</td><td>"+item.revisit_person+"</td><td style='word-break:break-all;word-wrap:break-word; overflow:hidden;'>"+
                             item.operator_note+"</td><td></td></tr>";
                     }
                     html_str.find("table").append(html);

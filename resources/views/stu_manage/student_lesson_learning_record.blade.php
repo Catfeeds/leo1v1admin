@@ -85,7 +85,9 @@
                 <button class="btn btn-warning btn-flat lesson_table_flag" id="id_attend_rate" style="float:right" data-class_id="2">正常出勤率:{{ @$attend_rate }}%</button>
                 <button class="btn btn-warning btn-flat performance_table_flag" id="id_record_rate" style="float:right" data-class_id="3">反馈率:{{ @$record_rate }}%</button>
                 <button class="btn btn-warning btn-flat homework_table_flag" id="id_score_final" style="float:right" data-class_id="4">平均成绩:{{ @$score_final }}</button>
-                <button class="btn btn-warning btn-flat homework_table_flag" id="id_complete_rate" style="float:right;margin-right:15px" data-class_id="4">作业完成率:{{ @$complete_rate }}%</button>
+                <button class="btn btn-warning btn-flat homework_table_flag" id="id_complete_rate" style="float:right;margin-right:15px" data-class_id="4">作业完成率:</button>
+                <button class="btn btn-warning btn-flat score_table_flag" id="id_score_pic" style="float:right" data-class_id="5">图</button>
+                <button class="btn btn-warning btn-flat score_table_flag" id="id_score_table" style="float:right" data-class_id="5">表</button>
 
 
 
@@ -122,7 +124,7 @@
             <tbody>
                 @foreach ($table_data_list as $var)
                     <tr>
-                        <td class="show_lesson_detail" data-lessonid="{{ $var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
+                        <td class="show_lesson_detail" data-lessonid="{{ @$var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
                         <td>{{@$var["lesson_time"] }}</td>
                         <td>{{@$var["grade_str"] }}</td>
                         <td>{{@$var["subject_str"] }}</td>
@@ -173,7 +175,7 @@
             <tbody>
                 @foreach ($table_data_list as $var)
                     <tr>
-                        <td class="show_lesson_detail" data-lessonid="{{ $var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
+                        <td class="show_lesson_detail" data-lessonid="{{ @$var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
                         <td>{{@$var["lesson_time"] }}</td>
                         <td>{{@$var["grade_str"] }}</td>
                         <td>{{@$var["subject_str"] }}</td>
@@ -194,10 +196,11 @@
                                 {{@$var["parent_login_num"] }}
                             </a>
                         </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                       
+                        <td>{{@$var["stu_draw"] }}</td>
+                        <td>{{@$var["tea_draw"] }}</td>
+                        <td>{{@$var["stu_voice"] }}</td>
+                        <td>{{@$var["tea_voice"] }}</td>
                         <td>{{@$var["stu_praise"] }}</td>
                         <td>{{@$var["realname"] }}</td>
                         <td>
@@ -230,12 +233,12 @@
             <tbody>
                 @foreach ($table_data_list as $var)
                     <tr>
-                        <td class="show_lesson_detail" data-lessonid="{{ $var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
+                        <td class="show_lesson_detail" data-lessonid="{{ @$var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
                         <td>{{@$var["lesson_time"] }}</td>
                         <td>{{@$var["grade_str"] }}</td>
                         <td>{{@$var["subject_str"] }}</td>
                         <td ><a class="btn show_stu_score_detail" href="javascript:;" data-lessonid="{{ @$var["lessonid"] }}" data-effect="{{ @$var["teacher_effect"] }}" data-quality="{{ @$var["teacher_quality"] }}" data-interact="{{ @$var["teacher_interact"] }}" data-stability="{{ @$var["stu_stability"] }}">{{@$var["stu_score"]}}</a></td>
-                        <td >{{@$var["stu_comment"]}}</td>
+                        <td >{{@$var["teacher_comment"]}}</td>
                         <td >{{@$var["stu_point_performance"]}}</td>
 
                         <td>{{@$var["realname"] }}</td>
@@ -272,7 +275,7 @@
             <tbody>
                 @foreach ($table_data_list as $var)
                     <tr>
-                        <td class="show_lesson_detail" data-lessonid="{{ $var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
+                        <td class="show_lesson_detail" data-lessonid="{{ @$var["lessonid"] }}"><a href="javascript:;">{{@$var["lesson_num"] }}</a></td>
                         <td>{{@$var["lesson_time"] }}</td>
                         <td>{{@$var["grade_str"] }}</td>
                         <td>{{@$var["subject_str"] }}</td>
@@ -280,7 +283,7 @@
                             @if(empty(@$var["issue_url"]))
                                 {{@$var["issue_flag"] }}
                             @else
-                                <a class="show_issue_content" href="javascript:;" data-url="{{ $var["issue_url_str"] }}">
+                                <a class="show_issue_content" href="javascript:;" data-url="{{ @$var["issue_url_str"] }}">
                                     {{@$var["issue_flag"] }}
                                 </a>
                             @endif
@@ -288,7 +291,7 @@
                         <td>{{@$var["download_flag"] }}</td>
                         <td>
                             @if(@$var["work_status"]>=2)
-                                <a class="show_issue_content" href="javascript:;" data-url="{{ $var["finish_url_str"] }}">
+                                <a class="show_issue_content" href="javascript:;" data-url="{{ @$var["finish_url_str"] }}">
                                     {{@$var["commit_flag"] }}
                                 </a>
                             @else
@@ -297,7 +300,7 @@
                         </td>
                         <td>
                             @if(@$var["work_status"]>=3)
-                                <a class="show_issue_content" href="javascript:;" data-url="{{ $var["check_url_str"] }}">
+                                <a class="show_issue_content" href="javascript:;" data-url="{{ @$var["check_url_str"] }}">
                                     {{@$var["check_flag"] }}
                                 </a>
                             @else
@@ -319,6 +322,52 @@
                 @endforeach
             </tbody>
         </table>
+
+        <table     class="common-table score_table_flag" data-class_id="5" >
+            <thead>
+                <tr>
+                    <td>年级</td>
+                    <td>学期</td>
+                    <td>考试类型</td>
+                    <td>科目</td>
+                    <td>班级排名</td>
+                    <td>班级人数</td>
+                    <td>年级排名</td>
+                    <td>年级人数</td>
+                    <td>试卷</td>
+                    <td>录入者</td>
+                    <td>上传时间</td>
+                    <td>操作</td>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ( $table_data_list as $var )
+                    <tr>
+                        <td>{{@$var["grade_str"]}} </td>
+                        <td>{{@$var["semester_str"]}} </td>
+                        <td>{{@$var["stu_score_type_str"]}} </td>
+                        <td>{{@$var["subject_str"]}} </td>
+                       
+                        <td>{{@$var["rank"]}} </td>
+                        <td>{{@$var["rank_num"]}} </td>
+                        <td>{{@$var["grade_rank"]}} </td>
+                        <td>{{@$var["grade_rank_num"]}} </td>
+                        <td>{{@$var["school"]}} </td>
+                        <td>{!!@$var["create_admin_nick"]!!} </td>
+                        <td>{{@$var["school"]}} </td>
+                        <td>
+                            <div
+                                {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                            >
+
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
 
 
 

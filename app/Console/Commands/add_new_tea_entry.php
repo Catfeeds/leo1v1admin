@@ -172,7 +172,7 @@ class add_new_tea_entry extends Command
         foreach($users as $key => $item) {
             if (!isset($user[$key])) continue;
             echo $user[$key]['name'].' '.$item['tag'].' '.$item['order'].','.PHP_EOL;
-        }
+       }
         //dd($users);
         exit;
         $info = $task->t_teacher_lecture_appointment_info_b2->get_name_for_tea_name();

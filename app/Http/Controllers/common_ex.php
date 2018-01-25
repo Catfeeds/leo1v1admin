@@ -223,6 +223,18 @@ class common_ex extends Controller
         $name[6] = "*";
         $name[7] = "*";
         return $this->output_succ(["userid"=> $userid,"name"=>$name]);
+
+
+        /*
+        // 优学优享例子分配给 王春雷 [442]
+        $opt_adminid = 442; // 王春雷
+        $opt_account=$this->t_manager_info->get_account($opt_adminid);
+        $self_adminid = 684;
+        // $account = $this->get_account();
+        $account = '系统';
+        */
+        // $this->t_seller_student_new->allot_userid_to_cc($opt_adminid, $opt_account, $userid, $self_adminid,$account);
+
     }
 
     /**
