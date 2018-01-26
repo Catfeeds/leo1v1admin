@@ -211,11 +211,14 @@ class seller_student_system_assign extends cmd_base
 
             $check_end_flag=false;
             for ($i=0;$i< $seller_max_new_count;$i++ ) { //第几轮
+                \App\Helper\Utils::logger(" DO count :$i");
 
                 foreach( $admin_list as &$item ) {
                     $assigned_new_count=$item["assigned_new_count"];
                     $seller_level=$item["seller_level"];
                     $def_new_count=$item["def_new_count"];
+
+                    \App\Helper\Utils::logger(" --> adminid: $opt_adminid, $i, def_new_count:$def_new_count , assigned_new_count:$assigned_new_count   ");
                     if ($i<$def_new_count // 在配额内
                         && $assigned_new_count <=$i //这一轮可以分配
                     ){
@@ -232,6 +235,7 @@ class seller_student_system_assign extends cmd_base
                                 E\Eseller_student_assign_from_type::V_0, $find_userid, $opt_adminid
                             );
                         }else{ //没有可分配的
+                            \App\Helper\Utils::logger( " set check_end_flag  true");
                             $check_end_flag=true;
                             break;
                         }
