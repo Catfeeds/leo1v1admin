@@ -107,7 +107,7 @@ class t_sub_grade_book_tag extends \App\Models\Zgen\z_t_sub_grade_book_tag
             ["resource_type = %u",$resource_type,-1],
             ["season_id = %u",$season_id,-1],
         ];
-        $sql = $this->gen_sql_new(" select id,tag from %s  where %s order by id desc"
+        $sql = $this->gen_sql_new(" select id,tag from %s  where %s order by id asc"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
