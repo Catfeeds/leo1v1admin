@@ -1,11 +1,8 @@
 <?php
 namespace App\Wx\Squirrel;
-//lanewechat_squirrel.php
-// include('./lanewechat_squirrel.php');
 include_once __DIR__.'/lanewechat_squirrel.php';
-// include(app_path("Libs/LaneWeChat/lanewechat_teacher.php"));
-// class Wechat    {
-class Wechat extends \LaneWeChat\Core\Wechat   {
+include(app_path("Libs/LaneWeChat/lanewechat_teacher.php"));
+class Wechat    {
 
     /**
      * 调试模式，将错误通过文本消息回复显示
@@ -108,11 +105,12 @@ class Wechat extends \LaneWeChat\Core\Wechat   {
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];
 
-        $token = WECHAT_TOKEN_TEC;
+        $token = WECHAT_TOKEN_SQU;
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
         $tmpStr = sha1( $tmpStr );
+        \App\Helper\Utils::logger("songsusiwei122: $r");
 
         if( $tmpStr == $signature ){
             echo $_GET['echostr'];

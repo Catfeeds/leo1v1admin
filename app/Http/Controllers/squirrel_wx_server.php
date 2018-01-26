@@ -19,7 +19,8 @@ class  squirrel_wx_server extends Controller
     public function index() {
         $wechat = new \App\Wx\Squirrel\wechat(WECHAT_TOKEN_SQU, TRUE);
         $r = $wechat->checkSignature();
-        return $r;
+        \App\Helper\Utils::logger("songsusiwei: $r");
+
 
         $ret = $wechat->run();
         if (is_bool($ret)) {
