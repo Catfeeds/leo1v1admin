@@ -291,7 +291,6 @@
                                 <a id="id_set_history_to_new">公海->新</a>
                                 <a id="id_set_select_set_free">批量回流公海</a>
                                 <a id="id_set_select_to_admin_list">分配给组员</a>
-                                <a id="id_tmk_set_select_to_cc_list">TMK分配给CC</a>
                             </li>
                         </ul>
                     </div>
@@ -299,6 +298,7 @@
                     <button class="btn btn-primary" id="id_upload_xls" > 上传xls </button>
                     <button  class="btn btn-info" id="id_add">新增例子</button>
                     <button  class="btn btn-warning" id="id_set_select_to_tmk_list">分配给TMK</button>
+                    <button  class="btn btn-warning" id="id_tmk_set_select_to_cc_list">TMK分配给CC</button>
                     -----
                     <button class="btn btn-primary" id="id_tq_no_call_btn">TQ未回访</button>
 
