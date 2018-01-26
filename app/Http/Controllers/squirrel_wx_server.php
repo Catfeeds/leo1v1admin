@@ -22,12 +22,12 @@ class  squirrel_wx_server extends Controller
         \App\Helper\Utils::logger("songsusiwei: $r");
 
 
-        $ret = $wechat->run();
-        if (is_bool($ret)) {
-            return "";
-        }else{
-            return $ret;
-        }
+        // $ret = $wechat->run();
+        // if (is_bool($ret)) {
+        //     return "";
+        // }else{
+        //     return $ret;
+        // }
     }
 
     public function sync_menu() {
