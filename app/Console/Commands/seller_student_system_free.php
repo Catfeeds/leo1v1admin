@@ -58,7 +58,7 @@ class seller_student_system_free extends cmd_base
                     //清空
                     $userid_list=[$userid];
                     $opt_type ="" ;
-                    $opt_adminid= $item["uid"];
+                    $opt_adminid= 0;
                     $opt_type=0;
                     $account="系统分配-回收例子";
                     $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, 0,$account);
