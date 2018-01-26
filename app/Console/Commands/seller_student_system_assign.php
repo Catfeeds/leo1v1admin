@@ -27,7 +27,7 @@ class seller_student_system_assign extends cmd_base
 
         $config=\App\Helper\Config::get_seller_new_user_day_count();
         //得到要处理的的人
-        $admin_list=$this->task->t_manager_info->get_seller_list(E\Eseller_student_assign_type::V_SYSTEM_ASSIGN );
+        $tmp_admin_list=$this->task->t_manager_info->get_seller_list(E\Eseller_student_assign_type::V_SYSTEM_ASSIGN );
         //得到已经分配的数据
         $admin_assign_map= $this->task->t_seller_student_system_assign_log->get_admin_assign_count_info($start_time, $end_time);
 
@@ -41,7 +41,10 @@ class seller_student_system_assign extends cmd_base
         $need_no_connected_count_all=0;
         $assigned_no_connected_count_all=0;
 
-        foreach ($admin_list as &$item){ //
+        $hold_config=\App\Helper\Config::get_seller_hold_user_count();
+
+        $admin_list=[];
+        foreach ($tmp_admin_list as $key=> $item){ //
             $adminid=$item["uid"];
             $seller_level=$item["seller_level"];
             $def_new_count=@$config[$seller_level];
@@ -75,7 +78,14 @@ class seller_student_system_assign extends cmd_base
 
             $need_no_connected_count_all+=$def_no_connected_count;
             $assigned_no_connected_count_all+= min([ $assigned_no_connected_count, $def_no_connected_count  ]);
+            //得到每个人上限
+            $item["hold_count"]=$this->task->t_seller_student_new_b2->admin_hold_count($adminid);
+            $item["max_hold_count"] = @$hold_config[$seller_level];
+            if ($item["max_hold_count"] <=$item["hold_count"])  {
+                $admin_list[]=$item;
+            }else{ //超上限
 
+            }
         }
 
 

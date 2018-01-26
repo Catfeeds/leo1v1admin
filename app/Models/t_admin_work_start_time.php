@@ -7,6 +7,18 @@ class t_admin_work_start_time extends \App\Models\Zgen\z_t_admin_work_start_time
     {
         parent::__construct();
     }
+    public function   get_today_work_start_time_map() {
+        $log_date=strtotime( date("Y-m-d") ) ;
+        $where_arr=[
+            "log_date" =>$log_date,
+        ];
+        $sql=$this->gen_sql_new("select adminid,work_start_time  from %s where %s ",
+                                self::DB_TABLE_NAME ,
+                                $where_arr );
+        return $this->main_get_list($sql, function($item){
+            return $item["adminid"];
+        });
+    }
 
     public function get_today_work_start_time($adminid) {
         $log_date=strtotime( date("Y-m-d") ) ;
