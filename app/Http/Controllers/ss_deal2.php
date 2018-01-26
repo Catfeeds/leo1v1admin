@@ -186,7 +186,9 @@ class ss_deal2 extends Controller
         $phone=$item["phone"];
         $seller_student_status = $item["seller_student_status"];
 
-        if ( $item["seller_resource_type"] == E\Eseller_resource_type::V_0 ) { //新例子
+
+        if ( $item["seller_student_assign_type"]==E\Eseller_student_assign_type::V_1 //系统分配
+             && $item["seller_resource_type"] == E\Eseller_resource_type::V_0 ) { //新例子
             if ($item["tq_called_flag" != 2] ) {
                 return $this->output_err("新例子,未拨通不能 回流公海 ");
             }
