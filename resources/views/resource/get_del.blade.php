@@ -115,6 +115,7 @@
 
                     <td>删除日期</td>
                     <td>操作人</td>
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -133,6 +134,10 @@
 
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["nick"]}} </td>
+                        <td>
+                            <a class="opt-look btn color-blue" data-file_id="{{$var["file_id"]}}"  title="预览">预览</a>
+                        </td>
+
                     </tr>
                 @endforeach
             </tbody>
