@@ -116,6 +116,10 @@ $(function(){
             $("#id_end_date").parent().parent().hide();
             $("#id_semester").parent().parent().show();
             $("#id_stu_score_type").parent().parent().show();
+            // $("#id_date_show").hide();
+            // $("#id_semester_show").show();
+            // $("#id_stu_score_type_show").show();
+
 
         }else{
             $("#id_add_stu_score").parent().hide();
@@ -123,6 +127,10 @@ $(function(){
             $("#id_end_date").parent().parent().show();
             $("#id_semester").parent().parent().hide();
             $("#id_stu_score_type").parent().parent().hide();
+            // $("#id_date_show").show();
+            // $("#id_semester_show").hide();
+            // $("#id_stu_score_type_show").hide();
+
 
 
         }
@@ -162,6 +170,11 @@ $(function(){
                 $("#id_end_date").parent().parent().hide();
                 $("#id_semester").parent().parent().show();
                 $("#id_stu_score_type").parent().parent().show();
+                // $("#id_date_show").hide();
+                // $("#id_grade_show").hide();
+                // $("#id_subject_show").hide();
+                // $("#id_semester_show").show();
+                // $("#id_stu_score_type_show").show();
 
             }else{
                 $("#id_add_stu_score").parent().hide();
@@ -169,6 +182,12 @@ $(function(){
                 $("#id_end_date").parent().parent().show();
                 $("#id_semester").parent().parent().hide();
                 $("#id_stu_score_type").parent().parent().hide();
+                // $("#id_date_show").show();
+                // $("#id_grade_show").show();
+                // $("#id_subject_show").show();
+                // $("#id_semester_show").hide();
+                // $("#id_stu_score_type_show").hide();
+
 
             }
 
@@ -360,6 +379,42 @@ $(function(){
         window["g_load_data_flag"] = 0;
         load_data();
     });
+
+    if(g_args.current_id==5){      
+        $("#id_date_show").hide();
+        if(g_args.semester==-1){
+            $("#id_semester_show").hide();
+        }else{
+            var vv = $("#id_semester").find("option:selected").text();
+            var htm = "<label class=\"fa fa-times\"></label>"+vv;
+            $("#id_semester_show").html(htm);
+            $("#id_semester_show").show();
+        }
+        if(g_args.stu_score_type==-1){
+            $("#id_stu_score_type_show").hide();
+        }else{
+            var vv = $("#id_stu_score_type").find("option:selected").text();
+            var htm = "<label class=\"fa fa-times\"></label>"+vv;
+            $("#id_stu_score_type_show").html(htm);
+            $("#id_stu_score_type_show").show();
+        }
+
+    }else{
+        if(g_args.start_date=="" && g_args.end_date==""){
+            $("#id_date_show").hide();
+        }else{
+            var vv = $("#id_start_date").val()+"~"+$("#id_end_date").val();
+            var htm = "<label class=\"fa fa-times\"></label>"+vv;
+            $("#id_date_show").html(htm);
+            $("#id_date_show").show();
+        }
+       
+        $("#id_semester_show").hide();
+        $("#id_stu_score_type_show").hide();
+
+
+    }
+
 
 
     $(".show_cw_content,.show_issue_content").on("click",function(){
@@ -829,6 +884,7 @@ $(function(){
         
     });
 
+
     $(".score_table_flag_show").on("click",function(){
         $(this).addClass('current_score');
         $(this).siblings().removeClass('current_score');
@@ -883,207 +939,213 @@ $(function(){
     var subject_8=[];   
     var subject_9=[];   
     var subject_10=[];   
-    $.each( g_data_ex_list,function(i,item){
-        if (item["title"] !="全部") {
-            if( item["subject_1"]>0){                              
-                subject_1.push([ item["title"], item["subject_1"]>0?item["subject_1"]:0 ]);
-            }
-            if( item["subject_2"]>0){                              
-                subject_2.push([ item["title"], item["subject_2"]>0?item["subject_2"]:0 ]);
-            }
-            if( item["subject_3"]>0){                              
-                subject_3.push([ item["title"], item["subject_3"]>0?item["subject_3"]:0 ]);
-            }
-            if( item["subject_4"]>0){                              
-                subject_4.push([ item["title"], item["subject_4"]>0?item["subject_4"]:0 ]);
-            }
-            if( item["subject_5"]>0){                              
-                subject_5.push([ item["title"], item["subject_5"]>0?item["subject_5"]:0 ]);
-            }
-            if( item["subject_6"]>0){                              
-                subject_6.push([ item["title"], item["subject_6"]>0?item["subject_6"]:0 ]);
-            }
-            if( item["subject_7"]>0){                              
-                subject_7.push([ item["title"], item["subject_7"]>0?item["subject_7"]:0 ]);
-            }
-            if( item["subject_8"]>0){                              
-                subject_8.push([ item["title"], item["subject_8"]>0?item["subject_8"]:0 ]);
-            }
-            if( item["subject_9"]>0){                              
-                subject_9.push([ item["title"], item["subject_9"]>0?item["subject_9"]:0 ]);
-            }
-            if( item["subject_10"]>0){                              
-                subject_10.push([ item["title"], item["subject_10"]>0?item["subject_10"]:0 ]);
-            }
+    if(g_data_ex_list.length==0){
+        
+    }else{
+        
+        $.each( g_data_ex_list,function(i,item){
+            if (item["title"] !="全部") {
+                if( item["subject_1"]>0){                              
+                    subject_1.push([ item["title"], item["subject_1"]>0?item["subject_1"]:0 ]);
+                }
+                if( item["subject_2"]>0){                              
+                    subject_2.push([ item["title"], item["subject_2"]>0?item["subject_2"]:0 ]);
+                }
+                if( item["subject_3"]>0){                              
+                    subject_3.push([ item["title"], item["subject_3"]>0?item["subject_3"]:0 ]);
+                }
+                if( item["subject_4"]>0){                              
+                    subject_4.push([ item["title"], item["subject_4"]>0?item["subject_4"]:0 ]);
+                }
+                if( item["subject_5"]>0){                              
+                    subject_5.push([ item["title"], item["subject_5"]>0?item["subject_5"]:0 ]);
+                }
+                if( item["subject_6"]>0){                              
+                    subject_6.push([ item["title"], item["subject_6"]>0?item["subject_6"]:0 ]);
+                }
+                if( item["subject_7"]>0){                              
+                    subject_7.push([ item["title"], item["subject_7"]>0?item["subject_7"]:0 ]);
+                }
+                if( item["subject_8"]>0){                              
+                    subject_8.push([ item["title"], item["subject_8"]>0?item["subject_8"]:0 ]);
+                }
+                if( item["subject_9"]>0){                              
+                    subject_9.push([ item["title"], item["subject_9"]>0?item["subject_9"]:0 ]);
+                }
+                if( item["subject_10"]>0){                              
+                    subject_10.push([ item["title"], item["subject_10"]>0?item["subject_10"]:0 ]);
+                }
 
 
             
-        }
-    });
+            }
+        });
+        var show_plot=function( ) {
+            var id_name="score_pic";
+            var plot_data_list=[];
 
-    var show_plot=function( ) {
-        var id_name="score_pic";
-        var plot_data_list=[];
 
+            if (subject_1.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_1,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "语文"
+                });
+            }
+            if (subject_2.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_2,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "数学"
+                });
+            }
+            if (subject_3.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_3,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "英语"
+                });
+            }
+            if (subject_4.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_4,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "化学"
+                });
+            }
+            if (subject_5.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_5,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "物理"
+                });
+            }
+            if (subject_6.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_6,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "生物"
+                });
+            }
+            if (subject_7.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_7,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "政治"
+                });
+            }
+            if (subject_8.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_8,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "历史"
+                });
+            }
+            if (subject_9.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_9,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "地理"
+                });
+            }
+            if (subject_10.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_10,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "科学"
+                });
+            }
+            
 
-        if (subject_1.length>0) {
-            plot_data_list.push(
-                {
-                data: subject_1,
-                lines: { show: true
-                         , lineWidth: 2},
-                label: "语文"
-            });
-        }
-        if (subject_2.length>0) {
-            plot_data_list.push(
-                {
-                data: subject_2,
-                lines: { show: true
-                         , lineWidth: 2},
-                label: "数学"
-            });
-        }
-        if (subject_3.length>0) {
-            plot_data_list.push(
-                {
-                data: subject_3,
-                lines: { show: true
-                         , lineWidth: 2},
-                label: "英语"
-            });
-        }
-        if (subject_4.length>0) {
-            plot_data_list.push(
-                {
-                data: subject_4,
-                lines: { show: true
-                         , lineWidth: 2},
-                label: "化学"
-            });
-        }
-        if (subject_5.length>0) {
-            plot_data_list.push(
-                {
-                data: subject_5,
-                lines: { show: true
-                         , lineWidth: 2},
-                label: "物理"
-            });
-        }
-        if (subject_6.length>0) {
-            plot_data_list.push(
-                {
-                data: subject_6,
-                lines: { show: true
-                         , lineWidth: 2},
-                label: "生物"
-            });
-        }
-        if (subject_7.length>0) {
-            plot_data_list.push(
-                {
-                data: subject_7,
-                lines: { show: true
-                         , lineWidth: 2},
-                label: "政治"
-            });
-        }
-        if (subject_8.length>0) {
-            plot_data_list.push(
-                {
-                data: subject_8,
-                lines: { show: true
-                         , lineWidth: 2},
-                label: "历史"
-            });
-        }
-        if (subject_9.length>0) {
-            plot_data_list.push(
-                {
-                data: subject_9,
-                lines: { show: true
-                         , lineWidth: 2},
-                label: "地理"
-            });
-        }
-        if (subject_10.length>0) {
-            plot_data_list.push(
-                {
-                data: subject_10,
-                lines: { show: true
-                         , lineWidth: 2},
-                label: "科学"
-            });
-        }
-       
+            console.log(plot_data_list);
+            
+            var plot=$.plot("#"+id_name, plot_data_list , {
+                series: {
+                    lines: {
+                        show: true,
+                        colors: ["#00c0ef", "#dd4b39", "#f39c12","0f70ef","#f3sdd12","#f0c0ef", "#d54139", "#ff9c1f","0ff0ef","#f3sddff"]
+                    },
 
-        console.log(plot_data_list);
-        
-        var plot=$.plot("#"+id_name, plot_data_list , {
-            series: {
-                lines: {
-                    show: true,
-                    colors: ["#00c0ef", "#dd4b39", "#f39c12","0f70ef","#f3sdd12","#f0c0ef", "#d54139", "#ff9c1f","0ff0ef","#f3sddff"]
+                    points: {
+                        show: true
+                    }
+
                 },
+                xaxis: {
+                    mode: "categories",
+                    tickLength: 0
+                },
+                yaxis:{
+                    min: 0,
+                    max: 100,
+                    tickSize: 10,
+                },
+                grid: {
+                    hoverable: true,
+                    clickable: true,
+                    backgroundColor: { colors: [ "#fff", "#eee" ] },
+                    borderWidth: {
+                        top: 1,
+                        right: 1,
+                        bottom: 2,
+                        left: 2
+                    }
 
-                points: {
-                    show: true
                 }
+                ,legend: {
+                    show: true ,
+                    position:"nw"
+                },
+                colors: ["#00c0ef", "#dd4b39", "#f39c12","0f70ef","#f3sdd12","#f0c0ef", "#d54139", "#ff9c1f","0ff0ef","#f3sddff"]
+            });
 
-            },
-            xaxis: {
-                mode: "categories",
-                tickLength: 0
-            },
-            yaxis:{
-                min: 0,
-                max: 100,
-                tickSize: 10,
-            },
-            grid: {
-                hoverable: true,
-                clickable: true,
-                backgroundColor: { colors: [ "#fff", "#eee" ] },
-                borderWidth: {
-                    top: 1,
-                    right: 1,
-                    bottom: 2,
-                    left: 2
+            $("<div id='tooltip'></div>").css({
+                position: "absolute",
+                display: "none",
+                border: "1px solid #fdd",
+                padding: "2px",
+                "background-color": "#fee",
+                opacity: 0.80
+            }).appendTo("body");
+
+            $("#"+id_name).bind("plothover", function(event, pos, item) {
+                if (item) {
+                    var data_item=item.series.data[item.dataIndex];
+                    var title_funcion=function( date_item) {
+                        return "日期:"+data_item[0]+ "<br/>"+ item.series.label +":"+data_item[1]+ "<br/>";
+                    }
+                    $("#tooltip").html( title_funcion(data_item) ).css({top: item.pageY+5, left: item.pageX+5})
+                        .fadeIn(200);
+                } else {
+                    $("#tooltip").hide();
                 }
+            });
+        }
+        show_plot();
 
-            }
-            ,legend: {
-                show: true ,
-                position:"nw"
-            },
-            colors: ["#00c0ef", "#dd4b39", "#f39c12","0f70ef","#f3sdd12","#f0c0ef", "#d54139", "#ff9c1f","0ff0ef","#f3sddff"]
-        });
-
-        $("<div id='tooltip'></div>").css({
-            position: "absolute",
-            display: "none",
-            border: "1px solid #fdd",
-            padding: "2px",
-            "background-color": "#fee",
-            opacity: 0.80
-        }).appendTo("body");
-
-        $("#"+id_name).bind("plothover", function(event, pos, item) {
-            if (item) {
-                var data_item=item.series.data[item.dataIndex];
-                var title_funcion=function( date_item) {
-                    return "日期:"+data_item[0]+ "<br/>"+ item.series.label +":"+data_item[1]+ "<br/>";
-                }
-                $("#tooltip").html( title_funcion(data_item) ).css({top: item.pageY+5, left: item.pageX+5})
-                    .fadeIn(200);
-            } else {
-                $("#tooltip").hide();
-            }
-        });
     }
-    show_plot();
 
+    
    
 
 

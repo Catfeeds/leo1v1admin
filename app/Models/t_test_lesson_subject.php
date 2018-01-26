@@ -1393,10 +1393,9 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
     //@param:$start_time $end_time 开始时间  结束时间
     public function get_channel_info($start_time,$end_time){
         $where_arr = [
-            'ss.seller_resource_type = 0',
-            's.origin_level IN (0,1,2,3,4)',
             's.is_test_user = 0',
-            "ok.key1 = '今日头条' "
+            "ok.key1 = '今日头条' ",
+            't.require_admin_type=2',
         ];
         $this->where_arr_add_time_range($where_arr, 'ss.add_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
@@ -1411,16 +1410,16 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             t_origin_key::DB_TABLE_NAME,
             $where_arr
         );
+        dd($sql);
         return $this->main_get_list($sql);
     }
     //@desn:获取今日头条10月份进入例子拨打详情
     //@param:$start_time $end_time 开始时间  结束时间
     public function get_channel_call_info($start_time,$end_time){
         $where_arr = [
-            'ss.seller_resource_type = 0',
-            's.origin_level IN (0,1,2,3,4)',
             's.is_test_user = 0',
-            "ok.key1 = '今日头条' "
+            "ok.key1 = '今日头条' ",
+            't.require_admin_type=2'
         ];
         $this->where_arr_add_time_range($where_arr, 'ss.add_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(

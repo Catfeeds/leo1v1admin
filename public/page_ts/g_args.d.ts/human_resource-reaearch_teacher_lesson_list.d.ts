@@ -2,6 +2,7 @@ interface GargsStatic {
 	teacherid:	number;
 	page_num:	number;
 	page_count:	number;
+	research_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -18,9 +19,15 @@ interface RowData {
 	grade_part_ex	:any;
 	phone	:any;
 	realname	:any;
+	second_subject	:any;
+	second_grade_end	:any;
+	second_grade_start	:any;
 	subject_str	:any;
 	grade_start_str	:any;
 	grade_end_str	:any;
+	second_subject_str	:any;
+	second_grade_start_str	:any;
+	second_grade_end_str	:any;
 }
 
 /*
@@ -35,7 +42,8 @@ function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
 		$.reload_self_page ( {
 		order_by_str : g_args.order_by_str,
-		teacherid:	$('#id_teacherid').val()
+		teacherid:	$('#id_teacherid').val(),
+		research_flag:	$('#id_research_flag').val()
 		});
 }
 $(function(){
@@ -49,6 +57,7 @@ $(function(){
 		"only_show_in_th_input"     : false,
 		"can_select_all_flag"     : true
 	});
+	$('#id_research_flag').val(g_args.research_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -68,4 +77,12 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["teacherid title", "teacherid", "th_teacherid" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">research_flag</span>
+                <input class="opt-change form-control" id="id_research_flag" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["research_flag title", "research_flag", "th_research_flag" ]])!!}
 */

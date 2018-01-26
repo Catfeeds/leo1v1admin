@@ -98,6 +98,7 @@ return array(
     ["db_weiyi","t_student_score_info","id"],
     ["db_weiyi","t_student_cc_to_cr","id"],
     ["db_weiyi_admin","t_todo","todoid"],
+    ["db_weiyi_admin","t_admin_work_start_time","id"],
     ["db_weiyi","t_complaint_info","complaint_id"],
     ["db_weiyi","t_complaint_assign_info","ass_id"],
     ["db_weiyi","t_complaint_deal_info","deal_id"],
@@ -327,7 +328,7 @@ return array(
     ["db_message","t_sms_msg","recordid"] ,
     ["db_message","t_weixin_msg","recordid"],
 
-    ["db_ejabberd","users","username"] ,
+    // ["db_ejabberd","users","username"] ,
 
     ["db_question_new","t_question","question_id"] ,
     ["db_question_new","t_knowledge_point","knowledge_id"] ,

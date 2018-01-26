@@ -749,8 +749,11 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             ["seller_student_assign_type=%u", $seller_student_assign_type, -1],
             "seller_level>0",
             "del_flag=0",
+            //\App\Enums\Eaccount_role::V_2
+            "account_role=2", //cc
             "day_new_user_flag=1",
         ];
+
         $sql=$this->gen_sql_new(
             "select uid,seller_level from %s " .
             " where   %s  order by  seller_level asc ",

@@ -76,18 +76,21 @@ trait  InputDeal {
     public function get_in_int_val( $field_name, $def_value=0, $enum_class="" ){
         global $g_request;
         /** @var $g_request Illuminate\Http\Request */
+        if ($g_request) {
+            if($g_request->has($field_name)){
+                $v = (int) $g_request->$field_name;
+            }else{
+                $v = $def_value;
+            }
 
-        if($g_request->has($field_name)){
-            $v = (int) $g_request->$field_name;
+            $this->last_in_values[$field_name] = $v;
+            if ($enum_class) {
+                $this->last_in_types[$field_name]=$enum_class;
+            }else{
+                $this->last_in_types[$field_name]="number";
+            }
         }else{
             $v = $def_value;
-        }
-
-        $this->last_in_values[$field_name] = $v;
-        if ($enum_class) {
-            $this->last_in_types[$field_name]=$enum_class;
-        }else{
-            $this->last_in_types[$field_name]="number";
         }
         return $v;
     }
@@ -113,17 +116,21 @@ trait  InputDeal {
         global $g_request;
         /** @var $g_request Illuminate\Http\Request */
 
-        if ( $g_request->has($field_name) ){
-            if(!( $g_request->$field_name == "")) {
-                $v= $g_request->$field_name;
+        if ($g_request){
+            if ( $g_request->has($field_name) ){
+                if(!( $g_request->$field_name == "")) {
+                    $v= $g_request->$field_name;
+                }else{
+                    $v=$def_value;
+                }
             }else{
                 $v=$def_value;
             }
+            $this->last_in_values[$field_name]=$v;
+            $this->last_in_types[$field_name]="string";
         }else{
             $v=$def_value;
         }
-        $this->last_in_values[$field_name]=$v;
-        $this->last_in_types[$field_name]="string";
         return $v;
     }
 

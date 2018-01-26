@@ -102,10 +102,15 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
                         }
                     }
 
-                    //课后回访
+                    //课前课后回访
                     $ret_lesson = $this->task->t_test_lesson_subject_require->get_lesson_list($adminid,$userid);
                     foreach($ret_lesson as $item){
-                        $this->task->t_test_lesson_subject_sub_list->field_update_list($item['lessonid'], ['call_end_time'=>$start_time]);
+                        if($start_time<$item['lesson_start'] && $item['call_before_time']==0){
+                            $this->task->t_test_lesson_subject_sub_list->field_update_list($item['lessonid'], ['call_before_time'=>$start_time]);
+                        }
+                        if($start_time>$item['lesson_end'] && $item['call_end_time']==0){
+                            $this->task->t_test_lesson_subject_sub_list->field_update_list($item['lessonid'], ['call_end_time'=>$start_time]);
+                        }
                     }
                 }
             }elseif($admin_role == E\Eaccount_role::V_7){
