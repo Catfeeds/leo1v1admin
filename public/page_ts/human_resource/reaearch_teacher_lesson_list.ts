@@ -15,6 +15,13 @@ $(function(){
         $(item).admin_select_teacher_free_time_new({
             "teacherid" : $(item).get_opt_data("teacherid")
         });
+        $(item).hide();
+    });
+    $(".show_lesson_info").each(function(){
+        $(this).admin_select_teacher_free_time_new({
+            "teacherid" : $(this).data("teacherid")
+        });
+
     });
 
 	  $('.opt-change').set_input_change_event(load_data);

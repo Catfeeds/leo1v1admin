@@ -1634,15 +1634,21 @@ trait TeaPower {
 
         $check_teacher_day = strtotime("2017-9-10");
         $now = time();
-        if($now>$check_teacher_day){
-            $default_teacher_money_type = E\Eteacher_money_type::V_6;
+        if(!isset($teacher_info["teacher_money_type"]) || (empty($teacher_info["teacher_money_type"]) && $teacher_info["teacher_money_type"] !=0)){                    
+            if($now>$check_teacher_day){
+                $default_teacher_money_type = E\Eteacher_money_type::V_6;
+            }else{
+                $default_teacher_money_type = E\Eteacher_money_type::V_4;
+            }
+ 
         }else{
-            $default_teacher_money_type = E\Eteacher_money_type::V_4;
+            $default_teacher_money_type = $teacher_info["teacher_money_type"];
         }
+
         \App\Helper\Utils::set_default_value($acc,$teacher_info,"","acc");
         \App\Helper\Utils::set_default_value($wx_use_flag,$teacher_info,0,"wx_use_flag");
         \App\Helper\Utils::set_default_value($trial_lecture_is_pass,$teacher_info,0,"trial_lecture_is_pass");
-        \App\Helper\Utils::set_default_value($train_through_new,$teacher_info,0,"train_through_new");
+        \App\Helper\Utils::set_default_value($train_through_new,$teacher_info,0,"train_through_new");                          
         \App\Helper\Utils::set_default_value($teacher_money_type,$teacher_info,$default_teacher_money_type,"teacher_money_type");
         \App\Helper\Utils::set_default_value($level,$teacher_info,E\Elevel::V_0,"level");
         \App\Helper\Utils::set_default_value($grade,$teacher_info,E\Egrade::V_0,"grade");

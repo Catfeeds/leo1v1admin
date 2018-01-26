@@ -262,100 +262,39 @@
                 </div>
             </div>
 
-            <div class="row"
-            >
-                <div class="col-xs-3 col-md-1"
-                     @if($button_show_flag==0)
-                     style="display:none;"
-                     @endif
-                >
-                        <button class="btn btn-primary" id="id_set_select_list">批量分配</button>
-                </div>
+            <div class="row" >
 
-                <div class="col-xs-3 col-md-1"
+                <div class=" col-md-12"
                      @if($button_show_flag==0)
                      style="display:none;"
                      @endif
+                >
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info btn-flat">批量设置</button>
+                        <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a class="" id="id_set_select_list">分配主管</a>
+                                <a id="id_set_origin_list">设置渠道</a>
+                                <a id="id_set_assign_type">设置分配模式</a>
+                                <a  id="id_set_level_b">设置可抢</a>
+                                <a id="id_set_history_to_new">公海->新</a>
+                                <a id="id_set_select_set_free">批量回流公海</a>
+                                <a id="id_set_select_to_admin_list">分配给组员</a>
+                                <a id="id_tmk_set_select_to_cc_list">TMK分配给CC</a>
+                                <a id="id_set_select_to_tmk_list">分配给TMK</a>
+                            </li>
+                        </ul>
+                    </div>
 
-                >
-                    <button class="btn btn-primary" id="id_set_origin_list">设置渠道</button>
-                </div>
-                <div class="col-xs-3 col-md-1"
-                     @if($button_show_flag==0)
-                     style="display:none;"
-                     @endif
-                >
-                    <button class="btn btn-info" id="id_set_level_b">设置可抢</button>
-                </div>
-                <div class="col-xs-3 col-md-1"
-                     @if($button_show_flag==0)
-                     style="display:none;"
-                     @endif
-                >
-                    <button class="btn btn-info" id="id_set_history_to_new">公海->新</button>
-                </div>
-
-                <div class="col-xs-3 col-md-1"
-                     @if($button_show_flag==0)
-                     style="display:none;"
-                     @endif
-                >
+                    <button class="btn btn-primary" id="id_upload_xls" > 上传xls </button>
                     <button  class="btn btn-info" id="id_add">新增例子</button>
-                </div>
-
-                <div class="col-md-1 remove-for-xs col-xs-6 "
-                    @if($button_show_flag==0)
-                    style="display:none;"
-                    @endif
-                >
-                    <button class="btn btn-primary" id="id_upload_xls"
-                            @if($button_show_flag==0)
-                            style="display:none;"
-                            @endif
-                    > 上传xls </button>
-                </div>
-
-                <div class="col-xs-3 col-md-2"
-                     @if($button_show_flag==0)
-                     style="display:none;"
-                     @endif
-                >
-                    <button class="btn btn-primary" id="id_set_select_set_free">批量回流公海</button>
-                </div>
-
-                <div class="col-xs-3 col-md-2">
-                    <button class="btn btn-primary" id="id_set_select_to_admin_list">分配给组员</button>
-                </div>
-
-                <div class="col-xs-3 col-md-2"
-                     @if($button_show_flag==0)
-                     style="display:none;"
-                     @endif
-                >
-                    <button class="btn btn-primary" id="id_tmk_set_select_to_cc_list">TMK分配给CC</button>
-                </div>
-
-                <div class="col-xs-3 col-md-2"
-                     @if($button_show_flag==0)
-                     style="display:none;"
-                     @endif
-                >
-                    <button class="btn btn-primary" id="id_set_select_to_tmk_list">分配给TMK</button>
-                </div>
-
-                <div class="col-xs-3 col-md-1"
-                     @if($button_show_flag==0)
-                     style="display:none;"
-                     @endif
-                >
+                    -----
                     <button class="btn btn-primary" id="id_tq_no_call_btn">TQ未回访</button>
-                </div>
 
-                <div class="col-xs-6 col-md-8"
-                     @if($button_show_flag==0)
-                     style="display:none;"
-                     @endif
-                >
                     <button class="btn" id="id_unallot" data-value="{{$unallot_info["zjs_unallot_count"]*1}}" > </button>
                     <button class="btn" id="id_unset_admin_revisiterid" data-value="{{$unallot_info["all_unallot_count"]*1}}" > </button>
                     <button class="btn" id="id_all_unallot_count_hight_school" data-value="{{@$unallot_info["all_unallot_count_hight_school"]*1}}" > </button>
@@ -364,10 +303,9 @@
                     <button class="btn" id="id_all_uncall_count" data-value="{{@$unallot_info["all_uncall_count"]*1}}" > </button>
                     <button class="btn" id="id_by_hand_all_uncall_count" data-value="{{@$unallot_info["by_hand_all_uncall_count"]*1}}" > </button>
                 </div>
-
-
             </div>
-        </div>
+
+
         <hr/>
         <table     class="common-table"  >
             <thead>

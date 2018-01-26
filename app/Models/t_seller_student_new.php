@@ -1937,7 +1937,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     //
     public function get_user_info_for_free($userid) {
         $sql=$this->gen_sql_new(
-            "select n.userid,phone, seller_student_status,hand_free_count,auto_free_count,n.hand_get_adminid,n.admin_assign_time,n.admin_revisiterid,last_contact_time from %s n  join %s t  on  n.userid=t.userid    "
+            "select n.seller_resource_type, n.userid,phone,tq_called_flag, seller_student_status,hand_free_count,auto_free_count,n.hand_get_adminid,n.admin_assign_time,n.admin_revisiterid,last_contact_time from %s n  join %s t  on  n.userid=t.userid    "
             ."  where  n.userid=%u limit 1 ",
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,

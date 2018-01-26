@@ -501,6 +501,25 @@ class authority extends Controller
             "day_new_user_flag" => 1,
         ]);
 
+        //同步生成老师帐号
+        $teacher_info=[
+            "tea_nick" =>$name,
+            "realname"=>$name,
+            "phone"  =>$phone,
+        ];
+        if($account_role==4){
+            $teacher_info["trial_lecture_is_pass"]=1;
+            $teacher_info["train_through_new"]=1;
+            $teacher_info["train_through_new_time"]=time();
+            $teacher_info["wx_use_flag"]=1;
+            $teacher_info["level"]=0;
+            $teacher_info["teacher_money_type"]=0;
+
+        }
+
+        $this->add_teacher_common($teacher_info);
+
+
         return $this->output_succ();
 
     }
