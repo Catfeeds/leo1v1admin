@@ -746,19 +746,30 @@ $(function(){
             cssClass :  'btn-warning',
             action   :   function(dialog){
                 if(id_subject.val() <= 0){
-                    alert("请选择考试科目");
+                    BootstrapDialog.alert("请选择考试科目");
                     return;
                 }
                 if(id_score.val() === ''){
-                    alert("请输入考试成绩");
+                    BootstrapDialog.alert("请输入考试成绩");
                     return;
                 }
                 if(id_total_score.val() === ''){
-                    alert("请输入试卷总分");
+                    BootstrapDialog.alert("请输入试卷总分");
                     return;
                 }
                
-                
+                var v1= id_rank.val();
+                var v2= id_rank_num.val();
+                var v3= id_grade_rank.val();
+                var v4= id_grade_rank_num.val();
+                if(v1 >0 && v2>0 && v3>0 && v4>0 && v1<=v2 && v3<=v4){
+                   
+                }else{
+                    BootstrapDialog.alert("排名与人数必须为数字且排名不能大于人数");
+                    return;
+ 
+                }
+                               
                 var rank="";
                 if(id_rank_num.val()>0){
                     rank = id_rank.val()+"/"+id_rank_num.val();
