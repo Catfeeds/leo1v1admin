@@ -25,3 +25,15 @@ message get_office_cmd_item_t {
   uint32 device_id =4 ;  //  
   uint32  value = 5 ;  //  
 }
+
+message stu_get_course_list {
+  string subject_str=1 ;  //科目  
+  string grade_str=2 ;  //年级
+  string course_name=3 ;  //课程包名称
+  string begin_time=4 ;  //开课时间
+  uint32 lesson_total=5 ;  //总课时数
+  uint32 course_id=6 ;  //课程包id
+  uint32 remain_lesson_num=7 ;  //剩余最大课时数
+  uint32 stu_left_num=8 ;  //学生可以用课时
+ 
+}
