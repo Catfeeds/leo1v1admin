@@ -195,6 +195,7 @@ class ajax_deal3 extends Controller
                 "end_stu_num"           =>@$end_stu_info_new[$adminid],             
                 "stop_student_list"       =>@$stop_userid_list[$adminid],
                 "registered_student_list" =>@$registered_userid_list[$adminid],               
+                "all_student"             =>@$stu_info_all[$adminid]["all_count"]
             ];
         }elseif($type==2){
             $first_subject_list = $list["first_lesson_stu_list"];

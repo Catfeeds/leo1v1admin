@@ -38,11 +38,13 @@
         <table class="common-table"> 
             <thead>
                 <tr>
-                    <td >id </td>
-                    <td >真实姓名</td>
-                    <td>手机号</td>                 
-                    <td>年级段</td>
-                    <td>科目</td>                  
+                    <td >ID </td>
+                    <td >老师姓名</td>
+                    <td>第一科目</td>                  
+                    <td>第一科目年级段</td>
+                    <td>第二科目</td>                  
+                    <td>第二科目年级段</td>
+                    <td>课表信息</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -51,11 +53,12 @@
                     <tr>
                         <td>{{$var["teacherid"]}} </td>                     
                         <td>{{$var["realname"]}} </td>
-                       
-                        <td>{{$var["phone"]}}</td>
-
-                        <td>{{$var["grade_start_str"]}}至{{$var["grade_end_str"]}} </td>
                         <td>{{$var["subject_str"]}} </td>
+                        <td>{{$var["grade_start_str"]}}至{{$var["grade_end_str"]}} </td>
+                        <td>{{$var["second_subject_str"]}} </td>
+                        <td>{{$var["second_grade_start_str"]}}至{{$var["second_grade_end_str"]}} </td>
+                        <td><a href="javascript:;" class="show_lesson_info" data-teacherid="{{$var["teacherid"]}}">查看课表</a></td>
+
                      
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!}  >
