@@ -1666,6 +1666,9 @@ trait TeaPower {
         \App\Helper\Utils::set_default_value($transfer_teacherid,$teacher_info,0,"transfer_teacherid");
         \App\Helper\Utils::set_default_value($transfer_time,$teacher_info,0,"transfer_time");
         \App\Helper\Utils::set_default_value($interview_access,$teacher_info,"","interview_access");
+        \App\Helper\Utils::set_default_value($week_limit_time_info,$teacher_info,"","week_limit_time_info");
+        \App\Helper\Utils::set_default_value($week_lesson_count,$teacher_info,18,"week_lesson_count");
+
 
         $train_through_new_time = $train_through_new==1?time():0;
 
@@ -1743,6 +1746,8 @@ trait TeaPower {
             "transfer_teacherid"     => $transfer_teacherid,
             "transfer_time"          => $transfer_time,
             "interview_access"       => $interview_access,
+            "week_limit_time_info"   => $week_limit_time_info,
+            "week_lesson_count"      => $week_lesson_count
         ]);
 
         if(!$ret){
