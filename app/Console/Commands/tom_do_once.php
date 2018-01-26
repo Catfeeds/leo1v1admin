@@ -78,7 +78,8 @@ class tom_do_once extends Command
         // $this->update_tq_call_info();
         // $this->give_seller_new_count();
         // $this->update_seller_edit_log();
-        $this->update_seller_student_origin();
+        // $this->update_seller_student_origin();
+        $this->seller_daily_threshold();
     }
 
     public function update_cc_call(){
@@ -368,5 +369,72 @@ class tom_do_once extends Command
             $start = strtotime('+1 month',$start);
         }
     }
+
+    public function seller_daily_threshold(){
+        // $ret = $this->task->t_seller_get_new_log->get_list_by_time($start_time=1516204800,$end_time=1516982400);
+        // $ret_info = [];
+        // foreach($ret as $item){
+        //     $ret_info[$item['adminid']][$item['userid']][] = $item;
+        // }
+        // foreach($ret_info as $item){
+        //     foreach($item as $info){
+        //         foreach($info as $key=>$info_k){
+        //             if($key>0){
+        //                 $ret = $this->task->t_seller_get_new_log->row_delete($info_k['id']);
+        //                 echo $info_k['id'].':'.$key.'=>'.$ret."\n";
+        //             }
+        //         }
+        //     }
+        // }
+        list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,strtotime(date('Y-m-d')),[],[]];
+        $ret_threshold = $this->task->t_seller_edit_log->get_threshold($time);
+        if(!$ret_threshold && date('w')!=2){
+            for($i=1;$i<=12;$i++){
+                $start_time = $time-3600*24*$i;
+                $end_time = $start_time+3600*24;
+                if(date('w',$start_time) != 2){
+                    $ret_info[$i]['start_time'] = $start_time;
+                    $ret_info[$i]['end_time'] = $end_time;
+                    if(count($ret_info)==10){
+                        break;
+                    }
+                }
+            }
+            foreach($ret_info as $item){
+                $start_time = $item['start_time'];
+                $end_time = $item['end_time'];
+                $ret_call = $this->task->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=1);
+                $count_call = count(array_unique(array_column($ret_call, 'userid')));
+                $ret_called = $this->task->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
+                $count_called = count(array_unique(array_column($ret_called, 'userid')));
+                $ret[$start_time]['call_count'] = $count_call;
+                $ret[$start_time]['called_count'] = $count_called;
+                $ret[$start_time]['rate'] = $count_call>0?(round($count_called/$count_call, 4)*100):0;
+            }
+            $rate_arr = array_column($ret, 'rate');
+            $rate_avg = round(array_sum($rate_arr)/count($rate_arr),4);
+            foreach($ret as $start_time=>$item){
+                $ret[$start_time]['dif_square'] = round(pow($item['rate']-$rate_avg,2),2);
+            }
+            $pow_sqrt = round(sqrt(array_sum(array_column($ret, 'dif_square'))/(count($ret)-1)),2);
+
+            $count_call_all = array_sum(array_column($ret, 'call_count'));
+            $count_called_all = array_sum(array_column($ret, 'called_count'));
+            $threshold_max = $count_call_all>0?(round($count_called_all/$count_call_all,4)*100):0;
+            $threshold_min = $threshold_max-$pow_sqrt;
+            $this->task->t_seller_edit_log->row_insert([
+                'type'=>E\Eseller_edit_log_type::V_4,
+                'new'=>$threshold_max,
+                'create_time'=>$time,
+            ]);
+            $this->task->t_seller_edit_log->row_insert([
+                'type'=>E\Eseller_edit_log_type::V_5,
+                'new'=>$threshold_min,
+                'create_time'=>$time,
+            ]);
+            echo date('Y-m-d',$time).'=>'.$threshold_min.'~'.$threshold_max;
+        }
+    }
+
 
 }

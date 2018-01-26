@@ -129,9 +129,9 @@ class ajax_deal3 extends Controller
 
             }else{
                 // $list["stu_attend_str"] = $list["tea_attend_str"] =E\Elesson_cancel_reason_type::get_desc($list["lesson_cancel_reason_type"]);
-                $stu_login_time = @$login_time["stu_login_time"]; 
-                $stu_logout_time = @$login_time["stu_logout_time"]; 
-                $tea_login_time = @$login_time["tea_login_time"]; 
+                $stu_login_time = @$login_time["stu_login_time"];
+                $stu_logout_time = @$login_time["stu_logout_time"];
+                $tea_login_time = @$login_time["tea_login_time"];
                 $tea_logout_time = @$login_time["tea_logout_time"];
                 $lesson_start = ($list["lesson_start"]+59);
                 $lesson_end = $list["lesson_end"];
@@ -160,7 +160,7 @@ class ajax_deal3 extends Controller
 
             }
         }
-        
+
 
         $list['stu_intro']   = json_decode($list['stu_performance'],true);
         $list['stu_point_performance']='';
@@ -197,17 +197,17 @@ class ajax_deal3 extends Controller
             $list["check_url_str"]="";
             $list["issue_flag"]="未上传";
             $list["download_flag"]= $list["commit_flag"]= $list["check_flag"]="—";
-                   
+
         }else{
             $list["issue_flag"]="已上传";
-            $list["download_flag"]="—";                   
+            $list["download_flag"]="—";
             if($list["work_status"]>=2){
                 $list["commit_flag"]="已提交";
             }else{
                 $list["commit_flag"]="未提交";
             }
             if($list["work_status"]>=3){
-                $list["check_flag"]="是";   
+                $list["check_flag"]="是";
             }else{
                 $list["check_flag"]="否";
             }
@@ -222,6 +222,7 @@ class ajax_deal3 extends Controller
     //重置助教薪资信息(测试版本)
     public function reset_assisatnt_performance_data(){
         $adminid    = $this->get_in_int_val("adminid");
+        $type    = $this->get_in_int_val("type");
         $start_time    = strtotime($this->get_in_str_val("start_time"));
         $end_time = strtotime("+1 months",$start_time);
         $last_month = strtotime(date('Y-m-01',$start_time-100));
@@ -230,22 +231,91 @@ class ajax_deal3 extends Controller
         $list = $ass_current_month[$adminid];
         $account = $this->t_manager_info->get_account($adminid);
         $assistantid = $list["assistantid"];
+        $update_arr=[];
         //回访信息修改
         //在读学员/在册学员/停课学员信息重置
-        $stu_info_all = $this->t_student_info->get_ass_stu_info_new($assistantid);
-        $userid_list = $this->t_student_info->get_read_student_ass_info(0,$assistantid);//在读学员名单
+        if($type==1){
+            $stu_info_all = $this->t_student_info->get_ass_stu_info_new($assistantid);
+            $userid_list = $this->t_student_info->get_read_student_ass_info(0,$assistantid);//在读学员名单
 
-        $registered_userid_list = $this->t_student_info->get_read_student_ass_info(-2,$assistantid);//在册学员名单
-        $stop_userid_list = $this->t_student_info->get_read_student_ass_info(2,$assistantid);//停课学员名单
+            $registered_userid_list = $this->t_student_info->get_read_student_ass_info(-2,$assistantid);//在册学员名单
+            $stop_userid_list = $this->t_student_info->get_read_student_ass_info(2,$assistantid);//停课学员名单
+            $end_stu_info_new  = $this->t_student_info->get_end_class_stu_info($start_time,$end_time,$assistantid);
+            $update_arr=[
+                // "first_lesson_stu_list" =>$first_subject_list,
+                "read_student"          =>@$stu_info_all[$adminid]["read_count"],
+                "stop_student"          =>@$stu_info_all[$adminid]["stop_count"],
+                "userid_list"           =>@$userid_list[$adminid],
+                "end_stu_num"           =>@$end_stu_info_new[$adminid],
+                "stop_student_list"       =>@$stop_userid_list[$adminid],
+                "registered_student_list" =>@$registered_userid_list[$adminid],
+            ];
+        }elseif($type==2){
+            $first_subject_list = $list["first_lesson_stu_list"];
+            $userid_list_str = $list["userid_list"];
+            $registered_student_list_str = $list["registered_student_list"];
+            $revisit_reword_per = $this->get_ass_revisit_reword_value($account,$adminid,$start_time,$end_time,$first_subject_list, $userid_list_str,$registered_student_list_str);
+            $update_arr=[
+                "revisit_reword_per"    =>$revisit_reword_per*100,
+            ];
 
-        $first_subject_list = $this->get_ass_stu_first_lesson_subject_info($start_time,$end_time,$assistantid);
-        if(isset($first_subject_list[$adminid]) && !empty($first_subject_list[$adminid])){
-            $first_subject_list = json_encode(@$first_subject_list[$adminid]); 
-        }else{
-            $first_subject_list="";
+        }elseif($type==3){
+            list($performance_cr_new_list,$performance_cr_renew_list,$performance_cc_tran_list)= $this->get_ass_order_list_performance($start_time,$end_time);
+            $update_arr=[
+               "performance_cc_tran_num"  =>@$performance_cc_tran_list["performance_cc_tran_num"],
+                "performance_cc_tran_money"=>@$performance_cc_tran_list["performance_cc_tran_money"],
+                "performance_cr_renew_num" =>@$performance_cr_renew_list["performance_cr_renew_num"],
+                "performance_cr_renew_money" =>@$performance_cr_renew_list["performance_cr_renew_money"],
+                "performance_cr_new_num" =>@$performance_cr_new_list[$adminid]["performance_cr_new_num"],
+                "performance_cr_new_money" =>@$performance_cr_new_list[$adminid]["performance_cr_new_money"]
+            ];
+
+        }elseif($type==4){
+            list($first_week,$last_week,$n) = $this->get_seller_week_info($start_time, $end_time);//销售月拆解
+            $registered_student_num=$this->get_register_student_list($first_week,$n);//销售月助教在册学生总数获取
+            $seller_month_lesson_count = $this->t_manager_info->get_assistant_lesson_count_info($first_week,$last_week+7*86400,$assistantid);//销售月总课时
+
+            $seller_week_stu_num = round(@$registered_student_num[$adminid]);//销售月周平均学生数
+            $seller_month_lesson_count = @$seller_month_lesson_count[$adminid]["lesson_count"];//销售月总课时
+            $registered_student_list_last = @$ass_last_month[$adminid]["registered_student_list"];
+            list($kpi_lesson_count_finish_per,$estimate_month_lesson_count)= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$seller_week_stu_num,$n,$seller_month_lesson_count);
+
+
+            //月初预估课时数据补充
+            if(empty($estimate_month_lesson_count)){
+                $estimate_month_lesson_count=100;
+            }
+
+            $update_arr =  [
+                "seller_week_stu_num"   =>$seller_week_stu_num,
+                "seller_month_lesson_count"=>$seller_month_lesson_count,
+                "kpi_lesson_count_finish_per"=>$kpi_lesson_count_finish_per*100,
+                "estimate_month_lesson_count" =>$estimate_month_lesson_count,//临时更新一次(月初生成)
+            ];
+
+        }elseif($type==5){
+            $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time,$adminid);
+            $kk_num = @$kk_suc[$adminid]["lesson_count"];
+
+            $update_arr =  [
+                "kk_num"   =>$kk_num,
+            ];
+
+        }elseif($type==6){
+            $first_subject_list = $this->get_ass_stu_first_lesson_subject_info($start_time,$end_time,$assistantid);
+            if(isset($first_subject_list[$adminid]) && !empty($first_subject_list[$adminid])){
+                $first_subject_list = json_encode(@$first_subject_list[$adminid]);
+            }else{
+                $first_subject_list="";
+            }
+            $update_arr=[
+                "first_lesson_stu_list" =>$first_subject_list,
+            ];
+
         }
-        
-        
+
+
+
 
         $revisit_reword_per = $this->get_ass_revisit_reword_value($account,$adminid,$start_time,$end_time,$first_subject_list,@$userid_list[$adminid],@$registered_userid_list[$adminid]);
         $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time,$adminid);
@@ -261,65 +331,78 @@ class ajax_deal3 extends Controller
         $registered_student_list_last = @$ass_last_month[$adminid]["registered_student_list"];
         list($kpi_lesson_count_finish_per,$estimate_month_lesson_count)= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$seller_week_stu_num,$n,$seller_month_lesson_count);
 
+        // $revisit_reword_per = $this->get_ass_revisit_reword_value($account,$adminid,$start_time,$end_time,$first_subject_list,@$userid_list[$adminid],@$registered_userid_list[$adminid]);
+        // $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time,$adminid);
+        // $kk_num = @$kk_suc[$adminid]["lesson_count"];
+        // list($performance_cr_new_list,$performance_cr_renew_list,$performance_cc_tran_list)= $this->get_ass_order_list_performance($start_time,$end_time);
+        // list($first_week,$last_week,$n) = $this->get_seller_week_info($start_time, $end_time);//销售月拆解
+        // $registered_student_num=$this->get_register_student_list($first_week,$n);//销售月助教在册学生总数获取
+        // $seller_month_lesson_count = $this->t_manager_info->get_assistant_lesson_count_info($first_week,$last_week+7*86400,$assistantid);//销售月总课时
 
-        //月初预估课时数据补充
-        if(empty($estimate_month_lesson_count)){
-            $estimate_month_lesson_count=100;
-        }
+        // $seller_week_stu_num = round(@$registered_student_num[$adminid]);//销售月周平均学生数
+        // $seller_month_lesson_count = @$seller_month_lesson_count[$adminid]["lesson_count"];//销售月总课时
+        // $registered_student_list_last = @$ass_last_month[$adminid]["registered_student_list"];
+        // list($kpi_lesson_count_finish_per,$estimate_month_lesson_count)= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$seller_week_stu_num,$n,$seller_month_lesson_count);
 
-        $update_arr =  [
-            "first_lesson_stu_list" =>$first_subject_list,
-            "revisit_reword_per"    =>$revisit_reword_per*100,
-            "seller_week_stu_num"   =>$seller_week_stu_num,
-            "seller_month_lesson_count"=>$seller_month_lesson_count,
-            "kpi_lesson_count_finish_per"=>$kpi_lesson_count_finish_per*100,
-            "estimate_month_lesson_count" =>$estimate_month_lesson_count,//临时更新一次(月初生成)
-            "performance_cc_tran_num"  =>@$performance_cc_tran_list["performance_cc_tran_num"],
-            "performance_cc_tran_money"=>@$performance_cc_tran_list["performance_cc_tran_money"],
-            "performance_cr_renew_num" =>@$performance_cr_renew_list["performance_cr_renew_num"],
-            "performance_cr_renew_money" =>@$performance_cr_renew_list["performance_cr_renew_money"],
-            "performance_cr_new_num" =>@$performance_cr_new_list[$adminid]["performance_cr_new_num"],
-            "performance_cr_new_money" =>@$performance_cr_new_list[$adminid]["performance_cr_new_money"],
-            "read_student"          =>@$stu_info_all[$adminid]["read_count"],
-            "stop_student"          =>@$stu_info_all[$adminid]["stop_count"],
-            // "all_student"           =>$item["all_student"],
-            // "month_stop_student"    =>$item["month_stop_student"],
-            // "warning_student"       =>$item["warning_student"],
-            // "lesson_total"          =>$item["lesson_total"],
-            // "lesson_ratio"          =>$item["lesson_ratio"],
-            // "renw_price"            =>$item["renw_price"],
-            // "renw_student"          =>$item["renw_student"],
-            // "tran_price"            =>$item["tran_price"],
-            "kk_num"                =>$kk_num,
-            "userid_list"           =>@$userid_list[$adminid],
-            // "refund_student"        =>$item["refund_student"],
-            // "new_refund_money"      =>$item["new_refund_money"],
-            // "renw_refund_money"     =>$item["renw_refund_money"],
-            // "lesson_total_old"      =>$item["lesson_total_old"],
-            // "read_student_new"      =>$item["read_student_new"],
-            // "all_student_new"       =>$item["all_student_new"],
 
-            // "lesson_money"          =>$item["lesson_money"],
-            // "new_student"           =>$item["new_student"],
-            // "new_lesson_count"      =>$item["new_lesson_count"],
-            "end_stu_num"           =>@$end_stu_info_new[$adminid],
-            // "lesson_student"        =>$item["lesson_student"],
-            // "revisit_target"        =>$item["revisit_target"],
-            // "revisit_real"          => $item["revisit_real"],
-            // "first_revisit_num"     => $item["first_revisit_num"],
-            // "un_first_revisit_num"  => $item["un_first_revisit_num"],
-            // "refund_score"          => $item["refund_score"],
-            // "lesson_price_avg"      => $item["lesson_price_avg"],
-            // "student_finsh"         =>$item["student_finish"],
-            // "tran_num"              =>$item["tran_num"],
-            // "cc_tran_num"           =>$item["cc_tran_num"],
-            // "cc_tran_money"           =>$item["cc_tran_money"],
+        // //月初预估课时数据补充
+        // if(empty($estimate_month_lesson_count)){
+        //     $estimate_month_lesson_count=100;
+        // }
 
-            "stop_student_list"       =>@$stop_userid_list[$adminid],
-            "registered_student_list" =>@$registered_userid_list[$adminid],
-            // "all_ass_stu_num"         =>$item["all_ass_stu_num"],
-            // "ass_refund_money"        => $refund_money,
-        ];
+        // $update_arr =  [
+        //     "first_lesson_stu_list" =>$first_subject_list,
+        //     "revisit_reword_per"    =>$revisit_reword_per*100,
+        //     "seller_week_stu_num"   =>$seller_week_stu_num,
+        //     "seller_month_lesson_count"=>$seller_month_lesson_count,
+        //     "kpi_lesson_count_finish_per"=>$kpi_lesson_count_finish_per*100,
+        //     "estimate_month_lesson_count" =>$estimate_month_lesson_count,//临时更新一次(月初生成)
+        //     "performance_cc_tran_num"  =>@$performance_cc_tran_list["performance_cc_tran_num"],
+        //     "performance_cc_tran_money"=>@$performance_cc_tran_list["performance_cc_tran_money"],
+        //     "performance_cr_renew_num" =>@$performance_cr_renew_list["performance_cr_renew_num"],
+        //     "performance_cr_renew_money" =>@$performance_cr_renew_list["performance_cr_renew_money"],
+        //     "performance_cr_new_num" =>@$performance_cr_new_list[$adminid]["performance_cr_new_num"],
+        //     "performance_cr_new_money" =>@$performance_cr_new_list[$adminid]["performance_cr_new_money"],
+        //     "read_student"          =>@$stu_info_all[$adminid]["read_count"],
+        //     "stop_student"          =>@$stu_info_all[$adminid]["stop_count"],
+        //     // "all_student"           =>$item["all_student"],
+        //     // "month_stop_student"    =>$item["month_stop_student"],
+        //     // "warning_student"       =>$item["warning_student"],
+        //     // "lesson_total"          =>$item["lesson_total"],
+        //     // "lesson_ratio"          =>$item["lesson_ratio"],
+        //     // "renw_price"            =>$item["renw_price"],
+        //     // "renw_student"          =>$item["renw_student"],
+        //     // "tran_price"            =>$item["tran_price"],
+        //     "kk_num"                =>$kk_num,
+        //     "userid_list"           =>@$userid_list[$adminid],
+        //     // "refund_student"        =>$item["refund_student"],
+        //     // "new_refund_money"      =>$item["new_refund_money"],
+        //     // "renw_refund_money"     =>$item["renw_refund_money"],
+        //     // "lesson_total_old"      =>$item["lesson_total_old"],
+        //     // "read_student_new"      =>$item["read_student_new"],
+        //     // "all_student_new"       =>$item["all_student_new"],
+
+        //     // "lesson_money"          =>$item["lesson_money"],
+        //     // "new_student"           =>$item["new_student"],
+        //     // "new_lesson_count"      =>$item["new_lesson_count"],
+        //     "end_stu_num"           =>@$end_stu_info_new[$adminid],
+        //     // "lesson_student"        =>$item["lesson_student"],
+        //     // "revisit_target"        =>$item["revisit_target"],
+        //     // "revisit_real"          => $item["revisit_real"],
+        //     // "first_revisit_num"     => $item["first_revisit_num"],
+        //     // "un_first_revisit_num"  => $item["un_first_revisit_num"],
+        //     // "refund_score"          => $item["refund_score"],
+        //     // "lesson_price_avg"      => $item["lesson_price_avg"],
+        //     // "student_finsh"         =>$item["student_finish"],
+        //     // "tran_num"              =>$item["tran_num"],
+        //     // "cc_tran_num"           =>$item["cc_tran_num"],
+        //     // "cc_tran_money"           =>$item["cc_tran_money"],
+
+        //     "stop_student_list"       =>@$stop_userid_list[$adminid],
+        //     "registered_student_list" =>@$registered_userid_list[$adminid],
+        //     // "all_ass_stu_num"         =>$item["all_ass_stu_num"],
+        //     // "ass_refund_money"        => $refund_money,
+        // ];
         $this->t_month_ass_student_info->get_field_update_arr($adminid,$start_time,1,$update_arr);
         return $this->output_succ();
 
