@@ -24,7 +24,7 @@ function init_today_new()  {
                 user_admin_assign_time_map[opt_data.userid] =opt_data.admin_assign_time;
                 opt_data_map[opt_data.userid] =opt_data;
                 var $seller_item=$(
-                    '<div class="item-'+opt_data.userid+'" style="width:280px;display:inline-block; margin-left:20px "  >'+
+                    '<div class="item-'+opt_data.userid+'" style=" float: left; width:280px;display:inline-block; margin-left:20px "  >'+
                         '    <!-- DIRECT CHAT PRIMARY -->'+
                         '    <div class="box box-primary direct-chat direct-chat-primary">'+
                         '        <!-- /.box-header -->'+
