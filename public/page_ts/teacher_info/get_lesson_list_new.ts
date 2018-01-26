@@ -629,6 +629,7 @@ $(function(){
         var ret_data = {},book_info = [],tea_sub_info = [], tea_gra_info = [], res_type_list = [];
         var dlg_tr = {};
         var get_res = function(ajax_url,opt_type,btn_type,dir_id){
+
             $("<div></div>").tea_select_res_ajax({
                 "opt_type" :  "select", // or "list"
                 "url"      :  ajax_url,
