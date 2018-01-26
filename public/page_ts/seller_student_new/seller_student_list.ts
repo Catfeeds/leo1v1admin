@@ -78,7 +78,7 @@ function init_today_new()  {
                         ''+
                         '            <!-- Conversations are loaded here -->'+
                         '            <div class="call-item">'+
-                        '                <button class=" call-opt-edit  btn btn-warning  fa fa-edit fa-2x" style="width:25%" titie="edit" >'+
+                        '                <button class=" call-opt-edit  btn btn-warning  fa fa-edit fa-2x" style="width:25%" titie="编辑,同时同步tq" >'+
                         '                </button>'+
                         '                <button class=" call-opt-call-phone btn btn-warning  fa fa-phone fa-2x "  style="width:70%" > 拨打</button>'+
                         '            </div>'+
@@ -92,6 +92,11 @@ function init_today_new()  {
                         '</div>');
                 $seller_item.find(".call-opt-edit").on("click" ,function() {
                     $p_div.find(".opt-edit-new_new").click();
+
+                    $.do_ajax("/ss_deal/sync_tq",{
+                        "phone" : opt_data.phone,
+                    } );
+
                 }) ;
 
                 $seller_item.find(".call-opt-call-phone").on("click" ,function() {
