@@ -79,7 +79,7 @@ class tom_do_once extends Command
         // $this->give_seller_new_count();
         // $this->update_seller_edit_log();
         // $this->update_seller_student_origin();
-        $this->seller_daily_threshold();
+        // $this->seller_daily_threshold();
     }
 
     public function update_cc_call(){
@@ -95,7 +95,7 @@ class tom_do_once extends Command
             $start_time = $start;
             $end_time = strtotime('+1 month',$start);
             // $this->update_cc_no_called_count($start_time,$end_time);
-            $this->update_distribution_count($start_time,$end_time);
+            // $this->update_distribution_count($start_time,$end_time);
 
             $start = strtotime('+1 month',$start);
         }
@@ -115,11 +115,11 @@ class tom_do_once extends Command
             $cc_no_called_count = $item['cc_no_called_count'];
             $cc_no_called_count_new = $item['cc_no_called_count_new'];
             $cc_first_called_cc = $item['first_called_cc'];
-            $cc_first_revisit_time = $item['first_revisit_time'];//刷
-            $cc_last_revisit_time = $item['last_revisit_time'];//刷
-            $cc_first_contact_time = $item['first_contact_time'];//刷
-            $cc_last_contact_time = $item['last_contact_time'];//刷
-            $cc_last_called_cc = $item['last_contact_cc'];//刷
+            $cc_first_revisit_time = $item['first_revisit_time'];
+            $cc_last_revisit_time = $item['last_revisit_time'];
+            $cc_first_contact_time = $item['first_contact_time'];
+            $cc_last_contact_time = $item['last_contact_time'];
+            $cc_last_called_cc = $item['last_contact_cc'];
             $cc_first_get_cc = $item['first_get_cc'];
             $cc_test_lesson_flag = $item['test_lesson_flag'];
             $cc_orderid = $item['orderid'];
