@@ -114,7 +114,6 @@ class Wx{
         return @$ret_arr["access_token"];
     }
 
-
     function wx_get_token($reset_flag=false) {
         $appid     = $this->appid;
         $appsecret = $this->appsecret;
@@ -122,6 +121,10 @@ class Wx{
     }
 
     function send_template_msg( $openid, $template_id, $data ,$url="" ) {
+        if(!\App\Helper\Utils::check_env_is_release()){
+            return false;
+        }
+
         foreach ($data as &$item) {
             if (!is_array($item)) {
                 $item = [
@@ -169,8 +172,6 @@ class Wx{
             }
         }
     }
-
-
 
     function send_template_msg_color( $openid, $template_id, $data ,$url="", $color='' ) {
         foreach ($data as &$item) {

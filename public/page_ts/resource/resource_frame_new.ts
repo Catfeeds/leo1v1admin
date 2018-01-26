@@ -78,7 +78,7 @@ $(function(){
             $('#contextify-menu').hide();
             ajax_submit(data_str,'ban',null,'');
         },class:'menu_ban'},
-        {text: '选择教材版本', onclick: function() {
+        {text: '添加教材版本', onclick: function() {
             $('#contextify-menu').hide();
             if( ban_level > 0){
                 alert('请先启用上一级！');
@@ -243,6 +243,10 @@ $(function(){
             'do_type' :do_type,
             'resource':resource,
         };
+        if( do_type == 'add' && resource == '' ){
+            BootstrapDialog.alert("请至少选择一个资源类型！");
+            return false;
+        }
         $.ajax({
             type     : "post",
             url      : "/resource/add_or_del_or_edit_new",
