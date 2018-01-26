@@ -54,7 +54,7 @@ class t_seller_student_new_b2 extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function  get_need_new_assign_list( $global_tq_called_flag =0 , $limit_count = 100000  ) {
+    public function  get_need_new_assign_list( $global_tq_called_flag =0 , $limit_count = 1000 ) {
         $where_arr=[
             ["n.global_tq_called_flag=%u",  $global_tq_called_flag , -1 ],
             "n.seller_student_assign_type=1", // 系统分配k
