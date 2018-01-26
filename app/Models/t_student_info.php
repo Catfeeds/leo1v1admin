@@ -2487,6 +2487,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     public function get_end_stu_list_str($start_time,$end_time){
         $where_arr=[
             "s.type=1",
+            's.is_test_user=0',
         ];
 
         $this->where_arr_add_time_range($where_arr,"s.last_lesson_time",$start_time,$end_time);

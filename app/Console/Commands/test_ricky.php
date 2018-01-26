@@ -43,8 +43,6 @@ class test_ricky extends Command
 
         // 拉取90分钟补偿数据
         $month = [8,9,10,11,12,1];
-        //$lesson = $task->t_teacher_feedback_list->get_lesson_list();
-        //$order = $task->t_teacher_feedback_list->get_order_list();
         foreach ($month as $item) {
             $start_time = strtotime('2017-'.$item.'-1');
             if ($item == 12) {
@@ -61,13 +59,12 @@ class test_ricky extends Command
             foreach($info as $val) {
                 if (!($val["teacherid"] && $val["lessonid"])) continue;
                 echo $task->cache_get_teacher_nick($val["teacherid"]).",";
-                $lesson = $task->t_teacher_feedback_list->get_lesson_list($val["teacherid"], $val["lessonid"]);
                 
-                $userid = $lesson["userid"];
+                $userid = $val["userid"];
                 echo $task->cache_get_student_nick($userid).",";
                 echo $val["lessonid"].",";
-                echo $task->cache_get_assistant_nick($lesson["assistantid"]).",";
-                echo date("Y-m-d H:i:s", $lesson["lesson_start"]).",";
+                echo $task->cache_get_assistant_nick($val["assistantid"]).",";
+                echo date("Y-m-d H:i:s", $val["lesson_start"]).",";
                 $order = $task->t_teacher_feedback_list->get_order_list($userid);
                 echo date("Y-m-d H:i:s", $order).PHP_EOL;
             }

@@ -5006,7 +5006,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             'o.contract_status > 0',
             'o.contract_type = 3',
-            'o.price>0'
+            'o.price>0',
+            's.is_test_user=0',
+
         ];
         $this->where_arr_add_time_range($where_arr, 'o.order_time', $start_time, $end_time);
         $sql = $this->gen_sql_new("select distinct o.userid,s.assistantid,a.nick "
