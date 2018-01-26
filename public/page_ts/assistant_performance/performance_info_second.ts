@@ -27,14 +27,15 @@ $(function(){
 
     $(".opt-reset-data").on("click",function(){
         //alert("开发中");
+        var data           = $(this).get_opt_data();
+        console.log(data.adminid);
         var id=$(this).data("id");
         BootstrapDialog.confirm(
             "确认?",
             function(val) {
                 if  (val)  {
-                    var opt_data = $(this).get_opt_data();
                     $.do_ajax('/ajax_deal3/reset_assisatnt_performance_data',{
-                        "adminid" : opt_data.adminid,
+                        "adminid" : data.adminid,
                         "start_time":g_args.start_time,
                         "type"      : id
                     });

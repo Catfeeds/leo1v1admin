@@ -56,9 +56,10 @@ $(function(){
                     if($(tag_info).length == 0) {
                         if(opt_type == 1){
                             if( subject > 0 && grade > 0){
-                                obj.append('<option value="-1">全部</option>');
+                                obj.append('<option value="-1">暂无标签</option>');
                             }else{
-                                obj.append('<option value="-1">请选择科目和年级</option>');
+                                obj.append('<option value="-1">资源类型、科目和年级是必选</option>');
+                                $('#id_tag_four').css({'color':"#a2a2a2"});
                             }
                         } else {
                             obj.after('<span class="tag_warn" style="color:red;margin-left:8px">暂时未添加标签!</span>');

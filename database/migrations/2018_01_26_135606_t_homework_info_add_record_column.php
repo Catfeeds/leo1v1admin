@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TTeacherInfoAddSellerRequireFlag extends Migration
+class THomeworkInfoAddRecordColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,11 @@ class TTeacherInfoAddSellerRequireFlag extends Migration
      */
     public function up()
     {
-        //
-        Schema::table('db_weiyi.t_teacher_info', function( Blueprint $table)
+        Schema::table('db_weiyi.t_homework_info', function( Blueprint $table)
         {
-            t_field($table->text("week_limit_time_info"),"周限课时间段");          
-            t_field($table->tinyInteger("limit_seller_require_flag"),"更改教研限课是否CC要求");          
+            t_field($table->integer("download_time"),"学生第一次下载作业时间");
+            t_field($table->integer("stu_check_time"),"学生第一次查看批改后作业时间");
         });
-
     }
 
     /**
