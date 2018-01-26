@@ -1048,65 +1048,27 @@ class wx_parent_gift extends Controller
         return ;
     }
 
-        /**
+    /**
      * @ 市场部分享海报
      * @ James
      * @ 2018-01-24
      */
 
-    # 报名页面
-    public function jumpSignUpLink(){
-        $p_appid     = \App\Helper\Config::get_wx_appid();
-        $p_appsecret = \App\Helper\Config::get_wx_appsecret();
-        $uid = $this->get_in_int_val('uid');
-
-        $wx= new \App\Helper\Wx($p_appid,$p_appsecret);
-        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/jumpSignPage?uid=".$uid );
-        $wx->goto_wx_login($redirect_url);
-    }
-
-    public function jumpSignPage(){
-        $p_appid     = \App\Helper\Config::get_wx_appid();
-        $p_appsecret = \App\Helper\Config::get_wx_appsecret();
-        $code = $this->get_in_str_val('code');
-        $wx   = new \App\Helper\Wx($p_appid,$p_appsecret);
-        $user_info = $wx->get_token_from_code($code);
-        $openid    = @$user_info["openid"];
-        $uid = $this->get_in_int_val('uid');
-        $parentid = $this->t_parent_info->get_parentid_by_wx_openid($openid);
-
-        header("Location: http://www.leo1v1.com/market/index.html");//链接待定
-        return ;
-    }
 
     # 获取分享链接打开次数
     public function linkOpenNum(){
         $uid = $this->get_in_int_val('uid');
-        $this->t_personality_poster->updateClickNum($uid);
+        $checkHas = $this->t_personality_poster->checkHas($uid);
+        if($checkHas>0){
+            $this->t_personality_poster->updateClickNum($uid);
+        }else{
+            $this->t_personality_poster->row_insert([
+                "uid" => $uid,
+                "clickNum" => 1
+            ]);
+        }
         return $this->output_succ();
     }
 
-    # 制作海报
-    public function leoPosterNum(){
-        $uid = $this->get_in_int_val('uid');
-        $this->t_personality_poster->updatePosterNum($uid);
-        return $this->output_succ();
-    }
-
-    # 分享海报
-    public function sharePoster(){
-        $pid = $this->get_in_int_val('pid');
-        $uid = $this->get_in_int_val('uid');
-        $par_openid = $this->get_in_str_val('par_openid');
-        $phone = $this->get_in_str_val('phone');
-
-        $this->t_poster_share_log->row_insert([
-            "poster_id"  => $pid,
-            "uid"        => $uid,
-            "par_openid" => $par_openid,
-            "phone"      => $phone
-        ]);
-        return $this->output_succ();
-    }
 
 }
