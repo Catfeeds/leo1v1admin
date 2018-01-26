@@ -94,7 +94,7 @@ class Wechat    {
 
         \App\Helper\Utils::logger('mediaidxuej'.json_encode($this->mediaId));
 
-        return  \App\Wx\Teacher\WechatRequest::switchType($this->request);
+        return  \App\Wx\Squirrel\WechatRequest::switchType($this->request);
     }
 
 
