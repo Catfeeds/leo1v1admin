@@ -88,16 +88,16 @@ class update_haruteru_award extends Command
                         break;
                     }
                 }
-                echo 'teacherid '.$item['teacherid'].'money : '.$money.' end ';
-                //$time = strtotime(date('Y-m-7', strtotime('-1month')));
 
-                // $task->t_teacher_money_list->row_insert([
-                //     'teacherid' => $item['teacherid'],
-                //     'add_time' => $time,
-                //     'type' => 7,
-                //     'money' => $money * 100,
-                //     'grade' => $grade
-                // ]);
+                $time = strtotime(date('Y-m-7', strtotime('-1month')));
+
+                $task->t_teacher_money_list->row_insert([
+                    'teacherid' => $item['teacherid'],
+                    'add_time' => $time,
+                    'type' => 7,
+                    'money' => $money * 100,
+                    'grade' => $grade
+                ]);
             }
         }
         return;
