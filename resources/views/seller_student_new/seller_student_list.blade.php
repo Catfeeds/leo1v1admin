@@ -302,80 +302,8 @@
 
         </div>
 
-        <hr/>
         <div id="id_today_new_list" class="row">
-            <div class="col-md-3 col-xs-12" style="display:none;" >
-                <!-- DIRECT CHAT PRIMARY -->
-                <div class="box box-primary direct-chat direct-chat-primary">
-                    <!-- /.box-header -->
-                    <div class="box-body call-item">
-                        <div class="call-item">
-                            <div class="call-item-title phone " >
-                                电话
-                            </div>
-                            <div class="call-item-text phone  " >
-                                15601830297 <span style="color:red; " > (奖)</span>
-                            </div>
-                        </div>
-                        <div class="call-item">
-                            <span class="call-item-title" >
-                                地区
-                            </span>
-                            <span class="call-item-text " >
-                                上海联通
-                            </span>
-                        </div>
-
-
-                        <div class="call-item">
-                            <span class="call-item-title" >
-                                年级
-                            </span>
-                            <span class="call-item-text " >
-                                小学
-                            </span>
-                        </div>
-
-
-
-                        <div class="call-item">
-                            <span class="call-item-title" >
-                                科目
-                            </span>
-                            <span class="call-item-text " >
-                                数学
-                            </span>
-                        </div>
-                        <!-- Conversations are loaded here -->
-                        <div class="call-item">
-                            <span class="call-item-title" >
-                                设备
-                            </span>
-                            <span class="call-item-text " >
-                                iPad
-                            </span>
-                        </div>
-
-                        <!-- Conversations are loaded here -->
-                        <div class="call-item">
-                            <button class="  btn btn-warning  fa fa-edit fa-2x" style="width:25%" titie="edit" >
-                            </button>
-                            <button class="btn btn-warning  fa fa-phone fa-2x "  style="width:70%" > 拨打</button>
-                        </div>
-                        <!-- Contacts are loaded here -->
-                        <!-- /.direct-chat-pane -->
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-
-                    </div>
-                    <!-- /.box-footer-->
-                </div>
-                <!--/.direct-chat -->
-            </div>
-
-
-
+            <div class=" col-md-12 new_list_title" style="font-size:20px;" >  </div>
         </div>
         <table class="common-table">
             <thead>

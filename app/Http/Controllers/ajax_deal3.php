@@ -19,11 +19,12 @@ class ajax_deal3 extends Controller
         $userid_list= $this->get_in_int_list("userid_list");
         $user_admin_assign_time_map= json_decode( $this->get_in_str_val("user_admin_assign_time_map"),true  );
         $now=time(NULL);
+        $user_list=[];
+        $new_count=0;
+        $no_connected_count=0;
 
         if ( count($userid_list) ==0 || @$userid_list[0] == -1   ) {
-            return $this->output_succ([
-                "user_list"=>[]
-            ]);
+
         }else{
 
             $work_start_time=$this->t_admin_work_start_time->get_today_work_start_time($adminid);
@@ -51,14 +52,30 @@ class ajax_deal3 extends Controller
                 }
                 $item["show_left_time_flag"]= $show_left_time_flag;
 
+                if($item["seller_student_assign_from_type"]==1) {
+                    $no_connected_count++;
+                }else{
+                    $new_count++;
+                }
+
             }
-            return $this->output_succ([
-                "user_list"       => $user_list,
-                "work_start_time" => $work_start_time ,
-            ]);
+
 
         }
+        $seller_level= $this->t_manager_info->get_seller_level($adminid);
 
+        $hold_config=\App\Helper\Config::get_seller_hold_user_count();
+        $max_hold_count = @$hold_config[$seller_level];
+        $hold_count=$this->t_seller_student_new_b2->admin_hold_count($adminid);
+
+        return $this->output_succ([
+            "user_list"       => $user_list,
+            "work_start_time" => $work_start_time ,
+            "new_count" => $new_count,
+            "no_connected_count" => $no_connected_count,
+            "max_hold_count" =>$max_hold_count,
+            "hold_count" =>$hold_count,
+        ]);
     }
 
     public function set_work_start_time() {
