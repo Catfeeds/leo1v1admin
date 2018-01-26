@@ -939,7 +939,7 @@ $(function(){
     var subject_8=[];   
     var subject_9=[];   
     var subject_10=[];   
-    if(g_data_ex_list.length==0){
+    if(g_data_ex_list == null || g_data_ex_list.length==0){
         
     }else{
         
