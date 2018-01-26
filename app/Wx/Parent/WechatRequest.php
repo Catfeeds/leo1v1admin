@@ -172,19 +172,11 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
         }elseif($request['content'] == '转发'){
             $userOpenid = $request['fromusername'];
             $t_manager_info = new \App\Models\t_manager_info;
-            $t_personality_poster = new \App\Models\t_personality_poster;
 
             $RoleId = $t_manager_info->checkIsRole($userOpenid);
-            if($RoleId > 1){
-                $content = "http://wx-parent.leo1v1.com"; // 待定
+            if($RoleId > 0){
+                $content = "http://wx-parent.leo1v1.com?uid=$RoleId"; // 待定
                 # 记录输入转发次数
-                $checkHas =  $t_personality_poster->checkHas($RoleId);
-                if($checkHas>0){
-                    $t_personality_poster->row_insert([
-                        "uid" => $RoleId,
-                    ]);
-                }
-                $t_personality_poster->updateForwardNum($RoleId);
             }
         }
 
