@@ -217,6 +217,7 @@ class seller_student_system_assign extends cmd_base
                     $assigned_new_count=$item["assigned_new_count"];
                     $seller_level=$item["seller_level"];
                     $def_new_count=$item["def_new_count"];
+                    $opt_adminid= $item["uid"];
 
                     \App\Helper\Utils::logger(" --> adminid: $opt_adminid, $i, def_new_count:$def_new_count , assigned_new_count:$assigned_new_count   ");
                     if ($i<$def_new_count // 在配额内
@@ -227,7 +228,6 @@ class seller_student_system_assign extends cmd_base
                             $assigned_count++;
                             $userid_list=[$find_userid];
                             $opt_type ="" ;
-                            $opt_adminid= $item["uid"];
                             $opt_type=0;
                             $account="系统分配-新例子";
                             $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
