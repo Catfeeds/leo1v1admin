@@ -1463,6 +1463,16 @@ class ss_deal2 extends Controller
         return $this->output_succ();
     }
 
+    public function set_assign_type_list() {
+        $userid_list=$this->get_in_int_list("userid_list");
+        $seller_student_assign_type= $this->get_in_e_seller_student_assign_type();
+        foreach ( $userid_list as $userid) {
+            $this->t_seller_student_new->field_update_list($userid, [
+                "seller_student_assign_type" =>$seller_student_assign_type,
+            ]);
+        }
+        return $this->output_succ();
+    }
 
 
 }
