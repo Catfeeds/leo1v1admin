@@ -13,11 +13,40 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
                               $user_id);
         return $this->main_get_list_by_page($sql,$page_info);
     }
-    public function get_all_list($page_info,$username,$grade,$semester,$stu_score_type,$is_test_user,$userid=-1  ){
+    public function get_all_list($page_info,$username,$grade,$semester,$stu_score_type,$is_test_user,$userid=-1,$subject=-1  ){
         $where_arr = [
             // [" u.realname= '%s'",$username,''],
             [" u.nick= '%s'",$username,''],
             [" s.grade = %d ",$grade,-1],
+            [" s.subject = %d ",$subject,-1],
+            [" s.semester = %d ",$semester,-1],
+            [" s.stu_score_type = %d ",$stu_score_type,-1],
+            [" u.is_test_user = %d ",$is_test_user,-1],
+            [" s.userid = %d ",$userid,-1],
+            "s.status = 0",
+        ];
+        $sql = $this->gen_sql_new(" select s.admin_type, s.userid,s.create_time,s.create_adminid,s.subject,"
+                                  ."s.stu_score_type,s.stu_score_time,s.score,s.total_score,s.rank,s.semester,"
+                                  ."s.total_score,s.grade,s.grade_rank,s.status,s.month,s.rank_up,s.rank_down, "
+                                  ."u.realname,u.school,m.name,u.nick,s.file_url,s.paper_upload_time,s.school_ex "
+                                  ." from      %s s "
+                                  ." left join %s u on s.userid         = u.userid "
+                                  ." left join %s m on s.create_adminid = m.uid "
+                                  ." where %s order by s.create_time desc ",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME, //学生表userid
+                                  t_manager_info::DB_TABLE_NAME, //管理员表uid
+                                  $where_arr
+        );
+
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
+    public function get_all_list_no_page($username,$grade,$semester,$stu_score_type,$is_test_user,$userid=-1 ,$subject=-1  ){
+        $where_arr = [
+            // [" u.realname= '%s'",$username,''],
+            [" u.nick= '%s'",$username,''],
+            [" s.grade = %d ",$grade,-1],
+            [" s.subject = %d ",$subject,-1],
             [" s.semester = %d ",$semester,-1],
             [" s.stu_score_type = %d ",$stu_score_type,-1],
             [" u.is_test_user = %d ",$is_test_user,-1],
@@ -31,15 +60,16 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
                                   ." from      %s s "
                                   ." left join %s u on s.userid         = u.userid "
                                   ." left join %s m on s.create_adminid = m.uid "
-                                  ." where %s order by s.create_time desc ",
+                                  ." where %s order by s.create_time  ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME, //学生表userid
                                   t_manager_info::DB_TABLE_NAME, //管理员表uid
                                   $where_arr
         );
 
-        return $this->main_get_list_by_page($sql,$page_info);
+        return $this->main_get_list($sql);
     }
+
 
     public function get_last_grade_rank($subject,$userid){
         $sql = $this->gen_sql(" select grade_rank "

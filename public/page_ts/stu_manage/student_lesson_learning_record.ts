@@ -18,6 +18,8 @@ function load_data(){
         start_date:	$('#id_start_date').val(),
         end_date:	$('#id_end_date').val(),
         current_table_id:$(".current_score").data("table_id"),
+        semester:	$('#id_semester').val(),
+		    stu_score_type:	$('#id_stu_score_type').val()
     });
 
 }
@@ -48,6 +50,12 @@ $(function(){
     var grade_list_arr =get_arr_from_obj(window["g_grade_list"]);
     Enum_map.append_option_list("subject",$("#id_subject"),false,subject_list_arr);
     Enum_map.append_option_list("grade",$("#id_grade"),false,grade_list_arr);
+    Enum_map.append_option_list("semester",$("#id_semester"));
+    Enum_map.append_option_list("stu_score_type",$("#id_stu_score_type"));
+
+
+    $('#id_semester').val(g_args.semester);
+	  $('#id_stu_score_type').val(g_args.stu_score_type);
 
 
     $('#id_grade').val(g_args.grade);
@@ -104,8 +112,19 @@ $(function(){
         var current_id =  $(".current").data("id");
         if(current_id==5){
             $("#id_add_stu_score").parent().show();
+            $("#id_start_date").parent().parent().hide();
+            $("#id_end_date").parent().parent().hide();
+            $("#id_semester").parent().parent().show();
+            $("#id_stu_score_type").parent().parent().show();
+
         }else{
             $("#id_add_stu_score").parent().hide();
+            $("#id_start_date").parent().parent().show();
+            $("#id_end_date").parent().parent().show();
+            $("#id_semester").parent().parent().hide();
+            $("#id_stu_score_type").parent().parent().hide();
+
+
         }
         window["g_load_data_flag"] = 0;
         load_data();
@@ -139,8 +158,18 @@ $(function(){
             });
             if(current_id==5){
                 $("#id_add_stu_score").parent().show();
+                $("#id_start_date").parent().parent().hide();
+                $("#id_end_date").parent().parent().hide();
+                $("#id_semester").parent().parent().show();
+                $("#id_stu_score_type").parent().parent().show();
+
             }else{
                 $("#id_add_stu_score").parent().hide();
+                $("#id_start_date").parent().parent().show();
+                $("#id_end_date").parent().parent().show();
+                $("#id_semester").parent().parent().hide();
+                $("#id_stu_score_type").parent().parent().hide();
+
             }
 
         }
@@ -189,6 +218,30 @@ $(function(){
             $("#id_grade_show").show();
         }
     });
+    $('#id_semester').change(function(){
+        var grade=$(this).val();
+        var vv = $(this).find("option:selected").text();
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        if(grade==-1){
+            $("#id_semester_show").hide();
+        }else{
+            $("#id_semester_show").html(htm);
+            $("#id_semester_show").show();
+        }
+    });
+    $('#id_stu_score_type').change(function(){
+        var grade=$(this).val();
+        var vv = $(this).find("option:selected").text();
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        if(grade==-1){
+            $("#id_stu_score_type_show").hide();
+        }else{
+            $("#id_stu_score_type_show").html(htm);
+            $("#id_stu_score_type_show").show();
+        }
+    });
+
+
     $('#id_subject').change(function(){
         var subject=$(this).val();
         var vv = $(this).find("option:selected").text();
@@ -214,6 +267,18 @@ $(function(){
 
 
     });
+    $('#id_subject').change(function(){
+        var subject=$(this).val();
+        var vv = $(this).find("option:selected").text();
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        if(subject==-1){
+            $("#id_subject_show").hide();
+        }else{
+            $("#id_subject_show").html(htm);
+            $("#id_subject_show").show();
+        }
+    });
+
 
     if(g_args.grade==-1){
         $("#id_grade_show").hide();
@@ -239,14 +304,23 @@ $(function(){
         $("#id_date_show").html(htm);
         $("#id_date_show").show();
     }
-    if(g_args.subject==-1){
-        $("#id_subject_show").hide();
+    if(g_args.semester==-1){
+        $("#id_semester_show").hide();
     }else{
-        var vv = $("#id_subject").find("option:selected").text();
+        var vv = $("#id_semester").find("option:selected").text();
         var htm = "<label class=\"fa fa-times\"></label>"+vv;
-        $("#id_subject_show").html(htm);
-        $("#id_subject_show").show();
+        $("#id_semester_show").html(htm);
+        $("#id_semester_show").show();
     }
+    if(g_args.stu_score_type==-1){
+        $("#id_stu_score_type_show").hide();
+    }else{
+        var vv = $("#id_stu_score_type").find("option:selected").text();
+        var htm = "<label class=\"fa fa-times\"></label>"+vv;
+        $("#id_stu_score_type_show").html(htm);
+        $("#id_stu_score_type_show").show();
+    }
+
 
 
     $("#id_grade_show").on("click",function(){
@@ -256,6 +330,22 @@ $(function(){
         load_data();
 
     });
+    $("#id_semester_show").on("click",function(){
+        $(this).hide();
+        $("#id_semester").val(-1);
+        window["g_load_data_flag"] = 0;
+        load_data();
+
+    });
+    $("#id_stu_score_type_show").on("click",function(){
+        $(this).hide();
+        $("#id_stu_score_type").val(-1);
+        window["g_load_data_flag"] = 0;
+        load_data();
+
+    });
+
+
 
     $("#id_subject_show").on("click",function(){
         $(this).hide();
@@ -621,6 +711,7 @@ $(function(){
         var id_grade_rank     = $("<input placeholder=\"输入年级排名 格式:2\" />");   //输入年级排名
         var id_grade_rank_num = $("<input placeholder=\"输入年级人数 格式:257\" />");   //输入年级人数
         var id_rank_num       = $("<input placeholder=\"输入班级人数 格式:26\" />");   //输入班级人数
+        var id_school_ex      = $("<input />");   
 
         var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\"> </a>   </div>");
         var $upload_btn  = $upload_div.find("button") ;
@@ -645,25 +736,40 @@ $(function(){
             ["班级人数",id_rank_num],
             ["年级排名",id_grade_rank],
             ["年级人数",id_grade_rank_num],
+            ["学校",id_school_ex],
         ];
+        id_school_ex.val(opt_data.school);
         
         arr.push(['学生试卷',$upload_div]);
         $.show_key_value_table("增加考试记录", arr, {
             label    :  "确认",
-            cssClass :  'btn-waring',
+            cssClass :  'btn-warning',
             action   :   function(dialog){
                 if(id_subject.val() <= 0){
-                    alert("请选择考试科目");
+                    BootstrapDialog.alert("请选择考试科目");
                     return;
                 }
                 if(id_score.val() === ''){
-                    alert("请输入考试成绩");
+                    BootstrapDialog.alert("请输入考试成绩");
                     return;
                 }
                 if(id_total_score.val() === ''){
-                    alert("请输入试卷总分");
+                    BootstrapDialog.alert("请输入试卷总分");
                     return;
                 }
+               
+                var v1= parseInt(id_rank.val());
+                var v2= parseInt(id_rank_num.val());
+                var v3= parseInt(id_grade_rank.val());
+                var v4= parseInt(id_grade_rank_num.val());
+                if(v1 >0 && v2>0 && v3>0 && v4>0 && v1<=v2 && v3<=v4){
+                   
+                }else{
+                    BootstrapDialog.alert("排名与人数必须为数字且排名不能大于人数");
+                    return;
+ 
+                }
+                               
                 var rank="";
                 if(id_rank_num.val()>0){
                     rank = id_rank.val()+"/"+id_rank_num.val();
@@ -696,6 +802,7 @@ $(function(){
                     "grade"         : id_grade.val(),
                     "grade_rank"    : grade_rank,
                     "status"        : 0,
+                    "school_ex"     : id_school_ex.val()
 
                 });
             }
@@ -759,6 +866,230 @@ $(function(){
             $(".score_table").hide();
         }
     }
+
+    $("#score_pic").css({
+        "height"  : "400px",
+        "width"  : "95%"
+    });
+
+
+    var subject_1=[];
+    var subject_2=[];
+    var subject_3=[];   
+    var subject_4=[];   
+    var subject_5=[];   
+    var subject_6=[];   
+    var subject_7=[];   
+    var subject_8=[];   
+    var subject_9=[];   
+    var subject_10=[];   
+    if(g_data_ex_list.length==0){
+        
+    }else{
+        
+        $.each( g_data_ex_list,function(i,item){
+            if (item["title"] !="全部") {
+                if( item["subject_1"]>0){                              
+                    subject_1.push([ item["title"], item["subject_1"]>0?item["subject_1"]:0 ]);
+                }
+                if( item["subject_2"]>0){                              
+                    subject_2.push([ item["title"], item["subject_2"]>0?item["subject_2"]:0 ]);
+                }
+                if( item["subject_3"]>0){                              
+                    subject_3.push([ item["title"], item["subject_3"]>0?item["subject_3"]:0 ]);
+                }
+                if( item["subject_4"]>0){                              
+                    subject_4.push([ item["title"], item["subject_4"]>0?item["subject_4"]:0 ]);
+                }
+                if( item["subject_5"]>0){                              
+                    subject_5.push([ item["title"], item["subject_5"]>0?item["subject_5"]:0 ]);
+                }
+                if( item["subject_6"]>0){                              
+                    subject_6.push([ item["title"], item["subject_6"]>0?item["subject_6"]:0 ]);
+                }
+                if( item["subject_7"]>0){                              
+                    subject_7.push([ item["title"], item["subject_7"]>0?item["subject_7"]:0 ]);
+                }
+                if( item["subject_8"]>0){                              
+                    subject_8.push([ item["title"], item["subject_8"]>0?item["subject_8"]:0 ]);
+                }
+                if( item["subject_9"]>0){                              
+                    subject_9.push([ item["title"], item["subject_9"]>0?item["subject_9"]:0 ]);
+                }
+                if( item["subject_10"]>0){                              
+                    subject_10.push([ item["title"], item["subject_10"]>0?item["subject_10"]:0 ]);
+                }
+
+
+            
+            }
+        });
+        var show_plot=function( ) {
+            var id_name="score_pic";
+            var plot_data_list=[];
+
+
+            if (subject_1.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_1,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "语文"
+                });
+            }
+            if (subject_2.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_2,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "数学"
+                });
+            }
+            if (subject_3.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_3,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "英语"
+                });
+            }
+            if (subject_4.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_4,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "化学"
+                });
+            }
+            if (subject_5.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_5,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "物理"
+                });
+            }
+            if (subject_6.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_6,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "生物"
+                });
+            }
+            if (subject_7.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_7,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "政治"
+                });
+            }
+            if (subject_8.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_8,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "历史"
+                });
+            }
+            if (subject_9.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_9,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "地理"
+                });
+            }
+            if (subject_10.length>0) {
+                plot_data_list.push(
+                    {
+                    data: subject_10,
+                    lines: { show: true
+                             , lineWidth: 2},
+                    label: "科学"
+                });
+            }
+            
+
+            console.log(plot_data_list);
+            
+            var plot=$.plot("#"+id_name, plot_data_list , {
+                series: {
+                    lines: {
+                        show: true,
+                        colors: ["#00c0ef", "#dd4b39", "#f39c12","0f70ef","#f3sdd12","#f0c0ef", "#d54139", "#ff9c1f","0ff0ef","#f3sddff"]
+                    },
+
+                    points: {
+                        show: true
+                    }
+
+                },
+                xaxis: {
+                    mode: "categories",
+                    tickLength: 0
+                },
+                yaxis:{
+                    min: 0,
+                    max: 100,
+                    tickSize: 10,
+                },
+                grid: {
+                    hoverable: true,
+                    clickable: true,
+                    backgroundColor: { colors: [ "#fff", "#eee" ] },
+                    borderWidth: {
+                        top: 1,
+                        right: 1,
+                        bottom: 2,
+                        left: 2
+                    }
+
+                }
+                ,legend: {
+                    show: true ,
+                    position:"nw"
+                },
+                colors: ["#00c0ef", "#dd4b39", "#f39c12","0f70ef","#f3sdd12","#f0c0ef", "#d54139", "#ff9c1f","0ff0ef","#f3sddff"]
+            });
+
+            $("<div id='tooltip'></div>").css({
+                position: "absolute",
+                display: "none",
+                border: "1px solid #fdd",
+                padding: "2px",
+                "background-color": "#fee",
+                opacity: 0.80
+            }).appendTo("body");
+
+            $("#"+id_name).bind("plothover", function(event, pos, item) {
+                if (item) {
+                    var data_item=item.series.data[item.dataIndex];
+                    var title_funcion=function( date_item) {
+                        return "日期:"+data_item[0]+ "<br/>"+ item.series.label +":"+data_item[1]+ "<br/>";
+                    }
+                    $("#tooltip").html( title_funcion(data_item) ).css({top: item.pageY+5, left: item.pageX+5})
+                        .fadeIn(200);
+                } else {
+                    $("#tooltip").hide();
+                }
+            });
+        }
+        show_plot();
+
+    }
+
+    
    
 
 

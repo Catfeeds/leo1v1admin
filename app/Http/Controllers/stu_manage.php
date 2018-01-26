@@ -1445,7 +1445,7 @@ class stu_manage extends Controller
 
     public function student_lesson_learning_record(){
         $userid       = $this->sid;
-        $userid = $this->get_in_int_val("sid");
+        // $userid = $this->get_in_int_val("sid");
         #分页信息
         $page_info= $this->get_in_page_info();
         #排序信息
@@ -1461,6 +1461,8 @@ class stu_manage extends Controller
 
         $subject = $this->get_in_int_val("subject",-1);
         $grade = $this->get_in_int_val("grade",-1);
+        $semester = $this->get_in_int_val("semester",-1);
+        $stu_score_type = $this->get_in_int_val("stu_score_type",-1);
         $current_id = $this->get_in_int_val("current_id",1);
         $current_table_id = $this->get_in_int_val("current_table_id",2);
         $cw_status = $this->get_in_int_val("cw_status",-1);
@@ -1798,8 +1800,13 @@ class stu_manage extends Controller
 
 
         }elseif($current_id==5){
-            $ret_info=$this->t_student_score_info->get_all_list($page_info,"",-1,-1,-1,-1,$userid);
+            $ret_info=$this->t_student_score_info->get_all_list($page_info,"",-1,$grade,$semester,$stu_score_type,$userid,$subject);
+            $list = $this->t_student_score_info->get_all_list_no_page("",-1,$grade,$semester,$stu_score_type,$userid,$subject);
             foreach( $ret_info["list"] as $key => &$item ) {
+
+                if(empty($item["paper_upload_time"])){
+                    $item["paper_upload_time"] =$item["create_time"];
+                }
 
 
                 $ret_info['list'][$key]['num'] = $key + 1;
@@ -1826,12 +1833,9 @@ class stu_manage extends Controller
                 $item["grade_rank"] = $grade_rank[0];
                 $item["grade_rank_num"] = @$grade_rank[1]?@$grade_rank[1]:"--";
                 $item["file_url_str"] = \App\Helper\Utils::gen_download_url($item["file_url"]);
-                if(empty($item["paper_upload_time"])){
-                    $item["paper_upload_time"] =$item["create_time"];
-                }
-                \App\Helper\Utils::unixtime2date_for_item($item,"paper_upload_time","_str");
                 if($item["file_url"]){
                     $item["file_upload_str"]="已上传";
+                    \App\Helper\Utils::unixtime2date_for_item($item,"paper_upload_time","_str");
                 }else{
                     $item["file_upload_str"]="未上传";
                     $item["paper_upload_time_str"]="无";
@@ -1844,7 +1848,94 @@ class stu_manage extends Controller
 
 
             }
-            return $this->pageView(__METHOD__,$ret_info);
+
+            $subject_1 = [];
+            $subject_2 = [];
+            $subject_3 = [];
+            $subject_4 = [];
+            $subject_5 = [];
+            $subject_6 = [];
+            $subject_7 = [];
+            $subject_8 = [];
+            $subject_9 = [];
+            $subject_10 = [];
+            $date_list = [];
+            
+            foreach ($list as $key => $value) {
+                $subject = $value["subject"];
+                $score = $value["score"]/10;              
+                $month = date("Y-m-d H:i",$value["create_time"]);
+                $arr=[
+                    "month"=>$month,
+                    "count"=>$score
+                ];
+                
+                if($subject==1){
+                    $subject_1[]=$arr;
+                }elseif($subject==2){
+                    $subject_2[]=$arr;
+                }elseif($subject==3){
+                    $subject_3[]=$arr;
+                   
+
+                }elseif($subject==4){
+                    $subject_4[]=$arr;
+
+                }elseif($subject==5){
+                    $subject_5[]=$arr;
+
+                }elseif($subject==6){
+                    $subject_6[]=$arr;
+
+                }elseif($subject==7){
+                    $subject_7[]=$arr;
+
+                }elseif($subject==8){
+                    $subject_8[]=$arr;
+
+                }elseif($subject==9){
+                    $subject_9[]=$arr;
+
+                }elseif($subject==10){
+                    $subject_10[]=$arr;
+
+                }
+
+
+
+                if(!isset($subject_arr[$value["subject"]])){
+                    $subject_arr[$value["subject"]]=$value["subject"];
+                }
+                if(!isset($grade_arr[$value["grade"]])){
+                    $grade_arr[$value["grade"]]=$value["grade"];
+                }               
+
+
+
+
+
+               
+                $date_list[$month]['title'] = $month;
+
+            }
+            
+            \App\Helper\Utils::date_list_set_value($date_list,$subject_1,"month","subject_1","count");
+            \App\Helper\Utils::date_list_set_value($date_list,$subject_2,"month","subject_2","count");
+            \App\Helper\Utils::date_list_set_value($date_list,$subject_3,"month","subject_3","count");
+            \App\Helper\Utils::date_list_set_value($date_list,$subject_4,"month","subject_4","count");
+            \App\Helper\Utils::date_list_set_value($date_list,$subject_5,"month","subject_5","count");
+            \App\Helper\Utils::date_list_set_value($date_list,$subject_6,"month","subject_6","count");
+            \App\Helper\Utils::date_list_set_value($date_list,$subject_7,"month","subject_7","count");
+            \App\Helper\Utils::date_list_set_value($date_list,$subject_8,"month","subject_8","count");
+            \App\Helper\Utils::date_list_set_value($date_list,$subject_9,"month","subject_9","count");
+            \App\Helper\Utils::date_list_set_value($date_list,$subject_10,"month","subject_10","count");
+           
+
+            return $this->pageView(__METHOD__,$ret_info,[
+                "pic_data" =>$date_list,
+                "subject_list"=>$subject_arr,
+                "grade_list"=>$grade_arr
+            ]);
 
 
             
