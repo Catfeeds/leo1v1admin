@@ -3835,12 +3835,12 @@ function init_edit() {
                         }else{
                             html_node.find("#id_stu_has_pad_new_two").parent().attr('style','');
                         }
-                        if(html_node.find("#id_stu_school_new_two").val() <= 0){
-                            html_node.find("#id_stu_school_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
-                            return false;
-                        }else{
-                            html_node.find("#id_stu_school_new_two").parent().attr('style','');
-                        }
+                        // if(html_node.find("#id_stu_school_new_two").val() <= 0){
+                        //     html_node.find("#id_stu_school_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
+                        //     return false;
+                        // }else{
+                        //     html_node.find("#id_stu_school_new_two").parent().attr('style','');
+                        // }
                         if(html_node.find("#province_new_two").text() == ''){
                             html_node.find("#province_new_two").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
                             return false;
