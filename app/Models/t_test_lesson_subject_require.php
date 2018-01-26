@@ -4041,7 +4041,7 @@ ORDER BY require_time ASC";
         $this->where_arr_add_int_field($where_arr, 'l.userid', $userid);
 
         $sql=$this->gen_sql_new(
-            "select tss.lessonid "
+            "select tss.lessonid,l.lesson_end "
             ." from %s tr "
             ." left join %s tss on tss.require_id=tr.require_id "
             ." left join %s l on tss.lessonid=l.lessonid "
