@@ -75,6 +75,7 @@ class pic_manage extends Controller
         $info_share  = $this->get_in_str_val('info_share','');
         $jump_url    = $this->get_in_str_val('jump_url');
         $jump_type   = $this->get_in_int_val('jump_type');
+        $acc = $this->get_account();
 
         if ($type == 3 && $usage_type == 302) {
             $size = getimagesize($pic_url);
@@ -124,17 +125,25 @@ class pic_manage extends Controller
                                                          $pic_url,$tag_url,$click_status,$order_by,$grade,
                                                          $subject,$start,$end,$title_share,$info_share,
                                                          $jump_url,$jump_type);
+        if ($opt_type == "add") {
+            $msg = "添加";
+        } else {
+            $msg = "修改";
+        }
+        $this->t_user_log->add_data($acc."执行了".$msg."操作");
         return outputjson_success();
     }
 
     public function del_pic_info()
     {
         $id = $this->get_in_str_val('id',-1);
+        $acc = $this->get_account();
 
         //$ret_info=$this->t_pic_manage_info->row_delete($id);
         $this->t_pic_manage_info->field_update_list($id, [
             "del_flag" => 1
         ]);
+        $this->t_user_log->add_data($acc."执行了删除操作");
         return $this->output_succ();
     }
 
