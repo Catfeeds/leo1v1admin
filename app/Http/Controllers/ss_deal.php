@@ -7762,6 +7762,7 @@ class ss_deal extends Controller
         $coverImgUrl = $this->get_in_str_val('coverImgUrl');
         $activityImgUrl = $this->get_in_str_val('activityImgUrl');
         $followImgUrl   = $this->get_in_str_val('followImgUrl');
+        $img_list_str   = trim($this->get_in_str_val('img_list_str'));
         $add_time = time();
         $uid = $this->get_account_id();
 
