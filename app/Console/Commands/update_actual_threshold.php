@@ -127,14 +127,17 @@ class update_actual_threshold extends Command
               .$threshold_desc.$threshold."%"
               ."拨打量：".$count_call
               ."拨不通：".$count_no_called;
-        $this->task->t_manager_info->send_template_msg(
-            'tom',$template_id,[
-                "first"    => "",
-                "keyword1" => $theme,
-                "keyword2" => "",
-                "keyword3" => date("Y-m-d H:i:s"),
-                "remark"   => $desc,
-            ]);
+        $account_arr = ['tom'];
+        foreach($account_arr as $account){
+            $this->task->t_manager_info->send_template_msg(
+                $account,$template_id,[
+                    "first"    => "",
+                    "keyword1" => $theme,
+                    "keyword2" => "",
+                    "keyword3" => date("Y-m-d H:i:s"),
+                    "remark"   => $desc,
+                ]);
+        }
     }
 
 }
