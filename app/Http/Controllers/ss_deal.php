@@ -4484,6 +4484,7 @@ class ss_deal extends Controller
         $no_confirm_count = $this->t_test_lesson_subject_require->get_no_confirm_count($adminid);
         $end_class_stu_num = $this->t_seller_student_new->get_end_class_stu_num($adminid);
         $favorite_count = $this->t_seller_student_new->get_favorite_num($adminid);
+        $today_new_count= $this->t_seller_student_new_b2->get_today_new_count($adminid);
 
 
         return $this->output_succ(
@@ -4493,6 +4494,7 @@ class ss_deal extends Controller
                 "end_class_stu_num"=>$end_class_stu_num,
                 "today_free_count"  => $today_free_count,
                 "favorite_count"  => $favorite_count,
+                "today_new_count" =>$today_new_count,
             ] )
         );
 

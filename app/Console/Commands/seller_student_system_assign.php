@@ -27,14 +27,24 @@ class seller_student_system_assign extends cmd_base
 
         $config=\App\Helper\Config::get_seller_new_user_day_count();
         //得到要处理的的人
-        $admin_list=$this->task->t_manager_info->get_seller_list(E\Eseller_student_assign_type::V_SYSTEM_ASSIGN );
+        $tmp_admin_list=$this->task->t_manager_info->get_seller_list(E\Eseller_student_assign_type::V_SYSTEM_ASSIGN );
         //得到已经分配的数据
         $admin_assign_map= $this->task->t_seller_student_system_assign_log->get_admin_assign_count_info($start_time, $end_time);
 
         $left_new_count_all=0;
         $left_no_connected_count_all =0;
         $seller_max_new_count=0;
-        foreach ($admin_list as &$item){ //
+
+        $need_new_count_all=0;
+        $assigned_new_count_all=0;
+
+        $need_no_connected_count_all=0;
+        $assigned_no_connected_count_all=0;
+
+        $hold_config=\App\Helper\Config::get_seller_hold_user_count();
+
+        $admin_list=[];
+        foreach ($tmp_admin_list as $key=> $item){ //
             $adminid=$item["uid"];
             $seller_level=$item["seller_level"];
             $def_new_count=@$config[$seller_level];
@@ -56,24 +66,41 @@ class seller_student_system_assign extends cmd_base
                 $seller_max_new_count = $def_new_count;
             }
             $item["assigned_new_count"] = $assigned_new_count;
-            $left_new_count= $def_new_count-$assigned_new_count;
-            $left_new_count_all+= $left_new_count;
-            $item["left_new_count"] = $left_new_count;
+
+            $need_new_count_all+=$def_new_count;
+            $assigned_new_count_all+= min( [$assigned_new_count, $def_new_count]);
+
 
             //未拨通例子重新分配的个数
             $def_no_connected_count= 5;
             $item["def_no_connected_count"] = $def_no_connected_count ;
             $item["assigned_no_connected_count"] = $assigned_no_connected_count ;
-            $left_no_connected_count = $def_no_connected_count -  $assigned_no_connected_count ;
-            $left_no_connected_count_all +=   $left_no_connected_count ;
-            $item["left_no_connected_count"] = $left_no_connected_count;
+
+            $need_no_connected_count_all+=$def_no_connected_count;
+            $assigned_no_connected_count_all+= min([ $assigned_no_connected_count, $def_no_connected_count  ]);
+            //得到每个人上限
+            $item["hold_count"]=$this->task->t_seller_student_new_b2->admin_hold_count($adminid);
+            $item["max_hold_count"] = @$hold_config[$seller_level];
+            \App\Helper\Utils::logger("$adminid:". $item["hold_count"]."." .$item["max_hold_count"]  );
+
+            if ($item["max_hold_count"] >$item["hold_count"])  {
+                $admin_list[]=$item;
+            }else{ //超上限
+
+            }
         }
 
+
+
         return [
-            "admin_list" =>$admin_list,
-            "left_no_connected_count_all" =>$left_no_connected_count_all,
-            "left_new_count_all" =>$left_new_count_all,
-            "seller_max_new_count" =>   $seller_max_new_count,
+            "admin_list"                      => $admin_list,
+            "left_no_connected_count_all"     => $need_no_connected_count_all-$assigned_no_connected_count_all ,
+            "left_new_count_all"              => $need_new_count_all-$assigned_new_count_all,
+            "need_no_connected_count_all"     => $need_no_connected_count_all,
+            "need_new_count_all"              => $need_new_count_all,
+            "assigned_no_connected_count_all" => $assigned_no_connected_count_all,
+            "assigned_new_count_all"          => $assigned_new_count_all,
+            "seller_max_new_count"            => $seller_max_new_count,
         ];
     }
 
@@ -89,54 +116,129 @@ class seller_student_system_assign extends cmd_base
         $left_new_count_all=$ret_info["left_new_count_all"];
         $admin_list=$ret_info["admin_list"];
         $seller_max_new_count = $ret_info["seller_max_new_count"];
-        if ($left_new_count_all) {
-            $this->assign_new($admin_list ,$seller_max_new_count );
-        }
+        $new_ret_info= $this->assign_new( $left_new_count_all,$admin_list ,$seller_max_new_count );
+        $no_connnected_ret_info=$this->assign_no_connected( $left_no_connected_count_all,$admin_list  );
+
+        $this->task->t_seller_student_system_assign_count_log->row_insert([
+            "logtime" => time(),
+            "new_count"=> $new_ret_info["need_deal_count"],
+            "need_new_count" => $ret_info["need_new_count_all"],
+            "new_count_assigned" =>  $ret_info["assigned_new_count_all"] + $new_ret_info["assigned_count"],
+
+            "no_connected_count"  =>$no_connnected_ret_info["need_deal_count"],
+            "need_no_connected_count" =>  $ret_info["need_no_connected_count_all"],
+
+            "no_connected_count_assigned" => $ret_info["assigned_no_connected_count_all"] + $no_connnected_ret_info["assigned_count"],
+
+        ]);
+
 
     }
-    public function assign_new( $admin_list,$seller_max_new_count )  {
-        $need_deal_list=$this->task->t_seller_student_new->get_need_new_assign_list();
-        $level_map=[];
+    public function   assign_no_connected ( $left_no_connected_count_all, $admin_list  ) {
+        $need_deal_list=$this->task->t_seller_student_new_b2->get_need_new_assign_list(
+            E\Etq_called_flag::V_1
+        );
         $need_deal_count=count($need_deal_list);
-        foreach ($need_deal_list as $user_info)  {
-            $userid=$user_info["userid"];
-            $origin_level=$user_info["origin_level"];
-            if (isset($level_map[$origin_level]) ) {
-                $level_map[$origin_level]=[];
-            }
-            $level_map[$origin_level][$userid]=true;
-        }
+        $assigned_count=0;
+        if( $left_no_connected_count_all)  {
 
-        $check_end_flag=false;
-        for ($i=0;$i< $seller_max_new_count;$i++ ) { //第几轮
-
+            shuffle ($need_deal_list);
             foreach( $admin_list as &$item ) {
-                $assigned_new_count=$item["assigned_new_count"];
-                $seller_level=$item["seller_level"];
-                $def_new_count=$item["def_new_count"];
-                if ($i<$def_new_count // 在配额内
-                    && $assigned_new_count <=$i //这一轮可以分配
-                ){
-                    $find_userid=$this->get_assign_userid( $level_map ,$seller_level );
-                    if($find_userid) {
-                        $userid_list=[$find_userid];
-                        $opt_type ="" ;
-                        $opt_adminid= $item["uid"];
-                        $opt_type=0;
-                        $account="系统分配-1";
-                        $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
+                $assigned_no_connected_count=$item["assigned_no_connected_count"];
+                $def_no_connected_count=$item["def_no_connected_count"];
+                $opt_adminid= $item["uid"];
+                for($i=$assigned_no_connected_count;$i<$def_no_connected_count;$i++ ) {
+                    $start_deal_index=0;//random_int(0, $need_deal_count*2/3 );
+                    for($j=$start_deal_index; $j< $need_deal_count ;  $j++ ) {
+                        $find_userid= $need_deal_list[$j]["userid"];
+                        if (!$this->task->t_seller_student_system_assign_log->check_userid_adminid_existed() ) {
 
-                    }else{ //没有可分配的
-                        $check_end_flag=true;
-                        break;
+                            $assigned_count++;
+                            $userid_list=[$find_userid];
+                            $opt_type ="" ;
+                            $opt_type=0;
+                            $account="系统分配-未拨通例子";
+                            $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
+                            $this->task->t_seller_student_system_assign_log->add(
+                                E\Eseller_student_assign_from_type::V_1, $find_userid, $opt_adminid
+                            );
+                            unset($need_deal_list[$j]);
+                            $need_deal_count--;
+                            break;
+                        }
                     }
                 }
             }
-            if( $check_end_flag   )  {
-                break;
+        }
+
+        return [
+            "need_deal_count" =>$need_deal_count,
+            "assigned_count" =>$assigned_count,
+        ];
+    }
+
+    public function get_no_connected_item( ) {
+
+    }
+
+    public function assign_new( $left_new_count_all, $admin_list,$seller_max_new_count  )  {
+        $need_deal_list=$this->task->t_seller_student_new_b2->get_need_new_assign_list(
+            E\Etq_called_flag::V_0
+        );
+        $level_map=[];
+        $need_deal_count=count($need_deal_list);
+        $assigned_count=0;
+        if ($left_new_count_all) {
+            foreach ($need_deal_list as $user_info)  {
+                $userid=$user_info["userid"];
+                $origin_level=$user_info["origin_level"];
+                if (isset($level_map[$origin_level]) ) {
+                    $level_map[$origin_level]=[];
+                }
+                $level_map[$origin_level][$userid]=true;
+            }
+
+            $check_end_flag=false;
+            for ($i=0;$i< $seller_max_new_count;$i++ ) { //第几轮
+
+                foreach( $admin_list as &$item ) {
+                    $assigned_new_count=$item["assigned_new_count"];
+                    $seller_level=$item["seller_level"];
+                    $def_new_count=$item["def_new_count"];
+                    if ($i<$def_new_count // 在配额内
+                        && $assigned_new_count <=$i //这一轮可以分配
+                    ){
+                        $find_userid=$this->get_assign_userid( $level_map ,$seller_level );
+                        if($find_userid) {
+                            $assigned_count++;
+                            $userid_list=[$find_userid];
+                            $opt_type ="" ;
+                            $opt_adminid= $item["uid"];
+                            $opt_type=0;
+                            $account="系统分配-新例子";
+                            $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
+                            $this->task->t_seller_student_system_assign_log->add(
+                                E\Eseller_student_assign_from_type::V_0, $find_userid, $opt_adminid
+                            );
+                        }else{ //没有可分配的
+                            $check_end_flag=true;
+                            break;
+                        }
+                    }
+                }
+
+                if( $check_end_flag   )  {
+                    break;
+                }
             }
         }
+
+        return [
+            "need_deal_count" =>$need_deal_count,
+            "assigned_count" =>$assigned_count,
+        ];
     }
+
     public function get_assign_userid( &$level_map, $seller_level ){
         $seller_level_flag = floor( $seller_level/100);
 

@@ -79,7 +79,7 @@ class tom_do_once extends Command
         // $this->give_seller_new_count();
         // $this->update_seller_edit_log();
         // $this->update_seller_student_origin();
-        $this->seller_daily_threshold();
+        // $this->seller_daily_threshold();
     }
 
     public function update_cc_call(){
@@ -95,7 +95,7 @@ class tom_do_once extends Command
             $start_time = $start;
             $end_time = strtotime('+1 month',$start);
             // $this->update_cc_no_called_count($start_time,$end_time);
-            $this->update_distribution_count($start_time,$end_time);
+            // $this->update_distribution_count($start_time,$end_time);
 
             $start = strtotime('+1 month',$start);
         }
@@ -115,11 +115,11 @@ class tom_do_once extends Command
             $cc_no_called_count = $item['cc_no_called_count'];
             $cc_no_called_count_new = $item['cc_no_called_count_new'];
             $cc_first_called_cc = $item['first_called_cc'];
-            $cc_first_revisit_time = $item['first_revisit_time'];//刷
-            $cc_last_revisit_time = $item['last_revisit_time'];//刷
-            $cc_first_contact_time = $item['first_contact_time'];//刷
-            $cc_last_contact_time = $item['last_contact_time'];//刷
-            $cc_last_called_cc = $item['last_contact_cc'];//刷
+            $cc_first_revisit_time = $item['first_revisit_time'];
+            $cc_last_revisit_time = $item['last_revisit_time'];
+            $cc_first_contact_time = $item['first_contact_time'];
+            $cc_last_contact_time = $item['last_contact_time'];
+            $cc_last_called_cc = $item['last_contact_cc'];
             $cc_first_get_cc = $item['first_get_cc'];
             $cc_test_lesson_flag = $item['test_lesson_flag'];
             $cc_orderid = $item['orderid'];
@@ -371,23 +371,21 @@ class tom_do_once extends Command
     }
 
     public function seller_daily_threshold(){
-        $ret = $this->task->t_seller_get_new_log->get_list_by_time($start_time=1516204800,$end_time=1516982400);
-        $ret_info = [];
-        foreach($ret as $item){
-            $ret_info[$item['adminid']][$item['userid']][] = $item;
-        }
-        foreach($ret_info as $item){
-            foreach($item as $info){
-                foreach($info as $key=>$info_k){
-                    if($key>0){
-                        $ret = $this->task->t_seller_get_new_log->row_delete($info_k['id']);
-                        echo $info_k['id'].':'.$key.'=>'.$ret."\n";
-                    }
-                }
-            }
-        }
-        exit;
-        dd('a');
+        // $ret = $this->task->t_seller_get_new_log->get_list_by_time($start_time=1516204800,$end_time=1516982400);
+        // $ret_info = [];
+        // foreach($ret as $item){
+        //     $ret_info[$item['adminid']][$item['userid']][] = $item;
+        // }
+        // foreach($ret_info as $item){
+        //     foreach($item as $info){
+        //         foreach($info as $key=>$info_k){
+        //             if($key>0){
+        //                 $ret = $this->task->t_seller_get_new_log->row_delete($info_k['id']);
+        //                 echo $info_k['id'].':'.$key.'=>'.$ret."\n";
+        //             }
+        //         }
+        //     }
+        // }
         list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,strtotime(date('Y-m-d')),[],[]];
         $ret_threshold = $this->task->t_seller_edit_log->get_threshold($time);
         if(!$ret_threshold && date('w')!=2){
@@ -434,7 +432,9 @@ class tom_do_once extends Command
                 'new'=>$threshold_min,
                 'create_time'=>$time,
             ]);
+            echo date('Y-m-d',$time).'=>'.$threshold_min.'~'.$threshold_max;
         }
     }
+
 
 }
