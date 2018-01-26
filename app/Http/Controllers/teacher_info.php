@@ -2602,7 +2602,7 @@ class teacher_info extends Controller
         dd($type_list);
         */
         $tea_info = $this->get_rule_range();
-        $type_list = [1,3,5,6];
+        $type_list = [1,3,5,6]; //
         $resource_type = $this->get_in_int_val('resource_type', @$type_list[0]);
         $subject       = $this->get_in_int_val('subject', @$tea_info[0]['subject']);
         $flag    = 0;
@@ -2704,6 +2704,9 @@ class teacher_info extends Controller
 
         }
 
+        //book_arr 2015,2016,2017
+        //tar_arr tar_one->tar_four
+        //dd($tag_arr,$tea_sub,$book_arr);
         // dd($tea_info);
         return $this->pageView( __METHOD__,$ret_info,[
             'tag_info'  => $tag_arr,
