@@ -151,7 +151,7 @@ class seller_student_system_assign extends cmd_base
                     $start_deal_index=0;//random_int(0, $need_deal_count*2/3 );
                     for($j=$start_deal_index; $j< $need_deal_count ;  $j++ ) {
                         $find_userid= $need_deal_list[$j]["userid"];
-                        if (!$this->task->t_seller_student_system_assign_log->check_userid_adminid_existed() ) {
+                        if (!$this->task->t_seller_student_system_assign_log->check_userid_adminid_existed( $find_userid, $opt_adminid  ) ) {
 
                             $assigned_count++;
                             $userid_list=[$find_userid];

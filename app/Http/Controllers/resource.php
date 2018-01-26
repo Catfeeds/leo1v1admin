@@ -195,11 +195,11 @@ class resource extends Controller
         $book = $this->t_resource_agree_info->get_all_resource_type($resource_type, $subject, $grade);
         $book_arr = [];
         if($book){   
-            $book_arr = array_column($book, 'tag_one');
-            $book_arr = array_unique($book_arr);
-            foreach( $book_arr as $k=>&$v){
+            $book_uni = array_column($book, 'tag_one');
+            $book_uni = array_unique($book_uni);
+            foreach( $book_uni as $k=>&$v){
                 if($v != 0){
-                    $book_arr[$k] = (int)$v;
+                    $book_arr[] = (int)$v;
                 }
             }
         }
