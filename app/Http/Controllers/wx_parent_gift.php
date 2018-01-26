@@ -1079,11 +1079,10 @@ class wx_parent_gift extends Controller
         return ;
     }
 
-
-    # 理优海报转发
-    public function leoPosterForward(){
+    # 获取分享链接打开次数
+    public function linkOpenNum(){
         $uid = $this->get_in_int_val('uid');
-        $this->t_personality_poster->updateForwardNum($uid);
+        $this->t_personality_poster->updateClickNum($uid);
         return $this->output_succ();
     }
 
@@ -1110,16 +1109,4 @@ class wx_parent_gift extends Controller
         return $this->output_succ();
     }
 
-    # 生成海报
-    public function createPoster(){
-        $mediaId = $this->get_in_str_val('mediaId');
-        $bgType = $this->get_in_int_val('bgType');
-        $uid    = $this->get_in_int_val('uid');
-        $bg_url = E\Emarket_bg::get_desc($bgType);
-        $qr_code_url = "http://www.leo1v1.com/market/index.html?uid=$uid&poster=1";
-        $a = new \App\Jobs\marketActivityPoster($uid,$bg_url,$qr_code_url,$bgType,$mediaId);
-        $a->handle();
-    }
-
-    #
 }
