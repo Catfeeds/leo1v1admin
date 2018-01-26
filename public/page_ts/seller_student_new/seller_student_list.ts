@@ -95,9 +95,14 @@ function init_today_new()  {
 
                     $.do_ajax("/ss_deal/sync_tq",{
                         "phone" : opt_data.phone,
-                    } );
-
-                }) ;
+                        "userid" : opt_data.userid,
+                        "tq_called_flag" : opt_data.tq_called_flag ,
+                    },function(resp){
+                        if (resp.reload_flag) {
+                            $.reload();
+                        }
+                    });
+                });
 
                 $seller_item.find(".call-opt-call-phone").on("click" ,function() {
                     $p_div.find(".opt-telphone").click();

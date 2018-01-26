@@ -10,7 +10,7 @@ $(function(){
     $("#id_sync_tq").on("click",function(){
         $.do_ajax("/ss_deal/sync_tq",{
             "phone" : g_args.phone,
-        },function(){});
+        } );
 
     });
 
