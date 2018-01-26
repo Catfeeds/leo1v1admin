@@ -9,31 +9,31 @@ return [
         \App\Enums\Eadmin_domain_type::V_ADMIN_CLASS_VUE => env( "ADMIN_CLASS_VUE_URL", "http://localhost:9528/#"),
     ],
 
-    'qiniu' => [
+    "qiniu" => [
         "public" => [
-            // "url"    => env('QINIU_PUBLIC_URL','http://7u2f5q.com2.z0.glb.qiniucdn.com'),
-            "url"    => env('QINIU_PUBLIC_URL','https://ybprodpub.leo1v1.com'),
-            "bucket" => env('QINIU_PUBLIC_BUCKET',"ybprodpub"),
+            // "url"    => env("QINIU_PUBLIC_URL","http://7u2f5q.com2.z0.glb.qiniucdn.com"),
+            "url"    => env("QINIU_PUBLIC_URL","https://ybprodpub.leo1v1.com"),
+            "bucket" => env("QINIU_PUBLIC_BUCKET","ybprodpub"),
         ] ,
         "private_url" => [
-            "url"    => env('QINIU_PRIVATE_URL','http://7tszue.com2.z0.glb.qiniucdn.com'),
-            "bucket" => env('QINIU_PRIVATE_BUCKET',"ybprod"),
+            "url"    => env("QINIU_PRIVATE_URL","http://7tszue.com2.z0.glb.qiniucdn.com"),
+            "bucket" => env("QINIU_PRIVATE_BUCKET","ybprod"),
         ] ,
         "access_key" => "yPmhHAZNeHlKndKBLvhwV3fw4pzNBVvGNU5ne6Px",
         "secret_key" => "gPwzN2_b1lVJAr7Iw6W1PCRmUPZyrGF6QPbX1rxz",
     ],
     "ali_oss" => [
-        "oss_access_id"  => '4Tf4qCUMJt2YlqTn',
-        "oss_access_key" => '1o294A4XTBlstFChyuJwPOFNtY2mcg',
-        "oss_endpoint"   => 'oss-cn-shanghai.aliyuncs.com',
+        "oss_access_id"  => "4Tf4qCUMJt2YlqTn",
+        "oss_access_key" => "1o294A4XTBlstFChyuJwPOFNtY2mcg",
+        "oss_endpoint"   => "oss-cn-shanghai.aliyuncs.com",
         "public" =>  [
             "url" =>  "https://lessonpic.oss-cn-shanghai.aliyuncs.com",
-            "bucket" =>'lessonpic',
+            "bucket" =>"lessonpic",
         ],
     ],
-    'api_url'                   => env('API_URL', 'http://api.leo1v1.com/'),
-    'monitor_url'               => env('MONITOR_URL', 'http://monitor.yb1v1.com/'),
-    'monitor_new_url'           => env('MONITOR_NEW_URL', 'http://admin.leo1v1.com'),
+    "api_url"                   => env("API_URL", "http://api.leo1v1.com/"),
+    "monitor_url"               => env("MONITOR_URL", "http://monitor.yb1v1.com/"),
+    "monitor_new_url"           => env("MONITOR_NEW_URL", "http://admin.leo1v1.com"),
     //课时审查时间节点
     "lesson_confirm_start_time" => "2017-10-01",
     //老师伯乐奖累计计算时间
@@ -41,14 +41,14 @@ return [
     //新版优学优享开始时间
     "yxyx_new_start_time"    => "2017-09-01", //
     "test" => [
-        "username"  =>   'jim',
-        "password"  =>   env('TEST_PASSWORD', 'xcwen142857'),
+        "username"  =>   "jim",
+        "password"  =>   env("TEST_PASSWORD", "xcwen142857"),
     ],
     "taobao_shop" => [
-        'appKey'     => '23277683',
-        'secretKey'  => 'c90496e27b10d2fe5c6c78b98753b9b5',
-        'sessionKey' => '61021139fabdff75a2ddc18a54d1adc9d878cd8c78d071d2338582886',
-        'name'       => '理优教育',
+        "appKey"     => "23277683",
+        "secretKey"  => "c90496e27b10d2fe5c6c78b98753b9b5",
+        "sessionKey" => "61021139fabdff75a2ddc18a54d1adc9d878cd8c78d071d2338582886",
+        "name"       => "理优教育",
     ],
     "wx" => [
         /* test
@@ -65,10 +65,10 @@ return [
     ],
 
     "yxyx_wx" => [
-        "appid"     => env('YXYX_WX_APPID', "wxb4f28794ec117af0") ,
-        "appsecret" => env('YXYX_WX_APPSECRET', "4a4bc7c543698b8ac499e5c72c22f242" )  ,
-        "url"       => env('YXYX_WX_URL',  "http://wx-yxyx.leo1v1.com" ) ,
-        "test_url"       => env('YXYX_TEST_WX_URL',  "http://wx-yxyx-web.leo1v1.com/wx-yxyx-new-second" ) ,
+        "appid"     => env("YXYX_WX_APPID", "wxb4f28794ec117af0") ,
+        "appsecret" => env("YXYX_WX_APPSECRET", "4a4bc7c543698b8ac499e5c72c22f242" )  ,
+        "url"       => env("YXYX_WX_URL",  "http://wx-yxyx.leo1v1.com" ) ,
+        "test_url"       => env("YXYX_TEST_WX_URL",  "http://wx-yxyx-web.leo1v1.com/wx-yxyx-new-second" ) ,
     ],
     "teacher_wx_url" => [
         "normal_url"  => "http://wx-teacher.leo1v1.com/jump_page?url=comment_normal.html?lessonid=",
@@ -213,7 +213,7 @@ return [
         "AUDIO_SERVER_LIST",
         [
             /*
-            '121.43.230.95', //h
+            "121.43.230.95", //h
             "123.57.153.80",//b
             "118.190.164.27",//q_27
             "118.190.65.189" , //q
@@ -222,11 +222,11 @@ return [
         ]),
     "xmpp_server_list"=>[
         "118.190.65.189",//q
-        '121.43.230.95',//h
+        "121.43.230.95",//h
         "123.57.153.80",//b
         "118.190.164.27",//q_27
     ],
-    "month_spec_money" => env('MONTH_SPEC_MONEY',2000),
+    "month_spec_money" => env("MONTH_SPEC_MONEY",2000),
     /**
      * 招师代理工资比率 1 廖老师工作室 2 其他工作室
      */
@@ -243,11 +243,14 @@ return [
         ],
     ],
     // 企业微信
-    'company_wx'=>[
-        'url'    => 'https://qyapi.weixin.qq.com',
-        'CorpID' => 'wwe9748dcadfba90f7',
-        'Secret' => 'tIBgkcowDdb8cRiR0ft5md8wKsBPoPDp2e77T3GJSEk',
-        'Secret2' => '26laMHHmbs0Pc7oxgCWpz6rS_J42QuApEpf2pFGlpRs' // 审批
+    "company_wx"=>[
+        "url"    => "https://qyapi.weixin.qq.com",
+        "CorpID" => "wwe9748dcadfba90f7",
+        "Secret" => "tIBgkcowDdb8cRiR0ft5md8wKsBPoPDp2e77T3GJSEk",
+        "Secret2" => "26laMHHmbs0Pc7oxgCWpz6rS_J42QuApEpf2pFGlpRs" // 审批
     ],
+
+    //day_system_assign_count 用于系统分配的例子 配额
+    "day_system_assign_count"=> 30,
 
 ];

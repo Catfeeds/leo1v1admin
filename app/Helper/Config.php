@@ -123,6 +123,9 @@ class Config{
     static public function get_liyou_public_ip_list() {
         return  self::get_config("liyou_public_ip_list");
     }
+    static function  get_day_system_assign_count() {
+        return  self::get_config("day_system_assign_count");
+    }
 
     static public function get_lesson_confirm_start_time() {
         return  self::get_config("lesson_confirm_start_time");

@@ -20,7 +20,8 @@ class test extends Controller
     }
 
     public function test1() {
-            return $this->output_succ();
+       $f= new \App\Jobs\new_seller_student(10001);
+        return $this->output_succ();
     }
     public function tree() {
         return $this->pageOutJson(__METHOD__);
