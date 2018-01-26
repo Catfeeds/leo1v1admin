@@ -26,6 +26,11 @@ class seller_student_system_assign extends cmd_base
         \App\Helper\Utils::logger("deal :$start_time ,$end_time");
 
         $config=\App\Helper\Config::get_seller_new_user_day_count();
+
+        $work_start_time_map=$this->task->t_admin_work_start_time-> get_today_work_start_time_map();
+        $check_work_time= strtotime(date("Y-m-d 14:00:00"));
+        $need_work_flag=  (time(NULL) > $check_work_time);
+
         //得到要处理的的人
         $tmp_admin_list=$this->task->t_manager_info->get_seller_list(E\Eseller_student_assign_type::V_SYSTEM_ASSIGN );
         //得到已经分配的数据
@@ -82,15 +87,20 @@ class seller_student_system_assign extends cmd_base
             $item["hold_count"]=$this->task->t_seller_student_new_b2->admin_hold_count($adminid);
             $item["max_hold_count"] = @$hold_config[$seller_level];
             \App\Helper\Utils::logger("$adminid:". $item["hold_count"]."." .$item["max_hold_count"]  );
+            //$need_work_flag
+            $add_flag= true;
+            if ($need_work_flag) {
+                $add_flag = isset($work_start_time_map[$adminid]);
+            }
+            if ($add_flag) {
+                //不超上限
+                $add_flag=($item["max_hold_count"] >$item["hold_count"]);
+            }
 
-            if ($item["max_hold_count"] >$item["hold_count"])  {
+            if ($add_flag)  {
                 $admin_list[]=$item;
-            }else{ //超上限
-
             }
         }
-
-
 
         return [
             "admin_list"                      => $admin_list,
