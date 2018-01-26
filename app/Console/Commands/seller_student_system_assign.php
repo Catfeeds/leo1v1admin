@@ -299,6 +299,7 @@ class seller_student_system_assign extends cmd_base
             }
             unset($find_level_map_item[$find_userid])  ;
         }
+        \App\Helper\Utils::logger("find_userid: $find_userid ");
         return $find_userid;
     }
 
