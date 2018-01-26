@@ -21,12 +21,12 @@ class  squirrel_wx_server extends Controller
         $r = $wechat->checkSignature();
 
 
-        $ret = $wechat->run();
-        if (is_bool($ret)) {
-            return "";
-        }else{
-            return $ret;
-        }
+        // $ret = $wechat->run();
+        // if (is_bool($ret)) {
+        //     return "";
+        // }else{
+        //     return $ret;
+        // }
     }
 
     public function sync_menu() {

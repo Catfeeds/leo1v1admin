@@ -253,4 +253,5 @@ return [
     //day_system_assign_count 用于系统分配的例子 配额
     "day_system_assign_count"=> 30,
 
+    "login_auto_key"=>"xcwen@jim142857kk001!",
 ];
