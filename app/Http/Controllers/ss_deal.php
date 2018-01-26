@@ -4880,6 +4880,8 @@ class ss_deal extends Controller
                     "last_revisit_time"    => 0,
                     "next_revisit_time"    => 0,
                     "user_desc"            => "",
+                    "global_tq_called_flag"            => 0,
+                    "tq_called_flag"            => 0,
                     "add_time"             => time(NULL),
                     "seller_add_time"      => time(NULL),
                 ]);

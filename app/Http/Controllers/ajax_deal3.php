@@ -38,7 +38,7 @@ class ajax_deal3 extends Controller
                 $admin_assign_time=strtotime( @$user_admin_assign_time_map[$userid] );
                 $check_time= max( $work_start_time, $admin_assign_time);
                 $show_left_time_flag=false;
-                if ($now- $check_time> 1*3600) { //超过3个小时
+                if ($now- $check_time> 3*3600) { //超过3个小时
                     $left_time=6*3600-( $now-$check_time);
                     if ($left_time<0) {
                         $left_time=0;
@@ -280,12 +280,12 @@ class ajax_deal3 extends Controller
         }elseif($type==4){
             list($performance_cr_new_list,$performance_cr_renew_list,$performance_cc_tran_list)= $this->get_ass_order_list_performance($start_time,$end_time);
             $update_arr=[
-               "performance_cc_tran_num"  =>@$performance_cc_tran_list["performance_cc_tran_num"],
-                "performance_cc_tran_money"=>@$performance_cc_tran_list["performance_cc_tran_money"],
-                "performance_cr_renew_num" =>@$performance_cr_renew_list["performance_cr_renew_num"],
-                "performance_cr_renew_money" =>@$performance_cr_renew_list["performance_cr_renew_money"],
-                "performance_cr_new_num" =>@$performance_cr_new_list[$adminid]["performance_cr_new_num"],
-                "performance_cr_new_money" =>@$performance_cr_new_list[$adminid]["performance_cr_new_money"]
+               "performance_cc_tran_num"  =>@$performance_cc_tran_list[$adminid]["num"],
+               "performance_cc_tran_money"=>@$performance_cc_tran_list[$adminid]["money"],
+               "performance_cr_renew_num" =>@$performance_cr_renew_list[$adminid]["num"],
+               "performance_cr_renew_money" =>@$performance_cr_renew_list[$adminid]["money"],
+                "performance_cr_new_num" =>@$performance_cr_new_list[$adminid]["num"],
+                "performance_cr_new_money" =>@$performance_cr_new_list[$adminid]["money"]
             ];
 
         }elseif($type==3){

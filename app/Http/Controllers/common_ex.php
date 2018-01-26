@@ -253,6 +253,8 @@ class common_ex extends Controller
         //     $this->t_seller_student_new->allotStuToDepot($opt_adminid, $opt_account, $userid, $self_adminid,$account);
         // }
 
+        dispatch(new \App\Jobs\new_seller_student($userid));
+
         return $this->output_succ(["userid"=> $userid,"name"=>$name]);
     }
 

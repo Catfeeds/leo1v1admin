@@ -329,6 +329,7 @@ class url_power_map {
 			'/tongji2/market_extension'	=>1091934,
 			'/pic_manage/pic_info'	=>1091904,
 			'/aliyun_oss/upload_list'	=>1091936,
+			'/tongji2/marketposterdata'	=>1101500,
 			'/tongji_ex/top_list'	=>1101000,
 			'/human_resource/get_input_score_list'	=>1101300,
 			'/human_resource/get_lesson_modify_list'	=>1101400,
