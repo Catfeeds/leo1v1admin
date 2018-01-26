@@ -15,8 +15,8 @@ class t_personality_poster extends \App\Models\Zgen\z_t_personality_poster
         $this->main_update($sql);
     }
 
-    public function updateStuNum($uid){
-        $sql = $this->gen_sql_new(" update %s set stuNum=stuNum+1 where uid=$uid"
+    public function updatePosterNum($uid){
+        $sql = $this->gen_sql_new(" update %s set posterNum=posterNum+1 where uid=$uid"
                                   ,self::DB_TABLE_NAME
         );
         $this->main_update($sql);
@@ -29,22 +29,6 @@ class t_personality_poster extends \App\Models\Zgen\z_t_personality_poster
                                   ,self::DB_TABLE_NAME
         );
         return $this->main_get_value($sql);
-    }
-
-    public function getData($page_num,$uid){
-        $where_arr = [
-            ["uid=%d",$uid,-1]
-        ];
-
-        $sql = $this->gen_sql_new("  select pp.uid,clickNum,stuNum,account from %s pp"
-                                  ." left join %s m on pp.uid=m.uid "
-                                  ." where %s"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_manager_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-
-        return $this->main_get_list_by_page($sql, $page_num, 10);
     }
 }
 

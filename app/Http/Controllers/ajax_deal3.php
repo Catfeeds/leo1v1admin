@@ -263,7 +263,7 @@ class ajax_deal3 extends Controller
                 "read_student"          =>@$stu_info_all[$adminid]["read_count"],
                 "stop_student"          =>@$stu_info_all[$adminid]["stop_count"],
                 "userid_list"           =>@$userid_list[$adminid],
-                "end_stu_num"           =>@$end_stu_info_new[$adminid],
+                "end_stu_num"           =>@$end_stu_info_new[$adminid]["num"],
                 "stop_student_list"       =>@$stop_userid_list[$adminid],
                 "registered_student_list" =>@$registered_userid_list[$adminid],               
                 "all_student"             =>@$stu_info_all[$adminid]["all_count"]

@@ -1990,4 +1990,12 @@ class tongji2 extends Controller
         return $this->pageView(__METHOD__,$ret_info);
 
     }
+
+    # 市场部个性海报转发
+    public function marketPosterData(){
+        $page_num  = $this->get_in_page_num();
+        $uid = $this->get_in_int_val("adminid",-1);
+        $ret_info = $this->t_personality_poster->getData($page_num,$uid);
+        return $this->pageView(__METHOD__,$ret_info);
+    }
 }
