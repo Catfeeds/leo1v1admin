@@ -47,8 +47,8 @@ class  squirrel_wx_server extends Controller
         );
 
         $menu =  new \Squirrel\Core\Menu();
-        $a = $menu::setMenu($menuList);
-        $result =  $menuList::getMenu($menuList);
+        $ret = $menu::setMenu($menuList);
+        $result =  $menu::getMenu($menuList);
 
 
         // $ret =  \Squirrel\Core\Menu::setMenu($menuList);
