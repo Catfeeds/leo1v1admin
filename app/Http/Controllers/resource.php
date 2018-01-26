@@ -192,13 +192,15 @@ class resource extends Controller
 
         $page_num        = $this->get_in_page_num();
         $page_count      = $this->get_in_int_val('page_count',20);
-        $book = $this->t_resource_agree_info->get_all_resource_type(-1, $subject, $grade);
+        $book = $this->t_resource_agree_info->get_all_resource_type($resource_type, $subject, $grade);
         $book_arr = [];
         if($book){   
             $book_arr = array_column($book, 'tag_one');
             $book_arr = array_unique($book_arr);
             foreach( $book_arr as $k=>&$v){
-                $book_arr[$k] = (int)$v;
+                if($v != 0){
+                    $book_arr[$k] = (int)$v;
+                }
             }
         }
 
@@ -214,7 +216,7 @@ class resource extends Controller
         }
         //dd($ret_info['list'] );
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801191339,
+            '_publish_version'    => 201801191349,
             'book'          => json_encode($book_arr),
             'resource_type' => $resource_type
         ]);
