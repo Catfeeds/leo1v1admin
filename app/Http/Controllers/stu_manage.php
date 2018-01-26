@@ -527,9 +527,9 @@ class stu_manage extends Controller
                "nick"  =>$parent_name
             ]);
             $this->t_student_info->field_update_list($studentid,[
-                "parentid"  =>$parentid,
-                "parent_name" =>$parent_name,
-                "parent_type" =>$parent_type
+                "parentid"    => $parentid,
+                "parent_name" => $parent_name,
+                "parent_type" => $parent_type
             ]);
             $check_flag = $this->t_parent_child->check_has_parent($parentid,$studentid);
             if($check_flag){
