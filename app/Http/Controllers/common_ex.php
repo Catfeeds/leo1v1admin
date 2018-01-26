@@ -228,7 +228,7 @@ class common_ex extends Controller
         $uid = $this->get_in_int_val('uid');
         $posterTag = $this->get_in_int_val('posterTag');
 
-        dispatch(new \App\Jobs\new_seller_student($userid,$uid,$posterTag));
+        dispatch(new \App\Jobs\new_seller_student($userid,$uid,$posterTag,$phone));
 
         return $this->output_succ(["userid"=> $userid,"name"=>$name]);
     }
