@@ -132,6 +132,11 @@ $(function(){
     } else {
         $("#id_tag_two").append('<option value="-1">全部</option>');
     }
+    if(tag_four != ''){
+        Enum_map.append_option_list(tag_four, $("#id_tag_four"));
+    } else {
+        $("#id_tag_four").append('<option value="-1">全部</option>');
+    }
     if(tag_five != ''){
         Enum_map.append_option_list(tag_five, $("#id_tag_five"));
     } else {
