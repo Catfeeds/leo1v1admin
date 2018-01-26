@@ -4614,9 +4614,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         //特殊渠道规则明细
         if ($teacherid == 274115) {
             //join中国 不论身份，一律60元/个 从2017年8月份开始
+            $start_time = strtotime("2017-8-1");
             $reference_price = 60;
         }elseif($teacherid == 149697){
             //明日之星 不论身份，一律50元/个  从2017年11月份开始
+            $start_time = strtotime("2017-11-1");
             $reference_price = 50;
         }elseif($teacherid == 149697){
             //田克平 公校老师80元/个,在校学生按正常来算，统计所有邀请过的老师
