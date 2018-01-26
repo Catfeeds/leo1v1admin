@@ -46,7 +46,7 @@ class test_abner extends cmd_base
         $end_time = strtotime(date('2017-11-01'));
         $count = 0;
         $channel_call_info = $this->task->t_test_lesson_subject->get_channel_call_info($start_time,$end_time);
-        $path = '/var/www/admin.yb1v1.com/10.txt';
+        $path = '/var/www/p.admin.yb1v1.com/10.txt';
         $fp = fopen($path,"a+");
         fwrite($fp, '10月份数据');
         fwrite($fp, "\n");
