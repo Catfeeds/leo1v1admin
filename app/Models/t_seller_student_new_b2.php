@@ -61,6 +61,9 @@ class t_seller_student_new_b2 extends \App\Models\Zgen\z_t_seller_student_new
             "n.seller_resource_type=0", // 新例子
             "n.admin_revisiterid=0", // 未分配
         ];
+        $start_time = time(NULL) -86400*30;
+        $end_time = time(NULL) ;
+        $this->where_arr_add_time_range($where_arr, "add_time", $start_time, $end_time);
         $sql= $this->gen_sql_new(
             "select  n.userid, s.origin_level "
             . " from %s n"
