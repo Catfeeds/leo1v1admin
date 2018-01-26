@@ -33,10 +33,11 @@ class t_seller_get_new_log extends \App\Models\Zgen\z_t_seller_get_new_log
         $sql = $this->gen_sql_new(
             "select * "
             ."from %s "
-            ."where %s"
+            ."where %s order by create_time"
             ,self::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);
     }
+
 }

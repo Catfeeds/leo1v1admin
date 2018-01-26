@@ -7969,4 +7969,10 @@ class ss_deal extends Controller
         return $this->output_succ(["data" => $ret ]);
     }
 
+    # 市场部个性海报 进入的学生数据
+    public function getMarkePostertData(){
+        $uid = $this->get_in_int_val('uid');
+        $ret_info = $this->t_poster_share_log->getStuListData($uid);
+        return $this->output_succ(['data'=>$ret_info]);
+    }
 }

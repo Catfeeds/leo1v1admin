@@ -14,6 +14,10 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2018-01-01");
+        $order_num = $this->t_order_info->get_all_renew_stu_list_by_order($start_time,$end_time);
+        dd($order_num);
         $lessonid = 2404;
         $page_info = $this->get_in_page_info();
         $login_list = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,-1,0,0,-1,-1,1,$lessonid);

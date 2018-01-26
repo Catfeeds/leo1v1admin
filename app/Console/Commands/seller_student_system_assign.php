@@ -81,7 +81,9 @@ class seller_student_system_assign extends cmd_base
             //得到每个人上限
             $item["hold_count"]=$this->task->t_seller_student_new_b2->admin_hold_count($adminid);
             $item["max_hold_count"] = @$hold_config[$seller_level];
-            if ($item["max_hold_count"] <=$item["hold_count"])  {
+            \App\Helper\Utils::logger("$adminid:". $item["hold_count"]."." .$item["max_hold_count"]  );
+
+            if ($item["max_hold_count"] >$item["hold_count"])  {
                 $admin_list[]=$item;
             }else{ //超上限
 
@@ -146,10 +148,10 @@ class seller_student_system_assign extends cmd_base
                 $def_no_connected_count=$item["def_no_connected_count"];
                 $opt_adminid= $item["uid"];
                 for($i=$assigned_no_connected_count;$i<$def_no_connected_count;$i++ ) {
-                    $start_deal_index=random_int(0, $need_deal_count*2/3 );
+                    $start_deal_index=0;//random_int(0, $need_deal_count*2/3 );
                     for($j=$start_deal_index; $j< $need_deal_count ;  $j++ ) {
                         $find_userid= $need_deal_list[$j]["userid"];
-                        if (!$this->task->t_seller_student_system_assign_log->check_userid_adminid_existed() ) {
+                        if (!$this->task->t_seller_student_system_assign_log->check_userid_adminid_existed( $find_userid, $opt_adminid  ) ) {
 
                             $assigned_count++;
                             $userid_list=[$find_userid];

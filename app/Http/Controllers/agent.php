@@ -441,8 +441,23 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $ret_lesson = $this->t_test_lesson_subject_require->get_lesson_list($adminid=99,$userid=99);
-        dd($ret_lesson);
+        $time = strtotime(date('Y-m-d'));
+        list($start_time,$end_time)=$this->get_in_date_range_day(0);
+        $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
+        if($ret_call){
+            if(time()>$ret_call[0]['create_time']+1800){
+                $count_adminid = count(array_unique(array_column($ret_call, 'adminid')));
+                $count_call = count(array_unique(array_column($ret_call, 'userid')));
+                if($count_adminid>=5 && $count_call>=10){
+                    $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
+                    $count_called = count(array_unique(array_column($ret_called, 'userid')));
+                    $rate = $count_call>0?(round($count_called/$count_call, 4)*100):0;
+                    $threshold = $this->t_seller_edit_log->get_threshold($time);
+                    dd($rate,$threshold);
+                }
+            }
+        }
+        dd('b');
         $ret = $this->t_seller_get_new_log->get_list_by_time($start_time=1516204800,$end_time=1516896000);
         $ret_info = [];
         foreach($ret as $item){

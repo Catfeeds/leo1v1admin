@@ -1937,7 +1937,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     //
     public function get_user_info_for_free($userid) {
         $sql=$this->gen_sql_new(
-            "select n.userid,phone, seller_student_status,hand_free_count,auto_free_count,n.hand_get_adminid,n.admin_assign_time,n.admin_revisiterid,last_contact_time from %s n  join %s t  on  n.userid=t.userid    "
+            "select n.seller_student_assign_type,  n.seller_resource_type, n.userid,phone,tq_called_flag, seller_student_status,hand_free_count,auto_free_count,n.hand_get_adminid,n.admin_assign_time,n.admin_revisiterid,last_contact_time from %s n  join %s t  on  n.userid=t.userid    "
             ."  where  n.userid=%u limit 1 ",
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
@@ -2734,7 +2734,31 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "system"
         );
 
-        $set_str=$this-> get_sql_set_str( $set_arr);
+        $set_str=$this->get_sql_set_str( $set_arr);
+        $sql=sprintf("update %s set %s where userid=%u",
+                     self::DB_TABLE_NAME,
+                     $set_str,
+                     $userid );
+        return $this->main_update($sql);
+    }
+
+    public function allotStuToDepot($opt_adminid, $opt_account, $userid, $self_adminid,$account){
+        $phone = $this->get_phone($userid);
+        $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
+        $set_arr=[
+            "admin_assignerid"   => $self_adminid,
+            "admin_revisiterid"  => $opt_adminid,
+            "admin_assign_time"  => time()
+        ];
+
+
+        $ret_update = $this->t_book_revisit->add_book_revisit(
+            $phone,
+            "操作者: $account 状态: 分配给 [ $opt_account ] ",
+            "system"
+        );
+
+        $set_str=$this->get_sql_set_str( $set_arr);
         $sql=sprintf("update %s set %s where userid=%u",
                      self::DB_TABLE_NAME,
                      $set_str,
@@ -3500,6 +3524,21 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_list($sql);
     }
+    public function  get_need_new_assign_list() {
+        $where_arr=[
+            "seller_student_assign_type=1", // 系统分配
+            "seller_resource_type=0", // 新例子
+            "seller_adminid=0", // 未分配
+        ];
+        $sql= $this->gen_sql_new(
+            "select  userid, origin_level "
+            . " from %s"
+            . "  where  %s",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
     public function get_item_january_count($start_time,$end_time){
         $where_arr = [];
@@ -3574,5 +3613,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr
         );
         return $this->main_get_list($sql);
+    }
+
+    public function hasAdminRevisiterid($userid){
+        $where_arr = [
+            "userid" => $userid
+        ];
+        $sql = $this->gen_sql_new("  select 1 from %s where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
     }
 }

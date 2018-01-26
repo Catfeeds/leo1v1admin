@@ -118,6 +118,14 @@ function init_today_new()  {
             "userid_list" : userid_list.join(","),
             "user_admin_assign_time_map" : JSON.stringify( user_admin_assign_time_map),
         },function(resp){
+            var hold_msg="";
+            if ( resp.max_hold_count <= resp.hold_count ) {
+                hold_msg=' <span  style="color:red;">请释放不要是例子回公海,不然无法得到新例子 </span> ';
+            }
+
+            var $title=('今天 获得新例子 <span  style="color:red;">'+ resp.new_count +'</span>个, 奖励例子 <span  style="color:red;">'+ resp.no_connected_count+'</span>个, 目前拥有例子'+ resp.hold_count+', 上限: '+ resp.max_hold_count+ hold_msg);
+            $id_today_new_list.find(".new_list_title").html ($title);
+
             $.each(resp.user_list, function(i, user_item ){
                 var userid= user_item["userid"];
                 var opt_data=opt_data_map[userid];
@@ -137,6 +145,7 @@ function init_today_new()  {
                 }
 
             });
+
 
         }) ;
 
