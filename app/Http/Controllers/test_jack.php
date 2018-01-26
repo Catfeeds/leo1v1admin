@@ -17,7 +17,27 @@ class test_jack  extends Controller
         $start_time = strtotime("2017-01-01");
         $end_time = strtotime("2018-01-01");
         $order_num = $this->t_order_info->get_all_renew_stu_list_by_order($start_time,$end_time);
-        dd($order_num);
+        $end_stu = $this->t_student_info->get_end_stu_list_str($start_time,$end_time);
+        $list =[];
+        foreach($end_stu as $k=>$val){
+            if(!isset($order_num[$k])){
+                $list[$k]=$val;
+            }
+        }
+        $ass=[];
+        foreach($order_num as $k=>$val){
+            @$ass[$k]["renew_num"] ++;
+            $ass[$k]["name"] = $val["nick"];
+            $ass[$k]["id"] = $k;
+        }
+        foreach($list as $k=>$val){
+            @$ass[$k]["end_num"] ++;
+            $ass[$k]["name"] = $val["nick"];
+            $ass[$k]["id"] = $k;
+        }
+
+
+        dd($ass);
         $lessonid = 2404;
         $page_info = $this->get_in_page_info();
         $login_list = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,-1,0,0,-1,-1,1,$lessonid);

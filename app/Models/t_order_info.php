@@ -5009,16 +5009,20 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             'o.price>0'
         ];
         $this->where_arr_add_time_range($where_arr, 'o.order_time', $start_time, $end_time);
-        $sql = $this->gen_sql_new("select distinct o.userid,s.assistantid "
-                                 ." from %s o left join %s s on o.userid = s.userid"
+        $sql = $this->gen_sql_new("select distinct o.userid,s.assistantid,a.nick "
+                                 ." from %s o left join %s s on o.userid = s.userid "
+                                  ." left join %s a on s.assistantid = a.assistantid"
 
-                                  ."where %s and exists (select 1 from %s where order_time<o.order_time and userid = o.userid and contract_type in (0,3) and price>0 and contract_status > 0)",
+                                  ." where %s and exists (select 1 from %s where order_time<o.order_time and userid = o.userid and contract_type in (0,3) and price>0 and contract_status > 0)",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
                                   $where_arr,
                                   self::DB_TABLE_NAME
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list($sql,function($item){
+            return $item["userid"];
+        });
 
 
 
