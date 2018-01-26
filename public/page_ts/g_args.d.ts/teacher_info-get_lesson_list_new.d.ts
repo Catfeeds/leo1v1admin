@@ -40,6 +40,10 @@ interface RowData {
 	tea_cw_upload_time	:any;
 	tea_cw_pic_flag	:any;
 	tea_cw_pic	:any;
+	tea_cw_origin	:any;
+	stu_cw_origin	:any;
+	tea_cw_file_id	:any;
+	stu_cw_file_id	:any;
 	stu_cw_url	:any;
 	stu_cw_upload_time	:any;
 	issue_url	:any;
@@ -67,6 +71,10 @@ interface RowData {
 	habit_remodel_str	:any;
 	lesson_time	:any;
 	tea_comment_str	:any;
+	cc_id	:any;
+	ass_nick	:any;
+	stu_nick	:any;
+	tea_comment	:any;
 	pdf_status_str	:any;
 }
 
