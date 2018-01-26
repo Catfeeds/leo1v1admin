@@ -331,7 +331,7 @@ class seller_student_new extends Controller
             ], 0
         );
         $page_count            = $this->get_in_int_val("page_count",10);
-        if ($opt_date_str=="admin_assign_time" && $start_time= strtotime(date("Y-m-d")) ) {
+        if ($opt_date_str=="admin_assign_time" && $start_time== strtotime(date("Y-m-d")) ) {
             //新例子页面不要分页
             $page_count=10000;
         }
