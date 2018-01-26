@@ -90,7 +90,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2 {{@$tag_info['tag_four']['hide']}} ">
+                <div class="col-xs-6 col-md-3 {{@$tag_info['tag_four']['hide']}} ">
                     <div class="input-group ">
                         <span class="input-group-addon">{{@$tag_info['tag_four']['name']}}</span>
                         <select class="form-control opt-change" id="id_tag_four"> </select>
