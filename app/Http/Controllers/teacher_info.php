@@ -2645,7 +2645,7 @@ class teacher_info extends Controller
 
         //禁用，删除，老师段则不在显示
         $ret_info = $this->t_resource->get_all_for_tea(
-            $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$page_info
+            $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$page_info
         );
 
         $tag_arr = \App\Helper\Utils::get_tag_arr($resource_type);
@@ -2667,6 +2667,7 @@ class teacher_info extends Controller
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
             $item['tag_three_name'] = $tag_arr['tag_three']['name'];
             $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
+            $item['tag_five_name'] = @$tag_arr['tag_five']['name'];
             E\Egrade::set_item_field_list($item, [
                 "subject",
                 "grade",
@@ -2676,6 +2677,7 @@ class teacher_info extends Controller
                 $tag_arr['tag_two']['menu'] => 'tag_two',
                 $tag_arr['tag_three']['menu'] => 'tag_three',
                 $tag_arr['tag_four']['menu'] => 'tag_four',
+                $tag_arr['tag_five']['menu'] => 'tag_five',
             ]);
         }
         $book_arr = [];
