@@ -2413,11 +2413,11 @@ class Utils  {
         //单位：分钟
         $default_per_lesson_count_time = 40;
 
-        if($time_difference == 90){
-            $lesson_count = 200;
-        }else{
-            $lesson_count = $time_difference/$default_per_lesson_count_time*100;
-        }
+        // if($time_difference == 90){
+        //     $lesson_count = 200;
+        // }else{
+        $lesson_count = $time_difference/$default_per_lesson_count_time*100;
+        // }
         return $lesson_count;
     }
 
