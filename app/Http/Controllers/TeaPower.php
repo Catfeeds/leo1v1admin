@@ -1632,15 +1632,10 @@ trait TeaPower {
             return "该手机号已存在";
         }
 
-        $check_teacher_day = strtotime("2017-9-10");
-        $now = time();
-        if(!isset($teacher_info["teacher_money_type"]) || (empty($teacher_info["teacher_money_type"]) && $teacher_info["teacher_money_type"] !=0)){                    
-            if($now>$check_teacher_day){
-                $default_teacher_money_type = E\Eteacher_money_type::V_6;
-            }else{
-                $default_teacher_money_type = E\Eteacher_money_type::V_4;
-            }
- 
+        if(!isset($teacher_info["teacher_money_type"])
+           || (empty($teacher_info["teacher_money_type"]) && $teacher_info["teacher_money_type"] !=0)
+        ){
+            $default_teacher_money_type = E\Eteacher_money_type::V_6;
         }else{
             $default_teacher_money_type = $teacher_info["teacher_money_type"];
         }
@@ -1648,7 +1643,7 @@ trait TeaPower {
         \App\Helper\Utils::set_default_value($acc,$teacher_info,"","acc");
         \App\Helper\Utils::set_default_value($wx_use_flag,$teacher_info,0,"wx_use_flag");
         \App\Helper\Utils::set_default_value($trial_lecture_is_pass,$teacher_info,0,"trial_lecture_is_pass");
-        \App\Helper\Utils::set_default_value($train_through_new,$teacher_info,0,"train_through_new");                          
+        \App\Helper\Utils::set_default_value($train_through_new,$teacher_info,0,"train_through_new");
         \App\Helper\Utils::set_default_value($teacher_money_type,$teacher_info,$default_teacher_money_type,"teacher_money_type");
         \App\Helper\Utils::set_default_value($level,$teacher_info,E\Elevel::V_0,"level");
         \App\Helper\Utils::set_default_value($grade,$teacher_info,E\Egrade::V_0,"grade");
@@ -2646,7 +2641,6 @@ trait TeaPower {
         if(isset($reference_info['teacherid']) && !empty($reference_info['teacherid'])){
             //各类渠道合作的平台总代理，助理不发伯乐奖
             if(!in_array($reference_info['teacher_type'],[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
-
                 if(\App\Helper\Utils::check_env_is_release()){
                     $this->add_reference_price($reference_info['teacherid'],$teacherid);
                 }else{
@@ -4626,19 +4620,18 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $reference_price = 50;
         }elseif($teacherid == 149697){
             //田克平 公校老师80元/个,在校学生按正常来算，统计所有邀请过的老师
-            if ($reference_type == E\Ereference_type::V_2) {
+            $start_time = 0;
+            if($reference_type == E\Ereference_type::V_2) {
                 $reference_price = 80;
-            }else{
-                $start_time = 0;
             }
         }elseif(in_array($teacher_ref_type,[E\Eteacher_ref_type::V_1,E\Eteacher_ref_type::V_2])){
             //廖老师，王菊香工作室公校老师80元/个，在校学生按正常来算，从2017年11月开始
+            $start_time = strtotime("2017-11-1");
             if($reference_type==E\Ereference_type::V_2){
                 $reference_price = 80;
-            }else{
-                $start_time = strtotime("2017-11-1");
             }
         }
+
         //判断老师的通过时间
         if($recommended_info['train_through_new_time']>$start_time){
             $check_time_flag = true;

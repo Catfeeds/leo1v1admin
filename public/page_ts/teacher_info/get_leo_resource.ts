@@ -77,7 +77,7 @@ $(function(){
                         var tag_str = '<option value="-1">全部</option>';
 
                         $.each($(tag_info),function(i, val){
-                            tag_str = tag_str + '<option value='+i+'>'+val.tag+'</option>';
+                            tag_str = tag_str + '<option value='+val.id+'>'+val.tag+'</option>';
                         });
                         obj.append(tag_str);
                         obj.val(sel_val);
