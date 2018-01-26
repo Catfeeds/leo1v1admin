@@ -2344,15 +2344,20 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
 
-    public function get_research_teacher_list_lesson($page_info,$teacherid){
+    public function get_research_teacher_list_lesson($page_info,$teacherid,$research_flag=-1){
         $where_arr=[
-            "m.account_role in (4,9)",
             "m.del_flag=0",
             ["t.teacherid=%u",$teacherid,-1],
-            "m.uid not in (790,486,871,891)"
         ];
+        if($research_flag==1){
+            $where_arr[]="m.account_role=4";
+        }else{
+            $where_arr[]="m.account_role in (4,9)";
+            $where_arr[]="m.uid not in (790,486,871,891)";
+        }
 
         $sql = $this->gen_sql_new("select teacherid,subject,grade_start,grade_end,grade_part_ex,t.phone,realname"
+                                  .",second_subject,second_grade_end,second_grade_start "
                                   ." from %s t left join %s m on t.phone= m.phone"
                                   ." where %s",
                                   self::DB_TABLE_NAME,

@@ -265,7 +265,8 @@ class ajax_deal3 extends Controller
                 "userid_list"           =>@$userid_list[$adminid],
                 "end_stu_num"           =>@$end_stu_info_new[$adminid],
                 "stop_student_list"       =>@$stop_userid_list[$adminid],
-                "registered_student_list" =>@$registered_userid_list[$adminid],
+                "registered_student_list" =>@$registered_userid_list[$adminid],               
+                "all_student"             =>@$stu_info_all[$adminid]["all_count"]
             ];
         }elseif($type==2){
             $first_subject_list = $list["first_lesson_stu_list"];
@@ -334,19 +335,19 @@ class ajax_deal3 extends Controller
 
 
 
-        $revisit_reword_per = $this->get_ass_revisit_reword_value($account,$adminid,$start_time,$end_time,$first_subject_list,@$userid_list[$adminid],@$registered_userid_list[$adminid]);
-        $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time,$adminid);
-        $kk_num = @$kk_suc[$adminid]["lesson_count"];
-        list($performance_cr_new_list,$performance_cr_renew_list,$performance_cc_tran_list)= $this->get_ass_order_list_performance($start_time,$end_time);
-        list($first_week,$last_week,$n) = $this->get_seller_week_info($start_time, $end_time);//销售月拆解
-        $registered_student_num=$this->get_register_student_list($first_week,$n);//销售月助教在册学生总数获取
-        $seller_month_lesson_count = $this->t_manager_info->get_assistant_lesson_count_info($first_week,$last_week+7*86400,$assistantid);//销售月总课时
-        $end_stu_info_new  = $this->t_student_info->get_end_class_stu_info($start_time,$end_time,$assistantid);
+        // $revisit_reword_per = $this->get_ass_revisit_reword_value($account,$adminid,$start_time,$end_time,$first_subject_list,@$userid_list[$adminid],@$registered_userid_list[$adminid]);
+        // $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time,$adminid);
+        // $kk_num = @$kk_suc[$adminid]["lesson_count"];
+        // list($performance_cr_new_list,$performance_cr_renew_list,$performance_cc_tran_list)= $this->get_ass_order_list_performance($start_time,$end_time);
+        // list($first_week,$last_week,$n) = $this->get_seller_week_info($start_time, $end_time);//销售月拆解
+        // $registered_student_num=$this->get_register_student_list($first_week,$n);//销售月助教在册学生总数获取
+        // $seller_month_lesson_count = $this->t_manager_info->get_assistant_lesson_count_info($first_week,$last_week+7*86400,$assistantid);//销售月总课时
+        // $end_stu_info_new  = $this->t_student_info->get_end_class_stu_info($start_time,$end_time,$assistantid);
 
-        $seller_week_stu_num = round(@$registered_student_num[$adminid]);//销售月周平均学生数
-        $seller_month_lesson_count = @$seller_month_lesson_count[$adminid]["lesson_count"];//销售月总课时
-        $registered_student_list_last = @$ass_last_month[$adminid]["registered_student_list"];
-        list($kpi_lesson_count_finish_per,$estimate_month_lesson_count)= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$seller_week_stu_num,$n,$seller_month_lesson_count);
+        // $seller_week_stu_num = round(@$registered_student_num[$adminid]);//销售月周平均学生数
+        // $seller_month_lesson_count = @$seller_month_lesson_count[$adminid]["lesson_count"];//销售月总课时
+        // $registered_student_list_last = @$ass_last_month[$adminid]["registered_student_list"];
+        // list($kpi_lesson_count_finish_per,$estimate_month_lesson_count)= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$seller_week_stu_num,$n,$seller_month_lesson_count);
 
         // $revisit_reword_per = $this->get_ass_revisit_reword_value($account,$adminid,$start_time,$end_time,$first_subject_list,@$userid_list[$adminid],@$registered_userid_list[$adminid]);
         // $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time,$adminid);
