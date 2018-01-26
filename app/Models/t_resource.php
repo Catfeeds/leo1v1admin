@@ -98,7 +98,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
     }
 
     public function get_all_for_tea(
-        $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$page_info
+        $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five, $page_info
     ){
          $where_arr = [
             'r.use_type=1',
@@ -109,6 +109,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ['r.tag_two=%u', $tag_two, -1],
             ['r.tag_three=%u', $tag_three, -1],
             ['r.tag_four=%u', $tag_four, -1],
+            ['r.tag_five=%u', $tag_five, -1],
             'r.is_del=0',
             'f.status=0',
            // 'ra.is_ban!=0',
@@ -127,7 +128,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
 
         $sql = $this->gen_sql_new(
             "select r.resource_id,r.resource_type,f.file_title,f.file_size,f.file_type, max(v.create_time) create_time,f.file_id,"
-            ." v.visitor_id, r.subject,r.grade,r.tag_one,r.tag_two,r.tag_three,r.tag_four,f.file_link,f.file_use_type,f.use_num, "
+            ." v.visitor_id, r.subject,r.grade,r.tag_one,r.tag_two,r.tag_three,r.tag_four,r.tag_five ,f.file_link,f.file_use_type,f.use_num, "
             ." tr.tea_res_id"
             ." from %s r"
             ." left join %s f on f.resource_id=r.resource_id"

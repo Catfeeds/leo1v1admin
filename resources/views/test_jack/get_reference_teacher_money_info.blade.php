@@ -21,10 +21,12 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>月份</td>
-                    <td>小学</td>
-                    <td>初中</td>
-                    <td>高中</td>
+                    <td>id</td>
+                    <td>名字</td>
+                    <td>续费人数</td>
+                    <td>结课人数</td>
+                    <td>总人数</td>
+                    <td>续费率</td>
                                                                      
 
                     <td> 操作</td>
@@ -34,14 +36,16 @@
                 @foreach ( $list as $k=>$var )
                     <tr>
                         
-                        <td>{{ $var["time"] }}</td>
-                        <td class="small_grade">  </td>
-                        <td class="middle_grade">  </td>
-                        <td class="high_grade">  </td>                       
-                        
+                        <td>{{ @$var["id"] }}</td>
+                        <td>{{ @$var["name"] }}</td>
+                        <td>{{ @$var["renew_num"] }}</td>
+                        <td>{{ @$var["end_num"] }}</td>
+                        <td>{{ @$var["all"] }}</td>
+                        <td>{{ @$var["per"] }}%</td>
+                       
 
                         <td>
-                            <div class="row-data"  data-start="{{ $var["start"] }}" >
+                            <div class="row-data"  data-start="{{ @$var["start"] }}" >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>
                             </div>
 

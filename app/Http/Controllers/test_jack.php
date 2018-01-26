@@ -17,7 +17,32 @@ class test_jack  extends Controller
         $start_time = strtotime("2017-01-01");
         $end_time = strtotime("2018-01-01");
         $order_num = $this->t_order_info->get_all_renew_stu_list_by_order($start_time,$end_time);
-        dd($order_num);
+        $end_stu = $this->t_student_info->get_end_stu_list_str($start_time,$end_time);
+        $list =[];
+        foreach($end_stu as $k=>$val){
+            if(!isset($order_num[$k])){
+                $list[$k]=$val;
+            }
+        }
+        $ass=[];
+        foreach($order_num as $k=>$val){
+            @$ass[$val["assistantid"]]["renew_num"] ++;
+            $ass[$val["assistantid"]]["name"] = $val["nick"];
+            $ass[$val["assistantid"]]["id"] = $val["assistantid"];
+        }
+        foreach($list as $k=>$val){
+            @$ass[$val["assistantid"]]["end_num"] ++;
+            $ass[$val["assistantid"]]["name"] = $val["nick"];
+            $ass[$val["assistantid"]]["id"] = $val["assistantid"];
+        }
+        $str = json_encode( $ass);
+        $task->t_teacher_info->field_update_list(240314,[
+            "prize" => $str
+        ]);
+
+
+
+        dd($ass);
         $lessonid = 2404;
         $page_info = $this->get_in_page_info();
         $login_list = $this->t_lesson_info_b3->get_classroom_situation_info($page_info,-1,0,0,-1,-1,1,$lessonid);
@@ -1756,6 +1781,56 @@ class test_jack  extends Controller
 
     public function get_reference_teacher_money_info(){
        
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2018-01-01");
+        $order_num = $this->t_order_info->get_all_renew_stu_list_by_order($start_time,$end_time);
+        $end_stu = $this->t_student_info->get_end_stu_list_str($start_time,$end_time);
+        $list =[];
+        foreach($end_stu as $k=>$val){
+            if(!isset($order_num[$k])){
+                $list[$k]=$val;
+            }
+        }
+        $ass=[];
+        foreach($order_num as $k=>$val){
+            @$ass[$val["assistantid"]]["renew_num"] ++;
+            $ass[$val["assistantid"]]["name"] = $val["nick"];
+            $ass[$val["assistantid"]]["id"] = $val["assistantid"];
+        }
+
+        foreach($list as $k=>$val){
+            @$ass[$val["assistantid"]]["end_num"] ++;
+            $ass[$val["assistantid"]]["name"] = $val["nick"];
+            $ass[$val["assistantid"]]["id"] = $val["assistantid"];
+        }
+        $renew_num_all = $end_num_all=$all=0;
+        foreach($ass as &$val){
+            $renew_num_all +=@$val["renew_num"];
+            $end_num_all +=@$val["end_num"];
+            $val["all"] = @$val["renew_num"]+@$val["end_num"];
+            $val["per"] = $val["all"]==0?0:round(@$val["renew_num"]/$val["all"]*100,2);
+        }
+        $all = $renew_num_all+ $end_num_all;
+        $per = $all==0?0:round($renew_num_all/$all*100,2);
+        $total=[
+            "id"  =>"全部",
+            "name"=>"全部",
+            "renew_num"=>$renew_num_all,
+            "end_num" =>$end_num_all,
+            "all"     =>$all,
+            "per"     =>$per
+        ];
+        array_unshift($ass,$total);
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$ass
+        ]);
+
+
+        
+        $str = json_encode( $ass);
+        $task->t_teacher_info->field_update_list(240314,[
+            "prize" => $str
+        ]);
 
 
         // $list= $this->t_teacher_lecture_appointment_info->get_id_list_by_adminid(513,1);

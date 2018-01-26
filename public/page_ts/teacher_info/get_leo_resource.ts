@@ -57,8 +57,11 @@ $(function(){
             url      : "/resource/get_sub_grade_book_tag",
             dataType : "json",
             data : {
+                'resource_type' : $('#id_resource_type').val(),
                 'subject' : subject,
                 'grade'   : grade,
+                'bookid'  : $("#id_tag_one").val(),
+                'season_id': $("#id_tag_two").val(),
             } ,
             success : function(result){
                 if(result.ret == 0){
@@ -76,7 +79,8 @@ $(function(){
                         var tag_str = '<option value="-1">全部</option>';
 
                         $.each($(tag_info),function(i, val){
-                            tag_str = tag_str + '<option value='+i+'>'+val+'</option>';
+                            tag_str = tag_str + '<option value='+val.id
+                            +'>'+val.tag+'</option>';
                         });
                         obj.append(tag_str);
                         obj.val(sel_val);

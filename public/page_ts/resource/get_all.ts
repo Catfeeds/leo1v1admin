@@ -35,6 +35,7 @@ $(function(){
     //获取学科化标签
     var get_sub_grade_tag = function(subject,grade,booid,resource_type,season_id,obj,opt_type){
         obj.empty();
+        //console.log(season_id);
         $.ajax({
             type     : "post",
             url      : "/resource/get_sub_grade_book_tag",
@@ -187,7 +188,11 @@ $(function(){
     $('#id_tag_one').val(g_args.tag_one);
 
     if($('#id_resource_type').val() == 3 || $('#id_resource_type').val() == 1 ){
-        get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(),$('#id_tag_one').val(),$('#id_resource_type').val(),-1,$('#id_tag_four'), 1);
+        var season_default = -1;
+        if( g_args.tag_two > 0 ){
+            season_default = g_args.tag_two
+        }
+        get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(),$('#id_tag_one').val(),$('#id_resource_type').val(),season_default,$('#id_tag_four'), 1);
     } else if($('#id_resource_type').val() == 6) {
         get_province($('#id_tag_three'));
         if($('.right-menu').length>0){
