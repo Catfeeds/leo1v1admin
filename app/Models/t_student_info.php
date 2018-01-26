@@ -2484,6 +2484,27 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
 
+    public function get_end_stu_list_str($start_time,$end_time){
+        $where_arr=[
+            "s.type=1",
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"s.last_lesson_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new(" select s.userid,s.assistantid,a.nick "
+                                  ." from %s  s "
+                                  ." left join %s a on s.assistantid = a.assistantid "
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql,function($item){
+            return $item["uid"];
+        });
+
+    }
     public function get_end_class_stu_info($start_time,$end_time,$assistantid=-1){
         $where_arr=[
             "s.type=1",
