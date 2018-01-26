@@ -21,7 +21,6 @@ class  squirrel_wx_server extends Controller
         $r = $wechat->checkSignature();
         \App\Helper\Utils::logger("songsusiwei: $r");
 
-        return $r;
 
         $ret = $wechat->run();
         if (is_bool($ret)) {

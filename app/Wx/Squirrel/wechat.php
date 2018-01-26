@@ -110,6 +110,7 @@ class Wechat    {
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
         $tmpStr = sha1( $tmpStr );
+        \App\Helper\Utils::logger("songsusiwei122: $r");
 
         if( $tmpStr == $signature ){
             echo $_GET['echostr'];
