@@ -58,7 +58,7 @@ class update_actual_threshold extends Command
         $time = time();
         $start_time = strtotime(date('Y-m-d 09:00:00'));
         $end_time = strtotime(date('Y-m-d'))+3600*24;
-        if($time>$start_time && $time<$end_time){
+        if($time>$start_time && $time<$end_time && date('w')!=2){
             $this->update_actual_threshold();
         }
     }

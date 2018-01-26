@@ -2,7 +2,7 @@ syntax = "proto3";
 import "class_api/common.proto";
 
 //__CMD: 1023
-//__DESC: /student/stu_get_course_list 学生申请试听课接口
+//__DESC: /student/stu_get_course_list 学生课程包列表 接口
 //__TAGS: for_app,for_website
 
 
@@ -12,6 +12,6 @@ message in  {
 }
 
 message out {
-  	string  data = 1;
+  common.stu_get_course_list data=1;
 }
 
