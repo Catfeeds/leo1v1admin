@@ -78,7 +78,7 @@ function init_today_new()  {
                         ''+
                         '            <!-- Conversations are loaded here -->'+
                         '            <div class="call-item">'+
-                        '                <button class=" call-opt-edit  btn btn-warning  fa fa-edit fa-2x" style="width:25%" titie="编辑,同时同步tq" >'+
+                        '                <button class=" call-opt-edit  btn btn-warning  fa fa-edit fa-2x" style="width:25%" title="编辑,同时同步tq" >'+
                         '                </button>'+
                         '                <button class=" call-opt-call-phone btn btn-warning  fa fa-phone fa-2x "  style="width:70%" > 拨打</button>'+
                         '            </div>'+
