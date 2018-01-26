@@ -54,13 +54,14 @@
                         step       : 30,
                         onChangeDateTime :function(){
                             var tt = '';
-                            if(lesson_count == 100){
-                                tt = 2400;
-                            }else if(lesson_count == 200){
-                                tt = 5400;
-                            }else{
-                                tt = 7200;
-                            }
+                            // if(lesson_count == 100){
+                            //     tt = 2400;
+                            // }else if(lesson_count == 200){
+                            //     tt = 5400;
+                            // }else{
+                            //     tt = 7200;
+                            // }
+                            tt=2400*lesson_count/100;
 
                             var end_time= parseInt(strtotime(id_start_time.val() )) + tt;
                             id_end_time.val(DateFormat(end_time,"hh:mm"));
