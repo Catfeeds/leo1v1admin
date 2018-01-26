@@ -1918,7 +1918,6 @@ class stu_manage extends Controller
                 $date_list[$month]['title'] = $month;
 
             }
-            //  dd($subject_1);
             
             \App\Helper\Utils::date_list_set_value($date_list,$subject_1,"month","subject_1","count");
             \App\Helper\Utils::date_list_set_value($date_list,$subject_2,"month","subject_2","count");

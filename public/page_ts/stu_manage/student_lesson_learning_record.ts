@@ -758,10 +758,10 @@ $(function(){
                     return;
                 }
                
-                var v1= id_rank.val();
-                var v2= id_rank_num.val();
-                var v3= id_grade_rank.val();
-                var v4= id_grade_rank_num.val();
+                var v1= parseInt(id_rank.val());
+                var v2= parseInt(id_rank_num.val());
+                var v3= parseInt(id_grade_rank.val());
+                var v4= parseInt(id_grade_rank_num.val());
                 if(v1 >0 && v2>0 && v3>0 && v4>0 && v1<=v2 && v3<=v4){
                    
                 }else{
