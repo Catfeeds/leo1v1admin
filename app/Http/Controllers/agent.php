@@ -441,6 +441,20 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $time = time();
+        $start_time = strtotime(date('Y-m-d 08:00:00'));
+        $end_time = strtotime(date('Y-m-d'))+3600*24;
+        if($time>$start_time && $time<$end_time){
+            dd($start_time,$end_time);
+            $this->update_actual_threshold();
+        }
+        dd('b');
+        $time = strtotime(date('Y-m-d'));
+        list($start_time,$end_time) = [$time,$time+3600*24];
+        dd($start_time,$end_time);
+        $origin = '学校';
+        $this->t_manager_info->send_wx_todo_msg('tom',"来自:系统","分配给你[$origin]例子:".$phone='133');
+        dd('a');
         $time = strtotime(date('Y-m-d'));
         list($start_time,$end_time)=$this->get_in_date_range_day(0);
         $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
@@ -452,159 +466,51 @@ class agent extends Controller
                     $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
                     $count_called = count(array_unique(array_column($ret_called, 'userid')));
                     $rate = $count_call>0?(round($count_called/$count_call, 4)*100):0;
-                    $threshold = $this->t_seller_edit_log->get_threshold($time);
-                    dd($rate,$threshold);
+                    $this->t_seller_edit_log->row_insert([
+                        'type'=>E\Eseller_edit_log_type::V_6,
+                        'new'=>$rate,
+                        'create_time'=>time(),
+                    ]);
+                    $this->send_wx_threshold($rate,$start_time,$end_time);
                 }
             }
         }
-        dd('b');
-        $ret = $this->t_seller_get_new_log->get_list_by_time($start_time=1516204800,$end_time=1516896000);
-        $ret_info = [];
-        foreach($ret as $item){
-            $ret_info[$item['adminid']][$item['userid']][] = $item;
-        }
-        foreach($ret_info as $item){
-            foreach($item as $info){
-                foreach($info as $key=>$info_k){
-                    if($key>0){
-                    }
+    }
+
+    public function send_wx_threshold($rate,$start_time,$end_time){
+        $threshold = $this->t_seller_edit_log->get_threshold($time);
+        $threshold_max = $threshold[0]['new'];
+        $threshold_min = $threshold[1]['new'];
+        $ret_threshold = $this->t_seller_edit_log->get_actual_threshold($start_time,$end_time);
+        if(count($ret_threshold) == 1){
+            if($rate<=$threshold_min){//红色
+                $this->t_seller_edit_log->field_update_list($ret_threshold[0]['id'], [
+                    'old'=>2,
+                ]);
+            }elseif($rate<=$threshold_max && $rate>$threshold_min){//黄色
+                $this->t_seller_edit_log->field_update_list($ret_threshold[0]['id'], [
+                    'old'=>1,
+                ]);
+            }
+        }elseif(count($ret_threshold)>1){
+            if($ret_threshold[1]['new']>$threshold_max){
+                if($ret_threshold[0]['new']<=$threshold_min){//红色
+                    $this->t_seller_edit_log->field_update_list($ret_threshold[0]['id'], [
+                        'old'=>2,
+                    ]);
+                }elseif($ret_threshold[0]['new']<=$threshold_max && $ret_threshold[0]['new']>$threshold_min){//黄色
+                    $this->t_seller_edit_log->field_update_list($ret_threshold[0]['id'], [
+                        'old'=>1,
+                    ]);
+                }
+            }elseif($ret_threshold[1]['new']>$threshold_min && $ret_threshold[1]['new']<=$threshold_max){
+                if($ret_threshold[0]['new']<=$threshold_min){//红色
+                    $this->t_seller_edit_log->field_update_list($ret_threshold[0]['id'], [
+                        'old'=>2,
+                    ]);
                 }
             }
         }
-        dd($ret_info);
-        list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,strtotime(date('Y-m-d')),[],[]];
-        $ret_threshold = $this->t_seller_edit_log->get_threshold($time);
-        dd($ret_threshold);
-        if(!$ret_threshold && date('w')!=4){
-            dd('a');
-        }
-        dd('b');
-        list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,strtotime(date('Y-m-d')),[],[]];
-        for($i=1;$i<=12;$i++){
-            $start_time = $time-3600*24*$i;
-            $end_time = $start_time+3600*24;
-            if(date('w',$start_time) != 2){
-                $ret_info[$i]['start_time'] = $start_time;
-                $ret_info[$i]['end_time'] = $end_time;
-                if(count($ret_info)==10){
-                    break;
-                }
-            }
-        }
-        foreach($ret_info as $item){
-            $start_time = $item['start_time'];
-            $end_time = $item['end_time'];
-            $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=1);
-            $count_call = count(array_unique(array_column($ret_call, 'userid')));
-            $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
-            $count_called = count(array_unique(array_column($ret_called, 'userid')));
-            $ret[$start_time]['call_count'] = $count_call;
-            $ret[$start_time]['called_count'] = $count_called;
-            $ret[$start_time]['rate'] = $count_call>0?(round($count_called/$count_call, 4)*100):0;
-        }
-        $rate_arr = array_column($ret, 'rate');
-        $rate_avg = round(array_sum($rate_arr)/count($rate_arr),4);
-        foreach($ret as $start_time=>$item){
-            $ret[$start_time]['dif_square'] = round(pow($item['rate']-$rate_avg,2),2);
-        }
-        $pow_sqrt = round(sqrt(array_sum(array_column($ret, 'dif_square'))/(count($ret)-1)),2);
-
-        $count_call_all = array_sum(array_column($ret, 'call_count'));
-        $count_called_all = array_sum(array_column($ret, 'called_count'));
-        $threshold_max = $count_call_all>0?(round($count_called_all/$count_call_all,4)*100):0;
-        $threshold_min = $threshold_max-$pow_sqrt;
-        dd($ret,$rate_avg,$count_called_all,$count_call_all,$threshold_max,$pow_sqrt,$threshold_min);
-        // $threshold = ;
-        // $end_time = ;
-        // $start_time = $end_time-3600*24*10;
-        // $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=1);
-        // $count_call = count(array_unique(array_column($ret_call, 'userid')));
-        // $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
-        // $count_called = count(array_unique(array_column($ret_called, 'userid')));
-        dd($count_call,$count_called,$threshold);
-        if(!$ret_log){
-            dd('a');
-            $this->t_seller_get_new_log->row_insert([
-                'adminid'=>$adminid,
-                'userid'=>$userid,
-                'create_time'=>time(),
-            ]);
-        }
-        dd('b');
-        $order_list = $this->t_order_info->get_1v1_order_seller_month_money($sys_operator='季金玲',$start_time=1512057600,$end_time=1514736000);
-        dd($order_list);
-        dd($test_leeson_list);
-
-        dd(100*str_replace('%','','90%'));
-
-        $ret = $this->t_test_lesson_subject_sub_list->field_update_list($lessonid=62725, ['call_end_time'=>$start_time=123]);
-        dd($ret);
-        // $ret_lesson = $this->t_test_lesson_subject_require->get_lesson_list($adminid=99,$userid=99);
-        // foreach($ret_lesson as $item){
-        //     $lessonid = $item['lessonid'];
-            $this->t_test_lesson_require_->field_update_list($lessonid=99, ['call_end_time'=>$start_time=9999]);
-        // }
-        dd('a');
-
-        $main_groupid = $this->t_admin_main_group_name->get_groupid_by_adminid($adminid=1178);
-        dd($main_groupid);
-        $count = $this->t_seller_student_origin->get_item_count($userid,$min,$add_time);
-        dd($count);
-        $min   = $this->t_seller_student_new->get_min_add_time();
-        $max   = $this->t_seller_student_new->get_max_add_time();
-        $date1 = explode('-',date('y-m-d',$min));
-        $date2 = explode('-',date('y-m-d',$max));
-        $count = abs($date1[0] - $date2[0]) * 12 + abs($date1[1] - $date2[1]);
-        $start = strtotime(date('y-m-1',$min));
-        $end   = strtotime(date('y-m-1',$max));
-        for($i=1;$i<=$count+1;$i++){
-            $start_time = $start;
-            $end_time = strtotime('+1 month',$start);
-            $ret = $this->t_seller_student_origin->get_all_list($start_time,$end_time);
-            foreach($ret as $item){
-                $arr = [];
-                $userid = $item['userid'];
-                $origin = $item['origin'];
-                $add_time = $item['add_time'];
-                $count = $this->t_seller_student_origin->get_item_count($userid,$min,$add_time);
-                if($count>0){
-                    $this->task->t_seller_student_origin->field_update_list_2($userid, $origin, ['is_exist_count'=>$count]);
-                    echo $userid.':'.$origin.'=>'.$count."\n";
-                }
-            }
-            $start = strtotime('+1 month',$start);
-        }
-
-
-        $ret = $this->t_seller_student_origin->get_item_list();
-        $ret_info = [];
-        foreach($ret as $info){
-            $userid = $info['userid'];
-            $ret_info[$userid]['phone'] = isset($ret_info[$userid]['phone'])?$ret_info[$userid]['phone']:$info['phone'];
-            $ret_info[$userid]['origin'] = isset($ret_info[$userid]['origin'])?$ret_info[$userid]['origin'].','.$info['origin']:$info['origin'];
-            $ret_info[$userid]['add_time'] = isset($ret_info[$userid]['add_time'])?$ret_info[$userid]['add_time']:date('Y-m-d H:i:s',$info['add_time']);
-            $ret_info[$userid]['is_exist'] = isset($ret_info[$userid]['is_exist'])?'是':'否';
-        }
-        $num = 0;
-
-        echo '<table border="1" width="600" align="center">';
-        echo '<caption><h1>12月进入例子渠道</h1></caption>';
-        echo '<tr bgcolor="#dddddd">';
-        echo '<th>编号</th><th>号码</th><th>渠道</th><th>进入日期</th><th>是否重复</th>';
-        echo '</tr>';
-        foreach($ret_info as $item){
-            $num++;
-            echo '<tr>';
-            echo '<td>'.$num.'</td>';
-            echo '<td>'.$item['phone'].'</td>';
-            echo '<td>'.$item['phone'].'</td>';
-            echo '<td>'.$item['origin'].'</td>';
-            echo '<td>'.$item['add_time'].'</td>';
-            echo '<td>'.$item['is_exist'].'</td>';
-            echo '</tr>';
-        }
-        echo '</table>';
-
     }
 
     //处理等级头像

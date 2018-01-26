@@ -80,6 +80,7 @@ class tom_do_once extends Command
         // $this->update_seller_edit_log();
         // $this->update_seller_student_origin();
         // $this->seller_daily_threshold();
+        $this->update_actual_threshold();
     }
 
     public function update_cc_call(){

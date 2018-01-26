@@ -4880,6 +4880,8 @@ class ss_deal extends Controller
                     "last_revisit_time"    => 0,
                     "next_revisit_time"    => 0,
                     "user_desc"            => "",
+                    "global_tq_called_flag"            => 0,
+                    "tq_called_flag"            => 0,
                     "add_time"             => time(NULL),
                     "seller_add_time"      => time(NULL),
                 ]);
@@ -6489,14 +6491,25 @@ class ss_deal extends Controller
         $start_date = \App\Helper\Utils::unixtime2date($now-3*60*60 ,"Y-m-d H:i:s");
         $end_date   = \App\Helper\Utils::unixtime2date($now,"Y-m-d H:i:s");
         $phone= $this->get_in_phone();
+        $userid= $this->get_in_userid(0);
+        $tq_called_flag=$this->get_in_int_val("tq_called_flag") ;
+
 
         if (!$phone) {
             return $this->output_err("当前用户不存在");
         }
         $cmd= new \App\Console\Commands\sync_tq();
         $count=$cmd->load_data($start_date,$end_date,$phone);
+        $reload_flag=false;
+        if ($userid ) {
+            if( $tq_called_flag != $this->t_seller_student_new->get_tq_called_flag($userid)) {
+                $reload_flag=true;
+            }
+        }
 
-        return $this->output_succ();
+        return $this->output_succ([
+            "reload_flag" =>  $reload_flag
+        ]);
     }
 
     public function sync_ytx( ) {
@@ -7762,6 +7775,7 @@ class ss_deal extends Controller
         $coverImgUrl = $this->get_in_str_val('coverImgUrl');
         $activityImgUrl = $this->get_in_str_val('activityImgUrl');
         $followImgUrl   = $this->get_in_str_val('followImgUrl');
+        $img_list_str   = trim($this->get_in_str_val('img_list_str'));
         $add_time = time();
         $uid = $this->get_account_id();
 

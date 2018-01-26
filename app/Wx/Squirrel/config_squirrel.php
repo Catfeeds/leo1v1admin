@@ -19,7 +19,7 @@ namespace App\Wx\Squirrel;
 define("WECHAT_URL_SQU", 'http://admin.yb1v1.com/squirrel_wx_server/');//松鼠思维
 
 define('WECHAT_TOKEN_SQU', 'leo123');
-define('ENCODING_AES_KEY_SQU', "qe8d4GX2WnCOWwKW7PRgoWfjnn64tyLBcyJhoGavdKU");//松鼠思维
+define('ENCODING_AES_KEY_SQU', "2i5d8UBZt5qHaeUBUNfOzitLn1Je0DfXrLbv5BtM5Un");//松鼠思维
 
 // /*
 //  * 开发者配置

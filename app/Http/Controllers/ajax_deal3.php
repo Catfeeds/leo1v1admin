@@ -38,7 +38,7 @@ class ajax_deal3 extends Controller
                 $admin_assign_time=strtotime( @$user_admin_assign_time_map[$userid] );
                 $check_time= max( $work_start_time, $admin_assign_time);
                 $show_left_time_flag=false;
-                if ($now- $check_time> 1*3600) { //超过3个小时
+                if ($now- $check_time> 3*3600) { //超过3个小时
                     $left_time=6*3600-( $now-$check_time);
                     if ($left_time<0) {
                         $left_time=0;

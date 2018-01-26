@@ -1608,7 +1608,7 @@ class Common {
     }
 
     public static function decrypt($sStr, $sKey) {
-        $decrypted= mcrypt_decrypt(
+        $decrypted = mcrypt_decrypt(
             MCRYPT_RIJNDAEL_128,
             $sKey,
             base64_decode($sStr),

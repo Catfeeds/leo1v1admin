@@ -2561,7 +2561,7 @@ class teacher_info extends Controller
         //兼容js调用
         $is_js = $this->get_in_int_val('is_js', 0);
         if($is_js){
-            return $this->output_err("暂未开放，敬请期待！");
+            //return $this->output_err("暂未开放，敬请期待！");
         } 
         /*
         //检测老师是不是全职

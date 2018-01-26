@@ -629,6 +629,7 @@ $(function(){
         var ret_data = {},book_info = [],tea_sub_info = [], tea_gra_info = [], res_type_list = [];
         var dlg_tr = {};
         var get_res = function(ajax_url,opt_type,btn_type,dir_id){
+
             $("<div></div>").tea_select_res_ajax({
                 "opt_type" :  "select", // or "list"
                 "url"      :  ajax_url,
@@ -969,14 +970,10 @@ $(function(){
 
         $('.opt-leo-res,.opt-my-res').unbind('click');
         $('.opt-leo-res').on('click',function(){
-            if(is_full_time ==1){
-                if($(this).hasClass('unbind')){
-                    get_res('/teacher_info/get_leo_resource', 'leo_one',$(this).attr('upload_id'));
-                }else {
-                    get_res('/teacher_info/get_leo_resource', 'leo');
-                }
-            } else {
-                BootstrapDialog.alert("暂未开放，敬请期待!");
+            if($(this).hasClass('unbind')){
+                get_res('/teacher_info/get_leo_resource', 'leo_one',$(this).attr('upload_id'));
+            }else {
+                get_res('/teacher_info/get_leo_resource', 'leo');
             }
         });
 

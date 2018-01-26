@@ -1001,6 +1001,13 @@ class wx_parent_gift extends Controller
         return $this->output_succ(['data'=>$imgUrlInfo]);
     }
 
+    # 记录添加人的数量
+    public function recordAddNum(){
+        $id = $this->get_in_int_val('id');
+        $this->t_activity_usually->updateAddNum($id);
+        return $this->output_succ();
+    }
+
 
     public function marketingActivityUsually () { // 市场部常规分享活动
         $p_appid     = \App\Helper\Config::get_wx_appid();
