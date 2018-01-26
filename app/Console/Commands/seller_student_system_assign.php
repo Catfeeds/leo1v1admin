@@ -139,19 +139,20 @@ class seller_student_system_assign extends cmd_base
             E\Etq_called_flag::V_1
         );
         $need_deal_count=count($need_deal_list);
+        $old_need_deal_count=$need_deal_count;
         $assigned_count=0;
         if( $left_no_connected_count_all)  {
 
             shuffle ($need_deal_list);
+            $start_deal_index=0;//random_int(0, $need_deal_count*2/3 );
             foreach( $admin_list as &$item ) {
                 $assigned_no_connected_count=$item["assigned_no_connected_count"];
                 $def_no_connected_count=$item["def_no_connected_count"];
                 $opt_adminid= $item["uid"];
                 for($i=$assigned_no_connected_count;$i<$def_no_connected_count;$i++ ) {
-                    $start_deal_index=0;//random_int(0, $need_deal_count*2/3 );
                     for($j=$start_deal_index; $j< $need_deal_count ;  $j++ ) {
-                        $find_userid= $need_deal_list[$j]["userid"];
-                        if (!$this->task->t_seller_student_system_assign_log->check_userid_adminid_existed( $find_userid, $opt_adminid  ) ) {
+                        $find_userid= @$need_deal_list[$j]["userid"];
+                        if ( $find_userid && !$this->task->t_seller_student_system_assign_log->check_userid_adminid_existed( $find_userid, $opt_adminid  ) ) {
 
                             $assigned_count++;
                             $userid_list=[$find_userid];
@@ -163,7 +164,7 @@ class seller_student_system_assign extends cmd_base
                                 E\Eseller_student_assign_from_type::V_1, $find_userid, $opt_adminid
                             );
                             unset($need_deal_list[$j]);
-                            $need_deal_count--;
+                            $start_deal_index=$j+1;
                             break;
                         }
                     }
@@ -172,7 +173,7 @@ class seller_student_system_assign extends cmd_base
         }
 
         return [
-            "need_deal_count" =>$need_deal_count,
+            "need_deal_count" =>$$old_need_deal_count,
             "assigned_count" =>$assigned_count,
         ];
     }
