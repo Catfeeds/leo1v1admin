@@ -80,6 +80,7 @@ class tom_do_once extends Command
         // $this->update_seller_edit_log();
         // $this->update_seller_student_origin();
         // $this->seller_daily_threshold();
+        $this->update_actual_threshold();
     }
 
     public function update_cc_call(){
@@ -436,5 +437,60 @@ class tom_do_once extends Command
         }
     }
 
+    public function update_actual_threshold(){
+        $time = strtotime(date('Y-m-d'));
+        list($start_time,$end_time)=$this->get_in_date_range_day(0);
+        $ret_call = $this->task->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
+        if($ret_call){
+            if(time()>$ret_call[0]['create_time']+1800){
+                $count_adminid = count(array_unique(array_column($ret_call, 'adminid')));
+                $count_call = count(array_unique(array_column($ret_call, 'userid')));
+                if($count_adminid>=5 && $count_call>=10){
+                    $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
+                    $count_called = count(array_unique(array_column($ret_called, 'userid')));
+                    $rate = $count_call>0?(round($count_called/$count_call, 4)*100):0;
+                    $this->task->t_seller_edit_log->row_insert([
+                        'type'=>E\Eseller_edit_log_type::V_6,
+                        'new'=>$rate,
+                        'create_time'=>time(),
+                    ]);
+                    $this->send_wx_threshold($rate,$start_time,$end_time);
+                }
+            }
+        }
+    }
+
+    public function send_wx_threshold($rate,$start_time,$end_time){
+        $threshold = $this->task->t_seller_edit_log->get_threshold($time);
+        $threshold_max = $threshold[0]['new'];
+        $threshold_min = $threshold[1]['new'];
+        $ret_threshold = $this->task->t_seller_edit_log->get_actual_threshold($start_time,$end_time);
+        if(count($ret_threshold) == 1){
+            if($rate<=$threshold_min){//红色
+                $this->update_send_wx_flag($ret_threshold[0]['id'],2);
+            }elseif($rate<=$threshold_max && $rate>$threshold_min){//黄色
+                $this->update_send_wx_flag($ret_threshold[0]['id'],1);
+            }
+        }elseif(count($ret_threshold)>1){
+            if($ret_threshold[1]['new']>$threshold_max){
+                if($ret_threshold[0]['new']<=$threshold_min){//红色
+                    $this->update_send_wx_flag($ret_threshold[0]['id'],2);
+                }elseif($ret_threshold[0]['new']<=$threshold_max && $ret_threshold[0]['new']>$threshold_min){//黄色
+                    $this->update_send_wx_flag($ret_threshold[0]['id'],1);
+                }
+            }elseif($ret_threshold[1]['new']>$threshold_min && $ret_threshold[1]['new']<=$threshold_max){
+                if($ret_threshold[0]['new']<=$threshold_min){//红色
+                    $this->update_send_wx_flag($ret_threshold[0]['id'],2);
+                }
+            }
+        }
+    }
+
+    public function update_send_wx_flag($id,$flag){
+        $this->task->t_manager_info->send_wx_todo_msg('tom',"来自:系统","分配给你[$origin]例子:".$phone);
+        $this->t_seller_edit_log->field_update_list($id, [
+            'old'=>$flag,
+        ]);
+    }
 
 }
