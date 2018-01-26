@@ -280,10 +280,10 @@ class ajax_deal3 extends Controller
         }elseif($type==4){
             list($performance_cr_new_list,$performance_cr_renew_list,$performance_cc_tran_list)= $this->get_ass_order_list_performance($start_time,$end_time);
             $update_arr=[
-               "performance_cc_tran_num"  =>@$performance_cc_tran_list["performance_cc_tran_num"],
-                "performance_cc_tran_money"=>@$performance_cc_tran_list["performance_cc_tran_money"],
-                "performance_cr_renew_num" =>@$performance_cr_renew_list["performance_cr_renew_num"],
-                "performance_cr_renew_money" =>@$performance_cr_renew_list["performance_cr_renew_money"],
+               "performance_cc_tran_num"  =>@$performance_cc_tran_list[$adminid]["performance_cc_tran_num"],
+               "performance_cc_tran_money"=>@$performance_cc_tran_list[$adminid]["performance_cc_tran_money"],
+               "performance_cr_renew_num" =>@$performance_cr_renew_list[$adminid]["performance_cr_renew_num"],
+               "performance_cr_renew_money" =>@$performance_cr_renew_list[$adminid]["performance_cr_renew_money"],
                 "performance_cr_new_num" =>@$performance_cr_new_list[$adminid]["performance_cr_new_num"],
                 "performance_cr_new_money" =>@$performance_cr_new_list[$adminid]["performance_cr_new_money"]
             ];
