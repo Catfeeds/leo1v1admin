@@ -3,6 +3,147 @@
 
 
 var show_name_key="";
+function init_today_new()  {
+    if (g_args.date_type==4 && g_args.start_time== $.DateFormat( (new Date()).getTime()/1000 ,"yyyy-MM-dd") ) { //是查看今天的新例子
+
+        var opt_data=$(this).get_opt_data();
+        var $id_today_new_list= $("#id_today_new_list");
+        var userid_list=[];
+        var user_admin_assign_time_map={};
+        var opt_data_map={};
+        $(".opt-user").each( function(){
+            var opt_data=$(this).get_opt_data();
+            //alert (opt_data.nick);
+            var edit_flag=(opt_data.nick != "");
+            var $p_div=$(this).parent();
+
+
+            if (  !edit_flag || ! opt_data.tq_called_flag  ) {//
+                $(this).closest("tr").hide();
+                userid_list.push( opt_data.userid  );
+                user_admin_assign_time_map[opt_data.userid] =opt_data.admin_assign_time;
+                opt_data_map[opt_data.userid] =opt_data;
+                var $seller_item=$(
+                    '<div class="item-'+opt_data.userid+'" style="width:280px;display:inline-block; margin-left:20px "  >'+
+                        '    <!-- DIRECT CHAT PRIMARY -->'+
+                        '    <div class="box box-primary direct-chat direct-chat-primary">'+
+                        '        <!-- /.box-header -->'+
+                        '        <div class="box-body call-item">'+
+                        '            <div class="call-item">'+
+                        '                <div class="call-item-title phone " >'+
+                        '                    电话'+
+                        '                </div>'+
+                        '                <div class="call-item-text phone  " >'+
+                        opt_data.phone +  '<span class="assign_type" style="color:red; display:none;" >(奖)</span>'  +
+                        '                </div>'+
+                        '            </div>'+
+                        '            <div class="call-item">'+
+                        '                <span class="call-item-title" >'+
+                        '                    地区'+
+                        '                </span>'+
+                        '                <span class="call-item-text " >'+
+                        opt_data.phone_location +
+                        '                </span>'+
+                        '            </div>'+
+                        ''+
+                        ''+
+                        '            <div class="call-item">'+
+                        '                <span class="call-item-title" >'+
+                        '                    年级'+
+                        '                </span>'+
+                        '                <span class="call-item-text " >'+
+                        opt_data.grade_str +
+                        '                </span>'+
+                        '            </div>'+
+                        ''+
+                        ''+
+                        ''+
+                        '            <div class="call-item">'+
+                        '                <span class="call-item-title" >'+
+                        '                    科目'+
+                        '                </span>'+
+                        '                <span class="call-item-text " >'+
+                        opt_data.subject_str +
+                        '                </span>'+
+                        '            </div>'+
+                        '            <!-- Conversations are loaded here -->'+
+                        '            <div class="call-item">'+
+                        '                <span class="call-item-title" >'+
+                        '                    设备'+
+                        '                </span>'+
+                        '                <span class="call-item-text " >'+
+                        opt_data.has_pad_str +
+                        '                </span>'+
+                        '            </div>'+
+                        ''+
+                        '            <!-- Conversations are loaded here -->'+
+                        '            <div class="call-item">'+
+                        '                <button class=" call-opt-edit  btn btn-warning  fa fa-edit fa-2x" style="width:25%" titie="edit" >'+
+                        '                </button>'+
+                        '                <button class=" call-opt-call-phone btn btn-warning  fa fa-phone fa-2x "  style="width:70%" > 拨打</button>'+
+                        '            </div>'+
+                        '            <!-- Contacts are loaded here -->'+
+                        '            <!-- /.direct-chat-pane -->'+
+                        '        </div>'+
+                        '        <!-- /.box-body -->'+
+                        '        <div class="box-footer" style="text-align:center;"  >'+
+                        '        </div>'+
+                        '    </div>'+
+                        '</div>');
+                $seller_item.find(".call-opt-edit").on("click" ,function() {
+                    $p_div.find(".opt-edit-new_new").click();
+                }) ;
+
+                $seller_item.find(".call-opt-call-phone").on("click" ,function() {
+                    $p_div.find(".opt-telphone").click();
+                }) ;
+                /*
+                  ' <span style="color:red;font-weight: bolder; " > 未拨打 <span>' +
+                  ' <span style="color:red;font-weight: bolder; " > 未拨打 <span>' +
+                */
+                //opt-telphone
+                //opt-telphone
+                if(opt_data.tq_called_flag ==2 ) { //已接通
+
+                    var $opt_edit=$seller_item.find(".call-opt-edit");
+                    $opt_edit.removeClass("btn-warning");
+                    $opt_edit.attr("title","请编辑姓名");
+
+                }
+                $id_today_new_list.append($seller_item);
+            }
+        });
+
+        $.do_ajax( "/ajax_deal3/get_new_seller_student_info",{
+            "userid_list" : userid_list.join(","),
+            "user_admin_assign_time_map" : JSON.stringify( user_admin_assign_time_map),
+        },function(resp){
+            $.each(resp.user_list, function(i, user_item ){
+                var userid= user_item["userid"];
+                var opt_data=opt_data_map[userid];
+                var $item= $id_today_new_list.find(".item-"+userid);
+                if(user_item["seller_student_assign_from_type"]==1 ) {
+                    $item.find(".assign_type").show();
+                }
+                if (user_item["show_left_time_flag"]) {
+                    var msg="会被系统分走,请尽快联系";
+                    if (opt_data.tq_called_flag==2) {
+                        msg = "请设置用户信息";
+                    }
+
+                    $item.find(".box-footer").html("剩余:<span style=\"color:red; font-weight:bolder;font-size:18px; \">"+ user_item.left_time_str+"</span><br> <span style=\"color:red; \" >"+ opt_data.tq_called_flag_str +" </span> " +msg);
+                }else{
+                    $item.find(".box-footer").html("<span style=\"color:red; font-weight:bolder; \">"+ opt_data.tq_called_flag_str +"</span>");
+                }
+
+            });
+
+        }) ;
+
+    }
+
+}
+
 
 function load_data(){
     if ($.trim($("#id_phone_name").val()) != g_args.phone_name ) {
@@ -688,6 +829,7 @@ $(function(){
     if (g_args.account_seller_level !=9000 ) {
         $(".opt-tmk-valid").hide();
     }
+    init_today_new();
 
 });
 
@@ -1089,9 +1231,12 @@ function init_edit() {
 
 
     $.do_ajax( "/ss_deal/seller_noti_info",{},function(resp){
+
+        init_noit_btn_ex("id_today_new_count",   resp.today_new_count,    "今天新例子","今天分配给你的例子","bg-red" );
         init_noit_btn("id_new_no_called_count",   resp.new_not_call_count,    "从未联系", "未回访" );
         init_noit_btn("id_no_called_count",   resp.not_call_count,    "所有未回访","新例子+公海获取例子" );
         init_noit_btn_ex("id_today_free",   resp.today_free_count,    "今日回流"," 今晚24点自动回流公海, 若需保留 请设置下次回访时间","bg-red" );
+
         init_noit_btn_ex("id_next_revisit",   resp.next_revisit_count,    "今日需回访"," , 下次回访时间 设置在今日的例子","bg-red" );
         init_noit_btn("id_lesson_today",  resp.today,  "今天上课" ,"今天上课须通知数");
         init_noit_btn("id_lesson_tomorrow", resp.tomorrow, "明天上课","明天上课须通知数" );
@@ -1108,6 +1253,7 @@ function init_edit() {
         $("#id_phone_location").val("");
         $("#id_has_pad").val(-1);
         $("#id_userid").val(-1);
+        $("#id_global_tq_called_flag").val(-1);
         $("#id_seller_resource_type").val(-1);
         $("#id_origin_assistantid").val(-1);
         $("#id_success_flag").val(-1);
@@ -1120,6 +1266,15 @@ function init_edit() {
         set_func(t);
         load_data();
     };
+
+    $("#id_today_new_count").on("click",function(){
+        $.do_ajax("/ajax_deal3/set_work_start_time",{});
+        init_and_reload(function(now){
+            $.filed_init_date_range( 4,  1, now,now );
+
+        });
+    });
+
 
     $("#id_no_confirm_count").on("click",function(){
         init_and_reload(function(now){
@@ -3381,7 +3536,7 @@ function init_edit() {
             });
 
             if(data.stu_request_test_lesson_time == '无' || data.stu_request_test_lesson_time == ''){
-                var myDate = Date.parse(new Date())+3600*24*1000;
+                var myDate = Date.parse((new Date()).toString() )+3600*24*1000;
                 var time = new Date(myDate);
                 var year = time.getFullYear();
                 var month = time.getMonth()+1;
@@ -3396,7 +3551,7 @@ function init_edit() {
                 id_stu_request_test_lesson_time.val(data.stu_request_test_lesson_time);
             }
             if(data.stu_request_test_lesson_time_end == '无'){
-                var start_time = Date.parse(new Date(id_stu_request_test_lesson_time.val()))+3600*2*1000;
+                var start_time = Date.parse((new Date(id_stu_request_test_lesson_time.val())).toString() )+3600*2*1000;
                 var time = new Date(start_time);
                 var year = time.getFullYear();
                 var month = time.getMonth()+1;
@@ -3419,7 +3574,9 @@ function init_edit() {
                 }
             });
             id_stu_request_test_lesson_time.change(function(){
-                var start_time = Date.parse(new Date(id_stu_request_test_lesson_time.val()))+3600*2*1000;
+                var start_time = Date.parse(
+                    ( new Date(id_stu_request_test_lesson_time.val()).toString()
+                    ))+3600*2*1000;
                 var time = new Date(start_time);
                 var year = time.getFullYear();
                 var month = time.getMonth()+1;
@@ -3810,8 +3967,11 @@ function init_edit() {
                             html_node.find("#id_intention_level_new_two").parent().attr('style','');
                         }
                         if((id_stu_request_test_lesson_time.val() != '' && id_stu_request_test_lesson_time.val() != '无') && (id_stu_request_test_lesson_time_end.val() != '' && id_stu_request_test_lesson_time_end.val() != '无')){
-                            var min_time = Date.parse(new Date(id_stu_request_test_lesson_time.val()));
-                            var start_time = Date.parse(new Date(id_stu_request_test_lesson_time.val()))+3600*2*1000;
+                            var min_time = Date.parse(
+                                (new Date(id_stu_request_test_lesson_time.val())).toString()
+                            );
+                            var start_time = Date.parse(
+                                (new Date(id_stu_request_test_lesson_time.val()).toString()))+3600*2*1000;
                             var time = new Date(start_time);
                             var year = time.getFullYear();
                             var month = time.getMonth()+1;
@@ -3820,8 +3980,8 @@ function init_edit() {
                             var minutes = time.getMinutes();
                             var seconds = 0;
                             var end_date = year+'-'+add0(month)+'-'+add0(date)+' '+add0(hours)+':'+add0(minutes)+':'+add0(seconds);
-                            var max_time = Date.parse(new Date(end_date));
-                            var end_time = Date.parse(new Date(id_stu_request_test_lesson_time_end.val()+':00'));
+                            var max_time = Date.parse((new Date(end_date)).toString());
+                            var end_time = Date.parse((new Date(id_stu_request_test_lesson_time_end.val()+':00')).toString());
                             if(end_time<min_time){
                                 alert('试听最晚时间不能小于'+id_stu_request_test_lesson_time.val());
                                 return false;
@@ -4033,7 +4193,7 @@ function init_edit() {
     };
 
     if(g_adminid==540){
-        download_show();
+        window["download_show"]();
     }
 
 }
