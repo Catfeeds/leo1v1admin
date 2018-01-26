@@ -186,16 +186,9 @@ class ajax_deal3 extends Controller
 
             $registered_userid_list = $this->t_student_info->get_read_student_ass_info(-2,$assistantid);//在册学员名单
             $stop_userid_list = $this->t_student_info->get_read_student_ass_info(2,$assistantid);//停课学员名单
-
-            $first_subject_list = $this->get_ass_stu_first_lesson_subject_info($start_time,$end_time,$assistantid);
-            if(isset($first_subject_list[$adminid]) && !empty($first_subject_list[$adminid])){
-                $first_subject_list = json_encode(@$first_subject_list[$adminid]); 
-            }else{
-                $first_subject_list="";
-            }
             $end_stu_info_new  = $this->t_student_info->get_end_class_stu_info($start_time,$end_time,$assistantid);
             $update_arr=[
-                "first_lesson_stu_list" =>$first_subject_list,               
+                // "first_lesson_stu_list" =>$first_subject_list,               
                 "read_student"          =>@$stu_info_all[$adminid]["read_count"],
                 "stop_student"          =>@$stu_info_all[$adminid]["stop_count"],              
                 "userid_list"           =>@$userid_list[$adminid],              
@@ -252,6 +245,17 @@ class ajax_deal3 extends Controller
 
             $update_arr =  [              
                 "kk_num"   =>$kk_num,               
+            ];
+
+        }elseif($type==6){
+            $first_subject_list = $this->get_ass_stu_first_lesson_subject_info($start_time,$end_time,$assistantid);
+            if(isset($first_subject_list[$adminid]) && !empty($first_subject_list[$adminid])){
+                $first_subject_list = json_encode(@$first_subject_list[$adminid]); 
+            }else{
+                $first_subject_list="";
+            }         
+            $update_arr=[
+                "first_lesson_stu_list" =>$first_subject_list,                                    
             ];
 
         }

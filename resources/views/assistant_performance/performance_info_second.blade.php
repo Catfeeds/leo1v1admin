@@ -149,6 +149,7 @@
                                     <a class="opt-reset-data" data-id="3"> 重置课时数据</a>
                                     <a class="opt-reset-data" data-id="4"> 重置合同数据</a>
                                     <a class="opt-reset-data" data-id="5"> 重置扩课数据</a>
+                                    <a class="opt-reset-data" data-id="6"> 重置第一次课数据</a>
                                     <a class="opt-edit"> 编辑</a>
                                 @endif
                                 
