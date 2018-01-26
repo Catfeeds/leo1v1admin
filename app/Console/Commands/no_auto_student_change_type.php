@@ -40,6 +40,11 @@ class no_auto_student_change_type extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
 
         $task = new \App\Console\Tasks\TaskController ();
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2018-01-01");
+        $order_num = $task->t_order_info->get_all_renew_stu_list_by_order($start_time,$end_time);
+        dd($order_num);
+
 
         $time = strtotime(date("Y-m-d",time()));        
         $user_stop = $task->t_student_info->get_no_auto_stop_stu_list($time);

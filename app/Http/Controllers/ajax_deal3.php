@@ -615,7 +615,7 @@ class ajax_deal3 extends Controller
                         $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$account,-2);
                         if($month_lesson_flag==1){
                             if($revisit_num <2){
-                                $revisit_reword_per -=0.05;
+                                $revisit_reword_per -=0.05*(2-$revisit_num);
                             }
 
                         }else{
@@ -664,7 +664,7 @@ class ajax_deal3 extends Controller
                         $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$account,-2);
                         if($month_lesson_flag==1){
                             if($revisit_num <2){
-                                $revisit_reword_per -=0.05;
+                                $revisit_reword_per -=0.05*(2-$revisit_num);
                             }
 
                         }else{
