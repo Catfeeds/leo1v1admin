@@ -441,6 +441,7 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $time = strtotime(date('Y-m-d'));
         list($start_time,$end_time)=$this->get_in_date_range_day(0);
         $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
         if($ret_call){
@@ -451,7 +452,8 @@ class agent extends Controller
                     $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
                     $count_called = count(array_unique(array_column($ret_called, 'userid')));
                     $rate = $count_call>0?(round($count_called/$count_call, 4)*100):0;
-                    dd($count_called,$count_call,$rate);
+                    $threshold = $this->t_seller_edit_log->get_threshold($time);
+                    dd($rate,$threshold);
                 }
             }
         }
