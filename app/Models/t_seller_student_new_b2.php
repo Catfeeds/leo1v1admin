@@ -25,7 +25,7 @@ class t_seller_student_new_b2 extends \App\Models\Zgen\z_t_seller_student_new
             ,self::DB_TABLE_NAME,
             $where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
     }
 
     public function  get_today_can_system_assign_count( ){
