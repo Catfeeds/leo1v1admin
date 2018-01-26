@@ -98,7 +98,7 @@ class ajax_deal3 extends Controller
         $list["lesson_num"] = $all_lesson[$lessonid];
         $list["lesson_time"] = date("Y-m-d H:i",$list["lesson_start"])."~".date("H:i",$list["lesson_end"]);
         $list["subject_str"] = E\Esubject::get_desc($list["subject"]);
-        $list["grade_str"] = E\Esubject::get_desc($list["grade"]);
+        $list["grade_str"] = E\Egrade::get_desc($list["grade"]);
         if(empty($list["tea_cw_upload_time"]) || $list["tea_cw_upload_time"]>=$list["lesson_start"]){
             $list["cw_status_str"]="未上传";
             $list["preview_status_str"]="—";
