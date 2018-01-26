@@ -55,17 +55,21 @@ $(function(){
              
                     if($(tag_info).length == 0) {
                         if(opt_type == 1){
-                            obj.append('<option value="-1">全部</option>');
+                            if( subject > 0 && grade > 0){
+                                obj.append('<option value="-1">全部</option>');
+                            }else{
+                                obj.append('<option value="-1">请选择科目和年级</option>');
+                            }
                         } else {
                             obj.after('<span class="tag_warn" style="color:red;margin-left:8px">暂时未添加标签!</span>');
                         }
                     } else {
                         if(opt_type == 1){
-                            var tag_str = '<option value="-1">全部</option>';
+                           var tag_str = '<option value="-1">全部</option>';                          
                         }else{
                             var tag_str = '';
                         }
-                        
+
                         $.each($(tag_info),function(i,item){                        
                             tag_str = tag_str + '<option value='+item.id+'>'+item.tag+'</option>';
                         });
@@ -145,7 +149,12 @@ $(function(){
     if(tag_four != ''){
         Enum_map.append_option_list(tag_four, $("#id_tag_four"));
     } else {
-        $("#id_tag_four").append('<option value="-1">全部</option>');
+        if( parseInt(g_args.resource_type) == '' || parseInt(g_args.resource_type) == 1 || parseInt(g_args.resource_type) == 3 ){
+            //console.log(g_args.resource_type);
+            $("#id_tag_four").append('<option value="-1">先选择科目和年级</option>');
+        }else{
+            $("#id_tag_four").append('<option value="-1">全部</option>');
+        }
     }
 
     if(tag_five != ''){
@@ -202,7 +211,7 @@ $(function(){
             })
         }
     } else {
-        $("#id_tag_four").append('<option value="-1">全部</option>');
+        //$("#id_tag_four").append('<option value="-1">全部</option>');
     }
 
     $('#id_tag_three').val(g_args.tag_three);

@@ -104,6 +104,17 @@ class resource extends Controller
         $is_teacher = 0;
         if($this->get_account_role() == 4){
             $is_teacher = 1;
+            if( $sub_grade_info['subject'] == 0 && $sub_grade_info['grade'] == 0 ){
+                $err_mg = "你是教研老师，但没有所教科目，无法查看当前页面，请找孙瞿开启相关权限";
+                return $this->view_with_header_info ( "common.resource_no_power", [],[
+                    "_ctr"          => "xx",
+                    "_act"          => "xx",
+                    "js_values_str" => "",
+                    'err_mg' => $err_mg
+                ] );
+
+            }
+
             if( $subject > 0 && !in_array($subject,$sub_grade_info['subject'])){
                 $err_mg = "你不是教当前科目的教研老师，没有权限查看当前科目";
                 return $this->view_with_header_info ( "common.resource_no_power", [],[
@@ -129,7 +140,7 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180124141449,
+            '_publish_version'    => 20180124241449,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -160,17 +171,13 @@ class resource extends Controller
 
     //根据科目、年级、教材获取学科标签
     public function get_sub_grade_book_tag(){
-        $subject       = $this->get_in_int_val('subject',-1);
-        $grade         = $this->get_in_int_val('grade',-1);
-        $bookid        = $this->get_in_int_val('bookid');
-        $resource_type        = $this->get_in_int_val('resource_type');
+        $subject       = $this->get_in_int_val('subject');
+        $grade         = $this->get_in_int_val('grade');
+        $bookid        = $this->get_in_int_val('bookid',-1);
+        $resource_type        = $this->get_in_int_val('resource_type',-1);
         $season_id        = $this->get_in_int_val('season_id',-1);
-        $data = [];
-        if(!empty($bookid)){
-            $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($subject,$grade,$bookid,$resource_type,$season_id);
-            //dd($data);
-        }
-
+        $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($subject,$grade,$bookid,$resource_type,$season_id);
+         
         return $this->output_succ(['tag' => $data]);
 
     }
@@ -357,7 +364,7 @@ class resource extends Controller
 
         $adminid  = $this->get_account_id();
         $role = $this->get_account_role();
-
+    
         $data = [
             'subject' => [1,2,3,4,5,6,7,8,9,10],
             'grade' => [101,102,103,104,105,106,201,202,203,301,302,303],
@@ -404,6 +411,11 @@ class resource extends Controller
                 }
 
                 $data['grade'] = $grade;
+            }else{
+                $data = [
+                    'subject' => 0,
+                    'grade'   => 0
+                ];
             }
         }
         return $data;
