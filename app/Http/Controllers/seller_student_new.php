@@ -91,9 +91,6 @@ class seller_student_new extends Controller
         $admin_main_groupid = $this->get_in_int_val("admin_main_groupid",-1);
         $self_groupid = $this->get_in_int_val("self_groupid",-1);
         $button_show_flag = $this->get_in_int_val('button_show_flag',1);
-        if($this->get_account()=='林文彬'){
-            $button_show_flag = 0;
-        }
         $seller_student_assign_type= $this->get_in_el_seller_student_assign_type();
 
         list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
