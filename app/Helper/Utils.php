@@ -925,6 +925,13 @@ class Utils  {
         self::send_teacher_msg_for_wx($openid,$template_id,$wx_data);
     }
 
+    /**
+     * 理优1对1老师帮给老师推送
+     * @param string openid 老师的wx绑定id
+     * @param string template_id wx的模板id
+     * @param array  data 对应模板的数组
+     * @param string  url 点击推送跳转的地址
+     */
     static public function send_teacher_msg_for_wx($openid,$template_id,$data,$url=""){
         $appId      = \App\Helper\Config::get_teacher_wx_appid();
         $appSecret  = \App\Helper\Config::get_teacher_wx_appsecret();
@@ -932,7 +939,8 @@ class Utils  {
 
         $is_success = $teacher_wx->send_template_msg($openid,$template_id,$data,$url);
 
-        $task = new  \App\Console\Tasks\TaskController();
+        $task = new \App\Console\Tasks\TaskController();
+
         $task->t_weixin_msg->row_insert([
             "userid"      => 0,
             "openid"      => $openid,
@@ -1097,6 +1105,9 @@ class Utils  {
         return $reward;
     }
 
+    /**
+     * 获取课程全勤奖
+     */
     static public function get_lesson_full_reward($lesson_full_num){
         $teacher_money = \App\Helper\Config::get_config("teacher_money");
         $full_num      = $teacher_money['lesson_full_num'];
@@ -1116,7 +1127,6 @@ class Utils  {
      * @return int        扣款金额
      */
     static function get_lesson_deduct_price($lesson_info,$type){
-        //$price=2*$lesson_info['lesson_count']/100;
         $price = 5;
         return $price;
     }

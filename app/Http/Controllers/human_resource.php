@@ -4699,19 +4699,26 @@ class human_resource extends Controller
     }
 
     public function reaearch_teacher_lesson_list_research(){
+        $this->set_in_value("research_flag",1);
         return $this->reaearch_teacher_lesson_list();
     }
 
     public function reaearch_teacher_lesson_list(){
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_teacher_info->get_research_teacher_list_lesson($page_info,$teacherid);
+        $research_flag = $this->get_in_int_val("research_flag",-1);
+        $ret_info = $this->t_teacher_info->get_research_teacher_list_lesson($page_info,$teacherid,$research_flag);
 
         foreach($ret_info["list"] as &$item){
             E\Esubject::set_item_value_str($item,"subject");
             //E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
+            E\Esubject::set_item_value_str($item,"second_subject");
+            //E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+            E\Egrade_range::set_item_value_str($item,"second_grade_start");
+            E\Egrade_range::set_item_value_str($item,"second_grade_end");
+
         }
         return $this->pageView(__METHOD__,$ret_info,[
             '_publish_version' =>'201712161131',

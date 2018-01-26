@@ -436,54 +436,5 @@ class test_code extends Controller
         echo "<br>";
     }
 
-    public function get_grade(){
-        $arr = $this->get_b_txt();
-        $arr2 = $this->get_b_txt("c");
-
-        $user_all_info = [];
-        foreach($arr as $val){
-            if($val!=""){
-                $user_arr = explode("\t", $val);
-                $userid = $user_arr[0];
-                $subject_str = $user_arr[1];
-                $user_all_info[$userid]["userid"] = $userid;
-                $user_all_info[$userid]["subject"] = $subject_str;
-            }
-        }
-
-        foreach($arr2 as $val2){
-            if($val2!=""){
-                $user_all_arr                     = explode("\t", $val2);
-                $userid2                          = $user_all_arr[0];
-                $user_all_info[$userid2]['userid']  = $userid2;
-                $user_all_info[$userid2]['name']  = $user_all_arr[1];
-                $user_all_info[$userid2]['grade'] = $user_all_arr[2];
-                $user_all_info[$userid2]['price'] = $user_all_arr[3];
-            }
-        }
-
-        foreach($user_all_info as $val){
-            echo $val['userid'];
-            echo "|";
-            echo $val['name'];
-            echo "|";
-            echo $val['grade'];
-            echo "|";
-            echo $val['price'];
-            echo "|";
-            if(isset($val['subject'])){
-                $subject_arr = explode(",", $val['subject']);
-                foreach($subject_arr as $sub_key=> $sub_val){
-                    echo E\Esubject::get_desc($sub_val);
-                    if(($sub_key+1)!=count($subject_arr)){
-                        echo ",";
-                    }
-                }
-            }
-
-            echo "<br>";
-        }
-
-    }
 
 }

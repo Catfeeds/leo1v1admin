@@ -4035,13 +4035,14 @@ ORDER BY require_time ASC";
         $where_arr=[
             "accept_flag=1",
             "l.lesson_del_flag=0",
-            "tss.call_end_time=0",
+            "tss.call_end_time=0 or tss.call_before_time=0",
         ];
         $this->where_arr_add_int_field($where_arr, 'cur_require_adminid', $adminid);
         $this->where_arr_add_int_field($where_arr, 'l.userid', $userid);
 
         $sql=$this->gen_sql_new(
-            "select tss.lessonid "
+            "select tss.lessonid,tss.call_before_time,tss.call_end_time,"
+            ."l.lesson_start,l.lesson_end "
             ." from %s tr "
             ." left join %s tss on tss.require_id=tr.require_id "
             ." left join %s l on tss.lessonid=l.lessonid "

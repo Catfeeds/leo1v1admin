@@ -330,6 +330,11 @@ class seller_student_new extends Controller
                 // 8 => array("last_lesson_time","结课时间"),
             ], 0
         );
+        $page_count            = $this->get_in_int_val("page_count",10);
+        if ($opt_date_str=="admin_assign_time" && $start_time== strtotime(date("Y-m-d")) ) {
+            //新例子页面不要分页
+            $page_count=10000;
+        }
 
         $adminid_list          = $this->get_in_str_val("adminid_list");
         $origin_assistant_role = $this->get_in_int_val("origin_assistant_role",-1,E\Eaccount_role::class  );
@@ -342,7 +347,6 @@ class seller_student_new extends Controller
         $require_adminid_list  = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
 
         $phone_location        = trim($this->get_in_str_val('phone_location', ''));
-        $page_count            = $this->get_in_int_val("page_count",10);
         $require_admin_type    = $this->get_in_int_val("require_admin_type",-1);
         $subject               = $this->get_in_subject(-1);
         $has_pad               = $this->get_in_int_val("has_pad", -1, E\Epad_type::class);
@@ -405,6 +409,7 @@ class seller_student_new extends Controller
                 $require_adminid_list_new = $intersect;
             }
         }
+
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
             $origin, $opt_date_str, $start_time, $end_time, $grade, $subject,
@@ -1490,6 +1495,13 @@ class seller_student_new extends Controller
     public function deal_new_user( ) {
         $adminid = $this->get_account_id();
 
+        if ($this->t_manager_info->get_seller_student_assign_type($adminid) ==  E\Eseller_student_assign_type::V_1  ) {
+           return  $this->error_view([
+                "你的例子分配规则,被设置为:系统分配,可以在 <所有用户> 中看到推送给你的例子",
+                "抢单不可用",
+            ]);
+
+        }
         //申明 js 变量
         $this->set_filed_for_js("phone", "","string");
         $this->set_filed_for_js("open_flag",0);

@@ -195,4 +195,27 @@ $(function(){
     });
 
     $('.opt-change').set_input_change_event(load_data);
+
+     //预览讲义
+    $('.opt-look').click(function(){
+        var id = $(this).data('file_id');
+        console.log(id);
+        var newTab=window.open('about:blank');
+        do_ajax('/resource/tea_look_resource',{'tea_res_id':id,'tea_flag':0},function(ret){
+            console.log(ret);
+            if(ret.ret == 0){
+                $('.look-pdf').show();
+                $('.look-pdf-son').mousedown(function(e){
+                    if(e.which == 3){
+                        return false;
+                    }
+                });
+                console.log(ret.url);
+                newTab.location.href = ret.url;
+            } else {
+                BootstrapDialog.alert(ret.info);
+            }
+        });
+    })
+
 });

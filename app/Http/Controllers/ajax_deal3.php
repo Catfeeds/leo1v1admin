@@ -13,6 +13,77 @@ class ajax_deal3 extends Controller
     use CacheNick;
     use TeaPower;
 
+    public function get_new_seller_student_info() {
+        $work_start_time="";
+        $adminid= $this->get_account_id();
+        $userid_list= $this->get_in_int_list("userid_list");
+        $user_admin_assign_time_map= json_decode( $this->get_in_str_val("user_admin_assign_time_map"),true  );
+        $now=time(NULL);
+        $user_list=[];
+        $new_count=0;
+        $no_connected_count=0;
+
+        if ( count($userid_list) ==0 || @$userid_list[0] == -1   ) {
+
+        }else{
+
+            $work_start_time=$this->t_admin_work_start_time->get_today_work_start_time($adminid);
+            if (!$work_start_time) {
+                return $this->output_err("出错,你还没有设置开始工作时间,请重新点击 新例子");
+            }
+
+            $user_list=$this->t_seller_student_system_assign_log->get_seller_student_assign_from_type_list($adminid, $userid_list);
+            foreach ($user_list as &$item) {
+                $userid=&$item["userid"];
+                $admin_assign_time=strtotime( @$user_admin_assign_time_map[$userid] );
+                $check_time= max( $work_start_time, $admin_assign_time);
+                $show_left_time_flag=false;
+                if ($now- $check_time> 1*3600) { //超过3个小时
+                    $left_time=6*3600-( $now-$check_time);
+                    if ($left_time<0) {
+                        $left_time=0;
+                    }
+                    $hour=floor($left_time/3600);
+                    $min=floor(($left_time - $hour*3600)/60  );
+                    $time_str= sprintf("%02d:%02d:00",$hour , $min  );
+                    $show_left_time_flag=true;
+                    $item["left_time_str"]= $time_str;
+                }else{
+                }
+                $item["show_left_time_flag"]= $show_left_time_flag;
+
+                if($item["seller_student_assign_from_type"]==1) {
+                    $no_connected_count++;
+                }else{
+                    $new_count++;
+                }
+
+            }
+
+
+        }
+        $seller_level= $this->t_manager_info->get_seller_level($adminid);
+
+        $hold_config=\App\Helper\Config::get_seller_hold_user_count();
+        $max_hold_count = @$hold_config[$seller_level];
+        $hold_count=$this->t_seller_student_new_b2->admin_hold_count($adminid);
+
+        return $this->output_succ([
+            "user_list"       => $user_list,
+            "work_start_time" => $work_start_time ,
+            "new_count" => $new_count,
+            "no_connected_count" => $no_connected_count,
+            "max_hold_count" =>$max_hold_count,
+            "hold_count" =>$hold_count,
+        ]);
+    }
+
+    public function set_work_start_time() {
+        $adminid=$this->get_account_id();
+        $this->t_admin_work_start_time->add_work_start_time($adminid);
+        $this->output_succ();
+    }
+
     //获取一节课所有的信息
     public function get_student_lesson_info_by_lessonid(){
         $lessonid    = $this->get_in_int_val("lessonid");
@@ -75,9 +146,9 @@ class ajax_deal3 extends Controller
 
             }else{
                 // $list["stu_attend_str"] = $list["tea_attend_str"] =E\Elesson_cancel_reason_type::get_desc($list["lesson_cancel_reason_type"]);
-                $stu_login_time = @$login_time["stu_login_time"]; 
-                $stu_logout_time = @$login_time["stu_logout_time"]; 
-                $tea_login_time = @$login_time["tea_login_time"]; 
+                $stu_login_time = @$login_time["stu_login_time"];
+                $stu_logout_time = @$login_time["stu_logout_time"];
+                $tea_login_time = @$login_time["tea_login_time"];
                 $tea_logout_time = @$login_time["tea_logout_time"];
                 $lesson_start = ($list["lesson_start"]+59);
                 $lesson_end = $list["lesson_end"];
@@ -106,7 +177,7 @@ class ajax_deal3 extends Controller
 
             }
         }
-        
+
 
         $list['stu_intro']   = json_decode($list['stu_performance'],true);
         $list['stu_point_performance']='';
@@ -143,17 +214,17 @@ class ajax_deal3 extends Controller
             $list["check_url_str"]="";
             $list["issue_flag"]="未上传";
             $list["download_flag"]= $list["commit_flag"]= $list["check_flag"]="—";
-                   
+
         }else{
             $list["issue_flag"]="已上传";
-            $list["download_flag"]="—";                   
+            $list["download_flag"]="—";
             if($list["work_status"]>=2){
                 $list["commit_flag"]="已提交";
             }else{
                 $list["commit_flag"]="未提交";
             }
             if($list["work_status"]>=3){
-                $list["check_flag"]="是";   
+                $list["check_flag"]="是";
             }else{
                 $list["check_flag"]="否";
             }
@@ -180,21 +251,22 @@ class ajax_deal3 extends Controller
         $update_arr=[];
         //回访信息修改
         //在读学员/在册学员/停课学员信息重置
-        if($type==1){                   
-            $stu_info_all = $this->t_student_info->get_ass_stu_info_new($assistantid);
+        if($type==1){
+            $stu_info_all = $this->t_student_info->get_ass_stu_info_new($adminid);
             $userid_list = $this->t_student_info->get_read_student_ass_info(0,$assistantid);//在读学员名单
 
             $registered_userid_list = $this->t_student_info->get_read_student_ass_info(-2,$assistantid);//在册学员名单
             $stop_userid_list = $this->t_student_info->get_read_student_ass_info(2,$assistantid);//停课学员名单
             $end_stu_info_new  = $this->t_student_info->get_end_class_stu_info($start_time,$end_time,$assistantid);
             $update_arr=[
-                // "first_lesson_stu_list" =>$first_subject_list,               
+                // "first_lesson_stu_list" =>$first_subject_list,
                 "read_student"          =>@$stu_info_all[$adminid]["read_count"],
-                "stop_student"          =>@$stu_info_all[$adminid]["stop_count"],              
-                "userid_list"           =>@$userid_list[$adminid],              
-                "end_stu_num"           =>@$end_stu_info_new[$adminid],             
+                "stop_student"          =>@$stu_info_all[$adminid]["stop_count"],
+                "userid_list"           =>@$userid_list[$adminid],
+                "end_stu_num"           =>@$end_stu_info_new[$adminid]["num"],
                 "stop_student_list"       =>@$stop_userid_list[$adminid],
                 "registered_student_list" =>@$registered_userid_list[$adminid],               
+                "all_student"             =>@$stu_info_all[$adminid]["all_count"]
             ];
         }elseif($type==2){
             $first_subject_list = $list["first_lesson_stu_list"];
@@ -225,43 +297,57 @@ class ajax_deal3 extends Controller
             $seller_month_lesson_count = @$seller_month_lesson_count[$adminid]["lesson_count"];//销售月总课时
             $registered_student_list_last = @$ass_last_month[$adminid]["registered_student_list"];
             list($kpi_lesson_count_finish_per,$estimate_month_lesson_count)= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$seller_week_stu_num,$n,$seller_month_lesson_count);
-       
+
 
             //月初预估课时数据补充
             if(empty($estimate_month_lesson_count)){
                 $estimate_month_lesson_count=100;
             }
 
-            $update_arr =  [              
+            $update_arr =  [
                 "seller_week_stu_num"   =>$seller_week_stu_num,
                 "seller_month_lesson_count"=>$seller_month_lesson_count,
                 "kpi_lesson_count_finish_per"=>$kpi_lesson_count_finish_per*100,
-                "estimate_month_lesson_count" =>$estimate_month_lesson_count,//临时更新一次(月初生成)                
+                "estimate_month_lesson_count" =>$estimate_month_lesson_count,//临时更新一次(月初生成)
             ];
 
         }elseif($type==5){
             $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time,$adminid);
             $kk_num = @$kk_suc[$adminid]["lesson_count"];
 
-            $update_arr =  [              
-                "kk_num"   =>$kk_num,               
+            $update_arr =  [
+                "kk_num"   =>$kk_num,
             ];
 
         }elseif($type==6){
             $first_subject_list = $this->get_ass_stu_first_lesson_subject_info($start_time,$end_time,$assistantid);
             if(isset($first_subject_list[$adminid]) && !empty($first_subject_list[$adminid])){
-                $first_subject_list = json_encode(@$first_subject_list[$adminid]); 
+                $first_subject_list = json_encode(@$first_subject_list[$adminid]);
             }else{
                 $first_subject_list="";
-            }         
+            }
             $update_arr=[
-                "first_lesson_stu_list" =>$first_subject_list,                                    
+                "first_lesson_stu_list" =>$first_subject_list,
             ];
 
         }
 
-        
-        
+
+
+
+        // $revisit_reword_per = $this->get_ass_revisit_reword_value($account,$adminid,$start_time,$end_time,$first_subject_list,@$userid_list[$adminid],@$registered_userid_list[$adminid]);
+        // $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time,$adminid);
+        // $kk_num = @$kk_suc[$adminid]["lesson_count"];
+        // list($performance_cr_new_list,$performance_cr_renew_list,$performance_cc_tran_list)= $this->get_ass_order_list_performance($start_time,$end_time);
+        // list($first_week,$last_week,$n) = $this->get_seller_week_info($start_time, $end_time);//销售月拆解
+        // $registered_student_num=$this->get_register_student_list($first_week,$n);//销售月助教在册学生总数获取
+        // $seller_month_lesson_count = $this->t_manager_info->get_assistant_lesson_count_info($first_week,$last_week+7*86400,$assistantid);//销售月总课时
+        // $end_stu_info_new  = $this->t_student_info->get_end_class_stu_info($start_time,$end_time,$assistantid);
+
+        // $seller_week_stu_num = round(@$registered_student_num[$adminid]);//销售月周平均学生数
+        // $seller_month_lesson_count = @$seller_month_lesson_count[$adminid]["lesson_count"];//销售月总课时
+        // $registered_student_list_last = @$ass_last_month[$adminid]["registered_student_list"];
+        // list($kpi_lesson_count_finish_per,$estimate_month_lesson_count)= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$seller_week_stu_num,$n,$seller_month_lesson_count);
 
         // $revisit_reword_per = $this->get_ass_revisit_reword_value($account,$adminid,$start_time,$end_time,$first_subject_list,@$userid_list[$adminid],@$registered_userid_list[$adminid]);
         // $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time,$adminid);
@@ -275,7 +361,7 @@ class ajax_deal3 extends Controller
         // $seller_month_lesson_count = @$seller_month_lesson_count[$adminid]["lesson_count"];//销售月总课时
         // $registered_student_list_last = @$ass_last_month[$adminid]["registered_student_list"];
         // list($kpi_lesson_count_finish_per,$estimate_month_lesson_count)= $this->get_seller_month_lesson_count_use_info($registered_student_list_last,$seller_week_stu_num,$n,$seller_month_lesson_count);
-       
+
 
         // //月初预估课时数据补充
         // if(empty($estimate_month_lesson_count)){
@@ -337,7 +423,7 @@ class ajax_deal3 extends Controller
         // ];
         $this->t_month_ass_student_info->get_field_update_arr($adminid,$start_time,1,$update_arr);
         return $this->output_succ();
-          
+
 
     }
 

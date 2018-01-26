@@ -34,7 +34,7 @@ class t_resource extends \App\Models\Zgen\z_t_resource
         }
 
         if($file_title != ''){
-            $where_arr[] = ["f.file_title like '%s%%'", $this->ensql( $file_title), ""];
+            $where_arr[] = ["f.file_title like '%%%s%%'", $this->ensql( $file_title), ""];
         }
 
         $sql = $this->gen_sql_new(

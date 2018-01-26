@@ -55,37 +55,57 @@ class update_cc_no_called_count extends Command
      */
     public function handle()
     {
-        $start_time = time(null)-3600*24*3;
-        $end_time = time(null);
-        $ret = $this->task->t_seller_student_new->get_all_list_new($start_time,$end_time);
-        $userid_arr = array_unique(array_column($ret,'userid'));
+        $this->seller_daily_threshold();
+    }
 
-        //0-303000,0,50186-437671
-        // $min = $this->task->t_seller_student_new->get_min_userid();
-        // $max = $this->task->t_seller_student_new->get_max_userid();
-        // $ret = $this->task->t_seller_student_new->get_all_list($min,$max);
-        // $userid_arr = array_unique(array_column($ret,'userid'));
-        foreach($userid_arr as $item){
-            $num = 0;
-            $userid = $item;
-            $cc_no_called_count = 0;
-            foreach($ret as $info){
-                if($item == $info['userid']){
-                    $is_called_phone = $info['is_called_phone'];
-                    $cc_no_called_count = $info['cc_no_called_count'];
-                    $admin_role = $info['admin_role'];
-                    if($is_called_phone == 1 && $admin_role==E\Eaccount_role::V_2){
-                        $num = 0;
+    public function seller_daily_threshold(){
+        list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,strtotime(date('Y-m-d')),[],[]];
+        $ret_threshold = $this->task->t_seller_edit_log->get_threshold($time);
+        if(!$ret_threshold && date('w')!=2){
+            for($i=1;$i<=12;$i++){
+                $start_time = $time-3600*24*$i;
+                $end_time = $start_time+3600*24;
+                if(date('w',$start_time) != 2){
+                    $ret_info[$i]['start_time'] = $start_time;
+                    $ret_info[$i]['end_time'] = $end_time;
+                    if(count($ret_info)==10){
                         break;
-                    }elseif($is_called_phone == 0 && isset($info['is_called_phone']) && $admin_role==E\Eaccount_role::V_2){
-                        $num += 1;
                     }
                 }
             }
-            if($num != $cc_no_called_count){
-                $this->task->t_seller_student_new->field_update_list($userid,['cc_no_called_count'=>$num]);
-                echo $userid.':'.$cc_no_called_count."=>".$num."\n";
+            foreach($ret_info as $item){
+                $start_time = $item['start_time'];
+                $end_time = $item['end_time'];
+                $ret_call = $this->task->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=1);
+                $count_call = count(array_unique(array_column($ret_call, 'userid')));
+                $ret_called = $this->task->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
+                $count_called = count(array_unique(array_column($ret_called, 'userid')));
+                $ret[$start_time]['call_count'] = $count_call;
+                $ret[$start_time]['called_count'] = $count_called;
+                $ret[$start_time]['rate'] = $count_call>0?(round($count_called/$count_call, 4)*100):0;
             }
+            $rate_arr = array_column($ret, 'rate');
+            $rate_avg = round(array_sum($rate_arr)/count($rate_arr),4);
+            foreach($ret as $start_time=>$item){
+                $ret[$start_time]['dif_square'] = round(pow($item['rate']-$rate_avg,2),2);
+            }
+            $pow_sqrt = round(sqrt(array_sum(array_column($ret, 'dif_square'))/(count($ret)-1)),2);
+
+            $count_call_all = array_sum(array_column($ret, 'call_count'));
+            $count_called_all = array_sum(array_column($ret, 'called_count'));
+            $threshold_max = $count_call_all>0?(round($count_called_all/$count_call_all,4)*100):0;
+            $threshold_min = $threshold_max-$pow_sqrt;
+            $this->task->t_seller_edit_log->row_insert([
+                'type'=>E\Eseller_edit_log_type::V_4,
+                'new'=>$threshold_max,
+                'create_time'=>$time,
+            ]);
+            $this->task->t_seller_edit_log->row_insert([
+                'type'=>E\Eseller_edit_log_type::V_5,
+                'new'=>$threshold_min,
+                'create_time'=>$time,
+            ]);
+            // echo date('Y-m-d',$time).'=>'.$threshold_min.'~'.$threshold_max;
         }
     }
 
