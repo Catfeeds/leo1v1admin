@@ -446,7 +446,7 @@ class tom_do_once extends Command
                 $count_adminid = count(array_unique(array_column($ret_call, 'adminid')));
                 $count_call = count(array_unique(array_column($ret_call, 'userid')));
                 if($count_adminid>=5 && $count_call>=10){
-                    $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
+                    $ret_called = $this->task->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
                     $count_called = count(array_unique(array_column($ret_called, 'userid')));
                     $rate = $count_call>0?(round($count_called/$count_call, 4)*100):0;
                     $this->task->t_seller_edit_log->row_insert([
