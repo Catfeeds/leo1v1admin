@@ -8,6 +8,7 @@
      var tag_two = '{{$tag_info['tag_two']['menu']}}';
      var tag_three = '{{$tag_info['tag_three']['menu']}}';
      var tag_four = '{{$tag_info['tag_four']['menu']}}';
+     var tag_five = '{{$tag_info['tag_five']['menu']}}';
      var tea_sub = {!! @$tea_sub!!} ;
      var tea_gra = {!! @$tea_gra !!};
      var type_list = {!! @$type_list !!};
@@ -69,6 +70,13 @@
                     <div class="input-group ">
                         <span class="input-group-addon">{{$tag_info['tag_four']['name']}}</span>
                         <select class="form-control opt-change" id="id_tag_four"> </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 {{$tag_info['tag_five']['hide']}} ">
+                    <div class="input-group ">
+                        <span class="input-group-addon">{{$tag_info['tag_five']['name']}}</span>
+                        <select class="form-control opt-change" id="id_tag_five"> </select>
                     </div>
                 </div>
             </div>

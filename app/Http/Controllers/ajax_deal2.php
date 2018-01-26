@@ -2964,7 +2964,7 @@ class ajax_deal2 extends Controller
                         if($month_lesson_flag==1){
                           
                             if($revisit_num <2){
-                                $revisit_value +=1;
+                                $revisit_value +=1*(2-$revisit_num);
                                 $deduct_list[]=[
                                     "deduct_type"=>"常规回访扣分",
                                     "subject"    => "",
@@ -3015,7 +3015,7 @@ class ajax_deal2 extends Controller
                     if($type_flag==1 && $month_lesson_flag==1){
                       
                         if($revisit_num <2){
-                            $revisit_value +=1;
+                            $revisit_value +=1*(2-$revisit_num);
                             $deduct_list[]=[
                                 "deduct_type"=>"常规回访扣分",
                                 "subject"    => "",
