@@ -454,43 +454,61 @@ class tom_do_once extends Command
                         'new'=>$rate,
                         'create_time'=>time(),
                     ]);
-                    $this->send_wx_threshold($rate,$start_time,$end_time);
+                    $this->send_wx_threshold($rate,$start_time,$end_time,$count_call,$count_call-$count_called);
                 }
             }
         }
     }
 
-    public function send_wx_threshold($rate,$start_time,$end_time){
+    public function send_wx_threshold($rate,$start_time,$end_time,$count_call,$count_no_called){
         $threshold = $this->task->t_seller_edit_log->get_threshold($time);
         $threshold_max = $threshold[0]['new'];
         $threshold_min = $threshold[1]['new'];
         $ret_threshold = $this->task->t_seller_edit_log->get_actual_threshold($start_time,$end_time);
         if(count($ret_threshold) == 1){
             if($rate<=$threshold_min){//红色
-                $this->update_send_wx_flag($ret_threshold[0]['id'],2);
+                $this->update_send_wx_flag($ret_threshold[0]['id'],2,$threshold_max,$threshold_min,$count_call,$count_no_called);
             }elseif($rate<=$threshold_max && $rate>$threshold_min){//黄色
-                $this->update_send_wx_flag($ret_threshold[0]['id'],1);
+                $this->update_send_wx_flag($ret_threshold[0]['id'],1,$threshold_max,$threshold_min,$count_call,$count_no_called);
             }
         }elseif(count($ret_threshold)>1){
             if($ret_threshold[1]['new']>$threshold_max){
                 if($ret_threshold[0]['new']<=$threshold_min){//红色
-                    $this->update_send_wx_flag($ret_threshold[0]['id'],2);
+                    $this->update_send_wx_flag($ret_threshold[0]['id'],2,$threshold_max,$threshold_min,$count_call,$count_no_called);
                 }elseif($ret_threshold[0]['new']<=$threshold_max && $ret_threshold[0]['new']>$threshold_min){//黄色
-                    $this->update_send_wx_flag($ret_threshold[0]['id'],1);
+                    $this->update_send_wx_flag($ret_threshold[0]['id'],1,$threshold_max,$threshold_min,$count_call,$count_no_called);
                 }
             }elseif($ret_threshold[1]['new']>$threshold_min && $ret_threshold[1]['new']<=$threshold_max){
                 if($ret_threshold[0]['new']<=$threshold_min){//红色
-                    $this->update_send_wx_flag($ret_threshold[0]['id'],2);
+                    $this->update_send_wx_flag($ret_threshold[0]['id'],2,$threshold_max,$threshold_min,$count_call,$count_no_called);
                 }
             }
         }
     }
 
-    public function update_send_wx_flag($id,$flag){
-        $this->task->t_manager_info->send_wx_todo_msg('tom',"来自:系统","分配给你[$origin]例子:".$phone);
-        $this->t_seller_edit_log->field_update_list($id, [
+    public function update_send_wx_flag($id,$flag,$threshold_max,$threshold_min,$count_call,$count_no_called){
+        $this->task->t_seller_edit_log->field_update_list($id, [
             'old'=>$flag,
         ]);
+
+        $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+        $theme = $flag==1?"新例子电话接通率警报—黄色":"新例子电话接通率警报—红色";
+        $color = $flag==1?'黄色':'红色';
+        $threshold_desc = $flag==1?"今预警线：":"今警戒线：";
+        $threshold = $flag==1?$threshold_max:$threshold_min;
+        $desc = "警报时间：".date("Y-m-d H:i:s")
+              ."警报级别：".$color
+              .$threshold_desc.$threshold."%"
+              ."拨打量：".$count_call
+              ."拨不通：".$count_no_called;
+        $this->task->t_manager_info->send_template_msg(
+            'tom',$template_id,[
+                "first"    => "",
+                "keyword1" => $theme,
+                "keyword2" => "",
+                "keyword3" => date("Y-m-d H:i:s"),
+                "remark"   => $desc,
+            ]);
     }
 
 }
