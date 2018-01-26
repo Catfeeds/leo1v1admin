@@ -352,7 +352,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
         $sql = $this->gen_sql_new (
             " select * "
             ." from %s "
-            ." where %s "
+            ." where %s order by type "
             ,self::DB_TABLE_NAME
             ,$where_arr
         );
