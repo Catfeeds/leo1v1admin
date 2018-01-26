@@ -441,6 +441,14 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $time = time();
+        $start_time = strtotime(date('Y-m-d 08:00:00'));
+        $end_time = strtotime(date('Y-m-d'))+3600*24;
+        if($time>$start_time && $time<$end_time){
+            dd($start_time,$end_time);
+            $this->update_actual_threshold();
+        }
+        dd('b');
         $time = strtotime(date('Y-m-d'));
         list($start_time,$end_time) = [$time,$time+3600*24];
         dd($start_time,$end_time);
