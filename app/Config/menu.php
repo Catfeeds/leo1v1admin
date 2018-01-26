@@ -472,6 +472,7 @@ class menu{
 
             ["power_id"=>10, "name"=>"统计", "list"=>[
 
+                ["power_id"=>15, "name"=>"市场个性海报分享数据",   "url"=>"/tongji2/marketposterdata"],
                 ["power_id"=>10, "name"=>"排行榜数据",   "url"=>"/tongji_ex/top_list"],
                 ["power_id"=>13, "name"=>"学生成绩录入记录",   "url"=>"/human_resource/get_input_score_list"],
                 ["power_id"=>14, "name"=>"家长申请调时间记录",   "url"=>"/human_resource/get_lesson_modify_list"],
