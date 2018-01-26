@@ -161,7 +161,7 @@ class teacher_info extends Controller
         return $this->pageView(__METHOD__,$ret_info,[
             "student_list" => $student_list,
             "is_full_time" => $is_full_time,
-            "_publish_version" => "201712221556"
+            "_publish_version" => "201801231556"
         ]);
     }
 
@@ -2719,6 +2719,127 @@ class teacher_info extends Controller
         ]);
     }
 
+    public function get_leo_resource_new(){
+        $tea_info = $this->get_rule_range();
+        $type_list = [1,3,5,6]; //
+        $resource_type = $this->get_in_int_val('resource_type', @$type_list[0]);
+        $subject       = $this->get_in_int_val('subject', @$tea_info[0]['subject']);
+        $is_js = $this->get_in_int_val('is_js');
+        $flag    = 0;
+        $tea_gra = [];
+        $tea_sub = [];
+        foreach($tea_info as $item){
+            $tea_sub[] = intval($item['subject']);
+            if($item['subject'] == $subject){
+                $flag = 1;
+                $tea_gra = $item['grade'];
+                $grade = $this->get_in_int_val('grade', @$tea_gra[0]);
+            }
+        }
+        if($flag == 0){
+            $subject = $tea_info[0]['subject'];
+            $tea_gra = $tea_info[0]['grade'];
+        }
+        $grade = $this->get_in_int_val('grade', @$tea_gra[0]);
+        // dd($grade);
+        $tag_one       = $this->get_in_int_val('tag_one', -1);
+        $tag_two       = $this->get_in_int_val('tag_two', -1);
+        $tag_three     = $this->get_in_int_val('tag_three', -1);
+        $tag_four      = $this->get_in_int_val('tag_four', -1);
+        $tag_five      = $this->get_in_int_val('tag_five', -1);
+        // $file_title    = $this->get_in_str_val('file_title', '');
+        $page_info     = $this->get_in_page_info();
+
+        if($is_js){//只有三种可以用
+            $resource_type = $resource_type<1?1:$resource_type;
+            $resource_type = $resource_type>3?3:$resource_type;
+            foreach($type_list as $k=>$v){
+                if( $v>3 ){
+                    unset($type_list[$k]);
+                }
+            }
+        }else{
+            $resource_type = $resource_type<1?1:$resource_type;
+            $resource_type = $resource_type>6?6:$resource_type;
+        }
+
+        //禁用，删除，老师段则不在显示
+        $ret_info = $this->t_resource->get_all_for_tea(
+            $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$page_info
+        );
+
+        $tag_arr = \App\Helper\Utils::get_tag_arr($resource_type);
+        $r_mark = 0;
+        $index  = 1;
+        foreach($ret_info['list'] as &$item){
+            if($r_mark == $item['resource_id']){
+                $index++;
+            } else {
+                $r_mark = $item['resource_id'];
+                $index = 1;
+            }
+
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            // \App\Helper\Utils::get_file_use_type_str($item, $index);
+            \App\Helper\Utils::get_file_use_type_str($item);
+            $item['file_size'] = round( $item['file_size'] / 1024,2) . 'M';
+            $item['tag_one_name'] = $tag_arr['tag_one']['name'];
+            $item['tag_two_name'] = $tag_arr['tag_two']['name'];
+            $item['tag_three_name'] = $tag_arr['tag_three']['name'];
+            $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
+            $item['tag_five_name'] = @$tag_arr['tag_five']['name'];
+            E\Egrade::set_item_field_list($item, [
+                "subject",
+                "grade",
+                "resource_type",
+                "use_type",
+                $tag_arr['tag_one']['menu'] => 'tag_one',
+                $tag_arr['tag_two']['menu'] => 'tag_two',
+                $tag_arr['tag_three']['menu'] => 'tag_three',
+                $tag_arr['tag_four']['menu'] => 'tag_four',
+                $tag_arr['tag_five']['menu'] => 'tag_five',
+            ]);
+        }
+        $book_arr = [];
+        if($resource_type != 6){
+            //获取所有开放的教材版本
+            $book = $this->t_resource_agree_info->get_all_resource_type($resource_type,$subject,$grade);
+            $book_arr = [];
+            foreach($book as $v) {
+                if( $v['tag_one'] != 0 ){
+                    array_push($book_arr, intval($v['tag_one']) );
+                }
+            }
+        }
+
+        // dd($tea_info);
+
+        if($is_js != 0){
+            // return $this->output_ajax_table($ret_info ,['tag_info' => $tag_arr,'book' => join($book_arr, ',')]);
+            return $this->output_ajax_table($ret_info,[
+                'tag_info'  => $tag_arr,
+                'tea_sub'   => join( $tea_sub, ','),
+                'tea_gra'   => join($tea_gra, ','),
+                'book'      => join($book_arr, ','),
+                'type_list' => join($type_list, ',')
+            ]);
+
+        }
+
+        //book_arr 2015,2016,2017
+        //tar_arr tar_one->tar_four
+        //dd($tag_arr,$tea_sub,$book_arr);
+        // dd($tea_info);
+        return $this->pageView( __METHOD__,$ret_info,[
+            'tag_info'  => $tag_arr,
+            'tea_sub'   => json_encode( $tea_sub),
+            'tea_gra'   => json_encode($tea_gra),
+            'book'      => json_encode($book_arr),
+            'type_list' => json_encode($type_list)
+        ]);
+
+    }
+
     public function do_collect(){
 
         $is_get     = $this->get_in_str_val('is_get');
@@ -3173,19 +3294,30 @@ class teacher_info extends Controller
         if($teacherid != false){
             $info = $this->t_teacher_info->get_subject_grade_by_teacherid($teacherid);
             // dd($info);
-            $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
-            $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade($info['second_grade_start'], $info['second_grade_end']);
-            // $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade(1, 2);
-            // $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade(4, 4);
+            \App\Helper\Utils::logger("老师信息:".json_encode($info));
+            if($info){
+                $info['grade_start'] = 1;
+                $info['grade_end'] = 4;
+                $data = [];
+                if( $info['subject'] > 0 && $info['grade_start'] >0 && $info['grade_end'] > 0 ){
+                    $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
+                    $data[0]['subject'] = $info['subject'];
+                    $data[0]['grade'] = array_values($grade_1);
 
-            $data = [];
-            $data[0]['subject'] = $info['subject'];
-            $data[0]['grade'] = array_values($grade_1);
-            $data[1]['subject'] = $info['second_subject'];
-            $data[1]['grade'] = array_values($grade_2);
-            return $data;
+                }
+
+                if( $info['second_subject'] > 0 && $info['second_grade_start'] >0 && $info['second_grade_end'] > 0 ){
+                    $grade_2 = \App\Helper\Utils::grade_start_end_tran_grade($info['second_grade_start'], $info['second_grade_end']);
+                    $data[1]['subject'] = $info['second_subject'];
+                    $data[1]['grade'] = array_values($grade_2);
+
+                }
+
+                return $data;
+            }
         }
-        return false;
+        
+        return $data;
     }
 
     public function check_teacher_type(){
