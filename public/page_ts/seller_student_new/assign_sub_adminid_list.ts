@@ -456,11 +456,7 @@ $(function(){
                 do_post( val);
             },true   );
     });
-
-
-    $("#id_set_origin_list").on("click",function(){
-
-        var opt_data=$(this).get_opt_data();
+    var do_select_userid_list=function( call_func ) {
         var select_userid_list=[];
         $(".opt-select-item").each(function(){
             var $item=$(this) ;
@@ -468,19 +464,51 @@ $(function(){
                 select_userid_list.push( $item.data("userid") ) ;
             }
         } ) ;
-        $.show_input("批量设置渠道","" , function(val){
-            $.do_ajax(
-                '/ss_deal/set_origin_list',
-                {
-                    'userid_list' : JSON.stringify(select_userid_list ),
-                    "origin" : val,
-                });
+        if (select_userid_list.length==0 ) {
+            BootstrapDialog.alert("请选择例子");
+        }else{
+            call_func( select_userid_list ) ;
+        }
 
-        } );
+    }
 
 
-
+    $("#id_set_origin_list").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        do_select_userid_list( function(select_userid_list ){
+            $.show_input("批量设置渠道","" , function( val){
+                $.do_ajax(
+                    '/ss_deal/set_origin_list',
+                    {
+                        'userid_list' : JSON.stringify(select_userid_list ),
+                        "origin" : val,
+                    });
+            } );
+        });
     });
+
+    $("#id_set_assign_type").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        do_select_userid_list( function(select_userid_list ){
+            var $seller_student_assign_type = $("<select></selelct>");
+            Enum_map.append_option_list("seller_student_assign_type",$seller_student_assign_type,true);
+            var arr=[
+                ["分配方式",   $seller_student_assign_type  ],
+            ];
+
+            $.show_key_value_table ("批量设置分配方式", arr , {
+                label: '确认',
+                cssClass: 'btn-warning',
+                action: function(dialog) {
+                    $.do_ajax('/ss_deal2/set_assign_type_list', {
+                        'userid_list' : select_userid_list.join(",") ,
+                        "seller_student_assign_type": $seller_student_assign_type.val()
+                    });
+                }
+            });
+        });
+    });
+
 
     $("#id_set_select_list").on("click",function(){
         var opt_data=$(this).get_opt_data();
