@@ -969,14 +969,10 @@ $(function(){
 
         $('.opt-leo-res,.opt-my-res').unbind('click');
         $('.opt-leo-res').on('click',function(){
-            if(is_full_time ==1){
-                if($(this).hasClass('unbind')){
-                    get_res('/teacher_info/get_leo_resource', 'leo_one',$(this).attr('upload_id'));
-                }else {
-                    get_res('/teacher_info/get_leo_resource', 'leo');
-                }
-            } else {
-                BootstrapDialog.alert("暂未开放，敬请期待!");
+            if($(this).hasClass('unbind')){
+                get_res('/teacher_info/get_leo_resource', 'leo_one',$(this).attr('upload_id'));
+            }else {
+                get_res('/teacher_info/get_leo_resource', 'leo');
             }
         });
 
