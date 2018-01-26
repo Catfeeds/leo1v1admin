@@ -230,7 +230,7 @@ class common_ex extends Controller
         $checkHas = $this->t_personality_poster->checkHas($uid);
         $hasAdminRevisiterid = $this->t_seller_student_new->hasAdminRevisiterid($userid);
         if($checkHas>0){
-            $this->t_personality_poster->updateStuNumNum($uid);
+            $this->t_personality_poster->updateStuNum($uid);
         }else{
             $this->t_personality_poster->row_insert([
                 "uid" => $uid,
