@@ -441,6 +441,9 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $time = strtotime(date('Y-m-d'));
+        list($start_time,$end_time) = [$time,$time+3600*24];
+        dd($start_time,$end_time);
         $origin = '学校';
         $this->t_manager_info->send_wx_todo_msg('tom',"来自:系统","分配给你[$origin]例子:".$phone='133');
         dd('a');
