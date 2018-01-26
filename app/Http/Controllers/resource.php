@@ -198,7 +198,9 @@ class resource extends Controller
             $book_arr = array_column($book, 'tag_one');
             $book_arr = array_unique($book_arr);
             foreach( $book_arr as $k=>&$v){
-                $book_arr[$k] = (int)$v;
+                if($v != 0){
+                    $book_arr[$k] = (int)$v;
+                }
             }
         }
 
@@ -214,7 +216,7 @@ class resource extends Controller
         }
         //dd($ret_info['list'] );
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 201801191339,
+            '_publish_version'    => 201801191349,
             'book'          => json_encode($book_arr),
             'resource_type' => $resource_type
         ]);
