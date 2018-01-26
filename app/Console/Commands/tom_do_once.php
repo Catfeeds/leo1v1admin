@@ -454,13 +454,13 @@ class tom_do_once extends Command
                         'new'=>$rate,
                         'create_time'=>time(),
                     ]);
-                    $this->send_wx_threshold($rate,$start_time,$end_time,$count_call,$count_call-$count_called);
+                    $this->send_wx_threshold($rate,$time,$start_time,$end_time,$count_call,$count_call-$count_called);
                 }
             }
         }
     }
 
-    public function send_wx_threshold($rate,$start_time,$end_time,$count_call,$count_no_called){
+    public function send_wx_threshold($rate,$time,$start_time,$end_time,$count_call,$count_no_called){
         $threshold = $this->task->t_seller_edit_log->get_threshold($time);
         $threshold_max = $threshold[0]['new'];
         $threshold_min = $threshold[1]['new'];
