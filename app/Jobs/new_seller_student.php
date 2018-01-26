@@ -40,5 +40,10 @@ class new_seller_student extends Job implements ShouldQueue
             ]);
         }
 
+        //例子设置未拨打
+        $n->field_update_list( $this->userid, [
+            "global_tq_called_flag"=>0,
+        ]);
+
     }
 }
