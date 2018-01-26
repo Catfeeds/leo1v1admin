@@ -57,6 +57,7 @@ $(function(){
             url      : "/resource/get_sub_grade_book_tag",
             dataType : "json",
             data : {
+                'resource_type' : $('#id_resource_type').val(),
                 'subject' : subject,
                 'grade'   : grade,
             } ,
