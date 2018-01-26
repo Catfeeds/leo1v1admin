@@ -380,12 +380,14 @@ class tom_do_once extends Command
             foreach($item as $info){
                 foreach($info as $key=>$info_k){
                     if($key>0){
-                        echo $key.'=>'.$info_k['id']."\n";
+                        $ret = $this->task->t_seller_get_new_log->row_delete($info_k['id']);
+                        echo $info_k['id'].':'.$key.'=>'.$ret."\n";
                     }
                 }
             }
         }
         exit;
+        dd('a');
         list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,strtotime(date('Y-m-d')),[],[]];
         $ret_threshold = $this->task->t_seller_edit_log->get_threshold($time);
         if(!$ret_threshold && date('w')!=2){
