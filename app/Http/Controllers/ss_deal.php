@@ -6494,10 +6494,6 @@ class ss_deal extends Controller
         $userid= $this->get_in_userid(0);
         $tq_called_flag=$this->get_in_int_val("tq_called_flag") ;
 
-        if ($userid ) {
-            $tq_called_flag =$this->t_seller_student_new->get_tq_called_flag($userid);
-        }
-
 
         if (!$phone) {
             return $this->output_err("当前用户不存在");
