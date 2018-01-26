@@ -445,14 +445,14 @@ class agent extends Controller
         $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
         if($ret_call){
             if(time()>$ret_call[0]['create_time']+1800){
-                dd($ret_call[0]['create_time']+1800);
                 $count_adminid = count(array_unique(array_column($ret_call, 'adminid')));
                 $count_call = count(array_unique(array_column($ret_call, 'userid')));
-                $ret_called = $this->task->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
-                $count_called = count(array_unique(array_column($ret_called, 'userid')));
-                $ret[$start_time]['call_count'] = $count_call;
-                $ret[$start_time]['called_count'] = $count_called;
-                $ret[$start_time]['rate'] = $count_call>0?(round($count_called/$count_call, 4)*100):0;
+                if($count_adminid>=5 && $count_call>=10){
+                    $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
+                    $count_called = count(array_unique(array_column($ret_called, 'userid')));
+                    $rate = $count_call>0?(round($count_called/$count_call, 4)*100):0;
+                    dd($count_called,$count_call,$rate);
+                }
             }
         }
         dd('b');
