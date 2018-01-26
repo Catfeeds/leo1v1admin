@@ -252,7 +252,7 @@ class ajax_deal3 extends Controller
         //回访信息修改
         //在读学员/在册学员/停课学员信息重置
         if($type==1){
-            $stu_info_all = $this->t_student_info->get_ass_stu_info_new($assistantid);
+            $stu_info_all = $this->t_student_info->get_ass_stu_info_new($adminid);
             $userid_list = $this->t_student_info->get_read_student_ass_info(0,$assistantid);//在读学员名单
 
             $registered_userid_list = $this->t_student_info->get_read_student_ass_info(-2,$assistantid);//在册学员名单
