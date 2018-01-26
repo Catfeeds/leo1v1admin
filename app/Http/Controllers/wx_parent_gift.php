@@ -978,9 +978,7 @@ class wx_parent_gift extends Controller
      **/
     public function getImgUrlInfo(){
         $id = $this->get_in_int_val('type');
-        $id = $id-100;
-        \App\Helper\Utils::logger("getImgUrlInfo_james: $id");
-
+        $id = $id-100; //[区分以前已存在的活动]
 
         $imgUrlInfo = $this->t_activity_usually->getImgUrlInfo($id);
         $domain = config('admin')['qiniu']['public']['url'];
@@ -989,15 +987,15 @@ class wx_parent_gift extends Controller
         }
 
         if($imgUrlInfo['coverImgUrl']){
-            $imgUrlInfo['coverImgUrl'] = $domain."/".$imgUrlInfo['coverImgUrl'] ; //分享页面
+            $imgUrlInfo['coverImgUrl'] = $domain."/".$imgUrlInfo['coverImgUrl'] ; //封面页面
         }
 
         if($imgUrlInfo['activityImgUrl']){
-            $imgUrlInfo['activityImgUrl'] = $domain."/".$imgUrlInfo['activityImgUrl'] ; //分享页面
+            $imgUrlInfo['activityImgUrl'] = $domain."/".$imgUrlInfo['activityImgUrl'] ; //活动页面
         }
 
         if($imgUrlInfo['followImgUrl']){
-            $imgUrlInfo['followImgUrl'] = $domain."/".$imgUrlInfo['followImgUrl'] ; //分享页面
+            $imgUrlInfo['followImgUrl'] = $domain."/".$imgUrlInfo['followImgUrl'] ; //关注页面
         }
 
         return $this->output_succ(['data'=>$imgUrlInfo]);
@@ -1048,13 +1046,13 @@ class wx_parent_gift extends Controller
         return ;
     }
 
+
+
     /**
      * @ 市场部分享海报
      * @ James
      * @ 2018-01-24
      */
-
-
     # 获取分享链接打开次数
     public function linkOpenNum(){
         $uid = $this->get_in_int_val('uid');
