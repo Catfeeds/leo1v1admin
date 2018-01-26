@@ -53,7 +53,8 @@ $(function(){
         obj.empty();
         $.ajax({
             type     : "post",
-            url      : "/resource/get_sub_grade_tag_js",
+            //url      : "/resource/get_sub_grade_tag_js",
+            url      : "/resource/get_sub_grade_book_tag",
             dataType : "json",
             data : {
                 'subject' : subject,
