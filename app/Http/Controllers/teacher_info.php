@@ -2579,12 +2579,12 @@ class teacher_info extends Controller
             }
         }
 
+        
         $tea_info = $this->get_rule_range();
         // $tea_info = [
         //     ['subject'=>1,
         //      'grade' => [201,202,203]],
         // ];
-
         $sub_str = '-1';
         $gra_str = '-1';
         foreach($tea_info as $v){
@@ -2596,12 +2596,12 @@ class teacher_info extends Controller
 
         //获取所有有文件的对老师开放的资源类型
         $res_type_list = $this->t_resource->get_resource_type_for_tea($sub_str, $gra_str);
-        dd($res_type_list);
+        
         $type_list = [];
         foreach($res_type_list as $v){
             $type_list[] =intval( $v['resource_type']);
         }
-
+        dd($type_list);
         // dd($tea_info);
         $resource_type = $this->get_in_int_val('resource_type', @$type_list[0]);
         $subject       = $this->get_in_int_val('subject', @$tea_info[0]['subject']);
