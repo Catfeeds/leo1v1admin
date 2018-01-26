@@ -33,7 +33,7 @@ class t_personality_poster extends \App\Models\Zgen\z_t_personality_poster
 
     public function getData($page_num,$uid){
         $where_arr = [
-            ["uid=%d",$uid,-1]
+            ["pp.uid=%d",$uid,-1]
         ];
 
         $sql = $this->gen_sql_new("  select pp.uid,clickNum,stuNum,account from %s pp"
