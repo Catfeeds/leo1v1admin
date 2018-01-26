@@ -173,7 +173,7 @@ class seller_student_system_assign extends cmd_base
         }
 
         return [
-            "need_deal_count" =>$$old_need_deal_count,
+            "need_deal_count" =>$old_need_deal_count,
             "assigned_count" =>$assigned_count,
         ];
     }

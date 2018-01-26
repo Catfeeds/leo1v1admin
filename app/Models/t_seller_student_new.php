@@ -1198,6 +1198,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "sub_assign_time_2"  => time(NULL) ,
                 "sub_assign_adminid_1"  => $this->t_admin_main_group_name->get_up_group_adminid($up_adminid),
                 "first_seller_adminid" => $opt_adminid,
+                "tq_called_flag"      => 0,
                 "sub_assign_time_1"  => time(NULL),
                 "hold_flag" => 1,
                 "hand_get_adminid" => E\Ehand_get_adminid::V_1,

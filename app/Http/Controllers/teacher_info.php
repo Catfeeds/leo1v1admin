@@ -2681,7 +2681,7 @@ class teacher_info extends Controller
         $book_arr = [];
         if($resource_type != 6){
             //获取所有开放的教材版本
-            $book = $this->t_resource_agree_info->get_all_resource_type();
+            $book = $this->t_resource_agree_info->get_all_resource_type($resource_type,$subject,$grade);
             $book_arr = [];
             foreach($book as $v) {
                 if( $v['tag_one'] != 0 ){
