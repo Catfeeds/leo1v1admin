@@ -130,7 +130,7 @@ class pic_manage extends Controller
         } else {
             $msg = "修改";
         }
-        $this->t_user_log->add_data($acc."执行了".$msg."操作");
+        $this->t_user_log->add_data("图片管理页:".$acc."执行了".$msg."操作");
         return outputjson_success();
     }
 
@@ -143,7 +143,7 @@ class pic_manage extends Controller
         $this->t_pic_manage_info->field_update_list($id, [
             "del_flag" => 1
         ]);
-        $this->t_user_log->add_data($acc."执行了删除操作");
+        $this->t_user_log->add_data("图片管理页:".$acc."执行了删除操作");
         return $this->output_succ();
     }
 
