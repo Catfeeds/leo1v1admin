@@ -439,7 +439,7 @@ class tom_do_once extends Command
 
     public function update_actual_threshold(){
         $time = strtotime(date('Y-m-d'));
-        list($start_time,$end_time)=$this->get_in_date_range_day(0);
+        list($start_time,$end_time) = [$time,$time+3600*24];
         $ret_call = $this->task->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
         if($ret_call){
             if(time()>$ret_call[0]['create_time']+1800){
