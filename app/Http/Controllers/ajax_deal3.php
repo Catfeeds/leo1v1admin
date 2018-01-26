@@ -20,7 +20,7 @@ class ajax_deal3 extends Controller
         $user_admin_assign_time_map= json_decode( $this->get_in_str_val("user_admin_assign_time_map"),true  );
         $now=time(NULL);
 
-        if ( count($userid_list) ==0 ) {
+        if ( count($userid_list) ==0 || @$userid_list[0] == -1   ) {
             return $this->output_succ([
                 "user_list"=>[]
             ]);
@@ -34,7 +34,7 @@ class ajax_deal3 extends Controller
             $user_list=$this->t_seller_student_system_assign_log->get_seller_student_assign_from_type_list($adminid, $userid_list);
             foreach ($user_list as &$item) {
                 $userid=&$item["userid"];
-                $admin_assign_time=strtotime( $user_admin_assign_time_map[$userid] );
+                $admin_assign_time=strtotime( @$user_admin_assign_time_map[$userid] );
                 $check_time= max( $work_start_time, $admin_assign_time);
                 $show_left_time_flag=false;
                 if ($now- $check_time> 1*3600) { //超过3个小时
