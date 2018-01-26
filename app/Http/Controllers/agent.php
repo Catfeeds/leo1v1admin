@@ -441,10 +441,42 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $ret = $this->t_seller_get_new_log->get_list_by_time($start_time=1516204800,$end_time=1516896000);
+        $ret_info = [];
+        foreach($ret as $item){
+            $ret_info[$item['adminid']][$item['userid']][] = $item;
+        }
+        foreach($ret_info as $item){
+            foreach($item as $info){
+                foreach($info as $key=>$info_k){
+                    if($key>0){
+                    }
+                }
+            }
+        }
+        dd($ret_info);
         list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,strtotime(date('Y-m-d')),[],[]];
-        for($i=1;$i<=10;$i++){
+        $ret_threshold = $this->t_seller_edit_log->get_threshold($time);
+        dd($ret_threshold);
+        if(!$ret_threshold && date('w')!=4){
+            dd('a');
+        }
+        dd('b');
+        list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,strtotime(date('Y-m-d')),[],[]];
+        for($i=1;$i<=12;$i++){
             $start_time = $time-3600*24*$i;
             $end_time = $start_time+3600*24;
+            if(date('w',$start_time) != 2){
+                $ret_info[$i]['start_time'] = $start_time;
+                $ret_info[$i]['end_time'] = $end_time;
+                if(count($ret_info)==10){
+                    break;
+                }
+            }
+        }
+        foreach($ret_info as $item){
+            $start_time = $item['start_time'];
+            $end_time = $item['end_time'];
             $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=1);
             $count_call = count(array_unique(array_column($ret_call, 'userid')));
             $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
