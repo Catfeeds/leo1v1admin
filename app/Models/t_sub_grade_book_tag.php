@@ -91,7 +91,7 @@ class t_sub_grade_book_tag extends \App\Models\Zgen\z_t_sub_grade_book_tag
             ["bookid = %u",50000],
             ["tag = '%s'",$tag],
         ];
-        $sql = $this->gen_sql_new(" select id from %s  where %s order by id desc"
+        $sql = $this->gen_sql_new(" select id from %s  where %s order by id asc"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
