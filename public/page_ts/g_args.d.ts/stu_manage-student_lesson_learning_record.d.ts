@@ -25,23 +25,31 @@ interface RowData {
 	lesson_start	:any;
 	lesson_end	:any;
 	subject	:any;
+	userid	:any;
 	grade	:any;
 	teacherid	:any;
 	lessonid	:any;
 	realname	:any;
-	userid	:any;
+	parentid	:any;
 	lesson_num	:any;
-	tea_cw_upload_time	:any;
-	tea_cw_url	:any;
-	preview_status	:any;
-	cw_status	:any;
+	tea_attend	:any;
+	stu_attend	:any;
+	stu_praise	:any;
+	confirm_flag	:any;
+	lesson_cancel_reason_type	:any;
+	lesson_status	:any;
+	tea_draw	:any;
+	tea_voice	:any;
+	stu_draw	:any;
+	stu_voice	:any;
+	stu_login_num	:any;
+	tea_login_num	:any;
+	parent_login_num	:any;
 	grade_str	:any;
 	subject_str	:any;
 	lesson_time	:any;
-	cw_url	:any;
-	cw_status_str	:any;
-	cw_status_flag	:any;
-	preview_status_str	:any;
+	stu_attend_str	:any;
+	tea_attend_str	:any;
 }
 
 /*

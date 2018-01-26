@@ -406,15 +406,8 @@ class test_james extends Controller
         });
 
         Schema::dropIfExists('t_poster_share_log');
-        Schema::create('db_tool.t_poster_share_log', function(Blueprint $table) {
-            t_comment($table,"海报分享报名的学生链接");
-            t_field($table->integer("poster_id"), "海报id");
-            t_field($table->integer("uid"), "分享人id");
-            t_field($table->string("phone",100), "学生号码");
-            t_field($table->integer("studentid"), "学生id");
-            t_field($table->integer("add_time"), "添加时间");
-            $table->index('uid', 'uid');
-            $table->index('phone', 'phone');
+        Schema::table('db_weiyi.t_activity_usually', function(Blueprint $table) {
+            t_field($table->integer("add_num"), "已添加人数");
         });
 
     }

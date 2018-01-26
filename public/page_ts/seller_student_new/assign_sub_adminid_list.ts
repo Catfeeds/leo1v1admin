@@ -9,6 +9,7 @@ function load_data(){
         opt_date_type:	$('#id_opt_date_type').val(),
         call_phone_count:	$('#id_call_phone_count').val(),
         suc_test_count:	$('#id_suc_test_count').val(),
+        seller_student_assign_type:	$('#id_seller_student_assign_type').val(),
         call_count:	$('#id_call_count').val(),
         seller_level:	$('#id_seller_level').val(),
         publish_flag:	$('#id_publish_flag').val(),
@@ -135,6 +136,11 @@ $(function(){
 
     $('#id_seller_level').val(g_args.seller_level);
     $.enum_multi_select( $('#id_seller_level'), 'seller_level', function(){load_data();} )
+
+    $('#id_seller_student_assign_type').val(g_args.seller_student_assign_type);
+    $.enum_multi_select( $('#id_seller_student_assign_type'), 'seller_student_assign_type', function(){load_data();} )
+
+    $('#id_has_pad').val(g_args.has_pad);
 
     $('#id_has_pad').val(g_args.has_pad);
     $('#id_admin_del_flag').val(g_args.admin_del_flag);

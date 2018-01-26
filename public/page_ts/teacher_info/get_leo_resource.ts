@@ -6,10 +6,7 @@ function load_data(){
     if ( window["g_load_data_flag"]) {return;}
 
     if( $('#id_resource_type').val() == 6 && book != []) {
-        $('#id_tag_one').val(-1);
-    }
-    if( $('#id_resource_type').val() != 3 ) {
-        $('#id_tag_four').val(-1);
+        //$('#id_tag_one').val(-1);
     }
 
     if(global_mark==0){
@@ -21,7 +18,8 @@ function load_data(){
             tag_one       :	$('#id_tag_one').val(),
             tag_two       :	$('#id_tag_two').val(),
             tag_three     :	$('#id_tag_three').val(),
-            tag_four      :	$('#id_tag_four').val()
+            tag_four      :	$('#id_tag_four').val(),
+            tag_five      : $('#id_tag_five').val(),
         };
     } else {
         sub_info = {
@@ -31,7 +29,8 @@ function load_data(){
             tag_one       :	$('#id_tag_one').val(),
             tag_two       :	$('#id_tag_two').val(),
             tag_three     :	$('#id_tag_three').val(),
-            tag_four      :	$('#id_tag_four').val()
+            tag_four      :	$('#id_tag_four').val(),
+            tag_five      : $('#id_tag_five').val(),
         };
     }
     $.reload_self_page (sub_info);
@@ -46,23 +45,30 @@ $(function(){
     $('#id_tag_two').val(g_args.tag_two);
     $('#id_tag_three').val(g_args.tag_three);
     $('#id_tag_four').val(g_args.tag_four);
+    $('#id_tag_five').val(g_args.tag_five);
+
 
     //获取学科化标签
     var get_sub_grade_tag = function(subject,grade,obj,opt_type,sel_val){
         obj.empty();
         $.ajax({
             type     : "post",
-            url      : "/resource/get_sub_grade_tag_js",
+            //url      : "/resource/get_sub_grade_tag_js",
+            url      : "/resource/get_sub_grade_book_tag",
             dataType : "json",
             data : {
+                'resource_type' : $('#id_resource_type').val(),
                 'subject' : subject,
                 'grade'   : grade,
+                'bookid'  : $("#id_tag_one").val(),
+                'season_id': $("#id_tag_two").val(),
             } ,
             success : function(result){
                 if(result.ret == 0){
                     obj.empty();
                     obj.next().remove();
                     var tag_info = result.tag;
+                    console.log(tag_info);
                     if($(tag_info).length == 0) {
                         if(opt_type == 1){
                             obj.append('<option value="-1">全部</option>');
@@ -71,8 +77,10 @@ $(function(){
                         }
                     } else {
                         var tag_str = '<option value="-1">全部</option>';
+
                         $.each($(tag_info),function(i, val){
-                            tag_str = tag_str + '<option value='+i+'>'+val+'</option>';
+                            tag_str = tag_str + '<option value='+val.id
+                            +'>'+val.tag+'</option>';
                         });
                         obj.append(tag_str);
                         obj.val(sel_val);
@@ -99,7 +107,7 @@ $(function(){
     }
 
     var get_city = function(obj,city_num, is_true){
-         if (is_true == true){
+        if (is_true == true){
             var pro = '';
         } else {
             var pro = '<option value="-1">[全部]</option>';
@@ -111,7 +119,6 @@ $(function(){
         }
         $(obj).empty();
         $(obj).append(pro);
-
     }
     Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,type_list);
     // Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6]);
@@ -130,6 +137,16 @@ $(function(){
     } else {
         $("#id_tag_two").append('<option value="-1">全部</option>');
     }
+    if(tag_four != ''){
+        Enum_map.append_option_list(tag_four, $("#id_tag_four"));
+    } else {
+        $("#id_tag_four").append('<option value="-1">全部</option>');
+    }
+    if(tag_five != ''){
+        Enum_map.append_option_list(tag_five, $("#id_tag_five"));
+    } else {
+        $("#id_tag_five").append('<option value="-1">全部</option>');
+    }
 
     if(tag_three != ''){
         Enum_map.append_option_list(tag_three, $("#id_tag_three"));
@@ -142,12 +159,15 @@ $(function(){
     $('#id_subject').val(g_args.subject);
     $('#id_grade').val(g_args.grade);
     $('#id_tag_one').val(g_args.tag_one);
+    $('#id_tag_four').val(g_args.tag_four);
+    $('#id_tag_five').val(g_args.tag_five);
 
-
-    if($('#id_resource_type').val() == 3){
+    if($('#id_resource_type').val() == 1 ){
+         get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(), $('#id_tag_four'), 1, g_args.tag_four);
+    }else if($('#id_resource_type').val() == 3 ){
         get_sub_grade_tag($('#id_subject').val(), $('#id_grade').val(), $('#id_tag_four'), 1, g_args.tag_four);
     } else if($('#id_resource_type').val() == 6) {
-        get_province($('#id_tag_two'));
+        get_province($('#id_tag_three'));
     } else {
         $("#id_tag_four").append('<option value="-1">全部</option>');
     }
@@ -156,9 +176,9 @@ $(function(){
     $('#id_tag_three').val(g_args.tag_three);
     $('#id_file_title').val(g_args.file_title);
 
-    var city_num = $('#id_tag_two').val();
+    var city_num = $('#id_tag_three').val();
     if($('#id_resource_type').val() == 6 && city_num != -1){
-        get_city($('#id_tag_three'), city_num);
+        get_city($('#id_tag_four'), city_num);
     }
 
     // $("#id_select_all").on("click",function(){

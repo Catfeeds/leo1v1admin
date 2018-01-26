@@ -698,7 +698,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $this->where_arr_add_int_or_idlist ($where_arr,"test_lesson_count",$suc_test_count);
             $this->where_arr_add_int_or_idlist ($where_arr,"origin_count",$origin_count);
             $this->where_arr_add_int_or_idlist ($where_arr,"cur_adminid_call_count",$call_count);
-            $this->where_arr_add_int_or_idlist ($where_arr,"seller_student_assign_type",$seller_student_assign_type);
+            $this->where_arr_add_int_or_idlist ($where_arr,"ss.seller_student_assign_type",$seller_student_assign_type);
             //wx
             $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
             if ($has_pad==-2) {
@@ -1198,6 +1198,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "sub_assign_time_2"  => time(NULL) ,
                 "sub_assign_adminid_1"  => $this->t_admin_main_group_name->get_up_group_adminid($up_adminid),
                 "first_seller_adminid" => $opt_adminid,
+                "tq_called_flag"      => 0,
                 "sub_assign_time_1"  => time(NULL),
                 "hold_flag" => 1,
                 "hand_get_adminid" => E\Ehand_get_adminid::V_1,

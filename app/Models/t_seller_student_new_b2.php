@@ -6,6 +6,25 @@ use \App\Enums as E;
 class t_seller_student_new_b2 extends \App\Models\Zgen\z_t_seller_student_new
 {
 
+    public function  get_today_can_system_assign_count( ){
+        $start_time= strtotime( date("Y-m-d"));
+        $end_time= $start_time + 86400-1;
+
+        $where_arr=[
+            "seller_student_assign_type" => E\Eseller_student_assign_type::V_1,
+        ];
+
+        $this->where_arr_add_time_range($where_arr, "add_time", $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select count(*)  "
+            ." from %s  "
+            ." where %s "
+            ,self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+
+    }
     public function admin_hold_count($admin_revisiterid)  {
 
         $sql = $this->gen_sql_new(

@@ -29,14 +29,14 @@
                         </select>
                     </div>
                 </div>
+
+
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span class="input-group-addon">系统判定无效</span>
-                        <select class="opt-change form-control" id="id_sys_invaild_flag" >
-                        </select>
+                        <span class="input-group-addon">分配模式</span>
+                        <input class="opt-change form-control" id="id_seller_student_assign_type" />
                     </div>
                 </div>
-
 
                 <div class="col-xs-12 col-md-6"  data-title="时间段">
                     <div  id="id_date_range" >
@@ -58,6 +58,13 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">系统判定无效</span>
+                        <select class="opt-change form-control" id="id_sys_invaild_flag" >
+                        </select>
+                    </div>
+                </div>
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
@@ -270,8 +277,8 @@
                      @endif
                 >
                     <div class="btn-group">
-                        <button type="button" class="btn btn-info btn-flat">批量设置</button>
                         <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            批量设置
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>

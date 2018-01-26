@@ -277,18 +277,18 @@ class ajax_deal3 extends Controller
                 "revisit_reword_per"    =>$revisit_reword_per*100,
             ];
 
-        }elseif($type==3){
+        }elseif($type==4){
             list($performance_cr_new_list,$performance_cr_renew_list,$performance_cc_tran_list)= $this->get_ass_order_list_performance($start_time,$end_time);
             $update_arr=[
-               "performance_cc_tran_num"  =>@$performance_cc_tran_list["performance_cc_tran_num"],
-                "performance_cc_tran_money"=>@$performance_cc_tran_list["performance_cc_tran_money"],
-                "performance_cr_renew_num" =>@$performance_cr_renew_list["performance_cr_renew_num"],
-                "performance_cr_renew_money" =>@$performance_cr_renew_list["performance_cr_renew_money"],
-                "performance_cr_new_num" =>@$performance_cr_new_list[$adminid]["performance_cr_new_num"],
-                "performance_cr_new_money" =>@$performance_cr_new_list[$adminid]["performance_cr_new_money"]
+               "performance_cc_tran_num"  =>@$performance_cc_tran_list[$adminid]["num"],
+               "performance_cc_tran_money"=>@$performance_cc_tran_list[$adminid]["money"],
+               "performance_cr_renew_num" =>@$performance_cr_renew_list[$adminid]["num"],
+               "performance_cr_renew_money" =>@$performance_cr_renew_list[$adminid]["money"],
+                "performance_cr_new_num" =>@$performance_cr_new_list[$adminid]["num"],
+                "performance_cr_new_money" =>@$performance_cr_new_list[$adminid]["money"]
             ];
 
-        }elseif($type==4){
+        }elseif($type==3){
             list($first_week,$last_week,$n) = $this->get_seller_week_info($start_time, $end_time);//销售月拆解
             $registered_student_num=$this->get_register_student_list($first_week,$n);//销售月助教在册学生总数获取
             $seller_month_lesson_count = $this->t_manager_info->get_assistant_lesson_count_info($first_week,$last_week+7*86400,$assistantid);//销售月总课时
@@ -615,7 +615,7 @@ class ajax_deal3 extends Controller
                         $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val,$start_time,$end_time,$account,-2);
                         if($month_lesson_flag==1){
                             if($revisit_num <2){
-                                $revisit_reword_per -=0.05;
+                                $revisit_reword_per -=0.05*(2-$revisit_num);
                             }
 
                         }else{
@@ -664,7 +664,7 @@ class ajax_deal3 extends Controller
                         $revisit_num = $this->t_revisit_info->get_ass_revisit_info_personal($val["userid"],$start_time,$end_time,$account,-2);
                         if($month_lesson_flag==1){
                             if($revisit_num <2){
-                                $revisit_reword_per -=0.05;
+                                $revisit_reword_per -=0.05*(2-$revisit_num);
                             }
 
                         }else{

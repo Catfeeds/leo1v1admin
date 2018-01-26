@@ -2561,7 +2561,7 @@ class teacher_info extends Controller
         //兼容js调用
         $is_js = $this->get_in_int_val('is_js', 0);
         if($is_js){
-            return $this->output_err("暂未开放，敬请期待！");
+            //return $this->output_err("暂未开放，敬请期待！");
         } 
         /*
         //检测老师是不是全职
@@ -2602,7 +2602,7 @@ class teacher_info extends Controller
         dd($type_list);
         */
         $tea_info = $this->get_rule_range();
-        $type_list = [1,3,5,6];
+        $type_list = [1,3,5,6]; //
         $resource_type = $this->get_in_int_val('resource_type', @$type_list[0]);
         $subject       = $this->get_in_int_val('subject', @$tea_info[0]['subject']);
         $flag    = 0;
@@ -2645,7 +2645,7 @@ class teacher_info extends Controller
 
         //禁用，删除，老师段则不在显示
         $ret_info = $this->t_resource->get_all_for_tea(
-            $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$page_info
+            $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$page_info
         );
 
         $tag_arr = \App\Helper\Utils::get_tag_arr($resource_type);
@@ -2667,6 +2667,7 @@ class teacher_info extends Controller
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
             $item['tag_three_name'] = $tag_arr['tag_three']['name'];
             $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
+            $item['tag_five_name'] = @$tag_arr['tag_five']['name'];
             E\Egrade::set_item_field_list($item, [
                 "subject",
                 "grade",
@@ -2676,12 +2677,13 @@ class teacher_info extends Controller
                 $tag_arr['tag_two']['menu'] => 'tag_two',
                 $tag_arr['tag_three']['menu'] => 'tag_three',
                 $tag_arr['tag_four']['menu'] => 'tag_four',
+                $tag_arr['tag_five']['menu'] => 'tag_five',
             ]);
         }
         $book_arr = [];
         if($resource_type != 6){
             //获取所有开放的教材版本
-            $book = $this->t_resource_agree_info->get_all_resource_type();
+            $book = $this->t_resource_agree_info->get_all_resource_type($resource_type,$subject,$grade);
             $book_arr = [];
             foreach($book as $v) {
                 if( $v['tag_one'] != 0 ){
@@ -2704,6 +2706,9 @@ class teacher_info extends Controller
 
         }
 
+        //book_arr 2015,2016,2017
+        //tar_arr tar_one->tar_four
+        //dd($tag_arr,$tea_sub,$book_arr);
         // dd($tea_info);
         return $this->pageView( __METHOD__,$ret_info,[
             'tag_info'  => $tag_arr,
