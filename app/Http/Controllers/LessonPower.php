@@ -71,6 +71,7 @@ trait LessonPower{
      * @param int operate_column 修改字段
      * @param int operate_before 修改前课程信息
      * @param int operate_after  修改后课程信息
+     * @param int system_flag    系统更新标示
      * @return boolean
      */
     public function add_lesson_operate_info($lessonid,$operate_column,$operate_before,$operate_after){
@@ -187,8 +188,5 @@ trait LessonPower{
         return $this->output_ret($ret,"修改课时确认状态记录添加失败！");
     }
 
-    public function add_teacher_salary_operate_info(){
-
-    }
 
 }
