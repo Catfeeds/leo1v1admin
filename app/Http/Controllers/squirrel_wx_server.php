@@ -18,15 +18,15 @@ class  squirrel_wx_server extends Controller
     var $check_login_flag =false;//是否需要验证
     public function index() {
         $wechat = new \App\Wx\Squirrel\wechat(WECHAT_TOKEN_SQU, TRUE);
-        $r = $wechat->checkSignature();
+        // $r = $wechat->checkSignature();
 
 
-        // $ret = $wechat->run();
-        // if (is_bool($ret)) {
-        //     return "";
-        // }else{
-        //     return $ret;
-        // }
+        $ret = $wechat->run();
+        if (is_bool($ret)) {
+            return "";
+        }else{
+            return $ret;
+        }
     }
 
     public function sync_menu() {
@@ -50,9 +50,13 @@ class  squirrel_wx_server extends Controller
             array('id'=>'15', 'pid'=>'3', 'name'=>'常见问题', 'type'=>'view', 'code'=>'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_help.html'),
         );
 
+        $menu =  new \Squirrel\Core\Menu();
+        $a = $menu::setMenu($menuList);
+        $result =  $menuList::getMenu($menuList);
 
-        $ret =  \Squirrel\Core\Menu::setMenu($menuList);
-        $result =  \Squirrel\Core\Menu::getMenu($menuList);
+
+        // $ret =  \Squirrel\Core\Menu::setMenu($menuList);
+        // $result =  \Squirrel\Core\Menu::getMenu($menuList);
         dd($result);
     }
 
