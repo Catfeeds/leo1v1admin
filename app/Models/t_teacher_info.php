@@ -1229,7 +1229,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select teacherid,nick,realname,subject,second_subject,third_subject,grade_part_ex, "
                                   ." grade_start,grade_end,not_grade,teacher_ref_type,teacher_type,phone, "
                                   ." second_grade_start,second_grade_end,second_not_grade,wx_openid,wx_use_flag,"
-                                  ." trial_lecture_is_pass,train_through_new,email,school,"
+                                  ." trial_lecture_is_pass,train_through_new,train_through_new_time,email,school,"
                                   ." identity,bankcard,teacher_money_type,level,interview_access"
                                   ." from %s "
                                   ." where %s "
@@ -4993,5 +4993,19 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_value($sql);
     }
 
+    public function getTeacherNumTrainThrough(){
+        $where_arr = [
+            "train_through_new=1",
+            "quit_time=0",
+            "is_test_user=0",
+            "wx_openid!=''"
+        ];
+        $sql = $this->gen_sql_new("  select teacherid,wx_openid, nick,teacher_money_type,teacher_type from %s t"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }

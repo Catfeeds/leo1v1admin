@@ -225,7 +225,6 @@ class menu{
                     ["power_id"=>11, "name"=>"全勤奖配置","url"=>"/human_resource/get_lesson_full_list"],
                     ["power_id"=>12, "name"=>"全勤奖配置-old","url"=>"/human_resource/get_lesson_full_wage_old"],
                     ["power_id"=>13, "name"=>"额外奖金","url"=>"/user_manage_new/teacher_trial_reward_list"],
-                    ["power_id"=>14, "name"=>"招师工资","url"=>"/user_manage_new/teacher_ref_money_list"],
                     ["power_id"=>15, "name"=>"各类型薪资明细","url"=>"/user_manage_new/teacher_details_money"],
                     ["power_id"=>16, "name"=>"年级工资分类","url"=>"/teacher_money/grade_wages_list"],
                     ["power_id"=>17, "name"=>"工资总体--new","url"=>"/teacher_money/teacher_salary_list"],
