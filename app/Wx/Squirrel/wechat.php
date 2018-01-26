@@ -113,9 +113,12 @@ class Wechat    {
         \App\Helper\Utils::logger("songsusiwei122: $r");
 
         if( $tmpStr == $signature ){
+            \App\Helper\Utils::logger("james_songsu_true");
+
             echo $_GET['echostr'];
             return true;
         }else{
+            \App\Helper\Utils::logger("james_songsu_false");
             return false;
         }
     }
