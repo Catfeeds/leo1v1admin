@@ -12,12 +12,10 @@ class TLessonInfoAddLearningRecord extends Migration
      */
     public function up()
     {
-        //
         Schema::table('db_weiyi.t_lesson_info', function( Blueprint $table)
         {
             t_field($table->integer("stu_check_video_time"),"学生查看视频回访时间");
             t_field($table->integer("stu_check_performance_time"),"学生查看反馈时间");
-            t_field($table->integer("stu_check_homework_time"),"学生查看作业时间");
         });
     }
 
@@ -28,6 +26,11 @@ class TLessonInfoAddLearningRecord extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('db_weiyi.t_lesson_info', function( Blueprint $table)
+        {
+            $table->dropColumn("stu_check_video_time");
+            $table->dropColumn("stu_check_performance_time");
+            $table->dropColumn("stu_check_homework_time");
+        });
     }
 }
