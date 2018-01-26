@@ -2560,13 +2560,15 @@ class teacher_info extends Controller
     public function get_leo_resource(){
         //兼容js调用
         $is_js = $this->get_in_int_val('is_js', 0);
+        if($is_js){
+            return $this->output_err("暂未开放，敬请期待！");
+        } 
+        /*
         //检测老师是不是全职
         $is_full_time = $this->check_teacher_type();
         //add is_test_teacher open 
         $is_test_user = $this->check_is_test_teacher();
-
         if($is_test_user == 1 || $is_full_time == 1){
-
         }
         else if($is_full_time == 0 ){
             if($is_js){
@@ -2578,8 +2580,6 @@ class teacher_info extends Controller
                 ]);
             }
         }
-
-        /*
         $tea_info = $this->get_rule_range();
         // $tea_info = [
         //     ['subject'=>1,
@@ -2601,6 +2601,7 @@ class teacher_info extends Controller
         }
         dd($type_list);
         */
+        $tea_info = $this->get_rule_range();
         $type_list = [1,3,5,6];
         $resource_type = $this->get_in_int_val('resource_type', @$type_list[0]);
         $subject       = $this->get_in_int_val('subject', @$tea_info[0]['subject']);
