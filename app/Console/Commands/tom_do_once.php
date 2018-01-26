@@ -371,23 +371,21 @@ class tom_do_once extends Command
     }
 
     public function seller_daily_threshold(){
-        $ret = $this->task->t_seller_get_new_log->get_list_by_time($start_time=1516204800,$end_time=1516982400);
-        $ret_info = [];
-        foreach($ret as $item){
-            $ret_info[$item['adminid']][$item['userid']][] = $item;
-        }
-        foreach($ret_info as $item){
-            foreach($item as $info){
-                foreach($info as $key=>$info_k){
-                    if($key>0){
-                        $ret = $this->task->t_seller_get_new_log->row_delete($info_k['id']);
-                        echo $info_k['id'].':'.$key.'=>'.$ret."\n";
-                    }
-                }
-            }
-        }
-        exit;
-        dd('a');
+        // $ret = $this->task->t_seller_get_new_log->get_list_by_time($start_time=1516204800,$end_time=1516982400);
+        // $ret_info = [];
+        // foreach($ret as $item){
+        //     $ret_info[$item['adminid']][$item['userid']][] = $item;
+        // }
+        // foreach($ret_info as $item){
+        //     foreach($item as $info){
+        //         foreach($info as $key=>$info_k){
+        //             if($key>0){
+        //                 $ret = $this->task->t_seller_get_new_log->row_delete($info_k['id']);
+        //                 echo $info_k['id'].':'.$key.'=>'.$ret."\n";
+        //             }
+        //         }
+        //     }
+        // }
         list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,strtotime(date('Y-m-d')),[],[]];
         $ret_threshold = $this->task->t_seller_edit_log->get_threshold($time);
         if(!$ret_threshold && date('w')!=2){
@@ -434,7 +432,9 @@ class tom_do_once extends Command
                 'new'=>$threshold_min,
                 'create_time'=>$time,
             ]);
+            echo date('Y-m-d',$time).'=>'.$threshold_min.'~'.$threshold_max;
         }
     }
+
 
 }
