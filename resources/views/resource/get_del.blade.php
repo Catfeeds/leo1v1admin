@@ -74,6 +74,12 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2 {{@$tag_info['tag_five']['hide']}} ">
+                    <div class="input-group ">
+                        <span class="input-group-addon">{{@$tag_info['tag_five']['name']}}</span>
+                        <select class="form-control opt-change" id="id_tag_five"> </select>
+                    </div>
+                </div>
 
             </div>
             <div class="row">
@@ -99,11 +105,17 @@
                         <a href="javascript:;" id="id_select_all" title="全选">全</a>
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
                     </td>
-                    <td style="width:45%">文件名</td>
-                    <td style="width:20%">删除日期</td>
-                    <td style="width:10%">操作人</td>
-                    <td style="width:10%">文件类型</td>
-                    <td style="width:10%">文件大小</td>
+                    <td>文件名</td>
+                    <td>文件信息</td>
+                    <td>文件类型</td>
+                    <td>文件大小</td>
+
+                    <td>科目</td>
+                    <td>年级</td>
+
+                    <td>删除日期</td>
+                    <td>操作人</td>
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -113,10 +125,19 @@
                             <input type="checkbox" class="opt-select-item" data-file_id="{{$var["file_id"]}}" data-id="{{$var["resource_id"]}}"/>
                         </td>
                         <td>{{@$var["file_title"]}} </td>
-                        <td>{{@$var["create_time"]}} </td>
-                        <td>{{@$var["nick"]}} </td>
+                        <td>{{@$var["file_use_type_str"]}} </td>
                         <td>{{@$var["file_type"]}} </td>
                         <td>{{@$var["file_size"]}}M </td>
+
+                        <td>{{@$var["subject_str"]}} </td>
+                        <td>{{@$var["grade_str"]}} </td>
+
+                        <td>{{@$var["create_time"]}} </td>
+                        <td>{{@$var["nick"]}} </td>
+                        <td>
+                            <a class="opt-look btn color-blue" data-file_id="{{$var["file_id"]}}"  title="预览">预览</a>
+                        </td>
+
                     </tr>
                 @endforeach
             </tbody>

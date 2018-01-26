@@ -116,6 +116,10 @@ $(function(){
             $("#id_end_date").parent().parent().hide();
             $("#id_semester").parent().parent().show();
             $("#id_stu_score_type").parent().parent().show();
+            // $("#id_date_show").hide();
+            // $("#id_semester_show").show();
+            // $("#id_stu_score_type_show").show();
+
 
         }else{
             $("#id_add_stu_score").parent().hide();
@@ -123,6 +127,10 @@ $(function(){
             $("#id_end_date").parent().parent().show();
             $("#id_semester").parent().parent().hide();
             $("#id_stu_score_type").parent().parent().hide();
+            // $("#id_date_show").show();
+            // $("#id_semester_show").hide();
+            // $("#id_stu_score_type_show").hide();
+
 
 
         }
@@ -162,6 +170,11 @@ $(function(){
                 $("#id_end_date").parent().parent().hide();
                 $("#id_semester").parent().parent().show();
                 $("#id_stu_score_type").parent().parent().show();
+                // $("#id_date_show").hide();
+                // $("#id_grade_show").hide();
+                // $("#id_subject_show").hide();
+                // $("#id_semester_show").show();
+                // $("#id_stu_score_type_show").show();
 
             }else{
                 $("#id_add_stu_score").parent().hide();
@@ -169,6 +182,12 @@ $(function(){
                 $("#id_end_date").parent().parent().show();
                 $("#id_semester").parent().parent().hide();
                 $("#id_stu_score_type").parent().parent().hide();
+                // $("#id_date_show").show();
+                // $("#id_grade_show").show();
+                // $("#id_subject_show").show();
+                // $("#id_semester_show").hide();
+                // $("#id_stu_score_type_show").hide();
+
 
             }
 
@@ -360,6 +379,42 @@ $(function(){
         window["g_load_data_flag"] = 0;
         load_data();
     });
+
+    if(g_args.current_id==5){      
+        $("#id_date_show").hide();
+        if(g_args.semester==-1){
+            $("#id_semester_show").hide();
+        }else{
+            var vv = $("#id_semester").find("option:selected").text();
+            var htm = "<label class=\"fa fa-times\"></label>"+vv;
+            $("#id_semester_show").html(htm);
+            $("#id_semester_show").show();
+        }
+        if(g_args.stu_score_type==-1){
+            $("#id_stu_score_type_show").hide();
+        }else{
+            var vv = $("#id_stu_score_type").find("option:selected").text();
+            var htm = "<label class=\"fa fa-times\"></label>"+vv;
+            $("#id_stu_score_type_show").html(htm);
+            $("#id_stu_score_type_show").show();
+        }
+
+    }else{
+        if(g_args.start_date=="" && g_args.end_date==""){
+            $("#id_date_show").hide();
+        }else{
+            var vv = $("#id_start_date").val()+"~"+$("#id_end_date").val();
+            var htm = "<label class=\"fa fa-times\"></label>"+vv;
+            $("#id_date_show").html(htm);
+            $("#id_date_show").show();
+        }
+       
+        $("#id_semester_show").hide();
+        $("#id_stu_score_type_show").hide();
+
+
+    }
+
 
 
     $(".show_cw_content,.show_issue_content").on("click",function(){
@@ -828,6 +883,7 @@ $(function(){
         })
         
     });
+
 
     $(".score_table_flag_show").on("click",function(){
         $(this).addClass('current_score');
