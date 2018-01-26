@@ -38,7 +38,7 @@ class test_abner extends cmd_base
      */
     public function handle()
     {
-        $this->get_q4_data();
+        $this->get_example_call_info();
     }
     //@desn:获取今日头条例子及拨打详情
     private function get_example_call_info(){
