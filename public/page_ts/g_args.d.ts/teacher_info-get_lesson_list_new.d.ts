@@ -42,6 +42,8 @@ interface RowData {
 	tea_cw_pic	:any;
 	tea_cw_origin	:any;
 	stu_cw_origin	:any;
+	tea_cw_file_id	:any;
+	stu_cw_file_id	:any;
 	stu_cw_url	:any;
 	stu_cw_upload_time	:any;
 	issue_url	:any;

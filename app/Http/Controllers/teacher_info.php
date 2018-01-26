@@ -2596,6 +2596,7 @@ class teacher_info extends Controller
 
         //获取所有有文件的对老师开放的资源类型
         $res_type_list = $this->t_resource->get_resource_type_for_tea($sub_str, $gra_str);
+        dd($res_type_list);
         $type_list = [];
         foreach($res_type_list as $v){
             $type_list[] =intval( $v['resource_type']);
