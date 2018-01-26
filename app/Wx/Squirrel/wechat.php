@@ -1,7 +1,6 @@
 <?php
 namespace App\Wx\Squirrel;
-include_once __DIR__.'/lanewechat_squirrel.php';
-include(app_path("Libs/LaneWeChat/lanewechat_teacher.php"));
+include(app_path("Wx/Squirrel/lanewechat_squirrel.php"));
 class Wechat    {
 
     /**
@@ -43,7 +42,7 @@ class Wechat    {
         //将数组键名转换为小写
         $this->request = array_change_key_case($xml,CASE_LOWER);
 
-        \App\Helper\Utils::logger("xuejistep6".json_encode($this->request));
+        \App\Helper\Utils::logger("songsusiweis".json_encode($this->request));
     }
 
 
