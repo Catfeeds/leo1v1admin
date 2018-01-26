@@ -7,7 +7,10 @@ interface GargsStatic {
 	end_date:	string;
 	subject:	number;
 	grade:	number;
+	semester:	number;
+	stu_score_type:	number;
 	current_id:	number;
+	current_table_id:	number;
 	cw_status:	number;
 	preview_status:	number;
 }
@@ -59,7 +62,10 @@ function load_data(){
 		end_date:	$('#id_end_date').val(),
 		subject:	$('#id_subject').val(),
 		grade:	$('#id_grade').val(),
+		semester:	$('#id_semester').val(),
+		stu_score_type:	$('#id_stu_score_type').val(),
 		current_id:	$('#id_current_id').val(),
+		current_table_id:	$('#id_current_table_id').val(),
 		cw_status:	$('#id_cw_status').val(),
 		preview_status:	$('#id_preview_status').val()
 		});
@@ -73,7 +79,10 @@ $(function(){
 	$('#id_end_date').val(g_args.end_date);
 	$('#id_subject').val(g_args.subject);
 	$('#id_grade').val(g_args.grade);
+	$('#id_semester').val(g_args.semester);
+	$('#id_stu_score_type').val(g_args.stu_score_type);
 	$('#id_current_id').val(g_args.current_id);
+	$('#id_current_table_id').val(g_args.current_table_id);
 	$('#id_cw_status').val(g_args.cw_status);
 	$('#id_preview_status').val(g_args.preview_status);
 
@@ -138,11 +147,35 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
+                <span class="input-group-addon">semester</span>
+                <input class="opt-change form-control" id="id_semester" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["semester title", "semester", "th_semester" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">stu_score_type</span>
+                <input class="opt-change form-control" id="id_stu_score_type" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["stu_score_type title", "stu_score_type", "th_stu_score_type" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
                 <span class="input-group-addon">current_id</span>
                 <input class="opt-change form-control" id="id_current_id" />
             </div>
         </div>
 {!!\App\Helper\Utils::th_order_gen([["current_id title", "current_id", "th_current_id" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">current_table_id</span>
+                <input class="opt-change form-control" id="id_current_table_id" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["current_table_id title", "current_table_id", "th_current_table_id" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

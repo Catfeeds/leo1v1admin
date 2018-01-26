@@ -379,12 +379,14 @@ class ajax_deal2 extends Controller
         $total_score      = $this->get_in_int_val("total_score");
         $grade            = $this->get_in_int_val("grade");
         $grade_rank       = $this->get_in_str_val("grade_rank");
+        $school_ex       = $this->get_in_str_val("school_ex");
         $rank_arr = explode("/",$grade_rank);
         $rank_now = $rank_arr[0];
         $grade_rank_last = $this->t_student_score_info->get_last_grade_rank($subject,$userid);
         if( $score > $total_score){
             return $this->output_err("成绩输入有误!");
-        }
+        }        
+
 
         if($grade_rank_last  && $rank_now != ''){
             $grade_rank_last = $grade_rank_last[0]["grade_rank"];
@@ -403,6 +405,11 @@ class ajax_deal2 extends Controller
         }
 
         $score = $score*10;
+        if($file_url){
+            $paper_upload_time=time();
+        }else{
+            $paper_upload_time=0;
+        }
         $ret_info = $this->t_student_score_info->row_insert([
             "userid"                => $userid,
             "create_time"           => $create_time,
@@ -419,6 +426,8 @@ class ajax_deal2 extends Controller
             "grade_rank"            => $grade_rank,
             "rank_up"               => $rank_up,
             "rank_down"             => $rank_down,
+            "paper_upload_time"     => $paper_upload_time,
+            "school_ex"             => $school_ex
         ],false,false,true);
         return $this->output_succ();
     }

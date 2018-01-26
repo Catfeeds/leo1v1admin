@@ -441,10 +441,44 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $ret_lesson = $this->t_test_lesson_subject_require->get_lesson_list($adminid=99,$userid=99);
+        dd($ret_lesson);
+        $ret = $this->t_seller_get_new_log->get_list_by_time($start_time=1516204800,$end_time=1516896000);
+        $ret_info = [];
+        foreach($ret as $item){
+            $ret_info[$item['adminid']][$item['userid']][] = $item;
+        }
+        foreach($ret_info as $item){
+            foreach($item as $info){
+                foreach($info as $key=>$info_k){
+                    if($key>0){
+                    }
+                }
+            }
+        }
+        dd($ret_info);
         list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,strtotime(date('Y-m-d')),[],[]];
-        for($i=1;$i<=10;$i++){
+        $ret_threshold = $this->t_seller_edit_log->get_threshold($time);
+        dd($ret_threshold);
+        if(!$ret_threshold && date('w')!=4){
+            dd('a');
+        }
+        dd('b');
+        list($start_time,$end_time,$time,$ret,$ret_info) = [0,0,strtotime(date('Y-m-d')),[],[]];
+        for($i=1;$i<=12;$i++){
             $start_time = $time-3600*24*$i;
             $end_time = $start_time+3600*24;
+            if(date('w',$start_time) != 2){
+                $ret_info[$i]['start_time'] = $start_time;
+                $ret_info[$i]['end_time'] = $end_time;
+                if(count($ret_info)==10){
+                    break;
+                }
+            }
+        }
+        foreach($ret_info as $item){
+            $start_time = $item['start_time'];
+            $end_time = $item['end_time'];
             $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=1);
             $count_call = count(array_unique(array_column($ret_call, 'userid')));
             $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
@@ -454,8 +488,17 @@ class agent extends Controller
             $ret[$start_time]['rate'] = $count_call>0?(round($count_called/$count_call, 4)*100):0;
         }
         $rate_arr = array_column($ret, 'rate');
-        $rate_avg = round(array_sum($rate_arr)/count($rate_arr),4)*100;
-        dd($ret,$rate_avg);
+        $rate_avg = round(array_sum($rate_arr)/count($rate_arr),4);
+        foreach($ret as $start_time=>$item){
+            $ret[$start_time]['dif_square'] = round(pow($item['rate']-$rate_avg,2),2);
+        }
+        $pow_sqrt = round(sqrt(array_sum(array_column($ret, 'dif_square'))/(count($ret)-1)),2);
+
+        $count_call_all = array_sum(array_column($ret, 'call_count'));
+        $count_called_all = array_sum(array_column($ret, 'called_count'));
+        $threshold_max = $count_call_all>0?(round($count_called_all/$count_call_all,4)*100):0;
+        $threshold_min = $threshold_max-$pow_sqrt;
+        dd($ret,$rate_avg,$count_called_all,$count_call_all,$threshold_max,$pow_sqrt,$threshold_min);
         // $threshold = ;
         // $end_time = ;
         // $start_time = $end_time-3600*24*10;

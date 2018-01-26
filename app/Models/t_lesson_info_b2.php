@@ -4336,7 +4336,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                  ." l.lesson_num,l.userid,lesson_name,lesson_status,ass_comment_audit,l.userid,"
                                  ." if(h.work_status>0,1,0) as homework_status,stu_cw_status as stu_status,"
                                  ." tea_cw_status as tea_status, editionid,t.textbook,l.train_type, "
-                                 ." h.finish_url,h.check_url,l.tea_cw_url,l.tea_cw_upload_time,l.tea_cw_pic_flag,l.tea_cw_pic,"
+                                 ." h.finish_url,h.check_url,l.tea_cw_url,l.tea_cw_upload_time,l.tea_cw_pic_flag,l.tea_cw_pic,l.tea_cw_origin,l.stu_cw_origin,l.tea_cw_file_id ,l.stu_cw_file_id,  "
                                  ." l.stu_cw_url,l.stu_cw_upload_time,h.issue_url,h.issue_time,"
                                  ." h.pdf_question_count ,tea_more_cw_url,  "
                                  ." t.stu_test_paper,t.require_adminid, "
@@ -4370,7 +4370,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                  t_seller_student_new::DB_TABLE_NAME,
                                  $where_arr
         );
-        // dd($sql);
+        //dd($sql);
         return $this->main_get_list_as_page($sql,function($item){
             return $item['lessonid'];
         });

@@ -18,6 +18,9 @@
 	rank_up	:any;
 	rank_down	:any;
 	admin_type	:any;
+	paper_upload_time	:any;
+	paper_upload_url	:any;
+	school_ex	:any;
 	num	:any;
 	subject_str	:any;
 	semester_str	:any;

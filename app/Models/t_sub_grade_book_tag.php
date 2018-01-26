@@ -91,22 +91,23 @@ class t_sub_grade_book_tag extends \App\Models\Zgen\z_t_sub_grade_book_tag
             ["bookid = %u",50000],
             ["tag = '%s'",$tag],
         ];
-        $sql = $this->gen_sql_new(" select id from %s  where %s order by id desc"
+        $sql = $this->gen_sql_new(" select id from %s  where %s order by id asc"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
+        //dd($sql);
         return $this->main_get_row($sql);
     }
 
-    public function get_tag_by_sub_grade($subject,$grade,$bookid=50000,$resource_type,$season_id){
+    public function get_tag_by_sub_grade($subject,$grade,$bookid,$resource_type,$season_id){
         $where_arr = [
             ["subject = %u",(float)$subject],
             ["grade = %u",(float)$grade],
-            ["bookid = %u",$bookid],
-            ["resource_type = %u",$resource_type],
+            ["bookid = %u",$bookid,-1],
+            ["resource_type = %u",$resource_type,-1],
             ["season_id = %u",$season_id,-1],
         ];
-        $sql = $this->gen_sql_new(" select id,tag from %s  where %s order by id desc"
+        $sql = $this->gen_sql_new(" select id,tag from %s  where %s order by id asc"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );

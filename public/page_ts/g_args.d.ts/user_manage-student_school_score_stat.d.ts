@@ -36,6 +36,8 @@ interface RowData {
 	school	:any;
 	name	:any;
 	nick	:any;
+	file_url	:any;
+	paper_upload_time	:any;
 	num	:any;
 	semester_str	:any;
 	grade_str	:any;
@@ -52,14 +54,15 @@ tofile:
 /// <reference path="../g_args.d.ts/user_manage-student_school_score_stat.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		order_by_str:	$('#id_order_by_str').val(),
 		username:	$('#id_username').val(),
 		grade:	$('#id_grade').val(),
 		semester:	$('#id_semester').val(),
 		stu_score_type:	$('#id_stu_score_type').val()
-    });
+		});
 }
 $(function(){
 
@@ -85,6 +88,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_order_by_str" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["order_by_str title", "order_by_str", "th_order_by_str" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -92,6 +96,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_username" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["username title", "username", "th_username" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -99,6 +104,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_grade" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["grade title", "grade", "th_grade" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -106,6 +112,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_semester" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["semester title", "semester", "th_semester" ]])!!}
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -113,4 +120,7 @@ $(function(){
                 <input class="opt-change form-control" id="id_stu_score_type" />
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["stu_score_type title", "stu_score_type", "th_stu_score_type" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_num title", "page_num", "th_page_num" ]])!!}
+{!!\App\Helper\Utils::th_order_gen([["page_count title", "page_count", "th_page_count" ]])!!}
 */

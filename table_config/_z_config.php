@@ -1,6 +1,8 @@
 <?php
 return array(
     ['db_weiyi_admin','t_company_wx_approval','id'],
+    ["db_tool","t_personality_poster","id"],
+    ["db_tool","t_poster_share_log","poster_id"],
     ['db_weiyi','t_week_of_monthly_report','id'],
     ['db_weiyi','t_teacher_approve_refer_to_data','id'],
     ['db_weiyi','t_teacher_christmas','id'],
@@ -96,6 +98,7 @@ return array(
     ["db_weiyi","t_student_score_info","id"],
     ["db_weiyi","t_student_cc_to_cr","id"],
     ["db_weiyi_admin","t_todo","todoid"],
+    ["db_weiyi_admin","t_admin_work_start_time","id"],
     ["db_weiyi","t_complaint_info","complaint_id"],
     ["db_weiyi","t_complaint_assign_info","ass_id"],
     ["db_weiyi","t_complaint_deal_info","deal_id"],
