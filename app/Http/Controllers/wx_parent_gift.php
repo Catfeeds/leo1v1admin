@@ -994,7 +994,9 @@ class wx_parent_gift extends Controller
             $imgUrlInfo['activityImgUrl'] = $domain."/".$imgUrlInfo['activityImgUrl'] ; //活动页面
         }
 
+        # 为了分散每个微信群的压力,满100人时切换另一个微信群
         if($imgUrlInfo['followImgUrl']){
+            $img_arr = implode($glue, $pieces);
             $imgUrlInfo['followImgUrl'] = $domain."/".$imgUrlInfo['followImgUrl'] ; //关注页面
         }
 
