@@ -383,6 +383,9 @@ $(function(){
             },true   );
     });
 
+    $("#id_master_set_select_to_cc_list").on("click",function(){
+        $("#id_set_select_to_admin_list").click();
+    });
 
     $("#id_tmk_set_select_to_cc_list").on("click",function(){
         var opt_data=$(this).get_opt_data();
