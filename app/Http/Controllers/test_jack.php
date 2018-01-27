@@ -63,7 +63,6 @@ class test_jack  extends Controller
         $lesson_end = strtotime(date("Y-m-d",$time)." 19:30:00");
         $lesson_start = $lesson_end+1800;
         $lesson_list = $this->t_lesson_info_b2->get_off_time_lesson_info($lesson_start,$lesson_end);
-        dd($lesson_list);
         foreach($lesson_list as $item){
             $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($item["uid"]);
             $teacherid = $teacher_info["teacherid"];
@@ -74,6 +73,9 @@ class test_jack  extends Controller
                 //$lesson_end = $item["lesson_start"]-5400;
                 // $start = $this->t_lesson_info_b2->check_off_time_lesson_start($teacherid,$lesson_end,$item["lesson_start"]);
                 $off_time = $start-5400;
+                if($teacherid==99504){
+                    dd($off_time);
+                }
                 // $this->t_fulltime_teacher_attendance_list->field_update_list($id,[
                 //     "off_time"         =>$off_time,
                 //     "attendance_type" =>2,
@@ -81,6 +83,9 @@ class test_jack  extends Controller
             }elseif(empty($id)){
                 $start = $this->get_first_lesson_start($teacherid,$item["lesson_start"]);
                 $off_time = $start-5400;
+                if($teacherid==99504){
+                    dd($off_time);
+                }
                 // $this->t_fulltime_teacher_attendance_list->row_insert([
                 //     "teacherid"  =>$teacherid,
                 //     "add_time"   =>$time,

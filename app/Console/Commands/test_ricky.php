@@ -48,7 +48,12 @@ class test_ricky extends Command
             $aid = $item["assistantid"];
             echo $task->cache_get_assistant_nick($aid).",";
             $groud_id = $task->t_admin_group->get_group_id_by_aid2($aid);
-            echo $group[$groud_id]["group_name"].",";
+            if (in_array($group_id, $groud)) {
+                $group_name = $group[$groud_id]["group_name"].",";
+            } else {
+                $group_name = $task->t_admin_group_name->get_group_name_by_groupid($groud_id);
+            }
+            echo $group_name.",";
             $userid = $item["userid"];
             echo $userid.",";
             echo $item["nick"].",";
