@@ -475,16 +475,8 @@ $(function(){
                 if( $('.resource').val() <6 || $('.resource').val() ==9){
                     get_book(0,$('.tag_one'));
                 }
-                // if( $('.resource').val() == 1 || $('.resource').val() == 3){
-                //     get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
-                // }
+           
             });
-
-            // $('.tag_one').change(function(){
-            //     if( $('.resource').val() == 1 || $('.resource').val() == 3){
-            //         get_sub_grade_tag($('.subject').val(),$('.grade').val(),$('.tag_one').val(),$('.tag_four'));
-            //     }
-            // });
 
             if( $('.resource').val() == 2 ){
                 $('#id_other_file,#id_ff_file,#id_video_file').parent().parent().hide();
@@ -785,12 +777,47 @@ $(function(){
                                       remove_id.push($('.'+add_class).data('id'));
                                       $('.'+add_class).prev().remove();
                                       $('.'+add_class).remove();
+                                      name_str = '<br/><span data-id='+files[0].id+' class='
+                                          +add_class+' >'+files[0].name+'</span>';
+
+                                  }else{
+                                      var up_file = "<button class='up_file btn'>上移</button>";
+                                      var down_file = "<button class='down_file btn'>下移</button>";
+                                      $(files).each(function(i){
+                                          name_str = name_str+'<div><span data-id='+files[i].id+' class='
+                                              +add_class+' >'+files[i].name+'</span>' + up_file + down_file + '</div>';
+                                      });
+                                                                        
                                   }
-                                  $(files).each(function(i){
-                                      name_str = name_str+'<br/><span data-id='+files[i].id+' class='
-                                          +add_class+' >'+files[i].name+'</span>';
-                                  });
+                               
                                   $('#'+btn_id).after(name_str);
+
+                                  if(is_multi){
+                                      $('#'+btn_id).parent().find(".up_file").each(function(){
+                                          console.log('up');
+                                          $(this).on('click', function(){
+                                              var transfer;
+                                              var curr_obj = $(this).parent();
+                                              if( curr_obj.index() == 1){
+                                                  return false;
+                                              }
+                                              var prev_obj = $(this).parent().prev();
+                                              transfer = prev_obj;
+                                              prev_obj.remove();
+                                              curr_obj.after(transfer);
+                                          });
+
+                                      })
+
+                                      $('#'+btn_id).parent().find(".down_file").each(function(){
+                                          console.log('up');
+                                          $(this).on('click', function(){
+                                              alert(1);
+                                          });
+
+                                       })
+
+                                  }
                                   return test_func();
 
                               },
