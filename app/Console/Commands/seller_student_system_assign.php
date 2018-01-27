@@ -203,7 +203,7 @@ class seller_student_system_assign extends cmd_base
             foreach ($need_deal_list as $user_info)  {
                 $userid=$user_info["userid"];
                 $origin_level=$user_info["origin_level"];
-                if (isset($level_map[$origin_level]) ) {
+                if (!isset($level_map[$origin_level]) ) {
                     $level_map[$origin_level]=[];
                 }
                 $level_map[$origin_level][$userid]=true;
