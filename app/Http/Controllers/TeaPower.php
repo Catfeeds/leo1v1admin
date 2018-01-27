@@ -65,7 +65,7 @@ trait TeaPower {
                         }
                     }
                 }
-                $res = $this->check_research_teacher_limit_time($lesson_start,$lesson_end,$week_limit_time_info,$data_week);
+                $res = $this->check_research_teacher_limit_time($lesson_start,$lesson_end,$week_limit_time_info,$date_week);
                 if($res){
                     return $res;
                 }
@@ -93,7 +93,7 @@ trait TeaPower {
                 //     }
 
                 // }
-                $res = $this->check_research_teacher_limit_time($lesson_start,$lesson_end,$week_limit_time_info,$data_week);
+                $res = $this->check_research_teacher_limit_time($lesson_start,$lesson_end,$week_limit_time_info,$date_week);
                 if($res){
                     return $res;
                 }
