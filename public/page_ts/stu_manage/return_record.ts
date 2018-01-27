@@ -851,6 +851,46 @@ $(function(){
 
     });
 
+    $(".opt-edit-test1").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var id_time = $("<input />");
+        
+        
+        
+
+        id_time.datetimepicker({
+            datepicker:true,
+            timepicker:true,
+            format:'Y-m-d H:i',
+            step:30,
+            onChangeDateTime :function(){
+
+            }
+
+        });
+
+        var arr=[
+            ["回访时间", id_time ],
+        ];
+        $.show_key_value_table("修改-test", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+
+                $.do_ajax("/ajax_deal3/update_revisit_info_test", {
+                    userid : g_args.sid,
+                    revisit_time: opt_data.revisit_time,
+                    time : id_time.val(),
+                    type: 1
+                });
+            }
+        });
+
+
+
+    });
+
+
     $(".opt-warning-record").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var id_warning_deal_info  = $("<textarea />");
