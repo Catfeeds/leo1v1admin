@@ -41,34 +41,74 @@ class test_ricky extends Command
     {
         $task = new \App\Console\Tasks\TaskController();
 
-        // 拉取90分钟补偿数据
-        $month = [8,9,10,11,12,1];
-        foreach ($month as $item) {
-            $start_time = strtotime('2017-'.$item.'-1');
-            if ($item == 12) {
-                $end_time = strtotime('2018-1-1');
+        //助教、组别、学生ID、学生姓名、第一次合同创建时间、科目、科目更换老师次数、未消耗课时、学员类型
+        $info = $task->t_student_info->get_list_count_left();
+        $group = $task->t_admin_group_name->get_ass_group_name(E\Emain_type::V_1);
+        foreach ($info as $item) {
+            $userid = $item["userid"];
+            $list = $task->t_course_order->get_list($userid);
+            $lesson_count = 0;
+            foreach($list as $val) {
+                $lesson_count += $val["no_finish_lesson_count"]/100;
+            }
+            if (!$lesson_count) continue;
+            $aid = $item["assistantid"];
+            echo $task->cache_get_assistant_nick($aid).",";
+            $groud_id = $task->t_admin_group->get_group_id_by_aid2($aid);
+            if (isset($group[$groud_id])) {
+                $group_name = $group[$groud_id]["group_name"];
             } else {
-                $end_time = strtotime('2017-'.($item + 1).'-1');
+                $group_name = $task->t_admin_group_name->get_group_name_by_groupid($groud_id);
             }
-            if ($item == 1) {
-                $start_time = strtotime("2018-1-1");
-                $end_time = strtotime("2018-2-1");
+            echo $group_name.",";
+            $userid = $item["userid"];
+            echo $userid.",";
+            echo $item["nick"].",";
+            $order = $task->t_teacher_feedback_list->get_order_list($userid);
+            echo date("Y-m-d H:i:s", $order).",";
+            $subject = $task->t_student_info->get_list_subject($userid);
+            $subj = "";
+            foreach ($subject as $val) {
+                $subj .= E\Esubject::get_desc($val["subject"])."-";
             }
-            echo $item."月".PHP_EOL;
-            $info = $task->t_teacher_feedback_list->get_90_list($start_time, $end_time);
-            foreach($info as $val) {
-                if (!($val["teacherid"] && $val["lessonid"])) continue;
-                echo $task->cache_get_teacher_nick($val["teacherid"]).",";
-                
-                $userid = $val["userid"];
-                echo $task->cache_get_student_nick($userid).",";
-                echo $val["lessonid"].",";
-                echo $task->cache_get_assistant_nick($val["assistantid"]).",";
-                echo date("Y-m-d H:i:s", $val["lesson_start"]).",";
-                $order = $task->t_teacher_feedback_list->get_order_list($userid);
-                echo date("Y-m-d H:i:s", $order).PHP_EOL;
+            if ($subj) {
+                $subj = substr($subj,0,-1);
             }
+            echo $subj.",";
+            $count = $task->t_student_info->get_teacher_count($userid);
+            echo $count.",";
+            echo $lesson_count.",";
+            echo E\Estudent_type::get_desc($item["type"]).PHP_EOL;
         }
+
+        // 拉取90分钟补偿数据
+        // $month = [8,9,10,11,12,1];
+        // foreach ($month as $item) {
+        //     $start_time = strtotime('2017-'.$item.'-1');
+        //     if ($item == 12) {
+        //         $end_time = strtotime('2018-1-1');
+        //     } else {
+        //         $end_time = strtotime('2017-'.($item + 1).'-1');
+        //     }
+        //     if ($item == 1) {
+        //         $start_time = strtotime("2018-1-1");
+        //         $end_time = strtotime("2018-2-1");
+        //     }
+        //     echo $item."月".PHP_EOL;
+        //     $info = $task->t_teacher_feedback_list->get_90_list($start_time, $end_time);
+        //     foreach($info as $val) {
+        //         if (!($val["teacherid"] && $val["lessonid"])) continue;
+        //         echo $task->cache_get_teacher_nick($val["teacherid"]).",";
+                
+        //         $userid = $val["userid"];
+        //         echo $task->cache_get_student_nick($userid).",";
+        //         echo $val["lessonid"].",";
+        //         echo $task->cache_get_assistant_nick($val["assistantid"]).",";
+        //         echo date("Y-m-d H:i:s", $val["lesson_start"]).",";
+        //         $order = $task->t_teacher_feedback_list->get_order_list($userid);
+        //         echo date("Y-m-d H:i:s", $order).PHP_EOL;
+        //     }
+        // }
 
         
 

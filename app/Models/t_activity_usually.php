@@ -57,7 +57,6 @@ class t_activity_usually extends \App\Models\Zgen\z_t_activity_usually
         $sql = $this->gen_sql_new("  update %s set add_num=add_num+1 where id=$id"
                                   ,self::DB_TABLE_NAME
         );
-
         return $this->main_update($sql);
     }
 

@@ -119,5 +119,8 @@ class t_admin_group extends \App\Models\Zgen\z_t_admin_group
         return $this->main_get_list($sql);
     }
 
-
+    public function get_group_id_by_aid2($aid) {
+        $sql = "select g.groupid from db_weiyi_admin.t_manager_info m left join t_assistant_info a on a.phone=m.phone left join db_weiyi_admin.t_admin_group_user g on m.uid=g.adminid where a.assistantid = $aid";
+        return $this->main_get_value($sql);
+    }
 }

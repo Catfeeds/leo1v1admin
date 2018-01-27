@@ -68,17 +68,6 @@ interface RowData {
 	load_wav_self_flag	:any;
 	url	:any;
 	master_adminid	:any;
-	self_intro	:any;
-	check_lesson	:any;
-	bulid_wx	:any;
-	parent_intro	:any;
-	parent_wx_intro	:any;
-	homework_method	:any;
-	leave_send	:any;
-	educate_system	:any;
-	grade	:any;
-	subject	:any;
-	textbook	:any;
 }
 
 /*

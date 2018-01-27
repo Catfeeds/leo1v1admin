@@ -73,10 +73,12 @@
                      
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!}  >
-                                <a class="opt-show-lessons-new"  title="课程列表-new">课程-new</a>                               
-                                <a class=" opt-user-info div_show" href="/teacher_info_admin/index?teacherid={{$var["teacherid"]}}" target="_blank" title="老师信息">老师档案 </a><br>
-                                <a class=" opt-set-grade-range div_show">年级科目修改</a><br>
-                                <a class="opt-change-lesson-num">修改排课数/时间</a>
+                                @if($research_flag==1)
+                                    <a class="opt-show-lessons-new"  title="课程列表-new">课程-new</a>                               
+                                    <a class=" opt-user-info div_show" href="/teacher_info_admin/index?teacherid={{$var["teacherid"]}}" target="_blank" title="老师信息">老师档案 </a><br>
+                                    <a class=" opt-set-grade-range div_show">年级科目修改</a><br>
+                                    <a class="opt-change-lesson-num">修改排课数/时间</a>
+                                @endif
 
 
                             </div>

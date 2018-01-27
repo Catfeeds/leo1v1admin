@@ -1,5 +1,5 @@
 interface GargsStatic {
-	del_flag:	number;//\App\Enums\Eboolean
+	del_flag:	number;//枚举: \App\Enums\Eboolean
 }
 declare module "g_args" {
     export = g_args;
@@ -25,16 +25,25 @@ tofile:
 /// <reference path="../g_args.d.ts/tongji2-seller_student_admin_list.d.ts" />
 
 function load_data(){
-    if ( window["g_load_data_flag"]) {return;}
-    $.reload_self_page ( {
+	if ( window["g_load_data_flag"]) {return;}
+		$.reload_self_page ( {
+		order_by_str : g_args.order_by_str,
 		del_flag:	$('#id_del_flag').val()
-    });
+		});
 }
 $(function(){
 
-	Enum_map.append_option_list("boolean",$("#id_del_flag"));
 
-	$('#id_del_flag').val(g_args.del_flag);
+	$('#id_del_flag').admin_set_select_field({
+		"enum_type"    : "boolean",
+		"field_name" : "del_flag",
+		"select_value" : g_args.del_flag,
+		"onChange"     : load_data,
+		"multi_select_flag"     : false ,
+		"th_input_id"  : "th_del_flag",
+		"only_show_in_th_input"     : false,
+		"btn_id_config"     : {},
+	});
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -52,4 +61,5 @@ $(function(){
                 </select>
             </div>
         </div>
+{!!\App\Helper\Utils::th_order_gen([["del_flag title", "del_flag", "th_del_flag" ]])!!}
 */

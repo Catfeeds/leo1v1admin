@@ -115,6 +115,7 @@ class seller_menu{
                     ["power_id"=>16, "name"=>"特殊申请配额列表",   "url"=>"/seller_student_new2/seller_diff_money"],
                     ["power_id"=>49, "name"=>"测试课堂列表",   "url"=>"/test_lesson_opt/test_opt_list"],
                     ["power_id"=>41, "name"=>"上课统计",   "url"=>"/seller_student_new2/seller_student_new_lesson"],
+                    ["power_id"=>56, "name"=>"拨通率实时预警",   "url"=>"/tongji_ex/actual_call_threshold"],
                 ]],
             ]],
         ];  

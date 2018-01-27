@@ -917,9 +917,11 @@ $(function(){
         if(g_args.current_table_id==2){
             $(".score_table").show();
             $(".score_pic").hide();
+            $(".pages").show();
         }else{
             $(".score_pic").show();
             $(".score_table").hide();
+            $(".pages").hide();
         }
     }
 
@@ -1077,7 +1079,7 @@ $(function(){
             }
             
 
-            console.log(plot_data_list);
+           // console.log(plot_data_list);
             
             var plot=$.plot("#"+id_name, plot_data_list , {
                 series: {
@@ -1092,12 +1094,15 @@ $(function(){
 
                 },
                 xaxis: {
-                    mode: "categories",
-                    tickLength: 0
+                    ticks: [[g_args.min_month,g_args.min_month_date ],[g_args.middle_month,g_args.middle_month_date ],[g_args.max_month,g_args.max_month_date ] ],
+                    min: g_args.min_month,
+                    max: g_args.max_month,
+                    // mode: "categories",
+                    // tickLength: 0
                 },
                 yaxis:{
                     min: 0,
-                    max: 110,
+                    max: 100,
                     tickSize: 10,
                 },
                 grid: {
@@ -1129,9 +1134,11 @@ $(function(){
             }).appendTo("body");
 
             $("#"+id_name).bind("plothover", function(event, pos, item) {
+                console.log(item);
                 if (item) {
                     var data_item=item.series.data[item.dataIndex];
                     var title_funcion=function( date_item) {
+                        console.log(date_item);
                         return "日期:"+data_item[0]+ "<br/>"+ item.series.label +":"+data_item[1]+ "<br/>";
                     }
                     $("#tooltip").html( title_funcion(data_item) ).css({top: item.pageY+5, left: item.pageX+5})

@@ -4732,6 +4732,7 @@ class human_resource extends Controller
         // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             '_publish_version' =>'201712161131',
+            'research_flag'=>$research_flag
         ]);
     }
 

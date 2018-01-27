@@ -78,7 +78,8 @@
                                 @endif
                                 <a class = "opt_detail" data-userid="{{$var['userid']}}" data-revisit_time="{{$var['revisit_time']}}">详情</a>
                                 @if(in_array($account,["jack","jim"]))
-                                    <a class=" opt-edit-test"  title="编辑-test"> 编辑-test</a>
+                                    <a class=" opt-edit-test1"  title="编辑-test"> 编辑普通回访-test</a>
+                                    <a class=" opt-edit-test"  title="编辑-test"> 编辑电话回访-test</a>
                                     
                                 @endif
 
