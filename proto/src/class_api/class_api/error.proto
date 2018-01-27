@@ -46,6 +46,7 @@ enum  enum_error {
   //超过每月试听(申请,修改)操作次数
   ERR_NO_APPLY_NUM = 3013;
 
-
+  //时间冲突
+  ERR_TIME_CONFLICT = 3014;
 
 };
