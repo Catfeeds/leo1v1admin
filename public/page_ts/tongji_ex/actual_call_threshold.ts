@@ -68,7 +68,7 @@ $(function(){
             feature : {
                 mark : {show: true},
                 dataView : {show: true, readOnly: false},
-                magicType : {show: true, type: ['stack','bar','line','tiled']},
+                magicType : {show: true, type: ['line','bar','tiled']},
                 restore : {show: true},
                 saveAsImage : {show: true}
             }
