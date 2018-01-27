@@ -46,7 +46,7 @@ class test_ricky extends Command
         $group = $task->t_admin_group_name->get_ass_group_name(E\Emain_type::V_1);
         foreach ($info as $item) {
             $userid = $item["userid"];
-            $list = $this->t_course_order->get_list($userid);
+            $list = $task->t_course_order->get_list($userid);
             $lesson_count = 0;
             foreach($list as $val) {
                 $lesson_count += $val["no_finish_lesson_count"]/100;
