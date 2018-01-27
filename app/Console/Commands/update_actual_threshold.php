@@ -81,6 +81,11 @@ class update_actual_threshold extends Command
                         'create_time'=>time(),
                     ]);
                     $this->send_wx_threshold($rate,$time,$start_time,$end_time,$count_call,$count_call-$count_called);
+                }elseif(time()>strtotime(date('Y-m-d 23:25:00')) && time()<strtotime(date('Y-m-d 23:35:00'))){
+                    $ret_called = $this->task->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
+                    $count_called = count(array_unique(array_column($ret_called, 'userid')));
+                    $rate = $count_call>0?(round($count_called/$count_call, 4)*100):0;
+                    $this->send_wx_daily($rate,$time,$start_time,$end_time,$count_call,$count_call-$count_called);
                 }
             }
         }
@@ -140,4 +145,39 @@ class update_actual_threshold extends Command
         }
     }
 
+    public function send_wx_daily($rate,$time,$start_time,$end_time,$count_call,$count_no_called){
+        $threshold = $this->task->t_seller_edit_log->get_threshold($time);
+        $threshold_max = $threshold[0]['new'];
+        $threshold_min = $threshold[1]['new'];
+        $threshold_count = $this->task->t_seller_edit_log->get_threshold_count($start_time,$end_time);
+        list($count_y,$count_x) = [0,0];
+        foreach($threshold_count as $old){
+            if($old == 1){
+                $count_y++;
+            }else{
+                $count_x++;
+            }
+        }
+
+        $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+        $theme = "新例子电话接通率报告";
+        $desc = "今预警线：".$threshold_max."%"
+              ."今警戒线：".$threshold_min."%"
+              ."黄色警报：".$count_y
+              ."红色警报：".$count_r
+              ."总拨通率：".$rate."%"
+              ."总拨打量：".$count_call
+              ."总拨不通：".$count_no_called;
+        $account_arr = ['tom'];
+        foreach($account_arr as $account){
+            $this->task->t_manager_info->send_template_msg(
+                $account,$template_id,[
+                    "first"    => "",
+                    "keyword1" => $theme,
+                    "keyword2" => "",
+                    "keyword3" => date("Y-m-d H:i:s"),
+                    "remark"   => $desc,
+                ]);
+        }
+    }
 }
