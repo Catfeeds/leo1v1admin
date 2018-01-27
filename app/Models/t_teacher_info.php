@@ -204,7 +204,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "m.account_role in(4,9)",
             "m.del_flag=0"
         );
-        $where_arr = $this->teacher_search_info_sql($nick_phone, '', $where_arr);
+        $where_arr = $this->teacher_search_info_sql($nick_phone, 't', $where_arr);
 
         $sql = $this->gen_sql_new("select teacherid as id , nick,t.phone,t.gender ,"
                                   ."realname,subject,grade_part_ex,grade_start,grade_end from %s t".

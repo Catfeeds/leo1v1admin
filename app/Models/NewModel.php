@@ -1104,7 +1104,7 @@ abstract class NewModel
             $alias = $this->get_table_alias($alias);
             if($search_info>0){
                 $search_sql = $this->gen_sql_new("(".$alias."teacherid=%u or "
-                                                 .$alias."t.phone like '%s%%'"
+                                                 .$alias."phone like '%s%%'"
                                                  .")"
                                                  ,$search_info
                                                  ,$search_info
