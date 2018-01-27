@@ -95,6 +95,7 @@ $(function(){
                 if(res.key){
                     $('.del_cover').css('display','block');
                     $('#id_img1').attr('src','https://ybprodpub.leo1v1.com/'+res.key);
+                    $('#id_img1').attr('img_key',res.key);
                 }
 
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
@@ -105,6 +106,7 @@ $(function(){
                 if(res.key){
                     $('.del_activity').css('display','block');
                     $('#id_img2').attr('src','https://ybprodpub.leo1v1.com/'+res.key);
+                    $('#id_img2').attr('img_key',res.key);
                 }
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
@@ -114,6 +116,7 @@ $(function(){
                 if(res.key){
                     $('.del_share').css('display','block');
                     $('#id_img3').attr('src','https://ybprodpub.leo1v1.com/'+res.key);
+                    $('#id_img3').attr('img_key',res.key);
                 }
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
@@ -123,8 +126,9 @@ $(function(){
                 if(res.key){
                     $('.del_follow').css('display','block');
                     $('#id_img4').attr('src','https://ybprodpub.leo1v1.com/'+res.key);
+                    $('#id_img4').attr('img_key',res.key);
 
-                    $follow_list.append('<div style="margin:1rem"><img img_key="'+res.key+'" src="https://ybprodpub.leo1v1.com/'+res.key+'"><<span class="del_follow_" style="display: block;">删除</span>></div>');
+                    $follow_list.append('<div style="margin:1rem"><img  src="https://ybprodpub.leo1v1.com/'+res.key+'"></div>');
                 }
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
