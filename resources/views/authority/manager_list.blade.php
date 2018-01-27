@@ -185,7 +185,7 @@
                                     @if(in_array($account,['孙瞿',"jim","顾培根"]))
                                         <a href="javascript:;" title="超级更改权限组" class="fa fa-hand-o-up opt-power"></a>
                                     @endif
-                                    <a href="javascript:;" title="一般更改权限组" class="fa fa-hand-o-up opt-power2"></a>
+                                    <!-- <a href="javascript:;" title="一般更改权限组" class="fa fa-hand-o-up opt-power2"></a> -->
 
                                     <a href="javascript:;" title="用此账号登录" class="opt-login">登录</a>
                                     <a href="javascript:;" title="修改账号"
