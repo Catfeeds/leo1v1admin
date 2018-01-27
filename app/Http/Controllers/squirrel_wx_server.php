@@ -18,8 +18,7 @@ class  squirrel_wx_server extends Controller
     var $check_login_flag =false;//是否需要验证
     public function index() {
         $wechat = new \App\Wx\Squirrel\wechat(WECHAT_TOKEN_SQU, TRUE);
-        $r = $wechat->checkSignature();
-        \App\Helper\Utils::logger("songsusiwei: $r");
+        // $r = $wechat->checkSignature();
 
 
         $ret = $wechat->run();
@@ -35,13 +34,13 @@ class  squirrel_wx_server extends Controller
             array('id'=>'1', 'pid'=>'0', 'name'=>'讲师报名', 'type'=>'', 'code'=>''),
             array('id'=>'2', 'pid'=>'0', 'name'=>'个人中心', 'type'=>'', 'code'=>''),
             array('id'=>'3', 'pid'=>'0', 'name'=>'帮助中心', 'type'=>'', 'code'=>''),
-            array('id'=>'4', 'pid'=>'1', 'name'=>'关于理优', 'type'=>'view', 'code'=>'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_about_me.html'),
+            array('id'=>'4', 'pid'=>'1', 'name'=>'关于理优', 'type'=>'view', 'code'=>'ww'),
             array('id'=>'6', 'pid'=>'1', 'name'=>'面试流程', 'type'=>'view', 'code'=>'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_interview.html'),
 
             array('id'=>'17', 'pid'=>'1', 'name'=>'代理须知', 'type'=>'view', 'code'=>'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_agent.html'),
             array('id'=>'5', 'pid'=>'1', 'name'=>'立即报名', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/tea?reference'),
             array('id'=>'7', 'pid'=>'2', 'name'=>'荣誉榜', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/honor_rank'),
-            array('id'=>'8', 'pid'=>'2', 'name'=>'上课时间', 'type'=>'view', 'code'=>"http://wx-teacher.leo1v1.com/wx_teacher_web/course_arrange"),
+            array('id'=>'8', 'pid'=>'2', 'name'=>'空闲时间', 'type'=>'view', 'code'=>"http://wx-teacher.leo1v1.com/wx_teacher_web/course_arrange"),
             array('id'=>'9', 'pid'=>'2', 'name'=>'课程评价', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/comment_list'),
             array('id'=>'10', 'pid'=>'2', 'name'=>'我的收入', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/wage_summary'),
             array('id'=>'11', 'pid'=>'3', 'name'=>'使用手册', 'type'=>'click', 'code'=>'manual'),
@@ -52,8 +51,10 @@ class  squirrel_wx_server extends Controller
         );
 
 
-        $ret =  \Teacher\Core\Menu::setMenu($menuList);
-        $result =  \Teacher\Core\Menu::getMenu($menuList);
+
+
+        $ret =  \Squirrel\Core\Menu::setMenu($menuList);
+        $result =  \Squirrel\Core\Menu::getMenu($menuList);
         dd($result);
     }
 

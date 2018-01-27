@@ -514,8 +514,19 @@ class authority extends Controller
             $teacher_info["wx_use_flag"]=1;
             $teacher_info["level"]=0;
             $teacher_info["teacher_money_type"]=0;
+            $tt=[
+                ["week_num"=>2,"week_name"=>"周二","start"=>"09:00","end"=>"18:00"],
+                ["week_num"=>3,"week_name"=>"周三","start"=>"09:00","end"=>"18:00"],
+                ["week_num"=>4,"week_name"=>"周四","start"=>"09:00","end"=>"18:00"],
+                ["week_num"=>5,"week_name"=>"周五","start"=>"09:00","end"=>"18:00"],
+            ];
+            $str = json_encode($tt);
+            $teacher_info["week_limit_time_info"]=$str;
+            $teacher_info["week_lesson_count"]=8;
 
         }
+      
+
 
         $this->add_teacher_common($teacher_info);
 

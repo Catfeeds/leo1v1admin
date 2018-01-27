@@ -203,7 +203,7 @@ class seller_student_system_assign extends cmd_base
             foreach ($need_deal_list as $user_info)  {
                 $userid=$user_info["userid"];
                 $origin_level=$user_info["origin_level"];
-                if (isset($level_map[$origin_level]) ) {
+                if (!isset($level_map[$origin_level]) ) {
                     $level_map[$origin_level]=[];
                 }
                 $level_map[$origin_level][$userid]=true;
@@ -211,11 +211,15 @@ class seller_student_system_assign extends cmd_base
 
             $check_end_flag=false;
             for ($i=0;$i< $seller_max_new_count;$i++ ) { //第几轮
+                \App\Helper\Utils::logger(" DO count :$i");
 
                 foreach( $admin_list as &$item ) {
                     $assigned_new_count=$item["assigned_new_count"];
                     $seller_level=$item["seller_level"];
                     $def_new_count=$item["def_new_count"];
+                    $opt_adminid= $item["uid"];
+
+                    \App\Helper\Utils::logger(" --> adminid: $opt_adminid, $i, def_new_count:$def_new_count , assigned_new_count:$assigned_new_count   ");
                     if ($i<$def_new_count // 在配额内
                         && $assigned_new_count <=$i //这一轮可以分配
                     ){
@@ -224,7 +228,6 @@ class seller_student_system_assign extends cmd_base
                             $assigned_count++;
                             $userid_list=[$find_userid];
                             $opt_type ="" ;
-                            $opt_adminid= $item["uid"];
                             $opt_type=0;
                             $account="系统分配-新例子";
                             $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
@@ -232,6 +235,7 @@ class seller_student_system_assign extends cmd_base
                                 E\Eseller_student_assign_from_type::V_0, $find_userid, $opt_adminid
                             );
                         }else{ //没有可分配的
+                            \App\Helper\Utils::logger( " set check_end_flag  true");
                             $check_end_flag=true;
                             break;
                         }
@@ -299,6 +303,7 @@ class seller_student_system_assign extends cmd_base
             }
             unset($find_level_map_item[$find_userid])  ;
         }
+        \App\Helper\Utils::logger("find_userid: $find_userid ");
         return $find_userid;
     }
 

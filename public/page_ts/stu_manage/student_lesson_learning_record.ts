@@ -917,9 +917,11 @@ $(function(){
         if(g_args.current_table_id==2){
             $(".score_table").show();
             $(".score_pic").hide();
+            $(".pages").show();
         }else{
             $(".score_pic").show();
             $(".score_table").hide();
+            $(".pages").hide();
         }
     }
 
@@ -1132,6 +1134,7 @@ $(function(){
                 if (item) {
                     var data_item=item.series.data[item.dataIndex];
                     var title_funcion=function( date_item) {
+                        console.log(date_item);
                         return "日期:"+data_item[0]+ "<br/>"+ item.series.label +":"+data_item[1]+ "<br/>";
                     }
                     $("#tooltip").html( title_funcion(data_item) ).css({top: item.pageY+5, left: item.pageX+5})
