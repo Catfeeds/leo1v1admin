@@ -51,7 +51,7 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
         /*elseif($fulltime_flag==2){           
             $where_arr[] = "m.account_role =5 and fulltime_teacher_type=2";
             }*/
-        $sql = $this->gen_sql_new("select a.*,t.realname,m.create_time become_member_time,t.level real_level "
+        $sql = $this->gen_sql_new("select a.*,t.realname,m.create_time become_member_time,t.level real_level,m.uid "
                                   ." from %s a left join %s t on a.teacherid = t.teacherid"
                                   ." left join %s m on t.phone = m.phone"
                                   ." where %s order by total_score desc",
