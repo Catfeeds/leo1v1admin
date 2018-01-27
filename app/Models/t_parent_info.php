@@ -300,7 +300,8 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
             "s.grade in (101,102,103)",
             "s.is_test_user=0",
             "l.lesson_status=2",
-            "l.lesson_del_flag=0"
+            "l.lesson_del_flag=0",
+            "l.lesson_type=2"
         ];
 
         $sql = $this->gen_sql_new("  select p.wx_openid,p.nick from %s p "
