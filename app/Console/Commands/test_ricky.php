@@ -49,7 +49,7 @@ class test_ricky extends Command
             var_dump($item);
             $aid = $item["assistantid"];
             echo $task->cache_get_assistant_nick($aid);
-            $groud_id = $task->t_admin_group->get_group_id_by_aid($aid);
+            $groud_id = $task->t_admin_group->get_group_id_by_aid2($aid);
             echo $group[$groud_id]["group_name"];
             $userid = $item["userid"];
             echo $userid;
