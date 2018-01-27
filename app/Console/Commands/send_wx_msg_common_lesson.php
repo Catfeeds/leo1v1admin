@@ -56,25 +56,21 @@ class send_wx_msg_common_lesson extends Command
         $upload_list = $task->t_lesson_info_b3->check_has_tea_cw_url($four_start,$four_end);
         $template_id_upload = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
 
-        if(count($upload_list)<=150){
-            foreach($upload_list as $item){
-                $data_upload = [
-                    "first" => '老师您好，'.date('m-d H:i:s',$item['lesson_start']).'~'.date('m-d H:i:s',$item['lesson_end']).'的'.E\Esubject::get_desc($item['subject']).'课未上传讲义',
-                    "keyword1" => '讲义上传提醒',
-                    "keyword2" => date('m-d H:i:s',$item['lesson_start']).'~'.date('m-d H:i:s',$item['lesson_end']).'的'.E\Esubject::get_desc($item['subject']).'课未上传讲义，请尽快登录老师后台上传讲义',
-                    "keyword3" => date('Y-m-d H:i:s')
-                ];
-                \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_upload, $data_upload,'');
-            }
-        }else{
-            $this->to_waring('课前四小时未上传讲义 数量异常');
+        foreach($upload_list as $item){
+            $data_upload = [
+                "first" => '老师您好，'.date('m-d H:i:s',$item['lesson_start']).'~'.date('m-d H:i:s',$item['lesson_end']).'的'.E\Esubject::get_desc($item['subject']).'课未上传讲义',
+                "keyword1" => '讲义上传提醒',
+                "keyword2" => date('m-d H:i:s',$item['lesson_start']).'~'.date('m-d H:i:s',$item['lesson_end']).'的'.E\Esubject::get_desc($item['subject']).'课未上传讲义，请尽快登录老师后台上传讲义',
+                "keyword3" => date('Y-m-d H:i:s')
+            ];
+            \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_upload, $data_upload,'');
         }
 
         $lesson_begin_halfhour = $now+30*60;
         $lesson_end_halfhour   = $now+31*60;
         // 获取常规课 课前30分钟
         $common_lesson_list_halfhour = $task->t_lesson_info_b2->get_common_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
-        if(count($common_lesson_list_halfhour)<300){
+        if(count($common_lesson_list_halfhour)<600){
             foreach($common_lesson_list_halfhour as $item){
                 $data_par = $this->get_data($item,1,1);
                 $data_tea = $this->get_data($item,2,1);
@@ -204,62 +200,53 @@ class send_wx_msg_common_lesson extends Command
 
 
         // 旷课
-        if(count($absenteeism_lesson_list)<=500){
-            foreach($absenteeism_lesson_list as $index=>$item){
-                $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
-                $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
+        foreach($absenteeism_lesson_list as $index=>$item){
+            $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
+            $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
 
-                if((!$logout_time_tea || $logout_time_tea<$item['lesson_start']) && $now>$item['lesson_end']){
-                    $data_tea = $this->get_data($item,2,4,'','');
-                    $data_ass = $this->get_data($item,3,4,$item['teacher_nick'],'');
-                    $this->send_wx_msg_ass($item,4,$data_ass);
-                    $this->send_wx_msg_tea($item,2,$data_tea);
-                }
-
-                if((!$logout_time_stu || $logout_time_stu<$item['lesson_start']) && $now>$item['lesson_end']){
-                    $data_ass = $this->get_data($item,3,4,'',$item['stu_nick']);
-                    $data_par = $this->get_data($item,1,4,'','');
-                    $this->send_wx_msg_ass($item,4,$data_ass);
-                    $this->send_wx_msg_par($item,2,$data_par);
-                }
+            if((!$logout_time_tea || $logout_time_tea<$item['lesson_start']) && $now>$item['lesson_end']){
+                $data_tea = $this->get_data($item,2,4,'','');
+                $data_ass = $this->get_data($item,3,4,$item['teacher_nick'],'');
+                $this->send_wx_msg_ass($item,4,$data_ass);
+                $this->send_wx_msg_tea($item,2,$data_tea);
             }
-        }else{
-            $num = count($absenteeism_lesson_list);
-            $this->to_waring('旷课 '.$num);
+
+            if((!$logout_time_stu || $logout_time_stu<$item['lesson_start']) && $now>$item['lesson_end']){
+                $data_ass = $this->get_data($item,3,4,'',$item['stu_nick']);
+                $data_par = $this->get_data($item,1,4,'','');
+                $this->send_wx_msg_ass($item,4,$data_ass);
+                $this->send_wx_msg_par($item,2,$data_par);
+            }
         }
 
 
         // 常规课 15分钟提示
         $late_time = $now-86400*2+15*60;
         $late_lesson_info = $task->t_lesson_info_b3->get_late_lesson_info($late_time);
-        if(count($late_lesson_info)<=50){
-            foreach($late_lesson_info as $val){
-                $subject_str  = E\Esubject::get_desc($val["subject"]);
-                $lesson_time  = date("H:i",$val['lesson_start']);
-                $lesson_day   = date("Y-m-d H:i",$val['lesson_start']);
+        foreach($late_lesson_info as $val){
+            $subject_str  = E\Esubject::get_desc($val["subject"]);
+            $lesson_time  = date("H:i",$val['lesson_start']);
+            $lesson_day   = date("Y-m-d H:i",$val['lesson_start']);
 
-                /**
-                 * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
-                 * 标题课程 : 待办事项提醒
-                 * {{first.DATA}}
-                 * 待办主题：{{keyword1.DATA}}
-                 * 待办内容：{{keyword2.DATA}}
-                 * 日期：{{keyword3.DATA}}
-                 * {{remark.DATA}}
-                 */
-                $data=[];
-                $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-                $data['first']    = "老师您好，".$lesson_time."的".$subject_str."课程已结束，距离课程评价截止时间只剩15分钟了";
-                $data['keyword1'] = "课程评价";
-                $data['keyword2'] = "距离评价截止时间还有15分钟  \n 课程时间:".$lesson_day."\n 学生姓名:".$val['stu_nick']
-                                  ."\n 老师姓名".$val['tea_nick'];
-                $data['keyword3'] = date("Y-m-d H:i",time());
-                $data['remark']   = "请尽快登录老师端,进行评价!";
-                $url = "";
-                \App\Helper\Utils::send_teacher_msg_for_wx($val['wx_openid'],$template_id,$data,$url);
-            }
-        }else{
-            $this->to_waring('常规课 15分钟提示');
+            /**
+             * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+             * 标题课程 : 待办事项提醒
+             * {{first.DATA}}
+             * 待办主题：{{keyword1.DATA}}
+             * 待办内容：{{keyword2.DATA}}
+             * 日期：{{keyword3.DATA}}
+             * {{remark.DATA}}
+             */
+            $data=[];
+            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+            $data['first']    = "老师您好，".$lesson_time."的".$subject_str."课程已结束，距离课程评价截止时间只剩15分钟了";
+            $data['keyword1'] = "课程评价";
+            $data['keyword2'] = "距离评价截止时间还有15分钟  \n 课程时间:".$lesson_day."\n 学生姓名:".$val['stu_nick']
+                              ."\n 老师姓名".$val['tea_nick'];
+            $data['keyword3'] = date("Y-m-d H:i",time());
+            $data['remark']   = "请尽快登录老师端,进行评价!";
+            $url = "";
+            \App\Helper\Utils::send_teacher_msg_for_wx($val['wx_openid'],$template_id,$data,$url);
         }
 
 
@@ -282,28 +269,21 @@ class send_wx_msg_common_lesson extends Command
         $nowMonthStart  = strtotime(date("Y-m-1"));
         $nowMonthEnd    = strtotime(date("Y-m-1",$nowMonthStart+32*86400));
 
-        if(count($lessonEndList)<500){
-            foreach($lessonEndList as &$itemLessonEnd){
-                $subject_str = E\Esubject::get_desc($itemLessonEnd["subject"]);
-                $lesson_str  = date("Y-m-d H:i",$itemLessonEnd['lesson_start'])." ~ ".date("H:i",$itemLessonEnd['lesson_end']);
-                $templateIdLessonEnd = "IyYFpK8WkMGDMqMABls0WdZyC0-jV6xz4PFYO0eja9Q";
-                $dataLessonEnd = [
-                    "first"    => "家长您好, ".$itemLessonEnd['stu_nick']."同学已完成".number_format($itemLessonEnd['lesson_count'],2)."课时,请知晓。\n如有疑问,请联系班主任",
-                    "keyword1" => $subject_str,
-                    "keyword2" => $lesson_str,
-                    "remark"   => "联系电话: ".$itemLessonEnd['ass_nick']." ".$itemLessonEnd['ass_phone']
-                ];
+        foreach($lessonEndList as &$itemLessonEnd){
+            $subject_str = E\Esubject::get_desc($itemLessonEnd["subject"]);
+            $lesson_str  = date("Y-m-d H:i",$itemLessonEnd['lesson_start'])." ~ ".date("H:i",$itemLessonEnd['lesson_end']);
+            $templateIdLessonEnd = "IyYFpK8WkMGDMqMABls0WdZyC0-jV6xz4PFYO0eja9Q";
+            $dataLessonEnd = [
+                "first"    => "家长您好, ".$itemLessonEnd['stu_nick']."同学已完成".number_format($itemLessonEnd['lesson_count'],2)."课时,请知晓。\n如有疑问,请联系班主任",
+                "keyword1" => $subject_str,
+                "keyword2" => $lesson_str,
+                "remark"   => "联系电话: ".$itemLessonEnd['ass_nick']." ".$itemLessonEnd['ass_phone']
+            ];
 
-                $urlLessonEnd = "";
-                $wx->send_template_msg($itemLessonEnd['wx_openid'],$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);
-                // $wx->send_template_msg("orwGAs_IqKFcTuZcU1xwuEtV3Kek",$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);//james
-            }
-        }else{
-            $this->to_waring('常规课结束 想家长发送信息 数量: '.count($lessonEndList));
+            $urlLessonEnd = "";
+            $wx->send_template_msg($itemLessonEnd['wx_openid'],$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);
+            // $wx->send_template_msg("orwGAs_IqKFcTuZcU1xwuEtV3Kek",$templateIdLessonEnd,$dataLessonEnd ,$urlLessonEnd);//james
         }
-
-        \App\Helper\Utils::logger("  2018-01-09:_james");
-
     }
 
 
@@ -321,11 +301,11 @@ class send_wx_msg_common_lesson extends Command
         $wx->send_template_msg_color($self_openid,$template_id_self,$data_self ,'');
     }
 
-
+    // $item,3,2,'',$item['stu_nick'])
 
     public function get_data($item, $account_role,$type, $tea_nick_cut_class='', $stu_nick_cut_class=''){
         $subject_str = E\Esubject::get_desc($item['subject']);
-        // $data = [];
+        $data = [];
         if($account_role == 1){ // 家长
             if($type == 1){ // 课前30分钟
                 $data = [
@@ -336,8 +316,6 @@ class send_wx_msg_common_lesson extends Command
                     "keyword4" => '" 助教电话: '.$item['ass_phone'].'"',
                     "remark"   => "可登录学生端提前预习讲义，做好课前准备工作，保持网络畅通，开课前五分钟可提前进入课堂，祝学习愉快！"
                 ];
-
-
             }elseif($type == 4){ // 旷课通知
                 $data = [
                     "first"    => "家长您好，".$item['stu_nick']."的课程已结束,同学未能按时进入课堂",
@@ -532,6 +510,8 @@ class send_wx_msg_common_lesson extends Command
 
 
 }
+
+
 /**
  // gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk // 老师帮
 
@@ -570,15 +550,3 @@ class send_wx_msg_common_lesson extends Command
  {{remark.DATA}}
 
 **/
-
-// // 试听课正常结束
-// if(!empty($normal_lesson_list)){
-//     foreach($normal_lesson_list as $item){
-//         $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
-//         $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
-//         if( ($logout_time_tea>$item['lesson_end']-600) && ($logout_time_stu>$item['lesson_end']-600)){
-//             $data_ass = $this->get_data($item,3,5);
-//             $this->send_wx_msg_ass($item,5,$data_ass);
-//         }
-//     }
-// }

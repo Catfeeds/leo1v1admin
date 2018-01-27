@@ -4922,8 +4922,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
      */
     public function get_total_for_teacherid($start_time, $end_time, $phone, $reference_type) {
         $where_arr = [
-            ['t.train_through_new_time>=%u', $start_time, 0],
-            ['t.train_through_new_time<%u', $end_time, 0],
+            ["t.train_through_new_time>=%u", $start_time, 0],
+            ["t.train_through_new_time<%u", $end_time, 0],
             ["ta.reference='%s'",$phone,'']
         ];
 
@@ -4932,7 +4932,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         }else{
             array_push($where_arr, 't.identity in (0,7,8)');
         }
-
         $sql = $this->gen_sql_new("select count(1) "
                                   ." from %s t "
                                   ." left join %s ta on t.phone=ta.phone "
