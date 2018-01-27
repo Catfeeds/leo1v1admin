@@ -81,7 +81,8 @@ class update_actual_threshold extends Command
                         'create_time'=>time(),
                     ]);
                     $this->send_wx_threshold($rate,$time,$start_time,$end_time,$count_call,$count_call-$count_called);
-                }elseif(time()>strtotime(date('Y-m-d 23:25:00')) && time()<strtotime(date('Y-m-d 23:35:00'))){
+                }
+                if(time()>strtotime(date('Y-m-d 18:15:00')) && time()<strtotime(date('Y-m-d 18:25:00'))){
                     $ret_called = $this->task->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
                     $count_called = count(array_unique(array_column($ret_called, 'userid')));
                     $rate = $count_call>0?(round($count_called/$count_call, 4)*100):0;
