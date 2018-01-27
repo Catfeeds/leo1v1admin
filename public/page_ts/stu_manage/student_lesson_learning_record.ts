@@ -1097,7 +1097,7 @@ $(function(){
                 },
                 yaxis:{
                     min: 0,
-                    max: 100,
+                    max: 110,
                     tickSize: 10,
                 },
                 grid: {

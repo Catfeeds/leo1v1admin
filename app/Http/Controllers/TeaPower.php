@@ -126,7 +126,7 @@ trait TeaPower {
         }
     }
 
-    public function check_research_teacher_limit_time($lesson_start,$lesson_end,$week_limit_time_info,$data_week){
+    public function check_research_teacher_limit_time($lesson_start,$lesson_end,$week_limit_time_info,$date_week){
         $end_h = date("H",$lesson_end);
         $h         = date("H",$lesson_start);
         $day          = intval(($lesson_start-$date_week["sdate"])/86400)+1;
