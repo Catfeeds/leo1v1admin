@@ -508,7 +508,7 @@ class lesson extends TeaWxController
     }
 
     public function update_comment_common_new() { // 协议编号 3001
-        $teacherid          = $this->get_teacherid();
+        $teacherid          = $this->get_in_int_val('teacherid');
         $lessonid           = $this->get_in_int_val('lessonid',-1);
         $now                = time(NULL);
         $total_judgement    = $this->get_in_int_val("total_judgement",-1);
@@ -582,11 +582,7 @@ class lesson extends TeaWxController
             if($com_state && $ret){
                 return $this->output_succ(['time'=>$com_state]);
             }
-            \App\Helper\Utils::logger("ret_hhshshs: $ret,com_state: $com_state");
-
         }
-        return $this->output_succ();
-
     }
 
 }
