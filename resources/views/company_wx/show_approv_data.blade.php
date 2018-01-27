@@ -1,6 +1,13 @@
 
 @extends('layouts.app')
 @section('content')
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
+    <script type="text/javascript" src="/js/all.js"></script>
 <section class='content'>
     <div> <!-- search ... -->
         <div class='row ' >
@@ -59,6 +66,23 @@
             @endforeach
         </tbody>
     </table>
-@include('layouts.page')
+    @include('layouts.page')
 </section>
+<div class="dlg_add_pic_info" style="display:none">
+    <table class="table table-bordered table-striped">
+	      <tbody>
+            <tr>
+            <td style="text-align:right; width:150px;">上传下载文件</td>
+			      <td>
+                <div id="id_container_add">
+                    <input id="id_upload_add" value="上传下载文件" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>
+                </div>
+                <div class="add_header_img"></div>
+                <div class="pic_url"></div>
+            </td>
+		        </tr>
+
+        </tbody>
+    </table>
+</div>
 @endsection
