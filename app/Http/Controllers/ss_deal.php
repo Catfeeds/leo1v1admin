@@ -3489,8 +3489,16 @@ class ss_deal extends Controller
             $check_teacher_num = $this->t_lesson_info_b3->get_user_subject_tea_num($userid,$subject);
             if($check_teacher_num>1 && $ass_test_lesson_type ==2){
                 $now_teacherid =$this->t_lesson_info_b3->get_first_user_subject_tea($userid,$subject);
-                $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"非首次换老师","非首次换老师提醒","学生id:".$userid.",老师id:".$now_teacherid,"");
-                $this->t_manager_info->send_wx_todo_msg_by_adminid(72,"非首次换老师","非首次换老师提醒","学生id:".$userid.",老师id:".$now_teacherid,"");
+                $tea_info =$this->t_teacher_info->field_get_list($now_teacherid,"grade_start,grade_end,realname");
+                $subject_str = E\Esubject::get_desc($subject);
+                //E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+                $grade_start =  E\Egrade_range::get_desc($tea_info["grade_start"]);
+                $grade_end =  E\Egrade_range::get_desc($tea_info["grade_end"]);
+                $nick = $this->t_student_info->get_nick($userid);
+
+                $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"非首次换老师","非首次换老师提醒","学生:".$nick.",原老师:".$tea_info["realname"].",科目:".$subject_str.",老师年级段:".$grade_start."至".$grade_end,"");
+                $this->t_manager_info->send_wx_todo_msg_by_adminid(72,"非首次换老师","非首次换老师提醒","学生:".$nick.",原老师:".$tea_info["realname"].",科目:".$subject_str.",老师年级段:".$grade_start."至".$grade_end,"");
+               
 
 
             }

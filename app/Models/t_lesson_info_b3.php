@@ -3126,7 +3126,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ." l.teacher_effect,l.teacher_quality,l.stu_score,l.teacher_interact,l.stu_stability, "
                                   ." l.teacher_comment,l.stu_comment,l.stu_performance,h.issue_time ,h.issue_url ,"
                                   ." h.finish_time,h.finish_url ,h.work_status ,h.score,h.check_url,l.stu_praise ,"
-                                  ." l.subject,l.grade,t.realname,l.lesson_status, "
+                                  ." l.subject,l.grade,t.realname,l.lesson_status,h.download_time,h.stu_check_time, "
                                   ." l.tea_draw,l.tea_voice,l.stu_draw,l.stu_voice "
                                   ." from %s l left join %s h on l.lessonid = h.lessonid"
                                   ." left join %s t on l.teacherid = t.teacherid"
@@ -3354,7 +3354,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.subject,l.confirm_flag,"
                                   ."l.grade,l.teacherid,l.lessonid,t.realname,l.userid,"
                                   ." l.lesson_num,h.issue_time ,h.issue_url ,h.finish_time,h.finish_url ,"
-                                  ." h.work_status ,h.score,h.check_url"
+                                  ." h.work_status ,h.score,h.check_url,h.download_time,h.stu_check_time "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s h on l.lessonid = h.lessonid"
                                   ." where %s order by l.lesson_start",

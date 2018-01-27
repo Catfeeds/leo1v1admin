@@ -201,7 +201,7 @@ $(function(){
             });
            
             html_node.find("#add_data").on("click",function(){
-                var id_week        = $("<select><option value='1'>周一</option><option value='2'>周二</option><option value='3'>周三</option><option value='4'>周四</option><option value='5'>周五</option><option value='1'>周六</option><option value='7'>周日</option></select>");
+                var id_week        = $("<select><option value='1'>周一</option><option value='2'>周二</option><option value='3'>周三</option><option value='4'>周四</option><option value='5'>周五</option><option value='6'>周六</option><option value='7'>周日</option></select>");
                 var id_start =$("<input/>");
                 var id_end =$("<input/>");
 
@@ -244,7 +244,7 @@ $(function(){
             html_node.find("table").on("click", ".update_data",function(){
                 var me = $(this);
                 console.log(me.parent().parent());
-                var id_week        = $("<select><option value='1'>周一</option><option value='2'>周二</option><option value='3'>周三</option><option value='4'>周四</option><option value='5'>周五</option><option value='1'>周六</option><option value='7'>周日</option></select>");
+                var id_week        = $("<select><option value='1'>周一</option><option value='2'>周二</option><option value='3'>周三</option><option value='4'>周四</option><option value='5'>周五</option><option value='6'>周六</option><option value='7'>周日</option></select>");
                 var id_start =$("<input/>");
                 var id_end =$("<input/>");
 
@@ -322,7 +322,7 @@ $(function(){
                             console.log(i);
                             console.log(item);
                             if(i>0){
-                                arr.push({"week_num":$(item).data("week_num"),"week_name":$(item).data("week_name"),"start":$(item).data("start"),"end":$(item).data("end")});
+                                arr.push({"week_num":$(item).data("week"),"week_name":$(item).data("week_name"),"start":$(item).data("start"),"end":$(item).data("end")});
 
                             }
                         });
