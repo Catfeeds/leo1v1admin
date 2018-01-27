@@ -82,7 +82,7 @@ class update_actual_threshold extends Command
                     ]);
                     $this->send_wx_threshold($rate,$time,$start_time,$end_time,$count_call,$count_call-$count_called);
                 }
-                if(time()>strtotime(date('Y-m-d 18:15:00')) && time()<strtotime(date('Y-m-d 18:25:00'))){
+                if(time()>strtotime(date('Y-m-d 18:15:00')) && time()<strtotime(date('Y-m-d 18:27:00'))){
                     $ret_called = $this->task->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
                     $count_called = count(array_unique(array_column($ret_called, 'userid')));
                     $rate = $count_call>0?(round($count_called/$count_call, 4)*100):0;
@@ -151,7 +151,7 @@ class update_actual_threshold extends Command
         $threshold_max = $threshold[0]['new'];
         $threshold_min = $threshold[1]['new'];
         $threshold_count = $this->task->t_seller_edit_log->get_threshold_count($start_time,$end_time);
-        list($count_y,$count_x) = [0,0];
+        list($count_y,$count_r) = [0,0];
         foreach($threshold_count as $old){
             if($old == 1){
                 $count_y++;
