@@ -151,7 +151,7 @@ class update_actual_threshold extends Command
         $threshold_max = $threshold[0]['new'];
         $threshold_min = $threshold[1]['new'];
         $threshold_count = $this->task->t_seller_edit_log->get_threshold_count($start_time,$end_time);
-        list($count_y,$count_x) = [0,0];
+        list($count_y,$count_r) = [0,0];
         foreach($threshold_count as $old){
             if($old == 1){
                 $count_y++;
