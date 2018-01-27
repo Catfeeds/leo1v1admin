@@ -1775,6 +1775,8 @@ class test_james extends Controller
     }
 
     public function getTea(){
+        $a = $this->t_parent_info->get_stu();
+        dd($a);
         $num = $this->t_parent_info->getNeedSendInfo();
         echo count($num);
         dd($num);
