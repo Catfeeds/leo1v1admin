@@ -499,7 +499,6 @@ class tongji_ex extends Controller
             $item['threshold_min'] = $threshold_min;
             $item['threshold_max'] = $threshold_max;
         }
-        dd($ret);
-        return $this->pageView(__METHOD__, $ret_info);
+        return $this->pageView(__METHOD__, null,['data_ex_list'=>$ret]);
     }
 }
