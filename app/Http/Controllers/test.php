@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
+use App\Enums as f;
 
 use Illuminate\Support\Facades\Mail ;
 
@@ -14,7 +15,6 @@ class test extends Controller
 
     public function tt() {
         $this->check_and_switch_tongji_domain();
-
         dd( $_SERVER );
         phpinfo();
     }
