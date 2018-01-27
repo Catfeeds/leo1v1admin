@@ -59,7 +59,7 @@ class test_jack  extends Controller
 
 
         //全职老师提前下班
-        $time - strtotime("2018-01-26 11:00:00");
+        $time = strtotime("2018-01-26 11:00:00");
         $lesson_end = strtotime(date("Y-m-d",$time)." 19:30:00");
         $lesson_start = $lesson_end+1800;
         $lesson_list = $this->t_lesson_info_b2->get_off_time_lesson_info($lesson_start,$lesson_end);
