@@ -1076,6 +1076,7 @@ $(function(){
                                 }
 
                                 if( file_obj[0]['resource_type'] == 5 ||  file_obj[0]['resource_type'] == 6 ){
+                                    console.log('按钮'+btn_type);
                                     upload_my_collect(btn_type);
                                 }
 
@@ -1126,7 +1127,7 @@ $(function(){
             if($(this).hasClass('unbind')){
                 get_res('/teacher_info/get_leo_resource_new', 'leo_one',$(this).attr('upload_id'),null,data);
             }else {
-                get_res('/teacher_info/get_leo_resource_new', 'leo',null,null,data);
+                get_res('/teacher_info/get_leo_resource_new', 'leo',$(this).attr('upload_id'),null,data);
             }
         });
 
