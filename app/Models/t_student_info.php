@@ -3394,8 +3394,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
-    public function get_teacher_count($userid) {
-        $sql = "select count(distinct teacherid) count from t_lesson_info where userid=$userid and lesson_type in (0,1,3)";
+    public function get_teacher_count($userid, $subject) {
+        $sql = "select count(distinct teacherid) count from t_lesson_info where userid=$userid and subject = $subject and lesson_type in (0,1,3)";
         return $this->main_get_value($sql);
     }
 }
