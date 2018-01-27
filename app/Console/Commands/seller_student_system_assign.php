@@ -270,6 +270,8 @@ class seller_student_system_assign extends cmd_base
             100 => "Z类",
         */
 
+        //E\Eorigin_level
+
         switch ( $seller_level_flag ) {
         case 1 :  //S级:所有
             $origin_level_list=[1, 2, 3, 4] ; break;
