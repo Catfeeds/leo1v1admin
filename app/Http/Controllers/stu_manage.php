@@ -1472,6 +1472,15 @@ class stu_manage extends Controller
         $domain = config('admin')['qiniu']['public']['url'];
         //获取该学生所有的课(未删除)
         $all_lesson_list = $this->t_lesson_info_b3->get_student_all_lesson_info($userid,0,0);
+        foreach($all_lesson_list as $val){
+            if(!isset($subject_arr[$val["subject"]])){
+                $subject_arr[$val["subject"]]=$val["subject"];
+            }
+            if(!isset($grade_arr[$val["grade"]])){
+                $grade_arr[$val["grade"]]=$val["grade"];
+            }
+ 
+        }
         $all_lesson=[];
         foreach($all_lesson_list as $k=>$val){
             $all_lesson[$val["lessonid"]] = $k+1;
@@ -1498,12 +1507,12 @@ class stu_manage extends Controller
             }
             $cw_num=$pre_num=0;
             foreach($list as $val){
-                if(!isset($subject_arr[$val["subject"]])){
-                    $subject_arr[$val["subject"]]=$val["subject"];
-                }
-                if(!isset($grade_arr[$val["grade"]])){
-                    $grade_arr[$val["grade"]]=$val["grade"];
-                }
+                // if(!isset($subject_arr[$val["subject"]])){
+                //     $subject_arr[$val["subject"]]=$val["subject"];
+                // }
+                // if(!isset($grade_arr[$val["grade"]])){
+                //     $grade_arr[$val["grade"]]=$val["grade"];
+                // }
                 if(empty($val["tea_cw_upload_time"]) || $val["tea_cw_upload_time"]>$val["lesson_start"]){
                 }else{
                     $cw_num++;
@@ -1588,12 +1597,12 @@ class stu_manage extends Controller
 
             $normal_num=$normal_all=0;
             foreach($list as $val){
-                if(!isset( $subject_arr[$val["subject"]])){
-                    $subject_arr[$val["subject"]]=$val["subject"];
-                }
-                if(!isset($grade_arr[$val["grade"]])){
-                    $grade_arr[$val["grade"]]=$val["grade"];
-                }
+                // if(!isset( $subject_arr[$val["subject"]])){
+                //     $subject_arr[$val["subject"]]=$val["subject"];
+                // }
+                // if(!isset($grade_arr[$val["grade"]])){
+                //     $grade_arr[$val["grade"]]=$val["grade"];
+                // }
                 if($val["lesson_status"]>=2){
                     if(!($val["confirm_flag"]>=2 && in_array($val["lesson_cancel_reason_type"],[2,12,21]))){
                         $stu_login_time = @$list[$val["lessonid"]]["stu_login_time"]; 
@@ -1666,12 +1675,12 @@ class stu_manage extends Controller
             }
             $tea_comment=$all_num=0;
             foreach($list as $val){
-                if(!isset($subject_arr[$val["subject"]])){
-                    $subject_arr[$val["subject"]]=$val["subject"];
-                }
-                if(!isset($grade_arr[$val["grade"]])){
-                    $grade_arr[$val["grade"]]=$val["grade"];
-                }               
+                // if(!isset($subject_arr[$val["subject"]])){
+                //     $subject_arr[$val["subject"]]=$val["subject"];
+                // }
+                // if(!isset($grade_arr[$val["grade"]])){
+                //     $grade_arr[$val["grade"]]=$val["grade"];
+                // }               
                 if($val["confirm_flag"]<2){
                     $all_num++;
                     $stu_intro   = json_decode($val['stu_performance'],true);
@@ -1765,12 +1774,12 @@ class stu_manage extends Controller
             }
             $commit_num=$upload_num=$check_num=$score_total=0;
             foreach($list as $val){
-                if(!isset($subject_arr[$val["subject"]])){
-                    $subject_arr[$val["subject"]]=$val["subject"];
-                }
-                if(!isset($grade_arr[$val["grade"]])){
-                    $grade_arr[$val["grade"]]=$val["grade"];
-                }
+                // if(!isset($subject_arr[$val["subject"]])){
+                //     $subject_arr[$val["subject"]]=$val["subject"];
+                // }
+                // if(!isset($grade_arr[$val["grade"]])){
+                //     $grade_arr[$val["grade"]]=$val["grade"];
+                // }
                 if(!empty($val["issue_url"])){
                     $upload_num++;
                     if($val["work_status"]>=2){
@@ -1929,12 +1938,12 @@ class stu_manage extends Controller
 
 
 
-                if(!isset($subject_arr[$value["subject"]])){
-                    $subject_arr[$value["subject"]]=$value["subject"];
-                }
-                if(!isset($grade_arr[$value["grade"]])){
-                    $grade_arr[$value["grade"]]=$value["grade"];
-                }               
+                // if(!isset($subject_arr[$value["subject"]])){
+                //     $subject_arr[$value["subject"]]=$value["subject"];
+                // }
+                // if(!isset($grade_arr[$value["grade"]])){
+                //     $grade_arr[$value["grade"]]=$value["grade"];
+                // }               
 
 
 
@@ -1944,6 +1953,18 @@ class stu_manage extends Controller
                 $date_list[$month]['title'] = $month;
 
             }
+
+            $all = $this->t_student_score_info->get_all_list_no_page("",-1,-1,-1,-1,$userid,-1);
+            foreach($all as $value){
+                if(!isset($subject_arr[$value["subject"]])){
+                    $subject_arr[$value["subject"]]=$value["subject"];
+                }
+                if(!isset($grade_arr[$value["grade"]])){
+                    $grade_arr[$value["grade"]]=$value["grade"];
+                }               
+
+            }
+
             $n = round(($max_month-$month)/86400/2);
             $middle_month = intval($min_month+$n*86400);
             
