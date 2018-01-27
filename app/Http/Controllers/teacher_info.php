@@ -3314,7 +3314,7 @@ class teacher_info extends Controller
             if($info){
                 if($_SERVER['REMOTE_ADDR'] == '127.0.0.1'){
                     $info['grade_start'] = 1;
-                    $info['grade_end'] = 4;
+                    $info['grade_end'] = 6;
                 }
                 $data = [];
                 if( $info['subject'] > 0 && $info['grade_start'] >0 && $info['grade_end'] > 0 ){

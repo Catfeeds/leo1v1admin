@@ -3385,7 +3385,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     public function get_list_count_left() {
         //select userid,nick,lesson_count_left,type from t_student_info where lesson_count_left  > 0 and is_test_user=0
-        $sql = "select assistantid,userid,nick,lesson_count_left,type from t_student_info where lesson_count_left  > 0 and is_test_user=0";
+        $sql = "select assistantid,userid,nick,lesson_count_left,type from t_student_info where is_test_user=0";
         return $this->main_get_list($sql);
     }
 
