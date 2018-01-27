@@ -1901,7 +1901,8 @@ class user_manage_new extends Controller
         //     "js_values_str" => "",
         //     'err_mg' => $err_mg
         // ] );
-                
+        return $this->error_view(["close"  ]);
+
         $this->t_user_log->row_insert([
             "add_time" => time(),
             "adminid"  => $this->get_account_id(),
@@ -3527,7 +3528,7 @@ class user_manage_new extends Controller
             "lesson_left"     => $order_info['lesson_left'],
             "contract_status" => 1,
         ]);
-        
+
         if($ret>0){
             $ret = $this->t_order_refund->row_delete_2($orderid,$apply_time);
             if($ret>0){
