@@ -60,3 +60,6 @@ message stu_course_info {
   string all_num=2 ;  //课包总课时
   string over_num=3 ;  //已上课时
 }
+message test_lesson {
+  uint32 sur_num=1 ;  //剩余试听课申请和修改次数
+}
