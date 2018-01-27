@@ -156,7 +156,7 @@ class update_actual_threshold extends Command
             if($old == 1){
                 $count_y++;
             }else{
-                $count_x++;
+                $count_r++;
             }
         }
 
