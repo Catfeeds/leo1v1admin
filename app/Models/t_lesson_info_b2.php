@@ -1441,6 +1441,15 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_update($sql);
     }
 
+    public function set_stu_performance_tmp( $lessonid, $teacherid, $stu_performance, $ass_comment_audit) {
+        $sql = $this->gen_sql_new("update %s t set t.stu_performance = '%s', t.ass_comment_audit = %d ".
+                                  "where t.lessonid = %d ",
+                                  self::DB_TABLE_NAME, $stu_performance,
+                                  $ass_comment_audit, $lessonid);
+        return $this->main_update($sql);
+    }
+
+
     public function get_train_lesson_list(){
         $where_arr = [
             "lesson_status=0",
