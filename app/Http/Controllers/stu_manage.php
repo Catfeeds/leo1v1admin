@@ -1876,11 +1876,21 @@ class stu_manage extends Controller
             $subject_10 = [];
             $date_list = [];
             
+            $min_month =100000000000;
+            $max_month = 0;
             foreach ($list as $key => $value) {
+                if($min_month>$value["create_time"]){                  
+                    $min_month = $value["create_time"];
+                }
+                if($max_month<$value["create_time"]){                  
+                    $max_month = $value["create_time"];
+                }
+
+
                 $subject = $value["subject"];
                 $score = round(10*$value['score']/$value['total_score']);
-;              
-                $month = date("Y-m-d H:i",$value["create_time"]);
+                //  $month = date("Y-m-d H:i",$value["create_time"]);
+                $month = $value["create_time"];
                 $arr=[
                     "month"=>$month,
                     "count"=>$score
@@ -1934,6 +1944,8 @@ class stu_manage extends Controller
                 $date_list[$month]['title'] = $month;
 
             }
+            $n = round(($max_month-$month)/86400/2);
+            $middle_month = intval($min_month+$n*86400);
             
             \App\Helper\Utils::date_list_set_value($date_list,$subject_1,"month","subject_1","count");
             \App\Helper\Utils::date_list_set_value($date_list,$subject_2,"month","subject_2","count");
@@ -1946,6 +1958,14 @@ class stu_manage extends Controller
             \App\Helper\Utils::date_list_set_value($date_list,$subject_9,"month","subject_9","count");
             \App\Helper\Utils::date_list_set_value($date_list,$subject_10,"month","subject_10","count");
             //dd($date_list);
+            $this->set_filed_for_js("max_month",$max_month);
+            $this->set_filed_for_js("max_month_date",date("Y-m-d H:i",$max_month));
+            $this->set_filed_for_js("min_month",$min_month);
+            $this->set_filed_for_js("min_month_date",date("Y-m-d H:i",$min_month));
+            $this->set_filed_for_js("middle_month_date",date("Y-m-d H:i",$middle_month));
+            $this->set_filed_for_js("middle_month",$middle_month);
+           
+
            
 
             return $this->pageView(__METHOD__,$ret_info,[

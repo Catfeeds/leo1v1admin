@@ -1079,7 +1079,7 @@ $(function(){
             }
             
 
-            console.log(plot_data_list);
+           // console.log(plot_data_list);
             
             var plot=$.plot("#"+id_name, plot_data_list , {
                 series: {
@@ -1094,8 +1094,11 @@ $(function(){
 
                 },
                 xaxis: {
-                    mode: "categories",
-                    tickLength: 0
+                    ticks: [[g_args.min_month,g_args.min_month_date ],[g_args.middle_month,g_args.middle_month_date ],[g_args.max_month,g_args.max_month_date ] ],
+                    min: g_args.min_month,
+                    max: g_args.max_month,
+                    // mode: "categories",
+                    // tickLength: 0
                 },
                 yaxis:{
                     min: 0,
@@ -1131,6 +1134,7 @@ $(function(){
             }).appendTo("body");
 
             $("#"+id_name).bind("plothover", function(event, pos, item) {
+                console.log(item);
                 if (item) {
                     var data_item=item.series.data[item.dataIndex];
                     var title_funcion=function( date_item) {
