@@ -575,11 +575,14 @@ class lesson extends TeaWxController
 
         if(!empty($stu_performance)) {
             $stu_performance_str = json_encode($stu_performance);
+            \App\Helper\Utils::logger("update_comment_common_new: $stu_performance_str");
+
             # $ret = $this->t_lesson_info_b2->set_stu_performance($lessonid, $teacherid, $stu_performance_str,3);
             $ret = $this->t_lesson_info_b2->set_stu_performance_tmp($lessonid, $teacherid, $stu_performance_str,3);
             $com_state = $this->t_lesson_info_b2->set_comment_status($lessonid,$now);
             return $this->output_succ(['time'=>$com_state]);
         }
+        \App\Helper\Utils::logger("update_comment_common_new_end");
     }
 
 }
