@@ -23,7 +23,7 @@
         </div>
         <hr/>
         <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-        <div id="main" style="width: 95%;height:1000px;"></div>
+        <div id="main" style="width: 95%;height:600px;"></div>
     </section>
 
 @endsection

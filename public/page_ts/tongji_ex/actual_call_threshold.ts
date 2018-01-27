@@ -98,7 +98,9 @@ $(function(){
         }
         ]
     };
-
+    $.each(threshold_max_list,function(j,item){
+        alert(item);
+    });
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
 });
