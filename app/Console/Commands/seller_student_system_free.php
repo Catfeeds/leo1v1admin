@@ -32,6 +32,7 @@ class seller_student_system_free extends cmd_base
         $check_time=strtotime(date("Y-m-d 14:30"));
         $today_start_time=strtotime(date("Y-m-d"));
         $now= time(NULL);
+        //cc开始工作时间表
         $work_start_time_map=$this->task->t_admin_work_start_time-> get_today_work_start_time_map();
         $check_for_free_user_list=$this->task->t_admin_work_start_time-> get_today_work_start_time_map();
         if ($now>=$check_time ) {

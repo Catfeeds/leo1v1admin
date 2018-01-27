@@ -1144,11 +1144,14 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_update($sql);
 
     }
-
+    //@param:$userid_list 分配用户
+    //@param:$opt_adminid cc id
+    //@param:$opt_type 0
     public function set_admin_id_ex ( $userid_list,  $opt_adminid, $opt_type ,$account="system") {
         if ( count($userid_list) ==0 ) {
             return false;
         }
+        //分配例子
         $this->set_admin_info(
             $opt_type, $userid_list,  $opt_adminid,0 );
 
@@ -1157,7 +1160,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         foreach ( $userid_list as $userid ) {
             $phone=$this->t_seller_student_new->get_phone($userid);
             if($opt_type==0) { //set admin
-                $ret_update = $this->t_book_revisit->add_book_revisit(
+                $ret_update = $this->task->t_book_revisit->add_book_revisit(
                     $phone,
                     "操作者: $account 状态: 分配给组员 [ $opt_account ] ",
                     "system"
@@ -1181,7 +1184,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
     }
 
-
+    //@param:$opt_type 0
+    //@param:$userid_list 用户列表
+    //@param:$opt_adminid cc id
+    //@param:$self_adminid 分配id
     public function set_admin_info( $opt_type, $userid_list, $opt_adminid ,$self_adminid ) {
 
         if ( count($userid_list) ==0 ) {
@@ -1196,7 +1202,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "admin_assign_time"  => time(NULL),
                 "sub_assign_adminid_2"  => $up_adminid,
                 "sub_assign_time_2"  => time(NULL) ,
-                "sub_assign_adminid_1"  => $this->t_admin_main_group_name->get_up_group_adminid($up_adminid),
+                "sub_assign_adminid_1"  => $this->task->t_admin_main_group_name->get_up_group_adminid($up_adminid),
                 "first_seller_adminid" => $opt_adminid,
                 "tq_called_flag"      => 0,
                 "sub_assign_time_1"  => time(NULL),
@@ -1228,6 +1234,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "hold_flag" => 1,
             ];
         }
+        //更新一系列信息
         $set_str=$this-> get_sql_set_str( $set_arr);
         $in_str=$this->where_get_in_str("userid",$userid_list);
         $sql=sprintf("update %s set %s where %s  ",
