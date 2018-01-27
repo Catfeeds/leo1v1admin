@@ -2792,17 +2792,16 @@ class teacher_info extends Controller
             ]);
         }
         $book_arr = [];
-        if($resource_type != 6){
-            //获取所有开放的教材版本
-            $book = $this->t_resource_agree_info->get_all_resource_type($resource_type,$subject,$grade);
-            $book_arr = [];
-            foreach($book as $v) {
-                if( $v['tag_one'] != 0 ){
-                    array_push($book_arr, intval($v['tag_one']) );
-                }
+
+        //获取所有开放的教材版本
+        $book = $this->t_resource_agree_info->get_all_resource_type($resource_type,$subject,$grade);
+        $book_arr = [];
+        foreach($book as $v) {
+            if( $v['tag_one'] != 0 ){
+                array_push($book_arr, intval($v['tag_one']) );
             }
         }
-
+        
         // dd($tea_info);
 
         if($is_js != 0){
@@ -3312,8 +3311,8 @@ class teacher_info extends Controller
             // dd($info);
             \App\Helper\Utils::logger("老师信息:".json_encode($info));
             if($info){
-                $info['grade_start'] = 1;
-                $info['grade_end'] = 4;
+                // $info['grade_start'] = 1;
+                // $info['grade_end'] = 4;
                 $data = [];
                 if( $info['subject'] > 0 && $info['grade_start'] >0 && $info['grade_end'] > 0 ){
                     $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);

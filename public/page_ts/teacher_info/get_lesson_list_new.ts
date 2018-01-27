@@ -581,7 +581,7 @@ $(function(){
         }
 
         var get_pdf_info = function(is_tea_flag, file_url, res_id, tea_flag){
-
+            console.log(file_url);
             var ret_func = function(ret){
                  if(ret.ret == 0){
 
@@ -633,19 +633,6 @@ $(function(){
                 get_sub_grade_tag(leo_sub, leo_gra,-1,1,-1,$('.leo-tag_four select') );
                 $('.leo-tag_four').show();
 
-                // $('.leo-subject,.leo-grade,.leo-tag_one,.leo-tag_two select').change(function(){
-
-                //     console.log('1对1精品课程查看标签');
-
-                //     var leo_sub = $('.leo-subject select').val();
-                //     var leo_gra = $('.leo-grade select').val();
-                //     var leo_book = $('.leo-tag_one select').val();
-                //     var leo_season = $('.leo-tag_two select').val();
-
-                //     get_sub_grade_tag(leo_sub, leo_gra,leo_book,1,leo_season,$('.leo-tag_four select') );
-                    
-                // });
-
             }
 
             //标准试听课
@@ -669,42 +656,8 @@ $(function(){
                 get_sub_grade_tag(leo_sub, leo_gra,-1,3,-1,$('.leo-tag_four select') );
                 $('.leo-tag_four').show();
 
-                // $('.leo-subject,.leo-grade,.leo-tag_one select').change(function(){
-
-                //     console.log('标准试听课查看标签');
-
-                //     var leo_sub = $('.leo-subject select').val();
-                //     var leo_gra = $('.leo-grade select').val();
-                //     var leo_book = $('.leo-tag_one select').val();
-                //     get_sub_grade_tag(leo_sub, leo_gra,leo_book,3,-1,$('.leo-tag_four select') );
-                    
-                // });
+            
             }
-
-            $('.leo-subject,.leo-grade,.leo-tag_one,.leo-tag_two select').change(function(){
-                if( $('.leo-resource_type select').val()  == 1 ){
-                    console.log('1对1精品课程查看标签');
-
-                    var leo_sub = $('.leo-subject select').val();
-                    var leo_gra = $('.leo-grade select').val();
-                    var leo_book = $('.leo-tag_one select').val();
-                    var leo_season = $('.leo-tag_two select').val();
-                    get_sub_grade_tag(leo_sub, leo_gra,leo_book,1,leo_season,$('.leo-tag_four select') );
-
-                }
-
-                if( $('.leo-resource_type select').val()  == 3 ){
-                    console.log('标准试听课查看标签');
-
-                    var leo_sub = $('.leo-subject select').val();
-                    var leo_gra = $('.leo-grade select').val();
-                    var leo_book = $('.leo-tag_one select').val();
-                    get_sub_grade_tag(leo_sub, leo_gra,leo_book,3,-1,$('.leo-tag_four select') );
-
-                }
-
-                
-            });
 
             //电子教材
             if(val == 5){
@@ -749,6 +702,32 @@ $(function(){
             console.log('get_resource_type_show');
         }
 
+        var get_tag_by_select = function(){
+            $('.leo-subject select,.leo-grade select,.leo-tag_one select,.leo-tag_two select').change(function(){
+                if( $('.leo-resource_type select').val()  == 1 ){
+                    console.log('1对1精品课程查看标签');
+
+                    var leo_sub = $('.leo-subject select').val();
+                    var leo_gra = $('.leo-grade select').val();
+                    var leo_book = $('.leo-tag_one select').val();
+                    var leo_season = $('.leo-tag_two select').val();
+                    get_sub_grade_tag(leo_sub, leo_gra,leo_book,1,leo_season,$('.leo-tag_four select') );
+
+                }
+
+                if( $('.leo-resource_type select').val()  == 3 ){
+                    console.log('标准试听课查看标签');
+
+                    var leo_sub = $('.leo-subject select').val();
+                    var leo_gra = $('.leo-grade select').val();
+                    var leo_book = $('.leo-tag_one select').val();
+                    get_sub_grade_tag(leo_sub, leo_gra,leo_book,3,-1,$('.leo-tag_four select') );
+                }
+                
+            });
+
+        }
+
         var get_public_tag_show = function(res_type_list,tea_sub_info,tea_gra_info,book_info,resource,subject,grade,book){
             Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,res_type_list);
             Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
@@ -774,7 +753,7 @@ $(function(){
         }
 
         var look_pdf = function(btn_id){
-
+            //console.log(btn_id);
             if(btn_id == 'id_teacher_upload') {
                 get_pdf_info(tea_cw_origin,tea_cw_url,tea_cw_file_id,tea_cw_origin);
             } else if(btn_id == 'id_student_upload'){
@@ -958,12 +937,7 @@ $(function(){
                 },"onshown" : function(dlg){
 
                     if(opt_type == 'my'){
-
-                        Enum_map.append_option_list("resource_type",$('.leo-resource_type select.filter-arg'),true,res_type_list);
-                        Enum_map.append_option_list("subject",$('.leo-subject select.filter-arg'), true, tea_sub_info);
-                        Enum_map.append_option_list("grade",$('.leo-grade select.filter-arg'), true, tea_gra_info);
-                        Enum_map.append_option_list("region_version",$('.leo-tag_one select.filter-arg'), false, book_info);
-
+                        
                         $('.my-mark').empty();
                         var cru_str = '<div class="col-xs-12">';
                         $.each($(dlg_tr), function(i,val){
@@ -986,8 +960,11 @@ $(function(){
                         });
                     } else {
                         get_public_tag_show(res_type_list,tea_sub_info,tea_gra_info,book_info,args.resource_type,args.subject,args.grade,args.tag_one);
-                        console.log('资料库');
-                        get_resource_type_show(args.resource_type);                    
+                        
+                        get_resource_type_show(args.resource_type);
+
+                        get_tag_by_select();
+
                         $('.leo-resource_type select').change(function(){
                             console.log('变动'+$(this).val());
                             get_resource_type_show($(this).val());                          
