@@ -485,6 +485,7 @@ class tongji_ex extends Controller
         $ret = [];
         list($start_time,$end_time)=$this->get_in_date_range_day(0);
         $ret_info = $this->t_seller_edit_log->get_threshold_list($start_time, $end_time);
+        dd($ret_info);
         foreach($ret_info as $item){
             if($item['type'] == 6){
                 $ret[$key]['time'] = date('H:i',$item['create_time']);
@@ -499,7 +500,6 @@ class tongji_ex extends Controller
             $item['threshold_min'] = $threshold_min;
             $item['threshold_max'] = $threshold_max;
         }
-        dd($ret);
         return $this->pageView(__METHOD__, $ret_info);
     }
 }
