@@ -584,8 +584,7 @@ class lesson extends TeaWxController
                 return $this->output_succ(['time'=>$com_state]);
             }
         }
-        \App\Helper\Utils::logger("update_comment_common_new_end : stu_performanc");
-
+        return $this->output_succ();
     }
 
 }
