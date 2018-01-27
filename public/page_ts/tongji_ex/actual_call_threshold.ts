@@ -82,7 +82,7 @@ $(function(){
             name:'警戒线',
             type:'line',
             stack: '总量',
-            data:threshold_max_list
+            data:threshold_min_list
         },
             {
             name:'实时接通率',
@@ -94,13 +94,11 @@ $(function(){
             name:'预警线',
             type:'line',
             stack: '总量',
-            data:threshold_min_list
+            data:threshold_max_list
         }
         ]
     };
-    $.each(threshold_max_list,function(j,item){
-        alert(item);
-    });
+    
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
 });
