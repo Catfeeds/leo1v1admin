@@ -572,17 +572,21 @@ class lesson extends TeaWxController
                 "stu_comment"        => $stu_common_info_arr
             ];
         }
+        \App\Helper\Utils::logger("update_comment_common_new_teacherid: $teacherid");
+
 
         if(!empty($stu_performance)) {
             $stu_performance_str = json_encode($stu_performance);
-
             $ret = $this->t_lesson_info_b2->set_stu_performance($lessonid, $teacherid, $stu_performance_str,3);
-
             $com_state = $this->t_lesson_info_b2->set_comment_status($lessonid,$now);
             if($com_state && $ret){
                 return $this->output_succ(['time'=>$com_state]);
             }
+            \App\Helper\Utils::logger("ret_hhshshs: $ret,com_state: $com_state");
+
         }
+        return $this->output_succ();
+
     }
 
 }
