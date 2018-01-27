@@ -18,25 +18,23 @@ class  squirrel_wx_server extends Controller
     var $check_login_flag =false;//是否需要验证
     public function index() {
         $wechat = new \App\Wx\Squirrel\wechat(WECHAT_TOKEN_SQU, TRUE);
-        // $r = $wechat->checkSignature();
+        $r = $wechat->checkSignature();
 
 
-        $ret = $wechat->run();
-        if (is_bool($ret)) {
-            return "";
-        }else{
-            return $ret;
-        }
+        // $ret = $wechat->run();
+        // if (is_bool($ret)) {
+        //     return "";
+        // }else{
+        //     return $ret;
+        // }
     }
 
     public function sync_menu() {
-
-        
         $menuList = array(
             array('id'=>'1', 'pid'=>'0', 'name'=>'讲师报名', 'type'=>'', 'code'=>''),
             array('id'=>'2', 'pid'=>'0', 'name'=>'个人中心', 'type'=>'', 'code'=>''),
             array('id'=>'3', 'pid'=>'0', 'name'=>'帮助中心', 'type'=>'', 'code'=>''),
-            array('id'=>'4', 'pid'=>'1', 'name'=>'关于理优', 'type'=>'view', 'code'=>'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_about_me.html'),
+            array('id'=>'4', 'pid'=>'1', 'name'=>'关于理优', 'type'=>'view', 'code'=>'ww'),
             array('id'=>'6', 'pid'=>'1', 'name'=>'面试流程', 'type'=>'view', 'code'=>'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_interview.html'),
 
             array('id'=>'17', 'pid'=>'1', 'name'=>'代理须知', 'type'=>'view', 'code'=>'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_agent.html'),
