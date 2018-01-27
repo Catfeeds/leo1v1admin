@@ -82,7 +82,7 @@ class update_actual_threshold extends Command
                     ]);
                     $this->send_wx_threshold($rate,$time,$start_time,$end_time,$count_call,$count_call-$count_called);
                 }
-                if(time()>strtotime(date('Y-m-d 18:35:00')) && time()<strtotime(date('Y-m-d 18:45:00'))){
+                if(time()>strtotime(date('Y-m-d 23:25:00')) && time()<strtotime(date('Y-m-d 23:35:00'))){
                     $ret_called = $this->task->t_seller_get_new_log->get_list_by_time($start_time,$end_time,$call_flag=2);
                     $count_called = count(array_unique(array_column($ret_called, 'userid')));
                     $rate = $count_call>0?(round($count_called/$count_call, 4)*100):0;
@@ -133,7 +133,7 @@ class update_actual_threshold extends Command
               .$threshold_desc.$threshold."%"."\n"
               ."拨打量：".$count_call."\n"
               ."拨不通：".$count_no_called;
-        $account_arr = ['tom'];
+        $account_arr = ['tom','应怡莉'];
         foreach($account_arr as $account){
             $this->task->t_manager_info->send_template_msg(
                 $account,$template_id,[
@@ -169,7 +169,7 @@ class update_actual_threshold extends Command
               ."总拨通率：".$rate."%"."\n"
               ."总拨打量：".$count_call."\n"
               ."总拨不通：".$count_no_called;
-        $account_arr = ['tom'];
+        $account_arr = ['tom','应怡莉'];
         foreach($account_arr as $account){
             $this->task->t_manager_info->send_template_msg(
                 $account,$template_id,[
