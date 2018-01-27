@@ -809,6 +809,47 @@ $(function(){
 
     });
 
+    //测试-编辑
+    $(".opt-edit-test").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var id_time = $("<input />");
+        var id_call = $("<input />");
+      
+      
+        
+
+        id_time.datetimepicker({
+            datepicker:true,
+            timepicker:true,
+            format:'Y-m-d H:i',
+            step:30,
+            onChangeDateTime :function(){
+
+            }
+
+        });
+
+        var arr=[
+            ["回访时间", id_time ],
+            ["电话回访id", id_call],
+        ];
+        $.show_key_value_table("修改-test", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+
+                $.do_ajax("/ajax_deal3/update_revisit_info_test", {
+                    userid : g_args.sid,
+                    revisit_time: opt_data.revisit_time,
+                    time : id_time.val(),
+                    call_flag:id_call.val()
+                });
+            }
+        });
+
+
+
+    });
 
     $(".opt-warning-record").on("click",function(){
         var opt_data=$(this).get_opt_data();

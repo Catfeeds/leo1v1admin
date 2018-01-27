@@ -63,6 +63,8 @@ class tea_manage_new extends Controller
         $saturday_lesson_num         = $this->get_in_int_val('saturday_lesson_num',6);
         $seller_require_flag         = $this->get_in_int_val('seller_require_flag',0);
         $week_lesson_count        = $this->get_in_int_val('week_lesson_count',18);
+        $week_limit_time_info  = $this->get_in_str_val('week_limit_time_info');
+        $type       = $this->get_in_int_val('type',1);
         $old_week_num = $this->t_teacher_info->get_limit_week_lesson_num($teacherid);
         $old_week_lesson_count = $this->t_teacher_info->get_week_lesson_count($teacherid);
         $tea_nick = $this->cache_get_teacher_nick($teacherid);
@@ -73,8 +75,14 @@ class tea_manage_new extends Controller
             'limit_week_lesson_num'  => $limit_week_lesson_num,
             'limit_month_lesson_num'  => $limit_month_lesson_num,
             'saturday_lesson_num'  => $saturday_lesson_num,
-            "week_lesson_count"    => $week_lesson_count
+            "week_lesson_count"    => $week_lesson_count,
+            "limit_seller_require_flag"=>$seller_require_flag
         ]);
+        if($type==2){
+            $this->t_teacher_info->field_update_list($teacherid,[
+                "week_limit_time_info" => $week_limit_time_info
+            ]);
+        }
         if($ret){
             if($limit_week_lesson_num > $old_week_num){
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"理优监课组","老师周排课数更改",$tea_nick."老师"."周排课数由".$old_week_num."节改为".$limit_week_lesson_num."节,操作人:".$account,"");

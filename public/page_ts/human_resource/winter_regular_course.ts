@@ -55,7 +55,7 @@ $(function(){
 		    step:30,
 	        onChangeDateTime :function(){
                 var end_time= parseInt(
-                    $.strtotime(myDate.getFullYear()+'-'+myDate.getMonth()+'-'+myDate.getDay()+' '+id_start_time.val()+':00')) + 7200;
+                    $.strtotime(myDate.getFullYear()+'-'+myDate.getMonth()+'-'+myDate.getDay()+' '+id_start_time.val()+':00')) + 4800;
                 id_end_time.val(  $.DateFormat(end_time, "hh:mm"));
             }
            

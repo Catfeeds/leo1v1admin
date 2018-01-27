@@ -204,7 +204,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "m.account_role in(4,9)",
             "m.del_flag=0"
         );
-        $where_arr = $this->teacher_search_info_sql($nick_phone, '', $where_arr);
+        $where_arr = $this->teacher_search_info_sql($nick_phone, 't', $where_arr);
 
         $sql = $this->gen_sql_new("select teacherid as id , nick,t.phone,t.gender ,"
                                   ."realname,subject,grade_part_ex,grade_start,grade_end from %s t".
@@ -2356,8 +2356,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[]="m.uid not in (790,486,871,891)";
         }
 
-        $sql = $this->gen_sql_new("select teacherid,subject,grade_start,grade_end,grade_part_ex,t.phone,realname"
-                                  .",second_subject,second_grade_end,second_grade_start "
+        
+
+        $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,t.phone,t.realname"
+                                  .",t.second_subject,t.second_grade_end,t.second_grade_start, "
+                                  ."t.limit_day_lesson_num,t.limit_week_lesson_num,t.limit_month_lesson_num, "
+                                  ." t.saturday_lesson_num,t.week_lesson_count,t.week_limit_time_info ,t.limit_seller_require_flag"
                                   ." from %s t left join %s m on t.phone= m.phone"
                                   ." where %s",
                                   self::DB_TABLE_NAME,

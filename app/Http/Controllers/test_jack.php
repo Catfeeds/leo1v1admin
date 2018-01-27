@@ -14,6 +14,56 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+
+        $week_limit_time_info = $this->t_teacher_info->get_week_limit_time_info(62735);
+        $lesson_start = strtotime("2018-01-27 14:00");
+        $lesson_end = strtotime("2018-01-27 16:00");
+        $date_week    = \App\Helper\Utils::get_week_range($lesson_start,1);
+
+        $res = $this->check_research_teacher_limit_time($lesson_start,$lesson_end,$week_limit_time_info,$date_week);
+        if($res){
+            return $res;
+        }
+        dd(111);
+
+        $admin_info   = $this->t_manager_info->get_research_teacher_list_new(4);
+        $tt=[
+            ["week_num"=>2,"week_name"=>"周二","start"=>"09:00","end"=>"18:00"],
+            ["week_num"=>3,"week_name"=>"周三","start"=>"09:00","end"=>"18:00"],
+            ["week_num"=>4,"week_name"=>"周四","start"=>"09:00","end"=>"18:00"],
+            ["week_num"=>5,"week_name"=>"周五","start"=>"09:00","end"=>"18:00"],
+        ];
+        $str = json_encode($tt);
+
+        foreach($admin_info as $v){
+            $create_time = $v["create_time"];
+            if($create_time<strtotime("2017-10-25")){              
+                $this->t_teacher_info->field_update_list($v["teacherid"],[
+                    "week_limit_time_info" =>$str 
+                ]);
+
+            }else{
+                if($v["teacherid"]==428558){
+                    $tt=[
+                        ["week_num"=>2,"week_name"=>"周二","start"=>"09:00","end"=>"18:00"],
+                        ["week_num"=>3,"week_name"=>"周三","start"=>"09:00","end"=>"16:00"],
+                        ["week_num"=>4,"week_name"=>"周四","start"=>"09:00","end"=>"18:00"],
+                        ["week_num"=>5,"week_name"=>"周五","start"=>"09:00","end"=>"18:00"],
+                    ];
+                    $str = json_encode($tt);
+
+                }
+                $this->t_teacher_info->field_update_list($v["teacherid"],[
+                    "week_limit_time_info" =>$str ,
+                    "week_lesson_count"   =>8
+                ]);
+
+            }
+        }
+
+        dd($admin_info);
+
+
         $start_time = strtotime("2017-01-01");
         $end_time = strtotime("2018-01-01");
         $order_num = $this->t_order_info->get_all_renew_stu_list_by_order($start_time,$end_time);

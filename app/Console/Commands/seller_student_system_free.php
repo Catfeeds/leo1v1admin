@@ -47,7 +47,7 @@ class seller_student_system_free extends cmd_base
                     }
                 }
                 if (!$free_flag) {
-                    $user_check_time= max( @$work_start_time_map[$admin_revisiterid], $admin_assign_time  );
+                    $user_check_time= max( @$work_start_time_map[$admin_revisiterid]["work_start_time"], $admin_assign_time  );
                     //分配并上班6个小时 free
                     if ($now-$user_check_time>6*3600 ) {
                         $free_flag=true;

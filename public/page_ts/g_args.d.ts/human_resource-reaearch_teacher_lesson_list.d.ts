@@ -22,12 +22,21 @@ interface RowData {
 	second_subject	:any;
 	second_grade_end	:any;
 	second_grade_start	:any;
+	limit_day_lesson_num	:any;
+	limit_week_lesson_num	:any;
+	limit_month_lesson_num	:any;
+	saturday_lesson_num	:any;
+	week_lesson_count	:any;
+	week_limit_time_info	:any;
+	limit_seller_require_flag	:any;
 	subject_str	:any;
 	grade_start_str	:any;
 	grade_end_str	:any;
 	second_subject_str	:any;
 	second_grade_start_str	:any;
 	second_grade_end_str	:any;
+	limit_seller_require_flag_str	:any;
+	week_limit_time_info_str	:any;
 }
 
 /*

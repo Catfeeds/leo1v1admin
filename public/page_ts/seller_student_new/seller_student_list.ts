@@ -24,7 +24,7 @@ function init_today_new()  {
                 user_admin_assign_time_map[opt_data.userid] =opt_data.admin_assign_time;
                 opt_data_map[opt_data.userid] =opt_data;
                 var $seller_item=$(
-                    '<div class="item-'+opt_data.userid+'" style="width:280px;display:inline-block; margin-left:20px "  >'+
+                    '<div class="item-'+opt_data.userid+'" style=" float: left; width:280px;display:inline-block; margin-left:20px "  >'+
                         '    <!-- DIRECT CHAT PRIMARY -->'+
                         '    <div class="box box-primary direct-chat direct-chat-primary">'+
                         '        <!-- /.box-header -->'+
@@ -78,7 +78,7 @@ function init_today_new()  {
                         ''+
                         '            <!-- Conversations are loaded here -->'+
                         '            <div class="call-item">'+
-                        '                <button class=" call-opt-edit  btn btn-warning  fa fa-edit fa-2x" style="width:25%" titie="edit" >'+
+                        '                <button class=" call-opt-edit  btn btn-warning  fa fa-edit fa-2x" style="width:25%" title="编辑,同时同步tq" >'+
                         '                </button>'+
                         '                <button class=" call-opt-call-phone btn btn-warning  fa fa-phone fa-2x "  style="width:70%" > 拨打</button>'+
                         '            </div>'+
@@ -92,7 +92,17 @@ function init_today_new()  {
                         '</div>');
                 $seller_item.find(".call-opt-edit").on("click" ,function() {
                     $p_div.find(".opt-edit-new_new").click();
-                }) ;
+
+                    $.do_ajax("/ss_deal/sync_tq",{
+                        "phone" : opt_data.phone,
+                        "userid" : opt_data.userid,
+                        "tq_called_flag" : opt_data.tq_called_flag ,
+                    },function(resp){
+                        if (resp.reload_flag) {
+                            $.reload();
+                        }
+                    });
+                });
 
                 $seller_item.find(".call-opt-call-phone").on("click" ,function() {
                     $p_div.find(".opt-telphone").click();

@@ -13,6 +13,6 @@ message in  {
 }
 
 message out {
-  	string  data = 1;
+  common.test_lesson data=1;
 }
 
