@@ -55,6 +55,14 @@ class sendMsgForMarketTmp extends Job implements ShouldQueue
                 "nick"      => "James",
                 "userid" => 1
             ],
+            [
+                "parentid" => 99999,
+                "wx_openid" => 'orwGAs6OXWNkItnMgG-Y2_6ZkkX4',
+                "nick"      => "James",
+                "userid" => 1
+            ],
+
+            //orwGAs6OXWNkItnMgG-Y2_6ZkkX4
         ];
 
 
@@ -69,7 +77,7 @@ class sendMsgForMarketTmp extends Job implements ShouldQueue
                         "keyword2" => '点击，识别二维码参与课程',
                         "keyword3" => date('Y年m月d日'),
                     ];
-                    $url = "http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/webwxgetmsgimg%20%282%29.jpg";
+                    $url = "http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E5%9C%A8%E7%BA%BF%E6%95%99%E8%82%B2.jpg";
                     $data['remark'] = '';
                     \App\Helper\Utils::send_wx_to_parent($item['wx_openid'] ,$template_id,$data,$url);
                     $t_parent_send_mgs_log->row_insert([
