@@ -7883,7 +7883,7 @@ class ss_deal extends Controller
         $shareImgUrl = $this->get_in_str_val('shareImgUrl');
         $coverImgUrl = $this->get_in_str_val('coverImgUrl');
         $activityImgUrl = $this->get_in_str_val('activityImgUrl');
-        $followImgUrl   = $this->get_in_str_val('followImgUrl');
+        $followImgUrl   = trim($this->get_in_str_val('followImgUrl'),',');
         $add_time = time();
         $uid = $this->get_account_id();
         $id = $this->get_in_int_val('id');
@@ -7932,8 +7932,6 @@ class ss_deal extends Controller
         if($followImgUrlOnline){
             list($followWidth,$followHeight,$followType,$followAttr)=getimagesize($followImgUrlOnline);
         }
-
-
 
         if($shareType != 3 && $shareType !=0){return $this->output_err('分享页图片格式不符合,请重新上传!');}
         if($coverType != 3 && $coverType !=0){return $this->output_err('封面图片格式不符合,请重新上传!');}
