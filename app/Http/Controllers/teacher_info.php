@@ -161,7 +161,7 @@ class teacher_info extends Controller
         return $this->pageView(__METHOD__,$ret_info,[
             "student_list" => $student_list,
             "is_full_time" => $is_full_time,
-            "_publish_version" => "201801271156"
+            "_publish_version" => "201801271556"
         ]);
     }
 
@@ -3277,6 +3277,7 @@ class teacher_info extends Controller
         if($files == false){
             return $this->output_err("文件不存在，操作失败！") ;
         } else {
+
             return $this->output_succ(['data' => $files]) ;
         }
     }
@@ -3311,8 +3312,10 @@ class teacher_info extends Controller
             // dd($info);
             \App\Helper\Utils::logger("老师信息:".json_encode($info));
             if($info){
-                // $info['grade_start'] = 1;
-                // $info['grade_end'] = 4;
+                if($_SERVER['REMOTE_ADDR'] == '127.0.0.1'){
+                    $info['grade_start'] = 1;
+                    $info['grade_end'] = 4;
+                }
                 $data = [];
                 if( $info['subject'] > 0 && $info['grade_start'] >0 && $info['grade_end'] > 0 ){
                     $grade_1 = \App\Helper\Utils::grade_start_end_tran_grade($info['grade_start'], $info['grade_end']);
