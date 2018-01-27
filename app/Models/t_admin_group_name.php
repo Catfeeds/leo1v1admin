@@ -510,6 +510,11 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
         return $this->main_get_list($sql);
     }
 
-
+    public function get_ass_group_name($main_type) {
+        $sql = "select groupid,group_name from %s where main_type=1";
+        return $this->main_get_list($sql, function($item) {
+            return $item["groupid"];
+        });
+    }
 
 }

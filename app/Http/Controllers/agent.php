@@ -441,6 +441,10 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $time = strtotime(date('Y-m-d'));
+        list($start_time,$end_time) = [$time,$time+3600*24];
+        $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
+        dd($ret_call);
         $time = time();
         $start_time = strtotime(date('Y-m-d 08:00:00'));
         $end_time = strtotime(date('Y-m-d'))+3600*24;

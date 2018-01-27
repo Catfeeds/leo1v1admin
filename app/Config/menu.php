@@ -517,6 +517,7 @@ class menu{
 
                     ["power_id"=>15, "name"=>"销售-周报月报", "url"=>"/main_page/get_seller_total_info"],
                     ["power_id"=>16, "name"=>"特殊申请配额列表",   "url"=>"/seller_student_new2/seller_diff_money"],
+                    ["power_id"=>56, "name"=>"拨通率实时预警",   "url"=>"/tongji_ex/actual_call_threshold"],
                 ]],
 
                 ["power_id"=>6, "name"=>"助教", "list"=>[

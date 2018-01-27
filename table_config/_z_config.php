@@ -1,5 +1,6 @@
 <?php
 return array(
+    ["db_weiyi_admin","t_company_wx_approval_data","id"],
     ['db_weiyi_admin','t_company_wx_approval','id'],
     ["db_tool","t_personality_poster","id"],
     ["db_tool","t_poster_share_log","poster_id"],
