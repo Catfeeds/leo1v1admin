@@ -485,11 +485,10 @@ class tongji_ex extends Controller
         $ret = [];
         list($start_time,$end_time)=$this->get_in_date_range_day(0);
         $ret_info = $this->t_seller_edit_log->get_threshold_list($start_time, $end_time);
-        dd($ret_info);
         foreach($ret_info as $item){
             if($item['type'] == 6){
-                $ret[$key]['time'] = date('H:i',$item['create_time']);
-                $ret[$key]['threshold'] = $item['new'];
+                $ret[]['time'] = date('H:i',$item['create_time']);
+                $ret[]['threshold'] = $item['new'];
             }elseif($item['type'] == 4){
                 $threshold_max = $item['new'];
             }elseif($item['type'] == 5){
