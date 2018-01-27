@@ -14,6 +14,21 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+        // $time = time();
+        // $h = date("H");
+
+     
+        //list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        // $end_time = strtotime(date("Y-m-d",$time));
+        // $start_time = $end_time-86400;
+        // $date_list_old=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
+        // $date_arr=[];
+        // foreach($date_list_old as $k=>$val){
+        //     $time = strtotime($k);
+        //     $date_arr[$time]["date"]=$time;
+        // }
+        // dd($time);
+
         // //全职老师上班打卡延后时间
         // $begin_time = $day_time+9.5*3600;
         // $lesson_start = strtotime(date("Y-m-d",$time)." 09:00:00");
@@ -60,6 +75,7 @@ class test_jack  extends Controller
 
         //全职老师提前下班
         $time = strtotime("2018-01-26 11:00:00");
+        $day_time = strtotime(date("Y-m-d",$time));
         $lesson_end = strtotime(date("Y-m-d",$time)." 19:30:00");
         $lesson_start = $lesson_end+1800;
         $lesson_list = $this->t_lesson_info_b2->get_off_time_lesson_info($lesson_start,$lesson_end);
@@ -67,6 +83,7 @@ class test_jack  extends Controller
             $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($item["uid"]);
             $teacherid = $teacher_info["teacherid"];
             $id = $this->t_fulltime_teacher_attendance_list->check_is_exist(-1,$day_time,-1,$item["uid"]);
+           
             $attendance_type = $this->t_fulltime_teacher_attendance_list->get_attendance_type($id);
             if($id>0 && in_array($attendance_type,[0,2])){
                 $start = $this->get_first_lesson_start($teacherid,$item["lesson_start"]);
@@ -74,8 +91,13 @@ class test_jack  extends Controller
                 // $start = $this->t_lesson_info_b2->check_off_time_lesson_start($teacherid,$lesson_end,$item["lesson_start"]);
                 $off_time = $start-5400;
                 if($teacherid==99504){
-                    dd($off_time);
+                    $this->t_fulltime_teacher_attendance_list->field_update_list($id,[
+                        "off_time"         =>$off_time,
+                        "attendance_type" =>2,
+                    ]);
+
                 }
+                exit;
                 // $this->t_fulltime_teacher_attendance_list->field_update_list($id,[
                 //     "off_time"         =>$off_time,
                 //     "attendance_type" =>2,
