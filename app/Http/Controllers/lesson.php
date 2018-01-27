@@ -508,7 +508,6 @@ class lesson extends TeaWxController
     }
 
     public function update_comment_common_new() { // 协议编号 3001
-
         $teacherid          = $this->get_teacherid();
         $lessonid           = $this->get_in_int_val('lessonid',-1);
         $now                = time(NULL);
@@ -568,11 +567,11 @@ class lesson extends TeaWxController
             ];
         }else {
             $stu_performance = [
-                "total_judgement"   => $total_judgement,
-                "homework_situation"=> $homework_situation,
-                "content_grasp"   => $content_grasp,
-                "lesson_interact" => $lesson_interact,
-                "stu_comment"     => $stu_common_info_arr
+                "total_judgement"    => $total_judgement,
+                "homework_situation" => $homework_situation,
+                "content_grasp"      => $content_grasp,
+                "lesson_interact"    => $lesson_interact,
+                "stu_comment"        => $stu_common_info_arr
             ];
         }
 
@@ -587,6 +586,7 @@ class lesson extends TeaWxController
                 return $this->output_succ(['time'=>$com_state]);
             }
         }
+        return $this->output_succ();
     }
 
 }

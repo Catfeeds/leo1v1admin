@@ -10,6 +10,6 @@ message in  {
 }
 
 message out {
-  string  list = 1 ;
+  common.package_list data=1;//套餐列表.可能为空
 }
 
