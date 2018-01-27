@@ -581,7 +581,7 @@ $(function(){
         }
 
         var get_pdf_info = function(is_tea_flag, file_url, res_id, tea_flag){
-            console.log(file_url);
+            //console.log(file_url);
             var ret_func = function(ret){
                  if(ret.ret == 0){
 

@@ -3275,7 +3275,7 @@ class teacher_info extends Controller
         }
         $files = $this->t_resource_file->get_files_by_resource_id($resource_id);
         if($files == false){
-            return $this->output_err("信息有误，操作失败！") ;
+            return $this->output_err("文件不存在，操作失败！") ;
         } else {
             return $this->output_succ(['data' => $files]) ;
         }

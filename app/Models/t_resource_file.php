@@ -53,7 +53,7 @@ class t_resource_file extends \App\Models\Zgen\z_t_resource_file
             ['f.resource_id=%u', $resource_id, -1],
             'f.status=0',
             'r.is_del=0',
-            'r.resource_type in (1,2,3)',
+            'r.resource_type in (1,2,3,5,6,9)',
         ];
         $sql = $this->gen_sql_new("select file_title,file_link,file_type,file_id,file_use_type,ex_num"
                                   ." from %s f"
