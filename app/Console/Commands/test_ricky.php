@@ -57,20 +57,16 @@ class test_ricky extends Command
             $subject = $task->t_student_info->get_list_subject($userid);
             $subj = "";
             foreach ($subject as $val) {
-                var_dump($val);
                 $subj .= E\Esubject::get_desc($val["subject"])."-";
             }
             if ($subj) {
                 $subj = substr($subj,0,-1);
-                echo $subj;
             }
             echo $subj.",";
             $count = $task->t_student_info->get_teacher_count($userid);
             echo $count.",";
             echo $item['lesson_count_left'].",";
-            echo $item["type"];
             echo E\Estudent_type::get_desc($item["type"]).PHP_EOL;
-            exit;
         }
 
         // 拉取90分钟补偿数据
