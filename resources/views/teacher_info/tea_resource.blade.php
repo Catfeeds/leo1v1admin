@@ -75,6 +75,7 @@
                     <td style="width:10%">文件类型</td>
                     <td style="width:10%">文件大小</td>
                     <td >文件来源</td>
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -102,6 +103,7 @@
                                 我的收藏
                             @endif
                         </td>
+                        <td><a class="opt-look btn color-blue"  title="预览" data-file_id="{{@$var['file_id']}}">预览</a></td>
                     </tr>
                 @endforeach
             </tbody>
@@ -124,6 +126,8 @@
         </table>
     </div>
     <div class="col-md-12 look-pdf"   style="width:80%;height:90%;position:fixed;right:10%;top:5%;border-radius:5px;background:#eee;display:none;">
+        <div class="look-pdf-son">
+        </div>
     </div>
 
 @endsection
