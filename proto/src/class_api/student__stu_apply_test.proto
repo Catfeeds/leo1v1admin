@@ -13,6 +13,5 @@ message in  {
 }
 
 message out {
-  	string  data = 1;
 }
 

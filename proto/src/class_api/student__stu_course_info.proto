@@ -10,6 +10,6 @@ message in  {
 }
 
 message out {
-  	string  data = 1;
+  common.stu_course_info data=1;//课包列表.可能为空
 }
 

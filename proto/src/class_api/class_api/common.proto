@@ -37,3 +37,26 @@ message stu_get_course_list {
   uint32 stu_left_num=8 ;  //学生可以用课时
  
 }
+
+message stu_study_progress {
+  uint32 lesson_num=1 ;  //课程总数
+  uint32 lessoned_num=2 ;  //已上课程数
+  uint32 week_lesson_num=3 ;  //本周课程总数
+  uint32 week_lessoned_num=4 ;  //本周已上课程数
+}
+
+message stu_lesson_info {
+  string course_type_str=1 ;  //课程包类型
+  string subject_str=2 ;  //科目
+  string course_name=3 ;  //课程包名称
+  string nick=4 ;  //老师昵称
+  string face=5 ;  //老师头像链接
+  string begin_time=6 ;  //上课时间格式 例如:2018-01-11 10:00:00
+  string week_hour=7 ;  //上课时间 星期和时间组合 例如: 110 周一十点  ; 周日上课 则为: 090 周日九点
+}
+
+message stu_course_info {
+  string course_name=1 ;  //课程包名称
+  string all_num=2 ;  //课包总课时
+  string over_num=3 ;  //已上课时
+}
