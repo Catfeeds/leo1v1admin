@@ -86,7 +86,6 @@ class seller_student_system_free extends cmd_base
             }
         }
 
-        }
     }
 
 }
