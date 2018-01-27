@@ -41,7 +41,7 @@ $(function(){
         var $img_src4 = $("<input />");
         var $follow_list = $("<div />");
 
-        $img.html("<div> <div>PNG格式</div>     <div style='margin-top:1rem;'>   <div style='float:left'> <span style='margin-right:0.5rem;'>封面页</span> <div><img id='id_img1' style='width:54px;height:48px' src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/> <span class='del_cover' style='display:none'>删除</span> </div>  <span style=' font-size:0.2rem;'>尺寸:300X300</span></div>   <div style='float:right'> <span style='margin-right:0.5rem;'>活动页</span> <div> <img id='id_img2' style='width:54px;height:48px' src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/><span class='del_activity'  style='display:none'>删除</span></div><span style=' font-size:0.2rem;'>尺寸:750X1334</span></div><div style='clear:both'></div> </div>  <div style='margin-top:2rem;'>   <div style='float:left'> <span style='margin-right:0.5rem;'>分享页</span><div><img id='id_img3' style='width:54px;height:48px' src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/> <span class='del_share'  style='display:none'>删除</span> </div><span style=' font-size:0.2rem;'>尺寸:750X1334</span></div>   <div style='float:right'> <span style='margin-right:0.5rem;'>关注页</span><div><img id='id_img4' style='width:54px;height:48px' src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/><span class='del_follow'  style='display:none'>删除</span></div><span style=' font-size:0.2rem;'>尺寸:750X1334</span></div> </div>  </div>");
+        $img.html("<div> <div>PNG格式</div>     <div style='margin-top:1rem;'>   <div style='float:left'> <span style='margin-right:0.5rem;'>封面页</span> <div><img id='id_img1' style='width:54px;height:48px' src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/> <span class='del_cover' style='display:none'>删除</span> </div>  <span style=' font-size:0.2rem;'>尺寸:300X300</span></div>   <div style='float:right'> <span style='margin-right:0.5rem;'>活动页</span> <div> <img id='id_img2' style='width:54px;height:48px' src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/><span class='del_activity'  style='display:none'>删除</span></div><span style=' font-size:0.2rem;'>尺寸:750X1334</span></div><div style='clear:both'></div> </div>  <div style='margin-top:2rem;'>   <div style='float:left'> <span style='margin-right:0.5rem;'>分享页</span><div><img id='id_img3' style='width:54px;height:48px' src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/> <span class='del_share'  style='display:none'>删除</span> </div><span style=' font-size:0.2rem;'>尺寸:750X1334</span></div>   <div style='float:right'> <span style='margin-right:0.5rem;'>关注页</span><div><img id='id_img4' style='width:54px;height:48px' src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/><span class='del_follow'  style='display:none'>清空</span></div><span style=' font-size:0.2rem;'>尺寸:750X1334</span></div> </div>  </div>");
 
         Enum_map.append_option_list("market_gift_type", $main_type_name,true);
 
@@ -68,7 +68,7 @@ $(function(){
                 var img_list = $follow_list.children();
                 var img_list_str = '';
                 $.each(img_list,function(i,item){
-                    img_list_str = img_list_str+','+$(item).attr('src');
+                    img_list_str = img_list_str+','+$(item.firstChild).attr('img_key');
                 });
 
                 $.do_ajax("/ss_deal/addMarketExtend",{
@@ -77,9 +77,9 @@ $(function(){
                     'act_descr' : $describe.val(),
                     'shareImgUrl' : $img_src3.val(),
                     'coverImgUrl' : $img_src1.val(),
-                    'followImgUrl' : $img_src4.val(),
+                    'followImgUrl' : img_list_str,
                     'activityImgUrl' : $img_src2.val(),
-                    'img_list_str'   : img_list_str
+                    // 'img_list_str'   : img_list_str
                 });
             }
         },function(){
@@ -87,6 +87,7 @@ $(function(){
             $img_src2.parent().parent().css('display','none');
             $img_src3.parent().parent().css('display','none');
             $img_src4.parent().parent().css('display','none');
+            $follow_list.parent().parent().css('display','none');
 
 
             $.custom_upload_file('id_img1',true,function (up, info, file) { // 封面页
@@ -122,9 +123,10 @@ $(function(){
                 $img_src4.val(res.key);
                 if(res.key){
                     $('.del_follow').css('display','block');
-                    $('#id_img4').attr('src','https://ybprodpub.leo1v1.com/'+res.key);
+                    // $('#id_img4').attr('src','https://ybprodpub.leo1v1.com/'+res.key);
+                    $follow_list.parent().parent().css('display','table-row');
 
-                    $follow_list.append('<img style="margin:1rem" src="https://ybprodpub.leo1v1.com/'+res.key+'">');
+                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img img_key="'+res.key+'" src="https://ybprodpub.leo1v1.com/'+res.key+'"></div>');
                 }
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
@@ -151,9 +153,9 @@ $(function(){
                 $img_src4.val('');
                 $('#id_img4').attr('src','http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png');
                 $('.del_follow').css('display','none');
+                $follow_list.html('');
+                $follow_list.parent().parent().css('display','none');
             });
-
-
         });
     });
 
@@ -174,9 +176,6 @@ $(function(){
 
     $('.opt-edit').on("click", function (g_adminid_right) {
         var opt_data=$(this).get_opt_data();
-
-        // console.log(opt_data);
-
         var $main_type_name = $("<select/>");
         var $title = $("<textarea style='width:100%' />");
         var $describe = $("<textarea style='width:100%'/>");
@@ -185,8 +184,9 @@ $(function(){
         var $img_src2 = $("<input />");
         var $img_src3 = $("<input />");
         var $img_src4 = $("<input />");
+        var $follow_list = $("<div />");
 
-        $img.html("<div> <div>PNG格式</div>     <div style='margin-top:1rem;'>   <div style='float:left'> <span style='margin-right:0.5rem;'>封面页</span> <div><img id='id_img1' style='width:54px;height:48px' src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/> <span class='del_cover' style='display:none'>删除</span> </div>  <span style=' font-size:0.2rem;'>尺寸:300X300</span></div>   <div style='float:right'> <span style='margin-right:0.5rem;'>活动页</span> <div> <img id='id_img2' style='width:54px;height:48px' src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/><span class='del_activity'  style='display:none'>删除</span></div><span style=' font-size:0.2rem;'>尺寸:750X1334</span></div><div style='clear:both'></div> </div>  <div style='margin-top:2rem;'>   <div style='float:left'> <span style='margin-right:0.5rem;'>分享页</span><div><img id='id_img3' style='width:54px;height:48px' src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/> <span class='del_share'  style='display:none'>删除</span> </div><span style=' font-size:0.2rem;'>尺寸:750X1334</span></div>   <div style='float:right'> <span style='margin-right:0.5rem;'>关注页</span><div><img id='id_img4' style='width:54px;height:48px' src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/><span class='del_follow'  style='display:none'>删除</span></div><span style=' font-size:0.2rem;'>尺寸:750X1334</span></div> </div>  </div>");
+        $img.html("<div> <div>PNG格式</div>     <div style='margin-top:1rem;'>   <div style='float:left'> <span style='margin-right:0.5rem;'>封面页</span> <div><img id='id_img1' style='width:54px;height:48px' src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/> <span class='del_cover' style='display:none'>删除</span> </div>  <span style=' font-size:0.2rem;'>尺寸:300X300</span></div>   <div style='float:right'> <span style='margin-right:0.5rem;'>活动页</span> <div> <img id='id_img2' style='width:54px;height:48px' src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/><span class='del_activity'  style='display:none'>删除</span></div><span style=' font-size:0.2rem;'>尺寸:750X1334</span></div><div style='clear:both'></div> </div>  <div style='margin-top:2rem;'>   <div style='float:left'> <span style='margin-right:0.5rem;'>分享页</span><div><img id='id_img3' style='width:54px;height:48px' src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/> <span class='del_share'  style='display:none'>删除</span> </div><span style=' font-size:0.2rem;'>尺寸:750X1334</span></div>   <div style='float:right'> <span style='margin-right:0.5rem;'>关注页</span><div><img id='id_img4' style='width:54px;height:48px' src='http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png' style=''/><span class='del_follow'  style='display:none'>清空</span></div><span style=' font-size:0.2rem;'>尺寸:750X1334</span></div> </div>  </div>");
 
         Enum_map.append_option_list("market_gift_type", $main_type_name,true);
 
@@ -195,6 +195,7 @@ $(function(){
             ["标题", $title],
             ["活动描述", $describe],
             ["活动图片", $img],
+            ["关注图片列表", $follow_list],
             ["图片1",$img_src1],
             ["图片2",$img_src2],
             ["图片3",$img_src3],
@@ -210,13 +211,15 @@ $(function(){
                 if(!$title.val()){ alert('请填写活动标题!'); return; }
                 if(!$describe.val()){ alert('请填写活动描述!'); return; }
                 if(!$img_src1.val() && !$img_src2.val() && !$img_src3.val() && !$img_src4.val() ){
-                    console.log($img_src1.val());
-                    console.log($img_src2.val());
-                    console.log($img_src3.val());
-                    console.log($img_src4.val());
                     alert('请选择活动图片!');
                     return;
                 }
+                var img_list = $follow_list.children();
+                var img_list_str = '';
+                $.each(img_list,function(i,item){
+                    img_list_str = img_list_str+','+$(item.firstChild).attr('img_key');
+                });
+
 
                 $.do_ajax("/ss_deal/updateMarketExtend",{
                     'gift_type' : $main_type_name.val(),
@@ -224,7 +227,7 @@ $(function(){
                     'act_descr' : $describe.val(),
                     'shareImgUrl' : $img_src3.val(),
                     'coverImgUrl' : $img_src1.val(),
-                    'followImgUrl' : $img_src4.val(),
+                    'followImgUrl': img_list_str,
                     'activityImgUrl' : $img_src2.val(),
                     'id' : opt_data.id
                 });
@@ -234,13 +237,7 @@ $(function(){
             $img_src2.parent().parent().css('display','none');
             $img_src3.parent().parent().css('display','none');
             $img_src4.parent().parent().css('display','none');
-
-            // console.log(opt_data);
-
-            if(opt_data.coverimgurl){ $('.del_cover').css('display','block');}
-            if(opt_data.activityimgurl){ $('.del_activity').css('display','block');}
-            if(opt_data.shareimgurl){ $('.del_share').css('display','block');}
-            if(opt_data.followimgurl){ $('.del_follow').css('display','block');}
+            $follow_list.parent().parent().css('display','none');
 
             $title.val(opt_data.title);
             $describe.val(opt_data.act_descr);
@@ -250,26 +247,26 @@ $(function(){
             $img_src3.val(opt_data.shareimgurl);
             $img_src4.val(opt_data.followimgurl);
 
-
-
             if(opt_data.coverimgurl){
                 $('#id_img1').attr('src','https://ybprodpub.leo1v1.com/'+opt_data.coverimgurl);
+                $('.del_cover').css('display','block');
             }
-
-
             if(opt_data.activityimgurl){
                 $('#id_img2').attr('src','https://ybprodpub.leo1v1.com/'+opt_data.activityimgurl);
+                $('.del_activity').css('display','block');
             }
-
             if(opt_data.shareimgurl){
                 $('#id_img3').attr('src','https://ybprodpub.leo1v1.com/'+opt_data.shareimgurl);
+                $('.del_share').css('display','block');
             }
-
-
             if(opt_data.followimgurl){
-                $('#id_img4').attr('src','https://ybprodpub.leo1v1.com/'+opt_data.followimgurl);
+                $('.del_follow').css('display','block');
+                $follow_list.parent().parent().css('display','table-row');
+                var list_arr = opt_data.followimgurl.split(',');
+                $.each(list_arr,function(i,item){
+                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img img_key="'+item+'" src="https://ybprodpub.leo1v1.com/'+item+'"></div>');
+                });
             }
-
 
             $.custom_upload_file('id_img1',true,function (up, info, file) { // 封面页
                 var res = $.parseJSON(info);
@@ -287,7 +284,6 @@ $(function(){
                 if(res.key){
                     $('.del_activity').css('display','block');
                     $('#id_img2').attr('src','https://ybprodpub.leo1v1.com/'+res.key);
-
                 }
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
@@ -297,7 +293,6 @@ $(function(){
                 if(res.key){
                     $('.del_share').css('display','block');
                     $('#id_img3').attr('src','https://ybprodpub.leo1v1.com/'+res.key);
-
                 }
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
@@ -306,7 +301,8 @@ $(function(){
                 $img_src4.val(res.key);
                 if(res.key){
                     $('.del_share').css('display','block');
-                    $('#id_img4').attr('src','https://ybprodpub.leo1v1.com/'+res.key);
+                    // $('#id_img4').attr('src','https://ybprodpub.leo1v1.com/'+res.key);
+                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img img_key="'+res.key+'" src="https://ybprodpub.leo1v1.com/'+res.key+'"></div>');
 
                 }
 
@@ -314,21 +310,18 @@ $(function(){
 
             $('.del_cover').on("click",function(){
                 $img_src1.val('');
-                // $('.del_cover').remove();
                 $('#id_img1').attr('src','http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png');
                 $('.del_cover').css('display','none');
             });
 
             $('.del_activity').on("click",function(){
                 $img_src2.val('');
-                // $('.del_activity').remove();
                 $('#id_img2').attr('src','http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png');
                 $('.del_activity').css('display','none');
             });
 
             $('.del_share').on("click",function(){
                 $img_src3.val('');
-                // $('.del_share').remove();
                 $('#id_img3').attr('src','http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png');
                 $('.del_share').css('display','none');
             });
@@ -337,7 +330,8 @@ $(function(){
                 $img_src4.val('');
                 $('.del_follow').css('display','none');
                 $('#id_img4').attr('src','http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E5%B8%82%E5%9C%BA%E6%B4%BB%E5%8A%A8.png');
-                // $('.del_follow').remove();
+                $follow_list.html('');
+                $follow_list.parent().parent().css('display','none');
             });
 
         });

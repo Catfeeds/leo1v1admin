@@ -4718,10 +4718,21 @@ class human_resource extends Controller
             //E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"second_grade_start");
             E\Egrade_range::set_item_value_str($item,"second_grade_end");
+            E\Eboolean::set_item_value_str($item,"limit_seller_require_flag");
+            $time_info = json_decode($item["week_limit_time_info"],true);
+            $str="";
+            if($time_info){
+                foreach($time_info as $val){
+                    $str .=$val["week_name"]." ".$val["start"]."~".$val["end"]."<br>";
+                }
+            }
+            $item["week_limit_time_info_str"] =  $str;
 
         }
+        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             '_publish_version' =>'201712161131',
+            'research_flag'=>$research_flag
         ]);
     }
 

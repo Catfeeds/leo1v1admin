@@ -11,7 +11,7 @@ use \App\Enums as E;
  * @use \App\Http\Controllers\Controller
  */
 trait TeaPower {
-    public function research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count=0,$lesson_start=0,$lesson_type=-1){
+    public function research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count=0,$lesson_start=0,$lesson_type=-1,$lesson_end=0){
         $admin_info   = $this->t_manager_info->get_account_role_by_teacherid($teacherid);
 
         $account_role = $admin_info["account_role"];
@@ -37,8 +37,12 @@ trait TeaPower {
         ];
 
         $lesson_start_date = date("Y-m-d",$lesson_start);
+        if(empty($lesson_end)){
+            $lesson_end = $lesson_count*2400+$lesson_start; 
+        }
         if($account_role ==4 && !in_array($lesson_start_date,$day_arr)){
             $create_time = $this->t_manager_info->get_create_time($admin_info["uid"]);
+            $week_limit_time_info = $this->t_teacher_info->get_week_limit_time_info($teacherid);
             if($create_time<strtotime("2017-10-25")){
                 /*if($lesson_type==2){
                    $month_start = strtotime(date("Y-m-01",$lesson_start));
@@ -60,35 +64,45 @@ trait TeaPower {
                             return $this->output_err("该教研老师周六剩余可排课时为".$week_left);
                         }
                     }
-                }elseif($day>=2 && $day <=5){
-                    if(!empty($lesson_start)){
-                        if($h <18){
-                            return $this->output_err("教研老师周二至周五只能18点以后排课");
-                        }
-                    }
                 }
+                $res = $this->check_research_teacher_limit_time($lesson_start,$lesson_end,$week_limit_time_info,$data_week);
+                if($res){
+                    return $res;
+                }
+                // elseif($day>=2 && $day <=5){
+                //     if(!empty($lesson_start)){
+                //         if($h <18){
+                //             return $this->output_err("教研老师周二至周五只能18点以后排课");
+                //         }
+                //     }
+                // }
             }else{
                 //新教研老师规则改变(2017-10-25以后入职)
                 //工作时间（周二至周六9:00~18:00）不安排授课
-                if($day>=2 && $day <=5){
-                    if(!empty($lesson_start)){
+                // if($day>=2 && $day <=5){
+                //     if(!empty($lesson_start)){
 
-                        $lesson_end = $lesson_count*2400+$lesson_start;
-                        $end_h = date("H",$lesson_end);
-                        if($day==3 && $teacherid==428558 && $h>=16){
-                        }else{
-                            if($h <18 && $end_h>=9 ){
-                                return $this->output_err("教研老师周二至周五9点至18点不能排课");
-                            }
-                        }
-                    }
+                //         $lesson_end = $lesson_count*2400+$lesson_start;
+                //         $end_h = date("H",$lesson_end);
+                //         if($day==3 && $teacherid==428558 && $h>=16){
+                //         }else{
+                //             if($h <18 && $end_h>=9 ){
+                //                 return $this->output_err("教研老师周二至周五9点至18点不能排课");
+                //             }
+                //         }
+                //     }
 
+                // }
+                $res = $this->check_research_teacher_limit_time($lesson_start,$lesson_end,$week_limit_time_info,$data_week);
+                if($res){
+                    return $res;
                 }
 
+
                 //非工作时间（周二至周六18:00以后及周日、周一）每周排课总量不超过6课时；
-                if(($lesson_count_week+$lesson_count)>8){
+                if(($lesson_count_week+$lesson_count)>$week_lesson_count){
                     return $this->output_err(
-                        "教研老师每周只能带8课时,该老师该周已有".$lesson_count_week."课时!"
+                        "教研老师每周只能带".$week_lesson_count."课时,该老师该周已有".$lesson_count_week."课时!"
                     );
                 }
             }
@@ -110,6 +124,28 @@ trait TeaPower {
                 }
             }
         }
+    }
+
+    public function check_research_teacher_limit_time($lesson_start,$lesson_end,$week_limit_time_info,$date_week){
+        $end_h = date("H",$lesson_end);
+        $h         = date("H",$lesson_start);
+        $day          = intval(($lesson_start-$date_week["sdate"])/86400)+1;
+        $day_time = date("Y-m-d",$lesson_start);
+        $list = json_decode($week_limit_time_info,true);
+        if($list){
+            foreach($list as $val){
+                if($day==$val["week_num"]){                    
+                    $start= strtotime($day_time." ".$val["start"]);
+                    $end= strtotime($day_time." ".$val["end"]);                 
+                    if($lesson_start <$end && $lesson_end >=$start ){
+                        return $this->output_err("该教研老师该时间段排课受限制");
+                    }
+
+
+                }
+            }
+        }
+
     }
 
     public function add_teacher_label(
@@ -1666,6 +1702,9 @@ trait TeaPower {
         \App\Helper\Utils::set_default_value($transfer_teacherid,$teacher_info,0,"transfer_teacherid");
         \App\Helper\Utils::set_default_value($transfer_time,$teacher_info,0,"transfer_time");
         \App\Helper\Utils::set_default_value($interview_access,$teacher_info,"","interview_access");
+        \App\Helper\Utils::set_default_value($week_limit_time_info,$teacher_info,"","week_limit_time_info");
+        \App\Helper\Utils::set_default_value($week_lesson_count,$teacher_info,18,"week_lesson_count");
+
 
         $train_through_new_time = $train_through_new==1?time():0;
 
@@ -1743,6 +1782,8 @@ trait TeaPower {
             "transfer_teacherid"     => $transfer_teacherid,
             "transfer_time"          => $transfer_time,
             "interview_access"       => $interview_access,
+            "week_limit_time_info"   => $week_limit_time_info,
+            "week_lesson_count"      => $week_lesson_count
         ]);
 
         if(!$ret){
