@@ -395,7 +395,7 @@ function get_public_arr(){
     if( g_args.grade < 1){
         id_grade.val(101);
     }else{
-        id_grade.val(g_args.subject);
+        id_grade.val(g_args.grade);
     }
 
     if( g_args.resource_type < 1){
