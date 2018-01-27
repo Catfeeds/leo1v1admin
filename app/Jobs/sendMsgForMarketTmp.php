@@ -45,39 +45,34 @@ class sendMsgForMarketTmp extends Job implements ShouldQueue
         $t_parent_send_mgs_log  = new \App\Models\t_parent_send_mgs_log();
         $t_lesson_info_b3   = new \App\Models\t_lesson_info_b3();
         $send_list = $t_parent_info->get_stu();
-
         $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
-
-
         if(count($send_list)<7000){
             foreach($send_list as $i=> $item){
                 $checkNeedSend = $t_lesson_info_b3->checkNeedSend($item['userid']);
                 if($checkNeedSend == 1){
-
-
-                // $data = [
-                //     "first"    => '99%的孩子都在学数学思维，到底为什么？特邀新东方数学思维名师来揭密！',
-                //     "keyword1" => '1小时培养孩子的思维力',
-                //     "keyword2" => '点击，识别二维码参与课程',
-                //     "keyword3" => date('Y年m月d日'),
-                // ];
-                // $url = "https://mp.weixin.qq.com/s/Kyy2bgMpjlOMtqOpQBZb-Q";
-                // $data['remark'] = '';
-                // \App\Helper\Utils::send_wx_to_parent($item['wx_openid'] ,$template_id,$data,$url);
-                // $t_parent_send_mgs_log->row_insert([
-                //     "parentid"     => $item['parentid'],
-                //     "create_time"  => time(),
-                //     "is_send_flag" => 9 // 市场活动推送模板消息
-                // ]);
-                }else{
-                    unset($send_list[$i]);
+                    $data = [
+                        "first"    => '99%的孩子都在学数学思维，到底为什么？特邀新东方数学思维名师来揭密！',
+                        "keyword1" => '1小时培养孩子的思维力',
+                        "keyword2" => '点击，识别二维码参与课程',
+                        "keyword3" => date('Y年m月d日'),
+                    ];
+                    $url = "https://mp.weixin.qq.com/s/Kyy2bgMpjlOMtqOpQBZb-Q";
+                    $data['remark'] = '';
+                    \App\Helper\Utils::send_wx_to_parent($item['wx_openid'] ,$template_id,$data,$url);
+                    $t_parent_send_mgs_log->row_insert([
+                        "parentid"     => $item['parentid'],
+                        "create_time"  => time(),
+                        "is_send_flag" => 10 // 市场活动推送模板消息
+                    ]);
                 }
-
             }
-            echo count($send_list);
         }
     }
 }
+
+
+
+
 // $teacher_list = [
 //     [
 //         "teacherid" => 225427,
