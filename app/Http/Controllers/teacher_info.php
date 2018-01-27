@@ -161,7 +161,7 @@ class teacher_info extends Controller
         return $this->pageView(__METHOD__,$ret_info,[
             "student_list" => $student_list,
             "is_full_time" => $is_full_time,
-            "_publish_version" => "201801271556"
+            "_publish_version" => "201801271656"
         ]);
     }
 
