@@ -144,12 +144,13 @@ function init_today_new()  {
                     $item.find(".assign_type").show();
                 }
                 if (user_item["show_left_time_flag"]) {
-                    var msg="会被系统分走,请尽快联系";
                     if (opt_data.tq_called_flag==2) {
-                        msg = "请设置用户信息";
+                        $item.find(".box-footer").html("<span style=\"color:green; \" >"+ opt_data.tq_called_flag_str +" </span> 请设置用户信息" );
+                    }else{
+                        var msg="会被系统分走,请尽快联系";
+                        $item.find(".box-footer").html("剩余:<span style=\"color:red; font-weight:bolder;font-size:18px; \">"+ user_item.left_time_str+"</span><br> <span style=\"color:red; \" >"+ opt_data.tq_called_flag_str +" </span> " +msg);
                     }
 
-                    $item.find(".box-footer").html("剩余:<span style=\"color:red; font-weight:bolder;font-size:18px; \">"+ user_item.left_time_str+"</span><br> <span style=\"color:red; \" >"+ opt_data.tq_called_flag_str +" </span> " +msg);
                 }else{
                     $item.find(".box-footer").html("<span style=\"color:red; font-weight:bolder; \">"+ opt_data.tq_called_flag_str +"</span>");
                 }
@@ -1290,6 +1291,7 @@ function init_edit() {
         $.do_ajax("/ajax_deal3/set_work_start_time",{});
         init_and_reload(function(now){
             $.filed_init_date_range( 4,  1, now,now );
+            $("#id_seller_resource_type").val(0);
 
         });
     });
