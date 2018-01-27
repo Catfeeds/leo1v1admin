@@ -824,10 +824,18 @@ class ajax_deal3 extends Controller
         $userid = $this->get_in_int_val("userid");
         $time = strtotime($this->get_in_str_val("time"));
         $call_flag = $this->get_in_int_val("call_flag");
-        $this->t_revisit_info->field_update_list_2($userid,$revisit_time,[
-            "revisit_time"  =>$time,
-            "call_phone_id" =>$call_flag
-        ]);
+        $type = $this->get_in_int_val("type");
+        if($type==1){         
+            $this->t_revisit_info->field_update_list_2($userid,$revisit_time,[
+                "revisit_time"  =>$time
+            ]);
+        }else{
+            $this->t_revisit_info->field_update_list_2($userid,$revisit_time,[
+                "revisit_time"  =>$time,
+                "call_phone_id" =>$call_flag
+            ]);
+
+        }
         return $this->output_succ();
     }
 
