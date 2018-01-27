@@ -1633,7 +1633,6 @@ class teacher_level extends Controller
         $teacher_money_type=6;
         $start_time = strtotime("2017-10-01");
         $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,-1,-1,$is_test_user,$advance_require_flag,$show_all,$withhold_require_flag);
-        dd($ret_info);
         foreach($ret_info["list"] as &$item){
             //$item["level"]=$item["level_before"];
             $item["level"]=$item["real_level"];
@@ -1656,6 +1655,8 @@ class teacher_level extends Controller
 
             E\Eaccept_flag::set_item_value_str($item);
             E\Eaccept_flag::set_item_value_str($item,"withhold_final_trial_flag");
+            E\Eaccept_flag::set_item_value_str($item,"advance_first_trial_flag");
+            E\Eaccept_flag::set_item_value_str($item,"withhold_first_trial_flag ");
             $item["lesson_count"] = $item["lesson_count"]/100;
             $item["lesson_count_score"] = $this->get_advance_score_by_num( $item["lesson_count"],1);//课耗得分
             $item["record_final_score"]= $this->get_advance_score_by_num( $item["record_score_avg"],5);//教学质量得分
