@@ -1775,6 +1775,7 @@ class test_james extends Controller
     }
 
     public function getTea(){
+        dd(date('Y年m月d日'));
         $a = $this->t_parent_info->get_stu();
         foreach($a as $i => $item){
             $checkNeedSend = $this->t_lesson_info_b3->checkNeedSend($item['userid']);

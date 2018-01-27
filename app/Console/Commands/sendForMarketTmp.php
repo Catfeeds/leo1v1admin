@@ -37,17 +37,7 @@ class sendForMarketTmp extends Command
      */
     public function handle()
     {
-        //
-        $task=new \App\Console\Tasks\TaskController();
-        $a = $task->t_parent_info->get_stu();
-        foreach($a as $i => $item){
-            $checkNeedSend = $task->t_lesson_info_b3->checkNeedSend($item['userid']);
-            if($checkNeedSend != 1){
-                unset($a[$i]);
-            }
-        }
-        echo count($a);
-        // dd($a);
-
+        dispatch(new \App\Jobs\sendMsgForMarketTmp());
+        return;
     }
 }
