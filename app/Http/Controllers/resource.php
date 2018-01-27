@@ -165,7 +165,7 @@ class resource extends Controller
         $book_arr = [];
         if($book){
             foreach($book as $v) {
-                if( $v['tag_one'] != 0 && $v['tag_one'] != 50000){
+                if( $v['tag_one'] != 0 ){
                     array_push($book_arr, intval($v['tag_one']) );
                 }
             }
