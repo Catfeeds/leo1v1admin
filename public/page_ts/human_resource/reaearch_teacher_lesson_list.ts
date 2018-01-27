@@ -322,7 +322,7 @@ $(function(){
                             console.log(i);
                             console.log(item);
                             if(i>0){
-                                arr.push({"week_num":$(item).data("week_num"),"week_name":$(item).data("week_name"),"start":$(item).data("start"),"end":$(item).data("end")});
+                                arr.push({"week_num":$(item).data("week"),"week_name":$(item).data("week_name"),"start":$(item).data("start"),"end":$(item).data("end")});
 
                             }
                         });
