@@ -1775,7 +1775,17 @@ class test_james extends Controller
     }
 
     public function getTea(){
+        dd(date('Y年m月d日'));
+        $a = $this->t_parent_info->get_stu();
+        foreach($a as $i => $item){
+            $checkNeedSend = $this->t_lesson_info_b3->checkNeedSend($item['userid']);
+            if($checkNeedSend != 1){
+                unset($a[$i]);
+            }
+        }
+        dd($a);
         $num = $this->t_parent_info->getNeedSendInfo();
+        echo count($num);
         dd($num);
     }
 

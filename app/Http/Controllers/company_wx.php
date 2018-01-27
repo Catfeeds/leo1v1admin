@@ -403,6 +403,8 @@ class company_wx extends Controller
         }
         return $this->pageView(__METHOD__, '', [
             'info' => $info,
+        ],[
+            'qiniu_upload_domain_url' =>Config::get_qiniu_public_url()."/"
         ]);
     }
 

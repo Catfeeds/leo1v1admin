@@ -737,6 +737,7 @@ class NewRouteConfig {
         "/test_bacon/change_tag"                         =>true,
         "/teacher_info/get_leo_resource_new"             =>true,
         "/teacher_info/get_sub_grade_book_tag"           =>true,
+        "/user_manage_new/set_power_with_groupid_list_new" => true,
     ];
 
     static $dev_url_map = [

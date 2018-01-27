@@ -81,6 +81,11 @@ class resource extends Controller
             }else{
                 $item['tag_five_str'] = E\Eresource_volume::get_desc($item['tag_five']);
             }
+
+            if( in_array($item['resource_type'],[1,2,9])){
+                $item['tag_two_str'] = E\Eresource_season::get_desc($item['tag_two']);
+            }
+
             if($item['resource_type'] == 3 ) {
                 $item['tag_three_str'] = E\Eresource_diff_level::get_desc($item['tag_three']);
             }
@@ -140,7 +145,7 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180124241439,
+            '_publish_version'    => 20180128241439,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -160,7 +165,7 @@ class resource extends Controller
         $book_arr = [];
         if($book){
             foreach($book as $v) {
-                if( $v['tag_one'] != 0 && $v['tag_one'] != 50000){
+                if( $v['tag_one'] != 0 ){
                     array_push($book_arr, intval($v['tag_one']) );
                 }
             }

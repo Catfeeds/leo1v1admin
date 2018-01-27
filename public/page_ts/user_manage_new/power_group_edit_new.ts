@@ -220,7 +220,7 @@ function zTreeOnClick(event, treeId, treeNode) {
                 multi_selection : true,
                 select_list     : select_list,
                 onChange        : function( select_list,dlg) {
-                    $.do_ajax("/user_manage_new/set_power_with_groupid_list",{
+                    $.do_ajax("/user_manage_new/set_power_with_groupid_list_new",{
                         powerid: powerid,
                         groupid_list:JSON.stringify(select_list)
                     },function(){
