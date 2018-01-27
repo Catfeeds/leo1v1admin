@@ -578,9 +578,7 @@ class lesson extends TeaWxController
             # $ret = $this->t_lesson_info_b2->set_stu_performance($lessonid, $teacherid, $stu_performance_str,3);
             $ret = $this->t_lesson_info_b2->set_stu_performance_tmp($lessonid, $teacherid, $stu_performance_str,3);
             $com_state = $this->t_lesson_info_b2->set_comment_status($lessonid,$now);
-            // if($com_state && $ret){
             return $this->output_succ(['time'=>$com_state]);
-            // }
         }
     }
 
