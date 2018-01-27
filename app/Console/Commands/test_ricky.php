@@ -45,6 +45,7 @@ class test_ricky extends Command
         $info = $task->t_student_info->get_list_count_left();
         $group = $task->t_admin_group_name->get_ass_group_name(E\Emain_type::V_1);
         foreach ($info as $item) {
+            var_dump($item);
             $aid = $item["assistantid"];
             echo $task->cache_get_assistant_nick($aid).",";
             $groud_id = $task->t_admin_group->get_group_id_by_aid2($aid);
