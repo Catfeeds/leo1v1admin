@@ -75,8 +75,12 @@ $(function(){
         yAxis : [
             {
             type : 'value',
+            axisLabel : {
+                formatter: '{value}'
+            },
             min  : 0,
             max  : 100,
+            splitNumber:10,
         }
         ],
         series : [

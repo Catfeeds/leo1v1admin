@@ -45,11 +45,18 @@ class test_ricky extends Command
         $info = $task->t_student_info->get_list_count_left();
         $group = $task->t_admin_group_name->get_ass_group_name(E\Emain_type::V_1);
         foreach ($info as $item) {
+            $userid = $item["userid"];
+            $list = $this->t_course_order->get_list($userid);
+            $lesson_count = 0;
+            foreach($list as $val) {
+                $lesson_count += $val["no_finish_lesson_count"]/100;
+            }
+            if (!$lesson_count) continue;
             $aid = $item["assistantid"];
             echo $task->cache_get_assistant_nick($aid).",";
             $groud_id = $task->t_admin_group->get_group_id_by_aid2($aid);
-            if (in_array($group_id, $groud)) {
-                $group_name = $group[$groud_id]["group_name"].",";
+            if (isset($group[$groud_id])) {
+                $group_name = $group[$groud_id]["group_name"];
             } else {
                 $group_name = $task->t_admin_group_name->get_group_name_by_groupid($groud_id);
             }
@@ -70,7 +77,7 @@ class test_ricky extends Command
             echo $subj.",";
             $count = $task->t_student_info->get_teacher_count($userid);
             echo $count.",";
-            echo $item['lesson_count_left'].",";
+            echo $lesson_count.",";
             echo E\Estudent_type::get_desc($item["type"]).PHP_EOL;
         }
 
