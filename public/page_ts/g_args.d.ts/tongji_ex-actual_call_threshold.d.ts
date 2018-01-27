@@ -4,7 +4,6 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	account_role:	number;//枚举: App\Enums\Eaccount_role
 }
 declare module "g_args" {
     export = g_args;
@@ -14,29 +13,15 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	subject	:any;
-	l_1_count	:any;
-	l_1_stu_in_count	:any;
-	l_2_count	:any;
-	l_2_stu_in_count	:any;
-	l_3_count	:any;
-	l_3_stu_in_count	:any;
-	l_all_count	:any;
-	l_all_stu_in_count	:any;
-	subject_str	:any;
-	l_1_order_count	:any;
-	l_2_order_count	:any;
-	l_3_order_count	:any;
-	l_all_order_count	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../tongji_ss; vi  ../tongji_ss/set_lesson_count.ts
+	 mkdir -p ../tongji_ex; vi  ../tongji_ex/actual_call_threshold.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji_ss-set_lesson_count.d.ts" />
+/// <reference path="../g_args.d.ts/tongji_ex-actual_call_threshold.d.ts" />
 
 function load_data(){
 	if ( window["g_load_data_flag"]) {return;}
@@ -46,8 +31,7 @@ function load_data(){
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val(),
-		account_role:	$('#id_account_role').val()
+		end_time:	$('#id_end_time').val()
 		});
 }
 $(function(){
@@ -62,16 +46,6 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
-	$('#id_account_role').admin_set_select_field({
-		"enum_type"    : "account_role",
-		"field_name" : "account_role",
-		"select_value" : g_args.account_role,
-		"onChange"     : load_data,
-		"multi_select_flag"     : false ,
-		"th_input_id"  : "th_account_role",
-		"only_show_in_th_input"     : false,
-		"btn_id_config"     : {},
-	});
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -86,13 +60,4 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">account_role</span>
-                <select class="opt-change form-control" id="id_account_role" >
-                </select>
-            </div>
-        </div>
-{!!\App\Helper\Utils::th_order_gen([["account_role title", "account_role", "th_account_role" ]])!!}
 */
