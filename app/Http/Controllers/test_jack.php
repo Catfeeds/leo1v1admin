@@ -14,6 +14,15 @@ class test_jack  extends Controller
     use TeaPower;
 
     public function test_ass(){
+
+        $week_limit_time_info = $this->t_teacher_info->get_week_limit_time_info($teacherid);
+       
+        $res = $this->check_research_teacher_limit_time($lesson_start,$lesson_end,$week_limit_time_info);
+        if($res){
+            return $res;
+        }
+        dd(111);
+
         $admin_info   = $this->t_manager_info->get_research_teacher_list_new(4);
         $tt=[
             ["week_num"=>2,"week_name"=>"周二","start"=>"09:00","end"=>"18:00"],
