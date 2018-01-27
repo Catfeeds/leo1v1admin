@@ -63,3 +63,16 @@ message stu_course_info {
 message test_lesson {
   uint32 sur_num=1 ;  //剩余试听课申请和修改次数
 }
+message package_list {
+  string name=1 ;  //套餐名称
+  string content=2 ;  //套餐描述
+  uint32 sale_num=3 ;  //课时数
+  string course_type_str=4 ;  //课程类型
+  uint32 give_num=5 ;  //赠送课时数
+  string give_course_type_str=6 ;  //赠送课程类型
+  uint32 sale_money=7 ;  //总金额
+  uint32 give_money=8 ;  //优惠金额
+  uint32 total_money=9 ;  //实际金额
+  string give_money_reason=10 ;  //优惠原因
+  string valid_period_desc=11 ;  //有效期
+}
