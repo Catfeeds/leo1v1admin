@@ -97,7 +97,6 @@ class test_jack  extends Controller
                     ]);
 
                 }
-                exit;
                 // $this->t_fulltime_teacher_attendance_list->field_update_list($id,[
                 //     "off_time"         =>$off_time,
                 //     "attendance_type" =>2,

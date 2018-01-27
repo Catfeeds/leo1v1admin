@@ -21,7 +21,7 @@
      var g_grade_list= <?php  echo json_encode(@$grade_list); ?> ;
      var g_data_ex_list= <?php  echo json_encode(@$pic_data); ?> ;
     </script>
-  
+    
 
 
     <section class="content ">
@@ -107,7 +107,7 @@
                 <button class="btn btn-warning btn-flat lesson_table_flag" id="id_attend_rate" style="float:right" data-class_id="2">正常出勤率:{{ @$attend_rate }}%</button>
                 <button class="btn btn-warning btn-flat performance_table_flag" id="id_record_rate" style="float:right" data-class_id="3">反馈率:{{ @$record_rate }}%</button>
                 <button class="btn btn-warning btn-flat homework_table_flag" id="id_score_final" style="float:right" data-class_id="4">平均成绩:{{ @$score_final }}</button>
-                <button class="btn btn-warning btn-flat homework_table_flag" id="id_complete_rate" style="float:right;margin-right:15px" data-class_id="4">作业完成率:</button>
+                <button class="btn btn-warning btn-flat homework_table_flag" id="id_complete_rate" style="float:right;margin-right:15px" data-class_id="4">作业完成率:{{ @$complete_rate }}%</button>
                 <button class="btn btn-warning btn-flat score_table_flag score_table_flag_show" id="id_score_pic" style="float:right" data-class_id="5" data-table_id="1">图</button>
                 <button class="btn btn-warning btn-flat score_table_flag score_table_flag_show current_score" id="id_score_table" style="float:right" data-class_id="5" data-table_id="2">表</button>
 
@@ -218,7 +218,7 @@
                                 {{@$var["parent_login_num"] }}
                             </a>
                         </td>
-                       
+                        
                         <td>{{@$var["stu_draw"] }}</td>
                         <td>{{@$var["tea_draw"] }}</td>
                         <td>{{@$var["stu_voice"] }}</td>
@@ -332,7 +332,7 @@
                         <td>{{@$var["score"] }}</td>
                         <td>{{@$var["stu_check_flag"] }}</td>
                         <td>{{@$var["realname"] }}</td>
-                       
+                        
                         <td>
                             <div
 
@@ -374,7 +374,7 @@
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["score"]/10}} </td>
                         <td>{{@$var["total_score"]}} </td>
-                       
+                        
                         <td>{{@$var["rank"]}} </td>
                         <td>{{@$var["rank_num"]}} </td>
                         <td>{{@$var["grade_rank"]}} </td>
