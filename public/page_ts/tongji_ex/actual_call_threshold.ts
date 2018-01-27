@@ -47,6 +47,9 @@ $(function(){
     var myChart = echarts.init(document.getElementById('main'));
     // 指定图表的配置项和数据
     var option = {
+        title: {
+            text: '抢新拨通率'
+        },
         tooltip : {
             trigger: 'axis'
         },
@@ -54,6 +57,12 @@ $(function(){
             data:['警戒线','实时接通率','预警线']
         },
         color: ['#FF0000', '#3CB371','#EEC900'],
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
         toolbox: {
             show : true,
             feature : {
