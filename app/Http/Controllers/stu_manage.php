@@ -1824,6 +1824,8 @@ class stu_manage extends Controller
 
 
         }elseif($current_id==5){
+            $subject_arr=[];
+            $grade_arr=[];
             $ret_info=$this->t_student_score_info->get_all_list($page_info,"",$grade,$semester,$stu_score_type,-1,$userid,$subject);
             $list = $this->t_student_score_info->get_all_list_no_page("",$grade,$semester,$stu_score_type,-1,$userid,$subject);
             foreach( $ret_info["list"] as $key => &$item ) {
