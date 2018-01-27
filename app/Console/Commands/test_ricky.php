@@ -66,6 +66,7 @@ class test_ricky extends Command
             $count = $task->t_student_info->get_teacher_count($userid);
             echo $count.",";
             echo $item['lesson_count_left'].",";
+            echo $item["type"];
             echo E\Estudent_type::get_desc($item["type"]).PHP_EOL;
         }
 
