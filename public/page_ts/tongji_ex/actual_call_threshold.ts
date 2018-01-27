@@ -68,7 +68,7 @@ $(function(){
             feature : {
                 mark : {show: true},
                 dataView : {show: true, readOnly: false},
-                magicType : {show: true, type: ['line','bar','tiled']},
+                magicType : {show: true, type: ['line','bar','stack','tiled']},
                 restore : {show: true},
                 saveAsImage : {show: true}
             }
@@ -96,19 +96,19 @@ $(function(){
             {
             name:'警戒线',
             type:'line',
-            stack: '总量',
+            // stack: '总量',
             data:threshold_min_list
         },
             {
             name:'实时接通率',
             type:'line',
-            stack: '总量',
+            // stack: '总量',
             data:threshold_list
         },
             {
             name:'预警线',
             type:'line',
-            stack: '总量',
+            // stack: '总量',
             data:threshold_max_list
         }
         ]
