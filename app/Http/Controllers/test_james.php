@@ -1775,20 +1775,8 @@ class test_james extends Controller
     }
 
     public function getTea(){
-        $num = $this->t_teacher_info->getTeacherNumTrainThrough();
+        $num = $this->t_parent_info->getNeedSendInfo();
         dd($num);
-    }
-
-    public function dds(){
-        $a = $this->get_teacherid();
-        $b = (int)$a;
-        dd($b);
-    }
-
-    public function get_teacherid(){
-        // return 1;
-            return $this->output_err("未登录 ");
-            exit;
     }
 
 }
