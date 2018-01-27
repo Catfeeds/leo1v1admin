@@ -262,13 +262,10 @@ $(function(){
             if(opt_data.followimgurl){
                 $('.del_follow').css('display','block');
                 $follow_list.parent().parent().css('display','table-row');
-
-                console.log(opt_data.followImgUrl);
-
-                // var list_arr = opt_data.split(',');
-                // $.each(list_arr,function(i,item){
-                    // $follow_list.append('<div style="margin:1rem;display:inline-block;"><img img_key="'+res.key+'" src="https://ybprodpub.leo1v1.com/'+res.key+'"></div>');
-                // });
+                var list_arr = opt_data.followimgurl.split(',');
+                $.each(list_arr,function(i,item){
+                    $follow_list.append('<div style="margin:1rem;display:inline-block;"><img img_key="'+item+'" src="https://ybprodpub.leo1v1.com/'+item+'"></div>');
+                });
             }
 
             $.custom_upload_file('id_img1',true,function (up, info, file) { // 封面页
