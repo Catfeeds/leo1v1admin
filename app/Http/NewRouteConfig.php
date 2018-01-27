@@ -735,7 +735,8 @@ class NewRouteConfig {
         "/test_bacon/luru_tag"                           =>true,
         "/test_bacon/modify_resource"                    =>true,
         "/test_bacon/change_tag"                         =>true,
-        "/teacher_info/get_leo_resource_new"             =>true
+        "/teacher_info/get_leo_resource_new"             =>true,
+        "/teacher_info/get_sub_grade_book_tag"           =>true,
     ];
 
     static $dev_url_map = [

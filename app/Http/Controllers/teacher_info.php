@@ -161,7 +161,7 @@ class teacher_info extends Controller
         return $this->pageView(__METHOD__,$ret_info,[
             "student_list" => $student_list,
             "is_full_time" => $is_full_time,
-            "_publish_version" => "201801231556"
+            "_publish_version" => "201801271156"
         ]);
     }
 
@@ -2748,21 +2748,12 @@ class teacher_info extends Controller
         $tag_four      = $this->get_in_int_val('tag_four', -1);
         $tag_five      = $this->get_in_int_val('tag_five', -1);
         // $file_title    = $this->get_in_str_val('file_title', '');
+
         $page_info     = $this->get_in_page_info();
 
-        if($is_js){//只有三种可以用
-            $resource_type = $resource_type<1?1:$resource_type;
-            $resource_type = $resource_type>3?3:$resource_type;
-            foreach($type_list as $k=>$v){
-                if( $v>3 ){
-                    unset($type_list[$k]);
-                }
-            }
-        }else{
-            $resource_type = $resource_type<1?1:$resource_type;
-            $resource_type = $resource_type>6?6:$resource_type;
-        }
-
+        $resource_type = $resource_type<1?1:$resource_type;
+        $resource_type = $resource_type>6?6:$resource_type;
+   
         //禁用，删除，老师段则不在显示
         $ret_info = $this->t_resource->get_all_for_tea(
             $resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$page_info
@@ -2821,23 +2812,48 @@ class teacher_info extends Controller
                 'tea_sub'   => join( $tea_sub, ','),
                 'tea_gra'   => join($tea_gra, ','),
                 'book'      => join($book_arr, ','),
-                'type_list' => join($type_list, ',')
+                'type_list' => join($type_list, ','),
+                'resource_type' => $resource_type,    //搜索参数
+                'subject'       => $subject,
+                'grade'         => $grade,
+                'tag_one'       => $tag_one,
+                'tag_two'       => $tag_two,
+                'tag_three'     => $tag_three,
+                'tag_four'      => $tag_four,
+                'tag_five'      => $tag_five,
+
             ]);
 
         }
 
-        //book_arr 2015,2016,2017
-        //tar_arr tar_one->tar_four
-        //dd($tag_arr,$tea_sub,$book_arr);
-        // dd($tea_info);
         return $this->pageView( __METHOD__,$ret_info,[
             'tag_info'  => $tag_arr,
             'tea_sub'   => json_encode( $tea_sub),
             'tea_gra'   => json_encode($tea_gra),
             'book'      => json_encode($book_arr),
-            'type_list' => json_encode($type_list)
+            'type_list' => json_encode($type_list),
+            'resource_type' => $resource_type,   //搜索参数
+            'subject'       => $subject,
+            'grade'         => $grade,
+            'tag_one'       => $tag_one,
+            'tag_two'       => $tag_two,
+            'tag_three'     => $tag_three,
+            'tag_four'      => $tag_four,
+            'tag_five'      => $tag_five,
+
         ]);
 
+    }
+
+    public function get_sub_grade_book_tag(){
+        $subject       = $this->get_in_int_val('subject');
+        $grade         = $this->get_in_int_val('grade');
+        $bookid        = $this->get_in_int_val('bookid',-1);
+        $resource_type        = $this->get_in_int_val('resource_type',-1);
+        $season_id        = $this->get_in_int_val('season_id',-1);
+        $data = $this->t_sub_grade_book_tag->get_tag_by_sub_grade($subject,$grade,$bookid,$resource_type,$season_id);
+         
+        return $this->output_succ(['tag' => $data]);
     }
 
     public function do_collect(){

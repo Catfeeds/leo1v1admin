@@ -111,31 +111,53 @@ $(function(){
         }
 
     }
+
     //获取学科化标签
-    var get_sub_grade_tag = function(subject,grade,obj,opt_type){
+    var get_sub_grade_tag = function(subject,grade,booid,resource_type,season_id,obj,opt_type){
         obj.empty();
-        do_ajax("/resource/get_sub_grade_tag_js",{
+        //console.log(season_id);
+        $.ajax({
+            type     : "post",
+            url      : "/teacher_info/get_sub_grade_book_tag",
+            dataType : "json",
+            data : {
                 'subject' : subject,
                 'grade'   : grade,
-            } ,function(result){
+                'bookid'  : booid,
+                'resource_type' : resource_type,
+                'season_id'  : season_id
+            } ,
+            success : function(result){
                 if(result.ret == 0){
                     obj.empty();
-                    obj.next().remove();
+                    obj.parent().find('span.tag_warn').remove();
+                    //console.log(result);
                     var tag_info = result.tag;
-                    if($(tag_info).length == 0) {
-                        obj.append('<option value="-1">全部</option>');
-                    } else {
-                        var tag_str = '<option value="-1">全部</option>';
-                        $.each($(tag_info),function(i, val){
-                            tag_str = tag_str + '<option value='+i+'>'+val+'</option>';
+             
+                    if($(tag_info).length == 0) {                      
+                        if( subject > 0 && grade > 0){
+                            obj.append('<option value="-1">暂无标签</option>');
+                        }else{
+                            obj.append('<option value="-1">资源类型、科目和年级是必选</option>');
+                            $('#id_tag_four').css({'color':"#a2a2a2"});
+                        }                        
+                    } else {           
+                        var tag_str = '<option value="-1">全部</option>';                                               
+                        $.each($(tag_info),function(i,item){                        
+                            tag_str = tag_str + '<option value='+item.id+'>'+item.tag+'</option>';
                         });
                         obj.append(tag_str);
+                        if(opt_type == 1){
+                            obj.val(g_args.tag_four);
+                        }
                     }
                 } else {
-                    BootstrapDialog.alert(result.info);
+                    alert(result.info);
                 }
-            });
+            }
+        });
     }
+
 
     var gen_upload_item = function(btn_id ,status, file_name_fix, get_url_fun, set_url_fun, bucket_info, noti_origin_file_func, back_flag,clear_file_id,look_pdf, allow_arr){
         if(!allow_arr) {
@@ -589,6 +611,168 @@ $(function(){
             }
         };
 
+        var get_resource_type_show = function(val){
+            //1对1精品课程
+            if(val == 1){
+                $('.leo-tag_two span').text('春暑秋寒');
+                $('.leo-tag_two select').empty();
+                Enum_map.append_option_list("resource_season",$('.leo-tag_two select'));
+                $('.leo-tag_two').show();
+
+                $('.leo-tag_five span').text('难度类型');
+                $('.leo-tag_five select').empty();
+                Enum_map.append_option_list("resource_diff_level",$('.leo-tag_five select'));
+                $('.leo-tag_five').show();
+
+                $('.leo-tag_three').hide();
+                $('.leo-tag_three select').val(-1);
+
+                var leo_sub = $('.leo-subject select').val();
+                var leo_gra = $('.leo-grade select').val();
+
+                get_sub_grade_tag(leo_sub, leo_gra,-1,1,-1,$('.leo-tag_four select') );
+                $('.leo-tag_four').show();
+
+                // $('.leo-subject,.leo-grade,.leo-tag_one,.leo-tag_two select').change(function(){
+
+                //     console.log('1对1精品课程查看标签');
+
+                //     var leo_sub = $('.leo-subject select').val();
+                //     var leo_gra = $('.leo-grade select').val();
+                //     var leo_book = $('.leo-tag_one select').val();
+                //     var leo_season = $('.leo-tag_two select').val();
+
+                //     get_sub_grade_tag(leo_sub, leo_gra,leo_book,1,leo_season,$('.leo-tag_four select') );
+                    
+                // });
+
+            }
+
+            //标准试听课
+            if(val == 3){
+                $('.leo-tag_two span').text('试听类型');
+                $('.leo-tag_two select').empty();
+                Enum_map.append_option_list("resource_free",$('.leo-tag_two select'));
+                $('.leo-tag_two').show();
+
+                $('.leo-tag_three span').text('难度类型');
+                $('.leo-tag_three select').empty();
+                Enum_map.append_option_list("resource_diff_level",$('.leo-tag_three select'));
+                $('.leo-tag_three').show();
+
+                $('.leo-tag_five').hide();
+                $('.leo-tag_five select').val(-1);
+
+                var leo_sub = $('.leo-subject select').val();
+                var leo_gra = $('.leo-grade select').val();
+
+                get_sub_grade_tag(leo_sub, leo_gra,-1,3,-1,$('.leo-tag_four select') );
+                $('.leo-tag_four').show();
+
+                // $('.leo-subject,.leo-grade,.leo-tag_one select').change(function(){
+
+                //     console.log('标准试听课查看标签');
+
+                //     var leo_sub = $('.leo-subject select').val();
+                //     var leo_gra = $('.leo-grade select').val();
+                //     var leo_book = $('.leo-tag_one select').val();
+                //     get_sub_grade_tag(leo_sub, leo_gra,leo_book,3,-1,$('.leo-tag_four select') );
+                    
+                // });
+            }
+
+            $('.leo-subject,.leo-grade,.leo-tag_one,.leo-tag_two select').change(function(){
+                if( $('.leo-resource_type select').val()  == 1 ){
+                    console.log('1对1精品课程查看标签');
+
+                    var leo_sub = $('.leo-subject select').val();
+                    var leo_gra = $('.leo-grade select').val();
+                    var leo_book = $('.leo-tag_one select').val();
+                    var leo_season = $('.leo-tag_two select').val();
+                    get_sub_grade_tag(leo_sub, leo_gra,leo_book,1,leo_season,$('.leo-tag_four select') );
+
+                }
+
+                if( $('.leo-resource_type select').val()  == 3 ){
+                    console.log('标准试听课查看标签');
+
+                    var leo_sub = $('.leo-subject select').val();
+                    var leo_gra = $('.leo-grade select').val();
+                    var leo_book = $('.leo-tag_one select').val();
+                    get_sub_grade_tag(leo_sub, leo_gra,leo_book,3,-1,$('.leo-tag_four select') );
+
+                }
+
+                
+            });
+
+            //电子教材
+            if(val == 5){
+                $('.leo-tag_two').hide();
+                $('.leo-tag_two select').val(-1);
+
+                $('.leo-tag_three select').empty();
+                $('.leo-tag_three').hide();
+                $('.leo-tag_three select').val(-1);
+
+                $('.leo-tag_four select').empty();
+                $('.leo-tag_four').hide();
+                $('.leo-tag_four select').val(-1);
+
+                $('.leo-tag_five span').text('上下册');
+                $('.leo-tag_five select').empty();
+                Enum_map.append_option_list("resource_volume",$('.leo-tag_five select'));
+                $('.leo-tag_five').show();
+            }
+
+            //试卷库
+            if( val == 6 ){
+
+                $('.leo-tag_two span').text('年份');
+                $('.leo-tag_two select').empty();
+                Enum_map.append_option_list("resource_year",$('.leo-tag_two select'));
+                $('.leo-tag_two').show();
+
+                $('.leo-tag_three select').empty();
+                $('.leo-tag_three').hide();
+                $('.leo-tag_three select').val(-1);
+
+                $('.leo-tag_four select').empty();
+                $('.leo-tag_four').hide();
+                $('.leo-tag_four select').val(-1);
+
+                $('.leo-tag_five span').text('上下册');
+                $('.leo-tag_five select').empty();
+                Enum_map.append_option_list("resource_volume",$('.leo-tag_five select'));
+                $('.leo-tag_five').show();
+            }
+            console.log('get_resource_type_show');
+        }
+
+        var get_public_tag_show = function(res_type_list,tea_sub_info,tea_gra_info,book_info,resource,subject,grade,book){
+            Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,res_type_list);
+            Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
+            Enum_map.append_option_list("grade",$('.leo-grade select'), true, tea_gra_info);
+            Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
+
+            if( resource > 0 ){
+                console.log('资源：'+resource);
+                $('.leo-resource_type select').val(resource);
+            }
+            if( subject > 0 ){
+                 console.log('科目：'+subject);
+                $('.leo-subject select').val(subject);
+            }
+            if( grade > 0 ){
+                console.log('年级：'+grade);
+                $('.leo-grade select').val(grade);
+            }
+            if( book > 0 ){
+                console.log('教材：'+book);
+                $('.leo-tag_one select').val(book);
+            }
+        }
+
         var look_pdf = function(btn_id){
 
             if(btn_id == 'id_teacher_upload') {
@@ -630,10 +814,11 @@ $(function(){
         var dlg_tr = {};
         var get_res = function(ajax_url,opt_type,btn_type,dir_id,data){
             var args_ex =   {
-                    'is_js'  : 1,
-                    'dir_id' : dir_id,
+                'is_js'  : 1,
+                'dir_id' : dir_id,
             };
             var args = $.extend(data, args_ex);
+            console.log(args);
             $("<div></div>").tea_select_res_ajax({
                 "opt_type" :  "select", // or "list"
                 "url"      :  ajax_url,
@@ -726,8 +911,6 @@ $(function(){
                     //资源类型
                     res_type_list = [];
 
-                    console.log(ret);
-
                     dlg_tr = ret.crumbs;
 
                     if(ret.type_list!=undefined){
@@ -735,65 +918,42 @@ $(function(){
                         $.each($(res_type_arr),function(i,val){
                             res_type_list.push(parseInt(val));
                         });
-                    }
-                    if( isNaN(sel_val[0]) ){
-                        sel_val[0] = res_type_list[0];
-                    }
+                    }               
 
                     if(ret.tea_sub!=undefined){
                         var tea_sub_arr = ret.tea_sub.split(',');
                         $.each($(tea_sub_arr),function(i,val){
                             tea_sub_info.push(parseInt(val));
                         });
-                    }
-                    if(isNaN(sel_val[1])){
-                        if( data.subject > 0 ){
-                            sel_val[1] = data.subject;
-                        }else{
-                            sel_val[1] = tea_sub_info[0];
-                        }
-                    }
+                    }             
 
-                   if(ret.tea_gra!=undefined){
+                    if(ret.tea_gra!=undefined){
                         var tea_gra_arr = ret.tea_gra.split(',');
                         $.each($(tea_gra_arr),function(i,val){
                             tea_gra_info.push(parseInt(val));
                         });
-                    }
-                    if(isNaN(sel_val[2])){
-                        if( data.grade > 0 ){
-                            sel_val[2] = data.grade;
-                        }else{
-                            sel_val[2] = tea_gra_info[0];
-                        }
-                    }
+                    }             
 
-                   if(ret.book!=undefined){
+                    if(ret.book!=undefined){
                         var book_arr = ret.book.split(',');
                         $.each($(book_arr),function(i,val){
                             book_info.push(parseInt(val));
                         });
-                    }
-                    if(isNaN(sel_val[3] )){
-                        sel_val[3] = book_info[0];
-                    }
+                    }                
 
                     console.log(1);
                     $('.leo-resource_type select,.leo-subject select,.leo-grade select,.leo-tag_one select').empty();
-                    console.log(res_type_list);
-                    console.log(tea_sub_info);
-                    console.log(tea_gra_info);
-                    console.log(book_info);
                     console.log(2);
-                    // Enum_map.append_option_list("resource_type",$('.leo-resource_type select.filter-arg'),true,res_type_list);
-                    // Enum_map.append_option_list("subject",$('.leo-subject select.filter-arg'), true, tea_sub_info);
-                    // Enum_map.append_option_list("grade",$('.leo-grade select.filter-arg'), true, tea_gra_info);
-                    // Enum_map.append_option_list("region_version",$('.leo-tag_one select.filter-arg'), false, book_info);
-                    console.log(3);
-    
-                    $('.leo-resource_type select,.leo-subject select,.leo-grade select,.leo-tag_one select').each(function(i){
-                        $(this).val( sel_val[i] );
-                    });
+                    
+                    var resource =  ret.resource_type > 0 ? ret.resource_type : res_type_list[0];
+                    var subject =  ret.subject > 0  ? ret.subject : tea_sub_info[0];
+                    var grade = ret.grade != undefined ? ret.grade : tea_gra_info[0];
+                    var book = ret.tag_one != undefined ? ret.tag_one : book_info[0];
+                    args.resource_type = resource;
+                    args.subject = subject;
+                    args.grade = grade;
+                    args.tag_one = book;
+                    get_public_tag_show(res_type_list,tea_sub_info,tea_gra_info,book_info,resource,subject,grade,book);
 
                 },"onshown" : function(dlg){
 
@@ -825,40 +985,12 @@ $(function(){
                             });
                         });
                     } else {
-                        Enum_map.append_option_list("resource_type",$('.leo-resource_type select'),true,res_type_list);
-                        Enum_map.append_option_list("subject",$('.leo-subject select'), true, tea_sub_info);
-                        Enum_map.append_option_list("grade",$('.leo-grade select'), true, tea_gra_info);
-                        Enum_map.append_option_list("region_version",$('.leo-tag_one select'), false, book_info);
-                        Enum_map.append_option_list("resource_season",$('.leo-tag_two select'));
-                        $('.leo-tag_two').nextAll().hide();
+                        get_public_tag_show(res_type_list,tea_sub_info,tea_gra_info,book_info,args.resource_type,args.subject,args.grade,args.tag_one);
+                        console.log('资料库');
+                        get_resource_type_show(args.resource_type);                    
                         $('.leo-resource_type select').change(function(){
-                            if($(this).val() < 3){
-                                $('.leo-tag_two span').text('春暑秋寒');
-                                $('.leo-tag_two select').empty();
-                                Enum_map.append_option_list("resource_season",$('.leo-tag_two select'));
-                                $('.leo-tag_two').nextAll().hide();
-                                $('.leo-tag_three select').val(-1);
-                                $('.leo-tag_four select').val(-1);
-                            } else {
-                                $('.leo-tag_two span').text('试听类型');
-                                $('.leo-tag_two').nextAll().show();
-                                $('.leo-tag_two select').empty();
-                                Enum_map.append_option_list("resource_free",$('.leo-tag_two select'));
-                                Enum_map.append_option_list("resource_diff_level",$('.leo-tag_three select'));
-                            }
-                            if($(this).val() == 3){
-                                var leo_sub = $('.leo-subject select').val();
-                                var leo_gra = $('.leo-grade select').val();
-                                get_sub_grade_tag(leo_sub, leo_gra,$('.leo-tag_four select') );
-                            }
-                            $('.leo-subject,.leo-grade select').change(function(){
-                                if($('.leo-resource_type select').val() == 3){
-                                    var leo_sub = $('.leo-subject select').val();
-                                    var leo_gra = $('.leo-grade select').val();
-                                    get_sub_grade_tag(leo_sub, leo_gra,$('.leo-tag_four select') );
-                                }
-                            });
-
+                            console.log('变动'+$(this).val());
+                            get_resource_type_show($(this).val());                          
                         });
                     }
                 },
