@@ -46,6 +46,7 @@ class test_ricky extends Command
         $group = $task->t_admin_group_name->get_adminid_list_by_main_type($main_type);
 
         foreach ($info as $item) {
+            var_dump($item);
             $aid = $item["assistantid"];
             echo $task->cache_get_assistant_nick($aid);
             $groud_id = $task->t_admin_group->get_group_id_by_aid($aid);
@@ -61,6 +62,8 @@ class test_ricky extends Command
             echo $count;
             echo $item['lesson_count_left'];
             echo $item["type"];
+            echo E\Estudent_type::get_desc($item["type"]);
+            exit;
         }
 
         // 拉取90分钟补偿数据
