@@ -804,5 +804,19 @@ class ajax_deal3 extends Controller
     }
 
 
+    //测试版,修改回访时间以及是否电话回访
+    public function update_revisit_info_test(){
+        $revisit_time = $this->get_in_int_val("revisit_time");
+        $userid = $this->get_in_int_val("userid");
+        $time = strtotime($this->get_in_str_val("time"));
+        $call_flag = $this->get_in_int_val("call_flag");
+        $this->t_revisit_info->field_update_list_2($userid,$revisit_time,[
+            "revisit_time"  =>$time,
+            "call_phone_id" =>$call_flag
+        ]);
+        return $this->output_succ();
+    }
+
+
 
 }
