@@ -4,6 +4,7 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	data:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -31,7 +32,8 @@ function load_data(){
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val()
+		end_time:	$('#id_end_time').val(),
+		data:	$('#id_data').val()
 		});
 }
 $(function(){
@@ -46,6 +48,7 @@ $(function(){
 		onQuery :function() {
 			load_data();
 		});
+	$('#id_data').val(g_args.data);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -60,4 +63,12 @@ $(function(){
 {!!\App\Helper\Utils::th_order_gen([["opt_date_type title", "opt_date_type", "th_opt_date_type" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["start_time title", "start_time", "th_start_time" ]])!!}
 {!!\App\Helper\Utils::th_order_gen([["end_time title", "end_time", "th_end_time" ]])!!}
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">data</span>
+                <input class="opt-change form-control" id="id_data" />
+            </div>
+        </div>
+{!!\App\Helper\Utils::th_order_gen([["data title", "data", "th_data" ]])!!}
 */
