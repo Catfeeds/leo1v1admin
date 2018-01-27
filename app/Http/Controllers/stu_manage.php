@@ -1721,17 +1721,16 @@ class stu_manage extends Controller
                 $item["issue_url_str"] = \App\Helper\Utils::gen_download_url($item["issue_url"]);
                 $item["finish_url_str"] = \App\Helper\Utils::gen_download_url($item["finish_url"]);
                 $item["check_url_str"] = \App\Helper\Utils::gen_download_url($item["check_url"]);
-                $item["stu_check_flag"]="—";
                 if(empty($item["issue_url"])){
                     $item["issue_url_str"]="";
                     $item["finish_url_str"]="";
                     $item["check_url_str"]="";
                     $item["issue_flag"]="未上传";
                     $item["download_flag"]= $item["commit_flag"]= $item["check_flag"]="—";
-                   
+                    $item["stu_check_flag"]="—";
                 }else{
                     $item["issue_flag"]="已上传";
-                    $item["download_flag"]="—";                   
+                    // $item["download_flag"]="—";                   
                     if($item["work_status"]>=2){
                         $item["commit_flag"]="已提交";
                     }else{
@@ -1742,10 +1741,26 @@ class stu_manage extends Controller
                     }else{
                         $item["check_flag"]="否";
                     }
+                    if($item["stu_check_time"]>0){
+                        $item["stu_check_flag"]="已查看"; 
+                    }else{
+                        $item["stu_check_flag"]="未查看"; 
+                    }
+                    if($item["download_time"]>0){
+                        $item["download_flag"]="已下载"; 
+                    }else{
+                        $item["download_flag"]="未下载"; 
+                    }
+
+
 
 
                 }
                 $item["lesson_num"] = @$all_lesson[$item["lessonid"]];
+                if($item["lesson_start"]<strtotime("2018-01-26")){
+                    $item["stu_check_flag"]=$item["download_flag"]="—";
+                }
+
 
             }
             $commit_num=$upload_num=$check_num=$score_total=0;
@@ -1800,8 +1815,8 @@ class stu_manage extends Controller
 
 
         }elseif($current_id==5){
-            $ret_info=$this->t_student_score_info->get_all_list($page_info,"",-1,$grade,$semester,$stu_score_type,$userid,$subject);
-            $list = $this->t_student_score_info->get_all_list_no_page("",-1,$grade,$semester,$stu_score_type,$userid,$subject);
+            $ret_info=$this->t_student_score_info->get_all_list($page_info,"",$grade,$semester,$stu_score_type,-1,$userid,$subject);
+            $list = $this->t_student_score_info->get_all_list_no_page("",$grade,$semester,$stu_score_type,-1,$userid,$subject);
             foreach( $ret_info["list"] as $key => &$item ) {
 
                 if(empty($item["paper_upload_time"])){
@@ -1863,7 +1878,8 @@ class stu_manage extends Controller
             
             foreach ($list as $key => $value) {
                 $subject = $value["subject"];
-                $score = $value["score"]/10;              
+                $score = round(10*$value['score']/$value['total_score']);
+;              
                 $month = date("Y-m-d H:i",$value["create_time"]);
                 $arr=[
                     "month"=>$month,
@@ -1929,6 +1945,7 @@ class stu_manage extends Controller
             \App\Helper\Utils::date_list_set_value($date_list,$subject_8,"month","subject_8","count");
             \App\Helper\Utils::date_list_set_value($date_list,$subject_9,"month","subject_9","count");
             \App\Helper\Utils::date_list_set_value($date_list,$subject_10,"month","subject_10","count");
+            //dd($date_list);
            
 
             return $this->pageView(__METHOD__,$ret_info,[

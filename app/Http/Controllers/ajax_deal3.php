@@ -207,17 +207,17 @@ class ajax_deal3 extends Controller
         $list["issue_url_str"] = \App\Helper\Utils::gen_download_url($list["issue_url"]);
         $list["finish_url_str"] = \App\Helper\Utils::gen_download_url($list["finish_url"]);
         $list["check_url_str"] = \App\Helper\Utils::gen_download_url($list["check_url"]);
-        $list["stu_check_flag"]="—";
         if(empty($list["issue_url"])){
             $list["issue_url_str"]="";
             $list["finish_url_str"]="";
             $list["check_url_str"]="";
             $list["issue_flag"]="未上传";
             $list["download_flag"]= $list["commit_flag"]= $list["check_flag"]="—";
+            $list["stu_check_flag"]="—";
 
         }else{
             $list["issue_flag"]="已上传";
-            $list["download_flag"]="—";
+            // $list["download_flag"]="—";
             if($list["work_status"]>=2){
                 $list["commit_flag"]="已提交";
             }else{
@@ -228,8 +228,22 @@ class ajax_deal3 extends Controller
             }else{
                 $list["check_flag"]="否";
             }
+            if($list["stu_check_time"]>0){
+                $list["stu_check_flag"]="已查看"; 
+            }else{
+                $list["stu_check_flag"]="未查看"; 
+            }
+            if($list["download_time"]>0){
+                $list["download_flag"]="已下载"; 
+            }else{
+                $list["download_flag"]="未下载"; 
+            }
 
 
+
+        }
+        if($list["lesson_start"]<strtotime("2018-01-26")){
+            $list["stu_check_flag"]=$list["download_flag"]="—";
         }
 
         return $this->output_succ(["data"=>$list]);
