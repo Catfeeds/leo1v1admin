@@ -44,28 +44,29 @@ class test_ricky extends Command
         //助教、组别、学生ID、学生姓名、第一次合同创建时间、科目、科目更换老师次数、未消耗课时、学员类型
         $info = $task->t_student_info->get_list_count_left();
         $group = $task->t_admin_group_name->get_ass_group_name(E\Emain_type::V_1);
-        var_dump($group);
-
         foreach ($info as $item) {
-            var_dump($item);
             $aid = $item["assistantid"];
-            echo $task->cache_get_assistant_nick($aid);
+            echo $task->cache_get_assistant_nick($aid).",";
             $groud_id = $task->t_admin_group->get_group_id_by_aid2($aid);
-            echo $groud_id;
-            echo $group[$groud_id]["group_name"];
+            echo $group[$groud_id]["group_name"].",";
             $userid = $item["userid"];
-            echo $userid;
-            echo $item["nick"];
+            echo $userid.",";
+            echo $item["nick"].",";
             $order = $task->t_teacher_feedback_list->get_order_list($userid);
-            echo date("Y-m-d H:i:s", $order);
+            echo date("Y-m-d H:i:s", $order).",";
             $subject = $task->t_student_info->get_list_subject($userid);
-            var_dump($subject);
+            $subj = "";
+            foreach ($subject as $val) {
+                $subj = E\Esubject::get_desc($val)."-";
+            }
+            if ($subj) {
+                $subj = substr($subj,0,-1);
+            }
+            echo $subj.",";
             $count = $task->t_student_info->get_teacher_count($userid);
-            echo $count;
-            echo $item['lesson_count_left'];
-            echo $item["type"];
-            echo E\Estudent_type::get_desc($item["type"]);
-            exit;
+            echo $count.",";
+            echo $item['lesson_count_left'].",";
+            echo E\Estudent_type::get_desc($item["type"]).PHP_EOL;
         }
 
         // 拉取90分钟补偿数据
