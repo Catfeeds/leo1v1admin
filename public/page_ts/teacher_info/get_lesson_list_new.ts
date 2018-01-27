@@ -766,6 +766,56 @@ $(function(){
             }
         }
 
+        var upload_my_collect = function(btn_type){
+            var my_file_id = $('.warning').data('file_id');
+            if(btn_type == 'id_teacher_upload'){
+                tea_cw_url = $('.warning').data('link');
+                if( my_file_id > 0 ) {
+                    tea_cw_origin  = 2;
+                    tea_cw_file_id = my_file_id;
+                } else {
+                    tea_cw_origin  = 1;
+                }
+            } else if (btn_type == 'id_student_upload'){
+                stu_cw_url = $('.warning').data('link');
+                if( my_file_id > 0 ) {
+                    stu_cw_origin  = 2;
+                    stu_cw_file_id = my_file_id;
+                } else {
+                    stu_cw_origin  = 1;
+                }
+            } else if (btn_type == 'id_issue_upload') {
+                issue_url = $('.warning').data('link');
+                if( my_file_id > 0 ) {
+                    issue_origin  = 2;
+                    issue_file_id = my_file_id;
+                } else {
+                    issue_origin  = 1;
+                }
+
+            } else {
+
+                var n = parseInt( btn_type.slice(-1) );
+                tea_cw_url_list[n][0] = $('.warning').data('link');
+                if( my_file_id >0 ){//收藏文件
+                    tea_cw_url_list[n][2] = 2;
+                    tea_cw_url_list[n][3] = my_file_id;
+                } else {//自己上传
+                    tea_cw_url_list[n][2] = 1;
+                }
+
+                var file_detail = $('.warning').children().first().text()+'.'+$('.warning').children().eq(2).text();
+                $('.tea_cw_ex input').eq(n).val( file_detail );
+                $('.tea_cw_ex').eq(n).parent().parent().parent().show();
+                $('.tea_cw_ex').eq(n).parent().parent().parent().next().show();
+
+            }
+            $('#'+btn_type).removeClass('btn-warning').addClass('btn-primary');
+            $('#'+btn_type).text('重传');
+            $('#'+btn_type).parent().nextAll().show();
+
+        }
+
         var add_upload_select = function(obj, num_flag){
             var X = obj.offset().top;
             var Y = obj.offset().left;
@@ -982,43 +1032,53 @@ $(function(){
                                 tea_cw_origin = 3;
                                 stu_cw_origin = 3;
                                 issue_origin = 3;
-                                $.each($(file_obj), function(i,val){
-                                    if(val.file_use_type == 0){
-                                        tea_cw_url = val.file_link;
-                                        tea_cw_file_id = val.file_id;
-                                    } else if (val.file_use_type == 1){
-                                        //教师讲义
-                                        tea_cw_url_list[0][0] = val.file_link;
-                                        tea_cw_url_list[0][1] = $('.tea_cw_ex input').first().val();
-                                        tea_cw_url_list[0][2] = 3;
-                                        tea_cw_url_list[0][3] = val.file_id;
-                                        $('#id_teacher_upload_0').removeClass('btn-warning').addClass('btn-primary');
-                                        $('#id_teacher_upload_0').text('重传');
-                                        $('#id_teacher_upload_0').parent().nextAll().show();
-                                        $('.tea_cw_ex input').first().val(val.file_title+'.'+val.file_type);
-                                    } else if (val.file_use_type == 2){
-                                        stu_cw_url = val.file_link;
-                                        issue_url = val.file_link;
-                                        stu_cw_file_id = val.file_id;
-                                        issue_file_id = val.file_id;
-                                    } else if(val.file_use_type == 3){
-                                        var num = parseInt( val.ex_num);
-                                        tea_cw_url_list[num][0] = val.file_link;
-                                        tea_cw_url_list[num][1] = $('.tea_cw_ex input').first().val();
-                                        tea_cw_url_list[num][2] = 3;
-                                        tea_cw_url_list[num][3] = val.file_id;
-                                        $('#id_teacher_upload_'+num).removeClass('btn-warning').addClass('btn-primary');
-                                        $('#id_teacher_upload_'+num).text('重传');
-                                        $('#id_teacher_upload_'+num).parent().nextAll().show();
-                                        $('.tea_cw_ex input').eq(num).val(val.file_title+'.'+val.file_type);
-                                        $('.tea_cw_ex').eq(num).parent().parent().parent().show();
-                                        $('.tea_cw_ex').eq(num).parent().parent().parent().next().show();
 
-                                    }
-                                });
-                                $('#id_teacher_upload,#id_student_upload,#id_issue_upload').removeClass('btn-warning').addClass('btn-primary');
-                                $('#id_teacher_upload,#id_student_upload,#id_issue_upload').text('重传');
-                                $('#id_teacher_upload,#id_student_upload,#id_issue_upload').parent().nextAll().show();
+                                console.log(ret);
+                                if( file_obj[0]['resource_type'] == 1 ||  file_obj[0]['resource_type'] == 3 ){
+                                    $.each($(file_obj), function(i,val){
+                                        if(val.file_use_type == 0){
+                                            tea_cw_url = val.file_link;
+                                            tea_cw_file_id = val.file_id;
+                                        } else if (val.file_use_type == 1){
+                                            //教师讲义
+                                            tea_cw_url_list[0][0] = val.file_link;
+                                            tea_cw_url_list[0][1] = $('.tea_cw_ex input').first().val();
+                                            tea_cw_url_list[0][2] = 3;
+                                            tea_cw_url_list[0][3] = val.file_id;
+                                            $('#id_teacher_upload_0').removeClass('btn-warning').addClass('btn-primary');
+                                            $('#id_teacher_upload_0').text('重传');
+                                            $('#id_teacher_upload_0').parent().nextAll().show();
+                                            $('.tea_cw_ex input').first().val(val.file_title+'.'+val.file_type);
+                                        } else if (val.file_use_type == 2){
+                                            stu_cw_url = val.file_link;
+                                            issue_url = val.file_link;
+                                            stu_cw_file_id = val.file_id;
+                                            issue_file_id = val.file_id;
+                                        } else if(val.file_use_type == 3){
+                                            var num = parseInt( val.ex_num);
+                                            tea_cw_url_list[num][0] = val.file_link;
+                                            tea_cw_url_list[num][1] = $('.tea_cw_ex input').first().val();
+                                            tea_cw_url_list[num][2] = 3;
+                                            tea_cw_url_list[num][3] = val.file_id;
+                                            $('#id_teacher_upload_'+num).removeClass('btn-warning').addClass('btn-primary');
+                                            $('#id_teacher_upload_'+num).text('重传');
+                                            $('#id_teacher_upload_'+num).parent().nextAll().show();
+                                            $('.tea_cw_ex input').eq(num).val(val.file_title+'.'+val.file_type);
+                                            $('.tea_cw_ex').eq(num).parent().parent().parent().show();
+                                            $('.tea_cw_ex').eq(num).parent().parent().parent().next().show();
+
+                                        }
+                                    });
+                                    $('#id_teacher_upload,#id_student_upload,#id_issue_upload').removeClass('btn-warning').addClass('btn-primary');
+                                    $('#id_teacher_upload,#id_student_upload,#id_issue_upload').text('重传');
+                                    $('#id_teacher_upload,#id_student_upload,#id_issue_upload').parent().nextAll().show();
+
+                                }
+
+                                if( file_obj[0]['resource_type'] == 5 ||  file_obj[0]['resource_type'] == 6 ){
+                                    console.log('按钮'+btn_type);
+                                    upload_my_collect(btn_type);
+                                }
 
                             } else {
                                 BootstrapDialog.alert(ret.info);
@@ -1026,52 +1086,9 @@ $(function(){
                         });
 
                     } else if(opt_type == 'my'){//教师自己的资料库
-                        var my_file_id = $('.warning').data('file_id');
-                        if(btn_type == 'id_teacher_upload'){
-                            tea_cw_url = $('.warning').data('link');
-                            if( my_file_id > 0 ) {
-                                tea_cw_origin  = 2;
-                                tea_cw_file_id = my_file_id;
-                            } else {
-                                tea_cw_origin  = 1;
-                            }
-                        } else if (btn_type == 'id_student_upload'){
-                            stu_cw_url = $('.warning').data('link');
-                            if( my_file_id > 0 ) {
-                                stu_cw_origin  = 2;
-                                stu_cw_file_id = my_file_id;
-                            } else {
-                                stu_cw_origin  = 1;
-                            }
-                        } else if (btn_type == 'id_issue_upload') {
-                            issue_url = $('.warning').data('link');
-                            if( my_file_id > 0 ) {
-                                issue_origin  = 2;
-                                issue_file_id = my_file_id;
-                            } else {
-                                issue_origin  = 1;
-                            }
 
-                        } else {
+                        upload_my_collect(btn_type);
 
-                            var n = parseInt( btn_type.slice(-1) );
-                            tea_cw_url_list[n][0] = $('.warning').data('link');
-                            if( my_file_id >0 ){//收藏文件
-                                tea_cw_url_list[n][2] = 2;
-                                tea_cw_url_list[n][3] = my_file_id;
-                            } else {//自己上传
-                                tea_cw_url_list[n][2] = 1;
-                            }
-
-                            var file_detail = $('.warning').children().first().text()+'.'+$('.warning').children().eq(2).text();
-                            $('.tea_cw_ex input').eq(n).val( file_detail );
-                            $('.tea_cw_ex').eq(n).parent().parent().parent().show();
-                            $('.tea_cw_ex').eq(n).parent().parent().parent().next().show();
-
-                        }
-                        $('#'+btn_type).removeClass('btn-warning').addClass('btn-primary');
-                        $('#'+btn_type).text('重传');
-                        $('#'+btn_type).parent().nextAll().show();
                     } else if(opt_type == 'leo_one'){//额外的讲义
 
                         var n = parseInt( btn_type.slice(-1) );
@@ -1110,7 +1127,7 @@ $(function(){
             if($(this).hasClass('unbind')){
                 get_res('/teacher_info/get_leo_resource_new', 'leo_one',$(this).attr('upload_id'),null,data);
             }else {
-                get_res('/teacher_info/get_leo_resource_new', 'leo',null,null,data);
+                get_res('/teacher_info/get_leo_resource_new', 'leo',$(this).attr('upload_id'),null,data);
             }
         });
 
