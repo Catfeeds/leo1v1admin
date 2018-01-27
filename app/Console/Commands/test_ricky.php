@@ -43,9 +43,10 @@ class test_ricky extends Command
 
         //助教、组别、学生ID、学生姓名、第一次合同创建时间、科目、科目更换老师次数、未消耗课时、学员类型
         $info = $task->t_student_info->get_list_count_left();
-        $group = $task->t_admin_group_name->get_adminid_list_by_main_type($main_type);
+        $group = $task->t_admin_group_name->get_adminid_list_by_main_type(E\Emain_type::V_1);
 
         foreach ($info as $item) {
+            var_dump($item);
             $aid = $item["assistantid"];
             echo $task->cache_get_assistant_nick($aid);
             $groud_id = $task->t_admin_group->get_group_id_by_aid($aid);
@@ -61,6 +62,8 @@ class test_ricky extends Command
             echo $count;
             echo $item['lesson_count_left'];
             echo $item["type"];
+            echo E\Estudent_type::get_desc($item["type"]);
+            exit;
         }
 
         // 拉取90分钟补偿数据

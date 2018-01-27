@@ -2,7 +2,9 @@
 @section('content')
     <!-- 引入 ECharts 文件 -->
     <script type="text/javascript" src="/page_js/echarts.js"></script>
-    
+    <script type="text/javascript" >
+     var g_data_ex_list= <?php  echo json_encode($data_ex_list); ?> ;
+    </script>
     <section class="content ">
         <div>
             <div class="row  row-query-list" >
