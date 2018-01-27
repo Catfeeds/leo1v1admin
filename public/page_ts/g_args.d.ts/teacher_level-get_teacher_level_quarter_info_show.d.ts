@@ -66,6 +66,7 @@ interface RowData {
 	realname	:any;
 	become_member_time	:any;
 	real_level	:any;
+	uid	:any;
 	level	:any;
 	level_str	:any;
 	level_after_str	:any;
@@ -73,6 +74,8 @@ interface RowData {
 	require_time_str	:any;
 	accept_flag_str	:any;
 	withhold_final_trial_flag_str	:any;
+	advance_first_trial_flag_str	:any;
+	withhold_first_trial_flag _str	:any;
 	reach_flag_str	:any;
 }
 

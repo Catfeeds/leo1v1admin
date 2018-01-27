@@ -1845,7 +1845,7 @@ class user_manage_new extends Controller
 
         }
         return $this->Pageview(__METHOD__,$ret_info,[
-            "_publish_version" => 201801119150,
+            "_publish_version" => 201801127150,
             "group_all" => $group_all,
             "user_list"=>$user_list,
             "list"=>$list,
@@ -2731,6 +2731,47 @@ class user_manage_new extends Controller
 
         return $this->output_succ();
     }
+
+    public function set_power_with_groupid_list_new() {
+        $powerid      = $this->get_in_int_val("powerid");
+        $groupid_str  = $this->get_in_str_val("groupid_list");
+        $groupid_list = \App\Helper\Utils::json_decode_as_int_array( $groupid_str );
+        $list         = $this->t_authority_group->get_all_list();
+
+        foreach ($list as &$item) {
+            $p_list       = preg_split("/,/", $item["group_authority"] );
+            $find_indx = array_search($powerid,$p_list);
+            $old_has_flag=true;
+            if ($find_indx===false){
+                $old_has_flag=false;
+            }
+            $groupid      = $item["groupid"];
+            ;
+            $new_has_flag = power_group_editin_array($groupid,$groupid_list );
+            if ($old_has_flag !=$new_has_flag) {
+                if ($new_has_flag ) {
+                    $p_list[]=$powerid ;
+                }else{
+                    unset($p_list[$find_indx]);
+                }
+                $group_authority=join(",",$p_list);
+                $this->t_authority_group->field_update_list($groupid,[
+                    "group_authority" => $group_authority
+                ]);
+            }
+
+        }
+
+        $this->t_user_log->row_insert([
+            "add_time" => time(),
+            "adminid"  => $this->get_account_id(),
+            "msg"      => "新的页面权限管理配置: [权限id:$powerid,权限列表:$groupid_str]",
+            "user_log_type" => E\Euser_log_type::V_2, //权限页面添加用户记录
+        ]);
+
+        return $this->output_succ();
+    }
+
 
     public function tea_lesson_count_total_list_tea() {
         $this->set_in_value("check_adminid", $this->get_account_id() );

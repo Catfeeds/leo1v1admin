@@ -292,4 +292,28 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
 
         return $this->main_get_list($sql);
     }
+
+    public function getNeedSendInfo(){
+        $where_arr = [
+            "s.is_test_user=0",
+            "l.lesson_status=2",
+            "l.lesson_del_flag=0",
+            "l.lesson_type=2",
+            "s.grade in (101,102,103)",
+            "p.wx_openid is not null",
+            "p.wx_openid != ''",
+        ];
+
+        $sql = $this->gen_sql_new("  select p.wx_openid,p.nick from %s p "
+                                  ." left join %s s on p.parentid=s.parentid"
+                                  ." left join %s l on l.userid=s.userid"
+                                  ." where %s group by p.parentid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

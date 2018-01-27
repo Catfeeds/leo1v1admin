@@ -68,7 +68,7 @@ $(function(){
             feature : {
                 mark : {show: true},
                 dataView : {show: true, readOnly: false},
-                magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                magicType : {show: true, type: ['line','bar','stack','tiled']},
                 restore : {show: true},
                 saveAsImage : {show: true}
             }
@@ -87,7 +87,7 @@ $(function(){
             axisLabel : {
                 formatter: '{value}'
             },
-            // min  : 0,
+            min  : 0,
             max  : 100,
             splitNumber:10,
         }
@@ -96,24 +96,23 @@ $(function(){
             {
             name:'警戒线',
             type:'line',
-            stack: '总量',
+            // stack: '总量',
             data:threshold_min_list
         },
             {
             name:'实时接通率',
             type:'line',
-            stack: '总量',
+            // stack: '总量',
             data:threshold_list
         },
             {
             name:'预警线',
             type:'line',
-            stack: '总量',
+            // stack: '总量',
             data:threshold_max_list
         }
         ]
     };
-    
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
 });

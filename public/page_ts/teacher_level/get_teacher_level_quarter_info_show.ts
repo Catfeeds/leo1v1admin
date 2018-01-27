@@ -25,7 +25,7 @@ $(function(){
     $("#id_withhold_agree").on("click",function(){
         BootstrapDialog.alert("开发中!!!");
         return;
-        if(g_account !="jack" && g_account!= "jim" && g_account != "ted"){
+        if(g_account !="jack" && g_account!= "jim" && g_account != "ted" && g_account!="江敏"){
             BootstrapDialog.alert("没有权限!!!");
         }
 
@@ -34,7 +34,7 @@ $(function(){
     $("#id_advance_agree").on("click",function(){
         BootstrapDialog.alert("开发中!!!");
         return;
-        if(g_account !="jack" && g_account!= "jim" && g_account != "ted"){
+        if(g_account !="jack" && g_account!= "jim" && g_account != "ted" && g_account!="江敏"){
             BootstrapDialog.alert("没有权限!!!");
         }
 
@@ -80,7 +80,7 @@ $(function(){
     });
 
     $(".opt-advance-require-deal").on("click",function(){
-        if(g_account !="jack" && g_account!= "jim" && g_account != "ted"){
+        if(g_account !="jack" && g_account!= "jim" && g_account != "ted" && g_account!="江敏"){
             BootstrapDialog.alert("没有权限!!!");
             return;
         }
@@ -88,15 +88,39 @@ $(function(){
         var opt_data = $(this).get_opt_data();
         var teacherid = opt_data.teacherid;
         var teacher_money_type = opt_data.teacher_money_type;
+        if(g_account=="ted" ){
+            
+            var id_accept_flag = $("<div><button class='btn btn-primary' data-flag='1'>同意</button><button class='btn' style='margin-left:30px' data-flag='2'>拒绝</button></div>");
+            var id_advance_first_trial_flag= $("<div>"+opt_data.advance_first_trial_flag_str+"</div>") ;
 
-        var id_accept_flag = $("<select/>");
+        }else if(g_account=="江敏"){
+            var id_accept_flag = $("<div>"+opt_data.accept_flag_str+"</div>");
+            if(opt_data.accept_flag>0){
+                var id_advance_first_trial_flag= $("<div>"+opt_data.advance_first_trial_flag_str+"</div>") ;
+            }else{
+                var id_advance_first_trial_flag = $("<div><button class='btn btn-primary' data-flag='1'>同意</button><button class='btn' style='margin-left:30px' data-flag='2'>拒绝</button></div>");               
+            }
+            
+        }else{
+            var id_accept_flag = $("<div><button class='btn btn-primary' data-flag='1'>同意</button><button class='btn' style='margin-left:30px' data-flag='2'>拒绝</button></div>");
+            var id_advance_first_trial_flag = $("<div><button class='btn btn-primary' data-flag='1'>同意</button><button class='btn' style='margin-left:30px' data-flag='2'>拒绝</button></div>"); 
 
-        Enum_map.append_option_list("accept_flag", id_accept_flag, true,[1,2] );
+        }
+
+
         var arr=[
             ["总得分", opt_data.total_score],
             ["申请晋升",opt_data.level_after_str],
-            ["审批结果",id_accept_flag]
+            ["教研总监审批",id_advance_first_trial_flag],
+            ["教学事业部总经理审批",id_accept_flag],
         ];
+        
+        id_accept_flag.on("click","button",function(){
+            $(this).addClass('btn-primary');
+                $(this).siblings().removeClass('btn-primary');
+ 
+        });
+        
         $.show_key_value_table("晋升审批", arr ,{
             label    : '确认',
             cssClass : 'btn-warning',

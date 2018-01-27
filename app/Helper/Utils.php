@@ -2537,9 +2537,9 @@ class Utils  {
                   'tag_three' => ['name' => '三级知识点','menu' => '','hide' => ''],
                   'tag_four' => ['name' => '','menu' => '','hide' => 'hide'],
                   'tag_five' => ['name' => '','menu' => '','hide' => 'hide']],
-            9 => ['tag_one' => ['name' => '教材版本','menu' => 'region_version','hide' => ''],
-                  'tag_two' => ['name' => '培训资料','menu' => 'resource_train','hide' => ''],
-                  'tag_three' => ['name' => '','menu' => '','hide' => 'hide'],
+            9 => ['tag_one' => ['name' => '','menu' => '','hide' => 'hide'],
+                  'tag_two' => ['name' => '春暑秋寒','menu' => 'resource_season','hide' => ''],
+                  'tag_three' => ['name' => '培训资料','menu' => 'resource_train','hide' => ''],
                   'tag_four' => ['name' => '','menu' => '','hide' => 'hide'],
                   'tag_five' => ['name' => '','menu' => '','hide' => 'hide']],
         ];
