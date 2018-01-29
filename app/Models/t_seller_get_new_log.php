@@ -70,4 +70,19 @@ class t_seller_get_new_log extends \App\Models\Zgen\z_t_seller_get_new_log
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_all_list($start_time,$end_time){
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr, 'l.create_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select l.*,n.add_time ".
+            " from %s l ".
+            " left join %s n on n.userid=l.userid ".
+            " where %s order by l.create_time asc "
+            ,self::DB_TABLE_NAME
+            ,t_seller_student_new::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

@@ -499,6 +499,15 @@ class tongji_ex extends Controller
             $item['threshold_min'] = $threshold_min;
             $item['threshold_max'] = $threshold_max;
         }
+
+        $list_info = [];
+        $list = $this->t_seller_get_new_log->get_all_list($start_time,$end_time);
+        foreach($list as $item){
+            $list_info[$item['userid']]['userid'] = isset($list_info[$item['userid']]['userid'])?$list_info[$item['userid']]['userid']:$item['userid'];
+            $list_info[$item['userid']]['list'][$item['adminid']] = isset($list_info[$item['userid']]['list'][$item['adminid']])?$list_info[$item['userid']]['list'][$item['adminid']]:$item;
+            $list_info[$item['userid']]['add_time'] = isset($list_info[$item['userid']]['add_time'])?$list_info[$item['userid']]['add_time']:date('Y-m-d H:i:s',$item['add_time']);
+        }
+        dd($list);
         return $this->pageView(__METHOD__, null,['data_ex_list'=>$ret]);
     }
 }
