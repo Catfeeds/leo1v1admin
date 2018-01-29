@@ -33,6 +33,7 @@ class seller_student_reset_call_info extends cmd_base
 
         $user_list=$this->task->t_seller_student_system_assign_log->get_check_call_info_list($start_time, $end_time);
         foreach ($user_list as $item )  {
+            $id = $item["id"];
             $phone   = $item["phone"];
             $adminid = $item["adminid"];
             $call_info=$this->task->t_tq_call_info->get_list_by_phone_adminid($phone, $adminid);
