@@ -59,12 +59,12 @@ class test_ricky extends Command
                 $etime = strtotime("2018-2-".($date - 3)." ".$item["end_time"]);
             }
 
-            $count = floor(($etime-$stime)%86400/60);//($end_time - $stime) * 60 / 100;
+            $count = floor(($etime-$stime)%86400/60);//($end_time - $stime) * 60 / 100ear
 
             if ($count >= 80 && $count <= 100) {
-                if ($date <= 3) $start_time = strtotime("2018-1-".(28 + $date)." ".$start_time[1]);
-                else $start_time = strtotime("2018-2-".($date - 3)." ".$start_time[1]);
-                $lesson = $task->t_week_regular_course->get_info_for_start_time($teacherid, $userid, $start_time);
+                // if ($date <= 3) $start_time = strtotime("2018-1-".(28 + $date)." ".$start_time[1]);
+                // else $start_time = strtotime("2018-2-".($date - 3)." ".$start_time[1]);
+                $lesson = $task->t_week_regular_course->get_info_for_start_time($teacherid, $userid, $stime);
                 if ($lesson) {
                     echo $item["end_time"]." ".$start_time[1]." $count".",";
                     echo date("Y-m-d H:i:s", $lesson["operate_time"]).",";

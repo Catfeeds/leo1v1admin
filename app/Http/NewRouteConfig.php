@@ -629,6 +629,7 @@ class NewRouteConfig {
         "/human_resource/reaearch_teacher_lesson_list"        => true,
         "/human_resource/reaearch_teacher_lesson_list_fulltime"      => true,
         "/human_resource/reaearch_teacher_lesson_list_research"      => true,
+        "/human_resource/get_elite_teacher_list"      => true,
 
 
 

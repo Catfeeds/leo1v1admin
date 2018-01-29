@@ -60,7 +60,7 @@ class t_product_feedback_list extends \App\Models\Zgen\z_t_product_feedback_list
         ];
 
         $this->where_arr_add_time_range($where_arr, "pf.create_time", $startTime, $endTime);
-        $sql = $this->gen_sql_new("  select count(id), lesson_problem from %s pf"
+        $sql = $this->gen_sql_new("  select count(id) as num, lesson_problem from %s pf"
                                   ." where %s group by lesson_problem"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr

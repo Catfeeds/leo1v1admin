@@ -531,12 +531,24 @@ class ajax_deal extends Controller
 
     # 获取统计图片信息
     public function getStatisticalChat(){
-        $startTime = $this->get_in_int_val('startTime');
-        $endTime   = $this->get_in_int_val('endTime');
+        $startTime = strtotime($this->get_in_str_val('startTime'));
+        $endTime   = strtotime($this->get_in_str_val('endTime'));
         $ret_info = $this->t_product_feedback_list->getDataForChat($startTime,$endTime);
+        $dataColumn = [];
+        $dataPie = [];
+        $tmpColumn = [];
+        $tmpPie = [];
+        $totalNum = count($ret_info);
         foreach($ret_info as &$item){
-            $item['lesson_problem_str'] = E\Elesson_problem::get_desc($item['lesson_problem']);
+            $tmpColumn['name'] = $tmpPie[] = E\Elesson_problem::get_desc($item['lesson_problem']);
+            $tmpColumn['y']  = (int)$item['num'];
+            $tmpPie[] = (int)$item['num']/$totalNum;
+            $dataColumn[] = $tmpColumn;
+            $dataPie[] = $tmpPie;
         }
-        return $this->output_succ(['data'=>$ret_info]);
+
+        $total_arr['column'] = $dataColumn;
+        $total_arr['pie'] = $dataColumn;
+        return $this->output_succ(['data'=>$total_arr]);
     }
 }

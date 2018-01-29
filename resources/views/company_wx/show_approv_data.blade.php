@@ -16,12 +16,14 @@
                 <div id='id_date_range' >
                 </div>
             </div>
-            
+
+            @if ($flag)
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
                 <bttton id="id_add" class="btn btn-primary">拉取数据</button>
             </div>
         </div>
+        @endif
         </div>
     </div>
     <hr/>
@@ -78,7 +80,7 @@
                     <input id="id_upload_add" value="上传下载文件" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>
                 </div>
                 <div class="add_header_img"></div>
-                <div class="pic_url"></div>
+                <div class="data_url"></div>
             </td>
 		        </tr>
 
