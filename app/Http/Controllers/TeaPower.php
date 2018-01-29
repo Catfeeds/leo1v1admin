@@ -1529,7 +1529,7 @@ trait TeaPower {
             );
         }
 
-        $ret_row2=$this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
+        $ret_row2 = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
         if($ret_row2){
             $error_lessonid = $ret_row2["lessonid"];
             return $this->output_err(
@@ -4482,13 +4482,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $item['lesson_cost_tax'] = strval(round($item['lesson_price']*0.02,2));
                 $item['lesson_price'] -= $item['lesson_cost_tax'];
             }
-            // 老师帮 --- 我的收入页 12后显示选项
+            // 老师帮 --- 我的收入页 2017年12月后显示选项
             if ($item['start_time'] < strtotime('2017-12-1')) {
                 $item['list'] = [];
             } else {
                 $item['list'] = [
-                    ['name'=>'90分钟补偿','value'=> $item['lesson_reward_compensate'].''], 
-                    ['name'=>'工资补偿','value'=> $item['lesson_reward_compensate_price'].''],
                     ['name'=>'小班课工资','value'=> $item['lesson_reward_small_class'].''],
                     ['name'=>'微课工资','value'=> $item['lesson_reward_weike'].''],
                     ['name'=>'公开课工资','value'=> $item['lesson_reward_open_class'].'']
@@ -4996,8 +4994,17 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return '';
     }
 
+    /**
+     * 检测课程的扣款项
+     * 每个月换课和迟到均有3此免责机会
+     * 如果有换课类型的扣款，则其他扣款不生效
+     * @param array val 课程信息
+     * @param array check_num 换课和迟到的统计次数
+     */
     private function get_lesson_cost_info(&$val,&$check_num){
         $lesson_all_cost = 0;
+        $lesson_cost     = 0;
+        $lesson_all_info = "";
         $lesson_info     = "";
         $deduct_type = E\Elesson_deduct::$s2v_map;
         $deduct_info = E\Elesson_deduct::$desc_map;
@@ -5010,30 +5017,49 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         if($val['confirm_flag']==2 && $val['deduct_change_class']>0){
             if($val['lesson_cancel_reason_type']==21){
-                $lesson_all_cost = $teacher_money['lesson_miss_cost']/100;
-                $info            = "上课旷课!";
+                $lesson_cost = $teacher_money['lesson_miss_cost']/100;
+                $lesson_info = "上课旷课!";
             }elseif(($val['lesson_cancel_reason_type']==2 || $val['lesson_cancel_reason_type']==12)
             && $val['lesson_cancel_time_type']==1){
                 if($change_num>=3){
-                    $lesson_all_cost = $teacher_money['lesson_cost']/100;
-                    $lesson_info     = "课前４小时内取消上课！";
+                    $lesson_cost = $teacher_money['lesson_cost']/100;
+                    $lesson_info = "课前４小时内取消上课！";
                 }else{
                     $change_num++;
-                    $lesson_info     = "本月第".$change_num."次换课";
-                    $lesson_all_cost = 0;
+                    $lesson_cost = 0;
+                    $lesson_info = "本月第".$change_num."次换课";
                 }
             }
+            $lesson_all_cost = $lesson_cost;
+            $lesson_all_info = $lesson_info;
+            if($lesson_cost>0){
+                $val['list'][] = [
+                    "type"  => 3,
+                    "info"  => $lesson_info,
+                    "money" => $lesson_cost,
+                ];
+            }
         }else{
-            $lesson_cost = $teacher_money['lesson_cost']/100;
             foreach($deduct_type as $key=>$item){
                 if($val['deduct_change_class']==0){
                     if($val[$key]>0){
                         if($key=="deduct_come_late" && $late_num<3){
                             $late_num++;
+                            $lesson_cost = 0;
+                            $lesson_info = "本月第".$late_num."次迟到";
                         }else{
+                            $lesson_cost      = $teacher_money['lesson_cost']/100;
                             $lesson_all_cost += $lesson_cost;
-                            $lesson_info.=$deduct_info[$item]."/";
+                            $lesson_info      = $deduct_info[$item];
                         }
+
+                        $val['list'][] = [
+                            "type"  => 3,
+                            "info"  => $lesson_info,
+                            "money" => $lesson_cost,
+                        ];
+
+                        $lesson_all_info .= $lesson_info."/";
                     }
                 }
             }
