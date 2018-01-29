@@ -11,6 +11,20 @@ use \App\Enums as E;
  * @use \App\Http\Controllers\Controller
  */
 trait LessonPower{
+    /**
+     * 添加一节一对一常规课
+     */
+    public function add_1v1_normal_lesson(){
+        $courseid = $this->t_course_order->add_course_info_new($orderid,$userid,$grade,$subject,100,2,0,1,1,0,$teacherid);
+        $lessonid = $this->t_lesson_info->add_lesson(
+            $courseid,0,$userid,0,2,
+            $teacherid,0,$lesson_start,$lesson_end,$grade,
+            $subject,100,$teacher_info["teacher_money_type"],$teacher_info["level"]
+        );
+        $this->t_homework_info->add(
+            $courseid,0,$userid,$lessonid,$grade,$subject,$teacherid
+        );
+    }
 
     /**
      * 检测课时确认的时间
@@ -188,5 +202,45 @@ trait LessonPower{
         return $this->output_ret($ret,"修改课时确认状态记录添加失败！");
     }
 
+    /**
+     * 检测老师时间段内是否空闲
+     * @param int teacherid 老师id
+     * @param int cur_lessonid 当前排课的lessonid，不检测此lessonid
+     * @param int lesson_start 检测的开始时间
+     * @param int lesson_end   检测的结束时间
+     */
+    public function check_teacher_time_free($teacherid,$cur_lessonid,$lesson_start,$lesson_end){
+        $check_flag = $this->t_lesson_info->check_teacher_time_free($teacherid, $cur_lessonid, $lesson_start, $lesson_end);
+        if($check_flag){
+            $error_lessonid = $check_flag['lessonid'];
+            return $this->output_err(
+                "<div>有现存的老师课程与该课程时间冲突！"
+                +"<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>查看[lessonid=$error_lessonid]<a/>"
+                +"<div> "
+            );
+        }else{
+            return true;
+        }
+    }
 
+    /**
+     * 检测学生时间段内是否空闲
+     * @param int teacherid 老师id
+     * @param int cur_lessonid 当前排课的lessonid，不检测此lessonid
+     * @param int lesson_start 检测的开始时间
+     * @param int lesson_end   检测的结束时间
+     */
+    public function check_student_time_free($userid,$cur_lessonid,$lesson_start,$lesson_end){
+        $check_flag = $this->t_lesson_info->check_student_time_free($userid, $cur_lessonid, $lesson_start, $lesson_end);
+        if($check_flag){
+            $error_lessonid = $check_flag['lessonid'];
+            return $this->output_err(
+                "<div>有现存的学生课程与该课程时间冲突！"
+                +"<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>查看[lessonid=$error_lessonid]<a/>"
+                +"<div> "
+            );
+        }else{
+            return true;
+        }
+    }
 }

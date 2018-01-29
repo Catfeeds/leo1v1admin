@@ -3725,7 +3725,7 @@ ORDER BY require_time ASC";
         ];
         $sql = $this->gen_sql_new("select s.nick,s.gender,s.grade,t.subject,t.textbook,t.stu_request_test_lesson_time_end,"
                                   ." tr.curl_stu_request_test_lesson_time_end,tr.curl_stu_request_test_lesson_time,"
-                                  ." t.teacher_type,"
+                                  ." t.teacher_type,tr.accept_status,"
                                   ." tr.test_stu_request_test_lesson_demand,t.tea_identity,t.tea_gender,t.tea_age,"
                                   ." t.intention_level,t.quotation_reaction,tr.seller_top_flag,t.subject_tag,tr.current_lessonid,"
                                   ." tr.test_lesson_student_status"

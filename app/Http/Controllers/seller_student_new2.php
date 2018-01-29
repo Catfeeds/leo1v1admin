@@ -295,7 +295,6 @@ class seller_student_new2 extends Controller
                 $item['accept_status_str'] = '<font color="red">已拒绝</font>';
             }
 
-
             $stu_request_test_lesson_time_info=\App\Helper\Utils::json_decode_as_array(
                 $item["stu_request_test_lesson_time_info"],true
             );
