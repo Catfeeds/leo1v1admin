@@ -16,12 +16,14 @@
                 <div id='id_date_range' >
                 </div>
             </div>
-            
+
+            @if ($flag)
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
                 <bttton id="id_add" class="btn btn-primary">拉取数据</button>
             </div>
         </div>
+        @endif
         </div>
     </div>
     <hr/>
