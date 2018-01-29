@@ -96,8 +96,12 @@ $(function(){
         BootstrapDialog.alert(show_title);
     }
 
+    //检测试听需求是否可以排课  true 不可以排课  false 可排课
     var check_require_status = function(){
+        //test_lesson_student_status 是 枚举类 seller_student_status:120 有效-课程取消 ;200 预约-未排课;
+        //枚举类 accept_status 老师是否接受此课程  0 未接受 1 已接受 2 已拒绝
         if(require_info.test_lesson_student_status!=200 && require_info.test_lesson_student_status!=120 && require_info.accept_status==1){
+            get_alert_info();
             return true;
         }
         return false;
@@ -134,8 +138,6 @@ $(function(){
             $("#id_teacherid").val(data.teacherid);
             $("#id_teacher_info").val(teacher_info);
             select_teacher();
-        }else{
-            get_alert_info();
         }
     });
 
@@ -164,7 +166,7 @@ $(function(){
 		                label    : "确认",
 		                cssClass : "btn-warning",
 		                action   : function(dialog) {
-                        if(check_require_status()){
+                        if(!check_require_status()){
                             var do_post = function(){
                                 $.do_ajax("/ss_deal/course_set_new",{
                                     'require_id'      : g_args.require_id,
@@ -178,9 +180,9 @@ $(function(){
                             var now        = (new Date()).getTime()/1000;
                             var start_time = $.strtotime(lesson_time);
                             if ( now > start_time ) {
-                                BootstrapDialog.alert("上课时间比现在还小.");
+                                BootstrapDialog.alert("上课时间比现在还小!");
                                 return ;
-                            } else if ( now + 5*3600  > start_time ) {
+                            } else if( now + 5*3600  > start_time ) {
                                 BootstrapDialog.confirm("上课时间离现在很近了,要提交吗?!",function(val){
                                     if(val) {
                                         do_post();
@@ -202,8 +204,8 @@ $(function(){
         var subject_str = require_info.subject_str;
         var require_id  = g_args.require_id;
         var $input      = $("<input style=\"width:180px\"  placeholder=\"驳回理由\"/>");
-        if(check_require_status()){
-            $.show_input(
+        if(!check_require_status()){
+             $.show_input(
                 nick+" : "+ subject_str+ ",要驳回, 不计算排课数?! ",
                 "",function(val){
                     $.do_ajax("/ss_deal/set_no_accpect",{
