@@ -28,6 +28,7 @@
         <table class="common-table"> 
             <thead>
                 <tr>
+                    <td>编号 </td>
                     <td>例子 </td>
                     <td>抢单详情 </td>
                     <td>例子进入时间 </td>
@@ -37,6 +38,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{@$var["num"]}} </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>
                             @foreach ( $var['list'] as $v )
