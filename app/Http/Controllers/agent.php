@@ -441,8 +441,9 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $threshold_count = $this->t_seller_edit_log->get_threshold_count_new($start_time=1517068800,$end_time=1517155200);
-        dd($threshold_count);
+        $threshold_count = $this->t_seller_edit_log->get_threshold_count($start_time=1517068800,$end_time=1517155200);
+        list($count_y,$count_r) = isset($threshold_count[0]['count_y'])?[$threshold_count[0]['count_y'],$threshold_count[0]['count_r']]:[0,0];
+        dd($count_y,$count_r);
         list($start_time,$end_time)=$this->get_in_date_range_day(-1);
         $ret = $this->t_tq_call_info->get_cc_end_list($adminid=743,$start_time, $end_time);
         dd($ret);

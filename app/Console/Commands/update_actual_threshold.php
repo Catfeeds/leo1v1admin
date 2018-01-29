@@ -154,14 +154,7 @@ class update_actual_threshold extends Command
         $threshold_max = $threshold[0]['new'];
         $threshold_min = $threshold[1]['new'];
         $threshold_count = $this->task->t_seller_edit_log->get_threshold_count($start_time,$end_time);
-        list($count_y,$count_r) = [0,0];
-        foreach($threshold_count as $item){
-            if($item['old'] == 1){
-                $count_y++;
-            }else{
-                $count_r++;
-            }
-        }
+        list($count_y,$count_r) = isset($threshold_count[0]['count_y'])?[$threshold_count[0]['count_y'],$threshold_count[0]['count_r']]:[0,0];
 
         $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
         $theme = "新例子电话接通率报告";
