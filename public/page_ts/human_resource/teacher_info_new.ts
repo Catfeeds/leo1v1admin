@@ -380,7 +380,7 @@ $(function(){
 
     });
 
-     if (window.location.pathname=="/human_resource/index_seller" || window.location.pathname=="/human_resource/index_seller/") {
+     if (window.location.pathname=="/human_resource/index_seller" || window.location.pathname=="/human_resource/index_seller/" || window.location.pathname=="/human_resource/get_elite_teacher_list" || window.location.pathname=="/human_resource/get_elite_teacher_list/") {
         $("#id_test_transfor_per").parent().parent().hide();
         $("#id_add_teacher").parent().hide();
         $("#id_need_test_lesson_flag").parent().parent().hide();
@@ -863,6 +863,82 @@ $(function(){
 
         });
 
+    });
+
+    $(".opt-upload-teacher-call-crad").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id_callcard_url = $("<div><input class=\"callcard_url\" id=\"callcard_url\" type=\"text\"readonly ><div><span ><a class=\"upload_callcard_pic\" id=\"id_upload_callcard_url\" href=\"javascript:;\">上传</a></span><span><a style=\"margin-left:20px\" href=\"javascript:;\" id=\"id_del_callcard_url\">删除</a></span></div></div>");
+      
+        var arr=[          
+            ["老师名片",  id_callcard_url ]
+        ];
+       // id_callcard_url.find("#callcard_url").val(opt_data.rurl);      
+
+        id_callcard_url.find("#id_del_callcard_url").on("click",function(){
+            id_callcard_url.find("#callcard_url").val("");
+        });
+
+        $.show_key_value_table("上传", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax('/ajax_deal3/upload_teacher_callcard_info', {
+                    'teacherid': opt_data.teacherid,                  
+                    "callcard_url": id_callcard_url.find("#callcard_url").val()
+                });
+            }
+        },function(){
+            $.custom_upload_file('id_upload_callcard_url',true,function (up, info, file) {
+                var res = $.parseJSON(info);
+
+                id_callcard_url.find("#callcard_url").val(res.key);
+            }, null,["doc", "docx","xls",'pdf','jpg','png','rar','zip','peng']);
+
+        });
+        
+    });
+
+    $("#id_add_teacher_callcard").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id_callcard_url = $("<div><input class=\"callcard_url\" id=\"callcard_url\" type=\"text\"readonly ><div><span ><a class=\"upload_callcard_pic\" id=\"id_upload_callcard_url\" href=\"javascript:;\">上传</a></span><span><a style=\"margin-left:20px\" href=\"javascript:;\" id=\"id_del_callcard_url\">删除</a></span></div></div>");
+        var id_teacherid = $("<input />");
+        
+        var arr=[          
+            ["老师",id_teacherid],
+            ["老师名片",  id_callcard_url ]
+        ];
+        // id_callcard_url.find("#callcard_url").val(opt_data.rurl);      
+
+        id_callcard_url.find("#id_del_callcard_url").on("click",function(){
+            id_callcard_url.find("#callcard_url").val("");
+        });
+
+        $.show_key_value_table("上传", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax('/ajax_deal3/upload_teacher_callcard_info', {
+                    'teacherid': id_teacherid.val(),                  
+                    "callcard_url": id_callcard_url.find("#callcard_url").val()
+                });
+            }
+        },function(){
+            $.custom_upload_file('id_upload_callcard_url',true,function (up, info, file) {
+                var res = $.parseJSON(info);
+
+                id_callcard_url.find("#callcard_url").val(res.key);
+            }, null,["doc", "docx","xls",'pdf','jpg','png','rar','zip','peng']);
+
+            $.admin_select_user(id_teacherid, "teacher");
+ 
+
+        });
+
+    });
+
+    $(".opt-show-teacher-call-crad").on("click",function(){
+        var data = $(this).get_opt_data();
+        $.wopen(data.callcard_url);
     });
 
 

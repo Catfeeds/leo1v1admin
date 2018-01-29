@@ -441,6 +441,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $count = $this->t_seller_get_new_log->get_cc_end_count($adminid=457,strtotime(date('Y-m-d 00:00:00',time())),time());
+        dd($count);
         list($start_time,$end_time) = [1517068800,1517153400];
         $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
         $count_adminid = count(array_unique(array_column($ret_call, 'adminid')));
