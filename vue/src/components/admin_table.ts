@@ -37,7 +37,8 @@ import { timingSafeEqual } from 'crypto';
   },
   computed : {
     real_table_config:function() {
-      return this.$props.table_data.length>0 ? this.$props.table_config: {};
+      return this.$props.table_config;
+      //return this.$props.table_data.length>0 ? this.$props.table_config: {};
     }
   },
   mounted : function(){
@@ -350,4 +351,19 @@ export default class admin_table extends Vue {
       }
     });
   }
+  do_sort(e : MouseEvent ){
+
+    var order_by_str = "";
+    var $this = $(e.currentTarget );
+    var field_name =   $this.parent().data("field_name");
+
+    if ($this.hasClass( "fa-sort-down")) {
+      order_by_str = field_name + " " + "asc";
+    } else {
+      order_by_str = field_name + " " + "desc";
+    }
+
+    this.$parent["reload_page_by_page_info"](null, null, order_by_str );
+  }
+
 }

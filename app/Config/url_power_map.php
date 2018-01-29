@@ -406,6 +406,7 @@ class url_power_map {
 			'/human_resource/teacher_info_for_seller'	=>1116700,
 			'/seller_student_new2/test_lesson_plan_list_seller'	=>1117500,
 			'/human_resource/index_seller'	=>1116800,
+			'/human_resource/get_elite_teacher_list'	=>1116900,
 			'/human_resource/index_new_seller_hold'	=>1117600,
 			'/supervisor/monitor_seller'	=>1116600,
 			'/tea_manage/lesson_list_seller'	=>1116400,
