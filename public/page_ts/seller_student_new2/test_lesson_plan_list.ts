@@ -35,7 +35,7 @@ $(function(){
     Enum_map.append_option_list("grade",$("#id_grade"));
     Enum_map.append_option_list("subject",$("#id_subject"));
     Enum_map.append_option_list("seller_student_status",$("#id_test_lesson_student_status"),false,
-                                [110,120,200,210,220] );
+                                [110,120,200,210,220]);
     Enum_map.append_option_list("seller_require_change_flag",$("#id_seller_require_change_flag"),false,[1,2,3]);
     Enum_map.append_option_list("account_role",$("#id_require_admin_type"));
     Enum_map.append_option_list("set_boolean",$("#id_success_flag"));
