@@ -2617,8 +2617,8 @@ class teacher_info extends Controller
             }
         }
         if($flag == 0){
-            $subject = $tea_info[0]['subject'];
-            $tea_gra = $tea_info[0]['grade'];
+            $subject = @$tea_info[0]['subject'];
+            $tea_gra = @$tea_info[0]['grade'];
         }
         $grade = $this->get_in_int_val('grade', @$tea_gra[0]);
         // dd($grade);
