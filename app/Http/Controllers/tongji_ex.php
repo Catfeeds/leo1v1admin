@@ -545,7 +545,7 @@ class tongji_ex extends Controller
                 $ret_report[$key]['num']=$num;
                 $ret_report[$key]['type']='黄色';
                 $ret_report[$key]['time']=date('Y-m-d H:i:s',$item['create_time']);
-            }elseif($item['type'] == 2){
+            }elseif($item['old'] == 2){
                 $num++;
                 $ret_report[$key]['num']=$num;
                 $ret_report[$key]['time']='红色';
@@ -565,7 +565,9 @@ class tongji_ex extends Controller
         foreach($origin_arr as $origin_level){
             foreach($ret as $item){
                 if($item['origin_level'] == $origin_level){
-                    $ret_origin[$origin_level][] = $item;
+                    $ret_origin[$origin_level][$item['userid']]['userid'] = isset($ret_origin[$origin_level][$item['userid']]['userid'])?$ret_origin[$origin_level][$item['userid']]['userid']:$item['userid'];
+                    $ret_origin[$origin_level][$item['userid']]['called_count'] = isset($ret_origin[$origin_level][$item['userid']]['called_count'])?($ret_origin[$origin_level][$item['userid']]['called_count']+$item['called_count']):$item['called_count'];
+                    $ret_origin[$origin_level][$item['userid']]['no_called_count'] = isset($ret_origin[$origin_level][$item['userid']]['no_called_count'])?($ret_origin[$origin_level][$item['userid']]['no_called_count']+$item['no_called_count']):$item['no_called_count'];
                 }
             }
         }
@@ -583,8 +585,8 @@ class tongji_ex extends Controller
             }
             $ret_origin_info[$origin_level]['call_count'] = $call_count;
             $ret_origin_info[$origin_level]['called_count'] = $called_count;
-            $ret_origin_info[$origin_level]['rate'] = $call_count>0?(round($called_count/$call_count, 4)*100).'%':0;
+            $ret_origin_info[$origin_level]['rate'] = $call_count>0?((round($called_count/$call_count, 4)*100).'%'):0;
         }
-        dd($ret_report,$ret_rate,$ret_origin_info);
+        dd($ret_report,$ret_rate,$ret_origin_info,$ret_origin);
     }
 }
