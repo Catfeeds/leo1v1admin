@@ -495,11 +495,10 @@ class tongji_ex extends Controller
                 $threshold_min = $item['new'];
             }
         }
-        foreach($ret as &$item){
-            $item['threshold_min'] = $threshold_min;
-            $item['threshold_max'] = $threshold_max;
+        foreach($ret as $key=>$item){
+            $ret[$key]['threshold_min'] = $threshold_min;
+            $ret[$key]['threshold_max'] = $threshold_max;
         }
-        dd($ret);
 
         $list_info = [];
         $list = $this->t_seller_get_new_log->get_all_list($start_time,$end_time);
