@@ -785,6 +785,7 @@ $(function(){
 
         multi_upload_file_new(flag, is_multi, is_auto_upload, btn_id, 0,
                               function(files){
+                                  console.log(files);
                                   var name_str = '';
                                   if (!is_multi){
                                       //单文件上传
