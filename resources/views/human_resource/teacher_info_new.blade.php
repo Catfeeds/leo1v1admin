@@ -238,6 +238,7 @@
                                 @endif
                                 @if(in_array($acc,["jack","jim"]))
                                     <a class="opt-upload-teacher-call-crad" title="上传名片">上传名片</a>
+                                    <a class="opt-show-teacher-call-crad" title="老师名片">老师名片</a>
                                 @endif
 
                             </div>

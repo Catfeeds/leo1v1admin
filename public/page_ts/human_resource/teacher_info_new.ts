@@ -898,6 +898,11 @@ $(function(){
         
     });
 
+    $(".opt-show-teacher-call-crad").on("click",function(){
+        var data = $(this).get_opt_data();
+        $.wopen(data.callcard_url);
+    });
+
 
 
 
