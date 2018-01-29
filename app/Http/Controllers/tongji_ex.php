@@ -591,6 +591,6 @@ class tongji_ex extends Controller
             $ret_origin_info[$origin_level]['rate'] = $call_count>0?((round($called_count/$call_count, 4)*100).'%'):0;
         }
         $ret_info = [];
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),['ret_rate'=>$ret_rate,'ret_origin_info'=>$ret_origin_info,'ret_report'=>$ret_report]);
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),['ret_report'=>$ret_report,'ret_rate'=>$ret_rate,'ret_origin_info'=>$ret_origin_info]);
     }
 }
