@@ -29,20 +29,30 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>字段1 </td>
+                    <td>分配时间</td>
+                    <td>例子来源</td>
+                    <td>学生</td>
+                    <td>cc</td>
+                    <td>拨打次数</td>
+                    <td>拨通</td>
+                    <td>拨打总时长</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{$var["logtime"]}} </td>
+                        <td>{{$var["seller_student_assign_from_type_str"]}} </td>
+                        <td>{{$var["student_nick"]}} </td>
+                        <td>{{$var["admin_nick"]}} </td>
+                        <td>{{$var["call_count"]}} </td>
+                        <td>{!!  $var["called_flag_str"]!!} </td>
+                        <td>{{$var["call_time"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                <a class="fa fa-times opt-del" title="删除"> </a>
 
                             </div>
                         </td>
