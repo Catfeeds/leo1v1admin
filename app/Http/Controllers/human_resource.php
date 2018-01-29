@@ -4361,7 +4361,8 @@ class human_resource extends Controller
         return $this->pageView(__METHOD__,$ret_info,[
             "acc"          => $acc,
             "account_role" => $this->get_account_role(),
-            "is_master_flag_jw" =>$is_master_flag_jw 
+            "is_master_flag_jw" =>$is_master_flag_jw,
+            "elite_flag"     =>$elite_flag
         ]);
     }
 
