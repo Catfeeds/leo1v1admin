@@ -520,7 +520,7 @@ class tongji_ex extends Controller
                 $account = $this->cache_get_account_nick($adminid);
                 $create_time = date('Y-m-d H:i:s',$info['create_time']);
                 $end = $info['cc_end']==1?'客户':'销售';
-                $desc .= "[抢单人:".$account.',拨通次数:'.$info['called_count'].',未拨通次数'.$info['no_called_count'].',挂机人:'.$end.',抢单时间:'.$create_time.'];'."<br/>";
+                $desc .= "[抢单人:".$account.',拨通次数:'.$info['called_count'].',未拨通次数'.$info['no_called_count'].',挂机人:'.$end.',抢单时间:'.$create_time."];<br>";
             }
             $list[$userid]['desc'] = $desc;
             $list[$userid]['add_time'] = $item['add_time'];
