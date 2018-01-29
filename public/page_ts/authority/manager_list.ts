@@ -959,6 +959,12 @@ $(function(){
         });
         // alert('wel');
     });
+``
+    $("#id_flush_power").on("click", function() {
+        $.do_ajax("/user_manage_new/flush_power",{
+
+        });
+    });
 
     //实例化一个plupload上传对象
     var uploader = $.plupload_Uploader({

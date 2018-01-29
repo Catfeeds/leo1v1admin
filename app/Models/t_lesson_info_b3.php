@@ -2749,7 +2749,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_row($sql);
     }
 
-    public function get_teacher_student_first_subject_info($start_time,$end_time,$teacherid=-1){
+    public function get_teacher_student_first_subject_info($start_time,$end_time,$teacherid=-1,$assistantid=-1){
         $where_arr=[
             "s.is_test_user=0",
             "t.is_test_user=0",
@@ -2758,7 +2758,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_del_flag=0",
             "l.lesson_start>0",
              "l.lesson_status>1",
-            ["l.teacherid=%u",$teacherid,-1]
+            ["l.teacherid=%u",$teacherid,-1],
+            ["s.assistantid=%u",$assistantid,-1],
         ];
         $this->where_arr_add_time_range($where_arr, 'l.lesson_start', $start_time, $end_time);
         $sql = $this->gen_sql_new("select l.teacherid,l.subject,l.userid,l.lesson_start,tr.id,l.lessonid "
