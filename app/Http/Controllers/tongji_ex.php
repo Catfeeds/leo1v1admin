@@ -517,6 +517,6 @@ class tongji_ex extends Controller
                 $list_info[$userid]['list'][$adminid]['cc_end'] = $info['cc_end']==1?'客户':'销售';
             }
         }
-        return $this->pageView(__METHOD__,$list_info,['data_ex_list'=>$ret]);
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list_info),['data_ex_list'=>$ret]);
     }
 }
