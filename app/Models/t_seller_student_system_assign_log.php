@@ -63,7 +63,7 @@ class t_seller_student_system_assign_log extends \App\Models\Zgen\z_t_seller_stu
         $where = "adminid = $admin_revisiterid and userid = $userid";
         $sql=sprintf("update %s set check_hold_flag = %u where %s  ",
                      self::DB_TABLE_NAME,
-                     0,
+                     1,
                      $where);
         return $this->main_update($sql);
     }
