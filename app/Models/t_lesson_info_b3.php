@@ -3540,7 +3540,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_type=2",
             "l.userid=$userid"
         ];
-        //l.lessonid= f.from_key_int
 
         $sql = $this->gen_sql_new("  select 1 from %s l "
                                   ." left join %s f on l.lessonid= f.from_key_int "

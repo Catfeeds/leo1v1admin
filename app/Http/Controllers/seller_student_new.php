@@ -766,6 +766,12 @@ class seller_student_new extends Controller
             if($userid_new){
                 return $this->output_err("有试听课成功未回访",["userid" =>$userid_new,'adminid'=>$adminid]);
             }
+            //拨通未满60s
+            $last_get_time = $this->t_seller_get_new_log->get_last_get_time($adminid);
+            if(time()-$last_get_time<660){
+                $cmd= new \App\Console\Commands\sync_tianrun();
+                $count=$cmd->load_data($last_get_time,time());
+            }
 
             $row_data= $this->t_seller_student_new->field_get_list($userid,"competition_call_time, competition_call_adminid, admin_revisiterid,phone");
             $competition_call_time = $row_data["competition_call_time"];
@@ -799,6 +805,7 @@ class seller_student_new extends Controller
             \App\Helper\Common::redis_set($key, $userid );
 
             //抢新log
+            
             $ret_log = $this->t_seller_get_new_log->get_row_by_adminid_userid($adminid,$userid);
             if(!$ret_log){
                 $this->t_seller_get_new_log->row_insert([

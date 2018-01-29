@@ -1007,5 +1007,22 @@ where  o.price>0 and o.contract_type =0 and o.contract_status <> 0 and o.order_t
         );
         return $this->main_get_value($sql);
     }
-    
+
+    public function get_cc_end_list($adminid,$start_time, $end_time){
+        $where_arr = [
+            'duration<60',
+        ];
+        $this->where_arr_add_int_field($where_arr, 'end_reason', 0);
+        $this->where_arr_add_int_field($where_arr, 'is_called_phone', 1);
+        $this->where_arr_add_int_field($where_arr, "adminid" ,$adminid);
+        $this->where_arr_add_time_range($where_arr, 'start_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select * ".
+            " from %s ".
+            " where %s order by start_time asc "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

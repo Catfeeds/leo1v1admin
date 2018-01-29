@@ -147,9 +147,10 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-    public function get_need_set_lesson_end_list(  ){
+    public function get_need_set_lesson_end_list(){
         $end_time    = time(NULL)-5*60;
         $start_time  = $end_time-86400;
+
 
         $sql = $this->gen_sql("select lessonid,l.userid,l.teacherid,c.courseid,"
                               . " lesson_type,lesson_num,lesson_end, xmpp_server_name, current_server " .
@@ -1548,7 +1549,7 @@ lesson_type in (0,1) "
         $sql = $this->gen_sql_new("select l.lessonid,l.userid,l.teacherid,l.assistantid,l.lesson_start,l.lesson_num,l.stu_attend, "
                                   ." l.lesson_end,l.lesson_count,l.teacher_score,l.teacher_comment,l.teacher_effect, "
                                   ." l.teacher_quality,l.teacher_interact,l.stu_performance,l.subject,l.lesson_type,"
-                                  ." l.stu_score,l.stu_comment,l.stu_attitude,l.stu_attention,l.teacher_type,"
+                                  ." l.stu_score,l.stu_comment,l.stu_attitude,l.stu_attention,"
                                   ." l.teacher_type as lesson_teacher_type,t.teacher_type,l.operate_time,"
                                   ." l.stu_ability,l.stu_stability,l.confirm_flag,c.reset_lesson_count_flag "
                                   ." from %s l"
@@ -8395,7 +8396,7 @@ lesson_type in (0,1) "
             ["lessonid=%u",$lessonid,0]
         ];
         $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.teacherid,l.teacher_money_type,"
-                                  ." money,type,l.already_lesson_count,l.teacher_type "
+                                  ." money,type,l.already_lesson_count,l.teacher_type,l.lesson_count "
                                   ." from %s l"
                                   ." left join %s m on l.teacher_money_type=m.teacher_money_type "
                                   ." and l.level=m.level "

@@ -441,6 +441,15 @@ class agent extends Controller
     }
 
     public function test_new(){
+        // $last_get_time = $this->t_seller_get_new_log->get_last_get_time($adminid);
+        // if(time()-$last_get_time<660){
+        //     $cmd= new \App\Console\Commands\sync_tianrun();
+        //     $count=$cmd->load_data($last_get_time,time());
+        // }
+        list($start_time,$end_time)=$this->get_in_date_range_day(-1);
+        $ret = $this->t_tq_call_info->get_cc_end_list($adminid=743,$start_time, $end_time);
+        dd($ret);
+        dd('http://'.$_SERVER['HTTP_HOST'].'/tongji_ex/actual_call_threshold');
         $time = strtotime(date('Y-m-d'));
         list($start_time,$end_time) = [$time,$time+3600*24];
         $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
