@@ -338,22 +338,30 @@ $(function(){
             [tag_three_name, id_tag_three],
             [tag_four_name, [ id_tag_four,id_tag_four_search]],
             [tag_five_name, id_tag_five],
-            ["上传文件(pdf,最大15m)", id_other_file],
-            ["上传文件(pdf,最大15m)", id_ff_file],
-            ["课件版(pdf,最大15m)", id_les_file],
-            ["老师版(pdf,最大15m)", id_tea_file],
-            ["学生版(pdf,最大15m)", id_stu_file],
-            ["额外的讲义(pdf,mp3,mp4,最大15m)", id_ex_file],
-            ["培训讲义或视频(pdf,mp3,mp4,最大100m)", id_video_file],
+            ["上传文件(pdf,最大15M,必传)", id_other_file],
+            ["上传文件(pdf,最大15M,必传)", id_ff_file],
+            ["课件版(pdf,最大15M,必传)", id_les_file],
+            ["老师版(pdf,最大15M,必传)", id_tea_file],
+            ["学生版(pdf,最大15M,必传)", id_stu_file],
+            ["额外的讲义(pdf,mp3,mp4,最大15M)", id_ex_file],
+            ["培训讲义或视频(pdf,mp3,mp4,最大100M,必传)", id_video_file],
         ];
 
         $.show_key_value_table('新建', arr,{
             label    : '确认',
             cssClass : 'btn-info btn-mark',
             action   : function() {
-                if(id_subject.val() == null || id_grade.val() == null || id_tag_one.val() == null){
+                if(id_subject.val() == null || id_grade.val() == null ){
                     alert('请完善信息!');
                 } else {
+
+                    if( $('.resource').val() == 1 || $('.resource').val() == 3 ){
+                        if(id_tag_four.val() == null){
+                            alert('学科化标签是必填项!');
+                            return false;
+                        }
+                    }
+
                     //移除其他文件,计算文件数量
                     if(id_resource_type.val() <= 3){//1v1
                         $('.other_file,.ff_file').each(function(){
@@ -768,56 +776,43 @@ $(function(){
         return remove_id;
     }
 
+    //判断是不是多文件上传
+    var is_multi = 0;
+    var multi_files_id = new Array;
+    var multi_upload = new Array;
+    var have_upload_num = 0;
     var get_qiniu = function(flag,is_multi, is_auto_upload, btn_id,use_type=0,add_class,allow_str,max_size){
 
         multi_upload_file_new(flag, is_multi, is_auto_upload, btn_id, 0,
                               function(files){
                                   var name_str = '';
                                   if (!is_multi){
+                                      //单文件上传
                                       remove_id.push($('.'+add_class).data('id'));
                                       $('.'+add_class).prev().remove();
                                       $('.'+add_class).remove();
                                       name_str = '<br/><span data-id='+files[0].id+' class='
                                           +add_class+' >'+files[0].name+'</span>';
+                                      is_multi = 0;
 
                                   }else{
-                                      var up_file = "<button class='up_file btn'>上移</button>";
-                                      var down_file = "<button class='down_file btn'>下移</button>";
+                                      //多文件上传
+                                      multi_files_id = new Array;
+                                      var multi_upload = new Array;
+                                      var up_file = "<button class='up_file btn' onclick='up_move($(this))'>上移</button>";                                   
+                                      var down_file = "<button class='down_file btn' onclick='down_move($(this))'>下移</button>";
                                       $(files).each(function(i){
-                                          name_str = name_str+'<div><span data-id='+files[i].id+' class='
+                                          name_str = name_str+'<div><span data-id='+files[i].id+' data-index='+i+' class='
                                               +add_class+' >'+files[i].name+'</span>' + up_file + down_file + '</div>';
+
+                                          multi_files_id.push(files[i].id);
+                                          multi_upload.push('');
                                       });
-                                                                        
+                                      is_multi = 1;
                                   }
                                
                                   $('#'+btn_id).after(name_str);
-
-                                  if(is_multi){
-                                      $('#'+btn_id).parent().find(".up_file").each(function(){
-                                          console.log('up');
-                                          $(this).on('click', function(){
-                                              var transfer;
-                                              var curr_obj = $(this).parent();
-                                              if( curr_obj.index() == 1){
-                                                  return false;
-                                              }
-                                              var prev_obj = $(this).parent().prev();
-                                              transfer = prev_obj;
-                                              prev_obj.remove();
-                                              curr_obj.after(transfer);
-                                          });
-
-                                      })
-
-                                      $('#'+btn_id).parent().find(".down_file").each(function(){
-                                          console.log('up');
-                                          $(this).on('click', function(){
-                                              alert(1);
-                                          });
-
-                                       })
-
-                                  }
+                                
                                   return test_func();
 
                               },
@@ -839,11 +834,36 @@ $(function(){
                               },
                               function(up, file, info) {
                                   var res = $.parseJSON(info.response);
-                                  console.log(last_id);
-                                  if( info.status == 200 && last_id >0 ){
-                                      add_file(last_id, file, res, use_type);
-                                      if( btn_id == 'id_other_file'){
-                                          last_id = last_id -1;
+                                  // console.log(up);
+                                  // console.log(file);
+                                  // console.log(info);
+                                  if(is_multi == 0){ 
+                                      if( info.status == 200 && last_id >0 ){
+                                          add_file(last_id, file, res, use_type);
+                                          if( btn_id == 'id_other_file'){
+                                              last_id = last_id -1;
+                                          }
+                                      }
+                                  }else{
+                                      have_upload_num += 1;
+                                                                                                  
+                                      if( info.status == 200 && last_id >0){
+                                          var index = $.inArray(file.id,multi_files_id);
+                                          multi_upload[index] = {
+                                              'resource_id'   : last_id,
+                                              'file_title'    : file.name,
+                                              'file_type'     : file.type,
+                                              'file_size'     : file.size,
+                                              'file_hash'     : res.hash,
+                                              'file_link'     : res.key,
+                                              'file_use_type' : use_type,
+                                          };
+                                          //console.log(multi_upload);
+                                      }
+                                      if( multi_files_id.length == have_upload_num ){
+                                          var data = { 'multi_data' : multi_upload };
+                                          add_multi_file(data);
+                                          console.log(multi_upload);
                                       }
                                   }
                               },
@@ -867,6 +887,22 @@ $(function(){
                 'file_use_type' : use_type,
             } ,
 
+            success   : function(result){
+                if(result.ret == 0){
+                    // window.location.reload();
+                } else {
+                    alert(result.info);
+                }
+            }
+        });
+    };
+
+    var add_multi_file = function (data){
+        $.ajax({
+            type     : "post",
+            url      : "/resource/add_multi_file",
+            dataType : "json",
+            data : data,
             success   : function(result){
                 if(result.ret == 0){
                     // window.location.reload();
@@ -1307,3 +1343,33 @@ function multi_upload_file_new(new_flag,is_multi,is_auto_start,btn_id, is_public
     });
 
 };
+
+
+function up_move(obj){
+    //alert(val);
+    var curr = obj.parent().index();
+    var transfer;
+    var curr_obj = obj.parent();
+    console.log(curr_obj.index());
+    if( curr_obj.index() == 1){
+        return false;
+    }
+    var prev_obj = obj.parent().prev();
+    transfer = prev_obj;
+    prev_obj.remove();
+    curr_obj.after(transfer);
+
+}
+
+function down_move(obj){
+    var transfer;
+    var curr_obj = obj.parent();
+    if( curr_obj.index() == $(this).parent().parent().length ){
+        return false;
+    }
+    var next_obj = obj.parent().next();
+    transfer = curr_obj;
+    curr_obj.remove();
+    next_obj.after(transfer);
+
+}
