@@ -461,6 +461,7 @@ class menu{
                 ["power_id"=>47, "name"=>"标签库",   "url"=>"/product_tag/tag_list"],
                 ["power_id"=>46, "name"=>"老师稳定性参考数据",   "url"=>"/tea_manage_new/approved_data"],
                 ["power_id"=>48, "name"=>"老师稳定性参考数据-new",   "url"=>"/tea_manage_new/approved_data_new"],
+                ["power_id"=>49, "name"=>"审批数据", "url"=>"/company_wx/show_approv_data"],
                 ["power_id"=>19, "name"=>"配置功能", "list"=>[
                     ["power_id"=>34, "name"=>"推广活动",   "url"=>"/tongji2/market_extension"],
                     ["power_id"=>4, "name"=>"图片管理",   "url"=>"/pic_manage/pic_info"],
@@ -572,6 +573,7 @@ class menu{
                 ["power_id"=>13, "name"=>"上传头像",   "url"=>"/self_manage/upload_face_pic"],
                 ["power_id"=>14, "name"=>"tmk合同",   "url"=>"/self_manage/get_self_order_list"],
                 //                ["power_id"=>14, "name"=>"分享知识库", "url"=>"/seller_student_new/share_knowledge"],
+                ["power_id"=>49, "name"=>"拉取数据审批", "url"=>"/company_wx/show_approv_data_self"],
             ]],
 
             ["power_id"=>11, "name"=>"角色-销售",  "list"=>[
