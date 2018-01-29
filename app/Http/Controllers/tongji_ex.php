@@ -548,7 +548,7 @@ class tongji_ex extends Controller
             }elseif($item['old'] == 2){
                 $num++;
                 $ret_report[$key]['num']=$num;
-                $ret_report[$key]['time']='红色';
+                $ret_report[$key]['type']='红色';
                 $ret_report[$key]['time']=date('Y-m-d H:i:s',$item['create_time']);
             }
             if($item['new']==$rate_min){
@@ -579,7 +579,8 @@ class tongji_ex extends Controller
             foreach($item as $info){
                 if($info['called_count']+$info['no_called_count']>0){
                     $call_count++;
-                }elseif($info['called_count']>0){
+                }
+                if($info['called_count']>0){
                     $called_count++;
                 }
             }
