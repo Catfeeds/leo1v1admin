@@ -3550,4 +3550,33 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_value($sql);
     }
+
+    public function getLessonCancelRate($start_time,$end_time){
+        $where_arr = [
+            "l.lesson_cancel_reason_type in (13,14)"
+        ];
+        $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
+        $sql = $this->gen_sql_new("  select lesson_start, l.lessonid from %s l"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function getTotalNum($start_time, $end_time){
+        $where_arr = [
+            "l.lesson_del_flag=0",
+            "(lesson_user_online_status in (0,1) or  f.flow_status = 2) ",
+        ];
+        $this->where_arr_add_time_range($where_arr, "l.lesson_start", $start_time, $end_time);
+        $sql = $this->gen_sql_new("  select l.lesson_start from %s l"
+                                  ." left join %s f on f.flow_type=2003 and l.lessonid= f.from_key_int "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_flow::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
