@@ -120,13 +120,14 @@
                     </div>
                 </div>
                 @if(in_array($acc,["zoe","adrian","ivy","jim","abby","夏宏东"]))
-                    <div class="col-xs-6 col-md-2">
+                    <div class="col-xs-1 col-md-1">
                         <button class="btn btn-primary" id="id_add_other_teacher">新增招师代理</button>
                     </div>
                 @endif
-                @if(in_array($acc,["jack","jim"]))
-                    <div class="col-md-1 col-xs-6 "  >
+                @if(in_array($acc,["jack","jim","江敏"]))
+                    <div class="col-md-1 col-xs-2 "  >
                         <button class="btn btn-warning" id="id_set_jw_subject">设置教务学科权限</button>
+                        <button class="btn btn-danger" id="id_add_teacher_callcard">新增老师名片</button>
                     </div>
                 @endif
 
