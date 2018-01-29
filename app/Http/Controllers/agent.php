@@ -441,6 +441,12 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $threshold_count = $this->t_seller_edit_log->get_threshold_count_new($start_time=1517068800,$end_time=1517155200);
+        dd($threshold_count);
+        list($start_time,$end_time)=$this->get_in_date_range_day(-1);
+        $ret = $this->t_tq_call_info->get_cc_end_list($adminid=743,$start_time, $end_time);
+        dd($ret);
+        dd('http://'.$_SERVER['HTTP_HOST'].'/tongji_ex/actual_call_threshold');
         $time = strtotime(date('Y-m-d'));
         list($start_time,$end_time) = [$time,$time+3600*24];
         $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
