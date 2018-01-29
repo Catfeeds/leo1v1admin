@@ -1039,8 +1039,8 @@ class wx_teacher_api extends Controller
         $ret_info['teacherid'] = $this->t_lesson_info->get_teacherid($lessonid);
 
         // $checkIsFullTime = $this->t_teacher_info->checkIsFullTime($ret_info['teacherid']);
-
-        if($ret_info['lesson_del_flag']==1){
+        $success_flag = $this->t_test_lesson_subject_sub_list->get_success_flag($lessonid);
+        if($ret_info['lesson_del_flag']==1 || $success_flag==2){
             $ret_info['status'] = 2;
         }
 
