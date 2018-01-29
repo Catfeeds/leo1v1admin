@@ -143,6 +143,7 @@ class seller_student_system_assign extends cmd_base
             "no_connected_count_assigned" => $ret_info["assigned_no_connected_count_all"] + $no_connnected_ret_info["assigned_count"],
 
         ]);
+        echo 'ok!';
 
 
     }
