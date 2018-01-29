@@ -76,7 +76,6 @@ class seller_student_system_free extends cmd_base
             }
         }else { //  free -1 day
             $check_free_list= $this->task->t_seller_student_new_b2->get_need_check_free_list();
-            $free_flag=false;
             foreach( $check_free_list as $item ) {
                 $admin_revisiterid = $item["admin_revisiterid"];
                 $userid = $item["userid"];
@@ -84,6 +83,7 @@ class seller_student_system_free extends cmd_base
                     'admind' => $admin_revisiterid,
                     'userid' => $userid,
                 ];
+                $free_flag=false;
                 $admin_assign_time= $item["admin_assign_time"];
                 if ($admin_assign_time < $today_start_time ) { //今天之前的例子都free
                     $free_flag=true;
