@@ -27,6 +27,7 @@ $(function(){
         // return;
         if(g_account !="jack" && g_account!= "jim" && g_account != "ted" && g_account!="江敏"){
             BootstrapDialog.alert("没有权限!!!");
+            return;
         }
         $.do_ajax( '/ajax_deal3/get_teacher_advance_require_detail_info', {
             'start_time' :g_args.start_time,
@@ -187,6 +188,7 @@ $(function(){
         // return;
         if(g_account !="jack" && g_account!= "jim" && g_account != "ted" && g_account!="江敏"){
             BootstrapDialog.alert("没有权限!!!");
+            return;
         }
         $.do_ajax( '/ajax_deal3/get_teacher_advance_require_detail_info', {
             'start_time' :g_args.start_time,
