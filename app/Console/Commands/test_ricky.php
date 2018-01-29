@@ -44,13 +44,6 @@ class test_ricky extends Command
         //90分钟 --- 排课时间、课程ID、老师姓名、学生姓名、上课时间、助教姓名、学生合同创建时间（第一份合同）
         // 常规课表
         $info = $task->t_week_regular_course->get_all_info();
-        // $arr = [1,2,3,4,5,6,7];
-        // foreach($arr as $val) {
-        //     echo $val;
-        //     if ($val <= 3) echo "2018-1-".(28 + $val)." ";
-        //     else echo "2018-2-".($val - 3)." ";
-        // }
-        // exit;
         foreach($info as $item) {
             $teacherid = $item["teacherid"];
             $userid = $item["userid"];
@@ -58,12 +51,20 @@ class test_ricky extends Command
             $date = $start_time[0];
             $time = $start_time[1];
             $count = ($item["end_time"] * 100) - ($time * 100);
-            if ($count) {
+            if ($count >= 80 && $count <= 100) {
                 if ($date <= 3) $start_time = strtotime("2018-1-".(28 + $date)." ".$time);
                 else $start_time = strtotime("2018-2-".($date - 3)." ".$time);
-                echo date("Y-m-d H:i:s", $start_time);
                 $lesson = $task->t_week_regular_course->get_info_for_start_time($teacherid, $userid, $start_time);
-                var_dump($lesson);
+                if ($lesson) {
+                    echo date("Y-m-d H:i:s", $lesson["operate_time"]).",";
+                    echo $lesson["lessonid"].",";
+                    echo $task->cache_get_teacher_nick($teacherid).",";
+                    echo $task->cache_get_student_nick($userid).",";
+                    echo date("Y-m-d H:i:s", $lesson["lesson_start"]).",";
+                    echo $task->cache_get_assistant_nick($lesson["assistantid"]).",";
+                    $order = $task->t_teacher_feedback_list->get_order_list($userid);
+                    echo date("Y-m-d H:i:s", $order).PHP_EOL;
+                }
             }
         }
         exit;
