@@ -504,19 +504,27 @@ class tongji_ex extends Controller
         $list = $this->t_seller_get_new_log->get_all_list($start_time,$end_time);
         foreach($list as $item){
             $list_info[$item['userid']]['userid'] = isset($list_info[$item['userid']]['userid'])?$list_info[$item['userid']]['userid']:$item['userid'];
+            $list_info[$item['userid']]['phone'] = isset($list_info[$item['userid']]['phone'])?$list_info[$item['userid']]['phone']:$item['phone'];
             $list_info[$item['userid']]['list'][$item['adminid']] = isset($list_info[$item['userid']]['list'][$item['adminid']])?$list_info[$item['userid']]['list'][$item['adminid']]:$item;
             $list_info[$item['userid']]['add_time'] = isset($list_info[$item['userid']]['add_time'])?$list_info[$item['userid']]['add_time']:date('Y-m-d H:i:s',$item['add_time']);
         }
         $num = 0;
+        $list = [];
         foreach($list_info as $userid=>$item){
             $num++;
-            $list_info[$userid]['num'] = $num;
+            $list[$userid]['num'] = $num;
+            $list[$userid]['userid'] = $userid;
+            $list[$userid]['phone'] = $item['phone'];
+            $desc = '';
             foreach($item['list'] as $adminid=>$info){
-                $list_info[$userid]['list'][$adminid]['account'] = $this->cache_get_account_nick($adminid);
-                $list_info[$userid]['list'][$adminid]['create_time'] = date('Y-m-d H:i:s',$info['create_time']);
-                $list_info[$userid]['list'][$adminid]['cc_end'] = $info['cc_end']==1?'客户':'销售';
+                $account = $this->cache_get_account_nick($adminid);
+                $create_time = date('Y-m-d H:i:s',$info['create_time']);
+                $end = $info['cc_end']==1?'客户':'销售';
+                $desc .= "[抢单人:".$account.',拨通次数:'.$info['called_count'].',未拨通次数'.$info['no_called_count'].',挂机人:'.$end.',抢单时间:'.$create_time."];";
             }
+            $list[$userid]['desc'] = $desc;
+            $list[$userid]['add_time'] = $item['add_time'];
         }
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list_info),['data_ex_list'=>$ret]);
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list),['data_ex_list'=>$ret]);
     }
 }

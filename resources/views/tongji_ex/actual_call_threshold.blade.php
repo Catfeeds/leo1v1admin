@@ -12,13 +12,6 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
-
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
-                    </div>
-                </div>
             </div>
         </div>
         <hr/>
@@ -40,7 +33,7 @@
                     <tr>
                         <td>{{@$var["num"]}} </td>
                         <td>{{@$var["phone"]}} </td>
-                        <td></td>
+                        <td>{{@$var["desc"]}} </td>
                         <td>{{@$var["add_time"]}} </td>
                         <td>
                             <div
@@ -57,5 +50,4 @@
         </table>
         @include("layouts.page")
     </section>
-
 @endsection

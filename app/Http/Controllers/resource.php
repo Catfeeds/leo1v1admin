@@ -1079,7 +1079,7 @@ class resource extends Controller
                 $file_type = trim( strrchr($data['file_type'], '/'), '/' );
                 $resource_id = $data['resource_id'];
                 $file_use_type = $data['file_use_type'];
-                $file_size = round( $data('file_size')/1024, 2);
+                $file_size = round( $data['file_size']/1024, 2);
                 if ($file_use_type == 3){
                     if($is_reupload == 0){
                         $ex_num_max = $this->t_resource_file->get_max_ex_num($resource_id);

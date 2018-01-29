@@ -562,7 +562,7 @@ $(function(){
                 get_sub_grade_tag(subject,grade,bookid,resource,season_id,obj);
 
             })
-        },false,700);
+        },false,800);
     };
 
     var change_tag = function(val){

@@ -19,7 +19,7 @@ $(function(){
         ;
         var html_node = $("<div></div>").html(html_txt);
 
-        var url = "";
+        var data_url = "";
 
         BootstrapDialog.show({
             title           : "添加数据下载地址",
@@ -30,8 +30,8 @@ $(function(){
             custom_qiniu_upload("id_upload_add_tmp","id_container_add_tmp",g_args.qiniu_upload_domain_url,true,
             function (up, info, file){
                 var res = $.parseJSON(info);
-                url = g_args.qiniu_upload_domain_url + res.key;
-                html_node.find(".pic_url").html(url);
+                data_url = g_args.qiniu_upload_domain_url + res.key;
+                html_node.find(".data_url").html(data_url);
             });
 
             }
