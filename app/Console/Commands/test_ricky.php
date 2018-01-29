@@ -63,7 +63,7 @@ class test_ricky extends Command
                     echo $task->cache_get_teacher_nick($teacherid).",";
                     echo $task->cache_get_student_nick($userid).",";
                     echo date("Y-m-d H:i:s", $lesson["lesson_start"]).",";
-                    echo ($lesson["lesson_count"] / 100)."课时";
+                    echo ($lesson["lesson_count"] / 100)."课时".",";
                     echo $task->cache_get_assistant_nick($lesson["assistantid"]).",";
                     $order = $task->t_teacher_feedback_list->get_order_list($userid);
                     echo date("Y-m-d H:i:s", $order).PHP_EOL;
