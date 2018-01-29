@@ -809,7 +809,6 @@ class seller_student_new extends Controller
             \App\Helper\Common::redis_set($key, $userid );
 
             //抢新log
-            
             $ret_log = $this->t_seller_get_new_log->get_row_by_adminid_userid($adminid,$userid);
             if(!$ret_log){
                 $this->t_seller_get_new_log->row_insert([
