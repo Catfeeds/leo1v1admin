@@ -62,6 +62,7 @@ class seller_student_system_free extends cmd_base
                 }
 
                 if ($free_flag) {
+                    \App\Helper\Utils::logger("例子释放分析-1userid:$userid adminid:$admin_revisiterid");
                     //清空
                     $userid_list=[$userid];
                     $opt_type ="" ;
@@ -91,7 +92,7 @@ class seller_student_system_free extends cmd_base
                 if ($free_flag) {
                     $today_start_time_str = date('Y-m-d H:i:s',$today_start_time);
                     $admin_assign_time_str = date('Y-m-d H:i:s',$admin_assign_time);
-                    \App\Helper\Utils::logger("例子释放分析userid:$userid adminid:$admin_revisiterid today_start_time_str:$today_start_time_str admin_assign_time_str:$admin_assign_time_str");
+                    \App\Helper\Utils::logger("例子释放分析-2userid:$userid adminid:$admin_revisiterid today_start_time_str:$today_start_time_str admin_assign_time_str:$admin_assign_time_str");
                     //清空
                     $userid_list=[$userid];
                     $opt_type ="" ;
