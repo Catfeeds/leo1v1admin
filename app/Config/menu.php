@@ -585,6 +585,7 @@ class menu{
                 ["power_id"=>67, "name"=>"教师排课信息",   "url"=>"/human_resource/teacher_info_for_seller" ],
                 ["power_id"=>75, "name"=>"试听排课",   "url"=>"/seller_student_new2/test_lesson_plan_list_seller"],
                 ["power_id"=>68, "name"=>"老师推荐",   "url"=>"/human_resource/index_seller" ],
+                ["power_id"=>69, "name"=>"精品老师",   "url"=>"/human_resource/get_elite_teacher_list" ],
                 ["power_id"=>76, "name"=>"暂停试听课老师",   "url"=>"/human_resource/index_new_seller_hold" ],
 
                 ["power_id"=>66, "name"=>"课堂状态-销售",   "url"=>"/supervisor/monitor_seller"],
