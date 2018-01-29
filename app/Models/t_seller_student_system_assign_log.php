@@ -32,8 +32,8 @@ class t_seller_student_system_assign_log extends \App\Models\Zgen\z_t_seller_stu
         $this->where_arr_add_time_range($where_arr, "logtime", $start_time, $end_time);
         $sql=$this->gen_sql_new(
             "select adminid,"
-            . " sum(seller_student_assign_from_type=0 ) as new_count , "
-            . " sum(seller_student_assign_from_type=1 ) as no_connected_count "
+            . " sum(seller_student_assign_from_type=0 and (check_hold_flag = 0 or check_hold_flag = '')) as new_count , "
+            . " sum(seller_student_assign_from_type=1 and (check_hold_flag = 0 or check_hold_flag = '')) as no_connected_count "
             . "from %s  "
             . "where %s group by adminid  "
             ,

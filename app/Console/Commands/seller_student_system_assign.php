@@ -88,7 +88,7 @@ class seller_student_system_assign extends cmd_base
             $item["hold_count"]=$this->task->t_seller_student_new_b2->admin_hold_count($adminid);//私海数量
             $item["max_hold_count"] = @$hold_config[$seller_level];
             \App\Helper\Utils::logger("$adminid:". $item["hold_count"]."." .$item["max_hold_count"]  );
-            $admin_list['work_start_time'] = $work_start_time_map[$adminid]['work_start_time'];
+            // $admin_list['work_start_time'] = $work_start_time_map[$adminid]['work_start_time'];
             //$need_work_flag
             $add_flag= true;
             if ($need_work_flag) {
@@ -236,7 +236,7 @@ class seller_student_system_assign extends cmd_base
                             $opt_type=0;
                             $account="系统分配-新例子";
                             $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, $opt_type,$account);
-                            $check_hold_flag = 1;
+                            $check_hold_flag = false;
                             $this->task->t_seller_student_system_assign_log->add(
                                 E\Eseller_student_assign_from_type::V_0, $find_userid, $opt_adminid,$check_hold_flag
                             );
