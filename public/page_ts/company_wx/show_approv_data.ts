@@ -77,4 +77,8 @@ $(function(){
         $.do_ajax("/company_wx/pull_approve_data", {});
     });
 
+    $(".download").on("click", function() {
+        $.do_ajax("/company_wx/download_log",{});
+    });
+
 });

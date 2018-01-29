@@ -853,4 +853,11 @@ class company_wx extends Controller
         }
         return $this->output_err('管理后台无此账号');
     }
+
+    // 下载日志
+    public function download_log() {
+        $account = $this->get_account();
+        $this->t_user_log->add_data($account.":拉取数据审批页下载数据");
+        return $this->output_succ();
+    }
 }
