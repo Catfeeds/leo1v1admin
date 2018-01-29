@@ -584,7 +584,6 @@ class tongji_ex extends Controller
                     $called_count++;
                 }
             }
-            dd($call_count,$called_count,$item);
             $ret_origin_info[$origin_level]['call_count'] = $call_count;
             $ret_origin_info[$origin_level]['called_count'] = $called_count;
             $ret_origin_info[$origin_level]['rate'] = $call_count>0?((round($called_count/$call_count, 4)*100).'%'):0;
