@@ -1477,4 +1477,15 @@ class ss_deal2 extends Controller
     }
 
 
+    public function set_sys_invaild_flag_list() {
+        $userid_list=$this->get_in_int_list("userid_list");
+        $sys_invaild_flag= $this->get_in_int_val("sys_invaild_flag");
+        foreach ( $userid_list as $userid) {
+            $this->t_seller_student_new->field_update_list($userid, [
+                "sys_invaild_flag" =>$sys_invaild_flag,
+            ]);
+        }
+        return $this->output_succ();
+    }
+
 }
