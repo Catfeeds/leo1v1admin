@@ -311,4 +311,10 @@ class test_bacon extends Controller
         }
         dd($jin_tag);
     }
+
+    public function change_resource(){
+        $data = $this->t_resource_file->get_resource_list();
+        dd($data);
+        
+    }
 }
