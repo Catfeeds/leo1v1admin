@@ -3,9 +3,23 @@
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
+
+    var res_type = 0;
+    if($('#id_use_type').val() == 1){
+        if( $('#id_resource_type').val() >7) {
+            res_type = 1;
+        } else {
+            res_type = $('#id_resource_type').val();
+        }
+    } else if ($('#id_use_type').val() == 2){
+        res_type = 9;
+    } else {
+        res_type = 8;
+    }
+
     $.reload_self_page ( {
         use_type:	$('#id_use_type').val(),
-        resource_type:	$('#id_resource_type').val(),
+        resource_type:	res_type,
         subject:	$('#id_subject').val(),
         grade:	$('#id_grade').val(),
         tag_one:	$('#id_tag_one').val(),
@@ -81,8 +95,19 @@ $(function(){
         $(obj).append(pro);
 
     }
-    Enum_map.append_option_list("use_type", $("#id_use_type"),true);
-    Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6,7,9]);
+    Enum_map.append_option_list("use_type", $("#id_use_type"),true,[1,2]);
+
+     if(g_args.use_type == 1){
+        Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[1,2,3,4,5,6,7]);
+        $('#id_resource_type').val(g_args.resource_type);
+    } else if (g_args.use_type == 2){
+        Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[9]);
+        $('#id_resource_type').val(9);
+    } else {
+        Enum_map.append_option_list("resource_type", $("#id_resource_type"),true,[8]);
+        $('#id_resource_type').val(8);
+    }
+
     Enum_map.append_option_list("subject", $("#id_subject"));
     Enum_map.append_option_list("grade", $("#id_grade"));
     if(tag_one != ''){
