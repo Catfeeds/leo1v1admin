@@ -297,6 +297,7 @@ class seller_student_system_assign extends cmd_base
         foreach( $origin_level_list as $origin_level ) {
             if ( isset($level_map[$origin_level]) && count( $level_map[$origin_level])>0 ) {
                 $find_level_map_item=  &$level_map[$origin_level];//每个等级的用户
+                break;
             }
         }
 
@@ -304,9 +305,11 @@ class seller_student_system_assign extends cmd_base
             foreach ( $level_map as  &$level_item  )  {
                 if (count($level_item)>0 ) {
                     $find_level_map_item =&$level_item;//检查？？
+                    break;
                 }
             }
         }
+
         $find_userid=0;
         if ($find_level_map_item)  {
             foreach($find_level_map_item as  $userid => $value) {

@@ -145,7 +145,7 @@ class resource extends Controller
         }
 
         return $this->pageView( __METHOD__,$ret_info,[
-            '_publish_version'    => 20180129131439,
+            '_publish_version'    => 20180129151439,
             'tag_info'      => $tag_arr,
             'subject'       => json_encode($sub_grade_info['subject']),
             'grade'         => json_encode($sub_grade_info['grade']),
@@ -1198,6 +1198,7 @@ class resource extends Controller
                     $this->t_resource_file->update_file_status($id, 0);
                 } else if ($type == 6){//彻底删除
                     $this->t_resource->field_update_list($id, ['is_del' => 2]);
+                    $this->t_resource_file->update_file_status($id, 2);
                 }
 
             }
@@ -1233,7 +1234,7 @@ class resource extends Controller
     public function get_del() {
 
         $use_type      = $this->get_in_int_val('use_type', 1);
-        $resource_type = $this->get_in_int_val('resource_type', 1);
+        $resource_type = $this->get_in_int_val('resource_type',1);
         $subject       = $this->get_in_int_val('subject', -1);
         $grade         = $this->get_in_int_val('grade', -1);
         $tag_one       = $this->get_in_int_val('tag_one', -1);
@@ -1242,10 +1243,78 @@ class resource extends Controller
         $tag_four      = $this->get_in_int_val('tag_four', -1);
         $tag_five      = $this->get_in_int_val('tag_five', -1);
         $file_title    = $this->get_in_str_val('file_title', '');
+        $is_del        = $this->get_in_int_val('is_del', 1);
+        $status        = $this->get_in_int_val('status', 1);
         $page_info     = $this->get_in_page_info();
 
         $ret_info = $this->t_resource->get_all(
-            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$file_title, $page_info,1
+            $use_type ,$resource_type, $subject, $grade, $tag_one, $tag_two, $tag_three, $tag_four,$tag_five,$file_title, $page_info,$is_del,$status
+        );
+        $r_mark = 0;
+        $index  = 1;
+        $tag_arr = \App\Helper\Utils::get_tag_arr( $resource_type );
+
+        // dd($ret_info);
+        $tag_arr = \App\Helper\Utils::get_tag_arr($resource_type);
+        foreach($ret_info['list'] as &$item){
+            if($r_mark == $item['resource_id']){
+                $index++;
+            } else {
+                $r_mark = $item['resource_id'];
+                $index = 1;
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            \App\Helper\Utils::get_file_use_type_str($item, $index);
+            $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
+            $item['file_size'] = round( $item['file_size'] / 1024,2);
+
+            $item['tag_one_name'] = $tag_arr['tag_one']['name'];
+            $item['tag_two_name'] = $tag_arr['tag_two']['name'];
+            $item['tag_three_name'] = $tag_arr['tag_three']['name'];
+            $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
+            $item['tag_five_name'] = @$tag_arr['tag_five']['name'];
+            // dd($item);
+            E\Egrade::set_item_field_list($item, [
+                "subject",
+                "grade",
+                "resource_type",
+                "use_type",
+                $tag_arr['tag_one']['menu'] => 'tag_one',
+                $tag_arr['tag_two']['menu'] => 'tag_two',
+                $tag_arr['tag_three']['menu'] => 'tag_three',
+                $tag_arr['tag_four']['menu'] => 'tag_four',
+                $tag_arr['tag_five']['menu'] => 'tag_five',
+            ]);
+            $item['tag_one_str'] = E\Eregion_version::get_desc($item['tag_one']);
+
+            if( $item['resource_type'] == 1 ){
+                $item['tag_five_str'] = E\Eresource_diff_level::get_desc($item['tag_five']);
+            }else{
+                $item['tag_five_str'] = E\Eresource_volume::get_desc($item['tag_five']);
+            }
+            if($item['resource_type'] == 3 ) {
+                $item['tag_three_str'] = E\Eresource_diff_level::get_desc($item['tag_three']);
+            }
+
+        }
+
+        return $this->pageView( __METHOD__,$ret_info,['tag_info' => $tag_arr]);
+    }
+
+    //查询被彻底删除的文件
+    public function get_total_del() {
+
+        $use_type      = $this->get_in_int_val('use_type', -1);
+        $resource_type = $this->get_in_int_val('resource_type',-1);
+        $subject       = $this->get_in_int_val('subject', -1);
+        $grade         = $this->get_in_int_val('grade', -1);
+        $file_title    = $this->get_in_str_val('file_title', '');
+        $is_del        = $this->get_in_int_val('is_del', -1);
+        $status        = $this->get_in_int_val('status', 1);
+        $page_info     = $this->get_in_page_info();
+
+        $ret_info = $this->t_resource->get_total_del(
+            $use_type ,$resource_type, $subject, $grade,$file_title, $page_info,$is_del,$status
         );
         $r_mark = 0;
         $index  = 1;

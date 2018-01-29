@@ -71,8 +71,15 @@ class t_seller_get_new_log extends \App\Models\Zgen\z_t_seller_get_new_log
         return $this->main_get_list($sql);
     }
 
-    public function get_all_list($start_time,$end_time){
-        $where_arr = [];
+    public function get_all_list($start_time,$end_time,$adminid=-1,$called_flag=-1){
+        $where_arr = [
+            ['l.adminid=%u',$adminid,-1],
+        ];
+        if($called_flag==0){
+            $where_arr[] = 'l.called_count=0';
+        }elseif($called_flag==1){
+            $where_arr[] = 'l.called_count>0';
+        }
         $this->where_arr_add_time_range($where_arr, 'l.create_time', $start_time, $end_time);
         $sql = $this->gen_sql_new(
             " select l.*,n.add_time,n.phone ".
@@ -84,5 +91,22 @@ class t_seller_get_new_log extends \App\Models\Zgen\z_t_seller_get_new_log
             ,$where_arr
         );
         return $this->main_get_list($sql);
+    }
+
+    public function get_cc_end_count($adminid,$start_time,$end_time){
+        $where_arr = [
+            'called_count>0',
+        ];
+        $this->where_arr_add_int_field($where_arr, 'adminid', $adminid);
+        $this->where_arr_add_int_field($where_arr, 'cc_end', 0);
+        $this->where_arr_add_time_range($where_arr, 'create_time', $start_time, $end_time);
+        $sql = $this->gen_sql_new(
+            " select count(userid) ".
+            " from %s ".
+            " where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
     }
 }

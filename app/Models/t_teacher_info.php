@@ -302,7 +302,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             
         }
         if($elite_flag==1){
-            $where_arr[]="t.teacher_money_type=7";
+            $where_arr[]="t.callcard_url <> ''";
         }
 
 
