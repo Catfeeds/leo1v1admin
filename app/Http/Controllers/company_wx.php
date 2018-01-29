@@ -395,14 +395,30 @@ class company_wx extends Controller
         return $info;
     }
 
+    public function show_approv_data_self() {
+        $adminid = $this->get_account_id();
+        $phone = $this->t_manager_info->get_phone($adminid);
+        $userid = $this->t_company_wx_users->get_userid_for_adminid($phone);
+        if ($userid) {
+            $this->set_in_value("userid", $userid);
+            return $this->show_approv_data();
+        } else {
+            exit("您企业微信中的手机号与后台不一致，请联系后台管理员更改手机号");
+        }
+    }
+
     public function show_approv_data() {
-        $info = $this->t_company_wx_approval_data->get_all_list();
+        $userid = $this->get_in_int_val("userid", -1);
+        $flag = false;
+        if ($userid == -1) $flag = true;
+        $info = $this->t_company_wx_approval_data->get_all_list($userid);
         foreach($info as &$item) {
             $item["apply_time"] = date("Y-m-d H:i:s", $item["apply_time"]);
             $item['require_time'] = date("Y-m-d H:i:s", $item["require_time"]);
         }
         return $this->pageView(__METHOD__, '', [
             'info' => $info,
+            "flag" => $flag
         ],[
             'qiniu_upload_domain_url' =>Config::get_qiniu_public_url()."/"
         ]);
