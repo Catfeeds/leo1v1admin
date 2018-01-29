@@ -58,9 +58,10 @@ class test_ricky extends Command
             $date = $start_time[0];
             $time = $start_time[1];
             $count = ($item["end_time"] * 100) - ($time * 100);
-            if ($count >= 80 && $count <= 100) {
+            if ($count) {
                 if ($date <= 3) $start_time = strtotime("2018-1-".(28 + $date)." ".$time);
-                else $start_time = strtotime("2018-2-".($start_time[1])." ".$time);
+                else $start_time = strtotime("2018-2-".($date - 3)." ".$time);
+                echo date("Y-m-d H:i:s", $start_time);
                 $lesson = $task->t_week_regular_course->get_info_for_start_time($teacherid, $userid, $start_time);
                 var_dump($lesson);
             }
