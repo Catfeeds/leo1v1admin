@@ -512,11 +512,14 @@ class tongji_ex extends Controller
         foreach($list_info as $userid=>$item){
             $num++;
             $list_info[$userid]['num'] = $num;
+            $desc = '';
             foreach($item['list'] as $adminid=>$info){
-                $list_info[$userid]['list'][$adminid]['account'] = $this->cache_get_account_nick($adminid);
-                $list_info[$userid]['list'][$adminid]['create_time'] = date('Y-m-d H:i:s',$info['create_time']);
-                $list_info[$userid]['list'][$adminid]['cc_end'] = $info['cc_end']==1?'客户':'销售';
+                $account = $this->cache_get_account_nick($adminid);
+                $create_time = date('Y-m-d H:i:s',$info['create_time']);
+                $end = $info['cc_end']==1?'客户':'销售';
+                $desc .= "[抢单人:".$account.',拨通次数:'.$info['called_count'].',未拨通次数'.$info['no_called_count'].',挂机人:'.$end.',抢单时间:'.$create_time.'],';
             }
+            $list_info[$userid]['desc'] = $desc;
         }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list_info),['data_ex_list'=>$ret]);
     }
