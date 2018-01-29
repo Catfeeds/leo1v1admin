@@ -441,17 +441,11 @@ class agent extends Controller
     }
 
     public function test_new(){
-        list($start_time,$end_time) = [1517137200,1517137860];
-        $cmd= new \App\Console\Commands\sync_tianrun();
-        $count=$cmd->load_data($start_time,$end_time);
-        dd($count);
-        $last_get_time = $this->t_seller_get_new_log->get_last_get_time($adminid=743);
-        if(time()-$last_get_time<660){
-            list($start_time,$end_time) = [$last_get_time,time()];
-            $cmd= new \App\Console\Commands\sync_tianrun();
-            $count=$cmd->load_data($start_time,$end_time);
-        }
-        dd($last_get_time);
+        // $last_get_time = $this->t_seller_get_new_log->get_last_get_time($adminid);
+        // if(time()-$last_get_time<660){
+        //     $cmd= new \App\Console\Commands\sync_tianrun();
+        //     $count=$cmd->load_data($last_get_time,time());
+        // }
         list($start_time,$end_time)=$this->get_in_date_range_day(-1);
         $ret = $this->t_tq_call_info->get_cc_end_list($adminid=743,$start_time, $end_time);
         dd($ret);
