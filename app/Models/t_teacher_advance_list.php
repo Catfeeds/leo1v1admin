@@ -153,6 +153,31 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
         return $list;
     }
 
+    public function get_teacher_advance_require_detail_data($start_time){
+        $where_arr=[
+            ["start_time = %u",$start_time,0],
+        ];
+        $sql = $this->gen_sql_new("select sum(if(require_time>0,1,0)) advance_require_num,"
+                                  ." sum(if(require_time>0 and advance_first_trial_flag=0,1,0)) first_advance_no_deal_num,"
+                                  ." sum(if(require_time>0 and advance_first_trial_flag=1,1,0)) first_advance_agree_num,"
+                                  ." sum(if(require_time>0 and advance_first_trial_flag=2,1,0)) first_advance_refund_num,"
+                                  ." sum(if(require_time>0 and accept_flag=0,1,0)) second_advance_no_deal_num,"
+                                  ." sum(if(require_time>0 and accept_flag=1,1,0)) second_advance_agree_num,"
+                                  ." sum(if(require_time>0 and accept_flag=2,1,0)) second_advance_refund_num,"
+                                  ." sum(if(withhold_require_time,1,0)) withhold_require_num,"
+                                  ." sum(if(withhold_require_time>0 and withhold_first_trial_flag=0,1,0)) first_withhold_no_deal_num,"
+                                  ." sum(if(withhold_require_time>0 and withhold_first_trial_flag=1,1,0)) first_withhold_agree_num,"
+                                  ." sum(if(withhold_require_time>0 and withhold_first_trial_flag=2,1,0)) first_withhold_refund_num,"
+                                  ." sum(if(withhold_require_time>0 and withhold_final_trial_flag=0,1,0))  second_withhold_no_deal_num,"
+                                  ." sum(if(withhold_require_time>0 and withhold_final_trial_flag=1,1,0))  second_withhold_agree_num,"
+                                  ." sum(if(withhold_require_time>0 and withhold_final_trial_flag=2,1,0))  second_withhold_refund_num"
+                                  ." where %s  ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
 }
 
 

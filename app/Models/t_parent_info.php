@@ -325,7 +325,7 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
             "p.wx_openid != ''",
         ];
 
-        $sql = $this->gen_sql_new("  select p.wx_openid,p.nick,s.userid from %s p "
+        $sql = $this->gen_sql_new("  select p.parentid, p.wx_openid,p.nick,s.userid from %s p "
                                   ." left join %s s on p.parentid=s.parentid"
                                   ." where %s group by p.parentid"
                                   ,self::DB_TABLE_NAME

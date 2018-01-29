@@ -17,12 +17,13 @@ class t_seller_student_system_assign_log extends \App\Models\Zgen\z_t_seller_stu
         return $this->main_get_value($sql)>=1;
     }
 
-    public function add( $seller_student_assign_from_type,$userid,  $adminid){
+    public function add( $seller_student_assign_from_type,$userid,  $adminid,$check_hold_flag){
        $this->row_insert([
            "userid" => $userid  ,
            "logtime" => time(NULL),
            "adminid" => $adminid ,
            "seller_student_assign_from_type" => $seller_student_assign_from_type,
+           'check_hold_flag' => $check_hold_flag
        ]);
     }
 
@@ -31,8 +32,8 @@ class t_seller_student_system_assign_log extends \App\Models\Zgen\z_t_seller_stu
         $this->where_arr_add_time_range($where_arr, "logtime", $start_time, $end_time);
         $sql=$this->gen_sql_new(
             "select adminid,"
-            . " sum(seller_student_assign_from_type=0 ) as new_count , "
-            . " sum(seller_student_assign_from_type=1 ) as no_connected_count "
+            . " sum(seller_student_assign_from_type=0 and check_hold_flag = 0) as new_count , "
+            . " sum(seller_student_assign_from_type=1 and check_hold_flag = 0) as no_connected_count "
             . "from %s  "
             . "where %s group by adminid  "
             ,
@@ -54,6 +55,20 @@ class t_seller_student_system_assign_log extends \App\Models\Zgen\z_t_seller_stu
         );
 
         return $this->main_get_list($sql);
+    }
+    //@desn:释放例子时更新系统释放状态为非系统释放
+    //@param:$userid 用户id
+    //@param:$admin_revisiterid 用户id
+    public function update_check_flag($userid,$admin_revisiterid){
+        $where_arr = [
+            "adminid = $admin_revisiterid",
+            "userid = $userid"
+        ];
+        $sql=sprintf("update %s set check_hold_flag = %u where %s  ",
+                     self::DB_TABLE_NAME,
+                     0,
+                     $where_arr);
+        return $this->main_update($sql);
     }
 
 }
