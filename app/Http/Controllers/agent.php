@@ -441,13 +441,22 @@ class agent extends Controller
     }
 
     public function test_new(){
+        list($start_time,$end_time) = [1517068800,1517153400];
+        $ret_call = $this->t_seller_get_new_log->get_list_by_time($start_time, $end_time,$call_flag=1);
+        $count_adminid = count(array_unique(array_column($ret_call, 'adminid')));
+        $count_call = count(array_unique(array_column($ret_call, 'userid')));
+        $ret_called = $this->t_seller_get_new_log->get_list_by_time($start_time=1517068800,$end_time=1517153400,$call_flag=2);
+        $count_called = count(array_unique(array_column($ret_called, 'userid')));
+        $rate = $count_call>0?(round($count_called/$count_call, 4)*100):0;
+        dd($count_call,$count_called,$rate,$count_adminid);
+
         // $last_get_time = $this->t_seller_get_new_log->get_last_get_time($adminid);
         // if(time()-$last_get_time<660){
         //     $cmd= new \App\Console\Commands\sync_tianrun();
         //     $count=$cmd->load_data($last_get_time,time());
         // }
         list($start_time,$end_time)=$this->get_in_date_range_day(-1);
-        $ret = $this->t_tq_call_info->get_cc_end_list($adminid=743,$start_time, $end_time);
+        $ret = $this->t_seller_get_new_log->get_cc_end_list($adminid=743,$start_time, $end_time);
         dd($ret);
         dd('http://'.$_SERVER['HTTP_HOST'].'/tongji_ex/actual_call_threshold');
         $time = strtotime(date('Y-m-d'));
