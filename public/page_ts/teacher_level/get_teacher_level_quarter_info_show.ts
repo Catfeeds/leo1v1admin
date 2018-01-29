@@ -387,7 +387,7 @@ $(function(){
         var teacherid = opt_data.teacherid;
         var teacher_money_type = opt_data.teacher_money_type;
         var str = "确认";
-        if(g_account=="ted" || g_account=="jimy"){
+        if(g_account=="ted" || g_account=="jimy" || g_account=="jack"){
             if(opt_data.accept_flag>0){
                 var id_accept_flag = $("<div>"+opt_data.accept_flag_str+"</div>");
             }else{
@@ -395,7 +395,7 @@ $(function(){
             }
             var id_advance_first_trial_flag= $("<div>"+opt_data.advance_first_trial_flag_str+"</div>") ;
 
-        }else if(g_account=="江敏" || g_account=="jim"){
+        }else if(g_account=="江敏" || g_account=="jim" || g_account=="jack"){
             var id_accept_flag = $("<div>"+opt_data.accept_flag_str+"</div>");
             if(opt_data.accept_flag>0){
                 var id_advance_first_trial_flag= $("<div>"+opt_data.advance_first_trial_flag_str+"</div>") ;
@@ -472,7 +472,7 @@ $(function(){
           var teacherid = opt_data.teacherid;
           var teacher_money_type = opt_data.teacher_money_type;
           var str = "确认";
-          if(g_account=="ted" || g_account=="jim"){
+          if(g_account=="ted" || g_account=="jim" || g_account=="jack"){
               if(opt_data.withhold_final_trial_flag>0){
                   var id_withhold_final_trial_flag = $("<div>"+opt_data.withhold_final_trial_flag_str+"</div>");
               }else{
@@ -480,7 +480,7 @@ $(function(){
               }
               var id_withhold_first_trial_flag= $("<div>"+opt_data.withhold_first_trial_flag_str+"</div>") ;
 
-          }else if(g_account=="江敏" || g_account=="jim"){
+          }else if(g_account=="江敏" || g_account=="jim" || g_account=="jack"){
               var id_withhold_final_trial_flag = $("<div>"+opt_data.withhold_final_trial_flag_str+"</div>");
               if(opt_data.withhold_final_trial_flag>0){
                   var id_withhold_first_trial_flag= $("<div>"+opt_data.withhold_first_trial_flag_str+"</div>") ;
