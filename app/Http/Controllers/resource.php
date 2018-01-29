@@ -55,7 +55,6 @@ class resource extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::get_file_use_type_str($item, $index);
             $item['nick'] = $this->cache_get_account_nick($item['visitor_id']);
-            $item['file_size'] = round( $item['file_size'] / 1024,2);
 
             $item['tag_one_name'] = $tag_arr['tag_one']['name'];
             $item['tag_two_name'] = $tag_arr['tag_two']['name'];
@@ -63,6 +62,7 @@ class resource extends Controller
             $item['tag_four_name'] = @$tag_arr['tag_four']['name'];
             $item['tag_five_name'] = @$tag_arr['tag_five']['name'];
             // dd($item);
+            $item['file_size_str'] = $item['file_size'] > 1024 ? round( $item['file_size'] / 1024,2)."M" : $item['file_size']."kb";
             E\Egrade::set_item_field_list($item, [
                 "subject",
                 "grade",

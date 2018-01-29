@@ -47,7 +47,8 @@ class t_resource extends \App\Models\Zgen\z_t_resource
             ." left join %s t on t.id=r.tag_four"
             ." where %s"
             ." and not exists ( select 1 from %s where file_id=v.file_id and v.create_time<create_time and visitor_type=0) "
-            ." order by r.resource_id desc,f.file_use_type"
+            //." order by r.resource_id desc,f.file_use_type"
+            ." order by r.resource_id desc,v.file_id desc"
             ,self::DB_TABLE_NAME
             ,t_resource_file::DB_TABLE_NAME
             ,t_resource_file_visit_info::DB_TABLE_NAME
