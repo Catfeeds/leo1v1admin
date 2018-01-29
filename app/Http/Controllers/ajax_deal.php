@@ -529,10 +529,14 @@ class ajax_deal extends Controller
         return $this->output_succ();
     }
 
+    # 获取统计图片信息
     public function getStatisticalChat(){
         $startTime = $this->get_in_int_val('startTime');
         $endTime   = $this->get_in_int_val('endTime');
         $ret_info = $this->t_product_feedback_list->getDataForChat($startTime,$endTime);
-
+        foreach($ret_info as &$item){
+            $item['lesson_problem_str'] = E\Elesson_problem::get_desc($item['lesson_problem']);
+        }
+        return $this->output_succ(['data'=>$ret_info]);
     }
 }
