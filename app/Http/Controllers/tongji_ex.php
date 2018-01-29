@@ -552,9 +552,11 @@ class tongji_ex extends Controller
                 $ret_report[$key]['time']=date('Y-m-d H:i:s',$item['create_time']);
             }
             if($item['new']==$rate_min){
+                $ret_rate[$rate_min]['type'] = '今最低';
                 $ret_rate[$rate_min]['rate'] = $item['new'].'%';
                 $ret_rate[$rate_min]['time'] = date('Y-m-d H:i:s',$item['create_time']);
             }elseif($item['new']==$rate_max){
+                $ret_rate[$rate_min]['type'] = '今最高';
                 $ret_rate[$rate_max]['rate'] = $item['new'].'%';
                 $ret_rate[$rate_max]['time'] = date('Y-m-d H:i:s',$item['create_time']);
             }
@@ -579,15 +581,16 @@ class tongji_ex extends Controller
             foreach($item as $info){
                 if($info['called_count']+$info['no_called_count']>0){
                     $call_count++;
-                }elseif($info['called_count']>0){
+                }
+                if($info['called_count']>0){
                     $called_count++;
                 }
             }
-            dd($call_count,$called_count,$item);
             $ret_origin_info[$origin_level]['call_count'] = $call_count;
             $ret_origin_info[$origin_level]['called_count'] = $called_count;
             $ret_origin_info[$origin_level]['rate'] = $call_count>0?((round($called_count/$call_count, 4)*100).'%'):0;
         }
-        dd($ret_report,$ret_rate,$ret_origin_info,$ret_origin);
+        $ret_info = [];
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),['ret_report'=>$ret_report,'ret_rate'=>$ret_rate,'ret_origin_info'=>$ret_origin_info]);
     }
 }

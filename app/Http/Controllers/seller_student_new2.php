@@ -594,9 +594,15 @@ class seller_student_new2 extends Controller
         return $this->pageView(__METHOD__, $ret_info );
     }
 
+    /**
+     * 2018年01月29日关闭抢单库功能
+     * 教务将使用新版排课,旧版的抢单库功能暂停使用!
+     */
     public function grab_test_lesson_plan(){
         $requireid   = $this->get_in_str_val("requireid");
         $grab_status = $this->get_in_int_val("grab_status",-1);
+
+        return $this->output_err("抢单库功能已关闭!");
 
         if($requireid=="" || $grab_status==-1){
             return $this->output_err("请确认是否选择申请及其所要改变状态!");
@@ -1461,10 +1467,12 @@ class seller_student_new2 extends Controller
                 $tea_phone = $teacher_info['phone'];
                 $require_info['teacher_info'] = $tea_nick."/".$tea_phone;
                 $require_info['lesson_time']  = \App\Helper\Utils::unixtime2date($lesson_info['lesson_start']);
+                $require_info['accept_status_str'] = E\Eaccept_status::get_desc($lesson_info['accept_status']);
             }else{
                 $require_info['teacherid']    = "";
                 $require_info['teacher_info'] = "";
                 $require_info['lesson_time']  = "";
+                $require_info['accept_status_str'] = "";
             }
 
             $identity       = $this->get_in_int_val("identity",$require_info['tea_identity']);

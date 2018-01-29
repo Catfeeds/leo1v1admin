@@ -2635,7 +2635,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ['s.userid = %d',$userid]
         ];
 
-        $sql = $this->gen_sql_new("select wx_openid from %s s".
+        $sql = $this->gen_sql_new("select p.wx_openid from %s s".
                                   " left join %s p on s.parentid = p.parentid ".
                                   " where %s ",
                                   self::DB_TABLE_NAME,
