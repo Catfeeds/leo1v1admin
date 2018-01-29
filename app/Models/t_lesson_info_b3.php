@@ -3532,4 +3532,22 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
 
     }
+
+    public function checkNeedSend($userid){
+        $where_arr = [
+            "(lesson_user_online_status in (0,1) or  f.flow_status = 2) ",
+            "l.lesson_del_flag=0",
+            "l.lesson_type=2",
+            "l.userid=$userid"
+        ];
+
+        $sql = $this->gen_sql_new("  select 1 from %s l "
+                                  ." left join %s f on l.lessonid= f.from_key_int "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_flow::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }

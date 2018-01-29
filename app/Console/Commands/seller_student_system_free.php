@@ -32,9 +32,12 @@ class seller_student_system_free extends cmd_base
         $check_time=strtotime(date("Y-m-d 14:30"));
         $today_start_time=strtotime(date("Y-m-d"));
         $now= time(NULL);
+        //cc开始工作时间表
         $work_start_time_map=$this->task->t_admin_work_start_time-> get_today_work_start_time_map();
+        //cc开始工作时间表
         $check_for_free_user_list=$this->task->t_admin_work_start_time-> get_today_work_start_time_map();
         if ($now>=$check_time ) {
+            //3天内分配未拨通的量
             $check_free_list= $this->task->t_seller_student_new_b2->get_need_check_free_list();
             foreach( $check_free_list as $item ) {
                 $admin_revisiterid = $item["admin_revisiterid"];
@@ -47,10 +50,12 @@ class seller_student_system_free extends cmd_base
                     }
                 }
                 if (!$free_flag) {
+                    //一般都为开始上班时间
                     $user_check_time= max( @$work_start_time_map[$admin_revisiterid]["work_start_time"], $admin_assign_time  );
                     //分配并上班6个小时 free
                     if ($now-$user_check_time>6*3600 ) {
-                        $free_flag=true;
+                        //TODO
+                        //$free_flag=true;
                     }
                 }
 
@@ -64,7 +69,27 @@ class seller_student_system_free extends cmd_base
                     $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, 0,$account);
                 }
             }
+        }else { //  free -1 day
+            $check_free_list= $this->task->t_seller_student_new_b2->get_need_check_free_list();
+            $free_flag=false;
+            foreach( $check_free_list as $item ) {
+                $admin_assign_time= $item["admin_assign_time"];
+                if ($admin_assign_time < $today_start_time ) { //今天之前的例子都free
+                    $free_flag=true;
+                }
+                if ($free_flag) {
+                    //清空
+                    $userid_list=[$userid];
+                    $opt_type ="" ;
+                    $opt_adminid= 0;
+                    $opt_type=0;
+                    $account="系统分配-回收例子";
+                    //echo "free $userid\n";
+                    $this->task->t_seller_student_new->set_admin_id_ex( $userid_list, $opt_adminid, 0,$account);
+                }
+            }
         }
+
     }
 
 }

@@ -24,7 +24,7 @@ class seller_student_system_assign extends cmd_base
     public function get_admin_info() {
         list($start_time, $end_time)=$this->task->get_in_date_range_day(0);
         \App\Helper\Utils::logger("deal :$start_time ,$end_time");
-
+        //等级对应配额[抢新]
         $config=\App\Helper\Config::get_seller_new_user_day_count();
 
         $work_start_time_map=$this->task->t_admin_work_start_time-> get_today_work_start_time_map();
@@ -45,46 +45,47 @@ class seller_student_system_assign extends cmd_base
 
         $need_no_connected_count_all=0;
         $assigned_no_connected_count_all=0;
-
+        //私海配额
         $hold_config=\App\Helper\Config::get_seller_hold_user_count();
 
         $admin_list=[];
         foreach ($tmp_admin_list as $key=> $item){ //
             $adminid=$item["uid"];
             $seller_level=$item["seller_level"];
-            $def_new_count=@$config[$seller_level];
+            $def_new_count=@$config[$seller_level]; //每日抢新配额
             if (!$def_new_count){
                 $def_new_count=0;
             }
-            $assigned_new_count = @$admin_assign_map[$adminid]["new_count"];
+            $assigned_new_count = @$admin_assign_map[$adminid]["new_count"];//已获取配额
             if (!$assigned_new_count){
                 $assigned_new_count=0;
             }
-            $assigned_no_connected_count = @$admin_assign_map[$adminid]["no_connected_count"];
+            $assigned_no_connected_count = @$admin_assign_map[$adminid]["no_connected_count"];//已获取未拨打数量
             if (! $assigned_no_connected_count ){
                 $assigned_no_connected_count=0;
             }
 
             //新例子
-            $item["def_new_count"] = $def_new_count;
+            $item["def_new_count"] = $def_new_count;//新例子配额
             if ( $def_new_count>$seller_max_new_count ) {
-                $seller_max_new_count = $def_new_count;
+                $seller_max_new_count = $def_new_count;//最大新例子配额[所有cc]
             }
-            $item["assigned_new_count"] = $assigned_new_count;
+            $item["assigned_new_count"] = $assigned_new_count;//已获取新例子
 
-            $need_new_count_all+=$def_new_count;
-            $assigned_new_count_all+= min( [$assigned_new_count, $def_new_count]);
+            $need_new_count_all+=$def_new_count; //新例子配额之和
+            $assigned_new_count_all+= min( [$assigned_new_count, $def_new_count]);//已获取例子之和
 
 
             //未拨通例子重新分配的个数
             $def_no_connected_count= 5;
-            $item["def_no_connected_count"] = $def_no_connected_count ;
-            $item["assigned_no_connected_count"] = $assigned_no_connected_count ;
+            $item["def_no_connected_count"] = $def_no_connected_count ;//配置未拨通数量
+            $item["assigned_no_connected_count"] = $assigned_no_connected_count ;//已获取未拨通数量
 
-            $need_no_connected_count_all+=$def_no_connected_count;
+            $need_no_connected_count_all+=$def_no_connected_count;//配置未拨通数量之和
+            //已获取未拨通数量之和
             $assigned_no_connected_count_all+= min([ $assigned_no_connected_count, $def_no_connected_count  ]);
             //得到每个人上限
-            $item["hold_count"]=$this->task->t_seller_student_new_b2->admin_hold_count($adminid);
+            $item["hold_count"]=$this->task->t_seller_student_new_b2->admin_hold_count($adminid);//私海数量
             $item["max_hold_count"] = @$hold_config[$seller_level];
             \App\Helper\Utils::logger("$adminid:". $item["hold_count"]."." .$item["max_hold_count"]  );
             //$need_work_flag
@@ -122,10 +123,10 @@ class seller_student_system_assign extends cmd_base
     {
         //$def_count=@$config[$seller_level];
         $ret_info=$this->get_admin_info();
-        $left_no_connected_count_all=$ret_info["left_no_connected_count_all"];
-        $left_new_count_all=$ret_info["left_new_count_all"];
-        $admin_list=$ret_info["admin_list"];
-        $seller_max_new_count = $ret_info["seller_max_new_count"];
+        $left_no_connected_count_all=$ret_info["left_no_connected_count_all"];//剩余未拨通数量之和
+        $left_new_count_all=$ret_info["left_new_count_all"];//还需总配额
+        $admin_list=$ret_info["admin_list"];//销售信息
+        $seller_max_new_count = $ret_info["seller_max_new_count"];//最大新例子配额
         $new_ret_info= $this->assign_new( $left_new_count_all,$admin_list ,$seller_max_new_count );
         $no_connnected_ret_info=$this->assign_no_connected( $left_no_connected_count_all,$admin_list  );
 
@@ -191,8 +192,11 @@ class seller_student_system_assign extends cmd_base
     public function get_no_connected_item( ) {
 
     }
-
+    //@param:$left_new_count_all 还需新例子数
+    //@param:$admin_list  所有销售列表
+    //@param:$seller_max_new_count 最大配额
     public function assign_new( $left_new_count_all, $admin_list,$seller_max_new_count  )  {
+        //待分配系统分配例子
         $need_deal_list=$this->task->t_seller_student_new_b2->get_need_new_assign_list(
             E\Etq_called_flag::V_0
         );
@@ -214,9 +218,9 @@ class seller_student_system_assign extends cmd_base
                 \App\Helper\Utils::logger(" DO count :$i");
 
                 foreach( $admin_list as &$item ) {
-                    $assigned_new_count=$item["assigned_new_count"];
+                    $assigned_new_count=$item["assigned_new_count"];//已获取新例子
                     $seller_level=$item["seller_level"];
-                    $def_new_count=$item["def_new_count"];
+                    $def_new_count=$item["def_new_count"];//新例子配额
                     $opt_adminid= $item["uid"];
 
                     \App\Helper\Utils::logger(" --> adminid: $opt_adminid, $i, def_new_count:$def_new_count , assigned_new_count:$assigned_new_count   ");
@@ -253,7 +257,8 @@ class seller_student_system_assign extends cmd_base
             "assigned_count" =>$assigned_count,
         ];
     }
-
+    //@param:$level_map 用户渠道等级arr
+    //@param:$seller_level cc等级
     public function get_assign_userid( &$level_map, $seller_level ){
         $seller_level_flag = floor( $seller_level/100);
 
@@ -270,6 +275,8 @@ class seller_student_system_assign extends cmd_base
             100 => "Z类",
         */
 
+        //E\Eorigin_level
+
         switch ( $seller_level_flag ) {
         case 1 :  //S级:所有
             $origin_level_list=[1, 2, 3, 4] ; break;
@@ -284,21 +291,21 @@ class seller_student_system_assign extends cmd_base
         $find_level_map_item=null;
         foreach( $origin_level_list as $origin_level ) {
             if ( isset($level_map[$origin_level]) && count( $level_map[$origin_level])>0 ) {
-                $find_level_map_item=  &$level_map[$origin_level];
+                $find_level_map_item=  &$level_map[$origin_level];//每个等级的用户
             }
         }
 
         if (!$find_level_map_item){ // 检查其他
             foreach ( $level_map as  &$level_item  )  {
                 if (count($level_item)>0 ) {
-                    $find_level_map_item =&$level_item;
+                    $find_level_map_item =&$level_item;//检查？？
                 }
             }
         }
         $find_userid=0;
         if ($find_level_map_item)  {
             foreach($find_level_map_item as  $userid => $value) {
-                $find_userid= $userid;
+                $find_userid= $userid; //用户id
                 break;
             }
             unset($find_level_map_item[$find_userid])  ;

@@ -123,7 +123,10 @@ class update_company_wx_data extends Command
                 $common['type'] = E\Eapproval_type::V_1;
             }
             $leave = json_decode($item['comm']['apply_data'], true);
-            $items = '';
+            $items = "";
+            // 1.初始化
+            $data_desc = $data_column = $require_reason = $require_time = "";
+
             foreach ($leave as $val) {
                 if ($item['spname'] == "武汉请假流") {
                     if ($val['title'] == '请假类型') {
@@ -139,8 +142,11 @@ class update_company_wx_data extends Command
                     $common['type'] = E\Eapproval_type::V_1;
                 }
                 if ($item['spname'] == '拉取数据审批') {
-                    if ($val['title'] == '数据类型') $common['reason'] = $val['value'];
-                    //if ($val['title'] == '需要时间') $common['start_time'] = $val['value'];
+                    // 2. 赋值
+                    if ($val['title'] == '数据描述') $data_desc = $val['value'];
+                    if ($val["title"] == "数据字段") $data_column = $val["value"];
+                    if ($val["title"] == "需求原因") $require_reason = $val["value"];
+                    if ($val['title'] == '需要时间') $require_time = ($val['value'] / 1000);
                     $common['type'] = E\Eapproval_type::V_4;
                 }
                 if ($item['spname'] == '费用申请') {
@@ -155,6 +161,28 @@ class update_company_wx_data extends Command
                 }
                 if (isset($val['value'])) $items[$val['title']] = $val['value'];
             }
+
+            // 3. 将数据添加到数据库中
+            if ($item["spname"] == "拉取数据审批") {
+                $info = $this->t_company_wx_approval_data->get_list_for_user_time($common["apply_user_id"], $common["apply_time"]);
+
+                if (!$info) {
+                    $data = [
+                        "apply_name" => $common["apply_name"],
+                        "apply_user_id" => $common["apply_user_id"],
+                        "apply_time" => $common["apply_time"],
+                        "data_desc" => $data_desc,
+                        "data_column" => $data_column,
+                        "require_reason" => $require_reason,
+                        "require_time" => $require_time
+                    ];
+                    $this->t_company_wx_approval_data->row_insert($data);
+                    echo "加载拉取数据审批成功";
+
+                }
+
+            }
+
             if ($items) $common['item'] = json_encode($items);
             // 添加数据
             $task->t_company_wx_approval->row_insert($common);

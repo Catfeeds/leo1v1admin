@@ -25,20 +25,25 @@ $(function(){
     $("#id_withhold_agree").on("click",function(){
         BootstrapDialog.alert("开发中!!!");
         return;
-        if(g_account !="jack" && g_account!= "jim" && g_account != "ted"){
+        if(g_account !="jack" && g_account!= "jim" && g_account != "ted" && g_account!="江敏"){
             BootstrapDialog.alert("没有权限!!!");
         }
 
         alert(111); 
     });
     $("#id_advance_agree").on("click",function(){
-        BootstrapDialog.alert("开发中!!!");
-        return;
-        if(g_account !="jack" && g_account!= "jim" && g_account != "ted"){
+        // BootstrapDialog.alert("开发中!!!");
+        // return;
+        if(g_account !="jack" && g_account!= "jim" && g_account != "ted" && g_account!="江敏"){
             BootstrapDialog.alert("没有权限!!!");
         }
+        $.do_ajax( '/ajax_deal3/get_teacher_advance_require_detail_info', {
+            'start_time' :g_args.start_time,
+        },function(resp){
+            console.log(resp.data);
+        });
 
-        alert(111);  
+
     });
 
 
@@ -80,7 +85,7 @@ $(function(){
     });
 
     $(".opt-advance-require-deal").on("click",function(){
-        if(g_account !="jack" && g_account!= "jim" && g_account != "ted"){
+        if(g_account !="jack" && g_account!= "jim" && g_account != "ted" && g_account!="江敏"){
             BootstrapDialog.alert("没有权限!!!");
             return;
         }
@@ -88,23 +93,73 @@ $(function(){
         var opt_data = $(this).get_opt_data();
         var teacherid = opt_data.teacherid;
         var teacher_money_type = opt_data.teacher_money_type;
+        var str = "确认";
+        if(g_account=="ted" || g_account=="jimy"){
+            if(opt_data.accept_flag>0){
+                var id_accept_flag = $("<div>"+opt_data.accept_flag_str+"</div>");
+            }else{
+                var id_accept_flag = $("<div><button class='btn btn-primary' data-flag='1'>同意</button><button class='btn' style='margin-left:30px' data-flag='2'>拒绝</button></div>"); 
+            }
+            var id_advance_first_trial_flag= $("<div>"+opt_data.advance_first_trial_flag_str+"</div>") ;
 
-        var id_accept_flag = $("<select/>");
+        }else if(g_account=="江敏" || g_account=="jim"){
+            var id_accept_flag = $("<div>"+opt_data.accept_flag_str+"</div>");
+            if(opt_data.accept_flag>0){
+                var id_advance_first_trial_flag= $("<div>"+opt_data.advance_first_trial_flag_str+"</div>") ;
+            }else{
+                if(opt_data.advance_first_trial_flag>0){
+                    var id_advance_first_trial_flag= $("<div>"+opt_data.advance_first_trial_flag_str+"</div>") ;
+                }else{              
+                    var id_advance_first_trial_flag = $("<div><button class='btn btn-primary' data-flag='1'>同意</button><button class='btn' style='margin-left:30px' data-flag='2'>拒绝</button></div>");
+                }
+            }
+            str = "流转";
+            
+        }else{
+            if(opt_data.accept_flag>0){
+                var id_accept_flag = $("<div>"+opt_data.accept_flag_str+"</div>");
+            }else{
+                var id_accept_flag = $("<div><button class='btn btn-primary' data-flag='1'>同意</button><button class='btn' style='margin-left:30px' data-flag='2'>拒绝</button></div>"); 
+            }
+            if(opt_data.advance_first_trial_flag>0){
+                var id_advance_first_trial_flag= $("<div>"+opt_data.advance_first_trial_flag_str+"</div>") ;
+            }else{              
+                var id_advance_first_trial_flag = $("<div><button class='btn btn-primary' data-flag='1'>同意</button><button class='btn' style='margin-left:30px' data-flag='2'>拒绝</button></div>");
+            }
 
-        Enum_map.append_option_list("accept_flag", id_accept_flag, true,[1,2] );
+        }
+
+
         var arr=[
             ["总得分", opt_data.total_score],
             ["申请晋升",opt_data.level_after_str],
-            ["审批结果",id_accept_flag]
+            ["教研总监审批",id_advance_first_trial_flag],
+            ["教学事业部总经理审批",id_accept_flag],
         ];
+        
+        id_accept_flag.on("click","button",function(){
+            $(this).addClass('btn-primary');
+                $(this).siblings().removeClass('btn-primary');
+ 
+        });
+        id_advance_first_trial_flag.on("click","button",function(){
+            $(this).addClass('btn-primary');
+                $(this).siblings().removeClass('btn-primary');
+ 
+        });
+
+        
         $.show_key_value_table("晋升审批", arr ,{
-            label    : '确认',
+            label    : str,
             cssClass : 'btn-warning',
             action   : function(dialog) {
+                var accept_flag = id_accept_flag.find(".btn-primary").data("flag");
+                var advance_first_trial_flag = id_advance_first_trial_flag.find(".btn-primary").data("flag");               
                 $.do_ajax( '/teacher_level/set_teacher_advance_require_master_2018', {
-                    'teacherid' : teacherid,
+                        'teacherid' : teacherid,
                     'start_time' :g_args.start_time,
-                    'accept_flag':id_accept_flag.val(),
+                    'accept_flag':accept_flag,
+                 'advance_first_trial_flag':advance_first_trial_flag,
                     'old_level':opt_data.level,
                     'level_after':opt_data.level_after,
 
@@ -113,6 +168,93 @@ $(function(){
         });
 
     });
+
+        $(".opt-advance-withhold-deal").on("click",function(){
+          if(g_account !="jack" && g_account!= "jim" && g_account != "ted" && g_account!="江敏"){
+              BootstrapDialog.alert("没有权限!!!");
+              return;
+          }      
+
+          var opt_data = $(this).get_opt_data();
+          var teacherid = opt_data.teacherid;
+          var teacher_money_type = opt_data.teacher_money_type;
+          var str = "确认";
+          if(g_account=="ted" || g_account=="jim"){
+              if(opt_data.withhold_final_trial_flag>0){
+                  var id_withhold_final_trial_flag = $("<div>"+opt_data.withhold_final_trial_flag_str+"</div>");
+              }else{
+                  var id_withhold_final_trial_flag = $("<div><button class='btn btn-primary' data-flag='1'>同意</button><button class='btn' style='margin-left:30px' data-flag='2'>拒绝</button></div>"); 
+              }
+              var id_withhold_first_trial_flag= $("<div>"+opt_data.withhold_first_trial_flag_str+"</div>") ;
+
+          }else if(g_account=="江敏" || g_account=="jim"){
+              var id_withhold_final_trial_flag = $("<div>"+opt_data.withhold_final_trial_flag_str+"</div>");
+              if(opt_data.withhold_final_trial_flag>0){
+                  var id_withhold_first_trial_flag= $("<div>"+opt_data.withhold_first_trial_flag_str+"</div>") ;
+              }else{
+                  if(opt_data.withhold_first_trial_flag>0){
+                      var id_withhold_first_trial_flag= $("<div>"+opt_data.withhold_first_trial_flag_str+"</div>") ;
+                  }else{              
+                      var id_withhold_first_trial_flag = $("<div><button class='btn btn-primary' data-flag='1'>同意</button><button class='btn' style='margin-left:30px' data-flag='2'>拒绝</button></div>");
+                  }
+              }
+              str = "流转";
+            
+          }else{
+              if(opt_data.withhold_final_trial_flag>0){
+                  var id_withhold_final_trial_flag = $("<div>"+opt_data.withhold_final_trial_flag_str+"</div>");
+              }else{
+                  var id_withhold_final_trial_flag = $("<div><button class='btn btn-primary' data-flag='1'>同意</button><button class='btn' style='margin-left:30px' data-flag='2'>拒绝</button></div>"); 
+              }
+              if(opt_data.withhold_first_trial_flag>0){
+                  var id_withhold_first_trial_flag= $("<div>"+opt_data.withhold_first_trial_flag_str+"</div>") ;
+              }else{              
+                  var id_withhold_first_trial_flag = $("<div><button class='btn btn-primary' data-flag='1'>同意</button><button class='btn' style='margin-left:30px' data-flag='2'>拒绝</button></div>");
+              }
+
+          }
+
+
+          var arr=[
+              ["当前等级", opt_data.level_str],
+              ["总得分", opt_data.total_score],
+              ["扣款申请", opt_data.withhold_money+"元/月"],
+              ["教研总监审批",id_withhold_first_trial_flag],
+              ["教学事业部总经理审批",id_withhold_final_trial_flag],
+          ];
+        
+          id_withhold_final_trial_flag.on("click","button",function(){
+              $(this).addClass('btn-primary');
+                  $(this).siblings().removeClass('btn-primary');
+ 
+          });
+          id_withhold_first_trial_flag.on("click","button",function(){
+              $(this).addClass('btn-primary');
+                  $(this).siblings().removeClass('btn-primary');
+ 
+          });
+
+        
+          $.show_key_value_table("扣款审批", arr ,{
+                  label    : str,
+           cssClass : 'btn-warning',
+           action   : function(dialog) {
+               var withhold_final_trial_flag = id_withhold_final_trial_flag.find(".btn-primary").data("flag");
+               var withhold_first_trial_flag = id_withhold_first_trial_flag.find(".btn-primary").data("flag");               
+               $.do_ajax( '/teacher_level/set_teacher_withhold_require_master_2018', {
+                       'teacherid' : teacherid,
+                    'start_time' :g_args.start_time,
+                    'withhold_final_trial_flag':withhold_final_trial_flag,
+                 'withhold_first_trial_flag':withhold_first_trial_flag,
+                    'old_level':opt_data.level,
+                    'level_after':opt_data.level_after,
+
+                });
+            }
+        });
+
+    });
+
 
     $(".opt-advance-withhold-require").on("click",function(){
         var opt_data = $(this).get_opt_data();
@@ -132,7 +274,7 @@ $(function(){
         });
     });
 
-    $(".opt-advance-withhold-deal").on("click",function(){
+    $(".opt-advance-withhold-deal_old").on("click",function(){
         if(g_account !="jack" && g_account!= "jim" && g_account != "ted"){
             BootstrapDialog.alert("没有权限!!!");
             return;

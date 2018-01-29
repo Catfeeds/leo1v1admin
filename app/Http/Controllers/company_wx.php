@@ -141,7 +141,7 @@ class company_wx extends Controller
     }
 
     public function get_approve() { // 获取审批数据
-        dd('只用于测试');
+        //dd('只用于测试');
 
         $config = Config::get_config("company_wx");
         if (!$config) {
@@ -170,7 +170,7 @@ class company_wx extends Controller
         curl_close($ch);
         $output = json_decode($output, true);
 
-        dd($output);
+        //var_dump($output);
 
         $info = $output['data'];
         foreach($info as $item) {
@@ -193,7 +193,7 @@ class company_wx extends Controller
                 $lea = $item['leave'];
                 $leave = [
                     "timeunit" => $lea['timeunit'],
-                    "leave_type" => $lea['leave_type'],
+                    //"leave_type" => $lea['type'],
                     "start_time" => $lea['start_time'],
                     "end_time" => $lea['end_time'],
                     "duration" => $lea['duration'],
@@ -203,20 +203,31 @@ class company_wx extends Controller
                 $common['type'] = E\Eapproval_type::V_1;
             }
             $leave = json_decode($item['comm']['apply_data'], true);
-            $items = '';
+            $items = "";
+            $data_desc = $data_column = $require_reason = $require_time = "";
+
             foreach ($leave as $val) {
 
                 if ($item['spname'] == "武汉请假流") {
-                    if ($val['title'] == '请假类型') $common["leave_type"] = 3;
+                    //if ($val['title'] == '请假类型') $common["leave_type"] = 3;
                     if ($val['title'] == '开始时间') $common['start_time'] = ($val['value'] / 1000);
                     if ($val['title'] == '结束时间') $common['end_time'] = ($val['value'] / 1000);
                     if ($val['title'] == '事由') $common['reason'] = $val['value'];
                     $common['type'] = 2;
                 }
+   
                 if ($item['spname'] == '拉取数据审批') {
-                    if ($val['title'] == '数据类型') $common['reason'] = $val['value'];
-                    if ($val['title'] == '需要时间') $common['start_time'] = $val['value'];
+                    if ($val['title'] == '数据描述') $data_desc = $val['value'];
+                    if ($val["title"] == "数据字段") $data_column = $val["value"];
+                    if ($val["title"] == "需求原因") $require_reason = $val["value"];
+                    if ($val['title'] == '需要时间') $require_time = ($val['value'] / 1000);
                     $common['type'] = 4;
+                    // t_field($table->string("data_desc"), "数据描述");
+                    // t_field($table->string("data_column"), "数据字段");
+                    // t_field($table->string("require_reason"), "需求原因");
+                    // t_field($table->integer("require_time"), "需求时间");
+                    echo $data_desc." --- ".$data_column." --- ".$require_reason." --- ".$require_time;
+
                 }
                 if ($item['spname'] == '费用申请') {
                     if ($val['title'] == '费用类型') $common['reason'] = $val['value'];
@@ -230,10 +241,31 @@ class company_wx extends Controller
                 if (isset($val['value'])) $items[$val['title']] = $val['value'];
             }
 
+            if ($item["spname"] == "拉取数据审批") {
+                $info = $this->t_company_wx_approval_data->get_list_for_user_time($common["apply_user_id"], $common["apply_time"]);
+
+                if (!$info) {
+                    $data = [
+                        "apply_name" => $common["apply_name"],
+                        "apply_user_id" => $common["apply_user_id"],
+                        "apply_time" => $common["apply_time"],
+                        "data_desc" => $data_desc,
+                        "data_column" => $data_column,
+                        "require_reason" => $require_reason,
+                        "require_time" => $require_time
+                    ];
+                    $this->t_company_wx_approval_data->row_insert($data);
+                    echo "加载拉取数据审批成功";
+
+                }
+
+            }
+
+
             if ($items) $common['item'] = json_encode($item);
             // 添加数据
             $this->t_company_wx_approval->row_insert($common);
-            echo '加载数据成功'.$common['spname'];
+            //echo '加载数据成功'.$common['spname'];
         }
     }
 
@@ -361,6 +393,33 @@ class company_wx extends Controller
             return $info[$index];
         }
         return $info;
+    }
+
+    public function show_approv_data() {
+        $info = $this->t_company_wx_approval_data->get_all_list();
+        foreach($info as &$item) {
+            $item["apply_time"] = date("Y-m-d H:i:s", $item["apply_time"]);
+            $item['require_time'] = date("Y-m-d H:i:s", $item["require_time"]);
+        }
+        return $this->pageView(__METHOD__, '', [
+            'info' => $info,
+        ],[
+            'qiniu_upload_domain_url' =>Config::get_qiniu_public_url()."/"
+        ]);
+    }
+
+    public function update_approval_data_url() {
+        $id = $this->get_in_int_val("id");
+        $data_url = $this->get_in_str_val("data_url");
+        if (!$data_url) {
+            return $this->output_err("数据下载地址不能为空");
+        }
+        $acc = $this->get_account();
+        $this->t_company_wx_approval_data->field_update_list($id, [
+            "acc" => $acc,
+            "data_url" => $data_url
+        ]);
+        return $this->output_succ();
     }
 
     public function show_approv() {
