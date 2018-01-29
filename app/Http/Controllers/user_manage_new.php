@@ -5204,7 +5204,7 @@ class user_manage_new extends Controller
         }else{
             $groupid = 52; // 非金钱管理账户
         }
-        return $this->output_err($groupid);
+        
         $permission = $this->t_authority_group->get_group_authority($groupid);
         $old = $permission;
 
