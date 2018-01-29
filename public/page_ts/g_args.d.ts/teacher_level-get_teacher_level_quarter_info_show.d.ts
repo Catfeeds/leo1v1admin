@@ -75,7 +75,7 @@ interface RowData {
 	accept_flag_str	:any;
 	withhold_final_trial_flag_str	:any;
 	advance_first_trial_flag_str	:any;
-	withhold_first_trial_flag _str	:any;
+	withhold_first_trial_flag_str	:any;
 	reach_flag_str	:any;
 }
 

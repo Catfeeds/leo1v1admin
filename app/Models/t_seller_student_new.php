@@ -1783,12 +1783,19 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public function sync_tq($phone,$tq_called_flag,$call_time,$tquin=0) {
+    public function sync_tq($phone,$tq_called_flag,$call_time,$tquin=0 ,$is_called_phone = 0 ) {
         $userid=$this->get_userid_by_phone($phone);
         $admin_info=$this->t_manager_info->get_info_by_tquin($tquin,"uid");
         if($userid && $admin_info)  {
-            $item=$this->field_get_list($userid,"tq_called_flag,global_tq_called_flag,admin_revisiterid, competition_call_adminid,  seller_resource_type ,last_contact_time,first_contact_time ,called_time, first_call_time,tmk_student_status ,competition_call_time,cc_called_count,cc_no_called_count,last_revisit_time,first_get_cc ");
+            $item=$this->field_get_list($userid,"seller_student_assign_type, tq_called_flag,global_tq_called_flag,admin_revisiterid, competition_call_adminid,  seller_resource_type ,last_contact_time,first_contact_time ,called_time, first_call_time,tmk_student_status ,competition_call_time,cc_called_count,cc_no_called_count,last_revisit_time,first_get_cc ");
             $set_arr=[];
+            if ($is_called_phone==1) {
+                //
+                if ($item["seller_student_assign_type"] == E\Eseller_student_assign_type::V_1) {
+                    $tq_called_flag =2;
+                }
+            }
+
             if ($item["tq_called_flag"]<$tq_called_flag) {
                 $set_arr["tq_called_flag"]=$tq_called_flag;
             }
