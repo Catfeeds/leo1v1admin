@@ -164,7 +164,7 @@ class update_company_wx_data extends Command
 
             // 3. 将数据添加到数据库中
             if ($item["spname"] == "拉取数据审批") {
-                $info = $this->t_company_wx_approval_data->get_list_for_user_time($common["apply_user_id"], $common["apply_time"]);
+                $info = $task->t_company_wx_approval_data->get_list_for_user_time($common["apply_user_id"], $common["apply_time"]);
 
                 if (!$info) {
                     $data = [
@@ -176,9 +176,8 @@ class update_company_wx_data extends Command
                         "require_reason" => $require_reason,
                         "require_time" => $require_time
                     ];
-                    $this->t_company_wx_approval_data->row_insert($data);
+                    $task->t_company_wx_approval_data->row_insert($data);
                     echo "加载拉取数据审批成功";
-
                 }
 
             }
