@@ -2544,6 +2544,7 @@ class user_manage_new extends Controller
 
         foreach($ret_info["list"] as &$item) {
             $item["status_class"]= ($item["last_active_time"] <$check_time)?"danger":"";
+
             \App\Helper\Utils::unixtime2date_for_item($item,"last_active_time");
         }
         return $this->pageView(__METHOD__,$ret_info);

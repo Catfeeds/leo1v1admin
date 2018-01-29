@@ -994,17 +994,49 @@ class wx_parent_gift extends Controller
             $imgUrlInfo['activityImgUrl'] = $domain."/".$imgUrlInfo['activityImgUrl'] ; //活动页面
         }
 
-        # 原有内容
-        if($imgUrlInfo['followImgUrl']){
-            $imgUrlInfo['followImgUrl'] = $domain."/".$imgUrlInfo['followImgUrl'] ; //关注页面
-        }
+        if(time()<strtotime('2018-1-30')){
+            # 原有内容
+            if($imgUrlInfo['followImgUrl']){
+                $imgUrlInfo['followImgUrl'] = $domain."/".$imgUrlInfo['followImgUrl'] ; //关注页面
+            }
+        }else{
+            # 未上线,待测试
+            # 为了分散每个微信群的压力,满98人时切换另一个微信群
+            if($imgUrlInfo['followImgUrl']){
+                $img_arr = implode($imgUrlInfo['followImgUrl'], ',');
+                $index = floor($imgUrlInfo['add_num']/98);
+                $follow_str = $img_arr[$index];
+                $imgNum = count($img_arr);
+                $AdminOpenid = 'orwGAs9rPeoW665kCsrQD_rswjv4';//[罗艳]
+                $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU"; //[待办事项]
 
-        # 未上线,待测试
-        # 为了分散每个微信群的压力,满100人时切换另一个微信群
-        // if($imgUrlInfo['followImgUrl']){
-        //     $img_arr = implode($glue, $pieces);
-        //     $imgUrlInfo['followImgUrl'] = $domain."/".$imgUrlInfo['followImgUrl'] ; //关注页面
-        // }
+                if($imgNum<$index+1){
+                    $imgUrlInfo['followImgUrl'] = ""; //关注页面
+                    $data= [
+                        "first"     => "市场推广活动 关注页页面缺失通知 活动ID:".$id,
+                        "keyword1"  => "活动标题:".$imgUrlInfo['title'],
+                        "keyword2"  => '当前活动参与人数:'.$imgUrlInfo['add_time'].'关注页图片数量'.$imgNum.',关注页图片请及时上传!',
+                        "keyword3"  => date("Y-m-d"),
+                    ];
+                    \App\Helper\Utils::send_wx_to_parent($AdminOpenid,$template_id,$data);
+                }else{
+                    $imgUrlInfo['followImgUrl'] = $domain."/".$follow_str; //关注页面
+                }
+
+                # 检查人数 当人数超过 98 时 通知管理员活动页已切换 [罗艳] orwGAs9rPeoW665kCsrQD_rswjv4
+                $add_time = $imgUrlInfo['add_time'];
+                $noticeIndex = $add_time%98;
+                if($noticeIndex == 0){
+                    $data= [
+                        "first"     => "市场推广活动 关注页切换通知 活动ID:".$id,
+                        "keyword1"  => "活动标题:".$imgUrlInfo['title'],
+                        "keyword2"  => "当前关注页编号:".($index+1),'即将切换至下一页',
+                        "keyword3"  => date("Y-m-d"),
+                    ];
+                    \App\Helper\Utils::send_wx_to_parent($AdminOpenid,$template_id,$data);
+                }
+            }
+        }
 
         return $this->output_succ(['data'=>$imgUrlInfo]);
     }
