@@ -80,7 +80,7 @@
                     <input id="id_upload_add" value="上传下载文件" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>
                 </div>
                 <div class="add_header_img"></div>
-                <div class="pic_url"></div>
+                <div class="data_url"></div>
             </td>
 		        </tr>
 
