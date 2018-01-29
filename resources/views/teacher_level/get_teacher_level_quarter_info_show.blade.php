@@ -35,7 +35,7 @@
                 <div class="col-xs-6 col-md-6">
                     <button class="btn btn-primary" id="id_withhold_agree" style="float:right" > 一键同意扣款 </button>
                     <button class="btn btn-primary" id="id_advance_agree" style="float:right;margin-right:15px">一键同意晋升 </button>
-                    <button class="btn btn-primary" id="id_edit-rule" style="float:right;margin-right:15px"> 修改晋升规则</button>
+                    <button class="btn btn-primary" id="id_edit_rule" style="float:right;margin-right:15px"> 修改晋升规则</button>
                 </div>
 
                
@@ -158,7 +158,7 @@
                                     @endif
 
                                 @endif
-                                @if($account=="jack")
+                                @if($account=="jack" || $account=="jim")
                                     @if($var["hand_flag"]==1)
                                         <a class="opt-add-hand" title="手动刷新数据">手动刷新数据</a>
                                     @endif

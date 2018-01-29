@@ -844,7 +844,7 @@ class ajax_deal3 extends Controller
     public function get_teacher_advance_require_detail_info(){
         $start_time = strtotime($this->get_in_str_val("start_time"));
         $list = $this->t_teacher_advance_list->get_teacher_advance_require_detail_data($start_time);
-        return $this->output_succ(["data"=>$data]);
+        return $this->output_succ(["data"=>$list]);
 
     }
 
