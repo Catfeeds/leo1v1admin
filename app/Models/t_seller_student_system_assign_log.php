@@ -59,11 +59,12 @@ class t_seller_student_system_assign_log extends \App\Models\Zgen\z_t_seller_stu
     //@desn:释放例子时更新系统释放状态为非系统释放
     //@param:$userid 用户id
     //@param:$admin_revisiterid 用户id
-    public function update_check_flag($userid,$admin_revisiterid){
+    //@param:$check_hold_flag 是否系统自动释放表示0否1是
+    public function update_check_flag($userid,$admin_revisiterid,$check_hold_flag=0){
         $where = "adminid = $admin_revisiterid and userid = $userid";
         $sql=sprintf("update %s set check_hold_flag = %u where %s  ",
                      self::DB_TABLE_NAME,
-                     1,
+                     $check_hold_flag,
                      $where);
         return $this->main_update($sql);
     }
