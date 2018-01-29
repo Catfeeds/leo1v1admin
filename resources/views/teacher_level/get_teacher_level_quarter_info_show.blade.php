@@ -116,19 +116,23 @@
                             @else
                                 -{{ @$var["withhold_money"] }}元/月<br><br>
                                 @if(empty($var["withhold_require_time"]))
-                                    未申请
+                                    无
                                 @elseif(empty($var["withhold_first_trial_flag"]))
                                     待审批
                                 @elseif(empty($var["withhold_final_trial_flag"]))
                                     审批中
                                 @else
-                                    已审批({{ $var["withhold_final_trial_flag_str"] }})
+                                    @if($var["withhold_final_trial_flag"]==1)
+                                        已通过
+                                    @elseif($var["withhold_final_trial_flag"]==2)
+                                        已拒绝
+                                    @endif
                                 @endif
                             @endif
                         </td>
                         <td>
                             @if(empty($var["require_time"]))
-                                状态:未申请
+                                状态:无
                             @elseif(empty($var["advance_first_trial_time"]) && empty($var["accept_time"]))
                                 状态:待审批<br>
                                 目标等级:{{@$var["level_after_str"]}}<br>
@@ -136,8 +140,11 @@
                                 状态:审批中<br>
                                 目标等级:{{@$var["level_after_str"]}}<br>
                             @else
-                                状态:已审批<br>
-                                审批结果:{{ @$var["accept_flag_str"] }}<br>
+                                @if($var["accept_flag"]==1)
+                                    状态:已通过<br>
+                                @elseif($var["accept_flag"]==2)
+                                    状态:已拒绝<br>
+                                @endif
                                 目标等级:{{@$var["level_after_str"]}}<br>
                             @endif
                         </td>
