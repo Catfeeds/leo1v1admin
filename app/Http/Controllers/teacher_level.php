@@ -1850,7 +1850,7 @@ class teacher_level extends Controller
         $start_time   = $this->get_in_int_val("start_time");
         $agree_flag   = $this->get_in_int_val("agree_flag");
         $acc          = $this->get_account();
-        $jim_flag = $this->get_in_int_val("jim_flag",1);       
+        $jim_flag = $this->get_in_int_val("jim_flag",2);       
         $teacher_money_type=6;
         if($agree_flag==1){
             if($acc=="江敏" || $jim_flag==1){
